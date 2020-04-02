@@ -2,148 +2,176 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9970A19C79E
-	for <lists+linux-api@lfdr.de>; Thu,  2 Apr 2020 19:07:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4825319C7E0
+	for <lists+linux-api@lfdr.de>; Thu,  2 Apr 2020 19:23:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732482AbgDBRHe convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Thu, 2 Apr 2020 13:07:34 -0400
-Received: from out01.mta.xmission.com ([166.70.13.231]:54828 "EHLO
-        out01.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731608AbgDBRHe (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 2 Apr 2020 13:07:34 -0400
-Received: from in02.mta.xmission.com ([166.70.13.52])
-        by out01.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.90_1)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1jK3JR-0000YP-GP; Thu, 02 Apr 2020 11:07:29 -0600
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
-        by in02.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.87)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1jK3JQ-0007EN-Ov; Thu, 02 Apr 2020 11:07:29 -0600
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     Alexey Gladkov <gladkov.alexey@gmail.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Linux Security Module <linux-security-module@vger.kernel.org>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
+        id S2389192AbgDBRXR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 2 Apr 2020 13:23:17 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:44880 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729549AbgDBRXR (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 2 Apr 2020 13:23:17 -0400
+Received: by mail-pf1-f195.google.com with SMTP id b72so2044230pfb.11
+        for <linux-api@vger.kernel.org>; Thu, 02 Apr 2020 10:23:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=GZVhH4Uy74EvCubEXhrLJPyYYTqOBTesUP2xTg7JaMc=;
+        b=fxE8LvyCz40Ms9KtzMemSxv6hXQ22RWlHBlzs0Qdg7D1vh92QgaPzeND/aYwSQy+/2
+         Nl7498D4G9E/jGWey2skX6g1VUB2uTMZYc2pDitiJtF0f0RQinH8fz+u+moOpjPqWguk
+         X5gVYctAutP16fJv0WdcC3VyXf3eoXEmixoMs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=GZVhH4Uy74EvCubEXhrLJPyYYTqOBTesUP2xTg7JaMc=;
+        b=SM8LZ2lAUEaJXWQOECCskMYeCp81MhAWdd+ozXsF7LhMNaUsqNO3pGpRlaTuf+ciav
+         5W7HeocySzHjZdHtOwfvdMaOYH6yKCQsYNpLoPEIy1KaIMSv7Va6Q0WIJR1HWxUFe3lW
+         dr8qrhuG6PGvip03ol6N2bwYzueUQ+2TgZ0yvzOKdXHR7hPh0tVNco/Y/Nkfo6v5HebE
+         3ARkK0h6uR0v8VY88JAGAaldSwrOUCN97Sq+/DxW780Vqtwl5JpOOYBNoj5ySO5dsAbG
+         2uuA1bOL49/Uzee6cCdWXM7kIgA6zXahxUj/szTSUYi956bBqjNf8mQzWziPHjkhcWne
+         /Z7w==
+X-Gm-Message-State: AGi0PuZIY76l8po24eZ+xhBrU+HHo1WoDstWV0f0zxxSenw3BQVfap63
+        U+30tZFqPcwe/JfOamcsGtl52w==
+X-Google-Smtp-Source: APiQypJxng0T6PXAhXdLDcWIsva8tKHPFfab1XBL6pUVq7Jr7j131lANmQKyQ878w9xZWVB4ClfsDQ==
+X-Received: by 2002:a63:64c4:: with SMTP id y187mr4210852pgb.36.1585848195335;
+        Thu, 02 Apr 2020 10:23:15 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id i197sm4166700pfe.137.2020.04.02.10.23.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Apr 2020 10:23:14 -0700 (PDT)
+Date:   Thu, 2 Apr 2020 10:23:13 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     Vlastimil Babka <vbabka@suse.cz>,
+        Iurii Zaikin <yzaikin@google.com>,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-mm@kvack.org, Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        "Guilherme G . Piccoli" <gpiccoli@canonical.com>,
         Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Daniel Micay <danielmicay@gmail.com>,
-        Djalal Harouni <tixxdz@gmail.com>,
-        "Dmitry V . Levin" <ldv@altlinux.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Jeff Layton <jlayton@poochiereds.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        David Howells <dhowells@redhat.com>
-References: <20200327172331.418878-1-gladkov.alexey@gmail.com>
-        <20200327172331.418878-9-gladkov.alexey@gmail.com>
-        <87d08pkh4u.fsf@x220.int.ebiederm.org>
-        <20200402165156.4mzenof4upvtd3lv@comp-core-i7-2640m-0182e6>
-Date:   Thu, 02 Apr 2020 12:04:44 -0500
-In-Reply-To: <20200402165156.4mzenof4upvtd3lv@comp-core-i7-2640m-0182e6>
-        (Alexey Gladkov's message of "Thu, 2 Apr 2020 18:51:56 +0200")
-Message-ID: <87r1x5iztf.fsf@x220.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        Christian Brauner <christian.brauner@ubuntu.com>
+Subject: Re: [PATCH 1/3] kernel/sysctl: support setting sysctl parameters
+ from kernel command line
+Message-ID: <202004021017.3A23B759@keescook>
+References: <20200330115535.3215-1-vbabka@suse.cz>
+ <20200330115535.3215-2-vbabka@suse.cz>
+ <20200330224422.GX11244@42.do-not-panic.com>
+ <287ac6ae-a898-3e68-c7d8-4c1d17a40db9@suse.cz>
+ <20200402160442.GA11244@42.do-not-panic.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-X-XM-SPF: eid=1jK3JQ-0007EN-Ov;;;mid=<87r1x5iztf.fsf@x220.int.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX19JB6md/ag4gch1HCHlHqnPcaDKiSdq078=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa02.xmission.com
-X-Spam-Level: 
-X-Spam-Status: No, score=-0.3 required=8.0 tests=ALL_TRUSTED,BAYES_20,
-        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,T_TooManySym_01,XMSubLong,
-        XM_B_Unicode autolearn=disabled version=3.4.2
-X-Spam-Virus: No
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-        * -0.0 BAYES_20 BODY: Bayes spam probability is 5 to 20%
-        *      [score: 0.1284]
-        *  0.7 XMSubLong Long Subject
-        *  0.0 XM_B_Unicode BODY: Testing for specific types of unicode
-        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-        *      [sa02 1397; Body=1 Fuz1=1 Fuz2=1]
-        *  0.0 T_TooManySym_01 4+ unique symbols in subject
-X-Spam-DCC: XMission; sa02 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: ;Alexey Gladkov <gladkov.alexey@gmail.com>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 293 ms - load_scoreonly_sql: 0.03 (0.0%),
-        signal_user_changed: 3.6 (1.2%), b_tie_ro: 2.6 (0.9%), parse: 0.70
-        (0.2%), extract_message_metadata: 2.5 (0.9%), get_uri_detail_list:
-        1.02 (0.3%), tests_pri_-1000: 3.8 (1.3%), tests_pri_-950: 0.99 (0.3%),
-        tests_pri_-900: 0.89 (0.3%), tests_pri_-90: 60 (20.6%), check_bayes:
-        59 (20.2%), b_tokenize: 7 (2.3%), b_tok_get_all: 7 (2.5%),
-        b_comp_prob: 1.62 (0.6%), b_tok_touch_all: 41 (13.9%), b_finish: 0.73
-        (0.2%), tests_pri_0: 207 (70.7%), check_dkim_signature: 0.38 (0.1%),
-        check_dkim_adsp: 2.4 (0.8%), poll_dns_idle: 0.98 (0.3%), tests_pri_10:
-        1.63 (0.6%), tests_pri_500: 5 (1.9%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: [PATCH v10 8/9] proc: use human-readable values for hidehid
-X-Spam-Flag: No
-X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
-X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200402160442.GA11244@42.do-not-panic.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Alexey Gladkov <gladkov.alexey@gmail.com> writes:
+On Thu, Apr 02, 2020 at 04:04:42PM +0000, Luis Chamberlain wrote:
+> On Wed, Apr 01, 2020 at 01:01:47PM +0200, Vlastimil Babka wrote:
+> > On 3/31/20 12:44 AM, Luis Chamberlain wrote:
+> > >> +	} else if (wret != len) {
+> > >> +		pr_err("Wrote only %ld bytes of %d writing to proc file %s to set sysctl parameter '%s=%s'",
+> > >> +			wret, len, path, param, val);
+> > >> +	}
+> > >> +
+> > >> +	err = filp_close(file, NULL);
+> > >> +	if (err)
+> > >> +		pr_err("Error %pe closing proc file to set sysctl parameter '%s=%s'",
+> > >> +			ERR_PTR(err), param, val);
+> > >> +out:
+> > >> +	kfree(path);
+> > >> +	return 0;
+> > >> +}
+> > >> +
+> > >> +void do_sysctl_args(void)
+> > >> +{
+> > >> +	char *command_line;
+> > >> +	struct vfsmount *proc_mnt = NULL;
+> > >> +
+> > >> +	command_line = kstrdup(saved_command_line, GFP_KERNEL);
+> > > 
+> > > can you use kstrndup() ? And then use kfree_const()? Yes, feel free to
+> > 
+> > I don't follow, what am I missing? Do you mean this?
+> > 
+> > size_t len = strlen(saved_command_line);
+> > command_line = kstrndup(saved_command_line, len, GFP_KERNEL);
+> > 
+> > What would be the advantage over plain kstrdup()?
+> > As for kfree_const(), when would command_line be .rodata? I don't see using
+> > kstrndup() resulting in that.
+> 
+> The const nature of using kstrdup() comes with using const for your
+> purpose. ie:
+> 
+> const char *const_command_line = saved_command_line;
+> 
+> The point of a kstrncpy() then is to ensure force a const throughout
+> your use if you know you don't need modifications.
 
-> On Thu, Apr 02, 2020 at 11:05:21AM -0500, Eric W. Biederman wrote:
->> Alexey Gladkov <gladkov.alexey@gmail.com> writes:
->> 
->> > The hidepid parameter values are becoming more and more and it becomes
->> > difficult to remember what each new magic number means.
->> 
->> In principle I like this change.  In practice I think you have just
->> broken ABI compatiblity with the new mount ABI.
->> 
->> In particular the following line seems broken.
->> 
->> > diff --git a/fs/proc/root.c b/fs/proc/root.c
->> > index dbcd96f07c7a..ba782d6e6197 100644
->> > --- a/fs/proc/root.c
->> > +++ b/fs/proc/root.c
->> > @@ -45,7 +45,7 @@ enum proc_param {
->> >  
->> >  static const struct fs_parameter_spec proc_fs_parameters[] = {
->> >  	fsparam_u32("gid",	Opt_gid),
->> > -	fsparam_u32("hidepid",	Opt_hidepid),
->> > +	fsparam_string("hidepid",	Opt_hidepid),
->> >  	fsparam_string("subset",	Opt_subset),
->> >  	{}
->> >  };
->> 
->> As I read fs_parser.c fs_param_is_u32 handles string inputs and turns them
->> into numbers, and it handles binary numbers.  However fs_param_is_string
->> appears to only handle strings.  It appears to have not capacity to turn
->> raw binary numbers into strings.
->
-> I use result only with hidepid_u32_spec and nobody modifies param->string.
-> I do not use internal functions here.
->
-> I don’t follow how a raw number can get here ?
+I'm not following this suggestion. It _is_ modifying it. That's why it's
+making a copy. What am I missing?
 
-I may be wrong but last I looked you can input raw numbers using the new
-mount api.   I have most of the details paged out at the moment,
-but I believe that is why when you set a parameter in the new mount api
-it takes a type.
+> > >> +	parse_args("Setting sysctl args", command_line,
+> > >> +		   NULL, 0, -1, -1, &proc_mnt, process_sysctl_arg);
+> > >> +
+> > >> +	if (proc_mnt)
+> > >> +		kern_unmount(proc_mnt);
+> > >> +
+> > >> +	kfree(command_line);
+> > >> +}
+> > > 
+> > > Then, can we get this tested as part of lib/test_sysctl.c with its
+> > > respective tools/testing/selftests/sysctl/sysctl.sh ?
+> > 
+> > Hmm so I add some sysctl to the test "module" (in fact the 'config' file says it
+> > should be build with 'y', which would be needed anyway) and expand the test
+> > instructions so that the test kernel boot has to include it on the command line,
+> > and then I verify it has been set? Or do you see a better way?
+> 
+> We don't necessarily have a way to test the use boot params today.
+> That reveals an are which we should eventually put some focus on
+> in the future. In the meantime we have to deal with what we have.
+> 
+> So let's think about this:
+> 
+> You are adding a new cmdline sysctl boot param, and also a wrapper
+> for those old boot bootparams to also work using both new sysctl
+> path and old path. Testing just these both should suffice.
+> 
+> How about this:
+> 
+> For testing the new feature you are adding, can you extend the default
+> boot params *always* if a new CONFIG_TEST_SYSCTL_CMDLINE is set? Then
+> upon boot we can verify the proc handlers for these new boot params got
+> kicked, and likewise some other proc handlers which also can be used
+> from the cmdline are *not* set. For this later set, we already have
+> a series of test syctls you can use. In fact, you can use the existing
+> syctls for both cases already I believe, its just a matter of adding
+> this new CONFIG_TEST_SYSCTL_CMDLINE which would extend the cmdline,
+> and these tests would take place *first* on the script.
 
->> So I think we probably need to fix fs_param_is_string to raw binary
->> numbers before we can safely make this change to fs/proc/root.c
->> 
->> David am I reading the fs_parser.c code correctly?  If I am are you ok
->> with a change like the above?
+This seems... messy. I'm all for testing this, but I'd rather this not
+be internally driven. This is an external interface (boot params), so
+I'd rather an external driver handle that testing. We don't have a
+common method to do that with the kernel, though.
 
-Eric
+> That would test both cases with one kernel.
+> 
+> You could then also add a bogus new sysctl which also expands to a silly
+> raw boot param to test the wrapper you are providing. That would be the
+> only new test syctl you would need to add.
+
+Sure, that seems reasonable. Supporting externally driven testing makes
+sense for this.
+
+-- 
+Kees Cook
