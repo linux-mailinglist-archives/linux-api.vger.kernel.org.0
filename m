@@ -2,137 +2,144 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1657519BBF8
-	for <lists+linux-api@lfdr.de>; Thu,  2 Apr 2020 08:47:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 640EF19BCE3
+	for <lists+linux-api@lfdr.de>; Thu,  2 Apr 2020 09:41:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728585AbgDBGrT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 2 Apr 2020 02:47:19 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:38362 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728400AbgDBGrT (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 2 Apr 2020 02:47:19 -0400
-Received: by mail-wm1-f67.google.com with SMTP id f6so2315914wmj.3;
-        Wed, 01 Apr 2020 23:47:18 -0700 (PDT)
+        id S1729030AbgDBHk5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 2 Apr 2020 03:40:57 -0400
+Received: from mail-pj1-f66.google.com ([209.85.216.66]:37982 "EHLO
+        mail-pj1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727012AbgDBHk5 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 2 Apr 2020 03:40:57 -0400
+Received: by mail-pj1-f66.google.com with SMTP id m15so1186464pje.3
+        for <linux-api@vger.kernel.org>; Thu, 02 Apr 2020 00:40:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=rRniYv7RPwWHFWrPJUZ8iMNVA0tUTHJrCguWpqpN+6k=;
+        b=ZgYWh0h+a5Hg2gYuDaf7bAJw/KFnrjKUiEuvbptyyu8Ds6OObwEJ9RIl0P+Ognz7ON
+         aVcJvZkmoY5pTE9Oigwg6Rz73WgiRqYNakHvrmSrDodIpjaHrTg1KZr/8/65eN0WM5/I
+         HNXT2GWnBGZf3TIUSbj5+3eAx6Fzc29HW0q/8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=APBnpcrM1igWj8QeRjLF0OhThcauTpIhkpildd1GrUY=;
-        b=giqT6qyQgQqI9Pi1mSI/nvq8TIMb+ylztlqgatErgTDGAg2ZLHXJywxNcTeCSFXbPK
-         d5YOrdmTpcho97FHLNo/dXbtKQE3Kk68D88NE7nJ/mT1+wy0aQM+jlJIkapskWhVDH+B
-         pOzGHAIgfKR0bPrxMUiUNfchfxUnMrkeAyEFR+aeC/Ar9VBh8kjwgsXxGCO/sio1tZxC
-         9WoHn8te4S6e7b3uvwEVXHoJ/q5uQ0ZU0SKjoW3VwU7RniswNOFg2xVuinBKSGA7G6T5
-         tuXmLambH1FVf+P/3BumzxtmYrcs4aJVSG+0pY72npSLYC6bjHVuNO2sCM3eZ2SCEoCZ
-         M/6Q==
-X-Gm-Message-State: AGi0PubBi0/5fOXRJHlDwtgfdr4N88luNJInGbYNE8fEArjlQV/2OZ20
-        DCfmZv1yEExKLscAeX4777nwqh4Z
-X-Google-Smtp-Source: APiQypLx9bRRK8ubCHz/F7Sgxy1DEHRE7CE2kgngLU0tu1PLA9l+KB/7epbuv/jgckcrOWcR0m0odQ==
-X-Received: by 2002:a1c:dfd5:: with SMTP id w204mr1795459wmg.153.1585810037523;
-        Wed, 01 Apr 2020 23:47:17 -0700 (PDT)
-Received: from localhost (ip-37-188-180-223.eurotel.cz. [37.188.180.223])
-        by smtp.gmail.com with ESMTPSA id 19sm5807227wmi.32.2020.04.01.23.47.16
+        bh=rRniYv7RPwWHFWrPJUZ8iMNVA0tUTHJrCguWpqpN+6k=;
+        b=mlrvXSndyTQ7XcdaAe0HYO43dLSteak0G3Yhnl2jS2c6VY/18cLa/eW1+ALVgqgvoC
+         yXk3L1k38dVrRJn5YnJ2tqetrFIty5krbin5MGfV327JNyLbHrCHFMr/9sivkfOTY59/
+         pV4vFb6jjybHQ63qWcklyLb5jJ7EGszAX4OweliDBO+6LsrODIjVTR/NucsotDvN2l1m
+         vVLB4PndkCCKU6ObqgP2+VxYeK+pUOGkpqMtaoEJ6lxZDEezEKxLzxSBU4a5hHM+u9kX
+         vdD2IJKafvxxQddzhpqddnKECxj5XKqpB9caRP4h8PCrtzB6jYY4I3B4phu0VAhCa9ez
+         RmGA==
+X-Gm-Message-State: AGi0PuYN33DAef2tXo9T+8bK0nXRwt0H/Co315TXK9rkpvySDttUkVAI
+        HVkwkyIX6CpLVn24F2Ul9mhLtQ==
+X-Google-Smtp-Source: APiQypI2cYt4enOL7sTbasi+WDYQtLGOhHbbnJYUSxIit5amZbHaBwsNKTd/VramUXhMpxHV80lNww==
+X-Received: by 2002:a17:902:a706:: with SMTP id w6mr1769890plq.79.1585813251785;
+        Thu, 02 Apr 2020 00:40:51 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id 8sm3137514pfy.130.2020.04.02.00.40.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Apr 2020 23:47:16 -0700 (PDT)
-Date:   Thu, 2 Apr 2020 08:47:13 +0200
-From:   Michal Hocko <mhocko@kernel.org>
-To:     Mike Christie <mchristi@redhat.com>
-Cc:     linux-api@vger.kernel.org, david@fromorbit.com,
-        masato.suzuki@wdc.com, damien.lemoal@wdc.com,
-        darrick.wong@oracle.com, bvanassche@acm.org,
-        mtk.manpages@gmail.com, linux-man@vger.kernel.org
-Subject: Re: [PATCH] prctl.2: doc PR_SET/GET_IO_FLUSHER - V4
-Message-ID: <20200402064713.GD22681@dhcp22.suse.cz>
-References: <20200402020850.7218-1-mchristi@redhat.com>
+        Thu, 02 Apr 2020 00:40:50 -0700 (PDT)
+Date:   Thu, 2 Apr 2020 00:40:09 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Bernd Edlinger <bernd.edlinger@hotmail.de>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kirill Tkhai <ktkhai@virtuozzo.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Yuyang Du <duyuyang@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jamorris@linux.microsoft.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christian Kellner <christian@kellner.me>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+Subject: Re: [PATCH v6 00/16] Infrastructure to allow fixing exec deadlocks
+Message-ID: <202004020037.67ED66C8B6@keescook>
+References: <AM6PR03MB5170B2F5BE24A28980D05780E4F50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <871rpg8o7v.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB5170938306F22C3CF61CC573E4CD0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <202003282041.A2639091@keescook>
+ <AM6PR03MB5170E0E722ED0B05B149C135E4CB0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <20200330201459.GF22483@bombadil.infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200402020850.7218-1-mchristi@redhat.com>
+In-Reply-To: <20200330201459.GF22483@bombadil.infradead.org>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed 01-04-20 21:08:50, Mike Christie wrote:
-> This patch documents the PR_SET_IO_FLUSHER and PR_GET_IO_FLUSHER
-> prctl commands added to the linux kernel for 5.6 in commit:
+On Mon, Mar 30, 2020 at 01:14:59PM -0700, Matthew Wilcox wrote:
+> On Mon, Mar 30, 2020 at 10:12:02PM +0200, Bernd Edlinger wrote:
+> > On 3/29/20 5:44 AM, Kees Cook wrote:
+> > > On Sat, Mar 28, 2020 at 11:32:35PM +0100, Bernd Edlinger wrote:
+> > >> Oh, do I understand you right, that I can add a From: in the
+> > >> *body* of the mail, and then the From: in the MIME header part
+> > >> which I cannot change is ignored, so I can make you the author?
+> > > 
+> > > Correct. (If you use "git send-email" it'll do this automatically.)
+> > > 
+> > > e.g., trimmed from my workflow:
+> > > 
+> > > git format-patch -n --to "$to" --cover-letter -o outgoing/ \
+> > > 	--subject-prefix "PATCH v$version" "$SHA"
+> > > edit outgoing/0000-*
+> > > git send-email --transfer-encoding=8bit --8bit-encoding=UTF-8 \
+> > > 	--from="$ME" --to="$to" --cc="$ME" --cc="...more..." outgoing/*
+> > > 
+> > > 
+> > 
+> > Okay, thanks, I see that is very helpful information for me, and in
+> > this case I had also fixed a small bug in one of Eric's patches, which
+> > was initially overlooked (aquiring mutexes in wrong order,
+> > releasing an unlocked mutex in some error paths).
+> > I am completely unexperienced, and something that complex was not
+> > expected to happen :-) so this is just to make sure I can handle it
+> > correctly if something like this happens again.
+> > 
+> > In the case of PATCH v6 05/16 I removed the Reviewd-by: Bernd Edlinger
+> > since it is now somehow two authors and reviewing own code is obviously
+> > not ok, instead I added a Signed-off-by: Bernd Edlinger (and posted the
+> > whole series on Eric's behalf (after asking Eric's permissing per off-list
+> > e-mail, which probably ended in his spam folder)
+> > 
+> > Is this having two Signed-off-by: for mutliple authors the
+> > correct way to handle a shared authorship?
 > 
-> commit 8d19f1c8e1937baf74e1962aae9f90fa3aeab463
-> Author: Mike Christie <mchristi@redhat.com>
-> Date:   Mon Nov 11 18:19:00 2019 -0600
+> If the patch comes through you, then Reviewed-by: is inappropriate.
+> Instead, you should use Signed-off-by: in the second sense of
+> Documentation/process/submitting-patches.rst
 > 
->     prctl: PR_{G,S}ET_IO_FLUSHER to support controlling memory reclaim
-> 
-> Signed-off-by: Mike Christie <mchristi@redhat.com>
+> This also documents how to handle "minor changes" that you make.
 
-Yes this wording is much better than the previous version.
-
-Acked-by: Michal Hocko <mhocko@suse.com>
-
-> ---
-> 
-> V4:
-> - Remove internal details.
-> - Add CAP_SYS_RESOURCE requirement info.
-> 
-> V3:
-> - Replace emulation device example.
-> 
-> V2:
-> - My initial patch for this was very bad. This version is almost 100%
-> taken word for word from Dave Chinner's review comments.
-> 
-> Signed-off-by: Mike Christie <mchristi@redhat.com>
-> 
->  man2/prctl.2 | 26 ++++++++++++++++++++++++++
->  1 file changed, 26 insertions(+)
-> 
-> diff --git a/man2/prctl.2 b/man2/prctl.2
-> index 720ec04e4..3c3355439 100644
-> --- a/man2/prctl.2
-> +++ b/man2/prctl.2
-> @@ -1381,6 +1381,31 @@ system call on Tru64).
->  for information on versions and architectures.)
->  Return unaligned access control bits, in the location pointed to by
->  .IR "(unsigned int\ *) arg2" .
-> +.TP
-> +.B PR_SET_IO_FLUSHER (Since Linux 5.6)
-> +If a user process is involved in the block layer or file system IO path,
-> +and can allocate memory while processing IO requests it must set
-> +\fIarg2\fP to 1. This will put the process in the IO_FLUSHER state which
-> +allows it special treatment to make progress when allocating memory.
-> +If \fIarg2\fP is 0, the process will clear the IO_FLUSHER state, and
-> +the default behavior will be used.
-> +
-> +The calling process must have the
-> +.BR CAP_SYS_RESOURCE
-> +capability.
-> +
-> +Examples of IO_FLUSHER applications are FUSE daemons, SCSI device
-> +emulation daemons, and daemons that perform error handling like multipath
-> +path recovery applications.
-> +
-> +.TP
-> +.B PR_GET_IO_FLUSHER (Since Linux 5.6)
-> +Return as the function result 1 if the caller is in the IO_FLUSHER state and
-> +0 if not.
-> +
-> +The calling process must have the
-> +.BR CAP_SYS_RESOURCE
-> +capability.
->  .SH RETURN VALUE
->  On success,
->  .BR PR_GET_DUMPABLE ,
-> @@ -1395,6 +1420,7 @@ On success,
->  .BR PR_GET_SPECULATION_CTRL ,
->  .BR PR_MCE_KILL_GET ,
->  .BR PR_CAP_AMBIENT + PR_CAP_AMBIENT_IS_SET ,
-> +.BR PR_GET_IO_FLUSHER ,
->  and (if it returns)
->  .BR PR_GET_SECCOMP
->  return the nonnegative values described above.
-> -- 
-> 2.21.0
+And in the true case of multiple authors, have both SoBs, but also add a
+Co-developed-by: for the non-"git author" author. Specific details:
+https://www.kernel.org/doc/html/latest/process/submitting-patches.html#when-to-use-acked-by-cc-and-co-developed-by
 
 -- 
-Michal Hocko
-SUSE Labs
+Kees Cook
