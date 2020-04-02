@@ -2,226 +2,138 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EC23019C5AA
-	for <lists+linux-api@lfdr.de>; Thu,  2 Apr 2020 17:19:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B99EF19C5F3
+	for <lists+linux-api@lfdr.de>; Thu,  2 Apr 2020 17:34:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389098AbgDBPTS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 2 Apr 2020 11:19:18 -0400
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:46230 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389058AbgDBPTS (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 2 Apr 2020 11:19:18 -0400
-Received: by mail-ed1-f65.google.com with SMTP id cf14so4597395edb.13
-        for <linux-api@vger.kernel.org>; Thu, 02 Apr 2020 08:19:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=MUZimPCBmfg/lNq5C9li8ToeMH5GybOob9boTMJ8Ry4=;
-        b=pJotPFYLX2utpXM+urj5d012OnozHKhG/DAfbSolW1WTTjvFpXzSE2T94VdAu5KGjE
-         y6UduEs0avw6aH/jnPIj35O1z9paB7T50YDn82a4NRSD6s3ei7KyuqtU4Kg/o/8lD4KB
-         y6eArWXTDzt7ZY64tQxj+HCgONZ3sGjRTBDZI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MUZimPCBmfg/lNq5C9li8ToeMH5GybOob9boTMJ8Ry4=;
-        b=Ds/5FTPXNhN81fszjrysEdaZtKDH6acvPLgPZHpzXf8w3h6WwvkD+Vv01FsJOh0FNK
-         9CkA6x8HxfczQ6Bv48ZrnG6XdUBrqDDhjCDRLOQNGtMrutuNIqKALBIjrFqPHsKRetyd
-         9oYokRxnj4CgyRf4AR422QrBaUgKof4w5kX2eBC9m20QhEqRuHv/tAwoqcYx/Sh3YUBj
-         dyNFTlJdj/wti+kCBRKbXhHz7Zqsa5CR6A6exY5CK+cmckx0yeeYF0/c1JkPWZxNQtre
-         cRqtFXpWYLLQzbd3oIleR8X8fKHzUqVa5Y1EnUYQqpa1g+NRNpVtYE7WJYf15ggl21A7
-         OxXg==
-X-Gm-Message-State: AGi0PubPXeSn2rZrgPnlllr2hp6Ju4aEgMOz8sbT9cVyjZFgEAUexUUP
-        OJ2fWxM3TezkMV61Cb0aFS49zkQ4pZecjUxaR9vZEQ==
-X-Google-Smtp-Source: APiQypKo3qRag48ZV+QcN5Q48u7U1vmvCSGaVa84FwlErWIvq9TTAI/U67RpOOZHpA8X6cv/s5bg8cpOTZDAbDROO0E=
-X-Received: by 2002:a17:906:405b:: with SMTP id y27mr3832799ejj.213.1585840754915;
- Thu, 02 Apr 2020 08:19:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <158454378820.2863966.10496767254293183123.stgit@warthog.procyon.org.uk>
- <158454391302.2863966.1884682840541676280.stgit@warthog.procyon.org.uk>
-In-Reply-To: <158454391302.2863966.1884682840541676280.stgit@warthog.procyon.org.uk>
-From:   Miklos Szeredi <miklos@szeredi.hu>
-Date:   Thu, 2 Apr 2020 17:19:03 +0200
-Message-ID: <CAJfpegspWA6oUtdcYvYF=3fij=Bnq03b8VMbU9RNMKc+zzjbag@mail.gmail.com>
-Subject: Re: [PATCH 13/17] watch_queue: Implement mount topology and attribute
- change notifications [ver #5]
-To:     David Howells <dhowells@redhat.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Stephen Smalley <sds@tycho.nsa.gov>, nicolas.dichtel@6wind.com,
-        Ian Kent <raven@themaw.net>,
-        Christian Brauner <christian@brauner.io>, andres@anarazel.de,
-        Jeff Layton <jlayton@redhat.com>, dray@redhat.com,
-        Karel Zak <kzak@redhat.com>, keyrings@vger.kernel.org,
+        id S2389162AbgDBPeh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 2 Apr 2020 11:34:37 -0400
+Received: from out01.mta.xmission.com ([166.70.13.231]:50552 "EHLO
+        out01.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732754AbgDBPeh (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 2 Apr 2020 11:34:37 -0400
+Received: from in01.mta.xmission.com ([166.70.13.51])
+        by out01.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.90_1)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1jK1rW-0005mQ-8t; Thu, 02 Apr 2020 09:34:34 -0600
+Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
+        by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.87)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1jK1rV-0007tb-0b; Thu, 02 Apr 2020 09:34:33 -0600
+From:   ebiederm@xmission.com (Eric W. Biederman)
+To:     Alexey Gladkov <gladkov.alexey@gmail.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
         Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        LSM <linux-security-module@vger.kernel.org>,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Linux Security Module <linux-security-module@vger.kernel.org>,
+        Akinobu Mita <akinobu.mita@gmail.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Alexey Gladkov <legion@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Daniel Micay <danielmicay@gmail.com>,
+        Djalal Harouni <tixxdz@gmail.com>,
+        "Dmitry V . Levin" <ldv@altlinux.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Jeff Layton <jlayton@poochiereds.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Oleg Nesterov <oleg@redhat.com>
+References: <20200327172331.418878-1-gladkov.alexey@gmail.com>
+        <20200327172331.418878-3-gladkov.alexey@gmail.com>
+Date:   Thu, 02 Apr 2020 10:31:48 -0500
+In-Reply-To: <20200327172331.418878-3-gladkov.alexey@gmail.com> (Alexey
+        Gladkov's message of "Fri, 27 Mar 2020 18:23:24 +0100")
+Message-ID: <87eet5lx97.fsf@x220.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
+X-XM-SPF: eid=1jK1rV-0007tb-0b;;;mid=<87eet5lx97.fsf@x220.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX18bJm/P/P+XAlq1t04hxE6W/8b8KDRYe10=
+X-SA-Exim-Connect-IP: 68.227.160.95
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa07.xmission.com
+X-Spam-Level: 
+X-Spam-Status: No, score=0.5 required=8.0 tests=ALL_TRUSTED,BAYES_50,
+        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,XMSubLong autolearn=disabled
+        version=3.4.2
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4209]
+        *  0.7 XMSubLong Long Subject
+        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
+        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
+        *      [sa07 1397; Body=1 Fuz1=1 Fuz2=1]
+X-Spam-DCC: XMission; sa07 1397; Body=1 Fuz1=1 Fuz2=1 
+X-Spam-Combo: ;Alexey Gladkov <gladkov.alexey@gmail.com>
+X-Spam-Relay-Country: 
+X-Spam-Timing: total 664 ms - load_scoreonly_sql: 0.35 (0.1%),
+        signal_user_changed: 13 (2.0%), b_tie_ro: 11 (1.6%), parse: 1.62
+        (0.2%), extract_message_metadata: 4.4 (0.7%), get_uri_detail_list:
+        0.91 (0.1%), tests_pri_-1000: 7 (1.0%), tests_pri_-950: 1.60 (0.2%),
+        tests_pri_-900: 1.25 (0.2%), tests_pri_-90: 366 (55.2%), check_bayes:
+        364 (54.9%), b_tokenize: 10 (1.5%), b_tok_get_all: 143 (21.5%),
+        b_comp_prob: 2.8 (0.4%), b_tok_touch_all: 205 (30.9%), b_finish: 1.12
+        (0.2%), tests_pri_0: 198 (29.9%), check_dkim_signature: 0.66 (0.1%),
+        check_dkim_adsp: 2.6 (0.4%), poll_dns_idle: 0.90 (0.1%), tests_pri_10:
+        2.2 (0.3%), tests_pri_500: 57 (8.6%), rewrite_mail: 0.00 (0.0%)
+Subject: Re: [PATCH v10 2/9] proc: allow to mount many instances of proc in one pid namespace
+X-Spam-Flag: No
+X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
+X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Mar 18, 2020 at 4:05 PM David Howells <dhowells@redhat.com> wrote:
->
-> Add a mount notification facility whereby notifications about changes in
-> mount topology and configuration can be received.  Note that this only
-> covers vfsmount topology changes and not superblock events.  A separate
-> facility will be added for that.
->
-> Every mount is given a change counter than counts the number of topological
-> rearrangements in which it is involved and the number of attribute changes
-> it undergoes.  This allows notification loss to be dealt with.
 
-Isn't queue overrun signalled anyway?
+> diff --git a/include/linux/proc_fs.h b/include/linux/proc_fs.h
+> index 40a7982b7285..5920a4ecd71b 100644
+> --- a/include/linux/proc_fs.h
+> +++ b/include/linux/proc_fs.h
+> @@ -27,6 +27,17 @@ struct proc_ops {
+>  	unsigned long (*proc_get_unmapped_area)(struct file *, unsigned long, unsigned long, unsigned long, unsigned long);
+>  };
+>  
+> +struct proc_fs_info {
+> +	struct pid_namespace *pid_ns;
+> +	struct dentry *proc_self;        /* For /proc/self */
+> +	struct dentry *proc_thread_self; /* For /proc/thread-self */
+> +};
 
-If an event is lost, there's no way to know which object was affected,
-so how does the counter help here?
+Minor nit.
 
->  Later
-> patches will provide a way to quickly retrieve this value, along with
-> information about topology and parameters for the superblock.
+I have not seen a patch where you remove proc_self and proc_thread_self
+from struct pid_namepace.
 
-So?  If we receive a notification for MNT1 with change counter CTR1
-and then receive the info for MNT1 with CTR2, then we know that we
-either missed a notification or we raced and will receive the
-notification later.  This helps with not having to redo the query when
-we receive the notification with CTR2, but this is just an
-optimization, not really useful.
+Ideally it would have been in this patch.  But as it won't break
+anyone's bisection can you please have a follow up patch that removes
+those fields?
 
-> Firstly, a watch queue needs to be created:
->
->         pipe2(fds, O_NOTIFICATION_PIPE);
->         ioctl(fds[1], IOC_WATCH_QUEUE_SET_SIZE, 256);
->
-> then a notification can be set up to report notifications via that queue:
->
->         struct watch_notification_filter filter = {
->                 .nr_filters = 1,
->                 .filters = {
->                         [0] = {
->                                 .type = WATCH_TYPE_MOUNT_NOTIFY,
->                                 .subtype_filter[0] = UINT_MAX,
->                         },
->                 },
->         };
->         ioctl(fds[1], IOC_WATCH_QUEUE_SET_FILTER, &filter);
->         watch_mount(AT_FDCWD, "/", 0, fds[1], 0x02);
->
-> In this case, it would let me monitor the mount topology subtree rooted at
-> "/" for events.  Mount notifications propagate up the tree towards the
-> root, so a watch will catch all of the events happening in the subtree
-> rooted at the watch.
+Thank you,
+Eric
 
-Does it make sense to watch a single mount?  A set of mounts?   A
-subtree with an exclusion list (subtrees, types, ???)?
 
-Not asking for these to be implemented initially, just questioning
-whether the API is flexible enough to allow these cases to be
-implemented later if needed.
 
->
-> After setting the watch, records will be placed into the queue when, for
-> example, as superblock switches between read-write and read-only.  Records
-> are of the following format:
->
->         struct mount_notification {
->                 struct watch_notification watch;
->                 __u32   triggered_on;
->                 __u32   auxiliary_mount;
-
-What guarantees that mount_id is going to remain a 32bit entity?
-
->                 __u32   topology_changes;
->                 __u32   attr_changes;
->                 __u32   aux_topology_changes;
-
-Being 32bit this introduces wraparound effects.  Is that really worth it?
-
->         } *n;
->
-> Where:
->
->         n->watch.type will be WATCH_TYPE_MOUNT_NOTIFY.
->
->         n->watch.subtype will indicate the type of event, such as
->         NOTIFY_MOUNT_NEW_MOUNT.
->
->         n->watch.info & WATCH_INFO_LENGTH will indicate the length of the
->         record.
-
-Hmm, size of record limited to 112bytes?  Is this verified somewhere?
-Don't see a BUILD_BUG_ON() in watch_sizeof().
-
->
->         n->watch.info & WATCH_INFO_ID will be the fifth argument to
->         watch_mount(), shifted.
->
->         n->watch.info & NOTIFY_MOUNT_IN_SUBTREE if true indicates that the
->         notifcation was generated in the mount subtree rooted at the watch,
-
-notification
-
->         and not actually in the watch itself.
->
->         n->watch.info & NOTIFY_MOUNT_IS_RECURSIVE if true indicates that
->         the notifcation was generated by an event (eg. SETATTR) that was
->         applied recursively.  The notification is only generated for the
->         object that initially triggered it.
-
-Unused in this patchset.  Please don't add things to the API which are not used.
-
->
->         n->watch.info & NOTIFY_MOUNT_IS_NOW_RO will be used for
->         NOTIFY_MOUNT_READONLY, being set if the superblock becomes R/O, and
->         being cleared otherwise,
-
-Does this refer to mount r/o flag or superblock r/o flag?  Confused.
-
-> and for NOTIFY_MOUNT_NEW_MOUNT, being set
->         if the new mount is a submount (e.g. an automount).
-
-Huh?  What has r/o flag do with being a submount?
-
->
->         n->watch.info & NOTIFY_MOUNT_IS_SUBMOUNT if true indicates that the
->         NOTIFY_MOUNT_NEW_MOUNT notification is in response to a mount
->         performed by the kernel (e.g. an automount).
->
->         n->triggered_on indicates the ID of the mount to which the change
->         was accounted (e.g. the new parent of a new mount).
-
-For move there are two parents that are affected.  This doesn't look
-sufficient to reflect that.
-
->
->         n->axiliary_mount indicates the ID of an additional mount that was
->         affected (e.g. a new mount itself) or 0.
->
->         n->topology_changes provides the value of the topology change
->         counter of the triggered-on mount at the conclusion of the
->         operarion.
-
-operation
-
->
->         n->attr_changes provides the value of the attribute change counter
->         of the triggered-on mount at the conclusion of the operarion.
-
-operation
-
->
->         n->aux_topology_changes provides the value of the topology change
->         counter of the auxiliary mount at the conclusion of the operation.
->
-> Note that it is permissible for event records to be of variable length -
-> or, at least, the length may be dependent on the subtype.  Note also that
-> the queue can be shared between multiple notifications of various types.
-
-Will review code later...
-
-Thanks,
-Miklos
+> +
+> +static inline struct proc_fs_info *proc_sb_info(struct super_block *sb)
+> +{
+> +	return sb->s_fs_info;
+> +}
+> +
+>  #ifdef CONFIG_PROC_FS
+>  
+>  typedef int (*proc_write_t)(struct file *, char *, size_t);
+> @@ -161,6 +172,7 @@ int open_related_ns(struct ns_common *ns,
+>  /* get the associated pid namespace for a file in procfs */
+>  static inline struct pid_namespace *proc_pid_ns(const struct inode *inode)
+>  {
+> +	return proc_sb_info(inode->i_sb)->pid_ns;
+>  	return inode->i_sb->s_fs_info;
+>  }
