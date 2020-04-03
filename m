@@ -2,187 +2,116 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E660A19D0B2
-	for <lists+linux-api@lfdr.de>; Fri,  3 Apr 2020 09:02:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34E0C19D67D
+	for <lists+linux-api@lfdr.de>; Fri,  3 Apr 2020 14:11:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389429AbgDCHCT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 3 Apr 2020 03:02:19 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:33336 "EHLO
+        id S2403876AbgDCMLp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 3 Apr 2020 08:11:45 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:33086 "EHLO
         mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389177AbgDCHCT (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 3 Apr 2020 03:02:19 -0400
-Received: by mail-wr1-f67.google.com with SMTP id a25so7235239wrd.0;
-        Fri, 03 Apr 2020 00:02:16 -0700 (PDT)
+        with ESMTP id S2403859AbgDCMLp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 3 Apr 2020 08:11:45 -0400
+Received: by mail-wr1-f67.google.com with SMTP id a25so8296118wrd.0;
+        Fri, 03 Apr 2020 05:11:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=xiz/6HJMasAWNsKkYKq00dnOIXVpiuKViHO1DMPX3Zg=;
-        b=GUkPwzaJIqHf6RLgEXskzpsmx8udxuWbTIFUXOf9bF2pzOH11b2HHNaputhdeJ5i7p
-         +iPA3GVGkxsOtqiq53YFKQGPx6o2WzkEhVL4r/sISxYuwkBFgXJOXEDhmZwftpNL9yQV
-         aYCag7PWTpXlyTI6KMEicP/P+6IdIRMNBIKF5jviP5f/uCJ6dYrnxQKMb39kufjPCs3S
-         J0TzbJi/UE5HfpXjxdjb6LO9QuZw+o5RkzsMZTzWU242tP5b462BnD/lsS45+ICj0yUs
-         FJPFeu4tG7JseBle5/OhnFS8BCLIgOZ71Hf1B5EI1WgeSJJG/tcmwk3MEpvCE2vOny9G
-         A36Q==
+        h=cc:to:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=WQVTbDEDjFr4O1/Say+4s7vNmlllW/RrwEUKTO3oWa8=;
+        b=TP8Lye1ieaOT12W1mNC+gBP2C8/zdudJ0dgxpWpHbJ+mSWs/WMlXAkoGe6kEuwKcDS
+         Fy/qipHyfOTYH3XapK5yjVHr70F8Ap/IRCP0fwL4CKXAJwJ2UzHgQfqDoCkjfWhfFCmD
+         16JZhKhnDLhGTARKcDD709jkRT6w1KU4tkaamJU6bOyCmgzokDusLz+rfLbQwI72iz7p
+         G/dXOfBBiLVZTjyj2dy/jP1B+FVbzkWc15JozPNkODqWwCJu8idVk6qa/7/nwbCP385p
+         ba60yIRL8xi8HuYjMAVCjTySbinwg1or59ixFBUR9XveaMOOUFoEzB56O+72Caoph5fI
+         Mi0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=xiz/6HJMasAWNsKkYKq00dnOIXVpiuKViHO1DMPX3Zg=;
-        b=PUEIYyCO+FVjRm9jpjBZjYig/vO41MVOX/s+qtMFTGtjCYakImdYhWsZDJK9imzNzL
-         F1LLokOfqv/VqKxbXdtHjr1E2ti3xXi9v9qlwzPZ+6K3kkYozrSGAb0cHyb7drzenf5Z
-         QYT4XzTxriDhk9pdFL6ZXMX21yEBFp7NF8ioLFchoZ/VELQrk4Z7Ui7m/2gqo7JguXa9
-         2Q2EUezPSZC8j7UTfl+2j69N99ZhRNSRs3BqdqQ3XPqemKtv6Mhyyk0ZRGf3ktZscpfx
-         ePt2+jkw5Jv1EeUhnN9Ufg92hY502yL5bXfEKJQP6TMfis4DjLwNo26aVsrQzuWRs0aI
-         RZnw==
-X-Gm-Message-State: AGi0PuZf4OD8IkFG1dFU5nKq7wXImMBFEzR69pDtX1iB/kuFKIQhb+rd
-        qN1JLYymqin3is8+o3JXCvKyJU0P
-X-Google-Smtp-Source: APiQypKCPcCG7/fjGTqNwVkfSBThYJqHxqbDbQXpZiEg8ahhjpuyZtJIuyh/EVNowqC2sJ2Rgye56w==
-X-Received: by 2002:adf:aacf:: with SMTP id i15mr7112366wrc.31.1585897335219;
-        Fri, 03 Apr 2020 00:02:15 -0700 (PDT)
+        h=x-gm-message-state:cc:to:from:subject:message-id:date:user-agent
+         :mime-version:content-language:content-transfer-encoding;
+        bh=WQVTbDEDjFr4O1/Say+4s7vNmlllW/RrwEUKTO3oWa8=;
+        b=eTdB4lsPrlJdRf29s3lJZqjktTgJt1hJTbkQRSMe0cQ/iF3ADMCLfsiwF4dVgSbCkF
+         DL0nixz7p5jKQfTrJQ/CT/RJJMhEjEcoDeAIJpWcOVFgtowrDSq9+tEl49X1DJ4otcJ7
+         WglKh9txz3QCFhGNDksU9WDO7vWzBjeoc0D6/lSvyB0lWSDDIXU2p2Ib33sLND4elGXe
+         Eqq1p3Y3Iyli6heHR95WO7SDbgaqnDXjkfoDri+JbBQsB0O1oj6MMF9LkO0zxo6LgzM4
+         +VMpcCGACc+hF6Ae943hyMJbYcJfch+cW8/e/1uPF+ktInWwEIR0Ix7R3MuqE2Tp7tr/
+         jaXw==
+X-Gm-Message-State: AGi0PuZpNN1fcmubg3Btx7w37J8K5vQWK/h4zD+LH0szsLl72WCYzyZY
+        kJmWut5KYHneGNk1XMS4PHOkFJhz
+X-Google-Smtp-Source: APiQypKf7jEOtuElOnZb8aETb4jmcZ9jf8R5ft545q5pRetS8T3tqZmdVX6gJiFykqA8bMjea7SAsw==
+X-Received: by 2002:a5d:4d51:: with SMTP id a17mr8937558wru.317.1585915903067;
+        Fri, 03 Apr 2020 05:11:43 -0700 (PDT)
 Received: from ?IPv6:2001:a61:2482:101:3351:6160:8173:cc31? ([2001:a61:2482:101:3351:6160:8173:cc31])
-        by smtp.gmail.com with ESMTPSA id d13sm11153452wrq.11.2020.04.03.00.02.13
+        by smtp.gmail.com with ESMTPSA id v186sm11229090wme.24.2020.04.03.05.11.40
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Apr 2020 00:02:14 -0700 (PDT)
-Cc:     mtk.manpages@gmail.com, Eric Rannaud <e@nanocritical.com>,
-        linux-man <linux-man@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH 1/1] clock_getres.2: dynamic POSIX clock devices can
- return other errors
-To:     Eric Rannaud <eric.rannaud@gmail.com>
-References: <CAKgNAkiTYY3mrdsWypX22WCczVK9GDsOO-Vq58go_b2=719=FA@mail.gmail.com>
- <ce049b034919c4a09629c2e7bec574af133fb064.1585837173.git.e@nanocritical.com>
- <CA+zRj8XYLpa_gep+VxUfQuqeKu+=thMit-jNv1soC8Mh5H43Ug@mail.gmail.com>
- <CAKgNAkipcX47quv23SACeorSexO00nUAJR3QSTA3bFNMresE4Q@mail.gmail.com>
- <CA+zRj8XzqV19Z9KcyO+_V2Nkt4fgwK7QbP01GE5EL=g_xHf8Xw@mail.gmail.com>
+        Fri, 03 Apr 2020 05:11:41 -0700 (PDT)
+Cc:     mtk.manpages@gmail.com, Adrian Reber <adrian@lisas.de>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Andrei Vagin <avagin@gmail.com>, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, Dmitry Safonov <0x7f454c46@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Containers <containers@lists.linux-foundation.org>
+To:     Dmitry Safonov <dima@arista.com>, Andrei Vagin <avagin@openvz.or>
 From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <cb4c685b-6c5d-9c16-aade-0c95e57de4b9@gmail.com>
-Date:   Fri, 3 Apr 2020 09:02:13 +0200
+Subject: [PATCH] ns: Fix time_for_children symlink
+Message-ID: <a2418c48-ed80-3afe-116e-6611cb799557@gmail.com>
+Date:   Fri, 3 Apr 2020 14:11:39 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <CA+zRj8XzqV19Z9KcyO+_V2Nkt4fgwK7QbP01GE5EL=g_xHf8Xw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hell Éric
+Dmitry, Andrei,
 
-On 4/2/20 10:49 PM, Eric Rannaud wrote:
-> On Thu, Apr 2, 2020 at 1:19 PM Michael Kerrisk (man-pages)
-> <mtk.manpages@gmail.com> wrote:
->>> There is documentation in:
->>> - include/linux/posix-clock.h
->>> - Documentation/driver-api/ptp.rst (explicitly states that EOPNOTSUPP
->>> should be returned)
->>
->> (Is this a reference to the tack that I tweaked your patch to change
->> EOPNOTSUPP to ENOTSUP?)
-> 
-> Oh not at all, I hadn't noticed your patch. I just wrote that sentence
-> to point to ptp.rst as a spec of sorts for that particular behavior
-> addressed by this patch.
-> 
-> I never know which one to use of EOPNOTSUPP or ENOTSUP since they have
-> the same value (in userspace) but POSIX.1 says they shouldn't.
+Looking at the contents of the /proc/PID/ns/time_for_children
+symlink shows an anomaly:
+
+$ ls -l /proc/self/ns/* |awk '{print $9, $10, $11}'
+...
+/proc/self/ns/pid -> pid:[4026531836]
+/proc/self/ns/pid_for_children -> pid:[4026531836]
+/proc/self/ns/time -> time:[4026531834]
+/proc/self/ns/time_for_children -> time_for_children:[4026531834]
+/proc/self/ns/user -> user:[4026531837]
+...
+
+The reference for 'time_for_children' should be a 'time' namespace,
+just as the reference for 'pid_for_children' is a 'pid' namespace.
+In other words, I think the above time_for_children link should read:
+
+/proc/self/ns/time_for_children -> time:[4026531834]
+
+If you agree with this patch, then it should be marked for
+stable@vger.kernel.org.
+
+Signed-off-by: Michael Kerrisk <mtk.manpages@gmail.com>
+
+---
+ kernel/time/namespace.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/kernel/time/namespace.c b/kernel/time/namespace.c
+index e6ba064ce773..3b30288793fe 100644
+--- a/kernel/time/namespace.c
++++ b/kernel/time/namespace.c
+@@ -447,6 +447,7 @@ const struct proc_ns_operations timens_operations = {
  
-I think you are looking at an older version of POSIX (when what you 
-say was true). In the POSIX.1-2008/SUSv4 specification of <errno.h>, 
-we have:
-[[
-[ENOTSUP] Not supported (may be the same value as [EOPNOTSUPP]).
-EOPNOTSUPP] Operation not supported on socket (may be the same value as
-[ENOTSUP]).
-]]
-
-> suppose for man2 it makes sense to pick one, whereas man3p has to make
-> the distinction.
-
-It's a mess of course. It looks like the usual reason: BSD vs
-other historical implementations. BSD invented EOPNOTSUPP for
-the sockets API (and you see this reflected in POSIX.1). Other
-implementations (presumably System V) had ENOTSUP (which
-is what appears in POSIX.1 for timer_create() and
-clock_nanosleep()).
-
-> For what it's worth, man2/ has 29 mentions of EOPNOTSUPP (value of 95
-> on x86) and 8 mentions of ENOTSUP (with a value 524).
-
-> In the kernel sources, it's 6324 vs 1512. But note that in kernel
-> code, EOPNOTSUPP has a value of 95 (on x86 anyway, it is arch
-> dependent), whereas ENOTSUP is 524. Glibc is the one that defines
-> ENOTSUP to EOPNOTSUPP.
-
-Actually, there are 0 mentions of ENOTSUP in the kernel
-(other than in tools and samples). The constant that appears
-in the kernel is one called ENOTSUPP (2 P's) defined as 524 
-in include/linux/errno.h !! Yikes! What a mess!
-
-And then EOPNOTSUPP defined with value 95 in the kernel file
-include/uapi/asm-generic/errno.h (and with some architecture
-variations as you note).
-
-And then in glibc sysdeps/unix/sysv/linux/bits/errno.h:
-
-[[
-/* Older Linux headers do not define these constants.  */
-# ifndef ENOTSUP
-#  define ENOTSUP               EOPNOTSUPP
-# endif
-]]
-
-And in glibc EOPNOTSUPP is 95
-
-> So if we had to pick one for man2/ (and man7), I'd argue for
-> EOPNOTSUPP, for consistency with kernel code, now that I look at it in
-> more details.
-
-I'm not sure we do need to pick one here. See POSIX, which uses
-both. 
-
-And see the definition of EOPNOTSUPP in POSIX. Arguably,
-it is only for sockets, and everything else should be ENOTSUP.
-(And for the most part, that's how things are done in the 
-POSIX specifications of the APIs.)
-
-In summary, I'm going to do nothing :-}. I checked
-* the time/clock man pages; they use ENOTSUP (consistent with 
-  POSIX)
-* the pthreads man pages; they use ENOTSUP (consistent with POSIX)
-* the sockets APIs man pages; they use EOPNOTSUPP (consistent 
-  with POSIX)
-
-The rest of the pages are a mixed bag (mostly not specified in
-POSIX), and I don;t think there's any really clear fix.
-
->>> - include/uapi/linux/ptp_clock.h
->>
->> ... it's a bit of a stretch to call any of those documentation, since
->> they don't really describe the concept of a dynamic POSIX clock
->> device.
->>
->>>
->>> (IEEE 1588 PTP is the canonical user of these dynamic clock devices)
->>>
->>> Would you want to refer to any of these from the man page?
->>
->> See above. I would be happy to add a 2 or 3 sentence note to the page
->> that briefly describes the concept of a POSIX clock. Would you be able
->> to come up with something?
-> 
-> I'll try, but I've never used them, so I'm not convinced I can capture
-> the concept clearly.
-
-Its okay -- don't feel any obligation here. You already contributed!
-
-Cheers,
-
-Michael
+ const struct proc_ns_operations timens_for_children_operations = {
+ 	.name		= "time_for_children",
++	.real_ns_name	= "time",
+ 	.type		= CLONE_NEWTIME,
+ 	.get		= timens_for_children_get,
+ 	.put		= timens_put,
+-- 
+2.25.1
 
 -- 
 Michael Kerrisk
