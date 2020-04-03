@@ -2,115 +2,100 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 49E9919D6F2
-	for <lists+linux-api@lfdr.de>; Fri,  3 Apr 2020 14:49:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFC8519DA5B
+	for <lists+linux-api@lfdr.de>; Fri,  3 Apr 2020 17:42:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728126AbgDCMtz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 3 Apr 2020 08:49:55 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:45860 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727989AbgDCMtz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 3 Apr 2020 08:49:55 -0400
-Received: by mail-ed1-f67.google.com with SMTP id dj7so7237734edb.12
-        for <linux-api@vger.kernel.org>; Fri, 03 Apr 2020 05:49:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arista.com; s=googlenew;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=qQ4GjlaBNnkqjandRnDKumnjBIkctbwHxWdo0M4wsMI=;
-        b=ASnR0E3twBUn3zFHPgwVLzGRCQDeCNzuma4SqK3MmSzZIdWWrXFg8pCBWD4epfIJ+z
-         2OUBhBph32xan2QlF1RTOih+bc/LuuXJUQlq0iN2y5fu4d+/dnczuhRU9UUVpsoDdYuZ
-         ydiEvmwy9d48th4OPl+a1yTfrR9RPceRVflsdsZkGlttu3jIYGOzb5T/GwGoBaIFpoNA
-         k0KoH4qQBH7tOQ5AH4Xq8UCixq3wVjW29B7w90J3hbU3+JeFSJQhPhGXhAMsfueibgXa
-         c6wfYcKAP/B9C1KT13N/Uqu/GulrAEMyeVQ/PVEvYV0LxhXv0DoqB1zwusHV3iCHBTiK
-         OItw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=qQ4GjlaBNnkqjandRnDKumnjBIkctbwHxWdo0M4wsMI=;
-        b=MY1YegRgMyoZ2bRap3g/IyWdju1NnS5Hny9eGnZ4uZgNbxP56jNe32b1CITYF4X/gz
-         5lL3qknuRLu2eudLcwTGbHSaoekr9WVjAwAQWPzlnyJbykp/ojHGZw+hVHsj4o+t7jid
-         muCA19AeivXNM1Ah2d8k+AGbBwkqCi+btlQJIXFuKYeQxli3z8qBh/kySINaSnXb6lW8
-         n/tepVypT5fAHbLfdD7uDSKYNxUxzlb76Isfj9r31yWVuPv+EBbD6a20hvmJTy3Y8Uuj
-         jLaweNY1l8z6b8fLVvv1CyxHG3S77oDPvs/oL1kZztB7Ia3YEg7UFeHi9sbTuFdRm0MD
-         BmZw==
-X-Gm-Message-State: AGi0Pub7+nhfUneqBWluD0Ht89KIWkfErUy5DUh/VFAMCw0JFE5navhT
-        EFgMEb5wrt/myTci4zBZFlJAjQ==
-X-Google-Smtp-Source: APiQypL5gP9d5L/YD06dpE9QuVApfFMy3N0f0Ub7xYKYv6KkNS8Zf7gkd/4JdkznDB02IeowhtMk2Q==
-X-Received: by 2002:a17:906:7045:: with SMTP id r5mr8266254ejj.29.1585918193015;
-        Fri, 03 Apr 2020 05:49:53 -0700 (PDT)
-Received: from ?IPv6:2a02:8084:e84:2480:228:f8ff:fe6f:83a8? ([2a02:8084:e84:2480:228:f8ff:fe6f:83a8])
-        by smtp.gmail.com with ESMTPSA id by25sm1649452ejb.16.2020.04.03.05.49.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Apr 2020 05:49:52 -0700 (PDT)
-Subject: Re: [PATCH] ns: Fix time_for_children symlink
-To:     Christian Brauner <christian.brauner@ubuntu.com>,
-        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc:     Andrei Vagin <avagin@openvz.or>, Adrian Reber <adrian@lisas.de>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Andrei Vagin <avagin@gmail.com>, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, Dmitry Safonov <0x7f454c46@gmail.com>,
+        id S2404293AbgDCPmH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 3 Apr 2020 11:42:07 -0400
+Received: from mga06.intel.com ([134.134.136.31]:63660 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727927AbgDCPmH (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 3 Apr 2020 11:42:07 -0400
+IronPort-SDR: 9bfCzudLNj7uOORwNDviIt/Hb85RFrxUOY3StacdmABTB2FeqhMa9CL30RYs4RyQTyaStR6asA
+ +BlnNW5kmggA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2020 08:42:06 -0700
+IronPort-SDR: RJf5XcF3zEyRJ09/us8jp/H/8TQ45FeITNZoj6qmJvJZrpMyH+BeCLfEQNew/lqKhbG4wVGqnQ
+ bEFlq2iNEhbA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,340,1580803200"; 
+   d="scan'208";a="241150363"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by fmsmga007.fm.intel.com with ESMTP; 03 Apr 2020 08:42:06 -0700
+Message-ID: <0ddcfb2630456324203917b78297b00cf5111c9e.camel@intel.com>
+Subject: Re: [RFC PATCH v9 11/27] drm/i915/gvt: Change _PAGE_DIRTY to
+ _PAGE_DIRTY_BITS
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
         Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
         Cyrill Gorcunov <gorcunov@gmail.com>,
-        Containers <containers@lists.linux-foundation.org>,
-        stable <stable@vger.kernel.org>
-References: <a2418c48-ed80-3afe-116e-6611cb799557@gmail.com>
- <20200403123431.tsvj6alagg3ee356@wittgenstein>
-From:   Dmitry Safonov <dima@arista.com>
-Message-ID: <11460527-7d03-0966-508a-b67dc2bc8459@arista.com>
-Date:   Fri, 3 Apr 2020 13:49:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
+Cc:     Zhenyu Wang <zhenyuw@linux.intel.com>,
+        Zhi Wang <zhi.a.wang@intel.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>
+Date:   Fri, 03 Apr 2020 08:42:06 -0700
+In-Reply-To: <34c83f97-f206-1b43-db40-7e6a7d0f6bb7@intel.com>
+References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
+         <20200205181935.3712-12-yu-cheng.yu@intel.com>
+         <34c83f97-f206-1b43-db40-7e6a7d0f6bb7@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
 MIME-Version: 1.0
-In-Reply-To: <20200403123431.tsvj6alagg3ee356@wittgenstein>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 4/3/20 1:34 PM, Christian Brauner wrote:
-> On Fri, Apr 03, 2020 at 02:11:39PM +0200, Michael Kerrisk (man-pages) wrote:
->> Dmitry, Andrei,
->>
->> Looking at the contents of the /proc/PID/ns/time_for_children
->> symlink shows an anomaly:
->>
->> $ ls -l /proc/self/ns/* |awk '{print $9, $10, $11}'
->> ...
->> /proc/self/ns/pid -> pid:[4026531836]
->> /proc/self/ns/pid_for_children -> pid:[4026531836]
->> /proc/self/ns/time -> time:[4026531834]
->> /proc/self/ns/time_for_children -> time_for_children:[4026531834]
->> /proc/self/ns/user -> user:[4026531837]
->> ...
->>
->> The reference for 'time_for_children' should be a 'time' namespace,
->> just as the reference for 'pid_for_children' is a 'pid' namespace.
->> In other words, I think the above time_for_children link should read:
->>
->> /proc/self/ns/time_for_children -> time:[4026531834]
->>
->> If you agree with this patch, then it should be marked for
->> stable@vger.kernel.org.
->>
->> Signed-off-by: Michael Kerrisk <mtk.manpages@gmail.com>
+On Wed, 2020-02-26 at 14:04 -0800, Dave Hansen wrote:
+> On 2/5/20 10:19 AM, Yu-cheng Yu wrote:
+> > diff --git a/drivers/gpu/drm/i915/gvt/gtt.c b/drivers/gpu/drm/i915/gvt/gtt.c
+> > index 4b04af569c05..e467ca182633 100644
+> > --- a/drivers/gpu/drm/i915/gvt/gtt.c
+> > +++ b/drivers/gpu/drm/i915/gvt/gtt.c
+> > @@ -1201,7 +1201,7 @@ static int split_2MB_gtt_entry(struct intel_vgpu *vgpu,
+> >  	}
+> >  
+> >  	/* Clear dirty field. */
+> > -	se->val64 &= ~_PAGE_DIRTY;
+> > +	se->val64 &= ~_PAGE_DIRTY_BITS;
+> >  
+> >  	ops->clear_pse(se);
+> >  	ops->clear_ips(se);
 > 
-> Yeah, that just seems like an oversight.
+> Are the i915 maintainers on cc?
 > 
-> Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
+> Shouldn't this use pte_mkclean() instead of open-coding?
 
-Thanks,
+These functions look like a set of pte_* equivalent for the driver.  They all
+use the bits directly.  Add its maintainers to cc.
 
-Reviewed-by: Dmitry Safonov <dima@arista.com>
-Fixes: 769071ac9f20 ("ns: Introduce Time Namespace")
-+Cc: stable # v5.6
+Yu-cheng
 
--- 
-          Dmitry
