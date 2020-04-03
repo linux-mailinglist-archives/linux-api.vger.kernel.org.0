@@ -2,62 +2,59 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 34E0C19D67D
-	for <lists+linux-api@lfdr.de>; Fri,  3 Apr 2020 14:11:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25B1919D69A
+	for <lists+linux-api@lfdr.de>; Fri,  3 Apr 2020 14:21:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403876AbgDCMLp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 3 Apr 2020 08:11:45 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:33086 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2403859AbgDCMLp (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 3 Apr 2020 08:11:45 -0400
-Received: by mail-wr1-f67.google.com with SMTP id a25so8296118wrd.0;
-        Fri, 03 Apr 2020 05:11:43 -0700 (PDT)
+        id S1728179AbgDCMVd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 3 Apr 2020 08:21:33 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:55700 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728140AbgDCMVd (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 3 Apr 2020 08:21:33 -0400
+Received: by mail-wm1-f67.google.com with SMTP id r16so6934852wmg.5;
+        Fri, 03 Apr 2020 05:21:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=cc:to:from:subject:message-id:date:user-agent:mime-version
          :content-language:content-transfer-encoding;
-        bh=WQVTbDEDjFr4O1/Say+4s7vNmlllW/RrwEUKTO3oWa8=;
-        b=TP8Lye1ieaOT12W1mNC+gBP2C8/zdudJ0dgxpWpHbJ+mSWs/WMlXAkoGe6kEuwKcDS
-         Fy/qipHyfOTYH3XapK5yjVHr70F8Ap/IRCP0fwL4CKXAJwJ2UzHgQfqDoCkjfWhfFCmD
-         16JZhKhnDLhGTARKcDD709jkRT6w1KU4tkaamJU6bOyCmgzokDusLz+rfLbQwI72iz7p
-         G/dXOfBBiLVZTjyj2dy/jP1B+FVbzkWc15JozPNkODqWwCJu8idVk6qa/7/nwbCP385p
-         ba60yIRL8xi8HuYjMAVCjTySbinwg1or59ixFBUR9XveaMOOUFoEzB56O+72Caoph5fI
-         Mi0g==
+        bh=pz+2GbVjb9KdHFME6XAUsd5c1DpKsAH1YaZeJS1MvmE=;
+        b=hpzIRYGFb++lZENCrUbvHFdiroOdYsY9mV4gRGIhnHBXsFiXIBopSpyGuljTC3PQmc
+         CohhuNuA5Yg9BxpJwyxIcjbtcO9mSJEhFBUhrmDaLppb8UMer6TqCk39Aaz7uG+swy8D
+         FQSH2P9l/EoiVmXCAGzZ8VWl8HlE8WVGgqIjfdOVYfpFIgma6FktX6Slr8NO8i2ZLIUF
+         gs7NBlT4qvJHXV0TFK21kkeEX9byroOfE+EF/aYpdjDW9Ux+QxzlJmiKFpINIzCXvvb6
+         QRY8d4mvCLVnlP9RQt867r1Z/Ocl7fCRFZ062ksZ5h/wyRZ+Ne5cGO+y40zel1cnRiZW
+         O//g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:cc:to:from:subject:message-id:date:user-agent
          :mime-version:content-language:content-transfer-encoding;
-        bh=WQVTbDEDjFr4O1/Say+4s7vNmlllW/RrwEUKTO3oWa8=;
-        b=eTdB4lsPrlJdRf29s3lJZqjktTgJt1hJTbkQRSMe0cQ/iF3ADMCLfsiwF4dVgSbCkF
-         DL0nixz7p5jKQfTrJQ/CT/RJJMhEjEcoDeAIJpWcOVFgtowrDSq9+tEl49X1DJ4otcJ7
-         WglKh9txz3QCFhGNDksU9WDO7vWzBjeoc0D6/lSvyB0lWSDDIXU2p2Ib33sLND4elGXe
-         Eqq1p3Y3Iyli6heHR95WO7SDbgaqnDXjkfoDri+JbBQsB0O1oj6MMF9LkO0zxo6LgzM4
-         +VMpcCGACc+hF6Ae943hyMJbYcJfch+cW8/e/1uPF+ktInWwEIR0Ix7R3MuqE2Tp7tr/
-         jaXw==
-X-Gm-Message-State: AGi0PuZpNN1fcmubg3Btx7w37J8K5vQWK/h4zD+LH0szsLl72WCYzyZY
-        kJmWut5KYHneGNk1XMS4PHOkFJhz
-X-Google-Smtp-Source: APiQypKf7jEOtuElOnZb8aETb4jmcZ9jf8R5ft545q5pRetS8T3tqZmdVX6gJiFykqA8bMjea7SAsw==
-X-Received: by 2002:a5d:4d51:: with SMTP id a17mr8937558wru.317.1585915903067;
-        Fri, 03 Apr 2020 05:11:43 -0700 (PDT)
+        bh=pz+2GbVjb9KdHFME6XAUsd5c1DpKsAH1YaZeJS1MvmE=;
+        b=evcsp9+Vz/ZfbJNaHNu83d9UNadsxdCjcH1kurj6vuVi1R3R21MOKI7LUvfc53n51a
+         g66PkfKmcvrlY8KCf+QrtbDmWX/Ze2TPBHuVaMMfrn/+zz5PXMuIehwOl9PG9NjDyqqd
+         DZ9H3Bu5ROzOfcwjgpVPoDx/lWECAieFDz2cSCVln2UBL7JWvkJwKFvkuuIMIYoKWG7g
+         KgX9Nc02lG26xQC8lsLw2IrSih9zBVvNZoXaSOqhmSP3jxLf3/UtYf01AXCvXrNYffWl
+         /6Dl3OggWXQWEC3p/DH/myDzJzScJ/dQ+TMMKylTZX7jqxj6fwPnxzt1N0yQmC6PzYVx
+         +mKA==
+X-Gm-Message-State: AGi0PuY4727/s5/K8BpnFDVCcv1iU06ztgJ+cXnsT7UX4Vu3pXULUy+C
+        bG/uemDVVIt+nPU3/dJbKMg=
+X-Google-Smtp-Source: APiQypIr2dLhrgznSXeHhpOkDGwdwZcjxnqRiFB+cDbV6IxyngpslNTJOji6xwZ5m2oBgs3m5WYaoA==
+X-Received: by 2002:a7b:c002:: with SMTP id c2mr8390754wmb.123.1585916491070;
+        Fri, 03 Apr 2020 05:21:31 -0700 (PDT)
 Received: from ?IPv6:2001:a61:2482:101:3351:6160:8173:cc31? ([2001:a61:2482:101:3351:6160:8173:cc31])
-        by smtp.gmail.com with ESMTPSA id v186sm11229090wme.24.2020.04.03.05.11.40
+        by smtp.gmail.com with ESMTPSA id b5sm1656985wrs.16.2020.04.03.05.21.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Apr 2020 05:11:41 -0700 (PDT)
-Cc:     mtk.manpages@gmail.com, Adrian Reber <adrian@lisas.de>,
+        Fri, 03 Apr 2020 05:21:30 -0700 (PDT)
+Cc:     mtk.manpages@gmail.com,
         "Eric W. Biederman" <ebiederm@xmission.com>,
-        Andrei Vagin <avagin@gmail.com>, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, Dmitry Safonov <0x7f454c46@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Containers <containers@lists.linux-foundation.org>
-To:     Dmitry Safonov <dima@arista.com>, Andrei Vagin <avagin@openvz.or>
+        lkml <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Containers <containers@lists.linux-foundation.org>,
+        Adrian Reber <adrian@lisas.de>
+To:     Andrey Vagin <avagin@openvz.org>, Dmitry Safonov <dima@arista.com>
 From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: [PATCH] ns: Fix time_for_children symlink
-Message-ID: <a2418c48-ed80-3afe-116e-6611cb799557@gmail.com>
-Date:   Fri, 3 Apr 2020 14:11:39 +0200
+Subject: /proc/sys/user/max_time_namespaces?
+Message-ID: <0fbcb669-33a8-9730-f7fa-639707532611@gmail.com>
+Date:   Fri, 3 Apr 2020 14:21:27 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
@@ -69,49 +66,33 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Dmitry, Andrei,
+Dmitry, Andrei
 
-Looking at the contents of the /proc/PID/ns/time_for_children
-symlink shows an anomaly:
+[Andrei, I mistyped your openvz address in an email of a few minutes
+ago ("[PATCH] ns: Fix time_for_children symlink"). You were CCed
+on your gmail address though.]
 
-$ ls -l /proc/self/ns/* |awk '{print $9, $10, $11}'
-...
-/proc/self/ns/pid -> pid:[4026531836]
-/proc/self/ns/pid_for_children -> pid:[4026531836]
-/proc/self/ns/time -> time:[4026531834]
-/proc/self/ns/time_for_children -> time_for_children:[4026531834]
-/proc/self/ns/user -> user:[4026531837]
-...
+In the namespaces(7) manual page there is documentation for 
+these files:
 
-The reference for 'time_for_children' should be a 'time' namespace,
-just as the reference for 'pid_for_children' is a 'pid' namespace.
-In other words, I think the above time_for_children link should read:
+$ ls -1 /proc/sys/user/*namespaces
+/proc/sys/user/max_cgroup_namespaces
+/proc/sys/user/max_ipc_namespaces
+/proc/sys/user/max_mnt_namespaces
+/proc/sys/user/max_net_namespaces
+/proc/sys/user/max_pid_namespaces
+/proc/sys/user/max_user_namespaces
+/proc/sys/user/max_uts_namespaces
 
-/proc/self/ns/time_for_children -> time:[4026531834]
+These files allow one to limit on the number of namespaces
+of each type.
 
-If you agree with this patch, then it should be marked for
-stable@vger.kernel.org.
+However, there is no /proc/sys/user/max_time_namespaces file.
+Was this deliberate, or an oversight?
 
-Signed-off-by: Michael Kerrisk <mtk.manpages@gmail.com>
+Thanks,
 
----
- kernel/time/namespace.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/kernel/time/namespace.c b/kernel/time/namespace.c
-index e6ba064ce773..3b30288793fe 100644
---- a/kernel/time/namespace.c
-+++ b/kernel/time/namespace.c
-@@ -447,6 +447,7 @@ const struct proc_ns_operations timens_operations = {
- 
- const struct proc_ns_operations timens_for_children_operations = {
- 	.name		= "time_for_children",
-+	.real_ns_name	= "time",
- 	.type		= CLONE_NEWTIME,
- 	.get		= timens_for_children_get,
- 	.put		= timens_put,
--- 
-2.25.1
+Michael
 
 -- 
 Michael Kerrisk
