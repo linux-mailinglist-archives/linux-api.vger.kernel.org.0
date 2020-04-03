@@ -2,195 +2,189 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C43219CC2E
-	for <lists+linux-api@lfdr.de>; Thu,  2 Apr 2020 22:59:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E660A19D0B2
+	for <lists+linux-api@lfdr.de>; Fri,  3 Apr 2020 09:02:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388991AbgDBU7g (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 2 Apr 2020 16:59:36 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:35620 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730837AbgDBU7f (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 2 Apr 2020 16:59:35 -0400
-Received: by mail-pl1-f195.google.com with SMTP id c12so1819725plz.2;
-        Thu, 02 Apr 2020 13:59:35 -0700 (PDT)
+        id S2389429AbgDCHCT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 3 Apr 2020 03:02:19 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:33336 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389177AbgDCHCT (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 3 Apr 2020 03:02:19 -0400
+Received: by mail-wr1-f67.google.com with SMTP id a25so7235239wrd.0;
+        Fri, 03 Apr 2020 00:02:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=xiz/6HJMasAWNsKkYKq00dnOIXVpiuKViHO1DMPX3Zg=;
+        b=GUkPwzaJIqHf6RLgEXskzpsmx8udxuWbTIFUXOf9bF2pzOH11b2HHNaputhdeJ5i7p
+         +iPA3GVGkxsOtqiq53YFKQGPx6o2WzkEhVL4r/sISxYuwkBFgXJOXEDhmZwftpNL9yQV
+         aYCag7PWTpXlyTI6KMEicP/P+6IdIRMNBIKF5jviP5f/uCJ6dYrnxQKMb39kufjPCs3S
+         J0TzbJi/UE5HfpXjxdjb6LO9QuZw+o5RkzsMZTzWU242tP5b462BnD/lsS45+ICj0yUs
+         FJPFeu4tG7JseBle5/OhnFS8BCLIgOZ71Hf1B5EI1WgeSJJG/tcmwk3MEpvCE2vOny9G
+         A36Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=0E1gU86DMMmY3TlJlUrGFci/4+h2XPiJTo24Taxnmhk=;
-        b=hGWYuylquG1JcHqkKl3SuE8RzsSvOp6AxmWbJf0ApEz3IfY1yVEPWaOM3+PAX0Qimd
-         uxcezioRxTYyPol2qm6U21+8QtSggBQyqClGpbkx0ECh0Ana4Pspfa9dGU0nMcfkStgF
-         4wdISQWe1oH8Y22JjWipnKunrElhBWVE9LZwkgk4rO2VqvFhmlWJxLjtua7JtZgSpOOD
-         vd+KVehUbqp5ucL/5ko9iTAM39sW1K515dm/j2CIInkhfq3uZSpNvSqzDaZsPeeLY0wQ
-         C5l8yw+bRofBOgReVJ+3ZnekUKF2kJAqurCqcynCS1rZtesRMOWKswxGVVR0PzcsV+7h
-         WK/Q==
-X-Gm-Message-State: AGi0PuZweXGcAXZgWGmyXmNV6qRSNg/karrxyjTV4PRZstBcyDSeqypT
-        vfKMZtSYbOeO3fN9FG4wFIE=
-X-Google-Smtp-Source: APiQypKKENrG0wlOjGqKZJ5An1gkwndU6fVXfEAr9ac0JndRmthMNo4kt+ZCJgtgyWpgIS5PNL79jQ==
-X-Received: by 2002:a17:902:e788:: with SMTP id cp8mr4627731plb.343.1585861174587;
-        Thu, 02 Apr 2020 13:59:34 -0700 (PDT)
-Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
-        by smtp.gmail.com with ESMTPSA id x17sm396140pfm.55.2020.04.02.13.59.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Apr 2020 13:59:33 -0700 (PDT)
-Received: by 42.do-not-panic.com (Postfix, from userid 1000)
-        id 52AA940254; Thu,  2 Apr 2020 20:59:32 +0000 (UTC)
-Date:   Thu, 2 Apr 2020 20:59:32 +0000
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Vlastimil Babka <vbabka@suse.cz>,
-        Iurii Zaikin <yzaikin@google.com>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        "Guilherme G . Piccoli" <gpiccoli@canonical.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>
-Subject: Re: [PATCH 1/3] kernel/sysctl: support setting sysctl parameters
- from kernel command line
-Message-ID: <20200402205932.GM11244@42.do-not-panic.com>
-References: <20200330115535.3215-1-vbabka@suse.cz>
- <20200330115535.3215-2-vbabka@suse.cz>
- <20200330224422.GX11244@42.do-not-panic.com>
- <287ac6ae-a898-3e68-c7d8-4c1d17a40db9@suse.cz>
- <20200402160442.GA11244@42.do-not-panic.com>
- <202004021017.3A23B759@keescook>
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=xiz/6HJMasAWNsKkYKq00dnOIXVpiuKViHO1DMPX3Zg=;
+        b=PUEIYyCO+FVjRm9jpjBZjYig/vO41MVOX/s+qtMFTGtjCYakImdYhWsZDJK9imzNzL
+         F1LLokOfqv/VqKxbXdtHjr1E2ti3xXi9v9qlwzPZ+6K3kkYozrSGAb0cHyb7drzenf5Z
+         QYT4XzTxriDhk9pdFL6ZXMX21yEBFp7NF8ioLFchoZ/VELQrk4Z7Ui7m/2gqo7JguXa9
+         2Q2EUezPSZC8j7UTfl+2j69N99ZhRNSRs3BqdqQ3XPqemKtv6Mhyyk0ZRGf3ktZscpfx
+         ePt2+jkw5Jv1EeUhnN9Ufg92hY502yL5bXfEKJQP6TMfis4DjLwNo26aVsrQzuWRs0aI
+         RZnw==
+X-Gm-Message-State: AGi0PuZf4OD8IkFG1dFU5nKq7wXImMBFEzR69pDtX1iB/kuFKIQhb+rd
+        qN1JLYymqin3is8+o3JXCvKyJU0P
+X-Google-Smtp-Source: APiQypKCPcCG7/fjGTqNwVkfSBThYJqHxqbDbQXpZiEg8ahhjpuyZtJIuyh/EVNowqC2sJ2Rgye56w==
+X-Received: by 2002:adf:aacf:: with SMTP id i15mr7112366wrc.31.1585897335219;
+        Fri, 03 Apr 2020 00:02:15 -0700 (PDT)
+Received: from ?IPv6:2001:a61:2482:101:3351:6160:8173:cc31? ([2001:a61:2482:101:3351:6160:8173:cc31])
+        by smtp.gmail.com with ESMTPSA id d13sm11153452wrq.11.2020.04.03.00.02.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 03 Apr 2020 00:02:14 -0700 (PDT)
+Cc:     mtk.manpages@gmail.com, Eric Rannaud <e@nanocritical.com>,
+        linux-man <linux-man@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [PATCH 1/1] clock_getres.2: dynamic POSIX clock devices can
+ return other errors
+To:     Eric Rannaud <eric.rannaud@gmail.com>
+References: <CAKgNAkiTYY3mrdsWypX22WCczVK9GDsOO-Vq58go_b2=719=FA@mail.gmail.com>
+ <ce049b034919c4a09629c2e7bec574af133fb064.1585837173.git.e@nanocritical.com>
+ <CA+zRj8XYLpa_gep+VxUfQuqeKu+=thMit-jNv1soC8Mh5H43Ug@mail.gmail.com>
+ <CAKgNAkipcX47quv23SACeorSexO00nUAJR3QSTA3bFNMresE4Q@mail.gmail.com>
+ <CA+zRj8XzqV19Z9KcyO+_V2Nkt4fgwK7QbP01GE5EL=g_xHf8Xw@mail.gmail.com>
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Message-ID: <cb4c685b-6c5d-9c16-aade-0c95e57de4b9@gmail.com>
+Date:   Fri, 3 Apr 2020 09:02:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202004021017.3A23B759@keescook>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CA+zRj8XzqV19Z9KcyO+_V2Nkt4fgwK7QbP01GE5EL=g_xHf8Xw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Apr 02, 2020 at 10:23:13AM -0700, Kees Cook wrote:
-> On Thu, Apr 02, 2020 at 04:04:42PM +0000, Luis Chamberlain wrote:
-> > On Wed, Apr 01, 2020 at 01:01:47PM +0200, Vlastimil Babka wrote:
-> > > On 3/31/20 12:44 AM, Luis Chamberlain wrote:
-> > > >> +	} else if (wret != len) {
-> > > >> +		pr_err("Wrote only %ld bytes of %d writing to proc file %s to set sysctl parameter '%s=%s'",
-> > > >> +			wret, len, path, param, val);
-> > > >> +	}
-> > > >> +
-> > > >> +	err = filp_close(file, NULL);
-> > > >> +	if (err)
-> > > >> +		pr_err("Error %pe closing proc file to set sysctl parameter '%s=%s'",
-> > > >> +			ERR_PTR(err), param, val);
-> > > >> +out:
-> > > >> +	kfree(path);
-> > > >> +	return 0;
-> > > >> +}
-> > > >> +
-> > > >> +void do_sysctl_args(void)
-> > > >> +{
-> > > >> +	char *command_line;
-> > > >> +	struct vfsmount *proc_mnt = NULL;
-> > > >> +
-> > > >> +	command_line = kstrdup(saved_command_line, GFP_KERNEL);
-> > > > 
-> > > > can you use kstrndup() ? And then use kfree_const()? Yes, feel free to
-> > > 
-> > > I don't follow, what am I missing? Do you mean this?
-> > > 
-> > > size_t len = strlen(saved_command_line);
-> > > command_line = kstrndup(saved_command_line, len, GFP_KERNEL);
-> > > 
-> > > What would be the advantage over plain kstrdup()?
-> > > As for kfree_const(), when would command_line be .rodata? I don't see using
-> > > kstrndup() resulting in that.
-> > 
-> > The const nature of using kstrdup() comes with using const for your
-> > purpose. ie:
-> > 
-> > const char *const_command_line = saved_command_line;
-> > 
-> > The point of a kstrncpy() then is to ensure force a const throughout
-> > your use if you know you don't need modifications.
+Hell Éric
+
+On 4/2/20 10:49 PM, Eric Rannaud wrote:
+> On Thu, Apr 2, 2020 at 1:19 PM Michael Kerrisk (man-pages)
+> <mtk.manpages@gmail.com> wrote:
+>>> There is documentation in:
+>>> - include/linux/posix-clock.h
+>>> - Documentation/driver-api/ptp.rst (explicitly states that EOPNOTSUPP
+>>> should be returned)
+>>
+>> (Is this a reference to the tack that I tweaked your patch to change
+>> EOPNOTSUPP to ENOTSUP?)
 > 
-> I'm not following this suggestion. It _is_ modifying it. That's why it's
-> making a copy. What am I missing?
-
-We modify the copied bootparams to allow new sysctls to map to old boot params?
-
-If so, then yes, this cannot be used.
-
-> > > >> +	parse_args("Setting sysctl args", command_line,
-> > > >> +		   NULL, 0, -1, -1, &proc_mnt, process_sysctl_arg);
-> > > >> +
-> > > >> +	if (proc_mnt)
-> > > >> +		kern_unmount(proc_mnt);
-> > > >> +
-> > > >> +	kfree(command_line);
-> > > >> +}
-> > > > 
-> > > > Then, can we get this tested as part of lib/test_sysctl.c with its
-> > > > respective tools/testing/selftests/sysctl/sysctl.sh ?
-> > > 
-> > > Hmm so I add some sysctl to the test "module" (in fact the 'config' file says it
-> > > should be build with 'y', which would be needed anyway) and expand the test
-> > > instructions so that the test kernel boot has to include it on the command line,
-> > > and then I verify it has been set? Or do you see a better way?
-> > 
-> > We don't necessarily have a way to test the use boot params today.
-> > That reveals an are which we should eventually put some focus on
-> > in the future. In the meantime we have to deal with what we have.
-> > 
-> > So let's think about this:
-> > 
-> > You are adding a new cmdline sysctl boot param, and also a wrapper
-> > for those old boot bootparams to also work using both new sysctl
-> > path and old path. Testing just these both should suffice.
-> > 
-> > How about this:
-> > 
-> > For testing the new feature you are adding, can you extend the default
-> > boot params *always* if a new CONFIG_TEST_SYSCTL_CMDLINE is set? Then
-> > upon boot we can verify the proc handlers for these new boot params got
-> > kicked, and likewise some other proc handlers which also can be used
-> > from the cmdline are *not* set. For this later set, we already have
-> > a series of test syctls you can use. In fact, you can use the existing
-> > syctls for both cases already I believe, its just a matter of adding
-> > this new CONFIG_TEST_SYSCTL_CMDLINE which would extend the cmdline,
-> > and these tests would take place *first* on the script.
+> Oh not at all, I hadn't noticed your patch. I just wrote that sentence
+> to point to ptp.rst as a spec of sorts for that particular behavior
+> addressed by this patch.
 > 
-> This seems... messy.
+> I never know which one to use of EOPNOTSUPP or ENOTSUP since they have
+> the same value (in userspace) but POSIX.1 says they shouldn't.
+ 
+I think you are looking at an older version of POSIX (when what you 
+say was true). In the POSIX.1-2008/SUSv4 specification of <errno.h>, 
+we have:
+[[
+[ENOTSUP] Not supported (may be the same value as [EOPNOTSUPP]).
+EOPNOTSUPP] Operation not supported on socket (may be the same value as
+[ENOTSUP]).
+]]
 
-It is all we have.
+> suppose for man2 it makes sense to pick one, whereas man3p has to make
+> the distinction.
 
+It's a mess of course. It looks like the usual reason: BSD vs
+other historical implementations. BSD invented EOPNOTSUPP for
+the sockets API (and you see this reflected in POSIX.1). Other
+implementations (presumably System V) had ENOTSUP (which
+is what appears in POSIX.1 for timer_create() and
+clock_nanosleep()).
 
-> I'm all for testing this,
+> For what it's worth, man2/ has 29 mentions of EOPNOTSUPP (value of 95
+> on x86) and 8 mentions of ENOTSUP (with a value 524).
 
-OK so we do want to test it.
+> In the kernel sources, it's 6324 vs 1512. But note that in kernel
+> code, EOPNOTSUPP has a value of 95 (on x86 anyway, it is arch
+> dependent), whereas ENOTSUP is 524. Glibc is the one that defines
+> ENOTSUP to EOPNOTSUPP.
 
-> but I'd rather this not be internally driven.
+Actually, there are 0 mentions of ENOTSUP in the kernel
+(other than in tools and samples). The constant that appears
+in the kernel is one called ENOTSUPP (2 P's) defined as 524 
+in include/linux/errno.h !! Yikes! What a mess!
 
-This is the least cumbersome solution I could think of. Other things
-would require things like using qemu, etc. That seems much more messsy.
+And then EOPNOTSUPP defined with value 95 in the kernel file
+include/uapi/asm-generic/errno.h (and with some architecture
+variations as you note).
 
-> This is an external interface (boot params), so
-> I'd rather an external driver handle that testing. We don't have a
-> common method to do that with the kernel, though.
+And then in glibc sysdeps/unix/sysv/linux/bits/errno.h:
 
-Right... which begs the question now -- how do we test this sort of
-stuff? The above would at least get us coverage while we iron something
-more generic out for boot params.
+[[
+/* Older Linux headers do not define these constants.  */
+# ifndef ENOTSUP
+#  define ENOTSUP               EOPNOTSUPP
+# endif
+]]
 
-> > That would test both cases with one kernel.
-> > 
-> > You could then also add a bogus new sysctl which also expands to a silly
-> > raw boot param to test the wrapper you are providing. That would be the
-> > only new test syctl you would need to add.
+And in glibc EOPNOTSUPP is 95
+
+> So if we had to pick one for man2/ (and man7), I'd argue for
+> EOPNOTSUPP, for consistency with kernel code, now that I look at it in
+> more details.
+
+I'm not sure we do need to pick one here. See POSIX, which uses
+both. 
+
+And see the definition of EOPNOTSUPP in POSIX. Arguably,
+it is only for sockets, and everything else should be ENOTSUP.
+(And for the most part, that's how things are done in the 
+POSIX specifications of the APIs.)
+
+In summary, I'm going to do nothing :-}. I checked
+* the time/clock man pages; they use ENOTSUP (consistent with 
+  POSIX)
+* the pthreads man pages; they use ENOTSUP (consistent with POSIX)
+* the sockets APIs man pages; they use EOPNOTSUPP (consistent 
+  with POSIX)
+
+The rest of the pages are a mixed bag (mostly not specified in
+POSIX), and I don;t think there's any really clear fix.
+
+>>> - include/uapi/linux/ptp_clock.h
+>>
+>> ... it's a bit of a stretch to call any of those documentation, since
+>> they don't really describe the concept of a dynamic POSIX clock
+>> device.
+>>
+>>>
+>>> (IEEE 1588 PTP is the canonical user of these dynamic clock devices)
+>>>
+>>> Would you want to refer to any of these from the man page?
+>>
+>> See above. I would be happy to add a 2 or 3 sentence note to the page
+>> that briefly describes the concept of a POSIX clock. Would you be able
+>> to come up with something?
 > 
-> Sure, that seems reasonable. Supporting externally driven testing makes
-> sense for this.
+> I'll try, but I've never used them, so I'm not convinced I can capture
+> the concept clearly.
 
-But again, what exactly?
+Its okay -- don't feel any obligation here. You already contributed!
 
-  Luis
+Cheers,
+
+Michael
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
