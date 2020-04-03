@@ -2,144 +2,212 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 27C2119DD8F
-	for <lists+linux-api@lfdr.de>; Fri,  3 Apr 2020 20:07:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92CDC19E1AC
+	for <lists+linux-api@lfdr.de>; Sat,  4 Apr 2020 01:57:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404535AbgDCSHh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 3 Apr 2020 14:07:37 -0400
-Received: from raptor.unsafe.ru ([5.9.43.93]:38090 "EHLO raptor.unsafe.ru"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2404439AbgDCSHf (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 3 Apr 2020 14:07:35 -0400
-Received: from comp-core-i7-2640m-0182e6.redhat.com (ip-89-102-33-211.net.upcbroadband.cz [89.102.33.211])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by raptor.unsafe.ru (Postfix) with ESMTPSA id 9B8F6209DC;
-        Fri,  3 Apr 2020 18:07:30 +0000 (UTC)
-From:   Alexey Gladkov <gladkov.alexey@gmail.com>
-To:     LKML <linux-kernel@vger.kernel.org>
-Cc:     Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Linux Security Module <linux-security-module@vger.kernel.org>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Alexey Gladkov <legion@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Daniel Micay <danielmicay@gmail.com>,
-        Djalal Harouni <tixxdz@gmail.com>,
-        "Dmitry V . Levin" <ldv@altlinux.org>,
+        id S1726314AbgDCX5z (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 3 Apr 2020 19:57:55 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:42066 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726060AbgDCX5z (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 3 Apr 2020 19:57:55 -0400
+Received: by mail-pg1-f194.google.com with SMTP id g6so2415292pgs.9
+        for <linux-api@vger.kernel.org>; Fri, 03 Apr 2020 16:57:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=UPVAT2L8fukLZnuc3+5vueRjOJrPf8klG/eXO9o8hxw=;
+        b=QEtE6aolufF+32AwcMQjO4gb9bIL99mZp48e8c01C1msnBx3pQym12/IQ+LgE/ux3F
+         CVcMLTu06BWrANlH++15E5ZtzRpx/dHJ2ATqpFT+gejRbnrdSa0e/lZedv2fq2fc1xWF
+         p6HKmiz+g/AW2y250AEiEIm0nKlW0sXeqbLuM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=UPVAT2L8fukLZnuc3+5vueRjOJrPf8klG/eXO9o8hxw=;
+        b=uNYWMtUeqls1Cuol5flPX6RBO8Nenr5uitVU4kGhk8tXiYUTcsPhIFzmcbp8t+YKyl
+         shvvaLJ0OMpKWdrCxLrglg/PEDBCHZzjQ9OzX/JhHw3DBfgrSyK4f5428jyOsvFqYcCZ
+         y4h0azfQiD3jOS4ITLFzPl1QsXxk6jbwDnklX8/zcHeml7gdUI15GOWe+Fczccshu3mL
+         HxtJu/qLl9R2Hs6j15Vt3Ef2b9Vxzxbz2bO1/pgh/t+xHRtlidOIwM+T0E4oKDSG12wP
+         h65wvmoCBy/qIBFF3iDiW1ZSa72ZTCq66cVq3Yaf8cb3icn2f6jqBOrnbPnDwZ8dU1Nw
+         xKAQ==
+X-Gm-Message-State: AGi0PuZOBIwwab5x35lcoyG0h6DLPWtHVngmhcGT2wjOjczjbXqjzHri
+        JVqEM3Izm+qRAnDR3D0WO4Jdag==
+X-Google-Smtp-Source: APiQypLaamdlVDp6BoXHF0qVh4WK6KwXWUcTKrfXP1OuIDxH+nfTux9xP69euEIaJLF5YWHtAAFDRg==
+X-Received: by 2002:a63:ce4a:: with SMTP id r10mr10771972pgi.225.1585958273804;
+        Fri, 03 Apr 2020 16:57:53 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id y131sm6528000pfb.78.2020.04.03.16.57.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Apr 2020 16:57:52 -0700 (PDT)
+Date:   Fri, 3 Apr 2020 16:57:51 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     Vlastimil Babka <vbabka@suse.cz>,
+        Iurii Zaikin <yzaikin@google.com>,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-mm@kvack.org, Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
         "Eric W . Biederman" <ebiederm@xmission.com>,
+        "Guilherme G . Piccoli" <gpiccoli@canonical.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Jeff Layton <jlayton@poochiereds.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        David Howells <dhowells@redhat.com>
-Subject: [PATCH v11 8/8] proc: use named enums for better readability
-Date:   Fri,  3 Apr 2020 20:06:48 +0200
-Message-Id: <20200403180648.721362-9-gladkov.alexey@gmail.com>
-X-Mailer: git-send-email 2.25.2
-In-Reply-To: <20200403180648.721362-1-gladkov.alexey@gmail.com>
-References: <20200403180648.721362-1-gladkov.alexey@gmail.com>
+        Christian Brauner <christian.brauner@ubuntu.com>
+Subject: Re: [PATCH 1/3] kernel/sysctl: support setting sysctl parameters
+ from kernel command line
+Message-ID: <202004031654.C4389A04EF@keescook>
+References: <20200330115535.3215-1-vbabka@suse.cz>
+ <20200330115535.3215-2-vbabka@suse.cz>
+ <20200330224422.GX11244@42.do-not-panic.com>
+ <287ac6ae-a898-3e68-c7d8-4c1d17a40db9@suse.cz>
+ <20200402160442.GA11244@42.do-not-panic.com>
+ <202004021017.3A23B759@keescook>
+ <20200402205932.GM11244@42.do-not-panic.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.6.1 (raptor.unsafe.ru [5.9.43.93]); Fri, 03 Apr 2020 18:07:31 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200402205932.GM11244@42.do-not-panic.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Signed-off-by: Alexey Gladkov <gladkov.alexey@gmail.com>
-Reviewed-by: Alexey Dobriyan <adobriyan@gmail.com>
-Reviewed-by: Kees Cook <keescook@chromium.org>
----
- fs/proc/base.c          | 2 +-
- fs/proc/inode.c         | 2 +-
- fs/proc/root.c          | 4 ++--
- include/linux/proc_fs.h | 8 ++++----
- 4 files changed, 8 insertions(+), 8 deletions(-)
+On Thu, Apr 02, 2020 at 08:59:32PM +0000, Luis Chamberlain wrote:
+> On Thu, Apr 02, 2020 at 10:23:13AM -0700, Kees Cook wrote:
+> > On Thu, Apr 02, 2020 at 04:04:42PM +0000, Luis Chamberlain wrote:
+> > > On Wed, Apr 01, 2020 at 01:01:47PM +0200, Vlastimil Babka wrote:
+> > > > On 3/31/20 12:44 AM, Luis Chamberlain wrote:
+> > > > >> +	} else if (wret != len) {
+> > > > >> +		pr_err("Wrote only %ld bytes of %d writing to proc file %s to set sysctl parameter '%s=%s'",
+> > > > >> +			wret, len, path, param, val);
+> > > > >> +	}
+> > > > >> +
+> > > > >> +	err = filp_close(file, NULL);
+> > > > >> +	if (err)
+> > > > >> +		pr_err("Error %pe closing proc file to set sysctl parameter '%s=%s'",
+> > > > >> +			ERR_PTR(err), param, val);
+> > > > >> +out:
+> > > > >> +	kfree(path);
+> > > > >> +	return 0;
+> > > > >> +}
+> > > > >> +
+> > > > >> +void do_sysctl_args(void)
+> > > > >> +{
+> > > > >> +	char *command_line;
+> > > > >> +	struct vfsmount *proc_mnt = NULL;
+> > > > >> +
+> > > > >> +	command_line = kstrdup(saved_command_line, GFP_KERNEL);
+> > > > > 
+> > > > > can you use kstrndup() ? And then use kfree_const()? Yes, feel free to
+> > > > 
+> > > > I don't follow, what am I missing? Do you mean this?
+> > > > 
+> > > > size_t len = strlen(saved_command_line);
+> > > > command_line = kstrndup(saved_command_line, len, GFP_KERNEL);
+> > > > 
+> > > > What would be the advantage over plain kstrdup()?
+> > > > As for kfree_const(), when would command_line be .rodata? I don't see using
+> > > > kstrndup() resulting in that.
+> > > 
+> > > The const nature of using kstrdup() comes with using const for your
+> > > purpose. ie:
+> > > 
+> > > const char *const_command_line = saved_command_line;
+> > > 
+> > > The point of a kstrncpy() then is to ensure force a const throughout
+> > > your use if you know you don't need modifications.
+> > 
+> > I'm not following this suggestion. It _is_ modifying it. That's why it's
+> > making a copy. What am I missing?
+> 
+> We modify the copied bootparams to allow new sysctls to map to old boot params?
+> 
+> If so, then yes, this cannot be used.
 
-diff --git a/fs/proc/base.c b/fs/proc/base.c
-index 1ebe9eba48ea..2f2f7b36c947 100644
---- a/fs/proc/base.c
-+++ b/fs/proc/base.c
-@@ -699,7 +699,7 @@ int proc_setattr(struct dentry *dentry, struct iattr *attr)
-  */
- static bool has_pid_permissions(struct proc_fs_info *fs_info,
- 				 struct task_struct *task,
--				 int hide_pid_min)
-+				 enum proc_hidepid hide_pid_min)
- {
- 	/*
- 	 * If 'hidpid' mount option is set force a ptrace check,
-diff --git a/fs/proc/inode.c b/fs/proc/inode.c
-index d38a9e592352..8f3681723108 100644
---- a/fs/proc/inode.c
-+++ b/fs/proc/inode.c
-@@ -166,7 +166,7 @@ void proc_invalidate_siblings_dcache(struct hlist_head *inodes, spinlock_t *lock
- 		deactivate_super(old_sb);
- }
- 
--static inline const char *hidepid2str(int v)
-+static inline const char *hidepid2str(enum proc_hidepid v)
- {
- 	switch (v) {
- 		case HIDEPID_OFF: return "off";
-diff --git a/fs/proc/root.c b/fs/proc/root.c
-index c6caae9e4308..9d6ce3710f4f 100644
---- a/fs/proc/root.c
-+++ b/fs/proc/root.c
-@@ -32,9 +32,9 @@
- struct proc_fs_context {
- 	struct proc_fs_info	*fs_info;
- 	unsigned int		mask;
--	int			hidepid;
-+	enum proc_hidepid	hidepid;
- 	int			gid;
--	int			pidonly;
-+	enum proc_pidonly	pidonly;
- };
- 
- enum proc_param {
-diff --git a/include/linux/proc_fs.h b/include/linux/proc_fs.h
-index afd38cae2339..3701f49eb299 100644
---- a/include/linux/proc_fs.h
-+++ b/include/linux/proc_fs.h
-@@ -28,7 +28,7 @@ struct proc_ops {
- };
- 
- /* definitions for hide_pid field */
--enum {
-+enum proc_hidepid {
- 	HIDEPID_OFF	  = 0,
- 	HIDEPID_NO_ACCESS = 1,
- 	HIDEPID_INVISIBLE = 2,
-@@ -36,7 +36,7 @@ enum {
- };
- 
- /* definitions for proc mount option pidonly */
--enum {
-+enum proc_pidonly {
- 	PROC_PIDONLY_OFF = 0,
- 	PROC_PIDONLY_ON  = 1,
- };
-@@ -46,8 +46,8 @@ struct proc_fs_info {
- 	struct dentry *proc_self;        /* For /proc/self */
- 	struct dentry *proc_thread_self; /* For /proc/thread-self */
- 	kgid_t pid_gid;
--	int hide_pid;
--	int pidonly;
-+	enum proc_hidepid hide_pid;
-+	enum proc_pidonly pidonly;
- };
- 
- static inline struct proc_fs_info *proc_sb_info(struct super_block *sb)
+I feel like I've lost track of this thread. This strdup is so that the
+command line can have '\0's injected while it steps through the args
+(and for doing the . and / replacement). I don't know what you mean by
+"map" here: this is standard parse_args() usage.
+
+> > > > >> +	parse_args("Setting sysctl args", command_line,
+> > > > >> +		   NULL, 0, -1, -1, &proc_mnt, process_sysctl_arg);
+> > > > >> +
+> > > > >> +	if (proc_mnt)
+> > > > >> +		kern_unmount(proc_mnt);
+> > > > >> +
+> > > > >> +	kfree(command_line);
+> > > > >> +}
+> > > > > 
+> > > > > Then, can we get this tested as part of lib/test_sysctl.c with its
+> > > > > respective tools/testing/selftests/sysctl/sysctl.sh ?
+> > > > 
+> > > > Hmm so I add some sysctl to the test "module" (in fact the 'config' file says it
+> > > > should be build with 'y', which would be needed anyway) and expand the test
+> > > > instructions so that the test kernel boot has to include it on the command line,
+> > > > and then I verify it has been set? Or do you see a better way?
+> > > 
+> > > We don't necessarily have a way to test the use boot params today.
+> > > That reveals an are which we should eventually put some focus on
+> > > in the future. In the meantime we have to deal with what we have.
+> > > 
+> > > So let's think about this:
+> > > 
+> > > You are adding a new cmdline sysctl boot param, and also a wrapper
+> > > for those old boot bootparams to also work using both new sysctl
+> > > path and old path. Testing just these both should suffice.
+> > > 
+> > > How about this:
+> > > 
+> > > For testing the new feature you are adding, can you extend the default
+> > > boot params *always* if a new CONFIG_TEST_SYSCTL_CMDLINE is set? Then
+> > > upon boot we can verify the proc handlers for these new boot params got
+> > > kicked, and likewise some other proc handlers which also can be used
+> > > from the cmdline are *not* set. For this later set, we already have
+> > > a series of test syctls you can use. In fact, you can use the existing
+> > > syctls for both cases already I believe, its just a matter of adding
+> > > this new CONFIG_TEST_SYSCTL_CMDLINE which would extend the cmdline,
+> > > and these tests would take place *first* on the script.
+> > 
+> > This seems... messy.
+> 
+> It is all we have.
+> > I'm all for testing this,
+> 
+> OK so we do want to test it.
+> 
+> > but I'd rather this not be internally driven.
+> 
+> This is the least cumbersome solution I could think of. Other things
+> would require things like using qemu, etc. That seems much more messsy.
+
+Yes. Doing an internal extension isn't testing the actual code.
+
+> 
+> > This is an external interface (boot params), so
+> > I'd rather an external driver handle that testing. We don't have a
+> > common method to do that with the kernel, though.
+> 
+> Right... which begs the question now -- how do we test this sort of
+> stuff? The above would at least get us coverage while we iron something
+> more generic out for boot params.
+> 
+> > > That would test both cases with one kernel.
+> > > 
+> > > You could then also add a bogus new sysctl which also expands to a silly
+> > > raw boot param to test the wrapper you are providing. That would be the
+> > > only new test syctl you would need to add.
+> > 
+> > Sure, that seems reasonable. Supporting externally driven testing makes
+> > sense for this.
+> 
+> But again, what exactly?
+
+I don't think anything is needed for this series. It can be boot tested
+manually.
+
 -- 
-2.25.2
-
+Kees Cook
