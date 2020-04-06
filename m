@@ -2,134 +2,107 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A43619FB24
-	for <lists+linux-api@lfdr.de>; Mon,  6 Apr 2020 19:14:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45BE819FB33
+	for <lists+linux-api@lfdr.de>; Mon,  6 Apr 2020 19:18:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726575AbgDFRNv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 6 Apr 2020 13:13:51 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:33602 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726551AbgDFRNu (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Apr 2020 13:13:50 -0400
-Received: by mail-pg1-f196.google.com with SMTP id d17so268474pgo.0
-        for <linux-api@vger.kernel.org>; Mon, 06 Apr 2020 10:13:49 -0700 (PDT)
+        id S1727522AbgDFRSq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 6 Apr 2020 13:18:46 -0400
+Received: from mail-pg1-f173.google.com ([209.85.215.173]:43315 "EHLO
+        mail-pg1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726491AbgDFRSq (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Apr 2020 13:18:46 -0400
+Received: by mail-pg1-f173.google.com with SMTP id s4so252856pgk.10
+        for <linux-api@vger.kernel.org>; Mon, 06 Apr 2020 10:18:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=arista.com; s=googlenew;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=OGJACKQu1bguU+JASnr0st35ZbPyO/prVOsR97eFOTY=;
-        b=C1p+CAcageRdS3KC99Y6ETnCxpN2z/k+fLn/ubFK9Kt38T7Baow42EI4AsMzxu+vgo
-         7tQHAk7hzJuN/3qb0+oA3J3t07BCG+6Z1dc1p85nA5BxxOTNaNEB+OJGL6NS4zppBpUO
-         I3aX3NGKydV1auY4P1etSTH9E1EsEyNaO2soSJVEU5qOCOLwXNyHXq0q2swc2pkdb2Sk
-         WN9yUPDlI8trMZL8Cxm/5HGD1GddFpBAflz2A2ereTcSL36bYUr7TNWkGsS/reBXansp
-         Sq85cpjt0zClcPaYNS3NspAtBR6mb2JCWds+9/jAR3K4zw0+CQkxFPqYn5XBjTiR1IWQ
-         huiA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=jQ7wuQYMHaQVCn9LchHaEkgqYpnoZVng6rOoAsTh9Cc=;
+        b=ZKEhpMG/upRDhp3GHIZt5gCyoWSvcY+BsBj1x5wDuZuOKR6vBd2aOjI9rvXWFSXI8q
+         +rBm2wiDSx9zbQSu1OGSIZXoHq+QjaylFSu8+mJlsfl7SL+NbqAnbWOkE8y8aQtceW8c
+         CR3WgK9H7jvA+R7F9dQneLneOv4eEjeXPN0Vad/BXtKP/xqz7pVyP72FY6Yro2RZAs9d
+         4VZ7gZM5jlwTH23AXISqGU9cCFgoNMZcR6GHAb5Kb2fLmMUBvtWer7PDsDyrvrDrEi+T
+         je9ihQEtHmJzAge/j9G2QHymxcqenuJYuVgpDI7MVNl9mjrYPg5aqe0SpL3dA2aLLln1
+         0Aig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=OGJACKQu1bguU+JASnr0st35ZbPyO/prVOsR97eFOTY=;
-        b=oUbjrZXqHVedhPCicBQCv9uqkkXvc+Iie70tCfFJR9Un1KxiHgx11F1Vxeb0o8QB0Z
-         /fHtYQ/4w8mmZhwkRny3/fEJaP2MU7sdxDJytyxZx+9g2usCF3NMXk+RKDcBMw198nA7
-         niQdmytp4KzLrDbfICiQ+hvbX3NULldkCbiRbwKlLNlBL3IFYFMpHiGGhFar0kZPHW+l
-         tCjSJU6vtQD0Ff30CnOboR0ogPqaU0HFVBwDSdke29z3h9KigVVoVn2nCvTcPPioTMJb
-         AcTc8L0ZjadDNn4H8exmzkkPyxqa/4VoqZb/z0y1ub3iztreUKypEOUBynIrCRQKu849
-         MwUA==
-X-Gm-Message-State: AGi0Pua/isUSmcmwXesflZZ872Tpz0BlHbqy94TtRFIVwqcF04aREIj7
-        kFOSrYb0TVk8u/xWkCUk/U+0KQ==
-X-Google-Smtp-Source: APiQypKr3FJFeibyVamzRtJrpO32ZJnhX5YwVwWHy43COBXcQIeCyc45/KaSQgwsCSBC5hhs6UghaA==
-X-Received: by 2002:a62:dd09:: with SMTP id w9mr424374pff.311.1586193229108;
-        Mon, 06 Apr 2020 10:13:49 -0700 (PDT)
-Received: from Mindolluin.aristanetworks.com ([2a02:8084:e84:2480:228:f8ff:fe6f:83a8])
-        by smtp.gmail.com with ESMTPSA id w29sm11219224pge.25.2020.04.06.10.13.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Apr 2020 10:13:48 -0700 (PDT)
-From:   Dmitry Safonov <dima@arista.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Dmitry Safonov <0x7f454c46@gmail.com>,
-        Dmitry Safonov <dima@arista.com>,
-        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
-        Adrian Reber <adrian@lisas.de>,
-        Andrey Vagin <avagin@openvz.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        bh=jQ7wuQYMHaQVCn9LchHaEkgqYpnoZVng6rOoAsTh9Cc=;
+        b=DrBKvT50xfDATqZwHn6YlHMiPLtI/fvvDMLCm90O43QJRhIvE3pkfv+JEU1UgCAIu3
+         gc7HPJCBoERI2eXTJlpBKtRP0blF6A6eQvao+7dIb3iTSHZhq9N7keofiG1aP6szze53
+         hUxt4ei4Y9c1ipLSSYpU2Dgxb4UWQ1Ddrpv3uw00M0aAkX7acBv3eDK1Uwe+vxGzuUVJ
+         F66OxFmVPxawSbj0bIfkFLOUxn/BsrafluBwNX/1yESqZU246VmLXpsh7shvA08dunEw
+         h2IuAueCamseoyfDXRAYk/WWG4JmkX5LpJOkUnulyx37JAMvqUbGmpxxk/Gq6zrtofZ4
+         hkbg==
+X-Gm-Message-State: AGi0PuYB8KXDkn7d3vzuIlSG/MIR3POGyN54Oo8f/1Gp32eee9THpIcJ
+        XfSOGSf1sBpmyPGnEA2VWGPsBJU9RJA=
+X-Google-Smtp-Source: APiQypK1JZ1nn/eL3UlA6iCL0x97ec19UzaTBAGbpW5pRjNVVRRI4p+QVV+ElIpmuLGiI9Fakj+gjA==
+X-Received: by 2002:aa7:8750:: with SMTP id g16mr461126pfo.83.1586193524779;
+        Mon, 06 Apr 2020 10:18:44 -0700 (PDT)
+Received: from ?IPv6:2a02:8084:e84:2480:228:f8ff:fe6f:83a8? ([2a02:8084:e84:2480:228:f8ff:fe6f:83a8])
+        by smtp.gmail.com with ESMTPSA id x71sm11812328pfd.129.2020.04.06.10.18.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Apr 2020 10:18:44 -0700 (PDT)
+Subject: Re: /proc/sys/user/max_time_namespaces?
+To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
+        Andrey Vagin <avagin@openvz.org>
+Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
         Containers <containers@lists.linux-foundation.org>,
-        Linux API <linux-api@vger.kernel.org>, stable@kernel.org
-Subject: [PATCH] kernel/time: Add max_time_namespaces ucount
-Date:   Mon,  6 Apr 2020 18:13:42 +0100
-Message-Id: <20200406171342.128733-1-dima@arista.com>
-X-Mailer: git-send-email 2.26.0
+        Adrian Reber <adrian@lisas.de>
+References: <0fbcb669-33a8-9730-f7fa-639707532611@gmail.com>
+From:   Dmitry Safonov <dima@arista.com>
+Message-ID: <027226a2-f77c-0c1c-ee70-54a6c9194437@arista.com>
+Date:   Mon, 6 Apr 2020 18:18:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <0fbcb669-33a8-9730-f7fa-639707532611@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Introduce missing time namespaces limit per-userns.
-Michael noticed that userns limit for number of time namespaces is
-missing.
+Hi Michael,
 
-Furthermore, time namespace introduced UCOUNT_TIME_NAMESPACES, but
-didn't introduce an array member in user_table[]. It would make array's
-initialisation OOB write, but by luck the user_table array has
-an excessive empty member (all accesses to the array are limited with
-UCOUNT_COUNTS - so it silently reuses the last free member.
+On 4/3/20 1:21 PM, Michael Kerrisk (man-pages) wrote:
+> Dmitry, Andrei
+> 
+> [Andrei, I mistyped your openvz address in an email of a few minutes
+> ago ("[PATCH] ns: Fix time_for_children symlink"). You were CCed
+> on your gmail address though.]
+> 
+> In the namespaces(7) manual page there is documentation for 
+> these files:
+> 
+> $ ls -1 /proc/sys/user/*namespaces
+> /proc/sys/user/max_cgroup_namespaces
+> /proc/sys/user/max_ipc_namespaces
+> /proc/sys/user/max_mnt_namespaces
+> /proc/sys/user/max_net_namespaces
+> /proc/sys/user/max_pid_namespaces
+> /proc/sys/user/max_user_namespaces
+> /proc/sys/user/max_uts_namespaces
+> 
+> These files allow one to limit on the number of namespaces
+> of each type.
+> 
+> However, there is no /proc/sys/user/max_time_namespaces file.
+> Was this deliberate, or an oversight?
 
-Fixes user-visible regression: max_inotify_instances by reason of the
-missing UCOUNT_ENTRY() has limited max number of namespaces instead of
-the number of inotify instances.
+Thanks a lot for noticing this!
+Yes, it's an oversight and examining the code I can see that it's an
+actual user-visible regression: max_inotify_instances controls time
+namespaces limit.
 
-Fixes: 769071ac9f20 ("ns: Introduce Time Namespace")
-Cc: Adrian Reber <adrian@lisas.de>
-Cc: Andrey Vagin <avagin@openvz.org>
-Cc: Christian Brauner <christian.brauner@ubuntu.com>
-Cc: Eric W. Biederman <ebiederm@xmission.com>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>
-Cc: Containers <containers@lists.linux-foundation.org>
-Cc: Linux API <linux-api@vger.kernel.org>
-Cc: stable@kernel.org # v5.6+
-Reported-by: Michael Kerrisk (man-pages) <mtk.manpages@gmail.com>
-Signed-off-by: Dmitry Safonov <dima@arista.com>
----
- Documentation/admin-guide/sysctl/user.rst | 6 ++++++
- kernel/ucount.c                           | 1 +
- 2 files changed, 7 insertions(+)
+I've just sent a patch to fix the issue, Cc'ing @stable:
+https://lore.kernel.org/linux-api/20200406171342.128733-1-dima@arista.com/
 
-diff --git a/Documentation/admin-guide/sysctl/user.rst b/Documentation/admin-guide/sysctl/user.rst
-index 650eaa03f15e..c45824589339 100644
---- a/Documentation/admin-guide/sysctl/user.rst
-+++ b/Documentation/admin-guide/sysctl/user.rst
-@@ -65,6 +65,12 @@ max_pid_namespaces
-   The maximum number of pid namespaces that any user in the current
-   user namespace may create.
- 
-+max_time_namespaces
-+===================
-+
-+  The maximum number of time namespaces that any user in the current
-+  user namespace may create.
-+
- max_user_namespaces
- ===================
- 
-diff --git a/kernel/ucount.c b/kernel/ucount.c
-index a53cc2b4179c..29c60eb4ec9b 100644
---- a/kernel/ucount.c
-+++ b/kernel/ucount.c
-@@ -69,6 +69,7 @@ static struct ctl_table user_table[] = {
- 	UCOUNT_ENTRY("max_net_namespaces"),
- 	UCOUNT_ENTRY("max_mnt_namespaces"),
- 	UCOUNT_ENTRY("max_cgroup_namespaces"),
-+	UCOUNT_ENTRY("max_time_namespaces"),
- #ifdef CONFIG_INOTIFY_USER
- 	UCOUNT_ENTRY("max_inotify_instances"),
- 	UCOUNT_ENTRY("max_inotify_watches"),
--- 
-2.26.0
-
+Thanks again,
+          Dmitry
