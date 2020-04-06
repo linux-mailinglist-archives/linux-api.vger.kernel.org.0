@@ -2,114 +2,91 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A7B619F401
-	for <lists+linux-api@lfdr.de>; Mon,  6 Apr 2020 13:01:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 304D519F525
+	for <lists+linux-api@lfdr.de>; Mon,  6 Apr 2020 13:50:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727191AbgDFLBK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 6 Apr 2020 07:01:10 -0400
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:40635 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726841AbgDFLBK (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Apr 2020 07:01:10 -0400
-Received: by mail-ed1-f65.google.com with SMTP id w26so18660318edu.7;
-        Mon, 06 Apr 2020 04:01:08 -0700 (PDT)
+        id S1727742AbgDFLuk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 6 Apr 2020 07:50:40 -0400
+Received: from mail-pg1-f173.google.com ([209.85.215.173]:44150 "EHLO
+        mail-pg1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727515AbgDFLuk (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Apr 2020 07:50:40 -0400
+Received: by mail-pg1-f173.google.com with SMTP id 142so7409506pgf.11
+        for <linux-api@vger.kernel.org>; Mon, 06 Apr 2020 04:50:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc:content-transfer-encoding;
-        bh=o38w4VfVzK/UVrYWQ9Xw7qG3Bt0q29XHLjGmHW6bD10=;
-        b=m6U0AGEJ2nUhh9qGt6pap5Kqfb6KtpJWZpsCLZpMm9bwhf/IQpYRN9zYGtH6rV4Z2i
-         nkKygNlJt8VNGP8sfEEM4hxE1Whp3ITrsHuJQsLUp9WG5jzK2eq3/ex/Fv33wYKQFiD4
-         IsRnizij+sCjJbyHdIH2SARQ4y0ZdPBin5D/XHFG/c1WXo7TmD0Am+/n6zwJ1JV+rbKq
-         5BcolmIycnH+VfDOunJ3fCm2OmE+2ZgMjRxiyBRkk9aoZSLIbZLt9nMHEpaLvdL6Xan7
-         B+k5tGL9hBhFigy/RNY/UUusKOcnMSGld9TcF2GUzBj5MsyTVeQHoWUSk5eQPVoPsAug
-         mqNw==
+        d=arista.com; s=googlenew;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=eSEYeGHJW6L1yFZdjvZu8BXqsVS6+Imz64kPAhoNehc=;
+        b=EVHI8E2HsQJ9Svnqp+R7hSaCboaInyxUjdHuKNMRYaAqw5fsam3DG39gWQgpdFNaBM
+         IVZBl4jvVImZHpXf7WHBYPhkPNwaUgr3HWmQ7eyVptt+1tQcAbJNGqeCbUc9L/iFPukC
+         jH7zHJWalVPlP6OcmvBNWSpflfGaooqDmqL4UcteTQg+StXxC07N+g+ZdLOArukrSS+2
+         KP82QOWORNZ4eCLxuXVU1rfbBbXUNQLQDarzkT39jLEPXSu+hmCYJyKGgkJDA+444lJK
+         D+IrrKM38coX84i+GYBhQmjcb2yR4BWeOGdv/0sUCIcDZXPty+OIuQHyCYyDDAYbkhuw
+         d7CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc:content-transfer-encoding;
-        bh=o38w4VfVzK/UVrYWQ9Xw7qG3Bt0q29XHLjGmHW6bD10=;
-        b=n+ERJXEaTC/TNGCcBN2tyL29DkU3mKA3GkRKAg43wpGgZ+TkMhpkIRz/aawUSiUAib
-         bJlDQko3CWosJuyvsDyO1lWxWubg7Oo1tq7bH42W8adg1xBOt0jMgaEQM2dWb80s091k
-         622yN49Ocu0TtnIugorMkuaFQmXusE0fp3K0cWBN22+DQ6YekvA9Hv52u+coyV128e+f
-         l1CSyXsHugGHHCykAQGakO3MYa57sdnEXHjxCuQhDIorzpzD4whP44y5nKCjAt5WZj++
-         XfR3ZtVI24oUfMpOid61d1XstJmsgCY445OYtUsJZmO8/GYkNkmNtUUGF8UR3kjO5ReR
-         4ifA==
-X-Gm-Message-State: AGi0Pub8fSpDBGekw6JXOtm5gk42/bma1OFAR3t175bpfffGQ2hvL1ki
-        Mqg4vMRHe7YglcYZEornqQtrjsg78dII4FixNVpyJ8gR
-X-Google-Smtp-Source: APiQypItkmQVlpobOM3yxTfBkbGXRgyWSxMhxrsPlM41ktkSkYVMO2QzdSXIGDm1/3PSFL4Tjw8CxkFpXzp6YEyLrWQ=
-X-Received: by 2002:aa7:cd5b:: with SMTP id v27mr18527574edw.286.1586170867902;
- Mon, 06 Apr 2020 04:01:07 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=eSEYeGHJW6L1yFZdjvZu8BXqsVS6+Imz64kPAhoNehc=;
+        b=mngHxnbQBqwym/7nrb24p8hp+4cqCocnkTdEkuQ/PPZBuhltf4kMayAhAd3JR/ywTl
+         ZrUohWW2L0JXobuA0ZSvhh4g9MvhUpzwREsFfdbkJWUP+Mq4d0b+gjdXVmoY4n0tPJnx
+         zMfaOeRJYwi8IBMznr6yL2T1Jo7qw+ZqXlru6OUFCGKd1boyfFm8FdMQ3bhu743f7/Oq
+         TAF5tqqWHWwkGMaj6GMUJVqlpZsUCy5iwmqvRuWJdySg0GlzCtGVU5TkERbEGUq+MCU4
+         /53H6+P9e9/GQj8Tjj1UxadJnL7Dh6ctbZCon+3WoLp6kXO5sRiJ/mvOjHrnXrcl3FUj
+         gjew==
+X-Gm-Message-State: AGi0PubA975o/NERHsWyCJtnDY40W4DBgB2RxLw87dPTGNqPy5W/Zx4M
+        xIWw5R7CZCcwshVRXLsCXKrudA==
+X-Google-Smtp-Source: APiQypJbSk9nhcIBkVtji01qlTReiqSK+1z9CtKxnbEsDtTA6Mr0Dhzwjf+aZwsQgRIaFpUTWaZjSQ==
+X-Received: by 2002:a63:6346:: with SMTP id x67mr20405820pgb.67.1586173839100;
+        Mon, 06 Apr 2020 04:50:39 -0700 (PDT)
+Received: from ?IPv6:2a02:8084:e84:2480:228:f8ff:fe6f:83a8? ([2a02:8084:e84:2480:228:f8ff:fe6f:83a8])
+        by smtp.gmail.com with ESMTPSA id k6sm12024505pje.8.2020.04.06.04.50.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Apr 2020 04:50:38 -0700 (PDT)
+Subject: Re: RFC: time_namespaces(7) manual page
+To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
+        Andrei Vagin <avagin@openvz.org>
+Cc:     Christian Brauner <christian@brauner.io>,
+        linux-man <linux-man@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Dmitry Safonov <0x7f454c46@gmail.com>,
+        Containers <containers@lists.linux-foundation.org>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Adrian Reber <adrian@lisas.de>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>
+References: <7221df0a-435b-f8bc-ff91-c188af535e73@gmail.com>
+From:   Dmitry Safonov <dima@arista.com>
+Message-ID: <a74763df-6523-2103-b687-27cae3a433fc@arista.com>
+Date:   Mon, 6 Apr 2020 12:50:33 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <20200402020850.7218-1-mchristi@redhat.com> <111926f0-942c-66ea-4e43-9f90e7b43549@gmail.com>
- <5E88F713.3050204@redhat.com>
-In-Reply-To: <5E88F713.3050204@redhat.com>
-Reply-To: mtk.manpages@gmail.com
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Date:   Mon, 6 Apr 2020 13:00:00 +0200
-Message-ID: <CAKgNAkigtfzQRNC+DkvmsQaytykhcwGjHucPhsxKhmd+OUkn9Q@mail.gmail.com>
-Subject: Re: [PATCH] prctl.2: doc PR_SET/GET_IO_FLUSHER - V4
-To:     Mike Christie <mchristi@redhat.com>
-Cc:     Linux API <linux-api@vger.kernel.org>,
-        Dave Chinner <david@fromorbit.com>,
-        Michal Hocko <mhocko@suse.com>, masato.suzuki@wdc.com,
-        damien.lemoal@wdc.com, "Darrick J. Wong" <darrick.wong@oracle.com>,
-        Bart Van Assche <bvanassche@acm.org>,
-        linux-man <linux-man@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <7221df0a-435b-f8bc-ff91-c188af535e73@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Mike,
+Hi Michael,
 
-On Sat, 4 Apr 2020 at 23:07, Mike Christie <mchristi@redhat.com> wrote:
->
-> On 04/02/2020 07:16 AM, Michael Kerrisk (man-pages) wrote:
-> > Hello Mike,
-> >
-> > On 4/2/20 4:08 AM, Mike Christie wrote:
-> >> This patch documents the PR_SET_IO_FLUSHER and PR_GET_IO_FLUSHER
-> >> prctl commands added to the linux kernel for 5.6 in commit:
-> >>
-> >> commit 8d19f1c8e1937baf74e1962aae9f90fa3aeab463
-> >> Author: Mike Christie <mchristi@redhat.com>
-> >> Date:   Mon Nov 11 18:19:00 2019 -0600>
-> >>     prctl: PR_{G,S}ET_IO_FLUSHER to support controlling memory reclaim
-> >>
-> >> Signed-off-by: Mike Christie <mchristi@redhat.com>
-> >
-> > I've applied this patch, but I have some questions:
->
-> Hey,
->
-> Thanks for fixing up the patch for me.
+On 4/4/20 12:08 PM, Michael Kerrisk (man-pages) wrote:
+> Hello Dmitry, Andrei, et al.
+> 
+> I have written a manual page to document time namespaces.
+> Could you please take a look and let me know of any
+> corrections, improvements, etc.
 
-you're welcome.
+Thanks a lot for the man page. It looks good to me.
+Maybe Andrei will find some nits, but I don't have any in mind.
 
-> > (a) What happens to the IO_FLUSHER setting in the child of fork(2)?
->
-> The child will inherit the setting.
->
-> > (b) What happens to the IO_FLUSHER setting during an execve(2)?
-> >     (Is it preserved, reset, something else?)
->
-> It's preserved.
-
-Thanks. I added this text:
-
-              The  IO_FLUSHER  state is inherited by a child process cre=E2=
-=80=90
-              ated via fork(2) and is preserved across execve(2).
-
-Cheers,
-
-Michael
-
-
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Thanks for you work,
+          Dima
