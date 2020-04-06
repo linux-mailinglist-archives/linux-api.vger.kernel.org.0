@@ -2,115 +2,76 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D763219F79D
-	for <lists+linux-api@lfdr.de>; Mon,  6 Apr 2020 16:08:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A13419F95E
+	for <lists+linux-api@lfdr.de>; Mon,  6 Apr 2020 17:55:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728546AbgDFOIl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 6 Apr 2020 10:08:41 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:43344 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728405AbgDFOIk (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Apr 2020 10:08:40 -0400
-Received: by mail-pl1-f193.google.com with SMTP id v23so5946283ply.10;
-        Mon, 06 Apr 2020 07:08:39 -0700 (PDT)
+        id S1729045AbgDFPzb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 6 Apr 2020 11:55:31 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:36847 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729028AbgDFPzb (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Apr 2020 11:55:31 -0400
+Received: by mail-pl1-f195.google.com with SMTP id g2so6080640plo.3
+        for <linux-api@vger.kernel.org>; Mon, 06 Apr 2020 08:55:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=gSjkzhFEiFJjyufT8+HraUsb7czl0gNB79kUOtKiYko=;
+        b=UBwbD9Fh2afx2lBbBBT4XMur9J9n4jUPu1rc4OUDGxMx+Ajc2wvGaAdQnMQlBkzsnr
+         +8h6sXlemiz/8/52IJN8D40WBcKL/y010DcYxll1huL1G53cvuCJrvKJKdU1bhRZN5nY
+         mW08EAE7q6lAjTkd4M3LAdvYDNmIr4f3nSivA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=qiVBZPsdURZP1jhMxDWHye9mEvFMkZlVNadDHV0ejs4=;
-        b=aCOZdE+kKjgXwNUh4wa7sd0iC9RrBIh1NeBcPBx4YJ0956l6hfldfq2s4fiZPX+lEl
-         XGScgrYshv2BiX4tuViMJ3evSNjGd2ZbtMIgQ9nPhrj4iqZLksyIYDbvBejmOYH6pUyH
-         bP/YBd6oM2UHno72Ret0EoO1lJYoX2Py3+VW5NVtrCmJILUBxMFug1MFpJqwAUS5467A
-         /lvGRWWoLCMbjM+XAPp5qlKBm8Trf+4IArkY2NZMSQISWQi6oJmVjYyAIbeILTMWiUaF
-         vXEKxMOzmU4i69trexUmXEuCVsy2qH31wrm00vShlTHZgEb6huwdYXDxYOoHvIW5Cqka
-         zYIw==
-X-Gm-Message-State: AGi0PuZPGeANKt/2IzIxM987UtFdYovcKcaxifm/j/kHLXPzUt8PCU2f
-        eqbcB9uySbQjYnA17WkjR1g=
-X-Google-Smtp-Source: APiQypK4PBijtr6jrSkxbP+qg+JhVIDRUZnqmssM67o2eOuF1E9o8YpsOIerTZkbPlD0P7gpp2RFWw==
-X-Received: by 2002:a17:90a:aa95:: with SMTP id l21mr11323852pjq.4.1586182119271;
-        Mon, 06 Apr 2020 07:08:39 -0700 (PDT)
-Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
-        by smtp.gmail.com with ESMTPSA id b2sm4506439pgg.77.2020.04.06.07.08.37
+         :mime-version:content-disposition:in-reply-to;
+        bh=gSjkzhFEiFJjyufT8+HraUsb7czl0gNB79kUOtKiYko=;
+        b=s3nMv4VSFh2fNxhymHFWRNlEZENNZOEAcSaqYFV9qd96nj6ICdnfNMcyz8Qvtp6MIL
+         pmfWtrGjeYDJArnsBf0CS1wdIRFIyygpiunZaZDe+P4uIZ2HV9uOpeR/sNA1o5sGLBg9
+         p8itKCj+bl5vweZ+tbmHonWRq0tV50HezgHEqhM4EcDTM+ucPAj10dcpdflje8FFjGZH
+         9vxEA8OI1CTKiZZ5Lfrx4SO9xMc1umXs1Kkg1wAEOtF8LJIZYrKw0jmhzPF2jOytQpzF
+         iE6hxfrpe0ODOmUOS9FZO38bkhKApildVZUYW+aKfI08ixWGPW28W91JTdZOyQNTUIZp
+         qAZQ==
+X-Gm-Message-State: AGi0PubKdYYOiuh85A4kLuqeZ3pW390yNSfz6NRRJaLH1wo9u90Y4ige
+        25apoQWZNdmNiIQGNoW/3CcUHg==
+X-Google-Smtp-Source: APiQypJq6G4sfj4F480buN+2USewCEdxsSs+iaxAsio9clFT3schIx04v6ekH8nGfBzDTwyT28JlCQ==
+X-Received: by 2002:a17:902:6ac3:: with SMTP id i3mr20706329plt.111.1586188529962;
+        Mon, 06 Apr 2020 08:55:29 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id t1sm14581pjf.26.2020.04.06.08.55.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Apr 2020 07:08:37 -0700 (PDT)
-Received: by 42.do-not-panic.com (Postfix, from userid 1000)
-        id DD95740246; Mon,  6 Apr 2020 14:08:36 +0000 (UTC)
-Date:   Mon, 6 Apr 2020 14:08:36 +0000
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Vlastimil Babka <vbabka@suse.cz>,
-        Iurii Zaikin <yzaikin@google.com>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        "Guilherme G . Piccoli" <gpiccoli@canonical.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>
-Subject: Re: [PATCH 1/3] kernel/sysctl: support setting sysctl parameters
- from kernel command line
-Message-ID: <20200406140836.GA11244@42.do-not-panic.com>
-References: <20200330115535.3215-1-vbabka@suse.cz>
- <20200330115535.3215-2-vbabka@suse.cz>
- <20200330224422.GX11244@42.do-not-panic.com>
- <287ac6ae-a898-3e68-c7d8-4c1d17a40db9@suse.cz>
- <20200402160442.GA11244@42.do-not-panic.com>
- <202004021017.3A23B759@keescook>
- <20200402205932.GM11244@42.do-not-panic.com>
- <202004031654.C4389A04EF@keescook>
+        Mon, 06 Apr 2020 08:55:29 -0700 (PDT)
+Date:   Mon, 6 Apr 2020 08:55:28 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     "Guilherme G. Piccoli" <gpiccoli@canonical.com>
+Cc:     akpm@linux-foundation.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, mcgrof@kernel.org, yzaikin@google.com,
+        tglx@linutronix.de, penguin-kernel@I-love.SAKURA.ne.jp,
+        vbabka@suse.cz, rdunlap@infradead.org, willy@infradead.org,
+        kernel@gpiccoli.net, dvyukov@google.com
+Subject: Re: [PATCH V3] kernel/hung_task.c: Introduce sysctl to print all
+ traces when a hung task is detected
+Message-ID: <202004060854.22F15BDBF1@keescook>
+References: <20200327223646.20779-1-gpiccoli@canonical.com>
+ <d4888de4-5748-a1d0-4a45-d1ecebe6f2a9@canonical.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202004031654.C4389A04EF@keescook>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <d4888de4-5748-a1d0-4a45-d1ecebe6f2a9@canonical.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Apr 03, 2020 at 04:57:51PM -0700, Kees Cook wrote:
-> On Thu, Apr 02, 2020 at 08:59:32PM +0000, Luis Chamberlain wrote:
-> > We modify the copied bootparams to allow new sysctls to map to old boot params?
-> 
-> This strdup is so that the
-> command line can have '\0's injected while it steps through the args
-> (and for doing the . and / replacement).
+On Mon, Apr 06, 2020 at 09:28:41AM -0300, Guilherme G. Piccoli wrote:
+> Hi Andrew / Kees, sorry for the ping.
+> Is there anything else missing in this patch? What are the necessary
+> steps to get it merged?
 
-Please ignore the const feedback then.
+I'm expecting Andrew to pick it up, but it's the middle of the merge
+window right now, so there is likely to be a couple weeks delay before
+this will appear in -mm.
 
-> > This is the least cumbersome solution I could think of. Other things
-> > would require things like using qemu, etc. That seems much more messsy.
-> 
-> Yes. Doing an internal extension isn't testing the actual code.
-
-But it would.
-
-> > > This is an external interface (boot params), so
-> > > I'd rather an external driver handle that testing. We don't have a
-> > > common method to do that with the kernel, though.
-> > 
-> > Right... which begs the question now -- how do we test this sort of
-> > stuff? The above would at least get us coverage while we iron something
-> > more generic out for boot params.
-> > 
-> > > > That would test both cases with one kernel.
-> > > > 
-> > > > You could then also add a bogus new sysctl which also expands to a silly
-> > > > raw boot param to test the wrapper you are providing. That would be the
-> > > > only new test syctl you would need to add.
-> > > 
-> > > Sure, that seems reasonable. Supporting externally driven testing makes
-> > > sense for this.
-> > 
-> > But again, what exactly?
-> 
-> I don't think anything is needed for this series. It can be boot tested
-> manually.
-
-Why test it manually when it could be tested automatically with a new kconfig?
-
-  Luis
+-- 
+Kees Cook
