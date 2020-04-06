@@ -2,57 +2,55 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2110419F5C6
-	for <lists+linux-api@lfdr.de>; Mon,  6 Apr 2020 14:28:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD8EC19F5CD
+	for <lists+linux-api@lfdr.de>; Mon,  6 Apr 2020 14:29:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727909AbgDFM2v (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 6 Apr 2020 08:28:51 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:59898 "EHLO
+        id S1727884AbgDFM3y (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 6 Apr 2020 08:29:54 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:59947 "EHLO
         youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727901AbgDFM2v (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Apr 2020 08:28:51 -0400
-Received: from mail-qt1-f199.google.com ([209.85.160.199])
+        with ESMTP id S1727857AbgDFM3y (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Apr 2020 08:29:54 -0400
+Received: from mail-qk1-f200.google.com ([209.85.222.200])
         by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
         (Exim 4.86_2)
         (envelope-from <gpiccoli@canonical.com>)
-        id 1jLQrw-0005wk-Qm
-        for linux-api@vger.kernel.org; Mon, 06 Apr 2020 12:28:48 +0000
-Received: by mail-qt1-f199.google.com with SMTP id k46so14392784qta.2
-        for <linux-api@vger.kernel.org>; Mon, 06 Apr 2020 05:28:48 -0700 (PDT)
+        id 1jLQsx-00060j-JA
+        for linux-api@vger.kernel.org; Mon, 06 Apr 2020 12:29:51 +0000
+Received: by mail-qk1-f200.google.com with SMTP id e13so319433qkn.15
+        for <linux-api@vger.kernel.org>; Mon, 06 Apr 2020 05:29:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
         bh=OF5+/9Hx0SVxloqW+AsVqfRADYJTfKE7xEAXHE0ATtQ=;
-        b=ggEOyZLjFmKf+Vl62F3Ar449ocICUkMCFvaHHbGVyEUzoeHYN+ELaKsA1Z9+uxDfRo
-         uze1/bZMcvTTzuqZeMdaAidb93Z7gbSpirNfECJwMjOh6c0qdAWWDn3dq8LO1xCJw/Ey
-         Jq13hWB2YHfUzEVvwarxu1XnhD/CDyTK7p4JePuO51RYkxbD8BQpIKuNUXALuRCil24r
-         AfQTtj4dTdb6EWGtO0gOLnm7QGoBpaQI9lciM9uNUSMRzPhSdtihg0k0ib5LU2B0sQZR
-         j0/DNfxa+0NY9ZGOb/dE/C08x5R0gQNY/jLd0ncFSPtiqXzsWbms3kwMB7PKg9dwBr8m
-         mQSw==
-X-Gm-Message-State: AGi0PuaBVBGK5NXpPoe+ppB5KZjbZOOO3KVsJM2WjH0hrXOC/xGAC66l
-        4QtjAFVatyosANX7tcUDKCZ1z18zM7tBhRq+rvud1DivNSDyg4Y2nxmUGTdtmVF9/pL8po56dyD
-        JNhIZ8VOTLS1+Zbni4AaJtHuLG+d2pDxIADC8xA==
-X-Received: by 2002:a05:620a:48:: with SMTP id t8mr9118373qkt.21.1586176128009;
-        Mon, 06 Apr 2020 05:28:48 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJYLiXAu6E02kHBhfDM1nCHxnL13FHkbN3p7Z/eOEFCi3eXhdf202hvNJRK1IZo1qiltey8FA==
-X-Received: by 2002:a05:620a:48:: with SMTP id t8mr9118359qkt.21.1586176127806;
-        Mon, 06 Apr 2020 05:28:47 -0700 (PDT)
+        b=I5j6N0OzGaFKyBQeFPKKaPSYhYXeE8RKp8MBj3MS7cHq2J2E6WyU5K9Ub4JKBAWLtv
+         8bbuFhcraAMMNU7gJprQV2TmbcZ0KET/mbK1lgKmHdm89vjhIu9ofFkzoysKUbFpBZI/
+         mPC+06T/h3a3JzJeZQU7Xku4MBQHbALI4DL5hNL7ITBOxNfTc6MwlXyPwfVXnCzpRrsy
+         5XGXJX17oYSzJyr6AAG4Uut2+cicgFEn5IfVAgdXkm7FoYP8QhwrAxzB7OfX8MUXTylY
+         ZcB/ZCMYbwvyZwGpweUNDGxlbI+wejAh0nN8skC4CNN5Xe1f6rKPzkrblXYIhAtvdkzQ
+         +KjQ==
+X-Gm-Message-State: AGi0Pubd8bzLJ4RbDmm1+g8qQfYseISAgCwOyLRZCfAg1Vn9KetSZuU0
+        lLXGwNBOxq/W7RzYz7/rHjD9OOIR2mRtx85PdJIAC8jdzBICbS+ewkRP4hkqIxMcaZ9Ch0V9jfq
+        wCXWLhxo/Inhx4v8gqfB1SJf27BDw+ASA+jqLnw==
+X-Received: by 2002:a05:6214:b8e:: with SMTP id fe14mr20926382qvb.44.1586176190789;
+        Mon, 06 Apr 2020 05:29:50 -0700 (PDT)
+X-Google-Smtp-Source: APiQypIFzhFbMp0Mc44zEb42FJlJTJPveQx3ILgrcP5rWAHivUCkkwOrdkiZvWqvKm7FEtjLJMVxzA==
+X-Received: by 2002:a05:6214:b8e:: with SMTP id fe14mr20926359qvb.44.1586176190595;
+        Mon, 06 Apr 2020 05:29:50 -0700 (PDT)
 Received: from [192.168.1.75] (201-27-34-233.dsl.telesp.net.br. [201.27.34.233])
-        by smtp.gmail.com with ESMTPSA id g187sm14076243qkf.115.2020.04.06.05.28.43
+        by smtp.gmail.com with ESMTPSA id q15sm15131081qtj.83.2020.04.06.05.29.47
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 06 Apr 2020 05:28:47 -0700 (PDT)
-Subject: Re: [PATCH V3] kernel/hung_task.c: Introduce sysctl to print all
- traces when a hung task is detected
+        Mon, 06 Apr 2020 05:29:49 -0700 (PDT)
+Subject: Re: [PATCH V3] panic: Add sysctl to dump all CPUs backtraces on oops
+ event
 To:     akpm@linux-foundation.org, keescook@chromium.org
-Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        mcgrof@kernel.org, yzaikin@google.com, tglx@linutronix.de,
-        penguin-kernel@I-love.SAKURA.ne.jp, vbabka@suse.cz,
-        rdunlap@infradead.org, willy@infradead.org, kernel@gpiccoli.net,
-        dvyukov@google.com
-References: <20200327223646.20779-1-gpiccoli@canonical.com>
+Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, mcgrof@kernel.org, yzaikin@google.com,
+        tglx@linutronix.de, vbabka@suse.cz, rdunlap@infradead.org,
+        willy@infradead.org, kernel@gpiccoli.net
+References: <20200327224116.21030-1-gpiccoli@canonical.com>
 From:   "Guilherme G. Piccoli" <gpiccoli@canonical.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=gpiccoli@canonical.com; prefer-encrypt=mutual; keydata=
@@ -79,12 +77,12 @@ Autocrypt: addr=gpiccoli@canonical.com; prefer-encrypt=mutual; keydata=
  Yh6gTrYoRYHo6FuQl5YsHop/fmTahpTx11IMjuh6IJQ+lvdpdfYJ6hmAZ9kiVszDF6pGFVkY
  kHWtnE2Aa5qkxnA2HoFpqFifNWn5TyvJFpyqwVhVI8XYtXyVHub/WbXLWQwSJA4OHmqU8gDl
  X18zwLgdiQ==
-Message-ID: <d4888de4-5748-a1d0-4a45-d1ecebe6f2a9@canonical.com>
-Date:   Mon, 6 Apr 2020 09:28:41 -0300
+Message-ID: <2eda78ca-6a0e-7a70-d800-13fbe0038ebb@canonical.com>
+Date:   Mon, 6 Apr 2020 09:29:45 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.1
 MIME-Version: 1.0
-In-Reply-To: <20200327223646.20779-1-gpiccoli@canonical.com>
+In-Reply-To: <20200327224116.21030-1-gpiccoli@canonical.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
