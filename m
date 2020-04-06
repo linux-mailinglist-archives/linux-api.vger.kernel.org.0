@@ -2,60 +2,114 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D1F5919F0E3
-	for <lists+linux-api@lfdr.de>; Mon,  6 Apr 2020 09:38:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A7B619F401
+	for <lists+linux-api@lfdr.de>; Mon,  6 Apr 2020 13:01:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726619AbgDFHix (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 6 Apr 2020 03:38:53 -0400
-Received: from mail-oi1-f169.google.com ([209.85.167.169]:42712 "EHLO
-        mail-oi1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726534AbgDFHix (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Apr 2020 03:38:53 -0400
-Received: by mail-oi1-f169.google.com with SMTP id e4so12233770oig.9;
-        Mon, 06 Apr 2020 00:38:52 -0700 (PDT)
+        id S1727191AbgDFLBK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 6 Apr 2020 07:01:10 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:40635 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726841AbgDFLBK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Apr 2020 07:01:10 -0400
+Received: by mail-ed1-f65.google.com with SMTP id w26so18660318edu.7;
+        Mon, 06 Apr 2020 04:01:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc:content-transfer-encoding;
+        bh=o38w4VfVzK/UVrYWQ9Xw7qG3Bt0q29XHLjGmHW6bD10=;
+        b=m6U0AGEJ2nUhh9qGt6pap5Kqfb6KtpJWZpsCLZpMm9bwhf/IQpYRN9zYGtH6rV4Z2i
+         nkKygNlJt8VNGP8sfEEM4hxE1Whp3ITrsHuJQsLUp9WG5jzK2eq3/ex/Fv33wYKQFiD4
+         IsRnizij+sCjJbyHdIH2SARQ4y0ZdPBin5D/XHFG/c1WXo7TmD0Am+/n6zwJ1JV+rbKq
+         5BcolmIycnH+VfDOunJ3fCm2OmE+2ZgMjRxiyBRkk9aoZSLIbZLt9nMHEpaLvdL6Xan7
+         B+k5tGL9hBhFigy/RNY/UUusKOcnMSGld9TcF2GUzBj5MsyTVeQHoWUSk5eQPVoPsAug
+         mqNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Koufht6MQGCMD9pxWQ/9qyS9H8jc9VjuJwC2KXdU+5w=;
-        b=ki1r8LC0r65WCTpC7lfabHnyKeCnCJQPslWw1fdHjv2crXXIyzzIkYTz/YeTwUKgmq
-         VXwI5/2ZXOVXPB1f6M6DSddtW2i57ThPduQkHDO8kKNmZvL8EKy9cTuOkUA7epFXcHAX
-         H5qY8S2PDLVUj3RIxwtGtjJT4+8RbOtnSO75Vm9mX219d/Hos+El2ziD6aEEhpDQPBiP
-         jhMn8j0zB+3F/KyioBm88O3gN//T5YGHXGU1MhqaDAkmbyJOJa5RFgBBYxO1nSpAowJJ
-         1LK/EvV0T5HGFzrdhFdyBIUqufdh4NJWVxerDsoklgEwDWy2h1CrEdg3t79ErgR9U7wo
-         YRoA==
-X-Gm-Message-State: AGi0PuaV+6UDmG+2bVseG9sJ9zhEgfYvfNNz1lO0BqpQt/pGBrH4LLm9
-        sbpZYpL+EkX1E82LpLGh/K3PPeVx9tQqpQdTCAI=
-X-Google-Smtp-Source: APiQypK5xx0vKgwK+SdF17GGLs6t5Rula6yB+AUUFK0ASBnWAZ72i9usLf32veDPGMpnO5fctTfw4JHEoEikHOAhG+Q=
-X-Received: by 2002:aca:f183:: with SMTP id p125mr12062503oih.74.1586158732351;
- Mon, 06 Apr 2020 00:38:52 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc:content-transfer-encoding;
+        bh=o38w4VfVzK/UVrYWQ9Xw7qG3Bt0q29XHLjGmHW6bD10=;
+        b=n+ERJXEaTC/TNGCcBN2tyL29DkU3mKA3GkRKAg43wpGgZ+TkMhpkIRz/aawUSiUAib
+         bJlDQko3CWosJuyvsDyO1lWxWubg7Oo1tq7bH42W8adg1xBOt0jMgaEQM2dWb80s091k
+         622yN49Ocu0TtnIugorMkuaFQmXusE0fp3K0cWBN22+DQ6YekvA9Hv52u+coyV128e+f
+         l1CSyXsHugGHHCykAQGakO3MYa57sdnEXHjxCuQhDIorzpzD4whP44y5nKCjAt5WZj++
+         XfR3ZtVI24oUfMpOid61d1XstJmsgCY445OYtUsJZmO8/GYkNkmNtUUGF8UR3kjO5ReR
+         4ifA==
+X-Gm-Message-State: AGi0Pub8fSpDBGekw6JXOtm5gk42/bma1OFAR3t175bpfffGQ2hvL1ki
+        Mqg4vMRHe7YglcYZEornqQtrjsg78dII4FixNVpyJ8gR
+X-Google-Smtp-Source: APiQypItkmQVlpobOM3yxTfBkbGXRgyWSxMhxrsPlM41ktkSkYVMO2QzdSXIGDm1/3PSFL4Tjw8CxkFpXzp6YEyLrWQ=
+X-Received: by 2002:aa7:cd5b:: with SMTP id v27mr18527574edw.286.1586170867902;
+ Mon, 06 Apr 2020 04:01:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <7221df0a-435b-f8bc-ff91-c188af535e73@gmail.com>
-In-Reply-To: <7221df0a-435b-f8bc-ff91-c188af535e73@gmail.com>
-From:   Andrey Vagin <avagin@openvz.org>
-Date:   Mon, 6 Apr 2020 00:38:38 -0700
-Message-ID: <CANaxB-zAFux7ebEzJU5n8fzuTAtqUJ8NyBWU6WR1Do4nzFKCBg@mail.gmail.com>
-Subject: Re: RFC: time_namespaces(7) manual page
-To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc:     Dmitry Safonov <dima@arista.com>,
-        linux-man <linux-man@vger.kernel.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Containers <containers@lists.linux-foundation.org>,
-        Dmitry Safonov <0x7f454c46@gmail.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Adrian Reber <adrian@lisas.de>
+References: <20200402020850.7218-1-mchristi@redhat.com> <111926f0-942c-66ea-4e43-9f90e7b43549@gmail.com>
+ <5E88F713.3050204@redhat.com>
+In-Reply-To: <5E88F713.3050204@redhat.com>
+Reply-To: mtk.manpages@gmail.com
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Date:   Mon, 6 Apr 2020 13:00:00 +0200
+Message-ID: <CAKgNAkigtfzQRNC+DkvmsQaytykhcwGjHucPhsxKhmd+OUkn9Q@mail.gmail.com>
+Subject: Re: [PATCH] prctl.2: doc PR_SET/GET_IO_FLUSHER - V4
+To:     Mike Christie <mchristi@redhat.com>
+Cc:     Linux API <linux-api@vger.kernel.org>,
+        Dave Chinner <david@fromorbit.com>,
+        Michal Hocko <mhocko@suse.com>, masato.suzuki@wdc.com,
+        damien.lemoal@wdc.com, "Darrick J. Wong" <darrick.wong@oracle.com>,
+        Bart Van Assche <bvanassche@acm.org>,
+        linux-man <linux-man@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Michael,
+Hi Mike,
 
-Thank you for writing this man page. I appreciate this. I will review
-it on Mon or Tue.
+On Sat, 4 Apr 2020 at 23:07, Mike Christie <mchristi@redhat.com> wrote:
+>
+> On 04/02/2020 07:16 AM, Michael Kerrisk (man-pages) wrote:
+> > Hello Mike,
+> >
+> > On 4/2/20 4:08 AM, Mike Christie wrote:
+> >> This patch documents the PR_SET_IO_FLUSHER and PR_GET_IO_FLUSHER
+> >> prctl commands added to the linux kernel for 5.6 in commit:
+> >>
+> >> commit 8d19f1c8e1937baf74e1962aae9f90fa3aeab463
+> >> Author: Mike Christie <mchristi@redhat.com>
+> >> Date:   Mon Nov 11 18:19:00 2019 -0600>
+> >>     prctl: PR_{G,S}ET_IO_FLUSHER to support controlling memory reclaim
+> >>
+> >> Signed-off-by: Mike Christie <mchristi@redhat.com>
+> >
+> > I've applied this patch, but I have some questions:
+>
+> Hey,
+>
+> Thanks for fixing up the patch for me.
+
+you're welcome.
+
+> > (a) What happens to the IO_FLUSHER setting in the child of fork(2)?
+>
+> The child will inherit the setting.
+>
+> > (b) What happens to the IO_FLUSHER setting during an execve(2)?
+> >     (Is it preserved, reset, something else?)
+>
+> It's preserved.
+
+Thanks. I added this text:
+
+              The  IO_FLUSHER  state is inherited by a child process cre=E2=
+=80=90
+              ated via fork(2) and is preserved across execve(2).
+
+Cheers,
+
+Michael
+
+
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
