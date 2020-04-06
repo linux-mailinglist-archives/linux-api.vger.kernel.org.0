@@ -2,117 +2,134 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B57A19FB02
-	for <lists+linux-api@lfdr.de>; Mon,  6 Apr 2020 19:08:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A43619FB24
+	for <lists+linux-api@lfdr.de>; Mon,  6 Apr 2020 19:14:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729013AbgDFRI0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 6 Apr 2020 13:08:26 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:34245 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727126AbgDFRIZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Apr 2020 13:08:25 -0400
-Received: by mail-pf1-f194.google.com with SMTP id v23so24219pfm.1;
-        Mon, 06 Apr 2020 10:08:24 -0700 (PDT)
+        id S1726575AbgDFRNv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 6 Apr 2020 13:13:51 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:33602 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726551AbgDFRNu (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Apr 2020 13:13:50 -0400
+Received: by mail-pg1-f196.google.com with SMTP id d17so268474pgo.0
+        for <linux-api@vger.kernel.org>; Mon, 06 Apr 2020 10:13:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=arista.com; s=googlenew;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OGJACKQu1bguU+JASnr0st35ZbPyO/prVOsR97eFOTY=;
+        b=C1p+CAcageRdS3KC99Y6ETnCxpN2z/k+fLn/ubFK9Kt38T7Baow42EI4AsMzxu+vgo
+         7tQHAk7hzJuN/3qb0+oA3J3t07BCG+6Z1dc1p85nA5BxxOTNaNEB+OJGL6NS4zppBpUO
+         I3aX3NGKydV1auY4P1etSTH9E1EsEyNaO2soSJVEU5qOCOLwXNyHXq0q2swc2pkdb2Sk
+         WN9yUPDlI8trMZL8Cxm/5HGD1GddFpBAflz2A2ereTcSL36bYUr7TNWkGsS/reBXansp
+         Sq85cpjt0zClcPaYNS3NspAtBR6mb2JCWds+9/jAR3K4zw0+CQkxFPqYn5XBjTiR1IWQ
+         huiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=zaXeCIKa/04xAB8MmodjJgT7JeJhzRdAxQcRW/0TGww=;
-        b=ep11HTvELnApaXEor0llp2j6bK2197HT6th9uB59sWES/zsm0R/ToZc/e7T1RjVIZE
-         EQv/6JLS9duXmFbV1qBVCX7rsl332QvP63vqXOiEx1Gwi7bZyZ8uUuRWFdWyyYg0DZ8Q
-         Vm85hrUvzQXsbIeXGWIuK+NQ4t2pe4KWg1OgbNl9BH6vYCsdKzCb9fGk3MurZ0vM/Zl6
-         u/6NdjyrM9LrfJEI8BUioEwxL60Q4pEfzzugKl70CLl9W6HPvU36wNVfbLUxST/vGwEd
-         /SntJO+jH+3CWj1/+fdJwGTkgJid5l0lAM1gIh5W4v6orxQSRWmZxPzLBMac0QlJn2TV
-         E+CA==
-X-Gm-Message-State: AGi0PubwF+tQ5B1gd8JruPuRdmClCZlzY0rfr4W8n7KPHqfAzTQzDYEW
-        ZLXF2BGo8ex/miRbs5A0gko=
-X-Google-Smtp-Source: APiQypJ9XkDYt38q2mJtSLza4PVdlKnHbUCkqeIRzEJCfTivTo/drR4DFb5YNsn2t8LPMWqmhBrWTg==
-X-Received: by 2002:a62:76c3:: with SMTP id r186mr408779pfc.303.1586192904248;
-        Mon, 06 Apr 2020 10:08:24 -0700 (PDT)
-Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
-        by smtp.gmail.com with ESMTPSA id o192sm8883072pfg.196.2020.04.06.10.08.22
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OGJACKQu1bguU+JASnr0st35ZbPyO/prVOsR97eFOTY=;
+        b=oUbjrZXqHVedhPCicBQCv9uqkkXvc+Iie70tCfFJR9Un1KxiHgx11F1Vxeb0o8QB0Z
+         /fHtYQ/4w8mmZhwkRny3/fEJaP2MU7sdxDJytyxZx+9g2usCF3NMXk+RKDcBMw198nA7
+         niQdmytp4KzLrDbfICiQ+hvbX3NULldkCbiRbwKlLNlBL3IFYFMpHiGGhFar0kZPHW+l
+         tCjSJU6vtQD0Ff30CnOboR0ogPqaU0HFVBwDSdke29z3h9KigVVoVn2nCvTcPPioTMJb
+         AcTc8L0ZjadDNn4H8exmzkkPyxqa/4VoqZb/z0y1ub3iztreUKypEOUBynIrCRQKu849
+         MwUA==
+X-Gm-Message-State: AGi0Pua/isUSmcmwXesflZZ872Tpz0BlHbqy94TtRFIVwqcF04aREIj7
+        kFOSrYb0TVk8u/xWkCUk/U+0KQ==
+X-Google-Smtp-Source: APiQypKr3FJFeibyVamzRtJrpO32ZJnhX5YwVwWHy43COBXcQIeCyc45/KaSQgwsCSBC5hhs6UghaA==
+X-Received: by 2002:a62:dd09:: with SMTP id w9mr424374pff.311.1586193229108;
+        Mon, 06 Apr 2020 10:13:49 -0700 (PDT)
+Received: from Mindolluin.aristanetworks.com ([2a02:8084:e84:2480:228:f8ff:fe6f:83a8])
+        by smtp.gmail.com with ESMTPSA id w29sm11219224pge.25.2020.04.06.10.13.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Apr 2020 10:08:23 -0700 (PDT)
-Received: by 42.do-not-panic.com (Postfix, from userid 1000)
-        id 5269C40246; Mon,  6 Apr 2020 17:08:22 +0000 (UTC)
-Date:   Mon, 6 Apr 2020 17:08:22 +0000
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Vlastimil Babka <vbabka@suse.cz>,
-        Iurii Zaikin <yzaikin@google.com>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        "Guilherme G . Piccoli" <gpiccoli@canonical.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
+        Mon, 06 Apr 2020 10:13:48 -0700 (PDT)
+From:   Dmitry Safonov <dima@arista.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Dmitry Safonov <0x7f454c46@gmail.com>,
+        Dmitry Safonov <dima@arista.com>,
+        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
+        Adrian Reber <adrian@lisas.de>,
+        Andrey Vagin <avagin@openvz.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@redhat.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>
-Subject: Re: [PATCH 1/3] kernel/sysctl: support setting sysctl parameters
- from kernel command line
-Message-ID: <20200406170822.GE11244@42.do-not-panic.com>
-References: <20200330115535.3215-1-vbabka@suse.cz>
- <20200330115535.3215-2-vbabka@suse.cz>
- <20200330224422.GX11244@42.do-not-panic.com>
- <287ac6ae-a898-3e68-c7d8-4c1d17a40db9@suse.cz>
- <20200402160442.GA11244@42.do-not-panic.com>
- <202004021017.3A23B759@keescook>
- <20200402205932.GM11244@42.do-not-panic.com>
- <202004031654.C4389A04EF@keescook>
- <20200406140836.GA11244@42.do-not-panic.com>
- <202004060856.6BC17C5C99@keescook>
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Containers <containers@lists.linux-foundation.org>,
+        Linux API <linux-api@vger.kernel.org>, stable@kernel.org
+Subject: [PATCH] kernel/time: Add max_time_namespaces ucount
+Date:   Mon,  6 Apr 2020 18:13:42 +0100
+Message-Id: <20200406171342.128733-1-dima@arista.com>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202004060856.6BC17C5C99@keescook>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Apr 06, 2020 at 08:58:50AM -0700, Kees Cook wrote:
-> On Mon, Apr 06, 2020 at 02:08:36PM +0000, Luis Chamberlain wrote:
-> > > Yes. Doing an internal extension isn't testing the actual code.
-> > 
-> > But it would.
-> > 
-> > [...]
-> > > I don't think anything is needed for this series. It can be boot tested
-> > > manually.
-> > 
-> > Why test it manually when it could be tested automatically with a new kconfig?
-> 
-> So, my impression is that adding code to the internals to test the
-> internals isn't a valid test (or at least makes it fragile) because the
-> test would depend on the changes to the internals (or at least depend on
-> non-default non-production CONFIGs).
+Introduce missing time namespaces limit per-userns.
+Michael noticed that userns limit for number of time namespaces is
+missing.
 
-The *internal* aspect here is an extension to boot params under a
-kconfig which would simply append to it, as if the user would have
-added some more params. Since we already have test sysctl params the
-only one we'd need to add on the test driver would be a dummy one which
-tests the alias, on the second patch. We should have enough sysctls to
-already test dummy values.
+Furthermore, time namespace introduced UCOUNT_TIME_NAMESPACES, but
+didn't introduce an array member in user_table[]. It would make array's
+initialisation OOB write, but by luck the user_table array has
+an excessive empty member (all accesses to the array are limited with
+UCOUNT_COUNTS - so it silently reuses the last free member.
 
-Nothing else would be needed as the sysctl test driver would just need
-to test that the values expected when this is enabled is set.
+Fixes user-visible regression: max_inotify_instances by reason of the
+missing UCOUNT_ENTRY() has limited max number of namespaces instead of
+the number of inotify instances.
 
-> Can you send a patch for what you think this should look like? Perhaps
-> I'm not correctly imagining what you're describing?
+Fixes: 769071ac9f20 ("ns: Introduce Time Namespace")
+Cc: Adrian Reber <adrian@lisas.de>
+Cc: Andrey Vagin <avagin@openvz.org>
+Cc: Christian Brauner <christian.brauner@ubuntu.com>
+Cc: Eric W. Biederman <ebiederm@xmission.com>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Cc: Containers <containers@lists.linux-foundation.org>
+Cc: Linux API <linux-api@vger.kernel.org>
+Cc: stable@kernel.org # v5.6+
+Reported-by: Michael Kerrisk (man-pages) <mtk.manpages@gmail.com>
+Signed-off-by: Dmitry Safonov <dima@arista.com>
+---
+ Documentation/admin-guide/sysctl/user.rst | 6 ++++++
+ kernel/ucount.c                           | 1 +
+ 2 files changed, 7 insertions(+)
 
-I rather get the person involved in the changes to do the testing so
-as they're the ones designing the feature. If however it is not clear
-what I mean I'm happy to elaborate.
+diff --git a/Documentation/admin-guide/sysctl/user.rst b/Documentation/admin-guide/sysctl/user.rst
+index 650eaa03f15e..c45824589339 100644
+--- a/Documentation/admin-guide/sysctl/user.rst
++++ b/Documentation/admin-guide/sysctl/user.rst
+@@ -65,6 +65,12 @@ max_pid_namespaces
+   The maximum number of pid namespaces that any user in the current
+   user namespace may create.
+ 
++max_time_namespaces
++===================
++
++  The maximum number of time namespaces that any user in the current
++  user namespace may create.
++
+ max_user_namespaces
+ ===================
+ 
+diff --git a/kernel/ucount.c b/kernel/ucount.c
+index a53cc2b4179c..29c60eb4ec9b 100644
+--- a/kernel/ucount.c
++++ b/kernel/ucount.c
+@@ -69,6 +69,7 @@ static struct ctl_table user_table[] = {
+ 	UCOUNT_ENTRY("max_net_namespaces"),
+ 	UCOUNT_ENTRY("max_mnt_namespaces"),
+ 	UCOUNT_ENTRY("max_cgroup_namespaces"),
++	UCOUNT_ENTRY("max_time_namespaces"),
+ #ifdef CONFIG_INOTIFY_USER
+ 	UCOUNT_ENTRY("max_inotify_instances"),
+ 	UCOUNT_ENTRY("max_inotify_watches"),
+-- 
+2.26.0
 
-Vlastimil do you get what I mean?
-
-> Regardless of testing, I think this series is ready for -mm.
-
-I'm happy for it to go in provided we at least devise a follow up plan
-for testing. Otherwise -- like other things, it won't get done.
-
-  Luis
