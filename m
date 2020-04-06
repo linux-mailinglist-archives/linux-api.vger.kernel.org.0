@@ -2,52 +2,48 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E52119FD3F
-	for <lists+linux-api@lfdr.de>; Mon,  6 Apr 2020 20:33:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A566C19FD4A
+	for <lists+linux-api@lfdr.de>; Mon,  6 Apr 2020 20:37:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725995AbgDFSdW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 6 Apr 2020 14:33:22 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:43925 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725787AbgDFSdW (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Apr 2020 14:33:22 -0400
-Received: from mail-lf1-f69.google.com ([209.85.167.69])
-        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <guilherme.piccoli@canonical.com>)
-        id 1jLWYh-0005jG-I6
-        for linux-api@vger.kernel.org; Mon, 06 Apr 2020 18:33:19 +0000
-Received: by mail-lf1-f69.google.com with SMTP id b16so5482618lfb.19
-        for <linux-api@vger.kernel.org>; Mon, 06 Apr 2020 11:33:19 -0700 (PDT)
+        id S1725962AbgDFShM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 6 Apr 2020 14:37:12 -0400
+Received: from mail-pj1-f67.google.com ([209.85.216.67]:54265 "EHLO
+        mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725933AbgDFShL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Apr 2020 14:37:11 -0400
+Received: by mail-pj1-f67.google.com with SMTP id l36so223076pjb.3
+        for <linux-api@vger.kernel.org>; Mon, 06 Apr 2020 11:37:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=RPf4iEWl31iyICcKKYAUoZ6x8ZFphZAANeccq/+cSuQ=;
+        b=ZhH7J/98IP9aFb1GIbiBZDjP8zYVMEESv42tnRyH7AYdTf+r78V5lVruWjn7mB3vr1
+         Qd0HfY4jT6/b7j8XtBs57O8ruHLNxbSFjdUZj5qZ6U01MsfE4MUUL/JKi+VHxDKHd/1P
+         fRym4RH6wHkv8Qv3chNSOPmmmhl1vpCYtaIOw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=90HV19v61/oJlZKRSYQx/Q+sNGoHReecpevkIbBQOKA=;
-        b=WkfvjoVGXa4XBup/kcUQXot6orsKMjkKsDtP8dHAJsL4heRJjmzhMXCacVAyA46VR4
-         N5XvOuCHyt9OEqZgCO/XzFKnYt9/9LeiPrkMOSj/ntqZJjZus9Hph+cMhPZQO1bHsQuS
-         AZ5Sa9FBTug5pvvEBSB6RpLVp/SxVgm7r7YLi1+zD+NjZiI9+zK7mMtv/niIVaywHvTk
-         WGLYPzGc2bSCToim7ugXINw15Ak9gCJM/3Cd0ZQGyMZkABoNN5zpy0inxR5JeYvP9oWZ
-         JsAlzUNguvfOtfEsweFuvLlq+cgHq7UW6jojd7oUh6HJV+dbJksxKvDN44aewBndzWA2
-         lKyw==
-X-Gm-Message-State: AGi0Pub8y9tCcVlV987f8TyN9xaDcBzAS0rlx3ga5uwR32izfNHKioU8
-        ktOmXKnutLCTkzMewu5wei/188PFacTr6IeR5E64rEqp2s4vFmObbyM2XGHnfO9XK3Udrav+93M
-        jWUZQXkMQBACD7yxUJ6PBAJV3g6+AddWdY1ZjGSpHZ8ht9jH1hkMyuw==
-X-Received: by 2002:ac2:57cc:: with SMTP id k12mr12759344lfo.69.1586197999025;
-        Mon, 06 Apr 2020 11:33:19 -0700 (PDT)
-X-Google-Smtp-Source: APiQypITp3xnqIy0LanaMOSTQptCQgmvJbvvW4mayLi3SKGRQ/k7zk5c43j4cUifOZGvLhKkDHOjqHFB4PoDD+QQXoU=
-X-Received: by 2002:ac2:57cc:: with SMTP id k12mr12759324lfo.69.1586197998800;
- Mon, 06 Apr 2020 11:33:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200327223646.20779-1-gpiccoli@canonical.com>
- <d4888de4-5748-a1d0-4a45-d1ecebe6f2a9@canonical.com> <202004060854.22F15BDBF1@keescook>
-In-Reply-To: <202004060854.22F15BDBF1@keescook>
-From:   Guilherme Piccoli <gpiccoli@canonical.com>
-Date:   Mon, 6 Apr 2020 15:32:42 -0300
-Message-ID: <CAHD1Q_xwR4OqsF8n3VJXknZ5QgpLWPQ3YTuztTgn0GTMR0vgKA@mail.gmail.com>
-Subject: Re: [PATCH V3] kernel/hung_task.c: Introduce sysctl to print all
- traces when a hung task is detected
-To:     Kees Cook <keescook@chromium.org>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=RPf4iEWl31iyICcKKYAUoZ6x8ZFphZAANeccq/+cSuQ=;
+        b=ERV1PwAfkKfQRVk0a4uoLNDGJNQYfZdIQAGLMnbHgbMmYbnAU/ry1XI4VTh1Pgnsfi
+         v+UDmX3EQnKNbs+1V6k1wny3B30ESlz1r1tbsiHKZFTqJ3B0sYv5qOJy/FnneSUwYCHu
+         tgzQuBUR4HCiyCIXvKUr+2+zR5+/p+gsO/ZNKoPuseCaR409H8Tbg0UK6AQHbGYZMHK4
+         459sOxD9e5IGVwQ4nxzqH45OL/kFUevIEp3PkU9dDuuKRV1Ouen5TdqmwSkNYDA1Efig
+         Ez/yKojZmBmaj3Lo+e4YncuSn0CTlKsLwTA0Gr5d4ubVIStEc1jTKXDUPNRNyLdA5ZzI
+         sI6Q==
+X-Gm-Message-State: AGi0PubAkKbaxgeXgSNnfBelU8ec2ckD1Nj1hfRgyXwXq2GtIrCiEpw1
+        hcoPfbF7BO4Zn9KYZP5MvWSJxQ==
+X-Google-Smtp-Source: APiQypJkJzqyAVk93YophF2DdDXFQtQFxEQ1p7UwWuwI6Z3WRoKl15rLkyLHchyR+rCTa2HWS+biEg==
+X-Received: by 2002:a17:902:bd85:: with SMTP id q5mr22257863pls.326.1586198230653;
+        Mon, 06 Apr 2020 11:37:10 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id h4sm11426186pgg.67.2020.04.06.11.37.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Apr 2020 11:37:09 -0700 (PDT)
+Date:   Mon, 6 Apr 2020 11:37:08 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Guilherme Piccoli <gpiccoli@canonical.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         linux-kernel@vger.kernel.org,
         Linux-Fsdevel <linux-fsdevel@vger.kernel.org>,
@@ -60,16 +56,31 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Matthew Wilcox <willy@infradead.org>,
         "Guilherme G. Piccoli" <kernel@gpiccoli.net>,
         Dmitry Vyukov <dvyukov@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH V3] kernel/hung_task.c: Introduce sysctl to print all
+ traces when a hung task is detected
+Message-ID: <202004061136.8029EF3@keescook>
+References: <20200327223646.20779-1-gpiccoli@canonical.com>
+ <d4888de4-5748-a1d0-4a45-d1ecebe6f2a9@canonical.com>
+ <202004060854.22F15BDBF1@keescook>
+ <CAHD1Q_xwR4OqsF8n3VJXknZ5QgpLWPQ3YTuztTgn0GTMR0vgKA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHD1Q_xwR4OqsF8n3VJXknZ5QgpLWPQ3YTuztTgn0GTMR0vgKA@mail.gmail.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Thanks Kees! I was expecting this could be merged in the current
-window, but there's really no problem in waiting for the next!
+On Mon, Apr 06, 2020 at 03:32:42PM -0300, Guilherme Piccoli wrote:
+> Thanks Kees! I was expecting this could be merged in the current
+> window, but there's really no problem in waiting for the next!
 
-Cheers,
+That's not usually how these things work, unfortunately. Stuff going
+into the merge window are those things that have been living in
+linux-next for a while (usually since before the -rc5). Once Andrew is
+done with the merge window for the -mm tree, he'll start scanning for
+new things to pull in. I expect this to be one of them. :)
 
-
-Guilherme
+-- 
+Kees Cook
