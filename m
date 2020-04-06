@@ -2,87 +2,223 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5734519E7AD
-	for <lists+linux-api@lfdr.de>; Sat,  4 Apr 2020 23:07:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9B1519EFDE
+	for <lists+linux-api@lfdr.de>; Mon,  6 Apr 2020 06:27:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726388AbgDDVHi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 4 Apr 2020 17:07:38 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:32525 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726314AbgDDVHi (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 4 Apr 2020 17:07:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1586034457;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=S4Sf7LyqqfhpsVkCDAaGxZwT9uYzAgzxhcfcN6LVPLo=;
-        b=BcATlWlcECa+89mM+WHzNxHHXnJ7dtsvfUvQ4tnClzpBWumrnMgHXjxaCxbw2emGfd9RdM
-        rzcDnL0BwxokNlplVWnYVyesY6adj5Q+2bfaerCvs6RFvVMM/GjWSz+Uejow3bk/iDjTl8
-        eGaYto2m2vNEWIvcEfR3vWf0KAvFJSY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-347-I67BNs4gNvmUkSjpoSMJZg-1; Sat, 04 Apr 2020 17:07:35 -0400
-X-MC-Unique: I67BNs4gNvmUkSjpoSMJZg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E5BA18A6ED2;
-        Sat,  4 Apr 2020 21:07:33 +0000 (UTC)
-Received: from [10.10.112.74] (ovpn-112-74.rdu2.redhat.com [10.10.112.74])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 4298A94B40;
-        Sat,  4 Apr 2020 21:07:32 +0000 (UTC)
-Subject: Re: [PATCH] prctl.2: doc PR_SET/GET_IO_FLUSHER - V4
-To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
-        linux-api@vger.kernel.org, david@fromorbit.com, mhocko@suse.com,
-        masato.suzuki@wdc.com, damien.lemoal@wdc.com,
-        darrick.wong@oracle.com, bvanassche@acm.org,
-        linux-man@vger.kernel.org
-References: <20200402020850.7218-1-mchristi@redhat.com>
- <111926f0-942c-66ea-4e43-9f90e7b43549@gmail.com>
-From:   Mike Christie <mchristi@redhat.com>
-Message-ID: <5E88F713.3050204@redhat.com>
-Date:   Sat, 4 Apr 2020 16:07:31 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
- Thunderbird/38.6.0
+        id S1725856AbgDFE10 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 6 Apr 2020 00:27:26 -0400
+Received: from mout02.posteo.de ([185.67.36.66]:46793 "EHLO mout02.posteo.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726455AbgDFE1Z (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 6 Apr 2020 00:27:25 -0400
+Received: from submission (posteo.de [89.146.220.130]) 
+        by mout02.posteo.de (Postfix) with ESMTPS id 37ACA2400FC
+        for <linux-api@vger.kernel.org>; Mon,  6 Apr 2020 06:27:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+        t=1586147242; bh=70a++uSvv2qdkM5jAGcOFLiP/g5Cl2dfP85Qllm6F34=;
+        h=Date:From:To:Cc:Subject:From;
+        b=cjwiK+WItkR04byOQUNyd7wqZowBinT5qssQZXriTReqtQEsBM7hsP7gJGWIAm8kQ
+         vngdpkbEcPaIoX6gF2fpkNd1Esm1SuvTRspv5xY1h/8e7hEcya9JGbYA5Mzi6Tw4+H
+         iHvobzW/lzwrcJArEWIipG8Yb+7ohdlyrmrDw84lUNwIetkR4KEnRKzkD/wnBcnWow
+         EPJIKbgy/f1O7ueEa7UxPM2ZPHIJVNdNTd009GYOGuXwnD8jYA8C4/8tak3aphDOEW
+         7DpKMkJbZEVj+5yxHSRvJNihbzMPa6BpmfUP4DbK8cqPWrjvcS7jJYgGEhsO9d2mM9
+         kX/DN7XJ+JKrg==
+Received: from customer (localhost [127.0.0.1])
+        by submission (posteo.de) with ESMTPSA id 48wcvN4HXhz9rxN;
+        Mon,  6 Apr 2020 06:27:12 +0200 (CEST)
+Date:   Mon, 6 Apr 2020 00:27:09 -0400
+From:   Kevyn-Alexandre =?utf-8?B?UGFyw6k=?= <kapare@posteo.net>
+To:     Alex Belits <abelits@marvell.com>
+Cc:     "frederic@kernel.org" <frederic@kernel.org>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "mingo@kernel.org" <mingo@kernel.org>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Prasun Kapoor <pkapoor@marvell.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "will@kernel.org" <will@kernel.org>
+Subject: Re: [PATCH v2 10/12] task_isolation: ringbuffer: don't interrupt
+ CPUs running isolated tasks on buffer resize
+Message-ID: <20200406042709.e4isjrvrrwsusjc4@x1>
+References: <4473787e1b6bc3cc226067e8d122092a678b63de.camel@marvell.com>
+ <aed12dd15ea2981bc9554cfa8b5e273c1342c756.camel@marvell.com>
+ <5add46d3bfbdac3fb42dcef6b6e4ea0e39abe11f.camel@marvell.com>
 MIME-Version: 1.0
-In-Reply-To: <111926f0-942c-66ea-4e43-9f90e7b43549@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5add46d3bfbdac3fb42dcef6b6e4ea0e39abe11f.camel@marvell.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 04/02/2020 07:16 AM, Michael Kerrisk (man-pages) wrote:
-> Hello Mike,
+On Sun, Mar 08, 2020 at 03:55:24AM +0000, Alex Belits wrote:
+> From: Yuri Norov <ynorov@marvell.com>
 > 
-> On 4/2/20 4:08 AM, Mike Christie wrote:
->> This patch documents the PR_SET_IO_FLUSHER and PR_GET_IO_FLUSHER
->> prctl commands added to the linux kernel for 5.6 in commit:
->>
->> commit 8d19f1c8e1937baf74e1962aae9f90fa3aeab463
->> Author: Mike Christie <mchristi@redhat.com>
->> Date:   Mon Nov 11 18:19:00 2019 -0600> 
->>     prctl: PR_{G,S}ET_IO_FLUSHER to support controlling memory reclaim
->>
->> Signed-off-by: Mike Christie <mchristi@redhat.com>
+> CPUs running isolated tasks are in userspace, so they don't have to
+> perform ring buffer updates immediately. If ring_buffer_resize()
+> schedules the update on those CPUs, isolation is broken. To prevent
+> that, updates for CPUs running isolated tasks are performed locally,
+> like for offline CPUs.
 > 
-> I've applied this patch, but I have some questions:
-
-Hey,
-
-Thanks for fixing up the patch for me.
-
+> A race condition between this update and isolation breaking is avoided
+> at the cost of disabling per_cpu buffer writing for the time of update
+> when it coincides with isolation breaking.
 > 
-> (a) What happens to the IO_FLUSHER setting in the child of fork(2)?
+> Signed-off-by: Yuri Norov <ynorov@marvell.com>
+> [abelits@marvell.com: updated to prevent race with isolation breaking]
+> Signed-off-by: Alex Belits <abelits@marvell.com>
+> ---
+>  kernel/trace/ring_buffer.c | 62 ++++++++++++++++++++++++++++++++++----
+>  1 file changed, 56 insertions(+), 6 deletions(-)
+> 
+> diff --git a/kernel/trace/ring_buffer.c b/kernel/trace/ring_buffer.c
+> index 61f0e92ace99..593effe40183 100644
+> --- a/kernel/trace/ring_buffer.c
+> +++ b/kernel/trace/ring_buffer.c
+> @@ -21,6 +21,7 @@
+>  #include <linux/delay.h>
+>  #include <linux/slab.h>
+>  #include <linux/init.h>
+> +#include <linux/isolation.h>
+>  #include <linux/hash.h>
+>  #include <linux/list.h>
+>  #include <linux/cpu.h>
+> @@ -1701,6 +1702,37 @@ static void update_pages_handler(struct work_struct *work)
+>  	complete(&cpu_buffer->update_done);
+>  }
+>  
+> +static bool update_if_isolated(struct ring_buffer_per_cpu *cpu_buffer,
+> +			       int cpu)
+> +{
+> +	bool rv = false;
+> +
+> +	if (task_isolation_on_cpu(cpu)) {
+> +		/*
+> +		 * CPU is running isolated task. Since it may lose
+> +		 * isolation and re-enter kernel simultaneously with
+> +		 * this update, disable recording until it's done.
+> +		 */
+> +		atomic_inc(&cpu_buffer->record_disabled);
+> +		/* Make sure, update is done, and isolation state is current */
+> +		smp_mb();
+> +		if (task_isolation_on_cpu(cpu)) {
+> +			/*
+> +			 * If CPU is still running isolated task, we
+> +			 * can be sure that breaking isolation will
+> +			 * happen while recording is disabled, and CPU
+> +			 * will not touch this buffer until the update
+> +			 * is done.
+> +			 */
+> +			rb_update_pages(cpu_buffer);
+> +			cpu_buffer->nr_pages_to_update = 0;
+> +			rv = true;
+> +		}
+> +		atomic_dec(&cpu_buffer->record_disabled);
+> +	}
+> +	return rv;
+> +}
+> +
+>  /**
+>   * ring_buffer_resize - resize the ring buffer
+>   * @buffer: the buffer to resize.
+> @@ -1784,13 +1816,22 @@ int ring_buffer_resize(struct trace_buffer *buffer, unsigned long size,
+>  			if (!cpu_buffer->nr_pages_to_update)
+>  				continue;
+>  
+> -			/* Can't run something on an offline CPU. */
+> +			/*
+> +			 * Can't run something on an offline CPU.
+> +			 *
+> +			 * CPUs running isolated tasks don't have to
+> +			 * update ring buffers until they exit
+> +			 * isolation because they are in
+> +			 * userspace. Use the procedure that prevents
+> +			 * race condition with isolation breaking.
+> +			 */
+>  			if (!cpu_online(cpu)) {
+>  				rb_update_pages(cpu_buffer);
+>  				cpu_buffer->nr_pages_to_update = 0;
+>  			} else {
+> -				schedule_work_on(cpu,
+> -						&cpu_buffer->update_pages_work);
+> +				if (!update_if_isolated(cpu_buffer, cpu))
+> +					schedule_work_on(cpu,
+> +					&cpu_buffer->update_pages_work);
+>  			}
+>  		}
+>  
+> @@ -1829,13 +1870,22 @@ int ring_buffer_resize(struct trace_buffer *buffer, unsigned long size,
+>  
+>  		get_online_cpus();
+>  
+> -		/* Can't run something on an offline CPU. */
+> +		/*
+> +		 * Can't run something on an offline CPU.
+> +		 *
+> +		 * CPUs running isolated tasks don't have to update
+> +		 * ring buffers until they exit isolation because they
+> +		 * are in userspace. Use the procedure that prevents
+> +		 * race condition with isolation breaking.
+> +		 */
+>  		if (!cpu_online(cpu_id))
+>  			rb_update_pages(cpu_buffer);
+>  		else {
+> -			schedule_work_on(cpu_id,
+> +			if (!update_if_isolated(cpu_buffer, cpu_id))
+> +				schedule_work_on(cpu_id,
+>  					 &cpu_buffer->update_pages_work);
+> -			wait_for_completion(&cpu_buffer->update_done);
+> +				wait_for_completion(&cpu_buffer->update_done);
+> +			}
+>  		}
+>  
+>  		cpu_buffer->nr_pages_to_update = 0;
 
-The child will inherit the setting.
+gcc output:
 
-> (b) What happens to the IO_FLUSHER setting during an execve(2)?
->     (Is it preserved, reset, something else?)
+kernel/trace/ring_buffer.c: In function 'ring_buffer_resize':
+kernel/trace/ring_buffer.c:1884:4: warning: this 'if' clause does not guard... [-Wmisleading-indentation]
+    if (!update_if_isolated(cpu_buffer, cpu_id))
+    ^~
+kernel/trace/ring_buffer.c:1887:5: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'
+     wait_for_completion(&cpu_buffer->update_done);
+     ^~~~~~~~~~~~~~~~~~~
+kernel/trace/ring_buffer.c:1858:4: error: label 'out' used but not defined
+    goto out;
+    ^~~~
+kernel/trace/ring_buffer.c:1868:4: error: label 'out_err' used but not defined
+    goto out_err;
+    ^~~~
 
-It's preserved.
+My fix:
 
+diff --git a/kernel/trace/ring_buffer.c b/kernel/trace/ring_buffer.c
+index 593effe40183..8b458400ac31 100644
+--- a/kernel/trace/ring_buffer.c
++++ b/kernel/trace/ring_buffer.c
+@@ -1881,9 +1881,8 @@ int ring_buffer_resize(struct trace_buffer *buffer, unsigned long size,
+                if (!cpu_online(cpu_id))
+                        rb_update_pages(cpu_buffer);
+                else {
+-                       if (!update_if_isolated(cpu_buffer, cpu_id))
+-                               schedule_work_on(cpu_id,
+-                                        &cpu_buffer->update_pages_work);
++                       if (!update_if_isolated(cpu_buffer, cpu_id)) {
++                               schedule_work_on(cpu_id, &cpu_buffer->update_pages_work);
+                                wait_for_completion(&cpu_buffer->update_done);
+                        }
+                }
+
+
+thx,
+
+-- Kevyn-Alexandre Paré 
