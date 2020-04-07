@@ -2,104 +2,98 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E39121A054C
-	for <lists+linux-api@lfdr.de>; Tue,  7 Apr 2020 05:31:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 235071A054F
+	for <lists+linux-api@lfdr.de>; Tue,  7 Apr 2020 05:33:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726420AbgDGDbz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 6 Apr 2020 23:31:55 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:41110 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726329AbgDGDbz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Apr 2020 23:31:55 -0400
-Received: by mail-pf1-f194.google.com with SMTP id a24so157129pfc.8;
-        Mon, 06 Apr 2020 20:31:54 -0700 (PDT)
+        id S1726420AbgDGDdl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 6 Apr 2020 23:33:41 -0400
+Received: from mail-pj1-f67.google.com ([209.85.216.67]:35914 "EHLO
+        mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726329AbgDGDdl (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Apr 2020 23:33:41 -0400
+Received: by mail-pj1-f67.google.com with SMTP id nu11so170448pjb.1;
+        Mon, 06 Apr 2020 20:33:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=/P6O2mPLymYKLroA3umPUfYVuh6HhhwYUO2JefWtMBo=;
-        b=MnIaJgKNEoghmrXYeN6PrrfqKXrOrntj4ByA4CmVez3qiHobB7oQ3/xC3oPovq5TB2
-         oXbeKgD9DFjurIty0CtyyM6l4ktmaKdQk1Ujs85ThzpCx0w1ZfbN7uTbkH3LapWXhdc9
-         xOZIftUTzsIP47NhwXtJ7626WE3hccQLuImVctb7bZX1rq6Zh3nnBIb9RPWjWJZ9JC0W
-         HQDSlvjiswN9LDefDZA/vDwUgo3TC9Q3vLCU68aHyesVXA1O3yarHqi4GGYNGH2lBj8Y
-         YE5qMpV8wv/RduFpqvpx+PzhukZmLfpo+TWqnJqneFviyMCAufBhafr6goKfks9HBhAz
-         lEyA==
+        bh=i/Z+1EhzPKH/+gfsWTS8RfxVvrjmpU0UXINubSAXsU4=;
+        b=X/zRB9WhYvcfUKxGIE5qtnjlusjCpiEokIO2jk8OX71FC9c0apvw+FTHWDkekRGt01
+         V/okEsXmgjLwNaevfOAqS8dV0Jji+ykoU2gVNgtzHxlEJ7peVucFhOAj0EV53Nd4DvKr
+         7ZL5SScqMLPqUXpIQunZ2YmpU0+/Gy+ukoRbt2zTwCS5a161ygE2cby2/+bT52hQ/xT3
+         xTRCop7JoA0oS22vy1XwAkaQvlKPhko4UxpXIsGTI41L624in70wPAzCLWTThShdr356
+         LnTBsUHZL58BCMW+gUW73jjgf6gsob8OhkJLC2QoVyXvxhBZTrXUBz0mwHF2xH6vylYe
+         q6oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=/P6O2mPLymYKLroA3umPUfYVuh6HhhwYUO2JefWtMBo=;
-        b=EasDhZRlAkOEGIkw/oeUyKBCAbiqqEWtsHhgLpruBzxqRY/6oZG/Bav7OBUpiaMFqD
-         r3qt4yO1NwcZK10eBcyIjZflWQFoxXLYJhUcLOAzLaTO/ucDdvciHmu+XcEztv3dcL1Z
-         gIhXL4VrRt5TN+DmAdQuff37wXpjPBrw/Gb9tdDeQcVq3BgMUl4vHDSZYZDuym2lAW6s
-         FA//T/Y4lV02L2lMuz8V4PLlCQGgl4rDA6vPTeJF1QeiXHoN1hqNRSGP1HqotRIvysxs
-         HgiFjZC/RWgr0/oIqbXu0i0cVQuWFu0tJQ/OewS43o+wSPohPVXiB8nLCZ7PWxvHLZfS
-         GF9g==
-X-Gm-Message-State: AGi0Pua9Q3zvXh926/76LFKzIv8VLpBN1i+MyJu7IiL0xk2ChoMJIx9x
-        D9iv4mKgZSljZRTGU8k3en0=
-X-Google-Smtp-Source: APiQypLcGLQ1Z2J+R/kZ5w3OPbpyf/RIOgwvVgpoeBCWpfg3wYpUoe6QeCsb5QOAbl0r4tcef/U0XA==
-X-Received: by 2002:a62:52d7:: with SMTP id g206mr615115pfb.286.1586230313668;
-        Mon, 06 Apr 2020 20:31:53 -0700 (PDT)
+        bh=i/Z+1EhzPKH/+gfsWTS8RfxVvrjmpU0UXINubSAXsU4=;
+        b=AlH1c/T0wvl83trtQJvjRgv0R97d6AUUKFhRAalEEDS7T+9+K+9wToadC89852319k
+         DDRt66mdd2oywPjtGfmMjLQXKvnLMZqv+rVLNU2DsKq31fAGSiLD35UOJ/zFL4SF1imP
+         b7dDpU0+JMf5J5h3nLfaW03zTr/uNwyr3NxgAKcpffzEcSnggy3iuDX79p68bQyFzmE+
+         /ivQGB7kpA0IEpPwt1kksVbCry0MVqP7qwEL3bc3aJmuNq9rM7NIXODUCsP4lrWCQMXA
+         EeM1+anwhPpHmBmo+4IYqyF0SOTeDMbS753Znqf1hwTzGWSiSqXtM3b25jYpVZaih1Mx
+         fRoA==
+X-Gm-Message-State: AGi0Pua2JXsOIsfWw8js5kkL3Cq5jb/3x8Wv34xCas6uOOuXfzCc0eDB
+        z0dhcvj8suf++m6O2mLxUJQ=
+X-Google-Smtp-Source: APiQypIrfQvZJT2LwyUWRkkFYRDnJFheak81MJ0TQxqjm4du4jwr6HHNoKxehU7mesYXzZ7gdesZmw==
+X-Received: by 2002:a17:902:9892:: with SMTP id s18mr490734plp.321.1586230419618;
+        Mon, 06 Apr 2020 20:33:39 -0700 (PDT)
 Received: from gmail.com ([2601:600:817f:a132:df3e:521d:99d5:710d])
-        by smtp.gmail.com with ESMTPSA id l6sm4882192pgo.88.2020.04.06.20.31.52
+        by smtp.gmail.com with ESMTPSA id q71sm12941277pfc.92.2020.04.06.20.33.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Apr 2020 20:31:53 -0700 (PDT)
-Date:   Mon, 6 Apr 2020 20:31:48 -0700
+        Mon, 06 Apr 2020 20:33:38 -0700 (PDT)
+Date:   Mon, 6 Apr 2020 20:33:34 -0700
 From:   Andrei Vagin <avagin@gmail.com>
-To:     Dmitry Safonov via Containers 
-        <containers@lists.linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org,
+To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc:     Dmitry Safonov <dima@arista.com>, Andrei Vagin <avagin@openvz.or>,
+        Adrian Reber <adrian@lisas.de>,
         "Eric W. Biederman" <ebiederm@xmission.com>,
-        Andrey Vagin <avagin@openvz.org>,
-        Dmitry Safonov <dima@arista.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Dmitry Safonov <0x7f454c46@gmail.com>, stable@kernel.org,
-        Ingo Molnar <mingo@redhat.com>,
-        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        Dmitry Safonov <0x7f454c46@gmail.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Adrian Reber <adrian@lisas.de>
-Subject: Re: [PATCH] kernel/time: Add max_time_namespaces ucount
-Message-ID: <20200407033148.GB494464@gmail.com>
-References: <20200406171342.128733-1-dima@arista.com>
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Containers <containers@lists.linux-foundation.org>
+Subject: Re: [PATCH] ns: Fix time_for_children symlink
+Message-ID: <20200407033334.GC494464@gmail.com>
+References: <a2418c48-ed80-3afe-116e-6611cb799557@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=koi8-r
 Content-Disposition: inline
-In-Reply-To: <20200406171342.128733-1-dima@arista.com>
+In-Reply-To: <a2418c48-ed80-3afe-116e-6611cb799557@gmail.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Apr 06, 2020 at 06:13:42PM +0100, Dmitry Safonov via Containers wrote:
-> Introduce missing time namespaces limit per-userns.
-> Michael noticed that userns limit for number of time namespaces is
-> missing.
+On Fri, Apr 03, 2020 at 02:11:39PM +0200, Michael Kerrisk (man-pages) wrote:
+> Dmitry, Andrei,
 > 
-> Furthermore, time namespace introduced UCOUNT_TIME_NAMESPACES, but
-> didn't introduce an array member in user_table[]. It would make array's
-> initialisation OOB write, but by luck the user_table array has
-> an excessive empty member (all accesses to the array are limited with
-> UCOUNT_COUNTS - so it silently reuses the last free member.
+> Looking at the contents of the /proc/PID/ns/time_for_children
+> symlink shows an anomaly:
 > 
-> Fixes user-visible regression: max_inotify_instances by reason of the
-> missing UCOUNT_ENTRY() has limited max number of namespaces instead of
-> the number of inotify instances.
+> $ ls -l /proc/self/ns/* |awk '{print $9, $10, $11}'
+> ...
+> /proc/self/ns/pid -> pid:[4026531836]
+> /proc/self/ns/pid_for_children -> pid:[4026531836]
+> /proc/self/ns/time -> time:[4026531834]
+> /proc/self/ns/time_for_children -> time_for_children:[4026531834]
+> /proc/self/ns/user -> user:[4026531837]
+> ...
 > 
-> Fixes: 769071ac9f20 ("ns: Introduce Time Namespace")
-> Cc: Adrian Reber <adrian@lisas.de>
-> Cc: Andrey Vagin <avagin@openvz.org>
-> Cc: Christian Brauner <christian.brauner@ubuntu.com>
-> Cc: Eric W. Biederman <ebiederm@xmission.com>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>
-> Cc: Containers <containers@lists.linux-foundation.org>
-> Cc: Linux API <linux-api@vger.kernel.org>
-> Cc: stable@kernel.org # v5.6+
-> Reported-by: Michael Kerrisk (man-pages) <mtk.manpages@gmail.com>
+> The reference for 'time_for_children' should be a 'time' namespace,
+> just as the reference for 'pid_for_children' is a 'pid' namespace.
+> In other words, I think the above time_for_children link should read:
+> 
+> /proc/self/ns/time_for_children -> time:[4026531834]
+> 
+> If you agree with this patch, then it should be marked for
+> stable@vger.kernel.org.
+>
 
 Acked-by: Andrei Vagin <avagin@gmail.com>
-
-> Signed-off-by: Dmitry Safonov <dima@arista.com>
+ 
+> Signed-off-by: Michael Kerrisk <mtk.manpages@gmail.com>
