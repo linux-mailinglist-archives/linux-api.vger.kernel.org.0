@@ -2,68 +2,109 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9556D1A1540
-	for <lists+linux-api@lfdr.de>; Tue,  7 Apr 2020 20:49:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69ACE1A17E7
+	for <lists+linux-api@lfdr.de>; Wed,  8 Apr 2020 00:22:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726831AbgDGSto (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 7 Apr 2020 14:49:44 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:44972 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726332AbgDGStn (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Apr 2020 14:49:43 -0400
-Received: by mail-wr1-f66.google.com with SMTP id c15so5048803wro.11;
-        Tue, 07 Apr 2020 11:49:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=cc:to:from:subject:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=fSW6zqhPZsThdcoTatdLbp7WJ3WUZiNlQXUswn8hhu4=;
-        b=aRXxvQ38Ou9GCSVIy7YCqt5Ig+frDurJp4o/OLK1RDtexLvZtLqLuTX1d1HE8VXNik
-         2he3dnHygK09W0+AtGtaao9wrNR+bmh0eRqBF4bTNKaPEQsD0FHeWktVfYFQ5+vmKJwJ
-         tBsdqozpQf+O2ZHbqMqP5GkV99hL8JD45K4xiquvpvLuOwfn8C/lnvlEZPDqrdhwQVbI
-         /8DekddnNDDs7OQD/yFWHwKAoF+5l1kNUPvmeHUIJL9h7PUvkN1EIY27NS/Pfxejxs33
-         wgOFL5J8z+3Pk2etHsAGxVa25AuoNcic6dNiidJK1nPbK7lorUTux3vX6BEniF1FHyZY
-         6C/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:to:from:subject:message-id:date:user-agent
-         :mime-version:content-language:content-transfer-encoding;
-        bh=fSW6zqhPZsThdcoTatdLbp7WJ3WUZiNlQXUswn8hhu4=;
-        b=fHO4+BbUJS5QtmOrLTI85MLAZQ2cytfuP0Va00RzhH8Gn/uGVCBkBM6e/AJJXkYDnl
-         ooGehYILgkRwIZ/qs8oaX8GWT9TTLJu7weKzZzmD0SAUhiY0gJ4dwNMR48d5LE///lJj
-         ePWhqp1MSYnSigpY8k/7LTD6WuQcO08NU+NWCoRYgN7/7LKjj5YD4DuRMRsGjjyk77Ve
-         U74Ole2rbBena5l6UpZj+2J37xtl2dEQiJk7XKx94B8Nx4ab8zq4INjNyxIBQZ7gFJSk
-         oaCLT3bST6/Csmn67fSjN8lgs3kBSQyxJo6awI7mBZPWd923S5NGbx2GJddJXAxtNwEM
-         vxAQ==
-X-Gm-Message-State: AGi0PuaEaXUR7fFMle+9A5bLZAToWUeOd2VDdldXU4pPg2cKnSX+vPuP
-        iIO+gh4XO6lsPdLhi/UqUIA=
-X-Google-Smtp-Source: APiQypJx9PMgsqdL0juRTEGxcxw5lzragXeKvyV7yIea6qodVlFrFLc7v1oj122EmZyqCXzFqf8nog==
-X-Received: by 2002:adf:9344:: with SMTP id 62mr4443781wro.12.1586285377287;
-        Tue, 07 Apr 2020 11:49:37 -0700 (PDT)
-Received: from ?IPv6:2001:a61:2482:101:3351:6160:8173:cc31? ([2001:a61:2482:101:3351:6160:8173:cc31])
-        by smtp.gmail.com with ESMTPSA id p13sm31701896wru.3.2020.04.07.11.49.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Apr 2020 11:49:36 -0700 (PDT)
-Cc:     mtk.manpages@gmail.com, linux-man <linux-man@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Tycho Andersen <tycho@tycho.ws>, Jann Horn <jannh@google.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Christian Brauner <christian@brauner.io>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>, jld@mozilla.com,
+        id S1726417AbgDGWWI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 7 Apr 2020 18:22:08 -0400
+Received: from mga09.intel.com ([134.134.136.24]:30926 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726386AbgDGWWI (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 7 Apr 2020 18:22:08 -0400
+IronPort-SDR: AfsxHqqmUNBE+YXhfpW/d2+zS5UWYjbK9FW1oKxKy6Xe+Qe/juotInwiMefR4iDDoEhcegNJu4
+ use7AZ5sUbJQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2020 15:22:06 -0700
+IronPort-SDR: MHqNrBVUSFnEW0SwAq44PvRuJRi2rd4NlBahYEO7RpbBCKWzXtcB0NZMVrXO6kqpzjaM3KUQy2
+ cW+QrYij3Uqg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,356,1580803200"; 
+   d="scan'208";a="254604510"
+Received: from chenb-mobl1.amr.corp.intel.com (HELO [10.255.231.128]) ([10.255.231.128])
+  by orsmga006.jf.intel.com with ESMTP; 07 Apr 2020 15:21:59 -0700
+Subject: Re: [RFC PATCH v9 14/27] mm: Handle Shadow Stack page fault
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
         Arnd Bergmann <arnd@arndb.de>,
-        Florian Weimer <fweimer@redhat.com>, gpascutto@mozilla.com,
-        ealvarez@mozilla.com
-To:     Sargun Dhillon <sargun@sargun.me>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: [RESEND] RFC: pidfd_getfd(2) manual page
-Message-ID: <d6be97d1-38a5-bf43-7c80-7c952a5a44a3@gmail.com>
-Date:   Tue, 7 Apr 2020 20:49:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
+References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
+ <20200205181935.3712-15-yu-cheng.yu@intel.com>
+ <4902a6ee-cb0f-2700-1f6d-9d756593183c@intel.com>
+ <444d97c4a4f70ccbb12da5e8f7ff498b37a9f60d.camel@intel.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+Message-ID: <e432d102-7f69-7ba3-6146-c0165eef87e1@intel.com>
+Date:   Tue, 7 Apr 2020 15:21:59 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
+In-Reply-To: <444d97c4a4f70ccbb12da5e8f7ff498b37a9f60d.camel@intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -72,214 +113,62 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-[No response on my mail of a week ago, so I try again; the page
-text is unchanged since the draft sent out on 31 March]
+On 4/7/20 11:14 AM, Yu-cheng Yu wrote:
+> On Wed, 2020-02-26 at 16:08 -0800, Dave Hansen wrote:
+>>> diff --git a/mm/memory.c b/mm/memory.c
+>>> index 45442d9a4f52..6daa28614327 100644
+>>> --- a/mm/memory.c
+>>> +++ b/mm/memory.c
+>>> @@ -772,7 +772,8 @@ copy_one_pte(struct mm_struct *dst_mm, struct mm_struct *src_mm,
+>>>  	 * If it's a COW mapping, write protect it both
+>>>  	 * in the parent and the child
+>>>  	 */
+>>> -	if (is_cow_mapping(vm_flags) && pte_write(pte)) {
+>>> +	if ((is_cow_mapping(vm_flags) && pte_write(pte)) ||
+>>> +	    arch_copy_pte_mapping(vm_flags)) {
+>>>  		ptep_set_wrprotect(src_mm, addr, src_pte);
+>>>  		pte = pte_wrprotect(pte);
+>>>  	}
+>>
+>> You have to modify this because pte_write()==0 for shadow stack PTEs, right?
+>>
+>> Aren't shadow stack ptes *logically* writable, even if they don't have
+>> the write bit set?  What would happen if we made pte_write()==1 for them?
+> 
+> Here the vm_flags needs to have VM_MAYWRITE, and the PTE needs to have
+> _PAGE_WRITE.  A shadow stack does not have either.
 
-Hello Sargun et al.
+I literally mean taking pte_write(), and doing something l
 
-I've taken a shot at writing a manual page for pidfd_getfd().
-I would be happy to receive comments, suggestions for
-improvements, etc. The text is as follows (the groff source 
-is at the foot of this mail):
+static inline int pte_write(pte_t pte)
+{
+	if (pte_present(pte) && pte_is_shadow_stack(pte))
+		return 1;
 
-NAME
-       pidfd_getfd  -  obtain  a  duplicate  of  another  process's  file
-       descriptor
+        return pte_flags(pte) & _PAGE_RW;
+}
 
-SYNOPSIS
-       int pidfd_getfd(int pidfd, int targetfd, unsigned int flags);
+Then if is_cow_mapping() returns true for shadow stack VMAs, the above
+code doesn't need to change.
 
-DESCRIPTION
-       The pidfd_getfd() system call allocates a new file  descriptor  in
-       the  calling  process.  This new file descriptor is a duplicate of
-       an existing file descriptor, targetfd, in the process referred  to
-       by the PID file descriptor pidfd.
+> To fix checking vm_flags, what about adding a "arch_is_cow_mappping()" to the
+> generic is_cow_mapping()?
 
-       The  duplicate  file  descriptor  refers  to  the  same  open file
-       description (see open(2)) as the original file descriptor  in  the
-       process referred to by pidfd.  The two file descriptors thus share
-       file status flags and file offset.  Furthermore, operations on the
-       underlying  file  object  (for  example, assigning an address to a
-       socket object using bind(2)) can be equally be performed  via  the
-       duplicate file descriptor.
+That makes good sense to me.
 
-       The  close-on-exec  flag  (FD_CLOEXEC; see fcntl(2)) is set on the
-       file descriptor returned by pidfd_getfd().
+> For the PTE, the check actually tries to determine if the PTE is not already
+> being copy-on-write, which is:
+> 
+> 	(!_PAGE_RW && !_PAGE_DIRTY_HW)
+> 
+> So what about making it pte_cow()?
+> 
+> 	/*
+> 	 * The PTE is in copy-on-write status.
+> 	 */
+> 	static inline int pte_cow(pte_t pte)
+> 	{
+> 		return !(pte_flags(pte) & (_PAGE_WRITE | _PAGE_DIRTY_HW));
+> 	}
 
-       The flags argument is reserved for future use.  Currently, it must
-       be specified as 0.
-
-       Permission  to duplicate another process's file descriptor is gov‐
-       erned by a ptrace access mode  PTRACE_MODE_ATTACH_REALCREDS  check
-       (see ptrace(2)).
-
-RETURN VALUE
-       On  success,  pidfd_getfd() returns a nonnegative file descriptor.
-       On error, -1 is returned and errno is set to indicate the cause of
-       the error.
-
-ERRORS
-       EBADF  pidfd is not a valid PID file descriptor.
-
-       EBADF  targetfd  is  not  an  open  file descriptor in the process
-              referred to by pidfd.
-
-       EINVAL flags is not 0.
-
-       EMFILE The per-process limit on the number of open  file  descrip‐
-              tors has been reached (see the description of RLIMIT_NOFILE
-              in getrlimit(2)).
-
-       ENFILE The system-wide limit on the total number of open files has
-              been reached.
-
-       ESRCH  The  process  referred to by pidfd does not exist (i.e., it
-              has terminated and been waited on).
-
-VERSIONS
-       pidfd_getfd() first appeared in Linux 5.6.
-
-CONFORMING TO
-       pidfd_getfd() is Linux specific.
-
-NOTES
-       Currently, there is no glibc wrapper for this system call; call it
-       using syscall(2).
-
-       For a description of PID file descriptors, see pidfd_open(2).
-
-SEE ALSO
-       clone3(2), kcmp(2), pidfd_open(2)
-
-Cheers,
-
-Michael
-
-.\" Copyright (c) 2020 by Michael Kerrisk <mtk.manpages@gmail.com>
-.\"
-.\" %%%LICENSE_START(VERBATIM)
-.\" Permission is granted to make and distribute verbatim copies of this
-.\" manual provided the copyright notice and this permission notice are
-.\" preserved on all copies.
-.\"
-.\" Permission is granted to copy and distribute modified versions of this
-.\" manual under the conditions for verbatim copying, provided that the
-.\" entire resulting derived work is distributed under the terms of a
-.\" permission notice identical to this one.
-.\"
-.\" Since the Linux kernel and libraries are constantly changing, this
-.\" manual page may be incorrect or out-of-date.  The author(s) assume no
-.\" responsibility for errors or omissions, or for damages resulting from
-.\" the use of the information contained herein.  The author(s) may not
-.\" have taken the same level of care in the production of this manual,
-.\" which is licensed free of charge, as they might when working
-.\" professionally.
-.\"
-.\" Formatted or processed versions of this manual, if unaccompanied by
-.\" the source, must acknowledge the copyright and authors of this work.
-.\" %%%LICENSE_END
-.\"
-.TH PIDFD_GETFD 2 2020-03-31 "Linux" "Linux Programmer's Manual"
-.SH NAME
-pidfd_getfd \- obtain a duplicate of another process's file descriptor
-.SH SYNOPSIS
-.nf
-.BI "int pidfd_getfd(int " pidfd ", int " targetfd ", unsigned int " flags );
-.fi
-.SH DESCRIPTION
-The
-.BR pidfd_getfd ()
-system call allocates a new file descriptor in the calling process.
-This new file descriptor is a duplicate of an existing file descriptor,
-.IR targetfd ,
-in the process referred to by the PID file descriptor
-.IR pidfd .
-.PP
-The duplicate file descriptor refers to the same open file description (see
-.BR open (2))
-as the original file descriptor in the process referred to by
-.IR pidfd .
-The two file descriptors thus share file status flags and file offset.
-Furthermore, operations on the underlying file object
-(for example, assigning an address to a socket object using
-.BR bind (2))
-can be equally be performed via the duplicate file descriptor.
-.PP
-The close-on-exec flag
-.RB ( FD_CLOEXEC ;
-see
-.BR fcntl (2))
-is set on the file descriptor returned by
-.BR pidfd_getfd ().
-.PP
-The
-.I flags
-argument is reserved for future use.
-Currently, it must be specified as 0.
-.PP
-Permission to duplicate another process's file descriptor
-is governed by a ptrace access mode
-.B PTRACE_MODE_ATTACH_REALCREDS
-check (see
-.BR ptrace (2)).
-.SH RETURN VALUE
-On success,
-.BR pidfd_getfd ()
-returns a nonnegative file descriptor.
-On error, \-1 is returned and
-.I errno
-is set to indicate the cause of the error.
-.SH ERRORS
-.TP
-.B EBADF
-.I pidfd
-is not a valid PID file descriptor.
-.TP
-.B EBADF
-.I targetfd
-is not an open file descriptor in the process referred to by
-.IR pidfd .
-.BR 
-.TP
-.B EINVAL
-.I flags
-is not 0.
-.TP
-.B EMFILE
-The per-process limit on the number of open file descriptors has been reached
-(see the description of
-.BR RLIMIT_NOFILE
-in
-.BR getrlimit (2)).
-.TP
-.B ENFILE
-The system-wide limit on the total number of open files has been reached.
-.TP
-.B ESRCH
-The process referred to by
-.I pidfd
-does not exist
-(i.e., it has terminated and been waited on).
-.SH VERSIONS
-.BR pidfd_getfd ()
-first appeared in Linux 5.6.
-.\" commit 8649c322f75c96e7ced2fec201e123b2b073bf09
-.SH CONFORMING TO
-.BR pidfd_getfd ()
-is Linux specific.
-.SH NOTES
-Currently, there is no glibc wrapper for this system call; call it using
-.BR syscall (2).
-.PP
-For a description of PID file descriptors, see
-.BR pidfd_open (2).
-.SH SEE ALSO
-.BR clone3 (2),
-.BR kcmp (2),
-.BR pidfd_open (2)
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
-
+... with appropriate comments that seems fine to me.
