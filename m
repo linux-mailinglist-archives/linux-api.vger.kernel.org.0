@@ -2,119 +2,156 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D873E1A103A
-	for <lists+linux-api@lfdr.de>; Tue,  7 Apr 2020 17:32:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 301A21A1361
+	for <lists+linux-api@lfdr.de>; Tue,  7 Apr 2020 20:15:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729033AbgDGPcV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 7 Apr 2020 11:32:21 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:37646 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728306AbgDGPcV (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Apr 2020 11:32:21 -0400
-Received: by mail-wm1-f68.google.com with SMTP id j19so2307830wmi.2;
-        Tue, 07 Apr 2020 08:32:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=h9+2iih/O2ZGrwXPlPA6epkbehyL9r0ADOqLYSpcHNE=;
-        b=JRf2Qmhm/4s/sucGs/OAtRnuw6ihYoPn8MCfnhdh+5ksBicPo+gOgwG+zluZJCjCsv
-         7ZwprP6aYLAX+eKBmDHz07gE/S2zB8UGAnA8Ik1gseeQiViRWSWBp6GNspJnjFqwcu/A
-         jeWDBr+EuVORaiX9yQ5salmw+BGq5FWVjoZH7X83lmVWD5T69kLAfovLmT0sPgzNuJRe
-         njx8CAOSwapf2OJ3pYWngliZzuRtdDjjQHgg9WVuLX5fesZbnHnrpLO3KFZ3ht0AFm/T
-         RKsw91R7MeILo3FMXdZXFhKNUH2MjNAtm4iMboMnIe6CP1clG+NGNXYumaEfiRh7kzEK
-         bvrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=h9+2iih/O2ZGrwXPlPA6epkbehyL9r0ADOqLYSpcHNE=;
-        b=qCZKXqF5s1zuAsbQTa7n5Xl0D3Aj6rYTB4zmCbNELaxI8PqDPR+0EhAU0o2bK/siv1
-         1PxBUR85b/0FYGHmaRU/fPa+nyMYPpoV0v2kVi7jW0QXqlIiC9ZX/dwYzEqXvHZQsNPs
-         xISMfEFmtYZGOUuUOSFwbwaktcws8aRp+qI9BHRfGtchzgCTu4opxZLgxLIxNqLTCDOr
-         gNV/rRdz7jMl6aN6dlykPTnHN7xbRIJu1Am4+uEjyvorrm6YUcY7Yfu9GdVD2RzGQC+d
-         Bx5+2nSN3PjVsT1Ww5H1dp88BioarPYzClmzAPphG2SgJVLlzq01Q9k+9RpszJ7jzdJP
-         Mylw==
-X-Gm-Message-State: AGi0PuYv7AHhFzhW3U/gmTGgk0P+KfLHDI1d6qx+ypD0paq0EmgKSUlD
-        8kXzBrUMlsG5SBZsNjxGHgs=
-X-Google-Smtp-Source: APiQypJGHKrnzXy1rIZybzrX5czjSZYOE7qA2lllJAX/JcbuGsJ159zXnLKXq64hN0aKCMDjVZkKSQ==
-X-Received: by 2002:a1c:4085:: with SMTP id n127mr3059598wma.163.1586273539400;
-        Tue, 07 Apr 2020 08:32:19 -0700 (PDT)
-Received: from ?IPv6:2001:a61:2482:101:3351:6160:8173:cc31? ([2001:a61:2482:101:3351:6160:8173:cc31])
-        by smtp.gmail.com with ESMTPSA id p5sm6375221wrn.93.2020.04.07.08.32.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Apr 2020 08:32:18 -0700 (PDT)
-Cc:     mtk.manpages@gmail.com, Andrei Vagin <avagin@openvz.org>,
-        Dmitry Safonov <dima@arista.com>,
-        linux-man <linux-man@vger.kernel.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Containers <containers@lists.linux-foundation.org>,
-        Dmitry Safonov <0x7f454c46@gmail.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
+        id S1726443AbgDGSO7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 7 Apr 2020 14:14:59 -0400
+Received: from mga11.intel.com ([192.55.52.93]:7315 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726380AbgDGSO7 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 7 Apr 2020 14:14:59 -0400
+IronPort-SDR: sWPo7ahmYzt2gzCFCyAnVLINzSO06zNZ5b2uNofdOn87uTqIp2gexTYA3840XSZ1G7MqNYIvlE
+ VoLEQeMuVftw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2020 11:14:58 -0700
+IronPort-SDR: kJCrsPjoVYdbrOIa/DsHhlgy3v2nC4JN+UUwMGWfglVpv1BJLsoVZYjqnzPZ63YyNHofXQ22Jn
+ Cr26BsaSkbgA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,356,1580803200"; 
+   d="scan'208";a="451316171"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by fmsmga005.fm.intel.com with ESMTP; 07 Apr 2020 11:14:58 -0700
+Message-ID: <444d97c4a4f70ccbb12da5e8f7ff498b37a9f60d.camel@intel.com>
+Subject: Re: [RFC PATCH v9 14/27] mm: Handle Shadow Stack page fault
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
         Andy Lutomirski <luto@kernel.org>,
-        Adrian Reber <adrian@lisas.de>
-Subject: Re: RFC: time_namespaces(7) manual page
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Andrei Vagin <avagin@gmail.com>
-References: <7221df0a-435b-f8bc-ff91-c188af535e73@gmail.com>
- <20200407032318.GA494464@gmail.com> <87r1wzk2p5.fsf@nanos.tec.linutronix.de>
- <fe940759-9159-5d89-1f5b-f92fa247177f@gmail.com>
- <87lfn7js4f.fsf@nanos.tec.linutronix.de>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <445b53ec-df68-1edf-dfd9-2882b3607e55@gmail.com>
-Date:   Tue, 7 Apr 2020 17:32:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
+Date:   Tue, 07 Apr 2020 11:14:58 -0700
+In-Reply-To: <4902a6ee-cb0f-2700-1f6d-9d756593183c@intel.com>
+References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
+         <20200205181935.3712-15-yu-cheng.yu@intel.com>
+         <4902a6ee-cb0f-2700-1f6d-9d756593183c@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
 MIME-Version: 1.0
-In-Reply-To: <87lfn7js4f.fsf@nanos.tec.linutronix.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 4/7/20 4:19 PM, Thomas Gleixner wrote:
-> "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com> writes:
->> I've tried to capture this info, as well some other relevant errors
->> in the following text. Does it look okay?
->>
->>        Writes  to  the  timens_offsets  file  can fail with the following
->>        errors:
->>
->>        EINVAL An offset-nanosecs value is greater than 999,999,999.
->>
->>        EINVAL A clock-id value is not valid.
->>
->>        EPERM  The caller does not have the the CAP_SYS_TIME capability.
->>
->>        ERANGE An offset-secs value is out of range.  In particular;
->>
->>               · offset-secs can't be set to a value which would make  the
->>                 current time on the corresponding clock inside the names‐
->>                 pace a negative value; and
->>
->>               · offset-secs can't be set to a value such that the time on
->>                 the corresponding clock inside the namespace would exceed
->>                 half of the value of the  kernel  constant  KTIME_SEC_MAX
->>                 (this  limits  the  clock  value to a maximum of approxi‐
->>                 mately 146 years).
+On Wed, 2020-02-26 at 16:08 -0800, Dave Hansen wrote:
+> > diff --git a/mm/memory.c b/mm/memory.c
+> > index 45442d9a4f52..6daa28614327 100644
+> > --- a/mm/memory.c
+> > +++ b/mm/memory.c
+> > @@ -772,7 +772,8 @@ copy_one_pte(struct mm_struct *dst_mm, struct mm_struct *src_mm,
+> >  	 * If it's a COW mapping, write protect it both
+> >  	 * in the parent and the child
+> >  	 */
+> > -	if (is_cow_mapping(vm_flags) && pte_write(pte)) {
+> > +	if ((is_cow_mapping(vm_flags) && pte_write(pte)) ||
+> > +	    arch_copy_pte_mapping(vm_flags)) {
+> >  		ptep_set_wrprotect(src_mm, addr, src_pte);
+> >  		pte = pte_wrprotect(pte);
+> >  	}
 > 
-> Yes.
+> You have to modify this because pte_write()==0 for shadow stack PTEs, right?
+> 
+> Aren't shadow stack ptes *logically* writable, even if they don't have
+> the write bit set?  What would happen if we made pte_write()==1 for them?
 
-Thanks!
+Here the vm_flags needs to have VM_MAYWRITE, and the PTE needs to have
+_PAGE_WRITE.  A shadow stack does not have either.
 
-Cheers,
+To fix checking vm_flags, what about adding a "arch_is_cow_mappping()" to the
+generic is_cow_mapping()?
 
-Michael
+For the PTE, the check actually tries to determine if the PTE is not already
+being copy-on-write, which is:
 
+	(!_PAGE_RW && !_PAGE_DIRTY_HW)
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+So what about making it pte_cow()?
+
+	/*
+	 * The PTE is in copy-on-write status.
+	 */
+	static inline int pte_cow(pte_t pte)
+	{
+		return !(pte_flags(pte) & (_PAGE_WRITE | _PAGE_DIRTY_HW));
+	}
+> 
+> > @@ -2417,6 +2418,7 @@ static inline void wp_page_reuse(struct vm_fault *vmf)
+> >  	flush_cache_page(vma, vmf->address, pte_pfn(vmf->orig_pte));
+> >  	entry = pte_mkyoung(vmf->orig_pte);
+> >  	entry = maybe_mkwrite(pte_mkdirty(entry), vma);
+> > +	entry = pte_set_vma_features(entry, vma);
+> >  	if (ptep_set_access_flags(vma, vmf->address, vmf->pte, entry, 1))
+> >  		update_mmu_cache(vma, vmf->address, vmf->pte);
+> >  	pte_unmap_unlock(vmf->pte, vmf->ptl);
+> > @@ -2504,6 +2506,7 @@ static vm_fault_t wp_page_copy(struct vm_fault *vmf)
+> >  		flush_cache_page(vma, vmf->address, pte_pfn(vmf->orig_pte));
+> >  		entry = mk_pte(new_page, vma->vm_page_prot);
+> >  		entry = maybe_mkwrite(pte_mkdirty(entry), vma);
+> > +		entry = pte_set_vma_features(entry, vma);
+> >  		/*
+> >  		 * Clear the pte entry and flush it first, before updating the
+> >  		 * pte with the new entry. This will avoid a race condition
+> > @@ -3023,6 +3026,7 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
+> >  	pte = mk_pte(page, vma->vm_page_prot);
+> >  	if ((vmf->flags & FAULT_FLAG_WRITE) && reuse_swap_page(page, NULL)) {
+> >  		pte = maybe_mkwrite(pte_mkdirty(pte), vma);
+> > +		pte = pte_set_vma_features(pte, vma);
+> >  		vmf->flags &= ~FAULT_FLAG_WRITE;
+> >  		ret |= VM_FAULT_WRITE;
+> >  		exclusive = RMAP_EXCLUSIVE;
+> > @@ -3165,6 +3169,7 @@ static vm_fault_t do_anonymous_page(struct vm_fault *vmf)
+> >  	entry = mk_pte(page, vma->vm_page_prot);
+> >  	if (vma->vm_flags & VM_WRITE)
+> >  		entry = pte_mkwrite(pte_mkdirty(entry));
+> > +	entry = pte_set_vma_features(entry, vma);
+> >  
+> >  	vmf->pte = pte_offset_map_lock(vma->vm_mm, vmf->pmd, vmf->address,
+> >  			&vmf->ptl);
+> > 
+> 
+> These seem wrong, or at best inconsistent with what's already done.
+> 
+> We don't need anything like pte_set_vma_features() today because we have
+> vma->vm_page_prot.  We could easily have done what you suggest here for
+> things like protection keys: ignore the pkey PTE bits until we create
+> the final PTE then shove them in there.
+> 
+> What are the bit patterns of the shadow stack bits that come out of
+> these sites?  Can they be represented in ->vm_page_prot?
+
+Yes, we can put _PAGE_DIRTY_HW in vm_page_prot.  Also set the bit in
+ptep_set_access_flags() for shadow stack PTEs.
+
