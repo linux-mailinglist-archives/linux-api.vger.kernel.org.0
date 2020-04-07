@@ -2,98 +2,80 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 235071A054F
-	for <lists+linux-api@lfdr.de>; Tue,  7 Apr 2020 05:33:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C277C1A0630
+	for <lists+linux-api@lfdr.de>; Tue,  7 Apr 2020 07:12:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726420AbgDGDdl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 6 Apr 2020 23:33:41 -0400
-Received: from mail-pj1-f67.google.com ([209.85.216.67]:35914 "EHLO
-        mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726329AbgDGDdl (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Apr 2020 23:33:41 -0400
-Received: by mail-pj1-f67.google.com with SMTP id nu11so170448pjb.1;
-        Mon, 06 Apr 2020 20:33:40 -0700 (PDT)
+        id S1726736AbgDGFMo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 7 Apr 2020 01:12:44 -0400
+Received: from mail-ua1-f66.google.com ([209.85.222.66]:42218 "EHLO
+        mail-ua1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726910AbgDGFMm (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Apr 2020 01:12:42 -0400
+Received: by mail-ua1-f66.google.com with SMTP id m18so833775uap.9
+        for <linux-api@vger.kernel.org>; Mon, 06 Apr 2020 22:12:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=i/Z+1EhzPKH/+gfsWTS8RfxVvrjmpU0UXINubSAXsU4=;
-        b=X/zRB9WhYvcfUKxGIE5qtnjlusjCpiEokIO2jk8OX71FC9c0apvw+FTHWDkekRGt01
-         V/okEsXmgjLwNaevfOAqS8dV0Jji+ykoU2gVNgtzHxlEJ7peVucFhOAj0EV53Nd4DvKr
-         7ZL5SScqMLPqUXpIQunZ2YmpU0+/Gy+ukoRbt2zTwCS5a161ygE2cby2/+bT52hQ/xT3
-         xTRCop7JoA0oS22vy1XwAkaQvlKPhko4UxpXIsGTI41L624in70wPAzCLWTThShdr356
-         LnTBsUHZL58BCMW+gUW73jjgf6gsob8OhkJLC2QoVyXvxhBZTrXUBz0mwHF2xH6vylYe
-         q6oA==
+        h=mime-version:from:date:message-id:subject:to;
+        bh=38NlpNEbzNFWb7RFQtfvRASB+B576yw7dNc7pozf3pc=;
+        b=m9m/DCsFRus/zRmIuphflM5sHyenmkMN/TOEnECOGthbLJHVg8u2+iqtFZpNbyb2/k
+         2tLF//qwyXGtNVJKRleGUy+KbEtVjN+06Aw6FbGL98d5M/QEqB9c9SHaIsBPFlQYoUCh
+         Lj+P9EPUGdvyQRip4KeH3oSvDVhqDTV0IJcbcI66BzYP/b9Y/1y4LF++1q0teLhPl3GM
+         v15gBTxOBB8qvH4CNaCnwdm2sugBL+St8qIlm7SqBWweWj6hdsos1F0mjeWO8qJt64R9
+         xl3tya8AfljNAFdSOkZ4tC7INitomO8JQPFHHcp+JAODUsaup01At9KIYDntXEoTQZb0
+         DmdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=i/Z+1EhzPKH/+gfsWTS8RfxVvrjmpU0UXINubSAXsU4=;
-        b=AlH1c/T0wvl83trtQJvjRgv0R97d6AUUKFhRAalEEDS7T+9+K+9wToadC89852319k
-         DDRt66mdd2oywPjtGfmMjLQXKvnLMZqv+rVLNU2DsKq31fAGSiLD35UOJ/zFL4SF1imP
-         b7dDpU0+JMf5J5h3nLfaW03zTr/uNwyr3NxgAKcpffzEcSnggy3iuDX79p68bQyFzmE+
-         /ivQGB7kpA0IEpPwt1kksVbCry0MVqP7qwEL3bc3aJmuNq9rM7NIXODUCsP4lrWCQMXA
-         EeM1+anwhPpHmBmo+4IYqyF0SOTeDMbS753Znqf1hwTzGWSiSqXtM3b25jYpVZaih1Mx
-         fRoA==
-X-Gm-Message-State: AGi0Pua2JXsOIsfWw8js5kkL3Cq5jb/3x8Wv34xCas6uOOuXfzCc0eDB
-        z0dhcvj8suf++m6O2mLxUJQ=
-X-Google-Smtp-Source: APiQypIrfQvZJT2LwyUWRkkFYRDnJFheak81MJ0TQxqjm4du4jwr6HHNoKxehU7mesYXzZ7gdesZmw==
-X-Received: by 2002:a17:902:9892:: with SMTP id s18mr490734plp.321.1586230419618;
-        Mon, 06 Apr 2020 20:33:39 -0700 (PDT)
-Received: from gmail.com ([2601:600:817f:a132:df3e:521d:99d5:710d])
-        by smtp.gmail.com with ESMTPSA id q71sm12941277pfc.92.2020.04.06.20.33.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Apr 2020 20:33:38 -0700 (PDT)
-Date:   Mon, 6 Apr 2020 20:33:34 -0700
-From:   Andrei Vagin <avagin@gmail.com>
-To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc:     Dmitry Safonov <dima@arista.com>, Andrei Vagin <avagin@openvz.or>,
-        Adrian Reber <adrian@lisas.de>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        Dmitry Safonov <0x7f454c46@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Containers <containers@lists.linux-foundation.org>
-Subject: Re: [PATCH] ns: Fix time_for_children symlink
-Message-ID: <20200407033334.GC494464@gmail.com>
-References: <a2418c48-ed80-3afe-116e-6611cb799557@gmail.com>
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=38NlpNEbzNFWb7RFQtfvRASB+B576yw7dNc7pozf3pc=;
+        b=Z8OAKQvUb8/Ir9WuSBd5xJyPkZrNLt0zKJbvKapE88tK7zjvlr5pqu9fhpBvnwwSjJ
+         dB63QhpeOEiqO5B5snPDI9c+2iayFbZrOfsXFzFojdquWHutG5CI4Br9itmC0/JfS3uS
+         7bdJkT1wv11gCyt42s5czVJIohbG29pwufA4SBPSHqTATzpeNDtGDGYMN8Vx9A511GQu
+         pq6AHt1Tyhd3JQKG4XOkEAO3GiDKLkaMYFV5YjwmOvyo6d/8QNqM7dQ0I8DAWLYAO0xc
+         kPy0GwU+akQx+3B0uyJNlihR9zqjckGOAajaUz7RPGxvBmY9/vhfxZKHcUj5Sz1mGR0U
+         HjgQ==
+X-Gm-Message-State: AGi0PuZ3evt3sVMXOkoHZHXrD0reD0UwP67Q3HY4s2ad2HSJJkkOTShQ
+        aGgeg2V8DwFUB3NJ0yX7hUvQZRyRKcWqtYImMQs=
+X-Google-Smtp-Source: APiQypIYXniGQUHEpASwiGNjKth4Cu9ElCz4yjrJ2uXbYBYunhfz0887D/TRydUbTstl7MwaeVftG8QxF1P80ST3qos=
+X-Received: by 2002:ab0:a9:: with SMTP id 38mr504317uaj.61.1586236361040; Mon,
+ 06 Apr 2020 22:12:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=koi8-r
-Content-Disposition: inline
-In-Reply-To: <a2418c48-ed80-3afe-116e-6611cb799557@gmail.com>
+Received: by 2002:ab0:4929:0:0:0:0:0 with HTTP; Mon, 6 Apr 2020 22:12:40 -0700 (PDT)
+From:   SANDRA DEWI <dewisandra154@gmail.com>
+Date:   Tue, 7 Apr 2020 05:12:40 +0000
+Message-ID: <CABRVPWys0xe4CWBkaU0ZXQW+4d=tjDOjyo8cKohc5-VFkWPkcA@mail.gmail.com>
+Subject: whether this is your correct email address or not
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Apr 03, 2020 at 02:11:39PM +0200, Michael Kerrisk (man-pages) wrote:
-> Dmitry, Andrei,
-> 
-> Looking at the contents of the /proc/PID/ns/time_for_children
-> symlink shows an anomaly:
-> 
-> $ ls -l /proc/self/ns/* |awk '{print $9, $10, $11}'
-> ...
-> /proc/self/ns/pid -> pid:[4026531836]
-> /proc/self/ns/pid_for_children -> pid:[4026531836]
-> /proc/self/ns/time -> time:[4026531834]
-> /proc/self/ns/time_for_children -> time_for_children:[4026531834]
-> /proc/self/ns/user -> user:[4026531837]
-> ...
-> 
-> The reference for 'time_for_children' should be a 'time' namespace,
-> just as the reference for 'pid_for_children' is a 'pid' namespace.
-> In other words, I think the above time_for_children link should read:
-> 
-> /proc/self/ns/time_for_children -> time:[4026531834]
-> 
-> If you agree with this patch, then it should be marked for
-> stable@vger.kernel.org.
->
+Dear ,Pastor
 
-Acked-by: Andrei Vagin <avagin@gmail.com>
- 
-> Signed-off-by: Michael Kerrisk <mtk.manpages@gmail.com>
+
+
+I have a client who is an oil business man and he made a fixed deposit
+of $26 million USD in my bank, where I am the director of the branch,
+My client died with his entire family in Jordanian
+
+50% of the fund will be for the church  for the work of God,the
+balance 50% we share it in the ratio of 50/50. Meaning 50% to you and
+50% for me
+
+intervention in the Syrian Civil War 2014 leaving behind no next of
+kin. I Propose to present you as next of kin to claim the funds, if
+interested reply me for full details and how we are to
+
+
+
+proceed to close this deal.
+
+
+
+
+Mrs. Sandra Dewi
+
+
+
+Email  mrsdewi@gmx.com
