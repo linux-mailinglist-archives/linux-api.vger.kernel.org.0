@@ -2,54 +2,41 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EE3A1A1D74
-	for <lists+linux-api@lfdr.de>; Wed,  8 Apr 2020 10:33:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36A591A1F54
+	for <lists+linux-api@lfdr.de>; Wed,  8 Apr 2020 12:58:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726345AbgDHIdC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 8 Apr 2020 04:33:02 -0400
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:42485 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726760AbgDHIdC (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 8 Apr 2020 04:33:02 -0400
-Received: by mail-ed1-f65.google.com with SMTP id cw6so7468943edb.9;
-        Wed, 08 Apr 2020 01:32:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc:content-transfer-encoding;
-        bh=HN3PmUZ9fhU3DNXcfKan8qYGWgSRdIlUaBvY047r1SM=;
-        b=BGTSeYrGs6nPwW0pBTwetxOvG3h4Vd6HUpUGfZ5rIw3eiXZCxuWi+RH6UpAgUftEg6
-         zPBlbaYdJBTL6Hxcsz3RyLUm8ngmae4RqBCCV4ctAxgxNu32UBMO4rfX1iNadhbL0BPs
-         f7ZjlUGvJiAD9LMRUxq2QBUw5vheF8E17s3Wha/fak6um0pr6m38ixUNOWcjsyJEZWik
-         85yfqBynH2mPaHM3ic4TempYghYKUBGJ8ZSZWvVIiWPffuGlRe30s2rBkYuXla86bkGw
-         fE/UDoKrfZR1ucy85k72pT+gjUXMykqdcwubbePajNp4DqBhcyG/lSp4D5xJutzrHQzD
-         2a/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc:content-transfer-encoding;
-        bh=HN3PmUZ9fhU3DNXcfKan8qYGWgSRdIlUaBvY047r1SM=;
-        b=NA6eGPZybbDZuSkylQ9p1x3EzXWonssefRXU0ukc3p54ktn0HyWDFRBHnWCMLNv1Pp
-         qU/dWqJSEfZct/f982Thkg6h/nylPv9ZiGVx5velJGkJRfWF+w9/J8DVhmn1lrEzXz0O
-         hiPnbwaOpAdLf5MMaPOoda0ibqdpUTh9c2IvS8cnIZ1JsEkyTSAF5vBbWIUZVsuPFSxR
-         p0ch6hmk22K/yWNpMDDX5uJfojqt8mo/o0+0FlIMXj7O7hvkA//233tRPE1qq5B/nTds
-         y+yxyK/5cd/1OhnGqosOkPCc12zm46iDzmpzXAxZyOCPwXpqwxl64PKI+nrkEaqRwhH/
-         4DBw==
-X-Gm-Message-State: AGi0Pub9FEha6+EfNQc/vX9c+5y7wtCch9erBfMQQVsvTgc8aW0GUcGq
-        5wpFSnQNBoKTLQwh5XC1mX/0mqBPZb99OT8L+3c=
-X-Google-Smtp-Source: APiQypI12Fy83Q8xdUmDBUv3sQoaKGjwp78gJSBCygBXGeyhDI8Rn75HBxevzEpYv522bnR7VvPd0zJiESwOoJN+iRo=
-X-Received: by 2002:a17:906:228d:: with SMTP id p13mr5304737eja.113.1586334778849;
- Wed, 08 Apr 2020 01:32:58 -0700 (PDT)
-MIME-Version: 1.0
-References: <d6be97d1-38a5-bf43-7c80-7c952a5a44a3@gmail.com> <20200408074459.q3njmvizjge7timg@wittgenstein>
-In-Reply-To: <20200408074459.q3njmvizjge7timg@wittgenstein>
-Reply-To: mtk.manpages@gmail.com
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Date:   Wed, 8 Apr 2020 10:32:47 +0200
-Message-ID: <CAKgNAkjeUo4j9f=nBvoK3Vg1U9MqT=SgQBxHQ046-eL1nFbF2w@mail.gmail.com>
-Subject: Re: [RESEND] RFC: pidfd_getfd(2) manual page
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Sargun Dhillon <sargun@sargun.me>,
+        id S1728374AbgDHK6e (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 8 Apr 2020 06:58:34 -0400
+Received: from mx01-sz.bfs.de ([194.94.69.67]:41327 "EHLO mx01-sz.bfs.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728339AbgDHK6d (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 8 Apr 2020 06:58:33 -0400
+Received: from SRVEX01-SZ.bfs.intern (exchange-sz.bfs.de [10.129.90.31])
+        by mx01-sz.bfs.de (Postfix) with ESMTPS id D4C9120211;
+        Wed,  8 Apr 2020 12:58:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bfs.de; s=dkim201901;
+        t=1586343510;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=JxctWyT+JiKrOGfDcnyPqiR72gwRBwMAOHj/nXnmMmQ=;
+        b=U5OnwhQRandBWbat075WDft87Vg33GbkBWrkIxbPshxbX/Hu+xj8O7C+UPuevYVStG3A67
+        9vv+LfRaZG1sZ2Adio2P1hafXpSyeMJ9xGRvnf8GEg983sX3w6UhgnpygxXMHMRSkjFxzt
+        7d4Go9fa4cFFBWQQ7vOrCgCPOKmvxHzwup/igMtNtmwvFulKpBWsJAjY1whm+cMyiUftgv
+        lYVNj5sbEuVRqN1sKaqZtx45x+J3aWBSj4LXRD/izIS4QZng9jGfKhz+AKvYedPgreWIcO
+        rOIvraRchmS4Wu1OLCdIiL0DtL0bfcSceZrAnpF2BY1ToSrqWfXzcYbqE4E8TQ==
+Received: from SRVEX01-SZ.bfs.intern (10.129.90.31) by SRVEX01-SZ.bfs.intern
+ (10.129.90.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.1913.5; Wed, 8 Apr 2020
+ 12:58:30 +0200
+Received: from SRVEX01-SZ.bfs.intern ([fe80::7d2d:f9cb:2761:d24a]) by
+ SRVEX01-SZ.bfs.intern ([fe80::7d2d:f9cb:2761:d24a%6]) with mapi id
+ 15.01.1913.005; Wed, 8 Apr 2020 12:58:30 +0200
+From:   Walter Harms <wharms@bfs.de>
+To:     Christian Brauner <christian.brauner@ubuntu.com>,
+        "mtk.manpages@gmail.com" <mtk.manpages@gmail.com>
+CC:     Sargun Dhillon <sargun@sargun.me>,
         linux-man <linux-man@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
         lkml <linux-kernel@vger.kernel.org>,
@@ -58,16 +45,68 @@ Cc:     Sargun Dhillon <sargun@sargun.me>,
         Christian Brauner <christian@brauner.io>,
         Oleg Nesterov <oleg@redhat.com>,
         Andy Lutomirski <luto@amacapital.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>, jld@mozilla.com,
-        Arnd Bergmann <arnd@arndb.de>,
-        Florian Weimer <fweimer@redhat.com>, gpascutto@mozilla.com,
-        ealvarez@mozilla.com
-Content-Type: text/plain; charset="UTF-8"
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        "jld@mozilla.com" <jld@mozilla.com>, Arnd Bergmann <arnd@arndb.de>,
+        Florian Weimer <fweimer@redhat.com>,
+        "gpascutto@mozilla.com" <gpascutto@mozilla.com>,
+        "ealvarez@mozilla.com" <ealvarez@mozilla.com>
+Subject: AW: [RESEND] RFC: pidfd_getfd(2) manual page
+Thread-Topic: [RESEND] RFC: pidfd_getfd(2) manual page
+Thread-Index: AQHWDQ1QKS6wDf99bkOBKNwglDAIE6hut5OAgAANW4CAAEktag==
+Date:   Wed, 8 Apr 2020 10:58:30 +0000
+Message-ID: <7bc4e35c0ff945abb8b917d637f5c42a@bfs.de>
+References: <d6be97d1-38a5-bf43-7c80-7c952a5a44a3@gmail.com>
+ <20200408074459.q3njmvizjge7timg@wittgenstein>,<CAKgNAkjeUo4j9f=nBvoK3Vg1U9MqT=SgQBxHQ046-eL1nFbF2w@mail.gmail.com>
+In-Reply-To: <CAKgNAkjeUo4j9f=nBvoK3Vg1U9MqT=SgQBxHQ046-eL1nFbF2w@mail.gmail.com>
+Accept-Language: de-DE, en-US
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.137.16.39]
+Content-Type: text/plain; charset="iso-2022-jp"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-Spam-Status: No, score=1.40
+X-Spam-Level: *
+Authentication-Results: mx01-sz.bfs.de;
+        none
+X-Spamd-Result: default: False [1.40 / 7.00];
+         ARC_NA(0.00)[];
+         TO_DN_EQ_ADDR_SOME(0.00)[];
+         HAS_XOIP(0.00)[];
+         FROM_HAS_DN(0.00)[];
+         TO_DN_SOME(0.00)[];
+         TO_MATCH_ENVRCPT_ALL(0.00)[];
+         FREEMAIL_ENVRCPT(0.00)[gmail.com];
+         TAGGED_RCPT(0.00)[];
+         MIME_GOOD(-0.10)[text/plain];
+         BAYES_HAM(-0.10)[65.56%];
+         DKIM_SIGNED(0.00)[];
+         RCPT_COUNT_TWELVE(0.00)[18];
+         NEURAL_HAM(-0.00)[-0.868];
+         FREEMAIL_TO(0.00)[ubuntu.com,gmail.com];
+         RCVD_NO_TLS_LAST(0.10)[];
+         FROM_EQ_ENVFROM(0.00)[];
+         MIME_TRACE(0.00)[0:+];
+         RCVD_COUNT_TWO(0.00)[2];
+         MID_RHS_MATCH_FROM(0.00)[];
+         SUSPICIOUS_RECIPS(1.50)[]
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
+
+
+________________________________________
+Von: linux-man-owner@vger.kernel.org <linux-man-owner@vger.kernel.org> im A=
+uftrag von Michael Kerrisk (man-pages) <mtk.manpages@gmail.com>
+Gesendet: Mittwoch, 8. April 2020 10:32
+An: Christian Brauner
+Cc: Sargun Dhillon; linux-man; Linux API; lkml; Tycho Andersen; Jann Horn; =
+Aleksa Sarai; Christian Brauner; Oleg Nesterov; Andy Lutomirski; Alexander =
+Viro; jld@mozilla.com; Arnd Bergmann; Florian Weimer; gpascutto@mozilla.com=
+; ealvarez@mozilla.com
+Betreff: Re: [RESEND] RFC: pidfd_getfd(2) manual page
 
 Hello Christian,
 
@@ -139,7 +178,7 @@ st
 > >        be specified as 0.
 > >
 > >        Permission  to duplicate another process's file descriptor is go=
-v=E2=80=90
+v=1B$B!>=1B(B
 > >        erned by a ptrace access mode  PTRACE_MODE_ATTACH_REALCREDS  che=
 ck
 > >        (see ptrace(2)).
@@ -160,6 +199,12 @@ You're right. That wording is just clumsy! I fixed it.
 
 And I also fixed similar clumsy wordings in a number of other pages.
 
+
+perhaps "greater or equal 0" instead on nonnegativ, people are
+bad with negations.
+re,
+ wh
+
 > >        On error, -1 is returned and errno is set to indicate the cause =
 of
 > >        the error.
@@ -174,7 +219,7 @@ ss
 > >        EINVAL flags is not 0.
 > >
 > >        EMFILE The per-process limit on the number of open  file  descri=
-p=E2=80=90
+p=1B$B!>=1B(B
 > >               tors has been reached (see the description of RLIMIT_NOFI=
 LE
 > >               in getrlimit(2)).
@@ -215,7 +260,7 @@ Cheers,
 Michael
 
 
---=20
+--
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
