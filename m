@@ -2,136 +2,131 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CC8B1A275E
-	for <lists+linux-api@lfdr.de>; Wed,  8 Apr 2020 18:42:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EDBE1A2866
+	for <lists+linux-api@lfdr.de>; Wed,  8 Apr 2020 20:18:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728209AbgDHQl5 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Wed, 8 Apr 2020 12:41:57 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:43199 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728359AbgDHQl5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 8 Apr 2020 12:41:57 -0400
-Received: from mail-lj1-f180.google.com ([209.85.208.180])
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <stgraber@ubuntu.com>)
-        id 1jMDlx-0001Tq-LX
-        for linux-api@vger.kernel.org; Wed, 08 Apr 2020 16:41:53 +0000
-Received: by mail-lj1-f180.google.com with SMTP id k21so8386770ljh.2
-        for <linux-api@vger.kernel.org>; Wed, 08 Apr 2020 09:41:53 -0700 (PDT)
-X-Gm-Message-State: AGi0PuZTuQfV68xYcXkSfcLJgKESTxz/3aX3QzxJxi5crVVHvc75Nm5a
-        CT3cvqqG8nYzV/nxuAkXHInGkK42wIcxixU8pWEQpA==
-X-Google-Smtp-Source: APiQypLzUyLptlfj4UREBf2l5xN02F+xA0MQtCV/4zxKUkblPb/olSzPaY17gwOo3IIMcNmLwikMsI/ASDg0+VXPjE8=
-X-Received: by 2002:a2e:97c2:: with SMTP id m2mr5450395ljj.228.1586364113069;
- Wed, 08 Apr 2020 09:41:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200408152151.5780-1-christian.brauner@ubuntu.com> <CAG48ez0KWgLMOp1d3X1AcRNc4-eF1YiCw=PgWiGjtM6PqQqawg@mail.gmail.com>
-In-Reply-To: <CAG48ez0KWgLMOp1d3X1AcRNc4-eF1YiCw=PgWiGjtM6PqQqawg@mail.gmail.com>
-From:   =?UTF-8?Q?St=C3=A9phane_Graber?= <stgraber@ubuntu.com>
-Date:   Wed, 8 Apr 2020 12:41:41 -0400
-X-Gmail-Original-Message-ID: <CA+enf=uhTi1yWtOe+iuv2FvdZzo69pwsP-NNU2775jN01aDcVQ@mail.gmail.com>
-Message-ID: <CA+enf=uhTi1yWtOe+iuv2FvdZzo69pwsP-NNU2775jN01aDcVQ@mail.gmail.com>
-Subject: Re: [PATCH 0/8] loopfs
-To:     Jann Horn <jannh@google.com>
-Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        linux-block@vger.kernel.org, Linux API <linux-api@vger.kernel.org>,
+        id S1729780AbgDHSSm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 8 Apr 2020 14:18:42 -0400
+Received: from mga02.intel.com ([134.134.136.20]:9409 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729567AbgDHSSm (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 8 Apr 2020 14:18:42 -0400
+IronPort-SDR: iBzdk4uT5hwrJAJNXwA3SKDmB6fhcVoiV9G4OKur+zJNuYnocK8Ps1WpH4RFS3fN3NtFRwg9U6
+ +vIvCd4uBFsQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2020 11:18:40 -0700
+IronPort-SDR: CNm41iviOJIvAgGIZX8BJww1bpJ5otfTDnIih7sOZvyjmkptybo793Ymrk15h0DnpBroWhaorW
+ ju876jl99enA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,359,1580803200"; 
+   d="scan'208";a="269829512"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by orsmga002.jf.intel.com with ESMTP; 08 Apr 2020 11:18:40 -0700
+Message-ID: <231585ae895a083b0d65be766c6e2e9c44e933da.camel@intel.com>
+Subject: Re: [RFC PATCH v9 14/27] mm: Handle Shadow Stack page fault
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Serge Hallyn <serge@hallyn.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>, Tejun Heo <tj@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Saravana Kannan <saravanak@google.com>,
-        Jan Kara <jack@suse.cz>, David Howells <dhowells@redhat.com>,
-        Seth Forshee <seth.forshee@canonical.com>,
-        David Rheinsberg <david.rheinsberg@gmail.com>,
-        Tom Gundersen <teg@jklm.no>,
-        Christian Kellner <ckellner@redhat.com>,
-        Dmitry Vyukov <dvyukov@google.com>, linux-doc@vger.kernel.org,
-        Network Development <netdev@vger.kernel.org>,
-        Matthew Garrett <mjg59@google.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
+Date:   Wed, 08 Apr 2020 11:18:40 -0700
+In-Reply-To: <e432d102-7f69-7ba3-6146-c0165eef87e1@intel.com>
+References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
+         <20200205181935.3712-15-yu-cheng.yu@intel.com>
+         <4902a6ee-cb0f-2700-1f6d-9d756593183c@intel.com>
+         <444d97c4a4f70ccbb12da5e8f7ff498b37a9f60d.camel@intel.com>
+         <e432d102-7f69-7ba3-6146-c0165eef87e1@intel.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Apr 8, 2020 at 12:24 PM Jann Horn <jannh@google.com> wrote:
->
-> On Wed, Apr 8, 2020 at 5:23 PM Christian Brauner
-> <christian.brauner@ubuntu.com> wrote:
-> > One of the use-cases for loopfs is to allow to dynamically allocate loop
-> > devices in sandboxed workloads without exposing /dev or
-> > /dev/loop-control to the workload in question and without having to
-> > implement a complex and also racy protocol to send around file
-> > descriptors for loop devices. With loopfs each mount is a new instance,
-> > i.e. loop devices created in one loopfs instance are independent of any
-> > loop devices created in another loopfs instance. This allows
-> > sufficiently privileged tools to have their own private stash of loop
-> > device instances. Dmitry has expressed his desire to use this for
-> > syzkaller in a private discussion. And various parties that want to use
-> > it are Cced here too.
-> >
-> > In addition, the loopfs filesystem can be mounted by user namespace root
-> > and is thus suitable for use in containers. Combined with syscall
-> > interception this makes it possible to securely delegate mounting of
-> > images on loop devices, i.e. when a user calls mount -o loop <image>
-> > <mountpoint> it will be possible to completely setup the loop device.
-> > The final mount syscall to actually perform the mount will be handled
-> > through syscall interception and be performed by a sufficiently
-> > privileged process. Syscall interception is already supported through a
-> > new seccomp feature we implemented in [1] and extended in [2] and is
-> > actively used in production workloads. The additional loopfs work will
-> > be used there and in various other workloads too. You'll find a short
-> > illustration how this works with syscall interception below in [4].
->
-> Would that privileged process then allow you to mount your filesystem
-> images with things like ext4? As far as I know, the filesystem
-> maintainers don't generally consider "untrusted filesystem image" to
-> be a strongly enforced security boundary; and worse, if an attacker
-> has access to a loop device from which something like ext4 is mounted,
-> things like "struct ext4_dir_entry_2" will effectively be in shared
-> memory, and an attacker can trivially bypass e.g.
-> ext4_check_dir_entry(). At the moment, that's not a huge problem (for
-> anything other than kernel lockdown) because only root normally has
-> access to loop devices.
->
-> Ubuntu carries an out-of-tree patch that afaik blocks the shared
-> memory thing: <https://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux/+git/eoan/commit?id=4bc428fdf5500b7366313f166b7c9c50ee43f2c4>
->
-> But even with that patch, I'm not super excited about exposing
-> filesystem image parsing attack surface to containers unless you run
-> the filesystem in a sandboxed environment (at which point you don't
-> need a loop device anymore either).
+On Tue, 2020-04-07 at 15:21 -0700, Dave Hansen wrote:
+> On 4/7/20 11:14 AM, Yu-cheng Yu wrote:
+> > On Wed, 2020-02-26 at 16:08 -0800, Dave Hansen wrote:
+> > > > diff --git a/mm/memory.c b/mm/memory.c
+> > > > index 45442d9a4f52..6daa28614327 100644
+> > > > --- a/mm/memory.c
+> > > > +++ b/mm/memory.c
+> > > > @@ -772,7 +772,8 @@ copy_one_pte(struct mm_struct *dst_mm, struct mm_struct *src_mm,
+> > > >  	 * If it's a COW mapping, write protect it both
+> > > >  	 * in the parent and the child
+> > > >  	 */
+> > > > -	if (is_cow_mapping(vm_flags) && pte_write(pte)) {
+> > > > +	if ((is_cow_mapping(vm_flags) && pte_write(pte)) ||
+> > > > +	    arch_copy_pte_mapping(vm_flags)) {
+> > > >  		ptep_set_wrprotect(src_mm, addr, src_pte);
+> > > >  		pte = pte_wrprotect(pte);
+> > > >  	}
+> > > 
+> > > You have to modify this because pte_write()==0 for shadow stack PTEs, right?
+> > > 
+> > > Aren't shadow stack ptes *logically* writable, even if they don't have
+> > > the write bit set?  What would happen if we made pte_write()==1 for them?
+> > 
+> > Here the vm_flags needs to have VM_MAYWRITE, and the PTE needs to have
+> > _PAGE_WRITE.  A shadow stack does not have either.
+> 
+> I literally mean taking pte_write(), and doing something l
+> 
+> static inline int pte_write(pte_t pte)
+> {
+> 	if (pte_present(pte) && pte_is_shadow_stack(pte))
+> 		return 1;
+> 
+>         return pte_flags(pte) & _PAGE_RW;
+> }
+> 
+> Then if is_cow_mapping() returns true for shadow stack VMAs, the above
+> code doesn't need to change.
 
-So in general we certainly agree that you should never expose someone
-that you wouldn't trust with root on the host to syscall interception
-mounting of real kernel filesystems.
+One benefit of this change is can_follow_write_pte() does not need any changes. 
+A shadow stack PTE not in copy-on-write status is pte_write().
 
-But that's not all that our syscall interception logic can do. We have
-support for rewriting a normal filesystem mount attempt to instead use
-an available FUSE implementation. As far as the user is concerned,
-they ran "mount /dev/sdaX /mnt" and got that ext4 filesystem mounted
-on /mnt as requested, except that the container manager intercepted
-the mount attempt and instead spawned fuse2fs for that mount. This
-requires absolutely no change to the software the user is running.
+However, there are places that use pte_write() to determine if the PTE can be
+made _PAGE_RW.  One such case is in change_pte_range(), where
 
-loopfs, with that interception mode, will let us also handle all cases
-where a loop would be used, similarly without needing any change to
-the software being run. If a piece of software calls the command
-"mount -o loop blah.img /mnt", the "mount" command will setup a loop
-device as it normally would (doing so through loopfs) and then will
-call the "mount" syscall, which will get intercepted and redirected to
-a FUSE implementation if so configured, resulting in the expected
-filesystem being mounted for the user.
+	preserve_write = prot_numa && pte_write(oldpte);
 
-LXD with syscall interception offers both straight up privileged
-mounting using the kernel fs or using a FUSE based implementation.
-This is configurable on a per-filesystem and per-container basis.
+and later,
 
-I hope that clarifies what we're doing here :)
+	if (preserve_write)
+		ptent = pte_mk_savedwrite(ptent);
 
-Stéphane
+Currently, there are other checks and shadow stack PTEs won't become _PAGE_RW. 
+I am wondering if this can be overlooked later when the code is modified.
+
+Another potential issue is, because pte_write()==1, a shadow stack PTE is made a
+write migration entry, and can later accidentally become _PAGE_RW.  I think the
+page fault handler would catch that, but still call it out in case I miss
+anything.
+
+Yu-cheng
+
