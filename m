@@ -2,29 +2,60 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BDA811A24E5
-	for <lists+linux-api@lfdr.de>; Wed,  8 Apr 2020 17:22:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7C1D1A271D
+	for <lists+linux-api@lfdr.de>; Wed,  8 Apr 2020 18:24:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729558AbgDHPWt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 8 Apr 2020 11:22:49 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:39143 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729540AbgDHPWs (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 8 Apr 2020 11:22:48 -0400
-Received: from ip5f5bd698.dynamic.kabel-deutschland.de ([95.91.214.152] helo=wittgenstein.fritz.box)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1jMCXM-0001BO-Rr; Wed, 08 Apr 2020 15:22:44 +0000
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Jens Axboe <axboe@kernel.dk>,
+        id S1727933AbgDHQYr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 8 Apr 2020 12:24:47 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:45917 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729939AbgDHQYq (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 8 Apr 2020 12:24:46 -0400
+Received: by mail-lj1-f193.google.com with SMTP id t17so8239484ljc.12
+        for <linux-api@vger.kernel.org>; Wed, 08 Apr 2020 09:24:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=s5aiANvhgix2N64LwK7RWDgOwJhQeHsVBzrYi29ys94=;
+        b=DsqtBI6qRFjNpPkePJmA4uX3kNk0ar1H6f+mDa9WCWCogbW1T44w59UgWS3voTEzVK
+         genV1UO4Or0H2X/qb8IDbOA88OBquO3BkpRlNYz06H9TiREZObOBBJUBZTq+Ufv9WsE4
+         +7C0iZS1MYYzD1pJn+M2c6GEdXyXvNHvkqSWB4XXDBcfiYWq+U6RNTMgvedFjt69dE17
+         14nDpSBj3rkurQYjwNYAGpRsn6UJpZ2eN0cavWpSULcVrBGXx1iDEO77FjTZcDVdSRvX
+         QkJmuqfyrMbk+hWYW2pBub6BYirXJ+pM+Mp0JbV/YyhrzUF5+jieHm0nw0AYVfNnXrxV
+         gdfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=s5aiANvhgix2N64LwK7RWDgOwJhQeHsVBzrYi29ys94=;
+        b=PmC7st8Fp0A5DjoyZgERnlvaTkA86GTgRsXdeKgpcqVGuNqPu5C/GHO5Hqe0Z76i2c
+         36bnQCrtEojFbRIjEMMnTQUnOm+Y6EzZTb3nONuPXjXPW/iMn87m/HP5KDMD/XwNl49Q
+         111iL6d5BPsUSFlEB9VIlfWhmgzURTGyLpFjiX6XrqDrol1xPjTaHcpVIAT+UkIgCQVt
+         F7iflO21saZSEwzlT0/gYz8wuEEppj7FFbN7PjbIySvgKqaBnyjRvO7Ue4vDbFlt5K+F
+         9WPI26fEDsfJV+m4t8aMVWqz5Ql3ww4qW+RVhlrMxd1WANUXXZXVHmAQhqoCcP9MQM1M
+         tsmA==
+X-Gm-Message-State: AGi0PuaiAj6EmIxJ2XyY2ZCi5YHYEfpG8L+nPFt1w7Gv40ftU9ACZgqI
+        0IY/dN1mWwtW9k6wjk6BdHSaQxTrLDyjuRIn4DD4MsQu4vw=
+X-Google-Smtp-Source: APiQypJwZtEyXK5GJK6816AgkQZ1Cx5TsDhHg1RPi2SPIJaChvEwYWQCWwAp1ip6qeVHQ0/Dbzy1kvzvsVWhJz83qlI=
+X-Received: by 2002:a05:651c:287:: with SMTP id b7mr400146ljo.73.1586363083460;
+ Wed, 08 Apr 2020 09:24:43 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200408152151.5780-1-christian.brauner@ubuntu.com>
+In-Reply-To: <20200408152151.5780-1-christian.brauner@ubuntu.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Wed, 8 Apr 2020 18:24:16 +0200
+Message-ID: <CAG48ez0KWgLMOp1d3X1AcRNc4-eF1YiCw=PgWiGjtM6PqQqawg@mail.gmail.com>
+Subject: Re: [PATCH 0/8] loopfs
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Jens Axboe <axboe@kernel.dk>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-api@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        linux-block@vger.kernel.org, Linux API <linux-api@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Serge Hallyn <serge@hallyn.com>,
         "Rafael J. Wysocki" <rafael@kernel.org>, Tejun Heo <tj@kernel.org>,
         "David S. Miller" <davem@davemloft.net>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
         Saravana Kannan <saravanak@google.com>,
         Jan Kara <jack@suse.cz>, David Howells <dhowells@redhat.com>,
         Seth Forshee <seth.forshee@canonical.com>,
@@ -32,93 +63,59 @@ Cc:     Jonathan Corbet <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>,
         Tom Gundersen <teg@jklm.no>,
         Christian Kellner <ckellner@redhat.com>,
         Dmitry Vyukov <dvyukov@google.com>,
-        =?UTF-8?q?St=C3=A9phane=20Graber?= <stgraber@ubuntu.com>,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH 8/8] loopfs: only show devices in their correct instance
-Date:   Wed,  8 Apr 2020 17:21:51 +0200
-Message-Id: <20200408152151.5780-9-christian.brauner@ubuntu.com>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200408152151.5780-1-christian.brauner@ubuntu.com>
-References: <20200408152151.5780-1-christian.brauner@ubuntu.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        =?UTF-8?Q?St=C3=A9phane_Graber?= <stgraber@ubuntu.com>,
+        linux-doc@vger.kernel.org,
+        Network Development <netdev@vger.kernel.org>,
+        Matthew Garrett <mjg59@google.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Since loopfs devices belong to a loopfs instance they have no business
-polluting the host's devtmpfs mount and should not propagate out of the
-namespace they belong to.
+On Wed, Apr 8, 2020 at 5:23 PM Christian Brauner
+<christian.brauner@ubuntu.com> wrote:
+> One of the use-cases for loopfs is to allow to dynamically allocate loop
+> devices in sandboxed workloads without exposing /dev or
+> /dev/loop-control to the workload in question and without having to
+> implement a complex and also racy protocol to send around file
+> descriptors for loop devices. With loopfs each mount is a new instance,
+> i.e. loop devices created in one loopfs instance are independent of any
+> loop devices created in another loopfs instance. This allows
+> sufficiently privileged tools to have their own private stash of loop
+> device instances. Dmitry has expressed his desire to use this for
+> syzkaller in a private discussion. And various parties that want to use
+> it are Cced here too.
+>
+> In addition, the loopfs filesystem can be mounted by user namespace root
+> and is thus suitable for use in containers. Combined with syscall
+> interception this makes it possible to securely delegate mounting of
+> images on loop devices, i.e. when a user calls mount -o loop <image>
+> <mountpoint> it will be possible to completely setup the loop device.
+> The final mount syscall to actually perform the mount will be handled
+> through syscall interception and be performed by a sufficiently
+> privileged process. Syscall interception is already supported through a
+> new seccomp feature we implemented in [1] and extended in [2] and is
+> actively used in production workloads. The additional loopfs work will
+> be used there and in various other workloads too. You'll find a short
+> illustration how this works with syscall interception below in [4].
 
-Cc: Jens Axboe <axboe@kernel.dk>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
----
- drivers/base/devtmpfs.c | 4 ++--
- drivers/block/loop.c    | 4 +++-
- include/linux/device.h  | 3 +++
- 3 files changed, 8 insertions(+), 3 deletions(-)
+Would that privileged process then allow you to mount your filesystem
+images with things like ext4? As far as I know, the filesystem
+maintainers don't generally consider "untrusted filesystem image" to
+be a strongly enforced security boundary; and worse, if an attacker
+has access to a loop device from which something like ext4 is mounted,
+things like "struct ext4_dir_entry_2" will effectively be in shared
+memory, and an attacker can trivially bypass e.g.
+ext4_check_dir_entry(). At the moment, that's not a huge problem (for
+anything other than kernel lockdown) because only root normally has
+access to loop devices.
 
-diff --git a/drivers/base/devtmpfs.c b/drivers/base/devtmpfs.c
-index c9017e0584c0..77371ceb88fa 100644
---- a/drivers/base/devtmpfs.c
-+++ b/drivers/base/devtmpfs.c
-@@ -111,7 +111,7 @@ int devtmpfs_create_node(struct device *dev)
- 	const char *tmp = NULL;
- 	struct req req;
- 
--	if (!thread)
-+	if (!thread || dev->no_devnode)
- 		return 0;
- 
- 	req.mode = 0;
-@@ -138,7 +138,7 @@ int devtmpfs_delete_node(struct device *dev)
- 	const char *tmp = NULL;
- 	struct req req;
- 
--	if (!thread)
-+	if (!thread || dev->no_devnode)
- 		return 0;
- 
- 	req.name = device_get_devnode(dev, NULL, NULL, NULL, &tmp);
-diff --git a/drivers/block/loop.c b/drivers/block/loop.c
-index 7a14fd3e4329..df75ca4ac040 100644
---- a/drivers/block/loop.c
-+++ b/drivers/block/loop.c
-@@ -2155,8 +2155,10 @@ static int loop_add(struct loop_device **l, int i, struct inode *inode)
- 	disk->queue		= lo->lo_queue;
- 	sprintf(disk->disk_name, "loop%d", i);
- #ifdef CONFIG_BLK_DEV_LOOPFS
--	if (loopfs_i_sb(inode))
-+	if (loopfs_i_sb(inode)) {
- 		disk->user_ns = loopfs_i_sb(inode)->s_user_ns;
-+		disk_to_dev(disk)->no_devnode = true;
-+	}
- #endif
- 
- 	add_disk(disk);
-diff --git a/include/linux/device.h b/include/linux/device.h
-index fa04dfd22bbc..9fa438e3e4ca 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -525,6 +525,8 @@ struct dev_links_info {
-  *		  sync_state() callback.
-  * @dma_coherent: this particular device is dma coherent, even if the
-  *		architecture supports non-coherent devices.
-+ * @no_devnode: whether device nodes associated with this device are kept out
-+ *		of devtmpfs (e.g. due to separate filesystem)
-  *
-  * At the lowest level, every device in a Linux system is represented by an
-  * instance of struct device. The device structure contains the information
-@@ -625,6 +627,7 @@ struct device {
-     defined(CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU_ALL)
- 	bool			dma_coherent:1;
- #endif
-+	bool			no_devnode:1;
- };
- 
- static inline struct device *kobj_to_dev(struct kobject *kobj)
--- 
-2.26.0
+Ubuntu carries an out-of-tree patch that afaik blocks the shared
+memory thing: <https://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux/+git/eoan/commit?id=4bc428fdf5500b7366313f166b7c9c50ee43f2c4>
 
+But even with that patch, I'm not super excited about exposing
+filesystem image parsing attack surface to containers unless you run
+the filesystem in a sandboxed environment (at which point you don't
+need a loop device anymore either).
