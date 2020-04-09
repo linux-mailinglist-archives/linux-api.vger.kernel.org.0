@@ -2,220 +2,259 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C685A1A2B1D
-	for <lists+linux-api@lfdr.de>; Wed,  8 Apr 2020 23:29:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 584951A2ED3
+	for <lists+linux-api@lfdr.de>; Thu,  9 Apr 2020 07:39:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730426AbgDHV3k (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 8 Apr 2020 17:29:40 -0400
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:39860 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730452AbgDHV3k (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 8 Apr 2020 17:29:40 -0400
-Received: by mail-ed1-f66.google.com with SMTP id a43so10628845edf.6;
-        Wed, 08 Apr 2020 14:29:37 -0700 (PDT)
+        id S1726534AbgDIFjb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 9 Apr 2020 01:39:31 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:43024 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726052AbgDIFja (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Apr 2020 01:39:30 -0400
+Received: by mail-io1-f66.google.com with SMTP id u2so2630760iop.10;
+        Wed, 08 Apr 2020 22:39:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc:content-transfer-encoding;
-        bh=A//Ihtk8E6tGXssdeUVjq+HsfLF2Kwp1UsiAdKMAPC0=;
-        b=MowKziS/aP0dLyQZfm3LH2OOVnSziB5+YdNABqp5DaO6phZMONdWTHrVb68lnPg/xo
-         kU7SNyJ55ozs6l8SVZQ4sTKHnKMiU7K1trC42DZ8nQv+XCBy3tJRNa7MlUi3CFG85uuy
-         DHrwLeRL96bm0aApoHpe1wE7oNoDwkk88NOE5rYA46ujRbnXR6PeVbnwXmeCYctS2JE8
-         zaUbA8cWy1HyIiCWsFipHTdTn58SLJpHd8btcG80FrOTsa5FPNgR5zmzR9+JEE64Nvsb
-         1FSlURpgnIhGlgrhr8hPuLihnQzuIgEdiwHzcLxmg9fHMgCdU4R9OGUM9ukHQJTMivP3
-         jOVw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ljGAHp2OjKbTOFHe8vnoaVTTxVxXbioqrcoMST1/WOo=;
+        b=HkG56GMfGJ4oOadqcLZ8K9Ajjq83Iyh59fq801QTD4zro/RN9oEeQEvooFasxrfuGz
+         BzKmFHaUGhXK5R2MqHGJXcMU0QKgkBTY9bk+Dr4xm1NO0WnnQDZcuNwAPvu7wGpOCMmk
+         t2K7/u5Y6+3RA8y1RUgDhYz8BgvFB3eBZtM1sNjmiGhfoL7OGG6x33RmyDZqQkx4dXek
+         IIwzbjuPUQU9harCVey752sogp8rmD+CdeW8CIUUtNyxJh4PdV7nhEDY21FTP4E5vBpX
+         mkrasJc8tvc6IXNJGIeutXFt6PI1hokvM0Kb4dfs4HpUBUSwID2C+0VsV/m895xuZkyj
+         Ub4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc:content-transfer-encoding;
-        bh=A//Ihtk8E6tGXssdeUVjq+HsfLF2Kwp1UsiAdKMAPC0=;
-        b=cjevSeseNfmcJXrgH6+q0dxEjNx3UJMrHrguerhvMrOmvS3lDhPomwjfAMS3YWw5Dr
-         KEWcEaHYFR7uRrHhCedEyroH3yLeD5oxepBHDp/pOp9yAtjH0aY1V2YEdwODr3eokfBq
-         NLReOddEafYWjgx9cpnJDiOUC5tW6HoNk0w2a+zcIpB/k5NZTt7ssONEuMb4dfmVg6e/
-         o4eyhi6NaZzb/GGJftNHGi9crc4ktekbmmqgUbuToiZ50+Awhb1M8YwfwRxCMJhh2Nt2
-         HCtGVZQvF1iaa5KLuF9rB6N7J2ihL4vGv+8jZcI3cMpUykjv6IyMXw1USlPMdpAD2azI
-         NTiA==
-X-Gm-Message-State: AGi0PuZxf3wrC1s/+jvNeTNDeUtlD/tJAlPcA9sImISi2j1YfXCZvaT7
-        W9niv41zW7xK5acl1+Ja47hXtU2STvgZY/thvCo=
-X-Google-Smtp-Source: APiQypIcLuUPcM7dpcYmVLN0FYDPTb1IWXC7Gx88nUJmVVsFuobNJPDrfewiy+GojX6YPVRfdLX7XRnOLG2Q2pY9QhQ=
-X-Received: by 2002:a05:6402:30b2:: with SMTP id df18mr8251337edb.149.1586381377148;
- Wed, 08 Apr 2020 14:29:37 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ljGAHp2OjKbTOFHe8vnoaVTTxVxXbioqrcoMST1/WOo=;
+        b=UjHuUOQPsMnVOw9k7TCYcsoQPfhJFSviIjZO9p0GYqkwYZKP3vXURcSvzbl6cYS0aC
+         hawMtXw5Uh/yqNMZaucNU+J/QcyKhHOhBO667EWjL/iMRuRUx/6p3yX+atVYoGn2MUeN
+         zVhie+NVB9NxIbGcR7OwuIYRia2LqYPdBAxnORoSW9V4PK9FE9ZkDaNgz6H7SHm6GUIY
+         SbuG9TUtK4AxBF5DuX3Gaueovq8hCNhqag/lrukKXz9a/c/hrsXvinUL1+GCZHkR4a8C
+         4/UgcMdnXUJwzmkqy7KM5RdN+c4+F/ADX/HyLS8mSBTixCX7jqDGGSyXCDC+3akvDKbO
+         51XA==
+X-Gm-Message-State: AGi0PuahwDRDpvxeukGixeVhGF4lNay2Ykvb+DZYWgizQ1xYQGAy+QUY
+        6gSqNjSJHtG4X4x4tJ/C9pxzhZKfsQeUnbiIz2o=
+X-Google-Smtp-Source: APiQypIL7SeYio2ZFuNp5g6MDFQufig71I9V1q4nfq+9nWJ+P9gSXGZQgEVwLHyPBwzlz+ajo1kFs5NqvWoLGRKwBuA=
+X-Received: by 2002:a05:6638:186:: with SMTP id a6mr1070872jaq.36.1586410769722;
+ Wed, 08 Apr 2020 22:39:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200202151907.23587-1-cyphar@cyphar.com> <20200202151907.23587-3-cyphar@cyphar.com>
- <1567baea-5476-6d21-4f03-142def0f62e3@gmail.com> <20200331143911.lokfoq3lqfri2mgy@yavin.dot.cyphar.com>
- <cd3a6aad-b906-ee57-1b5b-5939b9602ad0@gmail.com>
-In-Reply-To: <cd3a6aad-b906-ee57-1b5b-5939b9602ad0@gmail.com>
-Reply-To: mtk.manpages@gmail.com
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Date:   Wed, 8 Apr 2020 23:29:25 +0200
-Message-ID: <CAKgNAki8z_eGej6dqsZLZ5UKVXdmWX00FfR0GMSJtjS4WkiSwA@mail.gmail.com>
-Subject: Re: [PATCH man-pages v2 2/2] openat2.2: document new openat2(2) syscall
-To:     Aleksa Sarai <cyphar@cyphar.com>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian@brauner.io>,
-        Aleksa Sarai <asarai@suse.de>,
-        linux-man <linux-man@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
+References: <20200408152151.5780-1-christian.brauner@ubuntu.com> <20200408152151.5780-3-christian.brauner@ubuntu.com>
+In-Reply-To: <20200408152151.5780-3-christian.brauner@ubuntu.com>
+From:   David Rheinsberg <david.rheinsberg@gmail.com>
+Date:   Thu, 9 Apr 2020 07:39:18 +0200
+Message-ID: <CADyDSO54-GuSUJrciSD2jbSShCYDpXCp53cr+D7u0ZQT141uTA@mail.gmail.com>
+Subject: Re: [PATCH 2/8] loopfs: implement loopfs
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Jens Axboe <axboe@kernel.dk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        lkml <linux-kernel@vger.kernel.org>, linux-block@vger.kernel.org,
+        linux-api@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Serge Hallyn <serge@hallyn.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>, Tejun Heo <tj@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Saravana Kannan <saravanak@google.com>,
+        Jan Kara <jack@suse.cz>, David Howells <dhowells@redhat.com>,
+        Seth Forshee <seth.forshee@canonical.com>,
+        Tom Gundersen <teg@jklm.no>,
+        Christian Kellner <ckellner@redhat.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        =?UTF-8?Q?St=C3=A9phane_Graber?= <stgraber@ubuntu.com>,
+        linux-doc@vger.kernel.org, netdev@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Aleksa,
+Hi
 
-Ping!
+On Wed, Apr 8, 2020 at 5:27 PM Christian Brauner
+<christian.brauner@ubuntu.com> wrote:
+>
+> This implements loopfs, a loop device filesystem. It takes inspiration
+> from the binderfs filesystem I implemented about two years ago and with
+> which we had overally good experiences so far. Parts of it are also
+> based on [3] but it's mostly a new, imho cleaner approach.
+>
+> One of the use-cases for loopfs is to allow to dynamically allocate loop
+> devices in sandboxed workloads without exposing /dev or
+> /dev/loop-control to the workload in question and without having to
+> implement a complex and also racy protocol to send around file
+> descriptors for loop devices. With loopfs each mount is a new instance,
+> i.e. loop devices created in one loopfs instance are independent of any
+> loop devices created in another loopfs instance. This allows
+> sufficiently privileged tools to have their own private stash of loop
+> device instances.
+>
+> In addition, the loopfs filesystem can be mounted by user namespace root
+> and is thus suitable for use in containers. Combined with syscall
+> interception this makes it possible to securely delegate mounting of
+> images on loop devices, i.e. when a users calls mount -o loop <image>
+> <mountpoint> it will be possible to completely setup the loop device
+> (enabled in later patches) and the mount syscall to actually perform the
+> mount will be handled through syscall interception and be performed by a
+> sufficiently privileged process. Syscall interception is already
+> supported through a new seccomp feature we implemented in [1] and
+> extended in [2] and is actively used in production workloads. The
+> additional loopfs work will be used there and in various other workloads
+> too.
+>
+> The number of loop devices available to a loopfs instance can be limited
+> by setting the "max" mount option to a positive integer. This e.g.
+> allows sufficiently privileged processes to dynamically enforce a limit
+> on the number of devices. This limit is dynamic in contrast to the
+> max_loop module option in that a sufficiently privileged process can
+> update it with a simple remount operation.
+>
+> The loopfs filesystem is placed under a new config option and special
+> care has been taken to not introduce any new code when users do not
+> select this config option.
+>
+> Note that in __loop_clr_fd() we now need not just check whether bdev is
+> valid but also whether bdev->bd_disk is valid. This wasn't necessary
+> before because in order to call LOOP_CLR_FD the loop device would need
+> to be open and thus bdev->bd_disk was guaranteed to be allocated. For
+> loopfs loop devices we allow callers to simply unlink them just as we do
+> for binderfs binder devices and we do also need to account for the case
+> where a loopfs superblock is shutdown while backing files might still be
+> associated with some loop devices. In such cases no bd_disk device will
+> be attached to bdev. This is not in itself noteworthy it's more about
+> documenting the "why" of the added bdev->bd_disk check for posterity.
+>
+> [1]: 6a21cc50f0c7 ("seccomp: add a return code to trap to userspace")
+> [2]: fb3c5386b382 ("seccomp: add SECCOMP_USER_NOTIF_FLAG_CONTINUE")
+> [3]: https://lore.kernel.org/lkml/1401227936-15698-1-git-send-email-seth.forshee@canonical.com
+> Cc: Jens Axboe <axboe@kernel.dk>
+> Cc: Seth Forshee <seth.forshee@canonical.com>
+> Cc: Tom Gundersen <teg@jklm.no>
+> Cc: Tejun Heo <tj@kernel.org>
+> Cc: Christian Kellner <ckellner@redhat.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: David Rheinsberg <david.rheinsberg@gmail.com>
+> Cc: Dmitry Vyukov <dvyukov@google.com>
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
+> ---
+>  MAINTAINERS                   |   5 +
+>  drivers/block/Kconfig         |   4 +
+>  drivers/block/Makefile        |   1 +
+>  drivers/block/loop.c          | 151 +++++++++---
+>  drivers/block/loop.h          |   8 +-
+>  drivers/block/loopfs/Makefile |   3 +
+>  drivers/block/loopfs/loopfs.c | 429 ++++++++++++++++++++++++++++++++++
+>  drivers/block/loopfs/loopfs.h |  35 +++
+>  include/uapi/linux/magic.h    |   1 +
+>  9 files changed, 600 insertions(+), 37 deletions(-)
+>  create mode 100644 drivers/block/loopfs/Makefile
+>  create mode 100644 drivers/block/loopfs/loopfs.c
+>  create mode 100644 drivers/block/loopfs/loopfs.h
+>
+[...]
+> diff --git a/drivers/block/loopfs/loopfs.c b/drivers/block/loopfs/loopfs.c
+> new file mode 100644
+> index 000000000000..ac46aa337008
+> --- /dev/null
+> +++ b/drivers/block/loopfs/loopfs.c
+> @@ -0,0 +1,429 @@
+[...]
+> +/**
+> + * loopfs_loop_device_create - allocate inode from super block of a loopfs mount
+> + * @lo:                loop device for which we are creating a new device entry
+> + * @ref_inode: inode from wich the super block will be taken
+> + * @device_nr:  device number of the associated disk device
+> + *
+> + * This function creates a new device node for @lo.
+> + * Minor numbers are limited and tracked globally. The
+> + * function will stash a struct loop_device for the specific loop
+> + * device in i_private of the inode.
+> + * It will go on to allocate a new inode from the super block of the
+> + * filesystem mount, stash a struct loop_device in its i_private field
+> + * and attach a dentry to that inode.
+> + *
+> + * Return: 0 on success, negative errno on failure
+> + */
+> +int loopfs_loop_device_create(struct loop_device *lo, struct inode *ref_inode,
+> +                             dev_t device_nr)
+> +{
+> +       char name[DISK_NAME_LEN];
+> +       struct super_block *sb;
+> +       struct loopfs_info *info;
+> +       struct dentry *root, *dentry;
+> +       struct inode *inode;
+> +
+> +       sb = loopfs_i_sb(ref_inode);
+> +       if (!sb)
+> +               return 0;
+> +
+> +       if (MAJOR(device_nr) != LOOP_MAJOR)
+> +               return -EINVAL;
+> +
+> +       info = LOOPFS_SB(sb);
+> +       if ((info->device_count + 1) > info->mount_opts.max)
+> +               return -ENOSPC;
 
-Cheers,
+Can you elaborate what the use-case for this limit is?
 
-Michael
+With loopfs in place, any process can create its own user_ns, mount
+their private loopfs and create as many loop-devices as they want.
+Hence, this limit does not serve as an effective global
+resource-control. Secondly, anyone with access to `loop-control` can
+now create loop instances until this limit is hit, thus causing anyone
+else to be unable to create more. This effectively prevents you from
+sharing a loopfs between non-trusting parties. I am unsure where that
+limit would actually be used?
 
-On Wed, 1 Apr 2020 at 08:38, Michael Kerrisk (man-pages)
-<mtk.manpages@gmail.com> wrote:
->
-> Hello Aleksa,
->
-> On 3/31/20 4:39 PM, Aleksa Sarai wrote:
-> > On 2020-03-30, Michael Kerrisk (man-pages) <mtk.manpages@gmail.com> wro=
-te:
-> >> Hello Aleksa,
-> >>
-> >> On 2/2/20 4:19 PM, Aleksa Sarai wrote:
-> >>> Rather than trying to merge the new syscall documentation into open.2
-> >>> (which would probably result in the man-page being incomprehensible),
-> >>> instead the new syscall gets its own dedicated page with links betwee=
-n
-> >>> open(2) and openat2(2) to avoid duplicating information such as the l=
-ist
-> >>> of O_* flags or common errors.
-> >>>
-> >>> In addition to describing all of the key flags, information about the
-> >>> extensibility design is provided so that users can better understand =
-why
-> >>> they need to pass sizeof(struct open_how) and how their programs will
-> >>> work across kernels. After some discussions with David Laight, I also
-> >>> included explicit instructions to zero the structure to avoid issues
-> >>> when recompiling with new headers.
-> >>>
-> >>> Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
-> >>
-> >> Thanks. I've applied this patch, but also done quite a lot of
-> >> editing of the page. The current draft is below (and also pushed
-> >> to Git). Could I ask you to review the page, to see if I injected
-> >> any error during my edits.
-> >
-> > Looks good to me.
-> >
-> >> In addition, I've added a number of FIXMEs in comments
-> >> in the page source. Can you please check these, and let me
-> >> know your thoughts.
-> >
-> > Will do, see below.
-> >
-> >> .\" FIXME I find the "previously-functional systems" in the previous
-> >> .\" sentence a little odd (since openat2() ia new sysycall), so I woul=
-d
-> >> .\" like to clarify a little...
-> >> .\" Are you referring to the scenario where someone might take an
-> >> .\" existing application that uses openat() and replaces the uses
-> >> .\" of openat() with openat2()? In which case, is it correct to
-> >> .\" understand that you mean that one should not just indiscriminately
-> >> .\" add the RESOLVE_NO_XDEV flag to all of the openat2() calls?
-> >> .\" If I'm not on the right track, could you point me in the right
-> >> .\" direction please.
-> >
-> > This is mostly meant as a warning to hopefully avoid applications
-> > because the developer didn't realise that system paths may contain
-> > symlinks or bind-mounts. For an application which has switched to
-> > openat2() and then uses RESOLVE_NO_SYMLINKS for a non-security reason,
-> > it's possible that on some distributions (or future versions of a
-> > distribution) that their application will stop working because a system
-> > path suddenly contains a symlink or is a bind-mount.
-> >
-> > This was a concern which was brought up on LWN some time ago. If you ca=
-n
-> > think of a phrasing that makes this more clear, I'd appreciate it.
->
-> Thanks. I've made the text:
->
->                      Applications  that  employ  the RESOLVE_NO_XDEV flag
->                      are encouraged to make its use configurable  (unless
->                      it is used for a specific security purpose), as bind
->                      mounts are widely used by end-users.   Setting  this
->                      flag indiscriminately=E2=80=94i.e., for purposes not=
- specif=E2=80=90
->                      ically related to security=E2=80=94for all uses of o=
-penat2()
->                      may  result  in  spurious errors on previously-func=
-=E2=80=90
->                      tional systems.  This may occur if, for  example,  a
->                      system  pathname  that  is used by an application is
->                      modified (e.g., in a new  distribution  release)  so
->                      that  a  pathname  component  (now)  contains a bind
->                      mount.
->
-> Okay?
->
-> >> .\" FIXME: what specific details in symlink(7) are being referred
-> >> .\" by the following sentence? It's not clear.
-> >
-> > The section on magic-links, but you're right that the sentence ordering
-> > is a bit odd. It should probably go after the first sentence.
->
-> I must admit that I'm still confused. There's only the briefest of
-> mentions of magic links in symlink(7). Perhaps that needs to be fixed?
->
-> And, while I think of it, the text just preceding that FIXME says:
->
->     Due to the potential danger of unknowingly opening
->     these magic links, it may be preferable for users to
->     disable their resolution entirely.
->
-> This sentence reads a little strangely. Could you please give me some
-> concrete examples, and I will try rewording that sentence a bit.
->
-> >> .\" FIXME I found the following hard to understand (in particular, the
-> >> .\" meaning of "scoped" is unclear) , and reworded as below. Is it oka=
-y?
-> >> .\"     Absolute symbolic links and ".." path components will be scope=
-d to
-> >> .\"     .IR dirfd .
-> >
-> > Scoped does broadly mean "interpreted relative to", though the
-> > difference is mainly that when I said scoped it's meant to be more of a=
-n
-> > assertive claim ("the kernel promises to always treat this path inside
-> > dirfd"). But "interpreted relative to" is a clearer way of phrasing the
-> > semantics, so I'm okay with this change.
->
-> Okay.
->
-> >> .\" FIXME The next piece is unclear (to me). What kind of ".." escape
-> >> .\" attempts does chroot() not detect that RESOLVE_IN_ROOT does?
-> >
-> > If the root is moved, you can escape from a chroot(2). But this sentenc=
-e
-> > might not really belong in a man-page since it's describing (important)
-> > aspects of the implementation and not the semantics.
->
-> So, should I just remove the sentence?
->
-> Thanks,
->
-> Michael
->
->
-> --
-> Michael Kerrisk
-> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-> Linux/UNIX System Programming Training: http://man7.org/training/
+Thanks
+David
 
-
-
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+> +
+> +       if (snprintf(name, sizeof(name), "loop%d", lo->lo_number) >= sizeof(name))
+> +               return -EINVAL;
+> +
+> +       inode = new_inode(sb);
+> +       if (!inode)
+> +               return -ENOMEM;
+> +
+> +       /*
+> +        * The i_fop field will be set to the correct fops by the device layer
+> +        * when the loop device in this loopfs instance is opened.
+> +        */
+> +       inode->i_ino = MINOR(device_nr) + INODE_OFFSET;
+> +       inode->i_mtime = inode->i_atime = inode->i_ctime = current_time(inode);
+> +       inode->i_uid = info->root_uid;
+> +       inode->i_gid = info->root_gid;
+> +       init_special_inode(inode, S_IFBLK | 0600, device_nr);
+> +
+> +       root = sb->s_root;
+> +       inode_lock(d_inode(root));
+> +       /* look it up */
+> +       dentry = lookup_one_len(name, root, strlen(name));
+> +       if (IS_ERR(dentry)) {
+> +               inode_unlock(d_inode(root));
+> +               iput(inode);
+> +               return PTR_ERR(dentry);
+> +       }
+> +
+> +       if (d_really_is_positive(dentry)) {
+> +               /* already exists */
+> +               dput(dentry);
+> +               inode_unlock(d_inode(root));
+> +               iput(inode);
+> +               return -EEXIST;
+> +       }
+> +
+> +       d_instantiate(dentry, inode);
+> +       fsnotify_create(d_inode(root), dentry);
+> +       inode_unlock(d_inode(root));
+> +
+> +       inode->i_private = lo;
+> +       lo->lo_loopfs_i = inode;
+> +       info->device_count++;
+> +
+> +       return 0;
+> +}
+[...]
