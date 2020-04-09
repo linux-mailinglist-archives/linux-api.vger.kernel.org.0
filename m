@@ -2,259 +2,176 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 584951A2ED3
-	for <lists+linux-api@lfdr.de>; Thu,  9 Apr 2020 07:39:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 27AEF1A2FAE
+	for <lists+linux-api@lfdr.de>; Thu,  9 Apr 2020 09:03:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726534AbgDIFjb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 9 Apr 2020 01:39:31 -0400
-Received: from mail-io1-f66.google.com ([209.85.166.66]:43024 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726052AbgDIFja (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Apr 2020 01:39:30 -0400
-Received: by mail-io1-f66.google.com with SMTP id u2so2630760iop.10;
-        Wed, 08 Apr 2020 22:39:30 -0700 (PDT)
+        id S1726583AbgDIHDH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 9 Apr 2020 03:03:07 -0400
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:43994 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726574AbgDIHDH (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Apr 2020 03:03:07 -0400
+Received: by mail-qt1-f194.google.com with SMTP id z90so1683209qtd.10
+        for <linux-api@vger.kernel.org>; Thu, 09 Apr 2020 00:03:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ljGAHp2OjKbTOFHe8vnoaVTTxVxXbioqrcoMST1/WOo=;
-        b=HkG56GMfGJ4oOadqcLZ8K9Ajjq83Iyh59fq801QTD4zro/RN9oEeQEvooFasxrfuGz
-         BzKmFHaUGhXK5R2MqHGJXcMU0QKgkBTY9bk+Dr4xm1NO0WnnQDZcuNwAPvu7wGpOCMmk
-         t2K7/u5Y6+3RA8y1RUgDhYz8BgvFB3eBZtM1sNjmiGhfoL7OGG6x33RmyDZqQkx4dXek
-         IIwzbjuPUQU9harCVey752sogp8rmD+CdeW8CIUUtNyxJh4PdV7nhEDY21FTP4E5vBpX
-         mkrasJc8tvc6IXNJGIeutXFt6PI1hokvM0Kb4dfs4HpUBUSwID2C+0VsV/m895xuZkyj
-         Ub4w==
+         :cc:content-transfer-encoding;
+        bh=4T5kGWYuiWsD8ODG0rIT5wEJy5Zk5WzpdZY70XPYCsk=;
+        b=nh7PHjWteqz8nFiHSjdWnVP7s/XkAfF1ymz+SC5KOF7ff+qFavN9xWvQtCveEZumqP
+         Js0U5iOyiNiX0f5FDlsNU/xj0ioJRTCvg6fcTokSxpk7DAjMIOKJeDKLXT+qT5HauLa2
+         TxJ4oI7IdnA8l0vUXq6P86eg+pENHwdeX8GPbsjiYVxhUHFrZE2NH87nmZsThIsfDySq
+         6Ueeav8Fa2S+yIy+d31YRfW/Okz3ce8NTe6OSjELck4bUW2cYOTG3fiQl9ALKawhyAE/
+         xV36Y62LGGOK8uHb6JB+w+LBDuZKdqq6PsZG6sS1vtfczJ+vl5DyjI1bIY5y0SNmNFay
+         Uplg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ljGAHp2OjKbTOFHe8vnoaVTTxVxXbioqrcoMST1/WOo=;
-        b=UjHuUOQPsMnVOw9k7TCYcsoQPfhJFSviIjZO9p0GYqkwYZKP3vXURcSvzbl6cYS0aC
-         hawMtXw5Uh/yqNMZaucNU+J/QcyKhHOhBO667EWjL/iMRuRUx/6p3yX+atVYoGn2MUeN
-         zVhie+NVB9NxIbGcR7OwuIYRia2LqYPdBAxnORoSW9V4PK9FE9ZkDaNgz6H7SHm6GUIY
-         SbuG9TUtK4AxBF5DuX3Gaueovq8hCNhqag/lrukKXz9a/c/hrsXvinUL1+GCZHkR4a8C
-         4/UgcMdnXUJwzmkqy7KM5RdN+c4+F/ADX/HyLS8mSBTixCX7jqDGGSyXCDC+3akvDKbO
-         51XA==
-X-Gm-Message-State: AGi0PuahwDRDpvxeukGixeVhGF4lNay2Ykvb+DZYWgizQ1xYQGAy+QUY
-        6gSqNjSJHtG4X4x4tJ/C9pxzhZKfsQeUnbiIz2o=
-X-Google-Smtp-Source: APiQypIL7SeYio2ZFuNp5g6MDFQufig71I9V1q4nfq+9nWJ+P9gSXGZQgEVwLHyPBwzlz+ajo1kFs5NqvWoLGRKwBuA=
-X-Received: by 2002:a05:6638:186:: with SMTP id a6mr1070872jaq.36.1586410769722;
- Wed, 08 Apr 2020 22:39:29 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=4T5kGWYuiWsD8ODG0rIT5wEJy5Zk5WzpdZY70XPYCsk=;
+        b=EP16onjFGGgB++w0ypkOrWIlLznRnTVnDLHJf+gqMCx9bjKpHOgqUJ8KlP7qUeOdep
+         XKy5frPeOlKsoYzg+GSuD+DmOwZsyIT2CB58bBlvQyVx618CdP9EeK2GLlbsYYDfmhoP
+         /RkBFicBqFk9aQCabSDmRhwqtgdKGcD5dxNZgFfvb7oDbaYq9oCy8aZ2ItyjB1x54QT2
+         xlnIApaK5zWk0e5i7fKp62NL0xaNxYjQzZDphxw3N9u3bZdx/JvisBowTG7e0WQSbn/l
+         vKe0jDBcE0PlSQuGaXn8+7Jfkzc/DqHwu+DEXD47oGoJv/gCk/Wc8mnqdyqslTVW3QVf
+         cm/Q==
+X-Gm-Message-State: AGi0PuZN7UDUpwvhTQcDVlqwKJa1cBPSPNWaRVQ0KdRRJZrwUGSGy/i7
+        /eo3i/O+S/0EoEJjhCmiTD1iueafsNO2YWQSTmInxQ==
+X-Google-Smtp-Source: APiQypKJQ3a0N5JoQD3BUJRgBCjL9Mcwnw+lWcXfUjHl6fm5/ft1w+YZKYm17y/CnLUqFgVeQD/ed0MGFxfOHkB7mRE=
+X-Received: by 2002:ac8:6c24:: with SMTP id k4mr3078643qtu.257.1586415786173;
+ Thu, 09 Apr 2020 00:03:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200408152151.5780-1-christian.brauner@ubuntu.com> <20200408152151.5780-3-christian.brauner@ubuntu.com>
-In-Reply-To: <20200408152151.5780-3-christian.brauner@ubuntu.com>
-From:   David Rheinsberg <david.rheinsberg@gmail.com>
-Date:   Thu, 9 Apr 2020 07:39:18 +0200
-Message-ID: <CADyDSO54-GuSUJrciSD2jbSShCYDpXCp53cr+D7u0ZQT141uTA@mail.gmail.com>
-Subject: Re: [PATCH 2/8] loopfs: implement loopfs
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Jens Axboe <axboe@kernel.dk>,
+References: <20200408152151.5780-1-christian.brauner@ubuntu.com>
+ <CAG48ez0KWgLMOp1d3X1AcRNc4-eF1YiCw=PgWiGjtM6PqQqawg@mail.gmail.com> <CA+enf=uhTi1yWtOe+iuv2FvdZzo69pwsP-NNU2775jN01aDcVQ@mail.gmail.com>
+In-Reply-To: <CA+enf=uhTi1yWtOe+iuv2FvdZzo69pwsP-NNU2775jN01aDcVQ@mail.gmail.com>
+From:   Dmitry Vyukov <dvyukov@google.com>
+Date:   Thu, 9 Apr 2020 09:02:54 +0200
+Message-ID: <CACT4Y+aDeSAARG0b9FjDFyWuhjb=YVxpGtsvBmoKnHo+0TF4gA@mail.gmail.com>
+Subject: Re: [PATCH 0/8] loopfs
+To:     =?UTF-8?Q?St=C3=A9phane_Graber?= <stgraber@ubuntu.com>
+Cc:     Jann Horn <jannh@google.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Jens Axboe <axboe@kernel.dk>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        lkml <linux-kernel@vger.kernel.org>, linux-block@vger.kernel.org,
-        linux-api@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        linux-block <linux-block@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Serge Hallyn <serge@hallyn.com>,
         "Rafael J. Wysocki" <rafael@kernel.org>, Tejun Heo <tj@kernel.org>,
         "David S. Miller" <davem@davemloft.net>,
         Saravana Kannan <saravanak@google.com>,
         Jan Kara <jack@suse.cz>, David Howells <dhowells@redhat.com>,
         Seth Forshee <seth.forshee@canonical.com>,
+        David Rheinsberg <david.rheinsberg@gmail.com>,
         Tom Gundersen <teg@jklm.no>,
         Christian Kellner <ckellner@redhat.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        =?UTF-8?Q?St=C3=A9phane_Graber?= <stgraber@ubuntu.com>,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Network Development <netdev@vger.kernel.org>,
+        Matthew Garrett <mjg59@google.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        syzkaller <syzkaller@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi
+On Wed, Apr 8, 2020 at 6:41 PM St=C3=A9phane Graber <stgraber@ubuntu.com> w=
+rote:
+>
+> On Wed, Apr 8, 2020 at 12:24 PM Jann Horn <jannh@google.com> wrote:
+> >
+> > On Wed, Apr 8, 2020 at 5:23 PM Christian Brauner
+> > <christian.brauner@ubuntu.com> wrote:
+> > > One of the use-cases for loopfs is to allow to dynamically allocate l=
+oop
+> > > devices in sandboxed workloads without exposing /dev or
+> > > /dev/loop-control to the workload in question and without having to
+> > > implement a complex and also racy protocol to send around file
+> > > descriptors for loop devices. With loopfs each mount is a new instanc=
+e,
+> > > i.e. loop devices created in one loopfs instance are independent of a=
+ny
+> > > loop devices created in another loopfs instance. This allows
+> > > sufficiently privileged tools to have their own private stash of loop
+> > > device instances. Dmitry has expressed his desire to use this for
+> > > syzkaller in a private discussion. And various parties that want to u=
+se
+> > > it are Cced here too.
+> > >
+> > > In addition, the loopfs filesystem can be mounted by user namespace r=
+oot
+> > > and is thus suitable for use in containers. Combined with syscall
+> > > interception this makes it possible to securely delegate mounting of
+> > > images on loop devices, i.e. when a user calls mount -o loop <image>
+> > > <mountpoint> it will be possible to completely setup the loop device.
+> > > The final mount syscall to actually perform the mount will be handled
+> > > through syscall interception and be performed by a sufficiently
+> > > privileged process. Syscall interception is already supported through=
+ a
+> > > new seccomp feature we implemented in [1] and extended in [2] and is
+> > > actively used in production workloads. The additional loopfs work wil=
+l
+> > > be used there and in various other workloads too. You'll find a short
+> > > illustration how this works with syscall interception below in [4].
+> >
+> > Would that privileged process then allow you to mount your filesystem
+> > images with things like ext4? As far as I know, the filesystem
+> > maintainers don't generally consider "untrusted filesystem image" to
+> > be a strongly enforced security boundary; and worse, if an attacker
+> > has access to a loop device from which something like ext4 is mounted,
+> > things like "struct ext4_dir_entry_2" will effectively be in shared
+> > memory, and an attacker can trivially bypass e.g.
+> > ext4_check_dir_entry(). At the moment, that's not a huge problem (for
+> > anything other than kernel lockdown) because only root normally has
+> > access to loop devices.
+> >
+> > Ubuntu carries an out-of-tree patch that afaik blocks the shared
+> > memory thing: <https://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/=
+linux/+git/eoan/commit?id=3D4bc428fdf5500b7366313f166b7c9c50ee43f2c4>
+> >
+> > But even with that patch, I'm not super excited about exposing
+> > filesystem image parsing attack surface to containers unless you run
+> > the filesystem in a sandboxed environment (at which point you don't
+> > need a loop device anymore either).
+>
+> So in general we certainly agree that you should never expose someone
+> that you wouldn't trust with root on the host to syscall interception
+> mounting of real kernel filesystems.
+>
+> But that's not all that our syscall interception logic can do. We have
+> support for rewriting a normal filesystem mount attempt to instead use
+> an available FUSE implementation. As far as the user is concerned,
+> they ran "mount /dev/sdaX /mnt" and got that ext4 filesystem mounted
+> on /mnt as requested, except that the container manager intercepted
+> the mount attempt and instead spawned fuse2fs for that mount. This
+> requires absolutely no change to the software the user is running.
+>
+> loopfs, with that interception mode, will let us also handle all cases
+> where a loop would be used, similarly without needing any change to
+> the software being run. If a piece of software calls the command
+> "mount -o loop blah.img /mnt", the "mount" command will setup a loop
+> device as it normally would (doing so through loopfs) and then will
+> call the "mount" syscall, which will get intercepted and redirected to
+> a FUSE implementation if so configured, resulting in the expected
+> filesystem being mounted for the user.
+>
+> LXD with syscall interception offers both straight up privileged
+> mounting using the kernel fs or using a FUSE based implementation.
+> This is configurable on a per-filesystem and per-container basis.
+>
+> I hope that clarifies what we're doing here :)
+>
+> St=C3=A9phane
 
-On Wed, Apr 8, 2020 at 5:27 PM Christian Brauner
-<christian.brauner@ubuntu.com> wrote:
->
-> This implements loopfs, a loop device filesystem. It takes inspiration
-> from the binderfs filesystem I implemented about two years ago and with
-> which we had overally good experiences so far. Parts of it are also
-> based on [3] but it's mostly a new, imho cleaner approach.
->
-> One of the use-cases for loopfs is to allow to dynamically allocate loop
-> devices in sandboxed workloads without exposing /dev or
-> /dev/loop-control to the workload in question and without having to
-> implement a complex and also racy protocol to send around file
-> descriptors for loop devices. With loopfs each mount is a new instance,
-> i.e. loop devices created in one loopfs instance are independent of any
-> loop devices created in another loopfs instance. This allows
-> sufficiently privileged tools to have their own private stash of loop
-> device instances.
->
-> In addition, the loopfs filesystem can be mounted by user namespace root
-> and is thus suitable for use in containers. Combined with syscall
-> interception this makes it possible to securely delegate mounting of
-> images on loop devices, i.e. when a users calls mount -o loop <image>
-> <mountpoint> it will be possible to completely setup the loop device
-> (enabled in later patches) and the mount syscall to actually perform the
-> mount will be handled through syscall interception and be performed by a
-> sufficiently privileged process. Syscall interception is already
-> supported through a new seccomp feature we implemented in [1] and
-> extended in [2] and is actively used in production workloads. The
-> additional loopfs work will be used there and in various other workloads
-> too.
->
-> The number of loop devices available to a loopfs instance can be limited
-> by setting the "max" mount option to a positive integer. This e.g.
-> allows sufficiently privileged processes to dynamically enforce a limit
-> on the number of devices. This limit is dynamic in contrast to the
-> max_loop module option in that a sufficiently privileged process can
-> update it with a simple remount operation.
->
-> The loopfs filesystem is placed under a new config option and special
-> care has been taken to not introduce any new code when users do not
-> select this config option.
->
-> Note that in __loop_clr_fd() we now need not just check whether bdev is
-> valid but also whether bdev->bd_disk is valid. This wasn't necessary
-> before because in order to call LOOP_CLR_FD the loop device would need
-> to be open and thus bdev->bd_disk was guaranteed to be allocated. For
-> loopfs loop devices we allow callers to simply unlink them just as we do
-> for binderfs binder devices and we do also need to account for the case
-> where a loopfs superblock is shutdown while backing files might still be
-> associated with some loop devices. In such cases no bd_disk device will
-> be attached to bdev. This is not in itself noteworthy it's more about
-> documenting the "why" of the added bdev->bd_disk check for posterity.
->
-> [1]: 6a21cc50f0c7 ("seccomp: add a return code to trap to userspace")
-> [2]: fb3c5386b382 ("seccomp: add SECCOMP_USER_NOTIF_FLAG_CONTINUE")
-> [3]: https://lore.kernel.org/lkml/1401227936-15698-1-git-send-email-seth.forshee@canonical.com
-> Cc: Jens Axboe <axboe@kernel.dk>
-> Cc: Seth Forshee <seth.forshee@canonical.com>
-> Cc: Tom Gundersen <teg@jklm.no>
-> Cc: Tejun Heo <tj@kernel.org>
-> Cc: Christian Kellner <ckellner@redhat.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: David Rheinsberg <david.rheinsberg@gmail.com>
-> Cc: Dmitry Vyukov <dvyukov@google.com>
-> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
-> ---
->  MAINTAINERS                   |   5 +
->  drivers/block/Kconfig         |   4 +
->  drivers/block/Makefile        |   1 +
->  drivers/block/loop.c          | 151 +++++++++---
->  drivers/block/loop.h          |   8 +-
->  drivers/block/loopfs/Makefile |   3 +
->  drivers/block/loopfs/loopfs.c | 429 ++++++++++++++++++++++++++++++++++
->  drivers/block/loopfs/loopfs.h |  35 +++
->  include/uapi/linux/magic.h    |   1 +
->  9 files changed, 600 insertions(+), 37 deletions(-)
->  create mode 100644 drivers/block/loopfs/Makefile
->  create mode 100644 drivers/block/loopfs/loopfs.c
->  create mode 100644 drivers/block/loopfs/loopfs.h
->
-[...]
-> diff --git a/drivers/block/loopfs/loopfs.c b/drivers/block/loopfs/loopfs.c
-> new file mode 100644
-> index 000000000000..ac46aa337008
-> --- /dev/null
-> +++ b/drivers/block/loopfs/loopfs.c
-> @@ -0,0 +1,429 @@
-[...]
-> +/**
-> + * loopfs_loop_device_create - allocate inode from super block of a loopfs mount
-> + * @lo:                loop device for which we are creating a new device entry
-> + * @ref_inode: inode from wich the super block will be taken
-> + * @device_nr:  device number of the associated disk device
-> + *
-> + * This function creates a new device node for @lo.
-> + * Minor numbers are limited and tracked globally. The
-> + * function will stash a struct loop_device for the specific loop
-> + * device in i_private of the inode.
-> + * It will go on to allocate a new inode from the super block of the
-> + * filesystem mount, stash a struct loop_device in its i_private field
-> + * and attach a dentry to that inode.
-> + *
-> + * Return: 0 on success, negative errno on failure
-> + */
-> +int loopfs_loop_device_create(struct loop_device *lo, struct inode *ref_inode,
-> +                             dev_t device_nr)
-> +{
-> +       char name[DISK_NAME_LEN];
-> +       struct super_block *sb;
-> +       struct loopfs_info *info;
-> +       struct dentry *root, *dentry;
-> +       struct inode *inode;
-> +
-> +       sb = loopfs_i_sb(ref_inode);
-> +       if (!sb)
-> +               return 0;
-> +
-> +       if (MAJOR(device_nr) != LOOP_MAJOR)
-> +               return -EINVAL;
-> +
-> +       info = LOOPFS_SB(sb);
-> +       if ((info->device_count + 1) > info->mount_opts.max)
-> +               return -ENOSPC;
 
-Can you elaborate what the use-case for this limit is?
+Hi Christian,
 
-With loopfs in place, any process can create its own user_ns, mount
-their private loopfs and create as many loop-devices as they want.
-Hence, this limit does not serve as an effective global
-resource-control. Secondly, anyone with access to `loop-control` can
-now create loop instances until this limit is hit, thus causing anyone
-else to be unable to create more. This effectively prevents you from
-sharing a loopfs between non-trusting parties. I am unsure where that
-limit would actually be used?
-
-Thanks
-David
-
-> +
-> +       if (snprintf(name, sizeof(name), "loop%d", lo->lo_number) >= sizeof(name))
-> +               return -EINVAL;
-> +
-> +       inode = new_inode(sb);
-> +       if (!inode)
-> +               return -ENOMEM;
-> +
-> +       /*
-> +        * The i_fop field will be set to the correct fops by the device layer
-> +        * when the loop device in this loopfs instance is opened.
-> +        */
-> +       inode->i_ino = MINOR(device_nr) + INODE_OFFSET;
-> +       inode->i_mtime = inode->i_atime = inode->i_ctime = current_time(inode);
-> +       inode->i_uid = info->root_uid;
-> +       inode->i_gid = info->root_gid;
-> +       init_special_inode(inode, S_IFBLK | 0600, device_nr);
-> +
-> +       root = sb->s_root;
-> +       inode_lock(d_inode(root));
-> +       /* look it up */
-> +       dentry = lookup_one_len(name, root, strlen(name));
-> +       if (IS_ERR(dentry)) {
-> +               inode_unlock(d_inode(root));
-> +               iput(inode);
-> +               return PTR_ERR(dentry);
-> +       }
-> +
-> +       if (d_really_is_positive(dentry)) {
-> +               /* already exists */
-> +               dput(dentry);
-> +               inode_unlock(d_inode(root));
-> +               iput(inode);
-> +               return -EEXIST;
-> +       }
-> +
-> +       d_instantiate(dentry, inode);
-> +       fsnotify_create(d_inode(root), dentry);
-> +       inode_unlock(d_inode(root));
-> +
-> +       inode->i_private = lo;
-> +       lo->lo_loopfs_i = inode;
-> +       info->device_count++;
-> +
-> +       return 0;
-> +}
-[...]
+Our use case for loopfs in syzkaller would be isolation of several
+test processes from each other.
+Currently all loop devices and loop-control are global and cause test
+processes to collide, which in turn causes non-reproducible coverage
+and non-reproducible crashes. Ideally we give each test process its
+own loopfs instance.
