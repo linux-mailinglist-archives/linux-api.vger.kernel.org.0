@@ -2,146 +2,60 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 45B6A1A4AFB
-	for <lists+linux-api@lfdr.de>; Fri, 10 Apr 2020 22:18:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52D2C1A4C6E
+	for <lists+linux-api@lfdr.de>; Sat, 11 Apr 2020 01:07:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726626AbgDJUSM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 10 Apr 2020 16:18:12 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:38003 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726177AbgDJUSM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 10 Apr 2020 16:18:12 -0400
-Received: by mail-wr1-f67.google.com with SMTP id k11so2921573wrp.5;
-        Fri, 10 Apr 2020 13:18:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=LirB/PVqDgbE/D2KaEucIjmXEfNOl2FdUxp75VSmgWE=;
-        b=S053X/y+NH90mhlB5TvqX63DVsl/Lc1yRGm0DWqWlZImLn+KezB6cOWo6TWueeZ8IG
-         4SIf90nikPeanX9PTUHmFwwDP8X9SqfBKH/o/lycd7pixNk/nQPr//+IFLLbynFNlbm9
-         M39etzBJ9gWDsxJ3qNI8p+i3QNY6C0gZfEsJrgvM4ofhOZt+fvAAu0P/Nq6V7zOv05kz
-         An5152US6IlZbufK6mSq9CyVe/iRwJvNVTUX0KRENF1D+Xj4YHq9G8lm5CpjLzGaJjmj
-         PJX3VbPrP4P87dDLht6loOfdfEgjL4y1AjNK4gi6eZDbYWB5wtIGr6nzu/hYqYRMC66t
-         XKrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=LirB/PVqDgbE/D2KaEucIjmXEfNOl2FdUxp75VSmgWE=;
-        b=D+Dkhv4jqY0mGuWy7i97oq2pX8KAXk5W6z0PmgOkHIBG72PgLq5tB1+M4fbXfD9FEk
-         lC4fkkySG7Cj+QtYv0iDNB7AJNYwXhawiYWQnDGQjF/gVm/rBcVwhvSq2yGoUDnqBtMU
-         c0AWWJ9bkTP1evsyD65QVso4tNsPWBKLV+7eHklPB3YTi+OWdtVdSGqfF8JMTXrseNxo
-         XVNWbbPTNwTTkMliyvtf5fnXCIIeg+QCY6ZRthMCVyOJpXJOrX1ALmES7XCSmXSUpcnV
-         lSkf0NPjwMPYzHsbDw04AmWkb+JimHN6bb9htPPX94rpNZGY45DpCoeMpg0J8kK6CzS3
-         +NHA==
-X-Gm-Message-State: AGi0PuZJrBLyPoXHo/S9E853ifkXNOFP+1vZfyEYnENx4Ba88jewVPZR
-        rwP8ed8WvC7ivfGcInHfURt8VwHP
-X-Google-Smtp-Source: APiQypJJZOIPvHdzHvYIayF6B94aL6PrGar63+56dmk6qwKH1KDDM4ArCh3MtMFvbv9cYkRH/qqWZw==
-X-Received: by 2002:adf:e744:: with SMTP id c4mr5867370wrn.133.1586549889297;
-        Fri, 10 Apr 2020 13:18:09 -0700 (PDT)
-Received: from ?IPv6:2001:a61:2482:101:3351:6160:8173:cc31? ([2001:a61:2482:101:3351:6160:8173:cc31])
-        by smtp.gmail.com with ESMTPSA id a7sm4085832wmj.12.2020.04.10.13.18.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Apr 2020 13:18:08 -0700 (PDT)
-Cc:     mtk.manpages@gmail.com, cgroups@vger.kernel.org,
-        christian.brauner@ubuntu.com, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-man@vger.kernel.org,
-        oleg@redhat.com, tj@kernel.org
-Subject: Re: [PATCH] clone.2: Document CLONE_INTO_CGROUP
-To:     Christian Brauner <christian@brauner.io>
-References: <CAKgNAkhL0zCj11LS9vfae872YVeRsxdz20sZWuXdi+UjH21=0g@mail.gmail.com>
- <20200410104132.294639-1-christian@brauner.io>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <b7550fcd-ba12-e64a-3228-e6668b31a8a7@gmail.com>
-Date:   Fri, 10 Apr 2020 22:18:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        id S1726676AbgDJXH5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 10 Apr 2020 19:07:57 -0400
+Received: from fallback23.m.smailru.net ([94.100.187.222]:42512 "EHLO
+        fallback23.mail.ru" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726648AbgDJXH5 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 10 Apr 2020 19:07:57 -0400
+X-Greylist: delayed 1569 seconds by postgrey-1.27 at vger.kernel.org; Fri, 10 Apr 2020 19:07:55 EDT
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru; s=mail2;
+        h=Content-Transfer-Encoding:Content-Type:Message-ID:Reply-To:Date:MIME-Version:Subject:Cc:To:From; bh=mxvx/67cV1C+TL0pdy757vF+ITHUDShoO3Ua/Uix1eM=;
+        b=nIKSxHvQjrKIgItacr3NZ6gM3csz1ru2yL72OXeMwegqfEQvGJKFA7TmvxkmDTQ3QxedZAbI5EqjpYcHSsgUlAMZk6kMGmwz6xzzSCr1HcBm+VCuwShrfVbNHvo7X3kKaHEnagwlSSpFj8KcqaBsWDKS3FZVWbyHVlZav7ou1mU=;
+Received: from [10.161.163.38] (port=44038 helo=f476.i.mail.ru)
+        by fallback23.m.smailru.net with esmtp (envelope-from <safinaskar@mail.ru>)
+        id 1jN2LI-0006Ti-NV; Sat, 11 Apr 2020 01:41:44 +0300
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru; s=mail2;
+        h=Content-Transfer-Encoding:Content-Type:Message-ID:Reply-To:Date:MIME-Version:Subject:Cc:To:From; bh=mxvx/67cV1C+TL0pdy757vF+ITHUDShoO3Ua/Uix1eM=;
+        b=nIKSxHvQjrKIgItacr3NZ6gM3csz1ru2yL72OXeMwegqfEQvGJKFA7TmvxkmDTQ3QxedZAbI5EqjpYcHSsgUlAMZk6kMGmwz6xzzSCr1HcBm+VCuwShrfVbNHvo7X3kKaHEnagwlSSpFj8KcqaBsWDKS3FZVWbyHVlZav7ou1mU=;
+Received: by f476.i.mail.ru with local (envelope-from <safinaskar@mail.ru>)
+        id 1jN2LF-0004fK-6I; Sat, 11 Apr 2020 01:41:41 +0300
+Received: by light.mail.ru with HTTP;
+        Sat, 11 Apr 2020 01:41:41 +0300
+From:   =?UTF-8?B?QXNrYXIgU2FmaW4=?= <safinaskar@mail.ru>
+To:     cyphar@cyphar.com
+Cc:     linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: =?UTF-8?B?V2hhdCBhYm91dCBhZGRpbmcgQVRfTk9fQVVUT01PVU5UIGFuYWxvZ3VlIHRv?=
+ =?UTF-8?B?IG9wZW5hdDI/?=
 MIME-Version: 1.0
-In-Reply-To: <20200410104132.294639-1-christian@brauner.io>
+X-Mailer: Mail.Ru Mailer 1.0
+Date:   Sat, 11 Apr 2020 01:41:41 +0300
+Reply-To: =?UTF-8?B?QXNrYXIgU2FmaW4=?= <safinaskar@mail.ru>
+X-Priority: 3 (Normal)
+Message-ID: <1586558501.806374941@f476.i.mail.ru>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+X-7564579A: 646B95376F6C166E
+X-77F55803: 0A44E481635329DB4E7FAE048FD183FFD32E5E488652173699CE90E9CBBFB45F533187F580C9A3C5FBDBF69DD7E3F538CCE2E01486CEC77C7C958CBD0D8051AE467A4D52C36B36E8F7C03686E6FAFAA4
+X-7FA49CB5: 70AAF3C13DB7016878DA827A17800CE79A7838B1C93996B3D82A6BABE6F325AC9EB98D58427B1C2ABCF491FFA38154B613377AFFFEAFD2691661749BA6B97735E338B9D28515FD48C2099A533E45F2D0395957E7521B51C2CFCAF695D4D8E9FCEA1F7E6F0F101C6778DA827A17800CE7FDE19FEC90BA7BD78F08D7030A58E5AD6BA297DBC24807EAA9D420A4CFB5DD3E14EAEAFEC97FBC61D7027B63E537BF2EAB3F61A9443B25348941B15DA834481FA18204E546F3947C2FFDA4F57982C5F4F6B57BC7E64490618DEB871D839B7333395957E7521B51C2545D4CF71C94A83E9FA2833FD35BB23D27C277FBC8AE2E8BF1175FABE1C0F9B6A471835C12D1D977C4224003CC836476C0CAF46E325F83A522CA9DD8327EE4930A3850AC1BE2E735262FEC7FBD7D1F5BB5C8C57E37DE458B4C7702A67D5C3316FA3894348FB808DBEB6346B700B4D54FE5BFE6E7EFDEDCD789D4C264860C145E
+X-D57D3AED: Y8kq8+OzVozcFQziTi/Zi098oNK9gy3Irm5KFwLuDg60je4lC+GbTj0M8KbzpOmgsB7wYP6nnel8wfEHQiZAetlEg7qy07ISeqrIhHPnkjx0qYt/JhcayA==
+X-Mailru-Internal-Actual: A:0.81979357255974
+X-Mailru-Sender: 5EEECD413B34D8D993653919C594580509AFADCAB17C8D30412F8EFC6DC694E9173A9C3A3203BEB4E050B273745CFBD67903AA853BEC14D66BF3EC0C2B8D44F11752C749FAB18CA3A8F61D99D8C7FF8FA4CD9F439FE7F8175FEEDEB644C299C0ED14614B50AE0675
+X-Mras: Ok
+X-Spam: undefined
+X-7564579A: EEAE043A70213CC8
+X-77F55803: E8DB3678F13EF3E07F9F52485CB584D7271FD7DF62800FDCB52A10C9A23050676302471D10535BE4B9CBC6B6FC358B3AA2BF6DEF702989DB
+X-7FA49CB5: 0D63561A33F958A53B747B576B896318F086C37C234D0504BD5F5ABDD7532A788941B15DA834481FA18204E546F3947C2FFDA4F57982C5F4F6B57BC7E64490618DEB871D839B7333395957E7521B51C2545D4CF71C94A83E9FA2833FD35BB23D27C277FBC8AE2E8BF1175FABE1C0F9B6A471835C12D1D977C4224003CC836476C0CAF46E325F83A522CA9DD8327EE4930A3850AC1BE2E735262FEC7FBD7D1F5BB5C8C57E37DE458B4C7702A67D5C3316FA3894348FB808DBEB6346B700B4D54FE5BFE6E7EFDEDCD789D4C264860C145E
+X-D57D3AED: Y8kq8+OzVozcFQziTi/Zi098oNK9gy3Irm5KFwLuDg60je4lC+GbTj0M8KbzpOmgsB7wYP6nnel8wfEHQiZAetlEg7qy07ISeqrIhHPnkjz+XW1r9CAP/Q==
+X-Mailru-MI: 800
+X-Mras: Ok
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Christian,
-
-Thank you for writing this!
-
-On 4/10/20 12:41 PM, Christian Brauner wrote:
-> From: Christian Brauner <christian.brauner@ubuntu.com>
-> 
-> Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
-> ---
->  man2/clone.2 | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
-> 
-> diff --git a/man2/clone.2 b/man2/clone.2
-> index 39cec4c86..8d9aa9f99 100644
-> --- a/man2/clone.2
-> +++ b/man2/clone.2
-> @@ -197,6 +197,7 @@ struct clone_args {
->      u64 tls;          /* Location of new TLS */
->      u64 set_tid;      /* Pointer to a \fIpid_t\fP array */
->      u64 set_tid_size; /* Number of elements in \fIset_tid\fP */
-> +    u64 cgroup;       /* Target cgroup file descriptor for the child process */
->  };
->  .EE
->  .in
-> @@ -448,6 +449,25 @@ Specifying this flag together with
->  .B CLONE_SIGHAND
->  is nonsensical and disallowed.
->  .TP
-> +.BR CLONE_INTO_CGROUP " (since Linux 5.7)"
-> +.\" commit ef2c41cf38a7559bbf91af42d5b6a4429db8fc68
-> +By default, the child process will belong to the same cgroup as its parent.
-
-s/belong to/be placed in/
-
-s/cgroup/version 2 cgroup/
-
-> +If this flag is specified the child process will be created in a
-> +different cgroup than its parent.
-> +
-> +When using
-> +.RB clone3 ()
-> +the target cgroup can be specified by setting the
-> +.I cl_args.cgroup
-> +member to the file descriptor of the target cgroup. The cgroup file
-
-We need to say something about how this file descriptor is
-obtained. Is it by opening a directory in the v2 cgroup hierarchy?
-With what flags? O_RDONLY? or is O_PATH also possible? Yes, these
-are some rhetorical questions (I read your nice commit message);
-these things need to be explicit in the manual page though.
-
-Also, your commit message mentions a nice list of use cases.
-I think it would be well worth capturing those in a paragraph
-in the manual page text.
-
-> +descriptor must refer to a cgroup in a cgroup v2 hierarchy
-> +(see
-> +.BR cgroup (2)).
-
-s/cgroup/cgroups/
-s/2/7/
-
-> +
-> +Note that all usual cgroup v2 process migration restrictions apply. See
-> +.BR cgroup (2)
-
-s/cgroup/cgroups/
-s/2/7/
-
-Thanks,
-
-Michael
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+V2hhdCBhYm91dCBhZGRpbmcgc3RhdCdzIEFUX05PX0FVVE9NT1VOVCBhbmFsb2d1ZSB0byBvcGVu
+YXQyPwoKCj09CkFza2FyIFNhZmluCmh0dHBzOi8vZ2l0aHViLmNvbS9zYWZpbmFza2FyCg==
