@@ -2,60 +2,79 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 52D2C1A4C6E
-	for <lists+linux-api@lfdr.de>; Sat, 11 Apr 2020 01:07:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 428881A4E4F
+	for <lists+linux-api@lfdr.de>; Sat, 11 Apr 2020 08:02:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726676AbgDJXH5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 10 Apr 2020 19:07:57 -0400
-Received: from fallback23.m.smailru.net ([94.100.187.222]:42512 "EHLO
-        fallback23.mail.ru" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726648AbgDJXH5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 10 Apr 2020 19:07:57 -0400
-X-Greylist: delayed 1569 seconds by postgrey-1.27 at vger.kernel.org; Fri, 10 Apr 2020 19:07:55 EDT
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru; s=mail2;
-        h=Content-Transfer-Encoding:Content-Type:Message-ID:Reply-To:Date:MIME-Version:Subject:Cc:To:From; bh=mxvx/67cV1C+TL0pdy757vF+ITHUDShoO3Ua/Uix1eM=;
-        b=nIKSxHvQjrKIgItacr3NZ6gM3csz1ru2yL72OXeMwegqfEQvGJKFA7TmvxkmDTQ3QxedZAbI5EqjpYcHSsgUlAMZk6kMGmwz6xzzSCr1HcBm+VCuwShrfVbNHvo7X3kKaHEnagwlSSpFj8KcqaBsWDKS3FZVWbyHVlZav7ou1mU=;
-Received: from [10.161.163.38] (port=44038 helo=f476.i.mail.ru)
-        by fallback23.m.smailru.net with esmtp (envelope-from <safinaskar@mail.ru>)
-        id 1jN2LI-0006Ti-NV; Sat, 11 Apr 2020 01:41:44 +0300
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru; s=mail2;
-        h=Content-Transfer-Encoding:Content-Type:Message-ID:Reply-To:Date:MIME-Version:Subject:Cc:To:From; bh=mxvx/67cV1C+TL0pdy757vF+ITHUDShoO3Ua/Uix1eM=;
-        b=nIKSxHvQjrKIgItacr3NZ6gM3csz1ru2yL72OXeMwegqfEQvGJKFA7TmvxkmDTQ3QxedZAbI5EqjpYcHSsgUlAMZk6kMGmwz6xzzSCr1HcBm+VCuwShrfVbNHvo7X3kKaHEnagwlSSpFj8KcqaBsWDKS3FZVWbyHVlZav7ou1mU=;
-Received: by f476.i.mail.ru with local (envelope-from <safinaskar@mail.ru>)
-        id 1jN2LF-0004fK-6I; Sat, 11 Apr 2020 01:41:41 +0300
-Received: by light.mail.ru with HTTP;
-        Sat, 11 Apr 2020 01:41:41 +0300
-From:   =?UTF-8?B?QXNrYXIgU2FmaW4=?= <safinaskar@mail.ru>
-To:     cyphar@cyphar.com
+        id S1725877AbgDKGCr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 11 Apr 2020 02:02:47 -0400
+Received: from mout-p-101.mailbox.org ([80.241.56.151]:61600 "EHLO
+        mout-p-101.mailbox.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725869AbgDKGCr (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 11 Apr 2020 02:02:47 -0400
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [80.241.60.241])
+        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
+        (No client certificate requested)
+        by mout-p-101.mailbox.org (Postfix) with ESMTPS id 48zknL3lx7zKmhJ;
+        Sat, 11 Apr 2020 08:02:46 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from smtp2.mailbox.org ([80.241.60.241])
+        by spamfilter02.heinlein-hosting.de (spamfilter02.heinlein-hosting.de [80.241.56.116]) (amavisd-new, port 10030)
+        with ESMTP id xMOYaSJb-_Fq; Sat, 11 Apr 2020 08:02:43 +0200 (CEST)
+Date:   Sat, 11 Apr 2020 16:02:36 +1000
+From:   Aleksa Sarai <cyphar@cyphar.com>
+To:     Askar Safin <safinaskar@mail.ru>
 Cc:     linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: =?UTF-8?B?V2hhdCBhYm91dCBhZGRpbmcgQVRfTk9fQVVUT01PVU5UIGFuYWxvZ3VlIHRv?=
- =?UTF-8?B?IG9wZW5hdDI/?=
+Subject: Re: What about adding AT_NO_AUTOMOUNT analogue to openat2?
+Message-ID: <20200411060236.swlgw6ymzikgcqxl@yavin.dot.cyphar.com>
+References: <1586558501.806374941@f476.i.mail.ru>
 MIME-Version: 1.0
-X-Mailer: Mail.Ru Mailer 1.0
-Date:   Sat, 11 Apr 2020 01:41:41 +0300
-Reply-To: =?UTF-8?B?QXNrYXIgU2FmaW4=?= <safinaskar@mail.ru>
-X-Priority: 3 (Normal)
-Message-ID: <1586558501.806374941@f476.i.mail.ru>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: base64
-X-7564579A: 646B95376F6C166E
-X-77F55803: 0A44E481635329DB4E7FAE048FD183FFD32E5E488652173699CE90E9CBBFB45F533187F580C9A3C5FBDBF69DD7E3F538CCE2E01486CEC77C7C958CBD0D8051AE467A4D52C36B36E8F7C03686E6FAFAA4
-X-7FA49CB5: 70AAF3C13DB7016878DA827A17800CE79A7838B1C93996B3D82A6BABE6F325AC9EB98D58427B1C2ABCF491FFA38154B613377AFFFEAFD2691661749BA6B97735E338B9D28515FD48C2099A533E45F2D0395957E7521B51C2CFCAF695D4D8E9FCEA1F7E6F0F101C6778DA827A17800CE7FDE19FEC90BA7BD78F08D7030A58E5AD6BA297DBC24807EAA9D420A4CFB5DD3E14EAEAFEC97FBC61D7027B63E537BF2EAB3F61A9443B25348941B15DA834481FA18204E546F3947C2FFDA4F57982C5F4F6B57BC7E64490618DEB871D839B7333395957E7521B51C2545D4CF71C94A83E9FA2833FD35BB23D27C277FBC8AE2E8BF1175FABE1C0F9B6A471835C12D1D977C4224003CC836476C0CAF46E325F83A522CA9DD8327EE4930A3850AC1BE2E735262FEC7FBD7D1F5BB5C8C57E37DE458B4C7702A67D5C3316FA3894348FB808DBEB6346B700B4D54FE5BFE6E7EFDEDCD789D4C264860C145E
-X-D57D3AED: Y8kq8+OzVozcFQziTi/Zi098oNK9gy3Irm5KFwLuDg60je4lC+GbTj0M8KbzpOmgsB7wYP6nnel8wfEHQiZAetlEg7qy07ISeqrIhHPnkjx0qYt/JhcayA==
-X-Mailru-Internal-Actual: A:0.81979357255974
-X-Mailru-Sender: 5EEECD413B34D8D993653919C594580509AFADCAB17C8D30412F8EFC6DC694E9173A9C3A3203BEB4E050B273745CFBD67903AA853BEC14D66BF3EC0C2B8D44F11752C749FAB18CA3A8F61D99D8C7FF8FA4CD9F439FE7F8175FEEDEB644C299C0ED14614B50AE0675
-X-Mras: Ok
-X-Spam: undefined
-X-7564579A: EEAE043A70213CC8
-X-77F55803: E8DB3678F13EF3E07F9F52485CB584D7271FD7DF62800FDCB52A10C9A23050676302471D10535BE4B9CBC6B6FC358B3AA2BF6DEF702989DB
-X-7FA49CB5: 0D63561A33F958A53B747B576B896318F086C37C234D0504BD5F5ABDD7532A788941B15DA834481FA18204E546F3947C2FFDA4F57982C5F4F6B57BC7E64490618DEB871D839B7333395957E7521B51C2545D4CF71C94A83E9FA2833FD35BB23D27C277FBC8AE2E8BF1175FABE1C0F9B6A471835C12D1D977C4224003CC836476C0CAF46E325F83A522CA9DD8327EE4930A3850AC1BE2E735262FEC7FBD7D1F5BB5C8C57E37DE458B4C7702A67D5C3316FA3894348FB808DBEB6346B700B4D54FE5BFE6E7EFDEDCD789D4C264860C145E
-X-D57D3AED: Y8kq8+OzVozcFQziTi/Zi098oNK9gy3Irm5KFwLuDg60je4lC+GbTj0M8KbzpOmgsB7wYP6nnel8wfEHQiZAetlEg7qy07ISeqrIhHPnkjz+XW1r9CAP/Q==
-X-Mailru-MI: 800
-X-Mras: Ok
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="6p3dbgp22fa2tsjp"
+Content-Disposition: inline
+In-Reply-To: <1586558501.806374941@f476.i.mail.ru>
+X-Rspamd-Queue-Id: 6C8921666
+X-Rspamd-Score: -4.58 / 15.00 / 15.00
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-V2hhdCBhYm91dCBhZGRpbmcgc3RhdCdzIEFUX05PX0FVVE9NT1VOVCBhbmFsb2d1ZSB0byBvcGVu
-YXQyPwoKCj09CkFza2FyIFNhZmluCmh0dHBzOi8vZ2l0aHViLmNvbS9zYWZpbmFza2FyCg==
+
+--6p3dbgp22fa2tsjp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On 2020-04-11, Askar Safin <safinaskar@mail.ru> wrote:
+> What about adding stat's AT_NO_AUTOMOUNT analogue to openat2?
+
+There isn't one. I did intend to add RESOLVE_NO_AUTOMOUNTS after openat2
+was merged -- it's even mentioned in the commit message -- but I haven't
+gotten around to it yet. The reason it wasn't added from the outset was
+that I wasn't sure if adding it would be as simple as the other
+RESOLVE_* flags.
+
+Note that like all RESOLVE_* flags, it would apply to all components so
+it wouldn't be truly analogous with AT_NO_AUTOMOUNT (though as I've
+discussed at length on this ML, most people do actually want the
+RESOLVE_* semantics). But you can emulate the AT_* ones much more easily
+with RESOLVE_* than vice-versa).
+
+--=20
+Aleksa Sarai
+Senior Software Engineer (Containers)
+SUSE Linux GmbH
+<https://www.cyphar.com/>
+
+--6p3dbgp22fa2tsjp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXpFdeQAKCRCdlLljIbnQ
+EkBdAQCyBuNZE9ioj/ohykgD3FtzjKulyef5zi5jsYPDmT1XLwD9Fe/NINk/la6W
+Olxgvlm69tk3c1jdvqxb+2yHkbpemA8=
+=g3dY
+-----END PGP SIGNATURE-----
+
+--6p3dbgp22fa2tsjp--
