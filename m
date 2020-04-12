@@ -1,141 +1,222 @@
 Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B7AF1A5ECC
-	for <lists+linux-api@lfdr.de>; Sun, 12 Apr 2020 15:46:09 +0200 (CEST)
+Received: from vger.kernel.org (unknown [209.132.180.67])
+	by mail.lfdr.de (Postfix) with ESMTP id CC0181A5F6A
+	for <lists+linux-api@lfdr.de>; Sun, 12 Apr 2020 18:55:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726934AbgDLNo5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 12 Apr 2020 09:44:57 -0400
-Received: from mail-il1-f194.google.com ([209.85.166.194]:36164 "EHLO
-        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726805AbgDLNo5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 12 Apr 2020 09:44:57 -0400
-Received: by mail-il1-f194.google.com with SMTP id t8so1648559ilj.3;
-        Sun, 12 Apr 2020 06:44:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=VYsC8YIiUn94Jux5CSjT7x5juT2k9650lk3hczfKxeU=;
-        b=Oep9Bi1KORyB+M4gSQ9Ws2AopSAiNXqkK4Sl4EY0j4Qjao5GDHCT+b1ZNLWKxre3bl
-         J0Cuvh+URweme+qqz/X2KQzSYLEbPPGZ+Fhf4JEH+62qeZSS0XMKE1zYZB5Gm6n7oOHe
-         ai5WniXnSWug3aX3aC38jNkpnhk0X+S2H0SwDuAhoe7F7h2N9wH7Kpr9wrd27BEXtonN
-         6QiGz1Cik42cnuVZumwh5DuSTZZ/SYQEB+RnDN3obW4B3V7exE5xbA8PL+X3oEFoZprR
-         fS0WDjrB1/b5QUt+EUxb2ng+cyjybl5oimyeDEcS2Z347LxPFh8EI77UbG5YqDo31GwC
-         6n9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VYsC8YIiUn94Jux5CSjT7x5juT2k9650lk3hczfKxeU=;
-        b=qS2fRr644Hi8fkqZZbFedWtt31OW4M4gJDEwE3Uk/Q03y/0PMuV8YiiqU8ot8ca3Br
-         h/iWFYhOfgHaWPoXUgBZ51WHBks9fmgO0Lp0M1IwU9TDdy9yxrqftqz0zwU6cFFhnPx1
-         SdRTDV8JE7iH+vN5XOzMmimah+pieOWSnFaoS4Tlt93VH9FhnhG1yD26yyHuyjEa8GDS
-         Qcn86eFLfez8uExnCWbSHyaxcNlF/u0uPaSnAyabgoULoytiwL6QgJor/7PXuWR9S036
-         P/K/QVyBHa8eeafJPr8T9aq4Gg+3p/sdKg9VsdkmpwKBHNXfuf9xZIGXyMLUHJ3qBWwL
-         KfwA==
-X-Gm-Message-State: AGi0PuanjFaLPxEj1dyEX4/F/xsqv7q51XGaq2ly6r95REBR5DXn4Wk4
-        x5shgJXESUh3VlEKBQog2LwHajLXs6UqmqeovZA=
-X-Google-Smtp-Source: APiQypLeUWHD17m1jcbll/fLl+WNlRp5MHeZrHx9Sis4ExawTsb46KBo0x4pr2nQB7+6GAnsRzgb5Hpcoi15NETpuKM=
-X-Received: by 2002:a92:dc09:: with SMTP id t9mr11365390iln.308.1586699095577;
- Sun, 12 Apr 2020 06:44:55 -0700 (PDT)
+        id S1726962AbgDLQzH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 12 Apr 2020 12:55:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.18]:56384 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727121AbgDLQzH (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 12 Apr 2020 12:55:07 -0400
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 848A9C0A3BF5;
+        Sun, 12 Apr 2020 09:49:58 -0700 (PDT)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [80.241.60.241])
+        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
+        (No client certificate requested)
+        by mout-p-201.mailbox.org (Postfix) with ESMTPS id 490d5b5FnlzQl1t;
+        Sun, 12 Apr 2020 18:49:55 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from smtp2.mailbox.org ([80.241.60.241])
+        by spamfilter02.heinlein-hosting.de (spamfilter02.heinlein-hosting.de [80.241.56.116]) (amavisd-new, port 10030)
+        with ESMTP id uaGde-C1kHvu; Sun, 12 Apr 2020 18:49:52 +0200 (CEST)
+Date:   Mon, 13 Apr 2020 02:49:43 +1000
+From:   Aleksa Sarai <cyphar@cyphar.com>
+To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <christian@brauner.io>,
+        Aleksa Sarai <asarai@suse.de>, linux-man@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH man-pages v2 2/2] openat2.2: document new openat2(2)
+ syscall
+Message-ID: <20200412164943.imwpdj5qgtyfn5de@yavin.dot.cyphar.com>
+References: <20200202151907.23587-1-cyphar@cyphar.com>
+ <20200202151907.23587-3-cyphar@cyphar.com>
+ <1567baea-5476-6d21-4f03-142def0f62e3@gmail.com>
+ <20200331143911.lokfoq3lqfri2mgy@yavin.dot.cyphar.com>
+ <cd3a6aad-b906-ee57-1b5b-5939b9602ad0@gmail.com>
 MIME-Version: 1.0
-References: <20200408152151.5780-1-christian.brauner@ubuntu.com>
- <20200408152151.5780-3-christian.brauner@ubuntu.com> <CADyDSO54-GuSUJrciSD2jbSShCYDpXCp53cr+D7u0ZQT141uTA@mail.gmail.com>
- <20200409082659.exequ3evhlv33csr@wittgenstein> <CADyDSO54FV7OaVwWremmnNbTkvw6hQ-KTLJdEg3V5rfBi8n3Yw@mail.gmail.com>
- <20200412120300.vuigwofazxfbxluu@wittgenstein>
-In-Reply-To: <20200412120300.vuigwofazxfbxluu@wittgenstein>
-From:   David Rheinsberg <david.rheinsberg@gmail.com>
-Date:   Sun, 12 Apr 2020 15:44:44 +0200
-Message-ID: <CADyDSO7t7xXWmc=GJVbi6GWicuvDh_80tdYbWsneR7ZoTqE79A@mail.gmail.com>
-Subject: Re: [PATCH 2/8] loopfs: implement loopfs
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Jens Axboe <axboe@kernel.dk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        lkml <linux-kernel@vger.kernel.org>, linux-block@vger.kernel.org,
-        linux-api@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Serge Hallyn <serge@hallyn.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>, Tejun Heo <tj@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Saravana Kannan <saravanak@google.com>,
-        Jan Kara <jack@suse.cz>, David Howells <dhowells@redhat.com>,
-        Seth Forshee <seth.forshee@canonical.com>,
-        Tom Gundersen <teg@jklm.no>,
-        Christian Kellner <ckellner@redhat.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        =?UTF-8?Q?St=C3=A9phane_Graber?= <stgraber@ubuntu.com>,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="sk2rmexkwnlikbil"
+Content-Disposition: inline
+In-Reply-To: <cd3a6aad-b906-ee57-1b5b-5939b9602ad0@gmail.com>
+X-Rspamd-Queue-Id: 65CA51666
+X-Rspamd-Score: -5.74 / 15.00 / 15.00
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi
 
-On Sun, Apr 12, 2020 at 2:03 PM Christian Brauner
-<christian.brauner@ubuntu.com> wrote:
-[...]
-> On Sun, Apr 12, 2020 at 12:38:54PM +0200, David Rheinsberg wrote:
-> > which scenario the limit would be useful. Anyone can create a user-ns,
-> > create a new loopfs mount, and just happily create more loop-devices.
-> > So what is so special that you want to restrict the devices on a
-> > _single_ mount instance?
->
-> To share that instance across namespaces. You can e.g. create the
-> mount instance in one mount namespace owned by userns1, create a second
-> user namespace usern2 with the same mapping which is blocked from
-> creating additional user namespaces either by seccomp or by
-> /proc/sys/user/max_user_namespaces or lsms what have you. Because it
-> doesn't own the mount namespace the loopfs mount it is in it can't
-> remount it and can't exceed the local limit.
+--sk2rmexkwnlikbil
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Right. But now you re-use the userns-limit to also limit loopfs (or
-other userns restrictions to limit loopfs access). Existing safe
-setups allow contained processes to create their own user-namespace.
-With your patchset merged, every such existing contained system with
-userns-access gets access to a kernel API that allows them unbound
-kernel memory allocations. I don't think you can tell every existing
-system to not enable CONFIG_LOOP_FS. Or to make sure to install
-seccomp filters before updating their kernels. Right? These setups
-already exist, and they happily use distribution kernels.
+Sorry, I could've sworn I responded when you posted this -- comments
+below. And sorry for not getting back to you before the 5.06 release.
 
-I think there is no way around `struct user_struct`, `struct ucount`,
-or whatever you like.
+On 2020-04-01, Michael Kerrisk (man-pages) <mtk.manpages@gmail.com> wrote:
+> On 3/31/20 4:39 PM, Aleksa Sarai wrote:
+> > On 2020-03-30, Michael Kerrisk (man-pages) <mtk.manpages@gmail.com> wro=
+te:
+> >> On 2/2/20 4:19 PM, Aleksa Sarai wrote:
+> >>> Rather than trying to merge the new syscall documentation into open.2
+> >>> (which would probably result in the man-page being incomprehensible),
+> >>> instead the new syscall gets its own dedicated page with links between
+> >>> open(2) and openat2(2) to avoid duplicating information such as the l=
+ist
+> >>> of O_* flags or common errors.
+> >>>
+> >>> In addition to describing all of the key flags, information about the
+> >>> extensibility design is provided so that users can better understand =
+why
+> >>> they need to pass sizeof(struct open_how) and how their programs will
+> >>> work across kernels. After some discussions with David Laight, I also
+> >>> included explicit instructions to zero the structure to avoid issues
+> >>> when recompiling with new headers.
+> >>>
+> >>> Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
+> >>
+> >> Thanks. I've applied this patch, but also done quite a lot of
+> >> editing of the page. The current draft is below (and also pushed=20
+> >> to Git). Could I ask you to review the page, to see if I injected
+> >> any error during my edits.
+> >=20
+> > Looks good to me.
+> >=20
+> >> In addition, I've added a number of FIXMEs in comments
+> >> in the page source. Can you please check these, and let me
+> >> know your thoughts.
+> >=20
+> > Will do, see below.
+> >=20
+> >> .\" FIXME I find the "previously-functional systems" in the previous
+> >> .\" sentence a little odd (since openat2() ia new sysycall), so I would
+> >> .\" like to clarify a little...
+> >> .\" Are you referring to the scenario where someone might take an
+> >> .\" existing application that uses openat() and replaces the uses
+> >> .\" of openat() with openat2()? In which case, is it correct to
+> >> .\" understand that you mean that one should not just indiscriminately
+> >> .\" add the RESOLVE_NO_XDEV flag to all of the openat2() calls?
+> >> .\" If I'm not on the right track, could you point me in the right
+> >> .\" direction please.
+> >=20
+> > This is mostly meant as a warning to hopefully avoid applications
+> > because the developer didn't realise that system paths may contain
+> > symlinks or bind-mounts. For an application which has switched to
+> > openat2() and then uses RESOLVE_NO_SYMLINKS for a non-security reason,
+> > it's possible that on some distributions (or future versions of a
+> > distribution) that their application will stop working because a system
+> > path suddenly contains a symlink or is a bind-mount.
+> >=20
+> > This was a concern which was brought up on LWN some time ago. If you can
+> > think of a phrasing that makes this more clear, I'd appreciate it.
+>=20
+> Thanks. I've made the text:
+>=20
+>                      Applications  that  employ  the RESOLVE_NO_XDEV flag
+>                      are encouraged to make its use configurable  (unless
+>                      it is used for a specific security purpose), as bind
+>                      mounts are widely used by end-users.   Setting  this
+>                      flag indiscriminately=E2=80=94i.e., for purposes not=
+ specif=E2=80=90
+>                      ically related to security=E2=80=94for all uses of o=
+penat2()
+>                      may  result  in  spurious errors on previously-func=
+=E2=80=90
+>                      tional systems.  This may occur if, for  example,  a
+>                      system  pathname  that  is used by an application is
+>                      modified (e.g., in a new  distribution  release)  so
+>                      that  a  pathname  component  (now)  contains a bind
+>                      mount.
+>=20
+> Okay?
 
-> > Furthermore, how do you intend to limit user-space from creating an
-> > unbound amount of loop devices? Unless I am mistaken, with your
-> > proposal *any* process can create a new loopfs with a basically
-> > unlimited amount of loop-devices, thus easily triggering unbound
-> > kernel allocations. I think this needs to be accounted. The classic
-> > way is to put a per-uid limit into `struct user_struct` (done by
-> > pipes, mlock, epoll, mq, etc.). An alternative is `struct ucount`,
-> > which allows hierarchical management (inotify uses that, as an
-> > example).
->
-> Yeah, I know. We can certainly do this.
+Yup, and the same text should be used for the same warning I gave for
+RESOLVE_NO_SYMLINKS (for the same reason, because system paths may
+switch to symlinks -- the prime example being what Arch Linux did
+several years ago).
 
-My point is, I think we have to.
+> >> .\" FIXME: what specific details in symlink(7) are being referred
+> >> .\" by the following sentence? It's not clear.
+> >=20
+> > The section on magic-links, but you're right that the sentence ordering
+> > is a bit odd. It should probably go after the first sentence.
+>=20
+> I must admit that I'm still confused. There's only the briefest of=20
+> mentions of magic links in symlink(7). Perhaps that needs to be fixed?
 
-[...]
-> > With your proposed loop-fs we could achieve something close to it:
-> > Mount a private loopfs, create a loop-device, and rely on automatic
-> > cleanup when the mount-namespace is destroyed.
->
-> With loopfs you can do this with the old or new mount api and you don't
-> need to have loopfs mounted for that at all. Here's a sample program
-> that works right now with the old mount api:
+It wouldn't hurt to add a longer description of magic-links in
+symlink(7). I'll send you a small patch to beef up the description (I
+had planned to include a longer rewrite with the O_EMPTYPATH patches but
+those require quite a bit more work to land).
 
-Yeah, loopfs would certainly allow this, and I would be perfectly
-happy with this API. I think it is overly heavy for the use-case we
-have, but I do acknowledge that there are other use-cases as well.
-But I think your claim that "you don't need to have loopfs mounted" is
-misleading. loopfs must be mounted for the entirety of the program.
-Instead, you don't have to have it linked in your mount-namespace,
-since you can immediately detach it. And with the new mount-APIs, you
-don't even need it linked initially, as you can create a detached
-mount right away.
+> And, while I think of it, the text just preceding that FIXME says:
+>=20
+>     Due to the potential danger of unknowingly opening=20
+>     these magic links, it may be preferable for users to=20
+>     disable their resolution entirely.
+>=20
+> This sentence reads a little strangely. Could you please give me some
+> concrete examples, and I will try rewording that sentence a bit.
 
-Thanks
-David
+The primary example is that certain files (such as tty devices) are
+best not opened by an unsuspecting program (if you do not have a
+controlling TTY, and you open such a file that console becomes your
+controlling TTY unless you use O_NOCTTY).
+
+But more generally, magic-links allow programs to be "beamed" all over
+the system (bypassing ordinary mount namespace restrictions). Since they
+are fairly rarely used intentionally by most programs, this is more of a
+tip to programmers that maybe they should play it safe and disallow
+magic-links unless they are expecting to have to use them.
+
+> >> .\" FIXME I found the following hard to understand (in particular, the
+> >> .\" meaning of "scoped" is unclear) , and reworded as below. Is it oka=
+y?
+> >> .\"     Absolute symbolic links and ".." path components will be scope=
+d to
+> >> .\"     .IR dirfd .
+> >=20
+> > Scoped does broadly mean "interpreted relative to", though the
+> > difference is mainly that when I said scoped it's meant to be more of an
+> > assertive claim ("the kernel promises to always treat this path inside
+> > dirfd"). But "interpreted relative to" is a clearer way of phrasing the
+> > semantics, so I'm okay with this change.
+>=20
+> Okay.
+>=20
+> >> .\" FIXME The next piece is unclear (to me). What kind of ".." escape
+> >> .\" attempts does chroot() not detect that RESOLVE_IN_ROOT does?
+> >=20
+> > If the root is moved, you can escape from a chroot(2). But this sentence
+> > might not really belong in a man-page since it's describing (important)
+> > aspects of the implementation and not the semantics.
+>=20
+> So, should I just remove the sentence?
+
+Yup, sounds reasonable.
+
+--=20
+Aleksa Sarai
+Senior Software Engineer (Containers)
+SUSE Linux GmbH
+<https://www.cyphar.com/>
+
+--sk2rmexkwnlikbil
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXpNGpAAKCRCdlLljIbnQ
+Eu41AQC5eoSSECNWVaMgwzaC7W/Qobh6lI4TM6FTh5iy0Z1qqgD/Yq2YO1zmslfV
+YITOlptH67Fzel45Fqz0P0Zo0DgGgAE=
+=D0Zq
+-----END PGP SIGNATURE-----
+
+--sk2rmexkwnlikbil--
