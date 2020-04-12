@@ -2,23 +2,55 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 650331A5EAC
-	for <lists+linux-api@lfdr.de>; Sun, 12 Apr 2020 15:05:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B7AF1A5ECC
+	for <lists+linux-api@lfdr.de>; Sun, 12 Apr 2020 15:46:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726805AbgDLNFE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 12 Apr 2020 09:05:04 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:36402 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726043AbgDLNFE (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 12 Apr 2020 09:05:04 -0400
-Received: from ip5f5bd698.dynamic.kabel-deutschland.de ([95.91.214.152] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1jNcIE-0002g0-B9; Sun, 12 Apr 2020 13:04:58 +0000
-Date:   Sun, 12 Apr 2020 15:04:57 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     David Rheinsberg <david.rheinsberg@gmail.com>
+        id S1726934AbgDLNo5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 12 Apr 2020 09:44:57 -0400
+Received: from mail-il1-f194.google.com ([209.85.166.194]:36164 "EHLO
+        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726805AbgDLNo5 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 12 Apr 2020 09:44:57 -0400
+Received: by mail-il1-f194.google.com with SMTP id t8so1648559ilj.3;
+        Sun, 12 Apr 2020 06:44:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=VYsC8YIiUn94Jux5CSjT7x5juT2k9650lk3hczfKxeU=;
+        b=Oep9Bi1KORyB+M4gSQ9Ws2AopSAiNXqkK4Sl4EY0j4Qjao5GDHCT+b1ZNLWKxre3bl
+         J0Cuvh+URweme+qqz/X2KQzSYLEbPPGZ+Fhf4JEH+62qeZSS0XMKE1zYZB5Gm6n7oOHe
+         ai5WniXnSWug3aX3aC38jNkpnhk0X+S2H0SwDuAhoe7F7h2N9wH7Kpr9wrd27BEXtonN
+         6QiGz1Cik42cnuVZumwh5DuSTZZ/SYQEB+RnDN3obW4B3V7exE5xbA8PL+X3oEFoZprR
+         fS0WDjrB1/b5QUt+EUxb2ng+cyjybl5oimyeDEcS2Z347LxPFh8EI77UbG5YqDo31GwC
+         6n9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VYsC8YIiUn94Jux5CSjT7x5juT2k9650lk3hczfKxeU=;
+        b=qS2fRr644Hi8fkqZZbFedWtt31OW4M4gJDEwE3Uk/Q03y/0PMuV8YiiqU8ot8ca3Br
+         h/iWFYhOfgHaWPoXUgBZ51WHBks9fmgO0Lp0M1IwU9TDdy9yxrqftqz0zwU6cFFhnPx1
+         SdRTDV8JE7iH+vN5XOzMmimah+pieOWSnFaoS4Tlt93VH9FhnhG1yD26yyHuyjEa8GDS
+         Qcn86eFLfez8uExnCWbSHyaxcNlF/u0uPaSnAyabgoULoytiwL6QgJor/7PXuWR9S036
+         P/K/QVyBHa8eeafJPr8T9aq4Gg+3p/sdKg9VsdkmpwKBHNXfuf9xZIGXyMLUHJ3qBWwL
+         KfwA==
+X-Gm-Message-State: AGi0PuanjFaLPxEj1dyEX4/F/xsqv7q51XGaq2ly6r95REBR5DXn4Wk4
+        x5shgJXESUh3VlEKBQog2LwHajLXs6UqmqeovZA=
+X-Google-Smtp-Source: APiQypLeUWHD17m1jcbll/fLl+WNlRp5MHeZrHx9Sis4ExawTsb46KBo0x4pr2nQB7+6GAnsRzgb5Hpcoi15NETpuKM=
+X-Received: by 2002:a92:dc09:: with SMTP id t9mr11365390iln.308.1586699095577;
+ Sun, 12 Apr 2020 06:44:55 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200408152151.5780-1-christian.brauner@ubuntu.com>
+ <20200408152151.5780-3-christian.brauner@ubuntu.com> <CADyDSO54-GuSUJrciSD2jbSShCYDpXCp53cr+D7u0ZQT141uTA@mail.gmail.com>
+ <20200409082659.exequ3evhlv33csr@wittgenstein> <CADyDSO54FV7OaVwWremmnNbTkvw6hQ-KTLJdEg3V5rfBi8n3Yw@mail.gmail.com>
+ <20200412120300.vuigwofazxfbxluu@wittgenstein>
+In-Reply-To: <20200412120300.vuigwofazxfbxluu@wittgenstein>
+From:   David Rheinsberg <david.rheinsberg@gmail.com>
+Date:   Sun, 12 Apr 2020 15:44:44 +0200
+Message-ID: <CADyDSO7t7xXWmc=GJVbi6GWicuvDh_80tdYbWsneR7ZoTqE79A@mail.gmail.com>
+Subject: Re: [PATCH 2/8] loopfs: implement loopfs
+To:     Christian Brauner <christian.brauner@ubuntu.com>
 Cc:     Jens Axboe <axboe@kernel.dk>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         lkml <linux-kernel@vger.kernel.org>, linux-block@vger.kernel.org,
@@ -32,58 +64,25 @@ Cc:     Jens Axboe <axboe@kernel.dk>,
         Tom Gundersen <teg@jklm.no>,
         Christian Kellner <ckellner@redhat.com>,
         Dmitry Vyukov <dvyukov@google.com>,
-        =?utf-8?B?U3TDqXBoYW5l?= Graber <stgraber@ubuntu.com>,
+        =?UTF-8?Q?St=C3=A9phane_Graber?= <stgraber@ubuntu.com>,
         linux-doc@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH 2/8] loopfs: implement loopfs
-Message-ID: <20200412130457.a7ma4z3lmry5tcmc@wittgenstein>
-References: <20200408152151.5780-1-christian.brauner@ubuntu.com>
- <20200408152151.5780-3-christian.brauner@ubuntu.com>
- <CADyDSO54-GuSUJrciSD2jbSShCYDpXCp53cr+D7u0ZQT141uTA@mail.gmail.com>
- <20200409082659.exequ3evhlv33csr@wittgenstein>
- <CADyDSO54FV7OaVwWremmnNbTkvw6hQ-KTLJdEg3V5rfBi8n3Yw@mail.gmail.com>
- <20200412120300.vuigwofazxfbxluu@wittgenstein>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200412120300.vuigwofazxfbxluu@wittgenstein>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sun, Apr 12, 2020 at 02:03:00PM +0200, Christian Brauner wrote:
+Hi
+
+On Sun, Apr 12, 2020 at 2:03 PM Christian Brauner
+<christian.brauner@ubuntu.com> wrote:
+[...]
 > On Sun, Apr 12, 2020 at 12:38:54PM +0200, David Rheinsberg wrote:
-> > Hey
-> > 
-> > On Thu, Apr 9, 2020 at 10:27 AM Christian Brauner
-> > <christian.brauner@ubuntu.com> wrote:
-> > > On Thu, Apr 09, 2020 at 07:39:18AM +0200, David Rheinsberg wrote:
-> > > > With loopfs in place, any process can create its own user_ns, mount
-> > > > their private loopfs and create as many loop-devices as they want.
-> > > > Hence, this limit does not serve as an effective global
-> > > > resource-control. Secondly, anyone with access to `loop-control` can
-> > > > now create loop instances until this limit is hit, thus causing anyone
-> > > > else to be unable to create more. This effectively prevents you from
-> > > > sharing a loopfs between non-trusting parties. I am unsure where that
-> > > > limit would actually be used?
-> > >
-> > > Restricting it globally indeed wasn't the intended use-case for it. This
-> > > was more so that you can specify an instance limit, bind-mount that
-> > > instance into several places and sufficiently locked down users cannot
-> > > exceed the instance limit.
-> > 
-> > But then these users can each exhaust the limit individually. As such,
-> > you cannot share this instance across users that have no
-> > trust-relationship. Fine with me, but I still don't understand in
-> 
-> Well, you can't really share anything across clients with the same
-> privilege level if one of them is untrusted.
-> 
 > > which scenario the limit would be useful. Anyone can create a user-ns,
 > > create a new loopfs mount, and just happily create more loop-devices.
 > > So what is so special that you want to restrict the devices on a
 > > _single_ mount instance?
-> 
+>
 > To share that instance across namespaces. You can e.g. create the
 > mount instance in one mount namespace owned by userns1, create a second
 > user namespace usern2 with the same mapping which is blocked from
@@ -91,24 +90,20 @@ On Sun, Apr 12, 2020 at 02:03:00PM +0200, Christian Brauner wrote:
 > /proc/sys/user/max_user_namespaces or lsms what have you. Because it
 > doesn't own the mount namespace the loopfs mount it is in it can't
 > remount it and can't exceed the local limit.
-> 
-> > 
-> > > I don't think we'd be getting much out of a global limit per se I think
-> > > the initial namespace being able to reserve a bunch of devices
-> > > they can always rely on being able create when they need them is more
-> > > interesting. This is similat to what devpts implements with the
-> > > "reserved" mount option and what I initially proposed for binderfs. For
-> > > the latter it was deemed unnecessary by others so I dropped it from
-> > > loopfs too.
-> > 
-> > The `reserve` of devpts has a fixed 2-tier system: A global limit, and
-> > a init-ns reserve. This does nothing to protect one container from
-> > another.
-> 
-> What I was getting at is that what matters first and foremost is
-> protecting init userns.
-> 
-> > 
+
+Right. But now you re-use the userns-limit to also limit loopfs (or
+other userns restrictions to limit loopfs access). Existing safe
+setups allow contained processes to create their own user-namespace.
+With your patchset merged, every such existing contained system with
+userns-access gets access to a kernel API that allows them unbound
+kernel memory allocations. I don't think you can tell every existing
+system to not enable CONFIG_LOOP_FS. Or to make sure to install
+seccomp filters before updating their kernels. Right? These setups
+already exist, and they happily use distribution kernels.
+
+I think there is no way around `struct user_struct`, `struct ucount`,
+or whatever you like.
+
 > > Furthermore, how do you intend to limit user-space from creating an
 > > unbound amount of loop devices? Unless I am mistaken, with your
 > > proposal *any* process can create a new loopfs with a basically
@@ -118,42 +113,29 @@ On Sun, Apr 12, 2020 at 02:03:00PM +0200, Christian Brauner wrote:
 > > pipes, mlock, epoll, mq, etc.). An alternative is `struct ucount`,
 > > which allows hierarchical management (inotify uses that, as an
 > > example).
-> 
+>
 > Yeah, I know. We can certainly do this.
-> 
-> > 
-> > > I also expect most users to pre-create devices in the initial namespace
-> > > instance they need (e.g. similar to what binderfs does or what loop
-> > > devices currently have). Does that make sense to you?
-> > 
-> > Our use-case is to get programmatic access to loop-devices, so we can
-> > build customer images on request (especially to create XFS images,
-> > since mkfs.xfs cannot write them, IIRC). We would be perfectly happy
-> > with a kernel-interface that takes a file-descriptor to a regular file
-> > and returns us a file-descriptor to a newly created block device
-> > (which is automatically destroyed when the last file-descriptor to it
-> > is closed). This would be ideal *to us*, since it would do automatic
-> > cleanup on crashes.
-> > 
-> > We don't need any representation of the loop-device in the
-> > file-system, as long as we can somehow mount it (either by passing the
-> > bdev-FD to the new mount-api, or by using /proc/self/fd/ as
-> > mount-source).
-> 
-> We want the ability to have a filesystem representation as it will allow
-> us to handle a host of legacy workloads cleanly e.g. that users can just
-> call mount -o loop /bla whenever they have opted into syscall
-> interception for a particular filesystem. In addition, we can cover your
-> use case completely was well I think. Both with the old and new mount api.
-> 
-> > 
+
+My point is, I think we have to.
+
+[...]
 > > With your proposed loop-fs we could achieve something close to it:
 > > Mount a private loopfs, create a loop-device, and rely on automatic
 > > cleanup when the mount-namespace is destroyed.
-> 
+>
 > With loopfs you can do this with the old or new mount api and you don't
 > need to have loopfs mounted for that at all. Here's a sample program
 > that works right now with the old mount api:
 
-That also led me to discover a bug I need to fix, so thanks!
-Christian
+Yeah, loopfs would certainly allow this, and I would be perfectly
+happy with this API. I think it is overly heavy for the use-case we
+have, but I do acknowledge that there are other use-cases as well.
+But I think your claim that "you don't need to have loopfs mounted" is
+misleading. loopfs must be mounted for the entirety of the program.
+Instead, you don't have to have it linked in your mount-namespace,
+since you can immediately detach it. And with the new mount-APIs, you
+don't even need it linked initially, as you can create a detached
+mount right away.
+
+Thanks
+David
