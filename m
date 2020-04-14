@@ -2,112 +2,248 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A61F31A77D0
-	for <lists+linux-api@lfdr.de>; Tue, 14 Apr 2020 11:51:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A11631A7891
+	for <lists+linux-api@lfdr.de>; Tue, 14 Apr 2020 12:40:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437894AbgDNJvZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 14 Apr 2020 05:51:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51728 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2437964AbgDNJvV (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 14 Apr 2020 05:51:21 -0400
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 095D2C072EDA;
-        Tue, 14 Apr 2020 02:51:21 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id i7so16272422edq.3;
-        Tue, 14 Apr 2020 02:51:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=rqmlYsX6Ig4L8f/9zje28ecRn6nWF5ISzXFA0f6dr0c=;
-        b=viGb6zZafzgvsPdJTt7sP+eFNtVC8uu2+ZAIqSTgeeAvLzmPWA4CODCd0ljvR5Mkyj
-         0/DrJxUV+SG8Mssk8pLboXdVGKZuPVBoDFNOuM6LlPNcngb0k7P1C+W/OAA4qC1aiXjT
-         W2iAGZGg9n06w5NyzaG3bAcQ6/9SwU1Npv91z70nN7ERPJC6eHX6QdBxqtZwXY54b289
-         QXJHAu9vZDTJ+2OuozqeK3srjPu4TNxPC68Ztmz4yQ+A8g+XitMb+MDfSF0GozO7ogeX
-         SxRZYIIAQg77rcd3OLEM2jPtO0PwI62BqlpB/ktRuEMufdDDVie1GBJ+62ahrbGK84hR
-         R8fQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=rqmlYsX6Ig4L8f/9zje28ecRn6nWF5ISzXFA0f6dr0c=;
-        b=tgUZwmAbrZjCF+6mqJCXlNmfrb6PNDsDSfHVaHv9RkQU/2kbrNNShfBsMfiFEGbuNF
-         ekv1AAKPrJ19BO1D0PsncyvuYZyajcV6booW1qlH9UxfeVrhAnOg/0Ad8M+45nUrpnny
-         RYAPVtX5jy9i2TlyvRYlk1ZAib5dGE/H39PoZXvFeaVSRmWTFmp2ic0ZEODhBI9zZAUF
-         LVSVveNLh1ZUqOa2UNWvkoqv0ZCmP2zCtqobgAxOUTt07jJyj/dG+Mr+Z/g2si9Td6YV
-         nhUvXGlwkp5OzF54MK2vQkPNd5gswu/txJeuHKzvdBjTigLHgS9N3s1RWPRWAH8fF8by
-         Kxtw==
-X-Gm-Message-State: AGi0PubFsUtjNuEcjG3BcLsNfyCPHQ6Ooty7bp7+YsQ/049jXxL0sS7v
-        gax6Ya4deHfXicmPp0Y3EOUFH0jtiBa4zXRFnCc=
-X-Google-Smtp-Source: APiQypKp8eHSjjE16jhChIfVgTCOhYk4SKLhW5qt7sQqopmQ2+MHareRjtFeA98UxsEX++pwQZfXhSUDGga/1kTQGPE=
-X-Received: by 2002:a17:906:add7:: with SMTP id lb23mr11378783ejb.6.1586857879752;
- Tue, 14 Apr 2020 02:51:19 -0700 (PDT)
+        id S2438457AbgDNKfp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 14 Apr 2020 06:35:45 -0400
+Received: from mx2.suse.de ([195.135.220.15]:48660 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2438448AbgDNKfi (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 14 Apr 2020 06:35:38 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 873BAABB2;
+        Tue, 14 Apr 2020 10:35:33 +0000 (UTC)
+Date:   Tue, 14 Apr 2020 20:35:24 +1000
+From:   Aleksa Sarai <asarai@suse.de>
+To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc:     Aleksa Sarai <cyphar@cyphar.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <christian@brauner.io>,
+        linux-man@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH man-pages v2 2/2] openat2.2: document new openat2(2)
+ syscall
+Message-ID: <20200414103524.wjhyfobzpjk236o7@yavin.dot.cyphar.com>
+References: <20200202151907.23587-1-cyphar@cyphar.com>
+ <20200202151907.23587-3-cyphar@cyphar.com>
+ <1567baea-5476-6d21-4f03-142def0f62e3@gmail.com>
+ <20200331143911.lokfoq3lqfri2mgy@yavin.dot.cyphar.com>
+ <cd3a6aad-b906-ee57-1b5b-5939b9602ad0@gmail.com>
+ <20200412164943.imwpdj5qgtyfn5de@yavin.dot.cyphar.com>
+ <cd1438ab-cfc6-b286-849e-d7de0d5c7258@gmail.com>
 MIME-Version: 1.0
-References: <96bedbaf-49ea-f24b-b7b1-fb9a57fb6c7d@gmail.com>
- <20200411154031.642557-1-avagin@gmail.com> <CAKgNAki6uBHVTBdJvj7hzbho9Z94MWRV7ab8npduogQohRndBQ@mail.gmail.com>
- <20200413154746.39275d0981f69e57a7ecab3e@linux-foundation.org>
-In-Reply-To: <20200413154746.39275d0981f69e57a7ecab3e@linux-foundation.org>
-Reply-To: mtk.manpages@gmail.com
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Date:   Tue, 14 Apr 2020 11:51:08 +0200
-Message-ID: <CAKgNAkha+=3Lxq+AVsRqPNb9FxVEG4rx1wr=HfoV3RfosKi=Tw@mail.gmail.com>
-Subject: Re: [PATCH v2] timens: show clock symbolic names in /proc/pid/timens_offsets
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Andrei Vagin <avagin@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Linux API <linux-api@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Dmitry Safonov <0x7f454c46@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="imnm2xqfgm757zs2"
+Content-Disposition: inline
+In-Reply-To: <cd1438ab-cfc6-b286-849e-d7de0d5c7258@gmail.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, 14 Apr 2020 at 00:47, Andrew Morton <akpm@linux-foundation.org> wrote:
->
-> On Sun, 12 Apr 2020 07:51:47 +0200 "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com> wrote:
->
-> > Hi Andrei,
-> >
-> > On Sat, 11 Apr 2020 at 17:40, Andrei Vagin <avagin@gmail.com> wrote:
-> > >
-> > > Michael Kerrisk suggested to replace numeric clock IDs on symbolic
-> > > names.
-> > >
-> > > Now the content of these files looks like this:
-> > > $ cat /proc/774/timens_offsets
-> > > monotonic      864000         0
-> > > boottime      1728000         0
-> >
-> > Thanks.
-> >
-> > Assuming no-one has objections to the patch, please do mark for stable@.
-> >
->
-> `grep -r timens_offsets Documentation' comes up blank.  Is
-> /proc/pid/timens_offsets documented anywhere?  If not, it should be!
-> And this patch should update that documentation.
->
-> I assume the time namespace feature itself is documented under clone(2)?
 
-We're good, so far. There's time_namespaces(7) [1] and documentation
-of CLONE_NEWTIME in unshare(2) [2].
+--imnm2xqfgm757zs2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-CLONE_NEWTIME support for clone3() is still a work in progress [3].
+On 2020-04-13, Michael Kerrisk (man-pages) <mtk.manpages@gmail.com> wrote:
+> >>>> .\" FIXME I find the "previously-functional systems" in the previous
+> >>>> .\" sentence a little odd (since openat2() ia new sysycall), so I wo=
+uld
+> >>>> .\" like to clarify a little...
+> >>>> .\" Are you referring to the scenario where someone might take an
+> >>>> .\" existing application that uses openat() and replaces the uses
+> >>>> .\" of openat() with openat2()? In which case, is it correct to
+> >>>> .\" understand that you mean that one should not just indiscriminate=
+ly
+> >>>> .\" add the RESOLVE_NO_XDEV flag to all of the openat2() calls?
+> >>>> .\" If I'm not on the right track, could you point me in the right
+> >>>> .\" direction please.
+> >>>
+> >>> This is mostly meant as a warning to hopefully avoid applications
+> >>> because the developer didn't realise that system paths may contain
+> >>> symlinks or bind-mounts. For an application which has switched to
+> >>> openat2() and then uses RESOLVE_NO_SYMLINKS for a non-security reason,
+> >>> it's possible that on some distributions (or future versions of a
+> >>> distribution) that their application will stop working because a syst=
+em
+> >>> path suddenly contains a symlink or is a bind-mount.
+> >>>
+> >>> This was a concern which was brought up on LWN some time ago. If you =
+can
+> >>> think of a phrasing that makes this more clear, I'd appreciate it.
+> >>
+> >> Thanks. I've made the text:
+> >>
+> >>                      Applications  that  employ  the RESOLVE_NO_XDEV f=
+lag
+> >>                      are encouraged to make its use configurable  (unl=
+ess
+> >>                      it is used for a specific security purpose), as b=
+ind
+> >>                      mounts are widely used by end-users.   Setting  t=
+his
+> >>                      flag indiscriminately=E2=80=94i.e., for purposes =
+not specif=E2=80=90
+> >>                      ically related to security=E2=80=94for all uses o=
+f openat2()
+> >>                      may  result  in  spurious errors on previously-fu=
+nc=E2=80=90
+> >>                      tional systems.  This may occur if, for  example,=
+  a
+> >>                      system  pathname  that  is used by an application=
+ is
+> >>                      modified (e.g., in a new  distribution  release) =
+ so
+> >>                      that  a  pathname  component  (now)  contains a b=
+ind
+> >>                      mount.
+> >>
+> >> Okay?
+> >=20
+> > Yup,
+>=20
+> Thanks.
+>=20
+> > and the same text should be used for the same warning I gave for
+> > RESOLVE_NO_SYMLINKS (for the same reason, because system paths may
+> > switch to symlinks -- the prime example being what Arch Linux did
+> > several years ago).
+>=20
+> Okay -- I added similar text to RESOLVE_NO_SYMLINKS.
 
-Thanks,
+Much appreciated.
 
-Michael
+> >>>> .\" FIXME: what specific details in symlink(7) are being referred
+> >>>> .\" by the following sentence? It's not clear.
+> >>>
+> >>> The section on magic-links, but you're right that the sentence orderi=
+ng
+> >>> is a bit odd. It should probably go after the first sentence.
+> >>
+> >> I must admit that I'm still confused. There's only the briefest of=20
+> >> mentions of magic links in symlink(7). Perhaps that needs to be fixed?
+> >=20
+> > It wouldn't hurt to add a longer description of magic-links in
+> > symlink(7). I'll send you a small patch to beef up the description (I
+> > had planned to include a longer rewrite with the O_EMPTYPATH patches but
+> > those require quite a bit more work to land).
+>=20
+> That would be great. Thank you!
 
-[1] http://man7.org/linux/man-pages/man7/time_namespaces.7.html
-[2] http://man7.org/linux/man-pages/man2/unshare.2.html
-[3] https://lore.kernel.org/lkml/20200317083043.226593-1-areber@redhat.com/
+I'll cook something up later this week.
 
+> >> And, while I think of it, the text just preceding that FIXME says:
+> >>
+> >>     Due to the potential danger of unknowingly opening=20
+> >>     these magic links, it may be preferable for users to=20
+> >>     disable their resolution entirely.
+> >>
+> >> This sentence reads a little strangely. Could you please give me some
+> >> concrete examples, and I will try rewording that sentence a bit.
+> >=20
+> > The primary example is that certain files (such as tty devices) are
+> > best not opened by an unsuspecting program (if you do not have a
+> > controlling TTY, and you open such a file that console becomes your
+> > controlling TTY unless you use O_NOCTTY).
+> >=20
+> > But more generally, magic-links allow programs to be "beamed" all over
+> > the system (bypassing ordinary mount namespace restrictions). Since they
+> > are fairly rarely used intentionally by most programs, this is more of a
+> > tip to programmers that maybe they should play it safe and disallow
+> > magic-links unless they are expecting to have to use them.
+>=20
+>=20
+> I've reworked the text on RESOLVE_NO_MAGICLINKS substantially:
+>=20
+>        RESOLVE_NO_MAGICLINKS
+>               Disallow all magic-link resolution during path reso=E2=80=90
+>               lution.
+>=20
+>               Magic links are symbolic link-like objects that  are
+>               most  notably  found  in  proc(5);  examples include
+>               /proc/[pid]/exe  and  /proc/[pid]/fd/*.   (See  sym=E2=80=90
+>               link(7) for more details.)
+>=20
+>               Unknowingly  opening  magic  links  can be risky for
+>               some applications.  Examples of such  risks  include
+>               the following:
+>=20
+>               =C2=B7 If the process opening a pathname is a controlling
+>                 process that currently has no controlling terminal
+>                 (see  credentials(7)),  then  opening a magic link
+>                 inside /proc/[pid]/fd that happens to refer  to  a
+>                 terminal would cause the process to acquire a con=E2=80=90
+>                 trolling terminal.
+>=20
+>               =C2=B7 In  a  containerized  environment,  a  magic  link
+>                 inside  /proc  may  refer to an object outside the
+>                 container, and thus may provide a means to  escape
+>                 from the container.
+>=20
+> [The above example derives from https://lwn.net/Articles/796868/]
+>=20
+>               Because  of such risks, an application may prefer to
+>               disable   magic   link    resolution    using    the
+>               RESOLVE_NO_MAGICLINKS flag.
+>=20
+>               If  the trailing component (i.e., basename) of path=E2=80=90
+>               name is a magic link, and  how.flags  contains  both
+>               O_PATH  and O_NOFOLLOW, then an O_PATH file descrip=E2=80=90
+>               tor referencing the magic link will be returned.
+>=20
+> How does the above look?
 
---
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+The changes look correct, though you could end up going through procfs
+even if you weren't resolving a path inside proc directly (since you can
+bind-mount symlinks or have a symlink to procfs). But I'm not sure if
+it's necessary to outline all the ways a program could be tricked into
+doing something unintended.
+
+> Also, regarding the last paragraph, I  have a question.  The
+> text doesn't seem quite to relate to the rest of the discussion.
+> Should it be saying something like:
+>=20
+> If the trailing component (i.e., basename) of pathname is a magic link,
+> **how.resolve contains RESOLVE_NO_MAGICLINKS,**
+> and how.flags contains both O_PATH and O_NOFOLLOW, then an O_PATH
+> file descriptor referencing the magic link will be returned.
+>=20
+> ?
+
+Yes, that is what I meant to write -- and I believe that the
+RESOLVE_NO_SYMLINKS section is missing similar text in the second
+paragraph (except it should refer to RESOLVE_NO_SYMLINKS, obviously).
+
+Thanks!
+
+--=20
+Aleksa Sarai
+Senior Software Engineer (Containers)
+SUSE Linux GmbH
+<https://www.cyphar.com/>
+
+--imnm2xqfgm757zs2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEXzbGxhtUYBJKdfWmnhiqJn3bjbQFAl6VkekACgkQnhiqJn3b
+jbRFCBAAySOXNoi4rBtphTOrPpV04SkFI3zJXufokazx9NSB/q0Wn399VAyuwORF
+R8Zlq+6SvA/jDR/oOBduXIWOWs1wcnI3a+fBF5lhm63Gidvf1NroIAYnHS+kJ91Z
+gnZlleHHx9QOwYp3Ds6CTphKBJ5kYIArTIMaPyrEyd7gmDyT+oEJ25s+WidiYDUe
+I0IVdjLJNc9U7QG2va02xhv91QSkZYDvsZH+mjcZs1fZAksccEIB8oovUUz7sI8t
+mLlpHdcx9X+75QJozHyzoBB4Zh0fyndkzVpgKyvZgS2ZKWzra94Lln0ZBv/jP+kl
+4Lk0a1L0YIrr2EYXVgcjQM+G8HOozVYQfoaabtdxLB5qKTv3Xlfb/imeOAG0d86K
+9pUANSuDg0JQwFcxnIcEDoNtmiRdmovF67wdBM73z001TScYuBchwQALkBAwbpXF
+OAi0wrOv6oZ7xpoCHEY5jrV472fGA/3fnBR+eV/9X2jEjmsLTFZSaINxvRTNZT1H
+ClxmIEJE0pkS1FsuBCxYyihpTWNZ2nDlSmSZAxNrz9/s7zyAvOUEr1zY3yACsjLJ
+Xx0A/TiTdvm4d8/Zw6cteImWKVXxj6Wko1pLvXTbOEgv3xQV1WAe4hbvraqUnoB0
+PBSuKd7vQtGxlg9cHOEPGablYwu4SXnIgQPBszoGOBT6vRNf5Jo=
+=vLXb
+-----END PGP SIGNATURE-----
+
+--imnm2xqfgm757zs2--
