@@ -2,26 +2,26 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C09541A7953
-	for <lists+linux-api@lfdr.de>; Tue, 14 Apr 2020 13:25:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33AF01A7991
+	for <lists+linux-api@lfdr.de>; Tue, 14 Apr 2020 13:32:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728758AbgDNLZM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 14 Apr 2020 07:25:12 -0400
-Received: from mx2.suse.de ([195.135.220.15]:44198 "EHLO mx2.suse.de"
+        id S2439266AbgDNLcb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 14 Apr 2020 07:32:31 -0400
+Received: from mx2.suse.de ([195.135.220.15]:46546 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2438988AbgDNLZL (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 14 Apr 2020 07:25:11 -0400
+        id S2438988AbgDNLca (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 14 Apr 2020 07:32:30 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 053E6AC61;
-        Tue, 14 Apr 2020 11:25:07 +0000 (UTC)
-Subject: Re: [PATCH 1/3] kernel/sysctl: support setting sysctl parameters from
- kernel command line
-To:     Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>
-Cc:     Iurii Zaikin <yzaikin@google.com>, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-mm@kvack.org,
-        Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
+        by mx2.suse.de (Postfix) with ESMTP id 0FBFBADB5;
+        Tue, 14 Apr 2020 11:32:27 +0000 (UTC)
+From:   Vlastimil Babka <vbabka@suse.cz>
+To:     Andrew Morton <akpm@linux-foundation.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>
+Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-mm@kvack.org, Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
         Michal Hocko <mhocko@kernel.org>,
         David Rientjes <rientjes@google.com>,
         Matthew Wilcox <willy@infradead.org>,
@@ -31,89 +31,66 @@ Cc:     Iurii Zaikin <yzaikin@google.com>, linux-kernel@vger.kernel.org,
         Thomas Gleixner <tglx@linutronix.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Christian Brauner <christian.brauner@ubuntu.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>
-References: <20200330115535.3215-1-vbabka@suse.cz>
- <20200330115535.3215-2-vbabka@suse.cz>
- <20200330224422.GX11244@42.do-not-panic.com>
- <287ac6ae-a898-3e68-c7d8-4c1d17a40db9@suse.cz>
- <20200402160442.GA11244@42.do-not-panic.com> <202004021017.3A23B759@keescook>
- <20200402205932.GM11244@42.do-not-panic.com>
- <202004031654.C4389A04EF@keescook>
- <20200406140836.GA11244@42.do-not-panic.com>
- <202004060856.6BC17C5C99@keescook>
- <20200406170822.GE11244@42.do-not-panic.com>
-From:   Vlastimil Babka <vbabka@suse.cz>
-Message-ID: <7585f0b0-c5d2-b527-aac7-eeafdd15ffad@suse.cz>
-Date:   Tue, 14 Apr 2020 13:25:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>
+Subject: [PATCH v2 0/3] support setting sysctl parameters from kernel command line
+Date:   Tue, 14 Apr 2020 13:32:19 +0200
+Message-Id: <20200414113222.16959-1-vbabka@suse.cz>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-In-Reply-To: <20200406170822.GE11244@42.do-not-panic.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 4/6/20 7:08 PM, Luis Chamberlain wrote:
-> On Mon, Apr 06, 2020 at 08:58:50AM -0700, Kees Cook wrote:
->> On Mon, Apr 06, 2020 at 02:08:36PM +0000, Luis Chamberlain wrote:
->> > > Yes. Doing an internal extension isn't testing the actual code.
->> > 
->> > But it would.
->> > 
->> > [...]
->> > > I don't think anything is needed for this series. It can be boot tested
->> > > manually.
->> > 
->> > Why test it manually when it could be tested automatically with a new kconfig?
->> 
->> So, my impression is that adding code to the internals to test the
->> internals isn't a valid test (or at least makes it fragile) because the
->> test would depend on the changes to the internals (or at least depend on
->> non-default non-production CONFIGs).
-> 
-> The *internal* aspect here is an extension to boot params under a
-> kconfig which would simply append to it, as if the user would have
+This series adds support for something that seems like many people always
+wanted but nobody added it yet, so here's the ability to set sysctl parameters
+via kernel command line options in the form of sysctl.vm.something=1
 
-So there's no such kconfig yet to apply boot parameters specified by configure,
-right? That would itself be a new feature. Or could we use bootconfig? (CC Masami)
+The important part is Patch 1. The second, not so important part is an attempt
+to clean up legacy one-off parameters that do the same thing as a sysctl.
+I don't want to remove them completely for compatibility reasons, but with
+generic sysctl support the idea is to remove the one-off param handlers and
+treat the parameters as aliases for the sysctl variants.
 
-> added some more params. Since we already have test sysctl params the
-> only one we'd need to add on the test driver would be a dummy one which
-> tests the alias, on the second patch. We should have enough sysctls to
-> already test dummy values.
+I have identified several parameters that mention sysctl counterparts in
+Documentation/admin-guide/kernel-parameters.txt but there might be more. The
+conversion also has varying level of success:
 
-Right.
+- numa_zonelist_order is converted in Patch 2 together with adding the
+  necessary infrastructure. It's easy as it doesn't really do anything but warn
+  on deprecated value these days.
+- hung_task_panic is converted in Patch 3, but there's a downside that now it
+  only accepts 0 and 1, while previously it was any integer value
+- nmi_watchdog maps to two sysctls nmi_watchdog and hardlockup_panic, so
+  there's no straighforward conversion possible
+- traceoff_on_warning is a flag without value and it would be required to
+  handle that somehow in the conversion infractructure, which seems pointless
+  for a single flag
 
-> Nothing else would be needed as the sysctl test driver would just need
-> to test that the values expected when this is enabled is set.
-> 
->> Can you send a patch for what you think this should look like? Perhaps
->> I'm not correctly imagining what you're describing?
-> 
-> I rather get the person involved in the changes to do the testing so
-> as they're the ones designing the feature. If however it is not clear
-> what I mean I'm happy to elaborate.
-> 
-> Vlastimil do you get what I mean?
+Vlastimil Babka (3):
+  kernel/sysctl: support setting sysctl parameters from kernel command
+    line
+  kernel/sysctl: support handling command line aliases
+  kernel/hung_task convert hung_task_panic boot parameter to sysctl
 
-Hopefully :)
+Changes since v1:
+- add missing newlines on printk's
+- more adjustments to proc mount param passing (Kees)
+- rebase to 5.7-rc1
+- add acks/reviews
+- test driver (how to pass a testing boot parameter without bootloader specific
+  steps) still under discussion - new Kconfig? bootconfig?
 
->> Regardless of testing, I think this series is ready for -mm.
-> 
-> I'm happy for it to go in provided we at least devise a follow up plan
-> for testing. Otherwise -- like other things, it won't get done.
+ .../admin-guide/kernel-parameters.txt         |  11 +-
+ fs/proc/proc_sysctl.c                         | 142 ++++++++++++++++++
+ include/linux/sysctl.h                        |   4 +
+ init/main.c                                   |   2 +
+ kernel/hung_task.c                            |  10 --
+ mm/page_alloc.c                               |   9 --
+ 6 files changed, 158 insertions(+), 20 deletions(-)
 
-OK I'll send a v2 and we can discuss the test driver details. I don't want to
-neglect testing, but also not block the new functionality, in case it means
-testing means adding another new functionality.
-
-Thanks,
-Vlastimil
-
->   Luis
-> 
+-- 
+2.26.0
 
