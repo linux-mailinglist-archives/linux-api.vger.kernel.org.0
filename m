@@ -2,138 +2,112 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D6DE1A774F
-	for <lists+linux-api@lfdr.de>; Tue, 14 Apr 2020 11:25:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A61F31A77D0
+	for <lists+linux-api@lfdr.de>; Tue, 14 Apr 2020 11:51:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437640AbgDNJZx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 14 Apr 2020 05:25:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47726 "EHLO
+        id S2437894AbgDNJvZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 14 Apr 2020 05:51:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2437618AbgDNJZu (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 14 Apr 2020 05:25:50 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 724C8C0A3BD0;
-        Tue, 14 Apr 2020 02:25:50 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id k1so6243584wrx.4;
-        Tue, 14 Apr 2020 02:25:50 -0700 (PDT)
+        with ESMTP id S2437964AbgDNJvV (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 14 Apr 2020 05:51:21 -0400
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 095D2C072EDA;
+        Tue, 14 Apr 2020 02:51:21 -0700 (PDT)
+Received: by mail-ed1-x543.google.com with SMTP id i7so16272422edq.3;
+        Tue, 14 Apr 2020 02:51:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=vmqi2aM4XOZP0IN9SViui540QPwsxI0PmRmeUzpXYLg=;
-        b=gdYckNsSf9IdAzHBRYdN8hM87PRWUJHuCuO/hDHXzEsxtPtPH81aWc1zdlgRbL+4DD
-         FGf2if+2ywuFsBwALdtGu6uhKk1c1HKz+G1rjGyWzrDesAV5QBY+/BDfvMjT/4LeaymN
-         IYpvGsQC2pv9AeA95+yEdSeyUnhCVr+H9lpl20G/f4n0CB20vteNbqfgDRHNg5O0j67p
-         JeZzCKS+f0nRWNmmqLrJeWsJ3sEdeU3Y2TrF+XMzjzmCyQvMdudEYLWEULzgJhEDQx/k
-         MwnHWF1CKb6ge3cHqgQLYOV9MGofaOMLZ9kEoQ9nUaLEws6GAYhGptWvNN9kWxdiul8V
-         8eaA==
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=rqmlYsX6Ig4L8f/9zje28ecRn6nWF5ISzXFA0f6dr0c=;
+        b=viGb6zZafzgvsPdJTt7sP+eFNtVC8uu2+ZAIqSTgeeAvLzmPWA4CODCd0ljvR5Mkyj
+         0/DrJxUV+SG8Mssk8pLboXdVGKZuPVBoDFNOuM6LlPNcngb0k7P1C+W/OAA4qC1aiXjT
+         W2iAGZGg9n06w5NyzaG3bAcQ6/9SwU1Npv91z70nN7ERPJC6eHX6QdBxqtZwXY54b289
+         QXJHAu9vZDTJ+2OuozqeK3srjPu4TNxPC68Ztmz4yQ+A8g+XitMb+MDfSF0GozO7ogeX
+         SxRZYIIAQg77rcd3OLEM2jPtO0PwI62BqlpB/ktRuEMufdDDVie1GBJ+62ahrbGK84hR
+         R8fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=vmqi2aM4XOZP0IN9SViui540QPwsxI0PmRmeUzpXYLg=;
-        b=loKZS23E6LJIkGsBcHEDeRlUB2E2Utn39VwN/END/n+ojYbhYcj7EN6rfjk574hdXd
-         i+drCxhz/ddl4mM6AvtLXgPxh7lvKZHBcIAtUOFTswxv4oScKT4QxRio87nrP8+5dv4H
-         8F1GN2a+bYpzV5C3SkcRQkBN1tKOYkXlW4yrHjnSSU/7nJ7t1ZsxNxNRIs9egmueyBHS
-         Kltb5qi0QRM0Dow+PadVIH2Ibmy3jdpOT28ykGUARCWDB4zUBxhOSTzeSSHyDnbqK9eC
-         YHNZXvIgPone7h7PgjHuGhkdrMK+vpYmRJp/+mkmRquEgmgtFigh0RerCazhmP8jI1Vu
-         pJ5w==
-X-Gm-Message-State: AGi0PubA7yGVj5ebQdbgOr9A3hJ2ulZ+Buxuz2NDKePqqB4MpSRgbMDM
-        Zdc8jCYW8D2yLw9UKfyeKC4=
-X-Google-Smtp-Source: APiQypKTO1wTU6mF1TGRsHy0LE/7K8OOHb75/p+OGn33YiRSvSrLcOOSlfwVnZk9yYdcdfrAoIri7w==
-X-Received: by 2002:a5d:4081:: with SMTP id o1mr23975422wrp.114.1586856349109;
-        Tue, 14 Apr 2020 02:25:49 -0700 (PDT)
-Received: from ?IPv6:2001:a61:2482:101:3351:6160:8173:cc31? ([2001:a61:2482:101:3351:6160:8173:cc31])
-        by smtp.gmail.com with ESMTPSA id y15sm18665399wro.68.2020.04.14.02.25.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Apr 2020 02:25:48 -0700 (PDT)
-Cc:     mtk.manpages@gmail.com, jstancek@redhat.com, mszeredi@redhat.com,
-        linux-api@vger.kernel.org, chrubis@suse.cz, tytso@mit.edu,
-        bfields@fieldses.org, pgajdos@suse.com,
-        Goldwyn Rodrigues <rgoldwyn@suse.com>
-Subject: Re: [PATCH] utimensat: immutable flag returns -EPERM
-To:     Goldwyn Rodrigues <rgoldwyn@suse.de>, linux-man@vger.kernel.org
-References: <20170605141827.21420-1-rgoldwyn@suse.de>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <48ae74c5-29ca-aa71-4618-7f25e12d544f@gmail.com>
-Date:   Tue, 14 Apr 2020 11:25:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=rqmlYsX6Ig4L8f/9zje28ecRn6nWF5ISzXFA0f6dr0c=;
+        b=tgUZwmAbrZjCF+6mqJCXlNmfrb6PNDsDSfHVaHv9RkQU/2kbrNNShfBsMfiFEGbuNF
+         ekv1AAKPrJ19BO1D0PsncyvuYZyajcV6booW1qlH9UxfeVrhAnOg/0Ad8M+45nUrpnny
+         RYAPVtX5jy9i2TlyvRYlk1ZAib5dGE/H39PoZXvFeaVSRmWTFmp2ic0ZEODhBI9zZAUF
+         LVSVveNLh1ZUqOa2UNWvkoqv0ZCmP2zCtqobgAxOUTt07jJyj/dG+Mr+Z/g2si9Td6YV
+         nhUvXGlwkp5OzF54MK2vQkPNd5gswu/txJeuHKzvdBjTigLHgS9N3s1RWPRWAH8fF8by
+         Kxtw==
+X-Gm-Message-State: AGi0PubFsUtjNuEcjG3BcLsNfyCPHQ6Ooty7bp7+YsQ/049jXxL0sS7v
+        gax6Ya4deHfXicmPp0Y3EOUFH0jtiBa4zXRFnCc=
+X-Google-Smtp-Source: APiQypKp8eHSjjE16jhChIfVgTCOhYk4SKLhW5qt7sQqopmQ2+MHareRjtFeA98UxsEX++pwQZfXhSUDGga/1kTQGPE=
+X-Received: by 2002:a17:906:add7:: with SMTP id lb23mr11378783ejb.6.1586857879752;
+ Tue, 14 Apr 2020 02:51:19 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20170605141827.21420-1-rgoldwyn@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <96bedbaf-49ea-f24b-b7b1-fb9a57fb6c7d@gmail.com>
+ <20200411154031.642557-1-avagin@gmail.com> <CAKgNAki6uBHVTBdJvj7hzbho9Z94MWRV7ab8npduogQohRndBQ@mail.gmail.com>
+ <20200413154746.39275d0981f69e57a7ecab3e@linux-foundation.org>
+In-Reply-To: <20200413154746.39275d0981f69e57a7ecab3e@linux-foundation.org>
+Reply-To: mtk.manpages@gmail.com
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Date:   Tue, 14 Apr 2020 11:51:08 +0200
+Message-ID: <CAKgNAkha+=3Lxq+AVsRqPNb9FxVEG4rx1wr=HfoV3RfosKi=Tw@mail.gmail.com>
+Subject: Re: [PATCH v2] timens: show clock symbolic names in /proc/pid/timens_offsets
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Andrei Vagin <avagin@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Linux API <linux-api@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Dmitry Safonov <0x7f454c46@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hello Goldwyn,
+On Tue, 14 Apr 2020 at 00:47, Andrew Morton <akpm@linux-foundation.org> wrote:
+>
+> On Sun, 12 Apr 2020 07:51:47 +0200 "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com> wrote:
+>
+> > Hi Andrei,
+> >
+> > On Sat, 11 Apr 2020 at 17:40, Andrei Vagin <avagin@gmail.com> wrote:
+> > >
+> > > Michael Kerrisk suggested to replace numeric clock IDs on symbolic
+> > > names.
+> > >
+> > > Now the content of these files looks like this:
+> > > $ cat /proc/774/timens_offsets
+> > > monotonic      864000         0
+> > > boottime      1728000         0
+> >
+> > Thanks.
+> >
+> > Assuming no-one has objections to the patch, please do mark for stable@.
+> >
+>
+> `grep -r timens_offsets Documentation' comes up blank.  Is
+> /proc/pid/timens_offsets documented anywhere?  If not, it should be!
+> And this patch should update that documentation.
+>
+> I assume the time namespace feature itself is documented under clone(2)?
 
-On 6/5/17 4:18 PM, Goldwyn Rodrigues wrote:
-> From: Goldwyn Rodrigues <rgoldwyn@suse.com>
-> 
-> Linux kernel commit 337684a1746f "fs: return EPERM on immutable inode"
-> changed (nd unified the return value of the utimensat(2) from -EACCES
-> to -EPERM in case of an immutable flag. Modify the man page to
-> reflect the same.
-> 
-> The entire discussion of returning the correct return value is at:
-> http://lists.linux.it/pipermail/ltp/2017-January/003424.html
-> 
-> Signed-off-by: Goldwyn Rodrigues <rgoldwyn@suse.com>
+We're good, so far. There's time_namespaces(7) [1] and documentation
+of CLONE_NEWTIME in unshare(2) [2].
 
-Thanks. Patch (finally) applied.
+CLONE_NEWTIME support for clone3() is still a work in progress [3].
 
-Cheers,
+Thanks,
 
 Michael
 
-> ---
->  man2/utimensat.2 | 10 ++--------
->  1 file changed, 2 insertions(+), 8 deletions(-)
-> 
-> diff --git a/man2/utimensat.2 b/man2/utimensat.2
-> index f77d0b42a..c0bdf8808 100644
-> --- a/man2/utimensat.2
-> +++ b/man2/utimensat.2
-> @@ -238,10 +238,7 @@ or both
->  .I tv_nsec
->  values are
->  .BR UTIME_NOW ,
-> -and either:
-> -.RS
-> -.IP * 3
-> -the effective user ID of the caller does not match
-> +and the effective user ID of the caller does not match
->  the owner of the file,
->  the caller does not have write access to the file,
->  and the caller is not privileged
-> @@ -249,7 +246,7 @@ and the caller is not privileged
->  .B CAP_FOWNER
->  or the
->  .B CAP_DAC_OVERRIDE
-> -capability); or,
-> +capability).
->  .\" But Linux 2.6.22 was broken here.
->  .\" Traditionally, utime()/utimes() gives the error EACCES for the case
->  .\" where the timestamp pointer argument is NULL (i.e., set both timestamps
-> @@ -271,9 +268,6 @@ capability); or,
->  .\" and the permissions of the directory to which
->  .\" .I fd
->  .\" refers do not allow searches.
-> -.IP *
-> -the file is marked immutable (see
-> -.BR chattr (1)).
->  .\" EXT2_IMMUTABLE_FL and similar flags for other filesystems.
->  .RE
->  .TP
-> 
+[1] http://man7.org/linux/man-pages/man7/time_namespaces.7.html
+[2] http://man7.org/linux/man-pages/man2/unshare.2.html
+[3] https://lore.kernel.org/lkml/20200317083043.226593-1-areber@redhat.com/
 
 
--- 
+--
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
