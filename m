@@ -2,43 +2,37 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 16CB21A7993
-	for <lists+linux-api@lfdr.de>; Tue, 14 Apr 2020 13:32:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E58C91A7A48
+	for <lists+linux-api@lfdr.de>; Tue, 14 Apr 2020 14:04:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2439270AbgDNLcc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 14 Apr 2020 07:32:32 -0400
-Received: from mx2.suse.de ([195.135.220.15]:46640 "EHLO mx2.suse.de"
+        id S2439799AbgDNMEM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 14 Apr 2020 08:04:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35224 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2439265AbgDNLca (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 14 Apr 2020 07:32:30 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 80E37AEC3;
-        Tue, 14 Apr 2020 11:32:27 +0000 (UTC)
-From:   Vlastimil Babka <vbabka@suse.cz>
-To:     Andrew Morton <akpm@linux-foundation.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>
-Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        "Guilherme G . Piccoli" <gpiccoli@canonical.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>
-Subject: [PATCH v2 3/3] kernel/hung_task convert hung_task_panic boot parameter to sysctl
-Date:   Tue, 14 Apr 2020 13:32:22 +0200
-Message-Id: <20200414113222.16959-4-vbabka@suse.cz>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200414113222.16959-1-vbabka@suse.cz>
-References: <20200414113222.16959-1-vbabka@suse.cz>
+        id S2439798AbgDNMEL (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 14 Apr 2020 08:04:11 -0400
+Received: from tleilax.com (68-20-15-154.lightspeed.rlghnc.sbcglobal.net [68.20.15.154])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 850382075E;
+        Tue, 14 Apr 2020 12:04:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1586865851;
+        bh=qk8/5tffuCZyikBXS0nEYbIy3MZRyj3WjOSOuxvOA0g=;
+        h=From:To:Cc:Subject:Date:From;
+        b=i+4LFEdVjPzr/lqUfVKMLBInvN4r/7vjZzXuLk037ViyzTzrDL9UoYmDCmUGGMIAj
+         lKbQ6aFmNjP572bSccdFugLcbjPzzYAW5zTifExQoKXo6jtgZxRHYVieeb3J2HY0rP
+         geWt4N9CES7fcOAVpz9jRJqHykvlt24TTqYbzSY0=
+From:   Jeff Layton <jlayton@kernel.org>
+To:     viro@zeniv.linux.org.uk
+Cc:     linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, andres@anarazel.de, willy@infradead.org,
+        dhowells@redhat.com, hch@infradead.org, jack@suse.cz,
+        akpm@linux-foundation.org, david@fromorbit.com
+Subject: [PATCH v4 RESEND 0/2] vfs: have syncfs() return error when there are writeback errors
+Date:   Tue, 14 Apr 2020 08:04:07 -0400
+Message-Id: <20200414120409.293749-1-jlayton@kernel.org>
+X-Mailer: git-send-email 2.25.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
@@ -46,68 +40,42 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-We can now handle sysctl parameters on kernel command line and have
-infrastructure to convert legacy command line options that duplicate sysctl
-to become a sysctl alias.
+I sent the original v4 set on February 13th. There have been no changes
+since then (other than a clean rebase onto master). I'd like to see this
+go into v5.8 if this looks reasonable. Original v4 cover letter follows:
 
-This patch converts the hung_task_panic parameter. Note that the sysctl handler
-is more strict and allows only 0 and 1, while the legacy parameter allowed
-any non-zero value. But there is little reason anyone would not be using 1.
+-----------------8<---------------
 
-Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-Reviewed-by: Kees Cook <keescook@chromium.org>
----
- Documentation/admin-guide/kernel-parameters.txt |  2 +-
- fs/proc/proc_sysctl.c                           |  1 +
- kernel/hung_task.c                              | 10 ----------
- 3 files changed, 2 insertions(+), 11 deletions(-)
+v4:
+- switch to dedicated errseq_t cursor in struct file for syncfs
+- drop ioctl for fetching the errseq_t without syncing
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index fd38f1e8a2bf..e60478d9d377 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1491,7 +1491,7 @@
- 			[KNL] Should the hung task detector generate panics.
- 			Format: <integer>
- 
--			A nonzero value instructs the kernel to panic when a
-+			A value of 1 instructs the kernel to panic when a
- 			hung task is detected. The default value is controlled
- 			by the CONFIG_BOOTPARAM_HUNG_TASK_PANIC build-time
- 			option. The value selected by this boot parameter can
-diff --git a/fs/proc/proc_sysctl.c b/fs/proc/proc_sysctl.c
-index 209ad03e1b82..e8f97bd65909 100644
---- a/fs/proc/proc_sysctl.c
-+++ b/fs/proc/proc_sysctl.c
-@@ -1710,6 +1710,7 @@ struct sysctl_alias {
-  */
- static const struct sysctl_alias sysctl_aliases[] = {
- 	{"numa_zonelist_order",		"vm.numa_zonelist_order" },
-+	{"hung_task_panic",		"kernel.hung_task_panic" },
- 	{ }
- };
- 
-diff --git a/kernel/hung_task.c b/kernel/hung_task.c
-index 14a625c16cb3..b22b5eeab3cb 100644
---- a/kernel/hung_task.c
-+++ b/kernel/hung_task.c
-@@ -63,16 +63,6 @@ static struct task_struct *watchdog_task;
- unsigned int __read_mostly sysctl_hung_task_panic =
- 				CONFIG_BOOTPARAM_HUNG_TASK_PANIC_VALUE;
- 
--static int __init hung_task_panic_setup(char *str)
--{
--	int rc = kstrtouint(str, 0, &sysctl_hung_task_panic);
--
--	if (rc)
--		return rc;
--	return 1;
--}
--__setup("hung_task_panic=", hung_task_panic_setup);
--
- static int
- hung_task_panic(struct notifier_block *this, unsigned long event, void *ptr)
- {
+This is the fourth posting of this patchset. After thinking about it
+more, I think multiplexing file->f_wb_err based on O_PATH open is just
+too weird. I think it'd be better if syncfs() "just worked" as expected
+no matter what sort of fd you use, or how you multiplex it with fsync.
+
+Also (at least on x86_64) there is currently a 4 byte pad at the end of
+the struct so this doesn't end up growing the memory utilization anyway.
+Does anyone object to doing this?
+
+I've also dropped the ioctl patch. I have a draft patch to expose that
+via fsinfo, but that functionality is really separate from returning an
+error to syncfs. We can look at that after the syncfs piece is settled.
+
+Jeff Layton (2):
+  vfs: track per-sb writeback errors and report them to syncfs
+  buffer: record blockdev write errors in super_block that it backs
+
+ drivers/dax/device.c    |  1 +
+ fs/buffer.c             |  2 ++
+ fs/file_table.c         |  1 +
+ fs/open.c               |  3 +--
+ fs/sync.c               |  6 ++++--
+ include/linux/fs.h      | 16 ++++++++++++++++
+ include/linux/pagemap.h |  5 ++++-
+ 7 files changed, 29 insertions(+), 5 deletions(-)
+
 -- 
-2.26.0
+2.25.2
 
