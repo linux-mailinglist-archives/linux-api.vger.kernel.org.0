@@ -2,114 +2,177 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 330C91AADE8
-	for <lists+linux-api@lfdr.de>; Wed, 15 Apr 2020 18:32:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CBBDB1AB26C
+	for <lists+linux-api@lfdr.de>; Wed, 15 Apr 2020 22:25:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1415690AbgDOQWd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 Apr 2020 12:22:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37062 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1415627AbgDOQWa (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 15 Apr 2020 12:22:30 -0400
-Received: from tleilax.poochiereds.net (68-20-15-154.lightspeed.rlghnc.sbcglobal.net [68.20.15.154])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 15BB720737;
-        Wed, 15 Apr 2020 16:22:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586967750;
-        bh=5W2f+v9XZr0qP/kIWQkjbbEgQ09ZuCIq5zRy2H1Fv6w=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=WJUQ8ieGLmlGLrey/1gl+9cKf1orwABumVzG+ZVsi5cy7RnBGl0XQ4psiRRGb2GBh
-         FrKZQAHQzUvHQrGQxI8A08EPAumadauxzV9Tc48BExxmXmHc4a62vfKO2Xlzj4G4Y4
-         vKUO6nz0Pz3hnSTT7GPVVr3J2qfGi+gPg7ZgKP2A=
-Message-ID: <b4161f1df3436d7371ab7e88709169e9a391f15d.camel@kernel.org>
-Subject: Re: [PATCH v5 2/2] buffer: record blockdev write errors in
- super_block that it backs
-From:   Jeff Layton <jlayton@kernel.org>
-To:     Jan Kara <jack@suse.cz>
-Cc:     viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        andres@anarazel.de, willy@infradead.org, dhowells@redhat.com,
-        hch@infradead.org, akpm@linux-foundation.org, david@fromorbit.com
-Date:   Wed, 15 Apr 2020 12:22:27 -0400
-In-Reply-To: <20200415140642.GK6126@quack2.suse.cz>
-References: <20200415121300.228017-1-jlayton@kernel.org>
-         <20200415121300.228017-3-jlayton@kernel.org>
-         <20200415140642.GK6126@quack2.suse.cz>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
+        id S2442004AbgDOUZF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 Apr 2020 16:25:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37736 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2442001AbgDOUZD (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Apr 2020 16:25:03 -0400
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD0B1C061A0C;
+        Wed, 15 Apr 2020 13:25:02 -0700 (PDT)
+Received: by mail-ed1-x543.google.com with SMTP id j20so6764020edj.0;
+        Wed, 15 Apr 2020 13:25:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc:content-transfer-encoding;
+        bh=TG84DAM+ZvzWT1WjDaPyx3Y8pzSbrP4EyNOH4w1Vf2Y=;
+        b=l1JPPwS/D7e1Rxn1TxQe+CD0VuProMofkSe7CHsvHc7yfSLMPjRPPSqs9OolRsMu7N
+         HDioibypXMJQfwAhsRnOG13Bny2s2UxLDTFe08wrySheWpE0gRMOWIoPCJ4ZU9KbP3Yc
+         Amdmk/+9+ddBVRxA/2BATUTsIzzqfsY9KhPxG3tDz6seN0AEzOFRcOt3hrTlouyOlKYo
+         Fpqw29lFhnwNMnYiG83Xp5BFqB/t66cVLhYFMBfNey30aqdxV87bBPUWcYXncgBQaez9
+         Eqgzwe8H3qJkYZeY+iOcxqKiyIGKtXTK3HT9jk5wIKrM25INIagjci504yO7UongG3dc
+         /sDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc:content-transfer-encoding;
+        bh=TG84DAM+ZvzWT1WjDaPyx3Y8pzSbrP4EyNOH4w1Vf2Y=;
+        b=O1fWxIu10eVk6zEALITUr8mQ4i2ng/qaxBhObSdhQ2PddfWtEoRSKKJroiWjTFYITh
+         tUu3eUmArWvuBdd5KFmInqmQ7Iv0/e4X0tYaEypg0wElqnozm7ALy492p7oIj6w5fGLt
+         MQEK+R7i9U2dFnZpj4v/UiNHTFcp+y+p5AIfBdaucR2uundqhUhU7DVYpL72lFTHOvlA
+         fPGyxfD0dEgoIwax7imqM4LjYU2mr7PtS3zILjkxPgIELtFMarwkOam8mmq4pUUJxnMG
+         BN0vNqyX4344hjn+Ekid1l4GzsOQ2nCGg0eBiNbz3tb8JTL9NdcurfFJ0IjJ9zAq7tqR
+         FgFQ==
+X-Gm-Message-State: AGi0Pua8DFMsh+9c1Qb4ZfMDCnGt8NgtG9xp8TN9AS+pH8RsKurbDkL/
+        cUek+mL6EXBdPRoNj2PjsjKYJqluAkhau4kMzq0=
+X-Google-Smtp-Source: APiQypKrpiRQDp+uevm4TMFo8xjLOpCqzM1jBIP63ImHO0yiIu0dgaaLktBqHiyj0911kGTBxyMRqicR4Glm/FiTkx0=
+X-Received: by 2002:a05:6402:16da:: with SMTP id r26mr12259794edx.375.1586982301317;
+ Wed, 15 Apr 2020 13:25:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20200202151907.23587-1-cyphar@cyphar.com> <20200202151907.23587-3-cyphar@cyphar.com>
+ <1567baea-5476-6d21-4f03-142def0f62e3@gmail.com> <20200331143911.lokfoq3lqfri2mgy@yavin.dot.cyphar.com>
+ <cd3a6aad-b906-ee57-1b5b-5939b9602ad0@gmail.com> <20200412164943.imwpdj5qgtyfn5de@yavin.dot.cyphar.com>
+ <cd1438ab-cfc6-b286-849e-d7de0d5c7258@gmail.com> <20200414103524.wjhyfobzpjk236o7@yavin.dot.cyphar.com>
+In-Reply-To: <20200414103524.wjhyfobzpjk236o7@yavin.dot.cyphar.com>
+Reply-To: mtk.manpages@gmail.com
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Date:   Wed, 15 Apr 2020 22:24:00 +0200
+Message-ID: <CAKgNAkhCE0BHjHzc7My1shieDvohCRb-n3AL_E9P49EEsz5upA@mail.gmail.com>
+Subject: Re: [PATCH man-pages v2 2/2] openat2.2: document new openat2(2) syscall
+To:     Aleksa Sarai <asarai@suse.de>
+Cc:     Aleksa Sarai <cyphar@cyphar.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <christian@brauner.io>,
+        linux-man <linux-man@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, 2020-04-15 at 16:06 +0200, Jan Kara wrote:
-> On Wed 15-04-20 08:13:00, Jeff Layton wrote:
-> > From: Jeff Layton <jlayton@redhat.com>
-> > 
-> > When syncing out a block device (a'la __sync_blockdev), any error
-> > encountered will only be recorded in the bd_inode's mapping. When the
-> > blockdev contains a filesystem however, we'd like to also record the
-> > error in the super_block that's stored there.
-> > 
-> > Make mark_buffer_write_io_error also record the error in the
-> > corresponding super_block when a writeback error occurs and the block
-> > device contains a mounted superblock.
-> > 
-> > Since superblocks are RCU freed, hold the rcu_read_lock to ensure
-> > that the superblock doesn't go away while we're marking it.
-> > 
-> > Signed-off-by: Jeff Layton <jlayton@kernel.org>
-> > ---
-> >  fs/buffer.c | 7 +++++++
-> >  1 file changed, 7 insertions(+)
-> > 
-> > diff --git a/fs/buffer.c b/fs/buffer.c
-> > index f73276d746bb..2a4a5cc20418 100644
-> > --- a/fs/buffer.c
-> > +++ b/fs/buffer.c
-> > @@ -1154,12 +1154,19 @@ EXPORT_SYMBOL(mark_buffer_dirty);
-> >  
-> >  void mark_buffer_write_io_error(struct buffer_head *bh)
-> >  {
-> > +	struct super_block *sb;
-> > +
-> >  	set_buffer_write_io_error(bh);
-> >  	/* FIXME: do we need to set this in both places? */
-> >  	if (bh->b_page && bh->b_page->mapping)
-> >  		mapping_set_error(bh->b_page->mapping, -EIO);
-> >  	if (bh->b_assoc_map)
-> >  		mapping_set_error(bh->b_assoc_map, -EIO);
-> > +	rcu_read_lock();
-> > +	sb = bh->b_bdev->bd_super;
-> 
-> You still need READ_ONCE() here. Otherwise the dereference below can still
-> result in refetch and NULL ptr deref.
-> 
-> 								Honza
-> 
+Hello Aleksa,
 
-Huh? That seems like a really suspicious thing for the compiler/arch to
-do. We are checking that sb isn't NULL before we dereference it. Doesn't
-that imply a data dependency? How could the value of "sb" change after
-that?
+On Tue, 14 Apr 2020 at 12:35, Aleksa Sarai <asarai@suse.de> wrote:
 
-I'm also not sure I understand how using READ_ONCE really helps there if
-we can't count on the value of a local variable not changing.
+[...]
 
-> > +	if (sb)
-> > +		errseq_set(&sb->s_wb_err, -EIO);
-> > +	rcu_read_unlock();
-> >  }
-> >  EXPORT_SYMBOL(mark_buffer_write_io_error);
-> >  
-> > -- 
-> > 2.25.2
-> > 
+> > >> I must admit that I'm still confused. There's only the briefest of
+> > >> mentions of magic links in symlink(7). Perhaps that needs to be fixe=
+d?
+> > >
+> > > It wouldn't hurt to add a longer description of magic-links in
+> > > symlink(7). I'll send you a small patch to beef up the description (I
+> > > had planned to include a longer rewrite with the O_EMPTYPATH patches =
+but
+> > > those require quite a bit more work to land).
+> >
+> > That would be great. Thank you!
+>
+> I'll cook something up later this week.
 
--- 
-Jeff Layton <jlayton@kernel.org>
+Thank you!
 
+[...]
+
+> > I've reworked the text on RESOLVE_NO_MAGICLINKS substantially:
+> >
+> >        RESOLVE_NO_MAGICLINKS
+> >               Disallow all magic-link resolution during path reso=E2=80=
+=90
+> >               lution.
+> >
+> >               Magic links are symbolic link-like objects that  are
+> >               most  notably  found  in  proc(5);  examples include
+> >               /proc/[pid]/exe  and  /proc/[pid]/fd/*.   (See  sym=E2=80=
+=90
+> >               link(7) for more details.)
+> >
+> >               Unknowingly  opening  magic  links  can be risky for
+> >               some applications.  Examples of such  risks  include
+> >               the following:
+> >
+> >               =C2=B7 If the process opening a pathname is a controlling
+> >                 process that currently has no controlling terminal
+> >                 (see  credentials(7)),  then  opening a magic link
+> >                 inside /proc/[pid]/fd that happens to refer  to  a
+> >                 terminal would cause the process to acquire a con=E2=80=
+=90
+> >                 trolling terminal.
+> >
+> >               =C2=B7 In  a  containerized  environment,  a  magic  link
+> >                 inside  /proc  may  refer to an object outside the
+> >                 container, and thus may provide a means to  escape
+> >                 from the container.
+> >
+> > [The above example derives from https://lwn.net/Articles/796868/]
+> >
+> >               Because  of such risks, an application may prefer to
+> >               disable   magic   link    resolution    using    the
+> >               RESOLVE_NO_MAGICLINKS flag.
+> >
+> >               If  the trailing component (i.e., basename) of path=E2=80=
+=90
+> >               name is a magic link, and  how.flags  contains  both
+> >               O_PATH  and O_NOFOLLOW, then an O_PATH file descrip=E2=80=
+=90
+> >               tor referencing the magic link will be returned.
+> >
+> > How does the above look?
+>
+> The changes look correct, though you could end up going through procfs
+> even if you weren't resolving a path inside proc directly (since you can
+> bind-mount symlinks or have a symlink to procfs). But I'm not sure if
+> it's necessary to outline all the ways a program could be tricked into
+> doing something unintended.
+
+Yes, indeed. These paragraphs are merely intended to give the reader
+some ideas about what the issues are.
+
+> > Also, regarding the last paragraph, I  have a question.  The
+> > text doesn't seem quite to relate to the rest of the discussion.
+> > Should it be saying something like:
+> >
+> > If the trailing component (i.e., basename) of pathname is a magic link,
+> > **how.resolve contains RESOLVE_NO_MAGICLINKS,**
+> > and how.flags contains both O_PATH and O_NOFOLLOW, then an O_PATH
+> > file descriptor referencing the magic link will be returned.
+> >
+> > ?
+>
+> Yes, that is what I meant to write --
+
+Good. Fixed.
+
+> and I believe that the
+> RESOLVE_NO_SYMLINKS section is missing similar text in the second
+> paragraph (except it should refer to RESOLVE_NO_SYMLINKS, obviously).
+
+Also fixed.
+
+Thanks,
+
+Michael
+
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/[...]
