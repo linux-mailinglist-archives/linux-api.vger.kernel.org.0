@@ -2,119 +2,219 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 292171A9344
-	for <lists+linux-api@lfdr.de>; Wed, 15 Apr 2020 08:30:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 090AB1A9365
+	for <lists+linux-api@lfdr.de>; Wed, 15 Apr 2020 08:41:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2634881AbgDOGar (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 Apr 2020 02:30:47 -0400
-Received: from mail-pj1-f66.google.com ([209.85.216.66]:40025 "EHLO
-        mail-pj1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2634860AbgDOGao (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Apr 2020 02:30:44 -0400
-Received: by mail-pj1-f66.google.com with SMTP id a22so1897026pjk.5;
-        Tue, 14 Apr 2020 23:30:44 -0700 (PDT)
+        id S2389993AbgDOGlG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 Apr 2020 02:41:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50604 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728535AbgDOGlF (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Apr 2020 02:41:05 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18F17C061A0C;
+        Tue, 14 Apr 2020 23:41:05 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id b11so6308418wrs.6;
+        Tue, 14 Apr 2020 23:41:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=U8TwIdyAMHCGD65LcfsNv1dps+LWQzXnmih7ivW+iwI=;
+        b=pDd/QED2TjetbLunJPMXoJonJRZrJ9PY4pKrJxtGfFhUQWq2acuHke6HxvRkSjpd9F
+         h0rRzz/7dvTAycclwpyau9aCA4yO2DRi+KrIJ7DYl0IaQNStADb56kYbJ8GHzOefaJ/b
+         RmFQKM/nbg9//76cwBBBObTY1D7fvGaAl4V++tLkc1tt86whilA/VF2pn6f1HvnX2KKv
+         m1DJr1yNHzL+EhEGlwDJNyeNbMAIwBuCj1KrE/m/nVaqu+UqbQd4RNDo4lFw6k0v0pkz
+         wFoX8/AoGjbQxkv3oeV/lIoVUsKei7nB6NODKkxVwyowDb2mtT4Ze4YeJZRwOD2uho/M
+         MNAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=4LxcdXE4D1IxsThm3AhK7U6oJIApRsieXToTt1nK21A=;
-        b=s4N0X4UW5dadmnNR0mWMOazvtZM0Dx1BKiO0E+IZShk++erPeNdVkqduzMQteG2vLf
-         xm2jUfZS41xbG5g5Los2JHdGscep2QjyqWrZOlqWduhpGuuVK6WiK7Un1RjhfOt8msg+
-         IFlFbNJQ4ltVVp5SpBXjgAQz+8QFHtD62uOeIvInZQVtHL9FXA9zUWpcW9+4SpJzNNkR
-         BW/bL7e21cGcxizPlEzBC3344rO75d+Hv/EV4FUj1RXj2+1ZFBtd5MMcaVMCXSZBbPka
-         efFhIudidFd8tEhl4YOhd9+84+RV6UDjfzEx46CizHS1aT8p7SCICieZFvmp5iVwWD0m
-         R8PA==
-X-Gm-Message-State: AGi0PuZAmulZ2b5W5IbCCcRQ4ukfYGxQ1p8FEBKNp0lgxIiEZRYMkD01
-        PrcMU2WssoHF/bjCsW+Jhro=
-X-Google-Smtp-Source: APiQypJFLgQFEvz8AfxQfJ1OPsrl6W7Iz6lebKgSICb68UwY5Tr8ekRd4l9VhDpF57YV7QrUZX+Vnw==
-X-Received: by 2002:a17:90a:d101:: with SMTP id l1mr4382396pju.79.1586932243703;
-        Tue, 14 Apr 2020 23:30:43 -0700 (PDT)
-Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
-        by smtp.gmail.com with ESMTPSA id d188sm12635163pfa.7.2020.04.14.23.30.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Apr 2020 23:30:42 -0700 (PDT)
-Received: by 42.do-not-panic.com (Postfix, from userid 1000)
-        id CFE4340277; Wed, 15 Apr 2020 06:30:41 +0000 (UTC)
-Date:   Wed, 15 Apr 2020 06:30:41 +0000
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     Vlastimil Babka <vbabka@suse.cz>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        "Guilherme G . Piccoli" <gpiccoli@canonical.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>
-Subject: Re: [PATCH v2 0/3] support setting sysctl parameters from kernel
- command line
-Message-ID: <20200415063041.GT11244@42.do-not-panic.com>
-References: <20200414113222.16959-1-vbabka@suse.cz>
- <20200415122359.939364e2c54c389c6b3f6457@kernel.org>
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=U8TwIdyAMHCGD65LcfsNv1dps+LWQzXnmih7ivW+iwI=;
+        b=Dt3Udn4DfEZtuD2/0EUXudPy5SBE+0/OHFhYpnzXpGfH4sG1hP24+DqI2+5CNc5Fbk
+         oF8MnHH4H6n7ycS0ZHcfIUXrGlafWEYh3X15yOlSdaYEP+j4V98iIxg9JUXMg5ldnAPg
+         Rt8bJ9qCpeYhEMLki0ng1OwgZURUNk0f1txYqGM4FeKzxpoS0shuAW4u6ZPCTUlBmYPd
+         E7gGQTZH4XXjcX0PHIedn8JOlJJfTzBzebG1xnqsB5o7wjGBHvfDyfFexTjSfgMDyUwt
+         2o+Q+NYSheB02Hl33kxrTvK47RmN7IHEg6yYxid/YWKA34OLJ3pp5mXiLfkiZwHL9QBq
+         sX9A==
+X-Gm-Message-State: AGi0PuZD/jTGCuy1kYc8IfnXeQroXIQt3px9BBRaJ9r1ST3/kaBc9KsD
+        HOsRUmJ+PZHnHsx9oylsC6GX9XQl
+X-Google-Smtp-Source: APiQypIiSa36qQuryvRFPHZAb38Da+CxzjLHqJcBCMrYhcRW5R4YE/nbUJMgIa7p+dEAhJp+TGQyeQ==
+X-Received: by 2002:adf:b1d0:: with SMTP id r16mr6958136wra.312.1586932863432;
+        Tue, 14 Apr 2020 23:41:03 -0700 (PDT)
+Received: from ?IPv6:2001:a61:2482:101:3351:6160:8173:cc31? ([2001:a61:2482:101:3351:6160:8173:cc31])
+        by smtp.gmail.com with ESMTPSA id 91sm8073740wra.37.2020.04.14.23.41.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Apr 2020 23:41:02 -0700 (PDT)
+Cc:     mtk.manpages@gmail.com, "Michael S . Tsirkin" <mst@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-api@vger.kernel.org,
+        Andy Lutomirski <luto@amacapital.net>,
+        Will Deacon <will@kernel.org>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Yu Zhao <yuzhao@google.com>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        linux-man@vger.kernel.org
+Subject: Re: [PATCH v7] mremap.2: Add information for MREMAP_DONTUNMAP.
+To:     Brian Geffon <bgeffon@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+References: <20200221174248.244748-1-bgeffon@google.com>
+ <20200221174248.244748-3-bgeffon@google.com>
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Message-ID: <b5a4c54d-c358-7b54-c038-c79185330742@gmail.com>
+Date:   Wed, 15 Apr 2020 08:40:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200415122359.939364e2c54c389c6b3f6457@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200221174248.244748-3-bgeffon@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Apr 15, 2020 at 12:23:59PM +0900, Masami Hiramatsu wrote:
-> Hi Vlastimil,
+Hello Brian,
+
+I see that MREMAP_DONTUNMAP has been merged. Thanks for the 
+patch below.
+
+In addition to Vlastimil's comments, could you please take a look
+at my comments below.
+
+On 2/21/20 6:42 PM, Brian Geffon wrote:
+> Signed-off-by: Brian Geffon <bgeffon@google.com>
+> ---
+>  man2/mremap.2 | 30 +++++++++++++++++++++++++++++-
+>  1 file changed, 29 insertions(+), 1 deletion(-)
 > 
-> On Tue, 14 Apr 2020 13:32:19 +0200
-> Vlastimil Babka <vbabka@suse.cz> wrote:
-> 
-> > This series adds support for something that seems like many people always
-> > wanted but nobody added it yet, so here's the ability to set sysctl parameters
-> > via kernel command line options in the form of sysctl.vm.something=1
-> 
-> Sounds good. And would you consider to use the bootconfig instead of (or
-> in addition to) the kernel command line, because it is too short to describe
-> the sysctl options?
+> diff --git a/man2/mremap.2 b/man2/mremap.2
+> index d73fb64fa..54ec67b20 100644
+> --- a/man2/mremap.2
+> +++ b/man2/mremap.2
+> @@ -26,7 +26,8 @@
+>  .\" 1996-04-12 Tom Bjorkholm <tomb@mydata.se>
+>  .\"            Update for Linux 1.3.87 and later
+>  .\" 2005-10-11 mtk: Added NOTES for MREMAP_FIXED; revised EINVAL text.
+> -.\"
+> +.\" 2020-02-05 Brian Geffon <bgeffon@google.com>
+> +.\"            Update for MREMAP_DONTUNMAP.
 
-FWIW for the lazy:
+No need to add this piece. This info is maintained
+via the Git log these days.
 
-The cmdline limitation:
+>  .TH MREMAP 2 2019-03-06 "Linux" "Linux Programmer's Manual"
+>  .SH NAME
+>  mremap \- remap a virtual memory address
+> @@ -129,6 +130,13 @@ If
+>  is specified, then
+>  .B MREMAP_MAYMOVE
+>  must also be specified.
+> +.TP
+> +.BR MREMAP_DONTUNMAP " (since Linux 5.7)"
+> +This flag which must be used in conjuction with
 
-Documentation/admin-guide/kernel-parameters.rst
+s/conjuction/conjunction/
 
-```
-The number of kernel parameters is not limited, but the length of the           
-complete command line (parameters including spaces etc.) is limited to          
-a fixed number of characters. This limit depends on the architecture            
-and is between 256 and 4096 characters. It is defined in the file               
-./include/asm/setup.h as COMMAND_LINE_SIZE.
-```
+> +.B MREMAP_MAYMOVE
+> +remaps a mapping to a new address and it does not unmap the mapping at \fIold_address\fP. This flag can only be used with private anonymous mappings. Any access to the range specified at \fIold_address\fP after completion will result in a page fault. If a
 
-The bootconfig limitation:
+Please wrap source lines to no more than about 75 columns.
+Also, always start new sentences on new lines ("Semantic newlines").
 
-Documentation/admin-guide/bootconfig.rst
+As a general rule, I prefer formatting to be done like this:
 
-```
-Currently the maximum config size size is 32KB and the total key-words
-(not     key-value entries) must be under 1024 nodes.  Note: this is not
-the number of entries but nodes, an entry must consume more than 2 nodes
-(a key-word and a value). So theoretically, it will be up to 512
-key-value pairs. If keys contains 3 words in average, it can contain 256
-key-value pairs. In most cases, the number of config items will be under
-100 entries and smaller than 8KB, so it would be enough.  If the node
-number exceeds 1024, parser returns an error even if the file       size
-is smaller than 32KB.  Anyway, since bootconfig command verifies it when
-appending a boot config       to initrd image, user can notice it before
-boot.  
-```
-*recommending* bootconfig due to the limitation of cmdline seems
-sensible, however if we advise that.. wouldn't the space for 512
-theoretical entries full up rather fast?
+.BR old_address .
 
-  Luis
+rather than:
+
+\fIold_address\fP.
+
+(Yes, I know there's plenty of existing text that goes the other
+way, but I try to avoid the \fX...\fP style for new text.
+
+Re the "Any access to the range ... will result in a page fault", I think
+it would be helpful to be more explicit. I presume that if we
+access the range at old_address the mapping is repopulated with 
+zero-filled pages, right? It would be good to note that explicitly,
+
+> +.BR userfaultfd (2)
+> +was registered on the mapping specified by \fIold_address\fP it will continue to watch that mapping for faults.
+
+(See comments above re wrapping and formatting.)
+
+Perhaps it would be nice to have a short paragraph on use cases?
+
+>  .PP
+>  If the memory segment specified by
+>  .I old_address
+> @@ -176,6 +184,8 @@ a value other than
+>  .B MREMAP_MAYMOVE
+>  or
+>  .B MREMAP_FIXED
+> +or
+> +.B MREMAP_DONTUNMAP
+>  was specified in
+>  .IR flags ;
+>  .IP *
+> @@ -197,9 +207,17 @@ and
+>  .IR old_size ;
+>  .IP *
+>  .B MREMAP_FIXED
+> +or
+> +.B MREMAP_DONTUNMAP
+>  was specified without also specifying
+>  .BR MREMAP_MAYMOVE ;
+>  .IP *
+> +.B MREMAP_DONTUNMAP
+> +was specified with an \fIold_address\fP that was not private anonymous;
+> +.IP *
+> +.B MREMAP_DONTUNMAP
+> +was specified and \fIold_size\fP was not equal to \fInew_size\fP;
+> +.IP *
+>  \fIold_size\fP was zero and \fIold_address\fP does not refer to a
+>  shareable mapping (but see BUGS);
+>  .IP *
+> @@ -209,10 +227,20 @@ flag was not specified.
+>  .RE
+>  .TP
+>  .B ENOMEM
+> +Not enough memory was available to complete the operation.
+> +Possible causes are:
+> +.RS
+> +.IP * 3
+>  The memory area cannot be expanded at the current virtual address, and the
+>  .B MREMAP_MAYMOVE
+>  flag is not set in \fIflags\fP.
+>  Or, there is not enough (virtual) memory available.
+> +.IP *
+> +.B MREMAP_DONTUNMAP
+> +was used without
+> +.B MREMAP_FIXED
+> +causing a new mapping to be created that would exceed the virtual memory available or it would exceed the maximum number of allowed mappings.
+
+(See comments above re wrapping.)
+
+> +.RE
+>  .SH CONFORMING TO
+>  This call is Linux-specific, and should not be used in programs
+>  intended to be portable.
+
+
+Thanks,
+
+Michael
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
