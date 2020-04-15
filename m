@@ -2,99 +2,311 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A9741A99CF
-	for <lists+linux-api@lfdr.de>; Wed, 15 Apr 2020 12:02:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE4541A9AA6
+	for <lists+linux-api@lfdr.de>; Wed, 15 Apr 2020 12:34:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2896092AbgDOKBy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 Apr 2020 06:01:54 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:55613 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2895955AbgDOKBu (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Apr 2020 06:01:50 -0400
-Received: by mail-wm1-f66.google.com with SMTP id e26so16700737wmk.5;
-        Wed, 15 Apr 2020 03:01:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Ik9SzoJG23HyWV3EJZBDw9KnoLZv3eWb0eYaCp2cs4I=;
-        b=YGaPNOVt6IA3KnoXCM3zXS55D4HzzWJBbGHn9eorupAT6wY0Z0lpwUNM/e2N1lGGrm
-         D1nwmd2a2tMgDrHQg9QFdJy3KZ4HoABciG3wtw16qnLBHKuW4VoRUMZJ/ok9+BFd6LFY
-         QTtHs76ObpZxxSMcHu8CMbOtAPngw8DUsj1gCM+Nya2uGQWUNmb3HcZ4UepBnsVJIh41
-         ov2AYhOK2jVQQAF8PuoW4aXnUhi6Akqbyuc2nkDCAZ4P8vxZ+0DfrFwpQDIk4vyyxGV1
-         XoUfyc4XJ3PcjesRpLi3NZBWmOT0S9nAE/8Mk6a8tJD7Zn/hcNLp9SH7hcN4i0oTHOAM
-         gQ7A==
-X-Gm-Message-State: AGi0PuaWciEnYj21oRvokxyY43G66LLAn5bOIWuKdxjY8k2B88iBNO1Y
-        iyeIJw/Vq+7w7yLD9yv6nKI=
-X-Google-Smtp-Source: APiQypKJVaGGm0WlX/P9D+5uZGAAwOwvoL0TgNtVED/ZyGRV1UePRP4N+INs4Ka7TCh9PUHB/SON9w==
-X-Received: by 2002:a1c:3d83:: with SMTP id k125mr4767806wma.177.1586944909281;
-        Wed, 15 Apr 2020 03:01:49 -0700 (PDT)
-Received: from localhost (ip-37-188-180-223.eurotel.cz. [37.188.180.223])
-        by smtp.gmail.com with ESMTPSA id 1sm21770489wmi.0.2020.04.15.03.01.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2020 03:01:48 -0700 (PDT)
-Date:   Wed, 15 Apr 2020 12:01:46 +0200
-From:   Michal Hocko <mhocko@kernel.org>
-To:     Vlastimil Babka <vbabka@suse.cz>
-Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        "Guilherme G . Piccoli" <gpiccoli@canonical.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>
-Subject: Re: [PATCH v2 0/3] support setting sysctl parameters from kernel
- command line
-Message-ID: <20200415100146.GC4629@dhcp22.suse.cz>
-References: <20200414113222.16959-1-vbabka@suse.cz>
- <20200415122359.939364e2c54c389c6b3f6457@kernel.org>
- <3fc1303a-cb57-b96e-ce77-7ff6407ab538@suse.cz>
+        id S2408707AbgDOKeP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 Apr 2020 06:34:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58492 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2408670AbgDOKcR (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Apr 2020 06:32:17 -0400
+Received: from mo6-p04-ob.smtp.rzone.de (mo6-p04-ob.smtp.rzone.de [IPv6:2a01:238:20a:202:5304::8])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F15AC0610D5;
+        Wed, 15 Apr 2020 03:32:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1586946735;
+        s=strato-dkim-0002; d=chronox.de;
+        h=Message-ID:Date:Subject:Cc:To:From:X-RZG-CLASS-ID:X-RZG-AUTH:From:
+        Subject:Sender;
+        bh=IgY/TUYiPVX3tKXL2na8VRGyqXnJvpek3xWsC6tgnZs=;
+        b=EhxJV3Fn587OaoPZPvm5rtKp/nJmxXxLAhbQ5Ka4sbY3aQaoey7ZpOrtQ0OhZZ8pcn
+        37XhrkrLmWmUCymVq9Z9F/bwt3Z4kxvn6gLjmWlCsaOb+l5g/e7hHtKniNLHTaFwiYWq
+        9QuHRBGlKw9F0eoygy7FF8Ub72ofvrmy4+UeSfbV0CWmwnqmEFEHKyVEKaER+xlt0sdM
+        VWL8RuEYzyeT7u5V5XATu2ds2eMTXw4wv2T1R6KJTNQb70qvmYbBIvC+xFQDJx0Wi8Zv
+        J5H78Mx8J4RvlGL7UTeIv+eYJi/sCcYZc5+C9UWpEbvRRaSdqXpe1lxeP6p2PDlN+A4Q
+        daaQ==
+X-RZG-AUTH: ":P2ERcEykfu11Y98lp/T7+hdri+uKZK8TKWEqNyiHySGSa9k9xmwdNnzGHXPZIvSaiyU="
+X-RZG-CLASS-ID: mo00
+Received: from positron.chronox.de
+        by smtp.strato.de (RZmta 46.4.0 DYNA|AUTH)
+        with ESMTPSA id 404ef0w3FAK012E
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+        (Client did not present a certificate);
+        Wed, 15 Apr 2020 12:20:00 +0200 (CEST)
+From:   Stephan =?ISO-8859-1?Q?M=FCller?= <smueller@chronox.de>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-crypto@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        linux-api@vger.kernel.org,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "Alexander E. Patrakov" <patrakov@gmail.com>,
+        "Ahmed S. Darwish" <darwish.07@gmail.com>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>, Willy Tarreau <w@1wt.eu>,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        Vito Caputo <vcaputo@pengaru.com>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jan Kara <jack@suse.cz>, Ray Strode <rstrode@redhat.com>,
+        William Jon McCann <mccann@jhu.edu>,
+        zhangjs <zachary@baishancloud.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        Lennart Poettering <mzxreary@0pointer.de>,
+        Nicolai Stange <nstange@suse.de>,
+        "Peter, Matthias" <matthias.peter@bsi.bund.de>,
+        Marcelo Henrique Cerri <marcelo.cerri@canonical.com>,
+        Roman Drahtmueller <draht@schaltsekun.de>,
+        Neil Horman <nhorman@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Julia Lawall <julia.lawall@inria.fr>,
+        Dan Carpenter <dan.carpenter@oracle.com>
+Subject: [PATCH v30 00/12] /dev/random - a new approach with full SP800-90B
+Date:   Wed, 15 Apr 2020 12:09:51 +0200
+Message-ID: <11836144.hkEK2qVKZC@positron.chronox.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3fc1303a-cb57-b96e-ce77-7ff6407ab538@suse.cz>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed 15-04-20 10:56:35, Vlastimil Babka wrote:
-> On 4/15/20 5:23 AM, Masami Hiramatsu wrote:
-> > Hi Vlastimil,
-> > 
-> > On Tue, 14 Apr 2020 13:32:19 +0200
-> > Vlastimil Babka <vbabka@suse.cz> wrote:
-> > 
-> >> This series adds support for something that seems like many people always
-> >> wanted but nobody added it yet, so here's the ability to set sysctl parameters
-> >> via kernel command line options in the form of sysctl.vm.something=1
-> > 
-> > Sounds good. And would you consider to use the bootconfig instead of (or
-> > in addition to) the kernel command line, because it is too short to describe
-> > the sysctl options?
-> 
-> "Instead of" - no, as that would defeat the scenario of "I just want to set this
-> one sysctl in grub  (possibly interactively) and not update initrd for that". If
-> constructing bootconfig is of similar effort of loading sysctl.conf from initrd,
-> then I see little benefit?
-> 
-> "in addition to" - sure! but I hoped that's what already happens as it seemed to
-> me that options from bootconfig are appended to the command line that's then
-> parsed by everyone else, no? But I'll try it to be sure.
+Hi,
 
-Completely agreed!
+The following patch set provides a different approach to /dev/random which =
+is
+called Linux Random Number Generator (LRNG) to collect entropy within the L=
+inux
+kernel. The main improvements compared to the existing /dev/random is to pr=
+ovide
+sufficient entropy during boot time as well as in virtual environments and =
+when
+using SSDs. A secondary design goal is to limit the impact of the entropy
+collection on massive parallel systems and also allow the use accelerated
+cryptographic primitives. Also, all steps of the entropic data processing a=
+re
+testable.
 
-Btw. patches look sensible to me so feel free to add
-Acked-by: Michal Hocko <mhocko@suse.com>
+The LRNG patch set allows a user to select use of the existing /dev/random =
+or
+the LRNG during compile time. As the LRNG provides API and ABI compatible
+interfaces to the existing /dev/random implementation, the user can freely =
+chose
+the RNG implementation without affecting kernel or user space operations.
 
--- 
-Michal Hocko
-SUSE Labs
+This patch set provides early boot-time entropy which implies that no
+additional flags to the getrandom(2) system call discussed recently on
+the LKML is considered to be necessary. Yet, if additional flags are
+introduced to cover special hardware, the LRNG implementation will also
+provide them to be fully ABI and API compliant as already discussed on
+LKML.
+
+The LRNG is fully compliant to SP800-90B requirements and is shipped with a
+full SP800-90B assessment and all required test tools. The existing /dev/ra=
+ndom
+implementation on the other hand has architectural limitations which
+does not easily allow to bring the implementation in compliance with
+SP800-90B. The key statement that causes concern is SP800-90B section
+3.1.6. This section denies crediting entropy to multiple similar noise
+sources. This section explicitly references different noise sources resting
+on the timing of events and their derivatives (i.e. it is a direct complaint
+to the existing existing /dev/random implementation). Therefore, SP800-90B
+now denies the very issue mentioned in [1] with the existing /dev/random
+implementation for a long time: crediting entropy to interrupts as well as
+crediting entropy to derivatives of interrupts (HID and disk events). This =
+is
+not permissible with SP800-90B.
+
+SP800-90B specifies various requirements for the noise source(s) that seed =
+any
+DRNG including SP800-90A DRBGs. In about a year from now, SP800-90B will be
+mandated for all noise sources that provide entropy to DRBGs as part of a F=
+IPS
+140-[2|3] validation or other evaluation types. That means, if we there are=
+ no
+solutions to comply with the requirements of SP800-90B found till one year
+from now, any random number generation and ciphers based on random numbers
+on Linux will be considered and treated as not applicable and delivering
+no entropy! As /dev/urandom, getrandom(2) and /dev/random are the most
+common and prevalent noise sources for DRNGs, all these DRNGs are affected.
+This applies across the board for all validations of cryptography executing=
+ on
+Linux (kernel and user space modules).
+
+=46or users that are not interested in SP800-90B, the entire code for the
+compliance as well as test interfaces can be deselected at compile time.
+
+The design and implementation is driven by a set of goals described in [1]
+that the LRNG completely implements. Furthermore, [1] includes the full
+assessment of the SP800-90B compliance as well as a comparison with RNG
+design suggestions of SP800-90C, and AIS20/31.
+
+The LRNG provides a complete separation of the noise source maintenance
+and the collection of entropy into an entropy pool from the post-processing
+using a pseudo-random number generator. Different DRNGs are supported,
+including:
+
+* The LRNG can be compile-time enabled to replace the existing /dev/random
+  implementation. When not selecting the LRNG at compile time (default), the
+  existing /dev/random implementation is built.
+
+* Built-in ChaCha20 DRNG which has no dependency to other kernel
+  frameworks.
+
+* SP800-90A DRBG using the kernel crypto API including its accelerated
+  raw cipher implementations. This implies that the output of /dev/random,
+  getrandom(2), /dev/urandom or get_random_bytes is fully compliant to
+  SP800-90A.
+
+* Arbitrary DRNGs registered with the kernel crypto API
+
+* Full compliance with SP800-90B which covers the startup and runtime health
+  tests mandated by SP800-90B as well as providing the test tools and test
+  interfaces to obtain raw noise data securely. The test tools are provided=
+ at
+  [1].
+
+Booting the patch with the kernel command line option
+"dyndbg=3Dfile drivers/char/lrng/* +p" generates logs indicating the operat=
+ion
+of the LRNG. Each log is pre-pended with "lrng".
+
+The LRNG has a flexible design by allowing an easy replacement of the
+deterministic random number generator component.
+
+Compared to the existing /dev/random implementation, the compiled binary
+is smaller when the LRNG is compiled with all options equal to the
+existing /dev/random (i.e. only CONFIG_LRNG is set): random.o is 52.5 kBytes
+whereas all LRNG object files are in 49 kBytes in size. The fully
+SP800-90A/SP800-90B compliant binary code (CONFIG_LRNG,
+CONFIG_LRNG_DRNG_SWITCH, CONFIG_LRNG_DRBG, CONFIG_LRNG_HEALTH_TESTS)
+uses some 61 kBytes. In addition, the LRNG is about 50% faster in the
+performance critical interrupt handler code path compared to the existing
+/dev/random implementation.
+
+[1] https://www.chronox.de/lrng.html - If the patch is accepted, I would
+be volunteering to convert the documentation into RST format and
+contribute it to the Linux kernel documentation directory.
+
+[2] https://www.chronox.de/lrng/doc/lrng.pdf
+
+Changes (compared to the previous patch set):
+
+* Port to v5.7-rc1
+
+* Fix endianess bug that caused the self test to fail on big endian
+  systems
+
+* Add rng_is_initialized function
+
+* Perform entropy and stress testing on ARM 32 bit, ARM 64 bit,
+  POWER 7 BE, POWER 8 LE, IBM System Z, MIPS systems -
+  see [2] Appendix C
+
+As a side node: With the switchable DRNG support offered in this patch set,
+the following areas could be removed. As the existing /dev/random has no su=
+pport
+for switchable DRNGs, however, this is not yet feasible though.
+
+* remove lrng_ready_list and all code around it in lrng_interfaces.c
+
+* remove the kernel crypto API RNG API to avoid having two random number
+  providing APIs - this would imply that all RNGs developed for this API wo=
+uld
+  be converted to the LRNG interface
+
+CC: "Eric W. Biederman" <ebiederm@xmission.com>
+CC: "Alexander E. Patrakov" <patrakov@gmail.com>
+CC: "Ahmed S. Darwish" <darwish.07@gmail.com>
+CC: "Theodore Y. Ts'o" <tytso@mit.edu>
+CC: Willy Tarreau <w@1wt.eu>
+CC: Matthew Garrett <mjg59@srcf.ucam.org>
+CC: Vito Caputo <vcaputo@pengaru.com>
+CC: Andreas Dilger <adilger.kernel@dilger.ca>
+CC: Jan Kara <jack@suse.cz>
+CC: Ray Strode <rstrode@redhat.com>
+CC: William Jon McCann <mccann@jhu.edu>
+CC: zhangjs <zachary@baishancloud.com>
+CC: Andy Lutomirski <luto@kernel.org>
+CC: Florian Weimer <fweimer@redhat.com>
+CC: Lennart Poettering <mzxreary@0pointer.de>
+CC: Nicolai Stange <nstange@suse.de>
+Tested-by: Roman Drahtm=FCller <draht@schaltsekun.de>
+Tested-by: Marcelo Henrique Cerri <marcelo.cerri@canonical.com>
+
+Stephan Mueller (12):
+  Linux Random Number Generator
+  LRNG - allocate one DRNG instance per NUMA node
+  LRNG - sysctls and /proc interface
+  LRNG - add switchable DRNG support
+  crypto: DRBG - externalize DRBG functions for LRNG
+  LRNG - add SP800-90A DRBG extension
+  LRNG - add kernel crypto API PRNG extension
+  crypto: provide access to a static Jitter RNG state
+  LRNG - add Jitter RNG fast noise source
+  LRNG - add SP800-90B compliant health tests
+  LRNG - add interface for gathering of raw entropy
+  LRNG - add power-on and runtime self-tests
+
+ MAINTAINERS                                   |   7 +
+ crypto/drbg.c                                 |  16 +-
+ crypto/jitterentropy-kcapi.c                  |   3 +-
+ crypto/jitterentropy.c                        |  25 +-
+ drivers/char/Kconfig                          |   2 +
+ drivers/char/Makefile                         |   9 +-
+ drivers/char/lrng/Kconfig                     | 206 ++++++
+ drivers/char/lrng/Makefile                    |  19 +
+ drivers/char/lrng/lrng_archrandom.c           |  93 +++
+ drivers/char/lrng/lrng_aux.c                  | 148 ++++
+ drivers/char/lrng/lrng_chacha20.c             | 263 +++++++
+ drivers/char/lrng/lrng_chacha20.h             |  29 +
+ drivers/char/lrng/lrng_drbg.c                 | 257 +++++++
+ drivers/char/lrng/lrng_drng.c                 | 400 +++++++++++
+ drivers/char/lrng/lrng_health.c               | 407 +++++++++++
+ drivers/char/lrng/lrng_interfaces.c           | 647 ++++++++++++++++++
+ drivers/char/lrng/lrng_internal.h             | 305 +++++++++
+ drivers/char/lrng/lrng_jent.c                 |  88 +++
+ drivers/char/lrng/lrng_kcapi.c                | 321 +++++++++
+ drivers/char/lrng/lrng_lfsr.h                 | 152 ++++
+ drivers/char/lrng/lrng_numa.c                 | 101 +++
+ drivers/char/lrng/lrng_pool.c                 | 586 ++++++++++++++++
+ drivers/char/lrng/lrng_proc.c                 | 163 +++++
+ drivers/char/lrng/lrng_selftest.c             | 437 ++++++++++++
+ drivers/char/lrng/lrng_sw_noise.c             | 102 +++
+ drivers/char/lrng/lrng_sw_noise.h             |  57 ++
+ drivers/char/lrng/lrng_switch.c               | 182 +++++
+ drivers/char/lrng/lrng_testing.c              | 269 ++++++++
+ include/crypto/drbg.h                         |   7 +
+ .../crypto/internal}/jitterentropy.h          |   3 +
+ include/linux/lrng.h                          |  63 ++
+ 31 files changed, 5357 insertions(+), 10 deletions(-)
+ create mode 100644 drivers/char/lrng/Kconfig
+ create mode 100644 drivers/char/lrng/Makefile
+ create mode 100644 drivers/char/lrng/lrng_archrandom.c
+ create mode 100644 drivers/char/lrng/lrng_aux.c
+ create mode 100644 drivers/char/lrng/lrng_chacha20.c
+ create mode 100644 drivers/char/lrng/lrng_chacha20.h
+ create mode 100644 drivers/char/lrng/lrng_drbg.c
+ create mode 100644 drivers/char/lrng/lrng_drng.c
+ create mode 100644 drivers/char/lrng/lrng_health.c
+ create mode 100644 drivers/char/lrng/lrng_interfaces.c
+ create mode 100644 drivers/char/lrng/lrng_internal.h
+ create mode 100644 drivers/char/lrng/lrng_jent.c
+ create mode 100644 drivers/char/lrng/lrng_kcapi.c
+ create mode 100644 drivers/char/lrng/lrng_lfsr.h
+ create mode 100644 drivers/char/lrng/lrng_numa.c
+ create mode 100644 drivers/char/lrng/lrng_pool.c
+ create mode 100644 drivers/char/lrng/lrng_proc.c
+ create mode 100644 drivers/char/lrng/lrng_selftest.c
+ create mode 100644 drivers/char/lrng/lrng_sw_noise.c
+ create mode 100644 drivers/char/lrng/lrng_sw_noise.h
+ create mode 100644 drivers/char/lrng/lrng_switch.c
+ create mode 100644 drivers/char/lrng/lrng_testing.c
+ rename {crypto =3D> include/crypto/internal}/jitterentropy.h (84%)
+ create mode 100644 include/linux/lrng.h
+
+=2D-=20
+2.25.2
+
+
+
+
