@@ -2,89 +2,125 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 42AE11A9F7D
-	for <lists+linux-api@lfdr.de>; Wed, 15 Apr 2020 14:14:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D6B51AA1AC
+	for <lists+linux-api@lfdr.de>; Wed, 15 Apr 2020 14:47:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S368605AbgDOMNL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 Apr 2020 08:13:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59506 "EHLO mail.kernel.org"
+        id S370167AbgDOMoj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 Apr 2020 08:44:39 -0400
+Received: from foss.arm.com ([217.140.110.172]:44580 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2898112AbgDOMNF (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 15 Apr 2020 08:13:05 -0400
-Received: from tleilax.com (68-20-15-154.lightspeed.rlghnc.sbcglobal.net [68.20.15.154])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E4EDB20857;
-        Wed, 15 Apr 2020 12:13:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586952784;
-        bh=b/TqOdEtQ+XNOsrJtl1sQtvU/rN02AIBhTgnLenIEYM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HyNTN7wXXDKex326An012KHzZ5KzPqVogCqwxJg8dBgPFasj0NvMslf1qbiy9oZCx
-         ljyulGF7v0lR8H61GC+pDZ4FGe82FKD6HfRn3zhXRVQxG68sDZ0VEcxuuW8mZiZpaT
-         Q3Yiha+Aku40fjEzO+y+Z1HVlpBsqN6om8yWBWFw=
-From:   Jeff Layton <jlayton@kernel.org>
-To:     viro@zeniv.linux.org.uk
-Cc:     linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, andres@anarazel.de, willy@infradead.org,
-        dhowells@redhat.com, hch@infradead.org, jack@suse.cz,
-        akpm@linux-foundation.org, david@fromorbit.com
-Subject: [PATCH v5 2/2] buffer: record blockdev write errors in super_block that it backs
-Date:   Wed, 15 Apr 2020 08:13:00 -0400
-Message-Id: <20200415121300.228017-3-jlayton@kernel.org>
-X-Mailer: git-send-email 2.25.2
-In-Reply-To: <20200415121300.228017-1-jlayton@kernel.org>
-References: <20200415121300.228017-1-jlayton@kernel.org>
+        id S2898196AbgDOMof (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 15 Apr 2020 08:44:35 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 52E4A1063;
+        Wed, 15 Apr 2020 05:44:34 -0700 (PDT)
+Received: from C02TD0UTHF1T.local (unknown [172.31.20.19])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E44413F68F;
+        Wed, 15 Apr 2020 05:44:30 -0700 (PDT)
+Date:   Wed, 15 Apr 2020 13:44:27 +0100
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Alex Belits <abelits@marvell.com>
+Cc:     "frederic@kernel.org" <frederic@kernel.org>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        Prasun Kapoor <pkapoor@marvell.com>,
+        "mingo@kernel.org" <mingo@kernel.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "will@kernel.org" <will@kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
+Subject: Re: [PATCH v3 03/13] task_isolation: add instruction synchronization
+ memory barrier
+Message-ID: <20200415124427.GB28304@C02TD0UTHF1T.local>
+References: <4473787e1b6bc3cc226067e8d122092a678b63de.camel@marvell.com>
+ <aed12dd15ea2981bc9554cfa8b5e273c1342c756.camel@marvell.com>
+ <07c25c246c55012981ec0296eee23e68c719333a.camel@marvell.com>
+ <d995795c731d6ecceb36bdf1c1df3d72fefd023d.camel@marvell.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d995795c731d6ecceb36bdf1c1df3d72fefd023d.camel@marvell.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Jeff Layton <jlayton@redhat.com>
+On Thu, Apr 09, 2020 at 03:17:40PM +0000, Alex Belits wrote:
+> Some architectures implement memory synchronization instructions for
+> instruction cache. Make a separate kind of barrier that calls them.
 
-When syncing out a block device (a'la __sync_blockdev), any error
-encountered will only be recorded in the bd_inode's mapping. When the
-blockdev contains a filesystem however, we'd like to also record the
-error in the super_block that's stored there.
+Modifying the instruction caches requries more than an ISB, and the
+'IMB' naming implies you're trying to order against memory accesses,
+which isn't what ISB (generally) does.
 
-Make mark_buffer_write_io_error also record the error in the
-corresponding super_block when a writeback error occurs and the block
-device contains a mounted superblock.
+What exactly do you want to use this for?
 
-Since superblocks are RCU freed, hold the rcu_read_lock to ensure
-that the superblock doesn't go away while we're marking it.
+As-is, I don't think this makes sense as a generic barrier.
 
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
----
- fs/buffer.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+Thanks,
+Mark.
 
-diff --git a/fs/buffer.c b/fs/buffer.c
-index f73276d746bb..2a4a5cc20418 100644
---- a/fs/buffer.c
-+++ b/fs/buffer.c
-@@ -1154,12 +1154,19 @@ EXPORT_SYMBOL(mark_buffer_dirty);
- 
- void mark_buffer_write_io_error(struct buffer_head *bh)
- {
-+	struct super_block *sb;
-+
- 	set_buffer_write_io_error(bh);
- 	/* FIXME: do we need to set this in both places? */
- 	if (bh->b_page && bh->b_page->mapping)
- 		mapping_set_error(bh->b_page->mapping, -EIO);
- 	if (bh->b_assoc_map)
- 		mapping_set_error(bh->b_assoc_map, -EIO);
-+	rcu_read_lock();
-+	sb = bh->b_bdev->bd_super;
-+	if (sb)
-+		errseq_set(&sb->s_wb_err, -EIO);
-+	rcu_read_unlock();
- }
- EXPORT_SYMBOL(mark_buffer_write_io_error);
- 
--- 
-2.25.2
-
+> 
+> Signed-off-by: Alex Belits <abelits@marvell.com>
+> ---
+>  arch/arm/include/asm/barrier.h   | 2 ++
+>  arch/arm64/include/asm/barrier.h | 2 ++
+>  include/asm-generic/barrier.h    | 4 ++++
+>  3 files changed, 8 insertions(+)
+> 
+> diff --git a/arch/arm/include/asm/barrier.h b/arch/arm/include/asm/barrier.h
+> index 83ae97c049d9..6def62c95937 100644
+> --- a/arch/arm/include/asm/barrier.h
+> +++ b/arch/arm/include/asm/barrier.h
+> @@ -64,12 +64,14 @@ extern void arm_heavy_mb(void);
+>  #define mb()		__arm_heavy_mb()
+>  #define rmb()		dsb()
+>  #define wmb()		__arm_heavy_mb(st)
+> +#define imb()		isb()
+>  #define dma_rmb()	dmb(osh)
+>  #define dma_wmb()	dmb(oshst)
+>  #else
+>  #define mb()		barrier()
+>  #define rmb()		barrier()
+>  #define wmb()		barrier()
+> +#define imb()		barrier()
+>  #define dma_rmb()	barrier()
+>  #define dma_wmb()	barrier()
+>  #endif
+> diff --git a/arch/arm64/include/asm/barrier.h b/arch/arm64/include/asm/barrier.h
+> index 7d9cc5ec4971..12a7dbd68bed 100644
+> --- a/arch/arm64/include/asm/barrier.h
+> +++ b/arch/arm64/include/asm/barrier.h
+> @@ -45,6 +45,8 @@
+>  #define rmb()		dsb(ld)
+>  #define wmb()		dsb(st)
+>  
+> +#define imb()		isb()
+> +
+>  #define dma_rmb()	dmb(oshld)
+>  #define dma_wmb()	dmb(oshst)
+>  
+> diff --git a/include/asm-generic/barrier.h b/include/asm-generic/barrier.h
+> index 85b28eb80b11..d5a822fb3e92 100644
+> --- a/include/asm-generic/barrier.h
+> +++ b/include/asm-generic/barrier.h
+> @@ -46,6 +46,10 @@
+>  #define dma_wmb()	wmb()
+>  #endif
+>  
+> +#ifndef imb
+> +#define imb		barrier()
+> +#endif
+> +
+>  #ifndef read_barrier_depends
+>  #define read_barrier_depends()		do { } while (0)
+>  #endif
+> -- 
+> 2.20.1
+> 
