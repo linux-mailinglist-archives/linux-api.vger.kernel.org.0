@@ -2,106 +2,124 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 461C21AB968
-	for <lists+linux-api@lfdr.de>; Thu, 16 Apr 2020 09:11:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AB4B1AB96D
+	for <lists+linux-api@lfdr.de>; Thu, 16 Apr 2020 09:11:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437517AbgDPHKR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 16 Apr 2020 03:10:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53028 "EHLO
+        id S2437880AbgDPHKt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 16 Apr 2020 03:10:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2437186AbgDPHKM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 16 Apr 2020 03:10:12 -0400
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31FB3C061A0C;
-        Thu, 16 Apr 2020 00:10:12 -0700 (PDT)
-Received: by mail-ej1-x644.google.com with SMTP id a2so546909ejx.5;
-        Thu, 16 Apr 2020 00:10:12 -0700 (PDT)
+        by vger.kernel.org with ESMTP id S2437186AbgDPHKq (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 16 Apr 2020 03:10:46 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5222EC061A0C;
+        Thu, 16 Apr 2020 00:10:46 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id h26so3521957wrb.7;
+        Thu, 16 Apr 2020 00:10:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=lO38k/X3AezDRtEd7sHEzvTIkXsx536sJgZXKd7j4Ps=;
-        b=JLD9Do+bAmdzcUU3ZF97AYMRiak0lt4K5bGVkrvNlK2HYr0F7D2ljwQPLFmSARAjdq
-         gvvo6gLdqqfWKEd23uklX0+C3q5e43eWUWg6W/1ry46hmeLv9RTqE86p+Ej4kl3F42eS
-         lOKwONlWAzcg5LroQB0IPEL3oys2j/a9vyFH+6L5nmH/5npwZPtM2zahxqgUQpcE0Rln
-         e5Cz8Evil3LykRZzextGs2xKozjuGMNG0F3xyU6PWq0xD37DrIRpAGA5ScjZ6y6DfRvd
-         AwC3xn8Oa4IBZy3wI+U3EWfxfgWoIqAL/l5+yQCCh+N6Twf+AZpC2egeATembByd8wtG
-         mR2w==
+        h=from:subject:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=5dN5oxpwy9nSWFYmHgWall5d4CLbrW0LWzFjFt92VW8=;
+        b=m+x5Ir3OUCeDFFwt2ZRIJgCEn0yllxTi4y1s94otYe4s2zRw84Sk0gSkCHj+l6uq/A
+         56sx0Aqh8tHFsRbQt7K3kw6UyI5LrED+itKFV8OBTXNrOubsRNzZL2rQFfQpdh+vdH3b
+         N//I51NW5XUl34hSlq5WHBXc3nocNVnzta5Fg8jkfxloJEZf9puUVGrnHnK9IeqzPliF
+         inWlFnQ36/gkrwpxzTpCS686THujWbvQk2BJ8bG5E0vb/4xiNOIDt41D+eBzdrwXP30o
+         NnmgDfUTJ5XDq/MxzB9loSM+JYKC8mwvm6IFzaWQxRJfO2a6JrT/azl3Y6QXW9UGobmh
+         sj9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=lO38k/X3AezDRtEd7sHEzvTIkXsx536sJgZXKd7j4Ps=;
-        b=sr/1/jdBrE8KG3YYfWyLlTLb1oqFA+b88zaG/Z/pMnHABxusSONNUpR+e3G4fN2ElD
-         crwXydD9O73KO7ZVffiY5xWFUYTQeM1p/Gfysm41g51hRwXDxMK2UGTf4j+kSibXmc2I
-         OyKTfxP5YIVXjG923GwWrMo2wGtZ6JuuAQRzZ9a4H2ZBW0fRzjW7hbtrW7hElIqyv2sK
-         +qxi/dZaWf6xMgx89FfhqhTbvJcmSe+qLgDzZVwIqma2pgFHViVfCz5fx5njwYhDOk40
-         8WMu9WduqHo15gcNEGS7KEt7AGhRDaGWOrvBjL5jpIQqFkQqarkJX6nVFO1/Qcca8Nho
-         P1OQ==
-X-Gm-Message-State: AGi0Pubb//Ooph9cPuCBybZFLbrb9BF4CRXvYPf7eFg879weGWWb9/Q3
-        hUP+VL5eRdJ2wumuxeemE9JODiKlABi+68cSxv8=
-X-Google-Smtp-Source: APiQypLyted4Kkh6RxcxTxBO+iINrCeXM73sU7G62FZPta6vt7BDD+rwFPRgAcQUlYidZnzPpEIMtpTBo4xfd3jfqv8=
-X-Received: by 2002:a17:906:704b:: with SMTP id r11mr8125482ejj.80.1587021010877;
- Thu, 16 Apr 2020 00:10:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <96bedbaf-49ea-f24b-b7b1-fb9a57fb6c7d@gmail.com>
- <20200411154031.642557-1-avagin@gmail.com> <20200416065648.GA801745@gmail.com>
-In-Reply-To: <20200416065648.GA801745@gmail.com>
-Reply-To: mtk.manpages@gmail.com
+        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=5dN5oxpwy9nSWFYmHgWall5d4CLbrW0LWzFjFt92VW8=;
+        b=IaEnMfzmQd9wfLlHC7975rfNMYCVwYDGVnWVON17yAGAtiXXyAdONG85FXitIOJG2w
+         XnY1IG28FxlD8aJK1a4rhLQkvUnEceh0cDhfB3Tn++XNbmriSKjEtgoRB18Ffp21A5cJ
+         WgoCrv4V4YA6Fbu00U9qF7fSgkrAtoUkD79IOv92G7acW3/NghGjKHel+GmDqsWC2af9
+         YmfitXNb8xlS/VXnBU1uz2P6L+FtUIzI4Av7p/EBk6J1xF0By+SGgazRbM+C+4a4AfhV
+         MEdsYFt0u0MpzpVI2Agtcx+Ms3E6mvVmXP3TSkJiW/7/mYtXv4MvIHHoFPXSFV92hIiq
+         l5kA==
+X-Gm-Message-State: AGi0PubP5OzJ9taDidtVH3hJGUGBXrDE1Fl3ZjoHe6sWV/7LB/0ep8UL
+        YlBOCMT8QHrJtLiTZka1TjY5osKf
+X-Google-Smtp-Source: APiQypKPg/oR4d8FSJOcfgwxG485F8H0FZzTyY8BGgh91d9W5DdLheO68gDDFzfmoiG5v0kB57ffIg==
+X-Received: by 2002:adf:9cc8:: with SMTP id h8mr32095572wre.167.1587021044877;
+        Thu, 16 Apr 2020 00:10:44 -0700 (PDT)
+Received: from ?IPv6:2001:a61:2482:101:3351:6160:8173:cc31? ([2001:a61:2482:101:3351:6160:8173:cc31])
+        by smtp.gmail.com with ESMTPSA id s14sm2412615wmh.18.2020.04.16.00.10.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Apr 2020 00:10:44 -0700 (PDT)
 From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Date:   Thu, 16 Apr 2020 09:10:00 +0200
-Message-ID: <CAKgNAkhQhK5KxCtwqQ=V03kyCFPOxRGgT3ALnUFvHYzTtsn8Uw@mail.gmail.com>
-Subject: Re: [PATCH v2] timens: show clock symbolic names in /proc/pid/timens_offsets
-To:     Andrei Vagin <avagin@gmail.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux API <linux-api@vger.kernel.org>,
+Subject: Removal of the ioctl_list(2) manual page (was: Re: ioctl_list.2:
+ complete overhaul needed)
+To:     Heinrich Schuchardt <xypron.glpk@gmx.de>,
+        Eugene Syromyatnikov <evgsyr@gmail.com>
+Cc:     mtk.manpages@gmail.com, linux-man <linux-man@vger.kernel.org>,
+        Mike Christie <mchristi@redhat.com>,
         lkml <linux-kernel@vger.kernel.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Dmitry Safonov <0x7f454c46@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+        Linux API <linux-api@vger.kernel.org>
+References: <545F8D2E.5030308@gmx.de>
+ <CAKgNAkh-HBjh5AqNpTTfQjgeJVYx9LGpGDzO87zMWEmgMOd0bA@mail.gmail.com>
+ <CACGkJdv5Be4KqmsP2AK99FmkZ5hB9jJk9YzsrS8Qzph8ceBvvQ@mail.gmail.com>
+ <5e9b4408-410f-6fb4-9c8b-0bd68e64577d@gmx.de>
+Message-ID: <ebd773bc-1277-c346-3edc-370c843cc968@gmail.com>
+Date:   Thu, 16 Apr 2020 09:10:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
+MIME-Version: 1.0
+In-Reply-To: <5e9b4408-410f-6fb4-9c8b-0bd68e64577d@gmx.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Andrei,
+[CC widened]
 
-On Thu, 16 Apr 2020 at 08:56, Andrei Vagin <avagin@gmail.com> wrote:
->
-> On Sat, Apr 11, 2020 at 08:40:31AM -0700, Andrei Vagin wrote:
-> > Michael Kerrisk suggested to replace numeric clock IDs on symbolic
-> > names.
-> >
-> > Now the content of these files looks like this:
-> > $ cat /proc/774/timens_offsets
-> > monotonic      864000         0
-> > boottime      1728000         0
-> >
-> > For setting offsets, both representations of clocks can be used.
-> >
-> > As for compatibility, it is acceptable to change things as long as
-> > userspace doesn't care. The format of timens_offsets files is very
-> > new and there are no userspace tools that rely on this format.
-> >
-> > But three projects crun, util-linux and criu rely on the interface of
-> > setting time offsets and this is why we need to continue supporting the
-> > clock IDs in this case.
-> >
-> > Fixes: 04a8682a71be ("fs/proc: Introduce /proc/pid/timens_offsets")
-> > Cc: Thomas Gleixner <tglx@linutronix.de>
-> > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > Cc: Eric W. Biederman <ebiederm@xmission.com>
-> > Cc: Dmitry Safonov <0x7f454c46@gmail.com>
-> > Acked-by: Michael Kerrisk <mtk.manpages@gmail.com>
->
-> Thomas and Andrew, could you merge this patch? I am sorry, I used the
-> wrong subsystem prefix. Let me know if I need to send the third version
-> of this patch.
+Hello Heinrich, Eugene,
 
-This patch should also be marked for stable@.
+On 4/14/20 6:21 PM, Heinrich Schuchardt wrote:
+> On 2020-04-14 17:37, Eugene Syromyatnikov wrote:
+>> On Tue, Apr 14, 2020 at 5:18 PM Michael Kerrisk (man-pages)
+>> <mtk.manpages@gmail.com> wrote:
+>>>
+>>> Hello Heinrich,
+>>>
+>>> On Sun, 9 Nov 2014 at 16:52, Heinrich Schuchardt <xypron.glpk@gmx.de> wrote:
 
-Thanks,
+[...]
+
+>>> As you suggest, I've removed the hex values from the lists.
+>>
+>> Those can be replaced with the _IO* macro definitions. Meanwhile,  the
+>> list is somewhat far from complete; strace has some approximation that
+>> can be uses a basis of a more complete and reliable list
+>> (linux/{32,64}/ioctls_inc*.h and linux/*/ioctls_arch*.h), but I'm not
+>> sure if it is worth adding to the man page (moreover, entries are
+>> constantly being added and changed there; yes, breaking the kernel ABI
+>> in the process sometimes).
+> 
+> Man-pages like netdevices.7 or ioctl_fat.2 are what is needed to help a
+> user who does not want to read through the kernel code.
+> 
+> If ioctl_list.2 has not been reasonably maintained since Linux 1.3.27
+> and hence is not a reliable source of information, shouldn't it be dropped?
+
+As already noted, I'm inclined to agree that yes, this page probably
+should be removed. What really is needed is pages such as ioctl_fat(2),
+ioctl_userfaultfd(2), and ioctl_ns(2) that give useful details
+to user-space programmers.
+
+Just FYI, I've queued a change that removes the ioctl_list(2) page
+in a private branch. By the time of the next release, I'll merge
+that branch, unless someone has (good) objections.
+
+There is one piece of ioctl_list(2) that is perhaps worth preserving:
+the "ioctl structure" subsection. As part of these changes, I've
+migrated that text to ioctl(2).
+
+Cheers,
 
 Michael
 
