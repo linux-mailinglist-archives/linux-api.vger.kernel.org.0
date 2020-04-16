@@ -2,128 +2,129 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8AB4B1AB96D
-	for <lists+linux-api@lfdr.de>; Thu, 16 Apr 2020 09:11:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 889F41ABCEA
+	for <lists+linux-api@lfdr.de>; Thu, 16 Apr 2020 11:36:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437880AbgDPHKt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 16 Apr 2020 03:10:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53116 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2437186AbgDPHKq (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 16 Apr 2020 03:10:46 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5222EC061A0C;
-        Thu, 16 Apr 2020 00:10:46 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id h26so3521957wrb.7;
-        Thu, 16 Apr 2020 00:10:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:subject:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=5dN5oxpwy9nSWFYmHgWall5d4CLbrW0LWzFjFt92VW8=;
-        b=m+x5Ir3OUCeDFFwt2ZRIJgCEn0yllxTi4y1s94otYe4s2zRw84Sk0gSkCHj+l6uq/A
-         56sx0Aqh8tHFsRbQt7K3kw6UyI5LrED+itKFV8OBTXNrOubsRNzZL2rQFfQpdh+vdH3b
-         N//I51NW5XUl34hSlq5WHBXc3nocNVnzta5Fg8jkfxloJEZf9puUVGrnHnK9IeqzPliF
-         inWlFnQ36/gkrwpxzTpCS686THujWbvQk2BJ8bG5E0vb/4xiNOIDt41D+eBzdrwXP30o
-         NnmgDfUTJ5XDq/MxzB9loSM+JYKC8mwvm6IFzaWQxRJfO2a6JrT/azl3Y6QXW9UGobmh
-         sj9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=5dN5oxpwy9nSWFYmHgWall5d4CLbrW0LWzFjFt92VW8=;
-        b=IaEnMfzmQd9wfLlHC7975rfNMYCVwYDGVnWVON17yAGAtiXXyAdONG85FXitIOJG2w
-         XnY1IG28FxlD8aJK1a4rhLQkvUnEceh0cDhfB3Tn++XNbmriSKjEtgoRB18Ffp21A5cJ
-         WgoCrv4V4YA6Fbu00U9qF7fSgkrAtoUkD79IOv92G7acW3/NghGjKHel+GmDqsWC2af9
-         YmfitXNb8xlS/VXnBU1uz2P6L+FtUIzI4Av7p/EBk6J1xF0By+SGgazRbM+C+4a4AfhV
-         MEdsYFt0u0MpzpVI2Agtcx+Ms3E6mvVmXP3TSkJiW/7/mYtXv4MvIHHoFPXSFV92hIiq
-         l5kA==
-X-Gm-Message-State: AGi0PubP5OzJ9taDidtVH3hJGUGBXrDE1Fl3ZjoHe6sWV/7LB/0ep8UL
-        YlBOCMT8QHrJtLiTZka1TjY5osKf
-X-Google-Smtp-Source: APiQypKPg/oR4d8FSJOcfgwxG485F8H0FZzTyY8BGgh91d9W5DdLheO68gDDFzfmoiG5v0kB57ffIg==
-X-Received: by 2002:adf:9cc8:: with SMTP id h8mr32095572wre.167.1587021044877;
-        Thu, 16 Apr 2020 00:10:44 -0700 (PDT)
-Received: from ?IPv6:2001:a61:2482:101:3351:6160:8173:cc31? ([2001:a61:2482:101:3351:6160:8173:cc31])
-        by smtp.gmail.com with ESMTPSA id s14sm2412615wmh.18.2020.04.16.00.10.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Apr 2020 00:10:44 -0700 (PDT)
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Removal of the ioctl_list(2) manual page (was: Re: ioctl_list.2:
- complete overhaul needed)
-To:     Heinrich Schuchardt <xypron.glpk@gmx.de>,
-        Eugene Syromyatnikov <evgsyr@gmail.com>
-Cc:     mtk.manpages@gmail.com, linux-man <linux-man@vger.kernel.org>,
-        Mike Christie <mchristi@redhat.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-References: <545F8D2E.5030308@gmx.de>
- <CAKgNAkh-HBjh5AqNpTTfQjgeJVYx9LGpGDzO87zMWEmgMOd0bA@mail.gmail.com>
- <CACGkJdv5Be4KqmsP2AK99FmkZ5hB9jJk9YzsrS8Qzph8ceBvvQ@mail.gmail.com>
- <5e9b4408-410f-6fb4-9c8b-0bd68e64577d@gmx.de>
-Message-ID: <ebd773bc-1277-c346-3edc-370c843cc968@gmail.com>
-Date:   Thu, 16 Apr 2020 09:10:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        id S2503816AbgDPJff (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 16 Apr 2020 05:35:35 -0400
+Received: from mx2.suse.de ([195.135.220.15]:34810 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2503615AbgDPJfc (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 16 Apr 2020 05:35:32 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id C7BC9AD0E;
+        Thu, 16 Apr 2020 09:35:29 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id D25621E1250; Thu, 16 Apr 2020 11:35:28 +0200 (CEST)
+Date:   Thu, 16 Apr 2020 11:35:28 +0200
+From:   Jan Kara <jack@suse.cz>
+To:     Jeff Layton <jlayton@kernel.org>
+Cc:     Jan Kara <jack@suse.cz>, viro@zeniv.linux.org.uk,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, andres@anarazel.de, willy@infradead.org,
+        dhowells@redhat.com, hch@infradead.org, akpm@linux-foundation.org,
+        david@fromorbit.com
+Subject: Re: [PATCH v5 2/2] buffer: record blockdev write errors in
+ super_block that it backs
+Message-ID: <20200416093528.GC23739@quack2.suse.cz>
+References: <20200415121300.228017-1-jlayton@kernel.org>
+ <20200415121300.228017-3-jlayton@kernel.org>
+ <20200415140642.GK6126@quack2.suse.cz>
+ <b4161f1df3436d7371ab7e88709169e9a391f15d.camel@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <5e9b4408-410f-6fb4-9c8b-0bd68e64577d@gmx.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b4161f1df3436d7371ab7e88709169e9a391f15d.camel@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-[CC widened]
-
-Hello Heinrich, Eugene,
-
-On 4/14/20 6:21 PM, Heinrich Schuchardt wrote:
-> On 2020-04-14 17:37, Eugene Syromyatnikov wrote:
->> On Tue, Apr 14, 2020 at 5:18 PM Michael Kerrisk (man-pages)
->> <mtk.manpages@gmail.com> wrote:
->>>
->>> Hello Heinrich,
->>>
->>> On Sun, 9 Nov 2014 at 16:52, Heinrich Schuchardt <xypron.glpk@gmx.de> wrote:
-
-[...]
-
->>> As you suggest, I've removed the hex values from the lists.
->>
->> Those can be replaced with the _IO* macro definitions. Meanwhile,  the
->> list is somewhat far from complete; strace has some approximation that
->> can be uses a basis of a more complete and reliable list
->> (linux/{32,64}/ioctls_inc*.h and linux/*/ioctls_arch*.h), but I'm not
->> sure if it is worth adding to the man page (moreover, entries are
->> constantly being added and changed there; yes, breaking the kernel ABI
->> in the process sometimes).
+On Wed 15-04-20 12:22:27, Jeff Layton wrote:
+> On Wed, 2020-04-15 at 16:06 +0200, Jan Kara wrote:
+> > On Wed 15-04-20 08:13:00, Jeff Layton wrote:
+> > > From: Jeff Layton <jlayton@redhat.com>
+> > > 
+> > > When syncing out a block device (a'la __sync_blockdev), any error
+> > > encountered will only be recorded in the bd_inode's mapping. When the
+> > > blockdev contains a filesystem however, we'd like to also record the
+> > > error in the super_block that's stored there.
+> > > 
+> > > Make mark_buffer_write_io_error also record the error in the
+> > > corresponding super_block when a writeback error occurs and the block
+> > > device contains a mounted superblock.
+> > > 
+> > > Since superblocks are RCU freed, hold the rcu_read_lock to ensure
+> > > that the superblock doesn't go away while we're marking it.
+> > > 
+> > > Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> > > ---
+> > >  fs/buffer.c | 7 +++++++
+> > >  1 file changed, 7 insertions(+)
+> > > 
+> > > diff --git a/fs/buffer.c b/fs/buffer.c
+> > > index f73276d746bb..2a4a5cc20418 100644
+> > > --- a/fs/buffer.c
+> > > +++ b/fs/buffer.c
+> > > @@ -1154,12 +1154,19 @@ EXPORT_SYMBOL(mark_buffer_dirty);
+> > >  
+> > >  void mark_buffer_write_io_error(struct buffer_head *bh)
+> > >  {
+> > > +	struct super_block *sb;
+> > > +
+> > >  	set_buffer_write_io_error(bh);
+> > >  	/* FIXME: do we need to set this in both places? */
+> > >  	if (bh->b_page && bh->b_page->mapping)
+> > >  		mapping_set_error(bh->b_page->mapping, -EIO);
+> > >  	if (bh->b_assoc_map)
+> > >  		mapping_set_error(bh->b_assoc_map, -EIO);
+> > > +	rcu_read_lock();
+> > > +	sb = bh->b_bdev->bd_super;
+> > 
+> > You still need READ_ONCE() here. Otherwise the dereference below can still
+> > result in refetch and NULL ptr deref.
+> > 
+> > 								Honza
+> > 
 > 
-> Man-pages like netdevices.7 or ioctl_fat.2 are what is needed to help a
-> user who does not want to read through the kernel code.
+> Huh? That seems like a really suspicious thing for the compiler/arch to
+> do. We are checking that sb isn't NULL before we dereference it. Doesn't
+> that imply a data dependency? How could the value of "sb" change after
+> that?
+
+Because the compiler is free to optimize the local variable away and
+actually compile the dereference below as bh->b_bdev->bd_super->s_wb_err
+(from C11 standard POV such code is equivalent since in C11 memory model
+it is assumed there are no concurrent accesses). And READ_ONCE() is a way
+to forbid compiler from doing such optimization - through 'volatile'
+keyword it tells the compiler there may be concurrent accesses happening
+and makes sure the value is really fetched into the local variable and used
+from there. There are good articles about this on LWN - I'd give you a link
+but LWN seems to be down today. But the latest article is about KCSAN and
+from there are links to older articles about compiler optimizations.
+
+> I'm also not sure I understand how using READ_ONCE really helps there if
+> we can't count on the value of a local variable not changing.
+
+I hope I've explained this above.
+
+								Honza
+
+> > > +	if (sb)
+> > > +		errseq_set(&sb->s_wb_err, -EIO);
+> > > +	rcu_read_unlock();
+> > >  }
+> > >  EXPORT_SYMBOL(mark_buffer_write_io_error);
+> > >  
+> > > -- 
+> > > 2.25.2
+> > > 
 > 
-> If ioctl_list.2 has not been reasonably maintained since Linux 1.3.27
-> and hence is not a reliable source of information, shouldn't it be dropped?
-
-As already noted, I'm inclined to agree that yes, this page probably
-should be removed. What really is needed is pages such as ioctl_fat(2),
-ioctl_userfaultfd(2), and ioctl_ns(2) that give useful details
-to user-space programmers.
-
-Just FYI, I've queued a change that removes the ioctl_list(2) page
-in a private branch. By the time of the next release, I'll merge
-that branch, unless someone has (good) objections.
-
-There is one piece of ioctl_list(2) that is perhaps worth preserving:
-the "ioctl structure" subsection. As part of these changes, I've
-migrated that text to ioctl(2).
-
-Cheers,
-
-Michael
-
+> -- 
+> Jeff Layton <jlayton@kernel.org>
+> 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
