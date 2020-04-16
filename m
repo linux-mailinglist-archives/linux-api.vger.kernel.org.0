@@ -2,131 +2,92 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EEC81ACC01
-	for <lists+linux-api@lfdr.de>; Thu, 16 Apr 2020 17:56:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D85E1ACE3D
+	for <lists+linux-api@lfdr.de>; Thu, 16 Apr 2020 19:03:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2896686AbgDPPxj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 16 Apr 2020 11:53:39 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:38447 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2896648AbgDPPxa (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 16 Apr 2020 11:53:30 -0400
-Received: by mail-pf1-f196.google.com with SMTP id y25so1846445pfn.5;
-        Thu, 16 Apr 2020 08:53:30 -0700 (PDT)
+        id S1728049AbgDPRCJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 16 Apr 2020 13:02:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60998 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729816AbgDPRCI (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 16 Apr 2020 13:02:08 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA3A9C061A0F
+        for <linux-api@vger.kernel.org>; Thu, 16 Apr 2020 10:02:06 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id ay1so1573011plb.0
+        for <linux-api@vger.kernel.org>; Thu, 16 Apr 2020 10:02:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=osandov-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=jM5h1KFj1L2GXPRZjBV7ijyxLB4BFuJ/vu3Z2ACwOH0=;
+        b=upWStF2+6JIY7WIbqEKUk+gI5CQolvn8tp2lCpTiFpSeX1L+TPFq7VBfGYfr/PXbms
+         /SQYrkACqUfYns0cjwtSFepEft+7s8M4jbd0T/kRWAttVqMMZTeiu2tsEPGtfm+wDcbH
+         LbBB4elRVgQ8QIp3a3juih4HZQ+slHWHTNXyacHtbxZx8ciSGDx0ImYltQj3C8m0wGAk
+         IpPgkdpA5pUJy09YKtzkSFGj6V9YDm6TI096DZ6AyzdOdR2+BJVpIEuyTXXkA8uTk71S
+         NYQFj1eoQqvqBlNu8qs9Kk1wCFxX2DyP/0Tt7MbdSHeRwkmx5COOYiT17fRc+2QOGpFV
+         qNPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=OJ1LhAU7febKN7iQIuormh5NmKS7oObKFw3LJa4CTas=;
-        b=UmEch370OxfQKZ1j2M+YEmaOSVU5ijnuRMPx05LO4GsAbkgX1kUSNPA6Wll7hds9uM
-         Alu2YWMq/ER2bPEa3scmPgH4kg4xOly4znoR7wHjB1gtfBlLaWJoFkN/LDD2u3CI0TNM
-         IuZpWEWeZW0scf3KNbTs3sUOsBTuFTASh+6Cl3ixKwsWboKLS/cWXbKE1WDaugjpG16U
-         TRRKNGWGqdytEP8jzTGpN/3WVMIzQO7Rxabk7dGXnsl12gpPg6z+hBZKQDO8uMZbR+bM
-         6C1pkudm3uVpVzOGrhxpvwgLpBO9aLm1fj8QDU3TOHoG3OPrmmW6QNc9kc3vg8BuQBrO
-         HqXA==
-X-Gm-Message-State: AGi0PuYcrIRYmLo/A2GQIHsTn3LHss452idX7NAW8rlaRFfwst4AaV2x
-        +wIqQvi//v2fuWE+DujYeJQ=
-X-Google-Smtp-Source: APiQypL0bCBep50MvO+I1irfI6M146DVq6XZM9/sttMzKb5K92PS7O9TaiV4Z2X9iDlZuALlgjDLLQ==
-X-Received: by 2002:a63:894a:: with SMTP id v71mr33642388pgd.314.1587052409606;
-        Thu, 16 Apr 2020 08:53:29 -0700 (PDT)
-Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
-        by smtp.gmail.com with ESMTPSA id o15sm15680232pgj.60.2020.04.16.08.53.28
+         :mime-version:content-disposition:in-reply-to;
+        bh=jM5h1KFj1L2GXPRZjBV7ijyxLB4BFuJ/vu3Z2ACwOH0=;
+        b=gAnJmQX3Hw0X0gbxOOoqiLO912KJiknN50azp9Cn2rqLSrQSJpCvKGVaXbij03rzW3
+         CPeAx43zRNpWPqAzRt9bl3F8k8ADReqxHxb0d52FMSG26KHHtImC/BKJn0jqwb/jmjW1
+         MjgNPeOK2HdXv9MrS+LJ3+H5R43xv52ZYZI5gJYsQ1AlGxezPBTqpfLsKQsWwEYSMEeq
+         t0AIPlBuVKnY1uGY4ybITCH1B6Gr7jDd/5KYMTdRA0Ai1q+ALtAifDPNwthQu5opVw1A
+         5vkXv15xmvMEUokGYukglDZ8vIlHgBs94FM5hi7k85mobtNXs9toX2QgT/bkwod1DQRo
+         r+Mg==
+X-Gm-Message-State: AGi0PubWcs5WhdbUvw69vDlyLobVSa7PEoGJGSBRzaWTazP++uZZXrWY
+        k3DoKYMj7gQ5Pfs2AWZ8TzuNyQ==
+X-Google-Smtp-Source: APiQypJqg0pOISaJvxNLbk+rEYy/BAV/B+cdSZie5ezyzvBXT70vsoZhCw53vIeIUdY5Sj/wNtfkhA==
+X-Received: by 2002:a17:90a:af8c:: with SMTP id w12mr6153045pjq.37.1587056525879;
+        Thu, 16 Apr 2020 10:02:05 -0700 (PDT)
+Received: from vader ([2601:602:8b80:8e0::7584])
+        by smtp.gmail.com with ESMTPSA id y186sm4958753pfy.208.2020.04.16.10.02.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Apr 2020 08:53:28 -0700 (PDT)
-Received: by 42.do-not-panic.com (Postfix, from userid 1000)
-        id 9C1A440277; Thu, 16 Apr 2020 15:53:27 +0000 (UTC)
-Date:   Thu, 16 Apr 2020 15:53:27 +0000
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     Vlastimil Babka <vbabka@suse.cz>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        "Guilherme G . Piccoli" <gpiccoli@canonical.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>
-Subject: Re: [PATCH v2 1/3] kernel/sysctl: support setting sysctl parameters
- from kernel command line
-Message-ID: <20200416155327.GT11244@42.do-not-panic.com>
-References: <20200414113222.16959-1-vbabka@suse.cz>
- <20200414113222.16959-2-vbabka@suse.cz>
- <20200415180355.00bc828ea726c421638db871@kernel.org>
- <20200416012931.GE11244@42.do-not-panic.com>
- <20200416194955.3448c8526ea3f59e95c506da@kernel.org>
+        Thu, 16 Apr 2020 10:02:05 -0700 (PDT)
+Date:   Thu, 16 Apr 2020 10:02:03 -0700
+From:   Omar Sandoval <osandov@osandov.com>
+To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc:     "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        Linux btrfs Developers List <linux-btrfs@vger.kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dave Chinner <david@fromorbit.com>,
+        Jann Horn <jannh@google.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        Kernel Team <kernel-team@fb.com>,
+        linux-man <linux-man@vger.kernel.org>
+Subject: Re: [PATCH man-pages v4] Document encoded I/O
+Message-ID: <20200416170203.GA696015@vader>
+References: <cover.1582930832.git.osandov@fb.com>
+ <00f86ed7c25418599e6067cb1dfb186c90ce7bf3.1582931488.git.osandov@fb.com>
+ <CAKgNAkhpET_oK8SKoJhmo1LWk2n0pUXQ-+LfA6=V1cBK485RWw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200416194955.3448c8526ea3f59e95c506da@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CAKgNAkhpET_oK8SKoJhmo1LWk2n0pUXQ-+LfA6=V1cBK485RWw@mail.gmail.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Apr 16, 2020 at 07:49:55PM +0900, Masami Hiramatsu wrote:
-> Hi Luis,
+On Thu, Apr 16, 2020 at 02:26:01PM +0200, Michael Kerrisk (man-pages) wrote:
+> Hello Omar,
 > 
-> On Thu, 16 Apr 2020 01:29:31 +0000
-> Luis Chamberlain <mcgrof@kernel.org> wrote:
-> 
-> > On Wed, Apr 15, 2020 at 06:03:55PM +0900, Masami Hiramatsu wrote:
-> > > On Tue, 14 Apr 2020 13:32:20 +0200
-> > > Vlastimil Babka <vbabka@suse.cz> wrote:
-> > > > diff --git a/init/main.c b/init/main.c
-> > > > index a48617f2e5e5..7b43118215d6 100644
-> > > > --- a/init/main.c
-> > > > +++ b/init/main.c
-> > > > @@ -1372,6 +1372,8 @@ static int __ref kernel_init(void *unused)
-> > > >  
-> > > >  	rcu_end_inkernel_boot();
-> > > >  
-> > > > +	do_sysctl_args();
-> > > > +
-> > > 
-> > > Ah, I see. Since the sysctl is designed to be called after all __init calls were
-> > > done, it shouldn't use bootconfig directly because bootconfig is full of __init
-> > > call.
-> > 
-> > The idea is bootconfig would be useful in the sense of a library set of
-> > helpers which could be modified to remove __init, and then used to
-> > instrument the cmdline depending on certain debugging kconfig entries.
-> 
-> Would you mean making bootconfig (parser and APIs) be more generic so that
-> other subsystem can reuse it with their data?
-> Or just make it available after boot? (I think this latter one will be
-> useful for module initialization)
+> (Unless you CC both me and mtk.manpages@gmail.com, it's easily
+> possible that I will miss your man-pages patches.)
 
-The later. First use case that comes to mind is debugging cmdline, so
-to see if what one adds is what ends up happening at run time after
-boot.
+That's good to know, thanks. Do you mind being CCd on man-pages for
+features that haven't been finalized yet?
 
-> > We currently have no way to purposely extend / break the cmdline for
-> > debugging purposes, so, bootconfig's parsers, since it already has a
-> > way to extend the cmdlineline, might make it much easier to do this
-> > later.
-> > 
-> > Without bootconfig, if we wanted to add new kconfig to, for example,
-> > add new funny cmdline arguments to test they worked or not, we'd have
-> > to devise our own set of helpers now. ie, new functionality. bootconfig
-> > however already has existing functionality to tweak the cmdline, and so
-> > some code could be leveraged there for this purpose.
-> 
-> Hmm, you can use the bootconfig as a "supplemental" kernel command line,
-> but not tweak (like modify/replace) it. Would you like to change the
-> kernel command line parameter on-line?
+> What's the status here? I presume the features documented here are not
+> yet merged, right? Is the aim still to have them merged in the future?
 
-It would be during boot. To augment it as if the user had used certain
-parameters on boot. But if only a new path is tested, and we can't
-reproduce as if the user had *not* used bootconfig, this idea would
-only be useful to test bootconfig parsing, nothing else. The hope was
-to do both.
+They're not yet merged but I'm still working on having them merged. I'm
+still waiting for VFS review.
 
-  Luis
+Thanks!
