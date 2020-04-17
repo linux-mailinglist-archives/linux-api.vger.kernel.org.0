@@ -2,144 +2,181 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D80B1ADB34
-	for <lists+linux-api@lfdr.de>; Fri, 17 Apr 2020 12:36:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0422C1ADC51
+	for <lists+linux-api@lfdr.de>; Fri, 17 Apr 2020 13:41:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726699AbgDQKey (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 17 Apr 2020 06:34:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51002 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729419AbgDQKeu (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 17 Apr 2020 06:34:50 -0400
-Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6EA15221EA;
-        Fri, 17 Apr 2020 10:34:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1587119689;
-        bh=OaXZ5yGS2Agb3WtsaEWeXoVYy6XGH7XHLnLU61pSAXE=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=esXp0Bn97p4t3RwcJRXHXkPvfttLzMoGxHtq9P/jSINRGt66AfRZFSX+PR+KGiHaE
-         YjMgfH2n7ZEGmeqZ6VV+tq0dxZ1o33GiO1e7PaLXA1a1XqM+nR5hc6XSMhUbhSEwes
-         QTRlTOtw5TsRbxKDvCu291dX6ZbPSubUbzdf1O5Y=
-Date:   Fri, 17 Apr 2020 19:34:42 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     Vlastimil Babka <vbabka@suse.cz>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        "Guilherme G . Piccoli" <gpiccoli@canonical.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>
-Subject: Re: [PATCH v2 1/3] kernel/sysctl: support setting sysctl parameters
- from kernel command line
-Message-Id: <20200417193442.b20394dcaac02d5aeef9b5ee@kernel.org>
-In-Reply-To: <20200416155327.GT11244@42.do-not-panic.com>
-References: <20200414113222.16959-1-vbabka@suse.cz>
-        <20200414113222.16959-2-vbabka@suse.cz>
-        <20200415180355.00bc828ea726c421638db871@kernel.org>
-        <20200416012931.GE11244@42.do-not-panic.com>
-        <20200416194955.3448c8526ea3f59e95c506da@kernel.org>
-        <20200416155327.GT11244@42.do-not-panic.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1730392AbgDQLjz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 17 Apr 2020 07:39:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37174 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1730267AbgDQLjy (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 17 Apr 2020 07:39:54 -0400
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68F71C061A0C;
+        Fri, 17 Apr 2020 04:39:54 -0700 (PDT)
+Received: by mail-ed1-x541.google.com with SMTP id d16so1228109edq.7;
+        Fri, 17 Apr 2020 04:39:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=5hTJSKfRbKsRe/E+iFRO++tT2JBgJd6o61Jbgclxcm8=;
+        b=ksSKJ9cmX2optSlDV3ljbVvjfO/sw/dRKGmf7RUDPJ4xA6iB3+XOoSzA7Hwgqclxnv
+         k8gwEayH3BEf+Es4hZ3M4icUM/RJOIZy+QjTqoPeIhhdykKG7i7L8g7A3VHppHmRnlx0
+         L2BrPn3iTxLf6bS8jJCDD+VGr9wJjU2OpUjvloIJY3J51VbM+Szi43hoFdcrkD6i85sb
+         qebvjTlmQ+Pu/gd4W3Q/A9YKWQGRQUVVeiPAmcnJa8Q1GkOsI4Neo7TJ4OSlgN9IbszK
+         kufCg6yqqpyWnShCT6jIgXagcS4eK9DO2J8QLtLGeIe48hP96g5oLaF9NECFfct/LSgi
+         3eMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=5hTJSKfRbKsRe/E+iFRO++tT2JBgJd6o61Jbgclxcm8=;
+        b=HLCJ5smHExwRUcUrAiwrwDuH+fdmz5REU8AOnCVTuRFqWTYMZBqVczmdl5Wxx3L4My
+         RvKcNJZyRt9OL/L+IV34mr9bywhPZU5hrc5RfM9X6A5DKcfDVRI1oEvbSy5YBkl0hdGt
+         hx5k0bNxz/nlyksbrEgqAv7cPW8ZkF/KZ98l7YCjA8Im70eHL9VmGMEMvcawbKUyAwx2
+         oXSKIzX9+TI2zcI03cOygco8OWmyWSLJ1OwmPQppY1+O0/kOtrrULqAcxIYr7IC75gVh
+         2O/o9IwaF+JRgxu8+13kLmeAAsIrYtGZR2IgGCGuiEyJBPZUqYPbLVufBZz3H9d4SpSh
+         zwVw==
+X-Gm-Message-State: AGi0PuZpfV3g8mvz2qokMF1W4+J8qchc5HsYRaXHnx19v/sZ44gnSO6H
+        BEiqy8ZEB885O4d5PEkQssUO+YZMsI4pElNjlu7TTA==
+X-Google-Smtp-Source: APiQypICqozsQTHXwxl/21aHLETknfQ6VcXGhd6dZ7BrrUDeGWSG/StWgevBoqi0zdOgpC+5mk2HF9lkBD3zK/hxd34=
+X-Received: by 2002:a05:6402:7d6:: with SMTP id u22mr2448651edy.149.1587123593068;
+ Fri, 17 Apr 2020 04:39:53 -0700 (PDT)
+MIME-Version: 1.0
+References: <20191003145542.17490-1-cyphar@cyphar.com> <20191003145542.17490-2-cyphar@cyphar.com>
+In-Reply-To: <20191003145542.17490-2-cyphar@cyphar.com>
+Reply-To: mtk.manpages@gmail.com
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Date:   Fri, 17 Apr 2020 13:39:40 +0200
+Message-ID: <CAKgNAkiqU0TtmoZ8A89FT4zSYS7AcvWX6oc=1-45L95XbSkUog@mail.gmail.com>
+Subject: Re: [PATCH RFC 1/3] symlink.7: document magic-links more completely
+To:     Aleksa Sarai <cyphar@cyphar.com>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <christian@brauner.io>,
+        Aleksa Sarai <asarai@suse.de>,
+        linux-man <linux-man@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, 16 Apr 2020 15:53:27 +0000
-Luis Chamberlain <mcgrof@kernel.org> wrote:
+Hi Aleksa,
 
-> On Thu, Apr 16, 2020 at 07:49:55PM +0900, Masami Hiramatsu wrote:
-> > Hi Luis,
-> > 
-> > On Thu, 16 Apr 2020 01:29:31 +0000
-> > Luis Chamberlain <mcgrof@kernel.org> wrote:
-> > 
-> > > On Wed, Apr 15, 2020 at 06:03:55PM +0900, Masami Hiramatsu wrote:
-> > > > On Tue, 14 Apr 2020 13:32:20 +0200
-> > > > Vlastimil Babka <vbabka@suse.cz> wrote:
-> > > > > diff --git a/init/main.c b/init/main.c
-> > > > > index a48617f2e5e5..7b43118215d6 100644
-> > > > > --- a/init/main.c
-> > > > > +++ b/init/main.c
-> > > > > @@ -1372,6 +1372,8 @@ static int __ref kernel_init(void *unused)
-> > > > >  
-> > > > >  	rcu_end_inkernel_boot();
-> > > > >  
-> > > > > +	do_sysctl_args();
-> > > > > +
-> > > > 
-> > > > Ah, I see. Since the sysctl is designed to be called after all __init calls were
-> > > > done, it shouldn't use bootconfig directly because bootconfig is full of __init
-> > > > call.
-> > > 
-> > > The idea is bootconfig would be useful in the sense of a library set of
-> > > helpers which could be modified to remove __init, and then used to
-> > > instrument the cmdline depending on certain debugging kconfig entries.
-> > 
-> > Would you mean making bootconfig (parser and APIs) be more generic so that
-> > other subsystem can reuse it with their data?
-> > Or just make it available after boot? (I think this latter one will be
-> > useful for module initialization)
-> 
-> The later. First use case that comes to mind is debugging cmdline, so
-> to see if what one adds is what ends up happening at run time after
-> boot.
+Re our discussion of documentation to be added for magic symlinks,
+there was the patch below, which got paused. I guess this just needs a
+light refresh?
 
-Hmm, I think that's not so easy to debug command line after boot, because
-the kernel command line is parsed (and handlers are executed) already in
-boot time. We can not repeat it after boot.
+Thanks,
 
-> > > We currently have no way to purposely extend / break the cmdline for
-> > > debugging purposes, so, bootconfig's parsers, since it already has a
-> > > way to extend the cmdlineline, might make it much easier to do this
-> > > later.
-> > > 
-> > > Without bootconfig, if we wanted to add new kconfig to, for example,
-> > > add new funny cmdline arguments to test they worked or not, we'd have
-> > > to devise our own set of helpers now. ie, new functionality. bootconfig
-> > > however already has existing functionality to tweak the cmdline, and so
-> > > some code could be leveraged there for this purpose.
-> > 
-> > Hmm, you can use the bootconfig as a "supplemental" kernel command line,
-> > but not tweak (like modify/replace) it. Would you like to change the
-> > kernel command line parameter on-line?
-> 
-> It would be during boot. To augment it as if the user had used certain
-> parameters on boot. But if only a new path is tested, and we can't
-> reproduce as if the user had *not* used bootconfig, this idea would
-> only be useful to test bootconfig parsing, nothing else. The hope was
-> to do both.
+Michael
 
-As you may know, the bootconfig already supports "additional" kernel
-command line. All keys which starts "kernel" is copied into kernel
-command line at early boot timing. So if you want to write a test
-parameter in the bootconfig, you can do it.
+On Thu, 3 Oct 2019 at 16:56, Aleksa Sarai <cyphar@cyphar.com> wrote:
+>
+> Traditionally, magic-links have not been a well-understood topic in
+> Linux. Given the new changes in their semantics (related to the link
+> mode of trailing magic-links), it seems like a good opportunity to shine
+> more light on magic-links and their semantics.
+>
+> Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
+> ---
+>  man7/path_resolution.7 | 15 +++++++++++++++
+>  man7/symlink.7         | 39 ++++++++++++++++++++++++++++++---------
+>  2 files changed, 45 insertions(+), 9 deletions(-)
+>
+> diff --git a/man7/path_resolution.7 b/man7/path_resolution.7
+> index 07664ed8faec..46f25ec4cdfa 100644
+> --- a/man7/path_resolution.7
+> +++ b/man7/path_resolution.7
+> @@ -136,6 +136,21 @@ we are just creating it.
+>  The details on the treatment
+>  of the final entry are described in the manual pages of the specific
+>  system calls.
+> +.PP
+> +Since Linux 5.FOO, if the final entry is a "magic-link" (see
+> +.BR symlink (7)),
+> +and the user is attempting to
+> +.BR open (2)
+> +it, then there is an additional permission-related restriction applied to the
+> +operation: the requested access mode must not exceed the "link mode" of the
+> +magic-link (unlike ordinary symlinks, magic-links have their own file mode.)
+> +For example, if
+> +.I /proc/[pid]/fd/[num]
+> +has a link mode of
+> +.BR 0500 ,
+> +unprivileged users are not permitted to
+> +.BR open ()
+> +the magic-link for writing.
+>  .SS . and ..
+>  By convention, every directory has the entries "." and "..",
+>  which refer to the directory itself and to its parent directory,
+> diff --git a/man7/symlink.7 b/man7/symlink.7
+> index 9f5bddd5dc21..33f0ec703acd 100644
+> --- a/man7/symlink.7
+> +++ b/man7/symlink.7
+> @@ -84,6 +84,25 @@ as they are implemented on Linux and other systems,
+>  are outlined here.
+>  It is important that site-local applications also conform to these rules,
+>  so that the user interface can be as consistent as possible.
+> +.SS Magic-links
+> +There is a special class of symlink-like objects known as "magic-links" which
+> +can be found in certain pseudo-filesystems such as
+> +.BR proc (5)
+> +(examples include
+> +.IR /proc/[pid]/exe " and " /proc/[pid]/fd/* .)
+> +Unlike normal symlinks, magic-links are not resolved through
+> +pathname-expansion, but instead act as direct references to the kernel's own
+> +representation of a file handle. As such, these magic-links allow users to
+> +access files which cannot be referenced with normal paths (such as unlinked
+> +files still referenced by a running program.)
+> +.PP
+> +Because they can bypass ordinary
+> +.BR mount_namespaces (7)-based
+> +restrictions, magic-links have been used as attack vectors in various exploits.
+> +As such (since Linux 5.FOO), there are additional restrictions placed on the
+> +re-opening of magic-links (see
+> +.BR path_resolution (7)
+> +for more details.)
+>  .SS Symbolic link ownership, permissions, and timestamps
+>  The owner and group of an existing symbolic link can be changed
+>  using
+> @@ -99,16 +118,18 @@ of a symbolic link can be changed using
+>  or
+>  .BR lutimes (3).
+>  .PP
+> -On Linux, the permissions of a symbolic link are not used
+> -in any operations; the permissions are always
+> -0777 (read, write, and execute for all user categories),
+>  .\" Linux does not currently implement an lchmod(2).
+> -and can't be changed.
+> -(Note that there are some "magic" symbolic links in the
+> -.I /proc
+> -directory tree\(emfor example, the
+> -.IR /proc/[pid]/fd/*
+> -files\(emthat have different permissions.)
+> +On Linux, the permissions of an ordinary symbolic link are not used in any
+> +operations; the permissions are always 0777 (read, write, and execute for all
+> +user categories), and can't be changed.
+> +.PP
+> +However, magic-links do not follow this rule. They can have a non-0777 mode,
+> +which is used for permission checks when the final
+> +component of an
+> +.BR open (2)'s
+> +path is a magic-link (see
+> +.BR path_resolution (7).)
+> +
+>  .\"
+>  .\" The
+>  .\" 4.4BSD
+> --
+> 2.23.0
+>
 
-However, it is not a good idea to execute command line handlers
-twice because it can be destructive or can append all parameters
-(e.g. "console=" .)
-
-For the new feature can natively use the bootconfig, for example
-boot-time tracing (kernel/trace/trace_boot.c) is something like
-this sysctl on boot, and natively uses the bootconfig because
-the tracing parameter is too complex for kernel command line :)
-
-Thank you,
 
 -- 
-Masami Hiramatsu <mhiramat@kernel.org>
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
