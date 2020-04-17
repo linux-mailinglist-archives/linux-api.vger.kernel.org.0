@@ -2,63 +2,96 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 980751AD597
-	for <lists+linux-api@lfdr.de>; Fri, 17 Apr 2020 07:18:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AB101AD5DE
+	for <lists+linux-api@lfdr.de>; Fri, 17 Apr 2020 08:01:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726664AbgDQFSS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 17 Apr 2020 01:18:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34194 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726026AbgDQFSR (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 17 Apr 2020 01:18:17 -0400
-X-Greylist: delayed 1527 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 16 Apr 2020 22:18:17 PDT
-Received: from fbk21.megaegg.ne.jp (fbk21.megaegg.ne.jp [IPv6:2402:bc00:0:a216::19:131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B797AC061A0C;
-        Thu, 16 Apr 2020 22:18:17 -0700 (PDT)
-Received: from zmta22.megaegg.ne.jp (zmta22-snat.megaegg.ne.jp.internal [10.62.19.122])
-        by fbk21.megaegg.ne.jp (Postfix) with ESMTP id 550CB686575;
-        Fri, 17 Apr 2020 13:52:55 +0900 (JST)
-Received: from vss21.megaegg.ne.jp.internal (vss21-snat.megaegg.ne.jp.internal [10.62.19.91])
-        by zmta22.megaegg.ne.jp.internal (Postfix) with ESMTP id DBFAFE0395;
-        Fri, 17 Apr 2020 13:51:58 +0900 (JST)
-Received: from smtp22.megaegg.ne.jp (smtp22-snat.megaegg.ne.jp.internal [10.62.19.102])
-        by vss21.megaegg.ne.jp.internal (Postfix) with ESMTP id AB547DF947;
-        Fri, 17 Apr 2020 13:51:58 +0900 (JST)
-Received: from zmbs22.megaegg.ne.jp.internal (zmbs22-snat.megaegg.ne.jp.internal [10.62.19.152])
-        by smtp22.megaegg.ne.jp (Postfix) with ESMTP id EC84CC0055;
-        Fri, 17 Apr 2020 13:51:57 +0900 (JST)
-Date:   Fri, 17 Apr 2020 13:51:57 +0900 (JST)
-From:   Bill Lawrence <w2u42su8@ene.megaegg.ne.jp>
-Reply-To: Bill Lawrence <bill_lawrence01@aol.com>
-Message-ID: <215788864.53429917.1587099117909.JavaMail.zimbra@ene.megaegg.ne.jp>
-Subject: Re: I HAVE $2MILLION DONATION FOR YOU.
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [::ffff:105.163.128.152]
-X-Mailer: Zimbra 8.0.4_GA_5740 (ZimbraWebClient - GC55 (Win)/8.0.4_GA_5737)
-Thread-Topic: I HAVE $2MILLION DONATION FOR YOU.
-Thread-Index: AU/QbHitqecFaTbNB3qJcGhuz0tt7Q==
-To:     unlisted-recipients:; (no To-header on input)
+        id S1726488AbgDQGBw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 17 Apr 2020 02:01:52 -0400
+Received: from mga01.intel.com ([192.55.52.88]:54126 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726065AbgDQGBv (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 17 Apr 2020 02:01:51 -0400
+IronPort-SDR: YXBbX3P8Exyf17PXjrDl0/WT6gneLcwTB7i51FP1Zw9F5p74CCqqwZYOj6Caw4O0W1K3GIYRzK
+ 1LWBY35TWbrQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2020 23:01:51 -0700
+IronPort-SDR: qs/5JrKYhI5fjKMKNid/BnUiMqTRYtpN7CI4cWdzotGHs1aG5KkPVKMMBIatdivZOOVpGG0uHk
+ S8pw/ojxwjKA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,393,1580803200"; 
+   d="scan'208";a="272318270"
+Received: from hao-dev.bj.intel.com ([10.238.157.65])
+  by orsmga002.jf.intel.com with ESMTP; 16 Apr 2020 23:01:48 -0700
+From:   Wu Hao <hao.wu@intel.com>
+To:     will@kernel.org, mdf@kernel.org, mark.rutland@arm.com,
+        gregkh@linuxfoundation.org, linux-fpga@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     linux-api@vger.kernel.org, atull@kernel.org, yilun.xu@intel.com,
+        trix@redhat.com, bhu@redhat.com, Wu Hao <hao.wu@intel.com>
+Subject: [PATCH v9 0/2] add performance reporting support to FPGA DFL drivers
+Date:   Fri, 17 Apr 2020 13:39:58 +0800
+Message-Id: <1587102000-18262-1-git-send-email-hao.wu@intel.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+Hi all,
 
+This patchset adds performance reporting support for FPGA DFL drivers. It
+introduces one pmu to expose userspace interfaces via standard perf API.
+User could use standard perf tool to access perf events exposed via pmu.
 
-We bring greetings to you in the name of the lord. This message is sent to you as a notification that you have been chosen to benefit from our charity project aimed at touching lives and helping those that we can across the world as God has blessed us.
+This patchset is generated based on 5.7-rc1.
 
-I won the Powerball lottery of $150Million on December 16, 2019 and I have voluntarily decided to donate the sum of $10Million to charity, I try to reach people randomly from different sources and modes so as to touch lives from different angles, Hence you are getting a message here.
+Main changes from v8:
+ - rebase against 5.7-rc1.
 
-You have been listed as one of the lucky recipients to receive $2M This donation is made out to you so to enable you strengthen your personal issues and mostly to generously help us extend hands of giving to the less privileged, orphans and charity organizations within your locality
+Main changes from v7:
+ - rename pmu name from "fme%d" to "dfl_fme%d".
+ - monitor cpu hotplug for cpumask sysfs and update cpumask sysfs doc.
+ - add extra read for 64bit counter registers to avoid 2-32bit readl issue.
 
-To verify
-https://www.powerball.com/winner-story/150-million-powerball-ticket-claimed
+Main changes from v6:
+ - add a new ABI/testing/ sysfs documentation in patch #2.
+ - fix a warning reported by kbuild in patch #2.
 
-Get back to me on how to receive the donation
+Main changes from v5:
+ - use dev_ext_attribute instead of fme_perf_event_attr.
+ - use is_visible function to decide which events to expose per
+   hardware capability, and add event_init checking for all events.
 
-Thanks
-Bill Lawrence
+Main changes from v4:
+ - rebase and clean up.
+ - update Kconfig for PERF_EVENTS dependency.
 
+Main changes from v3:
+ - add more descriptions in doc, including how to use perf tool for these
+   hardware counters. (patch #1)
+ - use standard perf API instead of sysfs entries. (patch #2)
+
+Wu Hao (1):
+  fpga: dfl: fme: add performance reporting support
+
+Xu Yilun (1):
+  Documentation: fpga: dfl: add description for performance reporting
+    support
+
+ .../testing/sysfs-bus-event_source-devices-dfl_fme |  104 ++
+ Documentation/fpga/dfl.rst                         |   84 ++
+ drivers/fpga/Kconfig                               |    2 +-
+ drivers/fpga/Makefile                              |    1 +
+ drivers/fpga/dfl-fme-main.c                        |    4 +
+ drivers/fpga/dfl-fme-perf.c                        | 1020 ++++++++++++++++++++
+ drivers/fpga/dfl-fme.h                             |    2 +
+ drivers/fpga/dfl.h                                 |    2 +
+ 8 files changed, 1218 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-bus-event_source-devices-dfl_fme
+ create mode 100644 drivers/fpga/dfl-fme-perf.c
+
+-- 
+1.8.3.1
 
