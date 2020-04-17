@@ -2,169 +2,129 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E9E61AE2F9
-	for <lists+linux-api@lfdr.de>; Fri, 17 Apr 2020 19:00:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 147901AE3C5
+	for <lists+linux-api@lfdr.de>; Fri, 17 Apr 2020 19:26:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726724AbgDQQ7n (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 17 Apr 2020 12:59:43 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:39027 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725877AbgDQQ7m (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 17 Apr 2020 12:59:42 -0400
-Received: by mail-pl1-f196.google.com with SMTP id k18so1179905pll.6;
-        Fri, 17 Apr 2020 09:59:42 -0700 (PDT)
+        id S1729569AbgDQR0m (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 17 Apr 2020 13:26:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34674 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728657AbgDQR0l (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 17 Apr 2020 13:26:41 -0400
+Received: from mail-pg1-x549.google.com (mail-pg1-x549.google.com [IPv6:2607:f8b0:4864:20::549])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8A9CC061A0F
+        for <linux-api@vger.kernel.org>; Fri, 17 Apr 2020 10:26:41 -0700 (PDT)
+Received: by mail-pg1-x549.google.com with SMTP id p13so2258708pgk.18
+        for <linux-api@vger.kernel.org>; Fri, 17 Apr 2020 10:26:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=ILn9zjMFZixAua0cC92upDzTyUw6GVgLI4zpVX2kQYA=;
+        b=m4bHE2uu45HdfP0Wgg1WKeRftDLvdgoru1dUCnwI5N5ZcXIEqAw44ycGeigdhBGqgs
+         4gLATlk+W9zI2KZK1Lt/toGa/OCNvjBCx2ZTGALAgAXL+RhHcCPn8vR7s5mVd+9vGY69
+         CQ+pEPqimKZwRh8X8sBLe004QRZ4TNCTWpD6qV4Yq9QjjGHJ7rGYCHre7qM0KjOdNOeR
+         N5b1Kq84Oa3zmlOGYY5p6Y8ClibEmKG2OJ1oFR3EtapNtR+nxZKKo9mLtDkcBFqMMFlC
+         bBNlZwjQ6WwPXp9WTZfdsbV3Y/mil/EBs+SJQkKKWL/1l3XZfMlDpSLCvShvXrO/e1xJ
+         eNQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=dC4k5ZLeGtiN4GIhih1iZ1bgexRzNsdtwNaiElYm8Sg=;
-        b=f+7xRZJ1zAfQ/YFQAFE8JytxkOAUuALVGitGUpCiFij5U6R4QieAmopNu9W/zJGCIb
-         aBq2H13waoip5fVg59E5nceoK1suBszCPN8TDLOxuiRqRoKiJOr75/asQTnfssUfhzgc
-         2jySc6SlixNJZuBhs+P3KvIZxPOZoA9UXoVx4o+ULxqdsVhsVsoV0YdOwDHmyU+YyLTi
-         nMyUjul6ujVmLEx2IP+bA+rhvtGmT6ZlIW15/ThmDpc5b+FtocNCxmTxkHTj4Ku/DB8T
-         kxr9G9cLj6niRl18HiWJnvD3MqcfUSP0wYZ8ZcoYYVTkjqHs4w+/RtbOHH2J0gpblXvd
-         8HZQ==
-X-Gm-Message-State: AGi0PuaamGkunOR5iMiCzqp3OjgWdrACFV/E6kWt/F0aCOgGavWIc/2E
-        LvZTkQk1EjuAbaQliD9g1YE=
-X-Google-Smtp-Source: APiQypJyo3WoccLcwNNQ+fwOqBLD9a9lBfmZ6A/DqglFmkq5PqBPr0Do8rh+fLQLEgOYtRUFMM8msg==
-X-Received: by 2002:a17:902:7289:: with SMTP id d9mr4273322pll.49.1587142781497;
-        Fri, 17 Apr 2020 09:59:41 -0700 (PDT)
-Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
-        by smtp.gmail.com with ESMTPSA id q187sm15490054pfb.131.2020.04.17.09.59.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Apr 2020 09:59:40 -0700 (PDT)
-Received: by 42.do-not-panic.com (Postfix, from userid 1000)
-        id 52C344028E; Fri, 17 Apr 2020 16:59:39 +0000 (UTC)
-Date:   Fri, 17 Apr 2020 16:59:39 +0000
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     Vlastimil Babka <vbabka@suse.cz>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        "Guilherme G . Piccoli" <gpiccoli@canonical.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>
-Subject: Re: [PATCH v2 1/3] kernel/sysctl: support setting sysctl parameters
- from kernel command line
-Message-ID: <20200417165939.GV11244@42.do-not-panic.com>
-References: <20200414113222.16959-1-vbabka@suse.cz>
- <20200414113222.16959-2-vbabka@suse.cz>
- <20200415180355.00bc828ea726c421638db871@kernel.org>
- <20200416012931.GE11244@42.do-not-panic.com>
- <20200416194955.3448c8526ea3f59e95c506da@kernel.org>
- <20200416155327.GT11244@42.do-not-panic.com>
- <20200417193442.b20394dcaac02d5aeef9b5ee@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200417193442.b20394dcaac02d5aeef9b5ee@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=ILn9zjMFZixAua0cC92upDzTyUw6GVgLI4zpVX2kQYA=;
+        b=uYid7HQHXDfA+V/4/6nqGSbPsVGCOZ8kBbMUDft5Try/QOFcMBV1hO93y5FJzg3WLy
+         cE8GI4uuYEiaNRQ4vDIuKrwf9fTZNhdM72X3Qq/u1dByYTEFVpCUDgUeuF7pzdroa0jK
+         u2b7VutUy1IYSOfY+QdbTNFUl2ahgZLwmVfeTjS/skNSCfmQrMdyUblfXeKKh6ANlocW
+         61p3GhHTJi+KnKVO7bJ4xaU7AgwmygY2wodpE1cchqHqGnITqGBFUxi+JcG5ZivjqbuP
+         2HlE2r1Z9GuFjZoBWjfMH1cJWqBagkwNZmbXue2wZ5Xy4U27k8aR8opdJyZu1AB3eBfy
+         iufg==
+X-Gm-Message-State: AGi0PuZYsGlyYZLm7bfpa+WNbdj9ERkECpxvdkisTQ/oN1tX7I4FNpSY
+        bVhqbzmhqy5fYsDUCMNKwyWScf5HOaYB
+X-Google-Smtp-Source: APiQypIAfGVzmJZtnCGtNP6az31imBNTuf/QQ7pvHVtqHvvNRVRWycJ+wYPmL/y8uQCLRUrkdLYKhaN81O0s
+X-Received: by 2002:a17:90b:3443:: with SMTP id lj3mr5713388pjb.38.1587144401004;
+ Fri, 17 Apr 2020 10:26:41 -0700 (PDT)
+Date:   Fri, 17 Apr 2020 10:25:56 -0700
+Message-Id: <20200417172556.217480-1-bgeffon@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.26.1.301.g55bc3eb7cb9-goog
+Subject: [PATCH] mm: Fix MREMAP_DONTUNMAP accounting on VMA merge
+From:   Brian Geffon <bgeffon@google.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Sonny Rao <sonnyrao@google.com>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Minchan Kim <minchan@kernel.org>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Vlastimil Babka <vbabka@suse.cz>, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-api@vger.kernel.org,
+        Brian Geffon <bgeffon@google.com>,
+        syzbot <syzkaller@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Apr 17, 2020 at 07:34:42PM +0900, Masami Hiramatsu wrote:
-> On Thu, 16 Apr 2020 15:53:27 +0000
-> Luis Chamberlain <mcgrof@kernel.org> wrote:
-> 
-> > On Thu, Apr 16, 2020 at 07:49:55PM +0900, Masami Hiramatsu wrote:
-> > > Hi Luis,
-> > > 
-> > > On Thu, 16 Apr 2020 01:29:31 +0000
-> > > Luis Chamberlain <mcgrof@kernel.org> wrote:
-> > > 
-> > > > On Wed, Apr 15, 2020 at 06:03:55PM +0900, Masami Hiramatsu wrote:
-> > > > > On Tue, 14 Apr 2020 13:32:20 +0200
-> > > > > Vlastimil Babka <vbabka@suse.cz> wrote:
-> > > > > > diff --git a/init/main.c b/init/main.c
-> > > > > > index a48617f2e5e5..7b43118215d6 100644
-> > > > > > --- a/init/main.c
-> > > > > > +++ b/init/main.c
-> > > > > > @@ -1372,6 +1372,8 @@ static int __ref kernel_init(void *unused)
-> > > > > >  
-> > > > > >  	rcu_end_inkernel_boot();
-> > > > > >  
-> > > > > > +	do_sysctl_args();
-> > > > > > +
-> > > > > 
-> > > > > Ah, I see. Since the sysctl is designed to be called after all __init calls were
-> > > > > done, it shouldn't use bootconfig directly because bootconfig is full of __init
-> > > > > call.
-> > > > 
-> > > > The idea is bootconfig would be useful in the sense of a library set of
-> > > > helpers which could be modified to remove __init, and then used to
-> > > > instrument the cmdline depending on certain debugging kconfig entries.
-> > > 
-> > > Would you mean making bootconfig (parser and APIs) be more generic so that
-> > > other subsystem can reuse it with their data?
-> > > Or just make it available after boot? (I think this latter one will be
-> > > useful for module initialization)
-> > 
-> > The later. First use case that comes to mind is debugging cmdline, so
-> > to see if what one adds is what ends up happening at run time after
-> > boot.
-> 
-> Hmm, I think that's not so easy to debug command line after boot, because
-> the kernel command line is parsed (and handlers are executed) already in
-> boot time. We can not repeat it after boot.
+When remapping a mapping where a portion of a VMA is remapped
+into another portion of the VMA it can cause the VMA to become
+split. During the copy_vma operation the VMA can actually
+be remerged if it's an anonymous VMA whose pages have not yet
+been faulted. This isn't normally a problem because at the end
+of the remap the original portion is unmapped causing it to
+become split again.
 
-Unless you put into the command line everything you need to test on one
-boot.
+However, MREMAP_DONTUNMAP leaves that original portion in place which
+means that the VMA which was split and then remerged is not actually
+split at the end of the mremap. This patch fixes a bug where
+we don't detect that the VMAs got remerged and we end up
+putting back VM_ACCOUNT on the next mapping which is completely
+unreleated. When that next mapping is unmapped it results in
+incorrectly unaccounting for the memory which was never accounted,
+and eventually we will underflow on the memory comittment.
 
-> > > > We currently have no way to purposely extend / break the cmdline for
-> > > > debugging purposes, so, bootconfig's parsers, since it already has a
-> > > > way to extend the cmdlineline, might make it much easier to do this
-> > > > later.
-> > > > 
-> > > > Without bootconfig, if we wanted to add new kconfig to, for example,
-> > > > add new funny cmdline arguments to test they worked or not, we'd have
-> > > > to devise our own set of helpers now. ie, new functionality. bootconfig
-> > > > however already has existing functionality to tweak the cmdline, and so
-> > > > some code could be leveraged there for this purpose.
-> > > 
-> > > Hmm, you can use the bootconfig as a "supplemental" kernel command line,
-> > > but not tweak (like modify/replace) it. Would you like to change the
-> > > kernel command line parameter on-line?
-> > 
-> > It would be during boot. To augment it as if the user had used certain
-> > parameters on boot. But if only a new path is tested, and we can't
-> > reproduce as if the user had *not* used bootconfig, this idea would
-> > only be useful to test bootconfig parsing, nothing else. The hope was
-> > to do both.
-> 
-> As you may know, the bootconfig already supports "additional" kernel
-> command line. All keys which starts "kernel" is copied into kernel
-> command line at early boot timing. So if you want to write a test
-> parameter in the bootconfig, you can do it.
+There is also another issue which is similar, we're currently
+accouting for the number of pages in the new_vma but that's wrong.
+We need to account for the length of the remap operation as that's
+all that is being added. If there was a mapping already at that
+location its comittment would have been adjusted as part of
+the munmap at the start of the mremap.
 
-There are two bootparams paths now, the old way, and the new bootconfig
-path. Extending test coverage to test bootconfig seems rather easier to
-consider. However the hope was that there may be some existing code
-within bootconfig which would also allow one to test the old cmdline
-path, as if the cmdline had certain params present. It doesn't seem
-to be the case.
+A really simple repro can be seen in:
+https://gist.github.com/bgaff/e101ce99da7d9a8c60acc641d07f312c
 
-> However, it is not a good idea to execute command line handlers
-> twice because it can be destructive or can append all parameters
-> (e.g. "console=" .)
+Fixes: e346b3813067 ("mm/mremap: add MREMAP_DONTUNMAP to mremap()")
+Reported-by: syzbot <syzkaller@googlegroups.com>
+Signed-off-by: Brian Geffon <bgeffon@google.com>
+---
+ mm/mremap.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-I see so bootconfig is mutually exclusive with the old cmdline?
+diff --git a/mm/mremap.c b/mm/mremap.c
+index a7e282ead438..c881abeba0bf 100644
+--- a/mm/mremap.c
++++ b/mm/mremap.c
+@@ -413,9 +413,20 @@ static unsigned long move_vma(struct vm_area_struct *vma,
+ 			/* Always put back VM_ACCOUNT since we won't unmap */
+ 			vma->vm_flags |= VM_ACCOUNT;
+ 
+-			vm_acct_memory(vma_pages(new_vma));
++			vm_acct_memory(new_len >> PAGE_SHIFT);
+ 		}
+ 
++		/*
++		 * VMAs can actually be merged back together in copy_vma
++		 * calling merge_vma. This can happen with anonymous vmas
++		 * which have not yet been faulted, so if we were to consider
++		 * this VMA split we'll end up adding VM_ACCOUNT on the
++		 * next VMA, which is completely unrelated if this VMA
++		 * was re-merged.
++		 */
++		if (split && new_vma == vma)
++			split = 0;
++
+ 		/* We always clear VM_LOCKED[ONFAULT] on the old vma */
+ 		vma->vm_flags &= VM_LOCKED_CLEAR_MASK;
+ 
+-- 
+2.26.1.301.g55bc3eb7cb9-goog
 
-> For the new feature can natively use the bootconfig, for example
-> boot-time tracing (kernel/trace/trace_boot.c) is something like
-> this sysctl on boot, and natively uses the bootconfig because
-> the tracing parameter is too complex for kernel command line :)
-
-Neat.
-
-  Luis
