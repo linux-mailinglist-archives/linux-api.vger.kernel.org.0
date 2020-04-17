@@ -2,153 +2,63 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E2131AD23E
-	for <lists+linux-api@lfdr.de>; Thu, 16 Apr 2020 23:53:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 980751AD597
+	for <lists+linux-api@lfdr.de>; Fri, 17 Apr 2020 07:18:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728112AbgDPVxj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 16 Apr 2020 17:53:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49988 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727943AbgDPVxi (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 16 Apr 2020 17:53:38 -0400
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4E24C0610D5
-        for <linux-api@vger.kernel.org>; Thu, 16 Apr 2020 14:53:36 -0700 (PDT)
-Received: by mail-ej1-x642.google.com with SMTP id n17so3401ejh.7
-        for <linux-api@vger.kernel.org>; Thu, 16 Apr 2020 14:53:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=eUNGgddkQnrL1o2hsZswaMALGVl9JsvHDg1XmEFxRXs=;
-        b=H/3328u8uHV5B3ZeA1mdyZ9xPFs8kyLs8IUIWPozDW9OfdnPF3NpugbioymI6/8jbX
-         tPmBnafFrVmmeM5qCkJe6iYYWMQGGNCaCIBTu9iKoTjKEnoqIk+PcKTpHZgE+/FY0MuQ
-         PeDR0uxOgSOnRc2hQRaU3VDAQAdfVv5922uyfk2kB4XocRvJL9WrovJY8zVDxj8AifvK
-         dQjxlq17MhIeFeAwrQ2ALcslyU4J+63Hv+v7D9gJECfbybcc7t3dDiczFn2juNoagtw4
-         M58yJrok07SL36Kqx67wdtwLyNUDDujZWYGVj6Cp7ofvKM+0LD9BpoiJx/Nn0LZhuM1V
-         WUOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=eUNGgddkQnrL1o2hsZswaMALGVl9JsvHDg1XmEFxRXs=;
-        b=XYDLhURwH3Gymvq4T9FEHIgy6O9pb6aHagxq18yJCKdT67maHRfO6siD2HUfSm0xU/
-         2wsGzPwasObBkg06tf8HL/fMaSHsBwHcfXNNYqX8/7vk5CRf1Ovpw+mxKD5pf82zBZ+S
-         3DZd+ETf2brGzBW2p6a6GNMsdrEzrO0yWpkxwQ2fcI1aMEBVxAJCuYmtWp8EbovSKRJ2
-         qhxrOHAsgZJEPSCTNFG0NwAMCaJZxZYOpFg7SDZdZz4lAu2MCI+moYyv2rIjQjcMBAKO
-         YBE580aVZd1HyB13BDeEsJNSr+kZ4aVMYOhHCp0GCZoLowj0N89dgSQQkCbCo71s/z0t
-         I2TQ==
-X-Gm-Message-State: AGi0PuakF8MSraq8ON545Nk7jJOWK7UuJ83oKqxIknMAqbcLxcANfCsY
-        xOxJQA4jbgmcywO1y1z5Bf0vCRZsyuRnpWglhVeL
-X-Google-Smtp-Source: APiQypL+BE3uA1SW0Bujmyp0BjjA9VEPrFMXVzQljtvXfQzPxFQdYF4edXGWSKCfJiLORwzoe3+Py9YdpYXjI/hRt+E=
-X-Received: by 2002:a17:906:d7a2:: with SMTP id pk2mr118612ejb.272.1587074015141;
- Thu, 16 Apr 2020 14:53:35 -0700 (PDT)
+        id S1726664AbgDQFSS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 17 Apr 2020 01:18:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34194 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726026AbgDQFSR (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 17 Apr 2020 01:18:17 -0400
+X-Greylist: delayed 1527 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 16 Apr 2020 22:18:17 PDT
+Received: from fbk21.megaegg.ne.jp (fbk21.megaegg.ne.jp [IPv6:2402:bc00:0:a216::19:131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B797AC061A0C;
+        Thu, 16 Apr 2020 22:18:17 -0700 (PDT)
+Received: from zmta22.megaegg.ne.jp (zmta22-snat.megaegg.ne.jp.internal [10.62.19.122])
+        by fbk21.megaegg.ne.jp (Postfix) with ESMTP id 550CB686575;
+        Fri, 17 Apr 2020 13:52:55 +0900 (JST)
+Received: from vss21.megaegg.ne.jp.internal (vss21-snat.megaegg.ne.jp.internal [10.62.19.91])
+        by zmta22.megaegg.ne.jp.internal (Postfix) with ESMTP id DBFAFE0395;
+        Fri, 17 Apr 2020 13:51:58 +0900 (JST)
+Received: from smtp22.megaegg.ne.jp (smtp22-snat.megaegg.ne.jp.internal [10.62.19.102])
+        by vss21.megaegg.ne.jp.internal (Postfix) with ESMTP id AB547DF947;
+        Fri, 17 Apr 2020 13:51:58 +0900 (JST)
+Received: from zmbs22.megaegg.ne.jp.internal (zmbs22-snat.megaegg.ne.jp.internal [10.62.19.152])
+        by smtp22.megaegg.ne.jp (Postfix) with ESMTP id EC84CC0055;
+        Fri, 17 Apr 2020 13:51:57 +0900 (JST)
+Date:   Fri, 17 Apr 2020 13:51:57 +0900 (JST)
+From:   Bill Lawrence <w2u42su8@ene.megaegg.ne.jp>
+Reply-To: Bill Lawrence <bill_lawrence01@aol.com>
+Message-ID: <215788864.53429917.1587099117909.JavaMail.zimbra@ene.megaegg.ne.jp>
+Subject: Re: I HAVE $2MILLION DONATION FOR YOU.
 MIME-Version: 1.0
-References: <20200318215550.es4stkjwnefrfen2@madcap2.tricolour.ca>
- <CAHC9VhSdDDP7Ec-w61NhGxZG5ZiekmrBCAg=Y=VJvEZcgQh46g@mail.gmail.com>
- <20200319220249.jyr6xmwvflya5mks@madcap2.tricolour.ca> <CAHC9VhR84aN72yNB_j61zZgrQV1y6yvrBLNY7jp7BqQiEDL+cw@mail.gmail.com>
- <20200324210152.5uydf3zqi3dwshfu@madcap2.tricolour.ca> <CAHC9VhTQUnVhoN3JXTAQ7ti+nNLfGNVXhT6D-GYJRSpJHCwDRg@mail.gmail.com>
- <20200330134705.jlrkoiqpgjh3rvoh@madcap2.tricolour.ca> <CAHC9VhQTsEMcYAF1CSHrrVn07DR450W9j6sFVfKAQZ0VpheOfw@mail.gmail.com>
- <20200330162156.mzh2tsnovngudlx2@madcap2.tricolour.ca> <CAHC9VhTRzZXJ6yUFL+xZWHNWZFTyiizBK12ntrcSwmgmySbkWw@mail.gmail.com>
- <20200330174937.xalrsiev7q3yxsx2@madcap2.tricolour.ca> <CAHC9VhR_bKSHDn2WAUgkquu+COwZUanc0RV3GRjMDvpoJ5krjQ@mail.gmail.com>
- <871ronf9x2.fsf@x220.int.ebiederm.org>
-In-Reply-To: <871ronf9x2.fsf@x220.int.ebiederm.org>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Thu, 16 Apr 2020 17:53:23 -0400
-Message-ID: <CAHC9VhR3gbmj5+5MY-whLtStKqDEHgvMRigU9hW0X1kpxF91ag@mail.gmail.com>
-Subject: Re: [PATCH ghak90 V8 07/16] audit: add contid support for signalling
- the audit daemon
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Richard Guy Briggs <rgb@redhat.com>, nhorman@tuxdriver.com,
-        linux-api@vger.kernel.org, containers@lists.linux-foundation.org,
-        LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
-        linux-audit@redhat.com, netfilter-devel@vger.kernel.org,
-        simo@redhat.com, netdev@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
-        mpatel@redhat.com, Serge Hallyn <serge@hallyn.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [::ffff:105.163.128.152]
+X-Mailer: Zimbra 8.0.4_GA_5740 (ZimbraWebClient - GC55 (Win)/8.0.4_GA_5737)
+Thread-Topic: I HAVE $2MILLION DONATION FOR YOU.
+Thread-Index: AU/QbHitqecFaTbNB3qJcGhuz0tt7Q==
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Apr 16, 2020 at 4:36 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
-> Paul Moore <paul@paul-moore.com> writes:
-> > On Mon, Mar 30, 2020 at 1:49 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> >> On 2020-03-30 13:34, Paul Moore wrote:
-> >> > On Mon, Mar 30, 2020 at 12:22 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> >> > > On 2020-03-30 10:26, Paul Moore wrote:
-> >> > > > On Mon, Mar 30, 2020 at 9:47 AM Richard Guy Briggs <rgb@redhat.com> wrote:
-> >> > > > > On 2020-03-28 23:11, Paul Moore wrote:
-> >> > > > > > On Tue, Mar 24, 2020 at 5:02 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> >> > > > > > > On 2020-03-23 20:16, Paul Moore wrote:
-> >> > > > > > > > On Thu, Mar 19, 2020 at 6:03 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> >> > > > > > > > > On 2020-03-18 18:06, Paul Moore wrote:
-> >
-> > ...
-> >
-> >> > > Well, every time a record gets generated, *any* record gets generated,
-> >> > > we'll need to check for which audit daemons this record is in scope and
-> >> > > generate a different one for each depending on the content and whether
-> >> > > or not the content is influenced by the scope.
-> >> >
-> >> > That's the problem right there - we don't want to have to generate a
-> >> > unique record for *each* auditd on *every* record.  That is a recipe
-> >> > for disaster.
-> >> >
-> >> > Solving this for all of the known audit records is not something we
-> >> > need to worry about in depth at the moment (although giving it some
-> >> > casual thought is not a bad thing), but solving this for the audit
-> >> > container ID information *is* something we need to worry about right
-> >> > now.
-> >>
-> >> If you think that a different nested contid value string per daemon is
-> >> not acceptable, then we are back to issuing a record that has only *one*
-> >> contid listed without any nesting information.  This brings us back to
-> >> the original problem of keeping *all* audit log history since the boot
-> >> of the machine to be able to track the nesting of any particular contid.
-> >
-> > I'm not ruling anything out, except for the "let's just completely
-> > regenerate every record for each auditd instance".
->
-> Paul I am a bit confused about what you are referring to when you say
-> regenerate every record.
->
-> Are you saying that you don't want to repeat the sequence:
->         audit_log_start(...);
->         audit_log_format(...);
->         audit_log_end(...);
-> for every nested audit daemon?
 
-If it can be avoided yes.  Audit performance is already not-awesome,
-this would make it even worse.
 
-> Or are you saying that you would like to literraly want to send the same
-> skb to each of the nested audit daemons?
+We bring greetings to you in the name of the lord. This message is sent to you as a notification that you have been chosen to benefit from our charity project aimed at touching lives and helping those that we can across the world as God has blessed us.
 
-Ideally we would reuse the generated audit messages as much as
-possible.  Less work is better.  That's really my main concern here,
-let's make sure we aren't going to totally tank performance when we
-have a bunch of nested audit daemons.
+I won the Powerball lottery of $150Million on December 16, 2019 and I have voluntarily decided to donate the sum of $10Million to charity, I try to reach people randomly from different sources and modes so as to touch lives from different angles, Hence you are getting a message here.
 
-> Or are you thinking of something else?
+You have been listed as one of the lucky recipients to receive $2M This donation is made out to you so to enable you strengthen your personal issues and mostly to generously help us extend hands of giving to the less privileged, orphans and charity organizations within your locality
 
-As mentioned above, I'm not thinking of anything specific, other than
-let's please not have to regenerate *all* of the audit record strings
-for each instance of an audit daemon, that's going to be a killer.
+To verify
+https://www.powerball.com/winner-story/150-million-powerball-ticket-claimed
 
-Maybe we have to regenerate some, if we do, what would that look like
-in code?  How do we handle the regeneration aspect?  I worry that is
-going to be really ugly.
+Get back to me on how to receive the donation
 
-Maybe we finally burn down the audit_log_format(...) function and pass
-structs/TLVs to the audit subsystem and the audit subsystem generates
-the strings in the auditd connection thread.  Some of the record
-strings could likely be shared, others would need to be ACID/auditd
-dependent.
+Thanks
+Bill Lawrence
 
-I'm open to any ideas people may have.  We have a problem, let's solve it.
 
--- 
-paul moore
-www.paul-moore.com
