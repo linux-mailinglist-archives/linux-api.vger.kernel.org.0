@@ -2,182 +2,191 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4590B1B0B65
-	for <lists+linux-api@lfdr.de>; Mon, 20 Apr 2020 14:55:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A46921B0D4D
+	for <lists+linux-api@lfdr.de>; Mon, 20 Apr 2020 15:48:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728204AbgDTMp1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 20 Apr 2020 08:45:27 -0400
-Received: from foss.arm.com ([217.140.110.172]:47918 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728732AbgDTMpZ (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 20 Apr 2020 08:45:25 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6C5011FB;
-        Mon, 20 Apr 2020 05:45:24 -0700 (PDT)
-Received: from C02TD0UTHF1T.local (unknown [10.57.30.55])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1C8243F237;
-        Mon, 20 Apr 2020 05:45:20 -0700 (PDT)
-Date:   Mon, 20 Apr 2020 13:45:18 +0100
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Alex Belits <abelits@marvell.com>
-Cc:     "mingo@kernel.org" <mingo@kernel.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        Prasun Kapoor <pkapoor@marvell.com>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "frederic@kernel.org" <frederic@kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "will@kernel.org" <will@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [EXT] Re: [PATCH v3 03/13] task_isolation: add instruction
- synchronization memory barrier
-Message-ID: <20200420124518.GC69441@C02TD0UTHF1T.local>
-References: <4473787e1b6bc3cc226067e8d122092a678b63de.camel@marvell.com>
- <aed12dd15ea2981bc9554cfa8b5e273c1342c756.camel@marvell.com>
- <07c25c246c55012981ec0296eee23e68c719333a.camel@marvell.com>
- <d995795c731d6ecceb36bdf1c1df3d72fefd023d.camel@marvell.com>
- <20200415124427.GB28304@C02TD0UTHF1T.local>
- <e4d2cda6f011e80a0d8e482b85bca1c57665fcfd.camel@marvell.com>
+        id S1728918AbgDTNsj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 20 Apr 2020 09:48:39 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25109 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728321AbgDTNsj (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 20 Apr 2020 09:48:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1587390517;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=g7y4WU1T9l13UE4AeSAMeV0dvLVDo/1wJoF790VrkXE=;
+        b=MjROekO0eJQYdahTnITYjsf30ZZtcQjDLV0W3qbOSfWc7rEFKCdyVOsLe+xA4KEf15rvTR
+        qOx4x5/cqn2UmQ495TJGzl9GgcpRwyND4gTMCaERDRlvhyV5JdWzisYc/aLYdEe071Ooya
+        3oRRZpnvVFfPKKI2fAxDvSyfiLiBDTs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-21-N9UYrC5qPM-27Q4o2iNAMA-1; Mon, 20 Apr 2020 09:48:34 -0400
+X-MC-Unique: N9UYrC5qPM-27Q4o2iNAMA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D87F190D343;
+        Mon, 20 Apr 2020 13:48:33 +0000 (UTC)
+Received: from [IPv6:::1] (ovpn04.gateway.prod.ext.phx2.redhat.com [10.5.9.4])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 6011312656B;
+        Mon, 20 Apr 2020 13:48:32 +0000 (UTC)
+Subject: Re: [PATCH 2/2 V2] man2: New page documenting filesystem get/set
+ label ioctls
+To:     mtk.manpages@gmail.com, Eric Sandeen <sandeen@sandeen.net>
+Cc:     fsdevel <linux-fsdevel@vger.kernel.org>,
+        "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-man <linux-man@vger.kernel.org>
+References: <d2979d75-5e45-b145-9ca5-2c315d8ead9c@redhat.com>
+ <708b8e2a-2bc2-df38-ec9c-c605203052b5@sandeen.net>
+ <7d74cc3b-52cc-be60-0a69-1a5ee1499f47@sandeen.net>
+ <CAKgNAkgLekaA6jBtUYTD2F=7u_GgBbXDvq-jc8RCBswYvvZmtg@mail.gmail.com>
+From:   Eric Sandeen <sandeen@redhat.com>
+Message-ID: <5ac17186-4463-4f61-4733-125f2af9b73d@redhat.com>
+Date:   Mon, 20 Apr 2020 08:48:31 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e4d2cda6f011e80a0d8e482b85bca1c57665fcfd.camel@marvell.com>
+In-Reply-To: <CAKgNAkgLekaA6jBtUYTD2F=7u_GgBbXDvq-jc8RCBswYvvZmtg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sun, Apr 19, 2020 at 05:02:01AM +0000, Alex Belits wrote:
+On 4/20/20 7:04 AM, Michael Kerrisk (man-pages) wrote:
+> Hello Eric,
 > 
-> On Wed, 2020-04-15 at 13:44 +0100, Mark Rutland wrote:
-> > External Email
-> > 
-> > -------------------------------------------------------------------
-> > ---
-> > On Thu, Apr 09, 2020 at 03:17:40PM +0000, Alex Belits wrote:
-> > > Some architectures implement memory synchronization instructions
-> > > for
-> > > instruction cache. Make a separate kind of barrier that calls them.
-> > 
-> > Modifying the instruction caches requries more than an ISB, and the
-> > 'IMB' naming implies you're trying to order against memory accesses,
-> > which isn't what ISB (generally) does.
-> > 
-> > What exactly do you want to use this for?
-> 
-> I guess, there should be different explanation and naming.
-> 
-> The intention is to have a separate barrier that causes cache
-> synchronization event, for use in architecture-independent code. I am
-> not sure, what exactly it should do to be implemented in architecture-
-> independent manner, so it probably only makes sense along with a
-> regular memory barrier.
-> 
-> The particular place where I had to use is the code that has to run
-> after isolated task returns to the kernel. In the model that I propose
-> for task isolation, remote context synchronization is skipped while
-> task is in isolated in userspace (it doesn't run kernel, and kernel
-> does not modify its userspace code, so it's harmless until entering the
-> kernel). So it will skip the results of kick_all_cpus_sync() that was
-> that was called from flush_icache_range() and other similar places.
-> This means that once it's out of userspace, it should only run
-> some "safe" kernel entry code, and then synchronize in some manner that
-> avoids race conditions with possible IPIs intended for context
-> synchronization that may happen at the same time. My next patch in the
-> series uses it in that one place.
-> 
-> Synchronization will have to be implemented without a mandatory
-> interrupt because it may be triggered locally, on the same CPU. On ARM,
-> ISB is definitely necessary there, however I am not sure, how this
-> should look like on x86 and other architectures. On ARM this probably
-> still should be combined with a real memory barrier and cache
-> synchronization, however I am not entirely sure about details. Would
-> it make more sense to run DMB, IC and ISB? 
+> So it seems like this feature eventually got merged in Linux 4.18. Is
+> this page up to date with what went into the kernel?
 
-For the cases you mention above this really depends on how the new CPU
-first synchronizes with the others, and what the scope of the "safe"
-kernel entry code is.
-
-Given that this is context-dependent, I think it would make more sense
-for this to be an arch hook specific to task isolation rather than a
-low-level common barrier.
+Yes, I believe that it's all still accurate.
 
 Thanks,
-Mark.
+-Eric
 
-> 
-> > 
-> As-is, I don't think this makes sense as a generic barrier.
-> 
 > Thanks,
-> Mark.
 > 
-> Signed-off-by: Alex Belits <abelits@marvell.com>
-> ---
->  arch/arm/include/asm/barrier.h   | 2 ++
->  arch/arm64/include/asm/barrier.h | 2 ++
->  include/asm-generic/barrier.h    | 4 ++++
->  3 files changed, 8 insertions(+)
+> Michael
 > 
-> diff --git a/arch/arm/include/asm/barrier.h
-> b/arch/arm/include/asm/barrier.h
-> index 83ae97c049d9..6def62c95937 100644
-> --- a/arch/arm/include/asm/barrier.h
-> +++ b/arch/arm/include/asm/barrier.h
-> @@ -64,12 +64,14 @@ extern void arm_heavy_mb(void);
->  #define mb()		__arm_heavy_mb()
->  #define rmb()		dsb()
->  #define wmb()		__arm_heavy_mb(st)
-> +#define imb()		isb()
->  #define dma_rmb()	dmb(osh)
->  #define dma_wmb()	dmb(oshst)
->  #else
->  #define mb()		barrier()
->  #define rmb()		barrier()
->  #define wmb()		barrier()
-> +#define imb()		barrier()
->  #define dma_rmb()	barrier()
->  #define dma_wmb()	barrier()
->  #endif
-> diff --git a/arch/arm64/include/asm/barrier.h
-> b/arch/arm64/include/asm/barrier.h
-> index 7d9cc5ec4971..12a7dbd68bed 100644
-> --- a/arch/arm64/include/asm/barrier.h
-> +++ b/arch/arm64/include/asm/barrier.h
-> @@ -45,6 +45,8 @@
->  #define rmb()		dsb(ld)
->  #define wmb()		dsb(st)
->  
-> +#define imb()		isb()
-> +
->  #define dma_rmb()	dmb(oshld)
->  #define dma_wmb()	dmb(oshst)
->  
-> diff --git a/include/asm-generic/barrier.h b/include/asm-
-> generic/barrier.h
-> index 85b28eb80b11..d5a822fb3e92 100644
-> --- a/include/asm-generic/barrier.h
-> +++ b/include/asm-generic/barrier.h
-> @@ -46,6 +46,10 @@
->  #define dma_wmb()	wmb()
->  #endif
->  
-> +#ifndef imb
-> +#define imb		barrier()
-> +#endif
-> +
->  #ifndef read_barrier_depends
->  #define read_barrier_depends()		do { } while (0)
->  #endif
-> -- 
-> 2.20.1
+> On Thu, 10 May 2018 at 19:29, Eric Sandeen <sandeen@sandeen.net> wrote:
+>>
+>> This documents the proposed new vfs-level ioctls which can
+>> get or set a mounted filesytem's label.
+>>
+>> Signed-off-by: Eric Sandeen <sandeen@redhat.com>
+>> ---
+>>
+>> V2: make primary file ioctl_getfslabel, link ioctl_setfslabel to it
+>>     note that getfslabel requires CAP_SYS_ADMIN
+>>
+>> diff --git a/man2/ioctl_getfslabel.2 b/man2/ioctl_getfslabel.2
+>> new file mode 100644
+>> index 0000000..2c3375c
+>> --- /dev/null
+>> +++ b/man2/ioctl_getfslabel.2
+>> @@ -0,0 +1,87 @@
+>> +.\" Copyright (c) 2018, Red Hat, Inc.  All rights reserved.
+>> +.\"
+>> +.\" %%%LICENSE_START(GPLv2+_DOC_FULL)
+>> +.\" This is free documentation; you can redistribute it and/or
+>> +.\" modify it under the terms of the GNU General Public License as
+>> +.\" published by the Free Software Foundation; either version 2 of
+>> +.\" the License, or (at your option) any later version.
+>> +.\"
+>> +.\" The GNU General Public License's references to "object code"
+>> +.\" and "executables" are to be interpreted as the output of any
+>> +.\" document formatting or typesetting system, including
+>> +.\" intermediate and printed output.
+>> +.\"
+>> +.\" This manual is distributed in the hope that it will be useful,
+>> +.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+>> +.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+>> +.\" GNU General Public License for more details.
+>> +.\"
+>> +.\" You should have received a copy of the GNU General Public
+>> +.\" License along with this manual; if not, see
+>> +.\" <http://www.gnu.org/licenses/>.
+>> +.\" %%%LICENSE_END
+>> +.TH IOCTL-FSLABEL 2 2018-05-02 "Linux" "Linux Programmer's Manual"
+>> +.SH NAME
+>> +ioctl_fslabel \- get or set a filesystem label
+>> +.SH SYNOPSIS
+>> +.br
+>> +.B #include <sys/ioctl.h>
+>> +.br
+>> +.B #include <linux/fs.h>
+>> +.sp
+>> +.BI "int ioctl(int " fd ", FS_IOC_GETFSLABEL, char " label [FSLABEL_MAX]);
+>> +.br
+>> +.BI "int ioctl(int " fd ", FS_IOC_SETFSLABEL, char " label [FSLABEL_MAX]);
+>> +.SH DESCRIPTION
+>> +If a filesystem supports online label manipulation, these
+>> +.BR ioctl (2)
+>> +operations can be used to get or set the filesystem label for the filesystem
+>> +on which
+>> +.B fd
+>> +resides.
+>> +The
+>> +.B FS_IOC_SETFSLABEL
+>> +operation requires privilege
+>> +.RB ( CAP_SYS_ADMIN ).
+>> +.SH RETURN VALUE
+>> +On success zero is returned.  On error, \-1 is returned, and
+>> +.I errno
+>> +is set to indicate the error.
+>> +.PP
+>> +.SH ERRORS
+>> +Error codes can be one of, but are not limited to, the following:
+>> +.TP
+>> +.B EINVAL
+>> +The specified label exceeds the maximum label length for the filesystem.
+>> +.TP
+>> +.B ENOTTY
+>> +This can appear if the filesystem does not support online label manipulation.
+>> +.TP
+>> +.B EPERM
+>> +The calling process does not have sufficient permissions to set the label.
+>> +.TP
+>> +.B EFAULT
+>> +.I label
+>> +references an inaccessible memory area.
+>> +.SH VERSIONS
+>> +These ioctl operations first appeared in Linux 4.18.
+>> +They were previously known as
+>> +.B BTRFS_IOC_GET_FSLABEL
+>> +and
+>> +.B BTRFS_IOC_SET_FSLABEL
+>> +and were private to Btrfs.
+>> +.SH CONFORMING TO
+>> +This API is Linux-specific.
+>> +.SH NOTES
+>> +The maximum string length for this interface is
+>> +.BR FSLABEL_MAX ,
+>> +including the terminating null byte (\(aq\\0\(aq).
+>> +Filesystems have differing maximum label lengths, which may or
+>> +may not include the terminating null.  The string provided to
+>> +.B FS_IOC_SETFSLABEL
+>> +must always be null-terminated, and the string returned by
+>> +.B FS_IOC_GETFSLABEL
+>> +will always be null-terminated.
+>> +.SH SEE ALSO
+>> +.BR ioctl (2),
+>> +.BR blkid (8)
+>> diff --git a/man2/ioctl_setfslabel.2 b/man2/ioctl_setfslabel.2
+>> new file mode 100644
+>> index 0000000..2119835
+>> --- /dev/null
+>> +++ b/man2/ioctl_setfslabel.2
+>> @@ -0,0 +1 @@
+>> +.so man2/ioctl_getfslabel.2
+>>
 > 
 > 
-> 
-> 
+
