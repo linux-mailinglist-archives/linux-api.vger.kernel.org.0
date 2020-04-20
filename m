@@ -2,238 +2,167 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 262701B0719
-	for <lists+linux-api@lfdr.de>; Mon, 20 Apr 2020 13:14:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92A971B073D
+	for <lists+linux-api@lfdr.de>; Mon, 20 Apr 2020 13:19:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725775AbgDTLOP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 20 Apr 2020 07:14:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47380 "EHLO
+        id S1726123AbgDTLTa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 20 Apr 2020 07:19:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726083AbgDTLOO (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 20 Apr 2020 07:14:14 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 593A8C061A0C;
-        Mon, 20 Apr 2020 04:14:13 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id b11so11608675wrs.6;
-        Mon, 20 Apr 2020 04:14:13 -0700 (PDT)
+        by vger.kernel.org with ESMTP id S1725886AbgDTLTa (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 20 Apr 2020 07:19:30 -0400
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83FD9C061A0C
+        for <linux-api@vger.kernel.org>; Mon, 20 Apr 2020 04:19:29 -0700 (PDT)
+Received: by mail-ot1-x341.google.com with SMTP id j26so7724602ots.0
+        for <linux-api@vger.kernel.org>; Mon, 20 Apr 2020 04:19:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=KEgoMrPYxOWJ3qrq0DBSK7YNiWwfwR8bYU8oJ34Cf0k=;
-        b=Z/lwwhOnGlXuY+FG0zqYQmWw/z9vSVeCJvnaKWSJuI6A8V3Rc4k5mNNCplwHT/cGir
-         wX7j3LY0pBk8V8HT85W5iqUAwdCKcDyFG24l5Wejbo86yV/rpXyhHI8g3gr7zo1KUTUZ
-         rQ5dWhCyYBFI9oyIgbbj9RzGA34sStBxZu1rCH8ibEZnbJv71UpHHint8RhjemqogEQE
-         y7VMW5YKniDG0W+inrVMqvTneTvzYowAYfzIdig/GFtv0JEsTmN/F09TDUgSxHocKHKN
-         sGalgz7OiTLmGeG4UvjMR2UphWL7nuLCafiYdzEWNIXPacITuSy+fdWKbPuNdQ6eDA6C
-         vSXQ==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=e29Sh5IimfCKpqH0hBK++S43Pnt0kxeDo73Bk32ebac=;
+        b=eKT98z0rlqPd4Kddmlbg2xii0nzNK7Sm2cE/Q6/CBrjGOOjyYbLacaC4mYzeDR8qth
+         NYoIsJE4FH1XfuGxFDuyzVazcMc0nCSjEa9a4BoVe6619W6MbmSZiDGTwBJLCugjX94j
+         D++G15LhNNY0COTf7B9pMxjnmtdEZE97ilXLn6lh33Dn7MvW638xIp/BR1nPmPfMviBj
+         FNpPjQkGh5S1hvic5k0OhT1PISv5NGV872ANVVrLN6U9lQn+WmLvNxb4D1kstjbjuRyG
+         Wqu/og9QYMpF+EUzjWCQLy6X/P3KWKVVBWPwxR1/geHYWXhhugNMNhDt7ZGW+Ch5fDZt
+         CTWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=KEgoMrPYxOWJ3qrq0DBSK7YNiWwfwR8bYU8oJ34Cf0k=;
-        b=m05YslUfaUaQtQDZePLqhczZsAppnkV6ja69tWjbe9wJhXB0DANQBSFZHuu+Es/3xE
-         ji9THG/1LZ5UtfHr1fjfKzqELeazz5l9zckUPfu8JRg/9A+HjpGzh/S1hw0hmpXkH89d
-         MqGaWgDoX5AYyahRJ9+DILDedClw+b/05EDqO8Q7TEG0ULd1vjCWhfOTxvXfBeP2RCaO
-         MObV1hPBQtGiAHefoTe5u6WTQk1O0tfT1qlXLM+3CRWumj0XF+11Y8gy4SbLy2GWcdxW
-         5+5vKQ1J24PTRlNACCkNe9Foqzx6mbfwxKGllourQlqdlxNG8miG5Cfj0E4GXG5UgI/N
-         CJ2Q==
-X-Gm-Message-State: AGi0PuYOuRA+AhJg57j6LQSm5ipApcmkYDhpZ65v2p41thPHincZUaAd
-        Xay8+2B87kWmGQb5dg9QFTZsPcHi
-X-Google-Smtp-Source: APiQypIRhXIC6GIcfhXn1iSH1AHq+HeHsCTXbNfsIyB+8CdoW/bcYZ34UD4+UPYsl8/RGMlwG78YgQ==
-X-Received: by 2002:a5d:498b:: with SMTP id r11mr18068831wrq.368.1587381251836;
-        Mon, 20 Apr 2020 04:14:11 -0700 (PDT)
-Received: from ?IPv6:2001:a61:2482:101:3351:6160:8173:cc31? ([2001:a61:2482:101:3351:6160:8173:cc31])
-        by smtp.gmail.com with ESMTPSA id i13sm761291wro.50.2020.04.20.04.14.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Apr 2020 04:14:09 -0700 (PDT)
-Cc:     mtk.manpages@gmail.com, Arnd Bergmann <arnd@arndb.de>,
-        John Stultz <john.stultz@linaro.org>,
-        Stephen Boyd <sboyd@codeaurora.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH man-pages 2/2] adjtimex.2: document clock_adjtime
-To:     Richard Cochran <richardcochran@gmail.com>
-References: <20171219165811.6ahuquuf5hq74zg3@localhost>
- <88e5c54201bcfc335e484e83ab66f31f48e9f504.1514787752.git.richardcochran@gmail.com>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <307cff16-1e9b-c1cd-fb21-d2f07f5648ce@gmail.com>
-Date:   Mon, 20 Apr 2020 13:14:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=e29Sh5IimfCKpqH0hBK++S43Pnt0kxeDo73Bk32ebac=;
+        b=YE23cFvassJUH9YpOkRVAjbgNHIy54sjAcA5JGDC7rsWp+EX+N585P4L5QSSnBSB3E
+         Jv0budg7wNiCtjlfq4IJoGpKK4SlcdOrHJFYwUaNdDDyBZ9bGBbWkjN9A1H4u90tV/CF
+         yqdBlyACRnlhmjTI7y/Q8VBnDmtVqocwLCgtGGg9LZVWJLNEjF2UrzMh//a5ZSChQF6S
+         188HWMrPmSTAd90YHzlKe6yVXTH6B60Po8gXZrCHnePWSoAYBnEgC72HUwCGa3/QJU80
+         PeRoIaz9LUdJHgtzQOfBDdef+TDeJBQhVUkelLCNhCZlrkTXMehWDMl3R2ohybFCf9pk
+         CXNg==
+X-Gm-Message-State: AGi0PuZFgDiUw7IZUUrtC/qi40Vhh58brrnpuHTIIak/ryeBHSjIwsA0
+        cn2pa0cs3Z9JMmBIotm1rGYL3+pIlp63KiI1S2Lwxw==
+X-Google-Smtp-Source: APiQypISlIaSdLEv9rD1htlLD8VkbzpN2m6GxaJB8UzqhFJFyFLfmU6fCYcTBRnsKquAseuGmbeStBgIrDCH+Py5D9A=
+X-Received: by 2002:a05:6830:22dc:: with SMTP id q28mr8665535otc.221.1587381568875;
+ Mon, 20 Apr 2020 04:19:28 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <88e5c54201bcfc335e484e83ab66f31f48e9f504.1514787752.git.richardcochran@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200331133536.3328-1-linus.walleij@linaro.org>
+In-Reply-To: <20200331133536.3328-1-linus.walleij@linaro.org>
+From:   Peter Maydell <peter.maydell@linaro.org>
+Date:   Mon, 20 Apr 2020 12:19:17 +0100
+Message-ID: <CAFEAcA9Gep1HN+7WJHencp9g2uUBLhagxdgjHf-16AOdP5oOjg@mail.gmail.com>
+Subject: Re: [PATCH] fcntl: Add 32bit filesystem mode
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     "Theodore Ts'o" <tytso@mit.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Ext4 Developers List <linux-ext4@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        QEMU Developers <qemu-devel@nongnu.org>,
+        Florian Weimer <fw@deneb.enyo.de>,
+        Andy Lutomirski <luto@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hello Richard, Arnd,
+On Tue, 31 Mar 2020 at 14:37, Linus Walleij <linus.walleij@linaro.org> wrote:
+>
+> It was brought to my attention that this bug from 2018 was
+> still unresolved: 32 bit emulators like QEMU were given
+> 64 bit hashes when running 32 bit emulation on 64 bit systems.
+>
+> This adds a fcntl() operation to set the underlying filesystem
+> into 32bit mode even if the file hanle was opened using 64bit
+> mode without the compat syscalls.
+>
+> Programs that need the 32 bit file system behavior need to
+> issue a fcntl() system call such as in this example:
+>
+>   #define F_SET_FILE_32BIT_FS (1024 + 15)
+>
+>   int main(int argc, char** argv) {
+>     DIR* dir;
+>     int err;
+>     int fd;
+>
+>     dir = opendir("/boot");
+>     fd = dirfd(dir);
+>     err = fcntl(fd, F_SET_FILE_32BIT_FS);
+>     if (err) {
+>       printf("fcntl() failed! err=%d\n", err);
+>       return 1;
+>     }
+>     printf("dir=%p\n", dir);
+>     printf("readdir(dir)=%p\n", readdir(dir));
+>     printf("errno=%d: %s\n", errno, strerror(errno));
+>     return 0;
+>   }
 
-On 1/1/18 7:28 AM, Richard Cochran wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> I was experimenting with some possible changes to adjtimex(2) and
-> clock_adjtime(2) and tried to look up the man page to see what the
-> documented behavior is when I noticed that clock_adjtime() appears
-> to be the only system call that is currently undocumented.
-> 
-> Before I do any changes to it, this tries to document what I
-> understand it currently does.
-> 
-> [ RC: Add better explanations of the usage and error codes
->   and correct some typographical mistakes. ]
+I gave this a try with a modified QEMU, but it doesn't seem
+to fix the problem. Here's the relevant chunk of the strace
+output from stracing a QEMU that's running a 32-bit guest
+binary that issues a getdents64 and fails (it's the 'readdir-bug'
+test case from the launchpad bug):
 
-And this patch too is now applied.
-
-Thank you!
-
-Cheers,
-
-Michael
-
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> Signed-off-by: Richard Cochran <richardcochran@gmail.com>
-> ---
->  man2/adjtimex.2      | 63 +++++++++++++++++++++++++++++++++++++++++++++++++---
->  man2/clock_adjtime.2 |  1 +
->  2 files changed, 61 insertions(+), 3 deletions(-)
->  create mode 100644 man2/clock_adjtime.2
-> 
-> diff --git a/man2/adjtimex.2 b/man2/adjtimex.2
-> index fc6892d7e..71b5c4a5a 100644
-> --- a/man2/adjtimex.2
-> +++ b/man2/adjtimex.2
-> @@ -35,6 +35,8 @@ adjtimex, ntp_adjtime \- tune kernel clock
->  .PP
->  .BI "int adjtimex(struct timex *" "buf" );
->  .PP
-> +.BI "int clock_adjtime(clockid_t " clk_id, " struct timex *" "buf" );
-> +.PP
->  .BI "int ntp_adjtime(struct timex *" buf );
->  .fi
->  .SH DESCRIPTION
-> @@ -158,8 +160,26 @@ includes the
->  .B ADJ_NANO
->  flag, then
->  .I buf.time.tv_usec
-> -is interpreted as a nanosecond value;
-> +is interpreted as a nanosecond value,
->  otherwise it is interpreted as microseconds.
-> +.IP
-> +The value of
-> +.I buf.time
-> +is the sum of its two fields, but the
-> +field
-> +.I buf.time.tv_usec
-> +must always be non-negative.  The following example shows how to
-> +normalize a timeval with nanosecond resolution.
-> +.PP
-> +.in +12n
-> +.EX
-> +while (buf.time.tv_usec < 0) {
-> +    buf.time.tv_sec  -= 1;
-> +    buf.time.tv_usec += 1000000000;
-> +}
-> +.EE
-> +.in
-> +.PP
->  .TP
->  .BR ADJ_MICRO " (since Linux 2.6.26)"
->  .\" commit eea83d896e318bda54be2d2770d2c5d6668d11db
-> @@ -344,6 +364,12 @@ Attempts to set read-only
->  .I status
->  bits are silently ignored.
->  .\"
-> +.SS clock_adjtime ()
-> +The
-> +.BR clock_adjtime ()
-> +system call (added in Linux 2.6.39) behaves like adjtimex() but takes an additional
-> +.IR clk_id
-> +argument to specify the particular clock on which to act.
->  .SS ntp_adjtime ()
->  The
->  .BR ntp_adjtime ()
-> @@ -472,6 +498,19 @@ An attempt was made to set
->  to a value other than those listed above.
->  .TP
->  .B EINVAL
-> +The
-> +.I clk_id
-> +given to
-> +.BR clock_adjtime ()
-> +is invalid for one of two reasons.  Either the SYS-V style hard coded
-> +positive value is out of range, or the dynamic
-> +.I clk_id
-> +does not refer to a valid instance of a clock object.
-> +See
-> +.BR clock_gettime (2)
-> +for a discussion of dynamic clocks.
-> +.TP
-> +.B EINVAL
->  An attempt was made to set
->  .I buf.tick
->  to a value outside the range
-> @@ -482,6 +521,20 @@ where
->  .B HZ
->  is the system timer interrupt frequency.
->  .TP
-> +.B ENODEV
-> +The hot-plugable device (like USB for example) represented by a
-> +dynamic
-> +.I clk_id
-> +has disappeared after its character device was opened.
-> +See
-> +.BR clock_gettime (2)
-> +for a discussion of dynamic clocks.
-> +.TP
-> +.B EOPNOTSUPP
-> +The given
-> +.I clk_id
-> +does not support adjustment.
-> +.TP
->  .B EPERM
->  .I buf.modes
->  is neither 0 nor
-> @@ -503,10 +556,12 @@ T{
->  T}	Thread safety	MT-Safe
->  .TE
->  .SH CONFORMING TO
-> -Neither of these interfaces is described in POSIX.1
-> +None of these interfaces is described in POSIX.1
->  .PP
->  .BR adjtimex ()
-> -is Linux-specific and should not be used in programs
-> +and
-> +.BR clock_adjtime ()
-> +are Linux-specific and should not be used in programs
->  intended to be portable.
->  .PP
->  The preferred API for the NTP daemon is
-> @@ -533,6 +588,8 @@ is done by the kernel in timer context
->  Thus, it will take one tick into the second
->  for the leap second to be inserted or deleted.
->  .SH SEE ALSO
-> +.BR clock_gettime (2)
-> +.BR clock_settime (2)
->  .BR settimeofday (2),
->  .BR adjtime (3),
->  .BR ntp_gettime (3),
-> diff --git a/man2/clock_adjtime.2 b/man2/clock_adjtime.2
-> new file mode 100644
-> index 000000000..b08b9c801
-> --- /dev/null
-> +++ b/man2/clock_adjtime.2
-> @@ -0,0 +1 @@
-> +.so man2/adjtimex.2
-> 
+openat(AT_FDCWD, ".", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 3
+fcntl(3, 0x40f /* F_??? */, 0x3)        = 0
+fstat(3, {st_dev=makedev(0, 16), st_ino=4637237, st_mode=S_IFDIR|0755,
+st_nlink=12, st_uid=1000, st_gid=1000, st_blksize=8192, st_blocks=8,
+st_size=4096, st_atime=1587380917 /*
+2020-04-20T11:08:37.756174607+0000 */, st_atime_nsec=756174607,
+st_mtime=1587380910 /* 2020-04-20T11:08:30.356230179+0000 */,
+st_mtime_nsec=356230179, st_ctime=1587380910 /*
+2020-04-20T11:08:30.356230179+0000 */, st_ctime_nsec=356230179}) = 0
+fstat(1, {st_dev=makedev(0, 2), st_ino=9017, st_mode=S_IFCHR|0600,
+st_nlink=1, st_uid=0, st_gid=0, st_blksize=4096, st_blocks=0,
+st_rdev=makedev(5, 1), st_atime=1587381196 /* 2020-04-20T11:13:16+0000
+*/, st_atime_nsec=0, st_mtime=1587381196 /* 2020-04-20T11:13:16+0000
+*/, st_mtime_nsec=0, st_ctime=1587381042 /*
+2020-04-20T11:10:42.484981152+0000 */, st_ctime_nsec=484981152}) = 0
+ioctl(1, TCGETS, {c_iflags=0x2502, c_oflags=0x5, c_cflags=0xcbd,
+c_lflags=0x8a3b, c_line=0,
+c_cc="\x03\x1c\x7f\x15\x04\x00\x01\x00\x11\x13\x1a\x00\x12\x0f\x17\x16\x00\x00\x00"})
+= 0
+write(1, "dir=0x76128\n", 12)           = 12
+getdents64(3, [{d_ino=1, d_off=273341893525646730, d_reclen=24,
+d_type=DT_DIR, d_name=".."}, {d_ino=4637239, d_off=849308795555391993,
+d_reclen=24, d_type=DT_DIR, d_name="etc"}, {d_ino=4587984,
+d_off=1620709961571101518, d_reclen=24, d_type=DT_LNK, d_name="usr"},
+{d_ino=4637238, d_off=2787937917159437645, d_reclen=24, d_type=DT_DIR,
+d_name="dev"}, {d_ino=4637244, d_off=3015508490233103491, d_reclen=24,
+d_type=DT_DIR, d_name="sys"}, {d_ino=4587608,
+d_off=3551089360661460833, d_reclen=24, d_type=DT_LNK, d_name="lib"},
+{d_ino=4637246, d_off=3857320197951442970, d_reclen=24, d_type=DT_DIR,
+d_name="var"}, {d_ino=4637242, d_off=4103122318823701457, d_reclen=24,
+d_type=DT_DIR, d_name="proc"}, {d_ino=4587541,
+d_off=4252201186220906002, d_reclen=24, d_type=DT_LNK, d_name="bin"},
+{d_ino=4637245, d_off=4386533378951587638, d_reclen=24, d_type=DT_DIR,
+d_name="tmp"}, {d_ino=4637241, d_off=4883206313583644962, d_reclen=24,
+d_type=DT_DIR, d_name="host"}, {d_ino=4637237,
+d_off=4941119754928488586, d_reclen=24, d_type=DT_DIR, d_name="."},
+{d_ino=4637243, d_off=5301154723342888169, d_reclen=24, d_type=DT_DIR,
+d_name="root"}, {d_ino=4587838, d_off=6989908915879243400,
+d_reclen=32, d_type=DT_LNK, d_name="lib64"}, {d_ino=4587679,
+d_off=7356513223657690979, d_reclen=32, d_type=DT_REG,
+d_name="strace.log"}, {d_ino=4587847, d_off=7810090083157553519,
+d_reclen=24, d_type=DT_LNK, d_name="sbin"}, {d_ino=4637240,
+d_off=8254997891991845677, d_reclen=24, d_type=DT_DIR, d_name="home"},
+{d_ino=4637248, d_off=9223372036854775807, d_reclen=24, d_type=DT_DIR,
+d_name="virt"}], 32768) = 448
+write(1, "readdir(dir)=(nil)\n", 19)    = 19
+write(1, "errno=75: Value too large for de"..., 48) = 48
+exit_group(0)                           = ?
 
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+We open fd 3 to read '.'; we issue the new fcntl, which
+succeeds. Then there's some unrelated stuff operating on
+stdout. Then we do a getdents64(), but the d_off values
+we get back are still 64 bits. The guest binary doesn't
+like those, so it fails. My expectation was that we would
+get back d_off values here that were in the 32 bit range.
+
+(To be clear, the guest binary here is doing a getdents64(),
+which QEMU translates into a host getdents64().)
+
+thanks
+-- PMM
