@@ -2,194 +2,118 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 66AFB1B08B1
-	for <lists+linux-api@lfdr.de>; Mon, 20 Apr 2020 14:05:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FD8F1B0943
+	for <lists+linux-api@lfdr.de>; Mon, 20 Apr 2020 14:23:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726402AbgDTMFL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 20 Apr 2020 08:05:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55232 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725944AbgDTMFK (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 20 Apr 2020 08:05:10 -0400
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F21CC061A0C;
-        Mon, 20 Apr 2020 05:05:10 -0700 (PDT)
-Received: by mail-ej1-x643.google.com with SMTP id n17so7691613ejh.7;
-        Mon, 20 Apr 2020 05:05:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=6c6O1wwYwJaoqXoO8GZUPNWMilZA1Gv+nhWPnSzgWDc=;
-        b=fPcrtHjSQDl8DlVnsTiupNvncJPOAUQouyM35zYWIgk58NT/cChPqhv+kGZmvDDP8c
-         h2EYKkE+/F2kMCPxy5geoAXEzSw9ic6eEgNZqmGNK+x+EV5WCL+d3RtQ+qGWG9VGHIiW
-         /QsDKSMZA3GpDFU1Ru9TwPzcVup5IXJKAvFqi4jwLjOyW3dkY5nFH8dcH3P2NURKa/Sj
-         Tz+KwZ/k8QACD7fvNRASUikLP86VtnAj2yQKqk4WA1LAB04F/7vuQdsb7/leS7ZUgD7J
-         /hyrqigki2RleIL3wdWBrU95zKS8ZFCA38t5xT9IS0dgIWEtmFbj21S4o7HZXo6KB3Hp
-         r5hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=6c6O1wwYwJaoqXoO8GZUPNWMilZA1Gv+nhWPnSzgWDc=;
-        b=R6kDw9lkdFNNax8c4mTjc9FNoahBc8pzuZCOaq5z4zV1esanXXRLasrwNmTm3GFKi3
-         TeXOZA6nj320+e2idEUfZrMK/fHo6qTWqSSRMNd+b9zBMbPZL08jse47LoIPtmFa15l8
-         ArD8GCc+UmPcD0lluPdKyPQH58k1995mvbhf87LK08H2mE0+AYcKQ4JTR0vFWfKAI6K9
-         AAQsMXe11+6kfy/+yG+LurrthYK5x3XdiHg6AU6KSJjeQ7NPiDnC2iRy9MPgBR5kezrN
-         irce+9oh06OO59YlCHLG733ZkyVyBeodpO818INzlhLnpmIXYE/w/XxhYulqsEmXdQXe
-         0XjQ==
-X-Gm-Message-State: AGi0PubwQhel9WDJEtJ9Is9XjYd7v9nagjIBaggZ1M+YwTfV+AJqPUhY
-        8SPi7TDih94qHTo62pIZSw3kFe2Rqg3dtWx3JqM=
-X-Google-Smtp-Source: APiQypLVnAYHnuZPZntL2kKg0JfFWH4H2pVuyaSrFdXByBXAiDaZXjiPvVMTApWknOtgqyYYyVtduCDDa2+lgWlaIw8=
-X-Received: by 2002:a17:906:add7:: with SMTP id lb23mr16554858ejb.6.1587384308776;
- Mon, 20 Apr 2020 05:05:08 -0700 (PDT)
+        id S1726387AbgDTMX6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 20 Apr 2020 08:23:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54524 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726318AbgDTMX5 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 20 Apr 2020 08:23:57 -0400
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 782D1206D9;
+        Mon, 20 Apr 2020 12:23:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1587385436;
+        bh=K0zF/6nWgKkJ9hIQ4iSVP9ZRM8xUkP5IdaMj7W1UFrI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=HPQmN/+YKH1/wEe3gwWA7rpA+Y+IvG3pqAtV5ovFIioQl/PCiUQGoUBOWufyvRjQv
+         TVS6z6yxpmQby3PWmCB7mVyUjeVNCWHfpulmfJbAvceidSEFWLj8288ZMT+i7Tr+A6
+         oZ/IH5PpYiWKPNePjRsrpyDhLSbTA6B2yvybyNPs=
+Date:   Mon, 20 Apr 2020 13:23:51 +0100
+From:   Will Deacon <will@kernel.org>
+To:     Alex Belits <abelits@marvell.com>
+Cc:     "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "mingo@kernel.org" <mingo@kernel.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        Prasun Kapoor <pkapoor@marvell.com>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "frederic@kernel.org" <frederic@kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [EXT] Re: [PATCH v3 03/13] task_isolation: add instruction
+ synchronization memory barrier
+Message-ID: <20200420122350.GB12889@willie-the-truck>
+References: <4473787e1b6bc3cc226067e8d122092a678b63de.camel@marvell.com>
+ <aed12dd15ea2981bc9554cfa8b5e273c1342c756.camel@marvell.com>
+ <07c25c246c55012981ec0296eee23e68c719333a.camel@marvell.com>
+ <d995795c731d6ecceb36bdf1c1df3d72fefd023d.camel@marvell.com>
+ <20200415124427.GB28304@C02TD0UTHF1T.local>
+ <e4d2cda6f011e80a0d8e482b85bca1c57665fcfd.camel@marvell.com>
 MIME-Version: 1.0
-References: <d2979d75-5e45-b145-9ca5-2c315d8ead9c@redhat.com>
- <708b8e2a-2bc2-df38-ec9c-c605203052b5@sandeen.net> <7d74cc3b-52cc-be60-0a69-1a5ee1499f47@sandeen.net>
-In-Reply-To: <7d74cc3b-52cc-be60-0a69-1a5ee1499f47@sandeen.net>
-Reply-To: mtk.manpages@gmail.com
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Date:   Mon, 20 Apr 2020 14:04:57 +0200
-Message-ID: <CAKgNAkgLekaA6jBtUYTD2F=7u_GgBbXDvq-jc8RCBswYvvZmtg@mail.gmail.com>
-Subject: Re: [PATCH 2/2 V2] man2: New page documenting filesystem get/set
- label ioctls
-To:     Eric Sandeen <sandeen@sandeen.net>
-Cc:     Eric Sandeen <sandeen@redhat.com>,
-        fsdevel <linux-fsdevel@vger.kernel.org>,
-        "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-man <linux-man@vger.kernel.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e4d2cda6f011e80a0d8e482b85bca1c57665fcfd.camel@marvell.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hello Eric,
+On Sun, Apr 19, 2020 at 05:02:01AM +0000, Alex Belits wrote:
+> On Wed, 2020-04-15 at 13:44 +0100, Mark Rutland wrote:
+> > On Thu, Apr 09, 2020 at 03:17:40PM +0000, Alex Belits wrote:
+> > > Some architectures implement memory synchronization instructions
+> > > for
+> > > instruction cache. Make a separate kind of barrier that calls them.
+> > 
+> > Modifying the instruction caches requries more than an ISB, and the
+> > 'IMB' naming implies you're trying to order against memory accesses,
+> > which isn't what ISB (generally) does.
+> > 
+> > What exactly do you want to use this for?
+> 
+> I guess, there should be different explanation and naming.
+> 
+> The intention is to have a separate barrier that causes cache
+> synchronization event, for use in architecture-independent code. I am
+> not sure, what exactly it should do to be implemented in architecture-
+> independent manner, so it probably only makes sense along with a
+> regular memory barrier.
+> 
+> The particular place where I had to use is the code that has to run
+> after isolated task returns to the kernel. In the model that I propose
+> for task isolation, remote context synchronization is skipped while
+> task is in isolated in userspace (it doesn't run kernel, and kernel
+> does not modify its userspace code, so it's harmless until entering the
+> kernel).
 
-So it seems like this feature eventually got merged in Linux 4.18. Is
-this page up to date with what went into the kernel?
+> So it will skip the results of kick_all_cpus_sync() that was
+> that was called from flush_icache_range() and other similar places.
+> This means that once it's out of userspace, it should only run
+> some "safe" kernel entry code, and then synchronize in some manner that
+> avoids race conditions with possible IPIs intended for context
+> synchronization that may happen at the same time. My next patch in the
+> series uses it in that one place.
+> 
+> Synchronization will have to be implemented without a mandatory
+> interrupt because it may be triggered locally, on the same CPU. On ARM,
+> ISB is definitely necessary there, however I am not sure, how this
+> should look like on x86 and other architectures. On ARM this probably
+> still should be combined with a real memory barrier and cache
+> synchronization, however I am not entirely sure about details. Would
+> it make more sense to run DMB, IC and ISB? 
 
-Thanks,
+IIUC, we don't need to do anything on arm64 because taking an exception acts
+as a context synchronization event, so I don't think you should try to
+expose this as a new barrier macro. Instead, just make it a pre-requisite
+that architectures need to ensure this behaviour when entering the kernel
+from userspace if they are to select HAVE_ARCH_TASK_ISOLATION.
 
-Michael
+That way, it's /very/ similar to what we do for MEMBARRIER_SYNC_CORE, the
+only real different being that that is concerned with return-to-user rather
+than entry-from-user.
 
-On Thu, 10 May 2018 at 19:29, Eric Sandeen <sandeen@sandeen.net> wrote:
->
-> This documents the proposed new vfs-level ioctls which can
-> get or set a mounted filesytem's label.
->
-> Signed-off-by: Eric Sandeen <sandeen@redhat.com>
-> ---
->
-> V2: make primary file ioctl_getfslabel, link ioctl_setfslabel to it
->     note that getfslabel requires CAP_SYS_ADMIN
->
-> diff --git a/man2/ioctl_getfslabel.2 b/man2/ioctl_getfslabel.2
-> new file mode 100644
-> index 0000000..2c3375c
-> --- /dev/null
-> +++ b/man2/ioctl_getfslabel.2
-> @@ -0,0 +1,87 @@
-> +.\" Copyright (c) 2018, Red Hat, Inc.  All rights reserved.
-> +.\"
-> +.\" %%%LICENSE_START(GPLv2+_DOC_FULL)
-> +.\" This is free documentation; you can redistribute it and/or
-> +.\" modify it under the terms of the GNU General Public License as
-> +.\" published by the Free Software Foundation; either version 2 of
-> +.\" the License, or (at your option) any later version.
-> +.\"
-> +.\" The GNU General Public License's references to "object code"
-> +.\" and "executables" are to be interpreted as the output of any
-> +.\" document formatting or typesetting system, including
-> +.\" intermediate and printed output.
-> +.\"
-> +.\" This manual is distributed in the hope that it will be useful,
-> +.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
-> +.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> +.\" GNU General Public License for more details.
-> +.\"
-> +.\" You should have received a copy of the GNU General Public
-> +.\" License along with this manual; if not, see
-> +.\" <http://www.gnu.org/licenses/>.
-> +.\" %%%LICENSE_END
-> +.TH IOCTL-FSLABEL 2 2018-05-02 "Linux" "Linux Programmer's Manual"
-> +.SH NAME
-> +ioctl_fslabel \- get or set a filesystem label
-> +.SH SYNOPSIS
-> +.br
-> +.B #include <sys/ioctl.h>
-> +.br
-> +.B #include <linux/fs.h>
-> +.sp
-> +.BI "int ioctl(int " fd ", FS_IOC_GETFSLABEL, char " label [FSLABEL_MAX]);
-> +.br
-> +.BI "int ioctl(int " fd ", FS_IOC_SETFSLABEL, char " label [FSLABEL_MAX]);
-> +.SH DESCRIPTION
-> +If a filesystem supports online label manipulation, these
-> +.BR ioctl (2)
-> +operations can be used to get or set the filesystem label for the filesystem
-> +on which
-> +.B fd
-> +resides.
-> +The
-> +.B FS_IOC_SETFSLABEL
-> +operation requires privilege
-> +.RB ( CAP_SYS_ADMIN ).
-> +.SH RETURN VALUE
-> +On success zero is returned.  On error, \-1 is returned, and
-> +.I errno
-> +is set to indicate the error.
-> +.PP
-> +.SH ERRORS
-> +Error codes can be one of, but are not limited to, the following:
-> +.TP
-> +.B EINVAL
-> +The specified label exceeds the maximum label length for the filesystem.
-> +.TP
-> +.B ENOTTY
-> +This can appear if the filesystem does not support online label manipulation.
-> +.TP
-> +.B EPERM
-> +The calling process does not have sufficient permissions to set the label.
-> +.TP
-> +.B EFAULT
-> +.I label
-> +references an inaccessible memory area.
-> +.SH VERSIONS
-> +These ioctl operations first appeared in Linux 4.18.
-> +They were previously known as
-> +.B BTRFS_IOC_GET_FSLABEL
-> +and
-> +.B BTRFS_IOC_SET_FSLABEL
-> +and were private to Btrfs.
-> +.SH CONFORMING TO
-> +This API is Linux-specific.
-> +.SH NOTES
-> +The maximum string length for this interface is
-> +.BR FSLABEL_MAX ,
-> +including the terminating null byte (\(aq\\0\(aq).
-> +Filesystems have differing maximum label lengths, which may or
-> +may not include the terminating null.  The string provided to
-> +.B FS_IOC_SETFSLABEL
-> +must always be null-terminated, and the string returned by
-> +.B FS_IOC_GETFSLABEL
-> +will always be null-terminated.
-> +.SH SEE ALSO
-> +.BR ioctl (2),
-> +.BR blkid (8)
-> diff --git a/man2/ioctl_setfslabel.2 b/man2/ioctl_setfslabel.2
-> new file mode 100644
-> index 0000000..2119835
-> --- /dev/null
-> +++ b/man2/ioctl_setfslabel.2
-> @@ -0,0 +1 @@
-> +.so man2/ioctl_getfslabel.2
->
+See Documentation/features/sched/membarrier-sync-core/arch-support.txt
 
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Will
