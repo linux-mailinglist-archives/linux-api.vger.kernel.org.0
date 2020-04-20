@@ -2,201 +2,194 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D90111B078F
-	for <lists+linux-api@lfdr.de>; Mon, 20 Apr 2020 13:39:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66AFB1B08B1
+	for <lists+linux-api@lfdr.de>; Mon, 20 Apr 2020 14:05:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725886AbgDTLi5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 20 Apr 2020 07:38:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51168 "EHLO
+        id S1726402AbgDTMFL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 20 Apr 2020 08:05:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726399AbgDTLi4 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 20 Apr 2020 07:38:56 -0400
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EE49C061A0C
-        for <linux-api@vger.kernel.org>; Mon, 20 Apr 2020 04:38:56 -0700 (PDT)
-Received: by mail-ot1-x341.google.com with SMTP id i27so7750281ota.7
-        for <linux-api@vger.kernel.org>; Mon, 20 Apr 2020 04:38:56 -0700 (PDT)
+        by vger.kernel.org with ESMTP id S1725944AbgDTMFK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 20 Apr 2020 08:05:10 -0400
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F21CC061A0C;
+        Mon, 20 Apr 2020 05:05:10 -0700 (PDT)
+Received: by mail-ej1-x643.google.com with SMTP id n17so7691613ejh.7;
+        Mon, 20 Apr 2020 05:05:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=DS+SwsiiAa2IC1Of+N2xMxxQ2Qn8OB6+yF3JDFdmUGw=;
-        b=LbETIOvYzs18kn6+m0ic3svL2kvhfMXbxm1qMe2vEGt8OHLOrYNVoOwsPuWgg4CsEE
-         A8el+FMXMV/XtEtPGn+tQ1aP0cH4rGdrv630f1UeTl/AkMPBkxD6aPck93ucdsf3wnWi
-         9yudlhuklmM+m6OOvDu+phCj/Wf54YUcLAmJzVoCgrmRvxzrI6md1wsdYhfo/wVytYu/
-         /l6e+DaDbmIvST2a/+i1wiQtKF3W3h0OTCebZPJMuNVzyqGP+b9kxvau7dxTFV1va5NB
-         RxRbYbYxI/Q/Heip8U6dWfx90Q7OyVoJYUg/b6/N33nMFAWgAJgZYYppzcAsVQS9re+/
-         lxYg==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=6c6O1wwYwJaoqXoO8GZUPNWMilZA1Gv+nhWPnSzgWDc=;
+        b=fPcrtHjSQDl8DlVnsTiupNvncJPOAUQouyM35zYWIgk58NT/cChPqhv+kGZmvDDP8c
+         h2EYKkE+/F2kMCPxy5geoAXEzSw9ic6eEgNZqmGNK+x+EV5WCL+d3RtQ+qGWG9VGHIiW
+         /QsDKSMZA3GpDFU1Ru9TwPzcVup5IXJKAvFqi4jwLjOyW3dkY5nFH8dcH3P2NURKa/Sj
+         Tz+KwZ/k8QACD7fvNRASUikLP86VtnAj2yQKqk4WA1LAB04F/7vuQdsb7/leS7ZUgD7J
+         /hyrqigki2RleIL3wdWBrU95zKS8ZFCA38t5xT9IS0dgIWEtmFbj21S4o7HZXo6KB3Hp
+         r5hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DS+SwsiiAa2IC1Of+N2xMxxQ2Qn8OB6+yF3JDFdmUGw=;
-        b=B3tXey4M59ZwHgyM0LUUs9olLvsNkj2y+RbiKiEcXSZdbX0A9V2sjkiQ/9V3nVVAO9
-         MwVxNrkSic95aHL4lTSDChG/+4Jon8UaGdSVJDBAtbbs2Z3+D+qlU+fkzm1pOqPWRO6N
-         /VgI1I0xMinaeBaUcKlAu7YqeMCYXxELZSBUn3Ih0BoIxHRGK0yJrs9gqNMMccBGN2jT
-         vcYqtyTNdNXU28myUPosLlMvsbQCLvlRJf5S1Q5Cqu9BVp8bG+ktGCcEGtXJRP0BVwe3
-         maK611+oivMMug3UGzz6oXIPqxZkynft24IU184CQny7m65UZzEvL/W54mPYIhnHTQKD
-         Wg3w==
-X-Gm-Message-State: AGi0Pub+NHm3Klo0yqE4y1gHjFz3DEBmYT5LSkth49vjfD2BNOTjRifH
-        S4yJD7DTputF0OWSjfS+dnHc5tRHTRBzhKpsiGFNAQ==
-X-Google-Smtp-Source: APiQypKCWHdZZ2bi+3PbMfM+AZS/gcAmMukvJoqNM4nAXsIul0EznVN8ABNh29yiOVOiUZ8ejQuoJJgLhE64swOJMYs=
-X-Received: by 2002:a05:6830:22dc:: with SMTP id q28mr8717028otc.221.1587382735551;
- Mon, 20 Apr 2020 04:38:55 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=6c6O1wwYwJaoqXoO8GZUPNWMilZA1Gv+nhWPnSzgWDc=;
+        b=R6kDw9lkdFNNax8c4mTjc9FNoahBc8pzuZCOaq5z4zV1esanXXRLasrwNmTm3GFKi3
+         TeXOZA6nj320+e2idEUfZrMK/fHo6qTWqSSRMNd+b9zBMbPZL08jse47LoIPtmFa15l8
+         ArD8GCc+UmPcD0lluPdKyPQH58k1995mvbhf87LK08H2mE0+AYcKQ4JTR0vFWfKAI6K9
+         AAQsMXe11+6kfy/+yG+LurrthYK5x3XdiHg6AU6KSJjeQ7NPiDnC2iRy9MPgBR5kezrN
+         irce+9oh06OO59YlCHLG733ZkyVyBeodpO818INzlhLnpmIXYE/w/XxhYulqsEmXdQXe
+         0XjQ==
+X-Gm-Message-State: AGi0PubwQhel9WDJEtJ9Is9XjYd7v9nagjIBaggZ1M+YwTfV+AJqPUhY
+        8SPi7TDih94qHTo62pIZSw3kFe2Rqg3dtWx3JqM=
+X-Google-Smtp-Source: APiQypLVnAYHnuZPZntL2kKg0JfFWH4H2pVuyaSrFdXByBXAiDaZXjiPvVMTApWknOtgqyYYyVtduCDDa2+lgWlaIw8=
+X-Received: by 2002:a17:906:add7:: with SMTP id lb23mr16554858ejb.6.1587384308776;
+ Mon, 20 Apr 2020 05:05:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200331133536.3328-1-linus.walleij@linaro.org>
- <CAFEAcA9Gep1HN+7WJHencp9g2uUBLhagxdgjHf-16AOdP5oOjg@mail.gmail.com> <87v9luwgc6.fsf@mid.deneb.enyo.de>
-In-Reply-To: <87v9luwgc6.fsf@mid.deneb.enyo.de>
-From:   Peter Maydell <peter.maydell@linaro.org>
-Date:   Mon, 20 Apr 2020 12:38:44 +0100
-Message-ID: <CAFEAcA-No3Z95+UQJZWTxDesd-z_Y5XnyHs6NMpzDo3RVOHQ4w@mail.gmail.com>
-Subject: Re: [PATCH] fcntl: Add 32bit filesystem mode
-To:     Florian Weimer <fw@deneb.enyo.de>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+References: <d2979d75-5e45-b145-9ca5-2c315d8ead9c@redhat.com>
+ <708b8e2a-2bc2-df38-ec9c-c605203052b5@sandeen.net> <7d74cc3b-52cc-be60-0a69-1a5ee1499f47@sandeen.net>
+In-Reply-To: <7d74cc3b-52cc-be60-0a69-1a5ee1499f47@sandeen.net>
+Reply-To: mtk.manpages@gmail.com
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Date:   Mon, 20 Apr 2020 14:04:57 +0200
+Message-ID: <CAKgNAkgLekaA6jBtUYTD2F=7u_GgBbXDvq-jc8RCBswYvvZmtg@mail.gmail.com>
+Subject: Re: [PATCH 2/2 V2] man2: New page documenting filesystem get/set
+ label ioctls
+To:     Eric Sandeen <sandeen@sandeen.net>
+Cc:     Eric Sandeen <sandeen@redhat.com>,
+        fsdevel <linux-fsdevel@vger.kernel.org>,
+        "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
-        QEMU Developers <qemu-devel@nongnu.org>,
-        Andy Lutomirski <luto@kernel.org>
+        linux-man <linux-man@vger.kernel.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, 20 Apr 2020 at 12:23, Florian Weimer <fw@deneb.enyo.de> wrote:
+Hello Eric,
+
+So it seems like this feature eventually got merged in Linux 4.18. Is
+this page up to date with what went into the kernel?
+
+Thanks,
+
+Michael
+
+On Thu, 10 May 2018 at 19:29, Eric Sandeen <sandeen@sandeen.net> wrote:
 >
-> * Peter Maydell:
+> This documents the proposed new vfs-level ioctls which can
+> get or set a mounted filesytem's label.
 >
-> > We open fd 3 to read '.'; we issue the new fcntl, which
-> > succeeds. Then there's some unrelated stuff operating on
-> > stdout. Then we do a getdents64(), but the d_off values
-> > we get back are still 64 bits. The guest binary doesn't
-> > like those, so it fails. My expectation was that we would
-> > get back d_off values here that were in the 32 bit range.
+> Signed-off-by: Eric Sandeen <sandeen@redhat.com>
+> ---
 >
-> What's your file system?
+> V2: make primary file ioctl_getfslabel, link ioctl_setfslabel to it
+>     note that getfslabel requires CAP_SYS_ADMIN
 >
-> I think not all of them have 32-bit hashes (some of them probably
-> can't, particularly in the network-based file system case).
+> diff --git a/man2/ioctl_getfslabel.2 b/man2/ioctl_getfslabel.2
+> new file mode 100644
+> index 0000000..2c3375c
+> --- /dev/null
+> +++ b/man2/ioctl_getfslabel.2
+> @@ -0,0 +1,87 @@
+> +.\" Copyright (c) 2018, Red Hat, Inc.  All rights reserved.
+> +.\"
+> +.\" %%%LICENSE_START(GPLv2+_DOC_FULL)
+> +.\" This is free documentation; you can redistribute it and/or
+> +.\" modify it under the terms of the GNU General Public License as
+> +.\" published by the Free Software Foundation; either version 2 of
+> +.\" the License, or (at your option) any later version.
+> +.\"
+> +.\" The GNU General Public License's references to "object code"
+> +.\" and "executables" are to be interpreted as the output of any
+> +.\" document formatting or typesetting system, including
+> +.\" intermediate and printed output.
+> +.\"
+> +.\" This manual is distributed in the hope that it will be useful,
+> +.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+> +.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> +.\" GNU General Public License for more details.
+> +.\"
+> +.\" You should have received a copy of the GNU General Public
+> +.\" License along with this manual; if not, see
+> +.\" <http://www.gnu.org/licenses/>.
+> +.\" %%%LICENSE_END
+> +.TH IOCTL-FSLABEL 2 2018-05-02 "Linux" "Linux Programmer's Manual"
+> +.SH NAME
+> +ioctl_fslabel \- get or set a filesystem label
+> +.SH SYNOPSIS
+> +.br
+> +.B #include <sys/ioctl.h>
+> +.br
+> +.B #include <linux/fs.h>
+> +.sp
+> +.BI "int ioctl(int " fd ", FS_IOC_GETFSLABEL, char " label [FSLABEL_MAX]);
+> +.br
+> +.BI "int ioctl(int " fd ", FS_IOC_SETFSLABEL, char " label [FSLABEL_MAX]);
+> +.SH DESCRIPTION
+> +If a filesystem supports online label manipulation, these
+> +.BR ioctl (2)
+> +operations can be used to get or set the filesystem label for the filesystem
+> +on which
+> +.B fd
+> +resides.
+> +The
+> +.B FS_IOC_SETFSLABEL
+> +operation requires privilege
+> +.RB ( CAP_SYS_ADMIN ).
+> +.SH RETURN VALUE
+> +On success zero is returned.  On error, \-1 is returned, and
+> +.I errno
+> +is set to indicate the error.
+> +.PP
+> +.SH ERRORS
+> +Error codes can be one of, but are not limited to, the following:
+> +.TP
+> +.B EINVAL
+> +The specified label exceeds the maximum label length for the filesystem.
+> +.TP
+> +.B ENOTTY
+> +This can appear if the filesystem does not support online label manipulation.
+> +.TP
+> +.B EPERM
+> +The calling process does not have sufficient permissions to set the label.
+> +.TP
+> +.B EFAULT
+> +.I label
+> +references an inaccessible memory area.
+> +.SH VERSIONS
+> +These ioctl operations first appeared in Linux 4.18.
+> +They were previously known as
+> +.B BTRFS_IOC_GET_FSLABEL
+> +and
+> +.B BTRFS_IOC_SET_FSLABEL
+> +and were private to Btrfs.
+> +.SH CONFORMING TO
+> +This API is Linux-specific.
+> +.SH NOTES
+> +The maximum string length for this interface is
+> +.BR FSLABEL_MAX ,
+> +including the terminating null byte (\(aq\\0\(aq).
+> +Filesystems have differing maximum label lengths, which may or
+> +may not include the terminating null.  The string provided to
+> +.B FS_IOC_SETFSLABEL
+> +must always be null-terminated, and the string returned by
+> +.B FS_IOC_GETFSLABEL
+> +will always be null-terminated.
+> +.SH SEE ALSO
+> +.BR ioctl (2),
+> +.BR blkid (8)
+> diff --git a/man2/ioctl_setfslabel.2 b/man2/ioctl_setfslabel.2
+> new file mode 100644
+> index 0000000..2119835
+> --- /dev/null
+> +++ b/man2/ioctl_setfslabel.2
+> @@ -0,0 +1 @@
+> +.so man2/ioctl_getfslabel.2
+>
 
-Whoops, good point. I was testing this via lkvm, so it's
-actually using a 9p filesystem... I'll see if I can figure
-out how to test with an ext3 fs, which I think is the one
-we most care about. It would be nice if the flag was
-supported by other fses too, of course.
 
-Appended is the QEMU patch I tested with.
-
-thanks
--- PMM
-
-From 73471e01733dd1d998ff3cd41edebb4c78793193 Mon Sep 17 00:00:00 2001
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 20 Apr 2020 11:54:22 +0100
-Subject: [RFC] linux-user: Use new F_SET_FILE_32BIT_FS fcntl for 32-bit guests
-
-If the guest is 32 bit then there is a potential problem if the
-host gives us back a 64-bit sized value that we can't fit into
-the ABI the guest requires. This is a theoretical issue for many
-syscalls, but a real issue for directory reads where the host
-is using ext3 or ext4. There the 'offset' values retured via
-the getdents syscall are hashes, and on a 64-bit system they
-will always fill the full 64 bits.
-
-Use the F_SET_FILE_32BIT_FS fcntl to tell the kernel to stick
-to 32-bit sized hashes for fds used by the guest.
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-RFC patch because it depends on the kernel patch to provide
-F_SET_FILE_32BIT_FS, which is still under discussion. All this
-patch does is call the fcntl for every fd the guest opens.
-
- linux-user/syscall.c | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
-
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 674f70e70a5..8966d4881bd 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -884,6 +884,28 @@ static inline int host_to_target_sock_type(int host_type)
-     return target_type;
- }
-
-+/*
-+ * If the guest is using a 32 bit ABI then we should try to ask the kernel
-+ * to provide 32-bit offsets in getdents syscalls, as otherwise some
-+ * filesystems will return 64-bit hash values which we can't fit into
-+ * the field sizes the guest ABI mandates.
-+ */
-+#ifndef F_SET_FILE_32BIT_FS
-+#define F_SET_FILE_32BIT_FS (1024 + 15)
-+#endif
-+
-+static inline void request_32bit_fs(int fd)
-+{
-+#if HOST_LONG_BITS > TARGET_ABI_BITS
-+    /*
-+     * Ignore errors, which are likely due to the host kernel being too
-+     * old to support this fcntl. We'll try anyway, which might or might
-+     * not work, depending on the guest code and on the host filesystem.
-+     */
-+    fcntl(fd, F_SET_FILE_32BIT_FS);
-+#endif
-+}
-+
- static abi_ulong target_brk;
- static abi_ulong target_original_brk;
- static abi_ulong brk_page;
-@@ -7704,6 +7726,7 @@ static abi_long do_syscall1(void *cpu_env, int
-num, abi_long arg1,
-                                   target_to_host_bitmask(arg2,
-fcntl_flags_tbl),
-                                   arg3));
-         fd_trans_unregister(ret);
-+        request_32bit_fs(ret);
-         unlock_user(p, arg1, 0);
-         return ret;
- #endif
-@@ -7714,6 +7737,7 @@ static abi_long do_syscall1(void *cpu_env, int
-num, abi_long arg1,
-                                   target_to_host_bitmask(arg3,
-fcntl_flags_tbl),
-                                   arg4));
-         fd_trans_unregister(ret);
-+        request_32bit_fs(ret);
-         unlock_user(p, arg2, 0);
-         return ret;
- #if defined(TARGET_NR_name_to_handle_at) && defined(CONFIG_OPEN_BY_HANDLE)
-@@ -7725,6 +7749,7 @@ static abi_long do_syscall1(void *cpu_env, int
-num, abi_long arg1,
-     case TARGET_NR_open_by_handle_at:
-         ret = do_open_by_handle_at(arg1, arg2, arg3);
-         fd_trans_unregister(ret);
-+        request_32bit_fs(ret);
-         return ret;
- #endif
-     case TARGET_NR_close:
-@@ -7769,6 +7794,7 @@ static abi_long do_syscall1(void *cpu_env, int
-num, abi_long arg1,
-             return -TARGET_EFAULT;
-         ret = get_errno(creat(p, arg2));
-         fd_trans_unregister(ret);
-+        request_32bit_fs(ret);
-         unlock_user(p, arg1, 0);
-         return ret;
- #endif
-@@ -12393,6 +12419,7 @@ static abi_long do_syscall1(void *cpu_env, int
-num, abi_long arg1,
-         }
-         ret = get_errno(memfd_create(p, arg2));
-         fd_trans_unregister(ret);
-+        request_32bit_fs(ret);
-         unlock_user(p, arg1, 0);
-         return ret;
- #endif
 -- 
-2.20.1
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
