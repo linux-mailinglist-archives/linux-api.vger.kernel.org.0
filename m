@@ -2,107 +2,90 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 572381B200E
-	for <lists+linux-api@lfdr.de>; Tue, 21 Apr 2020 09:41:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 91D9B1B2708
+	for <lists+linux-api@lfdr.de>; Tue, 21 Apr 2020 15:02:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727118AbgDUHlI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 21 Apr 2020 03:41:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47812 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725992AbgDUHlI (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 21 Apr 2020 03:41:08 -0400
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 765932084D;
-        Tue, 21 Apr 2020 07:41:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1587454867;
-        bh=Nbpcjvf4OfQ6/2rbNcF4XSAXJpyKzoe6+kQqdiYXyL8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Ux6xM77N6e3zjcMhKqKkdPDzL8BNNWgNngXIeQat43yqC0nlQLUhfbDvC0IRskK4a
-         lzXX4ZT/0h9u4DpM21iqQivITIIy8PZvfZnm9XI2slLBPWpJY6DkcnyZ0ZnL+Yq49u
-         drScS8rGC++743FnPenRISkU6YuS2/Gft9+GbSfU=
-Date:   Tue, 21 Apr 2020 08:41:02 +0100
-From:   Will Deacon <will@kernel.org>
-To:     Mark Rutland <mark.rutland@arm.com>
-Cc:     Alex Belits <abelits@marvell.com>,
-        "mingo@kernel.org" <mingo@kernel.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        Prasun Kapoor <pkapoor@marvell.com>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "frederic@kernel.org" <frederic@kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [EXT] Re: [PATCH v3 03/13] task_isolation: add instruction
- synchronization memory barrier
-Message-ID: <20200421074101.GA15021@willie-the-truck>
-References: <4473787e1b6bc3cc226067e8d122092a678b63de.camel@marvell.com>
- <aed12dd15ea2981bc9554cfa8b5e273c1342c756.camel@marvell.com>
- <07c25c246c55012981ec0296eee23e68c719333a.camel@marvell.com>
- <d995795c731d6ecceb36bdf1c1df3d72fefd023d.camel@marvell.com>
- <20200415124427.GB28304@C02TD0UTHF1T.local>
- <e4d2cda6f011e80a0d8e482b85bca1c57665fcfd.camel@marvell.com>
- <20200420122350.GB12889@willie-the-truck>
- <20200420123628.GB69441@C02TD0UTHF1T.local>
- <20200420135523.GA18711@willie-the-truck>
+        id S1728877AbgDUNCz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 21 Apr 2020 09:02:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35228 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728864AbgDUNCy (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 21 Apr 2020 09:02:54 -0400
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com [IPv6:2607:f8b0:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D25D3C061A41
+        for <linux-api@vger.kernel.org>; Tue, 21 Apr 2020 06:02:52 -0700 (PDT)
+Received: by mail-oi1-x241.google.com with SMTP id q204so11869067oia.13
+        for <linux-api@vger.kernel.org>; Tue, 21 Apr 2020 06:02:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=KeatBysOs4g1w9ucJik06kMFsqtbBYNKB2LJi34r5/g=;
+        b=ZEHK3zuTVFYNcFuYOAgxTYB5atjiPGX1lleSsfDtvhignUa7fXzs6WpktzR/OAVEGc
+         8E1uyGgs3LDOOXc9qAnO0YfOfqcefQ0zM0EsxYkHnrO9Vimg1IYDc6wS9LWjTHf5ERWR
+         nL+zBcQ57ReI1KIsOr4yD8DEpcD17YWO2UH3Zuy2GfokaHahgq5LDJ0qoaSrz408loCy
+         o34nyylhNIzvvTfjUW1vstzHutbCavTyktxKpSkL1KZuaVaEUwLhEezSih6ycNwuMmie
+         RP4kvXAfsYlrZ5pxQahkOhx5t+2D+DWKRNGNiEhW7iAV9LcHogVirvt6RpdWnfvwwrq3
+         iJSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=KeatBysOs4g1w9ucJik06kMFsqtbBYNKB2LJi34r5/g=;
+        b=a8qiR/YHOYSJGyZ+TIn/muGCsmhwty/U0J/vZsz3Aggj+5cBNFKKn34W/Q44QhLlwg
+         qBnJPM6Ej+dW/qeMDr++BOo/Tep9W+mpvxAbQgT0lU6ZCoajdf+GsePqB8lN6F2WMYWQ
+         1fnDFxWnemn/qgVSHwSXmZtkNgbPn5kQ2Kcq7It9TVBOaeS6oKSA0oEIoHuPUwrAOQt4
+         OsXCfVFNRDLtVNyL+1+syloA+z7LsFpdjeB6ep8kFVJWt1TThtHea+h71IK3eed+6Jrc
+         VYoQwdArfMcNfABzn4MIrSc4DScDRngFOgwBVlMHHx14yU+2AjumdqBRX5Xpa/nrPkYm
+         jsYA==
+X-Gm-Message-State: AGi0PuZh4ZkkG/ZITmwirrQcl5vYuuFY788vNiSHB6vkdwAjyuUSWFMA
+        vtxx8Du8mjCpTKsxt6H12lXZxq8GnhfCCMfsL7QepA==
+X-Google-Smtp-Source: APiQypLEdn8xTZKTZv9gRqG5Fj19mVLGqJN/fnq7VfXeiz5gV6tiXoLVzH0IzsAvypZbVip6HiFZw00aj2c/+0a/9rE=
+X-Received: by 2002:aca:c751:: with SMTP id x78mr3059673oif.163.1587474172245;
+ Tue, 21 Apr 2020 06:02:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200420135523.GA18711@willie-the-truck>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200331133536.3328-1-linus.walleij@linaro.org>
+ <CAFEAcA9Gep1HN+7WJHencp9g2uUBLhagxdgjHf-16AOdP5oOjg@mail.gmail.com>
+ <87v9luwgc6.fsf@mid.deneb.enyo.de> <CAFEAcA-No3Z95+UQJZWTxDesd-z_Y5XnyHs6NMpzDo3RVOHQ4w@mail.gmail.com>
+ <FA73C1DA-B07F-43D5-A9A8-FBC0BAE400CA@dilger.ca>
+In-Reply-To: <FA73C1DA-B07F-43D5-A9A8-FBC0BAE400CA@dilger.ca>
+From:   Peter Maydell <peter.maydell@linaro.org>
+Date:   Tue, 21 Apr 2020 14:02:39 +0100
+Message-ID: <CAFEAcA9kktJd8EJ1VCp4a0XikPS9mxmag2GFv0NvwobubQLABw@mail.gmail.com>
+Subject: Re: [PATCH] fcntl: Add 32bit filesystem mode
+To:     Andreas Dilger <adilger@dilger.ca>
+Cc:     Florian Weimer <fw@deneb.enyo.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Ext4 Developers List <linux-ext4@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        QEMU Developers <qemu-devel@nongnu.org>,
+        Andy Lutomirski <luto@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Apr 20, 2020 at 02:55:23PM +0100, Will Deacon wrote:
-> On Mon, Apr 20, 2020 at 01:36:28PM +0100, Mark Rutland wrote:
-> > On Mon, Apr 20, 2020 at 01:23:51PM +0100, Will Deacon wrote:
-> > > IIUC, we don't need to do anything on arm64 because taking an exception acts
-> > > as a context synchronization event, so I don't think you should try to
-> > > expose this as a new barrier macro. Instead, just make it a pre-requisite
-> > > that architectures need to ensure this behaviour when entering the kernel
-> > > from userspace if they are to select HAVE_ARCH_TASK_ISOLATION.
-> > 
-> > The CSE from the exception isn't sufficient here, because it needs to
-> > occur after the CPU has re-registered to receive IPIs for
-> > kick_all_cpus_sync(). Otherwise there's a window between taking the
-> > exception and re-registering where a necessary context synchronization
-> > event can be missed. e.g.
-> > 
-> > CPU A				CPU B
-> > [ Modifies some code ]		
-> > 				[ enters exception ]
-> > [ D cache maintenance ]
-> > [ I cache maintenance ]
-> > [ IPI ]				// IPI not taken
-> >   ...				[ register for IPI ] 
-> > [ IPI completes ] 
-> > 				[ execute stale code here ]
-> 
-> Thanks.
-> 
-> > However, I think 'IMB' is far too generic, and we should have an arch
-> > hook specific to task isolation, as it's far less likely to be abused as
-> > IMB will.
-> 
-> What guarantees we don't run any unsynchronised module code between
-> exception entry and registering for the IPI? It seems like we'd want that
-> code to run as early as possible, e.g. as part of
-> task_isolation_user_exit() but that doesn't seem to be what's happening.
+On Tue, 21 Apr 2020 at 00:51, Andreas Dilger <adilger@dilger.ca> wrote:
+> Another question I had here is whether the filesystem needs to provide
+> 32-bit values for other syscalls, such as stat() and statfs()?  For
+> ext4, stat() is not going to return a 64-bit inode number, but other
+> filesystems might (e.g. Lustre has a mode to do this).  Similarly,
+> should statfs() scale up f_bsize until it can return a 32-bit f_blocks
+> value?  We also had to do this ages ago for Lustre when 32-bit clients
+> couldn't handle > 16TB filesystems, but that is a single disk today.
+>
+> Should that be added into F_SET_FILE_32BIT_FS also?
 
-Sorry, I guess that's more a question for Alex.
+Interesting question. The directory-offset is the thing that's
+got peoples' attention because it's what has actually been hit
+in real-world situations, but other syscalls have the same
+potential problem too. The closest I can think of to a 'general
+rule' (in terms of what QEMU would like) would be "behave the
+same way you would for a compat32 syscall if you had one, or
+how you would behave on an actual 32-bit host".
 
-Alex -- do you think we could move the "register for IPI" step earlier
-so that it's easier to reason about the code that runs in the dead zone
-during exception entry?
-
-Will
+thanks
+-- PMM
