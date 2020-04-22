@@ -2,105 +2,166 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7861F1B2B11
-	for <lists+linux-api@lfdr.de>; Tue, 21 Apr 2020 17:22:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C23391B3721
+	for <lists+linux-api@lfdr.de>; Wed, 22 Apr 2020 08:06:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725987AbgDUPVx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 21 Apr 2020 11:21:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56648 "EHLO
+        id S1726066AbgDVGF5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 22 Apr 2020 02:05:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725870AbgDUPVx (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 21 Apr 2020 11:21:53 -0400
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 910ADC061A10;
-        Tue, 21 Apr 2020 08:21:52 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id 131so11394555lfh.11;
-        Tue, 21 Apr 2020 08:21:52 -0700 (PDT)
+        with ESMTP id S1725912AbgDVGF4 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 22 Apr 2020 02:05:56 -0400
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32DBCC03C1A6;
+        Tue, 21 Apr 2020 23:05:56 -0700 (PDT)
+Received: by mail-ed1-x544.google.com with SMTP id d16so624235edv.8;
+        Tue, 21 Apr 2020 23:05:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:reply-to:mime-version
-         :content-disposition:user-agent;
-        bh=G5VKAhwHSCkO13lB215fVqAbEvC64vZ494rjxezJpPQ=;
-        b=KQDOQIuYneRe17hjshDQMNMWIVYgSnxDl/MUcQO7/ctdXD/OwiKyztSJ9kBBozfphB
-         wTBUackTJYCmsg3lv7OPDU2u/t4J+/uy/R9l1/uoJRcFGNjbvn4fF7yOY7notipPWj3P
-         Sl/G0dSNp7if+lJ6JGoK7Ort4AgC5yjBc/qCMqPx664s1PT/cbKDDzK7C6jBoiLCKTLD
-         PhejT2sgf5I4vmbzWJ/jMza/VtHlB52cU3zC2Qo83ZpgvWJ6d4Fuho8topf1atJPuVbJ
-         A/s5HANrEO+C0eLN67wDFyqoySr0p+xAQW2PjQulfwQD+6fGXlcZNlYZnboECZeC1uIL
-         e5hQ==
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=0J7wpqIPjekpSgyN4c8bsABWOF449xYPFoLT/PLxb3g=;
+        b=KEcbAmkM1enSx18mTQFJO+BTAUOuXkxB3/JCDOXSHjdsdipjTSoW0TFJ/b4uS7hF+6
+         w7G+V+SNgJOEHFrfCF++XAO7Tqvmk5EIgWmJpPyjiF8Ek7DIqxeQMjBhT6nSxwrsTIWa
+         4cIfNCYEQOQ53L/IuIdGVm1XNzoJPur7l5jGbbd4BHx3y4VHjzLn278Z3CMNY1RoC6pJ
+         wwWoza8cfCH4RJzHlmXRweOfhgZ5gdqHzy5lIuIfLId9iM4suxPN7+5mmxXuA8Ri7ecF
+         W1kQMqEzIvesvl8Eg9iqqOfuAh1Omi0Pvd104kNfi5vQl4FfqGsgWGJlWM48ahLKN/N6
+         gFUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
-         :mime-version:content-disposition:user-agent;
-        bh=G5VKAhwHSCkO13lB215fVqAbEvC64vZ494rjxezJpPQ=;
-        b=eHfFSS/eQ5KLaVBQDr37yabMlwGl/a0ik3AxeCQurB+GQYvEy1KaXrum5K3I1kzofk
-         m0oOthUqkvIvFRaxrzpTNeDQuvpueGEJAZ36Z5AYRMiiTSBPmQ8177/mIQPKxNXXVg8G
-         t1srXNb9qOyveOxkF2H1MW1UrBgKDLd+uKjgidfbPDCSIs3C4I5W7GZa3Bn1pIqEkXn1
-         AmIBVNhTekAPZm+U05rTZeb5Fri+gif6dou8r+Cotn//kMpy8SpSRNxuLyFzQC2Oddn0
-         Xcv6G9Rl9543Tgy8xFDoi1DXgIwIcggNxRBD/WTweVDfRDN2TlwmwXdKzcMG/JUsdZQG
-         0FOQ==
-X-Gm-Message-State: AGi0Pua4+YMM31I/rVcBcu2Kkl0nJbtED7wPHAlP8Kb2FfDKoEXO+KY7
-        QzjZyJtHr6GdnIMIxIA6HC8=
-X-Google-Smtp-Source: APiQypLsR0OuLTnQmGywi2EGGHlC8QJupSgTFfb2fbNmeMRTUt8E9BhC0cHHQyCBDe+ZmPqM8p13kQ==
-X-Received: by 2002:a05:6512:3081:: with SMTP id z1mr14129181lfd.102.1587482510651;
-        Tue, 21 Apr 2020 08:21:50 -0700 (PDT)
-Received: from localhost ([176.212.68.26])
-        by smtp.gmail.com with ESMTPSA id 125sm2373382lfb.89.2020.04.21.08.21.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Apr 2020 08:21:49 -0700 (PDT)
-Date:   Tue, 21 Apr 2020 08:21:48 -0700
-From:   Yury Norov <yury.norov@gmail.com>
-To:     Alex Belits <abelits@marvell.com>
-Cc:     yury.norov@gmail.com, "frederic@kernel.org" <frederic@kernel.org>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "mingo@kernel.org" <mingo@kernel.org>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Prasun Kapoor <pkapoor@marvell.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "linux-mm@vger.kernel.org" <linux-mm@vger.kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>
-Subject: Re: [PATCH 00/12] "Task_isolation" mode
-Message-ID: <20200421152148.GA16576@yury-thinkpad>
-Reply-To: 4473787e1b6bc3cc226067e8d122092a678b63de.camel@marvell.com
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=0J7wpqIPjekpSgyN4c8bsABWOF449xYPFoLT/PLxb3g=;
+        b=XnOIIqyL/PSy98NkGnz9lZ/c60mkQRu3b7V8emrOWwCQ9fVFYRmLsWhroiMDaJMQ3u
+         YG7T+8xFa9HNKfDFMFqOntwPN3JfXz1XWwbOYMm0HqLDH6NgQcRQ6f2hUAcfMJFKZkt+
+         5phxGTYGB006D3wCc9AvyHU4bI1+7JPHZCdKPln5p3k9QnTvXrGyywdSC4V5WU3NJKLk
+         8tWWh6N+bnm9ApIKbUcs1oBG0XnP9d4kktS4ttkKJpyu3WSh5HedjaQc8OqkDcSOJxGU
+         SINB38xNpHhM3hjhV9uN0Y8Zj7u4cTb/okTuti1RZzi2J8XD2bknFXm1htaGS/A54K/1
+         fzHQ==
+X-Gm-Message-State: AGi0PubnxFPoTIFeFfBZqqiNCNlkgkeL2Axg3yOmURKTncsQFqw5lvF1
+        +24YHAKN93Jukz0oLQlDPCdT+dZjr264DjOLyPE=
+X-Google-Smtp-Source: APiQypJ+7lYBwuZOO0LKN5zF0UxsyS0mJHjcIoytsS3GDCjhJgfkdcUx0mzFBypChkJuW2x8po6k9cFV5nG0u0eOPeE=
+X-Received: by 2002:a50:ec0c:: with SMTP id g12mr15990711edr.140.1587535554646;
+ Tue, 21 Apr 2020 23:05:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <cover.1587531463.git.josh@joshtriplett.org>
+In-Reply-To: <cover.1587531463.git.josh@joshtriplett.org>
+Reply-To: mtk.manpages@gmail.com
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Date:   Wed, 22 Apr 2020 08:05:43 +0200
+Message-ID: <CAKgNAkjMH6YvHa3LavDo4udDS4CxtJL80uenQN-SVd+Ef0-3Kg@mail.gmail.com>
+Subject: Re: [PATCH v5 0/3] Support userspace-selected fds
+To:     Josh Triplett <josh@joshtriplett.org>
+Cc:     io-uring@vger.kernel.org,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Arnd Bergmann <arnd@arndb.de>, Jens Axboe <axboe@kernel.dk>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        linux-man <linux-man@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-> This is an update of task isolation work that was originally done by
-> Chris Metcalf <cmetcalf@mellanox.com> and maintained by him until
-> November 2017. It is adapted to the current kernel and cleaned up to
-> make this functionality both more complete (as in, prevent isolation
-> breaking in situations that were not covered before) and cleaner (as
-> in, avoid any dubious or fragile use of kernel interfaces, and provide
-> clean and reliable isolation breaking procedure).
-> 
-> I guess, I have to explain why such a thing exists.
-> 
-> ...
-> 
-> My thanks to Chris Metcalf for design and maintenance of the original
-> task isolation patch, Francis Giraldeau <francis.giraldeau@gmail.com>
-> and Yuri Norov <ynorov@marvell.com> for various contributions to this
-> work, and Frederic Weisbecker <frederic@kernel.org> for his work on
-> CPU isolation and housekeeping that made possible to remove some less
-> elegant solutions that I had to devise for earlier, <4.17 kernels.
-> 
-> The previous patch (v16 by Chris Metcalf) is at:
-> 
-> https://lore.kernel.org/lkml/1509728692-10460-1-git-send-email-cmetcalf@mellanox.com
+[CC += linux-api]
 
-Alex,
+On Wed, 22 Apr 2020 at 07:19, Josh Triplett <josh@joshtriplett.org> wrote:
+>
+> 5.8 material, not intended for 5.7. Now includes a patch for man-pages,
+> attached to this cover letter.
+>
+> Inspired by the X protocol's handling of XIDs, allow userspace to select
+> the file descriptor opened by a call like openat2, so that it can use
+> the resulting file descriptor in subsequent system calls without waiting
+> for the response to the initial openat2 syscall.
+>
+> The first patch is independent of the other two; it allows reserving
+> file descriptors below a certain minimum for userspace-selected fd
+> allocation only.
+>
+> The second patch implements userspace-selected fd allocation for
+> openat2, introducing a new O_SPECIFIC_FD flag and an fd field in struct
+> open_how. In io_uring, this allows sequences like openat2/read/close
+> without waiting for the openat2 to complete. Multiple such sequences can
+> overlap, as long as each uses a distinct file descriptor.
+>
+> The third patch adds userspace-selected fd allocation to pipe2 as well.
+> I did this partly as a demonstration of how simple it is to wire up
+> O_SPECIFIC_FD support for any fd-allocating system call, and partly in
+> the hopes that this may make it more useful to wire up io_uring support
+> for pipe2 in the future.
+>
+> v5:
+>
+> Rename padding field to __padding.
+> Add tests for non-zero __padding.
+> Include patch for man-pages.
+>
+> v4:
+>
+> Changed fd field to __u32.
+> Expanded and consolidated checks that return -EINVAL for invalid arguments.
+> Simplified and commented build_open_how.
+> Add documentation comment for fd field.
+> Add kselftests.
+>
+> Thanks to Aleksa Sarai for feedback.
+>
+> v3:
+>
+> This new version has an API to atomically increase the minimum fd and
+> return the previous minimum, rather than just getting and setting the
+> minimum; this makes it easier to allocate a range. (A library that might
+> initialize after the program has already opened other file descriptors
+> may need to check for existing open fds in the range after reserving it,
+> and reserve more fds if needed; this can be done entirely in userspace,
+> and we can't really do anything simpler in the kernel due to limitations
+> on file-descriptor semantics, so this patch series avoids introducing
+> any extra complexity in the kernel.)
+>
+> This new version also supports a __get_specific_unused_fd_flags call
+> which accepts the limit for RLIMIT_NOFILE as an argument, analogous to
+> __get_unused_fd_flags, since io_uring needs that to correctly handle
+> RLIMIT_NOFILE.
+>
+> Thanks to Jens Axboe for review and feedback.
+>
+> v2:
+>
+> Version 2 was a version incorporated into a larger patch series from Jens Axboe
+> on io_uring.
+>
+> Josh Triplett (3):
+>   fs: Support setting a minimum fd for "lowest available fd" allocation
+>   fs: openat2: Extend open_how to allow userspace-selected fds
+>   fs: pipe2: Support O_SPECIFIC_FD
+>
+>  fs/fcntl.c                                    |  2 +-
+>  fs/file.c                                     | 62 +++++++++++++++++--
+>  fs/io_uring.c                                 |  3 +-
+>  fs/open.c                                     |  8 ++-
+>  fs/pipe.c                                     | 16 +++--
+>  include/linux/fcntl.h                         |  5 +-
+>  include/linux/fdtable.h                       |  1 +
+>  include/linux/file.h                          |  4 ++
+>  include/uapi/asm-generic/fcntl.h              |  4 ++
+>  include/uapi/linux/openat2.h                  |  3 +
+>  include/uapi/linux/prctl.h                    |  3 +
+>  kernel/sys.c                                  |  5 ++
+>  tools/testing/selftests/openat2/helpers.c     |  2 +-
+>  tools/testing/selftests/openat2/helpers.h     | 21 +++++--
+>  .../testing/selftests/openat2/openat2_test.c  | 35 ++++++++++-
+>  15 files changed, 150 insertions(+), 24 deletions(-)
+>
+> --
+> 2.26.2
+>
 
-For patches that are not authored by you, you removed authors' SOB, like in
-patch 8 of this series.
 
-Please CC me for next revisions.
-
-Thanks,
-Yury
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
