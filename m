@@ -2,29 +2,36 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 522901B47D6
-	for <lists+linux-api@lfdr.de>; Wed, 22 Apr 2020 16:55:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17B5E1B4AA4
+	for <lists+linux-api@lfdr.de>; Wed, 22 Apr 2020 18:34:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728038AbgDVOzX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 22 Apr 2020 10:55:23 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:49646 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727920AbgDVOzT (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 22 Apr 2020 10:55:19 -0400
-Received: from ip5f5af183.dynamic.kabel-deutschland.de ([95.90.241.131] helo=wittgenstein.fritz.box)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1jRGmR-0006CM-Oh; Wed, 22 Apr 2020 14:55:15 +0000
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Jens Axboe <axboe@kernel.dk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-api@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>,
+        id S1726337AbgDVQe4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 22 Apr 2020 12:34:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45550 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725808AbgDVQez (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 22 Apr 2020 12:34:55 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id EC2C42082E;
+        Wed, 22 Apr 2020 16:34:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1587573295;
+        bh=w4JN5T5oaZgQeBhYVqmXSSTzkWYLzuJOyQMklh0w+mc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=aZf1+a1hml5uJnZaaGENlJlwC+gD2DiStpvw9MbJN79Of1MS4pCvEtSRkFH8HgEAs
+         7fOVd35T+0Gzr+lcs/fPBzcOfZwgU1mtNIXUpTpq/zVTT1FP1lqMBaln4BIhmCMnnX
+         BYRK3509URKr1fwMf23OLyAXB9dtNLLPLUEV5wns=
+Date:   Wed, 22 Apr 2020 18:34:53 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Jens Axboe <axboe@kernel.dk>, linux-kernel@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-api@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Serge Hallyn <serge@hallyn.com>,
         "Rafael J. Wysocki" <rafael@kernel.org>, Tejun Heo <tj@kernel.org>,
         "David S. Miller" <davem@davemloft.net>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
         Saravana Kannan <saravanak@google.com>,
         Jan Kara <jack@suse.cz>, David Howells <dhowells@redhat.com>,
         Seth Forshee <seth.forshee@canonical.com>,
@@ -32,7 +39,7 @@ Cc:     Jonathan Corbet <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>,
         Tom Gundersen <teg@jklm.no>,
         Christian Kellner <ckellner@redhat.com>,
         Dmitry Vyukov <dvyukov@google.com>,
-        =?UTF-8?q?St=C3=A9phane=20Graber?= <stgraber@ubuntu.com>,
+        =?iso-8859-1?Q?St=E9phane?= Graber <stgraber@ubuntu.com>,
         linux-doc@vger.kernel.org, netdev@vger.kernel.org,
         Steve Barber <smbarber@google.com>,
         Dylan Reid <dgreid@google.com>,
@@ -40,94 +47,28 @@ Cc:     Jonathan Corbet <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>,
         Kees Cook <keescook@chromium.org>,
         Benjamin Elder <bentheelder@google.com>,
         Akihiro Suda <suda.kyoto@gmail.com>
-Subject: [PATCH v2 7/7] loopfs: only show devices in their correct instance
-Date:   Wed, 22 Apr 2020 16:54:37 +0200
-Message-Id: <20200422145437.176057-8-christian.brauner@ubuntu.com>
-X-Mailer: git-send-email 2.26.1
-In-Reply-To: <20200422145437.176057-1-christian.brauner@ubuntu.com>
+Subject: Re: [PATCH v2 1/7] kobject_uevent: remove unneeded netlink_ns check
+Message-ID: <20200422163453.GA3438121@kroah.com>
 References: <20200422145437.176057-1-christian.brauner@ubuntu.com>
+ <20200422145437.176057-2-christian.brauner@ubuntu.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200422145437.176057-2-christian.brauner@ubuntu.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Since loopfs devices belong to a loopfs instance they have no business
-polluting the host's devtmpfs mount and should not propagate out of the
-namespace they belong to.
+On Wed, Apr 22, 2020 at 04:54:31PM +0200, Christian Brauner wrote:
+> Back when I rewrote large chunks of uevent sending I should have removed
+> the .netlink_ns method completely after having removed it's last user in
+> [1]. Let's remove it now and also remove the helper associated with it
+> that is unused too.
+> 
+> Fixes: a3498436b3a0 ("netns: restrict uevents") /* No backport needed. */
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
 
-Cc: Jens Axboe <axboe@kernel.dk>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
----
-/* v2 */
-unchanged
----
- drivers/base/devtmpfs.c | 4 ++--
- drivers/block/loop.c    | 4 +++-
- include/linux/device.h  | 3 +++
- 3 files changed, 8 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/base/devtmpfs.c b/drivers/base/devtmpfs.c
-index c9017e0584c0..77371ceb88fa 100644
---- a/drivers/base/devtmpfs.c
-+++ b/drivers/base/devtmpfs.c
-@@ -111,7 +111,7 @@ int devtmpfs_create_node(struct device *dev)
- 	const char *tmp = NULL;
- 	struct req req;
- 
--	if (!thread)
-+	if (!thread || dev->no_devnode)
- 		return 0;
- 
- 	req.mode = 0;
-@@ -138,7 +138,7 @@ int devtmpfs_delete_node(struct device *dev)
- 	const char *tmp = NULL;
- 	struct req req;
- 
--	if (!thread)
-+	if (!thread || dev->no_devnode)
- 		return 0;
- 
- 	req.name = device_get_devnode(dev, NULL, NULL, NULL, &tmp);
-diff --git a/drivers/block/loop.c b/drivers/block/loop.c
-index 2dc53bad4b48..5548151b9f11 100644
---- a/drivers/block/loop.c
-+++ b/drivers/block/loop.c
-@@ -2213,8 +2213,10 @@ static int loop_add(struct loop_device **l, int i, struct inode *inode)
- 	disk->queue		= lo->lo_queue;
- 	sprintf(disk->disk_name, "loop%d", i);
- #ifdef CONFIG_BLK_DEV_LOOPFS
--	if (loopfs_i_sb(inode))
-+	if (loopfs_i_sb(inode)) {
- 		disk->user_ns = loopfs_i_sb(inode)->s_user_ns;
-+		disk_to_dev(disk)->no_devnode = true;
-+	}
- #endif
- 
- 	add_disk(disk);
-diff --git a/include/linux/device.h b/include/linux/device.h
-index ac8e37cd716a..c69ef1c5a0ef 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -523,6 +523,8 @@ struct dev_links_info {
-  *		  sync_state() callback.
-  * @dma_coherent: this particular device is dma coherent, even if the
-  *		architecture supports non-coherent devices.
-+ * @no_devnode: whether device nodes associated with this device are kept out
-+ *		of devtmpfs (e.g. due to separate filesystem)
-  *
-  * At the lowest level, every device in a Linux system is represented by an
-  * instance of struct device. The device structure contains the information
-@@ -622,6 +624,7 @@ struct device {
-     defined(CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU_ALL)
- 	bool			dma_coherent:1;
- #endif
-+	bool			no_devnode:1;
- };
- 
- static inline struct device *kobj_to_dev(struct kobject *kobj)
--- 
-2.26.1
-
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
