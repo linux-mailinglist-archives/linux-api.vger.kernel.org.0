@@ -2,151 +2,231 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C9F9C1B4EAF
-	for <lists+linux-api@lfdr.de>; Wed, 22 Apr 2020 22:57:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BC161B4F0C
+	for <lists+linux-api@lfdr.de>; Wed, 22 Apr 2020 23:21:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726173AbgDVU5Z (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 22 Apr 2020 16:57:25 -0400
-Received: from mail.hallyn.com ([178.63.66.53]:45876 "EHLO mail.hallyn.com"
+        id S1726661AbgDVVVO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 22 Apr 2020 17:21:14 -0400
+Received: from mga09.intel.com ([134.134.136.24]:54635 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726105AbgDVU5Z (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 22 Apr 2020 16:57:25 -0400
-X-Greylist: delayed 391 seconds by postgrey-1.27 at vger.kernel.org; Wed, 22 Apr 2020 16:57:22 EDT
-Received: by mail.hallyn.com (Postfix, from userid 1001)
-        id 2555C9A3; Wed, 22 Apr 2020 15:50:51 -0500 (CDT)
-Date:   Wed, 22 Apr 2020 15:50:51 -0500
-From:   "Serge E. Hallyn" <serge@hallyn.com>
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Jens Axboe <axboe@kernel.dk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-api@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Serge Hallyn <serge@hallyn.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>, Tejun Heo <tj@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Saravana Kannan <saravanak@google.com>,
-        Jan Kara <jack@suse.cz>, David Howells <dhowells@redhat.com>,
-        Seth Forshee <seth.forshee@canonical.com>,
-        David Rheinsberg <david.rheinsberg@gmail.com>,
-        Tom Gundersen <teg@jklm.no>,
-        Christian Kellner <ckellner@redhat.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        =?iso-8859-1?Q?St=E9phane?= Graber <stgraber@ubuntu.com>,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-        Steve Barber <smbarber@google.com>,
-        Dylan Reid <dgreid@google.com>,
-        Filipe Brandenburger <filbranden@gmail.com>,
-        Kees Cook <keescook@chromium.org>,
-        Benjamin Elder <bentheelder@google.com>,
-        Akihiro Suda <suda.kyoto@gmail.com>
-Subject: Re: [PATCH v2 3/7] loop: use ns_capable for some loop operations
-Message-ID: <20200422205051.GA31944@mail.hallyn.com>
-References: <20200422145437.176057-1-christian.brauner@ubuntu.com>
- <20200422145437.176057-4-christian.brauner@ubuntu.com>
+        id S1726335AbgDVVVN (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 22 Apr 2020 17:21:13 -0400
+IronPort-SDR: W4F/DzAkp5HA+3tf09hnSLmlWRaYV5EztENc3429g0WMDJFxTUWA5dVpa7Kn08ydlWc9X5rLNg
+ U4PpaF046OMw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2020 14:21:12 -0700
+IronPort-SDR: 1V3aydwcj2RFc/ViuLoh/Pg4suCfr/h0jIK5zkCV7nn86S2pikVUlwWtCoNyaKdsG+vxPshR3W
+ E/Au24YAYQfQ==
+X-IronPort-AV: E=Sophos;i="5.73,304,1583222400"; 
+   d="scan'208";a="292070841"
+Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2020 14:21:11 -0700
+From:   ira.weiny@intel.com
+To:     linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
+        "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc:     Ira Weiny <ira.weiny@intel.com>, Al Viro <viro@zeniv.linux.org.uk>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Christoph Hellwig <hch@lst.de>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>, Jan Kara <jack@suse.cz>,
+        linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, Jeff Moyer <jmoyer@redhat.com>
+Subject: [PATCH V10 00/11] XFS - Enable per-file/per-directory DAX operations V10
+Date:   Wed, 22 Apr 2020 14:20:51 -0700
+Message-Id: <20200422212102.3757660-1-ira.weiny@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200422145437.176057-4-christian.brauner@ubuntu.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Apr 22, 2020 at 04:54:33PM +0200, Christian Brauner wrote:
-> The following  LOOP_GET_STATUS, LOOP_SET_STATUS, and LOOP_SET_BLOCK_SIZE
-> operations are now allowed in non-initial namespaces. Most other
-> operations were already possible before.
-> 
-> Cc: Jens Axboe <axboe@kernel.dk>
-> Cc: Seth Forshee <seth.forshee@canonical.com>
-> Cc: Tom Gundersen <teg@jklm.no>
-> Cc: Tejun Heo <tj@kernel.org>
-> Cc: Christian Kellner <ckellner@redhat.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: David Rheinsberg <david.rheinsberg@gmail.com>
-> Cc: Dmitry Vyukov <dvyukov@google.com>
-> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
+From: Ira Weiny <ira.weiny@intel.com>
 
-Reviewed-by: Serge Hallyn <serge@hallyn.com>
+Changes from V9:
+	Slight reorder of series to put Documentation sooner
+	modify i_state under i_lock
+	Change name of xfs_ioctl_setattr_dax_invalidate() ->
+		xfs_ioctl_setattr_prepare_dax()
+	Do not report default dax=inode mount mode
+	Move XFS_IEOFBLOCKS to '9'
+	Fixup some doc typos
+	Fix xfs style indentation
+	Fix commit mispelling
 
-> ---
-> /* v2 */
-> - Christian Brauner <christian.brauner@ubuntu.com>:
->   - Adapated loop_capable() based on changes in the loopfs
->     implementation patchset. Otherwise it is functionally equivalent to
->     the v1 version.
-> ---
->  drivers/block/loop.c | 20 +++++++++++++++-----
->  1 file changed, 15 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/block/loop.c b/drivers/block/loop.c
-> index 52f7583dd17d..8e21d4b33e01 100644
-> --- a/drivers/block/loop.c
-> +++ b/drivers/block/loop.c
-> @@ -1352,6 +1352,16 @@ void loopfs_evict_locked(struct loop_device *lo)
->  	}
->  	mutex_unlock(&loop_ctl_mutex);
->  }
-> +
-> +static bool loop_capable(const struct loop_device *lo, int cap)
-> +{
-> +	return ns_capable(loopfs_ns(lo), cap);
-> +}
-> +#else /* !CONFIG_BLK_DEV_LOOPFS */
-> +static inline bool loop_capable(const struct loop_device *lo, int cap)
-> +{
-> +	return capable(cap);
-> +}
->  #endif /* CONFIG_BLK_DEV_LOOPFS */
->  
->  static int
-> @@ -1368,7 +1378,7 @@ loop_set_status(struct loop_device *lo, const struct loop_info64 *info)
->  		return err;
->  	if (lo->lo_encrypt_key_size &&
->  	    !uid_eq(lo->lo_key_owner, uid) &&
-> -	    !capable(CAP_SYS_ADMIN)) {
-> +	    !loop_capable(lo, CAP_SYS_ADMIN)) {
->  		err = -EPERM;
->  		goto out_unlock;
->  	}
-> @@ -1499,7 +1509,7 @@ loop_get_status(struct loop_device *lo, struct loop_info64 *info)
->  	memcpy(info->lo_crypt_name, lo->lo_crypt_name, LO_NAME_SIZE);
->  	info->lo_encrypt_type =
->  		lo->lo_encryption ? lo->lo_encryption->number : 0;
-> -	if (lo->lo_encrypt_key_size && capable(CAP_SYS_ADMIN)) {
-> +	if (lo->lo_encrypt_key_size && loop_capable(lo, CAP_SYS_ADMIN)) {
->  		info->lo_encrypt_key_size = lo->lo_encrypt_key_size;
->  		memcpy(info->lo_encrypt_key, lo->lo_encrypt_key,
->  		       lo->lo_encrypt_key_size);
-> @@ -1723,7 +1733,7 @@ static int lo_ioctl(struct block_device *bdev, fmode_t mode,
->  		return loop_clr_fd(lo);
->  	case LOOP_SET_STATUS:
->  		err = -EPERM;
-> -		if ((mode & FMODE_WRITE) || capable(CAP_SYS_ADMIN)) {
-> +		if ((mode & FMODE_WRITE) || loop_capable(lo, CAP_SYS_ADMIN)) {
->  			err = loop_set_status_old(lo,
->  					(struct loop_info __user *)arg);
->  		}
-> @@ -1732,7 +1742,7 @@ static int lo_ioctl(struct block_device *bdev, fmode_t mode,
->  		return loop_get_status_old(lo, (struct loop_info __user *) arg);
->  	case LOOP_SET_STATUS64:
->  		err = -EPERM;
-> -		if ((mode & FMODE_WRITE) || capable(CAP_SYS_ADMIN)) {
-> +		if ((mode & FMODE_WRITE) || loop_capable(lo, CAP_SYS_ADMIN)) {
->  			err = loop_set_status64(lo,
->  					(struct loop_info64 __user *) arg);
->  		}
-> @@ -1742,7 +1752,7 @@ static int lo_ioctl(struct block_device *bdev, fmode_t mode,
->  	case LOOP_SET_CAPACITY:
->  	case LOOP_SET_DIRECT_IO:
->  	case LOOP_SET_BLOCK_SIZE:
-> -		if (!(mode & FMODE_WRITE) && !capable(CAP_SYS_ADMIN))
-> +		if (!(mode & FMODE_WRITE) && !loop_capable(lo, CAP_SYS_ADMIN))
->  			return -EPERM;
->  		/* Fall through */
->  	default:
-> -- 
-> 2.26.1
+At LSF/MM'19 [1] [2] we discussed applications that overestimate memory
+consumption due to their inability to detect whether the kernel will
+instantiate page cache for a file, and cases where a global dax enable via a
+mount option is too coarse.
+
+The following patch series enables the use of DAX on individual files and/or
+directories on xfs, and lays some groundwork to do so in ext4.  It further
+enhances the dax mount option to be a tri-state of 'always', 'never', or
+'iflag' (default).  Furthermore, it maintians '-o dax' to be equivalent to '-o
+dax=always'.
+
+The insight at LSF/MM was to separate the per-mount or per-file "physical"
+(FS_XFLAG_DAX) capability switch from an "effective" (S_DAX) attribute for the
+file.
+
+At LSF/MM we discussed the difficulties of switching the DAX state of a file
+with active mappings / page cache.  It was thought the races could be avoided
+by limiting DAX state flips to 0-length files.
+
+However, this turns out to not be true.[3][5] This is because address space
+operations (a_ops) may be in use at any time the inode is referenced.
+
+For this reason direct manipulation of the FS_XFLAG_DAX is allowed but the
+operation of the file (S_DAX) is not immediately changed.
+
+Details of when and how DAX state can be changed on a file is included in a
+documentation patch.
+
+It should be noted that FS_XFLAG_DAX inheritance is not shown in this patch set
+as it was maintained from previous work on XFS.  FS_XFLAG_DAX and it's
+inheritance will need to be added to other file systems for user control. 
+
+
+[1] https://lwn.net/Articles/787973/
+[2] https://lwn.net/Articles/787233/
+[3] https://lkml.org/lkml/2019/10/20/96
+[4] https://patchwork.kernel.org/patch/11310511/
+[5] https://lore.kernel.org/lkml/20200405061945.GA94792@iweiny-DESK2.sc.intel.com/
+
+
+To: linux-kernel@vger.kernel.org
+Cc: Al Viro <viro@zeniv.linux.org.uk>
+Cc: "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc: Dan Williams <dan.j.williams@intel.com>
+Cc: Dave Chinner <david@fromorbit.com>
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: "Theodore Y. Ts'o" <tytso@mit.edu>
+Cc: Jan Kara <jack@suse.cz>
+Cc: linux-ext4@vger.kernel.org
+Cc: linux-xfs@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-api@vger.kernel.org
+
+Changes from V8:
+	Rebase to 5.7-rc2
+	Change ALWAYS/NEVER bits to be 26/27
+	Remove XFS_IDONTCACHE -> lift to I_DONTCACHE
+		use mark_inode_dontcache() in XFS
+	create xfs_dax_mode enum
+	use xfs signature styles
+	Change xfs_inode_enabe_dax() -> xfs_inode_should_enable()
+		Based on feedback to ext4 series
+	Fix locking of DCACHE_DONTCACHE
+	Change flag_inode_dontcache() -> mark_inode_dontcache()
+	Change xfs_ioctl_setattr_dax_invalidate() -> xfs_ioctl_dax_check_set_cache()
+	Documentation cleanups
+	Clean up all commit messages
+
+Changes from V7:
+	Add DCACHE_DONTCACHE
+	If mount override don't worry about inode caching
+	Change mount flags to NEVER/ALWAYS
+	Clean up xfs_inode_enable_dax()
+	Clarify comments
+	Update documentation
+
+Changes from V6:
+	Incorporate feedback on patches
+	Add ability to change FS_XFLAG_DAX on files at any time.
+		Add a don't cache flag to the VFS layer
+		Preserve internal XFS IDONTCACHE behavior for bulkstat
+		operations
+
+Changes from V5:
+	* make dax mount option a tri-state
+	* Reject changes to FS_XFLAG_DAX for regular files
+		- Allow only on directories
+	* Update documentation
+
+Changes from V4:
+	* Open code the aops lock rather than add it to the xfs_ilock()
+	  subsystem (Darrick's comments were obsoleted by this change)
+	* Fix lkp build suggestions and bugs
+
+Changes from V3:
+	* Remove global locking...  :-D
+	* put back per inode locking and remove pre-mature optimizations
+	* Fix issues with Directories having IS_DAX() set
+	* Fix kernel crash issues reported by Jeff
+	* Add some clean up patches
+	* Consolidate diflags to iflags functions
+	* Update/add documentation
+	* Reorder/rename patches quite a bit
+
+Changes from V2:
+
+	* Move i_dax_sem to be a global percpu_rw_sem rather than per inode
+		Internal discussions with Dan determined this would be easier,
+		just as performant, and slightly less overhead that having it
+		in the SB as suggested by Jan
+	* Fix locking order in comments and throughout code
+	* Change "mode" to "state" throughout commits
+	* Add CONFIG_FS_DAX wrapper to disable inode_[un]lock_state() when not
+		configured
+	* Add static branch for which is activated by a device which supports
+		DAX in XFS
+	* Change "lock/unlock" to up/down read/write as appropriate
+		Previous names were over simplified
+	* Update comments/documentation
+
+	* Remove the xfs specific lock to the vfs (global) layer.
+	* Fix i_dax_sem locking order and comments
+
+	* Move 'i_mapped' count from struct inode to struct address_space and
+		rename it to mmap_count
+	* Add inode_has_mappings() call
+
+	* Fix build issues
+	* Clean up syntax spacing and minor issues
+	* Update man page text for STATX_ATTR_DAX
+	* Add reviewed-by's
+	* Rebase to 5.6
+
+	Rename patch:
+		from: fs/xfs: Add lock/unlock state to xfs
+		to: fs/xfs: Add write DAX lock to xfs layer
+	Add patch:
+		fs/xfs: Clarify lockdep dependency for xfs_isilocked()
+	Drop patch:
+		fs/xfs: Fix truncate up
+
+Ira Weiny (11):
+  fs/xfs: Remove unnecessary initialization of i_rwsem
+  fs: Remove unneeded IS_DAX() check in io_is_direct()
+  fs/stat: Define DAX statx attribute
+  Documentation/dax: Update Usage section
+  fs/xfs: Change XFS_MOUNT_DAX to XFS_MOUNT_DAX_ALWAYS
+  fs/xfs: Make DAX mount option a tri-state
+  fs/xfs: Create function xfs_inode_should_enable_dax()
+  fs/xfs: Combine xfs_diflags_to_linux() and xfs_diflags_to_iflags()
+  fs: Lift XFS_IDONTCACHE to the VFS layer
+  fs: Introduce DCACHE_DONTCACHE
+  fs/xfs: Update xfs_ioctl_setattr_dax_invalidate()
+
+ Documentation/filesystems/dax.txt | 164 +++++++++++++++++++++++++++++-
+ drivers/block/loop.c              |   6 +-
+ fs/dcache.c                       |   4 +
+ fs/inode.c                        |  15 +++
+ fs/stat.c                         |   3 +
+ fs/xfs/xfs_icache.c               |   8 +-
+ fs/xfs/xfs_inode.h                |   4 +-
+ fs/xfs/xfs_ioctl.c                | 141 ++++---------------------
+ fs/xfs/xfs_iops.c                 |  72 ++++++++-----
+ fs/xfs/xfs_mount.h                |   4 +-
+ fs/xfs/xfs_super.c                |  53 ++++++++--
+ include/linux/dcache.h            |   2 +
+ include/linux/fs.h                |  14 +--
+ include/uapi/linux/stat.h         |   1 +
+ 14 files changed, 319 insertions(+), 172 deletions(-)
+
+-- 
+2.25.1
+
