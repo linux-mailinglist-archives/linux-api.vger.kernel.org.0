@@ -2,1290 +2,671 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6090F1B5A72
-	for <lists+linux-api@lfdr.de>; Thu, 23 Apr 2020 13:24:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5037C1B5A8A
+	for <lists+linux-api@lfdr.de>; Thu, 23 Apr 2020 13:30:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728014AbgDWLYP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 23 Apr 2020 07:24:15 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:35270 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727069AbgDWLYO (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Apr 2020 07:24:14 -0400
-Received: from ip5f5af183.dynamic.kabel-deutschland.de ([95.90.241.131] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1jRZxb-0003xn-Dv; Thu, 23 Apr 2020 11:24:03 +0000
-Date:   Thu, 23 Apr 2020 13:24:01 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     "Serge E. Hallyn" <serge@hallyn.com>
-Cc:     Jens Axboe <axboe@kernel.dk>,
+        id S1728073AbgDWLaH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 23 Apr 2020 07:30:07 -0400
+Received: from raptor.unsafe.ru ([5.9.43.93]:33224 "EHLO raptor.unsafe.ru"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727928AbgDWLaH (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 23 Apr 2020 07:30:07 -0400
+Received: from comp-core-i7-2640m-0182e6.redhat.com (ip-89-102-33-211.net.upcbroadband.cz [89.102.33.211])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by raptor.unsafe.ru (Postfix) with ESMTPSA id 7276B20A01;
+        Thu, 23 Apr 2020 11:29:27 +0000 (UTC)
+From:   Alexey Gladkov <gladkov.alexey@gmail.com>
+To:     LKML <linux-kernel@vger.kernel.org>
+Cc:     Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Linux Security Module <linux-security-module@vger.kernel.org>,
+        Akinobu Mita <akinobu.mita@gmail.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Alexey Gladkov <legion@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Daniel Micay <danielmicay@gmail.com>,
+        Djalal Harouni <tixxdz@gmail.com>,
+        "Dmitry V . Levin" <ldv@altlinux.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-api@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rafael@kernel.org>, Tejun Heo <tj@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Saravana Kannan <saravanak@google.com>,
-        Jan Kara <jack@suse.cz>, David Howells <dhowells@redhat.com>,
-        Seth Forshee <seth.forshee@canonical.com>,
-        David Rheinsberg <david.rheinsberg@gmail.com>,
-        Tom Gundersen <teg@jklm.no>,
-        Christian Kellner <ckellner@redhat.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        =?utf-8?B?U3TDqXBoYW5l?= Graber <stgraber@ubuntu.com>,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-        Steve Barber <smbarber@google.com>,
-        Dylan Reid <dgreid@google.com>,
-        Filipe Brandenburger <filbranden@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Jeff Layton <jlayton@poochiereds.net>,
+        Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromium.org>,
-        Benjamin Elder <bentheelder@google.com>,
-        Akihiro Suda <suda.kyoto@gmail.com>
-Subject: Re: [PATCH v2 2/7] loopfs: implement loopfs
-Message-ID: <20200423112401.ipzmsyicabwajpn2@wittgenstein>
-References: <20200422145437.176057-1-christian.brauner@ubuntu.com>
- <20200422145437.176057-3-christian.brauner@ubuntu.com>
- <20200422215213.GB31944@mail.hallyn.com>
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        David Howells <dhowells@redhat.com>
+Subject: [PATCH v13 2/7] proc: allow to mount many instances of proc in one pid namespace
+Date:   Thu, 23 Apr 2020 13:28:58 +0200
+Message-Id: <20200423112858.95820-1-gladkov.alexey@gmail.com>
+X-Mailer: git-send-email 2.25.3
+In-Reply-To: <20200419141057.621356-3-gladkov.alexey@gmail.com>
+References: <20200419141057.621356-3-gladkov.alexey@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200422215213.GB31944@mail.hallyn.com>
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.6.1 (raptor.unsafe.ru [5.9.43.93]); Thu, 23 Apr 2020 11:30:01 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Apr 22, 2020 at 04:52:13PM -0500, Serge Hallyn wrote:
-> On Wed, Apr 22, 2020 at 04:54:32PM +0200, Christian Brauner wrote:
-> > This implements loopfs, a loop device filesystem. It takes inspiration
-> > from the binderfs filesystem I implemented about two years ago and with
-> > which we had overall good experiences so far. Parts of it are also
-> > based on [3] but it's mostly a new, imho cleaner approach.
-> > 
-> > Loopfs allows to create private loop devices instances to applications
-> > for various use-cases. It covers the use-case that was expressed on-list
-> > and in-person to get programmatic access to private loop devices for
-> > image building in sandboxes. An illustration for this is provided in
-> > [4].
-> > 
-> > Also loopfs is intended to provide loop devices to privileged and
-> > unprivileged containers which has been a frequent request from various
-> > major tools (Chromium, Kubernetes, LXD, Moby/Docker, systemd). I'm
-> > providing a non-exhaustive list of issues and requests (cf. [5]) around
-> > this feature mainly to illustrate that I'm not making the use-cases up.
-> > Currently none of this can be done safely since handing a loop device
-> > from the host into a container means that the container can see anything
-> > that the host is doing with that loop device and what other containers
-> > are doing with that device too. And (bind-)mounting devtmpfs inside of
-> > containers is not secure at all so also not an option (though sometimes
-> > done out of despair apparently).
-> > 
-> > The workloads people run in containers are supposed to be indiscernible
-> > from workloads run on the host and the tools inside of the container are
-> > supposed to not be required to be aware that they are running inside a
-> > container apart from containerization tools themselves. This is
-> > especially true when running older distros in containers that did exist
-> > before containers were as ubiquitous as they are today. With loopfs user
-> > can call mount -o loop and in a correctly setup container things work
-> > the same way they would on the host. The filesystem representation
-> > allows us to do this in a very simple way. At container setup, a
-> > container manager can mount a private instance of loopfs somehwere, e.g.
-> > at /dev/loopfs and then bind-mount or symlink /dev/loopfs/loop-control
-> > to /dev/loop-control, pre allocate and symlink the number of standard
-> > devices into their standard location and have a service file or rules in
-> > place that symlink additionally allocated loop devices through losetup
-> > into place as well.
-> > With the new syscall interception logic this is also possible for
-> > unprivileged containers. In these cases when a user calls mount -o loop
-> > <image> <mountpoint> it will be possible to completely setup the loop
-> > device in the container. The final mount syscall is handled through
-> > syscall interception which we already implemented and released in
-> > earlier kernels (see [1] and [2]) and is actively used in production
-> > workloads. The mount is often rewritten to a fuse binary to provide safe
-> > access for unprivileged containers.
-> > 
-> > Loopfs also allows the creation of hidden/detached dynamic loop devices
-> > and associated mounts which also was a often issued request. With the
-> > old mount api this can be achieved by creating a temporary loopfs and
-> > stashing a file descriptor to the mount point and the loop-control
-> > device and immediately unmounting the loopfs instance.  With the new
-> > mount api a detached mount can be created directly (i.e. a mount not
-> > visible anywhere in the filesystem). New loop devices can then be
-> > allocated and configured. They can be mounted through
-> > /proc/self/<fd>/<nr> with the old mount api or by using the fd directly
-> > with the new mount api. Combined with a mount namespace this allows for
-> > fully auto-cleaned up loop devices on program crash. This ties back to
-> > various use-cases and is illustrated in [4].
-> > 
-> > The filesystem representation requires the standard boilerplate
-> > filesystem code we know from other tiny filesystems. And all of
-> > the loopfs code is hidden under a config option that defaults to false.
-> > This specifically means, that none of the code even exists when users do
-> > not have any use-case for loopfs.
-> > In addition, the loopfs code does not alter how loop devices behave at
-> > all, i.e. there are no changes to any existing workloads and I've taken
-> > care to ifdef all loopfs specific things out.
-> > 
-> > Each loopfs mount is a separate instance. As such loop devices created
-> > in one instance are independent of loop devices created in another
-> > instance. This specifically entails that loop devices are only visible
-> > in the loopfs instance they belong to.
-> > 
-> > The number of loop devices available in loopfs instances are
-> > hierarchically limited through /proc/sys/user/max_loop_devices via the
-> > ucount infrastructure (Thanks to David Rheinsberg for pointing out that
-> > missing piece.). An administrator could e.g. set
-> > echo 3 > /proc/sys/user/max_loop_devices at which point any loopfs
-> > instance mounted by uid x can only create 3 loop devices no matter how
-> > many loopfs instances they mount. This limit applies hierarchically to
-> > all user namespaces.
-> 
-> Hm, info->device_count is per loopfs mount, though, right?  I don't
-> see where this gets incremented for all of a user's loopfs mounts
-> when one adds a loopdev?
-> 
-> I'm sure I'm missing something obvious...
+This patch allows to have multiple procfs instances inside the
+same pid namespace. The aim here is lightweight sandboxes, and to allow
+that we have to modernize procfs internals.
 
-Hm, I think you might be mixing up the two limits? device_count
-corresponds to the "max" mount option and is not involved in enforcing
-hierarchical limits. The global restriction is enforced through
-inc_ucount() which tracks by the uid of the mounter of the superblock.
-If the same user mounts multiple loopfs instances in the same namespace
-the ucount infra will enforce his quota across all loopfs instances.
+1) The main aim of this work is to have on embedded systems one
+supervisor for apps. Right now we have some lightweight sandbox support,
+however if we create pid namespacess we have to manages all the
+processes inside too, where our goal is to be able to run a bunch of
+apps each one inside its own mount namespace without being able to
+notice each other. We only want to use mount namespaces, and we want
+procfs to behave more like a real mount point.
 
-> 
-> > In addition, loopfs has a "max" mount option which allows to set a limit
-> > on the number of loop devices for a given loopfs instance. This is
-> > mainly to cover use-cases where a single loopfs mount is shared as a
-> > bind-mount between multiple parties that are prevented from creating
-> > other loopfs mounts and is equivalent to the semantics of the binderfs
-> > and devpts "max" mount option.
-> > 
-> > Note that in __loop_clr_fd() we now need not just check whether bdev is
-> > valid but also whether bdev->bd_disk is valid. This wasn't necessary
-> > before because in order to call LOOP_CLR_FD the loop device would need
-> > to be open and thus bdev->bd_disk was guaranteed to be allocated. For
-> > loopfs loop devices we allow callers to simply unlink them just as we do
-> > for binderfs binder devices and we do also need to account for the case
-> > where a loopfs superblock is shutdown while backing files might still be
-> > associated with some loop devices. In such cases no bd_disk device will
-> > be attached to bdev. This is not in itself noteworthy it's more about
-> > documenting the "why" of the added bdev->bd_disk check for posterity.
-> > 
-> > [1]: 6a21cc50f0c7 ("seccomp: add a return code to trap to userspace")
-> > [2]: fb3c5386b382 ("seccomp: add SECCOMP_USER_NOTIF_FLAG_CONTINUE")
-> > [3]: https://lore.kernel.org/lkml/1401227936-15698-1-git-send-email-seth.forshee@canonical.com
-> > [4]: https://gist.github.com/brauner/dcaf15e6977cc1bfadfb3965f126c02f
-> > [5]: https://github.com/kubernetes-sigs/kind/issues/1333
-> >      https://github.com/kubernetes-sigs/kind/issues/1248
-> >      https://lists.freedesktop.org/archives/systemd-devel/2017-August/039453.html
-> >      https://chromium.googlesource.com/chromiumos/docs/+/master/containers_and_vms.md#loop-mount
-> >      https://gitlab.com/gitlab-com/support-forum/issues/3732
-> >      https://github.com/moby/moby/issues/27886
-> >      https://twitter.com/_AkihiroSuda_/status/1249664478267854848
-> >      https://serverfault.com/questions/701384/loop-device-in-a-linux-container
-> >      https://discuss.linuxcontainers.org/t/providing-access-to-loop-and-other-devices-in-containers/1352
-> >      https://discuss.concourse-ci.org/t/exposing-dev-loop-devices-in-privileged-mode/813
-> > Cc: Jens Axboe <axboe@kernel.dk>
-> > Cc: Steve Barber <smbarber@google.com>
-> > Cc: Filipe Brandenburger <filbranden@gmail.com>
-> > Cc: Kees Cook <keescook@chromium.org>
-> > Cc: Benjamin Elder <bentheelder@google.com>
-> > Cc: Seth Forshee <seth.forshee@canonical.com>
-> > Cc: Stéphane Graber <stgraber@ubuntu.com>
-> > Cc: Tom Gundersen <teg@jklm.no>
-> > Cc: Serge Hallyn <serge@hallyn.com>
-> 
-> Reviewed-by: Serge Hallyn <serge@hallyn.com>
-> 
-> > Cc: Tejun Heo <tj@kernel.org>
-> > Cc: Christian Kellner <ckellner@redhat.com>
-> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Cc: "David S. Miller" <davem@davemloft.net>
-> > Cc: Dylan Reid <dgreid@google.com>
-> > Cc: David Rheinsberg <david.rheinsberg@gmail.com>
-> > Cc: Akihiro Suda <suda.kyoto@gmail.com>
-> > Cc: Dmitry Vyukov <dvyukov@google.com>
-> > Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> > Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
-> > ---
-> > /* v2 */
-> > - David Rheinsberg <david.rheinsberg@gmail.com> /
-> >   Christian Brauner <christian.brauner@ubuntu.com>:
-> >   - Correctly cleanup loop devices that are in-use after the loopfs
-> >     instance has been shut down. This is important for some use-cases
-> >     that David pointed out where they effectively create a loopfs
-> >     instance, allocate devices and drop unnecessary references to it.
-> > - Christian Brauner <christian.brauner@ubuntu.com>:
-> >   - Replace lo_loopfs_i inode member in struct loop_device with a custom
-> >     struct lo_info pointer which is only allocated for loopfs loop
-> >     devices.
-> > ---
-> >  MAINTAINERS                    |   5 +
-> >  drivers/block/Kconfig          |   4 +
-> >  drivers/block/Makefile         |   1 +
-> >  drivers/block/loop.c           | 200 ++++++++++---
-> >  drivers/block/loop.h           |  12 +-
-> >  drivers/block/loopfs/Makefile  |   3 +
-> >  drivers/block/loopfs/loopfs.c  | 494 +++++++++++++++++++++++++++++++++
-> >  drivers/block/loopfs/loopfs.h  |  36 +++
-> >  include/linux/user_namespace.h |   3 +
-> >  include/uapi/linux/magic.h     |   1 +
-> >  kernel/ucount.c                |   3 +
-> >  11 files changed, 721 insertions(+), 41 deletions(-)
-> >  create mode 100644 drivers/block/loopfs/Makefile
-> >  create mode 100644 drivers/block/loopfs/loopfs.c
-> >  create mode 100644 drivers/block/loopfs/loopfs.h
-> > 
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index b816a453b10e..560b37a65bce 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -9957,6 +9957,11 @@ W:	http://www.avagotech.com/support/
-> >  F:	drivers/message/fusion/
-> >  F:	drivers/scsi/mpt3sas/
-> >  
-> > +LOOPFS FILE SYSTEM
-> > +M:	Christian Brauner <christian.brauner@ubuntu.com>
-> > +S:	Supported
-> > +F:	drivers/block/loopfs/
-> > +
-> >  LSILOGIC/SYMBIOS/NCR 53C8XX and 53C1010 PCI-SCSI drivers
-> >  M:	Matthew Wilcox <willy@infradead.org>
-> >  L:	linux-scsi@vger.kernel.org
-> > diff --git a/drivers/block/Kconfig b/drivers/block/Kconfig
-> > index 025b1b77b11a..d7ff37d795ad 100644
-> > --- a/drivers/block/Kconfig
-> > +++ b/drivers/block/Kconfig
-> > @@ -214,6 +214,10 @@ config BLK_DEV_LOOP
-> >  
-> >  	  Most users will answer N here.
-> >  
-> > +config BLK_DEV_LOOPFS
-> > +	bool "Loopback device virtual filesystem support"
-> > +	depends on BLK_DEV_LOOP=y
-> > +
-> >  config BLK_DEV_LOOP_MIN_COUNT
-> >  	int "Number of loop devices to pre-create at init time"
-> >  	depends on BLK_DEV_LOOP
-> > diff --git a/drivers/block/Makefile b/drivers/block/Makefile
-> > index 795facd8cf19..7052be26aa8b 100644
-> > --- a/drivers/block/Makefile
-> > +++ b/drivers/block/Makefile
-> > @@ -36,6 +36,7 @@ obj-$(CONFIG_XEN_BLKDEV_BACKEND)	+= xen-blkback/
-> >  obj-$(CONFIG_BLK_DEV_DRBD)     += drbd/
-> >  obj-$(CONFIG_BLK_DEV_RBD)     += rbd.o
-> >  obj-$(CONFIG_BLK_DEV_PCIESSD_MTIP32XX)	+= mtip32xx/
-> > +obj-$(CONFIG_BLK_DEV_LOOPFS)	+= loopfs/
-> >  
-> >  obj-$(CONFIG_BLK_DEV_RSXX) += rsxx/
-> >  obj-$(CONFIG_ZRAM) += zram/
-> > diff --git a/drivers/block/loop.c b/drivers/block/loop.c
-> > index da693e6a834e..52f7583dd17d 100644
-> > --- a/drivers/block/loop.c
-> > +++ b/drivers/block/loop.c
-> > @@ -81,6 +81,10 @@
-> >  
-> >  #include "loop.h"
-> >  
-> > +#ifdef CONFIG_BLK_DEV_LOOPFS
-> > +#include "loopfs/loopfs.h"
-> > +#endif
-> > +
-> >  #include <linux/uaccess.h>
-> >  
-> >  static DEFINE_IDR(loop_index_idr);
-> > @@ -1115,6 +1119,24 @@ loop_init_xfer(struct loop_device *lo, struct loop_func_table *xfer,
-> >  	return err;
-> >  }
-> >  
-> > +static void loop_remove(struct loop_device *lo)
-> > +{
-> > +#ifdef CONFIG_BLK_DEV_LOOPFS
-> > +	loopfs_remove(lo);
-> > +#endif
-> > +	del_gendisk(lo->lo_disk);
-> > +	blk_cleanup_queue(lo->lo_queue);
-> > +	blk_mq_free_tag_set(&lo->tag_set);
-> > +	put_disk(lo->lo_disk);
-> > +	kfree(lo);
-> > +}
-> > +
-> > +static inline void __loop_remove(struct loop_device *lo)
-> > +{
-> > +	idr_remove(&loop_index_idr, lo->lo_number);
-> > +	loop_remove(lo);
-> > +}
-> > +
-> >  static int __loop_clr_fd(struct loop_device *lo, bool release)
-> >  {
-> >  	struct file *filp = NULL;
-> > @@ -1164,7 +1186,7 @@ static int __loop_clr_fd(struct loop_device *lo, bool release)
-> >  	}
-> >  	set_capacity(lo->lo_disk, 0);
-> >  	loop_sysfs_exit(lo);
-> > -	if (bdev) {
-> > +	if (bdev && bdev->bd_disk) {
-> >  		bd_set_size(bdev, 0);
-> >  		/* let user-space know about this change */
-> >  		kobject_uevent(&disk_to_dev(bdev->bd_disk)->kobj, KOBJ_CHANGE);
-> > @@ -1174,7 +1196,7 @@ static int __loop_clr_fd(struct loop_device *lo, bool release)
-> >  	module_put(THIS_MODULE);
-> >  	blk_mq_unfreeze_queue(lo->lo_queue);
-> >  
-> > -	partscan = lo->lo_flags & LO_FLAGS_PARTSCAN && bdev;
-> > +	partscan = lo->lo_flags & LO_FLAGS_PARTSCAN && bdev && bdev->bd_disk;
-> >  	lo_number = lo->lo_number;
-> >  	loop_unprepare_queue(lo);
-> >  out_unlock:
-> > @@ -1213,7 +1235,12 @@ static int __loop_clr_fd(struct loop_device *lo, bool release)
-> >  	lo->lo_flags = 0;
-> >  	if (!part_shift)
-> >  		lo->lo_disk->flags |= GENHD_FL_NO_PART_SCAN;
-> > -	lo->lo_state = Lo_unbound;
-> > +#ifdef CONFIG_BLK_DEV_LOOPFS
-> > +	if (loopfs_wants_remove(lo))
-> > +		__loop_remove(lo);
-> > +	else
-> > +#endif
-> > +		lo->lo_state = Lo_unbound;
-> >  	mutex_unlock(&loop_ctl_mutex);
-> >  
-> >  	/*
-> > @@ -1259,6 +1286,74 @@ static int loop_clr_fd(struct loop_device *lo)
-> >  	return __loop_clr_fd(lo, false);
-> >  }
-> >  
-> > +#ifdef CONFIG_BLK_DEV_LOOPFS
-> > +int loopfs_rundown_locked(struct loop_device *lo)
-> > +{
-> > +	int ret;
-> > +
-> > +	if (WARN_ON_ONCE(!loopfs_device(lo)))
-> > +		return -EINVAL;
-> > +
-> > +	ret = mutex_lock_killable(&loop_ctl_mutex);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	if (lo->lo_state != Lo_unbound || atomic_read(&lo->lo_refcnt) > 0) {
-> > +		ret = -EBUSY;
-> > +	} else {
-> > +		/*
-> > +		 * Since the device is unbound it has no associated backing
-> > +		 * file and we can safely set Lo_rundown to prevent it from
-> > +		 * being found. Actual cleanup happens during inode eviction.
-> > +		 */
-> > +		lo->lo_state = Lo_rundown;
-> > +		ret = 0;
-> > +	}
-> > +
-> > +	mutex_unlock(&loop_ctl_mutex);
-> > +	return ret;
-> > +}
-> > +
-> > +/**
-> > + * loopfs_evict_locked() - remove loop device or mark inactive
-> > + * @lo:	loopfs loop device
-> > + *
-> > + * This function will remove a loop device. If it has no users
-> > + * and is bound the backing file will be cleaned up. If the loop
-> > + * device has users it will be marked for auto cleanup.
-> > + * This function is only called when a loopfs instance is shutdown
-> > + * when all references to it from this loopfs instance have been
-> > + * dropped. If there are still any references to it cleanup will
-> > + * happen in lo_release().
-> > + */
-> > +void loopfs_evict_locked(struct loop_device *lo)
-> > +{
-> > +	struct lo_loopfs *lo_info;
-> > +	struct inode *lo_inode;
-> > +
-> > +	WARN_ON_ONCE(!loopfs_device(lo));
-> > +
-> > +	mutex_lock(&loop_ctl_mutex);
-> > +	lo_info = lo->lo_info;
-> > +	lo_inode = lo_info->lo_inode;
-> > +	lo_info->lo_inode = NULL;
-> > +	lo_info->lo_flags |= LOOPFS_FLAGS_INACTIVE;
-> > +
-> > +	if (atomic_read(&lo->lo_refcnt) > 0) {
-> > +		lo->lo_flags |= LO_FLAGS_AUTOCLEAR;
-> > +	} else {
-> > +		lo->lo_state = Lo_rundown;
-> > +		lo->lo_disk->private_data = NULL;
-> > +		lo_inode->i_private = NULL;
-> > +
-> > +		mutex_unlock(&loop_ctl_mutex);
-> > +		__loop_clr_fd(lo, false);
-> > +		return;
-> > +	}
-> > +	mutex_unlock(&loop_ctl_mutex);
-> > +}
-> > +#endif /* CONFIG_BLK_DEV_LOOPFS */
-> > +
-> >  static int
-> >  loop_set_status(struct loop_device *lo, const struct loop_info64 *info)
-> >  {
-> > @@ -1842,7 +1937,7 @@ static void lo_release(struct gendisk *disk, fmode_t mode)
-> >  
-> >  	if (lo->lo_flags & LO_FLAGS_AUTOCLEAR) {
-> >  		if (lo->lo_state != Lo_bound)
-> > -			goto out_unlock;
-> > +			goto out_remove;
-> >  		lo->lo_state = Lo_rundown;
-> >  		mutex_unlock(&loop_ctl_mutex);
-> >  		/*
-> > @@ -1860,6 +1955,12 @@ static void lo_release(struct gendisk *disk, fmode_t mode)
-> >  		blk_mq_unfreeze_queue(lo->lo_queue);
-> >  	}
-> >  
-> > +out_remove:
-> > +#ifdef CONFIG_BLK_DEV_LOOPFS
-> > +	if (lo->lo_state != Lo_bound && loopfs_wants_remove(lo))
-> > +		__loop_remove(lo);
-> > +#endif
-> > +
-> >  out_unlock:
-> >  	mutex_unlock(&loop_ctl_mutex);
-> >  }
-> > @@ -1878,6 +1979,11 @@ static const struct block_device_operations lo_fops = {
-> >   * And now the modules code and kernel interface.
-> >   */
-> >  static int max_loop;
-> > +#ifdef CONFIG_BLK_DEV_LOOPFS
-> > +unsigned long max_devices;
-> > +#else
-> > +static unsigned long max_devices;
-> > +#endif
-> >  module_param(max_loop, int, 0444);
-> >  MODULE_PARM_DESC(max_loop, "Maximum number of loop devices");
-> >  module_param(max_part, int, 0444);
-> > @@ -2006,7 +2112,7 @@ static const struct blk_mq_ops loop_mq_ops = {
-> >  	.complete	= lo_complete_rq,
-> >  };
-> >  
-> > -static int loop_add(struct loop_device **l, int i)
-> > +static int loop_add(struct loop_device **l, int i, struct inode *inode)
-> >  {
-> >  	struct loop_device *lo;
-> >  	struct gendisk *disk;
-> > @@ -2096,7 +2202,17 @@ static int loop_add(struct loop_device **l, int i)
-> >  	disk->private_data	= lo;
-> >  	disk->queue		= lo->lo_queue;
-> >  	sprintf(disk->disk_name, "loop%d", i);
-> > +
-> >  	add_disk(disk);
-> > +
-> > +#ifdef CONFIG_BLK_DEV_LOOPFS
-> > +	err = loopfs_add(lo, inode, disk_devt(disk));
-> > +	if (err) {
-> > +		__loop_remove(lo);
-> > +		goto out;
-> > +	}
-> > +#endif
-> > +
-> >  	*l = lo;
-> >  	return lo->lo_number;
-> >  
-> > @@ -2112,36 +2228,41 @@ static int loop_add(struct loop_device **l, int i)
-> >  	return err;
-> >  }
-> >  
-> > -static void loop_remove(struct loop_device *lo)
-> > -{
-> > -	del_gendisk(lo->lo_disk);
-> > -	blk_cleanup_queue(lo->lo_queue);
-> > -	blk_mq_free_tag_set(&lo->tag_set);
-> > -	put_disk(lo->lo_disk);
-> > -	kfree(lo);
-> > -}
-> > +struct find_free_cb_data {
-> > +	struct loop_device **l;
-> > +	struct inode *inode;
-> > +};
-> >  
-> >  static int find_free_cb(int id, void *ptr, void *data)
-> >  {
-> >  	struct loop_device *lo = ptr;
-> > -	struct loop_device **l = data;
-> > +	struct find_free_cb_data *cb_data = data;
-> >  
-> > -	if (lo->lo_state == Lo_unbound) {
-> > -		*l = lo;
-> > -		return 1;
-> > -	}
-> > -	return 0;
-> > +	if (lo->lo_state != Lo_unbound)
-> > +		return 0;
-> > +
-> > +#ifdef CONFIG_BLK_DEV_LOOPFS
-> > +	if (!loopfs_access(cb_data->inode, lo))
-> > +		return 0;
-> > +#endif
-> > +
-> > +	*cb_data->l = lo;
-> > +	return 1;
-> >  }
-> >  
-> > -static int loop_lookup(struct loop_device **l, int i)
-> > +static int loop_lookup(struct loop_device **l, int i, struct inode *inode)
-> >  {
-> >  	struct loop_device *lo;
-> >  	int ret = -ENODEV;
-> >  
-> >  	if (i < 0) {
-> >  		int err;
-> > +		struct find_free_cb_data cb_data = {
-> > +			.l = &lo,
-> > +			.inode = inode,
-> > +		};
-> >  
-> > -		err = idr_for_each(&loop_index_idr, &find_free_cb, &lo);
-> > +		err = idr_for_each(&loop_index_idr, &find_free_cb, &cb_data);
-> >  		if (err == 1) {
-> >  			*l = lo;
-> >  			ret = lo->lo_number;
-> > @@ -2152,6 +2273,11 @@ static int loop_lookup(struct loop_device **l, int i)
-> >  	/* lookup and return a specific i */
-> >  	lo = idr_find(&loop_index_idr, i);
-> >  	if (lo) {
-> > +#ifdef CONFIG_BLK_DEV_LOOPFS
-> > +		if (!loopfs_access(inode, lo))
-> > +			return -EACCES;
-> > +#endif
-> > +
-> >  		*l = lo;
-> >  		ret = lo->lo_number;
-> >  	}
-> > @@ -2166,9 +2292,9 @@ static struct kobject *loop_probe(dev_t dev, int *part, void *data)
-> >  	int err;
-> >  
-> >  	mutex_lock(&loop_ctl_mutex);
-> > -	err = loop_lookup(&lo, MINOR(dev) >> part_shift);
-> > +	err = loop_lookup(&lo, MINOR(dev) >> part_shift, NULL);
-> >  	if (err < 0)
-> > -		err = loop_add(&lo, MINOR(dev) >> part_shift);
-> > +		err = loop_add(&lo, MINOR(dev) >> part_shift, NULL);
-> >  	if (err < 0)
-> >  		kobj = NULL;
-> >  	else
-> > @@ -2192,15 +2318,15 @@ static long loop_control_ioctl(struct file *file, unsigned int cmd,
-> >  	ret = -ENOSYS;
-> >  	switch (cmd) {
-> >  	case LOOP_CTL_ADD:
-> > -		ret = loop_lookup(&lo, parm);
-> > +		ret = loop_lookup(&lo, parm, file_inode(file));
-> >  		if (ret >= 0) {
-> >  			ret = -EEXIST;
-> >  			break;
-> >  		}
-> > -		ret = loop_add(&lo, parm);
-> > +		ret = loop_add(&lo, parm, file_inode(file));
-> >  		break;
-> >  	case LOOP_CTL_REMOVE:
-> > -		ret = loop_lookup(&lo, parm);
-> > +		ret = loop_lookup(&lo, parm, file_inode(file));
-> >  		if (ret < 0)
-> >  			break;
-> >  		if (lo->lo_state != Lo_unbound) {
-> > @@ -2212,14 +2338,13 @@ static long loop_control_ioctl(struct file *file, unsigned int cmd,
-> >  			break;
-> >  		}
-> >  		lo->lo_disk->private_data = NULL;
-> > -		idr_remove(&loop_index_idr, lo->lo_number);
-> > -		loop_remove(lo);
-> > +		__loop_remove(lo);
-> >  		break;
-> >  	case LOOP_CTL_GET_FREE:
-> > -		ret = loop_lookup(&lo, -1);
-> > +		ret = loop_lookup(&lo, -1, file_inode(file));
-> >  		if (ret >= 0)
-> >  			break;
-> > -		ret = loop_add(&lo, -1);
-> > +		ret = loop_add(&lo, -1, file_inode(file));
-> >  	}
-> >  	mutex_unlock(&loop_ctl_mutex);
-> >  
-> > @@ -2246,7 +2371,6 @@ MODULE_ALIAS("devname:loop-control");
-> >  static int __init loop_init(void)
-> >  {
-> >  	int i, nr;
-> > -	unsigned long range;
-> >  	struct loop_device *lo;
-> >  	int err;
-> >  
-> > @@ -2285,10 +2409,10 @@ static int __init loop_init(void)
-> >  	 */
-> >  	if (max_loop) {
-> >  		nr = max_loop;
-> > -		range = max_loop << part_shift;
-> > +		max_devices = max_loop << part_shift;
-> >  	} else {
-> >  		nr = CONFIG_BLK_DEV_LOOP_MIN_COUNT;
-> > -		range = 1UL << MINORBITS;
-> > +		max_devices = 1UL << MINORBITS;
-> >  	}
-> >  
-> >  	err = misc_register(&loop_misc);
-> > @@ -2301,13 +2425,13 @@ static int __init loop_init(void)
-> >  		goto misc_out;
-> >  	}
-> >  
-> > -	blk_register_region(MKDEV(LOOP_MAJOR, 0), range,
-> > +	blk_register_region(MKDEV(LOOP_MAJOR, 0), max_devices,
-> >  				  THIS_MODULE, loop_probe, NULL, NULL);
-> >  
-> >  	/* pre-create number of devices given by config or max_loop */
-> >  	mutex_lock(&loop_ctl_mutex);
-> >  	for (i = 0; i < nr; i++)
-> > -		loop_add(&lo, i);
-> > +		loop_add(&lo, i, NULL);
-> >  	mutex_unlock(&loop_ctl_mutex);
-> >  
-> >  	printk(KERN_INFO "loop: module loaded\n");
-> > @@ -2329,14 +2453,10 @@ static int loop_exit_cb(int id, void *ptr, void *data)
-> >  
-> >  static void __exit loop_exit(void)
-> >  {
-> > -	unsigned long range;
-> > -
-> > -	range = max_loop ? max_loop << part_shift : 1UL << MINORBITS;
-> > -
-> >  	idr_for_each(&loop_index_idr, &loop_exit_cb, NULL);
-> >  	idr_destroy(&loop_index_idr);
-> >  
-> > -	blk_unregister_region(MKDEV(LOOP_MAJOR, 0), range);
-> > +	blk_unregister_region(MKDEV(LOOP_MAJOR, 0), max_devices);
-> >  	unregister_blkdev(LOOP_MAJOR, "loop");
-> >  
-> >  	misc_deregister(&loop_misc);
-> > diff --git a/drivers/block/loop.h b/drivers/block/loop.h
-> > index af75a5ee4094..6fed746b6124 100644
-> > --- a/drivers/block/loop.h
-> > +++ b/drivers/block/loop.h
-> > @@ -17,6 +17,10 @@
-> >  #include <linux/kthread.h>
-> >  #include <uapi/linux/loop.h>
-> >  
-> > +#ifdef CONFIG_BLK_DEV_LOOPFS
-> > +#include "loopfs/loopfs.h"
-> > +#endif
-> > +
-> >  /* Possible states of device */
-> >  enum {
-> >  	Lo_unbound,
-> > @@ -62,6 +66,9 @@ struct loop_device {
-> >  	struct request_queue	*lo_queue;
-> >  	struct blk_mq_tag_set	tag_set;
-> >  	struct gendisk		*lo_disk;
-> > +#ifdef CONFIG_BLK_DEV_LOOPFS
-> > +	struct lo_loopfs	*lo_info;
-> > +#endif
-> >  };
-> >  
-> >  struct loop_cmd {
-> > @@ -89,6 +96,9 @@ struct loop_func_table {
-> >  }; 
-> >  
-> >  int loop_register_transfer(struct loop_func_table *funcs);
-> > -int loop_unregister_transfer(int number); 
-> > +int loop_unregister_transfer(int number);
-> > +#ifdef CONFIG_BLK_DEV_LOOPFS
-> > +extern unsigned long max_devices;
-> > +#endif
-> >  
-> >  #endif
-> > diff --git a/drivers/block/loopfs/Makefile b/drivers/block/loopfs/Makefile
-> > new file mode 100644
-> > index 000000000000..87ec703b662e
-> > --- /dev/null
-> > +++ b/drivers/block/loopfs/Makefile
-> > @@ -0,0 +1,3 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only
-> > +loopfs-y			:= loopfs.o
-> > +obj-$(CONFIG_BLK_DEV_LOOPFS)	+= loopfs.o
-> > diff --git a/drivers/block/loopfs/loopfs.c b/drivers/block/loopfs/loopfs.c
-> > new file mode 100644
-> > index 000000000000..b3461c72b6e7
-> > --- /dev/null
-> > +++ b/drivers/block/loopfs/loopfs.c
-> > @@ -0,0 +1,494 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +
-> > +#include <linux/fs.h>
-> > +#include <linux/fs_parser.h>
-> > +#include <linux/fsnotify.h>
-> > +#include <linux/genhd.h>
-> > +#include <linux/init.h>
-> > +#include <linux/list.h>
-> > +#include <linux/magic.h>
-> > +#include <linux/major.h>
-> > +#include <linux/miscdevice.h>
-> > +#include <linux/module.h>
-> > +#include <linux/mount.h>
-> > +#include <linux/namei.h>
-> > +#include <linux/sched.h>
-> > +#include <linux/slab.h>
-> > +#include <linux/seq_file.h>
-> > +
-> > +#include "../loop.h"
-> > +#include "loopfs.h"
-> > +
-> > +#define FIRST_INODE 1
-> > +#define SECOND_INODE 2
-> > +#define INODE_OFFSET 3
-> > +
-> > +enum loopfs_param {
-> > +	Opt_max,
-> > +};
-> > +
-> > +const struct fs_parameter_spec loopfs_fs_parameters[] = {
-> > +	fsparam_u32("max",	Opt_max),
-> > +	{}
-> > +};
-> > +
-> > +struct loopfs_mount_opts {
-> > +	int max;
-> > +};
-> > +
-> > +struct loopfs_info {
-> > +	kuid_t root_uid;
-> > +	kgid_t root_gid;
-> > +	unsigned long device_count;
-> > +	struct dentry *control_dentry;
-> > +	struct loopfs_mount_opts mount_opts;
-> > +};
-> > +
-> > +static inline struct loopfs_info *LOOPFS_SB(const struct super_block *sb)
-> > +{
-> > +	return sb->s_fs_info;
-> > +}
-> > +
-> > +struct super_block *loopfs_i_sb(const struct inode *inode)
-> > +{
-> > +	if (inode && inode->i_sb->s_magic == LOOPFS_SUPER_MAGIC)
-> > +		return inode->i_sb;
-> > +
-> > +	return NULL;
-> > +}
-> > +
-> > +bool loopfs_device(const struct loop_device *lo)
-> > +{
-> > +	return lo->lo_info != NULL;
-> > +}
-> > +
-> > +struct user_namespace *loopfs_ns(const struct loop_device *lo)
-> > +{
-> > +	if (loopfs_device(lo)) {
-> > +		struct super_block *sb;
-> > +
-> > +		sb = loopfs_i_sb(lo->lo_info->lo_inode);
-> > +		if (sb)
-> > +			return sb->s_user_ns;
-> > +	}
-> > +
-> > +	return &init_user_ns;
-> > +}
-> > +
-> > +bool loopfs_access(const struct inode *first, struct loop_device *lo)
-> > +{
-> > +	return loopfs_device(lo) &&
-> > +	       loopfs_i_sb(first) == loopfs_i_sb(lo->lo_info->lo_inode);
-> > +}
-> > +
-> > +bool loopfs_wants_remove(const struct loop_device *lo)
-> > +{
-> > +	return lo->lo_info && (lo->lo_info->lo_flags & LOOPFS_FLAGS_INACTIVE);
-> > +}
-> > +
-> > +/**
-> > + * loopfs_add - allocate inode from super block of a loopfs mount
-> > + * @lo:		loop device for which we are creating a new device entry
-> > + * @ref_inode:	inode from wich the super block will be taken
-> > + * @device_nr:  device number of the associated disk device
-> > + *
-> > + * This function creates a new device node for @lo.
-> > + * Minor numbers are limited and tracked globally. The
-> > + * function will stash a struct loop_device for the specific loop
-> > + * device in i_private of the inode.
-> > + * It will go on to allocate a new inode from the super block of the
-> > + * filesystem mount, stash a struct loop_device in its i_private field
-> > + * and attach a dentry to that inode.
-> > + *
-> > + * Return: 0 on success, negative errno on failure
-> > + */
-> > +int loopfs_add(struct loop_device *lo, struct inode *ref_inode, dev_t device_nr)
-> > +{
-> > +	int ret;
-> > +	char name[DISK_NAME_LEN];
-> > +	struct super_block *sb;
-> > +	struct loopfs_info *info;
-> > +	struct dentry *root, *dentry;
-> > +	struct inode *inode;
-> > +	struct lo_loopfs *lo_info;
-> > +
-> > +	sb = loopfs_i_sb(ref_inode);
-> > +	if (!sb)
-> > +		return 0;
-> > +
-> > +	if (MAJOR(device_nr) != LOOP_MAJOR)
-> > +		return -EINVAL;
-> > +
-> > +	lo_info = kzalloc(sizeof(struct lo_loopfs), GFP_KERNEL);
-> > +	if (!lo_info) {
-> > +		ret = -ENOMEM;
-> > +		goto err;
-> > +	}
-> > +
-> > +	info = LOOPFS_SB(sb);
-> > +	if ((info->device_count + 1) > info->mount_opts.max) {
-> > +		ret = -ENOSPC;
-> > +		goto err;
-> > +	}
-> > +
-> > +	lo_info->lo_ucount = inc_ucount(sb->s_user_ns,
-> > +					info->root_uid, UCOUNT_LOOP_DEVICES);
-> > +	if (!lo_info->lo_ucount) {
-> > +		ret = -ENOSPC;
-> > +		goto err;
-> > +	}
-> > +
-> > +	if (snprintf(name, sizeof(name), "loop%d", lo->lo_number) >= sizeof(name)) {
-> > +		ret = -EINVAL;
-> > +		goto err;
-> > +	}
-> > +
-> > +	inode = new_inode(sb);
-> > +	if (!inode) {
-> > +		ret = -ENOMEM;
-> > +		goto err;
-> > +	}
-> > +
-> > +	/*
-> > +	 * The i_fop field will be set to the correct fops by the device layer
-> > +	 * when the loop device in this loopfs instance is opened.
-> > +	 */
-> > +	inode->i_ino = MINOR(device_nr) + INODE_OFFSET;
-> > +	inode->i_mtime = inode->i_atime = inode->i_ctime = current_time(inode);
-> > +	inode->i_uid = info->root_uid;
-> > +	inode->i_gid = info->root_gid;
-> > +	init_special_inode(inode, S_IFBLK | 0600, device_nr);
-> > +
-> > +	root = sb->s_root;
-> > +	inode_lock(d_inode(root));
-> > +	/* look it up */
-> > +	dentry = lookup_one_len(name, root, strlen(name));
-> > +	if (IS_ERR(dentry)) {
-> > +		inode_unlock(d_inode(root));
-> > +		iput(inode);
-> > +		ret = PTR_ERR(dentry);
-> > +		goto err;
-> > +	}
-> > +
-> > +	if (d_really_is_positive(dentry)) {
-> > +		/* already exists */
-> > +		dput(dentry);
-> > +		inode_unlock(d_inode(root));
-> > +		iput(inode);
-> > +		ret = -EEXIST;
-> > +		goto err;
-> > +	}
-> > +
-> > +	d_instantiate(dentry, inode);
-> > +	fsnotify_create(d_inode(root), dentry);
-> > +	inode_unlock(d_inode(root));
-> > +
-> > +	lo_info->lo_inode = inode;
-> > +	lo->lo_info = lo_info;
-> > +	inode->i_private = lo;
-> > +	info->device_count++;
-> > +
-> > +	return 0;
-> > +
-> > +err:
-> > +	if (lo_info->lo_ucount)
-> > +		dec_ucount(lo_info->lo_ucount, UCOUNT_LOOP_DEVICES);
-> > +	kfree(lo_info);
-> > +	return ret;
-> > +}
-> > +
-> > +void loopfs_remove(struct loop_device *lo)
-> > +{
-> > +	struct lo_loopfs *lo_info = lo->lo_info;
-> > +	struct inode *inode;
-> > +	struct super_block *sb;
-> > +	struct dentry *root, *dentry;
-> > +
-> > +	if (!lo_info)
-> > +		return;
-> > +
-> > +	inode = lo_info->lo_inode;
-> > +	if (!inode || !S_ISBLK(inode->i_mode) || imajor(inode) != LOOP_MAJOR)
-> > +		goto out;
-> > +
-> > +	sb = loopfs_i_sb(inode);
-> > +	lo_info->lo_inode = NULL;
-> > +
-> > +	/*
-> > +	 * The root dentry is always the parent dentry since we don't allow
-> > +	 * creation of directories.
-> > +	 */
-> > +	root = sb->s_root;
-> > +
-> > +	inode_lock(d_inode(root));
-> > +	dentry = d_find_any_alias(inode);
-> > +	if (dentry && simple_positive(dentry)) {
-> > +		simple_unlink(d_inode(root), dentry);
-> > +		d_delete(dentry);
-> > +	}
-> > +	dput(dentry);
-> > +	inode_unlock(d_inode(root));
-> > +	LOOPFS_SB(sb)->device_count--;
-> > +
-> > +out:
-> > +	if (lo_info->lo_ucount)
-> > +		dec_ucount(lo_info->lo_ucount, UCOUNT_LOOP_DEVICES);
-> > +	kfree(lo->lo_info);
-> > +	lo->lo_info = NULL;
-> > +}
-> > +
-> > +static void loopfs_fs_context_free(struct fs_context *fc)
-> > +{
-> > +	struct loopfs_mount_opts *ctx = fc->fs_private;
-> > +
-> > +	kfree(ctx);
-> > +}
-> > +
-> > +/**
-> > + * loopfs_loop_ctl_create - create a new loop-control device
-> > + * @sb: super block of the loopfs mount
-> > + *
-> > + * This function creates a new loop-control device node in the loopfs mount
-> > + * referred to by @sb.
-> > + *
-> > + * Return: 0 on success, negative errno on failure
-> > + */
-> > +static int loopfs_loop_ctl_create(struct super_block *sb)
-> > +{
-> > +	struct dentry *dentry;
-> > +	struct inode *inode = NULL;
-> > +	struct dentry *root = sb->s_root;
-> > +	struct loopfs_info *info = sb->s_fs_info;
-> > +
-> > +	if (info->control_dentry)
-> > +		return 0;
-> > +
-> > +	inode = new_inode(sb);
-> > +	if (!inode)
-> > +		return -ENOMEM;
-> > +
-> > +	inode->i_ino = SECOND_INODE;
-> > +	inode->i_mtime = inode->i_atime = inode->i_ctime = current_time(inode);
-> > +	init_special_inode(inode, S_IFCHR | 0600,
-> > +			   MKDEV(MISC_MAJOR, LOOP_CTRL_MINOR));
-> > +	/*
-> > +	 * The i_fop field will be set to the correct fops by the device layer
-> > +	 * when the loop-control device in this loopfs instance is opened.
-> > +	 */
-> > +	inode->i_uid = info->root_uid;
-> > +	inode->i_gid = info->root_gid;
-> > +
-> > +	dentry = d_alloc_name(root, "loop-control");
-> > +	if (!dentry) {
-> > +		iput(inode);
-> > +		return -ENOMEM;
-> > +	}
-> > +
-> > +	info->control_dentry = dentry;
-> > +	d_add(dentry, inode);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static inline bool is_loopfs_control_device(const struct dentry *dentry)
-> > +{
-> > +	return LOOPFS_SB(dentry->d_sb)->control_dentry == dentry;
-> > +}
-> > +
-> > +static int loopfs_rename(struct inode *old_dir, struct dentry *old_dentry,
-> > +			 struct inode *new_dir, struct dentry *new_dentry,
-> > +			 unsigned int flags)
-> > +{
-> > +	if (is_loopfs_control_device(old_dentry) ||
-> > +	    is_loopfs_control_device(new_dentry))
-> > +		return -EPERM;
-> > +
-> > +	return simple_rename(old_dir, old_dentry, new_dir, new_dentry, flags);
-> > +}
-> > +
-> > +static int loopfs_unlink(struct inode *dir, struct dentry *dentry)
-> > +{
-> > +	int ret;
-> > +	struct loop_device *lo;
-> > +
-> > +	if (is_loopfs_control_device(dentry))
-> > +		return -EPERM;
-> > +
-> > +	lo = d_inode(dentry)->i_private;
-> > +	ret = loopfs_rundown_locked(lo);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	return simple_unlink(dir, dentry);
-> > +}
-> > +
-> > +static const struct inode_operations loopfs_dir_inode_operations = {
-> > +	.lookup = simple_lookup,
-> > +	.rename = loopfs_rename,
-> > +	.unlink = loopfs_unlink,
-> > +};
-> > +
-> > +static void loopfs_evict_inode(struct inode *inode)
-> > +{
-> > +	struct loop_device *lo = inode->i_private;
-> > +
-> > +	clear_inode(inode);
-> > +
-> > +	if (lo && S_ISBLK(inode->i_mode) && imajor(inode) == LOOP_MAJOR) {
-> > +		loopfs_evict_locked(lo);
-> > +		LOOPFS_SB(inode->i_sb)->device_count--;
-> > +		inode->i_private = NULL;
-> > +	}
-> > +}
-> > +
-> > +static int loopfs_show_options(struct seq_file *seq, struct dentry *root)
-> > +{
-> > +	struct loopfs_info *info = LOOPFS_SB(root->d_sb);
-> > +
-> > +	if (info->mount_opts.max <= max_devices)
-> > +		seq_printf(seq, ",max=%d", info->mount_opts.max);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static void loopfs_put_super(struct super_block *sb)
-> > +{
-> > +	struct loopfs_info *info = sb->s_fs_info;
-> > +
-> > +	sb->s_fs_info = NULL;
-> > +	kfree(info);
-> > +}
-> > +
-> > +static const struct super_operations loopfs_super_ops = {
-> > +	.evict_inode    = loopfs_evict_inode,
-> > +	.show_options	= loopfs_show_options,
-> > +	.statfs         = simple_statfs,
-> > +	.put_super	= loopfs_put_super,
-> > +};
-> > +
-> > +static int loopfs_fill_super(struct super_block *sb, struct fs_context *fc)
-> > +{
-> > +	struct loopfs_info *info;
-> > +	struct loopfs_mount_opts *ctx = fc->fs_private;
-> > +	struct inode *inode = NULL;
-> > +
-> > +	sb->s_blocksize = PAGE_SIZE;
-> > +	sb->s_blocksize_bits = PAGE_SHIFT;
-> > +
-> > +	sb->s_iflags &= ~SB_I_NODEV;
-> > +	sb->s_iflags |= SB_I_NOEXEC;
-> > +	sb->s_magic = LOOPFS_SUPER_MAGIC;
-> > +	sb->s_op = &loopfs_super_ops;
-> > +	sb->s_time_gran = 1;
-> > +
-> > +	sb->s_fs_info = kzalloc(sizeof(struct loopfs_info), GFP_KERNEL);
-> > +	if (!sb->s_fs_info)
-> > +		return -ENOMEM;
-> > +	info = sb->s_fs_info;
-> > +
-> > +	info->root_gid = make_kgid(sb->s_user_ns, 0);
-> > +	if (!gid_valid(info->root_gid))
-> > +		info->root_gid = GLOBAL_ROOT_GID;
-> > +	info->root_uid = make_kuid(sb->s_user_ns, 0);
-> > +	if (!uid_valid(info->root_uid))
-> > +		info->root_uid = GLOBAL_ROOT_UID;
-> > +	info->mount_opts.max = ctx->max;
-> > +
-> > +	inode = new_inode(sb);
-> > +	if (!inode)
-> > +		return -ENOMEM;
-> > +
-> > +	inode->i_ino = FIRST_INODE;
-> > +	inode->i_fop = &simple_dir_operations;
-> > +	inode->i_mode = S_IFDIR | 0755;
-> > +	inode->i_mtime = inode->i_atime = inode->i_ctime = current_time(inode);
-> > +	inode->i_op = &loopfs_dir_inode_operations;
-> > +	set_nlink(inode, 2);
-> > +
-> > +	sb->s_root = d_make_root(inode);
-> > +	if (!sb->s_root)
-> > +		return -ENOMEM;
-> > +
-> > +	return loopfs_loop_ctl_create(sb);
-> > +}
-> > +
-> > +static int loopfs_fs_context_get_tree(struct fs_context *fc)
-> > +{
-> > +	return get_tree_nodev(fc, loopfs_fill_super);
-> > +}
-> > +
-> > +static int loopfs_fs_context_parse_param(struct fs_context *fc,
-> > +					 struct fs_parameter *param)
-> > +{
-> > +	int opt;
-> > +	struct loopfs_mount_opts *ctx = fc->fs_private;
-> > +	struct fs_parse_result result;
-> > +
-> > +	opt = fs_parse(fc, loopfs_fs_parameters, param, &result);
-> > +	if (opt < 0)
-> > +		return opt;
-> > +
-> > +	switch (opt) {
-> > +	case Opt_max:
-> > +		if (result.uint_32 > max_devices)
-> > +			return invalfc(fc, "Bad value for '%s'", param->key);
-> > +
-> > +		ctx->max = result.uint_32;
-> > +		break;
-> > +	default:
-> > +		return invalfc(fc, "Unsupported parameter '%s'", param->key);
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int loopfs_fs_context_reconfigure(struct fs_context *fc)
-> > +{
-> > +	struct loopfs_mount_opts *ctx = fc->fs_private;
-> > +	struct loopfs_info *info = LOOPFS_SB(fc->root->d_sb);
-> > +
-> > +	info->mount_opts.max = ctx->max;
-> > +	return 0;
-> > +}
-> > +
-> > +static const struct fs_context_operations loopfs_fs_context_ops = {
-> > +	.free		= loopfs_fs_context_free,
-> > +	.get_tree	= loopfs_fs_context_get_tree,
-> > +	.parse_param	= loopfs_fs_context_parse_param,
-> > +	.reconfigure	= loopfs_fs_context_reconfigure,
-> > +};
-> > +
-> > +static int loopfs_init_fs_context(struct fs_context *fc)
-> > +{
-> > +	struct loopfs_mount_opts *ctx = fc->fs_private;
-> > +
-> > +	ctx = kzalloc(sizeof(struct loopfs_mount_opts), GFP_KERNEL);
-> > +	if (!ctx)
-> > +		return -ENOMEM;
-> > +
-> > +	ctx->max = max_devices;
-> > +
-> > +	fc->fs_private = ctx;
-> > +
-> > +	fc->ops = &loopfs_fs_context_ops;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static struct file_system_type loop_fs_type = {
-> > +	.name			= "loop",
-> > +	.init_fs_context	= loopfs_init_fs_context,
-> > +	.parameters		= loopfs_fs_parameters,
-> > +	.kill_sb		= kill_litter_super,
-> > +	.fs_flags		= FS_USERNS_MOUNT,
-> > +};
-> > +
-> > +int __init init_loopfs(void)
-> > +{
-> > +	init_user_ns.ucount_max[UCOUNT_LOOP_DEVICES] = 255;
-> > +	return register_filesystem(&loop_fs_type);
-> > +}
-> > +
-> > +module_init(init_loopfs);
-> > +MODULE_AUTHOR("Christian Brauner <christian.brauner@ubuntu.com>");
-> > +MODULE_DESCRIPTION("Loop device filesystem");
-> > diff --git a/drivers/block/loopfs/loopfs.h b/drivers/block/loopfs/loopfs.h
-> > new file mode 100644
-> > index 000000000000..2ee114aa3fa9
-> > --- /dev/null
-> > +++ b/drivers/block/loopfs/loopfs.h
-> > @@ -0,0 +1,36 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +
-> > +#ifndef _LINUX_LOOPFS_FS_H
-> > +#define _LINUX_LOOPFS_FS_H
-> > +
-> > +#include <linux/errno.h>
-> > +#include <linux/fs.h>
-> > +#include <linux/magic.h>
-> > +#include <linux/user_namespace.h>
-> > +
-> > +struct loop_device;
-> > +
-> > +#ifdef CONFIG_BLK_DEV_LOOPFS
-> > +
-> > +#define LOOPFS_FLAGS_INACTIVE (1 << 0)
-> > +
-> > +struct lo_loopfs {
-> > +	struct ucounts *lo_ucount;
-> > +	struct inode *lo_inode;
-> > +	int lo_flags;
-> > +};
-> > +
-> > +extern struct super_block *loopfs_i_sb(const struct inode *inode);
-> > +extern bool loopfs_device(const struct loop_device *lo);
-> > +extern struct user_namespace *loopfs_ns(const struct loop_device *lo);
-> > +extern bool loopfs_access(const struct inode *first, struct loop_device *lo);
-> > +extern int loopfs_add(struct loop_device *lo, struct inode *ref_inode,
-> > +		      dev_t device_nr);
-> > +extern void loopfs_remove(struct loop_device *lo);
-> > +extern bool loopfs_wants_remove(const struct loop_device *lo);
-> > +extern void loopfs_evict_locked(struct loop_device *lo);
-> > +extern int loopfs_rundown_locked(struct loop_device *lo);
-> > +
-> > +#endif
-> > +
-> > +#endif /* _LINUX_LOOPFS_FS_H */
-> > diff --git a/include/linux/user_namespace.h b/include/linux/user_namespace.h
-> > index 6ef1c7109fc4..04a4891765c0 100644
-> > --- a/include/linux/user_namespace.h
-> > +++ b/include/linux/user_namespace.h
-> > @@ -49,6 +49,9 @@ enum ucount_type {
-> >  #ifdef CONFIG_INOTIFY_USER
-> >  	UCOUNT_INOTIFY_INSTANCES,
-> >  	UCOUNT_INOTIFY_WATCHES,
-> > +#endif
-> > +#ifdef CONFIG_BLK_DEV_LOOPFS
-> > +	UCOUNT_LOOP_DEVICES,
-> >  #endif
-> >  	UCOUNT_COUNTS,
-> >  };
-> > diff --git a/include/uapi/linux/magic.h b/include/uapi/linux/magic.h
-> > index d78064007b17..0817d093a012 100644
-> > --- a/include/uapi/linux/magic.h
-> > +++ b/include/uapi/linux/magic.h
-> > @@ -75,6 +75,7 @@
-> >  #define BINFMTFS_MAGIC          0x42494e4d
-> >  #define DEVPTS_SUPER_MAGIC	0x1cd1
-> >  #define BINDERFS_SUPER_MAGIC	0x6c6f6f70
-> > +#define LOOPFS_SUPER_MAGIC	0x6c6f6f71
-> >  #define FUTEXFS_SUPER_MAGIC	0xBAD1DEA
-> >  #define PIPEFS_MAGIC            0x50495045
-> >  #define PROC_SUPER_MAGIC	0x9fa0
-> > diff --git a/kernel/ucount.c b/kernel/ucount.c
-> > index 11b1596e2542..fb0f6394a8bb 100644
-> > --- a/kernel/ucount.c
-> > +++ b/kernel/ucount.c
-> > @@ -73,6 +73,9 @@ static struct ctl_table user_table[] = {
-> >  #ifdef CONFIG_INOTIFY_USER
-> >  	UCOUNT_ENTRY("max_inotify_instances"),
-> >  	UCOUNT_ENTRY("max_inotify_watches"),
-> > +#endif
-> > +#ifdef CONFIG_BLK_DEV_LOOPFS
-> > +	UCOUNT_ENTRY("max_loop_devices"),
-> >  #endif
-> >  	{ }
-> >  };
-> > -- 
-> > 2.26.1
+2) Linux Security Modules have multiple ptrace paths inside some
+subsystems, however inside procfs, the implementation does not guarantee
+that the ptrace() check which triggers the security_ptrace_check() hook
+will always run. We have the 'hidepid' mount option that can be used to
+force the ptrace_may_access() check inside has_pid_permissions() to run.
+The problem is that 'hidepid' is per pid namespace and not attached to
+the mount point, any remount or modification of 'hidepid' will propagate
+to all other procfs mounts.
+
+This also does not allow to support Yama LSM easily in desktop and user
+sessions. Yama ptrace scope which restricts ptrace and some other
+syscalls to be allowed only on inferiors, can be updated to have a
+per-task context, where the context will be inherited during fork(),
+clone() and preserved across execve(). If we support multiple private
+procfs instances, then we may force the ptrace_may_access() on
+/proc/<pids>/ to always run inside that new procfs instances. This will
+allow to specifiy on user sessions if we should populate procfs with
+pids that the user can ptrace or not.
+
+By using Yama ptrace scope, some restricted users will only be able to see
+inferiors inside /proc, they won't even be able to see their other
+processes. Some software like Chromium, Firefox's crash handler, Wine
+and others are already using Yama to restrict which processes can be
+ptracable. With this change this will give the possibility to restrict
+/proc/<pids>/ but more importantly this will give desktop users a
+generic and usuable way to specifiy which users should see all processes
+and which users can not.
+
+Side notes:
+* This covers the lack of seccomp where it is not able to parse
+arguments, it is easy to install a seccomp filter on direct syscalls
+that operate on pids, however /proc/<pid>/ is a Linux ABI using
+filesystem syscalls. With this change LSMs should be able to analyze
+open/read/write/close...
+
+In the new patch set version I removed the 'newinstance' option
+as suggested by Eric W. Biederman.
+
+Selftest has been added to verify new behavior.
+
+Fixed getting proc_pidns in the lock_get_status() and locks_show() directly from
+the superblock, which caused a crash:
+
+=== arm64 ===
+[12140.366814] LTP: starting proc01 (proc01 -m 128)
+[12149.580943] ==================================================================
+[12149.589521] BUG: KASAN: out-of-bounds in pid_nr_ns+0x2c/0x90 pid_nr_ns at kernel/pid.c:456
+[12149.595939] Read of size 4 at addr 1bff000bfa8c0388 by task = proc01/50298
+[12149.603392] Pointer tag: [1b], memory tag: [fe]
+
+[12149.610906] CPU: 69 PID: 50298 Comm: proc01 Tainted: G L 5.7.0-rc2-next-20200422 #6
+[12149.620585] Hardware name: HPE Apollo 70 /C01_APACHE_MB , BIOS L50_5.13_1.11 06/18/2019
+[12149.631074] Call trace:
+[12149.634304]  dump_backtrace+0x0/0x22c
+[12149.638745]  show_stack+0x28/0x34
+[12149.642839]  dump_stack+0x104/0x194
+[12149.647110]  print_address_description+0x70/0x3a4
+[12149.652576]  __kasan_report+0x188/0x238
+[12149.657169]  kasan_report+0x3c/0x58
+[12149.661430]  check_memory_region+0x98/0xa0
+[12149.666303]  __hwasan_load4_noabort+0x18/0x20
+[12149.671431]  pid_nr_ns+0x2c/0x90
+[12149.675446]  locks_translate_pid+0xf4/0x1a0
+[12149.680382]  locks_show+0x68/0x110
+[12149.684536]  seq_read+0x380/0x930
+[12149.688604]  pde_read+0x5c/0x78
+[12149.692498]  proc_reg_read+0x74/0xc0
+[12149.696813]  __vfs_read+0x84/0x1d0
+[12149.700939]  vfs_read+0xec/0x124
+[12149.704889]  ksys_read+0xb0/0x120
+[12149.708927]  __arm64_sys_read+0x54/0x88
+[12149.713485]  do_el0_svc+0x128/0x1dc
+[12149.717697]  el0_sync_handler+0x150/0x250
+[12149.722428]  el0_sync+0x164/0x180
+
+[12149.728672] Allocated by task 1:
+[12149.732624]  __kasan_kmalloc+0x124/0x188
+[12149.737269]  kasan_kmalloc+0x10/0x18
+[12149.741568]  kmem_cache_alloc_trace+0x2e4/0x3d4
+[12149.746820]  proc_fill_super+0x48/0x1fc
+[12149.751377]  vfs_get_super+0xcc/0x170
+[12149.755760]  get_tree_nodev+0x28/0x34
+[12149.760143]  proc_get_tree+0x24/0x30
+[12149.764439]  vfs_get_tree+0x54/0x158
+[12149.768736]  do_mount+0x80c/0xaf0
+[12149.772774]  __arm64_sys_mount+0xe0/0x18c
+[12149.777504]  do_el0_svc+0x128/0x1dc
+[12149.781715]  el0_sync_handler+0x150/0x250
+[12149.786445]  el0_sync+0x164/0x180
+
+Signed-off-by: Alexey Gladkov <gladkov.alexey@gmail.com>
+Reviewed-by: Alexey Dobriyan <adobriyan@gmail.com>
+Reviewed-by: Kees Cook <keescook@chromium.org>
+---
+ fs/locks.c                                    |  4 +-
+ fs/proc/base.c                                | 31 +++++++-----
+ fs/proc/inode.c                               | 11 ++---
+ fs/proc/root.c                                | 49 +++++++++----------
+ fs/proc/self.c                                |  6 +--
+ fs/proc/thread_self.c                         |  6 +--
+ include/linux/pid_namespace.h                 | 12 -----
+ include/linux/proc_fs.h                       | 22 ++++++++-
+ tools/testing/selftests/proc/.gitignore       |  1 +
+ tools/testing/selftests/proc/Makefile         |  1 +
+ .../selftests/proc/proc-multiple-procfs.c     | 48 ++++++++++++++++++
+ 11 files changed, 126 insertions(+), 65 deletions(-)
+ create mode 100644 tools/testing/selftests/proc/proc-multiple-procfs.c
+
+diff --git a/fs/locks.c b/fs/locks.c
+index b8a31c1c4fff..399c5dbb72c4 100644
+--- a/fs/locks.c
++++ b/fs/locks.c
+@@ -2823,7 +2823,7 @@ static void lock_get_status(struct seq_file *f, struct file_lock *fl,
+ {
+ 	struct inode *inode = NULL;
+ 	unsigned int fl_pid;
+-	struct pid_namespace *proc_pidns = file_inode(f->file)->i_sb->s_fs_info;
++	struct pid_namespace *proc_pidns = proc_pid_ns(file_inode(f->file));
+ 
+ 	fl_pid = locks_translate_pid(fl, proc_pidns);
+ 	/*
+@@ -2901,7 +2901,7 @@ static int locks_show(struct seq_file *f, void *v)
+ {
+ 	struct locks_iterator *iter = f->private;
+ 	struct file_lock *fl, *bfl;
+-	struct pid_namespace *proc_pidns = file_inode(f->file)->i_sb->s_fs_info;
++	struct pid_namespace *proc_pidns = proc_pid_ns(file_inode(f->file));
+ 
+ 	fl = hlist_entry(v, struct file_lock, fl_link);
+ 
+diff --git a/fs/proc/base.c b/fs/proc/base.c
+index 6042b646ab27..93b5d05c142c 100644
+--- a/fs/proc/base.c
++++ b/fs/proc/base.c
+@@ -697,13 +697,13 @@ int proc_setattr(struct dentry *dentry, struct iattr *attr)
+  * May current process learn task's sched/cmdline info (for hide_pid_min=1)
+  * or euid/egid (for hide_pid_min=2)?
+  */
+-static bool has_pid_permissions(struct pid_namespace *pid,
++static bool has_pid_permissions(struct proc_fs_info *fs_info,
+ 				 struct task_struct *task,
+ 				 int hide_pid_min)
+ {
+-	if (pid->hide_pid < hide_pid_min)
++	if (fs_info->hide_pid < hide_pid_min)
+ 		return true;
+-	if (in_group_p(pid->pid_gid))
++	if (in_group_p(fs_info->pid_gid))
+ 		return true;
+ 	return ptrace_may_access(task, PTRACE_MODE_READ_FSCREDS);
+ }
+@@ -711,18 +711,18 @@ static bool has_pid_permissions(struct pid_namespace *pid,
+ 
+ static int proc_pid_permission(struct inode *inode, int mask)
+ {
+-	struct pid_namespace *pid = proc_pid_ns(inode);
++	struct proc_fs_info *fs_info = proc_sb_info(inode->i_sb);
+ 	struct task_struct *task;
+ 	bool has_perms;
+ 
+ 	task = get_proc_task(inode);
+ 	if (!task)
+ 		return -ESRCH;
+-	has_perms = has_pid_permissions(pid, task, HIDEPID_NO_ACCESS);
++	has_perms = has_pid_permissions(fs_info, task, HIDEPID_NO_ACCESS);
+ 	put_task_struct(task);
+ 
+ 	if (!has_perms) {
+-		if (pid->hide_pid == HIDEPID_INVISIBLE) {
++		if (fs_info->hide_pid == HIDEPID_INVISIBLE) {
+ 			/*
+ 			 * Let's make getdents(), stat(), and open()
+ 			 * consistent with each other.  If a process
+@@ -1897,7 +1897,7 @@ int pid_getattr(const struct path *path, struct kstat *stat,
+ 		u32 request_mask, unsigned int query_flags)
+ {
+ 	struct inode *inode = d_inode(path->dentry);
+-	struct pid_namespace *pid = proc_pid_ns(inode);
++	struct proc_fs_info *fs_info = proc_sb_info(inode->i_sb);
+ 	struct task_struct *task;
+ 
+ 	generic_fillattr(inode, stat);
+@@ -1907,7 +1907,7 @@ int pid_getattr(const struct path *path, struct kstat *stat,
+ 	rcu_read_lock();
+ 	task = pid_task(proc_pid(inode), PIDTYPE_PID);
+ 	if (task) {
+-		if (!has_pid_permissions(pid, task, HIDEPID_INVISIBLE)) {
++		if (!has_pid_permissions(fs_info, task, HIDEPID_INVISIBLE)) {
+ 			rcu_read_unlock();
+ 			/*
+ 			 * This doesn't prevent learning whether PID exists,
+@@ -3301,6 +3301,7 @@ struct dentry *proc_pid_lookup(struct dentry *dentry, unsigned int flags)
+ {
+ 	struct task_struct *task;
+ 	unsigned tgid;
++	struct proc_fs_info *fs_info;
+ 	struct pid_namespace *ns;
+ 	struct dentry *result = ERR_PTR(-ENOENT);
+ 
+@@ -3308,7 +3309,8 @@ struct dentry *proc_pid_lookup(struct dentry *dentry, unsigned int flags)
+ 	if (tgid == ~0U)
+ 		goto out;
+ 
+-	ns = dentry->d_sb->s_fs_info;
++	fs_info = proc_sb_info(dentry->d_sb);
++	ns = fs_info->pid_ns;
+ 	rcu_read_lock();
+ 	task = find_task_by_pid_ns(tgid, ns);
+ 	if (task)
+@@ -3372,6 +3374,7 @@ static struct tgid_iter next_tgid(struct pid_namespace *ns, struct tgid_iter ite
+ int proc_pid_readdir(struct file *file, struct dir_context *ctx)
+ {
+ 	struct tgid_iter iter;
++	struct proc_fs_info *fs_info = proc_sb_info(file_inode(file)->i_sb);
+ 	struct pid_namespace *ns = proc_pid_ns(file_inode(file));
+ 	loff_t pos = ctx->pos;
+ 
+@@ -3379,13 +3382,13 @@ int proc_pid_readdir(struct file *file, struct dir_context *ctx)
+ 		return 0;
+ 
+ 	if (pos == TGID_OFFSET - 2) {
+-		struct inode *inode = d_inode(ns->proc_self);
++		struct inode *inode = d_inode(fs_info->proc_self);
+ 		if (!dir_emit(ctx, "self", 4, inode->i_ino, DT_LNK))
+ 			return 0;
+ 		ctx->pos = pos = pos + 1;
+ 	}
+ 	if (pos == TGID_OFFSET - 1) {
+-		struct inode *inode = d_inode(ns->proc_thread_self);
++		struct inode *inode = d_inode(fs_info->proc_thread_self);
+ 		if (!dir_emit(ctx, "thread-self", 11, inode->i_ino, DT_LNK))
+ 			return 0;
+ 		ctx->pos = pos = pos + 1;
+@@ -3399,7 +3402,7 @@ int proc_pid_readdir(struct file *file, struct dir_context *ctx)
+ 		unsigned int len;
+ 
+ 		cond_resched();
+-		if (!has_pid_permissions(ns, iter.task, HIDEPID_INVISIBLE))
++		if (!has_pid_permissions(fs_info, iter.task, HIDEPID_INVISIBLE))
+ 			continue;
+ 
+ 		len = snprintf(name, sizeof(name), "%u", iter.tgid);
+@@ -3599,6 +3602,7 @@ static struct dentry *proc_task_lookup(struct inode *dir, struct dentry * dentry
+ 	struct task_struct *task;
+ 	struct task_struct *leader = get_proc_task(dir);
+ 	unsigned tid;
++	struct proc_fs_info *fs_info;
+ 	struct pid_namespace *ns;
+ 	struct dentry *result = ERR_PTR(-ENOENT);
+ 
+@@ -3609,7 +3613,8 @@ static struct dentry *proc_task_lookup(struct inode *dir, struct dentry * dentry
+ 	if (tid == ~0U)
+ 		goto out;
+ 
+-	ns = dentry->d_sb->s_fs_info;
++	fs_info = proc_sb_info(dentry->d_sb);
++	ns = fs_info->pid_ns;
+ 	rcu_read_lock();
+ 	task = find_task_by_pid_ns(tid, ns);
+ 	if (task)
+diff --git a/fs/proc/inode.c b/fs/proc/inode.c
+index fb4cace9ea41..9c756531282a 100644
+--- a/fs/proc/inode.c
++++ b/fs/proc/inode.c
+@@ -167,13 +167,12 @@ void proc_invalidate_siblings_dcache(struct hlist_head *inodes, spinlock_t *lock
+ 
+ static int proc_show_options(struct seq_file *seq, struct dentry *root)
+ {
+-	struct super_block *sb = root->d_sb;
+-	struct pid_namespace *pid = sb->s_fs_info;
++	struct proc_fs_info *fs_info = proc_sb_info(root->d_sb);
+ 
+-	if (!gid_eq(pid->pid_gid, GLOBAL_ROOT_GID))
+-		seq_printf(seq, ",gid=%u", from_kgid_munged(&init_user_ns, pid->pid_gid));
+-	if (pid->hide_pid != HIDEPID_OFF)
+-		seq_printf(seq, ",hidepid=%u", pid->hide_pid);
++	if (!gid_eq(fs_info->pid_gid, GLOBAL_ROOT_GID))
++		seq_printf(seq, ",gid=%u", from_kgid_munged(&init_user_ns, fs_info->pid_gid));
++	if (fs_info->hide_pid != HIDEPID_OFF)
++		seq_printf(seq, ",hidepid=%u", fs_info->hide_pid);
+ 
+ 	return 0;
+ }
+diff --git a/fs/proc/root.c b/fs/proc/root.c
+index cdbe9293ea55..208989274923 100644
+--- a/fs/proc/root.c
++++ b/fs/proc/root.c
+@@ -77,26 +77,31 @@ static int proc_parse_param(struct fs_context *fc, struct fs_parameter *param)
+ 	return 0;
+ }
+ 
+-static void proc_apply_options(struct super_block *s,
++static void proc_apply_options(struct proc_fs_info *fs_info,
+ 			       struct fs_context *fc,
+-			       struct pid_namespace *pid_ns,
+ 			       struct user_namespace *user_ns)
+ {
+ 	struct proc_fs_context *ctx = fc->fs_private;
+ 
+ 	if (ctx->mask & (1 << Opt_gid))
+-		pid_ns->pid_gid = make_kgid(user_ns, ctx->gid);
++		fs_info->pid_gid = make_kgid(user_ns, ctx->gid);
+ 	if (ctx->mask & (1 << Opt_hidepid))
+-		pid_ns->hide_pid = ctx->hidepid;
++		fs_info->hide_pid = ctx->hidepid;
+ }
+ 
+ static int proc_fill_super(struct super_block *s, struct fs_context *fc)
+ {
+-	struct pid_namespace *pid_ns = get_pid_ns(s->s_fs_info);
++	struct proc_fs_context *ctx = fc->fs_private;
+ 	struct inode *root_inode;
++	struct proc_fs_info *fs_info;
+ 	int ret;
+ 
+-	proc_apply_options(s, fc, pid_ns, current_user_ns());
++	fs_info = kzalloc(sizeof(*fs_info), GFP_KERNEL);
++	if (!fs_info)
++		return -ENOMEM;
++
++	fs_info->pid_ns = get_pid_ns(ctx->pid_ns);
++	proc_apply_options(fs_info, fc, current_user_ns());
+ 
+ 	/* User space would break if executables or devices appear on proc */
+ 	s->s_iflags |= SB_I_USERNS_VISIBLE | SB_I_NOEXEC | SB_I_NODEV;
+@@ -106,6 +111,7 @@ static int proc_fill_super(struct super_block *s, struct fs_context *fc)
+ 	s->s_magic = PROC_SUPER_MAGIC;
+ 	s->s_op = &proc_sops;
+ 	s->s_time_gran = 1;
++	s->s_fs_info = fs_info;
+ 
+ 	/*
+ 	 * procfs isn't actually a stacking filesystem; however, there is
+@@ -113,7 +119,7 @@ static int proc_fill_super(struct super_block *s, struct fs_context *fc)
+ 	 * top of it
+ 	 */
+ 	s->s_stack_depth = FILESYSTEM_MAX_STACK_DEPTH;
+-	
++
+ 	/* procfs dentries and inodes don't require IO to create */
+ 	s->s_shrink.seeks = 0;
+ 
+@@ -140,19 +146,17 @@ static int proc_fill_super(struct super_block *s, struct fs_context *fc)
+ static int proc_reconfigure(struct fs_context *fc)
+ {
+ 	struct super_block *sb = fc->root->d_sb;
+-	struct pid_namespace *pid = sb->s_fs_info;
++	struct proc_fs_info *fs_info = proc_sb_info(sb);
+ 
+ 	sync_filesystem(sb);
+ 
+-	proc_apply_options(sb, fc, pid, current_user_ns());
++	proc_apply_options(fs_info, fc, current_user_ns());
+ 	return 0;
+ }
+ 
+ static int proc_get_tree(struct fs_context *fc)
+ {
+-	struct proc_fs_context *ctx = fc->fs_private;
+-
+-	return get_tree_keyed(fc, proc_fill_super, ctx->pid_ns);
++	return get_tree_nodev(fc, proc_fill_super);
+ }
+ 
+ static void proc_fs_context_free(struct fs_context *fc)
+@@ -188,22 +192,17 @@ static int proc_init_fs_context(struct fs_context *fc)
+ 
+ static void proc_kill_sb(struct super_block *sb)
+ {
+-	struct pid_namespace *ns;
++	struct proc_fs_info *fs_info = proc_sb_info(sb);
+ 
+-	ns = (struct pid_namespace *)sb->s_fs_info;
+-	if (ns->proc_self)
+-		dput(ns->proc_self);
+-	if (ns->proc_thread_self)
+-		dput(ns->proc_thread_self);
+-	kill_anon_super(sb);
++	if (fs_info->proc_self)
++		dput(fs_info->proc_self);
+ 
+-	/* Make the pid namespace safe for the next mount of proc */
+-	ns->proc_self = NULL;
+-	ns->proc_thread_self = NULL;
+-	ns->pid_gid = GLOBAL_ROOT_GID;
+-	ns->hide_pid = 0;
++	if (fs_info->proc_thread_self)
++		dput(fs_info->proc_thread_self);
+ 
+-	put_pid_ns(ns);
++	kill_anon_super(sb);
++	put_pid_ns(fs_info->pid_ns);
++	kfree(fs_info);
+ }
+ 
+ static struct file_system_type proc_fs_type = {
+diff --git a/fs/proc/self.c b/fs/proc/self.c
+index 57c0a1047250..309301ac0136 100644
+--- a/fs/proc/self.c
++++ b/fs/proc/self.c
+@@ -36,10 +36,10 @@ static unsigned self_inum __ro_after_init;
+ int proc_setup_self(struct super_block *s)
+ {
+ 	struct inode *root_inode = d_inode(s->s_root);
+-	struct pid_namespace *ns = proc_pid_ns(root_inode);
++	struct proc_fs_info *fs_info = proc_sb_info(s);
+ 	struct dentry *self;
+ 	int ret = -ENOMEM;
+-	
++
+ 	inode_lock(root_inode);
+ 	self = d_alloc_name(s->s_root, "self");
+ 	if (self) {
+@@ -62,7 +62,7 @@ int proc_setup_self(struct super_block *s)
+ 	if (ret)
+ 		pr_err("proc_fill_super: can't allocate /proc/self\n");
+ 	else
+-		ns->proc_self = self;
++		fs_info->proc_self = self;
+ 
+ 	return ret;
+ }
+diff --git a/fs/proc/thread_self.c b/fs/proc/thread_self.c
+index f61ae53533f5..2493cbbdfa6f 100644
+--- a/fs/proc/thread_self.c
++++ b/fs/proc/thread_self.c
+@@ -36,7 +36,7 @@ static unsigned thread_self_inum __ro_after_init;
+ int proc_setup_thread_self(struct super_block *s)
+ {
+ 	struct inode *root_inode = d_inode(s->s_root);
+-	struct pid_namespace *ns = proc_pid_ns(root_inode);
++	struct proc_fs_info *fs_info = proc_sb_info(s);
+ 	struct dentry *thread_self;
+ 	int ret = -ENOMEM;
+ 
+@@ -60,9 +60,9 @@ int proc_setup_thread_self(struct super_block *s)
+ 	inode_unlock(root_inode);
+ 
+ 	if (ret)
+-		pr_err("proc_fill_super: can't allocate /proc/thread_self\n");
++		pr_err("proc_fill_super: can't allocate /proc/thread-self\n");
+ 	else
+-		ns->proc_thread_self = thread_self;
++		fs_info->proc_thread_self = thread_self;
+ 
+ 	return ret;
+ }
+diff --git a/include/linux/pid_namespace.h b/include/linux/pid_namespace.h
+index 4956e362e55e..5a5cb45ac57e 100644
+--- a/include/linux/pid_namespace.h
++++ b/include/linux/pid_namespace.h
+@@ -17,12 +17,6 @@
+ 
+ struct fs_pin;
+ 
+-enum { /* definitions for pid_namespace's hide_pid field */
+-	HIDEPID_OFF	  = 0,
+-	HIDEPID_NO_ACCESS = 1,
+-	HIDEPID_INVISIBLE = 2,
+-};
+-
+ struct pid_namespace {
+ 	struct kref kref;
+ 	struct idr idr;
+@@ -32,17 +26,11 @@ struct pid_namespace {
+ 	struct kmem_cache *pid_cachep;
+ 	unsigned int level;
+ 	struct pid_namespace *parent;
+-#ifdef CONFIG_PROC_FS
+-	struct dentry *proc_self;
+-	struct dentry *proc_thread_self;
+-#endif
+ #ifdef CONFIG_BSD_PROCESS_ACCT
+ 	struct fs_pin *bacct;
+ #endif
+ 	struct user_namespace *user_ns;
+ 	struct ucounts *ucounts;
+-	kgid_t pid_gid;
+-	int hide_pid;
+ 	int reboot;	/* group exit code if this pidns was rebooted */
+ 	struct ns_common ns;
+ } __randomize_layout;
+diff --git a/include/linux/proc_fs.h b/include/linux/proc_fs.h
+index 45c05fd9c99d..1b98a41fdd8a 100644
+--- a/include/linux/proc_fs.h
++++ b/include/linux/proc_fs.h
+@@ -42,6 +42,26 @@ struct proc_ops {
+ 	unsigned long (*proc_get_unmapped_area)(struct file *, unsigned long, unsigned long, unsigned long, unsigned long);
+ } __randomize_layout;
+ 
++/* definitions for hide_pid field */
++enum {
++	HIDEPID_OFF	  = 0,
++	HIDEPID_NO_ACCESS = 1,
++	HIDEPID_INVISIBLE = 2,
++};
++
++struct proc_fs_info {
++	struct pid_namespace *pid_ns;
++	struct dentry *proc_self;        /* For /proc/self */
++	struct dentry *proc_thread_self; /* For /proc/thread-self */
++	kgid_t pid_gid;
++	int hide_pid;
++};
++
++static inline struct proc_fs_info *proc_sb_info(struct super_block *sb)
++{
++	return sb->s_fs_info;
++}
++
+ #ifdef CONFIG_PROC_FS
+ 
+ typedef int (*proc_write_t)(struct file *, char *, size_t);
+@@ -176,7 +196,7 @@ int open_related_ns(struct ns_common *ns,
+ /* get the associated pid namespace for a file in procfs */
+ static inline struct pid_namespace *proc_pid_ns(const struct inode *inode)
+ {
+-	return inode->i_sb->s_fs_info;
++	return proc_sb_info(inode->i_sb)->pid_ns;
+ }
+ 
+ #endif /* _LINUX_PROC_FS_H */
+diff --git a/tools/testing/selftests/proc/.gitignore b/tools/testing/selftests/proc/.gitignore
+index 4bca5a9327a4..126901c5d6f4 100644
+--- a/tools/testing/selftests/proc/.gitignore
++++ b/tools/testing/selftests/proc/.gitignore
+@@ -3,6 +3,7 @@
+ /fd-002-posix-eq
+ /fd-003-kthread
+ /proc-loadavg-001
++/proc-multiple-procfs
+ /proc-pid-vm
+ /proc-self-map-files-001
+ /proc-self-map-files-002
+diff --git a/tools/testing/selftests/proc/Makefile b/tools/testing/selftests/proc/Makefile
+index a8ed0f684829..bf22457256be 100644
+--- a/tools/testing/selftests/proc/Makefile
++++ b/tools/testing/selftests/proc/Makefile
+@@ -19,5 +19,6 @@ TEST_GEN_PROGS += self
+ TEST_GEN_PROGS += setns-dcache
+ TEST_GEN_PROGS += setns-sysvipc
+ TEST_GEN_PROGS += thread-self
++TEST_GEN_PROGS += proc-multiple-procfs
+ 
+ include ../lib.mk
+diff --git a/tools/testing/selftests/proc/proc-multiple-procfs.c b/tools/testing/selftests/proc/proc-multiple-procfs.c
+new file mode 100644
+index 000000000000..ab912ad95dab
+--- /dev/null
++++ b/tools/testing/selftests/proc/proc-multiple-procfs.c
+@@ -0,0 +1,48 @@
++/*
++ * Copyright © 2020 Alexey Gladkov <gladkov.alexey@gmail.com>
++ *
++ * Permission to use, copy, modify, and distribute this software for any
++ * purpose with or without fee is hereby granted, provided that the above
++ * copyright notice and this permission notice appear in all copies.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
++ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
++ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
++ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
++ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
++ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
++ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
++ */
++#include <assert.h>
++#include <stdlib.h>
++#include <stdio.h>
++#include <sys/mount.h>
++#include <sys/types.h>
++#include <sys/stat.h>
++
++int main(void)
++{
++	struct stat proc_st1, proc_st2;
++	char procbuff[] = "/tmp/proc.XXXXXX/meminfo";
++	char procdir1[] = "/tmp/proc.XXXXXX";
++	char procdir2[] = "/tmp/proc.XXXXXX";
++
++	assert(mkdtemp(procdir1) != NULL);
++	assert(mkdtemp(procdir2) != NULL);
++
++	assert(!mount("proc", procdir1, "proc", 0, "hidepid=1"));
++	assert(!mount("proc", procdir2, "proc", 0, "hidepid=2"));
++
++	snprintf(procbuff, sizeof(procbuff), "%s/meminfo", procdir1);
++	assert(!stat(procbuff, &proc_st1));
++
++	snprintf(procbuff, sizeof(procbuff), "%s/meminfo", procdir2);
++	assert(!stat(procbuff, &proc_st2));
++
++	umount(procdir1);
++	umount(procdir2);
++
++	assert(proc_st1.st_dev != proc_st2.st_dev);
++
++	return 0;
++}
+-- 
+2.25.3
+
