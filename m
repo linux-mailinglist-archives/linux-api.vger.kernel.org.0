@@ -2,29 +2,29 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 687CF1B69E1
-	for <lists+linux-api@lfdr.de>; Fri, 24 Apr 2020 01:34:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 97BBE1B6A02
+	for <lists+linux-api@lfdr.de>; Fri, 24 Apr 2020 01:38:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727890AbgDWXd7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 23 Apr 2020 19:33:59 -0400
-Received: from mga12.intel.com ([192.55.52.136]:18988 "EHLO mga12.intel.com"
+        id S1728257AbgDWXip (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 23 Apr 2020 19:38:45 -0400
+Received: from mga12.intel.com ([192.55.52.136]:19223 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726060AbgDWXd7 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 23 Apr 2020 19:33:59 -0400
-IronPort-SDR: igTssZu1bpifgD9I6sehjx3li8Zj9Myif2JFx3LC6aTcJIIAgzJVXNerbL4V7ckrqpVw4Tw9vA
- 5IqIa8aTre4g==
+        id S1727065AbgDWXip (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 23 Apr 2020 19:38:45 -0400
+IronPort-SDR: UsBmFeQ5wYXus9/dg+eHAl5bz/ag+ZHvU5y0MHBdbt3kpLZY8fCdVbgqiy7x02WaCNj8x/9Jfz
+ xj6He1zlYZlQ==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2020 16:33:57 -0700
-IronPort-SDR: xWJ4hmjX67bO7BINmkd4fMp2yXZYK2Es0hmS1z7ob7sRT3VbReAG3HJc2rsLTv4PrAoWEHoPlB
- NFCEq06Ufzaw==
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2020 16:38:44 -0700
+IronPort-SDR: Ay5kz9diZ69oZHhCrNMcInn+tS8GYQ2LZFIBKiIdKXXft+yMe0sOT0D4/UiGHeVBopF7Fi7Uba
+ W1bPhGDfk8cQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.73,309,1583222400"; 
-   d="scan'208";a="403105064"
+   d="scan'208";a="335158850"
 Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
-  by orsmga004.jf.intel.com with ESMTP; 23 Apr 2020 16:33:56 -0700
-Date:   Thu, 23 Apr 2020 16:33:56 -0700
+  by orsmga001.jf.intel.com with ESMTP; 23 Apr 2020 16:38:25 -0700
+Date:   Thu, 23 Apr 2020 16:38:25 -0700
 From:   Ira Weiny <ira.weiny@intel.com>
 To:     Dave Chinner <david@fromorbit.com>
 Cc:     linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
@@ -35,72 +35,79 @@ Cc:     linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
         "Theodore Y. Ts'o" <tytso@mit.edu>, Jeff Moyer <jmoyer@redhat.com>,
         linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-api@vger.kernel.org
-Subject: Re: [PATCH V10 06/11] fs/xfs: Make DAX mount option a tri-state
-Message-ID: <20200423233356.GB4088835@iweiny-DESK2.sc.intel.com>
+Subject: Re: [PATCH V10 10/11] fs: Introduce DCACHE_DONTCACHE
+Message-ID: <20200423233824.GC4088835@iweiny-DESK2.sc.intel.com>
 References: <20200422212102.3757660-1-ira.weiny@intel.com>
- <20200422212102.3757660-7-ira.weiny@intel.com>
- <20200423223531.GU27860@dread.disaster.area>
+ <20200422212102.3757660-11-ira.weiny@intel.com>
+ <20200423225734.GY27860@dread.disaster.area>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200423223531.GU27860@dread.disaster.area>
+In-Reply-To: <20200423225734.GY27860@dread.disaster.area>
 User-Agent: Mutt/1.11.1 (2018-12-01)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Apr 24, 2020 at 08:35:31AM +1000, Dave Chinner wrote:
-> On Wed, Apr 22, 2020 at 02:20:57PM -0700, ira.weiny@intel.com wrote:
+On Fri, Apr 24, 2020 at 08:57:34AM +1000, Dave Chinner wrote:
+> On Wed, Apr 22, 2020 at 02:21:01PM -0700, ira.weiny@intel.com wrote:
 > > From: Ira Weiny <ira.weiny@intel.com>
 > > 
-> > As agreed upon[1].  We make the dax mount option a tri-state.  '-o dax'
-> > continues to operate the same.  We add 'always', 'never', and 'inode'
-> > (default).
+> > DCACHE_DONTCACHE indicates a dentry should not be cached on final
+> > dput().
 > > 
-> > [1] https://lore.kernel.org/lkml/20200405061945.GA94792@iweiny-DESK2.sc.intel.com/
+> > Also add a helper function to mark DCACHE_DONTCACHE on all dentries
+> > pointing to a specific inode when that inode is being set I_DONTCACHE.
 > > 
+> > This facilitates dropping dentry references to inodes sooner which
+> > require eviction to swap S_DAX mode.
+> > 
+> > Cc: Al Viro <viro@zeniv.linux.org.uk>
 > > Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-> ....
-> > @@ -129,7 +163,6 @@ xfs_fs_show_options(
-> >  		{ XFS_MOUNT_GRPID,		",grpid" },
-> >  		{ XFS_MOUNT_DISCARD,		",discard" },
-> >  		{ XFS_MOUNT_LARGEIO,		",largeio" },
-> > -		{ XFS_MOUNT_DAX_ALWAYS,		",dax" },
-> >  		{ 0, NULL }
-> >  	};
-> >  	struct xfs_mount	*mp = XFS_M(root->d_sb);
-> > @@ -185,6 +218,11 @@ xfs_fs_show_options(
-> >  	if (!(mp->m_qflags & XFS_ALL_QUOTA_ACCT))
-> >  		seq_puts(m, ",noquota");
+> 
+> Code looks fine....
+> 
+> > --- a/fs/inode.c
+> > +++ b/fs/inode.c
+> > @@ -1526,6 +1526,21 @@ int generic_delete_inode(struct inode *inode)
+> >  }
+> >  EXPORT_SYMBOL(generic_delete_inode);
 > >  
-> > +	if (mp->m_flags & XFS_MOUNT_DAX_ALWAYS)
-> > +		seq_puts(m, ",dax=always");
-> > +	else if (mp->m_flags & XFS_MOUNT_DAX_NEVER)
-> > +		seq_puts(m, ",dax=never");
+> > +void mark_inode_dontcache(struct inode *inode)
+> > +{
+> > +	struct dentry *de;
+> > +
+> > +	spin_lock(&inode->i_lock);
+> > +	hlist_for_each_entry(de, &inode->i_dentry, d_u.d_alias) {
+> > +		spin_lock(&de->d_lock);
+> > +		de->d_flags |= DCACHE_DONTCACHE;
+> > +		spin_unlock(&de->d_lock);
+> > +	}
+> > +	inode->i_state |= I_DONTCACHE;
+> > +	spin_unlock(&inode->i_lock);
+> > +}
+> > +EXPORT_SYMBOL(mark_inode_dontcache);
 > 
-> These can never be set at the same time, so please put these in the
-> m_flags options table as XFS_MOUNT_DAX_ALWAYS already is.  i.e.
+> Though I suspect that this should be in fs/dcache.c and not
+> fs/inode.c. i.e. nothing in fs/inode.c does dentry list walks, but
+> there are several cases in the dcache code where inode dentry walks
+> are done under the inode lock (e.g. d_find_alias(inode)).
 > 
-> @@ -129,7 +163,8 @@ xfs_fs_show_options(
->  		{ XFS_MOUNT_GRPID,		",grpid" },
->  		{ XFS_MOUNT_DISCARD,		",discard" },
->  		{ XFS_MOUNT_LARGEIO,		",largeio" },
-> -		{ XFS_MOUNT_DAX_ALWAYS,		",dax" },
-> +		{ XFS_MOUNT_DAX_ALWAYS,		",dax=always" },
-> +		{ XFS_MOUNT_DAX_NEVER,		",dax=never" },
->  		{ 0, NULL }
->  	};
->  	struct xfs_mount	*mp = XFS_M(root->d_sb);
-> 
-> Otherwise looks OK.
+> So perhaps this should be d_mark_dontcache(inode), which also marks
+> the inode as I_DONTCACHE so that everything is evicted on last
+> reference...
 
-Done.
+That does follow an existing pattern.
+
+Al?  Any preference?
 
 Ira
 
 > 
-> -Dave.
+> Cheers,
+> 
+> Dave.
 > -- 
 > Dave Chinner
 > david@fromorbit.com
