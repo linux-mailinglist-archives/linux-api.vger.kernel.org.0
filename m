@@ -2,210 +2,382 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3358D1B5B3D
-	for <lists+linux-api@lfdr.de>; Thu, 23 Apr 2020 14:19:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD3571B6078
+	for <lists+linux-api@lfdr.de>; Thu, 23 Apr 2020 18:13:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726502AbgDWMTW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 23 Apr 2020 08:19:22 -0400
-Received: from out01.mta.xmission.com ([166.70.13.231]:33428 "EHLO
-        out01.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726090AbgDWMTV (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Apr 2020 08:19:21 -0400
-Received: from in01.mta.xmission.com ([166.70.13.51])
-        by out01.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.90_1)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1jRap5-00048z-2F; Thu, 23 Apr 2020 06:19:19 -0600
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
-        by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.87)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1jRap3-0005q7-LI; Thu, 23 Apr 2020 06:19:18 -0600
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     Alexey Gladkov <gladkov.alexey@gmail.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Linux Security Module <linux-security-module@vger.kernel.org>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Alexey Gladkov <legion@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Daniel Micay <danielmicay@gmail.com>,
-        Djalal Harouni <tixxdz@gmail.com>,
-        "Dmitry V . Levin" <ldv@altlinux.org>,
+        id S1729449AbgDWQNh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 23 Apr 2020 12:13:37 -0400
+Received: from mail.hallyn.com ([178.63.66.53]:47294 "EHLO mail.hallyn.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728865AbgDWQNh (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 23 Apr 2020 12:13:37 -0400
+Received: by mail.hallyn.com (Postfix, from userid 1001)
+        id EB425B24; Thu, 23 Apr 2020 11:13:33 -0500 (CDT)
+Date:   Thu, 23 Apr 2020 11:13:33 -0500
+From:   "Serge E. Hallyn" <serge@hallyn.com>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     "Serge E. Hallyn" <serge@hallyn.com>, Jens Axboe <axboe@kernel.dk>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Jeff Layton <jlayton@poochiereds.net>,
-        Jonathan Corbet <corbet@lwn.net>,
+        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-api@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rafael@kernel.org>, Tejun Heo <tj@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Saravana Kannan <saravanak@google.com>,
+        Jan Kara <jack@suse.cz>, David Howells <dhowells@redhat.com>,
+        Seth Forshee <seth.forshee@canonical.com>,
+        David Rheinsberg <david.rheinsberg@gmail.com>,
+        Tom Gundersen <teg@jklm.no>,
+        Christian Kellner <ckellner@redhat.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        =?iso-8859-1?Q?St=E9phane?= Graber <stgraber@ubuntu.com>,
+        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+        Steve Barber <smbarber@google.com>,
+        Dylan Reid <dgreid@google.com>,
+        Filipe Brandenburger <filbranden@gmail.com>,
         Kees Cook <keescook@chromium.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        David Howells <dhowells@redhat.com>
-References: <20200419141057.621356-3-gladkov.alexey@gmail.com>
-        <20200423112858.95820-1-gladkov.alexey@gmail.com>
-Date:   Thu, 23 Apr 2020 07:16:07 -0500
-In-Reply-To: <20200423112858.95820-1-gladkov.alexey@gmail.com> (Alexey
-        Gladkov's message of "Thu, 23 Apr 2020 13:28:58 +0200")
-Message-ID: <87lfmmz9bs.fsf@x220.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        Benjamin Elder <bentheelder@google.com>,
+        Akihiro Suda <suda.kyoto@gmail.com>
+Subject: Re: [PATCH v2 5/7] loop: preserve sysfs backwards compatibility
+Message-ID: <20200423161333.GA12201@mail.hallyn.com>
+References: <20200422145437.176057-1-christian.brauner@ubuntu.com>
+ <20200422145437.176057-6-christian.brauner@ubuntu.com>
+ <20200423011706.GA2982@mail.hallyn.com>
+ <20200423111524.2u3auxkfrdqpt3hr@wittgenstein>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1jRap3-0005q7-LI;;;mid=<87lfmmz9bs.fsf@x220.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX1+iR9pVq9wAKGMb1dkjvzvzUUF2IrtP4AY=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa03.xmission.com
-X-Spam-Level: 
-X-Spam-Status: No, score=0.5 required=8.0 tests=ALL_TRUSTED,BAYES_50,
-        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,XMSubLong autolearn=disabled
-        version=3.4.2
-X-Spam-Virus: No
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.7 XMSubLong Long Subject
-        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-        *      [sa03 1397; Body=1 Fuz1=1 Fuz2=1]
-X-Spam-DCC: XMission; sa03 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: ;Alexey Gladkov <gladkov.alexey@gmail.com>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 666 ms - load_scoreonly_sql: 0.03 (0.0%),
-        signal_user_changed: 4.3 (0.6%), b_tie_ro: 2.9 (0.4%), parse: 1.19
-        (0.2%), extract_message_metadata: 4.8 (0.7%), get_uri_detail_list: 2.6
-        (0.4%), tests_pri_-1000: 4.4 (0.7%), tests_pri_-950: 1.06 (0.2%),
-        tests_pri_-900: 0.82 (0.1%), tests_pri_-90: 318 (47.7%), check_bayes:
-        316 (47.5%), b_tokenize: 10 (1.5%), b_tok_get_all: 12 (1.9%),
-        b_comp_prob: 2.9 (0.4%), b_tok_touch_all: 288 (43.3%), b_finish: 0.83
-        (0.1%), tests_pri_0: 317 (47.5%), check_dkim_signature: 0.61 (0.1%),
-        check_dkim_adsp: 2.3 (0.3%), poll_dns_idle: 0.91 (0.1%), tests_pri_10:
-        2.2 (0.3%), tests_pri_500: 6 (0.9%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: [PATCH v13 2/7] proc: allow to mount many instances of proc in one pid namespace
-X-Spam-Flag: No
-X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
-X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200423111524.2u3auxkfrdqpt3hr@wittgenstein>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Thu, Apr 23, 2020 at 01:15:24PM +0200, Christian Brauner wrote:
+> On Wed, Apr 22, 2020 at 08:17:06PM -0500, Serge Hallyn wrote:
+> > On Wed, Apr 22, 2020 at 04:54:35PM +0200, Christian Brauner wrote:
+> > > For sysfs the initial namespace is special. All devices currently
+> > > propagate into all non-initial namespaces. For example, sysfs is usually
+> > > mounted in a privileged or unprivileged container and all devices are
+> > > visible to the container but are owned by global root. Even though none
+> > > of the propagated files can be used there are still a lot of read-only
+> > > values that are accessed or read by tools running in non-initial
+> > > namespaces. Some devices though, which can be moved or created in
+> > > another namespace, will only show up in the corresponding namespace.
+> > > This currently includes network and loop devices but no other ones.
+> > > Since all current workloads depend on devices from the inital namespace
+> > > being visible this behavior cannot be simply changed. This patch just
+> > > makes sure to keep propagating devices that share the same device class
+> > > with loop devices from the initial namespaces into all non-initial
+> > > namespaces as before. In short, nothing changes only loopfs loop devices
+> > > will be shown in their correct namespace.
+> > > 
+> > > Cc: Jens Axboe <axboe@kernel.dk>
+> > > Cc: Tejun Heo <tj@kernel.org>
+> > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
+> > 
+> > Hi,
+> > 
+> > two comments below:
+> > 
+> > > ---
+> > > /* v2 */
+> > > - Christian Brauner <christian.brauner@ubuntu.com>:
+> > >   - Protect init_net with a CONFIG_NET ifdef in case it is set to "n".
+> > >   - As Tejun pointed out there is argument to be made that a new mount
+> > >     option for sysfs could be added that would change how devices are
+> > >     propagated. This patch does not prevent this but it is an orthogonal
+> > >     problem.
+> > > ---
+> > >  block/genhd.c               | 79 +++++++++++++++++++++++++++++++++++++
+> > >  fs/kernfs/dir.c             | 34 +++++++++++++---
+> > >  fs/kernfs/kernfs-internal.h | 24 +++++++++++
+> > >  fs/sysfs/mount.c            |  4 ++
+> > >  include/linux/genhd.h       |  3 ++
+> > >  include/linux/kernfs.h      | 22 +++++++++++
+> > >  include/linux/kobject_ns.h  |  4 ++
+> > >  lib/kobject.c               |  2 +
+> > >  8 files changed, 167 insertions(+), 5 deletions(-)
+> > > 
+> > > diff --git a/block/genhd.c b/block/genhd.c
+> > > index 06b642b23a07..b5b2601c4311 100644
+> > > --- a/block/genhd.c
+> > > +++ b/block/genhd.c
+> > > @@ -1198,11 +1198,81 @@ static struct kobject *base_probe(dev_t devt, int *partno, void *data)
+> > >  	return NULL;
+> > >  }
+> > >  
+> > > +#ifdef CONFIG_BLK_DEV_LOOPFS
+> > > +static void *user_grab_current_ns(void)
+> > > +{
+> > > +	struct user_namespace *ns = current_user_ns();
+> > > +	return get_user_ns(ns);
+> > > +}
+> > > +
+> > > +static const void *user_initial_ns(void)
+> > > +{
+> > > +	return &init_user_ns;
+> > > +}
+> > > +
+> > > +static void user_put_ns(void *p)
+> > > +{
+> > > +	struct user_namespace *ns = p;
+> > > +	put_user_ns(ns);
+> > > +}
+> > > +
+> > > +static bool user_current_may_mount(void)
+> > > +{
+> > > +	return ns_capable(current_user_ns(), CAP_SYS_ADMIN);
+> > > +}
+> > > +
+> > > +const struct kobj_ns_type_operations user_ns_type_operations = {
+> > > +	.type			= KOBJ_NS_TYPE_USER,
+> > > +	.current_may_mount	= user_current_may_mount,
+> > > +	.grab_current_ns	= user_grab_current_ns,
+> > > +	.initial_ns		= user_initial_ns,
+> > > +	.drop_ns		= user_put_ns,
+> > > +};
+> > > +
+> > > +static const void *block_class_user_namespace(struct device *dev)
+> > > +{
+> > > +	struct gendisk *disk;
+> > > +
+> > > +	if (dev->type == &part_type)
+> > > +		disk = part_to_disk(dev_to_part(dev));
+> > > +	else
+> > > +		disk = dev_to_disk(dev);
+> > > +
+> > > +	return disk->user_ns;
+> > > +}
+> > > +
+> > > +static void block_class_get_ownership(struct device *dev, kuid_t *uid, kgid_t *gid)
+> > > +{
+> > > +	struct gendisk *disk;
+> > > +	struct user_namespace *ns;
+> > > +
+> > > +	if (dev->type == &part_type)
+> > > +		disk = part_to_disk(dev_to_part(dev));
+> > > +	else
+> > > +		disk = dev_to_disk(dev);
+> > > +
+> > > +	ns = disk->user_ns;
+> > > +	if (ns && ns != &init_user_ns) {
+> > > +		kuid_t ns_root_uid = make_kuid(ns, 0);
+> > > +		kgid_t ns_root_gid = make_kgid(ns, 0);
+> > > +
+> > > +		if (uid_valid(ns_root_uid))
+> > > +			*uid = ns_root_uid;
+> > > +
+> > > +		if (gid_valid(ns_root_gid))
+> > > +			*gid = ns_root_gid;
+> > > +	}
+> > 
+> > You're not setting uid and gid in the else case?
+> 
+> Right, the reason being that sysfs and the associated kobject
+> infrastructure will always set global root as the default. So the
 
-I took a quick look and there is at least one other use in security/tomoyo/realpath.c:
+Oh, ok, I had thought that would be the case but failed to find
+it yesterday :)  thx
 
-static char *tomoyo_get_local_path(struct dentry *dentry, char * const buffer,
-				   const int buflen)
-{
-	struct super_block *sb = dentry->d_sb;
-	char *pos = tomoyo_get_dentry_path(dentry, buffer, buflen);
+Reviewed-by: Serge Hallyn <serge@hallyn.com>
 
-	if (IS_ERR(pos))
-		return pos;
-	/* Convert from $PID to self if $PID is current thread. */
-	if (sb->s_magic == PROC_SUPER_MAGIC && *pos == '/') {
-		char *ep;
-		const pid_t pid = (pid_t) simple_strtoul(pos + 1, &ep, 10);
-
-		if (*ep == '/' && pid && pid ==
-		    task_tgid_nr_ns(current, sb->s_fs_info)) {
-			pos = ep - 5;
-			if (pos < buffer)
-				goto out;
-			memmove(pos, "/self", 5);
-		}
-		goto prepend_filesystem_name;
-	}
-
-Can you make the fixes to locks.c and tomoyo a couple of standalone
-fixes that should be inserted before your patch?
-
-On the odd chance there is a typo they will bisect better, as well
-as just keeping this patch and it's description from expanding in size.
-So that things are small enough for people to really look at and review.
-
-The fix itself looks fine.
-
-Thank you,
-Eric
-
-
-Alexey Gladkov <gladkov.alexey@gmail.com> writes:
-
-> Fixed getting proc_pidns in the lock_get_status() and locks_show() directly from
-> the superblock, which caused a crash:
->
-> === arm64 ===
-> [12140.366814] LTP: starting proc01 (proc01 -m 128)
-> [12149.580943] ==================================================================
-> [12149.589521] BUG: KASAN: out-of-bounds in pid_nr_ns+0x2c/0x90 pid_nr_ns at kernel/pid.c:456
-> [12149.595939] Read of size 4 at addr 1bff000bfa8c0388 by task = proc01/50298
-> [12149.603392] Pointer tag: [1b], memory tag: [fe]
->
-> [12149.610906] CPU: 69 PID: 50298 Comm: proc01 Tainted: G L 5.7.0-rc2-next-20200422 #6
-> [12149.620585] Hardware name: HPE Apollo 70 /C01_APACHE_MB , BIOS L50_5.13_1.11 06/18/2019
-> [12149.631074] Call trace:
-> [12149.634304]  dump_backtrace+0x0/0x22c
-> [12149.638745]  show_stack+0x28/0x34
-> [12149.642839]  dump_stack+0x104/0x194
-> [12149.647110]  print_address_description+0x70/0x3a4
-> [12149.652576]  __kasan_report+0x188/0x238
-> [12149.657169]  kasan_report+0x3c/0x58
-> [12149.661430]  check_memory_region+0x98/0xa0
-> [12149.666303]  __hwasan_load4_noabort+0x18/0x20
-> [12149.671431]  pid_nr_ns+0x2c/0x90
-> [12149.675446]  locks_translate_pid+0xf4/0x1a0
-> [12149.680382]  locks_show+0x68/0x110
-> [12149.684536]  seq_read+0x380/0x930
-> [12149.688604]  pde_read+0x5c/0x78
-> [12149.692498]  proc_reg_read+0x74/0xc0
-> [12149.696813]  __vfs_read+0x84/0x1d0
-> [12149.700939]  vfs_read+0xec/0x124
-> [12149.704889]  ksys_read+0xb0/0x120
-> [12149.708927]  __arm64_sys_read+0x54/0x88
-> [12149.713485]  do_el0_svc+0x128/0x1dc
-> [12149.717697]  el0_sync_handler+0x150/0x250
-> [12149.722428]  el0_sync+0x164/0x180
->
-> [12149.728672] Allocated by task 1:
-> [12149.732624]  __kasan_kmalloc+0x124/0x188
-> [12149.737269]  kasan_kmalloc+0x10/0x18
-> [12149.741568]  kmem_cache_alloc_trace+0x2e4/0x3d4
-> [12149.746820]  proc_fill_super+0x48/0x1fc
-> [12149.751377]  vfs_get_super+0xcc/0x170
-> [12149.755760]  get_tree_nodev+0x28/0x34
-> [12149.760143]  proc_get_tree+0x24/0x30
-> [12149.764439]  vfs_get_tree+0x54/0x158
-> [12149.768736]  do_mount+0x80c/0xaf0
-> [12149.772774]  __arm64_sys_mount+0xe0/0x18c
-> [12149.777504]  do_el0_svc+0x128/0x1dc
-> [12149.781715]  el0_sync_handler+0x150/0x250
-> [12149.786445]  el0_sync+0x164/0x180
-
-> diff --git a/fs/locks.c b/fs/locks.c
-> index b8a31c1c4fff..399c5dbb72c4 100644
-> --- a/fs/locks.c
-> +++ b/fs/locks.c
-> @@ -2823,7 +2823,7 @@ static void lock_get_status(struct seq_file *f, struct file_lock *fl,
->  {
->  	struct inode *inode = NULL;
->  	unsigned int fl_pid;
-> -	struct pid_namespace *proc_pidns = file_inode(f->file)->i_sb->s_fs_info;
-> +	struct pid_namespace *proc_pidns = proc_pid_ns(file_inode(f->file));
->  
->  	fl_pid = locks_translate_pid(fl, proc_pidns);
->  	/*
-> @@ -2901,7 +2901,7 @@ static int locks_show(struct seq_file *f, void *v)
->  {
->  	struct locks_iterator *iter = f->private;
->  	struct file_lock *fl, *bfl;
-> -	struct pid_namespace *proc_pidns = file_inode(f->file)->i_sb->s_fs_info;
-> +	struct pid_namespace *proc_pidns = proc_pid_ns(file_inode(f->file));
->  
->  	fl = hlist_entry(v, struct file_lock, fl_link);
->  
-
-Eric
+> callchain is:
+> kobject_get_ownership()
+> and this calls the ktype callbacks which hits
+> -> device_get_ownership()
+> which calls into the device class specific callbacks which in this is
+> case calls block_class_get_ownership().
+> 
+> And there's no direct callers of, say <device-class>->get_ownership()
+> that all needs to always go through the callback infrastructure.
+> 
+> > 
+> > > +}
+> > > +#endif /* CONFIG_BLK_DEV_LOOPFS */
+> > > +
+> > >  static int __init genhd_device_init(void)
+> > >  {
+> > >  	int error;
+> > >  
+> > >  	block_class.dev_kobj = sysfs_dev_block_kobj;
+> > > +#ifdef CONFIG_BLK_DEV_LOOPFS
+> > > +	kobj_ns_type_register(&user_ns_type_operations);
+> > > +#endif
+> > >  	error = class_register(&block_class);
+> > >  	if (unlikely(error))
+> > >  		return error;
+> > > @@ -1524,8 +1594,14 @@ static void disk_release(struct device *dev)
+> > >  		blk_put_queue(disk->queue);
+> > >  	kfree(disk);
+> > >  }
+> > > +
+> > >  struct class block_class = {
+> > >  	.name		= "block",
+> > > +#ifdef CONFIG_BLK_DEV_LOOPFS
+> > > +	.ns_type	= &user_ns_type_operations,
+> > > +	.namespace	= block_class_user_namespace,
+> > > +	.get_ownership	= block_class_get_ownership,
+> > > +#endif
+> > >  };
+> > >  
+> > >  static char *block_devnode(struct device *dev, umode_t *mode,
+> > > @@ -1715,6 +1791,9 @@ struct gendisk *__alloc_disk_node(int minors, int node_id)
+> > >  		disk_to_dev(disk)->class = &block_class;
+> > >  		disk_to_dev(disk)->type = &disk_type;
+> > >  		device_initialize(disk_to_dev(disk));
+> > > +#ifdef CONFIG_BLK_DEV_LOOPFS
+> > > +		disk->user_ns = &init_user_ns;
+> > > +#endif
+> > >  	}
+> > >  	return disk;
+> > >  }
+> > > diff --git a/fs/kernfs/dir.c b/fs/kernfs/dir.c
+> > > index 1f2d894ae454..02796ba6521a 100644
+> > > --- a/fs/kernfs/dir.c
+> > > +++ b/fs/kernfs/dir.c
+> > > @@ -575,10 +575,15 @@ static int kernfs_dop_revalidate(struct dentry *dentry, unsigned int flags)
+> > >  		goto out_bad;
+> > >  
+> > >  	/* The kernfs node has been moved to a different namespace */
+> > > -	if (kn->parent && kernfs_ns_enabled(kn->parent) &&
+> > > -	    kernfs_info(dentry->d_sb)->ns[kn->ns_type] != kn->ns)
+> > > -		goto out_bad;
+> > > +	if (kn->parent && kernfs_ns_enabled(kn->parent)) {
+> > > +		if (kernfs_init_ns_propagates(kn->parent) &&
+> > > +		    kn->ns == kernfs_init_ns(kn->parent->ns_type))
+> > > +			goto out_good;
+> > > +		if (kernfs_info(dentry->d_sb)->ns[kn->parent->ns_type] != kn->ns)
+> > > +			goto out_bad;
+> > > +	}
+> > >  
+> > > +out_good:
+> > >  	mutex_unlock(&kernfs_mutex);
+> > >  	return 1;
+> > >  out_bad:
+> > > @@ -1090,6 +1095,10 @@ static struct dentry *kernfs_iop_lookup(struct inode *dir,
+> > >  		ns = kernfs_info(dir->i_sb)->ns[parent->ns_type];
+> > >  
+> > >  	kn = kernfs_find_ns(parent, dentry->d_name.name, ns);
+> > > +	if (!kn && kernfs_init_ns_propagates(parent)) {
+> > > +		ns = kernfs_init_ns(parent->ns_type);
+> > > +		kn = kernfs_find_ns(parent, dentry->d_name.name, ns);
+> > > +	}
+> > >  
+> > >  	/* no such entry */
+> > >  	if (!kn || !kernfs_active(kn)) {
+> > > @@ -1614,6 +1623,8 @@ static int kernfs_dir_fop_release(struct inode *inode, struct file *filp)
+> > >  static struct kernfs_node *kernfs_dir_pos(const void *ns,
+> > >  	struct kernfs_node *parent, loff_t hash, struct kernfs_node *pos)
+> > >  {
+> > > +	const void *init_ns;
+> > > +
+> > >  	if (pos) {
+> > >  		int valid = kernfs_active(pos) &&
+> > >  			pos->parent == parent && hash == pos->hash;
+> > > @@ -1621,6 +1632,12 @@ static struct kernfs_node *kernfs_dir_pos(const void *ns,
+> > >  		if (!valid)
+> > >  			pos = NULL;
+> > >  	}
+> > > +
+> > > +	if (kernfs_init_ns_propagates(parent))
+> > > +		init_ns = kernfs_init_ns(parent->ns_type);
+> > > +	else
+> > > +		init_ns = NULL;
+> > > +
+> > >  	if (!pos && (hash > 1) && (hash < INT_MAX)) {
+> > >  		struct rb_node *node = parent->dir.children.rb_node;
+> > >  		while (node) {
+> > > @@ -1635,7 +1652,7 @@ static struct kernfs_node *kernfs_dir_pos(const void *ns,
+> > >  		}
+> > >  	}
+> > >  	/* Skip over entries which are dying/dead or in the wrong namespace */
+> > > -	while (pos && (!kernfs_active(pos) || pos->ns != ns)) {
+> > > +	while (pos && (!kernfs_active(pos) || (pos->ns != ns && pos->ns != init_ns))) {
+> > >  		struct rb_node *node = rb_next(&pos->rb);
+> > >  		if (!node)
+> > >  			pos = NULL;
+> > > @@ -1650,13 +1667,20 @@ static struct kernfs_node *kernfs_dir_next_pos(const void *ns,
+> > >  {
+> > >  	pos = kernfs_dir_pos(ns, parent, ino, pos);
+> > >  	if (pos) {
+> > > +		const void *init_ns;
+> > > +		if (kernfs_init_ns_propagates(parent))
+> > > +			init_ns = kernfs_init_ns(parent->ns_type);
+> > > +		else
+> > > +			init_ns = NULL;
+> > > +
+> > >  		do {
+> > >  			struct rb_node *node = rb_next(&pos->rb);
+> > >  			if (!node)
+> > >  				pos = NULL;
+> > >  			else
+> > >  				pos = rb_to_kn(node);
+> > > -		} while (pos && (!kernfs_active(pos) || pos->ns != ns));
+> > > +		} while (pos && (!kernfs_active(pos) ||
+> > > +				 (pos->ns != ns && pos->ns != init_ns)));
+> > >  	}
+> > >  	return pos;
+> > >  }
+> > > diff --git a/fs/kernfs/kernfs-internal.h b/fs/kernfs/kernfs-internal.h
+> > > index 7c972c00f84a..74eb6c447361 100644
+> > > --- a/fs/kernfs/kernfs-internal.h
+> > > +++ b/fs/kernfs/kernfs-internal.h
+> > > @@ -80,6 +80,30 @@ static inline struct kernfs_node *kernfs_dentry_node(struct dentry *dentry)
+> > >  	return d_inode(dentry)->i_private;
+> > >  }
+> > >  
+> > > +#ifdef CONFIG_NET
+> > > +extern struct net init_net;
+> > > +#endif
+> > > +
+> > > +extern struct user_namespace init_user_ns;
+> > > +
+> > > +static inline const void *kernfs_init_ns(enum kobj_ns_type ns_type)
+> > > +{
+> > > +	switch (ns_type) {
+> > > +	case KOBJ_NS_TYPE_NET:
+> > > +#ifdef CONFIG_NET
+> > > +		return &init_net;
+> > > +#else
+> > > +		break;
+> > > +#endif
+> > > +	case KOBJ_NS_TYPE_USER:
+> > > +		return &init_user_ns;
+> > > +	default:
+> > > +		pr_debug("Unsupported namespace type %d for kernfs\n", ns_type);
+> > > +	}
+> > > +
+> > > +	return NULL;
+> > > +}
+> > > +
+> > >  extern const struct super_operations kernfs_sops;
+> > >  extern struct kmem_cache *kernfs_node_cache, *kernfs_iattrs_cache;
+> > >  
+> > > diff --git a/fs/sysfs/mount.c b/fs/sysfs/mount.c
+> > > index 5e2ec88a709e..99b82a0ae7ea 100644
+> > > --- a/fs/sysfs/mount.c
+> > > +++ b/fs/sysfs/mount.c
+> > > @@ -43,6 +43,8 @@ static void sysfs_fs_context_free(struct fs_context *fc)
+> > >  
+> > >  	if (kfc->ns_tag[KOBJ_NS_TYPE_NET])
+> > >  		kobj_ns_drop(KOBJ_NS_TYPE_NET, kfc->ns_tag[KOBJ_NS_TYPE_NET]);
+> > > +	if (kfc->ns_tag[KOBJ_NS_TYPE_USER])
+> > > +		kobj_ns_drop(KOBJ_NS_TYPE_USER, kfc->ns_tag[KOBJ_NS_TYPE_USER]);
+> > >  	kernfs_free_fs_context(fc);
+> > >  	kfree(kfc);
+> > >  }
+> > > @@ -67,6 +69,7 @@ static int sysfs_init_fs_context(struct fs_context *fc)
+> > >  		return -ENOMEM;
+> > >  
+> > >  	kfc->ns_tag[KOBJ_NS_TYPE_NET] = netns = kobj_ns_grab_current(KOBJ_NS_TYPE_NET);
+> > > +	kfc->ns_tag[KOBJ_NS_TYPE_USER] = kobj_ns_grab_current(KOBJ_NS_TYPE_USER);
+> > 
+> > It's nice and tidy this way so maybe worth it, but getting
+> > the kobj_ns_type_lock spinlock twice in a row here seems
+> > unfortunate.
+> 
+> Let me see if I can do something non-ugly and moderately simple about
+> this. If not, it's probably fine as it is since it only happens on sysfs
+> mount.
