@@ -2,144 +2,71 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 447D21B6501
-	for <lists+linux-api@lfdr.de>; Thu, 23 Apr 2020 22:04:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E86591B663C
+	for <lists+linux-api@lfdr.de>; Thu, 23 Apr 2020 23:41:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726878AbgDWUDz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 23 Apr 2020 16:03:55 -0400
-Received: from raptor.unsafe.ru ([5.9.43.93]:48608 "EHLO raptor.unsafe.ru"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726669AbgDWUDy (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 23 Apr 2020 16:03:54 -0400
-Received: from comp-core-i7-2640m-0182e6.redhat.com (ip-89-102-33-211.net.upcbroadband.cz [89.102.33.211])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by raptor.unsafe.ru (Postfix) with ESMTPSA id 83BE120A0A;
-        Thu, 23 Apr 2020 20:03:47 +0000 (UTC)
-From:   Alexey Gladkov <gladkov.alexey@gmail.com>
-To:     LKML <linux-kernel@vger.kernel.org>
-Cc:     Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Linux Security Module <linux-security-module@vger.kernel.org>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Alexey Gladkov <legion@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Daniel Micay <danielmicay@gmail.com>,
-        Djalal Harouni <tixxdz@gmail.com>,
-        "Dmitry V . Levin" <ldv@altlinux.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Jeff Layton <jlayton@poochiereds.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        David Howells <dhowells@redhat.com>
-Subject: [PATCH v13 8/8] proc: use named enums for better readability
-Date:   Thu, 23 Apr 2020 22:03:16 +0200
-Message-Id: <20200423200316.164518-9-gladkov.alexey@gmail.com>
-X-Mailer: git-send-email 2.25.3
-In-Reply-To: <20200423200316.164518-1-gladkov.alexey@gmail.com>
-References: <20200423200316.164518-1-gladkov.alexey@gmail.com>
+        id S1727093AbgDWVlQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 23 Apr 2020 17:41:16 -0400
+Received: from mail105.syd.optusnet.com.au ([211.29.132.249]:60409 "EHLO
+        mail105.syd.optusnet.com.au" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726976AbgDWVlP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Apr 2020 17:41:15 -0400
+Received: from dread.disaster.area (pa49-180-0-232.pa.nsw.optusnet.com.au [49.180.0.232])
+        by mail105.syd.optusnet.com.au (Postfix) with ESMTPS id 942913A2A5A;
+        Fri, 24 Apr 2020 07:41:08 +1000 (AEST)
+Received: from dave by dread.disaster.area with local (Exim 4.92.3)
+        (envelope-from <david@fromorbit.com>)
+        id 1jRjam-0006R8-3B; Fri, 24 Apr 2020 07:41:08 +1000
+Date:   Fri, 24 Apr 2020 07:41:08 +1000
+From:   Dave Chinner <david@fromorbit.com>
+To:     ira.weiny@intel.com
+Cc:     linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
+        "Darrick J. Wong" <darrick.wong@oracle.com>,
+        Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@lst.de>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Dan Williams <dan.j.williams@intel.com>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>, Jeff Moyer <jmoyer@redhat.com>,
+        linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH V10 02/11] fs: Remove unneeded IS_DAX() check in
+ io_is_direct()
+Message-ID: <20200423214108.GR27860@dread.disaster.area>
+References: <20200422212102.3757660-1-ira.weiny@intel.com>
+ <20200422212102.3757660-3-ira.weiny@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.6.1 (raptor.unsafe.ru [5.9.43.93]); Thu, 23 Apr 2020 20:03:48 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200422212102.3757660-3-ira.weiny@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Optus-CM-Score: 0
+X-Optus-CM-Analysis: v=2.3 cv=X6os11be c=1 sm=1 tr=0
+        a=XYjVcjsg+1UI/cdbgX7I7g==:117 a=XYjVcjsg+1UI/cdbgX7I7g==:17
+        a=kj9zAlcOel0A:10 a=cl8xLZFz6L8A:10 a=QyXUC8HyAAAA:8 a=yPCof4ZbAAAA:8
+        a=20KFwNOVAAAA:8 a=7-415B0cAAAA:8 a=JVZ9yd-c_uYkw5Y7WEkA:9
+        a=CjuIK1q_8ugA:10 a=biEYGPWJfzWAr4FL6Ov7:22
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Signed-off-by: Alexey Gladkov <gladkov.alexey@gmail.com>
-Reviewed-by: Alexey Dobriyan <adobriyan@gmail.com>
-Reviewed-by: Kees Cook <keescook@chromium.org>
----
- fs/proc/base.c          | 2 +-
- fs/proc/inode.c         | 2 +-
- fs/proc/root.c          | 4 ++--
- include/linux/proc_fs.h | 8 ++++----
- 4 files changed, 8 insertions(+), 8 deletions(-)
+On Wed, Apr 22, 2020 at 02:20:53PM -0700, ira.weiny@intel.com wrote:
+> From: Ira Weiny <ira.weiny@intel.com>
+> 
+> Remove the check because DAX now has it's own read/write methods and
+> file systems which support DAX check IS_DAX() prior to IOCB_DIRECT on
+> their own.  Therefore, it does not matter if the file state is DAX when
+> the iocb flags are created.
+> 
+> Also remove io_is_direct() as it is just a simple flag check.
+> 
+> Reviewed-by: Jan Kara <jack@suse.cz>
+> Reviewed-by: Darrick J. Wong <darrick.wong@oracle.com>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
 
-diff --git a/fs/proc/base.c b/fs/proc/base.c
-index a52a91e90c25..2868bff1a142 100644
---- a/fs/proc/base.c
-+++ b/fs/proc/base.c
-@@ -699,7 +699,7 @@ int proc_setattr(struct dentry *dentry, struct iattr *attr)
-  */
- static bool has_pid_permissions(struct proc_fs_info *fs_info,
- 				 struct task_struct *task,
--				 int hide_pid_min)
-+				 enum proc_hidepid hide_pid_min)
- {
- 	/*
- 	 * If 'hidpid' mount option is set force a ptrace check,
-diff --git a/fs/proc/inode.c b/fs/proc/inode.c
-index cbacac2e892b..f40c2532c057 100644
---- a/fs/proc/inode.c
-+++ b/fs/proc/inode.c
-@@ -166,7 +166,7 @@ void proc_invalidate_siblings_dcache(struct hlist_head *inodes, spinlock_t *lock
- 		deactivate_super(old_sb);
- }
- 
--static inline const char *hidepid2str(int v)
-+static inline const char *hidepid2str(enum proc_hidepid v)
- {
- 	switch (v) {
- 		case HIDEPID_OFF: return "off";
-diff --git a/fs/proc/root.c b/fs/proc/root.c
-index 288093261b7f..ffebed1999e5 100644
---- a/fs/proc/root.c
-+++ b/fs/proc/root.c
-@@ -32,9 +32,9 @@
- struct proc_fs_context {
- 	struct pid_namespace	*pid_ns;
- 	unsigned int		mask;
--	int			hidepid;
-+	enum proc_hidepid	hidepid;
- 	int			gid;
--	int			pidonly;
-+	enum proc_pidonly	pidonly;
- };
- 
- enum proc_param {
-diff --git a/include/linux/proc_fs.h b/include/linux/proc_fs.h
-index 8bc31ba5cd9c..2cb424e6f36a 100644
---- a/include/linux/proc_fs.h
-+++ b/include/linux/proc_fs.h
-@@ -43,7 +43,7 @@ struct proc_ops {
- } __randomize_layout;
- 
- /* definitions for hide_pid field */
--enum {
-+enum proc_hidepid {
- 	HIDEPID_OFF	  = 0,
- 	HIDEPID_NO_ACCESS = 1,
- 	HIDEPID_INVISIBLE = 2,
-@@ -51,7 +51,7 @@ enum {
- };
- 
- /* definitions for proc mount option pidonly */
--enum {
-+enum proc_pidonly {
- 	PROC_PIDONLY_OFF = 0,
- 	PROC_PIDONLY_ON  = 1,
- };
-@@ -61,8 +61,8 @@ struct proc_fs_info {
- 	struct dentry *proc_self;        /* For /proc/self */
- 	struct dentry *proc_thread_self; /* For /proc/thread-self */
- 	kgid_t pid_gid;
--	int hide_pid;
--	int pidonly;
-+	enum proc_hidepid hide_pid;
-+	enum proc_pidonly pidonly;
- };
- 
- static inline struct proc_fs_info *proc_sb_info(struct super_block *sb)
+Looks good.
+
+Reviewed-by: Dave Chinner <dchinner@redhat.com>
 -- 
-2.25.3
-
+Dave Chinner
+david@fromorbit.com
