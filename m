@@ -2,91 +2,183 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F8A61B635E
-	for <lists+linux-api@lfdr.de>; Thu, 23 Apr 2020 20:26:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F07CF1B64EB
+	for <lists+linux-api@lfdr.de>; Thu, 23 Apr 2020 22:02:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730289AbgDWS0w (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 23 Apr 2020 14:26:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52800 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730274AbgDWS0v (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Apr 2020 14:26:51 -0400
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com [IPv6:2607:f8b0:4864:20::d41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05A62C09B045
-        for <linux-api@vger.kernel.org>; Thu, 23 Apr 2020 11:26:50 -0700 (PDT)
-Received: by mail-io1-xd41.google.com with SMTP id b12so7489982ion.8
-        for <linux-api@vger.kernel.org>; Thu, 23 Apr 2020 11:26:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=DHzQtr3OkXyFWXbvXEU307GvVJtF7cl8Gt7nfdQPyE8=;
-        b=g40sBMuaO0eKdotmx6qgQBl63DKBmrekz5bvyEQHA4wVZtcqrxc+aFVgh/QD84O9VQ
-         7GeGJGwCstc5CQBYUut5JFB/SR9hiHRBoNucBdQ5+M/xcZE7LYnQNVriX94nlJDQQ53M
-         WWNnGuPMmJMtuCxOc6M3BOG48McWyi9pwkfv1qCbwmDhh95byI3UmcGK9ZJ59xQm/kqA
-         giNgZwxUHu+XTIAoqn/uu1orK63Ur+6hMBQW2TB101zb0oJ5HpVThkCq6id/TjpQtg27
-         HPMb1DcYsj7bM6wQaeV1UkPK6mgUhECRFNV10F5zDhvx1RXP4ikb8uuEIGMKOSNWVb51
-         vLew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=DHzQtr3OkXyFWXbvXEU307GvVJtF7cl8Gt7nfdQPyE8=;
-        b=tQXaaTeCxVFO3dRtIHAwDzHurWVqOs6V7lH1xCoek+6JMNws99aOV7puk8fqX1fKX1
-         R+I7QUuAUiSd6OhX+nIL/QyL2nXSRX75rgfRbRZKcNYWseQRw3RJe03CMu02NJDmn6dv
-         77eRop37/P2Yn4vTnEkD4SuTClEM0OIEDeA7dL0Qv1ZIOYbTWXB4a7mkduQwe47G0sCo
-         00LvrEjGoTXBa5sxjnkxKoYwOQ9Uf4S+uU0kZ9woEO5EwG8Eb8Puv11lW3Q8bFNBsePW
-         R6ZmXRhFRe6Q5E8bwMSgTjDQ3nVAN4oTZK5DB4Zd2ulWW/V39xbZ003C62P+JsAD2Ugk
-         CjlQ==
-X-Gm-Message-State: AGi0PubEJnarE6oxy2EEXBxdjCFvmM8EL40T21pol3QpsH+bwGydzdQY
-        zMnqPbSJmsEAe2mE/IsrP2PCPx/D+AN9OdhO4A==
-X-Google-Smtp-Source: APiQypKZ88CB7WlyCjo0k9+cU4PX0VcggKkKtzSKgRJHkcPGizF0yZXAjzEMBgo6XH4xzBXv0KAOMjPM9p1sgpp6/70=
-X-Received: by 2002:a5e:9416:: with SMTP id q22mr2547966ioj.93.1587666410194;
- Thu, 23 Apr 2020 11:26:50 -0700 (PDT)
+        id S1725934AbgDWUCT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 23 Apr 2020 16:02:19 -0400
+Received: from raptor.unsafe.ru ([5.9.43.93]:47380 "EHLO raptor.unsafe.ru"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726380AbgDWUCS (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 23 Apr 2020 16:02:18 -0400
+Received: from comp-core-i7-2640m-0182e6 (ip-89-102-33-211.net.upcbroadband.cz [89.102.33.211])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by raptor.unsafe.ru (Postfix) with ESMTPSA id 3A8DC20459;
+        Thu, 23 Apr 2020 20:01:42 +0000 (UTC)
+Date:   Thu, 23 Apr 2020 22:01:36 +0200
+From:   Alexey Gladkov <gladkov.alexey@gmail.com>
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Linux Security Module <linux-security-module@vger.kernel.org>,
+        Akinobu Mita <akinobu.mita@gmail.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Daniel Micay <danielmicay@gmail.com>,
+        Djalal Harouni <tixxdz@gmail.com>,
+        "Dmitry V . Levin" <ldv@altlinux.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Jeff Layton <jlayton@poochiereds.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        David Howells <dhowells@redhat.com>
+Subject: Re: [PATCH v13 2/7] proc: allow to mount many instances of proc in
+ one pid namespace
+Message-ID: <20200423200136.zrjzv6d6zghnvvrx@comp-core-i7-2640m-0182e6>
+References: <20200419141057.621356-3-gladkov.alexey@gmail.com>
+ <20200423112858.95820-1-gladkov.alexey@gmail.com>
+ <87lfmmz9bs.fsf@x220.int.ebiederm.org>
 MIME-Version: 1.0
-Received: by 2002:a02:c845:0:0:0:0:0 with HTTP; Thu, 23 Apr 2020 11:26:49
- -0700 (PDT)
-Reply-To: boa.benin107@yahoo.com
-From:   "Mrs. Angella Michelle" <info.zennitbankplcnigerian@gmail.com>
-Date:   Thu, 23 Apr 2020 20:26:49 +0200
-Message-ID: <CABHzvr=N78snvtMHePMOa+RLFdcZEjXLPkuhkojt4VoZGNzBsQ@mail.gmail.com>
-Subject: Contact Bank of Africa-Benin to receive your payment funds transfer
- amount of $12.800.000,00 Million USD,approved this morning by IMF.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87lfmmz9bs.fsf@x220.int.ebiederm.org>
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.6.1 (raptor.unsafe.ru [5.9.43.93]); Thu, 23 Apr 2020 20:02:13 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Attn Dear.
-Contact Bank of Africa-Benin to receive your payment funds transfer amount =
-of
-$12.800.000,00 Million USD,approved this morning by IMF.
-Happy to inform you, we have finally deposited your payment funds
-$12.8 million us dollars with the Paying Bank of Africa-Benin
-to transfer the payment amount of $12.800,000,00 Million Us Dollars to you
-Contact the bank immediately you receive this email now.
-Director Bank of Africa-Benin: Dr. Festus Obiara
-Email id:  boa.benin107@yahoo.com
-Tel/mobile, (229) 62819378
-BOA-BENIN | GROUPE BANK OF AFRICA, boa-benin
-Avenue Jean-Paul II - 08 BP 0879 - Cotonou - B=C3=A9nin
-Phone:(229) 62819378.
-2020 GROUPE BANK OF AFRICA
-Be advised to re-confirm your bank details to this bank as listed.
-Your account Holder's name----------------
-Bank Name----------------------------------------------------------
-Bank address----------------------------------------------
-Account Numbers---------------------------------------
-Rounting-----------------------------------------------------------------
-Your direct Phone Numbers----------------------------------------------
-Note,I have paid the deposit and insurance fees for you
-But the only money you are to send to this bank is $150.00 us dollars
-Been for the wire transfer fees of your funds
-Contact Him now to receive your transfer deposited this morning
-I wait for your reply upon confirmation
-Mrs. Angella Michelle
-Editor, Zenith Bank- Companies Benin
-mrsa9389@gmail.com
+On Thu, Apr 23, 2020 at 07:16:07AM -0500, Eric W. Biederman wrote:
+> 
+> I took a quick look and there is at least one other use in security/tomoyo/realpath.c:
+> 
+> static char *tomoyo_get_local_path(struct dentry *dentry, char * const buffer,
+> 				   const int buflen)
+> {
+> 	struct super_block *sb = dentry->d_sb;
+> 	char *pos = tomoyo_get_dentry_path(dentry, buffer, buflen);
+> 
+> 	if (IS_ERR(pos))
+> 		return pos;
+> 	/* Convert from $PID to self if $PID is current thread. */
+> 	if (sb->s_magic == PROC_SUPER_MAGIC && *pos == '/') {
+> 		char *ep;
+> 		const pid_t pid = (pid_t) simple_strtoul(pos + 1, &ep, 10);
+> 
+> 		if (*ep == '/' && pid && pid ==
+> 		    task_tgid_nr_ns(current, sb->s_fs_info)) {
+> 			pos = ep - 5;
+> 			if (pos < buffer)
+> 				goto out;
+> 			memmove(pos, "/self", 5);
+> 		}
+> 		goto prepend_filesystem_name;
+> 	}
+
+Ooops. I missed this one. I thought I found all such cases.
+
+> Can you make the fixes to locks.c and tomoyo a couple of standalone
+> fixes that should be inserted before your patch?
+
+Sure.
+
+> On the odd chance there is a typo they will bisect better, as well
+> as just keeping this patch and it's description from expanding in size.
+> So that things are small enough for people to really look at and review.
+> 
+> The fix itself looks fine.
+> 
+> Thank you,
+> Eric
+> 
+> 
+> Alexey Gladkov <gladkov.alexey@gmail.com> writes:
+> 
+> > Fixed getting proc_pidns in the lock_get_status() and locks_show() directly from
+> > the superblock, which caused a crash:
+> >
+> > === arm64 ===
+> > [12140.366814] LTP: starting proc01 (proc01 -m 128)
+> > [12149.580943] ==================================================================
+> > [12149.589521] BUG: KASAN: out-of-bounds in pid_nr_ns+0x2c/0x90 pid_nr_ns at kernel/pid.c:456
+> > [12149.595939] Read of size 4 at addr 1bff000bfa8c0388 by task = proc01/50298
+> > [12149.603392] Pointer tag: [1b], memory tag: [fe]
+> >
+> > [12149.610906] CPU: 69 PID: 50298 Comm: proc01 Tainted: G L 5.7.0-rc2-next-20200422 #6
+> > [12149.620585] Hardware name: HPE Apollo 70 /C01_APACHE_MB , BIOS L50_5.13_1.11 06/18/2019
+> > [12149.631074] Call trace:
+> > [12149.634304]  dump_backtrace+0x0/0x22c
+> > [12149.638745]  show_stack+0x28/0x34
+> > [12149.642839]  dump_stack+0x104/0x194
+> > [12149.647110]  print_address_description+0x70/0x3a4
+> > [12149.652576]  __kasan_report+0x188/0x238
+> > [12149.657169]  kasan_report+0x3c/0x58
+> > [12149.661430]  check_memory_region+0x98/0xa0
+> > [12149.666303]  __hwasan_load4_noabort+0x18/0x20
+> > [12149.671431]  pid_nr_ns+0x2c/0x90
+> > [12149.675446]  locks_translate_pid+0xf4/0x1a0
+> > [12149.680382]  locks_show+0x68/0x110
+> > [12149.684536]  seq_read+0x380/0x930
+> > [12149.688604]  pde_read+0x5c/0x78
+> > [12149.692498]  proc_reg_read+0x74/0xc0
+> > [12149.696813]  __vfs_read+0x84/0x1d0
+> > [12149.700939]  vfs_read+0xec/0x124
+> > [12149.704889]  ksys_read+0xb0/0x120
+> > [12149.708927]  __arm64_sys_read+0x54/0x88
+> > [12149.713485]  do_el0_svc+0x128/0x1dc
+> > [12149.717697]  el0_sync_handler+0x150/0x250
+> > [12149.722428]  el0_sync+0x164/0x180
+> >
+> > [12149.728672] Allocated by task 1:
+> > [12149.732624]  __kasan_kmalloc+0x124/0x188
+> > [12149.737269]  kasan_kmalloc+0x10/0x18
+> > [12149.741568]  kmem_cache_alloc_trace+0x2e4/0x3d4
+> > [12149.746820]  proc_fill_super+0x48/0x1fc
+> > [12149.751377]  vfs_get_super+0xcc/0x170
+> > [12149.755760]  get_tree_nodev+0x28/0x34
+> > [12149.760143]  proc_get_tree+0x24/0x30
+> > [12149.764439]  vfs_get_tree+0x54/0x158
+> > [12149.768736]  do_mount+0x80c/0xaf0
+> > [12149.772774]  __arm64_sys_mount+0xe0/0x18c
+> > [12149.777504]  do_el0_svc+0x128/0x1dc
+> > [12149.781715]  el0_sync_handler+0x150/0x250
+> > [12149.786445]  el0_sync+0x164/0x180
+> 
+> > diff --git a/fs/locks.c b/fs/locks.c
+> > index b8a31c1c4fff..399c5dbb72c4 100644
+> > --- a/fs/locks.c
+> > +++ b/fs/locks.c
+> > @@ -2823,7 +2823,7 @@ static void lock_get_status(struct seq_file *f, struct file_lock *fl,
+> >  {
+> >  	struct inode *inode = NULL;
+> >  	unsigned int fl_pid;
+> > -	struct pid_namespace *proc_pidns = file_inode(f->file)->i_sb->s_fs_info;
+> > +	struct pid_namespace *proc_pidns = proc_pid_ns(file_inode(f->file));
+> >  
+> >  	fl_pid = locks_translate_pid(fl, proc_pidns);
+> >  	/*
+> > @@ -2901,7 +2901,7 @@ static int locks_show(struct seq_file *f, void *v)
+> >  {
+> >  	struct locks_iterator *iter = f->private;
+> >  	struct file_lock *fl, *bfl;
+> > -	struct pid_namespace *proc_pidns = file_inode(f->file)->i_sb->s_fs_info;
+> > +	struct pid_namespace *proc_pidns = proc_pid_ns(file_inode(f->file));
+> >  
+> >  	fl = hlist_entry(v, struct file_lock, fl_link);
+> >  
+> 
+> Eric
+> 
+
+-- 
+Rgrds, legion
+
