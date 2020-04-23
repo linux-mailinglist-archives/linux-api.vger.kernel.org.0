@@ -2,101 +2,110 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E87A1B52AB
-	for <lists+linux-api@lfdr.de>; Thu, 23 Apr 2020 04:44:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F7AA1B536A
+	for <lists+linux-api@lfdr.de>; Thu, 23 Apr 2020 06:24:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726358AbgDWCor (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 22 Apr 2020 22:44:47 -0400
-Received: from mgwkm03.jp.fujitsu.com ([202.219.69.170]:30664 "EHLO
-        mgwkm03.jp.fujitsu.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726002AbgDWCor (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 22 Apr 2020 22:44:47 -0400
-X-Greylist: delayed 671 seconds by postgrey-1.27 at vger.kernel.org; Wed, 22 Apr 2020 22:44:44 EDT
-Received: from kw-mxq.gw.nic.fujitsu.com (unknown [192.168.231.130]) by mgwkm03.jp.fujitsu.com with smtp
-         id 0abc_3579_5544f71c_4878_43bc_a3de_fa2088113603;
-        Thu, 23 Apr 2020 11:33:27 +0900
-Received: from m3050.s.css.fujitsu.com (msm.b.css.fujitsu.com [10.134.21.208])
-        by kw-mxq.gw.nic.fujitsu.com (Postfix) with ESMTP id BF869AC00FD;
-        Thu, 23 Apr 2020 11:33:26 +0900 (JST)
-Received: from [10.133.121.138] (VPC-Y08P0560080.g01.fujitsu.local [10.133.121.138])
-        by m3050.s.css.fujitsu.com (Postfix) with ESMTP id A3A30403;
-        Thu, 23 Apr 2020 11:33:26 +0900 (JST)
-Subject: Re: [PATCH V10 04/11] Documentation/dax: Update Usage section
-To:     ira.weiny@intel.com, linux-kernel@vger.kernel.org,
-        linux-xfs@vger.kernel.org,
-        "Darrick J. Wong" <darrick.wong@oracle.com>
-Cc:     Jan Kara <jack@suse.cz>, Al Viro <viro@zeniv.linux.org.uk>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Christoph Hellwig <hch@lst.de>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>, Jeff Moyer <jmoyer@redhat.com>,
-        linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org
-References: <20200422212102.3757660-1-ira.weiny@intel.com>
- <20200422212102.3757660-5-ira.weiny@intel.com>
-From:   Yasunori Goto <y-goto@fujitsu.com>
-Message-ID: <2282176d-60c5-0e4b-3cf9-7a7682de380d@fujitsu.com>
-Date:   Thu, 23 Apr 2020 11:33:26 +0900
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1725562AbgDWEYf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 23 Apr 2020 00:24:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34216 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726101AbgDWEYe (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Apr 2020 00:24:34 -0400
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 730A6C03C1AF
+        for <linux-api@vger.kernel.org>; Wed, 22 Apr 2020 21:24:34 -0700 (PDT)
+Received: by mail-ed1-x543.google.com with SMTP id f12so3281586edn.12
+        for <linux-api@vger.kernel.org>; Wed, 22 Apr 2020 21:24:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=W1DMwknr8Mv5esWhXjaUd0WNvn+/fUVQmBus68SdeKI=;
+        b=Ttz2w7rbGa7bL4xh9pO5D01ts9bopo8zmXqwhb6SJpuJqdNz8GT63pO+DS3o5rFExI
+         91FDNSYgk46tTG7Z7myPIWIqQOs9vaczQphPBJwn1EJSP3KphnVypF5PWJUyTfiS1+ju
+         I3mogJgoyAiEEbYmdzuht+uXeeqbjhAf9VKrM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=W1DMwknr8Mv5esWhXjaUd0WNvn+/fUVQmBus68SdeKI=;
+        b=fM02BCzpsH8iY8yrZHGNX6WvA3ZK/vTfvrPBlKsdQrzvq4/bG3h/nxe0wcrLsY+FbW
+         7sQ7L0X6uTU0vdd/gU9uw1Y17kZJpP78UX9gG8x588C6QcxHcPJ0a1fLI9aAJU4yMgY1
+         PE0g3EkEQi/Gp2SR6UonQHZchfoIqxQ0snLVR7b1sC7GvJfnjMPdq/6ygLX9d17cXDvo
+         PH672ysdakqVfxbjGyo/IJozMLiqISyTdtBMjpnY2w+Q9dZQ7hHlMJP8NmivWGT7k3Kg
+         zGwsVfUFoajl3LK7LmeF9GZb5qpkPvIlaW73n9f+m2Aw0844hJYbvii+7hI6nG1UlHSJ
+         D0DA==
+X-Gm-Message-State: AGi0PuZFYY6/hzvbC2EMdZwMHdPoj45Q7+VLc0alYf8yDblfbLxgx0XY
+        wW3ZF9mnjoQDYNDTnM47mjKS9uezvm6H3TbZr14BuA==
+X-Google-Smtp-Source: APiQypIEFE4myQJwMnY76Nzh2FYKbEqny6z5ZXE6PB4mX15k5Pi4QVY5srwSRvGlAuVTRyIy9W6Eg4K1/Y9vK968Cqw=
+X-Received: by 2002:a05:6402:22ed:: with SMTP id dn13mr1254167edb.212.1587615865963;
+ Wed, 22 Apr 2020 21:24:25 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200422212102.3757660-5-ira.weiny@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-TM-AS-GCONF: 00
+References: <cover.1587531463.git.josh@joshtriplett.org> <9873b8bd7d14ff8cd2a5782b434b39f076679eeb.1587531463.git.josh@joshtriplett.org>
+ <CAKgNAkjo3AeA78XqK-RRGqJHNy1H8SbcjQQQs7+jDwuFgq4YSg@mail.gmail.com>
+ <CAJfpegt=xe-8AayW2i3AYrk3q-=Pp_A+Hctsk+=sXoMed5hFQA@mail.gmail.com> <20200423004807.GC161058@localhost>
+In-Reply-To: <20200423004807.GC161058@localhost>
+From:   Miklos Szeredi <miklos@szeredi.hu>
+Date:   Thu, 23 Apr 2020 06:24:14 +0200
+Message-ID: <CAJfpegtSYKsApx2Dc6VGmc5Fm4SsxtAWAP-Zs052umwK1CjJmQ@mail.gmail.com>
+Subject: Re: [PATCH v5 2/3] fs: openat2: Extend open_how to allow
+ userspace-selected fds
+To:     Josh Triplett <josh@joshtriplett.org>
+Cc:     Michael Kerrisk <mtk.manpages@gmail.com>, io-uring@vger.kernel.org,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Arnd Bergmann <arnd@arndb.de>, Jens Axboe <axboe@kernel.dk>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        linux-man <linux-man@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hello,
+On Thu, Apr 23, 2020 at 2:48 AM Josh Triplett <josh@joshtriplett.org> wrote:
+>
+> On Wed, Apr 22, 2020 at 09:55:56AM +0200, Miklos Szeredi wrote:
+> > On Wed, Apr 22, 2020 at 8:06 AM Michael Kerrisk (man-pages)
+> > <mtk.manpages@gmail.com> wrote:
+> > >
+> > > [CC += linux-api]
+> > >
+> > > On Wed, 22 Apr 2020 at 07:20, Josh Triplett <josh@joshtriplett.org> wrote:
+> > > >
+> > > > Inspired by the X protocol's handling of XIDs, allow userspace to select
+> > > > the file descriptor opened by openat2, so that it can use the resulting
+> > > > file descriptor in subsequent system calls without waiting for the
+> > > > response to openat2.
+> > > >
+> > > > In io_uring, this allows sequences like openat2/read/close without
+> > > > waiting for the openat2 to complete. Multiple such sequences can
+> > > > overlap, as long as each uses a distinct file descriptor.
+> >
+> > If this is primarily an io_uring feature, then why burden the normal
+> > openat2 API with this?
+>
+> This feature was inspired by io_uring; it isn't exclusively of value
+> with io_uring. (And io_uring doesn't normally change the semantics of
+> syscalls.)
 
-I'm trying use your patch now, and I have a small comment in this document.
+What's the use case of O_SPECIFIC_FD beyond io_uring?
 
-On 2020/04/23 6:20, ira.weiny@intel.com wrote:
+>
+> > This would also allow Implementing a private fd table for io_uring.
+> > I.e. add a flag interpreted by file ops (IORING_PRIVATE_FD), including
+> > openat2 and freely use the private fd space without having to worry
+> > about interactions with other parts of the system.
+>
+> I definitely don't want to add a special kind of file descriptor that
+> doesn't work in normal syscalls taking file descriptors. A file
+> descriptor allocated via O_SPECIFIC_FD is an entirely normal file
+> descriptor, and works anywhere a file descriptor normally works.
 
-> +To clarify inheritance here are 3 examples:
-> +
-> +Example A:
-> +
-> +mkdir -p a/b/c
-> +xfs_io 'chattr +x' a
+What's the use case of allocating a file descriptor within io_uring
+and using it outside of io_uring?
 
-Probably, "-c" is necessary here.
-
-xfs_io -c 'chattr +x' a
-
-
-> +mkdir a/b/c/d
-> +mkdir a/e
-> +
-> +	dax: a,e
-> +	no dax: b,c,d
-> +
-> +Example B:
-> +
-> +mkdir a
-> +xfs_io 'chattr +x' a
-ditto
-> +mkdir -p a/b/c/d
-> +
-> +	dax: a,b,c,d
-> +	no dax:
-> +
-> +Example C:
-> +
-> +mkdir -p a/b/c
-> +xfs_io 'chattr +x' c
-ditto
-> +mkdir a/b/c/d
-> +
-> +	dax: c,d
-> +	no dax: a,b
-> +
-> +
-
----
-
-Yasunori Goto
-
+Thanks,
+Miklos
