@@ -2,55 +2,55 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B5B61B5651
-	for <lists+linux-api@lfdr.de>; Thu, 23 Apr 2020 09:46:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23E8C1B56C5
+	for <lists+linux-api@lfdr.de>; Thu, 23 Apr 2020 09:57:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726904AbgDWHqA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 23 Apr 2020 03:46:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37262 "EHLO
+        id S1726254AbgDWH5b (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 23 Apr 2020 03:57:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726639AbgDWHp7 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Apr 2020 03:45:59 -0400
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 535BDC08C5F2
-        for <linux-api@vger.kernel.org>; Thu, 23 Apr 2020 00:45:58 -0700 (PDT)
-Received: by mail-ej1-x644.google.com with SMTP id pg17so3969485ejb.9
-        for <linux-api@vger.kernel.org>; Thu, 23 Apr 2020 00:45:58 -0700 (PDT)
+        with ESMTP id S1726027AbgDWH5b (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Apr 2020 03:57:31 -0400
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97FD1C08E934
+        for <linux-api@vger.kernel.org>; Thu, 23 Apr 2020 00:57:30 -0700 (PDT)
+Received: by mail-ej1-x641.google.com with SMTP id pg17so3992614ejb.9
+        for <linux-api@vger.kernel.org>; Thu, 23 Apr 2020 00:57:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=szeredi.hu; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=U/O9lRdDqfFxIFgSwAyPR5AZJG0gGagWbgZwtyqIE1s=;
-        b=SZbvfAg3vKXVp2Bj6SzEbypHd8TcS8FOnLIPN3m3fIltj+7zvfKqbglHePHyiMIw4d
-         L7y2aQxIghQZ2RRQ8vGfkRng0rgqzmFWYSV1Mdju6SgL14AawzPKICoHD1TS3SAs4iGA
-         h5xqKiP5EjUypnsMeu7Jrk9alecd94GKN2TUk=
+        bh=0AZ3LfYwwbdgd8+Gj6pfmGUhFDqMfSzSNioVUGjPTRU=;
+        b=VBDSp624eeG5DG/gndTNaHMLvSdjtkZwVvqIk0HLfICAWTd3DdqJGCOdF+j3ZkiaF6
+         OkJMkZajYDgkASdTcGVDQrKBArkOd3uXBgFTNPbyeCHS2d5P8A4O/ddQo/nRm1J/P6HS
+         8YiyHoRzIG8e5maMV6UFDTwGB3oaF3TD+HG1c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=U/O9lRdDqfFxIFgSwAyPR5AZJG0gGagWbgZwtyqIE1s=;
-        b=C7/DWgVe6z3ugfxJhuEG5Wdr50g2TtuORA9so4scviJnXcifoB7CSqzLltjTM/uLgx
-         P3NeiMb7ivKxD3wfanXrU3ToGjBWvHv/jyEoFlcOLfGfl87bqNvz51v0ApWx6yBkT/Cm
-         ZfnEINtCahoOIq62Hqpgr6JYBoqayVuN4w4jj6zOJozwU4p8Kk+Kc1j0tw64QkYS0FAN
-         zixb7FKbpp/ixCv5f6cwi3QP0u5t1OvuCCp/ZuIXfbpkpJ0LPdIsgOlbKs2pupMEfTPf
-         vMVWdFOgJ6AjvCaH+F5IUNkFXLwdDKs6vA8BmyqJT2PG31cYtu7WvVIiSY9Q2+m63gJG
-         hJZQ==
-X-Gm-Message-State: AGi0PuZs3wmrBukzul7De/MnBJiMbIhUpo4F/7uaWRKCdxpCWHRPNr+e
-        jcukAPju4FW2X47FrFICHFCoMK6HisD91fj25olsoA==
-X-Google-Smtp-Source: APiQypKsThakU7JoMtp5/87/sxEV0VDVpFD50A8Cf/ebgOwE+JP84OLXxIBKseZGsaecLUzBmkryqccqlSh/P2MUMK4=
-X-Received: by 2002:a17:906:3399:: with SMTP id v25mr1527743eja.217.1587627956915;
- Thu, 23 Apr 2020 00:45:56 -0700 (PDT)
+        bh=0AZ3LfYwwbdgd8+Gj6pfmGUhFDqMfSzSNioVUGjPTRU=;
+        b=XCHodHO6EI/8csMn7e/iT2+uBp6UBKgHQvIC0xtxavUSC7Wt+Pc/AzoDNSvHXeVGfJ
+         +03GITycwSS+JMFQyoJiUGBAPc2ikLtwPV8yNBgJLZzpEVKZpFaHSZ2LbNbLJaMvXgTP
+         7Q/Mn1avHAqtheyKwBpzgnOBuOpQWEA2gS5N3+u33eBNrLOMyn7UOmOTqLmDNbG3kAM+
+         /u5SQj98GXDKxN3asxs0dAruwiiGakcFzxelhW4Irm1FtoBH2XizcbnKFF/LWx+7kqfR
+         n4DcOyCq0fXrW2WKoCj3tBKhKy3QY1Z8ZSKxaEaz8tUOZsTXfaypDgKTmUi63VkOSB9p
+         xfRQ==
+X-Gm-Message-State: AGi0PuZRFdWcgXIqGRomOEsWydjnBs4H15f/DUBdvi2z46TnsOz6wO2t
+        VvDqN5+7Frr6ty5PnsAgU9PaIgePgLzn+8is8z1XcQ==
+X-Google-Smtp-Source: APiQypL8rnmcwmDcw0tzT8pkej1MVZvhOLUD9Stz7ZrjoCE/HfT+UO7lMR79fX8pKJtq7nSgVTmdAXP4XeG1L6cdh0M=
+X-Received: by 2002:a17:906:340a:: with SMTP id c10mr1706242ejb.218.1587628649150;
+ Thu, 23 Apr 2020 00:57:29 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1587531463.git.josh@joshtriplett.org> <9873b8bd7d14ff8cd2a5782b434b39f076679eeb.1587531463.git.josh@joshtriplett.org>
  <CAKgNAkjo3AeA78XqK-RRGqJHNy1H8SbcjQQQs7+jDwuFgq4YSg@mail.gmail.com>
  <CAJfpegt=xe-8AayW2i3AYrk3q-=Pp_A+Hctsk+=sXoMed5hFQA@mail.gmail.com>
  <20200423004807.GC161058@localhost> <CAJfpegtSYKsApx2Dc6VGmc5Fm4SsxtAWAP-Zs052umwK1CjJmQ@mail.gmail.com>
  <20200423044226.GH161058@localhost> <CAJfpeguaVYo-Lf-5Bi=EYJYWdmCfo3BqZA=kj9E5UmDb0mBc1w@mail.gmail.com>
- <20200423073310.GA169998@localhost>
-In-Reply-To: <20200423073310.GA169998@localhost>
+ <20200423073310.GA169998@localhost> <CAJfpegtXj4bSbhpx+=z=R0_ZT8uPEJAAev0O+DVg3AX242e=-g@mail.gmail.com>
+In-Reply-To: <CAJfpegtXj4bSbhpx+=z=R0_ZT8uPEJAAev0O+DVg3AX242e=-g@mail.gmail.com>
 From:   Miklos Szeredi <miklos@szeredi.hu>
-Date:   Thu, 23 Apr 2020 09:45:45 +0200
-Message-ID: <CAJfpegtXj4bSbhpx+=z=R0_ZT8uPEJAAev0O+DVg3AX242e=-g@mail.gmail.com>
+Date:   Thu, 23 Apr 2020 09:57:17 +0200
+Message-ID: <CAJfpegtgrUACZpYR8wWoTE=Hh4Xi+4rRfrZTxRtaFVpT9GMPjw@mail.gmail.com>
 Subject: Re: [PATCH v5 2/3] fs: openat2: Extend open_how to allow
  userspace-selected fds
 To:     Josh Triplett <josh@joshtriplett.org>
@@ -68,36 +68,31 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Apr 23, 2020 at 9:33 AM Josh Triplett <josh@joshtriplett.org> wrote:
+On Thu, Apr 23, 2020 at 9:45 AM Miklos Szeredi <miklos@szeredi.hu> wrote:
 
-> > What are the plans for those syscalls that don't easily lend
-> > themselves to this modification (such as accept(2))?
+> > I would prefer to not introduce that limitation in the first place, and
+> > instead open normal file descriptors.
+> >
+> > > The point of O_SPECIFIC_FD is to be able to perform short
+> > > sequences of open/dosomething/close without having to block and having
+> > > to issue separate syscalls.
+> >
+> > "close" is not a required component. It's entirely possible to use
+> > io_uring to open a file descriptor, do various things with it, and then
+> > leave it open for subsequent usage via either other io_uring chains or
+> > standalone syscalls.
 >
-> accept4 has a flags argument with more flags available, so it'd be
-> entirely possible to cleanly extend it further without introducing a new
-> version.
-
-Variable argument syscalls, you are thinking?
-
-> > I mean, you could open the file descriptor outside of io_uring in such
-> > cases, no?
+> If this use case arraises, we could add an op to dup/move a private
+> descriptor to a public one.  io_uring can return values, right?
 >
-> I would prefer to not introduce that limitation in the first place, and
-> instead open normal file descriptors.
->
-> > The point of O_SPECIFIC_FD is to be able to perform short
-> > sequences of open/dosomething/close without having to block and having
-> > to issue separate syscalls.
->
-> "close" is not a required component. It's entirely possible to use
-> io_uring to open a file descriptor, do various things with it, and then
-> leave it open for subsequent usage via either other io_uring chains or
-> standalone syscalls.
+> Still not convinced...
 
-If this use case arraises, we could add an op to dup/move a private
-descriptor to a public one.  io_uring can return values, right?
+Oh, and we haven't even touched on the biggest advantage of a private
+fd table: not having to dirty a cacheline on fdget/fdput due to the
+possibility of concurrent close() in a MT application.
 
-Still not convinced...
+I believe this is a sticking point in some big enterprise apps and it
+may even be a driving force for io_uring.
 
 Thanks,
 Miklos
