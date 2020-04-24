@@ -2,269 +2,215 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A6491B6D96
-	for <lists+linux-api@lfdr.de>; Fri, 24 Apr 2020 07:55:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AE871B7B7F
+	for <lists+linux-api@lfdr.de>; Fri, 24 Apr 2020 18:24:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725852AbgDXFzR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 24 Apr 2020 01:55:17 -0400
-Received: from mga12.intel.com ([192.55.52.136]:40659 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725554AbgDXFzR (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 24 Apr 2020 01:55:17 -0400
-IronPort-SDR: OTsL7GHDmk4IOlFPJ83MIa4CqvJUssd29nxNnaLHN5pwCaz41pHukT3NYNIvfQr0iLnnQfstY4
- zBT+w+zgJHtw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2020 22:55:17 -0700
-IronPort-SDR: Wu2Yjz+iBs/lqXxpfWg5oqiMgwsxTdBMbyVV3M3en0Zx/O1+ymKy3bS2I+DKabJzGQWxyckY3f
- R9LOgGSUyKjA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,310,1583222400"; 
-   d="scan'208";a="280698972"
-Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
-  by fmsmga004.fm.intel.com with ESMTP; 23 Apr 2020 22:55:17 -0700
-Date:   Thu, 23 Apr 2020 22:55:16 -0700
-From:   Ira Weiny <ira.weiny@intel.com>
-To:     Dave Chinner <david@fromorbit.com>
-Cc:     linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
-        "Darrick J. Wong" <darrick.wong@oracle.com>,
-        Jan Kara <jack@suse.cz>, Al Viro <viro@zeniv.linux.org.uk>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Christoph Hellwig <hch@lst.de>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>, Jeff Moyer <jmoyer@redhat.com>,
-        linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        id S1728408AbgDXQWA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 24 Apr 2020 12:22:00 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:58599 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728132AbgDXQV7 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 24 Apr 2020 12:21:59 -0400
+Received: from ip5f5af183.dynamic.kabel-deutschland.de ([95.90.241.131] helo=wittgenstein.fritz.box)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1jS15M-0004dV-Jr; Fri, 24 Apr 2020 16:21:52 +0000
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Jens Axboe <axboe@kernel.dk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
         linux-api@vger.kernel.org
-Subject: Re: [PATCH V10 04/11] Documentation/dax: Update Usage section
-Message-ID: <20200424055516.GD4088835@iweiny-DESK2.sc.intel.com>
-References: <20200422212102.3757660-1-ira.weiny@intel.com>
- <20200422212102.3757660-5-ira.weiny@intel.com>
- <20200423222720.GS27860@dread.disaster.area>
- <20200423232548.GA4088835@iweiny-DESK2.sc.intel.com>
- <20200424021516.GB2040@dread.disaster.area>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>, Tejun Heo <tj@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Saravana Kannan <saravanak@google.com>,
+        Jan Kara <jack@suse.cz>, David Howells <dhowells@redhat.com>,
+        Seth Forshee <seth.forshee@canonical.com>,
+        David Rheinsberg <david.rheinsberg@gmail.com>,
+        Tom Gundersen <teg@jklm.no>,
+        Christian Kellner <ckellner@redhat.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        =?UTF-8?q?St=C3=A9phane=20Graber?= <stgraber@ubuntu.com>,
+        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+        Steve Barber <smbarber@google.com>,
+        Dylan Reid <dgreid@google.com>,
+        Filipe Brandenburger <filbranden@gmail.com>,
+        Kees Cook <keescook@chromium.org>,
+        Benjamin Elder <bentheelder@google.com>,
+        Akihiro Suda <suda.kyoto@gmail.com>
+Subject: [PATCH v3 0/7] loopfs
+Date:   Fri, 24 Apr 2020 18:20:45 +0200
+Message-Id: <20200424162052.441452-1-christian.brauner@ubuntu.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200424021516.GB2040@dread.disaster.area>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Apr 24, 2020 at 12:15:16PM +1000, Dave Chinner wrote:
-> On Thu, Apr 23, 2020 at 04:25:48PM -0700, Ira Weiny wrote:
+Hey everyone,
 
-[snap]
+This is v3 of loopfs.
 
-> > > > +        ii> If the file still does not have the desired S_DAX access
-> > > > +            mode, either unmount and remount the filesystem, or close
-> > > > +            the file and use drop_caches.
-> > > 
-> > > .... don't have permissions to do either of these things...
-> > > 
-> > > Essentially, you may as well say "reboot the machine" at this point,
-> > > because it's effectively the same thing from a production workload
-> > > point of view...
-> > > 
-> > > Realistically, I'm not sure we should even say "programs must cause
-> > > eviction", because that's something they cannot do directly without
-> > > admin privileges nor is it something we want to occur randomly on
-> > > production machines during production. i.e. this is something that
-> > > should only be done in scheduled downtime by an administrator, not
-> > > attempted by applications because DAX isn't immediately available.
-> > > The admin is in charge here, not the "program".
-> > 
-> > I agree with everything you say.
-> > 
-> > But I feel a bit stuck here.  Without some type of documentation we are not
-> > allowing FS_XFLAG_DAX to be changed on a file by the user.  Which is what we
-> > were proposing before and we all disliked.
-> 
-> For production systems, the admin is the "user" we are taking about.
-> The program itself shouldn't be choosing the method of file data
-> access; that's up to the administrator in charge of the system to
-> set the policy how they want it to be set.
-> 
-> i.e. there's a difference between the user/admin taking action to
-> change a data access policy, and the application taking actions to
-> override the policy that the admin has set.
-> 
-> What I'm trying to say is that setting/clearing the DAX flags is an
-> -admin operation-, and part of the consideration of that admin
-> operation is when the change should take effect.
-> 
-> i.e. refering to "programs" as if they control the access mode is
-> entirely the wrong way to be looking at persistent inode flags. They
-> are an administration policy mechanism that belongs to the data set,
-> not the application (or "program"). Managing data set storage and
-> access policy is something administrators do, not the application...
+The branch is available in three locations:
+https://git.kernel.org/pub/scm/linux/kernel/git/brauner/linux.git/log/?h=loopfs
+https://gitlab.com/brauner/linux/-/commits/loopfs
+https://github.com/brauner/linux/tree/loopfs
 
-Ok.
+I've added a few more people to the Cc that want to make use of this and
+I've added the missing ucount part that David pointed out and expanded a
+little more on how this is used so this is used. I also removed the
+"max" mount option which people argued wasn't very useful, bringing down
+the loc count quite a bit actually.
 
-> 
-> > So I feel like we need to say something about getting the inodes evicted.
-> > perhaps by a 'drop cache' even requested of the admin???
-> > 
-> > Maybe this?
-> > 
-> > 
-> >  4. Programs that require a specific file access mode (DAX or not DAX)
-> >     can do one of the following:
-> > 
-> >     (a) Set the parent directory FS_XFLAG_DAX as needed before file are
-> >         created; or
-> > 
-> >     (b) Have the administrator set the desired behaviour via mount option; or
-> > 
-> >     (c) Set or clear the file's FS_XFLAG_DAX flag as needed and wait for the
-> >         inode to be evicted from memory.
-> > 
-> >         i> the only effective way of ensuring this is to request the admin drop
-> >            the file system caches.
-> 
-> 4. The DAX policy can be changed via:
-> 
-> 	a) Set the parent directory FS_XFLAG_DAX as needed before
-> 	   files are created
-> 
-> 	b) Set the appropriate dax="foo" mount option
-> 
-> 	c) Change the FS_XFLAG_DAX on existing regular files and
-> 	   directories. This has runtime constraints and limitations
-> 	   that are described in 5) below.
-> 
-> 5. When changing the DAX policy via toggling the persistent
-> FS_XFLAG_DAX flag, the change in behaviour for existing regular
-> files may not occur immediately. If the change must take effect
-> immediately, the administrator needs to:
-> 
-> 	1. stop the application so there are no active references to
-> 	   the data set the policy change will affect
-> 	2. evict the data set from kernel caches so it will be
-> 	   re-instantiated when the application is restarted. This can
-> 	   be acheived by:
-> 		a. drop-caches
-> 		b. a filesystem unmount and mount cycle
-> 		c. a system reboot
-> 
-> Hence if DAX access policy changes are required to take immediate
-> effect, scheduled system-wide downtime will be required to guarantee
-> the new policy change takes effect when the application is
-> restarted.
-> 
-> 
-> > <quote>
-> > Enabling DAX on xfs
-> > -------------------
-> > 
-> > Summary
-> > -------
-> > 
-> >  1. There exists an in-kernel file access mode flag S_DAX that corresponds to
-> >     the statx flag STATX_ATTR_DAX.  See the manpage for statx(2) for details
-> >     about this access mode.
-> > 
-> >  2. There exists a regular file and directory inode flag FS_XFLAG_DAX.  It is
-> >     inherited from the parent directory FS_XFLAG_DAX inode flag at creation
-> >     time.  This advisory flag can be set or cleared at any time, but doing so
-> >     does not immediately affect the S_DAX state.
-> 
-> 2. There exists a persistent flag FS_XFLAG_DAX that can be applied to
-> regular files and directories. This advisory flag can be set or
-> cleared at any time, but doing so does not immediately affect the
-> S_DAX state.
+This implements loopfs, a loop device filesystem. It takes inspiration
+from the binderfs filesystem I implemented about two years ago and with
+which we had overall good experiences so far. Parts of it are also
+based on [3] but it's mostly a new, imho cleaner approach.
 
-Done.
+Loopfs allows to create private loop devices instances to applications
+for various use-cases. It covers the use-case that was expressed on-list
+and in-person to get programmatic access to private loop devices for
+image building in sandboxes. An illustration for this is provided in
+[4].
 
-> 
-> 3. If the persistent FS_XFLAG_DAX flag is set on a directory, this
-> flag will be inherited by all regular files and sub directories that
-> are subsequently created in this directory. Files and subdirectories
-> that exist at the time this flag is set or cleared on the parent
-> directory are not modified by this modification of the parent
-> directory.
-> 
+Also loopfs is intended to provide loop devices to privileged and
+unprivileged containers which has been a frequent request from various
+major tools (Chromium, Kubernetes, LXD, Moby/Docker, systemd). I'm
+providing a non-exhaustive list of issues and requests (cf. [5]) around
+this feature mainly to illustrate that I'm not making the use-cases up.
+Currently none of this can be done safely since handing a loop device
+from the host into a container means that the container can see anything
+that the host is doing with that loop device and what other containers
+are doing with that device too. And (bind-)mounting devtmpfs inside of
+containers is not secure at all so also not an option (though sometimes
+done out of despair apparently).
 
-Done.
+The workloads people run in containers are supposed to be indiscernible
+from workloads run on the host and the tools inside of the container are
+supposed to not be required to be aware that they are running inside a
+container apart from containerization tools themselves. This is
+especially true when running older distros in containers that did exist
+before containers were as ubiquitous as they are today. With loopfs user
+can call mount -o loop and in a correctly setup container things work
+the same way they would on the host. The filesystem representation
+allows us to do this in a very simple way. At container setup, a
+container manager can mount a private instance of loopfs somehwere, e.g.
+at /dev/loopfs and then bind-mount or symlink /dev/loopfs/loop-control
+to /dev/loop-control, pre allocate and symlink the number of standard
+devices into their standard location and have a service file or rules in
+place that symlink additionally allocated loop devices through losetup
+into place as well.
+With the new syscall interception logic this is also possible for
+unprivileged containers. In these cases when a user calls mount -o loop
+<image> <mountpoint> it will be possible to completely setup the loop
+device in the container. The final mount syscall is handled through
+syscall interception which we already implemented and released in
+earlier kernels (see [1] and [2]) and is actively used in production
+workloads. The mount is often rewritten to a fuse binary to provide safe
+access for unprivileged containers.
 
-> 
-> > 
-> >  3. There exists dax mount options which can override FS_XFLAG_DAX in the
-> >     setting of the S_DAX flag.  Given underlying storage which supports DAX the
-> >     following hold.
-> > 
-> >     "-o dax=inode"  means "follow FS_XFLAG_DAX" and is the default.
-> > 
-> >     "-o dax=never"  means "never set S_DAX, ignore FS_XFLAG_DAX."
-> > 
-> >     "-o dax=always" means "always set S_DAX ignore FS_XFLAG_DAX."
-> > 
-> >     "-o dax"        is a legacy option which is an alias for "dax=always".
-> >     		    This may be removed in the future so "-o dax=always" is
-> > 		    the preferred method for specifying this behavior.
-> > 
-> >     NOTE: Setting and inheritance affect FS_XFLAG_DAX at all times even when
-> >     the file system is mounted with a dax option.  However, in-core inode
-> >     state (S_DAX) will continue to be overridden until the file system is
-> 
-> s/continue to//
+Loopfs also allows the creation of hidden/detached dynamic loop devices
+and associated mounts which also was a often issued request. With the
+old mount api this can be achieved by creating a temporary loopfs and
+stashing a file descriptor to the mount point and the loop-control
+device and immediately unmounting the loopfs instance.  With the new
+mount api a detached mount can be created directly (i.e. a mount not
+visible anywhere in the filesystem). New loop devices can then be
+allocated and configured. They can be mounted through
+/proc/self/<fd>/<nr> with the old mount api or by using the fd directly
+with the new mount api. Combined with a mount namespace this allows for
+fully auto-cleaned up loop devices on program crash. This ties back to
+various use-cases and is illustrated in [4].
 
-Done.
+The filesystem representation requires the standard boilerplate
+filesystem code we know from other tiny filesystems. And all of
+the loopfs code is hidden under a config option that defaults to false.
+This specifically means, that none of the code even exists when users do
+not have any use-case for loopfs.
+In addition, the loopfs code does not alter how loop devices behave at
+all, i.e. there are no changes to any existing workloads and I've taken
+care to ifdef all loopfs specific things out.
 
-> 
-> >     remounted with dax=inode and the inode is evicted.
-> 
-> evicted from kernel memory.
+Each loopfs mount is a separate instance. As such loop devices created
+in one instance are independent of loop devices created in another
+instance. This specifically entails that loop devices are only visible
+in the loopfs instance they belong to.
 
-Done.
+The number of loop devices available in loopfs instances are
+hierarchically limited through /proc/sys/user/max_loop_devices via the
+ucount infrastructure (Thanks to David Rheinsberg for pointing out that
+missing piece.). An administrator could e.g. set
+echo 3 > /proc/sys/user/max_loop_devices at which point any loopfs
+instance mounted by uid x can only create 3 loop devices no matter how
+many loopfs instances they mount. This limit applies hierarchically to
+all user namespaces.
 
-> 
-> > 
-> >  4. Programs that require a specific file access mode (DAX or not DAX)
-> >     can do one of the following:
-> > 
-> >     (a) Set the parent directory FS_XFLAG_DAX as needed before file are
-> >         created; or
-> > 
-> >     (b) Have the administrator set the desired behaviour via mount option; or
-> > 
-> >     (c) Set or clear the file's FS_XFLAG_DAX flag as needed and wait for the
-> >         inode to be evicted from memory.
-> > 
-> > 	i> the only effective way of ensuring this is to request the admin drop
-> > 	   the file system caches.
-> 
-> See my comments above.
+Thanks!
+Christian
 
-Done. thanks!
+[1]: 6a21cc50f0c7 ("seccomp: add a return code to trap to userspace")
+[2]: fb3c5386b382 ("seccomp: add SECCOMP_USER_NOTIF_FLAG_CONTINUE")
+[3]: https://lore.kernel.org/lkml/1401227936-15698-1-git-send-email-seth.forshee@canonical.com
+[4]: https://gist.github.com/brauner/dcaf15e6977cc1bfadfb3965f126c02f
+[5]: https://github.com/kubernetes-sigs/kind/issues/1333
+     https://github.com/kubernetes-sigs/kind/issues/1248
+     https://lists.freedesktop.org/archives/systemd-devel/2017-August/039453.html
+     https://chromium.googlesource.com/chromiumos/docs/+/master/containers_and_vms.md#loop-mount
+     https://gitlab.com/gitlab-com/support-forum/issues/3732
+     https://github.com/moby/moby/issues/27886
+     https://twitter.com/_AkihiroSuda_/status/1249664478267854848
+     https://serverfault.com/questions/701384/loop-device-in-a-linux-container
+     https://discuss.linuxcontainers.org/t/providing-access-to-loop-and-other-devices-in-containers/1352
+     https://discuss.concourse-ci.org/t/exposing-dev-loop-devices-in-privileged-mode/813
 
-> 
-> > 
-> > 
-> > Details
-> > -------
-> > 
-> > There are 2 per-file dax flags.  One is a persistent inode setting (FS_XFLAG_DAX)
-> > and the other is a volatile flag indicating the active state of the feature
-> > (S_DAX).
-> > 
-> > FS_XFLAG_DAX is preserved within the file system.  This persistent config
-> > setting can be set, cleared and/or queried using the FS_IOC_FS[GS]ETXATTR ioctl
-> > (see ioctl_xfs_fsgetxattr(2)) or an utility such as 'xfs_io'.
-> > 'chattr [-+]x'".
-> 
-> Stray line.
+Christian Brauner (7):
+  kobject_uevent: remove unneeded netlink_ns check
+  loopfs: implement loopfs
+  loop: use ns_capable for some loop operations
+  kernfs: handle multiple namespace tags
+  loop: preserve sysfs backwards compatibility
+  loopfs: start attaching correct namespace during loop_add()
+  loopfs: only show devices in their correct instance
 
-Thanks for the review!  V11 should be out soon.
+ Documentation/filesystems/sysfs-tagging.txt |   1 -
+ MAINTAINERS                                 |   5 +
+ block/genhd.c                               |  85 ++++
+ block/partitions/core.c                     |   1 +
+ drivers/base/devtmpfs.c                     |   4 +-
+ drivers/block/Kconfig                       |   4 +
+ drivers/block/Makefile                      |   1 +
+ drivers/block/loop.c                        | 205 +++++++--
+ drivers/block/loop.h                        |   7 +
+ drivers/block/loopfs/Makefile               |   3 +
+ drivers/block/loopfs/loopfs.c               | 439 ++++++++++++++++++++
+ drivers/block/loopfs/loopfs.h               |  38 ++
+ fs/kernfs/dir.c                             |  38 +-
+ fs/kernfs/kernfs-internal.h                 |  33 +-
+ fs/kernfs/mount.c                           |  11 +-
+ fs/sysfs/mount.c                            |  14 +-
+ include/linux/device.h                      |   3 +
+ include/linux/genhd.h                       |   3 +
+ include/linux/kernfs.h                      |  44 +-
+ include/linux/kobject_ns.h                  |   7 +-
+ include/linux/sysfs.h                       |   8 +-
+ include/linux/user_namespace.h              |   3 +
+ include/uapi/linux/magic.h                  |   1 +
+ kernel/ucount.c                             |   3 +
+ lib/kobject.c                               |  17 +-
+ lib/kobject_uevent.c                        |   2 +-
+ net/core/net-sysfs.c                        |   6 -
+ 27 files changed, 891 insertions(+), 95 deletions(-)
+ create mode 100644 drivers/block/loopfs/Makefile
+ create mode 100644 drivers/block/loopfs/loopfs.c
+ create mode 100644 drivers/block/loopfs/loopfs.h
 
-Ira
 
-> 
-> Cheers,
-> 
-> Dave.
-> 
-> -- 
-> Dave Chinner
-> david@fromorbit.com
+base-commit: ae83d0b416db002fe95601e7f97f64b59514d936
+-- 
+2.26.2
+
