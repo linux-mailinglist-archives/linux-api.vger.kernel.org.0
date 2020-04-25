@@ -2,149 +2,153 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DF9E01B7B6E
-	for <lists+linux-api@lfdr.de>; Fri, 24 Apr 2020 18:22:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D87291B88CD
+	for <lists+linux-api@lfdr.de>; Sat, 25 Apr 2020 21:12:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728119AbgDXQWM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 24 Apr 2020 12:22:12 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:58670 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728561AbgDXQWH (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 24 Apr 2020 12:22:07 -0400
-Received: from ip5f5af183.dynamic.kabel-deutschland.de ([95.90.241.131] helo=wittgenstein.fritz.box)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1jS15Y-0004dV-8F; Fri, 24 Apr 2020 16:22:04 +0000
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Jens Axboe <axboe@kernel.dk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-api@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>, Tejun Heo <tj@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Saravana Kannan <saravanak@google.com>,
-        Jan Kara <jack@suse.cz>, David Howells <dhowells@redhat.com>,
-        Seth Forshee <seth.forshee@canonical.com>,
-        David Rheinsberg <david.rheinsberg@gmail.com>,
-        Tom Gundersen <teg@jklm.no>,
-        Christian Kellner <ckellner@redhat.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        =?UTF-8?q?St=C3=A9phane=20Graber?= <stgraber@ubuntu.com>,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-        Steve Barber <smbarber@google.com>,
-        Dylan Reid <dgreid@google.com>,
-        Filipe Brandenburger <filbranden@gmail.com>,
-        Kees Cook <keescook@chromium.org>,
-        Benjamin Elder <bentheelder@google.com>,
-        Akihiro Suda <suda.kyoto@gmail.com>
-Subject: [PATCH v3 7/7] loopfs: only show devices in their correct instance
-Date:   Fri, 24 Apr 2020 18:20:52 +0200
-Message-Id: <20200424162052.441452-8-christian.brauner@ubuntu.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200424162052.441452-1-christian.brauner@ubuntu.com>
-References: <20200424162052.441452-1-christian.brauner@ubuntu.com>
+        id S1726361AbgDYTM2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 25 Apr 2020 15:12:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56302 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726192AbgDYTM2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 25 Apr 2020 15:12:28 -0400
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED395C09B04D;
+        Sat, 25 Apr 2020 12:12:27 -0700 (PDT)
+Received: by mail-ej1-x644.google.com with SMTP id n17so10374841ejh.7;
+        Sat, 25 Apr 2020 12:12:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=AvkTm+mzyMVnfea52ydtpICgabBlh0drjq1+bCYJ/0E=;
+        b=owcl22kbPn701gTg+yz5fH4eADn9UPJ8LvqPgSsO//5pO5nQwCpMCPDuJ1Z0zEIjov
+         JDLVjNvjiTacXVj5ZPcON8jy8rtBgWTBT0Nk6RzGo+blUwDf6J1QPfwVs6YmfM+992m3
+         Z2l8B/Khn+FlsU0VmlFWwvcyNbGMK0lpCsH85HsSec+988C4vCXKgzzBM1z4uCfH/6Ob
+         iZfD30qFau+ypGebisZTV/1tZ839Dz7aKJyHx3CyeWsrDaYDIUcI8S1dMta5aG0lb+da
+         S1a61+C8LXQwF3BwcSm8HssCaW/CkxpZ72h9ZMNg4jTRGrw698xR/7gn9kgO/LkEGm34
+         Z/zA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=AvkTm+mzyMVnfea52ydtpICgabBlh0drjq1+bCYJ/0E=;
+        b=rn1O9YqqqEu83/XCZrt/+f8uI6x3CCENohdqVU3o4InVyPkVjAJPjjsi9lV+9D6A3B
+         hyGcHNfzKie/DSaruD8isvvfM0ynDM3km1mLQjLyVTLeRTKRyC201qzDU4jbAw4F1l6O
+         T2uI/189Ocu1tzh1Vz3HjU8tzp8ghm75xU5+XEXOH/y7p3Zzxdyn7Lv9KJzP1vWhh7jb
+         DisVES/VrteEl502xdeidZyVJIAa/QhlMQAycwfWL/7Din2/krZrzFUTwo53CK1STXjX
+         uVOXux2P062JwchJQAjpWu6wyXw8niu7WHpteN8+nB7b++RPJjNyQ2kP0cfvuf1Lj/Ra
+         dsqQ==
+X-Gm-Message-State: AGi0PuZe+vJzOQZGnIkra11hAVSse4hNxnXhWKDmpLd0YlUB/88oOGh5
+        6GSS3U6oQCEFb2hiGqoaCF9WQZtMA9Xe6bGIhzw=
+X-Google-Smtp-Source: APiQypIB4qwMx+YzraThqWvM/ROoqpHMd0pA8h8UYyusPpy0T9i5WYMdcs6pk91daKm+dz1FjXBYiWBtPVhtzTLdrqE=
+X-Received: by 2002:a17:906:2488:: with SMTP id e8mr12844760ejb.157.1587841946564;
+ Sat, 25 Apr 2020 12:12:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20191128120140.20367-1-cyphar@cyphar.com> <20191128130840.GA3719@calabresa>
+ <20191128135506.yo7432egjsg5ha5a@yavin.dot.cyphar.com>
+In-Reply-To: <20191128135506.yo7432egjsg5ha5a@yavin.dot.cyphar.com>
+Reply-To: mtk.manpages@gmail.com
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Date:   Sat, 25 Apr 2020 21:12:15 +0200
+Message-ID: <CAKgNAkj9W7ay+YuQv1ct+LXE8tj1R+hzDDgGZo3KvWhWD0k2ug@mail.gmail.com>
+Subject: Re: [PATCH] sched_getattr.2: update to include changed size semantics
+To:     Aleksa Sarai <cyphar@cyphar.com>
+Cc:     Thadeu Lima de Souza Cascardo <cascardo@canonical.com>,
+        linux-man <linux-man@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Arnaldo Carvalho de Melo <acme@infradead.org>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Patrick Bellasi <patrick.bellasi@arm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Michael Kerrisk <mtk.manpages@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Since loopfs devices belong to a loopfs instance they have no business
-polluting the host's devtmpfs mount and should not propagate out of the
-namespace they belong to.
+Hi Aleksa,
 
-Cc: Jens Axboe <axboe@kernel.dk>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Reviewed-by: Serge Hallyn <serge@hallyn.com>
-Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
----
-/* v2 */
-unchanged
+I don't think there was ever a follow-up to this patch. Would you be
+willing to send one?
 
-/* v3 */
-unchanged
----
- block/partitions/core.c       | 1 +
- drivers/base/devtmpfs.c       | 4 ++--
- drivers/block/loopfs/loopfs.c | 4 +++-
- include/linux/device.h        | 3 +++
- 4 files changed, 9 insertions(+), 3 deletions(-)
+Thanks,
 
-diff --git a/block/partitions/core.c b/block/partitions/core.c
-index bc1ded1331b1..5761f5c38588 100644
---- a/block/partitions/core.c
-+++ b/block/partitions/core.c
-@@ -416,6 +416,7 @@ struct hd_struct *add_partition(struct gendisk *disk, int partno,
- 	pdev->class = &block_class;
- 	pdev->type = &part_type;
- 	pdev->parent = ddev;
-+	pdev->no_devnode = ddev->no_devnode;
- 
- 	err = blk_alloc_devt(p, &devt);
- 	if (err)
-diff --git a/drivers/base/devtmpfs.c b/drivers/base/devtmpfs.c
-index c9017e0584c0..77371ceb88fa 100644
---- a/drivers/base/devtmpfs.c
-+++ b/drivers/base/devtmpfs.c
-@@ -111,7 +111,7 @@ int devtmpfs_create_node(struct device *dev)
- 	const char *tmp = NULL;
- 	struct req req;
- 
--	if (!thread)
-+	if (!thread || dev->no_devnode)
- 		return 0;
- 
- 	req.mode = 0;
-@@ -138,7 +138,7 @@ int devtmpfs_delete_node(struct device *dev)
- 	const char *tmp = NULL;
- 	struct req req;
- 
--	if (!thread)
-+	if (!thread || dev->no_devnode)
- 		return 0;
- 
- 	req.name = device_get_devnode(dev, NULL, NULL, NULL, &tmp);
-diff --git a/drivers/block/loopfs/loopfs.c b/drivers/block/loopfs/loopfs.c
-index 9fa60c1bcc05..1bcb0b44c910 100644
---- a/drivers/block/loopfs/loopfs.c
-+++ b/drivers/block/loopfs/loopfs.c
-@@ -76,8 +76,10 @@ bool loopfs_wants_remove(const struct loop_device *lo)
- 
- void loopfs_init(struct gendisk *disk, struct inode *inode)
- {
--	if (loopfs_i_sb(inode))
-+	if (loopfs_i_sb(inode)) {
- 		disk->user_ns = loopfs_i_sb(inode)->s_user_ns;
-+		disk_to_dev(disk)->no_devnode = true;
-+	}
- }
- 
- /**
-diff --git a/include/linux/device.h b/include/linux/device.h
-index ac8e37cd716a..c69ef1c5a0ef 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -523,6 +523,8 @@ struct dev_links_info {
-  *		  sync_state() callback.
-  * @dma_coherent: this particular device is dma coherent, even if the
-  *		architecture supports non-coherent devices.
-+ * @no_devnode: whether device nodes associated with this device are kept out
-+ *		of devtmpfs (e.g. due to separate filesystem)
-  *
-  * At the lowest level, every device in a Linux system is represented by an
-  * instance of struct device. The device structure contains the information
-@@ -622,6 +624,7 @@ struct device {
-     defined(CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU_ALL)
- 	bool			dma_coherent:1;
- #endif
-+	bool			no_devnode:1;
- };
- 
- static inline struct device *kobj_to_dev(struct kobject *kobj)
+Michael
+
+On Thu, 28 Nov 2019 at 14:55, Aleksa Sarai <cyphar@cyphar.com> wrote:
+>
+> On 2019-11-28, Thadeu Lima de Souza Cascardo <cascardo@canonical.com> wrote:
+> > On Thu, Nov 28, 2019 at 11:01:40PM +1100, Aleksa Sarai wrote:
+> > > Due to a userspace breakage, commit 1251201c0d34 ("sched/core: Fix
+> > > uclamp ABI bug, clean up and robustify sched_read_attr() ABI logic and
+> > > code") changed the semantics of sched_getattr(2) when the userspace
+> > > struct is smaller than the kernel struct. Now, any trailing non-zero
+> > > data in the kernel structure is ignored when copying to userspace.
+> > >
+> > > Ref: 1251201c0d34 ("sched/core: Fix uclamp ABI bug, clean up and
+> > >                     robustify sched_read_attr() ABI logic and code")
+> > > Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
+> > > ---
+> > >  man2/sched_setattr.2 | 6 ++----
+> > >  1 file changed, 2 insertions(+), 4 deletions(-)
+> > >
+> > > diff --git a/man2/sched_setattr.2 b/man2/sched_setattr.2
+> > > index 76ffa14eba85..fbb67b8eb98b 100644
+> > > --- a/man2/sched_setattr.2
+> > > +++ b/man2/sched_setattr.2
+> > > @@ -284,10 +284,8 @@ structure,
+> > >  the additional bytes in the user-space structure are not touched.
+> > >  If the caller-provided structure is smaller than the kernel
+> > >  .I sched_attr
+> > > -structure and the kernel needs to return values outside the provided space,
+> > > -.BR sched_getattr ()
+> > > -fails with the error
+> > > -.BR E2BIG .
+> > > +structure, the kernel will silently not return any values which would be stored
+> > > +outside the provided space.
+> > >  As with
+> > >  .BR sched_setattr (),
+> > >  these semantics allow for future extensibility of the interface.
+> > > --
+> > > 2.24.0
+> > >
+> >
+> > I was thinking about documenting the difference in behavior of older kernels,
+> > before uclamp support.
+> >
+> > However, in practice, for sched_getattr, the kernel never returned E2BIG (the
+> > code uses EFBIG incorrectly, in fact). It does, however, return EINVAL for
+> > sizes smaller than SCHED_ATTR_SIZE_VER0.
+>
+> I've been told the EFBIG was actually a typo and it was always meant to
+> be E2BIG. But yes, the precise problem with the old semantics was that
+> they weren't tested "in the wild" with a proper struct upgrade -- hence
+> all of the headaches.
+>
+> If we ever do implement a copy_struct_to_user() we are almost certainly
+> going to implement it with the new sched_getattr() semantics. To be
+> honest, I'm not sure I can imagine a case where an old userspace program
+> would benefit from being given an error saying that the kernel has some
+> properties that it doesn't understand. (sched_getattr() is also weird
+> for other reasons, such as the fact it takes a separate size argument.)
+>
+> > However, E2BIG is still mentioned below as a possible return value for
+> > sched_getattr. Can you remove that too?
+>
+> Will do.
+>
+> --
+> Aleksa Sarai
+> Senior Software Engineer (Containers)
+> SUSE Linux GmbH
+> <https://www.cyphar.com/>
+
+
+
 -- 
-2.26.2
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
