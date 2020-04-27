@@ -2,209 +2,172 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E68521BAC1E
-	for <lists+linux-api@lfdr.de>; Mon, 27 Apr 2020 20:15:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F14F1BAC5B
+	for <lists+linux-api@lfdr.de>; Mon, 27 Apr 2020 20:22:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726486AbgD0SPZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 27 Apr 2020 14:15:25 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:40121 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725963AbgD0SPY (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 27 Apr 2020 14:15:24 -0400
-Received: from ip5f5af183.dynamic.kabel-deutschland.de ([95.90.241.131] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1jT8Hd-0003H6-D9; Mon, 27 Apr 2020 18:15:09 +0000
-Date:   Mon, 27 Apr 2020 20:15:07 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
+        id S1726229AbgD0SWG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 27 Apr 2020 14:22:06 -0400
+Received: from out01.mta.xmission.com ([166.70.13.231]:51866 "EHLO
+        out01.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726162AbgD0SWF (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 27 Apr 2020 14:22:05 -0400
+Received: from in02.mta.xmission.com ([166.70.13.52])
+        by out01.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.90_1)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1jT8OJ-0004rR-An; Mon, 27 Apr 2020 12:22:03 -0600
+Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
+        by in02.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.87)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1jT8OI-0004R2-7f; Mon, 27 Apr 2020 12:22:03 -0600
+From:   ebiederm@xmission.com (Eric W. Biederman)
 To:     Jann Horn <jannh@google.com>
-Cc:     kernel list <linux-kernel@vger.kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        =?utf-8?B?U3TDqXBoYW5l?= Graber <stgraber@ubuntu.com>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Serge Hallyn <serge@hallyn.com>,
+Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
+        Hagen Paul Pfeifer <hagen@jauu.net>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <christian@brauner.io>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>,
+        Brian Gerst <brgerst@gmail.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        David Howells <dhowells@redhat.com>,
         Aleksa Sarai <cyphar@cyphar.com>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH] nsproxy: attach to namespaces via pidfds
-Message-ID: <20200427181507.ry3hw7ufiifwhi5k@wittgenstein>
-References: <20200427143646.619227-1-christian.brauner@ubuntu.com>
- <CAG48ez3eSJSODADpo=O-j9txJ=2R+EupunRvs5H9t5Wa8mvkRA@mail.gmail.com>
+        Andy Lutomirski <luto@kernel.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@redhat.com>,
+        Sargun Dhillon <sargun@sargun.me>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>
+References: <20200426130100.306246-1-hagen@jauu.net>
+        <20200426163430.22743-1-hagen@jauu.net>
+        <20200427170826.mdklazcrn4xaeafm@wittgenstein>
+        <CAG48ez0hskhN7OkxwHX-Bo5HGboJaVEk8udFukkTgiC=43ixcw@mail.gmail.com>
+Date:   Mon, 27 Apr 2020 13:18:47 -0500
+In-Reply-To: <CAG48ez0hskhN7OkxwHX-Bo5HGboJaVEk8udFukkTgiC=43ixcw@mail.gmail.com>
+        (Jann Horn's message of "Mon, 27 Apr 2020 19:52:45 +0200")
+Message-ID: <87zhawdc6w.fsf@x220.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAG48ez3eSJSODADpo=O-j9txJ=2R+EupunRvs5H9t5Wa8mvkRA@mail.gmail.com>
+Content-Type: text/plain
+X-XM-SPF: eid=1jT8OI-0004R2-7f;;;mid=<87zhawdc6w.fsf@x220.int.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX1+9SAR66VQWu+9JEUBTAwQ1jTB8c0BBpeI=
+X-SA-Exim-Connect-IP: 68.227.160.95
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa07.xmission.com
+X-Spam-Level: 
+X-Spam-Status: No, score=0.8 required=8.0 tests=ALL_TRUSTED,BAYES_50,
+        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,T_TooManySym_01,
+        T_XMDrugObfuBody_08 autolearn=disabled version=3.4.2
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
+        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
+        *      [sa07 1397; Body=1 Fuz1=1 Fuz2=1]
+        *  1.0 T_XMDrugObfuBody_08 obfuscated drug references
+        *  0.0 T_TooManySym_01 4+ unique symbols in subject
+X-Spam-DCC: XMission; sa07 1397; Body=1 Fuz1=1 Fuz2=1 
+X-Spam-Combo: ;Jann Horn <jannh@google.com>
+X-Spam-Relay-Country: 
+X-Spam-Timing: total 643 ms - load_scoreonly_sql: 0.09 (0.0%),
+        signal_user_changed: 11 (1.8%), b_tie_ro: 10 (1.5%), parse: 1.36
+        (0.2%), extract_message_metadata: 16 (2.4%), get_uri_detail_list: 3.3
+        (0.5%), tests_pri_-1000: 16 (2.6%), tests_pri_-950: 1.31 (0.2%),
+        tests_pri_-900: 1.09 (0.2%), tests_pri_-90: 173 (26.9%), check_bayes:
+        171 (26.6%), b_tokenize: 12 (1.9%), b_tok_get_all: 84 (13.1%),
+        b_comp_prob: 4.5 (0.7%), b_tok_touch_all: 65 (10.1%), b_finish: 0.96
+        (0.1%), tests_pri_0: 408 (63.4%), check_dkim_signature: 0.81 (0.1%),
+        check_dkim_adsp: 2.5 (0.4%), poll_dns_idle: 0.51 (0.1%), tests_pri_10:
+        2.2 (0.3%), tests_pri_500: 9 (1.4%), rewrite_mail: 0.00 (0.0%)
+Subject: Re: [RFC v2] ptrace, pidfd: add pidfd_ptrace syscall
+X-Spam-Flag: No
+X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
+X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Apr 27, 2020 at 07:28:56PM +0200, Jann Horn wrote:
-> On Mon, Apr 27, 2020 at 4:47 PM Christian Brauner
+Jann Horn <jannh@google.com> writes:
+
+> On Mon, Apr 27, 2020 at 7:08 PM Christian Brauner
 > <christian.brauner@ubuntu.com> wrote:
-> > For quite a while we have been thinking about using pidfds to attach to
-> > namespaces. This patchset has existed for about a year already but we've
-> > wanted to wait to see how the general api would be received and adopted.
-> > Now that more and more programs in userspace have started using pidfds
-> > for process management it's time to send this one out.
-> 
-> You can already reliably switch to a specific namespace of another
-> process like this given a pidfd and the pid of the process (which, if
-> you don't have it, you can get via fdinfo), right?
+>> On Sun, Apr 26, 2020 at 06:34:30PM +0200, Hagen Paul Pfeifer wrote:
+>> > Working on a safety-critical stress testing tool, using ptrace in an
+>> > rather uncommon way (stop, peeking memory, ...) for a bunch of
+>> > applications in an automated way I realized that once opened processes
+>> > where restarted and PIDs recycled.  Resulting in monitoring and
+>> > manipulating the wrong processes.
+>> >
+>> > With the advent of pidfd we are now able to stick with one stable handle
+>> > to identifying processes exactly. We now have the ability to get this
+>> > race free. Sending signals now works like a charm, next step is to
+>> > extend the functionality also for ptrace.
+>> >
+>> > API:
+>> >          long pidfd_ptrace(int pidfd, enum __ptrace_request request,
+>> >                            void *addr, void *data, unsigned flags);
+>>
+>> I'm in general not opposed to this if there's a clear need for this and
+>> users that are interested. But I think if people really prefer having
+>> this a new syscall then we should probably try to improve on the old
+>> one. Things that come to mind right away without doing a deep review are
+>> replacing the void *addr pointer with a dedicated struct ptract_args or
+>> union ptrace_args and a size argument. If we're not doing something
+>> like this or something more fundamental we can equally well either just
+>> duplicate all enums in the old ptrace syscall and append a _PIDFD to it
+>> where it makes sense.
+>
+> Yeah, it seems like just adding pidfd flavors of PTRACE_ATTACH and
+> PTRACE_SEIZE should do the job.
 
-Yep, of course. See the sample program in my earlier response. But that
-wasn't the point as I've tried to stress in the commit message. 
+I am conflicted about that but I have to agree.    Instead of
+duplicating everything it would be good enough to duplicate the once
+that cause the process to be attached to use.  Then there would be no
+more pid races to worry about.
 
-> 
-> int switch_ns_to(int pidfd, int pid, char *nstypename) {
->   char ns_path[100];
->   snprintf(ns_path, sizeof(ns_path), "/proc/%d/ns/%s", pid, nstypename);
->   int fd = open(ns_path, O_RDONLY|O_CLOEXEC);
->   int errno_after_open = errno;
-> 
->   if (pidfd_send_signal(pidfd, 0, NULL, 0))
->     return -1;
-> 
->   if (fd == -1) {
->     errno = errno_after_open;
->     return -1;
->   }
-> 
->   int ret = setns(fd, 0);
->   close(fd);
->   return ret;
-> }
-> 
-> > This patch makes it possible to use pidfds to attach to the namespaces
-> > of another process, i.e. they can be passed as the first argument to the
-> > setns() syscall. When only a single namespace type is specified the
-> > semantics are equivalent to passing an nsfd.
-> 
-> This introduces a difference in terms of security: With the old API,
-> you need PTRACE_MODE_READ_FSCREDS on the task whose namespace you're
-> attaching to (to dereference the link /proc/*/ns/*) *AND* whatever
-> access checks the namespace itself enforces (always includes a check
-> for CAP_SYS_ADMIN on the namespace). The ptrace check has the
-> advantage, among other things, that it allows an LSM to see the
-> relationship between the task that's accessing the namespace (subject)
-> and the task whose namespace is being accessed (object).
-> 
-> I feel slightly twitchy about this relaxation, and I'm wondering
-> whether we can add a ptrace access check analogous to what you'd have
-> needed via procfs.
-
-Right, that's probably a sane requirement.
-
-> 
-> > That means
-> > setns(nsfd, CLONE_NEWNET) equals setns(pidfd, CLONE_NEWNET). However,
-> > when a pidfd is passed, multiple namespace flags can be specified in the
-> > second setns() argument and setns() will attach the caller to all the
-> > specified namespaces all at once or to none of them. If 0 is specified
-> > together with a pidfd then setns() will interpret it the same way 0 is
-> > interpreted together with a nsfd argument, i.e. attach to any/all
-> > namespaces.
-> [...]
-> > Apart from significiantly reducing the number of syscalls from double
-> > digit to single digit which is a decent reason post-spectre/meltdown
-> > this also allows to switch to a set of namespaces atomically, i.e.
-> > either attaching to all the specified namespaces succeeds or we fail.
-> 
-> Apart from the issues I've pointed out below, I think it's worth
-> calling out explicitly that with the current design, the switch will
-> not, in fact, be fully atomic - the process will temporarily be in
-> intermediate stages where the switches to some namespaces have
-> completed while the switches to other namespaces are still pending;
-> and while there will be less of these intermediate stages than before,
-> it also means that they will be less explicit to userspace.
-
-Right, that can be fixed by switching to the unshare model of getting a
-new set of credentials and committing it after the nsproxy has been
-installed? Then there shouldn't be an intermediate state anymore or
-rather an intermediate stage where we can still fail somehow.
-
-> 
-> [...]
-> > diff --git a/kernel/nsproxy.c b/kernel/nsproxy.c
-> [...]
-> > +/*
-> > + * Ordering is equivalent to the standard ordering used everywhere
-> > + * else during unshare and process creation.
-> > + */
-> > +static int ns_install(struct nsproxy *nsproxy, struct pid *pid, int flags)
-> > +{
-> > +       int ret = 0;
-> > +       struct task_struct *tsk;
-> > +       struct nsproxy *nsp;
-> > +
-> > +       tsk = get_pid_task(pid, PIDTYPE_PID);
-> > +       if (!tsk)
-> > +               return -ESRCH;
-> > +
-> > +       get_nsproxy(tsk->nsproxy);
-> > +       nsp = tsk->nsproxy;
-> 
-> How is this correct? Are you holding any locks that protect tsk->nsproxy?
-
-You're absolutely right, this misses task_lock().
+> And if we do make a new syscall, there is a bunch of de-crufting that
+> can be done... for example, just as some low-hanging fruit, a new
+> ptrace API probably shouldn't have
+> PTRACE_PEEKTEXT/PTRACE_PEEKDATA/PTRACE_POKETEXT/PTRACE_POKEDATA (we
+> have /proc/$pid/mem for that, which is much saner than doing peek/poke
+> in word-size units), and probably also shouldn't support all the weird
+> arch-specific register-accessing requests (e.g.
+> PTRACE_PEEKUSR/PTRACE_POKEUSR/PTRACE_GETREGS/PTRACE_SETREGS/PTRACE_GETFPREGS/...)
+> that are nowadays accessible via PTRACE_GETREGSET/PTRACE_SETREGSET.
 
 
-> 
-> > +#ifdef CONFIG_USER_NS
-> > +       if (wants_ns(flags, CLONE_NEWUSER)) {
-> > +               struct user_namespace *user_ns;
-> > +
-> > +               user_ns = get_user_ns(__task_cred(tsk)->user_ns);
-> > +               ret = __ns_install(nsproxy, &user_ns->ns);
-> 
-> If ret == 0, then at this point you've already committed the user
-> namespace change *to the calling process*. The ->install handler of
-> user namespaces doesn't touch the nsproxy at all.
+> (And there are also some more major changes that I think would be
+> sensible; for example, it'd be neat if you could have notifications
+> about the tracee delivered through a pollable file descriptor, and if
+> you could get the kernel to tell you in each notification which type
+> of ptrace stop you're dealing with (e.g. distinguishing
+> syscall-entry-stop vs syscall-exit-stop), and it would be great to be
+> able to directly inject syscalls into the child instead of having to
+> figure out where a syscall instruction you can abuse is and then
+> setting the instruction pointer to that, and it'd be helpful to be
+> able to have multiple tracers attached to a single process so that you
+> can e.g. have strace and gdb active on the same process
+> concurrently...)
 
-Yeah, I think this can be fixed by copying the unshare model.
+How does this differ using the tracing related infrastructure we have
+for the kernel on a userspace process?  I suspect augmenting the tracing
+infrastructure with the ability to set breakpoints and watchpoints (aka
+stopping userspace threads and processes might be a more fertile
+direction to go).
 
-> 
-> > +               put_user_ns(user_ns);
-> > +       }
-> > +#else
-> > +       if (flags & CLONE_NEWUSER)
-> > +               ret = -EINVAL;
-> > +#endif
-> > +
-> > +       if (!ret && wants_ns(flags, CLONE_NEWNS))
-> > +               ret = __ns_install(nsproxy, mnt_ns_to_common(nsp->mnt_ns));
-> 
-> And this one might be even worse, because the mount namespace change
-> itself is only stored in the nsproxy at this point, but the cwd and
-> root paths have already been overwritten on the task's fs_struct.
-> 
-> To actually make sys_set_ns() atomic, I think you'd need some
-> moderately complicated prep work, splitting the ->install handlers up
-> into prep work and a commit phase that can't fail.
+But I agree either we want to just address the races in PTRACE_ATTACH
+and PTRACE_SIEZE or we want to take a good hard look at things.
 
-Wouldn't it be sufficient to move to an unshare like model, i.e.
-creating a new set of creds, and passing the new user_ns to
-create_new_namespaces() as well as having a temporary new_fs struct?
-That should get rid of all intermediate stages.
+There is a good case for minimal changes because one of the cases that
+comes up is how much work will it take to change existing programs.  But
+ultimately ptrace pretty much sucks so a very good set of test cases and
+documentation for what we want to implement would be a very good idea.
 
-> 
-> [...]
-> > +#ifdef CONFIG_PID_NS
-> > +       if (!ret && wants_ns(flags, CLONE_NEWPID)) {
-> > +               struct pid_namespace *pidns;
-> > +
-> > +               pidns = task_active_pid_ns(tsk);
-> > +               if (pidns) {
-> > +                       get_pid_ns(pidns);
-> > +                       ret = __ns_install(nsproxy, &pidns->ns);
-> > +                       put_pid_ns(pidns);
-> > +               }
-> 
-> If you can't get the task's pidns, shouldn't that be an error?
+Eric
 
-Yep, that's right. Thanks!
 
-Christian
