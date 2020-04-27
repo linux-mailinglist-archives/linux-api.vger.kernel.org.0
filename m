@@ -2,1265 +2,667 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E0261BA7A4
-	for <lists+linux-api@lfdr.de>; Mon, 27 Apr 2020 17:15:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C68931BAA3D
+	for <lists+linux-api@lfdr.de>; Mon, 27 Apr 2020 18:46:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727881AbgD0PPO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 27 Apr 2020 11:15:14 -0400
-Received: from mail.efficios.com ([167.114.26.124]:51410 "EHLO
+        id S1726162AbgD0QqK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 27 Apr 2020 12:46:10 -0400
+Received: from mail.efficios.com ([167.114.26.124]:44942 "EHLO
         mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727771AbgD0PPO (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 27 Apr 2020 11:15:14 -0400
+        with ESMTP id S1725963AbgD0QqJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 27 Apr 2020 12:46:09 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id E6280258C3B;
-        Mon, 27 Apr 2020 11:15:09 -0400 (EDT)
+        by mail.efficios.com (Postfix) with ESMTP id E793725AA2C;
+        Mon, 27 Apr 2020 12:40:49 -0400 (EDT)
 Received: from mail.efficios.com ([127.0.0.1])
         by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id Mfcr2dhcfhe2; Mon, 27 Apr 2020 11:15:08 -0400 (EDT)
+        with ESMTP id vXigyrb4ALM5; Mon, 27 Apr 2020 12:40:48 -0400 (EDT)
 Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 7A0D7259002;
-        Mon, 27 Apr 2020 11:15:08 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 7A0D7259002
+        by mail.efficios.com (Postfix) with ESMTP id BE6A325A546;
+        Mon, 27 Apr 2020 12:40:48 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com BE6A325A546
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1588000508;
-        bh=HRC42XoOjwALWIYwKPwdLOKu7onToKlMl4PH+oSwd6A=;
+        s=default; t=1588005648;
+        bh=CJW2+LbckLL1pCYHO0SvRfwy4PoMUExCTJDNXYVXpKg=;
         h=Date:From:To:Message-ID:MIME-Version;
-        b=MDCvH6+C5YGcaVUGYb1YOX20vFMIGlGcqBPDybrCzWIXHsHbdwu2lmnRQavisCdLr
-         UqM16uQtgHrefdsbkrCxcgU0fExX756+PFhIJa7ZGN1PAtgVFMhQoOorOh2oXKHi0G
-         yubzpwl72p6oLz2gBUa+8Aefw4uompGyF+oqcI27DHBAjUjhgpQmi3CDTyvRFSDkRG
-         Zx1pZUOFAVfH1DRSuKdXoYdcXNBN+lPjLNt/ibEJwZLtDn1L5CQfFFozA7mfiO6sBw
-         MbqQjtwKeNI29jPo4rJpYsvw7zWWgcbRuTFPgmmWg1qq6rl/jQ4tJW4uv+32fPecc9
-         H0VrrWfrIZVZA==
+        b=p4OavsRlfLe3C/v6vsi9jFwtsY3wPI1OEzg9xgWRrRtq/mSszvqFx+tAMmEtVubyF
+         kovY8q0YQBlTAY3MADliaNf3ZiODDzss/W5ppityvoSs/MuiWj2moa4y0+I03Nbfiw
+         g4TNK8ph83UfyE0yoJKFL1qkex0oLPL3uILW679XNaajVSEXtBO+R8n6MXWvPPlDPS
+         cVqDv/QN9bR/+qDpmbtWo5ABuidK7jU1eYsawLmrrd+6P+2T+b471ehmOJum/4HCtQ
+         mhc+y6/RoEY1fXNEhqBxfPxpBKWE1/PoH6R2zIQRAtKd1FuBVDfYZUjfgQTkeYX4Ua
+         yD3RFEaEgFllg==
 X-Virus-Scanned: amavisd-new at efficios.com
 Received: from mail.efficios.com ([127.0.0.1])
         by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id XITWGiWN5NEy; Mon, 27 Apr 2020 11:15:08 -0400 (EDT)
+        with ESMTP id Ocpc0geReoR5; Mon, 27 Apr 2020 12:40:48 -0400 (EDT)
 Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
-        by mail.efficios.com (Postfix) with ESMTP id 54519258343;
-        Mon, 27 Apr 2020 11:15:08 -0400 (EDT)
-Date:   Mon, 27 Apr 2020 11:15:08 -0400 (EDT)
+        by mail.efficios.com (Postfix) with ESMTP id A073D25A756;
+        Mon, 27 Apr 2020 12:40:48 -0400 (EDT)
+Date:   Mon, 27 Apr 2020 12:40:48 -0400 (EDT)
 From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Michael Kerrisk <mtk.manpages@gmail.com>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+To:     Florian Weimer <fw@deneb.enyo.de>,
+        Michael Kerrisk <mtk.manpages@gmail.com>
+Cc:     libc-alpha <libc-alpha@sourceware.org>, carlos <carlos@redhat.com>,
+        Rich Felker <dalias@libc.org>,
         linux-api <linux-api@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Paul <paulmck@linux.vnet.ibm.com>,
         Boqun Feng <boqun.feng@gmail.com>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Dave Watson <davejwatson@fb.com>, Paul Turner <pjt@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Russell King <linux@arm.linux.org.uk>,
+        Will Deacon <will.deacon@arm.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ben Maurer <bmaurer@fb.com>, Dave Watson <davejwatson@fb.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Andi Kleen <andi@firstfloor.org>,
-        Chris Lameter <cl@linux.com>, Ben Maurer <bmaurer@fb.com>,
-        rostedt <rostedt@goodmis.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>, carlos <carlos@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>
-Message-ID: <2021826204.69809.1588000508294.JavaMail.zimbra@efficios.com>
-In-Reply-To: <211707091.921.1551722548347.JavaMail.zimbra@efficios.com>
-References: <20181206144228.9656-1-mathieu.desnoyers@efficios.com> <f6512944-26e1-6231-87b3-b30a2017b4b8@gmail.com> <211707091.921.1551722548347.JavaMail.zimbra@efficios.com>
-Subject: Re: [PATCH man-pages] Add rseq manpage
+        Paul <paulmck@linux.vnet.ibm.com>, Paul Turner <pjt@google.com>,
+        Joseph Myers <joseph@codesourcery.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>
+Message-ID: <284293396.70630.1588005648556.JavaMail.zimbra@efficios.com>
+In-Reply-To: <87ees9z417.fsf@mid.deneb.enyo.de>
+References: <20200326155633.18236-1-mathieu.desnoyers@efficios.com> <20200326155633.18236-6-mathieu.desnoyers@efficios.com> <87ees9z417.fsf@mid.deneb.enyo.de>
+Subject: Re: [PATCH glibc 5/9] glibc: Perform rseq(2) registration at C
+ startup and thread creation (v17)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-Originating-IP: [167.114.26.124]
 X-Mailer: Zimbra 8.8.15_GA_3918 (ZimbraWebClient - FF75 (Linux)/8.8.15_GA_3895)
-Thread-Topic: Add rseq manpage
-Thread-Index: mDJv6ZaDzUr5+/+kUddTibB0qMWYrREokXmH
-Content-Transfer-Encoding: quoted-printable
+Thread-Topic: glibc: Perform rseq(2) registration at C startup and thread creation (v17)
+Thread-Index: /j9NkOdwpAcG2p0QWhkHsXuWBFxTSw==
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
------ On Mar 4, 2019, at 1:02 PM, Mathieu Desnoyers mathieu.desnoyers@eff=
-icios.com wrote:
+----- On Apr 27, 2020, at 5:11 AM, Florian Weimer fw@deneb.enyo.de wrote:
 
-> ----- On Feb 28, 2019, at 3:42 AM, Michael Kerrisk mtk.manpages@gmail.c=
-om wrote:
+> * Mathieu Desnoyers via Libc-alpha:
 >=20
->> On 12/6/18 3:42 PM, Mathieu Desnoyers wrote:
->>> [ Michael, rseq(2) was merged into 4.18. Can you have a look at this
->>>   patch which adds rseq documentation to the man-pages project ? ]
->> Hi Matthieu
->>=20
->> Sorry for the long delay. I've merged this page into a private
->> branch and have done quite a lot of editing. I have many
->> questions :-).
+>> +* Support for automatically registering threads with the Linux rseq(2)
+>> +  system call has been added.  This system call is implemented starting
+>> +  from Linux 4.18.  The Restartable Sequences ABI accelerates user-spac=
+e
+>> +  operations on per-cpu data.  It allows user-space to perform updates
+>> +  on per-cpu data without requiring heavy-weight atomic operations.
+>> +  Automatically registering threads allows all libraries, including lib=
+c,
+>> +  to make immediate use of the rseq(2) support by using the documented =
+ABI.
+>> +  See 'man 2 rseq' for the details of the ABI shared between libc and t=
+he
+>> +  kernel.
 >=20
-> No worries, thanks for looking into it!
+> This should refer documentation in the glibc manual.
 >=20
->>=20
->> In the first instance, I think it is probably best to have
->> a free-form text discussion rather than firing patches
->> back and forward. Could you take a look at the questions below
->> and respond?
+> (It is currently a glibc project requirement to add documentation for
+> new Linux interfaces, something that I do not necessarily agree with.)
+
+A related issue here is that editing of the rseq(2) man pages has been stal=
+led
+since March 2019. I have been waiting for reply from Michael Kerrisk, and I
+suspect he might have be side-tracked by other projects. I just bumped that
+thread.
+
+Ref.: https://lore.kernel.org/r/211707091.921.1551722548347.JavaMail.zimbra=
+@efficios.com
+
+So as of today, "man 2 rseq" does not exist in the kernel man pages, so I
+suggest we remove that sentence. Would the following change be OK with you =
+?
+
+-  See 'man 2 rseq' for the details of the ABI shared between libc and the
+-  kernel.
++  The GNU C Library manual has details on integration of Restartable
++  Sequences.
+
 >=20
-> Sure,
+>> =20
+>>  Deprecated and removed features, and other changes affecting compatibil=
+ity:
+>> =20
+>> diff --git a/elf/libc_early_init.c b/elf/libc_early_init.c
+>> index 1ac66d895d..30466afea0 100644
+>> --- a/elf/libc_early_init.c
+>> +++ b/elf/libc_early_init.c
+>> @@ -18,10 +18,13 @@
+>> =20
+>>  #include <ctype.h>
+>>  #include <libc-early-init.h>
+>> +#include <rseq-internal.h>
+>> =20
+>>  void
+>>  __libc_early_init (void)
+>>  {
+>>    /* Initialize ctype data.  */
+>>    __ctype_init ();
+>> +  /* Register rseq ABI to the kernel.   */
+>> +  (void) rseq_register_current_thread ();
+>>  }
+>=20
+> The cast to void should be removed (see below the comment about the
+> return type.
 
-Hi Michael,
+OK
 
-Gentle bump of this email in your inbox, since I suspect you might have
-forgotten about it altogether. A year ago I you had an heavily edited
-man page for rseq(2). I provided the requested feedback, but I did not
-hear back from you since then.
+>=20
+>> diff --git a/manual/threads.texi b/manual/threads.texi
+>> index 0858ef8f92..59f634e432 100644
+>> --- a/manual/threads.texi
+>> +++ b/manual/threads.texi
+>> @@ -9,8 +9,10 @@ This chapter describes functions used for managing thre=
+ads.
+>>  POSIX threads.
+>> =20
+>>  @menu
+>> -* ISO C Threads::=09Threads based on the ISO C specification.
+>> -* POSIX Threads::=09Threads based on the POSIX specification.
+>> +* ISO C Threads::=09=09Threads based on the ISO C specification.
+>> +* POSIX Threads::=09=09Threads based on the POSIX specification.
+>> +* Restartable Sequences::=09Linux-specific Restartable Sequences
+>> +=09=09=09=09integration.
+>>  @end menu
+>> =20
+>> =20
+>> @@ -881,3 +883,27 @@ Behaves like @code{pthread_timedjoin_np} except tha=
+t the
+>> absolute time in
+>>  @c pthread_spin_unlock
+>>  @c pthread_testcancel
+>>  @c pthread_yield
+>> +
+>> +@node Restartable Sequences
+>> +@section Restartable Sequences
+>> +@cindex rseq
+>> +
+>> +This section describes @theglibc{} Restartable Sequences integration.
+>> +
+>> +@deftypevar {struct rseq} __rseq_abi
+>> +@standards{GNU, sys/rseq.h}
+>> +@Theglibc{} implements a @code{__rseq_abi} TLS symbol to interact with =
+the
+>> +Restartable Sequences system call (Linux-specific).  The layout of this
+>> +structure is defined by the Linux kernel @file{linux/rseq.h} UAPI.
+>> +Registration of each thread's @code{__rseq_abi} is performed by
+>> +@theglibc{} at libc initialization and pthread creation.
+>> +@end deftypevar
+>> +
+>> +@deftypevr Macro int RSEQ_SIG
+>> +@standards{GNU, sys/rseq.h}
+>> +Each supported architecture provide a @code{RSEQ_SIG} macro in
+>> +@file{sys/rseq.h} which contains a signature.  That signature is expect=
+ed to be
+>> +present in the code before each Restartable Sequences abort handler.  F=
+ailure
+>> +to provide the expected signature may terminate the process with a Segm=
+entation
+>> +fault.
+>> +@end deftypevr
+>=20
+> This should say Linux, not GNU as the standards source, given that the
+> interface is not added to the GNU ABI.
 
-We are now close to integrate rseq into glibc, and having an official
-man page would be useful.
+Good point, done.
 
-Thanks,
+>=20
+> Is this sufficient documentation of this feature?  What do others
+> think about this?
+
+I'll leave this question to others.
+
+>=20
+>> diff --git a/misc/rseq-internal.h b/misc/rseq-internal.h
+>> new file mode 100644
+>> index 0000000000..d564cf1bc3
+>> --- /dev/null
+>> +++ b/misc/rseq-internal.h
+>> @@ -0,0 +1,33 @@
+>=20
+>> +static inline int
+>> +rseq_register_current_thread (void)
+>> +{
+>> +  return -1;
+>> +}
+>=20
+> Nothing checks the return value of this function as far as I can see,
+> so it can return void.
+
+OK
+
+>=20
+>> +static inline int
+>> +rseq_unregister_current_thread (void)
+>> +{
+>> +  return -1;
+>> +}
+>=20
+> This function is unused.  This also applies to the full version.  I
+> believe we switched to implicit deregistration on thread exit, so I
+> think you can just remove it.
+
+OK
+
+>=20
+>> diff --git a/nptl/pthread_create.c b/nptl/pthread_create.c
+>> index afd379e89a..1ff248042e 100644
+>> --- a/nptl/pthread_create.c
+>> +++ b/nptl/pthread_create.c
+>> @@ -33,6 +33,7 @@
+>>  #include <default-sched.h>
+>>  #include <futex-internal.h>
+>>  #include <tls-setup.h>
+>> +#include <rseq-internal.h>
+>>  #include "libioP.h"
+>> =20
+>>  #include <shlib-compat.h>
+>> @@ -384,6 +385,9 @@ START_THREAD_DEFN
+>>    /* Initialize pointers to locale data.  */
+>>    __ctype_init ();
+>> =20
+>> +  /* Register rseq TLS to the kernel. */
+>> +  (void) rseq_register_current_thread ();
+>> +
+>=20
+> The cast can go.
+
+OK
+
+>=20
+>>  #ifndef __ASSUME_SET_ROBUST_LIST
+>>    if (__set_robust_list_avail >=3D 0)
+>>  #endif
+>> @@ -578,6 +582,14 @@ START_THREAD_DEFN
+>>       process is really dead since 'clone' got passed the CLONE_CHILD_CL=
+EARTID
+>>       flag.  The 'tid' field in the TCB will be set to zero.
+>> =20
+>> +     rseq TLS is still registered at this point. Rely on implicit
+>> unregistration
+>> +     performed by the kernel on thread teardown. This is not a problem =
+because
+>> the
+>> +     rseq TLS lives on the stack, and the stack outlives the thread. If=
+ TCB
+>> +     allocation is ever changed, additional steps may be required, such=
+ as
+>> +     performing explicit rseq unregistration before reclaiming the rseq=
+ TLS
+>> area
+>> +     memory. It is NOT sufficient to block signals because the kernel m=
+ay write
+>> +     to the rseq area even without signals.
+>> +
+>>       The exit code is zero since in case all threads exit by calling
+>>       'pthread_exit' the exit status must be 0 (zero).  */
+>>    __exit_thread ();
+>=20
+> Some of these lines are too long.  Also two spaces after . at the end
+> of sentences.
+
+OK
+
+>=20
+>> diff --git a/sysdeps/unix/sysv/linux/rseq-internal.h
+>> b/sysdeps/unix/sysv/linux/rseq-internal.h
+>> new file mode 100644
+>> index 0000000000..5f7f02f1ec
+>> --- /dev/null
+>> +++ b/sysdeps/unix/sysv/linux/rseq-internal.h
+>=20
+>> +static inline int
+>> +rseq_register_current_thread (void)
+>> +{
+>> +  int rc, ret =3D 0;
+>> +
+>> +  if (__rseq_abi.cpu_id =3D=3D RSEQ_CPU_ID_REGISTRATION_FAILED)
+>> +    return -1;
+>> +  rc =3D INTERNAL_SYSCALL_CALL (rseq, &__rseq_abi, sizeof (struct rseq)=
+,
+>> +                              0, RSEQ_SIG);
+>> +  if (!rc)
+>> +    goto end;
+>> +  if (INTERNAL_SYSCALL_ERRNO (rc) !=3D EBUSY)
+>> +    __rseq_abi.cpu_id =3D RSEQ_CPU_ID_REGISTRATION_FAILED;
+>> +  ret =3D -1;
+>> +end:
+>> +  return ret;
+>> +}
+>=20
+> This does not seem to use INTERNAL_SYSCALL_CALL correctly.  I think
+> you need to use INTERNAL_SYSCALL_ERROR_P on the result to check for an
+> error, and only then use INTERNAL_SYSCALL_ERRNO to extract the error
+> code.
+
+OK
+
+>=20
+>> diff --git a/sysdeps/unix/sysv/linux/rseq-sym.c
+>> b/sysdeps/unix/sysv/linux/rseq-sym.c
+>> new file mode 100644
+>> index 0000000000..0e33fab278
+>> --- /dev/null
+>> +++ b/sysdeps/unix/sysv/linux/rseq-sym.c
+>=20
+>> +#include <sys/syscall.h>
+>> +#include <stdint.h>
+>> +#include <kernel-features.h>
+>> +#include <sys/rseq.h>
+>> +
+>> +__thread struct rseq __rseq_abi =3D {
+>> +  .cpu_id =3D RSEQ_CPU_ID_UNINITIALIZED,
+>> +};
+>=20
+> { should go onto its own line.
+
+OK
+
+> I'd also add attribute_tls_model_ie,
+> also it's implied by the declaration in the header.
+
+This contradicts feedback I received from Szabolcs Nagy in September 2019:
+
+https://public-inbox.org/libc-alpha/c58d4d6e-f22a-f5d9-e23a-5bd72cec1a86@ar=
+m.com/
+
+"note that libpthread.so is built with -ftls-model=3Dinitial-exec
+
+(and if it wasn't then you'd want to put the attribute on the
+declaration in the internal header file, not on the definition,
+so the actual tls accesses generate the right code)"
+
+In the context of his feedback, __rseq_abi was defined within nptl/pthread_=
+create.c.
+It is now defined in sysdeps/unix/sysv/linux/rseq-sym.c, which is built int=
+o the
+csu which AFAIU ends up in libc.so. His comment still applies though, becau=
+se
+libc.so is also built with -ftls-model=3Dinitial-exec.
+
+So should I apply the "initial-exec" TLS model only to the __rseq_abi
+declaration, or is it preferred to apply it to both the declaration
+and the definition ?
+
+>=20
+>> diff --git a/sysdeps/unix/sysv/linux/sys/rseq.h
+>> b/sysdeps/unix/sysv/linux/sys/rseq.h
+>> new file mode 100644
+>> index 0000000000..503dce4cac
+>> --- /dev/null
+>> +++ b/sysdeps/unix/sysv/linux/sys/rseq.h
+>> @@ -0,0 +1,186 @@
+>=20
+> I think there is some value in making this header compatible with
+> inclusion from the assembler (including constants for the relevant
+> struct offsets), but that can be a later change.
+
+Agreed. By "later", do you mean before merging the patch, between
+merge of the patch and next glibc release, or for a subsequent glibc
+release ?
+
+>=20
+>> +#ifndef _SYS_RSEQ_H
+>> +#define _SYS_RSEQ_H=091
+>> +
+>> +/* Architecture-specific rseq signature.  */
+>> +#include <bits/rseq.h>
+>=20
+> Maybe add a newline between the above and the following, to make clear
+> the comment only applies to the first #include.
+
+OK
+
+>=20
+>> +#include <stdint.h>
+>> +#include <sys/cdefs.h>
+>> +
+>> +#ifdef __has_include
+>> +# if __has_include ("linux/rseq.h")
+>> +#   define __GLIBC_HAVE_KERNEL_RSEQ
+>> +# endif
+>> +#else
+>> +# include <linux/version.h>
+>> +# if LINUX_VERSION_CODE >=3D KERNEL_VERSION (4, 18, 0)
+>> +#   define __GLIBC_HAVE_KERNEL_RSEQ
+>> +# endif
+>> +#endif
+>> +
+>> +#ifdef __GLIBC_HAVE_KERNEL_RSEQ
+>> +/* We use the structures declarations from the kernel headers.  */
+>> +# include <linux/rseq.h>
+>> +#else
+>> +/* We use a copy of the include/uapi/linux/rseq.h kernel header.  */
+>> +
+>> +#include <asm/byteorder.h>
+>> +
+>> +enum rseq_cpu_id_state
+>> +  {
+>> +    RSEQ_CPU_ID_UNINITIALIZED =3D -1,
+>> +    RSEQ_CPU_ID_REGISTRATION_FAILED =3D -2,
+>> +  };
+>> +
+>> +enum rseq_flags
+>> +  {
+>> +    RSEQ_FLAG_UNREGISTER =3D (1 << 0),
+>> +  };
+>> +
+>> +enum rseq_cs_flags_bit
+>> +  {
+>> +    RSEQ_CS_FLAG_NO_RESTART_ON_PREEMPT_BIT =3D 0,
+>> +    RSEQ_CS_FLAG_NO_RESTART_ON_SIGNAL_BIT =3D 1,
+>> +    RSEQ_CS_FLAG_NO_RESTART_ON_MIGRATE_BIT =3D 2,
+>> +  };
+>> +
+>> +enum rseq_cs_flags
+>> +  {
+>> +    RSEQ_CS_FLAG_NO_RESTART_ON_PREEMPT =3D
+>> +      (1U << RSEQ_CS_FLAG_NO_RESTART_ON_PREEMPT_BIT),
+>> +    RSEQ_CS_FLAG_NO_RESTART_ON_SIGNAL =3D
+>> +      (1U << RSEQ_CS_FLAG_NO_RESTART_ON_SIGNAL_BIT),
+>> +    RSEQ_CS_FLAG_NO_RESTART_ON_MIGRATE =3D
+>> +      (1U << RSEQ_CS_FLAG_NO_RESTART_ON_MIGRATE_BIT),
+>> +  };
+>> +
+>> +/* struct rseq_cs is aligned on 4 * 8 bytes to ensure it is always
+>> +   contained within a single cache-line. It is usually declared as
+>> +   link-time constant data.  */
+>> +struct rseq_cs
+>> +  {
+>> +    /* Version of this structure.  */
+>> +    uint32_t version;
+>> +    /* enum rseq_cs_flags.  */
+>> +    uint32_t flags;
+>> +    uint64_t start_ip;
+>> +    /* Offset from start_ip.  */
+>> +    uint64_t post_commit_offset;
+>> +    uint64_t abort_ip;
+>> +} __attribute__((aligned(4 * sizeof(uint64_t))));
+>=20
+> The comment is wrong.  32-byte alignment does not put struct rseq_cs
+> on its own cache line on many (most?) CPUs.  Not using the constant 32
+> looks like unnecessary obfuscation to me.
+
+There is a difference between "being contained within a single cache-line"
+and "being the only structure in a cache-line". The objective here is the
+former.
+
+For instance, if we do not enforce any minimum alignment, the compiler coul=
+d
+decide to align that structure on __alignof__(uint64_t) which happens to be
+4 bytes on some architectures. This can cause this frequently accessed stru=
+cture
+to be sitting across 2 cache-lines, thus requiring the CPU to load two cach=
+e
+lines rather than one very frequently.
+
+I think what you have in mind is "being the only structure in a cache-line"=
+,
+which is useful to eliminate false-sharing. However, considering that this =
+is
+a TLS variable, we don't care about false-sharing, because it is never mean=
+t
+to be updated concurrently by many threads or CPUs.
+
+So I think my comment is correct.
+
+I agree that the constant 32 may be clearer here. I will change to align(32=
+).
+
+> I still think we should avoid the alignment.  The _ip fields should
+> perhaps be _pc (IP is more or less specific to x86).
+
+I am concerned that removing an alignment attribute which is exposed
+in a public Linux UAPI header can be an ABI breakage.
+
+I am also concerned about changing field names for fields already
+exposed in a public Linux UAPI header, especially if the change is
+only for cosmetic reasons.
+
+>=20
+> { and } are not aligned.  Please do not forget to add spaces before
+> opening parentheses, and two spaces after the . and the end of
+> sentences.  The opening { should always be on its own line.  (This
+> also applies to the definition of struct rseq below.)
+
+OK. Old coding style habits die hard ;)
+
+>=20
+>> +
+>> +/* struct rseq is aligned on 4 * 8 bytes to ensure it is always
+>> +   contained within a single cache-line.
+>> +
+>> +   A single struct rseq per thread is allowed.  */
+>> +struct rseq
+>> +  {
+>> +    /* Restartable sequences cpu_id_start field. Updated by the
+>> +       kernel. Read by user-space with single-copy atomicity
+>> +       semantics. This field should only be read by the thread which
+>> +       registered this data structure. Aligned on 32-bit. Always
+>=20
+> What does =E2=80=9CAligned on 32-bit=E2=80=9D mean in this context?  Do y=
+ou mean to
+> reference 32-*byte* alignment here?
+
+No. I really mean 32-bit (4-byte). Being aligned on 32-byte guarantees that
+this field is aligned at least on 4-byte. This is required by single-copy
+atomicity semantics.
+
+Should I update this comment to state "Aligned on 4-byte" instead ?
+
+>=20
+>> +    /* Restartable sequences rseq_cs field.
+>> +
+>> +       Contains NULL when no critical section is active for the current
+>> +       thread, or holds a pointer to the currently active struct rseq_c=
+s.
+>> +
+>> +       Updated by user-space, which sets the address of the currently
+>> +       active rseq_cs at the beginning of assembly instruction sequence
+>> +       block, and set to NULL by the kernel when it restarts an assembl=
+y
+>> +       instruction sequence block, as well as when the kernel detects t=
+hat
+>> +       it is preempting or delivering a signal outside of the range
+>> +       targeted by the rseq_cs. Also needs to be set to NULL by user-sp=
+ace
+>> +       before reclaiming memory that contains the targeted struct rseq_=
+cs.
+>> +
+>> +       Read and set by the kernel. Set by user-space with single-copy
+>> +       atomicity semantics. This field should only be updated by the
+>> +       thread which registered this data structure. Aligned on 64-bit. =
+ */
+>> +    union {
+>> +      uint64_t ptr64;
+>> +#ifdef __LP64__
+>> +      uint64_t ptr;
+>> +#else
+>> +      struct {
+>> +#if (defined(__BYTE_ORDER) && (__BYTE_ORDER =3D=3D __BIG_ENDIAN)) ||
+>> defined(__BIG_ENDIAN)
+>> +        uint32_t padding; /* Initialized to zero.  */
+>> +        uint32_t ptr32;
+>> +#else /* LITTLE */
+>> +        uint32_t ptr32;
+>> +        uint32_t padding; /* Initialized to zero.  */
+>> +#endif /* ENDIAN */
+>> +      } ptr;
+>> +#endif
+>> +    } rseq_cs;
+>=20
+> Are these conditionals correct for x32?
+
+Let's see. With x86 gcc:
+
+-m64: (__x86_64__ && __LP64__)
+-m32: (__i386__)
+-mx32: (__x86_64__ && __ILP32__)
+
+So with "#ifdef __LP64__" we specifically target 64-bit pointers. The rest
+falls into the "else" case, which expects 32-bit pointers. Considering that
+x32 has 32-bit pointers, I don't see any issue here.
+
+> Shouldn't there be a member of type const struct rseq_cs * somewhere?
+
+Having pointers within structures in kernel UAPI headers is frowned upon. I=
+ndeed
+here having it in the union could possibly make some use-cases easier in
+user-space, so I'm open to it. It basically depends on how much we want the
+Linux UAPI header and the glibc header to stay in sync, and if other kernel
+maintainers are open to this addition.
+
+We don't mind that user-space uses that pointer, but we never want the kern=
+el
+to touch that pointer rather than the 32/64-bit-aware fields. One possibili=
+ty
+would be to do:
+
+    union
+      {
+        uint64_t ptr64;
+#ifdef __LP64__
+        uint64_t ptr;
+#else
+        struct
+          {
+#if (defined (__BYTE_ORDER) && (__BYTE_ORDER =3D=3D __BIG_ENDIAN)) || defin=
+ed (__BIG_ENDIAN)
+            uint32_t padding; /* Initialized to zero.  */
+            uint32_t ptr32;
+#else /* LITTLE */
+            uint32_t ptr32;
+            uint32_t padding; /* Initialized to zero.  */
+#endif /* ENDIAN */
+          } ptr;
+#endif
+
+#ifndef __KERNEL__
+     const struct rseq_cs *uptr;
+#endif
+      } rseq_cs;
+
+in the union, so only user-space can see that field. Thoughts ?
+
+>=20
+>> diff --git a/sysdeps/unix/sysv/linux/x86/bits/rseq.h
+>> b/sysdeps/unix/sysv/linux/x86/bits/rseq.h
+>> new file mode 100644
+>> index 0000000000..75f52d9788
+>> --- /dev/null
+>> +++ b/sysdeps/unix/sysv/linux/x86/bits/rseq.h
+>> @@ -0,0 +1,30 @@
+>> +/* Restartable Sequences Linux x86 architecture header.
+>> +   Copyright (C) 2019-2020 Free Software Foundation, Inc.
+>=20
+> Please make sure that none of the new files reference the 2019 year.
+> It should be 2020, per GNU policy.
+
+OK
+
+>=20
+> The patch needs some rebasing on top of current master.
+
+Done.
+
+Thanks for the review!
 
 Mathieu
 
-
->=20
->>=20
->> Thanks,
->>=20
->> Michael
->>=20
->>=20
->> RSEQ(2)                    Linux Programmer's Manual                  =
- RSEQ(2)
->>=20
->> NAME
->>       rseq - Restartable sequences and CPU number cache
->>=20
->> SYNOPSIS
->>       #include <linux/rseq.h>
->>=20
->>       int rseq(struct rseq *rseq, uint32_t rseq_len, int flags, uint32=
-_t sig);
->>=20
->> DESCRIPTION
->>       =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90
->>       =E2=94=82FIXME                                                =E2=
-=94=82
->>       =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=A4
->>       =E2=94=82Imagine  you  are  someone who is pretty new to this =E2=
-=94=82
->>       =E2=94=82idea...  What is notably lacking from this  page  is =E2=
-=94=82
->>       =E2=94=82an overview explaining:                              =E2=
-=94=82
->>       =E2=94=82                                                     =E2=
-=94=82
->>       =E2=94=82    * What a restartable sequence actually is.       =E2=
-=94=82
->>       =E2=94=82                                                     =E2=
-=94=82
->>       =E2=94=82    * An outline of the steps to perform when using  =E2=
-=94=82
->>       =E2=94=82    restartable sequences / rseq(2).                 =E2=
-=94=82
->>       =E2=94=82                                                     =E2=
-=94=82
->>       =E2=94=82I.e.,  something  along  the  lines  of Jon Corbet's =E2=
-=94=82
->>       =E2=94=82https://lwn.net/Articles/697979/.  Can you  come  up =E2=
-=94=82
->>       =E2=94=82with something? (Part of it might be at the start of =E2=
-=94=82
->>       =E2=94=82this page, and the rest in NOTES; it need not be all =E2=
-=94=82
->>       =E2=94=82in one place.)                                       =E2=
-=94=82
->>       =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98
->=20
-> We recently published a blog post about rseq, which might contain just =
-the
-> right level of information we are looking for here:
->=20
-> https://www.efficios.com/blog/2019/02/08/linux-restartable-sequences/
->=20
-> Could something along the following lines work ?
->=20
-> "A restartable sequence is a sequence of instructions guaranteed to be
-> executed atomically with respect to other threads and signal handlers o=
-n the
-> current CPU. If its execution does not complete atomically, the kernel =
-changes
-> the execution flow by jumping to an abort handler defined by user-space=
- for
-> that restartable sequence.
->=20
-> Using restartable sequences requires to register a __rseq_abi thread-lo=
-cal
-> storage
-> data structure (struct rseq) through the rseq(2) system call. Only one
-> __rseq_abi
-> can be registered per thread, so user-space libraries and applications =
-must
-> follow
-> a user-space ABI defining how to share this resource. The ABI defining =
-how to
-> share
-> this resource between applications and libraries is defined by the C li=
-brary.
->=20
-> The __rseq_abi contains a rseq_cs field which points to the currently e=
-xecuting
-> critical section. For each thread, a single rseq critical section can r=
-un at any
-> given point. Each critical section need to be implemented in assembly."
->=20
->=20
->>       The  rseq()  ABI  accelerates  user-space operations on per-CPU =
-data by
->>       defining a shared data structure ABI between each user-space thr=
-ead and
->>       the kernel.
->>=20
->>       It allows user-space to perform update operations on per-CPU dat=
-a with=E2=80=90
->>       out requiring heavy-weight atomic operations.
->>=20
->>       =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90
->>       =E2=94=82FIXME                                                =E2=
-=94=82
->>       =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=A4
->>       =E2=94=82In the following para: "a  hardware  execution  con=E2=80=
-=90 =E2=94=82
->>       =E2=94=82text"?   What  is  the contrast being drawn here? It =E2=
-=94=82
->>       =E2=94=82would be good to state it more explicitly.           =E2=
-=94=82
->>       =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98
->=20
-> Here I'm trying to clarify what we mean by "CPU" in this document. We d=
-efine
-> a CPU as having its own number returned by sched_getcpu(), which I thin=
-k is
-> sometimes referred to as "logical cpu". This is the current hyperthread=
- on
-> the current core, on the current "physical CPU", in the current socket.
->=20
->=20
->>       The term CPU used in this documentation refers to a hardware  ex=
-ecution
->>       context.
->>=20
->>       Restartable  sequences are atomic with respect to preemption (ma=
-king it
->>       atomic with respect to other threads running on the same CPU), a=
-s  well
->>       as  signal delivery (user-space execution contexts nested over t=
-he same
->>       thread).  They either complete atomically with respect to preemp=
-tion on
->>       the current CPU and signal delivery, or they are aborted.
->>=20
->>       =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90
->>       =E2=94=82FIXME                                                =E2=
-=94=82
->>       =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=A4
->>       =E2=94=82In  the  preceding sentence, we need a definition of =E2=
-=94=82
->>       =E2=94=82"current CPU".                                       =E2=
-=94=82
->>       =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98
->=20
-> Not sure how to word it. If a thread or signal handler execution contex=
-t can
-> possibly run and issue, for instance, "sched_getcpu()" between the begi=
-nning
-> and the end of the critical section and get the same logical CPU number=
- as the
-> current thread, then we are guaranteed to abort. Of course, sched_getcp=
-u() is
-> just one way to get the CPU number, considering that we can also read i=
-t
-> from the __rseq_abi cpu_id and cpu_id_start fields.
->=20
->>=20
->>       =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90
->>       =E2=94=82FIXME                                                =E2=
-=94=82
->>       =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=A4
->>       =E2=94=82In the following, does "It  is"  means  "Restartable =E2=
-=94=82
->>       =E2=94=82sequences are"?                                      =E2=
-=94=82
->>       =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98
->>       It is suited for update operations on per-CPU data.
->=20
-> Yes.
->=20
->=20
->>=20
->>       =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90
->>       =E2=94=82FIXME                                                =E2=
-=94=82
->>       =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=A4
->>       =E2=94=82In  the  following,  does "It is" means "Restartable =E2=
-=94=82
->>       =E2=94=82sequences are"?                                      =E2=
-=94=82
->>       =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98
->=20
-> "Restartable sequences can be..."
->=20
->>       It can be used on data  structures  shared  between  threads  wi=
-thin  a
->>       process, and on data structures shared between threads across di=
-fferent
->>       processes.
->>=20
->>       Some examples of operations that can be accelerated or improved =
-by this
->>       ABI:
->>=20
->>       =C2=B7 Memory allocator per-CPU free-lists
->>=20
->>       =C2=B7 Querying the current CPU number
->>=20
->>       =C2=B7 Incrementing per-CPU counters
->>=20
->>       =C2=B7 Modifying data protected by per-CPU spinlocks
->>=20
->>       =C2=B7 Inserting/removing elements in per-CPU linked-lists
->>=20
->>       =C2=B7 Writing/reading per-CPU ring buffers content
->>=20
->>       =C2=B7 Accurately  reading performance monitoring unit counters =
-with respect
->>         to thread migration
->>=20
->>       Restartable sequences must not perform  system  calls.   Doing  =
-so  may
->>       result in termination of the process by a segmentation fault.
->>=20
->>       The rseq argument is a pointer to the thread-local rseq structur=
-e to be
->>       shared between kernel and user-space.  The layout of this struct=
-ure  is
->>       shown below.
->>=20
->>       The rseq_len argument is the size of the struct rseq to register=
-.
->>=20
->>       The  flags  argument is 0 for registration, or RSEQ_FLAG_UNREGIS=
-TER for
->>       unregistration.
->>=20
->>       The sig argument is the 32-bit signature  to  be  expected  befo=
-re  the
->>       abort handler code.
->>=20
->>   The rseq structure
->>       The  struct  rseq  is aligned on a 32-byte boundary.  This struc=
-ture is
->>       extensible.  Its size is passed as parameter to the rseq() syste=
-m call.
->>=20
->>       =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90
->>       =E2=94=82FIXME                                                =E2=
-=94=82
->>       =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=A4
->>       =E2=94=82Below, I added the structure definition (in abbrevi=E2=80=
-=90 =E2=94=82
->>       =E2=94=82ated form).  Is there any reason not to do this?     =E2=
-=94=82
->>       =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98
->=20
-> It seems appropriate.
->=20
->>=20
->>           struct rseq {
->>               __u32             cpu_id_start;
->>               __u32             cpu_id;
->>               union {
->>                   __u64 ptr64;
->>           #ifdef __LP64__
->>                   __u64 ptr;
->>           #else
->>                   ....
->>           #endif
->>               }                 rseq_cs;
->>               __u32             flags;
->>           } __attribute__((aligned(4 * sizeof(__u64))));
->>=20
->>       =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90
->>       =E2=94=82FIXME                                                =E2=
-=94=82
->>       =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=A4
->>       =E2=94=82In  the  text  below, I think it would be helpful to =E2=
-=94=82
->>       =E2=94=82explicitly note which of these fields are set by the =E2=
-=94=82
->>       =E2=94=82kernel  (on  return from the reseq() call) and which =E2=
-=94=82
->>       =E2=94=82are set by the caller (before  calling  rseq()).  Is =E2=
-=94=82
->>       =E2=94=82the following correct:                               =E2=
-=94=82
->>       =E2=94=82                                                     =E2=
-=94=82
->>       =E2=94=82    cpu_id_start - initialized by caller to possible =E2=
-=94=82
->>       =E2=94=82    CPU number (e.g., 0), updated by kernel          =E2=
-=94=82
->>       =E2=94=82    on return                                        =E2=
-=94=82
->=20
-> "initialized by caller to possible CPU number (e.g., 0), updated
-> by the kernel on return, and updated by the kernel on return after
-> thread migration to a different CPU"
->=20
->>       =E2=94=82                                                     =E2=
-=94=82
->>       =E2=94=82    cpu_id - initialized to -1 by caller,            =E2=
-=94=82
->>       =E2=94=82    updated by kernel on return                      =E2=
-=94=82
->=20
-> "initialized to -1 by caller, updated by the kernel on return, and
-> updated by the kernel on return after thread migration to a different
-> CPU"
->=20
->>       =E2=94=82                                                     =E2=
-=94=82
->>       =E2=94=82    rseq_cs - initialized by caller, either to NULL  =E2=
-=94=82
->>       =E2=94=82    or a pointer to an 'rseq_cs' structure           =E2=
-=94=82
->>       =E2=94=82    that is initialized by the caller                =E2=
-=94=82
->=20
-> "initialized by caller to NULL, then, after returning from successful
-> registration, updated to a pointer to an "rseq_cs" structure by user-sp=
-ace.
-> Set to NULL by the kernel when it restarts a rseq critical section,
-> when it preempts or deliver a signal outside of the range targeted by t=
-he
-> rseq_cs. Set to NULL by user-space before reclaiming memory that
-> contains the targeted struct rseq_cs."
->=20
->=20
->>       =E2=94=82                                                     =E2=
-=94=82
->>       =E2=94=82    flags - initialized by caller, used by kernel    =E2=
-=94=82
->>       =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98
->>=20
->>       The structure fields are as follows:
->>=20
->>       =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90
->>       =E2=94=82FIXME                                                =E2=
-=94=82
->>       =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=A4
->>       =E2=94=82In  the  following paragraph, and in later places, I =E2=
-=94=82
->>       =E2=94=82changed "current thread" to "calling thread". Okay?  =E2=
-=94=82
->>       =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98
->=20
-> Yes.
->=20
->>=20
->>       cpu_id_start
->>              Optimistic cache of the CPU number on which the  calling =
- thread
->>              is  running.  The value in this field is guaranteed to al=
-ways be
->>              a possible CPU number, even when rseq is not  initialized=
-.   The
->>              value  it  contains  should  always  be confirmed by read=
-ing the
->>              cpu_id field.
->>=20
->>              =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90
->>              =E2=94=82FIXME                                           =
-     =E2=94=82
->>              =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=A4
->>              =E2=94=82What does the last sentence mean?               =
-     =E2=94=82
->>              =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98
->=20
-> It means the caller thread can always use __rseq_abi.cpu_id_start to in=
-dex an
-> array of per-cpu data and this won't cause an out-of-bound access on lo=
-ad, but
-> it
-> does not mean it really contains the current CPU number. For instance, =
-if rseq
-> registration failed, it will contain "0".
->=20
-> Therefore, it's fine to use cpu_is_start to fetch per-cpu data, but the=
- cpu_id
-> field should be used to compare the cpu_is_start value, so the case whe=
-re rseq
-> is not registered is caught. In that case, cpu_id_start=3D0, but cpu_id=
-=3D-1 or -2,
-> which differ, and therefore the critical section needs to jump to the a=
-bort
-> handler.
->=20
->>=20
->>              This field is an optimistic cache in the sense that it is=
- always
->>              guaranteed  to hold a valid CPU number in the range [0..(=
-nr_pos=E2=80=90
->>              sible_cpus - 1)].  It can therefore be loaded by user-spa=
-ce  and
->>              used  as  an offset in per-CPU data structures without ha=
-ving to
->>              check whether its value is within the valid bounds  compa=
-red  to
->>              the number of possible CPUs in the system.
->>=20
->>              For  user-space  applications  executed on a kernel witho=
-ut rseq
->>              support, the cpu_id_start field stays initialized at 0, w=
-hich is
->>              indeed  a  valid CPU number.  It is therefore valid to us=
-e it as
->>              an offset in per-CPU data structures, and only validate  =
-whether
->>              it's  actually  the  current CPU number by comparing it w=
-ith the
->>              cpu_id field within the rseq critical section.
->>=20
->>              If the kernel does not provide rseq support, that  cpu_id=
-  field
->>              stays  initialized  at  -1,  so  the comparison always fa=
-ils, as
->>              intended.  It is then up to user-space to use a fall-back=
- mecha=E2=80=90
->>              nism, considering that rseq is not available.
->>=20
->>              =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90
->>              =E2=94=82FIXME                                           =
-     =E2=94=82
->>              =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=A4
->>              =E2=94=82The  last  sentence is rather difficult to grok.=
- Can =E2=94=82
->>              =E2=94=82we say some more here?                          =
-     =E2=94=82
->>              =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98
->=20
-> Perhaps we could use the explanation I've written above in my reply ?
->=20
->>=20
->>       cpu_id Cache of the CPU number on which the calling thread is  r=
-unning.
->>              -1 if uninitialized.
->>=20
->>       rseq_cs
->>              The  rseq_cs  field  is a pointer to a struct rseq_cs (de=
-scribed
->>              below).  It is NULL when no rseq assembly block critical =
-section
->>              is  active  for  the  calling  thread.  Setting it to poi=
-nt to a
->>              critical section descriptor (struct rseq_cs) marks the be=
-ginning
->>              of the critical section.
->>=20
->>       flags  Flags  indicating  the  restart behavior for the calling =
-thread.
->>              This is mainly used for debugging purposes.  Can be eithe=
-r:
->>=20
->>              RSEQ_CS_FLAG_NO_RESTART_ON_PREEMPT
->=20
-> Inhibit instruction sequence block restart on preemption for this threa=
-d.
->=20
->>=20
->>              RSEQ_CS_FLAG_NO_RESTART_ON_SIGNAL
->=20
-> Inhibit instruction sequence block restart on signal delivery for this =
-thread.
-> Restart on signal can only be inhibited when restart on preemption and =
-restart
-> on migration are inhibited too, else it will terminate the offending pr=
-ocess
-> with
-> a segmentation fault.
->=20
->>=20
->>              RSEQ_CS_FLAG_NO_RESTART_ON_MIGRATE
->=20
-> Inhibit instruction sequence block restart on migration for this thread=
-.
->=20
->>=20
->>       =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90
->>       =E2=94=82FIXME                                                =E2=
-=94=82
->>       =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=A4
->>       =E2=94=82Each of the above values needs an explanation.       =E2=
-=94=82
->>       =E2=94=82                                                     =E2=
-=94=82
->>       =E2=94=82Is it correct that only one of  the  values  may  be =E2=
-=94=82
->>       =E2=94=82specified in 'flags'? I ask because in the 'rseq_cs' =E2=
-=94=82
->>       =E2=94=82structure below, the 'flags' field  is  a  bit  mask =E2=
-=94=82
->>       =E2=94=82where  any  combination  of  these flags may be ORed =E2=
-=94=82
->>       =E2=94=82together.                                            =E2=
-=94=82
->>       =E2=94=82                                                     =E2=
-=94=82
->>       =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98
->=20
-> Those are also masks and can be ORed.
->=20
->=20
->>=20
->>   The rseq_cs structure
->>       The struct rseq_cs is aligned on a 32-byte boundary  and  has  a=
-  fixed
->>       size of 32 bytes.
->>=20
->>       =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90
->>       =E2=94=82FIXME                                                =E2=
-=94=82
->>       =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=A4
->>       =E2=94=82Below, I added the structure definition (in abbrevi=E2=80=
-=90 =E2=94=82
->>       =E2=94=82ated form).  Is there any reason not to do this?     =E2=
-=94=82
->>       =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98
->=20
-> It's fine.
->=20
->>=20
->>           struct rseq_cs {
->>               __u32   version;
->>               __u32   flags;
->>               __u64   start_ip;
->>               __u64   post_commit_offset;
->>               __u64   abort_ip;
->>           } __attribute__((aligned(4 * sizeof(__u64))));
->>=20
->>       The structure fields are as follows:
->>=20
->>       version
->>              Version of this structure.
->>=20
->>              =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90
->>              =E2=94=82FIXME                                           =
-     =E2=94=82
->>              =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=A4
->>              =E2=94=82What does 'version' need to be initialized to?  =
-     =E2=94=82
->>              =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98
->=20
-> Currently version needs to be 0. Eventually, if we implement support fo=
-r new
-> flags to rseq(),
-> we could add feature flags which register support for newer versions of=
- struct
-> rseq_cs.
->=20
->>=20
->>       flags  Flags indicating the restart behavior of this structure. =
- Can be
->>              a combination of:
->>=20
->>              RSEQ_CS_FLAG_NO_RESTART_ON_PREEMPT
->=20
-> Inhibit instruction sequence block restart on preemption for this threa=
-d.
->=20
->>=20
->>              RSEQ_CS_FLAG_NO_RESTART_ON_SIGNAL
->=20
-> Inhibit instruction sequence block restart on signal delivery for this =
-thread.
-> Restart on signal can only be inhibited when restart on preemption and =
-restart
-> on migration are inhibited too, else it will terminate the offending pr=
-ocess
-> with
-> a segmentation fault.
->=20
->>=20
->>              RSEQ_CS_FLAG_NO_RESTART_ON_MIGRATE
->=20
-> Inhibit instruction sequence block restart on migration for this thread=
-.
->=20
->>=20
->>       =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90
->>       =E2=94=82FIXME                                                =E2=
-=94=82
->>       =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=A4
->>       =E2=94=82Each of the above values needs an explanation.       =E2=
-=94=82
->>       =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98
->>=20
->>       start_ip
->>              Instruction  pointer  address  of  the  first instruction=
- of the
->>              sequence of consecutive assembly instructions.
->>=20
->>       post_commit_offset
->>              Offset (from start_ip address) of the  address  after  th=
-e  last
->>              instruction  of  the  sequence  of consecutive assembly i=
-nstruc=E2=80=90
->>              tions.
->>=20
->>       abort_ip
->>              Instruction pointer address where to move the execution f=
-low  in
->>              case  of  abort of the sequence of consecutive assembly i=
-nstruc=E2=80=90
->>              tions.
->>=20
->> NOTES
->>       A single library per process  should  keep  the  rseq  structure=
-  in  a
->>       thread-local  storage variable.  The cpu_id field should be init=
-ialized
->>       to -1, and the cpu_id_start field should be initialized to  a  p=
-ossible
->>       CPU value (typically 0).
->=20
-> The part above is not quite right. All applications/libraries wishing t=
-o
-> register
-> rseq must follow the ABI specified by the C library. It can be defined =
-within
-> more
-> that a single application/library, but in the end only one symbol will =
-be chosen
-> for the process's global symbol table.
->=20
->>=20
->>       Each  thread  is responsible for registering and unregistering i=
-ts rseq
->>       structure.  No more than one rseq structure address can  be  reg=
-istered
->>       per thread at a given time.
->>=20
->>       =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90
->>       =E2=94=82FIXME                                                =E2=
-=94=82
->>       =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=A4
->>       =E2=94=82In  the  following paragraph, what is the difference =E2=
-=94=82
->>       =E2=94=82between "freed" and "reclaim"?  I'm  supposing  they =E2=
-=94=82
->>       =E2=94=82mean the same thing, but it's not clear. And if they =E2=
-=94=82
->>       =E2=94=82do mean the same thing, then the first two sentences =E2=
-=94=82
->>       =E2=94=82appear to contain contradictory information.         =E2=
-=94=82
->>       =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98
->=20
-> The mean the same thing, and they are subtly not contradictory.
->=20
-> The first states that memory of a _registered_ rseq object must not
-> be freed before the thread exits.
->=20
-> The second states that memory of a rseq object must not be freed before
-> it is unregistered or the thread exits.
->=20
-> Do you have an alternative wording in mind to make this clearer ?
->=20
->>=20
->>       Memory  of a registered rseq object must not be freed before the=
- thread
->>       exits.  Reclaim of rseq object's memory must only be done after =
- either
->>       an explicit rseq unregistration is performed or after the thread=
- exits.
->>       Keep in mind that the implementation of  the  Thread-Local  Stor=
-age  (C
->>       language  __thread)  lifetime  does  not guarantee existence of =
-the TLS
->>       area up until the thread exits.
->>=20
->>       In a typical usage scenario, the thread registering the rseq  st=
-ructure
->>       will be performing loads and stores from/to that structure.  It =
-is how=E2=80=90
->>       ever also allowed to read that structure from other threads.  Th=
-e  rseq
->>       field  updates performed by the kernel provide relaxed atomicity=
- seman=E2=80=90
->>       tics, which guarantee that  other  threads  performing  relaxed =
- atomic
->>       reads of the CPU number cache will always observe a consistent v=
-alue.
->>=20
->>       =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90
->>       =E2=94=82FIXME                                                =E2=
-=94=82
->>       =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=A4
->>       =E2=94=82In  the  preceding  paragraph, can we reasonably add =E2=
-=94=82
->>       =E2=94=82some words to explain "relaxed atomicity  semantics" =E2=
-=94=82
->>       =E2=94=82and "relaxed atomic reads"?                          =E2=
-=94=82
->>       =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98
->=20
-> Not sure how to word this exactly, but here it means the stores and loa=
-ds need
-> to be done atomically, but don't require nor provide any ordering guara=
-ntees
-> with respect to other loads/stores (no memory barriers).
->=20
->>=20
->> RETURN VALUE
->>       A  return  value of 0 indicates success.  On error, -1 is return=
-ed, and
->>       errno is set appropriately.
->>=20
->> ERRORS
->>       EBUSY  Restartable sequence is already registered for this threa=
-d.
->>=20
->>       EFAULT rseq is an invalid address.
->>=20
->>       EINVAL Either flags contains an invalid  value,  or  rseq  conta=
-ins  an
->>              address which is not appropriately aligned, or rseq_len c=
-ontains
->>              a size that does not match the size received on registrat=
-ion.
->>=20
->>              =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90
->>              =E2=94=82FIXME                                           =
-     =E2=94=82
->>              =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=A4
->>              =E2=94=82The last case "rseq_len contains a  size  that  =
-does =E2=94=82
->>              =E2=94=82not  match  the  size  received on registration"=
- can =E2=94=82
->>              =E2=94=82occur only on RSEQ_FLAG_UNREGISTER, tight?      =
-     =E2=94=82
->>              =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98
->>=20
->>       ENOSYS The rseq() system call is not implemented by this kernel.
->>=20
->>       EPERM  The sig argument on unregistration does not match the  si=
-gnature
->>              received on registration.
->>=20
->> VERSIONS
->>       The rseq() system call was added in Linux 4.18.
->>=20
->>       =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90
->>       =E2=94=82FIXME                                                =E2=
-=94=82
->>       =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=A4
->>       =E2=94=82What is the current state of library support?        =E2=
-=94=82
->>       =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98
->=20
-> After going through a few RFC rounds, it's been posted as non-rfc a
-> few weeks ago. It is pending review from glibc maintainers. I currently
-> aim for inclusion of the rseq TLS registration by glibc for glibc 2.30:
->=20
-> https://sourceware.org/ml/libc-alpha/2019-02/msg00317.html
-> https://sourceware.org/ml/libc-alpha/2019-02/msg00320.html
-> https://sourceware.org/ml/libc-alpha/2019-02/msg00319.html
-> https://sourceware.org/ml/libc-alpha/2019-02/msg00318.html
-> https://sourceware.org/ml/libc-alpha/2019-02/msg00321.html
->=20
-> Note that the C library will define a user-space ABI which states how
-> applications/libraries wishing to register the rseq TLS need to behave =
-so they
-> are compatible with the C library when it gets updated to a new version
-> providing
-> rseq registration support. It seems like an important point to document=
-,
-> perhaps even here in the rseq(2) man page.
->=20
->=20
->>=20
->> CONFORMING TO
->>       rseq() is Linux-specific.
->>=20
->>       =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90
->>       =E2=94=82FIXME                                                =E2=
-=94=82
->>       =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=A4
->>       =E2=94=82Is  there  any  example  code that can reasonably be =E2=
-=94=82
->>       =E2=94=82included in this manual page? Or some  example  code =E2=
-=94=82
->>       =E2=94=82that can be referred to?                             =E2=
-=94=82
->>       =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98
->>=20
->=20
-> The per-cpu counter example we have here seems compact enough:
->=20
-> https://www.efficios.com/blog/2019/02/08/linux-restartable-sequences/
->=20
-> Thanks,
->=20
-> Mathieu
->=20
->=20
->> SEE ALSO
->>       sched_getcpu(3), membarrier(2)
->>=20
->> --
->> Michael Kerrisk
->> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
->> Linux/UNIX System Programming Training: http://man7.org/training/
->=20
-> --
-> Mathieu Desnoyers
-> EfficiOS Inc.
-> http://www.efficios.com
 
 --=20
 Mathieu Desnoyers
