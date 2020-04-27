@@ -2,239 +2,99 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 52CFC1B98D0
-	for <lists+linux-api@lfdr.de>; Mon, 27 Apr 2020 09:42:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E658A1B9A44
+	for <lists+linux-api@lfdr.de>; Mon, 27 Apr 2020 10:31:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726790AbgD0Hmr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 27 Apr 2020 03:42:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55286 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726770AbgD0Hmq (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 27 Apr 2020 03:42:46 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4AA2C061A41
-        for <linux-api@vger.kernel.org>; Mon, 27 Apr 2020 00:42:45 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id u16so19265384wmc.5
-        for <linux-api@vger.kernel.org>; Mon, 27 Apr 2020 00:42:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=android.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=X5F50p+vZUxpVs6G1Sij0eAs6fVJw9OhKD5dcn7Nhqk=;
-        b=GT76iOHWX38pFtAPcXhMHsG0oXaug+HDpaN2ONpegjBg+3dLkZFpxCr/kfZYDXO8VF
-         GEOToh+uwVDBj22S3PsngayTgpk3D5yHevxw9m7+UqRsbGyYFjCHGTZd7oERXdLMhHwW
-         yCIth/TR3VZMwAtdHoRuOvENcw5jXjN13Fq9xDHFD/HM4Gn3wdNsoNFKFOJdnOy6MTPt
-         pR8pXfQsBiqshnrj1BTgXSVh9Mbd/wyJE4oE6IIs34vOGWERjRKXpEi/Q+YUzvSJpSio
-         65ITJiTs/MZWd7Hx5qtzuA7iPgXhxWEHez0S4VZwsG/JcUkrIc+11UwlTSULIwKDg45W
-         11qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=X5F50p+vZUxpVs6G1Sij0eAs6fVJw9OhKD5dcn7Nhqk=;
-        b=r+4Kx0xeqXDft+BuzH7zliKL5+zuP5Y1eanYdxBS6i+2X7KujAEUXO8qi2r0bBMaYW
-         wDqKW6w4MxP/JDC8ojfFbvhy0GWFN72Njp01FVZjGr8iAccYDztw8yMUdEah4KsehsWZ
-         pzLC3DbiAH0lre/85YP24JMtH0dzienEiJiiHV7zUjp2N4cUCqOb2qDE+85j1z3NJ5iB
-         liOZ9b5Y5AT2/pHGrrQF0qgJQFBHtyorERFtlkgljQV6lxfKYlP/Em/Gmbu8mYmgJ3X6
-         2TLSFxDpRbOUO1AHGHYt/zRJVVibqAQuiSF5Hpa7RWsQkMScTpXmYZfRwl9QeFHJNoJA
-         Hy5Q==
-X-Gm-Message-State: AGi0PublAF81SCpTXB0BprQWPlBjA6aMKX8KsFfksnpCiyQFRwp4TStv
-        cXZiSWHJoaon572GmaazQVLHHg==
-X-Google-Smtp-Source: APiQypLMsONfT/ydInrYnq3ss7muzDFkNCSsJMBb0dPqQNbOekEWl0Ts3hcELQB/bsXzFc92NOIx3w==
-X-Received: by 2002:a1c:4e16:: with SMTP id g22mr23666626wmh.157.1587973364411;
-        Mon, 27 Apr 2020 00:42:44 -0700 (PDT)
-Received: from maco2.ams.corp.google.com (a83-162-234-235.adsl.xs4all.nl. [83.162.234.235])
-        by smtp.gmail.com with ESMTPSA id x132sm15091658wmg.33.2020.04.27.00.42.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2020 00:42:43 -0700 (PDT)
-From:   Martijn Coenen <maco@android.com>
-To:     axboe@kernel.dk, hch@lst.de, ming.lei@redhat.com
-Cc:     narayan@google.com, zezeozue@google.com, kernel-team@android.com,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        maco@google.com, bvanassche@acm.org, Chaitanya.Kulkarni@wdc.com,
-        jaegeuk@kernel.org, Martijn Coenen <maco@android.com>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: [PATCH v3 9/9] loop: Add LOOP_SET_FD_AND_STATUS ioctl
-Date:   Mon, 27 Apr 2020 09:42:22 +0200
-Message-Id: <20200427074222.65369-10-maco@android.com>
-X-Mailer: git-send-email 2.26.2.303.gf8c07b1a785-goog
-In-Reply-To: <20200427074222.65369-1-maco@android.com>
-References: <20200427074222.65369-1-maco@android.com>
+        id S1726700AbgD0IbS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 27 Apr 2020 04:31:18 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:37097 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726003AbgD0IbS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 27 Apr 2020 04:31:18 -0400
+Received: from mail-lj1-f172.google.com ([209.85.208.172]) by
+ mrelayeu.kundenserver.de (mreue011 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1MofLl-1irjgI1R1N-00p50y; Mon, 27 Apr 2020 10:31:15 +0200
+Received: by mail-lj1-f172.google.com with SMTP id u15so16648780ljd.3;
+        Mon, 27 Apr 2020 01:31:15 -0700 (PDT)
+X-Gm-Message-State: AGi0Pub4gB4bImFEreZ0CJ+ic2dvZsupwqTelv3PMwzXMr7hnhDIrHRI
+        Y6R+GqDFIoOypwCRV88g72Vbm+23GYE2J3L3rZU=
+X-Google-Smtp-Source: APiQypKAcnbUUWXlNyg96pM/OC4tHvewG9xXx/yyyNxR4zEsmm5rQr/f7pRTKhnRcwwF9cXmbTUOrFIU0TM+uvDhv/c=
+X-Received: by 2002:a2e:6a08:: with SMTP id f8mr14221730ljc.8.1587976274762;
+ Mon, 27 Apr 2020 01:31:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200426130100.306246-1-hagen@jauu.net> <20200426163430.22743-1-hagen@jauu.net>
+In-Reply-To: <20200426163430.22743-1-hagen@jauu.net>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Mon, 27 Apr 2020 10:30:58 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a1qdyw+5B-E52O42VEWvpq_6jF74__ptM+q6SoKd3pkuA@mail.gmail.com>
+Message-ID: <CAK8P3a1qdyw+5B-E52O42VEWvpq_6jF74__ptM+q6SoKd3pkuA@mail.gmail.com>
+Subject: Re: [RFC v2] ptrace, pidfd: add pidfd_ptrace syscall
+To:     Hagen Paul Pfeifer <hagen@jauu.net>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <christian@brauner.io>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, Brian Gerst <brgerst@gmail.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        David Howells <dhowells@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Arnaldo Carvalho de Melo <acme@redhat.com>,
+        Sargun Dhillon <sargun@sargun.me>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:Ka4Wm7MWpM+RNPW+QnUrj+KN1kAsR6elSC0XDqoA8soDzQb/X2T
+ dc1KNnKCX6vkbXFfCf7GobHBRU/cUMboiRMV9FMH36/GOXLfVHehc+7+/8Q8oPQDvrKa6yZ
+ VQINi3VyZoNwOyNfG8w8SP4ACuniR/EhrwMEYocsMkquHI5A7WOtTbess1zDtq7uDRKWUJQ
+ +ij/uUTavuJaNjTPnVRlQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:jeH6gxgpOBQ=:WSbGomqreVARHjUgq/R0V0
+ bnDjO/HUhOTfQraVzrZRbsDwiKi9NziWBZ0CinMa7Wp6/VVMNrY493GNIthT9TVTAyrnMlvsx
+ 8frDniMbLeXi+3E05XY4LUJOXgholG09R4xgWMT+WgOAYmExIdssUDyn+xAqgFBHQzCvtyspY
+ fLuJaSOHA/bNrYZ9CFiwV1Uf/+k74ynyZVTegwiMBV7ic0RzFJvDnBazzhbxrAypXeOE3N27E
+ QeVKBCWl5HSMrL8lOXdEEvUiGz7tGo1KWzy16dQJUEmOCsvQRx7B9XDcRbeM2kTrWUbLFh1tF
+ /2NiHQvUWml3d9pE2Wh8CTyZnefedZsbcSaYGH+4bOv2e2Z31iJ4rSUElfTUlPkDv7ajdK59C
+ SYL2n/aNeQ/h2AU1J0mYsLM90aCYBDPxuc3TJVTa9GNJ8zvyvBLc8IapHcY6kuK6ne4tz0+bI
+ LUvJhhlDsRFku7HtWBchhfG9TQsUrLk9RQXq6G3vN0xVmeoWndJVzjL3hMa7q4KQkkflt2oDU
+ MUS7KnJV53QjM9XcQQq6Gf/Tph/ob+nfq4rYcvz30JP3H3EPnTD1yQv+X3H4GLGSwhqzNhX2A
+ bZFPvz3nhLNNS3dN4zoJIrKRy3CdPa1PD9l8qLsiGVJ68RnniVj0N9+tp18OyfC7hbZd94VsB
+ xLwRmN6/r7kCHUVS0OyjjabDTazp1whdfmQsWm/Wrg1Uka9zdXd462IUhZeIlIU/G9AtUdOw7
+ 2VHMbilcLqeki9Qu7+VTzGomlwPBT09WPTKE53GHwG6xPksnN88yuxgQJJprVavqbY5eKRA0v
+ sCwoMe/XUmN+P1S7WBLusxB/KXdHjJf0qGCrC+3AHCCf0ntX3Y=
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This allows userspace to completely setup a loop device with a single
-ioctl, removing the in-between state where the device can be partially
-configured - eg the loop device has a backing file associated with it,
-but is reading from the wrong offset.
+>  arch/x86/entry/syscalls/syscall_32.tbl |   1 +
+>  arch/x86/entry/syscalls/syscall_64.tbl |   1 +
+>  include/linux/syscalls.h               |   2 +
+>  include/uapi/asm-generic/unistd.h      |   4 +-
 
-Besides removing the intermediate state, another big benefit of this
-ioctl is that LOOP_SET_STATUS can be slow; the main reason for this
-slowness is that LOOP_SET_STATUS(64) calls blk_mq_freeze_queue() to
-freeze the associated queue; this requires waiting for RCU
-synchronization, which I've measured can take about 15-20ms on this
-device on average.
+When you add a new system call, please add it to all architectures.
+See the patches for the last few additions on how to do it, in
+particular the bit around adding the arm64 compat entry that is
+a bit tricky.
 
-Here's setting up ~70 regular loop devices with an offset on an x86
-Android device, using LOOP_SET_FD and LOOP_SET_STATUS:
+It may be best to split out the patch changing all architectures from
+the one adding the new syscall.
 
-vsoc_x86:/system/apex # time for i in `seq 30 100`;
-do losetup -r -o 4096 /dev/block/loop$i com.android.adbd.apex; done
-    0m03.40s real     0m00.02s user     0m00.03s system
+> +SYSCALL_DEFINE5(pidfd_ptrace, int, pidfd, long, request, unsigned long, addr,
+> +               unsigned long, data, unsigned int, flags)
+> +{
 
-Here's configuring ~70 devices in the same way, but using a modified
-losetup that uses the new LOOP_SET_FD_AND_STATUS ioctl:
+When you add a new variant of ptrace, there also needs to be the
+corresponding COMPAT_SYSCLAL_DEFINE5(...) calling
+compat_ptrace_request().
 
-vsoc_x86:/system/apex # time for i in `seq 30 100`;
-do losetup -r -o 4096 /dev/block/loop$i com.android.adbd.apex; done
-    0m01.94s real     0m00.01s user     0m00.01s system
+If you want, you could unify the native and compat code paths more by
+merging compat_ptrace_request() into ptrace_request() and using
+in_compat_syscall() checks for the ones that are different. This also
+would best be done as a separate cleanup patch upfront.
 
-Signed-off-by: Martijn Coenen <maco@android.com>
----
- drivers/block/loop.c      | 45 +++++++++++++++++++++++++++++----------
- include/uapi/linux/loop.h |  7 ++++++
- 2 files changed, 41 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/block/loop.c b/drivers/block/loop.c
-index 92bbe368ab62..3c9b5d469ded 100644
---- a/drivers/block/loop.c
-+++ b/drivers/block/loop.c
-@@ -1066,8 +1066,9 @@ loop_set_status_from_info(struct loop_device *lo,
- 	return 0;
- }
- 
--static int loop_set_fd(struct loop_device *lo, fmode_t mode,
--		       struct block_device *bdev, unsigned int arg)
-+static int loop_set_fd_and_status(struct loop_device *lo, fmode_t mode,
-+				  struct block_device *bdev,
-+				  const struct loop_fd_and_status *fds)
- {
- 	struct file	*file;
- 	struct inode	*inode;
-@@ -1082,7 +1083,7 @@ static int loop_set_fd(struct loop_device *lo, fmode_t mode,
- 	__module_get(THIS_MODULE);
- 
- 	error = -EBADF;
--	file = fget(arg);
-+	file = fget(fds->fd);
- 	if (!file)
- 		goto out;
- 
-@@ -1091,7 +1092,7 @@ static int loop_set_fd(struct loop_device *lo, fmode_t mode,
- 	 * here to avoid changing device under exclusive owner.
- 	 */
- 	if (!(mode & FMODE_EXCL)) {
--		claimed_bdev = bd_start_claiming(bdev, loop_set_fd);
-+		claimed_bdev = bd_start_claiming(bdev, loop_set_fd_and_status);
- 		if (IS_ERR(claimed_bdev)) {
- 			error = PTR_ERR(claimed_bdev);
- 			goto out_putf;
-@@ -1121,6 +1122,11 @@ static int loop_set_fd(struct loop_device *lo, fmode_t mode,
- 	error = loop_validate_size(size);
- 	if (error)
- 		goto out_unlock;
-+
-+	error = loop_set_status_from_info(lo, &fds->info);
-+	if (error)
-+		goto out_unlock;
-+
- 	error = loop_prepare_queue(lo);
- 	if (error)
- 		goto out_unlock;
-@@ -1133,9 +1139,6 @@ static int loop_set_fd(struct loop_device *lo, fmode_t mode,
- 	lo->lo_device = bdev;
- 	lo->lo_flags = lo_flags;
- 	lo->lo_backing_file = file;
--	lo->transfer = NULL;
--	lo->ioctl = NULL;
--	lo->lo_sizelimit = 0;
- 	lo->old_gfp_mask = mapping_gfp_mask(mapping);
- 	mapping_set_gfp_mask(mapping, lo->old_gfp_mask & ~(__GFP_IO|__GFP_FS));
- 
-@@ -1173,14 +1176,14 @@ static int loop_set_fd(struct loop_device *lo, fmode_t mode,
- 	if (partscan)
- 		loop_reread_partitions(lo, bdev);
- 	if (claimed_bdev)
--		bd_abort_claiming(bdev, claimed_bdev, loop_set_fd);
-+		bd_abort_claiming(bdev, claimed_bdev, loop_set_fd_and_status);
- 	return 0;
- 
- out_unlock:
- 	mutex_unlock(&loop_ctl_mutex);
- out_bdev:
- 	if (claimed_bdev)
--		bd_abort_claiming(bdev, claimed_bdev, loop_set_fd);
-+		bd_abort_claiming(bdev, claimed_bdev, loop_set_fd_and_status);
- out_putf:
- 	fput(file);
- out:
-@@ -1664,8 +1667,27 @@ static int lo_ioctl(struct block_device *bdev, fmode_t mode,
- 	int err;
- 
- 	switch (cmd) {
--	case LOOP_SET_FD:
--		return loop_set_fd(lo, mode, bdev, arg);
-+	case LOOP_SET_FD: {
-+		/*
-+		 * Legacy case - pass in a struct loop_fd_and_status with
-+		 * a zeroed out loop_info64, which corresponds with the default
-+		 * parameters we'd have used otherwise.
-+		 */
-+		struct loop_fd_and_status fds;
-+
-+		memset(&fds, 0, sizeof(fds));
-+		fds.fd = arg;
-+
-+		return loop_set_fd_and_status(lo, mode, bdev, &fds);
-+	}
-+	case LOOP_SET_FD_AND_STATUS: {
-+		struct loop_fd_and_status fds;
-+
-+		if (copy_from_user(&fds, argp, sizeof(fds)))
-+			return -EFAULT;
-+
-+		return loop_set_fd_and_status(lo, mode, bdev, &fds);
-+	}
- 	case LOOP_CHANGE_FD:
- 		return loop_change_fd(lo, bdev, arg);
- 	case LOOP_CLR_FD:
-@@ -1837,6 +1859,7 @@ static int lo_compat_ioctl(struct block_device *bdev, fmode_t mode,
- 	case LOOP_CLR_FD:
- 	case LOOP_GET_STATUS64:
- 	case LOOP_SET_STATUS64:
-+	case LOOP_SET_FD_AND_STATUS:
- 		arg = (unsigned long) compat_ptr(arg);
- 		/* fall through */
- 	case LOOP_SET_FD:
-diff --git a/include/uapi/linux/loop.h b/include/uapi/linux/loop.h
-index 080a8df134ef..05ab625c40db 100644
---- a/include/uapi/linux/loop.h
-+++ b/include/uapi/linux/loop.h
-@@ -60,6 +60,12 @@ struct loop_info64 {
- 	__u64		   lo_init[2];
- };
- 
-+struct loop_fd_and_status {
-+	struct loop_info64	info;
-+	__u32			fd;
-+	__u32			__pad;
-+};
-+
- /*
-  * Loop filter types
-  */
-@@ -90,6 +96,7 @@ struct loop_info64 {
- #define LOOP_SET_CAPACITY	0x4C07
- #define LOOP_SET_DIRECT_IO	0x4C08
- #define LOOP_SET_BLOCK_SIZE	0x4C09
-+#define LOOP_SET_FD_AND_STATUS	0x4C0A
- 
- /* /dev/loop-control interface */
- #define LOOP_CTL_ADD		0x4C80
--- 
-2.26.2.303.gf8c07b1a785-goog
-
+      Arnd
