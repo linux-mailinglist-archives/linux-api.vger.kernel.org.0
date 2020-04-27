@@ -2,79 +2,114 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DC6D1BACF2
-	for <lists+linux-api@lfdr.de>; Mon, 27 Apr 2020 20:39:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D2731BAD62
+	for <lists+linux-api@lfdr.de>; Mon, 27 Apr 2020 20:59:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726561AbgD0Sje (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 27 Apr 2020 14:39:34 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:40311 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725995AbgD0Sje (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 27 Apr 2020 14:39:34 -0400
-Received: by mail-pg1-f193.google.com with SMTP id n16so9061515pgb.7;
-        Mon, 27 Apr 2020 11:39:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=e5/BJgBb9+BnsnGu4qvm1p5Drnqy7riS6RgVNSCSYu8=;
-        b=ecACkwbBu7S6yt2GI6z3Z95ioyBt1HGF/EwEVQqYKhUNjMo3tM2QenL0Wv7nlMlu6a
-         A6Cj1k8c5t42mbXCrKs47OyYQLk21U7fkeBnuoHUla9KkM3nVtApMtVSIyYtpHSVPWqK
-         Z7QlR2NQjCI+WeX3yFUKdDZDjFuZIqQ4RaUWe971/wde0O/r2N9ZRMOFq/H97L7qXnVc
-         IiLhdrsBXR9vYl0ycLymWZmDivbEGi2uZufeuxxKOIIZx4w1bkzJku/p6m8xrRQnH2+A
-         uvWCVSB8NUAqNctgM/lY0MUAKLTmejzCfvy5GwnY4fAebM7eNsTfpQeXjyv5+iZ0527S
-         qyvA==
-X-Gm-Message-State: AGi0Pua3DaU35oTub+DFWBzVQCoi/YAHuSNQBOxCFxxJj+EI8JuCAzDb
-        f+OUDGmbiSRfmuoioVgE9B8=
-X-Google-Smtp-Source: APiQypIu2WcZsYqOoI4gNIEcf3o9s3itN8+KJR+9FBk6FHmBMIhT4HV/y3uHuuCMQtd8Jobsnw2Dsg==
-X-Received: by 2002:a63:1414:: with SMTP id u20mr6946591pgl.47.1588012773236;
-        Mon, 27 Apr 2020 11:39:33 -0700 (PDT)
-Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
-        by smtp.gmail.com with ESMTPSA id m3sm14400pjs.17.2020.04.27.11.39.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2020 11:39:31 -0700 (PDT)
-Received: by 42.do-not-panic.com (Postfix, from userid 1000)
-        id 27F5E403AB; Mon, 27 Apr 2020 18:39:31 +0000 (UTC)
-Date:   Mon, 27 Apr 2020 18:39:31 +0000
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Vlastimil Babka <vbabka@suse.cz>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        "Guilherme G . Piccoli" <gpiccoli@canonical.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        id S1726420AbgD0S7m (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 27 Apr 2020 14:59:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48514 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726260AbgD0S7m (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 27 Apr 2020 14:59:42 -0400
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [IPv6:2001:67c:2050::465:202])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1790DC0610D5;
+        Mon, 27 Apr 2020 11:59:42 -0700 (PDT)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:105:465:1:2:0])
+        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
+        (No client certificate requested)
+        by mout-p-202.mailbox.org (Postfix) with ESMTPS id 499vGK29VXzQlH3;
+        Mon, 27 Apr 2020 20:59:37 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from smtp2.mailbox.org ([80.241.60.241])
+        by spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de [80.241.56.122]) (amavisd-new, port 10030)
+        with ESMTP id q-xPfyQwqZzM; Mon, 27 Apr 2020 20:59:33 +0200 (CEST)
+Date:   Mon, 27 Apr 2020 20:59:29 +0200
+From:   Hagen Paul Pfeifer <hagen@jauu.net>
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     Jann Horn <jannh@google.com>,
         Christian Brauner <christian.brauner@ubuntu.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>
-Subject: Re: [PATCH v3 4/5] tools/testing/selftests/sysctl/sysctl.sh: support
- CONFIG_TEST_SYSCTL=y
-Message-ID: <20200427183931.GI11244@42.do-not-panic.com>
-References: <20200427180433.7029-1-vbabka@suse.cz>
- <20200427180433.7029-5-vbabka@suse.cz>
+        kernel list <linux-kernel@vger.kernel.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <christian@brauner.io>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>,
+        Brian Gerst <brgerst@gmail.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        David Howells <dhowells@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@redhat.com>,
+        Sargun Dhillon <sargun@sargun.me>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [RFC v2] ptrace, pidfd: add pidfd_ptrace syscall
+Message-ID: <20200427185929.GA1768@laniakea>
+References: <20200426130100.306246-1-hagen@jauu.net>
+ <20200426163430.22743-1-hagen@jauu.net>
+ <20200427170826.mdklazcrn4xaeafm@wittgenstein>
+ <CAG48ez0hskhN7OkxwHX-Bo5HGboJaVEk8udFukkTgiC=43ixcw@mail.gmail.com>
+ <87zhawdc6w.fsf@x220.int.ebiederm.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200427180433.7029-5-vbabka@suse.cz>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <87zhawdc6w.fsf@x220.int.ebiederm.org>
+X-Key-Id: 98350C22
+X-Key-Fingerprint: 490F 557B 6C48 6D7E 5706 2EA2 4A22 8D45 9835 0C22
+X-GPG-Key: gpg --recv-keys --keyserver wwwkeys.eu.pgp.net 98350C22
+X-Rspamd-Queue-Id: A09E7176C
+X-Rspamd-Score: 0.58 / 15.00 / 15.00
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Apr 27, 2020 at 08:04:32PM +0200, Vlastimil Babka wrote:
-> The testing script recommends CONFIG_TEST_SYSCTL=y, but actually only works
-> with CONFIG_TEST_SYSCTL=m. Testing of sysctl setting via boot param however
-> requires the test to be built-in, so make sure the test script supports it.
-> 
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+* Eric W. Biederman | 2020-04-27 13:18:47 [-0500]:
 
-Acked-by: Luis Chamberlain <mcgrof@kernel.org>
+>I am conflicted about that but I have to agree.    Instead of
+>duplicating everything it would be good enough to duplicate the once
+>that cause the process to be attached to use.  Then there would be no
+>more pid races to worry about.
 
-  Luis
+>How does this differ using the tracing related infrastructure we have
+>for the kernel on a userspace process?  I suspect augmenting the tracing
+>infrastructure with the ability to set breakpoints and watchpoints (aka
+>stopping userspace threads and processes might be a more fertile
+>direction to go).
+>
+>But I agree either we want to just address the races in PTRACE_ATTACH
+>and PTRACE_SIEZE or we want to take a good hard look at things.
+>
+>There is a good case for minimal changes because one of the cases that
+>comes up is how much work will it take to change existing programs.  But
+>ultimately ptrace pretty much sucks so a very good set of test cases and
+>documentation for what we want to implement would be a very good idea.
+
+Hey Eric, Jann, Christian, Arnd,
+
+thank you for your valuable input! IMHO I think we have exactly two choices
+here:
+
+a) we go with my patchset that is 100% ptrace feature compatible - except the
+   pidfd thing - now and in the future. If ptrace is extended pidfd_ptrace is
+   automatically extended and vice versa. Both APIs are feature identical
+   without any headaches.
+b) leave ptrace completely behind us and design ptrace that we have always
+   dreamed of! eBPF filters, ftrace kernel architecture, k/uprobe goodness,
+   a speedy API to copy & modify large chunks of data, io_uring/epoll support
+   and of course: pidfd based (missed likely thousands of other dreams)
+	
+I think a solution in between is not worth the effort! It will not be
+compatible in any way for the userspace and the benefit will be negligible.
+Ptrace is horrible API - everybody knows that but developers get comfy with
+it. You find examples everywhere, why should we make it harder for the user for
+no or little benefit (except that stable handle with pidfd and some cleanups)?
+
+Any thoughts on this?
+
+Hagen
+
