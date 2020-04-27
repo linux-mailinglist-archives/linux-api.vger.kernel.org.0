@@ -2,114 +2,138 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D2731BAD62
-	for <lists+linux-api@lfdr.de>; Mon, 27 Apr 2020 20:59:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 166951BAE28
+	for <lists+linux-api@lfdr.de>; Mon, 27 Apr 2020 21:41:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726420AbgD0S7m (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 27 Apr 2020 14:59:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48514 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726260AbgD0S7m (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 27 Apr 2020 14:59:42 -0400
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [IPv6:2001:67c:2050::465:202])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1790DC0610D5;
-        Mon, 27 Apr 2020 11:59:42 -0700 (PDT)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:105:465:1:2:0])
-        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
-        (No client certificate requested)
-        by mout-p-202.mailbox.org (Postfix) with ESMTPS id 499vGK29VXzQlH3;
-        Mon, 27 Apr 2020 20:59:37 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp2.mailbox.org ([80.241.60.241])
-        by spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de [80.241.56.122]) (amavisd-new, port 10030)
-        with ESMTP id q-xPfyQwqZzM; Mon, 27 Apr 2020 20:59:33 +0200 (CEST)
-Date:   Mon, 27 Apr 2020 20:59:29 +0200
-From:   Hagen Paul Pfeifer <hagen@jauu.net>
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Jann Horn <jannh@google.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        Florian Weimer <fweimer@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian@brauner.io>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>,
-        Brian Gerst <brgerst@gmail.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        David Howells <dhowells@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@redhat.com>,
-        Sargun Dhillon <sargun@sargun.me>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [RFC v2] ptrace, pidfd: add pidfd_ptrace syscall
-Message-ID: <20200427185929.GA1768@laniakea>
-References: <20200426130100.306246-1-hagen@jauu.net>
- <20200426163430.22743-1-hagen@jauu.net>
- <20200427170826.mdklazcrn4xaeafm@wittgenstein>
- <CAG48ez0hskhN7OkxwHX-Bo5HGboJaVEk8udFukkTgiC=43ixcw@mail.gmail.com>
- <87zhawdc6w.fsf@x220.int.ebiederm.org>
+        id S1725919AbgD0Tlt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 27 Apr 2020 15:41:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55296 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726371AbgD0Tls (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 27 Apr 2020 15:41:48 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85971C03C1A7
+        for <linux-api@vger.kernel.org>; Mon, 27 Apr 2020 12:41:48 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id g4so18942065ljl.2
+        for <linux-api@vger.kernel.org>; Mon, 27 Apr 2020 12:41:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Xl34K+WyxLr+OBvYQN0aKmiQr358TgE2J+a3gDDkuqM=;
+        b=MF42SY0yJDHJdeoyY2Bjwc+L+5Rr7RvBuYk1vaEDqwpzTy0Ar8l+AbQfdBq1oayuyv
+         SJXbUSShjHhaEBMZLwdk+OxRBeDjhp1VRKMog083j5glNgfGCc+7I5FgZ6vPiIIHhGWh
+         sF7V0Ruklt+nNaNQX+JILLGfdp6vZWflEQ6iV76Id0K1rDOJArWBcMfpAUBaBLoVsXVb
+         ypw+plAYtlWVCBp2m7iOCt6tepzBEZbd2OKkM4g8zh2qfOKC//uFor3uGBjViUMwr4CN
+         VzVmewGExwi+4HTaPdyE/SZ/V0ozK5wjvdksx5p7yrkQWK1+DILp1h1GhuPi1M7VJjv0
+         YM8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Xl34K+WyxLr+OBvYQN0aKmiQr358TgE2J+a3gDDkuqM=;
+        b=o47Txv8Iq3ybcpcJQNQ8HxncgBKdJF3GFxiirrwNx2ck6+dX9x5LcmrEdfjF2+mmwS
+         RCF8Bt7LTg/GY5uAgX9tCzee+6VYLpeH/rDme6r6NWXVYz940QUAleZuO5X7JYQRe9kK
+         JSzBziMW95hHt9T8gJN2YO/Pr55Y2ta09g1796zF/MJtx/6dzkyB+qt9sMCg9MbPIwtW
+         F4eDqTskE1w1FXI9BnAqWhSHN2q6X7J6uPN5fCOjHyCcLqEIP9XfDD1+TxQ4lzhGxvz5
+         oFeagwyfiw2THmdrrYL0sRpeOAPb/32VATbk3IbHZHZMqOUKY2SdEQoARdynAQX1hnKq
+         Gkig==
+X-Gm-Message-State: AGi0PuYBcQRyj7bKJ5apqlql30kvxkiAq6FOA1ScgsXgF9mNmHsDQugz
+        +LtSEDsu0c4Quxnsji1y4yAwH+vzHYClHYB1riRsfw==
+X-Google-Smtp-Source: APiQypJB2kkCHuH47L8Yqrr/alg5ajajOgnK9X0cKKMKzoNexUMBYbSy7qjFlCoaorsBN9I9MYaWgib532GjcJ9d3i8=
+X-Received: by 2002:a2e:760c:: with SMTP id r12mr14755084ljc.139.1588016506746;
+ Mon, 27 Apr 2020 12:41:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87zhawdc6w.fsf@x220.int.ebiederm.org>
-X-Key-Id: 98350C22
-X-Key-Fingerprint: 490F 557B 6C48 6D7E 5706 2EA2 4A22 8D45 9835 0C22
-X-GPG-Key: gpg --recv-keys --keyserver wwwkeys.eu.pgp.net 98350C22
-X-Rspamd-Queue-Id: A09E7176C
-X-Rspamd-Score: 0.58 / 15.00 / 15.00
+References: <20200427143646.619227-1-christian.brauner@ubuntu.com>
+ <CAG48ez3eSJSODADpo=O-j9txJ=2R+EupunRvs5H9t5Wa8mvkRA@mail.gmail.com> <20200427181507.ry3hw7ufiifwhi5k@wittgenstein>
+In-Reply-To: <20200427181507.ry3hw7ufiifwhi5k@wittgenstein>
+From:   Jann Horn <jannh@google.com>
+Date:   Mon, 27 Apr 2020 21:41:20 +0200
+Message-ID: <CAG48ez2D36QZU0djiXGbirCgcFeAWA02s8PCk6SWEY5MoKg_kg@mail.gmail.com>
+Subject: Re: [PATCH] nsproxy: attach to namespaces via pidfds
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     kernel list <linux-kernel@vger.kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        =?UTF-8?Q?St=C3=A9phane_Graber?= <stgraber@ubuntu.com>,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Serge Hallyn <serge@hallyn.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Eric W. Biederman | 2020-04-27 13:18:47 [-0500]:
-
->I am conflicted about that but I have to agree.    Instead of
->duplicating everything it would be good enough to duplicate the once
->that cause the process to be attached to use.  Then there would be no
->more pid races to worry about.
-
->How does this differ using the tracing related infrastructure we have
->for the kernel on a userspace process?  I suspect augmenting the tracing
->infrastructure with the ability to set breakpoints and watchpoints (aka
->stopping userspace threads and processes might be a more fertile
->direction to go).
+On Mon, Apr 27, 2020 at 8:15 PM Christian Brauner
+<christian.brauner@ubuntu.com> wrote:
+> On Mon, Apr 27, 2020 at 07:28:56PM +0200, Jann Horn wrote:
+> > On Mon, Apr 27, 2020 at 4:47 PM Christian Brauner
+> > <christian.brauner@ubuntu.com> wrote:
+[...]
+> > > That means
+> > > setns(nsfd, CLONE_NEWNET) equals setns(pidfd, CLONE_NEWNET). However,
+> > > when a pidfd is passed, multiple namespace flags can be specified in the
+> > > second setns() argument and setns() will attach the caller to all the
+> > > specified namespaces all at once or to none of them. If 0 is specified
+> > > together with a pidfd then setns() will interpret it the same way 0 is
+> > > interpreted together with a nsfd argument, i.e. attach to any/all
+> > > namespaces.
+> > [...]
+> > > Apart from significiantly reducing the number of syscalls from double
+> > > digit to single digit which is a decent reason post-spectre/meltdown
+> > > this also allows to switch to a set of namespaces atomically, i.e.
+> > > either attaching to all the specified namespaces succeeds or we fail.
+> >
+> > Apart from the issues I've pointed out below, I think it's worth
+> > calling out explicitly that with the current design, the switch will
+> > not, in fact, be fully atomic - the process will temporarily be in
+> > intermediate stages where the switches to some namespaces have
+> > completed while the switches to other namespaces are still pending;
+> > and while there will be less of these intermediate stages than before,
+> > it also means that they will be less explicit to userspace.
 >
->But I agree either we want to just address the races in PTRACE_ATTACH
->and PTRACE_SIEZE or we want to take a good hard look at things.
+> Right, that can be fixed by switching to the unshare model of getting a
+> new set of credentials and committing it after the nsproxy has been
+> installed? Then there shouldn't be an intermediate state anymore or
+> rather an intermediate stage where we can still fail somehow.
+
+It still wouldn't be atomic (in the sense of parallelism, not in the
+sense of intermediate error handling) though; for example, if task B
+does setns(<pidfd_of_task_a>, 0) and task C concurrently does
+setns(<pidfd_of_task_b>, 0), then task C may end up with the new mount
+namespace of task B but the old user namespace, or something like
+that. If C is more privileged than B, that may cause C to have more
+privileges through its configuration of namespaces than B does (e.g.
+by running in the &init_user_ns but with a mount namespace owned by an
+unprivileged user), which C may not expect. Same thing for racing
+between unshare() and setns().
+
+[...]
+> > > +               put_user_ns(user_ns);
+> > > +       }
+> > > +#else
+> > > +       if (flags & CLONE_NEWUSER)
+> > > +               ret = -EINVAL;
+> > > +#endif
+> > > +
+> > > +       if (!ret && wants_ns(flags, CLONE_NEWNS))
+> > > +               ret = __ns_install(nsproxy, mnt_ns_to_common(nsp->mnt_ns));
+> >
+> > And this one might be even worse, because the mount namespace change
+> > itself is only stored in the nsproxy at this point, but the cwd and
+> > root paths have already been overwritten on the task's fs_struct.
+> >
+> > To actually make sys_set_ns() atomic, I think you'd need some
+> > moderately complicated prep work, splitting the ->install handlers up
+> > into prep work and a commit phase that can't fail.
 >
->There is a good case for minimal changes because one of the cases that
->comes up is how much work will it take to change existing programs.  But
->ultimately ptrace pretty much sucks so a very good set of test cases and
->documentation for what we want to implement would be a very good idea.
+> Wouldn't it be sufficient to move to an unshare like model, i.e.
+> creating a new set of creds, and passing the new user_ns to
+> create_new_namespaces() as well as having a temporary new_fs struct?
+> That should get rid of all intermediate stages.
 
-Hey Eric, Jann, Christian, Arnd,
-
-thank you for your valuable input! IMHO I think we have exactly two choices
-here:
-
-a) we go with my patchset that is 100% ptrace feature compatible - except the
-   pidfd thing - now and in the future. If ptrace is extended pidfd_ptrace is
-   automatically extended and vice versa. Both APIs are feature identical
-   without any headaches.
-b) leave ptrace completely behind us and design ptrace that we have always
-   dreamed of! eBPF filters, ftrace kernel architecture, k/uprobe goodness,
-   a speedy API to copy & modify large chunks of data, io_uring/epoll support
-   and of course: pidfd based (missed likely thousands of other dreams)
-	
-I think a solution in between is not worth the effort! It will not be
-compatible in any way for the userspace and the benefit will be negligible.
-Ptrace is horrible API - everybody knows that but developers get comfy with
-it. You find examples everywhere, why should we make it harder for the user for
-no or little benefit (except that stable handle with pidfd and some cleanups)?
-
-Any thoughts on this?
-
-Hagen
-
+Ah, good point, I didn't realize that that already exists for unshare().
