@@ -2,132 +2,107 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D6B21BABB6
-	for <lists+linux-api@lfdr.de>; Mon, 27 Apr 2020 19:53:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85A291BABEF
+	for <lists+linux-api@lfdr.de>; Mon, 27 Apr 2020 20:05:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726315AbgD0RxP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 27 Apr 2020 13:53:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37932 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726244AbgD0RxO (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 27 Apr 2020 13:53:14 -0400
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12C14C03C1A7
-        for <linux-api@vger.kernel.org>; Mon, 27 Apr 2020 10:53:14 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id l11so14605847lfc.5
-        for <linux-api@vger.kernel.org>; Mon, 27 Apr 2020 10:53:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QgX2UlkPShntWDyuJpzvmZjjIQUfcagM19kKDn9F6wE=;
-        b=Dz0+iV/t1KqOhDyK8EACleXuaC/vjXfE1GO0GBbVnqrRsUa80DP/dAv2adRGhBR6lk
-         Gtfme/Ltdzg9pa5fyKx56wosVSu05n/9fhuacV+55wUjiAG2q8Zh57oWm7m+MfyhTiik
-         R5drk7ygprRSpnuoep7YKEZq+P/7K9unwsYjSlignb2OiZ1mCdV63zXO1+Ky4rew12qM
-         ldAk+8skqB2yaciEVy8GPzlkDPk9+SkvOKeWdPa50NWvYa6M8Mv4RdRRXedkT5JIpXz3
-         TRC3ISyczWILl/Mtw3LbLzelmcVBzcGRm8NhXEKkWv2gCdJ2Phv9wFYqYPJak4AwmMeZ
-         5EiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QgX2UlkPShntWDyuJpzvmZjjIQUfcagM19kKDn9F6wE=;
-        b=UtrXpmxwtnoMCpFQ2oau9CQlW2etWOneErmDQ8hcSo8ugQumTZ/owKBsuOKq4xBCse
-         CglZmoJykSByjfCyBBpp9tm/yXtKN7SI4VRSoccTws+Q5dVznE54oMZ1rvO9w/OvhUVt
-         1Icw8v28roHnev6r55oiwRvvOWj1IK/qfGnOEY/Wse1qiD7cZa9NSgNwWWaM01ARB06P
-         4u7NZEcaplG69iGrOuShubblzojiw+BjfjTTFiUAv2ljYeeGHArz4EB834chRB+10SAc
-         hIh4KgAhlgDV8Bb9Ez4tCSZ45/CVlCBabwZ1quubF6JZAD6AkwiQdulI404LYNsm+9mb
-         1jRQ==
-X-Gm-Message-State: AGi0PuYbxYvEPF6bZVjCdko8I3hpf1KZAYUn/fQCfuvXTbCL5OiKzDS0
-        Sltp6Gd6cyQejQo9dmQ+uTnCSl4laQpKhKF/+q9C5A==
-X-Google-Smtp-Source: APiQypKmlFS6Yiqo7t2bGATAHiA4jtK+nP4Z7/Fx2bh1xXVwJTRIFDU0jHlSb/WgU3IObNltcAQnVHhF27BtJ/SezkQ=
-X-Received: by 2002:a19:e04a:: with SMTP id g10mr16042699lfj.164.1588009992307;
- Mon, 27 Apr 2020 10:53:12 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200426130100.306246-1-hagen@jauu.net> <20200426163430.22743-1-hagen@jauu.net>
- <20200427170826.mdklazcrn4xaeafm@wittgenstein>
-In-Reply-To: <20200427170826.mdklazcrn4xaeafm@wittgenstein>
-From:   Jann Horn <jannh@google.com>
-Date:   Mon, 27 Apr 2020 19:52:45 +0200
-Message-ID: <CAG48ez0hskhN7OkxwHX-Bo5HGboJaVEk8udFukkTgiC=43ixcw@mail.gmail.com>
-Subject: Re: [RFC v2] ptrace, pidfd: add pidfd_ptrace syscall
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Hagen Paul Pfeifer <hagen@jauu.net>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        Florian Weimer <fweimer@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian@brauner.io>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>,
-        Brian Gerst <brgerst@gmail.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        David Howells <dhowells@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Oleg Nesterov <oleg@redhat.com>,
+        id S1726230AbgD0SEw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 27 Apr 2020 14:04:52 -0400
+Received: from mx2.suse.de ([195.135.220.15]:54612 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726306AbgD0SEv (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 27 Apr 2020 14:04:51 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id EDA14ACC4;
+        Mon, 27 Apr 2020 18:04:47 +0000 (UTC)
+From:   Vlastimil Babka <vbabka@suse.cz>
+To:     Andrew Morton <akpm@linux-foundation.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>
+Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-mm@kvack.org, Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
         "Eric W . Biederman" <ebiederm@xmission.com>,
-        Arnaldo Carvalho de Melo <acme@redhat.com>,
-        Sargun Dhillon <sargun@sargun.me>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        "Guilherme G . Piccoli" <gpiccoli@canonical.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>
+Subject: [PATCH v3 0/5] support setting sysctl parameters from kernel command line
+Date:   Mon, 27 Apr 2020 20:04:28 +0200
+Message-Id: <20200427180433.7029-1-vbabka@suse.cz>
+X-Mailer: git-send-email 2.26.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Apr 27, 2020 at 7:08 PM Christian Brauner
-<christian.brauner@ubuntu.com> wrote:
-> On Sun, Apr 26, 2020 at 06:34:30PM +0200, Hagen Paul Pfeifer wrote:
-> > Working on a safety-critical stress testing tool, using ptrace in an
-> > rather uncommon way (stop, peeking memory, ...) for a bunch of
-> > applications in an automated way I realized that once opened processes
-> > where restarted and PIDs recycled.  Resulting in monitoring and
-> > manipulating the wrong processes.
-> >
-> > With the advent of pidfd we are now able to stick with one stable handle
-> > to identifying processes exactly. We now have the ability to get this
-> > race free. Sending signals now works like a charm, next step is to
-> > extend the functionality also for ptrace.
-> >
-> > API:
-> >          long pidfd_ptrace(int pidfd, enum __ptrace_request request,
-> >                            void *addr, void *data, unsigned flags);
->
-> I'm in general not opposed to this if there's a clear need for this and
-> users that are interested. But I think if people really prefer having
-> this a new syscall then we should probably try to improve on the old
-> one. Things that come to mind right away without doing a deep review are
-> replacing the void *addr pointer with a dedicated struct ptract_args or
-> union ptrace_args and a size argument. If we're not doing something
-> like this or something more fundamental we can equally well either just
-> duplicate all enums in the old ptrace syscall and append a _PIDFD to it
-> where it makes sense.
+This series adds support for something that seems like many people always
+wanted but nobody added it yet, so here's the ability to set sysctl parameters
+via kernel command line options in the form of sysctl.vm.something=1
 
-Yeah, it seems like just adding pidfd flavors of PTRACE_ATTACH and
-PTRACE_SEIZE should do the job.
+The important part is Patch 1. The second, not so important part is an attempt
+to clean up legacy one-off parameters that do the same thing as a sysctl.
+I don't want to remove them completely for compatibility reasons, but with
+generic sysctl support the idea is to remove the one-off param handlers and
+treat the parameters as aliases for the sysctl variants.
 
+I have identified several parameters that mention sysctl counterparts in
+Documentation/admin-guide/kernel-parameters.txt but there might be more. The
+conversion also has varying level of success:
 
-And if we do make a new syscall, there is a bunch of de-crufting that
-can be done... for example, just as some low-hanging fruit, a new
-ptrace API probably shouldn't have
-PTRACE_PEEKTEXT/PTRACE_PEEKDATA/PTRACE_POKETEXT/PTRACE_POKEDATA (we
-have /proc/$pid/mem for that, which is much saner than doing peek/poke
-in word-size units), and probably also shouldn't support all the weird
-arch-specific register-accessing requests (e.g.
-PTRACE_PEEKUSR/PTRACE_POKEUSR/PTRACE_GETREGS/PTRACE_SETREGS/PTRACE_GETFPREGS/...)
-that are nowadays accessible via PTRACE_GETREGSET/PTRACE_SETREGSET.
+- numa_zonelist_order is converted in Patch 2 together with adding the
+  necessary infrastructure. It's easy as it doesn't really do anything but warn
+  on deprecated value these days.
+- hung_task_panic is converted in Patch 3, but there's a downside that now it
+  only accepts 0 and 1, while previously it was any integer value
+- nmi_watchdog maps to two sysctls nmi_watchdog and hardlockup_panic, so
+  there's no straighforward conversion possible
+- traceoff_on_warning is a flag without value and it would be required to
+  handle that somehow in the conversion infractructure, which seems pointless
+  for a single flag
 
-(And there are also some more major changes that I think would be
-sensible; for example, it'd be neat if you could have notifications
-about the tracee delivered through a pollable file descriptor, and if
-you could get the kernel to tell you in each notification which type
-of ptrace stop you're dealing with (e.g. distinguishing
-syscall-entry-stop vs syscall-exit-stop), and it would be great to be
-able to directly inject syscalls into the child instead of having to
-figure out where a syscall instruction you can abuse is and then
-setting the instruction pointer to that, and it'd be helpful to be
-able to have multiple tracers attached to a single process so that you
-can e.g. have strace and gdb active on the same process
-concurrently...)
+Vlastimil Babka (3):
+  kernel/sysctl: support setting sysctl parameters from kernel command
+    line
+  kernel/sysctl: support handling command line aliases
+  kernel/hung_task convert hung_task_panic boot parameter to sysctl
+
+Changes since v2:
+- rebase to 5.7-rc3
+- add acks
+- add a testcase to tools/testing/selftests/sysctl/sysctl.sh - this adds a new
+  sysctl parameter ../boot_int in lib/test_sysctl and expects the tester to
+  pass the respective boot parameter in any feasible way (including bootconfig)
+  the testcase checks /proc/cmdline to distinguish real failure from the lack of
+  parameter. That allows us to test this without introducing further new
+  functionality (patches 4+5).
+
+Vlastimil Babka (5):
+  kernel/sysctl: support setting sysctl parameters from kernel command
+    line
+  kernel/sysctl: support handling command line aliases
+  kernel/hung_task convert hung_task_panic boot parameter to sysctl
+  tools/testing/selftests/sysctl/sysctl.sh: support CONFIG_TEST_SYSCTL=y
+  lib/test_sysctl: support testing of sysctl. boot parameter
+
+ .../admin-guide/kernel-parameters.txt         |  11 +-
+ fs/proc/proc_sysctl.c                         | 142 ++++++++++++++++++
+ include/linux/sysctl.h                        |   4 +
+ init/main.c                                   |   2 +
+ kernel/hung_task.c                            |  10 --
+ lib/test_sysctl.c                             |  13 ++
+ mm/page_alloc.c                               |   9 --
+ tools/testing/selftests/sysctl/sysctl.sh      |  42 +++++-
+ 8 files changed, 210 insertions(+), 23 deletions(-)
+
+-- 
+2.26.0
+
