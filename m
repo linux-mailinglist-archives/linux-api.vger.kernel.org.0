@@ -2,18 +2,18 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 85A291BABEF
-	for <lists+linux-api@lfdr.de>; Mon, 27 Apr 2020 20:05:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D7A941BABF2
+	for <lists+linux-api@lfdr.de>; Mon, 27 Apr 2020 20:05:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726230AbgD0SEw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 27 Apr 2020 14:04:52 -0400
-Received: from mx2.suse.de ([195.135.220.15]:54612 "EHLO mx2.suse.de"
+        id S1726522AbgD0SE7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 27 Apr 2020 14:04:59 -0400
+Received: from mx2.suse.de ([195.135.220.15]:54660 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726306AbgD0SEv (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 27 Apr 2020 14:04:51 -0400
+        id S1726384AbgD0SEw (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 27 Apr 2020 14:04:52 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id EDA14ACC4;
+        by mx2.suse.de (Postfix) with ESMTP id EAC1AABE2;
         Mon, 27 Apr 2020 18:04:47 +0000 (UTC)
 From:   Vlastimil Babka <vbabka@suse.cz>
 To:     Andrew Morton <akpm@linux-foundation.org>,
@@ -32,11 +32,14 @@ Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Christian Brauner <christian.brauner@ubuntu.com>,
         Masami Hiramatsu <mhiramat@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>
-Subject: [PATCH v3 0/5] support setting sysctl parameters from kernel command line
-Date:   Mon, 27 Apr 2020 20:04:28 +0200
-Message-Id: <20200427180433.7029-1-vbabka@suse.cz>
+        Vlastimil Babka <vbabka@suse.cz>,
+        Michal Hocko <mhocko@suse.com>
+Subject: [PATCH v3 1/5] kernel/sysctl: support setting sysctl parameters from kernel command line
+Date:   Mon, 27 Apr 2020 20:04:29 +0200
+Message-Id: <20200427180433.7029-2-vbabka@suse.cz>
 X-Mailer: git-send-email 2.26.0
+In-Reply-To: <20200427180433.7029-1-vbabka@suse.cz>
+References: <20200427180433.7029-1-vbabka@suse.cz>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
@@ -44,65 +47,229 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This series adds support for something that seems like many people always
-wanted but nobody added it yet, so here's the ability to set sysctl parameters
-via kernel command line options in the form of sysctl.vm.something=1
+A recently proposed patch to add vm_swappiness command line parameter in
+addition to existing sysctl [1] made me wonder why we don't have a general
+support for passing sysctl parameters via command line. Googling found only
+somebody else wondering the same [2], but I haven't found any prior discussion
+with reasons why not to do this.
 
-The important part is Patch 1. The second, not so important part is an attempt
-to clean up legacy one-off parameters that do the same thing as a sysctl.
-I don't want to remove them completely for compatibility reasons, but with
-generic sysctl support the idea is to remove the one-off param handlers and
-treat the parameters as aliases for the sysctl variants.
+Settings the vm_swappiness issue aside (the underlying issue might be solved in
+a different way), quick search of kernel-parameters.txt shows there are already
+some that exist as both sysctl and kernel parameter - hung_task_panic,
+nmi_watchdog, numa_zonelist_order, traceoff_on_warning. A general mechanism
+would remove the need to add more of those one-offs and might be handy in
+situations where configuration by e.g. /etc/sysctl.d/ is impractical.
 
-I have identified several parameters that mention sysctl counterparts in
-Documentation/admin-guide/kernel-parameters.txt but there might be more. The
-conversion also has varying level of success:
+Hence, this patch adds a new parse_args() pass that looks for parameters
+prefixed by 'sysctl.' and tries to interpret them as writes to the
+corresponding sys/ files using an temporary in-kernel procfs mount. This
+mechanism was suggested by Eric W. Biederman [3], as it handles all dynamically
+registered sysctl tables, even though we don't handle modular sysctls. Errors
+due to e.g. invalid parameter name or value are reported in the kernel log.
 
-- numa_zonelist_order is converted in Patch 2 together with adding the
-  necessary infrastructure. It's easy as it doesn't really do anything but warn
-  on deprecated value these days.
-- hung_task_panic is converted in Patch 3, but there's a downside that now it
-  only accepts 0 and 1, while previously it was any integer value
-- nmi_watchdog maps to two sysctls nmi_watchdog and hardlockup_panic, so
-  there's no straighforward conversion possible
-- traceoff_on_warning is a flag without value and it would be required to
-  handle that somehow in the conversion infractructure, which seems pointless
-  for a single flag
+The processing is hooked right before the init process is loaded, as some
+handlers might be more complicated than simple setters and might need some
+subsystems to be initialized. At the moment the init process can be started and
+eventually execute a process writing to /proc/sys/ then it should be also fine
+to do that from the kernel.
 
-Vlastimil Babka (3):
-  kernel/sysctl: support setting sysctl parameters from kernel command
-    line
-  kernel/sysctl: support handling command line aliases
-  kernel/hung_task convert hung_task_panic boot parameter to sysctl
+Sysctls registered later on module load time are not set by this mechanism -
+it's expected that in such scenarios, setting sysctl values from userspace is
+practical enough.
 
-Changes since v2:
-- rebase to 5.7-rc3
-- add acks
-- add a testcase to tools/testing/selftests/sysctl/sysctl.sh - this adds a new
-  sysctl parameter ../boot_int in lib/test_sysctl and expects the tester to
-  pass the respective boot parameter in any feasible way (including bootconfig)
-  the testcase checks /proc/cmdline to distinguish real failure from the lack of
-  parameter. That allows us to test this without introducing further new
-  functionality (patches 4+5).
+[1] https://lore.kernel.org/r/BL0PR02MB560167492CA4094C91589930E9FC0@BL0PR02MB5601.namprd02.prod.outlook.com/
+[2] https://unix.stackexchange.com/questions/558802/how-to-set-sysctl-using-kernel-command-line-parameter
+[3] https://lore.kernel.org/r/87bloj2skm.fsf@x220.int.ebiederm.org/
 
-Vlastimil Babka (5):
-  kernel/sysctl: support setting sysctl parameters from kernel command
-    line
-  kernel/sysctl: support handling command line aliases
-  kernel/hung_task convert hung_task_panic boot parameter to sysctl
-  tools/testing/selftests/sysctl/sysctl.sh: support CONFIG_TEST_SYSCTL=y
-  lib/test_sysctl: support testing of sysctl. boot parameter
-
- .../admin-guide/kernel-parameters.txt         |  11 +-
- fs/proc/proc_sysctl.c                         | 142 ++++++++++++++++++
+Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
+Reviewed-by: Masami Hiramatsu <mhiramat@kernel.org>
+Acked-by: Kees Cook <keescook@chromium.org>
+Acked-by: Michal Hocko <mhocko@suse.com>
+---
+ .../admin-guide/kernel-parameters.txt         |   9 ++
+ fs/proc/proc_sysctl.c                         | 107 ++++++++++++++++++
  include/linux/sysctl.h                        |   4 +
  init/main.c                                   |   2 +
- kernel/hung_task.c                            |  10 --
- lib/test_sysctl.c                             |  13 ++
- mm/page_alloc.c                               |   9 --
- tools/testing/selftests/sysctl/sysctl.sh      |  42 +++++-
- 8 files changed, 210 insertions(+), 23 deletions(-)
+ 4 files changed, 122 insertions(+)
 
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 7bc83f3d9bdf..73dbbf942431 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -4891,6 +4891,15 @@
+ 
+ 	switches=	[HW,M68k]
+ 
++	sysctl.*=	[KNL]
++			Set a sysctl parameter, right before loading the init
++			process, as if the value was written to the respective
++			/proc/sys/... file. Both '.' and '/' are recognized as
++			separators. Unrecognized parameters and invalid values
++			are reported in the kernel log. Sysctls registered
++			later by a loaded module cannot be set this way.
++			Example: sysctl.vm.swappiness=40
++
+ 	sysfs.deprecated=0|1 [KNL]
+ 			Enable/disable old style sysfs layout for old udev
+ 			on older distributions. When this option is enabled
+diff --git a/fs/proc/proc_sysctl.c b/fs/proc/proc_sysctl.c
+index b6f5d459b087..7804da5f5be0 100644
+--- a/fs/proc/proc_sysctl.c
++++ b/fs/proc/proc_sysctl.c
+@@ -14,6 +14,7 @@
+ #include <linux/mm.h>
+ #include <linux/module.h>
+ #include <linux/bpf-cgroup.h>
++#include <linux/mount.h>
+ #include "internal.h"
+ 
+ static const struct dentry_operations proc_sys_dentry_operations;
+@@ -1692,3 +1693,109 @@ int __init proc_sys_init(void)
+ 
+ 	return sysctl_init();
+ }
++
++/* Set sysctl value passed on kernel command line. */
++static int process_sysctl_arg(char *param, char *val,
++			       const char *unused, void *arg)
++{
++	char *path;
++	struct vfsmount **proc_mnt = arg;
++	struct file_system_type *proc_fs_type;
++	struct file *file;
++	int len;
++	int err;
++	loff_t pos = 0;
++	ssize_t wret;
++
++	if (strncmp(param, "sysctl", sizeof("sysctl") - 1))
++		return 0;
++
++	param += sizeof("sysctl") - 1;
++
++	if (param[0] != '/' && param[0] != '.')
++		return 0;
++
++	param++;
++
++	/*
++	 * To set sysctl options, we use a temporary mount of proc, look up the
++	 * respective sys/ file and write to it. To avoid mounting it when no
++	 * options were given, we mount it only when the first sysctl option is
++	 * found. Why not a persistent mount? There are problems with a
++	 * persistent mount of proc in that it forces userspace not to use any
++	 * proc mount options.
++	 */
++	if (!*proc_mnt) {
++		proc_fs_type = get_fs_type("proc");
++		if (!proc_fs_type) {
++			pr_err("Failed to find procfs to set sysctl from command line\n");
++			return 0;
++		}
++		*proc_mnt = kern_mount(proc_fs_type);
++		put_filesystem(proc_fs_type);
++		if (IS_ERR(*proc_mnt)) {
++			pr_err("Failed to mount procfs to set sysctl from command line\n");
++			return 0;
++		}
++	}
++
++	path = kasprintf(GFP_KERNEL, "sys/%s", param);
++	if (!path)
++		panic("%s: Failed to allocate path for %s\n", __func__, param);
++	strreplace(path, '.', '/');
++
++	file = file_open_root((*proc_mnt)->mnt_root, *proc_mnt, path, O_WRONLY, 0);
++	if (IS_ERR(file)) {
++		err = PTR_ERR(file);
++		if (err == -ENOENT)
++			pr_err("Failed to set sysctl parameter '%s=%s': parameter not found\n",
++				param, val);
++		else if (err == -EACCES)
++			pr_err("Failed to set sysctl parameter '%s=%s': permission denied (read-only?)\n",
++				param, val);
++		else
++			pr_err("Error %pe opening proc file to set sysctl parameter '%s=%s'\n",
++				file, param, val);
++		goto out;
++	}
++	len = strlen(val);
++	wret = kernel_write(file, val, len, &pos);
++	if (wret < 0) {
++		err = wret;
++		if (err == -EINVAL)
++			pr_err("Failed to set sysctl parameter '%s=%s': invalid value\n",
++				param, val);
++		else
++			pr_err("Error %pe writing to proc file to set sysctl parameter '%s=%s'\n",
++				ERR_PTR(err), param, val);
++	} else if (wret != len) {
++		pr_err("Wrote only %zd bytes of %d writing to proc file %s to set sysctl parameter '%s=%s\n",
++			wret, len, path, param, val);
++	}
++
++	err = filp_close(file, NULL);
++	if (err)
++		pr_err("Error %pe closing proc file to set sysctl parameter '%s=%s\n",
++			ERR_PTR(err), param, val);
++out:
++	kfree(path);
++	return 0;
++}
++
++void do_sysctl_args(void)
++{
++	char *command_line;
++	struct vfsmount *proc_mnt = NULL;
++
++	command_line = kstrdup(saved_command_line, GFP_KERNEL);
++	if (!command_line)
++		panic("%s: Failed to allocate copy of command line\n", __func__);
++
++	parse_args("Setting sysctl args", command_line,
++		   NULL, 0, -1, -1, &proc_mnt, process_sysctl_arg);
++
++	if (proc_mnt)
++		kern_unmount(proc_mnt);
++
++	kfree(command_line);
++}
+diff --git a/include/linux/sysctl.h b/include/linux/sysctl.h
+index 02fa84493f23..bee62d30ebdb 100644
+--- a/include/linux/sysctl.h
++++ b/include/linux/sysctl.h
+@@ -206,6 +206,7 @@ struct ctl_table_header *register_sysctl_paths(const struct ctl_path *path,
+ void unregister_sysctl_table(struct ctl_table_header * table);
+ 
+ extern int sysctl_init(void);
++void do_sysctl_args(void);
+ 
+ extern struct ctl_table sysctl_mount_point[];
+ 
+@@ -236,6 +237,9 @@ static inline void setup_sysctl_set(struct ctl_table_set *p,
+ {
+ }
+ 
++static inline void do_sysctl_args(void)
++{
++}
+ #endif /* CONFIG_SYSCTL */
+ 
+ int sysctl_max_threads(struct ctl_table *table, int write,
+diff --git a/init/main.c b/init/main.c
+index a48617f2e5e5..7b43118215d6 100644
+--- a/init/main.c
++++ b/init/main.c
+@@ -1372,6 +1372,8 @@ static int __ref kernel_init(void *unused)
+ 
+ 	rcu_end_inkernel_boot();
+ 
++	do_sysctl_args();
++
+ 	if (ramdisk_execute_command) {
+ 		ret = run_init_process(ramdisk_execute_command);
+ 		if (!ret)
 -- 
 2.26.0
 
