@@ -2,108 +2,98 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 19D541BBB08
-	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2020 12:18:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 936CD1BBCF6
+	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2020 14:02:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727788AbgD1KSb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 28 Apr 2020 06:18:31 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:36996 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727772AbgD1KS3 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 28 Apr 2020 06:18:29 -0400
-Received: by mail-wm1-f66.google.com with SMTP id z6so2227596wml.2;
-        Tue, 28 Apr 2020 03:18:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=qgiXWJlcms+tTPupotLSqm+FPBcp40FxYQcAy22/92c=;
-        b=PKTnblne8eHvVRK4xGZsUWjyNuGMQORdyZ3FtxDiedUhKUUxULxC14h0/tppQWvgNv
-         M/+Tpe+Fl6is7tRxTDjCxNqJhw2DfT3vQGZ0Q3hnGpAu9EeO6+yDlOlW452sc0WlEqHc
-         r3HqkDWSRv8IMkMKRT0f8uNC03RTlcW7SPVr8RZhgB/j52rGgxQSY/ojhfXfhw6Ky9gl
-         p+rhYJxLOv7jGfDZz2G+wpDEPADZrIL7v2eXwNxXQqYIOAPxhpRXmtXURqfrffkdjO4O
-         I1OYYTh243ly9rREEcoxVcCe3Cj59lQSmPYIpthnGURadQez0MRkR5dxANVIppmoM+8r
-         KNUg==
-X-Gm-Message-State: AGi0PuZed40n9FdNFJKC7JDGYTORC/pIiN/9jFpoqeUKWWDVqd/v+xtE
-        j7JbXQRPctXkiHP2DrSEjF8=
-X-Google-Smtp-Source: APiQypKaVlZdmQXw/ZzzWZ6j47uEjNYIq3GhJxratCznfb6J/PNvpcSIoVMkLjM62NOPUvw5xo+LzQ==
-X-Received: by 2002:a05:600c:22d3:: with SMTP id 19mr3944326wmg.110.1588069106197;
-        Tue, 28 Apr 2020 03:18:26 -0700 (PDT)
-Received: from localhost (ip-37-188-130-62.eurotel.cz. [37.188.130.62])
-        by smtp.gmail.com with ESMTPSA id h3sm24489313wrm.73.2020.04.28.03.18.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2020 03:18:25 -0700 (PDT)
-Date:   Tue, 28 Apr 2020 12:18:24 +0200
-From:   Michal Hocko <mhocko@kernel.org>
-To:     Vlastimil Babka <vbabka@suse.cz>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        "Guilherme G . Piccoli" <gpiccoli@canonical.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
+        id S1726684AbgD1MC3 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Tue, 28 Apr 2020 08:02:29 -0400
+Received: from albireo.enyo.de ([37.24.231.21]:47708 "EHLO albireo.enyo.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726448AbgD1MC3 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 28 Apr 2020 08:02:29 -0400
+Received: from [172.17.203.2] (helo=deneb.enyo.de)
+        by albireo.enyo.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        id 1jTOwI-0000kx-RO; Tue, 28 Apr 2020 12:02:14 +0000
+Received: from fw by deneb.enyo.de with local (Exim 4.92)
+        (envelope-from <fw@deneb.enyo.de>)
+        id 1jTOwI-0003qD-Mx; Tue, 28 Apr 2020 14:02:14 +0200
+From:   Florian Weimer <fw@deneb.enyo.de>
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc:     Michael Kerrisk <mtk.manpages@gmail.com>,
+        libc-alpha <libc-alpha@sourceware.org>,
+        carlos <carlos@redhat.com>, Rich Felker <dalias@libc.org>,
+        linux-api <linux-api@vger.kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Will Deacon <will.deacon@arm.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ben Maurer <bmaurer@fb.com>, Dave Watson <davejwatson@fb.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>
-Subject: Re: [PATCH v3 1/5] kernel/sysctl: support setting sysctl parameters
- from kernel command line
-Message-ID: <20200428101824.GM28637@dhcp22.suse.cz>
-References: <20200427180433.7029-1-vbabka@suse.cz>
- <20200427180433.7029-2-vbabka@suse.cz>
- <20200427113331.f0c1e8e7cee98644260448d3@linux-foundation.org>
- <d7d01e9e-6b6d-47ce-c750-cd7296e30613@suse.cz>
+        Paul <paulmck@linux.vnet.ibm.com>, Paul Turner <pjt@google.com>,
+        Joseph Myers <joseph@codesourcery.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>
+Subject: Re: [PATCH glibc 5/9] glibc: Perform rseq(2) registration at C startup and thread creation (v17)
+References: <20200326155633.18236-1-mathieu.desnoyers@efficios.com>
+        <20200326155633.18236-6-mathieu.desnoyers@efficios.com>
+        <87ees9z417.fsf@mid.deneb.enyo.de>
+        <284293396.70630.1588005648556.JavaMail.zimbra@efficios.com>
+        <87zhawvphv.fsf@mid.deneb.enyo.de>
+        <2102127737.70791.1588008377292.JavaMail.zimbra@efficios.com>
+Date:   Tue, 28 Apr 2020 14:02:14 +0200
+In-Reply-To: <2102127737.70791.1588008377292.JavaMail.zimbra@efficios.com>
+        (Mathieu Desnoyers's message of "Mon, 27 Apr 2020 13:26:17 -0400
+        (EDT)")
+Message-ID: <87ftcnrf7d.fsf@mid.deneb.enyo.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d7d01e9e-6b6d-47ce-c750-cd7296e30613@suse.cz>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue 28-04-20 10:09:37, Vlastimil Babka wrote:
-> On 4/27/20 8:33 PM, Andrew Morton wrote:
-> > On Mon, 27 Apr 2020 20:04:29 +0200 Vlastimil Babka <vbabka@suse.cz> wrote:
-> > 
-> > > ...
-> > > +	sysctl.*=	[KNL]
-> > > +			Set a sysctl parameter, right before loading the init
-> > > +			process, as if the value was written to the respective
-> > > +			/proc/sys/... file. Both '.' and '/' are recognized as
-> > > +			separators. Unrecognized parameters and invalid values
-> > > +			are reported in the kernel log. Sysctls registered
-> > > +			later by a loaded module cannot be set this way.
-> > > +			Example: sysctl.vm.swappiness=40
-> > 
-> > Why support "."?  I think only supporting "/" is perfectly adequate and
-> > simplifies documentation.  It aligns the command-line syntax with the
-> > rest of the sysctl documentation.  I'm not seeing the need to provide
-> > two ways of doing the same thing?
-> 
-> AFAIK the "." is traditional, and "/" is a newer artefact of moving from the
-> binary syscall form to procfs based form. So by "command-line syntax" you
-> mean echo and cat, not sysctl tool? Because "man sysctl" says:
-> 
-> variable
-> 	The name of a key to read from.  An example is kernel.ostype.  The '/'
-> separator is also accepted in place of a '.'.
-> 
-> So I'm not strongly against supporting only / but I expect most people are
-> used to the . and it will take them two attempts to pass the sysctl boot
-> parameter correctly if they don't use it regularly - first trying . form,
-> wonder why it doesn't work, then read the doc and realize it's not
-> supported?
+* Mathieu Desnoyers:
 
-Yes, I do agree. I have only recently learned that sysctl supports / as
-well. Most people are simply used to . notation. The copy of the arch
-and . -> / substitution is a trivial operation and I do not think it is
-a real reason to introduce unnecessarily harder to use interface.
--- 
-Michal Hocko
-SUSE Labs
+>>>>> +/* struct rseq is aligned on 4 * 8 bytes to ensure it is always
+>>>>> +   contained within a single cache-line.
+>>>>> +
+>>>>> +   A single struct rseq per thread is allowed.  */
+>>>>> +struct rseq
+>>>>> +  {
+>>>>> +    /* Restartable sequences cpu_id_start field. Updated by the
+>>>>> +       kernel. Read by user-space with single-copy atomicity
+>>>>> +       semantics. This field should only be read by the thread which
+>>>>> +       registered this data structure. Aligned on 32-bit. Always
+>>>> 
+>>>> What does “Aligned on 32-bit” mean in this context?  Do you mean to
+>>>> reference 32-*byte* alignment here?
+>>>
+>>> No. I really mean 32-bit (4-byte). Being aligned on 32-byte guarantees that
+>>> this field is aligned at least on 4-byte. This is required by single-copy
+>>> atomicity semantics.
+>>>
+>>> Should I update this comment to state "Aligned on 4-byte" instead ?
+>> 
+>> I think this is implied by all Linux ABIs.  And the explicit alignment
+>> specification for struct rseq makes the alignment 32 bytes.
+>
+> Unless a structure ends up being packed, which is of course not the case
+> here.
+>
+> I would prefer to keep the comment about 32-bit alignment requirement on
+> the specific fields, because the motivation for alignment requirement is
+> much more strict for fields (correctness) than the motivation for alignment
+> of the structure (performance).
+
+But the correctness is already enforced by the compiler, so I fail to
+see point of mentioning this in the comment.
+
+Anyway, I don't want to make a big deal of it.  Please leave it in if
+you think it is ehlpful.
+
+> x32 should not be an issue as explained above, so I'm very open to
+> add this "uptr" for user-space only.
+
+Okay, then please use anonymous unions and structs as necessary, to
+ensure that the uptr field can be reached on all platforms in the same
+way.
