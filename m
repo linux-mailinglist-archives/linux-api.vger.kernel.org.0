@@ -2,161 +2,157 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 89A4B1BC643
-	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2020 19:15:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BEA91BC71C
+	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2020 19:51:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728309AbgD1RPW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 28 Apr 2020 13:15:22 -0400
-Received: from mail.efficios.com ([167.114.26.124]:44046 "EHLO
-        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726406AbgD1RPW (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 28 Apr 2020 13:15:22 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id C162D27E927;
-        Tue, 28 Apr 2020 13:15:20 -0400 (EDT)
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id m-OwioVHNQqU; Tue, 28 Apr 2020 13:15:20 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 5589727E926;
-        Tue, 28 Apr 2020 13:15:20 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 5589727E926
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1588094120;
-        bh=0smAkb6cp0p+RuLi71ihxVXx+NcGlOLwapAddILSwQ4=;
-        h=From:To:Date:Message-Id;
-        b=WAqEKu+24lm5qRCV5yJwWPHQBgxEAVPrcXpp6/JrG3g48Ec1+62dxKKZDrgtUgYcj
-         cZt1gE2U4N8yxxXhf3F3THD5zpt9di0r6dO0tjr0yS4FAZYKdLd53fnG8bODQLsHlZ
-         SX7X8gsljHNzbQYHzWa9rBecfO36sQvLg4P6QcuKNdnN7saR9UOlp2DZSTwGsnVdk+
-         1htKwyUTZLPz1lzrlu+MmGnuxPH828bdWs7i3Hhc3e4CSSwB71vKlK2aPiLgoS+zPv
-         SxsIMcV1WdMOnH+1ZpXI66I84qDiZGjj8XtgRY5MCsbUHxO5BLvuJygiA3L8TIyli7
-         7LctWSuVrJhkg==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id NdISAkAmPADx; Tue, 28 Apr 2020 13:15:20 -0400 (EDT)
-Received: from localhost.localdomain (192-222-181-218.qc.cable.ebox.net [192.222.181.218])
-        by mail.efficios.com (Postfix) with ESMTPSA id 128FC27E91B;
-        Tue, 28 Apr 2020 13:15:20 -0400 (EDT)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Carlos O'Donell <carlos@redhat.com>
-Cc:     Florian Weimer <fweimer@redhat.com>,
-        Joseph Myers <joseph@codesourcery.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        libc-alpha@sourceware.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ben Maurer <bmaurer@fb.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Paul Turner <pjt@google.com>, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org
-Subject: [RFC PATCH glibc 2/3] glibc: sched_getcpu(): use rseq cpu_id TLS on Linux (v7)
-Date:   Tue, 28 Apr 2020 13:15:12 -0400
-Message-Id: <20200428171513.22926-2-mathieu.desnoyers@efficios.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200428171513.22926-1-mathieu.desnoyers@efficios.com>
-References: <20200428171513.22926-1-mathieu.desnoyers@efficios.com>
+        id S1728620AbgD1Rvr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 28 Apr 2020 13:51:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37624 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728616AbgD1Rvq (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 28 Apr 2020 13:51:46 -0400
+Received: from smtp-bc09.mail.infomaniak.ch (smtp-bc09.mail.infomaniak.ch [IPv6:2001:1600:3:17::bc09])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3671DC03C1AC
+        for <linux-api@vger.kernel.org>; Tue, 28 Apr 2020 10:51:46 -0700 (PDT)
+Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 49BTjS0sy2zlh9G9;
+        Tue, 28 Apr 2020 19:51:40 +0200 (CEST)
+Received: from localhost (unknown [94.23.54.103])
+        by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 49BTjP5dXczmVZjD;
+        Tue, 28 Apr 2020 19:51:37 +0200 (CEST)
+From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
+To:     linux-kernel@vger.kernel.org
+Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@kernel.org>,
+        Christian Heimes <christian@python.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Deven Bowers <deven.desai@linux.microsoft.com>,
+        Eric Chiang <ericchiang@google.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Matthew Garrett <mjg59@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mickael.salaun@ssi.gouv.fr>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        =?UTF-8?q?Philippe=20Tr=C3=A9buchet?= 
+        <philippe.trebuchet@ssi.gouv.fr>,
+        Scott Shell <scottsh@microsoft.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Steve Dower <steve.dower@python.org>,
+        Steve Grubb <sgrubb@redhat.com>,
+        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
+        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: [PATCH v3 0/5] Add support for RESOLVE_MAYEXEC
+Date:   Tue, 28 Apr 2020 19:51:24 +0200
+Message-Id: <20200428175129.634352-1-mic@digikod.net>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
+X-Antivirus-Code: 0x100000
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-When available, use the cpu_id field from __rseq_abi on Linux to
-implement sched_getcpu(). Fall-back on the vgetcpu vDSO if unavailable.
+Hi,
 
-Benchmarks:
+The goal of this patch series is to enable to control script execution
+with interpreters help.  A new RESOLVE_MAYEXEC flag, usable through
+openat2(2), is added to enable userspace script interpreter to delegate
+to the kernel (and thus the system security policy) the permission to
+interpret/execute scripts or other files containing what can be seen as
+commands.
 
-x86-64: Intel E5-2630 v3@2.40GHz, 16-core, hyperthreading
+This third patch series mainly differ from the previous one by relying
+on the new openat2(2) system call to get rid of the undefined behavior
+of the open(2) flags.  Thus, the previous O_MAYEXEC flag is now replaced
+with the new RESOLVE_MAYEXEC flag and benefits from the openat2(2)
+strict check of this kind of flags.
 
-glibc sched_getcpu():                     13.7 ns (baseline)
-glibc sched_getcpu() using rseq:           2.5 ns (speedup:  5.5x)
-inline load cpuid from __rseq_abi TLS:     0.8 ns (speedup: 17.1x)
+A simple system-wide security policy can be enforced by the system
+administrator through a sysctl configuration consistent with the mount
+points or the file access rights.  The documentation patch explains the
+prerequisites.
 
-CC: Carlos O'Donell <carlos@redhat.com>
-CC: Florian Weimer <fweimer@redhat.com>
-CC: Joseph Myers <joseph@codesourcery.com>
-CC: Szabolcs Nagy <szabolcs.nagy@arm.com>
-CC: Thomas Gleixner <tglx@linutronix.de>
-CC: Ben Maurer <bmaurer@fb.com>
-CC: Peter Zijlstra <peterz@infradead.org>
-CC: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-CC: Boqun Feng <boqun.feng@gmail.com>
-CC: Will Deacon <will.deacon@arm.com>
-CC: Paul Turner <pjt@google.com>
-CC: libc-alpha@sourceware.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-api@vger.kernel.org
----
-Changes since v1:
-- rseq is only used if both __NR_rseq and RSEQ_SIG are defined.
+Furthermore, the security policy can also be delegated to an LSM, either
+a MAC system or an integrity system.  For instance, the new kernel
+MAY_OPENEXEC flag closes a major IMA measurement/appraisal interpreter
+integrity gap by bringing the ability to check the use of scripts [1].
+Other uses are expected, such as for openat2(2) [2], SGX integration
+[3], bpffs [4] or IPE [5].
 
-Changes since v2:
-- remove duplicated __rseq_abi extern declaration.
+Userspace needs to adapt to take advantage of this new feature.  For
+example, the PEP 578 [6] (Runtime Audit Hooks) enables Python 3.8 to be
+extended with policy enforcement points related to code interpretation,
+which can be used to align with the PowerShell audit features.
+Additional Python security improvements (e.g. a limited interpreter
+withou -c, stdin piping of code) are on their way.
 
-Changes since v3:
-- update ChangeLog.
+The initial idea come from CLIP OS 4 and the original implementation has
+been used for more than 11 years:
+https://github.com/clipos-archive/clipos4_doc
 
-Changes since v4:
-- Use atomic_load_relaxed to load the __rseq_abi.cpu_id field, a
-  consequence of the fact that __rseq_abi is not volatile anymore.
-- Include atomic.h which provides atomic_load_relaxed.
+An introduction to O_MAYEXEC (original name of RESOLVE_MAYEXEC) was
+given at the Linux Security Summit Europe 2018 - Linux Kernel Security
+Contributions by ANSSI:
+https://www.youtube.com/watch?v=chNjCRtPKQY&t=17m15s
+The "write xor execute" principle was explained at Kernel Recipes 2018 -
+CLIP OS: a defense-in-depth OS:
+https://www.youtube.com/watch?v=PjRE0uBtkHU&t=11m14s
 
-Changes since v5:
-- Use __ASSUME_RSEQ to detect rseq availability.
+This patch series can be applied on top of v5.7-rc3.  This can be tested
+with CONFIG_SYSCTL.  I would really appreciate constructive comments on
+this patch series.
 
-Changes since v6:
-- Remove use of __ASSUME_RSEQ.
----
- sysdeps/unix/sysv/linux/sched_getcpu.c | 27 ++++++++++++++++++++++++--
- 1 file changed, 25 insertions(+), 2 deletions(-)
+Previous version:
+https://lore.kernel.org/lkml/20190906152455.22757-1-mic@digikod.net/
 
-diff --git a/sysdeps/unix/sysv/linux/sched_getcpu.c b/sysdeps/unix/sysv/linux/sched_getcpu.c
-index c019cfb3cf..2269c4f2bd 100644
---- a/sysdeps/unix/sysv/linux/sched_getcpu.c
-+++ b/sysdeps/unix/sysv/linux/sched_getcpu.c
-@@ -18,10 +18,15 @@
- #include <errno.h>
- #include <sched.h>
- #include <sysdep.h>
-+#include <atomic.h>
- #include <sysdep-vdso.h>
- 
--int
--sched_getcpu (void)
-+#ifdef HAVE_GETCPU_VSYSCALL
-+# define HAVE_VSYSCALL
-+#endif
-+
-+static int
-+vsyscall_sched_getcpu (void)
- {
-   unsigned int cpu;
-   int r = -1;
-@@ -32,3 +37,21 @@ sched_getcpu (void)
- #endif
-   return r == -1 ? r : cpu;
- }
-+
-+#include <sys/rseq.h>
-+
-+#ifdef RSEQ_SIG
-+int
-+sched_getcpu (void)
-+{
-+  int cpu_id = atomic_load_relaxed (&__rseq_abi.cpu_id);
-+
-+  return cpu_id >= 0 ? cpu_id : vsyscall_sched_getcpu ();
-+}
-+#else
-+int
-+sched_getcpu (void)
-+{
-+  return vsyscall_sched_getcpu ();
-+}
-+#endif
+
+[1] https://lore.kernel.org/lkml/1544647356.4028.105.camel@linux.ibm.com/
+[2] https://lore.kernel.org/lkml/20190904201933.10736-6-cyphar@cyphar.com/
+[3] https://lore.kernel.org/lkml/CALCETrVovr8XNZSroey7pHF46O=kj_c5D9K8h=z2T_cNrpvMig@mail.gmail.com/
+[4] https://lore.kernel.org/lkml/CALCETrVeZ0eufFXwfhtaG_j+AdvbzEWE0M3wjXMWVEO7pj+xkw@mail.gmail.com/
+[5] https://lore.kernel.org/lkml/20200406221439.1469862-12-deven.desai@linux.microsoft.com/
+[6] https://www.python.org/dev/peps/pep-0578/
+
+Regards,
+
+Mickaël Salaün (5):
+  fs: Add support for a RESOLVE_MAYEXEC flag on openat2(2)
+  fs: Add a MAY_EXECMOUNT flag to infer the noexec mount property
+  fs: Enable to enforce noexec mounts or file exec through
+    RESOLVE_MAYEXEC
+  selftest/openat2: Add tests for RESOLVE_MAYEXEC enforcing
+  doc: Add documentation for the fs.open_mayexec_enforce sysctl
+
+ Documentation/admin-guide/sysctl/fs.rst       |  43 +++
+ fs/namei.c                                    |  74 +++-
+ fs/open.c                                     |   6 +
+ include/linux/fcntl.h                         |   2 +-
+ include/linux/fs.h                            |   7 +
+ include/uapi/linux/openat2.h                  |   6 +
+ kernel/sysctl.c                               |   7 +
+ tools/testing/selftests/kselftest_harness.h   |   3 +
+ tools/testing/selftests/openat2/Makefile      |   3 +-
+ tools/testing/selftests/openat2/config        |   1 +
+ tools/testing/selftests/openat2/helpers.h     |   3 +
+ .../testing/selftests/openat2/omayexec_test.c | 315 ++++++++++++++++++
+ 12 files changed, 467 insertions(+), 3 deletions(-)
+ create mode 100644 tools/testing/selftests/openat2/config
+ create mode 100644 tools/testing/selftests/openat2/omayexec_test.c
+
 -- 
-2.17.1
+2.26.2
 
