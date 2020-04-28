@@ -2,124 +2,108 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EE9001BB8B4
-	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2020 10:21:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19D541BBB08
+	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2020 12:18:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726621AbgD1IVw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 28 Apr 2020 04:21:52 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:34708 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726515AbgD1IVv (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 28 Apr 2020 04:21:51 -0400
-Received: from ip5f5af183.dynamic.kabel-deutschland.de ([95.90.241.131] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1jTLUl-0004Ab-MP; Tue, 28 Apr 2020 08:21:35 +0000
-Date:   Tue, 28 Apr 2020 10:21:33 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Andy Lutomirski <luto@amacapital.net>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Hagen Paul Pfeifer <hagen@jauu.net>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Jann Horn <jannh@google.com>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        Florian Weimer <fweimer@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian@brauner.io>,
+        id S1727788AbgD1KSb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 28 Apr 2020 06:18:31 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:36996 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727772AbgD1KS3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 28 Apr 2020 06:18:29 -0400
+Received: by mail-wm1-f66.google.com with SMTP id z6so2227596wml.2;
+        Tue, 28 Apr 2020 03:18:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=qgiXWJlcms+tTPupotLSqm+FPBcp40FxYQcAy22/92c=;
+        b=PKTnblne8eHvVRK4xGZsUWjyNuGMQORdyZ3FtxDiedUhKUUxULxC14h0/tppQWvgNv
+         M/+Tpe+Fl6is7tRxTDjCxNqJhw2DfT3vQGZ0Q3hnGpAu9EeO6+yDlOlW452sc0WlEqHc
+         r3HqkDWSRv8IMkMKRT0f8uNC03RTlcW7SPVr8RZhgB/j52rGgxQSY/ojhfXfhw6Ky9gl
+         p+rhYJxLOv7jGfDZz2G+wpDEPADZrIL7v2eXwNxXQqYIOAPxhpRXmtXURqfrffkdjO4O
+         I1OYYTh243ly9rREEcoxVcCe3Cj59lQSmPYIpthnGURadQez0MRkR5dxANVIppmoM+8r
+         KNUg==
+X-Gm-Message-State: AGi0PuZed40n9FdNFJKC7JDGYTORC/pIiN/9jFpoqeUKWWDVqd/v+xtE
+        j7JbXQRPctXkiHP2DrSEjF8=
+X-Google-Smtp-Source: APiQypKaVlZdmQXw/ZzzWZ6j47uEjNYIq3GhJxratCznfb6J/PNvpcSIoVMkLjM62NOPUvw5xo+LzQ==
+X-Received: by 2002:a05:600c:22d3:: with SMTP id 19mr3944326wmg.110.1588069106197;
+        Tue, 28 Apr 2020 03:18:26 -0700 (PDT)
+Received: from localhost (ip-37-188-130-62.eurotel.cz. [37.188.130.62])
+        by smtp.gmail.com with ESMTPSA id h3sm24489313wrm.73.2020.04.28.03.18.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Apr 2020 03:18:25 -0700 (PDT)
+Date:   Tue, 28 Apr 2020 12:18:24 +0200
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Vlastimil Babka <vbabka@suse.cz>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-mm@kvack.org, Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        "Guilherme G . Piccoli" <gpiccoli@canonical.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, Brian Gerst <brgerst@gmail.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        David Howells <dhowells@redhat.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@redhat.com>,
-        Sargun Dhillon <sargun@sargun.me>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [RFC v2] ptrace, pidfd: add pidfd_ptrace syscall
-Message-ID: <20200428082133.kusyjofgg7w2lchg@wittgenstein>
-References: <CAHk-=wga3O=BoKZXR27-CDnAFareWcMxXhpWerwtCffdaH6_ow@mail.gmail.com>
- <B7A115CB-0C8C-4719-B97B-74D94231CD1E@amacapital.net>
- <CAHk-=whQzOsh9O2uhUO2VETD+hrzjKMpEJpzoUby5QHMcvgPKg@mail.gmail.com>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>
+Subject: Re: [PATCH v3 1/5] kernel/sysctl: support setting sysctl parameters
+ from kernel command line
+Message-ID: <20200428101824.GM28637@dhcp22.suse.cz>
+References: <20200427180433.7029-1-vbabka@suse.cz>
+ <20200427180433.7029-2-vbabka@suse.cz>
+ <20200427113331.f0c1e8e7cee98644260448d3@linux-foundation.org>
+ <d7d01e9e-6b6d-47ce-c750-cd7296e30613@suse.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHk-=whQzOsh9O2uhUO2VETD+hrzjKMpEJpzoUby5QHMcvgPKg@mail.gmail.com>
+In-Reply-To: <d7d01e9e-6b6d-47ce-c750-cd7296e30613@suse.cz>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Apr 27, 2020 at 09:28:14PM -0700, Linus Torvalds wrote:
-> On Mon, Apr 27, 2020 at 9:17 PM Andy Lutomirski <luto@amacapital.net> wrote:
-> >
-> > I hate to say this, but I’m not convinced that asking the gdb folks is
-> > the right approach. GDB has an ancient architecture and is
-> > *incredibly* buggy. I’m sure ptrace is somewhere on the pain point
-> > list, but I suspect it’s utterly dwarfed by everything else.
+On Tue 28-04-20 10:09:37, Vlastimil Babka wrote:
+> On 4/27/20 8:33 PM, Andrew Morton wrote:
+> > On Mon, 27 Apr 2020 20:04:29 +0200 Vlastimil Babka <vbabka@suse.cz> wrote:
+> > 
+> > > ...
+> > > +	sysctl.*=	[KNL]
+> > > +			Set a sysctl parameter, right before loading the init
+> > > +			process, as if the value was written to the respective
+> > > +			/proc/sys/... file. Both '.' and '/' are recognized as
+> > > +			separators. Unrecognized parameters and invalid values
+> > > +			are reported in the kernel log. Sysctls registered
+> > > +			later by a loaded module cannot be set this way.
+> > > +			Example: sysctl.vm.swappiness=40
+> > 
+> > Why support "."?  I think only supporting "/" is perfectly adequate and
+> > simplifies documentation.  It aligns the command-line syntax with the
+> > rest of the sysctl documentation.  I'm not seeing the need to provide
+> > two ways of doing the same thing?
 > 
-> You may be right. However, if gdbn isn't going to use it, then I
-> seriously don't think it's worth changing much.
+> AFAIK the "." is traditional, and "/" is a newer artefact of moving from the
+> binary syscall form to procfs based form. So by "command-line syntax" you
+> mean echo and cat, not sysctl tool? Because "man sysctl" says:
 > 
-> It might be worth looking at people who don't use ptrace() for
-> debugging, but for "incidental" reasons. IOW sandboxing, tracing,
-> things like that.
+> variable
+> 	The name of a key to read from.  An example is kernel.ostype.  The '/'
+> separator is also accepted in place of a '.'.
 > 
-> Maybe those people want things that are simpler and don't actually
-> need the kinds of hard serialization that ptrace() wants.
-> 
-> I'd rather add a few really simple things that might not be a full
-> complement of operations for a debugger, but exactly because they
-> aren't a full debugger, maybe they are things that we can tell are
-> obviously secure and simple?
+> So I'm not strongly against supporting only / but I expect most people are
+> used to the . and it will take them two attempts to pass the sysctl boot
+> parameter correctly if they don't use it regularly - first trying . form,
+> wonder why it doesn't work, then read the doc and realize it's not
+> supported?
 
-I think the biggest non-anecdotal user of ptrace() besides debuggers
-is actually criu (and strace of course). They use it to inject parasite
-code (their phrasing not mine) into another task to handle restoring the
-parts of a task that can't be restored from the outside. Looking through
-their repo they make quite a bit of use of ptrace functionality including
-some arch specific bits:
-PTRACE_GETREGSET
-PTRACE_GETFPREGS
-PTRACE_PEEKUSER
-PTRACE_POKEUSER
-PTRACE_CONT
-PTRACE_SETREGSET
-PTRACE_GETVFPREGS /* arm/arm64 */
-PTRACE_GETVRREGS /* powerpc */
-PTRACE_GETVSRREGS /* powerpc */
-PTRACE_EVENT_STOP
-PTRACE_GETSIGMASK
-PTRACE_INTERRUPT
-PTRACE_DETACH
-PTRACE_GETSIGINFO
-PTRACE_SEIZE
-PTRACE_SETSIGMASK
-PTRACE_SI_EVENT
-PTRACE_SYSCALL
-PTRACE_SETOPTIONS
-PTRACE_ATTACH
-PTRACE_O_SUSPEND_SECCOMP
-PTRACE_PEEKSIGINFO
-PTRACE_SECCOMP_GET_FILTER
-PTRACE_SECCOMP_GET_METADATA
-
-So I guess strace and criu would be the ones to go and ask and if they
-don't care enough we already need to start squinting for other larg-ish
-users. proot comes to mind
-https://github.com/proot-me/proot
-
-(From personal experience, most of the time when ptrace is used in a
- non-debugger codebase it's either to plug a security hole exploitable
- through ptracing the task and the fix is ptracing that very task to
- prevent the attacker from ptracing it (where non-dumpability alone
- doesn't cut it) or the idea is dropped immediately to not lose the
- ability to use a debugger on the program.)
-
-Christian
+Yes, I do agree. I have only recently learned that sysctl supports / as
+well. Most people are simply used to . notation. The copy of the arch
+and . -> / substitution is a trivial operation and I do not think it is
+a real reason to introduce unnecessarily harder to use interface.
+-- 
+Michal Hocko
+SUSE Labs
