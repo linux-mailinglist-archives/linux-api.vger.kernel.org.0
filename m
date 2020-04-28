@@ -2,154 +2,169 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BFE81BBE57
-	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2020 14:56:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A37C1BBE7C
+	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2020 15:04:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726827AbgD1M4b (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 28 Apr 2020 08:56:31 -0400
-Received: from mail.efficios.com ([167.114.26.124]:58448 "EHLO
-        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726746AbgD1M4a (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 28 Apr 2020 08:56:30 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 8851627C857;
-        Tue, 28 Apr 2020 08:56:29 -0400 (EDT)
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id yy07838jlHYR; Tue, 28 Apr 2020 08:56:29 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 31C7A27C771;
-        Tue, 28 Apr 2020 08:56:29 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 31C7A27C771
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1588078589;
-        bh=wCLQaSXXFHWHOQTdzk9lhf8jXpkpRXiVjr4m5yXdZp0=;
-        h=Date:From:To:Message-ID:MIME-Version;
-        b=gHEORjTfvJt3R+b8gor73nsmxy3TUV2xG8onL/Drc9WtteeV9fk5x6oR3zGHRPBzz
-         YPrCDh5F1+VvRK0MTyZCMvUQwtjNEWK8GckWqL3zSlUZOJ/NUMs+Rxe7QxFTuMASC8
-         Vo7Mutoj7dKY3FZsVUdp5Abh73+xwtMymYKJp5N294AFcyYV3cCNtNSxp/hUH+e+ME
-         LbKTM7upADUZuFbbEl5ngTM9uq5b3IvZ0uKkBOcv4hSHGuSM6yPBLKnk4s8qpO9Yck
-         f1Ui1G+rzegttYk0Wv7fXppIA7vpafkfkqrGAD5XOQ0EaEtCDOgY0rfMIq4TdG12Vj
-         YX97fNDldv/LQ==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id FW4KC6PkGCbk; Tue, 28 Apr 2020 08:56:29 -0400 (EDT)
-Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
-        by mail.efficios.com (Postfix) with ESMTP id 1DD0B27C965;
-        Tue, 28 Apr 2020 08:56:29 -0400 (EDT)
-Date:   Tue, 28 Apr 2020 08:56:28 -0400 (EDT)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Florian Weimer <fw@deneb.enyo.de>
-Cc:     Michael Kerrisk <mtk.manpages@gmail.com>,
-        libc-alpha <libc-alpha@sourceware.org>,
-        carlos <carlos@redhat.com>, Rich Felker <dalias@libc.org>,
-        linux-api <linux-api@vger.kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Will Deacon <will.deacon@arm.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ben Maurer <bmaurer@fb.com>, Dave Watson <davejwatson@fb.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Paul <paulmck@linux.vnet.ibm.com>, Paul Turner <pjt@google.com>,
-        Joseph Myers <joseph@codesourcery.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>
-Message-ID: <1862775654.72437.1588078588989.JavaMail.zimbra@efficios.com>
-In-Reply-To: <1080028389.72414.1588077193438.JavaMail.zimbra@efficios.com>
-References: <20200326155633.18236-1-mathieu.desnoyers@efficios.com> <20200326155633.18236-6-mathieu.desnoyers@efficios.com> <87ees9z417.fsf@mid.deneb.enyo.de> <284293396.70630.1588005648556.JavaMail.zimbra@efficios.com> <87zhawvphv.fsf@mid.deneb.enyo.de> <2102127737.70791.1588008377292.JavaMail.zimbra@efficios.com> <87ftcnrf7d.fsf@mid.deneb.enyo.de> <1080028389.72414.1588077193438.JavaMail.zimbra@efficios.com>
-Subject: Re: [PATCH glibc 5/9] glibc: Perform rseq(2) registration at C
- startup and thread creation (v17)
+        id S1726862AbgD1NEj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 28 Apr 2020 09:04:39 -0400
+Received: from mx2.suse.de ([195.135.220.15]:56196 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726746AbgD1NEi (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 28 Apr 2020 09:04:38 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 0B96AAC5F;
+        Tue, 28 Apr 2020 13:04:36 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id EB7251E1294; Tue, 28 Apr 2020 15:04:35 +0200 (CEST)
+Date:   Tue, 28 Apr 2020 15:04:35 +0200
+From:   Jan Kara <jack@suse.cz>
+To:     ira.weiny@intel.com
+Cc:     linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
+        "Darrick J. Wong" <darrick.wong@oracle.com>,
+        Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Christoph Hellwig <hch@lst.de>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>, Jeff Moyer <jmoyer@redhat.com>,
+        linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH V11 10/11] fs: Introduce DCACHE_DONTCACHE
+Message-ID: <20200428130435.GA6426@quack2.suse.cz>
+References: <20200428002142.404144-1-ira.weiny@intel.com>
+ <20200428002142.404144-11-ira.weiny@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [167.114.26.124]
-X-Mailer: Zimbra 8.8.15_GA_3918 (ZimbraWebClient - FF75 (Linux)/8.8.15_GA_3895)
-Thread-Topic: glibc: Perform rseq(2) registration at C startup and thread creation (v17)
-Thread-Index: z7tk/3iPPlCh9cj1VVKnVHBj0mM1xIMs04Lw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200428002142.404144-11-ira.weiny@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
------ On Apr 28, 2020, at 8:33 AM, Mathieu Desnoyers mathieu.desnoyers@efficios.com wrote:
-
-> ----- On Apr 28, 2020, at 8:02 AM, Florian Weimer fw@deneb.enyo.de wrote:
+On Mon 27-04-20 17:21:41, ira.weiny@intel.com wrote:
+> From: Ira Weiny <ira.weiny@intel.com>
 > 
-[...]
->> 
->>> x32 should not be an issue as explained above, so I'm very open to
->>> add this "uptr" for user-space only.
->> 
->> Okay, then please use anonymous unions and structs as necessary, to
->> ensure that the uptr field can be reached on all platforms in the same
->> way.
+> DCACHE_DONTCACHE indicates a dentry should not be cached on final
+> dput().
 > 
-> OK, will do!
+> Also add a helper function to mark DCACHE_DONTCACHE on all dentries
+> pointing to a specific inode when that inode is being set I_DONTCACHE.
+> 
+> This facilitates dropping dentry references to inodes sooner which
+> require eviction to swap S_DAX mode.
+> 
+> Cc: Al Viro <viro@zeniv.linux.org.uk>
+> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
 
-What I came up with looks like this. User-space can use rseq_cs.uptr.ptr
-both on 32-bit and 64-bit to update the pointer:
+The patch looks good to me. You can add:
 
-    /* Restartable sequences rseq_cs field.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-       Contains NULL when no critical section is active for the current
-       thread, or holds a pointer to the currently active struct rseq_cs.
+								Honza
 
-       Updated by user-space, which sets the address of the currently
-       active rseq_cs at the beginning of assembly instruction sequence
-       block, and set to NULL by the kernel when it restarts an assembly
-       instruction sequence block, as well as when the kernel detects that
-       it is preempting or delivering a signal outside of the range
-       targeted by the rseq_cs.  Also needs to be set to NULL by user-space
-       before reclaiming memory that contains the targeted struct rseq_cs.
-
-       Read and set by the kernel.  Set by user-space with single-copy
-       atomicity semantics.  This field should only be updated by the
-       thread which registered this data structure.  Aligned on 64-bit.
-
-       User-space may perform the update through the rseq_cs.uptr.ptr
-       field.  The padding needs to be initialized to zero on 32-bit.  */
-    union
-      {
-        uint64_t ptr64;
-#ifdef __LP64__
-        uint64_t ptr;
-#else   
-        struct
-          {
-# if (defined (__BYTE_ORDER) && (__BYTE_ORDER == __BIG_ENDIAN)) || defined (__BIG_ENDIAN)
-            uint32_t padding; /* Initialized to zero.  */
-            uint32_t ptr32;
-# else /* LITTLE */
-            uint32_t ptr32;
-            uint32_t padding; /* Initialized to zero.  */
-# endif /* ENDIAN */
-          } ptr;
-#endif
-
-#ifndef __KERNEL__
-        struct
-          {
-# ifdef __LP64__
-            const struct rseq_cs *ptr;
-# else
-#  if (defined (__BYTE_ORDER) && (__BYTE_ORDER == __BIG_ENDIAN)) || defined (__BIG_ENDIAN)
-            uint32_t padding; /* Initialized to zero.  */
-            const struct rseq_cs *ptr;
-#  else /* LITTLE */
-            const struct rseq_cs *ptr;
-            uint32_t padding; /* Initialized to zero.  */
-#  endif /* ENDIAN */
-# endif
-          } uptr;
-#endif
-      } rseq_cs;
-
-Thanks,
-
-Mathieu
-
-
+> 
+> ---
+> Changes from V10:
+> 	rename to d_mark_dontcache()
+> 	Move function to fs/dcache.c
+> 
+> Changes from V9:
+> 	modify i_state under i_lock
+> 	Update comment
+> 		"Purge from memory on final dput()"
+> 
+> Changes from V8:
+> 	Update commit message
+> 	Use mark_inode_dontcache in XFS
+> 	Fix locking...  can't use rcu here.
+> 	Change name to mark_inode_dontcache
+> ---
+>  fs/dcache.c            | 19 +++++++++++++++++++
+>  fs/xfs/xfs_icache.c    |  2 +-
+>  include/linux/dcache.h |  2 ++
+>  include/linux/fs.h     |  1 +
+>  4 files changed, 23 insertions(+), 1 deletion(-)
+> 
+> diff --git a/fs/dcache.c b/fs/dcache.c
+> index b280e07e162b..0d07fb335b78 100644
+> --- a/fs/dcache.c
+> +++ b/fs/dcache.c
+> @@ -647,6 +647,10 @@ static inline bool retain_dentry(struct dentry *dentry)
+>  		if (dentry->d_op->d_delete(dentry))
+>  			return false;
+>  	}
+> +
+> +	if (unlikely(dentry->d_flags & DCACHE_DONTCACHE))
+> +		return false;
+> +
+>  	/* retain; LRU fodder */
+>  	dentry->d_lockref.count--;
+>  	if (unlikely(!(dentry->d_flags & DCACHE_LRU_LIST)))
+> @@ -656,6 +660,21 @@ static inline bool retain_dentry(struct dentry *dentry)
+>  	return true;
+>  }
+>  
+> +void d_mark_dontcache(struct inode *inode)
+> +{
+> +	struct dentry *de;
+> +
+> +	spin_lock(&inode->i_lock);
+> +	hlist_for_each_entry(de, &inode->i_dentry, d_u.d_alias) {
+> +		spin_lock(&de->d_lock);
+> +		de->d_flags |= DCACHE_DONTCACHE;
+> +		spin_unlock(&de->d_lock);
+> +	}
+> +	inode->i_state |= I_DONTCACHE;
+> +	spin_unlock(&inode->i_lock);
+> +}
+> +EXPORT_SYMBOL(d_mark_dontcache);
+> +
+>  /*
+>   * Finish off a dentry we've decided to kill.
+>   * dentry->d_lock must be held, returns with it unlocked.
+> diff --git a/fs/xfs/xfs_icache.c b/fs/xfs/xfs_icache.c
+> index de76f7f60695..888646d74d7d 100644
+> --- a/fs/xfs/xfs_icache.c
+> +++ b/fs/xfs/xfs_icache.c
+> @@ -559,7 +559,7 @@ xfs_iget_cache_miss(
+>  	 */
+>  	iflags = XFS_INEW;
+>  	if (flags & XFS_IGET_DONTCACHE)
+> -		VFS_I(ip)->i_state |= I_DONTCACHE;
+> +		d_mark_dontcache(VFS_I(ip));
+>  	ip->i_udquot = NULL;
+>  	ip->i_gdquot = NULL;
+>  	ip->i_pdquot = NULL;
+> diff --git a/include/linux/dcache.h b/include/linux/dcache.h
+> index c1488cc84fd9..a81f0c3cf352 100644
+> --- a/include/linux/dcache.h
+> +++ b/include/linux/dcache.h
+> @@ -177,6 +177,8 @@ struct dentry_operations {
+>  
+>  #define DCACHE_REFERENCED		0x00000040 /* Recently used, don't discard. */
+>  
+> +#define DCACHE_DONTCACHE		0x00000080 /* Purge from memory on final dput() */
+> +
+>  #define DCACHE_CANT_MOUNT		0x00000100
+>  #define DCACHE_GENOCIDE			0x00000200
+>  #define DCACHE_SHRINK_LIST		0x00000400
+> diff --git a/include/linux/fs.h b/include/linux/fs.h
+> index 44bd45af760f..7c3e8c0306e0 100644
+> --- a/include/linux/fs.h
+> +++ b/include/linux/fs.h
+> @@ -3055,6 +3055,7 @@ static inline int generic_drop_inode(struct inode *inode)
+>  	return !inode->i_nlink || inode_unhashed(inode) ||
+>  		(inode->i_state & I_DONTCACHE);
+>  }
+> +extern void d_mark_dontcache(struct inode *inode);
+>  
+>  extern struct inode *ilookup5_nowait(struct super_block *sb,
+>  		unsigned long hashval, int (*test)(struct inode *, void *),
+> -- 
+> 2.25.1
+> 
 -- 
-Mathieu Desnoyers
-EfficiOS Inc.
-http://www.efficios.com
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
