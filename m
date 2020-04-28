@@ -2,90 +2,179 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D5C8B1BC039
-	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2020 15:52:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 844401BC3AC
+	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2020 17:29:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727962AbgD1NwF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 28 Apr 2020 09:52:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40764 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726946AbgD1NwB (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 28 Apr 2020 09:52:01 -0400
-Received: from tleilax.com (68-20-15-154.lightspeed.rlghnc.sbcglobal.net [68.20.15.154])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1728400AbgD1P2x (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 28 Apr 2020 11:28:53 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:22205 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728319AbgD1P2w (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 28 Apr 2020 11:28:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1588087730;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=uS5bW1tQf/8QdjoKBzoxx0eucD1SomGr+9LtePI5mU8=;
+        b=aJfd8nM4clvqlaNK7v1h6P9SxeaLfMakRcjbr86MCfRdUlns5+KrvPbpwv/ZfsG+roxMHL
+        geHMlv+8y6T6xx2MNe+6wGh7TTb6r4BExnBmGFNx6aOAnS/5n13RmyDDBI6060gAWX3Urw
+        S/7jzhjQzJuZz7f6k8+Xz/iUU939b7M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-236-tseay-lCPfqnD1DA0RbCNg-1; Tue, 28 Apr 2020 11:28:46 -0400
+X-MC-Unique: tseay-lCPfqnD1DA0RbCNg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C1955206E2;
-        Tue, 28 Apr 2020 13:51:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588081920;
-        bh=5DdCwI3stPz5DcXHNz6QeRl8dl1BU5K/ki0kBBLSF+g=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=eye04z2GXBaS6y4uVXFqR7zpeMHKS/A7d842gJM3kyTlZYGDkjg/xx1Cs+ICtVGbw
-         FjIvVY+uANXXSHOJ5uay18mIOXrMe9vgjwsUM6zL+IWt00iN0QVo8xwm+B5adhgp+T
-         CuAyfLDXjV58jghwU42H73NSaMO1D5NKtJmmizA4=
-From:   Jeff Layton <jlayton@kernel.org>
-To:     viro@zeniv.linux.org.uk, akpm@linux-foundation.org
-Cc:     linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, andres@anarazel.de, willy@infradead.org,
-        dhowells@redhat.com, hch@infradead.org, jack@suse.cz,
-        david@fromorbit.com
-Subject: [PATCH v6 RESEND 2/2] buffer: record blockdev write errors in super_block that it backs
-Date:   Tue, 28 Apr 2020 09:51:55 -0400
-Message-Id: <20200428135155.19223-3-jlayton@kernel.org>
-X-Mailer: git-send-email 2.26.1
-In-Reply-To: <20200428135155.19223-1-jlayton@kernel.org>
-References: <20200428135155.19223-1-jlayton@kernel.org>
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF268872FE1;
+        Tue, 28 Apr 2020 15:28:44 +0000 (UTC)
+Received: from fuller.cnet (ovpn-116-77.gru2.redhat.com [10.97.116.77])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 29F045D710;
+        Tue, 28 Apr 2020 15:28:44 +0000 (UTC)
+Received: by fuller.cnet (Postfix, from userid 1000)
+        id ADCC7416C88E; Tue, 28 Apr 2020 11:12:50 -0300 (-03)
+Date:   Tue, 28 Apr 2020 11:12:50 -0300
+From:   Marcelo Tosatti <mtosatti@redhat.com>
+To:     Frederic Weisbecker <frederic@kernel.org>,
+        Alex Belits <abelits@marvell.com>
+Cc:     Alex Belits <abelits@marvell.com>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "mingo@kernel.org" <mingo@kernel.org>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Prasun Kapoor <pkapoor@marvell.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-mm@vger.kernel.org" <linux-mm@vger.kernel.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>
+Subject: Re: [PATCH 03/12] task_isolation: userspace hard isolation from
+ kernel
+Message-ID: <20200428141250.GA28012@fuller.cnet>
+References: <4473787e1b6bc3cc226067e8d122092a678b63de.camel@marvell.com>
+ <36d84b8dd168a38e6a56549dedc15dd6ebf8c09e.camel@marvell.com>
+ <20200305183313.GA29033@lenoir>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200305183313.GA29033@lenoir>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Jeff Layton <jlayton@redhat.com>
 
-When syncing out a block device (a'la __sync_blockdev), any error
-encountered will only be recorded in the bd_inode's mapping. When the
-blockdev contains a filesystem however, we'd like to also record the
-error in the super_block that's stored there.
+I like the idea as well, especially the reporting infrastructure, and 
+would like to see something like this integrated upstream.
 
-Make mark_buffer_write_io_error also record the error in the
-corresponding super_block when a writeback error occurs and the block
-device contains a mounted superblock.
+On Thu, Mar 05, 2020 at 07:33:13PM +0100, Frederic Weisbecker wrote:
+> On Wed, Mar 04, 2020 at 04:07:12PM +0000, Alex Belits wrote:
+> > The existing nohz_full mode is designed as a "soft" isolation mode
+> > that makes tradeoffs to minimize userspace interruptions while
+> > still attempting to avoid overheads in the kernel entry/exit path,
+> > to provide 100% kernel semantics, etc.
+> > 
+> > However, some applications require a "hard" commitment from the
+> > kernel to avoid interruptions, in particular userspace device driver
+> > style applications, such as high-speed networking code.
+> > 
+> > This change introduces a framework to allow applications
+> > to elect to have the "hard" semantics as needed, specifying
+> > prctl(PR_TASK_ISOLATION, PR_TASK_ISOLATION_ENABLE) to do so.
+> > 
+> > The kernel must be built with the new TASK_ISOLATION Kconfig flag
+> > to enable this mode, and the kernel booted with an appropriate
+> > "isolcpus=nohz,domain,CPULIST" boot argument to enable
+> > nohz_full and isolcpus. The "task_isolation" state is then indicated
+> > by setting a new task struct field, task_isolation_flag, to the
+> > value passed by prctl(), and also setting a TIF_TASK_ISOLATION
+> > bit in the thread_info flags. When the kernel is returning to
+> > userspace from the prctl() call and sees TIF_TASK_ISOLATION set,
+> > it calls the new task_isolation_start() routine to arrange for
+> > the task to avoid being interrupted in the future.
+> > 
+> > With interrupts disabled, task_isolation_start() ensures that kernel
+> > subsystems that might cause a future interrupt are quiesced. If it
+> > doesn't succeed, it adjusts the syscall return value to indicate that
+> > fact, and userspace can retry as desired. In addition to stopping
+> > the scheduler tick, the code takes any actions that might avoid
+> > a future interrupt to the core, such as a worker thread being
+> > scheduled that could be quiesced now (e.g. the vmstat worker)
+> > or a future IPI to the core to clean up some state that could be
+> > cleaned up now (e.g. the mm lru per-cpu cache).
+> > 
+> > Once the task has returned to userspace after issuing the prctl(),
+> > if it enters the kernel again via system call, page fault, or any
+> > other exception or irq, the kernel will kill it with SIGKILL.
 
-Since superblocks are RCU freed, hold the rcu_read_lock to ensure
-that the superblock doesn't go away while we're marking it.
+This severely limits usage of the interface. 
 
-Reviewed-by: Jan Kara <jack@suse.cz>
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
----
- fs/buffer.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+I suppose the reason for blocking system calls is to make sure 
+userspace does not initiate actions that might generate interruptions, 
+such as IPI flushes (memory unmaps or changes), vmstat work items
+(page dirtying), or is there any reason for it ?
 
-diff --git a/fs/buffer.c b/fs/buffer.c
-index f73276d746bb..71be7e6cabca 100644
---- a/fs/buffer.c
-+++ b/fs/buffer.c
-@@ -1154,12 +1154,19 @@ EXPORT_SYMBOL(mark_buffer_dirty);
- 
- void mark_buffer_write_io_error(struct buffer_head *bh)
- {
-+	struct super_block *sb;
-+
- 	set_buffer_write_io_error(bh);
- 	/* FIXME: do we need to set this in both places? */
- 	if (bh->b_page && bh->b_page->mapping)
- 		mapping_set_error(bh->b_page->mapping, -EIO);
- 	if (bh->b_assoc_map)
- 		mapping_set_error(bh->b_assoc_map, -EIO);
-+	rcu_read_lock();
-+	sb = READ_ONCE(bh->b_bdev->bd_super);
-+	if (sb)
-+		errseq_set(&sb->s_wb_err, -EIO);
-+	rcu_read_unlock();
- }
- EXPORT_SYMBOL(mark_buffer_write_io_error);
- 
--- 
-2.26.1
+
++/* Only a few syscalls are valid once we are in task isolation mode. */
++static bool is_acceptable_syscall(int syscall)
++{
++       /* No need to incur an isolation signal if we are just exiting. */
++       if (syscall == __NR_exit || syscall == __NR_exit_group)
++               return true;
++       
++       /* Check to see if it's the prctl for isolation. */
++       if (syscall == __NR_prctl) {
++               unsigned long arg[SYSCALL_MAX_ARGS];
++       
++               syscall_get_arguments(current, current_pt_regs(), arg);
++               if (arg[0] == PR_TASK_ISOLATION)
++                       return true;
++       }
++ 
++       return false;
++}
+
+
+> > In addition to sending a signal, the code supports a kernel
+> > command-line "task_isolation_debug" flag which causes a stack
+> > backtrace to be generated whenever a task loses isolation.
+> > 
+> > To allow the state to be entered and exited, the syscall checking
+> > test ignores the prctl(PR_TASK_ISOLATION) syscall so that we can
+> > clear the bit again later, and ignores exit/exit_group to allow
+> > exiting the task without a pointless signal being delivered.
+> > 
+> > The prctl() API allows for specifying a signal number to use instead
+> > of the default SIGKILL, to allow for catching the notification
+> > signal; for example, in a production environment, it might be
+> > helpful to log information to the application logging mechanism
+> > before exiting. Or, the signal handler might choose to reset the
+> > program counter back to the code segment intended to be run isolated
+> > via prctl() to continue execution.
+> 
+> Hi Alew,
+> 
+> I'm glad this patchset is being resurected.
+> Reading that changelog, I like the general idea and the direction.
+> The diff is a bit scary though but I'll check the patches in detail
+> in the upcoming days.
+> 
+> > 
+> > In a number of cases we can tell on a remote cpu that we are
+> > going to be interrupting the cpu, e.g. via an IPI or a TLB flush.
+> > In that case we generate the diagnostic (and optional stack dump)
+> > on the remote core to be able to deliver better diagnostics.
+> > If the interrupt is not something caught by Linux (e.g. a
+> > hypervisor interrupt) we can also request a reschedule IPI to
+> > be sent to the remote core so it can be sure to generate a
+> > signal to notify the process.
+> 
+> I'm wondering if it's wise to run that on a guest at all :-)
+> Or we should consider any guest exit to the host as a
+> disturbance, we would then need some sort of paravirt
+> driver to notify that, etc... That doesn't sound appealing.
+> 
+> Thanks.
 
