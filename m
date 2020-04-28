@@ -2,169 +2,70 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A37C1BBE7C
-	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2020 15:04:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6C791BC03B
+	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2020 15:52:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726862AbgD1NEj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 28 Apr 2020 09:04:39 -0400
-Received: from mx2.suse.de ([195.135.220.15]:56196 "EHLO mx2.suse.de"
+        id S1727058AbgD1Nv6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 28 Apr 2020 09:51:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40690 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726746AbgD1NEi (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 28 Apr 2020 09:04:38 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 0B96AAC5F;
-        Tue, 28 Apr 2020 13:04:36 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id EB7251E1294; Tue, 28 Apr 2020 15:04:35 +0200 (CEST)
-Date:   Tue, 28 Apr 2020 15:04:35 +0200
-From:   Jan Kara <jack@suse.cz>
-To:     ira.weiny@intel.com
-Cc:     linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
-        "Darrick J. Wong" <darrick.wong@oracle.com>,
-        Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Christoph Hellwig <hch@lst.de>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>, Jeff Moyer <jmoyer@redhat.com>,
-        linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org
-Subject: Re: [PATCH V11 10/11] fs: Introduce DCACHE_DONTCACHE
-Message-ID: <20200428130435.GA6426@quack2.suse.cz>
-References: <20200428002142.404144-1-ira.weiny@intel.com>
- <20200428002142.404144-11-ira.weiny@intel.com>
+        id S1726949AbgD1Nv6 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 28 Apr 2020 09:51:58 -0400
+Received: from tleilax.com (68-20-15-154.lightspeed.rlghnc.sbcglobal.net [68.20.15.154])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 71BDA206B9;
+        Tue, 28 Apr 2020 13:51:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1588081918;
+        bh=X2ol4rocPF2ZJBHHLlHiFYeAjC6ioYlP2NnvBhXo7o0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=VhOq+pLLHaMiH/1tzmZo19CBTqQgxNeUYjA1sxNGSdJRmAl6Nlx1O/Jau1FpYdsJF
+         5BX/NmSwvU4Yt+553IGnq+5WriTvZG+PchU1YVwpCPgRd9na9Zya+LbltarsMoBtEV
+         OELKOWhNJjmA655Tt7ERhr2ZFjpqXV2USGrp/B4I=
+From:   Jeff Layton <jlayton@kernel.org>
+To:     viro@zeniv.linux.org.uk, akpm@linux-foundation.org
+Cc:     linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, andres@anarazel.de, willy@infradead.org,
+        dhowells@redhat.com, hch@infradead.org, jack@suse.cz,
+        david@fromorbit.com
+Subject: [PATCH v6 RESEND 0/2] vfs: have syncfs() return error when there are writeback errors
+Date:   Tue, 28 Apr 2020 09:51:53 -0400
+Message-Id: <20200428135155.19223-1-jlayton@kernel.org>
+X-Mailer: git-send-email 2.26.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200428002142.404144-11-ira.weiny@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon 27-04-20 17:21:41, ira.weiny@intel.com wrote:
-> From: Ira Weiny <ira.weiny@intel.com>
-> 
-> DCACHE_DONTCACHE indicates a dentry should not be cached on final
-> dput().
-> 
-> Also add a helper function to mark DCACHE_DONTCACHE on all dentries
-> pointing to a specific inode when that inode is being set I_DONTCACHE.
-> 
-> This facilitates dropping dentry references to inodes sooner which
-> require eviction to swap S_DAX mode.
-> 
-> Cc: Al Viro <viro@zeniv.linux.org.uk>
-> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+Just a resend since this hasn't been picked up yet. No real changes
+from the last set (other than adding Jan's Reviewed-bys). Latest
+cover letter follows:
 
-The patch looks good to me. You can add:
+--------------------------8<----------------------------
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+v6:
+- use READ_ONCE to ensure that compiler doesn't optimize away local var
 
-								Honza
+The only difference from v5 is the change to use READ_ONCE to fetch the
+bd_super pointer, to ensure that the compiler doesn't refetch it
+afterward. Many thanks to Jan K. for the explanation!
 
-> 
-> ---
-> Changes from V10:
-> 	rename to d_mark_dontcache()
-> 	Move function to fs/dcache.c
-> 
-> Changes from V9:
-> 	modify i_state under i_lock
-> 	Update comment
-> 		"Purge from memory on final dput()"
-> 
-> Changes from V8:
-> 	Update commit message
-> 	Use mark_inode_dontcache in XFS
-> 	Fix locking...  can't use rcu here.
-> 	Change name to mark_inode_dontcache
-> ---
->  fs/dcache.c            | 19 +++++++++++++++++++
->  fs/xfs/xfs_icache.c    |  2 +-
->  include/linux/dcache.h |  2 ++
->  include/linux/fs.h     |  1 +
->  4 files changed, 23 insertions(+), 1 deletion(-)
-> 
-> diff --git a/fs/dcache.c b/fs/dcache.c
-> index b280e07e162b..0d07fb335b78 100644
-> --- a/fs/dcache.c
-> +++ b/fs/dcache.c
-> @@ -647,6 +647,10 @@ static inline bool retain_dentry(struct dentry *dentry)
->  		if (dentry->d_op->d_delete(dentry))
->  			return false;
->  	}
-> +
-> +	if (unlikely(dentry->d_flags & DCACHE_DONTCACHE))
-> +		return false;
-> +
->  	/* retain; LRU fodder */
->  	dentry->d_lockref.count--;
->  	if (unlikely(!(dentry->d_flags & DCACHE_LRU_LIST)))
-> @@ -656,6 +660,21 @@ static inline bool retain_dentry(struct dentry *dentry)
->  	return true;
->  }
->  
-> +void d_mark_dontcache(struct inode *inode)
-> +{
-> +	struct dentry *de;
-> +
-> +	spin_lock(&inode->i_lock);
-> +	hlist_for_each_entry(de, &inode->i_dentry, d_u.d_alias) {
-> +		spin_lock(&de->d_lock);
-> +		de->d_flags |= DCACHE_DONTCACHE;
-> +		spin_unlock(&de->d_lock);
-> +	}
-> +	inode->i_state |= I_DONTCACHE;
-> +	spin_unlock(&inode->i_lock);
-> +}
-> +EXPORT_SYMBOL(d_mark_dontcache);
-> +
->  /*
->   * Finish off a dentry we've decided to kill.
->   * dentry->d_lock must be held, returns with it unlocked.
-> diff --git a/fs/xfs/xfs_icache.c b/fs/xfs/xfs_icache.c
-> index de76f7f60695..888646d74d7d 100644
-> --- a/fs/xfs/xfs_icache.c
-> +++ b/fs/xfs/xfs_icache.c
-> @@ -559,7 +559,7 @@ xfs_iget_cache_miss(
->  	 */
->  	iflags = XFS_INEW;
->  	if (flags & XFS_IGET_DONTCACHE)
-> -		VFS_I(ip)->i_state |= I_DONTCACHE;
-> +		d_mark_dontcache(VFS_I(ip));
->  	ip->i_udquot = NULL;
->  	ip->i_gdquot = NULL;
->  	ip->i_pdquot = NULL;
-> diff --git a/include/linux/dcache.h b/include/linux/dcache.h
-> index c1488cc84fd9..a81f0c3cf352 100644
-> --- a/include/linux/dcache.h
-> +++ b/include/linux/dcache.h
-> @@ -177,6 +177,8 @@ struct dentry_operations {
->  
->  #define DCACHE_REFERENCED		0x00000040 /* Recently used, don't discard. */
->  
-> +#define DCACHE_DONTCACHE		0x00000080 /* Purge from memory on final dput() */
-> +
->  #define DCACHE_CANT_MOUNT		0x00000100
->  #define DCACHE_GENOCIDE			0x00000200
->  #define DCACHE_SHRINK_LIST		0x00000400
-> diff --git a/include/linux/fs.h b/include/linux/fs.h
-> index 44bd45af760f..7c3e8c0306e0 100644
-> --- a/include/linux/fs.h
-> +++ b/include/linux/fs.h
-> @@ -3055,6 +3055,7 @@ static inline int generic_drop_inode(struct inode *inode)
->  	return !inode->i_nlink || inode_unhashed(inode) ||
->  		(inode->i_state & I_DONTCACHE);
->  }
-> +extern void d_mark_dontcache(struct inode *inode);
->  
->  extern struct inode *ilookup5_nowait(struct super_block *sb,
->  		unsigned long hashval, int (*test)(struct inode *, void *),
-> -- 
-> 2.25.1
-> 
+Jeff Layton (2):
+  vfs: track per-sb writeback errors and report them to syncfs
+  buffer: record blockdev write errors in super_block that it backs
+
+ drivers/dax/device.c    |  1 +
+ fs/buffer.c             |  7 +++++++
+ fs/file_table.c         |  1 +
+ fs/open.c               |  3 +--
+ fs/sync.c               |  6 ++++--
+ include/linux/fs.h      | 16 ++++++++++++++++
+ include/linux/pagemap.h |  5 ++++-
+ 7 files changed, 34 insertions(+), 5 deletions(-)
+
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.26.1
+
