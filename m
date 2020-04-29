@@ -2,94 +2,116 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 309BA1BD6FB
-	for <lists+linux-api@lfdr.de>; Wed, 29 Apr 2020 10:18:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39E141BD79A
+	for <lists+linux-api@lfdr.de>; Wed, 29 Apr 2020 10:50:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726457AbgD2IST (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 29 Apr 2020 04:18:19 -0400
-Received: from albireo.enyo.de ([37.24.231.21]:55198 "EHLO albireo.enyo.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726355AbgD2IST (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 29 Apr 2020 04:18:19 -0400
-Received: from [172.17.203.2] (helo=deneb.enyo.de)
-        by albireo.enyo.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1jThuy-0004qC-GE; Wed, 29 Apr 2020 08:18:08 +0000
-Received: from fw by deneb.enyo.de with local (Exim 4.92)
-        (envelope-from <fw@deneb.enyo.de>)
-        id 1jThuy-0004kT-E2; Wed, 29 Apr 2020 10:18:08 +0200
-From:   Florian Weimer <fw@deneb.enyo.de>
-To:     Szabolcs Nagy <szabolcs.nagy@arm.com>
-Cc:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        id S1726556AbgD2Iuy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 29 Apr 2020 04:50:54 -0400
+Received: from smtp-bc08.mail.infomaniak.ch ([45.157.188.8]:36353 "EHLO
+        smtp-bc08.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726535AbgD2Iuy (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 29 Apr 2020 04:50:54 -0400
+Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 49BsfQ1WB6zlhqlx;
+        Wed, 29 Apr 2020 10:50:22 +0200 (CEST)
+Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
+        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 49BsfM4z8bzmPw5b;
+        Wed, 29 Apr 2020 10:50:19 +0200 (CEST)
+Subject: Re: [PATCH v3 0/5] Add support for RESOLVE_MAYEXEC
+To:     Jann Horn <jannh@google.com>, Florian Weimer <fw@deneb.enyo.de>
+Cc:     kernel list <linux-kernel@vger.kernel.org>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@kernel.org>,
+        Christian Heimes <christian@python.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Deven Bowers <deven.desai@linux.microsoft.com>,
+        Eric Chiang <ericchiang@google.com>,
+        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Matthew Garrett <mjg59@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
         Michael Kerrisk <mtk.manpages@gmail.com>,
-        libc-alpha <libc-alpha@sourceware.org>,
-        carlos <carlos@redhat.com>, Rich Felker <dalias@libc.org>,
-        linux-api <linux-api@vger.kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Will Deacon <will.deacon@arm.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ben Maurer <bmaurer@fb.com>, Dave Watson <davejwatson@fb.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Paul <paulmck@linux.vnet.ibm.com>, Paul Turner <pjt@google.com>,
-        Joseph Myers <joseph@codesourcery.com>
-Subject: Re: [PATCH glibc 5/9] glibc: Perform rseq(2) registration at C startup and thread creation (v17)
-References: <20200326155633.18236-1-mathieu.desnoyers@efficios.com>
-        <87zhawvphv.fsf@mid.deneb.enyo.de>
-        <2102127737.70791.1588008377292.JavaMail.zimbra@efficios.com>
-        <87ftcnrf7d.fsf@mid.deneb.enyo.de>
-        <1080028389.72414.1588077193438.JavaMail.zimbra@efficios.com>
-        <878sifrdo0.fsf@mid.deneb.enyo.de>
-        <190402462.72430.1588077816717.JavaMail.zimbra@efficios.com>
-        <87tv13py8j.fsf@mid.deneb.enyo.de>
-        <437249723.72685.1588085899422.JavaMail.zimbra@efficios.com>
-        <20200429081606.GP29015@arm.com>
-Date:   Wed, 29 Apr 2020 10:18:08 +0200
-In-Reply-To: <20200429081606.GP29015@arm.com> (Szabolcs Nagy's message of
-        "Wed, 29 Apr 2020 09:16:09 +0100")
-Message-ID: <87a72ug0xr.fsf@mid.deneb.enyo.de>
+        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mickael.salaun@ssi.gouv.fr>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        =?UTF-8?Q?Philippe_Tr=c3=a9buchet?= 
+        <philippe.trebuchet@ssi.gouv.fr>,
+        Scott Shell <scottsh@microsoft.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Steve Dower <steve.dower@python.org>,
+        Steve Grubb <sgrubb@redhat.com>,
+        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
+        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+References: <20200428175129.634352-1-mic@digikod.net>
+ <CAG48ez1bKzh1YvbD_Lcg0AbMCH_cdZmrRRumU7UCJL=qPwNFpQ@mail.gmail.com>
+ <87blnb48a3.fsf@mid.deneb.enyo.de>
+ <CAG48ez2TphTj-VdDaSjvnr0Q8BhNmT3n86xYz4bF3wRJmAMsMw@mail.gmail.com>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <ece281a5-8944-65fd-2a76-e4479a0cccaf@digikod.net>
+Date:   Wed, 29 Apr 2020 10:50:19 +0200
+User-Agent: 
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <CAG48ez2TphTj-VdDaSjvnr0Q8BhNmT3n86xYz4bF3wRJmAMsMw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
+X-Antivirus-Code: 0x100000
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Szabolcs Nagy:
 
-> The 04/28/2020 10:58, Mathieu Desnoyers wrote:
->> ----- On Apr 28, 2020, at 8:54 AM, Florian Weimer fw@deneb.enyo.de wrote:
->> > That one definitely should work.
->> > 
->> > I expect you might see this if libgcc_s.so.1 is installed into a
->> > multiarch subdirectory that upstream glibc does not search.  (The
->> > Debian patches are unfortunately not upstream.)
->> 
->> My test environment is a Ubuntu 18.04.1 LTS.
->> 
->> > 
->> > I think on my system, the built glibc can find the system libgcc_s via
->> > /etc/ld.so.cache, so I haven't seen this issue yet.
->> 
->> On my system, libgcc_s is provided here:
->> 
->> /lib/x86_64-linux-gnu/libgcc_s.so.1
->> 
->> by this package:
->> 
->> Package: libgcc1
->> Architecture: amd64
->> Version: 1:8.4.0-1ubuntu1~18.04
->
-> before running the tests
->
-> cp `$CC --print-file-name libgcc_s.so.1` glibc/build/dir
-> cp `$CC --print-file-name libstdc++.so.6` glibc/build/dir
->
-> so those toolchain libs are in the search path
-> of the newly built libc when running tests.
 
-Do you actually see the need for these steps yourself?
+On 29/04/2020 00:01, Jann Horn wrote:
+> On Tue, Apr 28, 2020 at 11:21 PM Florian Weimer <fw@deneb.enyo.de> wrote:
+>> * Jann Horn:
+>>
+>>> Just as a comment: You'd probably also have to use RESOLVE_MAYEXEC in
+>>> the dynamic linker.
+>>
+>> Absolutely.  In typical configurations, the kernel does not enforce
+>> that executable mappings must be backed by files which are executable.
+>> It's most obvious with using an explicit loader invocation to run
+>> executables on noexec mounts.  RESOLVE_MAYEXEC is much more useful
+>> than trying to reimplement the kernel permission checks (or what some
+>> believe they should be) in userspace.
 
-I guess the correct fix would be to upstream the Debian multiarch
-changes and activate them automatically with a configure check on
-systems that use multiarch paths.
+Indeed it makes sense to use RESOLVE_MAYEXEC for the dynamic linker too.
+Only the noexec mount option is taken into account for mmap(2) with
+PROT_EXEC, and if you can trick the dynamic linker with JOP as Jann
+explained, it may enable to execute new code. However, a kernel which
+forbids remapping memory with PROT_EXEC still enables to implement a W^X
+policy. Any JOP/ROP still enables unexpected code execution though.
+
+> 
+> Oh, good point.
+> 
+> That actually seems like something Mickaël could add to his series? If
+> someone turns on that knob for "When an interpreter wants to execute
+> something, enforce that we have execute access to it", they probably
+> also don't want it to be possible to just map files as executable? So
+> perhaps when that flag is on, the kernel should either refuse to map
+> anything as executable if it wasn't opened with RESOLVE_MAYEXEC or
+> (less strict) if RESOLVE_MAYEXEC wasn't used, print a warning, then
+> check whether the file is executable and bail out if not?
+> 
+> A configuration where interpreters verify that scripts are executable,
+> but other things can just mmap executable pages, seems kinda
+> inconsistent...
+
+As it is written in the documentation patch, this RESOLVE_MAYEXEC
+feature is an important missing piece, but to implement a consistent
+security policy we need to enable other restrictions starting with a
+noexec mount point policy. The purpose of this patch series is not to
+bring a full-feature LSM with process states handling, but it brings
+what is needed for LSMs such as SELinux, IMA or IPE to extend their
+capabilities to reach what you would expect.
