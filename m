@@ -2,96 +2,108 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7964B1BDC00
-	for <lists+linux-api@lfdr.de>; Wed, 29 Apr 2020 14:24:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44E381BDD7D
+	for <lists+linux-api@lfdr.de>; Wed, 29 Apr 2020 15:24:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726844AbgD2MXk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 29 Apr 2020 08:23:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56814 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726701AbgD2MXk (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 29 Apr 2020 08:23:40 -0400
-Received: from tleilax.poochiereds.net (68-20-15-154.lightspeed.rlghnc.sbcglobal.net [68.20.15.154])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 65DE32074A;
-        Wed, 29 Apr 2020 12:23:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588163019;
-        bh=8UVjfjYLGszO02O6LC1dL/zNdFw+wGY493Sm0aW1k/8=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=0C6soHM81jnUAE4U4jlUBuZ4ELMO8fJ0pCjAQ9I8mBOpCNH54NdjMuHsOPbirucjs
-         YnUy378pVY4KxyVtazh6sc0cghi3K745fzgcXqOQeVg1bhcFM0OkT9/Zv7gvGwsHbK
-         i2Jj9RphnToZs/gurPxFur/r8vwU+++SYD1Al8j4=
-Message-ID: <4f485a350db547fa7a9f5ef764a413b93564aef7.camel@kernel.org>
-Subject: Re: [PATCH v6 RESEND 0/2] vfs: have syncfs() return error when
- there are writeback errors
-From:   Jeff Layton <jlayton@kernel.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        andres@anarazel.de, willy@infradead.org, dhowells@redhat.com,
-        hch@infradead.org, jack@suse.cz, david@fromorbit.com
-Date:   Wed, 29 Apr 2020 08:23:37 -0400
-In-Reply-To: <20200428164819.7b58666b755d2156aa46c56c@linux-foundation.org>
-References: <20200428135155.19223-1-jlayton@kernel.org>
-         <20200428164819.7b58666b755d2156aa46c56c@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.1 (3.36.1-1.fc32) 
+        id S1726654AbgD2NYE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 29 Apr 2020 09:24:04 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:49507 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726617AbgD2NYD (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 29 Apr 2020 09:24:03 -0400
+Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
+ (mreue012 [212.227.15.129]) with ESMTPA (Nemesis) id
+ 1MDv1A-1jM2us3zwy-009zpL; Wed, 29 Apr 2020 15:23:55 +0200
+From:   Arnd Bergmann <arnd@arndb.de>
+To:     Russell King <linux@armlinux.org.uk>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Christoph Hellwig <hch@lst.de>,
+        Russell King <rmk+kernel@armlinux.org.uk>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org
+Subject: [PATCH] [v2] ARM: oabi-compat: fix epoll_ctl build failure
+Date:   Wed, 29 Apr 2020 15:23:24 +0200
+Message-Id: <20200429132349.1294904-1-arnd@arndb.de>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:YesVeQBh9Q/IA+uNWz/5JCdSN2u4hoTMC5shuvSJ4yxM1Q6iwui
+ wXUQ5wEe7ndWD4fD5QG/iF3Y8iVx9+DoiTgHcTG3Zt64TuTyLiawqer+CYnMad2oEvSXwMI
+ 2/lferA/lpp5qT7D4jF7OFcvNkdsovgGrDcKxXLycrOrO6KrgW7Et+inVFPWiWkeSGciNNC
+ JwsBwNoMFhx1RLcB8D5wA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:oM3nSM6auHQ=:YMn63bge2D4TN2BuE+kKP0
+ JrAZ/FMokb4p0ZyrHUM4qR0NA28gOEyw9/frW6jIeZT9ZFzUTawj2+BG78WMhpuK+40T/RSSi
+ nNPR+JiuYxNF2J4vY+3fAd51EFTWauTu5xMoGWOVySj3WOoLr1TLsr1kfC/bMNNZQVbL2AgJw
+ bx2vYWsjclCyCUq1jqykhL/t9/Cc3GiMiq4qKUpW+1N524zStvlFqfR1yT6S7tiO4viaeK+iW
+ 60LSU6yk/eR2RMtxXOFAwYh6ufSwp1wNRYnXByk/0rzo7Fc4ObZLWMwS31G13se7u66vX1DuD
+ Yc0usPp7QFqq16Tw25wwEc6SD8vmVrxo08WIO/S4qJx4LYMA8u2OH4lZfbpLbsRjyvAXjdopb
+ LtQ3tGT8dmx5BhhIHIyjNLC+CN9eRy7Swp33GF9+A6cq+TpY8nZZdd6Cc/16i6I+NGjVE5YlQ
+ hvOeF8fZr0al6jqNcfZP75cwdEFDINBNT/CsVRIADuORToS0JJRutEoPjf1cBQ8/x9/mfPFCo
+ 75mrVhTY792ttYUO+IpdlAA3CN7npw7CvbxsGwYNdomtrepM7ZyDTeJXyo4LD51gjqSz7yKAP
+ NXUYYaQliD7yVdZMKhk/akMo0fmTLNHvFXpxqMQ5gYKH6VJimNzGDQJRuDK/qZmWCkY9UTOJn
+ W9g1yj2Y3kHglEvm9g18lAN1lgDAfE4uC4XCxEKXSn7kiKtdNvqX4tuIeeFnV1A6P+IZ+6C5/
+ 6T2KeFyMhQ0NuMvcKWmwGzHAuOyOsW7az6PZcsNoNpFFmz1aK9wArASmf6BSOGjuhMGivRGTx
+ wcVEG1X2v99IGprRPFLEIinmJsYOld7tuS1C17jp6XpwTgDyfM=
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, 2020-04-28 at 16:48 -0700, Andrew Morton wrote:
-> On Tue, 28 Apr 2020 09:51:53 -0400 Jeff Layton <jlayton@kernel.org> wrote:
-> 
-> > Just a resend since this hasn't been picked up yet. No real changes
-> > from the last set (other than adding Jan's Reviewed-bys). Latest
-> > cover letter follows:
-> 
-> I see no cover letter here.
-> 
-> > --------------------------8<----------------------------
-> > 
-> > v6:
-> > - use READ_ONCE to ensure that compiler doesn't optimize away local var
-> > 
-> > The only difference from v5 is the change to use READ_ONCE to fetch the
-> > bd_super pointer, to ensure that the compiler doesn't refetch it
-> > afterward. Many thanks to Jan K. for the explanation!
-> > 
-> > Jeff Layton (2):
-> >   vfs: track per-sb writeback errors and report them to syncfs
-> >   buffer: record blockdev write errors in super_block that it backs
-> 
-> http://lkml.kernel.org/r/20200207170423.377931-1-jlayton@kernel.org
-> 
-> has suitable-looking words, but is it up to date?
-> 
+Two functions are not declared or defined when CONFIG_EPOLL is
+disabled:
 
-Thanks for picking this up, Andrew.
+arch/arm/kernel/sys_oabi-compat.c: In function 'sys_oabi_epoll_ctl':
+arch/arm/kernel/sys_oabi-compat.c:258:6: error: implicit declaration of function 'ep_op_has_event' [-Werror=implicit-function-declaration]
+  258 |  if (ep_op_has_event(op) &&
+      |      ^~~~~~~~~~~~~~~
+arch/arm/kernel/sys_oabi-compat.c:265:9: error: implicit declaration of function 'do_epoll_ctl'; did you mean 'sys_epoll_ctl'? [-Werror=implicit-function-declaration]
+  265 |  return do_epoll_ctl(epfd, op, fd, &kernel, false);
+      |         ^~~~~~~~~~~~
+      |         sys_epoll_ctl
 
-No, it's not. Since I wrote that, I dropped the ioctl and changed it
-over to use a dedicated field in struct file instead of trying to
-multiplex it for O_PATH descriptors. How about something like this?
+Replace the function with the sys_ni_syscall stub in this case.
 
----------------------------8<---------------------------
+Fixes: c281634c8652 ("ARM: compat: remove KERNEL_DS usage in sys_oabi_epoll_ctl()")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+v2: use sys_ni_syscall() instead of removing the function body
+---
+ arch/arm/kernel/sys_oabi-compat.c | 2 ++
+ kernel/sys_ni.c                   | 1 +
+ 2 files changed, 3 insertions(+)
 
-Currently, syncfs does not return errors when one of the inodes fails to
-be written back. It will return errors based on the legacy AS_EIO and
-AS_ENOSPC flags when syncing out the block device fails, but that's not
-particularly helpful for filesystems that aren't backed by a blockdev.
-It's also possible for a stray sync to lose those errors.
-
-The basic idea in this set is to track writeback errors at the
-superblock level, so that we can quickly and easily check whether
-something bad happened without having to fsync each file individually.
-syncfs is then changed to reliably report writeback errors after they
-occur, much in the same fashion as fsync does now.
-
+diff --git a/arch/arm/kernel/sys_oabi-compat.c b/arch/arm/kernel/sys_oabi-compat.c
+index 85a1e95341d8..2488c69242cf 100644
+--- a/arch/arm/kernel/sys_oabi-compat.c
++++ b/arch/arm/kernel/sys_oabi-compat.c
+@@ -249,6 +249,7 @@ struct oabi_epoll_event {
+ 	__u64 data;
+ } __attribute__ ((packed,aligned(4)));
+ 
++#ifdef CONFIG_EPOLL
+ asmlinkage long sys_oabi_epoll_ctl(int epfd, int op, int fd,
+ 				   struct oabi_epoll_event __user *event)
+ {
+@@ -264,6 +265,7 @@ asmlinkage long sys_oabi_epoll_ctl(int epfd, int op, int fd,
+ 
+ 	return do_epoll_ctl(epfd, op, fd, &kernel, false);
+ }
++#endif
+ 
+ asmlinkage long sys_oabi_epoll_wait(int epfd,
+ 				    struct oabi_epoll_event __user *events,
+diff --git a/kernel/sys_ni.c b/kernel/sys_ni.c
+index 42ce28c460f6..9ee6a46b1795 100644
+--- a/kernel/sys_ni.c
++++ b/kernel/sys_ni.c
+@@ -68,6 +68,7 @@ COND_SYSCALL(epoll_create1);
+ COND_SYSCALL(epoll_ctl);
+ COND_SYSCALL(epoll_pwait);
+ COND_SYSCALL_COMPAT(epoll_pwait);
++COND_SYSCALL(oabi_epoll_ctl); /* ARM OABI specific */
+ 
+ /* fs/fcntl.c */
+ 
 -- 
-Jeff Layton <jlayton@kernel.org>
+2.26.0
 
