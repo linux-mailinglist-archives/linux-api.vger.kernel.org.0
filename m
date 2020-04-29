@@ -2,76 +2,96 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 626171BDBE2
-	for <lists+linux-api@lfdr.de>; Wed, 29 Apr 2020 14:19:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7964B1BDC00
+	for <lists+linux-api@lfdr.de>; Wed, 29 Apr 2020 14:24:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726785AbgD2MTx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 29 Apr 2020 08:19:53 -0400
-Received: from albireo.enyo.de ([37.24.231.21]:59794 "EHLO albireo.enyo.de"
+        id S1726844AbgD2MXk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 29 Apr 2020 08:23:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56814 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726524AbgD2MTw (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 29 Apr 2020 08:19:52 -0400
-Received: from [172.17.203.2] (helo=deneb.enyo.de)
-        by albireo.enyo.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1jTlgg-0004vQ-DM; Wed, 29 Apr 2020 12:19:38 +0000
-Received: from fw by deneb.enyo.de with local (Exim 4.92)
-        (envelope-from <fw@deneb.enyo.de>)
-        id 1jTlgg-0000j1-AN; Wed, 29 Apr 2020 14:19:38 +0200
-From:   Florian Weimer <fw@deneb.enyo.de>
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc:     Michael Kerrisk <mtk.manpages@gmail.com>,
-        libc-alpha <libc-alpha@sourceware.org>,
-        carlos <carlos@redhat.com>, Rich Felker <dalias@libc.org>,
-        linux-api <linux-api@vger.kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Will Deacon <will.deacon@arm.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ben Maurer <bmaurer@fb.com>, Dave Watson <davejwatson@fb.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Paul <paulmck@linux.vnet.ibm.com>, Paul Turner <pjt@google.com>,
-        Joseph Myers <joseph@codesourcery.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>
-Subject: Re: [PATCH glibc 5/9] glibc: Perform rseq(2) registration at C startup and thread creation (v17)
-References: <20200326155633.18236-1-mathieu.desnoyers@efficios.com>
-        <20200326155633.18236-6-mathieu.desnoyers@efficios.com>
-        <87ees9z417.fsf@mid.deneb.enyo.de>
-        <284293396.70630.1588005648556.JavaMail.zimbra@efficios.com>
-        <87zhawvphv.fsf@mid.deneb.enyo.de>
-        <2102127737.70791.1588008377292.JavaMail.zimbra@efficios.com>
-        <87ftcnrf7d.fsf@mid.deneb.enyo.de>
-        <1080028389.72414.1588077193438.JavaMail.zimbra@efficios.com>
-        <1862775654.72437.1588078588989.JavaMail.zimbra@efficios.com>
-Date:   Wed, 29 Apr 2020 14:19:38 +0200
-In-Reply-To: <1862775654.72437.1588078588989.JavaMail.zimbra@efficios.com>
-        (Mathieu Desnoyers's message of "Tue, 28 Apr 2020 08:56:28 -0400
-        (EDT)")
-Message-ID: <87368mcwmd.fsf@mid.deneb.enyo.de>
+        id S1726701AbgD2MXk (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 29 Apr 2020 08:23:40 -0400
+Received: from tleilax.poochiereds.net (68-20-15-154.lightspeed.rlghnc.sbcglobal.net [68.20.15.154])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 65DE32074A;
+        Wed, 29 Apr 2020 12:23:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1588163019;
+        bh=8UVjfjYLGszO02O6LC1dL/zNdFw+wGY493Sm0aW1k/8=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=0C6soHM81jnUAE4U4jlUBuZ4ELMO8fJ0pCjAQ9I8mBOpCNH54NdjMuHsOPbirucjs
+         YnUy378pVY4KxyVtazh6sc0cghi3K745fzgcXqOQeVg1bhcFM0OkT9/Zv7gvGwsHbK
+         i2Jj9RphnToZs/gurPxFur/r8vwU+++SYD1Al8j4=
+Message-ID: <4f485a350db547fa7a9f5ef764a413b93564aef7.camel@kernel.org>
+Subject: Re: [PATCH v6 RESEND 0/2] vfs: have syncfs() return error when
+ there are writeback errors
+From:   Jeff Layton <jlayton@kernel.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        andres@anarazel.de, willy@infradead.org, dhowells@redhat.com,
+        hch@infradead.org, jack@suse.cz, david@fromorbit.com
+Date:   Wed, 29 Apr 2020 08:23:37 -0400
+In-Reply-To: <20200428164819.7b58666b755d2156aa46c56c@linux-foundation.org>
+References: <20200428135155.19223-1-jlayton@kernel.org>
+         <20200428164819.7b58666b755d2156aa46c56c@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.1 (3.36.1-1.fc32) 
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Mathieu Desnoyers:
+On Tue, 2020-04-28 at 16:48 -0700, Andrew Morton wrote:
+> On Tue, 28 Apr 2020 09:51:53 -0400 Jeff Layton <jlayton@kernel.org> wrote:
+> 
+> > Just a resend since this hasn't been picked up yet. No real changes
+> > from the last set (other than adding Jan's Reviewed-bys). Latest
+> > cover letter follows:
+> 
+> I see no cover letter here.
+> 
+> > --------------------------8<----------------------------
+> > 
+> > v6:
+> > - use READ_ONCE to ensure that compiler doesn't optimize away local var
+> > 
+> > The only difference from v5 is the change to use READ_ONCE to fetch the
+> > bd_super pointer, to ensure that the compiler doesn't refetch it
+> > afterward. Many thanks to Jan K. for the explanation!
+> > 
+> > Jeff Layton (2):
+> >   vfs: track per-sb writeback errors and report them to syncfs
+> >   buffer: record blockdev write errors in super_block that it backs
+> 
+> http://lkml.kernel.org/r/20200207170423.377931-1-jlayton@kernel.org
+> 
+> has suitable-looking words, but is it up to date?
+> 
 
-> ----- On Apr 28, 2020, at 8:33 AM, Mathieu Desnoyers mathieu.desnoyers@efficios.com wrote:
->
->> ----- On Apr 28, 2020, at 8:02 AM, Florian Weimer fw@deneb.enyo.de wrote:
->> 
-> [...]
->>> 
->>>> x32 should not be an issue as explained above, so I'm very open to
->>>> add this "uptr" for user-space only.
->>> 
->>> Okay, then please use anonymous unions and structs as necessary, to
->>> ensure that the uptr field can be reached on all platforms in the same
->>> way.
->> 
->> OK, will do!
->
-> What I came up with looks like this. User-space can use rseq_cs.uptr.ptr
-> both on 32-bit and 64-bit to update the pointer:
+Thanks for picking this up, Andrew.
 
-Agreed, this should work.
+No, it's not. Since I wrote that, I dropped the ioctl and changed it
+over to use a dedicated field in struct file instead of trying to
+multiplex it for O_PATH descriptors. How about something like this?
+
+---------------------------8<---------------------------
+
+Currently, syncfs does not return errors when one of the inodes fails to
+be written back. It will return errors based on the legacy AS_EIO and
+AS_ENOSPC flags when syncing out the block device fails, but that's not
+particularly helpful for filesystems that aren't backed by a blockdev.
+It's also possible for a stray sync to lose those errors.
+
+The basic idea in this set is to track writeback errors at the
+superblock level, so that we can quickly and easily check whether
+something bad happened without having to fsync each file individually.
+syncfs is then changed to reliably report writeback errors after they
+occur, much in the same fashion as fsync does now.
+
+-- 
+Jeff Layton <jlayton@kernel.org>
+
