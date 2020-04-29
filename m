@@ -2,284 +2,127 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CD5B1BD233
-	for <lists+linux-api@lfdr.de>; Wed, 29 Apr 2020 04:21:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B67B41BD289
+	for <lists+linux-api@lfdr.de>; Wed, 29 Apr 2020 04:46:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726522AbgD2CVW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 28 Apr 2020 22:21:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60756 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726158AbgD2CVW (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 28 Apr 2020 22:21:22 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 109A3C03C1AC;
-        Tue, 28 Apr 2020 19:21:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=cKGLOpBW4qS3y+pSSeknlOPB4GuywQqaIP5NAkI3phg=; b=TOAaZYbwlvmhe7a3bX4UBPMl8g
-        MxcFA1SBtsecnMjpu3Xk2gQq1t3UYHkPjlxkb1XBkCTLFiaSstXR0YMJ6Bt7dQo1nUEuh34Dd2Lgx
-        6BG+shZqj4pzsEgQ0yQ4AhxIsjeqHs58A08N8BmTC24Tng+tWHLnDLDIq5EN8RiL+FatAP4Y2SVAD
-        LTiuuGbqAUoHI30oREXQHNdova4wUbypSpixAb2H5dMjoxaBug59Kae1ekAY9eKHDg3+EiRFdF/5z
-        6370HWQBCKHo7Up+IGGFD4p2M15KpKerbW+SX9j+MNsfoX6aX49U+oXXwaibqIvS6caji1SBFlrEC
-        mgbkL1SQ==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jTcLg-0002L2-Ph; Wed, 29 Apr 2020 02:21:20 +0000
-Subject: Re: [PATCH V11.1] Documentation/dax: Update Usage section
-To:     ira.weiny@intel.com, linux-kernel@vger.kernel.org,
-        linux-xfs@vger.kernel.org,
-        "Darrick J. Wong" <darrick.wong@oracle.com>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Christoph Hellwig <hch@lst.de>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>, Jeff Moyer <jmoyer@redhat.com>,
-        linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        id S1726741AbgD2CqS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 28 Apr 2020 22:46:18 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:49428 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726422AbgD2CqS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 28 Apr 2020 22:46:18 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03T2j6kG074138;
+        Wed, 29 Apr 2020 02:46:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : from : to :
+ cc : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=corp-2020-01-29;
+ bh=saTp9ZlztCwLxl5GJqatd7nexbzAftCe0NqyMIjna2U=;
+ b=AXqykkB0QEllnEW3qUBevZ4oIoNKkMvD8SoZfyfTV58KAEK2c9JjstlBMjp2M5urFmKj
+ 9x9tT29joiTUPeYnka0vbgqucbcSJSydtCelfbnnljNqAoSAbpJbBsIwGQO9kKVnpyA0
+ QERf23M1Won+RhA4IHjsO1OlTLfOkuwFlO5xDqp9Pt/nrVKK3IBKSAU24AkpcmXVMbqh
+ Tby27uVRd4OBjyq0rSzDylIjPPKkCYtJNALdSit2ILZ8ihM+ZnEF22z1tSNv2sDZtq7i
+ s+qWGaUgWvXhcMvOarXDC1SboIn2zShIDlx+TfYXcHCDqu+7QfkN3nRx5wrt8XnR367n Lw== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by aserp2120.oracle.com with ESMTP id 30nucg39r2-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 29 Apr 2020 02:46:17 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03T2g1jn096298;
+        Wed, 29 Apr 2020 02:44:16 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by userp3020.oracle.com with ESMTP id 30pvcytcgg-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 29 Apr 2020 02:44:16 +0000
+Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 03T2iFqM003255;
+        Wed, 29 Apr 2020 02:44:15 GMT
+Received: from localhost (/67.169.218.210)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Tue, 28 Apr 2020 19:44:15 -0700
+Subject: [PATCH RFC 00/18] xfs: atomic file updates
+From:   "Darrick J. Wong" <darrick.wong@oracle.com>
+To:     darrick.wong@oracle.com
+Cc:     linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-api@vger.kernel.org
-References: <20200428002142.404144-5-ira.weiny@intel.com>
- <20200428222145.409961-1-ira.weiny@intel.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <28f97c0b-6c7f-7496-b57d-0342a4dcc0af@infradead.org>
-Date:   Tue, 28 Apr 2020 19:21:18 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Date:   Tue, 28 Apr 2020 19:44:14 -0700
+Message-ID: <158812825316.168506.932540609191384366.stgit@magnolia>
+User-Agent: StGit/0.17.1-dirty
 MIME-Version: 1.0
-In-Reply-To: <20200428222145.409961-1-ira.weiny@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9605 signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=999
+ suspectscore=0 malwarescore=0 adultscore=0 bulkscore=0 phishscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2004290020
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9605 signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015 priorityscore=1501
+ mlxlogscore=999 impostorscore=0 suspectscore=0 malwarescore=0
+ lowpriorityscore=0 mlxscore=0 spamscore=0 adultscore=0 phishscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2004290020
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 4/28/20 3:21 PM, ira.weiny@intel.com wrote:
-> From: Ira Weiny <ira.weiny@intel.com>
-> 
-> Update the Usage section to reflect the new individual dax selection
-> functionality.
-> 
-> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-> 
-> ---
-> Changes from V11:
-> 	Minor changes from Darrick
-> 
-> Changes from V10:
-> 	Clarifications from Dave
-> 	Add '-c' to xfs_io examples
-> 
-> Changes from V9:
-> 	Fix missing ')'
-> 	Fix trialing '"'
+Hi all,
 
-trailing
+This series creates a new log incompat feature and log intent items to
+track high level progress of swapping ranges of two files and finish
+interrupted work if the system goes down.  It then adds a new
+FISWAPRANGE ioctl so that userspace can access the atomic extent
+swapping feature.  With this feature, user programs will be able to
+update files atomically by opening an O_TMPFILE, reflinking the source
+file to it, making whatever updates they want to make, and then
+atomically swap the changed bits back to the source file.  It even has
+an optional ability to detect a changed source file and reject the
+update.
 
-> 
-> Changes from V8:
-> 	Updates from Darrick
-> 
-> Changes from V7:
-> 	Cleanups/clarifications from Darrick and Dan
-> 
-> Changes from V6:
-> 	Update to allow setting FS_XFLAG_DAX any time.
-> 	Update with list of behaviors from Darrick
-> 	https://lore.kernel.org/lkml/20200409165927.GD6741@magnolia/
-> 
-> Changes from V5:
-> 	Update to reflect the agreed upon semantics
-> 	https://lore.kernel.org/lkml/20200405061945.GA94792@iweiny-DESK2.sc.intel.com/
-> ---
->  Documentation/filesystems/dax.txt | 142 +++++++++++++++++++++++++++++-
->  1 file changed, 139 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/filesystems/dax.txt b/Documentation/filesystems/dax.txt
-> index 679729442fd2..dc1c1aa36cc2 100644
-> --- a/Documentation/filesystems/dax.txt
-> +++ b/Documentation/filesystems/dax.txt
-> @@ -17,11 +17,147 @@ For file mappings, the storage device is mapped directly into userspace.
->  Usage
->  -----
->  
-> -If you have a block device which supports DAX, you can make a filesystem
-> +If you have a block device which supports DAX, you can make a file system
->  on it as usual.  The DAX code currently only supports files with a block
->  size equal to your kernel's PAGE_SIZE, so you may need to specify a block
-> -size when creating the filesystem.  When mounting it, use the "-o dax"
-> -option on the command line or add 'dax' to the options in /etc/fstab.
-> +size when creating the file system.
-> +
-> +Currently 3 filesystems support DAX: ext2, ext4 and xfs.  Enabling DAX on them
+The intent behind this new userspace functionality is to enable atomic
+rewrites of arbitrary parts of individual files.  For years, application
+programmers wanting to ensure the atomicity of a file update had to
+write the changes to a new file in the same directory, fsync the new
+file, rename the new file on top of the old filename, and then fsync the
+directory.  People get it wrong all the time, and $fs hacks abound.
 
-Why "file system" in the first paragraph when "filesystem" is used here and below?
+With atomic file updates, this is no longer necessary.  Programmers
+create an O_TMPFILE, optionally FICLONE the file contents into the
+temporary file, make whatever changes they want to the tempfile, and
+FISWAPRANGE the contents from the tempfile into the regular file.  The
+interface can optionally check the original file's [cm]time to reject
+the swap operation if the file has been modified by.  There are no
+fsyncs to take care of; no directory operations at all; and the fs will
+take care of finishing the swap operation if the system goes down in the
+middle of the swap.  Sample code can be found in the corresponding
+changes to xfs_io to exercise the use case mentioned above.
 
-> +is different.
-> +
-> +Enabling DAX on ext4 and ext2
-> +-----------------------------
-> +
-> +When mounting the filesystem, use the "-o dax" option on the command line or
-> +add 'dax' to the options in /etc/fstab.  This works to enable DAX on all files
-> +within the filesystem.  It is equivalent to the '-o dax=always' behavior below.
-> +
-> +
-> +Enabling DAX on xfs
-> +-------------------
-> +
-> +Summary
-> +-------
-> +
-> + 1. There exists an in-kernel file access mode flag S_DAX that corresponds to
-> +    the statx flag STATX_ATTR_DAX.  See the manpage for statx(2) for details
-> +    about this access mode.
-> +
-> + 2. There exists a persistent flag FS_XFLAG_DAX that can be applied to regular
-> +    files and directories. This advisory flag can be set or cleared at any
-> +    time, but doing so does not immediately affect the S_DAX state.
-> +
-> + 3. If the persistent FS_XFLAG_DAX flag is set on a directory, this flag will
-> +    be inherited by all regular files and subdirectories that are subsequently
-> +    created in this directory. Files and subdirectories that exist at the time
-> +    this flag is set or cleared on the parent directory are not modified by
-> +    this modification of the parent directory.
-> +
-> + 4. There exists dax mount options which can override FS_XFLAG_DAX in the
+Note that this function is /not/ the O_DIRECT atomic file writes concept
+that has been floating around for years.  This is constructed entirely
+in software, which means that there are no limitations other than the
+regular filesystem limits.
 
-             exist
+As a side note, there's an extra motivation behind the kernel
+functionality: online repair of file-based metadata.  The atomic file
+swap is implemented as an atomic inode fork swap, which means that we
+can implement online reconstruction of extended attributes and
+directories by building a new one in another inode and atomically
+swap the contents.
 
-> +    setting of the S_DAX flag.  Given underlying storage which supports DAX the
-> +    following hold:
-> +
-> +    "-o dax=inode"  means "follow FS_XFLAG_DAX" and is the default.
-> +
-> +    "-o dax=never"  means "never set S_DAX, ignore FS_XFLAG_DAX."
-> +
-> +    "-o dax=always" means "always set S_DAX ignore FS_XFLAG_DAX."
-> +
-> +    "-o dax"        is a legacy option which is an alias for "dax=always".
-> +		    This may be removed in the future so "-o dax=always" is
-> +		    the preferred method for specifying this behavior.
-> +
-> +    NOTE: Modifications to and the inheritance behavior of FS_XFLAG_DAX remain
-> +    the same even when the file system is mounted with a dax option.  However,
-> +    in-core inode state (S_DAX) will be overridden until the file system is
+If you're going to start using this mess, you probably ought to just
+pull from my git trees, which are linked below.
 
-                                     "file system" (2 times above)
+This is an extraordinary way to destroy everything.  Enjoy!
+Comments and questions are, as always, welcome.
 
-> +    remounted with dax=inode and the inode is evicted from kernel memory.
-> +
-> + 5. The S_DAX policy can be changed via:
-> +
-> +    a) Setting the parent directory FS_XFLAG_DAX as needed before files are
-> +       created
-> +
-> +    b) Setting the appropriate dax="foo" mount option
-> +
-> +    c) Changing the FS_XFLAG_DAX on existing regular files and directories.
+--D
 
-                       FS_XFLAGS_DAX flag on
+kernel git tree:
+https://git.kernel.org/cgit/linux/kernel/git/djwong/xfs-linux.git/log/?h=atomic-file-updates
 
-> +       This has runtime constraints and limitations that are described in 6)
-> +       below.
-> +
-> + 6. When changing the S_DAX policy via toggling the persistent FS_XFLAG_DAX flag,
-> +    the change in behaviour for existing regular files may not occur
-> +    immediately.  If the change must take effect immediately, the administrator
-> +    needs to:
-> +
-> +    a) stop the application so there are no active references to the data set
-> +       the policy change will affect
-> +
-> +    b) evict the data set from kernel caches so it will be re-instantiated when
-> +       the application is restarted. This can be achieved by:
-> +
-> +       i. drop-caches
-> +       ii. a filesystem unmount and mount cycle
+xfsprogs git tree:
+https://git.kernel.org/cgit/linux/kernel/git/djwong/xfsprogs-dev.git/log/?h=atomic-file-updates
 
-filesystem
-
-> +       iii. a system reboot
-> +
-> +
-> +Details
-> +-------
-> +
-> +There are 2 per-file dax flags.  One is a persistent inode setting (FS_XFLAG_DAX)
-> +and the other is a volatile flag indicating the active state of the feature
-> +(S_DAX).
-> +
-> +FS_XFLAG_DAX is preserved within the file system.  This persistent config
-
-file system
-
-> +setting can be set, cleared and/or queried using the FS_IOC_FS[GS]ETXATTR ioctl
-> +(see ioctl_xfs_fsgetxattr(2)) or an utility such as 'xfs_io'.
-> +
-> +New files and directories automatically inherit FS_XFLAG_DAX from
-> +their parent directory _when_ _created_.  Therefore, setting FS_XFLAG_DAX at
-> +directory creation time can be used to set a default behavior for an entire
-> +sub-tree.
-> +
-> +To clarify inheritance, here are 3 examples:
-> +
-> +Example A:
-> +
-> +mkdir -p a/b/c
-> +xfs_io -c 'chattr +x' a
-> +mkdir a/b/c/d
-> +mkdir a/e
-> +
-> +	dax: a,e
-> +	no dax: b,c,d
-> +
-> +Example B:
-> +
-> +mkdir a
-> +xfs_io -c 'chattr +x' a
-> +mkdir -p a/b/c/d
-> +
-> +	dax: a,b,c,d
-> +	no dax:
-> +
-> +Example C:
-> +
-> +mkdir -p a/b/c
-> +xfs_io -c 'chattr +x' c
-> +mkdir a/b/c/d
-> +
-> +	dax: c,d
-> +	no dax: a,b
-> +
-> +
-> +The current enabled state (S_DAX) is set when a file inode is instantiated in
-> +memory by the kernel.  It is set based on the underlying media support, the
-> +value of FS_XFLAG_DAX and the file system's dax mount option.
-> +
-> +statx can be used to query S_DAX.  NOTE that only regular files will ever have
-> +S_DAX set and therefore statx will never indicate that S_DAX is set on
-> +directories.
-> +
-> +Setting the FS_XFLAG_DAX (specifically or through inheritance) occurs even if
-
-           the FS_XFLAG_DAX flag
-
-> +the underlying media does not support dax and/or the file system is overridden
-
-file system
-
-Just be consistent, please.
-
-> +with a mount option.
-> +
->  
->  
->  Implementation Tips for Block Driver Writers
-> 
-
-thanks.
--- 
-~Randy
-
+fstests git tree:
+https://git.kernel.org/cgit/linux/kernel/git/djwong/xfstests-dev.git/log/?h=atomic-file-updates
