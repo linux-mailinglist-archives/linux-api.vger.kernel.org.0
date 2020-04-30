@@ -2,139 +2,143 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B02E1C0335
-	for <lists+linux-api@lfdr.de>; Thu, 30 Apr 2020 18:55:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF4F51C033D
+	for <lists+linux-api@lfdr.de>; Thu, 30 Apr 2020 18:57:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726419AbgD3Qz5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 30 Apr 2020 12:55:57 -0400
-Received: from mail.efficios.com ([167.114.26.124]:49564 "EHLO
-        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726272AbgD3Qz4 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 30 Apr 2020 12:55:56 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 7276B29019A;
-        Thu, 30 Apr 2020 12:55:55 -0400 (EDT)
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id R5cw2QtpS93e; Thu, 30 Apr 2020 12:55:55 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 23F64290199;
-        Thu, 30 Apr 2020 12:55:55 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 23F64290199
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1588265755;
-        bh=Mp2N6YTybV9Yy+BQgTJKnPNXrZLjJEVr2GwPlCCPe5c=;
-        h=Date:From:To:Message-ID:MIME-Version;
-        b=P6ml2Iwzx7dNVYFLxrkWSsVQThYw2dO3hAxklBIuoMnX1mQB+Y+TkBHjCIh/KOIiK
-         9BF34ObzvD7EE0Hr81wiv7OtYPzdGzJXdgqrla23Pz5l57swsihELEvq3+YXRQClmD
-         81+/l/Fs9ulbqJ73MQSBGcwOfmUe8AbfDdOMlfyXDnaSuFW047vhG9fsmbW+mLtMbc
-         NtgKvA+1/SvxFlG9EBw4mryfTapc5isfKLWecPHz2sww9O0bRpma0OU09IM+lhT1/j
-         ubLuTCXPy4/5jJfn2l/haVyrwneiGLCkA4es97pCEgtPeQk9956ziSJ7+Ktofw3NOA
-         x0OenWRJfbIvw==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id GXJtEnICMaN0; Thu, 30 Apr 2020 12:55:55 -0400 (EDT)
-Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
-        by mail.efficios.com (Postfix) with ESMTP id 0F11629021D;
-        Thu, 30 Apr 2020 12:55:55 -0400 (EDT)
-Date:   Thu, 30 Apr 2020 12:55:54 -0400 (EDT)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     carlos <carlos@redhat.com>, Joseph Myers <joseph@codesourcery.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        libc-alpha <libc-alpha@sourceware.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ben Maurer <bmaurer@fb.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Paul <paulmck@linux.vnet.ibm.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Dave Watson <davejwatson@fb.com>, Paul Turner <pjt@google.com>,
-        Rich Felker <dalias@libc.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-api <linux-api@vger.kernel.org>
-Message-ID: <1972833271.77975.1588265754974.JavaMail.zimbra@efficios.com>
-In-Reply-To: <878sidkk0z.fsf@oldenburg2.str.redhat.com>
-References: <20200428171513.22926-1-mathieu.desnoyers@efficios.com> <875zdhmaft.fsf@oldenburg2.str.redhat.com> <1287616647.77866.1588263099045.JavaMail.zimbra@efficios.com> <878sidkk0z.fsf@oldenburg2.str.redhat.com>
-Subject: Re: [RFC PATCH glibc 1/3] glibc: Perform rseq(2) registration at C
- startup and thread creation (v18)
+        id S1726333AbgD3Q5d (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 30 Apr 2020 12:57:33 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:54552 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725844AbgD3Q5c (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 30 Apr 2020 12:57:32 -0400
+Received: from ip5f5af183.dynamic.kabel-deutschland.de ([95.90.241.131] helo=wittgenstein.fritz.box)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1jUCV6-0005V3-OC; Thu, 30 Apr 2020 16:57:28 +0000
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        =?UTF-8?q?St=C3=A9phane=20Graber?= <stgraber@ubuntu.com>,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Serge Hallyn <serge@hallyn.com>, Jann Horn <jannh@google.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Aleksa Sarai <cyphar@cyphar.com>, linux-api@vger.kernel.org,
+        Christian Brauner <christian.brauner@ubuntu.com>
+Subject: [PATCH v2 1/4] capability: add ns_capable_cred()
+Date:   Thu, 30 Apr 2020 18:57:14 +0200
+Message-Id: <20200430165717.1001605-1-christian.brauner@ubuntu.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [167.114.26.124]
-X-Mailer: Zimbra 8.8.15_GA_3918 (ZimbraWebClient - FF75 (Linux)/8.8.15_GA_3895)
-Thread-Topic: glibc: Perform rseq(2) registration at C startup and thread creation (v18)
-Thread-Index: vkaNGJYbQ5to7FGk5na6JixiLNcPYQ==
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
------ On Apr 30, 2020, at 12:36 PM, Florian Weimer fweimer@redhat.com wrote:
+Add a simple capability helper which makes it possible to determine
+whether a set of creds is ns capable wrt to the passed in credentials.
+This is not something exciting it's just a more pleasant wrapper around
+security_capable() by allowing ns_capable_common() to ake a const struct
+cred argument. In ptrace_has_cap() for example, we're using
+security_capable() directly. ns_capable_cred() will be used in the next
+patch to check against the target credentials the caller is going to
+switch to.
 
-> * Mathieu Desnoyers:
-> 
-[...]
-> 
->>>> +  if (__rseq_abi.cpu_id == RSEQ_CPU_ID_REGISTRATION_FAILED)
->>>> +    return;
->>>> +  ret = INTERNAL_SYSCALL_CALL (rseq, &__rseq_abi, sizeof (struct rseq),
->>>> +                              0, RSEQ_SIG);
->>>> +  if (INTERNAL_SYSCALL_ERROR_P (ret) &&
->>>> +      INTERNAL_SYSCALL_ERRNO (ret) != EBUSY)
->>>> +    __rseq_abi.cpu_id = RSEQ_CPU_ID_REGISTRATION_FAILED;
->>> 
->>> Sorry, I forgot: Please add a comment that the EBUSY error is ignored
->>> because registration may have already happened in a legacy library.
->>
->> Considering that we now disable signals across thread creation, and that
->> glibc's initialization happens before other libraries' constructors
->> (as far as I remember even before LD_PRELOADed library constructors),
->> in which scenario can we expect to have EBUSY here ?
-> 
-> That's a good point.
-> 
->> Not setting __rseq_abi.cpu_id to RSEQ_CPU_ID_REGISTRATION_FAILED in case
->> of EBUSY is more a way to handle "unforeseen" scenarios where somehow the
->> registration would already be done. But I cannot find an "expected"
->> scenario which would lead to this now.
->>
->> So if EBUSY really is unexpected, how should we treat that ? I don't think
->> setting REGISTRATION_FAILED would be appropriate, because then it would
->> break assumption of the prior successful registration that have already
->> been done by this thread.
-> 
-> You could call __libc_fatal with an error message.  ENOSYS is definitely
-> an expected error code here, and EPERM (and perhaps EACCES) can happen
-> with seccomp filters.
+Cc: Eric W. Biederman <ebiederm@xmission.com>
+Cc: Serge Hallyn <serge@hallyn.com>
+Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
+---
+/* v2 */
+patch introduced
+---
+ include/linux/capability.h |  3 +++
+ kernel/capability.c        | 17 +++++++++++------
+ 2 files changed, 14 insertions(+), 6 deletions(-)
 
-If we go this way, I'd also recommend to treat any situation where
-__rseq_abi.cpu_id is already initialized as a fatal error. Does the
-code below seem OK to you ?
+diff --git a/include/linux/capability.h b/include/linux/capability.h
+index ecce0f43c73a..743a08d936fb 100644
+--- a/include/linux/capability.h
++++ b/include/linux/capability.h
+@@ -40,6 +40,7 @@ struct cpu_vfs_cap_data {
+ struct file;
+ struct inode;
+ struct dentry;
++struct cred;
+ struct task_struct;
+ struct user_namespace;
+ 
+@@ -209,6 +210,8 @@ extern bool has_ns_capability_noaudit(struct task_struct *t,
+ 				      struct user_namespace *ns, int cap);
+ extern bool capable(int cap);
+ extern bool ns_capable(struct user_namespace *ns, int cap);
++extern bool ns_capable_cred(const struct cred *cred,
++			    struct user_namespace *ns, int cap);
+ extern bool ns_capable_noaudit(struct user_namespace *ns, int cap);
+ extern bool ns_capable_setid(struct user_namespace *ns, int cap);
+ #else
+diff --git a/kernel/capability.c b/kernel/capability.c
+index 1444f3954d75..84425781917e 100644
+--- a/kernel/capability.c
++++ b/kernel/capability.c
+@@ -361,8 +361,8 @@ bool has_capability_noaudit(struct task_struct *t, int cap)
+ 	return has_ns_capability_noaudit(t, &init_user_ns, cap);
+ }
+ 
+-static bool ns_capable_common(struct user_namespace *ns,
+-			      int cap,
++static bool ns_capable_common(const struct cred *cred,
++			      struct user_namespace *ns, int cap,
+ 			      unsigned int opts)
+ {
+ 	int capable;
+@@ -372,7 +372,7 @@ static bool ns_capable_common(struct user_namespace *ns,
+ 		BUG();
+ 	}
+ 
+-	capable = security_capable(current_cred(), ns, cap, opts);
++	capable = security_capable(cred, ns, cap, opts);
+ 	if (capable == 0) {
+ 		current->flags |= PF_SUPERPRIV;
+ 		return true;
+@@ -393,10 +393,15 @@ static bool ns_capable_common(struct user_namespace *ns,
+  */
+ bool ns_capable(struct user_namespace *ns, int cap)
+ {
+-	return ns_capable_common(ns, cap, CAP_OPT_NONE);
++	return ns_capable_common(current_cred(), ns, cap, CAP_OPT_NONE);
+ }
+ EXPORT_SYMBOL(ns_capable);
+ 
++bool ns_capable_cred(const struct cred *cred, struct user_namespace *ns, int cap)
++{
++	return ns_capable_common(cred, ns, cap, CAP_OPT_NONE);
++}
++
+ /**
+  * ns_capable_noaudit - Determine if the current task has a superior capability
+  * (unaudited) in effect
+@@ -411,7 +416,7 @@ EXPORT_SYMBOL(ns_capable);
+  */
+ bool ns_capable_noaudit(struct user_namespace *ns, int cap)
+ {
+-	return ns_capable_common(ns, cap, CAP_OPT_NOAUDIT);
++	return ns_capable_common(current_cred(), ns, cap, CAP_OPT_NOAUDIT);
+ }
+ EXPORT_SYMBOL(ns_capable_noaudit);
+ 
+@@ -430,7 +435,7 @@ EXPORT_SYMBOL(ns_capable_noaudit);
+  */
+ bool ns_capable_setid(struct user_namespace *ns, int cap)
+ {
+-	return ns_capable_common(ns, cap, CAP_OPT_INSETID);
++	return ns_capable_common(current_cred(), ns, cap, CAP_OPT_INSETID);
+ }
+ EXPORT_SYMBOL(ns_capable_setid);
+ 
 
-static inline void
-rseq_register_current_thread (void)
-{
-  int ret;
-
-  if (__rseq_abi.cpu_id != RSEQ_CPU_ID_UNINITIALIZED)
-    __libc_fatal ("rseq already initialized for this thread\n");
-  ret = INTERNAL_SYSCALL_CALL (rseq, &__rseq_abi, sizeof (struct rseq),
-                              0, RSEQ_SIG);
-  if (INTERNAL_SYSCALL_ERROR_P (ret))
-    {
-      if (INTERNAL_SYSCALL_ERRNO (ret) == EBUSY)
-        __libc_fatal ("rseq already registered for this thread\n");
-      __rseq_abi.cpu_id = RSEQ_CPU_ID_REGISTRATION_FAILED;
-    }
-}
-
-Thanks,
-
-Mathieu
-
+base-commit: ae83d0b416db002fe95601e7f97f64b59514d936
 -- 
-Mathieu Desnoyers
-EfficiOS Inc.
-http://www.efficios.com
+2.26.2
+
