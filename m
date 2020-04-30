@@ -2,21 +2,20 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 01D291BF098
-	for <lists+linux-api@lfdr.de>; Thu, 30 Apr 2020 08:54:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D1E41BF09D
+	for <lists+linux-api@lfdr.de>; Thu, 30 Apr 2020 08:55:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726412AbgD3GyB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 30 Apr 2020 02:54:01 -0400
-Received: from mx2.suse.de ([195.135.220.15]:36430 "EHLO mx2.suse.de"
+        id S1726481AbgD3Gzq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 30 Apr 2020 02:55:46 -0400
+Received: from mx2.suse.de ([195.135.220.15]:36956 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726358AbgD3GyB (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 30 Apr 2020 02:54:01 -0400
+        id S1726358AbgD3Gzq (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 30 Apr 2020 02:55:46 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 21F1BAC44;
-        Thu, 30 Apr 2020 06:53:58 +0000 (UTC)
-Subject: Re: [PATCH v3 4/7] linux/signal.h: Ignore SIGINFO by default in new
- tasks
+        by mx2.suse.de (Postfix) with ESMTP id DADBBAB76;
+        Thu, 30 Apr 2020 06:55:43 +0000 (UTC)
+Subject: Re: [PATCH v3 5/7] tty: Add NOKERNINFO lflag to termios
 To:     Arseny Maslennikov <ar@cs.msu.ru>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org
@@ -25,7 +24,7 @@ Cc:     Rob Landley <rob@landley.net>,
         Pavel Machek <pavel@ucw.cz>, linux-api@vger.kernel.org,
         "Vladimir D. Seleznev" <vseleznv@altlinux.org>
 References: <20200430064301.1099452-1-ar@cs.msu.ru>
- <20200430064301.1099452-5-ar@cs.msu.ru>
+ <20200430064301.1099452-6-ar@cs.msu.ru>
 From:   Jiri Slaby <jslaby@suse.cz>
 Autocrypt: addr=jslaby@suse.cz; prefer-encrypt=mutual; keydata=
  mQINBE6S54YBEACzzjLwDUbU5elY4GTg/NdotjA0jyyJtYI86wdKraekbNE0bC4zV+ryvH4j
@@ -69,57 +68,24 @@ Autocrypt: addr=jslaby@suse.cz; prefer-encrypt=mutual; keydata=
  9HKkJqkN9xYEYaxtfl5pelF8idoxMZpTvCZY7jhnl2IemZCBMs6s338wS12Qro5WEAxV6cjD
  VSdmcD5l9plhKGLmgVNCTe8DPv81oDn9s0cIRLg9wNnDtj8aIiH8lBHwfUkpn32iv0uMV6Ae
  sLxhDWfOR4N+wu1gzXWgLel4drkCJcuYK5IL1qaZDcuGR8RPo3jbFO7Y
-Message-ID: <780cb05e-a749-77a0-dabc-bd09982aa028@suse.cz>
-Date:   Thu, 30 Apr 2020 08:53:56 +0200
+Message-ID: <323be592-b614-907d-e9be-4748f159fb07@suse.cz>
+Date:   Thu, 30 Apr 2020 08:55:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200430064301.1099452-5-ar@cs.msu.ru>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200430064301.1099452-6-ar@cs.msu.ru>
+Content-Type: text/plain; charset=iso-8859-2
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 On 30. 04. 20, 8:42, Arseny Maslennikov wrote:
-> This matches the behaviour of other Unix-like systems that have SIGINFO
-> and causes less harm to processes that do not install handlers for this
-> signal, making the keyboard status character non-fatal for them.
-> 
-> This is implemented with the assumption that SIGINFO is defined
-> to be equivalent to SIGPWR; still, there is no reason for PWR to
-> result in termination of the signal recipient anyway — it does not
-> indicate there is a fatal problem with the recipient's execution
-> context (like e.g. FPE/ILL do), and we have TERM/KILL for explicit
-> termination requests.
-> 
-> To put it another way:
-> The only scenario where system behaviour actually changes is when the
-> signal recipient has default disposition for SIGPWR. If a process
-> chose to interpret a SIGPWR as an incentive to cleanly terminate, it
-> would supply its own handler — and this commit does not affect processes
-> with non-default handlers.
-> 
-> Signed-off-by: Arseny Maslennikov <ar@cs.msu.ru>
-> ---
->  include/linux/signal.h | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/linux/signal.h b/include/linux/signal.h
-> index 05bacd2ab..dc31da8fc 100644
-> --- a/include/linux/signal.h
-> +++ b/include/linux/signal.h
-> @@ -369,7 +369,7 @@ extern bool unhandled_signal(struct task_struct *tsk, int sig);
->   *	|  SIGSYS/SIGUNUSED  |	coredump 	|
->   *	|  SIGSTKFLT         |	terminate	|
->   *	|  SIGWINCH          |	ignore   	|
-> - *	|  SIGPWR            |	terminate	|
-> + *	|  SIGPWR            |	ignore   	|
+> The termios lflag is off by default.
 
-You need to update signal.7 too:
-https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/tree/man7/signal.7#n285
+This commit message is too poor. Describing the intended use would help.
 
 thanks,
 -- 
