@@ -2,94 +2,116 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC32A1BEC56
-	for <lists+linux-api@lfdr.de>; Thu, 30 Apr 2020 01:02:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF2541BEDEB
+	for <lists+linux-api@lfdr.de>; Thu, 30 Apr 2020 03:54:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727109AbgD2XCc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 29 Apr 2020 19:02:32 -0400
-Received: from mga11.intel.com ([192.55.52.93]:65455 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726164AbgD2XCc (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 29 Apr 2020 19:02:32 -0400
-IronPort-SDR: iWRh/dzCdigfwf3JFZ8vSIJuaBggYo5ezW3522W6R9U9d4KkEG1k/SM+5urXKTLuBbp21b6vm0
- jbR99PfxCzUQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2020 16:02:31 -0700
-IronPort-SDR: vaokhmIa5VvUIIGTviyZG7HRd2E2dm4X6gRMTkTynFEuEdgrWdwd8jJvVqbzFY+T805xnbtKLB
- MEqgunexeidg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,333,1583222400"; 
-   d="scan'208";a="405202065"
-Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by orsmga004.jf.intel.com with ESMTP; 29 Apr 2020 16:02:30 -0700
-Message-ID: <dd5b9bab31ecf247a0b4890e22bfbb486ff52001.camel@intel.com>
-Subject: Re: [PATCH v10 01/26] Documentation/x86: Add CET description
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
+        id S1726396AbgD3By6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 29 Apr 2020 21:54:58 -0400
+Received: from mout-p-103.mailbox.org ([80.241.56.161]:64626 "EHLO
+        mout-p-103.mailbox.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726180AbgD3By6 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 29 Apr 2020 21:54:58 -0400
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:105:465:1:2:0])
+        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
+        (No client certificate requested)
+        by mout-p-103.mailbox.org (Postfix) with ESMTPS id 49CJNb3n0DzKmWf;
+        Thu, 30 Apr 2020 03:54:55 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from smtp2.mailbox.org ([80.241.60.241])
+        by spamfilter03.heinlein-hosting.de (spamfilter03.heinlein-hosting.de [80.241.56.117]) (amavisd-new, port 10030)
+        with ESMTP id QqYb_XfmfTzI; Thu, 30 Apr 2020 03:54:50 +0200 (CEST)
+Date:   Thu, 30 Apr 2020 11:54:29 +1000
+From:   Aleksa Sarai <cyphar@cyphar.com>
+To:     =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+Cc:     linux-kernel@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
         Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
+        Christian Heimes <christian@python.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Deven Bowers <deven.desai@linux.microsoft.com>,
+        Eric Chiang <ericchiang@google.com>,
         Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-Date:   Wed, 29 Apr 2020 16:02:33 -0700
-In-Reply-To: <b5197a8d-5d8b-e1f7-68d4-58d80261904c@intel.com>
-References: <20200429220732.31602-1-yu-cheng.yu@intel.com>
-         <20200429220732.31602-2-yu-cheng.yu@intel.com>
-         <b5197a8d-5d8b-e1f7-68d4-58d80261904c@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
+        Matthew Garrett <mjg59@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mickael.salaun@ssi.gouv.fr>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Philippe =?utf-8?Q?Tr=C3=A9buchet?= 
+        <philippe.trebuchet@ssi.gouv.fr>,
+        Scott Shell <scottsh@microsoft.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Steve Dower <steve.dower@python.org>,
+        Steve Grubb <sgrubb@redhat.com>,
+        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
+        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v3 0/5] Add support for RESOLVE_MAYEXEC
+Message-ID: <20200430015429.wuob7m5ofdewubui@yavin.dot.cyphar.com>
+References: <20200428175129.634352-1-mic@digikod.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="udruashf3djnhxyp"
+Content-Disposition: inline
+In-Reply-To: <20200428175129.634352-1-mic@digikod.net>
+X-Rspamd-Queue-Id: 185431774
+X-Rspamd-Score: -5.53 / 15.00 / 15.00
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, 2020-04-29 at 15:53 -0700, Dave Hansen wrote:
-> On 4/29/20 3:07 PM, Yu-cheng Yu wrote:
-> > +Note:
-> > +  There is no CET-enabling arch_prctl function.  By design, CET is enabled
-> > +  automatically if the binary and the system can support it.
-> 
-> I think Andy and I danced around this last time.  Let me try to say it
-> more explicitly.
-> 
-> I want CET kernel enabling to able to be disconnected from the on-disk
-> binary.  I want a binary compiled with CET to be able to disable it, and
-> I want a binary not compiled with CET to be able to enable it.  I want
-> different threads in a process to be able to each have different CET status.
 
-The kernel patches we have now can be modified to support this model.  If after
-discussion this is favorable, I will modify code accordingly.
+--udruashf3djnhxyp
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Which JITs was this tested with?  I think as a bare minimum we need to
-> know that this design can accommodate _a_ modern JIT.  It would be
-> horrible if the browser javascript engines couldn't use this design, for
-> instance.
+On 2020-04-28, Micka=EBl Sala=FCn <mic@digikod.net> wrote:
+> The goal of this patch series is to enable to control script execution
+> with interpreters help.  A new RESOLVE_MAYEXEC flag, usable through
+> openat2(2), is added to enable userspace script interpreter to delegate
+> to the kernel (and thus the system security policy) the permission to
+> interpret/execute scripts or other files containing what can be seen as
+> commands.
+>=20
+> This third patch series mainly differ from the previous one by relying
+> on the new openat2(2) system call to get rid of the undefined behavior
+> of the open(2) flags.  Thus, the previous O_MAYEXEC flag is now replaced
+> with the new RESOLVE_MAYEXEC flag and benefits from the openat2(2)
+> strict check of this kind of flags.
 
-JIT work is still in progress.  When that is available I will test it.
+My only strong upfront objection is with this being a RESOLVE_ flag.
 
-Yu-cheng
+RESOLVE_ flags have a specific meaning (they generally apply to all
+components, and affect the rules of path resolution). RESOLVE_MAYEXEC
+does neither of these things and so seems out of place among the other
+RESOLVE_ flags.
 
+I would argue this should be an O_ flag, but not supported for the
+old-style open(2). This is what the O_SPECIFIC_FD patchset does[1] and I
+think it's a reasonable way of solving such problems.
+
+--=20
+Aleksa Sarai
+Senior Software Engineer (Containers)
+SUSE Linux GmbH
+<https://www.cyphar.com/>
+
+--udruashf3djnhxyp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXqov0QAKCRCdlLljIbnQ
+Es1XAP4pdpkX/auZ9BMKqDz4Q71lNx9hZ2pPWO2GKtz3HxWg3QD/d346yEY1nSmz
+4QrB06Se4f0JFMG5Fy1QoGIpSoBx+Qk=
+=DOB3
+-----END PGP SIGNATURE-----
+
+--udruashf3djnhxyp--
