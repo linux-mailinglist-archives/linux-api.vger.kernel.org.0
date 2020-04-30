@@ -2,104 +2,104 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EB47E1BF134
-	for <lists+linux-api@lfdr.de>; Thu, 30 Apr 2020 09:20:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B78431BF137
+	for <lists+linux-api@lfdr.de>; Thu, 30 Apr 2020 09:20:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726631AbgD3HT4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 30 Apr 2020 03:19:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37554 "EHLO mail.kernel.org"
+        id S1726764AbgD3HU1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 30 Apr 2020 03:20:27 -0400
+Received: from mail.cs.msu.ru ([188.44.42.39]:52053 "EHLO mail.cs.msu.ru"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726474AbgD3HTz (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 30 Apr 2020 03:19:55 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 71E5D214D8;
-        Thu, 30 Apr 2020 07:19:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588231194;
-        bh=+03YLlI6FbLFcnnQpBsL2PbOhXaeMhXanrbkLEgzXK4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=1pfLHqPe5VaNBslXHYWuNkfFCBWTbaqQHyheki6ue5fWS3eL3awJ6612OCpgalhcN
-         +CmA6edbhMz5OZl90aE3+rbTqgGQjEe/O/+5bEmjmz8/a6xrl/hxnjJW0o2G6yHJG4
-         G4Vva72pGv4MfcgdW1Jmg6qZVhMA6evpm8EO9MXk=
-Date:   Thu, 30 Apr 2020 09:19:52 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Jiri Slaby <jslaby@suse.cz>, Arseny Maslennikov <ar@cs.msu.ru>,
+        id S1726511AbgD3HU1 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 30 Apr 2020 03:20:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=cs.msu.ru;
+         s=dkim; h=Subject:In-Reply-To:Content-Type:MIME-Version:References:
+        Message-ID:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=E6x7YTRKZyE9vJXUY4aZZd4ADx06WY24vGTZ4p1mfuA=; b=izsqNTKjGwJT6f4cTIkfuZDN6u
+        HkiFIDKOUvlhDjyQ1P4bahFShCtYQzjXC86Epng21f3sG8EkiIu6lMI+LYFZulFS7VhKngdTWuvfS
+        yh4T1A+eA8zJDHB6KQ89xbW54NOWr+/ff3phsALp8Kt0RH6R9nip8t4YuA7sAJJXG61Ku7rh1lpWq
+        TJOfqDJzzKXOBzSQOX8AilC7hO9Ne6634QWb2YaAE6UDBat672BlRrFwpAMwcxAgBqqM0whc1TOWu
+        jwvz5f0NyE9bmgpe03V2ROhN/oI+9xFikCzOvU/zf4eC8zwASjTicD2azWr2qWsshBP+qBT5Jk9CI
+        D6f0825Q==;
+Received: from [37.204.119.143] (port=45544 helo=cello)
+        by mail.cs.msu.ru with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93.0.4 (FreeBSD))
+        (envelope-from <ar@cs.msu.ru>)
+        id 1jU3Ue-0006kd-0Y; Thu, 30 Apr 2020 10:20:24 +0300
+Date:   Thu, 30 Apr 2020 10:20:22 +0300
+From:   Arseny Maslennikov <ar@cs.msu.ru>
+To:     Jiri Slaby <jslaby@suse.cz>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org,
         Rob Landley <rob@landley.net>,
         "Eric W. Biederman" <ebiederm@xmission.com>,
         Pavel Machek <pavel@ucw.cz>, linux-api@vger.kernel.org,
         "Vladimir D. Seleznev" <vseleznv@altlinux.org>
-Subject: Re: [PATCH v3 4/7] linux/signal.h: Ignore SIGINFO by default in new
- tasks
-Message-ID: <20200430071952.GA2411804@kroah.com>
+Message-ID: <20200430072022.GI43805@cello>
 References: <20200430064301.1099452-1-ar@cs.msu.ru>
- <20200430064301.1099452-5-ar@cs.msu.ru>
- <780cb05e-a749-77a0-dabc-bd09982aa028@suse.cz>
- <20200430071437.x3ilwkh3lyf4iq6u@wittgenstein>
+ <20200430064301.1099452-6-ar@cs.msu.ru>
+ <323be592-b614-907d-e9be-4748f159fb07@suse.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="aFi3jz1oiPowsTUB"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200430071437.x3ilwkh3lyf4iq6u@wittgenstein>
+In-Reply-To: <323be592-b614-907d-e9be-4748f159fb07@suse.cz>
+OpenPGP: url=http://grep.cs.msu.ru/~ar/pgp-key.asc
+X-SA-Exim-Connect-IP: 37.204.119.143
+X-SA-Exim-Mail-From: ar@cs.msu.ru
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.cs.msu.ru
+X-Spam-Level: 
+X-Spam-Status: No, score=-5.1 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+        DKIM_ADSP_ALL autolearn=no autolearn_force=no version=3.4.4
+Subject: Re: [PATCH v3 5/7] tty: Add NOKERNINFO lflag to termios
+X-SA-Exim-Version: 4.2.1
+X-SA-Exim-Scanned: Yes (on mail.cs.msu.ru)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Apr 30, 2020 at 09:14:37AM +0200, Christian Brauner wrote:
-> On Thu, Apr 30, 2020 at 08:53:56AM +0200, Jiri Slaby wrote:
-> > On 30. 04. 20, 8:42, Arseny Maslennikov wrote:
-> > > This matches the behaviour of other Unix-like systems that have SIGINFO
-> > > and causes less harm to processes that do not install handlers for this
-> > > signal, making the keyboard status character non-fatal for them.
-> > > 
-> > > This is implemented with the assumption that SIGINFO is defined
-> > > to be equivalent to SIGPWR; still, there is no reason for PWR to
-> > > result in termination of the signal recipient anyway — it does not
-> > > indicate there is a fatal problem with the recipient's execution
-> > > context (like e.g. FPE/ILL do), and we have TERM/KILL for explicit
-> > > termination requests.
-> > > 
-> > > To put it another way:
-> > > The only scenario where system behaviour actually changes is when the
-> > > signal recipient has default disposition for SIGPWR. If a process
-> > > chose to interpret a SIGPWR as an incentive to cleanly terminate, it
-> > > would supply its own handler — and this commit does not affect processes
-> > > with non-default handlers.
-> > > 
-> > > Signed-off-by: Arseny Maslennikov <ar@cs.msu.ru>
-> > > ---
-> > >  include/linux/signal.h | 5 +++--
-> > >  1 file changed, 3 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/include/linux/signal.h b/include/linux/signal.h
-> > > index 05bacd2ab..dc31da8fc 100644
-> > > --- a/include/linux/signal.h
-> > > +++ b/include/linux/signal.h
-> > > @@ -369,7 +369,7 @@ extern bool unhandled_signal(struct task_struct *tsk, int sig);
-> > >   *	|  SIGSYS/SIGUNUSED  |	coredump 	|
-> > >   *	|  SIGSTKFLT         |	terminate	|
-> > >   *	|  SIGWINCH          |	ignore   	|
-> > > - *	|  SIGPWR            |	terminate	|
-> > > + *	|  SIGPWR            |	ignore   	|
-> > 
-> > You need to update signal.7 too:
-> > https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/tree/man7/signal.7#n285
-> 
-> (I fail this whole thread via b4 and it appears that a bunch of messages
-> are missing on lore. Might just be delay though.)
-> 
-> How this is this not going to break userspace?
 
-That's my main hesitation for taking this patchset.
+--aFi3jz1oiPowsTUB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Just for a start, SIGPWR (for better or worse) was used for a long time
-> by some sandboxing/container runtimes to shutdown a process and still
-> is.
+On Thu, Apr 30, 2020 at 08:55:43AM +0200, Jiri Slaby wrote:
+> On 30. 04. 20, 8:42, Arseny Maslennikov wrote:
+> > The termios lflag is off by default.
+>=20
+> This commit message is too poor. Describing the intended use would help.
+>=20
 
-That's a good reason to not do this :(
+I described its use in the last patch of the series, where it actually
+gains some use.
 
-greg k-h
+I agree, however, that the limited explanation in this commit does not
+look helpful at all when looking at e.g. git blame output.
+
+I'll resend a v4 with this commit message improved.
+
+--aFi3jz1oiPowsTUB
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE56JD3UKTLEu/ddrm9dQjyAYL01AFAl6qfCkACgkQ9dQjyAYL
+01BFHhAAml+XD+qV4guDdTSNwGuvJNRkulv3C56N+UT8iqccZPDr2kKn38Flkv/W
+2nj2+kuDbtil6wdf9bqojHA1itVdiTaaeNPGfOFNr9jr0FgDaBjwHAQaMrsNWknD
+xHx7XXj9zz4MlnKZx+eWNgSdiyGBPaTZFojZp0fN76HN5oD5/Kx7sEaY8UFs16dw
+uz0p1+rNmwMK9VQ43hcAML1jW1qH/NHTgeOVmvUC0JEqXxvz844E2HjtpttRZvTy
+8iccSRdOLS5f5yFRNucK4gIYXRP+lm1Co3iM3rqOKt02dZm+tooCsydyzFX6glDO
+vcK0ZRoAa8sxQZBmtYXdGhpPsEzhg2ODjcOKfRjRC3fSnXGiU83b9gUg6e5Z7Ocs
+1F9l5bDDjiAQNZBXO2rJPVPjvXNSY/PeVofXJyNWO7mA2+ajHfp4D05lBh03Z6o6
+fhWOjAG2uCTWwNrUf2x8tObGvnUQyZMDStA0jx0JV/HjPQFLYOOlvnxGaP6v/C59
+iYoqctMXY26sphySOon8S3lEubfbL1d/WVYuUK/CHyIajhUP0wHSC1el11ndCJXD
+JMdrxjVFMsUB9J1psz/X7bXcgb5GD/GKkNsRjWwUEwFpB+3RhRcsC0GFYWidiSoC
+djVdRtD0ukmyVCUAYKdgK7q/9LeXNsFOXXDYXeLxUcw40ghhQTo=
+=6OEc
+-----END PGP SIGNATURE-----
+
+--aFi3jz1oiPowsTUB--
