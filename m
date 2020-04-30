@@ -2,159 +2,107 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3290F1BF95F
-	for <lists+linux-api@lfdr.de>; Thu, 30 Apr 2020 15:24:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 547731BFD77
+	for <lists+linux-api@lfdr.de>; Thu, 30 Apr 2020 16:12:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727789AbgD3NX4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 30 Apr 2020 09:23:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50468 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727784AbgD3NXz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 30 Apr 2020 09:23:55 -0400
-Received: from smtp-42ab.mail.infomaniak.ch (smtp-42ab.mail.infomaniak.ch [IPv6:2001:1600:3:17::42ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50CE5C035494
-        for <linux-api@vger.kernel.org>; Thu, 30 Apr 2020 06:23:55 -0700 (PDT)
-Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 49CbgY0FJyzlhjXM;
-        Thu, 30 Apr 2020 15:23:53 +0200 (CEST)
-Received: from localhost (unknown [94.23.54.103])
-        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 49CbgX0Ysmzlln1b;
-        Thu, 30 Apr 2020 15:23:52 +0200 (CEST)
-From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
-To:     linux-kernel@vger.kernel.org
-Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Christian Heimes <christian@python.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Deven Bowers <deven.desai@linux.microsoft.com>,
-        Eric Chiang <ericchiang@google.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Matthew Garrett <mjg59@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mickael.salaun@ssi.gouv.fr>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        =?UTF-8?q?Philippe=20Tr=C3=A9buchet?= 
-        <philippe.trebuchet@ssi.gouv.fr>,
-        Scott Shell <scottsh@microsoft.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Steve Dower <steve.dower@python.org>,
-        Steve Grubb <sgrubb@redhat.com>,
-        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
-        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: [PATCH v4 5/5] doc: Add documentation for the fs.open_mayexec_enforce sysctl
-Date:   Thu, 30 Apr 2020 15:23:20 +0200
-Message-Id: <20200430132320.699508-6-mic@digikod.net>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200430132320.699508-1-mic@digikod.net>
-References: <20200430132320.699508-1-mic@digikod.net>
+        id S1726853AbgD3OMn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 30 Apr 2020 10:12:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58888 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727859AbgD3NvC (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 30 Apr 2020 09:51:02 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6D4A520870;
+        Thu, 30 Apr 2020 13:51:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1588254662;
+        bh=w+CRxr9kY4K+9b8jpYJdkDCWoR7oDk9596EFqhXzsvI=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=HTomldbZMw4ITCDKM0E/rMvAZO9LypEpJdNriBRsK49UngKy9lnxWDa9DJlAB5Y/o
+         E6igEm3y/Y9WPTY7v2aA0Q4N9WfSneI9oXZYVNqJp2NWrUgpzur6V9wfyZvXlOHefH
+         NWCM0OyW7rri6dGsiBCJ3hu6G7aBN2Is3ZmPYTBs=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Sandipan Das <sandipan@linux.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Sasha Levin <sashal@kernel.org>, linux-api@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.6 15/79] selftests: vm: Do not override definition of ARCH
+Date:   Thu, 30 Apr 2020 09:49:39 -0400
+Message-Id: <20200430135043.19851-15-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200430135043.19851-1-sashal@kernel.org>
+References: <20200430135043.19851-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
-X-Antivirus-Code: 0x100000
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This sysctl enables to propagate executable permission to userspace
-thanks to the O_MAYEXEC flag.
+From: Sandipan Das <sandipan@linux.ibm.com>
 
-Signed-off-by: Mickaël Salaün <mic@digikod.net>
-Reviewed-by: Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>
-Cc: Aleksa Sarai <cyphar@cyphar.com>
-Cc: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Kees Cook <keescook@chromium.org>
+[ Upstream commit 24c3f063c57b2a8ae21b259bcfa7690e2eb56dd9 ]
+
+Independent builds of the vm selftests is currently broken because
+commit 7549b3364201 ("selftests: vm: Build/Run 64bit tests only on
+64bit arch") overrides the value of ARCH with the machine name from
+uname. This does not always match the architecture names used for
+tasks like header installation.
+
+E.g. for building tests on powerpc64, we need ARCH=powerpc
+and not ARCH=ppc64 or ARCH=ppc64le. Otherwise, the build
+fails as shown below.
+
+  $ uname -m
+  ppc64le
+
+  $ make -C tools/testing/selftests/vm
+  make: Entering directory '/home/sandipan/linux/tools/testing/selftests/vm'
+  make --no-builtin-rules ARCH=ppc64le -C ../../../.. headers_install
+  make[1]: Entering directory '/home/sandipan/linux'
+  Makefile:653: arch/ppc64le/Makefile: No such file or directory
+  make[1]: *** No rule to make target 'arch/ppc64le/Makefile'.  Stop.
+  make[1]: Leaving directory '/home/sandipan/linux'
+  ../lib.mk:50: recipe for target 'khdr' failed
+  make: *** [khdr] Error 2
+  make: Leaving directory '/home/sandipan/linux/tools/testing/selftests/vm'
+
+Fixes: 7549b3364201 ("selftests: vm: Build/Run 64bit tests only on 64bit arch")
+Signed-off-by: Sandipan Das <sandipan@linux.ibm.com>
+Tested-by: Michael Ellerman <mpe@ellerman.id.au>
+Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
+ tools/testing/selftests/vm/Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Changes since v3:
-* Switch back to O_MAYEXEC and highlight that it is only taken into
-  account by openat2(2).
-
-Changes since v2:
-* Update documentation with the new RESOLVE_MAYEXEC.
-* Improve explanations, including concerns about LD_PRELOAD.
-
-Changes since v1:
-* Move from LSM/Yama to sysctl/fs .
----
- Documentation/admin-guide/sysctl/fs.rst | 44 +++++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
-
-diff --git a/Documentation/admin-guide/sysctl/fs.rst b/Documentation/admin-guide/sysctl/fs.rst
-index 2a45119e3331..d55615c36772 100644
---- a/Documentation/admin-guide/sysctl/fs.rst
-+++ b/Documentation/admin-guide/sysctl/fs.rst
-@@ -37,6 +37,7 @@ Currently, these files are in /proc/sys/fs:
- - inode-nr
- - inode-state
- - nr_open
-+- open_mayexec_enforce
- - overflowuid
- - overflowgid
- - pipe-user-pages-hard
-@@ -165,6 +166,49 @@ system needs to prune the inode list instead of allocating
- more.
+diff --git a/tools/testing/selftests/vm/Makefile b/tools/testing/selftests/vm/Makefile
+index 7f9a8a8c31da9..3f2e2f0ccbc9a 100644
+--- a/tools/testing/selftests/vm/Makefile
++++ b/tools/testing/selftests/vm/Makefile
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
+ # Makefile for vm selftests
+ uname_M := $(shell uname -m 2>/dev/null || echo not)
+-ARCH ?= $(shell echo $(uname_M) | sed -e 's/aarch64.*/arm64/')
++MACHINE ?= $(shell echo $(uname_M) | sed -e 's/aarch64.*/arm64/')
  
+ CFLAGS = -Wall -I ../../../../usr/include $(EXTRA_CFLAGS)
+ LDLIBS = -lrt
+@@ -19,7 +19,7 @@ TEST_GEN_FILES += thuge-gen
+ TEST_GEN_FILES += transhuge-stress
+ TEST_GEN_FILES += userfaultfd
  
-+open_mayexec_enforce
-+--------------------
-+
-+While being ignored by :manpage:`open(2)` and :manpage:`openat(2)`, the
-+``O_MAYEXEC`` flag can be passed to :manpage:`openat2(2)` to only open regular
-+files that are expected to be executable.  If the file is not identified as
-+executable, then the syscall returns -EACCES.  This may allow a script
-+interpreter to check executable permission before reading commands from a file,
-+or a dynamic linker to only load executable shared objects.  One interesting
-+use case is to enforce a "write xor execute" policy through interpreters.
-+
-+The ability to restrict code execution must be thought as a system-wide policy,
-+which first starts by restricting mount points with the ``noexec`` option.
-+This option is also automatically applied to special filesystems such as /proc
-+.  This prevents files on such mount points to be directly executed by the
-+kernel or mapped as executable memory (e.g. libraries).  With script
-+interpreters using the ``O_MAYEXEC`` flag, the executable permission can then
-+be checked before reading commands from files. This makes it possible to
-+enforce the ``noexec`` at the interpreter level, and thus propagates this
-+security policy to scripts.  To be fully effective, these interpreters also
-+need to handle the other ways to execute code: command line parameters (e.g.,
-+option ``-e`` for Perl), module loading (e.g., option ``-m`` for Python),
-+stdin, file sourcing, environment variables, configuration files, etc.
-+According to the threat model, it may be acceptable to allow some script
-+interpreters (e.g. Bash) to interpret commands from stdin, may it be a TTY or a
-+pipe, because it may not be enough to (directly) perform syscalls.
-+
-+There are two complementary security policies: enforce the ``noexec`` mount
-+option, and enforce executable file permission.  These policies are handled by
-+the ``fs.open_mayexec_enforce`` sysctl (writable only with ``CAP_MAC_ADMIN``)
-+as a bitmask:
-+
-+1 - Mount restriction: checks that the mount options for the underlying VFS
-+    mount do not prevent execution.
-+
-+2 - File permission restriction: checks that the to-be-opened file is marked as
-+    executable for the current process (e.g., POSIX permissions).
-+
-+Code samples can be found in tools/testing/selftests/openat2/omayexec_test.c
-+and at
-+https://github.com/clipos-archive/clipos4_portage-overlay/search?q=O_MAYEXEC .
-+
-+
- overflowgid & overflowuid
- -------------------------
- 
+-ifneq (,$(filter $(ARCH),arm64 ia64 mips64 parisc64 ppc64 riscv64 s390x sh64 sparc64 x86_64))
++ifneq (,$(filter $(MACHINE),arm64 ia64 mips64 parisc64 ppc64 riscv64 s390x sh64 sparc64 x86_64))
+ TEST_GEN_FILES += va_128TBswitch
+ TEST_GEN_FILES += virtual_address_range
+ endif
 -- 
-2.26.2
+2.20.1
 
