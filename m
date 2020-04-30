@@ -2,39 +2,45 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A21AF1C0398
-	for <lists+linux-api@lfdr.de>; Thu, 30 Apr 2020 19:08:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8BF91C03B8
+	for <lists+linux-api@lfdr.de>; Thu, 30 Apr 2020 19:20:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726405AbgD3RHe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 30 Apr 2020 13:07:34 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:37403 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726411AbgD3RHd (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 30 Apr 2020 13:07:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1588266452;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=n84NKkMGhM/sUUh7/zgvH7HP13DgY6SqFKXlVUHweRo=;
-        b=fLKE/dPCNctFjQ0lJNqGqUzUP1RJ01ZU0w2TS8Y78WbKZxnIY2SnztU87rIU/f/pMXKMSb
-        YtfM2jahsq3htwN9xT2Z49yqPtBoXXGou3B8p4+/a2wwXmrtpjkGv0kAslioC/1fNXARHU
-        sFxiowZjhAbBfNBdBZZSh5XZul4x8a8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-73-V-sb3-CdPvGn1CGtBBGUQw-1; Thu, 30 Apr 2020 13:07:28 -0400
-X-MC-Unique: V-sb3-CdPvGn1CGtBBGUQw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0137B1895A28;
-        Thu, 30 Apr 2020 17:07:26 +0000 (UTC)
-Received: from oldenburg2.str.redhat.com (ovpn-113-72.ams2.redhat.com [10.36.113.72])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id E6B7D5D9F1;
-        Thu, 30 Apr 2020 17:07:18 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+        id S1726482AbgD3RUF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 30 Apr 2020 13:20:05 -0400
+Received: from mail.efficios.com ([167.114.26.124]:59474 "EHLO
+        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726440AbgD3RUE (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 30 Apr 2020 13:20:04 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id D20BE290A16;
+        Thu, 30 Apr 2020 13:20:03 -0400 (EDT)
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id fTKELdeRdh4k; Thu, 30 Apr 2020 13:20:03 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 852BC290B08;
+        Thu, 30 Apr 2020 13:20:03 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 852BC290B08
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1588267203;
+        bh=Di5qGah5r+8XjpKMIa4fYVeZjc/aoZbDYSfzdYCDF9E=;
+        h=Date:From:To:Message-ID:MIME-Version;
+        b=LLjA9fjLx88v78z9kHXBV3cIBVT6Ytx8fLd+ncdm/H4h0dOBMwGQQZkr1DNZs4w8Q
+         ht+RcBbU/rWPTeeiy/8YEqPyj70VzUzeHFQMMcI591D522jKRMPgFZxCvpSBCuv9/A
+         RJ/kD/p5uk5DkRtJdz+9YZkYWFIJyn0GWmxPbU27UhDVPeEryFAw2NBbM6J9nTzOEX
+         7kziDXe0bAIiR+SFz6iyUlEAuM2neGIVXLX+aSc28ByC1BmTnEAhXz6BvxtOvR+7kZ
+         ZaOeEUMAPzl7txUceVIFAbGMWu8WheV4EC+yTU5rvG2dh5A5XfCGL406IosNCED8X0
+         HYZH7aQSoy9gw==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id 4W0RDaxPKok7; Thu, 30 Apr 2020 13:20:03 -0400 (EDT)
+Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
+        by mail.efficios.com (Postfix) with ESMTP id 679BE2904FA;
+        Thu, 30 Apr 2020 13:20:03 -0400 (EDT)
+Date:   Thu, 30 Apr 2020 13:20:03 -0400 (EDT)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     Florian Weimer <fweimer@redhat.com>
 Cc:     carlos <carlos@redhat.com>, Joseph Myers <joseph@codesourcery.com>,
         Szabolcs Nagy <szabolcs.nagy@arm.com>,
         libc-alpha <libc-alpha@sourceware.org>,
@@ -48,59 +54,51 @@ Cc:     carlos <carlos@redhat.com>, Joseph Myers <joseph@codesourcery.com>,
         Rich Felker <dalias@libc.org>,
         linux-kernel <linux-kernel@vger.kernel.org>,
         linux-api <linux-api@vger.kernel.org>
-Subject: Re: [RFC PATCH glibc 1/3] glibc: Perform rseq(2) registration at C startup and thread creation (v18)
-References: <20200428171513.22926-1-mathieu.desnoyers@efficios.com>
-        <875zdhmaft.fsf@oldenburg2.str.redhat.com>
-        <1287616647.77866.1588263099045.JavaMail.zimbra@efficios.com>
-        <878sidkk0z.fsf@oldenburg2.str.redhat.com>
-        <1972833271.77975.1588265754974.JavaMail.zimbra@efficios.com>
-Date:   Thu, 30 Apr 2020 19:07:17 +0200
-In-Reply-To: <1972833271.77975.1588265754974.JavaMail.zimbra@efficios.com>
-        (Mathieu Desnoyers's message of "Thu, 30 Apr 2020 12:55:54 -0400
-        (EDT)")
-Message-ID: <874kt0lx6i.fsf@oldenburg2.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+Message-ID: <729499446.78182.1588267203324.JavaMail.zimbra@efficios.com>
+In-Reply-To: <874kt0lx6i.fsf@oldenburg2.str.redhat.com>
+References: <20200428171513.22926-1-mathieu.desnoyers@efficios.com> <875zdhmaft.fsf@oldenburg2.str.redhat.com> <1287616647.77866.1588263099045.JavaMail.zimbra@efficios.com> <878sidkk0z.fsf@oldenburg2.str.redhat.com> <1972833271.77975.1588265754974.JavaMail.zimbra@efficios.com> <874kt0lx6i.fsf@oldenburg2.str.redhat.com>
+Subject: Re: [RFC PATCH glibc 1/3] glibc: Perform rseq(2) registration at C
+ startup and thread creation (v18)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Originating-IP: [167.114.26.124]
+X-Mailer: Zimbra 8.8.15_GA_3918 (ZimbraWebClient - FF75 (Linux)/8.8.15_GA_3895)
+Thread-Topic: glibc: Perform rseq(2) registration at C startup and thread creation (v18)
+Thread-Index: ovrJOjNB9Oey32yCPILsJBJkjrvzzg==
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Mathieu Desnoyers:
+----- On Apr 30, 2020, at 1:07 PM, Florian Weimer fweimer@redhat.com wrote:
+[...]
+> __libc_fatal does not attribute the error to glibc, so I suggest to
+> start the error messages with =E2=80=9Cglibc fatal error: =E2=80=9D, so t=
+hat people know
+> where to look.
 
-> If we go this way, I'd also recommend to treat any situation where
-> __rseq_abi.cpu_id is already initialized as a fatal error. Does the
-> code below seem OK to you ?
->
-> static inline void
-> rseq_register_current_thread (void)
-> {
->   int ret;
->
->   if (__rseq_abi.cpu_id !=3D RSEQ_CPU_ID_UNINITIALIZED)
->     __libc_fatal ("rseq already initialized for this thread\n");
+OK. Is there a strict requirement on limiting to 80 columns for code
+including an error message string in glibc ? IOW:
 
-Agreed; this should work because this code runs after relocation
-processing.
+  if (__rseq_abi.cpu_id !=3D RSEQ_CPU_ID_UNINITIALIZED)
+    __libc_fatal ("glibc fatal error: rseq already initialized for this thr=
+ead\n");
 
->   ret =3D INTERNAL_SYSCALL_CALL (rseq, &__rseq_abi, sizeof (struct rseq),
->                               0, RSEQ_SIG);
->   if (INTERNAL_SYSCALL_ERROR_P (ret))
->     {
->       if (INTERNAL_SYSCALL_ERRNO (ret) =3D=3D EBUSY)
->         __libc_fatal ("rseq already registered for this thread\n");
->       __rseq_abi.cpu_id =3D RSEQ_CPU_ID_REGISTRATION_FAILED;
->     }
-> }
+or
 
-__libc_fatal does not attribute the error to glibc, so I suggest to
-start the error messages with =E2=80=9Cglibc fatal error: =E2=80=9D, so tha=
-t people know
-where to look.
+  if (__rseq_abi.cpu_id !=3D RSEQ_CPU_ID_UNINITIALIZED)
+    __libc_fatal ("glibc fatal error: "
+                  "rseq already initialized for this thread\n");
+
+?
 
 Thanks,
-Florian
 
+Mathieu
+
+
+--=20
+Mathieu Desnoyers
+EfficiOS Inc.
+http://www.efficios.com
