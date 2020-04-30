@@ -2,38 +2,38 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 396061BFC0B
-	for <lists+linux-api@lfdr.de>; Thu, 30 Apr 2020 16:03:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 584451BFA82
+	for <lists+linux-api@lfdr.de>; Thu, 30 Apr 2020 15:54:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729051AbgD3ODS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 30 Apr 2020 10:03:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35310 "EHLO mail.kernel.org"
+        id S1728898AbgD3NyJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 30 Apr 2020 09:54:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36306 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728723AbgD3Nxb (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 30 Apr 2020 09:53:31 -0400
+        id S1728894AbgD3NyI (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 30 Apr 2020 09:54:08 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5154B208CA;
-        Thu, 30 Apr 2020 13:53:30 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id DE8A0208D5;
+        Thu, 30 Apr 2020 13:54:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588254811;
-        bh=/pCLZHYr2OmVi2mS3ZUGZ80/NyMpK1+qw2ThEw/BWPI=;
+        s=default; t=1588254848;
+        bh=JhaoRj9jZk39lYShkuqJ2n3OdDYo4lbMd/G3DAoAJHY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HTmQUJbjyslEJ7lfsQnv8Cp+ndzTycPwmDPk2v9ZS4vEMGwRjlLm/c3qpnoc6RFTf
-         kHP3EKyJZ1yn5ZK0fHvXj7uwyNiVPfRcG6kneMg0Cs0ofeWTpRxuihvrimTjv0wjIg
-         vPQqzCWAv4NRIlKIpVgLIB6vXrHVXLHV5tsbXSv8=
+        b=ryUw709zvMp6EiZJj5euqpDcMNadYCceMJE7uIQwdeghKh9EfGFhM42GEC7FiFScn
+         53FM0f1v92u8e9zDMNNEmpWnoh06UxtV/EdTxuKBTp8GQLynZ9VALTFcHpWvt2gYvY
+         NMoSunFiSeF++dnCxxNroplWYG05Dmys/UfD3Q10=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Tyler Hicks <tyhicks@linux.microsoft.com>,
         Shuah Khan <skhan@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-api@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 04/30] selftests/ipc: Fix test failure seen after initial test run
-Date:   Thu, 30 Apr 2020 09:52:59 -0400
-Message-Id: <20200430135325.20762-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 05/27] selftests/ipc: Fix test failure seen after initial test run
+Date:   Thu, 30 Apr 2020 09:53:40 -0400
+Message-Id: <20200430135402.20994-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200430135325.20762-1-sashal@kernel.org>
-References: <20200430135325.20762-1-sashal@kernel.org>
+In-Reply-To: <20200430135402.20994-1-sashal@kernel.org>
+References: <20200430135402.20994-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -84,7 +84,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/tools/testing/selftests/ipc/msgque.c b/tools/testing/selftests/ipc/msgque.c
-index 4c156aeab6b80..5ec4d9e18806c 100644
+index c5587844fbb8c..ad723a5d0f831 100644
 --- a/tools/testing/selftests/ipc/msgque.c
 +++ b/tools/testing/selftests/ipc/msgque.c
 @@ -137,7 +137,7 @@ int dump_queue(struct msgque_data *msgque)
