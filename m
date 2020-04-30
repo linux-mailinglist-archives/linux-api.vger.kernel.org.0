@@ -2,37 +2,36 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8641B1BFD73
-	for <lists+linux-api@lfdr.de>; Thu, 30 Apr 2020 16:12:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0796B1BFD5C
+	for <lists+linux-api@lfdr.de>; Thu, 30 Apr 2020 16:12:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727880AbgD3NvF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 30 Apr 2020 09:51:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58906 "EHLO mail.kernel.org"
+        id S1727899AbgD3NvH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 30 Apr 2020 09:51:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58980 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727869AbgD3NvD (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 30 Apr 2020 09:51:03 -0400
+        id S1727887AbgD3NvG (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 30 Apr 2020 09:51:06 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8CACC2082E;
-        Thu, 30 Apr 2020 13:51:02 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1176E24954;
+        Thu, 30 Apr 2020 13:51:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588254663;
-        bh=osGwwFtM7e5rMfw3M0DmRZxNr6qfcTUhOtTET+KOvqk=;
+        s=default; t=1588254665;
+        bh=pNDq+qA0a6AeHHaZ1+wh57H8blS3M82LwnhCyrgPei8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=RD4O0OxjAN1yQsHejbSQmBcM+VjP4qj1yN6DMeUpheeZvk6Zozf8fBvczPsYaUvMu
-         qzooB0tzmKCqNIwn4J0BcDWnw2WMpgUlNMBoBrw4LySQdfFU8t6U+QAggfFqCTYaGa
-         MUOMmHya6yP8ybnI9s7rvs6IvnVAmgqbZ+NXf5GU=
+        b=wmqG9RGED98L/rX3qYChQfInbO2hMoWdwBwCgL6HGBiw/9WVGUniHHgsbjalvJDKj
+         z3ptY+puGMZV9tL6nhcqzrWvznwFPfCQn3pEBWrmJ/HeziC1pbf19kOse3Us6kM5Tk
+         5trv2rZ1+L0s80eBAb49o5dmyN5BoYfOX4iF8xMg=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Sandipan Das <sandipan@linux.ibm.com>,
-        Kamalesh Babulal <kamalesh@linux.vnet.ibm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
+Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        Nikita Sobolev <Nikita.Sobolev@synopsys.com>,
         Shuah Khan <skhan@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-api@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 16/79] selftests: vm: Fix 64-bit test builds for powerpc64le
-Date:   Thu, 30 Apr 2020 09:49:40 -0400
-Message-Id: <20200430135043.19851-16-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.6 18/79] Revert "Kernel selftests: tpm2: check for tpm support"
+Date:   Thu, 30 Apr 2020 09:49:42 -0400
+Message-Id: <20200430135043.19851-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200430135043.19851-1-sashal@kernel.org>
 References: <20200430135043.19851-1-sashal@kernel.org>
@@ -45,51 +44,65 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Sandipan Das <sandipan@linux.ibm.com>
+From: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
 
-[ Upstream commit 963e3e9c9a127013eb4d3c82eb997068b1adbb89 ]
+[ Upstream commit aaa2d92efe1f972567f1691b423ab8dc606ab3a9 ]
 
-Some tests are built only for 64-bit systems. This makes
-sure that these tests are built for both big and little
-endian variants of powerpc64.
+This reverts commit b32694cd0724d4ceca2c62cc7c3d3a8d1ffa11fc.
 
-Fixes: 7549b3364201 ("selftests: vm: Build/Run 64bit tests only on 64bit arch")
-Reviewed-by: Kamalesh Babulal <kamalesh@linux.vnet.ibm.com>
-Signed-off-by: Sandipan Das <sandipan@linux.ibm.com>
-Tested-by: Michael Ellerman <mpe@ellerman.id.au>
+The original comment was neither reviewed nor tested. Thus, this the
+*only* possible action to take.
+
+Cc: Nikita Sobolev <Nikita.Sobolev@synopsys.com>
+Signed-off-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
 Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- tools/testing/selftests/vm/Makefile    | 2 +-
- tools/testing/selftests/vm/run_vmtests | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ tools/testing/selftests/tpm2/test_smoke.sh | 13 ++-----------
+ tools/testing/selftests/tpm2/test_space.sh |  9 +--------
+ 2 files changed, 3 insertions(+), 19 deletions(-)
 
-diff --git a/tools/testing/selftests/vm/Makefile b/tools/testing/selftests/vm/Makefile
-index 3f2e2f0ccbc9a..8074340c6b3ab 100644
---- a/tools/testing/selftests/vm/Makefile
-+++ b/tools/testing/selftests/vm/Makefile
-@@ -19,7 +19,7 @@ TEST_GEN_FILES += thuge-gen
- TEST_GEN_FILES += transhuge-stress
- TEST_GEN_FILES += userfaultfd
+diff --git a/tools/testing/selftests/tpm2/test_smoke.sh b/tools/testing/selftests/tpm2/test_smoke.sh
+index b630c7b5950a9..8155c2ea7ccbb 100755
+--- a/tools/testing/selftests/tpm2/test_smoke.sh
++++ b/tools/testing/selftests/tpm2/test_smoke.sh
+@@ -1,17 +1,8 @@
+ #!/bin/bash
+ # SPDX-License-Identifier: (GPL-2.0 OR BSD-3-Clause)
+-self.flags = flags
  
--ifneq (,$(filter $(MACHINE),arm64 ia64 mips64 parisc64 ppc64 riscv64 s390x sh64 sparc64 x86_64))
-+ifneq (,$(filter $(MACHINE),arm64 ia64 mips64 parisc64 ppc64 ppc64le riscv64 s390x sh64 sparc64 x86_64))
- TEST_GEN_FILES += va_128TBswitch
- TEST_GEN_FILES += virtual_address_range
- endif
-diff --git a/tools/testing/selftests/vm/run_vmtests b/tools/testing/selftests/vm/run_vmtests
-index f337148431980..6e137c9baa1e0 100755
---- a/tools/testing/selftests/vm/run_vmtests
-+++ b/tools/testing/selftests/vm/run_vmtests
-@@ -59,7 +59,7 @@ else
- fi
+-# Kselftest framework requirement - SKIP code is 4.
+-ksft_skip=4
+-
+-
+-if [ -f /dev/tpm0 ] ; then
+-	python -m unittest -v tpm2_tests.SmokeTest
+-	python -m unittest -v tpm2_tests.AsyncTest
+-else
+-	exit $ksft_skip
+-fi
++python -m unittest -v tpm2_tests.SmokeTest
++python -m unittest -v tpm2_tests.AsyncTest
  
- #filter 64bit architectures
--ARCH64STR="arm64 ia64 mips64 parisc64 ppc64 riscv64 s390x sh64 sparc64 x86_64"
-+ARCH64STR="arm64 ia64 mips64 parisc64 ppc64 ppc64le riscv64 s390x sh64 sparc64 x86_64"
- if [ -z $ARCH ]; then
-   ARCH=`uname -m 2>/dev/null | sed -e 's/aarch64.*/arm64/'`
- fi
+ CLEAR_CMD=$(which tpm2_clear)
+ if [ -n $CLEAR_CMD ]; then
+diff --git a/tools/testing/selftests/tpm2/test_space.sh b/tools/testing/selftests/tpm2/test_space.sh
+index 180b469c53b47..a6f5e346635e5 100755
+--- a/tools/testing/selftests/tpm2/test_space.sh
++++ b/tools/testing/selftests/tpm2/test_space.sh
+@@ -1,11 +1,4 @@
+ #!/bin/bash
+ # SPDX-License-Identifier: (GPL-2.0 OR BSD-3-Clause)
+ 
+-# Kselftest framework requirement - SKIP code is 4.
+-ksft_skip=4
+-
+-if [ -f /dev/tpmrm0 ] ; then
+-	python -m unittest -v tpm2_tests.SpaceTest
+-else
+-	exit $ksft_skip
+-fi
++python -m unittest -v tpm2_tests.SpaceTest
 -- 
 2.20.1
 
