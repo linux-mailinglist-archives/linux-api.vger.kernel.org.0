@@ -2,81 +2,94 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CE6EB1C1C95
-	for <lists+linux-api@lfdr.de>; Fri,  1 May 2020 20:07:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A54A81C1E0A
+	for <lists+linux-api@lfdr.de>; Fri,  1 May 2020 21:46:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729502AbgEASHX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 1 May 2020 14:07:23 -0400
-Received: from namei.org ([65.99.196.166]:56664 "EHLO namei.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729138AbgEASHX (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 1 May 2020 14:07:23 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by namei.org (8.14.4/8.14.4) with ESMTP id 041I5rjc006112;
-        Fri, 1 May 2020 18:05:53 GMT
-Date:   Sat, 2 May 2020 04:05:53 +1000 (AEST)
-From:   James Morris <jmorris@namei.org>
-To:     =?ISO-8859-15?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
-cc:     linux-kernel@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Christian Heimes <christian@python.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Deven Bowers <deven.desai@linux.microsoft.com>,
-        Eric Chiang <ericchiang@google.com>,
-        Florian Weimer <fweimer@redhat.com>, Jan Kara <jack@suse.cz>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Matthew Garrett <mjg59@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?ISO-8859-15?Q?Micka=EBl_Sala=FCn?= <mickael.salaun@ssi.gouv.fr>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        =?ISO-8859-15?Q?Philippe_Tr=E9buchet?= 
-        <philippe.trebuchet@ssi.gouv.fr>,
-        Scott Shell <scottsh@microsoft.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Steve Dower <steve.dower@python.org>,
-        Steve Grubb <sgrubb@redhat.com>,
-        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
-        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v3 3/5] fs: Enable to enforce noexec mounts or file exec
- through RESOLVE_MAYEXEC
-In-Reply-To: <d1a81d06-7530-1f2b-858a-e42bc1ae2a7e@digikod.net>
-Message-ID: <alpine.LRH.2.21.2005020405210.5924@namei.org>
-References: <20200428175129.634352-1-mic@digikod.net> <20200428175129.634352-4-mic@digikod.net> <alpine.LRH.2.21.2005011409570.29679@namei.org> <d1a81d06-7530-1f2b-858a-e42bc1ae2a7e@digikod.net>
-User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
+        id S1726699AbgEATqi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 1 May 2020 15:46:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53582 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726483AbgEATqh (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 1 May 2020 15:46:37 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14B96C061A0E
+        for <linux-api@vger.kernel.org>; Fri,  1 May 2020 12:46:37 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id j14so4671756lfg.9
+        for <linux-api@vger.kernel.org>; Fri, 01 May 2020 12:46:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Kt6IiWcmZXX6mLZe3Npm+KnNStyWK4tvZMSZknHrpEw=;
+        b=ZyvFH+M0FEmSh28N06nH7yi6EuuiQnNaCVIMA3mgShcIVa7cWxG83XzZcK+9attidQ
+         2c4sCZ0aEx5sZnBre78nNPKQWqJ2puuyL4g+CF4LQDiEavbU3LXBmnx6z3k7+mi1Gcwl
+         2NR6PYa09f0mZVpskNA7T0kO1xYiOGZEVm9yBa+ei+GkVggdds92ykznzEzxhfvtpvVa
+         rapUqKOvGs7LqMCkRzrgJbhq4h9K7YKmkapN9fsCpiJvkbS85NHlYwaG/L+MVko2VMcr
+         7Fc6BK5LCtLbxWvBTe/ruxFuF9NGdx3vH4iOqCfUZ7bBoaY7kRmOclZpIAoC/YtpYx7g
+         URmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Kt6IiWcmZXX6mLZe3Npm+KnNStyWK4tvZMSZknHrpEw=;
+        b=bngSjsg1mpGGPA6JGcFxsR3lokVmQqYPqAjGNnt61XC51ugD5FXC7LvzRF4fTM315x
+         ycNWXQzDu97W5phiKgO3Bc57wllObge7KYrPiGuyhKkr++mMfqCuc4615Sx62GuqgfpT
+         lqLMcHVuKJ+cnQSLdVIS8xT2zBrZh69+IBF9+dQklxl5JTqJ0RxG0fERgrpvCQkL10Lw
+         ZTFz78BGHD5bI2UtBQEQ6DopbpwPx2JJ8P/s2wPUJZbxRjTROfS7aYZ3dqj7PqKMs+YS
+         +xgGouphBaNwZFZVviNbWqxGhQkFFLf6nBOAYtpRew9C8KpjrUA7SZKjE54O3w9K6ma9
+         11wQ==
+X-Gm-Message-State: AGi0PuZISBfbb2F825v6l5nj35xrkllJf38EjC7hhKvwhO4nzsKxNU33
+        8EUT/oerhXmtD6vmhrMblbZlKelEmJ1INmLDI/89LA==
+X-Google-Smtp-Source: APiQypLCnx5iBY4mxdbtk29iHmVZ+VLcTq41ZYnT5fApK66c7DCSDwDCusSxYcaDfuerlo+1CJxlIg8cVCBKOZUZmGY=
+X-Received: by 2002:ac2:4257:: with SMTP id m23mr3390896lfl.141.1588362395236;
+ Fri, 01 May 2020 12:46:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="1665246916-1237382289-1588356355=:5924"
+References: <158812825316.168506.932540609191384366.stgit@magnolia>
+In-Reply-To: <158812825316.168506.932540609191384366.stgit@magnolia>
+From:   Jann Horn <jannh@google.com>
+Date:   Fri, 1 May 2020 21:46:07 +0200
+Message-ID: <CAG48ez0Fa6NSmO2a5kuzp6GCAXAXQtBzEDO+YcBL4BW105tF+w@mail.gmail.com>
+Subject: Re: [PATCH RFC 00/18] xfs: atomic file updates
+To:     "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc:     linux-xfs@vger.kernel.org,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Wed, Apr 29, 2020 at 4:46 AM Darrick J. Wong <darrick.wong@oracle.com> wrote:
+> This series creates a new log incompat feature and log intent items to
+> track high level progress of swapping ranges of two files and finish
+> interrupted work if the system goes down.  It then adds a new
+> FISWAPRANGE ioctl so that userspace can access the atomic extent
+> swapping feature.  With this feature, user programs will be able to
+> update files atomically by opening an O_TMPFILE, reflinking the source
+> file to it, making whatever updates they want to make, and then
+> atomically swap the changed bits back to the source file.  It even has
+> an optional ability to detect a changed source file and reject the
+> update.
+>
+> The intent behind this new userspace functionality is to enable atomic
+> rewrites of arbitrary parts of individual files.  For years, application
+> programmers wanting to ensure the atomicity of a file update had to
+> write the changes to a new file in the same directory, fsync the new
+> file, rename the new file on top of the old filename, and then fsync the
+> directory.  People get it wrong all the time, and $fs hacks abound.
+>
+> With atomic file updates, this is no longer necessary.  Programmers
+> create an O_TMPFILE, optionally FICLONE the file contents into the
+> temporary file, make whatever changes they want to the tempfile, and
+> FISWAPRANGE the contents from the tempfile into the regular file.
 
---1665246916-1237382289-1588356355=:5924
-Content-Type: text/plain; charset=iso-8859-15
-Content-Transfer-Encoding: 8BIT
+That also requires the *readers* to be atomic though, right? Since now
+the updates are visible to readers instantly, instead of only on the
+next open()? If you used this to update /etc/passwd while someone else
+is in the middle of reading it with a sequence of read() calls, there
+would be fireworks...
 
-On Fri, 1 May 2020, Mickaël Salaün wrote:
-
-> 
-> However, for fully controlled distros such as CLIP OS, it make sense to
-> enforce such restrictions at kernel build time. I can add an alternative
-> kernel configuration to enforce a particular policy at boot and disable
-> this sysctl.
-
-Sounds good.
-
--- 
-James Morris
-<jmorris@namei.org>
-
---1665246916-1237382289-1588356355=:5924--
+I guess maybe the new API could also be wired up to ext4's
+EXT4_IOC_MOVE_EXT somehow, provided that the caller specifies
+FILE_SWAP_RANGE_NONATOMIC?
