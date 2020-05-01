@@ -2,156 +2,107 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E6B6B1C17D0
-	for <lists+linux-api@lfdr.de>; Fri,  1 May 2020 16:32:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A0A21C19ED
+	for <lists+linux-api@lfdr.de>; Fri,  1 May 2020 17:42:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728856AbgEAOc2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 1 May 2020 10:32:28 -0400
-Received: from smtp-bc09.mail.infomaniak.ch ([45.157.188.9]:41807 "EHLO
-        smtp-bc09.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728893AbgEAOc1 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 1 May 2020 10:32:27 -0400
-Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 49DF8659L7zlhH6x;
-        Fri,  1 May 2020 16:32:22 +0200 (CEST)
-Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
-        by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 49DF850BX5zlvJFk;
-        Fri,  1 May 2020 16:32:20 +0200 (CEST)
-Subject: Re: [PATCH v3 3/5] fs: Enable to enforce noexec mounts or file exec
- through RESOLVE_MAYEXEC
-To:     James Morris <jmorris@namei.org>
-Cc:     linux-kernel@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Christian Heimes <christian@python.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Deven Bowers <deven.desai@linux.microsoft.com>,
-        Eric Chiang <ericchiang@google.com>,
-        Florian Weimer <fweimer@redhat.com>, Jan Kara <jack@suse.cz>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Matthew Garrett <mjg59@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mickael.salaun@ssi.gouv.fr>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        =?UTF-8?Q?Philippe_Tr=c3=a9buchet?= 
-        <philippe.trebuchet@ssi.gouv.fr>,
-        Scott Shell <scottsh@microsoft.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Steve Dower <steve.dower@python.org>,
-        Steve Grubb <sgrubb@redhat.com>,
-        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
-        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-References: <20200428175129.634352-1-mic@digikod.net>
- <20200428175129.634352-4-mic@digikod.net>
- <alpine.LRH.2.21.2005011409570.29679@namei.org>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <d1a81d06-7530-1f2b-858a-e42bc1ae2a7e@digikod.net>
-Date:   Fri, 1 May 2020 16:32:20 +0200
-User-Agent: 
+        id S1729042AbgEAPm4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 1 May 2020 11:42:56 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:35472 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728812AbgEAPm4 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 1 May 2020 11:42:56 -0400
+Received: from ip5f5af183.dynamic.kabel-deutschland.de ([95.90.241.131] helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1jUXoR-00037R-U2; Fri, 01 May 2020 15:42:52 +0000
+Date:   Fri, 1 May 2020 17:42:51 +0200
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     Jann Horn <jannh@google.com>, linux-api@vger.kernel.org,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        linux-kernel@vger.kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Michael Kerrisk <mtk.manpages@gmail.com>
+Subject: Re: [PATCH v2 1/4] capability: add ns_capable_cred()
+Message-ID: <20200501154251.j4iuz42tntnjcvaa@wittgenstein>
+References: <20200430165717.1001605-1-christian.brauner@ubuntu.com>
+ <87y2qczvz9.fsf@x220.int.ebiederm.org>
 MIME-Version: 1.0
-In-Reply-To: <alpine.LRH.2.21.2005011409570.29679@namei.org>
-Content-Type: text/plain; charset=iso-8859-15
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
-X-Antivirus-Code: 0x100000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87y2qczvz9.fsf@x220.int.ebiederm.org>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-
-On 01/05/2020 06:22, James Morris wrote:
-> On Tue, 28 Apr 2020, Mickaël Salaün wrote:
+On Thu, Apr 30, 2020 at 01:09:30PM -0500, Eric W. Biederman wrote:
+> Christian Brauner <christian.brauner@ubuntu.com> writes:
 > 
->> Enable to either propagate the mount options from the underlying VFS
->> mount to prevent execution, or to propagate the file execute permission.
->> This may allow a script interpreter to check execution permissions
->> before reading commands from a file.
+> > Add a simple capability helper which makes it possible to determine
+> > whether a set of creds is ns capable wrt to the passed in credentials.
+> > This is not something exciting it's just a more pleasant wrapper around
+> > security_capable() by allowing ns_capable_common() to ake a const struct
+> > cred argument. In ptrace_has_cap() for example, we're using
+> > security_capable() directly. ns_capable_cred() will be used in the next
+> > patch to check against the target credentials the caller is going to
+> > switch to.
 > 
-> I'm finding the description of this patch difficult to understand.
+> Given that this is to suppot setns.  I don't understand the
+> justification for this.
 > 
-> In the first case, this seems to mean: if you open a file with 
-> RESOLVE_MAYEXEC from a noexec mount, then it will fail. Correct?
+> Is it your intention to use the reduced permissions that you get
+> when you install a user namespace?
 
-Yes.
-
-> 
-> In the second case, do you mean a RESOLVE_MAYEXEC open will fail if the 
-> file does not have +x set for the user?
-
-Yes, and this is still in the hands sysadmins.
-
-As explain in the documentation patch, the sysctl takes a bitfield
-consisting of "mount !noexec" or "file exec permission". It is not an
-exclusive OR. The "file exec permission" could be seen as a more strict
-restriction than only the mount one.
+Indeed.
 
 > 
-> 
->> The main goal is to be able to protect the kernel by restricting
->> arbitrary syscalls that an attacker could perform with a crafted binary
->> or certain script languages.
-> 
-> This sounds like the job of seccomp. Why is this part of MAYEXEC?
+> Why do you want to use the reduced permissions when installing multiple
+> namespaces at once?
 
-The initial goal of O_MAYEXEC (in CLIP OS 4) is to prevent untrusted
-code execution. Code execution leads to system calls, which could lead
-to data access/modification, and kernel attacks. seccomp can't enable
-execution of only some files, it only enables an on/off execution policy
-(i.e. by filtering execve(2) ).
+The intention is to use the target credentials we are going to install
+when setns() hits the point of no return. The target permissions are
+either the permissions of the caller or the reduced permissions if
+CLONE_NEWUSER has been requested. This has multiple reasons.
 
-> 
->>  It also improves multilevel isolation
->> by reducing the ability of an attacker to use side channels with
->> specific code.  These restrictions can natively be enforced for ELF
->> binaries (with the noexec mount option) but require this kernel
->> extension to properly handle scripts (e.g., Python, Perl).
-> 
-> Again, not sure why you're talking about side channels and MAYEXEC and 
-> mount options. Are you more generally talking about being able to prevent 
-> execution of arbitrary script files included by an interpreter?
+The most obvious reason imho is that all other namespaces have an owning
+user namespace. Attaching to any other namespace requires the attacher
+to be privileged over the owning user namespace of that namespace.
+Consequently, all our current install handlers for every namespace we
+have check whether we are privileged in the owning user namespace of
+that user namespace. So in order to attach to any of those namespaces -
+especially when attaching as an unprivileged user - requires that we are
+attached to the user namespace first. (That's especially useful given
+that most users especially container runtimes will unshare all
+namespaces. Doing it this way we can not just have attach privileged
+users attach to their containers but also unprivileged users to their
+containers in one shot.)
 
-Yes, I explain the thread model, especially the risk of scripts.
-Multilevel isolation can be bypassed simply by using CPU instructions
-(e.g. side channel attacks), not even syscalls. The ability to execute
-arbitrary code, including advanced scripting languages, can lead to this
-kind of CPU attacks.
+A few other points about this. If one looks at clone(CLONE_NEW*) or
+unshare(CLONE_NEW*) then the ordering and permissions checking is the
+same way. All permissions checks are performed against the reduced
+permissions, i.e. if CLONE_NEWUSER is specified you check privilege
+against the reduced permissions too otherwise you wouldn't be able to
+spawn into a complete set of new namespaces as an unprivileged user.
 
-> 
->> Add a new sysctl fs.open_mayexec_enforce to control this behavior.
->> Indeed, because of compatibility with installed systems, only the system
->> administrator is able to check that this new enforcement is in line with
->> the system mount points and file permissions.  A following patch adds
->> documentation.
-> 
-> I don't like the idea of any of this feature set being configurable. 
-> RESOLVE_MAYEXEC as a new flag should have well-defined, stable semantics.
+This logic is also expressed in how setns() is already used in
+userspace. Any container runtime will attach to the user namespace first,
+so all subsequent calls to attach to other namespaces perform the checks
+against the reduced permissions. It also has to be that way because of
+fully unprivileged containers.
 
-Unfortunately, as discussed in the v2 email thread [1], if we impose
-such restrictions with the O_MAYEXEC flag, then almost no userspace
-application will use it because it could cause unexpected behavior.
-Indeed, the application developers may not know the configuration of the
-system their applications will be run on. Only sysadmins know the mount
-points configuration (either they are have noexec or not), and if the
-set of application installed on the system works well with the set of
-files (e.g. according to their permissions). It is the same issue as
-with a system-wide LSM policy configuration. Processes should be able to
-tell their use of a file, but the sysadmin using common distro binaries
-should be able to control the execution policy according to the maturity
-of the current system installation.
+To put it another way, if we were to always perform the permission checks
+against the current permissions (i.e. no matter if CLONE_NEWUSER is
+specified or not) then we'd never be able to attach to a set of
+namespaces at once as an unprivileged user.
+We also really want to be able to express both semantics:
+1. setns(flags & ~CLONE_NEWUSER) --> attach to all namespaces with my
+   current permission level
+2. setns(flags | CLONE_NEWUSER) attach to all namespaces with the target
+   permission level
+It feels weird if both 1 and 2 would mean the exact same thing given
+that the user namespace has an owernship relation with all the other
+namespaces.
 
-However, for fully controlled distros such as CLIP OS, it make sense to
-enforce such restrictions at kernel build time. I can add an alternative
-kernel configuration to enforce a particular policy at boot and disable
-this sysctl.
-
-[1]
-https://lore.kernel.org/lkml/1fbf54f6-7597-3633-a76c-11c4b2481add@ssi.gouv.fr/
+Christian
