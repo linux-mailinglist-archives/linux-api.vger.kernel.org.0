@@ -2,70 +2,71 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E47041C1EB8
-	for <lists+linux-api@lfdr.de>; Fri,  1 May 2020 22:41:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AEFF1C20F4
+	for <lists+linux-api@lfdr.de>; Sat,  2 May 2020 00:54:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726565AbgEAUgK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 1 May 2020 16:36:10 -0400
-Received: from linux.microsoft.com ([13.77.154.182]:38658 "EHLO
-        linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726463AbgEAUgK (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 1 May 2020 16:36:10 -0400
-Received: from [10.137.106.115] (unknown [131.107.174.243])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 2E03E20B717B;
-        Fri,  1 May 2020 13:36:09 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2E03E20B717B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1588365369;
-        bh=cyxau+BJRB8pNdZIKeMiXqeTQ9iFyycCE0oPRNjr7fo=;
-        h=From:Subject:To:Cc:References:Date:In-Reply-To:From;
-        b=FX9Weop6wlrng0/8hGiSCdvgxdFkS+Z1/o9Fe4MU2xRO9DBB4XKEBWREI7DJ2vIxB
-         mVkhUIl3E7l3C9Q95xLWCgPgC+JrcQHOEv14018rn+OSDBX0RpMUzq2jsbqtw2LFQW
-         qxY32+/8JumhhaegNkX6DhGnshtSVVHR7REqYTnw=
-From:   Deven Bowers <deven.desai@linux.microsoft.com>
-Subject: Re: [PATCH v4 1/5] fs: Add support for an O_MAYEXEC flag on
- openat2(2)
-To:     =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>,
-        linux-kernel@vger.kernel.org
-Cc:     Aleksa Sarai <cyphar@cyphar.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Christian Heimes <christian@python.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Eric Chiang <ericchiang@google.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Matthew Garrett <mjg59@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mickael.salaun@ssi.gouv.fr>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        =?UTF-8?Q?Philippe_Tr=c3=a9buchet?= 
-        <philippe.trebuchet@ssi.gouv.fr>,
-        Scott Shell <scottsh@microsoft.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Steve Dower <steve.dower@python.org>,
-        Steve Grubb <sgrubb@redhat.com>,
-        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
-        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-References: <20200430132320.699508-1-mic@digikod.net>
- <20200430132320.699508-2-mic@digikod.net>
-Message-ID: <12e3c9f0-a419-53a9-f404-7ce206709fe4@linux.microsoft.com>
-Date:   Fri, 1 May 2020 13:36:08 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1726344AbgEAWyg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 1 May 2020 18:54:36 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:59490 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726336AbgEAWyg (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 1 May 2020 18:54:36 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 041MniQw035632;
+        Fri, 1 May 2020 22:54:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=VsgINUB4dOK/ph54tHrMMLjIBVUKKHJuPipUU2BCAVU=;
+ b=0AJ1ab2NqUtmXY8U8+ltf4fgkk1T6fwz996pBsvHw1kEsTAceflrcbdI/b3LjDqxded2
+ QNQ/0rVdjQpXLr1FX9cn37v2G6HRwBpsKCka42zOAAFsU6hDGIfNaiNdOkCcUFeM78W8
+ zCyN5zDiguvgJjRlIibtaOPkFuCUC73RO5Ok7B/sCE3D2LXVvVvndBweLr84H+nTBSK3
+ 99wjgfXDGlzxybq08q9lzPpn6p/hZgEtyXz5bi4bCw8Lelz7cZnrmHGgtvgOqNVM0FUC
+ bxKblBTnG7ea3d86QmFArYFl+uOhY83CC3uUwFgFg/5sdqwjhOs+EDhHShH+zbpsSNcj xA== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by aserp2120.oracle.com with ESMTP id 30r7f3mafa-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 01 May 2020 22:54:34 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 041MgWwW151710;
+        Fri, 1 May 2020 22:54:34 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserp3030.oracle.com with ESMTP id 30r7f572dg-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 01 May 2020 22:54:34 +0000
+Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 041MsYti013771;
+        Fri, 1 May 2020 22:54:34 GMT
+Received: from [192.168.1.223] (/67.1.142.158)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Fri, 01 May 2020 15:54:33 -0700
+Subject: Re: [PATCH 02/18] xfs: fix xfs_reflink_remap_prep calling conventions
+To:     "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc:     linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org
+References: <158812825316.168506.932540609191384366.stgit@magnolia>
+ <158812826681.168506.8309047158870409011.stgit@magnolia>
+From:   Allison Collins <allison.henderson@oracle.com>
+Message-ID: <80ec9426-b634-7db1-070f-06fa1508ffcf@oracle.com>
+Date:   Fri, 1 May 2020 15:54:33 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200430132320.699508-2-mic@digikod.net>
+In-Reply-To: <158812826681.168506.8309047158870409011.stgit@magnolia>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9608 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 phishscore=0
+ adultscore=0 spamscore=0 mlxlogscore=999 bulkscore=0 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2005010157
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9608 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 bulkscore=0 suspectscore=0
+ phishscore=0 mlxlogscore=999 impostorscore=0 spamscore=0 mlxscore=0
+ priorityscore=1501 lowpriorityscore=0 malwarescore=0 clxscore=1011
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2005010157
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
@@ -73,11 +74,64 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 
 
-On 4/30/2020 6:23 AM, Mickaël Salaün wrote:
-> When the O_MAYEXEC flag is passed, openat2(2) may be subject to
-> additional restrictions depending on a security policy managed by the
-> kernel through a sysctl or implemented by an LSM thanks to the
-> inode_permission hook. 
-> This new flag is ignored by open(2) and openat(2).
+On 4/28/20 7:44 PM, Darrick J. Wong wrote:
+> From: Darrick J. Wong <darrick.wong@oracle.com>
+> 
+> Fix the return value of xfs_reflink_remap_prep so that its calling
+> conventions match the rest of xfs.
+> 
+> Signed-off-by: Darrick J. Wong <darrick.wong@oracle.com>
+Looks fine to me:
+Reviewed-by: Allison Collins <allison.henderson@oracle.com>
 
-Reviewed-by: Deven Bowers <deven.desai@linux.microsoft.com>
+> ---
+>   fs/xfs/xfs_file.c    |    2 +-
+>   fs/xfs/xfs_reflink.c |    6 +++---
+>   2 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> 
+> diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
+> index 994fd3d59872..1759fbcbcd46 100644
+> --- a/fs/xfs/xfs_file.c
+> +++ b/fs/xfs/xfs_file.c
+> @@ -1029,7 +1029,7 @@ xfs_file_remap_range(
+>   	/* Prepare and then clone file data. */
+>   	ret = xfs_reflink_remap_prep(file_in, pos_in, file_out, pos_out,
+>   			&len, remap_flags);
+> -	if (ret < 0 || len == 0)
+> +	if (ret || len == 0)
+>   		return ret;
+>   
+>   	trace_xfs_reflink_remap_range(src, pos_in, len, dest, pos_out);
+> diff --git a/fs/xfs/xfs_reflink.c b/fs/xfs/xfs_reflink.c
+> index d8c8b299cb1f..5e978d1f169d 100644
+> --- a/fs/xfs/xfs_reflink.c
+> +++ b/fs/xfs/xfs_reflink.c
+> @@ -1375,7 +1375,7 @@ xfs_reflink_remap_prep(
+>   	struct inode		*inode_out = file_inode(file_out);
+>   	struct xfs_inode	*dest = XFS_I(inode_out);
+>   	bool			same_inode = (inode_in == inode_out);
+> -	ssize_t			ret;
+> +	int			ret;
+>   
+>   	/* Lock both files against IO */
+>   	ret = xfs_iolock_two_inodes_and_break_layout(inode_in, inode_out);
+> @@ -1399,7 +1399,7 @@ xfs_reflink_remap_prep(
+>   
+>   	ret = generic_remap_file_range_prep(file_in, pos_in, file_out, pos_out,
+>   			len, remap_flags);
+> -	if (ret < 0 || *len == 0)
+> +	if (ret || *len == 0)
+>   		goto out_unlock;
+>   
+>   	/* Attach dquots to dest inode before changing block map */
+> @@ -1434,7 +1434,7 @@ xfs_reflink_remap_prep(
+>   	if (ret)
+>   		goto out_unlock;
+>   
+> -	return 1;
+> +	return 0;
+>   out_unlock:
+>   	xfs_reflink_remap_unlock(file_in, file_out);
+>   	return ret;
+> 
