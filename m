@@ -2,19 +2,19 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 31DD31C0CD8
-	for <lists+linux-api@lfdr.de>; Fri,  1 May 2020 05:55:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3ECC71C0D04
+	for <lists+linux-api@lfdr.de>; Fri,  1 May 2020 06:03:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727889AbgEADzK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 30 Apr 2020 23:55:10 -0400
-Received: from namei.org ([65.99.196.166]:56396 "EHLO namei.org"
+        id S1728092AbgEAEDP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 1 May 2020 00:03:15 -0400
+Received: from namei.org ([65.99.196.166]:56446 "EHLO namei.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728193AbgEADzK (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 30 Apr 2020 23:55:10 -0400
+        id S1725791AbgEAEDP (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 1 May 2020 00:03:15 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by namei.org (8.14.4/8.14.4) with ESMTP id 0413roZg030164;
-        Fri, 1 May 2020 03:53:51 GMT
-Date:   Fri, 1 May 2020 13:53:50 +1000 (AEST)
+        by namei.org (8.14.4/8.14.4) with ESMTP id 04142GZx030634;
+        Fri, 1 May 2020 04:02:16 GMT
+Date:   Fri, 1 May 2020 14:02:16 +1000 (AEST)
 From:   James Morris <jmorris@namei.org>
 To:     =?ISO-8859-15?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
 cc:     linux-kernel@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>,
@@ -45,13 +45,15 @@ cc:     linux-kernel@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>,
         kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
         linux-security-module@vger.kernel.org,
         linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v3 0/5] Add support for RESOLVE_MAYEXEC
-In-Reply-To: <20200428175129.634352-1-mic@digikod.net>
-Message-ID: <alpine.LRH.2.21.2005011352300.29679@namei.org>
-References: <20200428175129.634352-1-mic@digikod.net>
+Subject: Re: [PATCH v3 2/5] fs: Add a MAY_EXECMOUNT flag to infer the noexec
+ mount property
+In-Reply-To: <20200428175129.634352-3-mic@digikod.net>
+Message-ID: <alpine.LRH.2.21.2005011357290.29679@namei.org>
+References: <20200428175129.634352-1-mic@digikod.net> <20200428175129.634352-3-mic@digikod.net>
 User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="1665246916-598047033-1588305232=:29679"
+Content-Type: multipart/mixed; BOUNDARY="1665246916-2066436414-1588305635=:29679"
+Content-ID: <alpine.LRH.2.21.2005011402110.29679@namei.org>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
@@ -60,24 +62,33 @@ X-Mailing-List: linux-api@vger.kernel.org
   This message is in MIME format.  The first part should be readable text,
   while the remaining parts are likely unreadable without MIME-aware tools.
 
---1665246916-598047033-1588305232=:29679
-Content-Type: text/plain; charset=UTF-8
+--1665246916-2066436414-1588305635=:29679
+Content-Type: text/plain; CHARSET=ISO-8859-15
 Content-Transfer-Encoding: 8BIT
+Content-ID: <alpine.LRH.2.21.2005011402111.29679@namei.org>
 
-On Tue, 28 Apr 2020, MickaÃ«l SalaÃ¼n wrote:
+On Tue, 28 Apr 2020, Mickaël Salaün wrote:
 
-> Furthermore, the security policy can also be delegated to an LSM, either
-> a MAC system or an integrity system.  For instance, the new kernel
-> MAY_OPENEXEC flag closes a major IMA measurement/appraisal interpreter
-> integrity gap by bringing the ability to check the use of scripts [1].
-> Other uses are expected, such as for openat2(2) [2], SGX integration
-> [3], bpffs [4] or IPE [5].
+> An LSM doesn't get path information related to an access request to open
+> an inode.  This new (internal) MAY_EXECMOUNT flag enables an LSM to
+> check if the underlying mount point of an inode is marked as executable.
+> This is useful to implement a security policy taking advantage of the
+> noexec mount option.
+> 
+> This flag is set according to path_noexec(), which checks if a mount
+> point is mounted with MNT_NOEXEC or if the underlying superblock is
+> SB_I_NOEXEC.
+> 
+> Signed-off-by: Mickaël Salaün <mic@digikod.net>
+> Reviewed-by: Philippe Trébuchet <philippe.trebuchet@ssi.gouv.fr>
+> Reviewed-by: Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>
+> Cc: Aleksa Sarai <cyphar@cyphar.com>
+> Cc: Al Viro <viro@zeniv.linux.org.uk>
+> Cc: Kees Cook <keescook@chromium.org>
 
-Confirming that this is a highly desirable feature for the proposed IPE 
-LSM.
+Are there any existing LSMs which plan to use this aspect?
 
 -- 
 James Morris
 <jmorris@namei.org>
-
---1665246916-598047033-1588305232=:29679--
+--1665246916-2066436414-1588305635=:29679--
