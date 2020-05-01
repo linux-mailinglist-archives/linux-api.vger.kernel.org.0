@@ -2,19 +2,19 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 173821C0D0A
-	for <lists+linux-api@lfdr.de>; Fri,  1 May 2020 06:05:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3625B1C0D2E
+	for <lists+linux-api@lfdr.de>; Fri,  1 May 2020 06:23:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726352AbgEAEFx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 1 May 2020 00:05:53 -0400
-Received: from namei.org ([65.99.196.166]:56492 "EHLO namei.org"
+        id S1727922AbgEAEXZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 1 May 2020 00:23:25 -0400
+Received: from namei.org ([65.99.196.166]:56544 "EHLO namei.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725791AbgEAEFw (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 1 May 2020 00:05:52 -0400
+        id S1726153AbgEAEXZ (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 1 May 2020 00:23:25 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by namei.org (8.14.4/8.14.4) with ESMTP id 04144xrG030780;
-        Fri, 1 May 2020 04:04:59 GMT
-Date:   Fri, 1 May 2020 14:04:59 +1000 (AEST)
+        by namei.org (8.14.4/8.14.4) with ESMTP id 0414MTSS031613;
+        Fri, 1 May 2020 04:22:29 GMT
+Date:   Fri, 1 May 2020 14:22:29 +1000 (AEST)
 From:   James Morris <jmorris@namei.org>
 To:     =?ISO-8859-15?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
 cc:     linux-kernel@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>,
@@ -45,14 +45,15 @@ cc:     linux-kernel@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>,
         kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
         linux-security-module@vger.kernel.org,
         linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v3 1/5] fs: Add support for a RESOLVE_MAYEXEC flag on
- openat2(2)
-In-Reply-To: <20200428175129.634352-2-mic@digikod.net>
-Message-ID: <alpine.LRH.2.21.2005011404420.29679@namei.org>
-References: <20200428175129.634352-1-mic@digikod.net> <20200428175129.634352-2-mic@digikod.net>
+Subject: Re: [PATCH v3 3/5] fs: Enable to enforce noexec mounts or file exec
+ through RESOLVE_MAYEXEC
+In-Reply-To: <20200428175129.634352-4-mic@digikod.net>
+Message-ID: <alpine.LRH.2.21.2005011409570.29679@namei.org>
+References: <20200428175129.634352-1-mic@digikod.net> <20200428175129.634352-4-mic@digikod.net>
 User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="1665246916-652208896-1588305899=:29679"
+Content-Type: multipart/mixed; BOUNDARY="1665246916-573384471-1588306338=:29679"
+Content-ID: <alpine.LRH.2.21.2005011412230.29679@namei.org>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
@@ -61,23 +62,54 @@ X-Mailing-List: linux-api@vger.kernel.org
   This message is in MIME format.  The first part should be readable text,
   while the remaining parts are likely unreadable without MIME-aware tools.
 
---1665246916-652208896-1588305899=:29679
-Content-Type: text/plain; charset=UTF-8
+--1665246916-573384471-1588306338=:29679
+Content-Type: text/plain; CHARSET=ISO-8859-15
 Content-Transfer-Encoding: 8BIT
+Content-ID: <alpine.LRH.2.21.2005011412231.29679@namei.org>
 
-On Tue, 28 Apr 2020, MickaÃ«l SalaÃ¼n wrote:
+On Tue, 28 Apr 2020, Mickaël Salaün wrote:
 
-> When the RESOLVE_MAYEXEC flag is passed, openat2(2) may be subject to
-> additional restrictions depending on a security policy managed by the
-> kernel through a sysctl or implemented by an LSM thanks to the
-> inode_permission hook.
+> Enable to either propagate the mount options from the underlying VFS
+> mount to prevent execution, or to propagate the file execute permission.
+> This may allow a script interpreter to check execution permissions
+> before reading commands from a file.
+
+I'm finding the description of this patch difficult to understand.
+
+In the first case, this seems to mean: if you open a file with 
+RESOLVE_MAYEXEC from a noexec mount, then it will fail. Correct?
+
+In the second case, do you mean a RESOLVE_MAYEXEC open will fail if the 
+file does not have +x set for the user?
 
 
-Reviewed-by: James Morris <jamorris@linux.microsoft.com>
+> The main goal is to be able to protect the kernel by restricting
+> arbitrary syscalls that an attacker could perform with a crafted binary
+> or certain script languages.
+
+This sounds like the job of seccomp. Why is this part of MAYEXEC?
+
+>  It also improves multilevel isolation
+> by reducing the ability of an attacker to use side channels with
+> specific code.  These restrictions can natively be enforced for ELF
+> binaries (with the noexec mount option) but require this kernel
+> extension to properly handle scripts (e.g., Python, Perl).
+
+Again, not sure why you're talking about side channels and MAYEXEC and 
+mount options. Are you more generally talking about being able to prevent 
+execution of arbitrary script files included by an interpreter?
+
+> Add a new sysctl fs.open_mayexec_enforce to control this behavior.
+> Indeed, because of compatibility with installed systems, only the system
+> administrator is able to check that this new enforcement is in line with
+> the system mount points and file permissions.  A following patch adds
+> documentation.
+
+I don't like the idea of any of this feature set being configurable. 
+RESOLVE_MAYEXEC as a new flag should have well-defined, stable semantics.
 
 
 -- 
 James Morris
 <jmorris@namei.org>
-
---1665246916-652208896-1588305899=:29679--
+--1665246916-573384471-1588306338=:29679--
