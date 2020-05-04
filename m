@@ -2,85 +2,84 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D9A61C3698
-	for <lists+linux-api@lfdr.de>; Mon,  4 May 2020 12:17:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6018A1C3D58
+	for <lists+linux-api@lfdr.de>; Mon,  4 May 2020 16:41:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727108AbgEDKRq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 4 May 2020 06:17:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41024 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726531AbgEDKRp (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 4 May 2020 06:17:45 -0400
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C36CC061A0E;
-        Mon,  4 May 2020 03:17:44 -0700 (PDT)
-Received: by mail-ed1-x541.google.com with SMTP id d16so13055006edv.8;
-        Mon, 04 May 2020 03:17:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=9YLhFsATDF9CQ1Kz7zcFcPQ6ReaZ8MJ/irWvA43Y+c0=;
-        b=FItz7HwlVSu7eS7n7AwPvpHdLcGWnBU6ErB/HRgCMWw8TeAUlfMFmxWjXDnyzgzqbc
-         WSE8rhkeVDiuI9IBCQTMSqrrnfcOV2vfddsJ3KGOdabSsCQFzuDcQuaf5LExyJdzhfb8
-         6BBRYOVRGWECjVxgTzjm2VHNosRK7EjTio6yj1AswTOanWgu3cCTONMhuSolIYbsIh6S
-         eeF2b41Ubkd+t5saU2WZ24BbD5KpIzEnDVanhW2SwARZGX2na7tvfA+Bl9SRKI71XHTp
-         AMudOq7AEjYcqgawIR0tNH8Ume6Ps1DcY+qzbwCwApxxqsQtMVob1MEkgAXGwn2d2oY8
-         h6ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=9YLhFsATDF9CQ1Kz7zcFcPQ6ReaZ8MJ/irWvA43Y+c0=;
-        b=ExscYGXsN9WI3P4S7EXSeZ4BMH/P08iwsbKPboFhuX337H7M6MQTTJKg0uEix8hLZb
-         2C6AWWIWcrZTk148ZIUcQ9ekrgUckAYpFJ/EHtmf0i56/7tVeUUEqQXzPrG4vCTFjJLM
-         PZsvRjYs14Xx6bIOt/NhlekGHlnoffBS+rezKlwsYA51t6ZLsNzKP1Rj9YPXrL6EzVLt
-         CSm95XF9BubLem/tSYQCxVplJJeSQXgdVoYDakVfNBCqzjiTrUjw4IP/n5jPAHFiMfoZ
-         ZZmA/yju+36Q2DlSoPq3JaOFq/rv+1XdRpHdJTBsTxYwHXnnc/SCpA5O4zfNDcWXGAAp
-         aV/g==
-X-Gm-Message-State: AGi0PuaKZXLhjs0wYBczV6Vqytb1jLyZxa0AcPcjlIexohfchr5EBsK3
-        8HYUBw9Id9gVHC86L+iog4510ikzNe7dOTxrhH0=
-X-Google-Smtp-Source: APiQypIwdDOKDpx+1h9+iSL94zUNe8BJguW9reVlsixilagJeowBiCSiwwCY3WMAA+G2UF+rvlg34kzDlOSMNeQ+TtE=
-X-Received: by 2002:a05:6402:7d6:: with SMTP id u22mr13626163edy.149.1588587462974;
- Mon, 04 May 2020 03:17:42 -0700 (PDT)
+        id S1728498AbgEDOlu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 4 May 2020 10:41:50 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:40353 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728187AbgEDOlu (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 4 May 2020 10:41:50 -0400
+Received: from ip5f5af183.dynamic.kabel-deutschland.de ([95.90.241.131] helo=wittgenstein.fritz.box)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1jVcHz-0008Gv-2J; Mon, 04 May 2020 14:41:47 +0000
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        =?UTF-8?q?St=C3=A9phane=20Graber?= <stgraber@ubuntu.com>,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Serge Hallyn <serge@hallyn.com>, Jann Horn <jannh@google.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Aleksa Sarai <cyphar@cyphar.com>, linux-api@vger.kernel.org,
+        Christian Brauner <christian.brauner@ubuntu.com>
+Subject: [PATCH v3 0/3] nsproxy: attach to multiple namespaces
+Date:   Mon,  4 May 2020 16:41:38 +0200
+Message-Id: <20200504144141.3605533-1-christian.brauner@ubuntu.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20200202151907.23587-1-cyphar@cyphar.com> <20200202151907.23587-3-cyphar@cyphar.com>
- <1567baea-5476-6d21-4f03-142def0f62e3@gmail.com> <20200331143911.lokfoq3lqfri2mgy@yavin.dot.cyphar.com>
- <cd3a6aad-b906-ee57-1b5b-5939b9602ad0@gmail.com> <20200412164943.imwpdj5qgtyfn5de@yavin.dot.cyphar.com>
- <cd1438ab-cfc6-b286-849e-d7de0d5c7258@gmail.com> <20200414103524.wjhyfobzpjk236o7@yavin.dot.cyphar.com>
-In-Reply-To: <20200414103524.wjhyfobzpjk236o7@yavin.dot.cyphar.com>
-Reply-To: mtk.manpages@gmail.com
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Date:   Mon, 4 May 2020 12:17:32 +0200
-Message-ID: <CAKgNAkjUssPCeOHQCg5zxjt2b9huRKfZQ3nR7Qtyr9jaizoqsw@mail.gmail.com>
-Subject: Re: [PATCH man-pages v2 2/2] openat2.2: document new openat2(2) syscall
-To:     Aleksa Sarai <asarai@suse.de>
-Cc:     Aleksa Sarai <cyphar@cyphar.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian@brauner.io>,
-        linux-man <linux-man@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Aleksa,
+This is v3.
+The permission bits have already seen some vetting which has been
+helpful and allowed us to drop the ns_capable_cred() patch. That's the
+only major change.
 
-Ping on this piece please:
+All selftests pass. People interested in playing with this can get it
+from three locations as usual (it's not yet in my for-next of course):
+https://github.com/brauner/linux/tree/setns_pidfd
+https://gitlab.com/brauner/linux/-/commits/setns_pidfd
+https://git.kernel.org/pub/scm/linux/kernel/git/brauner/linux.git/log/?h=setns_pidfd
+                                                                  
+May the Fourth be with you.
+Christian
 
-> > > It wouldn't hurt to add a longer description of magic-links in
-> > > symlink(7). I'll send you a small patch to beef up the description (I
-> > > had planned to include a longer rewrite with the O_EMPTYPATH patches but
-> > > those require quite a bit more work to land).
-> >
-> > That would be great. Thank you!
->
-> I'll cook something up later this week.
+Christian Brauner (3):
+  nsproxy: add struct nsset
+  nsproxy: attach to namespaces via pidfds
+  selftests/pidfd: add pidfd setns tests
 
-Thanks,
+ fs/namespace.c                                |  15 +-
+ fs/nsfs.c                                     |   7 +-
+ include/linux/mnt_namespace.h                 |   2 +
+ include/linux/nsproxy.h                       |  24 +
+ include/linux/proc_fs.h                       |   6 +
+ include/linux/proc_ns.h                       |   4 +-
+ ipc/namespace.c                               |   7 +-
+ kernel/cgroup/namespace.c                     |   5 +-
+ kernel/nsproxy.c                              | 306 ++++++++++-
+ kernel/pid_namespace.c                        |   5 +-
+ kernel/time/namespace.c                       |   5 +-
+ kernel/user_namespace.c                       |   8 +-
+ kernel/utsname.c                              |   5 +-
+ net/core/net_namespace.c                      |   5 +-
+ tools/testing/selftests/pidfd/.gitignore      |   1 +
+ tools/testing/selftests/pidfd/Makefile        |   3 +-
+ tools/testing/selftests/pidfd/config          |   6 +
+ .../selftests/pidfd/pidfd_setns_test.c        | 473 ++++++++++++++++++
+ 18 files changed, 839 insertions(+), 48 deletions(-)
+ create mode 100644 tools/testing/selftests/pidfd/config
+ create mode 100644 tools/testing/selftests/pidfd/pidfd_setns_test.c
 
-Michael
+
+base-commit: ae83d0b416db002fe95601e7f97f64b59514d936
+-- 
+2.26.2
+
