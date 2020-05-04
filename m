@@ -2,69 +2,85 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2405E1C2EC1
-	for <lists+linux-api@lfdr.de>; Sun,  3 May 2020 21:26:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D9A61C3698
+	for <lists+linux-api@lfdr.de>; Mon,  4 May 2020 12:17:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728847AbgECT0A (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 3 May 2020 15:26:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44378 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728843AbgECT0A (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 3 May 2020 15:26:00 -0400
-Received: from ZenIV.linux.org.uk (zeniv.linux.org.uk [IPv6:2002:c35c:fd02::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5578C061A0E
-        for <linux-api@vger.kernel.org>; Sun,  3 May 2020 12:25:59 -0700 (PDT)
-Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jVKFP-000FSq-46; Sun, 03 May 2020 19:25:55 +0000
-Date:   Sun, 3 May 2020 20:25:55 +0100
-From:   Al Viro <viro@zeniv.linux.org.uk>
-To:     linux-api@vger.kernel.org
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>
-Subject: [RFC] get_mempolicy(2) behaviour
-Message-ID: <20200503192555.GT23230@ZenIV.linux.org.uk>
+        id S1727108AbgEDKRq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 4 May 2020 06:17:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41024 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726531AbgEDKRp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 4 May 2020 06:17:45 -0400
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C36CC061A0E;
+        Mon,  4 May 2020 03:17:44 -0700 (PDT)
+Received: by mail-ed1-x541.google.com with SMTP id d16so13055006edv.8;
+        Mon, 04 May 2020 03:17:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=9YLhFsATDF9CQ1Kz7zcFcPQ6ReaZ8MJ/irWvA43Y+c0=;
+        b=FItz7HwlVSu7eS7n7AwPvpHdLcGWnBU6ErB/HRgCMWw8TeAUlfMFmxWjXDnyzgzqbc
+         WSE8rhkeVDiuI9IBCQTMSqrrnfcOV2vfddsJ3KGOdabSsCQFzuDcQuaf5LExyJdzhfb8
+         6BBRYOVRGWECjVxgTzjm2VHNosRK7EjTio6yj1AswTOanWgu3cCTONMhuSolIYbsIh6S
+         eeF2b41Ubkd+t5saU2WZ24BbD5KpIzEnDVanhW2SwARZGX2na7tvfA+Bl9SRKI71XHTp
+         AMudOq7AEjYcqgawIR0tNH8Ume6Ps1DcY+qzbwCwApxxqsQtMVob1MEkgAXGwn2d2oY8
+         h6ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=9YLhFsATDF9CQ1Kz7zcFcPQ6ReaZ8MJ/irWvA43Y+c0=;
+        b=ExscYGXsN9WI3P4S7EXSeZ4BMH/P08iwsbKPboFhuX337H7M6MQTTJKg0uEix8hLZb
+         2C6AWWIWcrZTk148ZIUcQ9ekrgUckAYpFJ/EHtmf0i56/7tVeUUEqQXzPrG4vCTFjJLM
+         PZsvRjYs14Xx6bIOt/NhlekGHlnoffBS+rezKlwsYA51t6ZLsNzKP1Rj9YPXrL6EzVLt
+         CSm95XF9BubLem/tSYQCxVplJJeSQXgdVoYDakVfNBCqzjiTrUjw4IP/n5jPAHFiMfoZ
+         ZZmA/yju+36Q2DlSoPq3JaOFq/rv+1XdRpHdJTBsTxYwHXnnc/SCpA5O4zfNDcWXGAAp
+         aV/g==
+X-Gm-Message-State: AGi0PuaKZXLhjs0wYBczV6Vqytb1jLyZxa0AcPcjlIexohfchr5EBsK3
+        8HYUBw9Id9gVHC86L+iog4510ikzNe7dOTxrhH0=
+X-Google-Smtp-Source: APiQypIwdDOKDpx+1h9+iSL94zUNe8BJguW9reVlsixilagJeowBiCSiwwCY3WMAA+G2UF+rvlg34kzDlOSMNeQ+TtE=
+X-Received: by 2002:a05:6402:7d6:: with SMTP id u22mr13626163edy.149.1588587462974;
+ Mon, 04 May 2020 03:17:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20200202151907.23587-1-cyphar@cyphar.com> <20200202151907.23587-3-cyphar@cyphar.com>
+ <1567baea-5476-6d21-4f03-142def0f62e3@gmail.com> <20200331143911.lokfoq3lqfri2mgy@yavin.dot.cyphar.com>
+ <cd3a6aad-b906-ee57-1b5b-5939b9602ad0@gmail.com> <20200412164943.imwpdj5qgtyfn5de@yavin.dot.cyphar.com>
+ <cd1438ab-cfc6-b286-849e-d7de0d5c7258@gmail.com> <20200414103524.wjhyfobzpjk236o7@yavin.dot.cyphar.com>
+In-Reply-To: <20200414103524.wjhyfobzpjk236o7@yavin.dot.cyphar.com>
+Reply-To: mtk.manpages@gmail.com
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Date:   Mon, 4 May 2020 12:17:32 +0200
+Message-ID: <CAKgNAkjUssPCeOHQCg5zxjt2b9huRKfZQ3nR7Qtyr9jaizoqsw@mail.gmail.com>
+Subject: Re: [PATCH man-pages v2 2/2] openat2.2: document new openat2(2) syscall
+To:     Aleksa Sarai <asarai@suse.de>
+Cc:     Aleksa Sarai <cyphar@cyphar.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <christian@brauner.io>,
+        linux-man <linux-man@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-	Behaviour of get_mempolicy(2) with nmask != NULL is
-bloody weird.  It doesn't match the manpage (and never had) _and_
-it doesn't match the behaviour of compat variant.
+Hi Aleksa,
 
-	For native (both 32bit and 64bit host) there are two cases
-when it fails with -EINVAL - namely, maxnode being less than the
-actual number of nodes and maxnode being greater than PAGE_SIZE * 8 + 1.
-Otherwise, it stores ((maxnode - 1) rounded up to 64) bits, with
-the actual bitmap in the beginning and zeroes padding it.  So far,
-so good, except that
-	* having maxnode = 64k + 1 equal to actual number of nodes
-will quietly lose the last bit of bitmap.
-	* manpage says "maxnode specifies the number of node IDs
-that can be stored into nodemask --- that is, the maximum node ID plus one.
-The value specified by maxnode is always rounded to a multiple of
-sizeof(unsigned long)*8".  It's actually rounded to a multiple
-of 64, whether we are on 32bit or on a 64bit host.
+Ping on this piece please:
 
-	Compat is different.  While the first case where native would've
-failed with -EINVAL (maxnode less than the actual number of nodes) still
-gives the same error, the second case (maxnode being huge) does not fail
-at all.
+> > > It wouldn't hurt to add a longer description of magic-links in
+> > > symlink(7). I'll send you a small patch to beef up the description (I
+> > > had planned to include a longer rewrite with the O_EMPTYPATH patches but
+> > > those require quite a bit more work to land).
+> >
+> > That would be great. Thank you!
+>
+> I'll cook something up later this week.
 
-	Worse, the amount we actually store is
-((maxnode - 1) rounded up to 8) bits if maxnode greater than the actual
-number of nodes *and* ((maxnode - 1) rounded up to 32) bits if
-maxnode is equal to the actual number of bits.  And the case of quietly
-lost bit is also slightly different from the native one - it's still
-"maxnode is equal to the actual number of nodes", but here it needs
-to be 1 + multiple of 32.
+Thanks,
 
-	At the very least, compat behaviour ought to match what the native
-syscall wouldn't done on 32bit host.  And having the manpage match
-the reality would be nice as well.  Should we do something about the
-cases when the data gets quietly lost?
-
-	Comments?
+Michael
