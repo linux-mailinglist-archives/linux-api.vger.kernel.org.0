@@ -2,131 +2,126 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 17B811C5C19
-	for <lists+linux-api@lfdr.de>; Tue,  5 May 2020 17:44:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0AB31C5D49
+	for <lists+linux-api@lfdr.de>; Tue,  5 May 2020 18:20:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730365AbgEEPom (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 5 May 2020 11:44:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34900 "EHLO
+        id S1729847AbgEEQUX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 5 May 2020 12:20:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729510AbgEEPom (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 5 May 2020 11:44:42 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41F6DC061A0F;
-        Tue,  5 May 2020 08:44:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=4pG9Q3mxGfQII0zN/KiOtZT4U+FTy9kLkMvMkZu6fuA=; b=aDgjCnQ88jQ8GWFdgLyeqhtywg
-        4RPASZALdwfDM4GEFmKBqGjztwc5XP2UhxJQ4+jaUW9tf6+iQklDSbXlEDQayXqxCOiWMpxtilwdA
-        qp5fykFBHZVnEqCXoKwGlpmPY9ZWatL+x47eD0VMek2+hRum8YLdbmR0a2Iyqi3M2nRUbRoaQqIlP
-        jsZladMw2HtoZURiCgQsp/MwTnPYCsFnoE4TLRv+s9p+GYNhWayJPcsnIm0MxlP2fGRWP2lWct/uo
-        oHca+LId/MCvpFZSlrm3j1tjVqMkj42sniuYrbHH/nWWF0D1RfTSFI3Hs29hcwIOnq1v7hwdGeZ94
-        Ibk/A2Ng==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jVzkM-0004EJ-PU; Tue, 05 May 2020 15:44:38 +0000
-Subject: Re: [PATCH v5 3/6] fs: Enable to enforce noexec mounts or file exec
- through O_MAYEXEC
-To:     =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>,
-        linux-kernel@vger.kernel.org
-Cc:     Aleksa Sarai <cyphar@cyphar.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Christian Heimes <christian@python.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Deven Bowers <deven.desai@linux.microsoft.com>,
-        Eric Chiang <ericchiang@google.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
-        Matthew Garrett <mjg59@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mickael.salaun@ssi.gouv.fr>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        =?UTF-8?Q?Philippe_Tr=c3=a9buchet?= 
-        <philippe.trebuchet@ssi.gouv.fr>,
-        Scott Shell <scottsh@microsoft.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Steve Dower <steve.dower@python.org>,
-        Steve Grubb <sgrubb@redhat.com>,
-        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
-        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-References: <20200505153156.925111-1-mic@digikod.net>
- <20200505153156.925111-4-mic@digikod.net>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <fb6e2d7d-a372-3e79-214d-3ac9a451cd0a@infradead.org>
-Date:   Tue, 5 May 2020 08:44:35 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-MIME-Version: 1.0
-In-Reply-To: <20200505153156.925111-4-mic@digikod.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S1729289AbgEEQUX (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 5 May 2020 12:20:23 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE0E7C061A0F;
+        Tue,  5 May 2020 09:20:22 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id u16so2994609wmc.5;
+        Tue, 05 May 2020 09:20:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=xZiPHuUkDPMdsn/Ebr3eeNfvMuqrl5jGDJ67bY+HcSE=;
+        b=NrEpin8kfj14i9LXN8uqMicDU6nuzoBGo6QjQQdchqbBlgjSVz/Cczx/dWT9JIb7kT
+         3+mAVMk3NRkFeFp1n7vbcEWnrEZJkAHF4VmgVb/KK/rImbiKw8gSc6x7G6UEimCi0PXG
+         EKA+QMVnrJr4Vwiy8fM5Au2VecJebWBKDs9zutt/DQY5rqt6sOMOA3zkXGw+GbU1r3JY
+         KG7T9PXsEU6TuHa08KqaeoH6b+8B4PHiZXDOGYgme6ROhp2O8U1rD9A/P4sJb1TSEdgT
+         fgwPEn436gAcMLCgJOfBt+XVVZSZ+LjfO9TPD+WrgFIeH1SGovXTQhrfgoF3MK5yoR1I
+         ZajA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=xZiPHuUkDPMdsn/Ebr3eeNfvMuqrl5jGDJ67bY+HcSE=;
+        b=t1tRZcSrwV0huIdwBJ9AzYEaIt3GpBLoedbLQAX6S2JidKRAWfEyfs90kNHHAlOy95
+         2CaD/+HbG99sv/62e7o4+xT7RwN0+MmGsN2gkhCe+bsIDhwa1mGzpTPA3DDLzo+VAh/N
+         xVUakk0mLcMfGbejvkvgFdRQ56u9lrqbMOd8G0l6rfux5sikeDc+MRXCgihDuqnVHYTK
+         XoPfarnV/6LqssoEX9El31gFcDBMjZETN5f1AP69KjZjUyuELizSmzl1CYSqnE+cW7/N
+         lGk4QA77Dl16zYhy9bclElt9VXTWOGvquWKa/i5dq2cziWco6YrPN1gUBGoOEyPvZGgJ
+         C25A==
+X-Gm-Message-State: AGi0Puaalsidxm1AEwrDzgHmVngC7UHFWI/Qtykm+7fnvTpYAJHa0Gad
+        kJi3x7O/OG2lmog+jPgFV+okezFj
+X-Google-Smtp-Source: APiQypK3CCYLzi8IpNvGyfY0+V/bINqhoyEegRwbaWuvsDnzcAy9glAgbm0SXbCNDk5pcfL4yS89xA==
+X-Received: by 2002:a7b:c759:: with SMTP id w25mr4750719wmk.68.1588695621667;
+        Tue, 05 May 2020 09:20:21 -0700 (PDT)
+Received: from localhost.localdomain ([141.226.12.123])
+        by smtp.gmail.com with ESMTPSA id c128sm1612871wma.42.2020.05.05.09.20.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 May 2020 09:20:21 -0700 (PDT)
+From:   Amir Goldstein <amir73il@gmail.com>
+To:     Jan Kara <jack@suse.cz>
+Cc:     Matthew Bobrowski <mbobrowski@mbobrowski.org>,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: [PATCH v3 0/7] fanotify events on child with name info
+Date:   Tue,  5 May 2020 19:20:07 +0300
+Message-Id: <20200505162014.10352-1-amir73il@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 5/5/20 8:31 AM, Mickaël Salaün wrote:
-> diff --git a/security/Kconfig b/security/Kconfig
-> index cd3cc7da3a55..d8fac9240d14 100644
-> --- a/security/Kconfig
-> +++ b/security/Kconfig
-> @@ -230,6 +230,32 @@ config STATIC_USERMODEHELPER_PATH
->  	  If you wish for all usermode helper programs to be disabled,
->  	  specify an empty string here (i.e. "").
->  
-> +menuconfig OMAYEXEC_STATIC
-> +	tristate "Configure O_MAYEXEC behavior at build time"
-> +	---help---
-> +	  Enable to enforce O_MAYEXEC at build time, and disable the dedicated
-> +	  fs.open_mayexec_enforce sysctl.
+Jan,
 
-That help message is a bit confusing IMO.  Does setting/enabling OMAYEXEC_STATIC
-both enforce O_MAYEXEC at build time and also disable the dedicated sysctl?
+In the v3 posting of the name info patches [1] I dropped the
+FAN_REPORT_NAME patches as agreed to defer them to next cycle.
 
-Or are these meant to be alternatives, one for what Enabling this kconfig symbol
-does and the other for what Disabling this symbol does?  If so, it doesn't
-say that.
+Following is remainder of the series to complement the FAN_DIR_MODIFY
+patches that were merged to v5.7-rc1.
 
-> +
-> +	  See Documentation/admin-guide/sysctl/fs.rst for more details.
-> +
-> +if OMAYEXEC_STATIC
-> +
-> +config OMAYEXEC_ENFORCE_MOUNT
-> +	bool "Mount restriction"
-> +	default y
-> +	---help---
-> +	  Forbid opening files with the O_MAYEXEC option if their underlying VFS is
-> +	  mounted with the noexec option or if their superblock forbids execution
-> +	  of its content (e.g., /proc).
-> +
-> +config OMAYEXEC_ENFORCE_FILE
-> +	bool "File permission restriction"
-> +	---help---
-> +	  Forbid opening files with the O_MAYEXEC option if they are not marked as
-> +	  executable for the current process (e.g., POSIX permissions).
-> +
-> +endif # OMAYEXEC_STATIC
-> +
->  source "security/selinux/Kconfig"
->  source "security/smack/Kconfig"
->  source "security/tomoyo/Kconfig"
+The v3 patches are available on my github branch fanotify_name [2].
+Same branch names for LTP tests [3], man page draft [4] and a demo [5].
 
+Patches 1-4 are cleanup and minor re-factoring in prep for the name
+info patches.
+
+Patch 5 adds the FAN_REPORT_NAME flag and the new event reporting format
+combined of FAN_EVENT_INFO_TYPE_DFID_NAME and FAN_EVENT_INFO_TYPE_FID
+info records, but provides not much added value beyond inotify.
+
+Patches 6-7 add the new capability of filesystem/mount watch with events
+including name info.
+
+I have made an API decision that stems from consolidating the
+implementation with fsnotify_parent() that requires your approval -
+A filesystem/mount mark with FAN_REPORT_NAME behaves as if all the
+directories and inodes are marked.  This results in user getting all
+relevant events in two flavors - one with both info records and one with just
+FAN_EVENT_INFO_TYPE_FID.  I have tries several approaches to work around this
+bizarrity, but in the end I decided that would be the lesser evil and that
+bizarre behavior is at least easy to document.
+
+Let me know what you think.
+Thanks,
+Amir.
+
+Main changes since v2:
+- FAN_DIR_MODIFY patches have been merged
+- A few more clean patches
+- More text about the motivation (in "report parent fid + name" patch)
+- Reduce code duplication with fsnotify_parent()
+
+[1] https://lore.kernel.org/linux-fsdevel/20200319151022.31456-1-amir73il@gmail.com/
+[2] https://github.com/amir73il/linux/commits/fanotify_name
+[3] https://github.com/amir73il/ltp/commits/fanotify_name
+[4] https://github.com/amir73il/man-pages/commits/fanotify_name
+[5] https://github.com/amir73il/inotify-tools/commits/fanotify_name
+
+Amir Goldstein (7):
+  fanotify: create overflow event type
+  fanotify: break up fanotify_alloc_event()
+  fanotify: generalize the handling of extra event flags
+  fanotify: distinguish between fid encode error and null fid
+  fanotify: report parent fid + name for events on children
+  fsnotify: send event "on child" to sb/mount marks
+  fanotify: report events "on child" with name info to sb/mount marks
+
+ fs/notify/fanotify/fanotify.c      | 213 +++++++++++++++++------------
+ fs/notify/fanotify/fanotify.h      |  18 ++-
+ fs/notify/fanotify/fanotify_user.c |  46 +++++--
+ fs/notify/fsnotify.c               |  38 ++++-
+ include/linux/fanotify.h           |   2 +-
+ include/linux/fsnotify_backend.h   |  23 +++-
+ include/uapi/linux/fanotify.h      |   4 +
+ 7 files changed, 231 insertions(+), 113 deletions(-)
 
 -- 
-~Randy
-Reported-by: Randy Dunlap <rdunlap@infradead.org>
+2.17.1
+
