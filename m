@@ -2,41 +2,46 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DD0A21C5A3D
-	for <lists+linux-api@lfdr.de>; Tue,  5 May 2020 16:58:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B03901C5B50
+	for <lists+linux-api@lfdr.de>; Tue,  5 May 2020 17:32:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729418AbgEEO6M (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 5 May 2020 10:58:12 -0400
-Received: from smtp-190c.mail.infomaniak.ch ([185.125.25.12]:43793 "EHLO
-        smtp-190c.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729088AbgEEO6M (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 5 May 2020 10:58:12 -0400
-Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 49GjWS0PVPzlhDCG;
-        Tue,  5 May 2020 16:57:40 +0200 (CEST)
-Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
-        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 49GjWP0npnzlvfC7;
-        Tue,  5 May 2020 16:57:37 +0200 (CEST)
-Subject: Re: [PATCH v3 0/5] Add support for RESOLVE_MAYEXEC
-To:     Christian Heimes <christian@python.org>,
-        Jann Horn <jannh@google.com>, Florian Weimer <fw@deneb.enyo.de>
-Cc:     kernel list <linux-kernel@vger.kernel.org>,
+        id S1730052AbgEEPc2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 5 May 2020 11:32:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32910 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1730092AbgEEPc1 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 5 May 2020 11:32:27 -0400
+Received: from smtp-42a9.mail.infomaniak.ch (smtp-42a9.mail.infomaniak.ch [IPv6:2001:1600:3:17::42a9])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28989C061A10
+        for <linux-api@vger.kernel.org>; Tue,  5 May 2020 08:32:27 -0700 (PDT)
+Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 49GkHQ3pJnzlhWgZ;
+        Tue,  5 May 2020 17:32:18 +0200 (CEST)
+Received: from localhost (unknown [94.23.54.103])
+        by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 49GkHP3cXJzlq4Rd;
+        Tue,  5 May 2020 17:32:17 +0200 (CEST)
+From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
+To:     linux-kernel@vger.kernel.org
+Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
         Aleksa Sarai <cyphar@cyphar.com>,
         Alexei Starovoitov <ast@kernel.org>,
         Al Viro <viro@zeniv.linux.org.uk>,
         Andy Lutomirski <luto@kernel.org>,
+        Christian Heimes <christian@python.org>,
         Daniel Borkmann <daniel@iogearbox.net>,
         Deven Bowers <deven.desai@linux.microsoft.com>,
         Eric Chiang <ericchiang@google.com>,
+        Florian Weimer <fweimer@redhat.com>,
         James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
-        Jonathan Corbet <corbet@lwn.net>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromium.org>,
+        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
         Matthew Garrett <mjg59@google.com>,
         Matthew Wilcox <willy@infradead.org>,
         Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mickael.salaun@ssi.gouv.fr>,
+        =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mickael.salaun@ssi.gouv.fr>,
         Mimi Zohar <zohar@linux.ibm.com>,
-        =?UTF-8?Q?Philippe_Tr=c3=a9buchet?= 
+        =?UTF-8?q?Philippe=20Tr=C3=A9buchet?= 
         <philippe.trebuchet@ssi.gouv.fr>,
         Scott Shell <scottsh@microsoft.com>,
         Sean Christopherson <sean.j.christopherson@intel.com>,
@@ -45,23 +50,16 @@ Cc:     kernel list <linux-kernel@vger.kernel.org>,
         Steve Grubb <sgrubb@redhat.com>,
         Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
         Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-References: <20200428175129.634352-1-mic@digikod.net>
- <CAG48ez1bKzh1YvbD_Lcg0AbMCH_cdZmrRRumU7UCJL=qPwNFpQ@mail.gmail.com>
- <87blnb48a3.fsf@mid.deneb.enyo.de>
- <CAG48ez2TphTj-VdDaSjvnr0Q8BhNmT3n86xYz4bF3wRJmAMsMw@mail.gmail.com>
- <b78d2d0d-04cf-c0a9-bd88-20c6ec6705fd@python.org>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <8d47dfe6-1ff7-e5fe-d4d0-c2493db3fd63@digikod.net>
-Date:   Tue, 5 May 2020 16:57:36 +0200
-User-Agent: 
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: [PATCH v5 0/6] Add support for O_MAYEXEC
+Date:   Tue,  5 May 2020 17:31:50 +0200
+Message-Id: <20200505153156.925111-1-mic@digikod.net>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <b78d2d0d-04cf-c0a9-bd88-20c6ec6705fd@python.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
 X-Antivirus-Code: 0x100000
@@ -70,61 +68,98 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+Hi,
 
-On 01/05/2020 13:47, Christian Heimes wrote:
-> On 29/04/2020 00.01, Jann Horn wrote:
->> On Tue, Apr 28, 2020 at 11:21 PM Florian Weimer <fw@deneb.enyo.de> wrote:
->>> * Jann Horn:
->>>
->>>> Just as a comment: You'd probably also have to use RESOLVE_MAYEXEC in
->>>> the dynamic linker.
->>>
->>> Absolutely.  In typical configurations, the kernel does not enforce
->>> that executable mappings must be backed by files which are executable.
->>> It's most obvious with using an explicit loader invocation to run
->>> executables on noexec mounts.  RESOLVE_MAYEXEC is much more useful
->>> than trying to reimplement the kernel permission checks (or what some
->>> believe they should be) in userspace.
->>
->> Oh, good point.
->>
->> That actually seems like something Mickaël could add to his series? If
->> someone turns on that knob for "When an interpreter wants to execute
->> something, enforce that we have execute access to it", they probably
->> also don't want it to be possible to just map files as executable? So
->> perhaps when that flag is on, the kernel should either refuse to map
->> anything as executable if it wasn't opened with RESOLVE_MAYEXEC or
->> (less strict) if RESOLVE_MAYEXEC wasn't used, print a warning, then
->> check whether the file is executable and bail out if not?
->>
->> A configuration where interpreters verify that scripts are executable,
->> but other things can just mmap executable pages, seems kinda
->> inconsistent...
-> 
-> +1
-> 
-> I worked with Steve Downer on Python PEP 578 [1] that added audit hooks
-> and PyFile_OpenCode() to CPython. A PyFile_OpenCode() implementation
-> with RESOLVE_MAYEXEC will hep to secure loading of Python code. But
-> Python also includes a wrapper of libffi. ctypes or cffi can load native
-> code from either shared libraries with dlopen() or execute native code
-> from mmap() regions. For example SnakeEater [2] is a clever attack that
-> abused memfd_create syscall and proc filesystem to execute code.
-> 
-> A consistent security policy must also ensure that mmap() PROT_EXEC
-> enforces the same restrictions as RESOLVE_MAYEXEC. The restriction
-> doesn't have be part of this patch, though.
-> 
-> Christian
-> 
-> [1] https://www.python.org/dev/peps/pep-0578/
-> [2] https://github.com/nullbites/SnakeEater/blob/master/SnakeEater2.py
+This fifth patch series add new kernel configurations (OMAYEXEC_STATIC,
+OMAYEXEC_ENFORCE_MOUNT, and OMAYEXEC_ENFORCE_FILE) to enable to
+configure the security policy at kernel build time.  As requested by
+Mimi Zohar, I completed the series with one of her patches for IMA.
 
-To be consistent, a "noexec" policy must indeed also restricts features
-such as mprotect(2) and mmap(2) which may enable to set arbitrary memory
-as executable. This can be restricted with SELinux (i.e. execmem,
-execmod,execheap and execstack permissions), PaX MPROTECT [1] or SARA [2].
+The goal of this patch series is to enable to control script execution
+with interpreters help.  A new O_MAYEXEC flag, usable through
+openat2(2), is added to enable userspace script interpreter to delegate
+to the kernel (and thus the system security policy) the permission to
+interpret/execute scripts or other files containing what can be seen as
+commands.
 
-[1] https://pax.grsecurity.net/docs/mprotect.txt
-[2]
-https://lore.kernel.org/lkml/1562410493-8661-1-git-send-email-s.mesoraca16@gmail.com/
+A simple system-wide security policy can be enforced by the system
+administrator through a sysctl configuration consistent with the mount
+points or the file access rights.  The documentation patch explains the
+prerequisites.
+
+Furthermore, the security policy can also be delegated to an LSM, either
+a MAC system or an integrity system.  For instance, the new kernel
+MAY_OPENEXEC flag closes a major IMA measurement/appraisal interpreter
+integrity gap by bringing the ability to check the use of scripts [1].
+Other uses are expected, such as for openat2(2) [2], SGX integration
+[3], bpffs [4] or IPE [5].
+
+Userspace needs to adapt to take advantage of this new feature.  For
+example, the PEP 578 [6] (Runtime Audit Hooks) enables Python 3.8 to be
+extended with policy enforcement points related to code interpretation,
+which can be used to align with the PowerShell audit features.
+Additional Python security improvements (e.g. a limited interpreter
+withou -c, stdin piping of code) are on their way.
+
+The initial idea come from CLIP OS 4 and the original implementation has
+been used for more than 12 years:
+https://github.com/clipos-archive/clipos4_doc
+
+An introduction to O_MAYEXEC was given at the Linux Security Summit
+Europe 2018 - Linux Kernel Security Contributions by ANSSI:
+https://www.youtube.com/watch?v=chNjCRtPKQY&t=17m15s
+The "write xor execute" principle was explained at Kernel Recipes 2018 -
+CLIP OS: a defense-in-depth OS:
+https://www.youtube.com/watch?v=PjRE0uBtkHU&t=11m14s
+
+This patch series can be applied on top of v5.7-rc4.  This can be tested
+with CONFIG_SYSCTL.  I would really appreciate constructive comments on
+this patch series.
+
+Previous version:
+https://lore.kernel.org/lkml/20200428175129.634352-1-mic@digikod.net/
+
+
+[1] https://lore.kernel.org/lkml/1544647356.4028.105.camel@linux.ibm.com/
+[2] https://lore.kernel.org/lkml/20190904201933.10736-6-cyphar@cyphar.com/
+[3] https://lore.kernel.org/lkml/CALCETrVovr8XNZSroey7pHF46O=kj_c5D9K8h=z2T_cNrpvMig@mail.gmail.com/
+[4] https://lore.kernel.org/lkml/CALCETrVeZ0eufFXwfhtaG_j+AdvbzEWE0M3wjXMWVEO7pj+xkw@mail.gmail.com/
+[5] https://lore.kernel.org/lkml/20200406221439.1469862-12-deven.desai@linux.microsoft.com/
+[6] https://www.python.org/dev/peps/pep-0578/
+
+Regards,
+
+Mickaël Salaün (5):
+  fs: Add support for an O_MAYEXEC flag on openat2(2)
+  fs: Add a MAY_EXECMOUNT flag to infer the noexec mount property
+  fs: Enable to enforce noexec mounts or file exec through O_MAYEXEC
+  selftest/openat2: Add tests for O_MAYEXEC enforcing
+  doc: Add documentation for the fs.open_mayexec_enforce sysctl
+
+Mimi Zohar (1):
+  ima: add policy support for the new file open MAY_OPENEXEC flag
+
+ Documentation/ABI/testing/ima_policy          |   2 +-
+ Documentation/admin-guide/sysctl/fs.rst       |  44 +++
+ fs/fcntl.c                                    |   2 +-
+ fs/namei.c                                    |  89 ++++-
+ fs/open.c                                     |   8 +
+ include/linux/fcntl.h                         |   2 +-
+ include/linux/fs.h                            |   9 +
+ include/uapi/asm-generic/fcntl.h              |   7 +
+ kernel/sysctl.c                               |   9 +
+ security/Kconfig                              |  26 ++
+ security/integrity/ima/ima_main.c             |   3 +-
+ security/integrity/ima/ima_policy.c           |  15 +-
+ tools/testing/selftests/kselftest_harness.h   |   3 +
+ tools/testing/selftests/openat2/Makefile      |   3 +-
+ tools/testing/selftests/openat2/config        |   1 +
+ tools/testing/selftests/openat2/helpers.h     |   1 +
+ .../testing/selftests/openat2/omayexec_test.c | 330 ++++++++++++++++++
+ 17 files changed, 544 insertions(+), 10 deletions(-)
+ create mode 100644 tools/testing/selftests/openat2/config
+ create mode 100644 tools/testing/selftests/openat2/omayexec_test.c
+
+-- 
+2.26.2
+
