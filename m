@@ -2,132 +2,127 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CE931C5D52
-	for <lists+linux-api@lfdr.de>; Tue,  5 May 2020 18:20:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B0F11C5E07
+	for <lists+linux-api@lfdr.de>; Tue,  5 May 2020 18:56:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730296AbgEEQUf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 5 May 2020 12:20:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40600 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730038AbgEEQUe (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 5 May 2020 12:20:34 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFBFFC061A0F;
-        Tue,  5 May 2020 09:20:33 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id s8so3437848wrt.9;
-        Tue, 05 May 2020 09:20:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=yY+bhdyqnSifK57VkgUaPiCviPA6iwmvsO4o134EEgY=;
-        b=q3tPb65jrzPiiIZbzkr4Euc4VQeZgXUQahl8mWUCu0+ehoR4bgBIcRGTqiED3bOHAq
-         h/wF/DwkciN3e02ugWRf1nT40NLTlrW4To6qZBwR30RYADHBpA4Cmp724RI2i+olMQFu
-         1+JOa3toBut+vY1QwASjGgnRxwBIyGQZdi8Ir6yrOif6OAmA2gRgt89ue1AveMKHow2n
-         AqKrjvDn2V3Qare7XGd9tlO+timzPzE0pskXDUNzvaeLVjxQulxKDXEKoYeL6fuELqeA
-         UvBA3WYlSpx618RXATwCmH/s5i1Wy/NEQ4/vw69pHbHgKGKw7gJm4fzcr7y/jREfz/+/
-         2cWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=yY+bhdyqnSifK57VkgUaPiCviPA6iwmvsO4o134EEgY=;
-        b=o//Xml67migyVr+FvkWohD48sqA3NjAkk3AbuchjXg0++MO4ns/gigtK1HS6XrOO4f
-         NeSpJNZUkrQffQFITvI9VuvK+62EbJXnTx2EDeVWyrkOAhdXQ0bcaCNN14eP28HZhGIE
-         Ogkbp/ph7d1Nq2mxYsMJ7ZVJNmtI9PczowUgCpiTsKYG+T+Xl2M6A+0L+fzx9L2YoDbI
-         xZ87JVe5boNExCSp6upcjniIWjoRAv6/9ssLHtxkYF5LUcxIDbdr0VEQsWYpsjBeruqm
-         mTjQiGMzYBWx3al2dT1nYxvTbQsY/EhC6AHFtz3/HYoubx/LW461/soiWcnEUDJQ+DNC
-         +2Sw==
-X-Gm-Message-State: AGi0PuZaYv6bgXeetpa3dT6FpYjolmOSQKTUlw8S94WxD4uotbJVt472
-        g+nST2G6e1g6EF8FAN7/HPQ=
-X-Google-Smtp-Source: APiQypKgEhgof7rSvYj3ILm/nrUjR72kkGB2LTvsUxaoRw3h7amXLD9kV0taO7xWOhMk55qpv/O3gg==
-X-Received: by 2002:a5d:614b:: with SMTP id y11mr4904778wrt.77.1588695632481;
-        Tue, 05 May 2020 09:20:32 -0700 (PDT)
-Received: from localhost.localdomain ([141.226.12.123])
-        by smtp.gmail.com with ESMTPSA id c128sm1612871wma.42.2020.05.05.09.20.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2020 09:20:31 -0700 (PDT)
-From:   Amir Goldstein <amir73il@gmail.com>
-To:     Jan Kara <jack@suse.cz>
-Cc:     Matthew Bobrowski <mbobrowski@mbobrowski.org>,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: [PATCH v3 7/7] fanotify: report events "on child" with name info to sb/mount marks
-Date:   Tue,  5 May 2020 19:20:14 +0300
-Message-Id: <20200505162014.10352-8-amir73il@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200505162014.10352-1-amir73il@gmail.com>
-References: <20200505162014.10352-1-amir73il@gmail.com>
+        id S1729791AbgEEQ4E (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 5 May 2020 12:56:04 -0400
+Received: from smtp-190f.mail.infomaniak.ch ([185.125.25.15]:38237 "EHLO
+        smtp-190f.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729720AbgEEQ4E (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 5 May 2020 12:56:04 -0400
+Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 49Gm823TvXzlhlsl;
+        Tue,  5 May 2020 18:56:02 +0200 (CEST)
+Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
+        by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 49Gm7z59gRzlq4RT;
+        Tue,  5 May 2020 18:55:59 +0200 (CEST)
+Subject: Re: [PATCH v5 3/6] fs: Enable to enforce noexec mounts or file exec
+ through O_MAYEXEC
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc:     Aleksa Sarai <cyphar@cyphar.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@kernel.org>,
+        Christian Heimes <christian@python.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Deven Bowers <deven.desai@linux.microsoft.com>,
+        Eric Chiang <ericchiang@google.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
+        Matthew Garrett <mjg59@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mickael.salaun@ssi.gouv.fr>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        =?UTF-8?Q?Philippe_Tr=c3=a9buchet?= 
+        <philippe.trebuchet@ssi.gouv.fr>,
+        Scott Shell <scottsh@microsoft.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Steve Dower <steve.dower@python.org>,
+        Steve Grubb <sgrubb@redhat.com>,
+        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
+        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+References: <20200505153156.925111-1-mic@digikod.net>
+ <20200505153156.925111-4-mic@digikod.net>
+ <fb6e2d7d-a372-3e79-214d-3ac9a451cd0a@infradead.org>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <3555aab7-f4e0-80eb-0dfc-a87cfcba5e68@digikod.net>
+Date:   Tue, 5 May 2020 18:55:59 +0200
+User-Agent: 
+MIME-Version: 1.0
+In-Reply-To: <fb6e2d7d-a372-3e79-214d-3ac9a451cd0a@infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
+X-Antivirus-Code: 0x100000
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-With fanotify_init() flags FAN_REPORT_FID_NAME, when adding an inode
-mark with FS_EVENT_ON_CHILD, events are reported with fid of the parent
-and the name of the child entry.
 
-When adding a filesystem or mount mark, report events that are "possible
-on child" (e.g. open/close) in two flavors, one with just the child fid
-and one also with the parent fid and the child entry name, as if all
-directories are interested in events "on child".
 
-The flag FAN_EVENT_ON_CHILD was always ignored for sb/mount mark, so we
-can safely ignore the value of the flag passed by the user and set the
-flag in sb/mount mark mask depending on the FAN_REPORT_NAME group flag.
+On 05/05/2020 17:44, Randy Dunlap wrote:
+> On 5/5/20 8:31 AM, Mickaël Salaün wrote:
+>> diff --git a/security/Kconfig b/security/Kconfig
+>> index cd3cc7da3a55..d8fac9240d14 100644
+>> --- a/security/Kconfig
+>> +++ b/security/Kconfig
+>> @@ -230,6 +230,32 @@ config STATIC_USERMODEHELPER_PATH
+>>  	  If you wish for all usermode helper programs to be disabled,
+>>  	  specify an empty string here (i.e. "").
+>>  
+>> +menuconfig OMAYEXEC_STATIC
+>> +	tristate "Configure O_MAYEXEC behavior at build time"
+>> +	---help---
+>> +	  Enable to enforce O_MAYEXEC at build time, and disable the dedicated
+>> +	  fs.open_mayexec_enforce sysctl.
+> 
+> That help message is a bit confusing IMO.  Does setting/enabling OMAYEXEC_STATIC
+> both enforce O_MAYEXEC at build time and also disable the dedicated sysctl?
 
-Cc: <linux-api@vger.kernel.org>
-Signed-off-by: Amir Goldstein <amir73il@gmail.com>
----
- fs/notify/fanotify/fanotify.c      |  7 +++++--
- fs/notify/fanotify/fanotify_user.c | 16 ++++++++++++++--
- 2 files changed, 19 insertions(+), 4 deletions(-)
+Yes. What about this?
+"Define the O_MAYEXEC policy at build time only. As a side effect, this
+also disables the fs.open_mayexec_enforce sysctl."
 
-diff --git a/fs/notify/fanotify/fanotify.c b/fs/notify/fanotify/fanotify.c
-index e91a8cc1b83c..ec42c721850c 100644
---- a/fs/notify/fanotify/fanotify.c
-+++ b/fs/notify/fanotify/fanotify.c
-@@ -244,10 +244,13 @@ static u32 fanotify_group_event_mask(struct fsnotify_group *group,
- 		/*
- 		 * If the event is for a child and this mark doesn't care about
- 		 * events on a child, don't send it!
-+		 * An event "on child" without name info is not intended for a
-+		 * mount/sb mark.
- 		 */
- 		if (event_mask & FS_EVENT_ON_CHILD &&
--		    (type != FSNOTIFY_OBJ_TYPE_INODE ||
--		     !(mark->mask & FS_EVENT_ON_CHILD)))
-+		    (!(mark->mask & FS_EVENT_ON_CHILD) ||
-+		     (type != FSNOTIFY_OBJ_TYPE_INODE &&
-+		      !FAN_GROUP_FLAG(group, FAN_REPORT_NAME))))
- 			continue;
- 
- 		marks_mask |= mark->mask;
-diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/fanotify_user.c
-index 36c1327b32f4..89c0554da90e 100644
---- a/fs/notify/fanotify/fanotify_user.c
-+++ b/fs/notify/fanotify/fanotify_user.c
-@@ -1150,8 +1150,20 @@ static int do_fanotify_mark(int fanotify_fd, unsigned int flags, __u64 mask,
- 		inode = path.dentry->d_inode;
- 	} else {
- 		mnt = path.mnt;
--		/* Mask out FAN_EVENT_ON_CHILD flag for sb/mount marks */
--		mask &= ~FAN_EVENT_ON_CHILD;
-+		/*
-+		 * So far, flag FAN_EVENT_ON_CHILD was ignored for sb/mount
-+		 * marks.  Reporting events "on child" with name info for
-+		 * sb/mount marks is now implemented, so explicitly mask out
-+		 * the flag for backward compatibility with existing programs
-+		 * that do not request events with name info.
-+		 * On sb/mount mark events with FAN_REPORT_NAME, events are
-+		 * reported as if all directories are interested in events
-+		 * "on child".
-+		 */
-+		if (FAN_GROUP_FLAG(group, FAN_REPORT_NAME))
-+			mask |= FAN_EVENT_ON_CHILD;
-+		else
-+			mask &= ~FAN_EVENT_ON_CHILD;
- 	}
- 
- 	/* create/update an inode mark */
--- 
-2.17.1
-
+> 
+> Or are these meant to be alternatives, one for what Enabling this kconfig symbol
+> does and the other for what Disabling this symbol does?  If so, it doesn't
+> say that.
+> 
+>> +
+>> +	  See Documentation/admin-guide/sysctl/fs.rst for more details.
+>> +
+>> +if OMAYEXEC_STATIC
+>> +
+>> +config OMAYEXEC_ENFORCE_MOUNT
+>> +	bool "Mount restriction"
+>> +	default y
+>> +	---help---
+>> +	  Forbid opening files with the O_MAYEXEC option if their underlying VFS is
+>> +	  mounted with the noexec option or if their superblock forbids execution
+>> +	  of its content (e.g., /proc).
+>> +
+>> +config OMAYEXEC_ENFORCE_FILE
+>> +	bool "File permission restriction"
+>> +	---help---
+>> +	  Forbid opening files with the O_MAYEXEC option if they are not marked as
+>> +	  executable for the current process (e.g., POSIX permissions).
+>> +
+>> +endif # OMAYEXEC_STATIC
+>> +
+>>  source "security/selinux/Kconfig"
+>>  source "security/smack/Kconfig"
+>>  source "security/tomoyo/Kconfig"
+> 
+> 
