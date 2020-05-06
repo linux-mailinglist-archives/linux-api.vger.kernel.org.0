@@ -2,190 +2,269 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 163241C752E
-	for <lists+linux-api@lfdr.de>; Wed,  6 May 2020 17:42:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6D271C7649
+	for <lists+linux-api@lfdr.de>; Wed,  6 May 2020 18:30:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729722AbgEFPlw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 6 May 2020 11:41:52 -0400
-Received: from mout-p-101.mailbox.org ([80.241.56.151]:24776 "EHLO
-        mout-p-101.mailbox.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729066AbgEFPlu (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 6 May 2020 11:41:50 -0400
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:105:465:1:2:0])
-        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
-        (No client certificate requested)
-        by mout-p-101.mailbox.org (Postfix) with ESMTPS id 49HLRq0L5BzKmVK;
-        Wed,  6 May 2020 17:41:43 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp2.mailbox.org ([80.241.60.241])
-        by spamfilter03.heinlein-hosting.de (spamfilter03.heinlein-hosting.de [80.241.56.117]) (amavisd-new, port 10030)
-        with ESMTP id iNb9taX10f5N; Wed,  6 May 2020 17:41:38 +0200 (CEST)
-Date:   Thu, 7 May 2020 01:41:17 +1000
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     "Lev R. Oshvang ." <levonshe@gmail.com>
-Cc:     =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
-        linux-kernel@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Christian Heimes <christian@python.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Deven Bowers <deven.desai@linux.microsoft.com>,
-        Eric Chiang <ericchiang@google.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
-        Matthew Garrett <mjg59@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mickael.salaun@ssi.gouv.fr>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Philippe =?utf-8?Q?Tr=C3=A9buchet?= 
-        <philippe.trebuchet@ssi.gouv.fr>,
-        Scott Shell <scottsh@microsoft.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Steve Dower <steve.dower@python.org>,
-        Steve Grubb <sgrubb@redhat.com>,
-        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
-        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        LSM List <linux-security-module@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v5 0/6] Add support for O_MAYEXEC
-Message-ID: <20200506154117.gibiibfytrdl4exo@yavin.dot.cyphar.com>
-References: <20200505153156.925111-1-mic@digikod.net>
- <d4616bc0-39df-5d6c-9f5b-d84cf6e65960@digikod.net>
- <CAP22eLHres_shVWEC+2=wcKXRsQzfNKDAnyRd8yuO_gJ3Wi_JA@mail.gmail.com>
+        id S1730059AbgEFQak (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 6 May 2020 12:30:40 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:46332 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729931AbgEFQaj (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 6 May 2020 12:30:39 -0400
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 046GUYlD025560;
+        Wed, 6 May 2020 11:30:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1588782634;
+        bh=0vKGbcS1eQ/RZrp2SRu3b+qWoDcq4HYFU0TiXlFfmAA=;
+        h=From:To:Subject:Date;
+        b=MIik0TpF7ao6q/qDV1YOvXhl+obANZBpnK4c06Y6XFI9c4sHKqJRckOu0gIokT8dv
+         VPupIVXNAIUVnNvZE3AA/ee37SE95GQ75oh42eybTkTpd7r5219bP8I4lSa+xp7WuY
+         wOz8/z7lONQP78Tb3EGbUeWXCgStVCmr6QbU2/Jo=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 046GUY0Y081627
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 6 May 2020 11:30:34 -0500
+Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 6 May
+ 2020 11:30:33 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Wed, 6 May 2020 11:30:33 -0500
+Received: from uda0868495.fios-router.home (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 046GUXDd119719;
+        Wed, 6 May 2020 11:30:33 -0500
+From:   Murali Karicheri <m-karicheri2@ti.com>
+To:     <davem@davemloft.net>, <kuba@kernel.org>, <netdev@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-api@vger.kernel.org>,
+        <nsekhar@ti.com>, <grygorii.strashko@ti.com>
+Subject: [net-next RFC PATCH 00/13] net: hsr: Add PRP driver
+Date:   Wed, 6 May 2020 12:30:20 -0400
+Message-ID: <20200506163033.3843-1-m-karicheri2@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="ljnqns477wlvxj5l"
-Content-Disposition: inline
-In-Reply-To: <CAP22eLHres_shVWEC+2=wcKXRsQzfNKDAnyRd8yuO_gJ3Wi_JA@mail.gmail.com>
-X-Rspamd-Queue-Id: BECC31754
-X-Rspamd-Score: -7.67 / 15.00 / 15.00
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+This RFC series add support for Parallel Redundancy Protocol (PRP)
+as defined in IEC-62439-3 in the kernel networking subsystem. PRP 
+Uses a Redundancy Control Trailer (RCT) the format of which is
+similar to HSR Tag. This is used for implementing redundancy.
+RCT consists of 6 bytes similar to HSR tag and contain following
+fields:-
 
---ljnqns477wlvxj5l
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+- 16-bit sequence number (SeqNr);
+- 4-bit LAN identifier (LanId);
+- 12 bit frame size (LSDUsize);
+- 16-bit suffix (PRPsuffix). 
 
-On 2020-05-06, Lev R. Oshvang . <levonshe@gmail.com> wrote:
-> On Tue, May 5, 2020 at 6:36 PM Micka=EBl Sala=FCn <mic@digikod.net> wrote:
-> >
-> >
-> > On 05/05/2020 17:31, Micka=EBl Sala=FCn wrote:
-> > > Hi,
-> > >
-> > > This fifth patch series add new kernel configurations (OMAYEXEC_STATI=
-C,
-> > > OMAYEXEC_ENFORCE_MOUNT, and OMAYEXEC_ENFORCE_FILE) to enable to
-> > > configure the security policy at kernel build time.  As requested by
-> > > Mimi Zohar, I completed the series with one of her patches for IMA.
-> > >
-> > > The goal of this patch series is to enable to control script execution
-> > > with interpreters help.  A new O_MAYEXEC flag, usable through
-> > > openat2(2), is added to enable userspace script interpreter to delega=
-te
-> > > to the kernel (and thus the system security policy) the permission to
-> > > interpret/execute scripts or other files containing what can be seen =
-as
-> > > commands.
-> > >
-> > > A simple system-wide security policy can be enforced by the system
-> > > administrator through a sysctl configuration consistent with the mount
-> > > points or the file access rights.  The documentation patch explains t=
-he
-> > > prerequisites.
-> > >
-> > > Furthermore, the security policy can also be delegated to an LSM, eit=
-her
-> > > a MAC system or an integrity system.  For instance, the new kernel
-> > > MAY_OPENEXEC flag closes a major IMA measurement/appraisal interpreter
-> > > integrity gap by bringing the ability to check the use of scripts [1].
-> > > Other uses are expected, such as for openat2(2) [2], SGX integration
-> > > [3], bpffs [4] or IPE [5].
-> > >
-> > > Userspace needs to adapt to take advantage of this new feature.  For
-> > > example, the PEP 578 [6] (Runtime Audit Hooks) enables Python 3.8 to =
-be
-> > > extended with policy enforcement points related to code interpretatio=
-n,
-> > > which can be used to align with the PowerShell audit features.
-> > > Additional Python security improvements (e.g. a limited interpreter
-> > > withou -c, stdin piping of code) are on their way.
-> > >
-> > > The initial idea come from CLIP OS 4 and the original implementation =
-has
-> > > been used for more than 12 years:
-> > > https://github.com/clipos-archive/clipos4_doc
-> > >
-> > > An introduction to O_MAYEXEC was given at the Linux Security Summit
-> > > Europe 2018 - Linux Kernel Security Contributions by ANSSI:
-> > > https://www.youtube.com/watch?v=3DchNjCRtPKQY&t=3D17m15s
-> > > The "write xor execute" principle was explained at Kernel Recipes 201=
-8 -
-> > > CLIP OS: a defense-in-depth OS:
-> > > https://www.youtube.com/watch?v=3DPjRE0uBtkHU&t=3D11m14s
-> > >
-> > > This patch series can be applied on top of v5.7-rc4.  This can be tes=
-ted
-> > > with CONFIG_SYSCTL.  I would really appreciate constructive comments =
-on
-> > > this patch series.
-> > >
-> > > Previous version:
-> > > https://lore.kernel.org/lkml/20200428175129.634352-1-mic@digikod.net/
-> >
-> > The previous version (v4) is
-> > https://lore.kernel.org/lkml/20200430132320.699508-1-mic@digikod.net/
->=20
->=20
-> Hi Michael
->=20
-> I have couple of question
-> 1. Why you did not add O_MAYEXEC to open()?
-> Some time ago (around v4.14) open() did not return EINVAL when
-> VALID_OPEN_FLAGS check failed.
-> Now it does, so I do not see a problem that interpreter will use
-> simple open(),  ( Although that path might be manipulated, but file
-> contents will be verified by IMA)
+The PRPsuffix identifies PRP frames and distinguishes PRP frames
+from other protocols that also append a trailer to their useful
+data. The LSDUsize field allows the receiver to distinguish PRP
+frames from random, nonredundant frames as an additional check.
+LSDUsize is the size of the Ethernet payload inclusive of the
+RCT. Sequence number along with LanId is used for duplicate
+detection and discard.
 
-You don't get -EINVAL from open() in the case of unknown flags, that's
-something only openat2() does in the open*() family. Hence why it's only
-introduced for openat2().
+PRP node is also known as Dual Attached Node (DAN-P) since it
+is typically attached to two different LAN for redundancy.
+DAN-P duplicates each of L2 frames and send it over the two
+Ethernet links. Each outgoing frame is appended with RCT.
+Unlike HSR, these are added to the end of L2 frame and may be
+treated as padding by bridges and therefore would be work with
+traditional bridges or switches, where as HSR wouldn't as Tag
+is prefixed to the Ethenet frame. At the remote end, these are
+received and the duplicate frame is discarded before the stripped
+frame is send up the networking stack. Like HSR, PRP also sends
+periodic Supervision frames to the network. These frames are
+received and MAC address from the SV frames are populated in a
+database called Node Table. The above functions are grouped into
+a block called Link Redundancy Entity (LRE) in the IEC spec.
 
-> 2. When you apply a new flag to mount, it means that IMA will check
-> all files under this mount and it does not matter whether the file in
-> question is a script or not.
-> IMHO it is too hard overhead for performance reasons.
->=20
-> Regards,
-> LEv
+As there are many similarities between HSR and PRP protocols,
+this patch re-use the code from HSR driver to implement PRP
+driver. As many part of the code can be re-used, this patch
+introduces a new common API definitions for both protocols and
+propose to obsolete the existing HSR defines in
+include/uapi/linux/if_link.h. New definitions are prefixed 
+with a HSR_PRP prefix. Similarly include/uapi/linux/hsr_netlink.h
+is proposed to be replaced with include/uapi/linux/hsr_prp_netlink.h
+which also uses the HSR_PRP prefix. The netlink socket interface
+code is migrated (as well as the iproute2 being sent as a follow up
+patch) to use the new API definitions. To re-use the code,
+following are done as a preparatory patch before adding the PRP
+functionality:-
 
+  - prefix all common code with hsr_prp
+  - net/hsr -> renamed to net/hsr-prp
+  - All common struct types, constants, functions renamed with
+    hsr{HSR}_prp{PRP} prefix.
 
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
+Please review this and provide me feedback so that I can work to
+incorporate them and send a formal patch series for this. As this
+series impacts user space, I am not sure if this is the right
+approach to introduce a new definitions and obsolete the old
+API definitions for HSR. The current approach is choosen
+to avoid redundant code in iproute2 and in the netlink driver
+code (hsr_netlink.c). Other approach we discussed internally was
+to Keep the HSR prefix in the user space and kernel code, but
+live with the redundant code in the iproute2 and hsr netlink
+code. Would like to hear from you what is the best way to add
+this feature to networking core. If there is any other
+alternative approach possible, I would like to hear about the
+same.
 
---ljnqns477wlvxj5l
-Content-Type: application/pgp-signature; name="signature.asc"
+The patch was tested using two TI AM57x IDK boards which are
+connected back to back over two CPSW ports. 
 
------BEGIN PGP SIGNATURE-----
+Script used for creating the hsr/prp interface is given below
+and uses the ip link command. Also provided logs from the tests
+I have executed for your reference. 
 
-iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXrLamgAKCRCdlLljIbnQ
-Eo2EAQDv6NtU9F0Nl45n0HGqLDKRn1IEH5GBUZwhlkUR72xbbAD8CqwZXGFnsYZB
-+Che7WXy1zSGWAJq84tQAqCqj97ABAQ=
-=EWAe
------END PGP SIGNATURE-----
+iproute2 related patches will follow soon....
 
---ljnqns477wlvxj5l--
+Murali Karicheri
+Texas Instruments
+
+============ setup.sh =================================================
+#!/bin/sh
+if [ $# -lt 4 ]
+then
+       echo "setup-cpsw.sh <hsr/prp> <MAC-Address of slave-A>"
+       echo "  <ip address for hsr/prp interface>"
+       echo "  <if_name of hsr/prp interface>"
+       exit
+fi
+
+if [ "$1" != "hsr" ] && [ "$1" != "prp" ]
+then
+       echo "use hsr or prp as first argument"
+       exit
+fi
+
+if_a=eth2
+if_b=eth3
+if_name=$4
+
+ifconfig $if_a down
+ifconfig $if_b down
+ifconfig $if_a hw ether $2
+ifconfig $if_b hw ether $2
+ifconfig $if_a up
+ifconfig $if_b up
+
+echo "Setting up $if_name with MAC address $2 for slaves and IP address $3"
+echo "          using $if_a and $if_b"
+
+if [ "$1" = "hsr" ]; then
+       options="version 1"
+else
+       options=""
+fi
+
+ip link add name $if_name type $1 slave1 $if_a slave2 $if_b supervision 0 $options
+ifconfig $if_name $3 up
+==================================================================================
+PRP Logs:
+
+DUT-1 : https://pastebin.ubuntu.com/p/hhsRjTQpcr/
+DUT-2 : https://pastebin.ubuntu.com/p/snPFKhnpk4/
+
+HSR Logs:
+
+DUT-1 : https://pastebin.ubuntu.com/p/FZPNc6Nwdm/
+DUT-2 : https://pastebin.ubuntu.com/p/CtV4ZVS3Yd/
+
+Murali Karicheri (13):
+  net: hsr: Re-use Kconfig option to support PRP
+  net: hsr: rename hsr directory to hsr-prp to introduce PRP
+  net: hsr: rename files to introduce PRP support
+  net: hsr: rename hsr variable inside struct hsr_port to priv
+  net: hsr: rename hsr_port_get_hsr() to hsr_prp_get_port()
+  net: hsr: some renaming to introduce PRP driver support
+  net: hsr: introduce common uapi include/definitions for HSR and PRP
+  net: hsr: migrate HSR netlink socket code to use new common API
+  net: hsr: move re-usable code for PRP to hsr_prp_netlink.c
+  net: hsr: add netlink socket interface for PRP
+  net: prp: add supervision frame generation and handling support
+  net: prp: add packet handling support
+  net: prp: enhance debugfs to display PRP specific info in node table
+
+ MAINTAINERS                                   |   2 +-
+ include/uapi/linux/hsr_netlink.h              |   3 +
+ include/uapi/linux/hsr_prp_netlink.h          |  50 ++
+ include/uapi/linux/if_link.h                  |  19 +
+ net/Kconfig                                   |   2 +-
+ net/Makefile                                  |   2 +-
+ net/hsr-prp/Kconfig                           |  37 ++
+ net/hsr-prp/Makefile                          |  11 +
+ net/hsr-prp/hsr_netlink.c                     | 202 +++++++
+ net/{hsr => hsr-prp}/hsr_netlink.h            |  15 +-
+ .../hsr_prp_debugfs.c}                        |  82 +--
+ net/hsr-prp/hsr_prp_device.c                  | 562 ++++++++++++++++++
+ net/hsr-prp/hsr_prp_device.h                  |  23 +
+ net/hsr-prp/hsr_prp_forward.c                 | 558 +++++++++++++++++
+ .../hsr_prp_forward.h}                        |  10 +-
+ .../hsr_prp_framereg.c}                       | 323 +++++-----
+ net/hsr-prp/hsr_prp_framereg.h                |  68 +++
+ net/hsr-prp/hsr_prp_main.c                    | 194 ++++++
+ net/hsr-prp/hsr_prp_main.h                    | 289 +++++++++
+ net/hsr-prp/hsr_prp_netlink.c                 | 365 ++++++++++++
+ net/hsr-prp/hsr_prp_netlink.h                 |  28 +
+ net/hsr-prp/hsr_prp_slave.c                   | 222 +++++++
+ net/hsr-prp/hsr_prp_slave.h                   |  37 ++
+ net/hsr-prp/prp_netlink.c                     | 141 +++++
+ net/hsr-prp/prp_netlink.h                     |  27 +
+ net/hsr/Kconfig                               |  29 -
+ net/hsr/Makefile                              |  10 -
+ net/hsr/hsr_device.c                          | 509 ----------------
+ net/hsr/hsr_device.h                          |  22 -
+ net/hsr/hsr_forward.c                         | 379 ------------
+ net/hsr/hsr_framereg.h                        |  62 --
+ net/hsr/hsr_main.c                            | 154 -----
+ net/hsr/hsr_main.h                            | 188 ------
+ net/hsr/hsr_netlink.c                         | 514 ----------------
+ net/hsr/hsr_slave.c                           | 198 ------
+ net/hsr/hsr_slave.h                           |  33 -
+ 36 files changed, 3084 insertions(+), 2286 deletions(-)
+ create mode 100644 include/uapi/linux/hsr_prp_netlink.h
+ create mode 100644 net/hsr-prp/Kconfig
+ create mode 100644 net/hsr-prp/Makefile
+ create mode 100644 net/hsr-prp/hsr_netlink.c
+ rename net/{hsr => hsr-prp}/hsr_netlink.h (58%)
+ rename net/{hsr/hsr_debugfs.c => hsr-prp/hsr_prp_debugfs.c} (52%)
+ create mode 100644 net/hsr-prp/hsr_prp_device.c
+ create mode 100644 net/hsr-prp/hsr_prp_device.h
+ create mode 100644 net/hsr-prp/hsr_prp_forward.c
+ rename net/{hsr/hsr_forward.h => hsr-prp/hsr_prp_forward.h} (50%)
+ rename net/{hsr/hsr_framereg.c => hsr-prp/hsr_prp_framereg.c} (56%)
+ create mode 100644 net/hsr-prp/hsr_prp_framereg.h
+ create mode 100644 net/hsr-prp/hsr_prp_main.c
+ create mode 100644 net/hsr-prp/hsr_prp_main.h
+ create mode 100644 net/hsr-prp/hsr_prp_netlink.c
+ create mode 100644 net/hsr-prp/hsr_prp_netlink.h
+ create mode 100644 net/hsr-prp/hsr_prp_slave.c
+ create mode 100644 net/hsr-prp/hsr_prp_slave.h
+ create mode 100644 net/hsr-prp/prp_netlink.c
+ create mode 100644 net/hsr-prp/prp_netlink.h
+ delete mode 100644 net/hsr/Kconfig
+ delete mode 100644 net/hsr/Makefile
+ delete mode 100644 net/hsr/hsr_device.c
+ delete mode 100644 net/hsr/hsr_device.h
+ delete mode 100644 net/hsr/hsr_forward.c
+ delete mode 100644 net/hsr/hsr_framereg.h
+ delete mode 100644 net/hsr/hsr_main.c
+ delete mode 100644 net/hsr/hsr_main.h
+ delete mode 100644 net/hsr/hsr_netlink.c
+ delete mode 100644 net/hsr/hsr_slave.c
+ delete mode 100644 net/hsr/hsr_slave.h
+
+-- 
+2.17.1
+
