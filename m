@@ -2,57 +2,58 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 559131C6DBD
-	for <lists+linux-api@lfdr.de>; Wed,  6 May 2020 11:55:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5918E1C6DC8
+	for <lists+linux-api@lfdr.de>; Wed,  6 May 2020 11:57:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729032AbgEFJzr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 6 May 2020 05:55:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35508 "EHLO
+        id S1729221AbgEFJ5f (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 6 May 2020 05:57:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728306AbgEFJzr (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 6 May 2020 05:55:47 -0400
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 350ECC061A0F
-        for <linux-api@vger.kernel.org>; Wed,  6 May 2020 02:55:47 -0700 (PDT)
-Received: by mail-lf1-x142.google.com with SMTP id h26so805518lfg.6
-        for <linux-api@vger.kernel.org>; Wed, 06 May 2020 02:55:47 -0700 (PDT)
+        by vger.kernel.org with ESMTP id S1728663AbgEFJ5e (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 6 May 2020 05:57:34 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04B4DC061A41
+        for <linux-api@vger.kernel.org>; Wed,  6 May 2020 02:57:32 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id u4so808093lfm.7
+        for <linux-api@vger.kernel.org>; Wed, 06 May 2020 02:57:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=android.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=m1a2PkwV2T8+2DItaMD9IItjhWohAns0GTTh7+ScaUs=;
-        b=LEfzudg1N43QZjTlPIxvvlD34Fb6yTWkxh+eLzWYTWcd/9UIKEfv5stX7ryBfvg9g6
-         4FEWoUoC0LtPshkhjHT4vcyfMfYAn7ZPnLGdV5/iXBcWvyh64jodk2owgmeghnA//F6e
-         ZtjpQwu9epWZIkLsWcpWCdbHh5nw0dZvRcxTyoYXHqY1aiPCLmegMHCyERwAWp8D5r4x
-         q/dUEV4ApkG8PhkWIGCcm4QybyLXmsMtZCsXevtDVeVEdX96M2IQT15/txUTjfBPfHLH
-         JlWG+5IWq6iYWsB5a2TRaUPEHo4iV6r8MtxUDWgVqL4/4pHEP//ovBgnH47kQDKJep1D
-         OMVg==
+        bh=3IciAwSgUVdB2/0PlCfDzeZhlzx2IzeWzIis4PFV64U=;
+        b=rjnasmRUS1qEdjQp+ja6ha+agOWNjFUJ0msq1PCXadJGzv7jxsQw6WX+NoEgi2nRWQ
+         KCdRe7egxySgra2xJjU2E/AXfi0H7SNJVzEGctfHwMYVzWtkPFNj62uxoq3xhoRsr1Nb
+         r3OhCQW9bCzOSwwCvogQnjH0NHyzKOXeCsqr4Qha1IkNlOFtq9X1SnfpNQqWE+MWQdKv
+         G3UyZzqao+FN4/VlQPr4Jy/EyIAFIKuihtkJ0swRQTBVAVUNmgGrTF1xtH4wmBwyCus/
+         S/+wx9Wl1EaSF62yyCN0rVRaw4bmGSaj//EWLvwNBXkV5M7+adjdhIC/5VMpESg6YA1Q
+         27BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=m1a2PkwV2T8+2DItaMD9IItjhWohAns0GTTh7+ScaUs=;
-        b=lp4Gs66pp7D1zwptxHQ7zbn4zXpduT0a6IS6RXWmKbVBsVzybZOyJZDP02aY6ozb01
-         hoPUC6BuL/skOoSX2mJv7ncZJJQSwXLbyuFec9oEKmJpsV903GMZFHzrE0PbBGYHWAVt
-         DwKQrXeP+ZyB266uz6YMnKT/JUXvnLl7yT2b/pWiyNWi6pLEG2Y6VdC4vqGSTQJqDxP7
-         PWzyWcUKi+czW1T0D+Vg/alJoqdZhVqbp2Mh4ETdXynNi2nMQG/h3KN5VaXpd2M8wlCM
-         VhBPnf4u1MmeC0Ai8Sdp4G4HncILHdJ080Ge2kEzncEy8UQWRjGchF1Wp3nq89JaI7sj
-         UVCQ==
-X-Gm-Message-State: AGi0PublByk2QKYvcLN7ON5J5g2FmsaKWi0J3L0DMq1K41QtbPlDMtyd
-        cd4G+WkVQZy9utI87nWvSil8RGpTANfz2iPME34GNg==
-X-Google-Smtp-Source: APiQypLdNRgTNoQn8s2a3BYqZvwycVrjdkmthqtUlOrX/8qrQhGr8sPiDSuHTs/DQ6SNcIRcaTksALi7ftLxDj5RWzI=
-X-Received: by 2002:ac2:4546:: with SMTP id j6mr4684635lfm.203.1588758945507;
- Wed, 06 May 2020 02:55:45 -0700 (PDT)
+        bh=3IciAwSgUVdB2/0PlCfDzeZhlzx2IzeWzIis4PFV64U=;
+        b=YrfdCyf2EDuXCfWsl6yBaiJ4H57ekdAbHUwtDpRZWqvudjdHbOrTGXz1YEQDXdI5yQ
+         4WZV76BgjgwVgLm0mSIYMMiIICgksWy7F5zPN8jyXhOBwF3PnpNQGPjeK3sYQtmbokHM
+         ubnrNIeWOzifhbcSnIU8sWXY2A4Z6gGFWi29T2G4WkzePuvIb2gtcYZCBg2PqGYXjvlh
+         mMhpB6Qal9XOrq3SgEsasOQIxbqtJehfAqg6QEPsjvOYxgy7Ezw7R4Kjz+m8Xx6E/ADt
+         9Bjum2w2rS+eIZA3i3dy/2dzqa/ZSHoHN/xnDCOPc/7P/liHMo35Zak9A/8MqSh3nyoP
+         WZrA==
+X-Gm-Message-State: AGi0PuaU655clrtCqQrYS6w3cNG3a3sOPrEFxIie9/dYSdLu0T5OXpgS
+        ms8jNQI3r6PaLpANBZiHWenb4jYLs8hGrAoPVEEmiA==
+X-Google-Smtp-Source: APiQypKjKckRZENGEavMmGfKLuKsPiGZebpMxZI0LFDcf1uG4zlU1bqJhKI4tYpjLuic788pKPSvUVEiOIwiVaqSoXY=
+X-Received: by 2002:ac2:5988:: with SMTP id w8mr4606822lfn.75.1588759051401;
+ Wed, 06 May 2020 02:57:31 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200429140341.13294-1-maco@android.com> <20200429140341.13294-11-maco@android.com>
- <20200506060944.GG10771@lst.de>
-In-Reply-To: <20200506060944.GG10771@lst.de>
+ <7d73bafe-5228-b02e-5b53-4a41543aebe3@gmail.com>
+In-Reply-To: <7d73bafe-5228-b02e-5b53-4a41543aebe3@gmail.com>
 From:   Martijn Coenen <maco@android.com>
-Date:   Wed, 6 May 2020 11:55:34 +0200
-Message-ID: <CAB0TPYEz=GLWEtBX5ndd1p-wBRBwVAOqBW=E1rTvRrLYRgiFqQ@mail.gmail.com>
+Date:   Wed, 6 May 2020 11:57:20 +0200
+Message-ID: <CAB0TPYGKmbeNt94CSMhXd0EuFpSM14DEYAwoGdhY79s=H9o1+g@mail.gmail.com>
 Subject: Re: [PATCH v4 10/10] loop: Add LOOP_CONFIGURE ioctl
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Jens Axboe <axboe@kernel.dk>, Ming Lei <ming.lei@redhat.com>,
+To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc:     Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+        Ming Lei <ming.lei@redhat.com>,
         Narayan Kamath <narayan@google.com>,
         Zimuzo Ezeozue <zezeozue@google.com>, kernel-team@android.com,
         Martijn Coenen <maco@google.com>,
@@ -68,19 +69,21 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, May 6, 2020 at 8:09 AM Christoph Hellwig <hch@lst.de> wrote:
->
-> Thanks, this looks very nice!
+On Wed, May 6, 2020 at 11:44 AM Michael Kerrisk (man-pages) >
+> Can we have also a patch for the loop.4 manual page please?
 
-Thanks! And thanks for all the feedback, it has made this series a lot cleaner.
-
->
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
->
-> Are you also going to submit a patch to util-linux to use the new
-> ioctl?
-
-Yeah, I'm happy to - will do it as soon as the series lands.
+Ack, will do when the series lands.
 
 Best,
 Martijn
+
+>
+> Thanks,
+>
+> Michael
+>
+>
+> --
+> Michael Kerrisk
+> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+> Linux/UNIX System Programming Training: http://man7.org/training/
