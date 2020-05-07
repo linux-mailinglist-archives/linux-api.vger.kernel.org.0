@@ -2,107 +2,131 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B09D81C7663
-	for <lists+linux-api@lfdr.de>; Wed,  6 May 2020 18:31:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FA581C8447
+	for <lists+linux-api@lfdr.de>; Thu,  7 May 2020 10:05:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729955AbgEFQbQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 6 May 2020 12:31:16 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:58226 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730135AbgEFQao (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 6 May 2020 12:30:44 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 046GUePd116970;
-        Wed, 6 May 2020 11:30:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1588782640;
-        bh=9LE9eXZasQk176rF4p3NIKvT/TvKZtJkmV5cK0LlcCU=;
-        h=From:To:Subject:Date:In-Reply-To:References;
-        b=kBjKZAtvyGPqDihkhuUHuPQUpix1zHVbJaJaL474zOtgvqS/YpUY14W7Ap6rTc2N2
-         9Ieau0tu6k2P0hppeFknh0Nkhnz268PGFjirktp/Nv47hhERwgMyDfpCfvcJONtrV0
-         0Hwgw/YAKur3O+nUxbzrqaURUyy3BPy8lFUyIshc=
-Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 046GUetB022075
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 6 May 2020 11:30:40 -0500
-Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 6 May
- 2020 11:30:40 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE110.ent.ti.com
- (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 6 May 2020 11:30:40 -0500
-Received: from uda0868495.fios-router.home (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 046GUXDq119719;
-        Wed, 6 May 2020 11:30:40 -0500
-From:   Murali Karicheri <m-karicheri2@ti.com>
-To:     <davem@davemloft.net>, <kuba@kernel.org>, <netdev@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-api@vger.kernel.org>,
-        <nsekhar@ti.com>, <grygorii.strashko@ti.com>
-Subject: [net-next RFC PATCH 13/13] net: prp: enhance debugfs to display PRP specific info in node table
-Date:   Wed, 6 May 2020 12:30:33 -0400
-Message-ID: <20200506163033.3843-14-m-karicheri2@ti.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200506163033.3843-1-m-karicheri2@ti.com>
-References: <20200506163033.3843-1-m-karicheri2@ti.com>
+        id S1726884AbgEGIFJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 7 May 2020 04:05:09 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151]:28487 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725939AbgEGIFJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 7 May 2020 04:05:09 -0400
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-222-zMK3yQ5kPIe6BMT91EbWpA-1; Thu, 07 May 2020 09:05:05 +0100
+X-MC-Unique: zMK3yQ5kPIe6BMT91EbWpA-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Thu, 7 May 2020 09:05:04 +0100
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
+ Thu, 7 May 2020 09:05:04 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     =?utf-8?B?J01pY2thw6tsIFNhbGHDvG4n?= <mic@digikod.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+CC:     Aleksa Sarai <cyphar@cyphar.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        "Al Viro" <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@kernel.org>,
+        "Christian Heimes" <christian@python.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        "Deven Bowers" <deven.desai@linux.microsoft.com>,
+        Eric Chiang <ericchiang@google.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        "Lakshmi Ramasubramanian" <nramas@linux.microsoft.com>,
+        Matthew Garrett <mjg59@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?utf-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mickael.salaun@ssi.gouv.fr>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        =?utf-8?B?UGhpbGlwcGUgVHLDqWJ1Y2hldA==?= 
+        <philippe.trebuchet@ssi.gouv.fr>,
+        Scott Shell <scottsh@microsoft.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Steve Dower <steve.dower@python.org>,
+        Steve Grubb <sgrubb@redhat.com>,
+        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
+        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
+        "kernel-hardening@lists.openwall.com" 
+        <kernel-hardening@lists.openwall.com>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: RE: [PATCH v5 0/6] Add support for O_MAYEXEC
+Thread-Topic: [PATCH v5 0/6] Add support for O_MAYEXEC
+Thread-Index: AQHWIvJxeV/0BLZ+8kuLT1dTVkm+SqicRhNg
+Date:   Thu, 7 May 2020 08:05:04 +0000
+Message-ID: <20b24b9ca0a64afb9389722845738ec8@AcuMS.aculab.com>
+References: <20200505153156.925111-1-mic@digikod.net>
+In-Reply-To: <20200505153156.925111-1-mic@digikod.net>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Print PRP specific information from node table as part of debugfs
-node table display
-
-Signed-off-by: Murali Karicheri <m-karicheri2@ti.com>
----
- net/hsr-prp/hsr_prp_debugfs.c | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
-
-diff --git a/net/hsr-prp/hsr_prp_debugfs.c b/net/hsr-prp/hsr_prp_debugfs.c
-index 7d8dd5ab3afd..28580de4de44 100644
---- a/net/hsr-prp/hsr_prp_debugfs.c
-+++ b/net/hsr-prp/hsr_prp_debugfs.c
-@@ -37,7 +37,11 @@ hsr_prp_node_table_show(struct seq_file *sfp, void *data)
- 
- 	seq_puts(sfp, "Node Table entries\n");
- 	seq_puts(sfp, "MAC-Address-A,   MAC-Address-B, time_in[A], ");
--	seq_puts(sfp, "time_in[B], Address-B port\n");
-+	seq_puts(sfp, "time_in[B], Address-B port");
-+	if (priv->prot_version == PRP_V1)
-+		seq_puts(sfp, ", san_a, san_b\n");
-+	else
-+		seq_puts(sfp, "\n");
- 	rcu_read_lock();
- 	list_for_each_entry_rcu(node, &priv->node_db, mac_list) {
- 		/* skip self node */
-@@ -48,7 +52,12 @@ hsr_prp_node_table_show(struct seq_file *sfp, void *data)
- 		print_mac_address(sfp, &node->macaddress_B[0]);
- 		seq_printf(sfp, "0x%lx, ", node->time_in[HSR_PRP_PT_SLAVE_A]);
- 		seq_printf(sfp, "0x%lx ", node->time_in[HSR_PRP_PT_SLAVE_B]);
--		seq_printf(sfp, "0x%x\n", node->addr_B_port);
-+		seq_printf(sfp, "0x%x", node->addr_B_port);
-+
-+		if (priv->prot_version == PRP_V1)
-+			seq_printf(sfp, ", %x, %x\n", node->san_a, node->san_b);
-+		else
-+			seq_puts(sfp, "\n");
- 	}
- 	rcu_read_unlock();
- 	return 0;
-@@ -57,7 +66,8 @@ hsr_prp_node_table_show(struct seq_file *sfp, void *data)
- /* hsr_prp_node_table_open - Open the node_table file
-  *
-  * Description:
-- * This routine opens a debugfs file node_table of specific hsr device
-+ * This routine opens a debugfs file node_table of specific hsr
-+ * or prp device
-  */
- static int
- hsr_prp_node_table_open(struct inode *inode, struct file *filp)
--- 
-2.17.1
+RnJvbTogTWlja2HDq2wgU2FsYcO8bg0KPiBTZW50OiAwNSBNYXkgMjAyMCAxNjozMg0KPiANCj4g
+VGhpcyBmaWZ0aCBwYXRjaCBzZXJpZXMgYWRkIG5ldyBrZXJuZWwgY29uZmlndXJhdGlvbnMgKE9N
+QVlFWEVDX1NUQVRJQywNCj4gT01BWUVYRUNfRU5GT1JDRV9NT1VOVCwgYW5kIE9NQVlFWEVDX0VO
+Rk9SQ0VfRklMRSkgdG8gZW5hYmxlIHRvDQo+IGNvbmZpZ3VyZSB0aGUgc2VjdXJpdHkgcG9saWN5
+IGF0IGtlcm5lbCBidWlsZCB0aW1lLiAgQXMgcmVxdWVzdGVkIGJ5DQo+IE1pbWkgWm9oYXIsIEkg
+Y29tcGxldGVkIHRoZSBzZXJpZXMgd2l0aCBvbmUgb2YgaGVyIHBhdGNoZXMgZm9yIElNQS4NCj4g
+DQo+IFRoZSBnb2FsIG9mIHRoaXMgcGF0Y2ggc2VyaWVzIGlzIHRvIGVuYWJsZSB0byBjb250cm9s
+IHNjcmlwdCBleGVjdXRpb24NCj4gd2l0aCBpbnRlcnByZXRlcnMgaGVscC4gIEEgbmV3IE9fTUFZ
+RVhFQyBmbGFnLCB1c2FibGUgdGhyb3VnaA0KPiBvcGVuYXQyKDIpLCBpcyBhZGRlZCB0byBlbmFi
+bGUgdXNlcnNwYWNlIHNjcmlwdCBpbnRlcnByZXRlciB0byBkZWxlZ2F0ZQ0KPiB0byB0aGUga2Vy
+bmVsIChhbmQgdGh1cyB0aGUgc3lzdGVtIHNlY3VyaXR5IHBvbGljeSkgdGhlIHBlcm1pc3Npb24g
+dG8NCj4gaW50ZXJwcmV0L2V4ZWN1dGUgc2NyaXB0cyBvciBvdGhlciBmaWxlcyBjb250YWluaW5n
+IHdoYXQgY2FuIGJlIHNlZW4gYXMNCj4gY29tbWFuZHMuDQo+IA0KPiBBIHNpbXBsZSBzeXN0ZW0t
+d2lkZSBzZWN1cml0eSBwb2xpY3kgY2FuIGJlIGVuZm9yY2VkIGJ5IHRoZSBzeXN0ZW0NCj4gYWRt
+aW5pc3RyYXRvciB0aHJvdWdoIGEgc3lzY3RsIGNvbmZpZ3VyYXRpb24gY29uc2lzdGVudCB3aXRo
+IHRoZSBtb3VudA0KPiBwb2ludHMgb3IgdGhlIGZpbGUgYWNjZXNzIHJpZ2h0cy4gIFRoZSBkb2N1
+bWVudGF0aW9uIHBhdGNoIGV4cGxhaW5zIHRoZQ0KPiBwcmVyZXF1aXNpdGVzLg0KPiANCj4gRnVy
+dGhlcm1vcmUsIHRoZSBzZWN1cml0eSBwb2xpY3kgY2FuIGFsc28gYmUgZGVsZWdhdGVkIHRvIGFu
+IExTTSwgZWl0aGVyDQo+IGEgTUFDIHN5c3RlbSBvciBhbiBpbnRlZ3JpdHkgc3lzdGVtLiAgRm9y
+IGluc3RhbmNlLCB0aGUgbmV3IGtlcm5lbA0KPiBNQVlfT1BFTkVYRUMgZmxhZyBjbG9zZXMgYSBt
+YWpvciBJTUEgbWVhc3VyZW1lbnQvYXBwcmFpc2FsIGludGVycHJldGVyDQo+IGludGVncml0eSBn
+YXAgYnkgYnJpbmdpbmcgdGhlIGFiaWxpdHkgdG8gY2hlY2sgdGhlIHVzZSBvZiBzY3JpcHRzIFsx
+XS4NCj4gT3RoZXIgdXNlcyBhcmUgZXhwZWN0ZWQsIHN1Y2ggYXMgZm9yIG9wZW5hdDIoMikgWzJd
+LCBTR1ggaW50ZWdyYXRpb24NCj4gWzNdLCBicGZmcyBbNF0gb3IgSVBFIFs1XS4NCj4gDQo+IFVz
+ZXJzcGFjZSBuZWVkcyB0byBhZGFwdCB0byB0YWtlIGFkdmFudGFnZSBvZiB0aGlzIG5ldyBmZWF0
+dXJlLiAgRm9yDQo+IGV4YW1wbGUsIHRoZSBQRVAgNTc4IFs2XSAoUnVudGltZSBBdWRpdCBIb29r
+cykgZW5hYmxlcyBQeXRob24gMy44IHRvIGJlDQo+IGV4dGVuZGVkIHdpdGggcG9saWN5IGVuZm9y
+Y2VtZW50IHBvaW50cyByZWxhdGVkIHRvIGNvZGUgaW50ZXJwcmV0YXRpb24sDQo+IHdoaWNoIGNh
+biBiZSB1c2VkIHRvIGFsaWduIHdpdGggdGhlIFBvd2VyU2hlbGwgYXVkaXQgZmVhdHVyZXMuDQo+
+IEFkZGl0aW9uYWwgUHl0aG9uIHNlY3VyaXR5IGltcHJvdmVtZW50cyAoZS5nLiBhIGxpbWl0ZWQg
+aW50ZXJwcmV0ZXINCj4gd2l0aG91IC1jLCBzdGRpbiBwaXBpbmcgb2YgY29kZSkgYXJlIG9uIHRo
+ZWlyIHdheS4NCj4gDQo+IFRoZSBpbml0aWFsIGlkZWEgY29tZSBmcm9tIENMSVAgT1MgNCBhbmQg
+dGhlIG9yaWdpbmFsIGltcGxlbWVudGF0aW9uIGhhcw0KPiBiZWVuIHVzZWQgZm9yIG1vcmUgdGhh
+biAxMiB5ZWFyczoNCj4gaHR0cHM6Ly9naXRodWIuY29tL2NsaXBvcy1hcmNoaXZlL2NsaXBvczRf
+ZG9jDQo+IA0KPiBBbiBpbnRyb2R1Y3Rpb24gdG8gT19NQVlFWEVDIHdhcyBnaXZlbiBhdCB0aGUg
+TGludXggU2VjdXJpdHkgU3VtbWl0DQo+IEV1cm9wZSAyMDE4IC0gTGludXggS2VybmVsIFNlY3Vy
+aXR5IENvbnRyaWJ1dGlvbnMgYnkgQU5TU0k6DQo+IGh0dHBzOi8vd3d3LnlvdXR1YmUuY29tL3dh
+dGNoP3Y9Y2hOakNSdFBLUVkmdD0xN20xNXMNCj4gVGhlICJ3cml0ZSB4b3IgZXhlY3V0ZSIgcHJp
+bmNpcGxlIHdhcyBleHBsYWluZWQgYXQgS2VybmVsIFJlY2lwZXMgMjAxOCAtDQo+IENMSVAgT1M6
+IGEgZGVmZW5zZS1pbi1kZXB0aCBPUzoNCj4gaHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/
+dj1QalJFMHVCdGtIVSZ0PTExbTE0cw0KPiANCj4gVGhpcyBwYXRjaCBzZXJpZXMgY2FuIGJlIGFw
+cGxpZWQgb24gdG9wIG9mIHY1LjctcmM0LiAgVGhpcyBjYW4gYmUgdGVzdGVkDQo+IHdpdGggQ09O
+RklHX1NZU0NUTC4gIEkgd291bGQgcmVhbGx5IGFwcHJlY2lhdGUgY29uc3RydWN0aXZlIGNvbW1l
+bnRzIG9uDQo+IHRoaXMgcGF0Y2ggc2VyaWVzLg0KDQpOb25lIG9mIHRoYXQgZGVzY3JpcHRpb24g
+YWN0dWFsbHkgc2F5cyB3aGF0IHRoZSBwYXRjaCBhY3R1YWxseSBkb2VzLg0KDQoJRGF2aWQNCg0K
+LQ0KUmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZhcm0s
+IE1pbHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEzOTczODYgKFdh
+bGVzKQ0K
 
