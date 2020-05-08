@@ -2,126 +2,112 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6673E1CB146
-	for <lists+linux-api@lfdr.de>; Fri,  8 May 2020 16:02:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 965E71CB704
+	for <lists+linux-api@lfdr.de>; Fri,  8 May 2020 20:21:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727103AbgEHOCc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 8 May 2020 10:02:32 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:60260 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726636AbgEHOCc (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 8 May 2020 10:02:32 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 048DYap3030733;
-        Fri, 8 May 2020 10:01:19 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 30vtsr5dtv-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 08 May 2020 10:01:18 -0400
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 048DYi4n031919;
-        Fri, 8 May 2020 10:01:17 -0400
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com [159.122.73.70])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 30vtsr5dsa-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 08 May 2020 10:01:17 -0400
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
-        by ppma01fra.de.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 048Dt2vA010653;
-        Fri, 8 May 2020 14:01:14 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
-        by ppma01fra.de.ibm.com with ESMTP id 30s0g5dhkb-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 08 May 2020 14:01:14 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 048E1CFE43319440
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 8 May 2020 14:01:12 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id E49F311C064;
-        Fri,  8 May 2020 14:01:11 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 2A93011C052;
-        Fri,  8 May 2020 14:01:08 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.85.139.55])
-        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Fri,  8 May 2020 14:01:08 +0000 (GMT)
-Message-ID: <1588946467.5146.6.camel@linux.ibm.com>
-Subject: Re: [PATCH v5 0/6] Add support for O_MAYEXEC
-From:   Mimi Zohar <zohar@linux.ibm.com>
-To:     "Lev R. Oshvang ." <levonshe@gmail.com>,
-        =?ISO-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
-Cc:     David Laight <David.Laight@aculab.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Christian Heimes <christian@python.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Deven Bowers <deven.desai@linux.microsoft.com>,
-        Eric Chiang <ericchiang@google.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
-        Matthew Garrett <mjg59@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?ISO-8859-1?Q?Micka=EBl_Sala=FCn?= <mickael.salaun@ssi.gouv.fr>,
-        Philippe =?ISO-8859-1?Q?Tr=E9buchet?= 
-        <philippe.trebuchet@ssi.gouv.fr>,
-        Scott Shell <scottsh@microsoft.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Steve Dower <steve.dower@python.org>,
-        Steve Grubb <sgrubb@redhat.com>,
-        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
-        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
-        "kernel-hardening@lists.openwall.com" 
-        <kernel-hardening@lists.openwall.com>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Date:   Fri, 08 May 2020 10:01:07 -0400
-In-Reply-To: <CAP22eLFmNkeQNbmQ_SAbnrDUnv2W-zYJ+ijnE22C3ph2vUiQiQ@mail.gmail.com>
-References: <20200505153156.925111-1-mic@digikod.net>
-         <20b24b9ca0a64afb9389722845738ec8@AcuMS.aculab.com>
-         <907109c8-9b19-528a-726f-92c3f61c1563@digikod.net>
-         <ad28ab5fe7854b41a575656e95b4da17@AcuMS.aculab.com>
-         <64426377-7fc4-6f37-7371-2e2a584e3032@digikod.net>
-         <635df0655b644408ac4822def8900383@AcuMS.aculab.com>
-         <1ced6f5f-7181-1dc5-2da7-abf4abd5ad23@digikod.net>
-         <CAP22eLFmNkeQNbmQ_SAbnrDUnv2W-zYJ+ijnE22C3ph2vUiQiQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.676
- definitions=2020-05-08_13:2020-05-08,2020-05-08 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=932
- lowpriorityscore=0 spamscore=0 mlxscore=0 malwarescore=0 clxscore=1011
- adultscore=0 phishscore=0 priorityscore=1501 bulkscore=0 impostorscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2005080116
+        id S1726873AbgEHSVr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 8 May 2020 14:21:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56010 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726817AbgEHSVr (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 8 May 2020 14:21:47 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65D3BC061A0C;
+        Fri,  8 May 2020 11:21:47 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id d22so1236105pgk.3;
+        Fri, 08 May 2020 11:21:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=gV/o9nW1NZlOEYAKRGRfdUGcdnKxPdO6FjHvoQSmtS8=;
+        b=Fho/vCig3jvc0rFGu22IQlVl0LbUgnslTrEacpTD1DxEbw4rblrrsfiwtfEvDCFkt3
+         eL2bJ8UcwqXj8KZ6VxlgZwqxHze8iuf1gMPR1O0o6SCnDBDnvpE24//uqJE7XLFhKQIP
+         OG9SlLp3PMTT9+tCdEeQFKiFPaIJsY4pcCMj3ZeeLatNX6nmXX2ih/k8EWHWSc6vwArH
+         QzBbqr/bUS9StnHBf1q/zAV0hyXHk6+uX/Fg5fnVEO+XPTXtJYd2Rw6wWi+m0PrRexhv
+         xphOHgxD2mSpxPoRUuzbrZSuonrvtaG/nvzgCAoYgh2LmmnlRA0kO+PRrDbAvYhGDiuu
+         0Cug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=gV/o9nW1NZlOEYAKRGRfdUGcdnKxPdO6FjHvoQSmtS8=;
+        b=UTRPlDhvwkvYFowCGhxCxi/6Ekm5MQfb83Yimr94CCNz4vOCIWDUcTDfOPsi8Km7j9
+         T2mRPHu1R0sIXB5mjI7jS8nqe743ZrW4MDvkLkSR1bmpSj8wdyXAzr4GD8v/oJ8bd4oO
+         TQ3Zf6PIwh9+atwfBLStBgsV5WnY8s7Vq6ir3NSU8EdfSlrBwZ9263UrRYQhx0pxmZKT
+         vdiELMc46eTtRs9We2MyynOUN4X4tZzkVfgw4WA5cZcMtxRX8YBX7T5904wd61fHjwv/
+         ryyJozQpNTWj1NGstlNHS6yP0DkpLCI6LucHQlJPIy98wTfoWsJt5dMUTRN4UrD1TLOv
+         iYsw==
+X-Gm-Message-State: AGi0PuZPZbbiy5cxUQY3d8CM1He3pW/ZkmjQyzKt755Iehlzej4BK0Qu
+        SVxdUUivLPKT2SbQGBSXfeY=
+X-Google-Smtp-Source: APiQypKFXwPLf4reDS9wBZw91ohMCcZQpLOa4hDF/CkXvGYds+TKhWq/NPgguH9tO5AmSyf1JFBi8w==
+X-Received: by 2002:a63:1f62:: with SMTP id q34mr3131580pgm.197.1588962106785;
+        Fri, 08 May 2020 11:21:46 -0700 (PDT)
+Received: from google.com ([2620:15c:211:1:3e01:2939:5992:52da])
+        by smtp.gmail.com with ESMTPSA id u8sm2875545pjy.16.2020.05.08.11.21.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 May 2020 11:21:45 -0700 (PDT)
+Date:   Fri, 8 May 2020 11:21:43 -0700
+From:   Minchan Kim <minchan@kernel.org>
+To:     Vlastimil Babka <vbabka@suse.cz>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
+        oleksandr@redhat.com, Suren Baghdasaryan <surenb@google.com>,
+        Tim Murray <timmurray@google.com>,
+        Daniel Colascione <dancol@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Dias <joaodias@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jann Horn <jannh@google.com>,
+        alexander.h.duyck@linux.intel.com, sj38.park@gmail.com,
+        Jens Axboe <axboe@kernel.dk>
+Subject: Re: [PATCH v7 1/7] mm: pass task and mm to do_madvise
+Message-ID: <20200508182143.GA101195@google.com>
+References: <20200302193630.68771-1-minchan@kernel.org>
+ <20200302193630.68771-2-minchan@kernel.org>
+ <2a767d50-4034-da8c-c40c-280e0dda910e@suse.cz>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2a767d50-4034-da8c-c40c-280e0dda910e@suse.cz>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, 2020-05-08 at 10:15 +0300, Lev R. Oshvang . wrote:
+On Thu, Mar 05, 2020 at 04:48:12PM +0100, Vlastimil Babka wrote:
+> On 3/2/20 8:36 PM, Minchan Kim wrote:
+> > In upcoming patches, do_madvise will be called from external process
+> > context so we shouldn't asssume "current" is always hinted process's
+> > task_struct.
+> 
+> 
+> > Furthermore, we couldn't access mm_struct via task->mm
+> > once it's verified by access_mm which will be introduced in next
+> > patch[1].
+> 
+> I would suggest to replace with:
+> 
+> Furthermore, we must not access mm_struct via task->mm, but obtain it via
+> access_mm() once (in the following patch) and only use that pointer [1], so pass
+> it to do_madvise() as well. Note the vma->vm_mm pointers are safe, so we can use
+> them further down the call stack.
+> 
+> > And let's pass *current* and current->mm as arguments of
+> > do_madvise so it shouldn't change existing behavior but prepare
+> > next patch to make review easy.
+> > 
+> > Note: io_madvise pass NULL as target_task argument of do_madvise
+> > because it couldn't know who is target.
+> 
+>              can't
 
-> I can suggest something better ( I believe)
-> Some time ago I proposed patch to IMA -  Add suffix in IMA policy rule criteria
-> It allows IMA to verify scripts, configuration files and even single file.
-> It is very simple and does not depend on open flags.
-> Mimi Zohar decided not to include this patch on the reason it tries to
-> protect the file name.
-> ( Why ??).
+Andrew already picked up your suggestion except "can't" part. I don't
+think it's enough to resend fix it so I will leave it as-is.
 
-Your patch relies on the filename, but does nothing to protect it. 
-
-Mimi
