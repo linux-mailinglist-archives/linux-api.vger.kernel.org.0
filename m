@@ -2,204 +2,170 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BEB5C1CFEBE
-	for <lists+linux-api@lfdr.de>; Tue, 12 May 2020 21:55:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA9221D001A
+	for <lists+linux-api@lfdr.de>; Tue, 12 May 2020 23:06:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730210AbgELTzq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 12 May 2020 15:55:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60678 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730200AbgELTzp (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 12 May 2020 15:55:45 -0400
-Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com [IPv6:2607:f8b0:4864:20::e43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FACFC061A0E
-        for <linux-api@vger.kernel.org>; Tue, 12 May 2020 12:55:44 -0700 (PDT)
-Received: by mail-vs1-xe43.google.com with SMTP id z1so8646170vsn.11
-        for <linux-api@vger.kernel.org>; Tue, 12 May 2020 12:55:44 -0700 (PDT)
+        id S1731154AbgELVGC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 12 May 2020 17:06:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43404 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728313AbgELVGB (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 12 May 2020 17:06:01 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB731C05BD09
+        for <linux-api@vger.kernel.org>; Tue, 12 May 2020 14:06:01 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id x15so6387730pfa.1
+        for <linux-api@vger.kernel.org>; Tue, 12 May 2020 14:06:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=souGqEVdFUGfbVs6klo3kTV/o0WFTA0pV6SMGDZE5jU=;
-        b=BGByk4t/lgEtRVy7AtXqVevMTDz90sCHvuLDrt76134g9D/XItf0Ktm7vUPpyEWdwi
-         64DApzPuvJouI1yo+2vRRdSKpZdFDmGG2oTRKHPbFbZyBiJLkDrFaj/fzoyYXcNETbmG
-         q3eEQXEDH2DKbwb5Xffuev5oBuFRf934QYOjhcke0Mi5oyne/vHEpY5Ks7qT0Lg7zcMT
-         b0e1tttnIX3fK3KgNQ9DFs3S1FB2Gkehy1pqFjtJ6ekv0TzPSS2WGT6Xx+vIUb7lXKH0
-         Qo4rs067MNBl/CbM4MzosrXxY4CrZAn/jO3iycnbI4WFbyEYQnBQnaZ389icQNz0QWt5
-         Z38A==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=j5G1rGAozMzMgyU1JqMyrq0LCgr5U8CbIe+eoAehnBE=;
+        b=fWqISwwRV1Cp0p3hEIqz2JPs/e51xAIhgluD2cuw0MLbuwAWZiAixmlmK1amD62n0U
+         zEQ5N4AJ8vz2XOrZ+RhHCzUw5fVQcoBhK7chafzRSx6BalK67W842qUqQqIuEGuNgMus
+         4D8mn/v3Y3cMZJodmDA2PR3tRpAyvxPruVwsA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=souGqEVdFUGfbVs6klo3kTV/o0WFTA0pV6SMGDZE5jU=;
-        b=dKi5G5y3KA0rORkMR3AGD4ylg5F2VMp4J6ZDu5SxNfs3P9ZLqIXPUWUKhlr+4PAGRo
-         dse9d92mR0dW6zhNV4O4CxzoMbRwLPkWU86y4WZKmP4S6bmMCazgFUWUzJIU/av4DKs7
-         PY6Co5Cza0DufO8pif5ReDq11YBLv4AwhVm8ENq2xX8inCyg1SEA+x37Y8z3PQBaDe+n
-         E1nUikPUhzlHeLW6d7i35YiuK+n1pU+BPd2R+67q7ezsMUbxv9JiKa+L4EhS3S5fKzeU
-         oP2OS/hZAHi/1zk6uNJN2zdfq3BqayNMLhJDM64y4cONPx5tm3GxEOGVvdU/5Tr3jdVv
-         5c2w==
-X-Gm-Message-State: AGi0PuYscl8ccFbwVNx7bItxptmRuFyI6QSMv2YZteB+wVZV6KGWzlb3
-        MmXKzIOlNoTkU7nf3R4+ceK6SOocRzHYgn1wgIxVKA==
-X-Google-Smtp-Source: APiQypJALX0PEkw6GFYEO7ce5qnOamFXHlAc7QIRs/F4gM/2LXdipawuW0G4sPiNSihRRxaPNxzRlrtB0yEpIkUujs8=
-X-Received: by 2002:a67:dd98:: with SMTP id i24mr18420597vsk.239.1589313342705;
- Tue, 12 May 2020 12:55:42 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=j5G1rGAozMzMgyU1JqMyrq0LCgr5U8CbIe+eoAehnBE=;
+        b=gt83Vu3QDYlc0T9G3GsMv+j36RWZyJmwV0BNeic2zg6WMIc2Li8UpyeEmslN9IyVVF
+         k8NGYqoBA7LRXiSBlyPGl8/74WZw2kfKJt4em/F3Xe+ceJAT3qrh1s3n3A4IgKH7dC/D
+         iPmxt/RtWd4dNfZ56CwDImCmhgbpbHIjVYTJrUFwT/wFl7BFuUNypdD9h5QMCneJJmMO
+         av2qA/3sqGHEumP1GxhGxULOm85hN6+teIHmAMVeLHZskmXPDAxQpeSbiJJd0mE5UbJ+
+         RA1ctIcILPFt7JjA0kmm/uGgPJEq+v0Kw0etGHB+dAVJsOGD+E6LU4Argd8uvo0AW7lJ
+         XFaw==
+X-Gm-Message-State: AGi0PuaM0rxPPVZgHGBjGNZ5HH/ux2uWqnWtJjBSIxhpcm9w9R5V9KFu
+        b+cD57eZNamSj/tWdreieWfHqg==
+X-Google-Smtp-Source: APiQypKxymAGHHHmKkMira04oLA2EHbqSrasctJGjgDtYRDvErfuyi2FNoZWH/riiCdh9qC4B+d6Ug==
+X-Received: by 2002:a63:111e:: with SMTP id g30mr20764600pgl.446.1589317561085;
+        Tue, 12 May 2020 14:06:01 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id p9sm4128699pgb.19.2020.05.12.14.05.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 May 2020 14:05:59 -0700 (PDT)
+Date:   Tue, 12 May 2020 14:05:58 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
+Cc:     linux-kernel@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@kernel.org>,
+        Christian Heimes <christian@python.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Deven Bowers <deven.desai@linux.microsoft.com>,
+        Eric Chiang <ericchiang@google.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
+        Matthew Garrett <mjg59@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mickael.salaun@ssi.gouv.fr>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Philippe =?iso-8859-1?Q?Tr=E9buchet?= 
+        <philippe.trebuchet@ssi.gouv.fr>,
+        Scott Shell <scottsh@microsoft.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Steve Dower <steve.dower@python.org>,
+        Steve Grubb <sgrubb@redhat.com>,
+        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
+        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v5 1/6] fs: Add support for an O_MAYEXEC flag on
+ openat2(2)
+Message-ID: <202005121258.4213DC8A2@keescook>
+References: <20200505153156.925111-1-mic@digikod.net>
+ <20200505153156.925111-2-mic@digikod.net>
 MIME-Version: 1.0
-References: <20200302193630.68771-1-minchan@kernel.org> <20200302193630.68771-6-minchan@kernel.org>
- <14089609-5fb1-b082-716f-c2e129d27c48@suse.cz> <20200311004251.GB87930@google.com>
- <20200508183653.GB125527@google.com> <20200508160415.65ff359a9e312c613336587b@linux-foundation.org>
- <20200509124817.xmrvsrq3mla6b76k@wittgenstein> <20200509231441.GC61301@google.com>
-In-Reply-To: <20200509231441.GC61301@google.com>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Tue, 12 May 2020 12:55:30 -0700
-Message-ID: <CAJuCfpFKYdfbG02vevRhWHhMhA4e_rRVNfCabcT0Pf_qNUgAnQ@mail.gmail.com>
-Subject: Re: [PATCH v7 5/7] mm: support both pid and pidfd for process_madvise
-To:     Minchan Kim <minchan@kernel.org>
-Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
-        Oleksandr Natalenko <oleksandr@redhat.com>,
-        Tim Murray <timmurray@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        John Dias <joaodias@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jann Horn <jannh@google.com>,
-        alexander.h.duyck@linux.intel.com, sj38.park@gmail.com,
-        Christian Brauner <christian@brauner.io>,
-        Kirill Tkhai <ktkhai@virtuozzo.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200505153156.925111-2-mic@digikod.net>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, May 9, 2020 at 4:14 PM Minchan Kim <minchan@kernel.org> wrote:
->
-> Hi Christian,
->
-> On Sat, May 09, 2020 at 02:48:17PM +0200, Christian Brauner wrote:
-> > On Fri, May 08, 2020 at 04:04:15PM -0700, Andrew Morton wrote:
-> > > On Fri, 8 May 2020 11:36:53 -0700 Minchan Kim <minchan@kernel.org> wrote:
-> > >
-> > > >
-> > > > ...
-> > > >
-> > > > Per Vlastimil's request, I changed "which and advise" with "idtype and
-> > > > advice" in function prototype of description.
-> > > > Could you replace the part in the description? Code is never changed.
-> > > >
-> > >
-> > > Done, but...
-> > >
-> > > >
-> > > > ...
-> > > >
-> > > > There is a demand[1] to support pid as well pidfd for process_madvise to
-> > > > reduce unnecessary syscall to get pidfd if the user has control of the
-> > > > target process(ie, they could guarantee the process is not gone or pid is
-> > > > not reused).
-> > > >
-> > > > This patch aims for supporting both options like waitid(2).  So, the
-> > > > syscall is currently,
-> > > >
-> > > >         int process_madvise(idtype_t idtype, id_t id, void *addr,
-> > > >                 size_t length, int advice, unsigned long flags);
-> > > >
-> > > > @which is actually idtype_t for userspace libray and currently, it
-> > > > supports P_PID and P_PIDFD.
-> > >
-> > > What does "@which is actually idtype_t for userspace libray" mean?  Can
-> > > you clarify and expand?
-> >
-> > If I may clarify, the only case where we've supported both pidfd and pid
-> > in the same system call is waitid() to avoid adding a dedicated system
-> > call for waiting and because waitid() already had this (imho insane)
-> > argument type switching. The idtype_t thing comes from waitid() and is
-> > located int sys/wait.h and is defined as
-> >
-> > "The type idtype_t is defined as an enumeration type whose possible
-> > values include at least the following:
-> >
-> > P_ALL
-> > P_PID
-> > P_PGID
-> > "
-> >
-> > int waitid(idtype_t idtype, id_t id, siginfo_t *infop, int options);
-> > If idtype is P_PID, waitid() shall wait for the child with a process ID equal to (pid_t)id.
-> > If idtype is P_PGID, waitid() shall wait for any child with a process group ID equal to (pid_t)id.
-> > If idtype is P_ALL, waitid() shall wait for any children and id is ignored.
-> >
-> > I'm personally not a fan of this idtype_t thing and think this should
-> > just have been
-> > > >         int pidfd_madvise(int pidfd, void *addr,
-> > > >                 size_t length, int advice, unsigned long flags);
-> > and call it a day.
->
-> That was the argument at that time, Daniel and I didn't want to have
-> pid along with pidfd even though Kirill strongly wanted to have it.
-> However you said " Overall, I don't particularly care how or if you
-> integrate pidfd here." at that time.
->
-> https://lore.kernel.org/linux-mm/20200113104256.5ujbplyec2sk4onn@wittgenstein/
->
-> I asked a question to Kirll at that time.
->
-> "
-> > Sounds like that you want to support both options for every upcoming API
-> > which deals with pid. I'm not sure how it's critical for process_madvise
-> > API this case. In general, we sacrifice some performance for the nicer one
-> > and later, once it's reported as hurdle for some workload, we could fix it
-> > via introducing new flag. What I don't like at this moment is to make
-> > syscall complicated with potential scenarios without real workload.
->
-> Yes, I suggest allowing both options for every new process api
-> "
-> https://lore.kernel.org/linux-mm/9d849087-3359-c4ab-fbec-859e8186c509@virtuozzo.com/
->
-> You didn't give the opinion at that time, either(I expected you will
-> make some voice then). What I could do to proceed work was separate it
-> as different patch like this one to get more attention in future.
-> And now it works.
->
-> Let me clarify my side: I still don't like to introduce pid for new API
-> since we have pidfd. Since you just brought this issue again, I want to
-> hear *opinions* from others, again.
+On Tue, May 05, 2020 at 05:31:51PM +0200, Mickaël Salaün wrote:
+> When the O_MAYEXEC flag is passed, openat2(2) may be subject to
+> additional restrictions depending on a security policy managed by the
+> kernel through a sysctl or implemented by an LSM thanks to the
+> inode_permission hook.  This new flag is ignored by open(2) and
+> openat(2).
+> 
+> The underlying idea is to be able to restrict scripts interpretation
+> according to a policy defined by the system administrator.  For this to
+> be possible, script interpreters must use the O_MAYEXEC flag
+> appropriately.  To be fully effective, these interpreters also need to
+> handle the other ways to execute code: command line parameters (e.g.,
+> option -e for Perl), module loading (e.g., option -m for Python), stdin,
+> file sourcing, environment variables, configuration files, etc.
+> According to the threat model, it may be acceptable to allow some script
+> interpreters (e.g. Bash) to interpret commands from stdin, may it be a
+> TTY or a pipe, because it may not be enough to (directly) perform
+> syscalls.  Further documentation can be found in a following patch.
 
+You touch on this lightly in the cover letter, but it seems there are
+plans for Python to restrict stdin parsing? Are there patches pending
+anywhere for other interpreters? (e.g. does CLIP OS have such patches?)
 
-IIRC Kirill's main complaint was that if we support only pidfds and
-userspace has a pid of the process then it would have to convert that
-pid into pidfd before calling process_madvise, which involves
-additional syscall(s). The overhead would be more tangible if there
-are multiple processes needing to be madvised.
-I'm not sure how often such a need arises to madvise multiple
-processes in a bulk like that and how critical is the overhead of
-obtaining pidfd. With pid reuse possibility pid-based API will still
-have the issue of possibly sending the request to a wrong process, so
-this pidfd obtaining overhead arguably makes the usage more robust and
-therefore is not a pure loss.
+There's always a push-back against adding features that have external
+dependencies, and then those external dependencies can't happen without
+the kernel first adding a feature. :) I like getting these catch-22s
+broken, and I think the kernel is the right place to start, especially
+since the threat model (and implementation) is already proven out in
+CLIP OS, and now with IMA. So, while the interpreter side of this is
+still under development, this gives them the tool they need to get it
+done on the kernel side. So showing those pieces (as you've done) is
+great, and I think finding a little bit more detail here would be even
+better.
 
-I don't have a real strong opinion against supporting pid in this
-syscall but I think API maintainers should decide going forward
-whether new APIs should support pid along with pidfd or switch to
-pidfd only.
-Thanks!
+> A simple security policy implementation, configured through a dedicated
+> sysctl, is available in a following patch.
+> 
+> This is an updated subset of the patch initially written by Vincent
+> Strubel for CLIP OS 4:
+> https://github.com/clipos-archive/src_platform_clip-patches/blob/f5cb330d6b684752e403b4e41b39f7004d88e561/1901_open_mayexec.patch
+> This patch has been used for more than 11 years with customized script
+> interpreters.  Some examples (with the original name O_MAYEXEC) can be
+> found here:
+> https://github.com/clipos-archive/clipos4_portage-overlay/search?q=O_MAYEXEC
+> 
+> Signed-off-by: Mickaël Salaün <mic@digikod.net>
+> Signed-off-by: Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>
+> Signed-off-by: Vincent Strubel <vincent.strubel@ssi.gouv.fr>
 
->
-> >
-> > Also, if I may ask, why is the flag argument "unsigned long"?
-> > That's pretty unorthodox. The expectation is that flag arguments are
-> > not word-size dependent and should usually use "unsigned int". All new
-> > system calls follow this pattern too.
->
-> Nothing special in this flag: Let me change it as "unsigned int".
-> I will send the change once we have an agreement on "pidfd" argument.
->
-> Thanks for the review, Christian!
+nit: this needs to be reordered. It's expected that the final SoB
+matches the sender. If you're trying to show co-authorship, please
+see:
+
+https://www.kernel.org/doc/html/latest/process/submitting-patches.html#when-to-use-acked-by-cc-and-co-developed-by
+
+Based on what I've inferred about author ordering, I think you want:
+
+Co-developed-by: Vincent Strubel <vincent.strubel@ssi.gouv.fr>
+Signed-off-by: Vincent Strubel <vincent.strubel@ssi.gouv.fr>
+Co-developed-by: Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>
+Signed-off-by: Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>
+Co-developed-by: Mickaël Salaün <mic@digikod.net>
+Signed-off-by: Mickaël Salaün <mic@digikod.net>
+
+> Reviewed-by: Deven Bowers <deven.desai@linux.microsoft.com>
+> Cc: Aleksa Sarai <cyphar@cyphar.com>
+> Cc: Al Viro <viro@zeniv.linux.org.uk>
+> Cc: Kees Cook <keescook@chromium.org>
+
+Everything else appears good to me, but Al and Aleksa know VFS internals
+way better. :)
+
+Reviewed-by: Kees Cook <keescook@chromium.org>
+
+-- 
+Kees Cook
