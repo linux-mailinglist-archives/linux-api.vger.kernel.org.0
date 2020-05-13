@@ -2,103 +2,94 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E8CEC1D02F6
-	for <lists+linux-api@lfdr.de>; Wed, 13 May 2020 01:20:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 699891D04F0
+	for <lists+linux-api@lfdr.de>; Wed, 13 May 2020 04:30:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727104AbgELXU3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 12 May 2020 19:20:29 -0400
-Received: from mga04.intel.com ([192.55.52.120]:19892 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726031AbgELXU3 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 12 May 2020 19:20:29 -0400
-IronPort-SDR: YdYNx9pKyBQHCPxFmdAz9etEPjqCe0hxmlIKAw31JWiR80A1g3yGf3uzNI9B5iVutV+d2sA1u+
- xUyEgcqYJvXA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2020 16:20:28 -0700
-IronPort-SDR: 2bY9aIWdEVA4WohSO5BDZLI/cBY8KdAlvgEdhIP3IFHm0VOoDp5+sZbA7MgK4kJDb3DtXanXPV
- d+dfWu+hj77A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,385,1583222400"; 
-   d="scan'208";a="280304543"
-Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by orsmga002.jf.intel.com with ESMTP; 12 May 2020 16:20:28 -0700
-Message-ID: <5cc163ff9058d1b27778e5f0a016c88a3b1a1598.camel@intel.com>
-Subject: Re: [PATCH v10 01/26] Documentation/x86: Add CET description
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-Date:   Tue, 12 May 2020 16:20:32 -0700
-In-Reply-To: <dd5b9bab31ecf247a0b4890e22bfbb486ff52001.camel@intel.com>
-References: <20200429220732.31602-1-yu-cheng.yu@intel.com>
-         <20200429220732.31602-2-yu-cheng.yu@intel.com>
-         <b5197a8d-5d8b-e1f7-68d4-58d80261904c@intel.com>
-         <dd5b9bab31ecf247a0b4890e22bfbb486ff52001.camel@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
+        id S1728540AbgEMCaH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 12 May 2020 22:30:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37456 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728488AbgEMCaE (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 12 May 2020 22:30:04 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21F44C061A0C
+        for <linux-api@vger.kernel.org>; Tue, 12 May 2020 19:30:03 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id u35so4101241pgk.6
+        for <linux-api@vger.kernel.org>; Tue, 12 May 2020 19:30:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=dRl4YBE3TMl0SsiV0tZC4Iqnfxs3bO+Y25NzUvxt45A=;
+        b=Xr8CCr30EpIbBzcUFmUdyJWqPcgRkkyRgJ8EuNa0FB0nt4+zA1favzlpTbLpHBYluj
+         0/tj98qvnGqD/m6l/2oGIJwAffNk9yJA2BSCxn5LEmEWplcJ+dgJlXrpxRH8DRfcpcYA
+         wS4eohtPzs81f4zWnLjkt0emvJ/qDc7ig6TaFCP3NwmZ7/3sZaN8dgm1FezAXzmmOjQI
+         ApPtLtHQ7JZgaLDQnQwvgal1A8fGW8ejl+PqS9hpr5JUOw/pc/EWAF1PvYOmacb5uWWR
+         pjZ8957+0ACJvt8MyHypjm/HHd0BEubrKizI9BTOATq0bJLhD7Zfgzd13UKC2FouaNPT
+         B5eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=dRl4YBE3TMl0SsiV0tZC4Iqnfxs3bO+Y25NzUvxt45A=;
+        b=Ci8RgHQYC5C7c4bt0oH4XoCIoJBx5u0RiY440dkIAZxQehg5Kf8kX6kNU15V90muRu
+         GSkZ9BgZYWygR+6yA9yGnuMoCrJIyxb0kdmMcMYDYoi5HolL+I7gRDk6oFNT3J1Ze+lH
+         /mzvegJT8nqQ/YN7ghxF/Tcn3wkaUlpBr99yhhBwy5PO60jWXogW/qp0otMQczEa4CR9
+         +5/f59S+sHNKXoJfx3i9nqQE3FLiuPk9Og2Ih/Wsuy3naqDuAMNUENVaIslCc2doruwR
+         +XpIk3Z/X0vP6kIzPq4m8/Ac+pSQ6MlipIisUu8XLmi2epMUd8jo9RyQZ4dvJngSZntY
+         K22g==
+X-Gm-Message-State: AOAM533/dG/ejR1aQIgWQhpglfVhsmi4bpAt2S/5O7YqNTbf4+HhpTsM
+        yq65we1HZjm55xysniPlrdarIg==
+X-Google-Smtp-Source: ABdhPJwgw+y9MRoDkNWNDGa5d1jKOUxGsSXi+rxOaTsYZXTBVkbDWUxv6H3GSNMHgnPDg+ecwsEaOQ==
+X-Received: by 2002:aa7:8c0a:: with SMTP id c10mr13866827pfd.177.1589337002687;
+        Tue, 12 May 2020 19:30:02 -0700 (PDT)
+Received: from ?IPv6:2605:e000:100e:8c61:1d8:eb9:1d84:211c? ([2605:e000:100e:8c61:1d8:eb9:1d84:211c])
+        by smtp.gmail.com with ESMTPSA id g17sm2797521pgg.43.2020.05.12.19.30.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 May 2020 19:30:02 -0700 (PDT)
+Subject: Re: [PATCH v4 10/10] loop: Add LOOP_CONFIGURE ioctl
+To:     Martijn Coenen <maco@android.com>
+Cc:     Narayan Kamath <narayan@google.com>,
+        Zimuzo Ezeozue <zezeozue@google.com>, kernel-team@android.com,
+        Martijn Coenen <maco@google.com>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        linux-block <linux-block@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Christoph Hellwig <hch@lst.de>, Ming Lei <ming.lei@redhat.com>
+References: <20200429140341.13294-1-maco@android.com>
+ <20200429140341.13294-11-maco@android.com>
+ <CAB0TPYHwor85-fWKu+OMT-1ys2L7OSqVoReJRzNOMAE0xK+yzg@mail.gmail.com>
+From:   Jens Axboe <axboe@kernel.dk>
+Message-ID: <1f3064a9-105f-02bb-6a1a-eb9875d292e3@kernel.dk>
+Date:   Tue, 12 May 2020 20:29:59 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <CAB0TPYHwor85-fWKu+OMT-1ys2L7OSqVoReJRzNOMAE0xK+yzg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, 2020-04-29 at 16:02 -0700, Yu-cheng Yu wrote:
-> On Wed, 2020-04-29 at 15:53 -0700, Dave Hansen wrote:
-> > On 4/29/20 3:07 PM, Yu-cheng Yu wrote:
-> > > +Note:
-> > > +  There is no CET-enabling arch_prctl function.  By design, CET is enabled
-> > > +  automatically if the binary and the system can support it.
-> > 
-> > I think Andy and I danced around this last time.  Let me try to say it
-> > more explicitly.
-> > 
-> > I want CET kernel enabling to able to be disconnected from the on-disk
-> > binary.  I want a binary compiled with CET to be able to disable it, and
-> > I want a binary not compiled with CET to be able to enable it.  I want
-> > different threads in a process to be able to each have different CET status.
+On 5/12/20 12:46 AM, Martijn Coenen wrote:
+> Hi Jens,
 > 
-> The kernel patches we have now can be modified to support this model.  If after
-> discussion this is favorable, I will modify code accordingly.
+> What do you think of this series?
 
-To turn on/off and to lock CET are application-level decisions.  The kernel does
-not prevent any of those.  Should there be a need to provide an arch_prctl() to
-turn on CET, it can be added without any conflict to this series.
+Looks acceptable to me, but I'm getting a failure applying it to
+for-5.8/drivers on this patch:
 
-> > Which JITs was this tested with?  I think as a bare minimum we need to
-> > know that this design can accommodate _a_ modern JIT.  It would be
-> > horrible if the browser javascript engines couldn't use this design, for
-> > instance.
-> 
-> JIT work is still in progress.  When that is available I will test it.
+Applying: loop: Refactor loop_set_status() size calculation
 
-I found CET has been enabled in LLVM JIT, Mesa JIT as well as sljit which is
-used by jit.  So the current model works with JIT.
+So you'll probably want to respin on the right branch.
 
-Yu-cheng
+-- 
+Jens Axboe
 
