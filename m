@@ -2,55 +2,57 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 975DE1D04F1
-	for <lists+linux-api@lfdr.de>; Wed, 13 May 2020 04:31:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DE1C1D0985
+	for <lists+linux-api@lfdr.de>; Wed, 13 May 2020 09:08:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728528AbgEMCa4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 12 May 2020 22:30:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37608 "EHLO
+        id S1730185AbgEMHH6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 13 May 2020 03:07:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52266 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727082AbgEMCa4 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 12 May 2020 22:30:56 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 311AEC061A0E
-        for <linux-api@vger.kernel.org>; Tue, 12 May 2020 19:30:56 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id r14so7335977pfg.2
-        for <linux-api@vger.kernel.org>; Tue, 12 May 2020 19:30:56 -0700 (PDT)
+        with ESMTP id S1729189AbgEMHH5 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 13 May 2020 03:07:57 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CD69C061A0C
+        for <linux-api@vger.kernel.org>; Wed, 13 May 2020 00:07:55 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id v5so8599055lfp.13
+        for <linux-api@vger.kernel.org>; Wed, 13 May 2020 00:07:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=s30LFx1aW+wj1WXhYvs6vLm6N7QrdlEvC0cIDKY6hWY=;
-        b=X5DKCBbL6h1aumMxEijHJ/83zfL5mqXeCiEM6B8/RQdQJTtuBO5ImrRgl3aWuMdvKe
-         fN39xdTOmnWSFzg5cjwBaVLf5ts7Ad84c73SR1p7RlEjFlHeqs3ihvF7IOcHf0X5YbT8
-         a4bn7jaOUl4YYRiky/E9AlnBhBrb97PnJu/ZWhIPM+HlS0ycY9fv0MZXKOzuOxo+VevE
-         LjvaN2Q3X85Jy/hC9yybPGmvI+G1LhCPxE7pekdSfIMekFduktP6KLkZI6FpJTLIL01u
-         voskqJWPA5lm5P61oy8HcBq2bGsatqnmQBTBykW2nCIb14n+g9ywe9ImlUH9RrNefqjk
-         7UJA==
+        d=android.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mW8RDOfapkDaoa0Hb9EShwMwCn8vakzjoyWs3SU+BGc=;
+        b=J9qIkN4GOdr3b0TDdPyfF5iwQMxySZVVwyEt4C2nQgvCPYow2lWfeAh6Hp3j2u3g+0
+         CpAXZ6pgAlgu0Ac73YY7tSAw8K/WpZwe+TL3PY2N7q4H3UgoHoR4E6LAZb8BH8Uz5BA9
+         CxtS+rvDyaC4WK604GPAD+E7pJgAu0if/r4q3rMZ3gPPEPNWMJSBVkCxXcTwQEl/+Yp9
+         nFBEKSpOH3hes9GiSy/N6Wuq+8s6+uIG3u9MDIxDbNkwklUr38268FXRPsFgWahImOOK
+         8sbQIU05WISkLCPgzq+D6VBy9LU2GtYEyPW9tSD+GlaCyHxbY5VsYmBhcZuLsS+9bE7Z
+         tHug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=s30LFx1aW+wj1WXhYvs6vLm6N7QrdlEvC0cIDKY6hWY=;
-        b=cXgoc8928fimTIOwNo1u61TRaKKlg76GLuc2YmQK8yxkW7OK0AV4HRJrSgNNWw/TSR
-         jIq1wA73d1nbf6XA3VLv7a60ptGWdbge6p0dVR/9QFeKyFmjyY2ZsfEgGfieAeUckVi6
-         NwXBLntCSApaamqQAwhnREJJIht/6gmC8jPMzexTEhUK/VmS+8Ky/80He1IjywKCJ79n
-         kiy3uXFnTaLBcZPr7W4PVqwKa+Aq6pTElXv6+H8KU1qcpB8/UsaPhsZ9FJgKXUke43Zg
-         eBasH3LtIAmNaywzDbc8jb3rjIJDhS8L3YhAUKqfPzXOcabzBBUi+5cBJ7NuiaOGA2tv
-         V1+w==
-X-Gm-Message-State: AOAM532jTUDJust/sEZDJYJGLTw0U8Drrwb2Z/qvOlZFFpv5gTHMnBeu
-        2kf//mdCaQXR7ompT4sY1fNyFg==
-X-Google-Smtp-Source: ABdhPJxO+Z3ab4Ulh2jdsBRUUIjwSNOJMXnCQaQZ2uiMX7yesBHiFN61UvD6/LCaQlLV3ZUrO4vtDQ==
-X-Received: by 2002:a63:3ec4:: with SMTP id l187mr12718035pga.358.1589337055751;
-        Tue, 12 May 2020 19:30:55 -0700 (PDT)
-Received: from ?IPv6:2605:e000:100e:8c61:1d8:eb9:1d84:211c? ([2605:e000:100e:8c61:1d8:eb9:1d84:211c])
-        by smtp.gmail.com with ESMTPSA id o21sm13740330pjr.37.2020.05.12.19.30.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 May 2020 19:30:55 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mW8RDOfapkDaoa0Hb9EShwMwCn8vakzjoyWs3SU+BGc=;
+        b=sspo8RYXxTSmgiopJ2IlkEZhMCABuRXDD3k9CLAyMIye4knXab1xgUcVId9pe9RWeY
+         hsy5P7dCCNvF3HCV/lKRKr41yEEcnrRgWMIJosS8U4rQeodcG9odABtG7P2zNQP9qc8L
+         WRaVXFOGhsq2Cpu4zvgJUS/84JbkX3n81aOhJpDdw2vwDA++TkTtgZVMKzHO6neF6fmX
+         Q96Y+fvGGvcbC8UMydoPfUNinu08zElNKJVF/X/c8Nw4F/fWH6h5MvwF3cA+z3NF4SKY
+         bVH3QbHrZwy640C4ii27pM+VgOy3VUMT7/Xj73yCq0BiVbulrW7pr9effGO1mQouyjkh
+         8L4g==
+X-Gm-Message-State: AOAM533lh/x6YTvKskZIcfzkbWgup0szxPIh7BWQnufq0KYQssOtLZvp
+        RpwzVTXTRlE4q+fMKL/oWmgnndG3mft3tiVdMB1wvA==
+X-Google-Smtp-Source: ABdhPJzDwBLW0Ng55ay6pVZ/lv4nKFNfw9bBAXMfoDctZFD/KSd0XtGRMmmuj+JMpqtM15bEUnfuAGGNF+u0G5wmXU4=
+X-Received: by 2002:a19:ec7:: with SMTP id 190mr17595542lfo.203.1589353674058;
+ Wed, 13 May 2020 00:07:54 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200429140341.13294-1-maco@android.com> <20200429140341.13294-11-maco@android.com>
+ <CAB0TPYHwor85-fWKu+OMT-1ys2L7OSqVoReJRzNOMAE0xK+yzg@mail.gmail.com>
+ <1f3064a9-105f-02bb-6a1a-eb9875d292e3@kernel.dk> <4416f60a-6050-5067-6881-0ee9ef944669@kernel.dk>
+In-Reply-To: <4416f60a-6050-5067-6881-0ee9ef944669@kernel.dk>
+From:   Martijn Coenen <maco@android.com>
+Date:   Wed, 13 May 2020 09:07:43 +0200
+Message-ID: <CAB0TPYHikHc3tTTQcUOOZsYZmqNxGtthpkPX_z6dKgy+V8kovg@mail.gmail.com>
 Subject: Re: [PATCH v4 10/10] loop: Add LOOP_CONFIGURE ioctl
-From:   Jens Axboe <axboe@kernel.dk>
-To:     Martijn Coenen <maco@android.com>
+To:     Jens Axboe <axboe@kernel.dk>
 Cc:     Narayan Kamath <narayan@google.com>,
         Zimuzo Ezeozue <zezeozue@google.com>, kernel-team@android.com,
         Martijn Coenen <maco@google.com>,
@@ -61,39 +63,36 @@ Cc:     Narayan Kamath <narayan@google.com>,
         LKML <linux-kernel@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
         Christoph Hellwig <hch@lst.de>, Ming Lei <ming.lei@redhat.com>
-References: <20200429140341.13294-1-maco@android.com>
- <20200429140341.13294-11-maco@android.com>
- <CAB0TPYHwor85-fWKu+OMT-1ys2L7OSqVoReJRzNOMAE0xK+yzg@mail.gmail.com>
- <1f3064a9-105f-02bb-6a1a-eb9875d292e3@kernel.dk>
-Message-ID: <4416f60a-6050-5067-6881-0ee9ef944669@kernel.dk>
-Date:   Tue, 12 May 2020 20:30:52 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-MIME-Version: 1.0
-In-Reply-To: <1f3064a9-105f-02bb-6a1a-eb9875d292e3@kernel.dk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 5/12/20 8:29 PM, Jens Axboe wrote:
-> On 5/12/20 12:46 AM, Martijn Coenen wrote:
->> Hi Jens,
->>
->> What do you think of this series?
-> 
-> Looks acceptable to me, but I'm getting a failure applying it to
-> for-5.8/drivers on this patch:
-> 
-> Applying: loop: Refactor loop_set_status() size calculation
-> 
-> So you'll probably want to respin on the right branch.
+On Wed, May 13, 2020 at 4:30 AM Jens Axboe <axboe@kernel.dk> wrote:
+> > Looks acceptable to me, but I'm getting a failure applying it to
+> > for-5.8/drivers on this patch:
+> >
+> > Applying: loop: Refactor loop_set_status() size calculation
+> >
+> > So you'll probably want to respin on the right branch.
 
-Then you can also drop patch #1.
+This series depends on a separate bugfix I sent to LKML earlier - see
+https://lkml.org/lkml/2020/3/31/755 . I mentioned it in [00/10] of
+this series, but perhaps I should have just included that patch.
 
--- 
-Jens Axboe
+I just verified that patch + this series still applies cleanly on your
+for-5.8/drivers tree, but if you prefer I send a v5 with that patch
+going first let me know.
 
+Thanks,
+Martijn
+
+
+
+>
+> Then you can also drop patch #1.
+>
+> --
+> Jens Axboe
+>
