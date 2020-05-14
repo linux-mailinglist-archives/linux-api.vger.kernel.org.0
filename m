@@ -2,53 +2,62 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 99AF01D358C
-	for <lists+linux-api@lfdr.de>; Thu, 14 May 2020 17:49:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A75CB1D359B
+	for <lists+linux-api@lfdr.de>; Thu, 14 May 2020 17:52:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727969AbgENPtA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 14 May 2020 11:49:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47974 "EHLO
+        id S1726191AbgENPwU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 14 May 2020 11:52:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727904AbgENPs7 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 14 May 2020 11:48:59 -0400
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98C39C061A0C
-        for <linux-api@vger.kernel.org>; Thu, 14 May 2020 08:48:59 -0700 (PDT)
-Received: by mail-pj1-x1042.google.com with SMTP id fu13so12610481pjb.5
-        for <linux-api@vger.kernel.org>; Thu, 14 May 2020 08:48:59 -0700 (PDT)
+        with ESMTP id S1726117AbgENPwT (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 14 May 2020 11:52:19 -0400
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com [IPv6:2607:f8b0:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BF8AC061A0C;
+        Thu, 14 May 2020 08:52:19 -0700 (PDT)
+Received: by mail-oi1-x241.google.com with SMTP id p127so5444734oia.13;
+        Thu, 14 May 2020 08:52:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=xc0xMz/yvwFH4+2sZUX9Mzn97it6v0pR0LQRUSS/E70=;
-        b=PiA5t1ECMRuuR+HXKMfA3cTte/yc0Jb2wZpjTuONoyQT8+eOxJ6lAv6xWFVheYAPQX
-         mop7QRaUoUv6SEjqXRjbU5K99Kz3EUrsQLuoTiltzApmHSCKH5G+nrxw8ti9nhdb7fqe
-         jWfLI5KiJD47MHevRL9KAaQDdLmDrDUpw7Tiw=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ts3exPU5b4D6Eif+mpAKX6mXkCcZa+SnvdeaxQ9mZeM=;
+        b=n73P5w0/ZNHj6r9xqk6zxWRaFGCxbL5c36nerRqhbZ5NOMMw/V3LHaS6GjNroeq11B
+         hkLhReslaIkbpZbAmEJwH90HGvHSvkx5StDy556cfRaMyefW6OB07aO5MhmBrmm8vThA
+         4JJ/S6xJSxyXUNLyTP60+uVZXT6qbnH2OnlRXyadY3R8dgUg7BeoW+9BjOZVroQby/pn
+         ScWezo6502Bf69Wwn8oTIxxwvwWJwv33hZiiPV00+mteAt3qiPDxB+ZEIrcjT3VvOlRg
+         /D0Qa8Pd9eVeK3/GHbPGEp1qFGbWcZ72unt4SIogHXcUPb+Kfgl4E8kmDFv+SLZVW6UY
+         FV3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=xc0xMz/yvwFH4+2sZUX9Mzn97it6v0pR0LQRUSS/E70=;
-        b=RqhxEOQ37cAwd0swgjTK4ykDSjxGHxAUDMq/Bnhz9vnk86miKFKh6G2TSC6xZmmqGM
-         jcHuQET3FtQT8SMQrK4rAOZaI0YPLhyPF8MrMZLVz+1lKpiTpy1rEC/UheQPBkmArdBX
-         d9dXYfy5AJv41FoF+rYpDRv9UcUFJ5RP/Qj5PnhtU9NFrPFwZHmaUURcL1Zf1pO0mTBG
-         DS7Zqzom6OcnDRzB5azT51wV3/aUzKLpv6Td/sG5Rak0YXsZCPFuDD3jE9FcI64i3HDg
-         gI59YKJ8XYQ2ZQjznPW+trOYZEbBMMHSiRYnGMdH7JKy96KdR+Ya/NkZeZh+46AzQa6b
-         caVw==
-X-Gm-Message-State: AGi0PuarRrnx/eulFezj7i1myuHIWNOKHCtC3PlrH4CB8Cic9S703Xkk
-        qigLesxej7oHD3DvyRQC4/lo8g==
-X-Google-Smtp-Source: APiQypLdE3XgkOQdsZ7skOwgbr0+jpPDHHkYRGIHpuO9kIkbSs8cT1F1ifdldVqKmAC4ik2usLfWlA==
-X-Received: by 2002:a17:90a:f995:: with SMTP id cq21mr39335143pjb.56.1589471339202;
-        Thu, 14 May 2020 08:48:59 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id cx11sm2467105pjb.36.2020.05.14.08.48.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 May 2020 08:48:58 -0700 (PDT)
-Date:   Thu, 14 May 2020 08:48:57 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     "Lev R. Oshvang ." <levonshe@gmail.com>
-Cc:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-        linux-kernel@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ts3exPU5b4D6Eif+mpAKX6mXkCcZa+SnvdeaxQ9mZeM=;
+        b=QNANLJO9r6CYlMmN0PWwhRnuUIm5mqeG3EQ+wxMlaTPgf6OiY/tYKQbLwNYDA4MBo7
+         60zLGdZLaD2uh+PjfzBtYNhhEVTeUoxPH2DsivFsNVS914jaHb0anNImffH3T17PZH5P
+         WD/L7m5i8kW7A/KpNiwd694YXbxxEAQsGCDfvWAM4Zp3QcQ58ehuCPjfYO8GMJ31Vo0V
+         AfIsreex6NeuvfDF/h/kOlhS+c/VB2d+IuTLKDd23fc+9uhROgIVPShQrQUxSd1gp4ZZ
+         3uDp22R0m482APgAf5NaPFfR12Zc4nhDduZcV7yrlFtIQ6gO/9Zl4Lr+jxCnhCsuKhdf
+         PfgA==
+X-Gm-Message-State: AOAM533e2/uCCZn3c6B4xnQgusuAUXvjI80AIt1ZZm2mQyZmw4LeNWra
+        k0DUhqPeNR483w8r4SIltIAxSKNig7Bc407LORg=
+X-Google-Smtp-Source: ABdhPJyTq5NgHHXOOIt7GEAvBuXGY23iCp2ui/mBClBnszl5WhyiAHvYPhzgbDeRnkGUD739ES1OpYBXdtop71nCBtY=
+X-Received: by 2002:aca:210a:: with SMTP id 10mr6129577oiz.92.1589471539001;
+ Thu, 14 May 2020 08:52:19 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200505153156.925111-1-mic@digikod.net> <20200505153156.925111-4-mic@digikod.net>
+ <CAEjxPJ7y2G5hW0WTH0rSrDZrorzcJ7nrQBjfps2OWV5t1BUYHw@mail.gmail.com>
+ <202005131525.D08BFB3@keescook> <202005132002.91B8B63@keescook>
+ <CAEjxPJ7WjeQAz3XSCtgpYiRtH+Jx-UkSTaEcnVyz_jwXKE3dkw@mail.gmail.com> <202005140739.F3A4D8F3@keescook>
+In-Reply-To: <202005140739.F3A4D8F3@keescook>
+From:   Stephen Smalley <stephen.smalley.work@gmail.com>
+Date:   Thu, 14 May 2020 11:52:07 -0400
+Message-ID: <CAEjxPJ5dPmBo7cORWq9U-Ma9BcT2cnMR39RG9_7uAZXwsPxb9w@mail.gmail.com>
+Subject: Re: [PATCH v5 3/6] fs: Enable to enforce noexec mounts or file exec
+ through O_MAYEXEC
+To:     Kees Cook <keescook@chromium.org>
+Cc:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Aleksa Sarai <cyphar@cyphar.com>,
         Alexei Starovoitov <ast@kernel.org>,
         Al Viro <viro@zeniv.linux.org.uk>,
         Andy Lutomirski <luto@kernel.org>,
@@ -63,9 +72,9 @@ Cc:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
         Matthew Garrett <mjg59@google.com>,
         Matthew Wilcox <willy@infradead.org>,
         Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mickael.salaun@ssi.gouv.fr>,
+        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mickael.salaun@ssi.gouv.fr>,
         Mimi Zohar <zohar@linux.ibm.com>,
-        Philippe =?iso-8859-1?Q?Tr=E9buchet?= 
+        =?UTF-8?Q?Philippe_Tr=C3=A9buchet?= 
         <philippe.trebuchet@ssi.gouv.fr>,
         Scott Shell <scottsh@microsoft.com>,
         Sean Christopherson <sean.j.christopherson@intel.com>,
@@ -77,36 +86,61 @@ Cc:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
         kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
         linux-integrity@vger.kernel.org,
         LSM List <linux-security-module@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v5 2/6] fs: Add a MAY_EXECMOUNT flag to infer the noexec
- mount property
-Message-ID: <202005140845.16F1CDC@keescook>
-References: <20200505153156.925111-1-mic@digikod.net>
- <20200505153156.925111-3-mic@digikod.net>
- <202005121407.A339D31A@keescook>
- <CAP22eLEWW+KjD5rHosZV8vSuBB4YBLh0BQ=4-=kJQt9o=Fx1ig@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAP22eLEWW+KjD5rHosZV8vSuBB4YBLh0BQ=4-=kJQt9o=Fx1ig@mail.gmail.com>
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, May 14, 2020 at 11:14:04AM +0300, Lev R. Oshvang . wrote:
-> New sysctl is indeed required to allow userspace that places scripts
-> or libs under noexec mounts.
+On Thu, May 14, 2020 at 10:41 AM Kees Cook <keescook@chromium.org> wrote:
+>
+> On Thu, May 14, 2020 at 08:22:01AM -0400, Stephen Smalley wrote:
+> > On Wed, May 13, 2020 at 11:05 PM Kees Cook <keescook@chromium.org> wrote:
+> > >
+> > > On Wed, May 13, 2020 at 04:27:39PM -0700, Kees Cook wrote:
+> > > > Like, couldn't just the entire thing just be:
+> > > >
+> > > > diff --git a/fs/namei.c b/fs/namei.c
+> > > > index a320371899cf..0ab18e19f5da 100644
+> > > > --- a/fs/namei.c
+> > > > +++ b/fs/namei.c
+> > > > @@ -2849,6 +2849,13 @@ static int may_open(const struct path *path, int acc_mode, int flag)
+> > > >               break;
+> > > >       }
+> > > >
+> > > > +     if (unlikely(mask & MAY_OPENEXEC)) {
+> > > > +             if (sysctl_omayexec_enforce & OMAYEXEC_ENFORCE_MOUNT &&
+> > > > +                 path_noexec(path))
+> > > > +                     return -EACCES;
+> > > > +             if (sysctl_omayexec_enforce & OMAYEXEC_ENFORCE_FILE)
+> > > > +                     acc_mode |= MAY_EXEC;
+> > > > +     }
+> > > >       error = inode_permission(inode, MAY_OPEN | acc_mode);
+> > > >       if (error)
+> > > >               return error;
+> > > >
+> > >
+> > > FYI, I've confirmed this now. Effectively with patch 2 dropped, patch 3
+> > > reduced to this plus the Kconfig and sysctl changes, the self tests
+> > > pass.
+> > >
+> > > I think this makes things much cleaner and correct.
+> >
+> > I think that covers inode-based security modules but not path-based
+> > ones (they don't implement the inode_permission hook).  For those, I
+> > would tentatively guess that we need to make sure FMODE_EXEC is set on
+> > the open file and then they need to check for that in their file_open
+> > hooks.
+>
+> Does there need to be an FMODE_OPENEXEC, or is the presence of
+> FMODE_OPEN with FMODE_EXEC sufficient?
 
-But since this is a not-uncommon environment, we must have the sysctl
-otherwise this change would break those systems.
-
-> fs.mnt_noexec_strict =0 (allow, e) , 1 (deny any file with --x
-> permission), 2 (deny when O_MAYEXEC absent), for any file with ---x
-> permissions)
-
-I don't think we want another mount option -- this is already fully
-expressed with noexec and the system-wide sysctl.
-
--- 
-Kees Cook
+I don't think we need an extra flag/mode bit.  But note that 1)
+FMODE_OPENED isn't set until after security_file_open() is called so
+we can't rely on it there, 2) __FMODE_EXEC aka FMODE_EXEC is set in
+f_flags not f_mode, 3) FMODE_EXEC was originally introduced for
+distributed filesystems so that they could return ETXTBUSY if the file
+was opened for write and execute on different nodes, 4) AppArmor and
+TOMOYO have special handling of execve based on current->in_execve so
+I guess the only overlap would be for uselib(2).
