@@ -2,126 +2,133 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 974561D2C46
-	for <lists+linux-api@lfdr.de>; Thu, 14 May 2020 12:14:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E7E21D2CBD
+	for <lists+linux-api@lfdr.de>; Thu, 14 May 2020 12:28:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726024AbgENKOD convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Thu, 14 May 2020 06:14:03 -0400
-Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151]:60436 "EHLO
-        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725999AbgENKOD (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 14 May 2020 06:14:03 -0400
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-29-y0BDf4GNOjC8TdKy0usypQ-1; Thu, 14 May 2020 11:12:35 +0100
-X-MC-Unique: y0BDf4GNOjC8TdKy0usypQ-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Thu, 14 May 2020 11:12:34 +0100
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
- Thu, 14 May 2020 11:12:34 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Kees Cook' <keescook@chromium.org>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>
-CC:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Alexei Starovoitov" <ast@kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        "Andy Lutomirski" <luto@kernel.org>,
-        Christian Heimes <christian@python.org>,
-        "Daniel Borkmann" <daniel@iogearbox.net>,
-        Deven Bowers <deven.desai@linux.microsoft.com>,
-        Eric Chiang <ericchiang@google.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        James Morris <jmorris@namei.org>, "Jan Kara" <jack@suse.cz>,
+        id S1726101AbgENK2U (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 14 May 2020 06:28:20 -0400
+Received: from smtp-bc0c.mail.infomaniak.ch ([45.157.188.12]:53043 "EHLO
+        smtp-bc0c.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726051AbgENK2U (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 14 May 2020 06:28:20 -0400
+Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 49N75w45kTzlhj0J;
+        Thu, 14 May 2020 12:27:48 +0200 (CEST)
+Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
+        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 49N75t2qqnzljHmw;
+        Thu, 14 May 2020 12:27:46 +0200 (CEST)
+Subject: Re: [PATCH v17 02/10] landlock: Add ruleset and domain management
+To:     James Morris <jmorris@namei.org>
+Cc:     linux-kernel@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
         Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
-        Matthew Garrett <mjg59@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
+        Kees Cook <keescook@chromium.org>,
         Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mickael.salaun@ssi.gouv.fr>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        =?iso-8859-1?Q?Philippe_Tr=E9buchet?= 
-        <philippe.trebuchet@ssi.gouv.fr>,
-        "Scott Shell" <scottsh@microsoft.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
+        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mickael.salaun@ssi.gouv.fr>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
         Shuah Khan <shuah@kernel.org>,
-        Steve Dower <steve.dower@python.org>,
-        Steve Grubb <sgrubb@redhat.com>,
-        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
-        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
-        "kernel-hardening@lists.openwall.com" 
-        <kernel-hardening@lists.openwall.com>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>
-Subject: RE: [PATCH v5 3/6] fs: Enable to enforce noexec mounts or file exec
- through O_MAYEXEC
-Thread-Topic: [PATCH v5 3/6] fs: Enable to enforce noexec mounts or file exec
- through O_MAYEXEC
-Thread-Index: AQHWKZyBpmhTpEnBl0+f5QrKafolWKinXOJQ
-Date:   Thu, 14 May 2020 10:12:34 +0000
-Message-ID: <33eba9f60af54f1585ba82af73be4eb2@AcuMS.aculab.com>
-References: <20200505153156.925111-1-mic@digikod.net>
- <20200505153156.925111-4-mic@digikod.net>
- <CAEjxPJ7y2G5hW0WTH0rSrDZrorzcJ7nrQBjfps2OWV5t1BUYHw@mail.gmail.com>
- <202005131525.D08BFB3@keescook> <202005132002.91B8B63@keescook>
-In-Reply-To: <202005132002.91B8B63@keescook>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-security-module@vger.kernel.org, x86@kernel.org
+References: <20200511192156.1618284-1-mic@digikod.net>
+ <20200511192156.1618284-3-mic@digikod.net>
+ <alpine.LRH.2.21.2005141302330.30052@namei.org>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <f646e1c7-33cf-333f-070c-0a40ad0468cd@digikod.net>
+Date:   Thu, 14 May 2020 12:27:45 +0200
+User-Agent: 
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+In-Reply-To: <alpine.LRH.2.21.2005141302330.30052@namei.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
+X-Antivirus-Code: 0x100000
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Kees Cook
-> Sent: 14 May 2020 04:05
-> On Wed, May 13, 2020 at 04:27:39PM -0700, Kees Cook wrote:
-> > Like, couldn't just the entire thing just be:
-> >
-> > diff --git a/fs/namei.c b/fs/namei.c
-> > index a320371899cf..0ab18e19f5da 100644
-> > --- a/fs/namei.c
-> > +++ b/fs/namei.c
-> > @@ -2849,6 +2849,13 @@ static int may_open(const struct path *path, int acc_mode, int flag)
-> >  		break;
-> >  	}
-> >
-> > +	if (unlikely(mask & MAY_OPENEXEC)) {
-> > +		if (sysctl_omayexec_enforce & OMAYEXEC_ENFORCE_MOUNT &&
-> > +		    path_noexec(path))
-> > +			return -EACCES;
-> > +		if (sysctl_omayexec_enforce & OMAYEXEC_ENFORCE_FILE)
-> > +			acc_mode |= MAY_EXEC;
-> > +	}
-> >  	error = inode_permission(inode, MAY_OPEN | acc_mode);
-> >  	if (error)
-> >  		return error;
-> >
+
+On 14/05/2020 05:09, James Morris wrote:
+> On Mon, 11 May 2020, Mickaël Salaün wrote:
 > 
-> FYI, I've confirmed this now. Effectively with patch 2 dropped, patch 3
-> reduced to this plus the Kconfig and sysctl changes, the self tests
-> pass.
+>> + * .. warning::
+>> + *
+>> + *   It is currently not possible to restrict some file-related actions
+>> + *   accessible through these syscall families: :manpage:`chdir(2)`,
+>> + *   :manpage:`truncate(2)`, :manpage:`stat(2)`, :manpage:`flock(2)`,
+>> + *   :manpage:`chmod(2)`, :manpage:`chown(2)`, :manpage:`setxattr(2)`,
+>> + *   :manpage:`ioctl(2)`, :manpage:`fcntl(2)`.
+>> + *   Future Landlock evolutions will enable to restrict them.
 > 
-> I think this makes things much cleaner and correct.
+> I have to wonder how useful Landlock will be without more coverage per 
+> the above.
 
-And a summary of that would be right for the 0/n patch email.
+This is the result of previous discussions (on mailing lists and
+conferences) to minimize the code of Landlock to ease review. There is
+also network and other subsystems which are not covered, the same way
+other LSMs may not cover everything. However, Landlock is designed to be
+extensible without breaking user space, so extending this access-control
+will not be a problem. Previous versions of this patch series handled
+much more.
 
-	David
+Moreover, we can compare the current situation with seccomp. Indeed,
+seccomp only enables to restrict system calls according to their number
+and their raw arguments. seccomp is designed to limit the attack surface
+of the kernel but it is also used to remove ways to access kernel
+resources. Application developers willing to sandbox their products are
+already using seccomp but there is limitations (e.g. file access
+control). Landlock addresses such limitations, which improves the
+current situation.
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
+We can also view seccomp as a complementary solution to the current
+limitations of Landlock. Indeed, seccomp filters can block or restrict
+the use of syscall families which may not be currently handled by Landlock.
 
+> 
+> It would be helpful if you could outline a threat model for this initial 
+> version, so people can get an idea of what kind of useful protection may
+> be gained from it.
+
+The main threat model may be seen as protecting from vulnerable (i.e.
+malicious) code. But because Landlock policies are defined by
+application developers, they also define their own threat model.
+
+> 
+> Are there any distros or other major users who are planning on enabling or 
+> at least investigating Landlock?
+
+I think the question should be: is there any distros which are not
+interested to improve the security of their users? :)
+Landlock is mainly designed for application developers, and most Linux
+distros rely on applications which are not developed by themselves.
+
+Some hardened distros such as CLIP OS and Chrome OS are interested to
+extend the security of the whole system with tailored sandboxing (e.g.
+internal and critical services, security brokers). For example, Chrome
+OS folks investigated with a previous version of Landlock:
+https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel-next/+/658517/
+I'm sure there is other tailored distros which will be interested once
+Landlock will be upstream (e.g. Tails, Qubes OS, Subgraph OS, etc.).
+
+> 
+> Do you have any examples of a practical application of this scheme?
+
+We can start with applications with builtin sandboxing, like web
+browsers, web services, email services, SSH, etc. There is also all
+system services handled by an init system which provides security
+features (e.g. systemd). There is also the security sandbox tools (e.g.
+Minijail [1], Firejail [2], nsjail [3], Flatpak [4], etc.). And finally,
+security-oriented APIs such as Sandboxed API [5]. Most of them should
+welcome new Linux sandboxing features provided by Landlock.
+
+[1] https://android.googlesource.com/platform/external/minijail
+[2] https://firejail.wordpress.com/
+[3] https://nsjail.dev/
+[4] https://flatpak.org/
+[5] https://github.com/google/sandboxed-api
