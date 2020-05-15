@@ -2,171 +2,144 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 03D5A1D4D7A
-	for <lists+linux-api@lfdr.de>; Fri, 15 May 2020 14:11:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 877321D50C8
+	for <lists+linux-api@lfdr.de>; Fri, 15 May 2020 16:37:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726122AbgEOMLI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 15 May 2020 08:11:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40980 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726062AbgEOMLI (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 15 May 2020 08:11:08 -0400
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF685C061A0C;
-        Fri, 15 May 2020 05:11:07 -0700 (PDT)
-Received: by mail-ed1-x542.google.com with SMTP id g9so1999890edw.10;
-        Fri, 15 May 2020 05:11:07 -0700 (PDT)
+        id S1726226AbgEOOhU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 15 May 2020 10:37:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35604 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726665AbgEOOhT (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 15 May 2020 10:37:19 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E930C05BD0B
+        for <linux-api@vger.kernel.org>; Fri, 15 May 2020 07:37:19 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id a4so1048793pgc.0
+        for <linux-api@vger.kernel.org>; Fri, 15 May 2020 07:37:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=gwJ2Lc/Yk03IJOC1sFrTAqBzPkN1TQVWqWTUK+qoYiU=;
-        b=VMkP8/Jkt2bRofOFAeYJ24ZC+NSUixoqxVFp9JDNhUaBJRGQJjJnHLkkgD8FcxL4jQ
-         +Aeuzr09NZ3LRQ30nKqA28QLndOYpBEdMj1zlEVYqerDhaAaCYAcgIUDCicT/weIgdJB
-         gzQlJdSp31fCnfXqhBgS9ecQ5IOqMYSPcFhEzEoOpteqezvmcWt7B8kmGf3UQ6NzIy0j
-         POIpE7o8uRolvrf6t5A5HN/UwhSYGunqfMQp0svqKMfthdx/lawMsN/l3ZjjhhQvAuOu
-         TM+ZWVjigArspnXNg3q14gRjzjOFl6UnbJI4wtDSnkARDlwWafv08/XRwYcrV4IxcciC
-         XgZQ==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=GkgSQWYyEHrVohFFMSyphZgO4DDabSVNfncbmH3+PSA=;
+        b=i7phLR6oslO+nKsuBoJMm/9bH/JqIgx0izgjVqNpzYrr5so+8tSWN9Yf5iu61KRlBK
+         Udu9CbA+KyxU6EBm8+gDNGEL/mh1EmL9zpEH2ZzYj91LqaHO8SRqBPJ4m+Ti1YEJzzGA
+         jofFicakkW+mtqfl3m559FLv+sFicL0eDLX0k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=gwJ2Lc/Yk03IJOC1sFrTAqBzPkN1TQVWqWTUK+qoYiU=;
-        b=gxeAr2EBpi/oAqt2iKAjaZy/RpQnUB8q64frb8GXE+MzY1AdIvYsWtCfJ8tUK7m9Tb
-         uNhrb1Fnj6klDYjkC+h/gwRRj9vZUPj+HQmD41MvlLuMGtL5mW/zWv9IjnyNzJQ4AYC4
-         vK5HYbwNwo64D0HPkY1u7m+y+GYTLxYaM5rXz8r4eUMtB0a7174Stgb4/KZne1cFg0I0
-         a7X28S7PwzLPvWHeQeqMQMTigOxa5RSNdwjsufzKDZvkozlxOo+LqrLOW6lKoNcWace3
-         2Px/2mtten9TXWeTRINZlnGP/xKFOn5hpqyJzJbVCDJl6ZbU3Eof5v6Uf7Ce/621RB/f
-         xxSg==
-X-Gm-Message-State: AOAM5338pwkoV5PVuPjdaTrrIAjwxRxWqrKTYwrXodEzxpROjV0dENOO
-        MFwEVlweukLGSDVEUaNZWSXkE18bfEo3xw1RNHQ=
-X-Google-Smtp-Source: ABdhPJz1eN6Y3UUKLgv0yVbFFEhnGpFslITmprP9DtBrcM+YHui2Hkc909BKV9DKh/c7zASjG5QxxMPGVnRl9ToYdsQ=
-X-Received: by 2002:aa7:d513:: with SMTP id y19mr2600654edq.367.1589544666281;
- Fri, 15 May 2020 05:11:06 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=GkgSQWYyEHrVohFFMSyphZgO4DDabSVNfncbmH3+PSA=;
+        b=iFBPmaLUqbO+guASA4Et6Jpx3D/hiO9aWdxFgD+q5fb4q6GkSQ2qI7epkOegLM9mpi
+         mqbfJGnGkLIyzTwR+ojaXKNuJJglvshEx/VF66J6gel8U9QhHFvsVEFFC2AOuoJzxHU6
+         V42PjTCDW8QtjEfM4PEwCOMSrjPCnaHRUt9ZYrgDFagChcBh0IMXLyKWBhKIGnuIqXlY
+         +UIydPWgMc92isIuV+RN7R0d1OvdXqGRZEVBOVPz7ksq/TfaIEh8Hnm6Yd+dusIsOaI/
+         qjczF9HXaQMD6xLPaxxXvM7PvhDxuekXrKXn/hbekNqGAxW4WKggR5rcQyFupV1WlBqW
+         XAdA==
+X-Gm-Message-State: AOAM533W/q+B+NnR8396dIvbVSqlhqI72IsHr0Lu7K/ZJFQ7J9yijUFR
+        rKmtCPyD9Te0B3zTUsGk+12UcQ==
+X-Google-Smtp-Source: ABdhPJwe+mQWxHy+Y8MG1su17GDYNjf0sGvC5GumLd2b2yGuoh3drABp261K8+gyS8kDmn+Bp9fFfw==
+X-Received: by 2002:a62:18c1:: with SMTP id 184mr3649253pfy.277.1589553438673;
+        Fri, 15 May 2020 07:37:18 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id q134sm2132257pfc.143.2020.05.15.07.37.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 May 2020 07:37:17 -0700 (PDT)
+Date:   Fri, 15 May 2020 07:37:16 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
+        Christian Heimes <christian@python.org>,
+        Deven Bowers <deven.desai@linux.microsoft.com>,
+        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+        John Johansen <john.johansen@canonical.com>,
+        Kentaro Takeda <takedakn@nttdata.co.jp>,
+        "Lev R. Oshvang ." <levonshe@gmail.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Eric Chiang <ericchiang@google.com>,
+        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
+        Matthew Garrett <mjg59@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mickael.salaun@ssi.gouv.fr>,
+        Philippe =?iso-8859-1?Q?Tr=E9buchet?= 
+        <philippe.trebuchet@ssi.gouv.fr>,
+        Scott Shell <scottsh@microsoft.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Steve Dower <steve.dower@python.org>,
+        Steve Grubb <sgrubb@redhat.com>,
+        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
+        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        LSM List <linux-security-module@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>
+Subject: Re: How about just O_EXEC? (was Re: [PATCH v5 3/6] fs: Enable to
+ enforce noexec mounts or file exec through O_MAYEXEC)
+Message-ID: <202005150732.17C5EE0@keescook>
+References: <20200505153156.925111-4-mic@digikod.net>
+ <CAEjxPJ7y2G5hW0WTH0rSrDZrorzcJ7nrQBjfps2OWV5t1BUYHw@mail.gmail.com>
+ <202005131525.D08BFB3@keescook>
+ <202005132002.91B8B63@keescook>
+ <CAEjxPJ7WjeQAz3XSCtgpYiRtH+Jx-UkSTaEcnVyz_jwXKE3dkw@mail.gmail.com>
+ <202005140830.2475344F86@keescook>
+ <CAEjxPJ4R_juwvRbKiCg5OGuhAi1ZuVytK4fKCDT_kT6VKc8iRg@mail.gmail.com>
+ <b740d658-a2da-5773-7a10-59a0ca52ac6b@digikod.net>
+ <202005142343.D580850@keescook>
+ <87a729wpu1.fsf@oldenburg2.str.redhat.com>
 MIME-Version: 1.0
-References: <20191128120140.20367-1-cyphar@cyphar.com> <20191128130840.GA3719@calabresa>
- <20191128135506.yo7432egjsg5ha5a@yavin.dot.cyphar.com> <CAKgNAkj9W7ay+YuQv1ct+LXE8tj1R+hzDDgGZo3KvWhWD0k2ug@mail.gmail.com>
-In-Reply-To: <CAKgNAkj9W7ay+YuQv1ct+LXE8tj1R+hzDDgGZo3KvWhWD0k2ug@mail.gmail.com>
-Reply-To: mtk.manpages@gmail.com
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Date:   Fri, 15 May 2020 14:10:55 +0200
-Message-ID: <CAKgNAkiMNssJ2kCtGXd9ZUMFrG6uVtECBXMLGf2EZeS5-rkPKA@mail.gmail.com>
-Subject: Re: [PATCH] sched_getattr.2: update to include changed size semantics
-To:     Aleksa Sarai <cyphar@cyphar.com>
-Cc:     Thadeu Lima de Souza Cascardo <cascardo@canonical.com>,
-        linux-man <linux-man@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Arnaldo Carvalho de Melo <acme@infradead.org>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Patrick Bellasi <patrick.bellasi@arm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Michael Kerrisk <mtk.manpages@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87a729wpu1.fsf@oldenburg2.str.redhat.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Aleksa,
+On Fri, May 15, 2020 at 10:43:34AM +0200, Florian Weimer wrote:
+> * Kees Cook:
+> 
+> > Maybe I've missed some earlier discussion that ruled this out, but I
+> > couldn't find it: let's just add O_EXEC and be done with it. It actually
+> > makes the execve() path more like openat2() and is much cleaner after
+> > a little refactoring. Here are the results, though I haven't emailed it
+> > yet since I still want to do some more testing:
+> > https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/log/?h=kspp/o_exec/v1
+> 
+> I think POSIX specifies O_EXEC in such a way that it does not confer
+> read permissions.  This seems incompatible with what we are trying to
+> achieve here.
 
-A ping also on this :-).
+I was trying to retain this behavior, since we already make this
+distinction between execve() and uselib() with the MAY_* flags:
 
-Cheers,
+execve():
+        struct open_flags open_exec_flags = {
+                .open_flag = O_LARGEFILE | O_RDONLY | __FMODE_EXEC,
+                .acc_mode = MAY_EXEC,
 
-Michael
+uselib():
+        static const struct open_flags uselib_flags = {
+                .open_flag = O_LARGEFILE | O_RDONLY | __FMODE_EXEC,
+                .acc_mode = MAY_READ | MAY_EXEC,
 
-On Sat, 25 Apr 2020 at 21:12, Michael Kerrisk (man-pages)
-<mtk.manpages@gmail.com> wrote:
->
-> Hi Aleksa,
->
-> I don't think there was ever a follow-up to this patch. Would you be
-> willing to send one?
->
-> Thanks,
->
-> Michael
->
-> On Thu, 28 Nov 2019 at 14:55, Aleksa Sarai <cyphar@cyphar.com> wrote:
-> >
-> > On 2019-11-28, Thadeu Lima de Souza Cascardo <cascardo@canonical.com> wrote:
-> > > On Thu, Nov 28, 2019 at 11:01:40PM +1100, Aleksa Sarai wrote:
-> > > > Due to a userspace breakage, commit 1251201c0d34 ("sched/core: Fix
-> > > > uclamp ABI bug, clean up and robustify sched_read_attr() ABI logic and
-> > > > code") changed the semantics of sched_getattr(2) when the userspace
-> > > > struct is smaller than the kernel struct. Now, any trailing non-zero
-> > > > data in the kernel structure is ignored when copying to userspace.
-> > > >
-> > > > Ref: 1251201c0d34 ("sched/core: Fix uclamp ABI bug, clean up and
-> > > >                     robustify sched_read_attr() ABI logic and code")
-> > > > Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
-> > > > ---
-> > > >  man2/sched_setattr.2 | 6 ++----
-> > > >  1 file changed, 2 insertions(+), 4 deletions(-)
-> > > >
-> > > > diff --git a/man2/sched_setattr.2 b/man2/sched_setattr.2
-> > > > index 76ffa14eba85..fbb67b8eb98b 100644
-> > > > --- a/man2/sched_setattr.2
-> > > > +++ b/man2/sched_setattr.2
-> > > > @@ -284,10 +284,8 @@ structure,
-> > > >  the additional bytes in the user-space structure are not touched.
-> > > >  If the caller-provided structure is smaller than the kernel
-> > > >  .I sched_attr
-> > > > -structure and the kernel needs to return values outside the provided space,
-> > > > -.BR sched_getattr ()
-> > > > -fails with the error
-> > > > -.BR E2BIG .
-> > > > +structure, the kernel will silently not return any values which would be stored
-> > > > +outside the provided space.
-> > > >  As with
-> > > >  .BR sched_setattr (),
-> > > >  these semantics allow for future extensibility of the interface.
-> > > > --
-> > > > 2.24.0
-> > > >
-> > >
-> > > I was thinking about documenting the difference in behavior of older kernels,
-> > > before uclamp support.
-> > >
-> > > However, in practice, for sched_getattr, the kernel never returned E2BIG (the
-> > > code uses EFBIG incorrectly, in fact). It does, however, return EINVAL for
-> > > sizes smaller than SCHED_ATTR_SIZE_VER0.
-> >
-> > I've been told the EFBIG was actually a typo and it was always meant to
-> > be E2BIG. But yes, the precise problem with the old semantics was that
-> > they weren't tested "in the wild" with a proper struct upgrade -- hence
-> > all of the headaches.
-> >
-> > If we ever do implement a copy_struct_to_user() we are almost certainly
-> > going to implement it with the new sched_getattr() semantics. To be
-> > honest, I'm not sure I can imagine a case where an old userspace program
-> > would benefit from being given an error saying that the kernel has some
-> > properties that it doesn't understand. (sched_getattr() is also weird
-> > for other reasons, such as the fact it takes a separate size argument.)
-> >
-> > > However, E2BIG is still mentioned below as a possible return value for
-> > > sched_getattr. Can you remove that too?
-> >
-> > Will do.
-> >
-> > --
-> > Aleksa Sarai
-> > Senior Software Engineer (Containers)
-> > SUSE Linux GmbH
-> > <https://www.cyphar.com/>
->
->
->
-> --
-> Michael Kerrisk
-> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-> Linux/UNIX System Programming Training: http://man7.org/training/
+I tried to retain this in my proposal, in the O_EXEC does not imply
+MAY_READ:
 
-
++	/* Should execution permissions be checked on open? */
++	if (flags & O_EXEC) {
++		flags |= __FMODE_EXEC;
++		acc_mode |= MAY_EXEC;
++	}
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Kees Cook
