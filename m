@@ -2,154 +2,138 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BAFA1D5519
-	for <lists+linux-api@lfdr.de>; Fri, 15 May 2020 17:50:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DDED1D5572
+	for <lists+linux-api@lfdr.de>; Fri, 15 May 2020 18:02:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726614AbgEOPuW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 15 May 2020 11:50:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47164 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726304AbgEOPuU (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 15 May 2020 11:50:20 -0400
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8E2AC05BD0A
-        for <linux-api@vger.kernel.org>; Fri, 15 May 2020 08:50:18 -0700 (PDT)
-Received: by mail-pl1-x642.google.com with SMTP id u10so1022642pls.8
-        for <linux-api@vger.kernel.org>; Fri, 15 May 2020 08:50:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=maNQlt0vCXUutQdGjL8vBhpeTRE+KVofJhs1eAnXh6g=;
-        b=XbNk7MuQ57Rts4Z0qNTKjgNqv1OpA6t+Nc11jH0CcE5DjXS7oVuq2I56+d2MDC75jJ
-         nDjDvlSzADQw/PQCIl8/DxXmgfrveGmE6Hw9eY461U1BxfLAfoewmC1zHAQ7NjHaBVwq
-         48yzco9HijnVPOEH6uI2cCSke9LuzsUIGaAQQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=maNQlt0vCXUutQdGjL8vBhpeTRE+KVofJhs1eAnXh6g=;
-        b=Z9S4b4aNV+t6eiLj3/tIIUQkw3WNyCttVQcFosI5cucOx9zJ10RsOZD89BwRWWU7Xn
-         jagDUaMeLHipk0QRSlf0R0pAp5mnh5Xc8r0FE0OpE9Ey44dTlo7/HmNkguEXuegDhojc
-         eP1HTKionpbOsxu1ug2gcXdxfwL2x+2CXhFL18eStuPVJSsf1m8GLxCwnUKTW+p0d+ko
-         Lt0r7GcQ56Uz3nK4m9j0tsqhw2akUYhE/EDxvJMF9xWJ0huHjW2bsZHtuQJSRqvByvy7
-         QyDNQ59iWuSCNfxWbTCgmJUX3PledVmVDT11Ksf0VPuVAgVq6ve/IrqfgATclUz9vv6a
-         itJQ==
-X-Gm-Message-State: AOAM532IYBR2liIfaCtRUhRXLrNEolMGCS2Zjc8Ulb19qOrlIVvZmygz
-        kOB0C2VAWYJgVtBIUmS0cuu25Q==
-X-Google-Smtp-Source: ABdhPJzV9V5xkT+PRgcjtkcfzF74hfXgdSbJTDs6Pij7aSIOh0B9fva/6CPrsQhWRfBllA/W9iJm5Q==
-X-Received: by 2002:a17:90a:5584:: with SMTP id c4mr459126pji.51.1589557818127;
-        Fri, 15 May 2020 08:50:18 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id b24sm2247218pfi.4.2020.05.15.08.50.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2020 08:50:17 -0700 (PDT)
-Date:   Fri, 15 May 2020 08:50:16 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        Christian Heimes <christian@python.org>,
-        Deven Bowers <deven.desai@linux.microsoft.com>,
-        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
-        John Johansen <john.johansen@canonical.com>,
-        Kentaro Takeda <takedakn@nttdata.co.jp>,
-        "Lev R. Oshvang ." <levonshe@gmail.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Eric Chiang <ericchiang@google.com>,
-        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
-        Matthew Garrett <mjg59@google.com>,
+        id S1726246AbgEOQCV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 15 May 2020 12:02:21 -0400
+Received: from mx2.suse.de ([195.135.220.15]:58892 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726188AbgEOQCV (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 15 May 2020 12:02:21 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 37AFCABC2;
+        Fri, 15 May 2020 16:02:21 +0000 (UTC)
+Subject: Re: [PATCH v3 5/5] lib/test_sysctl: support testing of sysctl. boot
+ parameter
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        David Rientjes <rientjes@google.com>,
         Matthew Wilcox <willy@infradead.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mickael.salaun@ssi.gouv.fr>,
-        Philippe =?iso-8859-1?Q?Tr=E9buchet?= 
-        <philippe.trebuchet@ssi.gouv.fr>,
-        Scott Shell <scottsh@microsoft.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Steve Dower <steve.dower@python.org>,
-        Steve Grubb <sgrubb@redhat.com>,
-        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
-        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        LSM List <linux-security-module@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>
-Subject: Re: How about just O_EXEC? (was Re: [PATCH v5 3/6] fs: Enable to
- enforce noexec mounts or file exec through O_MAYEXEC)
-Message-ID: <202005150847.2B1ED8F81@keescook>
-References: <202005131525.D08BFB3@keescook>
- <202005132002.91B8B63@keescook>
- <CAEjxPJ7WjeQAz3XSCtgpYiRtH+Jx-UkSTaEcnVyz_jwXKE3dkw@mail.gmail.com>
- <202005140830.2475344F86@keescook>
- <CAEjxPJ4R_juwvRbKiCg5OGuhAi1ZuVytK4fKCDT_kT6VKc8iRg@mail.gmail.com>
- <b740d658-a2da-5773-7a10-59a0ca52ac6b@digikod.net>
- <202005142343.D580850@keescook>
- <87a729wpu1.fsf@oldenburg2.str.redhat.com>
- <202005150732.17C5EE0@keescook>
- <87r1vluuli.fsf@oldenburg2.str.redhat.com>
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        "Guilherme G . Piccoli" <gpiccoli@canonical.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>
+References: <20200427180433.7029-1-vbabka@suse.cz>
+ <20200427180433.7029-6-vbabka@suse.cz>
+ <20200427183913.GH11244@42.do-not-panic.com>
+ <028d1996-9f4c-20c6-fb2a-706baa919dde@suse.cz>
+ <20200511183155.GT11244@42.do-not-panic.com>
+ <d07e1dc9-cc2d-d471-2882-8ec563878fe7@suse.cz>
+ <20200513131532.GO11244@42.do-not-panic.com>
+ <CAB=NE6WGN=TiXE3PL3sAXa+5q9n8a83-vONMv1c1_HLMqnzPew@mail.gmail.com>
+From:   Vlastimil Babka <vbabka@suse.cz>
+Message-ID: <305af605-1e60-cf84-fada-6ce1ca37c102@suse.cz>
+Date:   Fri, 15 May 2020 18:02:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87r1vluuli.fsf@oldenburg2.str.redhat.com>
+In-Reply-To: <CAB=NE6WGN=TiXE3PL3sAXa+5q9n8a83-vONMv1c1_HLMqnzPew@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, May 15, 2020 at 04:43:37PM +0200, Florian Weimer wrote:
-> * Kees Cook:
+On 5/13/20 3:17 PM, Luis Chamberlain wrote:
+> On Wed, May 13, 2020 at 7:15 AM Luis Chamberlain <mcgrof@kernel.org> wrote:
+>> > >
+>> > > You want to:
+>> > >
+>> > >
+>> > > # Kselftest framework requirement - SKIP code is 4.
+>> > > ksft_skip=4
+>> > >
+>> > >>  sysctl_test_0007()
+>> > >>  {
+>> > >>    TARGET="${SYSCTL}/boot_int"
+>> > >> +  if [ ! -f $TARGET ]; then
+>> > >> +          echo "Skipping test for $TARGET as it is not present ..."
+>> > >> +          return 0
+>> > >> +  fi
+>> > >
+>> > > And return 4 instead.
+>> >
+>> > If I return it from the function, nobody will care, AFAICS. If I 'exit
+>> > $ksft_skip', is that correct if it's just a single test out of 7?
+>>
+>> yes please do that.
 > 
-> > On Fri, May 15, 2020 at 10:43:34AM +0200, Florian Weimer wrote:
-> >> * Kees Cook:
-> >> 
-> >> > Maybe I've missed some earlier discussion that ruled this out, but I
-> >> > couldn't find it: let's just add O_EXEC and be done with it. It actually
-> >> > makes the execve() path more like openat2() and is much cleaner after
-> >> > a little refactoring. Here are the results, though I haven't emailed it
-> >> > yet since I still want to do some more testing:
-> >> > https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/log/?h=kspp/o_exec/v1
-> >> 
-> >> I think POSIX specifies O_EXEC in such a way that it does not confer
-> >> read permissions.  This seems incompatible with what we are trying to
-> >> achieve here.
-> >
-> > I was trying to retain this behavior, since we already make this
-> > distinction between execve() and uselib() with the MAY_* flags:
-> >
-> > execve():
-> >         struct open_flags open_exec_flags = {
-> >                 .open_flag = O_LARGEFILE | O_RDONLY | __FMODE_EXEC,
-> >                 .acc_mode = MAY_EXEC,
-> >
-> > uselib():
-> >         static const struct open_flags uselib_flags = {
-> >                 .open_flag = O_LARGEFILE | O_RDONLY | __FMODE_EXEC,
-> >                 .acc_mode = MAY_READ | MAY_EXEC,
-> >
-> > I tried to retain this in my proposal, in the O_EXEC does not imply
-> > MAY_READ:
-> 
-> That doesn't quite parse for me, sorry.
-> 
-> The point is that the script interpreter actually needs to *read* those
-> files in order to execute them.
+> Ah but once we add test_0008() it may be supported.. so I think return
+> would be OK
 
-I think I misunderstood what you meant (Mickaël got me sorted out
-now). If O_EXEC is already meant to be "EXEC and _not_ READ nor WRITE",
-then yes, this new flag can't be O_EXEC. I was reading the glibc
-documentation (which treats it as a permission bit flag, not POSIX,
-which treats it as a complete mode description).
+OK
 
+----8<----
+From 4311b356f177aaa4e21bd3d2a2169e5bd50ab62d Mon Sep 17 00:00:00 2001
+From: Vlastimil Babka <vbabka@suse.cz>
+Date: Mon, 11 May 2020 12:59:49 +0200
+Subject: [PATCH] lib/test_sysctl: support testing of sysctl. boot parameter -
+ fix
+
+Skip the new test if boot_int sysctl is not present, otherwise, per Luis,
+"This would fail if someone uses this script to test an older kernel, and
+the scripts in selftests are supposed to work with older kernels."
+
+Suggested-by: Luis Chamberlain <mcgrof@kernel.org>
+Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+---
+ tools/testing/selftests/sysctl/sysctl.sh | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/tools/testing/selftests/sysctl/sysctl.sh b/tools/testing/selftests/sysctl/sysctl.sh
+index ef6417b8067b..ab44d3e65986 100755
+--- a/tools/testing/selftests/sysctl/sysctl.sh
++++ b/tools/testing/selftests/sysctl/sysctl.sh
+@@ -756,10 +756,15 @@ sysctl_test_0006()
+ sysctl_test_0007()
+ {
+ 	TARGET="${SYSCTL}/boot_int"
++	if [ ! -f $TARGET ]; then
++		echo "Skipping test for $TARGET as it is not present ..."
++		return $ksft_skip
++	fi
++
+ 	if [ -d $DIR ]; then
+ 		echo "Boot param test only possible sysctl_test is built-in, not module:"
+ 		cat $TEST_DIR/config >&2
+-		return 0
++		return $ksft_skip
+ 	fi
+ 
+ 	echo -n "Testing if $TARGET is set to 1 ..."
+@@ -785,6 +790,7 @@ sysctl_test_0007()
+ 
+ 	echo "Skipping test, expected kernel parameter missing."
+ 	echo "To perform this test, make sure kernel is booted with parameter: sysctl.debug.test_sysctl.boot_int=1"
++	return $ksft_skip
+ }
+ 
+ list_tests()
 -- 
-Kees Cook
+2.26.2
+
+
