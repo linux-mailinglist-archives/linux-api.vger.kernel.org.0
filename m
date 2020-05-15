@@ -2,243 +2,315 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B557C1D5848
-	for <lists+linux-api@lfdr.de>; Fri, 15 May 2020 19:50:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 573231D5892
+	for <lists+linux-api@lfdr.de>; Fri, 15 May 2020 20:02:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726023AbgEORuX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 15 May 2020 13:50:23 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:43935 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726179AbgEORuW (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 15 May 2020 13:50:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1589565019;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=zwQ5ltGt83PqgYhj9uQQrPj4wuimjwIpIpSjO1pjtKQ=;
-        b=B2srkRIA3ZNcxXrxfTrbZNPEnqOyfhPCab0zJWcFEfj2GP3ntSLiVrDxhc+0/bwLosZr/p
-        Ak3kpxW8M1Y+jMFgHLslLr27muUcDLV8L1BzYYQVi4B/aglPYWpMRGUdxAtu3B2sbKYDjB
-        bu4PMb9LqgsskIIFggayyYgolNuM+Xc=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-281-i8nhEa_RP4eoyf3n9YfF6g-1; Fri, 15 May 2020 13:50:18 -0400
-X-MC-Unique: i8nhEa_RP4eoyf3n9YfF6g-1
-Received: by mail-qt1-f197.google.com with SMTP id t57so3298418qte.7
-        for <linux-api@vger.kernel.org>; Fri, 15 May 2020 10:50:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=zwQ5ltGt83PqgYhj9uQQrPj4wuimjwIpIpSjO1pjtKQ=;
-        b=APGLxXIn3HieXNFeWTYjKfaKVC4CeDiDkQaME7TDtKFS46ikaQOLYlY4BHkTKTrjj8
-         sMbJU0o+ciCbJjch75Ms4o0zXz/0c+xW/8euwlg6B92nvKeSEEmd7T1H0sFjTe4bTjDW
-         M8c+5qsOEKkR0y/f31+A0W2W1yUBfWhK3lSTV/HZf7tDNnYZbYLi+PjgV9GR7t9TWqjU
-         X64gkih2Tjx+LyszhLmln17poqsxopXUOFvdHU3Bl0MBYhCCJZTUBK24EBSHa1Fr9Muh
-         Gy11Jrza1qZ75sa6kVEKGhFTsOeaBtiwTrwnH5cPh15iD4iECNnXbun/xitXQpWybqHi
-         lIJw==
-X-Gm-Message-State: AOAM530MFYbZvZNWguywmzHudF4WRnNdLrEJvQwzDMe49Xb8Wss4GgDk
-        ZJriE5981X/irwMDJx1AQOCFaMDy6hHAzIS8X4rMF3UQ+kPf/gEXr2gdDpe5mdsyAEMSlEwWq4K
-        8JDaVYYzniqzLdHDYSzJX
-X-Received: by 2002:ac8:714c:: with SMTP id h12mr4756289qtp.372.1589565017258;
-        Fri, 15 May 2020 10:50:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxt4GvKY1IPSC9+yaLvlKyNwTubxF6olkd9m/7jRcVRlAeG7PlvKpIFSHS1j81tO5BUwDOM8Q==
-X-Received: by 2002:ac8:714c:: with SMTP id h12mr4756264qtp.372.1589565016959;
-        Fri, 15 May 2020 10:50:16 -0700 (PDT)
-Received: from [192.168.1.4] (198-84-170-103.cpe.teksavvy.com. [198.84.170.103])
-        by smtp.gmail.com with ESMTPSA id 88sm2549291qth.9.2020.05.15.10.50.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 May 2020 10:50:16 -0700 (PDT)
-Subject: Re: [PATCH] futex: send SIGBUS if argument is not aligned on a
- four-byte boundary
-To:     Peter Zijlstra <peterz@infradead.org>,
-        Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
-Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Maxim Samoylov <max7255@yandex-team.ru>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-api@vger.kernel.org
-References: <158955700764.647498.18025770126733698386.stgit@buzz>
- <20200515162707.GI2978@hirez.programming.kicks-ass.net>
-From:   Carlos O'Donell <carlos@redhat.com>
-Organization: Red Hat
-Message-ID: <403cc691-4ec5-8b3f-382c-4820736da41d@redhat.com>
-Date:   Fri, 15 May 2020 13:50:14 -0400
+        id S1726144AbgEOSCC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 15 May 2020 14:02:02 -0400
+Received: from mx2.suse.de ([195.135.220.15]:58566 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726170AbgEOSCC (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 15 May 2020 14:02:02 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 44BDFAA7C;
+        Fri, 15 May 2020 18:02:02 +0000 (UTC)
+Subject: Re: [PATCH v4] mm: Proactive compaction
+To:     Nitin Gupta <nigupta@nvidia.com>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Michal Hocko <mhocko@suse.com>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        David Rientjes <rientjes@google.com>,
+        Nitin Gupta <ngupta@nitingupta.dev>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        Linux API <linux-api@vger.kernel.org>
+References: <20200428221055.598-1-nigupta@nvidia.com>
+From:   Vlastimil Babka <vbabka@suse.cz>
+Message-ID: <28993c4d-adc6-b83e-66a6-abb0a753f481@suse.cz>
+Date:   Fri, 15 May 2020 20:01:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200515162707.GI2978@hirez.programming.kicks-ass.net>
+In-Reply-To: <20200428221055.598-1-nigupta@nvidia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 5/15/20 12:27 PM, Peter Zijlstra wrote:
-> On Fri, May 15, 2020 at 06:36:47PM +0300, Konstantin Khlebnikov wrote:
->> Userspace implementations of mutexes (including glibc) in some cases
->> retries operation without checking error code from syscall futex.
->> This is good for performance because most errors are impossible when
->> locking code trusts itself.
-
-In newer versions of glibc, which won't solve this problem for older
-distributions (or newer glibc on older kernels), we've refactored all
-of this code into futex-internal.h and do things like this (example
-from one of the generic internal interfaces for futex use):
-
-149     case -ETIMEDOUT: /* Cannot have happened as we provided no timeout.  */
-150     case -EFAULT: /* Must have been caused by a glibc or application bug.  */
-151     case -EINVAL: /* Either due to wrong alignment or due to the timeout not
-152                      being normalized.  Must have been caused by a glibc or
-153                      application bug.  */
-154     case -ENOSYS: /* Must have been caused by a glibc bug.  */
-155     /* No other errors are documented at this time.  */
-156     default:
-157       futex_fatal_error ();
-158     }
-
-Several of the pthread interfaces are using this code so they won't suffer
-from "stuck EINVAL loops" like below.
-
-We worked with all the interested parties to get `man 2 futex` updated
-with the expected semantics and error return codes.
-
-We don't want to ignore what the kernel is returning and we terminate
-the process without propagating that error upwards for the simple 
-API cases.
-
-Likewise note the "default:" which means if we get new futex error that
-is not documented we also terminate the process.
-
->> Some errors which could came from outer code are handled automatically,
->> for example invalid address triggers SIGSEGV on atomic fast path.
->>
->> But one case turns into nasty busy-loop: when address is unaligned.
->> futex(FUTEX_WAIT) returns EINVAL immediately and loop goes to retry.
->>
->> Example which loops inside second call rather than hung peacefully:
->>
->> #include <stdlib.h>
->> #include <pthread.h>
->>
->> int main(int argc, char **argv)
->> {
->> 	char buf[sizeof(pthread_mutex_t) + 1];
->> 	pthread_mutex_t *mutex = (pthread_mutex_t *)(buf + 1);
->>
->> 	pthread_mutex_init(mutex, NULL);
->> 	pthread_mutex_lock(mutex);
->> 	pthread_mutex_lock(mutex);
->> }
-
-This isn't fixed because this is the older code in pthread_mutex_lock
-which we haven't ported to futex-internal.h yet, otherwise we would abort
-the process.
-
-A quick change to use the newer interface (futex_wait_simple), and the
-example above fails as expected:
-
-./test
-The futex facility returned an unexpected error code.
-Aborted (core dumped)
-
-And it does not loop. I'm open to bikeshed on the existing error message
-(which has been there since 2014 / commit a2f0363f817).
-
-coredumpctl debug loop-futex/test
-
-Core was generated by `./test'.
-Program terminated with signal SIGABRT, Aborted.
-#0  __GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:49
-49	  return ret;
-(gdb) bt
-#0  __GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:49
-#1  0x00007f1cac0d2872 in __GI_abort () at abort.c:79
-#2  0x00007f1cac12a248 in __libc_message (action=action@entry=do_abort, fmt=fmt@entry=0x7f1cac234a57 "%s")
-    at ../sysdeps/posix/libc_fatal.c:155
-#3  0x00007f1cac12a27a in __GI___libc_fatal (
-    message=message@entry=0x7f1cac288000 "The futex facility returned an unexpected error code.\n")
-    at ../sysdeps/posix/libc_fatal.c:164
-#4  0x00007f1cac283fdc in futex_fatal_error () at ../sysdeps/nptl/futex-internal.h:157
-#5  futex_wait (private=<optimized out>, expected=2, futex_word=0x7f1cac283fdc <__lll_lock_wait+92>)
-    at ../sysdeps/nptl/futex-internal.h:157
-#6  futex_wait_simple (private=<optimized out>, expected=2, futex_word=0x7f1cac283fdc <__lll_lock_wait+92>)
-    at ../sysdeps/nptl/futex-internal.h:172
-#7  __lll_lock_wait (futex=futex@entry=0x7ffdb1f0a2c1, private=<optimized out>) at lowlevellock.c:53
-#8  0x00007f1cac27cbf3 in __GI___pthread_mutex_lock (mutex=0x7ffdb1f0a2c1) at ../nptl/pthread_mutex_lock.c:80
-#9  0x000000000040117a in main (argc=1, argv=0x7ffdb1f0a3f8) at test.c:11
-
-So semantically the kernel change makes sense, and will terminate the
-process for glibc today, and matches what the refactored glibc code
-will do in userspace for more of the interfaces in the future.
-
->> It seems there is no practical usage for calling syscall futex for
->> unaligned address. This may be only bug in user space. Let's help
->> and handle this gracefully without adding extra code on fast path.
-
-The only use case I could see is retroactively adding a futex to the
-existing ABI of a structure and wanting to avoid padding. That does
-not seem like a common enough use case that we would want to support.
-To get efficient cache-line usage you'll want to pack things by hand.
-
->> This patch sends SIGBUS signal to slay task and break busy-loop.
->>
->> Signed-off-by: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
->> Reported-by: Maxim Samoylov <max7255@yandex-team.ru>
+On 4/29/20 12:10 AM, Nitin Gupta wrote:
+> For some applications, we need to allocate almost all memory as
+> hugepages. However, on a running system, higher-order allocations can
+> fail if the memory is fragmented. Linux kernel currently does on-demand
+> compaction as we request more hugepages, but this style of compaction
+> incurs very high latency. Experiments with one-time full memory
+> compaction (followed by hugepage allocations) show that kernel is able
+> to restore a highly fragmented memory state to a fairly compacted memory
+> state within <1 sec for a 32G system. Such data suggests that a more
+> proactive compaction can help us allocate a large fraction of memory as
+> hugepages keeping allocation latencies low.
 > 
-> Seems like a sensible idea to me.
-
-Please do try to update the linux kernel man pages update to note
-the change in behaviour and the version and commit of the released
-kernel where this changed.
-
-Please keep `man 2 futex` as accurate as possible for userspace
-libc implementations.
-
-Thanks.
- 
-> Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+> For a more proactive compaction, the approach taken here is to define
+> a new tunable called 'proactiveness' which dictates bounds for external
+> fragmentation wrt HUGETLB_PAGE_ORDER order which kcompactd tries to
+> maintain.
 > 
->> ---
->>  kernel/futex.c |   13 ++++++++++++-
->>  1 file changed, 12 insertions(+), 1 deletion(-)
->>
->> diff --git a/kernel/futex.c b/kernel/futex.c
->> index b59532862bc0..8a6d35fa56bc 100644
->> --- a/kernel/futex.c
->> +++ b/kernel/futex.c
->> @@ -508,10 +508,21 @@ get_futex_key(u32 __user *uaddr, int fshared, union futex_key *key, enum futex_a
->>  
->>  	/*
->>  	 * The futex address must be "naturally" aligned.
->> +	 * Also send signal to break busy-loop if user-space ignore error.
->> +	 * EFAULT case should trigger SIGSEGV at access from user-space.
->>  	 */
->>  	key->both.offset = address % PAGE_SIZE;
->> -	if (unlikely((address % sizeof(u32)) != 0))
->> +	if (unlikely((address % sizeof(u32)) != 0)) {
->> +		struct kernel_siginfo info;
->> +
->> +		clear_siginfo(&info);
->> +		info.si_signo = SIGBUS;
->> +		info.si_code  = BUS_ADRALN;
->> +		info.si_addr  = uaddr;
->> +		force_sig_info(&info);
->> +
->>  		return -EINVAL;
->> +	}
->>  	address -= key->both.offset;
->>  
->>  	if (unlikely(!access_ok(uaddr, sizeof(u32))))
->>
+> The tunable is exposed through sysfs:
+>   /sys/kernel/mm/compaction/proactiveness
+
+I would prefer sysctl. Why?
+
+During the mm evolution we seem to have end up with stuff scattered over several
+places:
+
+/proc/sys aka sysctl:
+/proc/sys/vm/compact_unevictable_allowed
+/proc/sys/vm/compact_memory - write-only one-time action trigger!
+
+/sys/kernel/mm:
+e.g. /sys/kernel/mm/transparent_hugepage/
+
+This is unfortunate enough, and (influenced by my recent dive into sysctl
+perhaps :), I would have preferred sysctl only. In this case it's consistent
+that we have sysctls for compaction already, while this introduces a whole new
+compaction directory in the /sys/kernel/mm/ space.
+
+> It takes value in range [0, 100], with a default of 20.
 > 
+> Note that a previous version of this patch [1] was found to introduce too
+> many tunables (per-order extfrag{low, high}), but this one reduces them
+> to just one (proactiveness). Also, the new tunable is an opaque value
+> instead of asking for specific bounds of "external fragmentation", which
+> would have been difficult to estimate. The internal interpretation of
+> this opaque value allows for future fine-tuning.
+> 
+> Currently, we use a simple translation from this tunable to [low, high]
+> "fragmentation score" thresholds (low=100-proactiveness, high=low+10%).
+> The score for a node is defined as weighted mean of per-zone external
+> fragmentation wrt HUGETLB_PAGE_ORDER order. A zone's present_pages
+> determines its weight.
+> 
+> To periodically check per-node score, we reuse per-node kcompactd
+> threads, which are woken up every 500 milliseconds to check the same. If
+> a node's score exceeds its high threshold (as derived from user-provided
+> proactiveness value), proactive compaction is started until its score
+> reaches its low threshold value. By default, proactiveness is set to 20,
+> which implies threshold values of low=80 and high=90.
+> 
+> This patch is largely based on ideas from Michal Hocko posted here:
+> https://lore.kernel.org/linux-mm/20161230131412.GI13301@dhcp22.suse.cz/
+> 
+> Performance data
+> ================
+> 
+> System: x64_64, 1T RAM, 80 CPU threads.
+> Kernel: 5.6.0-rc3 + this patch
+> 
+> echo madvise | sudo tee /sys/kernel/mm/transparent_hugepage/enabled
+> echo madvise | sudo tee /sys/kernel/mm/transparent_hugepage/defrag
+> 
+> Before starting the driver, the system was fragmented from a userspace
+> program that allocates all memory and then for each 2M aligned section,
+> frees 3/4 of base pages using munmap. The workload is mainly anonymous
+> userspace pages, which are easy to move around. I intentionally avoided
+> unmovable pages in this test to see how much latency we incur when
+> hugepage allocations hit direct compaction.
+> 
+> 1. Kernel hugepage allocation latencies
+> 
+> With the system in such a fragmented state, a kernel driver then allocates
+> as many hugepages as possible and measures allocation latency:
+> 
+> (all latency values are in microseconds)
+> 
+> - With vanilla 5.6.0-rc3
+> 
+> echo 0 | sudo tee /sys/kernel/mm/compaction/node-*/proactiveness
+> 
+>   percentile latency
+>   –––––––––– –––––––
+> 	   5    7894
+> 	  10    9496
+> 	  25   12561
+> 	  30   15295
+> 	  40   18244
+> 	  50   21229
+> 	  60   27556
+> 	  75   30147
+> 	  80   31047
+> 	  90   32859
+> 	  95   33799
+> 
+> Total 2M hugepages allocated = 383859 (749G worth of hugepages out of
+> 762G total free => 98% of free memory could be allocated as hugepages)
+> 
+> - With 5.6.0-rc3 + this patch, with proactiveness=20
+> 
+> echo 20 | sudo tee /sys/kernel/mm/compaction/node-*/proactiveness
+> 
+>   percentile latency
+>   –––––––––– –––––––
+> 	   5       2
+> 	  10       2
+> 	  25       3
+> 	  30       3
+> 	  40       3
+> 	  50       4
+> 	  60       4
+> 	  75       4
+> 	  80       4
+> 	  90       5
+> 	  95     429
+> 
+> Total 2M hugepages allocated = 384105 (750G worth of hugepages out of
+> 762G total free => 98% of free memory could be allocated as hugepages)
+> 
+> 2. JAVA heap allocation
+> 
+> In this test, we first fragment memory using the same method as for (1).
+> 
+> Then, we start a Java process with a heap size set to 700G and request
+> the heap to be allocated with THP hugepages. We also set THP to madvise
+> to allow hugepage backing of this heap.
+> 
+> /usr/bin/time
+>  java -Xms700G -Xmx700G -XX:+UseTransparentHugePages -XX:+AlwaysPreTouch
+> 
+> The above command allocates 700G of Java heap using hugepages.
+> 
+> - With vanilla 5.6.0-rc3
+> 
+> 17.39user 1666.48system 27:37.89elapsed
+> 
+> - With 5.6.0-rc3 + this patch, with proactiveness=20
+> 
+> 8.35user 194.58system 3:19.62elapsed
 
--- 
-Cheers,
-Carlos.
+I still wonder how the single additional CPU during compaction resulted in such
+an improvement. Isn't this against the Amdahl's law? :)
 
+> Elapsed time remains around 3:15, as proactiveness is further increased.
+> 
+> Note that proactive compaction happens throughout the runtime of these
+> workloads. The situation of one-time compaction, sufficient to supply
+> hugepages for following allocation stream, can probably happen for more
+> extreme proactiveness values, like 80 or 90.
+> 
+> In the above Java workload, proactiveness is set to 20. The test starts
+> with a node's score of 80 or higher, depending on the delay between the
+> fragmentation step and starting the benchmark, which gives more-or-less
+> time for the initial round of compaction. As the benchmark consumes
+> hugepages, node's score quickly rises above the high threshold (90) and
+> proactive compaction starts again, which brings down the score to the
+> low threshold level (80).  Repeat.
+> 
+> bpftrace also confirms proactive compaction running 20+ times during the
+> runtime of this Java benchmark. kcompactd threads consume 100% of one of
+> the CPUs while it tries to bring a node's score within thresholds.
+> 
+> Backoff behavior
+> ================
+> 
+> Above workloads produce a memory state which is easy to compact.
+> However, if memory is filled with unmovable pages, proactive compaction
+> should essentially back off. To test this aspect:
+> 
+> - Created a kernel driver that allocates almost all memory as hugepages
+>   followed by freeing first 3/4 of each hugepage.
+> - Set proactiveness=40
+> - Note that proactive_compact_node() is deferred maximum number of times
+>   with HPAGE_FRAG_CHECK_INTERVAL_MSEC of wait between each check
+>   (=> ~30 seconds between retries).
+> 
+> [1] https://patchwork.kernel.org/patch/11098289/
+> 
+> Signed-off-by: Nitin Gupta <nigupta@nvidia.com>
+> To: Mel Gorman <mgorman@techsingularity.net>
+
+I hope Mel can also comment on this, but in general I agree.
+
+...
+
+> +
+> +/*
+> + * A zone's fragmentation score is the external fragmentation wrt to the
+> + * HUGETLB_PAGE_ORDER scaled by the zone's size. It returns a value in the
+> + * range [0, 100].
+> +
+> + * The scaling factor ensures that proactive compaction focuses on larger
+> + * zones like ZONE_NORMAL, rather than smaller, specialized zones like
+> + * ZONE_DMA32. For smaller zones, the score value remains close to zero,
+> + * and thus never exceeds the high threshold for proactive compaction.
+> + */
+> +static int fragmentation_score_zone(struct zone *zone)
+> +{
+> +	unsigned long score;
+> +
+> +	score = zone->present_pages *
+> +			extfrag_for_order(zone, HUGETLB_PAGE_ORDER);
+
+HPAGE_PMD_ORDER would be a better match than HUGETLB_PAGE_ORDER, even if it
+might be the same number. hugetlb pages are pre-reserved, unlike THP.
+
+> +	score = div64_ul(score,
+> +			node_present_pages(zone->zone_pgdat->node_id) + 1);
+
+zone->zone_pgdat->node_present_pages is more direct
+
+> +	return score;
+> +}
+> +
+> +/*
+
+> @@ -2309,6 +2411,7 @@ static enum compact_result compact_zone_order(struct zone *zone, int order,
+>  		.alloc_flags = alloc_flags,
+>  		.classzone_idx = classzone_idx,
+>  		.direct_compaction = true,
+> +		.proactive_compaction = false,
+
+false, 0, NULL etc are implicitly initialized with this kind of initialization
+(also in other places of the patch)
+
+>  		.whole_zone = (prio == MIN_COMPACT_PRIORITY),
+>  		.ignore_skip_hint = (prio == MIN_COMPACT_PRIORITY),
+>  		.ignore_block_suitable = (prio == MIN_COMPACT_PRIORITY)
+> @@ -2412,6 +2515,42 @@ enum compact_result try_to_compact_pages(gfp_t gfp_mask, unsigned int order,
+>  	return rc;
+>  }
+>  
+
+> @@ -2500,6 +2640,63 @@ void compaction_unregister_node(struct node *node)
+>  }
+>  #endif /* CONFIG_SYSFS && CONFIG_NUMA */
+>  
+> +#ifdef CONFIG_SYSFS
+> +
+> +#define COMPACTION_ATTR_RO(_name) \
+> +	static struct kobj_attribute _name##_attr = __ATTR_RO(_name)
+> +
+> +#define COMPACTION_ATTR(_name) \
+> +	static struct kobj_attribute _name##_attr = \
+> +		__ATTR(_name, 0644, _name##_show, _name##_store)
+> +
+> +static struct kobject *compaction_kobj;
+> +
+> +static ssize_t proactiveness_store(struct kobject *kobj,
+> +		struct kobj_attribute *attr, const char *buf, size_t count)
+> +{
+> +	int err;
+> +	unsigned long input;
+> +
+> +	err = kstrtoul(buf, 10, &input);
+> +	if (err)
+> +		return err;
+> +	if (input > 100)
+> +		return -EINVAL;
+
+The sysctl way also allows to specify min/max in the descriptor and use the
+generic handler
