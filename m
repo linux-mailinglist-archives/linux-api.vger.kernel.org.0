@@ -2,138 +2,129 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DDED1D5572
-	for <lists+linux-api@lfdr.de>; Fri, 15 May 2020 18:02:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A4471D5601
+	for <lists+linux-api@lfdr.de>; Fri, 15 May 2020 18:27:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726246AbgEOQCV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 15 May 2020 12:02:21 -0400
-Received: from mx2.suse.de ([195.135.220.15]:58892 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726188AbgEOQCV (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 15 May 2020 12:02:21 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 37AFCABC2;
-        Fri, 15 May 2020 16:02:21 +0000 (UTC)
-Subject: Re: [PATCH v3 5/5] lib/test_sysctl: support testing of sysctl. boot
- parameter
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        "Guilherme G . Piccoli" <gpiccoli@canonical.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>
-References: <20200427180433.7029-1-vbabka@suse.cz>
- <20200427180433.7029-6-vbabka@suse.cz>
- <20200427183913.GH11244@42.do-not-panic.com>
- <028d1996-9f4c-20c6-fb2a-706baa919dde@suse.cz>
- <20200511183155.GT11244@42.do-not-panic.com>
- <d07e1dc9-cc2d-d471-2882-8ec563878fe7@suse.cz>
- <20200513131532.GO11244@42.do-not-panic.com>
- <CAB=NE6WGN=TiXE3PL3sAXa+5q9n8a83-vONMv1c1_HLMqnzPew@mail.gmail.com>
-From:   Vlastimil Babka <vbabka@suse.cz>
-Message-ID: <305af605-1e60-cf84-fada-6ce1ca37c102@suse.cz>
-Date:   Fri, 15 May 2020 18:02:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1726170AbgEOQ1b (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 15 May 2020 12:27:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53370 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726023AbgEOQ1a (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 15 May 2020 12:27:30 -0400
+Received: from merlin.infradead.org (unknown [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B00E9C061A0C;
+        Fri, 15 May 2020 09:27:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=aC9hyHleLo4vDUxT+Z5QeopjJNtSZOJdlvX7fJFebgc=; b=SDisOMoxxYtKbAHobnvGTQfe18
+        I/euPce16QW5/Fu9jH2GrcWgGP2Tsuj1+B8LmQI1QTJstm2MhikZVoiYzczeTXpNFFno4u5Z2Abzy
+        Jw51BzW/byw1yl+BIMGwsNRrUcqasuMn0voH8dv8JUFzG4IPgbZTk1O5GdaGnCZnYAdYAMSXyN7IP
+        ikGqCsWmykoL9di/7l9bcWU7dBtprsxn3DxE0oxOYk37908e6P41JMwhuiZ6OEVNQsa2TluMHyzUU
+        BFmAH7Kii0egxM/0i3grgMOMXHV0N78i4olzuoW9Q2dfPivXstNsEPVxdLb8Nw1nloQlQku59jkHw
+        XVfxdwqA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jZdAz-0006bN-58; Fri, 15 May 2020 16:27:09 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id BBF17301A42;
+        Fri, 15 May 2020 18:27:07 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id A420020097509; Fri, 15 May 2020 18:27:07 +0200 (CEST)
+Date:   Fri, 15 May 2020 18:27:07 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
+Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Maxim Samoylov <max7255@yandex-team.ru>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH] futex: send SIGBUS if argument is not aligned on a
+ four-byte boundary
+Message-ID: <20200515162707.GI2978@hirez.programming.kicks-ass.net>
+References: <158955700764.647498.18025770126733698386.stgit@buzz>
 MIME-Version: 1.0
-In-Reply-To: <CAB=NE6WGN=TiXE3PL3sAXa+5q9n8a83-vONMv1c1_HLMqnzPew@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <158955700764.647498.18025770126733698386.stgit@buzz>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 5/13/20 3:17 PM, Luis Chamberlain wrote:
-> On Wed, May 13, 2020 at 7:15 AM Luis Chamberlain <mcgrof@kernel.org> wrote:
->> > >
->> > > You want to:
->> > >
->> > >
->> > > # Kselftest framework requirement - SKIP code is 4.
->> > > ksft_skip=4
->> > >
->> > >>  sysctl_test_0007()
->> > >>  {
->> > >>    TARGET="${SYSCTL}/boot_int"
->> > >> +  if [ ! -f $TARGET ]; then
->> > >> +          echo "Skipping test for $TARGET as it is not present ..."
->> > >> +          return 0
->> > >> +  fi
->> > >
->> > > And return 4 instead.
->> >
->> > If I return it from the function, nobody will care, AFAICS. If I 'exit
->> > $ksft_skip', is that correct if it's just a single test out of 7?
->>
->> yes please do that.
+On Fri, May 15, 2020 at 06:36:47PM +0300, Konstantin Khlebnikov wrote:
+> Userspace implementations of mutexes (including glibc) in some cases
+> retries operation without checking error code from syscall futex.
+> This is good for performance because most errors are impossible when
+> locking code trusts itself.
 > 
-> Ah but once we add test_0008() it may be supported.. so I think return
-> would be OK
+> Some errors which could came from outer code are handled automatically,
+> for example invalid address triggers SIGSEGV on atomic fast path.
+> 
+> But one case turns into nasty busy-loop: when address is unaligned.
+> futex(FUTEX_WAIT) returns EINVAL immediately and loop goes to retry.
+> 
+> Example which loops inside second call rather than hung peacefully:
+> 
+> #include <stdlib.h>
+> #include <pthread.h>
+> 
+> int main(int argc, char **argv)
+> {
+> 	char buf[sizeof(pthread_mutex_t) + 1];
+> 	pthread_mutex_t *mutex = (pthread_mutex_t *)(buf + 1);
+> 
+> 	pthread_mutex_init(mutex, NULL);
+> 	pthread_mutex_lock(mutex);
+> 	pthread_mutex_lock(mutex);
+> }
+> 
+> It seems there is no practical usage for calling syscall futex for
+> unaligned address. This may be only bug in user space. Let's help
+> and handle this gracefully without adding extra code on fast path.
+> 
+> This patch sends SIGBUS signal to slay task and break busy-loop.
+> 
+> Signed-off-by: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
+> Reported-by: Maxim Samoylov <max7255@yandex-team.ru>
 
-OK
+Seems like a sensible idea to me.
 
-----8<----
-From 4311b356f177aaa4e21bd3d2a2169e5bd50ab62d Mon Sep 17 00:00:00 2001
-From: Vlastimil Babka <vbabka@suse.cz>
-Date: Mon, 11 May 2020 12:59:49 +0200
-Subject: [PATCH] lib/test_sysctl: support testing of sysctl. boot parameter -
- fix
+Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 
-Skip the new test if boot_int sysctl is not present, otherwise, per Luis,
-"This would fail if someone uses this script to test an older kernel, and
-the scripts in selftests are supposed to work with older kernels."
-
-Suggested-by: Luis Chamberlain <mcgrof@kernel.org>
-Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
----
- tools/testing/selftests/sysctl/sysctl.sh | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/tools/testing/selftests/sysctl/sysctl.sh b/tools/testing/selftests/sysctl/sysctl.sh
-index ef6417b8067b..ab44d3e65986 100755
---- a/tools/testing/selftests/sysctl/sysctl.sh
-+++ b/tools/testing/selftests/sysctl/sysctl.sh
-@@ -756,10 +756,15 @@ sysctl_test_0006()
- sysctl_test_0007()
- {
- 	TARGET="${SYSCTL}/boot_int"
-+	if [ ! -f $TARGET ]; then
-+		echo "Skipping test for $TARGET as it is not present ..."
-+		return $ksft_skip
-+	fi
-+
- 	if [ -d $DIR ]; then
- 		echo "Boot param test only possible sysctl_test is built-in, not module:"
- 		cat $TEST_DIR/config >&2
--		return 0
-+		return $ksft_skip
- 	fi
- 
- 	echo -n "Testing if $TARGET is set to 1 ..."
-@@ -785,6 +790,7 @@ sysctl_test_0007()
- 
- 	echo "Skipping test, expected kernel parameter missing."
- 	echo "To perform this test, make sure kernel is booted with parameter: sysctl.debug.test_sysctl.boot_int=1"
-+	return $ksft_skip
- }
- 
- list_tests()
--- 
-2.26.2
-
-
+> ---
+>  kernel/futex.c |   13 ++++++++++++-
+>  1 file changed, 12 insertions(+), 1 deletion(-)
+> 
+> diff --git a/kernel/futex.c b/kernel/futex.c
+> index b59532862bc0..8a6d35fa56bc 100644
+> --- a/kernel/futex.c
+> +++ b/kernel/futex.c
+> @@ -508,10 +508,21 @@ get_futex_key(u32 __user *uaddr, int fshared, union futex_key *key, enum futex_a
+>  
+>  	/*
+>  	 * The futex address must be "naturally" aligned.
+> +	 * Also send signal to break busy-loop if user-space ignore error.
+> +	 * EFAULT case should trigger SIGSEGV at access from user-space.
+>  	 */
+>  	key->both.offset = address % PAGE_SIZE;
+> -	if (unlikely((address % sizeof(u32)) != 0))
+> +	if (unlikely((address % sizeof(u32)) != 0)) {
+> +		struct kernel_siginfo info;
+> +
+> +		clear_siginfo(&info);
+> +		info.si_signo = SIGBUS;
+> +		info.si_code  = BUS_ADRALN;
+> +		info.si_addr  = uaddr;
+> +		force_sig_info(&info);
+> +
+>  		return -EINVAL;
+> +	}
+>  	address -= key->both.offset;
+>  
+>  	if (unlikely(!access_ok(uaddr, sizeof(u32))))
+> 
