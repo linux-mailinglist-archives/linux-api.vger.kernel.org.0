@@ -2,53 +2,54 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 208EF1D5508
-	for <lists+linux-api@lfdr.de>; Fri, 15 May 2020 17:47:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BAFA1D5519
+	for <lists+linux-api@lfdr.de>; Fri, 15 May 2020 17:50:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726610AbgEOPrC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 15 May 2020 11:47:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46600 "EHLO
+        id S1726614AbgEOPuW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 15 May 2020 11:50:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726254AbgEOPrB (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 15 May 2020 11:47:01 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F0C5C05BD0B
-        for <linux-api@vger.kernel.org>; Fri, 15 May 2020 08:47:01 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id a4so1133787pgc.0
-        for <linux-api@vger.kernel.org>; Fri, 15 May 2020 08:47:01 -0700 (PDT)
+        by vger.kernel.org with ESMTP id S1726304AbgEOPuU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 15 May 2020 11:50:20 -0400
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8E2AC05BD0A
+        for <linux-api@vger.kernel.org>; Fri, 15 May 2020 08:50:18 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id u10so1022642pls.8
+        for <linux-api@vger.kernel.org>; Fri, 15 May 2020 08:50:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=Tp1yJFYJhgIbfd5lJGD8jRi3pZ2NypuWNlZpcocDHT8=;
-        b=EmpMZVAX1wx85vkyBc5/P+fYj2mwnLAsTm/P4yiv2KtxbvHfmZAwhR+zjtV1EBhN2X
-         BReu4CY5qEYsHFiewS4+kAzWLVXb73otKnet+n4x7VjkZgTqLwE+vnM+jnEi+nk1c7ty
-         vSY1B2yu2bdPwD71vBpulqYgYRqhkd1jMHSj0=
+        bh=maNQlt0vCXUutQdGjL8vBhpeTRE+KVofJhs1eAnXh6g=;
+        b=XbNk7MuQ57Rts4Z0qNTKjgNqv1OpA6t+Nc11jH0CcE5DjXS7oVuq2I56+d2MDC75jJ
+         nDjDvlSzADQw/PQCIl8/DxXmgfrveGmE6Hw9eY461U1BxfLAfoewmC1zHAQ7NjHaBVwq
+         48yzco9HijnVPOEH6uI2cCSke9LuzsUIGaAQQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=Tp1yJFYJhgIbfd5lJGD8jRi3pZ2NypuWNlZpcocDHT8=;
-        b=ALaUi8UgK+vMyVLUUSYrbIO/PrSSUbKMrxnG4DCJwB7ZLb5oC5Fsza8pJP5vNeInJW
-         SOYpKM2VwGD/S13aWlsKCsUCSGwMP/zCxaQa5MY7oy1Z6EiaeJJf5Eyzhx+MCXH18a0t
-         7P8Mw6n6PSNY7TWzQz4eGU4fPR4r4yrJZ2RYLpgd5/MJgZl0wYk7By3iLiXEs3r6H/40
-         sYjYXwBP6ZJLZmOxGLDB4bm9hVL38aSXM6iHBBUrY/COoN12wfN32CKaGcQ+XoNv2ZkD
-         h9rogk575Yhk2BsSHJMT+iKADirpJOmts60lX4C5gfKp5OhPqbAmpUqI7k3zzhMXlOwx
-         c/ZA==
-X-Gm-Message-State: AOAM532Xr8ec/slzBqh90O/yuGyVS9W3cVtOmhDSVpCzvOku3U6c1TWn
-        JQ3rnZEMnKJ8o4G1um49+f/bmQ==
-X-Google-Smtp-Source: ABdhPJxCxRIctKkG0jiZ7deyGgcCZJ1ccBYUj9+mcaG6GziW+a6F3XU/NV7eHM88WzhDbWN5XVC/mA==
-X-Received: by 2002:aa7:8603:: with SMTP id p3mr3963913pfn.116.1589557620660;
-        Fri, 15 May 2020 08:47:00 -0700 (PDT)
+        bh=maNQlt0vCXUutQdGjL8vBhpeTRE+KVofJhs1eAnXh6g=;
+        b=Z9S4b4aNV+t6eiLj3/tIIUQkw3WNyCttVQcFosI5cucOx9zJ10RsOZD89BwRWWU7Xn
+         jagDUaMeLHipk0QRSlf0R0pAp5mnh5Xc8r0FE0OpE9Ey44dTlo7/HmNkguEXuegDhojc
+         eP1HTKionpbOsxu1ug2gcXdxfwL2x+2CXhFL18eStuPVJSsf1m8GLxCwnUKTW+p0d+ko
+         Lt0r7GcQ56Uz3nK4m9j0tsqhw2akUYhE/EDxvJMF9xWJ0huHjW2bsZHtuQJSRqvByvy7
+         QyDNQ59iWuSCNfxWbTCgmJUX3PledVmVDT11Ksf0VPuVAgVq6ve/IrqfgATclUz9vv6a
+         itJQ==
+X-Gm-Message-State: AOAM532IYBR2liIfaCtRUhRXLrNEolMGCS2Zjc8Ulb19qOrlIVvZmygz
+        kOB0C2VAWYJgVtBIUmS0cuu25Q==
+X-Google-Smtp-Source: ABdhPJzV9V5xkT+PRgcjtkcfzF74hfXgdSbJTDs6Pij7aSIOh0B9fva/6CPrsQhWRfBllA/W9iJm5Q==
+X-Received: by 2002:a17:90a:5584:: with SMTP id c4mr459126pji.51.1589557818127;
+        Fri, 15 May 2020 08:50:18 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id i9sm2261604pfk.199.2020.05.15.08.46.59
+        by smtp.gmail.com with ESMTPSA id b24sm2247218pfi.4.2020.05.15.08.50.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2020 08:46:59 -0700 (PDT)
-Date:   Fri, 15 May 2020 08:46:57 -0700
+        Fri, 15 May 2020 08:50:17 -0700 (PDT)
+Date:   Fri, 15 May 2020 08:50:16 -0700
 From:   Kees Cook <keescook@chromium.org>
-To:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
         Aleksa Sarai <cyphar@cyphar.com>,
         Andy Lutomirski <luto@kernel.org>,
         Mimi Zohar <zohar@linux.ibm.com>,
@@ -62,7 +63,6 @@ Cc:     Al Viro <viro@zeniv.linux.org.uk>,
         Alexei Starovoitov <ast@kernel.org>,
         Daniel Borkmann <daniel@iogearbox.net>,
         Eric Chiang <ericchiang@google.com>,
-        Florian Weimer <fweimer@redhat.com>,
         James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
         Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
         Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
@@ -83,160 +83,73 @@ Cc:     Al Viro <viro@zeniv.linux.org.uk>,
         kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
         linux-integrity@vger.kernel.org,
         LSM List <linux-security-module@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Rich Felker <dalias@aerifal.cx>
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>
 Subject: Re: How about just O_EXEC? (was Re: [PATCH v5 3/6] fs: Enable to
  enforce noexec mounts or file exec through O_MAYEXEC)
-Message-ID: <202005150740.F0154DEC@keescook>
-References: <20200505153156.925111-4-mic@digikod.net>
- <CAEjxPJ7y2G5hW0WTH0rSrDZrorzcJ7nrQBjfps2OWV5t1BUYHw@mail.gmail.com>
- <202005131525.D08BFB3@keescook>
+Message-ID: <202005150847.2B1ED8F81@keescook>
+References: <202005131525.D08BFB3@keescook>
  <202005132002.91B8B63@keescook>
  <CAEjxPJ7WjeQAz3XSCtgpYiRtH+Jx-UkSTaEcnVyz_jwXKE3dkw@mail.gmail.com>
  <202005140830.2475344F86@keescook>
  <CAEjxPJ4R_juwvRbKiCg5OGuhAi1ZuVytK4fKCDT_kT6VKc8iRg@mail.gmail.com>
  <b740d658-a2da-5773-7a10-59a0ca52ac6b@digikod.net>
  <202005142343.D580850@keescook>
- <1e2f6913-42f2-3578-28ed-567f6a4bdda1@digikod.net>
+ <87a729wpu1.fsf@oldenburg2.str.redhat.com>
+ <202005150732.17C5EE0@keescook>
+ <87r1vluuli.fsf@oldenburg2.str.redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1e2f6913-42f2-3578-28ed-567f6a4bdda1@digikod.net>
+In-Reply-To: <87r1vluuli.fsf@oldenburg2.str.redhat.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, May 15, 2020 at 01:04:08PM +0200, Mickaël Salaün wrote:
+On Fri, May 15, 2020 at 04:43:37PM +0200, Florian Weimer wrote:
+> * Kees Cook:
 > 
-> On 15/05/2020 10:01, Kees Cook wrote:
-> > On Thu, May 14, 2020 at 09:16:13PM +0200, Mickaël Salaün wrote:
-> >> On 14/05/2020 18:10, Stephen Smalley wrote:
-> >>> On Thu, May 14, 2020 at 11:45 AM Kees Cook <keescook@chromium.org> wrote:
-> >>>> So, it looks like adding FMODE_EXEC into f_flags in do_open() is needed in
-> >>>> addition to injecting MAY_EXEC into acc_mode in do_open()? Hmmm
-> >>>
-> >>> Just do both in build_open_flags() and be done with it? Looks like he
-> >>> was already setting FMODE_EXEC in patch 1 so we just need to teach
-> >>> AppArmor/TOMOYO to check for it and perform file execute checking in
-> >>> that case if !current->in_execve?
-> >>
-> >> I can postpone the file permission check for another series to make this
-> >> one simpler (i.e. mount noexec only). Because it depends on the sysctl
-> >> setting, it is OK to add this check later, if needed. In the meantime,
-> >> AppArmor and Tomoyo could be getting ready for this.
-> > 
-> > So, after playing around with this series, investigating Stephen's
-> > comments, digging through the existing FMODE_EXEC uses, and spending a
-> > bit more time thinking about Lev and Aleksa's dislike of the sysctls, I've
-> > got a much more radically simplified solution that I think could work.
+> > On Fri, May 15, 2020 at 10:43:34AM +0200, Florian Weimer wrote:
+> >> * Kees Cook:
+> >> 
+> >> > Maybe I've missed some earlier discussion that ruled this out, but I
+> >> > couldn't find it: let's just add O_EXEC and be done with it. It actually
+> >> > makes the execve() path more like openat2() and is much cleaner after
+> >> > a little refactoring. Here are the results, though I haven't emailed it
+> >> > yet since I still want to do some more testing:
+> >> > https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/log/?h=kspp/o_exec/v1
+> >> 
+> >> I think POSIX specifies O_EXEC in such a way that it does not confer
+> >> read permissions.  This seems incompatible with what we are trying to
+> >> achieve here.
+> >
+> > I was trying to retain this behavior, since we already make this
+> > distinction between execve() and uselib() with the MAY_* flags:
+> >
+> > execve():
+> >         struct open_flags open_exec_flags = {
+> >                 .open_flag = O_LARGEFILE | O_RDONLY | __FMODE_EXEC,
+> >                 .acc_mode = MAY_EXEC,
+> >
+> > uselib():
+> >         static const struct open_flags uselib_flags = {
+> >                 .open_flag = O_LARGEFILE | O_RDONLY | __FMODE_EXEC,
+> >                 .acc_mode = MAY_READ | MAY_EXEC,
+> >
+> > I tried to retain this in my proposal, in the O_EXEC does not imply
+> > MAY_READ:
 > 
-> Not having a sysctl would mean that distros will probably have to patch
-> script interpreters to remove the use of O_MAYEXEC. Or distros would
-> have to exclude newer version of script interpreters because they
-> implement O_MAYEXEC. Or distros would have to patch their kernel to
-> implement themselves the sysctl knob I'm already providing. Sysadmins
-> may not control the kernel build nor the user space build, they control
-> the system configuration (some mount point options and some file
-> execution permissions) but I guess that a distro update breaking a
-> running system is not acceptable. Either way, unfortunately, I think it
-> doesn't help anyone to not have a controlling sysctl. The same apply for
-> access-control LSMs relying on a security policy which can be defined by
-> sysadmins.
+> That doesn't quite parse for me, sorry.
 > 
-> Your commits enforce file exec checks, which is a good thing from a
-> security point of view, but unfortunately that would requires distros to
-> update all the packages providing shared objects once the dynamic linker
-> uses O_MAYEXEC.
+> The point is that the script interpreter actually needs to *read* those
+> files in order to execute them.
 
-I used to agree with this, but I'm now convinced now that the sysctls are
-redundant and will ultimately impede adoption. In looking at what levels
-the existing (CLIP OS, Chrome OS) and future (PEP 578) implementations
-have needed to do to meaningfully provide the protection, it seems
-like software will not be using this flag out of the blue. It'll need
-careful addition way beyond the scope of just a sysctl. (As in, I don't
-think using O_MAYEXEC is going to just get added without thought to all
-interpreters. And developers that DO add it will want to know that the
-system will behave in the specified way: having it be off by default
-will defeat the purpose of adding the flag for the end users.)
-
-I think it boils down to deciding how to control enforcement: should it
-be up to the individual piece of software, or should it be system-wide?
-Looking at the patches Chrome OS has made to the shell (and the
-accompanying system changes), and Python's overall plans, it seems to
-me that the requirements for meaningfully using this flag is going to
-be very software-specific.
-
-Now, if the goal is to try to get O_MAYEXEC into every interpreter as
-widely as possible without needing to wait for the software-specific
-design changes, then I can see the reason to want a default-off global
-sysctl. (Though in that case, I suspect it needs to be tied to userns or
-something to support containers with different enforcement levels.)
-
-> > Maybe I've missed some earlier discussion that ruled this out, but I
-> > couldn't find it: let's just add O_EXEC and be done with it. It actually
-> > makes the execve() path more like openat2() and is much cleaner after
-> > a little refactoring. Here are the results, though I haven't emailed it
-> > yet since I still want to do some more testing:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/log/?h=kspp/o_exec/v1
-> > 
-> > I look forward to flames! ;)
-> > 
-> 
-> Like Florian said, O_EXEC is for execute-only (which obviously doesn't
-> work for scripts):
-> https://pubs.opengroup.org/onlinepubs/9699919799/functions/open.html
-> On the other hand, the semantic of O_MAYEXEC is complementary to other
-> O_* flags. It is inspired by the VM_MAYEXEC flag.
-
-Ah! I see now -- it's intended to be like the O_*ONLY flags. I
-misunderstood what Florian meant. Okay, sure that's a good enough reason
-for me to retain the O_MAYEXEC name. (And then I think this distinction
-from O_EXEC needs to be well documented.)
-
-> The O_EXEC flag is specified for open(2). openat2(2) is Linux-specific
-> and it is highly unlikely that new flags will be added to open(2) or
-> openat(2) because of compatibility issues.
-
-Agreed. (Which in my mind is further rationale that a sysctl isn't
-wanted here: adding O_MAYEXEC will need to be very intentional.)
-
-> FYI, musl implements O_EXEC on Linux with O_PATH:
-> https://www.openwall.com/lists/musl/2013/02/22/1
-> https://git.musl-libc.org/cgit/musl/commit/?id=6d05d862975188039e648273ceab350d9ab5b69e
-> 
-> However, the O_EXEC flag/semantic could be useful for the dynamic
-> linkers, i.e. to only be able to map files in an executable (and
-> read-only) way. If this is OK, then we may want to rename O_MAYEXEC to
-> something like O_INTERPRET. This way we could have two new flags for
-> sightly (but important) different use cases. The sysctl bitfield could
-> be extended to manage both of these flags.
-
-If it's not O_EXEC, then I do like keeping "EXEC" in the flag name,
-since it has direct relation to noexec and exec-bit. I'm fine with
-O_MAYEXEC -- I just couldn't find the rationale for why it _shouldn't_
-be O_EXEC. (Which is now well understood -- thanks to you you and
-Florian!)
-
-> Other than that, the other commits are interesting. I'm a bit worried
-> about the implication of the f_flags/f_mode change though.
-
-That's an area I also didn't see why FMODE_EXEC wasn't retained in
-f_mode. Especially given the nature of the filtering out FMODE_NONOTIFY
-in build_open_flags(). Why would FMODE_NONOTIFY move to f_mode, but not
-FMODE_EXEC?
-
-> From a practical point of view, I'm also wondering how you intent to
-> submit this series on LKML without conflicting with the current
-> O_MAYEXEC series (versions, changes…). I would like you to keep the
-> warnings from my patches about other ways to execute/interpret code and
-> the threat model (patch 1/6 and 5/6).
-
-I don't intend it to conflict -- I wanted to have actual code written
-out to share as a basis for discussion. I didn't want to talk about
-"maybe we can try $foo", but rather "here's $foo; what do y'all think?"
-:)
+I think I misunderstood what you meant (Micka�l got me sorted out
+now). If O_EXEC is already meant to be "EXEC and _not_ READ nor WRITE",
+then yes, this new flag can't be O_EXEC. I was reading the glibc
+documentation (which treats it as a permission bit flag, not POSIX,
+which treats it as a complete mode description).
 
 -- 
 Kees Cook
