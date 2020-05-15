@@ -2,164 +2,94 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E84E1D4C0F
-	for <lists+linux-api@lfdr.de>; Fri, 15 May 2020 13:04:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 59C331D4CDC
+	for <lists+linux-api@lfdr.de>; Fri, 15 May 2020 13:42:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726160AbgEOLET (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 15 May 2020 07:04:19 -0400
-Received: from smtp-190b.mail.infomaniak.ch ([185.125.25.11]:39589 "EHLO
-        smtp-190b.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726016AbgEOLET (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 15 May 2020 07:04:19 -0400
-Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 49NlsY28SlzlhFhV;
-        Fri, 15 May 2020 13:04:17 +0200 (CEST)
-Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
-        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 49NlsP256CzlhFvm;
-        Fri, 15 May 2020 13:04:09 +0200 (CEST)
-Subject: Re: How about just O_EXEC? (was Re: [PATCH v5 3/6] fs: Enable to
- enforce noexec mounts or file exec through O_MAYEXEC)
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        Christian Heimes <christian@python.org>,
-        Deven Bowers <deven.desai@linux.microsoft.com>,
-        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
-        John Johansen <john.johansen@canonical.com>,
-        Kentaro Takeda <takedakn@nttdata.co.jp>,
-        "Lev R. Oshvang ." <levonshe@gmail.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Eric Chiang <ericchiang@google.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
-        Matthew Garrett <mjg59@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mickael.salaun@ssi.gouv.fr>,
-        =?UTF-8?Q?Philippe_Tr=c3=a9buchet?= 
-        <philippe.trebuchet@ssi.gouv.fr>,
-        Scott Shell <scottsh@microsoft.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Steve Dower <steve.dower@python.org>,
-        Steve Grubb <sgrubb@redhat.com>,
-        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
-        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        LSM List <linux-security-module@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Rich Felker <dalias@aerifal.cx>
-References: <20200505153156.925111-1-mic@digikod.net>
- <20200505153156.925111-4-mic@digikod.net>
- <CAEjxPJ7y2G5hW0WTH0rSrDZrorzcJ7nrQBjfps2OWV5t1BUYHw@mail.gmail.com>
- <202005131525.D08BFB3@keescook> <202005132002.91B8B63@keescook>
- <CAEjxPJ7WjeQAz3XSCtgpYiRtH+Jx-UkSTaEcnVyz_jwXKE3dkw@mail.gmail.com>
- <202005140830.2475344F86@keescook>
- <CAEjxPJ4R_juwvRbKiCg5OGuhAi1ZuVytK4fKCDT_kT6VKc8iRg@mail.gmail.com>
- <b740d658-a2da-5773-7a10-59a0ca52ac6b@digikod.net>
- <202005142343.D580850@keescook>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <1e2f6913-42f2-3578-28ed-567f6a4bdda1@digikod.net>
-Date:   Fri, 15 May 2020 13:04:08 +0200
-User-Agent: 
+        id S1726046AbgEOLl7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 15 May 2020 07:41:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36426 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725986AbgEOLl6 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 15 May 2020 07:41:58 -0400
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63635C061A0C;
+        Fri, 15 May 2020 04:41:58 -0700 (PDT)
+Received: by mail-ed1-x543.google.com with SMTP id l3so1914221edq.13;
+        Fri, 15 May 2020 04:41:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=RWK3xRBK3vF039IvGRjdVtIEkl1uwsII0GmOE8enEhg=;
+        b=AQ9HX6rwWWp133kyVs2PIJL5t+b/npGe7W2nKwSP00VnDRcm0saijkshcdRXR10VlL
+         N3QvsCS9Nf+I1JhMOMiw+s9X5sS4vLhmyuKy3L+93WpWfow7gI05+dOZYGAI5r4cU8y1
+         rJx1+S0EECUThKB3RqnhXEQreTT8itZR/odWs96CLWvXaxSos2ymicfJwUvXxUq2Cyaf
+         KnRBdDXaLTKwoY3NlxhBOVeOCPlpn00Mf7t+vRbun0vUbFkFWOI+2VVcglalTkwpQD0C
+         ktLCP3/1ggat4CkA0bkiK1Ciph/UfOrPoEWagk2/a3RWjWai3Tb1ecqCvmVFj90S59jX
+         vAPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=RWK3xRBK3vF039IvGRjdVtIEkl1uwsII0GmOE8enEhg=;
+        b=fk+1CluEiGkXyUhm63vK/uOzFStDzAHfwJiWN2c8vHmxtwl8aES4zFsL20rMnMGg1U
+         PXVd8djpqY1+Zgc+mCFYjO1Ym9JX/H5jpAv2q24bU2Whuq8kQOIm6ILNkxXEmsD2u5p4
+         Fo0ReN7oKxeawUNx4eP4ybWD91xvStXrFlCLLMdHKknt6F9mkRew5xLJZf2SZ+8H8hBW
+         eAbpJCZWEmyfyVZ2yVismcmvADWOCF8W8os/k5QGII0ZTLEO1d+e1FwYrn/U8Q78gQmx
+         d+ZQ1Wjkx6jmDMLY5r6z5CEckSxD5TDtX1Hat7PDQ25k0lBwS1dh+bAzyEtqVBsr4OxW
+         KC7A==
+X-Gm-Message-State: AOAM532GYI1BrYj/HjvcXJSg+5qmMxDuTdiCuH0vVmjJ/1hRQOntfCtg
+        A0TA7evDuenonPls9fGAR/AfnoDrENFS1pzoGn04lw==
+X-Google-Smtp-Source: ABdhPJz1RIomfe7RiC1u7TKWUXwQNw8CcWTmJoSxNcIZssX43Bjmg42p6f/3pmGxPvbz7iDqC86FN17PdfSdI+NU9sg=
+X-Received: by 2002:a05:6402:c0f:: with SMTP id co15mr2299648edb.286.1589542917105;
+ Fri, 15 May 2020 04:41:57 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <202005142343.D580850@keescook>
-Content-Type: text/plain; charset=UTF-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
-X-Antivirus-Code: 0x100000
+References: <CAKgNAkhL0zCj11LS9vfae872YVeRsxdz20sZWuXdi+UjH21=0g@mail.gmail.com>
+ <20200410104132.294639-1-christian@brauner.io> <b7550fcd-ba12-e64a-3228-e6668b31a8a7@gmail.com>
+ <CAKgNAkhQr+sKGAu+KcxPEsuwG3kjQOyzVW7E1yM9cMtSZrhW9A@mail.gmail.com> <20200423101420.udkmlhnfg57lsshi@wittgenstein>
+In-Reply-To: <20200423101420.udkmlhnfg57lsshi@wittgenstein>
+Reply-To: mtk.manpages@gmail.com
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Date:   Fri, 15 May 2020 13:41:46 +0200
+Message-ID: <CAKgNAkhXxWFE8msNkJ3117ChacWsfiMsBptZsVJOnxGtuDTX0Q@mail.gmail.com>
+Subject: Re: [PATCH] clone.2: Document CLONE_INTO_CGROUP
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Christian Brauner <christian@brauner.io>,
+        "open list:CONTROL GROUP (CGROUP)" <cgroups@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        linux-man <linux-man@vger.kernel.org>,
+        Oleg Nesterov <oleg@redhat.com>, Tejun Heo <tj@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+Hello Christian,
 
-On 15/05/2020 10:01, Kees Cook wrote:
-> On Thu, May 14, 2020 at 09:16:13PM +0200, Mickaël Salaün wrote:
->> On 14/05/2020 18:10, Stephen Smalley wrote:
->>> On Thu, May 14, 2020 at 11:45 AM Kees Cook <keescook@chromium.org> wrote:
->>>> So, it looks like adding FMODE_EXEC into f_flags in do_open() is needed in
->>>> addition to injecting MAY_EXEC into acc_mode in do_open()? Hmmm
->>>
->>> Just do both in build_open_flags() and be done with it? Looks like he
->>> was already setting FMODE_EXEC in patch 1 so we just need to teach
->>> AppArmor/TOMOYO to check for it and perform file execute checking in
->>> that case if !current->in_execve?
->>
->> I can postpone the file permission check for another series to make this
->> one simpler (i.e. mount noexec only). Because it depends on the sysctl
->> setting, it is OK to add this check later, if needed. In the meantime,
->> AppArmor and Tomoyo could be getting ready for this.
-> 
-> So, after playing around with this series, investigating Stephen's
-> comments, digging through the existing FMODE_EXEC uses, and spending a
-> bit more time thinking about Lev and Aleksa's dislike of the sysctls, I've
-> got a much more radically simplified solution that I think could work.
+Ping!
 
-Not having a sysctl would mean that distros will probably have to patch
-script interpreters to remove the use of O_MAYEXEC. Or distros would
-have to exclude newer version of script interpreters because they
-implement O_MAYEXEC. Or distros would have to patch their kernel to
-implement themselves the sysctl knob I'm already providing. Sysadmins
-may not control the kernel build nor the user space build, they control
-the system configuration (some mount point options and some file
-execution permissions) but I guess that a distro update breaking a
-running system is not acceptable. Either way, unfortunately, I think it
-doesn't help anyone to not have a controlling sysctl. The same apply for
-access-control LSMs relying on a security policy which can be defined by
-sysadmins.
+Thanks,
 
-Your commits enforce file exec checks, which is a good thing from a
-security point of view, but unfortunately that would requires distros to
-update all the packages providing shared objects once the dynamic linker
-uses O_MAYEXEC.
+Michael
 
-> 
-> Maybe I've missed some earlier discussion that ruled this out, but I
-> couldn't find it: let's just add O_EXEC and be done with it. It actually
-> makes the execve() path more like openat2() and is much cleaner after
-> a little refactoring. Here are the results, though I haven't emailed it
-> yet since I still want to do some more testing:
-> https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/log/?h=kspp/o_exec/v1
-> 
-> I look forward to flames! ;)
-> 
+On Thu, 23 Apr 2020 at 12:14, Christian Brauner
+<christian.brauner@ubuntu.com> wrote:
+>
+> On Tue, Apr 21, 2020 at 04:30:46PM +0200, Michael Kerrisk (man-pages) wrote:
+> > Hi Christian,
+> >
+> > Ping!
+>
+> Will likely take a few days until I can get around to prepare a second
+> version. Sorry for the delay!
+>
+> Christian
 
-Like Florian said, O_EXEC is for execute-only (which obviously doesn't
-work for scripts):
-https://pubs.opengroup.org/onlinepubs/9699919799/functions/open.html
-On the other hand, the semantic of O_MAYEXEC is complementary to other
-O_* flags. It is inspired by the VM_MAYEXEC flag.
 
-The O_EXEC flag is specified for open(2). openat2(2) is Linux-specific
-and it is highly unlikely that new flags will be added to open(2) or
-openat(2) because of compatibility issues.
 
-FYI, musl implements O_EXEC on Linux with O_PATH:
-https://www.openwall.com/lists/musl/2013/02/22/1
-https://git.musl-libc.org/cgit/musl/commit/?id=6d05d862975188039e648273ceab350d9ab5b69e
-
-However, the O_EXEC flag/semantic could be useful for the dynamic
-linkers, i.e. to only be able to map files in an executable (and
-read-only) way. If this is OK, then we may want to rename O_MAYEXEC to
-something like O_INTERPRET. This way we could have two new flags for
-sightly (but important) different use cases. The sysctl bitfield could
-be extended to manage both of these flags.
-
-Other than that, the other commits are interesting. I'm a bit worried
-about the implication of the f_flags/f_mode change though.
-
-From a practical point of view, I'm also wondering how you intent to
-submit this series on LKML without conflicting with the current
-O_MAYEXEC series (versions, changes…). I would like you to keep the
-warnings from my patches about other ways to execute/interpret code and
-the threat model (patch 1/6 and 5/6).
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
