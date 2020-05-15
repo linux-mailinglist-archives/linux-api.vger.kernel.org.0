@@ -2,135 +2,117 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5309E1D5220
-	for <lists+linux-api@lfdr.de>; Fri, 15 May 2020 16:44:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BC3B1D54D4
+	for <lists+linux-api@lfdr.de>; Fri, 15 May 2020 17:37:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726144AbgEOOn7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 15 May 2020 10:43:59 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:60051 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726614AbgEOOn7 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 15 May 2020 10:43:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1589553837;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=hR6lCjnUOV2j2gabpoQGpgvPB5RUTChOvM8hrmj3dmQ=;
-        b=RdHJ14yymja0gFB88CoZ2hagTm4vSMsUZOuUMPqDpFZO9XFwM3NilOVK4jOd+jUzDWURpj
-        mLY73Gp9SQ+/5bYr7LwCT0UFeANcfkegKygguGM6PNPsh++dOsZNkXziRVUwt8O19DrNCo
-        shDQ4qXjEQvmGGR7MwqCD1XTwjZyLtA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-102-IBhV3vZSOp6wkLbJJ_diLA-1; Fri, 15 May 2020 10:43:52 -0400
-X-MC-Unique: IBhV3vZSOp6wkLbJJ_diLA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C02C78018A2;
-        Fri, 15 May 2020 14:43:47 +0000 (UTC)
-Received: from oldenburg2.str.redhat.com (ovpn-112-77.ams2.redhat.com [10.36.112.77])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 8C92A5C241;
-        Fri, 15 May 2020 14:43:39 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        Christian Heimes <christian@python.org>,
-        Deven Bowers <deven.desai@linux.microsoft.com>,
-        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
-        John Johansen <john.johansen@canonical.com>,
-        Kentaro Takeda <takedakn@nttdata.co.jp>,
-        "Lev R. Oshvang ." <levonshe@gmail.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Eric Chiang <ericchiang@google.com>,
-        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
-        Matthew Garrett <mjg59@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mickael.salaun@ssi.gouv.fr>,
-        Philippe =?utf-8?Q?Tr=C3=A9buchet?= 
-        <philippe.trebuchet@ssi.gouv.fr>,
-        Scott Shell <scottsh@microsoft.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Steve Dower <steve.dower@python.org>,
-        Steve Grubb <sgrubb@redhat.com>,
-        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
-        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        LSM List <linux-security-module@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>
-Subject: Re: How about just O_EXEC? (was Re: [PATCH v5 3/6] fs: Enable to enforce noexec mounts or file exec through O_MAYEXEC)
-References: <20200505153156.925111-4-mic@digikod.net>
-        <CAEjxPJ7y2G5hW0WTH0rSrDZrorzcJ7nrQBjfps2OWV5t1BUYHw@mail.gmail.com>
-        <202005131525.D08BFB3@keescook> <202005132002.91B8B63@keescook>
-        <CAEjxPJ7WjeQAz3XSCtgpYiRtH+Jx-UkSTaEcnVyz_jwXKE3dkw@mail.gmail.com>
-        <202005140830.2475344F86@keescook>
-        <CAEjxPJ4R_juwvRbKiCg5OGuhAi1ZuVytK4fKCDT_kT6VKc8iRg@mail.gmail.com>
-        <b740d658-a2da-5773-7a10-59a0ca52ac6b@digikod.net>
-        <202005142343.D580850@keescook>
-        <87a729wpu1.fsf@oldenburg2.str.redhat.com>
-        <202005150732.17C5EE0@keescook>
-Date:   Fri, 15 May 2020 16:43:37 +0200
-In-Reply-To: <202005150732.17C5EE0@keescook> (Kees Cook's message of "Fri, 15
-        May 2020 07:37:16 -0700")
-Message-ID: <87r1vluuli.fsf@oldenburg2.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+        id S1726290AbgEOPhA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 15 May 2020 11:37:00 -0400
+Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:47704 "EHLO
+        forwardcorp1j.mail.yandex.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726183AbgEOPg7 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 15 May 2020 11:36:59 -0400
+Received: from mxbackcorp2j.mail.yandex.net (mxbackcorp2j.mail.yandex.net [IPv6:2a02:6b8:0:1619::119])
+        by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 231D22E14BF;
+        Fri, 15 May 2020 18:36:52 +0300 (MSK)
+Received: from sas2-32987e004045.qloud-c.yandex.net (sas2-32987e004045.qloud-c.yandex.net [2a02:6b8:c08:b889:0:640:3298:7e00])
+        by mxbackcorp2j.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id aabq3ATbRs-ampGXsHa;
+        Fri, 15 May 2020 18:36:52 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru; s=default;
+        t=1589557012; bh=6FY4knOleMpXky40W+HxLYfM4E1Bv3vZkreAoWAGMIg=;
+        h=Message-ID:Date:To:From:Subject:Cc;
+        b=Ot7oERu5ZSm7ZAxFFmwsShAPsbb4nYYg45KcoBQOtFvIJoaVOJgelxbt29bl2pKlP
+         c5+M3xibGZgBBAJT6mFZgDypjrFcNn3W4FOdGYETJYu/T1cmpS1yNPJ/yv1uNjYLQ3
+         VOjnnK6tZOIjkxuV7APba9/nTEfjGSBDTaVijeoQ=
+Authentication-Results: mxbackcorp2j.mail.yandex.net; dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net [2a02:6b8:b081:8::1:9])
+        by sas2-32987e004045.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id v3Wo6qoLe5-amWCAVNL;
+        Fri, 15 May 2020 18:36:48 +0300
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (Client certificate not present)
+Subject: [PATCH] futex: send SIGBUS if argument is not aligned on a four-byte
+ boundary
+From:   Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
+To:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Darren Hart <dvhart@infradead.org>
+Cc:     Maxim Samoylov <max7255@yandex-team.ru>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-api@vger.kernel.org
+Date:   Fri, 15 May 2020 18:36:47 +0300
+Message-ID: <158955700764.647498.18025770126733698386.stgit@buzz>
+User-Agent: StGit/0.22-39-gd257
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Kees Cook:
+Userspace implementations of mutexes (including glibc) in some cases
+retries operation without checking error code from syscall futex.
+This is good for performance because most errors are impossible when
+locking code trusts itself.
 
-> On Fri, May 15, 2020 at 10:43:34AM +0200, Florian Weimer wrote:
->> * Kees Cook:
->> 
->> > Maybe I've missed some earlier discussion that ruled this out, but I
->> > couldn't find it: let's just add O_EXEC and be done with it. It actually
->> > makes the execve() path more like openat2() and is much cleaner after
->> > a little refactoring. Here are the results, though I haven't emailed it
->> > yet since I still want to do some more testing:
->> > https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/log/?h=kspp/o_exec/v1
->> 
->> I think POSIX specifies O_EXEC in such a way that it does not confer
->> read permissions.  This seems incompatible with what we are trying to
->> achieve here.
->
-> I was trying to retain this behavior, since we already make this
-> distinction between execve() and uselib() with the MAY_* flags:
->
-> execve():
->         struct open_flags open_exec_flags = {
->                 .open_flag = O_LARGEFILE | O_RDONLY | __FMODE_EXEC,
->                 .acc_mode = MAY_EXEC,
->
-> uselib():
->         static const struct open_flags uselib_flags = {
->                 .open_flag = O_LARGEFILE | O_RDONLY | __FMODE_EXEC,
->                 .acc_mode = MAY_READ | MAY_EXEC,
->
-> I tried to retain this in my proposal, in the O_EXEC does not imply
-> MAY_READ:
+Some errors which could came from outer code are handled automatically,
+for example invalid address triggers SIGSEGV on atomic fast path.
 
-That doesn't quite parse for me, sorry.
+But one case turns into nasty busy-loop: when address is unaligned.
+futex(FUTEX_WAIT) returns EINVAL immediately and loop goes to retry.
 
-The point is that the script interpreter actually needs to *read* those
-files in order to execute them.
+Example which loops inside second call rather than hung peacefully:
 
-Thanks,
-Florian
+#include <stdlib.h>
+#include <pthread.h>
+
+int main(int argc, char **argv)
+{
+	char buf[sizeof(pthread_mutex_t) + 1];
+	pthread_mutex_t *mutex = (pthread_mutex_t *)(buf + 1);
+
+	pthread_mutex_init(mutex, NULL);
+	pthread_mutex_lock(mutex);
+	pthread_mutex_lock(mutex);
+}
+
+It seems there is no practical usage for calling syscall futex for
+unaligned address. This may be only bug in user space. Let's help
+and handle this gracefully without adding extra code on fast path.
+
+This patch sends SIGBUS signal to slay task and break busy-loop.
+
+Signed-off-by: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
+Reported-by: Maxim Samoylov <max7255@yandex-team.ru>
+---
+ kernel/futex.c |   13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
+
+diff --git a/kernel/futex.c b/kernel/futex.c
+index b59532862bc0..8a6d35fa56bc 100644
+--- a/kernel/futex.c
++++ b/kernel/futex.c
+@@ -508,10 +508,21 @@ get_futex_key(u32 __user *uaddr, int fshared, union futex_key *key, enum futex_a
+ 
+ 	/*
+ 	 * The futex address must be "naturally" aligned.
++	 * Also send signal to break busy-loop if user-space ignore error.
++	 * EFAULT case should trigger SIGSEGV at access from user-space.
+ 	 */
+ 	key->both.offset = address % PAGE_SIZE;
+-	if (unlikely((address % sizeof(u32)) != 0))
++	if (unlikely((address % sizeof(u32)) != 0)) {
++		struct kernel_siginfo info;
++
++		clear_siginfo(&info);
++		info.si_signo = SIGBUS;
++		info.si_code  = BUS_ADRALN;
++		info.si_addr  = uaddr;
++		force_sig_info(&info);
++
+ 		return -EINVAL;
++	}
+ 	address -= key->both.offset;
+ 
+ 	if (unlikely(!access_ok(uaddr, sizeof(u32))))
 
