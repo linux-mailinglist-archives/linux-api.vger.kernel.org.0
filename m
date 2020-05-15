@@ -2,315 +2,248 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 573231D5892
-	for <lists+linux-api@lfdr.de>; Fri, 15 May 2020 20:02:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07EA41D5908
+	for <lists+linux-api@lfdr.de>; Fri, 15 May 2020 20:25:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726144AbgEOSCC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 15 May 2020 14:02:02 -0400
-Received: from mx2.suse.de ([195.135.220.15]:58566 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726170AbgEOSCC (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 15 May 2020 14:02:02 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 44BDFAA7C;
-        Fri, 15 May 2020 18:02:02 +0000 (UTC)
-Subject: Re: [PATCH v4] mm: Proactive compaction
-To:     Nitin Gupta <nigupta@nvidia.com>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Michal Hocko <mhocko@suse.com>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        David Rientjes <rientjes@google.com>,
-        Nitin Gupta <ngupta@nitingupta.dev>,
+        id S1726206AbgEOSZD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 15 May 2020 14:25:03 -0400
+Received: from smtp-8fa8.mail.infomaniak.ch ([83.166.143.168]:48247 "EHLO
+        smtp-8fa8.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726229AbgEOSZC (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 15 May 2020 14:25:02 -0400
+Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 49NxdT5yJKzlhXY4;
+        Fri, 15 May 2020 20:24:29 +0200 (CEST)
+Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
+        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 49NxdJ36FHzlk0vX;
+        Fri, 15 May 2020 20:24:20 +0200 (CEST)
+Subject: Re: How about just O_EXEC? (was Re: [PATCH v5 3/6] fs: Enable to
+ enforce noexec mounts or file exec through O_MAYEXEC)
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
+        Christian Heimes <christian@python.org>,
+        Deven Bowers <deven.desai@linux.microsoft.com>,
+        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+        John Johansen <john.johansen@canonical.com>,
+        Kentaro Takeda <takedakn@nttdata.co.jp>,
+        "Lev R. Oshvang ." <levonshe@gmail.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Eric Chiang <ericchiang@google.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
+        Matthew Garrett <mjg59@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mickael.salaun@ssi.gouv.fr>,
+        =?UTF-8?Q?Philippe_Tr=c3=a9buchet?= 
+        <philippe.trebuchet@ssi.gouv.fr>,
+        Scott Shell <scottsh@microsoft.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Steve Dower <steve.dower@python.org>,
+        Steve Grubb <sgrubb@redhat.com>,
+        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
+        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
         linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        Linux API <linux-api@vger.kernel.org>
-References: <20200428221055.598-1-nigupta@nvidia.com>
-From:   Vlastimil Babka <vbabka@suse.cz>
-Message-ID: <28993c4d-adc6-b83e-66a6-abb0a753f481@suse.cz>
-Date:   Fri, 15 May 2020 20:01:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        LSM List <linux-security-module@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Rich Felker <dalias@aerifal.cx>
+References: <20200505153156.925111-4-mic@digikod.net>
+ <CAEjxPJ7y2G5hW0WTH0rSrDZrorzcJ7nrQBjfps2OWV5t1BUYHw@mail.gmail.com>
+ <202005131525.D08BFB3@keescook> <202005132002.91B8B63@keescook>
+ <CAEjxPJ7WjeQAz3XSCtgpYiRtH+Jx-UkSTaEcnVyz_jwXKE3dkw@mail.gmail.com>
+ <202005140830.2475344F86@keescook>
+ <CAEjxPJ4R_juwvRbKiCg5OGuhAi1ZuVytK4fKCDT_kT6VKc8iRg@mail.gmail.com>
+ <b740d658-a2da-5773-7a10-59a0ca52ac6b@digikod.net>
+ <202005142343.D580850@keescook>
+ <1e2f6913-42f2-3578-28ed-567f6a4bdda1@digikod.net>
+ <202005150740.F0154DEC@keescook>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <d5df691d-bfcb-2106-08a2-cfe589b0a86c@digikod.net>
+Date:   Fri, 15 May 2020 20:24:19 +0200
+User-Agent: 
 MIME-Version: 1.0
-In-Reply-To: <20200428221055.598-1-nigupta@nvidia.com>
+In-Reply-To: <202005150740.F0154DEC@keescook>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
+X-Antivirus-Code: 0x100000
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 4/29/20 12:10 AM, Nitin Gupta wrote:
-> For some applications, we need to allocate almost all memory as
-> hugepages. However, on a running system, higher-order allocations can
-> fail if the memory is fragmented. Linux kernel currently does on-demand
-> compaction as we request more hugepages, but this style of compaction
-> incurs very high latency. Experiments with one-time full memory
-> compaction (followed by hugepage allocations) show that kernel is able
-> to restore a highly fragmented memory state to a fairly compacted memory
-> state within <1 sec for a 32G system. Such data suggests that a more
-> proactive compaction can help us allocate a large fraction of memory as
-> hugepages keeping allocation latencies low.
-> 
-> For a more proactive compaction, the approach taken here is to define
-> a new tunable called 'proactiveness' which dictates bounds for external
-> fragmentation wrt HUGETLB_PAGE_ORDER order which kcompactd tries to
-> maintain.
-> 
-> The tunable is exposed through sysfs:
->   /sys/kernel/mm/compaction/proactiveness
 
-I would prefer sysctl. Why?
+On 15/05/2020 17:46, Kees Cook wrote:
+> On Fri, May 15, 2020 at 01:04:08PM +0200, Mickaël Salaün wrote:
+>>
+>> On 15/05/2020 10:01, Kees Cook wrote:
+>>> On Thu, May 14, 2020 at 09:16:13PM +0200, Mickaël Salaün wrote:
+>>>> On 14/05/2020 18:10, Stephen Smalley wrote:
+>>>>> On Thu, May 14, 2020 at 11:45 AM Kees Cook <keescook@chromium.org> wrote:
+>>>>>> So, it looks like adding FMODE_EXEC into f_flags in do_open() is needed in
+>>>>>> addition to injecting MAY_EXEC into acc_mode in do_open()? Hmmm
+>>>>>
+>>>>> Just do both in build_open_flags() and be done with it? Looks like he
+>>>>> was already setting FMODE_EXEC in patch 1 so we just need to teach
+>>>>> AppArmor/TOMOYO to check for it and perform file execute checking in
+>>>>> that case if !current->in_execve?
+>>>>
+>>>> I can postpone the file permission check for another series to make this
+>>>> one simpler (i.e. mount noexec only). Because it depends on the sysctl
+>>>> setting, it is OK to add this check later, if needed. In the meantime,
+>>>> AppArmor and Tomoyo could be getting ready for this.
+>>>
+>>> So, after playing around with this series, investigating Stephen's
+>>> comments, digging through the existing FMODE_EXEC uses, and spending a
+>>> bit more time thinking about Lev and Aleksa's dislike of the sysctls, I've
+>>> got a much more radically simplified solution that I think could work.
+>>
+>> Not having a sysctl would mean that distros will probably have to patch
+>> script interpreters to remove the use of O_MAYEXEC. Or distros would
+>> have to exclude newer version of script interpreters because they
+>> implement O_MAYEXEC. Or distros would have to patch their kernel to
+>> implement themselves the sysctl knob I'm already providing. Sysadmins
+>> may not control the kernel build nor the user space build, they control
+>> the system configuration (some mount point options and some file
+>> execution permissions) but I guess that a distro update breaking a
+>> running system is not acceptable. Either way, unfortunately, I think it
+>> doesn't help anyone to not have a controlling sysctl. The same apply for
+>> access-control LSMs relying on a security policy which can be defined by
+>> sysadmins.
+>>
+>> Your commits enforce file exec checks, which is a good thing from a
+>> security point of view, but unfortunately that would requires distros to
+>> update all the packages providing shared objects once the dynamic linker
+>> uses O_MAYEXEC.
+> 
+> I used to agree with this, but I'm now convinced now that the sysctls are
+> redundant and will ultimately impede adoption. In looking at what levels
+> the existing (CLIP OS, Chrome OS) and future (PEP 578) implementations
+> have needed to do to meaningfully provide the protection, it seems
+> like software will not be using this flag out of the blue. It'll need
+> careful addition way beyond the scope of just a sysctl. (As in, I don't
+> think using O_MAYEXEC is going to just get added without thought to all
+> interpreters. And developers that DO add it will want to know that the
+> system will behave in the specified way: having it be off by default
+> will defeat the purpose of adding the flag for the end users.)
 
-During the mm evolution we seem to have end up with stuff scattered over several
-places:
+I think that the different points of view should be the following:
+- kernel developer: the app *may* behave this way;
+- user space developer: the app *should* behave this way;
+- sysadmin: the app *must* behave this way (either enforcing O_MAYEXEC
+or not).
 
-/proc/sys aka sysctl:
-/proc/sys/vm/compact_unevictable_allowed
-/proc/sys/vm/compact_memory - write-only one-time action trigger!
+The idea is to push adoption of O_MAYEXEC to upstream interpreters,
+knowing that it will not break anything on running systems which do not
+care about this features. However, on systems which want this feature
+enforced, there will be knowledgeable peoples (i.e. sysadmins who
+enforced O_MAYEXEC deliberately) to manage it.
 
-/sys/kernel/mm:
-e.g. /sys/kernel/mm/transparent_hugepage/
+If we don't give the opportunity to sysadmins to control this feature,
+no upstream interpreters will adopt it. Only tailored distro will use
+it, maybe with custom LSM or other way to enforce it anyway, and having
+a sysctl or not is not an issue neither. I think it would be a missed
+opportunity to help harden most Linux systems.
 
-This is unfortunate enough, and (influenced by my recent dive into sysctl
-perhaps :), I would have preferred sysctl only. In this case it's consistent
-that we have sysctls for compaction already, while this introduces a whole new
-compaction directory in the /sys/kernel/mm/ space.
+> 
+> I think it boils down to deciding how to control enforcement: should it
+> be up to the individual piece of software, or should it be system-wide?
+> Looking at the patches Chrome OS has made to the shell (and the
+> accompanying system changes), and Python's overall plans, it seems to
+> me that the requirements for meaningfully using this flag is going to
+> be very software-specific.
+> 
+> Now, if the goal is to try to get O_MAYEXEC into every interpreter as
+> widely as possible without needing to wait for the software-specific
+> design changes, then I can see the reason to want a default-off global
+> sysctl.
 
-> It takes value in range [0, 100], with a default of 20.
-> 
-> Note that a previous version of this patch [1] was found to introduce too
-> many tunables (per-order extfrag{low, high}), but this one reduces them
-> to just one (proactiveness). Also, the new tunable is an opaque value
-> instead of asking for specific bounds of "external fragmentation", which
-> would have been difficult to estimate. The internal interpretation of
-> this opaque value allows for future fine-tuning.
-> 
-> Currently, we use a simple translation from this tunable to [low, high]
-> "fragmentation score" thresholds (low=100-proactiveness, high=low+10%).
-> The score for a node is defined as weighted mean of per-zone external
-> fragmentation wrt HUGETLB_PAGE_ORDER order. A zone's present_pages
-> determines its weight.
-> 
-> To periodically check per-node score, we reuse per-node kcompactd
-> threads, which are woken up every 500 milliseconds to check the same. If
-> a node's score exceeds its high threshold (as derived from user-provided
-> proactiveness value), proactive compaction is started until its score
-> reaches its low threshold value. By default, proactiveness is set to 20,
-> which implies threshold values of low=80 and high=90.
-> 
-> This patch is largely based on ideas from Michal Hocko posted here:
-> https://lore.kernel.org/linux-mm/20161230131412.GI13301@dhcp22.suse.cz/
-> 
-> Performance data
-> ================
-> 
-> System: x64_64, 1T RAM, 80 CPU threads.
-> Kernel: 5.6.0-rc3 + this patch
-> 
-> echo madvise | sudo tee /sys/kernel/mm/transparent_hugepage/enabled
-> echo madvise | sudo tee /sys/kernel/mm/transparent_hugepage/defrag
-> 
-> Before starting the driver, the system was fragmented from a userspace
-> program that allocates all memory and then for each 2M aligned section,
-> frees 3/4 of base pages using munmap. The workload is mainly anonymous
-> userspace pages, which are easy to move around. I intentionally avoided
-> unmovable pages in this test to see how much latency we incur when
-> hugepage allocations hit direct compaction.
-> 
-> 1. Kernel hugepage allocation latencies
-> 
-> With the system in such a fragmented state, a kernel driver then allocates
-> as many hugepages as possible and measures allocation latency:
-> 
-> (all latency values are in microseconds)
-> 
-> - With vanilla 5.6.0-rc3
-> 
-> echo 0 | sudo tee /sys/kernel/mm/compaction/node-*/proactiveness
-> 
->   percentile latency
->   –––––––––– –––––––
-> 	   5    7894
-> 	  10    9496
-> 	  25   12561
-> 	  30   15295
-> 	  40   18244
-> 	  50   21229
-> 	  60   27556
-> 	  75   30147
-> 	  80   31047
-> 	  90   32859
-> 	  95   33799
-> 
-> Total 2M hugepages allocated = 383859 (749G worth of hugepages out of
-> 762G total free => 98% of free memory could be allocated as hugepages)
-> 
-> - With 5.6.0-rc3 + this patch, with proactiveness=20
-> 
-> echo 20 | sudo tee /sys/kernel/mm/compaction/node-*/proactiveness
-> 
->   percentile latency
->   –––––––––– –––––––
-> 	   5       2
-> 	  10       2
-> 	  25       3
-> 	  30       3
-> 	  40       3
-> 	  50       4
-> 	  60       4
-> 	  75       4
-> 	  80       4
-> 	  90       5
-> 	  95     429
-> 
-> Total 2M hugepages allocated = 384105 (750G worth of hugepages out of
-> 762G total free => 98% of free memory could be allocated as hugepages)
-> 
-> 2. JAVA heap allocation
-> 
-> In this test, we first fragment memory using the same method as for (1).
-> 
-> Then, we start a Java process with a heap size set to 700G and request
-> the heap to be allocated with THP hugepages. We also set THP to madvise
-> to allow hugepage backing of this heap.
-> 
-> /usr/bin/time
->  java -Xms700G -Xmx700G -XX:+UseTransparentHugePages -XX:+AlwaysPreTouch
-> 
-> The above command allocates 700G of Java heap using hugepages.
-> 
-> - With vanilla 5.6.0-rc3
-> 
-> 17.39user 1666.48system 27:37.89elapsed
-> 
-> - With 5.6.0-rc3 + this patch, with proactiveness=20
-> 
-> 8.35user 194.58system 3:19.62elapsed
+Yes, that is our intention: to make this flag used by most interpreters,
+without breaking any existing systems.
 
-I still wonder how the single additional CPU during compaction resulted in such
-an improvement. Isn't this against the Amdahl's law? :)
+> (Though in that case, I suspect it needs to be tied to userns or
+> something to support containers with different enforcement levels.)
 
-> Elapsed time remains around 3:15, as proactiveness is further increased.
+The LSMs already manage security policies, but the sysctl could indeed
+be tied to mount namespaces. This is interesting, but it requires more
+complexity. We can start by the current sysctl's bits to manage all the
+mount namespaces.
+
 > 
-> Note that proactive compaction happens throughout the runtime of these
-> workloads. The situation of one-time compaction, sufficient to supply
-> hugepages for following allocation stream, can probably happen for more
-> extreme proactiveness values, like 80 or 90.
+>>> Maybe I've missed some earlier discussion that ruled this out, but I
+>>> couldn't find it: let's just add O_EXEC and be done with it. It actually
+>>> makes the execve() path more like openat2() and is much cleaner after
+>>> a little refactoring. Here are the results, though I haven't emailed it
+>>> yet since I still want to do some more testing:
+>>> https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/log/?h=kspp/o_exec/v1
+>>>
+>>> I look forward to flames! ;)
+>>>
+>>
+>> Like Florian said, O_EXEC is for execute-only (which obviously doesn't
+>> work for scripts):
+>> https://pubs.opengroup.org/onlinepubs/9699919799/functions/open.html
+>> On the other hand, the semantic of O_MAYEXEC is complementary to other
+>> O_* flags. It is inspired by the VM_MAYEXEC flag.
 > 
-> In the above Java workload, proactiveness is set to 20. The test starts
-> with a node's score of 80 or higher, depending on the delay between the
-> fragmentation step and starting the benchmark, which gives more-or-less
-> time for the initial round of compaction. As the benchmark consumes
-> hugepages, node's score quickly rises above the high threshold (90) and
-> proactive compaction starts again, which brings down the score to the
-> low threshold level (80).  Repeat.
+> Ah! I see now -- it's intended to be like the O_*ONLY flags. I
+> misunderstood what Florian meant. Okay, sure that's a good enough reason
+> for me to retain the O_MAYEXEC name. (And then I think this distinction
+> from O_EXEC needs to be well documented.)
 > 
-> bpftrace also confirms proactive compaction running 20+ times during the
-> runtime of this Java benchmark. kcompactd threads consume 100% of one of
-> the CPUs while it tries to bring a node's score within thresholds.
+>> The O_EXEC flag is specified for open(2). openat2(2) is Linux-specific
+>> and it is highly unlikely that new flags will be added to open(2) or
+>> openat(2) because of compatibility issues.
 > 
-> Backoff behavior
-> ================
+> Agreed. (Which in my mind is further rationale that a sysctl isn't
+> wanted here: adding O_MAYEXEC will need to be very intentional.)
 > 
-> Above workloads produce a memory state which is easy to compact.
-> However, if memory is filled with unmovable pages, proactive compaction
-> should essentially back off. To test this aspect:
+>> FYI, musl implements O_EXEC on Linux with O_PATH:
+>> https://www.openwall.com/lists/musl/2013/02/22/1
+>> https://git.musl-libc.org/cgit/musl/commit/?id=6d05d862975188039e648273ceab350d9ab5b69e
+>>
+>> However, the O_EXEC flag/semantic could be useful for the dynamic
+>> linkers, i.e. to only be able to map files in an executable (and
+>> read-only) way. If this is OK, then we may want to rename O_MAYEXEC to
+>> something like O_INTERPRET. This way we could have two new flags for
+>> sightly (but important) different use cases. The sysctl bitfield could
+>> be extended to manage both of these flags.
 > 
-> - Created a kernel driver that allocates almost all memory as hugepages
->   followed by freeing first 3/4 of each hugepage.
-> - Set proactiveness=40
-> - Note that proactive_compact_node() is deferred maximum number of times
->   with HPAGE_FRAG_CHECK_INTERVAL_MSEC of wait between each check
->   (=> ~30 seconds between retries).
+> If it's not O_EXEC, then I do like keeping "EXEC" in the flag name,
+> since it has direct relation to noexec and exec-bit. I'm fine with
+> O_MAYEXEC -- I just couldn't find the rationale for why it _shouldn't_
+> be O_EXEC. (Which is now well understood -- thanks to you you and
+> Florian!)
 > 
-> [1] https://patchwork.kernel.org/patch/11098289/
+>> Other than that, the other commits are interesting. I'm a bit worried
+>> about the implication of the f_flags/f_mode change though.
 > 
-> Signed-off-by: Nitin Gupta <nigupta@nvidia.com>
-> To: Mel Gorman <mgorman@techsingularity.net>
+> That's an area I also didn't see why FMODE_EXEC wasn't retained in
+> f_mode. Especially given the nature of the filtering out FMODE_NONOTIFY
+> in build_open_flags(). Why would FMODE_NONOTIFY move to f_mode, but not
+> FMODE_EXEC?
+> 
+>> From a practical point of view, I'm also wondering how you intent to
+>> submit this series on LKML without conflicting with the current
+>> O_MAYEXEC series (versions, changes…). I would like you to keep the
+>> warnings from my patches about other ways to execute/interpret code and
+>> the threat model (patch 1/6 and 5/6).
+> 
+> I don't intend it to conflict -- I wanted to have actual code written
+> out to share as a basis for discussion. I didn't want to talk about
+> "maybe we can try $foo", but rather "here's $foo; what do y'all think?"
+> :)
+> 
 
-I hope Mel can also comment on this, but in general I agree.
-
-...
-
-> +
-> +/*
-> + * A zone's fragmentation score is the external fragmentation wrt to the
-> + * HUGETLB_PAGE_ORDER scaled by the zone's size. It returns a value in the
-> + * range [0, 100].
-> +
-> + * The scaling factor ensures that proactive compaction focuses on larger
-> + * zones like ZONE_NORMAL, rather than smaller, specialized zones like
-> + * ZONE_DMA32. For smaller zones, the score value remains close to zero,
-> + * and thus never exceeds the high threshold for proactive compaction.
-> + */
-> +static int fragmentation_score_zone(struct zone *zone)
-> +{
-> +	unsigned long score;
-> +
-> +	score = zone->present_pages *
-> +			extfrag_for_order(zone, HUGETLB_PAGE_ORDER);
-
-HPAGE_PMD_ORDER would be a better match than HUGETLB_PAGE_ORDER, even if it
-might be the same number. hugetlb pages are pre-reserved, unlike THP.
-
-> +	score = div64_ul(score,
-> +			node_present_pages(zone->zone_pgdat->node_id) + 1);
-
-zone->zone_pgdat->node_present_pages is more direct
-
-> +	return score;
-> +}
-> +
-> +/*
-
-> @@ -2309,6 +2411,7 @@ static enum compact_result compact_zone_order(struct zone *zone, int order,
->  		.alloc_flags = alloc_flags,
->  		.classzone_idx = classzone_idx,
->  		.direct_compaction = true,
-> +		.proactive_compaction = false,
-
-false, 0, NULL etc are implicitly initialized with this kind of initialization
-(also in other places of the patch)
-
->  		.whole_zone = (prio == MIN_COMPACT_PRIORITY),
->  		.ignore_skip_hint = (prio == MIN_COMPACT_PRIORITY),
->  		.ignore_block_suitable = (prio == MIN_COMPACT_PRIORITY)
-> @@ -2412,6 +2515,42 @@ enum compact_result try_to_compact_pages(gfp_t gfp_mask, unsigned int order,
->  	return rc;
->  }
->  
-
-> @@ -2500,6 +2640,63 @@ void compaction_unregister_node(struct node *node)
->  }
->  #endif /* CONFIG_SYSFS && CONFIG_NUMA */
->  
-> +#ifdef CONFIG_SYSFS
-> +
-> +#define COMPACTION_ATTR_RO(_name) \
-> +	static struct kobj_attribute _name##_attr = __ATTR_RO(_name)
-> +
-> +#define COMPACTION_ATTR(_name) \
-> +	static struct kobj_attribute _name##_attr = \
-> +		__ATTR(_name, 0644, _name##_show, _name##_store)
-> +
-> +static struct kobject *compaction_kobj;
-> +
-> +static ssize_t proactiveness_store(struct kobject *kobj,
-> +		struct kobj_attribute *attr, const char *buf, size_t count)
-> +{
-> +	int err;
-> +	unsigned long input;
-> +
-> +	err = kstrtoul(buf, 10, &input);
-> +	if (err)
-> +		return err;
-> +	if (input > 100)
-> +		return -EINVAL;
-
-The sysctl way also allows to specify min/max in the descriptor and use the
-generic handler
+Good :)
