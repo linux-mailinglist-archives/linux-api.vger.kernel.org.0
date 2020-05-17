@@ -2,126 +2,128 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DD72A1D6B3A
-	for <lists+linux-api@lfdr.de>; Sun, 17 May 2020 18:58:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A1A11D6D78
+	for <lists+linux-api@lfdr.de>; Sun, 17 May 2020 23:31:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726242AbgEQQ6D (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 17 May 2020 12:58:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54620 "EHLO
+        id S1726552AbgEQVbB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 17 May 2020 17:31:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726031AbgEQQ6D (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 17 May 2020 12:58:03 -0400
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com [IPv6:2607:f8b0:4864:20::d44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 548C6C061A0C;
-        Sun, 17 May 2020 09:58:03 -0700 (PDT)
-Received: by mail-io1-xd44.google.com with SMTP id j8so7974983iog.13;
-        Sun, 17 May 2020 09:58:03 -0700 (PDT)
+        with ESMTP id S1726458AbgEQVbB (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 17 May 2020 17:31:01 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2C4FC061A0C
+        for <linux-api@vger.kernel.org>; Sun, 17 May 2020 14:31:00 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id b190so3966047pfg.6
+        for <linux-api@vger.kernel.org>; Sun, 17 May 2020 14:31:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=altgAbX5kmqCSE/VnAq/k8WHhDiX7o4bWc9rHmz5wOo=;
-        b=oFbmdXoJ7IKhXz/adk3cWUH02iVLEMbiWPS3oYco9rZQ/I26wyRUSLKaWf24g+fmgM
-         0qhq7O2DIUF1Fhk8wDI097fDcjaHjfzIJizUGrWQRXS+4abA7AQP8BA28vbJbHrmAfGO
-         XkSjfV7rVvsmFLSl+e1PMrZMYMEMTFax3aKxcsTGkJU3tfeUC9DAiPBYb2u7Xg2ypZuk
-         MA4Zpt1cTWT2dI3a0VrQkrK2A89zZAnM1zaEULhYiV+MmlR4kaxnEiXDq+hnDNnofPzl
-         F44myrooS17gGNTOq4w+l9JADdcPZhQ1Cb2mWVBLxhNG8vgwHIJ3wPBunDL4edBhA2KH
-         4DOw==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Nl1jPUv4ba/yAtewxEYF9Vx5ehHzan7FcPOetz1sGxI=;
+        b=clGboMqEVH0oyyAstusWn9pLsPGuJI2qTXOqf/fLKtmNWoo8PU8U4KP2i1KZsbuaVt
+         ZVGmYLRPYusSG7WQp27LnGotSSiVFtdWBjg36zFTERbOW+EMPqf6y69jWaRLHHT/vias
+         cVIIdpg0UDwKIC22zDZF7idLsYnz1Rns+G0xQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=altgAbX5kmqCSE/VnAq/k8WHhDiX7o4bWc9rHmz5wOo=;
-        b=divN88/HSl9WAnLfCx3T21WIpG4yE4j9iEgDrmn3Bb6H/npHxwpP6gRN8n9dQ3HYF+
-         NL6CdI3F/04dUF4cxg5x2O/njhPsX9HRLhFMCqsePT3cMSLFZr9Ggun1j+oC1spw6eih
-         RnG6gvYBp0aWkfx1yonuqQtDs+f5w2jQ4nv1OO+NbC/1NclCmZRLT6uOn7r/HenEXuZO
-         NajDGSPiBhgQnWq0geZGfrUSluT9n/d/grJ0hUieN3MkpQGFIm2k2G9Smgdjv2shDz/6
-         9y6KKSgKdQ1g5GN0KU+vytGkRsIEa0X4NpYWzoNEBCHsYo0Mmz9rZ94JtZF0iFIpHwwU
-         JTdQ==
-X-Gm-Message-State: AOAM531cPSXvOBg6z4l8udqgzLJ8+1Z0u40nXFE3cIE1iGP3AqgALZpF
-        T2cAwi9Qad7JrGXTst0DFqpzQqz+4R1DDBVpBmQ=
-X-Google-Smtp-Source: ABdhPJzkS2SOWSJO0UWnl+/Jz2U+Hdy/n0LyIdKaxfJBksl9CvPkj0zWT07DTkmBhBac8VhhDnTeZ/MnxGHqCUexLPc=
-X-Received: by 2002:a02:a58b:: with SMTP id b11mr11916189jam.56.1589734682438;
- Sun, 17 May 2020 09:58:02 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Nl1jPUv4ba/yAtewxEYF9Vx5ehHzan7FcPOetz1sGxI=;
+        b=JwBol/K0o4iXbU0pp0ZNJjahtdr0wThH0eKSeXYn5wJbO4cKnFYHJUBnHTRcWPy1hs
+         afgK6sHxDAUQH+W0AJUL+hIrVS9FBCVOgU/K5dBgXUtrGtQ8Iy0VrqE574XW2V0JJ7w4
+         04VT7sj269v9lXYUafNabZObhAb+1Sw5/PKT8W18MHb4hP105yBPs14RegAymaIkTipG
+         qVENgQxDy9whac0FToBXZAyUPtLKuqQ3WUbdGeM872poJFANYrbisCdKxclWixW5/QGa
+         bbSZ/+Q0UOvEcr8Ele8yjuAjUhH7DANqNerh5jTIqEVfSKMjt5nVWmlhN1eiCtP2vcBW
+         +Dcg==
+X-Gm-Message-State: AOAM53243YJdfPWWgXCwVJ6r9w/QF83BNXGN6X5nww3dRPJTgA8EQIbf
+        v0jXa4iG2n70ryNjeySBcf/Qcg==
+X-Google-Smtp-Source: ABdhPJzCfFU0gNS2Aq6V0833NEvmUA1835E1WIVVA7nMgWzPKZOvAUqjmi04Tqob8alVDia22+egKA==
+X-Received: by 2002:a62:6041:: with SMTP id u62mr7558083pfb.62.1589751060296;
+        Sun, 17 May 2020 14:31:00 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id b74sm6106085pga.31.2020.05.17.14.30.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 May 2020 14:30:59 -0700 (PDT)
+Date:   Sun, 17 May 2020 14:30:57 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Tycho Andersen <tycho@tycho.ws>
+Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
+        Aleksa Sarai <asarai@suse.de>, linux-api@vger.kernel.org,
+        containers@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] seccomp: Add group_leader pid to seccomp_notif
+Message-ID: <202005171428.68F30AA0@keescook>
+References: <20200515234005.32370-1-sargun@sargun.me>
+ <202005162344.74A02C2D@keescook>
+ <20200517104701.bbn2d2rqaplwchdw@wittgenstein>
+ <20200517112156.cphs2h33hx2wfcs4@yavin.dot.cyphar.com>
+ <20200517142316.GA1996744@cisco>
+ <20200517143311.fmxaf3pnopuaezl4@wittgenstein>
+ <20200517144603.GD1996744@cisco>
+ <20200517150215.GE1996744@cisco>
 MIME-Version: 1.0
-References: <20200505153156.925111-1-mic@digikod.net> <20200505153156.925111-3-mic@digikod.net>
- <202005121407.A339D31A@keescook> <CAP22eLEWW+KjD5rHosZV8vSuBB4YBLh0BQ=4-=kJQt9o=Fx1ig@mail.gmail.com>
- <202005140845.16F1CDC@keescook>
-In-Reply-To: <202005140845.16F1CDC@keescook>
-From:   "Lev R. Oshvang ." <levonshe@gmail.com>
-Date:   Sun, 17 May 2020 19:57:51 +0300
-Message-ID: <CAP22eLEy5nc4u6gPHtY56afrvF9oTNBwRwNAc7Le=Y_8V49nqQ@mail.gmail.com>
-Subject: Re: [PATCH v5 2/6] fs: Add a MAY_EXECMOUNT flag to infer the noexec
- mount property
-To:     Kees Cook <keescook@chromium.org>
-Cc:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>,
-        linux-kernel@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Christian Heimes <christian@python.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Deven Bowers <deven.desai@linux.microsoft.com>,
-        Eric Chiang <ericchiang@google.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
-        Matthew Garrett <mjg59@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mickael.salaun@ssi.gouv.fr>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        =?UTF-8?Q?Philippe_Tr=C3=A9buchet?= 
-        <philippe.trebuchet@ssi.gouv.fr>,
-        Scott Shell <scottsh@microsoft.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Steve Dower <steve.dower@python.org>,
-        Steve Grubb <sgrubb@redhat.com>,
-        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
-        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        LSM List <linux-security-module@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200517150215.GE1996744@cisco>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, May 14, 2020 at 6:48 PM Kees Cook <keescook@chromium.org> wrote:
->
-> On Thu, May 14, 2020 at 11:14:04AM +0300, Lev R. Oshvang . wrote:
-> > New sysctl is indeed required to allow userspace that places scripts
-> > or libs under noexec mounts.
->
-> But since this is a not-uncommon environment, we must have the sysctl
-> otherwise this change would break those systems.
->
- But I proposed sysctl on a line below.
+On Sun, May 17, 2020 at 09:02:15AM -0600, Tycho Andersen wrote:
+> On Sun, May 17, 2020 at 08:46:03AM -0600, Tycho Andersen wrote:
+> > On Sun, May 17, 2020 at 04:33:11PM +0200, Christian Brauner wrote:
+> > > struct seccomp_notif2 {
+> > > 	__u32 notif_size;
+> > > 	__u64 id;
+> > > 	__u32 pid;
+> > > 	__u32 flags;
+> > > 	struct seccomp_data data;
+> > > 	__u32 data_size;
+> > > };
+> > 
+> > I guess you need to put data_size before data, otherwise old userspace
+> > with a smaller struct seccomp_data will look in the wrong place.
+> > 
+> > But yes, that'll work if you put two sizes in, which is probably
+> > reasonable since we're talking about two structs.
+> 
+> Well, no, it doesn't either. Suppose we add a new field first to
+> struct seccomp_notif2:
+> 
+> struct seccomp_notif2 {
+>     __u32 notif_size;
+>     __u64 id;
+>     __u32 pid;
+>     __u32 flags;
+>     struct seccomp_data data;
+>     __u32 data_size;
+>     __u32 new_field;
+> };
+> 
+> And next we add a new field to struct secccomp_data. When a userspace
+> compiled with just the new seccomp_notif2 field does:
+> 
+> seccomp_notif2.new_field = ...;
+> 
+> the compiler will put it in the wrong place for the kernel with the
+> new seccomp_data field too.
+> 
+> Sort of feels like we should do:
+> 
+> struct seccomp_notif2 {
+>     struct seccomp_notif *notif;
+>     struct seccomp_data *data;
+> };
 
-> > fs.mnt_noexec_strict =1 (allow, e) , 1 (deny any file with --x
-> > permission), 2 (deny when O_MAYEXEC absent), for any file with ---x
-> > permissions)
->
-> I don't think we want another mount option -- this is already fully
-> expressed with noexec and the system-wide sysctl.
->
-> --
+I'm going read this thread more carefully tomorrow, but I just wanted to
+mention that I'd *like* to extend seccomp_data for doing deep argument
+inspection of the new syscalls. I think it's the least bad of many
+designs, and I'll write that up in more detail. (I would *really* like
+to avoid extending seccomp's BPF language, and instead allow probing
+into the struct copied from userspace, etc.)
 
-The intended use of proposed sysctl is to ebable sysadmin to decide
-whar is desired semantics  mount with NO_EXEC option.
+Anyway, it's very related to this, so, yeah, probably we need a v2 of the
+notif API, but I'll try to get all the ideas here collected in one place.
 
-fs.mnt_noexec_scope =0 |1|2|3
-0  - means old behaviour i.e do nor run executables and scripts (default)
-1 - deny any file with --x permissions, i.e executables , script and libs
-2 - deny any file when O_MAYEXEC is present.
-
-I think this is enough to handle all use cases and to not break
-current sysadmin file mounts setting
-I oppose the new O_MAY_EXECMOUNT flag, kernel already has MNT_NO_EXEC,
-SB_NOEXEC and SB_I_NOEXEC and I frankly do not understand why so many
-variants exist.
-Lev
+-- 
+Kees Cook
