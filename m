@@ -2,422 +2,218 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DB321D89D6
-	for <lists+linux-api@lfdr.de>; Mon, 18 May 2020 23:16:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC4241D8A15
+	for <lists+linux-api@lfdr.de>; Mon, 18 May 2020 23:37:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727024AbgERVOK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 18 May 2020 17:14:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36624 "EHLO
+        id S1728061AbgERVhi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 18 May 2020 17:37:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726250AbgERVOK (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 18 May 2020 17:14:10 -0400
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1700CC061A0C;
-        Mon, 18 May 2020 14:14:10 -0700 (PDT)
-Received: by mail-pg1-x544.google.com with SMTP id b8so5404368pgi.11;
-        Mon, 18 May 2020 14:14:10 -0700 (PDT)
+        with ESMTP id S1728039AbgERVhi (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 18 May 2020 17:37:38 -0400
+Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com [IPv6:2607:f8b0:4864:20::d42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 226D3C061A0C
+        for <linux-api@vger.kernel.org>; Mon, 18 May 2020 14:37:38 -0700 (PDT)
+Received: by mail-io1-xd42.google.com with SMTP id t15so5502443ios.4
+        for <linux-api@vger.kernel.org>; Mon, 18 May 2020 14:37:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=gJhA0EnWWogyqjagjGROhMHz7AQftODHYp71lZxH6sg=;
-        b=BJ1ex82NYDjkhYOcAaWRmnN8O0MLXSHnbo3aY/IrfshRrVMDW6+LUfqAZUdWm5gGS6
-         3PeRA4/IcSW6VCkXDSVCGH0VcuXDJP9awzm4p3SHnMENvfjFmKhO6GsSLldvJD9IAQDl
-         jcGre5r5QipMag/Se7eYUZaWgUOW5oFNBJ0quv0tGK+0cU+4lpcqFF3cbztNYFv20q3O
-         GK45DnDj8kbn/Xxiit7yw69YutJ6VSxYlEmWikfT1dg0JEcEuZOASMwsFrrXLVyuls94
-         /Srh4055SWBl4yKN8FI1wcuzhQcdO4GMVcb0fvhDafVZSk15njbPuXYYj9XFRN9dmE0H
-         i4rg==
+        d=sargun.me; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=PS//4W49LeX9Vs+lxZu9gg7QYyqRhCBlBHWbz6v23bo=;
+        b=cKR3pqRH2lLjEXlXFaO+eDoDtdxmLA25ueQY7ECKTbG7903OEMmVNkwirdBQ7LuA3k
+         wz3sZoA1MUXbfGSSc+bE9n1lP1+2AyTFD/8VaZLl0VlHcUy0sBfH7flEfcHbqgsUQ9fN
+         xOjGNn0KvmYzQ3yvdruPt2KQlPsQfk8cR0kjs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=gJhA0EnWWogyqjagjGROhMHz7AQftODHYp71lZxH6sg=;
-        b=ctS9nYHOFSfz7OL33IAnmP9FvRHoz02Wl/Y4bp+WUDSzL5Ct/ok6YfbS32zCM4NOSS
-         l1VfsgtJuJBr6QWN4ZuEYO7sJK2RPpKwlJ+3PWeolH1NYoq01kyhGdFzBJwQm+oXuei3
-         5lUa3k6QuZK47dMhJm0Lt0lhrbnvVK6YkqlCp/bcVX+oXvRdTnO3VT0WPb1Gzu3lLuCb
-         wpRthOL4FfhgdPeWVzHd5RcgXbEpgMhp9W+lnQMxeU5J/pvl9pTrio+B9gwoKNMWvaoc
-         jYWPS9r2X7WQLiRK+YxPOsf2aGLY3zSnKrTSuvpm+0LwMgAKyd2VBmWJSonlsck5e9IB
-         nTCQ==
-X-Gm-Message-State: AOAM531GvxIMytb+pKUG/UsPf1Hy1jFsHW4E+sb+dUqA++BEG3d1pUDK
-        dIxCiP1UB4gk20pXfDpVH3r4HDd6
-X-Google-Smtp-Source: ABdhPJyAOmytiozarBPse5ichjrDFa9QAlI96mBDsytsPdvHWvIzn0ED6e8IbvYFvlJQYy7gAPGZzQ==
-X-Received: by 2002:aa7:83c9:: with SMTP id j9mr16754790pfn.180.1589836449413;
-        Mon, 18 May 2020 14:14:09 -0700 (PDT)
-Received: from google.com ([2620:15c:211:1:3e01:2939:5992:52da])
-        by smtp.gmail.com with ESMTPSA id e13sm9432643pfh.19.2020.05.18.14.13.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2020 14:14:08 -0700 (PDT)
-Date:   Mon, 18 May 2020 14:13:50 -0700
-From:   Minchan Kim <minchan@kernel.org>
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
-        Oleksandr Natalenko <oleksandr@redhat.com>,
-        Tim Murray <timmurray@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        John Dias <joaodias@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jann Horn <jannh@google.com>,
-        alexander.h.duyck@linux.intel.com,
-        SeongJae Park <sjpark@amazon.com>,
-        David Rientjes <rientjes@google.com>,
-        Arjun Roy <arjunroy@google.com>,
-        Kirill Tkhai <ktkhai@virtuozzo.com>
-Subject: Re: [PATCH] mm: use only pidfd for process_madvise syscall
-Message-ID: <20200518211350.GA50295@google.com>
-References: <20200516012055.126205-1-minchan@kernel.org>
- <CAJuCfpGbPUpWLDgwt5ZP4Uf8fp6ht_6eqUypMVYYh3btJdz_8Q@mail.gmail.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=PS//4W49LeX9Vs+lxZu9gg7QYyqRhCBlBHWbz6v23bo=;
+        b=Nbit9n+3Tcy5q0yX5LhyVVp6WSvnlKwaMmap9Cn/q41UaXZM74pPVtw+Z77AeHM+sT
+         8yJ34fFkLWeYcKWZh5JTWlVl16D2ytGcSu9Hfaz8BK6/WhDaFUDOipmXKwT6p436wkaq
+         uMz3sE1smzZZRKefcfQ4lH5lpwvRXY8/P7+pJD8REHTyru14SQAJAFE8EFs+x2zohMnO
+         l+WHjQ/0gf3h+KArx1GOnU5MHDHJWVd+dxZy/Ssfy+BAiKNA1mQTjKzjX07VeHSya0i6
+         hth5ULXyqCsHgfzh/5eDirxMNGe7g84pKJFnkuOi3GWmDFSgEC1Bzr8APnhs7QhDyhYQ
+         sNrQ==
+X-Gm-Message-State: AOAM533QFI/H2oJT0iRhD3gkUjnii5cKOxhKcsYbGHm/veBghPJZRz30
+        lmVXuXJUZbijEDHvfnVigg4ytw==
+X-Google-Smtp-Source: ABdhPJwNC6ZrM01bUDFpeSIEpLw5mCNXAO6WtOX6hiP1ExKQ7BInjPiC+zdoq09ow1N0BwBUpdtlvA==
+X-Received: by 2002:a5d:94c5:: with SMTP id y5mr4097703ior.43.1589837857147;
+        Mon, 18 May 2020 14:37:37 -0700 (PDT)
+Received: from ircssh-2.c.rugged-nimbus-611.internal (80.60.198.104.bc.googleusercontent.com. [104.198.60.80])
+        by smtp.gmail.com with ESMTPSA id f10sm5235937ilj.85.2020.05.18.14.37.36
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 18 May 2020 14:37:36 -0700 (PDT)
+Date:   Mon, 18 May 2020 21:37:35 +0000
+From:   Sargun Dhillon <sargun@sargun.me>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Tycho Andersen <tycho@tycho.ws>, Aleksa Sarai <asarai@suse.de>,
+        Kees Cook <keescook@chromium.org>, linux-api@vger.kernel.org,
+        containers@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] seccomp: Add group_leader pid to seccomp_notif
+Message-ID: <20200518213734.GA25216@ircssh-2.c.rugged-nimbus-611.internal>
+References: <20200515234005.32370-1-sargun@sargun.me>
+ <202005162344.74A02C2D@keescook>
+ <20200517104701.bbn2d2rqaplwchdw@wittgenstein>
+ <20200517112156.cphs2h33hx2wfcs4@yavin.dot.cyphar.com>
+ <20200517142316.GA1996744@cisco>
+ <20200517143311.fmxaf3pnopuaezl4@wittgenstein>
+ <20200517144603.GD1996744@cisco>
+ <20200517150215.GE1996744@cisco>
+ <20200518125325.l2lpixp3ch7zuiwx@wittgenstein>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAJuCfpGbPUpWLDgwt5ZP4Uf8fp6ht_6eqUypMVYYh3btJdz_8Q@mail.gmail.com>
+In-Reply-To: <20200518125325.l2lpixp3ch7zuiwx@wittgenstein>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, May 18, 2020 at 12:22:56PM -0700, Suren Baghdasaryan wrote:
-> On Fri, May 15, 2020 at 6:21 PM Minchan Kim <minchan@kernel.org> wrote:
-> >
-> > Based on discussion[1], people didn't feel we need to support both
-> > pid and pidfd for every new coming API[2] so this patch keeps only
-> > pidfd. This patch also changes flags's type with "unsigned int".
-> > So finally, the API is as follows,
-> >
-> >       ssize_t process_madvise(int pidfd, const struct iovec *iovec,
-> >                 unsigned long vlen, int advice, unsigned int flags);
-> >
-> >     DESCRIPTION
-> >       The process_madvise() system call is used to give advice or directions
-> >       to the kernel about the address ranges from external process as well as
-> >       local process. It provides the advice to address ranges of process
-> >       described by iovec and vlen. The goal of such advice is to improve system
-> >       or application performance.
-> >
-> >       The pidfd selects the process referred to by the PID file descriptor
-> >       specified in pidfd. (See pidofd_open(2) for further information)
-> >
-> >       The pointer iovec points to an array of iovec structures, defined in
-> >       <sys/uio.h> as:
-> >
-> >         struct iovec {
-> >             void *iov_base;         /* starting address */
-> >             size_t iov_len;         /* number of bytes to be advised */
-> >         };
-> >
-> >       The iovec describes address ranges beginning at address(iov_base)
-> >       and with size length of bytes(iov_len).
-> >
-> >       The vlen represents the number of elements in iovec.
-> >
-> >       The advice is indicated in the advice argument, which is one of the
-> >       following at this moment if the target process specified by idtype and
+On Mon, May 18, 2020 at 02:53:25PM +0200, Christian Brauner wrote:
+> On Sun, May 17, 2020 at 09:02:15AM -0600, Tycho Andersen wrote:
+> > On Sun, May 17, 2020 at 08:46:03AM -0600, Tycho Andersen wrote:
+> > > On Sun, May 17, 2020 at 04:33:11PM +0200, Christian Brauner wrote:
+> > > > struct seccomp_notif2 {
+> > > > 	__u32 notif_size;
+> > > > 	__u64 id;
+> > > > 	__u32 pid;
+> > > > 	__u32 flags;
+> > > > 	struct seccomp_data data;
+> > > > 	__u32 data_size;
+> > > > };
+> > > 
+> > > I guess you need to put data_size before data, otherwise old userspace
+> > > with a smaller struct seccomp_data will look in the wrong place.
+> > > 
+> > > But yes, that'll work if you put two sizes in, which is probably
+> > > reasonable since we're talking about two structs.
+> > 
+> > Well, no, it doesn't either. Suppose we add a new field first to
+> > struct seccomp_notif2:
+> > 
+> > struct seccomp_notif2 {
+> >     __u32 notif_size;
+> >     __u64 id;
+> >     __u32 pid;
+> >     __u32 flags;
+> >     struct seccomp_data data;
+> >     __u32 data_size;
+> >     __u32 new_field;
+> > };
+> > 
+> > And next we add a new field to struct secccomp_data. When a userspace
+> > compiled with just the new seccomp_notif2 field does:
+> > 
+> > seccomp_notif2.new_field = ...;
+> > 
+> > the compiler will put it in the wrong place for the kernel with the
+> > new seccomp_data field too.
+> > 
+> > Sort of feels like we should do:
+> > 
+> > struct seccomp_notif2 {
+> >     struct seccomp_notif *notif;
+> >     struct seccomp_data *data;
+> > };
+> > 
+> > ?
 > 
-> There is no idtype parameter anymore, so maybe just "if the target
-> process is external"?
+> Oh yes of course, sorry that was my stupid typo. I meant:
+> 
+> struct seccomp_notif2 {
+>     __u32 notif_size;
+>     __u64 id;
+>     __u32 pid;
+>     __u32 flags;
+>     struct seccomp_data *data;
+>     __u32 data_size;
+>     __u32 new_field;
+> }
+One big difference in the approach I described is that the user gets to ask
+for specific fields, and can configure the listener upfront, versus having to
+do the dance of fetching the sizes, and dynamically allocating memory.
 
-Fixed.
+This way userspace can just do on-stack static allocations. We can get
+rid of the kbuf bits in my PR, if we incrementally fill up the userspace buffer
+(copy_to_user shouldn't be *that* costly).
+
+In addition, we're not copying a bunch of unnecessary data, or calculating
+values that the user may not be interested in. This is particularly valuable
+if we ever want to do things like passing optional fields (think PIDs) back.
+
+Code-wise, it looks something like:
+struct read_output_format {
+	__u64 id;
+	__u32 tgid;
+	struct seccomp_data data;
+} __packed;
+
+TEST(user_notification_read)
+{
+	long ret;
+	int status, pid, listener, read_size;
+	struct seccomp_notif_config config = {};
+	struct seccomp_notif_resp resp = {};
+	struct read_output_format buf;
+
+	ret = prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0);
+	ASSERT_EQ(0, ret) {
+		TH_LOG("Kernel does not support PR_SET_NO_NEW_PRIVS!");
+	}
+
+	listener = user_trap_syscall(__NR_dup, SECCOMP_FILTER_FLAG_NEW_LISTENER);
+	ASSERT_GE(listener, 0);
+
+	EXPECT_EQ(read(listener, &buf, sizeof(buf)), -1) {
+		EXPECT_EQ(errno, -EINVAL);
+	}
+
+	config.size = sizeof(config);
+	config.seccomp_data_size = sizeof(struct seccomp_data);
+	config.optional_fields = ~(0);
+	/* Make sure invalid fields are not accepted */
+	ASSERT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_CONFIG, &config), -1);
+
+	config.optional_fields = SECCOMP_NOTIF_FIELD_TGID;
+	ASSERT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_CONFIG, &config), sizeof(buf));
+
+	pid = fork();
+	ASSERT_GE(pid, 0);
+	if (pid == 0)
+		exit(syscall(__NR_dup, 42, 1, 1, 1) != USER_NOTIF_MAGIC);
+
+
+	/* Passing a smaller value in should fail */
+	EXPECT_EQ(read(listener, &buf, read_size - 1), -1) {
+		EXPECT_EQ(errno, -E2BIG);
+	}
+	/* Passing a larger value in should succeed */
+	ASSERT_EQ(read(listener, &buf, 200), sizeof(buf));
+	EXPECT_EQ(buf.tgid, pid);
+	EXPECT_EQ(buf.data.args[0], 42);
+	EXPECT_EQ(buf.data.nr, __NR_dup);
+
+	resp.id = buf.id;
+	resp.error = 0;
+	resp.val = USER_NOTIF_MAGIC;
+
+	EXPECT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_SEND, &resp), 0);
+
+	EXPECT_EQ(waitpid(pid, &status, 0), pid);
+	EXPECT_EQ(true, WIFEXITED(status));
+	EXPECT_EQ(0, WEXITSTATUS(status));
+}
 
 > 
-> >       id is external.
-> >
-> >         MADV_COLD
-> >         MADV_PAGEOUT
-> >         MADV_MERGEABLE
-> >         MADV_UNMERGEABLE
-> >
-> >       Permission to provide a hint to external process is governed by a
-> >       ptrace access mode PTRACE_MODE_ATTACH_FSCREDS check; see ptrace(2).
-> >
-> >       The process_madvise supports every advice madvise(2) has if target
-> >       process is in same thread group with calling process so user could
-> >       use process_madvise(2) to extend existing madvise(2) to support
-> >       vector address ranges.
-> >
-> >     RETURN VALUE
-> >       On success, process_madvise() returns the number of bytes advised.
-> >       This return value may be less than the total number of requested
-> >       bytes, if an error occurred. The caller should check return value
-> >       to determine whether a partial advice occurred.
-> >
-> > [1] https://lore.kernel.org/linux-mm/20200509124817.xmrvsrq3mla6b76k@wittgenstein/
-> > [2] https://lore.kernel.org/linux-mm/9d849087-3359-c4ab-fbec-859e8186c509@virtuozzo.com/
-> > Signed-off-by: Minchan Kim <minchan@kernel.org>
-> > ---
-> >  mm/madvise.c | 42 +++++++++++++-----------------------------
-> >  1 file changed, 13 insertions(+), 29 deletions(-)
-> >
-> > diff --git a/mm/madvise.c b/mm/madvise.c
-> > index d3fbbe52d230..35c9b220146a 100644
-> > --- a/mm/madvise.c
-> > +++ b/mm/madvise.c
-> > @@ -1229,8 +1229,8 @@ static int process_madvise_vec(struct task_struct *target_task,
-> >         return ret;
-> >  }
-> >
-> > -static ssize_t do_process_madvise(int which, pid_t upid, struct iov_iter *iter,
-> > -                                      int behavior, unsigned long flags)
-> > +static ssize_t do_process_madvise(int pidfd, struct iov_iter *iter,
-> > +                               int behavior, unsigned int flags)
-> >  {
-> >         ssize_t ret;
-> >         struct pid *pid;
-> > @@ -1241,26 +1241,12 @@ static ssize_t do_process_madvise(int which, pid_t upid, struct iov_iter *iter,
-> >         if (flags != 0)
-> >                 return -EINVAL;
-> >
-> > -       switch (which) {
-> > -       case P_PID:
-> > -               if (upid <= 0)
-> > -                       return -EINVAL;
-> > -
-> > -               pid = find_get_pid(upid);
-> > -               if (!pid)
-> > -                       return -ESRCH;
-> > -               break;
-> > -       case P_PIDFD:
-> > -               if (upid < 0)
-> > -                       return -EINVAL;
-> > -
-> > -               pid = pidfd_get_pid(upid);
-> > -               if (IS_ERR(pid))
-> > -                       return PTR_ERR(pid);
-> > -               break;
-> > -       default:
-> > +       if (pidfd < 0)
-> >                 return -EINVAL;
-> > -       }
-> > +
-> > +       pid = pidfd_get_pid(pidfd);
-> > +       if (IS_ERR(pid))
-> > +               return PTR_ERR(pid);
-> >
-> >         task = get_pid_task(pid, PIDTYPE_PID);
-> >         if (!task) {
-> > @@ -1292,9 +1278,8 @@ static ssize_t do_process_madvise(int which, pid_t upid, struct iov_iter *iter,
-> >         return ret;
-> >  }
-> >
-> > -SYSCALL_DEFINE6(process_madvise, int, which, pid_t, upid,
-> > -               const struct iovec __user *, vec, unsigned long, vlen,
-> > -               int, behavior, unsigned long, flags)
-> > +SYSCALL_DEFINE5(process_madvise, int, pidfd, const struct iovec __user *, vec,
-> > +               unsigned long, vlen, int, behavior, unsigned int, flags)
-> >  {
-> >         ssize_t ret;
-> >         struct iovec iovstack[UIO_FASTIOV];
-> > @@ -1303,19 +1288,18 @@ SYSCALL_DEFINE6(process_madvise, int, which, pid_t, upid,
-> >
-> >         ret = import_iovec(READ, vec, vlen, ARRAY_SIZE(iovstack), &iov, &iter);
-> >         if (ret >= 0) {
-> > -               ret = do_process_madvise(which, upid, &iter, behavior, flags);
-> > +               ret = do_process_madvise(pidfd, &iter, behavior, flags);
-> >                 kfree(iov);
-> >         }
-> >         return ret;
-> >  }
-> >
-> >  #ifdef CONFIG_COMPAT
-> > -COMPAT_SYSCALL_DEFINE6(process_madvise, compat_int_t, which,
-> > -                       compat_pid_t, upid,
-> > +COMPAT_SYSCALL_DEFINE5(process_madvise, compat_int_t, pidfd,
-> >                         const struct compat_iovec __user *, vec,
-> >                         compat_ulong_t, vlen,
-> >                         compat_int_t, behavior,
-> > -                       compat_ulong_t, flags)
-> > +                       compat_int_t, flags)
-> >
-> >  {
-> >         ssize_t ret;
-> > @@ -1326,7 +1310,7 @@ COMPAT_SYSCALL_DEFINE6(process_madvise, compat_int_t, which,
-> >         ret = compat_import_iovec(READ, vec, vlen, ARRAY_SIZE(iovstack),
-> >                                 &iov, &iter);
-> >         if (ret >= 0) {
-> > -               ret = do_process_madvise(which, upid, &iter, behavior, flags);
-> > +               ret = do_process_madvise(pidfd, &iter, behavior, flags);
-> >                 kfree(iov);
-> >         }
-> >         return ret;
-> > --
-> > 2.26.2.761.g0e0b3e54be-goog
-> >
+> at which point things should just work imho. This is similar to how the
+> set_tid array works. The kernel doesn't need to allocate any more too.
+> The kernel can just always use the currently know seccomp_data size.
+> If the kernel supports _less_ than what the caller expects, it can
+> report the supported size in data_size to userspace returning EINVAL. If
+> it supports more then it can just copy the known fields, I guess.
 > 
-> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
-
-Thanks for the review, Suren.
-
-Andrew, I sent this patch without folding into previous syscall introducing
-patches because it could be arguable. If you want to fold it into each
-patchset(i.e., introdcuing process_madvise syscall and introducing
-compat_syscall), let me know it. I will send partial diff to each
-patchset.
-
-From 1f5d3c22426b79b76690145102c6ec905a405790 Mon Sep 17 00:00:00 2001
-From: Minchan Kim <minchan@kernel.org>
-Date: Fri, 15 May 2020 17:48:08 -0700
-Subject: [PATCH v2] mm: use only pidfd for process_madvise syscall
-
-Based on discussion[1], people didn't feel we need to support both
-pid and pidfd for every new coming API[2] so this patch keeps only
-pidfd. This patch also changes flags's type with "unsigned int".
-So finally, the API is as follows,
-
-      ssize_t process_madvise(int pidfd, const struct iovec *iovec,
-      		unsigned long vlen, int advice, unsigned int flags);
-
-    DESCRIPTION
-      The process_madvise() system call is used to give advice or directions
-      to the kernel about the address ranges from external process as well as
-      local process. It provides the advice to address ranges of process
-      described by iovec and vlen. The goal of such advice is to improve system
-      or application performance.
-
-      The pidfd selects the process referred to by the PID file descriptor
-      specified in pidfd. (See pidofd_open(2) for further information)
-
-      The pointer iovec points to an array of iovec structures, defined in
-      <sys/uio.h> as:
-
-        struct iovec {
-            void *iov_base;         /* starting address */
-            size_t iov_len;         /* number of bytes to be advised */
-        };
-
-      The iovec describes address ranges beginning at address(iov_base)
-      and with size length of bytes(iov_len).
-
-      The vlen represents the number of elements in iovec.
-
-      The advice is indicated in the advice argument, which is one of the
-      following at this moment if the target process specified by pidfd is
-      external.
-
-        MADV_COLD
-        MADV_PAGEOUT
-        MADV_MERGEABLE
-        MADV_UNMERGEABLE
-
-      Permission to provide a hint to external process is governed by a
-      ptrace access mode PTRACE_MODE_ATTACH_FSCREDS check; see ptrace(2).
-
-      The process_madvise supports every advice madvise(2) has if target
-      process is in same thread group with calling process so user could
-      use process_madvise(2) to extend existing madvise(2) to support
-      vector address ranges.
-
-    RETURN VALUE
-      On success, process_madvise() returns the number of bytes advised.
-      This return value may be less than the total number of requested
-      bytes, if an error occurred. The caller should check return value
-      to determine whether a partial advice occurred.
-
-[1] https://lore.kernel.org/linux-mm/20200509124817.xmrvsrq3mla6b76k@wittgenstein/
-[2] https://lore.kernel.org/linux-mm/9d849087-3359-c4ab-fbec-859e8186c509@virtuozzo.com/
-Reviewed-by: Suren Baghdasaryan <surenb@google.com>
-Signed-off-by: Minchan Kim <minchan@kernel.org>
----
- mm/madvise.c | 42 +++++++++++++-----------------------------
- 1 file changed, 13 insertions(+), 29 deletions(-)
-
-diff --git a/mm/madvise.c b/mm/madvise.c
-index d3fbbe52d230..35c9b220146a 100644
---- a/mm/madvise.c
-+++ b/mm/madvise.c
-@@ -1229,8 +1229,8 @@ static int process_madvise_vec(struct task_struct *target_task,
- 	return ret;
- }
- 
--static ssize_t do_process_madvise(int which, pid_t upid, struct iov_iter *iter,
--				       int behavior, unsigned long flags)
-+static ssize_t do_process_madvise(int pidfd, struct iov_iter *iter,
-+				int behavior, unsigned int flags)
- {
- 	ssize_t ret;
- 	struct pid *pid;
-@@ -1241,26 +1241,12 @@ static ssize_t do_process_madvise(int which, pid_t upid, struct iov_iter *iter,
- 	if (flags != 0)
- 		return -EINVAL;
- 
--	switch (which) {
--	case P_PID:
--		if (upid <= 0)
--			return -EINVAL;
--
--		pid = find_get_pid(upid);
--		if (!pid)
--			return -ESRCH;
--		break;
--	case P_PIDFD:
--		if (upid < 0)
--			return -EINVAL;
--
--		pid = pidfd_get_pid(upid);
--		if (IS_ERR(pid))
--			return PTR_ERR(pid);
--		break;
--	default:
-+	if (pidfd < 0)
- 		return -EINVAL;
--	}
-+
-+	pid = pidfd_get_pid(pidfd);
-+	if (IS_ERR(pid))
-+		return PTR_ERR(pid);
- 
- 	task = get_pid_task(pid, PIDTYPE_PID);
- 	if (!task) {
-@@ -1292,9 +1278,8 @@ static ssize_t do_process_madvise(int which, pid_t upid, struct iov_iter *iter,
- 	return ret;
- }
- 
--SYSCALL_DEFINE6(process_madvise, int, which, pid_t, upid,
--		const struct iovec __user *, vec, unsigned long, vlen,
--		int, behavior, unsigned long, flags)
-+SYSCALL_DEFINE5(process_madvise, int, pidfd, const struct iovec __user *, vec,
-+		unsigned long, vlen, int, behavior, unsigned int, flags)
- {
- 	ssize_t ret;
- 	struct iovec iovstack[UIO_FASTIOV];
-@@ -1303,19 +1288,18 @@ SYSCALL_DEFINE6(process_madvise, int, which, pid_t, upid,
- 
- 	ret = import_iovec(READ, vec, vlen, ARRAY_SIZE(iovstack), &iov, &iter);
- 	if (ret >= 0) {
--		ret = do_process_madvise(which, upid, &iter, behavior, flags);
-+		ret = do_process_madvise(pidfd, &iter, behavior, flags);
- 		kfree(iov);
- 	}
- 	return ret;
- }
- 
- #ifdef CONFIG_COMPAT
--COMPAT_SYSCALL_DEFINE6(process_madvise, compat_int_t, which,
--			compat_pid_t, upid,
-+COMPAT_SYSCALL_DEFINE5(process_madvise, compat_int_t, pidfd,
- 			const struct compat_iovec __user *, vec,
- 			compat_ulong_t, vlen,
- 			compat_int_t, behavior,
--			compat_ulong_t, flags)
-+			compat_int_t, flags)
- 
- {
- 	ssize_t ret;
-@@ -1326,7 +1310,7 @@ COMPAT_SYSCALL_DEFINE6(process_madvise, compat_int_t, which,
- 	ret = compat_import_iovec(READ, vec, vlen, ARRAY_SIZE(iovstack),
- 				&iov, &iter);
- 	if (ret >= 0) {
--		ret = do_process_madvise(which, upid, &iter, behavior, flags);
-+		ret = do_process_madvise(pidfd, &iter, behavior, flags);
- 		kfree(iov);
- 	}
- 	return ret;
--- 
-2.26.2.761.g0e0b3e54be-goog
-
+> This way we don't need to add yet another ioctl...
+> 
+> Christian
