@@ -2,78 +2,84 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C3F401D8B4D
-	for <lists+linux-api@lfdr.de>; Tue, 19 May 2020 00:55:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 170B01D8B72
+	for <lists+linux-api@lfdr.de>; Tue, 19 May 2020 01:07:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728209AbgERWzW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 18 May 2020 18:55:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52382 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726500AbgERWzU (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 18 May 2020 18:55:20 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D649C061A0C
-        for <linux-api@vger.kernel.org>; Mon, 18 May 2020 15:55:19 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id d207so1040162wmd.0
-        for <linux-api@vger.kernel.org>; Mon, 18 May 2020 15:55:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CbrRoXG+bW2TyulWncy8iTxwjC+YKFA1v7y3l78jKH4=;
-        b=xEFLjRTPUSjctOEm0r+4bFklqfQG0ZHiIOdLVfbUyvWMinyZ18EIpM9hBV7EPB6+7I
-         3kJESCqxx/37NLhYW11GJbI6vngFWnzVe3/2mN8le+21aarLphA0UDZaTi9oGPklLrWa
-         OZSMFSRyJenzxnzVAzcmHYJKfoaymHRUSU08bEVofRCapx8hLvsKqS0PWr0kGKPZT9fj
-         Fjy08XYYXs2pzSWZ/9AzoZH0Cbz9PGHKTRvJCAguHNOvZZ8sA/ZMaG2oWw2fBwpSwwor
-         AVzHYh2B16/j1enIZpn8Fa8fXJyB7XLzx5z83PdM2EeIf/yTMOn2LV/IU4aBm20c0xTd
-         pYGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CbrRoXG+bW2TyulWncy8iTxwjC+YKFA1v7y3l78jKH4=;
-        b=NLlnoj2N6ADjc/3o0Q85v5sVjF2TOrdSad/mGR0FgdaNz0KY+JKv7xqlClNZccUwvF
-         57bJmKvtiMOY4lVkYq3p4W6jqlz9Wqa+en+4w/S9bemkaYGqVp5ujF/yapfPhSQukp2a
-         xWfSWEhpXvdA28a+e6LaD3lO9oM91IaebysM8VhroF6b7HGWOVg38eZ82DqfAmQMFKri
-         DHsdr2aos6/+14HKIw+ZDNhdIRy7pbatm9UFF/I9G3jb8U+lj7yh7O/3RHwLfrzuynZq
-         bpL+jP3fhuDWwt0lBlP2/Dbkr8cKL6e0BghlaDY80ttBq2Lhdnuhmd7UaSp2w8G8SE0+
-         C8Bw==
-X-Gm-Message-State: AOAM532pBIDCMknXAFsBWsGEDz82vPB3b4ap1A3urXbwmttfenJLxkSk
-        slMbWPCfwPGyJdIs24TyJYu/HSE1LbbsZhWU4dVZ+v3A
-X-Google-Smtp-Source: ABdhPJzzZW5NTOwzcd4s6iBlTCAtQm4jPksXvll7EYQRwpd36sd8KR/52N/NSgSAceSB1YnXgptzUg8u7ES88BON9U8=
-X-Received: by 2002:a1c:b3c1:: with SMTP id c184mr1726075wmf.36.1589842518091;
- Mon, 18 May 2020 15:55:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <202005181120.971232B7B@keescook>
-In-Reply-To: <202005181120.971232B7B@keescook>
-From:   Andy Lutomirski <luto@amacapital.net>
-Date:   Mon, 18 May 2020 15:55:06 -0700
-Message-ID: <CALCETrXv82qFRRXvH0ELQScRkKFzp+ND_8pahD+YJ=0OWY8YWg@mail.gmail.com>
-Subject: Re: seccomp feature development
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
-        Tycho Andersen <tycho@tycho.ws>,
-        Sargun Dhillon <sargun@sargun.me>,
-        Matt Denton <mpdenton@google.com>,
-        Chris Palmer <palmer@google.com>,
-        Jeffrey Vander Stoep <jeffv@google.com>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S1727917AbgERXG6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 18 May 2020 19:06:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52002 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726490AbgERXG6 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 18 May 2020 19:06:58 -0400
+Received: from localhost.localdomain (c-73-231-172-41.hsd1.ca.comcast.net [73.231.172.41])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E43932067D;
+        Mon, 18 May 2020 23:06:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1589843217;
+        bh=PK1V3Ku0yGM4DEfZQJfpSkYoFD5xqA30biO82kKQTyg=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=H3Y3A6nQEoHkOSbZz1IrzxA67bJtW3EK2PrUX2dvj+WcPFfXeeeFLSiDIsjqFM2+6
+         AoDFaDumm3o0hqXzWlR6moqQ94rO4UInBdKG+B6B2IL0f+9vqeGfN3n21meA/awxfW
+         5c6b+85KxidUgz4birZgOy7bjh/654owYJ42QtPE=
+Date:   Mon, 18 May 2020 16:06:56 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Minchan Kim <minchan@kernel.org>
+Cc:     Suren Baghdasaryan <surenb@google.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
+        Oleksandr Natalenko <oleksandr@redhat.com>,
+        Tim Murray <timmurray@google.com>,
+        Daniel Colascione <dancol@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Dias <joaodias@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jann Horn <jannh@google.com>,
+        alexander.h.duyck@linux.intel.com,
+        SeongJae Park <sjpark@amazon.com>,
+        David Rientjes <rientjes@google.com>,
+        Arjun Roy <arjunroy@google.com>,
+        Kirill Tkhai <ktkhai@virtuozzo.com>
+Subject: Re: [PATCH] mm: use only pidfd for process_madvise syscall
+Message-Id: <20200518160656.b9651ef7393db8e0614a1175@linux-foundation.org>
+In-Reply-To: <20200518211350.GA50295@google.com>
+References: <20200516012055.126205-1-minchan@kernel.org>
+        <CAJuCfpGbPUpWLDgwt5ZP4Uf8fp6ht_6eqUypMVYYh3btJdz_8Q@mail.gmail.com>
+        <20200518211350.GA50295@google.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, May 18, 2020 at 2:05 PM Kees Cook <keescook@chromium.org> wrote:
->
-> Hi!
->
+On Mon, 18 May 2020 14:13:50 -0700 Minchan Kim <minchan@kernel.org> wrote:
 
-This is minor, but, if we grow seccomp_data, I would like to add the
-other 32 bits of the syscall nr to it.  Syscall numbers are unsigned
-long, but they get munged into u32 for seccomp_data.
+> Andrew, I sent this patch without folding into previous syscall introducing
+> patches because it could be arguable. If you want to fold it into each
+> patchset(i.e., introdcuing process_madvise syscall and introducing
+> compat_syscall), let me know it. I will send partial diff to each
+> patchset.
 
-Sure, no one uses those high bits yet, but if we're extending things
-anyway, let's support them.
+It doesn't seem necessary - I believe we'll get a clean result if I
+squish all of these:
+
+mm-support-vector-address-ranges-for-process_madvise-fix.patch
+mm-support-vector-address-ranges-for-process_madvise-fix-fix.patch
+mm-support-vector-address-ranges-for-process_madvise-fix-fix-fix.patch
+mm-support-vector-address-ranges-for-process_madvise-fix-fix-fix-fix.patch
+mm-support-vector-address-ranges-for-process_madvise-fix-fix-fix-fix-fix.patch
+mm-use-only-pidfd-for-process_madvise-syscall.patch
+
+into mm-support-vector-address-ranges-for-process_madvise.patch and
+make the appropriate changelog adjustments?
+
