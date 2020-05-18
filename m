@@ -2,112 +2,68 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 167821D7907
-	for <lists+linux-api@lfdr.de>; Mon, 18 May 2020 14:53:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D11851D792F
+	for <lists+linux-api@lfdr.de>; Mon, 18 May 2020 15:03:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726709AbgERMx3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 18 May 2020 08:53:29 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:59920 "EHLO
+        id S1727008AbgERNDB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 18 May 2020 09:03:01 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:60458 "EHLO
         youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726726AbgERMx3 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 18 May 2020 08:53:29 -0400
+        with ESMTP id S1726739AbgERNDB (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 18 May 2020 09:03:01 -0400
 Received: from ip5f5af183.dynamic.kabel-deutschland.de ([95.90.241.131] helo=wittgenstein)
         by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
         (Exim 4.86_2)
         (envelope-from <christian.brauner@ubuntu.com>)
-        id 1jafGo-0005Y1-9c; Mon, 18 May 2020 12:53:26 +0000
-Date:   Mon, 18 May 2020 14:53:25 +0200
+        id 1jafPw-0006cd-7l; Mon, 18 May 2020 13:02:52 +0000
+Date:   Mon, 18 May 2020 15:02:51 +0200
 From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Tycho Andersen <tycho@tycho.ws>
-Cc:     Aleksa Sarai <asarai@suse.de>, Kees Cook <keescook@chromium.org>,
-        linux-api@vger.kernel.org, containers@lists.linux-foundation.org,
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+        Eric Biggers <ebiggers3@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        linux-fsdevel@vger.kernel.org,
+        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] seccomp: Add group_leader pid to seccomp_notif
-Message-ID: <20200518125325.l2lpixp3ch7zuiwx@wittgenstein>
-References: <20200515234005.32370-1-sargun@sargun.me>
- <202005162344.74A02C2D@keescook>
- <20200517104701.bbn2d2rqaplwchdw@wittgenstein>
- <20200517112156.cphs2h33hx2wfcs4@yavin.dot.cyphar.com>
- <20200517142316.GA1996744@cisco>
- <20200517143311.fmxaf3pnopuaezl4@wittgenstein>
- <20200517144603.GD1996744@cisco>
- <20200517150215.GE1996744@cisco>
+Subject: Re: [PATCH 1/4] exec: Change uselib(2) IS_SREG() failure to EACCES
+Message-ID: <20200518130251.zih2s32q2rxhxg6f@wittgenstein>
+References: <20200518055457.12302-1-keescook@chromium.org>
+ <20200518055457.12302-2-keescook@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200517150215.GE1996744@cisco>
+In-Reply-To: <20200518055457.12302-2-keescook@chromium.org>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sun, May 17, 2020 at 09:02:15AM -0600, Tycho Andersen wrote:
-> On Sun, May 17, 2020 at 08:46:03AM -0600, Tycho Andersen wrote:
-> > On Sun, May 17, 2020 at 04:33:11PM +0200, Christian Brauner wrote:
-> > > struct seccomp_notif2 {
-> > > 	__u32 notif_size;
-> > > 	__u64 id;
-> > > 	__u32 pid;
-> > > 	__u32 flags;
-> > > 	struct seccomp_data data;
-> > > 	__u32 data_size;
-> > > };
-> > 
-> > I guess you need to put data_size before data, otherwise old userspace
-> > with a smaller struct seccomp_data will look in the wrong place.
-> > 
-> > But yes, that'll work if you put two sizes in, which is probably
-> > reasonable since we're talking about two structs.
+On Sun, May 17, 2020 at 10:54:54PM -0700, Kees Cook wrote:
+> Change uselib(2)' S_ISREG() error return to EACCES instead of EINVAL so
+> the behavior matches execve(2), and the seemingly documented value.
+> The "not a regular file" failure mode of execve(2) is explicitly
+> documented[1], but it is not mentioned in uselib(2)[2] which does,
+> however, say that open(2) and mmap(2) errors may apply. The documentation
+> for open(2) does not include a "not a regular file" error[3], but mmap(2)
+> does[4], and it is EACCES.
 > 
-> Well, no, it doesn't either. Suppose we add a new field first to
-> struct seccomp_notif2:
+> [1] http://man7.org/linux/man-pages/man2/execve.2.html#ERRORS
+> [2] http://man7.org/linux/man-pages/man2/uselib.2.html#ERRORS
+> [3] http://man7.org/linux/man-pages/man2/open.2.html#ERRORS
+> [4] http://man7.org/linux/man-pages/man2/mmap.2.html#ERRORS
 > 
-> struct seccomp_notif2 {
->     __u32 notif_size;
->     __u64 id;
->     __u32 pid;
->     __u32 flags;
->     struct seccomp_data data;
->     __u32 data_size;
->     __u32 new_field;
-> };
-> 
-> And next we add a new field to struct secccomp_data. When a userspace
-> compiled with just the new seccomp_notif2 field does:
-> 
-> seccomp_notif2.new_field = ...;
-> 
-> the compiler will put it in the wrong place for the kernel with the
-> new seccomp_data field too.
-> 
-> Sort of feels like we should do:
-> 
-> struct seccomp_notif2 {
->     struct seccomp_notif *notif;
->     struct seccomp_data *data;
-> };
-> 
-> ?
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-Oh yes of course, sorry that was my stupid typo. I meant:
+This is all extremely weird.
+uselib has been deprected since forever basically which makes me doubt
+this matters much but:
+Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
 
-struct seccomp_notif2 {
-    __u32 notif_size;
-    __u64 id;
-    __u32 pid;
-    __u32 flags;
-    struct seccomp_data *data;
-    __u32 data_size;
-    __u32 new_field;
-}
-
-at which point things should just work imho. This is similar to how the
-set_tid array works. The kernel doesn't need to allocate any more too.
-The kernel can just always use the currently know seccomp_data size.
-If the kernel supports _less_ than what the caller expects, it can
-report the supported size in data_size to userspace returning EINVAL. If
-it supports more then it can just copy the known fields, I guess.
-
-This way we don't need to add yet another ioctl...
+Also - gulp (puts on flame proof suit) - may I suggest we check if there
+are any distros out there that still set CONFIG_USELIB=y and if not do
+what we did with the sysctl syscall and remove it? If someone yells we
+can always backpaddle...
 
 Christian
