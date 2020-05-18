@@ -2,111 +2,100 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BC8B1D8B7D
-	for <lists+linux-api@lfdr.de>; Tue, 19 May 2020 01:11:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F3E71D8BCF
+	for <lists+linux-api@lfdr.de>; Tue, 19 May 2020 01:49:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726970AbgERXL6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 18 May 2020 19:11:58 -0400
-Received: from out01.mta.xmission.com ([166.70.13.231]:50656 "EHLO
-        out01.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726481AbgERXL6 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 18 May 2020 19:11:58 -0400
-Received: from in02.mta.xmission.com ([166.70.13.52])
-        by out01.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.90_1)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1jaovK-0002rl-SN; Mon, 18 May 2020 17:11:54 -0600
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
-        by in02.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.87)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1jaovG-0003jx-Ae; Mon, 18 May 2020 17:11:54 -0600
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     Sargun Dhillon <sargun@sargun.me>
-Cc:     linux-kernel@vger.kernel.org,
-        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
-        christian.brauner@ubuntu.com, tycho@tycho.ws,
-        keescook@chromium.org, cyphar@cyphar.com
-References: <20200515234005.32370-1-sargun@sargun.me>
-Date:   Mon, 18 May 2020 18:08:11 -0500
-In-Reply-To: <20200515234005.32370-1-sargun@sargun.me> (Sargun Dhillon's
-        message of "Fri, 15 May 2020 16:40:05 -0700")
-Message-ID: <87h7wc4zac.fsf@x220.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        id S1727943AbgERXri (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 18 May 2020 19:47:38 -0400
+Received: from mga18.intel.com ([134.134.136.126]:49255 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727835AbgERXri (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 18 May 2020 19:47:38 -0400
+IronPort-SDR: sdB39/SxIwmCj0lrIELXnAJyDmcHZEW8sGjT43CYpRS/MTS4xgZc80KHh8vP4NK3CC9t5wMHUS
+ EQYv6v5DgXtA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2020 16:47:37 -0700
+IronPort-SDR: a/75CUBbMjozD92kCKohOYbINuo8CpBIovvYrJRyaHfmqmEieFFfsnNKlLmvQ6DkoJxMpBNBZm
+ naLb/0VGqWXQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,408,1583222400"; 
+   d="scan'208";a="342962843"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by orsmga001.jf.intel.com with ESMTP; 18 May 2020 16:47:36 -0700
+Message-ID: <075c5757d6c4d3813f7ae45288b765d76de8b6fc.camel@intel.com>
+Subject: Re: [PATCH v10 01/26] Documentation/x86: Add CET description
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+Date:   Mon, 18 May 2020 16:47:42 -0700
+In-Reply-To: <0f751be6d25364c25ee4bddc425b61e626dcd942.camel@intel.com>
+References: <20200429220732.31602-1-yu-cheng.yu@intel.com>
+         <20200429220732.31602-2-yu-cheng.yu@intel.com>
+         <b5197a8d-5d8b-e1f7-68d4-58d80261904c@intel.com>
+         <dd5b9bab31ecf247a0b4890e22bfbb486ff52001.camel@intel.com>
+         <5cc163ff9058d1b27778e5f0a016c88a3b1a1598.camel@intel.com>
+         <b0581ddc-0d99-cbcf-278e-0be55ba939a0@intel.com>
+         <44c055342bda4fb4730703f987ae35195d1d0c38.camel@intel.com>
+         <32235ffc-6e6c-fb3d-80c4-a0478e2d0e0f@intel.com>
+         <b09658f92eb66c1d1be509813939b9ed827f9cf0.camel@intel.com>
+         <631f071c-c755-a818-6a97-b333eb1fe21c@intel.com>
+         <0f751be6d25364c25ee4bddc425b61e626dcd942.camel@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1jaovG-0003jx-Ae;;;mid=<87h7wc4zac.fsf@x220.int.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX18PaDb13dtx9TkkbNG4DzN0+x9R61gVrp0=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa05.xmission.com
-X-Spam-Level: 
-X-Spam-Status: No, score=-0.2 required=8.0 tests=ALL_TRUSTED,BAYES_50,
-        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG autolearn=disabled
-        version=3.4.2
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4170]
-        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-        *      [sa05 0; Body=1 Fuz1=1 Fuz2=1]
-X-Spam-DCC: ; sa05 0; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: ;Sargun Dhillon <sargun@sargun.me>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 4163 ms - load_scoreonly_sql: 0.05 (0.0%),
-        signal_user_changed: 13 (0.3%), b_tie_ro: 11 (0.3%), parse: 1.33
-        (0.0%), extract_message_metadata: 17 (0.4%), get_uri_detail_list: 1.63
-        (0.0%), tests_pri_-1000: 7 (0.2%), tests_pri_-950: 1.71 (0.0%),
-        tests_pri_-900: 1.38 (0.0%), tests_pri_-90: 163 (3.9%), check_bayes:
-        140 (3.4%), b_tokenize: 7 (0.2%), b_tok_get_all: 6 (0.1%),
-        b_comp_prob: 2.3 (0.1%), b_tok_touch_all: 120 (2.9%), b_finish: 1.10
-        (0.0%), tests_pri_0: 266 (6.4%), check_dkim_signature: 0.66 (0.0%),
-        check_dkim_adsp: 3.0 (0.1%), poll_dns_idle: 3670 (88.2%),
-        tests_pri_10: 2.2 (0.1%), tests_pri_500: 3687 (88.6%), rewrite_mail:
-        0.00 (0.0%)
-Subject: Re: [PATCH] seccomp: Add group_leader pid to seccomp_notif
-X-Spam-Flag: No
-X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
-X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Sargun Dhillon <sargun@sargun.me> writes:
+On Fri, 2020-05-15 at 19:53 -0700, Yu-cheng Yu wrote:
+> On Fri, 2020-05-15 at 16:56 -0700, Dave Hansen wrote:
+> > On 5/15/20 4:29 PM, Yu-cheng Yu wrote:
+> > > [...]
+> > > I have run them with CET enabled.  All of them pass, except for the following:
+> > > Sigreturn from 64-bit to 32-bit fails, because shadow stack is at a 64-bit
+> > > address.  This is understandable.
+> > [...]
+> > One a separate topic: You ran the selftests and one failed.  This is a
+> > *MASSIVE* warning sign.  It should minimally be described in your cover
+> > letter, and accompanied by a fix to the test case.  It is absolutely
+> > unacceptable to introduce a kernel feature that causes a test to fail.
+> > You must either fix your kernel feature or you fix the test.
+> > 
+> > This code can not be accepted until this selftests issue is rectified.
 
-> This includes the thread group leader ID in the seccomp_notif. This is
-> immediately useful for opening up a pidfd for the group leader, as
-> pidfds only work on group leaders.
+The x86/sigreturn test constructs 32-bit ldt entries, and does sigreturn from
+64-bit to 32-bit context.  We do not have a way to construct a static 32-bit
+shadow stack.  Why do we want that?  I think we can simply run the test with CET
+disabled.
 
-The code looks fine (except for the name of the test), but can you
-please talk and think about this as something other than the
-group leader?
+Yu-cheng
 
-The initial thread in a thread group can die, and the tgid is still
-valid for the entire group.  Because the initial thread of a
-process/thread group can die (but rarely does) that tends to result in
-kernel code that fails when thread_group_leader dies.
 
-To remove that class of bugs I am slowy working to remove the
-thread_group_leader from the kernel entirely.
-
-Looking at the names of the fields in the structure it looks like
-there is another class of bugs to be removed by renaming PIDTYPE_PID
-to PIDTYPE_TID in the kernel as well.  Just skimming the example code
-it looks very simple to get confused.
-
-Is there any chance some can modify struct seccomp_notify to do
-{
-	...
-        union {
-		__u32 pid;
-                __u32 tid;
-	};
-        ...
-}
-
-Just to reduce the chance of confusion between the userspace pid and the
-in kernel pid names?
-
-Eric
