@@ -2,292 +2,198 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D42F1D8DBA
-	for <lists+linux-api@lfdr.de>; Tue, 19 May 2020 04:49:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38D381D8FA7
+	for <lists+linux-api@lfdr.de>; Tue, 19 May 2020 07:56:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726302AbgESCtE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 18 May 2020 22:49:04 -0400
-Received: from mout-p-101.mailbox.org ([80.241.56.151]:15742 "EHLO
-        mout-p-101.mailbox.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726292AbgESCtE (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 18 May 2020 22:49:04 -0400
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [80.241.60.241])
-        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
-        (No client certificate requested)
-        by mout-p-101.mailbox.org (Postfix) with ESMTPS id 49R0hF1DtNzKmcC;
-        Tue, 19 May 2020 04:49:01 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp2.mailbox.org ([80.241.60.241])
-        by spamfilter03.heinlein-hosting.de (spamfilter03.heinlein-hosting.de [80.241.56.117]) (amavisd-new, port 10030)
-        with ESMTP id z1luPqXY7fuj; Tue, 19 May 2020 04:48:55 +0200 (CEST)
-Date:   Tue, 19 May 2020 12:48:46 +1000
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     Jann Horn <jannh@google.com>
-Cc:     Kees Cook <keescook@chromium.org>,
+        id S1726859AbgESFy4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 19 May 2020 01:54:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32826 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726794AbgESFyz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 19 May 2020 01:54:55 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B32A2C061A0C;
+        Mon, 18 May 2020 22:54:55 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id l73so806556pjb.1;
+        Mon, 18 May 2020 22:54:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=KuFInB8SBsyIcapayRGL/wNNAtWfcntO3NhtMrJkPpc=;
+        b=LV2rmPEX65G1P7yzlYAJpyPVHpR3Q6N78jpGYIV6PUPBodcaaPIjSkKiJVeCDhdyRf
+         yiU9LynQ1C5yWPhBJPfuDCmTJU4aDqVsIsu5Bx1ZS1q/j+VKY7+VZMOMeIsobgS0X+Lp
+         IflTXleJ50QPaYwRzJjO0V9MkrNXDxpNxVeApgsvpN2UvXUAUOipX5ojyJ/XTkahsyjJ
+         k/KjWaW7VTD4T3lWmpZXuVuqrJWHvXxThzyOFfu6T+Z16+HM6akCXJZRAtCpMy85EhAe
+         LfUuqoycJqZpuT9WkNdQDD2E9DAE2WMfp1SYrA0ZIkqxevqNRTAcNSi4YqdYOoQTeb1s
+         xe8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=KuFInB8SBsyIcapayRGL/wNNAtWfcntO3NhtMrJkPpc=;
+        b=gzg+jlsfNG0YrGIG6aG/JVh/YqVUsXmWBXj9hq302AIjjz6WCk9sESwNsLnwYjegst
+         4eGhf747vPuju9OkeT9D26AKnwwEWY6wf8914zCvXBtNaylLsKSrdqWpvYti9e+g9I4H
+         b6F7Sb0odtZpRdJuIH9vwpG/25j0vjNu0Qzs0g25IKPyu7uS02I4+GtBaJMJ5uxmCq9u
+         KvbIRt5HeYJXWYJ/YNfIR/UQ9970ZDAiGTAqcWirgvPQmFX1udLYXhSZWOfu6oopii9U
+         Sy4i8BaxR9soUSgzzZfJ4s0ZjhFcB0iEdNMt3p5yDn/hy/voa1i+Ym2ZQpEQXW7SC330
+         gQVA==
+X-Gm-Message-State: AOAM531+w7nEKiq6U9ekOJ4vSUq78MJXcSsx4s0JEKCe7DpE1iqojDN9
+        DEJ9xERir6/VzdR/dO+lKws=
+X-Google-Smtp-Source: ABdhPJyEGeaN/cshC/J5XWS3NtbK18AkQlyDwbUaSxJgu0y+9hl01mxZmVNpaCpGOJ9XL5vy5APVQQ==
+X-Received: by 2002:a17:902:5588:: with SMTP id g8mr20295084pli.321.1589867694934;
+        Mon, 18 May 2020 22:54:54 -0700 (PDT)
+Received: from google.com ([2620:15c:211:1:3e01:2939:5992:52da])
+        by smtp.gmail.com with ESMTPSA id 127sm10553604pfw.72.2020.05.18.22.54.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 May 2020 22:54:53 -0700 (PDT)
+Date:   Mon, 18 May 2020 22:54:51 -0700
+From:   Minchan Kim <minchan@kernel.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Suren Baghdasaryan <surenb@google.com>,
+        LKML <linux-kernel@vger.kernel.org>,
         Christian Brauner <christian.brauner@ubuntu.com>,
-        Tycho Andersen <tycho@tycho.ws>,
-        Sargun Dhillon <sargun@sargun.me>,
-        Matt Denton <mpdenton@google.com>,
-        Chris Palmer <palmer@google.com>,
-        Jeffrey Vander Stoep <jeffv@google.com>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>
-Subject: Re: seccomp feature development
-Message-ID: <20200519024846.b6dr5cjojnuetuyb@yavin.dot.cyphar.com>
-References: <202005181120.971232B7B@keescook>
- <CAG48ez1LrQvR2RHD5-ZCEihL4YT1tVgoAJfGYo+M3QukumX=OQ@mail.gmail.com>
+        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
+        Oleksandr Natalenko <oleksandr@redhat.com>,
+        Tim Murray <timmurray@google.com>,
+        Daniel Colascione <dancol@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Dias <joaodias@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jann Horn <jannh@google.com>,
+        alexander.h.duyck@linux.intel.com,
+        SeongJae Park <sjpark@amazon.com>,
+        David Rientjes <rientjes@google.com>,
+        Arjun Roy <arjunroy@google.com>,
+        Kirill Tkhai <ktkhai@virtuozzo.com>
+Subject: Re: [PATCH] mm: use only pidfd for process_madvise syscall
+Message-ID: <20200519055451.GA255907@google.com>
+References: <20200516012055.126205-1-minchan@kernel.org>
+ <CAJuCfpGbPUpWLDgwt5ZP4Uf8fp6ht_6eqUypMVYYh3btJdz_8Q@mail.gmail.com>
+ <20200518211350.GA50295@google.com>
+ <20200518160656.b9651ef7393db8e0614a1175@linux-foundation.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="cisf46ndtv3jnog6"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAG48ez1LrQvR2RHD5-ZCEihL4YT1tVgoAJfGYo+M3QukumX=OQ@mail.gmail.com>
-X-Rspamd-Queue-Id: E19B5168A
-X-Rspamd-Score: -9.51 / 15.00 / 15.00
+In-Reply-To: <20200518160656.b9651ef7393db8e0614a1175@linux-foundation.org>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+Hi Andrew,
 
---cisf46ndtv3jnog6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, May 18, 2020 at 04:06:56PM -0700, Andrew Morton wrote:
+> On Mon, 18 May 2020 14:13:50 -0700 Minchan Kim <minchan@kernel.org> wrote:
+> 
+> > Andrew, I sent this patch without folding into previous syscall introducing
+> > patches because it could be arguable. If you want to fold it into each
+> > patchset(i.e., introdcuing process_madvise syscall and introducing
+> > compat_syscall), let me know it. I will send partial diff to each
+> > patchset.
+> 
+> It doesn't seem necessary - I believe we'll get a clean result if I
+> squish all of these:
+> 
+> mm-support-vector-address-ranges-for-process_madvise-fix.patch
+> mm-support-vector-address-ranges-for-process_madvise-fix-fix.patch
+> mm-support-vector-address-ranges-for-process_madvise-fix-fix-fix.patch
+> mm-support-vector-address-ranges-for-process_madvise-fix-fix-fix-fix.patch
+> mm-support-vector-address-ranges-for-process_madvise-fix-fix-fix-fix-fix.patch
+> mm-use-only-pidfd-for-process_madvise-syscall.patch
+> 
+> into mm-support-vector-address-ranges-for-process_madvise.patch and
+> make the appropriate changelog adjustments?
+> 
 
-On 2020-05-19, Jann Horn <jannh@google.com> wrote:
-> On Mon, May 18, 2020 at 11:05 PM Kees Cook <keescook@chromium.org> wrote:
-> > ## deep argument inspection
-> >
-> > Background: seccomp users would like to write filters that traverse
-> > the user pointers passed into many syscalls, but seccomp can't do this
-> > dereference for a variety of reasons (mostly involving race conditions =
-and
-> > rearchitecting the entire kernel syscall and copy_from_user() code flow=
-s).
->=20
-> Also, other than for syscall entry, it might be worth thinking about
-> whether we want to have a special hook into seccomp for io_uring.
-> io_uring is growing support for more and more syscalls, including
-> things like openat2, connect, sendmsg, splice and so on, and that list
-> is probably just going to grow in the future. If people start wanting
-> to use io_uring in software with seccomp filters, it might be
-> necessary to come up with some mechanism to prevent io_uring from
-> permitting access to almost everything else...
->=20
-> Probably not a big priority for now, but something to keep in mind for
-> the future.
+If you want to fold them all, please use the description below for
+mm-support-vector-address-ranges-for-process_madvise.patch.
 
-Indeed. Quite a few people have raised concerns about io_uring and its
-debug-ability, but I agree that another less-commonly-mentioned concern
-should be how you restrict io_uring(2) from doing operations you've
-disallowed through seccomp. Though obviously user_notif shouldn't be
-allowed. :D
+Thanks.
 
-> > The argument caching bit is, I think, rather mechanical in nature since
-> > it's all "just" internal to the kernel: seccomp can likely adjust how it
-> > allocates seccomp_data (maybe going so far as to have it split across t=
-wo
-> > pages with the syscall argument struct always starting on the 2nd page
-> > boundary), and copying the EA struct into that page, which will be both
-> > used by the filter and by the syscall.
->=20
-> We could also do the same kind of thing the eBPF verifier does in
-> convert_ctx_accesses(), and rewrite the context accesses to actually
-> go through two different pointers depending on the (constant) offset
-> into seccomp_data.
+============== &< ===================
 
-My main worry with this is that we'll need to figure out what kind of
-offset mathematics are necessary to deal with pointers inside the
-extensible struct. As a very ugly proposal, you could make it so that
-you multiply the offset by PAGE_SIZE each time you want to dereference
-the pointer at that offset (unless we want to add new opcodes to cBPF to
-allow us to represent this).
+Subject: [PATCH] mm: support vector address ranges for process_madvise
 
-This might even be needed for seccomp user_notif -- given one of the
-recent proposals was basically to just add two (extensible) struct
-pointers inside the main user_notif struct.
+This patch changes process_madvise interface:
+  a) support vector address ranges in a system call
+  b) support the vector address ranges to local process as well as
+     external process
+  c) remove pid but keep only pidfd in argument - [1][2]
+  d) change type of flags with unsgined int
 
-> > I imagine state tracking ("is
-> > there a cached EA?", "what is the address of seccomp_data?", "what is
-> > the address of the EA?") can be associated with the thread struct.
->=20
-> You probably mean the task struct?
->=20
-> > The growing size of the EA struct will need some API design. For filters
-> > to operate on the contiguous seccomp_data+EA struct, the filter will
-> > need to know how large seccomp_data is (more on this later), and how
-> > large the EA struct is. When the filter is written in userspace, it can
-> > do the math, point into the expected offsets, and get what it needs. For
-> > this to work correctly in the kernel, though, the seccomp BPF verifier
-> > needs to know the size of the EA struct as well, so it can correctly
-> > perform the offset checking (as it currently does for just the
-> > seccomp_data struct size).
-> >
-> > Since there is not really any caller-based "seccomp state" associated
-> > across seccomp(2) calls, I don't think we can add a new command to tell
-> > the kernel "I'm expecting the EA struct size to be $foo bytes", since
-> > the kernel doesn't track who "I" is besides just being "current", which
-> > doesn't take into account the thread lifetime -- if a process launcher
-> > knows about one size and the child knows about another, things will get
-> > confused. The sizes really are just associated with individual filters,
-> > based on the syscalls they're examining. So, I have thoughts on possible
-> > solutions:
-> >
-> > - create a new seccomp command SECCOMP_SET_MODE_FILTER2 which uses the
-> >   EA style so we can pass in more than a filter and include also an
-> >   array of syscall to size mappings. (I don't like this...)
-> > - create a new filter flag, SECCOMP_FILTER_FLAG_EXTENSIBLE, which chang=
-es
-> >   the meaning of the uarg from "filter" to a EA-style structure with
-> >   sizes and pointers to the filter and an array of syscall to size
-> >   mappings. (I like this slightly better, but I still don't like it.)
-> > - leverage the EA design and just accept anything <=3D PAGE_SIZE, record
-> >   the "max offset" value seen during filter verification, and zero-fill
-> >   the EA struct with zeros to that size when constructing the
-> >   seccomp_data + EA struct that the filter will examine. Then the secco=
-mp
-> >   filter doesn't care what any of the sizes are, and userspace doesn't
-> >   care what any of the sizes are. (I like this as it makes the problems
-> >   to solve contained entirely by the seccomp infrastructure and does not
-> >   touch user API, but I worry I'm missing some gotcha I haven't
-> >   considered.)
->=20
-> We don't need to actually zero-fill memory for this beyond what the
-> kernel supports - AFAIK the existing APIs already say that passing a
-> short length is equivalent to passing zeroes, so we can just replace
-> all out-of-bounds loads with zeroing registers in the filter.
-> The tricky case is what should happen if the userspace program passes
-> in fields that the filter doesn't know about. The filter can see the
-> length field passed in by userspace, and then just reject anything
-> where the length field is bigger than the structure size the filter
-> knows about. But maybe it'd be slightly nicer if there was an
-> operation for "tell me whether everything starting at offset X is
-> zeroes", so that if someone compiles with newer kernel headers where
-> the struct is bigger, and leaves the new fields zeroed, the syscalls
-> still go through an outdated filter properly.
+Android app has thousands of vmas due to zygote so it's totally waste of
+CPU and power if we should call the syscall one by one for each vma.
+(With testing 2000-vma syscall vs 1-vector syscall, it showed 15%
+performance improvement.  I think it would be bigger in real practice
+because the testing ran very cache friendly environment).
 
-I think the best way of handling this (without breaking programs
-senselessly) is to have filters essentially emulate
-copy_struct_from_user() semantics -- which is along the lines of what
-you've suggested.
+Another potential use case for the vector range is to amortize the cost of
+TLB shootdowns for multiple ranges when using MADV_DONTNEED; this could
+benefit users like TCP receive zerocopy and malloc implementations.  In
+future, we could find more usecases for other advises so let's make it
+happens as API since we introduce a new syscall at this moment.  With
+that, existing madvise(2) user could replace it with process_madvise(2)
+with their own pid if they want to have batch address ranges support
+feature.
 
-That means in addition to treating all offsets past the end of usize as
-being zeroed, we also get filters to only reject programs with usize >
-fsize (the size the filter knows) if the trailing (fsize - usize) bytes
-are non-zero. Having an opcode for that (a-la bpf_check_uarg_tail_zero)
-would be a good idea.
+So finally, the API is as follows,
 
-> > And then, my age-old concern, that maybe doesn't need a solution... I
-> > remain plagued by the lack of pathname inspection. But I think the
-> > ToCToU nature of it means we just cannot do it from seccomp. It does
-> > make filtering openat2()'s EA struct a bit funny... a filter has no idea
-> > what path it applies to... but that doesn't matter because the object
-> > the path points to might change[6] during the syscall. Argh.
->=20
-> I don't think seccomp needs to care about paths. Instead, you can use
-> one of these three approaches:
->=20
-> 1) You can make openat2() the only syscall that is allowed to take
-> non-empty path arguments, and restrict it to
-> RESOLVE_BENEATH|RESOLVE_IN_ROOT. (For APIs that use AT_EMPTY_PATH, we
-> can probably come up with some way to say "this part must be an empty
-> string" - e.g. by defining a new bogus placeholder pointer that you
-> can use as "empty path", or something like that.) This is basically
-> like the old capsicum O_BENEATH stuff, except with seccomp doing the
-> enforcement that you're not using absolute paths or things like that.
+      ssize_t process_madvise(int pidfd, const struct iovec *iovec,
+      		unsigned long vlen, int advice, unsigned int flags);
 
-The only concern I'd have with this is the dfd argument (would you only
-permit AT_FDCWD?). If you want to let programs run inside a
-pre-configured jail directory then you'd need to white-list only *that*
-fd and then block all other syscalls which would let you overwrite that
-fd with something else...
+    DESCRIPTION
+      The process_madvise() system call is used to give advice or directions
+      to the kernel about the address ranges from external process as well as
+      local process. It provides the advice to address ranges of process
+      described by iovec and vlen. The goal of such advice is to improve system
+      or application performance.
 
-> 2) You can create a new mount namespace, then use open_tree() with
-> OPEN_TREE_CLONE to create file descriptors to ephemeral bind mounts,
-> then sandbox yourself with pivot_root().
-> 3) You can use Mickael's landlock, once that's landed.
+      The pidfd selects the process referred to by the PID file descriptor
+      specified in pidfd. (See pidofd_open(2) for further information)
 
-Or (4), just use LSMs to achieve this goal (which is basically 3, but
-applies to all LSMs).
+      The pointer iovec points to an array of iovec structures, defined in
+      <sys/uio.h> as:
 
-> > ## changing structure sizes
-> >
-> > Background: there have been regular needs to add things to various
-> > seccomp structures. Each come with their own unique pains, and solving
-> > this as completely as possible in a future-proof way would be very nice.
-> >
-> > As noted in "fd passing" above, there is a desire to add some useful
-> > things to the user_notif struct (e.g. thread group pid). Similarly,
-> > there have been requests in the past (though I can't find any good
-> > references right now, just my indirect comments[3]) to grow seccomp_dat=
-a.
->=20
-> This thing (which hasn't landed so far, but would be a really awesome
-> feature) needed to add stuff to seccomp_data:
-> <https://lore.kernel.org/linux-api/20181029112343.27454-1-msammler@mpi-sw=
-s.org/>
->=20
-> > Combined with the EA struct work above, there's a clear need for seccomp
-> > to reexamine how it deals with its API structures (and how this
-> > interacts with filters).
-> >
-> > First, let's consider seccomp_data. If we grow it, the EA struct offset
-> > will move, based on the deep arg inspection design above. Alternatively,
-> > we could instead put seccomp_data offset 0, and EA struct at offset
-> > PAGE_SIZE, and treat seccomp_data itself as an EA struct where we let
-> > the filter access whatever it thinks is there, with it being zero-filled
-> > by the kernel. For any values where 0 is valid, there will just need to
-> > be a "is that field valid?" bit before it:
-> >
-> >         unsigned long feature_bits;
-> >         unsigned long interesting_thing_1;
-> >         unsigned long interesting_thing_2;
-> >         unsigned long interesting_thing_3;
-> >         ...
-> >
-> > and the filter would check feature_bits...
->=20
-> (Apart from the user_notif stuff, those feature bits would not
-> actually have to exist in memory; they could be inlined while loading
-> the program. Actually, not even the registers would have to exist in a
-> seccomp_data struct in memory, we could just replace the loads with
-> reads from the pt_regs, too.)
->=20
-> > (However, this needs to be carefully considered given that seccomp_data
-> > is embedded in user_notif... should the EA struct from userspace also be
-> > copied into user_notif? More thoughts on this below...)
-> >
-> > For user_notif, I think we need something in and around these options:
-> >
-> > - make a new API that explicitly follows EA struct design
-> >   (and while read()/write() might be easier[4], I tend to agree with
-> >   Jann and we need to stick to ioctl(): as Tycho noted, "read/write is
-> >   for data". Though I wonder if read() could be used for the notificati=
-ons,
-> >   which ARE data, and use ioctl() for the responses?)
->=20
-> Just as a note: If we use read() there, we'll never be able to
-> transfer things like FDs through that API.
+        struct iovec {
+            void *iov_base;         /* starting address */
+            size_t iov_len;         /* number of bytes to be advised */
+        };
 
-And we run into the age-old "read() for management can be a bit hairy"
-problem.
+      The iovec describes address ranges beginning at address(iov_base)
+      and with size length of bytes(iov_len).
 
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
+      The vlen represents the number of elements in iovec.
 
---cisf46ndtv3jnog6
-Content-Type: application/pgp-signature; name="signature.asc"
+      The advice is indicated in the advice argument, which is one of the
+      following at this moment if the target process specified by pidfd is
+      external.
 
------BEGIN PGP SIGNATURE-----
+        MADV_COLD
+        MADV_PAGEOUT
+        MADV_MERGEABLE
+        MADV_UNMERGEABLE
 
-iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXsNJCgAKCRCdlLljIbnQ
-Ehu8AP982wzZyHbdAM6I7gx48pcJa7+8hVC7DBkHdx8mhHufmwD/YVHuF81GLO02
-Kzj35J3Hl3xy9RKp9t5e3wd5R3IosQM=
-=PqJn
------END PGP SIGNATURE-----
+      Permission to provide a hint to external process is governed by a
+      ptrace access mode PTRACE_MODE_ATTACH_FSCREDS check; see ptrace(2).
 
---cisf46ndtv3jnog6--
+      The process_madvise supports every advice madvise(2) has if target
+      process is in same thread group with calling process so user could
+      use process_madvise(2) to extend existing madvise(2) to support
+      vector address ranges.
+
+    RETURN VALUE
+      On success, process_madvise() returns the number of bytes advised.
+      This return value may be less than the total number of requested
+      bytes, if an error occurred. The caller should check return value
+      to determine whether a partial advice occurred.
+
+[1] https://lore.kernel.org/linux-mm/20200509124817.xmrvsrq3mla6b76k@wittgenstein/
+[2] https://lore.kernel.org/linux-mm/9d849087-3359-c4ab-fbec-859e8186c509@virtuozzo.com/
+Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+Signed-off-by: Minchan Kim <minchan@kernel.org>
