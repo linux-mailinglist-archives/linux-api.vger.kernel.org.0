@@ -2,163 +2,187 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 23A421D8D29
-	for <lists+linux-api@lfdr.de>; Tue, 19 May 2020 03:35:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9ACE01D8D90
+	for <lists+linux-api@lfdr.de>; Tue, 19 May 2020 04:24:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727777AbgESBf3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 18 May 2020 21:35:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49126 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726532AbgESBf2 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 18 May 2020 21:35:28 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65F40C05BD09
-        for <linux-api@vger.kernel.org>; Mon, 18 May 2020 18:35:27 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id a13so3413259pls.8
-        for <linux-api@vger.kernel.org>; Mon, 18 May 2020 18:35:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=content-transfer-encoding:from:mime-version:subject:date:message-id
-         :references:cc:in-reply-to:to;
-        bh=eH46HFXVZAPfiSp4yenoocGuq08o9xIexbUXyqPElZM=;
-        b=MUO3gqmIH8arkfIZPDEnbj00SQROT+XbT+rDPd75eB/HjRGwYyynILINnbvrKpXwEh
-         xjH/zddHN9oG2KUZQh2WDdjrzRHcWR924fHvxZmLPfTJdee4nGqk/TmPTpHq6UOnoSUY
-         Nozsfy/yQQHZDuEJxIwU5re+Vw3ej5MOtr0VWeszUDlEBFOlzqSCZf1+kGB36LV8nFUS
-         p31AewNcXmp3fgPUaHEiV6z+GZWbHK2/pYqyfvA+Oz5jvNqeI9q2Bg9FM+0TD4x/ahM5
-         lWrAfGLCf1+679BxrayorUF3lrsFQlGBbjKB8TlTMIVRgW1CavVzF3C1QAL1cnXt1ks1
-         8d/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:content-transfer-encoding:from:mime-version
-         :subject:date:message-id:references:cc:in-reply-to:to;
-        bh=eH46HFXVZAPfiSp4yenoocGuq08o9xIexbUXyqPElZM=;
-        b=H86HkwXutVVKg/8+6rnSBwXKlVfbK2gHzhHo2Yv/2ycOHx5eWfBqeW1vrJhHXZzUNj
-         mVvMpe0zfW3vsvuEvNVL0s43jQMSxRbK62oeklQd4cgDeCwm00OXdgsyIS6e196/PNL1
-         vHbwWXy/b18CgyoJnZpcm1tkWyE/yKzaQep1tDU4qcbQB3b/znGDjTQLyDaTacHPzAEa
-         jVvWsHq1lwOczsMMRLwP/UEYn4PosKcZNgB0R5Ma9Z70FxzyY/+LzC2Bwj90a72/mq6o
-         ozW0Xdj7/x/0+PLz4rxu7Vpio7zEFumCTzAiIR8WRPKNSPbm4vOoEvXHw3UTN76BLs9c
-         Bgaw==
-X-Gm-Message-State: AOAM530URt3muEZaaNvVpbvlxm4Wv0S3iYm4DoyA2tFLrfkzslDJKQxm
-        dRqThcrvI0LO4Tl3u25eSg0teQ==
-X-Google-Smtp-Source: ABdhPJy8HG2dxYu85sQ/k3xohgNFNrRpKa2Z8TapTI/kGsGKDc/vL2nDP6aXUMn7J4JK7jLX6crAhg==
-X-Received: by 2002:a17:90a:930b:: with SMTP id p11mr2442189pjo.46.1589852126573;
-        Mon, 18 May 2020 18:35:26 -0700 (PDT)
-Received: from ?IPv6:2601:646:c200:1ef2:9c3c:ad41:e2e7:d4f4? ([2601:646:c200:1ef2:9c3c:ad41:e2e7:d4f4])
-        by smtp.gmail.com with ESMTPSA id 206sm4735467pfy.97.2020.05.18.18.35.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 May 2020 18:35:25 -0700 (PDT)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From:   Andy Lutomirski <luto@amacapital.net>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v10 01/26] Documentation/x86: Add CET description
-Date:   Mon, 18 May 2020 18:35:21 -0700
-Message-Id: <58319765-891D-44B9-AF18-64492B01FF36@amacapital.net>
-References: <2eb98637-bd2d-dda6-7729-f06ea84256ca@intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
+        id S1726628AbgESCXq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 18 May 2020 22:23:46 -0400
+Received: from mout-p-201.mailbox.org ([80.241.56.171]:12746 "EHLO
+        mout-p-201.mailbox.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726302AbgESCXp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 18 May 2020 22:23:45 -0400
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [80.241.60.240])
+        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
+        (No client certificate requested)
+        by mout-p-201.mailbox.org (Postfix) with ESMTPS id 49R0714S3fzQlJp;
+        Tue, 19 May 2020 04:23:41 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from smtp1.mailbox.org ([80.241.60.240])
+        by spamfilter03.heinlein-hosting.de (spamfilter03.heinlein-hosting.de [80.241.56.117]) (amavisd-new, port 10030)
+        with ESMTP id DZqWh7er1wSe; Tue, 19 May 2020 04:23:34 +0200 (CEST)
+Date:   Tue, 19 May 2020 12:23:07 +1000
+From:   Aleksa Sarai <cyphar@cyphar.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Florian Weimer <fweimer@redhat.com>,
+        =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
         Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-In-Reply-To: <2eb98637-bd2d-dda6-7729-f06ea84256ca@intel.com>
-To:     Dave Hansen <dave.hansen@intel.com>
-X-Mailer: iPhone Mail (17E262)
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
+        Christian Heimes <christian@python.org>,
+        Deven Bowers <deven.desai@linux.microsoft.com>,
+        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+        John Johansen <john.johansen@canonical.com>,
+        Kentaro Takeda <takedakn@nttdata.co.jp>,
+        "Lev R. Oshvang ." <levonshe@gmail.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Eric Chiang <ericchiang@google.com>,
+        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
+        Matthew Garrett <mjg59@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mickael.salaun@ssi.gouv.fr>,
+        Philippe =?utf-8?Q?Tr=C3=A9buchet?= 
+        <philippe.trebuchet@ssi.gouv.fr>,
+        Scott Shell <scottsh@microsoft.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Steve Dower <steve.dower@python.org>,
+        Steve Grubb <sgrubb@redhat.com>,
+        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
+        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        LSM List <linux-security-module@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>
+Subject: Re: How about just O_EXEC? (was Re: [PATCH v5 3/6] fs: Enable to
+ enforce noexec mounts or file exec through O_MAYEXEC)
+Message-ID: <20200519022307.oqpdb4vzghs3coyi@yavin.dot.cyphar.com>
+References: <202005132002.91B8B63@keescook>
+ <CAEjxPJ7WjeQAz3XSCtgpYiRtH+Jx-UkSTaEcnVyz_jwXKE3dkw@mail.gmail.com>
+ <202005140830.2475344F86@keescook>
+ <CAEjxPJ4R_juwvRbKiCg5OGuhAi1ZuVytK4fKCDT_kT6VKc8iRg@mail.gmail.com>
+ <b740d658-a2da-5773-7a10-59a0ca52ac6b@digikod.net>
+ <202005142343.D580850@keescook>
+ <87a729wpu1.fsf@oldenburg2.str.redhat.com>
+ <202005150732.17C5EE0@keescook>
+ <87r1vluuli.fsf@oldenburg2.str.redhat.com>
+ <202005150847.2B1ED8F81@keescook>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="nmvvtdsznpppdmip"
+Content-Disposition: inline
+In-Reply-To: <202005150847.2B1ED8F81@keescook>
+X-Rspamd-Queue-Id: 7E02D177E
+X-Rspamd-Score: -7.06 / 15.00 / 15.00
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 
+--nmvvtdsznpppdmip
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> On May 18, 2020, at 5:38 PM, Dave Hansen <dave.hansen@intel.com> wrote:
+On 2020-05-15, Kees Cook <keescook@chromium.org> wrote:
+> On Fri, May 15, 2020 at 04:43:37PM +0200, Florian Weimer wrote:
+> > * Kees Cook:
+> >=20
+> > > On Fri, May 15, 2020 at 10:43:34AM +0200, Florian Weimer wrote:
+> > >> * Kees Cook:
+> > >>=20
+> > >> > Maybe I've missed some earlier discussion that ruled this out, but=
+ I
+> > >> > couldn't find it: let's just add O_EXEC and be done with it. It ac=
+tually
+> > >> > makes the execve() path more like openat2() and is much cleaner af=
+ter
+> > >> > a little refactoring. Here are the results, though I haven't email=
+ed it
+> > >> > yet since I still want to do some more testing:
+> > >> > https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/log=
+/?h=3Dkspp/o_exec/v1
+> > >>=20
+> > >> I think POSIX specifies O_EXEC in such a way that it does not confer
+> > >> read permissions.  This seems incompatible with what we are trying to
+> > >> achieve here.
+> > >
+> > > I was trying to retain this behavior, since we already make this
+> > > distinction between execve() and uselib() with the MAY_* flags:
+> > >
+> > > execve():
+> > >         struct open_flags open_exec_flags =3D {
+> > >                 .open_flag =3D O_LARGEFILE | O_RDONLY | __FMODE_EXEC,
+> > >                 .acc_mode =3D MAY_EXEC,
+> > >
+> > > uselib():
+> > >         static const struct open_flags uselib_flags =3D {
+> > >                 .open_flag =3D O_LARGEFILE | O_RDONLY | __FMODE_EXEC,
+> > >                 .acc_mode =3D MAY_READ | MAY_EXEC,
+> > >
+> > > I tried to retain this in my proposal, in the O_EXEC does not imply
+> > > MAY_READ:
+> >=20
+> > That doesn't quite parse for me, sorry.
+> >=20
+> > The point is that the script interpreter actually needs to *read* those
+> > files in order to execute them.
 >=20
-> =EF=BB=BFOn 5/18/20 4:47 PM, Yu-cheng Yu wrote:
->>> On Fri, 2020-05-15 at 19:53 -0700, Yu-cheng Yu wrote:
->>> On Fri, 2020-05-15 at 16:56 -0700, Dave Hansen wrote:
->>>> On 5/15/20 4:29 PM, Yu-cheng Yu wrote:
->>>>> [...]
->>>>> I have run them with CET enabled.  All of them pass, except for the fo=
-llowing:
->>>>> Sigreturn from 64-bit to 32-bit fails, because shadow stack is at a 64=
--bit
->>>>> address.  This is understandable.
->>>> [...]
->>>> One a separate topic: You ran the selftests and one failed.  This is a
->>>> *MASSIVE* warning sign.  It should minimally be described in your cover=
+> I think I misunderstood what you meant (Micka=EBl got me sorted out
+> now). If O_EXEC is already meant to be "EXEC and _not_ READ nor WRITE",
+> then yes, this new flag can't be O_EXEC. I was reading the glibc
+> documentation (which treats it as a permission bit flag, not POSIX,
+> which treats it as a complete mode description).
 
->>>> letter, and accompanied by a fix to the test case.  It is absolutely
->>>> unacceptable to introduce a kernel feature that causes a test to fail.
->>>> You must either fix your kernel feature or you fix the test.
->>>>=20
->>>> This code can not be accepted until this selftests issue is rectified.
->> The x86/sigreturn test constructs 32-bit ldt entries, and does sigreturn f=
-rom
->> 64-bit to 32-bit context.  We do not have a way to construct a static 32-=
-bit
->> shadow stack.
->=20
-> Why? What's the limiting factor?  Hardware architecture?  Something in
-> the kernel?
->=20
->> Why do we want that?  I think we can simply run the test with CET
->> disabled.
->=20
-> The sadistic parts of selftests/x86 come from real bugs.  Either bugs
-> where the kernel fell over, or where behavior changed that broke apps.
-> I'd suggest doing some research on where that particular test case came
-> from.  Find the author of the test, look at the changelogs.
->=20
-> If this is something that a real app does, this is a problem.  If it's a
-> sadistic test that Andy L added because it was an attack vector against
-> the entry code, it's a different story.
+On the other hand, if we had O_EXEC (or O_EXONLY a-la O_RDONLY) then the
+interpreter could re-open the file descriptor as O_RDONLY after O_EXEC
+succeeds. Not ideal, but I don't think it's a deal-breaker.
 
-There are quite a few tests that do these horrible things in there. IN my pe=
-rsonal opinion, sigreturn.c is one of the most important tests we have =E2=80=
-=94 it does every horrible thing to the entry code that I thought of and tha=
-t I could come up with a way of doing.  We have been saved from regressing m=
-any times by these tests.  CET, and especially the CPL0 version of CET, is i=
-ts own set of entry horror, and we need to keep these tests working.
+Regarding O_MAYEXEC, I do feel a little conflicted.
 
-I assume the basic issue is that we call raise(), the context magically chan=
-ges to 32-bit, but SSP has a 64-bit value, and horrors happen.  So I think t=
-wo things need to happen:
+I do understand that its goal is not to be what O_EXEC was supposed to
+be (which is loosely what O_PATH has effectively become), so I think
+that this is not really a huge problem -- especially since you could
+just do O_MAYEXEC|O_PATH if you wanted to disallow reading explicitly.
+It would be nice to have an O_EXONLY concept, but it's several decades
+too late to make it mandatory (and making it optional has questionable
+utility IMHO).
 
-1. Someone needs to document what happens when IRET tries to put a 64-bit va=
-lue into SSP but CS is compat. Because Intel has plenty of history of doing c=
-olossally broken things here. IOW you could easily be hitting a hardware des=
-ign problem, not a software issue per se.
+However, the thing I still feel mildly conflicted about is the sysctl. I
+do understand the argument for it (ultimately, whether O_MAYEXEC is
+usable on a system depends on the distribution) but it means that any
+program which uses O_MAYEXEC cannot rely on it to provide the security
+guarantees they expect. Even if the program goes and reads the sysctl
+value, it could change underneath them. If this is just meant to be a
+best-effort protection then this doesn't matter too much, but I just
+feel uneasy about these kinds of best-effort protections.
 
-2. The test needs to work. Assuming the hardware doesn=E2=80=99t do somethin=
-g utterly broken, either the 32-bit code needs to be adjusted to avoid any C=
-ALL
-or RET, or you need to write a little raise_on_32bit_shstk() func that switc=
-hes to an SSP that fits in 32 bits, calls raise(), and switches back.  =46rom=
- memory, I didn=E2=80=99t think there was a CALl or RET, so I=E2=80=99m gues=
-sing that SSP is getting truncated when we round trip through CPL3 compat mo=
-de and the result is that the kernel invoked the signal handler with the wro=
-ng SSP.  Whoops.
+I do wonder if we could require that fexecve(3) can only be done with
+file descriptors that have been opened with O_MAYEXEC (obviously this
+would also need to be a sysctl -- *sigh*). This would tie in to some of
+the magic-link changes I wanted to push (namely, upgrade_mask).
 
->=20
-> I don't personally know the background, but the changelogs can help you
-> find the person that does.
+--=20
+Aleksa Sarai
+Senior Software Engineer (Containers)
+SUSE Linux GmbH
+<https://www.cyphar.com/>
+
+--nmvvtdsznpppdmip
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXsNDCAAKCRCdlLljIbnQ
+Ep1qAQCjFv2VG5NQz8tGYkrTeOm2XgvCB0zQ3mmGYhFYEMKpYgD+J4hGIJA2Uqq8
+NSOE5oY1uvmG7wnuYY2/cbJlZVeF/Ao=
+=GDei
+-----END PGP SIGNATURE-----
+
+--nmvvtdsznpppdmip--
