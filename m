@@ -2,217 +2,150 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 757B81DA361
-	for <lists+linux-api@lfdr.de>; Tue, 19 May 2020 23:17:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 401ED1DA3BA
+	for <lists+linux-api@lfdr.de>; Tue, 19 May 2020 23:40:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726893AbgESVR1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 19 May 2020 17:17:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36226 "EHLO
+        id S1726823AbgESVkG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 19 May 2020 17:40:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726862AbgESVR0 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 19 May 2020 17:17:26 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 283D8C08C5C2
-        for <linux-api@vger.kernel.org>; Tue, 19 May 2020 14:17:25 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id n15so505417pfd.0
-        for <linux-api@vger.kernel.org>; Tue, 19 May 2020 14:17:25 -0700 (PDT)
+        with ESMTP id S1725998AbgESVkF (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 19 May 2020 17:40:05 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 845B7C08C5C1
+        for <linux-api@vger.kernel.org>; Tue, 19 May 2020 14:40:04 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id a13so417905pls.8
+        for <linux-api@vger.kernel.org>; Tue, 19 May 2020 14:40:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=Cz7ypDwiQcY75biLKEJQMmwCg/gVg2A/D/by2yCpR7U=;
-        b=hpwirQ0Xs1SorucIF2v9uRq9u46loiYGcq4NK3JplwhSqVwyhavNf0YBGEMwX0Bma4
-         0qiabCHNEWCuGkSTjRhFXEwKkHxrDYGRFoHjGzsfnqLEIv9+DK/ZHc5YRuhfY23dKBN2
-         AHQMsFVocsK8Gz4nmxoV8PjJo6Hfj0jub8qS0=
+        bh=qZrnOBqdIK/f9ZKEYvAl0vw/13DRB3RwIGSmwGXyTpI=;
+        b=YD0FWr1n4aRBwXbRpkumGdVcnRnTBzs8xC53EtpY/+CDnTQq5QrfVWZuUHWHC7t/oC
+         GCluPTOCW1KYp8yaGOWLKDdonR1xl0cIqDBBpYL/Jc01xqzgLo2avep6uumO1EeeIe0+
+         sqTXfRtYYEmAKVRLMLfBHLUyJCkqlV8EfLlTU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=Cz7ypDwiQcY75biLKEJQMmwCg/gVg2A/D/by2yCpR7U=;
-        b=RzvgKIldv5RyTcwG06k+Np5k0TbZNvpZMSuS9TcOI7+eOSQJu6qDxc4Zc/bS3E0KWn
-         uPBw/z1PDpFNYVoWlIx6QZuD/dwAr9etQof79hWq/bO2G2M3Jg7eyH77NhZXOyWnd41g
-         plgVEuV/71uaJY3kZU0RV7nDojS1O5V09Hl3N/MkSwgxjUPxfK8XkO8aEEZVVoRfU1Z9
-         8VUtnEn1ga1tFMoriSnkaxqFV4DT+cijhySiQodHbDG4Tgbc9ROP5+VK/9kk7Zf/BHGv
-         VfgkDFJeW9tXUxwe+9FDCguWOVoPUU/2cqZITBgViUcUPWW7hCIICBwdM+lpi9IkveYe
-         2sTA==
-X-Gm-Message-State: AOAM532Nkqs75Dn3edgIUJS3pnoYTj5LCDSeZ2sO68x1jBLBwKTgPvJA
-        5FRwMfoaF6lcMaEF7X+Lcg58GhHmh8oZeQ==
-X-Google-Smtp-Source: ABdhPJxbEob6J6f6hJy0GeqN5fD4zEgoeNcFb9XU7fUpXsQJwNl9Ou6crVqMvKvg1aajIHr6QDJ0Ww==
-X-Received: by 2002:a62:7c94:: with SMTP id x142mr1036481pfc.155.1589923044367;
-        Tue, 19 May 2020 14:17:24 -0700 (PDT)
+        bh=qZrnOBqdIK/f9ZKEYvAl0vw/13DRB3RwIGSmwGXyTpI=;
+        b=Q1MdnCa2iPDStkH9hQkS4Rbk6+DXTlUOntPRDAnzzfyrVr92jjxvrWKkr9npDbuixU
+         hVvQn2bhhodmWRDm6tzUWc/avSjEt2qW9rMtJCsazCw26vmi3kzqiw4p9vcJIyVskUNx
+         DKXFNocov5bNqPo0CXNG8giLnkB43s+rqZ5fCaIBHOALmvCxgBFweEXdKfhb2MaMYaI+
+         NUe47pHHnURGANlwOYdob4e/dKJntS3LU+LWDrc6GtrizuuLfp9TMveEejKT4yaKxrN6
+         DSl+UtKQjspQt61GVBTKKHdqyIIb7T81+Z/bFg/khaELLOIPQ3R1ZLjWlwnVQQ7ZVZOh
+         w9jg==
+X-Gm-Message-State: AOAM532d0eTM6PeU+sBI/RtBXruEnf8rWzNMnxwVOjxezWDhYG9gTLve
+        Evyvd9nU8FO/pqNeN8VJ0eXBHw==
+X-Google-Smtp-Source: ABdhPJxxUbJw24Z12APTaY/3nigy/vJ+nnWJ/bpNRl0x+5MCtEWwJIZ0w7jwgPf8UyhhfpOzN1YH0w==
+X-Received: by 2002:a17:902:bb82:: with SMTP id m2mr1369227pls.291.1589924403251;
+        Tue, 19 May 2020 14:40:03 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id p62sm334352pfb.93.2020.05.19.14.17.22
+        by smtp.gmail.com with ESMTPSA id n67sm370238pfn.16.2020.05.19.14.40.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2020 14:17:23 -0700 (PDT)
-Date:   Tue, 19 May 2020 14:17:22 -0700
+        Tue, 19 May 2020 14:40:01 -0700 (PDT)
+Date:   Tue, 19 May 2020 14:40:00 -0700
 From:   Kees Cook <keescook@chromium.org>
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
-        Eric Biggers <ebiggers3@gmail.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        linux-fsdevel@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        John Johansen <john.johansen@canonical.com>
-Subject: Re: [PATCH 0/4] Relocate execve() sanity checks
-Message-ID: <202005191342.97EE972E3@keescook>
-References: <20200518055457.12302-1-keescook@chromium.org>
- <87a724t153.fsf@x220.int.ebiederm.org>
- <202005190918.D2BD83F7C@keescook>
- <87o8qjstyw.fsf@x220.int.ebiederm.org>
- <202005191052.0A6B1D5843@keescook>
- <87sgfvrckr.fsf@x220.int.ebiederm.org>
+To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc:     Aleksa Sarai <cyphar@cyphar.com>, Jann Horn <jannh@google.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Tycho Andersen <tycho@tycho.ws>,
+        Sargun Dhillon <sargun@sargun.me>,
+        Matt Denton <mpdenton@google.com>,
+        Chris Palmer <palmer@google.com>,
+        Jeffrey Vander Stoep <jeffv@google.com>,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        bpf <bpf@vger.kernel.org>
+Subject: Re: seccomp feature development
+Message-ID: <202005191434.57253AD@keescook>
+References: <202005181120.971232B7B@keescook>
+ <CAG48ez1LrQvR2RHD5-ZCEihL4YT1tVgoAJfGYo+M3QukumX=OQ@mail.gmail.com>
+ <20200519024846.b6dr5cjojnuetuyb@yavin.dot.cyphar.com>
+ <CAADnVQKRCCHRQrNy=V7ue38skb8nKCczScpph2WFv7U_jsS3KQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87sgfvrckr.fsf@x220.int.ebiederm.org>
+In-Reply-To: <CAADnVQKRCCHRQrNy=V7ue38skb8nKCczScpph2WFv7U_jsS3KQ@mail.gmail.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, May 19, 2020 at 01:42:28PM -0500, Eric W. Biederman wrote:
-> Kees Cook <keescook@chromium.org> writes:
-> 
-> > On Tue, May 19, 2020 at 12:41:27PM -0500, Eric W. Biederman wrote:
-> >> Kees Cook <keescook@chromium.org> writes:
-> >> > and given the LSM hooks, I think the noexec check is too late as well.
-> >> > (This is especially true for the coming O_MAYEXEC series, which will
-> >> > absolutely need those tests earlier as well[1] -- the permission checking
-> >> > is then in the correct place: during open, not exec.) I think the only
-> >> > question is about leaving the redundant checks in fs/exec.c, which I
-> >> > think are a cheap way to retain a sense of robustness.
-> >> 
-> >> The trouble is when someone passes through changes one of the permission
-> >> checks for whatever reason (misses that they are duplicated in another
-> >> location) and things then fail in some very unexpected way.
+On Tue, May 19, 2020 at 09:18:47AM -0700, Alexei Starovoitov wrote:
+> On Mon, May 18, 2020 at 7:53 PM Aleksa Sarai <cyphar@cyphar.com> wrote:
 > >
-> > Do you think this series should drop the "late" checks in fs/exec.c?
-> > Honestly, the largest motivation for me to move the checks earlier as
-> > I've done is so that other things besides execve() can use FMODE_EXEC
-> > during open() and receive the same sanity-checking as execve() (i.e the
-> > O_MAYEXEC series -- the details are still under discussion but this
-> > cleanup will be needed regardless).
+> > On 2020-05-19, Jann Horn <jannh@google.com> wrote:
+> > > On Mon, May 18, 2020 at 11:05 PM Kees Cook <keescook@chromium.org> wrote:
+> > > > ## deep argument inspection
+> > > >
+> > > > The argument caching bit is, I think, rather mechanical in nature since
+> > > > it's all "just" internal to the kernel: seccomp can likely adjust how it
+> > > > allocates seccomp_data (maybe going so far as to have it split across two
+> > > > pages with the syscall argument struct always starting on the 2nd page
+> > > > boundary), and copying the EA struct into that page, which will be both
+> > > > used by the filter and by the syscall.
+> > >
+> > > We could also do the same kind of thing the eBPF verifier does in
+> > > convert_ctx_accesses(), and rewrite the context accesses to actually
+> > > go through two different pointers depending on the (constant) offset
+> > > into seccomp_data.
+> >
+> > My main worry with this is that we'll need to figure out what kind of
+> > offset mathematics are necessary to deal with pointers inside the
+> > extensible struct. As a very ugly proposal, you could make it so that
+> > you multiply the offset by PAGE_SIZE each time you want to dereference
+> > the pointer at that offset (unless we want to add new opcodes to cBPF to
+> > allow us to represent this).
 > 
-> I think this series should drop the "late" checks in fs/exec.c  It feels
-> less error prone, and it feels like that would transform this into
-> something Linus would be eager to merge because series becomes a cleanup
-> that reduces line count.
+> Please don't. cbpf is frozen.
 
-Yeah, that was my initial sense too. I just started to get nervous about
-removing the long-standing exec sanity checks. ;)
+https://www.youtube.com/watch?v=L0MK7qz13bU
 
-> I haven't been inside of open recently enough to remember if the
-> location you are putting the check fundamentally makes sense.  But the
-> O_MAYEXEC bits make a pretty strong case that something of the sort
-> needs to happen.
+If the only workable design paths for deep arg inspection end up needing
+BPF helpers, I would agree that it's time for seccomp to grow eBPF
+language support. I'm still hoping there's a clean solution that doesn't
+require a seccomp language extension.
 
-Right. I *think* it's correct place for now, based on my understanding
-of the call graph (which is why I included it in the commit logs).
-
-> I took a quick look but I can not see clearly where path_noexec
-> and the regular file tests should go.
+> > > We don't need to actually zero-fill memory for this beyond what the
+> > > kernel supports - AFAIK the existing APIs already say that passing a
+> > > short length is equivalent to passing zeroes, so we can just replace
+> > > all out-of-bounds loads with zeroing registers in the filter.
+> > > The tricky case is what should happen if the userspace program passes
+> > > in fields that the filter doesn't know about. The filter can see the
+> > > length field passed in by userspace, and then just reject anything
+> > > where the length field is bigger than the structure size the filter
+> > > knows about. But maybe it'd be slightly nicer if there was an
+> > > operation for "tell me whether everything starting at offset X is
+> > > zeroes", so that if someone compiles with newer kernel headers where
+> > > the struct is bigger, and leaves the new fields zeroed, the syscalls
+> > > still go through an outdated filter properly.
+> >
+> > I think the best way of handling this (without breaking programs
+> > senselessly) is to have filters essentially emulate
+> > copy_struct_from_user() semantics -- which is along the lines of what
+> > you've suggested.
 > 
-> I do see that you have code duplication with faccessat which suggests
-> that you haven't put the checks in the right place.
+> and cpbf load instruction will become copy_from_user() underneath?
 
-Yeah, I have notes on the similar call sites (which I concluded, perhaps
-wrongly) to ignore:
+No, this was meaning internal checking about struct sizes needs to exist
+(not the user copy parts).
 
-do_faccessat()
-    user_path_at(dfd, filename, lookup_flags, &path);
-    if (acc_mode & MAY_EXEC .... path_noexec()
-    inode_permission(inode, mode | MAY_ACCESS);
+> I don't see how that can work.
+> Have you considered implications to jits, register usage, etc ?
+> 
+> ebpf will become sleepable soon. It will be able to do copy_from_user()
+> and examine any level of user pointer dereference.
+> toctou is still going to be a concern though,
+> but such ebpf+copy_from_user analysis and syscall sandboxing
+> will not need to change kernel code base around syscalls at all.
+> No need to invent E-syscalls and all the rest I've seen in this thread.
 
-This appears to be strictly advisory, and the path_noexec() test is
-there to, perhaps, avoid surprises when doing access() then fexecve()?
-I would note, however, that that path-based LSMs appear to have no hook
-in this call graph at all. I was expecting a call like:
-
-	security_file_permission(..., mode | MAY_ACCESS)
-
-but I couldn't find one (or anything like it), so only
-inode_permission() is being tested (which means also the existing
-execve() late tests are missed, and the newly added S_ISREG() test from
-do_dentry_open() is missed).
-
-
-prctl_set_mm_exe_file()
-    err = -EACCESS;
-    if (!S_ISREG(inode->i_mode) || path_noexec(&exe.file->f_path))
-        goto exit;
-    err = inode_permission(inode, MAY_EXEC);
-
-This is similar (no path-based LSM hooks present, only inode_permission()
-used for permission checking), but it is at least gated by CAP_SYS_ADMIN.
-
-
-And this bring me to a related question from my review: does
-dentry_open() intentionally bypass security_inode_permission()? I.e. it
-calls vfs_open() not do_open():
-
-openat2(dfd, char * filename, open_how)
-    build_open_flags(open_how, open_flags)
-    do_filp_open(dfd, filename, open_flags)
-        path_openat(nameidata, open_flags, flags)
-            file = alloc_empty_file(open_flags, current_cred());
-            do_open(nameidata, file, open_flags)
-                may_open(path, acc_mode, open_flag)
-                    inode_permission(inode, MAY_OPEN | acc_mode)
-                        security_inode_permission(inode, acc_mode)
-                vfs_open(path, file)
-                    do_dentry_open(file, path->dentry->d_inode, open)
-                        if (unlikely(f->f_flags & FMODE_EXEC && !S_ISREG(inode->i_mode))) ...
-                        security_file_open(f)
-                                /* path-based LSMs check for open here
-				 * and use FMODE_* flags to determine how a file
-                                 * is being opened. */
-                        open()
-
-vs
-
-dentry_open(path, flags, cred)
-        f = alloc_empty_file(flags, cred);
-        vfs_open(path, f);
-
-I would expect dentry_open() to mostly duplicate a bunch of
-path_openat(), but it lacks the may_open() call, etc.
-
-I really got the feeling that there was some new conceptual split needed
-inside do_open() where the nameidata details have been finished, after
-we've gained the "file" information, but before we've lost the "path"
-information. For example, may_open(path, ...) has no sense of "file",
-though it does do the inode_permission() call.
-
-Note also that may_open() is used in do_tmpfile() too, and has a comment
-implying it needs to be checking only a subset of the path details. So
-I'm not sure how to split things up.
-
-So, that's why I put the new checks just before the may_open() call in
-do_open(): it's the most central, positions itself correctly for dealing
-with O_MAYEXEC, and doesn't appear to make any existing paths worse.
-
-> I am wondering if we need something distinct to request the type of the
-> file being opened versus execute permissions.
-
-Well, this is why I wanted to centralize it -- the knowledge of how a
-file is going to be used needs to be tested both by the core VFS
-(S_ISREG, path_noexec) and the LSMs. Things were inconsistent before.
-
-> All I know is being careful and putting the tests in a good logical
-> place makes the code more maintainable, whereas not being careful
-> results in all kinds of sharp corners that might be exploitable.
-> So I think it is worth digging in and figuring out where those checks
-> should live.  Especially so that code like faccessat does not need
-> to duplicate them.
-
-I think this is the right place with respect to execve(), though I think
-there are other cases that could use to be improved (or at least made
-more consistent).
-
--Kees
+To avoid the ToCToU, the seccomp infrastructure must do the
+copy_from_user(), so there's not need for the sleepable stuff in seccomp
+that I can see. The question is mainly one of flattening.
 
 -- 
 Kees Cook
