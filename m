@@ -2,82 +2,77 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B9B1A1D920D
-	for <lists+linux-api@lfdr.de>; Tue, 19 May 2020 10:30:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 929341D922D
+	for <lists+linux-api@lfdr.de>; Tue, 19 May 2020 10:37:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728515AbgESIau (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 19 May 2020 04:30:50 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:38751 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728456AbgESIat (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 19 May 2020 04:30:49 -0400
-Received: from ip5f5af183.dynamic.kabel-deutschland.de ([95.90.241.131] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1jaxe9-0002B4-6Y; Tue, 19 May 2020 08:30:45 +0000
-Date:   Tue, 19 May 2020 10:30:44 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Sargun Dhillon <sargun@sargun.me>
-Cc:     Jann Horn <jannh@google.com>, Kees Cook <keescook@chromium.org>,
-        Tycho Andersen <tycho@tycho.ws>,
-        Matt Denton <mpdenton@google.com>,
-        Chris Palmer <palmer@google.com>,
-        Jeffrey Vander Stoep <jeffv@google.com>,
-        Linux Containers <containers@lists.linux-foundation.org>,
+        id S1726121AbgESIhd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 19 May 2020 04:37:33 -0400
+Received: from mail-out.m-online.net ([212.18.0.9]:40654 "EHLO
+        mail-out.m-online.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726880AbgESIhc (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 19 May 2020 04:37:32 -0400
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+        by mail-out.m-online.net (Postfix) with ESMTP id 49R8QK0Grqz1qrf4;
+        Tue, 19 May 2020 10:37:29 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+        by mail.m-online.net (Postfix) with ESMTP id 49R8QJ5zQ7z1qsq7;
+        Tue, 19 May 2020 10:37:28 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+        by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new, port 10024)
+        with ESMTP id slUeY5zBMP1u; Tue, 19 May 2020 10:37:27 +0200 (CEST)
+X-Auth-Info: FqBIyAr0MyUGIS5Ip8Q7OSzRYusW2FcZjUE71QeBiiTFJFnlwZ4bNMhWHvnp6j06
+Received: from igel.home (ppp-46-244-171-2.dynamic.mnet-online.de [46.244.171.2])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.mnet-online.de (Postfix) with ESMTPSA;
+        Tue, 19 May 2020 10:37:27 +0200 (CEST)
+Received: by igel.home (Postfix, from userid 1000)
+        id C49402C0C39; Tue, 19 May 2020 10:37:26 +0200 (CEST)
+From:   Andreas Schwab <schwab@linux-m68k.org>
+To:     ebiederm@xmission.com (Eric W. Biederman)
+Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
+        Jann Horn <jannh@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Eric Biggers <ebiggers3@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
         kernel list <linux-kernel@vger.kernel.org>
-Subject: Re: seccomp feature development
-Message-ID: <20200519083044.lo5d22hdd5nc3dcm@wittgenstein>
-References: <202005181120.971232B7B@keescook>
- <CAG48ez1LrQvR2RHD5-ZCEihL4YT1tVgoAJfGYo+M3QukumX=OQ@mail.gmail.com>
- <20200519072451.GA3128@ircssh-2.c.rugged-nimbus-611.internal>
+Subject: Re: [PATCH 1/4] exec: Change uselib(2) IS_SREG() failure to EACCES
+References: <20200518055457.12302-1-keescook@chromium.org>
+        <20200518055457.12302-2-keescook@chromium.org>
+        <20200518130251.zih2s32q2rxhxg6f@wittgenstein>
+        <CAG48ez1FspvvypJSO6badG7Vb84KtudqjRk1D7VyHRm06AiEbQ@mail.gmail.com>
+        <20200518144627.sv5nesysvtgxwkp7@wittgenstein>
+        <87blmk3ig4.fsf@x220.int.ebiederm.org>
+X-Yow:  Two with FLUFFO, hold th' BEETS..side of SOYETTES!
+Date:   Tue, 19 May 2020 10:37:26 +0200
+In-Reply-To: <87blmk3ig4.fsf@x220.int.ebiederm.org> (Eric W. Biederman's
+        message of "Mon, 18 May 2020 18:57:15 -0500")
+Message-ID: <87mu64uxq1.fsf@igel.home>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.0.91 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200519072451.GA3128@ircssh-2.c.rugged-nimbus-611.internal>
+Content-Type: text/plain
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, May 19, 2020 at 07:24:52AM +0000, Sargun Dhillon wrote:
-> On Tue, May 19, 2020 at 12:39:39AM +0200, Jann Horn wrote:
-> > > For user_notif, I think we need something in and around these options:
-> > >
-> > > - make a new API that explicitly follows EA struct design
-> > >   (and while read()/write() might be easier[4], I tend to agree with
-> > >   Jann and we need to stick to ioctl(): as Tycho noted, "read/write is
-> > >   for data". Though I wonder if read() could be used for the notifications,
-> > >   which ARE data, and use ioctl() for the responses?)
-> > 
-> > Just as a note: If we use read() there, we'll never be able to
-> > transfer things like FDs through that API.
+On Mai 18 2020, Eric W. Biederman wrote:
 
-(Hm, how did I not get that message? Weird. :))
+> If it was only libc4 and libc5 that used the uselib system call then it
+> can probably be removed after enough time.
 
-I hope we won't be able to receive fds through read(). This quickly
-becomes quite problematic, I think.
+Only libc4 used it, libc5 was already ELF.
 
-> > 
-> Although there is no good reason for read being able to receive FDs, there is
-> precedence for recvmsg being able to do this. Either way, I do not think
+Andreas.
 
-Right, and recvmsg() is quite dangerous because of that because you need
-to be extremely careful when e.g. the message is truncated and you want
-to error out and you need to carefully close all fds and other shenanigans.
-
-Also, recvmsg() imho, is a bit different from read simply because
-it's sort-of a "typed" read; it's plumbed on top of a message protocol and
-that protocal includes the ability to read fds. read() on the other hand
-is completely agnostic and doesn't care about the data at all. But
-that's just how I always conceptualized it...
-
-> it's a good idea to recv file descriptors, and instead file descriptors
-> should be fetched via the pidfd_getfd syscall.
-
-+1
-
-> 
-> Injection is more complicated, and for now, I believe that "writes" should
-> be done via ioctl, or in the future, something like sendmsg might work.
+-- 
+Andreas Schwab, schwab@linux-m68k.org
+GPG Key fingerprint = 7578 EB47 D4E5 4D69 2510  2552 DF73 E780 A9DA AEC1
+"And now for something completely different."
