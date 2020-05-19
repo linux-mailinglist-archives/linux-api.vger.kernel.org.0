@@ -2,200 +2,275 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 688C71D9890
-	for <lists+linux-api@lfdr.de>; Tue, 19 May 2020 15:51:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32DDA1D98A0
+	for <lists+linux-api@lfdr.de>; Tue, 19 May 2020 15:54:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728609AbgESNv3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 19 May 2020 09:51:29 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:48337 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726471AbgESNv2 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 19 May 2020 09:51:28 -0400
-Received: from ip5f5af183.dynamic.kabel-deutschland.de ([95.90.241.131] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1jb2eT-0003VK-D6; Tue, 19 May 2020 13:51:25 +0000
-Date:   Tue, 19 May 2020 15:51:24 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc:     Christian Brauner <christian@brauner.io>, cgroups@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-man@vger.kernel.org, oleg@redhat.com, tj@kernel.org
-Subject: Re: [PATCH v2] clone.2: Document CLONE_INTO_CGROUP
-Message-ID: <20200519135124.xhgdeaogmvmwbofc@wittgenstein>
-References: <CAKgNAkhL0zCj11LS9vfae872YVeRsxdz20sZWuXdi+UjH21=0g@mail.gmail.com>
- <20200518175549.3400948-1-christian@brauner.io>
- <25b2d051-d276-d570-5608-2bf0f4f46ef1@gmail.com>
+        id S1728052AbgESNyR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 19 May 2020 09:54:17 -0400
+Received: from mx2.suse.de ([195.135.220.15]:46244 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726880AbgESNyR (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 19 May 2020 09:54:17 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id A8951AC64;
+        Tue, 19 May 2020 13:54:17 +0000 (UTC)
+Date:   Tue, 19 May 2020 23:53:56 +1000
+From:   Aleksa Sarai <asarai@suse.de>
+To:     Aleksa Sarai <cyphar@cyphar.com>
+Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
+        Kees Cook <keescook@chromium.org>,
+        Chris Palmer <palmer@google.com>,
+        Jeffrey Vander Stoep <jeffv@google.com>,
+        containers@lists.linux-foundation.org,
+        linux-kernel@vger.kernel.org, Matt Denton <mpdenton@google.com>,
+        Daniel Vetter <daniel@ffwll.ch>, linux-api@vger.kernel.org
+Subject: Re: seccomp feature development
+Message-ID: <20200519135356.zmqvtzrxd63dgg4z@yavin.dot.cyphar.com>
+References: <202005181120.971232B7B@keescook>
+ <20200519070929.55r3xvybjg6nnbsj@yavin.dot.cyphar.com>
+ <20200519110128.oot4zzxhivtmk7us@wittgenstein>
+ <20200519134244.37bhucyram4n6sjk@yavin.dot.cyphar.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="4un2g5pztqv57r4x"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <25b2d051-d276-d570-5608-2bf0f4f46ef1@gmail.com>
+In-Reply-To: <20200519134244.37bhucyram4n6sjk@yavin.dot.cyphar.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, May 19, 2020 at 03:36:28PM +0200, Michael Kerrisk (man-pages) wrote:
-> Hello Christian,
-> 
-> Thanks for this patch!
 
-Thanks for making it palatable. :)
+--4un2g5pztqv57r4x
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> On 5/18/20 7:55 PM, Christian Brauner wrote:
-> > From: Christian Brauner <christian.brauner@ubuntu.com>
-> > 
-> > Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
-> > ---
-> > /* v2 */
-> > - Michael Kerrisk (man-pages) <mtk.manpages@gmail.com>:
-> >   - Fix various types and add examples and how to specify the file
-> >     descriptor.
-> > ---
-> >  man2/clone.2 | 43 +++++++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 43 insertions(+)
-> > 
-> > diff --git a/man2/clone.2 b/man2/clone.2
-> > index 8b70b78a4..33594ddc5 100644
-> > --- a/man2/clone.2
-> > +++ b/man2/clone.2
-> > @@ -197,6 +197,7 @@ struct clone_args {
-> >      u64 tls;          /* Location of new TLS */
-> >      u64 set_tid;      /* Pointer to a \fIpid_t\fP array */
-> >      u64 set_tid_size; /* Number of elements in \fIset_tid\fP */
-> > +    u64 cgroup;       /* Target cgroup file descriptor for the child process */
-> >  };
-> >  .EE
-> >  .in
-> > @@ -448,6 +449,48 @@ Specifying this flag together with
-> >  .B CLONE_SIGHAND
-> >  is nonsensical and disallowed.
-> >  .TP
-> > +.BR CLONE_INTO_CGROUP " (since Linux 5.7)"
-> > +.\" commit ef2c41cf38a7559bbf91af42d5b6a4429db8fc68
-> > +By default, the child process will be placed in the same version 2
-> > +cgroup as its parent.
-> > +If this flag is specified the child process will be created in a
-> > +different cgroup than its parent.
-> > +Note, that
-> > +.BR CLONE_INTO_CGROUP
-> > +is limited to version 2 cgroups. To use this feature, callers
-> > +need to raise
-> > +.BR CLONE_INTO_CGROUP
-> > +in
-> > +.I cl_args.flags
-> > +and pass a directory file descriptor (see the
-> > +.BR O_DIRECTORY
-> > +flag for the
-> > +.BR open (2)
-> > +syscall) in the
-> 
-> I think the mention of O_DIRECTORY here is a bit misleading. That
-> flag does not need to be used. O_RDONLY or O_PATH suffices; I 
-> reworded somewhat.
-> 
-> > +.I cl_args.cgroup.
-> > +The caller may also pass an
-> > +.BR O_PATH
-> > +(see
-> > +.BR open (2))
-> > +file descriptor for the target cgroup.
-> > +Note, that all usual version 2 cgroup migration restrictions (see
-> > +.BR cgroups (7)
-> > +for details) apply.
-> 
-> Here I presume you mean things like the "no internal processes 
-> rule" and the restriction around putting a process into a
-> "domain invalid" cgroup, right? I reworded a things and added
-> a couple of cases in ERRORS.
-> 
-> > +
-> > +Spawning a process into a cgroup different from the parent's cgroup
-> > +makes it possible for a service manager to directly spawn new
-> > +services into dedicated cgroups. This allows eliminating accounting
-> > +jitter which would be caused by the new process living in the
-> > +parent's cgroup for a short amount of time before being
-> > +moved into the target cgroup. This flag also allows the creation of
-> > +frozen child process by spawning them into a frozen cgroup (see
-> > +.BR cgroups (7)
-> > +for a description of the freezer feature in version 2 cgroups).
-> > +For threaded applications or even thread implementations which
-> > +make use of cgroups to limit individual threads it is possible to
-> > +establish a fixed cgroup layout before spawning each thread
-> > +directly into its target cgroup.
-> 
-> Thanks for these use cases; that's great!
-> 
-> So, I did some fairly heavy editing, which resulted in the
-> following (the sum of the diffs is shown at the end of this
-> mail):
-> 
->        CLONE_INTO_CGROUP (since Linux 5.7)
->               By default, a child process is placed in the same version 2
->               cgroup  as  its  parent.   The CLONE_INTO_CGROUP allows the
+On 2020-05-19, Aleksa Sarai <cyphar@cyphar.com> wrote:
+> On 2020-05-19, Christian Brauner <christian.brauner@ubuntu.com> wrote:
+> > On Tue, May 19, 2020 at 05:09:29PM +1000, Aleksa Sarai wrote:
+> > > On 2020-05-18, Kees Cook <keescook@chromium.org> wrote:
+> > > > - the sizes of these EA structs are, by design, growable over time.
+> > > >   seccomp and its users need to be handle this in a forward and bac=
+kward
+> > > >   compatible way, similar to the design of the EA syscall interface
+> > > >   itself.
+> > > >=20
+> > > > The growing size of the EA struct will need some API design. For fi=
+lters
+> > > > to operate on the contiguous seccomp_data+EA struct, the filter will
+> > > > need to know how large seccomp_data is (more on this later), and how
+> > > > large the EA struct is. When the filter is written in userspace, it=
+ can
+> > > > do the math, point into the expected offsets, and get what it needs=
+=2E For
+> > > > this to work correctly in the kernel, though, the seccomp BPF verif=
+ier
+> > > > needs to know the size of the EA struct as well, so it can correctly
+> > > > perform the offset checking (as it currently does for just the
+> > > > seccomp_data struct size).
+> > > >=20
+> > > > Since there is not really any caller-based "seccomp state" associat=
+ed
+> > > > across seccomp(2) calls, I don't think we can add a new command to =
+tell
+> > > > the kernel "I'm expecting the EA struct size to be $foo bytes", sin=
+ce
+> > > > the kernel doesn't track who "I" is besides just being "current", w=
+hich
+> > > > doesn't take into account the thread lifetime -- if a process launc=
+her
+> > > > knows about one size and the child knows about another, things will=
+ get
+> > > > confused. The sizes really are just associated with individual filt=
+ers,
+> > > > based on the syscalls they're examining. So, I have thoughts on pos=
+sible
+> > > > solutions:
+> > > >=20
+> > > > - create a new seccomp command SECCOMP_SET_MODE_FILTER2 which uses =
+the
+> > > >   EA style so we can pass in more than a filter and include also an
+> > > >   array of syscall to size mappings. (I don't like this...)
+> > > > - create a new filter flag, SECCOMP_FILTER_FLAG_EXTENSIBLE, which c=
+hanges
+> > > >   the meaning of the uarg from "filter" to a EA-style structure with
+> > > >   sizes and pointers to the filter and an array of syscall to size
+> > > >   mappings. (I like this slightly better, but I still don't like it=
+=2E)
+> > > > - leverage the EA design and just accept anything <=3D PAGE_SIZE, r=
+ecord
+> > > >   the "max offset" value seen during filter verification, and zero-=
+fill
+> > > >   the EA struct with zeros to that size when constructing the
+> > > >   seccomp_data + EA struct that the filter will examine. Then the s=
+eccomp
+> > > >   filter doesn't care what any of the sizes are, and userspace does=
+n't
+> > > >   care what any of the sizes are. (I like this as it makes the prob=
+lems
+> > > >   to solve contained entirely by the seccomp infrastructure and doe=
+s not
+> > > >   touch user API, but I worry I'm missing some gotcha I haven't
+> > > >   considered.)
+> > >=20
+> > > Okay, so here is my view on this. I think that the third option is
+> > > closest to what I'd like to see. Based on Jann's email, I think we're=
+ on
+> > > the same page but I'd just like to elaborate it a bit further:
+> > >=20
+> > > First of all -- ideally, the backward and forward compatibility that =
+EA
+> > > syscalls give us should be reflected with seccomp filters being
+> > > similarly compatible. Otherwise we're going to run into issues where =
+all
+> > > of the hard work with ensuring EA syscalls behave when extended will =
+be
+> > > less valuable if seccomp cannot handle it sufficiently. This means th=
+at
+> > > I would hope that every combination of {old,new} filter/kernel/program
+> > > would work on a best-effort (but fail-safe) basis.
+> > >=20
+> > > In my view, the simplest way (from the kernel side) would be to simply
+> > > do what you outlined in (3) -- make all accesses past usize (and even
+> > > ksize) be zeroed.
+> > >=20
+> > > However in order to make an old filter fail-safe on a new kernel with=
+ a
+> > > new program, we'd need a new opcode which basically does
+> > > bpf_check_uarg_tail_zero() after a given offset into the EA struct. T=
+his
+> > > would punt the fail-safe problem to userspace (libseccomp would need =
+to
+> > > generate a check that any unknown-to-the-filter fields are zero). I
+> > > don't think this is a decision we can make in-kernel because it might=
+ be
+> > > that the filter doesn't care about the last field in a struct (and th=
+us
+> > > doesn't access it) but we don't know the difference between a field t=
+he
+> > > filter doesn't care about and a field it doesn't know about.
+> > >=20
+> > > Another issue which you haven't mentioned here is how do we deal with
+> > > pointers inside an EA struct. clone3() already has this with set_tid,
+> >=20
+> > It's also passed with a set_tid_size argument so we'd know how large
+> > set_tid is.
+>=20
+> Right, of course -- that's a given. See below for the point I was
+> making.
+>=20
+> > > and the thread on user_notif seems to be converging towards having the
+> > > user_notif2 struct just contain two pointers to EA structs. We could
+> > > punt on this for now, so long as we leave room for us to deal with th=
+is
+> > > problem in the future. However, I think it would be misguided to enab=
+le
+> > > deep argument inspection on syscalls which have such entries (such as
+> > > clone3) until we've figured out how we want to handle nested pointers=
+ --
+> >=20
+> > We can't really punt on this and should figure this out now. I've
+> > pointed to this problem in my other mail as well.
+> > Though I currently fail to see why this should be a huge problem to get
+> > that working as long as each pointer comes with a known size.
+>=20
+> It's not a huge problem necessarily, but we would need to figure out how
+> we would represent the "nested pointers" in the flattened version which
+> the seccomp filter will actually offset into. Specifically, my point is
+> that if we imagine that the proposed new seccomp_data API is:
+>=20
+>   [<seccomp_data>][<EA struct contents>]
+>=20
+> then any pointers in the EA struct will just be numerical values when
+> copied. How would write a filter on clone3() that requires the first
+> entry of set_tid to be 34? You couldn't with this simplified setup. And
+> unless I'm mistaken, BPF doesn't have pointer dereferences.
+>=20
+> So we need to embed the "nested pointers" somehow in the flattened
+> version of the EA struct. I don't think we can just append them to the
+> main EA struct -- while you might have the length, that'd mean that
+> seccomp would generate an array of zeroes whose length is a
+> user-specified value? And then what about extensible structs that have
+> their size embedded inside them (as you or someone else suggested for
+> seccomp user_notif)? How would the eBPF program know the length of the
+> struct?
+>=20
+> Maybe we could have some kind of jump table which the filter could use
+> (and just have there be a jump table for each embedded struct -- so
+> multiple embeddings have their own jump tables). So if we imagine some
+> user-extensible struct like
+>=20
+> 	struct open_how {
+> 		u64 flags, mode, resolve;
+> 		struct foo *foo;
+> 		struct bar *bar;
+> 		struct baz *baz;
+> 	};
+>=20
+> 	struct foo {
+> 		u64 foo;
+> 	};
+>=20
+> 	struct bar {
+> 		u64 bar;
+> 		struct barbaz *barbaz;
+> 	};
+>=20
+> 	struct barbaz {
+> 		u64 barbaz;
+> 	};
+>=20
+> 	struct baz {
+> 		u64 baz;
+> 	};
 
-Not a native speaker, but is this missing a noun like "flag"?
-"The CLONE_INTO_CGROUP {flag,feature} allows the [...]"?
+Sorry, I omitted all of the _size fields for extensibility. Just imagine
+I added them (or that the u64s represent the size).
 
->               child process to  be  created  in  a  different  version  2
->               cgroup.   (Note  that CLONE_INTO_CGROUP has effect only for
->               version 2 cgroups.)
-> 
->               In order to place the child process in a different  cgroup,
->               the caller specifies CLONE_INTO_CGROUP in cl_args.flags and
->               passes a file descriptor that refers to a version 2  cgroup
->               in  the cl_args.cgroup field.  (This file descriptor can be
->               obtained by opening a cgroup v2 directory file using either
+> Then we would lay out the seccomp_data as:
+>=20
+> 	[<seccomp data>][<jump table><open_how>]
+> 		[<jump table><open_how->foo>]
+> 		[<jump table><open_how->bar>]
+> 			[<jump table><open_how->bar->barbaz>]
+> 		[<jump table><open_how->baz>]
+>=20
+> The jump table could be as simple as a list of tuples (relative offset
+> of field in this struct from end of jump table, relative offset of the
+> copied structure at the end of the jump table). However, it's not
+> possible to do for-loops in cBPF -- so maybe we'd need to represent the
+> jump table differently (perhaps having it just be the same size as the
+> struct).
+>=20
+> The above is just a rough sketch, maybe there's a much simpler solution
+> I'm not seeing.
 
-Should this just be "opening a cgroup v2 directory" and not "directory
-file"? Feels redundant.
+--=20
+Aleksa Sarai
+Senior Software Engineer (Containers)
+SUSE Linux GmbH
+<https://www.cyphar.com/>
 
->               the  O_RDONLY  or  the  O_PATH flag.)  Note that all of the
->               usual restrictions (described in cgroups(7)) on  placing  a
->               process into a version 2 cgroup apply.
-> 
->               Spawning  a  process  into a cgroup different from the par‐
->               ent's cgroup makes it possible for  a  service  manager  to
->               directly  spawn  new services into dedicated cgroups.  This
->               eliminates the accounting jitter that would  be  caused  if
->               the  child  process was first created in the same cgroup as
->               the parent and then moved  into  the  target  cgroup.   The
+--4un2g5pztqv57r4x
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I forgot to mention that spawning directly into a target cgroup is also
-more efficient than moving it after creation. The specific reason is
-mentioned in the commit message, the write lock of the semaphore need
-not be taken in contrast to when it is moved afterwards. That
-implementation details is not that interesting but it might be
-interesting to know that it provides performance benefits in general.
+-----BEGIN PGP SIGNATURE-----
 
->               CLONE_INTO_CGROUP  flag  also allows the creation of frozen
->               child processes by spawning  them  into  a  frozen  cgroup.
->               (See  cgroups(7)  for  a  description  of  the freezer con‐
->               troller.)  For threaded applications (or even thread imple‐
->               mentations  which  make  use of cgroups to limit individual
->               threads), it is possible to establish a fixed cgroup layout
->               before  spawning  each  thread  directly  into  its  target
->               cgroup.
-> 
-> ERRORS
->        EBUSY (clone3() only)
->               CLONE_INTO_CGROUP  was  specified in cl_args.flags, but the
->               file descriptor specified in  cl_args.cgroup  refers  to  a
->               version 2 cgroup in which a domain controller is enabled.
-> 
->        EOPNOTSUP (clone3() only)
->               CLONE_INTO_CGROUP  was  specified in cl_args.flags, but the
->               file descriptor specified in  cl_args.cgroup  refers  to  a
->               version 2 cgroup that is in the domain invalid state.
+iQIzBAABCAAdFiEEXzbGxhtUYBJKdfWmnhiqJn3bjbQFAl7D5O8ACgkQnhiqJn3b
+jbTv1xAAiUXQWimkrqn9Uz+HOtUS6/JFAwWLX+JIW7IKAcN8E/C5J79WvtCIXASx
+2ALN7a/V6LJt+IExYu3OC10031Qd41HVheLFCnqEXAbysl6xIL7C7y9IhkvjnSb7
+FDVG9DUxM9JG7RTuTDZCQAPsIq7wzhfNgJxvFZ3wb0udW0xAMC1ww7qzXO8UntgH
+nH001QvvhNqxl36r7Zh3ObD4PtUQCpuFNTMQIidQWoYjWvfzywosIzfWaXk8dOXt
+hVpRx8h4Vx4UEFjmzw5Rs5Ev1mNLGdVGRiSZY+SqhsqdUTobxkfuPKSF80/59CvE
+BlrKZs6ELpV0KX2vZsbgUcuabDjxKBD9429uo7ffRVu0bodgliVyBVY71HfRCDSZ
+tu394dbVVPvWtstVRoFNxHKffkZRF0n1SHMoVQwms8D+UV+arsDwipE8ba+Ivpxl
+PQ5mpbSqJWt8nhxw4yMmogzGy/dPduRw0+0OlkJkIPazj6HS1JvZs6/sJM81U+uO
+e6RncHOtAvF1pbwZ/6TX+47WC9Wvx7FAJvOxZ5g/0ossmZn4rJvZhMkMglTxozaW
+bvnhdLIhMK4rbq0xe7QD+o2tFemeoRNSzdJc8f+pXkBJy01DfnIhlTzBufaGbZui
+RoJy+URf1EOHBt4h+471ixCVaWH4cCojZE5kVjLgJhgJWDwiAeg=
+=vfZP
+-----END PGP SIGNATURE-----
 
-Ah, good catch with the errnos.
-
-> 
-> Look okay to you?
-
-Yep, looks great!
-Thanks!
-Christian
+--4un2g5pztqv57r4x--
