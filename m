@@ -2,150 +2,112 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 401ED1DA3BA
-	for <lists+linux-api@lfdr.de>; Tue, 19 May 2020 23:40:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 935AC1DA506
+	for <lists+linux-api@lfdr.de>; Wed, 20 May 2020 00:53:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726823AbgESVkG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 19 May 2020 17:40:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39760 "EHLO
+        id S1726898AbgESWxb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 19 May 2020 18:53:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725998AbgESVkF (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 19 May 2020 17:40:05 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 845B7C08C5C1
-        for <linux-api@vger.kernel.org>; Tue, 19 May 2020 14:40:04 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id a13so417905pls.8
-        for <linux-api@vger.kernel.org>; Tue, 19 May 2020 14:40:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=qZrnOBqdIK/f9ZKEYvAl0vw/13DRB3RwIGSmwGXyTpI=;
-        b=YD0FWr1n4aRBwXbRpkumGdVcnRnTBzs8xC53EtpY/+CDnTQq5QrfVWZuUHWHC7t/oC
-         GCluPTOCW1KYp8yaGOWLKDdonR1xl0cIqDBBpYL/Jc01xqzgLo2avep6uumO1EeeIe0+
-         sqTXfRtYYEmAKVRLMLfBHLUyJCkqlV8EfLlTU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=qZrnOBqdIK/f9ZKEYvAl0vw/13DRB3RwIGSmwGXyTpI=;
-        b=Q1MdnCa2iPDStkH9hQkS4Rbk6+DXTlUOntPRDAnzzfyrVr92jjxvrWKkr9npDbuixU
-         hVvQn2bhhodmWRDm6tzUWc/avSjEt2qW9rMtJCsazCw26vmi3kzqiw4p9vcJIyVskUNx
-         DKXFNocov5bNqPo0CXNG8giLnkB43s+rqZ5fCaIBHOALmvCxgBFweEXdKfhb2MaMYaI+
-         NUe47pHHnURGANlwOYdob4e/dKJntS3LU+LWDrc6GtrizuuLfp9TMveEejKT4yaKxrN6
-         DSl+UtKQjspQt61GVBTKKHdqyIIb7T81+Z/bFg/khaELLOIPQ3R1ZLjWlwnVQQ7ZVZOh
-         w9jg==
-X-Gm-Message-State: AOAM532d0eTM6PeU+sBI/RtBXruEnf8rWzNMnxwVOjxezWDhYG9gTLve
-        Evyvd9nU8FO/pqNeN8VJ0eXBHw==
-X-Google-Smtp-Source: ABdhPJxxUbJw24Z12APTaY/3nigy/vJ+nnWJ/bpNRl0x+5MCtEWwJIZ0w7jwgPf8UyhhfpOzN1YH0w==
-X-Received: by 2002:a17:902:bb82:: with SMTP id m2mr1369227pls.291.1589924403251;
-        Tue, 19 May 2020 14:40:03 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id n67sm370238pfn.16.2020.05.19.14.40.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2020 14:40:01 -0700 (PDT)
-Date:   Tue, 19 May 2020 14:40:00 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc:     Aleksa Sarai <cyphar@cyphar.com>, Jann Horn <jannh@google.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Tycho Andersen <tycho@tycho.ws>,
-        Sargun Dhillon <sargun@sargun.me>,
-        Matt Denton <mpdenton@google.com>,
-        Chris Palmer <palmer@google.com>,
-        Jeffrey Vander Stoep <jeffv@google.com>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        bpf <bpf@vger.kernel.org>
-Subject: Re: seccomp feature development
-Message-ID: <202005191434.57253AD@keescook>
-References: <202005181120.971232B7B@keescook>
- <CAG48ez1LrQvR2RHD5-ZCEihL4YT1tVgoAJfGYo+M3QukumX=OQ@mail.gmail.com>
- <20200519024846.b6dr5cjojnuetuyb@yavin.dot.cyphar.com>
- <CAADnVQKRCCHRQrNy=V7ue38skb8nKCczScpph2WFv7U_jsS3KQ@mail.gmail.com>
+        with ESMTP id S1726064AbgESWxb (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 19 May 2020 18:53:31 -0400
+Received: from Galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E352DC061A0E;
+        Tue, 19 May 2020 15:53:30 -0700 (PDT)
+Received: from p5de0bf0b.dip0.t-ipconnect.de ([93.224.191.11] helo=nanos.tec.linutronix.de)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tglx@linutronix.de>)
+        id 1jbB6y-0003lX-Nc; Wed, 20 May 2020 00:53:25 +0200
+Received: by nanos.tec.linutronix.de (Postfix, from userid 1000)
+        id 30B81100D00; Wed, 20 May 2020 00:53:24 +0200 (CEST)
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     Konstantin Khlebnikov <khlebnikov@yandex-team.ru>,
+        linux-kernel@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Darren Hart <dvhart@infradead.org>
+Cc:     Maxim Samoylov <max7255@yandex-team.ru>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH] futex: send SIGBUS if argument is not aligned on a four-byte boundary
+In-Reply-To: <158955700764.647498.18025770126733698386.stgit@buzz>
+References: <158955700764.647498.18025770126733698386.stgit@buzz>
+Date:   Wed, 20 May 2020 00:53:24 +0200
+Message-ID: <87sgfv5yfv.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAADnVQKRCCHRQrNy=V7ue38skb8nKCczScpph2WFv7U_jsS3KQ@mail.gmail.com>
+Content-Type: text/plain
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, May 19, 2020 at 09:18:47AM -0700, Alexei Starovoitov wrote:
-> On Mon, May 18, 2020 at 7:53 PM Aleksa Sarai <cyphar@cyphar.com> wrote:
-> >
-> > On 2020-05-19, Jann Horn <jannh@google.com> wrote:
-> > > On Mon, May 18, 2020 at 11:05 PM Kees Cook <keescook@chromium.org> wrote:
-> > > > ## deep argument inspection
-> > > >
-> > > > The argument caching bit is, I think, rather mechanical in nature since
-> > > > it's all "just" internal to the kernel: seccomp can likely adjust how it
-> > > > allocates seccomp_data (maybe going so far as to have it split across two
-> > > > pages with the syscall argument struct always starting on the 2nd page
-> > > > boundary), and copying the EA struct into that page, which will be both
-> > > > used by the filter and by the syscall.
-> > >
-> > > We could also do the same kind of thing the eBPF verifier does in
-> > > convert_ctx_accesses(), and rewrite the context accesses to actually
-> > > go through two different pointers depending on the (constant) offset
-> > > into seccomp_data.
-> >
-> > My main worry with this is that we'll need to figure out what kind of
-> > offset mathematics are necessary to deal with pointers inside the
-> > extensible struct. As a very ugly proposal, you could make it so that
-> > you multiply the offset by PAGE_SIZE each time you want to dereference
-> > the pointer at that offset (unless we want to add new opcodes to cBPF to
-> > allow us to represent this).
-> 
-> Please don't. cbpf is frozen.
+Konstantin Khlebnikov <khlebnikov@yandex-team.ru> writes:
 
-https://www.youtube.com/watch?v=L0MK7qz13bU
+> Userspace implementations of mutexes (including glibc) in some cases
+> retries operation without checking error code from syscall futex.
+> This is good for performance because most errors are impossible when
+> locking code trusts itself.
 
-If the only workable design paths for deep arg inspection end up needing
-BPF helpers, I would agree that it's time for seccomp to grow eBPF
-language support. I'm still hoping there's a clean solution that doesn't
-require a seccomp language extension.
+This argument is blantantly wrong. It's the justification for bad
+programming. Code ignoring error returns is simply buggy.
 
-> > > We don't need to actually zero-fill memory for this beyond what the
-> > > kernel supports - AFAIK the existing APIs already say that passing a
-> > > short length is equivalent to passing zeroes, so we can just replace
-> > > all out-of-bounds loads with zeroing registers in the filter.
-> > > The tricky case is what should happen if the userspace program passes
-> > > in fields that the filter doesn't know about. The filter can see the
-> > > length field passed in by userspace, and then just reject anything
-> > > where the length field is bigger than the structure size the filter
-> > > knows about. But maybe it'd be slightly nicer if there was an
-> > > operation for "tell me whether everything starting at offset X is
-> > > zeroes", so that if someone compiles with newer kernel headers where
-> > > the struct is bigger, and leaves the new fields zeroed, the syscalls
-> > > still go through an outdated filter properly.
-> >
-> > I think the best way of handling this (without breaking programs
-> > senselessly) is to have filters essentially emulate
-> > copy_struct_from_user() semantics -- which is along the lines of what
-> > you've suggested.
-> 
-> and cpbf load instruction will become copy_from_user() underneath?
+> Some errors which could came from outer code are handled automatically,
+> for example invalid address triggers SIGSEGV on atomic fast path.
+>
+> But one case turns into nasty busy-loop: when address is unaligned.
+> futex(FUTEX_WAIT) returns EINVAL immediately and loop goes to retry.
 
-No, this was meaning internal checking about struct sizes needs to exist
-(not the user copy parts).
+Why is that something the kernel has to care about? The kernel returns
+EINVAl as documented and when user space decides to ignore then it goes
+to retry for a full timeslice for nothing.
 
-> I don't see how that can work.
-> Have you considered implications to jits, register usage, etc ?
-> 
-> ebpf will become sleepable soon. It will be able to do copy_from_user()
-> and examine any level of user pointer dereference.
-> toctou is still going to be a concern though,
-> but such ebpf+copy_from_user analysis and syscall sandboxing
-> will not need to change kernel code base around syscalls at all.
-> No need to invent E-syscalls and all the rest I've seen in this thread.
+You have to come up with a better argument why we want to send a signal
+here.
 
-To avoid the ToCToU, the seccomp infrastructure must do the
-copy_from_user(), so there's not need for the sleepable stuff in seccomp
-that I can see. The question is mainly one of flattening.
+Along with an argument why SIGBUS is the right thing when a user space
+fast path violation results in a SIGSEGV as you stated above.
 
--- 
-Kees Cook
+Plus a patch which documents this change in the futex man page.
+
+> Example which loops inside second call rather than hung peacefully:
+>
+> #include <stdlib.h>
+> #include <pthread.h>
+>
+> int main(int argc, char **argv)
+> {
+> 	char buf[sizeof(pthread_mutex_t) + 1];
+> 	pthread_mutex_t *mutex = (pthread_mutex_t *)(buf + 1);
+>
+> 	pthread_mutex_init(mutex, NULL);
+> 	pthread_mutex_lock(mutex);
+> 	pthread_mutex_lock(mutex);
+> }
+
+And this broken code is a kernel problem because?
+
+> It seems there is no practical usage for calling syscall futex for
+> unaligned address. This may be only bug in user space. Let's help and
+> handle this gracefully without adding extra code on fast path.
+
+How does that help?
+
+Are you going to stick SIGBUS in _ALL_ syscalls which might be retried
+in a loop just because user space fails to evaluate the error code
+properly?
+
+You have to come up with a better argument to justify this change.
+
+> This patch sends SIGBUS signal to slay task and break busy-loop.
+
+I'm pretty sure that I asked you to read and follow documentation
+before. If I did not:
+
+ git grep 'This patch' Documentation/process/
+
+Thanks,
+
+        tglx
