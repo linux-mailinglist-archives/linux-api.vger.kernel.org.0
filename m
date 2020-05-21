@@ -2,288 +2,139 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C007B1DD470
-	for <lists+linux-api@lfdr.de>; Thu, 21 May 2020 19:31:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 341641DD64A
+	for <lists+linux-api@lfdr.de>; Thu, 21 May 2020 20:50:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728213AbgEURbJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 21 May 2020 13:31:09 -0400
-Received: from mga05.intel.com ([192.55.52.43]:15617 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726821AbgEURbI (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 21 May 2020 13:31:08 -0400
-IronPort-SDR: IMux9/kVmQ8NJSq1B1d9KVHan1VRxO6B58vmWtE8JfyBFW+9on8uJj34Ux0yUDe2EUJacA16Ga
- vL1x82tco/aw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2020 10:31:08 -0700
-IronPort-SDR: F94NVCnpCaNRrEz7m/VNldnTyVNsaF2AbHZr3ceZ7Gm7xTylqL1koadhz58w3uIM8YFw3j8Iuu
- 57MPK5XrutMg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,418,1583222400"; 
-   d="scan'208";a="466982409"
-Received: from chadcour-mobl.amr.corp.intel.com (HELO ellie) ([10.212.132.196])
-  by fmsmga006.fm.intel.com with ESMTP; 21 May 2020 10:31:07 -0700
-From:   Vinicius Costa Gomes <vinicius.gomes@intel.com>
-To:     Murali Karicheri <m-karicheri2@ti.com>, davem@davemloft.net,
-        kuba@kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        nsekhar@ti.com, grygorii.strashko@ti.com
-Subject: Re: [net-next RFC PATCH 00/13] net: hsr: Add PRP driver
-In-Reply-To: <20200506163033.3843-1-m-karicheri2@ti.com>
-References: <20200506163033.3843-1-m-karicheri2@ti.com>
-Date:   Thu, 21 May 2020 10:31:07 -0700
-Message-ID: <87r1vdkxes.fsf@intel.com>
+        id S1729600AbgEUSut (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 21 May 2020 14:50:49 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:56889 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729151AbgEUSut (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 21 May 2020 14:50:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1590087047;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Rs+m7lfqAN3pPyrPrrr6uOK5gesHtkkEPEmJgvQPL0I=;
+        b=Gt9seAKZTodQwjTWNWkJfoowcMAikL2ECziMoF/FGY5aUpra4zOLtv1whKGLCs0XTQvpV3
+        uk9qFWv9tKAzJqr3QmOQDmrLVapHB/t4lr/Dx54nz5RhKrB5QiglBHEfn1aGLD6YdigU+G
+        d4Cfz0Bhu0zkeP/xP6O71X1PLW3sgQk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-234-pa3aOYhsPzKJFP-_NlnKEw-1; Thu, 21 May 2020 14:50:33 -0400
+X-MC-Unique: pa3aOYhsPzKJFP-_NlnKEw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B8E9D805720;
+        Thu, 21 May 2020 18:50:29 +0000 (UTC)
+Received: from treble (ovpn-112-59.rdu2.redhat.com [10.10.112.59])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id C17A85C1B0;
+        Thu, 21 May 2020 18:50:17 +0000 (UTC)
+Date:   Thu, 21 May 2020 13:50:15 -0500
+From:   Josh Poimboeuf <jpoimboe@redhat.com>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+Subject: Re: [PATCH v10 00/26] Control-flow Enforcement: Shadow Stack
+Message-ID: <20200521185015.aopfkpwpfhzwd4hs@treble>
+References: <20200429220732.31602-1-yu-cheng.yu@intel.com>
+ <20200521151556.pojijpmuc2rdd7ko@treble>
+ <a1e7c71c72de517a288e6273ba0c18dac2e937bc.camel@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <a1e7c71c72de517a288e6273ba0c18dac2e937bc.camel@intel.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Murali Karicheri <m-karicheri2@ti.com> writes:
+On Thu, May 21, 2020 at 08:57:57AM -0700, Yu-cheng Yu wrote:
+> On Thu, 2020-05-21 at 10:15 -0500, Josh Poimboeuf wrote:
+> > On Wed, Apr 29, 2020 at 03:07:06PM -0700, Yu-cheng Yu wrote:
+> > > Control-flow Enforcement (CET) is a new Intel processor feature that blocks
+> > > return/jump-oriented programming attacks.  Details can be found in "Intel
+> > > 64 and IA-32 Architectures Software Developer's Manual" [1].
+> > > 
+> > > This series depends on the XSAVES supervisor state series that was split
+> > > out and submitted earlier [2].
+> > > 
+> > > I have gone through previous comments, and hope all concerns have been
+> > > resolved now.  Please inform me if anything is overlooked.
+> > > 
+> > > Changes in v10:
+> > 
+> > Hi Yu-cheng,
+> > 
+> > Do you have a git branch with the latest Shadow Stack and IBT branches
+> > applied?  I tried to apply IBT v9 on top of this, but I guess the SS
+> > code has changed since then and it didn't apply cleanly.
+> 
+> It is here:
+> 
+> https://github.com/yyu168/linux_cet/commits/cet
 
-> This RFC series add support for Parallel Redundancy Protocol (PRP)
-> as defined in IEC-62439-3 in the kernel networking subsystem. PRP 
-> Uses a Redundancy Control Trailer (RCT) the format of which is
-> similar to HSR Tag. This is used for implementing redundancy.
-> RCT consists of 6 bytes similar to HSR tag and contain following
-> fields:-
->
-> - 16-bit sequence number (SeqNr);
-> - 4-bit LAN identifier (LanId);
-> - 12 bit frame size (LSDUsize);
-> - 16-bit suffix (PRPsuffix). 
->
-> The PRPsuffix identifies PRP frames and distinguishes PRP frames
-> from other protocols that also append a trailer to their useful
-> data. The LSDUsize field allows the receiver to distinguish PRP
-> frames from random, nonredundant frames as an additional check.
-> LSDUsize is the size of the Ethernet payload inclusive of the
-> RCT. Sequence number along with LanId is used for duplicate
-> detection and discard.
->
-> PRP node is also known as Dual Attached Node (DAN-P) since it
-> is typically attached to two different LAN for redundancy.
-> DAN-P duplicates each of L2 frames and send it over the two
-> Ethernet links. Each outgoing frame is appended with RCT.
-> Unlike HSR, these are added to the end of L2 frame and may be
-> treated as padding by bridges and therefore would be work with
-> traditional bridges or switches, where as HSR wouldn't as Tag
-> is prefixed to the Ethenet frame. At the remote end, these are
-> received and the duplicate frame is discarded before the stripped
-> frame is send up the networking stack. Like HSR, PRP also sends
-> periodic Supervision frames to the network. These frames are
-> received and MAC address from the SV frames are populated in a
-> database called Node Table. The above functions are grouped into
-> a block called Link Redundancy Entity (LRE) in the IEC spec.
->
-> As there are many similarities between HSR and PRP protocols,
-> this patch re-use the code from HSR driver to implement PRP
-> driver. As many part of the code can be re-used, this patch
-> introduces a new common API definitions for both protocols and
-> propose to obsolete the existing HSR defines in
-> include/uapi/linux/if_link.h. New definitions are prefixed 
-> with a HSR_PRP prefix. Similarly include/uapi/linux/hsr_netlink.h
-> is proposed to be replaced with include/uapi/linux/hsr_prp_netlink.h
-> which also uses the HSR_PRP prefix. The netlink socket interface
-> code is migrated (as well as the iproute2 being sent as a follow up
-> patch) to use the new API definitions. To re-use the code,
-> following are done as a preparatory patch before adding the PRP
-> functionality:-
->
->   - prefix all common code with hsr_prp
->   - net/hsr -> renamed to net/hsr-prp
->   - All common struct types, constants, functions renamed with
->     hsr{HSR}_prp{PRP} prefix.
+Thanks.  FYI, I got the following warning on an AMD system.
 
-I don't really like these prefixes, I am thinking of when support for
-IEEE 802.1CB is added, do we rename this to "hsr_prp_frer"?
+[   18.936979] get of unsupported state
+[   18.936989] WARNING: CPU: 251 PID: 1794 at arch/x86/kernel/fpu/xstate.c:919 get_xsave_addr+0x83/0x90
+[   18.949676] Modules linked in:
+[   18.952731] CPU: 251 PID: 1794 Comm: dracut-rootfs-g Not tainted 5.7.0-rc6+ #162
+[   18.960121] Hardware name: AMD Corporation DAYTONA_X/DAYTONA_X, BIOS RDY1005C 11/22/2019
+[   18.968198] RIP: 0010:get_xsave_addr+0x83/0x90
+[   18.972637] Code: 5b c3 48 83 c4 08 31 c0 5b c3 80 3d f9 c2 7a 01 00 75 bc 48 c7 c7 c4 cb 8f a9 89 74 24 04 c6 05 e5 c2 7a 01 01 e8 3f 49 0a 00 <0f> 0b 8b 74 24 04 eb 9d 31 c0 c3 66 90 0f 1f 44 00 00 48 89 fe 0f
+[   18.991373] RSP: 0018:ffffb8db103cfcd8 EFLAGS: 00010286
+[   18.996591] RAX: 0000000000000000 RBX: ffff947da1189440 RCX: 0000000000000000
+[   19.003715] RDX: 0000000000000000 RSI: ffffffffaa6809d8 RDI: ffffffffaa67e58c
+[   19.010839] RBP: ffff947da1188000 R08: 0000000468bb5e6c R09: 0000000000000018
+[   19.017962] R10: 0000000000000002 R11: 00000000000000f0 R12: ffffb8db103cfd20
+[   19.025087] R13: ffff947da1189400 R14: 0000000000000000 R15: 0000000000000007
+[   19.032211] FS:  00007f0a81b15740(0000) GS:ffff947dcf8c0000(0000) knlGS:0000000000000000
+[   19.040321] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   19.046057] CR2: 00007f0a81b156c0 CR3: 0000003fa125a000 CR4: 0000000000340ee0
+[   19.053183] Call Trace:
+[   19.055637]  cet_restore_signal+0x26/0xf0
+[   19.059649]  __fpu__restore_sig+0x4cc/0x6e0
+[   19.063832]  ? remove_wait_queue+0x20/0x60
+[   19.067928]  ? reuse_swap_page+0x6e/0x340
+[   19.071939]  restore_sigcontext+0x162/0x1b0
+[   19.076128]  ? recalc_sigpending+0x17/0x50
+[   19.080223]  ? __set_task_blocked+0x34/0xa0
+[   19.084401]  __do_sys_rt_sigreturn+0x92/0xde
+[   19.088675]  do_syscall_64+0x55/0x1b0
+[   19.092342]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+[   19.097394] RIP: 0033:0x7f0a811389d1
+[   19.100970] Code: 64 c7 00 16 00 00 00 b8 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 f3 0f 1e fa 41 ba 08 00 00 00 b8 0e 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 07 c3 66 0f 1f 44 00 00 48 8b 15 81 44 38 00
+[   19.119709] RSP: 002b:00007ffd643d5dd8 EFLAGS: 00000246
+[   19.124933] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 00007f0a811389d1
+[   19.132056] RDX: 0000000000000000 RSI: 00007ffd643d5e60 RDI: 0000000000000002
+[   19.139182] RBP: 000055e140190e20 R08: 000055e14017a014 R09: 0000000000000001
+[   19.146307] R10: 0000000000000008 R11: 0000000000000246 R12: 000055e13f47e4e0
+[   19.153436] R13: 00007ffd643d5e60 R14: 0000000000000000 R15: 0000000000000000
 
-And it gets even more complicated, and using 802.1CB you can configure
-the tagging method and the stream identification function so a system
-can interoperate in a HSR or PRP network.
-
-So, I see this as different methods of achieving the same result, which
-makes me think that the different "methods/types" (HSR and PRP in your
-case) should be basically different implementations of a "struct
-hsr_ops" interface. With this hsr_ops something like this:
-
-   struct hsr_ops {
-          int (*handle_frame)()
-          int (*add_port)()
-          int (*remove_port)()
-          int (*setup)()
-          void (*teardown)()
-   };
-
->
-> Please review this and provide me feedback so that I can work to
-> incorporate them and send a formal patch series for this. As this
-> series impacts user space, I am not sure if this is the right
-> approach to introduce a new definitions and obsolete the old
-> API definitions for HSR. The current approach is choosen
-> to avoid redundant code in iproute2 and in the netlink driver
-> code (hsr_netlink.c). Other approach we discussed internally was
-> to Keep the HSR prefix in the user space and kernel code, but
-> live with the redundant code in the iproute2 and hsr netlink
-> code. Would like to hear from you what is the best way to add
-> this feature to networking core. If there is any other
-> alternative approach possible, I would like to hear about the
-> same.
-
-Why redudant code is needed in the netlink parts and in iproute2 when
-keeping the hsr prefix?
-
->
-> The patch was tested using two TI AM57x IDK boards which are
-> connected back to back over two CPSW ports. 
->
-> Script used for creating the hsr/prp interface is given below
-> and uses the ip link command. Also provided logs from the tests
-> I have executed for your reference. 
->
-> iproute2 related patches will follow soon....
->
-> Murali Karicheri
-> Texas Instruments
->
-> ============ setup.sh =================================================
-> #!/bin/sh
-> if [ $# -lt 4 ]
-> then
->        echo "setup-cpsw.sh <hsr/prp> <MAC-Address of slave-A>"
->        echo "  <ip address for hsr/prp interface>"
->        echo "  <if_name of hsr/prp interface>"
->        exit
-> fi
->
-> if [ "$1" != "hsr" ] && [ "$1" != "prp" ]
-> then
->        echo "use hsr or prp as first argument"
->        exit
-> fi
->
-> if_a=eth2
-> if_b=eth3
-> if_name=$4
->
-> ifconfig $if_a down
-> ifconfig $if_b down
-> ifconfig $if_a hw ether $2
-> ifconfig $if_b hw ether $2
-> ifconfig $if_a up
-> ifconfig $if_b up
->
-> echo "Setting up $if_name with MAC address $2 for slaves and IP address $3"
-> echo "          using $if_a and $if_b"
->
-> if [ "$1" = "hsr" ]; then
->        options="version 1"
-> else
->        options=""
-> fi
->
-> ip link add name $if_name type $1 slave1 $if_a slave2 $if_b supervision 0 $options
-> ifconfig $if_name $3 up
-> ==================================================================================
-> PRP Logs:
->
-> DUT-1 : https://pastebin.ubuntu.com/p/hhsRjTQpcr/
-> DUT-2 : https://pastebin.ubuntu.com/p/snPFKhnpk4/
->
-> HSR Logs:
->
-> DUT-1 : https://pastebin.ubuntu.com/p/FZPNc6Nwdm/
-> DUT-2 : https://pastebin.ubuntu.com/p/CtV4ZVS3Yd/
->
-> Murali Karicheri (13):
->   net: hsr: Re-use Kconfig option to support PRP
->   net: hsr: rename hsr directory to hsr-prp to introduce PRP
->   net: hsr: rename files to introduce PRP support
->   net: hsr: rename hsr variable inside struct hsr_port to priv
->   net: hsr: rename hsr_port_get_hsr() to hsr_prp_get_port()
->   net: hsr: some renaming to introduce PRP driver support
->   net: hsr: introduce common uapi include/definitions for HSR and PRP
->   net: hsr: migrate HSR netlink socket code to use new common API
->   net: hsr: move re-usable code for PRP to hsr_prp_netlink.c
->   net: hsr: add netlink socket interface for PRP
->   net: prp: add supervision frame generation and handling support
->   net: prp: add packet handling support
->   net: prp: enhance debugfs to display PRP specific info in node table
->
->  MAINTAINERS                                   |   2 +-
->  include/uapi/linux/hsr_netlink.h              |   3 +
->  include/uapi/linux/hsr_prp_netlink.h          |  50 ++
->  include/uapi/linux/if_link.h                  |  19 +
->  net/Kconfig                                   |   2 +-
->  net/Makefile                                  |   2 +-
->  net/hsr-prp/Kconfig                           |  37 ++
->  net/hsr-prp/Makefile                          |  11 +
->  net/hsr-prp/hsr_netlink.c                     | 202 +++++++
->  net/{hsr => hsr-prp}/hsr_netlink.h            |  15 +-
->  .../hsr_prp_debugfs.c}                        |  82 +--
->  net/hsr-prp/hsr_prp_device.c                  | 562 ++++++++++++++++++
->  net/hsr-prp/hsr_prp_device.h                  |  23 +
->  net/hsr-prp/hsr_prp_forward.c                 | 558 +++++++++++++++++
->  .../hsr_prp_forward.h}                        |  10 +-
->  .../hsr_prp_framereg.c}                       | 323 +++++-----
->  net/hsr-prp/hsr_prp_framereg.h                |  68 +++
->  net/hsr-prp/hsr_prp_main.c                    | 194 ++++++
->  net/hsr-prp/hsr_prp_main.h                    | 289 +++++++++
->  net/hsr-prp/hsr_prp_netlink.c                 | 365 ++++++++++++
->  net/hsr-prp/hsr_prp_netlink.h                 |  28 +
->  net/hsr-prp/hsr_prp_slave.c                   | 222 +++++++
->  net/hsr-prp/hsr_prp_slave.h                   |  37 ++
->  net/hsr-prp/prp_netlink.c                     | 141 +++++
->  net/hsr-prp/prp_netlink.h                     |  27 +
->  net/hsr/Kconfig                               |  29 -
->  net/hsr/Makefile                              |  10 -
->  net/hsr/hsr_device.c                          | 509 ----------------
->  net/hsr/hsr_device.h                          |  22 -
->  net/hsr/hsr_forward.c                         | 379 ------------
->  net/hsr/hsr_framereg.h                        |  62 --
->  net/hsr/hsr_main.c                            | 154 -----
->  net/hsr/hsr_main.h                            | 188 ------
->  net/hsr/hsr_netlink.c                         | 514 ----------------
->  net/hsr/hsr_slave.c                           | 198 ------
->  net/hsr/hsr_slave.h                           |  33 -
->  36 files changed, 3084 insertions(+), 2286 deletions(-)
->  create mode 100644 include/uapi/linux/hsr_prp_netlink.h
->  create mode 100644 net/hsr-prp/Kconfig
->  create mode 100644 net/hsr-prp/Makefile
->  create mode 100644 net/hsr-prp/hsr_netlink.c
->  rename net/{hsr => hsr-prp}/hsr_netlink.h (58%)
->  rename net/{hsr/hsr_debugfs.c => hsr-prp/hsr_prp_debugfs.c} (52%)
->  create mode 100644 net/hsr-prp/hsr_prp_device.c
->  create mode 100644 net/hsr-prp/hsr_prp_device.h
->  create mode 100644 net/hsr-prp/hsr_prp_forward.c
->  rename net/{hsr/hsr_forward.h => hsr-prp/hsr_prp_forward.h} (50%)
->  rename net/{hsr/hsr_framereg.c => hsr-prp/hsr_prp_framereg.c} (56%)
->  create mode 100644 net/hsr-prp/hsr_prp_framereg.h
->  create mode 100644 net/hsr-prp/hsr_prp_main.c
->  create mode 100644 net/hsr-prp/hsr_prp_main.h
->  create mode 100644 net/hsr-prp/hsr_prp_netlink.c
->  create mode 100644 net/hsr-prp/hsr_prp_netlink.h
->  create mode 100644 net/hsr-prp/hsr_prp_slave.c
->  create mode 100644 net/hsr-prp/hsr_prp_slave.h
->  create mode 100644 net/hsr-prp/prp_netlink.c
->  create mode 100644 net/hsr-prp/prp_netlink.h
->  delete mode 100644 net/hsr/Kconfig
->  delete mode 100644 net/hsr/Makefile
->  delete mode 100644 net/hsr/hsr_device.c
->  delete mode 100644 net/hsr/hsr_device.h
->  delete mode 100644 net/hsr/hsr_forward.c
->  delete mode 100644 net/hsr/hsr_framereg.h
->  delete mode 100644 net/hsr/hsr_main.c
->  delete mode 100644 net/hsr/hsr_main.h
->  delete mode 100644 net/hsr/hsr_netlink.c
->  delete mode 100644 net/hsr/hsr_slave.c
->  delete mode 100644 net/hsr/hsr_slave.h
->
-> -- 
-> 2.17.1
->
-
--- 
-Vinicius
