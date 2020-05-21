@@ -2,159 +2,96 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B7AF1DCCF9
-	for <lists+linux-api@lfdr.de>; Thu, 21 May 2020 14:34:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82F2A1DD0F2
+	for <lists+linux-api@lfdr.de>; Thu, 21 May 2020 17:16:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728164AbgEUMeW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 21 May 2020 08:34:22 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:41014 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728037AbgEUMeV (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 21 May 2020 08:34:21 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 04LCYGSU068676;
-        Thu, 21 May 2020 07:34:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1590064456;
-        bh=3HwKNsiZR64FJ05ODAi+SwPDScENaEua2gPzI8Vn1lA=;
-        h=Subject:From:To:References:Date:In-Reply-To;
-        b=Few7CvgaQn9OkBxG71L+bKWQV/fGM9nriam3FyyQsq62cF8C/ws0PlYIitUdqWpMy
-         fcenJCJ3WJcYEQZQR0P2LqqGRHmoGzMO+AaiYKjY8hv0wuSvwqtoYEEjL2rzllZzh8
-         I+uO90CUMTEb6NkWv7gbJFKzzZPkVAdW89rsnx/U=
-Received: from DLEE111.ent.ti.com (dlee111.ent.ti.com [157.170.170.22])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 04LCYG6L061400
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 21 May 2020 07:34:16 -0500
-Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 21
- May 2020 07:34:16 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Thu, 21 May 2020 07:34:16 -0500
-Received: from [10.250.74.234] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 04LCYFEI012561;
-        Thu, 21 May 2020 07:34:15 -0500
-Subject: Re: [net-next RFC PATCH 00/13] net: hsr: Add PRP driver
-From:   Murali Karicheri <m-karicheri2@ti.com>
-To:     <davem@davemloft.net>, <kuba@kernel.org>, <netdev@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-api@vger.kernel.org>,
-        <nsekhar@ti.com>, <grygorii.strashko@ti.com>
-References: <20200506163033.3843-1-m-karicheri2@ti.com>
- <a947b604-4016-ff02-380f-f3788eea4ed9@ti.com>
-Message-ID: <2e96bf73-9ef3-4949-967f-4b9d65816c09@ti.com>
-Date:   Thu, 21 May 2020 08:34:15 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1729907AbgEUPQ3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 21 May 2020 11:16:29 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53331 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727898AbgEUPQ2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 21 May 2020 11:16:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1590074187;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=1jYcpHnQL3yWssjgDciSJYss0+WKenYias59GqFdGbA=;
+        b=Stn4UqJdHl/kI/Wr6YPLmZ6LPRB6CEft2U7vd56KAhKrl7LlHXiIy9/ycLOEj9YpZK83TI
+        7O4YQbwIsfnTBT7X2PmLTPctewzFJr1rDkS8nbBMwPNXMZKN2RnPQ6VQVHCWTrmbLiTHhl
+        z+y/MqATCn7XWptLIvnMyI8YuC3f+fI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-12-QcU_r6aePH625lEdCeW_7g-1; Thu, 21 May 2020 11:16:21 -0400
+X-MC-Unique: QcU_r6aePH625lEdCeW_7g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2AB3100D0DB;
+        Thu, 21 May 2020 15:16:17 +0000 (UTC)
+Received: from treble (ovpn-112-59.rdu2.redhat.com [10.10.112.59])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F010106A7B7;
+        Thu, 21 May 2020 15:15:58 +0000 (UTC)
+Date:   Thu, 21 May 2020 10:15:56 -0500
+From:   Josh Poimboeuf <jpoimboe@redhat.com>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+Subject: Re: [PATCH v10 00/26] Control-flow Enforcement: Shadow Stack
+Message-ID: <20200521151556.pojijpmuc2rdd7ko@treble>
+References: <20200429220732.31602-1-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <a947b604-4016-ff02-380f-f3788eea4ed9@ti.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200429220732.31602-1-yu-cheng.yu@intel.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi David, et all,
+On Wed, Apr 29, 2020 at 03:07:06PM -0700, Yu-cheng Yu wrote:
+> Control-flow Enforcement (CET) is a new Intel processor feature that blocks
+> return/jump-oriented programming attacks.  Details can be found in "Intel
+> 64 and IA-32 Architectures Software Developer's Manual" [1].
+> 
+> This series depends on the XSAVES supervisor state series that was split
+> out and submitted earlier [2].
+> 
+> I have gone through previous comments, and hope all concerns have been
+> resolved now.  Please inform me if anything is overlooked.
+> 
+> Changes in v10:
 
-On 5/13/20 8:27 AM, Murali Karicheri wrote:
-> Hello netdev experts,
-> 
-> On 5/6/20 12:30 PM, Murali Karicheri wrote:
->> This RFC series add support for Parallel Redundancy Protocol (PRP)
->> as defined in IEC-62439-3 in the kernel networking subsystem. PRP
->> Uses a Redundancy Control Trailer (RCT) the format of which is
->> similar to HSR Tag. This is used for implementing redundancy.
->> RCT consists of 6 bytes similar to HSR tag and contain following
->> fields:-
->>
->> - 16-bit sequence number (SeqNr);
->> - 4-bit LAN identifier (LanId);
->> - 12 bit frame size (LSDUsize);
->> - 16-bit suffix (PRPsuffix).
->>
->> The PRPsuffix identifies PRP frames and distinguishes PRP frames
->> from other protocols that also append a trailer to their useful
->> data. The LSDUsize field allows the receiver to distinguish PRP
->> frames from random, nonredundant frames as an additional check.
->> LSDUsize is the size of the Ethernet payload inclusive of the
->> RCT. Sequence number along with LanId is used for duplicate
->> detection and discard.
->>
->> PRP node is also known as Dual Attached Node (DAN-P) since it
->> is typically attached to two different LAN for redundancy.
->> DAN-P duplicates each of L2 frames and send it over the two
->> Ethernet links. Each outgoing frame is appended with RCT.
->> Unlike HSR, these are added to the end of L2 frame and may be
->> treated as padding by bridges and therefore would be work with
->> traditional bridges or switches, where as HSR wouldn't as Tag
->> is prefixed to the Ethenet frame. At the remote end, these are
->> received and the duplicate frame is discarded before the stripped
->> frame is send up the networking stack. Like HSR, PRP also sends
->> periodic Supervision frames to the network. These frames are
->> received and MAC address from the SV frames are populated in a
->> database called Node Table. The above functions are grouped into
->> a block called Link Redundancy Entity (LRE) in the IEC spec.
->>
->> As there are many similarities between HSR and PRP protocols,
->> this patch re-use the code from HSR driver to implement PRP
->> driver. As many part of the code can be re-used, this patch
->> introduces a new common API definitions for both protocols and
->> propose to obsolete the existing HSR defines in
->> include/uapi/linux/if_link.h. New definitions are prefixed
->> with a HSR_PRP prefix. Similarly include/uapi/linux/hsr_netlink.h
->> is proposed to be replaced with include/uapi/linux/hsr_prp_netlink.h
->> which also uses the HSR_PRP prefix. The netlink socket interface
->> code is migrated (as well as the iproute2 being sent as a follow up
->> patch) to use the new API definitions. To re-use the code,
->> following are done as a preparatory patch before adding the PRP
->> functionality:-
->>
->>    - prefix all common code with hsr_prp
->>    - net/hsr -> renamed to net/hsr-prp
->>    - All common struct types, constants, functions renamed with
->>      hsr{HSR}_prp{PRP} prefix.
->>
->> Please review this and provide me feedback so that I can work to
->> incorporate them and send a formal patch series for this. As this
->> series impacts user space, I am not sure if this is the right
->> approach to introduce a new definitions and obsolete the old
->> API definitions for HSR. The current approach is choosen
->> to avoid redundant code in iproute2 and in the netlink driver
->> code (hsr_netlink.c). Other approach we discussed internally was
->> to Keep the HSR prefix in the user space and kernel code, but
->> live with the redundant code in the iproute2 and hsr netlink
->> code. Would like to hear from you what is the best way to add
->> this feature to networking core. If there is any other
->> alternative approach possible, I would like to hear about the
->> same.
->>
->> The patch was tested using two TI AM57x IDK boards which are
->> connected back to back over two CPSW ports.
->>
->> Script used for creating the hsr/prp interface is given below
->> and uses the ip link command. Also provided logs from the tests
->> I have executed for your reference.
->>
->> iproute2 related patches will follow soon....
-> Could someone please review this and provide some feedback to take
-> this forward?
-> 
-> Thanks and regards,
->>
->> Murali Karicheri
->> Texas Instruments
-> 
-> 
-> -Cut-------------------------
+Hi Yu-cheng,
 
-I plan to send a formal patch early next week as we would like to move
-forward with this series. So please take some high level look at this
-and guide me if I am on the right track or this requires rework for
-a formal patch.
+Do you have a git branch with the latest Shadow Stack and IBT branches
+applied?  I tried to apply IBT v9 on top of this, but I guess the SS
+code has changed since then and it didn't apply cleanly.
+
 -- 
-Murali Karicheri
-Texas Instruments
+Josh
+
