@@ -2,37 +2,50 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 126A41DEB85
-	for <lists+linux-api@lfdr.de>; Fri, 22 May 2020 17:10:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19F971DEDB3
+	for <lists+linux-api@lfdr.de>; Fri, 22 May 2020 18:53:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730181AbgEVPKK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 22 May 2020 11:10:10 -0400
-Received: from mga12.intel.com ([192.55.52.136]:38059 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729931AbgEVPKK (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 22 May 2020 11:10:10 -0400
-IronPort-SDR: tPfV+Jvicw1Ya/yQczp8lMnqPu1DcTSmYnFSO2Fo4vjKg9wqZ3INEtZiE+he/WcpLwsIdBeGBV
- c2LmAs5gyDAw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2020 08:10:09 -0700
-IronPort-SDR: ICX66KiVS7ynOm0TtiHoLqVvaMKYuZAKDIVrXtjZd+youn2HnEcznyDbZ3QRNEjO4m32Md26v3
- gzK5lB5dFfwg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,422,1583222400"; 
-   d="scan'208";a="344197433"
-Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by orsmga001.jf.intel.com with ESMTP; 22 May 2020 08:10:08 -0700
-Message-ID: <cc3d7668eb7dd738a85f0b0935624496efae43be.camel@intel.com>
-Subject: Re: [RFC PATCH 5/5] selftest/x86: Add CET quick test
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        id S1730540AbgEVQxE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 22 May 2020 12:53:04 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:45748 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730445AbgEVQxD (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 22 May 2020 12:53:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=DATMXvPBFN2+b2MxvEm54Fwd6smgejl5nHlaR7B/mQ0=; b=Pg7zV9Cm25CEnqqgnteZ4rkSsJ
+        jW2xOn9ek07x0YLY9VOBqy/4T6f73bD7ddQVsHHMkRXrV7cpzYxoICoveu44T0Br4ZhNKlX3qlKSS
+        aZErt43QdZUXpfE6yHIRby4AL78iDFQtFdl0tauMNHd4niRm4M4QgZNHSArC9OOBJOQeMiIKlLfKX
+        yw2zOkesdkRGucqKlIxDGQvOc+hj1R2PdbWMzcs1mLYFL+t9kVLcYTwk0AU66ZB+7M1IpZvenY0YJ
+        6ruhazJA70OMSBAj97tUfjlrBUiYS+QT/ByLBhHHSzIChVTWXowwaKMLU/RVRKB62IM8sUfNltnqq
+        DopPt9Gg==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jcArr-0006XR-GU; Fri, 22 May 2020 16:49:55 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 8E3C93060FC;
+        Fri, 22 May 2020 18:49:53 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 7A55D20BDB125; Fri, 22 May 2020 18:49:53 +0200 (CEST)
+Date:   Fri, 22 May 2020 18:49:53 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Andrew Cooper <andrew.cooper3@citrix.com>
+Cc:     "H.J. Lu" <hjl.tools@gmail.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
         Arnd Bergmann <arnd@arndb.de>,
         Andy Lutomirski <luto@kernel.org>,
         Balbir Singh <bsingharora@gmail.com>,
@@ -41,8 +54,7 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         Eugene Syromiatnikov <esyr@redhat.com>,
         Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromium.org>,
         Mike Kravetz <mike.kravetz@oracle.com>,
         Nadav Amit <nadav.amit@gmail.com>,
@@ -52,87 +64,33 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>
-Date:   Fri, 22 May 2020 08:10:14 -0700
-In-Reply-To: <20200522092848.GJ325280@hirez.programming.kicks-ass.net>
-References: <20200521211720.20236-1-yu-cheng.yu@intel.com>
-         <20200521211720.20236-6-yu-cheng.yu@intel.com>
-         <20200522092848.GJ325280@hirez.programming.kicks-ass.net>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
+Subject: Re: [PATCH v10 01/26] Documentation/x86: Add CET description
+Message-ID: <20200522164953.GA411971@hirez.programming.kicks-ass.net>
+References: <20200429220732.31602-2-yu-cheng.yu@intel.com>
+ <b5197a8d-5d8b-e1f7-68d4-58d80261904c@intel.com>
+ <dd5b9bab31ecf247a0b4890e22bfbb486ff52001.camel@intel.com>
+ <5cc163ff9058d1b27778e5f0a016c88a3b1a1598.camel@intel.com>
+ <b0581ddc-0d99-cbcf-278e-0be55ba939a0@intel.com>
+ <44c055342bda4fb4730703f987ae35195d1d0c38.camel@intel.com>
+ <32235ffc-6e6c-fb3d-80c4-a0478e2d0e0f@intel.com>
+ <6272c481-af90-05c5-7231-3ba44ff9bd02@citrix.com>
+ <CAMe9rOqwbxis1xEWbOsftMB9Roxdb3=dp=_MgK8z2pwPP36uRw@mail.gmail.com>
+ <f8ce9863-6ada-2bc4-5141-122f64292aba@citrix.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f8ce9863-6ada-2bc4-5141-122f64292aba@citrix.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, 2020-05-22 at 11:28 +0200, Peter Zijlstra wrote:
-> On Thu, May 21, 2020 at 02:17:20PM -0700, Yu-cheng Yu wrote:
-> 
-> > +#pragma GCC push_options
-> > +#pragma GCC optimize ("O0")
-> > +void ibt_violation(void)
-> > +{
-> > +#ifdef __i386__
-> > +	asm volatile("lea 1f, %eax");
-> > +	asm volatile("jmp *%eax");
-> > +#else
-> > +	asm volatile("lea 1f, %rax");
-> > +	asm volatile("jmp *%rax");
-> > +#endif
-> > +	asm volatile("1:");
-> > +	result[test_id] = -1;
-> > +	test_id++;
-> > +	setcontext(&ucp);
-> > +}
-> > +
-> > +void shstk_violation(void)
-> > +{
-> > +#ifdef __i386__
-> > +	unsigned long x = 0;
-> > +
-> > +	((unsigned long *)&x)[2] = (unsigned long)stack_hacked;
-> > +#else
-> > +	unsigned long long x = 0;
-> > +
-> > +	((unsigned long long *)&x)[2] = (unsigned long)stack_hacked;
-> > +#endif
-> > +}
-> > +#pragma GCC pop_options
-> 
-> This is absolutely atrocious.
-> 
-> The #pragma like Kees already said just need to go. Also, there's
-> absolutely no clue what so ever what it attempts to achieve.
-> 
-> The __i386__ ifdeffery is horrible crap. Splitting an asm with #ifdef
-> like that is also horrible crap.
-> 
-> This is not how you write code.
-> 
-> Get asm/asm.h into userspace and then write something like:
-> 
-> 
-> void ibt_violation(void)
-> {
-> 	asm volatile("lea  1f, %" _ASM_AX "\n\t"
-> 		     "jmp  *%" _ASM_AX "\n\t"
-> 		     "1:\n\t" ::: "a");
-> 
-> 	WRITE_ONCE(result[test_id], -1);
-> 	WRITE_ONCE(test_id, test_id+1);
-> 
-> 	setcontext(&ucp);
-> }
-> 
-> void shstk_violation(void)
-> {
-> 	unsigned long x = 0;
-> 
-> 	WRITE_ONCE(x[2], stack_hacked);
-> }
+On Sat, May 16, 2020 at 03:09:22PM +0100, Andrew Cooper wrote:
 
-Thanks!  I will change it.
+> Sadly, the same is not true for kernel shadow stacks.
+> 
+> SSP is 0 after SYSCALL, SYSENTER and CLRSSBSY, and you've got to be
+> careful to re-establish the shadow stack before a CALL, interrupt or
+> exception tries pushing a word onto the shadow stack at 0xfffffffffffffff8.
 
-Yu-cheng
-
+Oh man, I can only imagine the joy that brings to #NM and friends :-(
