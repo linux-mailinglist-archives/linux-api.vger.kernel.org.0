@@ -2,126 +2,114 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AF081DEEF6
-	for <lists+linux-api@lfdr.de>; Fri, 22 May 2020 20:10:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BA381DEEAB
+	for <lists+linux-api@lfdr.de>; Fri, 22 May 2020 19:55:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730847AbgEVSKs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 22 May 2020 14:10:48 -0400
-Received: from ppsw-31.csi.cam.ac.uk ([131.111.8.131]:33806 "EHLO
-        ppsw-31.csi.cam.ac.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726373AbgEVSKr (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 22 May 2020 14:10:47 -0400
-X-Greylist: delayed 1342 seconds by postgrey-1.27 at vger.kernel.org; Fri, 22 May 2020 14:10:46 EDT
-X-Cam-AntiVirus: no malware found
-X-Cam-ScannerInfo: http://help.uis.cam.ac.uk/email-scanner-virus
-Received: from 88-109-182-220.dynamic.dsl.as9105.com ([88.109.182.220]:51732 helo=[192.168.1.219])
-        by ppsw-31.csi.cam.ac.uk (smtp.hermes.cam.ac.uk [131.111.8.157]:465)
-        with esmtpsa (PLAIN:amc96) (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
-        id 1jcBmD-000an5-M3 (Exim 4.92.3)
-        (return-path <amc96@hermes.cam.ac.uk>); Fri, 22 May 2020 18:48:09 +0100
-Subject: Re: [PATCH v10 01/26] Documentation/x86: Add CET description
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     "H.J. Lu" <hjl.tools@gmail.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-References: <20200429220732.31602-2-yu-cheng.yu@intel.com>
- <b5197a8d-5d8b-e1f7-68d4-58d80261904c@intel.com>
- <dd5b9bab31ecf247a0b4890e22bfbb486ff52001.camel@intel.com>
- <5cc163ff9058d1b27778e5f0a016c88a3b1a1598.camel@intel.com>
- <b0581ddc-0d99-cbcf-278e-0be55ba939a0@intel.com>
- <44c055342bda4fb4730703f987ae35195d1d0c38.camel@intel.com>
- <32235ffc-6e6c-fb3d-80c4-a0478e2d0e0f@intel.com>
- <6272c481-af90-05c5-7231-3ba44ff9bd02@citrix.com>
- <CAMe9rOqwbxis1xEWbOsftMB9Roxdb3=dp=_MgK8z2pwPP36uRw@mail.gmail.com>
- <f8ce9863-6ada-2bc4-5141-122f64292aba@citrix.com>
- <20200522164953.GA411971@hirez.programming.kicks-ass.net>
-From:   Andrew Cooper <andrew.cooper3@citrix.com>
-Message-ID: <ee1b03d8-bb0e-57dc-0a6e-c82622f17067@citrix.com>
-Date:   Fri, 22 May 2020 18:48:08 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1730809AbgEVRzd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 22 May 2020 13:55:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57850 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730635AbgEVRzd (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 22 May 2020 13:55:33 -0400
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8A70C061A0E
+        for <linux-api@vger.kernel.org>; Fri, 22 May 2020 10:55:32 -0700 (PDT)
+Received: by mail-ej1-x643.google.com with SMTP id h21so13981045ejq.5
+        for <linux-api@vger.kernel.org>; Fri, 22 May 2020 10:55:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sargun.me; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=g7+ZinecQk+vU2tx3USRyzTX9hWXqwnrfU8Z0ao5NFs=;
+        b=RM1/oCRXDo9ryPT24QfNPtGbMQpFbyhAtGPByRCCCkRsAIqdrbBXgtD+Xp5SO5xHVD
+         Y5nW0iZ21Q903SnBry33l1LxeDFngn3uirbmpxBPPre74pAl3PQlkFV/9PLuVlTtF12n
+         59lPUphICio+7TuzrBBJrxD5HeyV9gmylFGU8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=g7+ZinecQk+vU2tx3USRyzTX9hWXqwnrfU8Z0ao5NFs=;
+        b=Y3bCyRCG5oM7n4Ym6TB55W4dOziIeXldICTF7wLZ5xzBEl9AyZY+f6QEcxu96qfobr
+         cIEPJujYHjsdD2x4ueoCpY2t4YC82cbj97rmrkUmoJPDMK/6OQxMLex4VNuLuVMQ297S
+         vmm3Eh62v+xlIP1Xb3p30QpzjyJs/dcKJEolaqoOUOUpQ5Gf57YfYVERLpQLSfvhK/S6
+         Cv+FAYfxOHmu6lgkbgiC3+6sQ0l5nYcFfi0JQrcoAk56mqLZLiDmg8VY5g9641Ml15lk
+         dCoqDrKMlA4/MYkxqh3kFYpGITi674jBGrALhbJNKOVcCodui4IxHizdEOa5TpyUOIpt
+         3fNQ==
+X-Gm-Message-State: AOAM5321dQ3PuUcPtlLfC8dxzFFnWukV7YXDLX1BKDGAZaA0WNKGvudh
+        UKWL+wbOCKJwZ1xdHrMdi4eu2bGVT/18kXfZK/lW6w==
+X-Google-Smtp-Source: ABdhPJz/m46fpJfBvIY7sjEMmScn7M1dEiRH6YRxpET3JjeVNzQT8FxrHABIFR2TSp9Tpc7jFZXMsMl+UXhXNGe1F4U=
+X-Received: by 2002:a17:906:9404:: with SMTP id q4mr9055108ejx.138.1590170131063;
+ Fri, 22 May 2020 10:55:31 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200522164953.GA411971@hirez.programming.kicks-ass.net>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-GB
+References: <20200515234005.32370-1-sargun@sargun.me> <87h7wc4zac.fsf@x220.int.ebiederm.org>
+In-Reply-To: <87h7wc4zac.fsf@x220.int.ebiederm.org>
+From:   Sargun Dhillon <sargun@sargun.me>
+Date:   Fri, 22 May 2020 10:54:55 -0700
+Message-ID: <CAMp4zn_v-D=gyzdWO7D2KrdZ_vct87dV_0pM5HVNE_3zDG7k8Q@mail.gmail.com>
+Subject: Re: [PATCH] seccomp: Add group_leader pid to seccomp_notif
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Tycho Andersen <tycho@tycho.ws>,
+        Kees Cook <keescook@chromium.org>,
+        Aleksa Sarai <cyphar@cyphar.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 22/05/2020 17:49, Peter Zijlstra wrote:
-> On Sat, May 16, 2020 at 03:09:22PM +0100, Andrew Cooper wrote:
+On Mon, May 18, 2020 at 4:11 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
 >
->> Sadly, the same is not true for kernel shadow stacks.
->>
->> SSP is 0 after SYSCALL, SYSENTER and CLRSSBSY, and you've got to be
->> careful to re-establish the shadow stack before a CALL, interrupt or
->> exception tries pushing a word onto the shadow stack at 0xfffffffffffffff8.
-> Oh man, I can only imagine the joy that brings to #NM and friends :-(
+> Sargun Dhillon <sargun@sargun.me> writes:
+>
+> > This includes the thread group leader ID in the seccomp_notif. This is
+> > immediately useful for opening up a pidfd for the group leader, as
+> > pidfds only work on group leaders.
+>
+> The code looks fine (except for the name of the test), but can you
+> please talk and think about this as something other than the
+> group leader?
+>
+> The initial thread in a thread group can die, and the tgid is still
+> valid for the entire group.  Because the initial thread of a
+> process/thread group can die (but rarely does) that tends to result in
+> kernel code that fails when thread_group_leader dies.
+>
+> To remove that class of bugs I am slowy working to remove the
+> thread_group_leader from the kernel entirely.
+>
+> Looking at the names of the fields in the structure it looks like
+> there is another class of bugs to be removed by renaming PIDTYPE_PID
+> to PIDTYPE_TID in the kernel as well.  Just skimming the example code
+> it looks very simple to get confused.
+>
+> Is there any chance some can modify struct seccomp_notify to do
+> {
+>         ...
+>         union {
+>                 __u32 pid;
+>                 __u32 tid;
+>         };
+>         ...
+> }
+>
+> Just to reduce the chance of confusion between the userspace pid and the
+> in kernel pid names?
+>
+> Eric
+Our use cases would be unaffected by this. I think this would be a wonderful
+way to move forward, but I don't know if it could break userspace.
 
-Establishing a supervisor shadow stack for the first time involves a
-large leap of faith, even by usual x86 standards.
+I believe Christian's team is the biggest user of this feature in OSS right now,
+so he might know.
 
-You need to have prepared MSR_PL0_SSP with correct mappings and
-supervisor tokens, such that when you enable CR4.CET and
-MSR_S_CET.SHSTK_EN, your SETSSBSY instruction succeeds at its atomic
-"check the token and set the busy bit" shadow stack access.  Any failure
-here tends to be a triple fault, and I didn't get around to figuring out
-why #DF wasn't taken cleanly.
+In addition, I'm not sure where you would want the thread's ID versus the
+process's ID, unless you wanted to do something like SIGSTOP, and freeze
+the thread to prevent it from making more progress, or being interrupted
+while you go do notifier work.
 
-You also need to have prepared MSR_IST_SSP beforehand with the IST
-shadow stack pointers matching any IST configuration in the IDT, lest a
-NMI ruins your day on the instruction boundary before SETSSBSY.
-
-A less obvious side effect of these "windows with an SSP of 0" is that
-you're now forced to use IST for all non-maskable interrupts/exceptions,
-even if you choose not to use SYSCALL, and you no longer need IST to
-remove the risks of a userspace privilege escalation, and would prefer
-not to use IST because of its problematic reentrancy characteristics.
-
-For anyone counting the number of IST-necessary vectors across all
-potential configurations in modern hardware, its #DB, NMI, #DF, #MC,
-#VE, #HV, #VC and #SX, and an architectural limit of 7.
-
-There are several other amusing aspects, such as iret-to-self needing to
-use call-oriented-programming to keep itself shadow-stack-safe, or the
-fact that IRET to user mode doesn't fault if it fails to clear the
-supervisor busy bit, instead leaving you to double fault at some point
-in the future at the next syscall/interrupt/exception because the stack
-is still busy.
-
-~Andrew
-
-P.S. For anyone interested,
-https://lore.kernel.org/xen-devel/20200501225838.9866-1-andrew.cooper3@citrix.com/T/#u
-for getting supervisor shadow stacks working on Xen, which is far
-simpler to manage than Linux.  I do not envy whomever has the fun of
-trying to make this work for Linux.
+Christian & Kees,
+Thoughts?
