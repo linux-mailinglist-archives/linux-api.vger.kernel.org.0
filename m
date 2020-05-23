@@ -2,97 +2,73 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 148F61DF05C
-	for <lists+linux-api@lfdr.de>; Fri, 22 May 2020 22:09:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DAE9B1DFAF4
+	for <lists+linux-api@lfdr.de>; Sat, 23 May 2020 22:21:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730953AbgEVUJ0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 22 May 2020 16:09:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50384 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730931AbgEVUJZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 22 May 2020 16:09:25 -0400
-Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5372AC05BD43
-        for <linux-api@vger.kernel.org>; Fri, 22 May 2020 13:09:25 -0700 (PDT)
-Received: by mail-io1-xd35.google.com with SMTP id q8so11276034iow.7
-        for <linux-api@vger.kernel.org>; Fri, 22 May 2020 13:09:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sargun.me; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=kuxuFImJXS+zMVZOoAVroX3dwfGV7HwfDMWssbC5C1A=;
-        b=BzuSYVIpXA7rbNJiFsgqADe+GidjdLuozlif6nBYsRt6MchS6kYsgk18V3kI5F15Dx
-         7VNYp9f9kKkWxdE9juayukb2eICEmxERuBAcGpn8aX1Q1jvanglLeWKvsSVhpJGj1C1i
-         eFAXZDT+sRebaynrWit+kYbtLiiUZNaTpxeZs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=kuxuFImJXS+zMVZOoAVroX3dwfGV7HwfDMWssbC5C1A=;
-        b=AOKb9dKwFNAKlunEGdrAW8P1gYlqLFqdHKPF7JTIgk3wT/H3YGA6qdkDqxHmZFcYeR
-         8BaAgPezpTsfCCQmGDS2O3Ctu4y2SkWZZftMHnLOS0coBwz1HNhRs0ptTLF5Uv0rdbyx
-         vEEOQgQiLDNNsH+qlx/UOUB8W7/FOY2N+0ckeA67YOwEvfT0TYxjskI3oqNZc7T8/VBa
-         vEfLvxE0pMMmm9wEoY6TbwuivquwB7cxQdmAJQJhEz7PZEb9xp3wvw1dybigYvmsa1I3
-         ri3pZynuPynLpe17sFmzmtiTiAu6b3MGPG+PT3s6Ipazw3qjzEHh7VDR3WbDTEI2RUgJ
-         +Nog==
-X-Gm-Message-State: AOAM531sAe+6ErMGwX2RFxfDm7q+sBH6sFQgdnfIo+Sg1/Ilie94jeca
-        FDtUmbfX/OGPlzPnlffS+2CK/Q==
-X-Google-Smtp-Source: ABdhPJzYYCoJX6l85G6846PNwAdJcv17n8+gt3PxXcY9YhA2VI1NbvUsdUKizD6X1uCV3XLQWunh3w==
-X-Received: by 2002:a02:942a:: with SMTP id a39mr9629370jai.50.1590178164366;
-        Fri, 22 May 2020 13:09:24 -0700 (PDT)
-Received: from ircssh-2.c.rugged-nimbus-611.internal (80.60.198.104.bc.googleusercontent.com. [104.198.60.80])
-        by smtp.gmail.com with ESMTPSA id t22sm4064358iom.49.2020.05.22.13.09.23
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 22 May 2020 13:09:23 -0700 (PDT)
-Date:   Fri, 22 May 2020 20:09:22 +0000
-From:   Sargun Dhillon <sargun@sargun.me>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
-        Tycho Andersen <tycho@tycho.ws>,
-        Matt Denton <mpdenton@google.com>,
-        Chris Palmer <palmer@google.com>,
-        Jeffrey Vander Stoep <jeffv@google.com>,
-        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: seccomp feature development
-Message-ID: <20200522200921.GB25319@ircssh-2.c.rugged-nimbus-611.internal>
-References: <202005181120.971232B7B@keescook>
+        id S2387954AbgEWUVp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 23 May 2020 16:21:45 -0400
+Received: from smtp.precisionairtz.com ([41.204.150.156]:33150 "EHLO
+        smtp.precisionairtz.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387843AbgEWUVp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 23 May 2020 16:21:45 -0400
+X-Greylist: delayed 547 seconds by postgrey-1.27 at vger.kernel.org; Sat, 23 May 2020 16:21:44 EDT
+Received: from smtp.precisionairtz.com (smtp.precisionairtz.com [127.0.0.1])
+        by smtp.precisionairtz.com (Postfix) with ESMTP id 4887D22D56
+        for <linux-api@vger.kernel.org>; Sat, 23 May 2020 23:17:29 +0300 (EAT)
+X-Virus-Scanned: amavisd-new at smtp.precisionairtz.com
+X-Spam-Flag: NO
+X-Spam-Score: 6.16
+X-Spam-Level: ******
+X-Spam-Status: No, score=6.16 tagged_above=2 required=6.2
+        tests=[FREEMAIL_FORGED_REPLYTO=2.503, MISSING_HEADERS=1.207,
+        RCVD_IN_DNSWL_BLOCKED=0.001, REPLYTO_WITHOUT_TO_CC=1.946,
+        SPF_HELO_NONE=0.001, SPF_NONE=0.001, SUBJ_ALL_CAPS=0.5,
+        URIBL_BLOCKED=0.001] autolearn=no autolearn_force=no
+Received: from smtp.precisionairtz.com ([127.0.0.1])
+        by smtp.precisionairtz.com (smtp.precisionairtz.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id kv2nmdqh_Oqu for <linux-api@vger.kernel.org>;
+        Sat, 23 May 2020 23:17:27 +0300 (EAT)
+Received: from mail.precisionairtz.com (mail.precisionairtz.com [41.204.150.158])
+        by smtp.precisionairtz.com (Postfix) with ESMTPS id 7E27E21625;
+        Sat, 23 May 2020 16:57:40 +0300 (EAT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.precisionairtz.com (Postfix) with ESMTP id 3BEF16E6179;
+        Sat, 23 May 2020 16:57:37 +0300 (EAT)
+Received: from mail.precisionairtz.com ([127.0.0.1])
+        by localhost (mail.precisionairtz.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id 1oaHM4ddp5aN; Sat, 23 May 2020 16:57:36 +0300 (EAT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.precisionairtz.com (Postfix) with ESMTP id 43B3D6E617D;
+        Sat, 23 May 2020 16:57:36 +0300 (EAT)
+X-Virus-Scanned: amavisd-new at precisionairtz.com
+Received: from mail.precisionairtz.com ([127.0.0.1])
+        by localhost (mail.precisionairtz.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id gafTF_zJbPM5; Sat, 23 May 2020 16:57:35 +0300 (EAT)
+Received: from mail.precisionairtz.com (localhost [127.0.0.1])
+        by mail.precisionairtz.com (Postfix) with ESMTP id 7E9D86E6177;
+        Sat, 23 May 2020 16:57:33 +0300 (EAT)
+Date:   Sat, 23 May 2020 16:57:33 +0300 (EAT)
+From:   Abdwabbo Maddah <smkupete@precisionairtz.com>
+Reply-To: AbdWabbo Maddah <assighassan@mail.com>
+Message-ID: <2073576285.1118789.1590242253441.JavaMail.zimbra@precisionairtz.com>
+Subject: DID YOU RECEIVE MY MAIL?
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202005181120.971232B7B@keescook>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [41.190.31.116]
+X-Mailer: Zimbra 8.8.15_GA_3928 (zclient/8.8.15_GA_3928)
+Thread-Index: /OFUFW7Mm/a/L1CbWlM0rN+m87aeAg==
+Thread-Topic: DID YOU RECEIVE MY MAIL?
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, May 18, 2020 at 02:04:57PM -0700, Kees Cook wrote:
-> Hi!
-> 
-> This is my attempt at a brain-dump on my plans for nearish-term seccomp
-> features. Welcome to my TED talk... ;)
-> 
-> These are the things I've been thinking about:
-> 
-> - fd passing
-> - deep argument inspection
-> - changing structure sizes
-> - syscall bitmasks
-> 
-What's your take on enabling multiple filters with listeners being attached,
-so that different seccomp interceptors can operate together. I'm wondering
-how this would work.
 
-One idea that I had is adding a new flag to the seccomp filter
-installation -- something like NEXT_FILTER_COMPATIBLE. When a filter is
-installed with a listener, it will check if all previous filters were
-instaled with NEXT_FILTER_COMPATIBLE.
 
-If the call is intercepted by a listener, and the return is overriden,
-then it short-circuits, and the subsequent filters are not evaluated.
+Dear,
 
-On the other hand, if the continue response is send, then the
-subsequent filters are called.
+I had sent you a mail but i don't think you received it that's why am writing you again.It is important you get back to me as soon as you can.
 
-What do you think?
+AbdWabbo Maddah
