@@ -2,112 +2,114 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 236701E03EF
-	for <lists+linux-api@lfdr.de>; Mon, 25 May 2020 01:40:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49C901E0403
+	for <lists+linux-api@lfdr.de>; Mon, 25 May 2020 01:56:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388645AbgEXXkA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 24 May 2020 19:40:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48648 "EHLO
+        id S2388500AbgEXXz0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 24 May 2020 19:55:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388638AbgEXXj7 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 24 May 2020 19:39:59 -0400
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BE74C061A0E
-        for <linux-api@vger.kernel.org>; Sun, 24 May 2020 16:39:59 -0700 (PDT)
-Received: by mail-pj1-x1042.google.com with SMTP id s69so7799627pjb.4
-        for <linux-api@vger.kernel.org>; Sun, 24 May 2020 16:39:59 -0700 (PDT)
+        with ESMTP id S2388288AbgEXXzZ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 24 May 2020 19:55:25 -0400
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB566C05BD43
+        for <linux-api@vger.kernel.org>; Sun, 24 May 2020 16:55:25 -0700 (PDT)
+Received: by mail-ot1-x342.google.com with SMTP id v17so12698898ote.0
+        for <linux-api@vger.kernel.org>; Sun, 24 May 2020 16:55:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sargun.me; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=TkFh/ltuSCZKIpIsO7Tn/NDZKFXDGHYiyontlywtpfI=;
-        b=B/rL+GXXoD44Y6uC2o+7L7Oll3ncoP77DkflU7CuMOMuhPAZaZciH9ThUWMLEvGGBG
-         x4ETO+xogPGVns5rOqi3OHrxKqd38kf21jjmtBh6zLTkl2r4PFT3l1IXWk2LKVFC0z/s
-         H7UPaMvZIqV81Wc9A9E3woy/X5pPxB5bGHHSQ=
+        d=tycho-ws.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=8MyH6nzIQlYiHdNnVdBythLxUHVp7f9RRgFEbcuoxFU=;
+        b=P2vHa+peapcgr3/0nquOLdtPXs2xHl3E9BUXZfbBpN0vJc0S9TsHiKdDK7Ji2fGNfe
+         5WsNc6p5054tND/KkIB3Rx+dCI+mjwytZv2u+bel7HjKFgH8Yq5tXDNC4lX0iuyVP/8p
+         JcFi488CmAKxohubrNAty48AFmrcXvEw5AZ43eu5RZeM9akjUAkPjiBxtHedRIdIHNgX
+         EfyELME4YGM307rEqIk5rk9TaV+gF2XDHgdZCgo2aPKFa/ofh1v/gF8DMx4XmuYme5og
+         qFhR5qc7O/bUpptKzPwmGfqNYkoBotWZCKCV0K++HdQQFoU5PPRWpRakH+pllH+moYg6
+         nQ8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=TkFh/ltuSCZKIpIsO7Tn/NDZKFXDGHYiyontlywtpfI=;
-        b=LL5+EqDsQWSU3u1jlwAaclq4hs2xmup4+7YmRbjdUW1N1EUD8J4NHqC7YcvFT24kKA
-         GarVcafDzhMwIZ/qSZFUhEBr7DFcdUAM6F9Ew0tpS4VFAq35ahgsJYVu2/I29EUZ2Q0F
-         7XkaMBNOFynLNXyxaCI+WcV1GxFO6TGfmc7CM0jLTf5bm/mEVfsg7uNB66aqKj84MZZx
-         yb8rnN9Dj7v43tKpA0hL56M/c8+Ligm1PebAgxuV1F5Zi2TAX/2NivMQEuhR5aZjUQ2G
-         AJSI3+5+zxBRF/0etUOzYuULckD97xBt+CqHKMVh8CiHufRPA5EBt4Go9IEr4Cj7rBMV
-         d3yA==
-X-Gm-Message-State: AOAM533GZQb6mQcUok0nD67Q9J4/5ynXwLS1tbpn2jDf0QS51GxS6j7h
-        QCjz18MWz4SabrKy8j3nID9hHg==
-X-Google-Smtp-Source: ABdhPJwBufPMMSq2FzfVicuZKcyjLpKWsnUxla7t5SgLM6ZIGnT0jxlSJEN6fWz3vHMbU2n/z5+rnw==
-X-Received: by 2002:a17:902:c3ca:: with SMTP id j10mr25898350plj.242.1590363598683;
-        Sun, 24 May 2020 16:39:58 -0700 (PDT)
-Received: from ubuntu.netflix.com (203.20.25.136.in-addr.arpa. [136.25.20.203])
-        by smtp.gmail.com with ESMTPSA id b16sm11633177pfi.74.2020.05.24.16.39.57
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=8MyH6nzIQlYiHdNnVdBythLxUHVp7f9RRgFEbcuoxFU=;
+        b=XWyGEQoOBYDL05zwc761lQWoSqkktWmqX/IEeKcpKwiZIXQjCvA2PXQtGU1Whz9R4y
+         vYi+hIxPrGWhfrq4WIWoxCGO6vjiWnbyLcCq3KYMUEThWEbuVpPlbkljgA83L5p1zCtL
+         PGgXdy/mQoBm5Yo7jIDzgUqpXyXvEWLydbg3cDgjtF1rmh9FBDrxqoy2wPumUy8AArZt
+         RAMYwRzEunaXfzBL2+TDXz49SkMxzKsk3MoIKNHzMHFynB1DMIzSVTRnja02kQRcO3zo
+         wrrV+sh9mRP4E/a3rwtxgJGzcshQYAwmBaAskVKGL1g//2sbxvG0OhIro+IETPlbfPMx
+         rc9g==
+X-Gm-Message-State: AOAM531yDgQCx4TqGyiNbcDlnhEzMLyXAB7fW0IJiZVcbMtjHa/BlcwG
+        kTtdhOUj/Rv+OaKFk2oS/A7u9A==
+X-Google-Smtp-Source: ABdhPJxD1Z1rx73XoSeCiDK+gRfaLVQ7JbSgF4B7fwPmv+QDjYFBVv64rOZxyTLCxxAQKsi8d4TUBQ==
+X-Received: by 2002:a9d:6c56:: with SMTP id g22mr20019187otq.311.1590364524067;
+        Sun, 24 May 2020 16:55:24 -0700 (PDT)
+Received: from cisco ([2601:282:b02:8120:e9d7:5ec6:88ea:b4a1])
+        by smtp.gmail.com with ESMTPSA id l26sm4622765oos.43.2020.05.24.16.55.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 May 2020 16:39:58 -0700 (PDT)
-From:   Sargun Dhillon <sargun@sargun.me>
-To:     linux-kernel@vger.kernel.org,
-        containers@lists.linux-foundation.org, linux-api@vger.kernel.org
-Cc:     Sargun Dhillon <sargun@sargun.me>, christian.brauner@ubuntu.com,
-        tycho@tycho.ws, keescook@chromium.org, cyphar@cyphar.com,
-        Jeffrey Vander Stoep <jeffv@google.com>, jannh@google.com,
-        rsesek@google.com, palmer@google.com,
+        Sun, 24 May 2020 16:55:23 -0700 (PDT)
+Date:   Sun, 24 May 2020 17:55:25 -0600
+From:   Tycho Andersen <tycho@tycho.ws>
+To:     Sargun Dhillon <sargun@sargun.me>
+Cc:     linux-kernel@vger.kernel.org,
+        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
+        christian.brauner@ubuntu.com, keescook@chromium.org,
+        cyphar@cyphar.com, Jeffrey Vander Stoep <jeffv@google.com>,
+        jannh@google.com, rsesek@google.com, palmer@google.com,
         Matt Denton <mpdenton@google.com>,
         Kees Cook <keescook@google.com>
-Subject: [PATCH 5/5] selftests/seccomp: Add test for addfd move semantics
-Date:   Sun, 24 May 2020 16:39:42 -0700
-Message-Id: <20200524233942.8702-6-sargun@sargun.me>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200524233942.8702-1-sargun@sargun.me>
+Subject: Re: [PATCH 1/5] seccomp: Add find_notification helper
+Message-ID: <20200524235525.GH2605652@cisco>
 References: <20200524233942.8702-1-sargun@sargun.me>
+ <20200524233942.8702-2-sargun@sargun.me>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200524233942.8702-2-sargun@sargun.me>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This introduces another call to addfd, in which the move flag is set. It
-may make sense to setup a cgroup v1 hierarchy, and check that the
-netprioidx is changed.
+On Sun, May 24, 2020 at 04:39:38PM -0700, Sargun Dhillon wrote:
+> This adds a helper which can iterate through a seccomp_filter to
+> find a notification matching an ID. It removes several replicated
+> chunks of code.
+> 
+> Signed-off-by: Sargun Dhillon <sargun@sargun.me>
+> Cc: Matt Denton <mpdenton@google.com>
+> Cc: Kees Cook <keescook@google.com>,
+> Cc: Jann Horn <jannh@google.com>,
+> Cc: Robert Sesek <rsesek@google.com>,
+> Cc: Chris Palmer <palmer@google.com>
+> Cc: Christian Brauner <christian.brauner@ubuntu.com>
+> Cc: Tycho Andersen <tycho@tycho.ws>
+> ---
+>  kernel/seccomp.c | 38 +++++++++++++++++++++-----------------
+>  1 file changed, 21 insertions(+), 17 deletions(-)
+> 
+> diff --git a/kernel/seccomp.c b/kernel/seccomp.c
+> index 55a6184f5990..f6ce94b7a167 100644
+> --- a/kernel/seccomp.c
+> +++ b/kernel/seccomp.c
+> @@ -1021,10 +1021,25 @@ static int seccomp_notify_release(struct inode *inode, struct file *file)
+>  	return 0;
+>  }
+>  
+> +/* must be called with notif_lock held */
+> +static inline struct seccomp_knotif *
+> +find_notification(struct seccomp_filter *filter, u64 id)
+> +{
+> +	struct seccomp_knotif *cur;
+> +
+> +	list_for_each_entry(cur, &filter->notif->notifications, list) {
+> +		if (cur->id == id)
+> +			return cur;
+> +	}
+> +
+> +	return NULL;
+> +}
 
-Signed-off-by: Sargun Dhillon <sargun@sargun.me>
-Cc: Matt Denton <mpdenton@google.com>
-Cc: Kees Cook <keescook@google.com>,
-Cc: Jann Horn <jannh@google.com>,
-Cc: Robert Sesek <rsesek@google.com>,
-Cc: Chris Palmer <palmer@google.com>
-Cc: Christian Brauner <christian.brauner@ubuntu.com>
-Cc: Tycho Andersen <tycho@tycho.ws>
----
- tools/testing/selftests/seccomp/seccomp_bpf.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+I think there's also an instance of this in _send() that we can change
+to use find_notification() as well.
 
-diff --git a/tools/testing/selftests/seccomp/seccomp_bpf.c b/tools/testing/selftests/seccomp/seccomp_bpf.c
-index 1ec43fef2b93..f4b50cbbde42 100644
---- a/tools/testing/selftests/seccomp/seccomp_bpf.c
-+++ b/tools/testing/selftests/seccomp/seccomp_bpf.c
-@@ -188,6 +188,8 @@ struct seccomp_metadata {
- 
- /* valid flags for seccomp_notif_addfd */
- #define SECCOMP_ADDFD_FLAG_SETFD	(1UL << 0) /* Specify remote fd */
-+#define SECCOMP_ADDFD_FLAG_MOVE		(1UL << 1)
-+
- 
- struct seccomp_notif {
- 	__u64 id;
-@@ -3756,6 +3758,12 @@ TEST(user_notification_sendfd)
- 	EXPECT_GE(ret, 0);
- 	EXPECT_EQ(filecmp(getpid(), pid, memfd, ret), 0);
- 
-+	/* Move the FD */
-+	addfd.flags = SECCOMP_ADDFD_FLAG_MOVE;
-+	ret = ioctl(listener, SECCOMP_IOCTL_NOTIF_ADDFD, &addfd);
-+	EXPECT_GE(ret, 0);
-+	EXPECT_EQ(filecmp(getpid(), pid, memfd, ret), 0);
-+
- 	/* Verify we can set a specific remote fd */
- 	addfd.remote_fd = 42;
- 	addfd.flags = SECCOMP_ADDFD_FLAG_SETFD;
--- 
-2.25.1
-
+Tycho
