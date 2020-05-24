@@ -2,48 +2,48 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A69EA1E03EA
-	for <lists+linux-api@lfdr.de>; Mon, 25 May 2020 01:39:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 439221E03EB
+	for <lists+linux-api@lfdr.de>; Mon, 25 May 2020 01:39:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388611AbgEXXjz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 24 May 2020 19:39:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48618 "EHLO
+        id S2388319AbgEXXj4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 24 May 2020 19:39:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388319AbgEXXjw (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 24 May 2020 19:39:52 -0400
+        with ESMTP id S2388618AbgEXXjy (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 24 May 2020 19:39:54 -0400
 Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2427C061A0E
-        for <linux-api@vger.kernel.org>; Sun, 24 May 2020 16:39:51 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id u22so6807217plq.12
-        for <linux-api@vger.kernel.org>; Sun, 24 May 2020 16:39:51 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B3F5C08C5C0
+        for <linux-api@vger.kernel.org>; Sun, 24 May 2020 16:39:54 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id m7so6828572plt.5
+        for <linux-api@vger.kernel.org>; Sun, 24 May 2020 16:39:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sargun.me; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=qlnM+tuJBtgsFLXJyMtWB+c6M9nrw4FlwN1KlO0/2DE=;
-        b=qlBx2cRtI+fpjJ/ziZC3fCh91jp3C24lPo3pTVD1rl9FBYNoO9ylg8Fo2t8ba3zYiq
-         /NAOu1gdmcnSgTFlm2HiCTto6bahM9z5JhNJF0i1sXbwvO/bmS3Dc7WiGeA7IOdnfXRh
-         14StPPC1zo2GKvW12nZqCMnnU4Hb8qFMmhpyc=
+        bh=urgPd3ozxiorxnog0oOmlhSiDdNFLQVW0phChlMGf6Y=;
+        b=XWEpOFL8Sb6joFdVJlHGZbscXW9SbwwbZ+H156lWOV+zEGrakiYZEwjiwWOC6+49Hk
+         Gkj1ndF5ycryynQb7Kys2EjxFSxmUY4H1VOn9880Tszwpg8Mjvz7Fs9MPs84mhzL62Fm
+         fzzgBkpa7Gat2iEj2x5dct1gPYYoimboXxnp0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=qlnM+tuJBtgsFLXJyMtWB+c6M9nrw4FlwN1KlO0/2DE=;
-        b=t8VluyuMkiOvq2k13olDK5CHDVEWkgUINg2+Db7Vw+jFhhSKDtZexx3cz/0zg1V34w
-         H9oRYf49wxQo2pioYacR7QCb/PoRfgOdJgClFqmoRPWv3emr7d+BVpNughYvHuMjAFaF
-         A2DyErrr+EmDk7E7ERxCh1O6LQazSO3moJ0QjSoc6LHwNMte/MrlrYgcbvWREjzaNI5Y
-         YtEM30Uicxnjz4WazuH65YTSEL4g5tQEY+P70ELN3VLB6280xNWQJVib3xpcP9gk9V2d
-         l+4Z8a518akK8pCrDNnQdEG3aRJAge4hk1LUwxfLU/GCdbI/SXnN9Q7x76GM+79RdnPG
-         t23A==
-X-Gm-Message-State: AOAM530Y4Thz6y2o5IvuuyL6X6UlRRD9LpelK05+Fnrv8F6h2/pl+wOR
-        TxDRLS91uGNBcPaYW+n2+zAtiw==
-X-Google-Smtp-Source: ABdhPJzxopRnWp6Cjj9Utm1fSJj+pCAcpeSnUOJ7FriyO/ipogCpdj3BDjLheCYyEuubA/b3ysALQw==
-X-Received: by 2002:a17:902:c1cb:: with SMTP id c11mr23524630plc.299.1590363591232;
-        Sun, 24 May 2020 16:39:51 -0700 (PDT)
+        bh=urgPd3ozxiorxnog0oOmlhSiDdNFLQVW0phChlMGf6Y=;
+        b=SdvCaV+49A8W+Z6Qjg7SxKnzWIHUhdLELaabgIw216Eac7BAO5PzdVy/8Fyv650ng4
+         5RNivL0yIAF2KmDwkw4pT0HX5PHTDisd5mWKtOEmKpQ+1QA1BHWeahuxmYYPHStL7+Pt
+         B+C1KXhXqeLXcDKG57sTVKOAj8vt0X7B60FwsBMhsSYriepkM/VUoPNudMOZ5DGcJ1/w
+         /0QAQm8LB5RrFunPahzR/MOsaTo7k0e6Hkp0SSJqKjOyWLYq67QOIEQ+ZGsHKj+79OpG
+         ekwc1gmn6Zw4KJ23dJr/Kn9QkJec+Jn/zqzKaWNHpWjaFz6MsXxTi4g3SkmY9BIVfZR5
+         BbYg==
+X-Gm-Message-State: AOAM5310CCJlo4+eAk3/+b8XXBdacbtCOq9w9ljFAOHlm/out//8WxWa
+        sgzHBhynWigk7PEt0zXdIj/FNQ==
+X-Google-Smtp-Source: ABdhPJza0eupCtsQbPUEy8GxPoa3/m7TrMrK40xwCCOq7gI4keO0qt0w/NtByShbf3FydfKPANjPzg==
+X-Received: by 2002:a17:902:8a89:: with SMTP id p9mr24893920plo.221.1590363593438;
+        Sun, 24 May 2020 16:39:53 -0700 (PDT)
 Received: from ubuntu.netflix.com (203.20.25.136.in-addr.arpa. [136.25.20.203])
-        by smtp.gmail.com with ESMTPSA id b16sm11633177pfi.74.2020.05.24.16.39.49
+        by smtp.gmail.com with ESMTPSA id b16sm11633177pfi.74.2020.05.24.16.39.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 May 2020 16:39:50 -0700 (PDT)
+        Sun, 24 May 2020 16:39:52 -0700 (PDT)
 From:   Sargun Dhillon <sargun@sargun.me>
 To:     linux-kernel@vger.kernel.org,
         containers@lists.linux-foundation.org, linux-api@vger.kernel.org
@@ -53,9 +53,9 @@ Cc:     Sargun Dhillon <sargun@sargun.me>, christian.brauner@ubuntu.com,
         rsesek@google.com, palmer@google.com,
         Matt Denton <mpdenton@google.com>,
         Kees Cook <keescook@google.com>
-Subject: [PATCH 2/5] seccomp: Introduce addfd ioctl to seccomp user notifier
-Date:   Sun, 24 May 2020 16:39:39 -0700
-Message-Id: <20200524233942.8702-3-sargun@sargun.me>
+Subject: [PATCH 3/5] selftests/seccomp: Test SECCOMP_IOCTL_NOTIF_ADDFD
+Date:   Sun, 24 May 2020 16:39:40 -0700
+Message-Id: <20200524233942.8702-4-sargun@sargun.me>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200524233942.8702-1-sargun@sargun.me>
 References: <20200524233942.8702-1-sargun@sargun.me>
@@ -66,24 +66,14 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This adds a seccomp notifier ioctl which allows for the listener to "add"
-file descriptors to a process which originated a seccomp user
-notification. This allows calls like mount, and mknod to be "implemented",
-as the return value, and the arguments are data in memory. On the other
-hand, calls like connect can be "implemented" using pidfd_getfd.
+Test whether we can add file descriptors in response to notifications.
+This injects the file descriptors via notifications, and then uses
+kcmp to determine whether or not it has been successful.
 
-Unfortunately, there are calls which return file descriptors, like
-open, which are vulnerable to TOC-TOU attacks, and require that the
-more privileged supervisor can inspect the argument, and perform the
-syscall on behalf of the process generating the notifiation. This
-allows the file descriptor generated from that open call to be
-returned to the calling process.
-
-In addition, there is funcitonality to allow for replacement of
-specific file descriptors, following dup2-like semantics.
+It also includes some basic sanity checking for arguments.
 
 Signed-off-by: Sargun Dhillon <sargun@sargun.me>
-Suggested-by: Matt Denton <mpdenton@google.com>
+Cc: Matt Denton <mpdenton@google.com>
 Cc: Kees Cook <keescook@google.com>,
 Cc: Jann Horn <jannh@google.com>,
 Cc: Robert Sesek <rsesek@google.com>,
@@ -91,30 +81,39 @@ Cc: Chris Palmer <palmer@google.com>
 Cc: Christian Brauner <christian.brauner@ubuntu.com>
 Cc: Tycho Andersen <tycho@tycho.ws>
 ---
- include/uapi/linux/seccomp.h |  25 ++++++
- kernel/seccomp.c             | 169 ++++++++++++++++++++++++++++++++++-
- 2 files changed, 193 insertions(+), 1 deletion(-)
+ tools/testing/selftests/seccomp/seccomp_bpf.c | 227 ++++++++++++++++++
+ 1 file changed, 227 insertions(+)
 
-diff --git a/include/uapi/linux/seccomp.h b/include/uapi/linux/seccomp.h
-index c1735455bc53..7d450a9e4c29 100644
---- a/include/uapi/linux/seccomp.h
-+++ b/include/uapi/linux/seccomp.h
-@@ -113,6 +113,27 @@ struct seccomp_notif_resp {
- 	__u32 flags;
- };
+diff --git a/tools/testing/selftests/seccomp/seccomp_bpf.c b/tools/testing/selftests/seccomp/seccomp_bpf.c
+index c0aa46ce14f6..1ec43fef2b93 100644
+--- a/tools/testing/selftests/seccomp/seccomp_bpf.c
++++ b/tools/testing/selftests/seccomp/seccomp_bpf.c
+@@ -45,6 +45,7 @@
+ #include <sys/socket.h>
+ #include <sys/ioctl.h>
+ #include <linux/kcmp.h>
++#include <sys/resource.h>
  
+ #include <unistd.h>
+ #include <sys/syscall.h>
+@@ -181,6 +182,12 @@ struct seccomp_metadata {
+ #define SECCOMP_IOCTL_NOTIF_SEND	SECCOMP_IOWR(1,	\
+ 						struct seccomp_notif_resp)
+ #define SECCOMP_IOCTL_NOTIF_ID_VALID	SECCOMP_IOR(2, __u64)
++/* On success, the return value is the remote process's added fd number */
++#define SECCOMP_IOCTL_NOTIF_ADDFD	SECCOMP_IOR(3,	\
++						struct seccomp_notif_addfd)
++
 +/* valid flags for seccomp_notif_addfd */
 +#define SECCOMP_ADDFD_FLAG_SETFD	(1UL << 0) /* Specify remote fd */
+ 
+ struct seccomp_notif {
+ 	__u64 id;
+@@ -201,6 +208,15 @@ struct seccomp_notif_sizes {
+ 	__u16 seccomp_notif_resp;
+ 	__u16 seccomp_data;
+ };
 +
-+/**
-+ * struct seccomp_notif_addfd
-+ * @size: The size of the seccomp_notif_addfd datastructure
-+ * @fd: The local fd number
-+ * @id: The ID of the seccomp notification
-+ * @fd_flags: Flags the remote FD should be allocated under
-+ * @remote_fd: Optional remote FD number if SETFD option is set, otherwise 0.
-+ * @flags: SECCOMP_ADDFD_FLAG_*
-+ */
 +struct seccomp_notif_addfd {
 +	__u32 size;
 +	__u32 fd;
@@ -123,252 +122,227 @@ index c1735455bc53..7d450a9e4c29 100644
 +	__u32 remote_fd;
 +	__u64 flags;
 +};
-+
- #define SECCOMP_IOC_MAGIC		'!'
- #define SECCOMP_IO(nr)			_IO(SECCOMP_IOC_MAGIC, nr)
- #define SECCOMP_IOR(nr, type)		_IOR(SECCOMP_IOC_MAGIC, nr, type)
-@@ -124,4 +145,8 @@ struct seccomp_notif_resp {
- #define SECCOMP_IOCTL_NOTIF_SEND	SECCOMP_IOWR(1,	\
- 						struct seccomp_notif_resp)
- #define SECCOMP_IOCTL_NOTIF_ID_VALID	SECCOMP_IOR(2, __u64)
-+/* On success, the return value is the remote process's added fd number */
-+#define SECCOMP_IOCTL_NOTIF_ADDFD	SECCOMP_IOR(3,	\
-+						struct seccomp_notif_addfd)
-+
- #endif /* _UAPI_LINUX_SECCOMP_H */
-diff --git a/kernel/seccomp.c b/kernel/seccomp.c
-index f6ce94b7a167..88940eeabaee 100644
---- a/kernel/seccomp.c
-+++ b/kernel/seccomp.c
-@@ -77,10 +77,42 @@ struct seccomp_knotif {
- 	long val;
- 	u32 flags;
+ #endif
  
--	/* Signals when this has entered SECCOMP_NOTIFY_REPLIED */
-+	/*
-+	 * Signals when this has changed states, such as the listener
-+	 * dying, a new seccomp addfd message, or changing to REPLIED
-+	 */
- 	struct completion ready;
- 
- 	struct list_head list;
-+
-+	/* outstanding addfd requests */
-+	struct list_head addfd;
-+};
-+
-+/**
-+ * struct seccomp_kaddfd - contianer for seccomp_addfd ioctl messages
-+ *
-+ * @file: A reference to the file to install in the other task
-+ * @fd: The fd number to install it at. If the fd number is -1, it means the
-+ *      installing process should allocate the fd as normal.
-+ * @flags: The flags for the new file descriptor. At the moment, only O_CLOEXEC
-+ *         is allowed.
-+ * @ret: The return value of the installing process. It is set to the fd num
-+ *       upon success (>= 0).
-+ * @completion: Indicates that the installing process has completed fd
-+ *              installation, or gone away (either due to successful
-+ *              reply, or signal)
-+ *
-+ */
-+struct seccomp_kaddfd {
-+	struct file *file;
-+	int fd;
-+	unsigned int flags;
-+
-+	/* To only be set on reply */
-+	int ret;
-+	struct completion completion;
-+	struct list_head list;
- };
- 
- /**
-@@ -735,6 +767,35 @@ static u64 seccomp_next_notify_id(struct seccomp_filter *filter)
- 	return filter->notif->next_id++;
+ #ifndef PTRACE_EVENTMSG_SYSCALL_ENTRY
+@@ -3686,6 +3702,217 @@ TEST(user_notification_continue)
+ 	}
  }
  
-+static void seccomp_handle_addfd(struct seccomp_kaddfd *addfd)
++TEST(user_notification_sendfd)
 +{
-+	int ret;
++	pid_t pid;
++	long ret;
++	int status, listener, memfd;
++	struct seccomp_notif_addfd addfd = {};
++	struct seccomp_notif req = {};
++	struct seccomp_notif_resp resp = {};
 +
-+	/*
-+	 * Remove the notification, and reset the list pointers, indicating
-+	 * that it has been handled.
-+	 */
-+	list_del_init(&addfd->list);
++	memfd = memfd_create("test", 0);
++	ASSERT_GE(memfd, 0);
 +
-+	ret = security_file_receive(addfd->file);
-+	if (ret)
-+		goto out;
-+
-+	if (addfd->fd >= 0) {
-+		ret = replace_fd(addfd->fd, addfd->file, addfd->flags);
-+		if (ret >= 0)
-+			fput(addfd->file);
-+	} else {
-+		ret = get_unused_fd_flags(addfd->flags);
-+		if (ret >= 0)
-+			fd_install(ret, addfd->file);
++	ret = prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0);
++	ASSERT_EQ(0, ret) {
++		TH_LOG("Kernel does not support PR_SET_NO_NEW_PRIVS!");
 +	}
 +
-+out:
-+	addfd->ret = ret;
-+	complete(&addfd->completion);
++	/* Check that the basic notification machinery works */
++	listener = user_trap_syscall(__NR_getppid,
++				     SECCOMP_FILTER_FLAG_NEW_LISTENER);
++	ASSERT_GE(listener, 0);
++
++	pid = fork();
++	ASSERT_GE(pid, 0);
++
++	if (pid == 0)
++		exit(syscall(__NR_getppid) != USER_NOTIF_MAGIC);
++
++	ASSERT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_RECV, &req), 0);
++
++	addfd.size = sizeof(addfd);
++	addfd.fd = memfd;
++	addfd.fd_flags = O_CLOEXEC;
++	addfd.remote_fd = 0;
++	addfd.id = req.id;
++	addfd.flags = 0xff;
++
++	/* Verify bad flags cannot be set */
++	EXPECT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_ADDFD, &addfd), -1);
++	EXPECT_EQ(errno, EINVAL);
++
++	/* Verify that remote_fd cannot be set without setting flags */
++	addfd.flags = 0;
++	addfd.remote_fd = 1;
++	EXPECT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_ADDFD, &addfd), -1);
++	EXPECT_EQ(errno, EINVAL);
++
++	/* Verify we can set an arbitrary remote fd */
++	addfd.remote_fd = 0;
++
++	ret = ioctl(listener, SECCOMP_IOCTL_NOTIF_ADDFD, &addfd);
++	EXPECT_GE(ret, 0);
++	EXPECT_EQ(filecmp(getpid(), pid, memfd, ret), 0);
++
++	/* Verify we can set a specific remote fd */
++	addfd.remote_fd = 42;
++	addfd.flags = SECCOMP_ADDFD_FLAG_SETFD;
++
++	EXPECT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_ADDFD, &addfd), 42);
++	EXPECT_EQ(filecmp(getpid(), pid, memfd, 42), 0);
++
++	resp.id = req.id;
++	resp.error = 0;
++	resp.val = USER_NOTIF_MAGIC;
++
++	EXPECT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_SEND, &resp), 0);
++
++
++	EXPECT_EQ(waitpid(pid, &status, 0), pid);
++	EXPECT_EQ(true, WIFEXITED(status));
++	EXPECT_EQ(0, WEXITSTATUS(status));
++
++	close(memfd);
 +}
 +
- static int seccomp_do_user_notification(int this_syscall,
- 					struct seccomp_filter *match,
- 					const struct seccomp_data *sd)
-@@ -743,6 +804,7 @@ static int seccomp_do_user_notification(int this_syscall,
- 	u32 flags = 0;
- 	long ret = 0;
- 	struct seccomp_knotif n = {};
-+	struct seccomp_kaddfd *addfd, *tmp;
- 
- 	mutex_lock(&match->notify_lock);
- 	err = -ENOSYS;
-@@ -755,6 +817,7 @@ static int seccomp_do_user_notification(int this_syscall,
- 	n.id = seccomp_next_notify_id(match);
- 	init_completion(&n.ready);
- 	list_add(&n.list, &match->notif->notifications);
-+	INIT_LIST_HEAD(&n.addfd);
- 
- 	up(&match->notif->request);
- 	wake_up_poll(&match->notif->wqh, EPOLLIN | EPOLLRDNORM);
-@@ -763,14 +826,31 @@ static int seccomp_do_user_notification(int this_syscall,
- 	/*
- 	 * This is where we wait for a reply from userspace.
- 	 */
-+wait:
- 	err = wait_for_completion_interruptible(&n.ready);
- 	mutex_lock(&match->notify_lock);
- 	if (err == 0) {
-+		/* Check if we were woken up by a addfd message */
-+		addfd = list_first_entry_or_null(&n.addfd,
-+						 struct seccomp_kaddfd, list);
-+		if (addfd && n.state != SECCOMP_NOTIFY_REPLIED) {
-+			seccomp_handle_addfd(addfd);
-+			mutex_unlock(&match->notify_lock);
-+			goto wait;
-+		}
- 		ret = n.val;
- 		err = n.error;
- 		flags = n.flags;
- 	}
- 
-+	/* If there were any pending addfd calls, clear them out */
-+	list_for_each_entry_safe(addfd, tmp, &n.addfd, list) {
-+		/* The process went away before we got a chance to handle it */
-+		addfd->ret = -ENOENT;
-+		list_del_init(&addfd->list);
-+		complete(&addfd->completion);
-+	}
-+
- 	/*
- 	 * Note that it's possible the listener died in between the time when
- 	 * we were notified of a respons (or a signal) and when we were able to
-@@ -1179,6 +1259,91 @@ static long seccomp_notify_id_valid(struct seccomp_filter *filter,
- 	return ret;
- }
- 
-+static long seccomp_notify_addfd(struct seccomp_filter *filter,
-+				 struct seccomp_notif_addfd __user *uaddfd)
++TEST(user_notification_sendfd_goaway)
 +{
-+	struct seccomp_notif_addfd addfd;
-+	struct seccomp_knotif *knotif;
-+	struct seccomp_kaddfd kaddfd;
-+	u32 size;
-+	int ret;
++	pid_t pid, pid2;
++	long ret;
++	int status, listener, memfd;
++	struct seccomp_notif_addfd addfd = {};
++	struct seccomp_notif req = {};
++	struct seccomp_notif_resp resp = {};
 +
-+	ret = get_user(size, &uaddfd->size);
-+	if (ret)
-+		return ret;
++	memfd = memfd_create("test", 0);
++	ASSERT_GE(memfd, 0);
 +
-+	ret = copy_struct_from_user(&addfd, sizeof(addfd), uaddfd, size);
-+	if (ret)
-+		return ret;
-+
-+	if (addfd.fd_flags & (~O_CLOEXEC))
-+		return -EINVAL;
-+
-+	if (addfd.flags & ~(SECCOMP_ADDFD_FLAG_SETFD))
-+		return -EINVAL;
-+
-+	if (addfd.remote_fd && !(addfd.flags & SECCOMP_ADDFD_FLAG_SETFD))
-+		return -EINVAL;
-+
-+	kaddfd.file = fget(addfd.fd);
-+	if (!kaddfd.file)
-+		return -EBADF;
-+
-+	kaddfd.flags = addfd.fd_flags;
-+	kaddfd.fd = (addfd.flags & SECCOMP_ADDFD_FLAG_SETFD) ?
-+		    addfd.remote_fd : -1;
-+	init_completion(&kaddfd.completion);
-+
-+	ret = mutex_lock_interruptible(&filter->notify_lock);
-+	if (ret)
-+		goto out;
-+
-+	knotif = find_notification(filter, addfd.id);
-+	/*
-+	 * We do not want to allow for FD injection to occur before the
-+	 * notification has been picked up by a userspace handler, or after
-+	 * the notification has been replied to.
-+	 */
-+	if (!knotif || knotif->state != SECCOMP_NOTIFY_SENT) {
-+		ret = -ENOENT;
-+		goto out_unlock;
++	ret = prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0);
++	ASSERT_EQ(0, ret) {
++		TH_LOG("Kernel does not support PR_SET_NO_NEW_PRIVS!");
 +	}
 +
-+	list_add(&kaddfd.list, &knotif->addfd);
-+	complete(&knotif->ready);
-+	mutex_unlock(&filter->notify_lock);
++	/* Check that the basic notification machinery works */
++	listener = user_trap_syscall(__NR_getppid,
++				     SECCOMP_FILTER_FLAG_NEW_LISTENER);
++	ASSERT_GE(listener, 0);
 +
-+	/* Now we wait for it to be processed */
-+	ret = wait_for_completion_interruptible(&kaddfd.completion);
-+	if (ret == 0) {
-+		/*
-+		 * We had a successful completion. The other side has already
-+		 * removed us from the addfd queue, and
-+		 * wait_for_completion_interruptible has a memory barrier.
-+		 */
-+		ret = kaddfd.ret;
-+		goto out;
++	pid = fork();
++	ASSERT_GE(pid, 0);
++
++	if (pid == 0) {
++		syscall(__NR_getppid);
++		exit(0);
 +	}
 +
-+	mutex_lock(&filter->notify_lock);
-+	/*
-+	 * Even though we were woken up by a signal, and not a successful
-+	 * completion, a completion may have happened in the mean time.
-+	 */
-+	if (list_empty(&kaddfd.list))
-+		ret = kaddfd.ret;
-+	else
-+		list_del(&kaddfd.list);
++	ASSERT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_RECV, &req), 0);
 +
-+out_unlock:
-+	mutex_unlock(&filter->notify_lock);
-+out:
-+	if (ret < 0)
-+		fput(kaddfd.file);
 +
-+	return ret;
++	ASSERT_EQ(kill(pid, SIGSTOP), 0);
++
++	resp.id = req.id;
++	resp.error = 0;
++	resp.val = USER_NOTIF_MAGIC;
++
++	ASSERT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_SEND, &resp), 0);
++
++	pid2 = fork();
++	if (pid2 == 0) {
++		sleep(1);
++		exit(kill(pid, SIGCONT) != 0);
++	}
++
++	/* Add FD should return ENOENT */
++	addfd.size = sizeof(addfd);
++	addfd.fd = memfd;
++	addfd.fd_flags = O_CLOEXEC;
++	addfd.remote_fd = 0;
++	addfd.id = req.id;
++	addfd.flags = 0;
++
++	EXPECT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_ADDFD, &addfd), -1);
++	EXPECT_EQ(errno, ENOENT);
++
++	EXPECT_EQ(waitpid(pid2, &status, 0), pid2);
++	EXPECT_EQ(true, WIFEXITED(status));
++	EXPECT_EQ(0, WEXITSTATUS(status));
++
++	EXPECT_EQ(waitpid(pid, &status, 0), pid);
++	EXPECT_EQ(true, WIFEXITED(status));
++	EXPECT_EQ(0, WEXITSTATUS(status));
++
++	close(memfd);
 +}
 +
- static long seccomp_notify_ioctl(struct file *file, unsigned int cmd,
- 				 unsigned long arg)
- {
-@@ -1192,6 +1357,8 @@ static long seccomp_notify_ioctl(struct file *file, unsigned int cmd,
- 		return seccomp_notify_send(filter, buf);
- 	case SECCOMP_IOCTL_NOTIF_ID_VALID:
- 		return seccomp_notify_id_valid(filter, buf);
-+	case SECCOMP_IOCTL_NOTIF_ADDFD:
-+		return seccomp_notify_addfd(filter, buf);
- 	default:
- 		return -EINVAL;
- 	}
++TEST(user_notification_sendfd_rlimit)
++{
++	pid_t pid;
++	long ret;
++	int status, listener, memfd;
++	struct seccomp_notif_addfd addfd = {};
++	struct seccomp_notif req = {};
++	struct seccomp_notif_resp resp = {};
++	const struct rlimit lim = {
++		.rlim_cur	= 0,
++		.rlim_max	= 0,
++	};
++
++	memfd = memfd_create("test", 0);
++	ASSERT_GE(memfd, 0);
++
++	ret = prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0);
++	ASSERT_EQ(0, ret) {
++		TH_LOG("Kernel does not support PR_SET_NO_NEW_PRIVS!");
++	}
++
++	/* Check that the basic notification machinery works */
++	listener = user_trap_syscall(__NR_getppid,
++				     SECCOMP_FILTER_FLAG_NEW_LISTENER);
++	ASSERT_GE(listener, 0);
++
++	pid = fork();
++	ASSERT_GE(pid, 0);
++
++	if (pid == 0)
++		exit(syscall(__NR_getppid) != USER_NOTIF_MAGIC);
++
++
++	ASSERT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_RECV, &req), 0);
++
++	ASSERT_EQ(prlimit(pid, RLIMIT_NOFILE, &lim, NULL), 0);
++
++	addfd.size = sizeof(addfd);
++	addfd.fd = memfd;
++	addfd.fd_flags = O_CLOEXEC;
++	addfd.remote_fd = 0;
++	addfd.id = req.id;
++	addfd.flags = 0;
++
++	/* Should probably spot check /proc/sys/fs/file-nr */
++	EXPECT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_ADDFD, &addfd), -1);
++	EXPECT_EQ(errno, EMFILE);
++
++	addfd.remote_fd = 100;
++	addfd.flags = SECCOMP_ADDFD_FLAG_SETFD;
++	EXPECT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_ADDFD, &addfd), -1);
++	EXPECT_EQ(errno, EBADF);
++
++	resp.id = req.id;
++	resp.error = 0;
++	resp.val = USER_NOTIF_MAGIC;
++
++	EXPECT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_SEND, &resp), 0);
++
++
++	EXPECT_EQ(waitpid(pid, &status, 0), pid);
++	EXPECT_EQ(true, WIFEXITED(status));
++	EXPECT_EQ(0, WEXITSTATUS(status));
++
++	close(memfd);
++}
++
+ /*
+  * TODO:
+  * - add microbenchmarks
 -- 
 2.25.1
 
