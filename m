@@ -2,110 +2,151 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 270DB1E1123
-	for <lists+linux-api@lfdr.de>; Mon, 25 May 2020 16:59:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 487271E1189
+	for <lists+linux-api@lfdr.de>; Mon, 25 May 2020 17:20:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390956AbgEYO7J (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 25 May 2020 10:59:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51080 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388687AbgEYO7I (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 25 May 2020 10:59:08 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10308C061A0E
-        for <linux-api@vger.kernel.org>; Mon, 25 May 2020 07:59:08 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id v16so21092409ljc.8
-        for <linux-api@vger.kernel.org>; Mon, 25 May 2020 07:59:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=mEbHD2ev263wlFRheDig3n99CabBDelJzVN0Rki9PdU=;
-        b=enNvc4+9hQuIOZOIh3CaF8Xu0UeS+b0QfIV6J5Y+QYtH841jSCEK08HAeRk1to7Ei7
-         mo18xJOlr+wir0EjKge1Voe2Z6a3szF3i50Zj1DIcl2dF4cyHDBAuWKs8XmOR6BD2Uub
-         xef+MqLgkQEgyiJJZTBGfCKGQ2yWMsPHDg7jY+wGy0r4JAaFtWLIcj/WUzNwBYtvtQ/i
-         cSXFVtNNN3PNkIfjSzeLaHI1VJOTBNl0XV0sUEhY3nhCBi/s4KR4ZrlqL17n6HDZSLTU
-         uaQBd1ajC9jkJiXhhkBc8BWDeRk12QnICMUmZf1+eu3v75Jxwzs5IWC2htaEpEslfgcM
-         fVfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=mEbHD2ev263wlFRheDig3n99CabBDelJzVN0Rki9PdU=;
-        b=JgG4R5VtL3P2x8y5r/dD19LjIHoeaEAWo7lkqvzHkMaNDi+bRfJhXp0HCNhsYUE2T2
-         x8YZHCYSG8kDBUd6IQTBbg12m4KUlaIGJ4cWp4KYxAffUDxjI9iTl3RqRhb6Zmu4mX2w
-         K6YYAEqb95thTzFDCdblb3u2Nbda18Drn0Qn65l7hZHBxAzI93HkBjFJ6IIM+nD/Dr2B
-         kSV8WpW8WB7itZ5j4+yM1ZbeeKSL0HjNXZNud3/2bcNrmU+FJ5+gLVgKTEMsu5fXqH25
-         P94Y71QcIeiPD20RBY6mGkmUr9i7VG5bavl5cGgnzmZgVt2KdwY5hjgY3KNASVAnFrv3
-         ze/g==
-X-Gm-Message-State: AOAM532FDJ2tv9LcEhnXJqHWdu0c1AbFqIZ4aTXHl7mubjajXKQ+9FlG
-        39t4NlkhZFAnjFrBkML2HFa7UQ==
-X-Google-Smtp-Source: ABdhPJwRf7RFMRCGGPJo5Q4CtZh9c7tpy4gmdWyeTAE62C3TTupgb3dtVWxbju39YxVIt4HlovmXJg==
-X-Received: by 2002:a2e:7619:: with SMTP id r25mr14688414ljc.42.1590418746399;
-        Mon, 25 May 2020 07:59:06 -0700 (PDT)
-Received: from box.localdomain ([86.57.175.117])
-        by smtp.gmail.com with ESMTPSA id w6sm4697970ljw.89.2020.05.25.07.59.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 May 2020 07:59:05 -0700 (PDT)
-Received: by box.localdomain (Postfix, from userid 1000)
-        id DFB3F10230F; Mon, 25 May 2020 17:59:06 +0300 (+03)
-Date:   Mon, 25 May 2020 17:59:06 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
-To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc:     Ian Rogers <irogers@google.com>, Rik van Riel <riel@redhat.com>,
-        linux-man@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        linux-mm@kvack.org, linux-api@vger.kernel.org, nilal@redhat.com,
-        Florian Weimer <fweimer@redhat.com>,
-        Colm =?utf-8?Q?MacC=C3=A1rtaigh?= <colm@allcosts.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>
-Subject: Re: [PATCH] proc.5: add "wf" to VmFlags in /proc/[pid]/smaps
-Message-ID: <20200525145906.e5xfzmj6hvl7t4fg@box>
-References: <20200521222551.259804-1-irogers@google.com>
- <CAP-5=fXjXgWEgp9gqReByrDBTvjDbPEsubeAFxrpxj_+FsFn6w@mail.gmail.com>
- <1edcb7ac-bc5f-b9ec-a037-656005ae85e3@gmail.com>
+        id S2404085AbgEYPUb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 25 May 2020 11:20:31 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49976 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S2403996AbgEYPUb (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 25 May 2020 11:20:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1590420029;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=HYjKBsVG8/aQRDDWxnpTEgM4JQmNET1Q9YOObHs51wo=;
+        b=T8I/C9fDoU/ROi3tZkI3ciQdHfZQXLRq0RDv/pNCdqsv3GLoFgJMX2p4ii5v7uckugTq3k
+        U1hkpCit2aXvvHJI8DxS7BKk140wNFSlBnrJchLYEqKJJFpjA0MDL4rHFvgl3gkYNnxeaH
+        NObu1xhLpdxYxD5cMMJcu/zvMGwc4Nw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-491-c78kMZeNNO2R3tqKxuLtLA-1; Mon, 25 May 2020 11:20:27 -0400
+X-MC-Unique: c78kMZeNNO2R3tqKxuLtLA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92B0B80183C;
+        Mon, 25 May 2020 15:20:24 +0000 (UTC)
+Received: from oldenburg2.str.redhat.com (ovpn-112-121.ams2.redhat.com [10.36.112.121])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 8A4AB5798D;
+        Mon, 25 May 2020 15:20:21 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc:     libc-alpha <libc-alpha@sourceware.org>,
+        Rich Felker <dalias@libc.org>,
+        linux-api <linux-api@vger.kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Will Deacon <will.deacon@arm.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ben Maurer <bmaurer@fb.com>, Dave Watson <davejwatson@fb.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Paul <paulmck@linux.vnet.ibm.com>, Paul Turner <pjt@google.com>,
+        Joseph Myers <joseph@codesourcery.com>
+Subject: Re: [PATCH glibc 1/3] glibc: Perform rseq registration at C startup and thread creation (v19)
+References: <20200501021439.2456-1-mathieu.desnoyers@efficios.com>
+        <20200501021439.2456-2-mathieu.desnoyers@efficios.com>
+        <87v9kqbzse.fsf@oldenburg2.str.redhat.com>
+        <941087675.33347.1590418305398.JavaMail.zimbra@efficios.com>
+Date:   Mon, 25 May 2020 17:20:19 +0200
+In-Reply-To: <941087675.33347.1590418305398.JavaMail.zimbra@efficios.com>
+        (Mathieu Desnoyers's message of "Mon, 25 May 2020 10:51:45 -0400
+        (EDT)")
+Message-ID: <87367ovy6k.fsf@oldenburg2.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1edcb7ac-bc5f-b9ec-a037-656005ae85e3@gmail.com>
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, May 25, 2020 at 03:50:38PM +0200, Michael Kerrisk (man-pages) wrote:
-> On 5/22/20 1:13 AM, Ian Rogers wrote:
-> > On Thu, May 21, 2020 at 3:25 PM Ian Rogers <irogers@google.com> wrote:
-> >>
-> >> This patch documents a flag added in the following kernel commit:
-> >>
-> >> commit d2cd9ede6e193dd7d88b6d27399e96229a551b19
-> >> Author: Rik van Riel <riel@redhat.com>
-> >> Date:   Wed Sep 6 16:25:15 2017 -0700
-> >>
-> >>     mm,fork: introduce MADV_WIPEONFORK
-> >>
-> >> This was already documented in man2/madvise.2 in the commit:
-> >>
-> >> commit c0c4f6c29c494c466f3a2a6273c5b55b76a72927
-> >> Author: Rik van Riel <riel@redhat.com>
-> >> Date:   Tue Sep 19 20:32:00 2017 +0200
-> >>
-> >>     madvise.2: Document MADV_WIPEONFORK and MADV_KEEPONFORK
-> >>
-> >> Signed-off-by: Ian Rogers <irogers@google.com>
-> > 
-> > Doing a quick audit of fs/proc/task_mmu.c having noticed this flag was
-> > missing I note:
-> >  - "mp" isn't documented, only possible with INTEL_MPX
-> >  - "nl" is documented but not present in show_smap_vma_flags
-> >  - "um" and "uw" aren't documented
-> 
-> I took a shot at fixing these:
-> 
-> 
->              mp  - MPX-specific VMA (x86, since Linux 3.19)
+* Mathieu Desnoyers:
 
-This one is gone. The patch to remove leftovers of MPX is linux-next.
+> The larger question here is: considering that we re-implement the entire
+> uapi header within glibc (which includes the uptr addition), do we still
+> care about using the header provided by the Linux kernel ?
 
--- 
- Kirill A. Shutemov
+We don't care, but our users do.  Eventually, they want to include
+<sys/rseq.h> and <linux/rseq.h> to get new constants that are not yet
+known to glibc.
+
+> Having different definitions depending on whether a kernel header is
+> installed or not when including a glibc header seems rather unexpected.
+
+Indeed.
+
+> *If* we want to use the uapi header, I think something is semantically
+> missing. Here is the scheme I envision. We could rely on the kernel header
+> version.h to figure out which of glibc or kernel uapi header is more
+> recent. Any new concept we try to integrate into glibc (e.g. uptr)
+> should go into the upstream Linux uapi header first.
+
+I think we should always prefer the uapi header.  The Linux version
+check does not tell you anything about backports.
+
+> For the coming glibc e.g. 2.32, we use the kernel uapi header if
+> kernel version is >= 4.18.0. Within glibc, the fallback implements
+> exactly the API exposed by the kernel rseq.h header.
+
+Agreed.
+
+> As we eventually introduce the uptr change into the Linux kernel, and
+> say it gets merged for Linux 5.9.0, we mirror this change into glibc
+> (e.g. release 2.33), and bump the Linux kernel version cutoff to 5.9.0.
+> So starting from that version, we use the Linux kernel header only if
+> version >= 5.9.0, else we fallback on glibc's own implementation.
+
+Fortunately, we don't need to settle this today. 8-)
+
+Let's stick to the 4.18 definitions for the fallback for now, and
+discuss the incorporation of future changes later.
+
+>>> +/* Ensure the compiler supports __attribute__ ((aligned)).  */
+>>> +_Static_assert (__alignof__ (struct rseq_cs) >= 32, "alignment");
+>>> +_Static_assert (__alignof__ (struct rseq) >= 32, "alignment");
+>> 
+>> This needs #ifndef __cplusplus or something like that.  I'm surprised
+>> that this passes the installed header tests.
+>
+> Would the following be ok ?
+>
+> #ifdef __cplusplus
+> #define rseq_static_assert      static_assert
+> #else
+> #define rseq_static_assert      _Static_assert
+> #endif
+>
+> /* Ensure the compiler supports __attribute__ ((aligned)).  */
+> rseq_static_assert (__alignof__ (struct rseq_cs) >= 32, "alignment");
+> rseq_static_assert (__alignof__ (struct rseq) >= 32, "alignment");
+
+Seems reasonable, yes.  __alignof__ is still a GCC extension.  C++11 has
+alignof, C11 has _Alignof.  So you could use something like this
+(perhaps without indentation for the kernel header version):
+
+#ifdef __cplusplus
+# if  __cplusplus >= 201103L
+#  define rseq_static_assert(x)      static_assert x;
+#  define rseq_alignof alignof
+# endif
+#elif __STDC_VERSION__ >= 201112L
+# define rseq_static_assert(x)      _Static_assert x;
+# define rseq_alignof _Alignof
+#endif
+#ifndef rseq_static_assert
+# define rseq_static_assert /* nothing */
+#endif
+rseq_static_assert ((rseq_alignof__ (struct rseq_cs) >= 32, "alignment"))
+rseq_static_assert ((rseq_alignof (struct rseq) >= 32, "alignment"))
+
+And something similar for _Alignas/attribute aligned, with an error for
+older standards and !__GNUC__ compilers (because neither the type nor
+__thread can be represented there).
+
+Thanks,
+Florian
+
