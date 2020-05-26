@@ -2,126 +2,76 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9111D1E255B
-	for <lists+linux-api@lfdr.de>; Tue, 26 May 2020 17:22:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC38A1E29BB
+	for <lists+linux-api@lfdr.de>; Tue, 26 May 2020 20:10:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729212AbgEZPWI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 26 May 2020 11:22:08 -0400
-Received: from mail.efficios.com ([167.114.26.124]:33662 "EHLO
-        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728279AbgEZPWH (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 26 May 2020 11:22:07 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 2A2B32539DC;
-        Tue, 26 May 2020 11:22:06 -0400 (EDT)
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id r5CHuBHdRu9w; Tue, 26 May 2020 11:22:05 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id CCA652539D9;
-        Tue, 26 May 2020 11:22:05 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com CCA652539D9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1590506525;
-        bh=SKrOEP5pGa9ajAYrExv6tmSsQLUAXbFOGSG0aVKLqZc=;
-        h=Date:From:To:Message-ID:MIME-Version;
-        b=XQ2rqTUy7+LdrVi4/K9Hb9w+gbNDirUXP49Brj19U88DvQyA2NAkRNWhE6gsD0jC1
-         55SbMVeAdoNddOJoNkwLXXVAjuuxTBWSWChELy3/UPfSTQgdgPGc7eLHnoBohHKOwI
-         29E1D5OSTAzvLU5uxBdvsJ181bA1PC1BIWlWm77n6AtQXyy0h8JV35UiP7j2BkDBJP
-         AhR9rhb0ZvOrx6DO/R0HyTroMWXsshno/D9r/LFKm9VtxEgVwiuwghVXtWATyE2xWJ
-         XxXY5NcfV8FIcQ6Fwn6yNv/88tJkRv7svValKDX5kTc+Vnu6H82I2VxFTStwBuOGw6
-         P7G0tdyPBKkvQ==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 15NWPF5usT5q; Tue, 26 May 2020 11:22:05 -0400 (EDT)
-Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
-        by mail.efficios.com (Postfix) with ESMTP id BC77C253D8A;
-        Tue, 26 May 2020 11:22:05 -0400 (EDT)
-Date:   Tue, 26 May 2020 11:22:05 -0400 (EDT)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     libc-alpha <libc-alpha@sourceware.org>,
-        Rich Felker <dalias@libc.org>,
-        linux-api <linux-api@vger.kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Will Deacon <will.deacon@arm.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ben Maurer <bmaurer@fb.com>, Dave Watson <davejwatson@fb.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Paul <paulmck@linux.vnet.ibm.com>, Paul Turner <pjt@google.com>,
-        Joseph Myers <joseph@codesourcery.com>
-Message-ID: <1940294182.34562.1590506525684.JavaMail.zimbra@efficios.com>
-In-Reply-To: <877dwypwuj.fsf@oldenburg2.str.redhat.com>
-References: <20200501021439.2456-1-mathieu.desnoyers@efficios.com> <87367ovy6k.fsf@oldenburg2.str.redhat.com> <108939265.33525.1590428184533.JavaMail.zimbra@efficios.com> <87lflerhqt.fsf@oldenburg2.str.redhat.com> <1701081361.34159.1590503556923.JavaMail.zimbra@efficios.com> <87ftbmpxqi.fsf@oldenburg2.str.redhat.com> <1931644690.34207.1590504804638.JavaMail.zimbra@efficios.com> <877dwypwuj.fsf@oldenburg2.str.redhat.com>
-Subject: Re: [PATCH glibc 1/3] glibc: Perform rseq registration at C startup
- and thread creation (v19)
+        id S1728948AbgEZSJi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 26 May 2020 14:09:38 -0400
+Received: from mga01.intel.com ([192.55.52.88]:6568 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728838AbgEZSJi (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 26 May 2020 14:09:38 -0400
+IronPort-SDR: f7R9HjkCZF9lNzecWoPFMtFcbGMNCEtetrQwOO0CeCoHcKwZtJQIB1R60BeKp+39gKH6EgZsfh
+ P2RetrMvTcAQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2020 11:09:38 -0700
+IronPort-SDR: 54NnjXZ9mXnLB1DvXNpWU8njdKujXocWpi/SIAJCkwQBHNluKMUJzOKtQTEqN0waOSPfJ+VSxh
+ bTZazJaNHscw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,437,1583222400"; 
+   d="scan'208";a="468441073"
+Received: from dspatli-mobl.amr.corp.intel.com (HELO ellie) ([10.212.21.42])
+  by fmsmga006.fm.intel.com with ESMTP; 26 May 2020 11:09:38 -0700
+From:   Vinicius Costa Gomes <vinicius.gomes@intel.com>
+To:     Vladimir Oltean <olteanv@gmail.com>
+Cc:     Murali Karicheri <m-karicheri2@ti.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        netdev <netdev@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>, linux-api@vger.kernel.org,
+        Sekhar Nori <nsekhar@ti.com>,
+        Grygorii Strashko <grygorii.strashko@ti.com>
+Subject: Re: [net-next RFC PATCH 00/13] net: hsr: Add PRP driver
+In-Reply-To: <CA+h21hqiV71wc0v=-KkPbWNyXSY+-oiz+DsQLAe1XEJw7eP=_Q@mail.gmail.com>
+References: <20200506163033.3843-1-m-karicheri2@ti.com> <87r1vdkxes.fsf@intel.com> <CA+h21hqiV71wc0v=-KkPbWNyXSY+-oiz+DsQLAe1XEJw7eP=_Q@mail.gmail.com>
+Date:   Tue, 26 May 2020 11:09:37 -0700
+Message-ID: <87imgilg9q.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [167.114.26.124]
-X-Mailer: Zimbra 8.8.15_GA_3928 (ZimbraWebClient - FF76 (Linux)/8.8.15_GA_3928)
-Thread-Topic: glibc: Perform rseq registration at C startup and thread creation (v19)
-Thread-Index: fw53pKjM0pFKmGwjq/cBVSRtxzONcQ==
+Content-Type: text/plain
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
------ On May 26, 2020, at 10:57 AM, Florian Weimer fweimer@redhat.com wrote=
-:
+Hi Vladimir,
 
-> * Mathieu Desnoyers:
->=20
->>> Like the attribute, it needs to come right after the struct keyword, I
->>> think.  (Trailing attributes can be ambiguous, but not in this case.)
+Vladimir Oltean <olteanv@gmail.com> writes:
 >>
->> Nope. _Alignas really _is_ special :-(
+>> I don't really like these prefixes, I am thinking of when support for
+>> IEEE 802.1CB is added, do we rename this to "hsr_prp_frer"?
 >>
->> struct _Alignas (16) blah {
->>         int a;
->> };
+>> And it gets even more complicated, and using 802.1CB you can configure
+>> the tagging method and the stream identification function so a system
+>> can interoperate in a HSR or PRP network.
 >>
->> p.c:1:8: error: expected =E2=80=98{=E2=80=99 before =E2=80=98_Alignas=E2=
-=80=99
->>  struct _Alignas (16) blah {
->=20
-> Meh, yet another unnecessary C++ incompatibility.  C does not support
-> empty structs, so I assume they didn't see the field requirement as a
-> burden.
+>
+> Is it a given that 802.1CB in Linux should be implemented using an hsr
+> upper device?
 
-Indeed, it's weird.
+What I was trying to express is the idea of using "hsr" as the directory
+name/prefix for all the features that deal with frame replication for
+reliability, including 802.1CB. At least until we find a better name.
 
->=20
->> One last thing I'm planning to add in sys/rseq.h to cover acessing the
->> rseq_cs pointers with both the UAPI headers and the glibc struct rseq
->> declarations:
->>
->> /* The rseq_cs_ptr macro can be used to access the pointer to the curren=
-t
->>    rseq critical section descriptor.  */
->> #ifdef __LP64__
->> # define rseq_cs_ptr(rseq) \
->>            ((const struct rseq_cs *) (rseq)->rseq_cs.ptr)
->> #else /* __LP64__ */
->> # define rseq_cs_ptr(rseq) \
->>            ((const struct rseq_cs *) (rseq)->rseq_cs.ptr.ptr32)
->> #endif /* __LP64__ */
->>
->> Does it make sense ?
->=20
-> Written this way, it's an aliasing violation.  I don't think it's very
-> useful.
+> 802.1CB is _much_ more flexible than both HSR and PRP. You can have
+> more than 2 ports, you can have per-stream rules (each stream has its
+> own sequence number), and those rules can identify the source, the
+> destination, or both the source and the destination.
 
-OK, I'll just remove it.
-
-Thanks,
-
-Mathieu
+Same understanding here.
 
 
---=20
-Mathieu Desnoyers
-EfficiOS Inc.
-http://www.efficios.com
+Cheers,
+-- 
+Vinicius
