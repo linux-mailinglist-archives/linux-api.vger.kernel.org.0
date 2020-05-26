@@ -2,341 +2,277 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D41E1E23BF
-	for <lists+linux-api@lfdr.de>; Tue, 26 May 2020 16:12:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D3D9B1E2424
+	for <lists+linux-api@lfdr.de>; Tue, 26 May 2020 16:32:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726962AbgEZOMe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 26 May 2020 10:12:34 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:54770 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726761AbgEZOMe (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 26 May 2020 10:12:34 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 04QECP7j039103;
-        Tue, 26 May 2020 09:12:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1590502345;
-        bh=KS6Yiet+dACsCoEneMJeBIYfABi02rYAnHbgKuk68NE=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=OoYrDgNjhuS0y5wSCzocrXuQIIK4VMrBnpT+YgP8Krp6MS5jZpSidadw0+Y9qKmbN
-         6FotA5ibh24Ng35/aqcshn5+jGmdAzdhZg/fC2T2pgoRTbakQit7kwRU1OugxGgMEX
-         gOdgpzkvQG0MBaZB4LVKjkXD5TTuk0vrKVCV/r8Q=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 04QECPWf037891;
-        Tue, 26 May 2020 09:12:25 -0500
-Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 26
- May 2020 09:12:25 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 26 May 2020 09:12:25 -0500
-Received: from [10.250.74.234] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 04QECLYR081088;
-        Tue, 26 May 2020 09:12:22 -0500
-Subject: Re: [net-next RFC PATCH 00/13] net: hsr: Add PRP driver
-To:     Vladimir Oltean <olteanv@gmail.com>,
-        Vinicius Costa Gomes <vinicius.gomes@intel.com>
-CC:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        netdev <netdev@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>, <linux-api@vger.kernel.org>,
-        Sekhar Nori <nsekhar@ti.com>,
-        Grygorii Strashko <grygorii.strashko@ti.com>
-References: <20200506163033.3843-1-m-karicheri2@ti.com>
- <87r1vdkxes.fsf@intel.com>
- <CA+h21hqiV71wc0v=-KkPbWNyXSY+-oiz+DsQLAe1XEJw7eP=_Q@mail.gmail.com>
-From:   Murali Karicheri <m-karicheri2@ti.com>
-Message-ID: <a7d1ebef-7161-9ecc-09ca-83f868ff7dac@ti.com>
-Date:   Tue, 26 May 2020 10:12:20 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1729074AbgEZOcj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 26 May 2020 10:32:39 -0400
+Received: from mail.efficios.com ([167.114.26.124]:38322 "EHLO
+        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727782AbgEZOcj (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 26 May 2020 10:32:39 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 95B4D252C51;
+        Tue, 26 May 2020 10:32:37 -0400 (EDT)
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id Bl4TVJzCQt3W; Tue, 26 May 2020 10:32:37 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 1DD32252C4E;
+        Tue, 26 May 2020 10:32:37 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 1DD32252C4E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1590503557;
+        bh=GF2obO+VgsHTG0XENOWXkGrEmTFc90oxfInrENuMGe0=;
+        h=Date:From:To:Message-ID:MIME-Version;
+        b=rXQQ6PTO4QxyvPLZ+TN0Hc/sQILLKdv1QYbBERhf2MYfPejKGEgGU5gEbA5cfKC3L
+         TTlXCl/5Fz8ZkoW4TwHuYz3olt55XaaCDwznOaO5AS9j+8HbKC08fzZIgJHw0GpUbB
+         iIwMytJQf4LsotfZW8Et46SDlQOSJvdg8PmXW4nKQ4Zq/jNC38SjPrVFGXwXAaq9m6
+         EzQv2FnEeAjow9E9ek45plIGgkZZ6NWFnhKAlC5T9g1joijy7CBZN+DHPatv06zXzx
+         71+e2t1J4qybHA7nNTntXEHTMUzANNN0ao23qtsQ13z0CCZLSI9Vl4NZqsdHmY4nff
+         bdQ9CeohneLPA==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id 2ni_ItOGEx50; Tue, 26 May 2020 10:32:37 -0400 (EDT)
+Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
+        by mail.efficios.com (Postfix) with ESMTP id 02548252F1B;
+        Tue, 26 May 2020 10:32:37 -0400 (EDT)
+Date:   Tue, 26 May 2020 10:32:36 -0400 (EDT)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     libc-alpha <libc-alpha@sourceware.org>,
+        Rich Felker <dalias@libc.org>,
+        linux-api <linux-api@vger.kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Will Deacon <will.deacon@arm.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ben Maurer <bmaurer@fb.com>, Dave Watson <davejwatson@fb.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Paul <paulmck@linux.vnet.ibm.com>, Paul Turner <pjt@google.com>,
+        Joseph Myers <joseph@codesourcery.com>
+Message-ID: <1701081361.34159.1590503556923.JavaMail.zimbra@efficios.com>
+In-Reply-To: <87lflerhqt.fsf@oldenburg2.str.redhat.com>
+References: <20200501021439.2456-1-mathieu.desnoyers@efficios.com> <20200501021439.2456-2-mathieu.desnoyers@efficios.com> <87v9kqbzse.fsf@oldenburg2.str.redhat.com> <941087675.33347.1590418305398.JavaMail.zimbra@efficios.com> <87367ovy6k.fsf@oldenburg2.str.redhat.com> <108939265.33525.1590428184533.JavaMail.zimbra@efficios.com> <87lflerhqt.fsf@oldenburg2.str.redhat.com>
+Subject: Re: [PATCH glibc 1/3] glibc: Perform rseq registration at C startup
+ and thread creation (v19)
 MIME-Version: 1.0
-In-Reply-To: <CA+h21hqiV71wc0v=-KkPbWNyXSY+-oiz+DsQLAe1XEJw7eP=_Q@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [167.114.26.124]
+X-Mailer: Zimbra 8.8.15_GA_3928 (ZimbraWebClient - FF76 (Linux)/8.8.15_GA_3928)
+Thread-Topic: glibc: Perform rseq registration at C startup and thread creation (v19)
+Thread-Index: 9Bb1L4ZyHRACPWplaZt58Bc2uwCz3w==
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Vladimir,
+----- On May 26, 2020, at 8:41 AM, Florian Weimer fweimer@redhat.com wrote:
 
-On 5/25/20 5:37 PM, Vladimir Oltean wrote:
-> Hi Vinicius,
-> 
-> On Thu, 21 May 2020 at 20:33, Vinicius Costa Gomes
-> <vinicius.gomes@intel.com> wrote:
+> * Mathieu Desnoyers:
+>=20
+>> Something like this ?
 >>
->> Murali Karicheri <m-karicheri2@ti.com> writes:
+>> #ifdef __cplusplus
+>> # if  __cplusplus >=3D 201103L
+>> #  define rseq_static_assert (expr, diagnostic)         static_assert (e=
+xpr,
+>> diagnostic)
+>> #  define rseq_alignof                                  alignof
+>> # endif
+>> #elif __STDC_VERSION__ >=3D 201112L
+>> # define rseq_static_assert (expr, diagnostic)          _Static_assert (=
+expr,
+>> diagnostic)
+>> # define rseq_alignof                                   _Alignof
+>> #endif
 >>
->>> This RFC series add support for Parallel Redundancy Protocol (PRP)
->>> as defined in IEC-62439-3 in the kernel networking subsystem. PRP
->>> Uses a Redundancy Control Trailer (RCT) the format of which is
->>> similar to HSR Tag. This is used for implementing redundancy.
->>> RCT consists of 6 bytes similar to HSR tag and contain following
->>> fields:-
->>>
->>> - 16-bit sequence number (SeqNr);
->>> - 4-bit LAN identifier (LanId);
->>> - 12 bit frame size (LSDUsize);
->>> - 16-bit suffix (PRPsuffix).
->>>
->>> The PRPsuffix identifies PRP frames and distinguishes PRP frames
->>> from other protocols that also append a trailer to their useful
->>> data. The LSDUsize field allows the receiver to distinguish PRP
->>> frames from random, nonredundant frames as an additional check.
->>> LSDUsize is the size of the Ethernet payload inclusive of the
->>> RCT. Sequence number along with LanId is used for duplicate
->>> detection and discard.
->>>
->>> PRP node is also known as Dual Attached Node (DAN-P) since it
->>> is typically attached to two different LAN for redundancy.
->>> DAN-P duplicates each of L2 frames and send it over the two
->>> Ethernet links. Each outgoing frame is appended with RCT.
->>> Unlike HSR, these are added to the end of L2 frame and may be
->>> treated as padding by bridges and therefore would be work with
->>> traditional bridges or switches, where as HSR wouldn't as Tag
->>> is prefixed to the Ethenet frame. At the remote end, these are
->>> received and the duplicate frame is discarded before the stripped
->>> frame is send up the networking stack. Like HSR, PRP also sends
->>> periodic Supervision frames to the network. These frames are
->>> received and MAC address from the SV frames are populated in a
->>> database called Node Table. The above functions are grouped into
->>> a block called Link Redundancy Entity (LRE) in the IEC spec.
->>>
->>> As there are many similarities between HSR and PRP protocols,
->>> this patch re-use the code from HSR driver to implement PRP
->>> driver. As many part of the code can be re-used, this patch
->>> introduces a new common API definitions for both protocols and
->>> propose to obsolete the existing HSR defines in
->>> include/uapi/linux/if_link.h. New definitions are prefixed
->>> with a HSR_PRP prefix. Similarly include/uapi/linux/hsr_netlink.h
->>> is proposed to be replaced with include/uapi/linux/hsr_prp_netlink.h
->>> which also uses the HSR_PRP prefix. The netlink socket interface
->>> code is migrated (as well as the iproute2 being sent as a follow up
->>> patch) to use the new API definitions. To re-use the code,
->>> following are done as a preparatory patch before adding the PRP
->>> functionality:-
->>>
->>>    - prefix all common code with hsr_prp
->>>    - net/hsr -> renamed to net/hsr-prp
->>>    - All common struct types, constants, functions renamed with
->>>      hsr{HSR}_prp{PRP} prefix.
->>
->> I don't really like these prefixes, I am thinking of when support for
->> IEEE 802.1CB is added, do we rename this to "hsr_prp_frer"?
->>
->> And it gets even more complicated, and using 802.1CB you can configure
->> the tagging method and the stream identification function so a system
->> can interoperate in a HSR or PRP network.
->>
-> 
-> Is it a given that 802.1CB in Linux should be implemented using an hsr
-> upper device?
-> 802.1CB is _much_ more flexible than both HSR and PRP. You can have
-> more than 2 ports, you can have per-stream rules (each stream has its
-> own sequence number), and those rules can identify the source, the
-> destination, or both the source and the destination.
-> 
-I haven't looked the spec for 802.1CB. If they re-use HSR/PRP Tag in the
-L2 protocol it make sense to enhance the driver. Else I don't see any
-re-use possibility. Do you know the above?
+>> #ifndef rseq_static_assert
+>> # define rseq_static_assert (expr, diagnostic)          /* nothing */
+>> #endif
+>=20
+> You can't have a space in #defines like that, no matter what GNU style
+> says. 8-)
 
-Thanks
+Yes, I noticed when failing to build this ;)
 
-Murali
->> So, I see this as different methods of achieving the same result, which
->> makes me think that the different "methods/types" (HSR and PRP in your
->> case) should be basically different implementations of a "struct
->> hsr_ops" interface. With this hsr_ops something like this:
->>
->>     struct hsr_ops {
->>            int (*handle_frame)()
->>            int (*add_port)()
->>            int (*remove_port)()
->>            int (*setup)()
->>            void (*teardown)()
->>     };
->>
->>>
->>> Please review this and provide me feedback so that I can work to
->>> incorporate them and send a formal patch series for this. As this
->>> series impacts user space, I am not sure if this is the right
->>> approach to introduce a new definitions and obsolete the old
->>> API definitions for HSR. The current approach is choosen
->>> to avoid redundant code in iproute2 and in the netlink driver
->>> code (hsr_netlink.c). Other approach we discussed internally was
->>> to Keep the HSR prefix in the user space and kernel code, but
->>> live with the redundant code in the iproute2 and hsr netlink
->>> code. Would like to hear from you what is the best way to add
->>> this feature to networking core. If there is any other
->>> alternative approach possible, I would like to hear about the
->>> same.
->>
->> Why redudant code is needed in the netlink parts and in iproute2 when
->> keeping the hsr prefix?
->>
->>>
->>> The patch was tested using two TI AM57x IDK boards which are
->>> connected back to back over two CPSW ports.
->>>
->>> Script used for creating the hsr/prp interface is given below
->>> and uses the ip link command. Also provided logs from the tests
->>> I have executed for your reference.
->>>
->>> iproute2 related patches will follow soon....
->>>
->>> Murali Karicheri
->>> Texas Instruments
->>>
->>> ============ setup.sh =================================================
->>> #!/bin/sh
->>> if [ $# -lt 4 ]
->>> then
->>>         echo "setup-cpsw.sh <hsr/prp> <MAC-Address of slave-A>"
->>>         echo "  <ip address for hsr/prp interface>"
->>>         echo "  <if_name of hsr/prp interface>"
->>>         exit
->>> fi
->>>
->>> if [ "$1" != "hsr" ] && [ "$1" != "prp" ]
->>> then
->>>         echo "use hsr or prp as first argument"
->>>         exit
->>> fi
->>>
->>> if_a=eth2
->>> if_b=eth3
->>> if_name=$4
->>>
->>> ifconfig $if_a down
->>> ifconfig $if_b down
->>> ifconfig $if_a hw ether $2
->>> ifconfig $if_b hw ether $2
->>> ifconfig $if_a up
->>> ifconfig $if_b up
->>>
->>> echo "Setting up $if_name with MAC address $2 for slaves and IP address $3"
->>> echo "          using $if_a and $if_b"
->>>
->>> if [ "$1" = "hsr" ]; then
->>>         options="version 1"
->>> else
->>>         options=""
->>> fi
->>>
->>> ip link add name $if_name type $1 slave1 $if_a slave2 $if_b supervision 0 $options
->>> ifconfig $if_name $3 up
->>> ==================================================================================
->>> PRP Logs:
->>>
->>> DUT-1 : https://pastebin.ubuntu.com/p/hhsRjTQpcr/
->>> DUT-2 : https://pastebin.ubuntu.com/p/snPFKhnpk4/
->>>
->>> HSR Logs:
->>>
->>> DUT-1 : https://pastebin.ubuntu.com/p/FZPNc6Nwdm/
->>> DUT-2 : https://pastebin.ubuntu.com/p/CtV4ZVS3Yd/
->>>
->>> Murali Karicheri (13):
->>>    net: hsr: Re-use Kconfig option to support PRP
->>>    net: hsr: rename hsr directory to hsr-prp to introduce PRP
->>>    net: hsr: rename files to introduce PRP support
->>>    net: hsr: rename hsr variable inside struct hsr_port to priv
->>>    net: hsr: rename hsr_port_get_hsr() to hsr_prp_get_port()
->>>    net: hsr: some renaming to introduce PRP driver support
->>>    net: hsr: introduce common uapi include/definitions for HSR and PRP
->>>    net: hsr: migrate HSR netlink socket code to use new common API
->>>    net: hsr: move re-usable code for PRP to hsr_prp_netlink.c
->>>    net: hsr: add netlink socket interface for PRP
->>>    net: prp: add supervision frame generation and handling support
->>>    net: prp: add packet handling support
->>>    net: prp: enhance debugfs to display PRP specific info in node table
->>>
->>>   MAINTAINERS                                   |   2 +-
->>>   include/uapi/linux/hsr_netlink.h              |   3 +
->>>   include/uapi/linux/hsr_prp_netlink.h          |  50 ++
->>>   include/uapi/linux/if_link.h                  |  19 +
->>>   net/Kconfig                                   |   2 +-
->>>   net/Makefile                                  |   2 +-
->>>   net/hsr-prp/Kconfig                           |  37 ++
->>>   net/hsr-prp/Makefile                          |  11 +
->>>   net/hsr-prp/hsr_netlink.c                     | 202 +++++++
->>>   net/{hsr => hsr-prp}/hsr_netlink.h            |  15 +-
->>>   .../hsr_prp_debugfs.c}                        |  82 +--
->>>   net/hsr-prp/hsr_prp_device.c                  | 562 ++++++++++++++++++
->>>   net/hsr-prp/hsr_prp_device.h                  |  23 +
->>>   net/hsr-prp/hsr_prp_forward.c                 | 558 +++++++++++++++++
->>>   .../hsr_prp_forward.h}                        |  10 +-
->>>   .../hsr_prp_framereg.c}                       | 323 +++++-----
->>>   net/hsr-prp/hsr_prp_framereg.h                |  68 +++
->>>   net/hsr-prp/hsr_prp_main.c                    | 194 ++++++
->>>   net/hsr-prp/hsr_prp_main.h                    | 289 +++++++++
->>>   net/hsr-prp/hsr_prp_netlink.c                 | 365 ++++++++++++
->>>   net/hsr-prp/hsr_prp_netlink.h                 |  28 +
->>>   net/hsr-prp/hsr_prp_slave.c                   | 222 +++++++
->>>   net/hsr-prp/hsr_prp_slave.h                   |  37 ++
->>>   net/hsr-prp/prp_netlink.c                     | 141 +++++
->>>   net/hsr-prp/prp_netlink.h                     |  27 +
->>>   net/hsr/Kconfig                               |  29 -
->>>   net/hsr/Makefile                              |  10 -
->>>   net/hsr/hsr_device.c                          | 509 ----------------
->>>   net/hsr/hsr_device.h                          |  22 -
->>>   net/hsr/hsr_forward.c                         | 379 ------------
->>>   net/hsr/hsr_framereg.h                        |  62 --
->>>   net/hsr/hsr_main.c                            | 154 -----
->>>   net/hsr/hsr_main.h                            | 188 ------
->>>   net/hsr/hsr_netlink.c                         | 514 ----------------
->>>   net/hsr/hsr_slave.c                           | 198 ------
->>>   net/hsr/hsr_slave.h                           |  33 -
->>>   36 files changed, 3084 insertions(+), 2286 deletions(-)
->>>   create mode 100644 include/uapi/linux/hsr_prp_netlink.h
->>>   create mode 100644 net/hsr-prp/Kconfig
->>>   create mode 100644 net/hsr-prp/Makefile
->>>   create mode 100644 net/hsr-prp/hsr_netlink.c
->>>   rename net/{hsr => hsr-prp}/hsr_netlink.h (58%)
->>>   rename net/{hsr/hsr_debugfs.c => hsr-prp/hsr_prp_debugfs.c} (52%)
->>>   create mode 100644 net/hsr-prp/hsr_prp_device.c
->>>   create mode 100644 net/hsr-prp/hsr_prp_device.h
->>>   create mode 100644 net/hsr-prp/hsr_prp_forward.c
->>>   rename net/{hsr/hsr_forward.h => hsr-prp/hsr_prp_forward.h} (50%)
->>>   rename net/{hsr/hsr_framereg.c => hsr-prp/hsr_prp_framereg.c} (56%)
->>>   create mode 100644 net/hsr-prp/hsr_prp_framereg.h
->>>   create mode 100644 net/hsr-prp/hsr_prp_main.c
->>>   create mode 100644 net/hsr-prp/hsr_prp_main.h
->>>   create mode 100644 net/hsr-prp/hsr_prp_netlink.c
->>>   create mode 100644 net/hsr-prp/hsr_prp_netlink.h
->>>   create mode 100644 net/hsr-prp/hsr_prp_slave.c
->>>   create mode 100644 net/hsr-prp/hsr_prp_slave.h
->>>   create mode 100644 net/hsr-prp/prp_netlink.c
->>>   create mode 100644 net/hsr-prp/prp_netlink.h
->>>   delete mode 100644 net/hsr/Kconfig
->>>   delete mode 100644 net/hsr/Makefile
->>>   delete mode 100644 net/hsr/hsr_device.c
->>>   delete mode 100644 net/hsr/hsr_device.h
->>>   delete mode 100644 net/hsr/hsr_forward.c
->>>   delete mode 100644 net/hsr/hsr_framereg.h
->>>   delete mode 100644 net/hsr/hsr_main.c
->>>   delete mode 100644 net/hsr/hsr_main.h
->>>   delete mode 100644 net/hsr/hsr_netlink.c
->>>   delete mode 100644 net/hsr/hsr_slave.c
->>>   delete mode 100644 net/hsr/hsr_slave.h
->>>
->>> --
->>> 2.17.1
->>>
->>
->> --
->> Vinicius
-> 
-> Thanks,
-> -Vladimir
-> 
+>=20
+>> /* Ensure the compiler supports __attribute__ ((aligned)).  */
+>> rseq_static_assert ((rseq_alignof (struct rseq_cs) >=3D 32, "alignment")=
+);
+>> rseq_static_assert ((rseq_alignof (struct rseq) >=3D 32, "alignment"));
+>=20
+> You need to move the ; into rseq_static_assert.  And if you use explicit
+> arguments, you can't use double parentheses.
 
--- 
-Murali Karicheri
-Texas Instruments
+Why move the ";" into the macro ?
+
+AFAIU, the only gain here would be to make sure we don't emit useless
+";" in the "/* nothing */" case. But does it matter ?
+
+Examples I can find of "static_assert" explicitly have the ";" at the
+end, so I find it weird to integrate it into the rseq_static_assert
+macro, which makes it different from static_assert.
+
+Agreed on the need to remove the double-parentheses.
+
+>=20
+>>> And something similar for _Alignas/attribute aligned,
+>>
+>> I don't see where _Alignas is needed here ?
+>>
+>> For attribute aligned, what would be the oldest supported C and C++
+>> standards ?
+>=20
+> There are no standardized attributes for C, there is only _Alignas.
+> C++11 has an alignas specifier; it's not an attribute either.  I think
+> these are syntactically similar.
+
+There appears to be an interesting difference between attribute aligned
+and alignas. It seems like alignas cannot be used on a structure declaratio=
+n,
+only on fields, e.g.:
+
+struct blah {
+        int a;
+} _Alignas (16);
+
+o.c:3:1: warning: useless =E2=80=98_Alignas=E2=80=99 in empty declaration
+ } _Alignas (16);
+
+But
+
+struct blah {
+        int _Alignas (16) a;
+};
+
+is OK. So if I change e.g. struct rseq_cs to align
+the first field:
+
+struct rseq_cs
+  {
+    /* Version of this structure.  */
+    uint32_t rseq_align (32) version;
+    /* enum rseq_cs_flags.  */
+    uint32_t flags;
+    uint64_t start_ip;
+    /* Offset from start_ip.  */
+    uint64_t post_commit_offset;
+    uint64_t abort_ip;
+  };
+
+It should work.
+
+>=20
+>>> with an error for
+>>> older standards and !__GNUC__ compilers (because neither the type nor
+>>> __thread can be represented there).
+>>
+>> By "type" you mean "struct rseq" here ? What does it contain that requir=
+es
+>> a __GNUC__ compiler ?
+>=20
+> __attribute__ and __thread support.
+
+OK
+
+>=20
+>> About __thread, I recall other compilers have other means to declare it.
+>> In liburcu, I end up with the following:
+>>
+>> #if defined (__cplusplus) && (__cplusplus >=3D 201103L)
+>> # define URCU_TLS_STORAGE_CLASS thread_local
+>> #elif defined (__STDC_VERSION__) && (__STDC_VERSION__ >=3D 201112L)
+>> # define URCU_TLS_STORAGE_CLASS _Thread_local
+>> #elif defined (_MSC_VER)
+>> # define URCU_TLS_STORAGE_CLASS __declspec(thread)
+>> #else
+>> # define URCU_TLS_STORAGE_CLASS __thread
+>> #endif
+>>
+>> Would something along those lines be OK for libc ?
+>=20
+> Yes, it would be okay (minus the Visual C++ part).  This part does not
+> have to go into UAPI headers first.  A fallback definition of __thread
+> should be okay.  Outside glibc, the TLS model declaration is optional, I
+> think.  The glibc *definition* ensures that the variable is
+> initial-exec.
+
+AFAIU you are technically correct when stating that the tls model
+on the declaration is optional, but I think it's a good thing to have
+it there rather than only at the definition. It makes it clear to all
+users of this variable that its model is IE. Especially in scenarios where
+early-adopter libraries and applications can define their own __rseq_abi
+symbol, I think it's good to explicitly keep the IE tls model attribute in
+the header.
+
+I end up with the following:
+
+#ifdef __cplusplus
+# if  __cplusplus >=3D 201103L
+#  define rseq_static_assert(expr, diagnostic) static_assert (expr, diagnos=
+tic)
+#  define rseq_alignof(type)                   alignof (type)
+#  define rseq_alignas(x)                      alignas (x)
+#  define rseq_tls_storage_class               thread_local
+# endif
+#elif (defined __STDC_VERSION__ ? __STDC_VERSION__ : 0) >=3D 201112L
+# define rseq_static_assert(expr, diagnostic)  _Static_assert (expr, diagno=
+stic)
+# define rseq_alignof(type)                    _Alignof (type)
+# define rseq_alignas(x)                       _Alignas (x)
+# define rseq_tls_storage_class                _Thread_local
+#endif
+
+#ifndef rseq_static_assert
+/* Try to use _Static_assert macro from sys/cdefs.h.  */
+# ifdef _Static_assert
+#  define rseq_static_assert(expr, diagnostic) _Static_assert (expr, diagno=
+stic)
+# else
+#  define rseq_static_assert(expr, diagnostic) /* Nothing.  */
+# endif
+#endif
+
+/* Rely on GNU extensions for older standards and tls model.  */
+#ifdef __GNUC__
+# ifndef rseq_alignof
+#  define rseq_alignof(x) __alignof__ (x)
+# endif
+# ifndef rseq_alignas
+#  define rseq_alignas(x) __attribute__ ((aligned (x)))
+# endif
+# define rseq_tls_model_ie __attribute__ ((__tls_model__ ("initial-exec")))
+#else
+/* Specifying the TLS model on the declaration is optional.  */
+# define rseq_tls_model_ie /* Nothing.  */
+#endif
+
+/* Fall back to __thread for TLS storage class.  */
+#ifndef rseq_tls_storage_class
+# define rseq_tls_storage_class __thread
+#endif
+
+[...]
+
+/* Ensure the compiler supports rseq_align.  */
+rseq_static_assert (rseq_alignof (struct rseq_cs) >=3D 32, "alignment");
+rseq_static_assert (rseq_alignof (struct rseq) >=3D 32, "alignment");
+
+/* Allocations of struct rseq and struct rseq_cs on the heap need to
+   be aligned on 32 bytes.  Therefore, use of malloc is discouraged
+   because it does not guarantee alignment.  posix_memalign should be
+   used instead.  */
+
+extern rseq_tls_storage_class struct rseq __rseq_abi rseq_tls_model_ie;
+
+Thanks,
+
+Mathieu
+
+--=20
+Mathieu Desnoyers
+EfficiOS Inc.
+http://www.efficios.com
