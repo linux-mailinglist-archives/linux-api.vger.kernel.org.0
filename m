@@ -2,39 +2,45 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EDCE91E24AE
-	for <lists+linux-api@lfdr.de>; Tue, 26 May 2020 16:58:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9111D1E255B
+	for <lists+linux-api@lfdr.de>; Tue, 26 May 2020 17:22:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728110AbgEZO6G (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 26 May 2020 10:58:06 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28235 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727978AbgEZO6G (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 26 May 2020 10:58:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1590505085;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=1VCJa5RbOMATerrFzZ+0VrpXn1iuIwJEs1VN+9Q6EoY=;
-        b=h7r8R+Gfb+mXFel3ZNpJKpblexS9WCrGZ0ZJvStOZ17+zKu2TP0nmyUcH5RkYoSWlQz7Q+
-        A75LLvTX7xBL8E8PAeUAOAudH7G+Dk1rVr6sYdhG/iN0BF2ELpplulZfoGXMwjYc17U8Kd
-        c2Uysp13x2pYtB5hhD1wN4L7S7faEYs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-193-kK8qVpVvPsKlX17v-sDKmw-1; Tue, 26 May 2020 10:58:03 -0400
-X-MC-Unique: kK8qVpVvPsKlX17v-sDKmw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1AC45460;
-        Tue, 26 May 2020 14:58:01 +0000 (UTC)
-Received: from oldenburg2.str.redhat.com (ovpn-112-180.ams2.redhat.com [10.36.112.180])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 2BF8519930;
-        Tue, 26 May 2020 14:57:57 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+        id S1729212AbgEZPWI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 26 May 2020 11:22:08 -0400
+Received: from mail.efficios.com ([167.114.26.124]:33662 "EHLO
+        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728279AbgEZPWH (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 26 May 2020 11:22:07 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 2A2B32539DC;
+        Tue, 26 May 2020 11:22:06 -0400 (EDT)
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id r5CHuBHdRu9w; Tue, 26 May 2020 11:22:05 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id CCA652539D9;
+        Tue, 26 May 2020 11:22:05 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com CCA652539D9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1590506525;
+        bh=SKrOEP5pGa9ajAYrExv6tmSsQLUAXbFOGSG0aVKLqZc=;
+        h=Date:From:To:Message-ID:MIME-Version;
+        b=XQ2rqTUy7+LdrVi4/K9Hb9w+gbNDirUXP49Brj19U88DvQyA2NAkRNWhE6gsD0jC1
+         55SbMVeAdoNddOJoNkwLXXVAjuuxTBWSWChELy3/UPfSTQgdgPGc7eLHnoBohHKOwI
+         29E1D5OSTAzvLU5uxBdvsJ181bA1PC1BIWlWm77n6AtQXyy0h8JV35UiP7j2BkDBJP
+         AhR9rhb0ZvOrx6DO/R0HyTroMWXsshno/D9r/LFKm9VtxEgVwiuwghVXtWATyE2xWJ
+         XxXY5NcfV8FIcQ6Fwn6yNv/88tJkRv7svValKDX5kTc+Vnu6H82I2VxFTStwBuOGw6
+         P7G0tdyPBKkvQ==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id 15NWPF5usT5q; Tue, 26 May 2020 11:22:05 -0400 (EDT)
+Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
+        by mail.efficios.com (Postfix) with ESMTP id BC77C253D8A;
+        Tue, 26 May 2020 11:22:05 -0400 (EDT)
+Date:   Tue, 26 May 2020 11:22:05 -0400 (EDT)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     Florian Weimer <fweimer@redhat.com>
 Cc:     libc-alpha <libc-alpha@sourceware.org>,
         Rich Felker <dalias@libc.org>,
         linux-api <linux-api@vger.kernel.org>,
@@ -46,69 +52,76 @@ Cc:     libc-alpha <libc-alpha@sourceware.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Paul <paulmck@linux.vnet.ibm.com>, Paul Turner <pjt@google.com>,
         Joseph Myers <joseph@codesourcery.com>
-Subject: Re: [PATCH glibc 1/3] glibc: Perform rseq registration at C startup and thread creation (v19)
-References: <20200501021439.2456-1-mathieu.desnoyers@efficios.com>
-        <87v9kqbzse.fsf@oldenburg2.str.redhat.com>
-        <941087675.33347.1590418305398.JavaMail.zimbra@efficios.com>
-        <87367ovy6k.fsf@oldenburg2.str.redhat.com>
-        <108939265.33525.1590428184533.JavaMail.zimbra@efficios.com>
-        <87lflerhqt.fsf@oldenburg2.str.redhat.com>
-        <1701081361.34159.1590503556923.JavaMail.zimbra@efficios.com>
-        <87ftbmpxqi.fsf@oldenburg2.str.redhat.com>
-        <1931644690.34207.1590504804638.JavaMail.zimbra@efficios.com>
-Date:   Tue, 26 May 2020 16:57:56 +0200
-In-Reply-To: <1931644690.34207.1590504804638.JavaMail.zimbra@efficios.com>
-        (Mathieu Desnoyers's message of "Tue, 26 May 2020 10:53:24 -0400
-        (EDT)")
-Message-ID: <877dwypwuj.fsf@oldenburg2.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+Message-ID: <1940294182.34562.1590506525684.JavaMail.zimbra@efficios.com>
+In-Reply-To: <877dwypwuj.fsf@oldenburg2.str.redhat.com>
+References: <20200501021439.2456-1-mathieu.desnoyers@efficios.com> <87367ovy6k.fsf@oldenburg2.str.redhat.com> <108939265.33525.1590428184533.JavaMail.zimbra@efficios.com> <87lflerhqt.fsf@oldenburg2.str.redhat.com> <1701081361.34159.1590503556923.JavaMail.zimbra@efficios.com> <87ftbmpxqi.fsf@oldenburg2.str.redhat.com> <1931644690.34207.1590504804638.JavaMail.zimbra@efficios.com> <877dwypwuj.fsf@oldenburg2.str.redhat.com>
+Subject: Re: [PATCH glibc 1/3] glibc: Perform rseq registration at C startup
+ and thread creation (v19)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Originating-IP: [167.114.26.124]
+X-Mailer: Zimbra 8.8.15_GA_3928 (ZimbraWebClient - FF76 (Linux)/8.8.15_GA_3928)
+Thread-Topic: glibc: Perform rseq registration at C startup and thread creation (v19)
+Thread-Index: fw53pKjM0pFKmGwjq/cBVSRtxzONcQ==
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Mathieu Desnoyers:
+----- On May 26, 2020, at 10:57 AM, Florian Weimer fweimer@redhat.com wrote=
+:
 
->> Like the attribute, it needs to come right after the struct keyword, I
->> think.  (Trailing attributes can be ambiguous, but not in this case.)
->
-> Nope. _Alignas really _is_ special :-(
->
-> struct _Alignas (16) blah {
->         int a;
-> };
->
-> p.c:1:8: error: expected =E2=80=98{=E2=80=99 before =E2=80=98_Alignas=E2=
+> * Mathieu Desnoyers:
+>=20
+>>> Like the attribute, it needs to come right after the struct keyword, I
+>>> think.  (Trailing attributes can be ambiguous, but not in this case.)
+>>
+>> Nope. _Alignas really _is_ special :-(
+>>
+>> struct _Alignas (16) blah {
+>>         int a;
+>> };
+>>
+>> p.c:1:8: error: expected =E2=80=98{=E2=80=99 before =E2=80=98_Alignas=E2=
 =80=99
->  struct _Alignas (16) blah {
+>>  struct _Alignas (16) blah {
+>=20
+> Meh, yet another unnecessary C++ incompatibility.  C does not support
+> empty structs, so I assume they didn't see the field requirement as a
+> burden.
 
-Meh, yet another unnecessary C++ incompatibility.  C does not support
-empty structs, so I assume they didn't see the field requirement as a
-burden.
+Indeed, it's weird.
 
-> One last thing I'm planning to add in sys/rseq.h to cover acessing the
-> rseq_cs pointers with both the UAPI headers and the glibc struct rseq
-> declarations:
->
-> /* The rseq_cs_ptr macro can be used to access the pointer to the current
->    rseq critical section descriptor.  */
-> #ifdef __LP64__
-> # define rseq_cs_ptr(rseq) \
->            ((const struct rseq_cs *) (rseq)->rseq_cs.ptr)
-> #else /* __LP64__ */
-> # define rseq_cs_ptr(rseq) \
->            ((const struct rseq_cs *) (rseq)->rseq_cs.ptr.ptr32)
-> #endif /* __LP64__ */
->
-> Does it make sense ?
+>=20
+>> One last thing I'm planning to add in sys/rseq.h to cover acessing the
+>> rseq_cs pointers with both the UAPI headers and the glibc struct rseq
+>> declarations:
+>>
+>> /* The rseq_cs_ptr macro can be used to access the pointer to the curren=
+t
+>>    rseq critical section descriptor.  */
+>> #ifdef __LP64__
+>> # define rseq_cs_ptr(rseq) \
+>>            ((const struct rseq_cs *) (rseq)->rseq_cs.ptr)
+>> #else /* __LP64__ */
+>> # define rseq_cs_ptr(rseq) \
+>>            ((const struct rseq_cs *) (rseq)->rseq_cs.ptr.ptr32)
+>> #endif /* __LP64__ */
+>>
+>> Does it make sense ?
+>=20
+> Written this way, it's an aliasing violation.  I don't think it's very
+> useful.
 
-Written this way, it's an aliasing violation.  I don't think it's very
-useful.
+OK, I'll just remove it.
 
 Thanks,
-Florian
 
+Mathieu
+
+
+--=20
+Mathieu Desnoyers
+EfficiOS Inc.
+http://www.efficios.com
