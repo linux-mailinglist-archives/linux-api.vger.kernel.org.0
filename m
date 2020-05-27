@@ -2,621 +2,210 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 531091E3ED5
-	for <lists+linux-api@lfdr.de>; Wed, 27 May 2020 12:18:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFEEC1E461A
+	for <lists+linux-api@lfdr.de>; Wed, 27 May 2020 16:38:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728368AbgE0KSs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 27 May 2020 06:18:48 -0400
-Received: from mx2.suse.de ([195.135.220.15]:37106 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725294AbgE0KSr (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 27 May 2020 06:18:47 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 6FFEEB1D8;
-        Wed, 27 May 2020 10:18:45 +0000 (UTC)
-Subject: Re: [PATCH v5] mm: Proactive compaction
-To:     Nitin Gupta <nigupta@nvidia.com>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Michal Hocko <mhocko@suse.com>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        David Rientjes <rientjes@google.com>,
-        Nitin Gupta <ngupta@nitingupta.dev>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        Linux API <linux-api@vger.kernel.org>
-References: <20200518181446.25759-1-nigupta@nvidia.com>
-From:   Vlastimil Babka <vbabka@suse.cz>
-Message-ID: <6515aac4-9024-3cbf-94b5-9a85e5953756@suse.cz>
-Date:   Wed, 27 May 2020 12:18:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        id S2389343AbgE0OiT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 27 May 2020 10:38:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45846 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389331AbgE0OiS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 27 May 2020 10:38:18 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88655C03E96E
+        for <linux-api@vger.kernel.org>; Wed, 27 May 2020 07:38:18 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id z13so19537734ljn.7
+        for <linux-api@vger.kernel.org>; Wed, 27 May 2020 07:38:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=FwleX6FavJvI4llVuloDJkYuBtDEYvQjFoEF0h/WDec=;
+        b=JtoeDmRCEzsiNDivoEp8byLnxvDCYXirtObJkBa6QliuI6KzJlrq+TNgn4r0Tw4c9b
+         4oAQCKLFlK1M+6gPOlxg6EI2ZSYIMamOGuSNugvq8tHXs8BBfyppU81cphA3MIvXRRSk
+         VdRqUoStZ9y3eLJ3u8sqccOQ9Q6L26GHUdbRypEY3MMtadr2RuDMWN8NPfD+rAfNvQix
+         JvCCdYS0u/Zq8+YHFENhDEIXGOFlsVxUwizC/VPwET1p7VpZqflebAVYbXKh2aiUUne5
+         bjEaSWQUvgmD3Xnw1Qv/uDp77AXCpaa7uzwAjtLMmCf7FqU2BaYU9G9Fn37rBzRW2by6
+         I7mQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=FwleX6FavJvI4llVuloDJkYuBtDEYvQjFoEF0h/WDec=;
+        b=SJAiTBGm5p6JdsxU18heFCt8Ao1KuDAYMRzTMTygddEWz+Fsq9aooKKKJLr25BVzdN
+         gNP97MdiW1ZnBlWw7brCFZssUDe6ekHDEour4ly1spCRz3Vn2gKDHbrsXD7HyB0b28DZ
+         bRltmDLtcpU/gx/3U+w9Bv4jmMssOXFt6gtsmEs70poDOMb60fsjfFQVUv8DFRHqZzeA
+         jDCP5boAVm07YuAhXJRotdweuaCN94KQOtM5FeaSK0jLVZGE5nOqE9vdkHC8KpwD6BbM
+         cknG3WsipJS5pxQzgEb3coSrtk0vCLzzu1IwnDFMYkXomywE0hI5j/BkKHdnxv3amMRv
+         IPNQ==
+X-Gm-Message-State: AOAM531Yg/AewGPeFVat9xyXtaM+mnkrhEWo/O3rVWJmXfBamOarpqNa
+        ubg8K0YqHUlFeyrleC3zAIGkjbKZXfbHICdGhI0=
+X-Google-Smtp-Source: ABdhPJyfvl59pPLTYVUa/3gnKheOgI4ZtIRaC5yW99fciNyP5g6vVnfb6zDOtxLpL7zpbIzOxAFHG0c9rSPFmitSXps=
+X-Received: by 2002:a2e:8e3c:: with SMTP id r28mr3204100ljk.128.1590590296903;
+ Wed, 27 May 2020 07:38:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200518181446.25759-1-nigupta@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Received: by 2002:ab3:4887:0:0:0:0:0 with HTTP; Wed, 27 May 2020 07:38:16
+ -0700 (PDT)
+From:   Irene Kones <konesirene@gmail.com>
+Date:   Wed, 27 May 2020 07:38:16 -0700
+Message-ID: <CAPb+Zk5UHAuM+iB2+M3aUDpzJ8M8APqg3V+u3sHYWA6RUXf7zw@mail.gmail.com>
+Subject: PLEASE I NEED YOUR HELP.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 5/18/20 8:14 PM, Nitin Gupta wrote:
-> For some applications, we need to allocate almost all memory as
-> hugepages. However, on a running system, higher-order allocations can
-> fail if the memory is fragmented. Linux kernel currently does on-demand
-> compaction as we request more hugepages, but this style of compaction
-> incurs very high latency. Experiments with one-time full memory
-> compaction (followed by hugepage allocations) show that kernel is able
-> to restore a highly fragmented memory state to a fairly compacted memory
-> state within <1 sec for a 32G system. Such data suggests that a more
-> proactive compaction can help us allocate a large fraction of memory as
-> hugepages keeping allocation latencies low.
-> 
-> For a more proactive compaction, the approach taken here is to define
-> a new tunable called 'proactiveness' which dictates bounds for external
-> fragmentation wrt HUGETLB_PAGE_ORDER order which kcompactd tries to
-
-HPAGE_PMD_ORDER
-
-> maintain.
-> 
-> The tunable is exposed through sysctl:
->   /proc/sys/vm/compaction_proactiveness
-> 
-> It takes value in range [0, 100], with a default of 20.
-> 
-> Note that a previous version of this patch [1] was found to introduce too
-> many tunables (per-order extfrag{low, high}), but this one reduces them
-> to just one (proactiveness). Also, the new tunable is an opaque value
-> instead of asking for specific bounds of "external fragmentation", which
-> would have been difficult to estimate. The internal interpretation of
-> this opaque value allows for future fine-tuning.
-> 
-> Currently, we use a simple translation from this tunable to [low, high]
-> "fragmentation score" thresholds (low=100-proactiveness, high=low+10%).
-> The score for a node is defined as weighted mean of per-zone external
-> fragmentation wrt HUGETLB_PAGE_ORDER order. A zone's present_pages
-
-HPAGE_PMD_ORDER
-
-> determines its weight.
-> 
-> To periodically check per-node score, we reuse per-node kcompactd
-> threads, which are woken up every 500 milliseconds to check the same. If
-> a node's score exceeds its high threshold (as derived from user-provided
-> proactiveness value), proactive compaction is started until its score
-> reaches its low threshold value. By default, proactiveness is set to 20,
-> which implies threshold values of low=80 and high=90.
-> 
-> This patch is largely based on ideas from Michal Hocko posted here:
-> https://lore.kernel.org/linux-mm/20161230131412.GI13301@dhcp22.suse.cz/
-
-Make this link a [2] reference? I would also add: "See also the LWN article
-[3]." where [3] is https://lwn.net/Articles/817905/
-
-
-> Performance data
-> ================
-> 
-> System: x64_64, 1T RAM, 80 CPU threads.
-> Kernel: 5.6.0-rc3 + this patch
-> 
-> echo madvise | sudo tee /sys/kernel/mm/transparent_hugepage/enabled
-> echo madvise | sudo tee /sys/kernel/mm/transparent_hugepage/defrag
-> 
-> Before starting the driver, the system was fragmented from a userspace
-> program that allocates all memory and then for each 2M aligned section,
-> frees 3/4 of base pages using munmap. The workload is mainly anonymous
-> userspace pages, which are easy to move around. I intentionally avoided
-> unmovable pages in this test to see how much latency we incur when
-> hugepage allocations hit direct compaction.
-> 
-> 1. Kernel hugepage allocation latencies
-> 
-> With the system in such a fragmented state, a kernel driver then allocates
-> as many hugepages as possible and measures allocation latency:
-> 
-> (all latency values are in microseconds)
-> 
-> - With vanilla 5.6.0-rc3
-> 
-> echo 0 | sudo tee /sys/kernel/mm/compaction/node-*/proactiveness
-> 
->   percentile latency
->   –––––––––– –––––––
-> 	   5    7894
-> 	  10    9496
-> 	  25   12561
-> 	  30   15295
-> 	  40   18244
-> 	  50   21229
-> 	  60   27556
-> 	  75   30147
-> 	  80   31047
-> 	  90   32859
-> 	  95   33799
-> 
-> Total 2M hugepages allocated = 383859 (749G worth of hugepages out of
-> 762G total free => 98% of free memory could be allocated as hugepages)
-> 
-> - With 5.6.0-rc3 + this patch, with proactiveness=20
-> 
-> echo 20 | sudo tee /sys/kernel/mm/compaction/node-*/proactiveness
-> 
->   percentile latency
->   –––––––––– –––––––
-> 	   5       2
-> 	  10       2
-> 	  25       3
-> 	  30       3
-> 	  40       3
-> 	  50       4
-> 	  60       4
-> 	  75       4
-> 	  80       4
-> 	  90       5
-> 	  95     429
-> 
-> Total 2M hugepages allocated = 384105 (750G worth of hugepages out of
-> 762G total free => 98% of free memory could be allocated as hugepages)
-> 
-> 2. JAVA heap allocation
-> 
-> In this test, we first fragment memory using the same method as for (1).
-> 
-> Then, we start a Java process with a heap size set to 700G and request
-> the heap to be allocated with THP hugepages. We also set THP to madvise
-> to allow hugepage backing of this heap.
-> 
-> /usr/bin/time
->  java -Xms700G -Xmx700G -XX:+UseTransparentHugePages -XX:+AlwaysPreTouch
-> 
-> The above command allocates 700G of Java heap using hugepages.
-> 
-> - With vanilla 5.6.0-rc3
-> 
-> 17.39user 1666.48system 27:37.89elapsed
-> 
-> - With 5.6.0-rc3 + this patch, with proactiveness=20
-> 
-> 8.35user 194.58system 3:19.62elapsed
-> 
-> Elapsed time remains around 3:15, as proactiveness is further increased.
-> 
-> Note that proactive compaction happens throughout the runtime of these
-> workloads. The situation of one-time compaction, sufficient to supply
-> hugepages for following allocation stream, can probably happen for more
-> extreme proactiveness values, like 80 or 90.
-> 
-> In the above Java workload, proactiveness is set to 20. The test starts
-> with a node's score of 80 or higher, depending on the delay between the
-> fragmentation step and starting the benchmark, which gives more-or-less
-> time for the initial round of compaction. As the benchmark consumes
-> hugepages, node's score quickly rises above the high threshold (90) and
-> proactive compaction starts again, which brings down the score to the
-> low threshold level (80).  Repeat.
-> 
-> bpftrace also confirms proactive compaction running 20+ times during the
-> runtime of this Java benchmark. kcompactd threads consume 100% of one of
-> the CPUs while it tries to bring a node's score within thresholds.
-> 
-> Backoff behavior
-> ================
-> 
-> Above workloads produce a memory state which is easy to compact.
-> However, if memory is filled with unmovable pages, proactive compaction
-> should essentially back off. To test this aspect:
-> 
-> - Created a kernel driver that allocates almost all memory as hugepages
->   followed by freeing first 3/4 of each hugepage.
-> - Set proactiveness=40
-> - Note that proactive_compact_node() is deferred maximum number of times
->   with HPAGE_FRAG_CHECK_INTERVAL_MSEC of wait between each check
->   (=> ~30 seconds between retries).
-> 
-> [1] https://patchwork.kernel.org/patch/11098289/
-> 
-> Signed-off-by: Nitin Gupta <nigupta@nvidia.com>
-> To: Mel Gorman <mgorman@techsingularity.net>
-> To: Michal Hocko <mhocko@suse.com>
-> To: Vlastimil Babka <vbabka@suse.cz>
-> CC: Matthew Wilcox <willy@infradead.org>
-> CC: Andrew Morton <akpm@linux-foundation.org>
-> CC: Mike Kravetz <mike.kravetz@oracle.com>
-> CC: Joonsoo Kim <iamjoonsoo.kim@lge.com>
-> CC: David Rientjes <rientjes@google.com>
-> CC: Nitin Gupta <ngupta@nitingupta.dev>
-> CC: linux-kernel <linux-kernel@vger.kernel.org>
-> CC: linux-mm <linux-mm@kvack.org>
-> CC: Linux API <linux-api@vger.kernel.org>
-
-Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
-
-With some smaller nitpicks below.
-
-But as we are adding a new API, I would really appreciate others comment about
-the approach at least.
-
-> ---
-> Changelog v5 vs v4:
->  - Change tunable from sysfs to sysctl (Vlastimil)
->  - HUGETLB_PAGE_ORDER -> HPAGE_PMD_ORDER (Vlastimil)
->  - Minor cleanups (remove redundant initializations, ...)
-> 
-> Changelog v4 vs v3:
->  - Document various functions.
->  - Added admin-guide for the new tunable `proactiveness`.
->  - Rename proactive_compaction_score to fragmentation_score for clarity.
-> 
-> Changelog v3 vs v2:
->  - Make proactiveness a global tunable and not per-node. Also upadated the
->    patch description to reflect the same (Vlastimil Babka).
->  - Don't start proactive compaction if kswapd is running (Vlastimil Babka).
->  - Clarified in the description that compaction runs in parallel with
->    the workload, instead of a one-time compaction followed by a stream of
->    hugepage allocations.
-> 
-> Changelog v2 vs v1:
->  - Introduce per-node and per-zone "proactive compaction score". This
->    score is compared against watermarks which are set according to
->    user provided proactiveness value.
->  - Separate code-paths for proactive compaction from targeted compaction
->    i.e. where pgdat->kcompactd_max_order is non-zero.
->  - Renamed hpage_compaction_effort -> proactiveness. In future we may
->    use more than extfrag wrt hugepage size to determine proactive
->    compaction score.
-> ---
->  Documentation/admin-guide/sysctl/vm.rst |  13 ++
->  include/linux/compaction.h              |   2 +
->  kernel/sysctl.c                         |   9 ++
->  mm/compaction.c                         | 165 +++++++++++++++++++++++-
->  mm/internal.h                           |   1 +
->  mm/vmstat.c                             |  17 +++
->  6 files changed, 202 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-> index 0329a4d3fa9e..e5d88cabe980 100644
-> --- a/Documentation/admin-guide/sysctl/vm.rst
-> +++ b/Documentation/admin-guide/sysctl/vm.rst
-> @@ -119,6 +119,19 @@ all zones are compacted such that free memory is available in contiguous
->  blocks where possible. This can be important for example in the allocation of
->  huge pages although processes will also directly compact memory as required.
->  
-> +compaction_proactiveness
-> +========================
-> +
-> +This tunable takes a value in the range [0, 100] with a default value of
-> +20. This tunable determines how aggressively compaction is done in the
-> +background. Setting it to 0 disables proactive compaction.
-> +
-> +Note that compaction has a non-trivial system-wide impact as pages
-> +belonging to different processes are moved around, which could also lead
-> +to latency spikes in unsuspecting applications. The kernel employs
-> +various heuristics to avoid wasting CPU cycles if it detects that
-> +proactive compaction is not being effective.
-> +
->  
->  compact_unevictable_allowed
->  ===========================
-> diff --git a/include/linux/compaction.h b/include/linux/compaction.h
-> index 4b898cdbdf05..ccd28978b296 100644
-> --- a/include/linux/compaction.h
-> +++ b/include/linux/compaction.h
-> @@ -85,11 +85,13 @@ static inline unsigned long compact_gap(unsigned int order)
->  
->  #ifdef CONFIG_COMPACTION
->  extern int sysctl_compact_memory;
-> +extern int sysctl_compaction_proactiveness;
->  extern int sysctl_compaction_handler(struct ctl_table *table, int write,
->  			void __user *buffer, size_t *length, loff_t *ppos);
->  extern int sysctl_extfrag_threshold;
->  extern int sysctl_compact_unevictable_allowed;
->  
-> +extern int extfrag_for_order(struct zone *zone, unsigned int order);
->  extern int fragmentation_index(struct zone *zone, unsigned int order);
->  extern enum compact_result try_to_compact_pages(gfp_t gfp_mask,
->  		unsigned int order, unsigned int alloc_flags,
-> diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-> index 8a176d8727a3..51c90906efbc 100644
-> --- a/kernel/sysctl.c
-> +++ b/kernel/sysctl.c
-> @@ -1458,6 +1458,15 @@ static struct ctl_table vm_table[] = {
->  		.mode		= 0200,
->  		.proc_handler	= sysctl_compaction_handler,
->  	},
-> +	{
-> +		.procname	= "compaction_proactiveness",
-> +		.data		= &sysctl_compaction_proactiveness,
-> +		.maxlen		= sizeof(int),
-> +		.mode		= 0644,
-> +		.proc_handler	= proc_dointvec_minmax,
-> +		.extra1		= SYSCTL_ZERO,
-> +		.extra2		= &one_hundred,
-> +	},
->  	{
->  		.procname	= "extfrag_threshold",
->  		.data		= &sysctl_extfrag_threshold,
-> diff --git a/mm/compaction.c b/mm/compaction.c
-> index 46f0fcc93081..bf7f57a475ce 100644
-> --- a/mm/compaction.c
-> +++ b/mm/compaction.c
-> @@ -50,6 +50,11 @@ static inline void count_compact_events(enum vm_event_item item, long delta)
->  #define pageblock_start_pfn(pfn)	block_start_pfn(pfn, pageblock_order)
->  #define pageblock_end_pfn(pfn)		block_end_pfn(pfn, pageblock_order)
->  
-> +/*
-> + * Fragmentation score check interval for proactive compaction purposes.
-> + */
-> +static const int HPAGE_FRAG_CHECK_INTERVAL_MSEC = 500;
-> +
->  static unsigned long release_freepages(struct list_head *freelist)
->  {
->  	struct page *page, *next;
-> @@ -1855,6 +1860,71 @@ static inline bool is_via_compact_memory(int order)
->  	return order == -1;
->  }
->  
-> +static bool kswapd_is_running(pg_data_t *pgdat)
-> +{
-> +	return pgdat->kswapd && (pgdat->kswapd->state == TASK_RUNNING);
-> +}
-> +
-> +/*
-> + * A zone's fragmentation score is the external fragmentation wrt to the
-> + * HUGETLB_PAGE_ORDER scaled by the zone's size. It returns a value in the
-
-HPAGE_PMD_ORDER
-
-> + * range [0, 100].
-> +
-> + * The scaling factor ensures that proactive compaction focuses on larger
-> + * zones like ZONE_NORMAL, rather than smaller, specialized zones like
-> + * ZONE_DMA32. For smaller zones, the score value remains close to zero,
-> + * and thus never exceeds the high threshold for proactive compaction.
-> + */
-> +static int fragmentation_score_zone(struct zone *zone)
-> +{
-> +	unsigned long score;
-> +
-> +	score = zone->present_pages *
-> +			extfrag_for_order(zone, HPAGE_PMD_ORDER);
-> +	return div64_ul(score, zone->zone_pgdat->node_present_pages + 1);
-> +}
-> +
-> +/*
-> + * The per-node proactive (background) compaction process is started by its
-> + * corresponding kcompactd thread when the node's fragmentation score
-> + * exceeds the high threshold. The compaction process remains active till
-> + * the node's score falls below the low threshold, or one of the back-off
-> + * conditions is met.
-> + */
-> +static int fragmentation_score_node(pg_data_t *pgdat)
-> +{
-> +	unsigned long score = 0;
-> +	int zoneid;
-> +
-> +	for (zoneid = 0; zoneid < MAX_NR_ZONES; zoneid++) {
-> +		struct zone *zone;
-> +
-> +		zone = &pgdat->node_zones[zoneid];
-> +		score += fragmentation_score_zone(zone);
-> +	}
-> +
-> +	return score;
-> +}
-> +
-> +static int fragmentation_score_wmark(pg_data_t *pgdat, bool low)
-> +{
-> +	int wmark_low;
-> +
-> +	wmark_low = 100 - sysctl_compaction_proactiveness;
-> +	return low ? wmark_low : min(wmark_low + 10, 100);
-> +}
-> +
-> +static bool should_proactive_compact_node(pg_data_t *pgdat)
-> +{
-> +	int wmark_high;
-> +
-> +	if (!sysctl_compaction_proactiveness || kswapd_is_running(pgdat))
-> +		return false;
-> +
-> +	wmark_high = fragmentation_score_wmark(pgdat, false);
-> +	return fragmentation_score_node(pgdat) > wmark_high;
-> +}
-> +
->  static enum compact_result __compact_finished(struct compact_control *cc)
->  {
->  	unsigned int order;
-> @@ -1881,6 +1951,25 @@ static enum compact_result __compact_finished(struct compact_control *cc)
->  			return COMPACT_PARTIAL_SKIPPED;
->  	}
->  
-> +	if (cc->proactive_compaction) {
-> +		int score, wmark_low;
-> +		pg_data_t *pgdat;
-> +
-> +		pgdat = cc->zone->zone_pgdat;
-> +		if (kswapd_is_running(pgdat))
-> +			return COMPACT_PARTIAL_SKIPPED;
-> +
-> +		score = fragmentation_score_zone(cc->zone);
-> +		wmark_low = fragmentation_score_wmark(pgdat, true);
-> +
-> +		if (score > wmark_low)
-> +			ret = COMPACT_CONTINUE;
-> +		else
-> +			ret = COMPACT_SUCCESS;
-> +
-> +		goto out;
-> +	}
-> +
->  	if (is_via_compact_memory(cc->order))
->  		return COMPACT_CONTINUE;
->  
-> @@ -1939,6 +2028,7 @@ static enum compact_result __compact_finished(struct compact_control *cc)
->  		}
->  	}
->  
-> +out:
->  	if (cc->contended || fatal_signal_pending(current))
->  		ret = COMPACT_CONTENDED;
->  
-> @@ -2412,6 +2502,41 @@ enum compact_result try_to_compact_pages(gfp_t gfp_mask, unsigned int order,
->  	return rc;
->  }
->  
-> +/*
-> + * Compact all zones within a node till each zone's fragmentation score
-> + * reaches within proactive compaction thresholds (as determined by the
-> + * proactiveness tunable).
-> + *
-> + * It is possible that the function returns before reaching score targets
-> + * due to various back-off conditions, such as, contention on per-node or
-> + * per-zone locks.
-> + */
-> +static void proactive_compact_node(pg_data_t *pgdat)
-> +{
-> +	int zoneid;
-> +	struct zone *zone;
-> +	struct compact_control cc = {
-> +		.order = -1,
-> +		.mode = MIGRATE_SYNC_LIGHT,
-> +		.ignore_skip_hint = true,
-> +		.whole_zone = true,
-> +		.gfp_mask = GFP_KERNEL,
-> +		.proactive_compaction = true,
-> +	};
-> +
-> +	for (zoneid = 0; zoneid < MAX_NR_ZONES; zoneid++) {
-> +		zone = &pgdat->node_zones[zoneid];
-> +		if (!populated_zone(zone))
-> +			continue;
-> +
-> +		cc.zone = zone;
-> +
-> +		compact_zone(&cc, NULL);
-> +
-> +		VM_BUG_ON(!list_empty(&cc.freepages));
-> +		VM_BUG_ON(!list_empty(&cc.migratepages));
-> +	}
-> +}
->  
->  /* Compact all zones within a node */
->  static void compact_node(int nid)
-> @@ -2458,6 +2583,13 @@ static void compact_nodes(void)
->  /* The written value is actually unused, all memory is compacted */
->  int sysctl_compact_memory;
->  
-> +/*
-> + * Tunable for proactive compaction. It determines how
-> + * aggressively the kernel should compact memory in the
-> + * background. It takes values in the range [0, 100].
-> + */
-> +int sysctl_compaction_proactiveness = 20;
-
-These are usually __read_mostly
-
-> +
->  /*
->   * This is the entry point for compacting all nodes via
->   * /proc/sys/vm/compact_memory
-> @@ -2637,6 +2769,7 @@ static int kcompactd(void *p)
->  {
->  	pg_data_t *pgdat = (pg_data_t*)p;
->  	struct task_struct *tsk = current;
-> +	unsigned int proactive_defer = 0;
->  
->  	const struct cpumask *cpumask = cpumask_of_node(pgdat->node_id);
->  
-> @@ -2652,12 +2785,34 @@ static int kcompactd(void *p)
->  		unsigned long pflags;
->  
->  		trace_mm_compaction_kcompactd_sleep(pgdat->node_id);
-> -		wait_event_freezable(pgdat->kcompactd_wait,
-> -				kcompactd_work_requested(pgdat));
-> +		if (wait_event_freezable_timeout(pgdat->kcompactd_wait,
-> +			kcompactd_work_requested(pgdat),
-> +			msecs_to_jiffies(HPAGE_FRAG_CHECK_INTERVAL_MSEC))) {
-
-Hmm perhaps the wakeups should also backoff if there's nothing to do?
-
-> +
-> +			psi_memstall_enter(&pflags);
-> +			kcompactd_do_work(pgdat);
-> +			psi_memstall_leave(&pflags);
-> +			continue;
-> +		}
->  
-> -		psi_memstall_enter(&pflags);
-> -		kcompactd_do_work(pgdat);
-> -		psi_memstall_leave(&pflags);
-> +		/* kcompactd wait timeout */
-> +		if (should_proactive_compact_node(pgdat)) {
-> +			unsigned int prev_score, score;
-> +
-> +			if (proactive_defer) {
-> +				proactive_defer--;
-> +				continue;
-> +			}
-> +			prev_score = fragmentation_score_node(pgdat);
-> +			proactive_compact_node(pgdat);
-> +			score = fragmentation_score_node(pgdat);
-> +			/*
-> +			 * Defer proactive compaction if the fragmentation
-> +			 * score did not go down i.e. no progress made.
-> +			 */
-> +			proactive_defer = score < prev_score ?
-> +					0 : 1 << COMPACT_MAX_DEFER_SHIFT;
-> +		}
->  	}
->  
->  	return 0;
-> diff --git a/mm/internal.h b/mm/internal.h
-> index b5634e78f01d..9671bccd97d5 100644
-> --- a/mm/internal.h
-> +++ b/mm/internal.h
-> @@ -228,6 +228,7 @@ struct compact_control {
->  	bool no_set_skip_hint;		/* Don't mark blocks for skipping */
->  	bool ignore_block_suitable;	/* Scan blocks considered unsuitable */
->  	bool direct_compaction;		/* False from kcompactd or /proc/... */
-> +	bool proactive_compaction;	/* kcompactd proactive compaction */
->  	bool whole_zone;		/* Whole zone should/has been scanned */
->  	bool contended;			/* Signal lock or sched contention */
->  	bool rescan;			/* Rescanning the same pageblock */
-> diff --git a/mm/vmstat.c b/mm/vmstat.c
-> index 96d21a792b57..d7ab7dbdc3a5 100644
-> --- a/mm/vmstat.c
-> +++ b/mm/vmstat.c
-> @@ -1074,6 +1074,23 @@ static int __fragmentation_index(unsigned int order, struct contig_page_info *in
->  	return 1000 - div_u64( (1000+(div_u64(info->free_pages * 1000ULL, requested))), info->free_blocks_total);
->  }
->  
-> +/*
-> + * Calculates external fragmentation within a zone wrt the given order.
-> + * It is defined as the percentage of pages found in blocks of size
-> + * less than 1 << order. It returns values in range [0, 100].
-> + */
-> +int extfrag_for_order(struct zone *zone, unsigned int order)
-> +{
-> +	struct contig_page_info info;
-> +
-> +	fill_contig_page_info(zone, order, &info);
-> +	if (info.free_pages == 0)
-> +		return 0;
-> +
-> +	return (info.free_pages - (info.free_blocks_suitable << order)) * 100
-> +							/ info.free_pages;
-
-I guess this should also use div_u64() like __fragmentation_index() does.
-
-> +}
-> +
->  /* Same as __fragmentation index but allocs contig_page_info on stack */
->  int fragmentation_index(struct zone *zone, unsigned int order)
->  {
-> 
-
+5L2g5aW9ICAuLg0KDQrkvaDpgqPovrnmgI7kuYjmoLfmiJHluIzmnJvkvaDkuIDliIfpg73lpb3l
+kJfvvJ8NCuaIkeWPq+iJvueQs+Wls+Wjq+OAgiDvvIgyOOWyge+8ie+8jOaIkeaYr+Wmu+WtkOWG
+iOavlOS6mueahOWvoeWmhw0K55qE5ZCO5pyf5bel56iL44CC5Lyv57qz5b63wrflt7TljaHph4zC
+t+aJjuWNoemHjOS6mu+8iEJlcm5hcmQgQmFrYXJ5IFpha2FyaWHvvInjgIIgQmFqYW0gRW50ZXJw
+cmlzZeS4u+euoQ0K77yI5YaI5q+U5Lqa55qE5bu6562R5YWs5Y+477yJ5Lmf5pivQmVybmFyZOea
+hOmmluW4reaJp+ihjOWumA0K6L+b5Ye65Y+j77yIR0FNQklB77yJ44CCDQoNCuS6i+WunuS4iu+8
+jOaIkeS4iOWkq+S4uuatpOatu+S6juWGoOeKtueXheavkjE5DQrku5bliY3lvoDms5Xlm73mraPl
+vI/ml4XooYzkuYvlkI7nmoTml6XmnJ/kuLoyMDE55bm0MTLmnIg15pelDQrop4HpnaLlkI7vvIzk
+u5bluKbnnYDmiJEy5bKB6Zu2NuS4quaciOeahOWls+WEv+emu+W8gOS6huaIke+8jA0K5Zyo5oiR
+5LiI5aSr5Zug5Yag54q255eF5q+SMTnmrbvkuqHlkI7vvIzku5bnmoTlhYTlvJ/vvIgNCuaIkeW3
+suaVheeahOi0remUgOmUgOWUrue7j+eQhg0K5LiI5aSr5YWs5Y+477yI6Km55aeG5pavwrfmiZjm
+mIbljZrCt+WlpemHjOS6muW+t8K35omO5Y2h6YeM5Lqa5YWI55Sf77yJ5oOz6KaBDQrlsIbmiJHl
+t7LmlYXkuIjlpKvnmoTmiYDmnInotKLkuqflkozotYTmupDovazmjaLmiJDku5bnmoQNCuW4kOaI
+t++8jOeUseS6jui/meS4quWOn+WboO+8jOaIkeehruWunuacieS4gOS4quS4juaIkeWQteaetuea
+hOeUt+WtqQ0K5LuW77yM6L+Z5L2/5LuW5a+55oiR5Y+R54GrDQrpm4fnlKjliLrlrqLmnYDmrbvm
+iJHnmoTnqIvluqbvvIzkvYbmiJHopoHojaPogIDlvZLmiJENCuWJjeW+gOWPpuS4gOS4quWQjeS4
+uuW4g+Wfuue6s+azlee0oueahOWbveWutuaIkOWKnw0K5oiR5Lus5L2P5Zyo5pWZ5aCC6YeM6L+H
+552A5oiR5Lus5Lqy54ix55qE55Sf5rS744CCDQrogIHlrp7or7TvvIzljbPkvb/lnKjluIPln7rn
+urPms5XntKLvvIzmiJHku6znmoTnoa7ov4fnnYDku6TkurrmgZDmg6fnmoTnlJ/mtLvvvIzlm6Dk
+uLoNCumCo+S6m+WIuuWuoui/veWHu+aIkeS7rOOAgg0KDQrlrp7pmYXkuIrvvIzmiJHmg7PkuI7m
+gqjorqjorrrnmoTmmK/lhbPkuo7miJHnmoTkuKrkurrpl67popgNCuWFs+azqOaIkeW3suaVheS4
+iOWkq+WtmOWFpeaIkeS7peWklumTtuihjOeahOi1hOmHkQ0K5Zu95a625Lym5pWm5Lul5oiR55qE
+5ZCN5LmJ5oiQ5Li65Lu35YC8NDUw5LiH576O5YWD55qE6L+R5LqyDQrnvo7lm73nvo7lhYPvvIwN
+CuaIkemcgOimgeaCqOeahOW4ruWKqe+8jOS7peW4ruWKqeaIkeWwhui/meS6m+mSsei9rOWFpeaC
+qOeahA0K5biQ5oi377yM5bm25bCG6L+Z5Lqb6LWE6YeR5oqV6LWE5Yiw5oKo55qE5Zu95a62L+Wc
+sOWMuu+8jOWboOS4uuaIkeaDs+imgei/meS6mw0K5rGH5YWl5Zu95aSW55qE6ZKxDQrmiJHlt7Ln
+u4/pgJrov4fpgq7ku7bpgJrnn6Xpk7booYzmiJHnmoTmrbvkuqENCuS4iOWkq+WSjOaIkeeahOeb
+ruagh+aYr+Wwhui/meS6m+i1hOmHkei9rOWFpeWPpuS4gOS4quW4kOaItw0K5LuW5Lus5Li65LuW
+55qE5q275oSf5Yiw5oOK6K6277yM5LuW5Lus5ZCR5oiR6K+B5a6e5LqG5oiR55qEDQrkuIjlpKvm
+mK/ku5bku6znmoTlpb3pob7lrqLvvIzku5bku6zkuZ/lkJHmiJHor4Hlrp4NCuacieS4gOS4quaI
+keWQjeWtl+eahOS6suaImui0puaIt++8jOS7luS7rOWRiuivieaIkQ0K5LuL57uN5LiA5Liq5Luj
+6KGo5oiR5L2c5Li65oiR55qE5Y+X5omY5Lq65ZKM5oiR55qE5Y+X5omY5Lq655qE5Lq6DQrku5bk
+u6zlsIbov5nkupvotYTph5HovazlhaXmiJHnmoTku7vkvZXluJDmiLfnmoTlkIjkvZzkvJnkvLQN
+CumAieaLqe+8jA0KDQror7forqnmiJHluK7liqnmgqjmiJDkuLrmiJHnmoTlj5fmiZjkurrlkozm
+iJHnmoTlkIjkvJnkuroNCumTtuihjOS8muWwhui/meS6m+i1hOmHkei9rOWFpeaCqOeahOW4kOaI
+t++8jOS7peS+v+aIkeS7rA0K5Y+v5Lul5p2l6LS15Zu96YeN6I636Ieq55Sx77yM6K+35LiN6KaB
+DQrmg7PopoHku7vkvZXkvJrkvKTlrrPliLDmiJHnmoTkuroNCg0K6K+35biu5Yqp5oiR77yM5oiR
+5a+55L2g5b6I55yf6K+a77yM5oiR5oOz5oiQ5Li65L2g55qE5LiA5ZGYDQrlpoLmnpzmgqjkuI3k
+u4vmhI/mjqXlj5fmiJHku6zlubbluKbpoobmiJHku6zotbDlkJHmm7Tlpb3nmoTlrrbluq0NCui0
+teWbveeahOacquadpeOAgg0KDQrlm6DmraTvvIzmiJHlsIbnu5nmgqjpk7booYzogZTns7vmlrnl
+vI/lkozlhbbku5blv4XopoHnmoQNCuWmguaenOaCqOWPquetlOW6lOaIkeWwhuWcqOaIkeeahOS4
+i+S4gOWwgeeUteWtkOmCruS7tuS4reaPkOS+m+S/oeaBr++8jA0K5LiNL+S7juacquiDjOWPm+aI
+keaIluWHuuS6juWuieWFqOebrueahOWQkeS7u+S9leS6uumAj+mcsuatpOS6iw0K5Zug5Li66L+Z
+5Lqb6ZKx5piv5oiR55Sf5a2Y55qE5ZSv5LiA5biM5pybDQroh6rku47miJHlpLHljrvkuIjlpKvk
+u6XmnaXvvIzmiJHlkozlpbPlhL/kuIDotbfmnaXliLDkuoblnLDnkIPjgIINCg0K5q2k5aSW77yM
+5Zyo5oiR5ZCR5oKo5Y+R6YCB6ZO26KGM5ZKM5biQ5oi36K+m57uG5L+h5oGv5LmL5YmN77yM5oiR
+6ZyA6KaBDQrmgqjlj6/ku6XlnKjkuIvpnaLlkJHmiJHlj5HpgIHmgqjnmoTmlbDmja7vvIzku6Xk
+vr/miJHlrozlhajnoa7lrproh6rlt7HmmK8NCuS4jeS/oeS7u+mUmeivr+eahOS6uuOAgg0K6ICM
+5LiU77yM6L+Z5Lmf5L2/5oiR6IO95aSf5Li65oKo5Y+R6YCB6ZO26KGM6IGU57O75pa55byPDQrk
+uI7ku5bku6zmsp/pgJrku6Xov5vooYzmm7TlpJrpqozor4Hlubborqnmgqjnoa7orqQNCuS7jumT
+tuihjOmCo+mHjOiOt+W+l+acieWFs+i/meeslOi1hOmHkeeahOS/oeaBr+OAguWSjA0K5pu05aW9
+5Zyw5LqG6Kej5oKo77yM5oiR5bCG57uZ5oKo5oC75pWw55qEMjXvvIUNCui9rOenu+WQjueahOmS
+seS9nOS4uuihpeWBvw0KDQoNCjEu5YWo5ZCN77yaLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uDQoy
+LuWcsOWdgO+8mi4uLi4uLi4uLi4uLi4uLi4uLg0KMy7lm73nsY3vvJouLi4uLi4uLi4uLuaAp+WI
+qy4uLi4uLi4uLi4uLi4uLi4NCjQu5bm06b6E77yaLi4uLi4uLi4u5Ye655Sf5pel5pyf77yaLi4u
+Li4NCjUu6IGM5Lia77yaLi4uLi4uLi4uLi4uLi4uLi4u44CCDQouLi4uLg0KNi7nlLXor53vvJou
+Li4uLi4uLi7kvKDnnJ/vvJouLi4uLi4uLi4uLi4uLi4uLi4uLi4NCjcu5Y6f5Lqn5Zu977yaLi4u
+Li4uLuWbveWutu+8mi4uLi4uLi4uLi4uLi4uDQo4LuiBjOS4mu+8mi4uLi4uLi4uLi4uLi4uLi4u
+LuOAgg0KLi4uLi4uLi4uLi4uLi4uLg0KOS7lqZrlp7vnirblhrUuLi4uLi4uLi4uLueUteWtkOmC
+ruS7tuWcsOWdgO+8mi4uLi4uLi4uLi4uLg0KMTAu5omr5o+P5oKo55qE6Lqr5Lu96K+B5oiW6am+
+6am25omn54WnL+eFp+eJh+eahOWJr+acrO+8mi4uLi4uLi4uLi4uLg0K5a6j6KiA77yaDQoNCuWQ
+jOaXtu+8jOaCqOWPr+S7pemAmui/h+aIkeeahOeJp+W4iOS4juaIkeiBlOezu++8jOS7lueahOWQ
+jeWtl+WPq+S/nee9l+eJp+W4iOOAgg0K5q+P5b2T5oKo5omT55S16K+d5pe277yM5ZGK6K+J5LuW
+5oKo5oOz5ZKM5oiR6K+06K+d77yM5Zug5Li6DQrnjrDlnKjmiJHkvY/lnKjluIPln7rnurPms5Xn
+tKLnmoTmlZnloILph4zvvIzmiJHkuI0NCuaDs+imgeWGjeWRhuWcqOi/memHjO+8jOS7lueahOeU
+teivneaYr+i/meS4qu+8iCsyMjYgNzUyMTM2NDbvvIkNCg0K5oiR5bCG5Zyo6L+Z6YeM5YGc5q2i
+77yM5oiR5bCG562J5b6F5oKo55qE5Zue5aSN77yM6ZqP5pe25Y+v5LulDQror6Lpl67ku7vkvZXm
+gqjmg7Pnn6XpgZPnmoTlhbPkuo7miJHnmoTkv6Hmga/vvIzlubblsIbmgqjnmoTmlbDmja7kvZzk
+uLrmiJHlj5HpgIHnu5nmiJENCuimgeaxgu+8jOS7peS+v+aIkeWPr+S7peWQkeaCqOWPkemAgeW4
+puacieivpeW4kOaIt+eahOmTtuihjOS/oeaBrw0K6K+m57uG5L+h5oGv77yM5Lul5L6/5oKo5ZCR
+6ZO26KGM56Gu6K6k77yMDQoNCuivt+W4ruWKqeaIke+8jOaIkeWwhuS4jeiDnOaEn+a/gA0K56Wd
+5L2g5pyJ576O5aW955qE5LiA5aSp44CCDQrku47oib7nkLMNCg0KDQpIZWxsbyAgLi4NCg0KSG93
+IGRvIHlvdSBkbyBvdmVyIHRoZXJlPyBJIGhvcGUgeW91IGFyZSBkb2luZyB3ZWxsPw0KTXkgbmFt
+ZSBpcyBNYWRhbSBJcmVuZS4gKDI4IHllYXJzIG9sZCApLCBpIGFtIGEgd2lkb3cgZnJvbSBHYW1i
+aWEsIHRoZSB3aWZlDQpvZiBsYXRlIEVuZy4gQmVybmFyZCBCYWthcnkgWmFrYXJpYS4gdGhlIERp
+cmVjdG9yIG9mIEJhamFtIEVudGVycHJpc2UNCihCdWlsZGluZyBDb25zdHJ1Y3Rpb24gQ29tcGFu
+eSBpbiBHYW1iaWEpIGFsc28gdGhlIENFTyBvZiBCZXJuYXJkDQpJbXBvcnQgYW5kIEV4cG9ydCAo
+R0FNQklBKS4NCg0KQXMgYSBtYXR0ZXIgb2YgZmFjdCBteSBodXNiYW5kIGRpZWQgZHVlIHRvIHRo
+ZSBDb3JvbmFsIHZpcnVzMTkgb24gdGhpcw0KZGF0ZSA1dGggb2YgRGVjZW1iZXIgMjAxOSBhZnRl
+ciBoZSB0cmF2ZWxlZCB0byBGcmFuY2UgZm9yIGFuIG9mZmljaWFsDQptZWV0aW5nIGFuZCBoZSBs
+ZWZ0IG1lIHdpdGggb3VyIDJ5ZWFycyBhbmQgNiBtb250aHMgZGF1Z2h0ZXIsDQpBZnRlciB0aGUg
+ZGVhdGggb2YgbXkgaHVzYmFuZCAgYXMgYSByZXN1bHQgb2YgQ29yb25hbC12aXJ1cyAxOSwgaGlz
+IGJyb3RoZXIgKE15DQpIdXNiYW5kIGJyb3RoZXIgKSB3aG8gaXMgdGhlIHB1cmNoYXNpbmcgYW5k
+IG1hcmtldGluZyBzYWxlIG1hbmFnZXIgb2YgbXkgbGF0ZQ0KSHVzYmFuZHMgY29tcGFueSBuYW1l
+ZCAoTXIuIEphbWVzIFRva3VuYm8gT3JpYWRlIFpha2FyaWEpIHdhbnRlZCB0bw0KY29udmVydCBh
+bGwgdGhlIHByb3BlcnRpZXMgYW5kIHJlc291cmNlcyBvZiBteSBsYXRlIEh1c2JhbmQgaW50byBo
+aXMNCmFjY291bnQgYW5kIGR1ZSB0byB0aGF0IGkgZGlkIGhhdmUgYSBtYWxlIGNoaWxkIHdoaWNo
+IGkgcXVhcnJlbGVkIHdpdGgNCmhpbSBhbmQgaXQgbWFkZSBoaW0gdG8gbGF5IGhpcyBhbmdlciBv
+biBtZSB0bw0KdGhlIGV4dGVudCBvZiBoaXJpbmcgYW4gYXNzYXNzaW5zIHRvIGtpbGwgbWUgYnV0
+IHRvIEdvZCBiZSB0aGUgZ2xvcnkgaQ0Kc3VjY2VlZGVkIGJ5IG1ha2luZyBteSB3YXkgdG8gYW5v
+dGhlciBjb3VudHJ5IGNhbGxlZCAgQnVya2luYSBmYXNvDQp3aGVyZSB3ZSBhcmUgbGl2aW5nIGlu
+IGEgY2h1cmNoICBmb3Igb3VyIGRlYXIgbGlmZS4NCkhvbmVzdGx5IHdlIGRvIGxpdmUgYSBmZWFy
+ZnVsIGxpZmUgZXZlbiBoZXJlIGluIEJ1cmtpbmEgZmFzbyBiZWNhdXNlDQpvZiB0aG9zZSBBc3Nh
+c3NpbnMgY29taW5nIGFmdGVyIHVzIC4NCg0KQWN0dWFsbHkgd2hhdCBJIHdhbnQgdG8gZGlzY3Vz
+cyB3aXRoIHlvdSBpcyBhYm91dCBteSBwZXJzb25hbCBpc3N1ZQ0KY29uY2VybiB0aGUgIGZ1bmQg
+dGhhdCAgbXkgbGF0ZSBIdXNiYW5kIGRlcG9zaXRlZCBpbiBhIGJhbmsgb3V0c2lkZSBteQ0KY291
+bnRyeSBMb25kb24gb24gbXkgbmFtZSBhcyB0aGUgbmV4dCBvZiBraW5zIHdvcnRoICQ0LjUgTWls
+bGlvbg0KdW5pdGVkIHN0YXRlIGRvbGxhcnMgLA0KSSBuZWVkIHlvdXIgYXNzaXN0YW5jZSB0byBo
+ZWxwIG1lIHRvIHRyYW5zZmVyIHRoZXNlIG1vbmV5IGludG8geW91cg0KYWNjb3VudCBhbmQgdG8g
+aW52ZXN0IHRoZXNlIGZ1bmRzIGluIHlvdXIgY291bnRyeSBhcyBpIHdhbnQgdGhlc2UNCm1vbmV5
+IHRvIGJlIHRyYW5zZmVycmVkIGludG8gZm9yZWlnbiBjb3VudHJ5DQpJICBoYXZlIGFscmVhZHkg
+IG5vdGlmaWVkICB0aGUgYmFuayBvbiBtYWlsIGFib3V0IHRoZSBkZWF0aCBvZiBteQ0KSHVzYmFu
+ZCBhbmQgbXkgYWltIHRvIHRyYW5zZmVyIHRoZXNlIGZ1bmQgaW50byBhbm90aGVyIGFjY291bnQg
+d2hpY2gNCnRoZXkgd2VyZSAgc3VycHJpc2UgZm9yIGhpcyBkZWF0aCBhbmQgdGhleSBjb25maXJt
+ZWQgdG8gbWUgdGhhdCBteQ0KSHVzYmFuZCAgd2FzIHRoZWlyIGdvb2QgY3VzdG9tZXIgYW5kIHRo
+ZXkgYWxzbyBjb25maXJtZWQgdG8gbWUgdGhhdA0KdGhlcmUgaXMgYW4gYWNjb3VudCBvbiBteSBu
+YW1lIGFzIHRoZSBuZXh0IG9mIGtpbnMgYW5kIHRoZXkgdG9sZCBtZSB0bw0KcHJlc2VudCBzb21l
+b25lIHdobyB3aWxsIHN0YW5kIG9uIG15IGJlaGFsZiBhcyBteSAgdHJ1c3RlZSBhbmQgbXkNCnBh
+cnRuZXIgZm9yIHRoZW0gdG8gdHJhbnNmZXIgdGhlc2UgbW9uZXkgaW50byBhbnkgYWNjb3VudCBv
+ZiBteQ0KY2hvaWNlLA0KDQpQbGVhc2UgaSB3YW50IHlvdSB0byBoZWxwIG1lIHRvIHN0YW5kIGFz
+IG15IHRydXN0ZWUgYW5kIG15IHBhcnRuZXIgc28NCnRoYXQgdGhlIGJhbmsgd2lsbCB0cmFuc2Zl
+ciB0aGVzZSBtb25leSBpbnRvIHlvdXIgYWNjb3VudCBzbyB0aGF0IHdlDQpjYW4gY29tZSBvdmVy
+IHRvIHlvdXIgY291bnRyeSAgdG8gcmVnYWluIG91ciBmcmVlZG9tIHBsZWFzZSBpIGRvbnQNCndh
+bnQgYW55dGhpbmcgdGhhdCB3aWxsIGhhcm0gdGhpcyBteSBkdWFnaHRlcg0KDQpQbGVhc2UgaGVs
+cCBtZSwgSSBhbSBzaW5jZXJlIHRvIHlvdSBhbmQgSSB3YW50IHRvIGJlIG1lbWJlciBvZiB5b3Vy
+DQpmYW1pbHkgYXMgd2VsbCBpZiB5b3Ugd291bGRuJ3QgbWluZCB0byBhY2NlcHQgdXMgYW5kIGxl
+YWQgdXMgIHRvIGEgIGJldHRlcg0KZnV0dXJlIGluIHlvdXIgY291bnRyeS4NCg0KVGhlcmVmb3Jl
+LCBJIHNoYWxsIGdpdmUgeW91IHRoZSBiYW5rIGNvbnRhY3QgYW5kIG90aGVyIG5lY2Vzc2FyeQ0K
+aW5mb3JtYXRpb24gaW4gbXkgbmV4dCBlbWFpbCBpZiB5b3Ugd2lsbCBvbmx5IHByb21pc2UgbWUg
+dGhhdCB5b3Ugd2lsbA0Kbm90L25ldmVyIGJldHJheSBtZSAgb3IgZGlzY2xvc2VkIHRoaXMgbWF0
+dGVyIHRvIGFueWJvZHkgZm9yIHNlY3VyaXR5DQpyZWFzb24gYmVjdWFzZSAgdGhlc2UgbW9uZXkg
+aXMgdGhlIG9ubHkgaG9wZSBpIGhhdmUgZm9yIHN1cnZpdmFsIG9uDQplYXJ0aCB3aXRoIG15IGRh
+dWdodGVyIHNpbmNlIEkgaGF2ZSBsb3N0IG15IEh1c2JhbmQuDQoNCk1vcmVvdmVyIGJlZm9yZSBp
+IHNlbmQgeW91IHRoZSBiYW5rIGFuZCBhY2NvdW50IGRldGFpbHMgaSB3aWxsIGxpa2UNCnlvdSB0
+byBzZW5kIG1lIHlvdXIgZGF0YSBiZWxvdyBzbyB0aGF0IGkgd2lsbCBiZSBmdWxseSBzdXJlIHRo
+YXQgaSBhbQ0Kbm90IHRydXN0aW5nIHRoZSB3cm9uZyBwZXJzb24uDQphbmQgaXQgd2lsbCBhbHNv
+IGdpdmUgbWUgdGhlIG1pbmQgdG8gc2VuZCB5b3UgdGhlIGJhbmsgY29udGFjdCBmb3IgeW91DQp0
+byBjb21tdW5pY2F0ZSB3aXRoIHRoZW0gZm9yIG1vcmUgdmVyaWZpY2F0aW9uIGFuZCBmb3IgeW91
+IHRvIGNvbmZpcm0NCmZyb20gdGhlIGJhbmsgYWJvdXQgdGhpcyBmdW5kLiBhbmQNCnRvIGtub3cg
+eW91IG1vcmUgYmV0dGVyIGFuZCBpIHNoYWxsIGdpdmUgeW91IDI1IHBlcmNlbnQgb2YgdGhlIHRv
+dGFsDQptb25leSBhZnRlciB0aGUgdGhlIHRyYW5zZmVyIGFzIGFzIGEgY29tcGVuc2F0aW9uDQoN
+Cg0KMS4gRnVsbCBOYW1lOiAuLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4NCjIuIEFkZHJlc3M6IC4u
+Li4uLi4uLi4uLi4uLi4uLg0KMy4gTmF0aW9uYWxpdHk6IC4uLi4uLi4uLi4uIFNleC4uLi4uLi4u
+Li4uLi4uLi4NCjQuIEFnZTouLi4uLi4uLi4uLiBEYXRlIG9mIEJpcnRoOi4uLi4uLi4uLi4uLi4u
+Li4NCjUuIE9jY3VwYXRpb246Li4uLi4uLi4uLi4uLi4uLi4uLg0KLi4uLi4NCjYuIFBob25lOiAu
+Li4uLi4uLi4uLiBGYXg6Li4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLg0KNy4gU3RhdGUgb2YgT3Jp
+Z2luOiAuLi4uLi4uQ291bnRyeTouLi4uLi4uLi4uLi4uLg0KOC4gT2NjdXBhdGlvbjouLi4uLi4u
+Li4uLi4uLi4uLi4uDQouLi4uLi4uLi4uLi4uLi4uDQo5LiBNYXJpdGFsIHN0YXR1cy4uLi4uLi4u
+Li4uIEUtbWFpbCBhZGRyZXNzJ3M6IC4uLi4uLi4uLi4uLg0KMTAuIFNjYW4gY29weSBvZiB5b3Vy
+IElEIGNhcmQgb3IgRHJpdmluZyBMaWNlbnNlL1Bob3RvOi4uLi4uLi4uLi4uLg0KREVDTEFSQVRJ
+T046DQoNCk1lYW53aGlsZSwgeW91IGNhbiByZWFjaCBtZSB0aHJvdWdoIG15IHBhc3RvcixoaXMg
+bmFtZSBpcyBQYXN0b3IgUGF1bA0KYW55IHRpbWUgeW91IGNhbGwsIHRlbGwgaGltIHRoYXQgeW91
+IHdhbnQgdG8gc3BlYWsgd2l0aCBtZSBiZWNhdXNlDQpyaWdodCBub3cgaSBhbSBsaXZpbmcgaW4g
+dGhlIGNodXJjaCBoZXJlIGluIEJ1cmtpbmEgZmFzbyBhbmQgaSBkb24ndA0Kd2FudCB0byBzdGF5
+IGhlcmUgYW55IGxvbmdlciBoaXMgcGhvbmUgbnVtYmVyIGlzIHRoaXMoKzIyNiA3NTIxMzY0NikN
+Cg0KSSB3aWxsIHN0b3AgaGVyZSBhbmQgaSB3aWxsIGJlIHdhaXRpbmcgZm9yIHlvdXIgcmVwbHkg
+YW5kIGZlZWwgZnJlZSB0bw0KYXNrIGFueSB0aGluZyB5b3Ugd2FudCB0byBrbm93IGFib3V0IG1l
+IGFuZCBzZW5kIG1lIHlvdXIgZGF0YSBhcyBpDQpyZXF1ZXN0ZWQgc28gdGhhdCBpIGNhbiBzZW5k
+IHlvdSB0aGUgYmFuayBpbmZvcm1hdGlvbiB3aXRoIHRoZSBhY2NvdW50DQpkZXRhaWxzIHNvIHRo
+YXQgeW91IHdpbGwgY29uZmlybSBmcm9tIHRoZSBiYW5rLA0KDQpQbGVhc2UgaGVscCBtZSwgSSB3
+b3VsZCBiZSBoaWdobHkgYXBwcmVjaWF0ZWQNCkhhdmUgbmljZSBkYXkuDQpGcm9tIElyZW5lDQo=
