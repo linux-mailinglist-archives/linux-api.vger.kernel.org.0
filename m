@@ -2,164 +2,80 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 994D41E4D66
-	for <lists+linux-api@lfdr.de>; Wed, 27 May 2020 20:51:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6BCE1E5BBC
+	for <lists+linux-api@lfdr.de>; Thu, 28 May 2020 11:22:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728119AbgE0Svk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 27 May 2020 14:51:40 -0400
-Received: from mail.efficios.com ([167.114.26.124]:39616 "EHLO
-        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725920AbgE0Svk (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 27 May 2020 14:51:40 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id EA4E0278F09;
-        Wed, 27 May 2020 14:51:38 -0400 (EDT)
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id lcLJ6-LoAtcv; Wed, 27 May 2020 14:51:38 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id A7CA3278D12;
-        Wed, 27 May 2020 14:51:38 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com A7CA3278D12
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1590605498;
-        bh=yRiGtquXYPCKnEyIARANnhxrsJ53NZMKmbMlMj8D3uI=;
-        h=From:To:Date:Message-Id;
-        b=TNsujtkjxvu5IGsHPgjjpIdVF5YbqaOu/XV/WXxuDkz5JbjNlS8gQE8poqBQiscAg
-         RdKLxwsTP8tU5BecDUpTWggztww4QPNnXOSTjeEmpzBvnM7G5l9Yi4t/0T3pjYZQhp
-         i9YtLSVTVbouzlgM8OyxhvS0o2mh2UWaGzYjfyG3acR3e2clCkeqn781kEHd/ETIoq
-         QHCXjDbBG6zf9ooFoXsA3o8EMujhvb240k3V8Uo8U6yhjpu7XP06o5uTr6pEWnH40C
-         rWZ6KXhM9m0ut5Ihf+JuMSATlDYLfFGxSmEEjgEWt6iECicHWqGRH1HLreXQle5bTB
-         ewoFoP1BVXhtA==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id UIhCXUbFKm1r; Wed, 27 May 2020 14:51:38 -0400 (EDT)
-Received: from localhost.localdomain (192-222-181-218.qc.cable.ebox.net [192.222.181.218])
-        by mail.efficios.com (Postfix) with ESMTPSA id 46CD0278E10;
-        Wed, 27 May 2020 14:51:38 -0400 (EDT)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     Carlos O'Donell <carlos@redhat.com>,
-        Joseph Myers <joseph@codesourcery.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        libc-alpha@sourceware.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ben Maurer <bmaurer@fb.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Paul Turner <pjt@google.com>, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org
-Subject: [PATCH glibc 2/3] Linux: Use rseq in sched_getcpu if available (v9)
-Date:   Wed, 27 May 2020 14:51:29 -0400
-Message-Id: <20200527185130.5604-3-mathieu.desnoyers@efficios.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200527185130.5604-1-mathieu.desnoyers@efficios.com>
-References: <20200527185130.5604-1-mathieu.desnoyers@efficios.com>
+        id S1728213AbgE1JWs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 28 May 2020 05:22:48 -0400
+Received: from mail.itouring.de ([188.40.134.68]:57880 "EHLO mail.itouring.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728161AbgE1JWs (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 28 May 2020 05:22:48 -0400
+X-Greylist: delayed 456 seconds by postgrey-1.27 at vger.kernel.org; Thu, 28 May 2020 05:22:47 EDT
+Received: from tux.applied-asynchrony.com (p5b07e2b3.dip0.t-ipconnect.de [91.7.226.179])
+        by mail.itouring.de (Postfix) with ESMTPSA id E0EF54160EC1;
+        Thu, 28 May 2020 11:15:10 +0200 (CEST)
+Received: from [192.168.100.223] (ragnarok.applied-asynchrony.com [192.168.100.223])
+        by tux.applied-asynchrony.com (Postfix) with ESMTP id 4B903F01600;
+        Thu, 28 May 2020 11:15:10 +0200 (CEST)
+Subject: Re: [PATCH v5] mm: Proactive compaction
+To:     Nitin Gupta <nigupta@nvidia.com>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Michal Hocko <mhocko@suse.com>,
+        Vlastimil Babka <vbabka@suse.cz>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        David Rientjes <rientjes@google.com>,
+        Nitin Gupta <ngupta@nitingupta.dev>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        Linux API <linux-api@vger.kernel.org>
+References: <20200518181446.25759-1-nigupta@nvidia.com>
+From:   =?UTF-8?Q?Holger_Hoffst=c3=a4tte?= <holger@applied-asynchrony.com>
+Organization: Applied Asynchrony, Inc.
+Message-ID: <27b39956-2a21-8eef-8ebb-cb3a93a41a36@applied-asynchrony.com>
+Date:   Thu, 28 May 2020 11:15:10 +0200
+MIME-Version: 1.0
+In-Reply-To: <20200518181446.25759-1-nigupta@nvidia.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-When available, use the cpu_id field from __rseq_abi on Linux to
-implement sched_getcpu().  Fall-back on the vgetcpu vDSO if unavailable.
 
-Benchmarks:
+On 5/18/20 8:14 PM, Nitin Gupta wrote:
+[patch v5 :)]
 
-x86-64: Intel E5-2630 v3@2.40GHz, 16-core, hyperthreading
+I've been successfully using this in my tree and it works great, but a friend
+who also uses my tree just found a bug (actually an improvement ;) due to the
+change from HUGETLB_PAGE_ORDER to HPAGE_PMD_ORDER in v5.
 
-glibc sched_getcpu():                     13.7 ns (baseline)
-glibc sched_getcpu() using rseq:           2.5 ns (speedup:  5.5x)
-inline load cpuid from __rseq_abi TLS:     0.8 ns (speedup: 17.1x)
+When building with CONFIG_TRANSPARENT_HUGEPAGE=n (for some reason it was off)
+HPAGE_PMD_SHIFT expands to BUILD_BUG() and compilation fails like this:
 
-CC: Carlos O'Donell <carlos@redhat.com>
-CC: Florian Weimer <fweimer@redhat.com>
-CC: Joseph Myers <joseph@codesourcery.com>
-CC: Szabolcs Nagy <szabolcs.nagy@arm.com>
-CC: Thomas Gleixner <tglx@linutronix.de>
-CC: Ben Maurer <bmaurer@fb.com>
-CC: Peter Zijlstra <peterz@infradead.org>
-CC: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-CC: Boqun Feng <boqun.feng@gmail.com>
-CC: Will Deacon <will.deacon@arm.com>
-CC: Paul Turner <pjt@google.com>
-CC: libc-alpha@sourceware.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-api@vger.kernel.org
----
-Changes since v1:
-- rseq is only used if both __NR_rseq and RSEQ_SIG are defined.
+...
+./include/linux/huge_mm.h:284:28: note: in expansion of macro ‘BUILD_BUG’
+   284 | #define HPAGE_PMD_SHIFT ({ BUILD_BUG(); 0; })
+       |                            ^~~~~~~~~
+./include/linux/huge_mm.h:78:26: note: in expansion of macro ‘HPAGE_PMD_SHIFT’
+    78 | #define HPAGE_PMD_ORDER (HPAGE_PMD_SHIFT-PAGE_SHIFT)
+       |                          ^~~~~~~~~~~~~~~
+mm/compaction.c:1874:28: note: in expansion of macro ‘HPAGE_PMD_ORDER’
+  1874 |    extfrag_for_order(zone, HPAGE_PMD_ORDER);
+       |                            ^~~~~~~~~~~~~~~
+...
 
-Changes since v2:
-- remove duplicated __rseq_abi extern declaration.
+It would be great if the whole thing would compile without THP; the only
+occurrence is in fragmentation_score_zone(). Unfortunately I'm not familiar
+enough with how to properly check for THP and properly calculate whatever
+you're doing there, otherwise I would ifdef this away myself. ;)
 
-Changes since v3:
-- update ChangeLog.
+Thanks for an otherwise great patch!
 
-Changes since v4:
-- Use atomic_load_relaxed to load the __rseq_abi.cpu_id field, a
-  consequence of the fact that __rseq_abi is not volatile anymore.
-- Include atomic.h which provides atomic_load_relaxed.
-
-Changes since v5:
-- Use __ASSUME_RSEQ to detect rseq availability.
-
-Changes since v6:
-- Remove use of __ASSUME_RSEQ.
-
-Changes since v7:
-- Fix incorrect merge with commit d0def09ff6 ("linux: Fix vDSO macros
-  build with time64 interfaces")
-
-Changes since v8:
-- Update patch title.
-- Add /* RSEQ_SIG */ for #else and #endif.
----
- sysdeps/unix/sysv/linux/sched_getcpu.c | 22 ++++++++++++++++++++--
- 1 file changed, 20 insertions(+), 2 deletions(-)
-
-diff --git a/sysdeps/unix/sysv/linux/sched_getcpu.c b/sysdeps/unix/sysv/linux/sched_getcpu.c
-index c019cfb3cf..c0f992e056 100644
---- a/sysdeps/unix/sysv/linux/sched_getcpu.c
-+++ b/sysdeps/unix/sysv/linux/sched_getcpu.c
-@@ -18,10 +18,12 @@
- #include <errno.h>
- #include <sched.h>
- #include <sysdep.h>
-+#include <atomic.h>
- #include <sysdep-vdso.h>
-+#include <sys/rseq.h>
- 
--int
--sched_getcpu (void)
-+static int
-+vsyscall_sched_getcpu (void)
- {
-   unsigned int cpu;
-   int r = -1;
-@@ -32,3 +34,19 @@ sched_getcpu (void)
- #endif
-   return r == -1 ? r : cpu;
- }
-+
-+#ifdef RSEQ_SIG
-+int
-+sched_getcpu (void)
-+{
-+  int cpu_id = atomic_load_relaxed (&__rseq_abi.cpu_id);
-+
-+  return cpu_id >= 0 ? cpu_id : vsyscall_sched_getcpu ();
-+}
-+#else /* RSEQ_SIG */
-+int
-+sched_getcpu (void)
-+{
-+  return vsyscall_sched_getcpu ();
-+}
-+#endif /* RSEQ_SIG */
--- 
-2.17.1
-
+cheers,
+Holger
