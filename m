@@ -2,93 +2,123 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 839E31E86EE
-	for <lists+linux-api@lfdr.de>; Fri, 29 May 2020 20:46:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE2421E87AA
+	for <lists+linux-api@lfdr.de>; Fri, 29 May 2020 21:22:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727878AbgE2SqL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 29 May 2020 14:46:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52468 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726487AbgE2SqL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 29 May 2020 14:46:11 -0400
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com [IPv6:2607:f8b0:4864:20::d44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16005C03E969
-        for <linux-api@vger.kernel.org>; Fri, 29 May 2020 11:46:11 -0700 (PDT)
-Received: by mail-io1-xd44.google.com with SMTP id y18so445347iow.3
-        for <linux-api@vger.kernel.org>; Fri, 29 May 2020 11:46:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sargun.me; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=2jI4J75zslK5DzN/oAOiAs5aQaZjIw5/hl671zWXDfg=;
-        b=0u7utFCWf8UoVkl1fFW02UGLdTLXA8lHRobaDaZxyF+D2+C5Cv4PsCB2sHXUbsd2MH
-         YAObRaio3SXyniTOvpq8NMquqBSrMPenGNm6Ga8aWbCwCke3LFTzR4eH9UHuUSZxklpW
-         RJ/I1jpatT5qu8Zh/CfUFi6DSitvG6nFCjrrM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=2jI4J75zslK5DzN/oAOiAs5aQaZjIw5/hl671zWXDfg=;
-        b=hux6i7qMMvGJ4cDEv0l/v0NSjSoxk2RnD+g13l7IKIhh3vpajQOual5Cq1j5M1J6jv
-         FRQR90qrNeFF5ceAanNAUbaW4gqmQ6ZUe3CFlDmcC92IWmO9PI0fZ58ve8dpIVafnM5M
-         ckCAFO2L96S4GNFa44AjZ7GcDV21BjKRzD0POnheoT0Rl/sJNhRH1HkdwN/GpbA1fa3h
-         Kb2VSPXJZk1r4Nw1qdq68fGQ9xPvg1W2Ifa0GcWEBb8AcZO5qKqTJluzRvBvJ70AtUOM
-         B2p8Co5y3w74OWO3NGVrRbiZCWyQldnYNby1IdErEyhOCmwmkXNkp0/aorrfB5kpgJnq
-         M+ow==
-X-Gm-Message-State: AOAM533hKtcre9nhRXv3FpRBRpeteiuo65749LPuXY1JEyqbyaoHygRz
-        +7DEMOkvpfbR+vowmuduGeRIzQ==
-X-Google-Smtp-Source: ABdhPJxqSabZiziCqEytCBApzYTquglzQUMj87GMuYJBRLrh6SI6PK2b2cWHNKInwu7yMF1VfRW7Jw==
-X-Received: by 2002:a02:a895:: with SMTP id l21mr8241043jam.82.1590777969201;
-        Fri, 29 May 2020 11:46:09 -0700 (PDT)
-Received: from ircssh-2.c.rugged-nimbus-611.internal (80.60.198.104.bc.googleusercontent.com. [104.198.60.80])
-        by smtp.gmail.com with ESMTPSA id h23sm4134751ioj.39.2020.05.29.11.46.08
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 29 May 2020 11:46:08 -0700 (PDT)
-Date:   Fri, 29 May 2020 18:46:07 +0000
-From:   Sargun Dhillon <sargun@sargun.me>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     christian.brauner@ubuntu.com,
-        containers@lists.linux-foundation.org, cyphar@cyphar.com,
-        jannh@google.com, jeffv@google.com, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org, palmer@google.com, rsesek@google.com,
-        tycho@tycho.ws, Matt Denton <mpdenton@google.com>
-Subject: Re: [PATCH v2 3/3] selftests/seccomp: Test SECCOMP_IOCTL_NOTIF_ADDFD
-Message-ID: <20200529184606.GB11153@ircssh-2.c.rugged-nimbus-611.internal>
-References: <20200528110858.3265-1-sargun@sargun.me>
- <20200528110858.3265-4-sargun@sargun.me>
- <202005290036.3FEFFDA@keescook>
+        id S1726898AbgE2TW4 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Fri, 29 May 2020 15:22:56 -0400
+Received: from sainfoin-smtp-out.extra.cea.fr ([132.167.192.228]:41714 "EHLO
+        sainfoin-smtp-out.extra.cea.fr" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726829AbgE2TWz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 29 May 2020 15:22:55 -0400
+X-Greylist: delayed 2456 seconds by postgrey-1.27 at vger.kernel.org; Fri, 29 May 2020 15:22:53 EDT
+Received: from pisaure.intra.cea.fr (pisaure.intra.cea.fr [132.166.88.21])
+        by sainfoin-sys.extra.cea.fr (8.14.7/8.14.7/CEAnet-Internet-out-4.0) with ESMTP id 04TIfunU011831
+        for <linux-api@vger.kernel.org>; Fri, 29 May 2020 20:41:56 +0200
+Received: from pisaure.intra.cea.fr (localhost [127.0.0.1])
+        by localhost (Postfix) with SMTP id 0F2C5205F20
+        for <linux-api@vger.kernel.org>; Fri, 29 May 2020 20:41:56 +0200 (CEST)
+Received: from muguet2-smtp-out.intra.cea.fr (muguet2-smtp-out.intra.cea.fr [132.166.192.13])
+        by pisaure.intra.cea.fr (Postfix) with ESMTP id 033B220B2E8
+        for <linux-api@vger.kernel.org>; Fri, 29 May 2020 20:41:56 +0200 (CEST)
+Received: from zia.cdc.esteban.ctsi (out.dam.intra.cea.fr [132.165.76.10])
+        by muguet2-sys.intra.cea.fr (8.14.7/8.14.7/CEAnet-Internet-out-4.0) with SMTP id 04TIftE2030980
+        for <linux-api@vger.kernel.org>; Fri, 29 May 2020 20:41:55 +0200
+Received: (qmail 24940 invoked from network); 29 May 2020 18:41:55 -0000
+From:   "Quentin.BOUGET@cea.fr" <Quentin.BOUGET@cea.fr>
+To:     Dominique Martinet <asmadeus@codewreck.org>,
+        Amir Goldstein <amir73il@gmail.com>
+CC:     Jan Kara <jack@suse.cz>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "robinhood-devel@lists.sf.net" <robinhood-devel@lists.sf.net>
+Subject: Re: robinhood, fanotify name info events and lustre changelog
+Thread-Topic: robinhood, fanotify name info events and lustre changelog
+Thread-Index: AQHWNQZxmYe+JbkQvEicZE4uJ2wNW6i/TjU5
+Date:   Fri, 29 May 2020 18:41:49 +0000
+Message-ID: <1590777699518.49838@cea.fr>
+References: <20200527172143.GB14550@quack2.suse.cz>
+ <20200527173937.GA17769@nautica>
+ <CAOQ4uxjQXwTo1Ug4jY1X+eBdLj80rEfJ0X3zKRi+L8L_uYSrgQ@mail.gmail.com>,<20200528125651.GA12279@nautica>
+In-Reply-To: <20200528125651.GA12279@nautica>
+Accept-Language: en-US, fr-FR
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202005290036.3FEFFDA@keescook>
-User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, May 29, 2020 at 12:41:51AM -0700, Kees Cook wrote:
-> On Thu, May 28, 2020 at 04:08:58AM -0700, Sargun Dhillon wrote:
-> > +	EXPECT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_SEND, &resp), 0);
-> > +
-> > +	nextid = req.id + 1;
-> > +
-> > +	/* Wait for getppid to be called for the second time */
-> > +	sleep(1);
-> 
-> I always rebel at finding "sleep" in tests. ;) Is this needed? IIUC,
-> userspace will immediately see EINPROGRESS after the NOTIF_SEND
-> finishes, yes?
-> 
-> Otherwise, yes, this looks good.
-> 
-> -- 
-> Kees Cook
-I'm open to better suggestions, but there's a race where if getppid
-is not called before the second SECCOMP_IOCTL_NOTIF_ADDFD is called,
-you will just get an ENOENT, since the notification ID is not found.
+Hi,
 
-The other approach is to "poll" the child, and wait for it to enter
-the second syscall. Calling receive beforehand doesn't work because
-it moves the state of the notification in the kernel to received,
-and then the kernel doesn't error with EINPROGRESS.
+Developer of robinhood v4 here,
+
+> > > [1] https://github.com/cea-hpc/robinhood/
+
+The sources for version 4 live in a separate branch:
+https://github.com/cea-hpc/robinhood/tree/v4
+
+Any feedback is welcome =)
+
+I am guessing the most interesting bits for this discussion should be found
+here:
+https://github.com/cea-hpc/robinhood/blob/v4/include/robinhood/fsevent.h
+
+I am not sure it will matter for the rest of the conversation, but just in case:
+
+    RobinHood v4 has a notion of a "namespace" xattr (like an xattr, but for
+    a dentry rather than an inode), it is used it to store things that are only
+    really tied to the namespace (like the path of an entry). I don't think this
+    is really relevant here, you can probably ignore it.
+
+    Also, RobinHood uses file handles to uniquely identify filesystem entries,
+    and this is what is stored in a `struct rbh_id`.
+
+> > I couldn't find the documentation for Lustre Changelog format, because
+> > the name of the feature is not very Google friendly.
+
+Yes, this is really unfortunate. For the record, user documentation for Lustre
+lives at: http://doc.lustre.org/lustre_manual.xhtml
+
+Chapter 12.1 deals with "Lustre Changelogs" (not much more there than
+what Dominique already wrote).
+
+> > There is one critical difference between a changelog and fanotify events.
+> > fanotify events are delivered a-synchronically and may be delivered out
+> > of order, so application must not rely on path information to update
+> > internal records without using fstatat(2) to check the actual state of the
+> > object in the filesystem.
+
+> lustre changelogs are asynchronous but the order is guaranteed so we
+> might rely on that for robinhood v4,
+
+Yes, we do. At least to a certain extent : we at least expect changelog records
+for a single filesystem entry to be emitted in the order they happened on the
+FS. I have not really given much thought to how things would work in general
+if that wasn't true, but I know this is an issue for things that deal with the
+namespace : https://jira.whamcloud.com/browse/LU-12574
+
+> but full path is not computed from
+> information in the changelogs. Instead the design plan is to have a
+> process scrub the database for files that got updated since the last
+> path update and fix paths with fstatat, so I think it might work ; but
+> that unfortunately hasn't been implemented yet.
+
+Not exactly (I am not sure it really matters, so I'll try to be brief).
+
+The idea to keep paths in sync with what's in the filesystem is to "tag"
+entries as we update their name (ie. after a rename). Then a separate
+process comes in, queries for entries that have that "tag", and updates
+their path by concatenating their parent's path (if the parents themselves
+are not "tagged") with the entries' own, up-to-date name. After that, if
+the entry was a directory, its children are "tagged". I simplified a bit, but
+that's the idea.
+
+So, to be fair, full paths _are_ computed solely from information in the
+changelog records, even though it requires a bit of processing on the side.
+No additional query to the filesystem for that.
+
+Cheers,
+Quentin
