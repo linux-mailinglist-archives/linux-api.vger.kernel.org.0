@@ -2,410 +2,161 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C03F71E7AAA
-	for <lists+linux-api@lfdr.de>; Fri, 29 May 2020 12:33:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E61911E7BC5
+	for <lists+linux-api@lfdr.de>; Fri, 29 May 2020 13:29:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725795AbgE2KdE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 29 May 2020 06:33:04 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:39392 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725601AbgE2KdE (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 29 May 2020 06:33:04 -0400
-Received: from ip5f5af183.dynamic.kabel-deutschland.de ([95.90.241.131] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1jecJr-00077Q-1a; Fri, 29 May 2020 10:32:55 +0000
-Date:   Fri, 29 May 2020 12:32:53 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Sargun Dhillon <sargun@sargun.me>
-Cc:     keescook@chromium.org, containers@lists.linux-foundation.org,
-        cyphar@cyphar.com, jannh@google.com, jeffv@google.com,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        palmer@google.com, rsesek@google.com, tycho@tycho.ws,
-        Matt Denton <mpdenton@google.com>,
-        Kees Cook <keescook@google.com>
-Subject: Re: [PATCH v2 2/3] seccomp: Introduce addfd ioctl to seccomp user
- notifier
-Message-ID: <20200529103253.jepm6dzsqzhwtlpj@wittgenstein>
-References: <20200528110858.3265-1-sargun@sargun.me>
- <20200528110858.3265-3-sargun@sargun.me>
+        id S1726849AbgE2L33 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 29 May 2020 07:29:29 -0400
+Received: from smtp-190e.mail.infomaniak.ch ([185.125.25.14]:45425 "EHLO
+        smtp-190e.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725775AbgE2L32 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 29 May 2020 07:29:28 -0400
+Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 49YMm60yXyzlhZsb;
+        Fri, 29 May 2020 13:29:26 +0200 (CEST)
+Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
+        by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 49YMm15fmSzlhFhw;
+        Fri, 29 May 2020 13:29:21 +0200 (CEST)
+Subject: Re: [PATCH v18 07/12] landlock: Support filesystem access-control
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mickael.salaun@ssi.gouv.fr>,
+        Richard Weinberger <richard@nod.at>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-kselftest@vger.kernel.org,
+        LSM List <linux-security-module@vger.kernel.org>,
+        x86@kernel.org
+References: <20200526205322.23465-1-mic@digikod.net>
+ <20200526205322.23465-8-mic@digikod.net>
+ <CAOQ4uxibpDTyjCJWLGG9jr-Gv9PwO==o50b9O8HGQeUfVMDFag@mail.gmail.com>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <8e76c2ed-1725-f0a5-bcfc-317c4277af3b@digikod.net>
+Date:   Fri, 29 May 2020 13:29:20 +0200
+User-Agent: 
 MIME-Version: 1.0
+In-Reply-To: <CAOQ4uxibpDTyjCJWLGG9jr-Gv9PwO==o50b9O8HGQeUfVMDFag@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200528110858.3265-3-sargun@sargun.me>
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
+X-Antivirus-Code: 0x100000
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, May 28, 2020 at 04:08:57AM -0700, Sargun Dhillon wrote:
-> This adds a seccomp notifier ioctl which allows for the listener to "add"
-> file descriptors to a process which originated a seccomp user
-> notification. This allows calls like mount, and mknod to be "implemented",
-> as the return value, and the arguments are data in memory. On the other
-> hand, calls like connect can be "implemented" using pidfd_getfd.
+
+On 27/05/2020 05:07, Amir Goldstein wrote:
+> On Wed, May 27, 2020 at 3:36 AM Mickaël Salaün <mic@digikod.net> wrote:
+>>
+>> Thanks to the Landlock objects and ruleset, it is possible to identify
+>> inodes according to a process's domain.  To enable an unprivileged
+>> process to express a file hierarchy, it first needs to open a directory
+>> (or a file) and pass this file descriptor to the kernel through
+>> landlock(2).  When checking if a file access request is allowed, we walk
+>> from the requested dentry to the real root, following the different
+>> mount layers.  The access to each "tagged" inodes are collected
+>> according to their rule layer level, and ANDed to create access to the
+>> requested file hierarchy.  This makes possible to identify a lot of
+>> files without tagging every inodes nor modifying the filesystem, while
+>> still following the view and understanding the user has from the
+>> filesystem.
+>>
 > 
-> Unfortunately, there are calls which return file descriptors, like
-> open, which are vulnerable to TOC-TOU attacks, and require that the
-> more privileged supervisor can inspect the argument, and perform the
-> syscall on behalf of the process generating the notifiation. This
-> allows the file descriptor generated from that open call to be
-> returned to the calling process.
+> Hi Mickael,
 > 
-> In addition, there is funcitonality to allow for replacement of
-> specific file descriptors, following dup2-like semantics.
+> Nice work! I am interested in the problem of system wide file access
+> rules based on directory hierarchy [1][2]. Not the same problem, but
+> with obvious overlaps.
+
+Interesting. Landlock's goal is to restrict a set of processes, which
+can be a container.
+
 > 
-> Signed-off-by: Sargun Dhillon <sargun@sargun.me>
-> Suggested-by: Matt Denton <mpdenton@google.com>
-> Cc: Kees Cook <keescook@google.com>,
-> Cc: Jann Horn <jannh@google.com>,
-> Cc: Robert Sesek <rsesek@google.com>,
-> Cc: Chris Palmer <palmer@google.com>
-> Cc: Christian Brauner <christian.brauner@ubuntu.com>
-> Cc: Tycho Andersen <tycho@tycho.ws>
-> ---
->  include/uapi/linux/seccomp.h |  25 +++++
->  kernel/seccomp.c             | 182 ++++++++++++++++++++++++++++++++++-
->  2 files changed, 206 insertions(+), 1 deletion(-)
+> I sketched this untested POC [2] a while ago -
+> It introduces the concept of "border control" LSM hooks to avoid the
+> need to check which sections in the hierarchy an inode belongs to
+> on every syscall.
 > 
-> diff --git a/include/uapi/linux/seccomp.h b/include/uapi/linux/seccomp.h
-> index c1735455bc53..c7bfe898e7a0 100644
-> --- a/include/uapi/linux/seccomp.h
-> +++ b/include/uapi/linux/seccomp.h
-> @@ -113,6 +113,27 @@ struct seccomp_notif_resp {
->  	__u32 flags;
->  };
->  
-> +/* valid flags for seccomp_notif_addfd */
-> +#define SECCOMP_ADDFD_FLAG_SETFD	(1UL << 0) /* Specify remote fd */
-> +
-> +/**
-> + * struct seccomp_notif_addfd
-> + * @size: The size of the seccomp_notif_addfd datastructure
-> + * @id: The ID of the seccomp notification
-> + * @flags: SECCOMP_ADDFD_FLAG_*
-> + * @srcfd: The local fd number
-> + * @newfd: Optional remote FD number if SETFD option is set, otherwise 0.
-> + * @newfd_flags: Flags the remote FD should be allocated under
-> + */
-> +struct seccomp_notif_addfd {
-> +	__u64 size;
-> +	__u64 id;
-> +	__u64 flags;
-> +	__u32 srcfd;
-> +	__u32 newfd;
-> +	__u32 newfd_flags;
-> +};
+> With this, you could cache a topology with id's per section and
+> cache the section id + topology generation in the inode's security state.
+> When inode crosses border control hooks, it's section id is updated.
+> When directory hierarchy topology changes, some or all of the cached
+> section id's are invalidated and rules <-> sections relations may need
+> to be changed.
+> 
+> Do you think something like that could be useful for landlock?
 
-This doesn't correspond to how we usually pad structs, I think:
+Because Landlock deals with unprivileged sandboxing, we must manage
+multiple layers. The current implementation in Landlock, according to
+the unprivileged constraints, is explained here:
+https://lore.kernel.org/lkml/e07fe473-1801-01cc-12ae-b3167f95250e@digikod.net/
 
-struct seccomp_notif_addfd {
-        __u64                      size;                 /*     0     8 */
-        __u64                      id;                   /*     8     8 */
-        __u64                      flags;                /*    16     8 */
-        __u32                      srcfd;                /*    24     4 */
-        __u32                      newfd;                /*    28     4 */
-        __u32                      newfd_flags;          /*    32     4 */
+As briefly explained in this patch [1] [2], in the case of Landlock,
+being able to change the filesystem layout/topology may lead to
+privilege escalation. Currently, Landlock forbids inode reparenting, but
+I plan to implement a multilayer partial ordering mechanism to relax
+this constraint while still enforcing all layered policies. A short-term
+approach could also relaxes the first layer, but we need to think
+carefully about the potential implications (including ABI compatibility).
 
-        /* size: 40, cachelines: 1, members: 6 */
-        /* padding: 4 */
-        /* last cacheline: 40 bytes */
-};
+[1]
+https://github.com/landlock-lsm/linux/commit/b670df6c5add5cf96870327871c35fccb97a0dd8#diff-39adb7412180a73fe7c6b91ae5435a5bR354
+(must clic on "Load diff")
+[2]
+https://github.com/landlock-lsm/linux/commit/b670df6c5add5cf96870327871c35fccb97a0dd8#diff-39adb7412180a73fe7c6b91ae5435a5bR450
+(must clic on "Load diff")
 
-You can either use the packed attribute or change the flags member from
-u64 to u32:
+I think Landlock could help in your use case, but could you clarify your
+thread model please?
 
-struct seccomp_notif_addfd {
-	__u64 size;
-	__u64 id;
-	__u32 flags;
-	__u32 srcfd;
-	__u32 newfd;
-	__u32 newfd_flags;
-}
+The main issue right now with Landlock is to deal with overlayfs.
+Indeed, Landlock's check_access_path() does not work with
+orphaned/private mounts like overlayfs layers (cf. ovl_path_real() and
+ovl_path_open()). Do you have an idea how to solve this properly? Could
+we add a "virtual" mount point to these layers to identify dentries they
+are anchored to?
 
-^^ This seems nicer to me and gets rid of the 4 byte padding. If we run
-out of 32 flags we'll just add a second flag argument to the struct.
+> 
+> Note that the POC is using d_mountpoint() as the only type of "fence"
+> mark. It is sufficient for controlling rename in and out of containers, so
+> I just used an already available dentry flag for "fence".
+> If the border control hook concept is useful, this could be extended to
+> a more generic d_border_passing(), with some internal kernel API
+> to manage it and with all the bike shedding that comes with it...
 
-> +
->  #define SECCOMP_IOC_MAGIC		'!'
->  #define SECCOMP_IO(nr)			_IO(SECCOMP_IOC_MAGIC, nr)
->  #define SECCOMP_IOR(nr, type)		_IOR(SECCOMP_IOC_MAGIC, nr, type)
-> @@ -124,4 +145,8 @@ struct seccomp_notif_resp {
->  #define SECCOMP_IOCTL_NOTIF_SEND	SECCOMP_IOWR(1,	\
->  						struct seccomp_notif_resp)
->  #define SECCOMP_IOCTL_NOTIF_ID_VALID	SECCOMP_IOR(2, __u64)
-> +/* On success, the return value is the remote process's added fd number */
-> +#define SECCOMP_IOCTL_NOTIF_ADDFD	SECCOMP_IOR(3,	\
-> +						struct seccomp_notif_addfd)
-> +
->  #endif /* _UAPI_LINUX_SECCOMP_H */
-> diff --git a/kernel/seccomp.c b/kernel/seccomp.c
-> index 94ae4c7502cc..02b9ba1fbee0 100644
-> --- a/kernel/seccomp.c
-> +++ b/kernel/seccomp.c
-> @@ -41,6 +41,9 @@
->  #include <linux/tracehook.h>
->  #include <linux/uaccess.h>
->  #include <linux/anon_inodes.h>
-> +#include <net/netprio_cgroup.h>
-> +#include <net/sock.h>
-> +#include <net/cls_cgroup.h>
->  
->  enum notify_state {
->  	SECCOMP_NOTIFY_INIT,
-> @@ -77,10 +80,42 @@ struct seccomp_knotif {
->  	long val;
->  	u32 flags;
->  
-> -	/* Signals when this has entered SECCOMP_NOTIFY_REPLIED */
-> +	/*
-> +	 * Signals when this has changed states, such as the listener
-> +	 * dying, a new seccomp addfd message, or changing to REPLIED
-> +	 */
->  	struct completion ready;
->  
->  	struct list_head list;
-> +
-> +	/* outstanding addfd requests */
-> +	struct list_head addfd;
-> +};
-> +
-> +/**
-> + * struct seccomp_kaddfd - container for seccomp_addfd ioctl messages
-> + *
-> + * @file: A reference to the file to install in the other task
-> + * @fd: The fd number to install it at. If the fd number is -1, it means the
-> + *      installing process should allocate the fd as normal.
-> + * @flags: The flags for the new file descriptor. At the moment, only O_CLOEXEC
-> + *         is allowed.
-> + * @ret: The return value of the installing process. It is set to the fd num
-> + *       upon success (>= 0).
-> + * @completion: Indicates that the installing process has completed fd
-> + *              installation, or gone away (either due to successful
-> + *              reply, or signal)
-> + *
-> + */
-> +struct seccomp_kaddfd {
-> +	struct file *file;
-> +	int fd;
-> +	unsigned int flags;
-> +
-> +	/* To only be set on reply */
-> +	int ret;
-> +	struct completion completion;
-> +	struct list_head list;
->  };
->  
->  /**
-> @@ -735,6 +770,41 @@ static u64 seccomp_next_notify_id(struct seccomp_filter *filter)
->  	return filter->notif->next_id++;
->  }
->  
-> +static void seccomp_handle_addfd(struct seccomp_kaddfd *addfd)
-> +{
-> +	struct socket *sock;
-> +	int ret, err;
-> +
-> +	/*
-> +	 * Remove the notification, and reset the list pointers, indicating
-> +	 * that it has been handled.
-> +	 */
-> +	list_del_init(&addfd->list);
-> +
-> +	ret = security_file_receive(addfd->file);
-> +	if (ret)
-> +		goto out;
-> +
-> +	if (addfd->fd == -1) {
-> +		ret = get_unused_fd_flags(addfd->flags);
-> +		if (ret >= 0)
-> +			fd_install(ret, get_file(addfd->file));
-> +	} else {
-> +		ret = replace_fd(addfd->fd, addfd->file, addfd->flags);
-> +	}
-> +
-> +	/* These are the semantics from copying FDs via SCM_RIGHTS */
-> +	sock = sock_from_file(addfd->file, &err);
+Why not just compare struct path->mnt using the current hooks?
 
-Iiuc, if this is indeed a socket and the replace_fd() or fd_install()
-has failed, you're now still transferring netprioidx and classid to the
-task's cgroup. Should probably be something like:
+About performances, I also thought that walking through every path
+directories would be an important issue, but after some quick benchmark
+(with and for Landlock) I'm not sure anymore. A caching mechanism may be
+useful but it should not be needed from the start.
 
-if (sock && ret >= 0) {
-	sock_update_netprioidx(&sock->sk->sk_cgrp_data);
-	sock_update_classid(&sock->sk->sk_cgrp_data);
-}
+> 
+> Thanks,
+> Amir.
 
-> +
-> +out:
-> +	addfd->ret = ret;
-> +	complete(&addfd->completion);
-> +}
-> +
->  static int seccomp_do_user_notification(int this_syscall,
->  					struct seccomp_filter *match,
->  					const struct seccomp_data *sd)
-> @@ -743,6 +813,7 @@ static int seccomp_do_user_notification(int this_syscall,
->  	u32 flags = 0;
->  	long ret = 0;
->  	struct seccomp_knotif n = {};
-> +	struct seccomp_kaddfd *addfd, *tmp;
->  
->  	mutex_lock(&match->notify_lock);
->  	err = -ENOSYS;
-> @@ -755,6 +826,7 @@ static int seccomp_do_user_notification(int this_syscall,
->  	n.id = seccomp_next_notify_id(match);
->  	init_completion(&n.ready);
->  	list_add(&n.list, &match->notif->notifications);
-> +	INIT_LIST_HEAD(&n.addfd);
->  
->  	up(&match->notif->request);
->  	wake_up_poll(&match->notif->wqh, EPOLLIN | EPOLLRDNORM);
-> @@ -763,14 +835,31 @@ static int seccomp_do_user_notification(int this_syscall,
->  	/*
->  	 * This is where we wait for a reply from userspace.
->  	 */
-> +wait:
->  	err = wait_for_completion_interruptible(&n.ready);
->  	mutex_lock(&match->notify_lock);
->  	if (err == 0) {
-> +		/* Check if we were woken up by a addfd message */
-> +		addfd = list_first_entry_or_null(&n.addfd,
-> +						 struct seccomp_kaddfd, list);
-> +		if (addfd && n.state != SECCOMP_NOTIFY_REPLIED) {
-> +			seccomp_handle_addfd(addfd);
-> +			mutex_unlock(&match->notify_lock);
-> +			goto wait;
-> +		}
->  		ret = n.val;
->  		err = n.error;
->  		flags = n.flags;
->  	}
->  
-> +	/* If there were any pending addfd calls, clear them out */
-> +	list_for_each_entry_safe(addfd, tmp, &n.addfd, list) {
-> +		/* The process went away before we got a chance to handle it */
-> +		addfd->ret = -ESRCH;
-> +		list_del_init(&addfd->list);
-> +		complete(&addfd->completion);
-> +	}
-> +
->  	/*
->  	 * Note that it's possible the listener died in between the time when
->  	 * we were notified of a respons (or a signal) and when we were able to
-> @@ -1174,6 +1263,95 @@ static long seccomp_notify_id_valid(struct seccomp_filter *filter,
->  	return ret;
->  }
->  
-> +static long seccomp_notify_addfd(struct seccomp_filter *filter,
-> +				 struct seccomp_notif_addfd __user *uaddfd)
-> +{
-> +	struct seccomp_notif_addfd addfd;
-> +	struct seccomp_knotif *knotif;
-> +	struct seccomp_kaddfd kaddfd;
-> +	u64 size;
-> +	int ret;
-> +
-> +	ret = get_user(size, &uaddfd->size);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = copy_struct_from_user(&addfd, sizeof(addfd), uaddfd, size);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (addfd.newfd_flags & ~O_CLOEXEC)
-> +		return -EINVAL;
-> +
-> +	if (addfd.flags & ~SECCOMP_ADDFD_FLAG_SETFD)
-> +		return -EINVAL;
-> +
-> +	if (addfd.newfd && !(addfd.flags & SECCOMP_ADDFD_FLAG_SETFD))
-> +		return -EINVAL;
-> +
-> +	kaddfd.file = fget(addfd.srcfd);
-> +	if (!kaddfd.file)
-> +		return -EBADF;
-> +
-> +	kaddfd.flags = addfd.newfd_flags;
-> +	kaddfd.fd = (addfd.flags & SECCOMP_ADDFD_FLAG_SETFD) ?
-> +		    addfd.newfd : -1;
-> +	init_completion(&kaddfd.completion);
-> +
-> +	ret = mutex_lock_interruptible(&filter->notify_lock);
-> +	if (ret < 0)
-> +		goto out;
-> +
-> +	knotif = find_notification(filter, addfd.id);
-> +	/*
-> +	 * We do not want to allow for FD injection to occur before the
-> +	 * notification has been picked up by a userspace handler, or after
-> +	 * the notification has been replied to.
-> +	 */
+I would like to be in Cc in your next "fanotify and LSM path hooks"
+emails. Thanks.
 
-That comment ^^ should probably go above...
-
-> +	if (!knotif) {
-> +		ret = -ENOENT;
-> +		goto out_unlock;
-> +	}
-
-... this vv check, no?
-
-> +
-> +	if (knotif->state != SECCOMP_NOTIFY_SENT) {
-> +		ret = -EINPROGRESS;
-> +		goto out_unlock;
-> +	}
-> +
-> +	list_add(&kaddfd.list, &knotif->addfd);
-> +	complete(&knotif->ready);
-> +	mutex_unlock(&filter->notify_lock);
-> +
-> +	/* Now we wait for it to be processed */
-> +	ret = wait_for_completion_interruptible(&kaddfd.completion);
-> +	if (ret == 0) {
-> +		/*
-> +		 * We had a successful completion. The other side has already
-> +		 * removed us from the addfd queue, and
-> +		 * wait_for_completion_interruptible has a memory barrier.
-> +		 */
-> +		ret = kaddfd.ret;
-> +		goto out;
-> +	}
-> +
-> +	mutex_lock(&filter->notify_lock);
-> +	/*
-> +	 * Even though we were woken up by a signal, and not a successful
-> +	 * completion, a completion may have happened in the mean time.
-> +	 */
-> +	if (list_empty(&kaddfd.list))
-> +		ret = kaddfd.ret;
-> +	else
-> +		list_del(&kaddfd.list);
-> +
-> +out_unlock:
-> +	mutex_unlock(&filter->notify_lock);
-> +out:
-> +	fput(kaddfd.file);
-> +
-> +	return ret;
-> +}
-> +
->  static long seccomp_notify_ioctl(struct file *file, unsigned int cmd,
->  				 unsigned long arg)
->  {
-> @@ -1187,6 +1365,8 @@ static long seccomp_notify_ioctl(struct file *file, unsigned int cmd,
->  		return seccomp_notify_send(filter, buf);
->  	case SECCOMP_IOCTL_NOTIF_ID_VALID:
->  		return seccomp_notify_id_valid(filter, buf);
-> +	case SECCOMP_IOCTL_NOTIF_ADDFD:
-> +		return seccomp_notify_addfd(filter, buf);
->  	default:
->  		return -EINVAL;
->  	}
-> -- 
-> 2.25.1
+> 
+> [1] https://lore.kernel.org/linux-fsdevel/CAOQ4uxhBVhyyJv0+xSFQiGQEj60AbD3SADfKK40uAiC4GF2p9Q@mail.gmail.com/
+> [2] https://lore.kernel.org/linux-fsdevel/CAOQ4uxgn=YNj8cJuccx2KqxEVGZy1z3DBVYXrD=Mc7Dc=Je+-w@mail.gmail.com/
+> [3] https://github.com/amir73il/linux/commits/rename_xmnt
 > 
