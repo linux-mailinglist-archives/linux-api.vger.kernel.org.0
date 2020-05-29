@@ -2,145 +2,98 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D5DB31E7271
-	for <lists+linux-api@lfdr.de>; Fri, 29 May 2020 04:09:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5ACFD1E75DA
+	for <lists+linux-api@lfdr.de>; Fri, 29 May 2020 08:23:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404943AbgE2CJe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 28 May 2020 22:09:34 -0400
-Received: from mga09.intel.com ([134.134.136.24]:54479 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2404458AbgE2CJc (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 28 May 2020 22:09:32 -0400
-IronPort-SDR: RaIbDDYZx31m5ATKecIMVTVX+yh4/fWUG9bkN+hfOoUlNdZsslRH23Gqjs2jAS9s8BYnGkdQ2x
- 6bVW3r59tBOg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2020 19:09:30 -0700
-IronPort-SDR: 7MKLns2Hk4/c5CuRAox9LyQSnnhS904keYMJ/aTD8swi0CnpaHmbsLYkUyt8aCoCA2pvOtIuoT
- DEEFum8srPDw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,447,1583222400"; 
-   d="scan'208";a="302678513"
-Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by fmsmga002.fm.intel.com with ESMTP; 28 May 2020 19:09:29 -0700
-Message-ID: <ce66498068c42913150ee3f4928a0d8e3435316d.camel@intel.com>
-Subject: Re: [PATCH v10 01/26] Documentation/x86: Add CET description
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Andy Lutomirski <luto@kernel.org>,
-        Dave Hansen <dave.hansen@intel.com>
-Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-Date:   Thu, 28 May 2020 19:08:28 -0700
-In-Reply-To: <CALCETrWavh1_Atk=VPQbOoB5tY=zGWGukW8qjF51msKTJSJgQQ@mail.gmail.com>
-References: <2eb98637-bd2d-dda6-7729-f06ea84256ca@intel.com>
-         <58319765-891D-44B9-AF18-64492B01FF36@amacapital.net>
-         <CALCETrWavh1_Atk=VPQbOoB5tY=zGWGukW8qjF51msKTJSJgQQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
+        id S1725959AbgE2GXg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 29 May 2020 02:23:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49602 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725775AbgE2GXf (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 29 May 2020 02:23:35 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A24FC03E969
+        for <linux-api@vger.kernel.org>; Thu, 28 May 2020 23:23:35 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id p30so899276pgl.11
+        for <linux-api@vger.kernel.org>; Thu, 28 May 2020 23:23:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=PLlzkiwXyPhTxGzF5jit/MYyFaQFHEK70UOxhdZtI5c=;
+        b=Z+miJH9wcmdbU95F6BDxKYteYwdab0eN8L8nETOEWCZVZZkW/rEUMocD7CBb32c701
+         +tvtXMfOsTo334hqVXhONy+LvqQVhhTXZsO687J+Q9ZN5YA/JpPBLheEW1OiKccEOBAm
+         vPkQd9q4H4UVJRPmuBCp1vYnRBwFiVgn0mC/0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=PLlzkiwXyPhTxGzF5jit/MYyFaQFHEK70UOxhdZtI5c=;
+        b=sSYxGf+LJ/MjxfN1NykxBS6Ez4bIRIWrvGOTgNMywex5ke0wyp/qfEqeOBR6a4TJJs
+         fT+2JHmXZH33Qzpn1ABYIeck/f2y9ljNYtEatiZ3SRBRtPpI38yjviJI+qqdvaP3svyk
+         +OWBTdRSjM5CwPrHXcIO5aGaRfv2zdHX+p5//86gF0sFv+K8GEPnuWTHyqfToeHRONpI
+         iN1LWyNZYs3r+e0Ojft6+NHq8wc8u+WcxaPM1hLfoyne5CN5yo5b1kE5hntlATZbA2e9
+         ZCXDpxYy0J0RCofD1qAcdchTxnSVnOS4qYkQ19Gc+k54avDk+NJkg4yWZS2ckydHCZE3
+         rakg==
+X-Gm-Message-State: AOAM530WBG59xBs87E7x+QZWgu62wDraw3Sx/m7VkZsj7l6qkD5hQ6JQ
+        uxoHJXsPHt4+MX62incAeLrgaQ==
+X-Google-Smtp-Source: ABdhPJx7hx0BKE+0tLY98OeGHN8BEprTrTD5qAT85KRoeW5vEds5FygRJwT2U9PekEsHVcc4bUQooQ==
+X-Received: by 2002:a63:ff07:: with SMTP id k7mr6136004pgi.449.1590733414728;
+        Thu, 28 May 2020 23:23:34 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id 67sm6415128pfg.9.2020.05.28.23.23.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 May 2020 23:23:33 -0700 (PDT)
+Date:   Thu, 28 May 2020 23:23:32 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Sargun Dhillon <sargun@sargun.me>
+Cc:     christian.brauner@ubuntu.com,
+        containers@lists.linux-foundation.org, cyphar@cyphar.com,
+        jannh@google.com, jeffv@google.com, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, palmer@google.com, rsesek@google.com,
+        tycho@tycho.ws, Matt Denton <mpdenton@google.com>
+Subject: Re: [PATCH v2 1/3] seccomp: Add find_notification helper
+Message-ID: <202005282319.2BA6AD88@keescook>
+References: <20200528110858.3265-1-sargun@sargun.me>
+ <20200528110858.3265-2-sargun@sargun.me>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200528110858.3265-2-sargun@sargun.me>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, 2020-05-19 at 18:04 -0700, Andy Lutomirski wrote:
-> On Mon, May 18, 2020 at 6:35 PM Andy Lutomirski <luto@amacapital.net> wrote:
-> > [...]
-> > > On May 18, 2020, at 5:38 PM, Dave Hansen <dave.hansen@intel.com> wrote:
-> > > [...]
-> > > The sadistic parts of selftests/x86 come from real bugs.  Either bugs
-> > > where the kernel fell over, or where behavior changed that broke apps.
-> > > I'd suggest doing some research on where that particular test case came
-> > > from.  Find the author of the test, look at the changelogs.
-> > > 
-> > > If this is something that a real app does, this is a problem.  If it's a
-> > > sadistic test that Andy L added because it was an attack vector against
-> > > the entry code, it's a different story.
-> > 
-> > There are quite a few tests that do these horrible things in there. IN my personal opinion, sigreturn.c is one of the most important tests we have — it does every horrible thing to the entry code that I thought of and that I could come up with a way of doing.  We have been saved from regressing many times by these tests.  CET, and especially the CPL0 version of CET, is its own set of entry horror, and we need to keep these tests working.
-> > 
-> > I assume the basic issue is that we call raise(), the context magically changes to 32-bit, but SSP has a 64-bit value, and horrors happen.  So I think two things need to happen:
-> > 
-> > 1. Someone needs to document what happens when IRET tries to put a 64-bit value into SSP but CS is compat. Because Intel has plenty of history of doing colossally broken things here. IOW you could easily be hitting a hardware design problem, not a software issue per se.
-> > 
-> > 2. The test needs to work. Assuming the hardware doesn’t do something utterly broken, either the 32-bit code needs to be adjusted to avoid any CALL
-> > or RET, or you need to write a little raise_on_32bit_shstk() func that switches to an SSP that fits in 32 bits, calls raise(), and switches back.  From memory, I didn’t think there was a CALl or RET, so I’m guessing that SSP is getting truncated when we round trip through CPL3 compat mode and the result is that the kernel invoked the signal handler with the wrong SSP.  Whoops.
-> > 
-> 
-> Following up here, I think this needs attention from the H/W architects.
-> 
-> From the SDM:
-> 
-> SYSRET and SYSEXIT:
-> 
-> IF ShadowStackEnabled(CPL)
-> SSP ← IA32_PL3_SSP;
-> FI;
-> 
-> IRET:
-> 
-> IF ShadowStackEnabled(CPL)
-> IF CPL = 3
-> THEN tempSSP ← IA32_PL3_SSP; FI;
-> IF ((EFER.LMA AND CS.L) = 0 AND tempSSP[63:32] != 0)
-> THEN #GP(0); FI;
-> SSP ← tempSSP
-> 
-> The semantics of actually executing in compat mode with SSP >= 2^32
-> are unclear.  If nothing else, VM exit will save the full SSP and a
-> subsequent VM entry will fail.
+On Thu, May 28, 2020 at 04:08:56AM -0700, Sargun Dhillon wrote:
+> This adds a helper which can iterate through a seccomp_filter to
+> find a notification matching an ID. It removes several replicated
+> chunks of code.
 
-Here is what I got after talking to the architect.
+Nice, yes. I was noticing this redundancy too while I was looking at
+notify locking earlier today. One note below...
 
-If the guest is in 32-bit mode, but its VM guest state SSP field is 64-bit, the
-CPU only uses the lower 32 bits.
+> +/* must be called with notif_lock held */
+> +static inline struct seccomp_knotif *
+> +find_notification(struct seccomp_filter *filter, u64 id)
+> +{
+> +	struct seccomp_knotif *cur;
 
-The SDM currently states a consistency check of the guest SSP field, but that
-will be removed in the next version.  Upon VM entry, the CPU only requires the
-guest SSP to be pseudo-canonical like the RIP and RSP.
+While the comment is good, let's actually enforce this with:
 
-> I don't know what the actual effect of operand-size-32 SYSRET or
-> SYSEXIT with too big a PL3_SSP will be, but I think it needs to be
-> documented.  Ideally it will not put the CPU in an invalid state.
-> Ideally it will also not fault, because SYSRET faults in particular
-> are fatal unless the vector uses IST, and please please please don't
-> force more ISTs on anyone.
+if (WARN_ON(!mutex_is_locked(&filter->notif_lock)))
+	return NULL;
 
-On SYSRET/SYSEXIT to a 32-bit context, the CPU only uses the lower 32 bits of
-the user-mode SSP, and will not go into an invalid state and will not fault. 
-The SDM will be explicit about this.
+> +
+> +	list_for_each_entry(cur, &filter->notif->notifications, list) {
+> +		if (cur->id == id)
+> +			return cur;
+> +	}
+> +
+> +	return NULL;
+> +}
 
-Yu-cheng
+Everything else looks good!
 
-> 
-> So I think we may need to put this entire series on hold until we get
-> some answers, because I suspect we're going to have a nice little root
-> hole otherwise.
-
+-- 
+Kees Cook
