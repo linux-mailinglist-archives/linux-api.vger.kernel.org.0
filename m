@@ -2,114 +2,81 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B5E4A1E91C5
-	for <lists+linux-api@lfdr.de>; Sat, 30 May 2020 15:39:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF9E31E91E0
+	for <lists+linux-api@lfdr.de>; Sat, 30 May 2020 15:58:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728769AbgE3Njd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 30 May 2020 09:39:33 -0400
-Received: from nautica.notk.org ([91.121.71.147]:57667 "EHLO nautica.notk.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727851AbgE3Njc (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Sat, 30 May 2020 09:39:32 -0400
-Received: by nautica.notk.org (Postfix, from userid 1001)
-        id BD79DC009; Sat, 30 May 2020 15:39:23 +0200 (CEST)
-Date:   Sat, 30 May 2020 15:39:08 +0200
-From:   Dominique Martinet <asmadeus@codewreck.org>
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     "Quentin.BOUGET@cea.fr" <Quentin.BOUGET@cea.fr>,
-        Jan Kara <jack@suse.cz>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "robinhood-devel@lists.sf.net" <robinhood-devel@lists.sf.net>
-Subject: Re: robinhood, fanotify name info events and lustre changelog
-Message-ID: <20200530133908.GA5969@nautica>
-References: <20200527172143.GB14550@quack2.suse.cz>
- <20200527173937.GA17769@nautica>
- <CAOQ4uxjQXwTo1Ug4jY1X+eBdLj80rEfJ0X3zKRi+L8L_uYSrgQ@mail.gmail.com>
- <20200528125651.GA12279@nautica>
- <1590777699518.49838@cea.fr>
- <CAOQ4uxgpugScXRLT6jJAAZf_ET+DpmEWoqkSdqCAMEwp+Kezhw@mail.gmail.com>
+        id S1728927AbgE3N6f (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 30 May 2020 09:58:35 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:48282 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728769AbgE3N6f (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 30 May 2020 09:58:35 -0400
+Received: from ip5f5af183.dynamic.kabel-deutschland.de ([95.90.241.131] helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1jf20K-0008Tw-Cb; Sat, 30 May 2020 13:58:28 +0000
+Date:   Sat, 30 May 2020 15:58:27 +0200
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Jann Horn <jannh@google.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Sargun Dhillon <sargun@sargun.me>,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Jeffrey Vander Stoep <jeffv@google.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        Chris Palmer <palmer@google.com>,
+        Robert Sesek <rsesek@google.com>,
+        Tycho Andersen <tycho@tycho.ws>,
+        Matt Denton <mpdenton@google.com>,
+        Al Viro <viro@zeniv.linux.org.uk>
+Subject: Re: [PATCH v2 2/3] seccomp: Introduce addfd ioctl to seccomp user
+ notifier
+Message-ID: <20200530135827.cxltfmiqara4yaki@wittgenstein>
+References: <20200528110858.3265-1-sargun@sargun.me>
+ <20200528110858.3265-3-sargun@sargun.me>
+ <202005282345.573B917@keescook>
+ <20200530011054.GA14852@ircssh-2.c.rugged-nimbus-611.internal>
+ <202005291926.E9004B4@keescook>
+ <CAG48ez0+BvbLoSc+zcZwnwfOSCFt2LHnUkzzt-d4LQFJYXZC9w@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAOQ4uxgpugScXRLT6jJAAZf_ET+DpmEWoqkSdqCAMEwp+Kezhw@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <CAG48ez0+BvbLoSc+zcZwnwfOSCFt2LHnUkzzt-d4LQFJYXZC9w@mail.gmail.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Answering what I can until Quentin chips back in.
-
-Amir Goldstein wrote on Sat, May 30, 2020:
-> Nice. thanks for explaining that.
-> I suppose you need to store the calculated path attribute for things like
-> index queries on the database?
-
-Either querying for a subtree or simply printing the path (rbh-find
-would print path by default, like find does)
-
-> > So, to be fair, full paths _are_ computed solely from information in the
-> > changelog records, even though it requires a bit of processing on the side.
-> > No additional query to the filesystem for that.
+On Sat, May 30, 2020 at 05:17:24AM +0200, Jann Horn wrote:
+> On Sat, May 30, 2020 at 4:43 AM Kees Cook <keescook@chromium.org> wrote:
+> > I mean, yes, that's certainly better, but it just seems a shame that
+> > everyone has to do the get_unused/put_unused dance just because of how
+> > SCM_RIGHTS does this weird put_user() in the middle.
+> >
+> > Can anyone clarify the expected failure mode from SCM_RIGHTS? Can we
+> > move the put_user() after instead?
 > 
-> As I wrote, that fact that robinhood trusts the information in changelog
-> records doesn't mean that information needs to arrive from the kernel.
-> The adapter code should use information provided by fanotify events
-> then use open_by_handle_at(2) for directory fid to finds its current
-> path in the filesystem then feed that information to a robinhood change
-> record.
+> Honestly, I think trying to remove file descriptors and such after
+> -EFAULT is a waste of time. If userspace runs into -EFAULT, userspace
 
-I can agree with that - it's not because for lustre we made the decision
-to be able to run without querying the filesystem at all that it has to
-hold true for all type of inputs.
+Agreed, we've never bothered with trying to recover from EFAULT. Just
+look at kernel/fork.c:_do_fork():
+	if (clone_flags & CLONE_PARENT_SETTID)
+		put_user(nr, args->parent_tid);
 
-> I would be happy to work with you on a POC for adapting fanotify
-> test code with robinhood v4, but before I invest time on that, I would
-> need to know there is a good chance that people are going to test and
-> use robinhood with Linux vfs.
->
-> Do you have actual users requesting to use robinhood with non-Lustre
-> fs?
+we don't even bother even though we technically could.
 
-I would run it at home, but that isn't much :D
-As I wrote previously we have users for large nfs shares out of lustre,
-but I honestly don't think there will be much use for local filesystems
-at least in the short term.
+> is beyond saving and can't really do much other than exit immediately.
+> There are a bunch of places that will change state and then throw
+> -EFAULT at the end if userspace supplied an invalid address, because
+> trying to hold locks across userspace accesses just in case userspace
+> supplied a bogus address is kinda silly (and often borderline
+> impossible).
+> 
+> You can actually see that even scm_detach_fds() currently just
+> silently swallows errors if writing some header fields fails at the
+> end.
 
-Filesystem indexers like tracker[1] or similar would definitely get much
-more use for that; from an objective point of view I wouldn't suggest
-you spend time on robinhood for this: local filesytems are rarely large
-enough to warrant using something like robinhood, and without something
-like fanotify we wouldn't be efficient for a local disk with hundreds of
-millions of files anyway because of the prohibitive rescan cost - so
-it's a bit like chicken and egg maybe, I don't know, but if you want
-many users to test different configurations I wouldn't recommend
-robinhood (OTOH, we run CI tests so would be happy to add that to the
-tests once it's available on vanilla kernels; but that's still not real
-users)
-
-[1] https://wiki.gnome.org/Projects/Tracker
-
-
-> May I ask, what is the reason for embarking on the project to decouple
-> robinhood v4 API from Lustre changelog API?
-> Is it because you had other fsevent producers in mind?
-
-I've been planning to at least add some recursive-inotifywatch a
-subfolder at least (like watchman does) before these new fanotify events
-came up, so I might be partly to blame for that.
-
-There also are advantages for lustre though; the point is to be able to
-ingest changelogs directly with some daemon (it's only at proof of
-concept level for v4 at this point), but also to split the load by
-involving multiple lustre clients.
-So you would get a pool of lustre clients to read changelogs, a pool of
-lustre clients to stat files as required to enrich the fsevents (file
-size etc), and a pool of servers to read fsevents and commit changes to
-the database (this part is still at the design level afaik)
-
-
-Hope this all makes sense,
--- 
-Dominique
+There's really no point in trying to save a broken scm message imho.
