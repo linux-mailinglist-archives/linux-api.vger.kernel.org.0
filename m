@@ -2,153 +2,198 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E5C6E1E9397
-	for <lists+linux-api@lfdr.de>; Sat, 30 May 2020 22:37:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79EEB1EA81C
+	for <lists+linux-api@lfdr.de>; Mon,  1 Jun 2020 19:05:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726898AbgE3Uhb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 30 May 2020 16:37:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39396 "EHLO
+        id S1727906AbgFARFN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 1 Jun 2020 13:05:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726211AbgE3Uha (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 30 May 2020 16:37:30 -0400
-Received: from mail-il1-x143.google.com (mail-il1-x143.google.com [IPv6:2607:f8b0:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3903C03E969;
-        Sat, 30 May 2020 13:37:28 -0700 (PDT)
-Received: by mail-il1-x143.google.com with SMTP id v11so5861788ilh.1;
-        Sat, 30 May 2020 13:37:28 -0700 (PDT)
+        with ESMTP id S1727890AbgFARFM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 1 Jun 2020 13:05:12 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B07E0C03E97C
+        for <linux-api@vger.kernel.org>; Mon,  1 Jun 2020 10:05:10 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id s88so94831pjb.5
+        for <linux-api@vger.kernel.org>; Mon, 01 Jun 2020 10:05:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=MnwxkbGb0+nWao3yc/JPkhrYxvGO6ffZxMdHcMsUDIo=;
-        b=aprvK01vVuPE5aPkxlctJEOBj+unAfDYH7oPTTz5mwj9VhKmI70E+4Fs5gR61dOgr2
-         5fyB5n0oO8BNmhXblcl2p8SpO1yXwQt1VsRcG+OG8Zj3X0z/3RQzanpSDh3h9CC8nieK
-         HXGjB+pALfHEaUv2c0HucZYgH6k1fbygmuKTx0skfOEqjwWO+mF+G9xmSjEJx/lcnvYp
-         lU1jC5aOKFmdbn5wVUIl2YwGChCHvUfBV9w4pZFHFSX1sSbWS725M0oEs1Al8QARiTy2
-         6QMcgeJ/k6B6K7d3yP93UHZ2BVihyIRTFWYtm5xDnI9nht+iI/prIsIOFnLZ6jnJ1xi2
-         Nbow==
+        d=sargun.me; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RCNZoB5OxQ7hnqTLfie1dXM/QF4pMxzLCuwCLG5Qfss=;
+        b=vegupm7j++bcQ7i5qomamK4/m4XhO1MABSaGH10ckRBmWq+grPaIgDahZjbqzvDWYc
+         3yf8QRVv7J4Y+Ud2phWybNxSOCMB67r+b6JJeBn8xlqsCQQZEVUmM5tSdFhJirSL/hOc
+         Z8jCKNVR1wYBwqZACg2XqcaZOwqyEKYiJ6nls=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MnwxkbGb0+nWao3yc/JPkhrYxvGO6ffZxMdHcMsUDIo=;
-        b=czv0BVk+gKa4lv/Gs3osQCv/v3IiiX1DOeaH4dXFQKMIFgwwou42PZdvW8uUOktMRZ
-         DDjQ8fnwjIOBF6XDVVpdhoF5O0Md1OFF9V2N/MoyiSCuSdY8oTmSGh4HtufqAn6gqBdX
-         T1t+7rAe/tKXXNGja9+knLCccqXddU8Fa1T1YUjqtFq5Ih1L/Q918jpcpAB+AXGrhzMl
-         6tZJiIhTSmTtWPFrVIRLPOSMXCLxIf1ZBYwUGNpS6+wG2Z+YhMeneXRIBuFuYY993yFh
-         70qCrtUNWTTFmqfXOAczOWYQy+kI62JdhmfMmuhy1l6SI2TRm8JKn66LiHMYnB4AcRXG
-         3Oog==
-X-Gm-Message-State: AOAM533rHuL5XZegjKG5+BUt3glr1W2IRfvs3GcZYjR+AiAHrnuroELD
-        IyuYHyPokMd/fsQEPkZkcZjrh3FTC+jj8KOk/dARckJx
-X-Google-Smtp-Source: ABdhPJzftj1U0zjnc8YKnc+np6w4+GgZb27XoKfnK3mI0V8T4JsunxevC0nae/U5hcX3DMLtV7rHelJKhvkm+jhetyY=
-X-Received: by 2002:a92:4015:: with SMTP id n21mr14184396ila.137.1590871047815;
- Sat, 30 May 2020 13:37:27 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RCNZoB5OxQ7hnqTLfie1dXM/QF4pMxzLCuwCLG5Qfss=;
+        b=sK/avyuoB876K+hcRvHLhiIaRtAV05xwIPT1/wc+5eI0MUgQppyzn4BRs900BPiuBk
+         Mrp5tfeKZVtdEMtR4BCwoJ4HeRnMIPJ/GvOQL+3wpqF3LOZv5V+swTzsuDw2MD1cqXu5
+         u8RC9TnSuWvCI8Xl3c71m+jxjVHbz8hCEjOVlzZ1h/xAaCr8rNXjBPoGezBCwU1tUMPW
+         BUiucgeRBwtpqncwH7lfCNO5FQ5ZvCmoQ7g8/+7fR44+AjjUwVGAOIKjQdFniLiEq/0b
+         cXT+qBkyMnoNk9kRcLuengXP0JYVOWuWhywP6Gao7F7vdk22Le7ikHxZ/vdby6Oc2keP
+         Oyfw==
+X-Gm-Message-State: AOAM530fqe+bl/F2vAwQvNP/XFOyDz+JZAN2L0JCSrfk5pXZz1DqIhjd
+        HVM04RzorQqZ8thU0eF6eX0/iA==
+X-Google-Smtp-Source: ABdhPJznLtUa4LZ7g35GyCI7/xjwaHcB435LJsAY3C3ioqnx7kNkFoy3Z7n3o6gr2EPy9nrmnWQAvA==
+X-Received: by 2002:a17:90b:806:: with SMTP id bk6mr425484pjb.122.1591031109833;
+        Mon, 01 Jun 2020 10:05:09 -0700 (PDT)
+Received: from ubuntu.netflix.com (203.20.25.136.in-addr.arpa. [136.25.20.203])
+        by smtp.gmail.com with ESMTPSA id m5sm12080pjn.56.2020.06.01.10.05.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Jun 2020 10:05:09 -0700 (PDT)
+From:   Sargun Dhillon <sargun@sargun.me>
+To:     containers@lists.linux-foundation.org, keescook@chromium.org,
+        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Sargun Dhillon <sargun@sargun.me>, viro@zeniv.linux.org.uk,
+        christian.brauner@ubuntu.com, cyphar@cyphar.com, jannh@google.com,
+        jeffv@google.com, palmer@google.com, rsesek@google.com,
+        tycho@tycho.ws, Matt Denton <mpdenton@google.com>,
+        Kees Cook <keescook@google.com>
+Subject: [PATCH v3] seccomp: Add find_notification helper
+Date:   Mon,  1 Jun 2020 04:25:32 -0700
+Message-Id: <20200601112532.150158-1-sargun@sargun.me>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200527172143.GB14550@quack2.suse.cz> <20200527173937.GA17769@nautica>
- <CAOQ4uxjQXwTo1Ug4jY1X+eBdLj80rEfJ0X3zKRi+L8L_uYSrgQ@mail.gmail.com>
- <20200528125651.GA12279@nautica> <1590777699518.49838@cea.fr>
- <CAOQ4uxgpugScXRLT6jJAAZf_ET+DpmEWoqkSdqCAMEwp+Kezhw@mail.gmail.com> <20200530133908.GA5969@nautica>
-In-Reply-To: <20200530133908.GA5969@nautica>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Sat, 30 May 2020 23:37:16 +0300
-Message-ID: <CAOQ4uxiE9R4gRGwQQETvWK7SLm4J60SvfrSAOZxYJdRHquAwtA@mail.gmail.com>
-Subject: Re: robinhood, fanotify name info events and lustre changelog
-To:     Dominique Martinet <asmadeus@codewreck.org>
-Cc:     "Quentin.BOUGET@cea.fr" <Quentin.BOUGET@cea.fr>,
-        Jan Kara <jack@suse.cz>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "robinhood-devel@lists.sf.net" <robinhood-devel@lists.sf.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-> > I would be happy to work with you on a POC for adapting fanotify
-> > test code with robinhood v4, but before I invest time on that, I would
-> > need to know there is a good chance that people are going to test and
-> > use robinhood with Linux vfs.
-> >
-> > Do you have actual users requesting to use robinhood with non-Lustre
-> > fs?
->
-> I would run it at home, but that isn't much :D
-> As I wrote previously we have users for large nfs shares out of lustre,
-> but I honestly don't think there will be much use for local filesystems
-> at least in the short term.
->
-> Filesystem indexers like tracker[1] or similar would definitely get much
-> more use for that; from an objective point of view I wouldn't suggest
-> you spend time on robinhood for this: local filesytems are rarely large
-> enough to warrant using something like robinhood, and without something
-> like fanotify we wouldn't be efficient for a local disk with hundreds of
-> millions of files anyway because of the prohibitive rescan cost - so
-> it's a bit like chicken and egg maybe,
+This adds a helper which can iterate through a seccomp_filter to
+find a notification matching an ID. It removes several replicated
+chunks of code.
 
-I very much agree with that statement.
-I have written the kernel side to facilitate a file server system with many
-millions of files. We use in-house software for the user side, not very
-different in concept from robinhood.
-So I am looking for a similar use case out there using open source
-software, and they are not easy to find.
+Signed-off-by: Sargun Dhillon <sargun@sargun.me>
+Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
+Reviewed-by: Tycho Andersen <tycho@tycho.ws>
+Cc: Matt Denton <mpdenton@google.com>
+Cc: Kees Cook <keescook@google.com>,
+Cc: Jann Horn <jannh@google.com>,
+Cc: Robert Sesek <rsesek@google.com>,
+Cc: Chris Palmer <palmer@google.com>
+Cc: Christian Brauner <christian.brauner@ubuntu.com>
+Cc: Tycho Andersen <tycho@tycho.ws>
+---
+ kernel/seccomp.c | 55 ++++++++++++++++++++++++------------------------
+ 1 file changed, 28 insertions(+), 27 deletions(-)
 
-> I don't know, but if you want
-> many users to test different configurations I wouldn't recommend
-> robinhood (OTOH, we run CI tests so would be happy to add that to the
-> tests once it's available on vanilla kernels; but that's still not real
-> users)
->
-> [1] https://wiki.gnome.org/Projects/Tracker
->
+diff --git a/kernel/seccomp.c b/kernel/seccomp.c
+index 55a6184f5990..cc6b47173a95 100644
+--- a/kernel/seccomp.c
++++ b/kernel/seccomp.c
+@@ -41,6 +41,7 @@
+ #include <linux/tracehook.h>
+ #include <linux/uaccess.h>
+ #include <linux/anon_inodes.h>
++#include <linux/lockdep.h>
+ 
+ enum notify_state {
+ 	SECCOMP_NOTIFY_INIT,
+@@ -1021,10 +1022,27 @@ static int seccomp_notify_release(struct inode *inode, struct file *file)
+ 	return 0;
+ }
+ 
++/* must be called with notif_lock held */
++static inline struct seccomp_knotif *
++find_notification(struct seccomp_filter *filter, u64 id)
++{
++	struct seccomp_knotif *cur;
++
++	lockdep_assert_held(&filter->notify_lock);
++
++	list_for_each_entry(cur, &filter->notif->notifications, list) {
++		if (cur->id == id)
++			return cur;
++	}
++
++	return NULL;
++}
++
++
+ static long seccomp_notify_recv(struct seccomp_filter *filter,
+ 				void __user *buf)
+ {
+-	struct seccomp_knotif *knotif = NULL, *cur;
++	struct seccomp_knotif *knotif, *cur;
+ 	struct seccomp_notif unotif;
+ 	ssize_t ret;
+ 
+@@ -1078,15 +1096,8 @@ static long seccomp_notify_recv(struct seccomp_filter *filter,
+ 		 * may have died when we released the lock, so we need to make
+ 		 * sure it's still around.
+ 		 */
+-		knotif = NULL;
+ 		mutex_lock(&filter->notify_lock);
+-		list_for_each_entry(cur, &filter->notif->notifications, list) {
+-			if (cur->id == unotif.id) {
+-				knotif = cur;
+-				break;
+-			}
+-		}
+-
++		knotif = find_notification(filter, unotif.id);
+ 		if (knotif) {
+ 			knotif->state = SECCOMP_NOTIFY_INIT;
+ 			up(&filter->notif->request);
+@@ -1101,7 +1112,7 @@ static long seccomp_notify_send(struct seccomp_filter *filter,
+ 				void __user *buf)
+ {
+ 	struct seccomp_notif_resp resp = {};
+-	struct seccomp_knotif *knotif = NULL, *cur;
++	struct seccomp_knotif *knotif;
+ 	long ret;
+ 
+ 	if (copy_from_user(&resp, buf, sizeof(resp)))
+@@ -1118,13 +1129,7 @@ static long seccomp_notify_send(struct seccomp_filter *filter,
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	list_for_each_entry(cur, &filter->notif->notifications, list) {
+-		if (cur->id == resp.id) {
+-			knotif = cur;
+-			break;
+-		}
+-	}
+-
++	knotif = find_notification(filter, resp.id);
+ 	if (!knotif) {
+ 		ret = -ENOENT;
+ 		goto out;
+@@ -1150,7 +1155,7 @@ static long seccomp_notify_send(struct seccomp_filter *filter,
+ static long seccomp_notify_id_valid(struct seccomp_filter *filter,
+ 				    void __user *buf)
+ {
+-	struct seccomp_knotif *knotif = NULL;
++	struct seccomp_knotif *knotif;
+ 	u64 id;
+ 	long ret;
+ 
+@@ -1161,16 +1166,12 @@ static long seccomp_notify_id_valid(struct seccomp_filter *filter,
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	ret = -ENOENT;
+-	list_for_each_entry(knotif, &filter->notif->notifications, list) {
+-		if (knotif->id == id) {
+-			if (knotif->state == SECCOMP_NOTIFY_SENT)
+-				ret = 0;
+-			goto out;
+-		}
+-	}
++	knotif = find_notification(filter, id);
++	if (knotif && knotif->state == SECCOMP_NOTIFY_SENT)
++		ret = 0;
++	else
++		ret = -ENOENT;
+ 
+-out:
+ 	mutex_unlock(&filter->notify_lock);
+ 	return ret;
+ }
+-- 
+2.25.1
 
-The problem with Track/Watchman is that they are running as
-as unprivileged services per user and fanotify requires
-CAP_SYS_ADMIN (for good reasons).
-Also, if they are not used for watching very large scale of directories,
-there is no strong incentive to switch from inotify to fanotify.
-
-My plan was to create a privileged system watchman service that
-feeds off of fanotify and serves unprivileged watchman services.
-This is not unlike MacOS fseventsd.
-I never got around to asses the size of that task.
-
-Looking at robinhood (especially v4), I seems like it could fit
-very well into the vacuum in Linux and act as "fsnotifyd".
-unprivileged applications and services could register to event streams
-and get fed from db, so applications not running will not loose events.
-Events delivered to unprivileged applications need to be filtered by
-subtree those applications, something that fanotify does not do and
-will not likely do and filtered by access permissions of application
-to the path of the reported object.
-
-This is not going to be an easy task, but without it, fanotify can serve
-some niche use cases and not be as helpful to the wider community.
-
->
-> > May I ask, what is the reason for embarking on the project to decouple
-> > robinhood v4 API from Lustre changelog API?
-> > Is it because you had other fsevent producers in mind?
->
-> I've been planning to at least add some recursive-inotifywatch a
-> subfolder at least (like watchman does) before these new fanotify events
-> came up, so I might be partly to blame for that.
->
-> There also are advantages for lustre though; the point is to be able to
-> ingest changelogs directly with some daemon (it's only at proof of
-> concept level for v4 at this point), but also to split the load by
-> involving multiple lustre clients.
-> So you would get a pool of lustre clients to read changelogs, a pool of
-> lustre clients to stat files as required to enrich the fsevents (file
-> size etc), and a pool of servers to read fsevents and commit changes to
-> the database (this part is still at the design level afaik)
->
-
-Sounds interesting. I hope I was able to plant enough seeds
-in your mind to steer robinhood in the direction of a future "fsnotifyd" ;-)
-
-Anyway, I will CC you with new posting of my work, so if you want
-you can take it for a test drive.
-
-Thanks,
-Amir.
