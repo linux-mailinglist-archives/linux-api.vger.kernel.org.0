@@ -2,198 +2,85 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 79EEB1EA81C
-	for <lists+linux-api@lfdr.de>; Mon,  1 Jun 2020 19:05:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A1CC1EAC8B
+	for <lists+linux-api@lfdr.de>; Mon,  1 Jun 2020 20:38:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727906AbgFARFN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 1 Jun 2020 13:05:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56190 "EHLO
+        id S1728887AbgFASiD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 1 Jun 2020 14:38:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727890AbgFARFM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 1 Jun 2020 13:05:12 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B07E0C03E97C
-        for <linux-api@vger.kernel.org>; Mon,  1 Jun 2020 10:05:10 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id s88so94831pjb.5
-        for <linux-api@vger.kernel.org>; Mon, 01 Jun 2020 10:05:10 -0700 (PDT)
+        with ESMTP id S1730082AbgFASho (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 1 Jun 2020 14:37:44 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1748C008632
+        for <linux-api@vger.kernel.org>; Mon,  1 Jun 2020 11:26:33 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id f21so3867900pgg.12
+        for <linux-api@vger.kernel.org>; Mon, 01 Jun 2020 11:26:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sargun.me; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=RCNZoB5OxQ7hnqTLfie1dXM/QF4pMxzLCuwCLG5Qfss=;
-        b=vegupm7j++bcQ7i5qomamK4/m4XhO1MABSaGH10ckRBmWq+grPaIgDahZjbqzvDWYc
-         3yf8QRVv7J4Y+Ud2phWybNxSOCMB67r+b6JJeBn8xlqsCQQZEVUmM5tSdFhJirSL/hOc
-         Z8jCKNVR1wYBwqZACg2XqcaZOwqyEKYiJ6nls=
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=vQsHm/Fb+3S9GG4hi4C54VWzmvQfSDfHYATb203csRU=;
+        b=Vs7Yv/hX/ULE3o4BYT8jfnU2UW8Uy0ez3j2yQ8d6Stdt/38QVd16hvblONaRxgdbUK
+         HfbmgcTRdgDtj0uTkJE/cNinFuhzfppdk2J2grs4bm465GiL6n76ZgakZKzTV8r6dxUM
+         X7r7To/s/otOe8sf2hzW/wE30chaO+juxjXCM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=RCNZoB5OxQ7hnqTLfie1dXM/QF4pMxzLCuwCLG5Qfss=;
-        b=sK/avyuoB876K+hcRvHLhiIaRtAV05xwIPT1/wc+5eI0MUgQppyzn4BRs900BPiuBk
-         Mrp5tfeKZVtdEMtR4BCwoJ4HeRnMIPJ/GvOQL+3wpqF3LOZv5V+swTzsuDw2MD1cqXu5
-         u8RC9TnSuWvCI8Xl3c71m+jxjVHbz8hCEjOVlzZ1h/xAaCr8rNXjBPoGezBCwU1tUMPW
-         BUiucgeRBwtpqncwH7lfCNO5FQ5ZvCmoQ7g8/+7fR44+AjjUwVGAOIKjQdFniLiEq/0b
-         cXT+qBkyMnoNk9kRcLuengXP0JYVOWuWhywP6Gao7F7vdk22Le7ikHxZ/vdby6Oc2keP
-         Oyfw==
-X-Gm-Message-State: AOAM530fqe+bl/F2vAwQvNP/XFOyDz+JZAN2L0JCSrfk5pXZz1DqIhjd
-        HVM04RzorQqZ8thU0eF6eX0/iA==
-X-Google-Smtp-Source: ABdhPJznLtUa4LZ7g35GyCI7/xjwaHcB435LJsAY3C3ioqnx7kNkFoy3Z7n3o6gr2EPy9nrmnWQAvA==
-X-Received: by 2002:a17:90b:806:: with SMTP id bk6mr425484pjb.122.1591031109833;
-        Mon, 01 Jun 2020 10:05:09 -0700 (PDT)
-Received: from ubuntu.netflix.com (203.20.25.136.in-addr.arpa. [136.25.20.203])
-        by smtp.gmail.com with ESMTPSA id m5sm12080pjn.56.2020.06.01.10.05.08
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=vQsHm/Fb+3S9GG4hi4C54VWzmvQfSDfHYATb203csRU=;
+        b=een1zFCaU86CCbjQ3eu860/yrw+30oKF+fR05ocWW9cnWTcy44P2gKGgn0UekOyruJ
+         T2YVb9RN6ixhnyoWQdbPl/Nq4zumfppxIpQu/MMUyQk+Xh92DoAgqxb7Xj6G/Nr1Nob4
+         mOD+vcmhPbqt8aLh2rRTwBMA3SoPZYmn2WzjEs8gA35znBEtHXBZBdrWqadhVor+sIC6
+         /Lb79SwVdDTwc/rnPmpwJ7pQNb3FOM0dAkGNJQ/SiZEdtZ9nCFtrGNPaRRQwGTLhHXrj
+         n7XGDSNHV/uDQ+bc8KCjLKX1IG3PCYaDrAvxX1lwqSM7/FqnlietYJfFOkah0pCYu99S
+         tv3w==
+X-Gm-Message-State: AOAM5309v2l74GxzNBM/x4Y6mnCewx+ssKgbJqj1uqavcQ33cOONSLhy
+        mkvDyAbMsMG4eBzl12PCuijyUg==
+X-Google-Smtp-Source: ABdhPJy0Bj3McrkKbyUtGly01m03y4YOkwiHA40WeFmBiKfrbJdT7bHmuLQ//OCOxyp80PPGIZRcrw==
+X-Received: by 2002:a63:7052:: with SMTP id a18mr20225520pgn.39.1591035993241;
+        Mon, 01 Jun 2020 11:26:33 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id m3sm151966pjs.17.2020.06.01.11.26.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jun 2020 10:05:09 -0700 (PDT)
-From:   Sargun Dhillon <sargun@sargun.me>
-To:     containers@lists.linux-foundation.org, keescook@chromium.org,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Sargun Dhillon <sargun@sargun.me>, viro@zeniv.linux.org.uk,
+        Mon, 01 Jun 2020 11:26:32 -0700 (PDT)
+Date:   Mon, 1 Jun 2020 11:26:31 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Sargun Dhillon <sargun@sargun.me>
+Cc:     containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, viro@zeniv.linux.org.uk,
         christian.brauner@ubuntu.com, cyphar@cyphar.com, jannh@google.com,
         jeffv@google.com, palmer@google.com, rsesek@google.com,
-        tycho@tycho.ws, Matt Denton <mpdenton@google.com>,
-        Kees Cook <keescook@google.com>
-Subject: [PATCH v3] seccomp: Add find_notification helper
-Date:   Mon,  1 Jun 2020 04:25:32 -0700
-Message-Id: <20200601112532.150158-1-sargun@sargun.me>
-X-Mailer: git-send-email 2.25.1
+        tycho@tycho.ws, Matt Denton <mpdenton@google.com>
+Subject: Re: [PATCH v3] seccomp: Add find_notification helper
+Message-ID: <202006011126.3DB757FBF5@keescook>
+References: <20200601112532.150158-1-sargun@sargun.me>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200601112532.150158-1-sargun@sargun.me>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This adds a helper which can iterate through a seccomp_filter to
-find a notification matching an ID. It removes several replicated
-chunks of code.
+On Mon, Jun 01, 2020 at 04:25:32AM -0700, Sargun Dhillon wrote:
+> This adds a helper which can iterate through a seccomp_filter to
+> find a notification matching an ID. It removes several replicated
+> chunks of code.
+> 
+> Signed-off-by: Sargun Dhillon <sargun@sargun.me>
+> Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
+> Reviewed-by: Tycho Andersen <tycho@tycho.ws>
+> Cc: Matt Denton <mpdenton@google.com>
+> Cc: Kees Cook <keescook@google.com>,
+> Cc: Jann Horn <jannh@google.com>,
+> Cc: Robert Sesek <rsesek@google.com>,
+> Cc: Chris Palmer <palmer@google.com>
+> Cc: Christian Brauner <christian.brauner@ubuntu.com>
+> Cc: Tycho Andersen <tycho@tycho.ws>
 
-Signed-off-by: Sargun Dhillon <sargun@sargun.me>
-Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
-Reviewed-by: Tycho Andersen <tycho@tycho.ws>
-Cc: Matt Denton <mpdenton@google.com>
-Cc: Kees Cook <keescook@google.com>,
-Cc: Jann Horn <jannh@google.com>,
-Cc: Robert Sesek <rsesek@google.com>,
-Cc: Chris Palmer <palmer@google.com>
-Cc: Christian Brauner <christian.brauner@ubuntu.com>
-Cc: Tycho Andersen <tycho@tycho.ws>
----
- kernel/seccomp.c | 55 ++++++++++++++++++++++++------------------------
- 1 file changed, 28 insertions(+), 27 deletions(-)
+Thanks! Applied to for-next/seccomp.
 
-diff --git a/kernel/seccomp.c b/kernel/seccomp.c
-index 55a6184f5990..cc6b47173a95 100644
---- a/kernel/seccomp.c
-+++ b/kernel/seccomp.c
-@@ -41,6 +41,7 @@
- #include <linux/tracehook.h>
- #include <linux/uaccess.h>
- #include <linux/anon_inodes.h>
-+#include <linux/lockdep.h>
- 
- enum notify_state {
- 	SECCOMP_NOTIFY_INIT,
-@@ -1021,10 +1022,27 @@ static int seccomp_notify_release(struct inode *inode, struct file *file)
- 	return 0;
- }
- 
-+/* must be called with notif_lock held */
-+static inline struct seccomp_knotif *
-+find_notification(struct seccomp_filter *filter, u64 id)
-+{
-+	struct seccomp_knotif *cur;
-+
-+	lockdep_assert_held(&filter->notify_lock);
-+
-+	list_for_each_entry(cur, &filter->notif->notifications, list) {
-+		if (cur->id == id)
-+			return cur;
-+	}
-+
-+	return NULL;
-+}
-+
-+
- static long seccomp_notify_recv(struct seccomp_filter *filter,
- 				void __user *buf)
- {
--	struct seccomp_knotif *knotif = NULL, *cur;
-+	struct seccomp_knotif *knotif, *cur;
- 	struct seccomp_notif unotif;
- 	ssize_t ret;
- 
-@@ -1078,15 +1096,8 @@ static long seccomp_notify_recv(struct seccomp_filter *filter,
- 		 * may have died when we released the lock, so we need to make
- 		 * sure it's still around.
- 		 */
--		knotif = NULL;
- 		mutex_lock(&filter->notify_lock);
--		list_for_each_entry(cur, &filter->notif->notifications, list) {
--			if (cur->id == unotif.id) {
--				knotif = cur;
--				break;
--			}
--		}
--
-+		knotif = find_notification(filter, unotif.id);
- 		if (knotif) {
- 			knotif->state = SECCOMP_NOTIFY_INIT;
- 			up(&filter->notif->request);
-@@ -1101,7 +1112,7 @@ static long seccomp_notify_send(struct seccomp_filter *filter,
- 				void __user *buf)
- {
- 	struct seccomp_notif_resp resp = {};
--	struct seccomp_knotif *knotif = NULL, *cur;
-+	struct seccomp_knotif *knotif;
- 	long ret;
- 
- 	if (copy_from_user(&resp, buf, sizeof(resp)))
-@@ -1118,13 +1129,7 @@ static long seccomp_notify_send(struct seccomp_filter *filter,
- 	if (ret < 0)
- 		return ret;
- 
--	list_for_each_entry(cur, &filter->notif->notifications, list) {
--		if (cur->id == resp.id) {
--			knotif = cur;
--			break;
--		}
--	}
--
-+	knotif = find_notification(filter, resp.id);
- 	if (!knotif) {
- 		ret = -ENOENT;
- 		goto out;
-@@ -1150,7 +1155,7 @@ static long seccomp_notify_send(struct seccomp_filter *filter,
- static long seccomp_notify_id_valid(struct seccomp_filter *filter,
- 				    void __user *buf)
- {
--	struct seccomp_knotif *knotif = NULL;
-+	struct seccomp_knotif *knotif;
- 	u64 id;
- 	long ret;
- 
-@@ -1161,16 +1166,12 @@ static long seccomp_notify_id_valid(struct seccomp_filter *filter,
- 	if (ret < 0)
- 		return ret;
- 
--	ret = -ENOENT;
--	list_for_each_entry(knotif, &filter->notif->notifications, list) {
--		if (knotif->id == id) {
--			if (knotif->state == SECCOMP_NOTIFY_SENT)
--				ret = 0;
--			goto out;
--		}
--	}
-+	knotif = find_notification(filter, id);
-+	if (knotif && knotif->state == SECCOMP_NOTIFY_SENT)
-+		ret = 0;
-+	else
-+		ret = -ENOENT;
- 
--out:
- 	mutex_unlock(&filter->notify_lock);
- 	return ret;
- }
 -- 
-2.25.1
-
+Kees Cook
