@@ -2,165 +2,113 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BD2E41ECFF7
-	for <lists+linux-api@lfdr.de>; Wed,  3 Jun 2020 14:41:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7BEB1ED4A8
+	for <lists+linux-api@lfdr.de>; Wed,  3 Jun 2020 19:04:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725930AbgFCMki (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 3 Jun 2020 08:40:38 -0400
-Received: from mail.efficios.com ([167.114.26.124]:51486 "EHLO
-        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725881AbgFCMkh (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 3 Jun 2020 08:40:37 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 71F302BB79F;
-        Wed,  3 Jun 2020 08:40:36 -0400 (EDT)
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id 3MTX8YOqECMC; Wed,  3 Jun 2020 08:40:36 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id DB8C22BB837;
-        Wed,  3 Jun 2020 08:40:35 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com DB8C22BB837
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1591188035;
-        bh=tdVcg6FxclbpF6m/wOI5+gTqoQhEW5W4oGGbMXKYC5s=;
-        h=Date:From:To:Message-ID:MIME-Version;
-        b=NHBEkAf0UWCZbLu47mhXvGP6VQy8e2zvUtp+Rxu1hq0uN9nR9TzxQ4yhFBayOdR8c
-         1E6Dbkj52x9/M3jIQHIm3c8gaA21dNCwnBKJzE5d5VYPaWbNPR4eldW1xUnYFISPUA
-         Y8pX7c7Vb1Pd7lcrAmlddG1bpsiBkMVgs4h0PjeNlR6/vHG8WxWhQ83SfypSEyY+XH
-         sCKUk1LlvldMET5Tznop/M9X44bD91z4eF31EtJfa+Sq63Dd9+Vha5Vjat74q67Eji
-         QSa17wOFFt05yUqwNEJz7XpqyhCOSKuS/JT2Rd7w8uPmh3SGobLJAk7iEw3hEicYAU
-         HJjXdRuKRyihg==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id Dauf4AVm1gGn; Wed,  3 Jun 2020 08:40:35 -0400 (EDT)
-Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
-        by mail.efficios.com (Postfix) with ESMTP id C474B2BB831;
-        Wed,  3 Jun 2020 08:40:35 -0400 (EDT)
-Date:   Wed, 3 Jun 2020 08:40:35 -0400 (EDT)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     carlos <carlos@redhat.com>, Joseph Myers <joseph@codesourcery.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        libc-alpha <libc-alpha@sourceware.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ben Maurer <bmaurer@fb.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Paul <paulmck@linux.vnet.ibm.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Dave Watson <davejwatson@fb.com>, Paul Turner <pjt@google.com>,
-        Rich Felker <dalias@libc.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-api <linux-api@vger.kernel.org>
-Message-ID: <1895296081.51093.1591188035688.JavaMail.zimbra@efficios.com>
-In-Reply-To: <87r1uwwcsl.fsf@oldenburg2.str.redhat.com>
-References: <20200527185130.5604-1-mathieu.desnoyers@efficios.com> <20200527185130.5604-2-mathieu.desnoyers@efficios.com> <87d06gxsla.fsf@oldenburg2.str.redhat.com> <1953500643.51064.1591186963416.JavaMail.zimbra@efficios.com> <87r1uwwcsl.fsf@oldenburg2.str.redhat.com>
-Subject: Re: [PATCH glibc 1/3] glibc: Perform rseq registration at C startup
- and thread creation (v20)
+        id S1725992AbgFCREL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 3 Jun 2020 13:04:11 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:49246 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725855AbgFCREK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 3 Jun 2020 13:04:10 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 053GuURH084285;
+        Wed, 3 Jun 2020 17:03:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=JE+WMAzYhB9I63Z7mLN3ij+Wo6tJjTmohhHE6mf0Dik=;
+ b=UvDUuojTTQy9ZVgoum0ooM+DA1vodbZ1rLxZ8kLb0V/FDnz9VFoopV2r+ZgrC9aArifB
+ EcnzCqD/N44bU2SOUGxeSlYeBdkl9LCSlmfqyLPrsb3Cmmypn2nMZOXt4kjWEZsdiDLH
+ k9XHgRSQPBjFIlqBvHP8YhaS/XTw1tdDt5iRM+AaLzk3le1uIFPOUGEKeFs09OCEaTmc
+ TZNDjpfhqdAZHhoT9i1zzP+iZ78irasfD4fy2khX49ETuwfmfUjOsf9gDn6mw+6t4fSA
+ j3TtQ9UIR4Fs65FzN5ddA2Y62radlWBGQ3npodurSC/8+EIKltiJOuP2B++6UhutLWVn NQ== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by aserp2120.oracle.com with ESMTP id 31bfemacc6-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 03 Jun 2020 17:03:49 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 053GvXW5135784;
+        Wed, 3 Jun 2020 17:03:49 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by aserp3030.oracle.com with ESMTP id 31c12r602b-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 03 Jun 2020 17:03:48 +0000
+Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 053H3kbd018195;
+        Wed, 3 Jun 2020 17:03:46 GMT
+Received: from localhost (/67.169.218.210)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 03 Jun 2020 10:03:45 -0700
+Date:   Wed, 3 Jun 2020 10:03:44 -0700
+From:   "Darrick J. Wong" <darrick.wong@oracle.com>
+To:     Jan Kara <jack@suse.cz>
+Cc:     ira.weiny@intel.com, linux-kernel@vger.kernel.org,
+        linux-xfs@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Christoph Hellwig <hch@lst.de>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>, Jeff Moyer <jmoyer@redhat.com>,
+        linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH V11 11/11] fs/xfs: Update
+ xfs_ioctl_setattr_dax_invalidate()
+Message-ID: <20200603170344.GO2162697@magnolia>
+References: <20200428002142.404144-1-ira.weiny@intel.com>
+ <20200428002142.404144-12-ira.weiny@intel.com>
+ <20200428201138.GD6742@magnolia>
+ <20200602172353.GC8230@magnolia>
+ <20200603101024.GG19165@quack2.suse.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [167.114.26.124]
-X-Mailer: Zimbra 8.8.15_GA_3928 (ZimbraWebClient - FF76 (Linux)/8.8.15_GA_3928)
-Thread-Topic: glibc: Perform rseq registration at C startup and thread creation (v20)
-Thread-Index: fhLu40I3uZTnsOzd9ZO4uj6ygvG/5A==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200603101024.GG19165@quack2.suse.cz>
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9641 signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 phishscore=0 malwarescore=0
+ adultscore=0 suspectscore=1 spamscore=0 bulkscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2006030133
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9641 signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 suspectscore=1
+ mlxlogscore=999 priorityscore=1501 bulkscore=0 phishscore=0 clxscore=1015
+ impostorscore=0 adultscore=0 spamscore=0 mlxscore=0 lowpriorityscore=0
+ cotscore=-2147483648 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2006030133
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Wed, Jun 03, 2020 at 12:10:24PM +0200, Jan Kara wrote:
+> On Tue 02-06-20 10:23:53, Darrick J. Wong wrote:
+> > On Tue, Apr 28, 2020 at 01:11:38PM -0700, Darrick J. Wong wrote:
+> > > > -out_unlock:
+> > > > -	xfs_iunlock(ip, XFS_MMAPLOCK_EXCL | XFS_IOLOCK_EXCL);
+> > > > -	return error;
+> > > > +	if ((mp->m_flags & XFS_MOUNT_DAX_ALWAYS) ||
+> > > > +	    (mp->m_flags & XFS_MOUNT_DAX_NEVER))
+> > > > +		return;
+> > > >  
+> > > > +	if (((fa->fsx_xflags & FS_XFLAG_DAX) &&
+> > > > +	    !(ip->i_d.di_flags2 & XFS_DIFLAG2_DAX)) ||
+> > > > +	    (!(fa->fsx_xflags & FS_XFLAG_DAX) &&
+> > > > +	     (ip->i_d.di_flags2 & XFS_DIFLAG2_DAX)))
+> > > > +		d_mark_dontcache(inode);
+> > 
+> > Now that I think about this further, are we /really/ sure that we want
+> > to let unprivileged userspace cause inode evictions?
+> 
+> You have to have an equivalent of write access to the file to be able to
+> trigger d_mark_dontcache(). So you can e.g. delete it.  Or you could
+> fadvise / madvise regarding its page cache. I don't see the ability to push
+> inode out of cache as stronger than the abilities you already have...
 
+<nod> Ok.  I just had one last bout of paranoia, but I think it'll be
+fine. :)
 
------ On Jun 3, 2020, at 8:31 AM, Florian Weimer fweimer@redhat.com wrote:
+--D
 
-> * Mathieu Desnoyers:
->=20
->> ----- On Jun 3, 2020, at 8:05 AM, Florian Weimer fweimer@redhat.com wrot=
-e:
->>
->>> * Mathieu Desnoyers:
->>>=20
->>>> +#ifdef __cplusplus
->>>> +# if  __cplusplus >=3D 201103L
->>>> +#  define __rseq_static_assert(expr, diagnostic) static_assert (expr,
->>>> diagnostic)
->>>> +#  define __rseq_alignof(type)                   alignof (type)
->>>> +#  define __rseq_alignas(x)                      alignas (x)
->>>> +#  define __rseq_tls_storage_class               thread_local
->>>> +# endif
->>>> +#elif (defined __STDC_VERSION__ ? __STDC_VERSION__ : 0) >=3D 201112L
->>>> +# define __rseq_static_assert(expr, diagnostic)  _Static_assert (expr=
-,
->>>> diagnostic)
->>>> +# define __rseq_alignof(type)                    _Alignof (type)
->>>> +# define __rseq_alignas(x)                       _Alignas (x)
->>>> +# define __rseq_tls_storage_class                _Thread_local
->>>> +#endif
->>>=20
->>> This does not seem to work.  I get this with GCC 9:
->>>=20
->>> In file included from /tmp/cih_test_gsrKbC.cc:8:0:
->>> ../sysdeps/unix/sysv/linux/sys/rseq.h:42:50: error: attribute ignored
->>> [-Werror=3Dattributes]
->>> #  define __rseq_alignas(x)                      alignas (x)
->>>                                                  ^
->>> ../sysdeps/unix/sysv/linux/sys/rseq.h:122:14: note: in expansion of mac=
-ro
->>> =E2=80=98__rseq_alignas=E2=80=99
->>>     uint32_t __rseq_alignas (32) version;
->>>              ^
->>
->> Is that when compiling C or C++ code ? If it's C code, I would expect
->> "_Alignas" to be used, not "alignas".
->>
->> Which exact version of gcc do you use ?
->=20
-> C++ code.  CXX was set to this compiler at configure time:
->=20
-> gcc version 9.3.1 20200408 (Red Hat 9.3.1-2) (GCC)
-
-I think I found the culprit: it should be:
-
-__rseq_alignas (32) uint32_t version;
-
-rather than the other way around.
-
->=20
->>> In any case, these changes really have to go into the UAPI header first=
-.
->>> Only the __thread handling should remain.  Otherwise, we'll have a toug=
-h
->>> situation on our hands changing the UAPI header, without introducing
->>> macro definition conflicts.  I'd suggest to stick to the aligned
->>> attribute for the time being, like the current UAPI headers.
-
-OK, so I just remove the __rseq_alignas for now and use "aligned()" instead
-like the UAPI header. I plan to keep the other macros for now.
-
->>
->> OK. Should I do that in a separate patch, or you do it on top of my patc=
-hset,
->> or should I re-spin another round of the series ?
->=20
-> I think the initial commit should mirror the current UAPI header
-> contents.
->=20
-> Keep the macros for the UAPI patch though. 8-)  We can pick up these
-> changes once they have been merged into Linux.
-
-OK,
-
-Thanks!
-
-Mathieu
-
->=20
-> Thanks,
-> Florian
-
---=20
-Mathieu Desnoyers
-EfficiOS Inc.
-http://www.efficios.com
+> 								Honza
+> -- 
+> Jan Kara <jack@suse.com>
+> SUSE Labs, CR
