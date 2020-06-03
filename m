@@ -2,124 +2,490 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F0751EC615
-	for <lists+linux-api@lfdr.de>; Wed,  3 Jun 2020 02:08:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E4C51EC67B
+	for <lists+linux-api@lfdr.de>; Wed,  3 Jun 2020 03:13:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727975AbgFCAIn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 2 Jun 2020 20:08:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35994 "EHLO
+        id S1728410AbgFCBNq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 2 Jun 2020 21:13:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726267AbgFCAIn (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 2 Jun 2020 20:08:43 -0400
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFD07C08C5C0
-        for <linux-api@vger.kernel.org>; Tue,  2 Jun 2020 17:08:42 -0700 (PDT)
-Received: by mail-lf1-x142.google.com with SMTP id x22so164616lfd.4
-        for <linux-api@vger.kernel.org>; Tue, 02 Jun 2020 17:08:42 -0700 (PDT)
+        with ESMTP id S1728403AbgFCBNm (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 2 Jun 2020 21:13:42 -0400
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBE15C08C5C2
+        for <linux-api@vger.kernel.org>; Tue,  2 Jun 2020 18:13:42 -0700 (PDT)
+Received: by mail-pg1-x52c.google.com with SMTP id r10so536046pgv.8
+        for <linux-api@vger.kernel.org>; Tue, 02 Jun 2020 18:13:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PazKvjjbmAQeUYiZad4yyf2QZKpFBXiEaJOc1KsToFM=;
-        b=cxQ3fmuQWsQSr6abyNc9/tsWVhRgX+CIskaA0+9tWleBkBxH+nD83NbhOrLA4+l62q
-         IHd7DWRbt8QX/EQhJmNdBB/KVbcm3z19PVF4njNDsJ2EVCzILIGOTxNV+HKYvlu2vYC2
-         U0ZUjz234y+0uLMwggsMalqWy5B+hZTC5aMVY=
+        d=sargun.me; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=JBsux9GNYVvwlP4X6zcjLbXUNQiaa4HcGGkhihQ37kc=;
+        b=Fey2Ug8H0dbv0ROHJD2IS5rnHc2LBbQMOv547Vz84VrPDzFQHbEy97ODS63/V08Jf9
+         qAby2AFX412tlWRkNOxM9CyUQmM2jSXDYvOUL1EIH103gA3D7BdpgmCpfveXIpjCwKMK
+         EmgVAErOc1CHbXcwASekVHR7UenylK2dplvxw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PazKvjjbmAQeUYiZad4yyf2QZKpFBXiEaJOc1KsToFM=;
-        b=L0c3bE6MnVjMj7Fu+QLEM1OfRVx/vmmbIY/83JoDLCGLhhNhRfK7ZjR8omBdWnllhv
-         +pRwV30Vi2HFX2oiJAXEMiCwWiikUwf4TUIORW1X/iNrTlby79HbWKFh+t0GAF3yurXp
-         4QSb3G8PuyqJpzxyaapCRrCwKOjdkNaLQMqE/2NgHyDMB5PCx8oUYoqoA9P8NnDGx6wa
-         o3gcT8WtTzFhfklcWIADqrC+fV5iaR2yAEtaRyLXl2NaA55uKfZ6EolUIKicmlbHKtxV
-         nxZg6vlrbgIqodl0h8Rx04C2yw7abzxRaXmwJZ5s/laeYfWp7gyZih9B/yfCSb+r/AsQ
-         //4Q==
-X-Gm-Message-State: AOAM531W5uKxDt3/nBcL0K79VcqEftQTpYzYM3fIWS0YKOuwiJN4DFjI
-        rU5N5a9YrvgXVBCUPHVa7xyWM66bqWY=
-X-Google-Smtp-Source: ABdhPJwenOX2y8pPvpYmuGCSS69IMaujzWTwoBp5sk4KVI33gWhA5Mx2rFfdkilgDpYxeVBKCF22gQ==
-X-Received: by 2002:ac2:490f:: with SMTP id n15mr925999lfi.39.1591142921025;
-        Tue, 02 Jun 2020 17:08:41 -0700 (PDT)
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com. [209.85.167.52])
-        by smtp.gmail.com with ESMTPSA id w15sm142598lfl.51.2020.06.02.17.08.39
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Jun 2020 17:08:40 -0700 (PDT)
-Received: by mail-lf1-f52.google.com with SMTP id e125so175121lfd.1
-        for <linux-api@vger.kernel.org>; Tue, 02 Jun 2020 17:08:39 -0700 (PDT)
-X-Received: by 2002:ac2:5a4c:: with SMTP id r12mr947879lfn.10.1591142919097;
- Tue, 02 Jun 2020 17:08:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200602204219.186620-1-christian.brauner@ubuntu.com>
- <CAHk-=wjy234P7tvpQb6bnd1rhO78Uc+B0g1CPg9VOhJNTxmtWw@mail.gmail.com> <20200602233355.zdwcfow3ff4o2dol@wittgenstein>
-In-Reply-To: <20200602233355.zdwcfow3ff4o2dol@wittgenstein>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Tue, 2 Jun 2020 17:08:22 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wimp3tNuMcix2Z3uCF0sFfQt5GhVku=yhJAmSALucYGjg@mail.gmail.com>
-Message-ID: <CAHk-=wimp3tNuMcix2Z3uCF0sFfQt5GhVku=yhJAmSALucYGjg@mail.gmail.com>
-Subject: Re: [PATCH v5 0/3] close_range()
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Kyle Evans <self@kyle-evans.net>,
-        Victor Stinner <victor.stinner@gmail.com>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=JBsux9GNYVvwlP4X6zcjLbXUNQiaa4HcGGkhihQ37kc=;
+        b=oDQ33rFY4MBTVNdNV2pO8vgNxVQSowhnozCmp2NR7HYy6GEz9S8vOcc5YD9CzVNoaG
+         bWIQOfES5iSYrrxZgj+5DgCPVTNWV77EXLw/PDOwT6dgfWOVRwbs7wPNgFP8SHttRcTw
+         O0XBzodvtRWt46Nq5XFdULj3yGCGAr4QtEIUAy6BFZkoiG800sAgbWT7Xe6b21TGnYJs
+         LpiQtBgDmNm84f2OtaI//5fXOeyun2qyQmgZllUnNAs8W23CqooutELEZPVgSUWGhkz7
+         zT8mzS4PiFWADvGI+jW8K2mN4wBVLCPzc1H8W9Wey+vRYxJrJNrRarXnvBpCmeezIrg9
+         Wq8A==
+X-Gm-Message-State: AOAM531xl8GTmNhH3rR3gZjlkWZfwjF/8EsNQLbwOpeUWKGlgq3espbu
+        RcsjxmZwfUWSStVE9+2n6+Vstg==
+X-Google-Smtp-Source: ABdhPJz5RRq5Mj9lYdNCV8uFi/1B812WvYKHgYb3hsmvigxeNkSrvl7XwZ2hELTVjkK336mlxretWw==
+X-Received: by 2002:a17:90a:394b:: with SMTP id n11mr2389811pjf.100.1591146821947;
+        Tue, 02 Jun 2020 18:13:41 -0700 (PDT)
+Received: from ubuntu.netflix.com (203.20.25.136.in-addr.arpa. [136.25.20.203])
+        by smtp.gmail.com with ESMTPSA id a12sm263222pjw.35.2020.06.02.18.13.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Jun 2020 18:13:41 -0700 (PDT)
+From:   Sargun Dhillon <sargun@sargun.me>
+To:     Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org
+Cc:     Sargun Dhillon <sargun@sargun.me>, Tycho Andersen <tycho@tycho.ws>,
+        Matt Denton <mpdenton@google.com>,
+        Jann Horn <jannh@google.com>, Chris Palmer <palmer@google.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Robert Sesek <rsesek@google.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        containers@lists.linux-foundation.org,
+        Giuseppe Scrivano <gscrivan@redhat.com>,
         Al Viro <viro@zeniv.linux.org.uk>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Florian Weimer <fweimer@redhat.com>,
-        Jann Horn <jannh@google.com>, Oleg Nesterov <oleg@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, Shuah Khan <shuah@kernel.org>,
-        David Howells <dhowells@redhat.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: [PATCH v3 3/4] seccomp: Introduce addfd ioctl to seccomp user notifier
+Date:   Tue,  2 Jun 2020 18:10:43 -0700
+Message-Id: <20200603011044.7972-4-sargun@sargun.me>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200603011044.7972-1-sargun@sargun.me>
+References: <20200603011044.7972-1-sargun@sargun.me>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jun 2, 2020 at 4:33 PM Christian Brauner
-<christian.brauner@ubuntu.com> wrote:
-> >
-> > And maybe this _did_ get mentioned last time, and I just don't find
-> > it. I also don't see anything like that in the patches, although the
-> > flags argument is there.
->
-> I spent some good time digging and I couldn't find this mentioned
-> anywhere so maybe it just never got sent to the list?
+This adds a seccomp notifier ioctl which allows for the listener to "add"
+file descriptors to a process which originated a seccomp user
+notification. This allows calls like mount, and mknod to be "implemented",
+as the return value, and the arguments are data in memory. On the other
+hand, calls like connect can be "implemented" using pidfd_getfd.
 
-It's entirely possible that it was just a private musing, and you
-re-opening this issue just resurrected the thought.
+Unfortunately, there are calls which return file descriptors, like
+open, which are vulnerable to TOC-TOU attacks, and require that the
+more privileged supervisor can inspect the argument, and perform the
+syscall on behalf of the process generating the notification. This
+allows the file descriptor generated from that open call to be
+returned to the calling process.
 
-I'm not sure how simple it would be to implement, but looking at it it
-shouldn't be problematic to add a "max_fd" argument to unshare_fd()
-and dup_fd().
+In addition, there is funcitonality to allow for replacement of
+specific file descriptors, following dup2-like semantics.
 
-Although the range for unsharing is obviously reversed, so I'd suggest
-not trying to make "dup_fd()" take the exact range into account.
+This extends a previously added helper (file_receive), and introduces
+a new helper built on top of it -- file_receive_replace, which is
+meant to assist with calling replace_fd, with files received from
+remote processes.
 
-More like just making __close_range() do basically something like
+As a note, the seccomp_notif_addfd structure is laid out based on 8-byte
+alignment without requiring packing as there have been packing issues with
+uapi highlighted before [1][2]. Although we could overload the newfd field
+and use -1 to indicate that it is not to be used, doing so requires
+changing the size of the fd field, and introduces struct packing
+complexity.
 
-        rcu_read_lock();
-        cur_max = files_fdtable(files)->max_fds;
-        rcu_read_unlock();
+[1]: https://lore.kernel.org/lkml/87o8w9bcaf.fsf@mid.deneb.enyo.de/
+[2]: https://lore.kernel.org/lkml/a328b91d-fd8f-4f27-b3c2-91a9c45f18c0@rasmusvillemoes.dk/
 
-        if (flags & CLOSE_RANGE_UNSHARE) {
-                unsigned int max_unshare_fd = ~0u;
-                if (cur_max >= max_fd)
-                        max_unshare_fd = fd;
-                unshare_fd(max_unsgare_fd);
-        }
+Signed-off-by: Sargun Dhillon <sargun@sargun.me>
+Suggested-by: Matt Denton <mpdenton@google.com>
+Cc: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Chris Palmer <palmer@google.com>
+Cc: Christian Brauner <christian.brauner@ubuntu.com>
+Cc: Jann Horn <jannh@google.com>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: Robert Sesek <rsesek@google.com>
+Cc: Tycho Andersen <tycho@tycho.ws>
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-api@vger.kernel.org
+---
+ fs/file.c                    |  29 +++++-
+ include/linux/file.h         |   1 +
+ include/uapi/linux/seccomp.h |  25 +++++
+ kernel/seccomp.c             | 184 ++++++++++++++++++++++++++++++++++-
+ 4 files changed, 234 insertions(+), 5 deletions(-)
 
-        .. do the rest of __close_range() here ..
+diff --git a/fs/file.c b/fs/file.c
+index 5afd76fca8c2..eb413c1fdb7f 100644
+--- a/fs/file.c
++++ b/fs/file.c
+@@ -938,15 +938,19 @@ int replace_fd(unsigned fd, struct file *file, unsigned flags)
+  * File Receive - Receive a file from another process
+  *
+  * This function is designed to receive files from other tasks. It encapsulates
+- * logic around security and cgroups. The file descriptor provided must be a
+- * freshly allocated (unused) file descriptor.
++ * logic around security and cgroups. It can either replace an existing file
++ * descriptor, or install the file at a new unused one. If the file is meant
++ * to be installed on a new file descriptor, it must be allocated with the
++ * right flags by the user and the flags passed must be 0 -- as anything else
++ * is ignored.
+  *
+  * This helper does not consume a reference to the file, so the caller must put
+  * their reference.
+  *
+  * Returns 0 upon success.
+  */
+-int file_receive(int fd, struct file *file)
++static int __file_receive(int fd, unsigned int flags, struct file *file,
++			  bool replace)
+ {
+ 	struct socket *sock;
+ 	int err;
+@@ -955,7 +959,14 @@ int file_receive(int fd, struct file *file)
+ 	if (err)
+ 		return err;
+ 
+-	fd_install(fd, get_file(file));
++	if (replace) {
++		err = replace_fd(fd, file, flags);
++		if (err)
++			return err;
++	} else {
++		WARN_ON(flags);
++		fd_install(fd, get_file(file));
++	}
+ 
+ 	sock = sock_from_file(file, &err);
+ 	if (sock) {
+@@ -966,6 +977,16 @@ int file_receive(int fd, struct file *file)
+ 	return 0;
+ }
+ 
++int file_receive_replace(int fd, unsigned int flags, struct file *file)
++{
++	return __file_receive(fd, flags, file, true);
++}
++
++int file_receive(int fd, struct file *file)
++{
++	return __file_receive(fd, 0, file, false);
++}
++
+ static int ksys_dup3(unsigned int oldfd, unsigned int newfd, int flags)
+ {
+ 	int err = -EBADF;
+diff --git a/include/linux/file.h b/include/linux/file.h
+index 7b56dc23e560..e4ca058fb559 100644
+--- a/include/linux/file.h
++++ b/include/linux/file.h
+@@ -94,5 +94,6 @@ extern void fd_install(unsigned int fd, struct file *file);
+ extern void flush_delayed_fput(void);
+ extern void __fput_sync(struct file *);
+ 
++extern int file_receive_replace(int fd, unsigned int flags, struct file *file);
+ extern int file_receive(int fd, struct file *file);
+ #endif /* __LINUX_FILE_H */
+diff --git a/include/uapi/linux/seccomp.h b/include/uapi/linux/seccomp.h
+index c1735455bc53..aec3e43c4418 100644
+--- a/include/uapi/linux/seccomp.h
++++ b/include/uapi/linux/seccomp.h
+@@ -113,6 +113,27 @@ struct seccomp_notif_resp {
+ 	__u32 flags;
+ };
+ 
++/* valid flags for seccomp_notif_addfd */
++#define SECCOMP_ADDFD_FLAG_SETFD	(1UL << 0) /* Specify remote fd */
++
++/**
++ * struct seccomp_notif_addfd
++ * @size: The size of the seccomp_notif_addfd datastructure
++ * @id: The ID of the seccomp notification
++ * @flags: SECCOMP_ADDFD_FLAG_*
++ * @srcfd: The local fd number
++ * @newfd: Optional remote FD number if SETFD option is set, otherwise 0.
++ * @newfd_flags: Flags the remote FD should be allocated under
++ */
++struct seccomp_notif_addfd {
++	__u64 size;
++	__u64 id;
++	__u32 flags;
++	__u32 srcfd;
++	__u32 newfd;
++	__u32 newfd_flags;
++};
++
+ #define SECCOMP_IOC_MAGIC		'!'
+ #define SECCOMP_IO(nr)			_IO(SECCOMP_IOC_MAGIC, nr)
+ #define SECCOMP_IOR(nr, type)		_IOR(SECCOMP_IOC_MAGIC, nr, type)
+@@ -124,4 +145,8 @@ struct seccomp_notif_resp {
+ #define SECCOMP_IOCTL_NOTIF_SEND	SECCOMP_IOWR(1,	\
+ 						struct seccomp_notif_resp)
+ #define SECCOMP_IOCTL_NOTIF_ID_VALID	SECCOMP_IOR(2, __u64)
++/* On success, the return value is the remote process's added fd number */
++#define SECCOMP_IOCTL_NOTIF_ADDFD	SECCOMP_IOR(3,	\
++						struct seccomp_notif_addfd)
++
+ #endif /* _UAPI_LINUX_SECCOMP_H */
+diff --git a/kernel/seccomp.c b/kernel/seccomp.c
+index 34dbf77569b3..c39e901e8af5 100644
+--- a/kernel/seccomp.c
++++ b/kernel/seccomp.c
+@@ -78,10 +78,42 @@ struct seccomp_knotif {
+ 	long val;
+ 	u32 flags;
+ 
+-	/* Signals when this has entered SECCOMP_NOTIFY_REPLIED */
++	/*
++	 * Signals when this has changed states, such as the listener
++	 * dying, a new seccomp addfd message, or changing to REPLIED
++	 */
+ 	struct completion ready;
+ 
+ 	struct list_head list;
++
++	/* outstanding addfd requests */
++	struct list_head addfd;
++};
++
++/**
++ * struct seccomp_kaddfd - container for seccomp_addfd ioctl messages
++ *
++ * @file: A reference to the file to install in the other task
++ * @fd: The fd number to install it at. If the fd number is -1, it means the
++ *      installing process should allocate the fd as normal.
++ * @flags: The flags for the new file descriptor. At the moment, only O_CLOEXEC
++ *         is allowed.
++ * @ret: The return value of the installing process. It is set to the fd num
++ *       upon success (>= 0).
++ * @completion: Indicates that the installing process has completed fd
++ *              installation, or gone away (either due to successful
++ *              reply, or signal)
++ *
++ */
++struct seccomp_kaddfd {
++	struct file *file;
++	int fd;
++	unsigned int flags;
++
++	/* To only be set on reply */
++	int ret;
++	struct completion completion;
++	struct list_head list;
+ };
+ 
+ /**
+@@ -784,6 +816,36 @@ static u64 seccomp_next_notify_id(struct seccomp_filter *filter)
+ 	return filter->notif->next_id++;
+ }
+ 
++static void seccomp_handle_addfd(struct seccomp_kaddfd *addfd)
++{
++	int ret, err;
++
++	/*
++	 * Remove the notification, and reset the list pointers, indicating
++	 * that it has been handled.
++	 */
++	list_del_init(&addfd->list);
++
++	if (addfd->fd == -1) {
++		ret = get_unused_fd_flags(addfd->flags);
++		if (ret < 0)
++			goto err;
++
++		err = file_receive(ret, addfd->file);
++		if (err) {
++			put_unused_fd(ret);
++			ret = err;
++		}
++	} else {
++		ret = file_receive_replace(addfd->fd, addfd->flags,
++					   addfd->file);
++	}
++
++err:
++	addfd->ret = ret;
++	complete(&addfd->completion);
++}
++
+ static int seccomp_do_user_notification(int this_syscall,
+ 					struct seccomp_filter *match,
+ 					const struct seccomp_data *sd)
+@@ -792,6 +854,7 @@ static int seccomp_do_user_notification(int this_syscall,
+ 	u32 flags = 0;
+ 	long ret = 0;
+ 	struct seccomp_knotif n = {};
++	struct seccomp_kaddfd *addfd, *tmp;
+ 
+ 	mutex_lock(&match->notify_lock);
+ 	err = -ENOSYS;
+@@ -804,6 +867,7 @@ static int seccomp_do_user_notification(int this_syscall,
+ 	n.id = seccomp_next_notify_id(match);
+ 	init_completion(&n.ready);
+ 	list_add(&n.list, &match->notif->notifications);
++	INIT_LIST_HEAD(&n.addfd);
+ 
+ 	up(&match->notif->request);
+ 	wake_up_poll(&match->wqh, EPOLLIN | EPOLLRDNORM);
+@@ -812,14 +876,31 @@ static int seccomp_do_user_notification(int this_syscall,
+ 	/*
+ 	 * This is where we wait for a reply from userspace.
+ 	 */
++wait:
+ 	err = wait_for_completion_interruptible(&n.ready);
+ 	mutex_lock(&match->notify_lock);
+ 	if (err == 0) {
++		/* Check if we were woken up by a addfd message */
++		addfd = list_first_entry_or_null(&n.addfd,
++						 struct seccomp_kaddfd, list);
++		if (addfd && n.state != SECCOMP_NOTIFY_REPLIED) {
++			seccomp_handle_addfd(addfd);
++			mutex_unlock(&match->notify_lock);
++			goto wait;
++		}
+ 		ret = n.val;
+ 		err = n.error;
+ 		flags = n.flags;
+ 	}
+ 
++	/* If there were any pending addfd calls, clear them out */
++	list_for_each_entry_safe(addfd, tmp, &n.addfd, list) {
++		/* The process went away before we got a chance to handle it */
++		addfd->ret = -ESRCH;
++		list_del_init(&addfd->list);
++		complete(&addfd->completion);
++	}
++
+ 	/*
+ 	 * Note that it's possible the listener died in between the time when
+ 	 * we were notified of a respons (or a signal) and when we were able to
+@@ -1060,6 +1141,11 @@ static int seccomp_notify_release(struct inode *inode, struct file *file)
+ 		knotif->error = -ENOSYS;
+ 		knotif->val = 0;
+ 
++		/*
++		 * We do not need to wake up any pending addfd messages, as
++		 * the notifier will do that for us, as this just looks
++		 * like a standard reply.
++		 */
+ 		complete(&knotif->ready);
+ 	}
+ 
+@@ -1224,6 +1310,100 @@ static long seccomp_notify_id_valid(struct seccomp_filter *filter,
+ 	return ret;
+ }
+ 
++static long seccomp_notify_addfd(struct seccomp_filter *filter,
++				 struct seccomp_notif_addfd __user *uaddfd)
++{
++	struct seccomp_notif_addfd addfd;
++	struct seccomp_knotif *knotif;
++	struct seccomp_kaddfd kaddfd;
++	u64 size;
++	int ret;
++
++	ret = get_user(size, &uaddfd->size);
++	if (ret)
++		return ret;
++
++	ret = copy_struct_from_user(&addfd, sizeof(addfd), uaddfd, size);
++	if (ret)
++		return ret;
++
++	if (addfd.newfd_flags & ~O_CLOEXEC)
++		return -EINVAL;
++
++	if (addfd.flags & ~SECCOMP_ADDFD_FLAG_SETFD)
++		return -EINVAL;
++
++	if (addfd.newfd && !(addfd.flags & SECCOMP_ADDFD_FLAG_SETFD))
++		return -EINVAL;
++
++	kaddfd.file = fget(addfd.srcfd);
++	if (!kaddfd.file)
++		return -EBADF;
++
++	kaddfd.flags = addfd.newfd_flags;
++	kaddfd.fd = (addfd.flags & SECCOMP_ADDFD_FLAG_SETFD) ?
++		    addfd.newfd : -1;
++	init_completion(&kaddfd.completion);
++
++	ret = mutex_lock_interruptible(&filter->notify_lock);
++	if (ret < 0)
++		goto out;
++
++	knotif = find_notification(filter, addfd.id);
++	if (!knotif) {
++		ret = -ENOENT;
++		goto out_unlock;
++	}
++
++	/*
++	 * We do not want to allow for FD injection to occur before the
++	 * notification has been picked up by a userspace handler, or after
++	 * the notification has been replied to.
++	 */
++	if (knotif->state != SECCOMP_NOTIFY_SENT) {
++		ret = -EINPROGRESS;
++		goto out_unlock;
++	}
++
++	list_add(&kaddfd.list, &knotif->addfd);
++	complete(&knotif->ready);
++	mutex_unlock(&filter->notify_lock);
++
++	/* Now we wait for it to be processed or be interrupted */
++	ret = wait_for_completion_interruptible(&kaddfd.completion);
++	if (ret == 0) {
++		/*
++		 * We had a successful completion. The other side has already
++		 * removed us from the addfd queue, and
++		 * wait_for_completion_interruptible has a memory barrier upon
++		 * success that lets us read this value directly without
++		 * locking.
++		 */
++		ret = kaddfd.ret;
++		goto out;
++	}
++
++	mutex_lock(&filter->notify_lock);
++	/*
++	 * Even though we were woken up by a signal and not a successful
++	 * completion, a completion may have happened in the mean time.
++	 *
++	 * We need to check again if the addfd request has been handled,
++	 * and if not, we will remove it from the queue.
++	 */
++	if (list_empty(&kaddfd.list))
++		ret = kaddfd.ret;
++	else
++		list_del(&kaddfd.list);
++
++out_unlock:
++	mutex_unlock(&filter->notify_lock);
++out:
++	fput(kaddfd.file);
++
++	return ret;
++}
++
+ static long seccomp_notify_ioctl(struct file *file, unsigned int cmd,
+ 				 unsigned long arg)
+ {
+@@ -1237,6 +1417,8 @@ static long seccomp_notify_ioctl(struct file *file, unsigned int cmd,
+ 		return seccomp_notify_send(filter, buf);
+ 	case SECCOMP_IOCTL_NOTIF_ID_VALID:
+ 		return seccomp_notify_id_valid(filter, buf);
++	case SECCOMP_IOCTL_NOTIF_ADDFD:
++		return seccomp_notify_addfd(filter, buf);
+ 	default:
+ 		return -EINVAL;
+ 	}
+-- 
+2.25.1
 
-and all that "max_unsgare_fd" would do would be to limit the top end
-of the file descriptor table unsharing: we'd still do the exact range
-handling in __close_range() itself.
-
-Because teaching unshare_fd() and dup_fd() about anything more complex
-than the above doesn't sound worth it, but adding a way to just avoid
-the unnecessary copy of any high file descriptors sounds simple
-enough.
-
-But I haven't thought deeply about this. I might have missed something.
-
-            Linus
