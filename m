@@ -2,84 +2,124 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F3B791EC5D3
-	for <lists+linux-api@lfdr.de>; Wed,  3 Jun 2020 01:37:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F0751EC615
+	for <lists+linux-api@lfdr.de>; Wed,  3 Jun 2020 02:08:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727826AbgFBXhy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 2 Jun 2020 19:37:54 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:54659 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726223AbgFBXhx (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 2 Jun 2020 19:37:53 -0400
-Received: from ip5f5af183.dynamic.kabel-deutschland.de ([95.90.241.131] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1jgGTe-000281-Ps; Tue, 02 Jun 2020 23:37:50 +0000
-Date:   Wed, 3 Jun 2020 01:37:49 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Florian Weimer <fw@deneb.enyo.de>
-Cc:     torvalds@linux-foundation.org, linux-kernel@vger.kernel.org,
+        id S1727975AbgFCAIn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 2 Jun 2020 20:08:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35994 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726267AbgFCAIn (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 2 Jun 2020 20:08:43 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFD07C08C5C0
+        for <linux-api@vger.kernel.org>; Tue,  2 Jun 2020 17:08:42 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id x22so164616lfd.4
+        for <linux-api@vger.kernel.org>; Tue, 02 Jun 2020 17:08:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=PazKvjjbmAQeUYiZad4yyf2QZKpFBXiEaJOc1KsToFM=;
+        b=cxQ3fmuQWsQSr6abyNc9/tsWVhRgX+CIskaA0+9tWleBkBxH+nD83NbhOrLA4+l62q
+         IHd7DWRbt8QX/EQhJmNdBB/KVbcm3z19PVF4njNDsJ2EVCzILIGOTxNV+HKYvlu2vYC2
+         U0ZUjz234y+0uLMwggsMalqWy5B+hZTC5aMVY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PazKvjjbmAQeUYiZad4yyf2QZKpFBXiEaJOc1KsToFM=;
+        b=L0c3bE6MnVjMj7Fu+QLEM1OfRVx/vmmbIY/83JoDLCGLhhNhRfK7ZjR8omBdWnllhv
+         +pRwV30Vi2HFX2oiJAXEMiCwWiikUwf4TUIORW1X/iNrTlby79HbWKFh+t0GAF3yurXp
+         4QSb3G8PuyqJpzxyaapCRrCwKOjdkNaLQMqE/2NgHyDMB5PCx8oUYoqoA9P8NnDGx6wa
+         o3gcT8WtTzFhfklcWIADqrC+fV5iaR2yAEtaRyLXl2NaA55uKfZ6EolUIKicmlbHKtxV
+         nxZg6vlrbgIqodl0h8Rx04C2yw7abzxRaXmwJZ5s/laeYfWp7gyZih9B/yfCSb+r/AsQ
+         //4Q==
+X-Gm-Message-State: AOAM531W5uKxDt3/nBcL0K79VcqEftQTpYzYM3fIWS0YKOuwiJN4DFjI
+        rU5N5a9YrvgXVBCUPHVa7xyWM66bqWY=
+X-Google-Smtp-Source: ABdhPJwenOX2y8pPvpYmuGCSS69IMaujzWTwoBp5sk4KVI33gWhA5Mx2rFfdkilgDpYxeVBKCF22gQ==
+X-Received: by 2002:ac2:490f:: with SMTP id n15mr925999lfi.39.1591142921025;
+        Tue, 02 Jun 2020 17:08:41 -0700 (PDT)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com. [209.85.167.52])
+        by smtp.gmail.com with ESMTPSA id w15sm142598lfl.51.2020.06.02.17.08.39
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Jun 2020 17:08:40 -0700 (PDT)
+Received: by mail-lf1-f52.google.com with SMTP id e125so175121lfd.1
+        for <linux-api@vger.kernel.org>; Tue, 02 Jun 2020 17:08:39 -0700 (PDT)
+X-Received: by 2002:ac2:5a4c:: with SMTP id r12mr947879lfn.10.1591142919097;
+ Tue, 02 Jun 2020 17:08:39 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200602204219.186620-1-christian.brauner@ubuntu.com>
+ <CAHk-=wjy234P7tvpQb6bnd1rhO78Uc+B0g1CPg9VOhJNTxmtWw@mail.gmail.com> <20200602233355.zdwcfow3ff4o2dol@wittgenstein>
+In-Reply-To: <20200602233355.zdwcfow3ff4o2dol@wittgenstein>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Tue, 2 Jun 2020 17:08:22 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wimp3tNuMcix2Z3uCF0sFfQt5GhVku=yhJAmSALucYGjg@mail.gmail.com>
+Message-ID: <CAHk-=wimp3tNuMcix2Z3uCF0sFfQt5GhVku=yhJAmSALucYGjg@mail.gmail.com>
+Subject: Re: [PATCH v5 0/3] close_range()
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Kyle Evans <self@kyle-evans.net>,
         Victor Stinner <victor.stinner@gmail.com>,
-        viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, fweimer@redhat.com, jannh@google.com,
-        oleg@redhat.com, arnd@arndb.de, shuah@kernel.org,
-        dhowells@redhat.com, ldv@altlinux.org
-Subject: Re: [PATCH v5 1/3] open: add close_range()
-Message-ID: <20200602233749.mo65o2enokiypwiz@wittgenstein>
-References: <20200602204219.186620-1-christian.brauner@ubuntu.com>
- <20200602204219.186620-2-christian.brauner@ubuntu.com>
- <87d06hdozy.fsf@mid.deneb.enyo.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <87d06hdozy.fsf@mid.deneb.enyo.de>
+        Al Viro <viro@zeniv.linux.org.uk>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        Jann Horn <jannh@google.com>, Oleg Nesterov <oleg@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>, Shuah Khan <shuah@kernel.org>,
+        David Howells <dhowells@redhat.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jun 03, 2020 at 01:30:57AM +0200, Florian Weimer wrote:
-> * Christian Brauner:
-> 
-> > The performance is striking. For good measure, comparing the following
-> > simple close_all_fds() userspace implementation that is essentially just
-> > glibc's version in [6]:
+On Tue, Jun 2, 2020 at 4:33 PM Christian Brauner
+<christian.brauner@ubuntu.com> wrote:
 > >
-> > static int close_all_fds(void)
-> > {
-> >         int dir_fd;
-> >         DIR *dir;
-> >         struct dirent *direntp;
-> >
-> >         dir = opendir("/proc/self/fd");
-> >         if (!dir)
-> >                 return -1;
-> >         dir_fd = dirfd(dir);
-> >         while ((direntp = readdir(dir))) {
-> >                 int fd;
-> >                 if (strcmp(direntp->d_name, ".") == 0)
-> >                         continue;
-> >                 if (strcmp(direntp->d_name, "..") == 0)
-> >                         continue;
-> >                 fd = atoi(direntp->d_name);
-> >                 if (fd == dir_fd || fd == 0 || fd == 1 || fd == 2)
-> >                         continue;
-> >                 close(fd);
-> >         }
-> >         closedir(dir);
-> >         return 0;
-> > }
-> >
-> 
-> > [6]: https://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/unix/sysv/linux/grantpt.c;h=2030e07fa6e652aac32c775b8c6e005844c3c4eb;hb=HEAD#l17
-> >      Note that this is an internal implementation that is not exported.
-> >      Currently, libc seems to not provide an exported version of this
-> >      because of missing kernel support to do this.
-> 
-> Just to be clear, this code is not compiled into glibc anymore in
-> typical configurations.  I have posted a patch to turn grantpt into a
-> no-op: <https://sourceware.org/pipermail/libc-alpha/2020-May/114379.html>
+> > And maybe this _did_ get mentioned last time, and I just don't find
+> > it. I also don't see anything like that in the patches, although the
+> > flags argument is there.
+>
+> I spent some good time digging and I couldn't find this mentioned
+> anywhere so maybe it just never got sent to the list?
 
-That's great! (I remember commenting on that thread.)
+It's entirely possible that it was just a private musing, and you
+re-opening this issue just resurrected the thought.
+
+I'm not sure how simple it would be to implement, but looking at it it
+shouldn't be problematic to add a "max_fd" argument to unshare_fd()
+and dup_fd().
+
+Although the range for unsharing is obviously reversed, so I'd suggest
+not trying to make "dup_fd()" take the exact range into account.
+
+More like just making __close_range() do basically something like
+
+        rcu_read_lock();
+        cur_max = files_fdtable(files)->max_fds;
+        rcu_read_unlock();
+
+        if (flags & CLOSE_RANGE_UNSHARE) {
+                unsigned int max_unshare_fd = ~0u;
+                if (cur_max >= max_fd)
+                        max_unshare_fd = fd;
+                unshare_fd(max_unsgare_fd);
+        }
+
+        .. do the rest of __close_range() here ..
+
+and all that "max_unsgare_fd" would do would be to limit the top end
+of the file descriptor table unsharing: we'd still do the exact range
+handling in __close_range() itself.
+
+Because teaching unshare_fd() and dup_fd() about anything more complex
+than the above doesn't sound worth it, but adding a way to just avoid
+the unnecessary copy of any high file descriptors sounds simple
+enough.
+
+But I haven't thought deeply about this. I might have missed something.
+
+            Linus
