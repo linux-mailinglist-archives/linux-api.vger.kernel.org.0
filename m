@@ -2,92 +2,94 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 46F171F3D55
-	for <lists+linux-api@lfdr.de>; Tue,  9 Jun 2020 15:52:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92A5C1F4665
+	for <lists+linux-api@lfdr.de>; Tue,  9 Jun 2020 20:37:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730396AbgFINww (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 9 Jun 2020 09:52:52 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:33510 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1730331AbgFINwv (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 9 Jun 2020 09:52:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1591710770;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=1QZxzGJLd7MwraWpl9HYsPVgjFSkkdnN13rxpeDTWvE=;
-        b=BLKM8tZ4N1q9E0IuymYcR8pZDXGiMMMea1s1+R809d5Z1pkacLw73WTXXFCaojw+gDu5Xp
-        FaesldTLbUD+JH7cOhRokmCgM8oV+NBj5PJ3KrW4v0O964XL2uIrfUhT9WlbxCRYnxJWqG
-        XEG6NRsM8mjmCEsNmOStjK/Zru6sGk4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-335-347KQqv8OfOLOyQ5JWpIlg-1; Tue, 09 Jun 2020 09:52:41 -0400
-X-MC-Unique: 347KQqv8OfOLOyQ5JWpIlg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ABD3880B734;
-        Tue,  9 Jun 2020 13:52:33 +0000 (UTC)
-Received: from oldenburg2.str.redhat.com (ovpn-113-78.ams2.redhat.com [10.36.113.78])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 708335C1BD;
-        Tue,  9 Jun 2020 13:52:19 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Palmer Dabbelt <palmer@sifive.com>
-Cc:     viro@zeniv.linux.org.uk, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>, rth@twiddle.net,
-        ink@jurassic.park.msu.ru, mattst88@gmail.com,
-        linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org,
-        tony.luck@intel.com, fenghua.yu@intel.com, geert@linux-m68k.org,
-        monstr@monstr.eu, ralf@linux-mips.org, paul.burton@mips.com,
-        jhogan@kernel.org, James.Bottomley@HansenPartnership.com,
-        deller@gmx.de, benh@kernel.crashing.org, paulus@samba.org,
-        mpe@ellerman.id.au, heiko.carstens@de.ibm.com, gor@linux.ibm.com,
-        borntraeger@de.ibm.com, ysato@users.sourceforge.jp,
-        dalias@libc.org, davem@davemloft.net, luto@kernel.org,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        x86@kernel.org, peterz@infradead.org, acme@kernel.org,
-        alexander.shishkin@linux.intel.com, jolsa@redhat.com,
-        namhyung@kernel.org, dhowells@redhat.com, firoz.khan@linaro.org,
-        stefan@agner.ch, schwidefsky@de.ibm.com, axboe@kernel.dk,
-        christian@brauner.io, hare@suse.com, deepa.kernel@gmail.com,
-        tycho@tycho.ws, kim.phillips@arm.com, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-arch@vger.kernel.org
-Subject: Re: Add a new fchmodat4() syscall, v2
-References: <20190717012719.5524-1-palmer@sifive.com>
-Date:   Tue, 09 Jun 2020 15:52:17 +0200
-In-Reply-To: <20190717012719.5524-1-palmer@sifive.com> (Palmer Dabbelt's
-        message of "Tue, 16 Jul 2019 18:27:15 -0700")
-Message-ID: <87o8pscpny.fsf@oldenburg2.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+        id S1728004AbgFIShq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 9 Jun 2020 14:37:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48746 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729200AbgFIShp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 9 Jun 2020 14:37:45 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 371DAC05BD1E
+        for <linux-api@vger.kernel.org>; Tue,  9 Jun 2020 11:37:44 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id w15so13065057lfe.11
+        for <linux-api@vger.kernel.org>; Tue, 09 Jun 2020 11:37:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=nitingupta.dev; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BwHRiAPDtrkwECsv6SA7fU7H4zLVJKTcGFNk2QXOnhU=;
+        b=VIHY8xLiHmbfAk+929GtvjqxvUF90uuWGK5L3c+gPpqDFRUpDiapReEG17Y3LutSww
+         3V4dWOmewogkwd+Eh2mmUpKoH16NlRQle+kI7Ko4/1uBuemv435R5GU4c4mZfT3By+vr
+         SVqe2G5aySIYKw5hxgQiZjXAPzP+T8vokiag6aXGMR6sDZe5pPUDOq6HgWNca8MC52A7
+         s5P1ye0S5PDBu7AxhHFPbfcEVraz8m2ymqGLFoxZrFnyou69s91LmCHH95LIuM1OqCgh
+         uMYv3citOqdRrf9huGay2dU3OYM+dmat6IejYUUbBgED5NkrInRwRjh2cXUyRAkBVYvk
+         BSSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BwHRiAPDtrkwECsv6SA7fU7H4zLVJKTcGFNk2QXOnhU=;
+        b=POsWq/f2Rac/X/lwCNMarAIPLDpXyC1+prfmV1Cqhu8LiFRiSzyDvC1DpeLksH9ArV
+         rmH1fg5i5iZspIxq3jH49nVnFclY0RkraqEtk887ALGywNS2t9842EzJSV7fQqEyiTH5
+         XSf19xNViA5UXABoDk5/PwZResdeAaUoNtlHmzzEirHplVl5snn1RcSwoqsHEXDvz2ea
+         Zuc2IHq18GRoXnp/UxU+s/A4j6pEIl1mfGtKGSJLCrxkz+W5mjjP60ypFTfaTNdQrvgI
+         eAC50xoUSrQi8KQHkXGMZqGhlGA6bLWz1I5Zci0KzxrduLuDeryPe1BebTpiDbr5Eg1d
+         eGLw==
+X-Gm-Message-State: AOAM533qQXioFzsztpfFE37qcdSPJHxy8mGpS6WehfuQ9w1ADq4/macP
+        sQZI5WI8wbGJN3Jgwo8fIvv9vpLqmPdrUibJGc5hOQ==
+X-Google-Smtp-Source: ABdhPJxuVElaiZy/wi7zPSnZaETNDw3REFYZMvBDEZDwQF9KjdWC3LmrzfRnNv5y4/4dmn7H2To75+SN/JnbU9vOoOw=
+X-Received: by 2002:a19:ae0f:: with SMTP id f15mr16495368lfc.142.1591727862693;
+ Tue, 09 Jun 2020 11:37:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+References: <20200601194822.30252-1-nigupta@nvidia.com>
+In-Reply-To: <20200601194822.30252-1-nigupta@nvidia.com>
+From:   Nitin Gupta <ngupta@nitingupta.dev>
+Date:   Tue, 9 Jun 2020 11:37:31 -0700
+Message-ID: <CAB6CXpAGTWGNboAXEkqC2wZsHmvbhFf_5enguXJ7QssRpr=c9A@mail.gmail.com>
+Subject: Re: [PATCH v6] mm: Proactive compaction
+To:     Vlastimil Babka <vbabka@suse.cz>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     Mel Gorman <mgorman@techsingularity.net>,
+        Michal Hocko <mhocko@suse.com>,
+        Nitin Gupta <nigupta@nvidia.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        David Rientjes <rientjes@google.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Khalid Aziz <khalid.aziz@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Palmer Dabbelt:
+On Mon, Jun 1, 2020 at 12:48 PM Nitin Gupta <nigupta@nvidia.com> wrote:
+>
+> For some applications, we need to allocate almost all memory as
+> hugepages. However, on a running system, higher-order allocations can
+> fail if the memory is fragmented. Linux kernel currently does on-demand
+> compaction as we request more hugepages, but this style of compaction
+> incurs very high latency. Experiments with one-time full memory
+> compaction (followed by hugepage allocations) show that kernel is able
+> to restore a highly fragmented memory state to a fairly compacted memory
+> state within <1 sec for a 32G system. Such data suggests that a more
+> proactive compaction can help us allocate a large fraction of memory as
+> hugepages keeping allocation latencies low.
+>
 
-> This patch set adds fchmodat4(), a new syscall. The actual
-> implementation is super simple: essentially it's just the same as
-> fchmodat(), but LOOKUP_FOLLOW is conditionally set based on the flags.
-> I've attempted to make this match "man 2 fchmodat" as closely as
-> possible, which says EINVAL is returned for invalid flags (as opposed to
-> ENOTSUPP, which is currently returned by glibc for AT_SYMLINK_NOFOLLOW).
-> I have a sketch of a glibc patch that I haven't even compiled yet, but
-> seems fairly straight-forward:
+> Signed-off-by: Nitin Gupta <nigupta@nvidia.com>
+> Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
 
-What's the status here?  We'd really like to see this system call in the
-kernel because our emulation in glibc has its problems (especially if
-/proc is not mounted).
+(+CC Khalid)
+
+Can this be pipelined for upstream inclusion now? Sorry, I'm a bit
+rusty on upstream flow these days.
 
 Thanks,
-Florian
-
+Nitin
