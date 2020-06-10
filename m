@@ -2,111 +2,133 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BFDF81F4D4C
-	for <lists+linux-api@lfdr.de>; Wed, 10 Jun 2020 07:54:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95B681F58CD
+	for <lists+linux-api@lfdr.de>; Wed, 10 Jun 2020 18:13:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726121AbgFJFyA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 10 Jun 2020 01:54:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40218 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726068AbgFJFyA (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 10 Jun 2020 01:54:00 -0400
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [IPv6:2001:67c:2050::465:101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E49DEC05BD1E;
-        Tue,  9 Jun 2020 22:53:59 -0700 (PDT)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:105:465:1:2:0])
-        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
+        id S1728092AbgFJQNG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 10 Jun 2020 12:13:06 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25979 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728196AbgFJQNF (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 10 Jun 2020 12:13:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1591805583;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=/4nlWdsqI8fXiZ35bnUpG0b+i3WYAu7LgKqUCm475Os=;
+        b=V4MjkjXW70gq+YDRIfSaadqGahIYJIdNNH39WMTwkG2V+OxnTHA4pUxXSRdkRFqnLcZIc8
+        cNVXEkpp6b70XSKB1/O5PvxqSHMdMahwbUA/GQswJrlUSTxhG1C7+3dme7BJxsVBERXiWY
+        308BNUTWNfSJygnt85YAxfRHDl2+FuE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-371-NpWOi9ykPG6jwYiZQbS9vw-1; Wed, 10 Jun 2020 12:12:52 -0400
+X-MC-Unique: NpWOi9ykPG6jwYiZQbS9vw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mout-p-101.mailbox.org (Postfix) with ESMTPS id 49hblR2dW9zKmrq;
-        Wed, 10 Jun 2020 07:53:55 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp2.mailbox.org ([80.241.60.241])
-        by spamfilter05.heinlein-hosting.de (spamfilter05.heinlein-hosting.de [80.241.56.123]) (amavisd-new, port 10030)
-        with ESMTP id UoN5h8M60M3c; Wed, 10 Jun 2020 07:53:52 +0200 (CEST)
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     mtk.manpages@gmail.com
-Cc:     linux-man@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        viro@zeniv.linux.org.uk, christian@brauner.io,
-        Aleksa Sarai <cyphar@cyphar.com>
-Subject: [PATCH] symlink.7: document magic-links more completely
-Date:   Wed, 10 Jun 2020 15:53:19 +1000
-Message-Id: <20200610055319.26374-1-cyphar@cyphar.com>
-In-Reply-To: <20200414103524.wjhyfobzpjk236o7@yavin.dot.cyphar.com>
-References: <20200414103524.wjhyfobzpjk236o7@yavin.dot.cyphar.com>
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6380591164;
+        Wed, 10 Jun 2020 16:12:50 +0000 (UTC)
+Received: from virtlab423.virt.lab.eng.bos.redhat.com (virtlab423.virt.lab.eng.bos.redhat.com [10.19.152.154])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 526C4512FE;
+        Wed, 10 Jun 2020 16:12:46 +0000 (UTC)
+From:   Nitesh Narayan Lal <nitesh@redhat.com>
+To:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        frederic@kernel.org, mtosatti@redhat.com, juri.lelli@redhat.com,
+        abelits@marvell.com, bhelgaas@google.com,
+        linux-pci@vger.kernel.org, rostedt@goodmis.org, mingo@kernel.org,
+        peterz@infradead.org, tglx@linutronix.de
+Subject: [PATCH v1 0/3] Preventing job distribution to isolated CPUs
+Date:   Wed, 10 Jun 2020 12:12:23 -0400
+Message-Id: <20200610161226.424337-1-nitesh@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 3F5A41750
-X-Rspamd-Score: 2.16 / 15.00 / 15.00
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Michael,
+This patch-set is originated from one of the patches that have been
+posted earlier as a part of "Task_isolation" mode [1] patch series
+by Alex Belits <abelits@marvell.com>. There are only a couple of
+changes that I am proposing in this patch-set compared to what Alex
+has posted earlier.
 
-Sorry for the delay and here is the patch I promised in this thread.
 
---8<---------------------------------------------------------------------8<--
+Context
+=======
+On a broad level, all three patches that are included in this patch
+set are meant to improve the driver/library to respect isolated
+CPUs by not pinning any job on it. Not doing so could impact
+the latency values in RT use-cases.
 
-Traditionally, magic-links have not been a well-understood topic in
-Linux. This helps clarify some of the terminology used in openat2.2.
 
-Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
----
- man7/symlink.7 | 31 ++++++++++++++++++++++---------
- 1 file changed, 22 insertions(+), 9 deletions(-)
+Patches
+=======
+* Patch1:
+  The first patch is meant to make cpumask_local_spread()
+  aware of the isolated CPUs. It ensures that the CPUs that
+  are returned by this API only includes housekeeping CPUs.
 
-diff --git a/man7/symlink.7 b/man7/symlink.7
-index 07b1db3a3764..ed99bc4236f1 100644
---- a/man7/symlink.7
-+++ b/man7/symlink.7
-@@ -84,6 +84,21 @@ as they are implemented on Linux and other systems,
- are outlined here.
- It is important that site-local applications also conform to these rules,
- so that the user interface can be as consistent as possible.
-+.SS Magic-links
-+There is a special class of symlink-like objects known as "magic-links" which
-+can be found in certain pseudo-filesystems such as
-+.BR proc (5)
-+(examples include
-+.IR /proc/[pid]/exe " and " /proc/[pid]/fd/* .)
-+Unlike normal symlinks, magic-links are not resolved through
-+pathname-expansion, but instead act as direct references to the kernel's own
-+representation of a file handle. As such, these magic-links allow users to
-+access files which cannot be referenced with normal paths (such as unlinked
-+files still referenced by a running program.)
-+.PP
-+Because they can bypass ordinary
-+.BR mount_namespaces (7)-based
-+restrictions, magic-links have been used as attack vectors in various exploits.
- .SS Symbolic link ownership, permissions, and timestamps
- The owner and group of an existing symbolic link can be changed
- using
-@@ -99,16 +114,14 @@ of a symbolic link can be changed using
- or
- .BR lutimes (3).
- .PP
--On Linux, the permissions of a symbolic link are not used
--in any operations; the permissions are always
--0777 (read, write, and execute for all user categories),
- .\" Linux does not currently implement an lchmod(2).
--and can't be changed.
--(Note that there are some "magic" symbolic links in the
--.I /proc
--directory tree\(emfor example, the
--.IR /proc/[pid]/fd/*
--files\(emthat have different permissions.)
-+On Linux, the permissions of an ordinary symbolic link are not used in any
-+operations; the permissions are always 0777 (read, write, and execute for all
-+user categories), and can't be changed.
-+.PP
-+However, magic-links do not follow this rule. They can have a non-0777 mode,
-+though this mode is not currently used in any permission checks.
-+
- .\"
- .\" The
- .\" 4.4BSD
--- 
-2.26.2
+* Patch2:
+  This patch ensures that a probe function that is called
+  using work_on_cpu() doesn't run any task on an isolated CPU.
+
+* Patch3:
+  This patch makes store_rps_map() aware of the isolated
+  CPUs so that rps don't queue any jobs on an isolated CPU.
+
+
+Changes
+=======
+To fix the above-mentioned issues Alex has used housekeeping_cpumask().
+The only changes that I am proposing here are:
+- Removing the dependency on CONFIG_TASK_ISOLATION that was proposed by Alex.
+  As it should be safe to rely on housekeeping_cpumask()
+  even when we don't have any isolated CPUs and we want
+  to fall back to using all available CPUs in any of the above scenarios.
+- Using both HK_FLAG_DOMAIN and HK_FLAG_WQ in all three patches, this is
+  because we would want the above fixes not only when we have isolcpus but
+  also with something like systemd's CPU affinity.
+
+
+Testing
+=======
+* Patch 1:
+  Fix for cpumask_local_spread() is tested by creating VFs, loading
+  iavf module and by adding a tracepoint to confirm that only housekeeping
+  CPUs are picked when an appropriate profile is set up and all remaining CPUs
+  when no CPU isolation is required/configured.
+
+* Patch 2:
+  To test the PCI fix, I hotplugged a virtio-net-pci from qemu console
+  and forced its addition to a specific node to trigger the code path that
+  includes the proposed fix and verified that only housekeeping CPUs
+  are included via tracepoint. I understand that this may not be the
+  best way to test it, hence, I am open to any suggestion to test this
+  fix in a better way if required.
+
+* Patch 3:
+  To test the fix in store_rps_map(), I tried configuring an isolated
+  CPU by writing to /sys/class/net/en*/queues/rx*/rps_cpus which
+  resulted in 'write error: Invalid argument' error. For the case
+  where a non-isolated CPU is writing in rps_cpus the above operation
+  succeeded without any error.
+
+[1] https://patchwork.ozlabs.org/project/netdev/patch/51102eebe62336c6a4e584c7a503553b9f90e01c.camel@marvell.com/
+
+Alex Belits (3):
+  lib: restricting cpumask_local_spread to only houskeeping CPUs
+  PCI: prevent work_on_cpu's probe to execute on isolated CPUs
+  net: restrict queuing of receive packets to housekeeping CPUs
+
+ drivers/pci/pci-driver.c |  5 ++++-
+ lib/cpumask.c            | 43 +++++++++++++++++++++++-----------------
+ net/core/net-sysfs.c     | 10 +++++++++-
+ 3 files changed, 38 insertions(+), 20 deletions(-)
+
+--  
+
 
