@@ -2,70 +2,63 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 395B71F6F1C
-	for <lists+linux-api@lfdr.de>; Thu, 11 Jun 2020 23:02:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07D5D1F6F80
+	for <lists+linux-api@lfdr.de>; Thu, 11 Jun 2020 23:35:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726153AbgFKVCx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 11 Jun 2020 17:02:53 -0400
-Received: from gate.crashing.org ([63.228.1.57]:52027 "EHLO gate.crashing.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725869AbgFKVCx (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 11 Jun 2020 17:02:53 -0400
-Received: from gate.crashing.org (localhost.localdomain [127.0.0.1])
-        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 05BL2WSL021038;
-        Thu, 11 Jun 2020 16:02:32 -0500
-Received: (from segher@localhost)
-        by gate.crashing.org (8.14.1/8.14.1/Submit) id 05BL2UHa021034;
-        Thu, 11 Jun 2020 16:02:30 -0500
-X-Authentication-Warning: gate.crashing.org: segher set sender to segher@kernel.crashing.org using -f
-Date:   Thu, 11 Jun 2020 16:02:30 -0500
-From:   Segher Boessenkool <segher@kernel.crashing.org>
-To:     Nicholas Piggin <npiggin@gmail.com>
-Cc:     linuxppc-dev@lists.ozlabs.org, libc-dev@lists.llvm.org,
-        musl@lists.openwall.com, linux-api@vger.kernel.org
-Subject: Re: Linux powerpc new system call instruction and ABI
-Message-ID: <20200611210230.GH31009@gate.crashing.org>
-References: <20200611081203.995112-1-npiggin@gmail.com>
-Mime-Version: 1.0
+        id S1726447AbgFKVff (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 11 Jun 2020 17:35:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41050 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726326AbgFKVff (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 11 Jun 2020 17:35:35 -0400
+Received: from ZenIV.linux.org.uk (zeniv.linux.org.uk [IPv6:2002:c35c:fd02::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2028C08C5C1
+        for <linux-api@vger.kernel.org>; Thu, 11 Jun 2020 14:35:34 -0700 (PDT)
+Received: from viro by ZenIV.linux.org.uk with local (Exim 4.93 #3 (Red Hat Linux))
+        id 1jjUrC-007GHL-Ke; Thu, 11 Jun 2020 21:35:30 +0000
+Date:   Thu, 11 Jun 2020 22:35:30 +0100
+From:   Al Viro <viro@zeniv.linux.org.uk>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Linux API <linux-api@vger.kernel.org>
+Subject: Re: [RFC] unexport linux/elfcore.h
+Message-ID: <20200611213530.GB23230@ZenIV.linux.org.uk>
+References: <20200611010115.GZ23230@ZenIV.linux.org.uk>
+ <20200611152344.GA1693733@ZenIV.linux.org.uk>
+ <CAHk-=wijbWCfZaiYO68MSfxz-UMuJCuO1Sr9O1x4BTPpMjm4gw@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200611081203.995112-1-npiggin@gmail.com>
-User-Agent: Mutt/1.4.2.3i
+In-Reply-To: <CAHk-=wijbWCfZaiYO68MSfxz-UMuJCuO1Sr9O1x4BTPpMjm4gw@mail.gmail.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi!
-
-On Thu, Jun 11, 2020 at 06:12:01PM +1000, Nicholas Piggin wrote:
-> Calling convention
-> ------------------
-> The proposal is for scv 0 to provide the standard Linux system call ABI 
-> with the following differences from sc convention[1]:
+On Thu, Jun 11, 2020 at 01:01:40PM -0700, Linus Torvalds wrote:
+> On Thu, Jun 11, 2020 at 8:23 AM Al Viro <viro@zeniv.linux.org.uk> wrote:
+> >
+> > I mean something like this.  Objections?
 > 
-> - lr is to be volatile across scv calls. This is necessary because the 
->   scv instruction clobbers lr. From previous discussion, this should be 
->   possible to deal with in GCC clobbers and CFI.
+> I'm not seeing that alot of people would care.
 > 
-> - cr1 and cr5-cr7 are volatile. This matches the C ABI and would allow the
->   kernel system call exit to avoid restoring the volatile cr registers
->   (although we probably still would anyway to avoid information leaks).
+> That said, is there any reason not to try to fix it instead and expose
+> elf_gregset_t some way?
 > 
-> - Error handling: The consensus among kernel, glibc, and musl is to move to
->   using negative return values in r3 rather than CR0[SO]=1 to indicate error,
->   which matches most other architectures, and is closer to a function call.
+> But I do suspect it all really boils down to "nobody cares". If you
+> can't find somebody to speak up for it, might as well remove it.
 
-What about cr0 then?  Will it be volatile as well (exactly like for
-function calls)?
+Anyone who wants to use that stuff includes sys/procfs.h anyway (since
+1996).  As for the reasons...  I would love to kill off these gems, for
+example:
+#define PRSTATUS_SIZE(S, R) (R != sizeof(S.pr_reg) ? 144 : 296)
+#define SET_PR_FPVALID(S, V, R) \
+  do { *(int *) (((void *) &((S)->pr_reg)) + R) = (V); } \
+  while (0)
+(x86 asm/compat.h)  And being able to massage the definition of
+elf_prstatus (while keeping the size and layout - it describes
+a part of file format, after all) would simplify the life alot.
 
-> Notes
-> -----
-> - r0,r4-r8 are documented as volatile in the ABI, but the kernel patch as
->   submitted currently preserves them. This is to leave room for deciding
->   which way to go with these.
-
-The kernel has to set it to *something* that doesn't leak information ;-)
-
-
-Segher
+struct __kernel_elf_prstatus would be an obvious solution, but...
+nobody in userland pulls the definition in linux/elfcore.h and
+hadn't been able to do that for at least a decade (if not more than
+that).  So I'd rather get rid of exporting it.
