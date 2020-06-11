@@ -2,326 +2,109 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D4A791F6AE9
-	for <lists+linux-api@lfdr.de>; Thu, 11 Jun 2020 17:23:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 020D61F6CFF
+	for <lists+linux-api@lfdr.de>; Thu, 11 Jun 2020 19:47:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728424AbgFKPXy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 11 Jun 2020 11:23:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40220 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728104AbgFKPXy (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 11 Jun 2020 11:23:54 -0400
-Received: from ZenIV.linux.org.uk (zeniv.linux.org.uk [IPv6:2002:c35c:fd02::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97693C08C5C1
-        for <linux-api@vger.kernel.org>; Thu, 11 Jun 2020 08:23:53 -0700 (PDT)
-Received: from viro by ZenIV.linux.org.uk with local (Exim 4.93 #3 (Red Hat Linux))
-        id 1jjP3Q-0076fb-QW; Thu, 11 Jun 2020 15:23:45 +0000
-Date:   Thu, 11 Jun 2020 16:23:44 +0100
-From:   Al Viro <viro@zeniv.linux.org.uk>
-To:     linux-api@vger.kernel.org
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [RFC] unexport linux/elfcore.h
-Message-ID: <20200611152344.GA1693733@ZenIV.linux.org.uk>
-References: <20200611010115.GZ23230@ZenIV.linux.org.uk>
+        id S1726306AbgFKRry (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 11 Jun 2020 13:47:54 -0400
+Received: from mail.efficios.com ([167.114.26.124]:46392 "EHLO
+        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725824AbgFKRrx (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 11 Jun 2020 13:47:53 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id A05522BA1DF;
+        Thu, 11 Jun 2020 13:47:52 -0400 (EDT)
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id NzCbs28iN5me; Thu, 11 Jun 2020 13:47:52 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 466342BA62B;
+        Thu, 11 Jun 2020 13:47:52 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 466342BA62B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1591897672;
+        bh=1TbQ8X9sMo4Kyo/r88yv2xIYB6h6ej7fHmdbLm+Aw4c=;
+        h=Date:From:To:Message-ID:MIME-Version;
+        b=JEBUgERHzozSOhf4V0dkYHPmIKLI1d/tmPKm10dhKizvnDxe0kKer+Vbj15eoTmcX
+         9a40GLxM5kbBr40mdYUo4iPqwIkOMW24p8LwoTqEdD/M1PK/c4yUinY8+3FXQlmbfj
+         SokOXYHdr+4a9cpmBEIuQrlcw1EIXVwOEjEFT4L6BOuBMIkB78oIto2d6SS/DhHOXt
+         7ckqPWPnNGC/ms98JdVu+/N7Wlrjae4ZcZKSpNQMSoGi5qEYNEPh9bTKRwBHmWeTAa
+         9EYcImNf1c4rtJtp0xNRoiJyPvtijXrx9WtLDZoRM92rZQnUZEFy3Q0MSlhwuvLm1x
+         zPc2zcI8hyT8A==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id IfOlAu90uq-G; Thu, 11 Jun 2020 13:47:52 -0400 (EDT)
+Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
+        by mail.efficios.com (Postfix) with ESMTP id 3397A2BA177;
+        Thu, 11 Jun 2020 13:47:52 -0400 (EDT)
+Date:   Thu, 11 Jun 2020 13:47:52 -0400 (EDT)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     Joseph Myers <joseph@codesourcery.com>
+Cc:     Michael Kerrisk <mtk.manpages@gmail.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Rich Felker <dalias@libc.org>,
+        libc-alpha <libc-alpha@sourceware.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        linux-api <linux-api@vger.kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Will Deacon <will.deacon@arm.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Ben Maurer <bmaurer@fb.com>, Dave Watson <davejwatson@fb.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Paul <paulmck@linux.vnet.ibm.com>, Paul Turner <pjt@google.com>
+Message-ID: <419546979.1229.1591897672174.JavaMail.zimbra@efficios.com>
+In-Reply-To: <alpine.DEB.2.21.2006041745360.8237@digraph.polyomino.org.uk>
+References: <20200527185130.5604-1-mathieu.desnoyers@efficios.com> <20200527185130.5604-2-mathieu.desnoyers@efficios.com> <87d06gxsla.fsf@oldenburg2.str.redhat.com> <alpine.DEB.2.21.2006031718070.7179@digraph.polyomino.org.uk> <188671972.53608.1591269056445.JavaMail.zimbra@efficios.com> <alpine.DEB.2.21.2006041745360.8237@digraph.polyomino.org.uk>
+Subject: Re: [PATCH glibc 1/3] glibc: Perform rseq registration at C startup
+ and thread creation (v20)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200611010115.GZ23230@ZenIV.linux.org.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [167.114.26.124]
+X-Mailer: Zimbra 8.8.15_GA_3945 (ZimbraWebClient - FF77 (Linux)/8.8.15_GA_3928)
+Thread-Topic: glibc: Perform rseq registration at C startup and thread creation (v20)
+Thread-Index: WQcwWCSA3B8qyXRzTZbTtj4Cnk7X+g==
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jun 11, 2020 at 02:01:15AM +0100, Al Viro wrote:
-> 	In include/uapi/linux/elfcore.h we have
-> ...
-> #include <linux/elf.h>
-> ...
-> struct elf_prstatus
-> {
-> ...
->         elf_gregset_t pr_reg;   /* GP registers */
-> 
-> and that ends up in glibc /usr/include/linux/elfcore.h.  What
-> does *not* end up in exported headers is
-> 	1) include of asm/elf.h from linux/elf.h - asm/elf.h
-> is not exported at all and linux/elf.h is our uapi/linux/elf.h,
-> which doesn't include asm/elf.h at all
-> 	2) and definitions of elf_gregset_t whatsoever.
-> 
-> Now, glibc (as well as other libc variants) does contain
-> such definition - in /usr/include/sys/procfs.h.  Along with
-> a definition of struct elf_prstatus.
-> 
-> IOW, #include <linux/elfcore.h> in any userland program is
-> going to blow - either due to redefinition of struct elf_prstatus
-> or due to incomplete type of member in that definition, depending
-> upon the headers we'd pulled in earlier.
-> 
-> Seeing that there's no userland code that would manage to pull that
-> file, is there any point exporting it at all?
+----- On Jun 4, 2020, at 1:46 PM, Joseph Myers joseph@codesourcery.com wrote:
 
-I mean something like this.  Objections?
+> On Thu, 4 Jun 2020, Mathieu Desnoyers via Libc-alpha wrote:
+> 
+>> That external piece of documentation would be part of the Linux man-pages
+>> project, maintained by Michael Kerrisk. I have submitted a few revisions
+>> of the rseq(2) man page, but have been waiting for Michael to reply for more
+>> than a year now:
+>> 
+>>   https://lore.kernel.org/r/2021826204.69809.1588000508294.JavaMail.zimbra@efficios.com
+>> 
+>> I'm thinking about hosting a rseq(2) man-page into my librseq project, would
+>> that make sense ?
+> 
+> I'm not particularly concerned with exactly where it goes, as long as it's
+> somewhere stable we can link to.
 
-commit 4d0380050642e4bf4b7a4d90d4bafeceacb1340d
-Author: Al Viro <viro@zeniv.linux.org.uk>
-Date:   Thu Jun 11 11:11:32 2020 -0400
+I managed to get a repository up and running for librseq, and have integrated
+the rseq.2 man page with comments from Michael Kerrisk here:
 
-    unexport linux/elfcore.h
-    
-    It's unusable from userland - it uses elf_gregset_t, which is not
-    provided by exported headers.  glibc has it in sys/procfs.h, but
-    the same file defines struct elf_prstatus, so linux/elfcore.h can't
-    be included once sys/procfs.h has been pulled.  Same goes for uclibc
-    and dietlibc simply doesn't have elf_gregset_t defined anywhere.
-    
-    IOW, no userland source is including that thing.
-    
-    Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+https://git.kernel.org/pub/scm/libs/librseq/librseq.git/tree/doc/man/rseq.2
 
-diff --git a/arch/x86/kernel/crash_core_32.c b/arch/x86/kernel/crash_core_32.c
-index c0159a7bca6d..854ef9a18cca 100644
---- a/arch/x86/kernel/crash_core_32.c
-+++ b/arch/x86/kernel/crash_core_32.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0-only
- 
- #include <linux/crash_core.h>
-+#include <linux/mmzone.h>
- 
- #include <asm/pgtable.h>
- #include <asm/setup.h>
-diff --git a/arch/x86/kernel/crash_core_64.c b/arch/x86/kernel/crash_core_64.c
-index 845a57eb4eb7..909b4c92dc9b 100644
---- a/arch/x86/kernel/crash_core_64.c
-+++ b/arch/x86/kernel/crash_core_64.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0-only
- 
- #include <linux/crash_core.h>
-+#include <linux/mmzone.h>
- 
- #include <asm/pgtable.h>
- #include <asm/setup.h>
-diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
-index ff1b00d0f9ff..8cc050acdeb2 100644
---- a/fs/binfmt_elf.c
-+++ b/fs/binfmt_elf.c
-@@ -43,6 +43,7 @@
- #include <linux/cred.h>
- #include <linux/dax.h>
- #include <linux/uaccess.h>
-+#include <linux/ptrace.h>
- #include <asm/param.h>
- #include <asm/page.h>
- 
-diff --git a/include/linux/elfcore.h b/include/linux/elfcore.h
-index 4cad0e784b28..7f5ef250c683 100644
---- a/include/linux/elfcore.h
-+++ b/include/linux/elfcore.h
-@@ -5,12 +5,71 @@
- #include <linux/user.h>
- #include <linux/bug.h>
- #include <linux/sched/task_stack.h>
--
--#include <asm/elf.h>
--#include <uapi/linux/elfcore.h>
-+#include <linux/elf.h>
- 
- struct coredump_params;
- 
-+struct elf_siginfo
-+{
-+	int	si_signo;			/* signal number */
-+	int	si_code;			/* extra code */
-+	int	si_errno;			/* errno */
-+};
-+
-+/*
-+ * Definitions to generate Intel SVR4-like core files.
-+ * These mostly have the same names as the SVR4 types with "elf_"
-+ * tacked on the front to prevent clashes with linux definitions,
-+ * and the typedef forms have been avoided.  This is mostly like
-+ * the SVR4 structure, but more Linuxy, with things that Linux does
-+ * not support and which gdb doesn't really use excluded.
-+ */
-+struct elf_prstatus
-+{
-+	struct elf_siginfo pr_info;	/* Info associated with signal */
-+	short	pr_cursig;		/* Current signal */
-+	unsigned long pr_sigpend;	/* Set of pending signals */
-+	unsigned long pr_sighold;	/* Set of held signals */
-+	pid_t	pr_pid;
-+	pid_t	pr_ppid;
-+	pid_t	pr_pgrp;
-+	pid_t	pr_sid;
-+	struct __kernel_old_timeval pr_utime;	/* User time */
-+	struct __kernel_old_timeval pr_stime;	/* System time */
-+	struct __kernel_old_timeval pr_cutime;	/* Cumulative user time */
-+	struct __kernel_old_timeval pr_cstime;	/* Cumulative system time */
-+	elf_gregset_t pr_reg;	/* GP registers */
-+#ifdef CONFIG_BINFMT_ELF_FDPIC
-+	/* When using FDPIC, the loadmap addresses need to be communicated
-+	 * to GDB in order for GDB to do the necessary relocations.  The
-+	 * fields (below) used to communicate this information are placed
-+	 * immediately after ``pr_reg'', so that the loadmap addresses may
-+	 * be viewed as part of the register set if so desired.
-+	 */
-+	unsigned long pr_exec_fdpic_loadmap;
-+	unsigned long pr_interp_fdpic_loadmap;
-+#endif
-+	int pr_fpvalid;		/* True if math co-processor being used.  */
-+};
-+
-+#define ELF_PRARGSZ	(80)	/* Number of chars for args */
-+
-+struct elf_prpsinfo
-+{
-+	char	pr_state;	/* numeric process state */
-+	char	pr_sname;	/* char for pr_state */
-+	char	pr_zomb;	/* zombie */
-+	char	pr_nice;	/* nice val */
-+	unsigned long pr_flag;	/* flags */
-+	__kernel_uid_t	pr_uid;
-+	__kernel_gid_t	pr_gid;
-+	pid_t	pr_pid, pr_ppid, pr_pgrp, pr_sid;
-+	/* Lots missing */
-+	char	pr_fname[16];	/* filename of executable */
-+	char	pr_psargs[ELF_PRARGSZ];	/* initial part of arg list */
-+};
-+
-+
- static inline void elf_core_copy_regs(elf_gregset_t *elfregs, struct pt_regs *regs)
- {
- #ifdef ELF_CORE_COPY_REGS
-diff --git a/include/uapi/linux/elfcore.h b/include/uapi/linux/elfcore.h
-deleted file mode 100644
-index baf03562306d..000000000000
---- a/include/uapi/linux/elfcore.h
-+++ /dev/null
-@@ -1,101 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
--#ifndef _UAPI_LINUX_ELFCORE_H
--#define _UAPI_LINUX_ELFCORE_H
--
--#include <linux/types.h>
--#include <linux/signal.h>
--#include <linux/time.h>
--#include <linux/ptrace.h>
--#include <linux/elf.h>
--#include <linux/fs.h>
--
--struct elf_siginfo
--{
--	int	si_signo;			/* signal number */
--	int	si_code;			/* extra code */
--	int	si_errno;			/* errno */
--};
--
--
--#ifndef __KERNEL__
--typedef elf_greg_t greg_t;
--typedef elf_gregset_t gregset_t;
--typedef elf_fpregset_t fpregset_t;
--typedef elf_fpxregset_t fpxregset_t;
--#define NGREG ELF_NGREG
--#endif
--
--/*
-- * Definitions to generate Intel SVR4-like core files.
-- * These mostly have the same names as the SVR4 types with "elf_"
-- * tacked on the front to prevent clashes with linux definitions,
-- * and the typedef forms have been avoided.  This is mostly like
-- * the SVR4 structure, but more Linuxy, with things that Linux does
-- * not support and which gdb doesn't really use excluded.
-- * Fields present but not used are marked with "XXX".
-- */
--struct elf_prstatus
--{
--#if 0
--	long	pr_flags;	/* XXX Process flags */
--	short	pr_why;		/* XXX Reason for process halt */
--	short	pr_what;	/* XXX More detailed reason */
--#endif
--	struct elf_siginfo pr_info;	/* Info associated with signal */
--	short	pr_cursig;		/* Current signal */
--	unsigned long pr_sigpend;	/* Set of pending signals */
--	unsigned long pr_sighold;	/* Set of held signals */
--#if 0
--	struct sigaltstack pr_altstack;	/* Alternate stack info */
--	struct sigaction pr_action;	/* Signal action for current sig */
--#endif
--	pid_t	pr_pid;
--	pid_t	pr_ppid;
--	pid_t	pr_pgrp;
--	pid_t	pr_sid;
--	struct __kernel_old_timeval pr_utime;	/* User time */
--	struct __kernel_old_timeval pr_stime;	/* System time */
--	struct __kernel_old_timeval pr_cutime;	/* Cumulative user time */
--	struct __kernel_old_timeval pr_cstime;	/* Cumulative system time */
--#if 0
--	long	pr_instr;		/* Current instruction */
--#endif
--	elf_gregset_t pr_reg;	/* GP registers */
--#ifdef CONFIG_BINFMT_ELF_FDPIC
--	/* When using FDPIC, the loadmap addresses need to be communicated
--	 * to GDB in order for GDB to do the necessary relocations.  The
--	 * fields (below) used to communicate this information are placed
--	 * immediately after ``pr_reg'', so that the loadmap addresses may
--	 * be viewed as part of the register set if so desired.
--	 */
--	unsigned long pr_exec_fdpic_loadmap;
--	unsigned long pr_interp_fdpic_loadmap;
--#endif
--	int pr_fpvalid;		/* True if math co-processor being used.  */
--};
--
--#define ELF_PRARGSZ	(80)	/* Number of chars for args */
--
--struct elf_prpsinfo
--{
--	char	pr_state;	/* numeric process state */
--	char	pr_sname;	/* char for pr_state */
--	char	pr_zomb;	/* zombie */
--	char	pr_nice;	/* nice val */
--	unsigned long pr_flag;	/* flags */
--	__kernel_uid_t	pr_uid;
--	__kernel_gid_t	pr_gid;
--	pid_t	pr_pid, pr_ppid, pr_pgrp, pr_sid;
--	/* Lots missing */
--	char	pr_fname[16];	/* filename of executable */
--	char	pr_psargs[ELF_PRARGSZ];	/* initial part of arg list */
--};
--
--#ifndef __KERNEL__
--typedef struct elf_prstatus prstatus_t;
--typedef struct elf_prpsinfo prpsinfo_t;
--#define PRARGSZ ELF_PRARGSZ 
--#endif
--
--
--#endif /* _UAPI_LINUX_ELFCORE_H */
-diff --git a/scripts/headers_install.sh b/scripts/headers_install.sh
-index a07668a5c36b..65065f6ebac8 100755
---- a/scripts/headers_install.sh
-+++ b/scripts/headers_install.sh
-@@ -89,7 +89,6 @@ arch/x86/include/uapi/asm/auxvec.h:CONFIG_X86_64
- arch/x86/include/uapi/asm/mman.h:CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS
- include/uapi/asm-generic/fcntl.h:CONFIG_64BIT
- include/uapi/linux/atmdev.h:CONFIG_COMPAT
--include/uapi/linux/elfcore.h:CONFIG_BINFMT_ELF_FDPIC
- include/uapi/linux/eventpoll.h:CONFIG_PM_SLEEP
- include/uapi/linux/hw_breakpoint.h:CONFIG_HAVE_MIXED_BREAKPOINTS_REGS
- include/uapi/linux/pktcdvd.h:CONFIG_CDROM_PKTCDVD_WCACHE
-diff --git a/usr/include/Makefile b/usr/include/Makefile
-index b568a95d1f62..4b637ea50bef 100644
---- a/usr/include/Makefile
-+++ b/usr/include/Makefile
-@@ -24,7 +24,6 @@ no-header-test += linux/am437x-vpfe.h
- no-header-test += linux/android/binder.h
- no-header-test += linux/android/binderfs.h
- no-header-test += linux/coda.h
--no-header-test += linux/elfcore.h
- no-header-test += linux/errqueue.h
- no-header-test += linux/fsmap.h
- no-header-test += linux/hdlc/ioctl.h
+Is that a suitable URL ? Can we simply point to it from glibc's manual ?
+
+Thanks,
+
+Mathieu
+
+
+> 
+> --
+> Joseph S. Myers
+> joseph@codesourcery.com
+
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+http://www.efficios.com
