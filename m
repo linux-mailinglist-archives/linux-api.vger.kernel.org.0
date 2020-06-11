@@ -2,99 +2,145 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F1BFD1F5FF6
-	for <lists+linux-api@lfdr.de>; Thu, 11 Jun 2020 04:22:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8306E1F6354
+	for <lists+linux-api@lfdr.de>; Thu, 11 Jun 2020 10:12:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726499AbgFKCV6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 10 Jun 2020 22:21:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60716 "EHLO
+        id S1726646AbgFKIMS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 11 Jun 2020 04:12:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726163AbgFKCV4 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 10 Jun 2020 22:21:56 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C3EEC08C5C1
-        for <linux-api@vger.kernel.org>; Wed, 10 Jun 2020 19:21:55 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id n23so4996130ljh.7
-        for <linux-api@vger.kernel.org>; Wed, 10 Jun 2020 19:21:55 -0700 (PDT)
+        with ESMTP id S1726626AbgFKIMS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 11 Jun 2020 04:12:18 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27476C08C5C1
+        for <linux-api@vger.kernel.org>; Thu, 11 Jun 2020 01:12:18 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id t18so5141025wru.6
+        for <linux-api@vger.kernel.org>; Thu, 11 Jun 2020 01:12:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/qdV7kTEUj8MO2b1jDlzL2L6E3oB0hXT8qJRrm2qFQc=;
-        b=c4PrpNydhvWfQH0v9XSMys+WCbroecCmby1mCjkKRiyuzxYR9A5GEddYQlO9jlVl/9
-         PYELc1qFlanvSppAc2NDWPTFm73nOZ31dHzsD4r/hUfzhq6gDP1V+T1HNNWZ0VDboniz
-         UzzQjXCduN4jtMNG5Uopb/MknTZZBJVzkwaSw4tZ2sMIZ7Fwl+/BkSNzHp2gLh4WzLsp
-         utTQfkyV/0vVFWCeF4wjWR7qILW2RrzbqMNVrugPeucUAFSE72UgwX5yEapBqt6k0V23
-         upNkRjq0V/feFjXxZkuVo6Xhrw4u6Vohkf/vucM36axE7rJ6fDlHVUnatnd4Y7hqeKvX
-         6WAw==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kUiKHVOoF7ZJ8wmYqv/EYMT0xBNo94MONSSmPtqQvA4=;
+        b=MEbAXRgO0MQVR2F0fIZQNqz2FB/AJS6wntOpGny86mtKUPRYnONkoxK6UM09b2jFOq
+         Mw2MQLsYe6hsesCsJutBua51Te81CgWQOsvxX00UbHsLcNF7Id3vIPPHoXkLd1GZs3YO
+         KBGnBH45D2lhJQ/5YSlw+p4ofvZab94WQfkmWjpJL5Pvv8uA5CswRQj60eKBBEFbngmF
+         t2xV91VrgKR4M8vk2vHL4Xyw9NR0JUdTIKbJzLp5MHEfpZJNY5ewscz7HcCWzelvWm7C
+         TohzWS8wwx2UbEp3v8sosGgOdwu5gdR8E5lTVydIdv5yLwCiDs8vOsORtmT9rzgHUu+g
+         dsyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/qdV7kTEUj8MO2b1jDlzL2L6E3oB0hXT8qJRrm2qFQc=;
-        b=gQFA0/fGFh6lP5kjam8Zd8dq7RvTJ2m+ZAbl2hhiGCy7fAPH20tlvH8vpMINbJ/D2r
-         zvLkcvhqUb04KamtIq26YhAt+X1i/5AtnuV0i0UY1EHkL2wBD67ClPP5XM3JQuYpVLUr
-         1lkfzWiFus5+WJWGbYa3d/PBjqKbyjgALX/I1Q1IEThz5AAvjdvgbp+6wNqldiKP3cM6
-         WuiQYRk1BTPrNh/Ju+BOavVyS51YTRZTnQ4NG9wM2aI+xZV8hJX7XrXVt5X+oQQuYYvi
-         5pvxl0Q0ZEop7oteQxyPk0bBqV3xdoy9d+GTmGaoQay1OYtTODQCrpIwGmfh0j6uo18x
-         XJZA==
-X-Gm-Message-State: AOAM533EapsIr7muwnznvVAav3PCiuXV5hOPFXtHFa3Rna+zE8C2dbdI
-        OrORGus/bKx5PrS8PK49xKV8FacOfBBKFiX16b0XfQ==
-X-Google-Smtp-Source: ABdhPJyJ6thR5cdQysfqBhuFXOJjtSaKK4QLT87l9YsZ6BXGAe7BkWYvSbzgNy3CzWa/2SpSjyJwk/1kLXvtppfKx4w=
-X-Received: by 2002:a05:651c:38b:: with SMTP id e11mr2003236ljp.415.1591842113338;
- Wed, 10 Jun 2020 19:21:53 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kUiKHVOoF7ZJ8wmYqv/EYMT0xBNo94MONSSmPtqQvA4=;
+        b=a3l5v+e/m/tykK5q3JIIItI6ZEBLHbg/JgFXtKbd73pDELFbWGllxEXSVI+cQEcv7E
+         4Q3jknIwJ3EUM8rs72jrdQrMauiuCsxWud76tEkBbuk+Jll1iK13KYVHlx3RtocKlSvo
+         XJ/RVsSa8NiTcgnKVq244nrod0j/BACE/NAmru1Q1pvBWN6R2hor+Xmdd0K3kPqD6INI
+         z9EXKkTxXKjobufjIm4hTXlNTK2JfoPBvLU3D5I2q05oRNjME+a2vyIUFDk0ZmMivQek
+         olr1L0WyYu6/OnTZTNoObzyJsTBrhrr4hPTXASiUkUNzZDDb995oRGivkH1psRC1dWQs
+         jT5Q==
+X-Gm-Message-State: AOAM5321GwSA5+jZhHMzEs0uHanbAFSV4kS3wpnqMTVbDhxz5QyCMbOC
+        UGkK7CS5ATiH7FYoWru3tiQ=
+X-Google-Smtp-Source: ABdhPJzW2MewmfkeF39bRIJHVdmLK2NgXFIW32JkzPi0SIpm3PlmXIMuGPVl4AQ6q8FKsAidHGFkpg==
+X-Received: by 2002:adf:fd4f:: with SMTP id h15mr8051524wrs.397.1591863136557;
+        Thu, 11 Jun 2020 01:12:16 -0700 (PDT)
+Received: from bobo.ibm.com (193-116-110-116.tpgi.com.au. [193.116.110.116])
+        by smtp.gmail.com with ESMTPSA id w17sm3604826wra.71.2020.06.11.01.12.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jun 2020 01:12:15 -0700 (PDT)
+From:   Nicholas Piggin <npiggin@gmail.com>
+To:     linuxppc-dev@lists.ozlabs.org
+Cc:     Nicholas Piggin <npiggin@gmail.com>, musl@lists.openwall.com,
+        libc-dev@lists.llvm.org, linux-api@vger.kernel.org
+Subject: Linux powerpc new system call instruction and ABI
+Date:   Thu, 11 Jun 2020 18:12:01 +1000
+Message-Id: <20200611081203.995112-1-npiggin@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-References: <20200302193630.68771-1-minchan@kernel.org> <20200302193630.68771-8-minchan@kernel.org>
-In-Reply-To: <20200302193630.68771-8-minchan@kernel.org>
-From:   Jann Horn <jannh@google.com>
-Date:   Thu, 11 Jun 2020 04:21:27 +0200
-Message-ID: <CAG48ez1WfUN2eZyiQL0thsO3cYW6TgC-NzEj=gP2KfkJ7BdK=Q@mail.gmail.com>
-Subject: Re: [PATCH v7 7/7] mm/madvise: allow KSM hints for remote API
-To:     Oleksandr Natalenko <oleksandr@redhat.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Tim Murray <timmurray@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        John Dias <joaodias@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Alexander Duyck <alexander.h.duyck@linux.intel.com>,
-        sj38.park@gmail.com, Minchan Kim <minchan@kernel.org>,
-        SeongJae Park <sjpark@amazon.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Mar 2, 2020 at 8:36 PM Minchan Kim <minchan@kernel.org> wrote:
-> From: Oleksandr Natalenko <oleksandr@redhat.com>
->
-> It all began with the fact that KSM works only on memory that is marked
-> by madvise(). And the only way to get around that is to either:
-[...]
-> To overcome this restriction, lets employ a new remote madvise API. This
-> can be used by some small userspace helper daemon that will do auto-KSM
-> job for us.
->
-> I think of two major consumers of remote KSM hints:
-[...]
->   * heavy applications, that can be run in multiple instances, not
->     limited to opensource ones like Firefox, but also those that cannot be
->     modified since they are binary-only and, maybe, statically linked.
+Thanks to everyone who has given feedback on the proposed new system
+call instruction and ABI, I think it has reached agreement and the
+implementation can be merged into Linux.
 
-Just as a note, since you're mentioning Firefox as a usecase: Memory
-deduplication between browser renderers creates new side channels and
-is a questionable idea from a security standpoint. Memory
-deduplication is (mostly) fine if either all involved processes are
-trusted or no involved processes contain secrets, but browsers usually
-run tons of untrusted code while at the same time containing lots of
-valuable secrets.
+I have a hacked glibc implementation (that doesn't do all the right
+HWCAP detection and misses a few things) that I've tested several things
+including some kernel selftests (involving signals and syscalls) with.
+
+System Call Vectored (scv) ABI
+==============================
+
+The scv instruction is introduced with POWER9 / ISA3, it comes with an
+rfscv counter-part. The benefit of these instructions is performance
+(trading slower SRR0/1 with faster LR/CTR registers, and entering the
+kernel with MSR[EE] and MSR[RI] left enabled, which can reduce MSR 
+updates. The scv instruction has 128 levels (not enough to cover the Linux
+system call space).
+
+Assignment and advertisement
+----------------------------
+The proposal is to assign scv levels conservatively, and advertise them
+with HWCAP feature bits as we add support for more.
+
+Linux has not enabled FSCR[SCV] yet, so executing the scv instruction will
+cause the kernel to log a "SCV facility unavilable" message, and deliver a
+SIGILL with ILL_ILLOPC to the process. Linux has defined a HWCAP2 bit
+PPC_FEATURE2_SCV for SCV support, but does not set it.
+
+This change allocates the zero level ('scv 0'), advertised with
+PPC_FEATURE2_SCV, which will be used to provide normal Linux system
+calls (equivalent to 'sc').
+
+Attempting to execute scv with other levels will cause a SIGILL to be
+delivered the same as before, but will not log a "SCV facility unavailable"
+message (because the processor facility is enabled).
+
+Calling convention
+------------------
+The proposal is for scv 0 to provide the standard Linux system call ABI 
+with the following differences from sc convention[1]:
+
+- lr is to be volatile across scv calls. This is necessary because the 
+  scv instruction clobbers lr. From previous discussion, this should be 
+  possible to deal with in GCC clobbers and CFI.
+
+- cr1 and cr5-cr7 are volatile. This matches the C ABI and would allow the
+  kernel system call exit to avoid restoring the volatile cr registers
+  (although we probably still would anyway to avoid information leaks).
+
+- Error handling: The consensus among kernel, glibc, and musl is to move to
+  using negative return values in r3 rather than CR0[SO]=1 to indicate error,
+  which matches most other architectures, and is closer to a function call.
+
+Notes
+-----
+- r0,r4-r8 are documented as volatile in the ABI, but the kernel patch as
+  submitted currently preserves them. This is to leave room for deciding
+  which way to go with these. Some small benefit was found by preserving
+  them[1] but I'm not convinced it's worth deviating from the C function
+  call ABI just for this. Release code should follow the ABI.
+
+Previous discussions:
+https://lists.ozlabs.org/pipermail/linuxppc-dev/2020-April/208691.html
+https://lists.ozlabs.org/pipermail/linuxppc-dev/2020-April/209268.html
+
+[1] https://github.com/torvalds/linux/blob/master/Documentation/powerpc/syscall64-abi.rst
+[2] https://lists.ozlabs.org/pipermail/linuxppc-dev/2020-April/209263.html
+
+The following patches to add scv support to Linux are posted to
+
+ https://lists.ozlabs.org/pipermail/linuxppc-dev/
+
+Nicholas Piggin (2):
+  powerpc/64s/exception: treat NIA below __end_interrupts as soft-masked
+  powerpc/64s: system call support for scv/rfscv instructions
+
+Thanks,
+Nick
+
+-- 
+2.23.0
+
