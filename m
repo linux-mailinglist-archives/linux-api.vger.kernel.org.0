@@ -2,63 +2,138 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 07D5D1F6F80
-	for <lists+linux-api@lfdr.de>; Thu, 11 Jun 2020 23:35:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D0371F7D2A
+	for <lists+linux-api@lfdr.de>; Fri, 12 Jun 2020 20:51:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726447AbgFKVff (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 11 Jun 2020 17:35:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41050 "EHLO
+        id S1726263AbgFLSvY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 12 Jun 2020 14:51:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726326AbgFKVff (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 11 Jun 2020 17:35:35 -0400
-Received: from ZenIV.linux.org.uk (zeniv.linux.org.uk [IPv6:2002:c35c:fd02::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2028C08C5C1
-        for <linux-api@vger.kernel.org>; Thu, 11 Jun 2020 14:35:34 -0700 (PDT)
-Received: from viro by ZenIV.linux.org.uk with local (Exim 4.93 #3 (Red Hat Linux))
-        id 1jjUrC-007GHL-Ke; Thu, 11 Jun 2020 21:35:30 +0000
-Date:   Thu, 11 Jun 2020 22:35:30 +0100
-From:   Al Viro <viro@zeniv.linux.org.uk>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Linux API <linux-api@vger.kernel.org>
-Subject: Re: [RFC] unexport linux/elfcore.h
-Message-ID: <20200611213530.GB23230@ZenIV.linux.org.uk>
-References: <20200611010115.GZ23230@ZenIV.linux.org.uk>
- <20200611152344.GA1693733@ZenIV.linux.org.uk>
- <CAHk-=wijbWCfZaiYO68MSfxz-UMuJCuO1Sr9O1x4BTPpMjm4gw@mail.gmail.com>
+        with ESMTP id S1726085AbgFLSvX (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 12 Jun 2020 14:51:23 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4CF6C03E96F;
+        Fri, 12 Jun 2020 11:51:23 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: tonyk)
+        with ESMTPSA id 52F862A5160
+From:   =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>
+To:     linux-kernel@vger.kernel.org, tglx@linutronix.de,
+        peterz@infradead.org
+Cc:     krisman@collabora.com, kernel@collabora.com,
+        andrealmeid@collabora.com, dvhart@infradead.org, mingo@redhat.com,
+        pgriffais@valvesoftware.com, fweimer@redhat.com,
+        libc-alpha@sourceware.org, malteskarupke@web.de,
+        linux-api@vger.kernel.org
+Subject: [RFC 0/4] futex2: Add new futex interface
+Date:   Fri, 12 Jun 2020 15:51:18 -0300
+Message-Id: <20200612185122.327860-1-andrealmeid@collabora.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wijbWCfZaiYO68MSfxz-UMuJCuO1Sr9O1x4BTPpMjm4gw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jun 11, 2020 at 01:01:40PM -0700, Linus Torvalds wrote:
-> On Thu, Jun 11, 2020 at 8:23 AM Al Viro <viro@zeniv.linux.org.uk> wrote:
-> >
-> > I mean something like this.  Objections?
-> 
-> I'm not seeing that alot of people would care.
-> 
-> That said, is there any reason not to try to fix it instead and expose
-> elf_gregset_t some way?
-> 
-> But I do suspect it all really boils down to "nobody cares". If you
-> can't find somebody to speak up for it, might as well remove it.
+Hello,
 
-Anyone who wants to use that stuff includes sys/procfs.h anyway (since
-1996).  As for the reasons...  I would love to kill off these gems, for
-example:
-#define PRSTATUS_SIZE(S, R) (R != sizeof(S.pr_reg) ? 144 : 296)
-#define SET_PR_FPVALID(S, V, R) \
-  do { *(int *) (((void *) &((S)->pr_reg)) + R) = (V); } \
-  while (0)
-(x86 asm/compat.h)  And being able to massage the definition of
-elf_prstatus (while keeping the size and layout - it describes
-a part of file format, after all) would simplify the life alot.
+This RFC is a followup to the previous discussion initiated from my last
+patch "futex: Implement mechanism to wait on any of several futexes"[1].
+As stated in the thread, the correct approach to move forward with the
+wait multiple operation would be to create a new syscall that would have
+all new cool features.
 
-struct __kernel_elf_prstatus would be an obvious solution, but...
-nobody in userland pulls the definition in linux/elfcore.h and
-hadn't been able to do that for at least a decade (if not more than
-that).  So I'd rather get rid of exporting it.
+The first patch adds the new interface and just translate the call for
+the old interface, without implementing new features. The goal here is
+to establish the interface and to check if everyone is happy with this
+API. The rest of patches are selftests to show the interface in action.
+I have the following questions:
+
+- Has anyone stared worked on a implementation of this interface? If
+  yes, it would be nice to share the progress so we don't have duplicated
+  work.
+
+- What suggestions do you have to implement this? Start from scratch or
+  reuse the most code possible?
+
+- The interface seems correct and implements the requirements asked by you?
+
+- The proposed interface uses ktime_t type for absolute timeout, and I
+  assumed that it should use values in a nsec resolution. If this is true,
+  we have some problems with i386 ABI, please check out the
+  COMPAT_32BIT_TIME implementation in patch 1 for more details. I
+  haven't added a time64 implementation yet, until this is clarified.
+
+- Is expected to have a x32 ABI implementation as well? In the case of
+  wait and wake, we could use the same as x86_64 ABI. However, for the
+  waitv (aka wait on multiple futexes) we would need a proper x32 entry
+  since we are dealing with 32bit pointers.
+
+Those are the cool new features that this syscall should address some
+day:
+
+- Operate with variable bit size futexes, not restricted to 32:
+  8, 16 and 64
+
+- Wait on multiple futexes, using the following semantics:
+
+  struct futex_wait {
+	void *uaddr;
+	unsigned long val;
+	unsigned long flags;
+  };
+
+  sys_futex_waitv(struct futex_wait *waiters, unsigned int nr_waiters,
+		  unsigned long flags, ktime_t *timo);
+
+- Have NUMA optimizations: if FUTEX_NUMA_FLAG is present, the `void *uaddr`
+  argument won't be a u{8, 16, 32, 64} value anymore, but a struct
+  containing a NUMA node hint:
+
+  struct futex32_numa {
+	  u32 value __attribute__ ((aligned (8)));
+	  u32 hint;
+  };
+
+  struct futex64_numa {
+	  u64 value __attribute__ ((aligned (16)));
+	  u64 hint;
+  };
+
+Thanks,
+	André
+
+André Almeida (4):
+  futex2: Add new futex interface
+  selftests: futex: Add futex2 wake/wait test
+  selftests: futex: Add futex2 timeout test
+  selftests: futex: Add futex2 wouldblock test
+
+ MAINTAINERS                                   |   2 +-
+ arch/x86/entry/syscalls/syscall_32.tbl        |   2 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |   2 +
+ include/linux/syscalls.h                      |   9 ++
+ include/uapi/asm-generic/unistd.h             |   7 +-
+ include/uapi/linux/futex.h                    |  10 ++
+ init/Kconfig                                  |   7 ++
+ kernel/Makefile                               |   1 +
+ kernel/futex2.c                               |  97 ++++++++++++++++
+ kernel/sys_ni.c                               |   5 +
+ tools/include/uapi/asm-generic/unistd.h       |   7 +-
+ .../selftests/futex/functional/.gitignore     |   1 +
+ .../selftests/futex/functional/Makefile       |   4 +-
+ .../selftests/futex/functional/futex2_wait.c  | 106 ++++++++++++++++++
+ .../futex/functional/futex_wait_timeout.c     |  27 ++++-
+ .../futex/functional/futex_wait_wouldblock.c  |  34 +++++-
+ .../testing/selftests/futex/functional/run.sh |   3 +
+ .../selftests/futex/include/futex2test.h      |  50 +++++++++
+ 18 files changed, 361 insertions(+), 13 deletions(-)
+ create mode 100644 kernel/futex2.c
+ create mode 100644 tools/testing/selftests/futex/functional/futex2_wait.c
+ create mode 100644 tools/testing/selftests/futex/include/futex2test.h
+
+-- 
+2.27.0
+
