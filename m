@@ -2,149 +2,100 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AE26C1F9207
-	for <lists+linux-api@lfdr.de>; Mon, 15 Jun 2020 10:45:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E25D1F939F
+	for <lists+linux-api@lfdr.de>; Mon, 15 Jun 2020 11:36:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728603AbgFOIpL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 15 Jun 2020 04:45:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41108 "EHLO
+        id S1728852AbgFOJgv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 15 Jun 2020 05:36:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729035AbgFOIpK (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 15 Jun 2020 04:45:10 -0400
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15B4BC08C5C2
-        for <linux-api@vger.kernel.org>; Mon, 15 Jun 2020 01:45:09 -0700 (PDT)
-Received: by mail-ed1-x541.google.com with SMTP id x25so3918908edr.8
-        for <linux-api@vger.kernel.org>; Mon, 15 Jun 2020 01:45:09 -0700 (PDT)
+        with ESMTP id S1728411AbgFOJgu (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 15 Jun 2020 05:36:50 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66452C061A0E
+        for <linux-api@vger.kernel.org>; Mon, 15 Jun 2020 02:36:50 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id a9so18351059ljn.6
+        for <linux-api@vger.kernel.org>; Mon, 15 Jun 2020 02:36:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=OXy80G/QuWlMsF/9ZGjBxujaTTvUrmfWIzv9XF+RHas=;
-        b=mb5wlVjn0ratQKJ42h3GHcIVlDnVaMT+Y0sd3By4do/QOYmPV7Aq+Y2zatzsI7SOrn
-         uhkPX6n2/5cxQmCMLpHxsYCjwN+0ROujisKn33HA1NeF+zxYT/qIyuzyaqX7GXK3x8+e
-         OxQ+ScFLCE+B8bFFPL0VH/0VJEF8kb46qelzU=
+        bh=22kS9L9B/ois1Ha/GYEYnbqzF7cTylSOmt/vj8WNXQQ=;
+        b=dPc0cv+HsIER0Sn1puUNnpOALEmOKBQNe6madCuFxhjtZBOpyXgMvgLh5RX+5VlOG6
+         nUj95LeZLpM+kpYtC51SOF1tteYW7eQUBYNBIt95FZ0xrPOqSHSmcdZgSB6wPl49xeOb
+         A6ngEucZtEp6Fn/xm/vVIa3HFC92bDUnPs2jYfFmPz472qaN8JCp/mW7uSs70hdk+E12
+         z+oWtIRwRemkKEBYGiDiMonGbb0LKWFo1BMVZKBwHh2M6AX96gQG1WXvpzVHM3GaKKmV
+         /SSUpYFjmf+rR6ZJRZJrjTgZqRahuOHotlWMtzzKEEYGr5XqXbm7F+8Uo8tRldgAS675
+         KfvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=OXy80G/QuWlMsF/9ZGjBxujaTTvUrmfWIzv9XF+RHas=;
-        b=ksaapMoXByfKNIKQrbxXZUTah92k9a38Jafe5ol7BmNpPqoo7u4xNghb+LKvqppTvv
-         Jv7APYa7OGUCj+XIOmTAvMViU7dyLk/FrO4BVVF4bvWEHl+tABGXQmPbOgtQzXjgbiY2
-         00df00opwT9BFhZJXYe96ILJLtjuROWrCBUYTSk6WnbrGX7LdIREJxBJZFY+7G1qAHP0
-         6CcEaFVGE7sYSuCyMq5Sg+ljTTxAOuHRSpBfnq+ADyDR1FHinqVuke7IjjQy58MvxSJt
-         DPd4gnpDjCeYa0rioXL8b1qXrszlo9R6yinva/9iCcdIJa8Coz+frsjyKi0CJRRWgKwt
-         1PzA==
-X-Gm-Message-State: AOAM530APYXkG/9hr2Hxviq5c/NFuoDxtdep0oowAZ0KBMZYqYAdGn9p
-        X3zORP9XzTESnTzrK/kWcezHOMTiwIc4mSy/XpJFVg==
-X-Google-Smtp-Source: ABdhPJyO4Zt3HWq71S+Z2BgNwO3mxs8JAJdgIAdXB02awF1aP6ubx5B2i1EercDpoimnNHKzSTYdhNfWuV8yG31tLAk=
-X-Received: by 2002:a50:d785:: with SMTP id w5mr22207839edi.212.1592210708330;
- Mon, 15 Jun 2020 01:45:08 -0700 (PDT)
+        bh=22kS9L9B/ois1Ha/GYEYnbqzF7cTylSOmt/vj8WNXQQ=;
+        b=X8LbpQ7Uk7L3l4uQ/0CjPRkYrg6mp8H6IpnO+kF3QyfOhFLLPeW5K3x+7NfI6D7wGg
+         tJr0tMJDhXOL8/cFfKcQomaXMKBYipot9e/75dnxY7aoBG3PB7RD2n1LtPyXmeNciOQ5
+         6X3Hf7tmmEPhac+SAQUNe8sx6bFCt2v3xcWTZrxh2gpa+9eCS6NOlxnxdgk9WzBAoOL4
+         KX63AuDdb2b+TGnv7FPWwIO2HDYOAffpF2JFlA3vPUT7b7BuL/TpRD63+UTY+TPiT+VV
+         5HYwF/1aWHyOXeir8Jo93wrtxsthkCWHPu/ggyxAnF2Knkh3ILqhe7qlP7dVVWFr1pa6
+         Akcw==
+X-Gm-Message-State: AOAM5334vf/ZKWYQEX31I5w0IGjdVK9kcH1dYgPwynXDRb0B++urRhby
+        ZvCiRM0My0N/NGEhr+uaNV8KR7SFipKKiSf7vUaBxGwqnWs=
+X-Google-Smtp-Source: ABdhPJwRU2jzVYZnkHe1W/+KPEzJhKKWPFPgo4Z700O+yxFlCpBBlu0uLExT1SdYzrNsb4FqBJyO5n6lUmtFTduqpZk=
+X-Received: by 2002:a2e:541e:: with SMTP id i30mr11434276ljb.156.1592213808587;
+ Mon, 15 Jun 2020 02:36:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <158454378820.2863966.10496767254293183123.stgit@warthog.procyon.org.uk>
- <158454391302.2863966.1884682840541676280.stgit@warthog.procyon.org.uk>
- <CAJfpegspWA6oUtdcYvYF=3fij=Bnq03b8VMbU9RNMKc+zzjbag@mail.gmail.com> <0991792b6e2af0a5cc1a2c2257b535b5e6b032e4.camel@themaw.net>
-In-Reply-To: <0991792b6e2af0a5cc1a2c2257b535b5e6b032e4.camel@themaw.net>
-From:   Miklos Szeredi <miklos@szeredi.hu>
-Date:   Mon, 15 Jun 2020 10:44:57 +0200
-Message-ID: <CAJfpeguZuCTmCWf-mF3=iZQeaaUYRoCRU9wcyz_gCMD94-bFFQ@mail.gmail.com>
-Subject: Re: [PATCH 13/17] watch_queue: Implement mount topology and attribute
- change notifications [ver #5]
-To:     Ian Kent <raven@themaw.net>
-Cc:     David Howells <dhowells@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        Nicolas Dichtel <nicolas.dichtel@6wind.com>,
-        Christian Brauner <christian@brauner.io>, andres@anarazel.de,
-        Jeff Layton <jlayton@redhat.com>, dray@redhat.com,
-        Karel Zak <kzak@redhat.com>, keyrings@vger.kernel.org,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        LSM <linux-security-module@vger.kernel.org>,
-        linux-kernel@vger.kernel.org
+References: <20200613072609.5919-1-sargun@sargun.me>
+In-Reply-To: <20200613072609.5919-1-sargun@sargun.me>
+From:   Jann Horn <jannh@google.com>
+Date:   Mon, 15 Jun 2020 11:36:22 +0200
+Message-ID: <CAG48ez2ZyYkHhbuwLYehR5fx2_d9yoVg4tBmyqvVqpy-oZ-0cA@mail.gmail.com>
+Subject: Re: [RFC PATCH] seccomp: Add extensibility mechanism to read notifications
+To:     Sargun Dhillon <sargun@sargun.me>
+Cc:     Kees Cook <keescook@chromium.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        Tycho Andersen <tycho@tycho.ws>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        Linux API <linux-api@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sun, Jun 14, 2020 at 5:07 AM Ian Kent <raven@themaw.net> wrote:
+On Sat, Jun 13, 2020 at 9:26 AM Sargun Dhillon <sargun@sargun.me> wrote:
+> This introduces an extensibility mechanism to receive seccomp
+> notifications. It uses read(2), as opposed to using an ioctl. The listener
+> must be first configured to write the notification via the
+> SECCOMP_IOCTL_NOTIF_CONFIG ioctl with the fields that the user is
+> interested in.
 >
-> On Thu, 2020-04-02 at 17:19 +0200, Miklos Szeredi wrote:
-> >
-> > > Firstly, a watch queue needs to be created:
-> > >
-> > >         pipe2(fds, O_NOTIFICATION_PIPE);
-> > >         ioctl(fds[1], IOC_WATCH_QUEUE_SET_SIZE, 256);
-> > >
-> > > then a notification can be set up to report notifications via that
-> > > queue:
-> > >
-> > >         struct watch_notification_filter filter = {
-> > >                 .nr_filters = 1,
-> > >                 .filters = {
-> > >                         [0] = {
-> > >                                 .type = WATCH_TYPE_MOUNT_NOTIFY,
-> > >                                 .subtype_filter[0] = UINT_MAX,
-> > >                         },
-> > >                 },
-> > >         };
-> > >         ioctl(fds[1], IOC_WATCH_QUEUE_SET_FILTER, &filter);
-> > >         watch_mount(AT_FDCWD, "/", 0, fds[1], 0x02);
-> > >
-> > > In this case, it would let me monitor the mount topology subtree
-> > > rooted at
-> > > "/" for events.  Mount notifications propagate up the tree towards
-> > > the
-> > > root, so a watch will catch all of the events happening in the
-> > > subtree
-> > > rooted at the watch.
-> >
-> > Does it make sense to watch a single mount?  A set of mounts?   A
-> > subtree with an exclusion list (subtrees, types, ???)?
->
-> Yes, filtering, perhaps, I'm not sure a single mount is useful
-> as changes generally need to be monitored for a set of mounts.
->
-> Monitoring a subtree is obviously possible because the monitor
-> path doesn't need to be "/".
->
-> Or am I misunderstanding what your trying to get at.
->
-> The notion of filtering types and other things is interesting
-> but what I've seen that doesn't fit in the current implementation
-> so far probably isn't appropriate for kernel implementation.
->
-> There's a special case of acquiring a list of mounts where the
-> path is not a mount point itself but you need all mount below
-> that path prefix.
->
-> In this case you get all mounts, including the mounts of the mount
-> containing the path, so you still need to traverse the list to match
-> the prefix and that can easily mean the whole list of mounts in the
-> system.
->
-> Point is it leads to multiple traversals of a larger than needed list
-> of mounts, one to get the list of mounts to check, and one to filter
-> on the prefix.
->
-> I've seen this use case with fsinfo() and that's where it's needed
-> although it may be useful to carry it through to notifications as
-> well.
->
-> While this sounds like it isn't such a big deal it can sometimes
-> make a considerable difference to the number of mounts you need
-> to traverse when there are a large number of mounts in the system.
->
-> I didn't consider it appropriate for kernel implementation but
-> since you asked here it is. OTOH were checking for connectedness
-> in fsinfo() anyway so maybe this is something that could be done
-> without undue overhead.
+> This is different than the old SECCOMP_IOCTL_NOTIF_RECV method as it allows
+> for more flexibility. It allows the user to opt into certain fields, and
+> not others. This is nice for users who want to opt into some fields like
+> thread group leader. In the future, this mechanism can be used to expose
+> file descriptors to users,
 
-Good point.  Filtering notifications for mounts outside of the
-specified path makes sense.
+Please don't touch the caller's file descriptor table from read/write
+handlers, only from ioctl handlers. A process should always be able to
+read from files supplied by an untrusted user without having to worry
+about new entries mysteriously popping up in its fd table.
 
-Thanks,
-Miklos
+> such as a representation of the process's
+> memory. It also has good forwards and backwards compatibility guarantees.
+> Users with programs compiled against newer headers will work fine on older
+> kernels as long as they don't opt into any sizes, or optional fields that
+> are only available on newer kernels.
+>
+> The ioctl method relies on an extensible struct[1]. This extensible struct
+> is slightly misleading[2] as the ioctl number changes when we extend it.
+> This breaks backwards compatibility with older kernels even if we're not
+> asking for any fields that we do not need. In order to deal with this, the
+> ioctl number would need to be dynamic, or the user would need to pass the
+> size they're expecting, and we would need to implemented "extended syscall"
+> semantics in ioctl. This potentially causes issue to future work of
+> kernel-assisted copying for ioctl user buffers.
+
+I don't see the issue. Can't you replace "switch (cmd)" with "switch
+(cmd & ~IOCSIZE_MASK)" and then check the size separately?
