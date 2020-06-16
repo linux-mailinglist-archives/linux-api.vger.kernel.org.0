@@ -2,196 +2,218 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D26AF1FC0B4
-	for <lists+linux-api@lfdr.de>; Tue, 16 Jun 2020 23:13:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 015731FC14B
+	for <lists+linux-api@lfdr.de>; Wed, 17 Jun 2020 00:03:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726044AbgFPVNT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 16 Jun 2020 17:13:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40714 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725773AbgFPVNS (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Jun 2020 17:13:18 -0400
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 401DEC06174E
-        for <linux-api@vger.kernel.org>; Tue, 16 Jun 2020 14:13:17 -0700 (PDT)
-Received: by mail-pj1-x1042.google.com with SMTP id jz3so2024416pjb.0
-        for <linux-api@vger.kernel.org>; Tue, 16 Jun 2020 14:13:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=content-transfer-encoding:from:mime-version:subject:date:message-id
-         :references:cc:in-reply-to:to;
-        bh=eqEyb6JQUaVvUerJGlNUxsrnO2s/SjrzdS9NtiPOeYo=;
-        b=g6zCQtb1WWtXnfW4lrEfAQterYlqGC+qzWbEDOKWIv0NGjz9l6EEUTZT4gJDW3+dm/
-         jAky84uduB/j4JURdB4IZE7r4mqAIkdv49wcpUU4CiKisBZQqJrpYrx1NFFYznrl+9BI
-         aZQn4KnFjY341j/bwx6nWPjr01h0+bU/gSCyL7NrzL425xz3u5Z4j3HPi1f1I/fXEd6u
-         S96nkQ/d4HJ6cFF1dPP7aUkIC04jHD6rbpaZoCr6UafwOcfi/6KLjw65d+wSqtv/UEP1
-         nxtbnnX7dZPCS4htwAKfNvqmCaYCgjjYhsQLMEccQtT6DDw+wQb0qVBBFqHNlFNYsxYK
-         6Yuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:content-transfer-encoding:from:mime-version
-         :subject:date:message-id:references:cc:in-reply-to:to;
-        bh=eqEyb6JQUaVvUerJGlNUxsrnO2s/SjrzdS9NtiPOeYo=;
-        b=pJ/sbukiGEljD23rNkJyXMViVLZAQ+WqwG1PJy/GcSTX1ppvgL3uxl06WzgRZpc5af
-         nnfpGepDY/2zjDE+lcyI115r5zbObYAlDKcV27GD3ifNuBfph2Ni3p89SoVKEdwu1yOB
-         0PjuG+Lf5sZpjFP3r8+xfKdoZxueDw6ItIELhQXPslRbfJmwL3xQ2yqx2WGHJVDX5hj3
-         +zyPjnjk2sYCACq+TbnyMZ7/zCnRnLRYpboCA8i6Lp1fQJR0mKteK7n+/aiZyQiTIOLC
-         HvO/bKEpJhK3MAw4Jw/QNa4Q9Id0um2RS39IsliW3VsiNzPDroqNiELKMR01dn1wIaES
-         k3Rg==
-X-Gm-Message-State: AOAM5333XUcJHZXLh6jhIEeZillXB54eVgPJEUn1oTaVWLXlF+mndrfZ
-        LSxnDj8MDx03+aSK0YAen21aug==
-X-Google-Smtp-Source: ABdhPJy69Z2QgDcdZTYpebC8ze5IvfOADkMTD+75F8SeFWRv4Ch+M+gwBX/zyw6HkQzCVDsLgMTKjA==
-X-Received: by 2002:a17:90a:ee14:: with SMTP id e20mr4899331pjy.55.1592341996543;
-        Tue, 16 Jun 2020 14:13:16 -0700 (PDT)
-Received: from ?IPv6:2601:646:c200:1ef2:2854:eba6:e44d:d731? ([2601:646:c200:1ef2:2854:eba6:e44d:d731])
-        by smtp.gmail.com with ESMTPSA id 8sm3282064pja.0.2020.06.16.14.13.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Jun 2020 14:13:15 -0700 (PDT)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From:   Andy Lutomirski <luto@amacapital.net>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH 4/8] seccomp: Implement constant action bitmaps
-Date:   Tue, 16 Jun 2020 14:13:14 -0700
-Message-Id: <CE2F8139-4549-46CC-ABDB-3429361847A2@amacapital.net>
-References: <CAG48ez2HrPLhby31PUFb4f=iM60USA4NYRE6AjE8pPQ+ctm60g@mail.gmail.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        Christian Brauner <christian@brauner.io>,
-        Sargun Dhillon <sargun@sargun.me>,
-        Tycho Andersen <tycho@tycho.ws>,
-        "zhujianwei (C)" <zhujianwei7@huawei.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Will Drewry <wad@chromium.org>, Shuah Khan <shuah@kernel.org>,
-        Matt Denton <mpdenton@google.com>,
-        Chris Palmer <palmer@google.com>,
-        Jeffrey Vander Stoep <jeffv@google.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Hehuazhen <hehuazhen@huawei.com>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-In-Reply-To: <CAG48ez2HrPLhby31PUFb4f=iM60USA4NYRE6AjE8pPQ+ctm60g@mail.gmail.com>
-To:     Jann Horn <jannh@google.com>
-X-Mailer: iPhone Mail (17F80)
+        id S1725894AbgFPWD2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 16 Jun 2020 18:03:28 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:28439 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725790AbgFPWD2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Jun 2020 18:03:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1592345005;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+        bh=179/O+Gj2T/owujrlYK05PW2qLQMzW+DiLauyFCpz1E=;
+        b=AtHcwhxPyBxGV43Q67LlMtxLxXKh5WWBZnVeoeT60P7eUo10gNYmebSkkRdVajaajjGXYn
+        V6fbWjyZ+Xm6UxPcQS0ctH6+Ncg8oranduQt8QSHTQ9lluqWhze+T9R8y/VOKxWpAUcHhO
+        ARm2vsJpAsGzUq4yqEg3w/O5CHSLFm0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-300-yZhtNT2UOcmaErfowbtUgQ-1; Tue, 16 Jun 2020 18:03:24 -0400
+X-MC-Unique: yZhtNT2UOcmaErfowbtUgQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E7281185F80;
+        Tue, 16 Jun 2020 22:03:21 +0000 (UTC)
+Received: from [10.10.115.60] (ovpn-115-60.rdu2.redhat.com [10.10.115.60])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F49F19C71;
+        Tue, 16 Jun 2020 22:03:15 +0000 (UTC)
+Subject: Re: [Patch v1 2/3] PCI: prevent work_on_cpu's probe to execute on
+ isolated CPUs
+To:     Bjorn Helgaas <helgaas@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        frederic@kernel.org, mtosatti@redhat.com, juri.lelli@redhat.com,
+        abelits@marvell.com, bhelgaas@google.com,
+        linux-pci@vger.kernel.org, rostedt@goodmis.org, mingo@kernel.org,
+        peterz@infradead.org, tglx@linutronix.de
+References: <20200616200550.GA1977307@bjorn-Precision-5520>
+From:   Nitesh Narayan Lal <nitesh@redhat.com>
+Autocrypt: addr=nitesh@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ VujM7c/b4pps
+Organization: Red Hat Inc,
+Message-ID: <562ce033-50d6-37f0-57a6-de3dd6623c5c@redhat.com>
+Date:   Tue, 16 Jun 2020 18:03:14 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <20200616200550.GA1977307@bjorn-Precision-5520>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="TikH615OqJx41Kmp5An4NsWelc8YGhUkI"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--TikH615OqJx41Kmp5An4NsWelc8YGhUkI
+Content-Type: multipart/mixed; boundary="clSCwzyDv6w1QWfvmFaBFsmGNYlveeYbF"
+
+--clSCwzyDv6w1QWfvmFaBFsmGNYlveeYbF
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
 
 
-> On Jun 16, 2020, at 11:36 AM, Jann Horn <jannh@google.com> wrote:
->=20
-> =EF=BB=BFOn Tue, Jun 16, 2020 at 5:49 PM Kees Cook <keescook@chromium.org>=
- wrote:
->>> On Tue, Jun 16, 2020 at 02:14:47PM +0200, Jann Horn wrote:
->>> Wouldn't it be simpler to use a function that can run a subset of
->>> seccomp cBPF and bails out on anything that indicates that a syscall's
->>> handling is complex or on instructions it doesn't understand? For
->>> syscalls that have a fixed policy, a typical seccomp filter doesn't
->>> even use any of the BPF_ALU ops, the scratch space, or the X register;
->>> it just uses something like the following set of operations, which is
->>> easy to emulate without much code:
->>>=20
->>> BPF_LD | BPF_W | BPF_ABS
->>> BPF_JMP | BPF_JEQ | BPF_K
->>> BPF_JMP | BPF_JGE | BPF_K
->>> BPF_JMP | BPF_JGT | BPF_K
->>> BPF_JMP | BPF_JA
->>> BPF_RET | BPF_K
->>=20
->> Initially, I started down this path. It needed a bit of plumbing into
->> BPF to better control the lifetime of the cBPF "saved original filter"
->> (normally used by CHECKPOINT_RESTORE uses)
->=20
-> I don't think you need that? When a filter is added, you can compute
-> the results of the added individual filter, and then merge the state.
->=20
->> and then I needed to keep
->> making exceptions (same list you have: ALU, X register, scratch, etc)
->> in the name of avoiding too much complexity in the emulator. I decided
->> I'd rather reuse the existing infrastructure to actually execute the
->> filter (no cBPF copy needed to be saved, no separate code, and full
->> instruction coverage).
->=20
-> If you really think that this bit of emulation is so bad, you could
-> also make a copy of the BPF filter in which you replace all load
-> instructions from syscall arguments with "return NON_CONSTANT_RESULT",
-> and then run that through the normal BPF infrastructure.
->=20
->>> Something like (completely untested):
-> [...]
->> I didn't actually finish going down the emulator path (I stopped right
->> around the time I verified that libseccomp does use BPF_ALU -- though
->> only BPF_AND), so I didn't actually evaluate the filter contents for othe=
-r
->> filter builders (i.e. Chrome).
->>=20
->> But, if BPF_ALU | BPF_AND were added to your code above, it would cover
->> everything libseccomp generates (which covers a lot of the seccomp
->> filters, e.g. systemd, docker). I just felt funny about an "incomplete"
->> emulator.
->>=20
->> Though now you've got me looking. It seems this is the core
->> of Chrome's BPF instruction generation:
->> https://github.com/chromium/chromium/blob/master/sandbox/linux/bpf_dsl/po=
-licy_compiler.cc
->> It also uses ALU|AND, but adds JMP|JSET.
->>=20
->> So... that's only 2 more instructions to cover what I think are likely
->> the two largest seccomp instruction generators.
->>=20
->>> That way, you won't need any of this complicated architecture-specific s=
-tuff.
->>=20
->> There are two arch-specific needs, and using a cBPF-subset emulator
->> just gets rid of the local TLB flush. The other part is distinguishing
->> the archs. Neither requirement is onerous (TLB flush usually just
->> needs little more than an extern, arch is already documented in the
->> per-arch syscall_get_arch()).
->=20
-> But it's also somewhat layer-breaking and reliant on very specific
-> assumptions. Normal kernel code doesn't mess around with page table
-> magic, outside of very specific low-level things. And your method
-> would break if the fixed-value members were not all packed together at
-> the start of the structure.
->=20
->=20
-> And from a hardening perspective: The more code we add that fiddles
-> around with PTEs directly, rather than going through higher-level
-> abstractions, the higher the chance that something gets horribly
-> screwed up. For example, this bit from your patch looks *really*
-> suspect:
->=20
-> +                       preempt_disable();
-> +                       set_pte_at(&init_mm, vaddr, ptep,
-> pte_mkold(*(READ_ONCE(ptep))));
-> +                       local_flush_tlb_kernel_range(vaddr, vaddr + PAGE_S=
-IZE);
-> +                       preempt_enable();
->=20
-> First off, that set_pte_at() is just a memory write; I don't see why
-> you put it inside a preempt_disable() region.
-> But more importantly, sticking a local TLB flush inside a
-> preempt_disable() region with nothing else in there looks really
-> shady. How is that supposed to work? If we migrate from CPU0 to CPU1
-> directly before this region, and then from CPU1 back to CPU0 directly
-> afterwards, the local TLB flush will have no effect.
+On 6/16/20 4:05 PM, Bjorn Helgaas wrote:
+> "git log --oneline drivers/pci/pci-driver.c" tells you that the
+> subject should be something like:
+>
+>   PCI: Restrict probe functions to housekeeping CPUs
+>
+> On Wed, Jun 10, 2020 at 12:12:25PM -0400, Nitesh Narayan Lal wrote:
+>> From: Alex Belits <abelits@marvell.com>
+>>
+>> pci_call_probe() prevents the nesting of work_on_cpu()
+>> for a scenario where a VF device is probed from work_on_cpu()
+>> of the Physical device.
+>> This patch replaces the cpumask used in pci_call_probe()
+>> from all online CPUs to only housekeeping CPUs. This is to
+>> ensure that there are no additional latency overheads
+>> caused due to the pinning of jobs on isolated CPUs.
+> s/Physical/PF/ (since you used "VF" earlier, this should match that)
+>
+> s/This patch replaces/Replace the/
+>
+> Please rewrap this to fill a 75 column line (so it doesn't overflow 80
+> columns when "git log" adds 4 spaces).
+>
+> This should be two paragraphs; add a blank line between them.
+
+Thanks for pointing these out.
+I will correct it in the next posting before that I will wait for any comme=
+nts
+on other patches.
+
+>
+>> Signed-off-by: Alex Belits <abelits@marvell.com>
+>> Signed-off-by: Nitesh Narayan Lal <nitesh@redhat.com>
+> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+>
+>> ---
+>>  drivers/pci/pci-driver.c | 5 ++++-
+>>  1 file changed, 4 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
+>> index da6510af1221..449466f71040 100644
+>> --- a/drivers/pci/pci-driver.c
+>> +++ b/drivers/pci/pci-driver.c
+>> @@ -12,6 +12,7 @@
+>>  #include <linux/string.h>
+>>  #include <linux/slab.h>
+>>  #include <linux/sched.h>
+>> +#include <linux/sched/isolation.h>
+>>  #include <linux/cpu.h>
+>>  #include <linux/pm_runtime.h>
+>>  #include <linux/suspend.h>
+>> @@ -333,6 +334,7 @@ static int pci_call_probe(struct pci_driver *drv, st=
+ruct pci_dev *dev,
+>>  =09=09=09  const struct pci_device_id *id)
+>>  {
+>>  =09int error, node, cpu;
+>> +=09int hk_flags =3D HK_FLAG_DOMAIN | HK_FLAG_WQ;
+>>  =09struct drv_dev_and_id ddi =3D { drv, dev, id };
+>> =20
+>>  =09/*
+>> @@ -353,7 +355,8 @@ static int pci_call_probe(struct pci_driver *drv, st=
+ruct pci_dev *dev,
+>>  =09    pci_physfn_is_probed(dev))
+>>  =09=09cpu =3D nr_cpu_ids;
+>>  =09else
+>> -=09=09cpu =3D cpumask_any_and(cpumask_of_node(node), cpu_online_mask);
+>> +=09=09cpu =3D cpumask_any_and(cpumask_of_node(node),
+>> +=09=09=09=09      housekeeping_cpumask(hk_flags));
+>> =20
+>>  =09if (cpu < nr_cpu_ids)
+>>  =09=09error =3D work_on_cpu(cpu, local_pci_probe, &ddi);
+>> --=20
+>> 2.18.4
+>>
+--=20
+Nitesh
 
 
-Indeed.
+--clSCwzyDv6w1QWfvmFaBFsmGNYlveeYbF--
 
-With my x86/mm maintainer hat on, this is highly questionable. Either the re=
-al API should be used, or there should be a sane API. The former will have r=
-eally atrocious performance, and the latter would need some thought. Basical=
-ly, if you pin entire process to one CPU, you can clear the dirty bit, flush=
-, do some magic, and read it back. This is only valid if you have a short en=
-ough operation that running with preemption off is reasonable.  Otherwise yo=
-u need to arrange to flush when you schedule in, which could be done with a v=
-oluntary preemption style or with scheduler hooks.
+--TikH615OqJx41Kmp5An4NsWelc8YGhUkI
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-I=E2=80=99m not convinced this is worthwhile.=
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEkXcoRVGaqvbHPuAGo4ZA3AYyozkFAl7pQaIACgkQo4ZA3AYy
+ozkxhg/+LrMpZ+rn+W7mB4Kzbrm9LYhNcWFhCEot0q/xqJ5Q6ZGUM0QVdWUFLN6m
+H3HxEnJjYGz9EZt6aR7lZ7Cvt2G9v8Oe59uMgxUeMIFEMix9pwP8q3MqQf6817wB
+Sr99pjLDDu2JHzpl4nJoSzihiSTEtFo0mKOiblCxsfizg++veXfKzNSzLB6tE6x0
+xbmB0tkqLryaKyq3oEOdXdZNY7BBLm4MTiQ7tzjXnhGjlxqkDxyNv8QaljHMCJgK
+W4w4duohpUFvB4E/UeQf3E11jQ0ZIDAAXxEBgof1megt3m5km0m656VtVwvPD8EK
+E721jvryk2V70bZr7HbJ3V4Qr4fvhVp9n5UFOs3K5xiU6OccVZx/CJ8lXi0lUYY9
+bB1b++6DgvMa8FjViMmWQf81eYzYFNU/Z69p7C+e2dKsaYbzXC4GM3I+xPQ2sVUv
+gNia95nSNkn109FqVwLet6I4no1qX4CsguJf+cIJjK7enCFstSmq9GGkKhXIO2oC
+KSPV5LNgUcxh+0gXriROW3/S0hBKJsAxzBLZVEUSeSsGenIE++K+sstNi7lvqAcq
+9zTttyAJewdEqHeqzfSU7qXKp9sXxyxfqeqbqInseP6YRH/CmXSdaE+QHtQ60rhD
+Nr96GBudhJyRdq8N1mLB33z42KqcvhaFy+LKqyLMEWafWn6iBdE=
+=0Qnl
+-----END PGP SIGNATURE-----
+
+--TikH615OqJx41Kmp5An4NsWelc8YGhUkI--
+
