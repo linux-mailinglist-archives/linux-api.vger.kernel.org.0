@@ -2,169 +2,121 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E7D4A1FB49B
-	for <lists+linux-api@lfdr.de>; Tue, 16 Jun 2020 16:40:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC35D1FB521
+	for <lists+linux-api@lfdr.de>; Tue, 16 Jun 2020 16:57:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729113AbgFPOk1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 16 Jun 2020 10:40:27 -0400
-Received: from mga04.intel.com ([192.55.52.120]:22009 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728448AbgFPOk1 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 16 Jun 2020 10:40:27 -0400
-IronPort-SDR: DN6jn5jKeblUYcoyTfTUi6pBgSxdvFtp3lPWwv7xpnPQVwBZ1TrdH+YO6KLTfEtQxkK8BvxU93
- CCmhJI6fI/0Q==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2020 07:40:21 -0700
-IronPort-SDR: qRAAkVPgstsP4BiNwiJ4ZWhpOs0JhFEgky588U/lbruil5tOAuN+ZQw758XauRakiPDe+wl0vn
- 2O84ffZConlw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,518,1583222400"; 
-   d="scan'208";a="276937447"
-Received: from osowole-mobl.amr.corp.intel.com (HELO [10.255.5.242]) ([10.255.5.242])
-  by orsmga006.jf.intel.com with ESMTP; 16 Jun 2020 07:40:17 -0700
-Subject: Re: [PATCH 4/8] seccomp: Implement constant action bitmaps
-To:     Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org
-Cc:     Christian Brauner <christian@brauner.io>,
-        Sargun Dhillon <sargun@sargun.me>,
-        Tycho Andersen <tycho@tycho.ws>, Jann Horn <jannh@google.com>,
-        "zhujianwei (C)" <zhujianwei7@huawei.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Will Drewry <wad@chromium.org>, Shuah Khan <shuah@kernel.org>,
-        Matt Denton <mpdenton@google.com>,
-        Chris Palmer <palmer@google.com>,
-        Jeffrey Vander Stoep <jeffv@google.com>,
+        id S1729316AbgFPO4D (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 16 Jun 2020 10:56:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38498 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729152AbgFPOz4 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Jun 2020 10:55:56 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38847C061755
+        for <linux-api@vger.kernel.org>; Tue, 16 Jun 2020 07:55:56 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id s23so9621009pfh.7
+        for <linux-api@vger.kernel.org>; Tue, 16 Jun 2020 07:55:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tycho-ws.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=WNF9etpx10znAFg91RybrVxjbrhe0SORwIJGFu/T2UE=;
+        b=Eqdpy+33nHh0lF7JF1m9J/2+1L9E7YnO+9jfEZuq3UI/RtVUUHQVHJvCDanJerqWA7
+         ke86DqQxPt4PJ+Cysy87uPh4Jw1Qle29wA7xfamR9Nvmp8kdyNbUaTwzmj/Sa0XmmA90
+         0WE9k76KpN7BXtUy8CBHlD/SWxWCcNncR/Hm973B556cZbOr1N2whMKPI1Ta/nFo7g3W
+         IjR/P04OOdBe2q66j1pqP6EBkvzUEqzxeVkuYlcJJ4hxE4qwQK+CzHxKvm0yrl2Stif0
+         K8HE3EFLjLBFu65x242zaO4xDYTtJbWQaoee+qw3HvhKpFXbbds3TF5/FyO+id1AwRRE
+         1g8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=WNF9etpx10znAFg91RybrVxjbrhe0SORwIJGFu/T2UE=;
+        b=jMb5VnxGTCq5zlASD0JnGk5UaSB+i/ZvDVwp6nysofr+fByh6mKRiqB98qhwLUpd8W
+         mFzh+tXSOyJ21Ecpu/XCNtM5/VORu0BT+JeiJazGjPyk3RBmr8NjOkLBl+aZgOnhPUz2
+         OEXK9Yw2Mqgsr1uBZ31Dg8pvNDxq3acRyMpm8GpFH4fvLF02GejJ5wqvRwZ0tk2AsjmH
+         4VNanhuus3CJNSnXVb0BSilUB3gLDBMZZGuMCKkbP/jcB89k239S8oSaMk9eOr3zoE8u
+         4u0sWCpzDqG5SZYkAQCSjwdciLz27UwvQ3+zaLdqfezjvG6sOSjqufGSyt2eotgqVSqn
+         YdUQ==
+X-Gm-Message-State: AOAM532ohkep0tMb9ymzzoVXbwbqp0ruJdppfFXLiTal1RxfFiJ+FVhn
+        SeN+EFLnIrSe7kPEj/iIQ262dg==
+X-Google-Smtp-Source: ABdhPJy4AncAs73T1e7CsZ7TL7HXTr6/HNDo5w5qHUb1x+Sc9NKoQNKVk+mYwyd/Dqt2WPYE59Sd3g==
+X-Received: by 2002:aa7:859a:: with SMTP id w26mr2342599pfn.10.1592319354221;
+        Tue, 16 Jun 2020 07:55:54 -0700 (PDT)
+Received: from cisco ([2001:420:c0c8:1007::16e])
+        by smtp.gmail.com with ESMTPSA id s98sm2942415pjb.33.2020.06.16.07.55.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Jun 2020 07:55:53 -0700 (PDT)
+Date:   Tue, 16 Jun 2020 08:55:46 -0600
+From:   Tycho Andersen <tycho@tycho.ws>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     linux-kernel@vger.kernel.org, Sargun Dhillon <sargun@sargun.me>,
+        Christian Brauner <christian@brauner.io>,
+        "David S. Miller" <davem@davemloft.net>,
+        Christoph Hellwig <hch@lst.de>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
         Aleksa Sarai <cyphar@cyphar.com>,
-        Hehuazhen <hehuazhen@huawei.com>, x86@kernel.org,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org
-References: <20200616074934.1600036-1-keescook@chromium.org>
- <20200616074934.1600036-5-keescook@chromium.org>
-From:   Dave Hansen <dave.hansen@intel.com>
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <fc0c14cd-bcf0-c94c-6cba-d0ce1844e93c@intel.com>
-Date:   Tue, 16 Jun 2020 07:40:17 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        Matt Denton <mpdenton@google.com>,
+        Jann Horn <jannh@google.com>, Chris Palmer <palmer@google.com>,
+        Robert Sesek <rsesek@google.com>,
+        Giuseppe Scrivano <gscrivan@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Will Drewry <wad@chromium.org>, Shuah Khan <shuah@kernel.org>,
+        netdev@vger.kernel.org, containers@lists.linux-foundation.org,
+        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v4 10/11] seccomp: Switch addfd to Extensible Argument
+ ioctl
+Message-ID: <20200616145546.GH2893648@cisco>
+References: <20200616032524.460144-1-keescook@chromium.org>
+ <20200616032524.460144-11-keescook@chromium.org>
 MIME-Version: 1.0
-In-Reply-To: <20200616074934.1600036-5-keescook@chromium.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200616032524.460144-11-keescook@chromium.org>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 6/16/20 12:49 AM, Kees Cook wrote:
-> +	/* Mark the second page as untouched (i.e. "old") */
-> +	preempt_disable();
-> +	set_pte_at(&init_mm, vaddr, ptep, pte_mkold(*(READ_ONCE(ptep))));
-> +	local_flush_tlb_kernel_range(vaddr, vaddr + PAGE_SIZE);
-> +	preempt_enable();
+On Mon, Jun 15, 2020 at 08:25:23PM -0700, Kees Cook wrote:
+> This patch is based on discussions[1] with Sargun Dhillon, Christian
+> Brauner, and David Laight. Instead of building size into the addfd
+> structure, make it a function of the ioctl command (which is how sizes are
+> normally passed to ioctls). To support forward and backward compatibility,
+> just mask out the direction and size, and match everything. The size (and
+> any future direction) checks are done along with copy_struct_from_user()
+> logic. Also update the selftests to check size bounds.
+> 
+> [1] https://lore.kernel.org/lkml/20200612104629.GA15814@ircssh-2.c.rugged-nimbus-611.internal
+> 
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> ---
+>  include/uapi/linux/seccomp.h                  |  2 -
+>  kernel/seccomp.c                              | 21 ++++++----
+>  tools/testing/selftests/seccomp/seccomp_bpf.c | 40 ++++++++++++++++---
+>  3 files changed, 49 insertions(+), 14 deletions(-)
+> 
+> diff --git a/include/uapi/linux/seccomp.h b/include/uapi/linux/seccomp.h
+> index c347160378e5..473a61695ac3 100644
+> --- a/include/uapi/linux/seccomp.h
+> +++ b/include/uapi/linux/seccomp.h
+> @@ -118,7 +118,6 @@ struct seccomp_notif_resp {
+>  
+>  /**
+>   * struct seccomp_notif_addfd
+> - * @size: The size of the seccomp_notif_addfd structure
+>   * @id: The ID of the seccomp notification
+>   * @flags: SECCOMP_ADDFD_FLAG_*
+>   * @srcfd: The local fd number
+> @@ -126,7 +125,6 @@ struct seccomp_notif_resp {
+>   * @newfd_flags: The O_* flags the remote FD should have applied
+>   */
+>  struct seccomp_notif_addfd {
+> -	__u64 size;
 
-If you can, I'd wrap that nugget up in a helper.  I'd also suggest being
-very explicit in a comment about what it is trying to do: ensure no TLB
-entries exist so that a future access will always set the Accessed bit.
+Huh? Won't this break builds?
 
-> +	/* Make sure the PTE agrees that it is untouched. */
-> +	if (WARN_ON_ONCE(sd_touched(ptep)))
-> +		return;
-> +	/* Read a portion of struct seccomp_data from the second page. */
-> +	check = sd->instruction_pointer;
-> +	/* First, verify the contents are zero from vzalloc(). */
-> +	if (WARN_ON_ONCE(check))
-> +		return;
-> +	/* Now make sure the ACCESSED bit has been set after the read. */
-> +	if (!sd_touched(ptep)) {
-> +		/*
-> +		 * If autodetection fails, fall back to standard beahavior by
-> +		 * clearing the entire "allow" bitmap.
-> +		 */
-> +		pr_warn_once("seccomp: cannot build automatic syscall filters\n");
-> +		bitmap_zero(bitmaps->allow, NR_syscalls);
-> +		return;
-> +	}
-
-I can't find any big holes with this.  It's the kind of code that makes
-me nervous, but mostly because it's pretty different that anything else
-we have in the kernel.
-
-It's also clear to me here that you probably have a slightly different
-expectation of what the PTE accessed flag means versus the hardware
-guys.  What you are looking for it to mean is roughly: "a retired
-instruction touched this page".
-
-The hardware guys would probably say it's closer to "a TLB entry was
-established for this page."  Remember that TLB entries can be
-established speculatively or from things like prefetchers.  While I
-don't know of anything microarchitectural today which would trip this
-mechanism, it's entirely possible that something in the future might.
-Accessing close to the page boundary is the exact kind of place folks
-might want to optimize.
-
-*But*, at least it would err in the direction of being conservative.  It
-would say "somebody touched the page!" more often than it should, but
-never _less_ often than it should.
-
-One thing about the implementation (which is roughly):
-
-	// Touch the data:
-	check = sd->instruction_pointer;
-	// Examine the PTE mapping that data:
-	if (!sd_touched(ptep)) {
-		// something
-	}
-
-There aren't any barriers in there, which could lead to the sd_touched()
-check being ordered before the data touch.  I think a rmb() will
-suffice.  You could even do it inside sd_touched().
-
-Was there a reason you chose to export a ranged TLB flush?  I probably
-would have just used the single-page flush_tlb_one_kernel() for this
-purpose if I were working in arch-specific code.
+Tycho
