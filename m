@@ -2,59 +2,33 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B88E1FAFF8
-	for <lists+linux-api@lfdr.de>; Tue, 16 Jun 2020 14:15:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E7D4A1FB49B
+	for <lists+linux-api@lfdr.de>; Tue, 16 Jun 2020 16:40:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726306AbgFPMPW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 16 Jun 2020 08:15:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41576 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726799AbgFPMPS (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Jun 2020 08:15:18 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B47C8C08C5C4
-        for <linux-api@vger.kernel.org>; Tue, 16 Jun 2020 05:15:16 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id x18so23195011lji.1
-        for <linux-api@vger.kernel.org>; Tue, 16 Jun 2020 05:15:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=lId2VqgWnSj5hcyOUSdipcvBeLlaT4UQgOgtGOYEhak=;
-        b=s1Xvol0hq1EOoKeJihXOkMd72MbgzGDi/AYBydiHucg2rKev+h0cN2w6F1lmaJLfF7
-         2LVZS3A1TRtzSbwJjVUdPfbMu275KD7VR8+NJ6MIGv9XrItrc3KQq5z4P5w5LxzRRV0b
-         SKxXhp+NiJbbuoGqXlAp3egwbRyD9nt8nsY551sk3YR1vcXco5WbUHAYFZO6CmEaR8kc
-         J+pOUxODJERuU3o74KnAYANuo6GfzDdgCBtAq+Ot8dNTfFcW+DvGnR1F56ugfzAC1cB1
-         ZghfX5C3ihyc22918h8plqPmbDXYit3e+p07Im8MqqpB+6cD1mvze8eVe0LIMM7Zbd3d
-         MmKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lId2VqgWnSj5hcyOUSdipcvBeLlaT4UQgOgtGOYEhak=;
-        b=ejyt6uOGA+xTZN/TTo53oBqF/NJK2QcqfhglSMX8NN5whaLLkdaCMY1EaPWvBOmnD2
-         LhdrJYg194+2Bxao+lIIiFo+a3dtS0KNOGfZ1JXDH1Cw1Aut4R1KJGfIoS3ucHaC4cxN
-         LiK7PFyQ6XlVzNjS3iWw4qQh9vW4L2p1sS9OU57CrGz8IOnKQ39waA9UlOEI9Y7S1KdA
-         hFP7ZA8Hmquoxmj3NOMg2M//0RIuFXeTyXQMR/lxF8mPT2mzxuLfYwZL3T6adnn9BNwy
-         c1VUhynnrJSeJZLcX14PMS2K5M23rfbB6PeVTtjyFvOvRNF/NMonUVIqXXXcLyWmg+vk
-         1UGg==
-X-Gm-Message-State: AOAM530A7LCXDK0Kmchjr31StLjaiBl4p7kAmlM+43GGR+062boeZ46v
-        2HBqmypTID6pe3xWvQWISHCGr82HHlflJlLno4JTTA==
-X-Google-Smtp-Source: ABdhPJxDrDxH93vuVXYIp6o+fe2nZXY74IHAWLTSSyziCuq+my4CnIzXCk2zf8Bfhk8nYT9ozFWEI14WQpKH3FLnqiE=
-X-Received: by 2002:a05:651c:c9:: with SMTP id 9mr1390777ljr.365.1592309714391;
- Tue, 16 Jun 2020 05:15:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200616074934.1600036-1-keescook@chromium.org> <20200616074934.1600036-5-keescook@chromium.org>
-In-Reply-To: <20200616074934.1600036-5-keescook@chromium.org>
-From:   Jann Horn <jannh@google.com>
-Date:   Tue, 16 Jun 2020 14:14:47 +0200
-Message-ID: <CAG48ez1p=dR_2ikKq=xVxkoGg0fYpTBpkhJSv1w-6BG=76PAvw@mail.gmail.com>
+        id S1729113AbgFPOk1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 16 Jun 2020 10:40:27 -0400
+Received: from mga04.intel.com ([192.55.52.120]:22009 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728448AbgFPOk1 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 16 Jun 2020 10:40:27 -0400
+IronPort-SDR: DN6jn5jKeblUYcoyTfTUi6pBgSxdvFtp3lPWwv7xpnPQVwBZ1TrdH+YO6KLTfEtQxkK8BvxU93
+ CCmhJI6fI/0Q==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2020 07:40:21 -0700
+IronPort-SDR: qRAAkVPgstsP4BiNwiJ4ZWhpOs0JhFEgky588U/lbruil5tOAuN+ZQw758XauRakiPDe+wl0vn
+ 2O84ffZConlw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,518,1583222400"; 
+   d="scan'208";a="276937447"
+Received: from osowole-mobl.amr.corp.intel.com (HELO [10.255.5.242]) ([10.255.5.242])
+  by orsmga006.jf.intel.com with ESMTP; 16 Jun 2020 07:40:17 -0700
 Subject: Re: [PATCH 4/8] seccomp: Implement constant action bitmaps
-To:     Kees Cook <keescook@chromium.org>
-Cc:     kernel list <linux-kernel@vger.kernel.org>,
-        Christian Brauner <christian@brauner.io>,
+To:     Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org
+Cc:     Christian Brauner <christian@brauner.io>,
         Sargun Dhillon <sargun@sargun.me>,
-        Tycho Andersen <tycho@tycho.ws>,
+        Tycho Andersen <tycho@tycho.ws>, Jann Horn <jannh@google.com>,
         "zhujianwei (C)" <zhujianwei7@huawei.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         Matthew Wilcox <willy@infradead.org>,
@@ -64,151 +38,133 @@ Cc:     kernel list <linux-kernel@vger.kernel.org>,
         Chris Palmer <palmer@google.com>,
         Jeffrey Vander Stoep <jeffv@google.com>,
         Aleksa Sarai <cyphar@cyphar.com>,
-        Hehuazhen <hehuazhen@huawei.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
+        Hehuazhen <hehuazhen@huawei.com>, x86@kernel.org,
         Linux Containers <containers@lists.linux-foundation.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org
+References: <20200616074934.1600036-1-keescook@chromium.org>
+ <20200616074934.1600036-5-keescook@chromium.org>
+From:   Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <fc0c14cd-bcf0-c94c-6cba-d0ce1844e93c@intel.com>
+Date:   Tue, 16 Jun 2020 07:40:17 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+MIME-Version: 1.0
+In-Reply-To: <20200616074934.1600036-5-keescook@chromium.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jun 16, 2020 at 9:49 AM Kees Cook <keescook@chromium.org> wrote:
-> One of the most common pain points with seccomp filters has been dealing
-> with the overhead of processing the filters, especially for "always allow"
-> or "always reject" cases. While BPF is extremely fast[1], it will always
-> have overhead associated with it. Additionally, due to seccomp's design,
-> filters are layered, which means processing time goes up as the number
-> of filters attached goes up.
->
-> In the past, efforts have been focused on making filter execution complete
-> in a shorter amount of time. For example, filters were rewritten from
-> using linear if/then/else syscall search to using balanced binary trees,
-> or moving tests for syscalls common to the process's workload to the
-> front of the filter. However, there are limits to this, especially when
-> some processes are dealing with tens of filters[2], or when some
-> architectures have a less efficient BPF engine[3].
->
-> The most common use of seccomp, constructing syscall block/allow-lists,
-> where syscalls that are always allowed or always rejected (without regard
-> to any arguments), also tends to produce the most pathological runtime
-> problems, in that a large number of syscall checks in the filter need
-> to be performed to come to a determination.
->
-> In order to optimize these cases from O(n) to O(1), seccomp can
-> use bitmaps to immediately determine the desired action. A critical
-> observation in the prior paragraph bears repeating: the common case for
-> syscall tests do not check arguments. For any given filter, there is a
-> constant mapping from the combination of architecture and syscall to the
-> seccomp action result. (For kernels/architectures without CONFIG_COMPAT,
-> there is a single architecture.). As such, it is possible to construct
-> a mapping of arch/syscall to action, which can be updated as new filters
-> are attached to a process.
->
-> In order to build this mapping at filter attach time, each filter is
-> executed for every syscall (under each possible architecture), and
-> checked for any accesses of struct seccomp_data that are not the "arch"
-> nor "nr" (syscall) members. If only "arch" and "nr" are examined, then
-> there is a constant mapping for that syscall, and bitmaps can be updated
-> accordingly. If any accesses happen outside of those struct members,
-> seccomp must not bypass filter execution for that syscall, since program
-> state will be used to determine filter action result.
->
-> During syscall action probing, in order to determine whether other members
-> of struct seccomp_data are being accessed during a filter execution,
-> the struct is placed across a page boundary with the "arch" and "nr"
-> members in the first page, and everything else in the second page. The
-> "page accessed" flag is cleared in the second page's PTE, and the filter
-> is run. If the "page accessed" flag appears as set after running the
-> filter, we can determine that the filter looked beyond the "arch" and
-> "nr" members, and exclude that syscall from the constant action bitmaps.
->
-> For architectures to support this optimization, they must declare
-> their architectures for seccomp to see (via SECCOMP_ARCH and
-> SECCOMP_ARCH_COMPAT macros), and provide a way to perform efficient
-> CPU-local kernel TLB flushes (via local_flush_tlb_kernel_range()),
-> and then set HAVE_ARCH_SECCOMP_BITMAP in their Kconfig.
+On 6/16/20 12:49 AM, Kees Cook wrote:
+> +	/* Mark the second page as untouched (i.e. "old") */
+> +	preempt_disable();
+> +	set_pte_at(&init_mm, vaddr, ptep, pte_mkold(*(READ_ONCE(ptep))));
+> +	local_flush_tlb_kernel_range(vaddr, vaddr + PAGE_SIZE);
+> +	preempt_enable();
 
-Wouldn't it be simpler to use a function that can run a subset of
-seccomp cBPF and bails out on anything that indicates that a syscall's
-handling is complex or on instructions it doesn't understand? For
-syscalls that have a fixed policy, a typical seccomp filter doesn't
-even use any of the BPF_ALU ops, the scratch space, or the X register;
-it just uses something like the following set of operations, which is
-easy to emulate without much code:
+If you can, I'd wrap that nugget up in a helper.  I'd also suggest being
+very explicit in a comment about what it is trying to do: ensure no TLB
+entries exist so that a future access will always set the Accessed bit.
 
-BPF_LD | BPF_W | BPF_ABS
-BPF_JMP | BPF_JEQ | BPF_K
-BPF_JMP | BPF_JGE | BPF_K
-BPF_JMP | BPF_JGT | BPF_K
-BPF_JMP | BPF_JA
-BPF_RET | BPF_K
+> +	/* Make sure the PTE agrees that it is untouched. */
+> +	if (WARN_ON_ONCE(sd_touched(ptep)))
+> +		return;
+> +	/* Read a portion of struct seccomp_data from the second page. */
+> +	check = sd->instruction_pointer;
+> +	/* First, verify the contents are zero from vzalloc(). */
+> +	if (WARN_ON_ONCE(check))
+> +		return;
+> +	/* Now make sure the ACCESSED bit has been set after the read. */
+> +	if (!sd_touched(ptep)) {
+> +		/*
+> +		 * If autodetection fails, fall back to standard beahavior by
+> +		 * clearing the entire "allow" bitmap.
+> +		 */
+> +		pr_warn_once("seccomp: cannot build automatic syscall filters\n");
+> +		bitmap_zero(bitmaps->allow, NR_syscalls);
+> +		return;
+> +	}
 
-Something like (completely untested):
+I can't find any big holes with this.  It's the kind of code that makes
+me nervous, but mostly because it's pretty different that anything else
+we have in the kernel.
 
-/*
- * Try to statically determine whether @filter will always return a fixed result
- * when run for syscall @nr under architecture @arch.
- * Returns true if the result could be determined; if so, the result will be
- * stored in @action.
- */
-static bool seccomp_check_syscall(struct sock_filter *filter, unsigned int arch,
-                                  unsigned int nr, unsigned int *action)
-{
-  int pc;
-  unsigned int reg_value = 0;
+It's also clear to me here that you probably have a slightly different
+expectation of what the PTE accessed flag means versus the hardware
+guys.  What you are looking for it to mean is roughly: "a retired
+instruction touched this page".
 
-  for (pc = 0; 1; pc++) {
-    struct sock_filter *insn = &filter[pc];
-    u16 code = insn->code;
-    u32 k = insn->k;
+The hardware guys would probably say it's closer to "a TLB entry was
+established for this page."  Remember that TLB entries can be
+established speculatively or from things like prefetchers.  While I
+don't know of anything microarchitectural today which would trip this
+mechanism, it's entirely possible that something in the future might.
+Accessing close to the page boundary is the exact kind of place folks
+might want to optimize.
 
-    switch (code) {
-    case BPF_LD | BPF_W | BPF_ABS:
-      if (k == offsetof(struct seccomp_data, nr)) {
-        reg_value = nr;
-      } else if (k == offsetof(struct seccomp_data, arch)) {
-        reg_value = arch;
-      } else {
-        return false; /* can't optimize (non-constant value load) */
-      }
-      break;
-    case BPF_RET | BPF_K:
-      *action = insn->k;
-      return true; /* success: reached return with constant values only */
-    case BPF_JMP | BPF_JA:
-      pc += insn->k;
-      break;
-    case BPF_JMP | BPF_JEQ | BPF_K:
-    case BPF_JMP | BPF_JGE | BPF_K:
-    case BPF_JMP | BPF_JGT | BPF_K:
-    default:
-      if (BPF_CLASS(code) == BPF_JMP && BPF_SRC(code) == BPF_K) {
-        u16 op = BPF_OP(code);
-        bool op_res;
+*But*, at least it would err in the direction of being conservative.  It
+would say "somebody touched the page!" more often than it should, but
+never _less_ often than it should.
 
-        switch (op) {
-        case BPF_JEQ:
-          op_res = reg_value == k;
-          break;
-        case BPF_JGE:
-          op_res = reg_value >= k;
-          break;
-        case BPF_JGT:
-          op_res = reg_value > k;
-          break;
-        default:
-          return false; /* can't optimize (unknown insn) */
-        }
+One thing about the implementation (which is roughly):
 
-        pc += op_res ? insn->jt : insn->jf;
-        break;
-      }
-      return false; /* can't optimize (unknown insn) */
-    }
-  }
-}
+	// Touch the data:
+	check = sd->instruction_pointer;
+	// Examine the PTE mapping that data:
+	if (!sd_touched(ptep)) {
+		// something
+	}
 
-That way, you won't need any of this complicated architecture-specific stuff.
+There aren't any barriers in there, which could lead to the sd_touched()
+check being ordered before the data touch.  I think a rmb() will
+suffice.  You could even do it inside sd_touched().
+
+Was there a reason you chose to export a ranged TLB flush?  I probably
+would have just used the single-page flush_tlb_one_kernel() for this
+purpose if I were working in arch-specific code.
