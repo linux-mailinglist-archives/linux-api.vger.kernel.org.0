@@ -2,42 +2,42 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 154A51FBC3B
-	for <lists+linux-api@lfdr.de>; Tue, 16 Jun 2020 19:01:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F1D01FBC47
+	for <lists+linux-api@lfdr.de>; Tue, 16 Jun 2020 19:02:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730372AbgFPQ7p (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 16 Jun 2020 12:59:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52918 "EHLO mail.kernel.org"
+        id S1728861AbgFPRCB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 16 Jun 2020 13:02:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54722 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730814AbgFPQ7n (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 16 Jun 2020 12:59:43 -0400
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+        id S1730107AbgFPRB6 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 16 Jun 2020 13:01:58 -0400
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9F37F2098B
-        for <linux-api@vger.kernel.org>; Tue, 16 Jun 2020 16:59:42 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id F408F21534
+        for <linux-api@vger.kernel.org>; Tue, 16 Jun 2020 17:01:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592326782;
-        bh=8d3TrxrA8Yg5Ytejwq8g7SbccMfxeMH87bM2/PPxd3Q=;
+        s=default; t=1592326918;
+        bh=x7sF8JlhivKiZx8ZWX3Ydrzfg2JpqrUkultDOGGYPI8=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=0z2UNkU/quQA4kn04Vf3GVxiG8SHeVXqZx4B3gJ0yB3m2GqsQRphvW8smEv0n/nJQ
-         0/q6d8dz8BX3EHKGJQoCAF1xc+hXW5k3Qmf12mVju9jXNmKN0C0J3XHKvWE3h9oyny
-         FY8ilYY6KGMe/1s6s9GDVWIGo78rwBB/+/9bY0W8=
-Received: by mail-wm1-f54.google.com with SMTP id d128so3859761wmc.1
-        for <linux-api@vger.kernel.org>; Tue, 16 Jun 2020 09:59:42 -0700 (PDT)
-X-Gm-Message-State: AOAM5331AyF7PJO0iB4RS19AAwzIYT/C1GDPwONHRlyd3h+2y9VT107Z
-        IpSnPWXURYteD2Le6odFhJImdEC22QGyjV5R6tQJJw==
-X-Google-Smtp-Source: ABdhPJylrWQKE69MJcAA+tI8FFT9AzaNafaydA0oEjUGWHIJPejchXkcE2A0e1t1EJQPakBymQe8jze29E+inYYItzM=
-X-Received: by 2002:a1c:bb08:: with SMTP id l8mr4204037wmf.21.1592326780898;
- Tue, 16 Jun 2020 09:59:40 -0700 (PDT)
+        b=S53Pz11cN6hVnM6NPkjIYCgBQ6wh4ZQFysmgAoUqduDe8+6dA7fk3p/mtl2Mcoyo8
+         JjVG24/2JXAuNvYMY0c4Sh2D54tYZh11rmoGY97VuW28l2N6NVUbZxAjktNmFcFniE
+         tCR2L6JLTmyEERPcH2c8pT6tlmZzwWu8CKDSNt/g=
+Received: by mail-ej1-f54.google.com with SMTP id dr13so22293799ejc.3
+        for <linux-api@vger.kernel.org>; Tue, 16 Jun 2020 10:01:57 -0700 (PDT)
+X-Gm-Message-State: AOAM533CYNciywqIggsx5gwlErogrpn4UdB9yzAkiro4LGrTllniwRDv
+        77cuTY+Z9bZ2eU5ERpqKJGBvQhr1pHfT55Cr3jc5AQ==
+X-Google-Smtp-Source: ABdhPJwrvBoMEGMkP0gYqhwknR6xR8IcaGNlyuVcjfKiRw+lPcX8g8lGzKUCzXmybftwQB7Yn6fFe8MGNmpFIBzxBWI=
+X-Received: by 2002:a5d:49c5:: with SMTP id t5mr4143840wrs.18.1592326916028;
+ Tue, 16 Jun 2020 10:01:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200616074934.1600036-1-keescook@chromium.org> <20200616074934.1600036-7-keescook@chromium.org>
-In-Reply-To: <20200616074934.1600036-7-keescook@chromium.org>
+References: <20200616074934.1600036-1-keescook@chromium.org>
+In-Reply-To: <20200616074934.1600036-1-keescook@chromium.org>
 From:   Andy Lutomirski <luto@kernel.org>
-Date:   Tue, 16 Jun 2020 09:59:29 -0700
-X-Gmail-Original-Message-ID: <CALCETrVSnLAkWN_b7rNY1mbF16qXavbXYtv9fVZA-Q4ZVnTXhQ@mail.gmail.com>
-Message-ID: <CALCETrVSnLAkWN_b7rNY1mbF16qXavbXYtv9fVZA-Q4ZVnTXhQ@mail.gmail.com>
-Subject: Re: [PATCH 6/8] x86: Provide API for local kernel TLB flushing
+Date:   Tue, 16 Jun 2020 10:01:43 -0700
+X-Gmail-Original-Message-ID: <CALCETrVLA22khom-iSu5iTJGKfUykOnwyz8j7Tm9g6hWW_e0Aw@mail.gmail.com>
+Message-ID: <CALCETrVLA22khom-iSu5iTJGKfUykOnwyz8j7Tm9g6hWW_e0Aw@mail.gmail.com>
+Subject: Re: [RFC][PATCH 0/8] seccomp: Implement constant action bitmaps
 To:     Kees Cook <keescook@chromium.org>
 Cc:     LKML <linux-kernel@vger.kernel.org>,
         Christian Brauner <christian@brauner.io>,
@@ -64,11 +64,33 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 On Tue, Jun 16, 2020 at 12:49 AM Kees Cook <keescook@chromium.org> wrote:
 >
-> The seccomp constant action bitmap filter evaluation routine depends
-> on being able to quickly clear the PTE "accessed" bit for a temporary
-> allocation. Provide access to the existing CPU-local kernel memory TLB
-> flushing routines.
+> Hi,
+>
 
-Can you write a better justification?  Also, unless I'm just
-incompetent this morning, I can't find anyone calling this in the
-series.
+> In order to build this mapping at filter attach time, each filter is
+> executed for every syscall (under each possible architecture), and
+> checked for any accesses of struct seccomp_data that are not the "arch"
+> nor "nr" (syscall) members. If only "arch" and "nr" are examined, then
+> there is a constant mapping for that syscall, and bitmaps can be updated
+> accordingly. If any accesses happen outside of those struct members,
+> seccomp must not bypass filter execution for that syscall, since program
+> state will be used to determine filter action result.
+
+>
+> During syscall action probing, in order to determine whether other members
+> of struct seccomp_data are being accessed during a filter execution,
+> the struct is placed across a page boundary with the "arch" and "nr"
+> members in the first page, and everything else in the second page. The
+> "page accessed" flag is cleared in the second page's PTE, and the filter
+> is run. If the "page accessed" flag appears as set after running the
+> filter, we can determine that the filter looked beyond the "arch" and
+> "nr" members, and exclude that syscall from the constant action bitmaps.
+
+This is... evil.  I don't know how I feel about it.  It's also
+potentially quite slow.
+
+I don't suppose you could, instead, instrument the BPF code to get at
+this without TLB hackery?  Or maybe try to do some real symbolic
+execution of the BPF code?
+
+--Andy
