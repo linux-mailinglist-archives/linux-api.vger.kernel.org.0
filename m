@@ -2,125 +2,168 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 312A11FBE1E
-	for <lists+linux-api@lfdr.de>; Tue, 16 Jun 2020 20:36:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2009C1FBE3A
+	for <lists+linux-api@lfdr.de>; Tue, 16 Jun 2020 20:37:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728067AbgFPSfu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 16 Jun 2020 14:35:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44354 "EHLO
+        id S1729994AbgFPSg6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 16 Jun 2020 14:36:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725896AbgFPSft (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Jun 2020 14:35:49 -0400
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F4C4C061573
-        for <linux-api@vger.kernel.org>; Tue, 16 Jun 2020 11:35:48 -0700 (PDT)
-Received: by mail-pl1-x642.google.com with SMTP id v24so8763252plo.6
-        for <linux-api@vger.kernel.org>; Tue, 16 Jun 2020 11:35:48 -0700 (PDT)
+        with ESMTP id S1729801AbgFPSg5 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Jun 2020 14:36:57 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DE32C06174E
+        for <linux-api@vger.kernel.org>; Tue, 16 Jun 2020 11:36:57 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id a9so24822644ljn.6
+        for <linux-api@vger.kernel.org>; Tue, 16 Jun 2020 11:36:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Gv5SyNbN+YalOOMpT+lUR6zrSKOxyXFsPO4eN2yYyhE=;
-        b=AIBG74jGGwjgO6WBXM4vpHq8cFCM4p4Psqbxkb87Jqwbz68+d4zZle3XICqvnmKg9t
-         6G7DW5BrZDAeXEvDllsiq4n65S1+BsdnQf1eWYTN7zFu4VjIZ8MlVpW5fEDEMrw8tSVT
-         uUCSHHX4FBSHO1H3yJ7TrYinRqzogRKaDRzI0=
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=v2RjpTiuHZ3l0Pxqe/xAX5M0G+FBIdLaE2yGHwIgHUA=;
+        b=Q4o9HNHESg+RdwLs/JmMWK1P2LIdIm2ymfk6CbxiOVhznUpF+7/tWHhKrgkyUJd/Ja
+         feN6mXD/nxi3vEtBOzTRmsAwv/kcl4VI44tCrtdNzkbMwGmn4ydIolFBndVx+iOssnV0
+         K9NcnQccZ7ZZFfE653QizoY/d/iBAYktzJ5Xrgb/PeLd8+laxtA0uTFzTL0FVrj0tO4g
+         IDTndEZaprVDykmvISs2GPkTzFj9RFCAywYDl6NYBoLKD8xL2o0cd64hcsnbnA6mqtmu
+         6UlHSDXPw8Ph+YZGHkjNv51lIBS6tR4U2tCfbF3LIFWJgRZyrFwj6DdJ6JyZy9xdyNiO
+         zC3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Gv5SyNbN+YalOOMpT+lUR6zrSKOxyXFsPO4eN2yYyhE=;
-        b=fuobHIwUxbmBchLWfQwsQhdp7DNfJvzP3nJAiAcETcJD82PhnVKNajYJSiwKRWtW2+
-         +L3/+Hycb61gEkYS80+0UbOKvvsNg5l+Cxj0hAItKM43iH0LxEZJDNExWivFMELxP7xf
-         gkXF2TkPCMW2erNW3K90Z5wtOeOtPZom123q9B6XzRF0s2AMMIr4irTSgkWPByxt2sIh
-         dPFYdENYADfQA5INCnEU8aUcLMqVjVH+yi/L++OyxXm1dJud4olMQSDloxWHXUJqLQyt
-         4EMsBIeBx0pQtmiOXUmUOXc0FA0tf/lFkdzd1gsUUoC+AUHvz35jNAHgiz65ZK3MIQNN
-         gwlg==
-X-Gm-Message-State: AOAM531rkqfVO7hICKnq6OxrNxkyi4VqpBqkyBrj8GEEgvTLRUNwtQCH
-        BO9MV7+D8pF5w9sv7VrpmYm1oA==
-X-Google-Smtp-Source: ABdhPJyorPz/hN0z0htsbMGKXDwxSMUZOCNVD6vqJvCbF6cB9/KRHU4TiB0xlr8glLU8oty9rAKq5w==
-X-Received: by 2002:a17:902:201:: with SMTP id 1mr3268685plc.195.1592332548117;
-        Tue, 16 Jun 2020 11:35:48 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id d184sm7822774pfd.85.2020.06.16.11.35.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2020 11:35:47 -0700 (PDT)
-Date:   Tue, 16 Jun 2020 11:35:46 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=v2RjpTiuHZ3l0Pxqe/xAX5M0G+FBIdLaE2yGHwIgHUA=;
+        b=rxg5MCxVPVaMrnuzfsQhyB9ksCrubiMqa4ckm8eM9Cp5PVVAhBrqcjU7AgUjDDSqs6
+         qczOaH9H4GAmSr9vBrD4j3EjfZtuQ7SMXKv0KkCLS5CfHOBfyLwvtjvbIlDiwlBAdOuc
+         /ibGlzkIWXcODLrnwSSimUTANa01zKutqhFOCsi0mg/bM0eee451barR1thJscxk7oiV
+         0q2ozszMsb8Js4ncfDd4QFoQ7Pjve07LWwOmDYzhUNCEkz1SoKwRDssHM/CalFLui+yo
+         D2Jn01Rqwf3lDuKjwDgQDIZpJ4HjQI3TVj2fxDhWFs3tXWozC1zvhJyGVMPb+9UCk8xa
+         TuZQ==
+X-Gm-Message-State: AOAM531Zj32yGgVaWkUQBYnLr+taEbPMOScBSsqoFOKbGb4rNcprWZc5
+        Gx23Gq+ddlCXweQqGgNPu+h79nGw9zWhuCwv/qAVtA==
+X-Google-Smtp-Source: ABdhPJy9kYf/f3crna55zPYPd3C7eYBoB/tQeRDdctgjZb1m2Rw1zbcvpVRFYtvNWY77/Kg9xRTJT8gwPxg5C5mfUSU=
+X-Received: by 2002:a2e:970c:: with SMTP id r12mr2044805lji.145.1592332615437;
+ Tue, 16 Jun 2020 11:36:55 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200616074934.1600036-1-keescook@chromium.org>
+ <20200616074934.1600036-5-keescook@chromium.org> <CAG48ez1p=dR_2ikKq=xVxkoGg0fYpTBpkhJSv1w-6BG=76PAvw@mail.gmail.com>
+ <202006160757.99FD9B785@keescook>
+In-Reply-To: <202006160757.99FD9B785@keescook>
+From:   Jann Horn <jannh@google.com>
+Date:   Tue, 16 Jun 2020 20:36:28 +0200
+Message-ID: <CAG48ez2HrPLhby31PUFb4f=iM60USA4NYRE6AjE8pPQ+ctm60g@mail.gmail.com>
+Subject: Re: [PATCH 4/8] seccomp: Implement constant action bitmaps
+To:     Kees Cook <keescook@chromium.org>
+Cc:     kernel list <linux-kernel@vger.kernel.org>,
         Christian Brauner <christian@brauner.io>,
         Sargun Dhillon <sargun@sargun.me>,
-        Tycho Andersen <tycho@tycho.ws>, Jann Horn <jannh@google.com>,
+        Tycho Andersen <tycho@tycho.ws>,
         "zhujianwei (C)" <zhujianwei7@huawei.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         Matthew Wilcox <willy@infradead.org>,
+        Andy Lutomirski <luto@kernel.org>,
         Will Drewry <wad@chromium.org>, Shuah Khan <shuah@kernel.org>,
         Matt Denton <mpdenton@google.com>,
         Chris Palmer <palmer@google.com>,
         Jeffrey Vander Stoep <jeffv@google.com>,
         Aleksa Sarai <cyphar@cyphar.com>,
-        Hehuazhen <hehuazhen@huawei.com>, X86 ML <x86@kernel.org>,
+        Hehuazhen <hehuazhen@huawei.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
         Linux Containers <containers@lists.linux-foundation.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>
-Subject: Re: [RFC][PATCH 0/8] seccomp: Implement constant action bitmaps
-Message-ID: <202006161131.5A21C01@keescook>
-References: <20200616074934.1600036-1-keescook@chromium.org>
- <CALCETrVLA22khom-iSu5iTJGKfUykOnwyz8j7Tm9g6hWW_e0Aw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALCETrVLA22khom-iSu5iTJGKfUykOnwyz8j7Tm9g6hWW_e0Aw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jun 16, 2020 at 10:01:43AM -0700, Andy Lutomirski wrote:
-> On Tue, Jun 16, 2020 at 12:49 AM Kees Cook <keescook@chromium.org> wrote:
+On Tue, Jun 16, 2020 at 5:49 PM Kees Cook <keescook@chromium.org> wrote:
+> On Tue, Jun 16, 2020 at 02:14:47PM +0200, Jann Horn wrote:
+> > Wouldn't it be simpler to use a function that can run a subset of
+> > seccomp cBPF and bails out on anything that indicates that a syscall's
+> > handling is complex or on instructions it doesn't understand? For
+> > syscalls that have a fixed policy, a typical seccomp filter doesn't
+> > even use any of the BPF_ALU ops, the scratch space, or the X register;
+> > it just uses something like the following set of operations, which is
+> > easy to emulate without much code:
 > >
-> > Hi,
-> >
-> 
-> > In order to build this mapping at filter attach time, each filter is
-> > executed for every syscall (under each possible architecture), and
-> > checked for any accesses of struct seccomp_data that are not the "arch"
-> > nor "nr" (syscall) members. If only "arch" and "nr" are examined, then
-> > there is a constant mapping for that syscall, and bitmaps can be updated
-> > accordingly. If any accesses happen outside of those struct members,
-> > seccomp must not bypass filter execution for that syscall, since program
-> > state will be used to determine filter action result.
-> 
-> >
-> > During syscall action probing, in order to determine whether other members
-> > of struct seccomp_data are being accessed during a filter execution,
-> > the struct is placed across a page boundary with the "arch" and "nr"
-> > members in the first page, and everything else in the second page. The
-> > "page accessed" flag is cleared in the second page's PTE, and the filter
-> > is run. If the "page accessed" flag appears as set after running the
-> > filter, we can determine that the filter looked beyond the "arch" and
-> > "nr" members, and exclude that syscall from the constant action bitmaps.
-> 
-> This is... evil.  I don't know how I feel about it.  It's also
+> > BPF_LD | BPF_W | BPF_ABS
+> > BPF_JMP | BPF_JEQ | BPF_K
+> > BPF_JMP | BPF_JGE | BPF_K
+> > BPF_JMP | BPF_JGT | BPF_K
+> > BPF_JMP | BPF_JA
+> > BPF_RET | BPF_K
+>
+> Initially, I started down this path. It needed a bit of plumbing into
+> BPF to better control the lifetime of the cBPF "saved original filter"
+> (normally used by CHECKPOINT_RESTORE uses)
 
-Thank you! ;)
+I don't think you need that? When a filter is added, you can compute
+the results of the added individual filter, and then merge the state.
 
-> potentially quite slow.
+> and then I needed to keep
+> making exceptions (same list you have: ALU, X register, scratch, etc)
+> in the name of avoiding too much complexity in the emulator. I decided
+> I'd rather reuse the existing infrastructure to actually execute the
+> filter (no cBPF copy needed to be saved, no separate code, and full
+> instruction coverage).
 
-I got the impression that (worst-case: a "full" filter for every
-arch/syscall combo) ~900 _local_ TLB flushes per filter attach wouldn't be
-very slow at all. (And the code is optimized to avoid needless flushes.)
+If you really think that this bit of emulation is so bad, you could
+also make a copy of the BPF filter in which you replace all load
+instructions from syscall arguments with "return NON_CONSTANT_RESULT",
+and then run that through the normal BPF infrastructure.
 
-> I don't suppose you could, instead, instrument the BPF code to get at
-> this without TLB hackery?  Or maybe try to do some real symbolic
-> execution of the BPF code?
+> > Something like (completely untested):
+[...]
+> I didn't actually finish going down the emulator path (I stopped right
+> around the time I verified that libseccomp does use BPF_ALU -- though
+> only BPF_AND), so I didn't actually evaluate the filter contents for other
+> filter builders (i.e. Chrome).
+>
+> But, if BPF_ALU | BPF_AND were added to your code above, it would cover
+> everything libseccomp generates (which covers a lot of the seccomp
+> filters, e.g. systemd, docker). I just felt funny about an "incomplete"
+> emulator.
+>
+> Though now you've got me looking. It seems this is the core
+> of Chrome's BPF instruction generation:
+> https://github.com/chromium/chromium/blob/master/sandbox/linux/bpf_dsl/policy_compiler.cc
+> It also uses ALU|AND, but adds JMP|JSET.
+>
+> So... that's only 2 more instructions to cover what I think are likely
+> the two largest seccomp instruction generators.
+>
+> > That way, you won't need any of this complicated architecture-specific stuff.
+>
+> There are two arch-specific needs, and using a cBPF-subset emulator
+> just gets rid of the local TLB flush. The other part is distinguishing
+> the archs. Neither requirement is onerous (TLB flush usually just
+> needs little more than an extern, arch is already documented in the
+> per-arch syscall_get_arch()).
 
-I think the "simple emulator" path[1] might get us a realistically large
-coverage. I'm going to try it out, and see what it looks like.
+But it's also somewhat layer-breaking and reliant on very specific
+assumptions. Normal kernel code doesn't mess around with page table
+magic, outside of very specific low-level things. And your method
+would break if the fixed-value members were not all packed together at
+the start of the structure.
 
--Kees
 
-[1] https://lore.kernel.org/lkml/202006160757.99FD9B785@keescook/
+And from a hardening perspective: The more code we add that fiddles
+around with PTEs directly, rather than going through higher-level
+abstractions, the higher the chance that something gets horribly
+screwed up. For example, this bit from your patch looks *really*
+suspect:
 
--- 
-Kees Cook
++                       preempt_disable();
++                       set_pte_at(&init_mm, vaddr, ptep,
+pte_mkold(*(READ_ONCE(ptep))));
++                       local_flush_tlb_kernel_range(vaddr, vaddr + PAGE_SIZE);
++                       preempt_enable();
+
+First off, that set_pte_at() is just a memory write; I don't see why
+you put it inside a preempt_disable() region.
+But more importantly, sticking a local TLB flush inside a
+preempt_disable() region with nothing else in there looks really
+shady. How is that supposed to work? If we migrate from CPU0 to CPU1
+directly before this region, and then from CPU1 back to CPU0 directly
+afterwards, the local TLB flush will have no effect.
