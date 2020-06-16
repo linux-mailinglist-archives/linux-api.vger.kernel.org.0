@@ -2,46 +2,46 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 823181FAA58
-	for <lists+linux-api@lfdr.de>; Tue, 16 Jun 2020 09:49:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 380221FAA71
+	for <lists+linux-api@lfdr.de>; Tue, 16 Jun 2020 09:50:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726573AbgFPHts (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 16 Jun 2020 03:49:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56976 "EHLO
+        id S1727792AbgFPHuY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 16 Jun 2020 03:50:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726303AbgFPHtp (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Jun 2020 03:49:45 -0400
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD02BC05BD43
-        for <linux-api@vger.kernel.org>; Tue, 16 Jun 2020 00:49:44 -0700 (PDT)
-Received: by mail-pf1-x443.google.com with SMTP id x22so9109611pfn.3
-        for <linux-api@vger.kernel.org>; Tue, 16 Jun 2020 00:49:44 -0700 (PDT)
+        with ESMTP id S1726506AbgFPHts (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Jun 2020 03:49:48 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9A23C08C5C7
+        for <linux-api@vger.kernel.org>; Tue, 16 Jun 2020 00:49:45 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id 10so9091225pfx.8
+        for <linux-api@vger.kernel.org>; Tue, 16 Jun 2020 00:49:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=mjcyOk28N/gDNh+lNJI3lw4LaLVWwmKl55JA3X6Dw/I=;
-        b=FG9PpeCl4IGZS0FoNmzdMakw2RdED+vA0suD67BJd2Q1POY++LxiBHhwe4plC4cga8
-         iDPgxWJGUXT92vT8ZuWCJtOCWA1ztsAt8azrEh5ct14BZQG2ahACYirwzmmPk7G6j8pv
-         DaCnf8hnlAC4JZ0uKMWM+knX75nXFBb223vWw=
+        bh=aNHAhNI6ZTS0Tgwm1Tz8nA62WMbjyUFexQ8Av4x5DPE=;
+        b=Mha/1v4ZCwL99EzxQ318yAgdODuTalg/C5a5af5exiokd8c5p7ofhUjPq9F2KXq+2Z
+         y7yP3+k5eNCRMrakWOPlm6eIxB24HvrLbf760fTeCcQu5b/qlXMhpecyVB/F0VkMtoBL
+         zMVf+teQCmyVijKGcfvhfnSjCaUXm3PFBJyUc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=mjcyOk28N/gDNh+lNJI3lw4LaLVWwmKl55JA3X6Dw/I=;
-        b=dk2t6TOKNMuwGPEU0GcR4gAgDphuxLiSzmIlix6ALWZHFxU71m32woZ9ZJcwAMlhUv
-         mCSRg0Zizt8wpwYrZ8B4M+AAAVtUNYfKbkVBRaalRl4TnuIZiBKAMgUJS3Gwlish0mfe
-         SkwVVxXv2Y+iB0MeRUlySy4EnbaRlAmVpxenr4jWOtQGLwjPyxxEcz8BgzCTKOBta5AL
-         wzwtB3GmHHu1wqQypYjgBp+3pBX1FEFZ1Xw+GHrJiQsiGzfwZ4N48m4i3+BeYe7OPMhv
-         N4n0d59o1X9fOFlTXnzcxOB0mi84rMwp7I8rq2zhnCaAuahnvdzANOrSC8bzNJp8+dvE
-         /ghw==
-X-Gm-Message-State: AOAM531hJla+xtw8fYu3JweTI8kmwBVmVpHXc2trm5TTWqbNz3tT8T2V
-        4Z7LoRp4ucT9SLuLJH6rXxLOaA==
-X-Google-Smtp-Source: ABdhPJyGg39N+96ssceO/9HxF6jdYQbkHmDZ4rA7Tk6OOphboXmqXiNDvckhAdVMS9jNEwdwSrEJpg==
-X-Received: by 2002:a63:1862:: with SMTP id 34mr1181225pgy.246.1592293783735;
-        Tue, 16 Jun 2020 00:49:43 -0700 (PDT)
+        bh=aNHAhNI6ZTS0Tgwm1Tz8nA62WMbjyUFexQ8Av4x5DPE=;
+        b=tz/hEvcW59fgYDwhnj61U2KM1FFxZxpxVcXoXsRQ8dIdgXB9Qma9FCTq7JgogaCpTa
+         Q9lpEcAE+5yq9L9tm+xfmMUnKLySegSqOfGjL0QFe0+1YiAgruJK6r604YuXTtrGmxmG
+         UFDCnWN8EgEH0IuzqF9Fs1fbb9Gz1TNBVoseco0XHlcHkS3omwe7NnDkuAZnGA0J9J8u
+         kxJhnww21wH97rSECEu/zJN2/5afqzI4lXFJu1gsIGA+pebDT0CQYdPgQeyhE3Byf+YJ
+         mfJbKkZ5ITY/AiJ7iitL2YLo5SaRjpoQ3Kvx39lX3CDKCzYJfhiDCdlVPdifHvQ+pK27
+         vzDQ==
+X-Gm-Message-State: AOAM5328sHJhrWmrCHdwp/gDxx/BlUjmbEiA+ONKguODu3jQgth6WuyB
+        OoOXBDEHn1eMjfiUoZbwN55Bdw==
+X-Google-Smtp-Source: ABdhPJxI3CY4yrnJgeIk7sRjLPfxIjZxfINYy/6N9uGIlb1gaIy+PlZdT78JgpuwV7WO9L49REPdQw==
+X-Received: by 2002:aa7:972b:: with SMTP id k11mr1003541pfg.299.1592293785373;
+        Tue, 16 Jun 2020 00:49:45 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id a7sm1587517pjd.2.2020.06.16.00.49.42
+        by smtp.gmail.com with ESMTPSA id t76sm14171409pfc.220.2020.06.16.00.49.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 16 Jun 2020 00:49:42 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
@@ -62,9 +62,9 @@ Cc:     Kees Cook <keescook@chromium.org>,
         Hehuazhen <hehuazhen@huawei.com>, x86@kernel.org,
         Linux Containers <containers@lists.linux-foundation.org>,
         linux-security-module@vger.kernel.org, linux-api@vger.kernel.org
-Subject: [PATCH 1/8] selftests/seccomp: Improve calibration loop
-Date:   Tue, 16 Jun 2020 00:49:27 -0700
-Message-Id: <20200616074934.1600036-2-keescook@chromium.org>
+Subject: [PATCH 2/8] seccomp: Use pr_fmt
+Date:   Tue, 16 Jun 2020 00:49:28 -0700
+Message-Id: <20200616074934.1600036-3-keescook@chromium.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200616074934.1600036-1-keescook@chromium.org>
 References: <20200616074934.1600036-1-keescook@chromium.org>
@@ -75,108 +75,34 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-The seccomp benchmark calibration loop did not need to take so long.
-Instead, use a simple 1 second timeout and multiply up to target. It
-does not need to be accurate.
+Avoid open-coding "seccomp: " prefixes for pr_*() calls.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- .../selftests/seccomp/seccomp_benchmark.c     | 50 ++++++++++++-------
- 1 file changed, 32 insertions(+), 18 deletions(-)
+ kernel/seccomp.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/tools/testing/selftests/seccomp/seccomp_benchmark.c b/tools/testing/selftests/seccomp/seccomp_benchmark.c
-index eca13fe1fba9..91f5a89cadac 100644
---- a/tools/testing/selftests/seccomp/seccomp_benchmark.c
-+++ b/tools/testing/selftests/seccomp/seccomp_benchmark.c
-@@ -18,9 +18,9 @@
+diff --git a/kernel/seccomp.c b/kernel/seccomp.c
+index 0016cad0e605..a319700c04c4 100644
+--- a/kernel/seccomp.c
++++ b/kernel/seccomp.c
+@@ -13,6 +13,7 @@
+  * Mode 2 allows user-defined system call filters in the form
+  *        of Berkeley Packet Filters/Linux Socket Filters.
+  */
++#define pr_fmt(fmt) "seccomp: " fmt
  
- unsigned long long timing(clockid_t clk_id, unsigned long long samples)
- {
--	pid_t pid, ret;
--	unsigned long long i;
- 	struct timespec start, finish;
-+	unsigned long long i;
-+	pid_t pid, ret;
+ #include <linux/refcount.h>
+ #include <linux/audit.h>
+@@ -1873,7 +1874,7 @@ static int __init seccomp_sysctl_init(void)
  
- 	pid = getpid();
- 	assert(clock_gettime(clk_id, &start) == 0);
-@@ -31,30 +31,43 @@ unsigned long long timing(clockid_t clk_id, unsigned long long samples)
- 	assert(clock_gettime(clk_id, &finish) == 0);
- 
- 	i = finish.tv_sec - start.tv_sec;
--	i *= 1000000000;
-+	i *= 1000000000ULL;
- 	i += finish.tv_nsec - start.tv_nsec;
- 
--	printf("%lu.%09lu - %lu.%09lu = %llu\n",
-+	printf("%lu.%09lu - %lu.%09lu = %llu (%.1fs)\n",
- 		finish.tv_sec, finish.tv_nsec,
- 		start.tv_sec, start.tv_nsec,
--		i);
-+		i, (double)i / 1000000000.0);
- 
- 	return i;
- }
- 
- unsigned long long calibrate(void)
- {
--	unsigned long long i;
--
--	printf("Calibrating reasonable sample size...\n");
-+	struct timespec start, finish;
-+	unsigned long long i, samples, step = 9973;
-+	pid_t pid, ret;
-+	int seconds = 15;
- 
--	for (i = 5; ; i++) {
--		unsigned long long samples = 1 << i;
-+	printf("Calibrating sample size for %d seconds worth of syscalls ...\n", seconds);
- 
--		/* Find something that takes more than 5 seconds to run. */
--		if (timing(CLOCK_REALTIME, samples) / 1000000000ULL > 5)
--			return samples;
--	}
-+	samples = 0;
-+	pid = getpid();
-+	assert(clock_gettime(CLOCK_MONOTONIC, &start) == 0);
-+	do {
-+		for (i = 0; i < step; i++) {
-+			ret = syscall(__NR_getpid);
-+			assert(pid == ret);
-+		}
-+		assert(clock_gettime(CLOCK_MONOTONIC, &finish) == 0);
-+
-+		samples += step;
-+		i = finish.tv_sec - start.tv_sec;
-+		i *= 1000000000ULL;
-+		i += finish.tv_nsec - start.tv_nsec;
-+	} while (i < 1000000000ULL);
-+
-+	return samples * seconds;
- }
- 
- int main(int argc, char *argv[])
-@@ -70,15 +83,16 @@ int main(int argc, char *argv[])
- 	unsigned long long samples;
- 	unsigned long long native, filter1, filter2;
- 
-+	printf("Current BPF sysctl settings:\n");
-+	system("sysctl net.core.bpf_jit_enable");
-+	system("sysctl net.core.bpf_jit_harden");
-+
- 	if (argc > 1)
- 		samples = strtoull(argv[1], NULL, 0);
+ 	hdr = register_sysctl_paths(seccomp_sysctl_path, seccomp_sysctl_table);
+ 	if (!hdr)
+-		pr_warn("seccomp: sysctl registration failed\n");
++		pr_warn("sysctl registration failed\n");
  	else
- 		samples = calibrate();
+ 		kmemleak_not_leak(hdr);
  
--	printf("Current BPF sysctl settings:\n");
--	system("sysctl net.core.bpf_jit_enable");
--	system("sysctl net.core.bpf_jit_harden");
--	printf("Benchmarking %llu samples...\n", samples);
-+	printf("Benchmarking %llu syscalls...\n", samples);
- 
- 	/* Native call */
- 	native = timing(CLOCK_PROCESS_CPUTIME_ID, samples) / samples;
 -- 
 2.25.1
 
