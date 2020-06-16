@@ -2,46 +2,46 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D7621FAA66
-	for <lists+linux-api@lfdr.de>; Tue, 16 Jun 2020 09:50:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20C581FAA60
+	for <lists+linux-api@lfdr.de>; Tue, 16 Jun 2020 09:50:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727054AbgFPHuI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 16 Jun 2020 03:50:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57046 "EHLO
+        id S1726755AbgFPHuA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 16 Jun 2020 03:50:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726939AbgFPHt5 (ORCPT
+        with ESMTP id S1726879AbgFPHt5 (ORCPT
         <rfc822;linux-api@vger.kernel.org>); Tue, 16 Jun 2020 03:49:57 -0400
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D52A2C00862D
-        for <linux-api@vger.kernel.org>; Tue, 16 Jun 2020 00:49:49 -0700 (PDT)
-Received: by mail-pl1-x643.google.com with SMTP id d8so8013521plo.12
-        for <linux-api@vger.kernel.org>; Tue, 16 Jun 2020 00:49:49 -0700 (PDT)
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD0C1C008600
+        for <linux-api@vger.kernel.org>; Tue, 16 Jun 2020 00:49:48 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id z63so8174272pfb.1
+        for <linux-api@vger.kernel.org>; Tue, 16 Jun 2020 00:49:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ZajOneOdlQKQYlo8Wv9k+OekhqsO1R3/YXgaBEECIjE=;
-        b=iqIaqckVAQUEvZtp4+/qsmQGE37BQNoO7PPWo/5IR2umOLzuafxrc36ojsqisBA3bi
-         4zDJkmA8POCcTYB6xD7jmfglS/ATrJpAhXrtlCt2PRv4l86gJXFiKqXPxzD8cJrtBfyx
-         OCYp+xbwpnhRS2dDLpCWXdlx5v5ovlS/TJnjk=
+        bh=LpGj0LlWhL2sX6NdVIScVPST1vvxv4HP5Xz6PQqXsUs=;
+        b=mBMsu/H37l5/82lF78S3TFrEkOg5oaDeSPvONr2tsAmEU8cRaPFfhq+CvSo+fcCXID
+         IaaYZg3VqQimghB/9or2O9e8aLGitYBJVNAhSN6fjjNL8HkLB1nz+Zgd5nThB33PKaA+
+         TdE8nGpBIfY9arDLD7VJCBRTPkHDuKf0fytoA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ZajOneOdlQKQYlo8Wv9k+OekhqsO1R3/YXgaBEECIjE=;
-        b=ACIXQR5VHYG6zAC7vjc6zHmjA5BMgjainPRD1uq1UC3tWE0ycoIMAZl10YBibo+bIe
-         dO/8sq8Nuccq5MxMbJEnuX94VWYATEqh3c/ruh/OBZSpqaHktvSxtv0cokpnxQW5M1lb
-         f6NhOP81quOl6Isv/nZZRBeeKks+I83hu1G/mrvpbw94O6qC8SLjQaW1dxYRWt2TGcJZ
-         Hyc/YDjuuXNfNLOifKHs009vjEKsj1cXWsUk2vbykBqV6u7CU318TsegnaAHhKx6/ePJ
-         3vhb2RCgK/fqvfhAX0SWEc1zw2BUL0519AQ79Ik6MxbquwFsq3oTFN/oSFWuvyPMztu+
-         VWTg==
-X-Gm-Message-State: AOAM532T0QiqiKX1+2ETzr25jA5GHIESf0l+PXeFjHKQ64vJLwrwnk8w
-        v3e5KCLBT2tw3jP7m+hCe9eu6g==
-X-Google-Smtp-Source: ABdhPJzFGf3zdAH2lmOL+oV+0KAfuNbBFFTLvoCLw3Vpzi0gDjZEe/FxPo59Sd/M81CmJjESIzVUVw==
-X-Received: by 2002:a17:90a:f508:: with SMTP id cs8mr1719058pjb.16.1592293789402;
-        Tue, 16 Jun 2020 00:49:49 -0700 (PDT)
+        bh=LpGj0LlWhL2sX6NdVIScVPST1vvxv4HP5Xz6PQqXsUs=;
+        b=OQCy6uaSd2B1yrcrgOrRmSKiR2dlGtaxpPtgtirjNu6GktTT0epzJY3R002TPkgKxc
+         2NTh2MpYIOqQhzwzMs1lwl22BiDp8Bsd1B5MzIWCtP6vHUDF0+JYnT9wAtqToIoJMMNt
+         2qnxEvBKB3Ey6+iEWwuPbf6rp8zHFk/s7uZC9xPeexnz+6Gg+ffnSriReDoD7hHKCAV5
+         D5EZ/gjmcaWru9tkb+7SNsRce+3whjXnmUUqVfod9x11lLBq2X82aUYp8/1GDhJT9H6b
+         ZtIo9VYFD8LtM+xdpF13F9S/tJw7l2s86UbLi0Hn9nyYG1IpaRCSRL3uua+NUesG/oMx
+         ruAw==
+X-Gm-Message-State: AOAM5305ls37RegUzxa/SslaYg+AMOGhHp9tyapm9oV/NNahMNFnGDac
+        l/R861O3xql/pJDBQHjeiVpXGA==
+X-Google-Smtp-Source: ABdhPJySFd7sCS5BogiTiTKCUdeWwjE8zpkNMModdzfibmP1Pshjj5uSx9ng6G7MEky9Ar+74tfsDQ==
+X-Received: by 2002:a62:1bc5:: with SMTP id b188mr970686pfb.119.1592293788235;
+        Tue, 16 Jun 2020 00:49:48 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id m22sm17139899pfk.216.2020.06.16.00.49.44
+        by smtp.gmail.com with ESMTPSA id l23sm13485938pgc.55.2020.06.16.00.49.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 16 Jun 2020 00:49:46 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
@@ -62,9 +62,9 @@ Cc:     Kees Cook <keescook@chromium.org>,
         Hehuazhen <hehuazhen@huawei.com>, x86@kernel.org,
         Linux Containers <containers@lists.linux-foundation.org>,
         linux-security-module@vger.kernel.org, linux-api@vger.kernel.org
-Subject: [PATCH 6/8] x86: Provide API for local kernel TLB flushing
-Date:   Tue, 16 Jun 2020 00:49:32 -0700
-Message-Id: <20200616074934.1600036-7-keescook@chromium.org>
+Subject: [PATCH 7/8] x86: Enable seccomp constant action bitmaps
+Date:   Tue, 16 Jun 2020 00:49:33 -0700
+Message-Id: <20200616074934.1600036-8-keescook@chromium.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200616074934.1600036-1-keescook@chromium.org>
 References: <20200616074934.1600036-1-keescook@chromium.org>
@@ -75,60 +75,54 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-The seccomp constant action bitmap filter evaluation routine depends
-on being able to quickly clear the PTE "accessed" bit for a temporary
-allocation. Provide access to the existing CPU-local kernel memory TLB
-flushing routines.
+Now that CPU-local kernel TLB flushes are available to seccomp, define
+the specific architectures seccomp should be expected to reason about,
+so that constant action bitmaps can be enabled for x86.
+
+TODO: handle x32 via a "synthetic architecture" check, like done in
+syscall entry.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- arch/x86/include/asm/tlbflush.h |  2 ++
- arch/x86/mm/tlb.c               | 12 +++++++++---
- 2 files changed, 11 insertions(+), 3 deletions(-)
+ arch/x86/Kconfig               | 1 +
+ arch/x86/include/asm/syscall.h | 5 +++++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/arch/x86/include/asm/tlbflush.h b/arch/x86/include/asm/tlbflush.h
-index 8c87a2e0b660..ae853e77d6bc 100644
---- a/arch/x86/include/asm/tlbflush.h
-+++ b/arch/x86/include/asm/tlbflush.h
-@@ -228,6 +228,8 @@ extern void flush_tlb_all(void);
- extern void flush_tlb_mm_range(struct mm_struct *mm, unsigned long start,
- 				unsigned long end, unsigned int stride_shift,
- 				bool freed_tables);
-+extern void local_flush_tlb_kernel_range(unsigned long start,
-+					 unsigned long end);
- extern void flush_tlb_kernel_range(unsigned long start, unsigned long end);
- 
- static inline void flush_tlb_page(struct vm_area_struct *vma, unsigned long a)
-diff --git a/arch/x86/mm/tlb.c b/arch/x86/mm/tlb.c
-index 1a3569b43aa5..ffcf2bd0ce1c 100644
---- a/arch/x86/mm/tlb.c
-+++ b/arch/x86/mm/tlb.c
-@@ -959,16 +959,22 @@ void flush_tlb_all(void)
- 	on_each_cpu(do_flush_tlb_all, NULL, 1);
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 6a0cc524882d..0f7a0abab88f 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -149,6 +149,7 @@ config X86
+ 	select HAVE_ARCH_COMPAT_MMAP_BASES	if MMU && COMPAT
+ 	select HAVE_ARCH_PREL32_RELOCATIONS
+ 	select HAVE_ARCH_SECCOMP_FILTER
++	select HAVE_ARCH_SECCOMP_BITMAP		if !X86_X32
+ 	select HAVE_ARCH_THREAD_STRUCT_WHITELIST
+ 	select HAVE_ARCH_STACKLEAK
+ 	select HAVE_ARCH_TRACEHOOK
+diff --git a/arch/x86/include/asm/syscall.h b/arch/x86/include/asm/syscall.h
+index 7cbf733d11af..b89e86f4c061 100644
+--- a/arch/x86/include/asm/syscall.h
++++ b/arch/x86/include/asm/syscall.h
+@@ -97,6 +97,7 @@ static inline void syscall_set_arguments(struct task_struct *task,
+ 	memcpy(&regs->bx + i, args, n * sizeof(args[0]));
  }
  
--static void do_kernel_range_flush(void *info)
-+void local_flush_tlb_kernel_range(unsigned long start, unsigned long end)
++#define SECCOMP_ARCH		AUDIT_ARCH_I386
+ static inline int syscall_get_arch(struct task_struct *task)
  {
--	struct flush_tlb_info *f = info;
- 	unsigned long addr;
- 
- 	/* flush range by one by one 'invlpg' */
--	for (addr = f->start; addr < f->end; addr += PAGE_SIZE)
-+	for (addr = start; addr < end; addr += PAGE_SIZE)
- 		flush_tlb_one_kernel(addr);
+ 	return AUDIT_ARCH_I386;
+@@ -152,6 +153,10 @@ static inline void syscall_set_arguments(struct task_struct *task,
+ 	}
  }
  
-+static void do_kernel_range_flush(void *info)
-+{
-+	struct flush_tlb_info *f = info;
-+
-+	local_flush_tlb_kernel_range(f->start, f->end);
-+}
-+
- void flush_tlb_kernel_range(unsigned long start, unsigned long end)
++#define SECCOMP_ARCH		AUDIT_ARCH_X86_64
++#ifdef CONFIG_COMPAT
++#define SECCOMP_ARCH_COMPAT	AUDIT_ARCH_I386
++#endif
+ static inline int syscall_get_arch(struct task_struct *task)
  {
- 	/* Balance as user space task's flush, a bit conservative */
+ 	/* x32 tasks should be considered AUDIT_ARCH_X86_64. */
 -- 
 2.25.1
 
