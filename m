@@ -2,127 +2,271 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A40851FA81A
-	for <lists+linux-api@lfdr.de>; Tue, 16 Jun 2020 07:12:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EFC091FA837
+	for <lists+linux-api@lfdr.de>; Tue, 16 Jun 2020 07:29:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726579AbgFPFMW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 16 Jun 2020 01:12:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32770 "EHLO
+        id S1726398AbgFPF3p (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 16 Jun 2020 01:29:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725928AbgFPFMW (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Jun 2020 01:12:22 -0400
-Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com [IPv6:2607:f8b0:4864:20::d42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2045C03E96A
-        for <linux-api@vger.kernel.org>; Mon, 15 Jun 2020 22:12:21 -0700 (PDT)
-Received: by mail-io1-xd42.google.com with SMTP id i25so209635iog.0
-        for <linux-api@vger.kernel.org>; Mon, 15 Jun 2020 22:12:21 -0700 (PDT)
+        with ESMTP id S1726261AbgFPF3o (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Jun 2020 01:29:44 -0400
+Received: from mail-il1-x142.google.com (mail-il1-x142.google.com [IPv6:2607:f8b0:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 562BFC03E96A
+        for <linux-api@vger.kernel.org>; Mon, 15 Jun 2020 22:29:44 -0700 (PDT)
+Received: by mail-il1-x142.google.com with SMTP id c75so17631101ila.8
+        for <linux-api@vger.kernel.org>; Mon, 15 Jun 2020 22:29:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sargun.me; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=sF7E9M9M9C8VAOujo4g/NOIFcAYsVHIwoR+spYFBtyE=;
-        b=r60eMOPa5JB9902ysCKrNI7ac62L21elL4+EL4uCwjaD4sNq4K2Uj4sAazXNameAaj
-         ID7NonJoToO0gD7lKV7rnDuXQWpgG/ojoNJ25M22j+5SoDKF8nW37UZmqNjzebQuuSI9
-         a4q1wXzmYQi111XLXBOiZFN9WW7Q13nyp6jzU=
+        bh=/atL1Ve60OqcVOW1A17eOHeeXaoo7IDTY4Z8Un8jaH8=;
+        b=193OWy+wrWHpQHLeiYDs4HwLjRR3lzkgnsBt2V+dkl6TagtCtHrBhNG24ihvS9W6Zf
+         zasBHbcZhYtRMZisoQXuaE9BeVT715PI0S1hhwE0J7wByQ95ip3Y+PHUh72iIzi+jHkx
+         GEj69+viDrq4GN/szP7+GnPsyYy7nNibYDgc0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=sF7E9M9M9C8VAOujo4g/NOIFcAYsVHIwoR+spYFBtyE=;
-        b=GirLoOc8RMAlASoPV6shLa7ElnoYN/JNk58ULYdYDxc+qwciKHwALmm1Un5lqZ7bEA
-         RCkTISUswmzKZC3tjYulsIbefv0oy54xpZUY4QHb3aDGCrV6V3Kpa+dDXeoUkU7Cyg/K
-         DSuOhb4wpHtmuho59DmQ7UzIuwqsZHE1jVzENd491/kTdhFMNthu/sCdWTNn7XiV6hu8
-         gW7JkfrgSbTLJW3t5r9WtjzQvpudjvJvD12dYIC44rXg6CTmr0lQaaB4I95mYhrm/Med
-         /2w1QjBJ9vmBs6RezpJdDGf4VFLBsGgOl5YxvlX2r+HNltB+M8L7tXpRhaFW8i1MYnvc
-         1PuA==
-X-Gm-Message-State: AOAM530IqygSpIcJbxmb57LgF9bwjDg0WVE6N9fHavgsndOMOK+Z2bte
-        RLVohFTQsYUDaKUVSI9ctbfX7w==
-X-Google-Smtp-Source: ABdhPJyVhQLX2fk4FkYMix9csXU1HQWEE674dB4w2Xqfii5o7Hwo1KMua7Zm/FBZcNGEURfmX7PTdg==
-X-Received: by 2002:a6b:5c01:: with SMTP id z1mr915362ioh.177.1592284340936;
-        Mon, 15 Jun 2020 22:12:20 -0700 (PDT)
+        bh=/atL1Ve60OqcVOW1A17eOHeeXaoo7IDTY4Z8Un8jaH8=;
+        b=AuMEu6mrba0HhBk2RRMcdN3vMwAyLYLYqKt3JM3YW/okBFUjd/VgHBG1oS2gR1TCRg
+         QimDqSIlPHravdFrTOUFhQQzjP6SWUtxfDgm0urMnemYjvX74tP0LuvvaeQNXjKoePuG
+         rNvbLHfJxtSIJi3W8p7iEpz1iC/+kVprd8kLCZCQhEgkPNgAcFV0W1n8I7NJb2KmyUCO
+         kUL3gtlxRdOs3Ae6+dG+kFwEP+3WG/ydwnFkUlAbOJKfuTd5kgsS5xbBVD9HAm1I/Afe
+         jLPMYgjzfmYyb4QcpDWTl24nUsfG/uhjcSYPDfcGinz84DROIZ7VTKzCliD8OYtQqkph
+         7u4A==
+X-Gm-Message-State: AOAM5338auh58ze1W92wgYRcFvron4PLJBGj+wDcGb9fYMATUTGyP2RG
+        W3q1zUuoppNlZeIL80VrxgkYww==
+X-Google-Smtp-Source: ABdhPJx5Rg1ST0KUj/PKC9lU9klQRZh96t9kjm/st69tOnr6RVzMkeGE8OyZPHSvj533a1JeUJYcxA==
+X-Received: by 2002:a92:c7c6:: with SMTP id g6mr1539412ilk.49.1592285383432;
+        Mon, 15 Jun 2020 22:29:43 -0700 (PDT)
 Received: from ircssh-2.c.rugged-nimbus-611.internal (80.60.198.104.bc.googleusercontent.com. [104.198.60.80])
-        by smtp.gmail.com with ESMTPSA id l26sm9347068ild.59.2020.06.15.22.12.20
+        by smtp.gmail.com with ESMTPSA id z16sm9204945ilz.64.2020.06.15.22.29.43
         (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 15 Jun 2020 22:12:20 -0700 (PDT)
-Date:   Tue, 16 Jun 2020 05:12:19 +0000
+        Mon, 15 Jun 2020 22:29:43 -0700 (PDT)
+Date:   Tue, 16 Jun 2020 05:29:41 +0000
 From:   Sargun Dhillon <sargun@sargun.me>
-To:     Jann Horn <jannh@google.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
+To:     Kees Cook <keescook@chromium.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Christian Brauner <christian@brauner.io>,
+        "David S. Miller" <davem@davemloft.net>,
+        Christoph Hellwig <hch@lst.de>,
         Tycho Andersen <tycho@tycho.ws>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
         Aleksa Sarai <cyphar@cyphar.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: [RFC PATCH] seccomp: Add extensibility mechanism to read
- notifications
-Message-ID: <20200616051218.GA16032@ircssh-2.c.rugged-nimbus-611.internal>
-References: <20200613072609.5919-1-sargun@sargun.me>
- <CAG48ez2ZyYkHhbuwLYehR5fx2_d9yoVg4tBmyqvVqpy-oZ-0cA@mail.gmail.com>
+        Matt Denton <mpdenton@google.com>,
+        Jann Horn <jannh@google.com>, Chris Palmer <palmer@google.com>,
+        Robert Sesek <rsesek@google.com>,
+        Giuseppe Scrivano <gscrivan@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Will Drewry <wad@chromium.org>, Shuah Khan <shuah@kernel.org>,
+        netdev@vger.kernel.org, containers@lists.linux-foundation.org,
+        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v4 02/11] fs: Move __scm_install_fd() to
+ __fd_install_received()
+Message-ID: <20200616052941.GB16032@ircssh-2.c.rugged-nimbus-611.internal>
+References: <20200616032524.460144-1-keescook@chromium.org>
+ <20200616032524.460144-3-keescook@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAG48ez2ZyYkHhbuwLYehR5fx2_d9yoVg4tBmyqvVqpy-oZ-0cA@mail.gmail.com>
+In-Reply-To: <20200616032524.460144-3-keescook@chromium.org>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jun 15, 2020 at 11:36:22AM +0200, Jann Horn wrote:
-> On Sat, Jun 13, 2020 at 9:26 AM Sargun Dhillon <sargun@sargun.me> wrote:
-> > This introduces an extensibility mechanism to receive seccomp
-> > notifications. It uses read(2), as opposed to using an ioctl. The listener
-> > must be first configured to write the notification via the
-> > SECCOMP_IOCTL_NOTIF_CONFIG ioctl with the fields that the user is
-> > interested in.
-> >
-> > This is different than the old SECCOMP_IOCTL_NOTIF_RECV method as it allows
-> > for more flexibility. It allows the user to opt into certain fields, and
-> > not others. This is nice for users who want to opt into some fields like
-> > thread group leader. In the future, this mechanism can be used to expose
-> > file descriptors to users,
+On Mon, Jun 15, 2020 at 08:25:15PM -0700, Kees Cook wrote:
+> In preparation for users of the "install a received file" logic outside
+> of net/ (pidfd and seccomp), relocate and rename __scm_install_fd() from
+> net/core/scm.c to __fd_install_received() in fs/file.c, and provide a
+> wrapper named fd_install_received_user(), as future patches will change
+> the interface to __fd_install_received().
 > 
-> Please don't touch the caller's file descriptor table from read/write
-> handlers, only from ioctl handlers. A process should always be able to
-> read from files supplied by an untrusted user without having to worry
-> about new entries mysteriously popping up in its fd table.
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> ---
+>  fs/file.c            | 47 ++++++++++++++++++++++++++++++++++++++++++++
+>  include/linux/file.h |  8 ++++++++
+>  include/net/scm.h    |  1 -
+>  net/compat.c         |  2 +-
+>  net/core/scm.c       | 32 +-----------------------------
+>  5 files changed, 57 insertions(+), 33 deletions(-)
 > 
-Acknowledged.
+> diff --git a/fs/file.c b/fs/file.c
+> index abb8b7081d7a..fcfddae0d252 100644
+> --- a/fs/file.c
+> +++ b/fs/file.c
+> @@ -11,6 +11,7 @@
+>  #include <linux/export.h>
+>  #include <linux/fs.h>
+>  #include <linux/mm.h>
+> +#include <linux/net.h>
+>  #include <linux/sched/signal.h>
+>  #include <linux/slab.h>
+>  #include <linux/file.h>
+> @@ -18,6 +19,8 @@
+>  #include <linux/bitops.h>
+>  #include <linux/spinlock.h>
+>  #include <linux/rcupdate.h>
+> +#include <net/cls_cgroup.h>
+> +#include <net/netprio_cgroup.h>
+>  
+>  unsigned int sysctl_nr_open __read_mostly = 1024*1024;
+>  unsigned int sysctl_nr_open_min = BITS_PER_LONG;
+> @@ -931,6 +934,50 @@ int replace_fd(unsigned fd, struct file *file, unsigned flags)
+>  	return err;
+>  }
+>  
+> +/**
+> + * __fd_install_received() - Install received file into file descriptor table
+> + *
+> + * @fd: fd to install into (if negative, a new fd will be allocated)
+> + * @file: struct file that was received from another process
+> + * @ufd_required: true to use @ufd for writing fd number to userspace
+> + * @ufd: __user pointer to write new fd number to
+> + * @o_flags: the O_* flags to apply to the new fd entry
+Probably doesn't matter, but this function doesn't take the fd, or ufd_required
+argument in this patch. 
 
-Is something like:
-ioctl(listener, SECCOMP_GET_MEMORY, notification_id);
+> + *
+> + * Installs a received file into the file descriptor table, with appropriate
+> + * checks and count updates. Optionally writes the fd number to userspace.
+ufd does not apppear options here.
 
-reasonable in your opinion?
-
-> > such as a representation of the process's
-> > memory. It also has good forwards and backwards compatibility guarantees.
-> > Users with programs compiled against newer headers will work fine on older
-> > kernels as long as they don't opt into any sizes, or optional fields that
-> > are only available on newer kernels.
-> >
-> > The ioctl method relies on an extensible struct[1]. This extensible struct
-> > is slightly misleading[2] as the ioctl number changes when we extend it.
-> > This breaks backwards compatibility with older kernels even if we're not
-> > asking for any fields that we do not need. In order to deal with this, the
-> > ioctl number would need to be dynamic, or the user would need to pass the
-> > size they're expecting, and we would need to implemented "extended syscall"
-> > semantics in ioctl. This potentially causes issue to future work of
-> > kernel-assisted copying for ioctl user buffers.
+> + *
+> + * Returns -ve on error.
+> + */
+> +int __fd_install_received(struct file *file, int __user *ufd, unsigned int o_flags)
+> +{
+> +	struct socket *sock;
+> +	int new_fd;
+> +	int error;
+> +
+> +	error = security_file_receive(file);
+> +	if (error)
+> +		return error;
+> +
+> +	new_fd = get_unused_fd_flags(o_flags);
+> +	if (new_fd < 0)
+> +		return new_fd;
+> +
+> +	error = put_user(new_fd, ufd);
+> +	if (error) {
+> +		put_unused_fd(new_fd);
+> +		return error;
+> +	}
+> +
+> +	/* Bump the usage count and install the file. */
+> +	sock = sock_from_file(file, &error);
+> +	if (sock) {
+> +		sock_update_netprioidx(&sock->sk->sk_cgrp_data);
+> +		sock_update_classid(&sock->sk->sk_cgrp_data);
+> +	}
+> +	fd_install(new_fd, get_file(file));
+> +	return 0;
+> +}
+> +
+>  static int ksys_dup3(unsigned int oldfd, unsigned int newfd, int flags)
+>  {
+>  	int err = -EBADF;
+> diff --git a/include/linux/file.h b/include/linux/file.h
+> index 122f80084a3e..fe18a1a0d555 100644
+> --- a/include/linux/file.h
+> +++ b/include/linux/file.h
+> @@ -91,6 +91,14 @@ extern void put_unused_fd(unsigned int fd);
+>  
+>  extern void fd_install(unsigned int fd, struct file *file);
+>  
+> +extern int __fd_install_received(struct file *file, int __user *ufd,
+> +				 unsigned int o_flags);
+> +static inline int fd_install_received_user(struct file *file, int __user *ufd,
+> +					   unsigned int o_flags)
+> +{
+> +	return __fd_install_received(file, ufd, o_flags);
+> +}
+> +
+>  extern void flush_delayed_fput(void);
+>  extern void __fput_sync(struct file *);
+>  
+> diff --git a/include/net/scm.h b/include/net/scm.h
+> index 581a94d6c613..1ce365f4c256 100644
+> --- a/include/net/scm.h
+> +++ b/include/net/scm.h
+> @@ -37,7 +37,6 @@ struct scm_cookie {
+>  #endif
+>  };
+>  
+> -int __scm_install_fd(struct file *file, int __user *ufd, unsigned int o_flags);
+>  void scm_detach_fds(struct msghdr *msg, struct scm_cookie *scm);
+>  void scm_detach_fds_compat(struct msghdr *msg, struct scm_cookie *scm);
+>  int __scm_send(struct socket *sock, struct msghdr *msg, struct scm_cookie *scm);
+> diff --git a/net/compat.c b/net/compat.c
+> index 27d477fdcaa0..94f288e8dac5 100644
+> --- a/net/compat.c
+> +++ b/net/compat.c
+> @@ -298,7 +298,7 @@ void scm_detach_fds_compat(struct msghdr *msg, struct scm_cookie *scm)
+>  	int err = 0, i;
+>  
+>  	for (i = 0; i < fdmax; i++) {
+> -		err = __scm_install_fd(scm->fp->fp[i], cmsg_data + i, o_flags);
+> +		err = fd_install_received_user(scm->fp->fp[i], cmsg_data + i, o_flags);
+>  		if (err)
+>  			break;
+>  	}
+> diff --git a/net/core/scm.c b/net/core/scm.c
+> index 6151678c73ed..df190f1fdd28 100644
+> --- a/net/core/scm.c
+> +++ b/net/core/scm.c
+> @@ -280,36 +280,6 @@ void put_cmsg_scm_timestamping(struct msghdr *msg, struct scm_timestamping_inter
+>  }
+>  EXPORT_SYMBOL(put_cmsg_scm_timestamping);
+>  
+> -int __scm_install_fd(struct file *file, int __user *ufd, unsigned int o_flags)
+> -{
+> -	struct socket *sock;
+> -	int new_fd;
+> -	int error;
+> -
+> -	error = security_file_receive(file);
+> -	if (error)
+> -		return error;
+> -
+> -	new_fd = get_unused_fd_flags(o_flags);
+> -	if (new_fd < 0)
+> -		return new_fd;
+> -
+> -	error = put_user(new_fd, ufd);
+> -	if (error) {
+> -		put_unused_fd(new_fd);
+> -		return error;
+> -	}
+> -
+> -	/* Bump the usage count and install the file. */
+> -	sock = sock_from_file(file, &error);
+> -	if (sock) {
+> -		sock_update_netprioidx(&sock->sk->sk_cgrp_data);
+> -		sock_update_classid(&sock->sk->sk_cgrp_data);
+> -	}
+> -	fd_install(new_fd, get_file(file));
+> -	return 0;
+> -}
+> -
+>  static int scm_max_fds(struct msghdr *msg)
+>  {
+>  	if (msg->msg_controllen <= sizeof(struct cmsghdr))
+> @@ -336,7 +306,7 @@ void scm_detach_fds(struct msghdr *msg, struct scm_cookie *scm)
+>  	}
+>  
+>  	for (i = 0; i < fdmax; i++) {
+> -		err = __scm_install_fd(scm->fp->fp[i], cmsg_data + i, o_flags);
+> +		err = fd_install_received_user(scm->fp->fp[i], cmsg_data + i, o_flags);
+>  		if (err)
+>  			break;
+>  	}
+> -- 
+> 2.25.1
 > 
-> I don't see the issue. Can't you replace "switch (cmd)" with "switch
-> (cmd & ~IOCSIZE_MASK)" and then check the size separately?
-It depends:
-1. If we rely purely on definitions in ioctl.h, and the user they've pulled
-   in a newer header file, on an older kernel, it will fail. This is because
-   the size is bigger, and we don't actually know if they're interested in
-   those new values
-2. We can define new seccomp IOCTL versions, and expose these to the user.
-   This has some niceness to it, in that there's a simple backwards compatibiity
-   story. This is a little unorthodox though.
-3. We do something like embed the version / size that someone is interested
-   in in the struct, and the ioctl reads it in order to determine which version
-   of the fields to populate. This is effectively what the read approach does
-   with more steps.
-
-There's no reason we can't do #3. Just a complexity tradeoff.
