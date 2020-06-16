@@ -2,95 +2,155 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F1D01FBC47
-	for <lists+linux-api@lfdr.de>; Tue, 16 Jun 2020 19:02:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CA6A1FBCCF
+	for <lists+linux-api@lfdr.de>; Tue, 16 Jun 2020 19:27:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728861AbgFPRCB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 16 Jun 2020 13:02:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54722 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730107AbgFPRB6 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 16 Jun 2020 13:01:58 -0400
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1730040AbgFPR0s (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 16 Jun 2020 13:26:48 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55012 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727819AbgFPR0r (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Jun 2020 13:26:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1592328406;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=ItaqNxBolZxCTVFgF5uA+jZww2TB8yM7ElgO3DIZmPw=;
+        b=MoXnEGKGXrVRkiTf9gXySOH5FCb6jMmdYzgZ24op4JX5gU0S1FTM/rvqx3aNQr7XUznyNF
+        0kAfLDag2aDwr9WVes2wzdEtFML8qUeDmxNRLsLhkIyluyS0K7kv/O16yQO1pZpGmz2L8a
+        9sYk020YFsoX+vZRta5PHYfpTKDEE7s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-12-OdzqyHloPhSIzhZW9fIwog-1; Tue, 16 Jun 2020 13:26:38 -0400
+X-MC-Unique: OdzqyHloPhSIzhZW9fIwog-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F408F21534
-        for <linux-api@vger.kernel.org>; Tue, 16 Jun 2020 17:01:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592326918;
-        bh=x7sF8JlhivKiZx8ZWX3Ydrzfg2JpqrUkultDOGGYPI8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=S53Pz11cN6hVnM6NPkjIYCgBQ6wh4ZQFysmgAoUqduDe8+6dA7fk3p/mtl2Mcoyo8
-         JjVG24/2JXAuNvYMY0c4Sh2D54tYZh11rmoGY97VuW28l2N6NVUbZxAjktNmFcFniE
-         tCR2L6JLTmyEERPcH2c8pT6tlmZzwWu8CKDSNt/g=
-Received: by mail-ej1-f54.google.com with SMTP id dr13so22293799ejc.3
-        for <linux-api@vger.kernel.org>; Tue, 16 Jun 2020 10:01:57 -0700 (PDT)
-X-Gm-Message-State: AOAM533CYNciywqIggsx5gwlErogrpn4UdB9yzAkiro4LGrTllniwRDv
-        77cuTY+Z9bZ2eU5ERpqKJGBvQhr1pHfT55Cr3jc5AQ==
-X-Google-Smtp-Source: ABdhPJwrvBoMEGMkP0gYqhwknR6xR8IcaGNlyuVcjfKiRw+lPcX8g8lGzKUCzXmybftwQB7Yn6fFe8MGNmpFIBzxBWI=
-X-Received: by 2002:a5d:49c5:: with SMTP id t5mr4143840wrs.18.1592326916028;
- Tue, 16 Jun 2020 10:01:56 -0700 (PDT)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DDDA18730E3;
+        Tue, 16 Jun 2020 17:26:36 +0000 (UTC)
+Received: from fuller.cnet (ovpn-112-9.gru2.redhat.com [10.97.112.9])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 48D2719C71;
+        Tue, 16 Jun 2020 17:26:28 +0000 (UTC)
+Received: by fuller.cnet (Postfix, from userid 1000)
+        id 7570841887FC; Tue, 16 Jun 2020 14:26:06 -0300 (-03)
+Date:   Tue, 16 Jun 2020 14:26:06 -0300
+From:   Marcelo Tosatti <mtosatti@redhat.com>
+To:     Nitesh Narayan Lal <nitesh@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        frederic@kernel.org, juri.lelli@redhat.com, abelits@marvell.com,
+        bhelgaas@google.com, linux-pci@vger.kernel.org,
+        rostedt@goodmis.org, mingo@kernel.org, peterz@infradead.org,
+        tglx@linutronix.de
+Subject: Re: [PATCH v1 0/3] Preventing job distribution to isolated CPUs
+Message-ID: <20200616172606.GA326441@fuller.cnet>
+References: <20200610161226.424337-1-nitesh@redhat.com>
 MIME-Version: 1.0
-References: <20200616074934.1600036-1-keescook@chromium.org>
-In-Reply-To: <20200616074934.1600036-1-keescook@chromium.org>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Tue, 16 Jun 2020 10:01:43 -0700
-X-Gmail-Original-Message-ID: <CALCETrVLA22khom-iSu5iTJGKfUykOnwyz8j7Tm9g6hWW_e0Aw@mail.gmail.com>
-Message-ID: <CALCETrVLA22khom-iSu5iTJGKfUykOnwyz8j7Tm9g6hWW_e0Aw@mail.gmail.com>
-Subject: Re: [RFC][PATCH 0/8] seccomp: Implement constant action bitmaps
-To:     Kees Cook <keescook@chromium.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Christian Brauner <christian@brauner.io>,
-        Sargun Dhillon <sargun@sargun.me>,
-        Tycho Andersen <tycho@tycho.ws>, Jann Horn <jannh@google.com>,
-        "zhujianwei (C)" <zhujianwei7@huawei.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Will Drewry <wad@chromium.org>, Shuah Khan <shuah@kernel.org>,
-        Matt Denton <mpdenton@google.com>,
-        Chris Palmer <palmer@google.com>,
-        Jeffrey Vander Stoep <jeffv@google.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Hehuazhen <hehuazhen@huawei.com>, X86 ML <x86@kernel.org>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200610161226.424337-1-nitesh@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jun 16, 2020 at 12:49 AM Kees Cook <keescook@chromium.org> wrote:
->
-> Hi,
->
+Hi Nitesh,
 
-> In order to build this mapping at filter attach time, each filter is
-> executed for every syscall (under each possible architecture), and
-> checked for any accesses of struct seccomp_data that are not the "arch"
-> nor "nr" (syscall) members. If only "arch" and "nr" are examined, then
-> there is a constant mapping for that syscall, and bitmaps can be updated
-> accordingly. If any accesses happen outside of those struct members,
-> seccomp must not bypass filter execution for that syscall, since program
-> state will be used to determine filter action result.
+On Wed, Jun 10, 2020 at 12:12:23PM -0400, Nitesh Narayan Lal wrote:
+> This patch-set is originated from one of the patches that have been
+> posted earlier as a part of "Task_isolation" mode [1] patch series
+> by Alex Belits <abelits@marvell.com>. There are only a couple of
+> changes that I am proposing in this patch-set compared to what Alex
+> has posted earlier.
+> 
+> 
+> Context
+> =======
+> On a broad level, all three patches that are included in this patch
+> set are meant to improve the driver/library to respect isolated
+> CPUs by not pinning any job on it. Not doing so could impact
+> the latency values in RT use-cases.
+> 
+> 
+> Patches
+> =======
+> * Patch1:
+>   The first patch is meant to make cpumask_local_spread()
+>   aware of the isolated CPUs. It ensures that the CPUs that
+>   are returned by this API only includes housekeeping CPUs.
+> 
+> * Patch2:
+>   This patch ensures that a probe function that is called
+>   using work_on_cpu() doesn't run any task on an isolated CPU.
+> 
+> * Patch3:
+>   This patch makes store_rps_map() aware of the isolated
+>   CPUs so that rps don't queue any jobs on an isolated CPU.
+> 
+> 
+> Changes
+> =======
+> To fix the above-mentioned issues Alex has used housekeeping_cpumask().
+> The only changes that I am proposing here are:
+> - Removing the dependency on CONFIG_TASK_ISOLATION that was proposed by Alex.
+>   As it should be safe to rely on housekeeping_cpumask()
+>   even when we don't have any isolated CPUs and we want
+>   to fall back to using all available CPUs in any of the above scenarios.
+> - Using both HK_FLAG_DOMAIN and HK_FLAG_WQ in all three patches, this is
+>   because we would want the above fixes not only when we have isolcpus but
+>   also with something like systemd's CPU affinity.
+> 
+> 
+> Testing
+> =======
+> * Patch 1:
+>   Fix for cpumask_local_spread() is tested by creating VFs, loading
+>   iavf module and by adding a tracepoint to confirm that only housekeeping
+>   CPUs are picked when an appropriate profile is set up and all remaining CPUs
+>   when no CPU isolation is required/configured.
+> 
+> * Patch 2:
+>   To test the PCI fix, I hotplugged a virtio-net-pci from qemu console
+>   and forced its addition to a specific node to trigger the code path that
+>   includes the proposed fix and verified that only housekeeping CPUs
+>   are included via tracepoint. I understand that this may not be the
+>   best way to test it, hence, I am open to any suggestion to test this
+>   fix in a better way if required.
+> 
+> * Patch 3:
+>   To test the fix in store_rps_map(), I tried configuring an isolated
+>   CPU by writing to /sys/class/net/en*/queues/rx*/rps_cpus which
+>   resulted in 'write error: Invalid argument' error. For the case
+>   where a non-isolated CPU is writing in rps_cpus the above operation
+>   succeeded without any error.
+> 
+> [1] https://patchwork.ozlabs.org/project/netdev/patch/51102eebe62336c6a4e584c7a503553b9f90e01c.camel@marvell.com/
+> 
+> Alex Belits (3):
+>   lib: restricting cpumask_local_spread to only houskeeping CPUs
+>   PCI: prevent work_on_cpu's probe to execute on isolated CPUs
+>   net: restrict queuing of receive packets to housekeeping CPUs
+> 
+>  drivers/pci/pci-driver.c |  5 ++++-
+>  lib/cpumask.c            | 43 +++++++++++++++++++++++-----------------
+>  net/core/net-sysfs.c     | 10 +++++++++-
+>  3 files changed, 38 insertions(+), 20 deletions(-)
+> 
+> --  
+> 
 
->
-> During syscall action probing, in order to determine whether other members
-> of struct seccomp_data are being accessed during a filter execution,
-> the struct is placed across a page boundary with the "arch" and "nr"
-> members in the first page, and everything else in the second page. The
-> "page accessed" flag is cleared in the second page's PTE, and the filter
-> is run. If the "page accessed" flag appears as set after running the
-> filter, we can determine that the filter looked beyond the "arch" and
-> "nr" members, and exclude that syscall from the constant action bitmaps.
+Looks good to me.
 
-This is... evil.  I don't know how I feel about it.  It's also
-potentially quite slow.
+The flags mechanism is not well organized: this is using HK_FLAG_WQ to 
+infer nohz_full is being set (while HK_FLAG_WQ should indicate that
+non-affined workqueue threads should not run on certain CPUs).
 
-I don't suppose you could, instead, instrument the BPF code to get at
-this without TLB hackery?  Or maybe try to do some real symbolic
-execution of the BPF code?
+But this is a problem of the flags (which apparently Frederic wants
+to fix by exposing a limited number of options to users), and not
+of this patch.
 
---Andy
+
