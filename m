@@ -2,106 +2,232 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 68AA11FD710
-	for <lists+linux-api@lfdr.de>; Wed, 17 Jun 2020 23:22:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25F621FD74C
+	for <lists+linux-api@lfdr.de>; Wed, 17 Jun 2020 23:33:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726868AbgFQVWT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 17 Jun 2020 17:22:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38548 "EHLO
+        id S1726868AbgFQVd1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 17 Jun 2020 17:33:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726763AbgFQVWS (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 17 Jun 2020 17:22:18 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87514C06174E
-        for <linux-api@vger.kernel.org>; Wed, 17 Jun 2020 14:22:18 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id l63so1880847pge.12
-        for <linux-api@vger.kernel.org>; Wed, 17 Jun 2020 14:22:18 -0700 (PDT)
+        with ESMTP id S1726853AbgFQVd0 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 17 Jun 2020 17:33:26 -0400
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55C1BC0613EE
+        for <linux-api@vger.kernel.org>; Wed, 17 Jun 2020 14:33:26 -0700 (PDT)
+Received: by mail-ej1-x643.google.com with SMTP id dp18so4159669ejc.8
+        for <linux-api@vger.kernel.org>; Wed, 17 Jun 2020 14:33:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=10p96XOHb93iqxdsMtM/iXJsZQXP+bBYNuuroRQsAf8=;
-        b=MWN8cZ9R5il23Sphk7/cpwDrjsrTR/+kkUhvqrDrigcLgNYhYnRJGvBWABWzskO8YK
-         +fVFuJalBPUahrMWh8uCBsyPDo8OkrkT409WrBkWm++NCgvhsa5DtrkOWHPCUY905Gwr
-         shxLSwAth2+Jg/yZQd8sSxszCwbxMiolkIV4E=
+        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=082ZDcJ58JiAJ5FQwZhCB4u9ixr0nyVZnt4fYABIR84=;
+        b=TfwM4lavAZ4qLtd5wq6rQlVNKfmuRYQ43amsKkYVgFT+8SBxWmO9x5wsvBq940XKAg
+         b7y6FNbnpN7VONhX+pNMmIsdCJV2FjiC9n3+Wds9hgiE4ZfZvYN7TCSi+l1RKQMVjc4H
+         VTqR6pGcGhx/snMwZMlMlSTbYX/5tZcXbYQ2svqAQstq6/l7ixnZwU+LOMkPqqWbKemq
+         DE2g2KY2Nej+5bcYigqtEWd1ECLF3ZomjpGrAbXdruDnwjJ6vnXStdMOI4InbA3xCd2M
+         rE6umaqSA2gnDeoaV49w5DHVs/9DQHlZzxQYa0C0nK3iaVkh/+O/v2Rk4uIEfXXD7JS4
+         YtMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=10p96XOHb93iqxdsMtM/iXJsZQXP+bBYNuuroRQsAf8=;
-        b=gyRZ9Gs8hspqhAdDb3xgaiMSfrdA56+z0M0ONzLMU8HRUG2ebEitHZ+7T0F9+jCzMN
-         n98nr9+0L3s4YX12N5NhpMaWeHHoG0j0u/GG0QyX4RoN1kKOHAHBHh0GCOCFZ9ntyiqx
-         MO+peawOS/dDgYNhakhmDHWFvm714Xe7ZoBuU7jsiMT50j+B9uEkV4quX03iymvN5p49
-         jHfpW5ugYcOsUaf5Rgu6jZGJ1dmoMdNhAoaC9vx+t0vB9Mh5Q16dCOO/MoE338PbFfkl
-         Hfz6hNfoyeCw4VP1kjOiP2WXtQlDseHLLDPhS5GkqyHmO0BuWOwxsWgd80Mqy/yAnRFN
-         o69w==
-X-Gm-Message-State: AOAM5306gE+PS8jPnw7lzdytFwKnsTCs8g/lXTAsoiwNXngvOLp3E14e
-        /TSkORJMS104OguCS+taRPn3AA==
-X-Google-Smtp-Source: ABdhPJwb0QaHkNQ9STjpEw8h7dMc5MOUm/3dIDlXV+GrpRIAApEV64zC+Lai+OzQFtbZUC4Z/eKcQg==
-X-Received: by 2002:a63:1617:: with SMTP id w23mr685649pgl.248.1592428938121;
-        Wed, 17 Jun 2020 14:22:18 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id l134sm648777pga.50.2020.06.17.14.22.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2020 14:22:17 -0700 (PDT)
-Date:   Wed, 17 Jun 2020 14:22:15 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Nathan Chancellor <natechancellor@gmail.com>
-Cc:     Sargun Dhillon <sargun@sargun.me>,
-        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org, viro@zeniv.linux.org.uk,
-        christian.brauner@ubuntu.com, cyphar@cyphar.com, jannh@google.com,
-        jeffv@google.com, palmer@google.com, rsesek@google.com,
-        tycho@tycho.ws, Matt Denton <mpdenton@google.com>
-Subject: Re: [PATCH v3] seccomp: Add find_notification helper
-Message-ID: <202006171420.C8007EDCD8@keescook>
-References: <20200601112532.150158-1-sargun@sargun.me>
- <20200617200844.GA12976@Ryzen-9-3900X.localdomain>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=082ZDcJ58JiAJ5FQwZhCB4u9ixr0nyVZnt4fYABIR84=;
+        b=K2r0HcHR7wFwuXdf2Y27EarG12HQbeUQDjU3gTVr54X2KrESPa2M/7joXz9j47s1AS
+         etN8Fzh5eFzEfFNpwy1saeNkBVu32lIVrGAm4AyDJGyvCIipeOfrqPZ8y7r5mkxGEju/
+         cowiN9VQei7G2IUVwfrzQa9sF7j9nqycOXz0+JydL0Xo5/TGQFmMFbL0h8vdzOGR/01x
+         kNoLRq8k1D8StkExN5EpVzlLkan/c9XtZsg05g404O7aUuyrKMynoO81P1XP6Icy2qgZ
+         s7jCB0Db+2yhm3GQmk5Z5npsDZ7KfdWDfkhXg83CtbjMZlJA4zjXnxJJfSkSXBYi2csX
+         T2Ow==
+X-Gm-Message-State: AOAM531uggOZQvejoCW5g+vcQ9Lqysy7VqMmwwimJkdZwSANDpJWelY8
+        9cU9lDjFAp9Pfej55CF9sh8b6IC7/lonbKGXzHnQ
+X-Google-Smtp-Source: ABdhPJwGl2Yew0IZrhIcRIB+PA6D6jtLPBcAXq287JWVLoatXUiRC+F29j9ZkG+eUUYXUmHK2aSjHOoPf26wthrPENk=
+X-Received: by 2002:a17:906:434f:: with SMTP id z15mr1080529ejm.178.1592429604473;
+ Wed, 17 Jun 2020 14:33:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200617200844.GA12976@Ryzen-9-3900X.localdomain>
+References: <20200330134705.jlrkoiqpgjh3rvoh@madcap2.tricolour.ca>
+ <CAHC9VhQTsEMcYAF1CSHrrVn07DR450W9j6sFVfKAQZ0VpheOfw@mail.gmail.com>
+ <20200330162156.mzh2tsnovngudlx2@madcap2.tricolour.ca> <CAHC9VhTRzZXJ6yUFL+xZWHNWZFTyiizBK12ntrcSwmgmySbkWw@mail.gmail.com>
+ <20200330174937.xalrsiev7q3yxsx2@madcap2.tricolour.ca> <CAHC9VhR_bKSHDn2WAUgkquu+COwZUanc0RV3GRjMDvpoJ5krjQ@mail.gmail.com>
+ <871ronf9x2.fsf@x220.int.ebiederm.org> <CAHC9VhR3gbmj5+5MY-whLtStKqDEHgvMRigU9hW0X1kpxF91ag@mail.gmail.com>
+ <871rol7nw3.fsf@x220.int.ebiederm.org> <CAHC9VhQvhja=vUEbT3uJgQqpj-480HZzWV7b5oc2GWtzFN1qJw@mail.gmail.com>
+ <20200608180330.z23hohfa2nclhxf5@madcap2.tricolour.ca>
+In-Reply-To: <20200608180330.z23hohfa2nclhxf5@madcap2.tricolour.ca>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Wed, 17 Jun 2020 17:33:13 -0400
+Message-ID: <CAHC9VhQExpNcK-7H+tZg5ouCVts=YmnNiXrgk-ZYenj_zrr1GQ@mail.gmail.com>
+Subject: Re: [PATCH ghak90 V8 07/16] audit: add contid support for signalling
+ the audit daemon
+To:     Richard Guy Briggs <rgb@redhat.com>
+Cc:     "Eric W. Biederman" <ebiederm@xmission.com>, nhorman@tuxdriver.com,
+        linux-api@vger.kernel.org, containers@lists.linux-foundation.org,
+        LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
+        linux-audit@redhat.com, netfilter-devel@vger.kernel.org,
+        simo@redhat.com, netdev@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
+        mpatel@redhat.com, Serge Hallyn <serge@hallyn.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jun 17, 2020 at 01:08:44PM -0700, Nathan Chancellor wrote:
-> On Mon, Jun 01, 2020 at 04:25:32AM -0700, Sargun Dhillon wrote:
-> > [...]
-> >  static long seccomp_notify_recv(struct seccomp_filter *filter,
-> >  				void __user *buf)
-> >  {
-> > -	struct seccomp_knotif *knotif = NULL, *cur;
-> > +	struct seccomp_knotif *knotif, *cur;
-> >  	struct seccomp_notif unotif;
-> >  	ssize_t ret;
-> >  
-> 
-> I don't know that this should have been removed, clang now warns:
-> 
-> kernel/seccomp.c:1063:2: warning: variable 'knotif' is used uninitialized whenever 'for' loop exits because its condition is false [-Wsometimes-uninitialized]
->         list_for_each_entry(cur, &filter->notif->notifications, list) {
->         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> include/linux/list.h:602:7: note: expanded from macro 'list_for_each_entry'
->              &pos->member != (head);                                    \
->              ^~~~~~~~~~~~~~~~~~~~~~
-> kernel/seccomp.c:1075:7: note: uninitialized use occurs here
->         if (!knotif) {
->              ^~~~~~
-> kernel/seccomp.c:1063:2: note: remove the condition if it is always true
->         list_for_each_entry(cur, &filter->notif->notifications, list) {
->         ^
-> include/linux/list.h:602:7: note: expanded from macro 'list_for_each_entry'
->              &pos->member != (head);                                    \
->              ^
-> kernel/seccomp.c:1045:31: note: initialize the variable 'knotif' to silence this warning
->         struct seccomp_knotif *knotif, *cur;
->                                      ^
->                                       = NULL
-> 1 warning generated.
+On Mon, Jun 8, 2020 at 2:04 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> On 2020-04-22 13:24, Paul Moore wrote:
+> > On Fri, Apr 17, 2020 at 6:26 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
+> > > Paul Moore <paul@paul-moore.com> writes:
+> > > > On Thu, Apr 16, 2020 at 4:36 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
+> > > >> Paul Moore <paul@paul-moore.com> writes:
+> > > >> > On Mon, Mar 30, 2020 at 1:49 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > >> >> On 2020-03-30 13:34, Paul Moore wrote:
+> > > >> >> > On Mon, Mar 30, 2020 at 12:22 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > >> >> > > On 2020-03-30 10:26, Paul Moore wrote:
+> > > >> >> > > > On Mon, Mar 30, 2020 at 9:47 AM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > >> >> > > > > On 2020-03-28 23:11, Paul Moore wrote:
+> > > >> >> > > > > > On Tue, Mar 24, 2020 at 5:02 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > >> >> > > > > > > On 2020-03-23 20:16, Paul Moore wrote:
+> > > >> >> > > > > > > > On Thu, Mar 19, 2020 at 6:03 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > >> >> > > > > > > > > On 2020-03-18 18:06, Paul Moore wrote:
+> > > >> >
+> > > >> > ...
+> > > >> >
+> > > >> >> > > Well, every time a record gets generated, *any* record gets generated,
+> > > >> >> > > we'll need to check for which audit daemons this record is in scope and
+> > > >> >> > > generate a different one for each depending on the content and whether
+> > > >> >> > > or not the content is influenced by the scope.
+> > > >> >> >
+> > > >> >> > That's the problem right there - we don't want to have to generate a
+> > > >> >> > unique record for *each* auditd on *every* record.  That is a recipe
+> > > >> >> > for disaster.
+> > > >> >> >
+> > > >> >> > Solving this for all of the known audit records is not something we
+> > > >> >> > need to worry about in depth at the moment (although giving it some
+> > > >> >> > casual thought is not a bad thing), but solving this for the audit
+> > > >> >> > container ID information *is* something we need to worry about right
+> > > >> >> > now.
+> > > >> >>
+> > > >> >> If you think that a different nested contid value string per daemon is
+> > > >> >> not acceptable, then we are back to issuing a record that has only *one*
+> > > >> >> contid listed without any nesting information.  This brings us back to
+> > > >> >> the original problem of keeping *all* audit log history since the boot
+> > > >> >> of the machine to be able to track the nesting of any particular contid.
+> > > >> >
+> > > >> > I'm not ruling anything out, except for the "let's just completely
+> > > >> > regenerate every record for each auditd instance".
+> > > >>
+> > > >> Paul I am a bit confused about what you are referring to when you say
+> > > >> regenerate every record.
+> > > >>
+> > > >> Are you saying that you don't want to repeat the sequence:
+> > > >>         audit_log_start(...);
+> > > >>         audit_log_format(...);
+> > > >>         audit_log_end(...);
+> > > >> for every nested audit daemon?
+> > > >
+> > > > If it can be avoided yes.  Audit performance is already not-awesome,
+> > > > this would make it even worse.
+> > >
+> > > As far as I can see not repeating sequences like that is fundamental
+> > > for making this work at all.  Just because only the audit subsystem
+> > > should know about one or multiple audit daemons.  Nothing else should
+> > > care.
+> >
+> > Yes, exactly, this has been mentioned in the past.  Both the
+> > performance hit and the code complication in the caller are things we
+> > must avoid.
+> >
+> > > >> Or are you saying that you would like to literraly want to send the same
+> > > >> skb to each of the nested audit daemons?
+> > > >
+> > > > Ideally we would reuse the generated audit messages as much as
+> > > > possible.  Less work is better.  That's really my main concern here,
+> > > > let's make sure we aren't going to totally tank performance when we
+> > > > have a bunch of nested audit daemons.
+> > >
+> > > So I think there are two parts of this answer.  Assuming we are talking
+> > > about nesting audit daemons in containers we will have different
+> > > rulesets and I expect most of the events for a nested audit daemon won't
+> > > be of interest to the outer audit daemon.
+> >
+> > Yes, this is another thing that Richard and I have discussed in the
+> > past.  We will basically need to create per-daemon queues, rules,
+> > tracking state, etc.; that is easy enough.  What will be slightly more
+> > tricky is the part where we apply the filters to the individual
+> > records and decide if that record is valid/desired for a given daemon.
+> > I think it can be done without too much pain, and any changes to the
+> > callers, but it will require a bit of work to make sure it is done
+> > well and that records are needlessly duplicated in the kernel.
+> >
+> > > Beyond that it should be very straight forward to keep a pointer and
+> > > leave the buffer as a scatter gather list until audit_log_end
+> > > and translate pids, and rewrite ACIDs attributes in audit_log_end
+> > > when we build the final packet.  Either through collaboration with
+> > > audit_log_format or a special audit_log command that carefully sets
+> > > up the handful of things that need that information.
+> >
+> > In order to maximize record re-use I think we will want to hold off on
+> > assembling the final packet until it is sent to the daemons in the
+> > kauditd thread.  We'll also likely need to create special
+> > audit_log_XXX functions to capture fields which we know will need
+> > translation, e.g. ACID information.  (the reason for the new
+> > audit_log_XXX functions would be to mark the new sg element and ensure
+> > the buffer is handled correctly)
+> >
+> > Regardless of the details, I think the scatter gather approach is the
+> > key here - that seems like the best design idea I've seen thus far.
+> > It enables us to replace portions of the record as needed ... and
+> > possibly use the existing skb cow stuff ... it has been a while, but
+> > does the skb cow functions handle scatter gather skbs or do they need
+> > to be linear?
+>
+> How does the selection of this data management technique affect our
+> choice of field format?
 
-Eek; yes, thank you! I've folded the fix into Sargun's patch.
+I'm not sure it affects the record string, but it might affect the
+in-kernel API as we would likely want to have a special function for
+logging the audit container ID that does the scatter-gather management
+for the record.  There might also need to be some changes to how we
+allocate the records.
+
+However, since you're the one working on these patches I would expect
+you to be the one to look into how this would work and what the
+impacts might be to the code, record format, etc.
+
+> Does this lock the field value to a fixed length?
+
+I wouldn't think so.  In fact if it did it wouldn't really be a good solution.
+
+Once again, this is something I would expect you to look into.
+
+> Does the use of scatter/gather techniques or structures allow
+> the use of different lengths of data for each destination (auditd)?
+
+This is related to the above ... but yes, the reason why Eric and I
+were discussing a scatter/gather approach is that it would presumably
+allow one to break the single record string into pieces which could be
+managed and manipulated much easier than the monolithic record string.
+
+> I could see different target audit daemons triggering or switching to a
+> different chunk of data and length.  This does raise a concern related
+> to the previous sig_info2 discussion that the struct contobj that exists
+> at the time of audit_log_exit called could have been reaped by the time
+> the buffer is pulled from the queue for transmission to auditd, but we
+> could hold a reference to it as is done for sig_info2.
+
+Yes.
+
+> Looking through the kernel scatter/gather possibilities, I see struct
+> iovec which is used by the readv/writev/preadv/pwritev syscalls, but I'm
+> understanding that this is a kernel implementation that will be not
+> visible to user space.  So would the struct scatterlist be the right
+> choice?
+
+It has been so long since I've looked at the scatter-gather code that
+I can't really say with any confidence at this point.  All I can say
+is that the scatter-gather code really should just be an
+implementation detail in the kernel and should not be visible to
+userspace; userspace should get the same awful, improperly generated
+netlink message it always has received from the kernel ;)
 
 -- 
-Kees Cook
+paul moore
+www.paul-moore.com
