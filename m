@@ -2,44 +2,57 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B085E1FD102
-	for <lists+linux-api@lfdr.de>; Wed, 17 Jun 2020 17:30:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B53CB1FD10B
+	for <lists+linux-api@lfdr.de>; Wed, 17 Jun 2020 17:32:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727003AbgFQP36 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 17 Jun 2020 11:29:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33040 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726906AbgFQP36 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 17 Jun 2020 11:29:58 -0400
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9E5B4208C3
-        for <linux-api@vger.kernel.org>; Wed, 17 Jun 2020 15:29:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592407797;
-        bh=27jdkWmDRhhCwAMVdzVBNUCaMhK3ANLmpo6tDzme/RY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=m8E4I8fP6RGkvsWHgoknUnkuc8ycHHihswytSXi0vOMfarjSX/vKNYOQbZCYirpJ6
-         c+x6u/nfAEbMdakQHJLhYn22GlGz0CY8+uK6fcid7nztrcpcl2vBDSjexLE/SY95fS
-         Eseay/9LVF+5kSGvGguIjHnmw9OocqZ+PR3tQd00=
-Received: by mail-wm1-f45.google.com with SMTP id f185so2465899wmf.3
-        for <linux-api@vger.kernel.org>; Wed, 17 Jun 2020 08:29:57 -0700 (PDT)
-X-Gm-Message-State: AOAM532F9Pe/fs1Sp2lhrrbqlek6yRxWUM2YEMiapJVYMhbSaiwvg+OE
-        CVHeTorMA/7xm8HL4qo/Hlt2XyoR0uFuzGsR31bo7g==
-X-Google-Smtp-Source: ABdhPJyj+JMcQ7Phb3gXIEZj015gqcyGEenjatOi3367DXj7oRIdA90no7VMeGQFL4GMEzknHcaRDz+kzB4C7HZbXAQ=
-X-Received: by 2002:a1c:46c3:: with SMTP id t186mr8801236wma.36.1592407795664;
- Wed, 17 Jun 2020 08:29:55 -0700 (PDT)
+        id S1726845AbgFQPc3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 17 Jun 2020 11:32:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40724 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726815AbgFQPc2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 17 Jun 2020 11:32:28 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2E70C06174E
+        for <linux-api@vger.kernel.org>; Wed, 17 Jun 2020 08:32:27 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id n23so3396924ljh.7
+        for <linux-api@vger.kernel.org>; Wed, 17 Jun 2020 08:32:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=l32XRyEkePlebWnUae8i7rcm+cLkXuxHO0S9jd5PcS8=;
+        b=sSpczcE6lMjOla0Qq7Ojd8fn4tDSWBrhMmLDDt6LJ86Y9mjbQV+bTQXs9ttXlzP4j6
+         kbP2DWE/BTuY4ZH4z2UoHE/D5Jj6eentsfqgd+Z7BrEVUdToZJhvZGbLyWrjbNkkK+hU
+         CquzCzK5nJvm44QjUxLVvNdw6EDRR42+qHY4xHcMCKUv2aNHRlMxEMZ2vgU+oDZT2j7s
+         aHEu6RVQo91uJ/ZRi4J/bntJVWz8VDfVO9ZuRCll0hoHo0KvtsN0OG6rk19jkQYPFLOe
+         6TSwCIE1a9yX0Dp6wEJkiLCMlX/avsVKvOWBggMzfFxk9XYZKknnkyDOu++F6eSC8j1p
+         T2ZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=l32XRyEkePlebWnUae8i7rcm+cLkXuxHO0S9jd5PcS8=;
+        b=k2SKIn2RSm3FROe8fICKNGZL8NecvJZlArSh/gpqyzerLSnfDDhSwAEPrP3TDmOX0i
+         fAAWlQ/+4065YVVcxziCDHFHeEzJx0FqZz1BcKec5NtWT3elafglIfQ8/CnQ+2DO3Glo
+         yGfcO1RMhrSYAhV7mC6rOKtGtBn7TIkmxPQI1V3GfHfzlVZheYrvYkhWnJ304t8C4JdU
+         Lu7UCCWlCwSPnAREABCe4vVkRHkR+S4UEfUZO3ln2pp9/k5WQ+0/V+yT4TGR1mvCkTc6
+         XSXOd3OC/tb0KjNaU7EGykuWfu6hh5c8NKdzG6YP7VXRbbq1o4GuKjzH2E4VLMQXFXbV
+         eoIw==
+X-Gm-Message-State: AOAM5305uMCc9E2RD3t71xRAYbkOPkX/csifXfEyv1f12JuxcGqEgE3y
+        udXYmh2MuHVWCM/IyStGZ7OAETjqjz0SwDyrjqcCEw==
+X-Google-Smtp-Source: ABdhPJyauhbkn3VnOnpdJHtl3A9kM8iVF5IJzfX+GgrITFSBm3aQ4wPhFZD6DFnpmXCZvji7QIuycv8yUAKBuu+HrkY=
+X-Received: by 2002:a2e:541e:: with SMTP id i30mr3989852ljb.156.1592407945965;
+ Wed, 17 Jun 2020 08:32:25 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200616074934.1600036-1-keescook@chromium.org>
  <20200616074934.1600036-4-keescook@chromium.org> <CAG48ez0-jSSaw85=ku35UM3vMe98Vz97B68LsUoNd8ftwpunkQ@mail.gmail.com>
-In-Reply-To: <CAG48ez0-jSSaw85=ku35UM3vMe98Vz97B68LsUoNd8ftwpunkQ@mail.gmail.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Wed, 17 Jun 2020 08:29:44 -0700
-X-Gmail-Original-Message-ID: <CALCETrUTsPHt4P=bWB-8r7bbpvgXXu3VBf4TS9S=XYxqxVt=DA@mail.gmail.com>
-Message-ID: <CALCETrUTsPHt4P=bWB-8r7bbpvgXXu3VBf4TS9S=XYxqxVt=DA@mail.gmail.com>
+ <CALCETrUTsPHt4P=bWB-8r7bbpvgXXu3VBf4TS9S=XYxqxVt=DA@mail.gmail.com>
+In-Reply-To: <CALCETrUTsPHt4P=bWB-8r7bbpvgXXu3VBf4TS9S=XYxqxVt=DA@mail.gmail.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Wed, 17 Jun 2020 17:31:59 +0200
+Message-ID: <CAG48ez23QKhv4CGPTgGAhCVM8KUCm-wWy2H6EV2Sc9nz0Hmckg@mail.gmail.com>
 Subject: Re: [PATCH 3/8] seccomp: Introduce SECCOMP_PIN_ARCHITECTURE
-To:     Jann Horn <jannh@google.com>
+To:     Andy Lutomirski <luto@kernel.org>
 Cc:     Kees Cook <keescook@chromium.org>,
         kernel list <linux-kernel@vger.kernel.org>,
         Will Drewry <wad@chromium.org>,
@@ -49,7 +62,6 @@ Cc:     Kees Cook <keescook@chromium.org>,
         "zhujianwei (C)" <zhujianwei7@huawei.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         Matthew Wilcox <willy@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>,
         Shuah Khan <shuah@kernel.org>,
         Matt Denton <mpdenton@google.com>,
         Chris Palmer <palmer@google.com>,
@@ -66,55 +78,27 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jun 17, 2020 at 8:25 AM Jann Horn <jannh@google.com> wrote:
+On Wed, Jun 17, 2020 at 5:30 PM Andy Lutomirski <luto@kernel.org> wrote:
 >
-> On Tue, Jun 16, 2020 at 9:49 AM Kees Cook <keescook@chromium.org> wrote:
-> > For systems that provide multiple syscall maps based on architectures
-> > (e.g. AUDIT_ARCH_X86_64 and AUDIT_ARCH_I386 via CONFIG_COMPAT), allow
-> > a fast way to pin the process to a specific syscall mapping, instead of
-> > needing to generate all filters with an architecture check as the first
-> > filter action.
+> On Wed, Jun 17, 2020 at 8:25 AM Jann Horn <jannh@google.com> wrote:
+> >
+> > On Tue, Jun 16, 2020 at 9:49 AM Kees Cook <keescook@chromium.org> wrote:
+> > > For systems that provide multiple syscall maps based on architectures
+> > > (e.g. AUDIT_ARCH_X86_64 and AUDIT_ARCH_I386 via CONFIG_COMPAT), allow
+> > > a fast way to pin the process to a specific syscall mapping, instead of
+> > > needing to generate all filters with an architecture check as the first
+> > > filter action.
+> >
+> > This seems reasonable; but can we maybe also add X86-specific handling
+> > for that X32 mess? AFAIK there are four ways to do syscalls with
+> > AUDIT_ARCH_X86_64:
 >
-> This seems reasonable; but can we maybe also add X86-specific handling
-> for that X32 mess? AFAIK there are four ways to do syscalls with
-> AUDIT_ARCH_X86_64:
-
-You're out of date :)  I fixed the mess.
-
-commit 6365b842aae4490ebfafadfc6bb27a6d3cc54757
-Author: Andy Lutomirski <luto@kernel.org>
-Date:   Wed Jul 3 13:34:04 2019 -0700
-
-    x86/syscalls: Split the x32 syscalls into their own table
-
-
-
+> You're out of date :)  I fixed the mess.
 >
-> 1. normal x86-64 syscall, X32 bit unset (native case)
-> 2. normal x86-64 syscall, X32 bit set (for X32 code calling syscalls
-> with no special X32 version)
-
-Returns -ENOSYS now if an x32 version was supposed to be used.
-
-> 3. x32-specific syscall, X32 bit unset (never happens legitimately)
-
-Returns -ENOSYS now.
-
-> 4. x32-specific syscall, X32 bit set (for X32 code calling syscalls
-> with special X32 version)
+> commit 6365b842aae4490ebfafadfc6bb27a6d3cc54757
+> Author: Andy Lutomirski <luto@kernel.org>
+> Date:   Wed Jul 3 13:34:04 2019 -0700
 >
-> (I got this wrong when I wrote the notes on x32 in the seccomp manpage...)
->
-> Can we add a flag for AUDIT_ARCH_X86_64 that says either "I want
-> native x64-64" (enforcing case 1) or "I want X32" (enforcing case 2 or
-> 4, and in case 2 checking that the syscall has no X32 equivalent)? (Of
-> course, if the kernel is built without X32 support, we can leave out
-> these extra checks.)
+>     x86/syscalls: Split the x32 syscalls into their own table
 
-No extra checks needed.  Trying to do a syscall with a wrongly-encoded
-x32 nr just generates -ENOSYS now.
-
-Henceforth, all new syscalls will have the same number for native and
-x32 and will differ only in the presence of the x32 bit.
-
---Andy
+Oooooh, beautiful. Thank you very much for that.
