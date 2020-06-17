@@ -2,123 +2,90 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E17E1FD0D9
-	for <lists+linux-api@lfdr.de>; Wed, 17 Jun 2020 17:25:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E0C01FD0E3
+	for <lists+linux-api@lfdr.de>; Wed, 17 Jun 2020 17:27:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726934AbgFQPZh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 17 Jun 2020 11:25:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39668 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726930AbgFQPZg (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 17 Jun 2020 11:25:36 -0400
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76C65C0613ED
-        for <linux-api@vger.kernel.org>; Wed, 17 Jun 2020 08:25:36 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id m26so1527416lfo.13
-        for <linux-api@vger.kernel.org>; Wed, 17 Jun 2020 08:25:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=I6nIuDWwcfkNRxXhFGKJnyws0bUwaKcz08/Ho8g5tJI=;
-        b=Ojk5dxH9+DvMUGom64AEv7XfBLXa9lBuwrzwGTnlOsPxiMkrbDSwj3LZ3zSHPWkGyz
-         9ToRm9j64HKaH0C201cTSBPfUeD4L0jyv5gL+/6/qmIuqmzEXURqwTgpPiQXDB2VaGwF
-         qZGvTCrWNr19Q9uHIQ+fcZ1aHaKDOq/bAgerWk0+0yn6/A9lDR5bDmAYvM4uNp9prxVZ
-         6DKX/iKAs8nUP3ny4EOtz7D3j7wO3sIdHgCvXEeJ9MwLbCjJEVdGxS6Z/XsWBmYs70uj
-         wm5KADMa/2iKCqFHgyU/T9kpJ7tGuHoa9yFAJtaAAvyHQEClmKdmqy0zBbSl7zmeo1PX
-         BUuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=I6nIuDWwcfkNRxXhFGKJnyws0bUwaKcz08/Ho8g5tJI=;
-        b=aBOwajHUnpCPOag6itQ47w6T7jy3gUAkU2iw7kEOwhkDGJ9QLKd8c8cXTCwhwOo+xo
-         q1qcRooecMSy6xCkAEi2hu8uGkA2Sv2/o3PAcfLs1ne5/1MQwfWJBfe+HMzI+i7a31Yv
-         /1WZf5ow/nkYyTCW7DPg8qSnZSXK7GieJsuH4R1rDbNh4zAzdFKFyJiqrchigDN0hCxm
-         QcJDso1Re9zenJZaziSCDpcTqFxzI76R0YSBR2eoXLpRSwwLE+EEc7qIC9qKxPh8YRr4
-         PrUChjublqdFAyRypn318cw/gN1/V/3v9/mF1Aht9g96WZAhUts7/6BstxadJ7Iq/l6a
-         J8UA==
-X-Gm-Message-State: AOAM5320RoeS960znbMhbgHu/Zty3Gw4n0t/Qjkszxg04/4JbBGz22Yh
-        fUsAOG+TopcSxZR5jkvG92kVgz0GGOYMPXVUZ6QExg==
-X-Google-Smtp-Source: ABdhPJxW0KcrhfVMM8iiEPssL/hOtSCDm+eXlggQ0rLGtwI+PEd2JAjBdOK9N11hcJ5LAh8Ytoew3jtobcblKdwkZyE=
-X-Received: by 2002:ac2:544b:: with SMTP id d11mr4879243lfn.157.1592407533670;
- Wed, 17 Jun 2020 08:25:33 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200616074934.1600036-1-keescook@chromium.org> <20200616074934.1600036-4-keescook@chromium.org>
-In-Reply-To: <20200616074934.1600036-4-keescook@chromium.org>
-From:   Jann Horn <jannh@google.com>
-Date:   Wed, 17 Jun 2020 17:25:07 +0200
-Message-ID: <CAG48ez0-jSSaw85=ku35UM3vMe98Vz97B68LsUoNd8ftwpunkQ@mail.gmail.com>
-Subject: Re: [PATCH 3/8] seccomp: Introduce SECCOMP_PIN_ARCHITECTURE
-To:     Kees Cook <keescook@chromium.org>
-Cc:     kernel list <linux-kernel@vger.kernel.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Will Drewry <wad@chromium.org>,
+        id S1726815AbgFQP1D convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Wed, 17 Jun 2020 11:27:03 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151]:58719 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725894AbgFQP1C (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 17 Jun 2020 11:27:02 -0400
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-25-eup2Bh-aNyW7TJye3x3ncg-1; Wed, 17 Jun 2020 16:25:42 +0100
+X-MC-Unique: eup2Bh-aNyW7TJye3x3ncg-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Wed, 17 Jun 2020 16:25:41 +0100
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
+ Wed, 17 Jun 2020 16:25:41 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Kees Cook' <keescook@chromium.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+CC:     Sargun Dhillon <sargun@sargun.me>,
         Christian Brauner <christian@brauner.io>,
-        Sargun Dhillon <sargun@sargun.me>,
-        Tycho Andersen <tycho@tycho.ws>,
-        "zhujianwei (C)" <zhujianwei7@huawei.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Matt Denton <mpdenton@google.com>,
-        Chris Palmer <palmer@google.com>,
-        Jeffrey Vander Stoep <jeffv@google.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        "Christoph Hellwig" <hch@lst.de>, Tycho Andersen <tycho@tycho.ws>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
         Aleksa Sarai <cyphar@cyphar.com>,
-        Hehuazhen <hehuazhen@huawei.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Matt Denton <mpdenton@google.com>,
+        Jann Horn <jannh@google.com>, Chris Palmer <palmer@google.com>,
+        Robert Sesek <rsesek@google.com>,
+        Giuseppe Scrivano <gscrivan@redhat.com>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Will Drewry <wad@chromium.org>, Shuah Khan <shuah@kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "containers@lists.linux-foundation.org" 
+        <containers@lists.linux-foundation.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
+Subject: RE: [PATCH v4 02/11] fs: Move __scm_install_fd() to
+ __fd_install_received()
+Thread-Topic: [PATCH v4 02/11] fs: Move __scm_install_fd() to
+ __fd_install_received()
+Thread-Index: AQHWQ43M27/IXY9H5E6A6toMY/N8aajc78uQ
+Date:   Wed, 17 Jun 2020 15:25:41 +0000
+Message-ID: <b58ef9a368214b69a86c7a78b67f84d5@AcuMS.aculab.com>
+References: <20200616032524.460144-1-keescook@chromium.org>
+ <20200616032524.460144-3-keescook@chromium.org>
+In-Reply-To: <20200616032524.460144-3-keescook@chromium.org>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
+MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jun 16, 2020 at 9:49 AM Kees Cook <keescook@chromium.org> wrote:
-> For systems that provide multiple syscall maps based on architectures
-> (e.g. AUDIT_ARCH_X86_64 and AUDIT_ARCH_I386 via CONFIG_COMPAT), allow
-> a fast way to pin the process to a specific syscall mapping, instead of
-> needing to generate all filters with an architecture check as the first
-> filter action.
+From: Kees Cook
+> Sent: 16 June 2020 04:25
+ 
+> In preparation for users of the "install a received file" logic outside
+> of net/ (pidfd and seccomp), relocate and rename __scm_install_fd() from
+> net/core/scm.c to __fd_install_received() in fs/file.c, and provide a
+> wrapper named fd_install_received_user(), as future patches will change
+> the interface to __fd_install_received().
 
-This seems reasonable; but can we maybe also add X86-specific handling
-for that X32 mess? AFAIK there are four ways to do syscalls with
-AUDIT_ARCH_X86_64:
+Any reason for the leading __ ??
 
-1. normal x86-64 syscall, X32 bit unset (native case)
-2. normal x86-64 syscall, X32 bit set (for X32 code calling syscalls
-with no special X32 version)
-3. x32-specific syscall, X32 bit unset (never happens legitimately)
-4. x32-specific syscall, X32 bit set (for X32 code calling syscalls
-with special X32 version)
+	David
 
-(I got this wrong when I wrote the notes on x32 in the seccomp manpage...)
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
 
-Can we add a flag for AUDIT_ARCH_X86_64 that says either "I want
-native x64-64" (enforcing case 1) or "I want X32" (enforcing case 2 or
-4, and in case 2 checking that the syscall has no X32 equivalent)? (Of
-course, if the kernel is built without X32 support, we can leave out
-these extra checks.)
-
-> +static long seccomp_pin_architecture(void)
-> +{
-> +#ifdef CONFIG_COMPAT
-> +       u32 arch = syscall_get_arch(current);
-> +
-> +       /* How did you even get here? */
-> +       if (current->seccomp.arch && current->seccomp.arch != arch)
-> +               return -EBUSY;
-> +
-> +       current->seccomp.arch = arch;
-> +#endif
-> +       return 0;
-> +}
-
-Are you intentionally writing this such that SECCOMP_PIN_ARCHITECTURE
-only has an effect once you've installed a filter, and propagation to
-other threads happens when a filter is installed with TSYNC? I guess
-that is a possible way to design the API, but it seems like something
-that should at least be pointed out explicitly.
