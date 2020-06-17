@@ -2,232 +2,144 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 25F621FD74C
-	for <lists+linux-api@lfdr.de>; Wed, 17 Jun 2020 23:33:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D49E1FD81E
+	for <lists+linux-api@lfdr.de>; Thu, 18 Jun 2020 00:03:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726868AbgFQVd1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 17 Jun 2020 17:33:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40268 "EHLO
+        id S1726758AbgFQWDG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 17 Jun 2020 18:03:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726853AbgFQVd0 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 17 Jun 2020 17:33:26 -0400
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55C1BC0613EE
-        for <linux-api@vger.kernel.org>; Wed, 17 Jun 2020 14:33:26 -0700 (PDT)
-Received: by mail-ej1-x643.google.com with SMTP id dp18so4159669ejc.8
-        for <linux-api@vger.kernel.org>; Wed, 17 Jun 2020 14:33:26 -0700 (PDT)
+        with ESMTP id S1727024AbgFQWDD (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 17 Jun 2020 18:03:03 -0400
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60DFBC06174E
+        for <linux-api@vger.kernel.org>; Wed, 17 Jun 2020 15:03:03 -0700 (PDT)
+Received: by mail-pl1-x644.google.com with SMTP id k1so1566506pls.2
+        for <linux-api@vger.kernel.org>; Wed, 17 Jun 2020 15:03:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=082ZDcJ58JiAJ5FQwZhCB4u9ixr0nyVZnt4fYABIR84=;
-        b=TfwM4lavAZ4qLtd5wq6rQlVNKfmuRYQ43amsKkYVgFT+8SBxWmO9x5wsvBq940XKAg
-         b7y6FNbnpN7VONhX+pNMmIsdCJV2FjiC9n3+Wds9hgiE4ZfZvYN7TCSi+l1RKQMVjc4H
-         VTqR6pGcGhx/snMwZMlMlSTbYX/5tZcXbYQ2svqAQstq6/l7ixnZwU+LOMkPqqWbKemq
-         DE2g2KY2Nej+5bcYigqtEWd1ECLF3ZomjpGrAbXdruDnwjJ6vnXStdMOI4InbA3xCd2M
-         rE6umaqSA2gnDeoaV49w5DHVs/9DQHlZzxQYa0C0nK3iaVkh/+O/v2Rk4uIEfXXD7JS4
-         YtMg==
+        d=nitingupta.dev; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=kqcGCha/RkSYtgLEEH/pj3ontPR0wERiXeW1+vfpoSk=;
+        b=hxvCNKKpOBh5EWbAEWTfILZT1LVkUjqhOSwh+k4CD7PiFhYlD8cPmHeeaUODZbCvTO
+         fzBeqH+CDB1yFWwULOCwZblxoXsce9TtZhr3sDUUw9Z8sotxZu7w3CN9wtyfIJPkBVBf
+         0WygPww4jLYPMEYUVyboxubvlhCVOAdtezpzFH/DbO/Yn8LogmhkqtaFxNAsvyGvFj+e
+         1cCxONkOpcG5789UFBnpZRjy7tjP1gptvWvu4weUU4rFw5ImewN6u6FuKE1QVLAzZm1z
+         4MfcJ3YcOI+sKnIMYGetbJcL9Nd0o2RIzLCQEX55abDxsMhxq6tubYRzDO+hjpRvicv4
+         lSzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=082ZDcJ58JiAJ5FQwZhCB4u9ixr0nyVZnt4fYABIR84=;
-        b=K2r0HcHR7wFwuXdf2Y27EarG12HQbeUQDjU3gTVr54X2KrESPa2M/7joXz9j47s1AS
-         etN8Fzh5eFzEfFNpwy1saeNkBVu32lIVrGAm4AyDJGyvCIipeOfrqPZ8y7r5mkxGEju/
-         cowiN9VQei7G2IUVwfrzQa9sF7j9nqycOXz0+JydL0Xo5/TGQFmMFbL0h8vdzOGR/01x
-         kNoLRq8k1D8StkExN5EpVzlLkan/c9XtZsg05g404O7aUuyrKMynoO81P1XP6Icy2qgZ
-         s7jCB0Db+2yhm3GQmk5Z5npsDZ7KfdWDfkhXg83CtbjMZlJA4zjXnxJJfSkSXBYi2csX
-         T2Ow==
-X-Gm-Message-State: AOAM531uggOZQvejoCW5g+vcQ9Lqysy7VqMmwwimJkdZwSANDpJWelY8
-        9cU9lDjFAp9Pfej55CF9sh8b6IC7/lonbKGXzHnQ
-X-Google-Smtp-Source: ABdhPJwGl2Yew0IZrhIcRIB+PA6D6jtLPBcAXq287JWVLoatXUiRC+F29j9ZkG+eUUYXUmHK2aSjHOoPf26wthrPENk=
-X-Received: by 2002:a17:906:434f:: with SMTP id z15mr1080529ejm.178.1592429604473;
- Wed, 17 Jun 2020 14:33:24 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=kqcGCha/RkSYtgLEEH/pj3ontPR0wERiXeW1+vfpoSk=;
+        b=SUP+I6tYD8yiWaAXIX6PjZGJKmIb1l0vJvFfdJaTiUAmIEglFS3c4WpQ6x4adkJbky
+         fJJpK5D7OaLQDe27WbiBVSkmt+YoesGy3xdLP4rnlZyp4QOSGS1aYtjgDyNJRbmcw/i5
+         sHrQ6L0pXLSH+PVWNqNKaUIkcDPYvlPDdh9rmzXW3ytXLKrwfvVNIQoeMA8JBRngR/4v
+         XG5wBduWSxgIaIrL8Kxi2DF+gzT6doHKwNKgcJKzrOy9cJ6bgtfLigckLgEDLVSJAuad
+         bf2QHc/axYp9qtAjtufgTFZMS+N9NwhuGVO6if9MhT7amT6KUqVV1lH1Y9tgLioxfIKS
+         Jamw==
+X-Gm-Message-State: AOAM533Uj57iUie5vpq5uPDoNPDhoR5Y8tuHbDSd7wgahvaAsY1bPw9K
+        +MWpI8+WK0C0OhMi5O+qa4X8nq/DZq2+og==
+X-Google-Smtp-Source: ABdhPJwVfKhrTfOk577kqNSuLA7cVaLo/HOLePD8p7+peaJ4nZKPanbWSN5FlKuXAjYWJqAfX3lFrw==
+X-Received: by 2002:a17:90a:d104:: with SMTP id l4mr1077178pju.65.1592431382409;
+        Wed, 17 Jun 2020 15:03:02 -0700 (PDT)
+Received: from ?IPv6:2601:646:9302:1050:44b6:a386:5b78:5708? ([2601:646:9302:1050:44b6:a386:5b78:5708])
+        by smtp.gmail.com with ESMTPSA id t76sm744480pfc.220.2020.06.17.15.03.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Jun 2020 15:03:01 -0700 (PDT)
+Subject: Re: [PATCH v8] mm: Proactive compaction
+To:     Andrew Morton <akpm@linux-foundation.org>,
+        Nitin Gupta <nigupta@nvidia.com>
+Cc:     Vlastimil Babka <vbabka@suse.cz>,
+        Khalid Aziz <khalid.aziz@oracle.com>,
+        Oleksandr Natalenko <oleksandr@redhat.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        David Rientjes <rientjes@google.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        Linux API <linux-api@vger.kernel.org>
+References: <20200616204527.19185-1-nigupta@nvidia.com>
+ <20200617135312.4f395479454c55a8d021b023@linux-foundation.org>
+From:   Nitin Gupta <ngupta@nitingupta.dev>
+Message-ID: <10f8a7c1-dc1f-532b-7ef7-d37b04334fbe@nitingupta.dev>
+Date:   Wed, 17 Jun 2020 15:02:59 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-References: <20200330134705.jlrkoiqpgjh3rvoh@madcap2.tricolour.ca>
- <CAHC9VhQTsEMcYAF1CSHrrVn07DR450W9j6sFVfKAQZ0VpheOfw@mail.gmail.com>
- <20200330162156.mzh2tsnovngudlx2@madcap2.tricolour.ca> <CAHC9VhTRzZXJ6yUFL+xZWHNWZFTyiizBK12ntrcSwmgmySbkWw@mail.gmail.com>
- <20200330174937.xalrsiev7q3yxsx2@madcap2.tricolour.ca> <CAHC9VhR_bKSHDn2WAUgkquu+COwZUanc0RV3GRjMDvpoJ5krjQ@mail.gmail.com>
- <871ronf9x2.fsf@x220.int.ebiederm.org> <CAHC9VhR3gbmj5+5MY-whLtStKqDEHgvMRigU9hW0X1kpxF91ag@mail.gmail.com>
- <871rol7nw3.fsf@x220.int.ebiederm.org> <CAHC9VhQvhja=vUEbT3uJgQqpj-480HZzWV7b5oc2GWtzFN1qJw@mail.gmail.com>
- <20200608180330.z23hohfa2nclhxf5@madcap2.tricolour.ca>
-In-Reply-To: <20200608180330.z23hohfa2nclhxf5@madcap2.tricolour.ca>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Wed, 17 Jun 2020 17:33:13 -0400
-Message-ID: <CAHC9VhQExpNcK-7H+tZg5ouCVts=YmnNiXrgk-ZYenj_zrr1GQ@mail.gmail.com>
-Subject: Re: [PATCH ghak90 V8 07/16] audit: add contid support for signalling
- the audit daemon
-To:     Richard Guy Briggs <rgb@redhat.com>
-Cc:     "Eric W. Biederman" <ebiederm@xmission.com>, nhorman@tuxdriver.com,
-        linux-api@vger.kernel.org, containers@lists.linux-foundation.org,
-        LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
-        linux-audit@redhat.com, netfilter-devel@vger.kernel.org,
-        simo@redhat.com, netdev@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
-        mpatel@redhat.com, Serge Hallyn <serge@hallyn.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200617135312.4f395479454c55a8d021b023@linux-foundation.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jun 8, 2020 at 2:04 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> On 2020-04-22 13:24, Paul Moore wrote:
-> > On Fri, Apr 17, 2020 at 6:26 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
-> > > Paul Moore <paul@paul-moore.com> writes:
-> > > > On Thu, Apr 16, 2020 at 4:36 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
-> > > >> Paul Moore <paul@paul-moore.com> writes:
-> > > >> > On Mon, Mar 30, 2020 at 1:49 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > >> >> On 2020-03-30 13:34, Paul Moore wrote:
-> > > >> >> > On Mon, Mar 30, 2020 at 12:22 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > >> >> > > On 2020-03-30 10:26, Paul Moore wrote:
-> > > >> >> > > > On Mon, Mar 30, 2020 at 9:47 AM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > >> >> > > > > On 2020-03-28 23:11, Paul Moore wrote:
-> > > >> >> > > > > > On Tue, Mar 24, 2020 at 5:02 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > >> >> > > > > > > On 2020-03-23 20:16, Paul Moore wrote:
-> > > >> >> > > > > > > > On Thu, Mar 19, 2020 at 6:03 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > >> >> > > > > > > > > On 2020-03-18 18:06, Paul Moore wrote:
-> > > >> >
-> > > >> > ...
-> > > >> >
-> > > >> >> > > Well, every time a record gets generated, *any* record gets generated,
-> > > >> >> > > we'll need to check for which audit daemons this record is in scope and
-> > > >> >> > > generate a different one for each depending on the content and whether
-> > > >> >> > > or not the content is influenced by the scope.
-> > > >> >> >
-> > > >> >> > That's the problem right there - we don't want to have to generate a
-> > > >> >> > unique record for *each* auditd on *every* record.  That is a recipe
-> > > >> >> > for disaster.
-> > > >> >> >
-> > > >> >> > Solving this for all of the known audit records is not something we
-> > > >> >> > need to worry about in depth at the moment (although giving it some
-> > > >> >> > casual thought is not a bad thing), but solving this for the audit
-> > > >> >> > container ID information *is* something we need to worry about right
-> > > >> >> > now.
-> > > >> >>
-> > > >> >> If you think that a different nested contid value string per daemon is
-> > > >> >> not acceptable, then we are back to issuing a record that has only *one*
-> > > >> >> contid listed without any nesting information.  This brings us back to
-> > > >> >> the original problem of keeping *all* audit log history since the boot
-> > > >> >> of the machine to be able to track the nesting of any particular contid.
-> > > >> >
-> > > >> > I'm not ruling anything out, except for the "let's just completely
-> > > >> > regenerate every record for each auditd instance".
-> > > >>
-> > > >> Paul I am a bit confused about what you are referring to when you say
-> > > >> regenerate every record.
-> > > >>
-> > > >> Are you saying that you don't want to repeat the sequence:
-> > > >>         audit_log_start(...);
-> > > >>         audit_log_format(...);
-> > > >>         audit_log_end(...);
-> > > >> for every nested audit daemon?
-> > > >
-> > > > If it can be avoided yes.  Audit performance is already not-awesome,
-> > > > this would make it even worse.
-> > >
-> > > As far as I can see not repeating sequences like that is fundamental
-> > > for making this work at all.  Just because only the audit subsystem
-> > > should know about one or multiple audit daemons.  Nothing else should
-> > > care.
-> >
-> > Yes, exactly, this has been mentioned in the past.  Both the
-> > performance hit and the code complication in the caller are things we
-> > must avoid.
-> >
-> > > >> Or are you saying that you would like to literraly want to send the same
-> > > >> skb to each of the nested audit daemons?
-> > > >
-> > > > Ideally we would reuse the generated audit messages as much as
-> > > > possible.  Less work is better.  That's really my main concern here,
-> > > > let's make sure we aren't going to totally tank performance when we
-> > > > have a bunch of nested audit daemons.
-> > >
-> > > So I think there are two parts of this answer.  Assuming we are talking
-> > > about nesting audit daemons in containers we will have different
-> > > rulesets and I expect most of the events for a nested audit daemon won't
-> > > be of interest to the outer audit daemon.
-> >
-> > Yes, this is another thing that Richard and I have discussed in the
-> > past.  We will basically need to create per-daemon queues, rules,
-> > tracking state, etc.; that is easy enough.  What will be slightly more
-> > tricky is the part where we apply the filters to the individual
-> > records and decide if that record is valid/desired for a given daemon.
-> > I think it can be done without too much pain, and any changes to the
-> > callers, but it will require a bit of work to make sure it is done
-> > well and that records are needlessly duplicated in the kernel.
-> >
-> > > Beyond that it should be very straight forward to keep a pointer and
-> > > leave the buffer as a scatter gather list until audit_log_end
-> > > and translate pids, and rewrite ACIDs attributes in audit_log_end
-> > > when we build the final packet.  Either through collaboration with
-> > > audit_log_format or a special audit_log command that carefully sets
-> > > up the handful of things that need that information.
-> >
-> > In order to maximize record re-use I think we will want to hold off on
-> > assembling the final packet until it is sent to the daemons in the
-> > kauditd thread.  We'll also likely need to create special
-> > audit_log_XXX functions to capture fields which we know will need
-> > translation, e.g. ACID information.  (the reason for the new
-> > audit_log_XXX functions would be to mark the new sg element and ensure
-> > the buffer is handled correctly)
-> >
-> > Regardless of the details, I think the scatter gather approach is the
-> > key here - that seems like the best design idea I've seen thus far.
-> > It enables us to replace portions of the record as needed ... and
-> > possibly use the existing skb cow stuff ... it has been a while, but
-> > does the skb cow functions handle scatter gather skbs or do they need
-> > to be linear?
->
-> How does the selection of this data management technique affect our
-> choice of field format?
 
-I'm not sure it affects the record string, but it might affect the
-in-kernel API as we would likely want to have a special function for
-logging the audit container ID that does the scatter-gather management
-for the record.  There might also need to be some changes to how we
-allocate the records.
 
-However, since you're the one working on these patches I would expect
-you to be the one to look into how this would work and what the
-impacts might be to the code, record format, etc.
+On 6/17/20 1:53 PM, Andrew Morton wrote:
+> On Tue, 16 Jun 2020 13:45:27 -0700 Nitin Gupta <nigupta@nvidia.com> wrote:
+> 
+>> For some applications, we need to allocate almost all memory as
+>> hugepages. However, on a running system, higher-order allocations can
+>> fail if the memory is fragmented. Linux kernel currently does on-demand
+>> compaction as we request more hugepages, but this style of compaction
+>> incurs very high latency. Experiments with one-time full memory
+>> compaction (followed by hugepage allocations) show that kernel is able
+>> to restore a highly fragmented memory state to a fairly compacted memory
+>> state within <1 sec for a 32G system. Such data suggests that a more
+>> proactive compaction can help us allocate a large fraction of memory as
+>> hugepages keeping allocation latencies low.
+>>
+>> ...
+>>
+> 
+> All looks straightforward to me and easy to disable if it goes wrong.
+> 
+> All the hard-coded magic numbers are a worry, but such is life.
+> 
+> One teeny complaint:
+> 
+>>
+>> ...
+>>
+>> @@ -2650,12 +2801,34 @@ static int kcompactd(void *p)
+>>   		unsigned long pflags;
+>>   
+>>   		trace_mm_compaction_kcompactd_sleep(pgdat->node_id);
+>> -		wait_event_freezable(pgdat->kcompactd_wait,
+>> -				kcompactd_work_requested(pgdat));
+>> +		if (wait_event_freezable_timeout(pgdat->kcompactd_wait,
+>> +			kcompactd_work_requested(pgdat),
+>> +			msecs_to_jiffies(HPAGE_FRAG_CHECK_INTERVAL_MSEC))) {
+>> +
+>> +			psi_memstall_enter(&pflags);
+>> +			kcompactd_do_work(pgdat);
+>> +			psi_memstall_leave(&pflags);
+>> +			continue;
+>> +		}
+>>   
+>> -		psi_memstall_enter(&pflags);
+>> -		kcompactd_do_work(pgdat);
+>> -		psi_memstall_leave(&pflags);
+>> +		/* kcompactd wait timeout */
+>> +		if (should_proactive_compact_node(pgdat)) {
+>> +			unsigned int prev_score, score;
+> 
+> Everywhere else, scores have type `int'.  Here they are unsigned.  How come?
+> 
+> Would it be better to make these unsigned throughout?  I don't think a
+> score can ever be negative?
+> 
 
-> Does this lock the field value to a fixed length?
+The score is always in [0, 100], so yes, it should be unsigned.
+I will send another patch which fixes this.
 
-I wouldn't think so.  In fact if it did it wouldn't really be a good solution.
+Thanks,
+Nitin
 
-Once again, this is something I would expect you to look into.
-
-> Does the use of scatter/gather techniques or structures allow
-> the use of different lengths of data for each destination (auditd)?
-
-This is related to the above ... but yes, the reason why Eric and I
-were discussing a scatter/gather approach is that it would presumably
-allow one to break the single record string into pieces which could be
-managed and manipulated much easier than the monolithic record string.
-
-> I could see different target audit daemons triggering or switching to a
-> different chunk of data and length.  This does raise a concern related
-> to the previous sig_info2 discussion that the struct contobj that exists
-> at the time of audit_log_exit called could have been reaped by the time
-> the buffer is pulled from the queue for transmission to auditd, but we
-> could hold a reference to it as is done for sig_info2.
-
-Yes.
-
-> Looking through the kernel scatter/gather possibilities, I see struct
-> iovec which is used by the readv/writev/preadv/pwritev syscalls, but I'm
-> understanding that this is a kernel implementation that will be not
-> visible to user space.  So would the struct scatterlist be the right
-> choice?
-
-It has been so long since I've looked at the scatter-gather code that
-I can't really say with any confidence at this point.  All I can say
-is that the scatter-gather code really should just be an
-implementation detail in the kernel and should not be visible to
-userspace; userspace should get the same awful, improperly generated
-netlink message it always has received from the kernel ;)
-
--- 
-paul moore
-www.paul-moore.com
