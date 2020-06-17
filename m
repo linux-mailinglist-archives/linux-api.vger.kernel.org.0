@@ -2,183 +2,232 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B0FFC1FD5A4
-	for <lists+linux-api@lfdr.de>; Wed, 17 Jun 2020 21:58:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E38F21FD5BF
+	for <lists+linux-api@lfdr.de>; Wed, 17 Jun 2020 22:08:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726883AbgFQT6E (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 17 Jun 2020 15:58:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53744 "EHLO
+        id S1726881AbgFQUIq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 17 Jun 2020 16:08:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726868AbgFQT6D (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 17 Jun 2020 15:58:03 -0400
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58F04C0613ED
-        for <linux-api@vger.kernel.org>; Wed, 17 Jun 2020 12:58:03 -0700 (PDT)
-Received: by mail-pl1-x642.google.com with SMTP id d8so1417679plo.12
-        for <linux-api@vger.kernel.org>; Wed, 17 Jun 2020 12:58:03 -0700 (PDT)
+        with ESMTP id S1726496AbgFQUIq (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 17 Jun 2020 16:08:46 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85A75C06174E;
+        Wed, 17 Jun 2020 13:08:46 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id s135so1822083pgs.2;
+        Wed, 17 Jun 2020 13:08:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=mtm26zMhVvziSNAo5SmfL3grFhcLxm63K6Ll3k7pVLA=;
-        b=OGVeyzLchDvvpgrQEJsCwDmB0g5mSK2iyCbWztP7Kq7e12lAsbrbJJ/O765BM1d9FQ
-         vMMvIE3saYLDImlEZ8eBNU3vlyvAG5MdNrvhwK/eP1+c7i+djFuR5nroesN2ZDFLFVQh
-         AMcDeULYTTf+crJp+k+EIY9BLyYqFncTk8mtc=
+        bh=zChdCEJKv6aEFStDDFwxt0kTJoxbtwI8fZON9NJ6buc=;
+        b=McUcgYUZOSHbrlp3uHO0l9GK/XPkxkx9CIUyd4Uycke60AIohloCETmah78QTyH1a3
+         3iDi6lRDlwgyGoFh+OM8s8W0bzZ0cO+3/fbh36KOsxFaW8hfSLOYqJe6hROad0DGVcxd
+         NpVbnkXS8/F7kPoj5NT7wa1mgYDzSHWBfc4pi79Sk5KgsOWwnKc5PkIYVEZpLHn53hHg
+         r1ly1NSBfQk6zTSmHTWMbORtWto3byuazhZUdc8D60qpixOebJRAObKPC85uzyVrCltA
+         qHItcCTrqTOy5tmo+NZ2MAMkPzfxaXz71lv7c9xKMTgUdj2lQFigOGfynIrK/0nHS9sA
+         FVMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=mtm26zMhVvziSNAo5SmfL3grFhcLxm63K6Ll3k7pVLA=;
-        b=MmSQfHv8HVhVkWGOSfft0mKqY/UUx3/rMCBlQkRUeHxp1y7cb9ioFVvu9hqo1WSgyV
-         k5EfNoO959h4J4LJYdzOAujVKFm8nuk83KB3d/67L6jivRKLjuj7gtgnRAzI1gwNMUnV
-         0MtDQBv+u3gXieg2Wfr787Z49CPorskL+2pAA6wakXRQPlpJu4x7INMBMXYJiTf/51gN
-         LU6yWhJ4+mcHE1Q3QP5cA8v5KfzvUntL1ynt7kd2ZQrc5wAfU62CSiIsE3ZUpXGFrd/U
-         82YItCpNICbEn6gsY0e4CAWpJUEo7w2wg47wJ26YwjXzHI2lDQFzIb5iNp166X6ZWTN2
-         dfZA==
-X-Gm-Message-State: AOAM531p1wOPSpuaqCxQ9kBCDoEUz9GfcU6cX/+90evpQqanZhFVRLn+
-        RmHRZcQTmbfBp2gGBphvrchMBA==
-X-Google-Smtp-Source: ABdhPJx1Vhks5l1dJnwJicud25Ov+I84VyGCU0nF8o3XyWLhCCiEEzvHbnFtOemqhaMfq16ly8QKug==
-X-Received: by 2002:a17:90a:7a8f:: with SMTP id q15mr598912pjf.116.1592423882783;
-        Wed, 17 Jun 2020 12:58:02 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id w22sm628496pfq.193.2020.06.17.12.58.01
+        bh=zChdCEJKv6aEFStDDFwxt0kTJoxbtwI8fZON9NJ6buc=;
+        b=fSx/jrDxMPIbOd4IjUdmtg4+ltNbitl8QyAPLjd5KP1ZzKH3b90W1hmYE9w276L+q+
+         cjtf7++O6/Wm9Vjxfgj6G2tOhXWH0We+lD1Wxg+6Ailzua29milZ8fLKIkWNX8WHRkXW
+         QaQfT+ymkN6BdAl8SeEZ800dE7vJfWnrXbs5YW5yV/HayKJqvJMpc2ivhp6qbOruBtmM
+         gwcvx9YSZZneqg4vX27BD+P/e5yOIw4wmNYIqa4f9BbFIP8VX3UDOTyVX1ZSFeG9AbOI
+         FCtxXsMnscjXPS0kPK+u48HNRDDo7oMk5zSb6J51sN4WUVzDCF4Rg1hjpUouCinSy7oT
+         Sq3A==
+X-Gm-Message-State: AOAM530rmpdDORPxIIgRAdAh8zJ6m7nEnnocQJSbfq2Zl6xwWRFbHVMU
+        Ktlw9mbdmW3GPFdPwvoU5Ko=
+X-Google-Smtp-Source: ABdhPJwLpzQsp/pBP/vdlMXJeVVYHPJTs7FBuEhlCyU+rQH1gretkBJPgRGGB7/5bAGYZsRENho5Pw==
+X-Received: by 2002:a63:6d86:: with SMTP id i128mr426545pgc.432.1592424525811;
+        Wed, 17 Jun 2020 13:08:45 -0700 (PDT)
+Received: from Ryzen-9-3900X.localdomain ([89.46.114.144])
+        by smtp.gmail.com with ESMTPSA id 130sm596937pfw.176.2020.06.17.13.08.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2020 12:58:01 -0700 (PDT)
-Date:   Wed, 17 Jun 2020 12:58:00 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     David Laight <David.Laight@ACULAB.COM>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Sargun Dhillon <sargun@sargun.me>,
-        Christian Brauner <christian@brauner.io>,
-        "David S. Miller" <davem@davemloft.net>,
-        Christoph Hellwig <hch@lst.de>,
-        Tycho Andersen <tycho@tycho.ws>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Aleksa Sarai <cyphar@cyphar.com>,
+        Wed, 17 Jun 2020 13:08:45 -0700 (PDT)
+Date:   Wed, 17 Jun 2020 13:08:44 -0700
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Sargun Dhillon <sargun@sargun.me>
+Cc:     containers@lists.linux-foundation.org, keescook@chromium.org,
+        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        viro@zeniv.linux.org.uk, christian.brauner@ubuntu.com,
+        cyphar@cyphar.com, jannh@google.com, jeffv@google.com,
+        palmer@google.com, rsesek@google.com, tycho@tycho.ws,
         Matt Denton <mpdenton@google.com>,
-        Jann Horn <jannh@google.com>, Chris Palmer <palmer@google.com>,
-        Robert Sesek <rsesek@google.com>,
-        Giuseppe Scrivano <gscrivan@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Will Drewry <wad@chromium.org>, Shuah Khan <shuah@kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "containers@lists.linux-foundation.org" 
-        <containers@lists.linux-foundation.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
-Subject: Re: [PATCH v4 03/11] fs: Add fd_install_received() wrapper for
- __fd_install_received()
-Message-ID: <202006171141.4DA1174979@keescook>
-References: <20200616032524.460144-1-keescook@chromium.org>
- <20200616032524.460144-4-keescook@chromium.org>
- <6de12195ec3244b99e6026b4b46e5be2@AcuMS.aculab.com>
+        Kees Cook <keescook@google.com>
+Subject: Re: [PATCH v3] seccomp: Add find_notification helper
+Message-ID: <20200617200844.GA12976@Ryzen-9-3900X.localdomain>
+References: <20200601112532.150158-1-sargun@sargun.me>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6de12195ec3244b99e6026b4b46e5be2@AcuMS.aculab.com>
+In-Reply-To: <20200601112532.150158-1-sargun@sargun.me>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jun 17, 2020 at 03:35:20PM +0000, David Laight wrote:
-> From: Kees Cook
-> > Sent: 16 June 2020 04:25
-> > 
-> > For both pidfd and seccomp, the __user pointer is not used. Update
-> > __fd_install_received() to make writing to ufd optional. (ufd
-> > itself cannot checked for NULL because this changes the SCM_RIGHTS
-> > interface behavior.) In these cases, the new fd needs to be returned
-> > on success.  Update the existing callers to handle it. Add new wrapper
-> > fd_install_received() for pidfd and seccomp that does not use the ufd
-> > argument.
-> ...> 
-> >  static inline int fd_install_received_user(struct file *file, int __user *ufd,
-> >  					   unsigned int o_flags)
-> >  {
-> > -	return __fd_install_received(file, ufd, o_flags);
-> > +	return __fd_install_received(file, true, ufd, o_flags);
-> > +}
+On Mon, Jun 01, 2020 at 04:25:32AM -0700, Sargun Dhillon wrote:
+> This adds a helper which can iterate through a seccomp_filter to
+> find a notification matching an ID. It removes several replicated
+> chunks of code.
 > 
-> Can you get rid of the 'return user' parameter by adding
-> 	if (!ufd) return -EFAULT;
-> to the above wrapper, then checking for NULL in the function?
+> Signed-off-by: Sargun Dhillon <sargun@sargun.me>
+> Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
+> Reviewed-by: Tycho Andersen <tycho@tycho.ws>
+> Cc: Matt Denton <mpdenton@google.com>
+> Cc: Kees Cook <keescook@google.com>,
+> Cc: Jann Horn <jannh@google.com>,
+> Cc: Robert Sesek <rsesek@google.com>,
+> Cc: Chris Palmer <palmer@google.com>
+> Cc: Christian Brauner <christian.brauner@ubuntu.com>
+> Cc: Tycho Andersen <tycho@tycho.ws>
+> ---
+>  kernel/seccomp.c | 55 ++++++++++++++++++++++++------------------------
+>  1 file changed, 28 insertions(+), 27 deletions(-)
 > 
-> Or does that do the wrong horrid things in the fail path?
+> diff --git a/kernel/seccomp.c b/kernel/seccomp.c
+> index 55a6184f5990..cc6b47173a95 100644
+> --- a/kernel/seccomp.c
+> +++ b/kernel/seccomp.c
+> @@ -41,6 +41,7 @@
+>  #include <linux/tracehook.h>
+>  #include <linux/uaccess.h>
+>  #include <linux/anon_inodes.h>
+> +#include <linux/lockdep.h>
+>  
+>  enum notify_state {
+>  	SECCOMP_NOTIFY_INIT,
+> @@ -1021,10 +1022,27 @@ static int seccomp_notify_release(struct inode *inode, struct file *file)
+>  	return 0;
+>  }
+>  
+> +/* must be called with notif_lock held */
+> +static inline struct seccomp_knotif *
+> +find_notification(struct seccomp_filter *filter, u64 id)
+> +{
+> +	struct seccomp_knotif *cur;
+> +
+> +	lockdep_assert_held(&filter->notify_lock);
+> +
+> +	list_for_each_entry(cur, &filter->notif->notifications, list) {
+> +		if (cur->id == id)
+> +			return cur;
+> +	}
+> +
+> +	return NULL;
+> +}
+> +
+> +
+>  static long seccomp_notify_recv(struct seccomp_filter *filter,
+>  				void __user *buf)
+>  {
+> -	struct seccomp_knotif *knotif = NULL, *cur;
+> +	struct seccomp_knotif *knotif, *cur;
+>  	struct seccomp_notif unotif;
+>  	ssize_t ret;
+>  
+> @@ -1078,15 +1096,8 @@ static long seccomp_notify_recv(struct seccomp_filter *filter,
+>  		 * may have died when we released the lock, so we need to make
+>  		 * sure it's still around.
+>  		 */
+> -		knotif = NULL;
+>  		mutex_lock(&filter->notify_lock);
+> -		list_for_each_entry(cur, &filter->notif->notifications, list) {
+> -			if (cur->id == unotif.id) {
+> -				knotif = cur;
+> -				break;
+> -			}
+> -		}
+> -
+> +		knotif = find_notification(filter, unotif.id);
+>  		if (knotif) {
+>  			knotif->state = SECCOMP_NOTIFY_INIT;
+>  			up(&filter->notif->request);
+> @@ -1101,7 +1112,7 @@ static long seccomp_notify_send(struct seccomp_filter *filter,
+>  				void __user *buf)
+>  {
+>  	struct seccomp_notif_resp resp = {};
+> -	struct seccomp_knotif *knotif = NULL, *cur;
+> +	struct seccomp_knotif *knotif;
+>  	long ret;
+>  
+>  	if (copy_from_user(&resp, buf, sizeof(resp)))
+> @@ -1118,13 +1129,7 @@ static long seccomp_notify_send(struct seccomp_filter *filter,
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -	list_for_each_entry(cur, &filter->notif->notifications, list) {
+> -		if (cur->id == resp.id) {
+> -			knotif = cur;
+> -			break;
+> -		}
+> -	}
+> -
+> +	knotif = find_notification(filter, resp.id);
+>  	if (!knotif) {
+>  		ret = -ENOENT;
+>  		goto out;
+> @@ -1150,7 +1155,7 @@ static long seccomp_notify_send(struct seccomp_filter *filter,
+>  static long seccomp_notify_id_valid(struct seccomp_filter *filter,
+>  				    void __user *buf)
+>  {
+> -	struct seccomp_knotif *knotif = NULL;
 
-Oh, hm. No, that shouldn't break the failure path, since everything gets
-unwound in __fd_install_received if the ufd write fails.
+I don't know that this should have been removed, clang now warns:
 
-Effectively this (I'll chop it up into the correct patches):
+kernel/seccomp.c:1063:2: warning: variable 'knotif' is used uninitialized whenever 'for' loop exits because its condition is false [-Wsometimes-uninitialized]
+        list_for_each_entry(cur, &filter->notif->notifications, list) {
+        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+include/linux/list.h:602:7: note: expanded from macro 'list_for_each_entry'
+             &pos->member != (head);                                    \
+             ^~~~~~~~~~~~~~~~~~~~~~
+kernel/seccomp.c:1075:7: note: uninitialized use occurs here
+        if (!knotif) {
+             ^~~~~~
+kernel/seccomp.c:1063:2: note: remove the condition if it is always true
+        list_for_each_entry(cur, &filter->notif->notifications, list) {
+        ^
+include/linux/list.h:602:7: note: expanded from macro 'list_for_each_entry'
+             &pos->member != (head);                                    \
+             ^
+kernel/seccomp.c:1045:31: note: initialize the variable 'knotif' to silence this warning
+        struct seccomp_knotif *knotif, *cur;
+                                     ^
+                                      = NULL
+1 warning generated.
 
-diff --git a/fs/file.c b/fs/file.c
-index b583e7c60571..3b80324a31cc 100644
---- a/fs/file.c
-+++ b/fs/file.c
-@@ -939,18 +939,16 @@ int replace_fd(unsigned fd, struct file *file, unsigned flags)
-  *
-  * @fd: fd to install into (if negative, a new fd will be allocated)
-  * @file: struct file that was received from another process
-- * @ufd_required: true to use @ufd for writing fd number to userspace
-  * @ufd: __user pointer to write new fd number to
-  * @o_flags: the O_* flags to apply to the new fd entry
-  *
-  * Installs a received file into the file descriptor table, with appropriate
-  * checks and count updates. Optionally writes the fd number to userspace, if
-- * @ufd_required is true (@ufd cannot just be tested for NULL because NULL may
-- * actually get passed into SCM_RIGHTS).
-+ * @ufd is non-NULL.
-  *
-  * Returns newly install fd or -ve on error.
-  */
--int __fd_install_received(int fd, struct file *file, bool ufd_required,
-+int __fd_install_received(int fd, struct file *file,
- 			  int __user *ufd, unsigned int o_flags)
- {
- 	struct socket *sock;
-@@ -967,7 +965,7 @@ int __fd_install_received(int fd, struct file *file, bool ufd_required,
- 			return new_fd;
- 	}
- 
--	if (ufd_required) {
-+	if (ufd) {
- 		error = put_user(new_fd, ufd);
- 		if (error) {
- 			put_unused_fd(new_fd);
-diff --git a/include/linux/file.h b/include/linux/file.h
-index f1d16e24a12e..2ade0d90bc5e 100644
---- a/include/linux/file.h
-+++ b/include/linux/file.h
-@@ -91,20 +91,22 @@ extern void put_unused_fd(unsigned int fd);
- 
- extern void fd_install(unsigned int fd, struct file *file);
- 
--extern int __fd_install_received(int fd, struct file *file, bool ufd_required,
-+extern int __fd_install_received(int fd, struct file *file,
- 				 int __user *ufd, unsigned int o_flags);
- static inline int fd_install_received_user(struct file *file, int __user *ufd,
- 					   unsigned int o_flags)
- {
--	return __fd_install_received(-1, file, true, ufd, o_flags);
-+	if (ufd == NULL)
-+		return -EFAULT;
-+	return __fd_install_received(-1, file, ufd, o_flags);
- }
- static inline int fd_install_received(struct file *file, unsigned int o_flags)
- {
--	return __fd_install_received(-1, file, false, NULL, o_flags);
-+	return __fd_install_received(-1, file, NULL, o_flags);
- }
- static inline int fd_replace_received(int fd, struct file *file, unsigned int o_flags)
- {
--	return __fd_install_received(fd, file, false, NULL, o_flags);
-+	return __fd_install_received(fd, file, NULL, o_flags);
- }
- 
- extern void flush_delayed_fput(void);
+> +	struct seccomp_knotif *knotif;
+>  	u64 id;
+>  	long ret;
+>  
+> @@ -1161,16 +1166,12 @@ static long seccomp_notify_id_valid(struct seccomp_filter *filter,
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -	ret = -ENOENT;
+> -	list_for_each_entry(knotif, &filter->notif->notifications, list) {
+> -		if (knotif->id == id) {
+> -			if (knotif->state == SECCOMP_NOTIFY_SENT)
+> -				ret = 0;
+> -			goto out;
+> -		}
+> -	}
+> +	knotif = find_notification(filter, id);
+> +	if (knotif && knotif->state == SECCOMP_NOTIFY_SENT)
+> +		ret = 0;
+> +	else
+> +		ret = -ENOENT;
+>  
+> -out:
+>  	mutex_unlock(&filter->notify_lock);
+>  	return ret;
+>  }
+> -- 
+> 2.25.1
+> 
 
--- 
-Kees Cook
+Cheers,
+Nathan
