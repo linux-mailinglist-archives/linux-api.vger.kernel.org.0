@@ -2,111 +2,211 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 808121FF28C
-	for <lists+linux-api@lfdr.de>; Thu, 18 Jun 2020 15:03:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BD481FFC3C
+	for <lists+linux-api@lfdr.de>; Thu, 18 Jun 2020 22:05:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727109AbgFRNDJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 18 Jun 2020 09:03:09 -0400
-Received: from mail.efficios.com ([167.114.26.124]:47862 "EHLO
-        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725953AbgFRNDI (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 18 Jun 2020 09:03:08 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 9E35E2CB436;
-        Thu, 18 Jun 2020 09:03:07 -0400 (EDT)
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id Q_N-iFXQcfuX; Thu, 18 Jun 2020 09:03:07 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 4AD162CB604;
-        Thu, 18 Jun 2020 09:03:07 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 4AD162CB604
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1592485387;
-        bh=8gWLFXHOJUpku+xtywyZMhyrAoZEdReQUERAiZw8Wug=;
-        h=Date:From:To:Message-ID:MIME-Version;
-        b=eNBHkIRwLJUzBAeavqkz4XJ/BS4whc1v36WwKFkdk8My/tyzuPzmE7YLcK86x2K8e
-         BYcAeV6+EWT5ezTAtuoxLZUh37oteVuYwfm/IOWhZX+IR689s3jdJuAeN7psTo0GQu
-         Z0e6o6TOKfHEM/9ILqKsGlgkP6RfYGA2Sq0/RrafkAy6W6xnCkbb6N1mmXvvTDnqcE
-         NqQmIxtcbbQLypATQZbGCslLNjR15ARJC6fu4icZfmMMn3aX5qWeefpKDTuqslHxu3
-         uVoN7T8GkHc1s3o7O/8Hhhkn4uKQUT2nczpeBgod/JycEremkeuLQIOTGdKt7UNi98
-         HJyF9sHqSIROA==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 2fwGZoJZoEOb; Thu, 18 Jun 2020 09:03:07 -0400 (EDT)
-Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
-        by mail.efficios.com (Postfix) with ESMTP id 353362CB0EE;
-        Thu, 18 Jun 2020 09:03:07 -0400 (EDT)
-Date:   Thu, 18 Jun 2020 09:03:07 -0400 (EDT)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Szabolcs Nagy <szabolcs.nagy@arm.com>
-Cc:     Joseph Myers <joseph@codesourcery.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Rich Felker <dalias@libc.org>,
-        libc-alpha <libc-alpha@sourceware.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        linux-api <linux-api@vger.kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Will Deacon <will.deacon@arm.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Ben Maurer <bmaurer@fb.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Dave Watson <davejwatson@fb.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Paul <paulmck@linux.vnet.ibm.com>, Paul Turner <pjt@google.com>
-Message-ID: <906553413.6099.1592485387108.JavaMail.zimbra@efficios.com>
-In-Reply-To: <20200618122213.GQ4066@arm.com>
-References: <20200527185130.5604-1-mathieu.desnoyers@efficios.com> <87d06gxsla.fsf@oldenburg2.str.redhat.com> <alpine.DEB.2.21.2006031718070.7179@digraph.polyomino.org.uk> <188671972.53608.1591269056445.JavaMail.zimbra@efficios.com> <alpine.DEB.2.21.2006041745360.8237@digraph.polyomino.org.uk> <419546979.1229.1591897672174.JavaMail.zimbra@efficios.com> <alpine.DEB.2.21.2006112026090.18393@digraph.polyomino.org.uk> <20200618122213.GQ4066@arm.com>
-Subject: Re: [PATCH glibc 1/3] glibc: Perform rseq registration at C startup
- and thread creation (v20)
+        id S1730919AbgFRUFT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 18 Jun 2020 16:05:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50620 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730933AbgFRUFR (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 18 Jun 2020 16:05:17 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9FB0C0613F0
+        for <linux-api@vger.kernel.org>; Thu, 18 Jun 2020 13:05:16 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id j12so1077377pfn.10
+        for <linux-api@vger.kernel.org>; Thu, 18 Jun 2020 13:05:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=hH5UdqkrUsHHkWkTkrsTpUaZ/SG0CR6QLInGjMheMsQ=;
+        b=etadw103cqJRZdZ59vL7+FSIVCyWqJxsPUoshMP46pJkWYpyPh1Z8z2rOaozPM6T9H
+         5c7AmqMnocB+A8JJb/7BGlmzUHsa8VUg/Sy09a1I4Lr+wMi+eXoSUP1amVW/VFTdTB0Y
+         Az+830Tp9h9FTrH3X1IX6E56xQAUj6mYytnd0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=hH5UdqkrUsHHkWkTkrsTpUaZ/SG0CR6QLInGjMheMsQ=;
+        b=ZI2S4p6JEXjrj/qnOQG+4yTVGrHwKMNIGQvUykhha7P45NPFEu4LkgQs6xnoy+VEXh
+         FnX23XC5sOx06jXnLu9dtQRA3EYf1l304N6glBli6ULxDNg5nIhvFpWCFxAJioOIc8t9
+         Uk322Vu+brnOIFn58Y6Bm1kVrHjUTwjPcgZDdiBhtkLiLwQvbJs174pFeaC+vrti4LzH
+         S5T10zTn5se8gE9wHhMyDBfKWOinoeu3ifR7WIuIqfN7w9kB2AnDRLZQum1O/OBdTMYT
+         jZycT5C6dzC39t2YLztSOAU7BLD3MQ4OWrK1pxL6uv6HK4GbErNN/jtolmpmzTVcfmxS
+         ggNw==
+X-Gm-Message-State: AOAM530wGbglT0UTamfF3tscyFm6TCAf9ZkVguSXQM1rdN8iEk7QinOi
+        cwtPg+a8n7hxZB+xZQV3aStitg==
+X-Google-Smtp-Source: ABdhPJyvN1SyXkPFRjQ3ru6p0iO6TqH4uR0HKiNTz7KbggpLMsPBApIzCK92OExHh+Nr7VZgXchX+A==
+X-Received: by 2002:a62:1c5:: with SMTP id 188mr4954296pfb.213.1592510716220;
+        Thu, 18 Jun 2020 13:05:16 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id p14sm3201600pju.7.2020.06.18.13.05.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Jun 2020 13:05:15 -0700 (PDT)
+Date:   Thu, 18 Jun 2020 13:05:14 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     linux-kernel@vger.kernel.org, Sargun Dhillon <sargun@sargun.me>,
+        Christian Brauner <christian@brauner.io>,
+        "David S. Miller" <davem@davemloft.net>,
+        Christoph Hellwig <hch@lst.de>,
+        Tycho Andersen <tycho@tycho.ws>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Matt Denton <mpdenton@google.com>,
+        Jann Horn <jannh@google.com>, Chris Palmer <palmer@google.com>,
+        Robert Sesek <rsesek@google.com>,
+        Giuseppe Scrivano <gscrivan@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Will Drewry <wad@chromium.org>, Shuah Khan <shuah@kernel.org>,
+        netdev@vger.kernel.org, containers@lists.linux-foundation.org,
+        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v4 02/11] fs: Move __scm_install_fd() to
+ __fd_install_received()
+Message-ID: <202006181302.84BFFF52CA@keescook>
+References: <20200616032524.460144-1-keescook@chromium.org>
+ <20200616032524.460144-3-keescook@chromium.org>
+ <20200618085614.fw3ynalpcipbplf3@wittgenstein>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [167.114.26.124]
-X-Mailer: Zimbra 8.8.15_GA_3945 (ZimbraWebClient - FF77 (Linux)/8.8.15_GA_3928)
-Thread-Topic: glibc: Perform rseq registration at C startup and thread creation (v20)
-Thread-Index: brALBVk5nps/waYHI5PMCjDnnv99CA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200618085614.fw3ynalpcipbplf3@wittgenstein>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
------ On Jun 18, 2020, at 8:22 AM, Szabolcs Nagy szabolcs.nagy@arm.com wrote:
-
-> The 06/11/2020 20:26, Joseph Myers wrote:
->> On Thu, 11 Jun 2020, Mathieu Desnoyers wrote:
->> > I managed to get a repository up and running for librseq, and have integrated
->> > the rseq.2 man page with comments from Michael Kerrisk here:
->> > 
->> > https://git.kernel.org/pub/scm/libs/librseq/librseq.git/tree/doc/man/rseq.2
->> > 
->> > Is that a suitable URL ? Can we simply point to it from glibc's manual ?
->> 
->> Yes, that seems something reasonable to link to.
+On Thu, Jun 18, 2020 at 10:56:14AM +0200, Christian Brauner wrote:
+> On Mon, Jun 15, 2020 at 08:25:15PM -0700, Kees Cook wrote:
+> > In preparation for users of the "install a received file" logic outside
+> > of net/ (pidfd and seccomp), relocate and rename __scm_install_fd() from
+> > net/core/scm.c to __fd_install_received() in fs/file.c, and provide a
+> > wrapper named fd_install_received_user(), as future patches will change
+> > the interface to __fd_install_received().
+> > 
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > ---
+> >  fs/file.c            | 47 ++++++++++++++++++++++++++++++++++++++++++++
+> >  include/linux/file.h |  8 ++++++++
+> >  include/net/scm.h    |  1 -
+> >  net/compat.c         |  2 +-
+> >  net/core/scm.c       | 32 +-----------------------------
+> >  5 files changed, 57 insertions(+), 33 deletions(-)
+> > 
+> > diff --git a/fs/file.c b/fs/file.c
+> > index abb8b7081d7a..fcfddae0d252 100644
+> > --- a/fs/file.c
+> > +++ b/fs/file.c
+> > @@ -11,6 +11,7 @@
+> >  #include <linux/export.h>
+> >  #include <linux/fs.h>
+> >  #include <linux/mm.h>
+> > +#include <linux/net.h>
+> >  #include <linux/sched/signal.h>
+> >  #include <linux/slab.h>
+> >  #include <linux/file.h>
+> > @@ -18,6 +19,8 @@
+> >  #include <linux/bitops.h>
+> >  #include <linux/spinlock.h>
+> >  #include <linux/rcupdate.h>
+> > +#include <net/cls_cgroup.h>
+> > +#include <net/netprio_cgroup.h>
+> >  
+> >  unsigned int sysctl_nr_open __read_mostly = 1024*1024;
+> >  unsigned int sysctl_nr_open_min = BITS_PER_LONG;
+> > @@ -931,6 +934,50 @@ int replace_fd(unsigned fd, struct file *file, unsigned flags)
+> >  	return err;
+> >  }
+> >  
+> > +/**
+> > + * __fd_install_received() - Install received file into file descriptor table
+> > + *
+> > + * @fd: fd to install into (if negative, a new fd will be allocated)
+> > + * @file: struct file that was received from another process
+> > + * @ufd_required: true to use @ufd for writing fd number to userspace
+> > + * @ufd: __user pointer to write new fd number to
+> > + * @o_flags: the O_* flags to apply to the new fd entry
+> > + *
+> > + * Installs a received file into the file descriptor table, with appropriate
+> > + * checks and count updates. Optionally writes the fd number to userspace.
+> > + *
+> > + * Returns -ve on error.
+> > + */
+> > +int __fd_install_received(struct file *file, int __user *ufd, unsigned int o_flags)
+> > +{
+> > +	struct socket *sock;
+> > +	int new_fd;
+> > +	int error;
+> > +
+> > +	error = security_file_receive(file);
+> > +	if (error)
+> > +		return error;
+> > +
+> > +	new_fd = get_unused_fd_flags(o_flags);
+> > +	if (new_fd < 0)
+> > +		return new_fd;
+> > +
+> > +	error = put_user(new_fd, ufd);
+> > +	if (error) {
+> > +		put_unused_fd(new_fd);
+> > +		return error;
+> > +	}
+> > +
+> > +	/* Bump the usage count and install the file. */
+> > +	sock = sock_from_file(file, &error);
+> > +	if (sock) {
+> > +		sock_update_netprioidx(&sock->sk->sk_cgrp_data);
+> > +		sock_update_classid(&sock->sk->sk_cgrp_data);
+> > +	}
+> > +	fd_install(new_fd, get_file(file));
+> > +	return 0;
+> > +}
+> > +
+> >  static int ksys_dup3(unsigned int oldfd, unsigned int newfd, int flags)
+> >  {
+> >  	int err = -EBADF;
+> > diff --git a/include/linux/file.h b/include/linux/file.h
+> > index 122f80084a3e..fe18a1a0d555 100644
+> > --- a/include/linux/file.h
+> > +++ b/include/linux/file.h
+> > @@ -91,6 +91,14 @@ extern void put_unused_fd(unsigned int fd);
+> >  
+> >  extern void fd_install(unsigned int fd, struct file *file);
+> >  
+> > +extern int __fd_install_received(struct file *file, int __user *ufd,
+> > +				 unsigned int o_flags);
+> > +static inline int fd_install_received_user(struct file *file, int __user *ufd,
+> > +					   unsigned int o_flags)
+> > +{
+> > +	return __fd_install_received(file, ufd, o_flags);
+> > +}
 > 
-> is there work to make the usage of rseq critical
-> sections portable? (e.g. transactional memory
-> critical section has syntax in gcc, but that
-> doesn't require straight line code with
-> begin/end/abort labels in a particular layout.)
+> Shouldn't this be the other way around such that
+> fd_install_received_user() is the workhorse that has a "ufd" argument
+> and fd_install_received() is the static inline function that doesn't?
 > 
-> the macros and inline asm in rseq-*.h are not
-> too nice, but if they can completely hide the
-> non-portable bits then i guess that works.
+> extern int fd_install_received_user(struct file *file, int __user *ufd, unsigned int o_flags)
+> static inline int fd_install_received(struct file *file, unsigned int o_flags)
+> {
+> 	return fd_install_received_user(file, NULL, o_flags);
+> }
 
-My goal with librseq is indeed to provide static inlines
-which hide the architecture-specific ugliness of rseq
-critical section assembly code behind an API which can be
-used from all supported architectures for most of the
-known use-cases, so only very specific use-case would
-have to craft their own assembly.
+So, I think it's all worked out in v5[1], so the helper argument handling
+is better for the ufd case, as David pointed out earlier. (As in,
+I think you're reacting to the same general problem here.)
 
-Thanks,
+> (So I'm on vacation this week some my reviews are selective and spotty
+> but I promise to be back next week. :))
 
-Mathieu
+No worries!
+
+-Kees
+
+[1] https://lore.kernel.org/lkml/20200617220327.3731559-1-keescook@chromium.org/
 
 -- 
-Mathieu Desnoyers
-EfficiOS Inc.
-http://www.efficios.com
+Kees Cook
