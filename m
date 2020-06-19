@@ -2,56 +2,33 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A79711FFDD4
-	for <lists+linux-api@lfdr.de>; Fri, 19 Jun 2020 00:17:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 679712003B1
+	for <lists+linux-api@lfdr.de>; Fri, 19 Jun 2020 10:23:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731891AbgFRWQt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 18 Jun 2020 18:16:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42630 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731167AbgFRWQt (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 18 Jun 2020 18:16:49 -0400
-Received: from mail-il1-x144.google.com (mail-il1-x144.google.com [IPv6:2607:f8b0:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B395C0613EE
-        for <linux-api@vger.kernel.org>; Thu, 18 Jun 2020 15:16:48 -0700 (PDT)
-Received: by mail-il1-x144.google.com with SMTP id b5so7546449iln.5
-        for <linux-api@vger.kernel.org>; Thu, 18 Jun 2020 15:16:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sargun.me; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=1SwhXxxcqMA/2xg9WoRLda6uaTbILklISXGnrNM7z5g=;
-        b=EV4OK8SyfSmB1iDadMyS6GSSAb/y8zP9pbU0Qq6cW8ldk3zk+IGjfY2mwBS7kzw4+U
-         MueNz1lmVzja+fcXE6FnhayjVrm0XuFnJWBq6+5FDBnmi1hHaih73zql3UKX/jPFPBij
-         cTvcS7wpwiveD7okKpYA13MpaMis17aHOXQ6U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=1SwhXxxcqMA/2xg9WoRLda6uaTbILklISXGnrNM7z5g=;
-        b=kHi/F4oa2udvJTHDgnnViVgJ7MJexvZLqRPUR3vXBXWo4ceVlJ8tzoqRPIvM2mbPpW
-         oTLAe7FQkvAytxdz3iHytm5YkAMoq1tP93uc61Ux4dXdxq5Wmm5bNxDjoTetHmy0GJHa
-         p/7Ic3S0G6h98jHLJAdD2M62bDHIsMMzb3LQNLL3yuA/Zj00Id+FsVN7fJGu8WcW5B+6
-         JKzrOn39F0zfJwFxRQvo2ZLvB8iBIuCo6MU/zfzXeAPM8sFE8CtwuqmMZx8GBrdr5NC8
-         jt5grT6a0dPJ2E/rF2yPkdgST90KKsh1CnR2kr1Wnufw2XwoFqzR9ZYFygGaU/uGzLTz
-         k9Xg==
-X-Gm-Message-State: AOAM532/zUHCqJYc+boUtGLnFddj7aOwchb9wV7UeiKjKm07Y79u+ICX
-        MYyrm0niflXDnIPsDsOtmxpvKg==
-X-Google-Smtp-Source: ABdhPJzNjXEHGSDFRIEtFgNEH0DkmyvOyUoU/9h2R+dUGaWvU4v5dYNDSJa/KV3ePKb8DIvlf17A1A==
-X-Received: by 2002:a92:d9c1:: with SMTP id n1mr673192ilq.148.1592518607785;
-        Thu, 18 Jun 2020 15:16:47 -0700 (PDT)
-Received: from ircssh-2.c.rugged-nimbus-611.internal (80.60.198.104.bc.googleusercontent.com. [104.198.60.80])
-        by smtp.gmail.com with ESMTPSA id j80sm2256501ili.65.2020.06.18.15.16.47
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 18 Jun 2020 15:16:47 -0700 (PDT)
-Date:   Thu, 18 Jun 2020 22:16:45 +0000
-From:   Sargun Dhillon <sargun@sargun.me>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Christian Brauner <christian@brauner.io>,
-        "David S. Miller" <davem@davemloft.net>,
-        Christoph Hellwig <hch@lst.de>,
+        id S1731435AbgFSIXw convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Fri, 19 Jun 2020 04:23:52 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151]:53736 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731317AbgFSIVH (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 19 Jun 2020 04:21:07 -0400
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-78-mkYMfPweOkGnJdWf_Vspzw-1; Fri, 19 Jun 2020 09:20:56 +0100
+X-MC-Unique: mkYMfPweOkGnJdWf_Vspzw-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Fri, 19 Jun 2020 09:20:55 +0100
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
+ Fri, 19 Jun 2020 09:20:55 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Kees Cook' <keescook@chromium.org>,
+        Sargun Dhillon <sargun@sargun.me>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Christian Brauner" <christian@brauner.io>,
         Tycho Andersen <tycho@tycho.ws>,
+        "Christoph Hellwig" <hch@lst.de>,
+        "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
         Aleksa Sarai <cyphar@cyphar.com>,
@@ -59,75 +36,134 @@ Cc:     linux-kernel@vger.kernel.org,
         Jann Horn <jannh@google.com>, Chris Palmer <palmer@google.com>,
         Robert Sesek <rsesek@google.com>,
         Giuseppe Scrivano <gscrivan@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
         Andy Lutomirski <luto@amacapital.net>,
         Will Drewry <wad@chromium.org>, Shuah Khan <shuah@kernel.org>,
-        netdev@vger.kernel.org, containers@lists.linux-foundation.org,
-        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v4 00/11] Add seccomp notifier ioctl that enables adding
- fds
-Message-ID: <20200618221644.GA31321@ircssh-2.c.rugged-nimbus-611.internal>
-References: <20200616032524.460144-1-keescook@chromium.org>
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "containers@lists.linux-foundation.org" 
+        <containers@lists.linux-foundation.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
+Subject: RE: [PATCH v5 3/7] fs: Add fd_install_received() wrapper for
+ __fd_install_received()
+Thread-Topic: [PATCH v5 3/7] fs: Add fd_install_received() wrapper for
+ __fd_install_received()
+Thread-Index: AQHWRazi5O9oFyX6VkOfXGvu43vXPajfldBw
+Date:   Fri, 19 Jun 2020 08:20:55 +0000
+Message-ID: <c7d9f68d5dff4c54b4da0d96b03de2a0@AcuMS.aculab.com>
+References: <20200617220327.3731559-1-keescook@chromium.org>
+ <20200617220327.3731559-4-keescook@chromium.org>
+ <20200618054918.GB18669@ircssh-2.c.rugged-nimbus-611.internal>
+ <202006181305.01F1B08@keescook>
+In-Reply-To: <202006181305.01F1B08@keescook>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200616032524.460144-1-keescook@chromium.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jun 15, 2020 at 08:25:13PM -0700, Kees Cook wrote:
-> Hello!
+From: Kees Cook
+> Sent: 18 June 2020 21:13
+> On Thu, Jun 18, 2020 at 05:49:19AM +0000, Sargun Dhillon wrote:
+> > On Wed, Jun 17, 2020 at 03:03:23PM -0700, Kees Cook wrote:
+> > > [...]
+> > >  static inline int fd_install_received_user(struct file *file, int __user *ufd,
+> > >  					   unsigned int o_flags)
+> > >  {
+> > > +	if (ufd == NULL)
+> > > +		return -EFAULT;
+> > Isn't this *technically* a behvaiour change? Nonetheless, I think this is a much better
+> > approach than forcing everyone to do null checking, and avoids at least one error case
+> > where the kernel installs FDs for SCM_RIGHTS, and they're not actualy usable.
 > 
-> This is a bit of thread-merge between [1] and [2]. tl;dr: add a way for
-> a seccomp user_notif process manager to inject files into the managed
-> process in order to handle emulation of various fd-returning syscalls
-> across security boundaries. Containers folks and Chrome are in need
-> of the feature, and investigating this solution uncovered (and fixed)
-> implementation issues with existing file sending routines.
+> So, the only behavior change I see is that the order of sanity checks is
+> changed.
 > 
-> I intend to carry this in the seccomp tree, unless someone has objections.
-> :) Please review and test!
+> The loop in scm_detach_fds() is:
 > 
-> -Kees
 > 
-> [1] https://lore.kernel.org/lkml/20200603011044.7972-1-sargun@sargun.me/
-> [2] https://lore.kernel.org/lkml/20200610045214.1175600-1-keescook@chromium.org/
+>         for (i = 0; i < fdmax; i++) {
+>                 err = __scm_install_fd(scm->fp->fp[i], cmsg_data + i, o_flags);
+>                 if (err < 0)
+>                         break;
+>         }
 > 
-> Kees Cook (9):
->   net/scm: Regularize compat handling of scm_detach_fds()
->   fs: Move __scm_install_fd() to __fd_install_received()
->   fs: Add fd_install_received() wrapper for __fd_install_received()
->   pidfd: Replace open-coded partial fd_install_received()
->   fs: Expand __fd_install_received() to accept fd
->   selftests/seccomp: Make kcmp() less required
->   selftests/seccomp: Rename user_trap_syscall() to user_notif_syscall()
->   seccomp: Switch addfd to Extensible Argument ioctl
->   seccomp: Fix ioctl number for SECCOMP_IOCTL_NOTIF_ID_VALID
+> Before, __scm_install_fd() does:
 > 
-This looks much cleaner than the original patchset. Thanks.
+>         error = security_file_receive(file);
+>         if (error)
+>                 return error;
+> 
+>         new_fd = get_unused_fd_flags(o_flags);
+>         if (new_fd < 0)
+>                 return new_fd;
+> 
+>         error = put_user(new_fd, ufd);
+>         if (error) {
+>                 put_unused_fd(new_fd);
+>                 return error;
+>         }
+> 	...
+> 
+> After, fd_install_received_user() and __fd_install_received() does:
+> 
+>         if (ufd == NULL)
+>                 return -EFAULT;
+> 	...
+>         error = security_file_receive(file);
+>         if (error)
+>                 return error;
+> 	...
+>                 new_fd = get_unused_fd_flags(o_flags);
+>                 if (new_fd < 0)
+>                         return new_fd;
+> 	...
+>                 error = put_user(new_fd, ufd);
+>                 if (error) {
+>                         put_unused_fd(new_fd);
+>                         return error;
+>                 }
+> 
+> i.e. if a caller attempts a receive that is rejected by LSM *and*
+> includes a NULL userpointer destination, they will get an EFAULT now
+> instead of an EPERM.
 
-Reviewed-by: Sargun Dhillon <sargun@sargun.me>
+The 'user' pointer the fd is written to is in the middle of
+the 'cmsg' buffer.
+So to hit 'ufd == NULL' the program would have to pass a small
+negative integer!
 
-on the pidfd, change fs* changes.
+The error paths are strange if there are multiple fd in the message.
+A quick look at the old code seems to imply that if the user doesn't
+supply a big enough buffer then the extra 'file *' just get closed.
+OTOH if there is an error processing one of the files the request
+fails with the earlier file allocated fd numbers.
 
-> Sargun Dhillon (2):
->   seccomp: Introduce addfd ioctl to seccomp user notifier
->   selftests/seccomp: Test SECCOMP_IOCTL_NOTIF_ADDFD
-> 
->  fs/file.c                                     |  65 ++++
->  include/linux/file.h                          |  16 +
->  include/uapi/linux/seccomp.h                  |  25 +-
->  kernel/pid.c                                  |  11 +-
->  kernel/seccomp.c                              | 181 ++++++++-
->  net/compat.c                                  |  55 ++-
->  net/core/scm.c                                |  50 +--
->  tools/testing/selftests/seccomp/seccomp_bpf.c | 350 +++++++++++++++---
->  8 files changed, 618 insertions(+), 135 deletions(-)
-> 
-> -- 
-> 2.25.1
-> 
+In addition most of the userspace buffer is written after the
+loop - any errors there return -EFAULT (SIGSEGV) without
+even trying to tidy up the allocated fd.
+
+ISTM that the put_user(new_fd, ufd) could be done in __scm_install_fd()
+after __fd_install_received() returns.
+
+scm_detach_fds() could do the put_user(SOL_SOCKET,...) before actually
+processing the first file - so that the state can be left unchanged
+when a naff buffer is passed.
+
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
+
