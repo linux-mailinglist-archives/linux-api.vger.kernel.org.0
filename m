@@ -2,155 +2,214 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B3ADA200940
-	for <lists+linux-api@lfdr.de>; Fri, 19 Jun 2020 15:00:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E76E0201293
+	for <lists+linux-api@lfdr.de>; Fri, 19 Jun 2020 17:56:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732310AbgFSNAV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 19 Jun 2020 09:00:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37056 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728851AbgFSNAS (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 19 Jun 2020 09:00:18 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B357FC06174E;
-        Fri, 19 Jun 2020 06:00:17 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id q11so9626252wrp.3;
-        Fri, 19 Jun 2020 06:00:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ljPyNN/Qwakhqe+XqUeYOBqoxf7hProQtLOxnDnQs48=;
-        b=Gc6uaCkqyn8M5NULiegeLR+e+X1JkduCf6rQvSXt8Nl16hZHSKp2biDEJ8StKzqR/r
-         1Wcjd6LIBwveF4quZvhVEW1BvqnKkGvhoT4QbYs+t14SeTniS5Jpo561hQW3anupFQ+h
-         EFw3T4P2N4ooBB930lvjBYYc3LowpM2sdscZQr0c2LD91eS9EEuWp/4whuZVEGXRXAE6
-         jxzIEcdC933SSrQBX4e4nzYKv9MIi2LI5lpgVjanijHeT/MApW5lCMIkXQhgiNfqqJHU
-         SwW/fGCEkhxW25+gw/NVDAGvNI3BwUOureUH9XB37sQTh7bgE+2mqxcONVvzg7O2n6kQ
-         vDuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ljPyNN/Qwakhqe+XqUeYOBqoxf7hProQtLOxnDnQs48=;
-        b=CvMx+mkD62Dq04psuMvzSbQcqlPFBs31c2evxVd2nbU1hXWSqA79UmHs9tJvufBqkx
-         YnkBF5PAEoTW2ucmY4tKkc2+FwfJ/tnkiNjMsM+uId+n3wLOeKCLv5Y6CnLWcn/YTl31
-         UT6MPitT6oOr+hbCQ96qM2XMSY6cMdkry+BAQq5ufJqm5DHu6ApeoIjVgRHciaCEG9BI
-         1f+fuDdtLkMWb5uj8dnhjrtG0wQZUL5yzyigIS64S9Hlos3V7VT9kgoW+Owj1qCn2qxT
-         zMfC8Y8fOb8V1+z2CIsScK9UThDSv9Dqx1qI8N7BB7ycQGCBrNrQPdA2u0Ya/w3z7tw5
-         OGdQ==
-X-Gm-Message-State: AOAM532L4FFcfaUrhsCIJlIbOfzgKNLhbFk/srsYpH0kMrd5YGy9Mokl
-        gXxWDEqNneecRNLTDX2OCzE=
-X-Google-Smtp-Source: ABdhPJx/JZS/Eblefk0zI3gb+uu+uT/5gLoiMz5ESaB+mWGa/RKum9IKOsU9NdFWwNFwyMESL8EE2Q==
-X-Received: by 2002:a05:6000:341:: with SMTP id e1mr4003694wre.1.1592571616385;
-        Fri, 19 Jun 2020 06:00:16 -0700 (PDT)
-Received: from ?IPv6:2001:a61:253c:8201:b2fb:3ef8:ca:1604? ([2001:a61:253c:8201:b2fb:3ef8:ca:1604])
-        by smtp.gmail.com with ESMTPSA id e15sm7147479wme.9.2020.06.19.06.00.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Jun 2020 06:00:15 -0700 (PDT)
-Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, viro@zeniv.linux.org.uk,
-        christian@brauner.io
-Subject: Re: [PATCH] symlink.7: document magic-links more completely
-To:     Aleksa Sarai <cyphar@cyphar.com>
-References: <20200414103524.wjhyfobzpjk236o7@yavin.dot.cyphar.com>
- <20200610055319.26374-1-cyphar@cyphar.com>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <fe72a276-a977-2589-ee83-d6ac8a21fbfa@gmail.com>
-Date:   Fri, 19 Jun 2020 15:00:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        id S2393107AbgFSPxU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 19 Jun 2020 11:53:20 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:37858 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2393034AbgFSPWl (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 19 Jun 2020 11:22:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1592580158;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=l/HKj8Lu0UpE1Qv0ctjZcKbYlSC0+K+puPRzGZpopZs=;
+        b=P8iIZpVgG8C7O1xLjLVrFJ2NnsMeZnJ36OssszoPpEO+NNUCxMrjp5zHiUv33TM16fr0Wa
+        fRgnOsvkGgw9dpO0p5GRTUvmfL9C7WxiZjb+T6LoPqJl+hUHPzNBQhdZN/w9HwKiikNQgZ
+        TaO/sxG7N4WQZ8cM43EN3pNGGPe+sTE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-439-HPCb-NsRPkaEVYKMkqiNzg-1; Fri, 19 Jun 2020 11:22:36 -0400
+X-MC-Unique: HPCb-NsRPkaEVYKMkqiNzg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C0F5A872FE0;
+        Fri, 19 Jun 2020 15:22:34 +0000 (UTC)
+Received: from madcap2.tricolour.ca (unknown [10.10.110.28])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 0CD205C1D0;
+        Fri, 19 Jun 2020 15:22:19 +0000 (UTC)
+Date:   Fri, 19 Jun 2020 11:22:17 -0400
+From:   Richard Guy Briggs <rgb@redhat.com>
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     Paul Moore <paul@paul-moore.com>, nhorman@tuxdriver.com,
+        linux-api@vger.kernel.org, containers@lists.linux-foundation.org,
+        LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
+        linux-audit@redhat.com, netfilter-devel@vger.kernel.org,
+        simo@redhat.com, netdev@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
+        mpatel@redhat.com, Serge Hallyn <serge@hallyn.com>
+Subject: Re: [PATCH ghak90 V8 07/16] audit: add contid support for signalling
+ the audit daemon
+Message-ID: <20200619152217.s4bb376ud575gufo@madcap2.tricolour.ca>
+References: <CAHC9VhTQUnVhoN3JXTAQ7ti+nNLfGNVXhT6D-GYJRSpJHCwDRg@mail.gmail.com>
+ <20200330134705.jlrkoiqpgjh3rvoh@madcap2.tricolour.ca>
+ <CAHC9VhQTsEMcYAF1CSHrrVn07DR450W9j6sFVfKAQZ0VpheOfw@mail.gmail.com>
+ <20200330162156.mzh2tsnovngudlx2@madcap2.tricolour.ca>
+ <CAHC9VhTRzZXJ6yUFL+xZWHNWZFTyiizBK12ntrcSwmgmySbkWw@mail.gmail.com>
+ <20200330174937.xalrsiev7q3yxsx2@madcap2.tricolour.ca>
+ <CAHC9VhR_bKSHDn2WAUgkquu+COwZUanc0RV3GRjMDvpoJ5krjQ@mail.gmail.com>
+ <871ronf9x2.fsf@x220.int.ebiederm.org>
+ <CAHC9VhR3gbmj5+5MY-whLtStKqDEHgvMRigU9hW0X1kpxF91ag@mail.gmail.com>
+ <871rol7nw3.fsf@x220.int.ebiederm.org>
 MIME-Version: 1.0
-In-Reply-To: <20200610055319.26374-1-cyphar@cyphar.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <871rol7nw3.fsf@x220.int.ebiederm.org>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hello Aleksa,
-
-On 6/10/20 7:53 AM, Aleksa Sarai wrote:
-> Hi Michael,
+On 2020-04-17 17:23, Eric W. Biederman wrote:
+> Paul Moore <paul@paul-moore.com> writes:
 > 
-> Sorry for the delay and here is the patch I promised in this thread.
-
-Thanks!
-
-Patch applied.
-
-Cheers,
-
-Michael
-
-
-> --8<---------------------------------------------------------------------8<--
+> > On Thu, Apr 16, 2020 at 4:36 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
+> >> Paul Moore <paul@paul-moore.com> writes:
+> >> > On Mon, Mar 30, 2020 at 1:49 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> >> >> On 2020-03-30 13:34, Paul Moore wrote:
+> >> >> > On Mon, Mar 30, 2020 at 12:22 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> >> >> > > On 2020-03-30 10:26, Paul Moore wrote:
+> >> >> > > > On Mon, Mar 30, 2020 at 9:47 AM Richard Guy Briggs <rgb@redhat.com> wrote:
+> >> >> > > > > On 2020-03-28 23:11, Paul Moore wrote:
+> >> >> > > > > > On Tue, Mar 24, 2020 at 5:02 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> >> >> > > > > > > On 2020-03-23 20:16, Paul Moore wrote:
+> >> >> > > > > > > > On Thu, Mar 19, 2020 at 6:03 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> >> >> > > > > > > > > On 2020-03-18 18:06, Paul Moore wrote:
+> >> >
+> >> > ...
+> >> >
+> >> >> > > Well, every time a record gets generated, *any* record gets generated,
+> >> >> > > we'll need to check for which audit daemons this record is in scope and
+> >> >> > > generate a different one for each depending on the content and whether
+> >> >> > > or not the content is influenced by the scope.
+> >> >> >
+> >> >> > That's the problem right there - we don't want to have to generate a
+> >> >> > unique record for *each* auditd on *every* record.  That is a recipe
+> >> >> > for disaster.
+> >> >> >
+> >> >> > Solving this for all of the known audit records is not something we
+> >> >> > need to worry about in depth at the moment (although giving it some
+> >> >> > casual thought is not a bad thing), but solving this for the audit
+> >> >> > container ID information *is* something we need to worry about right
+> >> >> > now.
+> >> >>
+> >> >> If you think that a different nested contid value string per daemon is
+> >> >> not acceptable, then we are back to issuing a record that has only *one*
+> >> >> contid listed without any nesting information.  This brings us back to
+> >> >> the original problem of keeping *all* audit log history since the boot
+> >> >> of the machine to be able to track the nesting of any particular contid.
+> >> >
+> >> > I'm not ruling anything out, except for the "let's just completely
+> >> > regenerate every record for each auditd instance".
+> >>
+> >> Paul I am a bit confused about what you are referring to when you say
+> >> regenerate every record.
+> >>
+> >> Are you saying that you don't want to repeat the sequence:
+> >>         audit_log_start(...);
+> >>         audit_log_format(...);
+> >>         audit_log_end(...);
+> >> for every nested audit daemon?
+> >
+> > If it can be avoided yes.  Audit performance is already not-awesome,
+> > this would make it even worse.
 > 
-> Traditionally, magic-links have not been a well-understood topic in
-> Linux. This helps clarify some of the terminology used in openat2.2.
+> As far as I can see not repeating sequences like that is fundamental
+> for making this work at all.  Just because only the audit subsystem
+> should know about one or multiple audit daemons.  Nothing else should
+> care.
 > 
-> Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
-> ---
->  man7/symlink.7 | 31 ++++++++++++++++++++++---------
->  1 file changed, 22 insertions(+), 9 deletions(-)
+> >> Or are you saying that you would like to literraly want to send the same
+> >> skb to each of the nested audit daemons?
+> >
+> > Ideally we would reuse the generated audit messages as much as
+> > possible.  Less work is better.  That's really my main concern here,
+> > let's make sure we aren't going to totally tank performance when we
+> > have a bunch of nested audit daemons.
 > 
-> diff --git a/man7/symlink.7 b/man7/symlink.7
-> index 07b1db3a3764..ed99bc4236f1 100644
-> --- a/man7/symlink.7
-> +++ b/man7/symlink.7
-> @@ -84,6 +84,21 @@ as they are implemented on Linux and other systems,
->  are outlined here.
->  It is important that site-local applications also conform to these rules,
->  so that the user interface can be as consistent as possible.
-> +.SS Magic-links
-> +There is a special class of symlink-like objects known as "magic-links" which
-> +can be found in certain pseudo-filesystems such as
-> +.BR proc (5)
-> +(examples include
-> +.IR /proc/[pid]/exe " and " /proc/[pid]/fd/* .)
-> +Unlike normal symlinks, magic-links are not resolved through
-> +pathname-expansion, but instead act as direct references to the kernel's own
-> +representation of a file handle. As such, these magic-links allow users to
-> +access files which cannot be referenced with normal paths (such as unlinked
-> +files still referenced by a running program.)
-> +.PP
-> +Because they can bypass ordinary
-> +.BR mount_namespaces (7)-based
-> +restrictions, magic-links have been used as attack vectors in various exploits.
->  .SS Symbolic link ownership, permissions, and timestamps
->  The owner and group of an existing symbolic link can be changed
->  using
-> @@ -99,16 +114,14 @@ of a symbolic link can be changed using
->  or
->  .BR lutimes (3).
->  .PP
-> -On Linux, the permissions of a symbolic link are not used
-> -in any operations; the permissions are always
-> -0777 (read, write, and execute for all user categories),
->  .\" Linux does not currently implement an lchmod(2).
-> -and can't be changed.
-> -(Note that there are some "magic" symbolic links in the
-> -.I /proc
-> -directory tree\(emfor example, the
-> -.IR /proc/[pid]/fd/*
-> -files\(emthat have different permissions.)
-> +On Linux, the permissions of an ordinary symbolic link are not used in any
-> +operations; the permissions are always 0777 (read, write, and execute for all
-> +user categories), and can't be changed.
-> +.PP
-> +However, magic-links do not follow this rule. They can have a non-0777 mode,
-> +though this mode is not currently used in any permission checks.
-> +
->  .\"
->  .\" The
->  .\" 4.4BSD
+> So I think there are two parts of this answer.  Assuming we are talking
+> about nesting audit daemons in containers we will have different
+> rulesets and I expect most of the events for a nested audit daemon won't
+> be of interest to the outer audit daemon.
 > 
+> Beyond that it should be very straight forward to keep a pointer and
+> leave the buffer as a scatter gather list until audit_log_end
+> and translate pids, and rewrite ACIDs attributes in audit_log_end
+> when we build the final packet.  Either through collaboration with
+> audit_log_format or a special audit_log command that carefully sets
+> up the handful of things that need that information.
+> 
+> Hmm.  I am seeing that we send skbs to kauditd and then kauditd
+> sends those skbs to userspace.  I presume that is primary so that
+> sending messages to userspace does not block the process being audited.
+> 
+> Plus a little bit so that the retry logic will work.
+> 
+> I think the naive implementation would be to simply have 1 kauditd
+> per auditd (strictly and audit context/namespace).  Although that can be
+> optimized if that is a problem.
+> 
+> Beyond that I think we would need to look at profiles to really
+> understand where the bottlenecks are.
+> 
+> >> Or are you thinking of something else?
+> >
+> > As mentioned above, I'm not thinking of anything specific, other than
+> > let's please not have to regenerate *all* of the audit record strings
+> > for each instance of an audit daemon, that's going to be a killer.
+> >
+> > Maybe we have to regenerate some, if we do, what would that look like
+> > in code?  How do we handle the regeneration aspect?  I worry that is
+> > going to be really ugly.
+> >
+> > Maybe we finally burn down the audit_log_format(...) function and pass
+> > structs/TLVs to the audit subsystem and the audit subsystem generates
+> > the strings in the auditd connection thread.  Some of the record
+> > strings could likely be shared, others would need to be ACID/auditd
+> > dependent.
+> 
+> I think we just a very limited amount of structs/TLVs for the cases that
+> matter and one-one auditd and kauditd implementations we should still
+> be able to do everything in audit_log_end.  Plus doing as much work as
+> possible in audit_log_end where things are still cache hot is desirable.
 
+So in the end, perf may show us that moving things around a bit and
+knowing to which queue(s) we send an skb will help maintain performance
+by writing out the field contents in audit_log_end() and sending to the
+correct queue rather than deferring writing out that field contents in
+the kauditd process due to cache issues.  In any case, it makes sense to
+delay that formatting work until just after the daemon routing decision
+is made.
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+> > I'm open to any ideas people may have.  We have a problem, let's solve
+> > it.
+> 
+> It definitely makes sense to look ahead to having audit daemons running
+> in containers, but in the grand scheme of things that is a nice to have.
+> Probably something we will and should get to, but we have lived a long
+> time without auditd running in containers so I expect we can live a
+> while longer.
+> 
+> As I understand Richard patchset for the specific case of the ACID we
+> are only talking about taking a subset of an existing string, and one
+> string at that.  Not hard at all.  Especially when looking at the
+> fundamental fact that we will need to send a different skb to
+> userspace, for each audit daemon.
+> 
+> Eric
+
+- RGB
+
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
+
