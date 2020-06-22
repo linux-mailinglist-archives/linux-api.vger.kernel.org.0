@@ -2,214 +2,212 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E76E0201293
-	for <lists+linux-api@lfdr.de>; Fri, 19 Jun 2020 17:56:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B18B203058
+	for <lists+linux-api@lfdr.de>; Mon, 22 Jun 2020 09:10:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393107AbgFSPxU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 19 Jun 2020 11:53:20 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:37858 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2393034AbgFSPWl (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 19 Jun 2020 11:22:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1592580158;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=l/HKj8Lu0UpE1Qv0ctjZcKbYlSC0+K+puPRzGZpopZs=;
-        b=P8iIZpVgG8C7O1xLjLVrFJ2NnsMeZnJ36OssszoPpEO+NNUCxMrjp5zHiUv33TM16fr0Wa
-        fRgnOsvkGgw9dpO0p5GRTUvmfL9C7WxiZjb+T6LoPqJl+hUHPzNBQhdZN/w9HwKiikNQgZ
-        TaO/sxG7N4WQZ8cM43EN3pNGGPe+sTE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-439-HPCb-NsRPkaEVYKMkqiNzg-1; Fri, 19 Jun 2020 11:22:36 -0400
-X-MC-Unique: HPCb-NsRPkaEVYKMkqiNzg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C0F5A872FE0;
-        Fri, 19 Jun 2020 15:22:34 +0000 (UTC)
-Received: from madcap2.tricolour.ca (unknown [10.10.110.28])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 0CD205C1D0;
-        Fri, 19 Jun 2020 15:22:19 +0000 (UTC)
-Date:   Fri, 19 Jun 2020 11:22:17 -0400
-From:   Richard Guy Briggs <rgb@redhat.com>
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Paul Moore <paul@paul-moore.com>, nhorman@tuxdriver.com,
-        linux-api@vger.kernel.org, containers@lists.linux-foundation.org,
-        LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
-        linux-audit@redhat.com, netfilter-devel@vger.kernel.org,
-        simo@redhat.com, netdev@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
-        mpatel@redhat.com, Serge Hallyn <serge@hallyn.com>
-Subject: Re: [PATCH ghak90 V8 07/16] audit: add contid support for signalling
- the audit daemon
-Message-ID: <20200619152217.s4bb376ud575gufo@madcap2.tricolour.ca>
-References: <CAHC9VhTQUnVhoN3JXTAQ7ti+nNLfGNVXhT6D-GYJRSpJHCwDRg@mail.gmail.com>
- <20200330134705.jlrkoiqpgjh3rvoh@madcap2.tricolour.ca>
- <CAHC9VhQTsEMcYAF1CSHrrVn07DR450W9j6sFVfKAQZ0VpheOfw@mail.gmail.com>
- <20200330162156.mzh2tsnovngudlx2@madcap2.tricolour.ca>
- <CAHC9VhTRzZXJ6yUFL+xZWHNWZFTyiizBK12ntrcSwmgmySbkWw@mail.gmail.com>
- <20200330174937.xalrsiev7q3yxsx2@madcap2.tricolour.ca>
- <CAHC9VhR_bKSHDn2WAUgkquu+COwZUanc0RV3GRjMDvpoJ5krjQ@mail.gmail.com>
- <871ronf9x2.fsf@x220.int.ebiederm.org>
- <CAHC9VhR3gbmj5+5MY-whLtStKqDEHgvMRigU9hW0X1kpxF91ag@mail.gmail.com>
- <871rol7nw3.fsf@x220.int.ebiederm.org>
+        id S1731308AbgFVHKC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 22 Jun 2020 03:10:02 -0400
+Received: from mail-ej1-f65.google.com ([209.85.218.65]:45806 "EHLO
+        mail-ej1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731316AbgFVHKC (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 22 Jun 2020 03:10:02 -0400
+Received: by mail-ej1-f65.google.com with SMTP id a1so2862602ejg.12
+        for <linux-api@vger.kernel.org>; Mon, 22 Jun 2020 00:10:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=KXQZAoKaQ85xb6lR9U0VGvt7vanuquPVxRZo+duTvfI=;
+        b=ZbvkcFaZkg68kdGSjnDhhhS4dO3Klu9bXjhA83sqIyPoiSOk1d/xUU9eFkA/UzAoAr
+         sVe4sfaClf20vJqDN3erc881rVwlqbuJr0xO7l/ygmYJAowtz7LHuNAy0OE+mmSn6FXl
+         GOKMCd5eimrgsxDG6FTWe15cxfdmZX5GDXuIFKoxE1VGVNlPj8xDXaAlY5cPqVjrSCNs
+         xShr5mpfjcXPlWVJEFhDpjhbF9XRpRxMSlOUJTLejDaU/faPlHFt6ANpqhPaH9VUVhdP
+         himXr2IOfc0q8/P6dJmtCO3Rp0LiLqggkPewY52UTAapTLI+kpa+bmfti4UBVlTjavG3
+         62Uw==
+X-Gm-Message-State: AOAM530poXXhRVtljtKWZSvsGNFQ3btjtzcRalaKiBGLJBf8UiQ+JqRI
+        Aa7x+f5q9ex8YcyfECOKqWw=
+X-Google-Smtp-Source: ABdhPJxBrTPpCzk+2FQ/fo8+zXLNz+4GRPZv2YBkssEWPvBSGUtG1kVWvl9z6JoSn0c9NI9zWKRjVA==
+X-Received: by 2002:a17:907:7290:: with SMTP id dt16mr5824117ejc.63.1592809799655;
+        Mon, 22 Jun 2020 00:09:59 -0700 (PDT)
+Received: from localhost (ip-37-188-173-135.eurotel.cz. [37.188.173.135])
+        by smtp.gmail.com with ESMTPSA id sd15sm3562106ejb.66.2020.06.22.00.09.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Jun 2020 00:09:58 -0700 (PDT)
+Date:   Mon, 22 Jun 2020 09:09:57 +0200
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Ben Widawsky <ben.widawsky@intel.com>
+Cc:     linux-mm <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christoph Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>,
+        David Rientjes <rientjes@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Lee Schermerhorn <lee.schermerhorn@hp.com>,
+        Li Xinhai <lixinhai.lxh@gmail.com>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mina Almasry <almasrymina@google.com>,
+        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH 00/18] multiple preferred nodes
+Message-ID: <20200622070957.GB31426@dhcp22.suse.cz>
+References: <20200619162425.1052382-1-ben.widawsky@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <871rol7nw3.fsf@x220.int.ebiederm.org>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20200619162425.1052382-1-ben.widawsky@intel.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2020-04-17 17:23, Eric W. Biederman wrote:
-> Paul Moore <paul@paul-moore.com> writes:
-> 
-> > On Thu, Apr 16, 2020 at 4:36 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
-> >> Paul Moore <paul@paul-moore.com> writes:
-> >> > On Mon, Mar 30, 2020 at 1:49 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> >> >> On 2020-03-30 13:34, Paul Moore wrote:
-> >> >> > On Mon, Mar 30, 2020 at 12:22 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> >> >> > > On 2020-03-30 10:26, Paul Moore wrote:
-> >> >> > > > On Mon, Mar 30, 2020 at 9:47 AM Richard Guy Briggs <rgb@redhat.com> wrote:
-> >> >> > > > > On 2020-03-28 23:11, Paul Moore wrote:
-> >> >> > > > > > On Tue, Mar 24, 2020 at 5:02 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> >> >> > > > > > > On 2020-03-23 20:16, Paul Moore wrote:
-> >> >> > > > > > > > On Thu, Mar 19, 2020 at 6:03 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> >> >> > > > > > > > > On 2020-03-18 18:06, Paul Moore wrote:
-> >> >
-> >> > ...
-> >> >
-> >> >> > > Well, every time a record gets generated, *any* record gets generated,
-> >> >> > > we'll need to check for which audit daemons this record is in scope and
-> >> >> > > generate a different one for each depending on the content and whether
-> >> >> > > or not the content is influenced by the scope.
-> >> >> >
-> >> >> > That's the problem right there - we don't want to have to generate a
-> >> >> > unique record for *each* auditd on *every* record.  That is a recipe
-> >> >> > for disaster.
-> >> >> >
-> >> >> > Solving this for all of the known audit records is not something we
-> >> >> > need to worry about in depth at the moment (although giving it some
-> >> >> > casual thought is not a bad thing), but solving this for the audit
-> >> >> > container ID information *is* something we need to worry about right
-> >> >> > now.
-> >> >>
-> >> >> If you think that a different nested contid value string per daemon is
-> >> >> not acceptable, then we are back to issuing a record that has only *one*
-> >> >> contid listed without any nesting information.  This brings us back to
-> >> >> the original problem of keeping *all* audit log history since the boot
-> >> >> of the machine to be able to track the nesting of any particular contid.
-> >> >
-> >> > I'm not ruling anything out, except for the "let's just completely
-> >> > regenerate every record for each auditd instance".
-> >>
-> >> Paul I am a bit confused about what you are referring to when you say
-> >> regenerate every record.
-> >>
-> >> Are you saying that you don't want to repeat the sequence:
-> >>         audit_log_start(...);
-> >>         audit_log_format(...);
-> >>         audit_log_end(...);
-> >> for every nested audit daemon?
-> >
-> > If it can be avoided yes.  Audit performance is already not-awesome,
-> > this would make it even worse.
-> 
-> As far as I can see not repeating sequences like that is fundamental
-> for making this work at all.  Just because only the audit subsystem
-> should know about one or multiple audit daemons.  Nothing else should
-> care.
-> 
-> >> Or are you saying that you would like to literraly want to send the same
-> >> skb to each of the nested audit daemons?
-> >
-> > Ideally we would reuse the generated audit messages as much as
-> > possible.  Less work is better.  That's really my main concern here,
-> > let's make sure we aren't going to totally tank performance when we
-> > have a bunch of nested audit daemons.
-> 
-> So I think there are two parts of this answer.  Assuming we are talking
-> about nesting audit daemons in containers we will have different
-> rulesets and I expect most of the events for a nested audit daemon won't
-> be of interest to the outer audit daemon.
-> 
-> Beyond that it should be very straight forward to keep a pointer and
-> leave the buffer as a scatter gather list until audit_log_end
-> and translate pids, and rewrite ACIDs attributes in audit_log_end
-> when we build the final packet.  Either through collaboration with
-> audit_log_format or a special audit_log command that carefully sets
-> up the handful of things that need that information.
-> 
-> Hmm.  I am seeing that we send skbs to kauditd and then kauditd
-> sends those skbs to userspace.  I presume that is primary so that
-> sending messages to userspace does not block the process being audited.
-> 
-> Plus a little bit so that the retry logic will work.
-> 
-> I think the naive implementation would be to simply have 1 kauditd
-> per auditd (strictly and audit context/namespace).  Although that can be
-> optimized if that is a problem.
-> 
-> Beyond that I think we would need to look at profiles to really
-> understand where the bottlenecks are.
-> 
-> >> Or are you thinking of something else?
-> >
-> > As mentioned above, I'm not thinking of anything specific, other than
-> > let's please not have to regenerate *all* of the audit record strings
-> > for each instance of an audit daemon, that's going to be a killer.
-> >
-> > Maybe we have to regenerate some, if we do, what would that look like
-> > in code?  How do we handle the regeneration aspect?  I worry that is
-> > going to be really ugly.
-> >
-> > Maybe we finally burn down the audit_log_format(...) function and pass
-> > structs/TLVs to the audit subsystem and the audit subsystem generates
-> > the strings in the auditd connection thread.  Some of the record
-> > strings could likely be shared, others would need to be ACID/auditd
-> > dependent.
-> 
-> I think we just a very limited amount of structs/TLVs for the cases that
-> matter and one-one auditd and kauditd implementations we should still
-> be able to do everything in audit_log_end.  Plus doing as much work as
-> possible in audit_log_end where things are still cache hot is desirable.
+User visible APIs changes/additions should be posted to the linux-api
+mailing list. Now added.
 
-So in the end, perf may show us that moving things around a bit and
-knowing to which queue(s) we send an skb will help maintain performance
-by writing out the field contents in audit_log_end() and sending to the
-correct queue rather than deferring writing out that field contents in
-the kauditd process due to cache issues.  In any case, it makes sense to
-delay that formatting work until just after the daemon routing decision
-is made.
-
-> > I'm open to any ideas people may have.  We have a problem, let's solve
-> > it.
+On Fri 19-06-20 09:24:07, Ben Widawsky wrote:
+> This patch series introduces the concept of the MPOL_PREFERRED_MANY mempolicy.
+> This mempolicy mode can be used with either the set_mempolicy(2) or mbind(2)
+> interfaces. Like the MPOL_PREFERRED interface, it allows an application to set a
+> preference for nodes which will fulfil memory allocation requests. Like the
+> MPOL_BIND interface, it works over a set of nodes.
 > 
-> It definitely makes sense to look ahead to having audit daemons running
-> in containers, but in the grand scheme of things that is a nice to have.
-> Probably something we will and should get to, but we have lived a long
-> time without auditd running in containers so I expect we can live a
-> while longer.
+> Summary:
+> 1-2: Random fixes I found along the way
+> 3-4: Logic to handle many preferred nodes in page allocation
+> 5-9: Plumbing to allow multiple preferred nodes in mempolicy
+> 10-13: Teach page allocation APIs about nodemasks
+> 14: Provide a helper to generate preferred nodemasks
+> 15: Have page allocation callers generate preferred nodemasks
+> 16-17: Flip the switch to have __alloc_pages_nodemask take preferred mask.
+> 18: Expose the new uapi
 > 
-> As I understand Richard patchset for the specific case of the ACID we
-> are only talking about taking a subset of an existing string, and one
-> string at that.  Not hard at all.  Especially when looking at the
-> fundamental fact that we will need to send a different skb to
-> userspace, for each audit daemon.
+> Along with these patches are patches for libnuma, numactl, numademo, and memhog.
+> They still need some polish, but can be found here:
+> https://gitlab.com/bwidawsk/numactl/-/tree/prefer-many
+> It allows new usage: `numactl -P 0,3,4`
 > 
-> Eric
+> The goal of the new mode is to enable some use-cases when using tiered memory
+> usage models which I've lovingly named.
+> 1a. The Hare - The interconnect is fast enough to meet bandwidth and latency
+> requirements allowing preference to be given to all nodes with "fast" memory.
+> 1b. The Indiscriminate Hare - An application knows it wants fast memory (or
+> perhaps slow memory), but doesn't care which node it runs on. The application
+> can prefer a set of nodes and then xpu bind to the local node (cpu, accelerator,
+> etc). This reverses the nodes are chosen today where the kernel attempts to use
+> local memory to the CPU whenever possible. This will attempt to use the local
+> accelerator to the memory.
+> 2. The Tortoise - The administrator (or the application itself) is aware it only
+> needs slow memory, and so can prefer that.
+> 
+> Much of this is almost achievable with the bind interface, but the bind
+> interface suffers from an inability to fallback to another set of nodes if
+> binding fails to all nodes in the nodemask.
+> 
+> Like MPOL_BIND a nodemask is given. Inherently this removes ordering from the
+> preference.
+> 
+> > /* Set first two nodes as preferred in an 8 node system. */
+> > const unsigned long nodes = 0x3
+> > set_mempolicy(MPOL_PREFER_MANY, &nodes, 8);
+> 
+> > /* Mimic interleave policy, but have fallback *.
+> > const unsigned long nodes = 0xaa
+> > set_mempolicy(MPOL_PREFER_MANY, &nodes, 8);
+> 
+> Some internal discussion took place around the interface. There are two
+> alternatives which we have discussed, plus one I stuck in:
+> 1. Ordered list of nodes. Currently it's believed that the added complexity is
+>    nod needed for expected usecases.
+> 2. A flag for bind to allow falling back to other nodes. This confuses the
+>    notion of binding and is less flexible than the current solution.
+> 3. Create flags or new modes that helps with some ordering. This offers both a
+>    friendlier API as well as a solution for more customized usage. It's unknown
+>    if it's worth the complexity to support this. Here is sample code for how
+>    this might work:
+> 
+> > // Default
+> > set_mempolicy(MPOL_PREFER_MANY | MPOL_F_PREFER_ORDER_SOCKET, NULL, 0);
+> > // which is the same as
+> > set_mempolicy(MPOL_DEFAULT, NULL, 0);
+> >
+> > // The Hare
+> > set_mempolicy(MPOL_PREFER_MANY | MPOL_F_PREFER_ORDER_TYPE, NULL, 0);
+> >
+> > // The Tortoise
+> > set_mempolicy(MPOL_PREFER_MANY | MPOL_F_PREFER_ORDER_TYPE_REV, NULL, 0);
+> >
+> > // Prefer the fast memory of the first two sockets
+> > set_mempolicy(MPOL_PREFER_MANY | MPOL_F_PREFER_ORDER_TYPE, -1, 2);
+> >
+> > // Prefer specific nodes for some something wacky
+> > set_mempolicy(MPOL_PREFER_MANY | MPOL_F_PREFER_ORDER_TYPE_CUSTOM, 0x17c, 1024);
+> 
+> ---
+> 
+> Cc: Andi Kleen <ak@linux.intel.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Christoph Lameter <cl@linux.com>
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: Dave Hansen <dave.hansen@linux.intel.com>
+> Cc: David Hildenbrand <david@redhat.com>
+> Cc: David Rientjes <rientjes@google.com>
+> Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> Cc: Johannes Weiner <hannes@cmpxchg.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+> Cc: Lee Schermerhorn <lee.schermerhorn@hp.com>
+> Cc: Li Xinhai <lixinhai.lxh@gmail.com>
+> Cc: Mel Gorman <mgorman@techsingularity.net>
+> Cc: Michal Hocko <mhocko@kernel.org>
+> Cc: Mike Kravetz <mike.kravetz@oracle.com>
+> Cc: Mina Almasry <almasrymina@google.com>
+> Cc: Tejun Heo <tj@kernel.org>
+> Cc: Vlastimil Babka <vbabka@suse.cz>
+> 
+> Ben Widawsky (14):
+>   mm/mempolicy: Add comment for missing LOCAL
+>   mm/mempolicy: Use node_mem_id() instead of node_id()
+>   mm/page_alloc: start plumbing multi preferred node
+>   mm/page_alloc: add preferred pass to page allocation
+>   mm: Finish handling MPOL_PREFERRED_MANY
+>   mm: clean up alloc_pages_vma (thp)
+>   mm: Extract THP hugepage allocation
+>   mm/mempolicy: Use __alloc_page_node for interleaved
+>   mm: kill __alloc_pages
+>   mm/mempolicy: Introduce policy_preferred_nodes()
+>   mm: convert callers of __alloc_pages_nodemask to pmask
+>   alloc_pages_nodemask: turn preferred nid into a nodemask
+>   mm: Use less stack for page allocations
+>   mm/mempolicy: Advertise new MPOL_PREFERRED_MANY
+> 
+> Dave Hansen (4):
+>   mm/mempolicy: convert single preferred_node to full nodemask
+>   mm/mempolicy: Add MPOL_PREFERRED_MANY for multiple preferred nodes
+>   mm/mempolicy: allow preferred code to take a nodemask
+>   mm/mempolicy: refactor rebind code for PREFERRED_MANY
+> 
+>  .../admin-guide/mm/numa_memory_policy.rst     |  22 +-
+>  include/linux/gfp.h                           |  19 +-
+>  include/linux/mempolicy.h                     |   4 +-
+>  include/linux/migrate.h                       |   4 +-
+>  include/linux/mmzone.h                        |   3 +
+>  include/uapi/linux/mempolicy.h                |   6 +-
+>  mm/hugetlb.c                                  |  10 +-
+>  mm/internal.h                                 |   1 +
+>  mm/mempolicy.c                                | 271 +++++++++++++-----
+>  mm/page_alloc.c                               | 179 +++++++++++-
+>  10 files changed, 403 insertions(+), 116 deletions(-)
+> 
+> 
+> -- 
+> 2.27.0
 
-- RGB
-
---
-Richard Guy Briggs <rgb@redhat.com>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems
-Remote, Ottawa, Red Hat Canada
-IRC: rgb, SunRaycer
-Voice: +1.647.777.2635, Internal: (81) 32635
-
+-- 
+Michal Hocko
+SUSE Labs
