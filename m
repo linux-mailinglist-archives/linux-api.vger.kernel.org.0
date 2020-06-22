@@ -2,164 +2,175 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 68859203EC5
-	for <lists+linux-api@lfdr.de>; Mon, 22 Jun 2020 20:08:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D44F8204053
+	for <lists+linux-api@lfdr.de>; Mon, 22 Jun 2020 21:29:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729910AbgFVSIM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 22 Jun 2020 14:08:12 -0400
-Received: from mail.efficios.com ([167.114.26.124]:35224 "EHLO
-        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729860AbgFVSIL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 22 Jun 2020 14:08:11 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 3D7922B6F2D;
-        Mon, 22 Jun 2020 14:08:10 -0400 (EDT)
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id ZXtbc0lA3bhQ; Mon, 22 Jun 2020 14:08:10 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id EC6AF2B6ED8;
-        Mon, 22 Jun 2020 14:08:09 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com EC6AF2B6ED8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1592849289;
-        bh=yRiGtquXYPCKnEyIARANnhxrsJ53NZMKmbMlMj8D3uI=;
-        h=From:To:Date:Message-Id;
-        b=N3ALkBp9RQZIFWtwiMynZtPjd5HMR4YvsfQd5dMx7+3BByTANsJvoOnfcy4t4k6mn
-         4FX2u5Jb+xUmHHKn+SLffg+HzkmktZbIvbJWTy70pTjKnu8qPc/R8IBG8zkDYAYAaa
-         FiRvuXeP7ZtXLHJQXUcwNLbkzfOqZkFyxlo17UCFIWOhjXhRLjvHxNXB7W5XljCk9+
-         ny0jcbAXT8ft0Yf/5ijh5ajg2l7wybGLFtVTIVifBw48K87tXc72DjrYRkWbaT/ZWm
-         6snoEqzILBd9C8gcQhwiSAT60Q0V/YyJLaFWU9dtOO+W9S7Ae6F+0+CkbdEt+MQ1zg
-         Kn6NjoxJWL3yQ==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 7WF-2it4VbFd; Mon, 22 Jun 2020 14:08:09 -0400 (EDT)
-Received: from localhost.localdomain (192-222-181-218.qc.cable.ebox.net [192.222.181.218])
-        by mail.efficios.com (Postfix) with ESMTPSA id 9B8562B6F27;
-        Mon, 22 Jun 2020 14:08:09 -0400 (EDT)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     Carlos O'Donell <carlos@redhat.com>,
-        Joseph Myers <joseph@codesourcery.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        libc-alpha@sourceware.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ben Maurer <bmaurer@fb.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Paul Turner <pjt@google.com>, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org
-Subject: [PATCH 2/3] Linux: Use rseq in sched_getcpu if available (v9)
-Date:   Mon, 22 Jun 2020 14:08:02 -0400
-Message-Id: <20200622180803.1449-3-mathieu.desnoyers@efficios.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200622180803.1449-1-mathieu.desnoyers@efficios.com>
-References: <20200622180803.1449-1-mathieu.desnoyers@efficios.com>
+        id S1728171AbgFVT3N (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 22 Jun 2020 15:29:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47322 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728140AbgFVT3M (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 22 Jun 2020 15:29:12 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B606C061573;
+        Mon, 22 Jun 2020 12:29:12 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id e8so3424359pgc.5;
+        Mon, 22 Jun 2020 12:29:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=weFW+qBZEi0cjMZ8qKBQnrqgCTJqFGMu4e+wMxpY3S0=;
+        b=hOHzZhnjPlVmB1AgzeDEpstCV1xfdjrYDO6AA94oOzYU+zA51t/S6ljcFBEau4qMa0
+         BsvmBQd0s7lyOaJO17brRHx/rKD5X8w9joeMEqDt6hl3p5Gc/7weN30i8amCtoU1GXgj
+         wN4ubXQaixPbfVkRu47J/wD+RtYmL4LQpTtfUdBbIRTUFqGE+3BuWmb5b3lm46Jb3eoD
+         nFJ5hWenHRXHY+bHEQTbSuUIt+ph8vnfLPJGBW8wW2zGCCSG6X/M2c1o7phpj2ZuKqGC
+         8+kVSaQ1fcNlZFxxsNPUZ8z2e8XeRnkC6u3NvbZ7oYcg8JTWaft30Ob0Kq5Hvbo1ymSa
+         2Mxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=weFW+qBZEi0cjMZ8qKBQnrqgCTJqFGMu4e+wMxpY3S0=;
+        b=WeoLH8Ifma99128/j4vstF85Ad2X5rK9iIzu5IzMKLWThbbG67tMvFoGyvMFPaFhBN
+         oxFS36IdM/tut8OY/6fAq2/2B82Qbf1aTzFjGUp8MkWQ87Hxav0v71aLmMTXwCUSlZeW
+         JXc6A/vjaGThukHh3TCqNBmC09Ex/YmW5eWutTwRsHQYZh6R2wtmShGBU4B1Zrfv6cuM
+         Xz6aYF7BURQP+UJ+SABibQ4BUzgGEX1GLYyH3s4EB+fok3sef7B5jtA4xkO6o9wPCRsv
+         +Ikt/bEuc2fgeqXD2PXnf8Q3H2l6CzStKXzipzO3CeMMzuhANHzMTdxyZIZ+azVJ/aej
+         tjDg==
+X-Gm-Message-State: AOAM531KgB0pD0enm31sFW3Z/wxIg0In+2OBkgzB5dvlmVBmTQ89IQ1Q
+        9qp0lb0qMXCElyj+b7Sv3LUT3KbF
+X-Google-Smtp-Source: ABdhPJzFByGxHqIqF8a8PWWKyVKm/TgcNYGpi4+R2KSq9pZvcj79Qg87brfTOkdQg+2rJVHd2ZlhZw==
+X-Received: by 2002:a63:29c8:: with SMTP id p191mr14727856pgp.333.1592854151907;
+        Mon, 22 Jun 2020 12:29:11 -0700 (PDT)
+Received: from bbox-1.mtv.corp.google.com ([2620:15c:211:1:3e01:2939:5992:52da])
+        by smtp.gmail.com with ESMTPSA id mu17sm264603pjb.53.2020.06.22.12.29.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Jun 2020 12:29:10 -0700 (PDT)
+From:   Minchan Kim <minchan@kernel.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
+        oleksandr@redhat.com, Suren Baghdasaryan <surenb@google.com>,
+        Tim Murray <timmurray@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Dias <joaodias@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jann Horn <jannh@google.com>,
+        alexander.h.duyck@linux.intel.com, sj38.park@gmail.com,
+        David Rientjes <rientjes@google.com>,
+        Arjun Roy <arjunroy@google.com>,
+        Minchan Kim <minchan@kernel.org>
+Subject: [PATCH v8 0/4]  introduce memory hinting API for external process
+Date:   Mon, 22 Jun 2020 12:28:56 -0700
+Message-Id: <20200622192900.22757-1-minchan@kernel.org>
+X-Mailer: git-send-email 2.27.0.111.gc72c7da667-goog
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-When available, use the cpu_id field from __rseq_abi on Linux to
-implement sched_getcpu().  Fall-back on the vgetcpu vDSO if unavailable.
+Now, we have MADV_PAGEOUT and MADV_COLD as madvise hinting API. With that,
+application could give hints to kernel what memory range are preferred to be
+reclaimed. However, in some platform(e.g., Android), the information
+required to make the hinting decision is not known to the app.
+Instead, it is known to a centralized userspace daemon(e.g., ActivityManagerService),
+and that daemon must be able to initiate reclaim on its own without any app
+involvement.
 
-Benchmarks:
+To solve the concern, this patch introduces new syscall - process_madvise(2).
+Bascially, it's same with madvise(2) syscall but it has some differences.
 
-x86-64: Intel E5-2630 v3@2.40GHz, 16-core, hyperthreading
+1. It needs pidfd of target process to provide the hint
+2. It supports only MADV_{COLD|PAGEOUT} at this moment.
+   Other hints in madvise will be opened when there are explicit requests from
+   community to prevent unexpected bugs we couldn't support.
+3. Only privileged processes can do something for other process's address
+   space.
 
-glibc sched_getcpu():                     13.7 ns (baseline)
-glibc sched_getcpu() using rseq:           2.5 ns (speedup:  5.5x)
-inline load cpuid from __rseq_abi TLS:     0.8 ns (speedup: 17.1x)
+For more detail of the new API, please see "mm: introduce external memory hinting API"
+description in this patchset.
 
-CC: Carlos O'Donell <carlos@redhat.com>
-CC: Florian Weimer <fweimer@redhat.com>
-CC: Joseph Myers <joseph@codesourcery.com>
-CC: Szabolcs Nagy <szabolcs.nagy@arm.com>
-CC: Thomas Gleixner <tglx@linutronix.de>
-CC: Ben Maurer <bmaurer@fb.com>
-CC: Peter Zijlstra <peterz@infradead.org>
-CC: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-CC: Boqun Feng <boqun.feng@gmail.com>
-CC: Will Deacon <will.deacon@arm.com>
-CC: Paul Turner <pjt@google.com>
-CC: libc-alpha@sourceware.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-api@vger.kernel.org
----
-Changes since v1:
-- rseq is only used if both __NR_rseq and RSEQ_SIG are defined.
+* from v7 -  http://lore.kernel.org/r/20200302193630.68771-1-minchan@kernel.org
+  * dropping pid support from new syscall and fold releated patches into syscall patch
+  * dropping KSM patch by discussion - Oleksandr, I lost the discussion.
+    Please resend the single patch against of the patchset if you resolves the discussion.
+    https://lore.kernel.org/linux-api/20200302193630.68771-8-minchan@kernel.org/
 
-Changes since v2:
-- remove duplicated __rseq_abi extern declaration.
+* from v6 - https://lore.kernel.org/linux-api/20200219014433.88424-1-minchan@kernel.org/
+  * fix comments and descriptions - Suren
+  * Add Reviewed-by - Suren
+  * fix build break reported by 0-day
 
-Changes since v3:
-- update ChangeLog.
+* from v5 - https://lore.kernel.org/linux-mm/20200214170520.160271-1-minchan@kernel.org/
+  * use null task and requestor's mm for io_madvise - Jann and Jens
+  * use right commit description for moving pidfd_get_pid - Christoph
 
-Changes since v4:
-- Use atomic_load_relaxed to load the __rseq_abi.cpu_id field, a
-  consequence of the fact that __rseq_abi is not volatile anymore.
-- Include atomic.h which provides atomic_load_relaxed.
+* from v4 - https://lore.kernel.org/linux-mm/20200212233946.246210-1-minchan@kernel.org/
+  * pass mm down to functions, not accessing task->mm - Jann
+  * clean up - Alexander
+  * add Reviewed-by - Alexander, SeongJae
+  * patch reordering
 
-Changes since v5:
-- Use __ASSUME_RSEQ to detect rseq availability.
+* from v3 - https://lore.kernel.org/linux-mm/20200128001641.5086-1-minchan@kernel.org/
+  * verify task->mm aftere access_mm - Oleg
+  * split some patches for easy review - Alexander
+  * clean up fatal signal checking - Suren
 
-Changes since v6:
-- Remove use of __ASSUME_RSEQ.
+* from v2 - https://lore.kernel.org/linux-mm/20200116235953.163318-1-minchan@kernel.org/
+  * check signal callee and caller to bail out - Kirill Tkhai
+  * put more clarification for justification of new API
 
-Changes since v7:
-- Fix incorrect merge with commit d0def09ff6 ("linux: Fix vDSO macros
-  build with time64 interfaces")
+* from v1 - https://lore.kernel.org/linux-mm/20200110213433.94739-1-minchan@kernel.org/
+  * fix syscall number - SeongJae
+  * use get_pid_task - Kirill Tkhai
+  * extend API to support pid as well as pidfd - Kirill Tkhai
 
-Changes since v8:
-- Update patch title.
-- Add /* RSEQ_SIG */ for #else and #endif.
----
- sysdeps/unix/sysv/linux/sched_getcpu.c | 22 ++++++++++++++++++++--
- 1 file changed, 20 insertions(+), 2 deletions(-)
+Minchan Kim (4):
+  mm/madvise: pass task and mm to do_madvise
+  pid: move pidfd_get_pid() to pid.c
+  mm/madvise: introduce process_madvise() syscall: an external memory
+    hinting API
+  mm/madvise: check fatal signal pending of target process
 
-diff --git a/sysdeps/unix/sysv/linux/sched_getcpu.c b/sysdeps/unix/sysv/linux/sched_getcpu.c
-index c019cfb3cf..c0f992e056 100644
---- a/sysdeps/unix/sysv/linux/sched_getcpu.c
-+++ b/sysdeps/unix/sysv/linux/sched_getcpu.c
-@@ -18,10 +18,12 @@
- #include <errno.h>
- #include <sched.h>
- #include <sysdep.h>
-+#include <atomic.h>
- #include <sysdep-vdso.h>
-+#include <sys/rseq.h>
- 
--int
--sched_getcpu (void)
-+static int
-+vsyscall_sched_getcpu (void)
- {
-   unsigned int cpu;
-   int r = -1;
-@@ -32,3 +34,19 @@ sched_getcpu (void)
- #endif
-   return r == -1 ? r : cpu;
- }
-+
-+#ifdef RSEQ_SIG
-+int
-+sched_getcpu (void)
-+{
-+  int cpu_id = atomic_load_relaxed (&__rseq_abi.cpu_id);
-+
-+  return cpu_id >= 0 ? cpu_id : vsyscall_sched_getcpu ();
-+}
-+#else /* RSEQ_SIG */
-+int
-+sched_getcpu (void)
-+{
-+  return vsyscall_sched_getcpu ();
-+}
-+#endif /* RSEQ_SIG */
+ arch/alpha/kernel/syscalls/syscall.tbl      |   1 +
+ arch/arm/tools/syscall.tbl                  |   1 +
+ arch/arm64/include/asm/unistd.h             |   2 +-
+ arch/arm64/include/asm/unistd32.h           |   2 +
+ arch/ia64/kernel/syscalls/syscall.tbl       |   1 +
+ arch/m68k/kernel/syscalls/syscall.tbl       |   1 +
+ arch/microblaze/kernel/syscalls/syscall.tbl |   1 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl   |   1 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl   |   1 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl   |   1 +
+ arch/parisc/kernel/syscalls/syscall.tbl     |   1 +
+ arch/powerpc/kernel/syscalls/syscall.tbl    |   1 +
+ arch/s390/kernel/syscalls/syscall.tbl       |   1 +
+ arch/sh/kernel/syscalls/syscall.tbl         |   1 +
+ arch/sparc/kernel/syscalls/syscall.tbl      |   1 +
+ arch/x86/entry/syscalls/syscall_32.tbl      |   1 +
+ arch/x86/entry/syscalls/syscall_64.tbl      |   2 +
+ arch/xtensa/kernel/syscalls/syscall.tbl     |   1 +
+ fs/io_uring.c                               |   2 +-
+ include/linux/compat.h                      |   4 +
+ include/linux/mm.h                          |   3 +-
+ include/linux/pid.h                         |   1 +
+ include/linux/syscalls.h                    |   2 +
+ include/uapi/asm-generic/unistd.h           |   4 +-
+ kernel/exit.c                               |  17 --
+ kernel/pid.c                                |  17 ++
+ kernel/sys_ni.c                             |   2 +
+ mm/madvise.c                                | 190 +++++++++++++++++---
+ 28 files changed, 217 insertions(+), 46 deletions(-)
+
 -- 
-2.17.1
+2.27.0.111.gc72c7da667-goog
 
