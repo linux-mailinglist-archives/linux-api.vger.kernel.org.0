@@ -2,23 +2,55 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A2F432048A2
-	for <lists+linux-api@lfdr.de>; Tue, 23 Jun 2020 06:22:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5823D2048D9
+	for <lists+linux-api@lfdr.de>; Tue, 23 Jun 2020 06:32:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726054AbgFWEWg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 23 Jun 2020 00:22:36 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:50770 "EHLO loongson.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725986AbgFWEWf (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 23 Jun 2020 00:22:35 -0400
-Received: from [10.20.42.25] (unknown [10.20.42.25])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxP2pIg_FespdIAA--.9441S3;
-        Tue, 23 Jun 2020 12:21:29 +0800 (CST)
+        id S1726359AbgFWEcQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 23 Jun 2020 00:32:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46782 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725986AbgFWEcP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 23 Jun 2020 00:32:15 -0400
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31591C061573
+        for <linux-api@vger.kernel.org>; Mon, 22 Jun 2020 21:32:15 -0700 (PDT)
+Received: by mail-pj1-x1042.google.com with SMTP id a45so669480pje.1
+        for <linux-api@vger.kernel.org>; Mon, 22 Jun 2020 21:32:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=nitingupta.dev; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=mOMbL6HjY/msI/b+30vYQj16IIrELbNnV+5U93ptfzo=;
+        b=ebvA99Sh54MkQw+7nb+Kfw47KJ8usXG2V1JVgxo+WicnE10zJz1yjPAIjNZjl8Qr4J
+         BhVAc45xdHtl/EspjOKHvzChgkQaruY7TII60mT0/IvRbAjvzPAtjLXUjYgNOOQFzKYV
+         4Kr1/r6XxykaZnqV8PJldJ+nTtWvN2uVpHf/lvq13qGc7RxoNtaPaPZfMQnBFW4kc6PX
+         W40RlOzGchu8MSsxE8tZARtr+e5FWl97OUzfjA8dvU68BFap2lxUkx9MD9yoo8ko2Ahf
+         qRPz7oCGVoQJSf0CLZ9td7klhVPDg5snukA9xJV33KC8KVhL9sBDEnXzzr2f8rznB2Ln
+         Eu0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=mOMbL6HjY/msI/b+30vYQj16IIrELbNnV+5U93ptfzo=;
+        b=fPz63IicMmouoOFdliocNuQ7HhKq1mSbXOCgOAWFsZ3oV4jAJo3D/B9TiFiSxuU/nA
+         yISHVzGHY3s32SUuyMCEtxkOEGRiFvDM8d/6aBRJsLu829cEomr/fbwwgtAT57Pb4Rt1
+         6vU+wBadCc2RkSqXEtPibKmsALov4tJi2qUGixTbwcGlJrgZ0c0I13B/OM3oictRuFUC
+         8p2syb87PiwiQQyKjNjS9g3G531TJkQaBXT3N7jr0u51X6cJlbQN3ogRP69ZPEVlHmRq
+         +uJjGSPWTwHl3g4nbfHdcrTfIP/ubjA+oh8aSj5uropwYv4Yrw3pdMPDPXC6tlvF5yO1
+         O66Q==
+X-Gm-Message-State: AOAM5331QglBCTWWHi53KqL7pAP2JeeJREuzPmMGXvk3znoc+3uCxVa9
+        9JaZ2SYV9ICp4n90V3l74c4GJA==
+X-Google-Smtp-Source: ABdhPJz6BW5si7kECRgiZTJu0j6PecQ2e/fDeyah/kPxyNZNZQrmMs0sqizmuZuWrCdNu8uR5MYlcg==
+X-Received: by 2002:a17:90a:f684:: with SMTP id cl4mr21904562pjb.172.1592886734423;
+        Mon, 22 Jun 2020 21:32:14 -0700 (PDT)
+Received: from ngvpn01-170-51.dyn.scz.us.nvidia.com ([2601:646:9302:1050:d88e:a8a0:b827:da35])
+        by smtp.gmail.com with ESMTPSA id b1sm949946pjc.33.2020.06.22.21.32.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Jun 2020 21:32:13 -0700 (PDT)
 Subject: Re: [PATCH v8] mm: Proactive compaction
 To:     Nathan Chancellor <natechancellor@gmail.com>,
         Nitin Gupta <nigupta@nvidia.com>
-References: <20200616204527.19185-1-nigupta@nvidia.com>
- <20200623022636.GA1051134@ubuntu-n2-xlarge-x86>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Vlastimil Babka <vbabka@suse.cz>,
         Khalid Aziz <khalid.aziz@oracle.com>,
@@ -29,46 +61,28 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Mike Kravetz <mike.kravetz@oracle.com>,
         Joonsoo Kim <iamjoonsoo.kim@lge.com>,
         David Rientjes <rientjes@google.com>,
-        Nitin Gupta <ngupta@nitingupta.dev>,
         linux-kernel <linux-kernel@vger.kernel.org>,
         linux-mm <linux-mm@kvack.org>,
         Linux API <linux-api@vger.kernel.org>,
         linux-mips@vger.kernel.org
-From:   maobibo <maobibo@loongson.cn>
-Message-ID: <a8b0bf38-cfa7-ec03-545f-745b01c0ac2a@loongson.cn>
-Date:   Tue, 23 Jun 2020 12:21:28 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:45.0) Gecko/20100101
- Thunderbird/45.4.0
+References: <20200616204527.19185-1-nigupta@nvidia.com>
+ <20200623022636.GA1051134@ubuntu-n2-xlarge-x86>
+From:   Nitin Gupta <ngupta@nitingupta.dev>
+Message-ID: <d51d4db4-31b6-8db8-b4b7-62d3080ad001@nitingupta.dev>
+Date:   Mon, 22 Jun 2020 21:32:12 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.9.0
 MIME-Version: 1.0
 In-Reply-To: <20200623022636.GA1051134@ubuntu-n2-xlarge-x86>
 Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9DxP2pIg_FespdIAA--.9441S3
-X-Coremail-Antispam: 1UD129KBjvAXoW3KFy8KryrZFW8Gw17Zr1kXwb_yoW8XFyrGo
-        Z5GrsrAw4fJry5Wa1DGas8KF98J3ykKrsYq3Z0q345AFn7X39I9r1qka1fCay5AFyDta1k
-        Jw43Awsxtws7XFnxn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-        AaLaJ3UjIYCTnIWjp_UUUY67k0a2IF6w4kM7kC6x804xWl14x267AKxVW5JVWrJwAFc2x0
-        x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj4
-        1l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0
-        I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4
-        vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVAC
-        Y4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJV
-        W8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkI
-        wI1lc7I2V7IY0VAS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbV
-        WUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF
-        67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42
-        IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1l
-        IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvf
-        C2KfnxnUUI43ZEXa7IU5q385UUUUU==
-X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-
-
-On 06/23/2020 10:26 AM, Nathan Chancellor wrote:
+On 6/22/20 7:26 PM, Nathan Chancellor wrote:
 > On Tue, Jun 16, 2020 at 01:45:27PM -0700, Nitin Gupta wrote:
 >> For some applications, we need to allocate almost all memory as
 >> hugepages. However, on a running system, higher-order allocations can
@@ -379,11 +393,26 @@ On 06/23/2020 10:26 AM, Nathan Chancellor wrote:
 > 
 > I am not sure why MIPS is special with its handling of hugepage support
 > but I am far from a MIPS expert :)
-
-it seems that both HUGETLB_PAGE and TRANSPARENT_HUGEPAGE are disabled with malta_kvm_guest_defconfig.
-
 > 
-> Cheers,
-> Nathan
-> 
+
+Can you check if this patch fixes the compile error:
+
+
+diff --git a/mm/compaction.c b/mm/compaction.c
+index 45fd24a0ea0b..02963ffb9e70 100644
+--- a/mm/compaction.c
++++ b/mm/compaction.c
+@@ -62,7 +62,7 @@ static const unsigned int
+HPAGE_FRAG_CHECK_INTERVAL_MSEC = 500;
+  */
+ #if defined CONFIG_TRANSPARENT_HUGEPAGE
+ #define COMPACTION_HPAGE_ORDER HPAGE_PMD_ORDER
+-#elif defined HUGETLB_PAGE_ORDER
++#elif defined CONFIG_HUGETLBFS
+ #define COMPACTION_HPAGE_ORDER HUGETLB_PAGE_ORDER
+ #else
+ #define COMPACTION_HPAGE_ORDER (PMD_SHIFT - PAGE_SHIFT)
+
+
+
 
