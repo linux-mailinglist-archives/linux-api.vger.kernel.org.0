@@ -2,163 +2,176 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B8F1205092
-	for <lists+linux-api@lfdr.de>; Tue, 23 Jun 2020 13:20:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE9D82050FA
+	for <lists+linux-api@lfdr.de>; Tue, 23 Jun 2020 13:42:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732302AbgFWLUx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 23 Jun 2020 07:20:53 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:33245 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732191AbgFWLUw (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 23 Jun 2020 07:20:52 -0400
-Received: by mail-wr1-f65.google.com with SMTP id l11so20130213wru.0
-        for <linux-api@vger.kernel.org>; Tue, 23 Jun 2020 04:20:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=WPzKliK/Iqc/BzeE/hsqDLXWLRpgNNV0+FyZ9cudhEI=;
-        b=gTSz8hfn/F955+n+QtvBNaiVkp9v/UWm0U3Pa3rcT+odZZLwuX1VCsLwiUH6ckkowt
-         kLtUoZEgjf3cO4g8xyOD8sfUM6GQFfYPrCxA8t3nJ3z9SFK22FPswQr//GUOxtkOpuni
-         /JEcuJ/EsRCH3xSWGkJzGqpG4K1D8ALmtl1gRms9yiUDisB0YiNvBszb634QKrAc+fJr
-         tZ2tEjJCcQf346yzHETAir5nu9R8BK6rQMOqkAB7i73O/tD8cgl/bz1zdi30O3XNRnjl
-         Ni89n4XJDAQtSl/tSsirBr1nOheik48STubq7NB6pc2cVZHO+kXh5V/PC295JnTggigg
-         eIyg==
-X-Gm-Message-State: AOAM5325PTb4DeMWwV9rKHn9BWZR2grTo2rpSZIN6mCE1U7cIXqQIIPE
-        0pWjjXmX4hfYQTFJ+H5dafg=
-X-Google-Smtp-Source: ABdhPJzNTVJxi+xWOF1p2Yd5p6rUzvyCIBy3VYDasa+lF1a/EHxfYwPXN1cgUTZqMXguqeki/1osQA==
-X-Received: by 2002:a5d:4e48:: with SMTP id r8mr5417176wrt.309.1592911250784;
-        Tue, 23 Jun 2020 04:20:50 -0700 (PDT)
-Received: from localhost (ip-37-188-173-135.eurotel.cz. [37.188.173.135])
-        by smtp.gmail.com with ESMTPSA id e8sm19910232wrv.24.2020.06.23.04.20.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2020 04:20:49 -0700 (PDT)
-Date:   Tue, 23 Jun 2020 13:20:48 +0200
-From:   Michal Hocko <mhocko@kernel.org>
-To:     Ben Widawsky <ben.widawsky@intel.com>
-Cc:     linux-mm <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Christoph Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>,
-        David Rientjes <rientjes@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Lee Schermerhorn <lee.schermerhorn@hp.com>,
-        Li Xinhai <lixinhai.lxh@gmail.com>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Mina Almasry <almasrymina@google.com>,
-        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
-        linux-api@vger.kernel.org
-Subject: Re: [PATCH 00/18] multiple preferred nodes
-Message-ID: <20200623112048.GR31426@dhcp22.suse.cz>
-References: <20200619162425.1052382-1-ben.widawsky@intel.com>
- <20200622070957.GB31426@dhcp22.suse.cz>
+        id S1732487AbgFWLma (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 23 Jun 2020 07:42:30 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44728 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1732461AbgFWLm3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 23 Jun 2020 07:42:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1592912547;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+        bh=mVDdDzj31CvPBNhZUfDPeljm/u7xus+LZ3Kd5RIBbeg=;
+        b=eG0n9JqxAVS2uutqP2XF8hO8VXexPzsoEAeGXgRWgw6ACkvb4ckau+Ii6r/1XvLQqPZBvy
+        nj5RPFHKyz3tGY0WnJZjF93M7CZ3jeb9HChxQ0NQBF8F2X/6Uvbtl6QoMmSugNPoYnIkm4
+        YnltM/QdR+59q6UBC9MSwKFcD1IWxlo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-207-o8d97G4YOZGFA1GDzZsiUQ-1; Tue, 23 Jun 2020 07:42:23 -0400
+X-MC-Unique: o8d97G4YOZGFA1GDzZsiUQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00B798031C2;
+        Tue, 23 Jun 2020 11:42:21 +0000 (UTC)
+Received: from [10.10.112.224] (ovpn-112-224.rdu2.redhat.com [10.10.112.224])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 09B6B5C290;
+        Tue, 23 Jun 2020 11:42:08 +0000 (UTC)
+Subject: Re: [Patch v2 3/3] net: Restrict receive packets queuing to
+ housekeeping CPUs
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        frederic@kernel.org, mtosatti@redhat.com, juri.lelli@redhat.com,
+        abelits@marvell.com, bhelgaas@google.com,
+        linux-pci@vger.kernel.org, rostedt@goodmis.org, mingo@kernel.org,
+        tglx@linutronix.de, davem@davemloft.net, akpm@linux-foundation.org,
+        sfr@canb.auug.org.au, stephen@networkplumber.org,
+        rppt@linux.vnet.ibm.com
+References: <20200622234510.240834-1-nitesh@redhat.com>
+ <20200622234510.240834-4-nitesh@redhat.com>
+ <20200623092312.GC4781@hirez.programming.kicks-ass.net>
+From:   Nitesh Narayan Lal <nitesh@redhat.com>
+Autocrypt: addr=nitesh@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ VujM7c/b4pps
+Organization: Red Hat Inc,
+Message-ID: <f67187a8-be5f-ea15-77b4-165dab2b51af@redhat.com>
+Date:   Tue, 23 Jun 2020 07:42:05 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200622070957.GB31426@dhcp22.suse.cz>
+In-Reply-To: <20200623092312.GC4781@hirez.programming.kicks-ass.net>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="QmeVdi3u4bWeeqhM0VYP020GtIwgEgOXk"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon 22-06-20 09:10:00, Michal Hocko wrote:
-[...]
-> > The goal of the new mode is to enable some use-cases when using tiered memory
-> > usage models which I've lovingly named.
-> > 1a. The Hare - The interconnect is fast enough to meet bandwidth and latency
-> > requirements allowing preference to be given to all nodes with "fast" memory.
-> > 1b. The Indiscriminate Hare - An application knows it wants fast memory (or
-> > perhaps slow memory), but doesn't care which node it runs on. The application
-> > can prefer a set of nodes and then xpu bind to the local node (cpu, accelerator,
-> > etc). This reverses the nodes are chosen today where the kernel attempts to use
-> > local memory to the CPU whenever possible. This will attempt to use the local
-> > accelerator to the memory.
-> > 2. The Tortoise - The administrator (or the application itself) is aware it only
-> > needs slow memory, and so can prefer that.
-> >
-> > Much of this is almost achievable with the bind interface, but the bind
-> > interface suffers from an inability to fallback to another set of nodes if
-> > binding fails to all nodes in the nodemask.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--QmeVdi3u4bWeeqhM0VYP020GtIwgEgOXk
+Content-Type: multipart/mixed; boundary="6Vj1QAOw4bDqnRbT2GEr6u2jYNR4T1P00"
 
-Yes, and probably worth mentioning explicitly that this might lead to
-the OOM killer invocation so a failure would be disruptive to any
-workload which is allowed to allocate from the specific node mask (so
-even tasks without any mempolicy).
+--6Vj1QAOw4bDqnRbT2GEr6u2jYNR4T1P00
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
 
-> > Like MPOL_BIND a nodemask is given. Inherently this removes ordering from the
-> > preference.
-> > 
-> > > /* Set first two nodes as preferred in an 8 node system. */
-> > > const unsigned long nodes = 0x3
-> > > set_mempolicy(MPOL_PREFER_MANY, &nodes, 8);
-> > 
-> > > /* Mimic interleave policy, but have fallback *.
-> > > const unsigned long nodes = 0xaa
-> > > set_mempolicy(MPOL_PREFER_MANY, &nodes, 8);
-> > 
-> > Some internal discussion took place around the interface. There are two
-> > alternatives which we have discussed, plus one I stuck in:
-> > 1. Ordered list of nodes. Currently it's believed that the added complexity is
-> >    nod needed for expected usecases.
 
-There is no ordering in MPOL_BIND either and even though numa apis tend
-to be screwed up from multiple aspects this is not a problem I have ever
-stumbled over.
+On 6/23/20 5:23 AM, Peter Zijlstra wrote:
+> On Mon, Jun 22, 2020 at 07:45:10PM -0400, Nitesh Narayan Lal wrote:
+>> @@ -756,6 +757,13 @@ static ssize_t store_rps_map(struct netdev_rx_queue=
+ *queue,
+>>  =09=09return err;
+>>  =09}
+>> =20
+>> +=09hk_flags =3D HK_FLAG_DOMAIN | HK_FLAG_WQ;
+>> +=09cpumask_and(mask, mask, housekeeping_cpumask(hk_flags));
+>> +=09if (cpumask_weight(mask) =3D=3D 0) {
+> We have cpumask_empty() for that, which is a much more efficient way of
+> testing the same.
 
-> > 2. A flag for bind to allow falling back to other nodes. This confuses the
-> >    notion of binding and is less flexible than the current solution.
+Yes, right.
+I will make this change.
 
-Agreed.
+>
+>> +=09=09free_cpumask_var(mask);
+>> +=09=09return -EINVAL;
+>> +=09}
+>> +
+>>  =09map =3D kzalloc(max_t(unsigned int,
+>>  =09=09=09    RPS_MAP_SIZE(cpumask_weight(mask)), L1_CACHE_BYTES),
+>>  =09=09      GFP_KERNEL);
+>> --=20
+>> 2.18.4
+>>
+--=20
+Thanks
+Nitesh
 
-> > 3. Create flags or new modes that helps with some ordering. This offers both a
-> >    friendlier API as well as a solution for more customized usage. It's unknown
-> >    if it's worth the complexity to support this. Here is sample code for how
-> >    this might work:
-> > 
-> > > // Default
-> > > set_mempolicy(MPOL_PREFER_MANY | MPOL_F_PREFER_ORDER_SOCKET, NULL, 0);
-> > > // which is the same as
-> > > set_mempolicy(MPOL_DEFAULT, NULL, 0);
 
-OK
+--6Vj1QAOw4bDqnRbT2GEr6u2jYNR4T1P00--
 
-> > > // The Hare
-> > > set_mempolicy(MPOL_PREFER_MANY | MPOL_F_PREFER_ORDER_TYPE, NULL, 0);
-> > >
-> > > // The Tortoise
-> > > set_mempolicy(MPOL_PREFER_MANY | MPOL_F_PREFER_ORDER_TYPE_REV, NULL, 0);
-> > >
-> > > // Prefer the fast memory of the first two sockets
-> > > set_mempolicy(MPOL_PREFER_MANY | MPOL_F_PREFER_ORDER_TYPE, -1, 2);
-> > >
-> > > // Prefer specific nodes for some something wacky
-> > > set_mempolicy(MPOL_PREFER_MANY | MPOL_F_PREFER_ORDER_TYPE_CUSTOM, 0x17c, 1024);
+--QmeVdi3u4bWeeqhM0VYP020GtIwgEgOXk
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-I am not so sure about these though. It would be much more easier to
-start without additional modifiers and provide MPOL_PREFER_MANY without
-any additional restrictions first (btw. I would like MPOL_PREFER_MASK
-more but I do understand that naming is not the top priority now).
+-----BEGIN PGP SIGNATURE-----
 
-It would be also great to provide a high level semantic description
-here. I have very quickly glanced through patches and they are not
-really trivial to follow with many incremental steps so the higher level
-intention is lost easily.
+iQIzBAEBCAAdFiEEkXcoRVGaqvbHPuAGo4ZA3AYyozkFAl7x6o0ACgkQo4ZA3AYy
+ozlCpRAAhk5YK0kFNJO35HoAS9sTo+p39qmZ8uhxx7XOGzbIq2+dJKzNtyHT3uQA
+mDVkhhc2YmZ7inNJ6f4NMa6AFPSPefz2AGdjLOLLnxpQscVt1MlFMykCS2Oq2rTp
+imOdpmOqF0ZOUVTpSgxRQ+ek7BDqQUHunm/YcWOqWggp8yEumj0Ne9m4/yxwn1TB
+k0RI+3DsPl4Id/qfzXO3paCyBngXyRpfEVwsp4wqlscDhCxRnE9Ou4Fcs7jiGzZ+
+Ct4W7RJZNQEgsm/rDC0+1ruSnC0QN0yw03R7mD7ZVSC5wcU3R4Cq25KmHk7cP2/x
+ivHJl/+kpA0qonzd1eSbqrXOOc854PQxH/9xOS8eYoAap13kDg4VO4rErvVKINz8
+idFKuWWztE/JHr5ws/+/ZNbrV+AUDod3KwgyQeQB0KlYe7Q7blZnWkUOwv4f1ckG
+UyNiXlS1chVDBl8sUruTIb2adI6i3u/siDnNi0uOhJcaCQCi7pUUfUkhBNGOUwT1
+vZnGnABeouO+RHCBiaFtj0y/HnhyFYj8pPNfA+af45m4sEpYcBFDPbIVoJO17yDv
+ykTBI2s46CoFmBlnfTy6PuKyhnTdYGbvCBwSQpfm3KQFWu5O10O0rDu+zxy0jtnO
+h3pM8nhooarIdrN2rnyVvvscChUqnJx+ORIKxmlTLfc1yws5uYI=
+=VJ/U
+-----END PGP SIGNATURE-----
 
-Do I get it right that the default semantic is essentially
-	- allocate page from the given nodemask (with __GFP_RETRY_MAYFAIL
-	  semantic)
-	- fallback to numa unrestricted allocation with the default
-	  numa policy on the failure
+--QmeVdi3u4bWeeqhM0VYP020GtIwgEgOXk--
 
-Or are there any usecases to modify how hard to keep the preference over
-the fallback?
--- 
-Michal Hocko
-SUSE Labs
