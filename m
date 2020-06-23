@@ -2,245 +2,246 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9521E205347
-	for <lists+linux-api@lfdr.de>; Tue, 23 Jun 2020 15:19:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93D002056D1
+	for <lists+linux-api@lfdr.de>; Tue, 23 Jun 2020 18:12:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732608AbgFWNTC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 23 Jun 2020 09:19:02 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36427 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1732580AbgFWNTC (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 23 Jun 2020 09:19:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1592918340;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-        bh=Wm7934vy90ysEQUEwWEJMP2bPmnPH5zr0UpywfuvKWA=;
-        b=SNlInERfAtv2RXkJErXx4h2g3ju4LQXdUUu0BDNPVYGKvp2iC8QLx+r9dmFR5v9JbAm/Jc
-        VxUrqTnapCx2UlbY20X2UdTdgyg47mFRJl1Fnzzf2siQZR4Y1zm1CpZ5NNAuLnyDyLYrmN
-        6szMaDDySM4AxesTQVL/h+XWF+e4je0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-365--v0K_m57M4ubZSdoCoXFqQ-1; Tue, 23 Jun 2020 09:18:58 -0400
-X-MC-Unique: -v0K_m57M4ubZSdoCoXFqQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A29F1192297A;
-        Tue, 23 Jun 2020 13:18:53 +0000 (UTC)
-Received: from [10.10.112.224] (ovpn-112-224.rdu2.redhat.com [10.10.112.224])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D72890324;
-        Tue, 23 Jun 2020 13:18:41 +0000 (UTC)
-Subject: Re: [Patch v2 1/3] lib: Restrict cpumask_local_spread to houskeeping
- CPUs
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        frederic@kernel.org, mtosatti@redhat.com, juri.lelli@redhat.com,
-        abelits@marvell.com, bhelgaas@google.com,
-        linux-pci@vger.kernel.org, rostedt@goodmis.org, mingo@kernel.org,
-        tglx@linutronix.de, davem@davemloft.net, akpm@linux-foundation.org,
-        sfr@canb.auug.org.au, stephen@networkplumber.org,
-        rppt@linux.vnet.ibm.com
-References: <20200622234510.240834-1-nitesh@redhat.com>
- <20200622234510.240834-2-nitesh@redhat.com>
- <20200623092139.GB4781@hirez.programming.kicks-ass.net>
-From:   Nitesh Narayan Lal <nitesh@redhat.com>
-Autocrypt: addr=nitesh@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- VujM7c/b4pps
-Organization: Red Hat Inc,
-Message-ID: <9b499cd8-e311-db5b-4261-0b3f355c8c89@redhat.com>
-Date:   Tue, 23 Jun 2020 09:18:37 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1728916AbgFWQMV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 23 Jun 2020 12:12:21 -0400
+Received: from mga17.intel.com ([192.55.52.151]:31147 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732355AbgFWQMU (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 23 Jun 2020 12:12:20 -0400
+IronPort-SDR: BSGu7w4Hki+Roz+Y9ZPFVmOV8OdkY6n784h92uuZDSTE0hIplirFSJIYZgm1+3sUrnUkrf0+ui
+ ZP3rGLct0DHQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9661"; a="124376889"
+X-IronPort-AV: E=Sophos;i="5.75,271,1589266800"; 
+   d="scan'208";a="124376889"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2020 09:12:14 -0700
+IronPort-SDR: pbxQ2H2l/idGUoI9AM9BFZiTp8A/KSHbSaFejDDvWdwlCKEsK+aG5bSPsOwjfkktSoZP/IT3Tu
+ O8jxzeHtUuyQ==
+X-IronPort-AV: E=Sophos;i="5.75,271,1589266800"; 
+   d="scan'208";a="279161974"
+Received: from bjscott-mobl3.amr.corp.intel.com (HELO intel.com) ([10.252.131.171])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2020 09:12:13 -0700
+Date:   Tue, 23 Jun 2020 09:12:11 -0700
+From:   Ben Widawsky <ben.widawsky@intel.com>
+To:     Michal Hocko <mhocko@kernel.org>
+Cc:     linux-mm <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christoph Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>,
+        David Rientjes <rientjes@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Lee Schermerhorn <lee.schermerhorn@hp.com>,
+        Li Xinhai <lixinhai.lxh@gmail.com>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mina Almasry <almasrymina@google.com>,
+        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH 00/18] multiple preferred nodes
+Message-ID: <20200623161211.qjup5km5eiisy5wy@intel.com>
+Mail-Followup-To: Michal Hocko <mhocko@kernel.org>,
+        linux-mm <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christoph Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>,
+        David Rientjes <rientjes@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Lee Schermerhorn <lee.schermerhorn@hp.com>,
+        Li Xinhai <lixinhai.lxh@gmail.com>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mina Almasry <almasrymina@google.com>, Tejun Heo <tj@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, linux-api@vger.kernel.org
+References: <20200619162425.1052382-1-ben.widawsky@intel.com>
+ <20200622070957.GB31426@dhcp22.suse.cz>
+ <20200623112048.GR31426@dhcp22.suse.cz>
 MIME-Version: 1.0
-In-Reply-To: <20200623092139.GB4781@hirez.programming.kicks-ass.net>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="KxFdHc4nNsmoEb5Z4JeJrTYFF0IbAnbWV"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200623112048.GR31426@dhcp22.suse.cz>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---KxFdHc4nNsmoEb5Z4JeJrTYFF0IbAnbWV
-Content-Type: multipart/mixed; boundary="N3pPay3VTB8ZxfMV0HMF98bVzXhPUIWGC"
+On 20-06-23 13:20:48, Michal Hocko wrote:
+> On Mon 22-06-20 09:10:00, Michal Hocko wrote:
+> [...]
+> > > The goal of the new mode is to enable some use-cases when using tiered memory
+> > > usage models which I've lovingly named.
+> > > 1a. The Hare - The interconnect is fast enough to meet bandwidth and latency
+> > > requirements allowing preference to be given to all nodes with "fast" memory.
+> > > 1b. The Indiscriminate Hare - An application knows it wants fast memory (or
+> > > perhaps slow memory), but doesn't care which node it runs on. The application
+> > > can prefer a set of nodes and then xpu bind to the local node (cpu, accelerator,
+> > > etc). This reverses the nodes are chosen today where the kernel attempts to use
+> > > local memory to the CPU whenever possible. This will attempt to use the local
+> > > accelerator to the memory.
+> > > 2. The Tortoise - The administrator (or the application itself) is aware it only
+> > > needs slow memory, and so can prefer that.
+> > >
+> > > Much of this is almost achievable with the bind interface, but the bind
+> > > interface suffers from an inability to fallback to another set of nodes if
+> > > binding fails to all nodes in the nodemask.
+> 
+> Yes, and probably worth mentioning explicitly that this might lead to
+> the OOM killer invocation so a failure would be disruptive to any
+> workload which is allowed to allocate from the specific node mask (so
+> even tasks without any mempolicy).
 
---N3pPay3VTB8ZxfMV0HMF98bVzXhPUIWGC
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
+Thanks. I don't believe I mention this fact in any of the commit messages or
+comments (and perhaps this is an indication I should have). I'll find a place to
+mention this outside of the cover letter.
+
+> 
+> > > Like MPOL_BIND a nodemask is given. Inherently this removes ordering from the
+> > > preference.
+> > > 
+> > > > /* Set first two nodes as preferred in an 8 node system. */
+> > > > const unsigned long nodes = 0x3
+> > > > set_mempolicy(MPOL_PREFER_MANY, &nodes, 8);
+> > > 
+> > > > /* Mimic interleave policy, but have fallback *.
+> > > > const unsigned long nodes = 0xaa
+> > > > set_mempolicy(MPOL_PREFER_MANY, &nodes, 8);
+> > > 
+> > > Some internal discussion took place around the interface. There are two
+> > > alternatives which we have discussed, plus one I stuck in:
+> > > 1. Ordered list of nodes. Currently it's believed that the added complexity is
+> > >    nod needed for expected usecases.
+> 
+> There is no ordering in MPOL_BIND either and even though numa apis tend
+> to be screwed up from multiple aspects this is not a problem I have ever
+> stumbled over.
+> 
+> > > 2. A flag for bind to allow falling back to other nodes. This confuses the
+> > >    notion of binding and is less flexible than the current solution.
+> 
+> Agreed.
+> 
+> > > 3. Create flags or new modes that helps with some ordering. This offers both a
+> > >    friendlier API as well as a solution for more customized usage. It's unknown
+> > >    if it's worth the complexity to support this. Here is sample code for how
+> > >    this might work:
+> > > 
+> > > > // Default
+> > > > set_mempolicy(MPOL_PREFER_MANY | MPOL_F_PREFER_ORDER_SOCKET, NULL, 0);
+> > > > // which is the same as
+> > > > set_mempolicy(MPOL_DEFAULT, NULL, 0);
+> 
+> OK
+> 
+> > > > // The Hare
+> > > > set_mempolicy(MPOL_PREFER_MANY | MPOL_F_PREFER_ORDER_TYPE, NULL, 0);
+> > > >
+> > > > // The Tortoise
+> > > > set_mempolicy(MPOL_PREFER_MANY | MPOL_F_PREFER_ORDER_TYPE_REV, NULL, 0);
+> > > >
+> > > > // Prefer the fast memory of the first two sockets
+> > > > set_mempolicy(MPOL_PREFER_MANY | MPOL_F_PREFER_ORDER_TYPE, -1, 2);
+> > > >
+> > > > // Prefer specific nodes for some something wacky
+> > > > set_mempolicy(MPOL_PREFER_MANY | MPOL_F_PREFER_ORDER_TYPE_CUSTOM, 0x17c, 1024);
+> 
+> I am not so sure about these though. It would be much more easier to
+> start without additional modifiers and provide MPOL_PREFER_MANY without
+> any additional restrictions first (btw. I would like MPOL_PREFER_MASK
+> more but I do understand that naming is not the top priority now).
+
+True. In fact, this is the same as making MPOL_F_PREFER_ORDER_TYPE_CUSTOM the
+implicit default, and adding the others later. Luckily for me, this is
+effectively what I have already :-).
+
+It's a new domain for me, so I'm very flexible on the name. MASK seems like an
+altogether better name to me as well, but I've been using "MANY" long enough now
+that it seems natural.
+
+> 
+> It would be also great to provide a high level semantic description
+> here. I have very quickly glanced through patches and they are not
+> really trivial to follow with many incremental steps so the higher level
+> intention is lost easily.
+> 
+> Do I get it right that the default semantic is essentially
+> 	- allocate page from the given nodemask (with __GFP_RETRY_MAYFAIL
+> 	  semantic)
+> 	- fallback to numa unrestricted allocation with the default
+> 	  numa policy on the failure
+> 
+> Or are there any usecases to modify how hard to keep the preference over
+> the fallback?
+
+tl;dr is: yes, and no usecases.
+
+Longer answer:
+Internal APIs (specifically, __alloc_pages_nodemask()) keep all the same
+semantics for trying to allocate with the exception that it will first try the
+preferred nodes, and next try the bound nodes. It should be noted here that an
+empty preferred mask is the same as saying, traverse nodes in distance order
+starting from local. Therefore, both for preferred mask, and bound mask the
+universe set is equivalent to the empty set (∅ == U). [1]
+
+| prefmask | bindmask | how                                    |
+|----------|----------|----------------------------------------|
+| ∅        | ∅        | Page allocation without policy         |
+| ∅        | N ≠ ∅    | MPOL_BIND                              |
+| N ≠ ∅    | ∅        | MPOL_PREFERRED* or internal preference |
+| N ≠ ∅    | N ≠ ∅    | MPOL_BIND + internal preference        |
+|----------|----------|----------------------------------------|
+
+At the end of this patch series, there is never a case (that I can contrive
+anyway) where prefmask is multiple nodes, and bindmask is multiple nodes. In the
+future, if internal callers wanted to try to get clever, this could be the case.
+The UAPI won't allow having both a bind and preferred node. "This system call
+defines the default policy for the thread.  The thread policy governs allocation
+of pages in the process's address space outside of memory ranges controlled  by
+a more specific policy set by mbind(2)."
+
+To your second question. There isn't any usecase. Sans bugs and oversights,
+preferred nodes are always tried before fallback. I consider that almost the
+hardest level of preference. The one thing I can think of that would be "harder"
+would be some sort of mechanism to try all preferred nodes before any tricks are
+used, like reclaim. I fear doing this will make the already scary
+get_page_from_freelist() even more scary.
+
+On this topic, I haven't changed anything for fragmentation. In the code right
+now, fragmentation is enabled as soon as the zone chosen for allocation doesn't
+match the preferred_zoneref->zone.
+
+```
+if (no_fallback && nr_online_nodes > 1 &&
+		zone != ac->preferred_zoneref->zone) {
+```
+
+What might be more optimal is to move on to the next node and not allow
+fragmentation yet, unless zone ∉  prefmask. Like the above, I think this will
+add a decent amount of complexity.
+
+The last thing, which I mention in a commit message but not here, OOM will scan
+all nodes, and not just preferred nodes first. This seemed like a premature
+optimization to me.
 
 
-On 6/23/20 5:21 AM, Peter Zijlstra wrote:
-> On Mon, Jun 22, 2020 at 07:45:08PM -0400, Nitesh Narayan Lal wrote:
->> From: Alex Belits <abelits@marvell.com>
->>
->> The current implementation of cpumask_local_spread() does not respect th=
-e
->> isolated CPUs, i.e., even if a CPU has been isolated for Real-Time task,
->> it will return it to the caller for pinning of its IRQ threads. Having
->> these unwanted IRQ threads on an isolated CPU adds up to a latency
->> overhead.
->>
->> Restrict the CPUs that are returned for spreading IRQs only to the
->> available housekeeping CPUs.
->>
->> Signed-off-by: Alex Belits <abelits@marvell.com>
->> Signed-off-by: Nitesh Narayan Lal <nitesh@redhat.com>
->> ---
->>  lib/cpumask.c | 43 +++++++++++++++++++++++++------------------
->>  1 file changed, 25 insertions(+), 18 deletions(-)
->>
->> diff --git a/lib/cpumask.c b/lib/cpumask.c
->> index fb22fb266f93..cc4311a8c079 100644
->> --- a/lib/cpumask.c
->> +++ b/lib/cpumask.c
->> @@ -6,6 +6,7 @@
->>  #include <linux/export.h>
->>  #include <linux/memblock.h>
->>  #include <linux/numa.h>
->> +#include <linux/sched/isolation.h>
->> =20
->>  /**
->>   * cpumask_next - get the next cpu in a cpumask
->> @@ -205,28 +206,34 @@ void __init free_bootmem_cpumask_var(cpumask_var_t=
- mask)
->>   */
->>  unsigned int cpumask_local_spread(unsigned int i, int node)
->>  {
->> -=09int cpu;
->> +=09int cpu, m, n, hk_flags;
->> +=09const struct cpumask *mask;
->> =20
->> +=09hk_flags =3D HK_FLAG_DOMAIN | HK_FLAG_WQ;
->> +=09mask =3D housekeeping_cpumask(hk_flags);
->> +=09m =3D cpumask_weight(mask);
->>  =09/* Wrap: we always want a cpu. */
->> -=09i %=3D num_online_cpus();
->> +=09n =3D i % m;
->> +=09while (m-- > 0) {
-> I are confuzled. What do we need this outer loop for?
->
-> Why isn't something like:
->
-> =09i %=3D cpumask_weight(mask);
->
-> good enough? That voids having to touch the test.
-
-Makes sense.
-Thanks
-
-> Still when you're there, at the very least you can fix the horrible
-> style:
-
-Sure.
-
->
->
->> +=09=09if (node =3D=3D NUMA_NO_NODE) {
->> +=09=09=09for_each_cpu(cpu, mask)
->> +=09=09=09=09if (n-- =3D=3D 0)
->> +=09=09=09=09=09return cpu;
-> { }
->
->> +=09=09} else {
->> +=09=09=09/* NUMA first. */
->> +=09=09=09for_each_cpu_and(cpu, cpumask_of_node(node), mask)
->> +=09=09=09=09if (n-- =3D=3D 0)
->> +=09=09=09=09=09return cpu;
-> { }
->
->> =20
->> +=09=09=09for_each_cpu(cpu, mask) {
->> +=09=09=09=09/* Skip NUMA nodes, done above. */
->> +=09=09=09=09if (cpumask_test_cpu(cpu,
->> +=09=09=09=09=09=09     cpumask_of_node(node)))
->> +=09=09=09=09=09continue;
-> No linebreak please.
->
->> =20
->> +=09=09=09=09if (n-- =3D=3D 0)
->> +=09=09=09=09=09return cpu;
->> +=09=09=09}
->>  =09=09}
->>  =09}
->>  =09BUG();
->> --=20
->> 2.18.4
->>
---=20
-Nitesh
-
-
---N3pPay3VTB8ZxfMV0HMF98bVzXhPUIWGC--
-
---KxFdHc4nNsmoEb5Z4JeJrTYFF0IbAnbWV
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEkXcoRVGaqvbHPuAGo4ZA3AYyozkFAl7yAS0ACgkQo4ZA3AYy
-ozm9TxAA03qyAclOLwN/ogLAtS/TkuXdENI8mJXEgyHAzUM7UH7eToCmwP5UYQ2t
-YF3+hLB2b3PZYZptdnXUkDIrAPO9Em++YLTBNYdglNsI3jGZ6vPKvRh1tOmpIlk6
-gano9vSHSyRqq0RqsnYRrweENT0JPXTGC7tDrXT4RIFLA7tbG677b7WUNCChpSpu
-93Bf1upf4WVVoRbiPVt/a/TdPiKv6gLQz2GHfqHNfJ1OMfbBrdDEKssP3MXpV0Bq
-QEvZXtUTzp+O16L3mVjai+sx2U0PxQAuyrD+bnAIRzsI8Xz8isBc3YoQ/RvQM5og
-iIaUofFgNhJ8LpJxUJnWkFHz9dwFnhuy7c57RstPM2KZqdMrc9b0lGi10dOqUQRA
-nyktu1w8NYtfaOSk+QMBcdJky7scRBiJ5orjpt43eM3Rb9T9k6krYirhZj+WeIpG
-ZiBOPo7llQpv2T4g9KgtEPSdLaTapW74GiRq5OiAjj3SpqAhT+eut7XelwlFIjTo
-NAf1Gl50A+pYPZWEIjb1OSrsrFN3eXPqvLmf7B8w5F2yIz1c7rn5Q5LEts6JtWJd
-4taXA/9eWy/vq/inBVveWYyqvg47YKGqbohKTsUi4kUpLx5TFYbNSgUydUsKxeH3
-zVdxV/l68gRxy/c/cN7Cu3VH9NwZXQ3rkOeKsuV15OVk8GuBMws=
-=Cu5B
------END PGP SIGNATURE-----
-
---KxFdHc4nNsmoEb5Z4JeJrTYFF0IbAnbWV--
-
+[1] There is an underlying assumption that the geodesic distance between any two
+nodes is the same for all zonelists. IOW, if you have nodes M, N, P each with zones
+A, and B the zonelists will be as follows:
+M zonelist: MA -> MB -> NA -> NB -> PA -> PB
+N zonelist: NA -> NB -> PA -> PB -> MA -> MB
+P zonelist: PA -> PB -> MA -> MB -> NA -> NC
