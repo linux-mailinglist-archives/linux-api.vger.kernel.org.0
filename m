@@ -2,137 +2,158 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C224C207591
-	for <lists+linux-api@lfdr.de>; Wed, 24 Jun 2020 16:21:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D52862078E4
+	for <lists+linux-api@lfdr.de>; Wed, 24 Jun 2020 18:18:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391196AbgFXOVD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 24 Jun 2020 10:21:03 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52669 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S2388864AbgFXOVC (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 24 Jun 2020 10:21:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1593008460;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=92CRg7/XrXcME80ros9TCvbAqAcJmchKORDBQXOuZmQ=;
-        b=HLcgCOIELn+IGZVE9LPD4O2+GylIo9NaIQLPMGf9YZDPIVKNpBVSPFJbPnpMSUlaWXHEu1
-        WPb3KZmwhh8GMUJ7NlHEAohx33YeTHF2HZxcM0C+DSHAsCjJoZ5ELwiCGWZcTzjLSVgPPm
-        CFiGolpXW0jKDLWkINV0433orrNHLc8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-284-Bb8cjwniOn2RRxk4fH1gAg-1; Wed, 24 Jun 2020 10:20:58 -0400
-X-MC-Unique: Bb8cjwniOn2RRxk4fH1gAg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36C558064AE;
-        Wed, 24 Jun 2020 14:20:55 +0000 (UTC)
-Received: from oldenburg2.str.redhat.com (ovpn-113-18.ams2.redhat.com [10.36.113.18])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F73019D7D;
-        Wed, 24 Jun 2020 14:20:49 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc:     Carlos O'Donell <carlos@redhat.com>,
-        Joseph Myers <joseph@codesourcery.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        libc-alpha@sourceware.org, Thomas Gleixner <tglx@linutronix.de>,
-        Ben Maurer <bmaurer@fb.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Dave Watson <davejwatson@fb.com>, Paul Turner <pjt@google.com>,
-        Rich Felker <dalias@libc.org>, linux-kernel@vger.kernel.org,
+        id S2404760AbgFXQQw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 24 Jun 2020 12:16:52 -0400
+Received: from mga05.intel.com ([192.55.52.43]:26822 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2404877AbgFXQQu (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 24 Jun 2020 12:16:50 -0400
+IronPort-SDR: bfoZGjmoaGp1CY9itO+XXHlyRylarbQrjBvGReJ1LD2H15JMkit4pitRtNFYSLzavHGbDQVWZJ
+ b/HKwpZfBmTA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9662"; a="229224233"
+X-IronPort-AV: E=Sophos;i="5.75,275,1589266800"; 
+   d="scan'208";a="229224233"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2020 09:16:49 -0700
+IronPort-SDR: oS+tzd7CbhuaCMQE2Z30/FiwgnWXWshPWNwzXpye1TuyxetOsjaa0OnZr1mHz6OXYkLeL6qJEt
+ eyyojwDnCz0g==
+X-IronPort-AV: E=Sophos;i="5.75,275,1589266800"; 
+   d="scan'208";a="479316294"
+Received: from mpatacsi-mobl.amr.corp.intel.com (HELO intel.com) ([10.252.132.226])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2020 09:16:45 -0700
+Date:   Wed, 24 Jun 2020 09:16:43 -0700
+From:   Ben Widawsky <ben.widawsky@intel.com>
+To:     Michal Hocko <mhocko@kernel.org>
+Cc:     linux-mm <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christoph Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>,
+        David Rientjes <rientjes@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Lee Schermerhorn <lee.schermerhorn@hp.com>,
+        Li Xinhai <lixinhai.lxh@gmail.com>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mina Almasry <almasrymina@google.com>,
+        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
         linux-api@vger.kernel.org
-Subject: Re: [PATCH 1/3] glibc: Perform rseq registration at C startup and thread creation (v21)
-References: <20200622180803.1449-1-mathieu.desnoyers@efficios.com>
-        <20200622180803.1449-2-mathieu.desnoyers@efficios.com>
-Date:   Wed, 24 Jun 2020 16:20:47 +0200
-In-Reply-To: <20200622180803.1449-2-mathieu.desnoyers@efficios.com> (Mathieu
-        Desnoyers's message of "Mon, 22 Jun 2020 14:08:01 -0400")
-Message-ID: <87d05obl4w.fsf@oldenburg2.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+Subject: Re: [PATCH 00/18] multiple preferred nodes
+Message-ID: <20200624161643.75fkkvsxlmp3bf2e@intel.com>
+Mail-Followup-To: Michal Hocko <mhocko@kernel.org>,
+        linux-mm <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christoph Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>,
+        David Rientjes <rientjes@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Lee Schermerhorn <lee.schermerhorn@hp.com>,
+        Li Xinhai <lixinhai.lxh@gmail.com>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mina Almasry <almasrymina@google.com>, Tejun Heo <tj@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, linux-api@vger.kernel.org
+References: <20200619162425.1052382-1-ben.widawsky@intel.com>
+ <20200622070957.GB31426@dhcp22.suse.cz>
+ <20200623112048.GR31426@dhcp22.suse.cz>
+ <20200623161211.qjup5km5eiisy5wy@intel.com>
+ <20200624075216.GC1320@dhcp22.suse.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200624075216.GC1320@dhcp22.suse.cz>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Mathieu Desnoyers:
+On 20-06-24 09:52:16, Michal Hocko wrote:
+> On Tue 23-06-20 09:12:11, Ben Widawsky wrote:
+> > On 20-06-23 13:20:48, Michal Hocko wrote:
+> [...]
+> > > It would be also great to provide a high level semantic description
+> > > here. I have very quickly glanced through patches and they are not
+> > > really trivial to follow with many incremental steps so the higher level
+> > > intention is lost easily.
+> > > 
+> > > Do I get it right that the default semantic is essentially
+> > > 	- allocate page from the given nodemask (with __GFP_RETRY_MAYFAIL
+> > > 	  semantic)
+> > > 	- fallback to numa unrestricted allocation with the default
+> > > 	  numa policy on the failure
+> > > 
+> > > Or are there any usecases to modify how hard to keep the preference over
+> > > the fallback?
+> > 
+> > tl;dr is: yes, and no usecases.
+> 
+> OK, then I am wondering why the change has to be so involved. Except for
+> syscall plumbing the only real change to the allocator path would be
+> something like
+> 
+> static nodemask_t *policy_nodemask(gfp_t gfp, struct mempolicy *policy)
+> {
+> 	/* Lower zones don't get a nodemask applied for MPOL_BIND */
+> 	if (unlikely(policy->mode == MPOL_BIND || 
+> 	   	     policy->mode == MPOL_PREFERED_MANY) &&
+> 			apply_policy_zone(policy, gfp_zone(gfp)) &&
+> 			cpuset_nodemask_valid_mems_allowed(&policy->v.nodes))
+> 		return &policy->v.nodes;
+> 
+> 	return NULL;
+> }
+> 
+> alloc_pages_current
+> 
+> 	if (pol->mode == MPOL_INTERLEAVE)
+> 		page = alloc_page_interleave(gfp, order, interleave_nodes(pol));
+> 	else {
+> 		gfp_t gfp_attempt = gfp;
+> 
+> 		/*
+> 		 * Make sure the first allocation attempt will try hard
+> 		 * but eventually fail without OOM killer or other
+> 		 * disruption before falling back to the full nodemask
+> 		 */
+> 		if (pol->mode == MPOL_PREFERED_MANY)
+> 			gfp_attempt |= __GFP_RETRY_MAYFAIL;	
+> 
+> 		page = __alloc_pages_nodemask(gfp_attempt, order,
+> 				policy_node(gfp, pol, numa_node_id()),
+> 				policy_nodemask(gfp, pol));
+> 		if (!page && pol->mode == MPOL_PREFERED_MANY)
+> 			page = __alloc_pages_nodemask(gfp, order,
+> 				numa_node_id(), NULL);
+> 	}
+> 
+> 	return page;
+> 
+> similar (well slightly more hairy) in alloc_pages_vma
+> 
+> Or do I miss something that really requires more involved approach like
+> building custom zonelists and other larger changes to the allocator?
 
-> diff --git a/manual/threads.texi b/manual/threads.texi
-> index bb7a42c655..d5069d5581 100644
-> --- a/manual/threads.texi
-> +++ b/manual/threads.texi
+I think I'm missing how this allows selecting from multiple preferred nodes. In
+this case when you try to get the page from the freelist, you'll get the
+zonelist of the preferred node, and when you actually scan through on page
+allocation, you have no way to filter out the non-preferred nodes. I think the
+plumbing of multiple nodes has to go all the way through
+__alloc_pages_nodemask(). But it's possible I've missed the point.
 
-> +@deftypevar {struct rseq} __rseq_abi
-> +@standards{Linux, sys/rseq.h}
-> +@Theglibc{} implements a @code{__rseq_abi} TLS symbol to interact with
-> +the Restartable Sequences system call.  The layout of this structure is
-> +defined by the @file{sys/rseq.h} header.  Registration of each thread's
-> +@code{__rseq_abi} is performed by @theglibc{} at library initialization
-> +and thread creation. The manual for the rseq system call can be found
-> +at @uref{https://git.kernel.org/pub/scm/libs/librseq/librseq.git/tree/do=
-c/man/rseq.2}.
-
-Should be =E2=80=9Ccreation.  The=E2=80=9D (two spaces after a sentence-end=
-ing period).
-
-> diff --git a/sysdeps/unix/sysv/linux/sys/rseq.h b/sysdeps/unix/sysv/linux=
-/sys/rseq.h
-> new file mode 100644
-> index 0000000000..5e118c1781
-> --- /dev/null
-> +++ b/sysdeps/unix/sysv/linux/sys/rseq.h
-
-> +#ifdef __cplusplus
-> +# if  __cplusplus >=3D 201103L
-> +#  define __rseq_static_assert(expr, diagnostic) static_assert (expr, di=
-agnostic)
-> +#  define __rseq_alignof(type)                   alignof (type)
-> +#  define __rseq_tls_storage_class               thread_local
-> +# endif
-> +#elif (defined __STDC_VERSION__ ? __STDC_VERSION__ : 0) >=3D 201112L
-> +# define __rseq_static_assert(expr, diagnostic)  _Static_assert (expr, d=
-iagnostic)
-> +# define __rseq_alignof(type)                    _Alignof (type)
-> +# define __rseq_tls_storage_class                _Thread_local
-> +#endif
-> +
-> +#ifndef __rseq_static_assert
-> +/* Try to use _Static_assert macro from sys/cdefs.h.  */
-> +# ifdef _Static_assert
-> +#  define __rseq_static_assert(expr, diagnostic) _Static_assert (expr, d=
-iagnostic)
-> +# else
-> +#  define __rseq_static_assert(expr, diagnostic) /* Nothing.  */
-> +# endif
-> +#endif
-> +
-> +/* Rely on GNU extensions for older standards and tls model.  */
-> +#ifdef __GNUC__
-> +# ifndef __rseq_alignof
-> +#  define __rseq_alignof(x) __alignof__ (x)
-> +# endif
-> +# define __rseq_tls_model_ie __attribute__ ((__tls_model__ ("initial-exe=
-c")))
-> +#else
-> +/* Specifying the TLS model on the declaration is optional.  */
-> +# define __rseq_tls_model_ie /* Nothing.  */
-> +#endif
-
-I'm still worried that __rseq_static_assert and __rseq_alignof will show
-up in the UAPI with textually different definitions.  (This does not
-apply to __rseq_tls_model_ie.)
-
-Is my worry unfounded?
-
-Thanks,
-Florian
-
+I do have a branch where I build a custom zonelist, but that's not the reason
+here :-)
