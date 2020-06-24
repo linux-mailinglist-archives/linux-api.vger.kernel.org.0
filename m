@@ -2,45 +2,38 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EAD5C207C14
-	for <lists+linux-api@lfdr.de>; Wed, 24 Jun 2020 21:16:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB2B2207C1E
+	for <lists+linux-api@lfdr.de>; Wed, 24 Jun 2020 21:24:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405429AbgFXTQl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 24 Jun 2020 15:16:41 -0400
-Received: from mail.efficios.com ([167.114.26.124]:52714 "EHLO
-        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404563AbgFXTQk (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 24 Jun 2020 15:16:40 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 32B2E2C41EA;
-        Wed, 24 Jun 2020 15:16:39 -0400 (EDT)
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id Sy_hIEQaqNSw; Wed, 24 Jun 2020 15:16:38 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id D4A622C41E9;
-        Wed, 24 Jun 2020 15:16:38 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com D4A622C41E9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1593026198;
-        bh=3iQZiVLyuzca+V6wzidMMRJWMtP3eZM0DyCNIq1qy5A=;
-        h=Date:From:To:Message-ID:MIME-Version;
-        b=gLi7cDDYKoLA6fi9D2m9YjL4neyMZO3/xX+0sRd9xuPY3k0RAYiL9OKhPETdy2UrJ
-         z8tHPffjw7aJNS6TM58GTkea3FuJmkbJ/N9FJ2M0fQVImRVEP180V4OPxhzjxHUalS
-         07Ll1v+SfqY+Hb4T8BhRTC1Dx9iP6XrTBhlA1xoU1cn14782maIaB7LFY2rHp6rqdQ
-         dkeih0Scg2lV3eG8CIHF5Hg3DUv81hNLJ5IQw1+ESr/UxfA0vRupwMsvhuaVJs/9Tk
-         EZo+kBGQXt8rOYsiXVTPro3r2CsdtcB1ey32YpvI7/ma+gmd/5s7hXuJodUtdbpp9v
-         tQbeTDgR83aLQ==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id DBrbA6G8I6OI; Wed, 24 Jun 2020 15:16:38 -0400 (EDT)
-Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
-        by mail.efficios.com (Postfix) with ESMTP id BF3DA2C448D;
-        Wed, 24 Jun 2020 15:16:38 -0400 (EDT)
-Date:   Wed, 24 Jun 2020 15:16:38 -0400 (EDT)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Florian Weimer <fweimer@redhat.com>
+        id S2406142AbgFXTY3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 24 Jun 2020 15:24:29 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:21109 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2405057AbgFXTY2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 24 Jun 2020 15:24:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1593026667;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=WwvLgGG2LaRCgwsWiAA6pHtAn5uRNCtZdPPhDv+Az8E=;
+        b=XNv1WyHa6KzbGLc0u3c/xui1XtaAkYQJHPfYAYxTo2fsNCIMfSPW2Fj2RYRoiXwyQfr7Hs
+        xB0JH2sPXbGEq9XKc0OOqQLSBdMQtYb5nQb4aC/zUD1vxvGH8SSpiUiyqjwREvnB/zE7mu
+        ijRFmXAkNh3PTi3E5EMss36zeXp3l8o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-499-uucXm7f8Nme8dccQphk9QQ-1; Wed, 24 Jun 2020 15:24:25 -0400
+X-MC-Unique: uucXm7f8Nme8dccQphk9QQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5A65A804003;
+        Wed, 24 Jun 2020 19:24:23 +0000 (UTC)
+Received: from oldenburg2.str.redhat.com (ovpn-113-18.ams2.redhat.com [10.36.113.18])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 485145C1BB;
+        Wed, 24 Jun 2020 19:24:17 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 Cc:     carlos <carlos@redhat.com>, Joseph Myers <joseph@codesourcery.com>,
         Szabolcs Nagy <szabolcs.nagy@arm.com>,
         libc-alpha <libc-alpha@sourceware.org>,
@@ -54,64 +47,41 @@ Cc:     carlos <carlos@redhat.com>, Joseph Myers <joseph@codesourcery.com>,
         Rich Felker <dalias@libc.org>,
         linux-kernel <linux-kernel@vger.kernel.org>,
         linux-api <linux-api@vger.kernel.org>
-Message-ID: <1248023868.11643.1593026198678.JavaMail.zimbra@efficios.com>
-In-Reply-To: <87r1u48eix.fsf@oldenburg2.str.redhat.com>
-References: <20200622180803.1449-1-mathieu.desnoyers@efficios.com> <20200622180803.1449-2-mathieu.desnoyers@efficios.com> <87d05obl4w.fsf@oldenburg2.str.redhat.com> <1158112159.11628.1593025203438.JavaMail.zimbra@efficios.com> <87r1u48eix.fsf@oldenburg2.str.redhat.com>
-Subject: Re: [PATCH 1/3] glibc: Perform rseq registration at C startup and
- thread creation (v21)
+Subject: Re: [PATCH 1/3] glibc: Perform rseq registration at C startup and thread creation (v21)
+References: <20200622180803.1449-1-mathieu.desnoyers@efficios.com>
+        <20200622180803.1449-2-mathieu.desnoyers@efficios.com>
+        <87d05obl4w.fsf@oldenburg2.str.redhat.com>
+        <1158112159.11628.1593025203438.JavaMail.zimbra@efficios.com>
+        <87r1u48eix.fsf@oldenburg2.str.redhat.com>
+        <1248023868.11643.1593026198678.JavaMail.zimbra@efficios.com>
+Date:   Wed, 24 Jun 2020 21:24:15 +0200
+In-Reply-To: <1248023868.11643.1593026198678.JavaMail.zimbra@efficios.com>
+        (Mathieu Desnoyers's message of "Wed, 24 Jun 2020 15:16:38 -0400
+        (EDT)")
+Message-ID: <87mu4s8dy8.fsf@oldenburg2.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [167.114.26.124]
-X-Mailer: Zimbra 8.8.15_GA_3945 (ZimbraWebClient - FF77 (Linux)/8.8.15_GA_3928)
-Thread-Topic: glibc: Perform rseq registration at C startup and thread creation (v21)
-Thread-Index: YkL95Fw6DEDAnKFpYDNCDQAteeHIAQ==
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
------ On Jun 24, 2020, at 3:11 PM, Florian Weimer fweimer@redhat.com wrote:
+* Mathieu Desnoyers:
 
-> * Mathieu Desnoyers:
-> 
->>> I'm still worried that __rseq_static_assert and __rseq_alignof will show
->>> up in the UAPI with textually different definitions.  (This does not
->>> apply to __rseq_tls_model_ie.)
->>
->> What makes this worry not apply to __rseq_tls_model_ie ?
-> 
-> It's not needed by the kernel header because it doesn't contain a
-> __rseq_abi declaration.
-> 
->>> 
->>> Is my worry unfounded?
->>
->> So AFAIU you worry that eventually sys/rseq.h and linux/rseq.h carry different
->> definitions of __rseq_static_assert and __rseq_alignof.
->>
->> Indeed, I did not surround those #define with #ifndef/#endif. Maybe we should ?
->>
->> Just in case the definitions end up being different (worse case scenario), we
->> should expect their behavior to be pretty much equivalent. So going for the
->> following should address your concern I think:
-> 
-> I think we should keep things simple on the glibc side for now and do
-> this changes to the kernel headers first.
+>> I think we should keep things simple on the glibc side for now and do
+>> this changes to the kernel headers first.
+>
+> Just to be sure I understand what you mean by "keep things simple", do you
+> recommend removing the following lines completely for now from sys/rseq.h ?
+>
+> /* Ensure the compiler supports rseq_align.  */
+> __rseq_static_assert (__rseq_alignof (struct rseq_cs) >= 32, "alignment");
+> __rseq_static_assert (__rseq_alignof (struct rseq) >= 32, "alignment");
 
-Just to be sure I understand what you mean by "keep things simple", do you
-recommend removing the following lines completely for now from sys/rseq.h ?
-
-/* Ensure the compiler supports rseq_align.  */
-__rseq_static_assert (__rseq_alignof (struct rseq_cs) >= 32, "alignment");
-__rseq_static_assert (__rseq_alignof (struct rseq) >= 32, "alignment");
+Yes, that's what I meant.
 
 Thanks,
+Florian
 
-Mathieu
-
-
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-http://www.efficios.com
