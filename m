@@ -2,222 +2,138 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D92B207D98
-	for <lists+linux-api@lfdr.de>; Wed, 24 Jun 2020 22:39:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DC7C207D9E
+	for <lists+linux-api@lfdr.de>; Wed, 24 Jun 2020 22:42:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391496AbgFXUi6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 24 Jun 2020 16:38:58 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:41159 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2391458AbgFXUi6 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 24 Jun 2020 16:38:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1593031135;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-        bh=vUi/+DScXWXvcmI6mZvIMIGP00wUsF08zYoV1rgtSTs=;
-        b=RtvOzEiP2c6UecNF5oX+KbAzDICim5+1DckT3C10Rs+WY9fO37EDxONI8IQyKo7UHi5Hkb
-        pWtcelvSVCQPyy6T4/nq3D7eK5ivzXlkiw6/ErFHbYyChYeN4cLImOn5oTp5kh7SJd5HQ7
-        +1KODRPzw57K1XkO/buGEqu/X/QbcBU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-144-nHyUdhzXM_qhevbm4Aoczw-1; Wed, 24 Jun 2020 16:38:51 -0400
-X-MC-Unique: nHyUdhzXM_qhevbm4Aoczw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9768805EE2;
-        Wed, 24 Jun 2020 20:38:48 +0000 (UTC)
-Received: from [10.10.115.152] (ovpn-115-152.rdu2.redhat.com [10.10.115.152])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 8A6561002393;
-        Wed, 24 Jun 2020 20:38:40 +0000 (UTC)
-Subject: Re: [Patch v3 1/3] lib: Restrict cpumask_local_spread to houskeeping
- CPUs
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        frederic@kernel.org, mtosatti@redhat.com, juri.lelli@redhat.com,
-        abelits@marvell.com, bhelgaas@google.com,
-        linux-pci@vger.kernel.org, rostedt@goodmis.org, mingo@kernel.org,
-        peterz@infradead.org, tglx@linutronix.de, davem@davemloft.net,
-        sfr@canb.auug.org.au, stephen@networkplumber.org,
-        rppt@linux.vnet.ibm.com, yuqi jin <jinyuqi@huawei.com>,
-        Shaokun Zhang <zhangshaokun@hisilicon.com>
-References: <20200623192331.215557-1-nitesh@redhat.com>
- <20200623192331.215557-2-nitesh@redhat.com>
- <20200624122647.766bec7760d9197ba71a58c4@linux-foundation.org>
-From:   Nitesh Narayan Lal <nitesh@redhat.com>
-Autocrypt: addr=nitesh@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- VujM7c/b4pps
-Organization: Red Hat Inc,
-Message-ID: <3207c75f-39e4-fc8c-6a40-6bd797dd98ce@redhat.com>
-Date:   Wed, 24 Jun 2020 16:38:39 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S2391383AbgFXUmg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 24 Jun 2020 16:42:36 -0400
+Received: from mail-ej1-f65.google.com ([209.85.218.65]:40344 "EHLO
+        mail-ej1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388670AbgFXUmg (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 24 Jun 2020 16:42:36 -0400
+Received: by mail-ej1-f65.google.com with SMTP id q19so3781365eja.7
+        for <linux-api@vger.kernel.org>; Wed, 24 Jun 2020 13:42:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=pTqzSK8f2ND+wf/19DkfpyENYeMj+Grt3/DkoZrle8Q=;
+        b=I3TSHOjoTLVs+00CS2ygwn+enmbB8iiKGMc9bbpFBVyHkj8ZIoGgZI7N8l+s8X9Iak
+         zXbUWa48T1JS7Q37ZPPUjUZpU7CtqMsIv+L36gb4P0GB2m1x4knondFoECVdfUhYZZGl
+         9/Gac34jxh7EgFZ/9X573JN8nGF3bRzTMXU0uTN7vjQ4avqq+wSfaAPa+gZJcSF0GCBQ
+         f8aec0ZP7szPzCWrKyazhKWBR+JDSVAZME0HnIbWVE5HM4jlDfm0fDBpHgAcf4sxGoHd
+         mK0maq8r+uNx8H9WWTT+63bAdftSK6DfHZeuM8LiCtOJQpmBq28wfy2Y8FB1cLShR2Eo
+         JWzg==
+X-Gm-Message-State: AOAM531Z1PC/n3dCTRJZKY75UCbpqHjaJ5cu+HTjRkT2ZehrXwSwT6Np
+        dy2PMMVdsd8HUhzo5u9o4pM=
+X-Google-Smtp-Source: ABdhPJyqAFXCbQT7dPABcnnFKL+1Bf4Fl3p/SwCI0Wcv+Nkm2Y47ZGFPx3tIfP5+wsL0BdXB8Jhu4g==
+X-Received: by 2002:a17:906:cd2:: with SMTP id l18mr15684452ejh.18.1593031354678;
+        Wed, 24 Jun 2020 13:42:34 -0700 (PDT)
+Received: from localhost (ip-37-188-168-3.eurotel.cz. [37.188.168.3])
+        by smtp.gmail.com with ESMTPSA id w12sm6213742edx.19.2020.06.24.13.42.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Jun 2020 13:42:33 -0700 (PDT)
+Date:   Wed, 24 Jun 2020 22:42:32 +0200
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Ben Widawsky <ben.widawsky@intel.com>
+Cc:     linux-mm <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christoph Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>,
+        David Rientjes <rientjes@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Lee Schermerhorn <lee.schermerhorn@hp.com>,
+        Li Xinhai <lixinhai.lxh@gmail.com>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mina Almasry <almasrymina@google.com>,
+        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH 00/18] multiple preferred nodes
+Message-ID: <20200624204232.GZ1320@dhcp22.suse.cz>
+References: <20200623112048.GR31426@dhcp22.suse.cz>
+ <20200623161211.qjup5km5eiisy5wy@intel.com>
+ <20200624075216.GC1320@dhcp22.suse.cz>
+ <20200624161643.75fkkvsxlmp3bf2e@intel.com>
+ <20200624183917.GW1320@dhcp22.suse.cz>
+ <20200624193733.tqeligjd3pdvrsmi@intel.com>
+ <20200624195158.GX1320@dhcp22.suse.cz>
+ <20200624200140.dypw6snshshzlbwa@intel.com>
+ <20200624200750.GY1320@dhcp22.suse.cz>
+ <20200624202344.woogq4n3bqkuejty@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20200624122647.766bec7760d9197ba71a58c4@linux-foundation.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="oyKSyWZ1LjXDNeJYNyMs8QccfZHOfRtMO"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200624202344.woogq4n3bqkuejty@intel.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---oyKSyWZ1LjXDNeJYNyMs8QccfZHOfRtMO
-Content-Type: multipart/mixed; boundary="mO6dZvU5p3VwI6OBaMAWK5DEZKjmFJpF9"
+On Wed 24-06-20 13:23:44, Ben Widawsky wrote:
+> On 20-06-24 22:07:50, Michal Hocko wrote:
+> > On Wed 24-06-20 13:01:40, Ben Widawsky wrote:
+> > > On 20-06-24 21:51:58, Michal Hocko wrote:
+> > > > On Wed 24-06-20 12:37:33, Ben Widawsky wrote:
+> > > > > On 20-06-24 20:39:17, Michal Hocko wrote:
+> > > > > > On Wed 24-06-20 09:16:43, Ben Widawsky wrote:
+> > [...]
+> > > > > > > > Or do I miss something that really requires more involved approach like
+> > > > > > > > building custom zonelists and other larger changes to the allocator?
+> > > > > > > 
+> > > > > > > I think I'm missing how this allows selecting from multiple preferred nodes. In
+> > > > > > > this case when you try to get the page from the freelist, you'll get the
+> > > > > > > zonelist of the preferred node, and when you actually scan through on page
+> > > > > > > allocation, you have no way to filter out the non-preferred nodes. I think the
+> > > > > > > plumbing of multiple nodes has to go all the way through
+> > > > > > > __alloc_pages_nodemask(). But it's possible I've missed the point.
+> > > > > > 
+> > > > > > policy_nodemask() will provide the nodemask which will be used as a
+> > > > > > filter on the policy_node.
+> > > > > 
+> > > > > Ah, gotcha. Enabling independent masks seemed useful. Some bad decisions got me
+> > > > > to that point. UAPI cannot get independent masks, and callers of these functions
+> > > > > don't yet use them.
+> > > > > 
+> > > > > So let me ask before I actually type it up and find it's much much simpler, is
+> > > > > there not some perceived benefit to having both masks being independent?
+> > > > 
+> > > > I am not sure I follow. Which two masks do you have in mind? zonelist
+> > > > and user provided nodemask?
+> > > 
+> > > Internally, a nodemask_t for preferred node, and a nodemask_t for bound nodes.
+> > 
+> > Each mask is a local to its policy object.
+> 
+> I mean for __alloc_pages_nodemask as an internal API. That is irrespective of
+> policy. Policy decisions are all made beforehand. The question from a few mails
+> ago was whether there is any use in keeping that change to
+> __alloc_pages_nodemask accepting two nodemasks.
 
---mO6dZvU5p3VwI6OBaMAWK5DEZKjmFJpF9
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
+It is probably too late for me because I am still not following you
+mean. Maybe it would be better to provide a pseudo code what you have in
+mind. Anyway all that I am saying is that for the functionality that you
+propose and _if_ the fallback strategy is fixed then all you should need
+is to use the preferred nodemask for the __alloc_pages_nodemask and a
+fallback allocation to the full (NULL nodemask). So you first try what
+the userspace prefers - __GFP_RETRY_MAYFAIL will give you try hard but
+do not OOM if the memory is depleted semantic and the fallback
+allocation goes all the way to OOM on the complete memory depletion.
+So I do not see much point in a custom zonelist for the policy. Maybe as
+a micro-optimization to save some branches here and there.
 
+If you envision usecases which might want to control the fallback
+allocation strategy then this would get more complex because you
+would need a sorted list of zones to try but this would really require
+some solid usecase and it should build on top of a trivial
+implementation which really is BIND with the fallback.
 
-On 6/24/20 3:26 PM, Andrew Morton wrote:
-> On Tue, 23 Jun 2020 15:23:29 -0400 Nitesh Narayan Lal <nitesh@redhat.com>=
- wrote:
->
->> From: Alex Belits <abelits@marvell.com>
->>
->> The current implementation of cpumask_local_spread() does not respect th=
-e
->> isolated CPUs, i.e., even if a CPU has been isolated for Real-Time task,
->> it will return it to the caller for pinning of its IRQ threads. Having
->> these unwanted IRQ threads on an isolated CPU adds up to a latency
->> overhead.
->>
->> Restrict the CPUs that are returned for spreading IRQs only to the
->> available housekeeping CPUs.
->>
->> ...
->>
->> --- a/lib/cpumask.c
->> +++ b/lib/cpumask.c
->> @@ -6,6 +6,7 @@
->>  #include <linux/export.h>
->>  #include <linux/memblock.h>
->>  #include <linux/numa.h>
->> +#include <linux/sched/isolation.h>
->> =20
->>  /**
->>   * cpumask_next - get the next cpu in a cpumask
->> @@ -205,22 +206,27 @@ void __init free_bootmem_cpumask_var(cpumask_var_t=
- mask)
->>   */
->>  unsigned int cpumask_local_spread(unsigned int i, int node)
->>  {
->> -=09int cpu;
->> +=09int cpu, hk_flags;
->> +=09const struct cpumask *mask;
->> =20
->> +=09hk_flags =3D HK_FLAG_DOMAIN | HK_FLAG_WQ;
->> +=09mask =3D housekeeping_cpumask(hk_flags);
->>  =09/* Wrap: we always want a cpu. */
->> -=09i %=3D num_online_cpus();
->> +=09i %=3D cpumask_weight(mask);
->> =20
->>  =09if (node =3D=3D NUMA_NO_NODE) {
->> -=09=09for_each_cpu(cpu, cpu_online_mask)
->> +=09=09for_each_cpu(cpu, mask) {
->>  =09=09=09if (i-- =3D=3D 0)
->>  =09=09=09=09return cpu;
->> +=09=09}
->>  =09} else {
->>  =09=09/* NUMA first. */
->> -=09=09for_each_cpu_and(cpu, cpumask_of_node(node), cpu_online_mask)
->> +=09=09for_each_cpu_and(cpu, cpumask_of_node(node), mask) {
->>  =09=09=09if (i-- =3D=3D 0)
->>  =09=09=09=09return cpu;
->> +=09=09}
->> =20
->> -=09=09for_each_cpu(cpu, cpu_online_mask) {
->> +=09=09for_each_cpu(cpu, mask) {
->>  =09=09=09/* Skip NUMA nodes, done above. */
->>  =09=09=09if (cpumask_test_cpu(cpu, cpumask_of_node(node)))
->>  =09=09=09=09continue;
-> Are you aware of these changes to cpu_local_spread()?
-> https://lore.kernel.org/lkml/1582768688-2314-1-git-send-email-zhangshaoku=
-n@hisilicon.com/
->
-> I don't see a lot of overlap but it would be nice for you folks to
-> check each other's homework ;)
-
-Sure, I will take a look.
-Thanks
-
->
---=20
-Nitesh
-
-
---mO6dZvU5p3VwI6OBaMAWK5DEZKjmFJpF9--
-
---oyKSyWZ1LjXDNeJYNyMs8QccfZHOfRtMO
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEkXcoRVGaqvbHPuAGo4ZA3AYyozkFAl7zuc8ACgkQo4ZA3AYy
-ozkNURAAz7cs8+fTdmMQKxVrRFFxpOzfHgJSdfVunT4T/jHSr8CMLQvT1qmV3tvo
-EwSuBaurwWOcdSIDFn6VPfZOOtr3OGSpZ4S8wkWlWrHfkAy1f3NDffQPQ/6+dE+H
-9U3zZJpnuI8DK6zTlypuBGfBm2WHUUGnm97trdNzWFKASiTdhQPhncCZJxQ7PftJ
-R/vWSadHhNzFBiZ1w2k84izP0shVXfG5dQVqMq9rtBrK8qRZIhqCAHnfmMum0XS9
-mDW7sE1ErXN77wsP2M+xXkRy+t8m+Y2ziYGrFjpqJpIxxnLQdWAra6L6+Ikw8eej
-r57d9KghKFxd3FnvSHq1yekOPUvCUjqGVIUIV3WZxA3gvy5aQmxpO/nEkRakt1k7
-xn4FfcUNFINB0S+lXcSk8AJXgw01gmUEpKdVaIsUpJojCPXW88MAArOmA2Q5Cpuz
-lgfcYQV09eRNVzVv2xpMbIlELY0IWeLRQxxtuRPqOlWrTxhGI+GyaBuJ5Pag5oHv
-4dMlzGiBvJcUf8+dRj9PbiZENAcY2xicCK8+E5XIT2w5t7PkU91vFLpqVBFKkEWN
-18TzY6VQXojBj964/woJTtbo6oSATsg9otFubsO8IKt8X3r9nZUkhBCR92ay/clW
-Wd0NXK5mF3X/iyfq2Iprdqe/UU8bHPZaDE4Ngz7h5xr+1ifeIPA=
-=fACU
------END PGP SIGNATURE-----
-
---oyKSyWZ1LjXDNeJYNyMs8QccfZHOfRtMO--
-
+-- 
+Michal Hocko
+SUSE Labs
