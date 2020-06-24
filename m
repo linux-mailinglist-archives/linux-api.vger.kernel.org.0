@@ -2,78 +2,136 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0719D2070D5
-	for <lists+linux-api@lfdr.de>; Wed, 24 Jun 2020 12:09:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93083207268
+	for <lists+linux-api@lfdr.de>; Wed, 24 Jun 2020 13:44:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390119AbgFXKJE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 24 Jun 2020 06:09:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38608 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388197AbgFXKJD (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 24 Jun 2020 06:09:03 -0400
-Received: from merlin.infradead.org (unknown [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73957C061573;
-        Wed, 24 Jun 2020 03:09:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=fbvRV6I4MBKKb4K8TrGIAwzpXd/13MRtwyrauhi7npU=; b=Q6kqbVLJjFSnrHUaLUDHBxAx2J
-        DP6uYFxBRY0BI9u/Mz+o8baPWJMqA2bYcFOIYiMN118gIMH2twE8hwHR+0crdqL51FEV+V/QqZBkU
-        Hdv70Aeymlqi94y7LpZ5VelzI7DcQXJMOr95LJQaYuq9Zqoo2YTtMR/MU5eV/pL5CiWWzCctczM/o
-        DBd9gzUMQ0QbAfAjKbQnJtmqVn42N4tEnLz7UvalJSZ2z3kJRDM7TTqIlrX0CryIGb9Hn987ZQhOg
-        sE6aZBlqkpFRJk3dnFNMsC2I9KOVuppRzHwfn8z9a2qa+0O1dc0VYkuVxLN5tYYLAZojlKNwUO/cw
-        1AzLNyiQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jo2KC-0004Cq-9D; Wed, 24 Jun 2020 10:08:12 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 3AD79300261;
-        Wed, 24 Jun 2020 12:08:06 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id AB40D20D94FEC; Wed, 24 Jun 2020 12:08:06 +0200 (CEST)
-Date:   Wed, 24 Jun 2020 12:08:06 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Nitesh Narayan Lal <nitesh@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        frederic@kernel.org, mtosatti@redhat.com, juri.lelli@redhat.com,
-        abelits@marvell.com, bhelgaas@google.com,
-        linux-pci@vger.kernel.org, rostedt@goodmis.org, mingo@kernel.org,
-        tglx@linutronix.de, davem@davemloft.net, akpm@linux-foundation.org,
-        sfr@canb.auug.org.au, stephen@networkplumber.org,
-        rppt@linux.vnet.ibm.com
-Subject: Re: [PATCH v3 0/3] Preventing job distribution to isolated CPUs
-Message-ID: <20200624100806.GE4800@hirez.programming.kicks-ass.net>
-References: <20200623192331.215557-1-nitesh@redhat.com>
+        id S2389075AbgFXLop (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 24 Jun 2020 07:44:45 -0400
+Received: from mx2.suse.de ([195.135.220.15]:39432 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388844AbgFXLop (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 24 Jun 2020 07:44:45 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 892C4AF63;
+        Wed, 24 Jun 2020 11:44:42 +0000 (UTC)
+Date:   Wed, 24 Jun 2020 13:44:37 +0200
+From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        =?iso-8859-1?Q?St=E9phane?= Graber <stgraber@ubuntu.com>,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Serge Hallyn <serge@hallyn.com>, Jann Horn <jannh@google.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Aleksa Sarai <cyphar@cyphar.com>, linux-api@vger.kernel.org,
+        systemd-devel@lists.freedesktop.org
+Subject: Re: [PATCH v4 2/3] nsproxy: attach to namespaces via pidfds
+Message-ID: <20200624114437.GA117125@blackbook>
+References: <20200505140432.181565-1-christian.brauner@ubuntu.com>
+ <20200505140432.181565-3-christian.brauner@ubuntu.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="WIyZ46R2i8wDzkSu"
 Content-Disposition: inline
-In-Reply-To: <20200623192331.215557-1-nitesh@redhat.com>
+In-Reply-To: <20200505140432.181565-3-christian.brauner@ubuntu.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jun 23, 2020 at 03:23:28PM -0400, Nitesh Narayan Lal wrote:
-> This patch-set is originated from one of the patches that have been
-> posted earlier as a part of "Task_isolation" mode [1] patch series
-> by Alex Belits <abelits@marvell.com>. There are only a couple of
-> changes that I am proposing in this patch-set compared to what Alex
-> has posted earlier.
 
-> 
-> Alex Belits (3):
->   lib: Restrict cpumask_local_spread to houskeeping CPUs
->   PCI: Restrict probe functions to housekeeping CPUs
->   net: Restrict receive packets queuing to housekeeping CPUs
-> 
->  drivers/pci/pci-driver.c |  5 ++++-
->  lib/cpumask.c            | 16 +++++++++++-----
->  net/core/net-sysfs.c     | 10 +++++++++-
->  3 files changed, 24 insertions(+), 7 deletions(-)
+--WIyZ46R2i8wDzkSu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This looks reasonable to me; who is expected to merge this? Should I
-take it through the scheduler tree like most of the nohz_full, or what
-do we do?
+Hi.
+
+On Tue, May 05, 2020 at 04:04:31PM +0200, Christian Brauner <christian.brau=
+ner@ubuntu.com> wrote:
+> -SYSCALL_DEFINE2(setns, int, fd, int, nstype)
+> +SYSCALL_DEFINE2(setns, int, fd, int, flags)
+> [...]
+> -	file =3D proc_ns_fget(fd);
+> -	if (IS_ERR(file))
+> -		return PTR_ERR(file);
+> +	int err =3D 0;
+> =20
+> -	err =3D -EINVAL;
+> -	ns =3D get_proc_ns(file_inode(file));
+> -	if (nstype && (ns->ops->type !=3D nstype))
+> +	file =3D fget(fd);
+> +	if (!file)
+> +		return -EBADF;
+> +
+> +	if (proc_ns_file(file)) {
+> +		ns =3D get_proc_ns(file_inode(file));
+> +		if (flags && (ns->ops->type !=3D flags))
+> +			err =3D -EINVAL;
+> +		flags =3D ns->ops->type;
+> +	} else if (pidfd_pid(file)) {
+> +		err =3D check_setns_flags(flags);
+> +	} else {
+> +		err =3D -EBADF;
+> +	}
+> +	if (err)
+>  		goto out;
+> =20
+> -	err =3D prepare_nsset(ns->ops->type, &nsset);
+> +	err =3D prepare_nsset(flags, &nsset);
+>  	if (err)
+>  		goto out;
+This modification changed the returned error when a valid file
+descriptor is passed but it doesn't represent a namespace (nor pidfd).
+The error is now EBADF although originally and per man page it
+was/should be EINVAL.
+
+A change like below would restore it, however, I see it may be less
+consistent with other pidfd calls(?), then I'd suggest updating the
+manpage to capture this.
+
+--- a/kernel/nsproxy.c
++++ b/kernel/nsproxy.c
+@@ -531,7 +531,7 @@ SYSCALL_DEFINE2(setns, int, fd, int, flags)
+        } else if (!IS_ERR(pidfd_pid(file))) {
+                err =3D check_setns_flags(flags);
+        } else {
+-               err =3D -EBADF;
++               err =3D -EINVAL;
+        }
+        if (err)
+                goto out;
+
+I noticed this breaks systemd self tests [1].
+
+Regards,
+Michal
+
+
+[1] https://github.com/systemd/systemd/blob/a1ba8c5b71164665ccb53c9cec384e5=
+eef7d3689/src/test/test-seccomp.c#L246
+
+--WIyZ46R2i8wDzkSu
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEEoQaUCWq8F2Id1tNia1+riC5qSgFAl7zPKAACgkQia1+riC5
+qShOGhAAhxWTA7xASA29DshSor6gE8MSsisAOLrbdcAJxcTpEjK7SGBfiIAzRSqM
+ojDNJab5BA7AplrWQMI5dTvNC5OsdObhRe6HCzXeK/DL4st5WCHkGv084jGVtJkF
+t3uUc5yphr7K7Wyv5pTydMDYbPgVdtMLCMAJCzSSAm464cXc7yFUtLiuJTx4dWMS
+wj+dRMYjxqo8PMTo78lAOeo0Xga2sWunsc2RrvmCde1HAqEfX26xko2at3AhxJWI
+mA1qK4gYl0/0kRBKKbVH/Vc9cE3hVTwAKgLxm9JUJJoV/7zs61XPfGZZ1i1NUBJ5
+ES1ybt5h1C5rtmpBGiH1Dd+D7i1ckdqEPupwJNzYze5y2QiEVVoF7csegk30Vdq7
+0SQ9SAXOtRmfQC8VQXkWDOoqZarxPSgktRBfMZ3h18neURCFlmU0xcAY52mJODSf
+lyJPQmYUfCehLasPJJ3eUG9fhdSNuFH3Z6V2KfIjo2qKPbbEJONxb24OthyQzr6v
+kt3B/m7aseGZCxRu21SkkRIMa9aIngbkaOOiEwUd66wJtHKWJIn/D7sdcQvUGYpg
+e8J5uFPR7A0wJey2TZltEDF9nuuZarORd7BNREmm4nG1w3X3vsgUXXLfk9x8HQtg
+EG/+7T4HFcQXgeR/UBieyk0FQ98KRnJaSK6RJiShfEM2HIyvrZU=
+=zb4j
+-----END PGP SIGNATURE-----
+
+--WIyZ46R2i8wDzkSu--
