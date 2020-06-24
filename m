@@ -2,116 +2,138 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 02326206984
-	for <lists+linux-api@lfdr.de>; Wed, 24 Jun 2020 03:31:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1438E206E3C
+	for <lists+linux-api@lfdr.de>; Wed, 24 Jun 2020 09:52:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388273AbgFXBb2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 23 Jun 2020 21:31:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43910 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387921AbgFXBb1 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 23 Jun 2020 21:31:27 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8234AC061573;
-        Tue, 23 Jun 2020 18:31:26 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id g12so303711pll.10;
-        Tue, 23 Jun 2020 18:31:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=STvVE6RZ3Y0xoSbwRDvBmVixkdJOr1NShciDYz9YwAM=;
-        b=W0vTKcKu1k4LZL/79tI9ZWaSgDRT8dAnFbEzoztsZnuxsAdCwsWzGStWBp+QyRecCD
-         CUpj6vHksbhJgjnx02F34EzU9VSZkoU+w0V/55gsApx6Jpw5WusaCp9GSfjQGbLUIjmN
-         dhnNMzgXGSuy1Bl5Lsh2JdeS0x9Kc+IttH5obXsz2tQ6BHUdRYOP1aSTYrleoPNbXxHL
-         Vil+Zf21VuwEdfSVf/OirWzjruOs1ePNLO44R4wC6m426c5cTRulwDPOyti+Oh0Q16Eg
-         atT7+QCFMnsJy3yxnvWZ2NOKyqgbq6B3oBd86RRKLsITNob8O+MKM6eY768wVMLumQta
-         /5Hg==
+        id S2389980AbgFXHwU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 24 Jun 2020 03:52:20 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:52109 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388375AbgFXHwU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 24 Jun 2020 03:52:20 -0400
+Received: by mail-wm1-f68.google.com with SMTP id 22so1394310wmg.1
+        for <linux-api@vger.kernel.org>; Wed, 24 Jun 2020 00:52:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=STvVE6RZ3Y0xoSbwRDvBmVixkdJOr1NShciDYz9YwAM=;
-        b=M+WaptIZeMC0tRcLJHtWdHffPtt6Ob49sJHncmq44fTVTVNQwzqBuUmt/39xEZvma7
-         6VekuBYVXzOciyJjGq09deI+/fVPYwp7bqAYLxMMHRHl1eZBuwOYpIA1olsn5EKZeS7O
-         coQ37EuFUl0mrSljY10V8YUng5QpsYf3EViTD9ynuQZ5RVp3BUuRYzWtUMzl+tIQSrTf
-         Tjmk2MdSIDvuCs5mE78JWtD6UKjjfzMMTq2ZCn+mnEsqpfTrKKsSFScVBIY3MFzMnJ8x
-         88OvxF+5a32yUnrGBAd+EqiXIBQpQLJOjjVRHOzkeswHEh1W1nFAtNPFq6M7Tpn4dHmt
-         W82g==
-X-Gm-Message-State: AOAM530rS3LR/NP54vv8g7FrkL1CugqUSqGKLGuo+JSf36w7VFlzBLe+
-        2uGji0wGmZvoRQ0zS55BKm4=
-X-Google-Smtp-Source: ABdhPJyysnl8A9zV1eAdaECih+/1cO9iPnaZNXWpwZYi4TkGIOLdr794d0QrNa/rQMjmDGDb7OxyBA==
-X-Received: by 2002:a17:902:7208:: with SMTP id ba8mr26976478plb.217.1592962285863;
-        Tue, 23 Jun 2020 18:31:25 -0700 (PDT)
-Received: from google.com ([2620:15c:211:1:3e01:2939:5992:52da])
-        by smtp.gmail.com with ESMTPSA id m20sm19512857pfk.52.2020.06.23.18.31.23
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=vEfxaSqCVYVbhmxk9OFTIs6iy9TarTkNEwCUYfPyeYY=;
+        b=jO3ILIE+OGsTICLqzWkj4cVVVJZsbXwF+7927RanmjkCZ5CiLnOE2ZaDt7jDDNGcvK
+         DFo5RnJVx0vqvq+LNpkxnjImOXpbMd93SLO2xB0ZocXCL08DsVS+NovbQnkzN5pnjtAM
+         A+zkuZpNhPW7T/rhnJHZv6HOi0WeHGGl7O+DCaSh1FiRRzshd+lc+SJaLl3xZO4ftiVI
+         O9x/QaZV+b/jppUblk4PrnSmR3H1M0GyUBAwbaljRzLj4Gc9FcspIz2QWQ0JpsBDA9uW
+         JBI+UczDbrfrBTbJMG+w3bSbHJNDbvug8UjipCsvgL97C1se3L0X+heiPrMxUEyzVFnS
+         LBQA==
+X-Gm-Message-State: AOAM533HM9ZUfGq4C8oX4c2KJk54vnkV0hMdWAqI6gWNzmYkWPPNt7mr
+        WDMenIM0AOqAmdhPlccNJqw=
+X-Google-Smtp-Source: ABdhPJzNio31HT5WXaJ/z40RekkTBMk1/J8+VjwLSXqC41uB6a3gUDqLOEqeF6hJDEEUG/cafvVWpg==
+X-Received: by 2002:a1c:7414:: with SMTP id p20mr28035865wmc.124.1592985138263;
+        Wed, 24 Jun 2020 00:52:18 -0700 (PDT)
+Received: from localhost (ip-37-188-168-3.eurotel.cz. [37.188.168.3])
+        by smtp.gmail.com with ESMTPSA id a16sm25100777wrx.8.2020.06.24.00.52.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2020 18:31:24 -0700 (PDT)
-Date:   Tue, 23 Jun 2020 18:31:22 -0700
-From:   Minchan Kim <minchan@kernel.org>
-To:     Oleksandr Natalenko <oleksandr@redhat.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
-        Suren Baghdasaryan <surenb@google.com>,
-        Tim Murray <timmurray@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        John Dias <joaodias@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jann Horn <jannh@google.com>,
-        alexander.h.duyck@linux.intel.com, sj38.park@gmail.com,
+        Wed, 24 Jun 2020 00:52:17 -0700 (PDT)
+Date:   Wed, 24 Jun 2020 09:52:16 +0200
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Ben Widawsky <ben.widawsky@intel.com>
+Cc:     linux-mm <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christoph Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>,
         David Rientjes <rientjes@google.com>,
-        Arjun Roy <arjunroy@google.com>
-Subject: Re: [PATCH v8 0/4]  introduce memory hinting API for external process
-Message-ID: <20200624013122.GA9502@google.com>
-References: <20200622192900.22757-1-minchan@kernel.org>
- <20200623090721.5owt4cxjji6isqe3@butterfly.localdomain>
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Lee Schermerhorn <lee.schermerhorn@hp.com>,
+        Li Xinhai <lixinhai.lxh@gmail.com>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mina Almasry <almasrymina@google.com>,
+        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH 00/18] multiple preferred nodes
+Message-ID: <20200624075216.GC1320@dhcp22.suse.cz>
+References: <20200619162425.1052382-1-ben.widawsky@intel.com>
+ <20200622070957.GB31426@dhcp22.suse.cz>
+ <20200623112048.GR31426@dhcp22.suse.cz>
+ <20200623161211.qjup5km5eiisy5wy@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200623090721.5owt4cxjji6isqe3@butterfly.localdomain>
+In-Reply-To: <20200623161211.qjup5km5eiisy5wy@intel.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Oleksandr,
-
-On Tue, Jun 23, 2020 at 11:07:21AM +0200, Oleksandr Natalenko wrote:
-> On Mon, Jun 22, 2020 at 12:28:56PM -0700, Minchan Kim wrote:
-> > Now, we have MADV_PAGEOUT and MADV_COLD as madvise hinting API. With that,
-> > application could give hints to kernel what memory range are preferred to be
-> > reclaimed. However, in some platform(e.g., Android), the information
-> > required to make the hinting decision is not known to the app.
-> > Instead, it is known to a centralized userspace daemon(e.g., ActivityManagerService),
-> > and that daemon must be able to initiate reclaim on its own without any app
-> > involvement.
+On Tue 23-06-20 09:12:11, Ben Widawsky wrote:
+> On 20-06-23 13:20:48, Michal Hocko wrote:
+[...]
+> > It would be also great to provide a high level semantic description
+> > here. I have very quickly glanced through patches and they are not
+> > really trivial to follow with many incremental steps so the higher level
+> > intention is lost easily.
 > > 
-> > To solve the concern, this patch introduces new syscall - process_madvise(2).
-> > Bascially, it's same with madvise(2) syscall but it has some differences.
+> > Do I get it right that the default semantic is essentially
+> > 	- allocate page from the given nodemask (with __GFP_RETRY_MAYFAIL
+> > 	  semantic)
+> > 	- fallback to numa unrestricted allocation with the default
+> > 	  numa policy on the failure
 > > 
-> > 1. It needs pidfd of target process to provide the hint
-> > 2. It supports only MADV_{COLD|PAGEOUT} at this moment.
-> >    Other hints in madvise will be opened when there are explicit requests from
-> >    community to prevent unexpected bugs we couldn't support.
-> > 3. Only privileged processes can do something for other process's address
-> >    space.
-> > 
-> > For more detail of the new API, please see "mm: introduce external memory hinting API"
-> > description in this patchset.
-> > 
-> > * from v7 -  http://lore.kernel.org/r/20200302193630.68771-1-minchan@kernel.org
-> >   * dropping pid support from new syscall and fold releated patches into syscall patch
-> >   * dropping KSM patch by discussion - Oleksandr, I lost the discussion.
-> >     Please resend the single patch against of the patchset if you resolves the discussion.
-> >     https://lore.kernel.org/linux-api/20200302193630.68771-8-minchan@kernel.org/
+> > Or are there any usecases to modify how hard to keep the preference over
+> > the fallback?
 > 
-> What "next" tag this (v8) submission is based on please?
+> tl;dr is: yes, and no usecases.
 
-It's against on v5.8-rc1-mmots-2020-06-20-21-44 from mmotm - https://github.com/hnaz/linux-mm.git
+OK, then I am wondering why the change has to be so involved. Except for
+syscall plumbing the only real change to the allocator path would be
+something like
+
+static nodemask_t *policy_nodemask(gfp_t gfp, struct mempolicy *policy)
+{
+	/* Lower zones don't get a nodemask applied for MPOL_BIND */
+	if (unlikely(policy->mode == MPOL_BIND || 
+	   	     policy->mode == MPOL_PREFERED_MANY) &&
+			apply_policy_zone(policy, gfp_zone(gfp)) &&
+			cpuset_nodemask_valid_mems_allowed(&policy->v.nodes))
+		return &policy->v.nodes;
+
+	return NULL;
+}
+
+alloc_pages_current
+
+	if (pol->mode == MPOL_INTERLEAVE)
+		page = alloc_page_interleave(gfp, order, interleave_nodes(pol));
+	else {
+		gfp_t gfp_attempt = gfp;
+
+		/*
+		 * Make sure the first allocation attempt will try hard
+		 * but eventually fail without OOM killer or other
+		 * disruption before falling back to the full nodemask
+		 */
+		if (pol->mode == MPOL_PREFERED_MANY)
+			gfp_attempt |= __GFP_RETRY_MAYFAIL;	
+
+		page = __alloc_pages_nodemask(gfp_attempt, order,
+				policy_node(gfp, pol, numa_node_id()),
+				policy_nodemask(gfp, pol));
+		if (!page && pol->mode == MPOL_PREFERED_MANY)
+			page = __alloc_pages_nodemask(gfp, order,
+				numa_node_id(), NULL);
+	}
+
+	return page;
+
+similar (well slightly more hairy) in alloc_pages_vma
+
+Or do I miss something that really requires more involved approach like
+building custom zonelists and other larger changes to the allocator?
+-- 
+Michal Hocko
+SUSE Labs
