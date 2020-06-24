@@ -2,105 +2,116 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 375B3205BBA
-	for <lists+linux-api@lfdr.de>; Tue, 23 Jun 2020 21:24:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02326206984
+	for <lists+linux-api@lfdr.de>; Wed, 24 Jun 2020 03:31:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387427AbgFWTYe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 23 Jun 2020 15:24:34 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:41562 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1733220AbgFWTYd (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 23 Jun 2020 15:24:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1592940272;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:in-reply-to:in-reply-to:references:references;
-        bh=tVsDsAmElVtmSpleihdn/aqK002mWcZ5/rdoWS26sdI=;
-        b=LSXZe9jpOL+MuBiDl9Fr0uj5gKYFd7sH009l+/k+xD1+7xEb/owOarycKaWgATO9xT9WHT
-        E2t9pd5H8Y91FCJfXS/3wGTRfXbthSINz/7QEcn2OkwSudW7kIvFHdN3ck3G9G2aSM0yhb
-        yExZlY2rER84h3lT/wFCF5QEmn6fwWY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-395-tFqb6DVYPzynQ5ElJ40RHw-1; Tue, 23 Jun 2020 15:24:29 -0400
-X-MC-Unique: tFqb6DVYPzynQ5ElJ40RHw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B90868031D3;
-        Tue, 23 Jun 2020 19:24:27 +0000 (UTC)
-Received: from virtlab423.virt.lab.eng.bos.redhat.com (virtlab423.virt.lab.eng.bos.redhat.com [10.19.152.154])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 13CCE610F3;
-        Tue, 23 Jun 2020 19:24:25 +0000 (UTC)
-From:   Nitesh Narayan Lal <nitesh@redhat.com>
-To:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        frederic@kernel.org, mtosatti@redhat.com, juri.lelli@redhat.com,
-        abelits@marvell.com, bhelgaas@google.com,
-        linux-pci@vger.kernel.org, rostedt@goodmis.org, mingo@kernel.org,
-        peterz@infradead.org, tglx@linutronix.de, davem@davemloft.net,
-        akpm@linux-foundation.org, sfr@canb.auug.org.au,
-        stephen@networkplumber.org, rppt@linux.vnet.ibm.com
-Subject: [Patch v3 3/3] net: Restrict receive packets queuing to housekeeping CPUs
-Date:   Tue, 23 Jun 2020 15:23:31 -0400
-Message-Id: <20200623192331.215557-4-nitesh@redhat.com>
-In-Reply-To: <20200623192331.215557-1-nitesh@redhat.com>
-References: <20200623192331.215557-1-nitesh@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+        id S2388273AbgFXBb2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 23 Jun 2020 21:31:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43910 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387921AbgFXBb1 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 23 Jun 2020 21:31:27 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8234AC061573;
+        Tue, 23 Jun 2020 18:31:26 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id g12so303711pll.10;
+        Tue, 23 Jun 2020 18:31:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=STvVE6RZ3Y0xoSbwRDvBmVixkdJOr1NShciDYz9YwAM=;
+        b=W0vTKcKu1k4LZL/79tI9ZWaSgDRT8dAnFbEzoztsZnuxsAdCwsWzGStWBp+QyRecCD
+         CUpj6vHksbhJgjnx02F34EzU9VSZkoU+w0V/55gsApx6Jpw5WusaCp9GSfjQGbLUIjmN
+         dhnNMzgXGSuy1Bl5Lsh2JdeS0x9Kc+IttH5obXsz2tQ6BHUdRYOP1aSTYrleoPNbXxHL
+         Vil+Zf21VuwEdfSVf/OirWzjruOs1ePNLO44R4wC6m426c5cTRulwDPOyti+Oh0Q16Eg
+         atT7+QCFMnsJy3yxnvWZ2NOKyqgbq6B3oBd86RRKLsITNob8O+MKM6eY768wVMLumQta
+         /5Hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=STvVE6RZ3Y0xoSbwRDvBmVixkdJOr1NShciDYz9YwAM=;
+        b=M+WaptIZeMC0tRcLJHtWdHffPtt6Ob49sJHncmq44fTVTVNQwzqBuUmt/39xEZvma7
+         6VekuBYVXzOciyJjGq09deI+/fVPYwp7bqAYLxMMHRHl1eZBuwOYpIA1olsn5EKZeS7O
+         coQ37EuFUl0mrSljY10V8YUng5QpsYf3EViTD9ynuQZ5RVp3BUuRYzWtUMzl+tIQSrTf
+         Tjmk2MdSIDvuCs5mE78JWtD6UKjjfzMMTq2ZCn+mnEsqpfTrKKsSFScVBIY3MFzMnJ8x
+         88OvxF+5a32yUnrGBAd+EqiXIBQpQLJOjjVRHOzkeswHEh1W1nFAtNPFq6M7Tpn4dHmt
+         W82g==
+X-Gm-Message-State: AOAM530rS3LR/NP54vv8g7FrkL1CugqUSqGKLGuo+JSf36w7VFlzBLe+
+        2uGji0wGmZvoRQ0zS55BKm4=
+X-Google-Smtp-Source: ABdhPJyysnl8A9zV1eAdaECih+/1cO9iPnaZNXWpwZYi4TkGIOLdr794d0QrNa/rQMjmDGDb7OxyBA==
+X-Received: by 2002:a17:902:7208:: with SMTP id ba8mr26976478plb.217.1592962285863;
+        Tue, 23 Jun 2020 18:31:25 -0700 (PDT)
+Received: from google.com ([2620:15c:211:1:3e01:2939:5992:52da])
+        by smtp.gmail.com with ESMTPSA id m20sm19512857pfk.52.2020.06.23.18.31.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Jun 2020 18:31:24 -0700 (PDT)
+Date:   Tue, 23 Jun 2020 18:31:22 -0700
+From:   Minchan Kim <minchan@kernel.org>
+To:     Oleksandr Natalenko <oleksandr@redhat.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
+        Suren Baghdasaryan <surenb@google.com>,
+        Tim Murray <timmurray@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Dias <joaodias@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jann Horn <jannh@google.com>,
+        alexander.h.duyck@linux.intel.com, sj38.park@gmail.com,
+        David Rientjes <rientjes@google.com>,
+        Arjun Roy <arjunroy@google.com>
+Subject: Re: [PATCH v8 0/4]  introduce memory hinting API for external process
+Message-ID: <20200624013122.GA9502@google.com>
+References: <20200622192900.22757-1-minchan@kernel.org>
+ <20200623090721.5owt4cxjji6isqe3@butterfly.localdomain>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200623090721.5owt4cxjji6isqe3@butterfly.localdomain>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Alex Belits <abelits@marvell.com>
+Hi Oleksandr,
 
-With the existing implementation of store_rps_map(), packets are queued
-in the receive path on the backlog queues of other CPUs irrespective of
-whether they are isolated or not. This could add a latency overhead to
-any RT workload that is running on the same CPU.
+On Tue, Jun 23, 2020 at 11:07:21AM +0200, Oleksandr Natalenko wrote:
+> On Mon, Jun 22, 2020 at 12:28:56PM -0700, Minchan Kim wrote:
+> > Now, we have MADV_PAGEOUT and MADV_COLD as madvise hinting API. With that,
+> > application could give hints to kernel what memory range are preferred to be
+> > reclaimed. However, in some platform(e.g., Android), the information
+> > required to make the hinting decision is not known to the app.
+> > Instead, it is known to a centralized userspace daemon(e.g., ActivityManagerService),
+> > and that daemon must be able to initiate reclaim on its own without any app
+> > involvement.
+> > 
+> > To solve the concern, this patch introduces new syscall - process_madvise(2).
+> > Bascially, it's same with madvise(2) syscall but it has some differences.
+> > 
+> > 1. It needs pidfd of target process to provide the hint
+> > 2. It supports only MADV_{COLD|PAGEOUT} at this moment.
+> >    Other hints in madvise will be opened when there are explicit requests from
+> >    community to prevent unexpected bugs we couldn't support.
+> > 3. Only privileged processes can do something for other process's address
+> >    space.
+> > 
+> > For more detail of the new API, please see "mm: introduce external memory hinting API"
+> > description in this patchset.
+> > 
+> > * from v7 -  http://lore.kernel.org/r/20200302193630.68771-1-minchan@kernel.org
+> >   * dropping pid support from new syscall and fold releated patches into syscall patch
+> >   * dropping KSM patch by discussion - Oleksandr, I lost the discussion.
+> >     Please resend the single patch against of the patchset if you resolves the discussion.
+> >     https://lore.kernel.org/linux-api/20200302193630.68771-8-minchan@kernel.org/
+> 
+> What "next" tag this (v8) submission is based on please?
 
-Ensure that store_rps_map() only uses available housekeeping CPUs for
-storing the rps_map.
-
-Signed-off-by: Alex Belits <abelits@marvell.com>
-Signed-off-by: Nitesh Narayan Lal <nitesh@redhat.com>
----
- net/core/net-sysfs.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
-
-diff --git a/net/core/net-sysfs.c b/net/core/net-sysfs.c
-index e353b822bb15..677868fea316 100644
---- a/net/core/net-sysfs.c
-+++ b/net/core/net-sysfs.c
-@@ -11,6 +11,7 @@
- #include <linux/if_arp.h>
- #include <linux/slab.h>
- #include <linux/sched/signal.h>
-+#include <linux/sched/isolation.h>
- #include <linux/nsproxy.h>
- #include <net/sock.h>
- #include <net/net_namespace.h>
-@@ -741,7 +742,7 @@ static ssize_t store_rps_map(struct netdev_rx_queue *queue,
- {
- 	struct rps_map *old_map, *map;
- 	cpumask_var_t mask;
--	int err, cpu, i;
-+	int err, cpu, i, hk_flags;
- 	static DEFINE_MUTEX(rps_map_mutex);
- 
- 	if (!capable(CAP_NET_ADMIN))
-@@ -756,6 +757,13 @@ static ssize_t store_rps_map(struct netdev_rx_queue *queue,
- 		return err;
- 	}
- 
-+	hk_flags = HK_FLAG_DOMAIN | HK_FLAG_WQ;
-+	cpumask_and(mask, mask, housekeeping_cpumask(hk_flags));
-+	if (cpumask_empty(mask)) {
-+		free_cpumask_var(mask);
-+		return -EINVAL;
-+	}
-+
- 	map = kzalloc(max_t(unsigned int,
- 			    RPS_MAP_SIZE(cpumask_weight(mask)), L1_CACHE_BYTES),
- 		      GFP_KERNEL);
--- 
-2.18.4
-
+It's against on v5.8-rc1-mmots-2020-06-20-21-44 from mmotm - https://github.com/hnaz/linux-mm.git
