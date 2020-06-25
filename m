@@ -2,99 +2,201 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F4C820A0EF
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jun 2020 16:38:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 013C920A6E3
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jun 2020 22:39:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405367AbgFYOil (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 25 Jun 2020 10:38:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48352 "EHLO
+        id S2405336AbgFYUi6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 25 Jun 2020 16:38:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405340AbgFYOik (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 25 Jun 2020 10:38:40 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7750C08C5C1;
-        Thu, 25 Jun 2020 07:38:39 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: tonyk)
-        with ESMTPSA id 8A9472A557F
-Subject: Re: [RFC 0/4] futex2: Add new futex interface
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>, krisman@collabora.com,
-        Collabora kernel ML <kernel@collabora.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, pgriffais@valvesoftware.com,
-        Florian Weimer <fweimer@redhat.com>,
-        GNU C Library <libc-alpha@sourceware.org>,
-        malteskarupke@web.de, Linux API <linux-api@vger.kernel.org>
-References: <20200612185122.327860-1-andrealmeid@collabora.com>
- <CAK8P3a1fwYX-S84ukxEWBt_DZ09MdBLbQyf4Jgrr-AeqG89jeA@mail.gmail.com>
-From:   =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>
-Message-ID: <475e8c39-7d11-f80b-3b4a-e51be5d0963d@collabora.com>
-Date:   Thu, 25 Jun 2020 11:38:29 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        with ESMTP id S2404887AbgFYUi6 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 25 Jun 2020 16:38:58 -0400
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 298F6C08C5C1;
+        Thu, 25 Jun 2020 13:38:58 -0700 (PDT)
+Received: by mail-pj1-x1042.google.com with SMTP id b7so3805970pju.0;
+        Thu, 25 Jun 2020 13:38:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=fal5fqZa3XRJjCDuPEDO6zOzKkuAxW+azO7zrgA/xGY=;
+        b=aLT7qv2dcaqHBFn4kQfpKHtVN6sYDmcOrsDuprsoieasLVliTBRM5T7A0pMy0gAIuq
+         uvzufWdVBX/DMTjf4ECX6E6STgixlstptr4e2vkMqq18VpTcSn3n6SX9js5Om4xyiV9a
+         DYp1o9qmkI/I0JFPZ1ZsEOcWwNf0eWWiJH54+iyf/YzTO2q5UB6e5A+GF2QwIXs4sBHd
+         b1XL1CvOk3K67j/6DY0PI+3Wo0o7O6kajqv1f0evKIOwUjPwHHFN/mhXBh2WfNEsb2mV
+         bE52EFH9Miu4IddBuds+4aDN4vFcKbEYyPvEGkVQyQMfHXPS9cG06ZWTZDoXqYY49Ul1
+         nUXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=fal5fqZa3XRJjCDuPEDO6zOzKkuAxW+azO7zrgA/xGY=;
+        b=kvHx32n84pLF9E5ZT7wsR2KyCNx3N4+ZRkfiOLdKsjQ3RDaFKKehOyzATTHTxSQwVj
+         akSAORh5ojQjbdtJtsZmKSBixsm/WlYVyYSo2u9TuWZh/c+ua+kfJMd0cDnW/Ur7UP2R
+         Acpsqkh3yVaeQDZAEc3EQOh+lj3T3brzdR+rMjbziqxCl+U6XpivxnY46+VT37Zw2c/h
+         y/igIsEEeXm2cPrLimM+35G9mOjuEqvsQMvgb+8xpsgjVemcFzOGaxPZhEkQj5HVsSc9
+         myPYjsJzOo1xDeEstCBlmHUMk11Unoda+CVvfYWF9qmffi1DoAU3hiqgu26B2H3hMWWE
+         dcTA==
+X-Gm-Message-State: AOAM533ZnfqIx4dwdrWNnQLeg3fiANm/b6WpmE1XcloGKc8F1D6i6lNX
+        hHaNJ/nYwPOM790Vm8SgA84=
+X-Google-Smtp-Source: ABdhPJwHUrhTo0VdWyqXJVodPYWb24wQPdUWi/z7ywPj+PvwIUdMoVmkl8yxs2jJOixXvCCSjCoc6w==
+X-Received: by 2002:a17:90a:a383:: with SMTP id x3mr5457506pjp.199.1593117537570;
+        Thu, 25 Jun 2020 13:38:57 -0700 (PDT)
+Received: from google.com ([2601:647:4001:3000::e690])
+        by smtp.gmail.com with ESMTPSA id y7sm9823972pjm.54.2020.06.25.13.38.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Jun 2020 13:38:55 -0700 (PDT)
+Date:   Thu, 25 Jun 2020 13:38:52 -0700
+From:   Minchan Kim <minchan@kernel.org>
+To:     David Rientjes <rientjes@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
+        oleksandr@redhat.com, Suren Baghdasaryan <surenb@google.com>,
+        Tim Murray <timmurray@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Dias <joaodias@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jann Horn <jannh@google.com>,
+        alexander.h.duyck@linux.intel.com, sj38.park@gmail.com,
+        Arjun Roy <arjunroy@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Christian Brauner <christian@brauner.io>,
+        Daniel Colascione <dancol@google.com>,
+        Jens Axboe <axboe@kernel.dk>,
+        Kirill Tkhai <ktkhai@virtuozzo.com>,
+        SeongJae Park <sjpark@amazon.de>, linux-man@vger.kernel.org
+Subject: Re: [PATCH v8 3/4] mm/madvise: introduce process_madvise() syscall:
+ an external memory hinting API
+Message-ID: <20200625203852.GA55572@google.com>
+References: <20200622192900.22757-1-minchan@kernel.org>
+ <20200622192900.22757-4-minchan@kernel.org>
+ <alpine.DEB.2.22.394.2006241251080.35388@chino.kir.corp.google.com>
 MIME-Version: 1.0
-In-Reply-To: <CAK8P3a1fwYX-S84ukxEWBt_DZ09MdBLbQyf4Jgrr-AeqG89jeA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.22.394.2006241251080.35388@chino.kir.corp.google.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hello Arnd,
-
-On 6/25/20 3:48 AM, Arnd Bergmann wrote:
-> On Fri, Jun 12, 2020 at 8:51 PM André Almeida <andrealmeid@collabora.com> wrote:
+On Wed, Jun 24, 2020 at 01:00:14PM -0700, David Rientjes wrote:
+> On Mon, 22 Jun 2020, Minchan Kim wrote:
 > 
->> - The proposed interface uses ktime_t type for absolute timeout, and I
->>   assumed that it should use values in a nsec resolution. If this is true,
->>   we have some problems with i386 ABI, please check out the
->>   COMPAT_32BIT_TIME implementation in patch 1 for more details. I
->>   haven't added a time64 implementation yet, until this is clarified.
+> > diff --git a/mm/madvise.c b/mm/madvise.c
+> > index 551ed816eefe..23abca3f93fa 100644
+> > --- a/mm/madvise.c
+> > +++ b/mm/madvise.c
+> > @@ -17,6 +17,7 @@
+> >  #include <linux/falloc.h>
+> >  #include <linux/fadvise.h>
+> >  #include <linux/sched.h>
+> > +#include <linux/sched/mm.h>
+> >  #include <linux/ksm.h>
+> >  #include <linux/fs.h>
+> >  #include <linux/file.h>
+> > @@ -995,6 +996,18 @@ madvise_behavior_valid(int behavior)
+> >  	}
+> >  }
+> >  
+> > +static bool
+> > +process_madvise_behavior_valid(int behavior)
+> > +{
+> > +	switch (behavior) {
+> > +	case MADV_COLD:
+> > +	case MADV_PAGEOUT:
+> > +		return true;
+> > +	default:
+> > +		return false;
+> > +	}
+> > +}
+> > +
+> >  /*
+> >   * The madvise(2) system call.
+> >   *
+> > @@ -1042,6 +1055,11 @@ madvise_behavior_valid(int behavior)
+> >   *  MADV_DONTDUMP - the application wants to prevent pages in the given range
+> >   *		from being included in its core dump.
+> >   *  MADV_DODUMP - cancel MADV_DONTDUMP: no longer exclude from core dump.
+> > + *  MADV_COLD - the application is not expected to use this memory soon,
+> > + *		deactivate pages in this range so that they can be reclaimed
+> > + *		easily if memory pressure hanppens.
+> > + *  MADV_PAGEOUT - the application is not expected to use this memory soon,
+> > + *		page out the pages in this range immediately.
+> >   *
+> >   * return values:
+> >   *  zero    - success
+> > @@ -1176,3 +1194,106 @@ SYSCALL_DEFINE3(madvise, unsigned long, start, size_t, len_in, int, behavior)
+> >  {
+> >  	return do_madvise(current, current->mm, start, len_in, behavior);
+> >  }
+> > +
+> > +static int process_madvise_vec(struct task_struct *target_task,
+> > +		struct mm_struct *mm, struct iov_iter *iter, int behavior)
+> > +{
+> > +	struct iovec iovec;
+> > +	int ret = 0;
+> > +
+> > +	while (iov_iter_count(iter)) {
+> > +		iovec = iov_iter_iovec(iter);
+> > +		ret = do_madvise(target_task, mm, (unsigned long)iovec.iov_base,
+> > +					iovec.iov_len, behavior);
+> > +		if (ret < 0)
+> > +			break;
+> > +		iov_iter_advance(iter, iovec.iov_len);
+> > +	}
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static ssize_t do_process_madvise(int pidfd, struct iov_iter *iter,
+> > +				int behavior, unsigned int flags)
+> > +{
+> > +	ssize_t ret;
+> > +	struct pid *pid;
+> > +	struct task_struct *task;
+> > +	struct mm_struct *mm;
+> > +	size_t total_len = iov_iter_count(iter);
+> > +
+> > +	if (flags != 0)
+> > +		return -EINVAL;
+> > +
+> > +	pid = pidfd_get_pid(pidfd);
+> > +	if (IS_ERR(pid))
+> > +		return PTR_ERR(pid);
+> > +
+> > +	task = get_pid_task(pid, PIDTYPE_PID);
+> > +	if (!task) {
+> > +		ret = -ESRCH;
+> > +		goto put_pid;
+> > +	}
+> > +
+> > +	if (task->mm != current->mm &&
+> > +			!process_madvise_behavior_valid(behavior)) {
+> > +		ret = -EINVAL;
+> > +		goto release_task;
+> > +	}
+> > +
+> > +	mm = mm_access(task, PTRACE_MODE_ATTACH_FSCREDS);
+> > +	if (IS_ERR_OR_NULL(mm)) {
+> > +		ret = IS_ERR(mm) ? PTR_ERR(mm) : -ESRCH;
+> > +		goto release_task;
+> > +	}
+> > 
 > 
-> ktime_t is not part of the uapi headers, and has always been considered
-> an implementation detail of the kernel so far. I would argue it should
-> stay that way. The most sensible alternatives would be to either use
-> a "__u64 *timeout" argument for a relative timeout, or a
-> "struct __kernel_timespec *timeout" for an absolute timeout.
-> 
-> old_time32_t also makes no sense for multiple reasons:
-> 
-> - It's another kernel internal type and not part of the uapi headers
-> - your time32 call has different calling conventions from your time64
->   version, not just a different type.
-> - there should be no need to add syscalls that are known to be buggy
->   when there is a replacement type that does not have that bug.
-> 
+> mm is always task->mm right?  I'm wondering if it would be better to find 
+> the mm directly in process_madvise_vec() rather than passing it into the 
+> function.  I'm not sure why we'd pass both task and mm here.
 
-Thanks for the input. As stated by tglx at [1], "supporting relative
-timeouts is wrong to begin with", my next patch will use "struct
-__kernel_timespec *timeout" for an absolute timeout.
+That's because of hint Jann provided in the past version.
+https://lore.kernel.org/linux-api/CAG48ez27=pwm5m_N_988xT1huO7g7h6arTQL44zev6TD-h-7Tg@mail.gmail.com/
 
->> - Is expected to have a x32 ABI implementation as well? In the case of
->>   wait and wake, we could use the same as x86_64 ABI. However, for the
->>   waitv (aka wait on multiple futexes) we would need a proper x32 entry
->>   since we are dealing with 32bit pointers.
-> 
-> For new syscalls, I'd actually recommend not having a separate
-> entry point, but just checking 'if (in_compat_syscall())' inside of the
-> implementation to pick one behavior vs the other when accessing
-> the user pointers. This keeps the implementation simpler and
-> avoids assigning a new x32 syscall number that would be different
-> from all the other architectures.
-> 
-
-Cool, this will make the code cleaner.
-
->       Arnd
-> 
-
-
-Thanks,
-	André
-
-[1] https://lkml.org/lkml/2019/7/31/1499
+Thanks for the review, David.
