@@ -2,156 +2,100 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D27F2099DA
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jun 2020 08:28:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B4B3209A11
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jun 2020 08:48:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390047AbgFYG2f (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 25 Jun 2020 02:28:35 -0400
-Received: from mail-ej1-f66.google.com ([209.85.218.66]:37251 "EHLO
-        mail-ej1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726742AbgFYG2f (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 25 Jun 2020 02:28:35 -0400
-Received: by mail-ej1-f66.google.com with SMTP id mb16so4792539ejb.4
-        for <linux-api@vger.kernel.org>; Wed, 24 Jun 2020 23:28:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=IZxXz9KByq6hibP/lbhu1aFBYmRX2QrnJLs+2zSgJz0=;
-        b=FEqQ30v3NrRzKdUNwGBdr/UCVgE8sRipnlHtIsiTHXYn13BACWTgaPR5Ttfduk639f
-         11KCBvBi97Ojn0jrFw7yz4IKPHCIOSQtAXkRy1xUR152wD3JcGNpQxrJgq2xuG8rOCnX
-         2WX3fDzXft7ezqg5MsMpb62hR09waNj9YwXFT9v6TCoYTjAIsrDK63j/flhwZpOzUphf
-         v+yt9spGYtvFzSYHt2JdHo9gCjf/UcNBSa0dKSkjVaVozmnZFl4qEgMWj2VPVC/gx2/O
-         kJjqbWhsQYHHy6r+D3aP6prUM9aeFhpY+RcIHIFbAKRxLVYzrXBIfEPccKdfkfOWXN/V
-         StiA==
-X-Gm-Message-State: AOAM533O4CAH/U1ZJCq3ghDXa/zyNGRAXXAaIB4cCqPOfM6FXeS4t1XV
-        HKSDiEhpARqLG7Vkqff+sS4=
-X-Google-Smtp-Source: ABdhPJxk1Bk247vqEFFVV1m7vyabawPQ99efDuds9l9gBdxnvVfUu45BgKrTQEkkN8a6fEkmvAAArA==
-X-Received: by 2002:a17:906:488b:: with SMTP id v11mr19650243ejq.173.1593066512104;
-        Wed, 24 Jun 2020 23:28:32 -0700 (PDT)
-Received: from localhost (ip-37-188-168-3.eurotel.cz. [37.188.168.3])
-        by smtp.gmail.com with ESMTPSA id m13sm6736266ejc.1.2020.06.24.23.28.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jun 2020 23:28:28 -0700 (PDT)
-Date:   Thu, 25 Jun 2020 08:28:27 +0200
-From:   Michal Hocko <mhocko@kernel.org>
-To:     Ben Widawsky <ben.widawsky@intel.com>
-Cc:     linux-mm <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Christoph Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>,
-        David Rientjes <rientjes@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Lee Schermerhorn <lee.schermerhorn@hp.com>,
-        Li Xinhai <lixinhai.lxh@gmail.com>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Mina Almasry <almasrymina@google.com>,
-        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
-        linux-api@vger.kernel.org
-Subject: Re: [PATCH 00/18] multiple preferred nodes
-Message-ID: <20200625062827.GB1320@dhcp22.suse.cz>
-References: <20200624075216.GC1320@dhcp22.suse.cz>
- <20200624161643.75fkkvsxlmp3bf2e@intel.com>
- <20200624183917.GW1320@dhcp22.suse.cz>
- <20200624193733.tqeligjd3pdvrsmi@intel.com>
- <20200624195158.GX1320@dhcp22.suse.cz>
- <20200624200140.dypw6snshshzlbwa@intel.com>
- <20200624200750.GY1320@dhcp22.suse.cz>
- <20200624202344.woogq4n3bqkuejty@intel.com>
- <20200624204232.GZ1320@dhcp22.suse.cz>
- <20200624205518.tzcvjayntez4ueqw@intel.com>
+        id S2389689AbgFYGst convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Thu, 25 Jun 2020 02:48:49 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:45559 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727999AbgFYGst (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 25 Jun 2020 02:48:49 -0400
+Received: from mail-qt1-f169.google.com ([209.85.160.169]) by
+ mrelayeu.kundenserver.de (mreue107 [212.227.15.145]) with ESMTPSA (Nemesis)
+ id 1MGA0o-1jcITa1v1Y-00GZ7V; Thu, 25 Jun 2020 08:48:46 +0200
+Received: by mail-qt1-f169.google.com with SMTP id j10so3811912qtq.11;
+        Wed, 24 Jun 2020 23:48:46 -0700 (PDT)
+X-Gm-Message-State: AOAM533bSYcFkq5u8I1cPLwR5C/1h0wCCPcVGTKh8Zkx0H0b2/GqM4Fw
+        Z8JwKf99DuNPi2nZmqBq/XVz0pYV/4gELDAnHB8=
+X-Google-Smtp-Source: ABdhPJwJfoAQe7bg+6/cF9QAvyR+RjvAhE5vpUgYCG406wBKAZ0pXDqrbInCtKUTN6gbvAUsuW0npAUiXhhv9jDyXTk=
+X-Received: by 2002:ac8:2b98:: with SMTP id m24mr31004183qtm.7.1593067725254;
+ Wed, 24 Jun 2020 23:48:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200624205518.tzcvjayntez4ueqw@intel.com>
+References: <20200612185122.327860-1-andrealmeid@collabora.com>
+In-Reply-To: <20200612185122.327860-1-andrealmeid@collabora.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Thu, 25 Jun 2020 08:48:29 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a1fwYX-S84ukxEWBt_DZ09MdBLbQyf4Jgrr-AeqG89jeA@mail.gmail.com>
+Message-ID: <CAK8P3a1fwYX-S84ukxEWBt_DZ09MdBLbQyf4Jgrr-AeqG89jeA@mail.gmail.com>
+Subject: Re: [RFC 0/4] futex2: Add new futex interface
+To:     =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@collabora.com>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>, krisman@collabora.com,
+        Collabora kernel ML <kernel@collabora.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, pgriffais@valvesoftware.com,
+        Florian Weimer <fweimer@redhat.com>,
+        GNU C Library <libc-alpha@sourceware.org>,
+        malteskarupke@web.de, Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Provags-ID: V03:K1:LPEg7+RF/q09fzQm3Nrfm5ZP5BtGFOwKGrcVgVdBPZ0zbLvP65S
+ VYSxbYaeRQl2eZbJIBj6mEluGOSEi86P0UcoSBhhPDbuYgLqDzXkqZGWMF3FRljJ79km/NH
+ vLF7QaDOXzzD4UA6+XNS0tmXr4koG3osXeBlV1OFwIGrb/Sf97RaYH+Gqua7qlHT5fbmIXa
+ meaiZR9k9xW2JE8R7DhNw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:QInPhZW5tRo=:/wJCxg8hJSU7fMZlNMobUt
+ Ma9rI0a9WjGvQ4veLpnjkYk/qnV4G8U8+DhZLt3SNaQDY9h/cNtMi+d+F/FWm2YMCKjhtN6x4
+ QYe/RpOUi522P0OMYo/hEXphVypNH2iwCKuoD29f4N7jQpuzAE9M3Vj7L5kvzHIGvH+ccz4ph
+ B+vIvTCVgq+1g5FMY6Qz36c3D3U0Uaa4V4l1aBO5hwAy4m4Q78m71SIFycb5YNcvJlVRvmSlG
+ NcvC7lJOVblBvrKK693Z2xYL8MBf2XGXxwGx3FspPasEhPYcJUGtWZvZtWElKTVRA3Sl+jbsu
+ IG4uzFNZY0rNTW2WcgCbMsXLMZxWiHhL4waUgGAWJjoooJ0saQJInOLjXsz2LVlw8UYFc3voj
+ 4sQ3Pq7+FYu/ZO2Yud0kBUGhqBZJOEeYWVqSDy+RcOxCxZlWDFMgBFx5ttGoRF54QS2OKrQGp
+ or2nsMSWCtCvgsMTmrsOtwuc8uT4QBanYmPZ9x7AiDEC26SupaLMU8C/rCRhPQpS1gkOoU870
+ qx/6AeDUtg3kvhERsAlD9iYzHMv4OVWj6/02SA48P/nD2SnTNkS4nlEL38McgiYTmdDFQEZ/b
+ EiDQ/Fnxn7HTht9wz1VJKkkv7RaNRF5w0d6zfCGHx39ZIe2QEUct5jm/rA+vJllQVPCKgD9oC
+ BP40LqojgxHn5Q3E2nvWppSrpTeum71oHzLDEpL4tXE5umDviAhQ1wW/BjFBR1a3nFiAJqQaN
+ +DhExNv1rBClfqDH5oYDF/zFPTGPDIOqwOluVBcx3k6a8quyOnFegs+Ni2oaqUDGsrRTz3jgO
+ nFgTU87dHzspu3DhLtQfzVEiiaC/11R3/bzDgYX00nYZjFTXFI=
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed 24-06-20 13:55:18, Ben Widawsky wrote:
-> On 20-06-24 22:42:32, Michal Hocko wrote:
-> > On Wed 24-06-20 13:23:44, Ben Widawsky wrote:
-> > > On 20-06-24 22:07:50, Michal Hocko wrote:
-> > > > On Wed 24-06-20 13:01:40, Ben Widawsky wrote:
-> > > > > On 20-06-24 21:51:58, Michal Hocko wrote:
-> > > > > > On Wed 24-06-20 12:37:33, Ben Widawsky wrote:
-> > > > > > > On 20-06-24 20:39:17, Michal Hocko wrote:
-> > > > > > > > On Wed 24-06-20 09:16:43, Ben Widawsky wrote:
-> > > > [...]
-> > > > > > > > > > Or do I miss something that really requires more involved approach like
-> > > > > > > > > > building custom zonelists and other larger changes to the allocator?
-> > > > > > > > > 
-> > > > > > > > > I think I'm missing how this allows selecting from multiple preferred nodes. In
-> > > > > > > > > this case when you try to get the page from the freelist, you'll get the
-> > > > > > > > > zonelist of the preferred node, and when you actually scan through on page
-> > > > > > > > > allocation, you have no way to filter out the non-preferred nodes. I think the
-> > > > > > > > > plumbing of multiple nodes has to go all the way through
-> > > > > > > > > __alloc_pages_nodemask(). But it's possible I've missed the point.
-> > > > > > > > 
-> > > > > > > > policy_nodemask() will provide the nodemask which will be used as a
-> > > > > > > > filter on the policy_node.
-> > > > > > > 
-> > > > > > > Ah, gotcha. Enabling independent masks seemed useful. Some bad decisions got me
-> > > > > > > to that point. UAPI cannot get independent masks, and callers of these functions
-> > > > > > > don't yet use them.
-> > > > > > > 
-> > > > > > > So let me ask before I actually type it up and find it's much much simpler, is
-> > > > > > > there not some perceived benefit to having both masks being independent?
-> > > > > > 
-> > > > > > I am not sure I follow. Which two masks do you have in mind? zonelist
-> > > > > > and user provided nodemask?
-> > > > > 
-> > > > > Internally, a nodemask_t for preferred node, and a nodemask_t for bound nodes.
-> > > > 
-> > > > Each mask is a local to its policy object.
-> > > 
-> > > I mean for __alloc_pages_nodemask as an internal API. That is irrespective of
-> > > policy. Policy decisions are all made beforehand. The question from a few mails
-> > > ago was whether there is any use in keeping that change to
-> > > __alloc_pages_nodemask accepting two nodemasks.
-> > 
-> > It is probably too late for me because I am still not following you
-> > mean. Maybe it would be better to provide a pseudo code what you have in
-> > mind. Anyway all that I am saying is that for the functionality that you
-> > propose and _if_ the fallback strategy is fixed then all you should need
-> > is to use the preferred nodemask for the __alloc_pages_nodemask and a
-> > fallback allocation to the full (NULL nodemask). So you first try what
-> > the userspace prefers - __GFP_RETRY_MAYFAIL will give you try hard but
-> > do not OOM if the memory is depleted semantic and the fallback
-> > allocation goes all the way to OOM on the complete memory depletion.
-> > So I do not see much point in a custom zonelist for the policy. Maybe as
-> > a micro-optimization to save some branches here and there.
-> > 
-> > If you envision usecases which might want to control the fallback
-> > allocation strategy then this would get more complex because you
-> > would need a sorted list of zones to try but this would really require
-> > some solid usecase and it should build on top of a trivial
-> > implementation which really is BIND with the fallback.
-> > 
-> 
-> I will implement what you suggest. I think it's a good suggestion. Here is what
-> I mean though:
-> -struct page *
-> -__alloc_pages_nodemask(gfp_t gfp_mask, unsigned int order, int preferred_nid,
-> -                                                       nodemask_t *nodemask);
-> +struct page *
-> +__alloc_pages_nodemask(gfp_t gfp_mask, unsigned int order, nodemask_t *prefmask,
-> +		       nodemask_t *nodemask);
-> 
-> Is there any value in keeping two nodemasks as part of the interface?
+On Fri, Jun 12, 2020 at 8:51 PM André Almeida <andrealmeid@collabora.com> wrote:
 
-I do not see any advantage. The first thing you would have to do is
-either intersect the two or special case the code to use one over
-another and then you would need a clear criterion on how to do that.
+> - The proposed interface uses ktime_t type for absolute timeout, and I
+>   assumed that it should use values in a nsec resolution. If this is true,
+>   we have some problems with i386 ABI, please check out the
+>   COMPAT_32BIT_TIME implementation in patch 1 for more details. I
+>   haven't added a time64 implementation yet, until this is clarified.
 
--- 
-Michal Hocko
-SUSE Labs
+ktime_t is not part of the uapi headers, and has always been considered
+an implementation detail of the kernel so far. I would argue it should
+stay that way. The most sensible alternatives would be to either use
+a "__u64 *timeout" argument for a relative timeout, or a
+"struct __kernel_timespec *timeout" for an absolute timeout.
+
+old_time32_t also makes no sense for multiple reasons:
+
+- It's another kernel internal type and not part of the uapi headers
+- your time32 call has different calling conventions from your time64
+  version, not just a different type.
+- there should be no need to add syscalls that are known to be buggy
+  when there is a replacement type that does not have that bug.
+
+> - Is expected to have a x32 ABI implementation as well? In the case of
+>   wait and wake, we could use the same as x86_64 ABI. However, for the
+>   waitv (aka wait on multiple futexes) we would need a proper x32 entry
+>   since we are dealing with 32bit pointers.
+
+For new syscalls, I'd actually recommend not having a separate
+entry point, but just checking 'if (in_compat_syscall())' inside of the
+implementation to pick one behavior vs the other when accessing
+the user pointers. This keeps the implementation simpler and
+avoids assigning a new x32 syscall number that would be different
+from all the other architectures.
+
+      Arnd
