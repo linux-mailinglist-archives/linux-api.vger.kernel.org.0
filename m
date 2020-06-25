@@ -2,385 +2,156 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D7DBC20986C
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jun 2020 04:18:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D27F2099DA
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jun 2020 08:28:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389182AbgFYCSe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 24 Jun 2020 22:18:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47408 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389144AbgFYCSe (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 24 Jun 2020 22:18:34 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23AB0C061573;
-        Wed, 24 Jun 2020 19:18:34 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 54714521;
-        Thu, 25 Jun 2020 04:18:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1593051512;
-        bh=O7UUb91wU/kWVLyFpWSCzPMXCvYTvdJmc4CB0fVicT8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=h/bjotn1Latpi6z5/HUEmcVn2oIjPOyzCmKh3ZurBSdc7BINsUYXPMhEiIeXlxH5l
-         T/IPDrjlTeIC0VasqPD1e/JC0jV4JAYesUOHYIuGNSWQbZ5bejYsDYQwP7PusnUpPs
-         AdChf01pqEnqhbpop6H3mC3KhCZaWwuqGSB7fY64=
-Date:   Thu, 25 Jun 2020 05:18:31 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Damian Hobson-Garcia <dhobsong@igel.co.jp>
-Cc:     Paul Elder <paul.elder@ideasonboard.com>, viro@zeniv.linux.org.uk,
-        sustrik@250bpm.com, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        netdev@vger.kernel.org, David.Laight@aculab.com
-Subject: Re: [PATCH v3 1/1] eventfd: implementation of EFD_MASK flag
-Message-ID: <20200625021831.GZ5980@pendragon.ideasonboard.com>
-References: <1444873328-8466-1-git-send-email-dhobsong@igel.co.jp>
- <1444873328-8466-2-git-send-email-dhobsong@igel.co.jp>
- <20200619101619.GD2073@jade.amanokami.net>
- <8b9b1b31-99fc-0877-cbd3-0f52de52419c@igel.co.jp>
+        id S2390047AbgFYG2f (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 25 Jun 2020 02:28:35 -0400
+Received: from mail-ej1-f66.google.com ([209.85.218.66]:37251 "EHLO
+        mail-ej1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726742AbgFYG2f (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 25 Jun 2020 02:28:35 -0400
+Received: by mail-ej1-f66.google.com with SMTP id mb16so4792539ejb.4
+        for <linux-api@vger.kernel.org>; Wed, 24 Jun 2020 23:28:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=IZxXz9KByq6hibP/lbhu1aFBYmRX2QrnJLs+2zSgJz0=;
+        b=FEqQ30v3NrRzKdUNwGBdr/UCVgE8sRipnlHtIsiTHXYn13BACWTgaPR5Ttfduk639f
+         11KCBvBi97Ojn0jrFw7yz4IKPHCIOSQtAXkRy1xUR152wD3JcGNpQxrJgq2xuG8rOCnX
+         2WX3fDzXft7ezqg5MsMpb62hR09waNj9YwXFT9v6TCoYTjAIsrDK63j/flhwZpOzUphf
+         v+yt9spGYtvFzSYHt2JdHo9gCjf/UcNBSa0dKSkjVaVozmnZFl4qEgMWj2VPVC/gx2/O
+         kJjqbWhsQYHHy6r+D3aP6prUM9aeFhpY+RcIHIFbAKRxLVYzrXBIfEPccKdfkfOWXN/V
+         StiA==
+X-Gm-Message-State: AOAM533O4CAH/U1ZJCq3ghDXa/zyNGRAXXAaIB4cCqPOfM6FXeS4t1XV
+        HKSDiEhpARqLG7Vkqff+sS4=
+X-Google-Smtp-Source: ABdhPJxk1Bk247vqEFFVV1m7vyabawPQ99efDuds9l9gBdxnvVfUu45BgKrTQEkkN8a6fEkmvAAArA==
+X-Received: by 2002:a17:906:488b:: with SMTP id v11mr19650243ejq.173.1593066512104;
+        Wed, 24 Jun 2020 23:28:32 -0700 (PDT)
+Received: from localhost (ip-37-188-168-3.eurotel.cz. [37.188.168.3])
+        by smtp.gmail.com with ESMTPSA id m13sm6736266ejc.1.2020.06.24.23.28.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Jun 2020 23:28:28 -0700 (PDT)
+Date:   Thu, 25 Jun 2020 08:28:27 +0200
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Ben Widawsky <ben.widawsky@intel.com>
+Cc:     linux-mm <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christoph Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>,
+        David Rientjes <rientjes@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Lee Schermerhorn <lee.schermerhorn@hp.com>,
+        Li Xinhai <lixinhai.lxh@gmail.com>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mina Almasry <almasrymina@google.com>,
+        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH 00/18] multiple preferred nodes
+Message-ID: <20200625062827.GB1320@dhcp22.suse.cz>
+References: <20200624075216.GC1320@dhcp22.suse.cz>
+ <20200624161643.75fkkvsxlmp3bf2e@intel.com>
+ <20200624183917.GW1320@dhcp22.suse.cz>
+ <20200624193733.tqeligjd3pdvrsmi@intel.com>
+ <20200624195158.GX1320@dhcp22.suse.cz>
+ <20200624200140.dypw6snshshzlbwa@intel.com>
+ <20200624200750.GY1320@dhcp22.suse.cz>
+ <20200624202344.woogq4n3bqkuejty@intel.com>
+ <20200624204232.GZ1320@dhcp22.suse.cz>
+ <20200624205518.tzcvjayntez4ueqw@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8b9b1b31-99fc-0877-cbd3-0f52de52419c@igel.co.jp>
+In-Reply-To: <20200624205518.tzcvjayntez4ueqw@intel.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Damian,
-
-On Tue, Jun 23, 2020 at 06:21:28PM +0900, Damian Hobson-Garcia wrote:
-> On 2020-06-19 7:16 p.m., Paul Elder wrote:
-> > Hello Damian, Martin, and all,
+On Wed 24-06-20 13:55:18, Ben Widawsky wrote:
+> On 20-06-24 22:42:32, Michal Hocko wrote:
+> > On Wed 24-06-20 13:23:44, Ben Widawsky wrote:
+> > > On 20-06-24 22:07:50, Michal Hocko wrote:
+> > > > On Wed 24-06-20 13:01:40, Ben Widawsky wrote:
+> > > > > On 20-06-24 21:51:58, Michal Hocko wrote:
+> > > > > > On Wed 24-06-20 12:37:33, Ben Widawsky wrote:
+> > > > > > > On 20-06-24 20:39:17, Michal Hocko wrote:
+> > > > > > > > On Wed 24-06-20 09:16:43, Ben Widawsky wrote:
+> > > > [...]
+> > > > > > > > > > Or do I miss something that really requires more involved approach like
+> > > > > > > > > > building custom zonelists and other larger changes to the allocator?
+> > > > > > > > > 
+> > > > > > > > > I think I'm missing how this allows selecting from multiple preferred nodes. In
+> > > > > > > > > this case when you try to get the page from the freelist, you'll get the
+> > > > > > > > > zonelist of the preferred node, and when you actually scan through on page
+> > > > > > > > > allocation, you have no way to filter out the non-preferred nodes. I think the
+> > > > > > > > > plumbing of multiple nodes has to go all the way through
+> > > > > > > > > __alloc_pages_nodemask(). But it's possible I've missed the point.
+> > > > > > > > 
+> > > > > > > > policy_nodemask() will provide the nodemask which will be used as a
+> > > > > > > > filter on the policy_node.
+> > > > > > > 
+> > > > > > > Ah, gotcha. Enabling independent masks seemed useful. Some bad decisions got me
+> > > > > > > to that point. UAPI cannot get independent masks, and callers of these functions
+> > > > > > > don't yet use them.
+> > > > > > > 
+> > > > > > > So let me ask before I actually type it up and find it's much much simpler, is
+> > > > > > > there not some perceived benefit to having both masks being independent?
+> > > > > > 
+> > > > > > I am not sure I follow. Which two masks do you have in mind? zonelist
+> > > > > > and user provided nodemask?
+> > > > > 
+> > > > > Internally, a nodemask_t for preferred node, and a nodemask_t for bound nodes.
+> > > > 
+> > > > Each mask is a local to its policy object.
+> > > 
+> > > I mean for __alloc_pages_nodemask as an internal API. That is irrespective of
+> > > policy. Policy decisions are all made beforehand. The question from a few mails
+> > > ago was whether there is any use in keeping that change to
+> > > __alloc_pages_nodemask accepting two nodemasks.
 > > 
-> > I came across this (quite old by now) patch to extend eventfd's polling
-> > functionality. I was wondering what happened to it (why it hasn't been
-> > merged yet) and if we could, or what is needed to, move it forward.
+> > It is probably too late for me because I am still not following you
+> > mean. Maybe it would be better to provide a pseudo code what you have in
+> > mind. Anyway all that I am saying is that for the functionality that you
+> > propose and _if_ the fallback strategy is fixed then all you should need
+> > is to use the preferred nodemask for the __alloc_pages_nodemask and a
+> > fallback allocation to the full (NULL nodemask). So you first try what
+> > the userspace prefers - __GFP_RETRY_MAYFAIL will give you try hard but
+> > do not OOM if the memory is depleted semantic and the fallback
+> > allocation goes all the way to OOM on the complete memory depletion.
+> > So I do not see much point in a custom zonelist for the policy. Maybe as
+> > a micro-optimization to save some branches here and there.
+> > 
+> > If you envision usecases which might want to control the fallback
+> > allocation strategy then this would get more complex because you
+> > would need a sorted list of zones to try but this would really require
+> > some solid usecase and it should build on top of a trivial
+> > implementation which really is BIND with the fallback.
+> > 
 > 
-> I think there was an open question about whether it was
-> best to move the definitions of EFD_SEMAPHORE, etc out of
-> /include/linux/eventfd.h and into a newly created
-> /include/uapi/linux/eventfd.h as this patch does.
+> I will implement what you suggest. I think it's a good suggestion. Here is what
+> I mean though:
+> -struct page *
+> -__alloc_pages_nodemask(gfp_t gfp_mask, unsigned int order, int preferred_nid,
+> -                                                       nodemask_t *nodemask);
+> +struct page *
+> +__alloc_pages_nodemask(gfp_t gfp_mask, unsigned int order, nodemask_t *prefmask,
+> +		       nodemask_t *nodemask);
+> 
+> Is there any value in keeping two nodemasks as part of the interface?
 
-I would have thought that defining EFD_SEMAPHORE in a public API header
-would be best, but it seems that glibc has its own definition in
-bits/eventfd.h. I don't know what is usually preferred in these cases.
-
-> I don't know if the maintainers have any concerns on this matter, or the
-> patch in general, that would prevent this from moving forward.
-
-Thanks for your reply. It seems a good way forward would be to resubmit
-the patch then.
-
-> > I was thinking to use it for V4L2 events support via polling in the V4L2
-> > compatibility layer for libcamera [1]. We can signal V4L2 buffer
-> > availability POLLOUT via write(), but there is no way to signal V4L2
-> > events, as they are signaled via POLLPRI.
-> > 
-> > [1] https://libcamera.org/docs.html#id1
-> > 
-> > On Thu, Oct 15, 2015 at 10:42:08AM +0900, Damian Hobson-Garcia wrote:
-> >> From: Martin Sustrik <sustrik@250bpm.com>
-> >>
-> >> When implementing network protocols in user space, one has to implement
-> >> fake file descriptors to represent the sockets for the protocol.
-> >>
-> >> Polling on such fake file descriptors is a problem (poll/select/epoll
-> >> accept only true file descriptors) and forces protocol implementers to use
-> >> various workarounds resulting in complex, non-standard and convoluted APIs.
-> >>
-> >> More generally, ability to create full-blown file descriptors for
-> >> userspace-to-userspace signalling is missing. While eventfd(2) goes half
-> >> the way towards this goal it has follwoing shorcomings:
-> >>
-> >> I.  There's no way to signal POLLPRI, POLLHUP etc.
-> >> II. There's no way to signal arbitrary combination of POLL* flags. Most
-> >>     notably, simultaneous !POLLIN and !POLLOUT, which is a perfectly valid
-> >>     combination for a network protocol (rx buffer is empty and tx buffer is
-> >>     full), cannot be signaled using eventfd.
-> >>
-> >> This patch implements new EFD_MASK flag which solves the above problems.
-> >>
-> >> The semantics of EFD_MASK are as follows:
-> >>
-> >> eventfd(2):
-> >>
-> >> If eventfd is created with EFD_MASK flag set, it is initialised in such a
-> >> way as to signal no events on the file descriptor when it is polled on.
-> >> The 'initval' argument is ignored.
-> >>
-> >> write(2):
-> >>
-> >> User is allowed to write only buffers containing a 32-bit value
-> >> representing any combination of event flags as defined by the poll(2)
-> >> function (POLLIN, POLLOUT, POLLERR, POLLHUP etc.). Specified events
-> >> will be signaled when polling (select, poll, epoll) on the eventfd is
-> >> done later on.
-> >>
-> >> read(2):
-> >>
-> >> read is not supported and will fail with EINVAL.
-> >>
-> >> select(2), poll(2) and similar:
-> >>
-> >> When polling on the eventfd marked by EFD_MASK flag, all the events
-> >> specified in last written event flags shall be signaled.
-> >>
-> >> Signed-off-by: Martin Sustrik <sustrik@250bpm.com>
-> >>
-> >> [dhobsong@igel.co.jp: Rebased, and resubmitted for Linux 4.3]
-> >> Signed-off-by: Damian Hobson-Garcia <dhobsong@igel.co.jp>
-> >> ---
-> >>  fs/eventfd.c                 | 102 ++++++++++++++++++++++++++++++++++++++-----
-> >>  include/linux/eventfd.h      |  16 +------
-> >>  include/uapi/linux/eventfd.h |  33 ++++++++++++++
-> >>  3 files changed, 126 insertions(+), 25 deletions(-)
-> >>  create mode 100644 include/uapi/linux/eventfd.h
-> >>
-> >> diff --git a/fs/eventfd.c b/fs/eventfd.c
-> >> index 8d0c0df..1310779 100644
-> >> --- a/fs/eventfd.c
-> >> +++ b/fs/eventfd.c
-> >> @@ -2,6 +2,7 @@
-> >>   *  fs/eventfd.c
-> >>   *
-> >>   *  Copyright (C) 2007  Davide Libenzi <davidel@xmailserver.org>
-> >> + *  Copyright (C) 2013  Martin Sustrik <sustrik@250bpm.com>
-> >>   *
-> >>   */
-> >>  
-> >> @@ -22,18 +23,31 @@
-> >>  #include <linux/proc_fs.h>
-> >>  #include <linux/seq_file.h>
-> >>  
-> >> +#define EFD_SHARED_FCNTL_FLAGS (O_CLOEXEC | O_NONBLOCK)
-> >> +#define EFD_FLAGS_SET (EFD_SHARED_FCNTL_FLAGS | EFD_SEMAPHORE | EFD_MASK)
-> >> +#define EFD_MASK_VALID_EVENTS (POLLIN | POLLPRI | POLLOUT | POLLERR | POLLHUP)
-> >> +
-> >>  struct eventfd_ctx {
-> >>  	struct kref kref;
-> >>  	wait_queue_head_t wqh;
-> >> -	/*
-> >> -	 * Every time that a write(2) is performed on an eventfd, the
-> >> -	 * value of the __u64 being written is added to "count" and a
-> >> -	 * wakeup is performed on "wqh". A read(2) will return the "count"
-> >> -	 * value to userspace, and will reset "count" to zero. The kernel
-> >> -	 * side eventfd_signal() also, adds to the "count" counter and
-> >> -	 * issue a wakeup.
-> >> -	 */
-> >> -	__u64 count;
-> >> +	union {
-> >> +		/*
-> >> +		 * Every time that a write(2) is performed on an eventfd, the
-> >> +		 * value of the __u64 being written is added to "count" and a
-> >> +		 * wakeup is performed on "wqh". A read(2) will return the
-> >> +		 * "count" value to userspace, and will reset "count" to zero.
-> >> +		 * The kernel side eventfd_signal() also, adds to the "count"
-> >> +		 * counter and issue a wakeup.
-> >> +		 */
-> >> +		__u64 count;
-> >> +
-> >> +		/*
-> >> +		 * When using eventfd in EFD_MASK mode this stracture stores the
-> >> +		 * current events to be signaled on the eventfd (events member)
-> >> +		 * along with opaque user-defined data (data member).
-> >> +		 */
-> >> +		__u32 events;
-> >> +	};
-> >>  	unsigned int flags;
-> >>  };
-> >>  
-> >> @@ -134,6 +148,14 @@ static unsigned int eventfd_poll(struct file *file, poll_table *wait)
-> >>  	return events;
-> >>  }
-> >>  
-> >> +static unsigned int eventfd_mask_poll(struct file *file, poll_table *wait)
-> >> +{
-> >> +	struct eventfd_ctx *ctx = file->private_data;
-> >> +
-> >> +	poll_wait(file, &ctx->wqh, wait);
-> >> +	return ctx->events;
-> >> +}
-> >> +
-> >>  static void eventfd_ctx_do_read(struct eventfd_ctx *ctx, __u64 *cnt)
-> >>  {
-> >>  	*cnt = (ctx->flags & EFD_SEMAPHORE) ? 1 : ctx->count;
-> >> @@ -239,6 +261,14 @@ static ssize_t eventfd_read(struct file *file, char __user *buf, size_t count,
-> >>  	return put_user(cnt, (__u64 __user *) buf) ? -EFAULT : sizeof(cnt);
-> >>  }
-> >>  
-> >> +static ssize_t eventfd_mask_read(struct file *file, char __user *buf,
-> >> +			    size_t count,
-> >> +			    loff_t *ppos)
-> >> +{
-> >> +	return -EINVAL;
-> >> +}
-> >> +
-> >> +
-> >>  static ssize_t eventfd_write(struct file *file, const char __user *buf, size_t count,
-> >>  			     loff_t *ppos)
-> >>  {
-> >> @@ -286,6 +316,28 @@ static ssize_t eventfd_write(struct file *file, const char __user *buf, size_t c
-> >>  	return res;
-> >>  }
-> >>  
-> >> +static ssize_t eventfd_mask_write(struct file *file, const char __user *buf,
-> >> +			     size_t count,
-> >> +			     loff_t *ppos)
-> >> +{
-> >> +	struct eventfd_ctx *ctx = file->private_data;
-> >> +	__u32 events;
-> >> +
-> >> +	if (count < sizeof(events))
-> >> +		return -EINVAL;
-> >> +	if (copy_from_user(&events, buf, sizeof(events)))
-> >> +		return -EFAULT;
-> >> +	if (events & ~EFD_MASK_VALID_EVENTS)
-> >> +		return -EINVAL;
-> >> +	spin_lock_irq(&ctx->wqh.lock);
-> >> +	memcpy(&ctx->events, &events, sizeof(ctx->events));
-> >> +	if (waitqueue_active(&ctx->wqh))
-> >> +		wake_up_locked_poll(&ctx->wqh,
-> >> +			(unsigned long)ctx->events);
-> >> +	spin_unlock_irq(&ctx->wqh.lock);
-> >> +	return sizeof(ctx->events);
-> >> +}
-> >> +
-> >>  #ifdef CONFIG_PROC_FS
-> >>  static void eventfd_show_fdinfo(struct seq_file *m, struct file *f)
-> >>  {
-> >> @@ -296,6 +348,16 @@ static void eventfd_show_fdinfo(struct seq_file *m, struct file *f)
-> >>  		   (unsigned long long)ctx->count);
-> >>  	spin_unlock_irq(&ctx->wqh.lock);
-> >>  }
-> >> +
-> >> +static void eventfd_mask_show_fdinfo(struct seq_file *m, struct file *f)
-> >> +{
-> >> +	struct eventfd_ctx *ctx = f->private_data;
-> >> +
-> >> +	spin_lock_irq(&ctx->wqh.lock);
-> >> +	seq_printf(m, "eventfd-mask: %x\n",
-> >> +		ctx->events);
-> >> +	spin_unlock_irq(&ctx->wqh.lock);
-> >> +}
-> >>  #endif
-> >>  
-> >>  static const struct file_operations eventfd_fops = {
-> >> @@ -309,6 +371,17 @@ static const struct file_operations eventfd_fops = {
-> >>  	.llseek		= noop_llseek,
-> >>  };
-> >>  
-> >> +static const struct file_operations eventfd_mask_fops = {
-> >> +#ifdef CONFIG_PROC_FS
-> >> +	.show_fdinfo	= eventfd_mask_show_fdinfo,
-> >> +#endif
-> >> +	.release	= eventfd_release,
-> >> +	.poll		= eventfd_mask_poll,
-> >> +	.read		= eventfd_mask_read,
-> >> +	.write		= eventfd_mask_write,
-> >> +	.llseek		= noop_llseek,
-> >> +};
-> >> +
-> >>  /**
-> >>   * eventfd_fget - Acquire a reference of an eventfd file descriptor.
-> >>   * @fd: [in] Eventfd file descriptor.
-> >> @@ -392,6 +465,7 @@ struct file *eventfd_file_create(unsigned int count, int flags)
-> >>  {
-> >>  	struct file *file;
-> >>  	struct eventfd_ctx *ctx;
-> >> +	const struct file_operations *fops;
-> >>  
-> >>  	/* Check the EFD_* constants for consistency.  */
-> >>  	BUILD_BUG_ON(EFD_CLOEXEC != O_CLOEXEC);
-> >> @@ -406,10 +480,16 @@ struct file *eventfd_file_create(unsigned int count, int flags)
-> >>  
-> >>  	kref_init(&ctx->kref);
-> >>  	init_waitqueue_head(&ctx->wqh);
-> >> -	ctx->count = count;
-> >> +	if (flags & EFD_MASK) {
-> >> +		ctx->events = 0;
-> >> +		fops = &eventfd_mask_fops;
-> >> +	} else {
-> >> +		ctx->count = count;
-> >> +		fops = &eventfd_fops;
-> >> +	}
-> >>  	ctx->flags = flags;
-> >>  
-> >> -	file = anon_inode_getfile("[eventfd]", &eventfd_fops, ctx,
-> >> +	file = anon_inode_getfile("[eventfd]", fops, ctx,
-> >>  				  O_RDWR | (flags & EFD_SHARED_FCNTL_FLAGS));
-> >>  	if (IS_ERR(file))
-> >>  		eventfd_free_ctx(ctx);
-> >> diff --git a/include/linux/eventfd.h b/include/linux/eventfd.h
-> >> index ff0b981..87de343 100644
-> >> --- a/include/linux/eventfd.h
-> >> +++ b/include/linux/eventfd.h
-> >> @@ -8,23 +8,11 @@
-> >>  #ifndef _LINUX_EVENTFD_H
-> >>  #define _LINUX_EVENTFD_H
-> >>  
-> >> +#include <uapi/linux/eventfd.h>
-> >> +
-> >>  #include <linux/fcntl.h>
-> >>  #include <linux/wait.h>
-> >>  
-> >> -/*
-> >> - * CAREFUL: Check include/uapi/asm-generic/fcntl.h when defining
-> >> - * new flags, since they might collide with O_* ones. We want
-> >> - * to re-use O_* flags that couldn't possibly have a meaning
-> >> - * from eventfd, in order to leave a free define-space for
-> >> - * shared O_* flags.
-> >> - */
-> >> -#define EFD_SEMAPHORE (1 << 0)
-> >> -#define EFD_CLOEXEC O_CLOEXEC
-> >> -#define EFD_NONBLOCK O_NONBLOCK
-> >> -
-> >> -#define EFD_SHARED_FCNTL_FLAGS (O_CLOEXEC | O_NONBLOCK)
-> >> -#define EFD_FLAGS_SET (EFD_SHARED_FCNTL_FLAGS | EFD_SEMAPHORE)
-> >> -
-> >>  struct file;
-> >>  
-> >>  #ifdef CONFIG_EVENTFD
-> >> diff --git a/include/uapi/linux/eventfd.h b/include/uapi/linux/eventfd.h
-> >> new file mode 100644
-> >> index 0000000..097dcad
-> >> --- /dev/null
-> >> +++ b/include/uapi/linux/eventfd.h
-> >> @@ -0,0 +1,33 @@
-> >> +/*
-> >> + *  Copyright (C) 2013 Martin Sustrik <sustrik@250bpm.com>
-> >> + *
-> >> + *  This program is free software; you can redistribute it and/or modify
-> >> + *  it under the terms of the GNU General Public License as published by
-> >> + *  the Free Software Foundation; either version 2 of the License, or
-> >> + *  (at your option) any later version.
-> >> + */
-> >> +
-> >> +#ifndef _UAPI_LINUX_EVENTFD_H
-> >> +#define _UAPI_LINUX_EVENTFD_H
-> >> +
-> >> +/* For O_CLOEXEC */
-> >> +#include <linux/fcntl.h>
-> >> +#include <linux/types.h>
-> >> +
-> >> +/*
-> >> + * CAREFUL: Check include/asm-generic/fcntl.h when defining
-> >> + * new flags, since they might collide with O_* ones. We want
-> >> + * to re-use O_* flags that couldn't possibly have a meaning
-> >> + * from eventfd, in order to leave a free define-space for
-> >> + * shared O_* flags.
-> >> + */
-> >> +
-> >> +/* Provide semaphore-like semantics for reads from the eventfd. */
-> >> +#define EFD_SEMAPHORE (1 << 0)
-> >> +/* Provide event mask semantics for the eventfd. */
-> >> +#define EFD_MASK (1 << 1)
-> >> +/*  Set the close-on-exec (FD_CLOEXEC) flag on the eventfd. */
-> >> +#define EFD_CLOEXEC O_CLOEXEC
-> >> +/*  Create the eventfd in non-blocking mode. */
-> >> +#define EFD_NONBLOCK O_NONBLOCK
-> >> +#endif /* _UAPI_LINUX_EVENTFD_H */
+I do not see any advantage. The first thing you would have to do is
+either intersect the two or special case the code to use one over
+another and then you would need a clear criterion on how to do that.
 
 -- 
-Regards,
-
-Laurent Pinchart
+Michal Hocko
+SUSE Labs
