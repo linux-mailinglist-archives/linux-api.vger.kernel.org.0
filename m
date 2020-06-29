@@ -2,297 +2,224 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 73A1F20C1B6
-	for <lists+linux-api@lfdr.de>; Sat, 27 Jun 2020 15:24:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC3B320D4E3
+	for <lists+linux-api@lfdr.de>; Mon, 29 Jun 2020 21:15:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726735AbgF0NYG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 27 Jun 2020 09:24:06 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:55330 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726939AbgF0NX7 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 27 Jun 2020 09:23:59 -0400
+        id S1730838AbgF2TMY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 29 Jun 2020 15:12:24 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21311 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1730742AbgF2TMU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Jun 2020 15:12:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1593264237;
+        s=mimecast20190719; t=1593457939;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:in-reply-to:in-reply-to:in-reply-to:
-         references:references:references;
-        bh=Vbsz74jx639O45NZJ//E5urMuCAJMJoLkV3YW2Jxk5M=;
-        b=QwkEoKOXI14Cyj4uSi8GimqBkq1i3GmtiInD1DVMVfk+Ult6ic9GeXidl5OGHOjuU/KgOh
-        W6IPWToESRCk8vNdYdMWf0WXo3iT8ZomQsj9zDk0ffTMzrFVp5eIMEXSUO0HM44P+1gHUs
-        LgYF6HEGay7ISkbmurYV05rhu+pb9vQ=
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+        bh=2I8i4906CXXg1A/o4TrQNEB3h9t71guIcAqgVgTX6sI=;
+        b=XvIz5/m2ZkO0bJdnMI2vFmOgm+mXzp57tLJ2fKzl6twaPZOZ5soa1qRaA5iG2vfey/H2uU
+        H4n4QVZB5kt/rbfRl9PoLi5B0CYUhgg04uqXtXL1y1R5c8zcAMqEeeRlRr9mvPLUNrphKT
+        D62carbgwhkqMnW0VGk54WxJ6HhgUb4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-300-C3L9deshP0OUCzQ5IpSj0Q-1; Sat, 27 Jun 2020 09:23:55 -0400
-X-MC-Unique: C3L9deshP0OUCzQ5IpSj0Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+ us-mta-250-CsF-sNg8Mpqy4vHHowxOYA-1; Mon, 29 Jun 2020 12:11:35 -0400
+X-MC-Unique: CsF-sNg8Mpqy4vHHowxOYA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D191A0BD7;
-        Sat, 27 Jun 2020 13:23:53 +0000 (UTC)
-Received: from madcap2.tricolour.ca (unknown [10.10.110.28])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 5A07D8205F;
-        Sat, 27 Jun 2020 13:23:43 +0000 (UTC)
-From:   Richard Guy Briggs <rgb@redhat.com>
-To:     containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
-        Linux-Audit Mailing List <linux-audit@redhat.com>,
-        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org
-Cc:     Paul Moore <paul@paul-moore.com>, sgrubb@redhat.com,
-        omosnace@redhat.com, dhowells@redhat.com, simo@redhat.com,
-        eparis@parisplace.org, serge@hallyn.com, ebiederm@xmission.com,
-        nhorman@tuxdriver.com, dwalsh@redhat.com, mpatel@redhat.com,
-        Richard Guy Briggs <rgb@redhat.com>
-Subject: [PATCH ghak90 V9 13/13] audit: add capcontid to set contid outside init_user_ns
-Date:   Sat, 27 Jun 2020 09:20:46 -0400
-Message-Id: <b6cb5500cfd7e8686ac2a7758103688c2da7f4ce.1593198710.git.rgb@redhat.com>
-In-Reply-To: <cover.1593198710.git.rgb@redhat.com>
-References: <cover.1593198710.git.rgb@redhat.com>
-In-Reply-To: <cover.1593198710.git.rgb@redhat.com>
-References: <cover.1593198710.git.rgb@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41856107ACCD;
+        Mon, 29 Jun 2020 16:11:33 +0000 (UTC)
+Received: from [10.10.115.36] (ovpn-115-36.rdu2.redhat.com [10.10.115.36])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id D36F370915;
+        Mon, 29 Jun 2020 16:11:26 +0000 (UTC)
+Subject: Re: [Patch v4 1/3] lib: Restrict cpumask_local_spread to houskeeping
+ CPUs
+From:   Nitesh Narayan Lal <nitesh@redhat.com>
+To:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        peterz@infradead.org
+References: <20200625223443.2684-1-nitesh@redhat.com>
+ <20200625223443.2684-2-nitesh@redhat.com>
+Cc:     frederic@kernel.org, mtosatti@redhat.com, juri.lelli@redhat.com,
+        abelits@marvell.com, bhelgaas@google.com,
+        linux-pci@vger.kernel.org, rostedt@goodmis.org, mingo@kernel.org,
+        tglx@linutronix.de, davem@davemloft.net, akpm@linux-foundation.org,
+        sfr@canb.auug.org.au, stephen@networkplumber.org,
+        rppt@linux.vnet.ibm.com, jinyuqi@huawei.com,
+        zhangshaokun@hisilicon.com
+Autocrypt: addr=nitesh@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ VujM7c/b4pps
+Organization: Red Hat Inc,
+Message-ID: <8054aff1-544d-80de-456f-c3e244233419@redhat.com>
+Date:   Mon, 29 Jun 2020 12:11:25 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <20200625223443.2684-2-nitesh@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="xlmtqOwRCb4MdvNC2mYBAmRR0u6DBPGGO"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Provide a mechanism similar to CAP_AUDIT_CONTROL to explicitly give a
-process in a non-init user namespace the capability to set audit
-container identifiers of individual children.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--xlmtqOwRCb4MdvNC2mYBAmRR0u6DBPGGO
+Content-Type: multipart/mixed; boundary="wxBsS927gl5basYQvvUQMAtiupkOEYS0K"
 
-Provide the /proc/$PID/audit_capcontid interface to capcontid.
-Valid values are: 1==enabled, 0==disabled
+--wxBsS927gl5basYQvvUQMAtiupkOEYS0K
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
 
-Writing a "1" to this special file for the target process $PID will
-enable the target process to set audit container identifiers of its
-descendants.
 
-A process must already have CAP_AUDIT_CONTROL in the initial user
-namespace or have had audit_capcontid enabled by a previous use of this
-feature by its parent on this process in order to be able to enable it
-for another process.  The target process must be a descendant of the
-calling process.
+On 6/25/20 6:34 PM, Nitesh Narayan Lal wrote:
+> From: Alex Belits <abelits@marvell.com>
+>
+> The current implementation of cpumask_local_spread() does not respect the
+> isolated CPUs, i.e., even if a CPU has been isolated for Real-Time task,
+> it will return it to the caller for pinning of its IRQ threads. Having
+> these unwanted IRQ threads on an isolated CPU adds up to a latency
+> overhead.
+>
+> Restrict the CPUs that are returned for spreading IRQs only to the
+> available housekeeping CPUs.
+>
+> Signed-off-by: Alex Belits <abelits@marvell.com>
+> Signed-off-by: Nitesh Narayan Lal <nitesh@redhat.com>
 
-Report this action in new message type AUDIT_SET_CAPCONTID 1022 with
-fields opid= capcontid= old-capcontid=
+Hi Peter,
 
-Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
----
- fs/proc/base.c             | 57 +++++++++++++++++++++++++++++++++++++++++++++-
- include/linux/audit.h      | 14 ++++++++++++
- include/uapi/linux/audit.h |  1 +
- kernel/audit.c             | 38 ++++++++++++++++++++++++++++++-
- 4 files changed, 108 insertions(+), 2 deletions(-)
+I just realized that Yuqi jin's patch [1] that modifies cpumask_local_sprea=
+d is
+lying in linux-next.
+Should I do a re-post by re-basing the patches on the top of linux-next?
 
-diff --git a/fs/proc/base.c b/fs/proc/base.c
-index 794474cd8f35..1083db2ce345 100644
---- a/fs/proc/base.c
-+++ b/fs/proc/base.c
-@@ -1329,7 +1329,7 @@ static ssize_t proc_contid_read(struct file *file, char __user *buf,
- 	if (!task)
- 		return -ESRCH;
- 	/* if we don't have caps, reject */
--	if (!capable(CAP_AUDIT_CONTROL))
-+	if (!capable(CAP_AUDIT_CONTROL) && !audit_get_capcontid(current))
- 		return -EPERM;
- 	length = scnprintf(tmpbuf, TMPBUFLEN, "%llu", audit_get_contid(task));
- 	put_task_struct(task);
-@@ -1370,6 +1370,59 @@ static ssize_t proc_contid_write(struct file *file, const char __user *buf,
- 	.write		= proc_contid_write,
- 	.llseek		= generic_file_llseek,
- };
-+
-+static ssize_t proc_capcontid_read(struct file *file, char __user *buf,
-+				  size_t count, loff_t *ppos)
-+{
-+	struct inode *inode = file_inode(file);
-+	struct task_struct *task = get_proc_task(inode);
-+	ssize_t length;
-+	char tmpbuf[TMPBUFLEN];
-+
-+	if (!task)
-+		return -ESRCH;
-+	/* if we don't have caps, reject */
-+	if (!capable(CAP_AUDIT_CONTROL) && !audit_get_capcontid(current))
-+		return -EPERM;
-+	length = scnprintf(tmpbuf, TMPBUFLEN, "%u", audit_get_capcontid(task));
-+	put_task_struct(task);
-+	return simple_read_from_buffer(buf, count, ppos, tmpbuf, length);
-+}
-+
-+static ssize_t proc_capcontid_write(struct file *file, const char __user *buf,
-+				   size_t count, loff_t *ppos)
-+{
-+	struct inode *inode = file_inode(file);
-+	u32 capcontid;
-+	int rv;
-+	struct task_struct *task = get_proc_task(inode);
-+
-+	if (!task)
-+		return -ESRCH;
-+	if (*ppos != 0) {
-+		/* No partial writes. */
-+		put_task_struct(task);
-+		return -EINVAL;
-+	}
-+
-+	rv = kstrtou32_from_user(buf, count, 10, &capcontid);
-+	if (rv < 0) {
-+		put_task_struct(task);
-+		return rv;
-+	}
-+
-+	rv = audit_set_capcontid(task, capcontid);
-+	put_task_struct(task);
-+	if (rv < 0)
-+		return rv;
-+	return count;
-+}
-+
-+static const struct file_operations proc_capcontid_operations = {
-+	.read		= proc_capcontid_read,
-+	.write		= proc_capcontid_write,
-+	.llseek		= generic_file_llseek,
-+};
- #endif
- 
- #ifdef CONFIG_FAULT_INJECTION
-@@ -3273,6 +3326,7 @@ static int proc_stack_depth(struct seq_file *m, struct pid_namespace *ns,
- 	REG("loginuid",   S_IWUSR|S_IRUGO, proc_loginuid_operations),
- 	REG("sessionid",  S_IRUGO, proc_sessionid_operations),
- 	REG("audit_containerid", S_IWUSR|S_IRUSR, proc_contid_operations),
-+	REG("audit_capcontainerid", S_IWUSR|S_IRUSR, proc_capcontid_operations),
- #endif
- #ifdef CONFIG_FAULT_INJECTION
- 	REG("make-it-fail", S_IRUGO|S_IWUSR, proc_fault_inject_operations),
-@@ -3613,6 +3667,7 @@ static int proc_tid_comm_permission(struct inode *inode, int mask)
- 	REG("loginuid",  S_IWUSR|S_IRUGO, proc_loginuid_operations),
- 	REG("sessionid",  S_IRUGO, proc_sessionid_operations),
- 	REG("audit_containerid", S_IWUSR|S_IRUSR, proc_contid_operations),
-+	REG("audit_capcontainerid", S_IWUSR|S_IRUSR, proc_capcontid_operations),
- #endif
- #ifdef CONFIG_FAULT_INJECTION
- 	REG("make-it-fail", S_IRUGO|S_IWUSR, proc_fault_inject_operations),
-diff --git a/include/linux/audit.h b/include/linux/audit.h
-index 025b52ae8422..2b3a2b6020ed 100644
---- a/include/linux/audit.h
-+++ b/include/linux/audit.h
-@@ -122,6 +122,7 @@ struct audit_task_info {
- 	kuid_t			loginuid;
- 	unsigned int		sessionid;
- 	struct audit_contobj	*cont;
-+	u32			capcontid;
- #ifdef CONFIG_AUDITSYSCALL
- 	struct audit_context	*ctx;
- #endif
-@@ -230,6 +231,14 @@ static inline unsigned int audit_get_sessionid(struct task_struct *tsk)
- 	return tsk->audit->sessionid;
- }
- 
-+static inline u32 audit_get_capcontid(struct task_struct *tsk)
-+{
-+	if (!tsk->audit)
-+		return 0;
-+	return tsk->audit->capcontid;
-+}
-+
-+extern int audit_set_capcontid(struct task_struct *tsk, u32 enable);
- extern int audit_set_contid(struct task_struct *tsk, u64 contid);
- 
- static inline u64 audit_get_contid(struct task_struct *tsk)
-@@ -311,6 +320,11 @@ static inline unsigned int audit_get_sessionid(struct task_struct *tsk)
- 	return AUDIT_SID_UNSET;
- }
- 
-+static inline u32 audit_get_capcontid(struct task_struct *tsk)
-+{
-+	return 0;
-+}
-+
- static inline u64 audit_get_contid(struct task_struct *tsk)
- {
- 	return AUDIT_CID_UNSET;
-diff --git a/include/uapi/linux/audit.h b/include/uapi/linux/audit.h
-index 831c12bdd235..5e30f4c95dc2 100644
---- a/include/uapi/linux/audit.h
-+++ b/include/uapi/linux/audit.h
-@@ -73,6 +73,7 @@
- #define AUDIT_GET_FEATURE	1019	/* Get which features are enabled */
- #define AUDIT_CONTAINER_OP	1020	/* Define the container id and info */
- #define AUDIT_SIGNAL_INFO2	1021	/* Get info auditd signal sender */
-+#define AUDIT_SET_CAPCONTID	1022	/* Set cap_contid of a task */
- 
- #define AUDIT_FIRST_USER_MSG	1100	/* Userspace messages mostly uninteresting to kernel */
- #define AUDIT_USER_AVC		1107	/* We filter this differently */
-diff --git a/kernel/audit.c b/kernel/audit.c
-index aaf74702e993..454473f2e193 100644
---- a/kernel/audit.c
-+++ b/kernel/audit.c
-@@ -307,6 +307,7 @@ int audit_alloc(struct task_struct *tsk)
- 	rcu_read_lock();
- 	info->cont = _audit_contobj_get(current);
- 	rcu_read_unlock();
-+	info->capcontid = 0;
- 	tsk->audit = info;
- 
- 	ret = audit_alloc_syscall(tsk);
-@@ -322,6 +323,7 @@ struct audit_task_info init_struct_audit = {
- 	.loginuid = INVALID_UID,
- 	.sessionid = AUDIT_SID_UNSET,
- 	.cont = NULL,
-+	.capcontid = 0,
- #ifdef CONFIG_AUDITSYSCALL
- 	.ctx = NULL,
- #endif
-@@ -2763,6 +2765,40 @@ static bool audit_contid_isnesting(struct task_struct *tsk)
- 	return !isowner && ownerisparent;
- }
- 
-+int audit_set_capcontid(struct task_struct *task, u32 enable)
-+{
-+	u32 oldcapcontid;
-+	int rc = 0;
-+	struct audit_buffer *ab;
-+
-+	if (!task->audit)
-+		return -ENOPROTOOPT;
-+	oldcapcontid = audit_get_capcontid(task);
-+	/* if task is not descendant, block */
-+	if (task == current || !task_is_descendant(current, task))
-+		rc = -EXDEV;
-+	else if (current_user_ns() == &init_user_ns) {
-+		if (!capable(CAP_AUDIT_CONTROL) &&
-+		    !audit_get_capcontid(current))
-+			rc = -EPERM;
-+	}
-+	if (!rc)
-+		task->audit->capcontid = enable;
-+
-+	if (!audit_enabled)
-+		return rc;
-+
-+	ab = audit_log_start(audit_context(), GFP_KERNEL, AUDIT_SET_CAPCONTID);
-+	if (!ab)
-+		return rc;
-+
-+	audit_log_format(ab,
-+			 "opid=%d capcontid=%u old-capcontid=%u",
-+			 task_tgid_nr(task), enable, oldcapcontid);
-+	audit_log_end(ab);
-+	return rc;
-+}
-+
- /*
-  * audit_set_contid - set current task's audit contid
-  * @task: target task
-@@ -2795,7 +2831,7 @@ int audit_set_contid(struct task_struct *task, u64 contid)
- 		goto unlock;
- 	}
- 	/* if we don't have caps, reject */
--	if (!capable(CAP_AUDIT_CONTROL)) {
-+	if (!capable(CAP_AUDIT_CONTROL) && !audit_get_capcontid(current)) {
- 		rc = -EPERM;
- 		goto unlock;
- 	}
--- 
-1.8.3.1
+[1]
+https://lore.kernel.org/lkml/1582768688-2314-1-git-send-email-zhangshaokun@=
+hisilicon.com/
+
+> ---
+>  lib/cpumask.c | 16 +++++++++++-----
+>  1 file changed, 11 insertions(+), 5 deletions(-)
+>
+> diff --git a/lib/cpumask.c b/lib/cpumask.c
+> index fb22fb266f93..85da6ab4fbb5 100644
+> --- a/lib/cpumask.c
+> +++ b/lib/cpumask.c
+> @@ -6,6 +6,7 @@
+>  #include <linux/export.h>
+>  #include <linux/memblock.h>
+>  #include <linux/numa.h>
+> +#include <linux/sched/isolation.h>
+> =20
+>  /**
+>   * cpumask_next - get the next cpu in a cpumask
+> @@ -205,22 +206,27 @@ void __init free_bootmem_cpumask_var(cpumask_var_t =
+mask)
+>   */
+>  unsigned int cpumask_local_spread(unsigned int i, int node)
+>  {
+> -=09int cpu;
+> +=09int cpu, hk_flags;
+> +=09const struct cpumask *mask;
+> =20
+> +=09hk_flags =3D HK_FLAG_DOMAIN | HK_FLAG_MANAGED_IRQ;
+> +=09mask =3D housekeeping_cpumask(hk_flags);
+>  =09/* Wrap: we always want a cpu. */
+> -=09i %=3D num_online_cpus();
+> +=09i %=3D cpumask_weight(mask);
+> =20
+>  =09if (node =3D=3D NUMA_NO_NODE) {
+> -=09=09for_each_cpu(cpu, cpu_online_mask)
+> +=09=09for_each_cpu(cpu, mask) {
+>  =09=09=09if (i-- =3D=3D 0)
+>  =09=09=09=09return cpu;
+> +=09=09}
+>  =09} else {
+>  =09=09/* NUMA first. */
+> -=09=09for_each_cpu_and(cpu, cpumask_of_node(node), cpu_online_mask)
+> +=09=09for_each_cpu_and(cpu, cpumask_of_node(node), mask) {
+>  =09=09=09if (i-- =3D=3D 0)
+>  =09=09=09=09return cpu;
+> +=09=09}
+> =20
+> -=09=09for_each_cpu(cpu, cpu_online_mask) {
+> +=09=09for_each_cpu(cpu, mask) {
+>  =09=09=09/* Skip NUMA nodes, done above. */
+>  =09=09=09if (cpumask_test_cpu(cpu, cpumask_of_node(node)))
+>  =09=09=09=09continue;
+--=20
+Nitesh
+
+
+--wxBsS927gl5basYQvvUQMAtiupkOEYS0K--
+
+--xlmtqOwRCb4MdvNC2mYBAmRR0u6DBPGGO
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEkXcoRVGaqvbHPuAGo4ZA3AYyozkFAl76Eq0ACgkQo4ZA3AYy
+ozlGrxAAwtBCOD016SDyWpkyw3cQv9ppTmQbals77UoxptOQxhMEyKvPfNwpkwFy
+BsxSXE8oNvmaVYqLVUgR1+oE/U0rfDS0SapaXDfFu6hhvOrjCZDGNu+biYhmliXe
+1mTg0KMSMhSY5WovN6WebXLb3fePlycXc5/lajpIH43z2SinMcZrFtNsyt+zvQ8A
+Jy7yJ+5N6yHXu5XfL9/kJU+WNOH8cygGKajtGMjeHvSpKFBLa6bI1QAl5OzfVYcQ
+9Py7U0XSwkXCgyDrbJ6xz5UeRkPd8MMp68Nb7h3WQLgSPo3rqhNtGIPcT6O0rZ80
+pJc2idbuNSmKC+gQ0vqslXDi5Btj7jP+0S6+96MPsaFlGCbGSbaY9hSM1D3r4+5a
+wygMxSZeeH0I7QJWKxWNIaBFBWZAz/oc7ApBZK+PKQEQM0OuAf+Rjfp8ww/OGYhP
+MvMb/67y+H62Rc/CvVxjmOb7eInCfmN4EXCcKxGfWxXGZCy0l06Ab7SegNG+/Zjj
+Z4AwWLE2DSItXaQQs9veUkwY0Ylh0kWIAdL30aG38xQAqWciIZRWFqHhud5e1rcY
+8ftRKMz0LRy6JlON/WQ+CBYAnH5lw4UrQR8gSkIur+na18G3cKItIjQZzxjNUCzU
+LWwQIBNZLNeLjnOWa31UmDOXseXs24L+ulc/Ayj+jepu+Z4aUSc=
+=U5vU
+-----END PGP SIGNATURE-----
+
+--xlmtqOwRCb4MdvNC2mYBAmRR0u6DBPGGO--
 
