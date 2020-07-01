@@ -2,129 +2,81 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A0CF820EA7C
-	for <lists+linux-api@lfdr.de>; Tue, 30 Jun 2020 02:52:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BD1A210101
+	for <lists+linux-api@lfdr.de>; Wed,  1 Jul 2020 02:32:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726135AbgF3Asz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 29 Jun 2020 20:48:55 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:6880 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726056AbgF3Asz (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 29 Jun 2020 20:48:55 -0400
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 53CFF9DD4C284405C498;
-        Mon, 29 Jun 2020 17:01:50 +0800 (CST)
-Received: from [127.0.0.1] (10.67.76.251) by DGGEMS414-HUB.china.huawei.com
- (10.3.19.214) with Microsoft SMTP Server id 14.3.487.0; Mon, 29 Jun 2020
- 17:01:41 +0800
-Subject: Re: [Patch v3 1/3] lib: Restrict cpumask_local_spread to houskeeping
- CPUs
-To:     Andrew Morton <akpm@linux-foundation.org>,
-        Nitesh Narayan Lal <nitesh@redhat.com>
-CC:     <linux-kernel@vger.kernel.org>, <linux-api@vger.kernel.org>,
-        <frederic@kernel.org>, <mtosatti@redhat.com>,
-        <juri.lelli@redhat.com>, <abelits@marvell.com>,
-        <bhelgaas@google.com>, <linux-pci@vger.kernel.org>,
-        <rostedt@goodmis.org>, <mingo@kernel.org>, <peterz@infradead.org>,
-        <tglx@linutronix.de>, <davem@davemloft.net>,
-        <sfr@canb.auug.org.au>, <stephen@networkplumber.org>,
-        <rppt@linux.vnet.ibm.com>, yuqi jin <jinyuqi@huawei.com>
-References: <20200623192331.215557-1-nitesh@redhat.com>
- <20200623192331.215557-2-nitesh@redhat.com>
- <20200624122647.766bec7760d9197ba71a58c4@linux-foundation.org>
-From:   Shaokun Zhang <zhangshaokun@hisilicon.com>
-Message-ID: <e6c261a1-1fec-3faf-c49c-51a88a7f521c@hisilicon.com>
-Date:   Mon, 29 Jun 2020 17:01:41 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.1
-MIME-Version: 1.0
-In-Reply-To: <20200624122647.766bec7760d9197ba71a58c4@linux-foundation.org>
-Content-Type: text/plain; charset="gbk"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.67.76.251]
-X-CFilter-Loop: Reflected
+        id S1726038AbgGAAcr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 30 Jun 2020 20:32:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45482 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726076AbgGAAcr (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 30 Jun 2020 20:32:47 -0400
+Received: from X1 (071-093-078-081.res.spectrum.com [71.93.78.81])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4403620771;
+        Wed,  1 Jul 2020 00:32:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1593563566;
+        bh=Gb3KlTuWaOGWGE1Hbxb0Bp5nifCf6yHJW4gy9mIWqpg=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=N6wiuw9CNrj943TnC25HzHVfwVDUqfkTO9umUC7BnDi0GwsA6qQvOA1B3MOOeaYeH
+         J2mwVukPEyUovq5ZioYa60MdMmj+7ZuZwfQYqMb2s0l6op2ZSzuYR+uvrNSaWSlEjO
+         KFdL/I3qs8PKakRTLXAVdAeCArn82z62Nt3tmcb0=
+Date:   Tue, 30 Jun 2020 17:32:44 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Nitesh Narayan Lal <nitesh@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        peterz@infradead.org, frederic@kernel.org, mtosatti@redhat.com,
+        juri.lelli@redhat.com, abelits@marvell.com, bhelgaas@google.com,
+        linux-pci@vger.kernel.org, rostedt@goodmis.org, mingo@kernel.org,
+        tglx@linutronix.de, davem@davemloft.net, sfr@canb.auug.org.au,
+        stephen@networkplumber.org, rppt@linux.vnet.ibm.com,
+        jinyuqi@huawei.com, zhangshaokun@hisilicon.com
+Subject: Re: [Patch v4 1/3] lib: Restrict cpumask_local_spread to
+ houskeeping CPUs
+Message-Id: <20200630173244.eef158fb09dca3cc1e2e63b1@linux-foundation.org>
+In-Reply-To: <8054aff1-544d-80de-456f-c3e244233419@redhat.com>
+References: <20200625223443.2684-1-nitesh@redhat.com>
+        <20200625223443.2684-2-nitesh@redhat.com>
+        <8054aff1-544d-80de-456f-c3e244233419@redhat.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Andrew,
+On Mon, 29 Jun 2020 12:11:25 -0400 Nitesh Narayan Lal <nitesh@redhat.com> wrote:
 
-ÔÚ 2020/6/25 3:26, Andrew Morton Ð´µÀ:
-> On Tue, 23 Jun 2020 15:23:29 -0400 Nitesh Narayan Lal <nitesh@redhat.com> wrote:
 > 
->> From: Alex Belits <abelits@marvell.com>
->>
->> The current implementation of cpumask_local_spread() does not respect the
->> isolated CPUs, i.e., even if a CPU has been isolated for Real-Time task,
->> it will return it to the caller for pinning of its IRQ threads. Having
->> these unwanted IRQ threads on an isolated CPU adds up to a latency
->> overhead.
->>
->> Restrict the CPUs that are returned for spreading IRQs only to the
->> available housekeeping CPUs.
->>
->> ...
->>
->> --- a/lib/cpumask.c
->> +++ b/lib/cpumask.c
->> @@ -6,6 +6,7 @@
->>  #include <linux/export.h>
->>  #include <linux/memblock.h>
->>  #include <linux/numa.h>
->> +#include <linux/sched/isolation.h>
->>  
->>  /**
->>   * cpumask_next - get the next cpu in a cpumask
->> @@ -205,22 +206,27 @@ void __init free_bootmem_cpumask_var(cpumask_var_t mask)
->>   */
->>  unsigned int cpumask_local_spread(unsigned int i, int node)
->>  {
->> -	int cpu;
->> +	int cpu, hk_flags;
->> +	const struct cpumask *mask;
->>  
->> +	hk_flags = HK_FLAG_DOMAIN | HK_FLAG_WQ;
->> +	mask = housekeeping_cpumask(hk_flags);
->>  	/* Wrap: we always want a cpu. */
->> -	i %= num_online_cpus();
->> +	i %= cpumask_weight(mask);
->>  
->>  	if (node == NUMA_NO_NODE) {
->> -		for_each_cpu(cpu, cpu_online_mask)
->> +		for_each_cpu(cpu, mask) {
->>  			if (i-- == 0)
->>  				return cpu;
->> +		}
->>  	} else {
->>  		/* NUMA first. */
->> -		for_each_cpu_and(cpu, cpumask_of_node(node), cpu_online_mask)
->> +		for_each_cpu_and(cpu, cpumask_of_node(node), mask) {
->>  			if (i-- == 0)
->>  				return cpu;
->> +		}
->>  
->> -		for_each_cpu(cpu, cpu_online_mask) {
->> +		for_each_cpu(cpu, mask) {
->>  			/* Skip NUMA nodes, done above. */
->>  			if (cpumask_test_cpu(cpu, cpumask_of_node(node)))
->>  				continue;
+> On 6/25/20 6:34 PM, Nitesh Narayan Lal wrote:
+> > From: Alex Belits <abelits@marvell.com>
+> >
+> > The current implementation of cpumask_local_spread() does not respect the
+> > isolated CPUs, i.e., even if a CPU has been isolated for Real-Time task,
+> > it will return it to the caller for pinning of its IRQ threads. Having
+> > these unwanted IRQ threads on an isolated CPU adds up to a latency
+> > overhead.
+> >
+> > Restrict the CPUs that are returned for spreading IRQs only to the
+> > available housekeeping CPUs.
+> >
+> > Signed-off-by: Alex Belits <abelits@marvell.com>
+> > Signed-off-by: Nitesh Narayan Lal <nitesh@redhat.com>
 > 
-> Are you aware of these changes to cpu_local_spread()?
+> Hi Peter,
+> 
+> I just realized that Yuqi jin's patch [1] that modifies cpumask_local_spread is
+> lying in linux-next.
+> Should I do a re-post by re-basing the patches on the top of linux-next?
+> 
+> [1]
 > https://lore.kernel.org/lkml/1582768688-2314-1-git-send-email-zhangshaokun@hisilicon.com/
-> 
-> I don't see a lot of overlap but it would be nice for you folks to
 
-Yeah, it's a different issue from Nitesh. About our's patch, it has been
-linux-next long time, will it be merged in Linus's tree?
-
-Thanks,
-Shaokun
-
-> check each other's homework ;)
-> 
-> 
-> 
-> .
-> 
+This patch has had some review difficulties and has been pending for
+quite some time.  I suggest you base your work on mainline and that we
+ask Yuqi jin to rebase on that, if I don't feel confident doing it,
 
