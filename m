@@ -2,23 +2,21 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E4FA21419B
-	for <lists+linux-api@lfdr.de>; Sat,  4 Jul 2020 00:39:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 174292141C7
+	for <lists+linux-api@lfdr.de>; Sat,  4 Jul 2020 00:45:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726455AbgGCWjK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 3 Jul 2020 18:39:10 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:38894 "EHLO
+        id S1726427AbgGCWoN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 3 Jul 2020 18:44:13 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:39268 "EHLO
         jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726415AbgGCWjK (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 3 Jul 2020 18:39:10 -0400
+        with ESMTP id S1726379AbgGCWoN (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 3 Jul 2020 18:44:13 -0400
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id ECCA91C0C0F; Sat,  4 Jul 2020 00:39:05 +0200 (CEST)
-Date:   Sat, 4 Jul 2020 00:39:05 +0200
+        id 821251C0C0F; Sat,  4 Jul 2020 00:44:11 +0200 (CEST)
+Date:   Sat, 4 Jul 2020 00:44:11 +0200
 From:   Pavel Machek <pavel@ucw.cz>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Michal Hocko <mhocko@kernel.org>,
-        "Catangiu, Adrian Costin" <acatan@amazon.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+To:     "Catangiu, Adrian Costin" <acatan@amazon.com>
+Cc:     "linux-mm@kvack.org" <linux-mm@kvack.org>,
         "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
         "virtualization@lists.linux-foundation.org" 
         <virtualization@lists.linux-foundation.org>,
@@ -26,6 +24,7 @@ Cc:     Michal Hocko <mhocko@kernel.org>,
         "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
         "rjw@rjwysocki.net" <rjw@rjwysocki.net>,
         "len.brown@intel.com" <len.brown@intel.com>,
+        "mhocko@kernel.org" <mhocko@kernel.org>,
         "fweimer@redhat.com" <fweimer@redhat.com>,
         "keescook@chromium.org" <keescook@chromium.org>,
         "luto@amacapital.net" <luto@amacapital.net>,
@@ -40,15 +39,13 @@ Cc:     Michal Hocko <mhocko@kernel.org>,
         "Weiss, Radu" <raduweis@amazon.com>,
         "Manwaring, Derek" <derekmn@amazon.com>
 Subject: Re: [RFC]: mm,power: introduce MADV_WIPEONSUSPEND
-Message-ID: <20200703223905.GB25072@amd>
+Message-ID: <20200703224411.GC25072@amd>
 References: <B7793B7A-3660-4769-9B9A-FFCF250728BB@amazon.com>
- <20200703113026.GT18446@dhcp22.suse.cz>
- <CAJZ5v0g+ip-EuUsoK646W-jVSSUhbnvHKsWmFH0+F1w0oYSmGw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="oC1+HKm2/end4ao3"
+        protocol="application/pgp-signature"; boundary="ghzN8eJ9Qlbqn3iT"
 Content-Disposition: inline
-In-Reply-To: <CAJZ5v0g+ip-EuUsoK646W-jVSSUhbnvHKsWmFH0+F1w0oYSmGw@mail.gmail.com>
+In-Reply-To: <B7793B7A-3660-4769-9B9A-FFCF250728BB@amazon.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
@@ -56,37 +53,42 @@ List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 
---oC1+HKm2/end4ao3
+--ghzN8eJ9Qlbqn3iT
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri 2020-07-03 14:17:50, Rafael J. Wysocki wrote:
-> On Fri, Jul 3, 2020 at 1:30 PM Michal Hocko <mhocko@kernel.org> wrote:
-> >
-> > On Fri 03-07-20 10:34:09, Catangiu, Adrian Costin wrote:
-> > > This patch adds logic to the kernel power code to zero out contents of
-> > > all MADV_WIPEONSUSPEND VMAs present in the system during its transiti=
-on
-> > > to any suspend state equal or greater/deeper than Suspend-to-memory,
-> > > known as S3.
-> >
-> > How does the application learn that its memory got wiped? S2disk is an
-> > async operation and it can happen at any time during the task execution.
-> > So how does the application work to prevent from corrupted state - e.g.
-> > when suspended between two memory loads?
->=20
-> This doesn't affect hibernation AFAICS, but system suspend
-> (suspend-to-RAM or suspend-to-idle, or standby) is async too.
->=20
-> I guess this calls for an interface to notify user space (that opted
-> in to receive such notifications) on system-wide suspend start and
-> finish.
+Hi!
 
-We could simply provide a file that would produce single byte 'e' when
-entering the suspend and different byte 'x' when exiting...
+> Cryptographic libraries carry pseudo random number generators to
+> quickly provide randomness when needed. If such a random pool gets
+> cloned, secrets may get revealed, as the same random number may get
+> used multiple times. For fork, this was fixed using the WIPEONFORK
+> madvise flag [1].
 
-Not sure how useful that would be for the crypto stuff...
+> Unfortunately, the same problem surfaces when a virtual machine gets
+> cloned. The existing flag does not help there. This patch introduces a
+> new flag to automatically clear memory contents on VM suspend/resume,
+> which will allow random number generators to reseed when virtual
+> machines get cloned.
+
+Umm. If this is real problem, should kernel provide such rng in the
+vsdo page using vsyscalls? Kernel can have special interface to its
+vsyscalls, but we may not want to offer this functionality to rest of
+userland...
+
+>  - Provides a simple mechanism to avoid RAM exfiltration during
+>    traditional sleep/hibernate on a laptop or desktop when memory,
+>    and thus secrets, are vulnerable to offline tampering or
+>    inspection.
+
+This second use has nothing to do with RNGs, right?
+
+And I don't think we should do this in kernel.
+
+It is userspace that initiates the suspend transition. Userspace
+should lock the screen _before_ starting it, for example. Userspace
+should also get rid of any secrets, first...
 
 Best regards,
 								Pavel
@@ -95,16 +97,16 @@ Best regards,
 (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
 g.html
 
---oC1+HKm2/end4ao3
+--ghzN8eJ9Qlbqn3iT
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1
 
-iEYEARECAAYFAl7/s4kACgkQMOfwapXb+vIUJQCfZyt+lUVQmqy5smyeJI74Hz2s
-FDAAoJdmlYDuJFsp9s0LjrrhyUvYHQG+
-=XPvj
+iEYEARECAAYFAl7/tLsACgkQMOfwapXb+vKLKwCeJYf9jINarjpOcvkWGapwUdIa
+uagAnjDEdee4JzvzUfcuKH+WBY/IbjHX
+=2u6r
 -----END PGP SIGNATURE-----
 
---oC1+HKm2/end4ao3--
+--ghzN8eJ9Qlbqn3iT--
