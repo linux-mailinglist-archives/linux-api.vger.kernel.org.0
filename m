@@ -2,113 +2,97 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F49D21269C
-	for <lists+linux-api@lfdr.de>; Thu,  2 Jul 2020 16:46:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 007342130E6
+	for <lists+linux-api@lfdr.de>; Fri,  3 Jul 2020 03:20:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729954AbgGBOqm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 2 Jul 2020 10:46:42 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:54626 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729934AbgGBOqj (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 2 Jul 2020 10:46:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1593701198;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=sfReHjMG1okIi6bUbbQpOqD3Ch8gtx1iU9O9hVtsN/8=;
-        b=emc+bdZ4qTXh9qfjakR7wbzVYuHXSwygSqm2Lrv+4aywCVnZCuYlHXq9d1w6D80k1lcGnP
-        bXkTp6BNpPGkO0DMMB46C7slWX0BkTTdRBKOOjLAK9JRrwVDnkqPSafPkoWqsJKxXjXPNT
-        49SXu079n17mEPzr5PjHtzhd/aT2+ps=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-467-GbGUuS2aPx2QW6v9bWRqWQ-1; Thu, 02 Jul 2020 10:46:32 -0400
-X-MC-Unique: GbGUuS2aPx2QW6v9bWRqWQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C383A879512;
-        Thu,  2 Jul 2020 14:46:24 +0000 (UTC)
-Received: from oldenburg2.str.redhat.com (ovpn-112-162.ams2.redhat.com [10.36.112.162])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 8557B1CA;
-        Thu,  2 Jul 2020 14:46:18 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Mathieu Desnoyers via Libc-alpha <libc-alpha@sourceware.org>
-Cc:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Rich Felker <dalias@libc.org>, linux-api@vger.kernel.org,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Will Deacon <will.deacon@arm.com>,
-        linux-kernel@vger.kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ben Maurer <bmaurer@fb.com>, Dave Watson <davejwatson@fb.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Paul Turner <pjt@google.com>,
-        Joseph Myers <joseph@codesourcery.com>,
-        Carlos O'Donell <carlos@redhat.com>
-Subject: Re: [PATCH 1/3] glibc: Perform rseq registration at C startup and thread creation (v22)
-References: <20200629190036.26982-1-mathieu.desnoyers@efficios.com>
-        <20200629190036.26982-2-mathieu.desnoyers@efficios.com>
-Date:   Thu, 02 Jul 2020 16:46:17 +0200
-In-Reply-To: <20200629190036.26982-2-mathieu.desnoyers@efficios.com> (Mathieu
-        Desnoyers via Libc-alpha's message of "Mon, 29 Jun 2020 15:00:34
-        -0400")
-Message-ID: <87o8oy9dqe.fsf@oldenburg2.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+        id S1726032AbgGCBUL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 2 Jul 2020 21:20:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35030 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726017AbgGCBUL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 2 Jul 2020 21:20:11 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35B87C08C5C1;
+        Thu,  2 Jul 2020 18:20:11 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id m22so3952919pgv.9;
+        Thu, 02 Jul 2020 18:20:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5/bbf0lUkrxiWX+PZ82pZ/eXhfvbz8TXVOafo3xC3F0=;
+        b=HkoezpR3Rsole2z2xQyFjnqIZB96rn8qursrHwJyGGYjCnRvK0CdUvFnNkVo/a3oxj
+         tZiHoW4EOwjWjrKuT2Fm0bHj61Tn91It9qgnjPgpDfdHlzL2Rlc61PP2G4uxcEZQcv0y
+         w6XzjQRr0TwzY4uc++FK4kSVBTQBG+RodfVT1VXSveDOiIlzGe3a76zuRl1MDiD9AlX2
+         +xkRcvI6Lm+n9CV6fcCl/0wJ6EDqI0+ggDPF5JcvZa/PqxcGUsPy/bYxa4mg881CjKEp
+         CnafRjr0co53AqXKYi9sZr1G8CzaLd9T4cVFMb+x/IRXsfr3HT7FKDjoe7W1Gvpdr8R1
+         iVnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5/bbf0lUkrxiWX+PZ82pZ/eXhfvbz8TXVOafo3xC3F0=;
+        b=pmdQeVu1C3odlaq5yLup3kZ/F6Hc8JQ7qnA94jlaWMebxzsI1MqSGAbfwfL70Y3EM1
+         4BFju6ZGNhRLyQgd68offDv6iCXhYnl7uMryc6y5Sj/sH9+EcqV7DqDjjxIL9UTiUERM
+         eOK3FBY8vo18kpuldXBo59DqfcU1EtCbmYGY9p/xOqshTey4771PvUsXmH4lssHcOD8x
+         51S2u9CwBRKFGJ21YInYVCUOQLRSx2WQlrvrwcvDf6x4IVrdN0md9gZOlKL+ShZPhh0V
+         juJ/LYt2NeAf5qToI6gV+j800mFmtsWeUUffwgC9IPwG4S9KtQU3nEElgtsS7sy1yVzD
+         mQRQ==
+X-Gm-Message-State: AOAM533SAJQMKJKNHaN2pRHSbN5Wi2tjLmqMSIYoO7U8uK07mUmDWBiJ
+        Kk5BahGzh+uf2VQbM6dlAsc=
+X-Google-Smtp-Source: ABdhPJxTT4D2raEsHiMfFaMgNHqSE7CiS0TXVGXWZARc5uCHcybm0Uq1+PwOqMoXtrME3PxEG4EBvA==
+X-Received: by 2002:a63:e00c:: with SMTP id e12mr26903209pgh.413.1593739210833;
+        Thu, 02 Jul 2020 18:20:10 -0700 (PDT)
+Received: from bobo.ozlabs.ibm.com (61-68-186-125.tpgi.com.au. [61.68.186.125])
+        by smtp.gmail.com with ESMTPSA id v186sm10094222pfv.141.2020.07.02.18.20.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Jul 2020 18:20:10 -0700 (PDT)
+From:   Nicholas Piggin <npiggin@gmail.com>
+To:     linuxppc-dev@lists.ozlabs.org
+Cc:     Nicholas Piggin <npiggin@gmail.com>, kvm-ppc@vger.kernel.org,
+        linux-mm@kvack.org, linux-api@vger.kernel.org
+Subject: [PATCH v2 0/3] remove PROT_SAO support and disable
+Date:   Fri,  3 Jul 2020 11:19:55 +1000
+Message-Id: <20200703011958.1166620-1-npiggin@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Mathieu Desnoyers via Libc-alpha:
-
-> Register rseq TLS for each thread (including main), and unregister for
-> each thread (excluding main).  "rseq" stands for Restartable Sequences.
->
-> See the rseq(2) man page proposed here:
->   https://lkml.org/lkml/2018/9/19/647
->
-> Those are based on glibc master branch commit 3ee1e0ec5c.
-> The rseq system call was merged into Linux 4.18.
->
-> The TLS_STATIC_SURPLUS define is increased to leave additional room for
-> dlopen'd initial-exec TLS, which keeps elf/tst-auditmany working.
->
-> The increase (76 bytes) is larger than 32 bytes because it has not been
-> increased in quite a while.  The cost in terms of additional TLS storage
-> is quite significant, but it will also obscure some initial-exec-related
-> dlopen failures.
-
-We need another change to get this working on most non-x86
-architectures:
-
-diff --git a/elf/dl-tls.c b/elf/dl-tls.c
-index 817bcbbf59..ca13778ca9 100644
---- a/elf/dl-tls.c
-+++ b/elf/dl-tls.c
-@@ -134,6 +134,12 @@ void
- _dl_determine_tlsoffset (void)
- {
-   size_t max_align = TLS_TCB_ALIGN;
-+  /* libc.so with rseq has TLS with 32-byte alignment.  Since TLS is
-+     initialized before audit modules are loaded and slotinfo
-+     information is available, this is not taken into account below in
-+     the audit case.  */
-+  max_align = MAX (max_align, 32U);
-+
-   size_t freetop = 0;
-   size_t freebottom = 0;
-
-This isn't visible on x86-64 because TLS_TCB_ALIGN is already 64 there.
-
-I plan to re-test with this fix and push the series.
-
-Carlos, is it okay if I fold in the dl-tls.c change if testing looks
-good?
+It was suggested that I post this to a wider audience on account of
+the change to supported userspace features in patch 2 particularly.
 
 Thanks,
-Florian
+Nick
+
+Nicholas Piggin (3):
+  powerpc: remove stale calc_vm_prot_bits comment
+  powerpc/64s: remove PROT_SAO support
+  powerpc/64s/hash: disable subpage_prot syscall by default
+
+ arch/powerpc/Kconfig                          |  7 +++-
+ arch/powerpc/configs/powernv_defconfig        |  1 -
+ arch/powerpc/configs/pseries_defconfig        |  1 -
+ arch/powerpc/include/asm/book3s/64/pgtable.h  |  8 ++--
+ arch/powerpc/include/asm/cputable.h           | 10 ++---
+ arch/powerpc/include/asm/kvm_book3s_64.h      |  5 ++-
+ arch/powerpc/include/asm/mman.h               | 30 ++-----------
+ arch/powerpc/include/asm/nohash/64/pgtable.h  |  2 -
+ arch/powerpc/include/uapi/asm/mman.h          |  2 +-
+ arch/powerpc/kernel/dt_cpu_ftrs.c             |  2 +-
+ arch/powerpc/mm/book3s64/hash_utils.c         |  2 -
+ include/linux/mm.h                            |  2 -
+ include/trace/events/mmflags.h                |  2 -
+ mm/ksm.c                                      |  4 --
+ tools/testing/selftests/powerpc/mm/.gitignore |  1 -
+ tools/testing/selftests/powerpc/mm/Makefile   |  4 +-
+ tools/testing/selftests/powerpc/mm/prot_sao.c | 42 -------------------
+ 17 files changed, 25 insertions(+), 100 deletions(-)
+ delete mode 100644 tools/testing/selftests/powerpc/mm/prot_sao.c
+
+-- 
+2.23.0
 
