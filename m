@@ -2,50 +2,61 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 207192138AB
-	for <lists+linux-api@lfdr.de>; Fri,  3 Jul 2020 12:34:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30A2C21390A
+	for <lists+linux-api@lfdr.de>; Fri,  3 Jul 2020 13:04:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726039AbgGCKeX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 3 Jul 2020 06:34:23 -0400
-Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:52110 "EHLO
-        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725891AbgGCKeW (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 3 Jul 2020 06:34:22 -0400
+        id S1726098AbgGCLEf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 3 Jul 2020 07:04:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39888 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726035AbgGCLEf (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 3 Jul 2020 07:04:35 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92DBAC08C5C1
+        for <linux-api@vger.kernel.org>; Fri,  3 Jul 2020 04:04:34 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id t9so18209218lfl.5
+        for <linux-api@vger.kernel.org>; Fri, 03 Jul 2020 04:04:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1593772460; x=1625308460;
-  h=from:to:cc:subject:date:message-id:content-id:
-   mime-version:content-transfer-encoding;
-  bh=0Srq/iAR2iUQqpMVoPKme0CNYFUMN01gXdDZzTE2rCY=;
-  b=n6S/0W6UNArFppp8bKR/324Oj1pszr7zSRRxD6M8/OpbVte/vT3N0U0c
-   qj91vv0X9Iu15XUqqrFYNSbWWyg4l5xPh6taav+y/G0NUza6hC5jK2Iy9
-   3uZd9ZrcxYF9tZ7DrPGrauuRFSMZ7PTnlNZO53i+s7WIxjP0rvc09Viuu
-   I=;
-IronPort-SDR: 2D1/tumB/7HHcZMwmN9toje8ocRF3zmcHHfNR6lLlpGTltLjmYMmsfvn/toPxerHzhWDnrHjwg
- cnXZtx9OTyXA==
-X-IronPort-AV: E=Sophos;i="5.75,308,1589241600"; 
-   d="scan'208";a="48880569"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1a-715bee71.us-east-1.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 03 Jul 2020 10:34:16 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan2.iad.amazon.com [10.40.159.162])
-        by email-inbound-relay-1a-715bee71.us-east-1.amazon.com (Postfix) with ESMTPS id D8030A22EB;
-        Fri,  3 Jul 2020 10:34:10 +0000 (UTC)
-Received: from EX13D21EUA001.ant.amazon.com (10.43.165.41) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Fri, 3 Jul 2020 10:34:10 +0000
-Received: from EX13D08EUB004.ant.amazon.com (10.43.166.158) by
- EX13D21EUA001.ant.amazon.com (10.43.165.41) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Fri, 3 Jul 2020 10:34:09 +0000
-Received: from EX13D08EUB004.ant.amazon.com ([10.43.166.158]) by
- EX13D08EUB004.ant.amazon.com ([10.43.166.158]) with mapi id 15.00.1497.006;
- Fri, 3 Jul 2020 10:34:09 +0000
-From:   "Catangiu, Adrian Costin" <acatan@amazon.com>
-To:     "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=OSzLG/Q5ctkpPGhuaPoxJvjTyfdlXE2F3IbF2Pwkk7E=;
+        b=Pua0s1Lja8sM6i+ugrq9k9QZGR/RJ80SSdCJ/kQ/d6ICO4o7o6CHfNFNSZ0Q4rrKIq
+         smEu/TpYh/5kBXc3s7RbLvo9vdxuEgfJ9fnIoKxHcGvY9MeDojxCKeBm1jw9Lxo1S+uw
+         xEcODlP6Kw5MVjda+EIESAD6qsfRipIGOswibWtuyOa0IXiTEWfb09F1WET2qlW97S1u
+         km5fBU37jUymHPZnsVe77SYwM7yLj+Lj/N2E5xUWMuMAxc2BA/N1GzbxrsPqcd7aC1i1
+         uhpgIEp9C3qnctr4mj4T1fu3oiZ6FjKSaUKystz+5WdalJgVMlOdRQ3GxgiADnJbj2Pz
+         Pelw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=OSzLG/Q5ctkpPGhuaPoxJvjTyfdlXE2F3IbF2Pwkk7E=;
+        b=Q3R5JJ7o7+SVwsBxJKWHeohno58FzTtlyIEfSVrauEFF7SBRmJoSG5Q1LBVbd6J3cf
+         ipZKv4Y+7bkJCQcKSKzgSyAfrc0yHfjeq5cfhf+lVayc2kgQhV6Fvbbt2X4in+Xou2QV
+         1rzfIHWS/JoG4rWAYY4BC/4iaMyZH4mpyFGj+p8DQj2giq+Vn3SSxC74vMq6m1uqSGJP
+         1Edarec/NY7PVfLybqAjEKe4gfmv7gfLFhEmLR3tqNDt/zOirvIeUqSlW223WpYvLa+u
+         11tJHqXCjCMKEK8ALT+R6K/xrWjABDo8JuemiTFB6sQUDjAyR++aCVXJsdxIzaPTCRVH
+         qVlQ==
+X-Gm-Message-State: AOAM531LCRiI+R/sp+LWW/RufTw5gOTGDOwiUcVivEmo1W59KR3LYk2U
+        Su3hP3nUlAlHoC4boYsL6mZs+GqVB7fLVzEX91BkUw==
+X-Google-Smtp-Source: ABdhPJwCBAYxeYjK4PxqGeHvUGXev/BGu5CvhhXznpS3i7EMvLEgcVNQSVGxxsASwC6knmsUQUEOB6ytdcgHUZZ9pVM=
+X-Received: by 2002:a05:6512:3107:: with SMTP id n7mr21993946lfb.63.1593774271705;
+ Fri, 03 Jul 2020 04:04:31 -0700 (PDT)
+MIME-Version: 1.0
+References: <B7793B7A-3660-4769-9B9A-FFCF250728BB@amazon.com>
+In-Reply-To: <B7793B7A-3660-4769-9B9A-FFCF250728BB@amazon.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Fri, 3 Jul 2020 13:04:05 +0200
+Message-ID: <CAG48ez2CpHX9i3YgkNyMHPz63ohjkaSZscMtwSHOFYN4VQow3Q@mail.gmail.com>
+Subject: Re: [RFC]: mm,power: introduce MADV_WIPEONSUSPEND
+To:     "Catangiu, Adrian Costin" <acatan@amazon.com>
+Cc:     "linux-mm@kvack.org" <linux-mm@kvack.org>,
         "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
         "virtualization@lists.linux-foundation.org" 
         <virtualization@lists.linux-foundation.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-CC:     "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
         "rjw@rjwysocki.net" <rjw@rjwysocki.net>,
         "len.brown@intel.com" <len.brown@intel.com>,
         "pavel@ucw.cz" <pavel@ucw.cz>,
@@ -63,187 +74,180 @@ CC:     "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
         "Brooker, Marc" <mbrooker@amazon.com>,
         "Weiss, Radu" <raduweis@amazon.com>,
         "Manwaring, Derek" <derekmn@amazon.com>
-Subject: [RFC]: mm,power: introduce MADV_WIPEONSUSPEND
-Thread-Topic: [RFC]: mm,power: introduce MADV_WIPEONSUSPEND
-Thread-Index: AQHWUSV8Vj3J0uAeZ0SEXb0Kg2s1Gw==
-Date:   Fri, 3 Jul 2020 10:34:09 +0000
-Message-ID: <B7793B7A-3660-4769-9B9A-FFCF250728BB@amazon.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.43.165.155]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <45074E3E0876EC46B53EBC2D2DB37D48@amazon.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Q3J5cHRvZ3JhcGhpYyBsaWJyYXJpZXMgY2FycnkgcHNldWRvIHJhbmRvbSBudW1iZXIgZ2VuZXJh
-dG9ycyB0bw0KcXVpY2tseSBwcm92aWRlIHJhbmRvbW5lc3Mgd2hlbiBuZWVkZWQuIElmIHN1Y2gg
-YSByYW5kb20gcG9vbCBnZXRzDQpjbG9uZWQsIHNlY3JldHMgbWF5IGdldCByZXZlYWxlZCwgYXMg
-dGhlIHNhbWUgcmFuZG9tIG51bWJlciBtYXkgZ2V0DQp1c2VkIG11bHRpcGxlIHRpbWVzLiBGb3Ig
-Zm9yaywgdGhpcyB3YXMgZml4ZWQgdXNpbmcgdGhlIFdJUEVPTkZPUksNCm1hZHZpc2UgZmxhZyBb
-MV0uDQoNClVuZm9ydHVuYXRlbHksIHRoZSBzYW1lIHByb2JsZW0gc3VyZmFjZXMgd2hlbiBhIHZp
-cnR1YWwgbWFjaGluZSBnZXRzDQpjbG9uZWQuIFRoZSBleGlzdGluZyBmbGFnIGRvZXMgbm90IGhl
-bHAgdGhlcmUuIFRoaXMgcGF0Y2ggaW50cm9kdWNlcyBhDQpuZXcgZmxhZyB0byBhdXRvbWF0aWNh
-bGx5IGNsZWFyIG1lbW9yeSBjb250ZW50cyBvbiBWTSBzdXNwZW5kL3Jlc3VtZSwNCndoaWNoIHdp
-bGwgYWxsb3cgcmFuZG9tIG51bWJlciBnZW5lcmF0b3JzIHRvIHJlc2VlZCB3aGVuIHZpcnR1YWwN
-Cm1hY2hpbmVzIGdldCBjbG9uZWQuDQoNCkV4YW1wbGVzIG9mIHRoaXMgYXJlOg0KIC0gUEtDUyMx
-MSBBUEkgcmVpbml0aWFsaXphdGlvbiBjaGVjayAobWFuZGF0ZWQgYnkgc3BlY2lmaWNhdGlvbikN
-CiAtIGdsaWJjJ3MgdXBjb21pbmcgUFJORyAocmVzZWVkIGFmdGVyIHdha2UpDQogLSBPcGVuU1NM
-IFBSTkcgKHJlc2VlZCBhZnRlciB3YWtlKQ0KDQpCZW5lZml0cyBleGlzdCBpbiB0d28gc3BhY2Vz
-Og0KIC0gVGhlIHNlY3VyaXR5IGJlbmVmaXRzIG9mIGEgY2xvbmVkIHZpcnR1YWwgbWFjaGluZSBo
-YXZpbmcgYQ0KICAgcmUtaW5pdGlhbGl6ZWQgUFJORyBpbiBldmVyeSBwcm9jZXNzIGFyZSBzdHJh
-aWdodGZvcndhcmQuDQogICBXaXRob3V0IHJlaW5pdGlhbGl6YXRpb24sIHR3byBvciBtb3JlIGNs
-b25lZCBWTXMgY291bGQgcHJvZHVjZQ0KICAgaWRlbnRpY2FsIHJhbmRvbSBudW1iZXJzLCB3aGlj
-aCBhcmUgb2Z0ZW4gdXNlZCB0byBnZW5lcmF0ZSBzZWN1cmUNCiAgIGtleXMuDQogLSBQcm92aWRl
-cyBhIHNpbXBsZSBtZWNoYW5pc20gdG8gYXZvaWQgUkFNIGV4ZmlsdHJhdGlvbiBkdXJpbmcNCiAg
-IHRyYWRpdGlvbmFsIHNsZWVwL2hpYmVybmF0ZSBvbiBhIGxhcHRvcCBvciBkZXNrdG9wIHdoZW4g
-bWVtb3J5LA0KICAgYW5kIHRodXMgc2VjcmV0cywgYXJlIHZ1bG5lcmFibGUgdG8gb2ZmbGluZSB0
-YW1wZXJpbmcgb3IgaW5zcGVjdGlvbi4NCg0KVGhpcyBSRkMgaXMgZm9yZW1vc3QgYWltZWQgYXQg
-ZGVmaW5pbmcgYSB1c2Vyc3BhY2UgaW50ZXJmYWNlIHRvIGVuYWJsZQ0KYXBwbGljYXRpb25zIGFu
-ZCBsaWJyYXJpZXMgdGhhdCBzdG9yZSBvciBjYWNoZSBzZW5zaXRpdmUgaW5mb3JtYXRpb24sDQp0
-byBrbm93IHRoYXQgdGhleSBuZWVkIHRvIHJlZ2VuZXJhdGUgaXQgYWZ0ZXIgcHJvY2VzcyBtZW1v
-cnkgaGFzIGJlZW4NCmV4cG9zZWQgdG8gcG90ZW50aWFsIGNvcHlpbmcuICBUaGUgcHJvcG9zZWQg
-dXNlcnNwYWNlIGludGVyZmFjZSBpcw0KYSBuZXcgTUFEVl9XSVBFT05TVVNQRU5EICdtYWR2aXNl
-KCknIGZsYWcgdXNlZCB0byBtYXJrIHBhZ2VzIHdoaWNoDQpjb250YWluIHN1Y2ggZGF0YS4gVGhp
-cyBuZXdseSBhZGRlZCBmbGFnIHdvdWxkIG9ubHkgYmUgYXZhaWxhYmxlIG9uDQo2NGJpdCBhcmNo
-cywgc2luY2Ugd2UndmUgcnVuIG91dCBvZiAzMmJpdCBWTUEgZmxhZ3MuDQoNClRoZSBtZWNoYW5p
-c20gdGhyb3VnaCB3aGljaCB0aGUga2VybmVsIG1hcmtzIHRoZSBhcHBsaWNhdGlvbiBzZW5zaXRp
-dmUNCmRhdGEgYXMgcG90ZW50aWFsbHkgY29waWVkLCBpcyBhIHNlY29uZGFyeSBvYmplY3RpdmUg
-b2YgdGhpcyBSRkMuIEluDQp0aGUgY3VycmVudCBQb0MgcHJvcG9zYWwsIHRoZSBSRkMga2VybmVs
-IGNvZGUgY29tYmluZXMNCk1BRFZfV0lQRU9OU1VTUEVORCBzZW1hbnRpY3Mgd2l0aCBBQ1BJIHN1
-c3BlbmQvd2FrZSB0cmFuc2l0aW9ucyB0byB6ZXJvDQpvdXQgYWxsIHByb2Nlc3MgcGFnZXMgdGhh
-dCBmYWxsIGluIFZNQXMgbWFya2VkIGFzIE1BRFZfV0lQRU9OU1VTUEVORA0KYW5kIHRodXMgYWxs
-b3cgYXBwbGljYXRpb25zIGFuZCBsaWJyYXJpZXMgYmUgbm90aWZpZWQgYW5kIHJlZ2VuZXJhdGUN
-CnRoZWlyIHNlbnNpdGl2ZSBkYXRhLiAgTWFya2luZyBWTUFzIGFzIE1BRFZfV0lQRU9OU1VTUEVO
-RCByZXN1bHRzIGluDQp0aGUgVk1BcyBiZWluZyBlbXB0eSBpbiB0aGUgcHJvY2VzcyBhZnRlciBh
-bnkgc3VzcGVuZC93YWtlIGN5Y2xlLg0KU2ltaWxhciB0byBNQURWX1dJUEVPTkZPUkssIGlmIHRo
-ZSBwcm9jZXNzIGFjY2Vzc2VzIG1lbW9yeSB0aGF0IHdhcw0Kd2lwZWQgb24gc3VzcGVuZCwgaXQg
-d2lsbCBnZXQgemVyb2VzLiAgVGhlIGFkZHJlc3MgcmFuZ2VzIGFyZSBzdGlsbA0KdmFsaWQsIHRo
-ZXkgYXJlIGp1c3QgZW1wdHkuDQoNClRoaXMgcGF0Y2ggYWRkcyBsb2dpYyB0byB0aGUga2VybmVs
-IHBvd2VyIGNvZGUgdG8gemVybyBvdXQgY29udGVudHMgb2YNCmFsbCBNQURWX1dJUEVPTlNVU1BF
-TkQgVk1BcyBwcmVzZW50IGluIHRoZSBzeXN0ZW0gZHVyaW5nIGl0cyB0cmFuc2l0aW9uDQp0byBh
-bnkgc3VzcGVuZCBzdGF0ZSBlcXVhbCBvciBncmVhdGVyL2RlZXBlciB0aGFuIFN1c3BlbmQtdG8t
-bWVtb3J5LA0Ka25vd24gYXMgUzMuDQoNCk1BRFZfV0lQRU9OU1VTUEVORCBvbmx5IHdvcmtzIG9u
-IHByaXZhdGUsIGFub255bW91cyBtYXBwaW5ncy4NClRoZSBwYXRjaCBhbHNvIGFkZHMgTUFEVl9L
-RUVQT05TVVNQRU5ELCB0byB1bmRvIHRoZSBlZmZlY3RzIG9mIGENCnByaW9yIE1BRFZfV0lQRU9O
-U1VTUEVORCBmb3IgYSBWTUEuDQoNCkh5cGVydmlzb3JzIGNhbiBpc3N1ZSBBQ1BJIFMwLT5TMyBh
-bmQgUzMtPlMwIGV2ZW50cyB0byBsZXZlcmFnZSB0aGlzDQpmdW5jdGlvbmFsaXR5IGluIGEgdmly
-dHVhbGl6ZWQgZW52aXJvbm1lbnQuDQoNCkFsdGVybmF0aXZlIGtlcm5lbCBpbXBsZW1lbnRhdGlv
-biBpZGVhczoNCiAtIE1vdmUgdGhlIGNvZGUgdGhhdCBjbGVhcnMgTUFEVl9XSVBFT05GT1JLIHBh
-Z2VzIHRvIGEgdmlydHVhbA0KICAgZGV2aWNlIGRyaXZlciB0aGF0IHJlZ2lzdGVycyBpdHNlbGYg
-dG8gQUNQSSBldmVudHMuDQogLSBBZGQgcHJlcmVxdWlzaXRlIHRoYXQgTUFEVl9XSVBFT05GT1JL
-IHBhZ2VzIG11c3QgYmUgcGlubmVkIChzbw0KICAgbm8gZmF1bHRpbmcgaGFwcGVucykgYW5kIGNs
-ZWFyIHRoZW0gaW4gYSBjdXN0b20vcm9sbC15b3VyLW93bg0KICAgZGV2aWNlIGRyaXZlciBvbiBh
-IE5NSSBoYW5kbGVyLiBUaGlzIGNvdWxkIHdvcmsgaW4gYSB2aXJ0dWFsaXplZA0KICAgZW52aXJv
-bm1lbnQgd2hlcmUgdGhlIGh5cGVydmlzb3IgcGF1c2VzIGFsbCBvdGhlciB2Q1BVcyBiZWZvcmUN
-CiAgIGluamVjdGluZyB0aGUgTk1JLg0KDQpbMV0gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGtt
-bC8yMDE3MDgxMTIxMjgyOS4yOTE4Ni0xLXJpZWxAcmVkaGF0LmNvbS8NCg0KU2lnbmVkLW9mZi1i
-eTogQWRyaWFuIENhdGFuZ2l1IDxhY2F0YW5AYW1hem9uLmNvbT4NCi0tLQ0KIGluY2x1ZGUvbGlu
-dXgvbW0uaCAgICAgICAgICAgICAgICAgICAgIHwgIDIgKw0KIGluY2x1ZGUvdWFwaS9hc20tZ2Vu
-ZXJpYy9tbWFuLWNvbW1vbi5oIHwgIDMgKw0KIGtlcm5lbC9wb3dlci9zdXNwZW5kLmMgICAgICAg
-ICAgICAgICAgIHwgODIgKysrKysrKysrKysrKysrKysrKysrKysrKysNCiBtbS9tYWR2aXNlLmMg
-ICAgICAgICAgICAgICAgICAgICAgICAgICB8IDE3ICsrKysrKw0KIDQgZmlsZXMgY2hhbmdlZCwg
-MTA0IGluc2VydGlvbnMoKykNCg0KZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvbW0uaCBiL2lu
-Y2x1ZGUvbGludXgvbW0uaA0KaW5kZXggMDMzNGNhOTdjNTg0Li45MzllYjgwZmFiYmIgMTAwNjQ0
-DQotLS0gYS9pbmNsdWRlL2xpbnV4L21tLmgNCisrKyBiL2luY2x1ZGUvbGludXgvbW0uaA0KQEAg
-LTI5OCwxMSArMjk4LDEzIEBAIGV4dGVybiB1bnNpZ25lZCBpbnQga29ianNpemUoY29uc3Qgdm9p
-ZCAqb2JqcCk7DQogI2RlZmluZSBWTV9ISUdIX0FSQ0hfQklUXzIJMzQJLyogYml0IG9ubHkgdXNh
-YmxlIG9uIDY0LWJpdCBhcmNoaXRlY3R1cmVzICovDQogI2RlZmluZSBWTV9ISUdIX0FSQ0hfQklU
-XzMJMzUJLyogYml0IG9ubHkgdXNhYmxlIG9uIDY0LWJpdCBhcmNoaXRlY3R1cmVzICovDQogI2Rl
-ZmluZSBWTV9ISUdIX0FSQ0hfQklUXzQJMzYJLyogYml0IG9ubHkgdXNhYmxlIG9uIDY0LWJpdCBh
-cmNoaXRlY3R1cmVzICovDQorI2RlZmluZSBWTV9ISUdIX0FSQ0hfQklUXzUJMzcJLyogYml0IG9u
-bHkgdXNhYmxlIG9uIDY0LWJpdCBhcmNoaXRlY3R1cmVzICovDQogI2RlZmluZSBWTV9ISUdIX0FS
-Q0hfMAlCSVQoVk1fSElHSF9BUkNIX0JJVF8wKQ0KICNkZWZpbmUgVk1fSElHSF9BUkNIXzEJQklU
-KFZNX0hJR0hfQVJDSF9CSVRfMSkNCiAjZGVmaW5lIFZNX0hJR0hfQVJDSF8yCUJJVChWTV9ISUdI
-X0FSQ0hfQklUXzIpDQogI2RlZmluZSBWTV9ISUdIX0FSQ0hfMwlCSVQoVk1fSElHSF9BUkNIX0JJ
-VF8zKQ0KICNkZWZpbmUgVk1fSElHSF9BUkNIXzQJQklUKFZNX0hJR0hfQVJDSF9CSVRfNCkNCisj
-ZGVmaW5lIFZNX1dJUEVPTlNVU1BFTkQJQklUKFZNX0hJR0hfQVJDSF9CSVRfNSkNCiAjZW5kaWYg
-LyogQ09ORklHX0FSQ0hfVVNFU19ISUdIX1ZNQV9GTEFHUyAqLw0KIA0KICNpZmRlZiBDT05GSUdf
-QVJDSF9IQVNfUEtFWVMNCmRpZmYgLS1naXQgYS9pbmNsdWRlL3VhcGkvYXNtLWdlbmVyaWMvbW1h
-bi1jb21tb24uaCBiL2luY2x1ZGUvdWFwaS9hc20tZ2VuZXJpYy9tbWFuLWNvbW1vbi5oDQppbmRl
-eCA2M2IxZjUwNmVhNjcuLmU1MjdkOTA5MDg0MiAxMDA2NDQNCi0tLSBhL2luY2x1ZGUvdWFwaS9h
-c20tZ2VuZXJpYy9tbWFuLWNvbW1vbi5oDQorKysgYi9pbmNsdWRlL3VhcGkvYXNtLWdlbmVyaWMv
-bW1hbi1jb21tb24uaA0KQEAgLTY3LDYgKzY3LDkgQEANCiAjZGVmaW5lIE1BRFZfV0lQRU9ORk9S
-SyAxOAkJLyogWmVybyBtZW1vcnkgb24gZm9yaywgY2hpbGQgb25seSAqLw0KICNkZWZpbmUgTUFE
-Vl9LRUVQT05GT1JLIDE5CQkvKiBVbmRvIE1BRFZfV0lQRU9ORk9SSyAqLw0KIA0KKyNkZWZpbmUg
-TUFEVl9XSVBFT05TVVNQRU5EIDIwCQkvKiBaZXJvIG1lbW9yeSBvbiBzeXN0ZW0gc3VzcGVuZCAq
-Lw0KKyNkZWZpbmUgTUFEVl9LRUVQT05TVVNQRU5EIDIxCQkvKiBVbmRvIE1BRFZfV0lQRU9OU1VT
-UEVORCAqLw0KKw0KIC8qIGNvbXBhdGliaWxpdHkgZmxhZ3MgKi8NCiAjZGVmaW5lIE1BUF9GSUxF
-CTANCiANCmRpZmYgLS1naXQgYS9rZXJuZWwvcG93ZXIvc3VzcGVuZC5jIGIva2VybmVsL3Bvd2Vy
-L3N1c3BlbmQuYw0KaW5kZXggYzg3NGE3MDI2ZTI0Li40MjgyYjdmMGRkMDMgMTAwNjQ0DQotLS0g
-YS9rZXJuZWwvcG93ZXIvc3VzcGVuZC5jDQorKysgYi9rZXJuZWwvcG93ZXIvc3VzcGVuZC5jDQpA
-QCAtMzIzLDYgKzMyMyw3OCBAQCBzdGF0aWMgYm9vbCBwbGF0Zm9ybV9zdXNwZW5kX2FnYWluKHN1
-c3BlbmRfc3RhdGVfdCBzdGF0ZSkNCiAJCXN1c3BlbmRfb3BzLT5zdXNwZW5kX2FnYWluKCkgOiBm
-YWxzZTsNCiB9DQogDQorI2lmZGVmIFZNX1dJUEVPTlNVU1BFTkQNCitzdGF0aWMgdm9pZCBtZW1v
-cnlfY2xlYW51cF9vbl9zdXNwZW5kKHN1c3BlbmRfc3RhdGVfdCBzdGF0ZSkNCit7DQorCXN0cnVj
-dCB0YXNrX3N0cnVjdCAqcDsNCisJc3RydWN0IG1tX3N0cnVjdCAqbW07DQorCXN0cnVjdCB2bV9h
-cmVhX3N0cnVjdCAqdm1hOw0KKwlzdHJ1Y3QgcGFnZSAqcGFnZXNbMzJdOw0KKwl1bnNpZ25lZCBs
-b25nIG1heF9wYWdlc19wZXJfbG9vcCA9IEFSUkFZX1NJWkUocGFnZXMpOw0KKw0KKwkvKiBPbmx5
-IGNhcmUgYWJvdXQgc3RhdGVzID49IFMzICovDQorCWlmIChzdGF0ZSA8IFBNX1NVU1BFTkRfTUVN
-KQ0KKwkJcmV0dXJuOw0KKw0KKwlyY3VfcmVhZF9sb2NrKCk7DQorCWZvcl9lYWNoX3Byb2Nlc3Mo
-cCkgew0KKwkJaW50IGd1cF9mbGFncyA9IEZPTExfV1JJVEU7DQorDQorCQltbSA9IHAtPm1tOw0K
-KwkJaWYgKCFtbSkNCisJCQljb250aW51ZTsNCisNCisJCWRvd25fcmVhZCgmbW0tPm1tYXBfc2Vt
-KTsNCisJCWZvciAodm1hID0gbW0tPm1tYXA7IHZtYTsgdm1hID0gdm1hLT52bV9uZXh0KSB7DQor
-CQkJdW5zaWduZWQgbG9uZyBhZGRyLCBucl9wYWdlczsNCisNCisJCQlpZiAoISh2bWEtPnZtX2Zs
-YWdzICYgVk1fV0lQRU9OU1VTUEVORCkpDQorCQkJCWNvbnRpbnVlOw0KKw0KKwkJCWFkZHIgPSB2
-bWEtPnZtX3N0YXJ0Ow0KKwkJCW5yX3BhZ2VzID0gKHZtYS0+dm1fZW5kIC0gYWRkciAtIDEpIC8g
-UEFHRV9TSVpFICsgMTsNCisJCQl3aGlsZSAobnJfcGFnZXMpIHsNCisJCQkJaW50IGNvdW50ID0g
-bWluKG5yX3BhZ2VzLCBtYXhfcGFnZXNfcGVyX2xvb3ApOw0KKwkJCQl2b2lkICprYWRkcjsNCisN
-CisJCQkJY291bnQgPSBnZXRfdXNlcl9wYWdlc19yZW1vdGUocCwgbW0sIGFkZHIsDQorCQkJCQkJ
-CWNvdW50LCBndXBfZmxhZ3MsDQorCQkJCQkJCXBhZ2VzLCBOVUxMLCBOVUxMKTsNCisJCQkJaWYg
-KGNvdW50IDw9IDApIHsNCisJCQkJCS8qDQorCQkJCQkgKiBGSVhNRTogSW4gdGhpcyBQb0MganVz
-dCBicmVhayBpZiB3ZQ0KKwkJCQkJICogZ2V0IGFuIGVycm9yLg0KKwkJCQkJICogSW4gdGhlIGZp
-bmFsIGltcGxlbWVudGF0aW9uIHdlIG5lZWQNCisJCQkJCSAqIHRvIGhhbmRsZSB0aGlzIGJldHRl
-ciBhbmQgbm90IGxlYXZlDQorCQkJCQkgKiBwYWdlcyB1bmNsZWFyZWQuDQorCQkJCQkgKi8NCisJ
-CQkJCWJyZWFrOw0KKwkJCQl9DQorCQkJCS8qIEdvIHRocm91Z2ggcGFnZXMgYnVmZmVyIGFuZCBj
-bGVhciB0aGVtLiAqLw0KKwkJCQl3aGlsZSAoY291bnQpIHsNCisJCQkJCXN0cnVjdCBwYWdlICpw
-YWdlID0gcGFnZXNbLS1jb3VudF07DQorDQorCQkJCQlrYWRkciA9IGttYXAocGFnZSk7DQorCQkJ
-CQljbGVhcl9wYWdlKGthZGRyKTsNCisJCQkJCWt1bm1hcChwYWdlKTsNCisNCisJCQkJCXB1dF9w
-YWdlKHBhZ2UpOw0KKwkJCQkJbnJfcGFnZXMtLTsNCisJCQkJCWFkZHIgKz0gUEFHRV9TSVpFOw0K
-KwkJCQl9DQorCQkJfQ0KKwkJfQ0KKwkJdXBfcmVhZCgmbW0tPm1tYXBfc2VtKTsNCisJfQ0KKwly
-Y3VfcmVhZF91bmxvY2soKTsNCit9DQorI2Vsc2UNCitzdGF0aWMgdm9pZCBtZW1vcnlfY2xlYW51
-cF9vbl9zdXNwZW5kKHN1c3BlbmRfc3RhdGVfdCBzdGF0ZSkNCit7DQorCS8qIG5vb3AgKi8NCit9
-DQorI2VuZGlmIC8qIFZNX1dJUEVPTlNVU1BFTkQgKi8NCisNCiAjaWZkZWYgQ09ORklHX1BNX0RF
-QlVHDQogc3RhdGljIHVuc2lnbmVkIGludCBwbV90ZXN0X2RlbGF5ID0gNTsNCiBtb2R1bGVfcGFy
-YW0ocG1fdGVzdF9kZWxheSwgdWludCwgMDY0NCk7DQpAQCAtNDE1LDYgKzQ4NywxNiBAQCBzdGF0
-aWMgaW50IHN1c3BlbmRfZW50ZXIoc3VzcGVuZF9zdGF0ZV90IHN0YXRlLCBib29sICp3YWtldXAp
-DQogCWlmIChlcnJvcikNCiAJCWdvdG8gRGV2aWNlc19lYXJseV9yZXN1bWU7DQogDQorCS8qDQor
-CSAqIEZJWE1FOiBGb3IgdGhpcyBQb0Mgd2UncmUgY2FsbGluZyB0aGlzIGVhcmx5IHRvIGJlIGFi
-bGUgdG8NCisJICogZmF1bHQgaW4gcGFnZXMuIEZvciBhIGNvcnJlY3QgaW1wbGVtZW50YXRpb24g
-d2UgaGF2ZSB0byBmaW5kIGENCisJICogd2F5IHRvIGRvIGl0IGxhdGVyLCBldmVudHVhbGx5IF9h
-ZnRlcl8gZGlzYWJsaW5nIGRldmljZXMgYW5kDQorCSAqIHNlY29uZGFyeSBDUFVzLg0KKwkgKiBP
-bmUgaWRlYSBpcyB0byBhZGQgcmVxdWlyZW1lbnQgb2YgaGF2aW5nIHRoZXNlIHBhZ2VzIHBpbm5l
-ZA0KKwkgKiBzbyB0aGF0IHdlIGRvbid0IHdvcnJ5IGFib3V0IGZhdWx0aW5nLg0KKwkgKi8NCisJ
-bWVtb3J5X2NsZWFudXBfb25fc3VzcGVuZChzdGF0ZSk7DQorDQogCWlmIChzdGF0ZSA9PSBQTV9T
-VVNQRU5EX1RPX0lETEUgJiYgcG1fdGVzdF9sZXZlbCAhPSBURVNUX1BMQVRGT1JNKSB7DQogCQlz
-MmlkbGVfbG9vcCgpOw0KIAkJZ290byBQbGF0Zm9ybV9lYXJseV9yZXN1bWU7DQpkaWZmIC0tZ2l0
-IGEvbW0vbWFkdmlzZS5jIGIvbW0vbWFkdmlzZS5jDQppbmRleCA5NjhkZjNhYTA2OWYuLjI1MGI2
-NTI3N2YxMSAxMDA2NDQNCi0tLSBhL21tL21hZHZpc2UuYw0KKysrIGIvbW0vbWFkdmlzZS5jDQpA
-QCAtOTIsNiArOTIsMTkgQEAgc3RhdGljIGxvbmcgbWFkdmlzZV9iZWhhdmlvcihzdHJ1Y3Qgdm1f
-YXJlYV9zdHJ1Y3QgKnZtYSwNCiAJY2FzZSBNQURWX0tFRVBPTkZPUks6DQogCQluZXdfZmxhZ3Mg
-Jj0gflZNX1dJUEVPTkZPUks7DQogCQlicmVhazsNCisjaWZkZWYgVk1fV0lQRU9OU1VTUEVORA0K
-KwljYXNlIE1BRFZfV0lQRU9OU1VTUEVORDoNCisJCS8qIE1BRFZfV0lQRU9OU1VTUEVORCBpcyBv
-bmx5IHN1cHBvcnRlZCBvbiBhbm9ueW1vdXMgbWVtb3J5LiAqLw0KKwkJaWYgKHZtYS0+dm1fZmls
-ZSB8fCB2bWEtPnZtX2ZsYWdzICYgVk1fU0hBUkVEKSB7DQorCQkJZXJyb3IgPSAtRUlOVkFMOw0K
-KwkJCWdvdG8gb3V0Ow0KKwkJfQ0KKwkJbmV3X2ZsYWdzIHw9IFZNX1dJUEVPTlNVU1BFTkQ7DQor
-CQlicmVhazsNCisJY2FzZSBNQURWX0tFRVBPTlNVU1BFTkQ6DQorCQluZXdfZmxhZ3MgJj0gflZN
-X1dJUEVPTlNVU1BFTkQ7DQorCQlicmVhazsNCisjZW5kaWYNCiAJY2FzZSBNQURWX0RPTlREVU1Q
-Og0KIAkJbmV3X2ZsYWdzIHw9IFZNX0RPTlREVU1QOw0KIAkJYnJlYWs7DQpAQCAtNzMxLDYgKzc0
-NCwxMCBAQCBtYWR2aXNlX2JlaGF2aW9yX3ZhbGlkKGludCBiZWhhdmlvcikNCiAjaWZkZWYgQ09O
-RklHX01FTU9SWV9GQUlMVVJFDQogCWNhc2UgTUFEVl9TT0ZUX09GRkxJTkU6DQogCWNhc2UgTUFE
-Vl9IV1BPSVNPTjoNCisjZW5kaWYNCisjaWZkZWYgQ09ORklHX0FSQ0hfVVNFU19ISUdIX1ZNQV9G
-TEFHUw0KKwljYXNlIE1BRFZfV0lQRU9OU1VTUEVORDoNCisJY2FzZSBNQURWX0tFRVBPTlNVU1BF
-TkQ6DQogI2VuZGlmDQogCQlyZXR1cm4gdHJ1ZTsNCiANCi0tIA0KMi4xNy4xDQoNCg0KCgoKQW1h
-em9uIERldmVsb3BtZW50IENlbnRlciAoUm9tYW5pYSkgUy5SLkwuIHJlZ2lzdGVyZWQgb2ZmaWNl
-OiAyN0EgU2YuIExhemFyIFN0cmVldCwgVUJDNSwgZmxvb3IgMiwgSWFzaSwgSWFzaSBDb3VudHks
-IDcwMDA0NSwgUm9tYW5pYS4gUmVnaXN0ZXJlZCBpbiBSb21hbmlhLiBSZWdpc3RyYXRpb24gbnVt
-YmVyIEoyMi8yNjIxLzIwMDUuCg==
+On Fri, Jul 3, 2020 at 12:34 PM Catangiu, Adrian Costin
+<acatan@amazon.com> wrote:
+> Cryptographic libraries carry pseudo random number generators to
+> quickly provide randomness when needed. If such a random pool gets
+> cloned, secrets may get revealed, as the same random number may get
+> used multiple times. For fork, this was fixed using the WIPEONFORK
+> madvise flag [1].
+>
+> Unfortunately, the same problem surfaces when a virtual machine gets
+> cloned. The existing flag does not help there. This patch introduces a
+> new flag to automatically clear memory contents on VM suspend/resume,
+> which will allow random number generators to reseed when virtual
+> machines get cloned.
+>
+> Examples of this are:
+>  - PKCS#11 API reinitialization check (mandated by specification)
+>  - glibc's upcoming PRNG (reseed after wake)
+>  - OpenSSL PRNG (reseed after wake)
+>
+> Benefits exist in two spaces:
+>  - The security benefits of a cloned virtual machine having a
+>    re-initialized PRNG in every process are straightforward.
+>    Without reinitialization, two or more cloned VMs could produce
+>    identical random numbers, which are often used to generate secure
+>    keys.
+>  - Provides a simple mechanism to avoid RAM exfiltration during
+>    traditional sleep/hibernate on a laptop or desktop when memory,
+>    and thus secrets, are vulnerable to offline tampering or inspection.
 
+For the first usecase, I wonder which way around this would work
+better - do the wiping when a VM is saved, or do it when the VM is
+restored? I guess that at least in some scenarios, doing it on restore
+would be nicer because that way the hypervisor can always instantly
+save a VM without having to wait for the guest to say "alright, I'm
+ready" - especially if someone e.g. wants to take a snapshot of a
+running VM while keeping it running? Or do hypervisors inject such
+ACPI transitions every time they snapshot/save/restore a VM anyway?
+
+> This RFC is foremost aimed at defining a userspace interface to enable
+> applications and libraries that store or cache sensitive information,
+> to know that they need to regenerate it after process memory has been
+> exposed to potential copying.  The proposed userspace interface is
+> a new MADV_WIPEONSUSPEND 'madvise()' flag used to mark pages which
+> contain such data. This newly added flag would only be available on
+> 64bit archs, since we've run out of 32bit VMA flags.
+>
+> The mechanism through which the kernel marks the application sensitive
+> data as potentially copied, is a secondary objective of this RFC. In
+> the current PoC proposal, the RFC kernel code combines
+> MADV_WIPEONSUSPEND semantics with ACPI suspend/wake transitions to zero
+> out all process pages that fall in VMAs marked as MADV_WIPEONSUSPEND
+> and thus allow applications and libraries be notified and regenerate
+> their sensitive data.  Marking VMAs as MADV_WIPEONSUSPEND results in
+> the VMAs being empty in the process after any suspend/wake cycle.
+> Similar to MADV_WIPEONFORK, if the process accesses memory that was
+> wiped on suspend, it will get zeroes.  The address ranges are still
+> valid, they are just empty.
+>
+> This patch adds logic to the kernel power code to zero out contents of
+> all MADV_WIPEONSUSPEND VMAs present in the system during its transition
+> to any suspend state equal or greater/deeper than Suspend-to-memory,
+> known as S3.
+>
+> MADV_WIPEONSUSPEND only works on private, anonymous mappings.
+> The patch also adds MADV_KEEPONSUSPEND, to undo the effects of a
+> prior MADV_WIPEONSUSPEND for a VMA.
+>
+> Hypervisors can issue ACPI S0->S3 and S3->S0 events to leverage this
+> functionality in a virtualized environment.
+>
+> Alternative kernel implementation ideas:
+>  - Move the code that clears MADV_WIPEONFORK pages to a virtual
+>    device driver that registers itself to ACPI events.
+>  - Add prerequisite that MADV_WIPEONFORK pages must be pinned (so
+>    no faulting happens) and clear them in a custom/roll-your-own
+>    device driver on a NMI handler. This could work in a virtualized
+>    environment where the hypervisor pauses all other vCPUs before
+>    injecting the NMI.
+>
+> [1] https://lore.kernel.org/lkml/20170811212829.29186-1-riel@redhat.com/
+[...]
+> diff --git a/kernel/power/suspend.c b/kernel/power/suspend.c
+> index c874a7026e24..4282b7f0dd03 100644
+> --- a/kernel/power/suspend.c
+> +++ b/kernel/power/suspend.c
+> @@ -323,6 +323,78 @@ static bool platform_suspend_again(suspend_state_t state)
+>                 suspend_ops->suspend_again() : false;
+>  }
+>
+> +#ifdef VM_WIPEONSUSPEND
+> +static void memory_cleanup_on_suspend(suspend_state_t state)
+> +{
+> +       struct task_struct *p;
+> +       struct mm_struct *mm;
+> +       struct vm_area_struct *vma;
+> +       struct page *pages[32];
+> +       unsigned long max_pages_per_loop = ARRAY_SIZE(pages);
+> +
+> +       /* Only care about states >= S3 */
+> +       if (state < PM_SUSPEND_MEM)
+> +               return;
+> +
+> +       rcu_read_lock();
+> +       for_each_process(p) {
+> +               int gup_flags = FOLL_WRITE;
+> +
+> +               mm = p->mm;
+> +               if (!mm)
+> +                       continue;
+> +
+> +               down_read(&mm->mmap_sem);
+
+Blocking actions, such as locking semaphores, are forbidden in RCU
+read-side critical sections. Also, from a more high-level perspective,
+do we need to be careful here to avoid deadlocks with frozen tasks or
+stuff like that?
+
+> +               for (vma = mm->mmap; vma; vma = vma->vm_next) {
+> +                       unsigned long addr, nr_pages;
+> +
+> +                       if (!(vma->vm_flags & VM_WIPEONSUSPEND))
+> +                               continue;
+> +
+> +                       addr = vma->vm_start;
+> +                       nr_pages = (vma->vm_end - addr - 1) / PAGE_SIZE + 1;
+> +                       while (nr_pages) {
+> +                               int count = min(nr_pages, max_pages_per_loop);
+> +                               void *kaddr;
+> +
+> +                               count = get_user_pages_remote(p, mm, addr,
+> +                                                       count, gup_flags,
+> +                                                       pages, NULL, NULL);
+
+get_user_pages_remote() can wait for disk I/O (for swapping stuff back
+in), which we'd probably like to avoid here. And I think it can also
+wait for userfaultfd handling from userspace? zap_page_range() (which
+is what e.g. MADV_DONTNEED uses) might be a better fit, since it can
+yank entries out of the page table (forcing the next write fault to
+allocate a new zeroed page) without faulting them into RAM.
+
+> +                               if (count <= 0) {
+> +                                       /*
+> +                                        * FIXME: In this PoC just break if we
+> +                                        * get an error.
+> +                                        * In the final implementation we need
+> +                                        * to handle this better and not leave
+> +                                        * pages uncleared.
+> +                                        */
+> +                                       break;
+> +                               }
+> +                               /* Go through pages buffer and clear them. */
+> +                               while (count) {
+> +                                       struct page *page = pages[--count];
+> +
+> +                                       kaddr = kmap(page);
+> +                                       clear_page(kaddr);
+> +                                       kunmap(page);
+
+(This part should go away, but if it stayed, you'd probably want to
+use clear_user_highpage() or so instead of open-coding this.)
+
+> +                                       put_page(page);
+> +                                       nr_pages--;
+> +                                       addr += PAGE_SIZE;
+> +                               }
+> +                       }
+> +               }
+> +               up_read(&mm->mmap_sem);
+> +       }
+> +       rcu_read_unlock();
+> +}
