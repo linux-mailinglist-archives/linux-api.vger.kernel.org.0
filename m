@@ -2,54 +2,55 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 18C08214D79
-	for <lists+linux-api@lfdr.de>; Sun,  5 Jul 2020 17:11:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 088E9214D7F
+	for <lists+linux-api@lfdr.de>; Sun,  5 Jul 2020 17:11:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727966AbgGEPLZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 5 Jul 2020 11:11:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39210 "EHLO
+        id S1728006AbgGEPLi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 5 Jul 2020 11:11:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727847AbgGEPLY (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 5 Jul 2020 11:11:24 -0400
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 429A6C061794
-        for <linux-api@vger.kernel.org>; Sun,  5 Jul 2020 08:11:24 -0700 (PDT)
-Received: by mail-ej1-x644.google.com with SMTP id f12so13549577eja.9
-        for <linux-api@vger.kernel.org>; Sun, 05 Jul 2020 08:11:24 -0700 (PDT)
+        with ESMTP id S1727995AbgGEPLh (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 5 Jul 2020 11:11:37 -0400
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73566C08C5E1
+        for <linux-api@vger.kernel.org>; Sun,  5 Jul 2020 08:11:37 -0700 (PDT)
+Received: by mail-ej1-x641.google.com with SMTP id n26so25824804ejx.0
+        for <linux-api@vger.kernel.org>; Sun, 05 Jul 2020 08:11:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=2tHsNsc85oEMgxfMe/9ECsv9KY90m64bzbMRR9357CU=;
-        b=Hbpzh2mkywq3PINoKnKvIeWREaFlJ3B37cTwpnx5RerTgpbuKhSZPwrsl1vLicqVxn
-         ppPB4hWBeYerbw9BThTxK+n8qqf2CdjU6s1IapyqlR2OMNy+nRTlEXRsvO55prOmzSfR
-         GdJuNL11UHoSywYCM3N0fE+L0KDjyeW5bA0QLIHmCIHZMOCWUhHXaRZ43bxKjdjMI7bD
-         l+lzN56NXJzBqSPgPsICGEuAOksqaFb7tK3H4T7GjSYbz1pnMTuBMKKgASJ99mLUoqmU
-         dkZrcvT0qaRaKCHuU/YsajwEu9OLxgMbwVVylVTd94Q+LxGxTmDXntTiK6+kU/1BOiQp
-         yhkg==
+        bh=vZkOfNBWPs7bSewT5QvZ/73eArXitjKQiDUtUx4ui7w=;
+        b=L8DyrA0FLE21V4MOXZEjSGpZnIuqb4iC2aC2i3zp2BV3QD6oiLwzWVfGLwJsWs/SOD
+         Sf5rpTmNcJgS8YldfcsmIP8HfyjH4BsY6Jn5ZDLuok718ODpoFT8bmPKULLcUmmSEbzx
+         J9HWauCfjA3JCH/kkVA4ZT+4ryqnt2NPcNUg6rNJx34Ady51AFAkeTDiZxpt6meH3EC6
+         BsLAJTMRKf/FsA2GvzxJsZtuhBpn2i7W3f/K/hQ5AJ9Ts4Yz0N0I7mmo1jeeChNNpGRC
+         z8C/cArs+coRfiecZM6QzF+BpNouh/evZZmWofGu7IGfI/63enV9ePGzW1++1v3xZ9Ub
+         zGrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=2tHsNsc85oEMgxfMe/9ECsv9KY90m64bzbMRR9357CU=;
-        b=c5B/IJvJka4VHN41FV83iOsmJ9Ml0EjStkPFnP2gW8Nf37kQhUdeYEvsvbHmuo42nd
-         b8UjOvB+d5SvdKtiWthdV7Io83RW+9CfA2AzjLVr4XwOrdti3+kL2F2k7KJklJnmmJz+
-         LrJ/M/9YtnsBm/EOdjYRtW39fYxvktbPoibnfeolBTeEiMC2c8hWct6CwzQBd16ftv7u
-         gKFHW9dw5URiCMV/dh/obX0r36C5teLwtHUJuzSwjiBnJ/FLFSAN89FCnWHvkdmK3ih7
-         lov/0sgpBBtFp1U/8dWQAFQ4tmNinmJWPJ4xAxhYLv8kgbgV43jh3whzAQM4YQP9NKa9
-         3VkQ==
-X-Gm-Message-State: AOAM533jqh7HBNW0LiWSHxgndIZCAxg2O6l7KAgj4XxAE6kZkz65CMFE
-        fkt8JFSekzxw/ujEdjnuSU8rdIDx3O4spqcQPYk1YNM=
-X-Google-Smtp-Source: ABdhPJykYYlS6DyRXswVmWtbu7A3Q6Dy8mVKkx1CmIV5P5PACrs0bkv1logTfFs6fMkOIf3NdUb1tBevQz1LKf/qCoI=
-X-Received: by 2002:a17:906:aac9:: with SMTP id kt9mr36448175ejb.488.1593961882949;
- Sun, 05 Jul 2020 08:11:22 -0700 (PDT)
+        bh=vZkOfNBWPs7bSewT5QvZ/73eArXitjKQiDUtUx4ui7w=;
+        b=tA6s93I1jfCyJYgkfWlc8VL6aEWw39EtI41ISqt/vfhw1EYDtjotTwrXXHGBQEvJ2c
+         bkPdwDkH1xlnWANbH3KMW+FQUfB17k7wDELpT4l9pI6YTxf4S1L9w82K10iCTYzcAcPR
+         pM00g3gs1ZH8w5/yu+ZtimSodLF84/nldViiPLTnhW/Kp6Zcebi0qh7980LOGO2WM1Xl
+         vqaDky+GEbtCXn8ca4Ah5hFhIsu/mSx2rZQIKr6MtP7KbUqTONi321RKF7f7tvW8UO9p
+         ot2VDI5yxmSD27HahNUuenQPk2dAc8yFd8i13sBmiD5SLjarm3pems+nOw+cayikhK/3
+         2Z4w==
+X-Gm-Message-State: AOAM531vW3o74WzmZ4W710bwg+eSgsPGh2RyYPseRJwXER5nMWsOvpdx
+        NpTnA10DZsNdT90ig+TWvgKhV5xDOJZgo885w7+d
+X-Google-Smtp-Source: ABdhPJwpCSiC6DSoxZdi2hDJdv8okJ+1ja6aScs+thXxUI3Z3zq+l9Mz0Zb046AzwGN/qGJDIKP+LuHU9EesRKGoRdQ=
+X-Received: by 2002:a17:906:456:: with SMTP id e22mr34336791eja.178.1593961896028;
+ Sun, 05 Jul 2020 08:11:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1593198710.git.rgb@redhat.com> <4a5019ed3cfab416aeb6549b791ac6d8cc9fb8b7.1593198710.git.rgb@redhat.com>
-In-Reply-To: <4a5019ed3cfab416aeb6549b791ac6d8cc9fb8b7.1593198710.git.rgb@redhat.com>
+References: <cover.1593198710.git.rgb@redhat.com> <e9c1216a361c38ebc9cb4089922c259e2cfd5013.1593198710.git.rgb@redhat.com>
+In-Reply-To: <e9c1216a361c38ebc9cb4089922c259e2cfd5013.1593198710.git.rgb@redhat.com>
 From:   Paul Moore <paul@paul-moore.com>
-Date:   Sun, 5 Jul 2020 11:11:11 -0400
-Message-ID: <CAHC9VhSwMEZrq0dnaXmPi=bu0NgUtWPuw-2UGDrQa6TwxWkZtw@mail.gmail.com>
-Subject: Re: [PATCH ghak90 V9 08/13] audit: add containerid support for user records
+Date:   Sun, 5 Jul 2020 11:11:24 -0400
+Message-ID: <CAHC9VhSRRN+Qq5dNx6Q5cG_TrXgbBMR0PNUYvf+Haf2na5wCfg@mail.gmail.com>
+Subject: Re: [PATCH ghak90 V9 10/13] audit: add support for containerid to
+ network namespaces
 To:     Richard Guy Briggs <rgb@redhat.com>
 Cc:     containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
         Linux-Audit Mailing List <linux-audit@redhat.com>,
@@ -69,40 +70,143 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 On Sat, Jun 27, 2020 at 9:23 AM Richard Guy Briggs <rgb@redhat.com> wrote:
 >
-> Add audit container identifier auxiliary record to user event standalone
-> records.
+> This also adds support to qualify NETFILTER_PKT records.
 >
+> Audit events could happen in a network namespace outside of a task
+> context due to packets received from the net that trigger an auditing
+> rule prior to being associated with a running task.  The network
+> namespace could be in use by multiple containers by association to the
+> tasks in that network namespace.  We still want a way to attribute
+> these events to any potential containers.  Keep a list per network
+> namespace to track these audit container identifiiers.
+>
+> Add/increment the audit container identifier on:
+> - initial setting of the audit container identifier via /proc
+> - clone/fork call that inherits an audit container identifier
+> - unshare call that inherits an audit container identifier
+> - setns call that inherits an audit container identifier
+> Delete/decrement the audit container identifier on:
+> - an inherited audit container identifier dropped when child set
+> - process exit
+> - unshare call that drops a net namespace
+> - setns call that drops a net namespace
+>
+> Add audit container identifier auxiliary record(s) to NETFILTER_PKT
+> event standalone records.  Iterate through all potential audit container
+> identifiers associated with a network namespace.
+>
+> Please see the github audit kernel issue for contid net support:
+>   https://github.com/linux-audit/audit-kernel/issues/92
+> Please see the github audit testsuiite issue for the test case:
+>   https://github.com/linux-audit/audit-testsuite/issues/64
+> Please see the github audit wiki for the feature overview:
+>   https://github.com/linux-audit/audit-kernel/wiki/RFE-Audit-Container-ID
 > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
 > Acked-by: Neil Horman <nhorman@tuxdriver.com>
 > Reviewed-by: Ondrej Mosnacek <omosnace@redhat.com>
 > ---
->  kernel/audit.c | 19 ++++++++++++-------
->  1 file changed, 12 insertions(+), 7 deletions(-)
+>  include/linux/audit.h    |  20 ++++++
+>  kernel/audit.c           | 156 ++++++++++++++++++++++++++++++++++++++++++++++-
+>  kernel/nsproxy.c         |   4 ++
+>  net/netfilter/nft_log.c  |  11 +++-
+>  net/netfilter/xt_AUDIT.c |  11 +++-
+>  5 files changed, 195 insertions(+), 7 deletions(-)
 >
+> diff --git a/include/linux/audit.h b/include/linux/audit.h
+> index c4a755ae0d61..304fbb7c3c5b 100644
+> --- a/include/linux/audit.h
+> +++ b/include/linux/audit.h
+> @@ -128,6 +128,13 @@ struct audit_task_info {
+>
+>  extern struct audit_task_info init_struct_audit;
+>
+> +struct audit_contobj_netns {
+> +       struct list_head        list;
+> +       struct audit_contobj    *obj;
+> +       int                     count;
+
+This seems like it might be a good candidate for refcount_t, yes?
+
+> +       struct rcu_head         rcu;
+> +};
+
+...
+
 > diff --git a/kernel/audit.c b/kernel/audit.c
-> index 54dd2cb69402..997c34178ee8 100644
+> index 997c34178ee8..a862721dfd9b 100644
 > --- a/kernel/audit.c
 > +++ b/kernel/audit.c
-> @@ -1507,6 +1504,14 @@ static int audit_receive_msg(struct sk_buff *skb, struct nlmsghdr *nlh)
->                                 audit_log_n_untrustedstring(ab, str, data_len);
->                         }
->                         audit_log_end(ab);
-> +                       rcu_read_lock();
-> +                       cont = _audit_contobj_get(current);
-> +                       rcu_read_unlock();
-> +                       audit_log_container_id(context, cont);
-> +                       rcu_read_lock();
-> +                       _audit_contobj_put(cont);
-> +                       rcu_read_unlock();
-> +                       audit_free_context(context);
+> @@ -437,6 +452,136 @@ static struct sock *audit_get_sk(const struct net *net)
+>         return aunet->sk;
+>  }
+>
+> +void audit_netns_contid_add(struct net *net, struct audit_contobj *cont)
+> +{
+> +       struct audit_net *aunet;
+> +       struct list_head *contobj_list;
+> +       struct audit_contobj_netns *contns;
+> +
+> +       if (!net)
+> +               return;
+> +       if (!cont)
+> +               return;
+> +       aunet = net_generic(net, audit_net_id);
+> +       if (!aunet)
+> +               return;
+> +       contobj_list = &aunet->contobj_list;
+> +       rcu_read_lock();
+> +       spin_lock(&aunet->contobj_list_lock);
+> +       list_for_each_entry_rcu(contns, contobj_list, list)
+> +               if (contns->obj == cont) {
+> +                       contns->count++;
+> +                       goto out;
+> +               }
+> +       contns = kmalloc(sizeof(*contns), GFP_ATOMIC);
+> +       if (contns) {
+> +               INIT_LIST_HEAD(&contns->list);
+> +               contns->obj = cont;
+> +               contns->count = 1;
+> +               list_add_rcu(&contns->list, contobj_list);
+> +       }
+> +out:
+> +       spin_unlock(&aunet->contobj_list_lock);
+> +       rcu_read_unlock();
+> +}
+> +
+> +void audit_netns_contid_del(struct net *net, struct audit_contobj *cont)
+> +{
+> +       struct audit_net *aunet;
+> +       struct list_head *contobj_list;
+> +       struct audit_contobj_netns *contns = NULL;
+> +
+> +       if (!net)
+> +               return;
+> +       if (!cont)
+> +               return;
+> +       aunet = net_generic(net, audit_net_id);
+> +       if (!aunet)
+> +               return;
+> +       contobj_list = &aunet->contobj_list;
+> +       rcu_read_lock();
+> +       spin_lock(&aunet->contobj_list_lock);
+> +       list_for_each_entry_rcu(contns, contobj_list, list)
+> +               if (contns->obj == cont) {
+> +                       contns->count--;
+> +                       if (contns->count < 1) {
 
-I haven't searched the entire patchset, but it seems like the pattern
-above happens a couple of times in this patchset, yes?  If so would it
-make sense to wrap the above get/log/put in a helper function?
+One could simplify this with "(--countns->count) < 1", although if it
+is changed to a refcount_t (which seems like a smart thing), the
+normal decrement/test would be the best choice.
 
-Not a big deal either way, I'm pretty neutral on it at this point in
-the patchset but thought it might be worth mentioning in case you
-noticed the same and were on the fence.
+
+> +                               list_del_rcu(&contns->list);
+> +                               kfree_rcu(contns, rcu);
+> +                       }
+> +                       break;
+> +               }
+> +       spin_unlock(&aunet->contobj_list_lock);
+> +       rcu_read_unlock();
+> +}
 
 --
 paul moore
