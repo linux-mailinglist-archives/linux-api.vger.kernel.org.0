@@ -2,54 +2,55 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A661214D87
-	for <lists+linux-api@lfdr.de>; Sun,  5 Jul 2020 17:12:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B5E6214D8E
+	for <lists+linux-api@lfdr.de>; Sun,  5 Jul 2020 17:12:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728059AbgGEPLy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 5 Jul 2020 11:11:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39324 "EHLO
+        id S1728093AbgGEPMB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 5 Jul 2020 11:12:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727782AbgGEPLx (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 5 Jul 2020 11:11:53 -0400
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 864F2C08C5E1
-        for <linux-api@vger.kernel.org>; Sun,  5 Jul 2020 08:11:53 -0700 (PDT)
-Received: by mail-ed1-x544.google.com with SMTP id by13so22490586edb.11
-        for <linux-api@vger.kernel.org>; Sun, 05 Jul 2020 08:11:53 -0700 (PDT)
+        with ESMTP id S1728088AbgGEPMA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 5 Jul 2020 11:12:00 -0400
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BA9EC08C5E1
+        for <linux-api@vger.kernel.org>; Sun,  5 Jul 2020 08:12:00 -0700 (PDT)
+Received: by mail-ej1-x642.google.com with SMTP id l12so39722141ejn.10
+        for <linux-api@vger.kernel.org>; Sun, 05 Jul 2020 08:12:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=KEtBGKGu7+F7kv2SoCb+jcPQSY3d8v9OKOQZlWY0FOw=;
-        b=cUFTmXA/DyAnDDYLg8ipvtwwYTnqfzvAaNvgPrFtpf0WHTtlMgF1J8JEYu+SztZCcN
-         qY0T0sITN67xTjXr2olj+hlGjYD+kDPa9BvIYID3C9aUNWjKEKkN1WotcjaiAIwhfYVg
-         dpsRVCmvS0LuYgCK01Gcp1Uc1xbXmFY6rn0oWYoTS686cxKm+hoFAZHkzriABSN8H0NR
-         aEYHPPkebf+QX7omBXu2KcHuG27AfCpbD60BsfJhSGgFTdBW3ZqyXo4aqTT0mW1nXMsq
-         USc3rqqqb7llr4PRpkZ3cnHVIMkicmS1ADVjxqC3y7wHUC2/1785plYpSFtkctgFbDur
-         yOeQ==
+        bh=BI1aAShmO7FXnwtN8B6Od+9nVsaMtVkeWnOGj2Zvm4Y=;
+        b=1/6AOOiCg9ot1+F9UhkykucC0qMYgzK2GA9zYzKmMovooAnH48coFkCRo57BXWCcAp
+         7CF9ClAVqv7j/oaBJkTGbl26Rszr/MUIfDjdNl7f5JnJxKj2yn0TKisOxrCwtEbFgNGQ
+         /PqTAREqKfODffSK5H0TJGvTykPpy5976yQ7kuXJRMMseZOA5Ew/izF5q5DOEnUEoRD4
+         ESr2tMdE8VI3TJe1XP8JUoKk5p9bUKtecSGxZUYV+q3k6YAqd72YHNOSHy2+GpdRqEFx
+         dcvTHlVfR+822lyGWe9L3viPVcELzcQa2U96GrkmRWDqUDYx+kBFP2kg/4CFOsa4vnMk
+         aSxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=KEtBGKGu7+F7kv2SoCb+jcPQSY3d8v9OKOQZlWY0FOw=;
-        b=e84adIPMNNoCV6gDxy8bsQnCVSorGSiZGHRWzMRkNPKGv0wJ/Jnp9W58cokOAzN58U
-         t5qN5DBO+EwdYZpqjh+RDgIxz+qXX/4xoVy2NyFIzce7HjNBLCCX8n/3EopYS/BUYHkP
-         ymcSinYL0w8vjxHq3SaxF9EJMzyvzLmSMVjCXU0nm0wLbFHNMmNaWl4TarEHVEe5OtnH
-         G7nRbRCqu2c+LYFkFmS+df061CueuI43gXnJkVMFWzdT6IerXHPkOSBpTzUlqVqIR5q0
-         0axEbuY9gcnEFrVYaZPWgiwJYtn6BVLUJWGo7vKR+b4w8t+nWx+yoUHpnIUfB2Kd3f6S
-         6Ypg==
-X-Gm-Message-State: AOAM5306ACU0IyAtVWyj4t71XN9Es6mw1Gru2EgpYw5ezIKV7sM4R6Lm
-        GhXFwZYIscTb8ew9btvBxJUQcA6fIC+5aFM/Zs7S
-X-Google-Smtp-Source: ABdhPJyxEw+kqzFSwys8tQ8mezUCXkLSxfhtpjmtIc6SHLfqNuWzPVC+Pu8lGM/GQauxfK+ZBDG3aPYWtwY05QusqCU=
-X-Received: by 2002:a05:6402:742:: with SMTP id p2mr31354555edy.135.1593961912251;
- Sun, 05 Jul 2020 08:11:52 -0700 (PDT)
+        bh=BI1aAShmO7FXnwtN8B6Od+9nVsaMtVkeWnOGj2Zvm4Y=;
+        b=FovU+6h20c/ay9QRPkpOJh03wLuk+8sBB7vT8J5R5rbaVsrjdE7gxDopdpeNd9aIdN
+         8xyGvABrMxLIeZ6Q5H2me08TKEa+IT3J3ji20Kb9no814Mscl/8GQjyT/QCkk1BTJxxK
+         q3qJjv23Wa9rdkovvEoz7C7ObYBQgI90VN/Lv9WTmPj59ixRhTeLNYkADBt9OAdVdPJw
+         E20UrIQDXB8ipMEtJJkZvxcmlAdVA7S8KaFjJ9wvRgo+5liCnTdm+BryLEfLzawqTU3d
+         V3FSJ2qEBoTPToWevyDXN8qnMzihQfac+ZwJgw3vBWYqass1pwI91Z6wVSrAs/Tkyf3W
+         tYjA==
+X-Gm-Message-State: AOAM530Th2wiGUEms6ViDgi6UGpVTWx6unkPQSfyyJGtzaUzv5p4EIdo
+        QSSadpNsEr/MCCHhEEr3BlZImd7SH+UpVspYYwYn
+X-Google-Smtp-Source: ABdhPJy+1+ndZZah7VkLTSj7twGu3m1RKvwdW+PIAE3WsheefQt0o8KCRqSrelgLi4drC0Gf6mOHLfy4/pYyZRxzQXY=
+X-Received: by 2002:a17:906:1a59:: with SMTP id j25mr37962178ejf.398.1593961918982;
+ Sun, 05 Jul 2020 08:11:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1593198710.git.rgb@redhat.com> <1d793e2fc60650de4bbc9f4bde3c736c94efe9a1.1593198710.git.rgb@redhat.com>
-In-Reply-To: <1d793e2fc60650de4bbc9f4bde3c736c94efe9a1.1593198710.git.rgb@redhat.com>
+References: <cover.1593198710.git.rgb@redhat.com> <b6cb5500cfd7e8686ac2a7758103688c2da7f4ce.1593198710.git.rgb@redhat.com>
+In-Reply-To: <b6cb5500cfd7e8686ac2a7758103688c2da7f4ce.1593198710.git.rgb@redhat.com>
 From:   Paul Moore <paul@paul-moore.com>
-Date:   Sun, 5 Jul 2020 11:11:40 -0400
-Message-ID: <CAHC9VhRU9+h-hXKJTuMnZfyOgiktOPMRzzgAP7+VSXV7COjJuw@mail.gmail.com>
-Subject: Re: [PATCH ghak90 V9 12/13] audit: track container nesting
+Date:   Sun, 5 Jul 2020 11:11:47 -0400
+Message-ID: <CAHC9VhRvuu-_+gh9ejr0sFDNR6erV2BAig6qrT9gOEB6GczXvw@mail.gmail.com>
+Subject: Re: [PATCH ghak90 V9 13/13] audit: add capcontid to set contid
+ outside init_user_ns
 To:     Richard Guy Briggs <rgb@redhat.com>
 Cc:     containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
         Linux-Audit Mailing List <linux-audit@redhat.com>,
@@ -67,34 +68,42 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Jun 27, 2020 at 9:23 AM Richard Guy Briggs <rgb@redhat.com> wrote:
+On Sat, Jun 27, 2020 at 9:24 AM Richard Guy Briggs <rgb@redhat.com> wrote:
 >
-> Track the parent container of a container to be able to filter and
-> report nesting.
+> Provide a mechanism similar to CAP_AUDIT_CONTROL to explicitly give a
+> process in a non-init user namespace the capability to set audit
+> container identifiers of individual children.
 >
-> Now that we have a way to track and check the parent container of a
-> container, modify the contid field format to be able to report that
-> nesting using a carrat ("^") modifier to indicate nesting.  The
-> original field format was "contid=<contid>" for task-associated records
-> and "contid=<contid>[,<contid>[...]]" for network-namespace-associated
-> records.  The new field format is
-> "contid=<contid>[,^<contid>[...]][,<contid>[...]]".
-
-I feel like this is a case which could really benefit from an example
-in the commit description showing multiple levels of nesting, with
-some leaf audit container IDs at each level.  This way we have a
-canonical example for people who want to understand how to parse the
-list and properly sort out the inheritance.
-
-
+> Provide the /proc/$PID/audit_capcontid interface to capcontid.
+> Valid values are: 1==enabled, 0==disabled
+>
+> Writing a "1" to this special file for the target process $PID will
+> enable the target process to set audit container identifiers of its
+> descendants.
+>
+> A process must already have CAP_AUDIT_CONTROL in the initial user
+> namespace or have had audit_capcontid enabled by a previous use of this
+> feature by its parent on this process in order to be able to enable it
+> for another process.  The target process must be a descendant of the
+> calling process.
+>
+> Report this action in new message type AUDIT_SET_CAPCONTID 1022 with
+> fields opid= capcontid= old-capcontid=
+>
 > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
 > ---
->  include/linux/audit.h |  1 +
->  kernel/audit.c        | 60 ++++++++++++++++++++++++++++++++++++++++++---------
->  kernel/audit.h        |  2 ++
->  kernel/auditfilter.c  | 17 ++++++++++++++-
->  kernel/auditsc.c      |  2 +-
->  5 files changed, 70 insertions(+), 12 deletions(-)
+>  fs/proc/base.c             | 57 +++++++++++++++++++++++++++++++++++++++++++++-
+>  include/linux/audit.h      | 14 ++++++++++++
+>  include/uapi/linux/audit.h |  1 +
+>  kernel/audit.c             | 38 ++++++++++++++++++++++++++++++-
+>  4 files changed, 108 insertions(+), 2 deletions(-)
+
+This seems very similar to the capable/ns_capable combination I
+mentioned in patch 11/13; any reasons why you feel that this might be
+a better approach?  My current thinking is that the capable/ns_capable
+approach is preferable as it leverages existing kernel mechanisms and
+doesn't require us to reinvent the wheel in the audit subsystem.
+
 
 --
 paul moore
