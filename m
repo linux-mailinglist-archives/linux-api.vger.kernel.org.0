@@ -2,361 +2,93 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5581D216015
-	for <lists+linux-api@lfdr.de>; Mon,  6 Jul 2020 22:19:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6B22216080
+	for <lists+linux-api@lfdr.de>; Mon,  6 Jul 2020 22:49:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727107AbgGFURz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 6 Jul 2020 16:17:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53334 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727095AbgGFURf (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Jul 2020 16:17:35 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F545C08C5FC
-        for <linux-api@vger.kernel.org>; Mon,  6 Jul 2020 13:17:34 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id s14so15764253plq.6
-        for <linux-api@vger.kernel.org>; Mon, 06 Jul 2020 13:17:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=lglyYoPPQJEZuf+l/iqQmwTlxwVcqZysi0PoSrLMJSg=;
-        b=myT4t02Qp3BsS4tK2n7hYmgPQAU0ZJOlwyQcW34UeWfRyL9CZb+YT/ydAGxuAkW3pZ
-         u6m4w3vT9mhp93EuAutpqK+j8dTfpZVEbQHpdr1sQs2MWhnFJX/5IAfGGmM4rKvF16Rp
-         5T0AJL9uOlSXJ3n+71B2xce7MMqzuEh+fa9nk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=lglyYoPPQJEZuf+l/iqQmwTlxwVcqZysi0PoSrLMJSg=;
-        b=DDD7jbpEY7xvyzT4PB99p1sO7lEK+9fUUZ39S7Y0aG2a8AQPpTAnIoJB6sAUuzRmTU
-         cvYlVStyt0Qc/8/zVf/0nlfxpfBRG6NUPj8UgMOR/nlalOg8M+SHJJ7QVNHqOzmrusAY
-         taLbZOo+NcaLPWyUWY2JnMJUxxKhrr0fbCVm5wq6bWctzGtrNF7y9c+0WZebkRzphElp
-         Tk3pNRCloVcDA++JokeW8vDZwXBR2r2g8Mwh/DYuZLwjAjJ02S+DxN2/ZLc+zr5PC72b
-         8ac7DyF9mCjRmGiq+bGhol/47nzmm80lWN38joQTkWJTMMNGID8GhXZtCaMtQqBedqXK
-         NvgA==
-X-Gm-Message-State: AOAM531E9XJnMHj5ZGx3N94m9lKNU/qa94DVUHswXt7u0wY5vmyqKmto
-        8DeknQwWWUaezIe/PbXSKivCnQ==
-X-Google-Smtp-Source: ABdhPJx4z0wddCWEx6nREZ6MCFfI4P9iEbpNoNbQirt/73QzOH9zF3ez1J/EWYjbbvk2WmcGfTfLZg==
-X-Received: by 2002:a17:90a:c915:: with SMTP id v21mr869548pjt.48.1594066653575;
-        Mon, 06 Jul 2020 13:17:33 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id d14sm292926pjc.20.2020.07.06.13.17.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2020 13:17:31 -0700 (PDT)
-From:   Kees Cook <keescook@chromium.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Kees Cook <keescook@chromium.org>,
-        Sargun Dhillon <sargun@sargun.me>,
-        Christian Brauner <christian@brauner.io>,
-        Tycho Andersen <tycho@tycho.ws>,
-        David Laight <David.Laight@ACULAB.COM>,
-        Christoph Hellwig <hch@lst.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Matt Denton <mpdenton@google.com>,
-        Jann Horn <jannh@google.com>, Chris Palmer <palmer@google.com>,
-        Robert Sesek <rsesek@google.com>,
-        Giuseppe Scrivano <gscrivan@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Will Drewry <wad@chromium.org>, Shuah Khan <shuah@kernel.org>,
-        netdev@vger.kernel.org, containers@lists.linux-foundation.org,
-        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-Subject: [PATCH v6 7/7] selftests/seccomp: Test SECCOMP_IOCTL_NOTIF_ADDFD
-Date:   Mon,  6 Jul 2020 13:17:20 -0700
-Message-Id: <20200706201720.3482959-8-keescook@chromium.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200706201720.3482959-1-keescook@chromium.org>
-References: <20200706201720.3482959-1-keescook@chromium.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1725941AbgGFUtm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 6 Jul 2020 16:49:42 -0400
+Received: from mail.efficios.com ([167.114.26.124]:56924 "EHLO
+        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725860AbgGFUtm (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Jul 2020 16:49:42 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 926692DCDA5;
+        Mon,  6 Jul 2020 16:49:41 -0400 (EDT)
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id zgXfZ8ULZHuK; Mon,  6 Jul 2020 16:49:41 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 2780F2DCE1F;
+        Mon,  6 Jul 2020 16:49:41 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 2780F2DCE1F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1594068581;
+        bh=XlqRnfsoWKc5MVLCjC5AxpBd+CFQtEQAvuC1zE63+Y0=;
+        h=From:To:Date:Message-Id;
+        b=kYIFEzQeOrM7uwndSuipxq1i/t1+T8X4j91h/fDUIb/fqSqnT31p+CpQ3crCqc5iw
+         B3X3jvDFQjenxqoTmKUiCZ/XtNaZyEutEyla1JpI2DaD3oe4vDj2EOUimK3ypjg2r6
+         sgz4/DCtz9YHhweZaiprXuqe7OwlzbJBLqu8q6hCz2loIwsxJlvQEkteiG6AcnwWfW
+         r9wqv00CWTEo8RDX7G1ynaFN5dWmc2WND8hvuVXfdF+SyXd8bing4Ilhk4MZUWxmzD
+         wDyppX9nX214yeF4WgxT5dupBKCZDO6j+Th5hIfeGX2M1yy3nZKFqEoCZLOPd2AuNk
+         XblzTfeWga1cQ==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id 1T7FcRgLYua3; Mon,  6 Jul 2020 16:49:41 -0400 (EDT)
+Received: from localhost.localdomain (192-222-181-218.qc.cable.ebox.net [192.222.181.218])
+        by mail.efficios.com (Postfix) with ESMTPSA id A243A2DCDA3;
+        Mon,  6 Jul 2020 16:49:40 -0400 (EDT)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     linux-kernel@vger.kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Paul E . McKenney" <paulmck@linux.ibm.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api@vger.kernel.org, Florian Weimer <fw@deneb.enyo.de>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Subject: [RFC PATCH for 5.8 0/4] rseq cpu_id ABI fix
+Date:   Mon,  6 Jul 2020 16:49:09 -0400
+Message-Id: <20200706204913.20347-1-mathieu.desnoyers@efficios.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Sargun Dhillon <sargun@sargun.me>
+Hi,
 
-Test whether we can add file descriptors in response to notifications.
-This injects the file descriptors via notifications, and then uses kcmp
-to determine whether or not it has been successful.
+Recent integration of rseq into glibc unearthed an issue with inaccurate
+cpu_id field for newly created tasks. This series includes a fix for the
+underlying issue (meant to be backported to stable), as well as new rseq
+flags to let user-space know that the kernel implements this fix, so
+glibc and other rseq users can use this flag to know whether they can
+safely use rseq without risk of corrupting their per-cpu data. This new
+flag could either be added only to the master branch (no stable
+backport) or backported to stable, depending on what seems the most
+appropriate.
 
-It also includes some basic sanity checking for arguments.
+This is an RFC aiming for quick inclusion into the Linux kernel, unless
+we prefer reverting the entire rseq glibc integration and try again in 6
+months. Their upcoming release is on August 3rd, so we need to take a
+decision on this matter quickly.
 
-Signed-off-by: Sargun Dhillon <sargun@sargun.me>
-Link: https://lore.kernel.org/r/20200603011044.7972-5-sargun@sargun.me
-Co-developed-by: Kees Cook <keescook@chromium.org>
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- tools/testing/selftests/seccomp/seccomp_bpf.c | 229 ++++++++++++++++++
- 1 file changed, 229 insertions(+)
+Thanks,
 
-diff --git a/tools/testing/selftests/seccomp/seccomp_bpf.c b/tools/testing/selftests/seccomp/seccomp_bpf.c
-index 2c77105e50e6..b854a6c5bf49 100644
---- a/tools/testing/selftests/seccomp/seccomp_bpf.c
-+++ b/tools/testing/selftests/seccomp/seccomp_bpf.c
-@@ -45,6 +45,7 @@
- #include <sys/socket.h>
- #include <sys/ioctl.h>
- #include <linux/kcmp.h>
-+#include <sys/resource.h>
- 
- #include <unistd.h>
- #include <sys/syscall.h>
-@@ -168,7 +169,9 @@ struct seccomp_metadata {
- 
- #ifndef SECCOMP_FILTER_FLAG_NEW_LISTENER
- #define SECCOMP_FILTER_FLAG_NEW_LISTENER	(1UL << 3)
-+#endif
- 
-+#ifndef SECCOMP_RET_USER_NOTIF
- #define SECCOMP_RET_USER_NOTIF 0x7fc00000U
- 
- #define SECCOMP_IOC_MAGIC		'!'
-@@ -204,6 +207,39 @@ struct seccomp_notif_sizes {
- };
- #endif
- 
-+#ifndef SECCOMP_IOCTL_NOTIF_ADDFD
-+/* On success, the return value is the remote process's added fd number */
-+#define SECCOMP_IOCTL_NOTIF_ADDFD	SECCOMP_IOW(3,	\
-+						struct seccomp_notif_addfd)
-+
-+/* valid flags for seccomp_notif_addfd */
-+#define SECCOMP_ADDFD_FLAG_SETFD	(1UL << 0) /* Specify remote fd */
-+
-+struct seccomp_notif_addfd {
-+	__u64 id;
-+	__u32 flags;
-+	__u32 srcfd;
-+	__u32 newfd;
-+	__u32 newfd_flags;
-+};
-+#endif
-+
-+struct seccomp_notif_addfd_small {
-+	__u64 id;
-+	char weird[4];
-+};
-+#define SECCOMP_IOCTL_NOTIF_ADDFD_SMALL	\
-+	SECCOMP_IOW(3, struct seccomp_notif_addfd_small)
-+
-+struct seccomp_notif_addfd_big {
-+	union {
-+		struct seccomp_notif_addfd addfd;
-+		char buf[sizeof(struct seccomp_notif_addfd) + 8];
-+	};
-+};
-+#define SECCOMP_IOCTL_NOTIF_ADDFD_BIG	\
-+	SECCOMP_IOWR(3, struct seccomp_notif_addfd_big)
-+
- #ifndef PTRACE_EVENTMSG_SYSCALL_ENTRY
- #define PTRACE_EVENTMSG_SYSCALL_ENTRY	1
- #define PTRACE_EVENTMSG_SYSCALL_EXIT	2
-@@ -3738,6 +3774,199 @@ TEST(user_notification_filter_empty_threaded)
- 	EXPECT_GT((pollfd.revents & POLLHUP) ?: 0, 0);
- }
- 
-+TEST(user_notification_addfd)
-+{
-+	pid_t pid;
-+	long ret;
-+	int status, listener, memfd, fd;
-+	struct seccomp_notif_addfd addfd = {};
-+	struct seccomp_notif_addfd_small small = {};
-+	struct seccomp_notif_addfd_big big = {};
-+	struct seccomp_notif req = {};
-+	struct seccomp_notif_resp resp = {};
-+	/* 100 ms */
-+	struct timespec delay = { .tv_nsec = 100000000 };
-+
-+	memfd = memfd_create("test", 0);
-+	ASSERT_GE(memfd, 0);
-+
-+	ret = prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0);
-+	ASSERT_EQ(0, ret) {
-+		TH_LOG("Kernel does not support PR_SET_NO_NEW_PRIVS!");
-+	}
-+
-+	/* Check that the basic notification machinery works */
-+	listener = user_notif_syscall(__NR_getppid,
-+				      SECCOMP_FILTER_FLAG_NEW_LISTENER);
-+	ASSERT_GE(listener, 0);
-+
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+
-+	if (pid == 0) {
-+		if (syscall(__NR_getppid) != USER_NOTIF_MAGIC)
-+			exit(1);
-+		exit(syscall(__NR_getppid) != USER_NOTIF_MAGIC);
-+	}
-+
-+	ASSERT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_RECV, &req), 0);
-+
-+	addfd.srcfd = memfd;
-+	addfd.newfd = 0;
-+	addfd.id = req.id;
-+	addfd.flags = 0x0;
-+
-+	/* Verify bad newfd_flags cannot be set */
-+	addfd.newfd_flags = ~O_CLOEXEC;
-+	EXPECT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_ADDFD, &addfd), -1);
-+	EXPECT_EQ(errno, EINVAL);
-+	addfd.newfd_flags = O_CLOEXEC;
-+
-+	/* Verify bad flags cannot be set */
-+	addfd.flags = 0xff;
-+	EXPECT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_ADDFD, &addfd), -1);
-+	EXPECT_EQ(errno, EINVAL);
-+	addfd.flags = 0;
-+
-+	/* Verify that remote_fd cannot be set without setting flags */
-+	addfd.newfd = 1;
-+	EXPECT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_ADDFD, &addfd), -1);
-+	EXPECT_EQ(errno, EINVAL);
-+	addfd.newfd = 0;
-+
-+	/* Verify small size cannot be set */
-+	EXPECT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_ADDFD_SMALL, &small), -1);
-+	EXPECT_EQ(errno, EINVAL);
-+
-+	/* Verify we can't send bits filled in unknown buffer area */
-+	memset(&big, 0xAA, sizeof(big));
-+	big.addfd = addfd;
-+	EXPECT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_ADDFD_BIG, &big), -1);
-+	EXPECT_EQ(errno, E2BIG);
-+
-+
-+	/* Verify we can set an arbitrary remote fd */
-+	fd = ioctl(listener, SECCOMP_IOCTL_NOTIF_ADDFD, &addfd);
-+	/*
-+	 * The child has fds 0(stdin), 1(stdout), 2(stderr), 3(memfd),
-+	 * 4(listener), so the newly allocated fd should be 5.
-+	 */
-+	EXPECT_EQ(fd, 5);
-+	EXPECT_EQ(filecmp(getpid(), pid, memfd, fd), 0);
-+
-+	/* Verify we can set an arbitrary remote fd with large size */
-+	memset(&big, 0x0, sizeof(big));
-+	big.addfd = addfd;
-+	fd = ioctl(listener, SECCOMP_IOCTL_NOTIF_ADDFD_BIG, &big);
-+	EXPECT_EQ(fd, 6);
-+
-+	/* Verify we can set a specific remote fd */
-+	addfd.newfd = 42;
-+	addfd.flags = SECCOMP_ADDFD_FLAG_SETFD;
-+	fd = ioctl(listener, SECCOMP_IOCTL_NOTIF_ADDFD, &addfd);
-+	EXPECT_EQ(fd, 42);
-+	EXPECT_EQ(filecmp(getpid(), pid, memfd, fd), 0);
-+
-+	/* Resume syscall */
-+	resp.id = req.id;
-+	resp.error = 0;
-+	resp.val = USER_NOTIF_MAGIC;
-+	EXPECT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_SEND, &resp), 0);
-+
-+	/*
-+	 * This sets the ID of the ADD FD to the last request plus 1. The
-+	 * notification ID increments 1 per notification.
-+	 */
-+	addfd.id = req.id + 1;
-+
-+	/* This spins until the underlying notification is generated */
-+	while (ioctl(listener, SECCOMP_IOCTL_NOTIF_ADDFD, &addfd) != -1 &&
-+	       errno != -EINPROGRESS)
-+		nanosleep(&delay, NULL);
-+
-+	memset(&req, 0, sizeof(req));
-+	ASSERT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_RECV, &req), 0);
-+	ASSERT_EQ(addfd.id, req.id);
-+
-+	resp.id = req.id;
-+	resp.error = 0;
-+	resp.val = USER_NOTIF_MAGIC;
-+	EXPECT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_SEND, &resp), 0);
-+
-+	/* Wait for child to finish. */
-+	EXPECT_EQ(waitpid(pid, &status, 0), pid);
-+	EXPECT_EQ(true, WIFEXITED(status));
-+	EXPECT_EQ(0, WEXITSTATUS(status));
-+
-+	close(memfd);
-+}
-+
-+TEST(user_notification_addfd_rlimit)
-+{
-+	pid_t pid;
-+	long ret;
-+	int status, listener, memfd;
-+	struct seccomp_notif_addfd addfd = {};
-+	struct seccomp_notif req = {};
-+	struct seccomp_notif_resp resp = {};
-+	const struct rlimit lim = {
-+		.rlim_cur	= 0,
-+		.rlim_max	= 0,
-+	};
-+
-+	memfd = memfd_create("test", 0);
-+	ASSERT_GE(memfd, 0);
-+
-+	ret = prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0);
-+	ASSERT_EQ(0, ret) {
-+		TH_LOG("Kernel does not support PR_SET_NO_NEW_PRIVS!");
-+	}
-+
-+	/* Check that the basic notification machinery works */
-+	listener = user_notif_syscall(__NR_getppid,
-+				      SECCOMP_FILTER_FLAG_NEW_LISTENER);
-+	ASSERT_GE(listener, 0);
-+
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+
-+	if (pid == 0)
-+		exit(syscall(__NR_getppid) != USER_NOTIF_MAGIC);
-+
-+
-+	ASSERT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_RECV, &req), 0);
-+
-+	ASSERT_EQ(prlimit(pid, RLIMIT_NOFILE, &lim, NULL), 0);
-+
-+	addfd.srcfd = memfd;
-+	addfd.newfd_flags = O_CLOEXEC;
-+	addfd.newfd = 0;
-+	addfd.id = req.id;
-+	addfd.flags = 0;
-+
-+	/* Should probably spot check /proc/sys/fs/file-nr */
-+	EXPECT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_ADDFD, &addfd), -1);
-+	EXPECT_EQ(errno, EMFILE);
-+
-+	addfd.newfd = 100;
-+	addfd.flags = SECCOMP_ADDFD_FLAG_SETFD;
-+	EXPECT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_ADDFD, &addfd), -1);
-+	EXPECT_EQ(errno, EBADF);
-+
-+	resp.id = req.id;
-+	resp.error = 0;
-+	resp.val = USER_NOTIF_MAGIC;
-+
-+	EXPECT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_SEND, &resp), 0);
-+
-+	/* Wait for child to finish. */
-+	EXPECT_EQ(waitpid(pid, &status, 0), pid);
-+	EXPECT_EQ(true, WIFEXITED(status));
-+	EXPECT_EQ(0, WEXITSTATUS(status));
-+
-+	close(memfd);
-+}
-+
- /*
-  * TODO:
-  * - expand NNP testing
+Mathieu
+
+Mathieu Desnoyers (4):
+  sched: Fix unreliable rseq cpu_id for new tasks
+  rseq: Introduce RSEQ_FLAG_REGISTER
+  rseq: Introduce RSEQ_FLAG_RELIABLE_CPU_ID
+  rseq: selftests: Expect reliable cpu_id field
+
+ include/uapi/linux/rseq.h           | 15 +++++-
+ kernel/rseq.c                       | 81 ++++++++++++++++-------------
+ kernel/sched/core.c                 |  2 +
+ tools/testing/selftests/rseq/rseq.c | 10 +++-
+ 4 files changed, 71 insertions(+), 37 deletions(-)
+
 -- 
-2.25.1
+2.17.1
 
