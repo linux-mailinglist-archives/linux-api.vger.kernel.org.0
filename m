@@ -2,41 +2,41 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E7572216081
-	for <lists+linux-api@lfdr.de>; Mon,  6 Jul 2020 22:49:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3198221608B
+	for <lists+linux-api@lfdr.de>; Mon,  6 Jul 2020 22:50:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726857AbgGFUto (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        id S1726900AbgGFUto (ORCPT <rfc822;lists+linux-api@lfdr.de>);
         Mon, 6 Jul 2020 16:49:44 -0400
-Received: from mail.efficios.com ([167.114.26.124]:56976 "EHLO
+Received: from mail.efficios.com ([167.114.26.124]:56996 "EHLO
         mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725860AbgGFUto (ORCPT
+        with ESMTP id S1726779AbgGFUto (ORCPT
         <rfc822;linux-api@vger.kernel.org>); Mon, 6 Jul 2020 16:49:44 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id D62442DC9D7;
-        Mon,  6 Jul 2020 16:49:42 -0400 (EDT)
+        by mail.efficios.com (Postfix) with ESMTP id 296022DCDAB;
+        Mon,  6 Jul 2020 16:49:43 -0400 (EDT)
 Received: from mail.efficios.com ([127.0.0.1])
         by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id N1qno2Dkpjte; Mon,  6 Jul 2020 16:49:42 -0400 (EDT)
+        with ESMTP id LAB-r-SSw6q0; Mon,  6 Jul 2020 16:49:42 -0400 (EDT)
 Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 683412DCE21;
+        by mail.efficios.com (Postfix) with ESMTP id AFAEB2DCC52;
         Mon,  6 Jul 2020 16:49:42 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 683412DCE21
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com AFAEB2DCC52
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
         s=default; t=1594068582;
-        bh=60oamRalyK4rKdeEnnnf7iJkqPhAmdQusJlFI420q5k=;
+        bh=CJAD5RnNyYUd/l27WZZ2oB80+Gg+2mREgkdjG0cNpBs=;
         h=From:To:Date:Message-Id;
-        b=H42dMuI5Nu/42J0bhGwrdNKkl/BwhzMsRr7OMCof2YOn/ozdaaEj8d8zub60PFxxy
-         rejoJYMu3dy+5MUMT7l9AqtpLdv/36KYGIR5RSUnV0FIJCu1GXbq/H9iSWw5Khigpk
-         sfCbjmRYMyuaI845IwKEXcTbhWevMkj0i26TcDhTLgr4HTe4g41cxcqVgRFGh1jXL2
-         9ka6ugCXOgLXblzQ0rsar4RxAKkKjqJU7Frchk2t1e6HCJtx66sDg4zEMOyQZpS1Zs
-         BWVe6FUw22uqU/PHV9Jn8NjePdFQGljsuN8Bg6iYjm8Uo9eWwov7g4rnzq4M7A6J9s
-         VePDhtDoIDrpg==
+        b=rnnFS127qZ28sQaXb/1/SvbfzBXq5w5JFNxdAwM6zryF0sB20cyIbefZqCZ85Vahj
+         W2sgETdv/GPMnCm/q5RWI5ofKHkyth2JAG8ZBAeROr3Ta0tekIg3CHPpFz330Q44tn
+         J98z4QD5RhKGxkY77D58HMgHdRyWkIUqP3y4iireYQJjSlRNil1zu8aH5ETpcYVv1N
+         UXiMGbBsATnWq4z6vgpmJ20bXF5YYFNKZrajjnGg0MukLn1SZ5TBFi3XA2fr7/siGB
+         YBb+Jb8VVEeAEzR3hLwtQE9VZT16KvBnDZ7UaPZ0VJ6ez5Otg+uwVAVyT7kisg9MXS
+         NDg0cl75enizQ==
 X-Virus-Scanned: amavisd-new at efficios.com
 Received: from mail.efficios.com ([127.0.0.1])
         by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id EBR4AzEQUwCz; Mon,  6 Jul 2020 16:49:42 -0400 (EDT)
+        with ESMTP id 2d6TKKdaLeys; Mon,  6 Jul 2020 16:49:42 -0400 (EDT)
 Received: from localhost.localdomain (192-222-181-218.qc.cable.ebox.net [192.222.181.218])
-        by mail.efficios.com (Postfix) with ESMTPSA id 1C5D52DCDA4;
+        by mail.efficios.com (Postfix) with ESMTPSA id B7D712DCE20;
         Mon,  6 Jul 2020 16:49:41 -0400 (EDT)
 From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To:     Thomas Gleixner <tglx@linutronix.de>
@@ -48,10 +48,10 @@ Cc:     linux-kernel@vger.kernel.org,
         linux-api@vger.kernel.org, Florian Weimer <fw@deneb.enyo.de>,
         Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
         Dmitry Vyukov <dvyukov@google.com>,
-        Neel Natu <neelnatu@google.com>, stable@vger.kernel.org
-Subject: [RFC PATCH for 5.8 1/4] sched: Fix unreliable rseq cpu_id for new tasks
-Date:   Mon,  6 Jul 2020 16:49:10 -0400
-Message-Id: <20200706204913.20347-2-mathieu.desnoyers@efficios.com>
+        Neel Natu <neelnatu@google.com>
+Subject: [RFC PATCH for 5.8 2/4] rseq: Introduce RSEQ_FLAG_REGISTER
+Date:   Mon,  6 Jul 2020 16:49:11 -0400
+Message-Id: <20200706204913.20347-3-mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200706204913.20347-1-mathieu.desnoyers@efficios.com>
 References: <20200706204913.20347-1-mathieu.desnoyers@efficios.com>
@@ -60,49 +60,16 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-While integrating rseq into glibc and replacing glibc's sched_getcpu
-implementation with rseq, glibc's tests discovered an issue with
-incorrect __rseq_abi.cpu_id field value right after the first time
-a newly created process issues sched_setaffinity.
+Introduce RSEQ_FLAG_REGISTER with the same behavior as the flag value
+"0". The main advantage of introducing this flag as a non-zero (1 << 1)
+value is that it can be combined with other flags to register and check
+for features with a single system call. Considering that this system
+call needs to be performed for each new thread in glibc, minimize the
+amount of overhead required.
 
-For the records, it triggers after building glibc and running tests, and
-then issuing:
+This is needed for introducing a new RSEQ_FLAG_RELIABLE_CPU_ID flag in a
+later change.
 
-  for x in {1..2000} ; do posix/tst-affinity-static  & done
-
-and shows up as:
-
-error: Unexpected CPU 2, expected 0
-error: Unexpected CPU 2, expected 0
-error: Unexpected CPU 2, expected 0
-error: Unexpected CPU 2, expected 0
-error: Unexpected CPU 138, expected 0
-error: Unexpected CPU 138, expected 0
-error: Unexpected CPU 138, expected 0
-error: Unexpected CPU 138, expected 0
-
-This is caused by the scheduler invoking __set_task_cpu() directly from
-sched_fork() and wake_up_new_task(), thus bypassing rseq_migrate() which
-is done by set_task_cpu().
-
-Add the missing rseq_migrate() to both functions. The only other direct
-use of __set_task_cpu() is done by init_idle(), which does not involve a
-user-space task.
-
-Based on my testing with the glibc test-case, just adding rseq_migrate()
-to wake_up_new_task() is sufficient to fix the observed issue. Also add
-it to sched_fork() to keep things consistent.
-
-The reason why this never triggered so far with the rseq/basic_test
-selftest is unclear.
-
-The current use of sched_getcpu(3) does not typically require it to be
-always accurate. However, use of the __rseq_abi.cpu_id field within rseq
-critical sections requires it to be accurate. If it is not accurate, it
-can cause corruption in the per-cpu data targeted by rseq critical
-sections in user-space.
-
-Link: https://sourceware.org/pipermail/libc-alpha/2020-July/115816.html
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 Cc: Peter Zijlstra (Intel) <peterz@infradead.org>
 Cc: Thomas Gleixner <tglx@linutronix.de>
@@ -114,31 +81,133 @@ Cc: Paul Turner <pjt@google.com>
 Cc: Dmitry Vyukov <dvyukov@google.com>
 Cc: Neel Natu <neelnatu@google.com>
 Cc: linux-api@vger.kernel.org
-Cc: stable@vger.kernel.org # v4.18+
 ---
- kernel/sched/core.c | 2 ++
- 1 file changed, 2 insertions(+)
+ include/uapi/linux/rseq.h | 10 ++++-
+ kernel/rseq.c             | 77 +++++++++++++++++++++------------------
+ 2 files changed, 51 insertions(+), 36 deletions(-)
 
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index ca5db40392d4..86a855bd4d90 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -2962,6 +2962,7 @@ int sched_fork(unsigned long clone_flags, struct task_struct *p)
- 	 * Silence PROVE_RCU.
- 	 */
- 	raw_spin_lock_irqsave(&p->pi_lock, flags);
-+	rseq_migrate(p);
- 	/*
- 	 * We're setting the CPU for the first time, we don't migrate,
- 	 * so use __set_task_cpu().
-@@ -3026,6 +3027,7 @@ void wake_up_new_task(struct task_struct *p)
- 	 * as we're not fully set-up yet.
- 	 */
- 	p->recent_used_cpu = task_cpu(p);
-+	rseq_migrate(p);
- 	__set_task_cpu(p, select_task_rq(p, task_cpu(p), SD_BALANCE_FORK, 0));
- #endif
- 	rq = __task_rq_lock(p, &rf);
+diff --git a/include/uapi/linux/rseq.h b/include/uapi/linux/rseq.h
+index 9a402fdb60e9..3b5fba25461a 100644
+--- a/include/uapi/linux/rseq.h
++++ b/include/uapi/linux/rseq.h
+@@ -18,8 +18,16 @@ enum rseq_cpu_id_state {
+ 	RSEQ_CPU_ID_REGISTRATION_FAILED		= -2,
+ };
+ 
++/*
++ * RSEQ_FLAG_UNREGISTER:       Unregister rseq ABI for caller thread.
++ * RSEQ_FLAG_REGISTER:         Register rseq ABI for caller thread.
++ *
++ * Flag value 0 has the same behavior as RSEQ_FLAG_REGISTER, but cannot be
++ * combined with other flags. This behavior is kept for backward compatibility.
++ */
+ enum rseq_flags {
+-	RSEQ_FLAG_UNREGISTER = (1 << 0),
++	RSEQ_FLAG_UNREGISTER			= (1 << 0),
++	RSEQ_FLAG_REGISTER			= (1 << 1),
+ };
+ 
+ enum rseq_cs_flags_bit {
+diff --git a/kernel/rseq.c b/kernel/rseq.c
+index a4f86a9d6937..47ce221cd6f9 100644
+--- a/kernel/rseq.c
++++ b/kernel/rseq.c
+@@ -309,9 +309,16 @@ SYSCALL_DEFINE4(rseq, struct rseq __user *, rseq, u32, rseq_len,
+ {
+ 	int ret;
+ 
+-	if (flags & RSEQ_FLAG_UNREGISTER) {
+-		if (flags & ~RSEQ_FLAG_UNREGISTER)
+-			return -EINVAL;
++	/*
++	 * Flag value 0 has the same behavior as RSEQ_FLAG_REGISTER, but cannot
++	 * be combined with other flags. This behavior is kept for backward
++	 * compatibility.
++	 */
++	if (!flags)
++		flags = RSEQ_FLAG_REGISTER;
++
++	switch (flags) {
++	case RSEQ_FLAG_UNREGISTER:
+ 		/* Unregister rseq for current thread. */
+ 		if (current->rseq != rseq || !current->rseq)
+ 			return -EINVAL;
+@@ -324,43 +331,43 @@ SYSCALL_DEFINE4(rseq, struct rseq __user *, rseq, u32, rseq_len,
+ 			return ret;
+ 		current->rseq = NULL;
+ 		current->rseq_sig = 0;
+-		return 0;
+-	}
+-
+-	if (unlikely(flags))
+-		return -EINVAL;
++		break;
++	case RSEQ_FLAG_REGISTER:
++		if (current->rseq) {
++			/*
++			 * If rseq is already registered, check whether
++			 * the provided address differs from the prior
++			 * one.
++			 */
++			if (current->rseq != rseq || rseq_len != sizeof(*rseq))
++				return -EINVAL;
++			if (current->rseq_sig != sig)
++				return -EPERM;
++			/* Already registered. */
++			return -EBUSY;
++		}
+ 
+-	if (current->rseq) {
+ 		/*
+-		 * If rseq is already registered, check whether
+-		 * the provided address differs from the prior
+-		 * one.
++		 * If there was no rseq previously registered,
++		 * ensure the provided rseq is properly aligned and valid.
+ 		 */
+-		if (current->rseq != rseq || rseq_len != sizeof(*rseq))
++		if (!IS_ALIGNED((unsigned long)rseq, __alignof__(*rseq)) ||
++		    rseq_len != sizeof(*rseq))
+ 			return -EINVAL;
+-		if (current->rseq_sig != sig)
+-			return -EPERM;
+-		/* Already registered. */
+-		return -EBUSY;
+-	}
+-
+-	/*
+-	 * If there was no rseq previously registered,
+-	 * ensure the provided rseq is properly aligned and valid.
+-	 */
+-	if (!IS_ALIGNED((unsigned long)rseq, __alignof__(*rseq)) ||
+-	    rseq_len != sizeof(*rseq))
++		if (!access_ok(rseq, rseq_len))
++			return -EFAULT;
++		current->rseq = rseq;
++		current->rseq_sig = sig;
++		/*
++		 * If rseq was previously inactive, and has just been
++		 * registered, ensure the cpu_id_start and cpu_id fields
++		 * are updated before returning to user-space.
++		 */
++		rseq_set_notify_resume(current);
++		break;
++	default:
+ 		return -EINVAL;
+-	if (!access_ok(rseq, rseq_len))
+-		return -EFAULT;
+-	current->rseq = rseq;
+-	current->rseq_sig = sig;
+-	/*
+-	 * If rseq was previously inactive, and has just been
+-	 * registered, ensure the cpu_id_start and cpu_id fields
+-	 * are updated before returning to user-space.
+-	 */
+-	rseq_set_notify_resume(current);
++	}
+ 
+ 	return 0;
+ }
 -- 
 2.17.1
 
