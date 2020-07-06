@@ -2,27 +2,27 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B436215CE7
-	for <lists+linux-api@lfdr.de>; Mon,  6 Jul 2020 19:21:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6623215CEA
+	for <lists+linux-api@lfdr.de>; Mon,  6 Jul 2020 19:21:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729551AbgGFRVA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 6 Jul 2020 13:21:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55272 "EHLO mail.kernel.org"
+        id S1729666AbgGFRVF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 6 Jul 2020 13:21:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55384 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729478AbgGFRVA (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 6 Jul 2020 13:21:00 -0400
+        id S1729664AbgGFRVF (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 6 Jul 2020 13:21:05 -0400
 Received: from aquarius.haifa.ibm.com (nesher1.haifa.il.ibm.com [195.110.40.7])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 28431206CD;
-        Mon,  6 Jul 2020 17:20:54 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 185372070C;
+        Mon,  6 Jul 2020 17:20:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594056059;
-        bh=rp3iLbG4NzFQ6srRlKxeSGp+kPRUVlRaIbnd6z2D5UY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=l76C5n6D647knTaiC1Ofb1gHincOwMnY9GaLtoXpCGO4qWLWz68KmJY4gVJQ/6d/k
-         VR/PWu6VIqUgb9u1FiEtG5Gf3RnfhjbueTLXu9dsFSDOZ2ky6V19VYmfJjX5c3HeU/
-         pCMYh7UCO/5pYVrWEUvl/qjqN1iCeEqppXWkAh9c=
+        s=default; t=1594056064;
+        bh=MWHYORZMEjUSzCSQkeZzYrQp9re20hGQqezlYYHuB94=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=s0pZXDzWq1ti+TdYy2gBZD3Y73VYnvfnm3tEJXPJ88SIvsg6MmXc/qFAFzTIwpFqP
+         7TbW5C3oY64sMzALUCOf30npQlHdVoThRIoAdo0uUz+uIycFvotPVG82yGOKJ/oJMg
+         1L5566MpNGCUtD5oEaYzAvNOrrsH2kjQEDvmFXfs=
 From:   Mike Rapoport <rppt@kernel.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Alan Cox <alan@linux.intel.com>,
@@ -39,10 +39,12 @@ Cc:     Alan Cox <alan@linux.intel.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Tycho Andersen <tycho@tycho.ws>, linux-api@vger.kernel.org,
         linux-mm@kvack.org, Mike Rapoport <rppt@linux.ibm.com>
-Subject: [RFC PATCH v2 0/5] mm: extend memfd with ability to create "secret" memory areas
-Date:   Mon,  6 Jul 2020 20:20:46 +0300
-Message-Id: <20200706172051.19465-1-rppt@kernel.org>
+Subject: [RFC PATCH v2 1/5] mm: make HPAGE_PxD_{SHIFT,MASK,SIZE} always available
+Date:   Mon,  6 Jul 2020 20:20:47 +0300
+Message-Id: <20200706172051.19465-2-rppt@kernel.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200706172051.19465-1-rppt@kernel.org>
+References: <20200706172051.19465-1-rppt@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
@@ -52,81 +54,57 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 From: Mike Rapoport <rppt@linux.ibm.com>
 
-Hi,
+The definitions of shift, mask and size for the second and the third level
+of the leaf pages are available only when CONFIG_TRANSPARENT_HUGEPAGE is
+set. Otherwise they evaluate to BUILD_BUG().
 
-This is a second version of "secret" mappings implementation backed by a
-file descriptor. 
+There is no explanation neither in the code nor in the changelog why the
+usage of, e.g. HPAGE_PMD_SIZE should be only allowed with THP and forbidden
+otherwise while the definitions of HPAGE_PMD_SIZE and HPAGE_PUD_SIZE
+express the sizes better than ambiguous HPAGE_SIZE.
 
-The file descriptor is created using memfd_create() syscall with a new
-MFD_SECRET flag. The file descriptor should be configured using ioctl() to
-define the desired protection and then mmap() of the fd will create a
-"secret" memory mapping. The pages in that mapping will be marked as not
-present in the direct map and will have desired protection bits set in the
-user page table. For instance, current implementation allows uncached
-mappings.
+Make HPAGE_PxD_{SHIFT,MASK,SIZE} definitions available unconditionally.
 
-Hiding secret memory mappings behind an anonymous file allows (ab)use of
-the page cache for tracking pages allocated for the "secret" mappings as
-well as using address_space_operations for e.g. page migration callbacks.
+Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+---
+ include/linux/huge_mm.h | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-The anonymous file may be also used implicitly, like hugetlb files, to
-implement mmap(MAP_SECRET) and use the secret memory areas with "native" mm
-ABIs.
-
-As the fragmentation of the direct map was one of the major concerns raised
-during the previous postings, I've added an amortizing cache of PMD-size
-pages to each file descriptor and an ability to reserve large chunks of the
-physical memory at boot time and then use this memory as an allocation pool
-for the secret memory areas.
-
-In addition, I've tried to find some numbers that show the benefit of using
-larger pages in the direct map, but I couldn't find anything so I've run a
-couple of benchmarks from phoronix-test-suite on my laptop (i7-8650U with
-32G RAM).
-
-I've tested three variants: the default with 28G of the physical memory
-covered with 1G pages, then I disabled 1G pages using "nogbpages" in the
-kernel command line and at last I've forced the entire direct map to use 4K
-pages using a simple patch to arch/x86/mm/init.c.
-I've made runs of the benchmarks with SSD and tmpfs.
-
-Surprisingly, the results does not show huge advantage for large pages. For
-instance, here the results for kernel build with 'make -j8', in seconds:
-
-                        |  1G    |  2M    |  4K
-------------------------+--------+--------+---------
-ssd, mitigations=on	| 308.75 | 317.37 | 314.9 
-ssd, mitigations=off	| 305.25 | 295.32 | 304.92 
-ram, mitigations=on	| 301.58 | 322.49 | 306.54 
-ram, mitigations=off	| 299.32 | 288.44 | 310.65
-
-All the results I have are available at [1].
-If anybody is interested in plain text, please let me know.
-
-[1] https://docs.google.com/spreadsheets/d/1tdD-cu8e93vnfGsTFxZ5YdaEfs2E1GELlvWNOGkJV2U/edit?usp=sharing
-
-Mike Rapoport (5):
-  mm: make HPAGE_PxD_{SHIFT,MASK,SIZE} always available
-  mmap: make mlock_future_check() global
-  mm: extend memfd with ability to create "secret" memory areas
-  mm: secretmem: use PMD-size pages to amortize direct map fragmentation
-  mm: secretmem: add ability to reserve memory at boot
-
- include/linux/huge_mm.h    |  10 +-
- include/linux/memfd.h      |   9 +
- include/uapi/linux/magic.h |   1 +
- include/uapi/linux/memfd.h |   6 +
- mm/Kconfig                 |   3 +
- mm/Makefile                |   1 +
- mm/internal.h              |   3 +
- mm/memfd.c                 |  10 +-
- mm/mmap.c                  |   5 +-
- mm/secretmem.c             | 445 +++++++++++++++++++++++++++++++++++++
- 10 files changed, 480 insertions(+), 13 deletions(-)
- create mode 100644 mm/secretmem.c
-
-
-base-commit: 7c30b859a947535f2213277e827d7ac7dcff9c84
+diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
+index 71f20776b06c..1f4b44a76e31 100644
+--- a/include/linux/huge_mm.h
++++ b/include/linux/huge_mm.h
+@@ -115,7 +115,6 @@ extern struct kobj_attribute shmem_enabled_attr;
+ #define HPAGE_PMD_ORDER (HPAGE_PMD_SHIFT-PAGE_SHIFT)
+ #define HPAGE_PMD_NR (1<<HPAGE_PMD_ORDER)
+ 
+-#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+ #define HPAGE_PMD_SHIFT PMD_SHIFT
+ #define HPAGE_PMD_SIZE	((1UL) << HPAGE_PMD_SHIFT)
+ #define HPAGE_PMD_MASK	(~(HPAGE_PMD_SIZE - 1))
+@@ -124,6 +123,8 @@ extern struct kobj_attribute shmem_enabled_attr;
+ #define HPAGE_PUD_SIZE	((1UL) << HPAGE_PUD_SHIFT)
+ #define HPAGE_PUD_MASK	(~(HPAGE_PUD_SIZE - 1))
+ 
++#ifdef CONFIG_TRANSPARENT_HUGEPAGE
++
+ extern unsigned long transparent_hugepage_flags;
+ 
+ /*
+@@ -316,13 +317,6 @@ static inline struct list_head *page_deferred_list(struct page *page)
+ }
+ 
+ #else /* CONFIG_TRANSPARENT_HUGEPAGE */
+-#define HPAGE_PMD_SHIFT ({ BUILD_BUG(); 0; })
+-#define HPAGE_PMD_MASK ({ BUILD_BUG(); 0; })
+-#define HPAGE_PMD_SIZE ({ BUILD_BUG(); 0; })
+-
+-#define HPAGE_PUD_SHIFT ({ BUILD_BUG(); 0; })
+-#define HPAGE_PUD_MASK ({ BUILD_BUG(); 0; })
+-#define HPAGE_PUD_SIZE ({ BUILD_BUG(); 0; })
+ 
+ static inline int hpage_nr_pages(struct page *page)
+ {
 -- 
 2.26.2
 
