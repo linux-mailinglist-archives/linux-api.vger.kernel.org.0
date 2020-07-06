@@ -2,41 +2,41 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA5EC216087
-	for <lists+linux-api@lfdr.de>; Mon,  6 Jul 2020 22:49:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 235A9216088
+	for <lists+linux-api@lfdr.de>; Mon,  6 Jul 2020 22:49:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727063AbgGFUtq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 6 Jul 2020 16:49:46 -0400
-Received: from mail.efficios.com ([167.114.26.124]:57036 "EHLO
+        id S1726779AbgGFUtp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 6 Jul 2020 16:49:45 -0400
+Received: from mail.efficios.com ([167.114.26.124]:57052 "EHLO
         mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726915AbgGFUtp (ORCPT
+        with ESMTP id S1726939AbgGFUtp (ORCPT
         <rfc822;linux-api@vger.kernel.org>); Mon, 6 Jul 2020 16:49:45 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 864182DCBC1;
+        by mail.efficios.com (Postfix) with ESMTP id B6C5C2DCBC2;
         Mon,  6 Jul 2020 16:49:44 -0400 (EDT)
 Received: from mail.efficios.com ([127.0.0.1])
         by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id 4s6JLSRq24oJ; Mon,  6 Jul 2020 16:49:44 -0400 (EDT)
+        with ESMTP id ZWQUH0zUNbht; Mon,  6 Jul 2020 16:49:44 -0400 (EDT)
 Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id D55052DCAC7;
-        Mon,  6 Jul 2020 16:49:42 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com D55052DCAC7
+        by mail.efficios.com (Postfix) with ESMTP id 35EAC2DCCBF;
+        Mon,  6 Jul 2020 16:49:44 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 35EAC2DCCBF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1594068582;
-        bh=rN5G63HY20iVL5jdiy3A5QPcL3ii8OKrJYS4rK5ji/k=;
+        s=default; t=1594068584;
+        bh=mnMMKvJaOAN7AlfDW7S7IlXwHCI9soK/a0/c/Zir58M=;
         h=From:To:Date:Message-Id;
-        b=GuVCBKDX+iEeZ+68jWrZCmVp9U0YVO8+SWqblfdPSroaxAz2qHcsxeKjgaX5W1Zvw
-         GkZhyoZmWCgXTFC8K/PRMCKM00vcSbhMU4siQRYj5LFUdJKNeLGhLdwJUEFu+H5PVI
-         opm8wDQimHONpUVwtu58Y35Z2bBchP5ZB7rEaVnGPHxwm0uMHBwf6VEaHxivuGzAly
-         PEfQg06ZHtvsh4OIOfbDl7fB7MNue3h9CA55EbUCK9MZAtrVDBeJrZlTgFQ9lXyzTC
-         oL89anirwILBOTltIkRJbV/uakxe27/YVPQKZ32aV1WCfxdZiAvpiQTBGWfaTOZF7I
-         9X3QELa9+0C2Q==
+        b=efnws94pwSMtS/IAS5Ys121F4Iq0KkCiCQgYcjiDsebUjlu6LXkPm9zpyge1fMqPv
+         9nQd/m9xFhZdjfHt09PE4YdZFXpRUysulFSKGtxJiFGQt0WJvoAAyA5kpzyrcTXF49
+         7sBqxwZT49TCWK+pYyRF3XbxL9x1ATX+FoViBCvI0MRSyrTai+lJf7HOyB8+FCASkF
+         T+MPqNjCmWJNJ+hprRVDdzAWKUc3EVs1h65dEysJLOiFRsOXnK4xgxnGLg+xT52nJz
+         XEWqPNi6KMWbw7cM2ah1xYQJcMM0Pbqx1leWRmlLRMEQoI1tF5hCte7ygzCBjCdbFs
+         SdYo2KTPeLw4w==
 X-Virus-Scanned: amavisd-new at efficios.com
 Received: from mail.efficios.com ([127.0.0.1])
         by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id ZL6wLRdCWb7k; Mon,  6 Jul 2020 16:49:42 -0400 (EDT)
+        with ESMTP id wTGn1GJVJk5q; Mon,  6 Jul 2020 16:49:44 -0400 (EDT)
 Received: from localhost.localdomain (192-222-181-218.qc.cable.ebox.net [192.222.181.218])
-        by mail.efficios.com (Postfix) with ESMTPSA id 1940F2DCAC6;
+        by mail.efficios.com (Postfix) with ESMTPSA id BD4512DCDA9;
         Mon,  6 Jul 2020 16:49:42 -0400 (EDT)
 From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To:     Thomas Gleixner <tglx@linutronix.de>
@@ -47,11 +47,13 @@ Cc:     linux-kernel@vger.kernel.org,
         "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
         linux-api@vger.kernel.org, Florian Weimer <fw@deneb.enyo.de>,
         Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
         Dmitry Vyukov <dvyukov@google.com>,
-        Neel Natu <neelnatu@google.com>
-Subject: [RFC PATCH for 5.8 3/4] rseq: Introduce RSEQ_FLAG_RELIABLE_CPU_ID
-Date:   Mon,  6 Jul 2020 16:49:12 -0400
-Message-Id: <20200706204913.20347-4-mathieu.desnoyers@efficios.com>
+        Neel Natu <neelnatu@google.com>,
+        linux-kselftest@vger.kernel.org
+Subject: [RFC PATCH for 5.8 4/4] rseq: selftests: Expect reliable cpu_id field
+Date:   Mon,  6 Jul 2020 16:49:13 -0400
+Message-Id: <20200706204913.20347-5-mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200706204913.20347-1-mathieu.desnoyers@efficios.com>
 References: <20200706204913.20347-1-mathieu.desnoyers@efficios.com>
@@ -60,17 +62,12 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-commit 93b585c08d16 ("Fix: sched: unreliable rseq cpu_id for new tasks")
-addresses an issue with cpu_id field of newly created processes. Expose
-a flag which can be used by user-space to query whether the kernel
-implements this fix.
-
-Considering that this issue can cause corruption of user-space per-cpu
-data updated with rseq, it is recommended that user-space detects
-availability of this fix by using the RSEQ_FLAG_RELIABLE_CPU_ID flag
-either combined with registration or on its own before using rseq.
+The rseq selftests should discover whether the kernel implements the
+RSEQ_FLAG_RELIABLE_CPU_ID flag, which indicates that the
+__rseq_abi.cpu_id field is reliable.
 
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: Shuah Khan <skhan@linuxfoundation.org>
 Cc: Peter Zijlstra (Intel) <peterz@infradead.org>
 Cc: Thomas Gleixner <tglx@linutronix.de>
 Cc: Florian Weimer <fw@deneb.enyo.de>
@@ -81,56 +78,46 @@ Cc: Paul Turner <pjt@google.com>
 Cc: Dmitry Vyukov <dvyukov@google.com>
 Cc: Neel Natu <neelnatu@google.com>
 Cc: linux-api@vger.kernel.org
+Cc: linux-kselftest@vger.kernel.org
 ---
- include/uapi/linux/rseq.h | 5 +++++
- kernel/rseq.c             | 4 ++++
- 2 files changed, 9 insertions(+)
+ tools/testing/selftests/rseq/rseq.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/include/uapi/linux/rseq.h b/include/uapi/linux/rseq.h
-index 3b5fba25461a..a548b77c9520 100644
---- a/include/uapi/linux/rseq.h
-+++ b/include/uapi/linux/rseq.h
-@@ -21,13 +21,18 @@ enum rseq_cpu_id_state {
- /*
-  * RSEQ_FLAG_UNREGISTER:       Unregister rseq ABI for caller thread.
-  * RSEQ_FLAG_REGISTER:         Register rseq ABI for caller thread.
-+ * RSEQ_FLAG_RELIABLE_CPU_ID:  rseq provides a reliable cpu_id field.
-  *
-  * Flag value 0 has the same behavior as RSEQ_FLAG_REGISTER, but cannot be
-  * combined with other flags. This behavior is kept for backward compatibility.
-+ *
-+ * The flag RSEQ_FLAG_REGISTER can be combined with the RSEQ_FLAG_RELIABLE_CPU_ID
-+ * flag.
-  */
- enum rseq_flags {
- 	RSEQ_FLAG_UNREGISTER			= (1 << 0),
- 	RSEQ_FLAG_REGISTER			= (1 << 1),
-+	RSEQ_FLAG_RELIABLE_CPU_ID		= (1 << 2),
- };
+diff --git a/tools/testing/selftests/rseq/rseq.c b/tools/testing/selftests/rseq/rseq.c
+index 7159eb777fd3..55f1edb0649c 100644
+--- a/tools/testing/selftests/rseq/rseq.c
++++ b/tools/testing/selftests/rseq/rseq.c
+@@ -73,6 +73,11 @@ static int sys_rseq(volatile struct rseq *rseq_abi, uint32_t rseq_len,
+ 	return syscall(__NR_rseq, rseq_abi, rseq_len, flags, sig);
+ }
  
- enum rseq_cs_flags_bit {
-diff --git a/kernel/rseq.c b/kernel/rseq.c
-index 47ce221cd6f9..32cc2e0d961f 100644
---- a/kernel/rseq.c
-+++ b/kernel/rseq.c
-@@ -333,6 +333,8 @@ SYSCALL_DEFINE4(rseq, struct rseq __user *, rseq, u32, rseq_len,
- 		current->rseq_sig = 0;
- 		break;
- 	case RSEQ_FLAG_REGISTER:
-+		fallthrough;
-+	case RSEQ_FLAG_REGISTER | RSEQ_FLAG_RELIABLE_CPU_ID:
- 		if (current->rseq) {
- 			/*
- 			 * If rseq is already registered, check whether
-@@ -365,6 +367,8 @@ SYSCALL_DEFINE4(rseq, struct rseq __user *, rseq, u32, rseq_len,
- 		 */
- 		rseq_set_notify_resume(current);
- 		break;
-+	case RSEQ_FLAG_RELIABLE_CPU_ID:
-+		break;
- 	default:
- 		return -EINVAL;
++static bool rseq_reliable_cpu_id(void)
++{
++	return sys_rseq(NULL, 0, RSEQ_FLAG_RELIABLE_CPU_ID, 0) == 0;
++}
++
+ int rseq_register_current_thread(void)
+ {
+ 	int rc, ret = 0;
+@@ -87,7 +92,8 @@ int rseq_register_current_thread(void)
  	}
+ 	if (__rseq_refcount++)
+ 		goto end;
+-	rc = sys_rseq(&__rseq_abi, sizeof(struct rseq), 0, RSEQ_SIG);
++	rc = sys_rseq(&__rseq_abi, sizeof(struct rseq),
++		      RSEQ_FLAG_REGISTER | RSEQ_FLAG_RELIABLE_CPU_ID, RSEQ_SIG);
+ 	if (!rc) {
+ 		assert(rseq_current_cpu_raw() >= 0);
+ 		goto end;
+@@ -96,6 +102,8 @@ int rseq_register_current_thread(void)
+ 		__rseq_abi.cpu_id = RSEQ_CPU_ID_REGISTRATION_FAILED;
+ 	ret = -1;
+ 	__rseq_refcount--;
++	if (errno == EINVAL && !rseq_reliable_cpu_id())
++		fprintf(stderr, "Error: rseq does not provide a reliable cpu_id field.\n");
+ end:
+ 	signal_restore(oldset);
+ 	return ret;
 -- 
 2.17.1
 
