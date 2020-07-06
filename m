@@ -2,154 +2,93 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 03BF8215263
-	for <lists+linux-api@lfdr.de>; Mon,  6 Jul 2020 08:08:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB112215437
+	for <lists+linux-api@lfdr.de>; Mon,  6 Jul 2020 10:54:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728901AbgGFGIX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 6 Jul 2020 02:08:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35006 "EHLO
+        id S1728400AbgGFIy6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 6 Jul 2020 04:54:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728804AbgGFGIX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Jul 2020 02:08:23 -0400
-Received: from mail-oo1-xc43.google.com (mail-oo1-xc43.google.com [IPv6:2607:f8b0:4864:20::c43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BD7EC061794;
-        Sun,  5 Jul 2020 23:08:23 -0700 (PDT)
-Received: by mail-oo1-xc43.google.com with SMTP id a9so91494oof.12;
-        Sun, 05 Jul 2020 23:08:23 -0700 (PDT)
+        with ESMTP id S1728259AbgGFIy6 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Jul 2020 04:54:58 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1544BC08C5DF
+        for <linux-api@vger.kernel.org>; Mon,  6 Jul 2020 01:54:58 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id h22so37179531lji.9
+        for <linux-api@vger.kernel.org>; Mon, 06 Jul 2020 01:54:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=X1BjitBb0woJ/AqYDROx+THUx8rqaPKmjtehNi6j/8Q=;
-        b=ga5k5Fm94tsxJPmvN5Qz7vnzhTrXfjjHXZPRCJk4df64cFFiydOPVyTPH0ugyCSmBv
-         xWRchB3G2ib8qiIIc/u+kxh12gDUiatbOIKDJc3FPtvSMJadpa7v/WSUZyEauK6u2tOu
-         FpaK1eFRuAC1ZlM5KhuqPgkHurDYWgY/Avrf5zUvwjHzIb7vgOc7AK6SNdpXhly8Kh3x
-         ATbUHXPs2V1SeaUyTp1NUrhUNmtK/3BIP/MZU5OdftvpglEYIEw6JH5T+5GFM1A4E5/b
-         jS5JfUrnuYKcLihWEv4AZR4g/l7sSbrZ3PAIO6P4giOKs+iSNEId1+CevqpFav0wkviq
-         OJuQ==
+        bh=cNNvIPbyRDyhu5ZgEEiWbAIxYQhb/2gTkX3OL9Va+WQ=;
+        b=GwK48GhmFmirpg3fdswa9lBUePOmYDIUGRR8hdVDdkSej4xaxCeCZAFSNgxfHMX6Yy
+         w9Kla9Zz94g96jzu2SdkDHlz3/g7x+cSsfL0CLrYgCZP6J19zRAdLsZs87JfMO7sIJE6
+         hD8DhDJnDAm0DcZzdnRoijixEc6U2wSUxDKr/PyrnIZ6sDA3NJltPdTHsLduPer5Awad
+         NUwH5K/XHmbz5gpeAqR5kYWsh2PSuS+J5l9UTHxPSnjzSl1GyAg/pMTCqSfzmJ/+quNd
+         zVd7EeWl6Jy5ia0GEmuuMG516H4zo1kh4cHrXJacH0rZz+cmV3uWqvNIF5fVl3UCZoOV
+         qcKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=X1BjitBb0woJ/AqYDROx+THUx8rqaPKmjtehNi6j/8Q=;
-        b=t11LlXrz0ini0Z3HNeMh/YaNder+20JR2vYZy1DCHZDE4tbWrIyp359i6tijlTVwtr
-         lGALpRQ5+QMtJgLmMFwxnnxsSYOj3hpzXAmhFx/oYpGpSgC+O25/+shOWcAaDd7XS5nV
-         S5Y9qqvGlLosKCrI8tj2eAasEBTK+27Vi2qsaw0scC/rP7gKj3+Lqf6km6a2snvrisVf
-         Rcrb88R45cGzHkj14ojuN8ma9w359R2ZJnQKV2YnssDAyWziFlUpA1UZqCGmWZS5IFy5
-         g/xzTC+D7GJP+SF+uf6bc2ospZHs6ivdDh1c/oh/wv/GxiaSBE+yPn07dL844v3YUtSh
-         qK0Q==
-X-Gm-Message-State: AOAM530zpA7hxvH14/TF0qxRSesPzxj//pvdzVugN/by1N0KTpsL8hU0
-        bn0Q1nrGWEVTerJWQLuyPQiXjPhcdeDm3+HmAmxOitn6
-X-Google-Smtp-Source: ABdhPJz/HAbhyuLArVmNsg/6kUXsngMITW3h2wuAxja2UJS9ppi60bItfwaYPKCzrBJBa4IuDePWvHpWPMn7amISmiE=
-X-Received: by 2002:a4a:dfb5:: with SMTP id k21mr32478997ook.27.1594015702379;
- Sun, 05 Jul 2020 23:08:22 -0700 (PDT)
+        bh=cNNvIPbyRDyhu5ZgEEiWbAIxYQhb/2gTkX3OL9Va+WQ=;
+        b=RrjS072S70x+OPRpepjgUcioOc3NqrzA9zDFVtxv6aYe+nnpQLFYSycoHrgiAETqtn
+         k00FLnYvRQoS7CV3HAV4KaAtS2xtCJl0I5rR7qsu556+BIQDEG3IZxkMsRKi2+ga5NSI
+         hvxf4grrzO70BPoyeygVOLCzQthjs3zhVRthR2NxQQmqqKl9IJHa7RbPs77PwgHp1rdi
+         waY3Mw9q65tVxN936sID4VHotSoMqo0CYBeENiuJj9mvt3PIrsihgxWgyCSwSRH+RMkN
+         /NH8UyAXbhoem126S7YW//lqz/9Su54Gfkg+8EIAO1/j7jhsOdNubiMUcJTJ/cCfwf7x
+         2eDQ==
+X-Gm-Message-State: AOAM532krG3lA3aZG4mRxgaxn+pebcK/x3NvcC+wDyEyHOSLvJ7ARiFY
+        /AEpo3mK/VScF4sQ9NEpgwa+EeNTkIqBlKXCtCpPFA==
+X-Google-Smtp-Source: ABdhPJylBq/GlipYoQiOaeWdyv7Nd1mhikRAHRzoHcrBYF2Tgt2xn3B345Rezd2yDNMo2CkzdbSQ8juxx+Oe1fm99VA=
+X-Received: by 2002:a2e:7a1a:: with SMTP id v26mr10720535ljc.104.1594025696518;
+ Mon, 06 Jul 2020 01:54:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAODFU0q6CrUB_LkSdrbp5TQ4Jm6Sw=ZepZwD-B7-aFudsOvsig@mail.gmail.com>
- <20200705021631.GR25523@casper.infradead.org> <CAODFU0qwtPTaBRbA3_ufA6N7fajhi61Sp5iE75Shdk25NSOTLA@mail.gmail.com>
- <20200705031208.GS25523@casper.infradead.org> <CAODFU0q=nDdx7D1NUxTQshBjqgTCYPpKzog78XZLjoPqnZqXvw@mail.gmail.com>
- <20200705032732.GT25523@casper.infradead.org> <CAODFU0rSqQsO9rSiA8Ke=+mk_NgEdFDHPMfmXGSmzmkqQh1KYw@mail.gmail.com>
- <20200705115851.GB1227929@kroah.com>
-In-Reply-To: <20200705115851.GB1227929@kroah.com>
-From:   Jan Ziak <0xe2.0x9a.0x9b@gmail.com>
-Date:   Mon, 6 Jul 2020 08:07:46 +0200
-Message-ID: <CAODFU0ovM-i=4fNKSzp9SgO_FjPcAOZ0R8S4iRXyGm+QL53C1A@mail.gmail.com>
-Subject: Re: [PATCH 0/3] readfile(2): a new syscall to make open/read/close faster
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Matthew Wilcox <willy@infradead.org>, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-man@vger.kernel.org,
-        mtk.manpages@gmail.com, shuah@kernel.org, viro@zeniv.linux.org.uk
+References: <20200529072017.2906-1-linus.walleij@linaro.org> <CAFEAcA-x0y6ufRXebckRdGSLOBzbdBsk=uw+foK4p+HDeVrA9A@mail.gmail.com>
+In-Reply-To: <CAFEAcA-x0y6ufRXebckRdGSLOBzbdBsk=uw+foK4p+HDeVrA9A@mail.gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 6 Jul 2020 10:54:45 +0200
+Message-ID: <CACRpkdZk-Pv49PyhtrW7ZQo+iebOapVb7L2T_cxh0SpYtcv5Xw@mail.gmail.com>
+Subject: Re: [PATCH v2] fcntl: Add 32bit filesystem mode
+To:     "Theodore Ts'o" <tytso@mit.edu>
+Cc:     Andreas Dilger <adilger.kernel@dilger.ca>,
+        Ext4 Developers List <linux-ext4@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        QEMU Developers <qemu-devel@nongnu.org>,
+        Florian Weimer <fw@deneb.enyo.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Maydell <peter.maydell@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sun, Jul 5, 2020 at 1:58 PM Greg KH <gregkh@linuxfoundation.org> wrote:
->
-> On Sun, Jul 05, 2020 at 06:09:03AM +0200, Jan Ziak wrote:
-> > On Sun, Jul 5, 2020 at 5:27 AM Matthew Wilcox <willy@infradead.org> wrote:
-> > >
-> > > On Sun, Jul 05, 2020 at 05:18:58AM +0200, Jan Ziak wrote:
-> > > > On Sun, Jul 5, 2020 at 5:12 AM Matthew Wilcox <willy@infradead.org> wrote:
-> > > > >
-> > > > > You should probably take a look at io_uring.  That has the level of
-> > > > > complexity of this proposal and supports open/read/close along with many
-> > > > > other opcodes.
-> > > >
-> > > > Then glibc can implement readfile using io_uring and there is no need
-> > > > for a new single-file readfile syscall.
-> > >
-> > > It could, sure.  But there's also a value in having a simple interface
-> > > to accomplish a simple task.  Your proposed API added a very complex
-> > > interface to satisfy needs that clearly aren't part of the problem space
-> > > that Greg is looking to address.
+On Tue, Jun 23, 2020 at 12:08 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+> On Fri, 29 May 2020 at 08:22, Linus Walleij <linus.walleij@linaro.org> wrote:
 > >
-> > I believe that we should look at the single-file readfile syscall from
-> > a performance viewpoint. If an application is expecting to read a
-> > couple of small/medium-size files per second, then neither readfile
-> > nor readfiles makes sense in terms of improving performance. The
-> > benefits start to show up only in case an application is expecting to
-> > read at least a hundred of files per second. The "per second" part is
-> > important, it cannot be left out. Because readfile only improves
-> > performance for many-file reads, the syscall that applications
-> > performing many-file reads actually want is the multi-file version,
-> > not the single-file version.
+> > It was brought to my attention that this bug from 2018 was
+> > still unresolved: 32 bit emulators like QEMU were given
+> > 64 bit hashes when running 32 bit emulation on 64 bit systems.
+> >
+> > This adds a flag to the fcntl() F_GETFD and F_SETFD operations
+> > to set the underlying filesystem into 32bit mode even if the
+> > file handle was opened using 64bit mode without the compat
+> > syscalls.
 >
-> It also is a measurable increase over reading just a single file.
-> Here's my really really fast AMD system doing just one call to readfile
-> vs. one call sequence to open/read/close:
+> I somewhat belatedly got round to updating my QEMU patch
+> that uses this new fcntl() flag to fix the bug. Sorry for
+> the delay getting round to this. You can find the QEMU patch here:
+> https://patchew.org/QEMU/20200623100101.6041-1-peter.maydell@linaro.org/
+> (it's an RFC because obviously we won't put it into QEMU until
+> the kernel side has gone upstream and the API is final.)
 >
->         $ ./readfile_speed -l 1
->         Running readfile test on file /sys/devices/system/cpu/vulnerabilities/meltdown for 1 loops...
->         Took 3410 ns
->         Running open/read/close test on file /sys/devices/system/cpu/vulnerabilities/meltdown for 1 loops...
->         Took 3780 ns
->
-> 370ns isn't all that much, yes, but it is 370ns that could have been
-> used for something else :)
+> What's the next step for moving this forward?
 
-I am curious as to how you amortized or accounted for the fact that
-readfile() first needs to open the dirfd and then close it later.
+Ted, can you merge this patch?
 
-From performance viewpoint, only codes where readfile() is called
-multiple times from within a loop make sense:
+It seems QEMU is happy and AFICT it uses the approach you want :)
 
-dirfd = open();
-for(...) {
-  readfile(dirfd, ...);
-}
-close(dirfd);
-
-> Look at the overhead these days of a syscall using something like perf
-> to see just how bad things have gotten on Intel-based systems (above was
-> AMD which doesn't suffer all the syscall slowdowns, only some).
->
-> I'm going to have to now dig up my old rpi to get the stats on that
-> thing, as well as some Intel boxes to show the problem I'm trying to
-> help out with here.  I'll post that for the next round of this patch
-> series.
->
-> > I am not sure I understand why you think that a pointer to an array of
-> > readfile_t structures is very complex. If it was very complex then it
-> > would be a deep tree or a large graph.
->
-> Of course you can make it more complex if you want, but look at the
-> existing tools that currently do many open/read/close sequences.  The
-> apis there don't lend themselves very well to knowing the larger list of
-> files ahead of time.  But I could be looking at the wrong thing, what
-> userspace programs are you thinking of that could be easily converted
-> into using something like this?
-
-Perhaps, passing multiple filenames to tools via the command-line is a
-valid and quite general use case where it is known ahead of time that
-multiple files are going to be read, such as "gcc *.o" which is
-commonly used to link shared libraries and executables. Although, in
-case of "gcc *.o" some of the object files are likely to be cached in
-memory and thus unlikely to be required to be fetched from HDD/SSD, so
-the valid use case where we could see a speedup (if gcc was to use the
-multi-file readfiles() syscall) is when the programmer/Makefile
-invokes "gcc *.o" after rebuilding a small subset of the object files
-and the objects files which did not have to be rebuilt are stored on
-HDD/SSD, so basically this means 1st-time use of a project's Makefile
-in a particular day.
+Yours,
+Linus Walleij
