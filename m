@@ -2,27 +2,27 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A6623215CEA
-	for <lists+linux-api@lfdr.de>; Mon,  6 Jul 2020 19:21:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F4FF215CED
+	for <lists+linux-api@lfdr.de>; Mon,  6 Jul 2020 19:21:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729666AbgGFRVF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 6 Jul 2020 13:21:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55384 "EHLO mail.kernel.org"
+        id S1729609AbgGFRVK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 6 Jul 2020 13:21:10 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55528 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729664AbgGFRVF (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 6 Jul 2020 13:21:05 -0400
+        id S1729297AbgGFRVK (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 6 Jul 2020 13:21:10 -0400
 Received: from aquarius.haifa.ibm.com (nesher1.haifa.il.ibm.com [195.110.40.7])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 185372070C;
-        Mon,  6 Jul 2020 17:20:59 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 072AA206CD;
+        Mon,  6 Jul 2020 17:21:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594056064;
-        bh=MWHYORZMEjUSzCSQkeZzYrQp9re20hGQqezlYYHuB94=;
+        s=default; t=1594056069;
+        bh=vyyX1LP4325hfnYgliYCjSjLjNxzM/CYe+v7FBLTqDc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=s0pZXDzWq1ti+TdYy2gBZD3Y73VYnvfnm3tEJXPJ88SIvsg6MmXc/qFAFzTIwpFqP
-         7TbW5C3oY64sMzALUCOf30npQlHdVoThRIoAdo0uUz+uIycFvotPVG82yGOKJ/oJMg
-         1L5566MpNGCUtD5oEaYzAvNOrrsH2kjQEDvmFXfs=
+        b=xRqXMhbT75r4F5kcZi3w64ouCeYXiKdgLM/wgZLdvIJCQORfZvxYaWRUGv5OSEDjg
+         7kkrDm+MZiW45gJhMuxLUEamiH/z3BMpoAYoEdPLZrnkj28wASdtZcdxobSGLvGxU8
+         basl4KvFCVZSptOkID0ZmBIj3iQJSPYik0iVjgcg=
 From:   Mike Rapoport <rppt@kernel.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Alan Cox <alan@linux.intel.com>,
@@ -39,9 +39,9 @@ Cc:     Alan Cox <alan@linux.intel.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Tycho Andersen <tycho@tycho.ws>, linux-api@vger.kernel.org,
         linux-mm@kvack.org, Mike Rapoport <rppt@linux.ibm.com>
-Subject: [RFC PATCH v2 1/5] mm: make HPAGE_PxD_{SHIFT,MASK,SIZE} always available
-Date:   Mon,  6 Jul 2020 20:20:47 +0300
-Message-Id: <20200706172051.19465-2-rppt@kernel.org>
+Subject: [RFC PATCH v2 2/5] mmap: make mlock_future_check() global
+Date:   Mon,  6 Jul 2020 20:20:48 +0300
+Message-Id: <20200706172051.19465-3-rppt@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200706172051.19465-1-rppt@kernel.org>
 References: <20200706172051.19465-1-rppt@kernel.org>
@@ -54,57 +54,44 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 From: Mike Rapoport <rppt@linux.ibm.com>
 
-The definitions of shift, mask and size for the second and the third level
-of the leaf pages are available only when CONFIG_TRANSPARENT_HUGEPAGE is
-set. Otherwise they evaluate to BUILD_BUG().
-
-There is no explanation neither in the code nor in the changelog why the
-usage of, e.g. HPAGE_PMD_SIZE should be only allowed with THP and forbidden
-otherwise while the definitions of HPAGE_PMD_SIZE and HPAGE_PUD_SIZE
-express the sizes better than ambiguous HPAGE_SIZE.
-
-Make HPAGE_PxD_{SHIFT,MASK,SIZE} definitions available unconditionally.
+It will be used by the upcoming secret memory implementation.
 
 Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
 ---
- include/linux/huge_mm.h | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+ mm/internal.h | 3 +++
+ mm/mmap.c     | 5 ++---
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
-index 71f20776b06c..1f4b44a76e31 100644
---- a/include/linux/huge_mm.h
-+++ b/include/linux/huge_mm.h
-@@ -115,7 +115,6 @@ extern struct kobj_attribute shmem_enabled_attr;
- #define HPAGE_PMD_ORDER (HPAGE_PMD_SHIFT-PAGE_SHIFT)
- #define HPAGE_PMD_NR (1<<HPAGE_PMD_ORDER)
+diff --git a/mm/internal.h b/mm/internal.h
+index 9886db20d94f..af0a92f8f6bc 100644
+--- a/mm/internal.h
++++ b/mm/internal.h
+@@ -349,6 +349,9 @@ static inline void munlock_vma_pages_all(struct vm_area_struct *vma)
+ extern void mlock_vma_page(struct page *page);
+ extern unsigned int munlock_vma_page(struct page *page);
  
--#ifdef CONFIG_TRANSPARENT_HUGEPAGE
- #define HPAGE_PMD_SHIFT PMD_SHIFT
- #define HPAGE_PMD_SIZE	((1UL) << HPAGE_PMD_SHIFT)
- #define HPAGE_PMD_MASK	(~(HPAGE_PMD_SIZE - 1))
-@@ -124,6 +123,8 @@ extern struct kobj_attribute shmem_enabled_attr;
- #define HPAGE_PUD_SIZE	((1UL) << HPAGE_PUD_SHIFT)
- #define HPAGE_PUD_MASK	(~(HPAGE_PUD_SIZE - 1))
- 
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
++extern int mlock_future_check(struct mm_struct *mm, unsigned long flags,
++			      unsigned long len);
 +
- extern unsigned long transparent_hugepage_flags;
- 
  /*
-@@ -316,13 +317,6 @@ static inline struct list_head *page_deferred_list(struct page *page)
+  * Clear the page's PageMlocked().  This can be useful in a situation where
+  * we want to unconditionally remove a page from the pagecache -- e.g.,
+diff --git a/mm/mmap.c b/mm/mmap.c
+index 59a4682ebf3f..4dd40a4fedfb 100644
+--- a/mm/mmap.c
++++ b/mm/mmap.c
+@@ -1310,9 +1310,8 @@ static inline unsigned long round_hint_to_min(unsigned long hint)
+ 	return hint;
  }
  
- #else /* CONFIG_TRANSPARENT_HUGEPAGE */
--#define HPAGE_PMD_SHIFT ({ BUILD_BUG(); 0; })
--#define HPAGE_PMD_MASK ({ BUILD_BUG(); 0; })
--#define HPAGE_PMD_SIZE ({ BUILD_BUG(); 0; })
--
--#define HPAGE_PUD_SHIFT ({ BUILD_BUG(); 0; })
--#define HPAGE_PUD_MASK ({ BUILD_BUG(); 0; })
--#define HPAGE_PUD_SIZE ({ BUILD_BUG(); 0; })
- 
- static inline int hpage_nr_pages(struct page *page)
+-static inline int mlock_future_check(struct mm_struct *mm,
+-				     unsigned long flags,
+-				     unsigned long len)
++int mlock_future_check(struct mm_struct *mm, unsigned long flags,
++		       unsigned long len)
  {
+ 	unsigned long locked, lock_limit;
+ 
 -- 
 2.26.2
 
