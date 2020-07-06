@@ -2,52 +2,52 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E1D56215F5B
-	for <lists+linux-api@lfdr.de>; Mon,  6 Jul 2020 21:30:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 768E3215FFF
+	for <lists+linux-api@lfdr.de>; Mon,  6 Jul 2020 22:17:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726682AbgGFTah (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 6 Jul 2020 15:30:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46086 "EHLO
+        id S1727038AbgGFURa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 6 Jul 2020 16:17:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726496AbgGFTag (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Jul 2020 15:30:36 -0400
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83D22C08C5E1
-        for <linux-api@vger.kernel.org>; Mon,  6 Jul 2020 12:30:36 -0700 (PDT)
-Received: by mail-pg1-x544.google.com with SMTP id w2so18040260pgg.10
-        for <linux-api@vger.kernel.org>; Mon, 06 Jul 2020 12:30:36 -0700 (PDT)
+        with ESMTP id S1725860AbgGFUR3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Jul 2020 16:17:29 -0400
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BC01C08C5DF
+        for <linux-api@vger.kernel.org>; Mon,  6 Jul 2020 13:17:29 -0700 (PDT)
+Received: by mail-pl1-x644.google.com with SMTP id f2so15767856plr.8
+        for <linux-api@vger.kernel.org>; Mon, 06 Jul 2020 13:17:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=jA71++q3kdwcFkfUU/1at8AL+IZxf2Nnq6lJ3LbUnXg=;
-        b=Q+7dfF3lcRisIsTqM7EGD0tYjWye1O/Gfz50qcw4naOrpboCi2ZmrR6d1RzMnOs7mR
-         Fh1/KCwCGizIS3GVQrZmc4YKPc7/8e4SSalTwfSqP37iQkamNsBrIJtKubGbQxGTlF4L
-         Gxge8avBKJljPA0a7NtRL4/iHOuA13h42MPe0=
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vf4k4Ca2nC/UfmU2LxKOu9rGFn+24YTVR8SOW5pJDec=;
+        b=mJU+sunK9zmAyi94aCrQaVMEcNI9fn4lmtE75ZhOryFRcI5/2/Y3okHuI5wzVQTZ0F
+         SbtV5x1CJaMOcfiR79RFgYVBA8loddfYiYJUib7+F+erFyU6Xrgp+o/GLSxwl1owwifi
+         Oh6VXWDp5quFpNnUiennE/lwBZqWhCr3rnQnM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=jA71++q3kdwcFkfUU/1at8AL+IZxf2Nnq6lJ3LbUnXg=;
-        b=M3ZM21aMiQY2PvWgWUk9DwyEI4rnEXvsCIoYI9SbDWKa583wdT6W5el+1Gpx9wWzh2
-         ipzdBcFdzYvKqNbfOzz5riQ8zXzAEocjs0T2nWwnSTqMnRPWwcxchENfKNDYOf3v4ihn
-         5eIxuscGWwT15hZhW/9teNGc6dbspVVcPhLYN/vsSQ7uQidYh39/9DDbFkhySS8devDo
-         bli/bV+XYpXICnZyR5EQyCgYQ9xvI7FIGAhSQkcJCpuYcQ2fhtswfQUp05uAzPVeblwY
-         x3ZRMt0Jj7t5K65TcYoqqEwBQOkn2TmvNwryysRCLsgzT/aqtfcSeZB2cs/RzCRhemfs
-         MXlg==
-X-Gm-Message-State: AOAM532W0zwG23xv8xHq7LqRLvEK62P8oc9VZ48hjXcpAMa2W1EQSSBo
-        vKmgZAjmLwZlu/u1DkgjgBodBA==
-X-Google-Smtp-Source: ABdhPJz7tXd/nnBDS0YQJcB7rwYbSOG0wy8tzeWXjOdUxA5eSWOjt+6q3dGWi3mLABNZOwnfZ4Olmg==
-X-Received: by 2002:a62:fc15:: with SMTP id e21mr46353476pfh.167.1594063835932;
-        Mon, 06 Jul 2020 12:30:35 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vf4k4Ca2nC/UfmU2LxKOu9rGFn+24YTVR8SOW5pJDec=;
+        b=uREEPkoidel+10BAmtukimJwn816dQcIf4mQA4aUoFduMYIj9utHNrZPZ/H1e+N3Co
+         5oRJjrTqWbyaFOjpeURIbJ7ezafL1AvRxKxfaGH0AL9I5w1Lplw6WH2qu1EbEGfGZn5F
+         ANEJID7ykEh9ksRNDTEDYfY6qW30JqkLzpKk2uaMg2kGtW9jwa1qwjzc429LgF7mvigV
+         pjNJsO0li+RWA+7DyBcAXpdCImwJqxtH1SgJHfZ4cc3FsTgwV2any2qVi1IN/+NT0B0q
+         e59iveRRsnd9q68ZO9Mm0POHIz0yiRjYPW0SA6pqnKYbebHolYeezsyQnZ2mTPYV2f4V
+         m2tw==
+X-Gm-Message-State: AOAM531tKegVZmQwQX/oP42h1TtJh2XsimsClfK5h7VnEqQC0SW8VvQs
+        HNWa5dHO86F9cvYoQIvbdvqEBQ==
+X-Google-Smtp-Source: ABdhPJzOvQDeykz31VBtkhS2Id0OhcoG/jXjb7a9fQnSucy63QTtpHAuZEVpfeWypZ6tk3Q+EfIw3w==
+X-Received: by 2002:a17:902:8685:: with SMTP id g5mr42813271plo.270.1594066648526;
+        Mon, 06 Jul 2020 13:17:28 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id y8sm225835pju.49.2020.07.06.12.30.34
+        by smtp.gmail.com with ESMTPSA id m6sm291257pjb.34.2020.07.06.13.17.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2020 12:30:35 -0700 (PDT)
-Date:   Mon, 6 Jul 2020 12:30:33 -0700
+        Mon, 06 Jul 2020 13:17:27 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     linux-kernel@vger.kernel.org, Sargun Dhillon <sargun@sargun.me>,
+To:     linux-kernel@vger.kernel.org
+Cc:     Kees Cook <keescook@chromium.org>,
+        Sargun Dhillon <sargun@sargun.me>,
         Christian Brauner <christian@brauner.io>,
         Tycho Andersen <tycho@tycho.ws>,
         David Laight <David.Laight@ACULAB.COM>,
@@ -66,105 +66,62 @@ Cc:     linux-kernel@vger.kernel.org, Sargun Dhillon <sargun@sargun.me>,
         netdev@vger.kernel.org, containers@lists.linux-foundation.org,
         linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v5 4/7] pidfd: Replace open-coded partial
- fd_install_received()
-Message-ID: <202007061225.5CBC3CF@keescook>
-References: <20200617220327.3731559-1-keescook@chromium.org>
- <20200617220327.3731559-5-keescook@chromium.org>
- <20200706130713.n6r3vhn4hn2lodex@wittgenstein>
- <202007060830.0FE753B@keescook>
- <20200706161245.hjat2rsikt3linbm@wittgenstein>
+Subject: [PATCH v6 0/7] Add seccomp notifier ioctl that enables adding fds
+Date:   Mon,  6 Jul 2020 13:17:13 -0700
+Message-Id: <20200706201720.3482959-1-keescook@chromium.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200706161245.hjat2rsikt3linbm@wittgenstein>
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jul 06, 2020 at 06:12:45PM +0200, Christian Brauner wrote:
-> On Mon, Jul 06, 2020 at 08:34:06AM -0700, Kees Cook wrote:
-> > Yup, this was a mistake in my refactoring of the pidfs changes.
-> 
-> I already did.
+Hello!
 
-Er, what? (I had a typo in my quote: s/pidfs/pidfd/.) I was trying to
-say that this was just a mistake in my refactoring of the pidfd usage of
-the new helper.
+v6:
+- fix missing fput()
+- API name change: s/fd_install_received/receive_fd/
+v5: https://lore.kernel.org/lkml/20200617220327.3731559-1-keescook@chromium.org/
 
-> > I still don't agree: it radically complicates the SCM_RIGHTS and seccomp
-> 
-> I'm sorry, I don't buy it yet, though I might've missed something in the
-> discussions: :)
-> After applying the patches in your series this literally is just (which
-> is hardly radical ;):
+This continues the thread-merge between [1] and [2]. tl;dr: add a way for
+a seccomp user_notif process manager to inject files into the managed
+process in order to handle emulation of various fd-returning syscalls
+across security boundaries. Containers folks and Chrome are in need
+of the feature, and investigating this solution uncovered (and fixed)
+implementation issues with existing file sending routines.
 
-Agreed, "radical" was too strong.
+I intend to carry this in the for-next/seccomp tree, unless someone
+has objections. :) Please review and test!
 
-> diff --git a/fs/file.c b/fs/file.c
-> index 9568bcfd1f44..26930b2ea39d 100644
-> --- a/fs/file.c
-> +++ b/fs/file.c
-> @@ -974,7 +974,7 @@ int __fd_install_received(int fd, struct file *file, int __user *ufd,
->         }
-> 
->         if (fd < 0)
-> -               fd_install(new_fd, get_file(file));
-> +               fd_install(new_fd, file);
->         else {
->                 new_fd = fd;
->                 error = replace_fd(new_fd, file, o_flags);
-> diff --git a/net/compat.c b/net/compat.c
-> index 71494337cca7..605a5a67200c 100644
-> --- a/net/compat.c
-> +++ b/net/compat.c
-> @@ -298,9 +298,11 @@ void scm_detach_fds_compat(struct msghdr *msg, struct scm_cookie *scm)
->         int err = 0, i;
-> 
->         for (i = 0; i < fdmax; i++) {
-> -               err = fd_install_received_user(scm->fp->fp[i], cmsg_data + i, o_flags);
-> -               if (err < 0)
-> +               err = fd_install_received_user(get_file(scm->fp->fp[i]), cmsg_data + i, o_flags);
-> +               if (err < 0) {
-> +                       fput(scm->fp->fp[i]);
->                         break;
-> +               }
->         }
-> 
->         if (i > 0) {
-> diff --git a/net/core/scm.c b/net/core/scm.c
-> index b9a0442ebd26..0d06446ae598 100644
-> --- a/net/core/scm.c
-> +++ b/net/core/scm.c
-> @@ -306,9 +306,11 @@ void scm_detach_fds(struct msghdr *msg, struct scm_cookie *scm)
->         }
-> 
->         for (i = 0; i < fdmax; i++) {
-> -               err = fd_install_received_user(scm->fp->fp[i], cmsg_data + i, o_flags);
-> -               if (err < 0)
-> +               err = fd_install_received_user(get_file(scm->fp->fp[i]), cmsg_data + i, o_flags);
-> +               if (err < 0) {
-> +                       fput(scm->fp->fp[i]);
->                         break;
-> +               }
->         }
-> 
->         if (i > 0) {
+-Kees
 
-But my point stands: I really dislike this; suddenly the caller needs to
-manage this when it should be an entirely internal detail to the
-function. It was only pidfd doing it wrong, and that was entirely my
-fault in the conversion.
+[1] https://lore.kernel.org/lkml/20200603011044.7972-1-sargun@sargun.me/
+[2] https://lore.kernel.org/lkml/20200610045214.1175600-1-keescook@chromium.org/
 
-> The problem here is that the current patch invites bugs and has already
-> produced one because fd_install() and fd_install_*() have the same
-> naming scheme but different behavior when dealing with references.
-> That's just not a good idea.
 
-I will rename the helper and add explicit documentation, but I really
-don't think callers should have to deal with managing the helper's split
-ref lifetime.
+Kees Cook (5):
+  net/scm: Regularize compat handling of scm_detach_fds()
+  fs: Move __scm_install_fd() to __receive_fd()
+  fs: Add receive_fd() wrapper for __receive_fd()
+  pidfd: Replace open-coded partial receive_fd()
+  fs: Expand __receive_fd() to accept existing fd
+
+Sargun Dhillon (2):
+  seccomp: Introduce addfd ioctl to seccomp user notifier
+  selftests/seccomp: Test SECCOMP_IOCTL_NOTIF_ADDFD
+
+ fs/file.c                                     |  67 +++++
+ include/linux/file.h                          |  19 ++
+ include/linux/net.h                           |   9 +
+ include/uapi/linux/seccomp.h                  |  22 ++
+ kernel/pid.c                                  |  13 +-
+ kernel/seccomp.c                              | 172 ++++++++++++-
+ net/compat.c                                  |  55 ++---
+ net/core/scm.c                                |  50 +---
+ tools/testing/selftests/seccomp/seccomp_bpf.c | 229 ++++++++++++++++++
+ 9 files changed, 554 insertions(+), 82 deletions(-)
 
 -- 
-Kees Cook
+2.25.1
+
