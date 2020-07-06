@@ -2,122 +2,134 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 235A9216088
-	for <lists+linux-api@lfdr.de>; Mon,  6 Jul 2020 22:49:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 069172160DA
+	for <lists+linux-api@lfdr.de>; Mon,  6 Jul 2020 23:08:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726779AbgGFUtp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 6 Jul 2020 16:49:45 -0400
-Received: from mail.efficios.com ([167.114.26.124]:57052 "EHLO
+        id S1725942AbgGFVIf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 6 Jul 2020 17:08:35 -0400
+Received: from mail.efficios.com ([167.114.26.124]:37790 "EHLO
         mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726939AbgGFUtp (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Jul 2020 16:49:45 -0400
+        with ESMTP id S1725892AbgGFVIe (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Jul 2020 17:08:34 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id B6C5C2DCBC2;
-        Mon,  6 Jul 2020 16:49:44 -0400 (EDT)
+        by mail.efficios.com (Postfix) with ESMTP id 628DB2DD101;
+        Mon,  6 Jul 2020 17:08:33 -0400 (EDT)
 Received: from mail.efficios.com ([127.0.0.1])
         by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id ZWQUH0zUNbht; Mon,  6 Jul 2020 16:49:44 -0400 (EDT)
+        with ESMTP id wcJb0Pe9Wy3C; Mon,  6 Jul 2020 17:08:33 -0400 (EDT)
 Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 35EAC2DCCBF;
-        Mon,  6 Jul 2020 16:49:44 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 35EAC2DCCBF
+        by mail.efficios.com (Postfix) with ESMTP id 10C842DD029;
+        Mon,  6 Jul 2020 17:08:33 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 10C842DD029
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1594068584;
-        bh=mnMMKvJaOAN7AlfDW7S7IlXwHCI9soK/a0/c/Zir58M=;
-        h=From:To:Date:Message-Id;
-        b=efnws94pwSMtS/IAS5Ys121F4Iq0KkCiCQgYcjiDsebUjlu6LXkPm9zpyge1fMqPv
-         9nQd/m9xFhZdjfHt09PE4YdZFXpRUysulFSKGtxJiFGQt0WJvoAAyA5kpzyrcTXF49
-         7sBqxwZT49TCWK+pYyRF3XbxL9x1ATX+FoViBCvI0MRSyrTai+lJf7HOyB8+FCASkF
-         T+MPqNjCmWJNJ+hprRVDdzAWKUc3EVs1h65dEysJLOiFRsOXnK4xgxnGLg+xT52nJz
-         XEWqPNi6KMWbw7cM2ah1xYQJcMM0Pbqx1leWRmlLRMEQoI1tF5hCte7ygzCBjCdbFs
-         SdYo2KTPeLw4w==
+        s=default; t=1594069713;
+        bh=7UlbgTqoLJxGJTc7JZfgGNgiNlgeE1XcyfxpzisnSLI=;
+        h=Date:From:To:Message-ID:MIME-Version;
+        b=Ut4HGaqKrQO6T3EpOnBMovq8K2Y615tarH+K2nx3/AI632yC0rCrIlL6j+1WDB6vC
+         +y2UDYqunUOUGHprtKcybX2tcDyJzoBPlzMq2TdNXeWET23qaZsT091/MxPIY4gAt1
+         ERSfntKDD3umpJKe5PnwappcdRrn8sOcL3s/mq35xIckVOtvcJS+ltV8waF5z8mfJB
+         KLZmSAPmEgNrVFJERb4NUWYdjhHpbWne6PHFCQAa6kuHO3SuQDOJT4hgaCJfaj2cYd
+         gxlTRd9b3fQUQC2oP27BEvv5AmhmXuCS8O3Rh9i2JURrvupG619199GV1aWLwee6DH
+         M4bgfIHNch00w==
 X-Virus-Scanned: amavisd-new at efficios.com
 Received: from mail.efficios.com ([127.0.0.1])
         by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id wTGn1GJVJk5q; Mon,  6 Jul 2020 16:49:44 -0400 (EDT)
-Received: from localhost.localdomain (192-222-181-218.qc.cable.ebox.net [192.222.181.218])
-        by mail.efficios.com (Postfix) with ESMTPSA id BD4512DCDA9;
-        Mon,  6 Jul 2020 16:49:42 -0400 (EDT)
+        with ESMTP id xn5wGwpqVwc3; Mon,  6 Jul 2020 17:08:33 -0400 (EDT)
+Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
+        by mail.efficios.com (Postfix) with ESMTP id F34042DCD6D;
+        Mon,  6 Jul 2020 17:08:32 -0400 (EDT)
+Date:   Mon, 6 Jul 2020 17:08:32 -0400 (EDT)
 From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     linux-kernel@vger.kernel.org,
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     carlos <carlos@redhat.com>, Joseph Myers <joseph@codesourcery.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        libc-alpha <libc-alpha@sourceware.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ben Maurer <bmaurer@fb.com>,
         Peter Zijlstra <peterz@infradead.org>,
-        "Paul E . McKenney" <paulmck@linux.ibm.com>,
+        Paul <paulmck@linux.vnet.ibm.com>,
         Boqun Feng <boqun.feng@gmail.com>,
-        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        linux-api@vger.kernel.org, Florian Weimer <fw@deneb.enyo.de>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Neel Natu <neelnatu@google.com>,
-        linux-kselftest@vger.kernel.org
-Subject: [RFC PATCH for 5.8 4/4] rseq: selftests: Expect reliable cpu_id field
-Date:   Mon,  6 Jul 2020 16:49:13 -0400
-Message-Id: <20200706204913.20347-5-mathieu.desnoyers@efficios.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200706204913.20347-1-mathieu.desnoyers@efficios.com>
-References: <20200706204913.20347-1-mathieu.desnoyers@efficios.com>
+        Will Deacon <will.deacon@arm.com>,
+        Paul Turner <pjt@google.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-api <linux-api@vger.kernel.org>
+Message-ID: <901929746.433.1594069712898.JavaMail.zimbra@efficios.com>
+In-Reply-To: <87blks344u.fsf@oldenburg2.str.redhat.com>
+References: <20200629190036.26982-1-mathieu.desnoyers@efficios.com> <20200629190036.26982-3-mathieu.desnoyers@efficios.com> <877dvg4ud4.fsf@oldenburg2.str.redhat.com> <942999672.22574.1594046978937.JavaMail.zimbra@efficios.com> <1679448037.22891.1594056826859.JavaMail.zimbra@efficios.com> <87k0zg3535.fsf@oldenburg2.str.redhat.com> <1449254526.22910.1594058539512.JavaMail.zimbra@efficios.com> <87blks344u.fsf@oldenburg2.str.redhat.com>
+Subject: Re: [PATCH 2/3] Linux: Use rseq in sched_getcpu if available (v9)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [167.114.26.124]
+X-Mailer: Zimbra 8.8.15_GA_3955 (ZimbraWebClient - FF78 (Linux)/8.8.15_GA_3953)
+Thread-Topic: Linux: Use rseq in sched_getcpu if available (v9)
+Thread-Index: I6miy1IiklPsyYvl/Xr34Sz2sT8C5Q==
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-The rseq selftests should discover whether the kernel implements the
-RSEQ_FLAG_RELIABLE_CPU_ID flag, which indicates that the
-__rseq_abi.cpu_id field is reliable.
+----- On Jul 6, 2020, at 2:11 PM, Florian Weimer fweimer@redhat.com wrote:
 
-Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: Peter Zijlstra (Intel) <peterz@infradead.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Florian Weimer <fw@deneb.enyo.de>
-Cc: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Cc: Boqun Feng <boqun.feng@gmail.com>
-Cc: "H . Peter Anvin" <hpa@zytor.com>
-Cc: Paul Turner <pjt@google.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>
-Cc: Neel Natu <neelnatu@google.com>
-Cc: linux-api@vger.kernel.org
-Cc: linux-kselftest@vger.kernel.org
----
- tools/testing/selftests/rseq/rseq.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+> * Mathieu Desnoyers:
+> 
+>> ----- On Jul 6, 2020, at 1:50 PM, Florian Weimer fweimer@redhat.com wrote:
+>>
+>>> * Mathieu Desnoyers:
+>>> 
+>>>> Now we need to discuss how we introduce that fix in a way that will
+>>>> allow user-space to trust the __rseq_abi.cpu_id field's content.
+>>> 
+>>> I don't think that's necessary.  We can mention it in the glibc
+>>> distribution notes on the wiki.
+>>> 
+>>>> The usual approach to kernel bug fixing is typically to push the fix,
+>>>> mark it for stable kernels, and expect everyone to pick up the
+>>>> fixes. I wonder how comfortable glibc would be to replace its
+>>>> sched_getcpu implementation with a broken-until-fixed kernel rseq
+>>>> implementation without any mechanism in place to know whether it can
+>>>> trust the value of the cpu_id field. I am extremely reluctant to do
+>>>> so.
+>>> 
+>>> We have already had similar regressions in sched_getcpu, and we didn't
+>>> put anything into glibc to deal with those.
+>>
+>> Was that acceptable because having a wrong cpu number would never trigger
+>> corruption, only slowdowns ?
+> 
+> First of all, it's a kernel bug.  It's rare that we put workarounds for
+> kernel bugs into glibc.
+> 
+> And yes, in pretty much all cases it's just a performance issue for
+> sched_getcpu.  When you know the CPU ID of a thread due to pinning to a
+> single CPU, why would you call sched_getcpu?  (That's the case where you
+> could get corruption in theory.)
+> 
+>> In the case of rseq, having the wrong cpu_id value is a real issue
+>> which will lead to corruption and crashes. So I maintain my reluctance
+>> to introduce the fix without any way for userspace to know whether the
+>> cpu_id field value is reliable.
+> 
+> Yes, for rseq itself, the scenario is somewhat different.  Still, it's
+> just another kernel bug.  There will be others. 8-/
+> 
+> From a schedule point of view, it looks tough to get the magic flag into
+> the mainline kernel in time for the upcoming glibc 2.32 release.  If you
+> insist on registering rseq only if the bug is not present, we'll
+> probably have to back out some or all of the rseq changes.
 
-diff --git a/tools/testing/selftests/rseq/rseq.c b/tools/testing/selftests/rseq/rseq.c
-index 7159eb777fd3..55f1edb0649c 100644
---- a/tools/testing/selftests/rseq/rseq.c
-+++ b/tools/testing/selftests/rseq/rseq.c
-@@ -73,6 +73,11 @@ static int sys_rseq(volatile struct rseq *rseq_abi, uint32_t rseq_len,
- 	return syscall(__NR_rseq, rseq_abi, rseq_len, flags, sig);
- }
- 
-+static bool rseq_reliable_cpu_id(void)
-+{
-+	return sys_rseq(NULL, 0, RSEQ_FLAG_RELIABLE_CPU_ID, 0) == 0;
-+}
-+
- int rseq_register_current_thread(void)
- {
- 	int rc, ret = 0;
-@@ -87,7 +92,8 @@ int rseq_register_current_thread(void)
- 	}
- 	if (__rseq_refcount++)
- 		goto end;
--	rc = sys_rseq(&__rseq_abi, sizeof(struct rseq), 0, RSEQ_SIG);
-+	rc = sys_rseq(&__rseq_abi, sizeof(struct rseq),
-+		      RSEQ_FLAG_REGISTER | RSEQ_FLAG_RELIABLE_CPU_ID, RSEQ_SIG);
- 	if (!rc) {
- 		assert(rseq_current_cpu_raw() >= 0);
- 		goto end;
-@@ -96,6 +102,8 @@ int rseq_register_current_thread(void)
- 		__rseq_abi.cpu_id = RSEQ_CPU_ID_REGISTRATION_FAILED;
- 	ret = -1;
- 	__rseq_refcount--;
-+	if (errno == EINVAL && !rseq_reliable_cpu_id())
-+		fprintf(stderr, "Error: rseq does not provide a reliable cpu_id field.\n");
- end:
- 	signal_restore(oldset);
- 	return ret;
+I've just submitted the fix and a the new rseq flag as RFC to lkml:
+
+https://lore.kernel.org/lkml/20200706204913.20347-1-mathieu.desnoyers@efficios.com/
+
+Let's see how quickly we can come to an agreement on this on the kernel
+side.
+
+Thanks,
+
+Mathieu
+
 -- 
-2.17.1
-
+Mathieu Desnoyers
+EfficiOS Inc.
+http://www.efficios.com
