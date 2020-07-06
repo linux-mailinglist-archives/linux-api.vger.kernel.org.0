@@ -2,98 +2,103 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AD322157A1
-	for <lists+linux-api@lfdr.de>; Mon,  6 Jul 2020 14:52:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A11242157FE
+	for <lists+linux-api@lfdr.de>; Mon,  6 Jul 2020 15:07:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728989AbgGFMwf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 6 Jul 2020 08:52:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40664 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728940AbgGFMwf (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Jul 2020 08:52:35 -0400
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 174A4C061794
-        for <linux-api@vger.kernel.org>; Mon,  6 Jul 2020 05:52:35 -0700 (PDT)
-Received: by mail-lj1-x230.google.com with SMTP id h19so45189158ljg.13
-        for <linux-api@vger.kernel.org>; Mon, 06 Jul 2020 05:52:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=r/l418RqBKygT3XUaVVUWM37eZi8gQrBBNYXDXbn38k=;
-        b=B1r3fG6dsH/qouMx2ubARUPAdcsyFNEgp1v1D8jfa52c8J7fRImq0ys4SnNlP6XrN2
-         99Raf5nlxeqcQN1Tn47ilpKlji+mfh9L+e+Rup7zFPMbiIFcs8P2uqJ4ASVgCVZ66Hl3
-         6/zGA4OKUhaVEjYmTMnmmU1m9r5vvu7tNcDRxLkBGD8VQXhgpGDcZzSvZFhoW7xr7Ugo
-         seaC0JArz8AlAHcKsDf4KJxiCUXx/Jd+yuiCpMAl4YopCCdiTLEoUUy+wjdBQ17l/PUy
-         FYI8QkWPGr6GT3rclGkWVFo64BXFXCZb4R0vyPT+BKs0jBiNdc13WXKOOvLxnvW2WDNJ
-         xcPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=r/l418RqBKygT3XUaVVUWM37eZi8gQrBBNYXDXbn38k=;
-        b=Uz8Jja4b8si1s8azZf8LrRXczIruPf3Fd9Mr44FgmWkSyvm0wOw4H1n4PdDjEo+7FL
-         Q6zYHbq+ePjOfpvVe4YYATDReIfrhTjHtoTYctoY4ZyVa4hWr4jTS7p/pV574D2jsX6K
-         Pcrg0P4ObSalWmND2rqbOUobtik2+Tc1jHfYjz2+SYpfozKacZe2MRed1swViRwCun5U
-         t477f8vCEmKyF7glWl8G+PPIGIIO8di8wrbTAQqgjAOY0TcDHh3ZHoTd99AMaGTVRADM
-         rMDh632biKsrVLzY96zoCcyNZN4z2oLyq3xw5W23LI9EgffxTX9R/cv5air6AyMzjf4y
-         wvhg==
-X-Gm-Message-State: AOAM533IzRDqhDAPoN+ek7jtK298sE1gqu8wWbL+Ezq6FZ+n21HFOYFz
-        HciZA/USq49iuBSRpjC0W7YN8ycZNZ8fOBV0+YIdvA==
-X-Google-Smtp-Source: ABdhPJwjpTKLYWq+hR31eDYdmY+r8r9swuzWK5B3LmVV+w60tAqfgVu13/vDXFsFyS2tITflFJ5EFbHXt6vJDWkzwko=
-X-Received: by 2002:a05:651c:3cf:: with SMTP id f15mr26115232ljp.365.1594039953375;
- Mon, 06 Jul 2020 05:52:33 -0700 (PDT)
+        id S1729235AbgGFNHV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 6 Jul 2020 09:07:21 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:55535 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728940AbgGFNHT (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Jul 2020 09:07:19 -0400
+Received: from ip5f5af08c.dynamic.kabel-deutschland.de ([95.90.240.140] helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1jsQq3-0006Z1-3m; Mon, 06 Jul 2020 13:07:15 +0000
+Date:   Mon, 6 Jul 2020 15:07:13 +0200
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     linux-kernel@vger.kernel.org, Sargun Dhillon <sargun@sargun.me>,
+        Christian Brauner <christian@brauner.io>,
+        Tycho Andersen <tycho@tycho.ws>,
+        David Laight <David.Laight@ACULAB.COM>,
+        Christoph Hellwig <hch@lst.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Matt Denton <mpdenton@google.com>,
+        Jann Horn <jannh@google.com>, Chris Palmer <palmer@google.com>,
+        Robert Sesek <rsesek@google.com>,
+        Giuseppe Scrivano <gscrivan@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Will Drewry <wad@chromium.org>, Shuah Khan <shuah@kernel.org>,
+        netdev@vger.kernel.org, containers@lists.linux-foundation.org,
+        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v5 4/7] pidfd: Replace open-coded partial
+ fd_install_received()
+Message-ID: <20200706130713.n6r3vhn4hn2lodex@wittgenstein>
+References: <20200617220327.3731559-1-keescook@chromium.org>
+ <20200617220327.3731559-5-keescook@chromium.org>
 MIME-Version: 1.0
-References: <B7793B7A-3660-4769-9B9A-FFCF250728BB@amazon.com>
- <20200703224411.GC25072@amd> <CAG48ez0oWQd42a-H-Dzw1Wq7HgB5PpFRGCZeYxP8ohxaoZHmvQ@mail.gmail.com>
- <20200704114820.GA16083@amd> <57ab4fb3-3f82-d34f-ad74-2214b45a4dd9@amazon.com>
-In-Reply-To: <57ab4fb3-3f82-d34f-ad74-2214b45a4dd9@amazon.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Mon, 6 Jul 2020 14:52:07 +0200
-Message-ID: <CAG48ez1tAAD+x6n07uCisXpqVpDUPX7xBWiKFkS3u2azHqd41A@mail.gmail.com>
-Subject: Re: [RFC]: mm,power: introduce MADV_WIPEONSUSPEND
-To:     Alexander Graf <graf@amazon.com>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        "Catangiu, Adrian Costin" <acatan@amazon.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        "virtualization@lists.linux-foundation.org" 
-        <virtualization@lists.linux-foundation.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "rjw@rjwysocki.net" <rjw@rjwysocki.net>,
-        "len.brown@intel.com" <len.brown@intel.com>,
-        "mhocko@kernel.org" <mhocko@kernel.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "luto@amacapital.net" <luto@amacapital.net>,
-        "wad@chromium.org" <wad@chromium.org>,
-        "mingo@kernel.org" <mingo@kernel.org>,
-        "bonzini@gnu.org" <bonzini@gnu.org>,
-        "MacCarthaigh, Colm" <colmmacc@amazon.com>,
-        "Singh, Balbir" <sblbir@amazon.com>,
-        "Sandu, Andrei" <sandreim@amazon.com>,
-        "Brooker, Marc" <mbrooker@amazon.com>,
-        "Weiss, Radu" <raduweis@amazon.com>,
-        "Manwaring, Derek" <derekmn@amazon.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200617220327.3731559-5-keescook@chromium.org>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jul 6, 2020 at 2:27 PM Alexander Graf <graf@amazon.com> wrote:
-> Unless we create a vsyscall that returns both the PID as well as the
-> epoch and thus handles fork *and* suspend. I need to think about this a
-> bit more :).
+On Wed, Jun 17, 2020 at 03:03:24PM -0700, Kees Cook wrote:
+> The sock counting (sock_update_netprioidx() and sock_update_classid()) was
+> missing from pidfd's implementation of received fd installation. Replace
+> the open-coded version with a call to the new fd_install_received()
+> helper.
+> 
+> Fixes: 8649c322f75c ("pid: Implement pidfd_getfd syscall")
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> ---
+>  kernel/pid.c | 11 +----------
+>  1 file changed, 1 insertion(+), 10 deletions(-)
+> 
+> diff --git a/kernel/pid.c b/kernel/pid.c
+> index f1496b757162..24924ec5df0e 100644
+> --- a/kernel/pid.c
+> +++ b/kernel/pid.c
+> @@ -635,18 +635,9 @@ static int pidfd_getfd(struct pid *pid, int fd)
+>  	if (IS_ERR(file))
+>  		return PTR_ERR(file);
+>  
+> -	ret = security_file_receive(file);
+> -	if (ret) {
+> -		fput(file);
+> -		return ret;
+> -	}
+> -
+> -	ret = get_unused_fd_flags(O_CLOEXEC);
+> +	ret = fd_install_received(file, O_CLOEXEC);
+>  	if (ret < 0)
+>  		fput(file);
+> -	else
+> -		fd_install(ret, file);
 
-You can't reliably detect forking by checking the PID if it is
-possible for multiple forks to be chained before the reuse check runs:
+So someone just sent a fix for pidfd_getfd() that was based on the
+changes done here.
 
- - pid 1000 remembers its PID
- - pid 1000 forks, creating child pid 1001
- - pid 1000 exits and is waited on by init
- - the pid allocator wraps around
- - pid 1001 forks, creating child pid 1000
- - child with pid 1000 tries to check for forking, determines that its
-PID is 1000, and concludes that it is still the original process
+I've been on vacation so didn't have a change to review this series and
+I see it's already in linux-next. This introduces a memory leak and
+actually proves a point I tried to stress when adding this helper:
+fd_install_received() in contrast to fd_install() does _not_ consume a
+reference because it takes one before it calls into fd_install(). That
+means, you need an unconditional fput() here both in the failure and
+error path.
+I strongly suggest though that we simply align the behavior between
+fd_install() and fd_install_received() and have the latter simply
+consume a reference when it succeeds! Imho, this bug proves that I was
+right to insist on this before. ;)
+
+Thanks!
+Christian
