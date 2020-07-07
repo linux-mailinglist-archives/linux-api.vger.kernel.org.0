@@ -2,139 +2,128 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E9922168D7
-	for <lists+linux-api@lfdr.de>; Tue,  7 Jul 2020 11:14:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C0DB216AAA
+	for <lists+linux-api@lfdr.de>; Tue,  7 Jul 2020 12:48:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725874AbgGGJO4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 7 Jul 2020 05:14:56 -0400
-Received: from mail-wr1-f51.google.com ([209.85.221.51]:43226 "EHLO
-        mail-wr1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725825AbgGGJO4 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Jul 2020 05:14:56 -0400
-Received: by mail-wr1-f51.google.com with SMTP id j4so41937966wrp.10;
-        Tue, 07 Jul 2020 02:14:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=d1fV6kPM36TD326Nzxg7Z+ipDhi5SrBR72LA2cwak+8=;
-        b=EHif8dqWLZUl9y9rwWvC7kHopzbjBT1vUeAUXKuDnnOFAp22PqmTL87dm94iO+HImu
-         HrIsM++GEHdg8oaj7yay+wpqMZ+ShKUpIsIzP0cxS1sVjgaSNFhPiwM2/vmFUg9Kw9r4
-         xCYWCWca94Ur64AFkIZKD4gFLmsB4qwsWuXYzcHl2yzU8FruJWyokR3uiIoHdabjsW6S
-         GSIR5S9OVN6xqmUPPsemoKLDAUsMIyePMe+wCKdd36iFcXS1aVZYLlaVxIlfbDox+7JM
-         9cgTqEhMH28Kd+1e1TuncHTZ8caX8HwYXLEIWKjefAtWtAzbOZHNLY8puRukC6BL1PRL
-         n79g==
-X-Gm-Message-State: AOAM532zLATfWE5I8M1X8JBHvHrBD5mbnOtQC6BkvQrT5MR1ZwA4fZ3J
-        KRXvw4c1mNG0mCbdZZYEing=
-X-Google-Smtp-Source: ABdhPJzFu/LXDAQqw0UoyFr80RTenCH282ojT9C7p2oH1LQMP7cch/sujIzsdADrs5lAs/XWoztr4g==
-X-Received: by 2002:a5d:4d0b:: with SMTP id z11mr23258665wrt.24.1594113294131;
-        Tue, 07 Jul 2020 02:14:54 -0700 (PDT)
-Received: from localhost (ip-37-188-179-51.eurotel.cz. [37.188.179.51])
-        by smtp.gmail.com with ESMTPSA id w13sm111649wrr.67.2020.07.07.02.14.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2020 02:14:53 -0700 (PDT)
-Date:   Tue, 7 Jul 2020 11:14:51 +0200
-From:   Michal Hocko <mhocko@kernel.org>
-To:     Alexander Graf <graf@amazon.com>
-Cc:     Jann Horn <jannh@google.com>, Pavel Machek <pavel@ucw.cz>,
-        "Catangiu, Adrian Costin" <acatan@amazon.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        "virtualization@lists.linux-foundation.org" 
-        <virtualization@lists.linux-foundation.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "rjw@rjwysocki.net" <rjw@rjwysocki.net>,
-        "len.brown@intel.com" <len.brown@intel.com>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "luto@amacapital.net" <luto@amacapital.net>,
-        "wad@chromium.org" <wad@chromium.org>,
-        "mingo@kernel.org" <mingo@kernel.org>,
-        "bonzini@gnu.org" <bonzini@gnu.org>,
-        "MacCarthaigh, Colm" <colmmacc@amazon.com>,
-        "Singh, Balbir" <sblbir@amazon.com>,
-        "Sandu, Andrei" <sandreim@amazon.com>,
-        "Brooker, Marc" <mbrooker@amazon.com>,
-        "Weiss, Radu" <raduweis@amazon.com>,
-        "Manwaring, Derek" <derekmn@amazon.com>
-Subject: Re: [RFC]: mm,power: introduce MADV_WIPEONSUSPEND
-Message-ID: <20200707091451.GB5913@dhcp22.suse.cz>
-References: <B7793B7A-3660-4769-9B9A-FFCF250728BB@amazon.com>
- <20200703224411.GC25072@amd>
- <CAG48ez0oWQd42a-H-Dzw1Wq7HgB5PpFRGCZeYxP8ohxaoZHmvQ@mail.gmail.com>
- <20200704114820.GA16083@amd>
- <57ab4fb3-3f82-d34f-ad74-2214b45a4dd9@amazon.com>
- <CAG48ez1tAAD+x6n07uCisXpqVpDUPX7xBWiKFkS3u2azHqd41A@mail.gmail.com>
- <20200707074425.GC3820@dhcp22.suse.cz>
- <efa55313-ce8a-bac9-15df-167f93c672b3@amazon.com>
+        id S1727120AbgGGKsR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 7 Jul 2020 06:48:17 -0400
+Received: from mail.efficios.com ([167.114.26.124]:49338 "EHLO
+        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726911AbgGGKsR (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Jul 2020 06:48:17 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id BDF6C2603;
+        Tue,  7 Jul 2020 06:48:15 -0400 (EDT)
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id WrIAjRWZrLYx; Tue,  7 Jul 2020 06:48:15 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 7D2D926D0;
+        Tue,  7 Jul 2020 06:48:15 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 7D2D926D0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1594118895;
+        bh=SEZo62sgXX1yjYgPrkJmMf2plZSVRbldxmKP5S78mc8=;
+        h=Date:From:To:Message-ID:MIME-Version;
+        b=h6Jm5q8RePncs+Ip0THH4GjA7d46906VsncUVa1anyOa/5IUi5dIYyPPJjQbysmjL
+         ewAHda1Bqf6QC6KM83ljnlZyu/Xeo8tlFNRggaIt713ilezDvIpJxcTTJVbmweovAa
+         QdJImFlAOypo2xt0I1KMHScNvbsCTB1ReCAO08LgPyhutgm+t7LAZqwHa1GQkp5V23
+         HbfSMc7pAsS/5sm/oxF9e7VO4yEfwXB86WrxzSYgysXs/J8/XY6tHNGzaq3FaG+04E
+         vyZ3NXbNZkL9wP3kTf6yi3AaFxpAwk7wqG5/gQ4QHwI8H4zimIHPFx4pLAH5TamWUA
+         aiI7M29Z5xubA==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id f5Bw7qcXPthX; Tue,  7 Jul 2020 06:48:15 -0400 (EDT)
+Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
+        by mail.efficios.com (Postfix) with ESMTP id 6C0F726C9;
+        Tue,  7 Jul 2020 06:48:15 -0400 (EDT)
+Date:   Tue, 7 Jul 2020 06:48:15 -0400 (EDT)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     Florian Weimer <fw@deneb.enyo.de>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        paulmck <paulmck@linux.ibm.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api <linux-api@vger.kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Neel Natu <neelnatu@google.com>
+Message-ID: <2088331919.943.1594118895344.JavaMail.zimbra@efficios.com>
+In-Reply-To: <87fta3zstr.fsf@mid.deneb.enyo.de>
+References: <20200706204913.20347-1-mathieu.desnoyers@efficios.com> <20200706204913.20347-4-mathieu.desnoyers@efficios.com> <87fta3zstr.fsf@mid.deneb.enyo.de>
+Subject: Re: [RFC PATCH for 5.8 3/4] rseq: Introduce
+ RSEQ_FLAG_RELIABLE_CPU_ID
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <efa55313-ce8a-bac9-15df-167f93c672b3@amazon.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [167.114.26.124]
+X-Mailer: Zimbra 8.8.15_GA_3955 (ZimbraWebClient - FF78 (Linux)/8.8.15_GA_3953)
+Thread-Topic: rseq: Introduce RSEQ_FLAG_RELIABLE_CPU_ID
+Thread-Index: cnNSSEN40kq5dPdzDK9Vrs4pN+iz1g==
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue 07-07-20 10:01:23, Alexander Graf wrote:
-> On 07.07.20 09:44, Michal Hocko wrote:
-> > On Mon 06-07-20 14:52:07, Jann Horn wrote:
-> > > On Mon, Jul 6, 2020 at 2:27 PM Alexander Graf <graf@amazon.com> wrote:
-> > > > Unless we create a vsyscall that returns both the PID as well as the
-> > > > epoch and thus handles fork *and* suspend. I need to think about this a
-> > > > bit more :).
-> > > 
-> > > You can't reliably detect forking by checking the PID if it is
-> > > possible for multiple forks to be chained before the reuse check runs:
-> > > 
-> > >   - pid 1000 remembers its PID
-> > >   - pid 1000 forks, creating child pid 1001
-> > >   - pid 1000 exits and is waited on by init
-> > >   - the pid allocator wraps around
-> > >   - pid 1001 forks, creating child pid 1000
-> > >   - child with pid 1000 tries to check for forking, determines that its
-> > > PID is 1000, and concludes that it is still the original process
-> > 
-> > I must be really missing something here because I really fail to see why
-> > there has to be something new even invented. Sure, checking for pid is
-> > certainly a suboptimal solution because pids are terrible tokens to work
-> > with. We do have a concept of file descriptors which a much better and
-> > supports signaling. There is a clear source of the signal IIUC
-> > (migration) and there are consumers to act upon that (e.g. crypto
-> > backends). So what does really prevent to use a standard signal delivery
-> > over fd for this usecase?
+----- On Jul 7, 2020, at 3:29 AM, Florian Weimer fw@deneb.enyo.de wrote:
+
+> * Mathieu Desnoyers:
 > 
-> I wasn't part of the discussions on why things like WIPEONFORK were invented
-> instead of just using signalling mechanisms, but the main reason I can think
-> of are libraries.
-
-Well, I would argue that WIPEONFORK is conceptually different. It is
-one time initialization mechanism with a very clear life time semantic.
-So any programming model is really as easy as, the initial state is
-always 0 for a new task without any surprises later on because you own
-the memory (essentially an extension to initialized .data section on
-exec to any new task).
-
-Compare that to a completely async nature of this interface. Any read
-would essentially have to be properly synchronized with the external
-event otherwise the state could have been corrupted. Such a consistency
-model is really cumbersome to work with.
-
-> As a library, you are under no control of the main loop usually, which means
-> you just don't have a way to poll for an fd. As a library author, I would
-> usually try to avoid very hard to create such a dependency, because it makes
-> it really hard to glue pieces together.
+>> commit 93b585c08d16 ("Fix: sched: unreliable rseq cpu_id for new tasks")
+>> addresses an issue with cpu_id field of newly created processes. Expose
+>> a flag which can be used by user-space to query whether the kernel
+>> implements this fix.
+>>
+>> Considering that this issue can cause corruption of user-space per-cpu
+>> data updated with rseq, it is recommended that user-space detects
+>> availability of this fix by using the RSEQ_FLAG_RELIABLE_CPU_ID flag
+>> either combined with registration or on its own before using rseq.
 > 
-> The same applies to signals btw, which would also be a possible way to
-> propagate such events.
+> Presumably, the intent is that glibc uses RSEQ_FLAG_RELIABLE_CPU_ID to
+> register the rseq area.  That will surely prevent glibc itself from
+> activating rseq on broken kernels.  But if another rseq library
+> performs registration and has not been updated to use
+> RSEQ_FLAG_RELIABLE_CPU_ID, we still end up with an active rseq area
+> (and incorrect CPU IDs from sched_getcpu in glibc).  So further glibc
+> changes will be needed.  I suppose we could block third-party rseq
+> registration with a registration of a hidden rseq area (not
+> __rseq_abi).  But then the question is if any of the third-party rseq
+> users are expecting the EINVAL error code from their failed
+> registration.
+> 
+> The rseq registration state machine is quite tricky already, and the
+> need to use RSEQ_FLAG_RELIABLE_CPU_ID would make it even more
+> complicated.  Even if we implemented all the changes, it's all going
+> to be essentially dead, untestable code in a few months, when the
+> broken kernels are out of circulation.  It does not appear to be good
+> investment to me.
 
-Just to clarify I didn't really mean posix signals here. Those would be
-quite clumsy indeed. But I can imagine that a library registers to a
-system wide means to get a notification. There are many examples for
-that, including a lot of usage inside libraries. All different *bus
-interfaces.
+Those are very good points. One possibility we have would be to let
+glibc do the rseq registration without the RSEQ_FLAG_RELIABLE_CPU_ID
+flag. On kernels with the bug present, the cpu_id field is still good
+enough for typical uses of sched_getcpu() which does not appear to
+have a very strict correctness requirement on returning the right
+cpu number.
+
+Then libraries and applications which require a reliable cpu_id field
+could check this on their own by calling rseq with the
+RSEQ_FLAG_RELIABLE_CPU_ID flag. This would not make the state more
+complex in __rseq_abi, and let each rseq user decide about its own fate:
+whether it uses rseq or keeps using an rseq-free fallback.
+
+I am still tempted to allow combining RSEQ_FLAG_REGISTER | RSEQ_FLAG_RELIABLE_CPU_ID
+for applications which would not be using glibc, and want to check this flag on
+thread registration.
+
+Thoughts ?
+
+Thanks,
+
+Mathieu
 
 -- 
-Michal Hocko
-SUSE Labs
+Mathieu Desnoyers
+EfficiOS Inc.
+http://www.efficios.com
