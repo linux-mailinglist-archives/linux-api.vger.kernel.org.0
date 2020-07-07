@@ -2,114 +2,142 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BED121789B
-	for <lists+linux-api@lfdr.de>; Tue,  7 Jul 2020 22:12:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AB6B21791A
+	for <lists+linux-api@lfdr.de>; Tue,  7 Jul 2020 22:15:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727895AbgGGUMQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 7 Jul 2020 16:12:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49410 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726763AbgGGUMQ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Jul 2020 16:12:16 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A38D3C061755;
-        Tue,  7 Jul 2020 13:12:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=B/o5Uj7bv1uKmlSBwdGS6cD2I4R/nsJYtW8ks3eYCiY=; b=yoQ6HpvMh/27T/sXK71yFTTfje
-        wz1bO443OdeoeMKq6jb+govoxFts4nlmoEYVMaUMslznkdIIVdHi4593t91yqrOxUYEiJU0QgYJop
-        HqXF3TwlrPyLRSzUITc+u6bPEDTSJLmRyIcHci7+5iPz+lH5G/rAxSfh/KEwsyO/LIpP67tsYzMsR
-        5/eNbab17s5Yi3XneR2K88y+YYj3l9JAmgUSGZatk/lEmJpwujMJoecbtyfSmt9GeLIBW0MPq89QB
-        4Hvx5tEcJ7jvnTmtr7DjjuryhIZS/8xGA9wV0M2WORXS8s4w7B9cifC/ERNsr8MJuujfNiYuTlJSL
-        KBfyLNdw==;
-Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jstwl-0008MJ-Kd; Tue, 07 Jul 2020 20:12:07 +0000
-Subject: Re: [PATCH v19 07/12] landlock: Support filesystem access-control
-To:     =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>,
-        linux-kernel@vger.kernel.org
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mickael.salaun@ssi.gouv.fr>,
-        Richard Weinberger <richard@nod.at>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-security-module@vger.kernel.org, x86@kernel.org
-References: <20200707180955.53024-1-mic@digikod.net>
- <20200707180955.53024-8-mic@digikod.net>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <6a80b712-a7b9-7b47-083a-08b7769016f8@infradead.org>
-Date:   Tue, 7 Jul 2020 13:11:58 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
-MIME-Version: 1.0
-In-Reply-To: <20200707180955.53024-8-mic@digikod.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        id S1728735AbgGGUPW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 7 Jul 2020 16:15:22 -0400
+Received: from mail.efficios.com ([167.114.26.124]:42648 "EHLO
+        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728493AbgGGUPW (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Jul 2020 16:15:22 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id A04446B43;
+        Tue,  7 Jul 2020 16:15:21 -0400 (EDT)
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id yOIvdI2ckLgJ; Tue,  7 Jul 2020 16:15:21 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 3C0716948;
+        Tue,  7 Jul 2020 16:15:21 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 3C0716948
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1594152921;
+        bh=1PCRlMxH36DCjUQDGqFs23OHDpCLLV7B6FKEQGwHg9I=;
+        h=From:To:Date:Message-Id;
+        b=U3RQQpYODAIWV6N38klr6NfyC1fV3+l3Av308zbg70xc3QDe0nTj23gdbeNuHtgtY
+         Amdqp9NXbqk9WmsroOWGddLT8p21CMAeFZiTsMbVqlaDNgkiJDyjC/0cnyzdx2VebP
+         i2DPEb/9685UgVnp8oFVpec0vkH7ewAOZi1aJTQMFuBTWRIvDN48IPf1LxR4x9aA2r
+         4d+rL8TtvNKdOfbecGLAOr1oCCLt7akQWKG2U+8low/fxiQe1jdaHRxcMiFz8Z4qX7
+         UpFIt7KioAeRNFzLchYIo8p9l2LRb+emo6gFkfbRs8oIMwliWOwMF68tNRCC6dj7kK
+         0OueWy1Vc2sMw==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id KSuWrz_Dvd2W; Tue,  7 Jul 2020 16:15:21 -0400 (EDT)
+Received: from localhost.localdomain (192-222-181-218.qc.cable.ebox.net [192.222.181.218])
+        by mail.efficios.com (Postfix) with ESMTPSA id 25E2968E5;
+        Tue,  7 Jul 2020 16:15:19 -0400 (EDT)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     linux-kernel@vger.kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Paul E . McKenney" <paulmck@linux.ibm.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api@vger.kernel.org, Florian Weimer <fw@deneb.enyo.de>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Neel Natu <neelnatu@google.com>, stable@vger.kernel.org
+Subject: [PATCH for 5.8] sched: Fix unreliable rseq cpu_id for new tasks
+Date:   Tue,  7 Jul 2020 16:15:05 -0400
+Message-Id: <20200707201505.2632-1-mathieu.desnoyers@efficios.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi--
+While integrating rseq into glibc and replacing glibc's sched_getcpu
+implementation with rseq, glibc's tests discovered an issue with
+incorrect __rseq_abi.cpu_id field value right after the first time
+a newly created process issues sched_setaffinity.
 
-On 7/7/20 11:09 AM, Mickaël Salaün wrote:
-> ---
->  arch/Kconfig                  |   7 +
->  arch/um/Kconfig               |   1 +
->  include/uapi/linux/landlock.h |  78 +++++
->  security/landlock/Kconfig     |   2 +-
->  security/landlock/Makefile    |   2 +-
->  security/landlock/fs.c        | 609 ++++++++++++++++++++++++++++++++++
->  security/landlock/fs.h        |  60 ++++
->  security/landlock/setup.c     |   7 +
->  security/landlock/setup.h     |   2 +
->  9 files changed, 766 insertions(+), 2 deletions(-)
->  create mode 100644 include/uapi/linux/landlock.h
->  create mode 100644 security/landlock/fs.c
->  create mode 100644 security/landlock/fs.h
-> 
-> diff --git a/arch/Kconfig b/arch/Kconfig
-> index 8cc35dc556c7..483b7476ac69 100644
-> --- a/arch/Kconfig
-> +++ b/arch/Kconfig
-> @@ -845,6 +845,13 @@ config COMPAT_32BIT_TIME
->  config ARCH_NO_PREEMPT
->  	bool
->  
-> +config ARCH_EPHEMERAL_STATES
-> +	def_bool n
-> +	help
-> +	  An arch should select this symbol if it do not keep an internal kernel
+For the records, it triggers after building glibc and running tests, and
+then issuing:
 
-	                                       it does not
+  for x in {1..2000} ; do posix/tst-affinity-static  & done
 
-> +	  state for kernel objects such as inodes, but instead rely on something
+and shows up as:
 
-	                                               instead relies on
+error: Unexpected CPU 2, expected 0
+error: Unexpected CPU 2, expected 0
+error: Unexpected CPU 2, expected 0
+error: Unexpected CPU 2, expected 0
+error: Unexpected CPU 138, expected 0
+error: Unexpected CPU 138, expected 0
+error: Unexpected CPU 138, expected 0
+error: Unexpected CPU 138, expected 0
 
-> +	  else (e.g. the host kernel for an UML kernel).
-> +
->  config ARCH_SUPPORTS_RT
->  	bool
->  
+This is caused by the scheduler invoking __set_task_cpu() directly from
+sched_fork() and wake_up_new_task(), thus bypassing rseq_migrate() which
+is done by set_task_cpu().
 
-thanks.
+Add the missing rseq_migrate() to both functions. The only other direct
+use of __set_task_cpu() is done by init_idle(), which does not involve a
+user-space task.
+
+Based on my testing with the glibc test-case, just adding rseq_migrate()
+to wake_up_new_task() is sufficient to fix the observed issue. Also add
+it to sched_fork() to keep things consistent.
+
+The reason why this never triggered so far with the rseq/basic_test
+selftest is unclear.
+
+The current use of sched_getcpu(3) does not typically require it to be
+always accurate. However, use of the __rseq_abi.cpu_id field within rseq
+critical sections requires it to be accurate. If it is not accurate, it
+can cause corruption in the per-cpu data targeted by rseq critical
+sections in user-space.
+
+Link: https://sourceware.org/pipermail/libc-alpha/2020-July/115816.html
+Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Tested-By: Florian Weimer <fweimer@redhat.com>
+Cc: Peter Zijlstra (Intel) <peterz@infradead.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Florian Weimer <fw@deneb.enyo.de>
+Cc: "Paul E. McKenney" <paulmck@linux.ibm.com>
+Cc: Boqun Feng <boqun.feng@gmail.com>
+Cc: "H . Peter Anvin" <hpa@zytor.com>
+Cc: Paul Turner <pjt@google.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>
+Cc: Neel Natu <neelnatu@google.com>
+Cc: linux-api@vger.kernel.org
+Cc: stable@vger.kernel.org # v4.18+
+---
+ kernel/sched/core.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+index ca5db40392d4..86a855bd4d90 100644
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -2962,6 +2962,7 @@ int sched_fork(unsigned long clone_flags, struct task_struct *p)
+ 	 * Silence PROVE_RCU.
+ 	 */
+ 	raw_spin_lock_irqsave(&p->pi_lock, flags);
++	rseq_migrate(p);
+ 	/*
+ 	 * We're setting the CPU for the first time, we don't migrate,
+ 	 * so use __set_task_cpu().
+@@ -3026,6 +3027,7 @@ void wake_up_new_task(struct task_struct *p)
+ 	 * as we're not fully set-up yet.
+ 	 */
+ 	p->recent_used_cpu = task_cpu(p);
++	rseq_migrate(p);
+ 	__set_task_cpu(p, select_task_rq(p, task_cpu(p), SD_BALANCE_FORK, 0));
+ #endif
+ 	rq = __task_rq_lock(p, &rf);
 -- 
-~Randy
+2.17.1
 
