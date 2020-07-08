@@ -2,85 +2,57 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B58DA21821E
-	for <lists+linux-api@lfdr.de>; Wed,  8 Jul 2020 10:23:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08EA2218285
+	for <lists+linux-api@lfdr.de>; Wed,  8 Jul 2020 10:31:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727858AbgGHIXg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 8 Jul 2020 04:23:36 -0400
-Received: from smtp-8fab.mail.infomaniak.ch ([83.166.143.171]:54885 "EHLO
-        smtp-8fab.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727850AbgGHIXg (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 8 Jul 2020 04:23:36 -0400
-Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4B1sl84TSxzlhWDS;
-        Wed,  8 Jul 2020 10:23:32 +0200 (CEST)
-Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
-        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4B1sl50LZfzlh8TT;
-        Wed,  8 Jul 2020 10:23:28 +0200 (CEST)
-Subject: Re: [PATCH v19 09/12] arch: Wire up landlock() syscall
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mickael.salaun@ssi.gouv.fr>,
-        Richard Weinberger <richard@nod.at>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        the arch/x86 maintainers <x86@kernel.org>
-References: <20200707180955.53024-1-mic@digikod.net>
- <20200707180955.53024-10-mic@digikod.net>
- <CAK8P3a0docCqHkEn9C7=e0GC_ieN1dsYgKQ9PbUmSZYxh9MRnw@mail.gmail.com>
- <8d2dab03-289e-2872-db66-ce80ce5c189f@digikod.net>
- <CAK8P3a3Mf_+-MY5kdeY7sqwUgCUi=PksWz1pGDy+o0ZfgF93Zw@mail.gmail.com>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <956a05c8-529b-bf97-99ac-8958cceb35f3@digikod.net>
-Date:   Wed, 8 Jul 2020 10:23:28 +0200
-User-Agent: 
+        id S1726285AbgGHIbc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 8 Jul 2020 04:31:32 -0400
+Received: from albireo.enyo.de ([37.24.231.21]:46408 "EHLO albireo.enyo.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725789AbgGHIbc (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 8 Jul 2020 04:31:32 -0400
+Received: from [172.17.203.2] (helo=deneb.enyo.de)
+        by albireo.enyo.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        id 1jt5U7-0004Zt-GV; Wed, 08 Jul 2020 08:31:19 +0000
+Received: from fw by deneb.enyo.de with local (Exim 4.92)
+        (envelope-from <fw@deneb.enyo.de>)
+        id 1jt5U7-000757-Ca; Wed, 08 Jul 2020 10:31:19 +0200
+From:   Florian Weimer <fw@deneb.enyo.de>
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc:     Carlos O'Donell <carlos@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        paulmck <paulmck@linux.ibm.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api <linux-api@vger.kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Neel Natu <neelnatu@google.com>
+Subject: Re: [RFC PATCH for 5.8 3/4] rseq: Introduce RSEQ_FLAG_RELIABLE_CPU_ID
+References: <20200706204913.20347-1-mathieu.desnoyers@efficios.com>
+        <20200706204913.20347-4-mathieu.desnoyers@efficios.com>
+        <87fta3zstr.fsf@mid.deneb.enyo.de>
+        <2088331919.943.1594118895344.JavaMail.zimbra@efficios.com>
+        <874kqjzhkb.fsf@mid.deneb.enyo.de>
+        <378862525.1039.1594123580789.JavaMail.zimbra@efficios.com>
+        <d6b28b3e-9866-ce6f-659e-2c0dba4cd527@redhat.com>
+        <1834900818.710.1594148361942.JavaMail.zimbra@efficios.com>
+Date:   Wed, 08 Jul 2020 10:31:19 +0200
+In-Reply-To: <1834900818.710.1594148361942.JavaMail.zimbra@efficios.com>
+        (Mathieu Desnoyers's message of "Tue, 7 Jul 2020 14:59:21 -0400
+        (EDT)")
+Message-ID: <87o8oq2yso.fsf@mid.deneb.enyo.de>
 MIME-Version: 1.0
-In-Reply-To: <CAK8P3a3Mf_+-MY5kdeY7sqwUgCUi=PksWz1pGDy+o0ZfgF93Zw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
-X-Antivirus-Code: 0x100000
+Content-Type: text/plain
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+* Mathieu Desnoyers:
 
-On 08/07/2020 09:47, Arnd Bergmann wrote:
-> On Wed, Jul 8, 2020 at 9:31 AM Mickaël Salaün <mic@digikod.net> wrote:
->> On 08/07/2020 09:22, Arnd Bergmann wrote:
->>> On Tue, Jul 7, 2020 at 8:10 PM Mickaël Salaün <mic@digikod.net> wrote:
->>>
->>>> index f4a01305d9a6..a63a411a74d5 100644
->>>> --- a/include/uapi/asm-generic/unistd.h
->>>> +++ b/include/uapi/asm-generic/unistd.h
->>
->> OK, I'll rebase the next series on linux-next.
-> 
-> Just change the number to the next free one, without actually rebasing.
-> It's always a bit messy to have multiple syscalls added, but I think that
-> causes the least confusion.
+> Allright, thanks for the insight! I'll drop these patches and focus only
+> on the bugfix.
 
-OK, but this will lead to two merge conflicts: patch 8 (asmlinkage) and
-patch 9 (tbl files).
-
-Do you want me to update the tools/perf/arch/*.tbl too?
+Thanks, much appreciated!
