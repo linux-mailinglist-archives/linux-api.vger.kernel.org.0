@@ -2,188 +2,115 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D20A218985
-	for <lists+linux-api@lfdr.de>; Wed,  8 Jul 2020 15:50:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EB87218B4C
+	for <lists+linux-api@lfdr.de>; Wed,  8 Jul 2020 17:33:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729468AbgGHNuS convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Wed, 8 Jul 2020 09:50:18 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:46273 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729392AbgGHNuR (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 8 Jul 2020 09:50:17 -0400
-Received: from mail-qt1-f181.google.com ([209.85.160.181]) by
- mrelayeu.kundenserver.de (mreue009 [212.227.15.129]) with ESMTPSA (Nemesis)
- id 1MJm8H-1kCc5m2mEr-00K5vV; Wed, 08 Jul 2020 15:50:15 +0200
-Received: by mail-qt1-f181.google.com with SMTP id g13so34469581qtv.8;
-        Wed, 08 Jul 2020 06:50:14 -0700 (PDT)
-X-Gm-Message-State: AOAM532DtPDX0V0xlxgv5JdhWqePX0BHlyAKzf1pBVKlqTk15Xe/UREa
-        MWN2w1eQs9BJ7mLGKm77odAN5QFSEddKqu5Bm9k=
-X-Google-Smtp-Source: ABdhPJzGbqSLDVa+22V+OxqUS2NDeQMLg4lKFCfmasSmlQFshduHvuFJ4EYxw9p5RNP/z2hlcFkstPMlyhdckAfJkBA=
-X-Received: by 2002:ac8:7587:: with SMTP id s7mr60215048qtq.304.1594216213827;
- Wed, 08 Jul 2020 06:50:13 -0700 (PDT)
+        id S1730055AbgGHPdx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 8 Jul 2020 11:33:53 -0400
+Received: from mail.efficios.com ([167.114.26.124]:43390 "EHLO
+        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730048AbgGHPdw (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 8 Jul 2020 11:33:52 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id AC88A1B6A07;
+        Wed,  8 Jul 2020 11:33:51 -0400 (EDT)
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id cbQcoDh4TYFE; Wed,  8 Jul 2020 11:33:51 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 6751C1B6A06;
+        Wed,  8 Jul 2020 11:33:51 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 6751C1B6A06
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1594222431;
+        bh=WyW3IIRjLOGYLXL+5C9mbnVmq7l0TFfkoKLPFK7976Y=;
+        h=Date:From:To:Message-ID:MIME-Version;
+        b=B5yLuCSQiiVsPloKMH+TaVgPO20rgY7SD5HTZMfQRS2Au8oNLn0Em8JNgaoRW44uM
+         ZplzARLh5HVf5bVLim3SRkky7hzkJ58sslQrWb3o9OfiT1pFvExAgSF2Ru4+I/nInL
+         JPj/Yb/Ff4PHg1wkNlzzCjsoqElalMlNHN+8MmQppGQtgEFZa9DnSdRmbYqL20W1ai
+         l7HNjV+LeXuPwEl1ofLyre9JSZT0oBlQk+H6axEvxif4kgG//xEJy1IoEVUUrNU0rA
+         QfrvaAcPRf7z/Aw+RNgejrHS9BNniVjGC3rCVZlF21puMy0EcDPYsoXq1/IlnVF7Vf
+         7MYianB7IbLgQ==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id KYRy-ykcUC6l; Wed,  8 Jul 2020 11:33:51 -0400 (EDT)
+Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
+        by mail.efficios.com (Postfix) with ESMTP id 596521B6A05;
+        Wed,  8 Jul 2020 11:33:51 -0400 (EDT)
+Date:   Wed, 8 Jul 2020 11:33:51 -0400 (EDT)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     Florian Weimer <fw@deneb.enyo.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     carlos <carlos@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        paulmck <paulmck@linux.ibm.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api <linux-api@vger.kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Neel Natu <neelnatu@google.com>
+Message-ID: <1448906726.3717.1594222431276.JavaMail.zimbra@efficios.com>
+In-Reply-To: <87zh8bw158.fsf@mid.deneb.enyo.de>
+References: <20200706204913.20347-1-mathieu.desnoyers@efficios.com> <20200706204913.20347-4-mathieu.desnoyers@efficios.com> <87fta3zstr.fsf@mid.deneb.enyo.de> <2088331919.943.1594118895344.JavaMail.zimbra@efficios.com> <874kqjzhkb.fsf@mid.deneb.enyo.de> <378862525.1039.1594123580789.JavaMail.zimbra@efficios.com> <d6b28b3e-9866-ce6f-659e-2c0dba4cd527@redhat.com> <87zh8bw158.fsf@mid.deneb.enyo.de>
+Subject: Re: [RFC PATCH for 5.8 3/4] rseq: Introduce
+ RSEQ_FLAG_RELIABLE_CPU_ID
 MIME-Version: 1.0
-References: <20200707180955.53024-1-mic@digikod.net> <20200707180955.53024-9-mic@digikod.net>
- <CAK8P3a0FkoxFtcQJ2jSqyLbDCOp3R8-1JoY8CWAgbSZ9hH9wdQ@mail.gmail.com> <7f407b67-d470-25fd-1287-f4f55f18e74a@digikod.net>
-In-Reply-To: <7f407b67-d470-25fd-1287-f4f55f18e74a@digikod.net>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Wed, 8 Jul 2020 15:49:57 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a1ehWZErD2a0iBqn37s-LTAtW0AbV_gt32iX3cQkXbpOQ@mail.gmail.com>
-Message-ID: <CAK8P3a1ehWZErD2a0iBqn37s-LTAtW0AbV_gt32iX3cQkXbpOQ@mail.gmail.com>
-Subject: Re: [PATCH v19 08/12] landlock: Add syscall implementation
-To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mickael.salaun@ssi.gouv.fr>,
-        Richard Weinberger <richard@nod.at>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Provags-ID: V03:K1:1EbzIoFyJM0srBmwqFU/S9OU4GrMN1MwPgI0Rt8D93c7MKFw8Vh
- XAL2Mqzq8tROm189yfmIAAkwGBnqfvIAFmIXjoKW2kH0dmD3+NzqCb/ckj+Eb8wYodD69GC
- UX3OO53NSdcm3ZmOC3ng/iiAQ+yoZ/tyGlG+Z6/45CQLkPDw6XjkwbRG4riXwmEhLWXzbtt
- 2tt6J/Rja18C7l932QkIQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:311prxkKa2c=:8xNBGuQmWDWcOOo2Np72ie
- iYO+qSJE0vLVPmqxDNEMH9dFwohmv/IWW8w1MF/hFbXPm1ZTuuL29xTPOLVO6ST1lamB63dgq
- /oyNrqfINWsYPsPTUGV/cvjcL12wbjSThqPq9j+6ybZ88xJ1hlCpG7zC70MMohYsMtvC0/SIT
- oN/1H71C4qmAu+L/SPY0peHovz8LZW5l1kOqlj1pRiT3cfNsIJqq3BWkcO2QxdQ7OTH4Rh3Md
- VYuOpujXqrqZROak/a+LvR6pfMrcfuLsChK42uYeO1GiIurqVJvwgub4REhXeM8VAXXlGriz2
- /IKPoq0hCetvMBo9tfZhs1pPp8E8zeToSTprSeimjAIrwySD5w0IQV74rrNzUMjNwL8N0OLBB
- pxTE7H0D6humbFN/t1om7dhvl54XNOdczbQ2OI7AV17J+xr73yD+VhIOrh46P86qN1V6LrR8b
- cgHzkU34XHWBn4XR7rMsvVoMLms6zcwrBlotosrs96bDtXU5hlS9XAGa1MiCKRpcMYtiuj2Wh
- z4IKSiXqa9dHsG4iQZ/Yhp5NyhKUJn5a87Bo3f3dYdbbe5/V5cYF1e3ARDNC0AiyIhLlGnhbE
- yh1kwxRPO4yWgeUu521IES/q3W0ZpDZvKmN3UAh1oWRZ1pjFo70KH8D5eNZ/4VNKJgMwGp9ac
- CintiunzKm45WMH+75nhq6ioxqoJXHnpppg4Y/eb0l9fpI0FfR+Z5Uy8MzM/cWttkZQysowIZ
- cYc5NdXuFeYXIy0/WwdZUz9PnrwF7QKFju3jnwHtxIZgMxQVqJ4FofJWQL3xAeq+4mbVdWgkB
- dYS6VeYAszYLC7uILbm9BGBMDWCvpBOEeN1WHWtUYBgKxmLQxeR5qze8YqtqKJ6L3gqefSQ0e
- 4Wm4oU3nd4D4LBcrPOHL3KMefI1JkXMLK9viTZKq1DQ0HLRF3zW/Y9YfikYvC7A/ZxIQ7pgj3
- dYx+DEA3oBMSb8iF+hUk1EDGJh/6S2o8/Wl+HRYz7j778DOnf9pqm
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [167.114.26.124]
+X-Mailer: Zimbra 8.8.15_GA_3955 (ZimbraWebClient - FF78 (Linux)/8.8.15_GA_3953)
+Thread-Topic: rseq: Introduce RSEQ_FLAG_RELIABLE_CPU_ID
+Thread-Index: zXIs9urjBp1jd5V6Y3737bWrZw5O7Q==
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jul 8, 2020 at 3:04 PM Mickaël Salaün <mic@digikod.net> wrote:
-> On 08/07/2020 10:57, Arnd Bergmann wrote:
-> > On Tue, Jul 7, 2020 at 8:10 PM Mickaël Salaün <mic@digikod.net> wrote:
-> >
-> > It looks like all you need here today is a single argument bit, plus
-> > possibly some room for extensibility. I would suggest removing all
-> > the extra bits and using a syscall like
-> >
-> > SYSCALL_DEFINE1(landlock_create_ruleset, u32, flags);
-> >
-> > I don't really see how this needs any variable-length arguments,
-> > it really doesn't do much.
->
-> We need the attr_ptr/attr_size pattern because the number of ruleset
-> properties will increase (e.g. network access mask).
+[ Context for Linus: I am dropping this RFC patch, but am curious to
+  hear your point of view on exposing to user-space which system call
+  behavior fixes are present in the kernel, either through feature
+  flags or system-call versioning. The intent is to allow user-space
+  to make better decisions on whether it should use a system call or
+  rely on fallback behavior. ]
 
-But how many bits do you think you will *actually* need in total that
-this needs to be a two-dimensional set of flags? At the moment you
-only have a single bit that you interpret.
+----- On Jul 7, 2020, at 3:55 PM, Florian Weimer fw@deneb.enyo.de wrote:
 
-> > To be on the safe side, you might split up the flags into either the
-> > upper/lower 16 bits or two u32 arguments, to allow both compatible
-> > (ignored by older kernels if flag is set) and incompatible (return error
-> > when an unknown flag is set) bits.
->
-> This may be a good idea in general, but in the case of Landlock, because
-> this kind of (discretionary) sandboxing should be a best-effort security
-> feature, we should avoid incompatible behavior. In practice, every
-> unknown bit returns an error because userland can probe for available
-> bits thanks to the get_features command. This kind of (in)compatibility
-> can then be handled by userland.
+> * Carlos O'Donell:
+>=20
+>> It's not a great fit IMO. Just let the kernel version be the arbiter of
+>> correctness.
+>=20
+> For manual review, sure.  But checking it programmatically does not
+> yield good results due to backports.  Even those who use the stable
+> kernel series sometimes pick up critical fixes beforehand, so it's not
+> reliable possible for a program to say, =E2=80=9CI do not want to run on =
+this
+> kernel because it has a bad version=E2=80=9D.  We had a recent episode of=
+ this
+> with the Go runtime, which tried to do exactly this.
 
-If there are not going to be incompatible extensions, then just ignore
-all unknown bits and never return an error but get rid of the user
-space probing that just complicates the interface.
+FWIW, the kernel fix backport issue would also be a concern if we exposed
+a numeric "fix level version" with specific system calls: what should
+we do if a distribution chooses to include one fix in the sequence,
+but not others ? Identifying fixes are "feature flags" allow
+cherry-picking specific fixes in a backport, but versions would not
+allow that.
 
-In general, it's hard to rely on user space to first ask the kernel
-what it can do, the way this normally works is that user space
-asks the kernel for something and it either does it or not, but gives
-an indication of whether it worked.
+That being said, maybe it's not such a bad thing to _require_ the
+entire series of fixes to be picked in backports, which would be a
+fortunate side-effect of the per-syscall-fix-version approach.
 
-> I suggest this syscall signature:
-> SYSCALL_DEFINE3(landlock_create_ruleset, __u32, options, const struct
-> landlock_attr_ruleset __user *, ruleset_ptr, size_t, ruleset_size);
+But I'm under the impression that such a scheme ends up versioning
+a system call, which I suspect will be a no-go from Linus' perspective.
 
-The other problem here is that indirect variable-size structured arguments
-are a pain to instrument with things like strace or seccomp, so you
-should first try to use a fixed argument list, and fall back to a fixed
-structure if that fails.
+Thanks,
 
-> >> +static int syscall_add_rule_path_beneath(const void __user *const attr_ptr,
-> >> +               const size_t attr_size)
-> >> +{
-> >> +       struct landlock_attr_path_beneath attr_path_beneath;
-> >> +       struct path path;
-> >> +       struct landlock_ruleset *ruleset;
-> >> +       int err;
-> >
-> > Similarly, it looks like this wants to be
-> >
-> > SYSCALL_DEFINE3(landlock_add_rule_path_beneath, int, ruleset, int,
-> > path, __u32, flags)
-> >
-> > I don't see any need to extend this in a way that wouldn't already
-> > be served better by adding another system call. You might argue
-> > that 'flags' and 'allowed_access' could be separate, with the latter
-> > being an indirect in/out argument here, like
-> >
-> > SYSCALL_DEFINE4(landlock_add_rule_path_beneath, int, ruleset, int, path,
-> >                            __u64 *, allowed_acces, __u32, flags)
->
-> To avoid adding a new syscall for each new rule type (e.g. path_beneath,
-> path_range, net_ipv4_range, etc.), I think it would be better to keep
-> the attr_ptr/attr_size pattern and to explicitely set a dedicated option
-> flag to specify the attr type.
->
-> This would look like this:
-> SYSCALL_DEFINE4(landlock_add_rule, __u32, options, int, ruleset, const
-> void __user *, rule_ptr, size_t, rule_size);
->
-> The rule_ptr could then point to multiple types like struct
-> landlock_attr_path_beneath (without the current ruleset_fd field).
+Mathieu
 
-This again introduces variable-sized structured data. How many different
-kinds of rule types do you think there will be (most likely, and maybe an
-upper bound)?
 
-Could (some of) these be generalized to use the same data structure?
-
-> >> +static int syscall_enforce_ruleset(const void __user *const attr_ptr,
-> >> +               const size_t attr_size)
-> >
-> > Here it seems like you just need to pass the file descriptor, or maybe
-> >
-> > SYSCALL_DEFINE2(landlock_enforce, int, ruleset, __u32 flags);
-> >
-> > if you need flags for extensibility.
->
-> Right, but for consistency I prefer to change the arguments like this:
-> SYSCALL_DEFINE2(landlock_enforce, __u32 options, int, ruleset);
-
-Most system calls pass the object they work on as the first argument,
-in this case this would be the ruleset file descriptor.
-
-     Arnd
+--=20
+Mathieu Desnoyers
+EfficiOS Inc.
+http://www.efficios.com
