@@ -2,243 +2,108 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9165B217CB0
-	for <lists+linux-api@lfdr.de>; Wed,  8 Jul 2020 03:42:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5469521802B
+	for <lists+linux-api@lfdr.de>; Wed,  8 Jul 2020 09:03:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728753AbgGHBmo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 7 Jul 2020 21:42:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43966 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728417AbgGHBmn (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Jul 2020 21:42:43 -0400
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AD8FC061755
-        for <linux-api@vger.kernel.org>; Tue,  7 Jul 2020 18:42:43 -0700 (PDT)
-Received: by mail-ed1-x542.google.com with SMTP id d16so33635760edz.12
-        for <linux-api@vger.kernel.org>; Tue, 07 Jul 2020 18:42:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Vr0HrDNNXcQz20CPEZA0xNxAWROxrJKqR4BgLb+gX4s=;
-        b=PZ4JRGZRc4zRpqAd8JaJoxjLqZclbeOviMlQlmgZy5ZiGGjNe9C0k8xUi7fNmYOkNY
-         6Sx8AHonSor+GV1v8Z5OTzg0VMPRIw+JxZ/6NkP6XHOz6ba1QEvdV5GntSOqhmKmvID+
-         uqq6iR/UNCuhZQBlJHKApLV780c46V4F6TPgMl9XJkFsaDkQPcSewtpZ7wdma59cpuSa
-         OT/Y17HZEiDD+PeNIiY+gQiAXCFl0/tfGKog239WGjTCCXshe8NJCKOqep0zkNuq1mVn
-         IhGKVTbQU8haKPaZfuyi4Fs6LsmI8ffIrLKmuDPErRwv+2Dw674NvRAioa50X5sc71QI
-         oGqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Vr0HrDNNXcQz20CPEZA0xNxAWROxrJKqR4BgLb+gX4s=;
-        b=Exu9tXiMHAJKvLrpaAQdxYMp2W85zWaJqKiXmtCtkQ2Jy1D11J0KJvg16NRGSvq6ab
-         mnQHNmrFtsMAEKNLGpxG2h1BtPLz24lcwnicsTyShpYu1LUlLixOWn0sUUAhA3sXNHFI
-         SN5XavCvoNtUd9+FvRKhHI0Mq89hj43mwDvzIYOaboC/vd5ye5PT4XAzI0l8KNA4WnM2
-         PlrCVp762SbsYfs6K0g6Yatmrgf514hMJYEUB7pN7cQAHXH4Ue67RJKTQ+ngosioe2go
-         tyktFKqYuZI/xO/CrJW4aV8bQVhPHhC/9ItHKe9aT9aI/WAyjvTRxLt2IG50k1ZTzzG1
-         ZX7Q==
-X-Gm-Message-State: AOAM532hhiY+iHceN3rGQCMcLNoVAoorMK1Ym/FZ4ioNX+oFgaU+AU3K
-        4cVXJm7EFXLPA0ZxLSdptjd3l8MqUCnhSssmlWWu
-X-Google-Smtp-Source: ABdhPJwO+ZDB5KAHb6lbjzYaXLS3ryyhdLtNi06zlDHVmSwDEOn6n4tDRWttj6dBFy4xjaW4NpkPFMWLHPakgoFSOcQ=
-X-Received: by 2002:aa7:d6cf:: with SMTP id x15mr62837018edr.164.1594172561943;
- Tue, 07 Jul 2020 18:42:41 -0700 (PDT)
+        id S1729906AbgGHHD6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 8 Jul 2020 03:03:58 -0400
+Received: from smtp-190d.mail.infomaniak.ch ([185.125.25.13]:39853 "EHLO
+        smtp-190d.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729821AbgGHHD5 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 8 Jul 2020 03:03:57 -0400
+X-Greylist: delayed 46432 seconds by postgrey-1.27 at vger.kernel.org; Wed, 08 Jul 2020 03:03:56 EDT
+Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4B1qzH2Lhxzlhcqk;
+        Wed,  8 Jul 2020 09:03:55 +0200 (CEST)
+Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
+        by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4B1qz772rqzlh8TH;
+        Wed,  8 Jul 2020 09:03:47 +0200 (CEST)
+Subject: Re: [PATCH v19 07/12] landlock: Support filesystem access-control
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mickael.salaun@ssi.gouv.fr>,
+        Richard Weinberger <richard@nod.at>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-security-module@vger.kernel.org, x86@kernel.org
+References: <20200707180955.53024-1-mic@digikod.net>
+ <20200707180955.53024-8-mic@digikod.net>
+ <6a80b712-a7b9-7b47-083a-08b7769016f8@infradead.org>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <b5d5326f-cf37-36f0-7bce-8494c5a65cb5@digikod.net>
+Date:   Wed, 8 Jul 2020 09:03:46 +0200
+User-Agent: 
 MIME-Version: 1.0
-References: <cover.1593198710.git.rgb@redhat.com> <6abeb26e64489fc29b00c86b60b501c8b7316424.1593198710.git.rgb@redhat.com>
- <CAHC9VhTx=4879F1MSXg4=Xd1i5rhEtyam6CakQhy=_ZjGtTaMA@mail.gmail.com> <20200707025014.x33eyxbankw2fbww@madcap2.tricolour.ca>
-In-Reply-To: <20200707025014.x33eyxbankw2fbww@madcap2.tricolour.ca>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Tue, 7 Jul 2020 21:42:31 -0400
-Message-ID: <CAHC9VhTTGLf9MPS_FgL1ibUVoH+YzMtPK6+2dp_j8a5o9fzftA@mail.gmail.com>
-Subject: Re: [PATCH ghak90 V9 01/13] audit: collect audit task parameters
-To:     Richard Guy Briggs <rgb@redhat.com>
-Cc:     nhorman@tuxdriver.com, linux-api@vger.kernel.org,
-        containers@lists.linux-foundation.org,
-        LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
-        Linux-Audit Mailing List <linux-audit@redhat.com>,
-        netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
-        simo@redhat.com, netdev@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
-        mpatel@redhat.com, Serge Hallyn <serge@hallyn.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <6a80b712-a7b9-7b47-083a-08b7769016f8@infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
+X-Antivirus-Code: 0x100000
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jul 6, 2020 at 10:50 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> On 2020-07-05 11:09, Paul Moore wrote:
-> > On Sat, Jun 27, 2020 at 9:21 AM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > >
-> > > The audit-related parameters in struct task_struct should ideally be
-> > > collected together and accessed through a standard audit API.
-> > >
-> > > Collect the existing loginuid, sessionid and audit_context together in a
-> > > new struct audit_task_info called "audit" in struct task_struct.
-> > >
-> > > Use kmem_cache to manage this pool of memory.
-> > > Un-inline audit_free() to be able to always recover that memory.
-> > >
-> > > Please see the upstream github issue
-> > > https://github.com/linux-audit/audit-kernel/issues/81
-> > >
-> > > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> > > Acked-by: Neil Horman <nhorman@tuxdriver.com>
-> > > Reviewed-by: Ondrej Mosnacek <omosnace@redhat.com>
-> > > ---
-> > >  include/linux/audit.h | 49 +++++++++++++++++++++++------------
-> > >  include/linux/sched.h |  7 +----
-> > >  init/init_task.c      |  3 +--
-> > >  init/main.c           |  2 ++
-> > >  kernel/audit.c        | 71 +++++++++++++++++++++++++++++++++++++++++++++++++--
-> > >  kernel/audit.h        |  5 ++++
-> > >  kernel/auditsc.c      | 26 ++++++++++---------
-> > >  kernel/fork.c         |  1 -
-> > >  8 files changed, 124 insertions(+), 40 deletions(-)
-> > >
-> > > diff --git a/include/linux/audit.h b/include/linux/audit.h
-> > > index 3fcd9ee49734..c2150415f9df 100644
-> > > --- a/include/linux/audit.h
-> > > +++ b/include/linux/audit.h
-> > > @@ -100,6 +100,16 @@ enum audit_nfcfgop {
-> > >         AUDIT_XT_OP_UNREGISTER,
-> > >  };
-> > >
-> > > +struct audit_task_info {
-> > > +       kuid_t                  loginuid;
-> > > +       unsigned int            sessionid;
-> > > +#ifdef CONFIG_AUDITSYSCALL
-> > > +       struct audit_context    *ctx;
-> > > +#endif
-> > > +};
-> > > +
-> > > +extern struct audit_task_info init_struct_audit;
-> > > +
-> > >  extern int is_audit_feature_set(int which);
-> > >
-> > >  extern int __init audit_register_class(int class, unsigned *list);
-> >
-> > ...
-> >
-> > > diff --git a/include/linux/sched.h b/include/linux/sched.h
-> > > index b62e6aaf28f0..2213ac670386 100644
-> > > --- a/include/linux/sched.h
-> > > +++ b/include/linux/sched.h
-> > > @@ -34,7 +34,6 @@
-> > >  #include <linux/kcsan.h>
-> > >
-> > >  /* task_struct member predeclarations (sorted alphabetically): */
-> > > -struct audit_context;
-> > >  struct backing_dev_info;
-> > >  struct bio_list;
-> > >  struct blk_plug;
-> > > @@ -946,11 +945,7 @@ struct task_struct {
-> > >         struct callback_head            *task_works;
-> > >
-> > >  #ifdef CONFIG_AUDIT
-> > > -#ifdef CONFIG_AUDITSYSCALL
-> > > -       struct audit_context            *audit_context;
-> > > -#endif
-> > > -       kuid_t                          loginuid;
-> > > -       unsigned int                    sessionid;
-> > > +       struct audit_task_info          *audit;
-> > >  #endif
-> > >         struct seccomp                  seccomp;
-> >
-> > In the early days of this patchset we talked a lot about how to handle
-> > the task_struct and the changes that would be necessary, ultimately
-> > deciding that encapsulating all of the audit fields into an
-> > audit_task_info struct.  However, what is puzzling me a bit at this
-> > moment is why we are only including audit_task_info in task_info by
-> > reference *and* making it a build time conditional (via CONFIG_AUDIT).
-> >
-> > If audit is enabled at build time it would seem that we are always
-> > going to allocate an audit_task_info struct, so I have to wonder why
-> > we don't simply embed it inside the task_info struct (similar to the
-> > seccomp struct in the snippet above?  Of course the audit_context
-> > struct needs to remain as is, I'm talking only about the
-> > task_info/audit_task_info struct.
->
-> I agree that including the audit_task_info struct in the struct
-> task_struct would have been preferred to simplify allocation and free,
-> but the reason it was included by reference instead was to make the
-> task_struct size independent of audit so that future changes would not
-> cause as many kABI challenges.  This first change will cause kABI
-> challenges regardless, but it was future ones that we were trying to
-> ease.
->
-> Does that match with your recollection?
 
-I guess, sure.  I suppose what I was really asking was if we had a
-"good" reason for not embedding the audit_task_info struct.
-Regardless, thanks for the explanation, that was helpful.
+On 07/07/2020 22:11, Randy Dunlap wrote:
+> Hi--
+> 
+> On 7/7/20 11:09 AM, Mickaël Salaün wrote:
+>> ---
+>>  arch/Kconfig                  |   7 +
+>>  arch/um/Kconfig               |   1 +
+>>  include/uapi/linux/landlock.h |  78 +++++
+>>  security/landlock/Kconfig     |   2 +-
+>>  security/landlock/Makefile    |   2 +-
+>>  security/landlock/fs.c        | 609 ++++++++++++++++++++++++++++++++++
+>>  security/landlock/fs.h        |  60 ++++
+>>  security/landlock/setup.c     |   7 +
+>>  security/landlock/setup.h     |   2 +
+>>  9 files changed, 766 insertions(+), 2 deletions(-)
+>>  create mode 100644 include/uapi/linux/landlock.h
+>>  create mode 100644 security/landlock/fs.c
+>>  create mode 100644 security/landlock/fs.h
+>>
+>> diff --git a/arch/Kconfig b/arch/Kconfig
+>> index 8cc35dc556c7..483b7476ac69 100644
+>> --- a/arch/Kconfig
+>> +++ b/arch/Kconfig
+>> @@ -845,6 +845,13 @@ config COMPAT_32BIT_TIME
+>>  config ARCH_NO_PREEMPT
+>>  	bool
+>>  
+>> +config ARCH_EPHEMERAL_STATES
+>> +	def_bool n
+>> +	help
+>> +	  An arch should select this symbol if it do not keep an internal kernel
+> 
+> 	                                       it does not
+> 
+>> +	  state for kernel objects such as inodes, but instead rely on something
+> 
+> 	                                               instead relies on
+> 
+>> +	  else (e.g. the host kernel for an UML kernel).
+>> +
+>>  config ARCH_SUPPORTS_RT
+>>  	bool
+>>  
+> 
+> thanks.
+> 
 
-From an upstream perspective, I think embedding the audit_task_info
-struct is the Right Thing To Do.  The code is cleaner and more robust
-if we embed the struct.
-
-> > Richard, I'm sure you can answer this off the top of your head, but
-> > I'd have to go digging through the archives to pull out the relevant
-> > discussions so I figured I would just ask you for a reminder ... ?  I
-> > imagine it's also possible things have changed a bit since those early
-> > discussions and the solution we arrived at then no longer makes as
-> > much sense as it did before.
->
-> Agreed, it doesn't make as much sense now as it did when proposed, but
-> will make more sense in the future depending on when this change gets
-> accepted upstream.  This is why I wanted this patch to go through as
-> part of ghak81 at the time the rest of it did so that future kABI issues
-> would be easier to handle, but that ship has long sailed.
-
-To be clear, kABI issues with task_struct really aren't an issue with
-the upstream kernel.  I know that you know all of this already
-Richard, I'm mostly talking to everyone else on the To/CC line in case
-they are casually watching this discussion.
-
-While I'm sympathetic to long-lifetime enterprise distros such as
-RHEL, my responsibility is to ensure the upstream kernel is as good as
-we can make it, and in this case I believe that means embedding
-audit_task_info into the task_struct.
-
-> I didn't make
-> that argument then and I regret it now that I realize and recall some of
-> the thinking behind the change.  Your reasons at the time were that
-> contid was the only user of that change but there have been some
-> CONFIG_AUDIT and CONFIG_AUDITSYSCALL changes since that were related.
-
-Agreed that there are probably some common goals and benefits with
-those changes and the audit container ID work, however, I believe that
-discussion quickly goes back to upstream vs RHEL.
-
-> > > diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-> > > index 468a23390457..f00c1da587ea 100644
-> > > --- a/kernel/auditsc.c
-> > > +++ b/kernel/auditsc.c
-> > > @@ -1612,7 +1615,6 @@ void __audit_free(struct task_struct *tsk)
-> > >                 if (context->current_state == AUDIT_RECORD_CONTEXT)
-> > >                         audit_log_exit();
-> > >         }
-> > > -
-> > >         audit_set_context(tsk, NULL);
-> > >         audit_free_context(context);
-> > >  }
-> >
-> > This nitpick is barely worth the time it is taking me to write this,
-> > but the whitespace change above isn't strictly necessary.
->
-> Sure, it is a harmless but noisy cleanup when the function was being
-> cleaned up and renamed.  It wasn't an accident, but a style preference.
-> Do you prefer a vertical space before cleanup actions at the end of
-> functions and more versus less vertical whitespace in general?
-
-As I mentioned above, this really was barely worth mentioning, but I
-made the comment simply because I feel this patchset is going to draw
-a lot of attention once it is merged and I feel keeping the patchset
-as small, and as focused, as possible is a good thing.
-
-However, I'm not going to lose even a second of sleep over a single
-blank line gone missing ;)
-
--- 
-paul moore
-www.paul-moore.com
+Thanks Randy!
