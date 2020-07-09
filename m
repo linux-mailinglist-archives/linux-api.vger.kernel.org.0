@@ -2,88 +2,130 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E0D0219769
-	for <lists+linux-api@lfdr.de>; Thu,  9 Jul 2020 06:34:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DDCE1219849
+	for <lists+linux-api@lfdr.de>; Thu,  9 Jul 2020 08:12:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726099AbgGIEeN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 9 Jul 2020 00:34:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39526 "EHLO
+        id S1726659AbgGIGMF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 9 Jul 2020 02:12:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726091AbgGIEeN (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Jul 2020 00:34:13 -0400
-Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 483F8C061A0B;
-        Wed,  8 Jul 2020 21:34:13 -0700 (PDT)
-Received: by ozlabs.org (Postfix, from userid 1003)
-        id 4B2Nc34nrTz9sRR; Thu,  9 Jul 2020 14:34:11 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ozlabs.org; s=201707;
-        t=1594269251; bh=0vflje8iQykW6xAQTgpYROqiG9MTRc6uT+kAmyWkOkQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Mdhv0xEwxQFAx6A9eiN/ntEepUWd2HRs2jU9CZrCRyFo2Dj+WkbTY3xiXpI8MxWC6
-         ur+5kQqaiCpGOBkvtkcNk39V8G65GYQI5IWZV48ni3Mgdx7zSRn/7npj2ZYa0eKaH6
-         yHRuFm/R4hLfMF4ki8/j8mmnpQn1BiHOLLiDs1v+DNsq1NN+8oYyvC70rahe7P+7gr
-         ZX1QR3R2+v2VNEO66kqHHR1xjDiH6OjtMcYydEnXgCGXZg5CfcVwtapV8zOStxaDp2
-         3EFaxLssb+lX0o9gKEzgtI1TDWBvtbxPZxUcLd4MYmJyENjQwJomEEe9kQpblL03df
-         dbM2rBzIqXdVg==
-Date:   Thu, 9 Jul 2020 14:34:06 +1000
-From:   Paul Mackerras <paulus@ozlabs.org>
-To:     Nicholas Piggin <npiggin@gmail.com>,
-        David Gibson <david@gibson.dropbear.id.au>
-Cc:     linuxppc-dev@lists.ozlabs.org, kvm-ppc@vger.kernel.org,
-        linux-mm@kvack.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] powerpc/64s: remove PROT_SAO support
-Message-ID: <20200709043406.GB2822576@thinks.paulus.ozlabs.org>
-References: <20200703011958.1166620-1-npiggin@gmail.com>
- <20200703011958.1166620-3-npiggin@gmail.com>
+        with ESMTP id S1726140AbgGIGME (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Jul 2020 02:12:04 -0400
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CBB3C061A0B
+        for <linux-api@vger.kernel.org>; Wed,  8 Jul 2020 23:12:04 -0700 (PDT)
+Received: by mail-pj1-x1042.google.com with SMTP id f16so635892pjt.0
+        for <linux-api@vger.kernel.org>; Wed, 08 Jul 2020 23:12:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=X1Ht58e7pYDo3+OXGKFN8q0KvuGq5a6uMZgYYH+au1E=;
+        b=hlOuhtl/aHThddrZ1Zq75gvYoKWCyCVF3dPgpKO5VuUU4HX+ZkowOigtFAWcrinqid
+         v/NMXtQ14Q0GhYCuUsRiOo/IWfG261BhUjaz6YBYvbtnPKGBUq8JIHdwLoW1Ms/oScNk
+         oT9osKbbh7Ip3vrzHYKxCPxuTYWQbad4SsQvw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=X1Ht58e7pYDo3+OXGKFN8q0KvuGq5a6uMZgYYH+au1E=;
+        b=W+qlCtr187Pk44u0EyPLjuV9RvAtqLeDTWVUBMOUcqAafgoI6YYH2nm5ofULukRApV
+         bJyR2vimjkW8qWdV3ZF7kXeGbrWCaO3Dm2ZzVhWDHZgZvJLvb5L1vLcNKfJ9THVNFTnU
+         3c99YHfge/I2kNPyQF70UoS5kR954B5lno1pmNPsirmcp090mvpxIfkLEKIS0tbEsO7V
+         l3P3sQD9XXcHv1VwyMHaWuQX7qfmGJ0a0dY2qSwaeQIPKJHHnYiOsdehrLWiy9EKI1wD
+         OX9EFAWpjE+gnQInZBxaNEi75/pNdZArJMZQ8FEOh63+LNM8KfTcI9VTGABXKpl25SoH
+         afUg==
+X-Gm-Message-State: AOAM531nskB5FG8+QMSq8I1Lnnh8ViXc6KfZyqE2RVnWlf59yjmHM+Z1
+        sittNL55mCQXoBqMUO/WHAfUww==
+X-Google-Smtp-Source: ABdhPJwH/e7s5/I6MewIH9/hgc0PZ3d5rkN3EN0RRGrJQj5XVg8j105Pt7Ryn2fQD7oU1TruCUw/6Q==
+X-Received: by 2002:a17:90a:e618:: with SMTP id j24mr12994897pjy.41.1594275124152;
+        Wed, 08 Jul 2020 23:12:04 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id z66sm1490399pfb.162.2020.07.08.23.12.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jul 2020 23:12:03 -0700 (PDT)
+Date:   Wed, 8 Jul 2020 23:12:02 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     linux-kernel@vger.kernel.org, Sargun Dhillon <sargun@sargun.me>,
+        Matt Denton <mpdenton@google.com>,
+        Christian Brauner <christian@brauner.io>,
+        Tycho Andersen <tycho@tycho.ws>,
+        David Laight <David.Laight@ACULAB.COM>,
+        Christoph Hellwig <hch@lst.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Aleksa Sarai <cyphar@cyphar.com>, Jann Horn <jannh@google.com>,
+        Chris Palmer <palmer@google.com>,
+        Robert Sesek <rsesek@google.com>,
+        Giuseppe Scrivano <gscrivan@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Will Drewry <wad@chromium.org>, Shuah Khan <shuah@kernel.org>,
+        netdev@vger.kernel.org, containers@lists.linux-foundation.org,
+        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v6 6/7] seccomp: Introduce addfd ioctl to seccomp user
+ notifier
+Message-ID: <202007082307.EB5BAD3A0@keescook>
+References: <20200706201720.3482959-1-keescook@chromium.org>
+ <20200706201720.3482959-7-keescook@chromium.org>
+ <20200707133049.nfxc6vz6vcs26m3b@wittgenstein>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200703011958.1166620-3-npiggin@gmail.com>
+In-Reply-To: <20200707133049.nfxc6vz6vcs26m3b@wittgenstein>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jul 03, 2020 at 11:19:57AM +1000, Nicholas Piggin wrote:
-> ISA v3.1 does not support the SAO storage control attribute required to
-> implement PROT_SAO. PROT_SAO was used by specialised system software
-> (Lx86) that has been discontinued for about 7 years, and is not thought
-> to be used elsewhere, so removal should not cause problems.
+On Tue, Jul 07, 2020 at 03:30:49PM +0200, Christian Brauner wrote:
+> Hm, maybe change that description to sm like:
 > 
-> We rather remove it than keep support for older processors, because
-> live migrating guest partitions to newer processors may not be possible
-> if SAO is in use (or worse allowed with silent races).
+> [...]
 
-This is actually a real problem for KVM, because now we have the
-capabilities of the host affecting the characteristics of the guest
-virtual machine in a manner which userspace (e.g. QEMU) is unable to
-control.
+Cool, yeah. Thanks! I've tweaked it a little more
 
-It would probably be better to disallow SAO on all machines than have
-it available on some hosts and not others.  (Yes I know there is a
-check on CPU_FTR_ARCH_206 in there, but that has been a no-op since we
-removed the PPC970 KVM support.)
+> > +	/* 24 is original sizeof(struct seccomp_notif_addfd) */
+> > +	if (size < 24 || size >= PAGE_SIZE)
+> > +		return -EINVAL;
+> 
+> Hm, so maybe add the following:
+> 
+> #define SECCOMP_NOTIFY_ADDFD_VER0 24
+> #define SECCOMP_NOTIFY_ADDFD_LATEST SECCOMP_NOTIFY_ADDFD_VER0
+> 
+> and then place:
+> 
+> BUILD_BUG_ON(sizeof(struct seccomp_notify_addfd) < SECCOMP_NOTIFY_ADDFD_VER0);
+> BUILD_BUG_ON(sizeof(struct open_how) != SECCOMP_NOTIFY_ADDFD_LATEST);
 
-Solving this properly will probably require creating a new KVM host
-capability and associated machine parameter in QEMU, along with a new
-machine type.
+Yes, good idea (BTW, did the EA syscall docs land?)
 
-[snip]
+I've made these SECCOMP_NOTIFY_ADDFD_SIZE_* to match your examples below
+(i.e.  I added "SIZE" to what you suggested above).
 
-> diff --git a/arch/powerpc/include/asm/kvm_book3s_64.h b/arch/powerpc/include/asm/kvm_book3s_64.h
-> index 9bb9bb370b53..fac39ff659d4 100644
-> --- a/arch/powerpc/include/asm/kvm_book3s_64.h
-> +++ b/arch/powerpc/include/asm/kvm_book3s_64.h
-> @@ -398,9 +398,10 @@ static inline bool hpte_cache_flags_ok(unsigned long hptel, bool is_ci)
->  {
->  	unsigned int wimg = hptel & HPTE_R_WIMG;
->  
-> -	/* Handle SAO */
-> +	/* Handle SAO for POWER7,8,9 */
->  	if (wimg == (HPTE_R_W | HPTE_R_I | HPTE_R_M) &&
-> -	    cpu_has_feature(CPU_FTR_ARCH_206))
-> +	    cpu_has_feature(CPU_FTR_ARCH_206) &&
-> +	    !cpu_has_feature(CPU_FTR_ARCH_31))
->  		wimg = HPTE_R_M;
+> somewhere which is what we do for clone3(), openat2() and others to
+> catch build-time nonsense.
+> 
+> include/uapi/linux/perf_event.h:#define PERF_ATTR_SIZE_VER0     64      /* sizeof first published struct */
+> include/uapi/linux/sched.h:#define CLONE_ARGS_SIZE_VER0 64 /* sizeof first published struct */
+> include/uapi/linux/sched/types.h:#define SCHED_ATTR_SIZE_VER0   48      /* sizeof first published struct */
+> include/linux/fcntl.h:#define OPEN_HOW_SIZE_VER0        24 /* sizeof first published struct */
+> include/linux/fcntl.h:#define OPEN_HOW_SIZE_LATEST      OPEN_HOW_SIZE_VER0
 
-Paul.
+The ..._SIZE_VER0 and ...LATEST stuff doesn't seem useful to export via
+UAPI. Above, 2 of the 3 export to uapi. Is there a specific rationale
+for which should and which shouldn't?
+
+> > +#undef EA_IOCTL
+> 
+> Why is this undefed? :)
+
+It was defined "in" a function, so I like to mimic function visibility.
+But you're right; there's no reason to undef it.
+
+-- 
+Kees Cook
