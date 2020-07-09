@@ -2,138 +2,131 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 095B52198BB
-	for <lists+linux-api@lfdr.de>; Thu,  9 Jul 2020 08:35:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2593F219D94
+	for <lists+linux-api@lfdr.de>; Thu,  9 Jul 2020 12:20:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726270AbgGIGfm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 9 Jul 2020 02:35:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58152 "EHLO
+        id S1726343AbgGIKUc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 9 Jul 2020 06:20:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726162AbgGIGfm (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Jul 2020 02:35:42 -0400
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEC6CC08C5DD
-        for <linux-api@vger.kernel.org>; Wed,  8 Jul 2020 23:35:41 -0700 (PDT)
-Received: by mail-pf1-x441.google.com with SMTP id m9so599493pfh.0
-        for <linux-api@vger.kernel.org>; Wed, 08 Jul 2020 23:35:41 -0700 (PDT)
+        with ESMTP id S1726313AbgGIKUc (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Jul 2020 06:20:32 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DC6DC061A0B;
+        Thu,  9 Jul 2020 03:20:32 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id e18so788338pgn.7;
+        Thu, 09 Jul 2020 03:20:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=DE1LuupcO0lUvaRya3W/C8Tbi5DeMgekx8sDP5vicOQ=;
-        b=HoRESPD1JJh9Q/fTkQkymYUP5Wxy4cj9Le1XCVdCeSiE4zFNtVIEJgdKJqsUDX1Zkl
-         H/73BLAMPG1OSjCvHl/4cAu+8IncSZznZ3KNrrqaJbi3JVvPqh8/GTvahKSSdizEtdOU
-         uIyo3VW972Zp7A8il1iUa47IIVx/iJCnkAPzs=
+        d=gmail.com; s=20161025;
+        h=date:from:subject:to:cc:references:in-reply-to:mime-version
+         :message-id:content-transfer-encoding;
+        bh=K1VxGPW0xuJmXA1rhdwVLxJA7czyM/CyNjmy8WBsRv4=;
+        b=vAFl0E6HBeNrm26G8P0UQdOfXgqNlJcA/tct4oKyTFUwEd43U7dI8PbkM8WGgVIowk
+         JzOfLvU81ZaMeTJzi15ONkYEhz8ZdK1bWR7BWVaIJs/P8JDNNQZ4C6ygk426LLZ1i6Ur
+         FSzzF+6FLikQrB7ZepCeoeEROzURE/Dh8X1u0DbLBpr2ry99jml6TiaDBUgmGT2TZjot
+         Bs/VL2qJTGoqSBj1njDvTMQmdGXXJaLZAQkf7dMbet9Ig0o24iRlaaiRDvelEBe4Vlmq
+         4o1KND3JDQfEv+NoULX20gLL2VRHXrUZDwdaew59oF71+DhmqI90PweEtb3EfegD5Mb6
+         BlTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=DE1LuupcO0lUvaRya3W/C8Tbi5DeMgekx8sDP5vicOQ=;
-        b=TRcIA+s9TGKaKXBEEzJTwF0F94X9UR2q7NHUnqEXItanwdbwQXfvsx9wU7/0QB9exC
-         IySTC1Oco9/8QAe+ficIPlBunUagqsbTs4rggAonumT3/WtOwTkakOaAOgOA71F8fjkL
-         D2BXvTD439yGHF/bagR+gEro7iXXpf25THfBWw/eATOgRYzOng7kp150e8IWNrqi+Pin
-         zZulKhKxI1MIssgB2lU4rMTbexGa/worc0ezAWt8BuLFQame/yCC1h+H6264bECk8iqY
-         +4ztjY46eTLpY0YwFWUq5ve8QY4exYsmvBSOGhm/c/uLGv77SSmnUFP+IIFINP4RR2z8
-         K8SQ==
-X-Gm-Message-State: AOAM532U4bdm4LL2kQ03bhtVbFTBJKluxvMSKlklYHcOwxc7Siw7mVAH
-        Ww1R+Sx926SNpZgDuegslKztrQ==
-X-Google-Smtp-Source: ABdhPJzDBqXhJupcvKcK6cxWAsn2yNY4A3u45Jw1CaNnFZFHcxzANck+2I+4Usidv8kzycZChQDCAQ==
-X-Received: by 2002:a65:4507:: with SMTP id n7mr51242745pgq.180.1594276541353;
-        Wed, 08 Jul 2020 23:35:41 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id o128sm1556287pfg.127.2020.07.08.23.35.40
+        h=x-gm-message-state:date:from:subject:to:cc:references:in-reply-to
+         :mime-version:message-id:content-transfer-encoding;
+        bh=K1VxGPW0xuJmXA1rhdwVLxJA7czyM/CyNjmy8WBsRv4=;
+        b=RXOIdIN/NTlrdEhKUttY8fd8Js8+szzba0AH+m3Qx6UBYApoFzhEywHs+J8SQJQd8a
+         iQ6t4uERWmw8tDPA1f7ky20g1aUq76dRU7PcsS1vlgQgww1jD9e2ye/Jf1VAcgrebUFv
+         HfqlSq7jCSupS6XNjdt77Guw9qNOIyHLVmjc3lTrKEnXhEcJPk8Kn8K2ElZa02I25Raa
+         znKkpw8hD8GGRiXBIP8ddwvcZmOKhFiJwAsSNYNglTaQ7/QM2o086KZchDI9jRjgsn9M
+         ms+4H0vmzKWbCeMQhPyt2M+rF1QjpZEaIOCkXxo7uZEoZA76EvuhUdh40fBWBrGcqWLZ
+         IE7A==
+X-Gm-Message-State: AOAM530cNyw2HSEhjk43BllxMR7M1HBYsifKoIa0GdJSGb3HUEQxSbT4
+        un5r8S1jsvjmYVKMS/wjSEKUmydK9mZyLw==
+X-Google-Smtp-Source: ABdhPJyK/kHRiKtUEQazqsog0g6PKjmX1zO9iglcz1L9RZo+7iGTY/FgnI/8ZzYcrflQm4qNDWLuzw==
+X-Received: by 2002:a63:ab0d:: with SMTP id p13mr52941361pgf.327.1594290031443;
+        Thu, 09 Jul 2020 03:20:31 -0700 (PDT)
+Received: from localhost (27-33-0-186.tpgi.com.au. [27.33.0.186])
+        by smtp.gmail.com with ESMTPSA id z2sm2453364pfq.67.2020.07.09.03.20.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2020 23:35:40 -0700 (PDT)
-Date:   Wed, 8 Jul 2020 23:35:39 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Christoph Hellwig <hch@lst.de>, linux-kernel@vger.kernel.org,
-        Sargun Dhillon <sargun@sargun.me>,
-        Christian Brauner <christian@brauner.io>,
-        Tycho Andersen <tycho@tycho.ws>,
-        David Laight <David.Laight@ACULAB.COM>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Matt Denton <mpdenton@google.com>,
-        Jann Horn <jannh@google.com>, Chris Palmer <palmer@google.com>,
-        Robert Sesek <rsesek@google.com>,
-        Giuseppe Scrivano <gscrivan@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Will Drewry <wad@chromium.org>, Shuah Khan <shuah@kernel.org>,
-        netdev@vger.kernel.org, containers@lists.linux-foundation.org,
-        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v6 4/7] pidfd: Replace open-coded partial receive_fd()
-Message-ID: <202007082330.6B423FE@keescook>
-References: <20200706201720.3482959-1-keescook@chromium.org>
- <20200706201720.3482959-5-keescook@chromium.org>
- <20200707122220.cazzek4655gj4tj7@wittgenstein>
+        Thu, 09 Jul 2020 03:20:30 -0700 (PDT)
+Date:   Thu, 09 Jul 2020 20:20:23 +1000
+From:   Nicholas Piggin <npiggin@gmail.com>
+Subject: Re: [PATCH v2 2/3] powerpc/64s: remove PROT_SAO support
+To:     David Gibson <david@gibson.dropbear.id.au>,
+        Paul Mackerras <paulus@ozlabs.org>
+Cc:     kvm-ppc@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-mm@kvack.org, linuxppc-dev@lists.ozlabs.org
+References: <20200703011958.1166620-1-npiggin@gmail.com>
+        <20200703011958.1166620-3-npiggin@gmail.com>
+        <20200709043406.GB2822576@thinks.paulus.ozlabs.org>
+In-Reply-To: <20200709043406.GB2822576@thinks.paulus.ozlabs.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200707122220.cazzek4655gj4tj7@wittgenstein>
+Message-Id: <1594288843.m3s9igh1hu.astroid@bobo.none>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jul 07, 2020 at 02:22:20PM +0200, Christian Brauner wrote:
-> So while the patch is correct it leaves 5.6 and 5.7 with a bug in the
-> pidfd_getfd() implementation and that just doesn't seem right. I'm
-> wondering whether we should introduce:
-> 
-> void sock_update(struct file *file)
-> {
-> 	struct socket *sock;
-> 	int error;
-> 
-> 	sock = sock_from_file(file, &error);
-> 	if (sock) {
-> 		sock_update_netprioidx(&sock->sk->sk_cgrp_data);
-> 		sock_update_classid(&sock->sk->sk_cgrp_data);
-> 	}
-> }
-> 
-> and switch pidfd_getfd() over to:
-> 
-> diff --git a/kernel/pid.c b/kernel/pid.c
-> index f1496b757162..c26bba822be3 100644
-> --- a/kernel/pid.c
-> +++ b/kernel/pid.c
-> @@ -642,10 +642,12 @@ static int pidfd_getfd(struct pid *pid, int fd)
->         }
-> 
->         ret = get_unused_fd_flags(O_CLOEXEC);
-> -       if (ret < 0)
-> +       if (ret < 0) {
->                 fput(file);
-> -       else
-> +       } else {
-> +               sock_update(file);
->                 fd_install(ret, file);
-> +       }
-> 
->         return ret;
->  }
-> 
-> first thing in the series and then all of the other patches on top of it
-> so that we can Cc stable for this and that can get it backported to 5.6,
-> 5.7, and 5.8.
-> 
-> Alternatively, I can make this a separate bugfix patch series which I'll
-> send upstream soonish. Or we have specific patches just for 5.6, 5.7,
-> and 5.8. Thoughts?
+Excerpts from Paul Mackerras's message of July 9, 2020 2:34 pm:
+> On Fri, Jul 03, 2020 at 11:19:57AM +1000, Nicholas Piggin wrote:
+>> ISA v3.1 does not support the SAO storage control attribute required to
+>> implement PROT_SAO. PROT_SAO was used by specialised system software
+>> (Lx86) that has been discontinued for about 7 years, and is not thought
+>> to be used elsewhere, so removal should not cause problems.
+>>=20
+>> We rather remove it than keep support for older processors, because
+>> live migrating guest partitions to newer processors may not be possible
+>> if SAO is in use (or worse allowed with silent races).
+>=20
+> This is actually a real problem for KVM, because now we have the
+> capabilities of the host affecting the characteristics of the guest
+> virtual machine in a manner which userspace (e.g. QEMU) is unable to
+> control.
+>=20
+> It would probably be better to disallow SAO on all machines than have
+> it available on some hosts and not others.  (Yes I know there is a
+> check on CPU_FTR_ARCH_206 in there, but that has been a no-op since we
+> removed the PPC970 KVM support.)
 
-Okay, I looked at hch's clean-ups again and I'm reminded why they
-don't make great -stable material. :) The compat bug (also missing the
-sock_update()) needs a similar fix (going back to 3.6...), so, yeah,
-for ease of backport, probably an explicit sock_update() implementation
-(with compat and native scm using it), and a second patch for pidfd.
+This change doesn't change the SAO difference on the host processors
+though, just tries to slightly improve it from silently broken to
+maybe complaining a bit.
 
-Let me see what I looks best...
+I didn't want to stop some very old image that uses this and is running
+okay on an existing host from working, but maybe the existence of such
+a thing would contradict my reasoning. But then if we don't care about
+it why care about this KVM behaviour difference at all?
 
--- 
-Kees Cook
+> Solving this properly will probably require creating a new KVM host
+> capability and associated machine parameter in QEMU, along with a new
+> machine type.
+
+Rather than answer any of these questions, I might take the KVM change
+out and that can be dealt with separately from guest SAO removal.
+
+Thanks,
+Nick
+
+>=20
+> [snip]
+>=20
+>> diff --git a/arch/powerpc/include/asm/kvm_book3s_64.h b/arch/powerpc/inc=
+lude/asm/kvm_book3s_64.h
+>> index 9bb9bb370b53..fac39ff659d4 100644
+>> --- a/arch/powerpc/include/asm/kvm_book3s_64.h
+>> +++ b/arch/powerpc/include/asm/kvm_book3s_64.h
+>> @@ -398,9 +398,10 @@ static inline bool hpte_cache_flags_ok(unsigned lon=
+g hptel, bool is_ci)
+>>  {
+>>  	unsigned int wimg =3D hptel & HPTE_R_WIMG;
+>> =20
+>> -	/* Handle SAO */
+>> +	/* Handle SAO for POWER7,8,9 */
+>>  	if (wimg =3D=3D (HPTE_R_W | HPTE_R_I | HPTE_R_M) &&
+>> -	    cpu_has_feature(CPU_FTR_ARCH_206))
+>> +	    cpu_has_feature(CPU_FTR_ARCH_206) &&
+>> +	    !cpu_has_feature(CPU_FTR_ARCH_31))
+>>  		wimg =3D HPTE_R_M;
+>=20
+> Paul.
+>=20
