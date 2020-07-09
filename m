@@ -2,18 +2,18 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 450F021A680
-	for <lists+linux-api@lfdr.de>; Thu,  9 Jul 2020 20:00:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 505FE21A682
+	for <lists+linux-api@lfdr.de>; Thu,  9 Jul 2020 20:00:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727099AbgGISAq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 9 Jul 2020 14:00:46 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:60978 "EHLO
+        id S1726752AbgGISAu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 9 Jul 2020 14:00:50 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:60998 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726936AbgGISAq (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Jul 2020 14:00:46 -0400
+        with ESMTP id S1726936AbgGISAt (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Jul 2020 14:00:49 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: tonyk)
-        with ESMTPSA id E84ED2A65F0
+        with ESMTPSA id 0E24B2A65F4
 From:   =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>
 To:     linux-kernel@vger.kernel.org, tglx@linutronix.de,
         peterz@infradead.org
@@ -22,9 +22,9 @@ Cc:     krisman@collabora.com, kernel@collabora.com,
         pgriffais@valvesoftware.com, fweimer@redhat.com,
         libc-alpha@sourceware.org, malteskarupke@web.de,
         linux-api@vger.kernel.org, arnd@arndb.de
-Subject: [RFC v2 1/4] futex2: Add new futex interface
-Date:   Thu,  9 Jul 2020 14:59:18 -0300
-Message-Id: <20200709175921.211387-2-andrealmeid@collabora.com>
+Subject: [RFC v2 2/4] selftests: futex: Add futex2 wake/wait test
+Date:   Thu,  9 Jul 2020 14:59:19 -0300
+Message-Id: <20200709175921.211387-3-andrealmeid@collabora.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200709175921.211387-1-andrealmeid@collabora.com>
 References: <20200709175921.211387-1-andrealmeid@collabora.com>
@@ -36,267 +36,285 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Add a new futex interface into the kernel, namely futex2. This first
-piece of work just introduces the new interface without new feature for
-now, using all mechanisms of the old interface in order to work. This
-way we can properly formalize the expectations around the new design,
-while being able to expand the code as we need and even in parallel
-efforts if possible.
-
-This new interface is able just to wait and wake on a 32 bits user futex.
-The wait operation supports timeout with absolute values only, using
-timespec64, in monotonic or realtime mode. This syscall is not compatible
-with ABIs that have timesize as 32 bits, only the ones that support 64
-bits timesize. The code can be found in my git tree[1].
-
-The design of this syscall was based on the discussion following the
-"futex: Implement mechanism to wait on any of several futexes" patch[2].
-
-In order to test the code, the glibc 2.31 low level futex code was
-modified to use the new syscall. It's possible to find the code here[3].
-After running the tests of glibc (`make check subdir=nptl`), only 26
-tests of 370 didn't passed, and since they are all related to FUTEX_PI,
-which isn't implemented in the new interface, those failures were expected.
-All kernel selftests were successful.
-
-[1] https://gitlab.collabora.com/tonyk/linux/-/commits/futex2
-[2] https://lore.kernel.org/patchwork/patch/1194339/
-[3] https://gitlab.collabora.com/tonyk/glibc/-/commits/futex2
+Add a simple test to test wake/wait mechanism using futex2 interface.
+Create helper files so more tests can evaluate futex2. While 32bit ABIs
+from glibc aren't able to use 64 bit sized time variables, add a
+temporary workaround that implements the required types and calls the
+appropriated syscalls, since futex2 doesn't supports 32 bit sized time.
 
 Signed-off-by: André Almeida <andrealmeid@collabora.com>
 ---
- MAINTAINERS                            |  2 +-
- arch/x86/entry/syscalls/syscall_32.tbl |  2 +
- arch/x86/entry/syscalls/syscall_64.tbl |  2 +
- include/linux/syscalls.h               |  7 +++
- include/uapi/asm-generic/unistd.h      |  8 ++-
- include/uapi/linux/futex.h             | 10 ++++
- init/Kconfig                           |  7 +++
- kernel/Makefile                        |  1 +
- kernel/futex2.c                        | 73 ++++++++++++++++++++++++++
- kernel/sys_ni.c                        |  4 ++
- 10 files changed, 114 insertions(+), 2 deletions(-)
- create mode 100644 kernel/futex2.c
+ tools/include/uapi/asm-generic/unistd.h       |   7 +-
+ .../selftests/futex/functional/.gitignore     |   1 +
+ .../selftests/futex/functional/Makefile       |   4 +-
+ .../selftests/futex/functional/futex2_wait.c  | 111 ++++++++++++++++++
+ .../testing/selftests/futex/functional/run.sh |   3 +
+ .../selftests/futex/include/futex2test.h      |  77 ++++++++++++
+ 6 files changed, 201 insertions(+), 2 deletions(-)
+ create mode 100644 tools/testing/selftests/futex/functional/futex2_wait.c
+ create mode 100644 tools/testing/selftests/futex/include/futex2test.h
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 68f21d46614c..b4f60532317b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7104,7 +7104,7 @@ F:	Documentation/locking/*futex*
- F:	include/asm-generic/futex.h
- F:	include/linux/futex.h
- F:	include/uapi/linux/futex.h
--F:	kernel/futex.c
-+F:	kernel/futex*
- F:	tools/perf/bench/futex*
- F:	Documentation/locking/*futex*
- 
-diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
-index d8f8a1a69ed1..f7a263f1ca98 100644
---- a/arch/x86/entry/syscalls/syscall_32.tbl
-+++ b/arch/x86/entry/syscalls/syscall_32.tbl
-@@ -443,3 +443,5 @@
- 437	i386	openat2			sys_openat2
- 438	i386	pidfd_getfd		sys_pidfd_getfd
- 439	i386	faccessat2		sys_faccessat2
-+440	i386	futex_wait		sys_futex_wait
-+441	i386	futex_wake		sys_futex_wake
-diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
-index 78847b32e137..310eb1fd9a1e 100644
---- a/arch/x86/entry/syscalls/syscall_64.tbl
-+++ b/arch/x86/entry/syscalls/syscall_64.tbl
-@@ -360,6 +360,8 @@
- 437	common	openat2			sys_openat2
- 438	common	pidfd_getfd		sys_pidfd_getfd
- 439	common	faccessat2		sys_faccessat2
-+440	common	futex_wait		sys_futex_wait
-+441	common	futex_wake		sys_futex_wake
- 
- #
- # x32-specific system call numbers start at 512 to avoid cache impact
-diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-index 7c354c2955f5..04fe9f20f522 100644
---- a/include/linux/syscalls.h
-+++ b/include/linux/syscalls.h
-@@ -588,6 +588,13 @@ asmlinkage long sys_get_robust_list(int pid,
- asmlinkage long sys_set_robust_list(struct robust_list_head __user *head,
- 				    size_t len);
- 
-+/* kernel/futex2.c */
-+asmlinkage long sys_futex_wait(void __user *uaddr, unsigned long val,
-+			       unsigned long flags,
-+			       struct __kernel_timespec __user __user *timo);
-+asmlinkage long sys_futex_wake(void __user *uaddr, unsigned long nr_wake,
-+			       unsigned long flags);
-+
- /* kernel/hrtimer.c */
- asmlinkage long sys_nanosleep(struct __kernel_timespec __user *rqtp,
- 			      struct __kernel_timespec __user *rmtp);
-diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
-index f4a01305d9a6..e3e03350ae76 100644
---- a/include/uapi/asm-generic/unistd.h
-+++ b/include/uapi/asm-generic/unistd.h
-@@ -858,8 +858,14 @@ __SYSCALL(__NR_pidfd_getfd, sys_pidfd_getfd)
- #define __NR_faccessat2 439
- __SYSCALL(__NR_faccessat2, sys_faccessat2)
+diff --git a/tools/include/uapi/asm-generic/unistd.h b/tools/include/uapi/asm-generic/unistd.h
+index 3a3201e4618e..40fbf4ce49ff 100644
+--- a/tools/include/uapi/asm-generic/unistd.h
++++ b/tools/include/uapi/asm-generic/unistd.h
+@@ -856,8 +856,13 @@ __SYSCALL(__NR_openat2, sys_openat2)
+ #define __NR_pidfd_getfd 438
+ __SYSCALL(__NR_pidfd_getfd, sys_pidfd_getfd)
  
 +#define __NR_futex_wait 440
 +__SYSCALL(__NR_futex_wait, sys_futex_wait)
-+
 +#define __NR_futex_wake 441
 +__SYSCALL(__NR_futex_wake, sys_futex_wake)
 +
  #undef __NR_syscalls
--#define __NR_syscalls 440
+-#define __NR_syscalls 439
 +#define __NR_syscalls 442
  
  /*
   * 32 bit systems traditionally used different
-diff --git a/include/uapi/linux/futex.h b/include/uapi/linux/futex.h
-index a89eb0accd5e..1e67778690eb 100644
---- a/include/uapi/linux/futex.h
-+++ b/include/uapi/linux/futex.h
-@@ -41,6 +41,16 @@
- #define FUTEX_CMP_REQUEUE_PI_PRIVATE	(FUTEX_CMP_REQUEUE_PI | \
- 					 FUTEX_PRIVATE_FLAG)
+diff --git a/tools/testing/selftests/futex/functional/.gitignore b/tools/testing/selftests/futex/functional/.gitignore
+index 0efcd494daab..d61f1df94360 100644
+--- a/tools/testing/selftests/futex/functional/.gitignore
++++ b/tools/testing/selftests/futex/functional/.gitignore
+@@ -6,3 +6,4 @@ futex_wait_private_mapped_file
+ futex_wait_timeout
+ futex_wait_uninitialized_heap
+ futex_wait_wouldblock
++futex2_wait
+diff --git a/tools/testing/selftests/futex/functional/Makefile b/tools/testing/selftests/futex/functional/Makefile
+index 23207829ec75..7142a94a7ac3 100644
+--- a/tools/testing/selftests/futex/functional/Makefile
++++ b/tools/testing/selftests/futex/functional/Makefile
+@@ -5,6 +5,7 @@ LDLIBS := -lpthread -lrt
  
-+/* Size argument to futex2 syscall */
-+#define FUTEX_8		0
-+#define FUTEX_16	1
-+#define FUTEX_32	2
-+#if __BITS_PER_LONG == 64 || defined(__x86_64__)
-+# define FUTEX_64	3
-+#endif
-+
-+#define FUTEX_SIZE_MASK	0x3
-+
- /*
-  * Support for robust futexes: the kernel cleans up held futexes at
-  * thread exit time.
-diff --git a/init/Kconfig b/init/Kconfig
-index a46aa8f3174d..166dec71dae4 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -1493,6 +1493,13 @@ config FUTEX
- 	  support for "fast userspace mutexes".  The resulting kernel may not
- 	  run glibc-based applications correctly.
+ HEADERS := \
+ 	../include/futextest.h \
++	../include/futex2test.h \
+ 	../include/atomic.h \
+ 	../include/logging.h
+ TEST_GEN_FILES := \
+@@ -14,7 +15,8 @@ TEST_GEN_FILES := \
+ 	futex_requeue_pi_signal_restart \
+ 	futex_requeue_pi_mismatched_ops \
+ 	futex_wait_uninitialized_heap \
+-	futex_wait_private_mapped_file
++	futex_wait_private_mapped_file \
++	futex2_wait
  
-+config FUTEX2
-+	bool "Enable futex2 support" if EXPERT
-+	depends on FUTEX
-+	default n
-+	help
-+	  Experimental support for futex2 interface.
-+
- config FUTEX_PI
- 	bool
- 	depends on FUTEX && RT_MUTEXES
-diff --git a/kernel/Makefile b/kernel/Makefile
-index f3218bc5ec69..7698187de0b0 100644
---- a/kernel/Makefile
-+++ b/kernel/Makefile
-@@ -55,6 +55,7 @@ obj-$(CONFIG_PROFILING) += profile.o
- obj-$(CONFIG_STACKTRACE) += stacktrace.o
- obj-y += time/
- obj-$(CONFIG_FUTEX) += futex.o
-+obj-$(CONFIG_FUTEX2) += futex2.o
- obj-$(CONFIG_GENERIC_ISA_DMA) += dma.o
- obj-$(CONFIG_SMP) += smp.o
- ifneq ($(CONFIG_SMP),y)
-diff --git a/kernel/futex2.c b/kernel/futex2.c
+ TEST_PROGS := run.sh
+ 
+diff --git a/tools/testing/selftests/futex/functional/futex2_wait.c b/tools/testing/selftests/futex/functional/futex2_wait.c
 new file mode 100644
-index 000000000000..b87a10ba7c01
+index 000000000000..752ed26803b3
 --- /dev/null
-+++ b/kernel/futex2.c
-@@ -0,0 +1,73 @@
++++ b/tools/testing/selftests/futex/functional/futex2_wait.c
+@@ -0,0 +1,111 @@
 +// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * futex2 system call interface by André Almeida <andrealmeid@collabora.com>
++/******************************************************************************
 + *
-+ * Copyright 2020 Collabora Ltd.
-+ */
++ *   Copyright Collabora Ltd., 2020
++ *
++ * DESCRIPTION
++ *	Test wait/wake mechanism of futex2, using 32bit sized futexes.
++ *
++ * AUTHOR
++ *	André Almeida <andrealmeid@collabora.com>
++ *
++ * HISTORY
++ *      2020-Jul-9: Initial version by André <andrealmeid@collabora.com>
++ *
++ *****************************************************************************/
 +
-+#include <linux/syscalls.h>
++#include <errno.h>
++#include <error.h>
++#include <getopt.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <time.h>
++#include <pthread.h>
++#include "futex2test.h"
++#include "logging.h"
 +
-+#include <asm/futex.h>
++#define TEST_NAME "futex-wait-wouldblock"
++#define timeout_ns  30000000
++#define WAKE_WAIT_US 10000
++futex_t f1 = FUTEX_INITIALIZER;
 +
-+/*
-+ * Set of flags that futex2 operates. If we got something that is not in this
-+ * set, it can be a unsupported futex1 operation like BITSET or PI, so we
-+ * refuse to accept
-+ */
-+#define FUTEX2_MASK (FUTEX_SIZE_MASK | FUTEX_PRIVATE_FLAG | FUTEX_CLOCK_REALTIME)
-+
-+/**
-+ * sys_futex_wait: Wait on a futex address if (*uaddr) == val
-+ * @uaddr: User address of futex
-+ * @val:   Expected value of futex
-+ * @flags: Checks if futex is private, the size of futex and the clockid
-+ * @timo:  Optional absolute timeout. Supports only 64bit time.
-+ */
-+SYSCALL_DEFINE4(futex_wait, void __user *, uaddr, unsigned long, val,
-+		unsigned long, flags, struct __kernel_timespec __user *, timo)
++void usage(char *prog)
 +{
-+	int op = FUTEX_WAIT | (flags & (FUTEX_PRIVATE_FLAG | FUTEX_CLOCK_REALTIME));
-+	unsigned int size = flags & FUTEX_SIZE_MASK;
-+	struct timespec64 ts;
-+	ktime_t aux, *kt = NULL;
++	printf("Usage: %s\n", prog);
++	printf("  -c	Use color\n");
++	printf("  -h	Display this help message\n");
++	printf("  -v L	Verbosity level: %d=QUIET %d=CRITICAL %d=INFO\n",
++	       VQUIET, VCRITICAL, VINFO);
++}
 +
-+	if (flags & ~FUTEX2_MASK)
-+		return -EINVAL;
++void *waiterfn(void *arg)
++{
++	struct timespec64 to64;
 +
-+	if (size != FUTEX_32)
-+		return -EINVAL;
++	/* setting absolute timeout for futex2 */
++	if (gettime64(CLOCK_MONOTONIC, &to64))
++		error("gettime64 failed\n", errno);
 +
-+	if (timo) {
-+		if (get_timespec64(&ts, timo))
-+			return -EFAULT;
++	to64.tv_nsec += timeout_ns;
 +
-+		if (!timespec64_valid(&ts))
-+			return -EINVAL;
-+
-+		aux = timespec64_to_ktime(ts);
-+		kt = &aux;
++	if (to64.tv_nsec >= 1000000000) {
++		to64.tv_sec++;
++		to64.tv_nsec -= 1000000000;
 +	}
 +
-+	return do_futex(uaddr, op, val, kt, NULL, 0, 0);
++	if (futex2_wait(&f1, f1, FUTEX_PRIVATE_FLAG | FUTEX_32, &to64))
++		printf("waiter failed errno %d\n", errno);
++
++	return NULL;
 +}
 +
-+/**
-+ * sys_futex_wake: Wake a number of futexes waiting in an address
-+ * @uaddr:   Address of futex to be woken up
-+ * @nr_wake: Number of futexes to be woken up
-+ * @flags:   Checks if futex is private and the size of futex
-+ */
-+SYSCALL_DEFINE3(futex_wake, void __user *, uaddr, unsigned int, nr_wake,
-+		unsigned long, flags)
++int main(int argc, char *argv[])
 +{
-+	int op = FUTEX_WAKE | (flags & (FUTEX_PRIVATE_FLAG));
-+	unsigned int size = flags & FUTEX_SIZE_MASK;
++	pthread_t waiter;
++	int res, ret = RET_PASS;
++	int c;
 +
-+	if (flags & ~FUTEX2_MASK)
-+		return -EINVAL;
++	while ((c = getopt(argc, argv, "cht:v:")) != -1) {
++		switch (c) {
++		case 'c':
++			log_color(1);
++			break;
++		case 'h':
++			usage(basename(argv[0]));
++			exit(0);
++		case 'v':
++			log_verbosity(atoi(optarg));
++			break;
++		default:
++			usage(basename(argv[0]));
++			exit(1);
++		}
++	}
 +
-+	if (size != FUTEX_32)
-+		return -EINVAL;
++	ksft_print_header();
++	ksft_set_plan(1);
++	ksft_print_msg("%s: Test FUTEX_WAIT\n",
++		       basename(argv[0]));
 +
-+	return do_futex(uaddr, op, nr_wake, NULL, NULL, 0, 0);
++	info("Calling futex_wait on f1: %u @ %p with val=%u\n", f1, &f1, f1);
++
++	if (pthread_create(&waiter, NULL, waiterfn, NULL))
++		error("pthread_create failed\n", errno);
++
++	usleep(WAKE_WAIT_US);
++
++	info("Calling futex2_wake on f1: %u @ %p with val=%u\n", f1, &f1, f1);
++	res = futex2_wake(&f1, 1, FUTEX_PRIVATE_FLAG | FUTEX_32);
++	if (res != 1) {
++		ksft_test_result_fail("futex2_wake returned: %d %s\n",
++				      res ? errno : res,
++				      res ? strerror(errno) : "");
++		ret = RET_FAIL;
++	} else {
++		ksft_test_result_pass("futex2_wake wouldblock succeeds\n");
++	}
++
++	ksft_print_cnts();
++	return ret;
 +}
-diff --git a/kernel/sys_ni.c b/kernel/sys_ni.c
-index 3b69a560a7ac..f04965322a2e 100644
---- a/kernel/sys_ni.c
-+++ b/kernel/sys_ni.c
-@@ -148,6 +148,10 @@ COND_SYSCALL_COMPAT(set_robust_list);
- COND_SYSCALL(get_robust_list);
- COND_SYSCALL_COMPAT(get_robust_list);
- 
-+/* kernel/futex2.c */
-+COND_SYSCALL(futex_wait);
-+COND_SYSCALL(futex_wake);
+diff --git a/tools/testing/selftests/futex/functional/run.sh b/tools/testing/selftests/futex/functional/run.sh
+index 1acb6ace1680..3730159c865a 100755
+--- a/tools/testing/selftests/futex/functional/run.sh
++++ b/tools/testing/selftests/futex/functional/run.sh
+@@ -73,3 +73,6 @@ echo
+ echo
+ ./futex_wait_uninitialized_heap $COLOR
+ ./futex_wait_private_mapped_file $COLOR
 +
- /* kernel/hrtimer.c */
- 
- /* kernel/itimer.c */
++echo
++./futex2_wait $COLOR
+diff --git a/tools/testing/selftests/futex/include/futex2test.h b/tools/testing/selftests/futex/include/futex2test.h
+new file mode 100644
+index 000000000000..807b8b57fe61
+--- /dev/null
++++ b/tools/testing/selftests/futex/include/futex2test.h
+@@ -0,0 +1,77 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/******************************************************************************
++ *
++ *   Copyright Collabora Ltd., 2020
++ *
++ * DESCRIPTION
++ *	Futex2 library addons for old futex library
++ *
++ * AUTHOR
++ *	André Almeida <andrealmeid@collabora.com>
++ *
++ * HISTORY
++ *      2020-Jul-9: Initial version by André <andrealmeid@collabora.com>
++ *
++ *****************************************************************************/
++#include "futextest.h"
++#include <stdio.h>
++
++#define NSEC_PER_SEC	1000000000L
++
++#ifndef FUTEX_8
++# define FUTEX_8	0
++#endif
++#ifndef FUTEX_16
++# define FUTEX_16	1
++#endif
++#ifndef FUTEX_32
++#define FUTEX_32	2
++#endif
++#ifdef __x86_64__
++# ifndef FUTEX_64
++#  define FUTEX_64      3
++# endif
++#endif
++
++/*
++ * - Y2038 section for 32-bit applications -
++ *
++ * Remove this when glibc is ready for y2038. Then, always compile with
++ * `-DTIME_BITS=64` or `-D__USE_TIME_BITS64`. glibc will provide both
++ * timespec64 and clock_gettime64 so we won't need to define here.
++ */
++#if defined(__i386__) || __TIMESIZE == 32
++# define NR_gettime __NR_clock_gettime64
++#else
++# define NR_gettime __NR_clock_gettime
++#endif
++
++struct timespec64 {
++	long long tv_sec;	/* seconds */
++	long long tv_nsec;	/* nanoseconds */
++};
++
++int gettime64(clock_t clockid, struct timespec64 *tv)
++{
++	return syscall(NR_gettime, clockid, tv);
++}
++/*
++ * - End of Y2038 section -
++ */
++
++/*
++ * wait for uaddr if (*uaddr == val)
++ */
++static inline int futex2_wait(volatile void *uaddr, unsigned long val,
++			      unsigned long flags, struct timespec64 *timo)
++{
++	return syscall(__NR_futex_wait, uaddr, val, flags, timo);
++}
++
++/*
++ * wake nr futexes waiting for uaddr
++ */
++static inline int futex2_wake(volatile void *uaddr, unsigned int nr, unsigned long flags)
++{
++	return syscall(__NR_futex_wake, uaddr, nr, flags);
++}
 -- 
 2.27.0
 
