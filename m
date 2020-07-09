@@ -2,158 +2,327 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 746FB21A07E
-	for <lists+linux-api@lfdr.de>; Thu,  9 Jul 2020 15:08:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE01821A326
+	for <lists+linux-api@lfdr.de>; Thu,  9 Jul 2020 17:16:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726852AbgGINIR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 9 Jul 2020 09:08:17 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:35601 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726785AbgGINIR (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Jul 2020 09:08:17 -0400
-Received: from ip5f5af08c.dynamic.kabel-deutschland.de ([95.90.240.140] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1jtWHd-0001Iq-Q4; Thu, 09 Jul 2020 13:08:13 +0000
-Date:   Thu, 9 Jul 2020 15:08:11 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     linux-kernel@vger.kernel.org, Sargun Dhillon <sargun@sargun.me>,
-        Matt Denton <mpdenton@google.com>,
-        Christian Brauner <christian@brauner.io>,
-        Tycho Andersen <tycho@tycho.ws>,
-        David Laight <David.Laight@ACULAB.COM>,
-        Christoph Hellwig <hch@lst.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Aleksa Sarai <cyphar@cyphar.com>, Jann Horn <jannh@google.com>,
-        Chris Palmer <palmer@google.com>,
-        Robert Sesek <rsesek@google.com>,
-        Giuseppe Scrivano <gscrivan@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Will Drewry <wad@chromium.org>, Shuah Khan <shuah@kernel.org>,
-        netdev@vger.kernel.org, containers@lists.linux-foundation.org,
-        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v6 6/7] seccomp: Introduce addfd ioctl to seccomp user
- notifier
-Message-ID: <20200709130811.zjyn6ptsd3rss3j4@wittgenstein>
-References: <20200706201720.3482959-1-keescook@chromium.org>
- <20200706201720.3482959-7-keescook@chromium.org>
- <20200707133049.nfxc6vz6vcs26m3b@wittgenstein>
- <202007082307.EB5BAD3A0@keescook>
+        id S1726715AbgGIPQB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 9 Jul 2020 11:16:01 -0400
+Received: from mail.efficios.com ([167.114.26.124]:40312 "EHLO
+        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726410AbgGIPQB (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Jul 2020 11:16:01 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 64C4D290039;
+        Thu,  9 Jul 2020 11:15:58 -0400 (EDT)
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id Vv4m6n4pneBY; Thu,  9 Jul 2020 11:15:57 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 95374290232;
+        Thu,  9 Jul 2020 11:15:57 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 95374290232
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1594307757;
+        bh=+BWKkRrNERRwtdPTpRRNGLmxXWxc0R2BuOPzYYfL1QA=;
+        h=Date:From:To:Message-ID:MIME-Version;
+        b=PdeqlQ8xRKaGc9cKYwGmIAuieYBnLIZ2Scv7FDvkPNZ7Ai8uGyH6tD/9e8DfFmKL0
+         vPRNLuQLo99bYQfG0jXN8gf0Th4UERIR+nTJaqwY7y2AAJyLXMps34AQFEz60qjLOv
+         g7ReIltklMSdKYkZ6q80291pntFhHlmESEOk5Dio3elc5F1OOqMMzJItDigiVhWGrF
+         arhqIAJTg/bFEULptIHz39lydJd8Yg2uVOrh22IYXSDFBz3YWG+bgGw4oGXiGEUqLJ
+         pgMCMDu0KD7D/6iHn3fzyXMG36YdSjYI/8wCQW6Xa7yK6y8mPYYzaAn+fZu1QDDJs1
+         Oqps8HQ/F9OoA==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id lXEuWeEjWzq9; Thu,  9 Jul 2020 11:15:57 -0400 (EDT)
+Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
+        by mail.efficios.com (Postfix) with ESMTP id 6A4D2287FEF;
+        Thu,  9 Jul 2020 11:15:57 -0400 (EDT)
+Date:   Thu, 9 Jul 2020 11:15:57 -0400 (EDT)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Florian Weimer <fw@deneb.enyo.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        carlos <carlos@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        paulmck <paulmck@linux.ibm.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api <linux-api@vger.kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Neel Natu <neelnatu@google.com>
+Message-ID: <1197598149.7002.1594307757307.JavaMail.zimbra@efficios.com>
+In-Reply-To: <20200709124941.u4quvvaiabx36ee3@wittgenstein>
+References: <20200706204913.20347-1-mathieu.desnoyers@efficios.com> <378862525.1039.1594123580789.JavaMail.zimbra@efficios.com> <d6b28b3e-9866-ce6f-659e-2c0dba4cd527@redhat.com> <87zh8bw158.fsf@mid.deneb.enyo.de> <1448906726.3717.1594222431276.JavaMail.zimbra@efficios.com> <20200708162247.txdleelcalxkrfjy@wittgenstein> <1565638541.5051.1594229688015.JavaMail.zimbra@efficios.com> <20200709124941.u4quvvaiabx36ee3@wittgenstein>
+Subject: Re: [RFC PATCH for 5.8 3/4] rseq: Introduce
+ RSEQ_FLAG_RELIABLE_CPU_ID
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <202007082307.EB5BAD3A0@keescook>
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [167.114.26.124]
+X-Mailer: Zimbra 8.8.15_GA_3955 (ZimbraWebClient - FF78 (Linux)/8.8.15_GA_3953)
+Thread-Topic: rseq: Introduce RSEQ_FLAG_RELIABLE_CPU_ID
+Thread-Index: SiOdu9P64o2LzvPgDrjFCAUBo9/C+w==
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jul 08, 2020 at 11:12:02PM -0700, Kees Cook wrote:
-> On Tue, Jul 07, 2020 at 03:30:49PM +0200, Christian Brauner wrote:
-> > Hm, maybe change that description to sm like:
-> > 
-> > [...]
+----- On Jul 9, 2020, at 8:49 AM, Christian Brauner christian.brauner@ubuntu.com wrote:
+
+> On Wed, Jul 08, 2020 at 01:34:48PM -0400, Mathieu Desnoyers wrote:
+>> ----- On Jul 8, 2020, at 12:22 PM, Christian Brauner
+>> christian.brauner@ubuntu.com wrote:
+>> [...]
+>> > I've been following this a little bit. The kernel version itself doesn't
+>> > really mean anything and the kernel version is imho not at all
+>> > interesting to userspace applications. Especially for cross-distro
+>> > programs. We can't go around and ask Red Hat, SUSE, Ubuntu, Archlinux,
+>> > openSUSE and god knows who what other distro what their fixed kernel
+>> > version is. That's not feasible at all and not how must programs do it.
+>> > Sure, a lot of programs name a minimal kernel version they require but
+>> > realistically we can't keep bumping it all the time. So the best
+>> > strategy for userspace imho has been to introduce a re-versioned flag or
+>> > enum that indicates the fixed behavior.
+>> > 
+>> > So I would suggest to just introduce
+>> > RSEQ_FLAG_REGISTER_2                      = (1 << 2),
+>> > that's how these things are usually done (Netlink etc.). So not
+>> > introducing a fix bit or whatever but simply reversion your flag/enum.
+>> > We already deal with this today.
+>> 
+>> Because rseq is effectively a per-thread resource shared across application
+>> and libraries, it is not practical to merge the notion of version with the
+>> registration. Typically __rseq_abi is registered by libc, and can be used
+>> by the application and by many libraries. Early adopter libraries and
+>> applications (e.g. librseq, tcmalloc) can also choose to handle registration
+>> if it's not already done by libc.
 > 
-> Cool, yeah. Thanks! I've tweaked it a little more
+> I'm probably missing the elephant in the room but I was briefly looking
+> at github.com/compudj/librseq and it seems to me that the registration
+> you're talking about is:
 > 
-> > > +	/* 24 is original sizeof(struct seccomp_notif_addfd) */
-> > > +	if (size < 24 || size >= PAGE_SIZE)
-> > > +		return -EINVAL;
-> > 
-> > Hm, so maybe add the following:
-> > 
-> > #define SECCOMP_NOTIFY_ADDFD_VER0 24
-> > #define SECCOMP_NOTIFY_ADDFD_LATEST SECCOMP_NOTIFY_ADDFD_VER0
-> > 
-> > and then place:
-> > 
-> > BUILD_BUG_ON(sizeof(struct seccomp_notify_addfd) < SECCOMP_NOTIFY_ADDFD_VER0);
-> > BUILD_BUG_ON(sizeof(struct open_how) != SECCOMP_NOTIFY_ADDFD_LATEST);
-> 
-> Yes, good idea (BTW, did the EA syscall docs land?)
+> extern __thread struct rseq __rseq_abi;
+> extern int __rseq_handled;
 
-I'll be giving a kernel summit talk about extensible syscalls to come to
-some agreement on a few things. After this we'll update the doc patch
-we have now and merge it. :)
+Note that __rseq_handled has now vanished, adapting to glibc's ABI. I just
+updated librseq's header accordingly.
 
 > 
-> I've made these SECCOMP_NOTIFY_ADDFD_SIZE_* to match your examples below
-> (i.e.  I added "SIZE" to what you suggested above).
+> and it's done in int rseq_register_current_thread(void) afaict and
+> currently registration is done with flags set to 0.
 
-Yup, sounds good!
+Correct, however that registration will become a no-op when linked against a
+glibc 2.32+, because the glibc will already have handled the registration
+at thread creation.
 
 > 
-> > somewhere which is what we do for clone3(), openat2() and others to
-> > catch build-time nonsense.
-> > 
-> > include/uapi/linux/perf_event.h:#define PERF_ATTR_SIZE_VER0     64      /* sizeof first published struct */
-> > include/uapi/linux/sched.h:#define CLONE_ARGS_SIZE_VER0 64 /* sizeof first published struct */
-> > include/uapi/linux/sched/types.h:#define SCHED_ATTR_SIZE_VER0   48      /* sizeof first published struct */
-> > include/linux/fcntl.h:#define OPEN_HOW_SIZE_VER0        24 /* sizeof first published struct */
-> > include/linux/fcntl.h:#define OPEN_HOW_SIZE_LATEST      OPEN_HOW_SIZE_VER0
+> What is the problem with either adding a - I don't know -
+> RSEG_FLAG_REGISTER/RSEQ_RELIABLE_CPU_FIELD flag that is also recorded in
+> __rseq_abi.flags. If the kernel doesn't support the flag it will fail
+> registration with EINVAL. So the registering program can detect it. If a
+> caller needs to know whether another thread uses the new flag it can
+> query __rseq_abi.flags. Some form of coordination must be possible in
+> userspace otherwise you'll have trouble with any new feature you add. I
+> general, I don't see how this is different from adding a new feature to
+> rseq. It should be the same principle.
+
+The problem with "extending" struct rseq is that it becomes complex
+because it is shared between libraries and application. Let's suppose
+the library doing the rseq registration does the scheme you describe:
+queries the kernel for features, and stores them in the __rseq_abi.flags.
+We end up with the following upgrade transition headhaches for an
+application using __rseq_abi:
+
+Kernel     |   glibc     |   librseq    | __rseq_abi registration owner
+----------------------------------------------------------------------
+4.18       |   2.31      |     no       | application (reliable cpu_id = false)
+4.18       |   2.31      |     yes      | librseq (reliable cpu_id = false)
+5.8        |   2.31      |     yes      | librseq (reliable cpu_id = true)
+5.8        |   2.32      |     yes      | glibc (reliable cpu_id = false)        
+5.8        |   2.33+     |     yes      | glibc (reliable cpu_id = true)
+
+This kind of transition regressing feature-wise when upgrading a glibc
+can be confusing for users.
+
+One possibility would be to have the kernel store the "reliable cpu_id"
+flag directly into a new __rseq_abi.kernel_flags (because __rseq_abi.flags
+is documented as only read by the kernel). This would remove the registration
+owner from the upgrade scenarios. But what would we gain by exposing this
+flag within struct rseq ? The only real reason for doing so over using an
+explicit system call is typically speed, and querying the kernel for a
+feature does not need to be done often, so this is why I originally favored
+exposing this information through a new system call flag without changing
+the content of struct rseq_cs.
+
+One additional thing to keep in mind: the application can itself choose
+to define the __rseq_abi TLS, which AFAIU (please let me know if I am
+wrong) would take precedence over glibc's copy. So extending the
+size of struct rseq seems rather tricky because the application may
+provide a smaller __rseq_abi, even if both the kernel and glibc agree
+on a larger size.
+
 > 
-> The ..._SIZE_VER0 and ...LATEST stuff doesn't seem useful to export via
-> UAPI. Above, 2 of the 3 export to uapi. Is there a specific rationale
-> for which should and which shouldn't?
+> I also don't understand the "not practical to merge the notion of
+> version with the registration". I'm not sure what that means to be
+> honest. :)
 
-I think openat2() just didn't think it was useful. I find them helpful
-because I often update codebase to the newest struct I know about:
+The notion of "version" here would be to replace the "RELIABLE_CPU_FIELD"
+flag I proposed with a steadily-increasing "fix" version instead.
 
-struct clone_args {
-	__aligned_u64 flags;
-	__aligned_u64 pidfd;
-	__aligned_u64 child_tid;
-	__aligned_u64 parent_tid;
-	__aligned_u64 exit_signal;
-	__aligned_u64 stack;
-	__aligned_u64 stack_size;
-	__aligned_u64 tls;
-/* CLONE_ARGS_SIZE_VER0 64 */
-	__aligned_u64 set_tid;
-	__aligned_u64 set_tid_size;
-/* CLONE_ARGS_SIZE_VER1 80 */
-	__aligned_u64 cgroup;
-/* CLONE_ARGS_SIZE_VER2 88 */
-};
+For both approaches, we could either pass them as parameters with rseq
+registration, and make rseq registration success conditional on the
+kernel implementing those feature/fix-version, or validate the flag/version
+separately from registration.
 
-But bumping it means I can't use:
+If this is done on registration, it means glibc will eventually have to
+handle this. This prevents user libraries with specific needs to query
+whether their features are available. Doing the feature/version validation
+separately from registration allows each user library to make its own
+queries and take advantage of new kernel features before glibc is
+upgraded to be made aware of them.
 
-clone3(&clone_args, sizeof(clone));
+> But just thinking about adding a new feature to rseq. Then you're in the
+> same spot, I think. When you register a bumped rseq - because you added
+> a new flag or whatever - you register a new version one way or the other
+> since a new feature - imho - is always a version bump. In fact, you
+> could think of your "reliable cpu" as a new feature not a bug. ;)
 
-everywhere in the codebase because I'm fscking over everyone on older
-kernels now. :)
+Indeed.
 
-Soin various parts of the codebase I will just use:
+> Also, you seem to directly version struct rseq_cs already through the
+> "version" member. So even if you are against the new flag I wouldn't
+> know what would stop you from directly versioning struct rseq itself.
 
-clone3(&clone_args, CLONE_ARGS_SIZE_VER0);
+struct rseq needs to be shared between application and libraries, with
+issues about what to do if size changes when we have an application
+defining a small struct rseq (taking precedence over glibc's), and glibc
+agreeing with the kernel on a larger structure. So there is little hope
+in changing that layout.
 
-because I don't care about any of the additional features and I don't
-need the kernel to copy any of the other stuff. Then in other parts of
-the codebase I want to set_tid so I use:
+The case of struct rseq_cs is simpler: it is only used as interface between
+a specific library/application user and the kernel, which allows us to
+version the structure and create new layouts as needed.
 
-clone3(&clone_args, CLONE_ARGS_SIZE_VER1);
+> 
+> And it's not that we don't version syscalls. We're doing it in multiple
+> ways to be honest, syscalls with a flag argument that reject unknown
+> flags are bumped in their version every time you add a new flag that
+> they accept. We don't spell this out but this is effectively what it is.
+> Think of it as a minor version bump. Extensible syscalls are versioned
+> by size and when their struct grows are bumped in their (minor) version.
+> In fact extensible syscalls with flags argument embedded in the struct
+> can be version bumped in two ways: growing a new flag argument or
+> growing a new struct member.
 
-This way I can also set "templates", i.e.
+The issue with struct rseq extensibility is not so much ABI between kernel
+and user-space, but rather ABI between userspace libraries/application users.
 
-struct clone_args clone_template1 = {
-	.flags		|= CLONE_CLEAR_SIGHAND,
-	.exit_signal	= SIGCHLD,
-	.set_tid	= 1000,
-	.set_tid_size	= 1,
-};
+> 
+>> 
+>> For instance, it is acceptable for glibc to register rseq for all threads,
+>> even in the presence of the cpu_id field inaccuracy, for use by the
+>> sched_getcpu(3) implementation. However, users of rseq which need to
+>> implement critical sections performing per-cpu data updates may want
+>> to know whether the cpu_id field is reliable to ensure they do not crash
+>> the process due to per-cpu data corruption.
+>> 
+>> This led me to consider exposing a feature-specific flag which can be
+>> queried by specific users to know whether rseq has specific set of correct
+>> behaviors implemented.
+>> 
+>> > (Also, as a side-note. I see that you're passing struct rseq *rseq with
+>> > a length argument but you are not versioning by size. Is that
+>> > intentional? That basically somewhat locks you to the current struct
+>> > rseq layout and means users might run into problems when you extend
+>> > struct rseq in the future as they can't pass the new struct down to
+>> > older kernels. The way we deal with this is now - rseq might preceed
+>> > this - is copy_struct_from_user() (for example in sched_{get,set}attr(),
+>> > openat2(), bpf(), clone3(), etc.). Maybe you want to switch to that to
+>> > keep rseq extensible? Users can detect the new rseq version by just
+>> > passing a larger struct down to the kernel with the extra bytes set to 0
+>> > and if rseq doesn't complain they know they're dealing with an rseq that
+>> > knows larger struct sizes. Might be worth it if you have any reason to
+>> > belive that struct rseq might need to grow.)
+>> 
+>> In the initial iterations of the rseq patch set, we initially had the rseq_len
+>> argument hoping we would eventually be able to extend struct rseq. However,
+>> it was finally decided against making it extensible, so the rseq ABI merged
+>> into the Linux kernel with a fixed-size.
+>> 
+>> One of the key reasons for this is explained in
+>> commit 83b0b15bcb0f ("rseq: Remove superfluous rseq_len from task_struct")
+>> 
+>>     The rseq system call, when invoked with flags of "0" or
+>>     "RSEQ_FLAG_UNREGISTER" values, expects the rseq_len parameter to
+>>     be equal to sizeof(struct rseq), which is fixed-size and fixed-layout,
+>>     specified in uapi linux/rseq.h.
+>>     
+>>     Expecting a fixed size for rseq_len is a design choice that ensures
+>>     multiple libraries and application defining __rseq_abi in the same
+>>     process agree on its exact size.
+>> 
+>> The issue here is caused by the fact that the __rseq_abi variable is
+>> shared across application/libraries for a given thread. So it's not
+>> enough to agree between kernel and user-space on the extensibility
+>> scheme, but we'd also have to find a way for all users within a process
+>> to agree on the layout.
+> 
+> But you're in the same boat if you add any new feature, no? In your
+> model, wouldn't you need all users to agree on the feature set as well?
+> Not just the struct rseq size. If that's the case then rseq would be
+> unextendable (for now).
 
-and then use the same struct for:
+As a consequence of this, my current approach to add a "node_id" field to rseq
+(in a prototype patch) is far from ideal: it defines another TLS symbol, e.g.
+__rseq_abi2, with an extended layout, and registers it with new rseq flags.
 
-clone3(&clone_template1, CLONE_ARGS_SIZE_VER0);
-clone3(&clone_template1, CLONE_ARGS_SIZE_VER1);
+I would really like to be able to extend struct rseq, but because of ABI
+compatibility required between user-space libraries/applications, it seems
+rather tricky to do so.
 
-Whereas sizeof(clone_template1) would always give me
-CLONE_ARGS_SIZE_VER2.
+> But specifically about the size-versioning part. Well, one way to solve
+> this - imho - would be to add a output size parameter to struct rseq and
+> introduce a little more vetting than we have right now.
+> So the kernel is what ultimately registers struct rseq iiuc. If there
+> were a size output parameter the kernel could set the size of the struct
+> it knows about before registering it.
+> So a caller passing down a larger struct with e.g. a new field set to a
+> non-zero value would get an error from the kernel and the size of the
+> supported struct. The caller can then adjust and simply zero out the
+> unsupported field and retry. Other callers in userspace can query the
+> size and find out what size of struct is registered. If it's larger than
+> what they know about they can infer they are on a newer kernel with new
+> features but they can simply ignore the unknown fields. If it's smaller
+> than they know what fields to ignore.
 
-Christian
+How would that work in the case of an application defining its own copy of
+struct rseq __rseq_abi TLS with sizeof(struct rseq) == 32, and then upgrading
+its glibc to a new glibc which implements a larger structure, which agrees with
+the kernel on that larger layout ?
+
+> 
+> I hope I'm not derailing this discussion. I'm just trying to show that
+> there's some hope.
+> In short, imho, I think adding a flag indicating the new "reliable cpu"
+> feature is probably the best way to go. Think of it not as the kernel
+> indicating the absence of a bug but as the presence of a feature. :)
+
+Indeed, the "reliable cpu_id" feature is simpler, because it does not require
+any layout change nor size extension whatsoever. But I think it's good that
+we discuss those extensibility challenges right away, because there are a
+lot of moving pieces involved on the user-space side.
+
+Thanks,
+
+Mathieu
+
+> 
+> Thanks!
+> Christian
+
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+http://www.efficios.com
