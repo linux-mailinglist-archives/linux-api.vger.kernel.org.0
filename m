@@ -2,327 +2,251 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EE01821A326
-	for <lists+linux-api@lfdr.de>; Thu,  9 Jul 2020 17:16:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 118D021A5C8
+	for <lists+linux-api@lfdr.de>; Thu,  9 Jul 2020 19:26:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726715AbgGIPQB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 9 Jul 2020 11:16:01 -0400
-Received: from mail.efficios.com ([167.114.26.124]:40312 "EHLO
-        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726410AbgGIPQB (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Jul 2020 11:16:01 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 64C4D290039;
-        Thu,  9 Jul 2020 11:15:58 -0400 (EDT)
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id Vv4m6n4pneBY; Thu,  9 Jul 2020 11:15:57 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 95374290232;
-        Thu,  9 Jul 2020 11:15:57 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 95374290232
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1594307757;
-        bh=+BWKkRrNERRwtdPTpRRNGLmxXWxc0R2BuOPzYYfL1QA=;
-        h=Date:From:To:Message-ID:MIME-Version;
-        b=PdeqlQ8xRKaGc9cKYwGmIAuieYBnLIZ2Scv7FDvkPNZ7Ai8uGyH6tD/9e8DfFmKL0
-         vPRNLuQLo99bYQfG0jXN8gf0Th4UERIR+nTJaqwY7y2AAJyLXMps34AQFEz60qjLOv
-         g7ReIltklMSdKYkZ6q80291pntFhHlmESEOk5Dio3elc5F1OOqMMzJItDigiVhWGrF
-         arhqIAJTg/bFEULptIHz39lydJd8Yg2uVOrh22IYXSDFBz3YWG+bgGw4oGXiGEUqLJ
-         pgMCMDu0KD7D/6iHn3fzyXMG36YdSjYI/8wCQW6Xa7yK6y8mPYYzaAn+fZu1QDDJs1
-         Oqps8HQ/F9OoA==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id lXEuWeEjWzq9; Thu,  9 Jul 2020 11:15:57 -0400 (EDT)
-Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
-        by mail.efficios.com (Postfix) with ESMTP id 6A4D2287FEF;
-        Thu,  9 Jul 2020 11:15:57 -0400 (EDT)
-Date:   Thu, 9 Jul 2020 11:15:57 -0400 (EDT)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Florian Weimer <fw@deneb.enyo.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        carlos <carlos@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        paulmck <paulmck@linux.ibm.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        linux-api <linux-api@vger.kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Neel Natu <neelnatu@google.com>
-Message-ID: <1197598149.7002.1594307757307.JavaMail.zimbra@efficios.com>
-In-Reply-To: <20200709124941.u4quvvaiabx36ee3@wittgenstein>
-References: <20200706204913.20347-1-mathieu.desnoyers@efficios.com> <378862525.1039.1594123580789.JavaMail.zimbra@efficios.com> <d6b28b3e-9866-ce6f-659e-2c0dba4cd527@redhat.com> <87zh8bw158.fsf@mid.deneb.enyo.de> <1448906726.3717.1594222431276.JavaMail.zimbra@efficios.com> <20200708162247.txdleelcalxkrfjy@wittgenstein> <1565638541.5051.1594229688015.JavaMail.zimbra@efficios.com> <20200709124941.u4quvvaiabx36ee3@wittgenstein>
-Subject: Re: [RFC PATCH for 5.8 3/4] rseq: Introduce
- RSEQ_FLAG_RELIABLE_CPU_ID
+        id S1728387AbgGIR0o convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Thu, 9 Jul 2020 13:26:44 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:55053 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726765AbgGIR0l (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Jul 2020 13:26:41 -0400
+Received: from mail-qk1-f173.google.com ([209.85.222.173]) by
+ mrelayeu.kundenserver.de (mreue106 [212.227.15.145]) with ESMTPSA (Nemesis)
+ id 1Mqagw-1kg8Ym2LE8-00mZEm; Thu, 09 Jul 2020 19:26:36 +0200
+Received: by mail-qk1-f173.google.com with SMTP id j80so2591176qke.0;
+        Thu, 09 Jul 2020 10:26:35 -0700 (PDT)
+X-Gm-Message-State: AOAM531+RKtRkkuSgXgTqUGILhhWbsxIdzAT1aBSgOG939KHumFUyfDJ
+        eWFXpmRL+71z92CX6oRBXDPp8T60OLHgnFZAaJw=
+X-Google-Smtp-Source: ABdhPJxrBo0AwUBiMw2v4TVCTLmtL0EMGqThmAS9J2fIdN9aQHe1QjAu6oSNR/5pXdXtSVlu3fBviu/RfylxDKEg8NM=
+X-Received: by 2002:a37:b484:: with SMTP id d126mr64230494qkf.394.1594315594655;
+ Thu, 09 Jul 2020 10:26:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [167.114.26.124]
-X-Mailer: Zimbra 8.8.15_GA_3955 (ZimbraWebClient - FF78 (Linux)/8.8.15_GA_3953)
-Thread-Topic: rseq: Introduce RSEQ_FLAG_RELIABLE_CPU_ID
-Thread-Index: SiOdu9P64o2LzvPgDrjFCAUBo9/C+w==
+References: <20200707180955.53024-1-mic@digikod.net> <20200707180955.53024-9-mic@digikod.net>
+ <CAK8P3a0FkoxFtcQJ2jSqyLbDCOp3R8-1JoY8CWAgbSZ9hH9wdQ@mail.gmail.com>
+ <7f407b67-d470-25fd-1287-f4f55f18e74a@digikod.net> <CAK8P3a1ehWZErD2a0iBqn37s-LTAtW0AbV_gt32iX3cQkXbpOQ@mail.gmail.com>
+ <ec79f6ad-1c11-d69f-724b-622baa28f19f@digikod.net>
+In-Reply-To: <ec79f6ad-1c11-d69f-724b-622baa28f19f@digikod.net>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Thu, 9 Jul 2020 19:26:18 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a34X1qfDhn8u3nR+aQA_g+V2i35L0oTnvhNAs83YJPB_w@mail.gmail.com>
+Message-ID: <CAK8P3a34X1qfDhn8u3nR+aQA_g+V2i35L0oTnvhNAs83YJPB_w@mail.gmail.com>
+Subject: Re: [PATCH v19 08/12] landlock: Add syscall implementation
+To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mickael.salaun@ssi.gouv.fr>,
+        Richard Weinberger <richard@nod.at>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Provags-ID: V03:K1:iRcBYKYD93f4v9LIOGfIm9I4Jp5dCKpb7azDIbgiJg8MrXcXS0A
+ 3PCcVOfAYcRI9RqKDmiQkMbYZ0QWQ6tXDL9rxGCxG5WlrFaRDOHKRYbFbSi+6Jy2pHO6Mi7
+ ZmGLAnY8GSKliBqfkmuFGhPZwK8eksVzan4/FCfakwNgDc9B+RW3Cqwl+rIdyoYOhp9Tspf
+ qWrlkU+dQjTqliSx9OkkQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:WxxayRk9FsM=:QmAt6LpR2PYdjIOJRYCOna
+ YmuweTPad0jSOk4xLYarpEbL3+Lz2qI4ov91Vv6HgZn1TjYdFhYMbBLWSIRD9z0ONmEC/Dj40
+ eTrg0Gh21wO6R/XIqO6ZORm24FmXJNf/0mwvIpb5CE9zvnauBR/D1rtzBZ7Jctu4l22Y17yfD
+ vhiqbsyyQWYIo58aSys4A/i2qzeG96QlY0wS8fTB0a3WovdWwRiSI5dbK34Sm6vCkSLXZDgrV
+ rv4F/p2xCSWNBPMooK0TpdZCwOIxQiE4vg4vBIZwHHe4sjbHXCKaWByl+qX8f3u/khlSgTRxb
+ egFgqzbTu5sVx/C3HjWYcWmI0yKZl0x3x0phWjW3+w2vYhVw0YRts/56DoDCBCjVqkZt/q9kv
+ wCn4FBYj4IrA7noE2G3Th3IW9EaaiE93o6gA2k3ud8dXOaK4ulv6eQ1EsDJOb3wZrRSKxvBgN
+ XVMUjYRNtIPeSJrTltDIX3jNoyNF8hv20nhsc0Kc9fzro69Ojbh/2/4/OzaiLnEBLimKCn0b/
+ iKXxWrAkeLRlFowhCQhwdeIEmJRFb2zu/cAIcAAkZWksMs4jbd3rSArDHQHuPsILWYqxRg13K
+ iFFzBzdUY1ZqcykQLM6enKSuZuw+OUKeT3iKkBbgfO8Gd2tsWcLRC5fgO35ZAR9KznOJ1k6kf
+ WrGbsvvHsZW1Iet+CftRVJc2jDgHzxnf6xvowb6HBGkoPx/h0hXaQq+1mmiGBC/7cRYyPZCXs
+ cQhdR1tIqqrj/pUIZddn67Bt/x7hWKVN30aRN7AZ1q7/kjurvCOT3di1tTbzE6KWKS9rQ4eYK
+ JQc29xsgJ0H4SvDaEN2pjcpk1H+DyP2e2GWPGHU7OuCWiHggc/0tWLT7nQFpPRjba96tGBGoz
+ kRLqm6K6weffT+IhAusDJDQzbjHB9bbZjmEy+WqFrTkgAXX6gKumolSL3IBRFE1kkeS+78xU8
+ zlD5T7QyG89ju9iSiVyQ6rOlaPvfbUoggHMzw/SdtQsFpZvphgm3E
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
------ On Jul 9, 2020, at 8:49 AM, Christian Brauner christian.brauner@ubuntu.com wrote:
+On Wed, Jul 8, 2020 at 7:50 PM Mickaël Salaün <mic@digikod.net> wrote:
+> On 08/07/2020 15:49, Arnd Bergmann wrote:
+> > On Wed, Jul 8, 2020 at 3:04 PM Mickaël Salaün <mic@digikod.net> wrote:
+> >> On 08/07/2020 10:57, Arnd Bergmann wrote:
+> >>> On Tue, Jul 7, 2020 at 8:10 PM Mickaël Salaün <mic@digikod.net> wrote:
+> >>>
+> >>> It looks like all you need here today is a single argument bit, plus
+> >>> possibly some room for extensibility. I would suggest removing all
+> >>> the extra bits and using a syscall like
+> >>>
+> >>> SYSCALL_DEFINE1(landlock_create_ruleset, u32, flags);
+> >>>
+> >>> I don't really see how this needs any variable-length arguments,
+> >>> it really doesn't do much.
+> >>
+> >> We need the attr_ptr/attr_size pattern because the number of ruleset
+> >> properties will increase (e.g. network access mask).
+> >
+> > But how many bits do you think you will *actually* need in total that
+> > this needs to be a two-dimensional set of flags? At the moment you
+> > only have a single bit that you interpret.
+>
+> I think there is a misunderstanding. For this syscall I wasn't talking
+> about the "options" field but about the "handled_access_fs" field which
+> has 14 bits dedicated to control access to the file system:
+> https://landlock.io/linux-doc/landlock-v19/security/landlock/user.html#filesystem-flags
 
-> On Wed, Jul 08, 2020 at 01:34:48PM -0400, Mathieu Desnoyers wrote:
->> ----- On Jul 8, 2020, at 12:22 PM, Christian Brauner
->> christian.brauner@ubuntu.com wrote:
->> [...]
->> > I've been following this a little bit. The kernel version itself doesn't
->> > really mean anything and the kernel version is imho not at all
->> > interesting to userspace applications. Especially for cross-distro
->> > programs. We can't go around and ask Red Hat, SUSE, Ubuntu, Archlinux,
->> > openSUSE and god knows who what other distro what their fixed kernel
->> > version is. That's not feasible at all and not how must programs do it.
->> > Sure, a lot of programs name a minimal kernel version they require but
->> > realistically we can't keep bumping it all the time. So the best
->> > strategy for userspace imho has been to introduce a re-versioned flag or
->> > enum that indicates the fixed behavior.
->> > 
->> > So I would suggest to just introduce
->> > RSEQ_FLAG_REGISTER_2                      = (1 << 2),
->> > that's how these things are usually done (Netlink etc.). So not
->> > introducing a fix bit or whatever but simply reversion your flag/enum.
->> > We already deal with this today.
->> 
->> Because rseq is effectively a per-thread resource shared across application
->> and libraries, it is not practical to merge the notion of version with the
->> registration. Typically __rseq_abi is registered by libc, and can be used
->> by the application and by many libraries. Early adopter libraries and
->> applications (e.g. librseq, tcmalloc) can also choose to handle registration
->> if it's not already done by libc.
-> 
-> I'm probably missing the elephant in the room but I was briefly looking
-> at github.com/compudj/librseq and it seems to me that the registration
-> you're talking about is:
-> 
-> extern __thread struct rseq __rseq_abi;
-> extern int __rseq_handled;
+Ok, got it. I didn't read far enough there.
 
-Note that __rseq_handled has now vanished, adapting to glibc's ABI. I just
-updated librseq's header accordingly.
+> The idea is to add other handled_access_* fields for other kernel object
+> types (e.g. network, process, etc.).
+>
+> The "options" field is fine as a raw __u32 syscall argument.
 
-> 
-> and it's done in int rseq_register_current_thread(void) afaict and
-> currently registration is done with flags set to 0.
+I'd still like to avoid having it variable-length and structured though.
+How about having a __u32 "options" flag, plus an indirect argument
+with 32 fixed-length (all 32 bit or all 64 bit) flag words, each of which
+corresponds to one of the option bits?
 
-Correct, however that registration will become a no-op when linked against a
-glibc 2.32+, because the glibc will already have handled the registration
-at thread creation.
+It's still fairly complex that way, but not as much as the version
+you have right now that can be extended in multiple dimensions.
 
-> 
-> What is the problem with either adding a - I don't know -
-> RSEG_FLAG_REGISTER/RSEQ_RELIABLE_CPU_FIELD flag that is also recorded in
-> __rseq_abi.flags. If the kernel doesn't support the flag it will fail
-> registration with EINVAL. So the registering program can detect it. If a
-> caller needs to know whether another thread uses the new flag it can
-> query __rseq_abi.flags. Some form of coordination must be possible in
-> userspace otherwise you'll have trouble with any new feature you add. I
-> general, I don't see how this is different from adding a new feature to
-> rseq. It should be the same principle.
+This could possibly also help avoid the need for the get_features
+syscall: If user space just passes the bitmap of all the access flags
+it wants to use in a fixed-size structure, the kernel can update the
+bits to mask out the ones it does not understand and write back
+that bitmap as the result of create_ruleset().
 
-The problem with "extending" struct rseq is that it becomes complex
-because it is shared between libraries and application. Let's suppose
-the library doing the rseq registration does the scheme you describe:
-queries the kernel for features, and stores them in the __rseq_abi.flags.
-We end up with the following upgrade transition headhaches for an
-application using __rseq_abi:
+> >>> To be on the safe side, you might split up the flags into either the
+> >>> upper/lower 16 bits or two u32 arguments, to allow both compatible
+> >>> (ignored by older kernels if flag is set) and incompatible (return error
+> >>> when an unknown flag is set) bits.
+> >>
+> >> This may be a good idea in general, but in the case of Landlock, because
+> >> this kind of (discretionary) sandboxing should be a best-effort security
+> >> feature, we should avoid incompatible behavior. In practice, every
+> >> unknown bit returns an error because userland can probe for available
+> >> bits thanks to the get_features command. This kind of (in)compatibility
+> >> can then be handled by userland.
+> >
+> > If there are not going to be incompatible extensions, then just ignore
+> > all unknown bits and never return an error but get rid of the user
+> > space probing that just complicates the interface.
+>
+> There was multiple discussions about ABI compatibility, especially
+> inspired by open(2) vs. openat2(2), and ignoring flags seems to be a bad
+> idea. In the "sandboxer" example, we first probe the supported features
+> and then mask unknown bits (i.e. access rights) at run time in userland.
+> This strategy is quite straightforward, backward compatible and
+> future-proof.
 
-Kernel     |   glibc     |   librseq    | __rseq_abi registration owner
-----------------------------------------------------------------------
-4.18       |   2.31      |     no       | application (reliable cpu_id = false)
-4.18       |   2.31      |     yes      | librseq (reliable cpu_id = false)
-5.8        |   2.31      |     yes      | librseq (reliable cpu_id = true)
-5.8        |   2.32      |     yes      | glibc (reliable cpu_id = false)        
-5.8        |   2.33+     |     yes      | glibc (reliable cpu_id = true)
+For behavior changing flags, I agree they should be seen as
+incompatible flags (i.e. return an error if an unknown bit is set).
 
-This kind of transition regressing feature-wise when upgrading a glibc
-can be confusing for users.
+However, for the flags you pass in in an allowlist, treating them
+as compatible (i.e. ignore any unknown flags, allowing everything
+you are not forbidding already) seems completely reasonable
+to me. Do you foresee user space doing anything other than masking
+out the bits that the kernel doesn't know about? If not, then doing
+it in the  kernel should always be simpler.
 
-One possibility would be to have the kernel store the "reliable cpu_id"
-flag directly into a new __rseq_abi.kernel_flags (because __rseq_abi.flags
-is documented as only read by the kernel). This would remove the registration
-owner from the upgrade scenarios. But what would we gain by exposing this
-flag within struct rseq ? The only real reason for doing so over using an
-explicit system call is typically speed, and querying the kernel for a
-feature does not need to be done often, so this is why I originally favored
-exposing this information through a new system call flag without changing
-the content of struct rseq_cs.
+> >> I suggest this syscall signature:
+> >> SYSCALL_DEFINE3(landlock_create_ruleset, __u32, options, const struct
+> >> landlock_attr_ruleset __user *, ruleset_ptr, size_t, ruleset_size);
+> >
+> > The other problem here is that indirect variable-size structured arguments
+> > are a pain to instrument with things like strace or seccomp, so you
+> > should first try to use a fixed argument list, and fall back to a fixed
+> > structure if that fails.
+>
+> I agree that it is not perfect with the current tools but this kind of
+> extensible structs are becoming common and well defined (e.g. openat2).
+> Moreover there is some work going on for seccomp to support "extensible
+> argument" syscalls: https://lwn.net/Articles/822256/
 
-One additional thing to keep in mind: the application can itself choose
-to define the __rseq_abi TLS, which AFAIU (please let me know if I am
-wrong) would take precedence over glibc's copy. So extending the
-size of struct rseq seems rather tricky because the application may
-provide a smaller __rseq_abi, even if both the kernel and glibc agree
-on a larger size.
+openat2() is already more complex than we'd ideally want, I think we
+should try hard to make new syscalls simpler than that, following the
+rule that any interface should be as simple as possible, but no simpler.
 
-> 
-> I also don't understand the "not practical to merge the notion of
-> version with the registration". I'm not sure what that means to be
-> honest. :)
+> >>>> +static int syscall_add_rule_path_beneath(const void __user *const attr_ptr,
+> >>>> +               const size_t attr_size)
+> >>>> +{
+> >>>> +       struct landlock_attr_path_beneath attr_path_beneath;
+> >>>> +       struct path path;
+> >>>> +       struct landlock_ruleset *ruleset;
+> >>>> +       int err;
+> >>>
+> >>> Similarly, it looks like this wants to be
+> >>>
+> >>> SYSCALL_DEFINE3(landlock_add_rule_path_beneath, int, ruleset, int,
+> >>> path, __u32, flags)
+> >>>
+> >>> I don't see any need to extend this in a way that wouldn't already
+> >>> be served better by adding another system call. You might argue
+> >>> that 'flags' and 'allowed_access' could be separate, with the latter
+> >>> being an indirect in/out argument here, like
+> >>>
+> >>> SYSCALL_DEFINE4(landlock_add_rule_path_beneath, int, ruleset, int, path,
+> >>>                            __u64 *, allowed_acces, __u32, flags)
+> >>
+> >> To avoid adding a new syscall for each new rule type (e.g. path_beneath,
+> >> path_range, net_ipv4_range, etc.), I think it would be better to keep
+> >> the attr_ptr/attr_size pattern and to explicitely set a dedicated option
+> >> flag to specify the attr type.
+> >>
+> >> This would look like this:
+> >> SYSCALL_DEFINE4(landlock_add_rule, __u32, options, int, ruleset, const
+> >> void __user *, rule_ptr, size_t, rule_size);
+> >>
+> >> The rule_ptr could then point to multiple types like struct
+> >> landlock_attr_path_beneath (without the current ruleset_fd field).
+> >
+> > This again introduces variable-sized structured data. How many different
+> > kinds of rule types do you think there will be (most likely, and maybe an
+> > upper bound)?
+>
+> I don't know how many rule types will come, but right now I think it may
+> be less than 10.
 
-The notion of "version" here would be to replace the "RELIABLE_CPU_FIELD"
-flag I proposed with a steadily-increasing "fix" version instead.
+Ok,
 
-For both approaches, we could either pass them as parameters with rseq
-registration, and make rseq registration success conditional on the
-kernel implementing those feature/fix-version, or validate the flag/version
-separately from registration.
+> > Could (some of) these be generalized to use the same data structure?
+>
+> I don't think so, file path and network addresses are an example of very
+> different types.
 
-If this is done on registration, it means glibc will eventually have to
-handle this. This prevents user libraries with specific needs to query
-whether their features are available. Doing the feature/version validation
-separately from registration allows each user library to make its own
-queries and take advantage of new kernel features before glibc is
-upgraded to be made aware of them.
+Clearly the target object is something different, but maybe there is
+enough commonality to still make them fit into a more regular form.
 
-> But just thinking about adding a new feature to rseq. Then you're in the
-> same spot, I think. When you register a bumped rseq - because you added
-> a new flag or whatever - you register a new version one way or the other
-> since a new feature - imho - is always a version bump. In fact, you
-> could think of your "reliable cpu" as a new feature not a bug. ;)
+For the file system case, you have an identify for an object
+(the file descriptor) and the  '__u64 allowed_access'. I would
+expect that the 'allowed_access' concept is generic enough that
+you can make it a direct argument (32 bit register arg, or pointer
+to a __u64). Do you expect others to need something besides
+an object identifier and a permission bitmask? Maybe it could
+be something like
 
-Indeed.
+ SYSCALL_DEFINE4(landlock_add_rule, int, ruleset, __u32, options,
+                       const void __user *, object, const __u64 __user
+*, allowed_access,
+                       __u32, flags);
 
-> Also, you seem to directly version struct rseq_cs already through the
-> "version" member. So even if you are against the new flag I wouldn't
-> know what would stop you from directly versioning struct rseq itself.
+with a fixed-length 'object' identifier type (file descriptor,
+sockaddr_storage, ...) for each option.
 
-struct rseq needs to be shared between application and libraries, with
-issues about what to do if size changes when we have an application
-defining a small struct rseq (taking precedence over glibc's), and glibc
-agreeing with the kernel on a larger structure. So there is little hope
-in changing that layout.
-
-The case of struct rseq_cs is simpler: it is only used as interface between
-a specific library/application user and the kernel, which allows us to
-version the structure and create new layouts as needed.
-
-> 
-> And it's not that we don't version syscalls. We're doing it in multiple
-> ways to be honest, syscalls with a flag argument that reject unknown
-> flags are bumped in their version every time you add a new flag that
-> they accept. We don't spell this out but this is effectively what it is.
-> Think of it as a minor version bump. Extensible syscalls are versioned
-> by size and when their struct grows are bumped in their (minor) version.
-> In fact extensible syscalls with flags argument embedded in the struct
-> can be version bumped in two ways: growing a new flag argument or
-> growing a new struct member.
-
-The issue with struct rseq extensibility is not so much ABI between kernel
-and user-space, but rather ABI between userspace libraries/application users.
-
-> 
->> 
->> For instance, it is acceptable for glibc to register rseq for all threads,
->> even in the presence of the cpu_id field inaccuracy, for use by the
->> sched_getcpu(3) implementation. However, users of rseq which need to
->> implement critical sections performing per-cpu data updates may want
->> to know whether the cpu_id field is reliable to ensure they do not crash
->> the process due to per-cpu data corruption.
->> 
->> This led me to consider exposing a feature-specific flag which can be
->> queried by specific users to know whether rseq has specific set of correct
->> behaviors implemented.
->> 
->> > (Also, as a side-note. I see that you're passing struct rseq *rseq with
->> > a length argument but you are not versioning by size. Is that
->> > intentional? That basically somewhat locks you to the current struct
->> > rseq layout and means users might run into problems when you extend
->> > struct rseq in the future as they can't pass the new struct down to
->> > older kernels. The way we deal with this is now - rseq might preceed
->> > this - is copy_struct_from_user() (for example in sched_{get,set}attr(),
->> > openat2(), bpf(), clone3(), etc.). Maybe you want to switch to that to
->> > keep rseq extensible? Users can detect the new rseq version by just
->> > passing a larger struct down to the kernel with the extra bytes set to 0
->> > and if rseq doesn't complain they know they're dealing with an rseq that
->> > knows larger struct sizes. Might be worth it if you have any reason to
->> > belive that struct rseq might need to grow.)
->> 
->> In the initial iterations of the rseq patch set, we initially had the rseq_len
->> argument hoping we would eventually be able to extend struct rseq. However,
->> it was finally decided against making it extensible, so the rseq ABI merged
->> into the Linux kernel with a fixed-size.
->> 
->> One of the key reasons for this is explained in
->> commit 83b0b15bcb0f ("rseq: Remove superfluous rseq_len from task_struct")
->> 
->>     The rseq system call, when invoked with flags of "0" or
->>     "RSEQ_FLAG_UNREGISTER" values, expects the rseq_len parameter to
->>     be equal to sizeof(struct rseq), which is fixed-size and fixed-layout,
->>     specified in uapi linux/rseq.h.
->>     
->>     Expecting a fixed size for rseq_len is a design choice that ensures
->>     multiple libraries and application defining __rseq_abi in the same
->>     process agree on its exact size.
->> 
->> The issue here is caused by the fact that the __rseq_abi variable is
->> shared across application/libraries for a given thread. So it's not
->> enough to agree between kernel and user-space on the extensibility
->> scheme, but we'd also have to find a way for all users within a process
->> to agree on the layout.
-> 
-> But you're in the same boat if you add any new feature, no? In your
-> model, wouldn't you need all users to agree on the feature set as well?
-> Not just the struct rseq size. If that's the case then rseq would be
-> unextendable (for now).
-
-As a consequence of this, my current approach to add a "node_id" field to rseq
-(in a prototype patch) is far from ideal: it defines another TLS symbol, e.g.
-__rseq_abi2, with an extended layout, and registers it with new rseq flags.
-
-I would really like to be able to extend struct rseq, but because of ABI
-compatibility required between user-space libraries/applications, it seems
-rather tricky to do so.
-
-> But specifically about the size-versioning part. Well, one way to solve
-> this - imho - would be to add a output size parameter to struct rseq and
-> introduce a little more vetting than we have right now.
-> So the kernel is what ultimately registers struct rseq iiuc. If there
-> were a size output parameter the kernel could set the size of the struct
-> it knows about before registering it.
-> So a caller passing down a larger struct with e.g. a new field set to a
-> non-zero value would get an error from the kernel and the size of the
-> supported struct. The caller can then adjust and simply zero out the
-> unsupported field and retry. Other callers in userspace can query the
-> size and find out what size of struct is registered. If it's larger than
-> what they know about they can infer they are on a newer kernel with new
-> features but they can simply ignore the unknown fields. If it's smaller
-> than they know what fields to ignore.
-
-How would that work in the case of an application defining its own copy of
-struct rseq __rseq_abi TLS with sizeof(struct rseq) == 32, and then upgrading
-its glibc to a new glibc which implements a larger structure, which agrees with
-the kernel on that larger layout ?
-
-> 
-> I hope I'm not derailing this discussion. I'm just trying to show that
-> there's some hope.
-> In short, imho, I think adding a flag indicating the new "reliable cpu"
-> feature is probably the best way to go. Think of it not as the kernel
-> indicating the absence of a bug but as the presence of a feature. :)
-
-Indeed, the "reliable cpu_id" feature is simpler, because it does not require
-any layout change nor size extension whatsoever. But I think it's good that
-we discuss those extensibility challenges right away, because there are a
-lot of moving pieces involved on the user-space side.
-
-Thanks,
-
-Mathieu
-
-> 
-> Thanks!
-> Christian
-
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-http://www.efficios.com
+    Arnd
