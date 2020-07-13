@@ -2,296 +2,292 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D221121DFF2
-	for <lists+linux-api@lfdr.de>; Mon, 13 Jul 2020 20:40:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9E6221E163
+	for <lists+linux-api@lfdr.de>; Mon, 13 Jul 2020 22:29:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726345AbgGMSkX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 13 Jul 2020 14:40:23 -0400
-Received: from mail.efficios.com ([167.114.26.124]:58328 "EHLO
-        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726332AbgGMSkX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 13 Jul 2020 14:40:23 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id F269A2A4A07;
-        Mon, 13 Jul 2020 14:40:21 -0400 (EDT)
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id l2LzFfAbobEV; Mon, 13 Jul 2020 14:40:21 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 3D1A42A4A06;
-        Mon, 13 Jul 2020 14:40:21 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 3D1A42A4A06
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1594665621;
-        bh=OtJcpQT6Tlw3emHPtltrgY/B5bBauqAWAQxOtZu6g8E=;
-        h=Date:From:To:Message-ID:MIME-Version;
-        b=pvgpEFdwme+7Hs0kX58yiYRT3p/YssMZK5NU/c+JWr/cb7cl8xwcPIJuJ568RXGoV
-         guEvYtpKFjy78AcvOCMeEQfLf9ChHjvVUJWwoOG+RgNkG8Ra2Slg5etOFXBibjK10u
-         0sK5w4Cphqd7o2uQLmgQtRLi2GV5QMfjviGixvmmmekca7axZaQYzZ6IcX8oHEk5fG
-         RVCp0ezZUKY6D4PiGplGMtcWiJPsS3WvpFwfXrflvxQT+tjo43lN0Bobtlc0ZsPdeO
-         /0FCD6qHmhqGu3CB8EQGEBIJhqc0nmRghxCCYJy2TmACGPinorYuEiRxfDink4iUVH
-         d3bE/vTRagICQ==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id worjRc0Quwiy; Mon, 13 Jul 2020 14:40:21 -0400 (EDT)
-Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
-        by mail.efficios.com (Postfix) with ESMTP id 1669C2A473D;
-        Mon, 13 Jul 2020 14:40:21 -0400 (EDT)
-Date:   Mon, 13 Jul 2020 14:40:20 -0400 (EDT)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Florian Weimer <fw@deneb.enyo.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        carlos <carlos@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        paulmck <paulmck@linux.ibm.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        linux-api <linux-api@vger.kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Neel Natu <neelnatu@google.com>
-Message-ID: <1305865358.10354.1594665620975.JavaMail.zimbra@efficios.com>
-In-Reply-To: <20200711155459.4mswacrvosw377tk@wittgenstein>
-References: <20200706204913.20347-1-mathieu.desnoyers@efficios.com> <87zh8bw158.fsf@mid.deneb.enyo.de> <1448906726.3717.1594222431276.JavaMail.zimbra@efficios.com> <20200708162247.txdleelcalxkrfjy@wittgenstein> <1565638541.5051.1594229688015.JavaMail.zimbra@efficios.com> <20200709124941.u4quvvaiabx36ee3@wittgenstein> <1197598149.7002.1594307757307.JavaMail.zimbra@efficios.com> <20200711155459.4mswacrvosw377tk@wittgenstein>
-Subject: Re: [RFC PATCH for 5.8 3/4] rseq: Introduce
- RSEQ_FLAG_RELIABLE_CPU_ID
+        id S1726775AbgGMU3s (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 13 Jul 2020 16:29:48 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53083 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726767AbgGMU3s (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 13 Jul 2020 16:29:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1594672185;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=dryeyu4Z+O3LO/i4w4Yz2CzQdRMLTMt94aaPkU1Cn/k=;
+        b=K0OCZNSBD1/UQkEaqTZ4+ZdKD1lHqAQId8mBgFzurPqjdWrPXHwtY3OzOUPz5sau7i6axy
+        JiscqLoEkYpx5V/JN/RNXYX8m+kJTmpC9UxuFdYragxuoDye0n0fr3mj2ygnPZgIHhI0XO
+        JnRI4/328OQ3M+G8H5FP2SrDtIPqpdo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-220-9J7J3C06ObeFpbogkgclkQ-1; Mon, 13 Jul 2020 16:29:28 -0400
+X-MC-Unique: 9J7J3C06ObeFpbogkgclkQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C0B780183C;
+        Mon, 13 Jul 2020 20:29:26 +0000 (UTC)
+Received: from madcap2.tricolour.ca (unknown [10.10.110.3])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 03D8271683;
+        Mon, 13 Jul 2020 20:29:08 +0000 (UTC)
+Date:   Mon, 13 Jul 2020 16:29:06 -0400
+From:   Richard Guy Briggs <rgb@redhat.com>
+To:     Paul Moore <paul@paul-moore.com>
+Cc:     nhorman@tuxdriver.com, linux-api@vger.kernel.org,
+        containers@lists.linux-foundation.org,
+        LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
+        Linux-Audit Mailing List <linux-audit@redhat.com>,
+        netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
+        simo@redhat.com, netdev@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
+        mpatel@redhat.com, Serge Hallyn <serge@hallyn.com>
+Subject: Re: [PATCH ghak90 V9 01/13] audit: collect audit task parameters
+Message-ID: <20200713202906.iiz435vjeedljcwf@madcap2.tricolour.ca>
+References: <cover.1593198710.git.rgb@redhat.com>
+ <6abeb26e64489fc29b00c86b60b501c8b7316424.1593198710.git.rgb@redhat.com>
+ <CAHC9VhTx=4879F1MSXg4=Xd1i5rhEtyam6CakQhy=_ZjGtTaMA@mail.gmail.com>
+ <20200707025014.x33eyxbankw2fbww@madcap2.tricolour.ca>
+ <CAHC9VhTTGLf9MPS_FgL1ibUVoH+YzMtPK6+2dp_j8a5o9fzftA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [167.114.26.124]
-X-Mailer: Zimbra 8.8.15_GA_3955 (ZimbraWebClient - FF78 (Linux)/8.8.15_GA_3953)
-Thread-Topic: rseq: Introduce RSEQ_FLAG_RELIABLE_CPU_ID
-Thread-Index: H9RtQhQ5vu1lETOVJqIpDy4KpmVemg==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHC9VhTTGLf9MPS_FgL1ibUVoH+YzMtPK6+2dp_j8a5o9fzftA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
------ On Jul 11, 2020, at 11:54 AM, Christian Brauner christian.brauner@ubuntu.com wrote:
-
+On 2020-07-07 21:42, Paul Moore wrote:
+> On Mon, Jul 6, 2020 at 10:50 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > On 2020-07-05 11:09, Paul Moore wrote:
+> > > On Sat, Jun 27, 2020 at 9:21 AM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > >
+> > > > The audit-related parameters in struct task_struct should ideally be
+> > > > collected together and accessed through a standard audit API.
+> > > >
+> > > > Collect the existing loginuid, sessionid and audit_context together in a
+> > > > new struct audit_task_info called "audit" in struct task_struct.
+> > > >
+> > > > Use kmem_cache to manage this pool of memory.
+> > > > Un-inline audit_free() to be able to always recover that memory.
+> > > >
+> > > > Please see the upstream github issue
+> > > > https://github.com/linux-audit/audit-kernel/issues/81
+> > > >
+> > > > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> > > > Acked-by: Neil Horman <nhorman@tuxdriver.com>
+> > > > Reviewed-by: Ondrej Mosnacek <omosnace@redhat.com>
+> > > > ---
+> > > >  include/linux/audit.h | 49 +++++++++++++++++++++++------------
+> > > >  include/linux/sched.h |  7 +----
+> > > >  init/init_task.c      |  3 +--
+> > > >  init/main.c           |  2 ++
+> > > >  kernel/audit.c        | 71 +++++++++++++++++++++++++++++++++++++++++++++++++--
+> > > >  kernel/audit.h        |  5 ++++
+> > > >  kernel/auditsc.c      | 26 ++++++++++---------
+> > > >  kernel/fork.c         |  1 -
+> > > >  8 files changed, 124 insertions(+), 40 deletions(-)
+> > > >
+> > > > diff --git a/include/linux/audit.h b/include/linux/audit.h
+> > > > index 3fcd9ee49734..c2150415f9df 100644
+> > > > --- a/include/linux/audit.h
+> > > > +++ b/include/linux/audit.h
+> > > > @@ -100,6 +100,16 @@ enum audit_nfcfgop {
+> > > >         AUDIT_XT_OP_UNREGISTER,
+> > > >  };
+> > > >
+> > > > +struct audit_task_info {
+> > > > +       kuid_t                  loginuid;
+> > > > +       unsigned int            sessionid;
+> > > > +#ifdef CONFIG_AUDITSYSCALL
+> > > > +       struct audit_context    *ctx;
+> > > > +#endif
+> > > > +};
+> > > > +
+> > > > +extern struct audit_task_info init_struct_audit;
+> > > > +
+> > > >  extern int is_audit_feature_set(int which);
+> > > >
+> > > >  extern int __init audit_register_class(int class, unsigned *list);
+> > >
+> > > ...
+> > >
+> > > > diff --git a/include/linux/sched.h b/include/linux/sched.h
+> > > > index b62e6aaf28f0..2213ac670386 100644
+> > > > --- a/include/linux/sched.h
+> > > > +++ b/include/linux/sched.h
+> > > > @@ -34,7 +34,6 @@
+> > > >  #include <linux/kcsan.h>
+> > > >
+> > > >  /* task_struct member predeclarations (sorted alphabetically): */
+> > > > -struct audit_context;
+> > > >  struct backing_dev_info;
+> > > >  struct bio_list;
+> > > >  struct blk_plug;
+> > > > @@ -946,11 +945,7 @@ struct task_struct {
+> > > >         struct callback_head            *task_works;
+> > > >
+> > > >  #ifdef CONFIG_AUDIT
+> > > > -#ifdef CONFIG_AUDITSYSCALL
+> > > > -       struct audit_context            *audit_context;
+> > > > -#endif
+> > > > -       kuid_t                          loginuid;
+> > > > -       unsigned int                    sessionid;
+> > > > +       struct audit_task_info          *audit;
+> > > >  #endif
+> > > >         struct seccomp                  seccomp;
+> > >
+> > > In the early days of this patchset we talked a lot about how to handle
+> > > the task_struct and the changes that would be necessary, ultimately
+> > > deciding that encapsulating all of the audit fields into an
+> > > audit_task_info struct.  However, what is puzzling me a bit at this
+> > > moment is why we are only including audit_task_info in task_info by
+> > > reference *and* making it a build time conditional (via CONFIG_AUDIT).
+> > >
+> > > If audit is enabled at build time it would seem that we are always
+> > > going to allocate an audit_task_info struct, so I have to wonder why
+> > > we don't simply embed it inside the task_info struct (similar to the
+> > > seccomp struct in the snippet above?  Of course the audit_context
+> > > struct needs to remain as is, I'm talking only about the
+> > > task_info/audit_task_info struct.
+> >
+> > I agree that including the audit_task_info struct in the struct
+> > task_struct would have been preferred to simplify allocation and free,
+> > but the reason it was included by reference instead was to make the
+> > task_struct size independent of audit so that future changes would not
+> > cause as many kABI challenges.  This first change will cause kABI
+> > challenges regardless, but it was future ones that we were trying to
+> > ease.
+> >
+> > Does that match with your recollection?
 > 
-> The registration is a thread-group property I'll assume, right, i.e. all
-> threads will have rseq TLS or no thread will have it?
+> I guess, sure.  I suppose what I was really asking was if we had a
+> "good" reason for not embedding the audit_task_info struct.
+> Regardless, thanks for the explanation, that was helpful.
 
-No, rseq registration is a per-thread property, but it would arguably be
-a bit weird for a thread-group to observe different registration states
-for different threads.
+Making it dynamic was actually your idea back in the spring of 2018:
+	https://lkml.org/lkml/2018/4/18/759
 
-> Some things I seem to be able to assume (correct me if I'm wrong):
-> - rseq registration is expected to be done at thread creation time
+The first two iterations were embedded to more quickly prove the idea:
+	https://lkml.org/lkml/2018/5/12/173
+		https://lkml.org/lkml/2018/5/12/168
 
-True.
+And then switched as strongly recommended to a dynamic pointer:
+	https://lkml.org/lkml/2018/5/16/461
+		https://lkml.org/lkml/2018/5/16/457
 
-> - rseq registration _should_ only be done once, i.e. if a caller detects
->  that rseq is already registered for a thread, then they could
->  technically re-register rseq - risking a feature mismatch if doing so
->  - but they shouldn't re-register but simply assume that someone else
->  is in control of rseq. If they violate that assumption than you're
->  hosed anyway.
+I was initially concerned about switching to a dynamically allocated
+structure, but those concerns are a couple of years behind us.
 
-Right.
+What significant change has happenned since then to alter your
+perspective?
 
-> So it seems as long as callers leave rseq registration alone whenever
-> they detect that it is already registered then one can assume that rseq
-> is under consistent control of a single library/program. If that's the
-> case it should safe to assume that the library will use the same rseq
-> registration for all threads bounded by the available kernel features or
-> by the set of features it is aware of.
+> From an upstream perspective, I think embedding the audit_task_info
+> struct is the Right Thing To Do.  The code is cleaner and more robust
+> if we embed the struct.
 
-The rseq registration is per-thread. But yes, as soon as one user registers
-rseq, other users for that thread are expected to piggy-back on that
-registration.
+I would agree if the audit subsystem were done.  It isn't.
 
-> I proposed that specific scheme because I was under the impression that
-> you are in need of a mechanism for a caller (at thread creation I
-> assume) to check what feature set is supported by rseq _without_
-> issung a system call. If you were to record the requested flags in
-> struct rseq or in some other way, then another library which tries to
-> register rseq for a thread but detects it has already been registered
-> can look at e.g. whether the reliable cpu feature is around and then
-> adjust it's behavior accordingly.
-> Another reason why this seems worthwhile is because of how rseq works in
-> general. Since it registers a piece of userspace memory which userspace
-> can trivially access enforcing that userspace issue a syscall to get at
-> the feature list seems odd when you can just record it in the struct.
-> But that's a matter of style, I guess.
-
-Good points.
-
+> > > Richard, I'm sure you can answer this off the top of your head, but
+> > > I'd have to go digging through the archives to pull out the relevant
+> > > discussions so I figured I would just ask you for a reminder ... ?  I
+> > > imagine it's also possible things have changed a bit since those early
+> > > discussions and the solution we arrived at then no longer makes as
+> > > much sense as it did before.
+> >
+> > Agreed, it doesn't make as much sense now as it did when proposed, but
+> > will make more sense in the future depending on when this change gets
+> > accepted upstream.  This is why I wanted this patch to go through as
+> > part of ghak81 at the time the rest of it did so that future kABI issues
+> > would be easier to handle, but that ship has long sailed.
 > 
-> Also, I'm thinking about the case of adding one or two new features that
-> introduce mutually exclusive behavior for rseq, i.e. if you register
-> rseq with FEAT1 and someone else registers it with FEAT2 and FEAT1 and
-> FEAT2 would lead to incompatible behavior for an aspect or all of rseq.
-> Even if you had a way to query the kernel for FEAT1 and FEAT2 in the
-> rseq syscall it still be a problem since a caller wouldn't know at rseq
-> registration time whether the library registered rseq with FEAT1 or
-> FEAT2. If you record the behavior somewhere - kernel_flags or whatever -
-> then the caller could check at registration time "ah, rseq is registered
-> with this behavior" I need to adjust my behavior.
+> To be clear, kABI issues with task_struct really aren't an issue with
+> the upstream kernel.  I know that you know all of this already
+> Richard, I'm mostly talking to everyone else on the To/CC line in case
+> they are casually watching this discussion.
 
-I think what we want here is to be able to extend the feature set, but not
-"pick and choose" different incompatible features.
+kABI issues may not as much of an upstream issue, but part of the goal
+here was upstream kernel issues, isolating the kernel audit changes
+to its own subsystem and affect struct task_struct as little as possible
+in the future and to protect it from "abuse" (as you had expressed
+serious concerns) from the rest of the kernel.  include/linux/sched.h
+will need to know more about struct audit_task_info if it is embedded,
+making it more suceptible to abuse.
 
-[...]
->> 
->> One additional thing to keep in mind: the application can itself choose
->> to define the __rseq_abi TLS, which AFAIU (please let me know if I am
->> wrong) would take precedence over glibc's copy. So extending the
+> While I'm sympathetic to long-lifetime enterprise distros such as
+> RHEL, my responsibility is to ensure the upstream kernel is as good as
+> we can make it, and in this case I believe that means embedding
+> audit_task_info into the task_struct.
+
+Keeping audit_task_info dynamic will also make embedding struct
+audit_context as a zero-length array at the end of it possible in the
+future as an internal audit subsystem optimization whereas largely
+preclude that if it were embedded.  Any change to audit_task_info in the
+future will change struct task_struct which is what we had agreed was a
+good thing to avoid to keep audit as isolated and independent as
+possible.
+
+This method has been well exercised over the last two years of
+development, testing and rebases, so I'm not particularly concerned
+about its dynamic nature any more.  It works well.  At this point this
+change seems to be more gratuitously disruptive than helpful.
+
+> > I didn't make
+> > that argument then and I regret it now that I realize and recall some of
+> > the thinking behind the change.  Your reasons at the time were that
+> > contid was the only user of that change but there have been some
+> > CONFIG_AUDIT and CONFIG_AUDITSYSCALL changes since that were related.
 > 
-> You mean either that an application could simply choose to ignore that e.g.
-> glibc has already registered rseq and e.g. unregister it and register
-> it's own or that it registers it's own rseq before glibc comes into the
-> play?
+> Agreed that there are probably some common goals and benefits with
+> those changes and the audit container ID work, however, I believe that
+> discussion quickly goes back to upstream vs RHEL.
 
-No quite.
+I did't think things were quite so cut and dried with respect to upstream
+vs downstream.
 
-I mean that an application binary or a preloaded library is allowed to
-interpose with glibc and expose a __rseq_abi symbol with a size smaller
-than glibc's __rseq_abi. The issue is that glibc (or other library
-responsible for rseq registration) is unaware of that symbol's size.
-
-This means that extending __rseq_abi cannot be done by means of additional
-flags or parameters passed directly from the registration owner to the
-rseq system call.
-
-> I mean, if I interpreted what you're trying to say correctly, I think
-> one needs to work under the assumption that if someone else has already
-> registered rseq than it becomes the single source of truth. I think that
-> basically needs to be the contract. Same way you expect a user of
-> pthreads to not suddenly go and call clone3() with CLONE_THREAD |
-> CLONE_VM | [...] and assume that this won't mess with glibc's internal
-> state.
-
-Right. The issue is not about which library owns the registration, but
-rather making sure everyone agree on the size of __rseq_abi, including
-interposition scenarios.
-
-[...]
->> 
->> For both approaches, we could either pass them as parameters with rseq
->> registration, and make rseq registration success conditional on the
->> kernel implementing those feature/fix-version, or validate the flag/version
->> separately from registration.
->> 
->> If this is done on registration, it means glibc will eventually have to
->> handle this. This prevents user libraries with specific needs to query
->> whether their features are available. Doing the feature/version validation
->> separately from registration allows each user library to make its own
->> queries and take advantage of new kernel features before glibc is
->> upgraded to be made aware of them.
+> > > > diff --git a/kernel/auditsc.c b/kernel/auditsc.c
+> > > > index 468a23390457..f00c1da587ea 100644
+> > > > --- a/kernel/auditsc.c
+> > > > +++ b/kernel/auditsc.c
+> > > > @@ -1612,7 +1615,6 @@ void __audit_free(struct task_struct *tsk)
+> > > >                 if (context->current_state == AUDIT_RECORD_CONTEXT)
+> > > >                         audit_log_exit();
+> > > >         }
+> > > > -
+> > > >         audit_set_context(tsk, NULL);
+> > > >         audit_free_context(context);
+> > > >  }
+> > >
+> > > This nitpick is barely worth the time it is taking me to write this,
+> > > but the whitespace change above isn't strictly necessary.
+> >
+> > Sure, it is a harmless but noisy cleanup when the function was being
+> > cleaned up and renamed.  It wasn't an accident, but a style preference.
+> > Do you prefer a vertical space before cleanup actions at the end of
+> > functions and more versus less vertical whitespace in general?
 > 
-> Why isn't there a "dual scheme"? I.e. you record the features somewhere
-> in struct rseq or some other place so userspace can query an already
-> registered thread for the features it was registered with and have a way
-> to query the kernel for the supported features through the system call
-> (See what I suggested above with the feature checking flags.).
+> As I mentioned above, this really was barely worth mentioning, but I
+> made the comment simply because I feel this patchset is going to draw
+> a lot of attention once it is merged and I feel keeping the patchset
+> as small, and as focused, as possible is a good thing.
 
-This discussion got my head into gears over the weekend, and I think
-I came up with something that could elegantly solve all the "rseq extensibility"
-problem. More below.
+Is this concern also affecting the perspective on the change from
+pointer to embedded above?
 
-[...]
-
-> I really think this is not an rseq specific problem. This seems to be a
-> generic problem any interface has when it e.g. makes use of an extended
-> struct and e.g. decides to make its own syscalls without going through
-> the glibc wrappers (If there are any...). That's the reality right now
-> and will likely always be that way short of us blocking non-libc
-> syscalls similar to some bsds at which point we need a 1:1 kernel + libc
-> development. :) That's not going to happen. The problem ranges from
-> struct statx to struct clone_args and struct open_how and so on.
-
-AFAIU the only "special" thing about rseq is that its __rseq_abi is
-a TLS symbol shared between application/libraries, and interposition is
-allowed.
-
+> However, I'm not going to lose even a second of sleep over a single
+> blank line gone missing ;)
 > 
-> But one question. Musn't the assumption be that all threads in a
-> thread-group if they have registered rseq then the same
-> application/library has done that registration?
+> paul moore
 
-No, __rseq_abi is a TLS, and the registration is per-thread.
+- RGB
 
-> And if that's the case
-> then the application/library doing the registration is what defines the
-> layout for that thread-group and becomes the one source of truth.
-> Basically, if an application uses it's own rseq then glibc must be out
-> of the picture. If that's not part of the contract then it feels to me
-> that rseq cannot be extended (for now).
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
 
-Indeed, the new scheme I have in mind for rseq extensibility would allow
-new features to be used between new application/library and kernel even
-with an older glibc which would contain the rseq registration code, but
-be unaware of those new features.
-
-[...]
-> 
-> Wouldn't the non-updated application just access fields and methods of
-> the smaller struct? The way struct extensions work is that we only
-> extend them after the last member and always correctly 64 bit aligned.
-> And as long as you only extend the struct at the end wouldn't that be
-> ok? An application with a non-updated/smaller struct rseq would just
-> access fields that the larger struct supports, no?
-
-The issue is symbol interposition, as discussed above.
-
-So here is the idea which emerged through the weekend as I was thinking
-about your email:
-
-* Current technical constraints
-  - struct rseq __rseq_abi can be interposed by preloaded libraries and
-    application, without knowledge from the registration "owner" (typically
-    glibc).
-
-* Objectives:
-  - Allow extending the size of struct rseq to add additional features,
-    such as node_id field, signal-disabling fields, and so on.
-  - Allow extending this size without requiring an upgrade of the library
-    performing rseq registration. Simply upgrading the rseq "user" application
-    or library and the kernel should suffice.
-
-* Proposed ABI
-  - Reserve a bit in the field (struct rseq *)->flags of the TLS __rseq_abi,
-    named e.g.: RSEQ_CS_FLAG_SIZE = (1U << 3).
-  - A definition wishing to extend struct rseq would be required to initialize
-    __rseq_abi with this bit set in the flags field.
-  - When RSEQ_CS_FLAG_SIZE is set, struct rseq is guaranteed to have two new
-    fields after the flags field: a __u32 user_size and a __u32 kernel_size field.
-  - The user_size field is meant to be initialized to sizeof(struct rseq) by the
-    __rseq_abi definition. In an interposition scenario, a kernel supporting this
-    size feature will know about the size of the symbol by checking both the
-    RSEQ_CS_FLAG_SIZE flag and the user_size field.
-  - On registration, if the __rseq_abi.flags RSEQ_CS_FLAG_SIZE flag is set (and this
-    flag is supported by the kernel), the kernel updates the kernel_size field to
-    min(sizeof(struct rseq), __rseq_abi.user_size), effectively the subset of size
-    supported by both the user-space __rseq_abi definition and by the kernel.
-  - Users wishing to use additional fields beyond __rseq_abi.flags would need to check
-    that __rseq_abi->flags & RSEQ_CS_FLAG_SIZE is true, and that
-    __rseq_abi.kernel_size >= offsetof(struct rseq, feature_field) + sizeof(__rseq_abi.feature_field)
-    This would ensure the fields are only used if the symbol is large enough to
-    hold them *and* the kernel supports them.
-
-With this kind of scheme, we could then easily extend struct rseq to cover additional
-use-cases such as:
-
-- adding a new "node_id" field to speed up getcpu(3), user-space locking on NUMA,
-  and possibly memory allocators,
-- adding fields allowing to quickly disable/enable signals,
-- adding a "__u64 features" field, which would contain for instance
-  RSEQ_FEATURE_RELIABLE_CPU_ID.
-
-I'm not sure why I did not think of this earlier, but it all seems to fit nicely.
-
-Any comments ?
-
-Thanks,
-
-Mathieu
-
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-http://www.efficios.com
