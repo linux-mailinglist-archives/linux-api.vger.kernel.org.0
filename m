@@ -2,41 +2,41 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 410E821E617
-	for <lists+linux-api@lfdr.de>; Tue, 14 Jul 2020 05:04:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28DD421E61B
+	for <lists+linux-api@lfdr.de>; Tue, 14 Jul 2020 05:04:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726845AbgGNDD7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 13 Jul 2020 23:03:59 -0400
-Received: from mail.efficios.com ([167.114.26.124]:46232 "EHLO
+        id S1726936AbgGNDEF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 13 Jul 2020 23:04:05 -0400
+Received: from mail.efficios.com ([167.114.26.124]:46260 "EHLO
         mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726435AbgGNDD6 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 13 Jul 2020 23:03:58 -0400
+        with ESMTP id S1726432AbgGNDD7 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 13 Jul 2020 23:03:59 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 4B4422B85E9;
-        Mon, 13 Jul 2020 23:03:56 -0400 (EDT)
+        by mail.efficios.com (Postfix) with ESMTP id A281A2B872A;
+        Mon, 13 Jul 2020 23:03:58 -0400 (EDT)
 Received: from mail.efficios.com ([127.0.0.1])
         by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id I_wJzA6BcKOA; Mon, 13 Jul 2020 23:03:55 -0400 (EDT)
+        with ESMTP id 6zycexgbCCq0; Mon, 13 Jul 2020 23:03:58 -0400 (EDT)
 Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id CF5862B864A;
-        Mon, 13 Jul 2020 23:03:55 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com CF5862B864A
+        by mail.efficios.com (Postfix) with ESMTP id 562662B8723;
+        Mon, 13 Jul 2020 23:03:56 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 562662B8723
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1594695835;
-        bh=QVsID0jCI28osddNSqca+FXZTSewV+dLre0BlIbnze8=;
+        s=default; t=1594695836;
+        bh=bjDVGCYinA7mDg3vt2mL+W4CWdvaNqgru/04cAlga9E=;
         h=From:To:Date:Message-Id;
-        b=BzbOQwa3HRT0h6pRwrcSA679iEwqOnZRLoBe8G8pVnIPDiCT1TaDMLZGMybzqqnrI
-         vhKt97HZzRoPJgTdA7f7DuuT2wx7SW8AQy9xW+KCFC1vTdhnKfPWlkR9eo0lLOVmiP
-         EEBfMbqiLstMDub7/Dn5mZZwCLYh1XakQtebTAnDgwVtnynrNBwRTRt84BBe9PJ0D5
-         dDyThmLVL7pk7ENhYQZLmsyfJ6+9znhCY2xYa2KpWuIrZitXq8ZtthJvFyqxs+dk+P
-         f58Evsv1CRHnGDLGilphoUkUbn/VlWEu/9QA/4UIfv28nXqlZTkGSUwfOTuG1qXTZI
-         Pbq1KSEp4Ct1g==
+        b=V7i9rZhJ4o67XgSHyIl8aU1aHfY9afjcVVKMUOrWHgw/hnMJ3SqqfrYzrlVab07+b
+         sQkxorKUNFS8RGEZKE9A9GEIHDszoACKhkHJ3A/dnHQwGdx90jmfHDR5XKruHHgznH
+         bqONtJasNfoEAwuhjSg8r3/reulCApe0YH7EfLtjaagQodTjFCV8qX3AvlCNFqY05K
+         Hc2T3vkOH34EX7zI4omV7OdOdWN2tddKWEXDPf5072bcoHyG6Z9wRFz/0L4vtn/NS3
+         inT3k1b9rUi7EM6YiDRO5QlfctcSlU7o7amIPhezD2tv9HUc+clatgiOWL8NS6ZWpq
+         9FQJju9fD5xTw==
 X-Virus-Scanned: amavisd-new at efficios.com
 Received: from mail.efficios.com ([127.0.0.1])
         by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id aLoz-S1NXVSQ; Mon, 13 Jul 2020 23:03:55 -0400 (EDT)
+        with ESMTP id C-7aZC6kzWqn; Mon, 13 Jul 2020 23:03:56 -0400 (EDT)
 Received: from localhost.localdomain (192-222-181-218.qc.cable.ebox.net [192.222.181.218])
-        by mail.efficios.com (Postfix) with ESMTPSA id 66B272B86C2;
+        by mail.efficios.com (Postfix) with ESMTPSA id 9DE3F2B888D;
         Mon, 13 Jul 2020 23:03:55 -0400 (EDT)
 From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To:     Peter Zijlstra <peterz@infradead.org>
@@ -48,9 +48,9 @@ Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
         Christian Brauner <christian.brauner@ubuntu.com>,
         Florian Weimer <fw@deneb.enyo.de>, carlos@redhat.com,
         Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Subject: [RFC PATCH 2/4] rseq: Allow extending struct rseq
-Date:   Mon, 13 Jul 2020 23:03:46 -0400
-Message-Id: <20200714030348.6214-3-mathieu.desnoyers@efficios.com>
+Subject: [RFC PATCH 3/4] selftests: rseq: define __rseq_abi with extensible size
+Date:   Mon, 13 Jul 2020 23:03:47 -0400
+Message-Id: <20200714030348.6214-4-mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200714030348.6214-1-mathieu.desnoyers@efficios.com>
 References: <20200714030348.6214-1-mathieu.desnoyers@efficios.com>
@@ -59,240 +59,34 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Add a __rseq_abi.flags "RSEQ_TLS_FLAG_SIZE", which indicates support for
-extending struct rseq. This adds two new fields to struct rseq:
-user_size and kernel_size.
-
-The user_size field allows the size of the __rseq_abi definition (which
-can be overridden by symbol interposition either by a preloaded library
-or by the application) to be handed over to the kernel at registration.
-This registration can be performed by a library, e.g. glibc, which does
-not know there is interposition taking place.
-
-The kernel_size is populated by the kernel when the "RSEQ_TLS_FLAG_SIZE"
-flag is set in __rseq_abi.flags to the minimum between user_size and
-the offset of the "end" field of struct rseq as known by the kernel.
-This allows user-space to query which fields are effectively populated
-by the kernel.
-
-A rseq_size field is added to the task struct to keep track of the
-"kernel_size" effective for each thread.
+Define the __rseq_abi with the extensible size feature.
 
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 ---
- include/linux/sched.h     |  4 ++++
- include/uapi/linux/rseq.h | 37 ++++++++++++++++++++++++++++++++--
- kernel/rseq.c             | 42 +++++++++++++++++++++++++++++++++------
- 3 files changed, 75 insertions(+), 8 deletions(-)
+ tools/testing/selftests/rseq/rseq.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/include/linux/sched.h b/include/linux/sched.h
-index 692e327d7455..5d61a3197987 100644
---- a/include/linux/sched.h
-+++ b/include/linux/sched.h
-@@ -1147,6 +1147,7 @@ struct task_struct {
- #ifdef CONFIG_RSEQ
- 	struct rseq __user *rseq;
- 	u32 rseq_sig;
-+	u32 rseq_size;
- 	/*
- 	 * RmW on rseq_event_mask must be performed atomically
- 	 * with respect to preemption.
-@@ -1976,10 +1977,12 @@ static inline void rseq_fork(struct task_struct *t, unsigned long clone_flags)
- 	if (clone_flags & CLONE_VM) {
- 		t->rseq = NULL;
- 		t->rseq_sig = 0;
-+		t->rseq_size = 0;
- 		t->rseq_event_mask = 0;
- 	} else {
- 		t->rseq = current->rseq;
- 		t->rseq_sig = current->rseq_sig;
-+		t->rseq_size = current->rseq_size;
- 		t->rseq_event_mask = current->rseq_event_mask;
- 	}
- }
-@@ -1988,6 +1991,7 @@ static inline void rseq_execve(struct task_struct *t)
- {
- 	t->rseq = NULL;
- 	t->rseq_sig = 0;
-+	t->rseq_size = 0;
- 	t->rseq_event_mask = 0;
- }
+diff --git a/tools/testing/selftests/rseq/rseq.c b/tools/testing/selftests/rseq/rseq.c
+index da2264c679b9..2c29215d4790 100644
+--- a/tools/testing/selftests/rseq/rseq.c
++++ b/tools/testing/selftests/rseq/rseq.c
+@@ -26,6 +26,7 @@
+ #include <assert.h>
+ #include <signal.h>
+ #include <limits.h>
++#include <stddef.h>
  
-diff --git a/include/uapi/linux/rseq.h b/include/uapi/linux/rseq.h
-index e11d9df5e564..03c0b5e9a859 100644
---- a/include/uapi/linux/rseq.h
-+++ b/include/uapi/linux/rseq.h
-@@ -37,6 +37,15 @@ enum rseq_cs_flags {
- 		(1U << RSEQ_CS_FLAG_NO_RESTART_ON_MIGRATE_BIT),
+ #include "rseq.h"
+ 
+@@ -33,6 +34,8 @@
+ 
+ __thread volatile struct rseq __rseq_abi = {
+ 	.cpu_id = RSEQ_CPU_ID_UNINITIALIZED,
++	.flags = RSEQ_TLS_FLAG_SIZE,
++	.user_size = offsetof(struct rseq, end),
  };
  
-+enum rseq_tls_flags_bit {
-+	/* enum rseq_cs_flags reserves bits 0-2. */
-+	RSEQ_TLS_FLAG_SIZE_BIT = 3,
-+};
-+
-+enum rseq_tls_flags {
-+	RSEQ_TLS_FLAG_SIZE = (1U << RSEQ_TLS_FLAG_SIZE_BIT),
-+};
-+
- /* The rseq_len expected by rseq registration is always 32 bytes. */
- enum rseq_len_expected {
- 	RSEQ_LEN_EXPECTED = 32,
-@@ -133,8 +142,9 @@ struct rseq {
- 	 *
- 	 * This field should only be updated by the thread which
- 	 * registered this data structure. Read by the kernel.
--	 * Mainly used for single-stepping through rseq critical sections
--	 * with debuggers.
-+	 *
-+	 * The RSEQ_CS flags are mainly used for single-stepping through rseq
-+	 * critical sections with debuggers.
- 	 *
- 	 * - RSEQ_CS_FLAG_NO_RESTART_ON_PREEMPT
- 	 *     Inhibit instruction sequence block restart on preemption
-@@ -145,8 +155,31 @@ struct rseq {
- 	 * - RSEQ_CS_FLAG_NO_RESTART_ON_MIGRATE
- 	 *     Inhibit instruction sequence block restart on migration for
- 	 *     this thread.
-+	 *
-+	 * - RSEQ_TLS_FLAG_SIZE
-+	 *     Extensible struct rseq ABI. This flag should be statically
-+	 *     initialized.
- 	 */
- 	__u32 flags;
-+	/*
-+	 * With __rseq_abi.flags RSEQ_TLS_FLAG_SIZE set, user_size should be
-+	 * statically initialized to offsetof(struct rseq, end).
-+	 */
-+	__u16 user_size;
-+	/*
-+	 * With __rseq_abi.flags RSEQ_TLS_FLAG_SIZE set, if the kernel supports
-+	 * extensible struct rseq ABI, the kernel_size field is populated by
-+	 * the kernel to the minimum between user_size and the offset of the
-+	 * "end" field within the struct rseq supported by the kernel on
-+	 * successful registration. Should be initialized to 0.
-+	 */
-+	__u16 kernel_size;
-+
-+	/*
-+	 * Very last field of the structure, to calculate size excluding padding
-+	 * with offsetof().
-+	 */
-+	char end[];
- } __attribute__((aligned(4 * sizeof(__u64))));
- 
- #endif /* _UAPI_LINUX_RSEQ_H */
-diff --git a/kernel/rseq.c b/kernel/rseq.c
-index a4f86a9d6937..bbc57fc18573 100644
---- a/kernel/rseq.c
-+++ b/kernel/rseq.c
-@@ -96,6 +96,7 @@ static int rseq_update_cpu_id(struct task_struct *t)
- static int rseq_reset_rseq_cpu_id(struct task_struct *t)
- {
- 	u32 cpu_id_start = 0, cpu_id = RSEQ_CPU_ID_UNINITIALIZED;
-+	u16 kernel_size = 0;
- 
- 	/*
- 	 * Reset cpu_id_start to its initial state (0).
-@@ -109,6 +110,11 @@ static int rseq_reset_rseq_cpu_id(struct task_struct *t)
- 	 */
- 	if (put_user(cpu_id, &t->rseq->cpu_id))
- 		return -EFAULT;
-+	/*
-+	 * Reset kernel_size to its initial state (0).
-+	 */
-+	if (put_user(kernel_size, &t->rseq->kernel_size))
-+		return -EFAULT;
- 	return 0;
- }
- 
-@@ -266,7 +272,7 @@ void __rseq_handle_notify_resume(struct ksignal *ksig, struct pt_regs *regs)
- 
- 	if (unlikely(t->flags & PF_EXITING))
- 		return;
--	if (unlikely(!access_ok(t->rseq, sizeof(*t->rseq))))
-+	if (unlikely(!access_ok(t->rseq, t->rseq_size)))
- 		goto error;
- 	ret = rseq_ip_fixup(regs);
- 	if (unlikely(ret < 0))
-@@ -294,7 +300,7 @@ void rseq_syscall(struct pt_regs *regs)
- 
- 	if (!t->rseq)
- 		return;
--	if (!access_ok(t->rseq, sizeof(*t->rseq)) ||
-+	if (!access_ok(t->rseq, t->rseq_size) ||
- 	    rseq_get_rseq_cs(t, &rseq_cs) || in_rseq_cs(ip, &rseq_cs))
- 		force_sig(SIGSEGV);
- }
-@@ -308,6 +314,7 @@ SYSCALL_DEFINE4(rseq, struct rseq __user *, rseq, u32, rseq_len,
- 		int, flags, u32, sig)
- {
- 	int ret;
-+	u32 tls_flags;
- 
- 	if (flags & RSEQ_FLAG_UNREGISTER) {
- 		if (flags & ~RSEQ_FLAG_UNREGISTER)
-@@ -315,7 +322,7 @@ SYSCALL_DEFINE4(rseq, struct rseq __user *, rseq, u32, rseq_len,
- 		/* Unregister rseq for current thread. */
- 		if (current->rseq != rseq || !current->rseq)
- 			return -EINVAL;
--		if (rseq_len != sizeof(*rseq))
-+		if (rseq_len != RSEQ_LEN_EXPECTED)
- 			return -EINVAL;
- 		if (current->rseq_sig != sig)
- 			return -EPERM;
-@@ -323,6 +330,7 @@ SYSCALL_DEFINE4(rseq, struct rseq __user *, rseq, u32, rseq_len,
- 		if (ret)
- 			return ret;
- 		current->rseq = NULL;
-+		current->rseq_size = 0;
- 		current->rseq_sig = 0;
- 		return 0;
- 	}
-@@ -336,7 +344,7 @@ SYSCALL_DEFINE4(rseq, struct rseq __user *, rseq, u32, rseq_len,
- 		 * the provided address differs from the prior
- 		 * one.
- 		 */
--		if (current->rseq != rseq || rseq_len != sizeof(*rseq))
-+		if (current->rseq != rseq || rseq_len != RSEQ_LEN_EXPECTED)
- 			return -EINVAL;
- 		if (current->rseq_sig != sig)
- 			return -EPERM;
-@@ -349,10 +357,32 @@ SYSCALL_DEFINE4(rseq, struct rseq __user *, rseq, u32, rseq_len,
- 	 * ensure the provided rseq is properly aligned and valid.
- 	 */
- 	if (!IS_ALIGNED((unsigned long)rseq, __alignof__(*rseq)) ||
--	    rseq_len != sizeof(*rseq))
-+	    rseq_len != RSEQ_LEN_EXPECTED)
- 		return -EINVAL;
--	if (!access_ok(rseq, rseq_len))
-+	if (!access_ok(rseq, RSEQ_LEN_EXPECTED))
- 		return -EFAULT;
-+
-+	/* Handle extensible struct rseq ABI. */
-+	ret = get_user(tls_flags, &rseq->flags);
-+	if (ret)
-+		return ret;
-+	if (tls_flags & RSEQ_TLS_FLAG_SIZE) {
-+		u16 user_size, kernel_size;
-+
-+		ret = get_user(user_size, &rseq->user_size);
-+		if (ret)
-+			return ret;
-+		if (user_size < offsetof(struct rseq, kernel_size) + sizeof(u16))
-+			return -EINVAL;
-+		kernel_size = min_t(u16, user_size, offsetof(struct rseq, end));
-+		ret = put_user(kernel_size, &rseq->kernel_size);
-+		if (ret)
-+			return ret;
-+		current->rseq_size = kernel_size;
-+	} else {
-+		current->rseq_size = offsetof(struct rseq, user_size);
-+	}
-+
- 	current->rseq = rseq;
- 	current->rseq_sig = sig;
- 	/*
+ /*
 -- 
 2.17.1
 
