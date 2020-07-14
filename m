@@ -2,45 +2,38 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7AD5F21F1E1
-	for <lists+linux-api@lfdr.de>; Tue, 14 Jul 2020 14:50:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F55821F212
+	for <lists+linux-api@lfdr.de>; Tue, 14 Jul 2020 15:00:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726889AbgGNMui (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 14 Jul 2020 08:50:38 -0400
-Received: from mail.efficios.com ([167.114.26.124]:52120 "EHLO
-        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726352AbgGNMui (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 14 Jul 2020 08:50:38 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 99DB42BE09A;
-        Tue, 14 Jul 2020 08:50:36 -0400 (EDT)
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id zXOl0ZI5svpu; Tue, 14 Jul 2020 08:50:36 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 2941A2BE099;
-        Tue, 14 Jul 2020 08:50:36 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 2941A2BE099
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1594731036;
-        bh=nvIDjmTX+khpvKBvlnyZZH5+M6lszAXQGxYRoBA/rj8=;
-        h=Date:From:To:Message-ID:MIME-Version;
-        b=k9lkooh3wWIP7V6Jx5Fm6vj0aPq5o7RkXYGf7rPEISHmgM516kNWHVKsh1UtXVWiR
-         3H95Z1KvWFmHNyOXAFq59NcxuQoKPsPpTbZNFCkJ8cu77Tpiin5W8eISX83+WqLk1m
-         +RsaLVSAGrgNKDXAG4P1j7KrfZzjUUf4v+SbtDjt7/EeGSHuXJg3r3tgkbThFJarL0
-         tAlgXlgMy2QEY+Rlw7LkRrw+URztr9M4ZYgOyb/KTPZwAIM+C3Ws00NJcaXiZ392Mf
-         jFVrrNmDy23hbhBntIar0CfHY707s36xY3cV+u+M2olLnKihel++pwPeT5DYVQPQkN
-         uu7wxrY6yy7aA==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id xcJDdzIqV-Ep; Tue, 14 Jul 2020 08:50:36 -0400 (EDT)
-Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
-        by mail.efficios.com (Postfix) with ESMTP id 174372BE193;
-        Tue, 14 Jul 2020 08:50:36 -0400 (EDT)
-Date:   Tue, 14 Jul 2020 08:50:35 -0400 (EDT)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Florian Weimer <fweimer@redhat.com>
+        id S1726354AbgGNNAb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 14 Jul 2020 09:00:31 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29931 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727858AbgGNNAa (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 14 Jul 2020 09:00:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1594731628;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=aMkXnOTuFZ2jMVFd+eEKpMBPsCP+t2ST7hOj6unA51o=;
+        b=dakRnCzmOhdrMJJgJD7BbXqrOtP93+7sSehfcHsc23do16OHjOVdLRUmxOGGhllOo9PiXI
+        sNSIS4ez1CAnoRNY/UOD67hwinCM/407y+nKwgueLGavCaRbnI5UE9c7H/GyUFW8e0NyxS
+        xeYyk1Ph8wKYfqtJQW+MSE3m7Oe5BBU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-24-8KGSR5ANOEOnQed3gXCn-g-1; Tue, 14 Jul 2020 09:00:22 -0400
+X-MC-Unique: 8KGSR5ANOEOnQed3gXCn-g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12E3E19057A1;
+        Tue, 14 Jul 2020 13:00:20 +0000 (UTC)
+Received: from oldenburg2.str.redhat.com (ovpn-112-246.ams2.redhat.com [10.36.112.246])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id C749E10098A4;
+        Tue, 14 Jul 2020 13:00:14 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
         linux-kernel <linux-kernel@vger.kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -50,87 +43,65 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         linux-api <linux-api@vger.kernel.org>,
         Christian Brauner <christian.brauner@ubuntu.com>,
         carlos <carlos@redhat.com>
-Message-ID: <131549905.11442.1594731035989.JavaMail.zimbra@efficios.com>
-In-Reply-To: <87mu42bepq.fsf@oldenburg2.str.redhat.com>
-References: <20200714030348.6214-1-mathieu.desnoyers@efficios.com> <20200714030348.6214-3-mathieu.desnoyers@efficios.com> <87mu42bepq.fsf@oldenburg2.str.redhat.com>
 Subject: Re: [RFC PATCH 2/4] rseq: Allow extending struct rseq
+References: <20200714030348.6214-1-mathieu.desnoyers@efficios.com>
+        <20200714030348.6214-3-mathieu.desnoyers@efficios.com>
+        <87mu42bepq.fsf@oldenburg2.str.redhat.com>
+        <131549905.11442.1594731035989.JavaMail.zimbra@efficios.com>
+Date:   Tue, 14 Jul 2020 15:00:13 +0200
+In-Reply-To: <131549905.11442.1594731035989.JavaMail.zimbra@efficios.com>
+        (Mathieu Desnoyers's message of "Tue, 14 Jul 2020 08:50:35 -0400
+        (EDT)")
+Message-ID: <87a7028d5u.fsf@oldenburg2.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [167.114.26.124]
-X-Mailer: Zimbra 8.8.15_GA_3955 (ZimbraWebClient - FF78 (Linux)/8.8.15_GA_3953)
-Thread-Topic: rseq: Allow extending struct rseq
-Thread-Index: blo1BcVxD31RP8IJoOel3hXCDJsknQ==
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
------ On Jul 14, 2020, at 5:58 AM, Florian Weimer fweimer@redhat.com wrote:
+* Mathieu Desnoyers:
 
-> * Mathieu Desnoyers:
-> 
->> +	/*
->> +	 * Very last field of the structure, to calculate size excluding padding
->> +	 * with offsetof().
->> +	 */
->> +	char end[];
->>  } __attribute__((aligned(4 * sizeof(__u64))));
-> 
-> This makes the header incompatible with standard C++.
+>> How are extensions going to affect the definition of struct rseq,
+>> including its alignment?
+>
+> The alignment will never decrease. If the structure becomes large enough
+> its alignment could theoretically increase. Would that be an issue ?
 
-One alternative would be to add a helper to compute the effective size on c++, e.g.:
+Telling the compiler that struct is larger than it actually is, or that
+it has more alignment than in memory, results in undefined behavior,
+even if only fields are accessed in the smaller struct region.
 
-/* Always updated with struct rseq_cs declaration.  */
-#define rseq_last_field kernel_size
+An increase in alignment from 32 to 64 is perhaps not likely to have
+this effect.  But the undefined behavior is still there, and has been
+observed for mismatches like 8 vs 16.
 
-static inline size_t rseq_effective_size(void)
-{
-    return offsetof(struct rseq, rseq_last_field) + sizeof(((struct rseq *)NULL)->rseq_last_field);
-}
+>> As things stand now, glibc 2.32 will make the size and alignment of
+>> struct rseq part of its ABI, so it can't really change after that.
+>
+> Can the size and alignment of a structure be defined as minimum alignment
+> and size values ? For instance, those would be invariant for a given glibc
+> version (if we always use the internal struct rseq declaration), but could
+> be increased in future versions.
 
-> 
-> How are extensions going to affect the definition of struct rseq,
-> including its alignment?
+Not if we are talking about a global (TLS) data symbol.  No such changes
+are possible there.  We have some workarounds for symbols that live
+exclusively within glibc, but they don't work if there are libraries out
+there which interpose the symbol.
 
-The alignment will never decrease. If the structure becomes large enough
-its alignment could theoretically increase. Would that be an issue ?
+>> With a different approach, we can avoid making the symbol size part of
+>> the ABI, but then we cannot use the __rseq_abi TLS symbol.  As a result,
+>> interoperability with early adopters would be lost.
+>
+> Do you mean with a function "getter", and then keeping that pointer around
+> in a per-user TLS ? I would prefer to avoid that because it adds an extra
+> pointer dereference on a fast path.
 
-
-> As things stand now, glibc 2.32 will make the size and alignment of
-> struct rseq part of its ABI, so it can't really change after that.
-
-Can the size and alignment of a structure be defined as minimum alignment
-and size values ? For instance, those would be invariant for a given glibc
-version (if we always use the internal struct rseq declaration), but could
-be increased in future versions.
-
-> With a different approach, we can avoid making the symbol size part of
-> the ABI, but then we cannot use the __rseq_abi TLS symbol.  As a result,
-> interoperability with early adopters would be lost.
-
-Do you mean with a function "getter", and then keeping that pointer around
-in a per-user TLS ? I would prefer to avoid that because it adds an extra
-pointer dereference on a fast path.
-
-> One way to avoid this problem would be for every library to register its
-> own rseq area, of the appropriate size.  Then process-wide coordination
-> in userspace would not be needed.
-
-I did propose the code to do just that in my initial rseq implementations, but
-the idea was shutdown by kernel maintainers because it required the kernel to
-handle a linked-list of rseq areas per thread, which was more complex within
-the kernel.
+My choice would have been a function that returns the offset from the
+thread pointer (which has to be unchanged regarding all threads).
 
 Thanks,
+Florian
 
-Mathieu
-
-> 
-> Thanks,
-> Florian
-
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-http://www.efficios.com
