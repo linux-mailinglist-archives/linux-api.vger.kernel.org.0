@@ -2,74 +2,80 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 631F121FEFC
-	for <lists+linux-api@lfdr.de>; Tue, 14 Jul 2020 22:55:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DD5A22000F
+	for <lists+linux-api@lfdr.de>; Tue, 14 Jul 2020 23:31:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728032AbgGNUzY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 14 Jul 2020 16:55:24 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:22117 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728002AbgGNUzW (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 14 Jul 2020 16:55:22 -0400
+        id S1727888AbgGNVbM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 14 Jul 2020 17:31:12 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40429 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727101AbgGNVbM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 14 Jul 2020 17:31:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1594760121;
+        s=mimecast20190719; t=1594762270;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=IG4HUAqsDTrwc0sdFRqFLUeiV5cP2XX7c9955RD/JLA=;
-        b=abWIicW1tXVt8PE1C5dATj95gkBSu/9q577V0oylr+pSa5euzEv4hWboGjdGtGf28SsBL6
-        S1Z7nIsty/5m46grHvbEdUh6PxWE7MxV5MAbabYpKNwgFagz/e+sSK3LjLOezm1ZJsVSKn
-        oreqdWDn0xL/X3szoKm/P6dm9hp4uyc=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-31-BhscG5ZmMCeTneoAJFDWOA-1; Tue, 14 Jul 2020 16:55:15 -0400
-X-MC-Unique: BhscG5ZmMCeTneoAJFDWOA-1
-Received: by mail-qv1-f72.google.com with SMTP id x37so4632863qvf.4
-        for <linux-api@vger.kernel.org>; Tue, 14 Jul 2020 13:55:15 -0700 (PDT)
+        bh=P2jjMlQNGljDKhczKBKSdNL0F7/+3pAMGrpUsxclRjw=;
+        b=KtIQLB/qTL6xS8RZYghG5FskDSWoM0C32N0G7RXDFF53Al+OWDrfS4ImvdOgai9FdYfG3M
+        /aMpTHu7qfM4/rtVNYf84OFg8xQA93xw4/sQWdWHN/RZNkWBL3AGcfE5RGMO5N8gkDXGwL
+        FD4UHgLJw1A19lYTpbbOU0Mp303PQms=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-428-2jcc42jiMmSQY8F-eijbwA-1; Tue, 14 Jul 2020 17:30:51 -0400
+X-MC-Unique: 2jcc42jiMmSQY8F-eijbwA-1
+Received: by mail-qt1-f198.google.com with SMTP id m25so13557930qtk.1
+        for <linux-api@vger.kernel.org>; Tue, 14 Jul 2020 14:30:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:organization
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=IG4HUAqsDTrwc0sdFRqFLUeiV5cP2XX7c9955RD/JLA=;
-        b=NPg1vm9h0UWAYQvLFD//VKh3Nq2TmbKQm1xeexI+L1Llz0d9r+0LHuOisinyfcUWdq
-         ak7n2y2TebXH2k9+YsryzpoIAKN19/DWpfz8MkzCq4puVkHb9BzfM9ZaPQqpY3cJq7oj
-         vpq5Ag0mJj/+vZxc6hCE4dE2TC0fZWTvHdYT4ifH400dln3e+G66l8nmrNs14ekBqV2C
-         hqZRRhFESHQifmJmW8Fz+v0TQH+Kx7TXsbigxgnm5Norhv5Kt4SzxkEYkhObxgB8tURk
-         vfu4AQDA1MKxqaezzBC7SulSK1h7H2EG2cpvJBSvCwsApFPIB4nsjuyKIw6Slbb6js/g
-         AYnQ==
-X-Gm-Message-State: AOAM533o9nN3MJs4ZzLAkUK0KeEZfub28kK9BS9ANl+hgdmiEKf58asU
-        JCVd/BRsW1QUg+kz6hI9xNCywVBdggCUFHdP0skThZi5QWwYEMxJIjgk9PyYvaTvYiXSjKZ3Xaz
-        ArAFgK/2hYGMOCi/QvLFe
-X-Received: by 2002:ac8:1667:: with SMTP id x36mr6817826qtk.344.1594760114506;
-        Tue, 14 Jul 2020 13:55:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzSc9JqI/7mPb4eGFhz4PiDFiEHI9lotYrjvFjoxySGjr6nl4C6ZtZQY6a3Ef23EDowBCDgsA==
-X-Received: by 2002:ac8:1667:: with SMTP id x36mr6817798qtk.344.1594760114128;
-        Tue, 14 Jul 2020 13:55:14 -0700 (PDT)
+        bh=P2jjMlQNGljDKhczKBKSdNL0F7/+3pAMGrpUsxclRjw=;
+        b=V6U5EAH0XbVEhmatRAlTzqXi1tVhsCRWcAiFeoacLXo/17L3WMqHuJr9WWYDYmOD60
+         M3KM7BACo7F++eKlmtvxA3I1T3/8r2F+BjdWdl7k8sqILbciY8j4qUKbLH/ktG9AeEEy
+         ITJvA82CropbPH3HDQow5BW73K07ZJLYZ655gs+vvr08OufK3XB76crEHhLq/qv+g/gh
+         UrzJ8/K8lizX2d5fWsKbJsqoQHNRBezN6iVIDlOKK4lwJzPX06sU8dOwOk6OocTbbK6S
+         6Pm3poesJYQyzIiOTcB8Kr9iG5Ilpd1uw7o2udfvjYb5wBg/3XFSPpIs9GW+y0ftVEGf
+         Zwzw==
+X-Gm-Message-State: AOAM533OKkz8WzUbbSGPEPa9YI9ELE3jOwclzd2AMRu1plSwsaMDJttH
+        3MGHZ5BjqCdI4uSFh6f7IUfwMDhNcAg1/z46PpCMm2fPgsDBkC44oyi2pnD3jPHjRTxaRfURq5X
+        wDSbkRWDXJeM+6qgJTsfy
+X-Received: by 2002:a05:6214:b88:: with SMTP id fe8mr6538664qvb.244.1594762251501;
+        Tue, 14 Jul 2020 14:30:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy37EnGkXWH29/is0Rnyzb85M4QGYNcVEtSjI8TXgMm71R1QkncAoCqNse2QQbDKv4E0v71Gg==
+X-Received: by 2002:a05:6214:b88:: with SMTP id fe8mr6538645qvb.244.1594762251246;
+        Tue, 14 Jul 2020 14:30:51 -0700 (PDT)
 Received: from [192.168.1.4] (198-84-170-103.cpe.teksavvy.com. [198.84.170.103])
-        by smtp.gmail.com with ESMTPSA id k197sm24103418qke.133.2020.07.14.13.55.12
+        by smtp.gmail.com with ESMTPSA id q5sm360934qtf.12.2020.07.14.14.30.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Jul 2020 13:55:13 -0700 (PDT)
-Subject: Re: [RFC PATCH 0/4] rseq: Introduce extensible struct rseq
+        Tue, 14 Jul 2020 14:30:50 -0700 (PDT)
+Subject: Re: [RFC PATCH 2/4] rseq: Allow extending struct rseq
 To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Peter Zijlstra <peterz@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E . McKenney" <paulmck@linux.ibm.com>,
+        Florian Weimer <fweimer@redhat.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        paulmck <paulmck@linux.ibm.com>,
         Boqun Feng <boqun.feng@gmail.com>,
-        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        linux-api@vger.kernel.org,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Florian Weimer <fw@deneb.enyo.de>
+        "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api <linux-api@vger.kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>
 References: <20200714030348.6214-1-mathieu.desnoyers@efficios.com>
+ <20200714030348.6214-3-mathieu.desnoyers@efficios.com>
+ <87mu42bepq.fsf@oldenburg2.str.redhat.com>
+ <131549905.11442.1594731035989.JavaMail.zimbra@efficios.com>
+ <87a7028d5u.fsf@oldenburg2.str.redhat.com>
+ <2452161.11491.1594732791558.JavaMail.zimbra@efficios.com>
 From:   Carlos O'Donell <carlos@redhat.com>
 Organization: Red Hat
-Message-ID: <e7ede994-ebec-8022-b12b-ac7147641ffb@redhat.com>
-Date:   Tue, 14 Jul 2020 16:55:11 -0400
+Message-ID: <71f08b3a-56f5-0e0f-53b0-cc680f7e8181@redhat.com>
+Date:   Tue, 14 Jul 2020 17:30:49 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200714030348.6214-1-mathieu.desnoyers@efficios.com>
+In-Reply-To: <2452161.11491.1594732791558.JavaMail.zimbra@efficios.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -78,33 +84,30 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 7/13/20 11:03 PM, Mathieu Desnoyers wrote:
-> Recent discussion led to a solution for extending struct rseq. This is
-> an implementation of the proposed solution.
-> 
-> Now is a good time to agree on this scheme before the release of glibc
-> 2.32, just in case there are small details to fix on the user-space
-> side in order to allow extending struct rseq.
+On 7/14/20 9:19 AM, Mathieu Desnoyers wrote:
+> Is there an arch-agnostic way to get the thread pointer from user-space code ? That
+> would be needed by all rseq critical section implementations.
 
-Adding extensibility to the rseq registration process would be great,
-but we are out of time for the glibc 2.32 release.
+Yes, and no. We have void *__builtin_thread_pointer (void), but
+few architectures implement the builtin so we'd have to go through
+a round of compiler updates and backports. All targets know how to
+access the thread pointer because the compiler has to generate
+IE-mode accesses to the TLS variables.
 
-Should we revert rseq for glibc 2.32 and spend quality time discussing
-the implications of an extensible design, something that Google already
-says they are doing?
+I have filed an enhancement request:
+Bug 96200 - Implement __builtin_thread_pointer() and 
+            __builtin_set_thread_pointer() if TLS is supported
+https://gcc.gnu.org/bugzilla/show_bug.cgi?id=96200
 
-We can, with a clear head, and an agreed upon extension mechanism
-include rseq in glibc 2.33 (release scheduled for Feburary 1st 2021).
-We release time boxed every 6 months, no deviation, so you know when
-your next merge window will be.
+We have glibc internal macro APIs to access the thread pointer,
+but I would rather the compiler handle the access since it can
+schedule the resulting sequence better.
 
-We have already done the hard work of fixing the nesting signal
-handler issues, and glibc integration. If we revert today that will 
-also give time for Firefox and Chrome to adjust their sandboxes.
-
-Do you wish to go forward with rseq as we have it in glibc 2.32,
-or do you wish to revert rseq from glibc 2.32, discuss the extension
-mechanism, and put it back into glibc 2.33 with adjustments?
+On some arches setting the therad pointer needs a syscall or
+equivalent operation (hppa), and for some arches there is no
+fixed register (arm) hence the need for __builtin_thread_pointer()
+to force the compiler to place the pointer into a register for
+function return.
 
 -- 
 Cheers,
