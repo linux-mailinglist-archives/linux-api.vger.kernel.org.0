@@ -2,131 +2,135 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DDFA21F924
-	for <lists+linux-api@lfdr.de>; Tue, 14 Jul 2020 20:20:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 97B6D21F983
+	for <lists+linux-api@lfdr.de>; Tue, 14 Jul 2020 20:34:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729088AbgGNSUZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 14 Jul 2020 14:20:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34268 "EHLO
+        id S1729218AbgGNSd6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 14 Jul 2020 14:33:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729010AbgGNSUX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 14 Jul 2020 14:20:23 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABFF6C061794
-        for <linux-api@vger.kernel.org>; Tue, 14 Jul 2020 11:20:22 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id f18so23846064wrs.0
-        for <linux-api@vger.kernel.org>; Tue, 14 Jul 2020 11:20:22 -0700 (PDT)
+        with ESMTP id S1728370AbgGNSd5 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 14 Jul 2020 14:33:57 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E36FC061794
+        for <linux-api@vger.kernel.org>; Tue, 14 Jul 2020 11:33:57 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id x9so14654556ljc.5
+        for <linux-api@vger.kernel.org>; Tue, 14 Jul 2020 11:33:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=HPlGFdGBPdOOnjWNIrp7n7fX2f6c5N2cri07SgmWmTg=;
-        b=JB+J/nyt6TfGmfP1FNHzDlP0adDJxkUGVFw5/aitKXAyBNMl8DYy62MiTBc8Rk1QD+
-         rm4HViH+6fsIyde6WYByrD91wRfXvfHvxs/vnOJ8wI0lqj0DgxgzvyrBe4aTsR1yCrzx
-         47P82a7vcihTMuj/258naogm0mSiGnyx4C/10=
+        bh=yyP3ZHSQbiIJkgfhj+w2LY9l2YJKPJ+qK594IrEb58E=;
+        b=qYKY00MEabqGiQ7om+FCgRsF3qL/GSt4BdQ+DC3BjaBjVRtPavSO7I+bKn2fn9H/+A
+         4YBy0mJ2n+3/LWK/rIvkJW2EI4G8dmOhSmAUXBD8hThIgdANEqiZViODGTy4FbwROfPK
+         tRn5nCWI7UiPloxZ1mwja90xAyhlIvln/CUboMoCeo0trcdTJyJjV/oBdcYI1stqk/wA
+         l7D4atz2mu0OIXlrT1I7Sjl4Zhb6DLYCoG6xROrOmWi4z+5tAVUy1jbIiVFPQUIr88t7
+         Q357PW73mz4a2VcF94WK8yu4QOJCbCniyE4OnjqjHoCYNlA/Y6U+x+hheWnzedDV4r0a
+         OqOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=HPlGFdGBPdOOnjWNIrp7n7fX2f6c5N2cri07SgmWmTg=;
-        b=V1szb9gCd9QWKLHTqBbQOR8d6lQJngWv9PMJept+FeQvCuy33uzxUlIwuv0lyM9p+Y
-         iUqbk+eedj4X3NMlX/UFzGyJFyYgAoAnIRZmNkbnKD2duwhE7rKObmFveFqnR+qiaiox
-         KIDYi/gKrrWCCRp4Iu7niu413ztVUgXQiT1E/R83J64imVWXBKxBU+qCYo9isOCwDWZa
-         8asEC8xbuU/6iZFUQGZL1NMgB8/2CeHAZcs6ved2OP7ypFbxs1B+xPqJwWPWtkjpIo9+
-         bpTYnhzxJQSkJbl+O6mgSVEooP8reemhmzvNwpOEzAYA0+7oy504AhhpQSK8kLveAejj
-         HmhA==
-X-Gm-Message-State: AOAM531uVUNwfnq9YjE8jPTT5CQG25eL7k8uiFZFkikBXqMWroAZSBl1
-        aGZBBBYf6MQBAnxvAweUhLOJmg7hpQzzLnPEZL2Qmw==
-X-Google-Smtp-Source: ABdhPJzTRetuwJgvNgpbAVJcEpxdMAupdArwCBSPE038dmzCtxo8SQiUfeNuFojjgzmNMeBkMFoGBcaYJM2tZf4UVL4=
-X-Received: by 2002:a5d:4a45:: with SMTP id v5mr7440248wrs.228.1594750821121;
- Tue, 14 Jul 2020 11:20:21 -0700 (PDT)
+        bh=yyP3ZHSQbiIJkgfhj+w2LY9l2YJKPJ+qK594IrEb58E=;
+        b=oeplBhWhn9G8C7+/Ljja4KGY+qA79Rskr0X5qDDWO9t10uQSSJY0JXdpNZzYAnc6JS
+         0CpxjoFRpLsYUjkSe7hNOpkD6+rVev8YIWvSngQBMaC/DlrHeOMcU5CKI+97LON6eLMd
+         zeR8Kfe2yaqw+esVysB8beDqO0/1Ur47EUxW7mT7VU081troblSBDnhPqf3hUtXYpfQX
+         u2hy6j01pXdY093vHEfOFzUsI4tq5y30WmshcAdCHM1pbkJ0MvY2lCGB4TH0yXmf1z2t
+         Ur7ddsui4TEadCtpQqHUR/P3gzMXoM9JwNhTH4RBinZc8zn8CoBcgFxFvtXE9hNW2emr
+         8Eqg==
+X-Gm-Message-State: AOAM532E9Yp3DMFmSrmZaKlH4Adl16qtvfNY6+i8S6In4HtMDNQt9eyx
+        fgcAA6z/qhZRCZMmcOoTndny1G/Uh1JOUmqpIvd4eQ==
+X-Google-Smtp-Source: ABdhPJzutP+Eujesct6aPGeAiwrZdsjZGD8qSndUPJy6OUx7H9vvuS79gJZzuNhHI60cmBHSQCgOeaiRiKEf+jUgss0=
+X-Received: by 2002:a2e:9b87:: with SMTP id z7mr186034lji.80.1594751635653;
+ Tue, 14 Jul 2020 11:33:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200709182642.1773477-1-keescook@chromium.org> <20200709182642.1773477-9-keescook@chromium.org>
-In-Reply-To: <20200709182642.1773477-9-keescook@chromium.org>
-From:   Will Drewry <wad@chromium.org>
-Date:   Tue, 14 Jul 2020 13:20:08 -0500
-Message-ID: <CAAFS_9Gx1=ytAqTPE3ygh6euJqDObcdg70-gzUuq3eHeWHR2HQ@mail.gmail.com>
-Subject: Re: [PATCH v7 8/9] seccomp: Introduce addfd ioctl to seccomp user notifier
-To:     Kees Cook <keescook@chromium.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Sargun Dhillon <sargun@sargun.me>,
-        Matt Denton <mpdenton@google.com>,
-        Christian Brauner <christian@brauner.io>,
-        Tycho Andersen <tycho@tycho.ws>,
-        David Laight <David.Laight@aculab.com>,
-        Christoph Hellwig <hch@lst.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Aleksa Sarai <cyphar@cyphar.com>, Jann Horn <jannh@google.com>,
-        Chris Palmer <palmer@google.com>,
-        Robert Sesek <rsesek@google.com>,
-        Giuseppe Scrivano <gscrivan@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Shuah Khan <shuah@kernel.org>, netdev@vger.kernel.org,
-        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
+References: <20200714030348.6214-1-mathieu.desnoyers@efficios.com>
+ <20200714030348.6214-3-mathieu.desnoyers@efficios.com> <CAFTs51UHaUqaKj5bEj0vQtEZrww9gnrqb-kGVk7DAgQJPBAR+w@mail.gmail.com>
+ <775688146.12145.1594748580461.JavaMail.zimbra@efficios.com>
+In-Reply-To: <775688146.12145.1594748580461.JavaMail.zimbra@efficios.com>
+From:   Peter Oskolkov <posk@google.com>
+Date:   Tue, 14 Jul 2020 11:33:44 -0700
+Message-ID: <CAPNVh5fiCCJpyeLj_ciWzFrO4fasVXZNhpfKXJhJWJirXdJOjQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 2/4] rseq: Allow extending struct rseq
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc:     Peter Oskolkov <posk@posk.io>,
+        Peter Zijlstra <peterz@infradead.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        paulmck <paulmck@linux.ibm.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api <linux-api@vger.kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Florian Weimer <fw@deneb.enyo.de>, carlos <carlos@redhat.com>,
+        Chris Kennelly <ckennelly@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jul 9, 2020 at 1:26 PM Kees Cook <keescook@chromium.org> wrote:
+On Tue, Jul 14, 2020 at 10:43 AM Mathieu Desnoyers
+<mathieu.desnoyers@efficios.com> wrote:
 >
-> From: Sargun Dhillon <sargun@sargun.me>
+> ----- On Jul 14, 2020, at 1:24 PM, Peter Oskolkov posk@posk.io wrote:
 >
-> The current SECCOMP_RET_USER_NOTIF API allows for syscall supervision over
-> an fd. It is often used in settings where a supervising task emulates
-> syscalls on behalf of a supervised task in userspace, either to further
-> restrict the supervisee's syscall abilities or to circumvent kernel
-> enforced restrictions the supervisor deems safe to lift (e.g. actually
-> performing a mount(2) for an unprivileged container).
+> > At Google, we actually extended struct rseq (I will post the patches
+> > here once they are fully deployed and we have specific
+> > benefits/improvements to report). We did this by adding several fields
+> > below __u32 flags (the last field currently), and correspondingly
+> > increasing rseq_len in rseq() syscall. If the kernel does not know of
+> > this extension, it will return -EINVAL due to an unexpected rseq_len;
+> > then the application can either fall-back to the standard/upstream
+> > rseq, or bail. If the kernel does know of this extension, it accepts
+> > it. If the application passes the old rseq_len (32), the kernel knows
+> > that this is an old application and treats it as such.
+> >
+> > I looked through the archives, but I did not find specifically why the
+> > pretty standard approach described above is considered inferior to the
+> > one taken in this patch (freeze rseq_len at 32, add additional length
+> > fields to struct rseq). Can these be summarized?
 >
-> While SECCOMP_RET_USER_NOTIF allows for the interception of any syscall,
-> only a certain subset of syscalls could be correctly emulated. Over the
-> last few development cycles, the set of syscalls which can't be emulated
-> has been reduced due to the addition of pidfd_getfd(2). With this we are
-> now able to, for example, intercept syscalls that require the supervisor
-> to operate on file descriptors of the supervisee such as connect(2).
+> I think you don't face the issues I'm facing with libc rseq integration
+> because you control the entire user-space software ecosystem at Google.
 >
-> However, syscalls that cause new file descriptors to be installed can not
-> currently be correctly emulated since there is no way for the supervisor
-> to inject file descriptors into the supervisee. This patch adds a
-> new addfd ioctl to remove this restriction by allowing the supervisor to
-> install file descriptors into the intercepted task. By implementing this
-> feature via seccomp the supervisor effectively instructs the supervisee
-> to install a set of file descriptors into its own file descriptor table
-> during the intercepted syscall. This way it is possible to intercept
-> syscalls such as open() or accept(), and install (or replace, like
-> dup2(2)) the supervisor's resulting fd into the supervisee. One
-> replacement use-case would be to redirect the stdout and stderr of a
-> supervisee into log file descriptors opened by the supervisor.
+> The main issue we face is that the library responsible for registering
+> rseq (either glibc 2.32+, an early-adopter librseq library, or the
+> application) may very well not be the same library defining the __rseq_abi
+> symbol used in the global symbol table. Interposition with ld preload or
+> by defining the __rseq_abi in the program's executable are good examples
+> of this kind of scenario, and those use-cases are supported.
 >
-> The ioctl handling is based on the discussions[1] of how Extensible
-> Arguments should interact with ioctls. Instead of building size into
-> the addfd structure, make it a function of the ioctl command (which
-> is how sizes are normally passed to ioctls). To support forward and
-> backward compatibility, just mask out the direction and size, and match
-> everything. The size (and any future direction) checks are done along
-> with copy_struct_from_user() logic.
+> So the size of the __rseq_abi structure may be larger than the struct
+> rseq known by glibc (and eventually smaller, if future glibc versions
+> extend their __rseq_abi size but is loaded with an older program/library
+> doing __rseq_abi interposition).
 >
-> As a note, the seccomp_notif_addfd structure is laid out based on 8-byte
-> alignment without requiring packing as there have been packing issues
-> with uapi highlighted before[2][3]. Although we could overload the
-> newfd field and use -1 to indicate that it is not to be used, doing
-> so requires changing the size of the fd field, and introduces struct
-> packing complexity.
+> So we need some way to allow code defining the __rseq_abi to let the kernel
+> know how much room is available, without necessarily requiring the code
+> responsible for rseq registration to be aware of that extended layout.
+> This is the purpose of the __rseq_abi.flags RSEQ_FLAG_TLS_SIZE and field
+> __rseq_abi.user_size.
 >
-> [1]: https://lore.kernel.org/lkml/87o8w9bcaf.fsf@mid.deneb.enyo.de/
-> [2]: https://lore.kernel.org/lkml/a328b91d-fd8f-4f27-b3c2-91a9c45f18c0@rasmusvillemoes.dk/
-> [3]: https://lore.kernel.org/lkml/20200612104629.GA15814@ircssh-2.c.rugged-nimbus-611.internal
->
-> Suggested-by: Matt Denton <mpdenton@google.com>
-> Link: https://lore.kernel.org/r/20200603011044.7972-4-sargun@sargun.me
-> Signed-off-by: Sargun Dhillon <sargun@sargun.me>
-> Co-developed-by: Kees Cook <keescook@chromium.org>
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+> And we need some way to allow the kernel to let user-space rseq critical
+> sections (user code) know how much of those fields are actually populated
+> by the kernel. This is the purpose of __rseq_abi.flags RSEQ_FLAG_TLS_SIZE
+> with __rseq_abi.kernel_size.
 
-Reviewed-by: Will Drewry <wad@chromium.org>
+Thanks, Mathieu, for the explanation. Yes, multiple unrelated
+libraries having to share struct rseq complicates matters. Your
+approach appears to be a way to reconcile the issues you outlined
+above.
+
+Thanks,
+Peter
+
+>
+> Thanks,
+>
+> Mathieu
+>
+> --
+> Mathieu Desnoyers
+> EfficiOS Inc.
+> http://www.efficios.com
