@@ -2,47 +2,38 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E9C55220DC5
-	for <lists+linux-api@lfdr.de>; Wed, 15 Jul 2020 15:13:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6844F220E01
+	for <lists+linux-api@lfdr.de>; Wed, 15 Jul 2020 15:22:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730868AbgGONM7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 Jul 2020 09:12:59 -0400
-Received: from mail.efficios.com ([167.114.26.124]:49496 "EHLO
-        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729900AbgGONM7 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Jul 2020 09:12:59 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 1A2F7281847;
-        Wed, 15 Jul 2020 09:12:58 -0400 (EDT)
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id napCJTeg1Q0z; Wed, 15 Jul 2020 09:12:57 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id BF7F2281846;
-        Wed, 15 Jul 2020 09:12:57 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com BF7F2281846
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1594818777;
-        bh=LnCa9Kr94GXO3BET3VyB1xLtyWYGkc9KxiXdaJE05S8=;
-        h=Date:From:To:Message-ID:MIME-Version;
-        b=NgBZLj/63aQIAwjTDb+VnNQiIIxdZ0tvxQ1V+FQPvTiuJN887zN8gLsrCxOJaCN3K
-         MZSlB+MiHiGRpLj4qNJhA6GrPpqqWVvsfz1pjxOkzlDP8GOBlorOB85cKVg7tQwV0j
-         /BcFJQROTOndn36iSyfDM7kzLICqitQoa3PJntsLOyOgoF7D+rVJ0GwLCKqL+JKN9j
-         gWj4CqeiXF9R7xqarNOJRwBNB0eI28vl6dWYjBmvYycfipMb8eI4zM7MEmN3WHBntf
-         wu1c8YMAInZGg0CaihtAxDPdM95cRXe26X7Ayv2siPKZSQQJpblgrxYSyx1z72bCYj
-         qvT4pIhqI6FcQ==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id JF1Uh8Y6dtqf; Wed, 15 Jul 2020 09:12:57 -0400 (EDT)
-Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
-        by mail.efficios.com (Postfix) with ESMTP id AED50281B17;
-        Wed, 15 Jul 2020 09:12:57 -0400 (EDT)
-Date:   Wed, 15 Jul 2020 09:12:57 -0400 (EDT)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     carlos <carlos@redhat.com>
-Cc:     Florian Weimer <fweimer@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
+        id S1731847AbgGONWa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 Jul 2020 09:22:30 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27642 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1731632AbgGONWa (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Jul 2020 09:22:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1594819349;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         references:references; bh=eujgVDOYWc3cCN8+v848SftAP3mzH/rlkfn6GJO88Cw=;
+        b=dFYnl6qQhMVhpL6/t3WAcFOapxsuknckepE24/z2SiizLklZftxUrRXg452KQjW40dCAcs
+        l2dBRxUFbI/1XJdSmK6qmE0bTNarcBfBg7CTAQNCxtQtluN+dLoku7dQ+cA7o0n0Sjs5E1
+        NKZr7PmlBOihvA8m1VvzSji6Z4iQRG0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-420-yLJrAiKwNNq5CnTy7sBerw-1; Wed, 15 Jul 2020 09:22:27 -0400
+X-MC-Unique: yLJrAiKwNNq5CnTy7sBerw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98F2718A1DE2;
+        Wed, 15 Jul 2020 13:22:25 +0000 (UTC)
+Received: from oldenburg2.str.redhat.com (ovpn-112-228.ams2.redhat.com [10.36.112.228])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 8102E5D9CA;
+        Wed, 15 Jul 2020 13:22:20 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc:     carlos <carlos@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
         linux-kernel <linux-kernel@vger.kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         paulmck <paulmck@linux.ibm.com>,
@@ -50,51 +41,34 @@ Cc:     Florian Weimer <fweimer@redhat.com>,
         "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
         linux-api <linux-api@vger.kernel.org>,
         Christian Brauner <christian.brauner@ubuntu.com>
-Message-ID: <2053637148.14136.1594818777608.JavaMail.zimbra@efficios.com>
-In-Reply-To: <71f08b3a-56f5-0e0f-53b0-cc680f7e8181@redhat.com>
-References: <20200714030348.6214-1-mathieu.desnoyers@efficios.com> <20200714030348.6214-3-mathieu.desnoyers@efficios.com> <87mu42bepq.fsf@oldenburg2.str.redhat.com> <131549905.11442.1594731035989.JavaMail.zimbra@efficios.com> <87a7028d5u.fsf@oldenburg2.str.redhat.com> <2452161.11491.1594732791558.JavaMail.zimbra@efficios.com> <71f08b3a-56f5-0e0f-53b0-cc680f7e8181@redhat.com>
 Subject: Re: [RFC PATCH 2/4] rseq: Allow extending struct rseq
+References: <20200714030348.6214-1-mathieu.desnoyers@efficios.com>
+        <20200714030348.6214-3-mathieu.desnoyers@efficios.com>
+        <87mu42bepq.fsf@oldenburg2.str.redhat.com>
+        <131549905.11442.1594731035989.JavaMail.zimbra@efficios.com>
+        <87a7028d5u.fsf@oldenburg2.str.redhat.com>
+        <2452161.11491.1594732791558.JavaMail.zimbra@efficios.com>
+        <71f08b3a-56f5-0e0f-53b0-cc680f7e8181@redhat.com>
+        <2053637148.14136.1594818777608.JavaMail.zimbra@efficios.com>
+Date:   Wed, 15 Jul 2020 15:22:18 +0200
+Message-ID: <87y2nk29rp.fsf@oldenburg2.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [167.114.26.124]
-X-Mailer: Zimbra 8.8.15_GA_3955 (ZimbraWebClient - FF78 (Linux)/8.8.15_GA_3953)
-Thread-Topic: rseq: Allow extending struct rseq
-Thread-Index: 1MYp5kfIfB2JXymSbY4v1NcGryrEAQ==
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
------ On Jul 14, 2020, at 5:30 PM, carlos carlos@redhat.com wrote:
+* Mathieu Desnoyers:
 
-> On 7/14/20 9:19 AM, Mathieu Desnoyers wrote:
->> Is there an arch-agnostic way to get the thread pointer from user-space code ?
->> That
->> would be needed by all rseq critical section implementations.
-> 
-> Yes, and no. We have void *__builtin_thread_pointer (void), but
-> few architectures implement the builtin so we'd have to go through
-> a round of compiler updates and backports. All targets know how to
-> access the thread pointer because the compiler has to generate
-> IE-mode accesses to the TLS variables.
+> Practically speaking, I suspect this would mean postponing availability of
+> rseq for widely deployed applications for a few more years ?
 
-Practically speaking, I suspect this would mean postponing availability of
-rseq for widely deployed applications for a few more years ? I can very well
-see end users upgrading their kernel and using an early-adoption library
-to use rseq today, but requiring to upgrade the entire toolchain will likely
-postpone adoption to many years from now.
-
-It would be good to start getting feedback from rseq users so we can progress
-on the system call feature development. Unfortunately everything has been in
-a stand-still for the past years due to lack of rseq registration coordination
-in user-space.
+There is no rseq support in GCC today, so you have to write assembler
+code anyway.
 
 Thanks,
+Florian
 
-Mathieu
-
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-http://www.efficios.com
