@@ -2,122 +2,191 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D29B422166A
-	for <lists+linux-api@lfdr.de>; Wed, 15 Jul 2020 22:40:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB871221839
+	for <lists+linux-api@lfdr.de>; Thu, 16 Jul 2020 01:07:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726960AbgGOUk1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 Jul 2020 16:40:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52300 "EHLO
+        id S1727107AbgGOXHD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 Jul 2020 19:07:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726941AbgGOUkQ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Jul 2020 16:40:16 -0400
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79DAFC08C5CE
-        for <linux-api@vger.kernel.org>; Wed, 15 Jul 2020 13:40:16 -0700 (PDT)
-Received: by mail-pj1-x1041.google.com with SMTP id cm21so3682004pjb.3
-        for <linux-api@vger.kernel.org>; Wed, 15 Jul 2020 13:40:16 -0700 (PDT)
+        with ESMTP id S1727097AbgGOXHD (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Jul 2020 19:07:03 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1248BC08C5CE
+        for <linux-api@vger.kernel.org>; Wed, 15 Jul 2020 16:07:03 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id j19so3825400pgm.11
+        for <linux-api@vger.kernel.org>; Wed, 15 Jul 2020 16:07:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=3RdpnHt4YFQNegHM71xCSPo+5hGEKA55j9DzkLX+zEI=;
-        b=W6JWWMnCCKRoZOrZTqxAVNCpWdse7JHrhl955F5ofkWIbY8yj0WiYEYIrzGnCpQmPr
-         nebzAR1cLp77bQPydJtMWmGvGL1DOx/5b1SD2FJ+owpHkt8+SixM1Gqmi5haJ+ZpVK/l
-         ohTNaS/ycfxJ7NhhCYIL+fq/TdpwR9jTHXNUw=
+        bh=Yvaq2P+PojMtEplE3YoxoQamecRP9sYA0XkAU4Baoko=;
+        b=JMLQW1jfVYP22T1V+VNzJav9OTx0KTdcOe7OERKHlGpW8JELre7ySGePgiPZuFcyyN
+         hv4f5DEkN3p2rSD2ZdUCUMFs5NE+FYj/t3vmPWXwa6hn6iIvulda5TgKB29T+wlP/DMw
+         30zXLYPXJiTbbOUUjh1uOEqVp63wRsgeQ87Y0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=3RdpnHt4YFQNegHM71xCSPo+5hGEKA55j9DzkLX+zEI=;
-        b=K4rYn8O4tpMYe6nY7cPSF0k6STanPGWG3GvTXXRDoh1Pft4uewTAN79z3Elsu3T2P/
-         j2XwuIM8b2xyLHlYeLGvk6qituB3tbLUb+SpUReDGsoU49Lp6SqyySAPMKZiAEVYY1Ix
-         03IWl0dnC0GNZUGYm9JQ8c9bVmQVjinhL4PV1wsi6+jmZK9lyJ6qcWzXoHNj6AWG5KXK
-         po80+kdXL4f+XhtKEUgLl5QH/Sh98FNcC5AfkQsyE4lBTGm8B8DVyEPCAyyXtnW1bKg7
-         lkHGaM/fBIrGBQMwMyIYR5lmzOAlgmocOKiYZ7Xq4bKNZ3iwO0gdBrlIlWg9Ud3j2tDF
-         zlYg==
-X-Gm-Message-State: AOAM531MYSnp2H0e2KJNQEatjCEAB7dd199MHkqldsXYOY2GIKVMuyB5
-        7CECMdOv2c26+tjSI4BFjfNKjQ==
-X-Google-Smtp-Source: ABdhPJy0QMC5q+2qYD6o7SHOebREIiw8ISqB8EjezF/XGzbblfIdGbOr3hMolHLPO5Yp/fgvt7Nt3A==
-X-Received: by 2002:a17:90b:8d7:: with SMTP id ds23mr1507273pjb.148.1594845616072;
-        Wed, 15 Jul 2020 13:40:16 -0700 (PDT)
+        bh=Yvaq2P+PojMtEplE3YoxoQamecRP9sYA0XkAU4Baoko=;
+        b=toa4hjN0FVYZ4kbvhCuIdBysxV2esacFRUdpoMj8zIjzX43VgM4e8JzwZLcEARBsuQ
+         AczWczZ4ID4qjatMv05yhyBXN5QvkcdDget53pap7YCrJP+KLMgpf9IrbgTOI3hesqsd
+         0z2HeFjaY+kKbwIR98nYNkd6vQwU7AmSmuxK9z8cRZUww7iMeZbWH1w2+rJ72/yHmOdI
+         URk60KnfHrTOGq5k/xdHy2EqSy5b4xVU0U3WylAB420caXYSut3fQuDlD0D5K0DNg20l
+         caHZeCyO7jOh/D15VMdOnfYiwWa0MwOHJ2lCDoxbypbrS4E60jB+ShFBKas2RZN0ofhh
+         lOmA==
+X-Gm-Message-State: AOAM532q8TjRQlZY9zPe0eBstMe0CuaABiu2+EEP+/aheqcDkTflqcgn
+        O2Ct290VvlyT+sCC+XiJNXjsvQ==
+X-Google-Smtp-Source: ABdhPJwECD3XSw3fWrn3S2RNcLITwnLnmJV2sTo8wYEzW0OORY57dF5Km8mckEsgMVSWW/0odG8ZvA==
+X-Received: by 2002:a63:e80e:: with SMTP id s14mr1825227pgh.32.1594854422427;
+        Wed, 15 Jul 2020 16:07:02 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id 66sm2720207pfd.93.2020.07.15.13.40.14
+        by smtp.gmail.com with ESMTPSA id 186sm2941627pfe.1.2020.07.15.16.07.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2020 13:40:15 -0700 (PDT)
-Date:   Wed, 15 Jul 2020 13:40:14 -0700
+        Wed, 15 Jul 2020 16:07:01 -0700 (PDT)
+Date:   Wed, 15 Jul 2020 16:07:00 -0700
 From:   Kees Cook <keescook@chromium.org>
-To:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
-Cc:     linux-kernel@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Christian Heimes <christian@python.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Deven Bowers <deven.desai@linux.microsoft.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Eric Chiang <ericchiang@google.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
-        Matthew Garrett <mjg59@google.com>,
+To:     Pavel Begunkov <asml.silence@gmail.com>
+Cc:     Miklos Szeredi <miklos@szeredi.hu>,
         Matthew Wilcox <willy@infradead.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mickael.salaun@ssi.gouv.fr>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Philippe =?iso-8859-1?Q?Tr=E9buchet?= 
-        <philippe.trebuchet@ssi.gouv.fr>,
-        Scott Shell <scottsh@microsoft.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Steve Dower <steve.dower@python.org>,
-        Steve Grubb <sgrubb@redhat.com>,
-        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
-        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
-        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v6 7/7] ima: add policy support for the new file open
- MAY_OPENEXEC flag
-Message-ID: <202007151339.283D7CD@keescook>
-References: <20200714181638.45751-1-mic@digikod.net>
- <20200714181638.45751-8-mic@digikod.net>
+        Andy Lutomirski <luto@amacapital.net>,
+        Jann Horn <jannh@google.com>,
+        Stefano Garzarella <sgarzare@redhat.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        strace-devel@lists.strace.io, io-uring@vger.kernel.org,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Michael Kerrisk <mtk.manpages@gmail.com>
+Subject: Re: strace of io_uring events?
+Message-ID: <202007151511.2AA7718@keescook>
+References: <CAJfpegu3EwbBFTSJiPhm7eMyTK2MzijLUp1gcboOo3meMF_+Qg@mail.gmail.com>
+ <D9FAB37B-D059-4137-A115-616237D78640@amacapital.net>
+ <20200715171130.GG12769@casper.infradead.org>
+ <7c09f6af-653f-db3f-2378-02dca2bc07f7@gmail.com>
+ <CAJfpegt9=p4uo5U2GXqc-rwqOESzZCWAkGMRTY1r8H6fuXx96g@mail.gmail.com>
+ <48cc7eea-5b28-a584-a66c-4eed3fac5e76@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200714181638.45751-8-mic@digikod.net>
+In-Reply-To: <48cc7eea-5b28-a584-a66c-4eed3fac5e76@gmail.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jul 14, 2020 at 08:16:38PM +0200, Mickaël Salaün wrote:
-> From: Mimi Zohar <zohar@linux.ibm.com>
-> 
-> The kernel has no way of differentiating between a file containing data
-> or code being opened by an interpreter.  The proposed O_MAYEXEC
-> openat2(2) flag bridges this gap by defining and enabling the
-> MAY_OPENEXEC flag.
-> 
-> This patch adds IMA policy support for the new MAY_OPENEXEC flag.
-> 
-> Example:
-> measure func=FILE_CHECK mask=^MAY_OPENEXEC
-> appraise func=FILE_CHECK appraise_type=imasig mask=^MAY_OPENEXEC
-> 
-> Signed-off-by: Mimi Zohar <zohar@linux.ibm.com>
-> Reviewed-by: Lakshmi Ramasubramanian <nramas@linux.microsoft.com>
-> Acked-by: Mickaël Salaün <mic@digikod.net>
+Earlier Andy Lutomirski wrote:
+> Letâ€™s add some seccomp folks. We probably also want to be able to run
+> seccomp-like filters on io_uring requests. So maybe io_uring should call into
+> seccomp-and-tracing code for each action.
 
-(Process nit: if you're sending this on behalf of another author, then
-this should be Signed-off-by rather than Acked-by.)
+Okay, I'm finally able to spend time looking at this. And thank you to
+the many people that CCed me into this and earlier discussions (at least
+Jann, Christian, and Andy).
+
+It *seems* like there is a really clean mapping of SQE OPs to syscalls.
+To that end, yes, it should be trivial to add ptrace and seccomp support
+(sort of). The trouble comes for doing _interception_, which is how both
+ptrace and seccomp are designed.
+
+In the basic case of seccomp, various syscalls are just being checked
+for accept/reject. It seems like that would be easy to wire up. For the
+more ptrace-y things (SECCOMP_RET_TRAP, SECCOMP_RET_USER_NOTIF, etc),
+I think any such results would need to be "upgraded" to "reject". Things
+are a bit complex in that seccomp's form of "reject" can be "return
+errno" (easy) or it can be "kill thread (or thread_group)" which ...
+becomes less clear. (More on this later.)
+
+In the basic case of "I want to run strace", this is really just a
+creative use of ptrace in that interception is being used only for
+reporting. Does ptrace need to grow a way to create/attach an io_uring
+eventfd? Or should there be an entirely different tool for
+administrative analysis of io_uring events (kind of how disk IO can be
+monitored)?
+
+For io_uring generally, I have a few comments/questions:
+
+- Why did a new syscall get added that couldn't be extended? All new
+  syscalls should be using Extended Arguments. :(
+
+- Why aren't the io_uring syscalls in the man-page git? (It seems like
+  they're in liburing, but that's should document the _library_ not the
+  syscalls, yes?)
+
+Speaking to Stefano's proposal[1]:
+
+- There appear to be three classes of desired restrictions:
+  - opcodes for io_uring_register() (which can be enforced entirely with
+    seccomp right now).
+  - opcodes from SQEs (this _could_ be intercepted by seccomp, but is
+    not currently written)
+  - opcodes of the types of restrictions to restrict... for making sure
+    things can't be changed after being set? seccomp already enforces
+    that kind of "can only be made stricter"
+
+- Credentials vs no_new_privs needs examination (more on this later)
+
+So, I think, at least for restrictions, seccomp should absolutely be
+the place to get this work done. It already covers 2 of the 3 points in
+the proposal.
+
+Solving the mapping of seccomp interception types into CQEs (or anything
+more severe) will likely inform what it would mean to map ptrace events
+to CQEs. So, I think they're related, and we should get seccomp hooked
+up right away, and that might help us see how (if) ptrace should be
+attached.
+
+Specifically for seccomp, I see at least the following design questions:
+
+- How does no_new_privs play a role in the existing io_uring credential
+  management? Using _any_ kind of syscall-effective filtering, whether
+  it's seccomp or Stefano's existing proposal, needs to address the
+  potential inheritable restrictions across privilege boundaries (which is
+  what no_new_privs tries to eliminate). In regular syscall land, this is
+  an issue when a filter follows a process through setuid via execve()
+  and it gains privileges that now the filter-creator can trick into
+  doing weird stuff -- io_uring has a concept of alternative credentials
+  so I have to ask about it. (I don't *think* there would be a path to
+  install a filter before gaining privilege, but I likely just
+  need to do my homework on the io_uring internals. Regardless,
+  use of seccomp by io_uring would need to have this issue "solved"
+  in the sense that it must be "safe" to filter io_uring OPs, from a
+  privilege-boundary-crossing perspective.
+
+- From which task perspective should filters be applied? It seems like it
+  needs to follow the io_uring personalities, as that contains the
+  credentials. (This email is a brain-dump so far -- I haven't gone to
+  look to see if that means io_uring is literally getting a reference to
+  struct cred; I assume so.) Seccomp filters are attached to task_struct.
+  However, for v5.9, seccomp will gain a more generalized get/put system
+  for having filters attached to the SECCOMP_RET_USER_NOTIF fd. Adding
+  more get/put-ers for some part of the io_uring context shouldn't
+  be hard.
+
+- How should seccomp return values be applied? Three seem okay:
+	SECCOMP_RET_ALLOW: do SQE action normally
+	SECCOMP_RET_LOG: do SQE action, log via seccomp
+	SECCOMP_RET_ERRNO: skip actions in SQE and pass errno to CQE
+  The rest not so much:
+	SECCOMP_RET_TRAP: can't send SIGSYS anywhere sane?
+	SECCOMP_RET_TRACE: no tracer, can't send SIGSYS?
+	SECCOMP_RET_USER_NOTIF: can't do user_notif rewrites?
+	SECCOMP_RET_KILL_THREAD: kill which thread?
+	SECCOMP_RET_KILL_PROCESS: kill which thread group?
+  If TRAP, TRACE, and USER_NOTIF need to be "upgraded" to KILL_THREAD,
+  what does KILL_THREAD mean? Does it really mean "shut down the entire
+  SQ?" Does it mean kill the worker thread? Does KILL_PROCESS mean kill
+  all the tasks with an open mapping for the SQ?
+
+Anyway, I'd love to hear what folks think, but given the very direct
+mapping from SQE OPs to syscalls, I really think seccomp needs to be
+inserted in here somewhere to maintain any kind of sensible reasoning
+about syscall filtering.
+
+-Kees
+
+[1] https://lore.kernel.org/lkml/20200710141945.129329-3-sgarzare@redhat.com/
 
 -- 
 Kees Cook
