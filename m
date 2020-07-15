@@ -2,43 +2,43 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2484D2210DF
-	for <lists+linux-api@lfdr.de>; Wed, 15 Jul 2020 17:28:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79DB822110D
+	for <lists+linux-api@lfdr.de>; Wed, 15 Jul 2020 17:32:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726851AbgGOP0g (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 Jul 2020 11:26:36 -0400
-Received: from mail.efficios.com ([167.114.26.124]:41338 "EHLO
+        id S1725907AbgGOPcG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 Jul 2020 11:32:06 -0400
+Received: from mail.efficios.com ([167.114.26.124]:44142 "EHLO
         mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725900AbgGOP0g (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Jul 2020 11:26:36 -0400
+        with ESMTP id S1725854AbgGOPcF (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Jul 2020 11:32:05 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 29CAE28294D;
-        Wed, 15 Jul 2020 11:26:35 -0400 (EDT)
+        by mail.efficios.com (Postfix) with ESMTP id A8032282C9F;
+        Wed, 15 Jul 2020 11:32:04 -0400 (EDT)
 Received: from mail.efficios.com ([127.0.0.1])
         by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id grExVuNJRgRK; Wed, 15 Jul 2020 11:26:34 -0400 (EDT)
+        with ESMTP id hfBGhRNx8QVl; Wed, 15 Jul 2020 11:32:04 -0400 (EDT)
 Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id C097328294C;
-        Wed, 15 Jul 2020 11:26:34 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com C097328294C
+        by mail.efficios.com (Postfix) with ESMTP id 58B91282523;
+        Wed, 15 Jul 2020 11:32:04 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 58B91282523
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1594826794;
-        bh=ixzZEBN0XBAyYhSOviuo0tkp9cwyUFPD/5SBxNhupsc=;
+        s=default; t=1594827124;
+        bh=YbiH1P2Lw2AGx+BJ46bYeL6rXdS70J7RnP0imUNWnME=;
         h=Date:From:To:Message-ID:MIME-Version;
-        b=BNbb8FUQ2MgZ6UOsSMy5Au51v/ciP5PXPhZskRzaG86CQlYP+Nbj3InoGpKW3KaqG
-         xCx7zPb4KWo5axCYCPZLGbAUv++GdwJ0YbYTKjM4CmCuIFJOJAwWBfGcPC1cQS2JRU
-         Ynu+TB9zyoujWk/yliuZUUal4XrbPIMTrx99hmCL18LtZBMobp08xEEQJFWvI+zTo1
-         leIVGf4h5emkgm3oOqL/9Pw3Wke6QTfF5Xpu+PTZUaM/XP93QdZuMzSQrBp1jCg2Hj
-         Wzqp6QuURNu7YjFoTyaYwwwE+92mEH5r0uyV0TZet/sWgPJIHC2KyIlmMzYaT/5Fxz
-         a0RyecZNnhtjA==
+        b=ZJXpiIwQclIm6nWpeWHBl8N6kABDRwl8RDiQ3GMosJeT2LiXHM+Ey2RXGOSCrF2Fq
+         cFq2Y/v11DXPPUUCt46DHLN8qHeC1e4UvZWzXqG6w9NrAndbkkhgQroEf7VIT7vseI
+         vjRvNFaQKiORM18ZtBF88XkKdyh5exPMneuVoTaZrQZP8iGzdpS9xJgarq9yrsV6hi
+         DhfNyGFOdeUyWRnAyMPTmC5Ekh/h9rk5++aRy69Xl5g6GUG6S2fNsCc8KfiysGffkP
+         4u+a64lOm2kpmETwD/DQv1DqeT2eFPuvXgZYSKvNwIN4KGGwCRjg325FKhl1ipVyJM
+         uQsCR26BR1XwA==
 X-Virus-Scanned: amavisd-new at efficios.com
 Received: from mail.efficios.com ([127.0.0.1])
         by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id dZoND3EixLPp; Wed, 15 Jul 2020 11:26:34 -0400 (EDT)
+        with ESMTP id J-I4XPE67x7V; Wed, 15 Jul 2020 11:32:04 -0400 (EDT)
 Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
-        by mail.efficios.com (Postfix) with ESMTP id AF5BD28294B;
-        Wed, 15 Jul 2020 11:26:34 -0400 (EDT)
-Date:   Wed, 15 Jul 2020 11:26:34 -0400 (EDT)
+        by mail.efficios.com (Postfix) with ESMTP id 4787228295F;
+        Wed, 15 Jul 2020 11:32:04 -0400 (EDT)
+Date:   Wed, 15 Jul 2020 11:32:04 -0400 (EDT)
 From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To:     Florian Weimer <fweimer@redhat.com>
 Cc:     carlos <carlos@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
@@ -48,81 +48,76 @@ Cc:     carlos <carlos@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
         Boqun Feng <boqun.feng@gmail.com>,
         "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
         linux-api <linux-api@vger.kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>
-Message-ID: <1506932521.14341.1594826794611.JavaMail.zimbra@efficios.com>
-In-Reply-To: <87k0z4zuxq.fsf@oldenburg2.str.redhat.com>
-References: <20200714030348.6214-1-mathieu.desnoyers@efficios.com> <71f08b3a-56f5-0e0f-53b0-cc680f7e8181@redhat.com> <2053637148.14136.1594818777608.JavaMail.zimbra@efficios.com> <87y2nk29rp.fsf@oldenburg2.str.redhat.com> <882700738.14181.1594819884049.JavaMail.zimbra@efficios.com> <87mu4028uk.fsf@oldenburg2.str.redhat.com> <1481331967.14276.1594824846736.JavaMail.zimbra@efficios.com> <87k0z4zuxq.fsf@oldenburg2.str.redhat.com>
-Subject: Re: [RFC PATCH 2/4] rseq: Allow extending struct rseq
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Florian Weimer <fw@deneb.enyo.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Message-ID: <306015794.14349.1594827124274.JavaMail.zimbra@efficios.com>
+In-Reply-To: <87a700zu9w.fsf@oldenburg2.str.redhat.com>
+References: <20200714030348.6214-1-mathieu.desnoyers@efficios.com> <e7ede994-ebec-8022-b12b-ac7147641ffb@redhat.com> <87a700zu9w.fsf@oldenburg2.str.redhat.com>
+Subject: Re: [RFC PATCH 0/4] rseq: Introduce extensible struct rseq
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [167.114.26.124]
 X-Mailer: Zimbra 8.8.15_GA_3955 (ZimbraWebClient - FF78 (Linux)/8.8.15_GA_3953)
-Thread-Topic: rseq: Allow extending struct rseq
-Thread-Index: KF0DmHs4TFAoijps0DhfMC1cmdpo+Q==
+Thread-Topic: rseq: Introduce extensible struct rseq
+Thread-Index: zj/evqz9xvlM0ojaaTo8zHxJl5f4sg==
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
------ On Jul 15, 2020, at 10:58 AM, Florian Weimer fweimer@redhat.com wrote:
+----- On Jul 15, 2020, at 11:12 AM, Florian Weimer fweimer@redhat.com wrote:
 
-> * Mathieu Desnoyers:
+> * Carlos O'Donell:
 > 
->> ----- On Jul 15, 2020, at 9:42 AM, Florian Weimer fweimer@redhat.com wrote:
->>> * Mathieu Desnoyers:
+>> On 7/13/20 11:03 PM, Mathieu Desnoyers wrote:
+>>> Recent discussion led to a solution for extending struct rseq. This is
+>>> an implementation of the proposed solution.
 >>> 
->> [...]
->>>> How would this allow early-rseq-adopter libraries to interact with
->>>> glibc ?
->>> 
->>> Under all extension proposals I've seen so far, early adopters are
->>> essentially incompatible with glibc rseq registration.  I don't think
->>> you can have it both ways.
+>>> Now is a good time to agree on this scheme before the release of glibc
+>>> 2.32, just in case there are small details to fix on the user-space
+>>> side in order to allow extending struct rseq.
 >>
->> The basic question I'm not sure about is whether we are allowed to increase
->> the size and alignement of __rseq_abi from e.g. glibc 2.32 to glibc 2.33.
+>> Adding extensibility to the rseq registration process would be great,
+>> but we are out of time for the glibc 2.32 release.
+>>
+>> Should we revert rseq for glibc 2.32 and spend quality time discussing
+>> the implications of an extensible design, something that Google already
+>> says they are doing?
+>>
+>> We can, with a clear head, and an agreed upon extension mechanism
+>> include rseq in glibc 2.33 (release scheduled for Feburary 1st 2021).
+>> We release time boxed every 6 months, no deviation, so you know when
+>> your next merge window will be.
+>>
+>> We have already done the hard work of fixing the nesting signal
+>> handler issues, and glibc integration. If we revert today that will
+>> also give time for Firefox and Chrome to adjust their sandboxes.
+>>
+>> Do you wish to go forward with rseq as we have it in glibc 2.32,
+>> or do you wish to revert rseq from glibc 2.32, discuss the extension
+>> mechanism, and put it back into glibc 2.33 with adjustments?
 > 
-> With the current mechanism (global TLS data symbol), we can do that
-> using symbol versioning.  That means that we can only do this on a
-> release boundary,
+> I posted the glibc revert:
+> 
+>  <https://sourceware.org/pipermail/libc-alpha/2020-July/116368.html>
+> 
+> I do not think we have any other choice at this point.
 
-That should not be a problem.
+This is indeed the safe course of action.
 
-> and that it's incompatible with other libraries which
-> use an interposing unversioned symbol.
-
-We have the freedom to define the ABI of this shared __rseq_abi symbol
-right now. Maybe it's not such a good thing to let early adopters use
-unversioned __rseq_abi symbols.
-
-Let me wrap my head around this scenario then, please let me know if
-I'm misunderstanding something:
-
-1) glibc 2.32 exposes:
-   __rseq_abi (GLIBC_2.32) with size == 32.
-   __rseq_abi with size == 32 is available as a private symbol within glibc
-   - both symbols alias the same contents.
-
-2) glibc 2.33 exposes:
-   __rseq_abi (GLIBC_2.32) with size == 32.
-   __rseq_abi (GLIBC_2.33) with size == 64.
-   __rseq_abi with size == 64 is available as a private symbol within glibc
-   - the three symbols alias the same contents.
-
-Then what happens if we have a program or preloaded library defining
-__rseq_abi (without version) with size == 32 loaded with a glibc 2.33 ?
-
-Or what happens if we have a program or preloaded libary defining
-__rseq_abi (GLIBC_2.32) with size == 32 loaded with a glibc 2.33 ?
-
-I wonder if "GLIBC_*" is the right version namespace for this. Considering
-that the layout of this structure is defined by the Linux kernel UAPI, maybe
-we'd want version named as "RSEQ_1.0", "RSEQ_2.0" or something similar.
+Let's hope the overall interest about rseq will be sufficient to justify
+integrating extensibility support in the rseq system call ABI, otherwise we
+have a catch-22 situation where everything is stalled again, due to further
+progress on rseq kernel features awaiting user feedback on the existing
+implementation, which will never come because the integration of coordinated
+use across libraries is awaiting further development at the kernel level.
 
 Thanks,
 
 Mathieu
+
 
 -- 
 Mathieu Desnoyers
