@@ -2,112 +2,113 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BBA1220F84
-	for <lists+linux-api@lfdr.de>; Wed, 15 Jul 2020 16:36:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B491220FA2
+	for <lists+linux-api@lfdr.de>; Wed, 15 Jul 2020 16:38:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729079AbgGOOf4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 Jul 2020 10:35:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52336 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728993AbgGOOfz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Jul 2020 10:35:55 -0400
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99CB4C061755
-        for <linux-api@vger.kernel.org>; Wed, 15 Jul 2020 07:35:55 -0700 (PDT)
-Received: by mail-pj1-x1036.google.com with SMTP id t15so3061574pjq.5
-        for <linux-api@vger.kernel.org>; Wed, 15 Jul 2020 07:35:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=content-transfer-encoding:from:mime-version:subject:date:message-id
-         :references:cc:in-reply-to:to;
-        bh=yhR2xx3ll78zXx4v/LleHZDLIGASUAw7oXjwdcYoQnM=;
-        b=MBTmhayGzIbypNDEFm2+paSuwfcC+PzqE85tReoauMa8/vlEuTbLPAXgN9+8qVkcNT
-         yGNU7gl/zluURp9BUENw3LJ4rFqKK/8Ff3aRUbs7uTkYSeZwW3aDJgw4Kt3y+YyUVgap
-         0Zoy3gWJ2MC50r6ZcK2DVZ/eywPJseJ4IQfjEcO37x2ua0wTNQCE2y3Qf9A5N9IFiZH3
-         TV20PfmuxIw8NVCsuD+kmZ/Sgqsg/HqB0qdOSMeiMCizUz5tGze/hYcp6asxJeM5mtMB
-         DgMTMy20N6K6A7ufGOkrKyndioWzeqygDTq2Q7VudYC1FYDBSTz+eJgpCU7AeeAih/Ao
-         uuaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:content-transfer-encoding:from:mime-version
-         :subject:date:message-id:references:cc:in-reply-to:to;
-        bh=yhR2xx3ll78zXx4v/LleHZDLIGASUAw7oXjwdcYoQnM=;
-        b=T2QqzTD20VHWb/s0eQ68eTYqLX8vybqT9wzfQl0kWW9SQ2aIsZvUqE5FcthW6MVp0s
-         fic58Vcb9vpEXByuP47ZGH4dlU3Lz/6kCnQcexffARoCgGi+ou0i/e9S9UK20DY12/qJ
-         865Uhj4wDVZTWXRM7lRehsz8PyvS9rSEqiIlvREwfKrRG/BD4iUU29OABM4TORlEXvh5
-         AgQzM+CN/UrZLD7OUbwtVU1d4R14LXY7vyIXQnnH+/M5OTCFGg77huHGH1i3NqST9bMm
-         kBc4+WSdmySRbwgvVLrCv/c4h5MMPDBsrZfpt9TAadn+74snVmxOwbrkbiDJ9eu2NRR0
-         GEDw==
-X-Gm-Message-State: AOAM532NLNgPZxm/6ytGj/ZxW4meL0u8PDC0aXqUeMRiKcHMHeVpPlZq
-        YbQyVbTrAkF8xRoMn47FH7VByQ==
-X-Google-Smtp-Source: ABdhPJx+DB3uxvOEpxqYRcjJv7aAG86vLrcHnfdyXOzjYxTb/HN/VlnnEvVbdEuur4NmvWF0oRc3Vw==
-X-Received: by 2002:a17:90a:7406:: with SMTP id a6mr9616376pjg.152.1594823753194;
-        Wed, 15 Jul 2020 07:35:53 -0700 (PDT)
-Received: from ?IPv6:2601:646:c200:1ef2:14c:4e33:547f:e274? ([2601:646:c200:1ef2:14c:4e33:547f:e274])
-        by smtp.gmail.com with ESMTPSA id y7sm2101353pfq.69.2020.07.15.07.35.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Jul 2020 07:35:51 -0700 (PDT)
+        id S1729055AbgGOOiZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 Jul 2020 10:38:25 -0400
+Received: from mail.efficios.com ([167.114.26.124]:48712 "EHLO
+        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727044AbgGOOiX (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Jul 2020 10:38:23 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id A7FFE282541;
+        Wed, 15 Jul 2020 10:38:22 -0400 (EDT)
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id VoIxFAwolIrE; Wed, 15 Jul 2020 10:38:22 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 51F1A282272;
+        Wed, 15 Jul 2020 10:38:22 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 51F1A282272
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1594823902;
+        bh=MvltfcasujUgKB1aPbhMHKFPfNB/j96cXDmGlUqVTdw=;
+        h=Date:From:To:Message-ID:MIME-Version;
+        b=lZCRIlc44ECZUl1vUVV2FAr1W9VbcZeqPqcS1lnNllCEQuCITyGjQAz08FcPUDf82
+         8dWZZrOvZwH2l1RCwAU6yZbcphquDe9DDFRAl5BFl+nv5CEI7D81STFdmM708lZsw3
+         7wgCWioGt7o2CM6xbzh22oTI7jhD0aZHBjceRG+5C5CDaDgrsOzJWyd3s35ZpeqBLJ
+         +utixOyLlXbg3mxUuM3oQvjztOjEK+LS8XjPOXFCnzHYZb51nIAEfV7blV/uyT2jJA
+         I8HOcru8v4Ki2M8lof+KHzsK1dQYNXsFrqgQUr1vFAthQb8y3jf2TsFZsmAP3HK5/t
+         6ukfeITVE9NeA==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id f5x0OgtWeVxI; Wed, 15 Jul 2020 10:38:22 -0400 (EDT)
+Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
+        by mail.efficios.com (Postfix) with ESMTP id 3EF1B282077;
+        Wed, 15 Jul 2020 10:38:22 -0400 (EDT)
+Date:   Wed, 15 Jul 2020 10:38:22 -0400 (EDT)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     Florian Weimer <fw@deneb.enyo.de>
+Cc:     Chris Kennelly <ckennelly@google.com>,
+        Peter Oskolkov <posk@google.com>,
+        Peter Oskolkov <posk@posk.io>,
+        Peter Zijlstra <peterz@infradead.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        paulmck <paulmck@linux.ibm.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api <linux-api@vger.kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        carlos <carlos@redhat.com>
+Message-ID: <1818805836.14259.1594823902146.JavaMail.zimbra@efficios.com>
+In-Reply-To: <87k0z5xpau.fsf@mid.deneb.enyo.de>
+References: <20200714030348.6214-1-mathieu.desnoyers@efficios.com> <20200714030348.6214-3-mathieu.desnoyers@efficios.com> <CAFTs51UHaUqaKj5bEj0vQtEZrww9gnrqb-kGVk7DAgQJPBAR+w@mail.gmail.com> <775688146.12145.1594748580461.JavaMail.zimbra@efficios.com> <CAPNVh5fiCCJpyeLj_ciWzFrO4fasVXZNhpfKXJhJWJirXdJOjQ@mail.gmail.com> <CAEE+ybmt4BredezuTPdh-vf=FkKtu0yAhWuf+0daUe89AnbmPg@mail.gmail.com> <87k0z5xpau.fsf@mid.deneb.enyo.de>
+Subject: Re: [RFC PATCH 2/4] rseq: Allow extending struct rseq
+MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From:   Andy Lutomirski <luto@amacapital.net>
-Mime-Version: 1.0 (1.0)
-Subject: Re: strace of io_uring events?
-Date:   Wed, 15 Jul 2020 07:35:50 -0700
-Message-Id: <D9FAB37B-D059-4137-A115-616237D78640@amacapital.net>
-References: <CAJfpegu3EwbBFTSJiPhm7eMyTK2MzijLUp1gcboOo3meMF_+Qg@mail.gmail.com>
-Cc:     strace-devel@lists.strace.io, io-uring@vger.kernel.org,
-        Pavel Begunkov <asml.silence@gmail.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <CAJfpegu3EwbBFTSJiPhm7eMyTK2MzijLUp1gcboOo3meMF_+Qg@mail.gmail.com>
-To:     Miklos Szeredi <miklos@szeredi.hu>,
-        Kees Cook <keescook@chromium.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>
-X-Mailer: iPhone Mail (17F80)
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [167.114.26.124]
+X-Mailer: Zimbra 8.8.15_GA_3955 (ZimbraWebClient - FF78 (Linux)/8.8.15_GA_3953)
+Thread-Topic: rseq: Allow extending struct rseq
+Thread-Index: n6SkhqROq4bQCv1AJ1PKhQ/oywsKyQ==
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+----- On Jul 15, 2020, at 2:31 AM, Florian Weimer fw@deneb.enyo.de wrote:
+
+> * Chris Kennelly:
+> 
+>> When glibc provides registration, is the anticipated use case that a
+>> library would unregister and reregister each thread to "upgrade" it to
+>> the most modern version of interface it knows about provided by the
+>> kernel?
+> 
+> Absolutely not, that is likely to break other consumers because an
+> expected rseq area becomes dormant instead.
+
+Indeed.
+
+> 
+>> There, I could assume an all-or-nothing registration of the new
+>> feature--limited only by kernel availability for thread
+>> homogeneity--but inconsistencies across early adopter libraries would
+>> mean each thread would have to examine its own TLS to determine if a
+>> feature were available.
+> 
+> Exactly.  Certain uses of seccomp can also have this effect,
+> presenting a non-homogeneous view.
+
+The nice thing about having a consistent feature-set for a given
+thread group is that it allows specializing the code at thread
+group startup, rather than requiring to dynamically check for
+feature availability at runtime in fast-paths.
+
+I wonder whether this kind of non-homogeneous view scenario
+caused by seccomp is something we should support, or something
+that should be documented as incompatible with rseq ?
+
+Thanks,
+
+Mathieu
 
 
-> On Jul 15, 2020, at 4:12 AM, Miklos Szeredi <miklos@szeredi.hu> wrote:
->=20
-> =EF=BB=BFHi,
->=20
-> This thread is to discuss the possibility of stracing requests
-> submitted through io_uring.   I'm not directly involved in io_uring
-> development, so I'm posting this out of  interest in using strace on
-> processes utilizing io_uring.
->=20
-> io_uring gives the developer a way to bypass the syscall interface,
-> which results in loss of information when tracing.  This is a strace
-> fragment on  "io_uring-cp" from liburing:
->=20
-> io_uring_enter(5, 40, 0, 0, NULL, 8)    =3D 40
-> io_uring_enter(5, 1, 0, 0, NULL, 8)     =3D 1
-> io_uring_enter(5, 1, 0, 0, NULL, 8)     =3D 1
-> ...
->=20
-> What really happens are read + write requests.  Without that
-> information the strace output is mostly useless.
->=20
-> This loss of information is not new, e.g. calls through the vdso or
-> futext fast paths are also invisible to strace.  But losing filesystem
-> I/O calls are a major blow, imo.
->=20
-> What do people think?
->=20
-> =46rom what I can tell, listing the submitted requests on
-> io_uring_enter() would not be hard.  Request completion is
-> asynchronous, however, and may not require  io_uring_enter() syscall.
-> Am I correct?
->=20
-> Is there some existing tracing infrastructure that strace could use to
-> get async completion events?  Should we be introducing one?
->=20
->=20
 
-Let=E2=80=99s add some seccomp folks. We probably also want to be able to ru=
-n seccomp-like filters on io_uring requests. So maybe io_uring should call i=
-nto seccomp-and-tracing code for each action.=
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+http://www.efficios.com
