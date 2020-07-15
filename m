@@ -2,114 +2,144 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DD5A22000F
-	for <lists+linux-api@lfdr.de>; Tue, 14 Jul 2020 23:31:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71E06220263
+	for <lists+linux-api@lfdr.de>; Wed, 15 Jul 2020 04:34:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727888AbgGNVbM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 14 Jul 2020 17:31:12 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40429 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727101AbgGNVbM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 14 Jul 2020 17:31:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1594762270;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=P2jjMlQNGljDKhczKBKSdNL0F7/+3pAMGrpUsxclRjw=;
-        b=KtIQLB/qTL6xS8RZYghG5FskDSWoM0C32N0G7RXDFF53Al+OWDrfS4ImvdOgai9FdYfG3M
-        /aMpTHu7qfM4/rtVNYf84OFg8xQA93xw4/sQWdWHN/RZNkWBL3AGcfE5RGMO5N8gkDXGwL
-        FD4UHgLJw1A19lYTpbbOU0Mp303PQms=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-428-2jcc42jiMmSQY8F-eijbwA-1; Tue, 14 Jul 2020 17:30:51 -0400
-X-MC-Unique: 2jcc42jiMmSQY8F-eijbwA-1
-Received: by mail-qt1-f198.google.com with SMTP id m25so13557930qtk.1
-        for <linux-api@vger.kernel.org>; Tue, 14 Jul 2020 14:30:51 -0700 (PDT)
+        id S1727891AbgGOCex (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 14 Jul 2020 22:34:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54146 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726617AbgGOCew (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 14 Jul 2020 22:34:52 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F875C061794
+        for <linux-api@vger.kernel.org>; Tue, 14 Jul 2020 19:34:52 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id o8so3161545wmh.4
+        for <linux-api@vger.kernel.org>; Tue, 14 Jul 2020 19:34:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=T6LjRRrOVLGwVCH+E/vyiV5aYGtBQNbXUznocfAb3SM=;
+        b=VqLvow7SaFWzu6jDNNTg/b7EHiPxeh+07ePJpCnkINLTRLnBsPXLN/jem/POkOU2gL
+         Gr9jYNphMaj/vFSifxXuYaM/jC96ugVhM9gJlpCKEBy3lA6X1S/y8ZxI74ZSSzZcwqg4
+         ZxvBJOvLFMcOXkEOCSCpECuvyJ90PbxqrCwIGwcwgfw41C9sa+VTV0gWxiE9O5esrg2o
+         Fx3KWfmjdHd/aMdcylVCG6aT+FcI2imzVqUVwuJsPVZK9ERFpS2z/Ih49SWHUDpVKaB7
+         Qwh4cxCWKsczYrcvb4pBTb09JpTGkWcvu1VkVUyou396rpeyLyv1FxGAUkn7Y01V62jW
+         MsxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=P2jjMlQNGljDKhczKBKSdNL0F7/+3pAMGrpUsxclRjw=;
-        b=V6U5EAH0XbVEhmatRAlTzqXi1tVhsCRWcAiFeoacLXo/17L3WMqHuJr9WWYDYmOD60
-         M3KM7BACo7F++eKlmtvxA3I1T3/8r2F+BjdWdl7k8sqILbciY8j4qUKbLH/ktG9AeEEy
-         ITJvA82CropbPH3HDQow5BW73K07ZJLYZ655gs+vvr08OufK3XB76crEHhLq/qv+g/gh
-         UrzJ8/K8lizX2d5fWsKbJsqoQHNRBezN6iVIDlOKK4lwJzPX06sU8dOwOk6OocTbbK6S
-         6Pm3poesJYQyzIiOTcB8Kr9iG5Ilpd1uw7o2udfvjYb5wBg/3XFSPpIs9GW+y0ftVEGf
-         Zwzw==
-X-Gm-Message-State: AOAM533OKkz8WzUbbSGPEPa9YI9ELE3jOwclzd2AMRu1plSwsaMDJttH
-        3MGHZ5BjqCdI4uSFh6f7IUfwMDhNcAg1/z46PpCMm2fPgsDBkC44oyi2pnD3jPHjRTxaRfURq5X
-        wDSbkRWDXJeM+6qgJTsfy
-X-Received: by 2002:a05:6214:b88:: with SMTP id fe8mr6538664qvb.244.1594762251501;
-        Tue, 14 Jul 2020 14:30:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy37EnGkXWH29/is0Rnyzb85M4QGYNcVEtSjI8TXgMm71R1QkncAoCqNse2QQbDKv4E0v71Gg==
-X-Received: by 2002:a05:6214:b88:: with SMTP id fe8mr6538645qvb.244.1594762251246;
-        Tue, 14 Jul 2020 14:30:51 -0700 (PDT)
-Received: from [192.168.1.4] (198-84-170-103.cpe.teksavvy.com. [198.84.170.103])
-        by smtp.gmail.com with ESMTPSA id q5sm360934qtf.12.2020.07.14.14.30.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Jul 2020 14:30:50 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=T6LjRRrOVLGwVCH+E/vyiV5aYGtBQNbXUznocfAb3SM=;
+        b=KiH7bF0aCG/f5iG/Bem4fQHgy5XD/5P6oZjDw1c1Tylya4G1snK7FZgtj9eSrwRatw
+         3em9LwD8mAqOS5pjpCI9cZIFrFMVa41nu6ka88Ov6T/Q/P6eMWOMp4olstRoX2ytOoTI
+         k2bUwqt5lakon686LZF++IQbwXrpwmFGIRCCzmF/IJbhXx1Bbp07a/Ns3Dn3RuRHKESy
+         I5H3BnVVOQZsWUTE1qpIVxrcf/M7fmLLC5xCpBZQ25HLA1334R0XadfBZoTAdCdzzBwi
+         /11Ar9Y2BAjhylYolQiDB9IkKls6vtGJABISbS8MIJaOoHn1L99lpLZvtMsGFamer4zX
+         KGfw==
+X-Gm-Message-State: AOAM532ryUZ1uHQUwEz4y3HH+qUrZlajnzCmBn3fP283ZiDRhF7zqhBB
+        f1ihZUo4Rbx7Rci4zElizmWnBl8vZ5D7DHkAZQCCIA==
+X-Google-Smtp-Source: ABdhPJz1Z6RHfokkDk1nsGqHkzY0Eso/NAYD3JoNvRiQCC7JJzY2omDv4F4SJBQsn7SH4y16tveNnvG9KLVTTrGsTbE=
+X-Received: by 2002:a1c:9e4c:: with SMTP id h73mr6743574wme.177.1594780490700;
+ Tue, 14 Jul 2020 19:34:50 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200714030348.6214-1-mathieu.desnoyers@efficios.com>
+ <20200714030348.6214-3-mathieu.desnoyers@efficios.com> <CAFTs51UHaUqaKj5bEj0vQtEZrww9gnrqb-kGVk7DAgQJPBAR+w@mail.gmail.com>
+ <775688146.12145.1594748580461.JavaMail.zimbra@efficios.com> <CAPNVh5fiCCJpyeLj_ciWzFrO4fasVXZNhpfKXJhJWJirXdJOjQ@mail.gmail.com>
+In-Reply-To: <CAPNVh5fiCCJpyeLj_ciWzFrO4fasVXZNhpfKXJhJWJirXdJOjQ@mail.gmail.com>
+From:   Chris Kennelly <ckennelly@google.com>
+Date:   Tue, 14 Jul 2020 22:34:38 -0400
+Message-ID: <CAEE+ybmt4BredezuTPdh-vf=FkKtu0yAhWuf+0daUe89AnbmPg@mail.gmail.com>
 Subject: Re: [RFC PATCH 2/4] rseq: Allow extending struct rseq
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Florian Weimer <fweimer@redhat.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
+To:     Peter Oskolkov <posk@google.com>
+Cc:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Peter Oskolkov <posk@posk.io>,
+        Peter Zijlstra <peterz@infradead.org>,
         linux-kernel <linux-kernel@vger.kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         paulmck <paulmck@linux.ibm.com>,
         Boqun Feng <boqun.feng@gmail.com>,
         "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
         linux-api <linux-api@vger.kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>
-References: <20200714030348.6214-1-mathieu.desnoyers@efficios.com>
- <20200714030348.6214-3-mathieu.desnoyers@efficios.com>
- <87mu42bepq.fsf@oldenburg2.str.redhat.com>
- <131549905.11442.1594731035989.JavaMail.zimbra@efficios.com>
- <87a7028d5u.fsf@oldenburg2.str.redhat.com>
- <2452161.11491.1594732791558.JavaMail.zimbra@efficios.com>
-From:   Carlos O'Donell <carlos@redhat.com>
-Organization: Red Hat
-Message-ID: <71f08b3a-56f5-0e0f-53b0-cc680f7e8181@redhat.com>
-Date:   Tue, 14 Jul 2020 17:30:49 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-MIME-Version: 1.0
-In-Reply-To: <2452161.11491.1594732791558.JavaMail.zimbra@efficios.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Florian Weimer <fw@deneb.enyo.de>, carlos <carlos@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 7/14/20 9:19 AM, Mathieu Desnoyers wrote:
-> Is there an arch-agnostic way to get the thread pointer from user-space code ? That
-> would be needed by all rseq critical section implementations.
+On Tue, Jul 14, 2020 at 2:33 PM Peter Oskolkov <posk@google.com> wrote:
+>
+> On Tue, Jul 14, 2020 at 10:43 AM Mathieu Desnoyers
+> <mathieu.desnoyers@efficios.com> wrote:
+> >
+> > ----- On Jul 14, 2020, at 1:24 PM, Peter Oskolkov posk@posk.io wrote:
+> >
+> > > At Google, we actually extended struct rseq (I will post the patches
+> > > here once they are fully deployed and we have specific
+> > > benefits/improvements to report). We did this by adding several fields
+> > > below __u32 flags (the last field currently), and correspondingly
+> > > increasing rseq_len in rseq() syscall. If the kernel does not know of
+> > > this extension, it will return -EINVAL due to an unexpected rseq_len;
+> > > then the application can either fall-back to the standard/upstream
+> > > rseq, or bail. If the kernel does know of this extension, it accepts
+> > > it. If the application passes the old rseq_len (32), the kernel knows
+> > > that this is an old application and treats it as such.
+> > >
+> > > I looked through the archives, but I did not find specifically why the
+> > > pretty standard approach described above is considered inferior to the
+> > > one taken in this patch (freeze rseq_len at 32, add additional length
+> > > fields to struct rseq). Can these be summarized?
+> >
+> > I think you don't face the issues I'm facing with libc rseq integration
+> > because you control the entire user-space software ecosystem at Google.
+> >
+> > The main issue we face is that the library responsible for registering
+> > rseq (either glibc 2.32+, an early-adopter librseq library, or the
+> > application) may very well not be the same library defining the __rseq_abi
+> > symbol used in the global symbol table. Interposition with ld preload or
+> > by defining the __rseq_abi in the program's executable are good examples
+> > of this kind of scenario, and those use-cases are supported.
 
-Yes, and no. We have void *__builtin_thread_pointer (void), but
-few architectures implement the builtin so we'd have to go through
-a round of compiler updates and backports. All targets know how to
-access the thread pointer because the compiler has to generate
-IE-mode accesses to the TLS variables.
+Does this work if/when we run out of bytes in the current sizeof(__rseq_abi)?
 
-I have filed an enhancement request:
-Bug 96200 - Implement __builtin_thread_pointer() and 
-            __builtin_set_thread_pointer() if TLS is supported
-https://gcc.gnu.org/bugzilla/show_bug.cgi?id=96200
+Which library provides the TLS symbol (and N bytes of storage) seems
+sensitive to the choices the linker makes for us, once the symbol
+sizes diverge.
 
-We have glibc internal macro APIs to access the thread pointer,
-but I would rather the compiler handle the access since it can
-schedule the resulting sequence better.
+> > So the size of the __rseq_abi structure may be larger than the struct
+> > rseq known by glibc (and eventually smaller, if future glibc versions
+> > extend their __rseq_abi size but is loaded with an older program/library
+> > doing __rseq_abi interposition).
 
-On some arches setting the therad pointer needs a syscall or
-equivalent operation (hppa), and for some arches there is no
-fixed register (arm) hence the need for __builtin_thread_pointer()
-to force the compiler to place the pointer into a register for
-function return.
+When glibc provides registration, is the anticipated use case that a
+library would unregister and reregister each thread to "upgrade" it to
+the most modern version of interface it knows about provided by the
+kernel?
 
--- 
-Cheers,
-Carlos.
+> > So we need some way to allow code defining the __rseq_abi to let the kernel
+> > know how much room is available, without necessarily requiring the code
+> > responsible for rseq registration to be aware of that extended layout.
+> > This is the purpose of the __rseq_abi.flags RSEQ_FLAG_TLS_SIZE and field
+> > __rseq_abi.user_size.
+> >
+> > And we need some way to allow the kernel to let user-space rseq critical
+> > sections (user code) know how much of those fields are actually populated
+> > by the kernel. This is the purpose of __rseq_abi.flags RSEQ_FLAG_TLS_SIZE
+> > with __rseq_abi.kernel_size.
 
+I authored the userspace component
+(https://github.com/google/tcmalloc/commit/ad136d45f75a273b934446699cef8b278c34ec6e)
+that consumes the extensions Peter mentions and found that minimizing
+the performance impact of their potential absence was a bit of a
+challenge.
+
+There, I could assume an all-or-nothing registration of the new
+feature--limited only by kernel availability for thread
+homogeneity--but inconsistencies across early adopter libraries would
+mean each thread would have to examine its own TLS to determine if a
+feature were available.
+
+Chris
