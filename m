@@ -2,53 +2,54 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 420C9222B99
-	for <lists+linux-api@lfdr.de>; Thu, 16 Jul 2020 21:12:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FF3C222BAE
+	for <lists+linux-api@lfdr.de>; Thu, 16 Jul 2020 21:13:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728705AbgGPTMw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 16 Jul 2020 15:12:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35034 "EHLO
+        id S1729357AbgGPTNe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 16 Jul 2020 15:13:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728400AbgGPTMv (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 16 Jul 2020 15:12:51 -0400
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C909AC08C5CE
-        for <linux-api@vger.kernel.org>; Thu, 16 Jul 2020 12:12:50 -0700 (PDT)
-Received: by mail-pl1-x643.google.com with SMTP id p1so4287717pls.4
-        for <linux-api@vger.kernel.org>; Thu, 16 Jul 2020 12:12:50 -0700 (PDT)
+        with ESMTP id S1729551AbgGPTNc (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 16 Jul 2020 15:13:32 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BD23C08C5C0
+        for <linux-api@vger.kernel.org>; Thu, 16 Jul 2020 12:13:32 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id l63so5304350pge.12
+        for <linux-api@vger.kernel.org>; Thu, 16 Jul 2020 12:13:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=reZvnOQ8bijPp6S5yQzmCOTTsMLuDmnyX5N/3GfwHXo=;
-        b=lhX4KRZzVkUSda9R6NyorS54yyDn6hPMA24J3zBk96aHpX1ic/PoqYAe/VIB7Xy9B/
-         HlVJ28tVKHEHHcNCuv/KrJOZBUcoLwz6roC1HJNW31P8tAYmIPcACI0nrMG4j1+ivpMt
-         1Xfyw0pkzrtmnsj0jd8RERq8Fj7NvEgD8QxLc=
+        bh=P2Y3x3UF7aakg+eDh/JCMQ/ujg3OM7agEmMMQHUiWYw=;
+        b=eUF5kUcP1I8IOHUVxI3FxJ/qxspiNpwWZ1kyR1myyi5d/rlntny124yFpRoBP0S+TU
+         IULeT+p9QcpLBQJdqAMtaWb0tPOnG564tv2NICoimzwkKBF7b7R+TO++MSXHI9kPTYW4
+         dLCo8Qo5IB3QU1NMvjyOcqhje5qnF9Vt8u7nM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=reZvnOQ8bijPp6S5yQzmCOTTsMLuDmnyX5N/3GfwHXo=;
-        b=HkAdf64l1hdv2B8cdGVxv7zuMMPdOBsys1MnMwjw79s64kpkMLOK3VAVchFzHHN3Cc
-         WG+cAKxUC4jYLi+yrgJFWgDvAfsrA1TeaoNJMpFQeKDoUgS7toFGRC6DXMeJzOrZISfz
-         4t59yVL1T+kdni+wcSLC2WAMIW3KQw/2WJ0nqvq9AFwqVLo5hWCWyWC6KeKpHCfTvPtZ
-         LLCI7oeixemFSYjw43QbZ4oDkQxfKFF3qLnT4QenYx5mBMBjowXaL1qYKldIbemy2xXq
-         pRE9uSg5BwgUl65khtvHOVZus0Erpt7+tIQSa43gGpPfJCrx1iJ3V1qb9xdoX9ppRBBR
-         +j0A==
-X-Gm-Message-State: AOAM530yJoxsZCjXPb+gP4mJtQp3K8pjgwmhJkM9SLdGWvNpZiWMYLfx
-        uWcydeLzRnEjv0ZekMCwBEi8JA==
-X-Google-Smtp-Source: ABdhPJzSOAMegB1OmeJ/PboDzHabSRQP9lhAlD8QVD09gpvRf9fpyvnr8fMJH6cpEeTI0kWvhxJF2g==
-X-Received: by 2002:a17:902:7441:: with SMTP id e1mr4615121plt.23.1594926769952;
-        Thu, 16 Jul 2020 12:12:49 -0700 (PDT)
+        bh=P2Y3x3UF7aakg+eDh/JCMQ/ujg3OM7agEmMMQHUiWYw=;
+        b=bkQK1t/yY22sgOczRRwlwSK9GHUaRMwj6hJnRbu599v+Xj0UtET9oia3Mn6gtyM/DZ
+         80DkAbY1GXIPHiVHdlLEuEgRUdOgKdKnnfiL/BugKMbeoJgODeHamBJyonSi6xvXJODg
+         0OIPj6Frzu402bIVXrW+rKowD7bjgBV/XeXlIQ5AZOvykLAsPXN5AZpr/ecF03G0NM5J
+         o+KLfI2wO7q8leKlOsmapGYE1AqV/AOfsva2O6FMBaBDC7QMT4/5i1KBbeuW8LP1yIf4
+         /1hPLSyxkn7WC+7SdYbTzkFglv3kDZS0gtmoo9r3cWUARYeMNGmoOr77OtaS35iVmT8u
+         +bbw==
+X-Gm-Message-State: AOAM53390nt4TmmsmULZrXIWSDCP2/IgfupichCXWos9OInp3zkDMm6t
+        qmYB1QfrE9ij/4A+kJ16goCRtw==
+X-Google-Smtp-Source: ABdhPJy1fQTquN4l33pCs4D4d2Xd1YwY/TqBCMAGvi2rtEVPLt90LIg/bGHmjLscqWmRjzI4Zwih4g==
+X-Received: by 2002:a63:c150:: with SMTP id p16mr5583761pgi.141.1594926811598;
+        Thu, 16 Jul 2020 12:13:31 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id g22sm5602957pgb.82.2020.07.16.12.12.48
+        by smtp.gmail.com with ESMTPSA id u14sm6060148pfk.211.2020.07.16.12.13.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jul 2020 12:12:48 -0700 (PDT)
-Date:   Thu, 16 Jul 2020 12:12:47 -0700
+        Thu, 16 Jul 2020 12:13:30 -0700 (PDT)
+Date:   Thu, 16 Jul 2020 12:13:29 -0700
 From:   Kees Cook <keescook@chromium.org>
-To:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
-Cc:     linux-kernel@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>,
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+        linux-kernel@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>,
         Alexei Starovoitov <ast@kernel.org>,
         Al Viro <viro@zeniv.linux.org.uk>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -85,59 +86,57 @@ Cc:     linux-kernel@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>,
         linux-fsdevel@vger.kernel.org
 Subject: Re: [PATCH v6 7/7] ima: add policy support for the new file open
  MAY_OPENEXEC flag
-Message-ID: <202007160957.CABE4CC@keescook>
+Message-ID: <202007161213.E8D240D98@keescook>
 References: <20200714181638.45751-1-mic@digikod.net>
  <20200714181638.45751-8-mic@digikod.net>
  <202007151339.283D7CD@keescook>
  <8df69733-0088-3e3c-9c3d-2610414cea2b@digikod.net>
+ <61c05cb0-a956-3cc7-5dab-e11ebf0e95bf@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <8df69733-0088-3e3c-9c3d-2610414cea2b@digikod.net>
+In-Reply-To: <61c05cb0-a956-3cc7-5dab-e11ebf0e95bf@infradead.org>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jul 16, 2020 at 04:40:15PM +0200, MickaÃ«l SalaÃ¼n wrote:
-> 
-> On 15/07/2020 22:40, Kees Cook wrote:
-> > On Tue, Jul 14, 2020 at 08:16:38PM +0200, MickaÃ«l SalaÃ¼n wrote:
-> >> From: Mimi Zohar <zohar@linux.ibm.com>
-> >>
-> >> The kernel has no way of differentiating between a file containing data
-> >> or code being opened by an interpreter.  The proposed O_MAYEXEC
-> >> openat2(2) flag bridges this gap by defining and enabling the
-> >> MAY_OPENEXEC flag.
-> >>
-> >> This patch adds IMA policy support for the new MAY_OPENEXEC flag.
-> >>
-> >> Example:
-> >> measure func=FILE_CHECK mask=^MAY_OPENEXEC
-> >> appraise func=FILE_CHECK appraise_type=imasig mask=^MAY_OPENEXEC
-> >>
-> >> Signed-off-by: Mimi Zohar <zohar@linux.ibm.com>
-> >> Reviewed-by: Lakshmi Ramasubramanian <nramas@linux.microsoft.com>
-> >> Acked-by: MickaÃ«l SalaÃ¼n <mic@digikod.net>
+On Thu, Jul 16, 2020 at 07:59:20AM -0700, Randy Dunlap wrote:
+> On 7/16/20 7:40 AM, Mickaël Salaün wrote:
 > > 
-> > (Process nit: if you're sending this on behalf of another author, then
-> > this should be Signed-off-by rather than Acked-by.)
+> > On 15/07/2020 22:40, Kees Cook wrote:
+> >> On Tue, Jul 14, 2020 at 08:16:38PM +0200, Mickaël Salaün wrote:
+> >>> From: Mimi Zohar <zohar@linux.ibm.com>
+> >>>
+> >>> The kernel has no way of differentiating between a file containing data
+> >>> or code being opened by an interpreter.  The proposed O_MAYEXEC
+> >>> openat2(2) flag bridges this gap by defining and enabling the
+> >>> MAY_OPENEXEC flag.
+> >>>
+> >>> This patch adds IMA policy support for the new MAY_OPENEXEC flag.
+> >>>
+> >>> Example:
+> >>> measure func=FILE_CHECK mask=^MAY_OPENEXEC
+> >>> appraise func=FILE_CHECK appraise_type=imasig mask=^MAY_OPENEXEC
+> >>>
+> >>> Signed-off-by: Mimi Zohar <zohar@linux.ibm.com>
+> >>> Reviewed-by: Lakshmi Ramasubramanian <nramas@linux.microsoft.com>
+> >>> Acked-by: Mickaël Salaün <mic@digikod.net>
+> >>
+> >> (Process nit: if you're sending this on behalf of another author, then
+> >> this should be Signed-off-by rather than Acked-by.)
+> > 
+> > I'm not a co-author of this patch.
+> > 
 > 
-> I'm not a co-author of this patch.
+> from Documentation/process/submitting-patches.rst:
+> 
+> The Signed-off-by: tag indicates that the signer was involved in the
+> development of the patch, or that he/she was in the patch's delivery path.
+>                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Correct, but you are part of the delivery path to its entry to the
-tree. If you were co-author, you would include "Co-developed-by" with
-a Signed-off-by. (So my nit stands)
-
-For excruciating details:
-
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html#when-to-use-acked-by-cc-and-co-developed-by
-
-"The Signed-off-by: tag indicates that the signer was ... in the patchâ€™s
-delivery path."
-
-"Co-developed-by: ... is a used to give attribution to co-authors ..."
+Randy beat me to it. :)
 
 -- 
 Kees Cook
