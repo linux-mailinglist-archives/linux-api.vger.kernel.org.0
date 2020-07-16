@@ -2,179 +2,154 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D1D92223B8
-	for <lists+linux-api@lfdr.de>; Thu, 16 Jul 2020 15:18:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EAA83222418
+	for <lists+linux-api@lfdr.de>; Thu, 16 Jul 2020 15:41:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728257AbgGPNSQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 16 Jul 2020 09:18:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36572 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726986AbgGPNSQ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 16 Jul 2020 09:18:16 -0400
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [IPv6:2001:67c:2050::465:201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC159C061755;
-        Thu, 16 Jul 2020 06:18:15 -0700 (PDT)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:105:465:1:2:0])
-        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
-        (No client certificate requested)
-        by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4B6vvS3QhPzQk8j;
-        Thu, 16 Jul 2020 15:18:12 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp2.mailbox.org ([80.241.60.241])
-        by spamfilter02.heinlein-hosting.de (spamfilter02.heinlein-hosting.de [80.241.56.116]) (amavisd-new, port 10030)
-        with ESMTP id 8OkVigZRi11g; Thu, 16 Jul 2020 15:18:07 +0200 (CEST)
-Date:   Thu, 16 Jul 2020 23:17:55 +1000
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Pavel Begunkov <asml.silence@gmail.com>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Matthew Wilcox <willy@infradead.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Jann Horn <jannh@google.com>,
-        Stefano Garzarella <sgarzare@redhat.com>,
+        id S1728562AbgGPNjn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 16 Jul 2020 09:39:43 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:25406 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726537AbgGPNjm (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 16 Jul 2020 09:39:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1594906780;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=tGlaU8B/mICKZzO5a2jzqgO8r5hQ5/oeUPmxVGyuSuk=;
+        b=RDLYgZyEa/Trtz9nRgcaTpfiTXlHln7KZy4IVsYkDhmt9CuzSo4xeXHTozIaCKgt5y7VLt
+        b6sGDF3K8pvtRzN0WBKEvspn/k6PNsmsvlZmJM+LYeosP5EY1ekybma79wqrYmzt+0Rohb
+        NvfIR/6HyKpjlv+wEAZxqYx+3c/oeYg=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-255-fkruBIZdPbyD0k4ilFpWXQ-1; Thu, 16 Jul 2020 09:39:29 -0400
+X-MC-Unique: fkruBIZdPbyD0k4ilFpWXQ-1
+Received: by mail-qv1-f69.google.com with SMTP id a12so3412264qvt.22
+        for <linux-api@vger.kernel.org>; Thu, 16 Jul 2020 06:39:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=tGlaU8B/mICKZzO5a2jzqgO8r5hQ5/oeUPmxVGyuSuk=;
+        b=q66PXFQhkt3i7/bQeZ+q2UGXX1/f/J/IX31MKHBt4JdtU+jxvd0qJRmmqIh7IDPMTc
+         +obxpWaDmNw3Tg3HDWxq/Fz4epnuXThWG1YbiHL0Wtcir9SYNzceXvS2nfWqTDK4olL8
+         dQ9cgaGN4uq4pIheCel6NLAxfOj3zN0LOqHNlsYtOwH2yL5R+fKDarnyDTHbiTSa/DjT
+         sWzxobfPQ0rtG5MsdMz4V9QfD34TJXBbn80cmm0dm+lJlao2Jd6Ai9/uenWMtH4qYrYZ
+         9y3gEprrNBuijoKf5jqs89xcACOf3Upt+Ooukwzxlzfmq/HLjYW1OkzYCOeHVdvEms9d
+         i3ew==
+X-Gm-Message-State: AOAM533SKYlMMtg8sXZ4ve1EToM1QCwDlmdv6834EEF/XmLzfGY/w7gt
+        2BSntRcDT3UM5MuPn0SGQffleGawc04Vc3mcG3Y7WMxV2BiM1sI8Name7V42YYumg+k3bV3wOtY
+        HXLyS+yV9vC1H5BV9+ylS
+X-Received: by 2002:a37:7747:: with SMTP id s68mr4049280qkc.42.1594906768819;
+        Thu, 16 Jul 2020 06:39:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxKM5P3+IZq5goVdvDzMZx0lVmekjoB4avKgCmnXJcVGiTBB0mDzG8Hy2OswjdzKUzfna6M5g==
+X-Received: by 2002:a37:7747:: with SMTP id s68mr4049243qkc.42.1594906768348;
+        Thu, 16 Jul 2020 06:39:28 -0700 (PDT)
+Received: from [192.168.1.4] (198-84-170-103.cpe.teksavvy.com. [198.84.170.103])
+        by smtp.gmail.com with ESMTPSA id z17sm8730028qth.24.2020.07.16.06.39.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Jul 2020 06:39:27 -0700 (PDT)
+Subject: Re: [RFC PATCH 0/4] rseq: Introduce extensible struct rseq
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        paulmck <paulmck@linux.ibm.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api <linux-api@vger.kernel.org>,
         Christian Brauner <christian.brauner@ubuntu.com>,
-        strace-devel@lists.strace.io, io-uring@vger.kernel.org,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Michael Kerrisk <mtk.manpages@gmail.com>
-Subject: Re: strace of io_uring events?
-Message-ID: <20200716131755.l5tsyhupimpinlfi@yavin.dot.cyphar.com>
-References: <CAJfpegu3EwbBFTSJiPhm7eMyTK2MzijLUp1gcboOo3meMF_+Qg@mail.gmail.com>
- <D9FAB37B-D059-4137-A115-616237D78640@amacapital.net>
- <20200715171130.GG12769@casper.infradead.org>
- <7c09f6af-653f-db3f-2378-02dca2bc07f7@gmail.com>
- <CAJfpegt9=p4uo5U2GXqc-rwqOESzZCWAkGMRTY1r8H6fuXx96g@mail.gmail.com>
- <48cc7eea-5b28-a584-a66c-4eed3fac5e76@gmail.com>
- <202007151511.2AA7718@keescook>
+        Florian Weimer <fw@deneb.enyo.de>,
+        Chris Kennelly <ckennelly@google.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+References: <20200714030348.6214-1-mathieu.desnoyers@efficios.com>
+ <e7ede994-ebec-8022-b12b-ac7147641ffb@redhat.com>
+ <1190016739.14119.1594818179014.JavaMail.zimbra@efficios.com>
+From:   Carlos O'Donell <carlos@redhat.com>
+Organization: Red Hat
+Message-ID: <9f747c44-be54-c547-7e4c-a978499f06c0@redhat.com>
+Date:   Thu, 16 Jul 2020 09:39:26 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="7mp6nnuuqiljjvde"
-Content-Disposition: inline
-In-Reply-To: <202007151511.2AA7718@keescook>
-X-MBO-SPAM-Probability: 0
-X-Rspamd-Score: -2.81 / 15.00 / 15.00
-X-Rspamd-Queue-Id: 80FE1178F
-X-Rspamd-UID: dd2040
+In-Reply-To: <1190016739.14119.1594818179014.JavaMail.zimbra@efficios.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On 7/15/20 9:02 AM, Mathieu Desnoyers wrote:
+> At this point, the main question I would like answered is whether
+> it would be acceptable to increase the size and alignment of
+> the __rseq_abi symbol (which will be exposed by glibc) between
+> e.g. glibc 2.32 and 2.33. If it's not possible, then we can
+> find other solutions, for instance using an indirection with
+> a pointer to an extended structure, but this appears to be
+> slightly less efficient.
 
---7mp6nnuuqiljjvde
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The answer is always a soft "maybe" because it depends exactly
+on how we do it and what consequences we are willing to accept
+in the design.
 
-On 2020-07-15, Kees Cook <keescook@chromium.org> wrote:
-> Earlier Andy Lutomirski wrote:
-> > Let=E2=80=99s add some seccomp folks. We probably also want to be able =
-to run
-> > seccomp-like filters on io_uring requests. So maybe io_uring should cal=
-l into
-> > seccomp-and-tracing code for each action.
->=20
-> Okay, I'm finally able to spend time looking at this. And thank you to
-> the many people that CCed me into this and earlier discussions (at least
-> Jann, Christian, and Andy).
->=20
-> It *seems* like there is a really clean mapping of SQE OPs to syscalls.
-> To that end, yes, it should be trivial to add ptrace and seccomp support
-> (sort of). The trouble comes for doing _interception_, which is how both
-> ptrace and seccomp are designed.
->=20
-> In the basic case of seccomp, various syscalls are just being checked
-> for accept/reject. It seems like that would be easy to wire up. For the
-> more ptrace-y things (SECCOMP_RET_TRAP, SECCOMP_RET_USER_NOTIF, etc),
-> I think any such results would need to be "upgraded" to "reject". Things
-> are a bit complex in that seccomp's form of "reject" can be "return
-> errno" (easy) or it can be "kill thread (or thread_group)" which ...
-> becomes less clear. (More on this later.)
->=20
-> In the basic case of "I want to run strace", this is really just a
-> creative use of ptrace in that interception is being used only for
-> reporting. Does ptrace need to grow a way to create/attach an io_uring
-> eventfd? Or should there be an entirely different tool for
-> administrative analysis of io_uring events (kind of how disk IO can be
-> monitored)?
+For example, static applications that call dlopen will fail if
+we increase the alignment beyond 32 because we had to special
+case this scenario. Why did we have to special case it? Because
+the "static" part of the runtime needs to create the initial
+thread's static TLS space, and since it doesn't know apriori
+what will be loaded in the shared library, it needs to make a
+"best guess" at the alignment requirement at startup.
+We need to discuss this and agree that it's OK. We already want
+to deprecate dynamic loading from static applications, so this
+may not be a problem in general, but I hope you see my point.
+That there are corner cases to be considered and ironed out.
 
-I would hope that we wouldn't introduce ptrace to io_uring, because
-unless we plan to attach to io_uring events via GDB it's simply the
-wrong tool for the job. strace does use ptrace, but that's mostly
-because Linux's dynamic tracing was still in its infancy at the time
-(and even today it requires more privileges than ptrace) -- but you can
-emulate strace using bpftrace these days fairly easily.
+I want to see a detailed design document explaining the various
+compatibility issues and how we solve them along with the way
+the extension mechanism would work and how it would be compliant
+with C/C++ language rules in userspace without adding undue burden
+of potentially having to use atomic instructions all the time.
+This includes discussing how the headers change. We should also
+talk out the options for symbol versioning and their consequences.
+  
+I haven't seen enough details, and there isn't really enough
+time to discuss this. I think it is *great* that we are discussing
+it, but it's safest if we revert rseq, finish the discussion,
+and then finalize the inclusion for 2.33 with these details
+ironed out.
 
-So really what is being asked here is "can we make it possible to debug
-io_uring programs as easily as traditional I/O programs". And this does
-not require ptrace, nor should ptrace be part of this discussion IMHO. I
-believe this issue (along with seccomp-style filtering) have been
-mentioned informally in the past, but I am happy to finally see a thread
-about this appear.
+I feel like we've made all the technical process we need to actually
+include rseq in glibc, but this discussion, and the google example
+(even if it doesn't match our use case) shows that if we spend another
+month hammering out the extension details could yield something we
+can use for years to come while we work out other details e.g. cpu_opv.
 
-> For io_uring generally, I have a few comments/questions:
->=20
-> - Why did a new syscall get added that couldn't be extended? All new
->   syscalls should be using Extended Arguments. :(
+I can set aside time in the next month to write up such a document
+and discuss these issues with you and Florian. The text would form
+even more of the language we'd have to include in the man page for
+the feature.
 
-io_uring was introduced in Linux 5.1, predating clone3() and openat2().
-My larger concern is that io_uring operations aren't extensible-structs
--- but we can resolve that issue with some slight ugliness if we ever
-run into the problem.
+In the meantime I think we should revert rseq in glibc and take
+our time to hash this out without the looming deadline of August 1st
+for the ABI going out the door.
 
-> - Why aren't the io_uring syscalls in the man-page git? (It seems like
->   they're in liburing, but that's should document the _library_ not the
->   syscalls, yes?)
+I know this is disappointing, but I think in a month you'll look
+back at this, we'll have Fedora Rawhide using the new extensible
+version (and you'll be able to point people at that), and we'll
+only be 5 months away from an official release with extensible
+rseq.
 
-I imagine because using the syscall requires specific memory barriers
-which we probably don't want most C programs to be fiddling with
-directly. Sort of similar to how iptables doesn't have a syscall-style
-man page.
+Could you please respond to Florian's request to revert here?
+https://sourceware.org/pipermail/libc-alpha/2020-July/116368.html
 
-> Speaking to Stefano's proposal[1]:
->=20
-> - There appear to be three classes of desired restrictions:
->   - opcodes for io_uring_register() (which can be enforced entirely with
->     seccomp right now).
->   - opcodes from SQEs (this _could_ be intercepted by seccomp, but is
->     not currently written)
->   - opcodes of the types of restrictions to restrict... for making sure
->     things can't be changed after being set? seccomp already enforces
->     that kind of "can only be made stricter"
+I'm looking for a Signed-off-by from you that you're OK with
+reverting.
 
-Unless I misunderstood the patch cover-letter, Stefano's proposal is to
-have a mechanism for adding restrictions to individual io_urings -- so
-we still need a separate mechanism (or an extended version of Stefano's
-proposal) to allow for the "reduce attack surface" usecase of seccomp.
-It seems to me like Stefano's proposal is more related to cases where
-you might SCM_RIGHTS-send an io_uring to an unprivileged process.
+-- 
+Cheers,
+Carlos.
 
-> Solving the mapping of seccomp interception types into CQEs (or anything
-> more severe) will likely inform what it would mean to map ptrace events
-> to CQEs. So, I think they're related, and we should get seccomp hooked
-> up right away, and that might help us see how (if) ptrace should be
-> attached.
-
-We could just emulate the seccomp-bpf API with the pseudo-syscalls done
-as a result of CQEs, though I'm not sure how happy folks will be with
-this kind of glue code in "seccomp-uring" (though in theory it would
-allow us to attach existing filters to io_uring...).
-
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
-
---7mp6nnuuqiljjvde
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXxBTgAAKCRCdlLljIbnQ
-EgEuAQD0g4MbpgC7Lk7FN5CSDV+SxkJSd9OEls6+F/6HJwSKBwD+NTNBfGtd99hQ
-z2FCK3kp9ysZiQi7K2MFUeWn33Inhw0=
-=DJ+V
------END PGP SIGNATURE-----
-
---7mp6nnuuqiljjvde--
