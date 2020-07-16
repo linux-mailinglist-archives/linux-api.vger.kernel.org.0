@@ -2,74 +2,142 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F8A72228C2
-	for <lists+linux-api@lfdr.de>; Thu, 16 Jul 2020 19:13:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 420C9222B99
+	for <lists+linux-api@lfdr.de>; Thu, 16 Jul 2020 21:12:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728515AbgGPRNe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 16 Jul 2020 13:13:34 -0400
-Received: from mx2.suse.de ([195.135.220.15]:60016 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728257AbgGPRNe (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 16 Jul 2020 13:13:34 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 92DCDB88D;
-        Thu, 16 Jul 2020 17:13:36 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id 6CCE81E0E81; Thu, 16 Jul 2020 19:13:32 +0200 (CEST)
-Date:   Thu, 16 Jul 2020 19:13:32 +0200
-From:   Jan Kara <jack@suse.cz>
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org
-Subject: Re: [PATCH v5 00/22] fanotify events with name info
-Message-ID: <20200716171332.GK5022@quack2.suse.cz>
-References: <20200716084230.30611-1-amir73il@gmail.com>
+        id S1728705AbgGPTMw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 16 Jul 2020 15:12:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35034 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728400AbgGPTMv (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 16 Jul 2020 15:12:51 -0400
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C909AC08C5CE
+        for <linux-api@vger.kernel.org>; Thu, 16 Jul 2020 12:12:50 -0700 (PDT)
+Received: by mail-pl1-x643.google.com with SMTP id p1so4287717pls.4
+        for <linux-api@vger.kernel.org>; Thu, 16 Jul 2020 12:12:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=reZvnOQ8bijPp6S5yQzmCOTTsMLuDmnyX5N/3GfwHXo=;
+        b=lhX4KRZzVkUSda9R6NyorS54yyDn6hPMA24J3zBk96aHpX1ic/PoqYAe/VIB7Xy9B/
+         HlVJ28tVKHEHHcNCuv/KrJOZBUcoLwz6roC1HJNW31P8tAYmIPcACI0nrMG4j1+ivpMt
+         1Xfyw0pkzrtmnsj0jd8RERq8Fj7NvEgD8QxLc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=reZvnOQ8bijPp6S5yQzmCOTTsMLuDmnyX5N/3GfwHXo=;
+        b=HkAdf64l1hdv2B8cdGVxv7zuMMPdOBsys1MnMwjw79s64kpkMLOK3VAVchFzHHN3Cc
+         WG+cAKxUC4jYLi+yrgJFWgDvAfsrA1TeaoNJMpFQeKDoUgS7toFGRC6DXMeJzOrZISfz
+         4t59yVL1T+kdni+wcSLC2WAMIW3KQw/2WJ0nqvq9AFwqVLo5hWCWyWC6KeKpHCfTvPtZ
+         LLCI7oeixemFSYjw43QbZ4oDkQxfKFF3qLnT4QenYx5mBMBjowXaL1qYKldIbemy2xXq
+         pRE9uSg5BwgUl65khtvHOVZus0Erpt7+tIQSa43gGpPfJCrx1iJ3V1qb9xdoX9ppRBBR
+         +j0A==
+X-Gm-Message-State: AOAM530yJoxsZCjXPb+gP4mJtQp3K8pjgwmhJkM9SLdGWvNpZiWMYLfx
+        uWcydeLzRnEjv0ZekMCwBEi8JA==
+X-Google-Smtp-Source: ABdhPJzSOAMegB1OmeJ/PboDzHabSRQP9lhAlD8QVD09gpvRf9fpyvnr8fMJH6cpEeTI0kWvhxJF2g==
+X-Received: by 2002:a17:902:7441:: with SMTP id e1mr4615121plt.23.1594926769952;
+        Thu, 16 Jul 2020 12:12:49 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id g22sm5602957pgb.82.2020.07.16.12.12.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Jul 2020 12:12:48 -0700 (PDT)
+Date:   Thu, 16 Jul 2020 12:12:47 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
+Cc:     linux-kernel@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Christian Heimes <christian@python.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Deven Bowers <deven.desai@linux.microsoft.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Eric Chiang <ericchiang@google.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
+        Matthew Garrett <mjg59@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mickael.salaun@ssi.gouv.fr>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Philippe =?iso-8859-1?Q?Tr=E9buchet?= 
+        <philippe.trebuchet@ssi.gouv.fr>,
+        Scott Shell <scottsh@microsoft.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Steve Dower <steve.dower@python.org>,
+        Steve Grubb <sgrubb@redhat.com>,
+        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
+        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v6 7/7] ima: add policy support for the new file open
+ MAY_OPENEXEC flag
+Message-ID: <202007160957.CABE4CC@keescook>
+References: <20200714181638.45751-1-mic@digikod.net>
+ <20200714181638.45751-8-mic@digikod.net>
+ <202007151339.283D7CD@keescook>
+ <8df69733-0088-3e3c-9c3d-2610414cea2b@digikod.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200716084230.30611-1-amir73il@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8df69733-0088-3e3c-9c3d-2610414cea2b@digikod.net>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Amir!
-
-On Thu 16-07-20 11:42:08, Amir Goldstein wrote:
-> This patch set implements the FAN_REPORT_NAME and FAN_REPORT_DIR_FID
-> group flags.
+On Thu, Jul 16, 2020 at 04:40:15PM +0200, Mickaël Salaün wrote:
 > 
-> I previously posted v3 of prep patch series [1] and v4 of follow up
-> series [2].  Since then you pick up several prep patches, so this
-> posting includes the rest of the prep patches along with the followup
-> patches with most of your comments addressed.
+> On 15/07/2020 22:40, Kees Cook wrote:
+> > On Tue, Jul 14, 2020 at 08:16:38PM +0200, Mickaël Salaün wrote:
+> >> From: Mimi Zohar <zohar@linux.ibm.com>
+> >>
+> >> The kernel has no way of differentiating between a file containing data
+> >> or code being opened by an interpreter.  The proposed O_MAYEXEC
+> >> openat2(2) flag bridges this gap by defining and enabling the
+> >> MAY_OPENEXEC flag.
+> >>
+> >> This patch adds IMA policy support for the new MAY_OPENEXEC flag.
+> >>
+> >> Example:
+> >> measure func=FILE_CHECK mask=^MAY_OPENEXEC
+> >> appraise func=FILE_CHECK appraise_type=imasig mask=^MAY_OPENEXEC
+> >>
+> >> Signed-off-by: Mimi Zohar <zohar@linux.ibm.com>
+> >> Reviewed-by: Lakshmi Ramasubramanian <nramas@linux.microsoft.com>
+> >> Acked-by: Mickaël Salaün <mic@digikod.net>
+> > 
+> > (Process nit: if you're sending this on behalf of another author, then
+> > this should be Signed-off-by rather than Acked-by.)
 > 
-> Regarding the use of flag FS_EVENT_ON_CHILD and the TYPE_CHILD mark
-> iterator, I did not change that because I was not sure about it and it
-> is an internal implementation detail that we can change later.
-> But the discussion about it made me realize that dnotify event handler
-> wasn't properly adapted, so I added a patch to fix it.
-> 
-> The patches are available on github [3] based on your fsnotify branch.
-> man-pages [4] LTP tests [5] and a demo [6] are also available.
+> I'm not a co-author of this patch.
 
-Phew! So I went through the patches. I didn't find any bug besides couple
-of typos I've fixed and then couple of things I've flagged at individual
-patches (which I've fixed up locally as well). There's just that
-ignore_mask handling issue outstanding. Overall I have to say I'm unhappy
-about the complexity of juggling with dir/inode/child, dirfh vs objfh, etc.
-I acknowledge that the stuff is at least well commented so I was able to
-grok it but still... That being said I don't have a great idea how to
-simplify all this so at this point I'm ok with merging things as they are
-but once all the functionality is in I want to have a look at how to
-simplify all the special cases.
+Correct, but you are part of the delivery path to its entry to the
+tree. If you were co-author, you would include "Co-developed-by" with
+a Signed-off-by. (So my nit stands)
 
-Anyway, for now, thanks for your persistence and work when developing this
-series!
+For excruciating details:
 
-								Honza
+https://www.kernel.org/doc/html/latest/process/submitting-patches.html#when-to-use-acked-by-cc-and-co-developed-by
+
+"The Signed-off-by: tag indicates that the signer was ... in the patch’s
+delivery path."
+
+"Co-developed-by: ... is a used to give attribution to co-authors ..."
+
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Kees Cook
