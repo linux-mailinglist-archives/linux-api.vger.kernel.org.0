@@ -2,141 +2,91 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FF3C222BAE
-	for <lists+linux-api@lfdr.de>; Thu, 16 Jul 2020 21:13:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EC52222C75
+	for <lists+linux-api@lfdr.de>; Thu, 16 Jul 2020 22:04:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729357AbgGPTNe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 16 Jul 2020 15:13:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35152 "EHLO
+        id S1728907AbgGPUEl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 16 Jul 2020 16:04:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729551AbgGPTNc (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 16 Jul 2020 15:13:32 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BD23C08C5C0
-        for <linux-api@vger.kernel.org>; Thu, 16 Jul 2020 12:13:32 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id l63so5304350pge.12
-        for <linux-api@vger.kernel.org>; Thu, 16 Jul 2020 12:13:32 -0700 (PDT)
+        with ESMTP id S1729100AbgGPUEk (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 16 Jul 2020 16:04:40 -0400
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93AF1C08C5CE
+        for <linux-api@vger.kernel.org>; Thu, 16 Jul 2020 13:04:40 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id t15so5191471pjq.5
+        for <linux-api@vger.kernel.org>; Thu, 16 Jul 2020 13:04:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=P2Y3x3UF7aakg+eDh/JCMQ/ujg3OM7agEmMMQHUiWYw=;
-        b=eUF5kUcP1I8IOHUVxI3FxJ/qxspiNpwWZ1kyR1myyi5d/rlntny124yFpRoBP0S+TU
-         IULeT+p9QcpLBQJdqAMtaWb0tPOnG564tv2NICoimzwkKBF7b7R+TO++MSXHI9kPTYW4
-         dLCo8Qo5IB3QU1NMvjyOcqhje5qnF9Vt8u7nM=
+         :content-disposition:in-reply-to;
+        bh=8cjlPgn09p7l40db0k5FtyWMlNcHlH5a0ko12DoYDl8=;
+        b=R2wl2O3bAKRmcG8CwSs2Q1w5Hfu4lrQCtvgaHOXYz089uxJGqL7jfyozh0dElVhkht
+         HihXpzUVBYBgCTDp49G6vJod1zIH+8LnNuatOpdSaa02mG64zIzslDVh2t4P2ws/pltF
+         4GmSr2KOtIN649ayUtFptrou3zZo1Q2nqVrD8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=P2Y3x3UF7aakg+eDh/JCMQ/ujg3OM7agEmMMQHUiWYw=;
-        b=bkQK1t/yY22sgOczRRwlwSK9GHUaRMwj6hJnRbu599v+Xj0UtET9oia3Mn6gtyM/DZ
-         80DkAbY1GXIPHiVHdlLEuEgRUdOgKdKnnfiL/BugKMbeoJgODeHamBJyonSi6xvXJODg
-         0OIPj6Frzu402bIVXrW+rKowD7bjgBV/XeXlIQ5AZOvykLAsPXN5AZpr/ecF03G0NM5J
-         o+KLfI2wO7q8leKlOsmapGYE1AqV/AOfsva2O6FMBaBDC7QMT4/5i1KBbeuW8LP1yIf4
-         /1hPLSyxkn7WC+7SdYbTzkFglv3kDZS0gtmoo9r3cWUARYeMNGmoOr77OtaS35iVmT8u
-         +bbw==
-X-Gm-Message-State: AOAM53390nt4TmmsmULZrXIWSDCP2/IgfupichCXWos9OInp3zkDMm6t
-        qmYB1QfrE9ij/4A+kJ16goCRtw==
-X-Google-Smtp-Source: ABdhPJy1fQTquN4l33pCs4D4d2Xd1YwY/TqBCMAGvi2rtEVPLt90LIg/bGHmjLscqWmRjzI4Zwih4g==
-X-Received: by 2002:a63:c150:: with SMTP id p16mr5583761pgi.141.1594926811598;
-        Thu, 16 Jul 2020 12:13:31 -0700 (PDT)
+         :mime-version:content-disposition:in-reply-to;
+        bh=8cjlPgn09p7l40db0k5FtyWMlNcHlH5a0ko12DoYDl8=;
+        b=TfVec/clMmBRalecUjRUzOtuUvrR3uxsnz+Wm+XjBqbHVD3SI1Ve3PB5DHm1gggwVW
+         /EVU8GW2ARpOs1J4wsCgwwMUPxYDRdzpI2tu0t40tfqXvJ2WFdxFLBnDmc9tZXENwnon
+         tStM6Y6zGR1S6MIRY9CsSsqPTducUtZiQfbmW7Qamf2MawgsiK8C1OYWciwqHG85OqKc
+         1aV8LhZjYCvgAeRtBvChom6XG6om3E19vH9cCnwHrpmXX+tkqCWcJeSc9TCpIRy/56LU
+         WUzwdd9b31LIjTUiNX6RjfyRtjshR4XBYC+egV/lxjPXTuT+Af/BXR4SSvz4qsM7aUqS
+         ZqdA==
+X-Gm-Message-State: AOAM532MEEkxGVO88TVZmNUlr/36DeDSwAm8miQNEfflijFBhhtAxlct
+        j4B6+7+IfgLhk0NXUrE5P6SBfA==
+X-Google-Smtp-Source: ABdhPJzQmwwQY4qaLuGuH2c57JaOLP7yXkUxTXHj7pOsYZEf+Uu5diFNUB050bd6hczoiR9qcdlZ9g==
+X-Received: by 2002:a17:90a:a50d:: with SMTP id a13mr6205936pjq.95.1594929879858;
+        Thu, 16 Jul 2020 13:04:39 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id u14sm6060148pfk.211.2020.07.16.12.13.30
+        by smtp.gmail.com with ESMTPSA id y19sm5695800pgj.35.2020.07.16.13.04.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jul 2020 12:13:30 -0700 (PDT)
-Date:   Thu, 16 Jul 2020 12:13:29 -0700
+        Thu, 16 Jul 2020 13:04:38 -0700 (PDT)
+Date:   Thu, 16 Jul 2020 13:04:38 -0700
 From:   Kees Cook <keescook@chromium.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-        linux-kernel@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
+To:     Gabriel Krisman Bertazi <krisman@collabora.com>,
         Andy Lutomirski <luto@kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Christian Heimes <christian@python.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Deven Bowers <deven.desai@linux.microsoft.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Eric Chiang <ericchiang@google.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
-        Matthew Garrett <mjg59@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mickael.salaun@ssi.gouv.fr>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Philippe =?iso-8859-1?Q?Tr=E9buchet?= 
-        <philippe.trebuchet@ssi.gouv.fr>,
-        Scott Shell <scottsh@microsoft.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Steve Dower <steve.dower@python.org>,
-        Steve Grubb <sgrubb@redhat.com>,
-        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
-        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
-        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v6 7/7] ima: add policy support for the new file open
- MAY_OPENEXEC flag
-Message-ID: <202007161213.E8D240D98@keescook>
-References: <20200714181638.45751-1-mic@digikod.net>
- <20200714181638.45751-8-mic@digikod.net>
- <202007151339.283D7CD@keescook>
- <8df69733-0088-3e3c-9c3d-2610414cea2b@digikod.net>
- <61c05cb0-a956-3cc7-5dab-e11ebf0e95bf@infradead.org>
+        Matthew Wilcox <willy@infradead.org>
+Cc:     tglx@linutronix.de, linux-kernel@vger.kernel.org,
+        kernel@collabora.com, gofmanp@gmail.com, linux-api@vger.kernel.org,
+        x86@kernel.org, linux-kselftest@vger.kernel.org, shuah@kernel.org
+Subject: Re: [PATCH v4 0/2] Syscall User Redirection
+Message-ID: <202007161300.7452A2C5@keescook>
+References: <20200716193141.4068476-1-krisman@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <61c05cb0-a956-3cc7-5dab-e11ebf0e95bf@infradead.org>
+In-Reply-To: <20200716193141.4068476-1-krisman@collabora.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jul 16, 2020 at 07:59:20AM -0700, Randy Dunlap wrote:
-> On 7/16/20 7:40 AM, Mickaël Salaün wrote:
-> > 
-> > On 15/07/2020 22:40, Kees Cook wrote:
-> >> On Tue, Jul 14, 2020 at 08:16:38PM +0200, Mickaël Salaün wrote:
-> >>> From: Mimi Zohar <zohar@linux.ibm.com>
-> >>>
-> >>> The kernel has no way of differentiating between a file containing data
-> >>> or code being opened by an interpreter.  The proposed O_MAYEXEC
-> >>> openat2(2) flag bridges this gap by defining and enabling the
-> >>> MAY_OPENEXEC flag.
-> >>>
-> >>> This patch adds IMA policy support for the new MAY_OPENEXEC flag.
-> >>>
-> >>> Example:
-> >>> measure func=FILE_CHECK mask=^MAY_OPENEXEC
-> >>> appraise func=FILE_CHECK appraise_type=imasig mask=^MAY_OPENEXEC
-> >>>
-> >>> Signed-off-by: Mimi Zohar <zohar@linux.ibm.com>
-> >>> Reviewed-by: Lakshmi Ramasubramanian <nramas@linux.microsoft.com>
-> >>> Acked-by: Mickaël Salaün <mic@digikod.net>
-> >>
-> >> (Process nit: if you're sending this on behalf of another author, then
-> >> this should be Signed-off-by rather than Acked-by.)
-> > 
-> > I'm not a co-author of this patch.
-> > 
+On Thu, Jul 16, 2020 at 03:31:39PM -0400, Gabriel Krisman Bertazi wrote:
+> This is v4 of Syscall User Redirection.  The implementation itself is
+> not modified from v3, it only applies the latest round of reviews to the
+> selftests.
 > 
-> from Documentation/process/submitting-patches.rst:
+> __NR_syscalls is not really exported in header files other than
+> asm-generic for every architecture, so it felt safer to optionally
+> expose it with a fallback to a high value.
 > 
-> The Signed-off-by: tag indicates that the signer was involved in the
-> development of the patch, or that he/she was in the patch's delivery path.
->                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> Also, I didn't expose tests for PR_GET as that is not currently
+> implemented.  If possible, I'd have it supported by a future patchset,
+> since it is not immediately necessary to support this feature.
 
-Randy beat me to it. :)
+Thanks! That all looks good to me.
+
+> Finally, one question: Which tree would this go through?
+
+I haven't heard from several other x86 maintainers yet (which is where
+I would normally expect this series to land), but I would be comfortable
+taking this through my seccomp tree if I got Acks/Reviews at least from
+Andy and Matthew.
+
+Andy, Matthew, what do you think of this?
 
 -- 
 Kees Cook
