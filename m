@@ -2,138 +2,166 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A807B22270E
-	for <lists+linux-api@lfdr.de>; Thu, 16 Jul 2020 17:32:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECDDA222839
+	for <lists+linux-api@lfdr.de>; Thu, 16 Jul 2020 18:25:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729027AbgGPPbn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 16 Jul 2020 11:31:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57336 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728768AbgGPPbf (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 16 Jul 2020 11:31:35 -0400
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3803C08C5DC
-        for <linux-api@vger.kernel.org>; Thu, 16 Jul 2020 08:31:34 -0700 (PDT)
-Received: by mail-pl1-x642.google.com with SMTP id x9so4030292plr.2
-        for <linux-api@vger.kernel.org>; Thu, 16 Jul 2020 08:31:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=jGC0Cma9sD+M6C66CXjEVdr4Gdb8mMF8OboSIxxwdH4=;
-        b=ZCAVB8nsh1reVbsCtXsNpc9/GpvQQzf253bRke2fSht/9fsA2S0zNy7s7Q7zaYprZf
-         XIp3CYeZYUJRxqJWxlw4GYR6Rxfcw9Cy7l7xTQwKslcSPJZlLm/qGcYymwn8C7VPsU+k
-         dDBF3EEYw3UhdPnQHkORD5qj1r8KpyjprM3rc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=jGC0Cma9sD+M6C66CXjEVdr4Gdb8mMF8OboSIxxwdH4=;
-        b=tXGu+wKkwSEg4f1zU2t9Ol/nTeZWz2WFFRv9HUM/bKPcyFQVooynnoghe3VYUNTycv
-         sXKUK62ROyh6cJy3vdPQkEEKrOThgmGa706ntnSgxn0WrSXlzjPvQfpiba1uWMikxPME
-         TVd8+AELflGoAqLTy6nzO3ko7+5KPM/7a3FhUgz/ssWqCofscpHbbcr8Hvcfz5wKaLq+
-         P1485nr5bpd5/o/kOFp8Cl5P+pfFkz/Mh8L1u2VhFEjpfO4bJ0bhDRqCU67JH6PuHhQA
-         ia9VoQdInAQL5sXQmiEqY7j8PYDX8I6Ar5sk23kcdJmW0x7lRHwO8tAMPClW8kxRqKyA
-         4AgA==
-X-Gm-Message-State: AOAM533geUGkwsq0bDo1Jgh56tKn7/AgvTpCWvXjkslCE2yUoRaAE1ie
-        b7fnpjByzDzXWy8vYwHedr+3pA==
-X-Google-Smtp-Source: ABdhPJweDZrRnoUX7jCQB/uM+EQPmvMQFRn5PcnR6HDszEBspoWj0c+Kso5Fx/ceySNNzLeNRQX5LA==
-X-Received: by 2002:a17:90b:390e:: with SMTP id ob14mr4976168pjb.221.1594913494019;
-        Thu, 16 Jul 2020 08:31:34 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id e195sm5218464pfh.218.2020.07.16.08.31.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jul 2020 08:31:33 -0700 (PDT)
-Date:   Thu, 16 Jul 2020 08:31:32 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
-Cc:     Jan Kara <jack@suse.cz>,
-        Matthew Bobrowski <mbobrowski@mbobrowski.org>,
-        linux-nfs@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Christian Heimes <christian@python.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Deven Bowers <deven.desai@linux.microsoft.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Eric Chiang <ericchiang@google.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
-        Matthew Garrett <mjg59@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mickael.salaun@ssi.gouv.fr>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Philippe =?iso-8859-1?Q?Tr=E9buchet?= 
-        <philippe.trebuchet@ssi.gouv.fr>,
-        Scott Shell <scottsh@microsoft.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Steve Dower <steve.dower@python.org>,
-        Steve Grubb <sgrubb@redhat.com>,
-        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
-        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
-        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v6 4/7] fs: Introduce O_MAYEXEC flag for openat2(2)
-Message-ID: <202007160822.CCDB5478@keescook>
-References: <20200714181638.45751-1-mic@digikod.net>
- <20200714181638.45751-5-mic@digikod.net>
- <202007151304.9F48071@keescook>
- <b209ea10-5b7f-c40e-5b6a-3da9028403d5@digikod.net>
+        id S1728837AbgGPQZE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 16 Jul 2020 12:25:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35716 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729048AbgGPQZE (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 16 Jul 2020 12:25:04 -0400
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1376620849
+        for <linux-api@vger.kernel.org>; Thu, 16 Jul 2020 16:25:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1594916703;
+        bh=p0w3EEAD5X53cCqDFmoE6un1clNbYGiJ/DMa0RV+rfI=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=yAj2KihHyUS0XU5c+XLdrccZniFtQURmn47hIVuaqVi7YwvUC5wy5/LPReb0zG2y8
+         yTIznCUpNbfm02LXaUfrNi1/9wl1N4UBhZMLYNgTGx8avENMAwoHR9RFT0K8QqQ49h
+         gVfqvEJ33BZMt5jmgooHcFZaPFk36MTqZP86z1JQ=
+Received: by mail-wm1-f42.google.com with SMTP id 22so10844585wmg.1
+        for <linux-api@vger.kernel.org>; Thu, 16 Jul 2020 09:25:02 -0700 (PDT)
+X-Gm-Message-State: AOAM5324UwtbMYH4by84tmRpXIfIdSpM0U74h6+RVYHrXfWq/5ag+xEw
+        H/oCElNm1DpRsF5g2BM7MP7qP/unV1t0A5DiMhOA4g==
+X-Google-Smtp-Source: ABdhPJx4aHgQedBYAiS/i+maR6+HLKjkrpnmZif6PsbomewsecKvhVh0PDhmC4WGpinWqQzmno1SRYT3WT0rxEG8RsY=
+X-Received: by 2002:a7b:c09a:: with SMTP id r26mr4960600wmh.176.1594916701395;
+ Thu, 16 Jul 2020 09:25:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b209ea10-5b7f-c40e-5b6a-3da9028403d5@digikod.net>
+References: <CAJfpegu3EwbBFTSJiPhm7eMyTK2MzijLUp1gcboOo3meMF_+Qg@mail.gmail.com>
+ <D9FAB37B-D059-4137-A115-616237D78640@amacapital.net> <20200715171130.GG12769@casper.infradead.org>
+ <7c09f6af-653f-db3f-2378-02dca2bc07f7@gmail.com> <CAJfpegt9=p4uo5U2GXqc-rwqOESzZCWAkGMRTY1r8H6fuXx96g@mail.gmail.com>
+ <48cc7eea-5b28-a584-a66c-4eed3fac5e76@gmail.com> <202007151511.2AA7718@keescook>
+In-Reply-To: <202007151511.2AA7718@keescook>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Thu, 16 Jul 2020 09:24:48 -0700
+X-Gmail-Original-Message-ID: <CALCETrVD1hTc5QDL5=DNkLSS5Qu_AuEC-QZQAuZY0tCP1giMwQ@mail.gmail.com>
+Message-ID: <CALCETrVD1hTc5QDL5=DNkLSS5Qu_AuEC-QZQAuZY0tCP1giMwQ@mail.gmail.com>
+Subject: Re: strace of io_uring events?
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Pavel Begunkov <asml.silence@gmail.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Matthew Wilcox <willy@infradead.org>,
+        Jann Horn <jannh@google.com>,
+        Stefano Garzarella <sgarzare@redhat.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        strace-devel@lists.strace.io, io-uring@vger.kernel.org,
+        Linux API <linux-api@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jul 16, 2020 at 04:18:27PM +0200, Mickaël Salaün wrote:
-> On 15/07/2020 22:06, Kees Cook wrote:
-> > On Tue, Jul 14, 2020 at 08:16:35PM +0200, Mickaël Salaün wrote:
-> >> The implementation of O_MAYEXEC almost duplicates what execve(2) and
-> >> uselib(2) are already doing: setting MAY_OPENEXEC in acc_mode (which can
-> >> then be checked as MAY_EXEC, if enforced), and propagating FMODE_EXEC to
-> >> _fmode via __FMODE_EXEC flag (which can then trigger a
-> >> fanotify/FAN_OPEN_EXEC event).
-> >> [...]
-> > 
-> > Adding __FMODE_EXEC here will immediately change the behaviors of NFS
-> > and fsnotify. If that's going to happen, I think it needs to be under
-> > the control of the later patches doing the behavioral controls.
-> > (specifically, NFS looks like it completely changes its access control
-> > test when this is set and ignores the read/write checks entirely, which
-> > is not what's wanted).
-> 
-> __FMODE_EXEC was suggested by Jan Kara and Matthew Bobrowski because of
-> fsnotify. However, the NFS handling of SUID binaries [1] indeed leads to
-> an unintended behavior. This also means that uselib(2) shouldn't work
-> properly with NFS. I can remove the __FMODE_EXEC flag for now.
+> On Jul 15, 2020, at 4:07 PM, Kees Cook <keescook@chromium.org> wrote:
+>
+> =EF=BB=BFEarlier Andy Lutomirski wrote:
+>> Let=E2=80=99s add some seccomp folks. We probably also want to be able t=
+o run
+>> seccomp-like filters on io_uring requests. So maybe io_uring should call=
+ into
+>> seccomp-and-tracing code for each action.
+>
+> Okay, I'm finally able to spend time looking at this. And thank you to
+> the many people that CCed me into this and earlier discussions (at least
+> Jann, Christian, and Andy).
+>
+> It *seems* like there is a really clean mapping of SQE OPs to syscalls.
+> To that end, yes, it should be trivial to add ptrace and seccomp support
+> (sort of). The trouble comes for doing _interception_, which is how both
+> ptrace and seccomp are designed.
+>
+> In the basic case of seccomp, various syscalls are just being checked
+> for accept/reject. It seems like that would be easy to wire up. For the
+> more ptrace-y things (SECCOMP_RET_TRAP, SECCOMP_RET_USER_NOTIF, etc),
+> I think any such results would need to be "upgraded" to "reject". Things
+> are a bit complex in that seccomp's form of "reject" can be "return
+> errno" (easy) or it can be "kill thread (or thread_group)" which ...
+> becomes less clear. (More on this later.)
 
-I kind of wonder if we need to more completely fix __FMODE_EXEC?
+My intuition is not to do this kind of creative reinterpretation of
+return values. Instead let=E2=80=99s have a new type of seccomp filter
+specifically for io_uring. So we can have SECCOMP_IO_URING_ACCEPT,
+ERRNO, and eventually other things. We probably will want a user
+notifier feature for io_uring, but I'd be a bit surprised if it ends
+up ABI-compatible with current users of user notifiers.
 
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=f8d9a897d4384b77f13781ea813156568f68b83e
+> - There appear to be three classes of desired restrictions:
+>  - opcodes for io_uring_register() (which can be enforced entirely with
+>    seccomp right now).
 
-Hmpf, this implies that "fmode" should contain MAY_EXEC? It really looks
-like __FMODE_EXEC is a hack for places where only "flags" were passed
-around, and this only seems to be an issue for NFS at this point? And it
-should be fixable for fsnotify too?
+Agreed.
 
-Hmm. (And nothing should use uselib anyway...)
+>  - opcodes from SQEs (this _could_ be intercepted by seccomp, but is
+>    not currently written)
 
--- 
-Kees Cook
+As above, I think this should be intercepted by seccomp, but in a new
+mode.  I think that existing seccomp filters should not intercept it.
+
+>  - opcodes of the types of restrictions to restrict... for making sure
+>    things can't be changed after being set? seccomp already enforces
+>    that kind of "can only be made stricter"
+
+Agreed.
+
+>
+> - How does no_new_privs play a role in the existing io_uring credential
+>  management? Using _any_ kind of syscall-effective filtering, whether
+>  it's seccomp or Stefano's existing proposal, needs to address the
+>  potential inheritable restrictions across privilege boundaries (which is
+>  what no_new_privs tries to eliminate). In regular syscall land, this is
+>  an issue when a filter follows a process through setuid via execve()
+>  and it gains privileges that now the filter-creator can trick into
+>  doing weird stuff -- io_uring has a concept of alternative credentials
+>  so I have to ask about it. (I don't *think* there would be a path to
+>  install a filter before gaining privilege, but I likely just
+>  need to do my homework on the io_uring internals. Regardless,
+>  use of seccomp by io_uring would need to have this issue "solved"
+>  in the sense that it must be "safe" to filter io_uring OPs, from a
+>  privilege-boundary-crossing perspective.
+>
+> - From which task perspective should filters be applied? It seems like it
+>  needs to follow the io_uring personalities, as that contains the
+>  credentials. (This email is a brain-dump so far -- I haven't gone to
+>  look to see if that means io_uring is literally getting a reference to
+>  struct cred; I assume so.) Seccomp filters are attached to task_struct.
+>  However, for v5.9, seccomp will gain a more generalized get/put system
+>  for having filters attached to the SECCOMP_RET_USER_NOTIF fd. Adding
+>  more get/put-ers for some part of the io_uring context shouldn't
+>  be hard.
+
+Let's ignore personalities for a moment (and see below).  Thinking
+through the possibilities:
+
+A: io_uring seccomp filters are attached to tasks.  When an io_uring
+is created, it inherits an immutable copy of its creating task's
+filter, and that's the filter set that applies to that io_uring
+instance.  This could have somewhat bizarre consequences if the fd
+gets passed around, but io_uring already has odd security effects if
+fds are passed around.  It has the annoying property that, if a
+library creates an io_uring and then a seccomp filter is loaded, the
+io_uring bypasses the library.
+
+B: The same, but the io_uring references the creating task so new
+filters on the task apply to the io_uring, too.  This allows loading
+and then sandboxing.  Is this too bizarre overall?
+
+C: io_uring filters are attached directly to io_urings.  This has the
+problem where an io_uring created before a task sandboxes itself isn't
+sandboxed.  It also would require that a filter be able to hook
+io_uring creation to sandbox it.
+
+Does anyone actually pass io_urings around with SCM_RIGHTS?  It would
+be really nice if we could make the default be that io_urings are
+bound to their creating mm and can't be used outside it.  Then
+creating an mm-crossing io_uring could, itself, be restricted.
+
+In any case, my inclination is to go for choice B.  Choice C could
+also be supported if there's a use case.
