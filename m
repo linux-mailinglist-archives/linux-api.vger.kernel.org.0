@@ -2,154 +2,221 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EAA83222418
-	for <lists+linux-api@lfdr.de>; Thu, 16 Jul 2020 15:41:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3B4F222520
+	for <lists+linux-api@lfdr.de>; Thu, 16 Jul 2020 16:19:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728562AbgGPNjn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 16 Jul 2020 09:39:43 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:25406 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726537AbgGPNjm (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 16 Jul 2020 09:39:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1594906780;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=tGlaU8B/mICKZzO5a2jzqgO8r5hQ5/oeUPmxVGyuSuk=;
-        b=RDLYgZyEa/Trtz9nRgcaTpfiTXlHln7KZy4IVsYkDhmt9CuzSo4xeXHTozIaCKgt5y7VLt
-        b6sGDF3K8pvtRzN0WBKEvspn/k6PNsmsvlZmJM+LYeosP5EY1ekybma79wqrYmzt+0Rohb
-        NvfIR/6HyKpjlv+wEAZxqYx+3c/oeYg=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-255-fkruBIZdPbyD0k4ilFpWXQ-1; Thu, 16 Jul 2020 09:39:29 -0400
-X-MC-Unique: fkruBIZdPbyD0k4ilFpWXQ-1
-Received: by mail-qv1-f69.google.com with SMTP id a12so3412264qvt.22
-        for <linux-api@vger.kernel.org>; Thu, 16 Jul 2020 06:39:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=tGlaU8B/mICKZzO5a2jzqgO8r5hQ5/oeUPmxVGyuSuk=;
-        b=q66PXFQhkt3i7/bQeZ+q2UGXX1/f/J/IX31MKHBt4JdtU+jxvd0qJRmmqIh7IDPMTc
-         +obxpWaDmNw3Tg3HDWxq/Fz4epnuXThWG1YbiHL0Wtcir9SYNzceXvS2nfWqTDK4olL8
-         dQ9cgaGN4uq4pIheCel6NLAxfOj3zN0LOqHNlsYtOwH2yL5R+fKDarnyDTHbiTSa/DjT
-         sWzxobfPQ0rtG5MsdMz4V9QfD34TJXBbn80cmm0dm+lJlao2Jd6Ai9/uenWMtH4qYrYZ
-         9y3gEprrNBuijoKf5jqs89xcACOf3Upt+Ooukwzxlzfmq/HLjYW1OkzYCOeHVdvEms9d
-         i3ew==
-X-Gm-Message-State: AOAM533SKYlMMtg8sXZ4ve1EToM1QCwDlmdv6834EEF/XmLzfGY/w7gt
-        2BSntRcDT3UM5MuPn0SGQffleGawc04Vc3mcG3Y7WMxV2BiM1sI8Name7V42YYumg+k3bV3wOtY
-        HXLyS+yV9vC1H5BV9+ylS
-X-Received: by 2002:a37:7747:: with SMTP id s68mr4049280qkc.42.1594906768819;
-        Thu, 16 Jul 2020 06:39:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxKM5P3+IZq5goVdvDzMZx0lVmekjoB4avKgCmnXJcVGiTBB0mDzG8Hy2OswjdzKUzfna6M5g==
-X-Received: by 2002:a37:7747:: with SMTP id s68mr4049243qkc.42.1594906768348;
-        Thu, 16 Jul 2020 06:39:28 -0700 (PDT)
-Received: from [192.168.1.4] (198-84-170-103.cpe.teksavvy.com. [198.84.170.103])
-        by smtp.gmail.com with ESMTPSA id z17sm8730028qth.24.2020.07.16.06.39.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Jul 2020 06:39:27 -0700 (PDT)
-Subject: Re: [RFC PATCH 0/4] rseq: Introduce extensible struct rseq
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        paulmck <paulmck@linux.ibm.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        linux-api <linux-api@vger.kernel.org>,
+        id S1728782AbgGPOTD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 16 Jul 2020 10:19:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46090 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728412AbgGPOTB (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 16 Jul 2020 10:19:01 -0400
+Received: from smtp-bc0b.mail.infomaniak.ch (smtp-bc0b.mail.infomaniak.ch [IPv6:2001:1600:3:17::bc0b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4FE1C061755
+        for <linux-api@vger.kernel.org>; Thu, 16 Jul 2020 07:19:00 -0700 (PDT)
+Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4B6xFW2DSnzlhJYD;
+        Thu, 16 Jul 2020 16:18:55 +0200 (CEST)
+Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
+        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4B6xFN4zMgzlh8TM;
+        Thu, 16 Jul 2020 16:18:48 +0200 (CEST)
+Subject: Re: [PATCH v6 4/7] fs: Introduce O_MAYEXEC flag for openat2(2)
+To:     Kees Cook <keescook@chromium.org>, Jan Kara <jack@suse.cz>,
+        Matthew Bobrowski <mbobrowski@mbobrowski.org>,
+        linux-nfs@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
         Christian Brauner <christian.brauner@ubuntu.com>,
-        Florian Weimer <fw@deneb.enyo.de>,
-        Chris Kennelly <ckennelly@google.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-References: <20200714030348.6214-1-mathieu.desnoyers@efficios.com>
- <e7ede994-ebec-8022-b12b-ac7147641ffb@redhat.com>
- <1190016739.14119.1594818179014.JavaMail.zimbra@efficios.com>
-From:   Carlos O'Donell <carlos@redhat.com>
-Organization: Red Hat
-Message-ID: <9f747c44-be54-c547-7e4c-a978499f06c0@redhat.com>
-Date:   Thu, 16 Jul 2020 09:39:26 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        Christian Heimes <christian@python.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Deven Bowers <deven.desai@linux.microsoft.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Eric Chiang <ericchiang@google.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
+        Matthew Garrett <mjg59@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mickael.salaun@ssi.gouv.fr>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        =?UTF-8?Q?Philippe_Tr=c3=a9buchet?= 
+        <philippe.trebuchet@ssi.gouv.fr>,
+        Scott Shell <scottsh@microsoft.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Steve Dower <steve.dower@python.org>,
+        Steve Grubb <sgrubb@redhat.com>,
+        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
+        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+References: <20200714181638.45751-1-mic@digikod.net>
+ <20200714181638.45751-5-mic@digikod.net> <202007151304.9F48071@keescook>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <b209ea10-5b7f-c40e-5b6a-3da9028403d5@digikod.net>
+Date:   Thu, 16 Jul 2020 16:18:27 +0200
+User-Agent: 
 MIME-Version: 1.0
-In-Reply-To: <1190016739.14119.1594818179014.JavaMail.zimbra@efficios.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <202007151304.9F48071@keescook>
+Content-Type: text/plain; charset=iso-8859-15
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
+X-Antivirus-Code: 0x100000
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 7/15/20 9:02 AM, Mathieu Desnoyers wrote:
-> At this point, the main question I would like answered is whether
-> it would be acceptable to increase the size and alignment of
-> the __rseq_abi symbol (which will be exposed by glibc) between
-> e.g. glibc 2.32 and 2.33. If it's not possible, then we can
-> find other solutions, for instance using an indirection with
-> a pointer to an extended structure, but this appears to be
-> slightly less efficient.
 
-The answer is always a soft "maybe" because it depends exactly
-on how we do it and what consequences we are willing to accept
-in the design.
+On 15/07/2020 22:06, Kees Cook wrote:
+> On Tue, Jul 14, 2020 at 08:16:35PM +0200, Mickaël Salaün wrote:
+>> When the O_MAYEXEC flag is passed, openat2(2) may be subject to
+>> additional restrictions depending on a security policy managed by the
+>> kernel through a sysctl or implemented by an LSM thanks to the
+>> inode_permission hook.  This new flag is ignored by open(2) and
+>> openat(2) because of their unspecified flags handling.
+>>
+>> The underlying idea is to be able to restrict scripts interpretation
+>> according to a policy defined by the system administrator.  For this to
+>> be possible, script interpreters must use the O_MAYEXEC flag
+>> appropriately.  To be fully effective, these interpreters also need to
+>> handle the other ways to execute code: command line parameters (e.g.,
+>> option -e for Perl), module loading (e.g., option -m for Python), stdin,
+>> file sourcing, environment variables, configuration files, etc.
+>> According to the threat model, it may be acceptable to allow some script
+>> interpreters (e.g. Bash) to interpret commands from stdin, may it be a
+>> TTY or a pipe, because it may not be enough to (directly) perform
+>> syscalls.  Further documentation can be found in a following patch.
+>>
+>> Even without enforced security policy, userland interpreters can set it
+>> to enforce the system policy at their level, knowing that it will not
+>> break anything on running systems which do not care about this feature.
+>> However, on systems which want this feature enforced, there will be
+>> knowledgeable people (i.e. sysadmins who enforced O_MAYEXEC
+>> deliberately) to manage it.  A simple security policy implementation,
+>> configured through a dedicated sysctl, is available in a following
+>> patch.
+>>
+>> O_MAYEXEC should not be confused with the O_EXEC flag which is intended
+>> for execute-only, which obviously doesn't work for scripts.  However, a
+>> similar behavior could be implemented in userland with O_PATH:
+>> https://lore.kernel.org/lkml/1e2f6913-42f2-3578-28ed-567f6a4bdda1@digikod.net/
+>>
+>> The implementation of O_MAYEXEC almost duplicates what execve(2) and
+>> uselib(2) are already doing: setting MAY_OPENEXEC in acc_mode (which can
+>> then be checked as MAY_EXEC, if enforced), and propagating FMODE_EXEC to
+>> _fmode via __FMODE_EXEC flag (which can then trigger a
+>> fanotify/FAN_OPEN_EXEC event).
+>>
+>> This is an updated subset of the patch initially written by Vincent
+>> Strubel for CLIP OS 4:
+>> https://github.com/clipos-archive/src_platform_clip-patches/blob/f5cb330d6b684752e403b4e41b39f7004d88e561/1901_open_mayexec.patch
+>> This patch has been used for more than 12 years with customized script
+>> interpreters.  Some examples (with the original name O_MAYEXEC) can be
+>> found here:
+>> https://github.com/clipos-archive/clipos4_portage-overlay/search?q=O_MAYEXEC
+>>
+>> Co-developed-by: Vincent Strubel <vincent.strubel@ssi.gouv.fr>
+>> Signed-off-by: Vincent Strubel <vincent.strubel@ssi.gouv.fr>
+>> Co-developed-by: Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>
+>> Signed-off-by: Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>
+>> Signed-off-by: Mickaël Salaün <mic@digikod.net>
+>> Reviewed-by: Deven Bowers <deven.desai@linux.microsoft.com>
+>> Reviewed-by: Kees Cook <keescook@chromium.org>
+>> Cc: Aleksa Sarai <cyphar@cyphar.com>
+>> Cc: Al Viro <viro@zeniv.linux.org.uk>
+>> ---
+>>
+>> Changes since v5:
+>> * Update commit message.
+>>
+>> Changes since v3:
+>> * Switch back to O_MAYEXEC, but only handle it with openat2(2) which
+>>   checks unknown flags (suggested by Aleksa Sarai). Cf.
+>>   https://lore.kernel.org/lkml/20200430015429.wuob7m5ofdewubui@yavin.dot.cyphar.com/
+>>
+>> Changes since v2:
+>> * Replace O_MAYEXEC with RESOLVE_MAYEXEC from openat2(2).  This change
+>>   enables to not break existing application using bogus O_* flags that
+>>   may be ignored by current kernels by using a new dedicated flag, only
+>>   usable through openat2(2) (suggested by Jeff Layton).  Using this flag
+>>   will results in an error if the running kernel does not support it.
+>>   User space needs to manage this case, as with other RESOLVE_* flags.
+>>   The best effort approach to security (for most common distros) will
+>>   simply consists of ignoring such an error and retry without
+>>   RESOLVE_MAYEXEC.  However, a fully controlled system may which to
+>>   error out if such an inconsistency is detected.
+>>
+>> Changes since v1:
+>> * Set __FMODE_EXEC when using O_MAYEXEC to make this information
+>>   available through the new fanotify/FAN_OPEN_EXEC event (suggested by
+>>   Jan Kara and Matthew Bobrowski):
+>>   https://lore.kernel.org/lkml/20181213094658.GA996@lithium.mbobrowski.org/
+>> ---
+>>  fs/fcntl.c                       | 2 +-
+>>  fs/open.c                        | 8 ++++++++
+>>  include/linux/fcntl.h            | 2 +-
+>>  include/linux/fs.h               | 2 ++
+>>  include/uapi/asm-generic/fcntl.h | 7 +++++++
+>>  5 files changed, 19 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/fs/fcntl.c b/fs/fcntl.c
+>> index 2e4c0fa2074b..0357ad667563 100644
+>> --- a/fs/fcntl.c
+>> +++ b/fs/fcntl.c
+>> @@ -1033,7 +1033,7 @@ static int __init fcntl_init(void)
+>>  	 * Exceptions: O_NONBLOCK is a two bit define on parisc; O_NDELAY
+>>  	 * is defined as O_NONBLOCK on some platforms and not on others.
+>>  	 */
+>> -	BUILD_BUG_ON(21 - 1 /* for O_RDONLY being 0 */ !=
+>> +	BUILD_BUG_ON(22 - 1 /* for O_RDONLY being 0 */ !=
+>>  		HWEIGHT32(
+>>  			(VALID_OPEN_FLAGS & ~(O_NONBLOCK | O_NDELAY)) |
+>>  			__FMODE_EXEC | __FMODE_NONOTIFY));
+>> diff --git a/fs/open.c b/fs/open.c
+>> index 623b7506a6db..38e434bdbbb6 100644
+>> --- a/fs/open.c
+>> +++ b/fs/open.c
+>> @@ -987,6 +987,8 @@ inline struct open_how build_open_how(int flags, umode_t mode)
+>>  		.mode = mode & S_IALLUGO,
+>>  	};
+>>  
+>> +	/* O_MAYEXEC is ignored by syscalls relying on build_open_how(). */
+>> +	how.flags &= ~O_MAYEXEC;
+>>  	/* O_PATH beats everything else. */
+>>  	if (how.flags & O_PATH)
+>>  		how.flags &= O_PATH_FLAGS;
+>> @@ -1054,6 +1056,12 @@ inline int build_open_flags(const struct open_how *how, struct open_flags *op)
+>>  	if (flags & __O_SYNC)
+>>  		flags |= O_DSYNC;
+>>  
+>> +	/* Checks execution permissions on open. */
+>> +	if (flags & O_MAYEXEC) {
+>> +		acc_mode |= MAY_OPENEXEC;
+>> +		flags |= __FMODE_EXEC;
+>> +	}
+> 
+> Adding __FMODE_EXEC here will immediately change the behaviors of NFS
+> and fsnotify. If that's going to happen, I think it needs to be under
+> the control of the later patches doing the behavioral controls.
+> (specifically, NFS looks like it completely changes its access control
+> test when this is set and ignores the read/write checks entirely, which
+> is not what's wanted).
 
-For example, static applications that call dlopen will fail if
-we increase the alignment beyond 32 because we had to special
-case this scenario. Why did we have to special case it? Because
-the "static" part of the runtime needs to create the initial
-thread's static TLS space, and since it doesn't know apriori
-what will be loaded in the shared library, it needs to make a
-"best guess" at the alignment requirement at startup.
-We need to discuss this and agree that it's OK. We already want
-to deprecate dynamic loading from static applications, so this
-may not be a problem in general, but I hope you see my point.
-That there are corner cases to be considered and ironed out.
+__FMODE_EXEC was suggested by Jan Kara and Matthew Bobrowski because of
+fsnotify. However, the NFS handling of SUID binaries [1] indeed leads to
+an unintended behavior. This also means that uselib(2) shouldn't work
+properly with NFS. I can remove the __FMODE_EXEC flag for now.
 
-I want to see a detailed design document explaining the various
-compatibility issues and how we solve them along with the way
-the extension mechanism would work and how it would be compliant
-with C/C++ language rules in userspace without adding undue burden
-of potentially having to use atomic instructions all the time.
-This includes discussing how the headers change. We should also
-talk out the options for symbol versioning and their consequences.
-  
-I haven't seen enough details, and there isn't really enough
-time to discuss this. I think it is *great* that we are discussing
-it, but it's safest if we revert rseq, finish the discussion,
-and then finalize the inclusion for 2.33 with these details
-ironed out.
-
-I feel like we've made all the technical process we need to actually
-include rseq in glibc, but this discussion, and the google example
-(even if it doesn't match our use case) shows that if we spend another
-month hammering out the extension details could yield something we
-can use for years to come while we work out other details e.g. cpu_opv.
-
-I can set aside time in the next month to write up such a document
-and discuss these issues with you and Florian. The text would form
-even more of the language we'd have to include in the man page for
-the feature.
-
-In the meantime I think we should revert rseq in glibc and take
-our time to hash this out without the looming deadline of August 1st
-for the ABI going out the door.
-
-I know this is disappointing, but I think in a month you'll look
-back at this, we'll have Fedora Rawhide using the new extensible
-version (and you'll be able to point people at that), and we'll
-only be 5 months away from an official release with extensible
-rseq.
-
-Could you please respond to Florian's request to revert here?
-https://sourceware.org/pipermail/libc-alpha/2020-July/116368.html
-
-I'm looking for a Signed-off-by from you that you're OK with
-reverting.
-
--- 
-Cheers,
-Carlos.
-
+[1]
+https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=f8d9a897d4384b77f13781ea813156568f68b83e
