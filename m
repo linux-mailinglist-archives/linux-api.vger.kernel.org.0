@@ -2,84 +2,132 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A7243223DE8
-	for <lists+linux-api@lfdr.de>; Fri, 17 Jul 2020 16:19:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9E9A223E80
+	for <lists+linux-api@lfdr.de>; Fri, 17 Jul 2020 16:45:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726090AbgGQOTI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 17 Jul 2020 10:19:08 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:35730 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726079AbgGQOTH (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 17 Jul 2020 10:19:07 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 06HEJ3ca068989;
-        Fri, 17 Jul 2020 09:19:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1594995543;
-        bh=ZiJcIvBnt7JM8Vw63llL3vqfvA50vFmoxXCbD1I/cEY=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=Irchb/JwlsHP90E7oaHLM6YQmwWaH1AlkPvEbM99PfhZ1AUhFN5FMyhZgvyn/X+2J
-         S/w2nXigBBHGAMNKHbv4QbklNyvts7UU3VuhQ6fEoz10H3kEvP2AS1bQVebBxvlo1n
-         vJf6Bp+FprPkytnVmKZ+GGA66Y9k+z035A68lUtU=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 06HEJ2w6024546
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 17 Jul 2020 09:19:03 -0500
-Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 17
- Jul 2020 09:19:02 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Fri, 17 Jul 2020 09:19:02 -0500
-Received: from [10.250.53.226] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 06HEJ1q5049963;
-        Fri, 17 Jul 2020 09:19:02 -0500
-Subject: Re: [net-next PATCH v2 0/9] Add PRP driver and bug fixes
-To:     Jakub Kicinski <kuba@kernel.org>
-CC:     <davem@davemloft.net>, <netdev@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-api@vger.kernel.org>,
-        <nsekhar@ti.com>, <grygorii.strashko@ti.com>,
-        <vinicius.gomes@intel.com>
-References: <20200715164012.1222-1-m-karicheri2@ti.com>
- <20200716165634.5a57d364@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-From:   Murali Karicheri <m-karicheri2@ti.com>
-Message-ID: <9f35282f-6822-6cd9-ed55-743429b670cc@ti.com>
-Date:   Fri, 17 Jul 2020 10:19:01 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-MIME-Version: 1.0
-In-Reply-To: <20200716165634.5a57d364@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
+        id S1726210AbgGQOo0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 17 Jul 2020 10:44:26 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:22688 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726198AbgGQOo0 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 17 Jul 2020 10:44:26 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 06HEUmGP056868;
+        Fri, 17 Jul 2020 10:43:59 -0400
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.10])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 32b61k6jhm-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 17 Jul 2020 10:43:58 -0400
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+        by ppma02dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06HEeAsW001138;
+        Fri, 17 Jul 2020 14:43:58 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+        by ppma02dal.us.ibm.com with ESMTP id 32752a5vre-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 17 Jul 2020 14:43:58 +0000
+Received: from b03ledav004.gho.boulder.ibm.com (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+        by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 06HEhsdp2425390
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 17 Jul 2020 14:43:55 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 878AB78060;
+        Fri, 17 Jul 2020 14:43:56 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id B9E9D78067;
+        Fri, 17 Jul 2020 14:43:53 +0000 (GMT)
+Received: from [153.66.254.194] (unknown [9.85.141.100])
+        by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+        Fri, 17 Jul 2020 14:43:53 +0000 (GMT)
+Message-ID: <1594997031.3344.27.camel@linux.ibm.com>
+Subject: Re: [RFC PATCH v2 0/5] mm: extend memfd with ability to create
+ "secret" memory areas
+From:   James Bottomley <jejb@linux.ibm.com>
+Reply-To: jejb@linux.ibm.com
+To:     Pavel Machek <pavel@ucw.cz>, Mike Rapoport <rppt@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, Alan Cox <alan@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Christopher Lameter <cl@linux.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Idan Yaniv <idan.yaniv@ibm.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Matthew Wilcox <willy@infradead.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Reshetova, Elena" <elena.reshetova@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tycho Andersen <tycho@tycho.ws>, linux-api@vger.kernel.org,
+        linux-mm@kvack.org, Mike Rapoport <rppt@linux.ibm.com>
+Date:   Fri, 17 Jul 2020 07:43:51 -0700
+In-Reply-To: <20200717083601.GB1027@bug>
+References: <20200706172051.19465-1-rppt@kernel.org>
+         <20200717083601.GB1027@bug>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.26.6 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
+ definitions=2020-07-17_06:2020-07-17,2020-07-17 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_spam_definite policy=outbound score=100 lowpriorityscore=0
+ spamscore=100 clxscore=1011 bulkscore=0 mlxlogscore=-1000 adultscore=0
+ phishscore=0 priorityscore=1501 impostorscore=0 suspectscore=0
+ mlxscore=100 malwarescore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2006250000 definitions=main-2007170103
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hello, Jakub,
+On Fri, 2020-07-17 at 10:36 +0200, Pavel Machek wrote:
+> Hi!
+> 
+> > This is a second version of "secret" mappings implementation backed
+> > by a file descriptor. 
+> > 
+> > The file descriptor is created using memfd_create() syscall with a
+> > new MFD_SECRET flag. The file descriptor should be configured using
+> > ioctl() to define the desired protection and then mmap() of the fd
+> > will create a "secret" memory mapping. The pages in that mapping
+> > will be marked as not present in the direct map and will have
+> > desired protection bits set in the user page table. For instance,
+> > current implementation allows uncached mappings.
+> > 
+> > Hiding secret memory mappings behind an anonymous file allows
+> > (ab)use of the page cache for tracking pages allocated for the
+> > "secret" mappings as well as using address_space_operations for
+> > e.g. page migration callbacks.
+> > 
+> > The anonymous file may be also used implicitly, like hugetlb files,
+> > to implement mmap(MAP_SECRET) and use the secret memory areas with
+> > "native" mm ABIs.
+> 
+> I believe unix userspace normally requires mappings to be... well...
+> protected from other users. How is this "secret" thing different? How
+> do you explain the difference to userland programmers?
 
-On 7/16/20 7:56 PM, Jakub Kicinski wrote:
-> Hi Murali,
-> 
-> thanks for the patches.
-> 
-> It seems like at least the first patch addresses a problem which exist
-> in Linus's tree, i.e. Linux 5.8-rc.
-> 
-> Could you please separate bug fixes like that out to a new series
-> addressed to the net tree, and add appropriate Fixes tags?
-> 
-Sure thing. I will send out the first two so that it gets merged.
-Spin v3 without it so that it can go to net/next.
+That's true in the normal case, but for the container cloud the threat
+model we're considering is a hostile other tenant trying to trick the
+kernel into giving them access to your mappings.  In the FOSDEM talk we
+did about this:
 
-Wondering if you would be able to test PRP?
-Any other volunteers?
+https://fosdem.org/2020/schedule/event/kernel_address_space_isolation/
 
-Thanks.
--- 
-Murali Karicheri
-Texas Instruments
+We demonstrated the case where the hostile tenant obtained host root
+and then tried to get access via ptrace.  The point being that pushing
+the pages out of the direct map means that even root can't get access
+to the secret by any means the OS provides.  If you want to play with
+this yourself, we have a userspace library:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/jejb/secret-memory-preloader.git/
+
+It does two things: the first is act as a preloader for openssl to
+redirect all the OPENSSL_malloc calls to secret memory meaning any
+secret keys get automatically protected this way and the other thing it
+does is expose the API to the user who needs it.  I anticipate that a
+lot of the use cases would be like the openssl one: many toolkits that
+deal with secret keys already have special handling for the memory to
+try to give them greater protection, so this would simply be pluggable
+into the toolkits without any need for user application modification.
+
+James
+
