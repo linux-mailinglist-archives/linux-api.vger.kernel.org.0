@@ -2,132 +2,298 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C9E9A223E80
-	for <lists+linux-api@lfdr.de>; Fri, 17 Jul 2020 16:45:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9646B223F48
+	for <lists+linux-api@lfdr.de>; Fri, 17 Jul 2020 17:15:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726210AbgGQOo0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 17 Jul 2020 10:44:26 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:22688 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726198AbgGQOo0 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 17 Jul 2020 10:44:26 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 06HEUmGP056868;
-        Fri, 17 Jul 2020 10:43:59 -0400
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.10])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 32b61k6jhm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 17 Jul 2020 10:43:58 -0400
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
-        by ppma02dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06HEeAsW001138;
-        Fri, 17 Jul 2020 14:43:58 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
-        by ppma02dal.us.ibm.com with ESMTP id 32752a5vre-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 17 Jul 2020 14:43:58 +0000
-Received: from b03ledav004.gho.boulder.ibm.com (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
-        by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 06HEhsdp2425390
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 17 Jul 2020 14:43:55 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 878AB78060;
-        Fri, 17 Jul 2020 14:43:56 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id B9E9D78067;
-        Fri, 17 Jul 2020 14:43:53 +0000 (GMT)
-Received: from [153.66.254.194] (unknown [9.85.141.100])
-        by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Fri, 17 Jul 2020 14:43:53 +0000 (GMT)
-Message-ID: <1594997031.3344.27.camel@linux.ibm.com>
-Subject: Re: [RFC PATCH v2 0/5] mm: extend memfd with ability to create
- "secret" memory areas
-From:   James Bottomley <jejb@linux.ibm.com>
-Reply-To: jejb@linux.ibm.com
-To:     Pavel Machek <pavel@ucw.cz>, Mike Rapoport <rppt@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, Alan Cox <alan@linux.intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Christopher Lameter <cl@linux.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Idan Yaniv <idan.yaniv@ibm.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Reshetova, Elena" <elena.reshetova@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, Mike Rapoport <rppt@linux.ibm.com>
-Date:   Fri, 17 Jul 2020 07:43:51 -0700
-In-Reply-To: <20200717083601.GB1027@bug>
-References: <20200706172051.19465-1-rppt@kernel.org>
-         <20200717083601.GB1027@bug>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.26.6 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
- definitions=2020-07-17_06:2020-07-17,2020-07-17 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_spam_definite policy=outbound score=100 lowpriorityscore=0
- spamscore=100 clxscore=1011 bulkscore=0 mlxlogscore=-1000 adultscore=0
- phishscore=0 priorityscore=1501 impostorscore=0 suspectscore=0
- mlxscore=100 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2006250000 definitions=main-2007170103
+        id S1727999AbgGQPPm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 17 Jul 2020 11:15:42 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:47492 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726232AbgGQPPT (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 17 Jul 2020 11:15:19 -0400
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 06HFFCVB015386;
+        Fri, 17 Jul 2020 10:15:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1594998912;
+        bh=5Wm1Skscv9n9Tq6XyQxTxQ1xKuaeYEjlkRzoI2XZfcA=;
+        h=From:To:Subject:Date;
+        b=y1CyeMZ5hKwNK+z+UwZhqP6wG6yp2oZVpc72tHPgoUGWUed/QN1DDV8zuP8EeDWYa
+         TrFJDlQ2Ff9uBnChhlHkSMe4iL6Hiw3jXPRSVDAhxXTaQJRbckBlP2GvY2WDO7COgl
+         nP9p7zLCE1czuA4n+i/CX6K9DjoErVDazmDMj138=
+Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 06HFFCUo102078
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 17 Jul 2020 10:15:12 -0500
+Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 17
+ Jul 2020 10:15:11 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Fri, 17 Jul 2020 10:15:11 -0500
+Received: from uda0868495.fios-router.home (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 06HFFBmc010522;
+        Fri, 17 Jul 2020 10:15:11 -0500
+From:   Murali Karicheri <m-karicheri2@ti.com>
+To:     <davem@davemloft.net>, <kuba@kernel.org>, <netdev@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-api@vger.kernel.org>,
+        <nsekhar@ti.com>, <grygorii.strashko@ti.com>,
+        <vinicius.gomes@intel.com>
+Subject: [net-next PATCH v3 0/7] Add PRP driver
+Date:   Fri, 17 Jul 2020 11:15:04 -0400
+Message-ID: <20200717151511.329-1-m-karicheri2@ti.com>
+X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, 2020-07-17 at 10:36 +0200, Pavel Machek wrote:
-> Hi!
-> 
-> > This is a second version of "secret" mappings implementation backed
-> > by a file descriptor. 
-> > 
-> > The file descriptor is created using memfd_create() syscall with a
-> > new MFD_SECRET flag. The file descriptor should be configured using
-> > ioctl() to define the desired protection and then mmap() of the fd
-> > will create a "secret" memory mapping. The pages in that mapping
-> > will be marked as not present in the direct map and will have
-> > desired protection bits set in the user page table. For instance,
-> > current implementation allows uncached mappings.
-> > 
-> > Hiding secret memory mappings behind an anonymous file allows
-> > (ab)use of the page cache for tracking pages allocated for the
-> > "secret" mappings as well as using address_space_operations for
-> > e.g. page migration callbacks.
-> > 
-> > The anonymous file may be also used implicitly, like hugetlb files,
-> > to implement mmap(MAP_SECRET) and use the secret memory areas with
-> > "native" mm ABIs.
-> 
-> I believe unix userspace normally requires mappings to be... well...
-> protected from other users. How is this "secret" thing different? How
-> do you explain the difference to userland programmers?
+Hello,
 
-That's true in the normal case, but for the container cloud the threat
-model we're considering is a hostile other tenant trying to trick the
-kernel into giving them access to your mappings.  In the FOSDEM talk we
-did about this:
+This series is dependent on the following patches sent out to
+netdev list
 
-https://fosdem.org/2020/schedule/event/kernel_address_space_isolation/
+https://marc.info/?l=linux-netdev&m=159499772225350&w=2
+https://marc.info/?l=linux-netdev&m=159499772425352&w=2
 
-We demonstrated the case where the hostile tenant obtained host root
-and then tried to get access via ptrace.  The point being that pushing
-the pages out of the direct map means that even root can't get access
-to the secret by any means the OS provides.  If you want to play with
-this yourself, we have a userspace library:
+This series adds support for Parallel Redundancy Protocol (PRP)
+in the Linux HSR driver as defined in IEC-62439-3. PRP Uses a
+Redundancy Control Trailer (RCT) the format of which is
+similar to HSR Tag. This is used for implementing redundancy.
+RCT consists of 6 bytes similar to HSR tag and contain following
+fields:-
 
-https://git.kernel.org/pub/scm/linux/kernel/git/jejb/secret-memory-preloader.git/
+- 16-bit sequence number (SeqNr);
+- 4-bit LAN identifier (LanId);
+- 12 bit frame size (LSDUsize);
+- 16-bit suffix (PRPsuffix). 
 
-It does two things: the first is act as a preloader for openssl to
-redirect all the OPENSSL_malloc calls to secret memory meaning any
-secret keys get automatically protected this way and the other thing it
-does is expose the API to the user who needs it.  I anticipate that a
-lot of the use cases would be like the openssl one: many toolkits that
-deal with secret keys already have special handling for the memory to
-try to give them greater protection, so this would simply be pluggable
-into the toolkits without any need for user application modification.
+The PRPsuffix identifies PRP frames and distinguishes PRP frames
+from other protocols that also append a trailer to their useful
+data. The LSDUsize field allows the receiver to distinguish PRP
+frames from random, nonredundant frames as an additional check.
+LSDUsize is the size of the Ethernet payload inclusive of the
+RCT. Sequence number along with LanId is used for duplicate
+detection and discard.
 
-James
+PRP node is also known as Dual Attached Node (DAN-P) since it
+is typically attached to two different LAN for redundancy.
+DAN-P duplicates each of L2 frames and send it over the two
+Ethernet links. Each outgoing frame is appended with RCT.
+Unlike HSR, these are added to the end of L2 frame and will be
+treated as pad by bridges and therefore would be work with
+traditional bridges or switches, where as HSR wouldn't as Tag
+is prefixed to the Ethenet frame. At the remote end, these are
+received and the duplicate frame is discarded before the stripped
+frame is send up the networking stack. Like HSR, PRP also sends
+periodic Supervision frames to the network. These frames are
+received and MAC address from the SV frames are populated in a
+database called Node Table. The above functions are grouped into
+a block called Link Redundancy Entity (LRE) in the IEC spec.
+
+As there are many similarities between HSR and PRP protocols,
+this patch re-uses the code from HSR driver to implement PRP
+driver. As per feedback from the RFC series, the implementation
+uses the existing HSR Netlink socket interface to create the
+PRP interface by adding a new proto parameter to the ip link
+command to identify the PRP protocol. iproute2 is enhanced to
+implement this new parameter. The hsr_netlink.c is enhanced
+to handle the new proto parameter. As suggested during the RFC
+review, the driver introduced a proto_ops structure to hold
+protocol specfic functions to handle HSR and PRP specific
+function pointers and use them in the code based on the
+protocol to handle protocol specific part differently in the
+driver.
+
+Please review this and provide me feedback so that I can work to
+incorporate them and spin the next version if needed.
+
+The patch was tested using two TI AM57x IDK boards for PRP which
+are connected back to back over two CPSW Ethernet ports. 
+
+PRP Test setup
+---------------
+
+--------eth0             eth0 --------
+|AM572x|----------------------|AM572x|
+|      |----------------------|      |
+--------eth1             eth1 --------
+
+
+To build, enable CONFIG_HSR=y or m
+make omap2plus_defconfig
+make zImage; make modules; make dtbs 
+Copy the zImage and dtb files to the file system on SD card
+and power on the AM572x boards. 
+This can be tested on any platforms with 2 Ethernet interfaces.
+So will appreciate if you can give it a try and provide your
+Tested-by.
+
+Command to create PRP interface
+-------------------------------
+ifconfig eth0 0.0.0.0 down
+ifconfig eth1 0.0.0.0 down
+ifconfig eth0 hw ether 70:FF:76:1C:0E:8C
+ifconfig eth1 hw ether 70:FF:76:1C:0E:8C
+ifconfig eth0 up
+ifconfig eth1 up
+ip link add name prp0 type hsr slave1 eth0 slave2 eth1 supervision 45 proto 1 
+ifconfig prp0 192.168.2.10
+
+ifconfig eth0 0.0.0.0 down
+ifconfig eth1 0.0.0.0 down
+ifconfig eth0 hw ether 70:FF:76:1C:0E:8D
+ifconfig eth1 hw ether 70:FF:76:1C:0E:8D
+ifconfig eth0 up
+ifconfig eth1 up
+ip link add name prp0 type hsr slave1 eth0 slave2 eth1 supervision 45 proto 1
+ifconfig prp0 192.168.2.20
+
+command to show node table
+----------------------------
+Ping the peer board after the prp0 interface is up.
+
+The remote node (DAN-P) will be shown in the node table as below.
+
+root@am57xx-evm:~# cat /sys/kernel/debug/hsr/prp0/node_table                                                
+Node Table entries for (PRP) device                                                                         
+MAC-Address-A,    MAC-Address-B,    time_in[A], time_in[B], Address-B port, SAN-A, SAN-B, DAN-P 
+70:ff:76:1c:0e:8c 00:00:00:00:00:00   ffffe83f,   ffffe83f,              0,     0,     0,     1
+
+Try to capture the raw PRP frames at the eth0 interface as
+tcpdump -i eth0 -xxx
+
+Sample Supervision frames and ARP frames shown below.
+
+==================================================================================
+Successive Supervision frames captured with tcpdump (with RCT at the end):
+
+03:43:29.500999 70:ff:76:1c:0e:8d (oui Unknown) > 01:15:4e:00:01:2d (oui Unknown), ethertype Unknown (0x88f 
+        0x0000:  0115 4e00 012d 70ff 761c 0e8d 88fb 0001                                                    
+        0x0010:  7e0a 1406 70ff 761c 0e8d 0000 0000 0000                                                    
+        0x0020:  0000 0000 0000 0000 0000 0000 0000 0000                                                    
+        0x0030:  0000 0000 0000 0000 0000 0000 fc2b a034                                                    
+        0x0040:  88fb         
+                   
+03:43:31.581025 70:ff:76:1c:0e:8d (oui Unknown) > 01:15:4e:00:01:2d (oui Unknown), ethertype Unknown (0x88f 
+        0x0000:  0115 4e00 012d 70ff 761c 0e8d 88fb 0001                                                    
+        0x0010:  7e0b 1406 70ff 761c 0e8d 0000 0000 0000                                                    
+        0x0020:  0000 0000 0000 0000 0000 0000 0000 0000                                                    
+        0x0030:  0000 0000 0000 0000 0000 0000 fc2c a034                                                    
+        0x0040:  88fb                                                                                       
+
+ICMP Echo request frame with RCT
+03:43:33.805354 IP 192.168.2.20 > 192.168.2.10: ICMP echo request, id 63748, seq 1, length 64               
+        0x0000:  70ff 761c 0e8c 70ff 761c 0e8d 0800 4500                                                    
+        0x0010:  0054 26a4 4000 4001 8e96 c0a8 0214 c0a8                                                    
+        0x0020:  020a 0800 c28e f904 0001 202e 1c3d 0000                                                    
+        0x0030:  0000 0000 0000 0000 0000 0000 0000 0000                                                    
+        0x0040:  0000 0000 0000 0000 0000 0000 0000 0000                                                    
+        0x0050:  0000 0000 0000 0000 0000 0000 0000 0000                                                    
+        0x0060:  0000 fc31 a05a 88fb                                      
+==================================================================================
+The iperf3 traffic test logs can be accessed at the links below.
+DUT-1: https://pastebin.ubuntu.com/p/8SkQzWJMn8/
+DUT-2: https://pastebin.ubuntu.com/p/j2BZvvs7p4/
+
+Other tests done.
+ - Connect a SAN (eth0 and eth1 without prp interface) and
+   do ping test from eth0 (192.168.2.40) to prp0 (192.168.2.10)
+   verify the SAN node shows at the correct link A and B as shown
+   in the node table dump
+ - Regress HSR interface using 3 nodes connected in a ring topology.
+   create hsr link version 0. Do iperf3 test between all nodes
+   create hsr link version 1. Do iperf3 test between all nodes.
+
+         --------eth0             eth1 --------eth0      eth1-------|
+         |AM572x|----------------------|AM572x|--------------|AM572x|
+         |      |                      |      |        ------|      |
+         --------eth1---|               -------        | eth0 ------- 
+                        |-------------------------------
+
+   command used for HSR interface
+
+   HSR V0
+
+   ifconfig eth0 0.0.0.0 down
+   ifconfig eth1 0.0.0.0 down
+   ifconfig eth0 hw ether 70:FF:76:1C:0E:8C
+   ifconfig eth1 hw ether 70:FF:76:1C:0E:8C
+   ifconfig eth0 up
+   ifconfig eth1 up
+   ip link add name hsr0 type hsr slave1 eth0 slave2 eth1 supervision 45 version 0
+   ifconfig hsr0 192.168.2.10
+
+   HSR V1
+
+   ifconfig eth0 0.0.0.0 down
+   ifconfig eth1 0.0.0.0 down
+   ifconfig eth0 hw ether 70:FF:76:1C:0E:8C
+   ifconfig eth1 hw ether 70:FF:76:1C:0E:8C
+   ifconfig eth0 up
+   ifconfig eth1 up
+   ip link add name hsr0 type hsr slave1 eth0 slave2 eth1 supervision 45 version 1
+   ifconfig hsr0 192.168.2.10
+
+   Logs at
+   DUT-1 : https://pastebin.ubuntu.com/p/6PSJbZwQ6y/
+   DUT-2 : https://pastebin.ubuntu.com/p/T8TqJsPRHc/
+   DUT-3 : https://pastebin.ubuntu.com/p/VNzpv6HzKj/
+ - Build tests :-
+   Build with CONFIG_HSR=m
+   allmodconfig build
+   build with CONFIG_HSR=y and rebuild with sparse checker
+   make C=1 zImage; make modules
+
+Version history:
+
+  v3 : Separated bug fixes from this series and send them for immediate merge
+       But for that this is same as v2.
+ 
+  v2 : updated comments on RFC. Following are the main changes:-
+       - Removed the hsr_prp prefix
+       - Added PRP information in header files to indicate 
+         the support for PRP explicitely
+       - Re-use netlink socket interface with an added 
+         parameter proto for identifying PRP.
+       - Use function pointers using a proto_ops struct
+         to do things differently for PRP vs HSR.
+
+   RFC: initial version posted and discussed at 
+       https://www.spinics.net/lists/netdev/msg656229.html
+
+Murali Karicheri (7):
+  hsr: enhance netlink socket interface to support PRP
+  net: hsr: introduce common code for skb initialization
+  net: hsr: introduce protocol specific function pointers
+  net: prp: add supervision frame generation utility function
+  net: hsr: define and use proto_ops ptrs to handle hsr specific frames
+  net: prp: add packet handling support
+  net: prp: enhance debugfs to display PRP info
+
+ include/uapi/linux/hsr_netlink.h |   2 +-
+ include/uapi/linux/if_link.h     |  12 +-
+ net/hsr/Kconfig                  |  37 ++--
+ net/hsr/hsr_debugfs.c            |  33 +++-
+ net/hsr/hsr_device.c             | 181 ++++++++++++++----
+ net/hsr/hsr_device.h             |   2 +
+ net/hsr/hsr_forward.c            | 309 ++++++++++++++++++++++++-------
+ net/hsr/hsr_forward.h            |  16 +-
+ net/hsr/hsr_framereg.c           |  95 ++++++++--
+ net/hsr/hsr_framereg.h           |  31 +++-
+ net/hsr/hsr_main.c               |   2 +
+ net/hsr/hsr_main.h               | 120 +++++++++++-
+ net/hsr/hsr_netlink.c            |  38 +++-
+ net/hsr/hsr_netlink.h            |   2 +
+ net/hsr/hsr_slave.c              |  26 ++-
+ net/hsr/hsr_slave.h              |   4 +
+ 16 files changed, 740 insertions(+), 170 deletions(-)
+
+-- 
+2.17.1
 
