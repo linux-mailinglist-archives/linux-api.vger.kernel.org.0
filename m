@@ -2,72 +2,75 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E83082236CE
-	for <lists+linux-api@lfdr.de>; Fri, 17 Jul 2020 10:18:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A2E5223728
+	for <lists+linux-api@lfdr.de>; Fri, 17 Jul 2020 10:36:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726198AbgGQIRd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 17 Jul 2020 04:17:33 -0400
-Received: from mx2.suse.de ([195.135.220.15]:55866 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726113AbgGQIRd (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 17 Jul 2020 04:17:33 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 68C1AADF0;
-        Fri, 17 Jul 2020 08:17:36 +0000 (UTC)
-Date:   Fri, 17 Jul 2020 10:17:52 +0200
-From:   Cyril Hrubis <chrubis@suse.cz>
-To:     Aleksa Sarai <cyphar@cyphar.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Pavel Begunkov <asml.silence@gmail.com>,
-        Miklos Szeredi <miklos@szeredi.hu>,
+        id S1726071AbgGQIgH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 17 Jul 2020 04:36:07 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:56568 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725864AbgGQIgF (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 17 Jul 2020 04:36:05 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id D8FF61C0BDF; Fri, 17 Jul 2020 10:36:02 +0200 (CEST)
+Date:   Fri, 17 Jul 2020 10:36:02 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, Alan Cox <alan@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Christopher Lameter <cl@linux.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Idan Yaniv <idan.yaniv@ibm.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
         Matthew Wilcox <willy@infradead.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Jann Horn <jannh@google.com>,
-        Stefano Garzarella <sgarzare@redhat.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        strace-devel@lists.strace.io, io-uring@vger.kernel.org,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Michael Kerrisk <mtk.manpages@gmail.com>
-Subject: Re: strace of io_uring events?
-Message-ID: <20200717081752.GA23090@yuki.lan>
-References: <CAJfpegu3EwbBFTSJiPhm7eMyTK2MzijLUp1gcboOo3meMF_+Qg@mail.gmail.com>
- <D9FAB37B-D059-4137-A115-616237D78640@amacapital.net>
- <20200715171130.GG12769@casper.infradead.org>
- <7c09f6af-653f-db3f-2378-02dca2bc07f7@gmail.com>
- <CAJfpegt9=p4uo5U2GXqc-rwqOESzZCWAkGMRTY1r8H6fuXx96g@mail.gmail.com>
- <48cc7eea-5b28-a584-a66c-4eed3fac5e76@gmail.com>
- <202007151511.2AA7718@keescook>
- <20200716131755.l5tsyhupimpinlfi@yavin.dot.cyphar.com>
+        Peter Zijlstra <peterz@infradead.org>,
+        "Reshetova, Elena" <elena.reshetova@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tycho Andersen <tycho@tycho.ws>, linux-api@vger.kernel.org,
+        linux-mm@kvack.org, Mike Rapoport <rppt@linux.ibm.com>
+Subject: Re: [RFC PATCH v2 0/5] mm: extend memfd with ability to create
+ "secret" memory areas
+Message-ID: <20200717083601.GB1027@bug>
+References: <20200706172051.19465-1-rppt@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200716131755.l5tsyhupimpinlfi@yavin.dot.cyphar.com>
+In-Reply-To: <20200706172051.19465-1-rppt@kernel.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 Hi!
-> > - Why aren't the io_uring syscalls in the man-page git? (It seems like
-> >   they're in liburing, but that's should document the _library_ not the
-> >   syscalls, yes?)
+
+> This is a second version of "secret" mappings implementation backed by a
+> file descriptor. 
 > 
-> I imagine because using the syscall requires specific memory barriers
-> which we probably don't want most C programs to be fiddling with
-> directly. Sort of similar to how iptables doesn't have a syscall-style
-> man page.
+> The file descriptor is created using memfd_create() syscall with a new
+> MFD_SECRET flag. The file descriptor should be configured using ioctl() to
+> define the desired protection and then mmap() of the fd will create a
+> "secret" memory mapping. The pages in that mapping will be marked as not
+> present in the direct map and will have desired protection bits set in the
+> user page table. For instance, current implementation allows uncached
+> mappings.
+> 
+> Hiding secret memory mappings behind an anonymous file allows (ab)use of
+> the page cache for tracking pages allocated for the "secret" mappings as
+> well as using address_space_operations for e.g. page migration callbacks.
+> 
+> The anonymous file may be also used implicitly, like hugetlb files, to
+> implement mmap(MAP_SECRET) and use the secret memory areas with "native" mm
+> ABIs.
 
-Call me old fashioned but I would vote for having all syscalls
-documented in man pages. At least for me it makes my life much easier as
-I do not have to fish for documentation or read library source code when
-debugging. Think of all the poor kernel QA folks that will cry in
-despair when you decided not to submit manual pages.
+I believe unix userspace normally requires mappings to be... well... protected from
+other users. How is this "secret" thing different? How do you explain the difference
+to userland programmers?
 
-There is plenty of stuff documented there that most C programmers
-shouldn't touch, I do not consider this to be a valid excuse.
-
+Best regards,
+									Pavel
 -- 
-Cyril Hrubis
-chrubis@suse.cz
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
