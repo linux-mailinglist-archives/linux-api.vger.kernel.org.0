@@ -2,122 +2,58 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E9CB224786
-	for <lists+linux-api@lfdr.de>; Sat, 18 Jul 2020 02:44:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 728902247E7
+	for <lists+linux-api@lfdr.de>; Sat, 18 Jul 2020 03:56:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726885AbgGRAoC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 17 Jul 2020 20:44:02 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45747 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726656AbgGRAoB (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 17 Jul 2020 20:44:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1595033040;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=4RDizrADsr1teVTJWa21lf+xcmimjV5s89rIjc/EFXo=;
-        b=EDzJ6qC2qyX3HGV48sjBTuU5LRizpGt67vYSfJ6hJvLtye+NEO37B9Ar1f1y5I4j5Jf0aJ
-        jFJOd/EVq2i/xeM6YtyJkhBwPd2yYcvSVjFFH3mizGw6XxF3/w9i0aov1QyfL18jv2GcHJ
-        OWh0O4AUrtA6Tn+kvk0vABoIXl2K8ZI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-342-VX9MMhEsMhm6M_EWCIB_HA-1; Fri, 17 Jul 2020 20:43:58 -0400
-X-MC-Unique: VX9MMhEsMhm6M_EWCIB_HA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE7D2100A8E8;
-        Sat, 18 Jul 2020 00:43:56 +0000 (UTC)
-Received: from madcap2.tricolour.ca (unknown [10.10.110.3])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id AD2427B42B;
-        Sat, 18 Jul 2020 00:43:44 +0000 (UTC)
-Date:   Fri, 17 Jul 2020 20:43:41 -0400
-From:   Richard Guy Briggs <rgb@redhat.com>
-To:     Paul Moore <paul@paul-moore.com>
-Cc:     nhorman@tuxdriver.com, linux-api@vger.kernel.org,
-        containers@lists.linux-foundation.org,
-        LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
-        Linux-Audit Mailing List <linux-audit@redhat.com>,
-        netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
-        simo@redhat.com, netdev@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
-        mpatel@redhat.com, Serge Hallyn <serge@hallyn.com>
-Subject: Re: [PATCH ghak90 V9 08/13] audit: add containerid support for user
- records
-Message-ID: <20200718004341.ruyre5xhlu3ps2tr@madcap2.tricolour.ca>
-References: <cover.1593198710.git.rgb@redhat.com>
- <4a5019ed3cfab416aeb6549b791ac6d8cc9fb8b7.1593198710.git.rgb@redhat.com>
- <CAHC9VhSwMEZrq0dnaXmPi=bu0NgUtWPuw-2UGDrQa6TwxWkZtw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHC9VhSwMEZrq0dnaXmPi=bu0NgUtWPuw-2UGDrQa6TwxWkZtw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+        id S1726710AbgGRB4M (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 17 Jul 2020 21:56:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36988 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726665AbgGRB4M (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 17 Jul 2020 21:56:12 -0400
+Received: from shards.monkeyblade.net (shards.monkeyblade.net [IPv6:2620:137:e000::1:9])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22CB7C0619D2;
+        Fri, 17 Jul 2020 18:56:12 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
+        (using TLSv1 with cipher AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        (Authenticated sender: davem-davemloft)
+        by shards.monkeyblade.net (Postfix) with ESMTPSA id AAEFE11E4590D;
+        Fri, 17 Jul 2020 18:56:11 -0700 (PDT)
+Date:   Fri, 17 Jul 2020 18:56:11 -0700 (PDT)
+Message-Id: <20200717.185611.1278374862685166021.davem@davemloft.net>
+To:     m-karicheri2@ti.com
+Cc:     kuba@kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        nsekhar@ti.com, grygorii.strashko@ti.com, vinicius.gomes@intel.com
+Subject: Re: [net-next PATCH v3 1/7] hsr: enhance netlink socket interface
+ to support PRP
+From:   David Miller <davem@davemloft.net>
+In-Reply-To: <20200717151511.329-2-m-karicheri2@ti.com>
+References: <20200717151511.329-1-m-karicheri2@ti.com>
+        <20200717151511.329-2-m-karicheri2@ti.com>
+X-Mailer: Mew version 6.8 on Emacs 26.3
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Fri, 17 Jul 2020 18:56:12 -0700 (PDT)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2020-07-05 11:11, Paul Moore wrote:
-> On Sat, Jun 27, 2020 at 9:23 AM Richard Guy Briggs <rgb@redhat.com> wrote:
-> >
-> > Add audit container identifier auxiliary record to user event standalone
-> > records.
-> >
-> > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> > Acked-by: Neil Horman <nhorman@tuxdriver.com>
-> > Reviewed-by: Ondrej Mosnacek <omosnace@redhat.com>
-> > ---
-> >  kernel/audit.c | 19 ++++++++++++-------
-> >  1 file changed, 12 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/kernel/audit.c b/kernel/audit.c
-> > index 54dd2cb69402..997c34178ee8 100644
-> > --- a/kernel/audit.c
-> > +++ b/kernel/audit.c
-> > @@ -1507,6 +1504,14 @@ static int audit_receive_msg(struct sk_buff *skb, struct nlmsghdr *nlh)
-> >                                 audit_log_n_untrustedstring(ab, str, data_len);
-> >                         }
-> >                         audit_log_end(ab);
-> > +                       rcu_read_lock();
-> > +                       cont = _audit_contobj_get(current);
-> > +                       rcu_read_unlock();
-> > +                       audit_log_container_id(context, cont);
-> > +                       rcu_read_lock();
-> > +                       _audit_contobj_put(cont);
-> > +                       rcu_read_unlock();
-> > +                       audit_free_context(context);
-> 
-> I haven't searched the entire patchset, but it seems like the pattern
-> above happens a couple of times in this patchset, yes?  If so would it
-> make sense to wrap the above get/log/put in a helper function?
+From: Murali Karicheri <m-karicheri2@ti.com>
+Date: Fri, 17 Jul 2020 11:15:05 -0400
 
-I've redone the locking with an rcu lock around the get and a spinlock
-around the put.  It occurs to me that putting an rcu lock around the
-whole thing and doing a get without the refcount increment would save
-us the spinlock and put and be fine since we'd be fine with stale but
-consistent information traversing the contobj list from this point to
-report it.  Problem with that is needing to use GFP_ATOMIC due to the
-rcu lock.  If I stick with the spinlock around the put then I can use
-GFP_KERNEL and just grab the spinlock while traversing the contobj list.
+> @@ -32,7 +33,9 @@ static int hsr_newlink(struct net *src_net, struct net_device *dev,
+>  		       struct netlink_ext_ack *extack)
+>  {
+>  	struct net_device *link[2];
+> -	unsigned char multicast_spec, hsr_version;
+> +	unsigned char multicast_spec;
+> +	enum hsr_version proto_version;
+> +	u8 proto = HSR_PROTOCOL_HSR;
 
-> Not a big deal either way, I'm pretty neutral on it at this point in
-> the patchset but thought it might be worth mentioning in case you
-> noticed the same and were on the fence.
+Please use reverse christmas tree ordering for local variables.
 
-There is only one other place this is used, in audit_log_exit in
-auditsc.c.  I had noted the pattern but wasn't sure it was worth it.
-Inline or not?  Should we just let the compiler decide?
-
-> paul moore
-
-- RGB
-
---
-Richard Guy Briggs <rgb@redhat.com>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems
-Remote, Ottawa, Red Hat Canada
-IRC: rgb, SunRaycer
-Voice: +1.647.777.2635, Internal: (81) 32635
-
+Thank you.
