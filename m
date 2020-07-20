@@ -2,31 +2,31 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D8C6F226930
-	for <lists+linux-api@lfdr.de>; Mon, 20 Jul 2020 18:29:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 413A122693C
+	for <lists+linux-api@lfdr.de>; Mon, 20 Jul 2020 18:29:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732186AbgGTP7T (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 20 Jul 2020 11:59:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42002 "EHLO
+        id S1732234AbgGTP7b (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 20 Jul 2020 11:59:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730641AbgGTP7R (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 20 Jul 2020 11:59:17 -0400
+        with ESMTP id S1732237AbgGTP73 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 20 Jul 2020 11:59:29 -0400
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0038C0619D2;
-        Mon, 20 Jul 2020 08:59:17 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65B72C0619D2;
+        Mon, 20 Jul 2020 08:59:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
         References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
         Content-Type:Content-ID:Content-Description;
-        bh=wapfVARVdu2rPD3BwjJEB1KyGijoqrlGPwEotE0t0IY=; b=rS5LCpJj7ZaZb8gf7tdqf0ITny
-        HIUK9sLiT6OVcFKzRaclbtvxUcg5v0Ve7yva7ffZOU0vt618YY0/E3bERcBB5Wp0cOh6mUvoGJEC6
-        UON0B6Cph6M/kd4i/jgP5wD8hKh2xKruQOFpXCh0/d88+xguXsMnnV8Vcnsubu8ZQhj4L5dK7SRCp
-        djGwMhvpqxq/Sx1DkrJ/Wh+ZbQPkLdZKQZPgsi7GUvyUmKFU/y2IFYz5iNVXMUpopdu5Gjxp+rjpk
-        R3A6d6qH2w1S9A3pimN/eEwxfsPzbGV38Aj86OtBF8/v48CFmJ20dpoqko65UGpqdeNg8UjetLEIK
-        vcd8umiQ==;
+        bh=jtHBIwmXUO+IpCLDUYA/xY56Y7TdHPfWXhl32/DtCRU=; b=gm1KlltQMD7HECwEh+VO80E1I+
+        mOnCoM/Nj7OgwtcQT/16JZ7Dz96rQQ2ZQOHolMQv7HrZaTUekTj9Gjrd29pn/UjrfKL8nYBiTPIvY
+        fJdQ2tgXcPZDQpwtFgyQGRjrVbH4Nsc5BSQCtlysT5aLpxjrsZVohxWpJeklyibp92S1Hm96gXFHK
+        wqOSpmWSttT2UPAdwI9AubBHlUJvLm1diIxdlF/4BYa/rfuTFzIc81LAz4Yf6R6VYjgi8KD6vUA1B
+        w18a0Cnt0Ac1CNC76yZo2GpPnzIevN7vs+vE4l1vjZsiWMBwKHVjcpXTFwQYGTDdJ6frRdHNREzBg
+        WPu7TWRg==;
 Received: from [2001:4bb8:105:4a81:db56:edb1:dbf2:5cc3] (helo=localhost)
         by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jxYCA-0007nt-0H; Mon, 20 Jul 2020 15:59:14 +0000
+        id 1jxYCK-0007ph-R0; Mon, 20 Jul 2020 15:59:25 +0000
 From:   Christoph Hellwig <hch@lst.de>
 To:     Al Viro <viro@zeniv.linux.org.uk>,
         Linus Torvalds <torvalds@linux-foundation.org>
@@ -34,9 +34,9 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         "Rafael J. Wysocki" <rafael@kernel.org>,
         linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: [PATCH 07/24] fs: add a kern_chroot helper
-Date:   Mon, 20 Jul 2020 17:58:45 +0200
-Message-Id: <20200720155902.181712-8-hch@lst.de>
+Subject: [PATCH 12/24] fs: add a kern_utimes helper
+Date:   Mon, 20 Jul 2020 17:58:50 +0200
+Message-Id: <20200720155902.181712-13-hch@lst.de>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200720155902.181712-1-hch@lst.de>
 References: <20200720155902.181712-1-hch@lst.de>
@@ -48,135 +48,108 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Add a simple helper for a chroot with a kernelspace name and use it in
-the early init code instead of relying on the implicit set_fs(KERNEL_DS)
-there.  Remove the now unused ksys_chroot.
+Add a simple helper to set timestamps with a kernel space name and use it
+in the early init code instead of relying on the implicit
+set_fs(KERNEL_DS) there.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/base/devtmpfs.c  |  2 +-
- fs/open.c                | 15 ++++++++++-----
- include/linux/fs.h       |  1 +
- include/linux/syscalls.h |  1 -
- init/do_mounts.c         |  2 +-
- init/do_mounts_initrd.c  |  4 ++--
- 6 files changed, 15 insertions(+), 10 deletions(-)
+ fs/utimes.c        | 19 ++++++++++++++-----
+ include/linux/fs.h |  1 +
+ init/initramfs.c   |  2 +-
+ 3 files changed, 16 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/base/devtmpfs.c b/drivers/base/devtmpfs.c
-index 2cedeb62706f18..a5126e7be34c8a 100644
---- a/drivers/base/devtmpfs.c
-+++ b/drivers/base/devtmpfs.c
-@@ -389,7 +389,7 @@ static int devtmpfs_setup(void *p)
- 	if (err)
- 		goto out;
- 	kern_chdir("/.."); /* will traverse into overmounted root */
--	ksys_chroot(".");
-+	kern_chroot(".");
- out:
- 	*(int *)p = err;
- 	complete(&setup_done);
-diff --git a/fs/open.c b/fs/open.c
-index 3d62f4d2604739..424db905da5f18 100644
---- a/fs/open.c
-+++ b/fs/open.c
-@@ -540,15 +540,15 @@ SYSCALL_DEFINE1(fchdir, unsigned int, fd)
+diff --git a/fs/utimes.c b/fs/utimes.c
+index fd3cc42262241f..f4d7f9a73e115a 100644
+--- a/fs/utimes.c
++++ b/fs/utimes.c
+@@ -7,6 +7,7 @@
+ #include <linux/uaccess.h>
+ #include <linux/compat.h>
+ #include <asm/unistd.h>
++#include "internal.h"
+ 
+ static bool nsec_valid(long nsec)
+ {
+@@ -75,14 +76,15 @@ int vfs_utimes(const struct path *path, struct timespec64 *times)
  	return error;
  }
  
--int ksys_chroot(const char __user *filename)
-+static int do_chroot(struct filename *name)
+-static int do_utimes_path(int dfd, const char __user *filename,
++static int do_utimes_path(int dfd, struct filename *name,
+ 		struct timespec64 *times, int flags)
  {
  	struct path path;
- 	int error;
- 	unsigned int lookup_flags = LOOKUP_FOLLOW | LOOKUP_DIRECTORY;
- retry:
--	error = user_path_at(AT_FDCWD, filename, lookup_flags, &path);
-+	error = filename_lookup(AT_FDCWD, name, lookup_flags, &path, NULL);
- 	if (error)
--		goto out;
-+		return error;
+ 	int lookup_flags = 0, error;
  
- 	error = inode_permission(path.dentry->d_inode, MAY_EXEC | MAY_CHDIR);
++	error = -EINVAL;
+ 	if (flags & ~(AT_SYMLINK_NOFOLLOW | AT_EMPTY_PATH))
+-		return -EINVAL;
++		goto out_putname;
+ 
+ 	if (!(flags & AT_SYMLINK_NOFOLLOW))
+ 		lookup_flags |= LOOKUP_FOLLOW;
+@@ -90,7 +92,7 @@ static int do_utimes_path(int dfd, const char __user *filename,
+ 		lookup_flags |= LOOKUP_EMPTY;
+ 
+ retry:
+-	error = user_path_at(dfd, filename, lookup_flags, &path);
++	error = filename_lookup(dfd, name, lookup_flags, &path, NULL);
  	if (error)
-@@ -569,13 +569,18 @@ int ksys_chroot(const char __user *filename)
+ 		return error;
+ 
+@@ -100,10 +102,17 @@ static int do_utimes_path(int dfd, const char __user *filename,
  		lookup_flags |= LOOKUP_REVAL;
  		goto retry;
  	}
--out:
-+	putname(name);
+-
++out_putname:
++	if (!IS_ERR(name))
++		putname(name);
  	return error;
  }
  
-+int kern_chroot(const char *filename)
++int __init kern_utimes(const char *filename, struct timespec64 *tv, int flags)
 +{
-+	return do_chroot(getname_kernel(filename));
++	return do_utimes_path(AT_FDCWD, getname_kernel(filename), tv, flags);
 +}
 +
- SYSCALL_DEFINE1(chroot, const char __user *, filename)
+ static int do_utimes_fd(int fd, struct timespec64 *times, int flags)
  {
--	return ksys_chroot(filename);
-+	return do_chroot(getname(filename));
+ 	struct fd f;
+@@ -140,7 +149,7 @@ long do_utimes(int dfd, const char __user *filename, struct timespec64 *times,
+ {
+ 	if (filename == NULL && dfd != AT_FDCWD)
+ 		return do_utimes_fd(dfd, times, flags);
+-	return do_utimes_path(dfd, filename, times, flags);
++	return do_utimes_path(dfd, getname(filename), times, flags);
  }
  
- static int chmod_common(const struct path *path, umode_t mode)
+ SYSCALL_DEFINE4(utimensat, int, dfd, const char __user *, filename,
 diff --git a/include/linux/fs.h b/include/linux/fs.h
-index dccb37407e9bad..0205355bffb1bc 100644
+index ca034126cb0e4d..7472ff0b7062d9 100644
 --- a/include/linux/fs.h
 +++ b/include/linux/fs.h
-@@ -3672,5 +3672,6 @@ static inline int inode_drain_writes(struct inode *inode)
- }
- 
- int kern_chdir(const char *filename);
-+int kern_chroot(const char *filename);
+@@ -3676,5 +3676,6 @@ int kern_chroot(const char *filename);
+ int __init kern_access(const char *filename, int mode);
+ int __init kern_chown(const char *filename, uid_t user, gid_t group, int flag);
+ int __init kern_chmod(const char *filename, umode_t mode);
++int __init kern_utimes(const char *filename, struct timespec64 *tv, int flags);
  
  #endif /* _LINUX_FS_H */
-diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-index f2a181776b0409..a3176d1a521467 100644
---- a/include/linux/syscalls.h
-+++ b/include/linux/syscalls.h
-@@ -1236,7 +1236,6 @@ asmlinkage long sys_ni_syscall(void);
-  * the ksys_xyzyyz() functions prototyped below.
-  */
+diff --git a/init/initramfs.c b/init/initramfs.c
+index 2c2d4480d495e8..de850d4c6da200 100644
+--- a/init/initramfs.c
++++ b/init/initramfs.c
+@@ -110,7 +110,7 @@ static long __init do_utime(char *filename, time64_t mtime)
+ 	t[1].tv_sec = mtime;
+ 	t[1].tv_nsec = 0;
  
--int ksys_chroot(const char __user *filename);
- ssize_t ksys_write(unsigned int fd, const char __user *buf, size_t count);
- int ksys_fchown(unsigned int fd, uid_t user, gid_t group);
- ssize_t ksys_read(unsigned int fd, char __user *buf, size_t count);
-diff --git a/init/do_mounts.c b/init/do_mounts.c
-index 8c3fca8e2d3c6e..31b8dedb189b57 100644
---- a/init/do_mounts.c
-+++ b/init/do_mounts.c
-@@ -629,7 +629,7 @@ void __init prepare_namespace(void)
- out:
- 	devtmpfs_mount();
- 	do_kern_mount(".", "/", NULL, MS_MOVE, NULL);
--	ksys_chroot(".");
-+	kern_chroot(".");
+-	return do_utimes(AT_FDCWD, filename, t, AT_SYMLINK_NOFOLLOW);
++	return kern_utimes(filename, t, 0);
  }
  
- static bool is_tmpfs;
-diff --git a/init/do_mounts_initrd.c b/init/do_mounts_initrd.c
-index 522554d703b785..1cbc9988d2e0ad 100644
---- a/init/do_mounts_initrd.c
-+++ b/init/do_mounts_initrd.c
-@@ -63,7 +63,7 @@ static int __init init_linuxrc(struct subprocess_info *info, struct cred *new)
- 	/* move initrd over / and chdir/chroot in initrd root */
- 	kern_chdir("/root");
- 	do_kern_mount(".", "/", NULL, MS_MOVE, NULL);
--	ksys_chroot(".");
-+	kern_chroot(".");
- 	ksys_setsid();
- 	return 0;
- }
-@@ -101,7 +101,7 @@ static void __init handle_initrd(void)
- 	/* move initrd to rootfs' /old */
- 	do_kern_mount("..", ".", NULL, MS_MOVE, NULL);
- 	/* switch root and cwd back to / of rootfs */
--	ksys_chroot("..");
-+	kern_chroot("..");
- 
- 	if (new_decode_dev(real_root_dev) == Root_RAM0) {
- 		kern_chdir("/old");
+ static __initdata LIST_HEAD(dir_list);
 -- 
 2.27.0
 
