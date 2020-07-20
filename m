@@ -2,137 +2,117 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 651F3226D7A
-	for <lists+linux-api@lfdr.de>; Mon, 20 Jul 2020 19:47:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47327226DBE
+	for <lists+linux-api@lfdr.de>; Mon, 20 Jul 2020 20:06:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729390AbgGTRrG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 20 Jul 2020 13:47:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48018 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732122AbgGTRrG (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 20 Jul 2020 13:47:06 -0400
-Received: from kernel.org (unknown [87.71.40.38])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 45F9D20709;
-        Mon, 20 Jul 2020 17:46:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595267225;
-        bh=h7xTJHL3tD3hyqROKlN47q+7JtwYj6iU2IDwcwmnD10=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YlqRcxTuXQfRrbeqatLbuRaOeADiac4H6X9sEArUzE5oRMfR8PHkKo5MsS8CqIiH2
-         30gUB8awpWvMVLHqbmwCRcCebqbRb3WB5zVyQMWCeasxnsnHVcByE17hsBPHomNYe/
-         2IYK/lsU5KfUy43NS89poYLzWTie5RjpZ+F0ezt8=
-Date:   Mon, 20 Jul 2020 20:46:50 +0300
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Idan Yaniv <idan.yaniv@ibm.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>, linux-nvdimm@lists.01.org,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        linaro-mm-sig@lists.linaro.org,
-        Sumit Semwal <sumit.semwal@linaro.org>
-Subject: Re: [PATCH 3/6] mm: introduce secretmemfd system call to create
- "secret" memory areas
-Message-ID: <20200720174650.GD8593@kernel.org>
-References: <20200720092435.17469-1-rppt@kernel.org>
- <20200720092435.17469-4-rppt@kernel.org>
- <CAK8P3a0NyvRMqH7X0YNO5E6DGtvZXD5ZcD6Y6n7AkocufkMnHA@mail.gmail.com>
- <20200720142053.GC8593@kernel.org>
- <CAK8P3a07jAec4hKyNMcha032TT6OXjYHaZZ4Za9ncDsvapeg8Q@mail.gmail.com>
+        id S1729506AbgGTSGM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 20 Jul 2020 14:06:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33328 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728639AbgGTSGL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 20 Jul 2020 14:06:11 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D74FC0619D2
+        for <linux-api@vger.kernel.org>; Mon, 20 Jul 2020 11:06:11 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id x9so21228772ljc.5
+        for <linux-api@vger.kernel.org>; Mon, 20 Jul 2020 11:06:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=uI8ot/2J0X8mcn9Zfp2J49mB1lp08I2jN3wbAeSC/Pw=;
+        b=Cz61HqTwOZ6IEwVnpU+vIjJ2UVZP/Mu4fKA2ydp8JL2VDpMC+nUU4axsRhH+TxIuMT
+         7h9Jetot2Q2oMe1da303RP61HjMA+kS64YBC7m4CKaPJ6ZkKqgFan1xJh394/xLoayCV
+         YJQKJ0gYeeODtQeM9+onNI6euuT5xsMXV1y1M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=uI8ot/2J0X8mcn9Zfp2J49mB1lp08I2jN3wbAeSC/Pw=;
+        b=PBUzsRN80dQxNmgjDvTEYAqoVvWi1Rmhyg7zoAwgHtpyXm4u0A5K99qTNagRYXSOn8
+         gq8WEz+7bjpPL8G9/v6NkXrmU4KMHNNIMG2z/66CeswJbrBdvhmpNQrGfGWcx+Zs0MIy
+         1uJxu855zeAj26aqdTxbzfAPxZTN2elnvGRCSIDCAbpSoCS8qzNiCQ1cJEeTw7+FRHTZ
+         ISpL4rN0pC6bK2Q2F5TN7QwGI10u+o4ZNZzoKj/dDLx7NtPfesXl6zIiqsdP7xPXtvQO
+         QQUEgb5N3gOi2UN15qXbOmSgMOsyv/L9f3/XWlojmqHO4nm+jBaBs41S8WLS/mglEQkv
+         ZPmA==
+X-Gm-Message-State: AOAM5328E5uAn8UWzO4FgnjQDOvPRSz4e/fvyjikDeZRqS/c67k11mCS
+        0f8G9HL+0IFUrIPOoirS+yE/rMC+hYo=
+X-Google-Smtp-Source: ABdhPJxSblBRW/FfgCiYB444+dFpm+LKgFaWv2RcGSx1uHbsgOYCA+mhh+PCNTCHsyNBq0eSDDdYIw==
+X-Received: by 2002:a2e:a17c:: with SMTP id u28mr10698774ljl.140.1595268369211;
+        Mon, 20 Jul 2020 11:06:09 -0700 (PDT)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com. [209.85.167.48])
+        by smtp.gmail.com with ESMTPSA id w24sm3913511lfl.17.2020.07.20.11.06.07
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Jul 2020 11:06:07 -0700 (PDT)
+Received: by mail-lf1-f48.google.com with SMTP id s9so1494563lfs.4
+        for <linux-api@vger.kernel.org>; Mon, 20 Jul 2020 11:06:07 -0700 (PDT)
+X-Received: by 2002:a05:6512:2082:: with SMTP id t2mr2412004lfr.142.1595268366796;
+ Mon, 20 Jul 2020 11:06:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK8P3a07jAec4hKyNMcha032TT6OXjYHaZZ4Za9ncDsvapeg8Q@mail.gmail.com>
+References: <20200720155902.181712-1-hch@lst.de> <20200720155902.181712-5-hch@lst.de>
+In-Reply-To: <20200720155902.181712-5-hch@lst.de>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Mon, 20 Jul 2020 11:05:50 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wimKMPiGP6n_HQUJ1rQ_6cT6hZH5rjQa_nfAgjB1mug+A@mail.gmail.com>
+Message-ID: <CAHk-=wimKMPiGP6n_HQUJ1rQ_6cT6hZH5rjQa_nfAgjB1mug+A@mail.gmail.com>
+Subject: Re: [PATCH 04/24] fs: move the putname from filename_create to the callers
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-raid@vger.kernel.org,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jul 20, 2020 at 04:34:12PM +0200, Arnd Bergmann wrote:
-> On Mon, Jul 20, 2020 at 4:21 PM Mike Rapoport <rppt@kernel.org> wrote:
-> > On Mon, Jul 20, 2020 at 01:30:13PM +0200, Arnd Bergmann wrote:
-> > > On Mon, Jul 20, 2020 at 11:25 AM Mike Rapoport <rppt@kernel.org> wrote:
-> > > >
-> > > > From: Mike Rapoport <rppt@linux.ibm.com>
-> > > >
-> > > > Introduce "secretmemfd" system call with the ability to create memory areas
-> > > > visible only in the context of the owning process and not mapped not only
-> > > > to other processes but in the kernel page tables as well.
-> > > >
-> > > > The user will create a file descriptor using the secretmemfd system call
-> > > > where flags supplied as a parameter to this system call will define the
-> > > > desired protection mode for the memory associated with that file
-> > > > descriptor. Currently there are two protection modes:
-> > > >
-> > > > * exclusive - the memory area is unmapped from the kernel direct map and it
-> > > >               is present only in the page tables of the owning mm.
-> > > > * uncached  - the memory area is present only in the page tables of the
-> > > >               owning mm and it is mapped there as uncached.
-> > > >
-> > > > For instance, the following example will create an uncached mapping (error
-> > > > handling is omitted):
-> > > >
-> > > >         fd = secretmemfd(SECRETMEM_UNCACHED);
-> > > >         ftruncate(fd, MAP_SIZE);
-> > > >         ptr = mmap(NULL, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED,
-> > > >                    fd, 0);
-> > > >
-> > > > Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
-> > >
-> > > I wonder if this should be more closely related to dmabuf file
-> > > descriptors, which
-> > > are already used for a similar purpose: sharing access to secret memory areas
-> > > that are not visible to the OS but can be shared with hardware through device
-> > > drivers that can import a dmabuf file descriptor.
-> >
-> > TBH, I didn't think about dmabuf, but my undestanding is that is this
-> > case memory areas are not visible to the OS because they are on device
-> > memory rather than normal RAM and when dmabuf is backed by the normal
-> > RAM, the memory is visible to the OS.
-> 
-> No, dmabuf is normally about normal RAM that is shared between multiple
-> devices, the idea is that you can have one driver allocate a buffer in RAM
-> and export it to user space through a file descriptor. The application can then
-> go and mmap() it or pass it into one or more other drivers.
-> 
-> This can be used e.g. for sharing a buffer between a video codec and the
-> gpu, or between a crypto engine and another device that accesses
-> unencrypted data while software can only observe the encrypted version.
+On Mon, Jul 20, 2020 at 8:59 AM Christoph Hellwig <hch@lst.de> wrote:
+>
+> This allows reusing the struct filename for retries, and will also allow
+> pushing the getname up the stack for a few places to allower for better
+> handling of kernel space filenames.
 
-For our usecase sharing is optional from one side and there are no
-devices involved from the other.
+I find this _very_ confusing.
 
-As James pointed out, there is no match for the userspace API and if
-there will emerge a usacase that requires integration of secretmem with
-dma-buf, we'll deal with it then.
+Now the rule is that filename_create() does the putname() if it fails,
+but not if it succeeds.
 
->        Arnd
+That's just all kinds of messed up.
 
--- 
-Sincerely yours,
-Mike.
+It was already slightly confusing how "getname()" was paired with
+"putname()", and how you didn't need to check for errors, but at least
+it was easy to explain: "filename_create() will  check errors and use
+the name we got".
+
+That slightly confusing calling convention made the code much more
+compact, and nobody involved needed to do error checks on the name
+etc.
+
+Now that "slightly confusing" convention has gone from "slightly" to
+"outright", and the whole advantage of the interface has completely
+gone away, because now you not only need to do the putname() in the
+caller, you need to do it _conditionally_.
+
+So please don't do this.
+
+The other patches also all make it *really* hard to follow when
+putname() is done - because depending on the context, you have to do
+it when returning an error, or when an error was not returned.
+
+I really think this is a huge mistake. Don't do it this way. NAK NAK NAK.
+
+Please instead of making this all completely messy and completely
+impossible to follow the rule about exactly who does "putname()" and
+under what conditions, just leave the slight duplication in place.
+
+Duplicating simple helper routines is *good*. Complex and
+hard-to-understand and non-intuitive rules are *bad*.
+
+You're adding badness.
+
+                 Linus
