@@ -2,140 +2,200 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C05122623A
-	for <lists+linux-api@lfdr.de>; Mon, 20 Jul 2020 16:34:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2922A226601
+	for <lists+linux-api@lfdr.de>; Mon, 20 Jul 2020 17:59:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726046AbgGTOec (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 20 Jul 2020 10:34:32 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:38095 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726520AbgGTOec (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 20 Jul 2020 10:34:32 -0400
-Received: from mail-qk1-f171.google.com ([209.85.222.171]) by
- mrelayeu.kundenserver.de (mreue108 [212.227.15.145]) with ESMTPSA (Nemesis)
- id 1N95qT-1krodm4BvT-016C7p; Mon, 20 Jul 2020 16:34:30 +0200
-Received: by mail-qk1-f171.google.com with SMTP id k18so15466062qke.4;
-        Mon, 20 Jul 2020 07:34:29 -0700 (PDT)
-X-Gm-Message-State: AOAM533vXOXAQA92gQlYFoAKT5yHOm1tb++FWh4RgrKXSqNGI4F7RuQG
-        UTA4LMhsn9U2RLn+KpXP96RHNp1NzVIa1IEFOpY=
-X-Google-Smtp-Source: ABdhPJwIxgAdvjUjPU+4jzybDNb2QFZAVcL3HMLlxw2RLgRPrBNFIwh83Ml0UJm/YApy5c7tnsKEhhbWEGttCx/g1AI=
-X-Received: by 2002:a37:b484:: with SMTP id d126mr21885286qkf.394.1595255668502;
- Mon, 20 Jul 2020 07:34:28 -0700 (PDT)
+        id S1731368AbgGTP7V (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 20 Jul 2020 11:59:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42016 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731124AbgGTP7U (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 20 Jul 2020 11:59:20 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6456FC0619D2;
+        Mon, 20 Jul 2020 08:59:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+        Content-Type:Content-ID:Content-Description;
+        bh=21w+ZovXtzUYFHjW7zAcq/SvhfaPcQNA2bBLjzfA85I=; b=u/gfBau8lfBl8lCv/Gjz5NsubZ
+        w76/+yxGcjwLvwMSvoOVhBh357tz0mSTy69IR9y8hDVWFW/VNrIddpJx7RF/2fl0YDli5vygc3D3I
+        6Uv7PzkrJvlSKg1P928YG718uNYPTBiJ4rGfGxgd+ZgIypimlndFBFETTjU8VD9QLoB2aIq8cpQJe
+        jfSFW4o73TyyRghGylTJKHYNUQwqkQfWAV/NdI4TOEIIYgoSzib0yCH2mOc6FsyfHl2Cn6DlS7st7
+        EKqLf7SWQx4XotdhdHsIFPk9kpmozwvQPuymN7USpIXdOEGw8DXMecs6eD9FKIGiJso2ObI/JZhOG
+        q7Pda19g==;
+Received: from [2001:4bb8:105:4a81:db56:edb1:dbf2:5cc3] (helo=localhost)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jxYCB-0007oM-UG; Mon, 20 Jul 2020 15:59:16 +0000
+From:   Christoph Hellwig <hch@lst.de>
+To:     Al Viro <viro@zeniv.linux.org.uk>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: [PATCH 08/24] fs: add a kern_access helper
+Date:   Mon, 20 Jul 2020 17:58:46 +0200
+Message-Id: <20200720155902.181712-9-hch@lst.de>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200720155902.181712-1-hch@lst.de>
+References: <20200720155902.181712-1-hch@lst.de>
 MIME-Version: 1.0
-References: <20200720092435.17469-1-rppt@kernel.org> <20200720092435.17469-4-rppt@kernel.org>
- <CAK8P3a0NyvRMqH7X0YNO5E6DGtvZXD5ZcD6Y6n7AkocufkMnHA@mail.gmail.com> <20200720142053.GC8593@kernel.org>
-In-Reply-To: <20200720142053.GC8593@kernel.org>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Mon, 20 Jul 2020 16:34:12 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a07jAec4hKyNMcha032TT6OXjYHaZZ4Za9ncDsvapeg8Q@mail.gmail.com>
-Message-ID: <CAK8P3a07jAec4hKyNMcha032TT6OXjYHaZZ4Za9ncDsvapeg8Q@mail.gmail.com>
-Subject: Re: [PATCH 3/6] mm: introduce secretmemfd system call to create
- "secret" memory areas
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Idan Yaniv <idan.yaniv@ibm.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>, linux-nvdimm@lists.01.org,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        linaro-mm-sig@lists.linaro.org,
-        Sumit Semwal <sumit.semwal@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:srrbyHaYU7EURbuMbY9QNOdm0/1jFcAICWf2FjgUlgnNHilq/LO
- rBs+nFhQT+5iIsJmYAQw+8rXEKBmp79SA6mGjT4SESma9NSNCFpU9Ae/HzvXu9rk77SCMvZ
- 2auhZfsYsysXj7Eo8MYxrJCgxTWYRIHK9fnqhw37ua2xI7VhVkEPtYe60zjVSgGcDR7SUi5
- ma2V/rkp2axitpYG3xo9g==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:I7O8pHReyM0=:+GyzYzxPRQVMTgado+BH7U
- RS5BLfeUxXEmyQxeTKuEipi+zA2jHyaw9lQFUOU3MbdZ24aGfLx+YWZANHxK4fnKDlF30bryv
- Fm8h0wQxJzWh75bIJpNMlUyjKLqj5cNaIcvE3YLv/XMcgW9Vc03IqlhtmsGhdfnHsNdK6DAoI
- W1HI2s2gbRdUsMkNyFlGTeXX5DeuDtlTXc0wpkrVjzsTeiB4SoyZH5eHUpOFgntthGIyjM1tu
- 7sGtqPslChROHkISlm4Smq53sqo+rx3lHSmaeoKPBfMSv6Mt4Xbyn+2B82IH0RRPd6PBp6N9J
- bWqvjj3NmDgtjs8atteTozw0fuEBqLleYOnCsdzGKg3STwchEf2RxZMJMK/UfE7WhFBV6XKFj
- V1XKCXrM4qdG2Mk78OJR63VFavGUvSODtyq2ya2Z9clhZQv4XsnGCG8LDkfxWWfh8ai1xzVW7
- 8G7LNmTKbwpdhllsZn4vWzYb+k1nVQ0StRbxSqsnkPUOh629SxEN/pC3pVrSwUUeCumc64xNF
- 9SimHb2+KaYzVzhFDMRkRuD23Mt1SlWptSwAQ950IbH5bVanc19AYRmAuxm7FJGyP5GQ5BX5K
- wfUlC8VJmfdSyAcj4xxrZ/ITQ2zE8SXSUVaAwGjvULDylMiAPpjdvR8syw2Z9zfLTSWBOFWJ7
- 9S2cXNwtuXGrRYGIUN1KaaNMKyztQOs9YLZaFAKbwqFr1vLnkp/kieMKEgGMUkaTyvljfoJVu
- xQHv2hbDF7N4NTj2aPIoUM6RLhyltBTyP85pgWeTVGx7OTgDrykIbZtD8XFQhXMddlgFYDMOp
- R874jyVt5R1zRlwAi5SIEtq+zdbCEaJGzNbEPHTGFMLilmit9w8uQGfsfEARZwrhVqmbNr6s6
- 6stsfbUov7A0y4GcRkq1kLed6ZreDjPRUj0fMA/j81z5IlbXItFSazULvr7wsIgDzQ03xStq+
- Qfv6ySmj5Vxypu6JxhUCM9fCUFmvC1ek3klVxOT4RqH9BJJz/dGvC
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jul 20, 2020 at 4:21 PM Mike Rapoport <rppt@kernel.org> wrote:
-> On Mon, Jul 20, 2020 at 01:30:13PM +0200, Arnd Bergmann wrote:
-> > On Mon, Jul 20, 2020 at 11:25 AM Mike Rapoport <rppt@kernel.org> wrote:
-> > >
-> > > From: Mike Rapoport <rppt@linux.ibm.com>
-> > >
-> > > Introduce "secretmemfd" system call with the ability to create memory areas
-> > > visible only in the context of the owning process and not mapped not only
-> > > to other processes but in the kernel page tables as well.
-> > >
-> > > The user will create a file descriptor using the secretmemfd system call
-> > > where flags supplied as a parameter to this system call will define the
-> > > desired protection mode for the memory associated with that file
-> > > descriptor. Currently there are two protection modes:
-> > >
-> > > * exclusive - the memory area is unmapped from the kernel direct map and it
-> > >               is present only in the page tables of the owning mm.
-> > > * uncached  - the memory area is present only in the page tables of the
-> > >               owning mm and it is mapped there as uncached.
-> > >
-> > > For instance, the following example will create an uncached mapping (error
-> > > handling is omitted):
-> > >
-> > >         fd = secretmemfd(SECRETMEM_UNCACHED);
-> > >         ftruncate(fd, MAP_SIZE);
-> > >         ptr = mmap(NULL, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED,
-> > >                    fd, 0);
-> > >
-> > > Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
-> >
-> > I wonder if this should be more closely related to dmabuf file
-> > descriptors, which
-> > are already used for a similar purpose: sharing access to secret memory areas
-> > that are not visible to the OS but can be shared with hardware through device
-> > drivers that can import a dmabuf file descriptor.
->
-> TBH, I didn't think about dmabuf, but my undestanding is that is this
-> case memory areas are not visible to the OS because they are on device
-> memory rather than normal RAM and when dmabuf is backed by the normal
-> RAM, the memory is visible to the OS.
+Add a simple helper for a access with a kernelspace name and use it in
+the early init code instead of relying on the implicit set_fs(KERNEL_DS)
+there.  Remove the now unused ksys_access.
 
-No, dmabuf is normally about normal RAM that is shared between multiple
-devices, the idea is that you can have one driver allocate a buffer in RAM
-and export it to user space through a file descriptor. The application can then
-go and mmap() it or pass it into one or more other drivers.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ fs/open.c                | 37 +++++++++++++++++++++++++------------
+ include/linux/fs.h       |  1 +
+ include/linux/syscalls.h |  7 -------
+ init/main.c              |  3 +--
+ 4 files changed, 27 insertions(+), 21 deletions(-)
 
-This can be used e.g. for sharing a buffer between a video codec and the
-gpu, or between a crypto engine and another device that accesses
-unencrypted data while software can only observe the encrypted version.
+diff --git a/fs/open.c b/fs/open.c
+index 424db905da5f18..2a9457a16b2be2 100644
+--- a/fs/open.c
++++ b/fs/open.c
+@@ -394,19 +394,19 @@ static const struct cred *access_override_creds(void)
+ 	return old_cred;
+ }
+ 
+-long do_faccessat(int dfd, const char __user *filename, int mode, int flags)
++static int do_faccessat(int dfd, struct filename *name, int mode, int flags)
+ {
+ 	struct path path;
+ 	struct inode *inode;
+-	int res;
++	int res = -EINVAL;
+ 	unsigned int lookup_flags = LOOKUP_FOLLOW;
+ 	const struct cred *old_cred = NULL;
+ 
+ 	if (mode & ~S_IRWXO)	/* where's F_OK, X_OK, W_OK, R_OK? */
+-		return -EINVAL;
++		goto out_putname;
+ 
+ 	if (flags & ~(AT_EACCESS | AT_SYMLINK_NOFOLLOW | AT_EMPTY_PATH))
+-		return -EINVAL;
++		goto out_putname;
+ 
+ 	if (flags & AT_SYMLINK_NOFOLLOW)
+ 		lookup_flags &= ~LOOKUP_FOLLOW;
+@@ -414,15 +414,16 @@ long do_faccessat(int dfd, const char __user *filename, int mode, int flags)
+ 		lookup_flags |= LOOKUP_EMPTY;
+ 
+ 	if (!(flags & AT_EACCESS)) {
++		res = -ENOMEM;
+ 		old_cred = access_override_creds();
+ 		if (!old_cred)
+-			return -ENOMEM;
++			goto out_putname;
+ 	}
+ 
+ retry:
+-	res = user_path_at(dfd, filename, lookup_flags, &path);
++	res = filename_lookup(dfd, name, lookup_flags, &path, NULL);
+ 	if (res)
+-		goto out;
++		goto out_revert_creds;
+ 
+ 	inode = d_backing_inode(path.dentry);
+ 
+@@ -459,27 +460,39 @@ long do_faccessat(int dfd, const char __user *filename, int mode, int flags)
+ 		lookup_flags |= LOOKUP_REVAL;
+ 		goto retry;
+ 	}
+-out:
++	putname(name);
++out_revert_creds:
+ 	if (old_cred)
+ 		revert_creds(old_cred);
+-
+ 	return res;
++out_putname:
++	if (!IS_ERR(name))
++		putname(name);
++	return res;
++}
++
++int __init kern_access(const char __user *filename, int mode)
++{
++	return do_faccessat(AT_FDCWD, getname_kernel(filename), mode, 0);
+ }
+ 
+ SYSCALL_DEFINE3(faccessat, int, dfd, const char __user *, filename, int, mode)
+ {
+-	return do_faccessat(dfd, filename, mode, 0);
++	return do_faccessat(dfd, getname(filename), mode, 0);
+ }
+ 
+ SYSCALL_DEFINE4(faccessat2, int, dfd, const char __user *, filename, int, mode,
+ 		int, flags)
+ {
+-	return do_faccessat(dfd, filename, mode, flags);
++	unsigned int lookup_flags = (flags & AT_EMPTY_PATH) ? LOOKUP_EMPTY : 0;
++	struct filename *name = getname_flags(filename, lookup_flags, NULL);
++
++	return do_faccessat(dfd, name, mode, flags);
+ }
+ 
+ SYSCALL_DEFINE2(access, const char __user *, filename, int, mode)
+ {
+-	return do_faccessat(AT_FDCWD, filename, mode, 0);
++	return do_faccessat(AT_FDCWD, getname(filename), mode, 0);
+ }
+ 
+ static int do_chdir(struct filename *name)
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index 0205355bffb1bc..0c7672d3f1172f 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -3673,5 +3673,6 @@ static inline int inode_drain_writes(struct inode *inode)
+ 
+ int kern_chdir(const char *filename);
+ int kern_chroot(const char *filename);
++int __init kern_access(const char *filename, int mode);
+ 
+ #endif /* _LINUX_FS_H */
+diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+index a3176d1a521467..b387e3700c68c5 100644
+--- a/include/linux/syscalls.h
++++ b/include/linux/syscalls.h
+@@ -1326,13 +1326,6 @@ static inline int ksys_chmod(const char __user *filename, umode_t mode)
+ 	return do_fchmodat(AT_FDCWD, filename, mode);
+ }
+ 
+-long do_faccessat(int dfd, const char __user *filename, int mode, int flags);
+-
+-static inline long ksys_access(const char __user *filename, int mode)
+-{
+-	return do_faccessat(AT_FDCWD, filename, mode, 0);
+-}
+-
+ extern int do_fchownat(int dfd, const char __user *filename, uid_t user,
+ 		       gid_t group, int flag);
+ 
+diff --git a/init/main.c b/init/main.c
+index c2c9143db96795..880f195b61abe1 100644
+--- a/init/main.c
++++ b/init/main.c
+@@ -1514,8 +1514,7 @@ static noinline void __init kernel_init_freeable(void)
+ 	 * check if there is an early userspace init.  If yes, let it do all
+ 	 * the work
+ 	 */
+-	if (ksys_access((const char __user *)
+-			ramdisk_execute_command, 0) != 0) {
++	if (kern_access(ramdisk_execute_command, 0) != 0) {
+ 		ramdisk_execute_command = NULL;
+ 		prepare_namespace();
+ 	}
+-- 
+2.27.0
 
-       Arnd
