@@ -2,193 +2,168 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EF2F226947
-	for <lists+linux-api@lfdr.de>; Mon, 20 Jul 2020 18:30:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A3B8226A9F
+	for <lists+linux-api@lfdr.de>; Mon, 20 Jul 2020 18:36:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732315AbgGTP7x (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 20 Jul 2020 11:59:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42128 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732237AbgGTP7v (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 20 Jul 2020 11:59:51 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94334C0619D2;
-        Mon, 20 Jul 2020 08:59:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-        Content-Type:Content-ID:Content-Description;
-        bh=10VRYCf+X0T5z2Mm4tKRRm7BN7GX5B7QP0oqeGQ3VHk=; b=N32TaqnPGTYyL3tptrjXUcK4Bw
-        u/x5h3vZxh5F/yaK3rJqefBmJZFOuuge05j+epNumOLaZ5Y4C8jvnzqD7JU5Mr2mJwWrfHJzkaSuf
-        Kw75ktWVqKaEm39YW60rAlh3DFTh6jNnxzCmU29TPejKqZ3wWXuZ/Irr7BMEJ2mc+n4A4wMHyfndn
-        8BmIARbKLdvpSSHv+yyo8VyXga2KAjo7VcAsQMLuoMni3ZpTseyGg4VZVKXy9Cz5qYZUNRbG/u9Va
-        zehOBMnUsGipesKDsl8DW/vdCHizUr483W3eHI6wOQN1mhGXt+go0gUW0HuDyqpXXFttPUKRwBgPE
-        KawhYODg==;
-Received: from [2001:4bb8:105:4a81:db56:edb1:dbf2:5cc3] (helo=localhost)
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jxYCf-0007sO-3P; Mon, 20 Jul 2020 15:59:46 +0000
-From:   Christoph Hellwig <hch@lst.de>
-To:     Al Viro <viro@zeniv.linux.org.uk>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: [PATCH 24/24] fs: add a kern_stat helper
-Date:   Mon, 20 Jul 2020 17:59:02 +0200
-Message-Id: <20200720155902.181712-25-hch@lst.de>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200720155902.181712-1-hch@lst.de>
-References: <20200720155902.181712-1-hch@lst.de>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+        id S1731413AbgGTPwu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 20 Jul 2020 11:52:50 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:25962 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731115AbgGTPwt (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 20 Jul 2020 11:52:49 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 06KFZClQ100188;
+        Mon, 20 Jul 2020 11:51:58 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 32d5h7sk2a-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 20 Jul 2020 11:51:57 -0400
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06KFaXMR110773;
+        Mon, 20 Jul 2020 11:51:57 -0400
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com [169.55.91.170])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 32d5h7sk1c-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 20 Jul 2020 11:51:57 -0400
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+        by ppma02wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06KFYvFQ012130;
+        Mon, 20 Jul 2020 15:51:55 GMT
+Received: from b03cxnp07029.gho.boulder.ibm.com (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
+        by ppma02wdc.us.ibm.com with ESMTP id 32brq8tb75-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 20 Jul 2020 15:51:55 +0000
+Received: from b03ledav004.gho.boulder.ibm.com (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+        by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 06KFps6657934112
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 20 Jul 2020 15:51:54 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 5A87178060;
+        Mon, 20 Jul 2020 15:51:54 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id ED0747805E;
+        Mon, 20 Jul 2020 15:51:46 +0000 (GMT)
+Received: from [153.66.254.194] (unknown [9.85.132.116])
+        by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+        Mon, 20 Jul 2020 15:51:46 +0000 (GMT)
+Message-ID: <1595260305.4554.9.camel@linux.ibm.com>
+Subject: Re: [PATCH 3/6] mm: introduce secretmemfd system call to create
+ "secret" memory areas
+From:   James Bottomley <jejb@linux.ibm.com>
+Reply-To: jejb@linux.ibm.com
+To:     Arnd Bergmann <arnd@arndb.de>, Mike Rapoport <rppt@kernel.org>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christopher Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Idan Yaniv <idan.yaniv@ibm.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>, linux-nvdimm@lists.01.org,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        linaro-mm-sig@lists.linaro.org,
+        Sumit Semwal <sumit.semwal@linaro.org>
+Date:   Mon, 20 Jul 2020 08:51:45 -0700
+In-Reply-To: <CAK8P3a0NyvRMqH7X0YNO5E6DGtvZXD5ZcD6Y6n7AkocufkMnHA@mail.gmail.com>
+References: <20200720092435.17469-1-rppt@kernel.org>
+         <20200720092435.17469-4-rppt@kernel.org>
+         <CAK8P3a0NyvRMqH7X0YNO5E6DGtvZXD5ZcD6Y6n7AkocufkMnHA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.26.6 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
+ definitions=2020-07-20_09:2020-07-20,2020-07-20 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 phishscore=0
+ mlxlogscore=999 spamscore=0 adultscore=0 clxscore=1011 mlxscore=0
+ priorityscore=1501 bulkscore=0 impostorscore=0 suspectscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2007200106
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Add a simple helper to stat/lstat with a kernel space file name and
-switch the early init code over to it.
+On Mon, 2020-07-20 at 13:30 +0200, Arnd Bergmann wrote:
+> On Mon, Jul 20, 2020 at 11:25 AM Mike Rapoport <rppt@kernel.org>
+> wrote:
+> > 
+> > From: Mike Rapoport <rppt@linux.ibm.com>
+> > 
+> > Introduce "secretmemfd" system call with the ability to create
+> > memory areas visible only in the context of the owning process and
+> > not mapped not only to other processes but in the kernel page
+> > tables as well.
+> > 
+> > The user will create a file descriptor using the secretmemfd system
+> > call where flags supplied as a parameter to this system call will
+> > define the desired protection mode for the memory associated with
+> > that file descriptor. Currently there are two protection modes:
+> > 
+> > * exclusive - the memory area is unmapped from the kernel direct
+> > map and it
+> >               is present only in the page tables of the owning mm.
+> > * uncached  - the memory area is present only in the page tables of
+> > the
+> >               owning mm and it is mapped there as uncached.
+> > 
+> > For instance, the following example will create an uncached mapping
+> > (error handling is omitted):
+> > 
+> >         fd = secretmemfd(SECRETMEM_UNCACHED);
+> >         ftruncate(fd, MAP_SIZE);
+> >         ptr = mmap(NULL, MAP_SIZE, PROT_READ | PROT_WRITE,
+> > MAP_SHARED,
+> >                    fd, 0);
+> > 
+> > Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+> 
+> I wonder if this should be more closely related to dmabuf file
+> descriptors, which are already used for a similar purpose: sharing
+> access to secret memory areas that are not visible to the OS but can
+> be shared with hardware through device drivers that can import a
+> dmabuf file descriptor.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- drivers/md/md-autodetect.c |  2 +-
- fs/stat.c                  | 32 ++++++++++++++++++++++----------
- include/linux/fs.h         |  1 +
- init/initramfs.c           |  3 ++-
- 4 files changed, 26 insertions(+), 12 deletions(-)
+I'll assume you mean the dmabuf userspace API?  Because the kernel API
+is completely device exchange specific and wholly inappropriate for
+this use case.
 
-diff --git a/drivers/md/md-autodetect.c b/drivers/md/md-autodetect.c
-index 14b6e86814c061..5bd52ec05ed821 100644
---- a/drivers/md/md-autodetect.c
-+++ b/drivers/md/md-autodetect.c
-@@ -151,7 +151,7 @@ static void __init md_setup_drive(struct md_setup_args *args)
- 		if (strncmp(devname, "/dev/", 5) == 0)
- 			devname += 5;
- 		snprintf(comp_name, 63, "/dev/%s", devname);
--		if (vfs_stat(comp_name, &stat) == 0 && S_ISBLK(stat.mode))
-+		if (kern_stat(comp_name, &stat, 0) == 0 && S_ISBLK(stat.mode))
- 			dev = new_decode_dev(stat.rdev);
- 		if (!dev) {
- 			pr_warn("md: Unknown device name: %s\n", devname);
-diff --git a/fs/stat.c b/fs/stat.c
-index dacecdda2e7967..3c976b92db00ca 100644
---- a/fs/stat.c
-+++ b/fs/stat.c
-@@ -151,7 +151,7 @@ int vfs_fstat(int fd, struct kstat *stat)
- /**
-  * vfs_statx - Get basic and extra attributes by filename
-  * @dfd: A file descriptor representing the base dir for a relative filename
-- * @filename: The name of the file of interest
-+ * @name: The name of the file of interest
-  * @flags: Flags to control the query
-  * @stat: The result structure to fill in.
-  * @request_mask: STATX_xxx flags indicating what the caller wants
-@@ -163,16 +163,16 @@ int vfs_fstat(int fd, struct kstat *stat)
-  *
-  * 0 will be returned on success, and a -ve error code if unsuccessful.
-  */
--static int vfs_statx(int dfd, const char __user *filename, int flags,
-+static int vfs_statx(int dfd, struct filename *name, int flags,
- 	      struct kstat *stat, u32 request_mask)
- {
- 	struct path path;
- 	unsigned lookup_flags = 0;
--	int error;
-+	int error = -EINVAL;
- 
- 	if (flags & ~(AT_SYMLINK_NOFOLLOW | AT_NO_AUTOMOUNT | AT_EMPTY_PATH |
- 		      AT_STATX_SYNC_TYPE))
--		return -EINVAL;
-+		goto out_putname;
- 
- 	if (!(flags & AT_SYMLINK_NOFOLLOW))
- 		lookup_flags |= LOOKUP_FOLLOW;
-@@ -182,9 +182,9 @@ static int vfs_statx(int dfd, const char __user *filename, int flags,
- 		lookup_flags |= LOOKUP_EMPTY;
- 
- retry:
--	error = user_path_at(dfd, filename, lookup_flags, &path);
-+	error = filename_lookup(dfd, name, lookup_flags, &path, NULL);
- 	if (error)
--		goto out;
-+		return error;
- 
- 	error = vfs_getattr(&path, stat, request_mask, flags);
- 	stat->mnt_id = real_mount(path.mnt)->mnt_id;
-@@ -197,15 +197,25 @@ static int vfs_statx(int dfd, const char __user *filename, int flags,
- 		lookup_flags |= LOOKUP_REVAL;
- 		goto retry;
- 	}
--out:
-+out_putname:
-+	if (!IS_ERR(name))
-+		putname(name);
- 	return error;
- }
- 
-+int __init kern_stat(const char *filename, struct kstat *stat, int flags)
-+{
-+	return vfs_statx(AT_FDCWD, getname_kernel(filename),
-+			 flags | AT_NO_AUTOMOUNT, stat, STATX_BASIC_STATS);
-+}
-+
- int vfs_fstatat(int dfd, const char __user *filename,
- 			      struct kstat *stat, int flags)
- {
--	return vfs_statx(dfd, filename, flags | AT_NO_AUTOMOUNT,
--			 stat, STATX_BASIC_STATS);
-+	int lookup_flags = (flags & AT_EMPTY_PATH) ? LOOKUP_EMPTY : 0;
-+
-+	return vfs_statx(dfd, getname_flags(filename, lookup_flags, NULL),
-+			 flags | AT_NO_AUTOMOUNT, stat, STATX_BASIC_STATS);
- }
- 
- #ifdef __ARCH_WANT_OLD_STAT
-@@ -569,6 +579,7 @@ cp_statx(const struct kstat *stat, struct statx __user *buffer)
- int do_statx(int dfd, const char __user *filename, unsigned flags,
- 	     unsigned int mask, struct statx __user *buffer)
- {
-+	int lookup_flags = (flags & AT_EMPTY_PATH) ? LOOKUP_EMPTY : 0;
- 	struct kstat stat;
- 	int error;
- 
-@@ -577,7 +588,8 @@ int do_statx(int dfd, const char __user *filename, unsigned flags,
- 	if ((flags & AT_STATX_SYNC_TYPE) == AT_STATX_SYNC_TYPE)
- 		return -EINVAL;
- 
--	error = vfs_statx(dfd, filename, flags, &stat, mask);
-+	error = vfs_statx(dfd, getname_flags(filename, lookup_flags, NULL),
-+			  flags, &stat, mask);
- 	if (error)
- 		return error;
- 
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 0e0cd6a988bb38..d1f8edb39cf969 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -3671,5 +3671,6 @@ int __init kern_link(const char *oldname, const char *newname);
- int __init kern_symlink(const char *oldname, const char *newname);
- int kern_unlink(const char *pathname);
- int __init kern_rmdir(const char *pathname);
-+int __init kern_stat(const char *filename, struct kstat *stat, int flags);
- 
- #endif /* _LINUX_FS_H */
-diff --git a/init/initramfs.c b/init/initramfs.c
-index d72594298133a7..6c605f23900fa1 100644
---- a/init/initramfs.c
-+++ b/init/initramfs.c
-@@ -296,7 +296,8 @@ static void __init clean_path(char *path, umode_t fmode)
- {
- 	struct kstat st;
- 
--	if (!vfs_lstat(path, &st) && (st.mode ^ fmode) & S_IFMT) {
-+	if (kern_stat(path, &st, AT_SYMLINK_NOFOLLOW) &&
-+	    (st.mode ^ fmode) & S_IFMT) {
- 		if (S_ISDIR(st.mode))
- 			kern_rmdir(path);
- 		else
--- 
-2.27.0
+The user space API of dmabuf uses a pseudo-filesystem.  So you mount
+the dmabuf file type (and by "you" I mean root because an ordinary user
+doesn't have sufficient privilege).  This is basically because every
+dmabuf is usable by any user who has permissions.  This really isn't
+the initial interface we want for secret memory because secret regions
+are supposed to be per process and not shared (at least we don't want
+other tenants to see who's using what).
+
+Once you have the fd, you can seek to find the size, mmap, poll and
+ioctl it.  The ioctls are all to do with memory synchronization (as
+you'd expect from a device backed region) and the mmap is handled by
+the dma_buf_ops, which is device specific.  Sizing is missing because
+that's reported by the device not settable by the user.
+
+What we want is the ability to get an fd, set the properties and the
+size and mmap it.  This is pretty much a 100% overlap with the memfd
+API and not much overlap with the dmabuf one, which is why I don't
+think the interface is very well suited.
+
+James
 
