@@ -2,57 +2,58 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 49E562283DB
-	for <lists+linux-api@lfdr.de>; Tue, 21 Jul 2020 17:32:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92D7122845B
+	for <lists+linux-api@lfdr.de>; Tue, 21 Jul 2020 17:59:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729551AbgGUPb7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 21 Jul 2020 11:31:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35854 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726654AbgGUPb6 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 21 Jul 2020 11:31:58 -0400
-Received: from mail-il1-x144.google.com (mail-il1-x144.google.com [IPv6:2607:f8b0:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C279C061794
-        for <linux-api@vger.kernel.org>; Tue, 21 Jul 2020 08:31:58 -0700 (PDT)
-Received: by mail-il1-x144.google.com with SMTP id t27so16723956ill.9
-        for <linux-api@vger.kernel.org>; Tue, 21 Jul 2020 08:31:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=fHBXXvobeCMI6ndgKtMZ3erxdMcJPIdl8aMUBZkOTPQ=;
-        b=FjGoLNE3u7Lnj6Y4gzoT0kgYXHm5TPhi7odJEJ19IH/bXifIJkm9g9cRYI1n9gNuSu
-         q8PssjRLHeidmWFf4uLpcuAYGmRmaf89V572BB2JHkU1x19AUKNTC+k2xOn6qyRI9n0C
-         qmt5Am2rGnwheI/zqG93vJNWkUiYQqwIo0DFKcDPZrvGsrwwC0EEwGut5OC5+QkAoPOX
-         BI6Zfk31k5IlcnMFpxsqIjhd1aDaR8T90B0zI79dBIwKvQX13ndd1DCNVRjdlGQj0Vd+
-         vDdcbnaBPAIYK0k1jvm+zwdwTjBqn675UdeHBWGIZ+Ey9zJ+n2NfmxiGLL3ZMmSJdVeP
-         K3Gw==
+        id S1726890AbgGUP7E (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 21 Jul 2020 11:59:04 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54226 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727058AbgGUP7D (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 21 Jul 2020 11:59:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1595347141;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=dgPUhH0r+sKpeUc9BKumgQDPz2ogAxxmhche9Bz8CLg=;
+        b=cy/CtUEZ479MMrDC2RrEHxk0Bqasvq+bsA4KNHktokhvaOeW9phYETPWa0fYRGcPKhuyAL
+        Us9Syvf4Gz5syuBK0hDlQlP8fksxEeDXXfLceS44HjHLXPdRJrjWjMhXDPJ2hkS4qI2ola
+        ZHxDu+mNNOcmn9cXzGABywMJjSBBF0Y=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-451-EXmy8qvnOc6KuCrinetdbw-1; Tue, 21 Jul 2020 11:58:59 -0400
+X-MC-Unique: EXmy8qvnOc6KuCrinetdbw-1
+Received: by mail-wm1-f69.google.com with SMTP id b13so1396996wme.9
+        for <linux-api@vger.kernel.org>; Tue, 21 Jul 2020 08:58:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=fHBXXvobeCMI6ndgKtMZ3erxdMcJPIdl8aMUBZkOTPQ=;
-        b=CR4x6GmxKpT5BTGdjH+3jmM/kupzyMMITmY7PtcZGhMnn+GSuyMnr+S0Rd+sdcEp2t
-         WIhAdfqvJzWQFVr2BL8GLxEFJ9mHldHNOK8P26NkDxitY/uBJCkbqebN/nKKuMYJhsRA
-         Vsweut3C5+8H0ggWbP3dm0WBTeSzCgjwwoJ3zRwrOT8fs2vd5EAqglYy+d4fS/3bCGDk
-         5GQ4TMo4Kx/qwxKKQpfKfpYJ/BSK/CQ9efch0jj/en8YtmTG5fv9Hohgu5J1IMTVGZwu
-         p7dkN4VLgJOhRqyT/D7XGWyzMINrmLEAmETSw0pT4pNSgYwV3uZD+G94iJRU9q4fB0zJ
-         EsUg==
-X-Gm-Message-State: AOAM533I/fnKkXdg3MoShuEedgzM5wP4Jti++60FgapdbaWwuHVz0BFz
-        kWXa1OQVPLW6P7Fv6DwxB2ehRA==
-X-Google-Smtp-Source: ABdhPJwAbVMoY1B6CkpkY+SnENst9lHtwiSu0YeTTONrlnZk8tl2yQygzkpN0KPaRXZ9cUJSYa4n6Q==
-X-Received: by 2002:a05:6e02:e05:: with SMTP id a5mr26782990ilk.92.1595345517510;
-        Tue, 21 Jul 2020 08:31:57 -0700 (PDT)
-Received: from [192.168.1.58] ([65.144.74.34])
-        by smtp.gmail.com with ESMTPSA id c3sm10507002ilj.31.2020.07.21.08.31.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Jul 2020 08:31:56 -0700 (PDT)
-Subject: Re: strace of io_uring events?
-To:     Andy Lutomirski <luto@kernel.org>,
-        Stefano Garzarella <sgarzare@redhat.com>,
-        Christoph Hellwig <hch@lst.de>
-Cc:     Kees Cook <keescook@chromium.org>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=dgPUhH0r+sKpeUc9BKumgQDPz2ogAxxmhche9Bz8CLg=;
+        b=P3u+jnq3m36FXQUTsYIQntCEJtCewu3FkGtzLVOJ5+3aDPIJdEadTDSQOvox28Vwu5
+         SFae6S5FCPKJXv0bmkdSD96iMoc4kELOEJuV6xHu03PmLIMO2deZQ6zANH74qUeZtsBf
+         w5tyfS1pPOMYK1oShaRBXMPfjM5dD1ZWcZ7LbCnS0B9NtazdS49OuGU2Czj5PhfUDXRe
+         JxG46M5zOj+5dWx197R0et0lJZifHrarjiKMFvjeMVo1qYFUMKF5g89KrjCr4WS1G3er
+         y45eF/S6gb6JPXoviB82DTdSOQRJo/Z6TFI8ZJIdVoaNE620xlRgDjr6cKOBoZb6sYtS
+         mwJQ==
+X-Gm-Message-State: AOAM532V8t+5gSmex9fM00xpP8F+bAxCUl8naEg2v4xwkXfjP85s8dCD
+        nocsiEgmbtDEJPxEr4Muv4WnkVmTCk4quHOFriuAef5Q7bP79FaGSvpor2vyudSPJuQZSBw3Q1A
+        mF+92Y3KVDigMM31gWRrd
+X-Received: by 2002:a1c:bc8a:: with SMTP id m132mr4446945wmf.1.1595347138039;
+        Tue, 21 Jul 2020 08:58:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzwyau1D8Vflmll5c/lpT+mSNiQWL/z4fvqThThRxPJq+0YehBisCCUrYwQJ2sj2QZLWN0sYg==
+X-Received: by 2002:a1c:bc8a:: with SMTP id m132mr4446919wmf.1.1595347137664;
+        Tue, 21 Jul 2020 08:58:57 -0700 (PDT)
+Received: from steredhat ([5.180.207.22])
+        by smtp.gmail.com with ESMTPSA id u2sm3741424wml.16.2020.07.21.08.58.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Jul 2020 08:58:56 -0700 (PDT)
+Date:   Tue, 21 Jul 2020 17:58:48 +0200
+From:   Stefano Garzarella <sgarzare@redhat.com>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+        Kees Cook <keescook@chromium.org>,
         Pavel Begunkov <asml.silence@gmail.com>,
         Miklos Szeredi <miklos@szeredi.hu>,
         Matthew Wilcox <willy@infradead.org>,
@@ -64,47 +65,43 @@ Cc:     Kees Cook <keescook@chromium.org>,
         LKML <linux-kernel@vger.kernel.org>,
         Michael Kerrisk <mtk.manpages@gmail.com>,
         Stefan Hajnoczi <stefanha@redhat.com>
-References: <CAJfpegu3EwbBFTSJiPhm7eMyTK2MzijLUp1gcboOo3meMF_+Qg@mail.gmail.com>
- <D9FAB37B-D059-4137-A115-616237D78640@amacapital.net>
+Subject: Re: strace of io_uring events?
+Message-ID: <20200721155848.32xtze5ntvcmjv63@steredhat>
+References: <D9FAB37B-D059-4137-A115-616237D78640@amacapital.net>
  <20200715171130.GG12769@casper.infradead.org>
  <7c09f6af-653f-db3f-2378-02dca2bc07f7@gmail.com>
  <CAJfpegt9=p4uo5U2GXqc-rwqOESzZCWAkGMRTY1r8H6fuXx96g@mail.gmail.com>
  <48cc7eea-5b28-a584-a66c-4eed3fac5e76@gmail.com>
- <202007151511.2AA7718@keescook> <20200716131404.bnzsaarooumrp3kx@steredhat>
+ <202007151511.2AA7718@keescook>
+ <20200716131404.bnzsaarooumrp3kx@steredhat>
  <202007160751.ED56C55@keescook>
  <20200717080157.ezxapv7pscbqykhl@steredhat.lan>
  <CALCETrXSPdiVCgh3h=q7w9RyiKnp-=8jOHoFHX=an0cWqK7bzQ@mail.gmail.com>
-From:   Jens Axboe <axboe@kernel.dk>
-Message-ID: <39a3378a-f8f3-6706-98c8-be7017e64ddb@kernel.dk>
-Date:   Tue, 21 Jul 2020 09:31:54 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <CALCETrXSPdiVCgh3h=q7w9RyiKnp-=8jOHoFHX=an0cWqK7bzQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 7/21/20 9:27 AM, Andy Lutomirski wrote:
+On Tue, Jul 21, 2020 at 08:27:34AM -0700, Andy Lutomirski wrote:
 > On Fri, Jul 17, 2020 at 1:02 AM Stefano Garzarella <sgarzare@redhat.com> wrote:
->>
->> On Thu, Jul 16, 2020 at 08:12:35AM -0700, Kees Cook wrote:
->>> On Thu, Jul 16, 2020 at 03:14:04PM +0200, Stefano Garzarella wrote:
+> >
+> > On Thu, Jul 16, 2020 at 08:12:35AM -0700, Kees Cook wrote:
+> > > On Thu, Jul 16, 2020 at 03:14:04PM +0200, Stefano Garzarella wrote:
 > 
->>> access (IIUC) is possible without actually calling any of the io_uring
->>> syscalls. Is that correct? A process would receive an fd (via SCM_RIGHTS,
->>> pidfd_getfd, or soon seccomp addfd), and then call mmap() on it to gain
->>> access to the SQ and CQ, and off it goes? (The only glitch I see is
->>> waking up the worker thread?)
->>
->> It is true only if the io_uring istance is created with SQPOLL flag (not the
->> default behaviour and it requires CAP_SYS_ADMIN). In this case the
->> kthread is created and you can also set an higher idle time for it, so
->> also the waking up syscall can be avoided.
+> > > access (IIUC) is possible without actually calling any of the io_uring
+> > > syscalls. Is that correct? A process would receive an fd (via SCM_RIGHTS,
+> > > pidfd_getfd, or soon seccomp addfd), and then call mmap() on it to gain
+> > > access to the SQ and CQ, and off it goes? (The only glitch I see is
+> > > waking up the worker thread?)
+> >
+> > It is true only if the io_uring istance is created with SQPOLL flag (not the
+> > default behaviour and it requires CAP_SYS_ADMIN). In this case the
+> > kthread is created and you can also set an higher idle time for it, so
+> > also the waking up syscall can be avoided.
 > 
 > I stared at the io_uring code for a while, and I'm wondering if we're
 > approaching this the wrong way. It seems to me that most of the
@@ -114,9 +111,6 @@ On 7/21/20 9:27 AM, Andy Lutomirski wrote:
 > that io_uring actually supports cross-mm submission except by accident
 > -- as it stands, unless a user is very careful to only submit SQEs
 > that don't use user pointers, the results will be unpredictable.
-
-How so? 
-
 > Perhaps we can get away with this:
 > 
 > diff --git a/fs/io_uring.c b/fs/io_uring.c
@@ -145,17 +139,30 @@ How so?
 >      /*
 >       * For SQ polling, the thread will do all submissions and completions.
 >       * Just return the requested submit count, and wake the thread if
+> 
+> If we can do that, then we could bind seccomp-like io_uring filters to
+> an mm, and we get obvious semantics that ought to cover most of the
+> bases.
+> 
+> Jens, Christoph?
+> 
+> Stefano, what's your intended usecase for your restriction patchset?
+> 
 
-That'll break postgres that already uses this, also see:
+Hi Andy,
+my use case concerns virtualization. The idea, that I described in the
+proposal of io-uring restrictions [1], is to share io_uring CQ and SQ queues
+with a guest VM for block operations.
 
-commit 73e08e711d9c1d79fae01daed4b0e1fee5f8a275
-Author: Jens Axboe <axboe@kernel.dk>
-Date:   Sun Jan 26 09:53:12 2020 -0700
+In the PoC that I realized, there is a block device driver in the guest that
+uses io_uring queues coming from the host to submit block requests.
 
-    Revert "io_uring: only allow submit from owning task"
+Since the guest is not trusted, we need restrictions to allow only
+a subset of syscalls on a subset of file descriptors and memory.
 
-So no, we can't do that.
 
--- 
-Jens Axboe
+Cheers,
+Stefano
+
+[1] https://lore.kernel.org/io-uring/20200609142406.upuwpfmgqjeji4lc@steredhat/
 
