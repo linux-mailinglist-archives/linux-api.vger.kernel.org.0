@@ -2,21 +2,21 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 101372286D4
-	for <lists+linux-api@lfdr.de>; Tue, 21 Jul 2020 19:11:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73AF52286DA
+	for <lists+linux-api@lfdr.de>; Tue, 21 Jul 2020 19:12:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729364AbgGURKk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 21 Jul 2020 13:10:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51386 "EHLO
+        id S1729207AbgGURMS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 21 Jul 2020 13:12:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728692AbgGURKk (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 21 Jul 2020 13:10:40 -0400
+        with ESMTP id S1726686AbgGURMS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 21 Jul 2020 13:12:18 -0400
 Received: from ZenIV.linux.org.uk (zeniv.linux.org.uk [IPv6:2002:c35c:fd02::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E67F4C061794;
-        Tue, 21 Jul 2020 10:10:39 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38B71C061794;
+        Tue, 21 Jul 2020 10:12:18 -0700 (PDT)
 Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jxvmm-00HKD7-K6; Tue, 21 Jul 2020 17:10:36 +0000
-Date:   Tue, 21 Jul 2020 18:10:36 +0100
+        id 1jxvoM-00HKHa-M2; Tue, 21 Jul 2020 17:12:14 +0000
+Date:   Tue, 21 Jul 2020 18:12:14 +0100
 From:   Al Viro <viro@zeniv.linux.org.uk>
 To:     Christoph Hellwig <hch@lst.de>
 Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
@@ -24,39 +24,28 @@ Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         "Rafael J. Wysocki" <rafael@kernel.org>,
         linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH 16/24] init: add an init_chroot helper
-Message-ID: <20200721171036.GX2786714@ZenIV.linux.org.uk>
+Subject: Re: [PATCH 13/24] init: add an init_unlink helper
+Message-ID: <20200721171214.GY2786714@ZenIV.linux.org.uk>
 References: <20200721162818.197315-1-hch@lst.de>
- <20200721162818.197315-17-hch@lst.de>
+ <20200721162818.197315-14-hch@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200721162818.197315-17-hch@lst.de>
+In-Reply-To: <20200721162818.197315-14-hch@lst.de>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jul 21, 2020 at 06:28:10PM +0200, Christoph Hellwig wrote:
+On Tue, Jul 21, 2020 at 06:28:07PM +0200, Christoph Hellwig wrote:
+> diff --git a/init/fs.c b/init/fs.c
+> index 73423f5461f934..1bdb5dc5ec12ba 100644
+> --- a/init/fs.c
+> +++ b/init/fs.c
+> @@ -3,6 +3,7 @@
+>  #include <linux/mount.h>
+>  #include <linux/namei.h>
+>  #include <linux/fs.h>
+> +#include <../fs/internal.h>
 
-> +int __init init_chroot(const char *filename)
-> +{
-> +	struct path path;
-> +	int error;
-> +
-> +	error = kern_path(filename, LOOKUP_FOLLOW | LOOKUP_DIRECTORY, &path);
-> +	if (error)
-> +		return error;
-> +	error = inode_permission(path.dentry->d_inode, MAY_EXEC | MAY_CHDIR);
-
-Matter of taste, but if we do that, I wonder if we would be better off with
-	error = inode_permission(path.dentry->d_inode, MAY_EXEC | MAY_CHDIR);
-	if (!error && !ns_capable(current_user_ns(), CAP_SYS_CHROOT))
-		error = -EPERM;
-	if (!error)
-		error = security_path_chroot(&path);
-	if (!error)
-		set_fs_root(current->fs, &path);
-	path_put(&path);
-	return error;
-
+... and that is why the damn thing would be better off in fs/
