@@ -2,122 +2,104 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A55A2285AD
-	for <lists+linux-api@lfdr.de>; Tue, 21 Jul 2020 18:30:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34FDD228673
+	for <lists+linux-api@lfdr.de>; Tue, 21 Jul 2020 18:50:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729865AbgGUQaT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 21 Jul 2020 12:30:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44662 "EHLO
+        id S1730263AbgGUQtj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 21 Jul 2020 12:49:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730336AbgGUQ2b (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 21 Jul 2020 12:28:31 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2E0EC061794;
-        Tue, 21 Jul 2020 09:28:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-        Content-Type:Content-ID:Content-Description;
-        bh=H1k4IbX7Cdi4TcmpDofJ7UHs3moalFNWToOeNyCFxRc=; b=Hqg/HT2fLvykoBAK6Jckh9zCh0
-        kAvY2WP4BU2YvrNihBf5BR4v6TogXgs9MamN09n1TRW6z/u+8QnRlrdbKVupDFTpjMyN0e73g7OqG
-        y5CtkLmCvTSF37J3uoLyZcFv3GbkeFoJMkq8aT2TJluI8tjn9y0SU/KkRiOuoyq0dauk4uvXW4x6z
-        T/Tzv7ElW+nG4rQ2t/8dlUb+iFu0jWRdcwr/p3g+7utavEkMxRHOhTnNUP+6IDAMbvOoBGAP5obmM
-        tbFbFeNpNziJ8ZwzoaeYzLhsAGv4YqKMGqnSblpMYIKgHWVnqfDPft7p3AVpGOBpvZASBRXG2IzRJ
-        Rc3nrspw==;
-Received: from [2001:4bb8:18c:2acc:5b1c:6483:bd6d:e406] (helo=localhost)
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jxv7z-0007S7-8C; Tue, 21 Jul 2020 16:28:27 +0000
-From:   Christoph Hellwig <hch@lst.de>
-To:     Al Viro <viro@zeniv.linux.org.uk>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: [PATCH 06/24] md: open code vfs_stat in md_setup_drive
-Date:   Tue, 21 Jul 2020 18:28:00 +0200
-Message-Id: <20200721162818.197315-7-hch@lst.de>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200721162818.197315-1-hch@lst.de>
-References: <20200721162818.197315-1-hch@lst.de>
+        with ESMTP id S1728268AbgGUQth (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 21 Jul 2020 12:49:37 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E80FC061794
+        for <linux-api@vger.kernel.org>; Tue, 21 Jul 2020 09:49:37 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id r19so24736608ljn.12
+        for <linux-api@vger.kernel.org>; Tue, 21 Jul 2020 09:49:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cfw0I9KLEinugvOkAIz5pYOKJ30/9U2i4w2l/E0VlLI=;
+        b=PjZtpMWcBcYWc/PE2aBDgylpCarGxoRxa+Aq0zab6N7GaIbKRzPu2GNf3RxtSC05dA
+         0K7/GHfK0uf/8tRqEMTILPd7F3g3dNdNNYY6ahsv+8BW0iD5iZnwvyqTPsbIeqjdBP3p
+         khN1GHy7kDI63rJCnCaLHtNH6mG1r6HGYxAjk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cfw0I9KLEinugvOkAIz5pYOKJ30/9U2i4w2l/E0VlLI=;
+        b=EeR7iT6jGJxj+7QWgbWLJxCR4PlnKZ1xqKN8LR+KG2nj7prBxmLMjQXL6wk2Cmozdu
+         bzRYgKAOrS4h+TnEGNQIyCq+8dcPUKb88ChUUY5bZa3d5gvcR0x6vKn8D0oXOqqqv61z
+         qWmUQ3EubkR2W27I0DNYRui3aTdatAgQUPpXEcVNFWE3bkNVYNhOxaONyCNQrV29eZvP
+         1RfMlqKcxvd1dHJQQg0KPw/kv/cZEkk8d/dDe6C9PBfBeTfI7qFB2jlj13LkDJKK3w6l
+         VFRUMUPS0+9eNiFvVJwjNhZxDbvSN67b9Ya7IaIx8dvv4DEX4pT1CtVlj3rZx/aM0zgb
+         Xmew==
+X-Gm-Message-State: AOAM530BcPycOV1N6CO1uxy3jHSsqfOTGuCLbIek/PWYdlaZorMXnmgq
+        DMM5erCFDROMIRiqTXZw0X7p9sHxK+g=
+X-Google-Smtp-Source: ABdhPJxx5Bi08DnTmMQhe0zG3HO5Ivj5DQvzIEJv1YqjETt0kI3qCSY9ISCELocP5Yr7gN+o4lmlAA==
+X-Received: by 2002:a2e:8786:: with SMTP id n6mr13871032lji.428.1595350175286;
+        Tue, 21 Jul 2020 09:49:35 -0700 (PDT)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com. [209.85.208.169])
+        by smtp.gmail.com with ESMTPSA id r15sm4701979ljd.130.2020.07.21.09.49.33
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Jul 2020 09:49:34 -0700 (PDT)
+Received: by mail-lj1-f169.google.com with SMTP id e8so24849610ljb.0
+        for <linux-api@vger.kernel.org>; Tue, 21 Jul 2020 09:49:33 -0700 (PDT)
+X-Received: by 2002:a2e:760b:: with SMTP id r11mr13904367ljc.285.1595350173585;
+ Tue, 21 Jul 2020 09:49:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+References: <20200721162818.197315-1-hch@lst.de> <20200721162818.197315-6-hch@lst.de>
+In-Reply-To: <20200721162818.197315-6-hch@lst.de>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Tue, 21 Jul 2020 09:49:17 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wi0GQqAq6VSY=O2iWnPuuS54TkyRBH5B9Ca0Kg5A9d2aA@mail.gmail.com>
+Message-ID: <CAHk-=wi0GQqAq6VSY=O2iWnPuuS54TkyRBH5B9Ca0Kg5A9d2aA@mail.gmail.com>
+Subject: Re: [PATCH 05/24] devtmpfs: open code ksys_chdir and ksys_chroot
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-raid@vger.kernel.org,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Instead of passing a kernel pointer to vfs_stat by relying on the
-implicit set_fs(KERNEL_DS) in md_setup_drive, just open code the
-trivial getattr, and use the opportunity to move a little bit more
-code from the caller into the new helper.
+On Tue, Jul 21, 2020 at 9:28 AM Christoph Hellwig <hch@lst.de> wrote:
+>
+> +
+> +       /* traverse into overmounted root and then chroot to it */
+> +       if (!kern_path("/..", LOOKUP_FOLLOW | LOOKUP_DIRECTORY, &path) &&
+> +           !inode_permission(path.dentry->d_inode, MAY_EXEC | MAY_CHDIR) &&
+> +           ns_capable(current_user_ns(), CAP_SYS_CHROOT) &&
+> +           !security_path_chroot(&path)) {
+> +               set_fs_pwd(current->fs, &path);
+> +               set_fs_root(current->fs, &path);
+> +       }
+> +       path_put(&path);
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- drivers/md/md-autodetect.c | 29 ++++++++++++++++++++---------
- 1 file changed, 20 insertions(+), 9 deletions(-)
+This looks wrong.
 
-diff --git a/drivers/md/md-autodetect.c b/drivers/md/md-autodetect.c
-index 14b6e86814c061..1e8f1df257a112 100644
---- a/drivers/md/md-autodetect.c
-+++ b/drivers/md/md-autodetect.c
-@@ -8,6 +8,7 @@
- #include <linux/raid/detect.h>
- #include <linux/raid/md_u.h>
- #include <linux/raid/md_p.h>
-+#include <linux/namei.h>
- #include "md.h"
- 
- /*
-@@ -119,6 +120,23 @@ static int __init md_setup(char *str)
- 	return 1;
- }
- 
-+static void __init md_lookup_dev(const char *devname, dev_t *dev)
-+{
-+	struct kstat stat;
-+	struct path path;
-+	char filename[64];
-+
-+	if (strncmp(devname, "/dev/", 5) == 0)
-+		devname += 5;
-+	snprintf(filename, 63, "/dev/%s", devname);
-+
-+	if (!kern_path(filename, LOOKUP_FOLLOW, &path) &&
-+	    !vfs_getattr(&path, &stat, STATX_BASIC_STATS, AT_NO_AUTOMOUNT) &&
-+	    S_ISBLK(stat.mode))
-+		*dev = new_decode_dev(stat.rdev);
-+	path_put(&path);
-+}
-+
- static void __init md_setup_drive(struct md_setup_args *args)
- {
- 	char *devname = args->device_names;
-@@ -138,21 +156,14 @@ static void __init md_setup_drive(struct md_setup_args *args)
- 	}
- 
- 	for (i = 0; i < MD_SB_DISKS && devname != NULL; i++) {
--		struct kstat stat;
--		char *p;
--		char comp_name[64];
- 		dev_t dev;
-+		char *p;
- 
- 		p = strchr(devname, ',');
- 		if (p)
- 			*p++ = 0;
--
- 		dev = name_to_dev_t(devname);
--		if (strncmp(devname, "/dev/", 5) == 0)
--			devname += 5;
--		snprintf(comp_name, 63, "/dev/%s", devname);
--		if (vfs_stat(comp_name, &stat) == 0 && S_ISBLK(stat.mode))
--			dev = new_decode_dev(stat.rdev);
-+		md_lookup_dev(devname, &dev);
- 		if (!dev) {
- 			pr_warn("md: Unknown device name: %s\n", devname);
- 			break;
--- 
-2.27.0
+You're doing "path_put()" even if kern_path() didn't succeed.
 
+As far as I can tell, that will either put some uninitialized garbage
+and cause an oops, or put something that has already been released by
+the failure path.
+
+Maybe that doesn't happen in practice in this case, but it's still
+very very wrong.
+
+Plus you shouldn't have those kinds of insanely complex if-statements
+in the first place. That was what caused the bug - trying to be
+clever, instead of writing clear code.
+
+I'm not liking how I'm finding fundamental mistakes in patches that
+_should_ be trivial conversions with no semantic changes.
+
+               Linus
