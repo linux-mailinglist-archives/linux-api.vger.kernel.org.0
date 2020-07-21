@@ -2,107 +2,240 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CE9D7228991
-	for <lists+linux-api@lfdr.de>; Tue, 21 Jul 2020 21:56:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71771228BCD
+	for <lists+linux-api@lfdr.de>; Wed, 22 Jul 2020 00:06:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731020AbgGUT4H (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 21 Jul 2020 15:56:07 -0400
-Received: from wnew3-smtp.messagingengine.com ([64.147.123.17]:44937 "EHLO
-        wnew3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730664AbgGUT4H (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 21 Jul 2020 15:56:07 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailnew.west.internal (Postfix) with ESMTP id 1D38EB24;
-        Tue, 21 Jul 2020 15:56:05 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Tue, 21 Jul 2020 15:56:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=anarazel.de; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm2; bh=AqPj1xBhDhu20FWDwJyJBEuqNaN
-        WXORj4eQ/tBPqOlo=; b=fimQshPgm3sthCqApa+djmcfCkLSFwHY7QblvbjAlcv
-        fPAeBpiKsqs0mi3QLh/mXmVgdoJGl9yF7GQdobNdc899gi75MM7QXJSWdeGAzP7s
-        pSqG/bclBObeMUkxz/dRBESdzacl39lEoopnuJpHNa6X9FXj5KSV36Yywu6LzFHw
-        3zpOiEbxa7VY7ly3+0eWQJu/UGasSNqBBg0G6xEinO3fsdd0gj2taDBAEmvjobeS
-        K5vsV8vy83764Ae5qR8ReCf/r3JLq6FCORMmJgZ/60QZzT4RIZEmQ0fN3oZb/CbS
-        N9buoYDtMl3zFfWbIKyZrEurHDEhE/bkHpvmbn4Yutg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=AqPj1x
-        BhDhu20FWDwJyJBEuqNaNWXORj4eQ/tBPqOlo=; b=K/5IJJUrbwW7dfc8maPE+b
-        At1jqzRMcstf7E7PyDytihqi9rgeeXyx3p0UJTKG3eIJTnB02AAm+JC3CkttZ1Nd
-        N5rkxvIOVIKX0sXbOw6Xl0dJ6Si2ntASsU/3OSsxiTrWjuz7m829nn7ktLAS9vJj
-        1vx11jy/npcDV7Jc2zUTA74XOI1Kmtnw2OEoJCMvdXazgipT2WxsWbJ/ij9/DyHu
-        FIVXQ2b1z72wtETwOJ6brF9P0Z/Q6A/Gve6m0KxtOEyKNilXxL0FjJn1JKD6gl/m
-        d08EhKLjB0eiZWiicGMDLi507bD9Gf4F9WbkBlx52akc8iLr8JJURQhViOaQIvjQ
-        ==
-X-ME-Sender: <xms:U0gXX1BbjEuZJLnXVBMnFHroxMl5BibM0qAtr6bkg7dMLo4sON80Vw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrgeejgddukecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomheptehnughrvghs
-    ucfhrhgvuhhnugcuoegrnhgurhgvshesrghnrghrrgiivghlrdguvgeqnecuggftrfgrth
-    htvghrnhepudekhfekleeugeevteehleffffejgeelueduleeffeeutdelffeujeffhfeu
-    ffdunecukfhppeeijedrudeitddrvddujedrvdehtdenucevlhhushhtvghrufhiiigvpe
-    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvshesrghnrghrrgiivghlrdgu
-    vg
-X-ME-Proxy: <xmx:U0gXXzjdghqmMlw7WediaYzLllFxn2LxGNJllOUpgDSuqZ-hxCZbKg>
-    <xmx:U0gXXwnZeFN_lhM63aiWn5O1_93UPi2dBowYmfp_xaeVgadEQpVMcg>
-    <xmx:U0gXX_zqoUSlbBlfwdJaX8O4ZT4TRWw2jROrdu-Ebqc34t548T75Xw>
-    <xmx:VEgXX0CFoh3getAHlxnjfGPVIDQ-t-68uLE8Ky6zUZaCy3MT4-sknx5BgGI>
-Received: from intern.anarazel.de (c-67-160-217-250.hsd1.ca.comcast.net [67.160.217.250])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 655F930600B1;
-        Tue, 21 Jul 2020 15:56:03 -0400 (EDT)
-Date:   Tue, 21 Jul 2020 12:56:02 -0700
-From:   Andres Freund <andres@anarazel.de>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Jens Axboe <axboe@kernel.dk>,
-        Stefano Garzarella <sgarzare@redhat.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Kees Cook <keescook@chromium.org>,
-        Pavel Begunkov <asml.silence@gmail.com>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Matthew Wilcox <willy@infradead.org>,
-        Jann Horn <jannh@google.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        strace-devel@lists.strace.io, io-uring@vger.kernel.org,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: strace of io_uring events?
-Message-ID: <20200721195602.qtncgzddl7y55b6l@alap3.anarazel.de>
-References: <20200716131404.bnzsaarooumrp3kx@steredhat>
- <202007160751.ED56C55@keescook>
- <20200717080157.ezxapv7pscbqykhl@steredhat.lan>
- <CALCETrXSPdiVCgh3h=q7w9RyiKnp-=8jOHoFHX=an0cWqK7bzQ@mail.gmail.com>
- <39a3378a-f8f3-6706-98c8-be7017e64ddb@kernel.dk>
- <CALCETrXAxFzuRB5EJZR7bbgfrEcNc=9_E7wwhPaZ3YGJ1=DZ0w@mail.gmail.com>
- <ba989463-c627-8af7-9234-4dc8ac4eea0e@kernel.dk>
- <CALCETrUvOuKZWiQeZhf9DXyjS4OQdyW+s1YMh+vwe605jBS3LQ@mail.gmail.com>
- <65ad6c17-37d0-da30-4121-43554ad8f51f@kernel.dk>
- <CALCETrV_tOziNJOp8xanmCU0yJEHcGQk0TBxeiK4U7AVewkgAw@mail.gmail.com>
+        id S1728816AbgGUWGT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 21 Jul 2020 18:06:19 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48525 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728456AbgGUWGS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 21 Jul 2020 18:06:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1595369176;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=1drX5k7wXxd1OloGATtvbnUdSqXmULd42swYuvS87G0=;
+        b=GnlHXPPUU5ylt/wSQKGVjtxX38AgWqe7kBDfxb756k2TcTLRVEdzi+qTelLIuIXsGJf355
+        NeYRoEnwHiM9rwNYdEzSitKISu77rKIWZjYUrI6wZVcjPeYvXViHJc36S1Q5YR4y50enX7
+        5EbK7bjvAEc9P6prRze/A16MgQLWl9Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-333-6FgYG1FjNjm6A49AzP2VsA-1; Tue, 21 Jul 2020 18:06:10 -0400
+X-MC-Unique: 6FgYG1FjNjm6A49AzP2VsA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8198E1005510;
+        Tue, 21 Jul 2020 22:06:07 +0000 (UTC)
+Received: from madcap2.tricolour.ca (unknown [10.10.110.3])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id A9220872FB;
+        Tue, 21 Jul 2020 22:05:51 +0000 (UTC)
+Date:   Tue, 21 Jul 2020 18:05:48 -0400
+From:   Richard Guy Briggs <rgb@redhat.com>
+To:     Paul Moore <paul@paul-moore.com>
+Cc:     containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
+        Linux-Audit Mailing List <linux-audit@redhat.com>,
+        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
+        sgrubb@redhat.com, Ondrej Mosnacek <omosnace@redhat.com>,
+        dhowells@redhat.com, simo@redhat.com,
+        Eric Paris <eparis@parisplace.org>,
+        Serge Hallyn <serge@hallyn.com>, ebiederm@xmission.com,
+        nhorman@tuxdriver.com, Dan Walsh <dwalsh@redhat.com>,
+        mpatel@redhat.com
+Subject: Re: [PATCH ghak90 V9 10/13] audit: add support for containerid to
+ network namespaces
+Message-ID: <20200721220548.oy5iwquoohevlgbi@madcap2.tricolour.ca>
+References: <cover.1593198710.git.rgb@redhat.com>
+ <e9c1216a361c38ebc9cb4089922c259e2cfd5013.1593198710.git.rgb@redhat.com>
+ <CAHC9VhSRRN+Qq5dNx6Q5cG_TrXgbBMR0PNUYvf+Haf2na5wCfg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CALCETrV_tOziNJOp8xanmCU0yJEHcGQk0TBxeiK4U7AVewkgAw@mail.gmail.com>
+In-Reply-To: <CAHC9VhSRRN+Qq5dNx6Q5cG_TrXgbBMR0PNUYvf+Haf2na5wCfg@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi,
+On 2020-07-05 11:11, Paul Moore wrote:
+> On Sat, Jun 27, 2020 at 9:23 AM Richard Guy Briggs <rgb@redhat.com> wrote:
+> >
+> > This also adds support to qualify NETFILTER_PKT records.
+> >
+> > Audit events could happen in a network namespace outside of a task
+> > context due to packets received from the net that trigger an auditing
+> > rule prior to being associated with a running task.  The network
+> > namespace could be in use by multiple containers by association to the
+> > tasks in that network namespace.  We still want a way to attribute
+> > these events to any potential containers.  Keep a list per network
+> > namespace to track these audit container identifiiers.
+> >
+> > Add/increment the audit container identifier on:
+> > - initial setting of the audit container identifier via /proc
+> > - clone/fork call that inherits an audit container identifier
+> > - unshare call that inherits an audit container identifier
+> > - setns call that inherits an audit container identifier
+> > Delete/decrement the audit container identifier on:
+> > - an inherited audit container identifier dropped when child set
+> > - process exit
+> > - unshare call that drops a net namespace
+> > - setns call that drops a net namespace
+> >
+> > Add audit container identifier auxiliary record(s) to NETFILTER_PKT
+> > event standalone records.  Iterate through all potential audit container
+> > identifiers associated with a network namespace.
+> >
+> > Please see the github audit kernel issue for contid net support:
+> >   https://github.com/linux-audit/audit-kernel/issues/92
+> > Please see the github audit testsuiite issue for the test case:
+> >   https://github.com/linux-audit/audit-testsuite/issues/64
+> > Please see the github audit wiki for the feature overview:
+> >   https://github.com/linux-audit/audit-kernel/wiki/RFE-Audit-Container-ID
+> > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> > Acked-by: Neil Horman <nhorman@tuxdriver.com>
+> > Reviewed-by: Ondrej Mosnacek <omosnace@redhat.com>
+> > ---
+> >  include/linux/audit.h    |  20 ++++++
+> >  kernel/audit.c           | 156 ++++++++++++++++++++++++++++++++++++++++++++++-
+> >  kernel/nsproxy.c         |   4 ++
+> >  net/netfilter/nft_log.c  |  11 +++-
+> >  net/netfilter/xt_AUDIT.c |  11 +++-
+> >  5 files changed, 195 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/include/linux/audit.h b/include/linux/audit.h
+> > index c4a755ae0d61..304fbb7c3c5b 100644
+> > --- a/include/linux/audit.h
+> > +++ b/include/linux/audit.h
+> > @@ -128,6 +128,13 @@ struct audit_task_info {
+> >
+> >  extern struct audit_task_info init_struct_audit;
+> >
+> > +struct audit_contobj_netns {
+> > +       struct list_head        list;
+> > +       struct audit_contobj    *obj;
+> > +       int                     count;
+> 
+> This seems like it might be a good candidate for refcount_t, yes?
 
-On 2020-07-21 12:44:09 -0700, Andy Lutomirski wrote:
-> Can you enlighten me?  I don't see any iov_iter_get_pages() calls or
-> equivalents.  If an IO is punted, how does the data end up in the
-> io_uring_enter() caller's mm?
+I considered this before when converting the struct audit_contobj to
+refcount_t, but decided against it since any updates are in the context
+of a list traversal where it could be added to the list and so the
+spinlock is already held anyways.
 
-For operations needing that io_op_def.needs_mm is true. Which is checked
-by io_prep_async_work(), adding the current mm to req. On the wq side
-io_wq_switch_mm() uses that mm when executing the queue entry.
+Is there a more efficent or elegant way of doing the locking around the
+two list traversals below (_add and _del)?
 
-Greetings,
+I wonder about converting the count to refcount_t and only holding the
+spinlock for the list_add_rcu() in the _add case.  And for the _del case
+holding the spinlock only for the list_del_rcu().
 
-Andres Freund
+These are the only two locations items are added or deleted from the
+lists.
+
+Somewhat related to this is does the list order matter?  Items are
+currently added at the end of the list which likely makes locking
+simpler, though the start of the list is a simple change.  However,
+unless we understand the profile of read use of these lists for
+reporting contid use in audit_log_netns_contid_list() I don't think
+order matters significantly.  It could be that reporting of a contid
+goes down in frequency over the lifetime of a contid that inserting them
+at the beginning of the list would be best.  This is not a visible
+implementation detail so later optimization should pose no problem.
+
+> > +       struct rcu_head         rcu;
+> > +};
+> 
+> ...
+> 
+> > diff --git a/kernel/audit.c b/kernel/audit.c
+> > index 997c34178ee8..a862721dfd9b 100644
+> > --- a/kernel/audit.c
+> > +++ b/kernel/audit.c
+> > @@ -437,6 +452,136 @@ static struct sock *audit_get_sk(const struct net *net)
+> >         return aunet->sk;
+> >  }
+> >
+> > +void audit_netns_contid_add(struct net *net, struct audit_contobj *cont)
+> > +{
+> > +       struct audit_net *aunet;
+> > +       struct list_head *contobj_list;
+> > +       struct audit_contobj_netns *contns;
+> > +
+> > +       if (!net)
+> > +               return;
+> > +       if (!cont)
+> > +               return;
+> > +       aunet = net_generic(net, audit_net_id);
+> > +       if (!aunet)
+> > +               return;
+> > +       contobj_list = &aunet->contobj_list;
+> > +       rcu_read_lock();
+> > +       spin_lock(&aunet->contobj_list_lock);
+> > +       list_for_each_entry_rcu(contns, contobj_list, list)
+> > +               if (contns->obj == cont) {
+> > +                       contns->count++;
+> > +                       goto out;
+> > +               }
+> > +       contns = kmalloc(sizeof(*contns), GFP_ATOMIC);
+> > +       if (contns) {
+> > +               INIT_LIST_HEAD(&contns->list);
+> > +               contns->obj = cont;
+> > +               contns->count = 1;
+> > +               list_add_rcu(&contns->list, contobj_list);
+> > +       }
+> > +out:
+> > +       spin_unlock(&aunet->contobj_list_lock);
+> > +       rcu_read_unlock();
+> > +}
+> > +
+> > +void audit_netns_contid_del(struct net *net, struct audit_contobj *cont)
+> > +{
+> > +       struct audit_net *aunet;
+> > +       struct list_head *contobj_list;
+> > +       struct audit_contobj_netns *contns = NULL;
+> > +
+> > +       if (!net)
+> > +               return;
+> > +       if (!cont)
+> > +               return;
+> > +       aunet = net_generic(net, audit_net_id);
+> > +       if (!aunet)
+> > +               return;
+> > +       contobj_list = &aunet->contobj_list;
+> > +       rcu_read_lock();
+> > +       spin_lock(&aunet->contobj_list_lock);
+> > +       list_for_each_entry_rcu(contns, contobj_list, list)
+> > +               if (contns->obj == cont) {
+> > +                       contns->count--;
+> > +                       if (contns->count < 1) {
+> 
+> One could simplify this with "(--countns->count) < 1", although if it
+> is changed to a refcount_t (which seems like a smart thing), the
+> normal decrement/test would be the best choice.
+
+Agreed.
+
+> > +                               list_del_rcu(&contns->list);
+> > +                               kfree_rcu(contns, rcu);
+> > +                       }
+> > +                       break;
+> > +               }
+> > +       spin_unlock(&aunet->contobj_list_lock);
+> > +       rcu_read_unlock();
+> > +}
+> 
+> paul moore
+
+- RGB
+
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
+
