@@ -2,67 +2,64 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EB7B2290D7
-	for <lists+linux-api@lfdr.de>; Wed, 22 Jul 2020 08:30:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DA56229273
+	for <lists+linux-api@lfdr.de>; Wed, 22 Jul 2020 09:44:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728650AbgGVGay (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 22 Jul 2020 02:30:54 -0400
-Received: from verein.lst.de ([213.95.11.211]:54974 "EHLO verein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728649AbgGVGay (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 22 Jul 2020 02:30:54 -0400
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 4624868AFE; Wed, 22 Jul 2020 08:30:51 +0200 (CEST)
-Date:   Wed, 22 Jul 2020 08:30:50 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, io-uring@vger.kernel.org
-Subject: Re: io_uring vs in_compat_syscall()
-Message-ID: <20200722063050.GA24968@lst.de>
-References: <b754dad5-ee85-8a2f-f41a-8bdc56de42e8@kernel.dk> <8987E376-6B13-4798-BDBA-616A457447CF@amacapital.net> <20200721070709.GB11432@lst.de> <CALCETrXWZBXZuCeRYvYY8AWG51e_P3bOeNeqc8zXPLOTDTHY0g@mail.gmail.com> <20200721143412.GA8099@lst.de> <CALCETrWMQpKe7jqw2t39yn4HgGhGTSEFGK6MPR4wPs=tBBhjbg@mail.gmail.com>
+        id S1726317AbgGVHok (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 22 Jul 2020 03:44:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45394 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726153AbgGVHok (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 22 Jul 2020 03:44:40 -0400
+Received: from ZenIV.linux.org.uk (zeniv.linux.org.uk [IPv6:2002:c35c:fd02::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46A2AC0619DC;
+        Wed, 22 Jul 2020 00:44:40 -0700 (PDT)
+Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jy9QW-000ABC-Ed; Wed, 22 Jul 2020 07:44:32 +0000
+Date:   Wed, 22 Jul 2020 08:44:32 +0100
+From:   Al Viro <viro@zeniv.linux.org.uk>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [PATCH 06/24] md: open code vfs_stat in md_setup_drive
+Message-ID: <20200722074432.GD2786714@ZenIV.linux.org.uk>
+References: <20200721162818.197315-1-hch@lst.de>
+ <20200721162818.197315-7-hch@lst.de>
+ <20200721165539.GT2786714@ZenIV.linux.org.uk>
+ <20200721182701.GB14450@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CALCETrWMQpKe7jqw2t39yn4HgGhGTSEFGK6MPR4wPs=tBBhjbg@mail.gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20200721182701.GB14450@lst.de>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jul 21, 2020 at 10:25:24AM -0700, Andy Lutomirski wrote:
-> On Tue, Jul 21, 2020 at 7:34 AM Christoph Hellwig <hch@lst.de> wrote:
-> >
-> > On Tue, Jul 21, 2020 at 07:31:02AM -0700, Andy Lutomirski wrote:
-> > > > What do you mean with "properly wired up".  Do you really want to spread
-> > > > ->compat_foo methods everywhere, including read and write?  I found
-> > > > in_compat_syscall() a lot small and easier to maintain than all the
-> > > > separate compat cruft.
-> > >
-> > > I was imagining using a flag.  Some of the net code uses
-> > > MSG_CMSG_COMPAT for this purpose.
-> >
-> > Killing that nightmarish monster is what actually got me into looking
-> > io_uring and starting this thread.
+On Tue, Jul 21, 2020 at 08:27:01PM +0200, Christoph Hellwig wrote:
+> On Tue, Jul 21, 2020 at 05:55:39PM +0100, Al Viro wrote:
+> > How about fs/for_init.c and putting the damn helpers there?  With
+> > calling conventions as close to syscalls as possible, and a fat
+> > comment regarding their intended use being _ONLY_ the setup
+> > in should-have-been-done-in-userland parts of init?
 > 
-> I agree that MSG_CMSG_COMPAT is nasty, but I think the concept is
-> sound -- rather than tracking whether we're compat by using a
-> different function or a per-thread variable, actually explicitly
-> tracking the mode seems sensible.
+> Where do you want the prototypes to go?  Also do you want devtmpfs
+> use the same helpers, which then't can't be marked __init (mount,
+> chdir, chroot), or separate copies?
 
-I very strongly disagree.  Two recent projects I did was to remove
-the compat_exec mess, and the compat get/setsockopt mess, and each
-time it removed hundreds of lines of code duplicating native
-functionality, often in slightly broken ways.  We need a generic
-out of band way to transfer the information down and just check in
-in a few strategic places, and in_compat_syscall() does the right
-thing for that.
+Hmm...  mount still can be __init (devtmpfs_mount() is), and I suspect
+devtmpfs_setup() could also be made such - just turn devtmpfsd()
+into
+static int __init devtmpfsd(void *p)
+{
+        int err = devtmpfs_setup(p);
 
-> If we're going to play in_compat_syscall() games, let's please make
-> io_uring_enter() return -EINVAL if in_compat_syscall() != ctx->compat.
-
-That sounds like a plan, but still doesn't help with submissions from
-the offload WQ or the sqpoll thread.
+	if (!err)
+		devtmpfsd_real();	/* never returns */
+	return err;
+}
+and you are done.  As for the prototypes... include/linux/init_syscalls.h,
+perhaps?
