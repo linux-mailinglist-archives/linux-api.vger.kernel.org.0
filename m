@@ -2,64 +2,105 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DA56229273
-	for <lists+linux-api@lfdr.de>; Wed, 22 Jul 2020 09:44:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E115D2293BD
+	for <lists+linux-api@lfdr.de>; Wed, 22 Jul 2020 10:39:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726317AbgGVHok (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 22 Jul 2020 03:44:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45394 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726153AbgGVHok (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 22 Jul 2020 03:44:40 -0400
-Received: from ZenIV.linux.org.uk (zeniv.linux.org.uk [IPv6:2002:c35c:fd02::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46A2AC0619DC;
-        Wed, 22 Jul 2020 00:44:40 -0700 (PDT)
-Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jy9QW-000ABC-Ed; Wed, 22 Jul 2020 07:44:32 +0000
-Date:   Wed, 22 Jul 2020 08:44:32 +0100
-From:   Al Viro <viro@zeniv.linux.org.uk>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH 06/24] md: open code vfs_stat in md_setup_drive
-Message-ID: <20200722074432.GD2786714@ZenIV.linux.org.uk>
-References: <20200721162818.197315-1-hch@lst.de>
- <20200721162818.197315-7-hch@lst.de>
- <20200721165539.GT2786714@ZenIV.linux.org.uk>
- <20200721182701.GB14450@lst.de>
+        id S1728642AbgGVIjL convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Wed, 22 Jul 2020 04:39:11 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151]:35754 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726870AbgGVIjL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 22 Jul 2020 04:39:11 -0400
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id uk-mta-2-069i4kReMsq9RSpkpaVvZA-1;
+ Wed, 22 Jul 2020 09:39:07 +0100
+X-MC-Unique: 069i4kReMsq9RSpkpaVvZA-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Wed, 22 Jul 2020 09:39:07 +0100
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
+ Wed, 22 Jul 2020 09:39:07 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Christoph Hellwig' <hch@lst.de>, Andy Lutomirski <luto@kernel.org>
+CC:     Jens Axboe <axboe@kernel.dk>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "io-uring@vger.kernel.org" <io-uring@vger.kernel.org>
+Subject: RE: io_uring vs in_compat_syscall()
+Thread-Topic: io_uring vs in_compat_syscall()
+Thread-Index: AQHWX/GrvZMJhuIwWE2T9O3qn36ZwKkTQzqg
+Date:   Wed, 22 Jul 2020 08:39:06 +0000
+Message-ID: <8fefa815a3924fb3b893371c988781ad@AcuMS.aculab.com>
+References: <b754dad5-ee85-8a2f-f41a-8bdc56de42e8@kernel.dk>
+ <8987E376-6B13-4798-BDBA-616A457447CF@amacapital.net>
+ <20200721070709.GB11432@lst.de>
+ <CALCETrXWZBXZuCeRYvYY8AWG51e_P3bOeNeqc8zXPLOTDTHY0g@mail.gmail.com>
+ <20200721143412.GA8099@lst.de>
+ <CALCETrWMQpKe7jqw2t39yn4HgGhGTSEFGK6MPR4wPs=tBBhjbg@mail.gmail.com>
+ <20200722063050.GA24968@lst.de>
+In-Reply-To: <20200722063050.GA24968@lst.de>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200721182701.GB14450@lst.de>
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jul 21, 2020 at 08:27:01PM +0200, Christoph Hellwig wrote:
-> On Tue, Jul 21, 2020 at 05:55:39PM +0100, Al Viro wrote:
-> > How about fs/for_init.c and putting the damn helpers there?  With
-> > calling conventions as close to syscalls as possible, and a fat
-> > comment regarding their intended use being _ONLY_ the setup
-> > in should-have-been-done-in-userland parts of init?
+From: Christoph Hellwig
+> Sent: 22 July 2020 07:31
+...
+> > I agree that MSG_CMSG_COMPAT is nasty, but I think the concept is
+> > sound -- rather than tracking whether we're compat by using a
+> > different function or a per-thread variable, actually explicitly
+> > tracking the mode seems sensible.
 > 
-> Where do you want the prototypes to go?  Also do you want devtmpfs
-> use the same helpers, which then't can't be marked __init (mount,
-> chdir, chroot), or separate copies?
+> I very strongly disagree.  Two recent projects I did was to remove
+> the compat_exec mess, and the compat get/setsockopt mess, and each
+> time it removed hundreds of lines of code duplicating native
+> functionality, often in slightly broken ways.  We need a generic
+> out of band way to transfer the information down and just check in
+> in a few strategic places, and in_compat_syscall() does the right
+> thing for that.
 
-Hmm...  mount still can be __init (devtmpfs_mount() is), and I suspect
-devtmpfs_setup() could also be made such - just turn devtmpfsd()
-into
-static int __init devtmpfsd(void *p)
-{
-        int err = devtmpfs_setup(p);
+Hmmm... set_fs(KERNEL_DS) is a per-thread variable that indicates
+that the current system call is being done by the kernel.
 
-	if (!err)
-		devtmpfsd_real();	/* never returns */
-	return err;
-}
-and you are done.  As for the prototypes... include/linux/init_syscalls.h,
-perhaps?
+So you are pulling two different bits of code in opposite directions.
+
+It has to be safer to track the flag through with the request.
+Then once any conversion has been done the flag can be corrected.
+
+Imagine something like a bpf hook on a compat syscall.
+Having read the user buffer into kernel space it may decide
+to reformat it to the native layout to process it.
+After which the code has a native format buffer even though
+in_compat_syscall() returns true.
+
+To the native/compat flag is actually a property of the buffer
+much the same as whether it is user/kernel.
+
+The other property of the buffer is whether embedded addresses
+are user or kernel.
+If the buffer has been read from userspace then they are user.
+If the request originated in the kernel they are kernel.
+This difference may matter in the future.
+
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
+
