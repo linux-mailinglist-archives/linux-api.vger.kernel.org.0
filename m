@@ -2,148 +2,95 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8201422B040
-	for <lists+linux-api@lfdr.de>; Thu, 23 Jul 2020 15:17:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9CF622B09F
+	for <lists+linux-api@lfdr.de>; Thu, 23 Jul 2020 15:38:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729247AbgGWNRH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 23 Jul 2020 09:17:07 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:57992 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728995AbgGWNRG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Jul 2020 09:17:06 -0400
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1595510224;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=eZpHq0wJmoP/QXQlRoyC1nwl6NlG0XCOjSsjs7SeBVk=;
-        b=I5uUAnslI9iohcWcGvwQ1La8igmc08Dgutc4K//ZOliRBQaRsCvuWzc70N//cMry0vvrwH
-        BKtNKQK2R6FuwQbymWrVlq1H766ZtytsV+w3XlJHlILbIxNyCPFOrkPY/PgkLStzNEVlpZ
-        ExnlHmkAFLgeRofqnevAlRou3mGVDq+YsL5M5ajc2FXqt0WB/u24ZCK3ed6yEdWGmWC9T2
-        ISXOUS0/toZi2WFWflYc+eIH8Qw7UsY8Ip8KA+qKQMRU7Sfo89WKBsASebhKJ25ZKzPVfF
-        EAPBco13PdctmXrPup1XDQFusXVSvpOdaemNoWJMM0RFwWrGyE5G60g+AWBCuQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1595510224;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=eZpHq0wJmoP/QXQlRoyC1nwl6NlG0XCOjSsjs7SeBVk=;
-        b=WwsN8Q02+6+OIT1IGfrmoJ1cKOXiIf+cRiWF3uIDoAkx/POgXeIUtk17XXPG2yXE9l/RJX
-        We5XQT2JyzofwSBg==
-To:     Alex Belits <abelits@marvell.com>,
-        "frederic\@kernel.org" <frederic@kernel.org>,
-        "rostedt\@goodmis.org" <rostedt@goodmis.org>
-Cc:     Prasun Kapoor <pkapoor@marvell.com>,
-        "mingo\@kernel.org" <mingo@kernel.org>,
-        "davem\@davemloft.net" <davem@davemloft.net>,
-        "linux-api\@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "peterz\@infradead.org" <peterz@infradead.org>,
-        "linux-arch\@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "catalin.marinas\@arm.com" <catalin.marinas@arm.com>,
-        "will\@kernel.org" <will@kernel.org>,
-        "linux-arm-kernel\@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "netdev\@vger.kernel.org" <netdev@vger.kernel.org>
-Subject: Re: [PATCH v4 00/13] "Task_isolation" mode
-In-Reply-To: <04be044c1bcd76b7438b7563edc35383417f12c8.camel@marvell.com>
-References: <04be044c1bcd76b7438b7563edc35383417f12c8.camel@marvell.com>
-Date:   Thu, 23 Jul 2020 15:17:04 +0200
-Message-ID: <87imeextf3.fsf@nanos.tec.linutronix.de>
-MIME-Version: 1.0
+        id S1729123AbgGWNiE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 23 Jul 2020 09:38:04 -0400
+Received: from wnew3-smtp.messagingengine.com ([64.147.123.17]:35671 "EHLO
+        wnew3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728134AbgGWNiE (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Jul 2020 09:38:04 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailnew.west.internal (Postfix) with ESMTP id 961D2B7C;
+        Thu, 23 Jul 2020 09:38:02 -0400 (EDT)
+Received: from imap10 ([10.202.2.60])
+  by compute1.internal (MEProxy); Thu, 23 Jul 2020 09:38:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=9mco5f
+        JJTIwbB3aNFFiVQMevd5UiiUsgphoo0oYGF24=; b=rtHW9H+X9+1zQ3LSnXSHNT
+        pblNyZl2noCXQzVcDENcy/SjYvwXx4UsTxmC3aBUHxX2jbcbyDTwe2FOqaloPIAX
+        gqGF2AgdIHbnLOrtpI3a/rg35ifIhI5B7SzSc/WCn++leiddoW5lFwbM30lkBDsQ
+        mTTb7wVX1KPS8TNF5B4IZdp2dDlnYmt3njGgKWiMxdQwTLL1AYjmuIZ82oXvkxP2
+        mnTzHpqYj8+5G+X8+WaoB1fQHzwOdpUWwfeKzOIFyrL2CJgV4CX6OmVgJyenfhu5
+        R4qmMLh2sIrGDIRe5CyWG5QCt9RszpeC3KkJ3sIKfAFV6bgFES5WAQLaGK9+LO0Q
+        ==
+X-ME-Sender: <xms:uJIZXyvOt54dY396Ng-a5VkqMdxzQN-hq07zu_qySFTjv1mRQXJNtA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrhedugdeilecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedfveholhhi
+    nhcuhggrlhhtvghrshdfuceofigrlhhtvghrshesvhgvrhgsuhhmrdhorhhgqeenucggtf
+    frrghtthgvrhhnpeehgeehheeiledugeelleetkeeijeehueetteeggfeivdekudeghffh
+    ueffledvvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpeifrghlthgvrhhssehvvghrsghumhdrohhrgh
+X-ME-Proxy: <xmx:uJIZX3eGF1nonShfrDoGke5vtzpktwatS1yFFhjJ7CXAF40ACCDRpg>
+    <xmx:uJIZX9yC5zB3rUSblqIAhl5sOdWqksXMdYW0LZnavy4cipordcUzOw>
+    <xmx:uJIZX9PL14F8brVuf6ix41yLjyKqM2Nr5m7Gjg0ZUAgX4WY6NGoIDw>
+    <xmx:upIZX9UI-s1S7NtPGDJf2lcO01pkbD4TioauY_1YYgjiPB9yhTmwAao0c5o>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id DE5CD20061; Thu, 23 Jul 2020 09:38:00 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.3.0-92-g11c785d-fm-20200721.004-g11c785d5
+Mime-Version: 1.0
+Message-Id: <d57e169a-55a0-4fa2-a7f2-9a462a786a38@www.fastmail.com>
+In-Reply-To: <20200721155848.32xtze5ntvcmjv63@steredhat>
+References: <D9FAB37B-D059-4137-A115-616237D78640@amacapital.net>
+ <20200715171130.GG12769@casper.infradead.org>
+ <7c09f6af-653f-db3f-2378-02dca2bc07f7@gmail.com>
+ <CAJfpegt9=p4uo5U2GXqc-rwqOESzZCWAkGMRTY1r8H6fuXx96g@mail.gmail.com>
+ <48cc7eea-5b28-a584-a66c-4eed3fac5e76@gmail.com>
+ <202007151511.2AA7718@keescook> <20200716131404.bnzsaarooumrp3kx@steredhat>
+ <202007160751.ED56C55@keescook>
+ <20200717080157.ezxapv7pscbqykhl@steredhat.lan>
+ <CALCETrXSPdiVCgh3h=q7w9RyiKnp-=8jOHoFHX=an0cWqK7bzQ@mail.gmail.com>
+ <20200721155848.32xtze5ntvcmjv63@steredhat>
+Date:   Thu, 23 Jul 2020 09:37:40 -0400
+From:   "Colin Walters" <walters@verbum.org>
+To:     "Stefano Garzarella" <sgarzare@redhat.com>,
+        "Andy Lutomirski" <luto@kernel.org>
+Cc:     "Jens Axboe" <axboe@kernel.dk>, "Christoph Hellwig" <hch@lst.de>,
+        "Kees Cook" <keescook@chromium.org>,
+        "Pavel Begunkov" <asml.silence@gmail.com>,
+        "Miklos Szeredi" <miklos@szeredi.hu>,
+        "Matthew Wilcox" <willy@infradead.org>,
+        "Jann Horn" <jannh@google.com>,
+        "Christian Brauner" <christian.brauner@ubuntu.com>,
+        strace-devel@lists.strace.io, io-uring@vger.kernel.org,
+        "Linux API" <linux-api@vger.kernel.org>,
+        "Linux FS Devel" <linux-fsdevel@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "Michael Kerrisk" <mtk.manpages@gmail.com>,
+        "Stefan Hajnoczi" <stefanha@redhat.com>
+Subject: Re: strace of io_uring events?
 Content-Type: text/plain
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Alex,
+On Tue, Jul 21, 2020, at 11:58 AM, Stefano Garzarella wrote:
 
-Alex Belits <abelits@marvell.com> writes:
-> This is a new version of task isolation implementation. Previous version is at
-> https://lore.kernel.org/lkml/07c25c246c55012981ec0296eee23e68c719333a.camel@marvell.com/
->
-> Mostly this covers race conditions prevention on breaking isolation. Early after kernel entry,
-> task_isolation_enter() is called to update flags visible to other CPU cores and to perform
-> synchronization if necessary. Before this call only "safe" operations happen, as long as
-> CONFIG_TRACE_IRQFLAGS is not enabled.
+> my use case concerns virtualization. The idea, that I described in the
+> proposal of io-uring restrictions [1], is to share io_uring CQ and SQ queues
+> with a guest VM for block operations.
 
-Without going into details of the individual patches, let me give you a
-high level view of this series:
+Virtualization being a strong security barrier is in eternal conflict with maximizing performance.
+All of these "let's add a special guest/host channel" are high risk areas.
 
-  1) Entry code handling:
+And this effort in particular - is it *really* worth it to expose a brand new, fast moving Linux kernel interface (that probably hasn't been fuzzed as much as it needs to be) to virtual machines?
 
-     That's completely broken vs. the careful ordering and instrumentation
-     protection of the entry code. You can't just slap stuff randomly
-     into places which you think are safe w/o actually trying to understand
-     why this code is ordered in the way it is.
+People who want maximum performance at the cost of a bit of security already have the choice to use Linux containers, where they can use io_uring natively.
 
-     This clearly was never built and tested with any of the relevant
-     debug options enabled. Both build and boot would have told you.
-
-  2) Instruction synchronization
-
-     Trying to do instruction synchronization delayed is a clear recipe
-     for hard to diagnose failures. Just because it blew not up in your
-     face does not make it correct in any way. It's broken by design and
-     violates _all_ rules of safe instruction patching and introduces a
-     complete trainwreck in x86 NMI processing.
-
-     If you really think that this is correct, then please have at least
-     the courtesy to come up with a detailed and precise argumentation
-     why this is a valid approach.
-
-     While writing that up you surely will find out why it is not.
-
-  3) Debug calls
-
-     Sprinkling debug calls around the codebase randomly is not going to
-     happen. That's an unmaintainable mess.
-
-     Aside of that none of these dmesg based debug things is necessary.
-     This can simply be monitored with tracing.
-
-  4) Tons of undocumented smp barriers
-
-     See Documentation/process/submit-checklist.rst #25
-
-  5) Signal on page fault
-
-     Why is this a magic task isolation feature instead of making it
-     something which can be used in general? There are other legit
-     reasons why a task might want a notification about an unexpected
-     (resolved) page fault.
-
-  6) Coding style violations all over the place
-
-     Using checkpatch.pl is mandatory
-
-  7) Not Cc'ed maintainers
-
-     While your Cc list is huge, you completely fail to Cc the relevant
-     maintainers of various files and subsystems as requested in
-     Documentation/process/*
-
-  8) Changelogs
-
-     Most of the changelogs have something along the lines:
-
-     'task isolation does not want X, so do Y to make it not do X'
-
-     without any single line of explanation why this approach was chosen
-     and why it is correct under all circumstances and cannot have nasty
-     side effects.
-
-     It's not the job of the reviewers/maintainers to figure this out.
-
-Please come up with a coherent design first and then address the
-identified issues one by one in a way which is palatable and reviewable.
-
-Throwing a big pile of completely undocumented 'works for me' mess over
-the fence does not get you anywhere, not even to the point that people
-are willing to review it in detail.
-
-Thanks,
-
-        tglx
