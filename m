@@ -2,84 +2,90 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EF02B22B15A
-	for <lists+linux-api@lfdr.de>; Thu, 23 Jul 2020 16:29:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C83C22B1DB
+	for <lists+linux-api@lfdr.de>; Thu, 23 Jul 2020 16:53:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729448AbgGWO3S (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 23 Jul 2020 10:29:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49260 "EHLO
+        id S1728716AbgGWOxW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 23 Jul 2020 10:53:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728780AbgGWO3S (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Jul 2020 10:29:18 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71D16C0619DC;
-        Thu, 23 Jul 2020 07:29:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=upOiIS7dMuAye0nblqH4s7ijqqWrvcTJhfr37DrOQV4=; b=NXnhLWyzLS186oz1sFOcrgLsjP
-        wqswZUN8nPVkVOwndoUqsF7gfC2ZxKdZQCwGixtBlpofMFffF/EjHEPBljpMLAh8NEIb+GWShTLxE
-        qSNjgEb8x5KIxJyWKY+I1Wy3wsvp+yPXIv3dACcd0VqcZlI/7eoC5IRec+tZVNCRZe184WGpSozhk
-        CvN5XmIyHTaRw44j/WGYE+N6OLt25YAvJyVdEHG5nt1uNTZYubIMudeszyZkroKmGPNLmWm8fq7Cm
-        GpFfjYgDqTZB6cKPZMF8/YFlhLIN8uceUVDtQTVDRnXEgTmQCUgX5H8Any/+y/RIVCID1b84LZb/Y
-        Sghus1pw==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jycDX-0006yA-8C; Thu, 23 Jul 2020 14:29:03 +0000
-Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 64E5F983422; Thu, 23 Jul 2020 16:29:02 +0200 (CEST)
-Date:   Thu, 23 Jul 2020 16:29:02 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Thomas Gleixner <tglx@linutronix.de>
+        with ESMTP id S1726761AbgGWOxV (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Jul 2020 10:53:21 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0537C0619DC;
+        Thu, 23 Jul 2020 07:53:21 -0700 (PDT)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1595516000;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=xReGl6rTwlABQqLHz4nZq26+2OiWDgg160LyB2p5G1Y=;
+        b=h+R7c7Oqa+NtfxuxU6ErUL3QgyKMiY86p1+Kw7jgFvrPWdf1Q0qClfz317j9HUmF2fwC/1
+        5acMlB6QLMHuQ5C80LW1aEUjGMzQKOLyRA1SAmDUiUIFBgINPfAmbPmW258xRB4SST2MAd
+        GsIWTwBzzKWejXNRLcn0/kylOrHmYzxeC+YBi5HEro2PJgagKpxzZ/H2OjSnTCbjwhoJ22
+        xkmLAuyyoc25iqroV83OtXKN3Ts+LbJSF0t5tzsVbkxhIuuNqUCPkFbZGSqZEgmsXrkCIr
+        pnMbd2XwB2NTi505+WXCf8zIwWxOv0AIhY/IC+XmYNJ03E2iS3sY9MAhMmqOEQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1595516000;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=xReGl6rTwlABQqLHz4nZq26+2OiWDgg160LyB2p5G1Y=;
+        b=ZWPvwgt7LIfOjZ/LyDvsBRAenC3Lmc63twFT/Q12fb4/k/DMfWqwI6MbrS7HjD3pi6hH84
+        QAlVEytmbw2nKuAQ==
+To:     Peter Zijlstra <peterz@infradead.org>
 Cc:     Alex Belits <abelits@marvell.com>,
-        "frederic@kernel.org" <frederic@kernel.org>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "frederic\@kernel.org" <frederic@kernel.org>,
+        "rostedt\@goodmis.org" <rostedt@goodmis.org>,
         Prasun Kapoor <pkapoor@marvell.com>,
-        "mingo@kernel.org" <mingo@kernel.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "will@kernel.org" <will@kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
+        "mingo\@kernel.org" <mingo@kernel.org>,
+        "davem\@davemloft.net" <davem@davemloft.net>,
+        "linux-api\@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-arch\@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "catalin.marinas\@arm.com" <catalin.marinas@arm.com>,
+        "will\@kernel.org" <will@kernel.org>,
+        "linux-arm-kernel\@lists.infradead.org" 
         <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
+        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "netdev\@vger.kernel.org" <netdev@vger.kernel.org>
 Subject: Re: [PATCH v4 00/13] "Task_isolation" mode
-Message-ID: <20200723142902.GT5523@worktop.programming.kicks-ass.net>
-References: <04be044c1bcd76b7438b7563edc35383417f12c8.camel@marvell.com>
- <87imeextf3.fsf@nanos.tec.linutronix.de>
+In-Reply-To: <20200723142623.GS5523@worktop.programming.kicks-ass.net>
+References: <04be044c1bcd76b7438b7563edc35383417f12c8.camel@marvell.com> <87imeextf3.fsf@nanos.tec.linutronix.de> <20200723142623.GS5523@worktop.programming.kicks-ass.net>
+Date:   Thu, 23 Jul 2020 16:53:19 +0200
+Message-ID: <87y2nawae8.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87imeextf3.fsf@nanos.tec.linutronix.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jul 23, 2020 at 03:17:04PM +0200, Thomas Gleixner wrote:
->   8) Changelogs
-> 
->      Most of the changelogs have something along the lines:
-> 
->      'task isolation does not want X, so do Y to make it not do X'
-> 
->      without any single line of explanation why this approach was chosen
->      and why it is correct under all circumstances and cannot have nasty
->      side effects.
-> 
->      It's not the job of the reviewers/maintainers to figure this out.
-> 
-> Please come up with a coherent design first and then address the
-> identified issues one by one in a way which is palatable and reviewable.
-> 
-> Throwing a big pile of completely undocumented 'works for me' mess over
-> the fence does not get you anywhere, not even to the point that people
-> are willing to review it in detail.
+Peter Zijlstra <peterz@infradead.org> writes:
+> On Thu, Jul 23, 2020 at 03:17:04PM +0200, Thomas Gleixner wrote:
+>
+>>   2) Instruction synchronization
+>> 
+>>      Trying to do instruction synchronization delayed is a clear recipe
+>>      for hard to diagnose failures. Just because it blew not up in your
+>>      face does not make it correct in any way. It's broken by design and
+>>      violates _all_ rules of safe instruction patching and introduces a
+>>      complete trainwreck in x86 NMI processing.
+>> 
+>>      If you really think that this is correct, then please have at least
+>>      the courtesy to come up with a detailed and precise argumentation
+>>      why this is a valid approach.
+>> 
+>>      While writing that up you surely will find out why it is not.
+>
+> So delaying the sync_core() IPIs for kernel text patching _might_ be
+> possible, but it very much wants to be a separate patchset and not
+> something hidden inside a 'gem' like this.
 
-This.. as presented it is an absolutely unreviewable pile of junk. It
-presents code witout any coherent problem description and analysis. And
-the patches are not split sanely either.
+I'm not saying it's impossible, but the proposed hack is definitely
+beyond broken and you really don't want to be the one who has to mop up
+the pieces later.
+
+Thanks,
+
+        tglx
