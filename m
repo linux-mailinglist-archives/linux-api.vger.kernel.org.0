@@ -2,169 +2,91 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B3EED22A032
-	for <lists+linux-api@lfdr.de>; Wed, 22 Jul 2020 21:40:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AAB1D22A91A
+	for <lists+linux-api@lfdr.de>; Thu, 23 Jul 2020 08:47:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730802AbgGVTkW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 22 Jul 2020 15:40:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43928 "EHLO
+        id S1726304AbgGWGrz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 23 Jul 2020 02:47:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726841AbgGVTkV (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 22 Jul 2020 15:40:21 -0400
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47532C0619E4
-        for <linux-api@vger.kernel.org>; Wed, 22 Jul 2020 12:40:21 -0700 (PDT)
-Received: by mail-pj1-x1041.google.com with SMTP id md7so1935291pjb.1
-        for <linux-api@vger.kernel.org>; Wed, 22 Jul 2020 12:40:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=jjUf3A9HubTVaUqe7Zad+MUemnjZyICfz18It9oZSwM=;
-        b=BtZ9Nvf8isLyQCQ50XpXD/ebRCdBjkHCCGnxVM0OZAVUpANRBBMkjIj06Zdw9/XpBn
-         ZFD8aNoO8CrwWK2+N4nmMD0rTFkdF72k74MsJNFZWuktshu5ucg9wp2qUVlDzWfUY4Ja
-         ol6MqQXlLRetbAhUkjy41VWkXgnqEDPN3tA18=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=jjUf3A9HubTVaUqe7Zad+MUemnjZyICfz18It9oZSwM=;
-        b=H2XPVPs6jT0ggzvFm3k1RO/6doo0vtaRNTSoE+lIzpakw5TMAv2tXqZ6tv+PjEOx/v
-         wZ8ulD3G0cU5LX/CPWyzH4ci7kbgIV2zmbGRWfSba0wVWTQttu8qa07pA9p9XgLqunSb
-         usCrFxNvYU5MnaW6ZU7pmPe8OItv8a3xuvbMLBIHtaBQB9iaoWTe6R/ahnRFGvIoRUUY
-         oig8NQnyOFi7kYFLclgx9i8zQiQ+nD3nuRPNnQnOWg547J3PZ3TydMhQHaxE2NYmfLaW
-         1204/bKVUVKTiVI7w5KWn7y//+bav+ydO2F6DSQGl0JkNTKI7a/fCrbUTC0cUaqxM195
-         AQyA==
-X-Gm-Message-State: AOAM533sbwndef6gcwtx+9Q30gWlZfWzqsmd55PKbv2chVQGLQK0DIh1
-        tlypbfztcmcjYZ7r1vYs2T5W2Q==
-X-Google-Smtp-Source: ABdhPJyT2VSdLIe8tOpWuzfYoIvgn4i+cMVfKxosGUgPymW4NU2ZBedNm+ZTGrz2uSKWm+z7tIxFEg==
-X-Received: by 2002:a17:90b:338d:: with SMTP id ke13mr906409pjb.60.1595446820815;
-        Wed, 22 Jul 2020 12:40:20 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id 38sm420287pgu.61.2020.07.22.12.40.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2020 12:40:19 -0700 (PDT)
-Date:   Wed, 22 Jul 2020 12:40:19 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
-Cc:     Thibaut Sautereau <thibaut.sautereau@clip-os.org>,
-        linux-kernel@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Christian Heimes <christian@python.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Deven Bowers <deven.desai@linux.microsoft.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Eric Chiang <ericchiang@google.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
-        Matthew Garrett <mjg59@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mickael.salaun@ssi.gouv.fr>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Philippe =?iso-8859-1?Q?Tr=E9buchet?= 
-        <philippe.trebuchet@ssi.gouv.fr>,
-        Scott Shell <scottsh@microsoft.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Steve Dower <steve.dower@python.org>,
-        Steve Grubb <sgrubb@redhat.com>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
-        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v6 5/7] fs,doc: Enable to enforce noexec mounts or file
- exec through O_MAYEXEC
-Message-ID: <202007221239.E00125F019@keescook>
-References: <20200714181638.45751-1-mic@digikod.net>
- <20200714181638.45751-6-mic@digikod.net>
- <202007151312.C28D112013@keescook>
- <35ea0914-7360-43ab-e381-9614d18cceba@digikod.net>
- <20200722161639.GA24129@gandi.net>
- <efb88aab-f9f9-4b66-e7ab-3aa054eec96e@digikod.net>
+        with ESMTP id S1725774AbgGWGrz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Jul 2020 02:47:55 -0400
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D027C0619DC
+        for <linux-api@vger.kernel.org>; Wed, 22 Jul 2020 23:47:55 -0700 (PDT)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.ozlabs.org (Postfix) with ESMTPSA id 4BC2vr4Zfxz9sQt;
+        Thu, 23 Jul 2020 16:47:52 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ellerman.id.au;
+        s=201909; t=1595486873;
+        bh=OeNPhpHvBcuXZex2aPYrGLTVDAkNiyf0rppWSgiCxS8=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=HohM+0bPBvgVW9/HLN4IMf5yi02AnIfVZnPyIdTtAqHC444cFOH1CKBqWpDM7Lwon
+         NsM2R52CvAiwEd0oX+42uRFpfb/YABuNwOZBc3DeK4/+VbhCdDG6tHlBPeBneiYZuW
+         x/sjp2Pc9GDKywfRjjOwgwst4SPVzzgNXME3MASoNfD6aqfhLT8wAtukHrEuE6y5h5
+         0AOqS5iR7BzgP5uZOc2BfOKaLT4d9hdVadOEuqIlPGilDO/5G5Z+CFWTi+jic2wAc3
+         oZ6pwqxKCRUOOvrVii1xzFbG1V85GZ0g85dphJPcJZYxt2e93/P/e/b5BBlJGk5abE
+         SUl2R+mpqXtVQ==
+From:   Michael Ellerman <mpe@ellerman.id.au>
+To:     Nicholas Piggin <npiggin@gmail.com>, linuxppc-dev@lists.ozlabs.org
+Cc:     libc-dev@lists.llvm.org, musl@lists.openwall.com,
+        Nicholas Piggin <npiggin@gmail.com>, linux-api@vger.kernel.org
+Subject: Re: [PATCH 2/2] powerpc/64s: system call support for scv/rfscv instructions
+In-Reply-To: <20200611081203.995112-3-npiggin@gmail.com>
+References: <20200611081203.995112-1-npiggin@gmail.com> <20200611081203.995112-3-npiggin@gmail.com>
+Date:   Thu, 23 Jul 2020 16:47:51 +1000
+Message-ID: <871rl2ralk.fsf@mpe.ellerman.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <efb88aab-f9f9-4b66-e7ab-3aa054eec96e@digikod.net>
+Content-Type: text/plain
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jul 22, 2020 at 09:04:28PM +0200, Mickaël Salaün wrote:
-> 
-> On 22/07/2020 18:16, Thibaut Sautereau wrote:
-> > On Thu, Jul 16, 2020 at 04:39:14PM +0200, Mickaël Salaün wrote:
-> >>
-> >> On 15/07/2020 22:37, Kees Cook wrote:
-> >>> On Tue, Jul 14, 2020 at 08:16:36PM +0200, Mickaël Salaün wrote:
-> >>>> @@ -2849,7 +2855,7 @@ static int may_open(const struct path *path, int acc_mode, int flag)
-> >>>>  	case S_IFLNK:
-> >>>>  		return -ELOOP;
-> >>>>  	case S_IFDIR:
-> >>>> -		if (acc_mode & (MAY_WRITE | MAY_EXEC))
-> >>>> +		if (acc_mode & (MAY_WRITE | MAY_EXEC | MAY_OPENEXEC))
-> >>>>  			return -EISDIR;
-> >>>>  		break;
-> >>>
-> >>> (I need to figure out where "open for reading" rejects S_IFDIR, since
-> >>> it's clearly not here...)
-> > 
-> > Doesn't it come from generic_read_dir() in fs/libfs.c?
-> > 
-> >>>
-> >>>>  	case S_IFBLK:
-> >>>> @@ -2859,13 +2865,26 @@ static int may_open(const struct path *path, int acc_mode, int flag)
-> >>>>  		fallthrough;
-> >>>>  	case S_IFIFO:
-> >>>>  	case S_IFSOCK:
-> >>>> -		if (acc_mode & MAY_EXEC)
-> >>>> +		if (acc_mode & (MAY_EXEC | MAY_OPENEXEC))
-> >>>>  			return -EACCES;
-> >>>>  		flag &= ~O_TRUNC;
-> >>>>  		break;
-> >>>
-> >>> This will immediately break a system that runs code with MAY_OPENEXEC
-> >>> set but reads from a block, char, fifo, or socket, even in the case of
-> >>> a sysadmin leaving the "file" sysctl disabled.
-> >>
-> >> As documented, O_MAYEXEC is for regular files. The only legitimate use
-> >> case seems to be with pipes, which should probably be allowed when
-> >> enforcement is disabled.
-> > 
-> > By the way Kees, while we fix that for the next series, do you think it
-> > would be relevant, at least for the sake of clarity, to add a
-> > WARN_ON_ONCE(acc_mode & MAY_OPENEXEC) for the S_IFSOCK case, since a
-> > socket cannot be open anyway?
+Nicholas Piggin <npiggin@gmail.com> writes:
+> diff --git a/arch/powerpc/include/asm/ppc-opcode.h b/arch/powerpc/include/asm/ppc-opcode.h
+> index 2a39c716c343..b2bdc4de1292 100644
+> --- a/arch/powerpc/include/asm/ppc-opcode.h
+> +++ b/arch/powerpc/include/asm/ppc-opcode.h
+> @@ -257,6 +257,7 @@
+>  #define PPC_INST_MFVSRD			0x7c000066
+>  #define PPC_INST_MTVSRD			0x7c000166
+>  #define PPC_INST_SC			0x44000002
+> +#define PPC_INST_SCV			0x44000001
+...
+> @@ -411,6 +412,7 @@
+...
+> +#define __PPC_LEV(l)	(((l) & 0x7f) << 5)
 
-If it's a state that userspace should never be able to reach, then yes,
-I think a WARN_ON_ONCE() would be nice.
+These conflicted and didn't seem to be used so I dropped them.
 
-> We just did some more tests (for the next patch series) and it turns out
-> that may_open() can return EACCES before another part returns ENXIO.
-> 
-> As a reminder, the next series will deny access to block devices,
-> character devices, fifo and socket when opened with O_MAYEXEC *and* if
-> any policy is enforced (via the sysctl).
-> 
-> The question is then: do we prefer to return EACCES when a policy is
-> enforced (on a socket), or do we stick to the ENXIO? The EACCES approach
-> will be more consistent with devices and fifo handling, and seems safer
-> (belt and suspenders) thought.
+> diff --git a/arch/powerpc/lib/sstep.c b/arch/powerpc/lib/sstep.c
+> index 5abe98216dc2..161bfccbc309 100644
+> --- a/arch/powerpc/lib/sstep.c
+> +++ b/arch/powerpc/lib/sstep.c
+> @@ -3378,6 +3382,16 @@ int emulate_step(struct pt_regs *regs, struct ppc_inst instr)
+>  		regs->msr = MSR_KERNEL;
+>  		return 1;
+>  
+> +	case SYSCALL_VECTORED_0:	/* scv 0 */
+> +		regs->gpr[9] = regs->gpr[13];
+> +		regs->gpr[10] = MSR_KERNEL;
+> +		regs->gpr[11] = regs->nip + 4;
+> +		regs->gpr[12] = regs->msr & MSR_MASK;
+> +		regs->gpr[13] = (unsigned long) get_paca();
+> +		regs->nip = (unsigned long) &system_call_vectored_emulate;
+> +		regs->msr = MSR_KERNEL;
+> +		return 1;
+> +
 
-I think EACCES is correct for these cases, since it's a new flag, etc.
+This broke the ppc64e build:
 
--- 
-Kees Cook
+  ld: arch/powerpc/lib/sstep.o:(.toc+0x0): undefined reference to `system_call_vectored_emulate'
+  make[1]: *** [/home/michael/linux/Makefile:1139: vmlinux] Error 1
+
+I wrapped it in #ifdef CONFIG_PPC64_BOOK3S.
+
+cheers
