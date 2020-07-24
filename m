@@ -2,197 +2,132 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C022422CA44
-	for <lists+linux-api@lfdr.de>; Fri, 24 Jul 2020 18:08:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46F3522CB0F
+	for <lists+linux-api@lfdr.de>; Fri, 24 Jul 2020 18:29:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728531AbgGXQIR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 24 Jul 2020 12:08:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34290 "EHLO
+        id S1726826AbgGXQ3X (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 24 Jul 2020 12:29:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728521AbgGXQIR (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 24 Jul 2020 12:08:17 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CD77C0619E4;
-        Fri, 24 Jul 2020 09:08:16 -0700 (PDT)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1595606893;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=3s3Aqgk8wYEb6C7q76eOXNAqiLkE4bQcw2wKh9KEzyY=;
-        b=FauBewUnsIbIwsfTsUPJbI07vZky8mAkl6COdDJH8e9nhi7dsgWxCcZiz5++vGloYa3wt8
-        DJLWCHMQl5O+zK5Wo7MD6tkkesSF1QuLohYDxKaCf0tCms6mlkKUlTx+gFAoWQfqdrOUCX
-        6gvrKASHtAoTZ5eOZ8EqInEwe7CMPWx5Df0krM3ODVoHV0ImV1dkgHnRCLwSbObdmwf00d
-        UYNksdCl1f7je5OMYZLvE4+kDNmU8JuDBUQaLZxKRTMkC2HsVUCHhqMXTC+maDkF9LaN8Z
-        7+t3sUmjMF4iXbA2ZhMq/CxAMXm+W+hORXO5U35Xvx30ERGSYcFgpxttvrVdCg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1595606893;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=3s3Aqgk8wYEb6C7q76eOXNAqiLkE4bQcw2wKh9KEzyY=;
-        b=PYQzksp8119gJXWIbAR97q2k9vMn1xwijpvcyOhpepzX0j2WJs2GqqH2gviiTC/qtVWSyE
-        M3LwSBgwFVJNHgCA==
-To:     Alex Belits <abelits@marvell.com>,
-        "peterz\@infradead.org" <peterz@infradead.org>
-Cc:     "mingo\@kernel.org" <mingo@kernel.org>,
-        Prasun Kapoor <pkapoor@marvell.com>,
-        "linux-api\@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "rostedt\@goodmis.org" <rostedt@goodmis.org>,
-        "frederic\@kernel.org" <frederic@kernel.org>,
-        "catalin.marinas\@arm.com" <catalin.marinas@arm.com>,
-        "will\@kernel.org" <will@kernel.org>,
-        "linux-arch\@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "davem\@davemloft.net" <davem@davemloft.net>,
-        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel\@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "netdev\@vger.kernel.org" <netdev@vger.kernel.org>
-Subject: Re: [PATCH v4 00/13] "Task_isolation" mode
-In-Reply-To: <851ee54e8317cd186338a76a045f738476144fcc.camel@marvell.com>
-References: <04be044c1bcd76b7438b7563edc35383417f12c8.camel@marvell.com> <87imeextf3.fsf@nanos.tec.linutronix.de> <831e023422aa0e4cb3da37ceef6fdcd5bc854682.camel@marvell.com> <20200723154933.GB709@worktop.programming.kicks-ass.net> <3ff1383e669b543462737b0d12c0d1fb7d409e3e.camel@marvell.com> <877dutx5xj.fsf@nanos.tec.linutronix.de> <851ee54e8317cd186338a76a045f738476144fcc.camel@marvell.com>
-Date:   Fri, 24 Jul 2020 18:08:13 +0200
-Message-ID: <87mu3ouc9e.fsf@nanos.tec.linutronix.de>
+        with ESMTP id S1726824AbgGXQ3X (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 24 Jul 2020 12:29:23 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C937AC0619E7
+        for <linux-api@vger.kernel.org>; Fri, 24 Jul 2020 09:29:22 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id j20so5444118pfe.5
+        for <linux-api@vger.kernel.org>; Fri, 24 Jul 2020 09:29:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=H5vpCWHYjYJzXRlUWgDCLhZpTQz6UHH/5YbUsvqWdNg=;
+        b=AiM7BvGhGZq+8CYp8kZrjTGkqBuGSOVx6gcS2ZoV6niiBFHjxOg990QxEbHLjMtigv
+         rkvJauw/Nl3yhgdh3yh3/cQAnPJiwRmEprDaz+FVWchlY0XqPjysldBf7LV7iodBdHsg
+         899CD4i/WKRLcxWHL2qBJPQckfv3u7k8PdGNBc5u9vYaxF2nX4a0GJZ0t2UsIEZTpo6J
+         LSaij/Yuh1Dejhu73ovuUR07/jtKpWqsPIuesjS1PnD7zc9xpDNs1ajo4VYGKaFSYPEp
+         4k9hgoXmZx02QlUnefhSTGyaDFr/jP9Yjztbzg3eY6wwKKTEEk/uuvzIim3EIQCSWKme
+         optQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=H5vpCWHYjYJzXRlUWgDCLhZpTQz6UHH/5YbUsvqWdNg=;
+        b=n6iT9q2u8e0jGk0aza3ReavnanFkWaH+JLrBKOVlUJZQObApuPHyVmRw/lYLZYGOJV
+         X0JGuerVPyOehelDGj1QkBQXQtahklgRn2a2f23kh/Y7F4n3pyGEgB4qYBbwL5fpGxt8
+         bDY9EhLif3kdtb4NLVgXVZ0IwGD7nU4TGhue3AMvUgUvRZ5YSx7+OpEZqr1tCBNKSxqG
+         E5jShnq7u/Qr2rv+0WTGLrLPp+FqnYgJiBdDL3xIoOKlf7CSlPSoYFLrmTgPfXm6NuEL
+         Ka+oMvj1fryWCXaEJQnMl7IhazL3nhIbn90CQO5YbKJUxoQCWYbdU6610FMvwLE4SwzG
+         WnLQ==
+X-Gm-Message-State: AOAM532mCD8G1QY2wfI5K1KCADwLtxXOrEY67EArUgR+ooDTOYgXC2m7
+        EB7tpU9br6BHr4sGj1XISg3sPw==
+X-Google-Smtp-Source: ABdhPJwiUQeYSR905NX4BkAH3K9ZeZTdo2ytHvuhOnPUvAeq9vMBPv48vFJy3B/CVUpeaPlmxlgHwA==
+X-Received: by 2002:a63:338c:: with SMTP id z134mr9031841pgz.245.1595608162016;
+        Fri, 24 Jul 2020 09:29:22 -0700 (PDT)
+Received: from [192.168.1.182] ([66.219.217.173])
+        by smtp.gmail.com with ESMTPSA id e15sm6659144pgt.17.2020.07.24.09.29.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Jul 2020 09:29:21 -0700 (PDT)
+Subject: Re: [PATCH v4 6/6] io_uring: add support for zone-append
+To:     Kanchan Joshi <joshi.k@samsung.com>, viro@zeniv.linux.org.uk,
+        bcrl@kvack.org
+Cc:     willy@infradead.org, hch@infradead.org, Damien.LeMoal@wdc.com,
+        asml.silence@gmail.com, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-aio@kvack.org,
+        io-uring@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-api@vger.kernel.org, SelvaKumar S <selvakuma.s1@samsung.com>,
+        Nitesh Shetty <nj.shetty@samsung.com>,
+        Javier Gonzalez <javier.gonz@samsung.com>
+References: <1595605762-17010-1-git-send-email-joshi.k@samsung.com>
+ <CGME20200724155350epcas5p3b8f1d59eda7f8fbb38c828f692d42fd6@epcas5p3.samsung.com>
+ <1595605762-17010-7-git-send-email-joshi.k@samsung.com>
+From:   Jens Axboe <axboe@kernel.dk>
+Message-ID: <f5416bd4-93b3-4d14-3266-bdbc4ae1990b@kernel.dk>
+Date:   Fri, 24 Jul 2020 10:29:19 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <1595605762-17010-7-git-send-email-joshi.k@samsung.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Alex,
+On 7/24/20 9:49 AM, Kanchan Joshi wrote:
+> diff --git a/fs/io_uring.c b/fs/io_uring.c
+> index 7809ab2..6510cf5 100644
+> --- a/fs/io_uring.c
+> +++ b/fs/io_uring.c
+> @@ -1284,8 +1301,15 @@ static void __io_cqring_fill_event(struct io_kiocb *req, long res, long cflags)
+>  	cqe = io_get_cqring(ctx);
+>  	if (likely(cqe)) {
+>  		WRITE_ONCE(cqe->user_data, req->user_data);
+> -		WRITE_ONCE(cqe->res, res);
+> -		WRITE_ONCE(cqe->flags, cflags);
+> +		if (unlikely(req->flags & REQ_F_ZONE_APPEND)) {
+> +			if (likely(res > 0))
+> +				WRITE_ONCE(cqe->res64, req->rw.append_offset);
+> +			else
+> +				WRITE_ONCE(cqe->res64, res);
+> +		} else {
+> +			WRITE_ONCE(cqe->res, res);
+> +			WRITE_ONCE(cqe->flags, cflags);
+> +		}
 
-Alex Belits <abelits@marvell.com> writes:
-> On Thu, 2020-07-23 at 23:44 +0200, Thomas Gleixner wrote:
->>  1) That inline function can be put out of line by the compiler and
->>     placed into the regular text section which makes it subject to
->>     instrumentation
->> 
->>  2) That inline function invokes local_irq_save() which is subject to
->>     instrumentation _before_ the entry state for the instrumentation
->>     mechanisms is established.
->> 
->>  3) That inline function invokes sync_core() before important state
->> has
->>     been established, which is especially interesting in NMI like
->>     exceptions.
->> 
->> As you clearly documented why all of the above is safe and does not
->> cause any problems, it's just me and Peter being silly, right?
->> 
->> Try again.
->
-> I don't think, accusations and mockery are really necessary here.
+This would be nice to keep out of the fast path, if possible.
 
-Let's get some context to this.
+> diff --git a/include/uapi/linux/io_uring.h b/include/uapi/linux/io_uring.h
+> index 92c2269..2580d93 100644
+> --- a/include/uapi/linux/io_uring.h
+> +++ b/include/uapi/linux/io_uring.h
+> @@ -156,8 +156,13 @@ enum {
+>   */
+>  struct io_uring_cqe {
+>  	__u64	user_data;	/* sqe->data submission passed back */
+> -	__s32	res;		/* result code for this event */
+> -	__u32	flags;
+> +	union {
+> +		struct {
+> +			__s32	res;	/* result code for this event */
+> +			__u32	flags;
+> +		};
+> +		__s64	res64;	/* appending offset for zone append */
+> +	};
+>  };
 
-  I told you in my first mail, that this breaks noinstr and that
-  building with full debug would have told you.
+Is this a compatible change, both for now but also going forward? You
+could randomly have IORING_CQE_F_BUFFER set, or any other future flags.
+Layout would also be different between big and little endian, so not
+even that easy to set aside a flag for this. But even if that was done,
+we'd still have this weird API where liburing or the app would need to
+distinguish this cqe from all others based on... the user_data? Hence
+liburing can't do it, only the app would be able to.
 
-  Peter gave you a clear hint where to look.
+Just seems like a hack to me.
 
-Now it might be expected that you investigate that or at least ask
-questions before making the bold claim:
+-- 
+Jens Axboe
 
->> > Unless something else is involved, those operations are safe, so I
->> > am not adding anything that can break those.
-
-Surely I could have avoided the snide remark, but after you demonstrably
-ignored technically valid concerns and suggestions in your other reply,
-I was surely not in the mood to be overly careful in my choice of words.
-
-> The result of this may be not a "design" per se, but an understanding
-> of how things are implemented, and what rules are being followed, so I
-> could add my code in a manner consistent with what is done, and
-> document the whole thing.
-
-Every other big and technically complex project which has to change the
-very inner workings of the kernel started the same way. I'm not aware of
-any of them getting accepted as is or in a big code dump.
-
-What you have now qualifies as proof of concept and the big challenge is
-to turn it into something which is acceptable and maintainable.
-
-You talk in great length about how inconsistent stuff is all over the
-place. Yes, it is indeed. You even call that inconsistency an existing
-design:
-
-> My patches reflect what is already in code and in its design.
-
-I agree that you just work with the code as is, but you might have
-noticed that quite some of this stuff is clearly not designed at all or
-designed badly.
-
-The solution is not to pile on top of the inconsistency, the solution is
-to make it consistent in the first place.
-
-You are surely going to say, that's beyond the scope of your project. I
-can tell you that it is in the scope of your project simply because just
-proliferating the status quo and piling new stuff on top is not an
-option. And no, there are no people waiting in a row to mop up after
-you either.
-
-Quite some of the big technology projects have spent and still spend
-considerable amount of time to do exactly this kind of consolidation
-work upfront in order to make their features acceptable in a
-maintainable form.
-
-All of these projects have been merged or are still being merged
-piecewise in reviewable chunks.
-
-We are talking about intrusive technology which requires a very careful
-integration to prevent it from becoming a roadblock or a maintenaince
-headache. The approach and implementation has to be _agreed_ on by the
-involved parties, i.e. submitters, reviewers and maintainers.
-
-> While I understand that this is an unusual feature and by its nature
-> it affects kernel in multiple places, it does not deserve to be called
-> a "mess" and other synonyms of "mess".
-
-The feature is perfectly fine and I completely understand why you want
-it. Guess who started to lay the grounds for NOHZ_FULL more than a
-decade ago and why?
-
-The implementation is not acceptable on technical grounds,
-maintainability reasons, lack of design and proper consolidated
-integration.
-
-> Another issue that you have asked me to defend is the existence and
-> scope of task isolation itself.
-
-I have not asked you to defend the existance. I asked you for coherent
-explanations how the implementation works and why the chosen approach is
-correct and valid. That's a completely different thing.
-
-> It's an attempt to introduce a feature that turns Linux userspace into
-> superior replacement of RTOS.....
-
-Can you please spare me the advertising and marketing? I'm very well
-aware what an RTOS is and I'm also very well aware that there is no such
-thing like a 'superior replacement' for RTOS in general.
-
-If your view of RTOS is limited to this particular feature, then I have
-to tell you that this particular feature is only useful for a very small
-portion of the overall RTOS use cases.
-
-> However most definitely this is not a "mess", and it I do not believe
-> that I have to defend the validity of this direction of development, or
-> be accused of general incompetence every time someone finds a
-> frustrating mistake in my code.
-
-Nobody accuses you of incompetence, but you will have to defend the
-validity of your approach and implementation and accept that things
-might not be as shiny as you think they are. That's not hostility,
-that's just how Linux kernel development works whether you like it or
-not. 
-
-I surely can understand your frustration over my view of this series,
-but you might have noticed that aside of criticism I gave you very clear
-technical arguments and suggestions how to proceed.
-
-It's your decision what you make of that.
-
-Thanks,
-
-        tglx
