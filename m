@@ -2,98 +2,92 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7142022B8D7
-	for <lists+linux-api@lfdr.de>; Thu, 23 Jul 2020 23:44:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4886A22BABC
+	for <lists+linux-api@lfdr.de>; Fri, 24 Jul 2020 02:03:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726980AbgGWVo1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 23 Jul 2020 17:44:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60442 "EHLO
+        id S1728173AbgGXADg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 23 Jul 2020 20:03:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726115AbgGWVo0 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Jul 2020 17:44:26 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93BCEC0619D3;
-        Thu, 23 Jul 2020 14:44:26 -0700 (PDT)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1595540664;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=YJAOZn+NV3c8JWx5UIem9HzDm7TCzzCZdh+QLWV9zos=;
-        b=uDfZmcKsPrtAZ9EPCn7wuQ2LYhtSESV/A3K5F2BxInsEbE5KGH3iTpU6hfb8Iq3xSCK73q
-        V9Cj62JEzbOFW3OO9Qd4MRy2gZ2LSAw0z46WszgaNU/zJbi7ZP7wk8dnXiKQf60M7aLhsx
-        jA/7O0lW2KwCga8BN95btUdT1LJ9rQgh/X0cFNLnGiatFNKk6B3MMAUoyAmKRGq5mWhl79
-        odbPA/3HPG1ndaQplTcsZgUZws6tgJxUTJ71z6h374VhakEAxq6k5LLugh0TyHZ/kGjtDo
-        JwM8uW6KKdYjq7gj0dY71e+o+dj1Dtmc74+ETE3waVxSWFBvllqwwCzBYnJN7g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1595540664;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=YJAOZn+NV3c8JWx5UIem9HzDm7TCzzCZdh+QLWV9zos=;
-        b=gtKjIi1mnr4FAzRJ1lQR9YtI+U6Z6fGDmO5VwPoawB9wYFUsAn5WivGjVh4rSWoYiyjTpS
-        sAHmg2otDHvRriBw==
-To:     Alex Belits <abelits@marvell.com>,
-        "peterz\@infradead.org" <peterz@infradead.org>
-Cc:     "davem\@davemloft.net" <davem@davemloft.net>,
-        Prasun Kapoor <pkapoor@marvell.com>,
-        "mingo\@kernel.org" <mingo@kernel.org>,
-        "linux-api\@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "rostedt\@goodmis.org" <rostedt@goodmis.org>,
-        "frederic\@kernel.org" <frederic@kernel.org>,
-        "catalin.marinas\@arm.com" <catalin.marinas@arm.com>,
-        "linux-arch\@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "will\@kernel.org" <will@kernel.org>,
-        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "netdev\@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-arm-kernel\@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v4 00/13] "Task_isolation" mode
-In-Reply-To: <3ff1383e669b543462737b0d12c0d1fb7d409e3e.camel@marvell.com>
-References: <04be044c1bcd76b7438b7563edc35383417f12c8.camel@marvell.com> <87imeextf3.fsf@nanos.tec.linutronix.de> <831e023422aa0e4cb3da37ceef6fdcd5bc854682.camel@marvell.com> <20200723154933.GB709@worktop.programming.kicks-ass.net> <3ff1383e669b543462737b0d12c0d1fb7d409e3e.camel@marvell.com>
-Date:   Thu, 23 Jul 2020 23:44:24 +0200
-Message-ID: <877dutx5xj.fsf@nanos.tec.linutronix.de>
+        with ESMTP id S1727901AbgGXADg (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Jul 2020 20:03:36 -0400
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com [IPv6:2607:f8b0:4864:20::844])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59F1AC0619D3
+        for <linux-api@vger.kernel.org>; Thu, 23 Jul 2020 17:03:36 -0700 (PDT)
+Received: by mail-qt1-x844.google.com with SMTP id t23so2665366qto.3
+        for <linux-api@vger.kernel.org>; Thu, 23 Jul 2020 17:03:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=EXx3pTH50omt/ZgJbm+Uc2JSnnkVtfAJekeJfeAZOCs=;
+        b=bzKI8uO3UrqoOUDWS0/S2UDskzJ3Rinve8AZ2gxLimyFyjd0T27MXWu6P0d9kTmals
+         +4UDdrMgmIvZX5zBzl6oUXgaliP5VMWcc/TZlSaCpb0nkwu3DOkeNDQF9T/0fHL5KhUn
+         /VRPxmUdZnvNvdDlsZlEb3ikhOe48oBD6GwUV+tUQylXJPlUPCt9ITHtZmAOvgsvRxrx
+         qoU9fEbY+AwxdJCYTiBcE1RYO5XmRWEJ4OdzNuSyAqIrsAGIBRTBYV3JOF3ikN4DvOeZ
+         tHcOpn6rHaUS8ZagrwA8CTFPzlIBemjeni7DCyLt9cBTxH34e3Ieu0HvY7tTxp/vTUqI
+         +Rzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to:content-transfer-encoding;
+        bh=EXx3pTH50omt/ZgJbm+Uc2JSnnkVtfAJekeJfeAZOCs=;
+        b=AstL6bGE0R9YE6l3U6MpfE9YrnXD24fJDZdOfBXNPRutZux37ZT8Zs2wDcYhIMYTqu
+         aU5l829HrvQfzis29nirYS2i1m4vdUwFxhlKQRNc+1msZ5mkWmSODnaCQCm5L85NoVic
+         DNP7vKWzUQakok98ip4BqZUaihFiM3S5OeqN+EHfBL/p0/GZqY9xBugaurFd1W7iK+J1
+         7vcQWZxIsm/VAccMK3PQEPO03YJE9Tnkbc5tC9NiqjktlsEYtKoMlvh6t+nG5v/dym8v
+         CKZkasSCsvy+s+mg5wtLQmwb+FBo1z4i/twYxe/XXQz6WLGlNzdrYVk0TxB8Ko5UWQCm
+         X2CQ==
+X-Gm-Message-State: AOAM532opjwDZxXv78HHR1MAvWiLnhAGvz7nJebqfnEx3waF6QmaPcUa
+        0Uw6IeWDurYHO/Zwu+DIC4MbaEhhss0tOsFyML8=
+X-Google-Smtp-Source: ABdhPJwBJPfbkndp5pWuZapHT1mSCKTDIMTwUbjjlNaELyJPxOulutg0HXB1TqJTCev4XB97RZ97NqSP7z9qUld22wc=
+X-Received: by 2002:aed:208c:: with SMTP id 12mr6895740qtb.286.1595549015533;
+ Thu, 23 Jul 2020 17:03:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+Reply-To: millasmith2111@gmail.com
+Received: by 2002:aed:2356:0:0:0:0:0 with HTTP; Thu, 23 Jul 2020 17:03:35
+ -0700 (PDT)
+From:   "Mrs . Milla Smith" <millasmith2110@gmail.com>
+Date:   Thu, 23 Jul 2020 17:03:35 -0700
+X-Google-Sender-Auth: n6-L7fnD_Z7ZmosIPkvTl2M1ln8
+Message-ID: <CAE+tcMO5PQ=Wv3RneMSXq--OJOsHs43zvtDoEDVks_iEaHFifw@mail.gmail.com>
+Subject: compensation
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Alex Belits <abelits@marvell.com> writes:
-> On Thu, 2020-07-23 at 17:49 +0200, Peter Zijlstra wrote:
->> 
->> 'What does noinstr mean? and why do we have it" -- don't dare touch
->> the
->> entry code until you can answer that.
->
-> noinstr disables instrumentation, so there would not be calls and
-> dependencies on other parts of the kernel when it's not yet safe to
-> call them. Relevant functions already have it, and I add an inline call
-> to perform flags update and synchronization. Unless something else is
-> involved, those operations are safe, so I am not adding anything that
-> can break those.
+Dear Friend,
 
-Sure.
+I'm sorry but happy to inform you about my success in getting those
+funds transferred under the cooperation of a new partner from Vietnam,
+though I tried my best to involve you in the business but God decided
+the whole situations. Presently I m in Vietnam for investment projects
+with my own share of the total sum. Meanwhile, I didn't forget your
+past efforts and attempts to assist me in transferring those funds
+despite that it failed us some how.
 
- 1) That inline function can be put out of line by the compiler and
-    placed into the regular text section which makes it subject to
-    instrumentation
+Now contact my secretary in Burkina Faso her name is Ms. Milla Smith
+on her e-mail address below   millasmith2111@gmail.com  ask her to
+send you the total of $1.1Milion which I kept for your compensation
+for all the past efforts and attempts to assist me in this matter. I
+appreciated your efforts at that time very much. So feel free and get
+in touched with my secretary Ms. Milla Smith and instruct her where to
+send the amount to you. Please do let me know immediately you receive
+it so that we can share joy after all the sufferness at that time.
 
- 2) That inline function invokes local_irq_save() which is subject to
-    instrumentation _before_ the entry state for the instrumentation
-    mechanisms is established.
+In the moment, I=E2=80=99m very busy here because of the investment project=
+s
+which I and the new partner are having at hand, finally, remember that
+I had forwarded instruction to the secretary on your behalf to receive
+that money, so feel free to get in touch with Ms. Milla Smith she will
+send the amount to you without any delay OK. Extend my greetings to
+your family.
 
- 3) That inline function invokes sync_core() before important state has
-    been established, which is especially interesting in NMI like
-    exceptions.
-
-As you clearly documented why all of the above is safe and does not
-cause any problems, it's just me and Peter being silly, right?
-
-Try again.
-
-Thanks,
-
-        tglx
+My Best regards
+Yours brother
+Mr. Abu Salam
+Greetings from Vietnam
