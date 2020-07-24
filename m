@@ -2,115 +2,107 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C822122C379
-	for <lists+linux-api@lfdr.de>; Fri, 24 Jul 2020 12:44:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C175B22C389
+	for <lists+linux-api@lfdr.de>; Fri, 24 Jul 2020 12:45:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726411AbgGXKoP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 24 Jul 2020 06:44:15 -0400
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:50817 "EHLO
-        wnew1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726301AbgGXKoO (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 24 Jul 2020 06:44:14 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-        by mailnew.west.internal (Postfix) with ESMTP id ADCC1734;
-        Fri, 24 Jul 2020 06:44:12 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Fri, 24 Jul 2020 06:44:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=
-        message-id:subject:from:to:cc:date:in-reply-to:references
-        :content-type:mime-version:content-transfer-encoding; s=fm3; bh=
-        IMuqW1eWzjwrdDQGfj1YeCfnnLSlRPZHrKpHRGXycSw=; b=SkiyG8rGyUhOHAi+
-        Xm//2tMphHh+kJKydj+txJBwL4Xx4H/yQ2qcqHgrMGdmCF8OKvcuuFIh37S1fkpb
-        OI5LAzXDcejvcHWBz+/jE/GAQPcidrNhLCSHaAneN0sH2ef4f7T/ofyW9z1bUyRs
-        jUPU5TjEE3dzAr/xK027OCDsADyuyqPoAUi0iCfy0xCv2jhe3mjyyNBQNxpQYqxY
-        Sdu3Z5+1fME1nqb6Eqmzmuxf29yLE35xkZoybiLjX6Ib6fCdmz8Ybf3NMdvOsGOX
-        1g5AHa4jiGKu/4cbvyEQ++XCX6XBQhuYc+rVsaPF16SGs69SWbi7jCEF5GlSS3Id
-        srb5gw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:in-reply-to:message-id:mime-version:references
-        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; bh=IMuqW1eWzjwrdDQGfj1YeCfnnLSlRPZHrKpHRGXyc
-        Sw=; b=DDKQ+KvlQlo1JLHV147fAh+wsfencJqlBsZt5ED5qpR2KU7E+GHrantXi
-        5q8oHCait0ejOx7vEW6ZxKW0DqL3qU75nAhFZRcA2A99pcYF7ZwssD6KmDXIdryP
-        MgCp/946byGHEtBLH2BURuzRJRmWvHnbC1/uGOv3s2ZtgPx1G2PJ7JU7EvKIRf31
-        zxHh7b23ST9YUE+LfaY2c6GHp+/E1+bxDUO7zldoMYpKoCY/7qpYF3Gpol1y9JBa
-        R6FsEo2TRLR6XfJva4DI84F+41QsCCwhcJLb+9/qIkwS7qoq4XRWvPNLoQ/eczS+
-        k0RKkN/QwevkU7fc/yYNlmLCq8lhA==
-X-ME-Sender: <xms:e7saX7v0R24W6tUJl9QwLRkPhmxJnuTRVw78y3JEF2kuPgbcFDLBNA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrheefgdefvdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefkuffhvfffjghftggfggfgsehtjeertddtreejnecuhfhrohhmpefkrghnucfm
-    vghnthcuoehrrghvvghnsehthhgvmhgrfidrnhgvtheqnecuggftrfgrthhtvghrnhepfe
-    efteetvdeguddvveefveeftedtffduudehueeihfeuvefgveehffeludeggfejnecukfhp
-    peduudekrddvtdekrdefjedrudejheenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
-    grmhepmhgrihhlfhhrohhmpehrrghvvghnsehthhgvmhgrfidrnhgvth
-X-ME-Proxy: <xmx:e7saX8dR3ahPXrIh2ZUwzLIpYYi6Iww7dkdVSmkkRE3xsOzOMdrd0A>
-    <xmx:e7saX-zziKrlrzNbaMPdaXHXmXrAmesr7bz-kh1BEqhuuiMBh8V6_g>
-    <xmx:e7saX6NP6XGzlKHCPqrt1U8geJy_d65Yscm_M2ljftYzd6-JhcLGAA>
-    <xmx:fLsaX-Ue6A6fyJ4dG0lCmiVmCGISLUFHB12aIsjKL7-VALdMazX7uL5bO1w>
-Received: from mickey.themaw.net (unknown [118.208.37.175])
-        by mail.messagingengine.com (Postfix) with ESMTPA id A8F2E3280065;
-        Fri, 24 Jul 2020 06:44:05 -0400 (EDT)
-Message-ID: <865566fb800a014868a9a7e36a00a14430efb11e.camel@themaw.net>
-Subject: Re: [PATCH 13/17] watch_queue: Implement mount topology and
- attribute change notifications [ver #5]
-From:   Ian Kent <raven@themaw.net>
-To:     David Howells <dhowells@redhat.com>,
-        Miklos Szeredi <miklos@szeredi.hu>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Stephen Smalley <sds@tycho.nsa.gov>, nicolas.dichtel@6wind.com,
-        Christian Brauner <christian@brauner.io>, andres@anarazel.de,
-        Jeff Layton <jlayton@redhat.com>, dray@redhat.com,
-        Karel Zak <kzak@redhat.com>, keyrings@vger.kernel.org,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        LSM <linux-security-module@vger.kernel.org>,
-        linux-kernel@vger.kernel.org
-Date:   Fri, 24 Jul 2020 18:44:01 +0800
-In-Reply-To: <2003787.1595585999@warthog.procyon.org.uk>
-References: <1293241.1595501326@warthog.procyon.org.uk>
-         <CAJfpegspWA6oUtdcYvYF=3fij=Bnq03b8VMbU9RNMKc+zzjbag@mail.gmail.com>
-         <158454378820.2863966.10496767254293183123.stgit@warthog.procyon.org.uk>
-         <158454391302.2863966.1884682840541676280.stgit@warthog.procyon.org.uk>
-         <2003787.1595585999@warthog.procyon.org.uk>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
+        id S1726994AbgGXKpp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 24 Jul 2020 06:45:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40276 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725889AbgGXKpp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 24 Jul 2020 06:45:45 -0400
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5DE1C0619D3
+        for <linux-api@vger.kernel.org>; Fri, 24 Jul 2020 03:45:44 -0700 (PDT)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.ozlabs.org (Postfix) with ESMTPSA id 4BCm7n16n3z9sTC;
+        Fri, 24 Jul 2020 20:45:39 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ellerman.id.au;
+        s=201909; t=1595587542;
+        bh=cSDDxsKk+jO/k2dwm07zEZ08Z7nlQ2PpJurgiwDzTaM=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=fP1j0ehPwKKTZ5HN/V0OdYjpbK4V2kPCZefecMyzQANJTB+hA79mDYk5par/rDHUq
+         Uo8NyAmqgFc99Y5JkaTKoiZ4on8iQgaDptXG4ojX681JnFFx5ClWMsBZ4vupz40B69
+         +8/tKqAELW35pogsBvMORx7uUofX7MO6iq8YxIoa8iwdp1wA9kNZzLO0qXPnNOmpMq
+         zrcbClSoYBFPUsnLy9w5Tl/R+A9Ftqp96MzWgWuuZZze/t2duS8KRSA3Trf9pFud7E
+         ALyi6wNdEHqBgLKfonJnWr1RXCiadKIw3ArysUsWlxIX4OqrM8IGusO2A+vV8uo5p9
+         JjpH7lGkuD+Ow==
+From:   Michael Ellerman <mpe@ellerman.id.au>
+To:     Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc:     linux-api@vger.kernel.org, musl@lists.openwall.com,
+        libc-dev@lists.llvm.org, linuxppc-dev@lists.ozlabs.org,
+        Nicholas Piggin <npiggin@gmail.com>
+Subject: Re: [PATCH 2/2] powerpc/64s: system call support for scv/rfscv instructions
+In-Reply-To: <20200723184814.Horde.pk5BO9iFqyGX5D4TW5wqmg1@messagerie.si.c-s.fr>
+References: <20200611081203.995112-1-npiggin@gmail.com> <20200611081203.995112-3-npiggin@gmail.com> <871rl2ralk.fsf@mpe.ellerman.id.au> <20200723184814.Horde.pk5BO9iFqyGX5D4TW5wqmg1@messagerie.si.c-s.fr>
+Date:   Fri, 24 Jul 2020 20:45:36 +1000
+Message-ID: <87v9idp4xb.fsf@mpe.ellerman.id.au>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, 2020-07-24 at 11:19 +0100, David Howells wrote:
-> David Howells <dhowells@redhat.com> wrote:
-> 
-> > > What guarantees that mount_id is going to remain a 32bit entity?
-> > 
-> > You think it likely we'd have >4 billion concurrent mounts on a
-> > system?  That
-> > would require >1.2TiB of RAM just for the struct mount allocations.
-> > 
-> > But I can expand it to __u64.
-> 
-> That said, sys_name_to_handle_at() assumes it's a 32-bit signed
-> integer, so
-> we're currently limited to ~2 billion concurrent mounts:-/
+Christophe Leroy <christophe.leroy@csgroup.eu> writes:
+> Michael Ellerman <mpe@ellerman.id.au> a =C3=A9crit=C2=A0:
+>
+>> Nicholas Piggin <npiggin@gmail.com> writes:
+>>> diff --git a/arch/powerpc/include/asm/ppc-opcode.h=20=20
+>>> b/arch/powerpc/include/asm/ppc-opcode.h
+>>> index 2a39c716c343..b2bdc4de1292 100644
+>>> --- a/arch/powerpc/include/asm/ppc-opcode.h
+>>> +++ b/arch/powerpc/include/asm/ppc-opcode.h
+>>> @@ -257,6 +257,7 @@
+>>>  #define PPC_INST_MFVSRD			0x7c000066
+>>>  #define PPC_INST_MTVSRD			0x7c000166
+>>>  #define PPC_INST_SC			0x44000002
+>>> +#define PPC_INST_SCV			0x44000001
+>> ...
+>>> @@ -411,6 +412,7 @@
+>> ...
+>>> +#define __PPC_LEV(l)	(((l) & 0x7f) << 5)
+>>
+>> These conflicted and didn't seem to be used so I dropped them.
+>>
+>>> diff --git a/arch/powerpc/lib/sstep.c b/arch/powerpc/lib/sstep.c
+>>> index 5abe98216dc2..161bfccbc309 100644
+>>> --- a/arch/powerpc/lib/sstep.c
+>>> +++ b/arch/powerpc/lib/sstep.c
+>>> @@ -3378,6 +3382,16 @@ int emulate_step(struct pt_regs *regs,=20=20
+>>> struct ppc_inst instr)
+>>>  		regs->msr =3D MSR_KERNEL;
+>>>  		return 1;
+>>>
+>>> +	case SYSCALL_VECTORED_0:	/* scv 0 */
+>>> +		regs->gpr[9] =3D regs->gpr[13];
+>>> +		regs->gpr[10] =3D MSR_KERNEL;
+>>> +		regs->gpr[11] =3D regs->nip + 4;
+>>> +		regs->gpr[12] =3D regs->msr & MSR_MASK;
+>>> +		regs->gpr[13] =3D (unsigned long) get_paca();
+>>> +		regs->nip =3D (unsigned long) &system_call_vectored_emulate;
+>>> +		regs->msr =3D MSR_KERNEL;
+>>> +		return 1;
+>>> +
+>>
+>> This broke the ppc64e build:
+>>
+>>   ld: arch/powerpc/lib/sstep.o:(.toc+0x0): undefined reference to=20=20
+>> `system_call_vectored_emulate'
+>>   make[1]: *** [/home/michael/linux/Makefile:1139: vmlinux] Error 1
+>>
+>> I wrapped it in #ifdef CONFIG_PPC64_BOOK3S.
+>
+> You mean CONFIG_PPC_BOOK3S_64 ?
 
-I was wondering about id re-use.
+I hope so ...
 
-Assuming that ids that are returned to the idr db are re-used
-what would the chance that a recently used id would end up
-being used?
+#### ## ####.
 
-Would that chance increase as ids are consumed and freed over
-time?
+Will send a fixup. Thanks for noticing.
 
-Yeah, it's one of those questions ... ;)
-
-Ian
-
+cheers
