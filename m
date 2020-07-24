@@ -2,77 +2,53 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4429822CFB5
-	for <lists+linux-api@lfdr.de>; Fri, 24 Jul 2020 22:45:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50F8122D1BF
+	for <lists+linux-api@lfdr.de>; Sat, 25 Jul 2020 00:21:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726754AbgGXUpb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 24 Jul 2020 16:45:31 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59273 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726674AbgGXUpb (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 24 Jul 2020 16:45:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1595623530;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=kwT/4oEvxYJQDv2IZFEDIJXwGO9sAIOeOt3vIk0tEEY=;
-        b=RXxX6n+ZtMjXwQD7wwVpD/ymVuelWirP/TJmx2G2FF0wEGI359fd8/YvfSY/n4dusUGWE1
-        pPwSbHwytIHHXI0XHgHmuBomfybBP0ylbYdjwCXVOx9EnEeX7c48ydfdQqNbUz+l2H9/PC
-        o6dKr9Mvy0doFiId5TVWFRjp9VZPUPA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-142-ETpAItGKNG2mbe9j92zNNQ-1; Fri, 24 Jul 2020 16:45:24 -0400
-X-MC-Unique: ETpAItGKNG2mbe9j92zNNQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9EA14100A8E7;
-        Fri, 24 Jul 2020 20:45:22 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-112-32.rdu2.redhat.com [10.10.112.32])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 134F7726A9;
-        Fri, 24 Jul 2020 20:45:19 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <CAHk-=wgWNpzCuHyyFwhR2fq49yxB9tKiH2t2y-O-8V6Gh0TFdw@mail.gmail.com>
-References: <CAHk-=wgWNpzCuHyyFwhR2fq49yxB9tKiH2t2y-O-8V6Gh0TFdw@mail.gmail.com> <159559628247.2141315.2107013106060144287.stgit@warthog.procyon.org.uk> <159559630912.2141315.16186899692832741137.stgit@warthog.procyon.org.uk> <CAHk-=wjnQArU_BewVKQgYHy2mQD6LNKC5kkKXOm7GpNkJCapQg@mail.gmail.com> <2189056.1595620785@warthog.procyon.org.uk>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     dhowells@redhat.com, Al Viro <viro@zeniv.linux.org.uk>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        Nicolas Dichtel <nicolas.dichtel@6wind.com>,
-        Ian Kent <raven@themaw.net>,
-        Christian Brauner <christian@brauner.io>,
-        Jeff Layton <jlayton@redhat.com>, Karel Zak <kzak@redhat.com>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 3/4] watch_queue: Implement mount topology and attribute change notifications
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <2195927.1595623519.1@warthog.procyon.org.uk>
-Date:   Fri, 24 Jul 2020 21:45:19 +0100
-Message-ID: <2195928.1595623519@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+        id S1726607AbgGXWVi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 24 Jul 2020 18:21:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36632 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726591AbgGXWVi (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 24 Jul 2020 18:21:38 -0400
+Received: from shards.monkeyblade.net (shards.monkeyblade.net [IPv6:2620:137:e000::1:9])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88F27C0619D3;
+        Fri, 24 Jul 2020 15:21:38 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
+        (using TLSv1 with cipher AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        (Authenticated sender: davem-davemloft)
+        by shards.monkeyblade.net (Postfix) with ESMTPSA id 0A2871274C3A1;
+        Fri, 24 Jul 2020 15:04:53 -0700 (PDT)
+Date:   Fri, 24 Jul 2020 15:21:36 -0700 (PDT)
+Message-Id: <20200724.152136.239820662240192829.davem@davemloft.net>
+To:     m-karicheri2@ti.com
+Cc:     kuba@kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        nsekhar@ti.com, grygorii.strashko@ti.com, vinicius.gomes@intel.com
+Subject: Re: [net-next v5 PATCH 0/7] Add PRP driver
+From:   David Miller <davem@davemloft.net>
+In-Reply-To: <7133d5ca-e72b-b406-feb2-21429085c96a@ti.com>
+References: <20200722144022.15746-1-m-karicheri2@ti.com>
+        <7133d5ca-e72b-b406-feb2-21429085c96a@ti.com>
+X-Mailer: Mew version 6.8 on Emacs 26.3
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Fri, 24 Jul 2020 15:04:53 -0700 (PDT)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Linus Torvalds <torvalds@linux-foundation.org> wrote:
+From: Murali Karicheri <m-karicheri2@ti.com>
+Date: Fri, 24 Jul 2020 08:27:01 -0400
 
-> I'd count them per user, and maybe start out saying "you can have as
-> many watches as you can have files" and just re-use RLIMIT_NOFILE as
-> the limit for them.
-> 
-> And if that causes problems, let's re-visit. How does that sound?
+> If there are no more comments, can we consider merging this to
+> net-next? I could re-base and repost if there is any conflict.
 
-I can try that for now.
+I can't apply them until I next merge net into net-next, and I don't
+know exactly when that will happen yet.
 
-David
-
+It'd also be nice to get some review and ACK's on this series
+meanwhile.
