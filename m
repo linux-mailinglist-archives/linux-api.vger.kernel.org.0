@@ -2,132 +2,117 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B99EA22BD3E
-	for <lists+linux-api@lfdr.de>; Fri, 24 Jul 2020 06:59:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0E8122BF04
+	for <lists+linux-api@lfdr.de>; Fri, 24 Jul 2020 09:25:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726178AbgGXE71 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 24 Jul 2020 00:59:27 -0400
-Received: from mga06.intel.com ([134.134.136.31]:50157 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725901AbgGXE70 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 24 Jul 2020 00:59:26 -0400
-IronPort-SDR: E2xWrqkz2PusAqgFOj2e6Pwj10Om/drmQ5q49rF8DblsNlSgIwfAVLMyT8nFbG6vflp5sTGCXi
- uOaixTYjf6yA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9691"; a="212194927"
-X-IronPort-AV: E=Sophos;i="5.75,389,1589266800"; 
-   d="scan'208";a="212194927"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2020 21:59:25 -0700
-IronPort-SDR: G/mTpInKuApwlEjdo00rNnm7/pfyN8Wew/pBQQDOY0qeufYk+75/a7EqO175m99nQcC3VK0kC7
- +oF6h+BsWa1Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,389,1589266800"; 
-   d="scan'208";a="288877678"
-Received: from sjchrist-coffee.jf.intel.com (HELO linux.intel.com) ([10.54.74.152])
-  by orsmga006.jf.intel.com with ESMTP; 23 Jul 2020 21:59:25 -0700
-Date:   Thu, 23 Jul 2020 21:59:25 -0700
-From:   Sean Christopherson <sean.j.christopherson@intel.com>
-To:     Dave Hansen <dave.hansen@intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S1726817AbgGXHZU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 24 Jul 2020 03:25:20 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38644 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726703AbgGXHZT (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 24 Jul 2020 03:25:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1595575518;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=fuErLOqr2wiHuSm1n+glJqJxYG3jv4lWg3NgZEQOlPE=;
+        b=fPQU5YAOHeVpb/XBWql+enb3J1xB5CBDy8DczdAQ4HtDXLrq8hROvvEqGYJd8krSqb0GtK
+        6Bisi/7F3+nHql9oAOKzUp6l1c61KzJQ03Vxaod6kWTUW2DuihfXEcd+huwbjRLhTEtY1F
+        EubOu984psNZZTE6mSmraAEp0snG5Mk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-152-pc1DH_lmPcaocdZq0qLSqw-1; Fri, 24 Jul 2020 03:25:16 -0400
+X-MC-Unique: pc1DH_lmPcaocdZq0qLSqw-1
+Received: by mail-wr1-f69.google.com with SMTP id y18so1900158wrq.4
+        for <linux-api@vger.kernel.org>; Fri, 24 Jul 2020 00:25:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=fuErLOqr2wiHuSm1n+glJqJxYG3jv4lWg3NgZEQOlPE=;
+        b=Z6dJZSn09f5w1QahirO5pf2DEkRYmTSVJ51bg5rGaTOxeXM7OE+n0WWS8nEVVOXnmV
+         jBAW4LjvepNIPsXeoiBbDW7oV+AR9vMeYwiH5mf3dDF1ieTyOjEtaQvr6n/aOxUnC7k8
+         U8Swi2cZilIjGscRtJ8sd+Pku1F1uL0mmJyuIcpYHxGn32z82/RpPeyjevuihjLuYokR
+         WJuctUsmGymB3LFXE5f/WfsV6oAkjWSK/AAUttadePmvRF2t/M3DMMz7DulRhflyjoCH
+         JB8SNfb66l/pEqCaJQb9NDZFAYQBp5D1P1DjD5dAL/enPLopP1mOFiioAssvIxxb9mcr
+         1xgQ==
+X-Gm-Message-State: AOAM5321yhkyYh1iXnUzM2Mxl5/kDVRWvJikdWdXIFcvedNynl1pvwfj
+        6ojVFO5j4D5/htt0coJcJTC7UG6yj0pPHZ0wIZpzxvtMi98znA8svSW8fhs0Iv31Zg5zjqIQJbT
+        38KsNOZexdqLvF558Z9UM
+X-Received: by 2002:adf:bb52:: with SMTP id x18mr7081705wrg.325.1595575515196;
+        Fri, 24 Jul 2020 00:25:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwjC5TNOMsbWloWKiM1fPLp95PjAuhLTb70ke99fpxMRmPpCdyrTQ/Uxi1NsfB0ImOP4RPRkA==
+X-Received: by 2002:adf:bb52:: with SMTP id x18mr7081693wrg.325.1595575514967;
+        Fri, 24 Jul 2020 00:25:14 -0700 (PDT)
+Received: from steredhat.lan ([5.171.199.112])
+        by smtp.gmail.com with ESMTPSA id p25sm5864195wmg.39.2020.07.24.00.25.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Jul 2020 00:25:14 -0700 (PDT)
+Date:   Fri, 24 Jul 2020 09:25:09 +0200
+From:   Stefano Garzarella <sgarzare@redhat.com>
+To:     Colin Walters <walters@verbum.org>
+Cc:     Andy Lutomirski <luto@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+        Christoph Hellwig <hch@lst.de>,
         Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-Subject: Re: [PATCH v10 00/26] Control-flow Enforcement: Shadow Stack
-Message-ID: <20200724045925.GO21891@linux.intel.com>
-References: <20200429220732.31602-1-yu-cheng.yu@intel.com>
- <20200723162531.GF21891@linux.intel.com>
- <2e9806a3-7485-a0d0-b63d-f112fcff954c@intel.com>
- <20200723165649.GG21891@linux.intel.com>
- <f38b5b34-8432-9531-01b5-d0ae924ffafe@intel.com>
+        Pavel Begunkov <asml.silence@gmail.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Matthew Wilcox <willy@infradead.org>,
+        Jann Horn <jannh@google.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        strace-devel@lists.strace.io, io-uring@vger.kernel.org,
+        Linux API <linux-api@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: strace of io_uring events?
+Message-ID: <20200724072509.sgqlbuocpo2peian@steredhat.lan>
+References: <7c09f6af-653f-db3f-2378-02dca2bc07f7@gmail.com>
+ <CAJfpegt9=p4uo5U2GXqc-rwqOESzZCWAkGMRTY1r8H6fuXx96g@mail.gmail.com>
+ <48cc7eea-5b28-a584-a66c-4eed3fac5e76@gmail.com>
+ <202007151511.2AA7718@keescook>
+ <20200716131404.bnzsaarooumrp3kx@steredhat>
+ <202007160751.ED56C55@keescook>
+ <20200717080157.ezxapv7pscbqykhl@steredhat.lan>
+ <CALCETrXSPdiVCgh3h=q7w9RyiKnp-=8jOHoFHX=an0cWqK7bzQ@mail.gmail.com>
+ <20200721155848.32xtze5ntvcmjv63@steredhat>
+ <d57e169a-55a0-4fa2-a7f2-9a462a786a38@www.fastmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f38b5b34-8432-9531-01b5-d0ae924ffafe@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <d57e169a-55a0-4fa2-a7f2-9a462a786a38@www.fastmail.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jul 23, 2020 at 11:41:55AM -0700, Dave Hansen wrote:
-> On 7/23/20 9:56 AM, Sean Christopherson wrote:
-> > On Thu, Jul 23, 2020 at 09:41:37AM -0700, Dave Hansen wrote:
-> >> On 7/23/20 9:25 AM, Sean Christopherson wrote:
-> >>> How would people feel about taking the above two patches (02 and 03 in the
-> >>> series) through the KVM tree to enable KVM virtualization of CET before the
-> >>> kernel itself gains CET support?  I.e. add the MSR and feature bits, along
-> >>> with the XSAVES context switching.  The feature definitons could use "" to
-> >>> suppress displaying them in /proc/cpuinfo to avoid falsely advertising CET
-> >>> to userspace.
-> >>>
-> >>> AIUI, there are ABI issues that need to be sorted out, and that is likely
-> >>> going to drag on for some time. 
-> >>>
-> >>> Is this a "hell no" sort of idea, or something that would be feasible if we
-> >>> can show that there are no negative impacts to the kernel?
-> >> Negative impacts like bloating every task->fpu with XSAVE state that
-> >> will never get used? ;)
-> > Gah, should have qualified that with "meaningful or measurable negative
-> > impacts".  E.g. the extra 40 bytes for CET XSAVE state seems like it would
-> > be acceptable overhead, but noticeably increasing the latency of XSAVES
-> > and/or XRSTORS would not be acceptable.
+On Thu, Jul 23, 2020 at 09:37:40AM -0400, Colin Walters wrote:
+> On Tue, Jul 21, 2020, at 11:58 AM, Stefano Garzarella wrote:
 > 
-> It's 40 bytes, but it's 40 bytes of just pure, unadulterated waste.  It
-> would have no *chance* of being used.  It's also quite precisely
+> > my use case concerns virtualization. The idea, that I described in the
+> > proposal of io-uring restrictions [1], is to share io_uring CQ and SQ queues
+> > with a guest VM for block operations.
+> 
+> Virtualization being a strong security barrier is in eternal conflict
+> with maximizing performance.  All of these "let's add a special
+> guest/host channel" are high risk areas.
+> 
+> And this effort in particular - is it *really* worth it to expose a
+> brand new, fast moving Linux kernel interface (that probably hasn't
+> been fuzzed as much as it needs to be) to virtual machines?
+> 
 
-Well, technically the guest would be using that space :-).
+It is an experiment to explore the potential of io_uring. In addition
+the restrictions can also be useful for other use case, for example if
+a process  wants to allow another process to use io_uring, but only allowing
+a subset of operations.
 
-> measurable on a given system:
+> People who want maximum performance at the cost of a bit of security
+> already have the choice to use Linux containers, where they can use
+> io_uring natively.
 > 
-> 	cat /proc/slabinfo | grep task_struct | awk '{print $3 * 40}'
-> 
-> I don't expect it would do *much* to XSAVE/XRSTOR.  There's probably an
-> extra conditional and jump in the ucode, but that's probably in the
-> noise.  I assume that all the CET state has functioning init and
-> modified trackers and we don't do anything to spoil their state.  It
-> would be good to check that in practice, though it probably isn't the
-> end of the world either way.  We've had some bugs in the past where we
-> accidentally took things out of their init state.
-> 
-> It will make signal entry/return slower since we use a plain XSAVE
-> without the init optimization.  But, that's just a single cacheline on
-> average and some 0's to write.  Probably not noticeable, including the
-> 40 bytes of extra userspace signal stack space.
-> 
-> I think that puts me in the "mildly annoyed" camp more than "hell no",
-> but "mildly annoyed" is pretty much my resting state, so it doesn't
-> really move the needle. :)
-> 
-> Why the urgency, though?
-> 
-> 	https://windows-internals.com/cet-on-windows/
-> 
-> ?
 
-No urgency, it'd simply be one less KVM feature for us to be carrying and
-refreshing.  And as a sort of general question, I was curious if folks
-would be open to merging KVM support before kernel.
+Thanks,
+Stefano
+
