@@ -2,87 +2,321 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A32F322C46E
-	for <lists+linux-api@lfdr.de>; Fri, 24 Jul 2020 13:36:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF5E322C51D
+	for <lists+linux-api@lfdr.de>; Fri, 24 Jul 2020 14:27:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726994AbgGXLgQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 24 Jul 2020 07:36:16 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24037 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726953AbgGXLgO (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 24 Jul 2020 07:36:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1595590573;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=I68fbRd6bZ95LK9+jolwOQBVPAxfW2jV01rcWnCSNp0=;
-        b=QiUxsE5hiBwr1+j9+9A4zI7TPuUTuM2MYnn90e7OYV5jLh3QfxzurpmL60vc6A3ms52vre
-        j+UHnijDh5I2fbv/M7PFXw/GhI8YQIWkR+W8GbBqnuGIgXCB66AMoYdThyeNxV1KhN2wYD
-        DYGnf68Iwt82eYr9qVbQZBthoTuur4M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-512-PexwN0WVOwWbFOVy0tM0dg-1; Fri, 24 Jul 2020 07:36:10 -0400
-X-MC-Unique: PexwN0WVOwWbFOVy0tM0dg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 507C6107ACCA;
-        Fri, 24 Jul 2020 11:36:07 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-112-32.rdu2.redhat.com [10.10.112.32])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id EDB2919723;
-        Fri, 24 Jul 2020 11:36:03 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <865566fb800a014868a9a7e36a00a14430efb11e.camel@themaw.net>
-References: <865566fb800a014868a9a7e36a00a14430efb11e.camel@themaw.net> <1293241.1595501326@warthog.procyon.org.uk> <CAJfpegspWA6oUtdcYvYF=3fij=Bnq03b8VMbU9RNMKc+zzjbag@mail.gmail.com> <158454378820.2863966.10496767254293183123.stgit@warthog.procyon.org.uk> <158454391302.2863966.1884682840541676280.stgit@warthog.procyon.org.uk> <2003787.1595585999@warthog.procyon.org.uk>
-To:     Ian Kent <raven@themaw.net>
-Cc:     dhowells@redhat.com, Miklos Szeredi <miklos@szeredi.hu>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Stephen Smalley <sds@tycho.nsa.gov>, nicolas.dichtel@6wind.com,
-        Christian Brauner <christian@brauner.io>, andres@anarazel.de,
-        Jeff Layton <jlayton@redhat.com>, dray@redhat.com,
-        Karel Zak <kzak@redhat.com>, keyrings@vger.kernel.org,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        LSM <linux-security-module@vger.kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 13/17] watch_queue: Implement mount topology and attribute change notifications [ver #5]
+        id S1726607AbgGXM1L (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 24 Jul 2020 08:27:11 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:54816 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726258AbgGXM1K (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 24 Jul 2020 08:27:10 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 06OCR4UP075790;
+        Fri, 24 Jul 2020 07:27:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1595593624;
+        bh=E/OjTLkfa+hKhiKA0M4Lu9sRghE/rckRjZ9eGa0H6g0=;
+        h=Subject:From:To:References:Date:In-Reply-To;
+        b=vVOTC98KRAkI8Fxb6LpA1uekbrTBn5L3BFcLr897gpZbQBaKB/gHZGLd0V6o28suf
+         o/4xJbrmnIoRPHHSPRaB9dRxWlGfcg6AxDPeqgiuJUjAxer5ctPb52Si3MIattenj3
+         Au+W9dEqNsw6vcXcjZFluopYDDnC7n2qyayiZxGs=
+Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 06OCR3mA109258
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 24 Jul 2020 07:27:04 -0500
+Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 24
+ Jul 2020 07:27:03 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE106.ent.ti.com
+ (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Fri, 24 Jul 2020 07:27:03 -0500
+Received: from [10.250.227.175] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 06OCR2YQ009792;
+        Fri, 24 Jul 2020 07:27:02 -0500
+Subject: Re: [net-next v5 PATCH 0/7] Add PRP driver
+From:   Murali Karicheri <m-karicheri2@ti.com>
+To:     <davem@davemloft.net>, <kuba@kernel.org>, <netdev@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-api@vger.kernel.org>,
+        <nsekhar@ti.com>, <grygorii.strashko@ti.com>,
+        <vinicius.gomes@intel.com>
+References: <20200722144022.15746-1-m-karicheri2@ti.com>
+Message-ID: <7133d5ca-e72b-b406-feb2-21429085c96a@ti.com>
+Date:   Fri, 24 Jul 2020 08:27:01 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <2023285.1595590563.1@warthog.procyon.org.uk>
-Date:   Fri, 24 Jul 2020 12:36:03 +0100
-Message-ID: <2023286.1595590563@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20200722144022.15746-1-m-karicheri2@ti.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Ian Kent <raven@themaw.net> wrote:
+Hi Dave,
 
-> I was wondering about id re-use.
+On 7/22/20 10:40 AM, Murali Karicheri wrote:
+> Hello,
 > 
-> Assuming that ids that are returned to the idr db are re-used
-> what would the chance that a recently used id would end up
-> being used?
+> This series is dependent on the following patches sent out to
+> netdev list. All (1-3) are already merged to net/master as of
+> sending this, but not on the net-next master branch. So need
+> to apply them to net-next before applying this series. v3 of
+> the iproute2 patches can be merged to work with this series
+> as there are no updates since then.
 > 
-> Would that chance increase as ids are consumed and freed over
-> time?
+> [1] https://marc.info/?l=linux-netdev&m=159526378131542&w=2
+> [2] https://marc.info/?l=linux-netdev&m=159499772225350&w=2
+> [3] https://marc.info/?l=linux-netdev&m=159499772425352&w=2
+> 
+> This series adds support for Parallel Redundancy Protocol (PRP)
+> in the Linux HSR driver as defined in IEC-62439-3. PRP Uses a
+> Redundancy Control Trailer (RCT) the format of which is
+> similar to HSR Tag. This is used for implementing redundancy.
+> RCT consists of 6 bytes similar to HSR tag and contain following
+> fields:-
+> 
+> - 16-bit sequence number (SeqNr);
+> - 4-bit LAN identifier (LanId);
+> - 12 bit frame size (LSDUsize);
+> - 16-bit suffix (PRPsuffix).
+> 
+> The PRPsuffix identifies PRP frames and distinguishes PRP frames
+> from other protocols that also append a trailer to their useful
+> data. The LSDUsize field allows the receiver to distinguish PRP
+> frames from random, nonredundant frames as an additional check.
+> LSDUsize is the size of the Ethernet payload inclusive of the
+> RCT. Sequence number along with LanId is used for duplicate
+> detection and discard.
+> 
+> PRP node is also known as Dual Attached Node (DAN-P) since it
+> is typically attached to two different LAN for redundancy.
+> DAN-P duplicates each of L2 frames and send it over the two
+> Ethernet links. Each outgoing frame is appended with RCT.
+> Unlike HSR, these are added to the end of L2 frame and will be
+> treated as pad by bridges and therefore would be work with
+> traditional bridges or switches, where as HSR wouldn't as Tag
+> is prefixed to the Ethenet frame. At the remote end, these are
+> received and the duplicate frame is discarded before the stripped
+> frame is send up the networking stack. Like HSR, PRP also sends
+> periodic Supervision frames to the network. These frames are
+> received and MAC address from the SV frames are populated in a
+> database called Node Table. The above functions are grouped into
+> a block called Link Redundancy Entity (LRE) in the IEC spec.
+> 
+> As there are many similarities between HSR and PRP protocols,
+> this patch re-uses the code from HSR driver to implement PRP
+> driver. As per feedback from the RFC series, the implementation
+> uses the existing HSR Netlink socket interface to create the
+> PRP interface by adding a new proto parameter to the ip link
+> command to identify the PRP protocol. iproute2 is enhanced to
+> implement this new parameter. The hsr_netlink.c is enhanced
+> to handle the new proto parameter. As suggested during the RFC
+> review, the driver introduced a proto_ops structure to hold
+> protocol specfic functions to handle HSR and PRP specific
+> function pointers and use them in the code based on the
+> protocol to handle protocol specific part differently in the
+> driver.
+> 
+> Please review this and provide me feedback so that I can work to
+> incorporate them and spin the next version if needed.
+> 
+> The patch was tested using two TI AM57x IDK boards for PRP which
+> are connected back to back over two CPSW Ethernet ports.
+> 
+> PRP Test setup
+> ---------------
+> 
+> --------eth0             eth0 --------
+> |AM572x|----------------------|AM572x|
+> |      |----------------------|      |
+> --------eth1             eth1 --------
+> 
+> 
+> To build, enable CONFIG_HSR=y or m
+> make omap2plus_defconfig
+> make zImage; make modules; make dtbs
+> Copy the zImage and dtb files to the file system on SD card
+> and power on the AM572x boards.
+> This can be tested on any platforms with 2 Ethernet interfaces.
+> So will appreciate if you can give it a try and provide your
+> Tested-by.
+> 
+> Command to create PRP interface
+> -------------------------------
+> ifconfig eth0 0.0.0.0 down
+> ifconfig eth1 0.0.0.0 down
+> ifconfig eth0 hw ether 70:FF:76:1C:0E:8C
+> ifconfig eth1 hw ether 70:FF:76:1C:0E:8C
+> ifconfig eth0 up
+> ifconfig eth1 up
+> ip link add name prp0 type hsr slave1 eth0 slave2 eth1 supervision 45 proto 1
+> ifconfig prp0 192.168.2.10
+> 
+> ifconfig eth0 0.0.0.0 down
+> ifconfig eth1 0.0.0.0 down
+> ifconfig eth0 hw ether 70:FF:76:1C:0E:8D
+> ifconfig eth1 hw ether 70:FF:76:1C:0E:8D
+> ifconfig eth0 up
+> ifconfig eth1 up
+> ip link add name prp0 type hsr slave1 eth0 slave2 eth1 supervision 45 proto 1
+> ifconfig prp0 192.168.2.20
+> 
+> command to show node table
+> ----------------------------
+> Ping the peer board after the prp0 interface is up.
+> 
+> The remote node (DAN-P) will be shown in the node table as below.
+> 
+> root@am57xx-evm:~# cat /sys/kernel/debug/hsr/prp0/node_table
+> Node Table entries for (PRP) device
+> MAC-Address-A,    MAC-Address-B,    time_in[A], time_in[B], Address-B port, SAN-A, SAN-B, DAN-P
+> 70:ff:76:1c:0e:8c 00:00:00:00:00:00   ffffe83f,   ffffe83f,              0,     0,     0,     1
+> 
+> Try to capture the raw PRP frames at the eth0 interface as
+> tcpdump -i eth0 -xxx
+> 
+> Sample Supervision frames and ARP frames shown below.
+> 
+> ==================================================================================
+> Successive Supervision frames captured with tcpdump (with RCT at the end):
+> 
+> 03:43:29.500999 70:ff:76:1c:0e:8d (oui Unknown) > 01:15:4e:00:01:2d (oui Unknown), ethertype Unknown (0x88f
+>          0x0000:  0115 4e00 012d 70ff 761c 0e8d 88fb 0001
+>          0x0010:  7e0a 1406 70ff 761c 0e8d 0000 0000 0000
+>          0x0020:  0000 0000 0000 0000 0000 0000 0000 0000
+>          0x0030:  0000 0000 0000 0000 0000 0000 fc2b a034
+>          0x0040:  88fb
+>                     
+> 03:43:31.581025 70:ff:76:1c:0e:8d (oui Unknown) > 01:15:4e:00:01:2d (oui Unknown), ethertype Unknown (0x88f
+>          0x0000:  0115 4e00 012d 70ff 761c 0e8d 88fb 0001
+>          0x0010:  7e0b 1406 70ff 761c 0e8d 0000 0000 0000
+>          0x0020:  0000 0000 0000 0000 0000 0000 0000 0000
+>          0x0030:  0000 0000 0000 0000 0000 0000 fc2c a034
+>          0x0040:  88fb
+> 
+> ICMP Echo request frame with RCT
+> 03:43:33.805354 IP 192.168.2.20 > 192.168.2.10: ICMP echo request, id 63748, seq 1, length 64
+>          0x0000:  70ff 761c 0e8c 70ff 761c 0e8d 0800 4500
+>          0x0010:  0054 26a4 4000 4001 8e96 c0a8 0214 c0a8
+>          0x0020:  020a 0800 c28e f904 0001 202e 1c3d 0000
+>          0x0030:  0000 0000 0000 0000 0000 0000 0000 0000
+>          0x0040:  0000 0000 0000 0000 0000 0000 0000 0000
+>          0x0050:  0000 0000 0000 0000 0000 0000 0000 0000
+>          0x0060:  0000 fc31 a05a 88fb
+> ==================================================================================
+> The iperf3 traffic test logs can be accessed at the links below.
+> DUT-1: https://pastebin.ubuntu.com/p/8SkQzWJMn8/
+> DUT-2: https://pastebin.ubuntu.com/p/j2BZvvs7p4/
+> 
+> Other tests done.
+>   - Connect a SAN (eth0 and eth1 without prp interface) and
+>     do ping test from eth0 (192.168.2.40) to prp0 (192.168.2.10)
+>     verify the SAN node shows at the correct link A and B as shown
+>     in the node table dump
+>   - Regress HSR interface using 3 nodes connected in a ring topology.
+>     create hsr link version 0. Do iperf3 test between all nodes
+>     create hsr link version 1. Do iperf3 test between all nodes.
+> 
+>           --------eth0             eth1 --------eth0      eth1-------|
+>           |AM572x|----------------------|AM572x|--------------|AM572x|
+>           |      |                      |      |        ------|      |
+>           --------eth1---|               -------        | eth0 -------
+>                          |-------------------------------
+> 
+>     command used for HSR interface
+> 
+>     HSR V0
+> 
+>     ifconfig eth0 0.0.0.0 down
+>     ifconfig eth1 0.0.0.0 down
+>     ifconfig eth0 hw ether 70:FF:76:1C:0E:8C
+>     ifconfig eth1 hw ether 70:FF:76:1C:0E:8C
+>     ifconfig eth0 up
+>     ifconfig eth1 up
+>     ip link add name hsr0 type hsr slave1 eth0 slave2 eth1 supervision 45 version 0
+>     ifconfig hsr0 192.168.2.10
+> 
+>     HSR V1
+> 
+>     ifconfig eth0 0.0.0.0 down
+>     ifconfig eth1 0.0.0.0 down
+>     ifconfig eth0 hw ether 70:FF:76:1C:0E:8C
+>     ifconfig eth1 hw ether 70:FF:76:1C:0E:8C
+>     ifconfig eth0 up
+>     ifconfig eth1 up
+>     ip link add name hsr0 type hsr slave1 eth0 slave2 eth1 supervision 45 version 1
+>     ifconfig hsr0 192.168.2.10
+> 
+>     Logs at
+>     DUT-1 : https://pastebin.ubuntu.com/p/6PSJbZwQ6y/
+>     DUT-2 : https://pastebin.ubuntu.com/p/T8TqJsPRHc/
+>     DUT-3 : https://pastebin.ubuntu.com/p/VNzpv6HzKj/
+>   - Build tests :-
+>     Build with CONFIG_HSR=m
+>     allmodconfig build
+>     build with CONFIG_HSR=y and rebuild with sparse checker
+>     make C=1 zImage; make modules
+> 
+> Version history:
+>    v5 : Fixed comments about Kconfig changes on Patch 1/7 against v4
+>         Rebased to netnext/master branch.
+> 
+>    v4 : fixed following vs v3
+>         reverse xmas tree for local variables
+>         check for return type in call to skb_put_padto()
+> 
+>    v3 : Separated bug fixes from this series and send them for immediate merge
+>         But for that this is same as v2.
+>   
+>    v2 : updated comments on RFC. Following are the main changes:-
+>         - Removed the hsr_prp prefix
+>         - Added PRP information in header files to indicate
+>           the support for PRP explicitely
+>         - Re-use netlink socket interface with an added
+>           parameter proto for identifying PRP.
+>         - Use function pointers using a proto_ops struct
+>           to do things differently for PRP vs HSR.
+> 
+>     RFC: initial version posted and discussed at
+>         https://www.spinics.net/lists/netdev/msg656229.html
+> 
+> Murali Karicheri (7):
+>    hsr: enhance netlink socket interface to support PRP
+>    net: hsr: introduce common code for skb initialization
+>    net: hsr: introduce protocol specific function pointers
+>    net: prp: add supervision frame generation utility function
+>    net: hsr: define and use proto_ops ptrs to handle hsr specific frames
+>    net: prp: add packet handling support
+>    net: prp: enhance debugfs to display PRP info
+> 
+>   include/uapi/linux/hsr_netlink.h |   2 +-
+>   include/uapi/linux/if_link.h     |  12 +-
+>   net/hsr/Kconfig                  |  35 ++--
+>   net/hsr/hsr_debugfs.c            |  33 +++-
+>   net/hsr/hsr_device.c             | 181 ++++++++++++++----
+>   net/hsr/hsr_device.h             |   2 +
+>   net/hsr/hsr_forward.c            | 313 ++++++++++++++++++++++++-------
+>   net/hsr/hsr_forward.h            |  16 +-
+>   net/hsr/hsr_framereg.c           |  95 ++++++++--
+>   net/hsr/hsr_framereg.h           |  31 ++-
+>   net/hsr/hsr_main.c               |   2 +
+>   net/hsr/hsr_main.h               | 120 +++++++++++-
+>   net/hsr/hsr_netlink.c            |  38 +++-
+>   net/hsr/hsr_netlink.h            |   2 +
+>   net/hsr/hsr_slave.c              |  26 ++-
+>   net/hsr/hsr_slave.h              |   4 +
+>   16 files changed, 743 insertions(+), 169 deletions(-)
+> 
+If there are no more comments, can we consider merging this to
+net-next? I could re-base and repost if there is any conflict.
 
-I've added something to deal with that in the fsinfo branch.  I've given each
-mount object and superblock a supplementary 64-bit unique ID that's not likely
-to repeat before we're no longer around to have to worry about it.
-
-fsinfo() then allows you to retrieve them by path or by mount ID.
-
-So, yes, mnt_id and s_dev are not unique and may be reused very quickly, but
-I'm also providing uniquifiers that you can check.
-
-David
-
+Thanks and regards,
+-- 
+Murali Karicheri
+Texas Instruments
