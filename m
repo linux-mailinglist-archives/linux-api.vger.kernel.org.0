@@ -2,84 +2,185 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 25B3222D704
-	for <lists+linux-api@lfdr.de>; Sat, 25 Jul 2020 13:19:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF85822DA0F
+	for <lists+linux-api@lfdr.de>; Sat, 25 Jul 2020 23:29:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726962AbgGYLSs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 25 Jul 2020 07:18:48 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:38635 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726728AbgGYLSs (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 25 Jul 2020 07:18:48 -0400
-Received: from ip5f5af08c.dynamic.kabel-deutschland.de ([95.90.240.140] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1jzI9n-0006EM-Of; Sat, 25 Jul 2020 11:15:59 +0000
-Date:   Sat, 25 Jul 2020 13:15:58 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Kees Cook <keescook@chromium.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Aleksa Sarai <cyphar@cyphar.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org,
-        =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Christian Heimes <christian@python.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Deven Bowers <deven.desai@linux.microsoft.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Eric Chiang <ericchiang@google.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
-        Matthew Garrett <mjg59@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Philippe =?utf-8?Q?Tr=C3=A9buchet?= 
-        <philippe.trebuchet@ssi.gouv.fr>,
-        Scott Shell <scottsh@microsoft.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Steve Dower <steve.dower@python.org>,
-        Steve Grubb <sgrubb@redhat.com>,
-        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
-        Thibaut Sautereau <thibaut.sautereau@clip-os.org>,
-        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v7 0/7] Add support for O_MAYEXEC
-Message-ID: <20200725111558.sawfxujpsxpzw6fk@wittgenstein>
-References: <20200723171227.446711-1-mic@digikod.net>
- <202007241205.751EBE7@keescook>
+        id S1727921AbgGYV3C (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 25 Jul 2020 17:29:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52650 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726870AbgGYV3B (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 25 Jul 2020 17:29:01 -0400
+Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com [IPv6:2607:f8b0:4864:20::841])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B701C08C5C0
+        for <linux-api@vger.kernel.org>; Sat, 25 Jul 2020 14:29:01 -0700 (PDT)
+Received: by mail-qt1-x841.google.com with SMTP id w9so9540645qts.6
+        for <linux-api@vger.kernel.org>; Sat, 25 Jul 2020 14:29:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tfz-net.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9vUjQUwq1PEERKf5qY60lLL26f/JpD/pXHJh6zM3IeM=;
+        b=SiQ/TcpGmb4nIYR2tjY/C67/FDysFa43NfqWK5sh5Hx2lBSouWujK2NCbEsIJebtEd
+         tojt5nScJQqxhwQo2UT4dTfanai5SFMOeWM3wbW2UGRg/GOgnXrFEu/+mFWQ3MnP1Yb7
+         iMIa5ei9q/lAJLiOifV8v6LOAScv3Ps1y6rYztN9UHKw8j7NHb25Lzv4hXbmkJ4ZZYg6
+         litzpjUq08/OFHnunvH80Kxv3oeAUNDmMr2UPu50xH7f+jQM2uBSoF1ZXUtvMz5kxJyC
+         FVpx8B3J2ThVo5Hi2QwlBjTh8zv5peDOyKYjaeT0RI9ziaedfbYAhVswskDLXAA8ax/E
+         xelg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9vUjQUwq1PEERKf5qY60lLL26f/JpD/pXHJh6zM3IeM=;
+        b=WqxN5rew6cYW1gXgelz1w9HgRx6IDJ42k2T7HCwIzixcs9w1in70qeuBv8FJ0ECQOV
+         DNu0STMwHmPPRS6ciddn0GrMRW7IdxES6dd9RPN0zWzDSwcmK3gNjEAjZv7Mfdjx/vVf
+         n+YXgBrjVx7AovO7FQ+kxrDH6LrIZABWnNf2PAdVLjvtqmajCUkFw0QqN8Saro83F2wr
+         m2EmZ8cKCLcROejD6KEenV7qCFnRnQeVxRrhawUbAEHdvjVgBzyRcW649ZoPI/SYtSF1
+         AEkb+E6GIzya0QUOasDlPpdWHs5m4X/9AjdvQXWOHp3gcqFF5d+sVZsC1skz0HEUnD0o
+         KnHg==
+X-Gm-Message-State: AOAM532Uye+54qTcKo5fXKMrGKjIVqo6ZlX9HjbqEYBPF0o4RPkfefkh
+        TgDeXyF+IXTCUuV1KcKJKt1qyvUzuXITHw==
+X-Google-Smtp-Source: ABdhPJz+WCEHOOOvq9Cyg192KCiTDbh0OP4VCr5T++Wwp2jd2SAHr3ridCcBzehvmcV6KJxYgmQmvQ==
+X-Received: by 2002:ac8:4411:: with SMTP id j17mr15433311qtn.77.1595712540240;
+        Sat, 25 Jul 2020 14:29:00 -0700 (PDT)
+Received: from foo.attlocal.net (108-232-117-128.lightspeed.sntcca.sbcglobal.net. [108.232.117.128])
+        by smtp.gmail.com with ESMTPSA id w1sm11597735qkj.90.2020.07.25.14.28.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Jul 2020 14:28:59 -0700 (PDT)
+From:   Pascal Bouchareine <kalou@tfz.net>
+To:     linux-kernel@vger.kernel.org
+Cc:     Pascal Bouchareine <kalou@tfz.net>, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, "Alexey Dobriyan" <adobriyan@gmail.com>,
+        "Jeff Layton" <jlayton@poochiereds.net>,
+        "J. Bruce Fields" <bfields@fieldses.org>
+Subject: [PATCH] proc,fcntl: introduce F_SET_DESCRIPTION
+Date:   Fri, 24 Jul 2020 17:40:43 -0700
+Message-Id: <20200725004043.32326-1-kalou@tfz.net>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <202007241205.751EBE7@keescook>
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jul 24, 2020 at 12:06:53PM -0700, Kees Cook wrote:
-> I think this looks good now.
-> 
-> Andrew, since you're already carrying my exec clean-ups (repeated here
-> in patch 1-3), can you pick the rest of this series too?
+This command attaches a description to a file descriptor for
+troubleshooting purposes. The free string is displayed in the
+process fdinfo file for that fd /proc/pid/fdinfo/fd.
 
-Al,
+One intended usage is to allow processes to self-document sockets
+for netstat and friends to report
 
-Not sure if you have already re-surfaced from your
-csum()/raw_copy_from_user() work completely yet but you had thoughts
-about this series iirc.
+Signed-off-by: Pascal Bouchareine <kalou@tfz.net>
+---
 
-Aleksa, thoughts?
+More context sent earlier this week: https://lore.kernel.org/linux-api/CAGbU3_nVvuzMn2wo4_ZKufWcGfmGsopVujzTWw-Bbeky=xS+GA@mail.gmail.com/T/#u
 
-Thanks!
-Christian
+ Documentation/filesystems/proc.rst |  3 +++
+ fs/fcntl.c                         | 19 +++++++++++++++++++
+ fs/proc/fd.c                       |  5 +++++
+ include/linux/fs.h                 |  3 +++
+ include/uapi/linux/fcntl.h         |  5 +++++
+ 5 files changed, 35 insertions(+)
+
+
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index 996f3cfe7030..ae8045650836 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -1918,6 +1918,9 @@ A typical output is::
+ 	flags:	0100002
+ 	mnt_id:	19
+ 
++An optional 'desc' is set if the process documented its usage of
++the file via the fcntl command F_SET_DESCRIPTION.
++
+ All locks associated with a file descriptor are shown in its fdinfo too::
+ 
+     lock:       1: FLOCK  ADVISORY  WRITE 359 00:13:11691 0 EOF
+diff --git a/fs/fcntl.c b/fs/fcntl.c
+index 2e4c0fa2074b..c1ef724a906e 100644
+--- a/fs/fcntl.c
++++ b/fs/fcntl.c
+@@ -319,6 +319,22 @@ static long fcntl_rw_hint(struct file *file, unsigned int cmd,
+ 	}
+ }
+ 
++static long fcntl_set_description(struct file *file, char __user *desc)
++{
++	char *d;
++
++	d = strndup_user(desc, MAX_FILE_DESC_SIZE);
++	if (IS_ERR(d))
++		return PTR_ERR(d);
++
++	spin_lock(&file->f_lock);
++	kfree(file->f_description);
++	file->f_description = d;
++	spin_unlock(&file->f_lock);
++
++	return 0;
++}
++
+ static long do_fcntl(int fd, unsigned int cmd, unsigned long arg,
+ 		struct file *filp)
+ {
+@@ -426,6 +442,9 @@ static long do_fcntl(int fd, unsigned int cmd, unsigned long arg,
+ 	case F_SET_FILE_RW_HINT:
+ 		err = fcntl_rw_hint(filp, cmd, arg);
+ 		break;
++	case F_SET_DESCRIPTION:
++		err = fcntl_set_description(filp, argp);
++		break;
+ 	default:
+ 		break;
+ 	}
+diff --git a/fs/proc/fd.c b/fs/proc/fd.c
+index 81882a13212d..60b3ff971b2b 100644
+--- a/fs/proc/fd.c
++++ b/fs/proc/fd.c
+@@ -57,6 +57,11 @@ static int seq_show(struct seq_file *m, void *v)
+ 		   (long long)file->f_pos, f_flags,
+ 		   real_mount(file->f_path.mnt)->mnt_id);
+ 
++	spin_lock(&file->f_lock);
++	if (file->f_description)
++		seq_printf(m, "desc:\t%s\n", file->f_description);
++	spin_unlock(&file->f_lock);
++
+ 	show_fd_locks(m, file, files);
+ 	if (seq_has_overflowed(m))
+ 		goto out;
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index f5abba86107d..09717bfa4e3b 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -980,6 +980,9 @@ struct file {
+ 	struct address_space	*f_mapping;
+ 	errseq_t		f_wb_err;
+ 	errseq_t		f_sb_err; /* for syncfs */
++
++#define MAX_FILE_DESC_SIZE 256
++	char                    *f_description;
+ } __randomize_layout
+   __attribute__((aligned(4)));	/* lest something weird decides that 2 is OK */
+ 
+diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
+index 2f86b2ad6d7e..f86ff6dc45c7 100644
+--- a/include/uapi/linux/fcntl.h
++++ b/include/uapi/linux/fcntl.h
+@@ -55,6 +55,11 @@
+ #define F_GET_FILE_RW_HINT	(F_LINUX_SPECIFIC_BASE + 13)
+ #define F_SET_FILE_RW_HINT	(F_LINUX_SPECIFIC_BASE + 14)
+ 
++/*
++ * Set file description
++ */
++#define F_SET_DESCRIPTION	(F_LINUX_SPECIFIC_BASE + 15)
++
+ /*
+  * Valid hint values for F_{GET,SET}_RW_HINT. 0 is "not set", or can be
+  * used to clear any hints previously set.
+-- 
+2.25.1
+
