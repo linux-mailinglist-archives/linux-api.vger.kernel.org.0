@@ -2,51 +2,51 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B23CB22DB4A
-	for <lists+linux-api@lfdr.de>; Sun, 26 Jul 2020 04:04:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F35722DB4E
+	for <lists+linux-api@lfdr.de>; Sun, 26 Jul 2020 04:10:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727034AbgGZCE1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 25 Jul 2020 22:04:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38594 "EHLO
+        id S1727101AbgGZCKn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 25 Jul 2020 22:10:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727009AbgGZCE1 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 25 Jul 2020 22:04:27 -0400
-Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com [IPv6:2607:f8b0:4864:20::f43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17F3FC0619D4
-        for <linux-api@vger.kernel.org>; Sat, 25 Jul 2020 19:04:27 -0700 (PDT)
-Received: by mail-qv1-xf43.google.com with SMTP id h18so5916035qvl.3
-        for <linux-api@vger.kernel.org>; Sat, 25 Jul 2020 19:04:27 -0700 (PDT)
+        with ESMTP id S1726931AbgGZCKm (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 25 Jul 2020 22:10:42 -0400
+Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com [IPv6:2607:f8b0:4864:20::841])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E85BC0619D2
+        for <linux-api@vger.kernel.org>; Sat, 25 Jul 2020 19:10:42 -0700 (PDT)
+Received: by mail-qt1-x841.google.com with SMTP id c12so776137qtn.9
+        for <linux-api@vger.kernel.org>; Sat, 25 Jul 2020 19:10:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=tfz-net.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Omdab1nC5MtSModjV2PS7fPsUJ+lDgcnp0n1JPTjxRo=;
-        b=YMwNAYIX8mFOI7SAohY0EXyneQkLsbKI/55OHSL4POy90WKjrWT7T0bEST+X/H+3wV
-         tz3rPlwfeABkbiKw+Lwilgn4o61YnXv/xm9/E38LQWujC0vkdC4Zg0QvRWDTFGyNvadd
-         QjZoIoz9146mbVyAwiCce/zNKtBIwPQ7JjXqu6+f9gIohhOpIS4KylfUZWwVKY7tm8vJ
-         ItP44HhvNmiinuTlfGdKWkLokGamprvTZW0iB8ryznQsvv5FrVglV4x5nNA/6b17A88n
-         tE34iMJTwoFnKXsNXRI+gQRBQKGPUzu8pMT6lEMt0S+j8EZOST8WEu/oDJY4t0CpeIYz
-         u1iw==
+        bh=9jZxFouS/A32loCaaEjirlHFKl4WQoThnzuj6Eg5GJw=;
+        b=rEBHahRRSczuTZCBkAc6vQkis/Z+kNxhajeIGNL62ZWHUD5aaezLBP7rnw7giyM44Q
+         2IyTPNwPtpqez+O+cKlMnW1NaisiRzkD0Qcz+7TWqxpHjX0WTyKXTigKAyP1DQWc3Mi3
+         ySQq8mfb9I9Oxm/ylPH2zvXFPQBckbJbhf3xALiDl6bYOM7slqK7KnrwquA/q4zaJIbh
+         Ujldw9QKud0XKnO+trewrpJtle4cDlk+uhZAJBBm8QARzoCpBSw57AHy9JZGq4e2MXf9
+         AxcycjBnLSTkF4TbXBUxOeWhkSlF8XUD0/dZS/y04T23vnbcr2nbyeus7D5PsHNwhRHl
+         ClWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Omdab1nC5MtSModjV2PS7fPsUJ+lDgcnp0n1JPTjxRo=;
-        b=tDeOmnJd4rKQ+x8kqUYRVelBWJtDhQWvy3uZQxbuULk5qSJSD/oGzJE/JtJek+9Q74
-         R7DV+8RsNhWGjckhOuwHr0aVMPe0XibJEESEncK8qiVLAp2vjRgyk3FLnElFw193anzZ
-         Ms5kYDG/JT64dGMCdfXcO23lqxGcxOlWB6s0YOu0NedPOzHC6Y9k4myiaOjYRXbOUBb1
-         laQkvp5gva5V8K34kHu8ilJK9C8Llhsi+9TYo/QYpoiezs0rEBww+5CxhR9IazVP3gfc
-         NBXbbaRdjRPcEocWmId7InTt+NXDf8kn2BPpj8n8HK0TLS1n7cIBdy1Up4GygNC498Qo
-         L+ag==
-X-Gm-Message-State: AOAM531GloCvsPwU05WkyGsjRR+BDhproYsL9BkovJd+wFK8/F9PCo13
-        yBAavC0X5J7K+8oy5/S2jytO3Q==
-X-Google-Smtp-Source: ABdhPJyu2yaYA5YqCBXbtUuWqfBWJxFzSIYLeivhZi6g24tvrR/LD6i0Lr1beQ4D7FQtBVIz3jVCQQ==
-X-Received: by 2002:a0c:a2c1:: with SMTP id g59mr16889122qva.138.1595729066049;
-        Sat, 25 Jul 2020 19:04:26 -0700 (PDT)
+        bh=9jZxFouS/A32loCaaEjirlHFKl4WQoThnzuj6Eg5GJw=;
+        b=bbfHn4EKeWNchSwLatPXZ02oIwVPAf/1HeePTNrZtCI6lyq964BttGYb5ft5DgUthV
+         TvmB2LUAiaVbi7COts2IJZugqMWcHBMxJWI5ahWdKP/QJQ/wf3oxnJHcqY3mKfRnZJr2
+         gzzwq0ru4tqo5JYXM5/vGXZKDWtPT8LhiTCkhucUNuvOpeiCviiIOq8SZz/H9NQlzRCN
+         X3ZwIfOT9affvRMzRSQ1D8nrQQsow0s8WD/D39WFkAEoWVy2iXKdbFRlVY00xNN5o1+B
+         bkf2flvibJFTAi/a0idQkivPLF7sDScSD8kKDaJ9FYk8GMXstnwz4NIZrUemrPiq+ekS
+         K7SA==
+X-Gm-Message-State: AOAM531FzqHvX4XyaFBltpxY65KaQUCee1L8HcFWk5GzHxYuNYwZUzq5
+        fGuXXzFE1EtsKlLPS6HzRaougQ==
+X-Google-Smtp-Source: ABdhPJyEzHyVa6ZtIhdd/jULbJKiHyAiOFV/3VYBL3mbFgealbudoxge8WXb9Qo8yRzx7fFPEse/DA==
+X-Received: by 2002:ac8:6b04:: with SMTP id w4mr17059602qts.364.1595729441653;
+        Sat, 25 Jul 2020 19:10:41 -0700 (PDT)
 Received: from foo.attlocal.net (108-232-117-128.lightspeed.sntcca.sbcglobal.net. [108.232.117.128])
-        by smtp.gmail.com with ESMTPSA id p17sm12624093qkj.69.2020.07.25.19.04.24
+        by smtp.gmail.com with ESMTPSA id i18sm1209310qtv.39.2020.07.25.19.10.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Jul 2020 19:04:25 -0700 (PDT)
+        Sat, 25 Jul 2020 19:10:40 -0700 (PDT)
 From:   Pascal Bouchareine <kalou@tfz.net>
 To:     linux-kernel@vger.kernel.org
 Cc:     Pascal Bouchareine <kalou@tfz.net>, linux-fsdevel@vger.kernel.org,
@@ -54,9 +54,9 @@ Cc:     Pascal Bouchareine <kalou@tfz.net>, linux-fsdevel@vger.kernel.org,
         "Al Viro" <viro@zeniv.linux.org.uk>,
         "Jeff Layton" <jlayton@poochiereds.net>,
         "J. Bruce Fields" <bfields@fieldses.org>
-Subject: [PATCH v3] This command attaches a description to a file descriptor for troubleshooting purposes. The free string is displayed in the process fdinfo file for that fd /proc/pid/fdinfo/fd.
-Date:   Fri, 24 Jul 2020 22:15:47 -0700
-Message-Id: <20200725051547.3718-1-kalou@tfz.net>
+Subject: [PATCH v3] proc,fcntl: introduce F_SET_DESCRIPTION
+Date:   Fri, 24 Jul 2020 22:22:36 -0700
+Message-Id: <20200725052236.4062-1-kalou@tfz.net>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200725045921.2723-1-kalou@tfz.net>
 References: <20200725045921.2723-1-kalou@tfz.net>
@@ -66,6 +66,10 @@ Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
+
+This command attaches a description to a file descriptor for
+troubleshooting purposes. The free string is displayed in the
+process fdinfo file for that fd /proc/pid/fdinfo/fd.
 
 One intended usage is to allow processes to self-document sockets
 for netstat and friends to report
