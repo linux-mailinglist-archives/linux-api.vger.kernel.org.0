@@ -2,95 +2,213 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BB3F722DAAA
-	for <lists+linux-api@lfdr.de>; Sun, 26 Jul 2020 01:56:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 37BCB22DB48
+	for <lists+linux-api@lfdr.de>; Sun, 26 Jul 2020 03:48:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727945AbgGYX4I (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 25 Jul 2020 19:56:08 -0400
-Received: from sonic315-14.consmr.mail.bf2.yahoo.com ([74.6.134.124]:40470
-        "EHLO sonic315-14.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727886AbgGYX4I (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 25 Jul 2020 19:56:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1595721366; bh=+NKq2YP/4c3bLm2HmGhxa/KCZOXr0NIUKHs/ECuC0yk=; h=Date:From:Reply-To:Subject:References:From:Subject; b=iW4seRVtbnpvvyI5BHItPFy1aZfVH6YEEGKDWJo4vLtvBkhQSMfkl/bcii5CynYjXMGJacM4tIAfEazh3Y4A3eIetFngBrEbzi7l/W6+mB9gXzFJ1Di33B2ipRunLWVrOELl+ELyhxqYzGk7hLeczOJo0m4Aa6uix0vBv2n3eCgqxfvVFZEbcJvAI+J8+VMfhOAZXFvm4RIdCpwXq68OOUSUWg9gcrqEuqsFiB+fSsurpkn68caAXuXG73O1a1MQi6haAcsLu7siTG9kHL6P+SySWXIFzm+LbNetfr3TiwisRU0WGRPDrPToWsP1PXFJHaIRhtRSE0GVtgcf9UNmMA==
-X-YMail-OSG: eh3EeCwVM1kOxzwj9uvxR.g36_h5mRTBG0osEdUVI2ucvwKTbsERhTxSl7EdnVV
- iwjXSgaWW_ft91rhsILjZ86MDnKtwMvVQBDgwJKbhjcYatvS5HBX4d64w_0uxZuHgzGpd1u6Q56t
- 2MNmIIhzgrv.AeQ9wJ0F10EN2VoY18aDWWTNy75tX9eUnh7PN6ob80FacIJ7f.BAXLmNSP6PlfBi
- SzyiAVICbNtVATYB1wYjVnLaSPsSW3p0M3IYQBnBC0UdySF2iIYVJi0WYo2bK7obSmdVWY8jvti3
- 6nDc4baJXyFLkveD5jIe54AhnQgjYF8cYwFH55zlG8sR1b3mcsm18u3pG.3C9xfR0A5SjGbkkN8u
- mtUSsvSYVQxWh0uDfXH.UOXU1AbaNv.7ARsyPnf6VetSYb41Vd_RQs80g6KC1WQ.0imZ9uOIhpMe
- sNYboDDx3Uyf5ShszshXm_IaOyQV9Tvy5r6b59K67ZQEwFvunoBOUKfYVp81nAocG2mcuwRhYbuR
- ecAyHhzP2m5IcAL4HCBPVug.m31Rj450V8_rkPNb6gCmOIg5L9m5wt1oF16AH.5_Scfl7t4IP2pU
- 4NG4gC5dSOJBNXCYYJhuz28GzY7lsXhrdFGVsjAk0lyYQQth72kVeDVURtMmyiBSYpc6CikPE81M
- 4nGDSH.N4PQDmKputvMkOmyTsEmSaQUGYUNNMClqE3P_Zc.yEIItFznFJw5WkYpQ2xPLDgkleOPR
- 7DH.f7AewcrReHZh8C2Anrg4fcVYOV9NkmUnTwHEEYl2.ok7eVPOai7vZDxVsdYpGXyD9ZwtJkV7
- J8OGPhrGY7QHDoPxqS6VgcfCTfwyMIfapb8WGq_DKiYHO3OBVRaK53ZPOC98a4iUDduGTzdp8gxW
- LKfbyoDGdcxWXvGi4Yod3d_H5AxKlHnEqHKfrMcNKiUtxcgfCBYtLj191n8KFYwqJH9j8eMM4sPO
- 89.lm4QX5Fbwsvm7ZQKN5X3FmPzRPAsYXt7PR_4cotdm27xa.HfiNDtbDDbAEKJcX..sysgGMpDF
- GA9KHlRyrw4k09bEc2yVD5.nILOhFo.lKrnk1l7ZQmr8nszOrunvPcthyrfX2TdVk87TL.EDME60
- pZk6oryISAw7x.9nJDOSnbGvdscB2ysP1GhNuovX8jtOcxJ9mux7N3vQkfu7IlFivOWNYwu74qpo
- Z_fI9J7cnNujK0Jv_chHvVHXPxQyObTRBMKYt.EuVEY7gOEcveLM9n3xRqeAdvXjvEygYR3rgUoi
- b_7yrBorsuLIzT4gP54q1eJKHGpQOT_XnYikycdukXDfCIf2U9HW.8t3NmEN0EON2O1OSt9b_M0a
- 18GZIt8ViIw--
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic315.consmr.mail.bf2.yahoo.com with HTTP; Sat, 25 Jul 2020 23:56:06 +0000
-Date:   Sat, 25 Jul 2020 23:56:06 +0000 (UTC)
-From:   "Mrs. Mina A. Brunel" <bmrsminaa4@gmail.com>
-Reply-To: amrsminaabrunel@gmail.com
-Message-ID: <2009430043.5047362.1595721366104@mail.yahoo.com>
-Subject: My Dear in the lord
+        id S1727009AbgGZBsm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 25 Jul 2020 21:48:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36142 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726931AbgGZBsk (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 25 Jul 2020 21:48:40 -0400
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A704C0619D4
+        for <linux-api@vger.kernel.org>; Sat, 25 Jul 2020 18:48:39 -0700 (PDT)
+Received: by mail-qk1-x744.google.com with SMTP id 2so8184735qkf.10
+        for <linux-api@vger.kernel.org>; Sat, 25 Jul 2020 18:48:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tfz-net.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=QWkgvkaS5dEVqlfPqdK/IEg0sV/Gm0tJLgo2eizioCs=;
+        b=SELSPIYIIOdLkttp20A0r+f6mIi7cYDmZVV22M46LiYOd9pszpZfCY6CGcCF3bzfH6
+         uZ1cDwnr6hZ/0DhXnyarJZ90yg/P/8Wqjyyof6PVjDNkUf3y6MT27UMjt8PAF2JwtnBD
+         12JFBN4lrGrer87b5fT0Gm4IO5Y+EBjpQZF63uUVIdEkeeLXlYWqNZN1Oh4OaJYbQ/Lx
+         GjT322Y4J8RXyJ/pqcFy8HDemlCTbd9KBHrLSMXBYfoi6NwjJey1ghqiYu5DlejaOChE
+         41gTnC7mFY1ujbOta5D5oiqHKQztFw7ylvY4e3cN6Rt9IyOdRAu0LGYmDAJ/9aWI4YNZ
+         IaYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=QWkgvkaS5dEVqlfPqdK/IEg0sV/Gm0tJLgo2eizioCs=;
+        b=oVShT6Ws+bnZTYhZMf2Qa9cmvXdu3ykMOubiGwc5rQFfliNlca3vooZynk2lZHJ37p
+         NAU7HMenYbY3TCa+IpnmiOfSSeQzlyp44hSIvZd6ACdqJ2ierRi2Ni6kXGIX+wdR7NXs
+         8dwRSg9MPCVqs2Xu9lA2Wm+jRUnQ1FJv4JZmzOUfTIXG4c0HOlQdFsreq8WVfepg6de7
+         pz9c6a+miaDKgDsJJyD86kJR5i5DbruDdTbpNp6FIuXYJQrD7OD3VySi3xVTmXQuQRDh
+         TgkZgIAYSriAKxVVDd0bGlC+W45t1sRC3bUcnyI29kY5nhXpY5D6r0aotfUHvNBBZUCu
+         bIVw==
+X-Gm-Message-State: AOAM531KjmkiXVXZlhdaqVA+1QO5x4kJSF//qF0AagwaefxFfDwL9nZx
+        y07Kgp7MedH+zHSJHeLDxOjej5IKql/vaQ==
+X-Google-Smtp-Source: ABdhPJxuwIliaGhCAp0pFXm5yOjCVWhZyKKm9l1MMVARb45o2aw3/ZbPf43yLBwHdIFleU++wxEEUQ==
+X-Received: by 2002:ae9:e507:: with SMTP id w7mr17174181qkf.264.1595728118487;
+        Sat, 25 Jul 2020 18:48:38 -0700 (PDT)
+Received: from foo.attlocal.net (108-232-117-128.lightspeed.sntcca.sbcglobal.net. [108.232.117.128])
+        by smtp.gmail.com with ESMTPSA id z17sm10835748qki.95.2020.07.25.18.48.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Jul 2020 18:48:37 -0700 (PDT)
+From:   Pascal Bouchareine <kalou@tfz.net>
+To:     linux-kernel@vger.kernel.org
+Cc:     Pascal Bouchareine <kalou@tfz.net>, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, "Alexey Dobriyan" <adobriyan@gmail.com>,
+        "Al Viro" <viro@zeniv.linux.org.uk>,
+        "Jeff Layton" <jlayton@poochiereds.net>,
+        "J. Bruce Fields" <bfields@fieldses.org>
+Subject: [PATCH v2] proc,fcntl: introduce F_SET_DESCRIPTION
+Date:   Fri, 24 Jul 2020 21:59:21 -0700
+Message-Id: <20200725045921.2723-1-kalou@tfz.net>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200725004043.32326-1-kalou@tfz.net>
+References: <20200725004043.32326-1-kalou@tfz.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-References: <2009430043.5047362.1595721366104.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.16271 YMailNodin Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+This command attaches a description to a file descriptor for
+troubleshooting purposes. The free string is displayed in the
+process fdinfo file for that fd /proc/pid/fdinfo/fd.
 
+One intended usage is to allow processes to self-document sockets
+for netstat and friends to report
 
-My Dear in the lord
+Signed-off-by: Pascal Bouchareine <kalou@tfz.net>
+---
+ Documentation/filesystems/proc.rst |  3 +++
+ fs/fcntl.c                         | 19 +++++++++++++++++++
+ fs/file_table.c                    |  3 +++
+ fs/proc/fd.c                       |  5 +++++
+ include/linux/fs.h                 |  3 +++
+ include/uapi/linux/fcntl.h         |  5 +++++
+ scripts/get_maintainer.pl          |  2 ++
+ 7 files changed, 40 insertions(+)
 
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index 996f3cfe7030..ae8045650836 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -1918,6 +1918,9 @@ A typical output is::
+ 	flags:	0100002
+ 	mnt_id:	19
+ 
++An optional 'desc' is set if the process documented its usage of
++the file via the fcntl command F_SET_DESCRIPTION.
++
+ All locks associated with a file descriptor are shown in its fdinfo too::
+ 
+     lock:       1: FLOCK  ADVISORY  WRITE 359 00:13:11691 0 EOF
+diff --git a/fs/fcntl.c b/fs/fcntl.c
+index 2e4c0fa2074b..c1ef724a906e 100644
+--- a/fs/fcntl.c
++++ b/fs/fcntl.c
+@@ -319,6 +319,22 @@ static long fcntl_rw_hint(struct file *file, unsigned int cmd,
+ 	}
+ }
+ 
++static long fcntl_set_description(struct file *file, char __user *desc)
++{
++	char *d;
++
++	d = strndup_user(desc, MAX_FILE_DESC_SIZE);
++	if (IS_ERR(d))
++		return PTR_ERR(d);
++
++	spin_lock(&file->f_lock);
++	kfree(file->f_description);
++	file->f_description = d;
++	spin_unlock(&file->f_lock);
++
++	return 0;
++}
++
+ static long do_fcntl(int fd, unsigned int cmd, unsigned long arg,
+ 		struct file *filp)
+ {
+@@ -426,6 +442,9 @@ static long do_fcntl(int fd, unsigned int cmd, unsigned long arg,
+ 	case F_SET_FILE_RW_HINT:
+ 		err = fcntl_rw_hint(filp, cmd, arg);
+ 		break;
++	case F_SET_DESCRIPTION:
++		err = fcntl_set_description(filp, argp);
++		break;
+ 	default:
+ 		break;
+ 	}
+diff --git a/fs/file_table.c b/fs/file_table.c
+index 656647f9575a..f2d9be7b6459 100644
+--- a/fs/file_table.c
++++ b/fs/file_table.c
+@@ -272,6 +272,9 @@ static void __fput(struct file *file)
+ 	eventpoll_release(file);
+ 	locks_remove_file(file);
+ 
++	if (file->f_description)
++		kfree(file->f_description);
++
+ 	ima_file_free(file);
+ 	if (unlikely(file->f_flags & FASYNC)) {
+ 		if (file->f_op->fasync)
+diff --git a/fs/proc/fd.c b/fs/proc/fd.c
+index 81882a13212d..60b3ff971b2b 100644
+--- a/fs/proc/fd.c
++++ b/fs/proc/fd.c
+@@ -57,6 +57,11 @@ static int seq_show(struct seq_file *m, void *v)
+ 		   (long long)file->f_pos, f_flags,
+ 		   real_mount(file->f_path.mnt)->mnt_id);
+ 
++	spin_lock(&file->f_lock);
++	if (file->f_description)
++		seq_printf(m, "desc:\t%s\n", file->f_description);
++	spin_unlock(&file->f_lock);
++
+ 	show_fd_locks(m, file, files);
+ 	if (seq_has_overflowed(m))
+ 		goto out;
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index f5abba86107d..09717bfa4e3b 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -980,6 +980,9 @@ struct file {
+ 	struct address_space	*f_mapping;
+ 	errseq_t		f_wb_err;
+ 	errseq_t		f_sb_err; /* for syncfs */
++
++#define MAX_FILE_DESC_SIZE 256
++	char                    *f_description;
+ } __randomize_layout
+   __attribute__((aligned(4)));	/* lest something weird decides that 2 is OK */
+ 
+diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
+index 2f86b2ad6d7e..f86ff6dc45c7 100644
+--- a/include/uapi/linux/fcntl.h
++++ b/include/uapi/linux/fcntl.h
+@@ -55,6 +55,11 @@
+ #define F_GET_FILE_RW_HINT	(F_LINUX_SPECIFIC_BASE + 13)
+ #define F_SET_FILE_RW_HINT	(F_LINUX_SPECIFIC_BASE + 14)
+ 
++/*
++ * Set file description
++ */
++#define F_SET_DESCRIPTION	(F_LINUX_SPECIFIC_BASE + 15)
++
+ /*
+  * Valid hint values for F_{GET,SET}_RW_HINT. 0 is "not set", or can be
+  * used to clear any hints previously set.
+diff --git a/scripts/get_maintainer.pl b/scripts/get_maintainer.pl
+index 484d2fbf5921..2e7c434b2b2d 100755
+--- a/scripts/get_maintainer.pl
++++ b/scripts/get_maintainer.pl
+@@ -2309,6 +2309,8 @@ sub vcs_file_blame {
+ 		my @commit_signers = ();
+ 		my $cmd;
+ 
++		print STDERR "checking commit $commit\n";
++
+ 		$cmd = $VCS_cmds{"find_commit_signers_cmd"};
+ 		$cmd =~ s/(\$\w+)/$1/eeg;	#substitute variables in $cmd
+ 
+-- 
+2.25.1
 
-My name is Mrs. Mina A. Brunel I am a Norway Citizen who is living in Burki=
-na Faso, I am married to Mr. Brunel Patrice, a politician who owns a small =
-gold company in Burkina Faso; He died of Leprosy and Radesyge, in the year =
-February 2010, During his lifetime he deposited the sum of =E2=82=AC 8.5 Mi=
-llion Euro) Eight million, Five hundred thousand Euros in a bank in Ouagado=
-ugou the capital city of Burkina Faso in West Africa. The money was from th=
-e sale of his company and death benefits payment and entitlements of my dec=
-eased husband by his company.
-
-I am sending you this message with heavy tears in my eyes and great sorrow =
-in my heart, and also praying that it will reach you in good health because=
- I am not in good health, I sleep every night without knowing if I may be a=
-live to see the next day. I am suffering from long time cancer and presentl=
-y I am partially suffering from Leprosy, which has become difficult for me =
-to move around. I was married to my late husband for more than 6 years with=
-out having a child and my doctor confided that I have less chance to live, =
-having to know when the cup of death will come, I decided to contact you to=
- claim the fund since I don't have any relation I grew up from an orphanage=
- home.
-
-I have decided to donate this money for the support of helping Motherless b=
-abies/Less privileged/Widows and churches also to build the house of God be=
-cause I am dying and diagnosed with cancer for about 3 years ago. I have de=
-cided to donate from what I have inherited from my late husband to you for =
-the good work of Almighty God; I will be going in for an operation surgery =
-soon.
-
-Now I want you to stand as my next of kin to claim the funds for charity pu=
-rposes. Because of this money remains unclaimed after my death, the bank ex=
-ecutives or the government will take the money as unclaimed fund and maybe =
-use it for selfishness and worthless ventures, I need a very honest person =
-who can claim this money and use it for Charity works, for orphanages, wido=
-ws and also build schools and churches for less privilege that will be name=
-d after my late husband and my name.
-
-I need your urgent answer to know if you will be able to execute this proje=
-ct, and I will give you more information on how the fund will be transferre=
-d to your bank account or online banking.
-
-Thanks
-Mrs. Mina A. Brunel
