@@ -2,75 +2,194 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BEF922DB43
-	for <lists+linux-api@lfdr.de>; Sun, 26 Jul 2020 03:43:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B23CB22DB4A
+	for <lists+linux-api@lfdr.de>; Sun, 26 Jul 2020 04:04:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727009AbgGZBnG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 25 Jul 2020 21:43:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35298 "EHLO
+        id S1727034AbgGZCE1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 25 Jul 2020 22:04:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726870AbgGZBnG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 25 Jul 2020 21:43:06 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B637AC0619D2
-        for <linux-api@vger.kernel.org>; Sat, 25 Jul 2020 18:43:05 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id f1so10992034wro.2
-        for <linux-api@vger.kernel.org>; Sat, 25 Jul 2020 18:43:05 -0700 (PDT)
+        with ESMTP id S1727009AbgGZCE1 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 25 Jul 2020 22:04:27 -0400
+Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com [IPv6:2607:f8b0:4864:20::f43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17F3FC0619D4
+        for <linux-api@vger.kernel.org>; Sat, 25 Jul 2020 19:04:27 -0700 (PDT)
+Received: by mail-qv1-xf43.google.com with SMTP id h18so5916035qvl.3
+        for <linux-api@vger.kernel.org>; Sat, 25 Jul 2020 19:04:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=tfz-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=BHHf80BOPxjmpEN+X9FwZJzbNUdhyeoda8NmLwlJNos=;
-        b=je56arN1ji3wNgrNO1MmidDJlSx6Lux7XfWuf3PUV4hadb10JQaRQCNdYHMUAlnB6M
-         FqtHQHNxXvT3khVaTcfoI/U7Al0VhkXaS7uOllkTjoM2VmF5mfMlYG8YdzaErZh13h9/
-         NCD+s+Gapfk8Iu28vvBTz/aILb3QiFfITyHQI2XDjgH4oPbO77wKTiEbSouBDW3kpSMk
-         ngfxqMVikCehPgvIIyu2gWKahON74jJKr7Aiy1aedAFVuA0GggUBvu8RTQ7e6wHMrJNM
-         rfJykDCdTwGMibOqNPFPwff/Bl0kxVbOtVhy4PUpZvMgcZL5c2HYiOx1XPEX1ZPkNH7J
-         8VfA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Omdab1nC5MtSModjV2PS7fPsUJ+lDgcnp0n1JPTjxRo=;
+        b=YMwNAYIX8mFOI7SAohY0EXyneQkLsbKI/55OHSL4POy90WKjrWT7T0bEST+X/H+3wV
+         tz3rPlwfeABkbiKw+Lwilgn4o61YnXv/xm9/E38LQWujC0vkdC4Zg0QvRWDTFGyNvadd
+         QjZoIoz9146mbVyAwiCce/zNKtBIwPQ7JjXqu6+f9gIohhOpIS4KylfUZWwVKY7tm8vJ
+         ItP44HhvNmiinuTlfGdKWkLokGamprvTZW0iB8ryznQsvv5FrVglV4x5nNA/6b17A88n
+         tE34iMJTwoFnKXsNXRI+gQRBQKGPUzu8pMT6lEMt0S+j8EZOST8WEu/oDJY4t0CpeIYz
+         u1iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BHHf80BOPxjmpEN+X9FwZJzbNUdhyeoda8NmLwlJNos=;
-        b=O1oevt5LMRkf9XQRHn2e130Wq3SP2mGn+qT+zgtYH4HoAeNiKS8u0VwTxhKC2+A/i0
-         VKrjAauz15+pH+kKsoHg/A2SiNsVRlX9HJEnrAS1m5daqm384vP/4b/xSlAu0BNXVk3t
-         Hd982ApsXSFkYjTHjsiLe5WG/gxBa1QAc53WP8np95xpwt/UxVYywFxbbhiQvG/cXhDg
-         507VpWTpXPPA+O793AoUI2M3NX2qR+LZrYT5Z117t52qdkJhIs8sF5HUnP4w4PkCrLWX
-         J5dyCFzCKV4VK92SVZFHLXSp7ZoT/Dwn1bvfNu9RzLNmjBtQzUdVrVXUNkVUXBDH24Wd
-         LQhg==
-X-Gm-Message-State: AOAM530rR3KNjAFDuopxrNjfZ4ZOfXsAGB+VQVWhb/geu1Asu69G8Bad
-        xlsUgoeI1Q8EvbS4McM5/0GelIdttNH4odCyD4NulA==
-X-Google-Smtp-Source: ABdhPJwNsBzS/VgkW6SIYFjvE8fsMVDeDJHOtstEfwbAGKPThU8CMfBYpi8RLzMhS3sedH0NFp/PKwC5ITo5dP8/nZI=
-X-Received: by 2002:a05:6000:141:: with SMTP id r1mr10838721wrx.69.1595727784402;
- Sat, 25 Jul 2020 18:43:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200725004043.32326-1-kalou@tfz.net> <20200725221022.GQ2786714@ZenIV.linux.org.uk>
-In-Reply-To: <20200725221022.GQ2786714@ZenIV.linux.org.uk>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Omdab1nC5MtSModjV2PS7fPsUJ+lDgcnp0n1JPTjxRo=;
+        b=tDeOmnJd4rKQ+x8kqUYRVelBWJtDhQWvy3uZQxbuULk5qSJSD/oGzJE/JtJek+9Q74
+         R7DV+8RsNhWGjckhOuwHr0aVMPe0XibJEESEncK8qiVLAp2vjRgyk3FLnElFw193anzZ
+         Ms5kYDG/JT64dGMCdfXcO23lqxGcxOlWB6s0YOu0NedPOzHC6Y9k4myiaOjYRXbOUBb1
+         laQkvp5gva5V8K34kHu8ilJK9C8Llhsi+9TYo/QYpoiezs0rEBww+5CxhR9IazVP3gfc
+         NBXbbaRdjRPcEocWmId7InTt+NXDf8kn2BPpj8n8HK0TLS1n7cIBdy1Up4GygNC498Qo
+         L+ag==
+X-Gm-Message-State: AOAM531GloCvsPwU05WkyGsjRR+BDhproYsL9BkovJd+wFK8/F9PCo13
+        yBAavC0X5J7K+8oy5/S2jytO3Q==
+X-Google-Smtp-Source: ABdhPJyu2yaYA5YqCBXbtUuWqfBWJxFzSIYLeivhZi6g24tvrR/LD6i0Lr1beQ4D7FQtBVIz3jVCQQ==
+X-Received: by 2002:a0c:a2c1:: with SMTP id g59mr16889122qva.138.1595729066049;
+        Sat, 25 Jul 2020 19:04:26 -0700 (PDT)
+Received: from foo.attlocal.net (108-232-117-128.lightspeed.sntcca.sbcglobal.net. [108.232.117.128])
+        by smtp.gmail.com with ESMTPSA id p17sm12624093qkj.69.2020.07.25.19.04.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Jul 2020 19:04:25 -0700 (PDT)
 From:   Pascal Bouchareine <kalou@tfz.net>
-Date:   Sat, 25 Jul 2020 18:42:53 -0700
-Message-ID: <CAGbU3_my8uz0XU5kJ7k20Ex-+nGwSw+0+oXJ3zyGHDw+8ft4wQ@mail.gmail.com>
-Subject: Re: [PATCH] proc,fcntl: introduce F_SET_DESCRIPTION
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, Alexey Dobriyan <adobriyan@gmail.com>,
-        Jeff Layton <jlayton@poochiereds.net>,
+To:     linux-kernel@vger.kernel.org
+Cc:     Pascal Bouchareine <kalou@tfz.net>, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, "Alexey Dobriyan" <adobriyan@gmail.com>,
+        "Al Viro" <viro@zeniv.linux.org.uk>,
+        "Jeff Layton" <jlayton@poochiereds.net>,
         "J. Bruce Fields" <bfields@fieldses.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: [PATCH v3] This command attaches a description to a file descriptor for troubleshooting purposes. The free string is displayed in the process fdinfo file for that fd /proc/pid/fdinfo/fd.
+Date:   Fri, 24 Jul 2020 22:15:47 -0700
+Message-Id: <20200725051547.3718-1-kalou@tfz.net>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200725045921.2723-1-kalou@tfz.net>
+References: <20200725045921.2723-1-kalou@tfz.net>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Jul 25, 2020 at 3:10 PM Al Viro <viro@zeniv.linux.org.uk> wrote:
-> Have you even tried to test it?  When will it ever free those things?
+One intended usage is to allow processes to self-document sockets
+for netstat and friends to report
 
-Thanks for pointing that out, I'll try to address that in the thread
+Signed-off-by: Pascal Bouchareine <kalou@tfz.net>
+---
+ Documentation/filesystems/proc.rst |  3 +++
+ fs/fcntl.c                         | 19 +++++++++++++++++++
+ fs/file_table.c                    |  2 ++
+ fs/proc/fd.c                       |  5 +++++
+ include/linux/fs.h                 |  3 +++
+ include/uapi/linux/fcntl.h         |  5 +++++
+ 6 files changed, 37 insertions(+)
 
-I did basic tests against 5.4: set a description, concurrently set it
-from multiple child processes, read, demo with ss/netstat.
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index 996f3cfe7030..ae8045650836 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -1918,6 +1918,9 @@ A typical output is::
+ 	flags:	0100002
+ 	mnt_id:	19
+ 
++An optional 'desc' is set if the process documented its usage of
++the file via the fcntl command F_SET_DESCRIPTION.
++
+ All locks associated with a file descriptor are shown in its fdinfo too::
+ 
+     lock:       1: FLOCK  ADVISORY  WRITE 359 00:13:11691 0 EOF
+diff --git a/fs/fcntl.c b/fs/fcntl.c
+index 2e4c0fa2074b..c1ef724a906e 100644
+--- a/fs/fcntl.c
++++ b/fs/fcntl.c
+@@ -319,6 +319,22 @@ static long fcntl_rw_hint(struct file *file, unsigned int cmd,
+ 	}
+ }
+ 
++static long fcntl_set_description(struct file *file, char __user *desc)
++{
++	char *d;
++
++	d = strndup_user(desc, MAX_FILE_DESC_SIZE);
++	if (IS_ERR(d))
++		return PTR_ERR(d);
++
++	spin_lock(&file->f_lock);
++	kfree(file->f_description);
++	file->f_description = d;
++	spin_unlock(&file->f_lock);
++
++	return 0;
++}
++
+ static long do_fcntl(int fd, unsigned int cmd, unsigned long arg,
+ 		struct file *filp)
+ {
+@@ -426,6 +442,9 @@ static long do_fcntl(int fd, unsigned int cmd, unsigned long arg,
+ 	case F_SET_FILE_RW_HINT:
+ 		err = fcntl_rw_hint(filp, cmd, arg);
+ 		break;
++	case F_SET_DESCRIPTION:
++		err = fcntl_set_description(filp, argp);
++		break;
+ 	default:
+ 		break;
+ 	}
+diff --git a/fs/file_table.c b/fs/file_table.c
+index 656647f9575a..6673a48d2ea1 100644
+--- a/fs/file_table.c
++++ b/fs/file_table.c
+@@ -272,6 +272,8 @@ static void __fput(struct file *file)
+ 	eventpoll_release(file);
+ 	locks_remove_file(file);
+ 
++	kfree(file->f_description);
++
+ 	ima_file_free(file);
+ 	if (unlikely(file->f_flags & FASYNC)) {
+ 		if (file->f_op->fasync)
+diff --git a/fs/proc/fd.c b/fs/proc/fd.c
+index 81882a13212d..60b3ff971b2b 100644
+--- a/fs/proc/fd.c
++++ b/fs/proc/fd.c
+@@ -57,6 +57,11 @@ static int seq_show(struct seq_file *m, void *v)
+ 		   (long long)file->f_pos, f_flags,
+ 		   real_mount(file->f_path.mnt)->mnt_id);
+ 
++	spin_lock(&file->f_lock);
++	if (file->f_description)
++		seq_printf(m, "desc:\t%s\n", file->f_description);
++	spin_unlock(&file->f_lock);
++
+ 	show_fd_locks(m, file, files);
+ 	if (seq_has_overflowed(m))
+ 		goto out;
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index f5abba86107d..09717bfa4e3b 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -980,6 +980,9 @@ struct file {
+ 	struct address_space	*f_mapping;
+ 	errseq_t		f_wb_err;
+ 	errseq_t		f_sb_err; /* for syncfs */
++
++#define MAX_FILE_DESC_SIZE 256
++	char                    *f_description;
+ } __randomize_layout
+   __attribute__((aligned(4)));	/* lest something weird decides that 2 is OK */
+ 
+diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
+index 2f86b2ad6d7e..f86ff6dc45c7 100644
+--- a/include/uapi/linux/fcntl.h
++++ b/include/uapi/linux/fcntl.h
+@@ -55,6 +55,11 @@
+ #define F_GET_FILE_RW_HINT	(F_LINUX_SPECIFIC_BASE + 13)
+ #define F_SET_FILE_RW_HINT	(F_LINUX_SPECIFIC_BASE + 14)
+ 
++/*
++ * Set file description
++ */
++#define F_SET_DESCRIPTION	(F_LINUX_SPECIFIC_BASE + 15)
++
+ /*
+  * Valid hint values for F_{GET,SET}_RW_HINT. 0 is "not set", or can be
+  * used to clear any hints previously set.
+-- 
+2.25.1
 
-However I rebased against master and have not tested the build after
-rebase, is that broken?
-Should I use a different target for tests?
-
-Thanks for your help
