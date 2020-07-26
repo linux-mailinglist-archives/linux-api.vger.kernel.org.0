@@ -2,196 +2,104 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B3FF422DB51
-	for <lists+linux-api@lfdr.de>; Sun, 26 Jul 2020 04:11:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5ED0F22DC8A
+	for <lists+linux-api@lfdr.de>; Sun, 26 Jul 2020 09:14:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728120AbgGZCL4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 25 Jul 2020 22:11:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39754 "EHLO
+        id S1726082AbgGZHOC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 26 Jul 2020 03:14:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727034AbgGZCLz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 25 Jul 2020 22:11:55 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A483C0619D4
-        for <linux-api@vger.kernel.org>; Sat, 25 Jul 2020 19:11:55 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id a15so11558019wrh.10
-        for <linux-api@vger.kernel.org>; Sat, 25 Jul 2020 19:11:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tfz-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2BY5Poqr2fA3RRuOzlPlb22Tg24jxGxBQVUUxrbzh/M=;
-        b=KWW7XRvnNCgZsnxgTX9/6O5WphsFCiJ5rLsriaFFCjo0w89hIZa98KECDv1RbTuJsB
-         OwKi4lc2CXeYWMG/TPbEpfad9Wc9R2wKh3+FpYWffG0Vj2ymqxzWsqtD2oe6xw1lPfPU
-         wY0u30YQLtGsFu3Ld/o0DcVKmZaLrdeMWiG2h4ItCsaC8aTXj/vbt6L39CVpNkLxuo2i
-         l2AI4Ddif5Z4Nm3HM5K6pJUACvOMOX3lTuVi4NvMtjLOr5UYjtUy+fiRH2e1+hykOBxi
-         H5RKk/F7BWjL+NkminG2g9cQeJ10xBI5HZ/CuDaCqKhKGTNVfotpQNpwHjMKXkne3blx
-         N9HQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2BY5Poqr2fA3RRuOzlPlb22Tg24jxGxBQVUUxrbzh/M=;
-        b=A9trhGLYkk73VUtJJBmb+D8dr826FoZlR9rEtH7ZNEfKumwiJBGG5mjIyV2pYLmIlT
-         dF4nO3NFoFpsk2J35EZ+xLB1D/oHg3oJjhfNVVP+C8S3EZEt2Hhq8nOFB4GqEtTPEcDN
-         D/035Tn0OufDgM/oEsx7ETtGeVzjTnMg9/+mzoG13zuSrxQrjL7gAtPXHSXZdLJpiURv
-         174Vg4hW8wBXY9Qep5Wtojyta+Fv6bx2Mr0OcXqIP1ulhbU9Kx4D+Hgj24Z38+91mkCV
-         dBxvvtZQmWCqyxg0Yz5+vyHN9qb1ZlJm6zdAGvVEdngjRpWbB60CMS9qYM6SL6cp8+0o
-         vtSQ==
-X-Gm-Message-State: AOAM532pUsDOWTeHS0rj8J5QBaVTuMP6mBLoddX4VKqr8AGGaOwX1XOO
-        2CfdRUAVGX/RPdiK4u1dYec7j0jIz57F11fvLH8v1A==
-X-Google-Smtp-Source: ABdhPJzYjq53hix8vYV6O/NEWrQvf44oV97N5I8qZhQjdzG/xJ+YJAaus2rch7JC6PFRpE1E4F7UxrZeV8/91/vPRjk=
-X-Received: by 2002:a05:6000:141:: with SMTP id r1mr10897990wrx.69.1595729514257;
- Sat, 25 Jul 2020 19:11:54 -0700 (PDT)
+        with ESMTP id S1725829AbgGZHOC (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 26 Jul 2020 03:14:02 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BAEDC0619D2;
+        Sun, 26 Jul 2020 00:14:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=fGf+qSjLbZzodelUPagTscOoGuAaHiLzBDim0f5g4Ow=; b=Qsa8OvuKB3jr+n70HNOY96eEeD
+        fismT6fWrOOgNIqz/mVybBthRGeVzcYM4YH+nrai3LiCOZVV+5lol3nhzoGWSCrEHcwjHQzYGhJh6
+        FfawKunah9bsJb+W+kNMsd2IC1c0KcEo0l1/AvvnHRbrgX22UbpPh+qUEGSqsjdMrifGJGuV07BUy
+        3LtuwFAqCyroV05Exkxd2TaxJ1C6i0sh/Pg+Ok2k3QRu+ljAV9SnoziLPVi3jpyanDeDU0kfLiM1e
+        PoxhQ+hSAdUvYu054wRlIVUeoGsZuWKTdVlw4wZnw0pkDvMjbAwpFlPdXQozpA5vHN1ElqOun28SO
+        oeAgopug==;
+Received: from [2001:4bb8:18c:2acc:5ff1:d0b0:8643:670e] (helo=localhost)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jzar7-0002Nr-MG; Sun, 26 Jul 2020 07:13:59 +0000
+From:   Christoph Hellwig <hch@lst.de>
+To:     Al Viro <viro@zeniv.linux.org.uk>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: add file system helpers that take kernel pointers for the init code v3
+Date:   Sun, 26 Jul 2020 09:13:35 +0200
+Message-Id: <20200726071356.287160-1-hch@lst.de>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20200725045921.2723-1-kalou@tfz.net> <20200725051547.3718-1-kalou@tfz.net>
-In-Reply-To: <20200725051547.3718-1-kalou@tfz.net>
-From:   Pascal Bouchareine <kalou@tfz.net>
-Date:   Sat, 25 Jul 2020 19:11:43 -0700
-Message-ID: <CAGbU3_nNeeZn8Sk28t_fqOEjBi81JXp67L7-2E+9J=8LHtcE7Q@mail.gmail.com>
-Subject: Re: [PATCH v3] This command attaches a description to a file
- descriptor for troubleshooting purposes. The free string is displayed in the
- process fdinfo file for that fd /proc/pid/fdinfo/fd.
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Jeff Layton <jlayton@poochiereds.net>,
-        "J. Bruce Fields" <bfields@fieldses.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Sorry about all the noise, please disregard this one.
+Hi Al and Linus,
+
+currently a lot of the file system calls in the early in code (and the
+devtmpfs kthread) rely on the implicit set_fs(KERNEL_DS) during boot.
+This is one of the few last remaining places we need to deal with to kill
+off set_fs entirely, so this series adds new helpers that take kernel
+pointers.  These helpers are in init/ and marked __init and thus will
+be discarded after bootup.  A few also need to be duplicated in devtmpfs,
+though unfortunately.
+
+The series sits on top of my previous
+
+  "decruft the early init / initrd / initramfs code v2"
+
+series.
 
 
-On Sat, Jul 25, 2020 at 7:04 PM Pascal Bouchareine <kalou@tfz.net> wrote:
->
-> One intended usage is to allow processes to self-document sockets
-> for netstat and friends to report
->
-> Signed-off-by: Pascal Bouchareine <kalou@tfz.net>
-> ---
->  Documentation/filesystems/proc.rst |  3 +++
->  fs/fcntl.c                         | 19 +++++++++++++++++++
->  fs/file_table.c                    |  2 ++
->  fs/proc/fd.c                       |  5 +++++
->  include/linux/fs.h                 |  3 +++
->  include/uapi/linux/fcntl.h         |  5 +++++
->  6 files changed, 37 insertions(+)
->
-> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-> index 996f3cfe7030..ae8045650836 100644
-> --- a/Documentation/filesystems/proc.rst
-> +++ b/Documentation/filesystems/proc.rst
-> @@ -1918,6 +1918,9 @@ A typical output is::
->         flags:  0100002
->         mnt_id: 19
->
-> +An optional 'desc' is set if the process documented its usage of
-> +the file via the fcntl command F_SET_DESCRIPTION.
-> +
->  All locks associated with a file descriptor are shown in its fdinfo too::
->
->      lock:       1: FLOCK  ADVISORY  WRITE 359 00:13:11691 0 EOF
-> diff --git a/fs/fcntl.c b/fs/fcntl.c
-> index 2e4c0fa2074b..c1ef724a906e 100644
-> --- a/fs/fcntl.c
-> +++ b/fs/fcntl.c
-> @@ -319,6 +319,22 @@ static long fcntl_rw_hint(struct file *file, unsigned int cmd,
->         }
->  }
->
-> +static long fcntl_set_description(struct file *file, char __user *desc)
-> +{
-> +       char *d;
-> +
-> +       d = strndup_user(desc, MAX_FILE_DESC_SIZE);
-> +       if (IS_ERR(d))
-> +               return PTR_ERR(d);
-> +
-> +       spin_lock(&file->f_lock);
-> +       kfree(file->f_description);
-> +       file->f_description = d;
-> +       spin_unlock(&file->f_lock);
-> +
-> +       return 0;
-> +}
-> +
->  static long do_fcntl(int fd, unsigned int cmd, unsigned long arg,
->                 struct file *filp)
->  {
-> @@ -426,6 +442,9 @@ static long do_fcntl(int fd, unsigned int cmd, unsigned long arg,
->         case F_SET_FILE_RW_HINT:
->                 err = fcntl_rw_hint(filp, cmd, arg);
->                 break;
-> +       case F_SET_DESCRIPTION:
-> +               err = fcntl_set_description(filp, argp);
-> +               break;
->         default:
->                 break;
->         }
-> diff --git a/fs/file_table.c b/fs/file_table.c
-> index 656647f9575a..6673a48d2ea1 100644
-> --- a/fs/file_table.c
-> +++ b/fs/file_table.c
-> @@ -272,6 +272,8 @@ static void __fput(struct file *file)
->         eventpoll_release(file);
->         locks_remove_file(file);
->
-> +       kfree(file->f_description);
-> +
->         ima_file_free(file);
->         if (unlikely(file->f_flags & FASYNC)) {
->                 if (file->f_op->fasync)
-> diff --git a/fs/proc/fd.c b/fs/proc/fd.c
-> index 81882a13212d..60b3ff971b2b 100644
-> --- a/fs/proc/fd.c
-> +++ b/fs/proc/fd.c
-> @@ -57,6 +57,11 @@ static int seq_show(struct seq_file *m, void *v)
->                    (long long)file->f_pos, f_flags,
->                    real_mount(file->f_path.mnt)->mnt_id);
->
-> +       spin_lock(&file->f_lock);
-> +       if (file->f_description)
-> +               seq_printf(m, "desc:\t%s\n", file->f_description);
-> +       spin_unlock(&file->f_lock);
-> +
->         show_fd_locks(m, file, files);
->         if (seq_has_overflowed(m))
->                 goto out;
-> diff --git a/include/linux/fs.h b/include/linux/fs.h
-> index f5abba86107d..09717bfa4e3b 100644
-> --- a/include/linux/fs.h
-> +++ b/include/linux/fs.h
-> @@ -980,6 +980,9 @@ struct file {
->         struct address_space    *f_mapping;
->         errseq_t                f_wb_err;
->         errseq_t                f_sb_err; /* for syncfs */
-> +
-> +#define MAX_FILE_DESC_SIZE 256
-> +       char                    *f_description;
->  } __randomize_layout
->    __attribute__((aligned(4))); /* lest something weird decides that 2 is OK */
->
-> diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
-> index 2f86b2ad6d7e..f86ff6dc45c7 100644
-> --- a/include/uapi/linux/fcntl.h
-> +++ b/include/uapi/linux/fcntl.h
-> @@ -55,6 +55,11 @@
->  #define F_GET_FILE_RW_HINT     (F_LINUX_SPECIFIC_BASE + 13)
->  #define F_SET_FILE_RW_HINT     (F_LINUX_SPECIFIC_BASE + 14)
->
-> +/*
-> + * Set file description
-> + */
-> +#define F_SET_DESCRIPTION      (F_LINUX_SPECIFIC_BASE + 15)
-> +
->  /*
->   * Valid hint values for F_{GET,SET}_RW_HINT. 0 is "not set", or can be
->   * used to clear any hints previously set.
-> --
-> 2.25.1
->
+Git tree:
+
+    git://git.infradead.org/users/hch/misc.git init_path
+
+Gitweb:
+
+    http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/init_path
+
+
+Changes since v2:
+ - move to fs/for-init.c
+ - reuse the init routines in devtmpfs after refactoring devtmpfsd
+   (and thus the broken error handling in the previous version)
+ - actually use kern_path in a place where user_path_at sneaked back in
+
+Changes since v1:
+ - avoid most core VFS changes
+ - renamed the functions and move them to init/ and devtmpfs
+ - drop a bunch of cleanups that can be submitted independently now
+
+
+Diffstat:
+ drivers/base/devtmpfs.c       |   54 +++++----
+ drivers/md/md-autodetect.c    |    3 
+ fs/Makefile                   |    2 
+ fs/for_init.c                 |  249 ++++++++++++++++++++++++++++++++++++++++++
+ fs/internal.h                 |   19 +--
+ fs/namei.c                    |   20 +--
+ fs/namespace.c                |  107 ++++++++----------
+ fs/open.c                     |   22 +--
+ include/linux/init_syscalls.h |   18 +++
+ include/linux/syscalls.h      |   66 -----------
+ init/do_mounts.c              |   12 +-
+ init/do_mounts.h              |    7 -
+ init/do_mounts_initrd.c       |   26 ++--
+ init/do_mounts_rd.c           |    2 
+ init/initramfs.c              |   29 ++--
+ init/main.c                   |   10 -
+ init/noinitramfs.c            |    8 -
+ 17 files changed, 423 insertions(+), 231 deletions(-)
