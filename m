@@ -2,98 +2,162 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD3B822F68A
-	for <lists+linux-api@lfdr.de>; Mon, 27 Jul 2020 19:25:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C48722F8C4
+	for <lists+linux-api@lfdr.de>; Mon, 27 Jul 2020 21:16:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730720AbgG0RZl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 27 Jul 2020 13:25:41 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:59595 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726617AbgG0RZk (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 27 Jul 2020 13:25:40 -0400
-Received: from mail-qk1-f170.google.com ([209.85.222.170]) by
- mrelayeu.kundenserver.de (mreue010 [212.227.15.129]) with ESMTPSA (Nemesis)
- id 1MC2o9-1k5MDf3aZx-00COYp; Mon, 27 Jul 2020 19:25:39 +0200
-Received: by mail-qk1-f170.google.com with SMTP id 2so11868100qkf.10;
-        Mon, 27 Jul 2020 10:25:38 -0700 (PDT)
-X-Gm-Message-State: AOAM53133EXYITZmZGW14vx4amvBuI9bqNv3y8GMdxF943w3XFgZZ4ii
-        QaobYtlLaYT0WJh+8pLguWbn8ZgdeikONE4SRYk=
-X-Google-Smtp-Source: ABdhPJyHnciMJIel1lwAD5bow/zb/QGlp3YciXK2/NVdtnimMUPJo7yU6pZ4mJlHkwU8BKDS8Pa279r2z6tHPp7qb+M=
-X-Received: by 2002:a37:b484:: with SMTP id d126mr23840011qkf.394.1595870737385;
- Mon, 27 Jul 2020 10:25:37 -0700 (PDT)
+        id S1728505AbgG0TQ5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 27 Jul 2020 15:16:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55034 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728049AbgG0TQ5 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 27 Jul 2020 15:16:57 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A13CAC061794;
+        Mon, 27 Jul 2020 12:16:56 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id t142so9483728wmt.4;
+        Mon, 27 Jul 2020 12:16:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Fmgy8aOrOaosUqw8qw2R0Byip/Q6rVp5BO1Fak+JZ30=;
+        b=Ciph4lQ202oxMhxwuDhqC+FaifmbEaM4ku6yFaGBlpMsJ/TBl2hquhabMSj3Ctc68y
+         71l5lAisoevj4vjsC3D4Xvz2XPMwRkq0hk+wpcUH15DSQbUpBhvD5QR+D0A7VC75dOs8
+         8ZmcuCXrRtXD3nxfdQ1zhCaMFqf7ejIIzp+tNmrd8TvjijIU35BHnQSaNcfx1E+HFXRz
+         7nv5RpdBVUuJX/j1WYJ5iaVimObT+9TyGtFbpPbbRE01qD9FZcIkATukdYSXoBVxYhSw
+         6sC+q5osarJDE00mlIiAvfMDyM28rLwIV7WK7WG1TEBQFNjLeHl+ITPIVRJBL1pHJPbY
+         UwzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Fmgy8aOrOaosUqw8qw2R0Byip/Q6rVp5BO1Fak+JZ30=;
+        b=M6ooYpysUgY/E/J/mTDvsBHauO1hberhbKDpACsaMEAodpo3CFpiBlhqKlHXl5dMJq
+         g0aGRFL83egBjKPwQqLFnM9jS9qg+d4nioDgyYIi9bun33lmd24WLqxG344UAAM9ZEwg
+         m/W0A0l9vBAGIhfIrCRTATkg4YZq7DW6nKC5KdAUBKJZp95DnpY03Kk4AFNRPDk2djwl
+         vOTqkFW2qviMcAcnH3UFSB8b+GZlepKb4whFHt5t3CKEWnmWrAGkp8n5USFnH9RUYU9x
+         NNWf4CV29tmVAxzSX1Kjtj1oXVKE4m/dvtAl628+qqGpppaHJftgIDiyYmcJ1klXFjhZ
+         oKQg==
+X-Gm-Message-State: AOAM532L06FFEhbk0LQ0UJge0eWqiafHiSixM7V4kbuqK2+p2H39Poip
+        8ciaJWUMa1PyLPbBzzQEJPGI49k1Ajw4pmiSK1U=
+X-Google-Smtp-Source: ABdhPJz5ci8PtopFnwl2wC3FFEjn8xB7o/gSCRHwfaULk/Ae+T/JB/W5PEyS1njIUPBTOUz96mZD/TBgW6vKMjQ0LSY=
+X-Received: by 2002:a7b:c841:: with SMTP id c1mr679956wml.25.1595877415006;
+ Mon, 27 Jul 2020 12:16:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200727162935.31714-1-rppt@kernel.org> <20200727162935.31714-5-rppt@kernel.org>
-In-Reply-To: <20200727162935.31714-5-rppt@kernel.org>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Mon, 27 Jul 2020 19:25:20 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a3Lbjdx_43-b0i1FXEfqaNPbaoXLraa2WikfPHrOZ6Kog@mail.gmail.com>
-Message-ID: <CAK8P3a3Lbjdx_43-b0i1FXEfqaNPbaoXLraa2WikfPHrOZ6Kog@mail.gmail.com>
-Subject: Re: [PATCH v2 4/7] arch, mm: wire up memfd_secret system call were relevant
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Idan Yaniv <idan.yaniv@ibm.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>, linux-nvdimm@lists.01.org,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Palmer Dabbelt <palmerdabbelt@google.com>
+References: <1595605762-17010-1-git-send-email-joshi.k@samsung.com>
+ <CGME20200724155350epcas5p3b8f1d59eda7f8fbb38c828f692d42fd6@epcas5p3.samsung.com>
+ <1595605762-17010-7-git-send-email-joshi.k@samsung.com> <f5416bd4-93b3-4d14-3266-bdbc4ae1990b@kernel.dk>
+In-Reply-To: <f5416bd4-93b3-4d14-3266-bdbc4ae1990b@kernel.dk>
+From:   Kanchan Joshi <joshiiitr@gmail.com>
+Date:   Tue, 28 Jul 2020 00:46:28 +0530
+Message-ID: <CA+1E3rJAa3E2Ti0fvvQTzARP797qge619m4aYLjXeR3wxdFwWw@mail.gmail.com>
+Subject: Re: [PATCH v4 6/6] io_uring: add support for zone-append
+To:     Jens Axboe <axboe@kernel.dk>
+Cc:     Kanchan Joshi <joshi.k@samsung.com>, viro@zeniv.linux.org.uk,
+        bcrl@kvack.org, Matthew Wilcox <willy@infradead.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Damien Le Moal <Damien.LeMoal@wdc.com>,
+        asml.silence@gmail.com, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-aio@kvack.org,
+        io-uring@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-api@vger.kernel.org, SelvaKumar S <selvakuma.s1@samsung.com>,
+        Nitesh Shetty <nj.shetty@samsung.com>,
+        Javier Gonzalez <javier.gonz@samsung.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:EceBZqwyo4B1UVEZn/Xgzc7AE01Hrl25zqNiNRQE1nSOWMZWle+
- g7N+PnXRbCSAMr0XnZ49UfT+iW8IunuS9TPM822G37AEvmA3W7in5ND1Ye/8UnvHrrPI383
- kEGT+CmwlBf7zuvI0Sxkpzl1sWD2ck3PNJ8qOBybMEfmYFG+9s9wlKoe6v/QgUZ1P6d1R0y
- H6Ut5jTjR1+YQzurNJp/w==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:tC2Xp4XT5xY=:L/0NRMbXw9YElq6rjWLtqI
- 0Mr9VzUM7WLH9qn8aC+ng9oz0Sm/BE8sB2tVVg2loLmdQaSofHRMLqW5Y4pNJei7bc/dercWN
- Udlmt5WUOCU5zpzqvUwLUPFT1sF+o2a7pUVSA3ztLs1q3SQSiolebs104pJWejE1eanEdHu7h
- pAhPGDX0lgydu5PmjGhTyfOA8u60UZaG0ikMSmXVINfSK6/dGwD4fVJwwLUcNjdV1HKqQFsAz
- wPopjZsfVAljmtbwysL9ASZIYsxnDh+58NyIrxvgUsBHlBWS/2NqXJ+LFKj42LfOuycfr5IfT
- WxpeZ1lDMmGa+s6smQ5KisI2ySFTw6K5//f55QKlnKOakHMxaur1L1Ef7k+k+GOZPAu3QUwA4
- t8W299OnR0zZuJeJkGlWSA3Y7VfAIAIxe7nVI+nSLk7EakTipPaIfnOAX5/qMZjlyRKhNO4BI
- BH8MJ9WdtDzwQVfPL1vkRZmMy1eOT9G4EdhMn0GUm+fv59547if+HFv0N3b+biOXTql/861pT
- KHIzur9/Hbh+Yh+DJB2cE9PLgDdoAAjMk/cnxGxcvXXBv11dVaHYlwkWpZKM1inB91LtXdLLy
- RcD9NvwaM079xjiYEMzK10x5QNBWQbPw3/BgGFEC3hlmBdpws93U5bYzxakGXe+kPHcUuvRlC
- 8CDFQNf2US/HaGllrd7w+cF30C/4IzgboUYrmJagytrGukMNmGcW4NUyu3nfUkvTn2kDYAEvj
- i56M62rt8WzjSv5WG1rSSs9FrJ46Gh/iFbQQR0NCTmAPCDfvWcWTDQYuBOL4SqCzbNwnXTvJ7
- Kgy40VpSpa6qgmeZpTDKScN3kXt34wbCVeakSB3aZT6XILnzTAKiComYlrxspK0Fo6uZVWuH6
- vkzqNYYGpLawOe0Ip2Ef50B7uOKtHKYGNL/mKbZgdfm/V5w7QJrno9H2Fk4Fe6BqnQudOSvK7
- E3ALx286dghNqXnZ9IkRNbDxpAQ8CTsKB8F0EmYmxlKE74AA0CKlJ
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jul 27, 2020 at 6:30 PM Mike Rapoport <rppt@kernel.org> wrote:
+On Fri, Jul 24, 2020 at 10:00 PM Jens Axboe <axboe@kernel.dk> wrote:
 >
-> From: Mike Rapoport <rppt@linux.ibm.com>
+> On 7/24/20 9:49 AM, Kanchan Joshi wrote:
+> > diff --git a/fs/io_uring.c b/fs/io_uring.c
+> > index 7809ab2..6510cf5 100644
+> > --- a/fs/io_uring.c
+> > +++ b/fs/io_uring.c
+> > @@ -1284,8 +1301,15 @@ static void __io_cqring_fill_event(struct io_kiocb *req, long res, long cflags)
+> >       cqe = io_get_cqring(ctx);
+> >       if (likely(cqe)) {
+> >               WRITE_ONCE(cqe->user_data, req->user_data);
+> > -             WRITE_ONCE(cqe->res, res);
+> > -             WRITE_ONCE(cqe->flags, cflags);
+> > +             if (unlikely(req->flags & REQ_F_ZONE_APPEND)) {
+> > +                     if (likely(res > 0))
+> > +                             WRITE_ONCE(cqe->res64, req->rw.append_offset);
+> > +                     else
+> > +                             WRITE_ONCE(cqe->res64, res);
+> > +             } else {
+> > +                     WRITE_ONCE(cqe->res, res);
+> > +                     WRITE_ONCE(cqe->flags, cflags);
+> > +             }
 >
-> Wire up memfd_secret system call on architectures that define
-> ARCH_HAS_SET_DIRECT_MAP, namely arm64, risc-v and x86.
->
-> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
-> Acked-by: Palmer Dabbelt <palmerdabbelt@google.com>
+> This would be nice to keep out of the fast path, if possible.
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+I was thinking of keeping a function-pointer (in io_kiocb) during
+submission. That would have avoided this check......but argument count
+differs, so it did not add up.
+
+> > diff --git a/include/uapi/linux/io_uring.h b/include/uapi/linux/io_uring.h
+> > index 92c2269..2580d93 100644
+> > --- a/include/uapi/linux/io_uring.h
+> > +++ b/include/uapi/linux/io_uring.h
+> > @@ -156,8 +156,13 @@ enum {
+> >   */
+> >  struct io_uring_cqe {
+> >       __u64   user_data;      /* sqe->data submission passed back */
+> > -     __s32   res;            /* result code for this event */
+> > -     __u32   flags;
+> > +     union {
+> > +             struct {
+> > +                     __s32   res;    /* result code for this event */
+> > +                     __u32   flags;
+> > +             };
+> > +             __s64   res64;  /* appending offset for zone append */
+> > +     };
+> >  };
+>
+> Is this a compatible change, both for now but also going forward? You
+> could randomly have IORING_CQE_F_BUFFER set, or any other future flags.
+
+Sorry, I didn't quite understand the concern. CQE_F_BUFFER is not
+used/set for write currently, so it looked compatible at this point.
+Yes, no room for future flags for this operation.
+Do you see any other way to enable this support in io-uring?
+
+> Layout would also be different between big and little endian, so not
+> even that easy to set aside a flag for this. But even if that was done,
+> we'd still have this weird API where liburing or the app would need to
+> distinguish this cqe from all others based on... the user_data? Hence
+> liburing can't do it, only the app would be able to.
+>
+> Just seems like a hack to me.
+
+Yes, only user_data to distinguish. Do liburing helpers need to look
+at cqe->res (and decide something) before returning the cqe to
+application?
+I see that happening at once place, but not sure when it would hit
+LIBURING_DATA_TIMEOUT condition.
+__io_uring_peek_cqe()
+{
+           do {
+                io_uring_for_each_cqe(ring, head, cqe)
+                        break;
+                if (cqe) {
+                        if (cqe->user_data == LIBURING_UDATA_TIMEOUT) {
+                                if (cqe->res < 0)
+                                        err = cqe->res;
+                                io_uring_cq_advance(ring, 1);
+                                if (!err)
+                                        continue;
+                                cqe = NULL;
+                        }
+                }
+                break;
+        } while (1);
+}
+
+
+
+-- 
+Joshi
