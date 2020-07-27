@@ -2,108 +2,85 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D18EB22E1BA
-	for <lists+linux-api@lfdr.de>; Sun, 26 Jul 2020 19:45:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9F4E22E4B5
+	for <lists+linux-api@lfdr.de>; Mon, 27 Jul 2020 06:21:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727115AbgGZRow (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 26 Jul 2020 13:44:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43926 "EHLO
+        id S1726247AbgG0EVW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 27 Jul 2020 00:21:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727114AbgGZRov (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 26 Jul 2020 13:44:51 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30A4CC0619D2
-        for <linux-api@vger.kernel.org>; Sun, 26 Jul 2020 10:44:50 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id n5so8114914pgf.7
-        for <linux-api@vger.kernel.org>; Sun, 26 Jul 2020 10:44:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
-        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rz8PmAevX+AVytGTYCByWyvIy1/4eNHrEUMkdI13ieQ=;
-        b=QWRKokJ1jbQuW0PkRJtwvVGJquSmHlRYaYTPngCykthHbtqC79WUZMe9dn94R+JHQ3
-         MD6r4dbJ5S5EaTgzrs+PGRazPszQO6zgfKXIJWnhSpchzyta3doIZ1/mZ5P+pYMOJDQz
-         H3b5dNV2gTNEO8N8SPevaOxawfoYNgAXdLyr0+yPXY3YUsKjNCb7/MEFYzngumWotZa2
-         SRpKioyQgEhCAChtQDAJaDviE+f1X6taWqAtuQ0sMa5r2GQyorbXhCUrIaxkZai+xhQ/
-         gE9k0/WeZ7f9KgmR16E5JMvK0QwTmEkUJjdbe7w5yBQg5IhZ/XLHXP1aTWzYshwZtbN7
-         T23w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
-         :mime-version:content-transfer-encoding;
-        bh=rz8PmAevX+AVytGTYCByWyvIy1/4eNHrEUMkdI13ieQ=;
-        b=ssCgFMW+kN9Xa7nA+dltBupzEhpl5orNk6hA+B/K+NH42S2G272AMQiHIT36BO8wfr
-         aSkBsZDHjV0xsy3d2lKj7baJCyoez+IGKly1pFbsDmo8777aoZOB0NauKkoueXhfPsKp
-         iE8/C+lrKeFNULiys3kX8826Ta/Q01hxcZ3c4+xuyPWthZJbFYveOPohR56ZOIQejA2N
-         u5+83bslAHmCdIKWLRL+I9GOEUeeZZXFP6krOBaHOEso4u2lo49nnTAmOsUOFy6pTUqL
-         KBoETeaXbicGIJR1szt0/tTXlts3pGHfN91GQW/3sjKTMrp8Xaeh44ytPkZWMdbwCNrv
-         Xx6w==
-X-Gm-Message-State: AOAM532vm7kQD7D82Q4lqibRrhjfT/4pv7cCESGqUSVWtrie3HJ9bi4q
-        QCOYQeX5x84gBW4OlbZgsJ3+dw==
-X-Google-Smtp-Source: ABdhPJwMFBKRD5d4MvMpsgEw1KumsNACvODlt+6//ct5AFSF4islz3zAwhx/bKFoMeysRB9OE9FIlA==
-X-Received: by 2002:a62:8081:: with SMTP id j123mr30331pfd.80.1595785489483;
-        Sun, 26 Jul 2020 10:44:49 -0700 (PDT)
-Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
-        by smtp.gmail.com with ESMTPSA id u2sm12465061pfl.21.2020.07.26.10.44.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Jul 2020 10:44:48 -0700 (PDT)
-Date:   Sun, 26 Jul 2020 10:44:48 -0700 (PDT)
-X-Google-Original-Date: Sun, 26 Jul 2020 10:44:45 PDT (-0700)
-Subject:     Re: [PATCH 4/6] arch, mm: wire up secretmemfd system call were relevant
-In-Reply-To: <20200720092435.17469-5-rppt@kernel.org>
-CC:     linux-kernel@vger.kernel.org, viro@zeniv.linux.org.uk,
-        akpm@linux-foundation.org, luto@kernel.org,
-        Arnd Bergmann <arnd@arndb.de>, bp@alien8.de,
-        catalin.marinas@arm.com, cl@linux.com, dan.j.williams@intel.com,
-        dave.hansen@linux.intel.com, elena.reshetova@intel.com,
-        hpa@zytor.com, idan.yaniv@ibm.com, mingo@redhat.com,
-        jejb@linux.ibm.com, kirill@shutemov.name, willy@infradead.org,
-        rppt@linux.ibm.com, rppt@kernel.org,
-        Paul Walmsley <paul.walmsley@sifive.com>, peterz@infradead.org,
-        tglx@linutronix.de, tycho@tycho.ws, will@kernel.org,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
-        x86@kernel.org
-From:   Palmer Dabbelt <palmer@dabbelt.com>
-To:     rppt@kernel.org
-Message-ID: <mhng-ffb01b1d-16c2-4998-8434-99f1cae575bd@palmerdabbelt-glaptop1>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
+        with ESMTP id S1725787AbgG0EVW (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 27 Jul 2020 00:21:22 -0400
+Received: from ZenIV.linux.org.uk (zeniv.linux.org.uk [IPv6:2002:c35c:fd02::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50244C0619D2;
+        Sun, 26 Jul 2020 21:21:22 -0700 (PDT)
+Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jzudO-003Pp0-V8; Mon, 27 Jul 2020 04:21:07 +0000
+Date:   Mon, 27 Jul 2020 05:21:06 +0100
+From:   Al Viro <viro@zeniv.linux.org.uk>
+To:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
+Cc:     linux-kernel@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Christian Heimes <christian@python.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Deven Bowers <deven.desai@linux.microsoft.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Eric Chiang <ericchiang@google.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
+        Matthew Garrett <mjg59@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Philippe =?iso-8859-1?Q?Tr=E9buchet?= 
+        <philippe.trebuchet@ssi.gouv.fr>,
+        Scott Shell <scottsh@microsoft.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Steve Dower <steve.dower@python.org>,
+        Steve Grubb <sgrubb@redhat.com>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Thibaut Sautereau <thibaut.sautereau@clip-os.org>,
+        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org,
+        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>
+Subject: Re: [PATCH v7 4/7] fs: Introduce O_MAYEXEC flag for openat2(2)
+Message-ID: <20200727042106.GB794331@ZenIV.linux.org.uk>
+References: <20200723171227.446711-1-mic@digikod.net>
+ <20200723171227.446711-5-mic@digikod.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200723171227.446711-5-mic@digikod.net>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, 20 Jul 2020 02:24:33 PDT (-0700), rppt@kernel.org wrote:
-> From: Mike Rapoport <rppt@linux.ibm.com>
->
-> Wire up secretmemfd system call on architectures that define
-> ARCH_HAS_SET_DIRECT_MAP, namely arm64, risc-v and x86.
->
-> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
-> ---
->  arch/arm64/include/asm/unistd32.h      | 2 ++
->  arch/arm64/include/uapi/asm/unistd.h   | 1 +
->  arch/riscv/include/asm/unistd.h        | 1 +
->  arch/x86/entry/syscalls/syscall_32.tbl | 1 +
->  arch/x86/entry/syscalls/syscall_64.tbl | 1 +
->  include/linux/syscalls.h               | 1 +
->  include/uapi/asm-generic/unistd.h      | 7 ++++++-
->  7 files changed, 13 insertions(+), 1 deletion(-)
->
-> diff --git a/arch/riscv/include/asm/unistd.h b/arch/riscv/include/asm/unistd.h
-> index 977ee6181dab..9e47d9aed5eb 100644
-> --- a/arch/riscv/include/asm/unistd.h
-> +++ b/arch/riscv/include/asm/unistd.h
-> @@ -9,6 +9,7 @@
->   */
->
->  #define __ARCH_WANT_SYS_CLONE
-> +#define __ARCH_WANT_SECRETMEMFD
->
->  #include <uapi/asm/unistd.h>
+On Thu, Jul 23, 2020 at 07:12:24PM +0200, Mickaël Salaün wrote:
+> When the O_MAYEXEC flag is passed, openat2(2) may be subject to
+> additional restrictions depending on a security policy managed by the
+> kernel through a sysctl or implemented by an LSM thanks to the
+> inode_permission hook.  This new flag is ignored by open(2) and
+> openat(2) because of their unspecified flags handling.  When used with
+> openat2(2), the default behavior is only to forbid to open a directory.
 
-Acked-by: Palmer Dabbelt <palmerdabbelt@google.com>
+Correct me if I'm wrong, but it looks like you are introducing a magical
+flag that would mean "let the Linux S&M take an extra special whip
+for this open()".
+
+Why is it done during open?  If the caller is passing it deliberately,
+why not have an explicit request to apply given torture device to an
+already opened file?  Why not sys_masochism(int fd, char *hurt_flavour),
+for that matter?
