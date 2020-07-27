@@ -2,171 +2,65 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C695722FA29
-	for <lists+linux-api@lfdr.de>; Mon, 27 Jul 2020 22:34:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E086722FB74
+	for <lists+linux-api@lfdr.de>; Mon, 27 Jul 2020 23:32:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729333AbgG0Uee (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 27 Jul 2020 16:34:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38896 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728982AbgG0Uec (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 27 Jul 2020 16:34:32 -0400
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C394DC0619D2
-        for <linux-api@vger.kernel.org>; Mon, 27 Jul 2020 13:34:32 -0700 (PDT)
-Received: by mail-pl1-x644.google.com with SMTP id 72so8772114ple.0
-        for <linux-api@vger.kernel.org>; Mon, 27 Jul 2020 13:34:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=1e9h0tE+ElK0HWRPXiuc5VM0AhTp1F0sLszAnPFX/o4=;
-        b=ZafaxclzPZhVsXz8l83xVPlfPaaHGIsnBsq3YYS+6u818LolWPB9JvqcfE5gaa8xTt
-         xMeKMiEUoOBjhQEN30y00OvB3GJvnZCmHen3WlDqQl1atnjPNZzXQnXq13xWBdO0RqDk
-         UjBeZR8HAFCSn6EgK2imAOBWV4HTBBMGp+cS1LMXd97OoXjDVUB7TSQtJTGuKlyPFlGv
-         47hzCZYu25rqnnw5lCBm48U/PxTUsLm9HQwDcpHJ8BS5Iqy1eq8Y1QSbIF+igXGeLiaw
-         5kQb4Je9qd10su3MNHjyZt2WiZXA5AoXdEge+klxew2Fz7tViQhLADlu2el1GkI3bMX9
-         ko6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=1e9h0tE+ElK0HWRPXiuc5VM0AhTp1F0sLszAnPFX/o4=;
-        b=Mmndpz6T2OBsftYEtwbGAp6UCCfF1yed9byhcZDpqukSnQw5iXZiBnnANfBXNtrLDO
-         qRPp0LC7ORzOLWjSy1okMPT7rIL2uNqorXHon9Q6exsaiDnzvadEegQF+ukFz5g/kcFK
-         nR03e2u8pUtyzAdX+NNBfB0Zn0wqad+HhVkHpSnsYghhuYm5UHIUG/2KQOx3HcdGtK6n
-         oHoRLkdcy8MgWR2NK495x4aReCEKsChAZ1GvZXFXTMuaqJI0Ur5Mf60DmOOBFJBD2+RK
-         t2J96mPDQLwVTXVCDRdscp6JRoJxo6PYqwzzuQp7PiKkVkxrwBuKTNFbk6786RLH67eA
-         bJQQ==
-X-Gm-Message-State: AOAM5308AU2MT9ZetqWgPegc68MZWYMk0Kk8z0x98aGQApAPlSRl5/nf
-        eqRu3l6932k/uW9UwKJznK4G/w==
-X-Google-Smtp-Source: ABdhPJwgxPuj693Id+Oo3CVUmOizUrGVehGlzvteg1ajBPCJTwzcrqE4V3UY3qCfXHxGAvoiCewkzg==
-X-Received: by 2002:a17:90b:120a:: with SMTP id gl10mr927614pjb.44.1595882072153;
-        Mon, 27 Jul 2020 13:34:32 -0700 (PDT)
-Received: from [192.168.1.182] ([66.219.217.173])
-        by smtp.gmail.com with ESMTPSA id u26sm16345833pfn.54.2020.07.27.13.34.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Jul 2020 13:34:31 -0700 (PDT)
-Subject: Re: [PATCH v4 6/6] io_uring: add support for zone-append
-To:     Kanchan Joshi <joshiiitr@gmail.com>
-Cc:     Kanchan Joshi <joshi.k@samsung.com>, viro@zeniv.linux.org.uk,
-        bcrl@kvack.org, Matthew Wilcox <willy@infradead.org>,
-        Christoph Hellwig <hch@infradead.org>,
-        Damien Le Moal <Damien.LeMoal@wdc.com>,
-        asml.silence@gmail.com, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-aio@kvack.org,
-        io-uring@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-api@vger.kernel.org, SelvaKumar S <selvakuma.s1@samsung.com>,
-        Nitesh Shetty <nj.shetty@samsung.com>,
-        Javier Gonzalez <javier.gonz@samsung.com>
-References: <1595605762-17010-1-git-send-email-joshi.k@samsung.com>
- <CGME20200724155350epcas5p3b8f1d59eda7f8fbb38c828f692d42fd6@epcas5p3.samsung.com>
- <1595605762-17010-7-git-send-email-joshi.k@samsung.com>
- <f5416bd4-93b3-4d14-3266-bdbc4ae1990b@kernel.dk>
- <CA+1E3rJAa3E2Ti0fvvQTzARP797qge619m4aYLjXeR3wxdFwWw@mail.gmail.com>
-From:   Jens Axboe <axboe@kernel.dk>
-Message-ID: <b0b7159d-ed10-08ad-b6c7-b85d45f60d16@kernel.dk>
-Date:   Mon, 27 Jul 2020 14:34:28 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726952AbgG0VcA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 27 Jul 2020 17:32:00 -0400
+Received: from mx2.suse.de ([195.135.220.15]:52186 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726139AbgG0VcA (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 27 Jul 2020 17:32:00 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 25088AD2C;
+        Mon, 27 Jul 2020 21:32:09 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id 6BCD51E12C7; Mon, 27 Jul 2020 23:31:58 +0200 (CEST)
+Date:   Mon, 27 Jul 2020 23:31:58 +0200
+From:   Jan Kara <jack@suse.cz>
+To:     Al Viro <viro@zeniv.linux.org.uk>
+Cc:     Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@lst.de>,
+        x86@kernel.org, Jan Kara <jack@suse.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org
+Subject: Re: [PATCH 4/4] quota: simplify the quotactl compat handling
+Message-ID: <20200727213158.GM5284@quack2.suse.cz>
+References: <20200726160401.311569-1-hch@lst.de>
+ <20200726160401.311569-5-hch@lst.de>
+ <20200727124127.GO23179@quack2.suse.cz>
+ <20200727155616.GF794331@ZenIV.linux.org.uk>
 MIME-Version: 1.0
-In-Reply-To: <CA+1E3rJAa3E2Ti0fvvQTzARP797qge619m4aYLjXeR3wxdFwWw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200727155616.GF794331@ZenIV.linux.org.uk>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 7/27/20 1:16 PM, Kanchan Joshi wrote:
-> On Fri, Jul 24, 2020 at 10:00 PM Jens Axboe <axboe@kernel.dk> wrote:
->>
->> On 7/24/20 9:49 AM, Kanchan Joshi wrote:
->>> diff --git a/fs/io_uring.c b/fs/io_uring.c
->>> index 7809ab2..6510cf5 100644
->>> --- a/fs/io_uring.c
->>> +++ b/fs/io_uring.c
->>> @@ -1284,8 +1301,15 @@ static void __io_cqring_fill_event(struct io_kiocb *req, long res, long cflags)
->>>       cqe = io_get_cqring(ctx);
->>>       if (likely(cqe)) {
->>>               WRITE_ONCE(cqe->user_data, req->user_data);
->>> -             WRITE_ONCE(cqe->res, res);
->>> -             WRITE_ONCE(cqe->flags, cflags);
->>> +             if (unlikely(req->flags & REQ_F_ZONE_APPEND)) {
->>> +                     if (likely(res > 0))
->>> +                             WRITE_ONCE(cqe->res64, req->rw.append_offset);
->>> +                     else
->>> +                             WRITE_ONCE(cqe->res64, res);
->>> +             } else {
->>> +                     WRITE_ONCE(cqe->res, res);
->>> +                     WRITE_ONCE(cqe->flags, cflags);
->>> +             }
->>
->> This would be nice to keep out of the fast path, if possible.
+On Mon 27-07-20 16:56:16, Al Viro wrote:
+> On Mon, Jul 27, 2020 at 02:41:27PM +0200, Jan Kara wrote:
+> > On Sun 26-07-20 18:04:01, Christoph Hellwig wrote:
+> > > Fold the misaligned u64 workarounds into the main quotactl flow instead
+> > > of implementing a separate compat syscall handler.
+> > > 
+> > > Signed-off-by: Christoph Hellwig <hch@lst.de>
+> > 
+> > The patch looks good to me and it saves a lot of boiler-plate code so feel
+> > free to add:
+> > 
+> > Acked-by: Jan Kara <jack@suse.cz>
 > 
-> I was thinking of keeping a function-pointer (in io_kiocb) during
-> submission. That would have avoided this check......but argument count
-> differs, so it did not add up.
+> Which tree do we put that through?  I can grab it into vfs.git, but IIRC usually
+> you put quota-related stuff through yours...
 
-But that'd grow the io_kiocb just for this use case, which is arguably
-even worse. Unless you can keep it in the per-request private data,
-but there's no more room there for the regular read/write side.
+I can take it through quota tree as well but I thought it's not a great fit
+given the generic arch bits which this last patch depends on...
 
->>> diff --git a/include/uapi/linux/io_uring.h b/include/uapi/linux/io_uring.h
->>> index 92c2269..2580d93 100644
->>> --- a/include/uapi/linux/io_uring.h
->>> +++ b/include/uapi/linux/io_uring.h
->>> @@ -156,8 +156,13 @@ enum {
->>>   */
->>>  struct io_uring_cqe {
->>>       __u64   user_data;      /* sqe->data submission passed back */
->>> -     __s32   res;            /* result code for this event */
->>> -     __u32   flags;
->>> +     union {
->>> +             struct {
->>> +                     __s32   res;    /* result code for this event */
->>> +                     __u32   flags;
->>> +             };
->>> +             __s64   res64;  /* appending offset for zone append */
->>> +     };
->>>  };
->>
->> Is this a compatible change, both for now but also going forward? You
->> could randomly have IORING_CQE_F_BUFFER set, or any other future flags.
-> 
-> Sorry, I didn't quite understand the concern. CQE_F_BUFFER is not
-> used/set for write currently, so it looked compatible at this point.
-
-Not worried about that, since we won't ever use that for writes. But it
-is a potential headache down the line for other flags, if they apply to
-normal writes.
-
-> Yes, no room for future flags for this operation.
-> Do you see any other way to enable this support in io-uring?
-
-Honestly I think the only viable option is as we discussed previously,
-pass in a pointer to a 64-bit type where we can copy the additional
-completion information to.
-
->> Layout would also be different between big and little endian, so not
->> even that easy to set aside a flag for this. But even if that was done,
->> we'd still have this weird API where liburing or the app would need to
->> distinguish this cqe from all others based on... the user_data? Hence
->> liburing can't do it, only the app would be able to.
->>
->> Just seems like a hack to me.
-> 
-> Yes, only user_data to distinguish. Do liburing helpers need to look
-> at cqe->res (and decide something) before returning the cqe to
-> application?
-
-They generally don't, outside of the internal timeout. But it's an issue
-for the API, as it forces applications to handle the CQEs a certain way.
-Normally there's flexibility. This makes the append writes behave
-differently than everything else, which is never a good idea.
-
+								Honza
 -- 
-Jens Axboe
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
