@@ -2,77 +2,85 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 39668230B99
-	for <lists+linux-api@lfdr.de>; Tue, 28 Jul 2020 15:40:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 828D2230CB6
+	for <lists+linux-api@lfdr.de>; Tue, 28 Jul 2020 16:50:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730078AbgG1Nk2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 28 Jul 2020 09:40:28 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:55330 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729044AbgG1Nk2 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 28 Jul 2020 09:40:28 -0400
-Received: from ip5f5af08c.dynamic.kabel-deutschland.de ([95.90.240.140] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1k0Pq5-0004Om-5K; Tue, 28 Jul 2020 13:40:17 +0000
-Date:   Tue, 28 Jul 2020 15:40:15 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Steven Sistare <steven.sistare@oracle.com>
-Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
-        Anthony Yznaga <anthony.yznaga@oracle.com>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org, mhocko@kernel.org,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
-        hpa@zytor.com, viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        arnd@arndb.de, keescook@chromium.org, gerg@linux-m68k.org,
-        ktkhai@virtuozzo.com, peterz@infradead.org, esyr@redhat.com,
-        jgg@ziepe.ca, christian@kellner.me, areber@redhat.com,
-        cyphar@cyphar.com, linux-api@vger.kernel.org
-Subject: Re: [RFC PATCH 0/5] madvise MADV_DOEXEC
-Message-ID: <20200728134015.tmjy5hy4xden2v5h@wittgenstein>
-References: <1595869887-23307-1-git-send-email-anthony.yznaga@oracle.com>
- <87pn8glwd2.fsf@x220.int.ebiederm.org>
- <28125570-4129-bcba-099b-f90481cfbfe8@oracle.com>
+        id S1730528AbgG1OuZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 28 Jul 2020 10:50:25 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59334 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1730527AbgG1OuZ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 28 Jul 2020 10:50:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1595947824;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=SWjykGqBMInyrV21RjBwz09v26RfChOpFP7bkHaZWz0=;
+        b=gL5GVj/1Sh/8xRJw5I5V5ugR3rF5SX7ApolewQ5v8l+CqxPmRkEddfBM2fWKmPr5o+xPcN
+        PO6qbLkt9MGtlOYHlicpnJv6zjgDQ5AuueMDgHom+I/0sfySeNluYbmZPiFsddK1nz64LJ
+        V/D+dzbLdGSR7NAT/pKGzovSnc4LnMk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-39-Zrerl_7zO_amUtxi0bg-EA-1; Tue, 28 Jul 2020 10:50:20 -0400
+X-MC-Unique: Zrerl_7zO_amUtxi0bg-EA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31BB6193F560;
+        Tue, 28 Jul 2020 14:50:18 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.40.192.181])
+        by smtp.corp.redhat.com (Postfix) with SMTP id BE9C069324;
+        Tue, 28 Jul 2020 14:50:15 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Tue, 28 Jul 2020 16:50:17 +0200 (CEST)
+Date:   Tue, 28 Jul 2020 16:50:14 +0200
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     madvenka@linux.microsoft.com
+Cc:     kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCH v1 1/4] [RFC] fs/trampfd: Implement the trampoline file
+ descriptor API
+Message-ID: <20200728145013.GA9972@redhat.com>
+References: <aefc85852ea518982e74b233e11e16d2e707bc32>
+ <20200728131050.24443-1-madvenka@linux.microsoft.com>
+ <20200728131050.24443-2-madvenka@linux.microsoft.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <28125570-4129-bcba-099b-f90481cfbfe8@oracle.com>
+In-Reply-To: <20200728131050.24443-2-madvenka@linux.microsoft.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jul 27, 2020 at 02:00:17PM -0400, Steven Sistare wrote:
-> On 7/27/2020 1:07 PM, ebiederm@xmission.com wrote:
-> > Anthony Yznaga <anthony.yznaga@oracle.com> writes:
-> > 
-> >> This patchset adds support for preserving an anonymous memory range across
-> >> exec(3) using a new madvise MADV_DOEXEC argument.  The primary benefit for
-> >> sharing memory in this manner, as opposed to re-attaching to a named shared
-> >> memory segment, is to ensure it is mapped at the same virtual address in
-> >> the new process as it was in the old one.  An intended use for this is to
-> >> preserve guest memory for guests using vfio while qemu exec's an updated
-> >> version of itself.  By ensuring the memory is preserved at a fixed address,
-> >> vfio mappings and their associated kernel data structures can remain valid.
-> >> In addition, for the qemu use case, qemu instances that back guest RAM with
-> >> anonymous memory can be updated.
-> > 
-> > What is wrong with using a file descriptor to a possibly deleted file
-> > and re-mmaping it?
-> > 
-> > There is already MAP_FIXED that allows you to ensure you have the same
-> > address.
-> 
-> MAP_FIXED blows away any existing mapping in that range, which is not the 
-> desired behavior.  We want to preserve the previously created mapping at
+On 07/28, madvenka@linux.microsoft.com wrote:
+>
+> +bool is_trampfd_vma(struct vm_area_struct *vma)
+> +{
+> +	struct file	*file = vma->vm_file;
+> +
+> +	if (!file)
+> +		return false;
+> +	return !strcmp(file->f_path.dentry->d_name.name, trampfd_name);
 
-There's also MAP_FIXED_NOREPLACE since v4.17 in case that helps.
+Hmm, this looks obviously wrong or I am totally confused. A user can
+create a file named "[trampfd]", mmap it, and fool trampfd_fault() ?
 
-Note that this should really go to linux-api too. I won't argue to
-resend it since that would mean spamming everyone's inbox with the same
-thread again but in case you send a revised version, please ensure to Cc
-linux-api. The glibc folks are listening on there too.
+Why not
 
-Thanks!
-Christian
+	return file->f_op == trampfd_fops;
+
+?
+
+> +EXPORT_SYMBOL_GPL(is_trampfd_vma);
+
+why is it exported?
+
+Oleg.
+
