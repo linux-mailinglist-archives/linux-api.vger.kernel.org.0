@@ -2,162 +2,115 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ECD872310F0
-	for <lists+linux-api@lfdr.de>; Tue, 28 Jul 2020 19:32:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C684F2311FE
+	for <lists+linux-api@lfdr.de>; Tue, 28 Jul 2020 20:52:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732009AbgG1RcO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 28 Jul 2020 13:32:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45778 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731959AbgG1RcO (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 28 Jul 2020 13:32:14 -0400
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E3BD321744
-        for <linux-api@vger.kernel.org>; Tue, 28 Jul 2020 17:32:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595957533;
-        bh=9/DO98f4NNb2r87lGlZR0IYODVEjduHFQ1okay382Kw=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=00hywb4ZCFn7lczpn0BiOMeOm9xDGiOqlvQj8/th2fDX/IzE1putRyI2doIv2tI36
-         gO4lphP9SFo10v3da6m5h1BH07cHRR/okVnVy90sS8zQtt5pSIghUkUXx0ikOM7Nd0
-         h6O5+kD6MR7Vr5ux5UT9pRxsLHVuGsY6clVQqbF0=
-Received: by mail-wr1-f54.google.com with SMTP id f18so19100806wrs.0
-        for <linux-api@vger.kernel.org>; Tue, 28 Jul 2020 10:32:12 -0700 (PDT)
-X-Gm-Message-State: AOAM532ZkmdQo4MfF6tFFDbJElfGN75du2+Jbo4i3/GNxL9NP2Qv7sOS
-        S9RVmxjh9CLk6kNZ5aJ14szxc4/ICc46agcL7zPpyA==
-X-Google-Smtp-Source: ABdhPJxq1bq+hNP4spnLcyA3rbDMq8utpwpjTxFxTkTrdf+BFedxKdyd+N85+0IDFv89rVq0CIoCx1Y8N9iYBQx1zm4=
-X-Received: by 2002:a5d:5273:: with SMTP id l19mr25476365wrc.257.1595957531409;
- Tue, 28 Jul 2020 10:32:11 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200728131050.24443-1-madvenka@linux.microsoft.com>
-In-Reply-To: <20200728131050.24443-1-madvenka@linux.microsoft.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Tue, 28 Jul 2020 10:31:59 -0700
-X-Gmail-Original-Message-ID: <CALCETrVy5OMuUx04-wWk9FJbSxkrT2vMfN_kANinudrDwC4Cig@mail.gmail.com>
-Message-ID: <CALCETrVy5OMuUx04-wWk9FJbSxkrT2vMfN_kANinudrDwC4Cig@mail.gmail.com>
+        id S1729124AbgG1SwE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 28 Jul 2020 14:52:04 -0400
+Received: from linux.microsoft.com ([13.77.154.182]:54666 "EHLO
+        linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728782AbgG1SwE (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 28 Jul 2020 14:52:04 -0400
+Received: from [192.168.254.32] (unknown [47.187.206.220])
+        by linux.microsoft.com (Postfix) with ESMTPSA id D9CA720B4908;
+        Tue, 28 Jul 2020 11:52:02 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D9CA720B4908
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1595962323;
+        bh=4VqGIlTMQb0KmRbW1ECdJsuWGdo+ykQfeo4qSABGj8g=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=N5ASgrJbpo8ewcnejqNlOMHW1LlvWw6Pa2UCzET1NHRPpRnwTSki0Dk44+lBNhwyc
+         0Oczcbp+TB0JMzyxyK22fLDJcHQra90UOmtWziVf9oqC+T8MJc1Dn+vnJuvj0FVugv
+         h+6UG1h/10vIpOjMBqWpPTkZqsk7ZujJKLdE1AKo=
 Subject: Re: [PATCH v1 0/4] [RFC] Implement Trampoline File Descriptor
-To:     madvenka@linux.microsoft.com
-Cc:     Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        linux-integrity <linux-integrity@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        Oleg Nesterov <oleg@redhat.com>, X86 ML <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     David Laight <David.Laight@aculab.com>,
+        "kernel-hardening@lists.openwall.com" 
+        <kernel-hardening@lists.openwall.com>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "x86@kernel.org" <x86@kernel.org>
+References: <20200728131050.24443-1-madvenka@linux.microsoft.com>
+ <c23de6ec47614f489943e1a89a21dfa3@AcuMS.aculab.com>
+ <f5cfd11b-04fe-9db7-9d67-7ee898636edb@linux.microsoft.com>
+ <CALCETrUta5-0TLJ9-jfdehpTAp2Efmukk2npYadFzz9ozOrG2w@mail.gmail.com>
+From:   "Madhavan T. Venkataraman" <madvenka@linux.microsoft.com>
+Message-ID: <59246260-e535-a9f1-d89e-4e953288b977@linux.microsoft.com>
+Date:   Tue, 28 Jul 2020 13:52:01 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <CALCETrUta5-0TLJ9-jfdehpTAp2Efmukk2npYadFzz9ozOrG2w@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-> On Jul 28, 2020, at 6:11 AM, madvenka@linux.microsoft.com wrote:
->
-> =EF=BB=BFFrom: "Madhavan T. Venkataraman" <madvenka@linux.microsoft.com>
->
-
-> The kernel creates the trampoline mapping without any permissions. When
-> the trampoline is executed by user code, a page fault happens and the
-> kernel gets control. The kernel recognizes that this is a trampoline
-> invocation. It sets up the user registers based on the specified
-> register context, and/or pushes values on the user stack based on the
-> specified stack context, and sets the user PC to the requested target
-> PC. When the kernel returns, execution continues at the target PC.
-> So, the kernel does the work of the trampoline on behalf of the
-> application.
-
-This is quite clever, but now I=E2=80=99m wondering just how much kernel he=
-lp
-is really needed. In your series, the trampoline is an non-executable
-page.  I can think of at least two alternative approaches, and I'd
-like to know the pros and cons.
-
-1. Entirely userspace: a return trampoline would be something like:
-
-1:
-pushq %rax
-pushq %rbc
-pushq %rcx
-...
-pushq %r15
-movq %rsp, %rdi # pointer to saved regs
-leaq 1b(%rip), %rsi # pointer to the trampoline itself
-callq trampoline_handler # see below
-
-You would fill a page with a bunch of these, possibly compacted to get
-more per page, and then you would remap as many copies as needed.  The
-'callq trampoline_handler' part would need to be a bit clever to make
-it continue to work despite this remapping.  This will be *much*
-faster than trampfd. How much of your use case would it cover?  For
-the inverse, it's not too hard to write a bit of asm to set all
-registers and jump somewhere.
-
-2. Use existing kernel functionality.  Raise a signal, modify the
-state, and return from the signal.  This is very flexible and may not
-be all that much slower than trampfd.
-
-3. Use a syscall.  Instead of having the kernel handle page faults,
-have the trampoline code push the syscall nr register, load a special
-new syscall nr into the syscall nr register, and do a syscall. On
-x86_64, this would be:
-
-pushq %rax
-movq __NR_magic_trampoline, %rax
-syscall
-
-with some adjustment if the stack slot you're clobbering is important.
 
 
-Also, will using trampfd cause issues with various unwinders?  I can
-easily imagine unwinders expecting code to be readable, although this
-is slowly going away for other reasons.
+On 7/28/20 12:16 PM, Andy Lutomirski wrote:
+> On Tue, Jul 28, 2020 at 9:32 AM Madhavan T. Venkataraman
+> <madvenka@linux.microsoft.com> wrote:
+>> Thanks. See inline..
+>>
+>> On 7/28/20 10:13 AM, David Laight wrote:
+>>> From:  madvenka@linux.microsoft.com
+>>>> Sent: 28 July 2020 14:11
+>>> ...
+>>>> The kernel creates the trampoline mapping without any permissions. When
+>>>> the trampoline is executed by user code, a page fault happens and the
+>>>> kernel gets control. The kernel recognizes that this is a trampoline
+>>>> invocation. It sets up the user registers based on the specified
+>>>> register context, and/or pushes values on the user stack based on the
+>>>> specified stack context, and sets the user PC to the requested target
+>>>> PC. When the kernel returns, execution continues at the target PC.
+>>>> So, the kernel does the work of the trampoline on behalf of the
+>>>> application.
+>>> Isn't the performance of this going to be horrid?
+>> It takes about the same amount of time as getpid(). So, it is
+>> one quick trip into the kernel. I expect that applications will
+>> typically not care about this extra overhead as long as
+>> they are able to run.
+> What did you test this on?  A page fault on any modern x86_64 system
+> is much, much, much, much slower than a syscall.
 
-All this being said, I think that the kernel should absolutely add a
-sensible interface for JITs to use to materialize their code.  This
-would integrate sanely with LSMs and wouldn't require hacks like using
-files, etc.  A cleverly designed JIT interface could function without
-seriailization IPIs, and even lame architectures like x86 could
-potentially avoid shootdown IPIs if the interface copied code instead
-of playing virtual memory games.  At its very simplest, this could be:
+I sent a response to this. But the mail was returned to me.
+I am resending.
 
-void *jit_create_code(const void *source, size_t len);
+I tested it in on a KVM guest running Ubuntu. So, when you say that a
+page fault is much slower, do you mean a regular page fault that is handled
+through the VM layer? Here is the relevant code in do_user_addr_fault():
 
-and the result would be a new anonymous mapping that contains exactly
-the code requested.  There could also be:
+        if (unlikely(access_error(hw_error_code, vma))) {
+                /*                 
+                 * If it is a user execute fault, it could be a trampoline
+                 * invocation.
+                 */
+                if ((hw_error_code & tflags) == tflags &&
+                     trampfd_fault(vma, regs)) {
+                         up_read(&mm->mmap_sem);
+                         return;
+                 }
+                 bad_area_access_error(regs, hw_error_code, address, vma);
+                 return;
+         }
+         ...
+         fault = handle_mm_fault(vma, address, flags);
 
-int jittfd_create(...);
+trampfd faults are instruction faults that go through a different code path than
+the one that calls handle_mm_fault(). Perhaps, it is the handle_mm_fault() that
+is time consuming. Could you clarify?
 
-that does something similar but creates a memfd.  A nicer
-implementation for short JIT sequences would allow appending more code
-to an existing JIT region.  On x86, an appendable JIT region would
-start filled with 0xCC, and I bet there's a way to materialize new
-code into a previously 0xcc-filled virtual page wthout any
-synchronization.  One approach would be to start with:
+Thanks.
 
-<some code>
-0xcc
-0xcc
-...
-0xcc
-
-and to create a whole new page like:
-
-<some code>
-<some more code>
-0xcc
-...
-0xcc
-
-so that the only difference is that some code changed to some more
-code.  Then replace the PTE to swap from the old page to the new page,
-and arrange to avoid freeing the old page until we're sure it's gone
-from all TLBs.  This may not work if <some more code> spans a page
-boundary.  The #BP fixup would zap the TLB and retry.  Even just
-directly copying code over some 0xcc bytes almost works, but there's a
-nasty corner case involving instructions that fetch I$ fetch
-boundaries.  I'm not sure to what extent I$ snooping helps.
-
---Andy
+Madhavan
