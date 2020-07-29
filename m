@@ -2,103 +2,103 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F05EB231F58
-	for <lists+linux-api@lfdr.de>; Wed, 29 Jul 2020 15:29:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E15E32323CC
+	for <lists+linux-api@lfdr.de>; Wed, 29 Jul 2020 19:55:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727115AbgG2N3o (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 29 Jul 2020 09:29:44 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:56816 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727113AbgG2N3m (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 29 Jul 2020 09:29:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1596029380;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=pHdy6Zb9Xi6Br1uklysJIGNGzShuC9IUN8gmmUSKfJ8=;
-        b=StrTU9oAaFyMo8uishULmnxLv3sKAnkqy15rvlzA2HfO+NXVnvv0Cspud/eRZeYdSPaht2
-        IUV460kzHsVD/jpGuIUtU9OQFwpHqrWvX0TSUKtgr/FCqj8zKLMQQvr+ssay3zVb/xgN/F
-        pyba1BecjySRY2XMQ5NeRi6RyZTcoyo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-185-oUnvNmSeOLyVa6xnjYceCQ-1; Wed, 29 Jul 2020 09:29:36 -0400
-X-MC-Unique: oUnvNmSeOLyVa6xnjYceCQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE5481902EA0;
-        Wed, 29 Jul 2020 13:29:34 +0000 (UTC)
-Received: from oldenburg2.str.redhat.com (ovpn-113-29.ams2.redhat.com [10.36.113.29])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id B422869327;
-        Wed, 29 Jul 2020 13:29:32 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     madvenka@linux.microsoft.com,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        linux-integrity <linux-integrity@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        Oleg Nesterov <oleg@redhat.com>, X86 ML <x86@kernel.org>
+        id S1726814AbgG2Rzx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 29 Jul 2020 13:55:53 -0400
+Received: from linux.microsoft.com ([13.77.154.182]:33132 "EHLO
+        linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726336AbgG2Rzx (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 29 Jul 2020 13:55:53 -0400
+Received: from [192.168.254.32] (unknown [47.187.206.220])
+        by linux.microsoft.com (Postfix) with ESMTPSA id F0E4120B4908;
+        Wed, 29 Jul 2020 10:55:51 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com F0E4120B4908
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1596045352;
+        bh=Nh1awxv8sYMWjyBdKzptNt/99nJiurbGvK4nLo6gXvU=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=ET55hxg/DBtDrPqMLvEgwflc/o1gjQ4X7Oa3dCnjuCAMmZs7sULLK5HNN8WxJb0i5
+         0ANYiCsQDqTi6GijyuIZbLq/tNbFUvpAB5eayNWW4/qmE/6W3Ct1DOBfa73pb1uSap
+         kv37tbx4EFhfNrjIQ8YdBDHjoOhsdUZVP47hnYG0=
 Subject: Re: [PATCH v1 0/4] [RFC] Implement Trampoline File Descriptor
+To:     David Laight <David.Laight@ACULAB.COM>,
+        Andy Lutomirski <luto@kernel.org>
+Cc:     "kernel-hardening@lists.openwall.com" 
+        <kernel-hardening@lists.openwall.com>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "x86@kernel.org" <x86@kernel.org>
 References: <20200728131050.24443-1-madvenka@linux.microsoft.com>
-        <CALCETrVy5OMuUx04-wWk9FJbSxkrT2vMfN_kANinudrDwC4Cig@mail.gmail.com>
-Date:   Wed, 29 Jul 2020 15:29:31 +0200
-In-Reply-To: <CALCETrVy5OMuUx04-wWk9FJbSxkrT2vMfN_kANinudrDwC4Cig@mail.gmail.com>
-        (Andy Lutomirski's message of "Tue, 28 Jul 2020 10:31:59 -0700")
-Message-ID: <87pn8eo3es.fsf@oldenburg2.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ <c23de6ec47614f489943e1a89a21dfa3@AcuMS.aculab.com>
+ <f5cfd11b-04fe-9db7-9d67-7ee898636edb@linux.microsoft.com>
+ <CALCETrUta5-0TLJ9-jfdehpTAp2Efmukk2npYadFzz9ozOrG2w@mail.gmail.com>
+ <59246260-e535-a9f1-d89e-4e953288b977@linux.microsoft.com>
+ <a159f2e8417746fb88f31a97c6f366ba@AcuMS.aculab.com>
+From:   "Madhavan T. Venkataraman" <madvenka@linux.microsoft.com>
+Message-ID: <98aa9d5e-6eb4-de29-2fc2-06f6dc52086f@linux.microsoft.com>
+Date:   Wed, 29 Jul 2020 12:55:51 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <a159f2e8417746fb88f31a97c6f366ba@AcuMS.aculab.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Andy Lutomirski:
 
-> This is quite clever, but now I=E2=80=99m wondering just how much kernel =
-help
-> is really needed. In your series, the trampoline is an non-executable
-> page.  I can think of at least two alternative approaches, and I'd
-> like to know the pros and cons.
->
-> 1. Entirely userspace: a return trampoline would be something like:
->
-> 1:
-> pushq %rax
-> pushq %rbc
-> pushq %rcx
+
+On 7/29/20 3:36 AM, David Laight wrote:
+> From: Madhavan T. Venkataraman
+>> Sent: 28 July 2020 19:52
 > ...
-> pushq %r15
-> movq %rsp, %rdi # pointer to saved regs
-> leaq 1b(%rip), %rsi # pointer to the trampoline itself
-> callq trampoline_handler # see below
+>> trampfd faults are instruction faults that go through a different code path than
+>> the one that calls handle_mm_fault(). Perhaps, it is the handle_mm_fault() that
+>> is time consuming. Could you clarify?
+> Given that the expectation is a few instructions in userspace
+> (eg to pick up the original arguments for a nested call)
+> the (probable) thousands of clocks taken by entering the
+> kernel (especially with page table separation) is a massive
+> delta.
 >
-> You would fill a page with a bunch of these, possibly compacted to get
-> more per page, and then you would remap as many copies as needed.
+> If entering the kernel were cheap no one would have added
+> the DSO functions for getting the time of day.
 
-libffi does something like this for iOS, I believe.
+I hear you. BTW, I did not say that the overhead was trivial.
+I only said that in most cases, applications may not mind that
+extra overhead.
 
-The only thing you really need is a PC-relative indirect call, with the
-target address loaded from a different page.  The trampoline handler can
-do all the rest because it can identify the trampoline from the stack.
-Having a closure parameter loaded into a register will speed things up,
-of course.
+However, since multiple people have raised that as an issue,
+I will address it. I mentioned before that the kernel can actually
+supply the code page that sets the context and jumps to
+a PC and map it so the performance issue can be addressed.
+I was planning to do that as a future enhancement.
 
-I still hope to transition libffi to this model for most Linux targets.
-It really simplifies things because you don't have to deal with cache
-flushes (on both the data and code aliases for SELinux support).
+If there is a consensus that I must address it immediately, I
+could do that.
 
-But the key observation is that efficient trampolines do not need
-run-time code generation at all because their code is so regular.
+I will continue this discussion in my reply to Andy's email. Let
+us pick it up from there.
 
-Thanks,
-Florian
+Thanks.
+
+Madhavan
+>
+> 	David
+>
+> -
+> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+> Registration No: 1397386 (Wales)
 
