@@ -2,73 +2,112 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 625D623141A
-	for <lists+linux-api@lfdr.de>; Tue, 28 Jul 2020 22:40:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B7E4231901
+	for <lists+linux-api@lfdr.de>; Wed, 29 Jul 2020 07:17:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728928AbgG1Ukr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 28 Jul 2020 16:40:47 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:50042 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728430AbgG1Ukr (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 28 Jul 2020 16:40:47 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 3489E1C0BED; Tue, 28 Jul 2020 22:40:45 +0200 (CEST)
-Date:   Tue, 28 Jul 2020 22:40:44 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Stephan M?ller <smueller@chronox.de>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-crypto@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        linux-api@vger.kernel.org,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "Alexander E. Patrakov" <patrakov@gmail.com>,
-        "Ahmed S. Darwish" <darwish.07@gmail.com>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>, Willy Tarreau <w@1wt.eu>,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        Vito Caputo <vcaputo@pengaru.com>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jan Kara <jack@suse.cz>, Ray Strode <rstrode@redhat.com>,
-        William Jon McCann <mccann@jhu.edu>,
-        zhangjs <zachary@baishancloud.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Florian Weimer <fweimer@redhat.com>,
-        Lennart Poettering <mzxreary@0pointer.de>,
-        Nicolai Stange <nstange@suse.de>,
-        "Peter, Matthias" <matthias.peter@bsi.bund.de>,
-        Marcelo Henrique Cerri <marcelo.cerri@canonical.com>,
-        Roman Drahtmueller <draht@schaltsekun.de>,
-        Neil Horman <nhorman@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Julia Lawall <julia.lawall@inria.fr>,
-        Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH v31 00/12] /dev/random - a new approach with full
- SP800-90B
-Message-ID: <20200728204044.GD1012@bug>
-References: <2050754.Mh6RI2rZIc@positron.chronox.de>
+        id S1726910AbgG2FRA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 29 Jul 2020 01:17:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47532 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726884AbgG2FRA (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 29 Jul 2020 01:17:00 -0400
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0280322B3F
+        for <linux-api@vger.kernel.org>; Wed, 29 Jul 2020 05:16:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1595999819;
+        bh=qItqwNi4q4ELXpJAVlv3H8dC/ihmulIDrwoa1DDcrFY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=k2/ypYf8chH29waA/oS7FzUjhmqJvZsAK5yreLc+JnHHzlqaz9vnEqabE+qyemEMh
+         V59mmT0x99Zz7xAAr4mzDnLpnXyxu10GUK80PkfmZzTfRw0ApQRzkJVmfxPNtOL+Nt
+         orHtR8IzwwnOF1rKVTvLOZzzbUFBmX6T//Qhyjrc=
+Received: by mail-wm1-f51.google.com with SMTP id 3so1638875wmi.1
+        for <linux-api@vger.kernel.org>; Tue, 28 Jul 2020 22:16:58 -0700 (PDT)
+X-Gm-Message-State: AOAM533qamrbU8nJL9Duu2GShxq3f26ir0rBNOaT3cVIx7a2ct0Eg7XK
+        REbGvUsBzneFpvpn7NWV3KRGZReWoFZC+8rKHwWM5w==
+X-Google-Smtp-Source: ABdhPJyc8ExWo5/AVhgh7lVVbcBRbBl+yZD/a1oDf2lJ2rOxAoDZo7htpcvpKEGk9rvSh0Xh0NAF4mmPRBSSCBjw09E=
+X-Received: by 2002:a1c:7511:: with SMTP id o17mr7308351wmc.49.1595999817430;
+ Tue, 28 Jul 2020 22:16:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2050754.Mh6RI2rZIc@positron.chronox.de>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+References: <20200728131050.24443-1-madvenka@linux.microsoft.com>
+ <c23de6ec47614f489943e1a89a21dfa3@AcuMS.aculab.com> <f5cfd11b-04fe-9db7-9d67-7ee898636edb@linux.microsoft.com>
+ <CALCETrUta5-0TLJ9-jfdehpTAp2Efmukk2npYadFzz9ozOrG2w@mail.gmail.com> <81d744c0-923e-35ad-6063-8b186f6a153c@linux.microsoft.com>
+In-Reply-To: <81d744c0-923e-35ad-6063-8b186f6a153c@linux.microsoft.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Tue, 28 Jul 2020 22:16:45 -0700
+X-Gmail-Original-Message-ID: <CALCETrUWd4Gogz5EQNbbx7Babct4hGerz7sWiAuu2-Q1KB64yA@mail.gmail.com>
+Message-ID: <CALCETrUWd4Gogz5EQNbbx7Babct4hGerz7sWiAuu2-Q1KB64yA@mail.gmail.com>
+Subject: Re: [PATCH v1 0/4] [RFC] Implement Trampoline File Descriptor
+To:     "Madhavan T. Venkataraman" <madvenka@linux.microsoft.com>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        David Laight <David.Laight@aculab.com>,
+        "kernel-hardening@lists.openwall.com" 
+        <kernel-hardening@lists.openwall.com>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "x86@kernel.org" <x86@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi!
+On Tue, Jul 28, 2020 at 10:40 AM Madhavan T. Venkataraman
+<madvenka@linux.microsoft.com> wrote:
+>
+>
+>
+> On 7/28/20 12:16 PM, Andy Lutomirski wrote:
+>
+> On Tue, Jul 28, 2020 at 9:32 AM Madhavan T. Venkataraman
+> <madvenka@linux.microsoft.com> wrote:
+>
+> Thanks. See inline..
+>
+> On 7/28/20 10:13 AM, David Laight wrote:
+>
+> From:  madvenka@linux.microsoft.com
+>
+> Sent: 28 July 2020 14:11
+>
+> ...
+>
+> The kernel creates the trampoline mapping without any permissions. When
+> the trampoline is executed by user code, a page fault happens and the
+> kernel gets control. The kernel recognizes that this is a trampoline
+> invocation. It sets up the user registers based on the specified
+> register context, and/or pushes values on the user stack based on the
+> specified stack context, and sets the user PC to the requested target
+> PC. When the kernel returns, execution continues at the target PC.
+> So, the kernel does the work of the trampoline on behalf of the
+> application.
+>
+> Isn't the performance of this going to be horrid?
+>
+> It takes about the same amount of time as getpid(). So, it is
+> one quick trip into the kernel. I expect that applications will
+> typically not care about this extra overhead as long as
+> they are able to run.
+>
+> What did you test this on?  A page fault on any modern x86_64 system
+> is much, much, much, much slower than a syscall.
+>
+>
+> I tested it in on a KVM guest running Ubuntu. So, when you say
+> that a page fault is much slower, do you mean a regular page
+> fault that is handled through the VM layer? Here is the relevant code
+> in do_user_addr_fault():
 
-> The following patch set provides a different approach to /dev/random which is called 
-> Linux Random Number Generator (LRNG) to collect entropy within the Linux kernel. The 
-> main improvements compared to the existing /dev/random is to provide sufficient entropy 
-> during boot time as well as in virtual environments and when using SSDs. A secondary 
-> design goal is to limit the impact of the entropy collection on massive parallel systems 
-> and also allow the use accelerated cryptographic primitives. Also, all steps of the 
-> entropic data processing are testable.
-
-That sounds good.. maybe too good. Where does LRNG get the entropy? That is the
-part that should be carefully documented..
-
-									Pavel
--- 
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
+I mean that x86 CPUs have reasonably SYSCALL and SYSRET instructions
+(the former is used for 64-bit system calls on Linux and the latter is
+mostly used to return from system calls), but hardware page fault
+delivery and IRET (used to return from page faults) are very slow.
