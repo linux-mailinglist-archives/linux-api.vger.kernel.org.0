@@ -2,207 +2,231 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 557B42339E4
-	for <lists+linux-api@lfdr.de>; Thu, 30 Jul 2020 22:44:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 410082339EA
+	for <lists+linux-api@lfdr.de>; Thu, 30 Jul 2020 22:44:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728612AbgG3Uo1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 30 Jul 2020 16:44:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39082 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728586AbgG3Uo1 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 30 Jul 2020 16:44:27 -0400
-Received: from kernel.org (unknown [87.70.91.42])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 715E220838;
-        Thu, 30 Jul 2020 20:44:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1596141866;
-        bh=sZKYPMSX12eBmbaRqySKTHS1smjkmdh3zWo010nIk8M=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BmsOo3YUFCDw4gkyz7ZfQOn2kMn5QK/7KTwPtnQBqKiwbYcNBoz+qwKW/hGKQwn6F
-         B9NMUdyu3EPJylOAMbuE0DD99sT3k6OWuEoKFMV4rR/rqwql2n/fAPL1B+he1E2TFF
-         0UoU05MxTEQpp1qzhn8HCcZC6Zx2ZqD62fqBrpYw=
-Date:   Thu, 30 Jul 2020 23:44:09 +0300
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Idan Yaniv <idan.yaniv@ibm.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
-        x86@kernel.org
-Subject: Re: [PATCH v2 3/7] mm: introduce memfd_secret system call to create
- "secret" memory areas
-Message-ID: <20200730204409.GB534153@kernel.org>
-References: <20200727162935.31714-1-rppt@kernel.org>
- <20200727162935.31714-4-rppt@kernel.org>
- <20200730162209.GB3128@gaia>
+        id S1728586AbgG3Uof (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 30 Jul 2020 16:44:35 -0400
+Received: from sonic307-15.consmr.mail.ne1.yahoo.com ([66.163.190.38]:42553
+        "EHLO sonic307-15.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728768AbgG3Uoe (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 30 Jul 2020 16:44:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1596141873; bh=NUwyH+1DGSLAHICDNKDIjA8VVnQnNL5u4r/9SE+k0L4=; h=Subject:To:Cc:References:From:Date:In-Reply-To:From:Subject; b=PbKVhgFQFMzlGBpUsPGRUGm7wIOByDB982Srg5JsaSTb7O9ghoy8f2+2RS50Yus4Gq25OKyHMqRM3ZL3sYKlRZgmbJ7mvD/lHPWlJb/p/iylVcRoGu74bCX8+t0I8ctyhWEXSWn6kxe72nHyXHuD+z4y4xLny02FZC8Diw+Beui66zwXsn06O+P7NPkxsSH++WgDsI227TD2jV3I9I5uNt81gmj6Fr86U4teeXJ3fmzTVKoQdbPEBYvYNo0VhPsyyyBqy6cFZppELilUj9f4MBNeq1nE8R6XYzPj3/UiukwH63Tiaj99PM5K/bqUUYRMEG6mopVvzLsWmdnhmisZ/g==
+X-YMail-OSG: .wJXldUVM1lMEVnK45JcmYI1jSAvOuYVJK9Hqj_MKISP5IuCGtLZt6B145hDjra
+ PSJraOmCdbrRUdqdehnrwiU9tAiAwGCpLbelx.WGQQA95AKjgygni3RXT9QPK4Vg10r3bzJBbnsY
+ pjYUk3puh1ExH1pLXwGpeI386NuIShYvxbQRRkDzwIqOxxpaKp09N0vhhazMfrbUZIE9mnTYZGce
+ dhMi1a4Tune9chxeXWZUsf3Cd8ywEEYcI2FvubXelTAGgdmwfrAdbOKIsrR8YjKVHW8j.o9W0Drx
+ z_Ddc4xTq3pwPvW_SWVIn3w9sumw95IwunQCrCAA129vD1xcaE1hdhI6ysSjGgk71KF0x25nfAie
+ NWMqzWJSHdSUtoRwXoROHACnjn_f0Dn6pVJWEZYWJNV2USCPvHtIXRMMOUv8kKaJ8IXAbUovzvf_
+ .jd5vY6PvPvCas4zA7cJrJnChmqREcyWaEIhm6NTMnzuTnWdpxjhjaSCPFVxW75UnK5B9PMreMNa
+ 3JoqZ1iEHqnyUEGqgQtPVKgZJ66G.0y9e0133kAzwkqrlDUOTRuoW2XsxVYmHyiGBFgbs8SU.jyt
+ M6_kdHZTDMSsNAOK62q_JvcOEPj0AqWxOMhpvCuWWbYXOw2F2K3egn5dPLXdohR06tAo42mCWdLU
+ npLaaxyknWlEPnU8oyl66tkqp7khFXzwCNiTgyjCnyZ7AXumQMGlIDqZyxUmBhKIRvCmX0rG25DS
+ FwQzWxG1QLr6pjOB4th6CUlDiVBrvVVwK2ypqdJSfcel3lpgGOQowGukLgp3eWGvbHbtljkU4uA4
+ NxsoRrfPBibtrU74GJXonl.93uZbFycYnSw1gFd8ruevsQ_fbCSdY7kVQrlGE3XYc_x8BpFi2AFJ
+ gdssMhgukFBIfw059.eHhcc_juB.UgTcF0KqGRtvZZb_vPtT4oFktGDhUwelIRVchWLARkjw.QD5
+ LQXpH2GlRCL6MdLGESRMHClKgMKAGZ57W8LRXcADxKu1mKx0ncNyeweKM6hjJLi7yENpvEVtAs3M
+ GOyTzs6ZrI.5CwgZLFKOxj.3yXyNam8Zo6CxDQnZoLyqqWwEwbCcgA_zTxHT6bdOhJ8wh4jbxVLh
+ T2M3FQ3vUT6.j2lTvoQnez6LPX4E0R2vXIsHvMJuI_JNL_dAl.Qpv1w9.HZ0zzFQNXoTWrVZRHoX
+ geWvztiWR1XaLpdSKNE_RdZtzDmijp1eXbet00mifGKI6sZH80BxTToZ2gXTTQjTxNVGlyfuf51p
+ jd87efKbwm5rQMKMnnaKb_Ovi83KQWNs8U2uUA3.2ZZv6VY.N7T1vYwy5dvlegnPcp.FnKcnoMf.
+ YSzudSRiLHA1gMLu3b24FTlGkLI2hmnTTFN4XQF081E4qHeyWfEvx6wyzI8pyjsJlhMaG
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic307.consmr.mail.ne1.yahoo.com with HTTP; Thu, 30 Jul 2020 20:44:33 +0000
+Received: by smtp422.mail.ne1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA ID cfb25a5d97d1fc14526d3edb7919157d;
+          Thu, 30 Jul 2020 20:44:31 +0000 (UTC)
+Subject: Re: [PATCH v19 22/23] LSM: Add /proc attr entry for full LSM context
+To:     John Johansen <john.johansen@canonical.com>,
+        casey.schaufler@intel.com, jmorris@namei.org,
+        linux-security-module@vger.kernel.org, selinux@vger.kernel.org
+Cc:     linux-audit@redhat.com, keescook@chromium.org,
+        penguin-kernel@i-love.sakura.ne.jp, paul@paul-moore.com,
+        sds@tycho.nsa.gov, linux-api@vger.kernel.org,
+        Casey Schaufler <casey@schaufler-ca.com>
+References: <20200724203226.16374-1-casey@schaufler-ca.com>
+ <20200724203226.16374-23-casey@schaufler-ca.com>
+ <e885d90d-c873-5ab4-235d-6171f49f4ee4@canonical.com>
+From:   Casey Schaufler <casey@schaufler-ca.com>
+Message-ID: <705fb82d-ad7a-2874-59ed-ba6bc7ae3722@schaufler-ca.com>
+Date:   Thu, 30 Jul 2020 13:44:29 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200730162209.GB3128@gaia>
+In-Reply-To: <e885d90d-c873-5ab4-235d-6171f49f4ee4@canonical.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Mailer: WebService/1.1.16271 hermes_yahoo Apache-HttpAsyncClient/4.1.4 (Java/11.0.7)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jul 30, 2020 at 05:22:10PM +0100, Catalin Marinas wrote:
-> Hi Mike,
-> 
-> On Mon, Jul 27, 2020 at 07:29:31PM +0300, Mike Rapoport wrote:
-> > For instance, the following example will create an uncached mapping (error
-> > handling is omitted):
-> > 
-> > 	fd = memfd_secret(SECRETMEM_UNCACHED);
-> > 	ftruncate(fd, MAP_SIZE);
-> > 	ptr = mmap(NULL, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-> [...]
-> > +static struct page *secretmem_alloc_page(gfp_t gfp)
-> > +{
-> > +	/*
-> > +	 * FIXME: use a cache of large pages to reduce the direct map
-> > +	 * fragmentation
-> > +	 */
-> > +	return alloc_page(gfp);
-> > +}
-> > +
-> > +static vm_fault_t secretmem_fault(struct vm_fault *vmf)
-> > +{
-> > +	struct address_space *mapping = vmf->vma->vm_file->f_mapping;
-> > +	struct inode *inode = file_inode(vmf->vma->vm_file);
-> > +	pgoff_t offset = vmf->pgoff;
-> > +	unsigned long addr;
-> > +	struct page *page;
-> > +	int ret = 0;
-> > +
-> > +	if (((loff_t)vmf->pgoff << PAGE_SHIFT) >= i_size_read(inode))
-> > +		return vmf_error(-EINVAL);
-> > +
-> > +	page = find_get_entry(mapping, offset);
-> > +	if (!page) {
-> > +		page = secretmem_alloc_page(vmf->gfp_mask);
-> > +		if (!page)
-> > +			return vmf_error(-ENOMEM);
-> > +
-> > +		ret = add_to_page_cache(page, mapping, offset, vmf->gfp_mask);
-> > +		if (unlikely(ret))
-> > +			goto err_put_page;
-> > +
-> > +		ret = set_direct_map_invalid_noflush(page);
-> > +		if (ret)
-> > +			goto err_del_page_cache;
-> > +
-> > +		addr = (unsigned long)page_address(page);
-> > +		flush_tlb_kernel_range(addr, addr + PAGE_SIZE);
-> > +
-> > +		__SetPageUptodate(page);
-> > +
-> > +		ret = VM_FAULT_LOCKED;
-> > +	}
-> > +
-> > +	vmf->page = page;
-> > +	return ret;
-> > +
-> > +err_del_page_cache:
-> > +	delete_from_page_cache(page);
-> > +err_put_page:
-> > +	put_page(page);
-> > +	return vmf_error(ret);
-> > +}
-> > +
-> > +static const struct vm_operations_struct secretmem_vm_ops = {
-> > +	.fault = secretmem_fault,
-> > +};
-> > +
-> > +static int secretmem_mmap(struct file *file, struct vm_area_struct *vma)
-> > +{
-> > +	struct secretmem_ctx *ctx = file->private_data;
-> > +	unsigned long mode = ctx->mode;
-> > +	unsigned long len = vma->vm_end - vma->vm_start;
-> > +
-> > +	if (!mode)
-> > +		return -EINVAL;
-> > +
-> > +	if ((vma->vm_flags & (VM_SHARED | VM_MAYSHARE)) == 0)
-> > +		return -EINVAL;
-> > +
-> > +	if (mlock_future_check(vma->vm_mm, vma->vm_flags | VM_LOCKED, len))
-> > +		return -EAGAIN;
-> > +
-> > +	switch (mode) {
-> > +	case SECRETMEM_UNCACHED:
-> > +		vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
-> > +		fallthrough;
-> > +	case SECRETMEM_EXCLUSIVE:
-> > +		vma->vm_ops = &secretmem_vm_ops;
-> > +		break;
-> > +	default:
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	vma->vm_flags |= VM_LOCKED;
-> > +
-> > +	return 0;
-> > +}
-> 
-> I think the uncached mapping is not the right thing for arm/arm64. First
-> of all, pgprot_noncached() gives us Strongly Ordered (Device memory)
-> semantics together with not allowing unaligned accesses. I suspect the
-> semantics are different on x86.
- 
-Hmm, on x86 it's also Strongly Ordered, but I didn't find any alignment
-restrictions. Is there a mode for arm64 that can provide similar
-semantics?
+On 7/30/2020 3:03 AM, John Johansen wrote:
+> On 7/24/20 1:32 PM, Casey Schaufler wrote:
+>> Add an entry /proc/.../attr/context which displays the full
+>> process security "context" in compound format:
+>>         lsm1\0value\0lsm2\0value\0...
+>> This entry is not writable.
+>>
+>> A security module may decide that its policy does not allow
+>> this information to be displayed. In this case none of the
+>> information will be displayed.
+>>
+>> Reviewed-by: Kees Cook <keescook@chromium.org>
+>> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+>> Cc: linux-api@vger.kernel.org
+>> ---
+>>  Documentation/security/lsm.rst       | 28 +++++++++++
+>>  fs/proc/base.c                       |  1 +
+>>  include/linux/lsm_hooks.h            |  6 +++
+>>  security/apparmor/include/procattr.h |  2 +-
+>>  security/apparmor/lsm.c              |  8 +++-
+>>  security/apparmor/procattr.c         | 22 +++++----
+>>  security/security.c                  | 70 ++++++++++++++++++++++++++++
+>>  security/selinux/hooks.c             |  2 +-
+>>  security/smack/smack_lsm.c           |  2 +-
+>>  9 files changed, 126 insertions(+), 15 deletions(-)
 
-Would it make sence to use something like
+<snip>
 
-#define pgprot_uncached(prot) \
-	__pgprot_modify(prot, PTE_ATTRINDX_MASK, \
-			PTE_ATTRINDX(MT_NORMAL_NC) | PTE_PXN)
+>>  
+>>  /**
+>> diff --git a/security/security.c b/security/security.c
+>> index d35e578fa45b..bce6be720401 100644
+>> --- a/security/security.c
+>> +++ b/security/security.c
+>> @@ -754,6 +754,48 @@ static void __init lsm_early_task(struct task_struct *task)
+>>  		panic("%s: Early task alloc failed.\n", __func__);
+>>  }
+>>  
+>> +/**
+>> + * append_ctx - append a lsm/context pair to a compound context
+>> + * @ctx: the existing compound context
+>> + * @ctxlen: size of the old context, including terminating nul byte
+>> + * @lsm: new lsm name, nul terminated
+>> + * @new: new context, possibly nul terminated
+>> + * @newlen: maximum size of @new
+>> + *
+>> + * replace @ctx with a new compound context, appending @newlsm and @new
+>> + * to @ctx. On exit the new data replaces the old, which is freed.
+>> + * @ctxlen is set to the new size, which includes a trailing nul byte.
+>> + *
+>> + * Returns 0 on success, -ENOMEM if no memory is available.
+>> + */
+>> +static int append_ctx(char **ctx, int *ctxlen, const char *lsm, char *new,
+>> +		      int newlen)
+>> +{
+>> +	char *final;
+>> +	size_t llen;
+>> +
+>> +	llen = strlen(lsm) + 1;
+>> +	/*
+>> +	 * A security module may or may not provide a trailing nul on
+>> +	 * when returning a security context. There is no definition
+>> +	 * of which it should be, and there are modules that do it
+>> +	 * each way.
+>> +	 */
+>> +	newlen = strnlen(new, newlen) + 1;
+>> +
+>> +	final = kzalloc(*ctxlen + llen + newlen, GFP_KERNEL);
+>> +	if (final == NULL)
+>> +		return -ENOMEM;
+>> +	if (*ctxlen)
+>> +		memcpy(final, *ctx, *ctxlen);
+>> +	memcpy(final + *ctxlen, lsm, llen);
+>> +	memcpy(final + *ctxlen + llen, new, newlen);
+> if @new doesn't have a newline appended at its end this will read 1 byte
+> passed the end of the @new buffer. Nor will the result have a trailing
+> \0 as expected unless we get lucky.
 
-or is it too weak?
+@new will never have a newline at the end. The trailing nul comes
+from the allocation being done with kzalloc(). This function has to
+be considered in the context of its caller.
 
-> The second, more serious problem, is that I can't find any place where
-> the caches are flushed for the page mapped on fault. When a page is
-> allocated, assuming GFP_ZERO, only the caches are guaranteed to be
-> zeroed. Exposing this subsequently to user space as uncached would allow
-> the user to read stale data prior to zeroing. The arm64
-> set_direct_map_default_noflush() doesn't do any cache maintenance.
+>
+>
+>> +	kfree(*ctx);
+>> +	*ctx = final;
+>> +	*ctxlen = *ctxlen + llen + newlen;
+>> +	return 0;
+>> +}
+>> +
+>>  /*
+>>   * The default value of the LSM hook is defined in linux/lsm_hook_defs.h and
+>>   * can be accessed with:
+>> @@ -2124,6 +2166,10 @@ int security_getprocattr(struct task_struct *p, const char *lsm, char *name,
+>>  				char **value)
+>>  {
+>>  	struct security_hook_list *hp;
+>> +	char *final = NULL;
+>> +	char *cp;
+>> +	int rc = 0;
+>> +	int finallen = 0;
+> these are only used by context so they could be moved under its if, this
+> is really just a style comment and I'll leave it up to you
 
-Well, the idea of uncached mappings came from Elena [1] to prevent
-possibility of side channels that leak user space memory. So I think
-even without cache flushing after the allocation, user space is
-protected as all its memory accesses bypass cache so even after the page
-is freed there won't be stale data in the cache.
+Old coding habits die hard. Unless there's value to gain, I'll leave it
+as is.
 
-I think that it makes sense to limit SECRETMEM_UNCACHED only for
-architectures that define an appropriate protection, e.g.
-pgprot_uncahced(). For x86 it can be aliased to pgprot_noncached() and
-other architecures can define their versions.
-
-[1] https://lore.kernel.org/lkml/2236FBA76BA1254E88B949DDB74E612BA4EEC0CE@IRSMSX102.ger.corp.intel.com/
-
--- 
-Sincerely yours,
-Mike.
+>
+>>  	int display = lsm_task_display(current);
+>>  	int slot = 0;
+>>  
+>> @@ -2151,6 +2197,30 @@ int security_getprocattr(struct task_struct *p, const char *lsm, char *name,
+>>  		return -ENOMEM;
+>>  	}
+>>  
+>> +	if (!strcmp(name, "context")) {
+>> +		hlist_for_each_entry(hp, &security_hook_heads.getprocattr,
+>> +				     list) {
+>> +			rc = hp->hook.getprocattr(p, "context", &cp);
+>> +			if (rc == -EINVAL)
+>> +				continue;
+>> +			if (rc < 0) {
+>> +				kfree(final);
+>> +				return rc;
+>> +			}
+>> +			rc = append_ctx(&final, &finallen, hp->lsmid->lsm,
+>> +					cp, rc);
+>> +			kfree(cp);
+>> +			if (rc < 0) {
+>> +				kfree(final);
+>> +				return rc;
+>> +			}
+>> +		}
+>> +		if (final == NULL)
+>> +			return -EINVAL;
+>> +		*value = final;
+>> +		return finallen;
+>> +	}
+>> +
+>>  	hlist_for_each_entry(hp, &security_hook_heads.getprocattr, list) {
+>>  		if (lsm != NULL && strcmp(lsm, hp->lsmid->lsm))
+>>  			continue;
+>> diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
+>> index c13c207c5da1..43d5c09b9a9e 100644
+>> --- a/security/selinux/hooks.c
+>> +++ b/security/selinux/hooks.c
+>> @@ -6288,7 +6288,7 @@ static int selinux_getprocattr(struct task_struct *p,
+>>  			goto bad;
+>>  	}
+>>  
+>> -	if (!strcmp(name, "current"))
+>> +	if (!strcmp(name, "current") || !strcmp(name, "context"))
+>>  		sid = __tsec->sid;
+>>  	else if (!strcmp(name, "prev"))
+>>  		sid = __tsec->osid;
+>> diff --git a/security/smack/smack_lsm.c b/security/smack/smack_lsm.c
+>> index 6f0cdb40addc..d7bb6442f192 100644
+>> --- a/security/smack/smack_lsm.c
+>> +++ b/security/smack/smack_lsm.c
+>> @@ -3463,7 +3463,7 @@ static int smack_getprocattr(struct task_struct *p, char *name, char **value)
+>>  	char *cp;
+>>  	int slen;
+>>  
+>> -	if (strcmp(name, "current") != 0)
+>> +	if (strcmp(name, "current") != 0 && strcmp(name, "context") != 0)
+>>  		return -EINVAL;
+>>  
+>>  	cp = kstrdup(skp->smk_known, GFP_KERNEL);
+>>
