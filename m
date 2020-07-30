@@ -2,60 +2,60 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 83A65232BE5
-	for <lists+linux-api@lfdr.de>; Thu, 30 Jul 2020 08:25:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA13E232F2C
+	for <lists+linux-api@lfdr.de>; Thu, 30 Jul 2020 11:06:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728587AbgG3GZ2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 30 Jul 2020 02:25:28 -0400
-Received: from verein.lst.de ([213.95.11.211]:54692 "EHLO verein.lst.de"
+        id S1728817AbgG3JGY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 30 Jul 2020 05:06:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42144 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728548AbgG3GZ2 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 30 Jul 2020 02:25:28 -0400
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 19D0968AFE; Thu, 30 Jul 2020 08:25:25 +0200 (CEST)
-Date:   Thu, 30 Jul 2020 08:25:24 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: add file system helpers that take kernel pointers for the init
- code v4
-Message-ID: <20200730062524.GA17980@lst.de>
-References: <20200728163416.556521-1-hch@lst.de> <20200729195117.GE951209@ZenIV.linux.org.uk>
+        id S1728528AbgG3JGX (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 30 Jul 2020 05:06:23 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id CFDC92072A;
+        Thu, 30 Jul 2020 09:06:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1596099983;
+        bh=ieC3UQSH9xTQQlFP1mBTpQK8Jaet0JuMdqnPvTiLzSc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Z/OlMNCjgJjVCDEAUFFVbS7j9qnE79NsrCIar3YE+oLzkykZo4SyLPjtjBmvhhkcD
+         T9PkgtjWLgbnsiDPD6gD6YwuUd+7hajjK66mABoLrTUlc/yFV744DxvWyv+/e12Zv2
+         o7cXTtiuU4bHGqJbB2DKVrNBS9iI30MBTfDZpeMY=
+Date:   Thu, 30 Jul 2020 11:06:12 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     madvenka@linux.microsoft.com
+Cc:     kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org, oleg@redhat.com,
+        x86@kernel.org
+Subject: Re: [PATCH v1 2/4] [RFC] x86/trampfd: Provide support for the
+ trampoline file descriptor
+Message-ID: <20200730090612.GA900546@kroah.com>
+References: <aefc85852ea518982e74b233e11e16d2e707bc32>
+ <20200728131050.24443-1-madvenka@linux.microsoft.com>
+ <20200728131050.24443-3-madvenka@linux.microsoft.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200729195117.GE951209@ZenIV.linux.org.uk>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20200728131050.24443-3-madvenka@linux.microsoft.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jul 29, 2020 at 08:51:17PM +0100, Al Viro wrote:
-> On Tue, Jul 28, 2020 at 06:33:53PM +0200, Christoph Hellwig wrote:
-> > Hi Al and Linus,
-> > 
-> > currently a lot of the file system calls in the early in code (and the
-> > devtmpfs kthread) rely on the implicit set_fs(KERNEL_DS) during boot.
-> > This is one of the few last remaining places we need to deal with to kill
-> > off set_fs entirely, so this series adds new helpers that take kernel
-> > pointers.  These helpers are in init/ and marked __init and thus will
-> > be discarded after bootup.  A few also need to be duplicated in devtmpfs,
-> > though unfortunately.
-> >
-> > The series sits on top of my previous
-> > 
-> >   "decruft the early init / initrd / initramfs code v2"
-> 
-> Could you fold the fixes in the parent branch to avoid the bisect hazards?
-> As it is, you have e.g. "initd: pass a non-f_pos offset to kernel_read/kernel_write"
-> that ought to go into "initrd: switch initrd loading to struct file based APIs"...
+On Tue, Jul 28, 2020 at 08:10:48AM -0500, madvenka@linux.microsoft.com wrote:
+> +EXPORT_SYMBOL_GPL(trampfd_valid_regs);
 
-I'm not a huge fan of rebasing after it has been out for a long time and
-with pending other patches on top of it.  But at your request I've now
-folded the fixes and force pushed it.
+Why are all of these exported?  I don't see a module user in this
+series, or did I miss it somehow?
+
+EXPORT_SYMBOL* is only needed for symbols to be used by modules, not by
+code that is built into the kernel.
+
+thanks,
+
+greg k-h
