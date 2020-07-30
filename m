@@ -2,100 +2,207 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2427E2339AF
-	for <lists+linux-api@lfdr.de>; Thu, 30 Jul 2020 22:36:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 557B42339E4
+	for <lists+linux-api@lfdr.de>; Thu, 30 Jul 2020 22:44:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730264AbgG3UgQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 30 Jul 2020 16:36:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55250 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729166AbgG3UgN (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 30 Jul 2020 16:36:13 -0400
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4324AC061575
-        for <linux-api@vger.kernel.org>; Thu, 30 Jul 2020 13:36:12 -0700 (PDT)
-Received: by mail-lf1-x142.google.com with SMTP id 140so15686071lfi.5
-        for <linux-api@vger.kernel.org>; Thu, 30 Jul 2020 13:36:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=sHOs9l3/K6F7LfycNnVOym1V+1P8Mz9mJUC/Blv0iA4=;
-        b=gfLcmca3Z6//iKmecsUFmBdl/LU5XvyAvbShCdtcayi8W+PBPK63civUnCtNt3g2VH
-         vLiwf8DgHScD6UuT2NL/C3Ifrsr+473Bd8244ztYUkWZ7GIz7OFIeVaTJTXtstRuFdTi
-         qXGtZFqChQ44vuuPvXuSmt6hyRZHd5jNq86753P9edP7lzN5x/17f9WozCAkL/e6dbdv
-         VovpsshUESDdSriHWmVvHB4FBGi8bpEd/KIWyW7qqebfDGTKqOvOXPdyyTmp865XtVEG
-         kB/5QZ3oSYBSQcoLmlTSG1GpWQFoquu6pnP5EmmtIVLhhichbCvskvJq9NtAJL4fpX4q
-         ZKjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sHOs9l3/K6F7LfycNnVOym1V+1P8Mz9mJUC/Blv0iA4=;
-        b=XKeRrB9gWSMi9okVslhSuwHdCGQeqL7fM74C//+nGDyXdcOQnycufZWVyLx1GFbvPy
-         bnVG+9hB65hiwTTHf49V/Gwt1T/qt01T7BeFYiB4QddsIj5Te2uirbqWoCcpO82bugmn
-         KyWu8qtHpwYnbmOMph0QCi08YvV4JKPLRQlsLG8dYhRauAsTxsLkpnzjVyn85Ew26Snk
-         XbYeLDzzuuUgGEy4w4o+1yySlvlYhbnLbDvw6HArZ+2f5+CozmAH6yX06C3w9PADd2L7
-         QVoQdA3Bav8tHmWXu2w5Uoey8x4UP69La/JBQkhGyb2fCORfT2diEQKyuHKoCoIwqSdb
-         ry3g==
-X-Gm-Message-State: AOAM531MmolZ0DocyfPVg9wYlfwQWM11OU4rX66eO9VfxWk9IEVj/jp3
-        u0GZj/qpp/LByjlmtWH9L6MrYy9f58yKmWu0WczLqg==
-X-Google-Smtp-Source: ABdhPJzYe+GguGADgcXJa2Ka5GEt7uZyHffofzZPUeBFLD30Wlq/KqeIqiHbcB5iO5YlJq0lECgX1IBIqwt7nWgpoeE=
-X-Received: by 2002:a19:710:: with SMTP id 16mr184852lfh.171.1596141369641;
- Thu, 30 Jul 2020 13:36:09 -0700 (PDT)
+        id S1728612AbgG3Uo1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 30 Jul 2020 16:44:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39082 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728586AbgG3Uo1 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 30 Jul 2020 16:44:27 -0400
+Received: from kernel.org (unknown [87.70.91.42])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 715E220838;
+        Thu, 30 Jul 2020 20:44:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1596141866;
+        bh=sZKYPMSX12eBmbaRqySKTHS1smjkmdh3zWo010nIk8M=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=BmsOo3YUFCDw4gkyz7ZfQOn2kMn5QK/7KTwPtnQBqKiwbYcNBoz+qwKW/hGKQwn6F
+         B9NMUdyu3EPJylOAMbuE0DD99sT3k6OWuEoKFMV4rR/rqwql2n/fAPL1B+he1E2TFF
+         0UoU05MxTEQpp1qzhn8HCcZC6Zx2ZqD62fqBrpYw=
+Date:   Thu, 30 Jul 2020 23:44:09 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Catalin Marinas <catalin.marinas@arm.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Christopher Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Idan Yaniv <idan.yaniv@ibm.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
+        x86@kernel.org
+Subject: Re: [PATCH v2 3/7] mm: introduce memfd_secret system call to create
+ "secret" memory areas
+Message-ID: <20200730204409.GB534153@kernel.org>
+References: <20200727162935.31714-1-rppt@kernel.org>
+ <20200727162935.31714-4-rppt@kernel.org>
+ <20200730162209.GB3128@gaia>
 MIME-Version: 1.0
-References: <b3b4cf95-5eaa-0b4e-34cc-1a855e7148b6@gmail.com>
- <88273c2f-ce21-db54-688d-5bebd4a81ecd@redhat.com> <cbf7666c-440e-b4bd-0ff6-712123845fae@gmail.com>
- <c690ad2f-5f3c-5a8b-7b4c-ad29976aeab0@redhat.com>
-In-Reply-To: <c690ad2f-5f3c-5a8b-7b4c-ad29976aeab0@redhat.com>
-From:   enh <enh@google.com>
-Date:   Thu, 30 Jul 2020 13:35:57 -0700
-Message-ID: <CAJgzZoqR4Vh0phZjrDB9dgxNPzH0a35YjC1CwKb3mREOFn5Kbg@mail.gmail.com>
-Subject: Re: [RFC PATCH] Replacing "master-slave" terminology for pseudoterminals
-To:     "Carlos O'Donell" <carlos@redhat.com>
-Cc:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
-        "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>,
-        linux-man <linux-man@vger.kernel.org>,
-        Zack Weinberg <zackw@panix.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Paul Eggert <eggert@cs.ucla.edu>,
-        Joseph Myers <joseph@codesourcery.com>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200730162209.GB3128@gaia>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jul 30, 2020 at 4:38 AM Carlos O'Donell <carlos@redhat.com> wrote:
->
-> On 7/30/20 5:16 AM, Michael Kerrisk (man-pages) wrote:
-> > I know what you mean. One reason for that verbosity is the need to
-> > clearly distinguish "pseudoterminal device/end" from "pseudoterminal
-> > device pair". It's hard to avoid being wordy there.
->
-> The perfect is the enemy of the good. My feeling is that as others
-> write this text in emails or discussions, we'll eventually all settle
-> on some other short form we find agreeable and then later we can adjust
-> the man pages to use that.
+On Thu, Jul 30, 2020 at 05:22:10PM +0100, Catalin Marinas wrote:
+> Hi Mike,
+> 
+> On Mon, Jul 27, 2020 at 07:29:31PM +0300, Mike Rapoport wrote:
+> > For instance, the following example will create an uncached mapping (error
+> > handling is omitted):
+> > 
+> > 	fd = memfd_secret(SECRETMEM_UNCACHED);
+> > 	ftruncate(fd, MAP_SIZE);
+> > 	ptr = mmap(NULL, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+> [...]
+> > +static struct page *secretmem_alloc_page(gfp_t gfp)
+> > +{
+> > +	/*
+> > +	 * FIXME: use a cache of large pages to reduce the direct map
+> > +	 * fragmentation
+> > +	 */
+> > +	return alloc_page(gfp);
+> > +}
+> > +
+> > +static vm_fault_t secretmem_fault(struct vm_fault *vmf)
+> > +{
+> > +	struct address_space *mapping = vmf->vma->vm_file->f_mapping;
+> > +	struct inode *inode = file_inode(vmf->vma->vm_file);
+> > +	pgoff_t offset = vmf->pgoff;
+> > +	unsigned long addr;
+> > +	struct page *page;
+> > +	int ret = 0;
+> > +
+> > +	if (((loff_t)vmf->pgoff << PAGE_SHIFT) >= i_size_read(inode))
+> > +		return vmf_error(-EINVAL);
+> > +
+> > +	page = find_get_entry(mapping, offset);
+> > +	if (!page) {
+> > +		page = secretmem_alloc_page(vmf->gfp_mask);
+> > +		if (!page)
+> > +			return vmf_error(-ENOMEM);
+> > +
+> > +		ret = add_to_page_cache(page, mapping, offset, vmf->gfp_mask);
+> > +		if (unlikely(ret))
+> > +			goto err_put_page;
+> > +
+> > +		ret = set_direct_map_invalid_noflush(page);
+> > +		if (ret)
+> > +			goto err_del_page_cache;
+> > +
+> > +		addr = (unsigned long)page_address(page);
+> > +		flush_tlb_kernel_range(addr, addr + PAGE_SIZE);
+> > +
+> > +		__SetPageUptodate(page);
+> > +
+> > +		ret = VM_FAULT_LOCKED;
+> > +	}
+> > +
+> > +	vmf->page = page;
+> > +	return ret;
+> > +
+> > +err_del_page_cache:
+> > +	delete_from_page_cache(page);
+> > +err_put_page:
+> > +	put_page(page);
+> > +	return vmf_error(ret);
+> > +}
+> > +
+> > +static const struct vm_operations_struct secretmem_vm_ops = {
+> > +	.fault = secretmem_fault,
+> > +};
+> > +
+> > +static int secretmem_mmap(struct file *file, struct vm_area_struct *vma)
+> > +{
+> > +	struct secretmem_ctx *ctx = file->private_data;
+> > +	unsigned long mode = ctx->mode;
+> > +	unsigned long len = vma->vm_end - vma->vm_start;
+> > +
+> > +	if (!mode)
+> > +		return -EINVAL;
+> > +
+> > +	if ((vma->vm_flags & (VM_SHARED | VM_MAYSHARE)) == 0)
+> > +		return -EINVAL;
+> > +
+> > +	if (mlock_future_check(vma->vm_mm, vma->vm_flags | VM_LOCKED, len))
+> > +		return -EAGAIN;
+> > +
+> > +	switch (mode) {
+> > +	case SECRETMEM_UNCACHED:
+> > +		vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
+> > +		fallthrough;
+> > +	case SECRETMEM_EXCLUSIVE:
+> > +		vma->vm_ops = &secretmem_vm_ops;
+> > +		break;
+> > +	default:
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	vma->vm_flags |= VM_LOCKED;
+> > +
+> > +	return 0;
+> > +}
+> 
+> I think the uncached mapping is not the right thing for arm/arm64. First
+> of all, pgprot_noncached() gives us Strongly Ordered (Device memory)
+> semantics together with not allowing unaligned accesses. I suspect the
+> semantics are different on x86.
+ 
+Hmm, on x86 it's also Strongly Ordered, but I didn't find any alignment
+restrictions. Is there a mode for arm64 that can provide similar
+semantics?
 
-based on my own brief experience, i'm expecting that _code_ will
-settle on pty and tty. but if you're reading the man pages to
-understand the concepts -- which are inherently quite confusing -- i
-think spelling things out in longhand might remain useful in that
-context.
+Would it make sence to use something like
 
-> Until then taking the lead to change this
-> language is the correct way forward.
+#define pgprot_uncached(prot) \
+	__pgprot_modify(prot, PTE_ATTRINDX_MASK, \
+			PTE_ATTRINDX(MT_NORMAL_NC) | PTE_PXN)
 
-yeah, definitely.
+or is it too weak?
 
-i'd prefer for michael to go first -- since the bionic documentation
-is basically just a link to man7.org, and even without that he's the
-canonical source -- but i'm happy to go first and submit my change
-first if it helps us make progress :-)
+> The second, more serious problem, is that I can't find any place where
+> the caches are flushed for the page mapped on fault. When a page is
+> allocated, assuming GFP_ZERO, only the caches are guaranteed to be
+> zeroed. Exposing this subsequently to user space as uncached would allow
+> the user to read stale data prior to zeroing. The arm64
+> set_direct_map_default_noflush() doesn't do any cache maintenance.
 
-> --
-> Cheers,
-> Carlos.
->
+Well, the idea of uncached mappings came from Elena [1] to prevent
+possibility of side channels that leak user space memory. So I think
+even without cache flushing after the allocation, user space is
+protected as all its memory accesses bypass cache so even after the page
+is freed there won't be stale data in the cache.
+
+I think that it makes sense to limit SECRETMEM_UNCACHED only for
+architectures that define an appropriate protection, e.g.
+pgprot_uncahced(). For x86 it can be aliased to pgprot_noncached() and
+other architecures can define their versions.
+
+[1] https://lore.kernel.org/lkml/2236FBA76BA1254E88B949DDB74E612BA4EEC0CE@IRSMSX102.ger.corp.intel.com/
+
+-- 
+Sincerely yours,
+Mike.
