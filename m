@@ -2,191 +2,165 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E651233783
-	for <lists+linux-api@lfdr.de>; Thu, 30 Jul 2020 19:16:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2938F2337C0
+	for <lists+linux-api@lfdr.de>; Thu, 30 Jul 2020 19:34:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730270AbgG3RQM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 30 Jul 2020 13:16:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52690 "EHLO
+        id S1730266AbgG3Rel (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 30 Jul 2020 13:34:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730236AbgG3RQF (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 30 Jul 2020 13:16:05 -0400
-Received: from mail-il1-x142.google.com (mail-il1-x142.google.com [IPv6:2607:f8b0:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52CA6C061757
-        for <linux-api@vger.kernel.org>; Thu, 30 Jul 2020 10:16:04 -0700 (PDT)
-Received: by mail-il1-x142.google.com with SMTP id c16so11298799ils.8
-        for <linux-api@vger.kernel.org>; Thu, 30 Jul 2020 10:16:04 -0700 (PDT)
+        with ESMTP id S1727080AbgG3Rel (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 30 Jul 2020 13:34:41 -0400
+Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com [IPv6:2607:f8b0:4864:20::f43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D10EC061574;
+        Thu, 30 Jul 2020 10:34:41 -0700 (PDT)
+Received: by mail-qv1-xf43.google.com with SMTP id l13so6521435qvt.10;
+        Thu, 30 Jul 2020 10:34:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=kFM5XLUCkcAt4tsu+lRREaPaD3E+LpzC0kJXqBqq0KU=;
-        b=X9RK23GpccZgvzYu3EU5pbELIZQcC1y5Q8oGZiANH4mXZpOkGxB5VBJD9eODcgOPTO
-         92Aq95zWlflt91yXQNbn2QFLiyh8gSvEQv3YVH3I9t8rTWNZkl6Ek8QToRL4dV1GgHSR
-         BmsapmnuxNpbvYsm9wQv16yUjxy5rXjHi/O9++YR9sUwPmxuaSE+BRNjoBAV5e9tAVDh
-         9ucqGLcpWJs/mrxjUAlBHFB1DNZtCrbsGeFNRVsJciWE+ZdwvIq9j1agSvmy1xcakTrG
-         HwjkvDkXrhcoBNnDSN3p0zvMt6+3gglGNT4Pzy2Hr+DkcmWnhsoe8Ixt8ZkRQB92vN5q
-         +nJA==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=kKBYFk9kySZz7tEHZOuAKEjulhjUQcxCphxcALe8cTI=;
+        b=VnWTck5xxmqkOwWU7xobpDi5KXn1/cdayp+uqCmxXDbjHn/33pZFiUFHSEzMyX69kE
+         e0yOqJAb3tYvgaBfkdqMwDGCRGRMoFpBTG/oxv1/ohbrkl9TlL0odGH6LTpzTPo5kp9W
+         W77zQn2zjc6QuSvGKYvWbBAeKhXhf84k5X7qr/MDiJs1xfoRkH+E2DYbt7lbjnprRjt/
+         fLkyVk54L2dNiPH4nGbccny4yz3pA6zUTt/AGKGBCWTZRN2Zhs5eKjt11MIsDFPsKYen
+         aWi5Mga0mIrp9hdwhhbUGeWDHw/6VcoZ0ZMpqyXOzvnvV4gmVUItpKSUQ0RgioMancab
+         qebw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=kFM5XLUCkcAt4tsu+lRREaPaD3E+LpzC0kJXqBqq0KU=;
-        b=oZt6uAG/jKyk4RkcG+2kByUB22ZdcmhlI7sArm7Hdn9n4L6Y4+bf6j7qXKUDC4afXG
-         QGvfLZNpcSFrWaP49Q5bbJWS+l0+LKDTkhCztWttSMOVMoW1+ItU35Ehg2q/4UQ3pKD5
-         vg6x7EsKz6lsnWAdeqTWp0oJAsfAdrfO/U+kQETroLwgl/0hFo3FTppY/ZwP7+QNinN+
-         clbt8l2/yb9STQ5ip5GoDEogtyU4T4HDXCU/xAtQU97j8GYzoEB/n44wqbZXSo9UXtLA
-         G8KQx60VZgOsie3Ag+Xc9YTph1q3zt7waoMVZA1ALuftJCBIVNc0xlG8jq9ppUPJAiPm
-         euFA==
-X-Gm-Message-State: AOAM533+crkLmc8dUBrd+3BZXpWkxklu+4pe35aiIR4sbgLyl9shiIPx
-        U7t0NN5C3oJB4eEOlgHJgZL8mA==
-X-Google-Smtp-Source: ABdhPJyTrCnc2hUF5NkLgDXIDMQeQLlKZgtEhGSwA79tIR2Mmou9PVZNH4M2Xxp9azxh28mpp2TnqQ==
-X-Received: by 2002:a92:660e:: with SMTP id a14mr12691832ilc.290.1596129363303;
-        Thu, 30 Jul 2020 10:16:03 -0700 (PDT)
-Received: from [192.168.1.58] ([65.144.74.34])
-        by smtp.gmail.com with ESMTPSA id r6sm1217479iod.7.2020.07.30.10.16.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Jul 2020 10:16:02 -0700 (PDT)
-Subject: Re: [PATCH v4 6/6] io_uring: add support for zone-append
-To:     Pavel Begunkov <asml.silence@gmail.com>,
-        Kanchan Joshi <joshiiitr@gmail.com>
-Cc:     Kanchan Joshi <joshi.k@samsung.com>, viro@zeniv.linux.org.uk,
-        bcrl@kvack.org, Matthew Wilcox <willy@infradead.org>,
-        Christoph Hellwig <hch@infradead.org>,
-        Damien Le Moal <Damien.LeMoal@wdc.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=kKBYFk9kySZz7tEHZOuAKEjulhjUQcxCphxcALe8cTI=;
+        b=UJN5RVFJcnuz3O4sR3jpyGbt2rVzL3GjmPJgQpUFeOPnGSgdFd46EF70wsecc3T125
+         Jx0YBtmfg8VhtX6BetMUsCRSH0TVBFHyx3O486FV7wk+skWyWGBsakPhRppJVX4ePSni
+         OGMikEEhZCmx8zbwySOPd+sltufrxr5gAnqtDVMAvAk6/yZZxq/UJdJzsun4oA+xN74C
+         NeCU1HTTnm3JbJAcPct4w9FZY9K29/XItzTqyFMiX9cPPq1bZSYhhnD4PeHRoaBBGk3j
+         9Dm2ahaFxzDFwnT97MitE21GSoriC27k3kmlkQ9JvCiB+ZejX22q09ACKDGYdv9w4p2F
+         KjXQ==
+X-Gm-Message-State: AOAM533nJgBqVClkw+BL7doYUr2SwZjqHF4uuE6PcF43kpbzljMMXmgA
+        Mo09N/X65nhhCd3LUQnKFD4/3B3W
+X-Google-Smtp-Source: ABdhPJwEC/UR0H0u5245jHtDhiXoTqKGeMzcClC/F+P0WqKZ+l3DmYz/N3UyGUyyziSvSM16v64qQQ==
+X-Received: by 2002:a0c:d44e:: with SMTP id r14mr169617qvh.105.1596130480142;
+        Thu, 30 Jul 2020 10:34:40 -0700 (PDT)
+Received: from ubuntu-n2-xlarge-x86 ([2604:1380:45d1:2600::1])
+        by smtp.gmail.com with ESMTPSA id e2sm1880549qki.22.2020.07.30.10.34.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jul 2020 10:34:39 -0700 (PDT)
+Date:   Thu, 30 Jul 2020 10:34:37 -0700
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     x86@kernel.org, Jan Kara <jack@suse.com>,
+        linux-arm-kernel@lists.infradead.org,
         linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-aio@kvack.org, io-uring@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-api@vger.kernel.org,
-        SelvaKumar S <selvakuma.s1@samsung.com>,
-        Nitesh Shetty <nj.shetty@samsung.com>,
-        Javier Gonzalez <javier.gonz@samsung.com>
-References: <1595605762-17010-1-git-send-email-joshi.k@samsung.com>
- <CGME20200724155350epcas5p3b8f1d59eda7f8fbb38c828f692d42fd6@epcas5p3.samsung.com>
- <1595605762-17010-7-git-send-email-joshi.k@samsung.com>
- <f5416bd4-93b3-4d14-3266-bdbc4ae1990b@kernel.dk>
- <CA+1E3rJAa3E2Ti0fvvQTzARP797qge619m4aYLjXeR3wxdFwWw@mail.gmail.com>
- <b0b7159d-ed10-08ad-b6c7-b85d45f60d16@kernel.dk>
- <e871eef2-8a93-fdbc-b762-2923526a2db4@gmail.com>
- <80d27717-080a-1ced-50d5-a3a06cf06cd3@kernel.dk>
- <da4baa8c-76b0-7255-365c-d8b58e322fd0@gmail.com>
-From:   Jens Axboe <axboe@kernel.dk>
-Message-ID: <65a7e9a6-aede-31ce-705c-b7f94f079112@kernel.dk>
-Date:   Thu, 30 Jul 2020 11:16:01 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org
+Subject: Re: [PATCH 1/4] arm64: stop using <asm/compat.h> directly
+Message-ID: <20200730173437.GA1172439@ubuntu-n2-xlarge-x86>
+References: <20200726160401.311569-1-hch@lst.de>
+ <20200726160401.311569-2-hch@lst.de>
 MIME-Version: 1.0
-In-Reply-To: <da4baa8c-76b0-7255-365c-d8b58e322fd0@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200726160401.311569-2-hch@lst.de>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 7/30/20 10:26 AM, Pavel Begunkov wrote:
-> On 30/07/2020 19:13, Jens Axboe wrote:
->> On 7/30/20 10:08 AM, Pavel Begunkov wrote:
->>> On 27/07/2020 23:34, Jens Axboe wrote:
->>>> On 7/27/20 1:16 PM, Kanchan Joshi wrote:
->>>>> On Fri, Jul 24, 2020 at 10:00 PM Jens Axboe <axboe@kernel.dk> wrote:
->>>>>>
->>>>>> On 7/24/20 9:49 AM, Kanchan Joshi wrote:
->>>>>>> diff --git a/fs/io_uring.c b/fs/io_uring.c
->>>>>>> index 7809ab2..6510cf5 100644
->>>>>>> --- a/fs/io_uring.c
->>>>>>> +++ b/fs/io_uring.c
->>>>>>> @@ -1284,8 +1301,15 @@ static void __io_cqring_fill_event(struct io_kiocb *req, long res, long cflags)
->>>>>>>       cqe = io_get_cqring(ctx);
->>>>>>>       if (likely(cqe)) {
->>>>>>>               WRITE_ONCE(cqe->user_data, req->user_data);
->>>>>>> -             WRITE_ONCE(cqe->res, res);
->>>>>>> -             WRITE_ONCE(cqe->flags, cflags);
->>>>>>> +             if (unlikely(req->flags & REQ_F_ZONE_APPEND)) {
->>>>>>> +                     if (likely(res > 0))
->>>>>>> +                             WRITE_ONCE(cqe->res64, req->rw.append_offset);
->>>>>>> +                     else
->>>>>>> +                             WRITE_ONCE(cqe->res64, res);
->>>>>>> +             } else {
->>>>>>> +                     WRITE_ONCE(cqe->res, res);
->>>>>>> +                     WRITE_ONCE(cqe->flags, cflags);
->>>>>>> +             }
->>>>>>
->>>>>> This would be nice to keep out of the fast path, if possible.
->>>>>
->>>>> I was thinking of keeping a function-pointer (in io_kiocb) during
->>>>> submission. That would have avoided this check......but argument count
->>>>> differs, so it did not add up.
->>>>
->>>> But that'd grow the io_kiocb just for this use case, which is arguably
->>>> even worse. Unless you can keep it in the per-request private data,
->>>> but there's no more room there for the regular read/write side.
->>>>
->>>>>>> diff --git a/include/uapi/linux/io_uring.h b/include/uapi/linux/io_uring.h
->>>>>>> index 92c2269..2580d93 100644
->>>>>>> --- a/include/uapi/linux/io_uring.h
->>>>>>> +++ b/include/uapi/linux/io_uring.h
->>>>>>> @@ -156,8 +156,13 @@ enum {
->>>>>>>   */
->>>>>>>  struct io_uring_cqe {
->>>>>>>       __u64   user_data;      /* sqe->data submission passed back */
->>>>>>> -     __s32   res;            /* result code for this event */
->>>>>>> -     __u32   flags;
->>>>>>> +     union {
->>>>>>> +             struct {
->>>>>>> +                     __s32   res;    /* result code for this event */
->>>>>>> +                     __u32   flags;
->>>>>>> +             };
->>>>>>> +             __s64   res64;  /* appending offset for zone append */
->>>>>>> +     };
->>>>>>>  };
->>>>>>
->>>>>> Is this a compatible change, both for now but also going forward? You
->>>>>> could randomly have IORING_CQE_F_BUFFER set, or any other future flags.
->>>>>
->>>>> Sorry, I didn't quite understand the concern. CQE_F_BUFFER is not
->>>>> used/set for write currently, so it looked compatible at this point.
->>>>
->>>> Not worried about that, since we won't ever use that for writes. But it
->>>> is a potential headache down the line for other flags, if they apply to
->>>> normal writes.
->>>>
->>>>> Yes, no room for future flags for this operation.
->>>>> Do you see any other way to enable this support in io-uring?
->>>>
->>>> Honestly I think the only viable option is as we discussed previously,
->>>> pass in a pointer to a 64-bit type where we can copy the additional
->>>> completion information to.
->>>
->>> TBH, I hate the idea of such overhead/latency at times when SSDs can
->>> serve writes in less than 10ms. Any chance you measured how long does it
->>
->> 10us? :-)
+On Sun, Jul 26, 2020 at 06:03:58PM +0200, Christoph Hellwig wrote:
+> Always use <linux/compat.h> so that we can move more declarations to
+> common code.  In two of the three cases the asm include was in addition
+> to an existing one for <linux/compat.h> anyway.
 > 
-> Hah, 10us indeed :)
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  arch/arm64/include/asm/stat.h | 2 +-
+>  arch/arm64/kernel/process.c   | 1 -
+>  arch/arm64/kernel/ptrace.c    | 1 -
+>  3 files changed, 1 insertion(+), 3 deletions(-)
 > 
->>
->>> take to drag through task_work?
->>
->> A 64-bit value copy is really not a lot of overhead... But yes, we'd
->> need to push the completion through task_work at that point, as we can't
->> do it from the completion side. That's not a lot of overhead, and most
->> notably, it's overhead that only affects this particular type.
->>
->> That's not a bad starting point, and something that can always be
->> optimized later if need be. But I seriously doubt it'd be anything to
->> worry about.
-> 
-> I probably need to look myself how it's really scheduled, but if you don't
-> mind, here is a quick question: if we do work_add(task) when the task is
-> running in the userspace, wouldn't the work execution wait until the next
-> syscall/allotted time ends up?
+> diff --git a/arch/arm64/include/asm/stat.h b/arch/arm64/include/asm/stat.h
+> index 3b4a62f5aeb0c3..1b5ac1ef5d04cc 100644
+> --- a/arch/arm64/include/asm/stat.h
+> +++ b/arch/arm64/include/asm/stat.h
+> @@ -10,7 +10,7 @@
+>  #ifdef CONFIG_COMPAT
+>  
+>  #include <linux/time.h>
+> -#include <asm/compat.h>
+> +#include <linux/compat.h>
 
-It'll get the task to enter the kernel, just like signal delivery. The only
-tricky part is really if we have a dependency waiting in the kernel, like
-the recent eventfd fix.
+This breaks arm64 defconfig:
 
--- 
-Jens Axboe
+$ make -skj"$(nproc)" ARCH=arm64 CROSS_COMPILE=aarch64-linux- distclean defconfig init/main.o
+In file included from ./include/linux/compat.h:17,
+                 from ./arch/arm64/include/asm/stat.h:13,
+                 from ./include/linux/stat.h:6,
+                 from ./include/linux/sysfs.h:22,
+                 from ./include/linux/kobject.h:20,
+                 from ./include/linux/of.h:17,
+                 from ./include/linux/irqdomain.h:35,
+                 from ./include/linux/acpi.h:13,
+                 from ./include/acpi/apei.h:9,
+                 from ./include/acpi/ghes.h:5,
+                 from ./include/linux/arm_sdei.h:8,
+                 from arch/arm64/kernel/asm-offsets.c:10:
+./include/linux/fs.h: In function 'vfs_whiteout':
+./include/linux/fs.h:1736:32: error: 'S_IFCHR' undeclared (first use in this function)
+ 1736 |  return vfs_mknod(dir, dentry, S_IFCHR | WHITEOUT_MODE, WHITEOUT_DEV);
+      |                                ^~~~~~~
+./include/linux/fs.h:1736:32: note: each undeclared identifier is reported only once for each function it appears in
+./include/linux/fs.h: At top level:
+./include/linux/fs.h:1886:46: warning: 'struct kstat' declared inside parameter list will not be visible outside of this definition or declaration
+ 1886 |  int (*getattr) (const struct path *, struct kstat *, u32, unsigned int);
+      |                                              ^~~~~
+./include/linux/fs.h: In function '__mandatory_lock':
+./include/linux/fs.h:2372:25: error: 'S_ISGID' undeclared (first use in this function); did you mean 'SIGIO'?
+ 2372 |  return (ino->i_mode & (S_ISGID | S_IXGRP)) == S_ISGID;
+      |                         ^~~~~~~
+      |                         SIGIO
+./include/linux/fs.h:2372:35: error: 'S_IXGRP' undeclared (first use in this function)
+ 2372 |  return (ino->i_mode & (S_ISGID | S_IXGRP)) == S_ISGID;
+      |                                   ^~~~~~~
+...
 
+$ git bisect log
+# bad: [7b287a5c6ac518c415a258f2aa7b1ebb25c263d2] Add linux-next specific files for 20200730
+# good: [d3590ebf6f91350192737dd1d1b219c05277f067] Merge tag 'audit-pr-20200729' of git://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/audit
+git bisect start '7b287a5c6ac518c415a258f2aa7b1ebb25c263d2' 'd3590ebf6f91350192737dd1d1b219c05277f067'
+# bad: [1f1ed12be70e9eb4e05ac206c6ad6a5a31f5b921] Merge remote-tracking branch 'crypto/master'
+git bisect bad 1f1ed12be70e9eb4e05ac206c6ad6a5a31f5b921
+# bad: [07fad673c2f1a02440c879c34f8182b12786a735] Merge remote-tracking branch 'hid/for-next'
+git bisect bad 07fad673c2f1a02440c879c34f8182b12786a735
+# good: [7a77c92312546a74d3507484b256ae17bfb2cfe2] Merge remote-tracking branch 'm68knommu/for-next'
+git bisect good 7a77c92312546a74d3507484b256ae17bfb2cfe2
+# good: [40dd62f180e38317e744d7f82c98af31a24fd2c9] Merge remote-tracking branch 'f2fs/dev'
+git bisect good 40dd62f180e38317e744d7f82c98af31a24fd2c9
+# bad: [52138dfdd2192bcfc7d3bc2e79475966ee4b20c4] Merge remote-tracking branch 'printk/for-next'
+git bisect bad 52138dfdd2192bcfc7d3bc2e79475966ee4b20c4
+# good: [a37c3e37fa3fa1381e03d918d708f82927ddd160] Merge remote-tracking branch 'xfs/for-next'
+git bisect good a37c3e37fa3fa1381e03d918d708f82927ddd160
+# good: [4e523547e2bf755d40cb10e85795c2f9620ff3fb] nvme-pci: add a blank line after declarations
+git bisect good 4e523547e2bf755d40cb10e85795c2f9620ff3fb
+# bad: [5066741180729f7bad9401de34efda3766c3274a] Merge branches 'fixes' and 'work.quota-compat' into for-next
+git bisect bad 5066741180729f7bad9401de34efda3766c3274a
+# good: [4ff8a356daafaafbf90141ee7a3b8fdc18e560a8] ia64: switch to ->regset_get()
+git bisect good 4ff8a356daafaafbf90141ee7a3b8fdc18e560a8
+# good: [ce327e1c54119179066d6f3573a28001febc9265] regset: kill user_regset_copyout{,_zero}()
+git bisect good ce327e1c54119179066d6f3573a28001febc9265
+# good: [1697a322e28ba96d35953c5d824540d172546d36] [elf-fdpic] switch coredump to regsets
+git bisect good 1697a322e28ba96d35953c5d824540d172546d36
+# good: [259bf01c1bd1f049958496a089c4f334fe0c8a48] Merge branches 'work.misc', 'work.regset' and 'work.fdpic' into for-next
+git bisect good 259bf01c1bd1f049958496a089c4f334fe0c8a48
+# bad: [0a3a4497a1de8e68e809a693b549c7ec2f195301] compat: lift compat_s64 and compat_u64 to <linux/compat.h>
+git bisect bad 0a3a4497a1de8e68e809a693b549c7ec2f195301
+# bad: [b902bfb3f0e9d07ec9f48256e57e5c5de6108f8c] arm64: stop using <asm/compat.h> directly
+git bisect bad b902bfb3f0e9d07ec9f48256e57e5c5de6108f8c
+# first bad commit: [b902bfb3f0e9d07ec9f48256e57e5c5de6108f8c] arm64: stop using <asm/compat.h> directly
+
+I assume the stat header order should be messed around with but I am not
+sure what exactly that would entail to make sure that nothing else
+breaks, hence just the report.
+
+Cheers,
+Nathan
