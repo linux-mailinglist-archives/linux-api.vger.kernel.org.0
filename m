@@ -2,96 +2,92 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D23023310F
-	for <lists+linux-api@lfdr.de>; Thu, 30 Jul 2020 13:38:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A9B02332B2
+	for <lists+linux-api@lfdr.de>; Thu, 30 Jul 2020 15:09:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726799AbgG3LiJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 30 Jul 2020 07:38:09 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:22021 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726615AbgG3LiI (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 30 Jul 2020 07:38:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1596109087;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ZTMGVusCv/ZSTNoZER+G4z7hN5Ba3yDpH65wafBaIYE=;
-        b=gacfXKzXfhivD+PBF/gggVxLBWzwaBI6VCzeuXGHi/J8cdITRB0r9CZwtnT0CSeY0bRwP7
-        3wTuHg3bovKPvAiBPujmqxJ/3kIP/3DJp8ER1azz3DXIsdURJzY3N/W0bIbuXS0tBNmiX8
-        a8671MSXWc2suORafVkPTNLK6XTlDzs=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-384-o_bd53omNaG9HbBdP6IqCQ-1; Thu, 30 Jul 2020 07:38:05 -0400
-X-MC-Unique: o_bd53omNaG9HbBdP6IqCQ-1
-Received: by mail-qv1-f69.google.com with SMTP id u10so17824015qvj.23
-        for <linux-api@vger.kernel.org>; Thu, 30 Jul 2020 04:38:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=ZTMGVusCv/ZSTNoZER+G4z7hN5Ba3yDpH65wafBaIYE=;
-        b=F+dSjKC76m37SmwOqeNv/2dOGrYqZ0CTvM7oBbn1hmqwzfheXcGsmUQ8qRSJa3mYXE
-         QzoM/Drev1hSjxRFhry0IbDqMy4y6lsUh+9CQHzacT9YICOTg/OYJyfUmEqt2zcK3wkt
-         w773F27i3JqNiynIHl0lDjd1ge+p6cm5aE86qMrqPd0dXv5AxPI9x12XHxRaWLnxpJnf
-         bikeXoRkH6EjIvZwfCEIMZaoF9O6jwz6Y0hdBsNlVrklis/wq5Wnj+6ZTR0LXn4mtU9A
-         7z/SWz87q8S8346S+Tm7z+uoj8YWcvsBn29oSXzWOyiEmEFPnTPuA/jGc+xeGNUNowwz
-         9/Wg==
-X-Gm-Message-State: AOAM5327ec47KzbdGKAvpHYp8082wGODcStNKFqop3O+mJMjIzQh1UUo
-        SYrkOUrlfte0W5E+C58ctEBW+168BshrmiGuEXRgumkD0yGNq4WcLdi8hAAeG/ClhbdQGNgyT0P
-        0VHeNvL9/ned536ejp//2
-X-Received: by 2002:ac8:7b9c:: with SMTP id p28mr2463077qtu.283.1596109084551;
-        Thu, 30 Jul 2020 04:38:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyQBR9N5/KPd8YACjNDDCygW8qxscqge6sglHY2wMjDmrqo/OXZply9Zf4IRjUryhmihi40ZQ==
-X-Received: by 2002:ac8:7b9c:: with SMTP id p28mr2463056qtu.283.1596109084349;
-        Thu, 30 Jul 2020 04:38:04 -0700 (PDT)
-Received: from [192.168.1.16] (198-84-214-74.cpe.teksavvy.com. [198.84.214.74])
-        by smtp.gmail.com with ESMTPSA id u21sm3983141qkk.1.2020.07.30.04.38.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Jul 2020 04:38:03 -0700 (PDT)
-Subject: Re: [RFC PATCH] Replacing "master-slave" terminology for
- pseudoterminals
-To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
-        "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>,
-        linux-man <linux-man@vger.kernel.org>, enh <enh@google.com>,
-        Zack Weinberg <zackw@panix.com>
-Cc:     Florian Weimer <fweimer@redhat.com>,
-        Paul Eggert <eggert@cs.ucla.edu>,
-        Joseph Myers <joseph@codesourcery.com>,
-        Linux API <linux-api@vger.kernel.org>
-References: <b3b4cf95-5eaa-0b4e-34cc-1a855e7148b6@gmail.com>
- <88273c2f-ce21-db54-688d-5bebd4a81ecd@redhat.com>
- <cbf7666c-440e-b4bd-0ff6-712123845fae@gmail.com>
-From:   Carlos O'Donell <carlos@redhat.com>
-Organization: Red Hat
-Message-ID: <c690ad2f-5f3c-5a8b-7b4c-ad29976aeab0@redhat.com>
-Date:   Thu, 30 Jul 2020 07:38:02 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <cbf7666c-440e-b4bd-0ff6-712123845fae@gmail.com>
-Content-Type: text/plain; charset=utf-8
+        id S1729017AbgG3NJ3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 30 Jul 2020 09:09:29 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([185.58.86.151]:51300 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728999AbgG3NJ3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 30 Jul 2020 09:09:29 -0400
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-237-OWiDeMRKNgyfXRUgU29ZSg-1; Thu, 30 Jul 2020 14:09:25 +0100
+X-MC-Unique: OWiDeMRKNgyfXRUgU29ZSg-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Thu, 30 Jul 2020 14:09:24 +0100
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
+ Thu, 30 Jul 2020 14:09:24 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Andy Lutomirski' <luto@kernel.org>,
+        "madvenka@linux.microsoft.com" <madvenka@linux.microsoft.com>
+CC:     Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        linux-integrity <linux-integrity@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "LSM List" <linux-security-module@vger.kernel.org>,
+        Oleg Nesterov <oleg@redhat.com>, X86 ML <x86@kernel.org>
+Subject: RE: [PATCH v1 0/4] [RFC] Implement Trampoline File Descriptor
+Thread-Topic: [PATCH v1 0/4] [RFC] Implement Trampoline File Descriptor
+Thread-Index: AQHWZQT/T+e4gDrzGEmP/30MMvDTCqkgFteg
+Date:   Thu, 30 Jul 2020 13:09:24 +0000
+Message-ID: <b9879beef3e740c0aeb1af73485069a8@AcuMS.aculab.com>
+References: <20200728131050.24443-1-madvenka@linux.microsoft.com>
+ <CALCETrVy5OMuUx04-wWk9FJbSxkrT2vMfN_kANinudrDwC4Cig@mail.gmail.com>
+In-Reply-To: <CALCETrVy5OMuUx04-wWk9FJbSxkrT2vMfN_kANinudrDwC4Cig@mail.gmail.com>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
+MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 7/30/20 5:16 AM, Michael Kerrisk (man-pages) wrote:
-> I know what you mean. One reason for that verbosity is the need to
-> clearly distinguish "pseudoterminal device/end" from "pseudoterminal
-> device pair". It's hard to avoid being wordy there.
-
-The perfect is the enemy of the good. My feeling is that as others
-write this text in emails or discussions, we'll eventually all settle
-on some other short form we find agreeable and then later we can adjust
-the man pages to use that. Until then taking the lead to change this
-language is the correct way forward.
-
--- 
-Cheers,
-Carlos.
+PiBUaGlzIGlzIHF1aXRlIGNsZXZlciwgYnV0IG5vdyBJ4oCZbSB3b25kZXJpbmcganVzdCBob3cg
+bXVjaCBrZXJuZWwgaGVscA0KPiBpcyByZWFsbHkgbmVlZGVkLiBJbiB5b3VyIHNlcmllcywgdGhl
+IHRyYW1wb2xpbmUgaXMgYW4gbm9uLWV4ZWN1dGFibGUNCj4gcGFnZS4gIEkgY2FuIHRoaW5rIG9m
+IGF0IGxlYXN0IHR3byBhbHRlcm5hdGl2ZSBhcHByb2FjaGVzLCBhbmQgSSdkDQo+IGxpa2UgdG8g
+a25vdyB0aGUgcHJvcyBhbmQgY29ucy4NCj4gDQo+IDEuIEVudGlyZWx5IHVzZXJzcGFjZTogYSBy
+ZXR1cm4gdHJhbXBvbGluZSB3b3VsZCBiZSBzb21ldGhpbmcgbGlrZToNCj4gDQo+IDE6DQo+IHB1
+c2hxICVyYXgNCj4gcHVzaHEgJXJiYw0KPiBwdXNocSAlcmN4DQo+IC4uLg0KPiBwdXNocSAlcjE1
+DQo+IG1vdnEgJXJzcCwgJXJkaSAjIHBvaW50ZXIgdG8gc2F2ZWQgcmVncw0KPiBsZWFxIDFiKCVy
+aXApLCAlcnNpICMgcG9pbnRlciB0byB0aGUgdHJhbXBvbGluZSBpdHNlbGYNCj4gY2FsbHEgdHJh
+bXBvbGluZV9oYW5kbGVyICMgc2VlIGJlbG93DQoNCkZvciBuZXN0ZWQgY2FsbHMgKHdoZXJlIHRo
+ZSB0cmFtcG9saW5lIG5lZWRzIHRvIHBhc3MgdGhlDQpvcmlnaW5hbCBzdGFjayBmcmFtZSB0byB0
+aGUgbmVzdGVkIGZ1bmN0aW9uKSBJIHRoaW5rIHlvdQ0KanVzdCBuZWVkIGEgcGFnZSBmdWxsIG9m
+Og0KCW1vdgkkMCwgc2NyYXRjaF9yZWc7IGptcCB0cmFtcG9saW5lX2hhbmRsZXINCgltb3YJJDEs
+IHNjcmF0Y2hfcmVnOyBqbXAgdHJhbXBvbGluZV9oYW5kbGVyDQpZb3UgbmVlZCBhbiB1bnVzZWQg
+cmVnaXN0ZXIsIG9uIHg4Ni02NCBJIHRoaW5rIGJvdGgNCnIxMCBhbmQgcjExIGFyZSBhdmFpbGFi
+bGUuDQpPbiBpMzg2IEkgdGhpbmsgZWF4IGNhbiBiZSB1c2VkLg0KSXQgbWlnaHQgZXZlbiBiZSB0
+aGF0IHRoZSBmaXJzdCBhcmd1bWVudCByZWdpc3RlciBpcw0KYXZhaWxhYmxlIC0gaWYgdGhhdCBp
+cyB1c2VkIHRvIHBhc3MgaW4gdGhlIHN0YWNrIGZyYW1lLg0KDQpUaGUgdHJhbXBvbGluZV9oYW5k
+bGVyIHRoZW4gdXNlcyB0aGUgcGFzc2VkIGluIHZhbHVlDQp0byBpbmRleCBhbiBhcnJheSBvZiBz
+dGFjayBmcmFtZSBhbmQgZnVuY3Rpb24gcG9pbnRlcnMNCmFuZCBqdW1wcyB0byB0aGUgcmVhbCBm
+dW5jdGlvbi4NCllvdSBuZWVkIHRvIGhvbGQgZXZlcnl0aGluZyBpbiBfX3RocmVhZCBkYXRhLg0K
+QW5kIG1heWJlIGJlIGFibGUgdG8gYWxsb2NhdGUgYW4gZXh0cmEgcGFnZSBmb3IgZGVlcGx5DQpu
+ZXN0ZWQgY29kZSBwYXRocyAoZWcgcmVjdXJzaXZlIG5lc3RlZCBmdW5jdGlvbnMpLg0KDQpZb3Ug
+bWlnaHQgdGhlbiBuZWVkIGEgZHJpdmVyIHRvIGNyZWF0ZSB5b3UgYSBzdWl0YWJsZQ0KZXhlY3V0
+YWJsZSBwYWdlLiBTb21laG93IHlvdSBuZWVkIHRvIHBhc3MgaW4gdGhlIGFkZHJlc3MNCm9mIHRo
+ZSB0cmFtcG9saW5lX2hhbmRsZXIgYW5kIHRoZSBudW1iZXIgZm9yIHRoZSBmaXJzdCBmYXVsdC4N
+Ckl0IG5lZWQgdG8gcGFzcyBiYWNrIHRoZSAnc3RyaWRlJyBvZiB0aGUgYXJyYXkgYW5kIG51bWJl
+cg0Kb2YgZWxlbWVudHMgY3JlYXRlZC4NCg0KQnV0IGlmIHlvdSBjYW4gdGFrZSB0aGUgY29zdCBv
+ZiB0aGUgcGFnZSBmYXVsdCwgdGhlbg0KeW91IGNhbiBpbnRlcnByZXQgdGhlIGV4aXN0aW5nIHRy
+YW1wb2xpbmUgaW4gdXNlcnNwYWNlDQp3aXRoaW4gdGhlIHNpZ25hbCBoYW5kbGVyLg0KVGhpcyBp
+cyB0d28ga2VybmVsIGVudHJ5L2V4aXRzLg0KDQpBcmJpdHJhcnkgSklUIGlzIGEgZGlmZmVyZW50
+IHByb2JsZW0gZW50aXJlbHkuDQoNCglEYXZpZA0KDQotDQpSZWdpc3RlcmVkIEFkZHJlc3MgTGFr
+ZXNpZGUsIEJyYW1sZXkgUm9hZCwgTW91bnQgRmFybSwgTWlsdG9uIEtleW5lcywgTUsxIDFQVCwg
+VUsNClJlZ2lzdHJhdGlvbiBObzogMTM5NzM4NiAoV2FsZXMpDQo=
 
