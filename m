@@ -2,99 +2,97 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BE7DB233332
-	for <lists+linux-api@lfdr.de>; Thu, 30 Jul 2020 15:38:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD998233343
+	for <lists+linux-api@lfdr.de>; Thu, 30 Jul 2020 15:41:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728629AbgG3NiU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 30 Jul 2020 09:38:20 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:51366 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726535AbgG3NiT (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 30 Jul 2020 09:38:19 -0400
-Received: from ip5f5af08c.dynamic.kabel-deutschland.de ([95.90.240.140] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1k18l3-0004an-O2; Thu, 30 Jul 2020 13:38:05 +0000
-Date:   Thu, 30 Jul 2020 15:38:04 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Kirill Tkhai <ktkhai@virtuozzo.com>
-Cc:     viro@zeniv.linux.org.uk, adobriyan@gmail.com, davem@davemloft.net,
-        ebiederm@xmission.com, akpm@linux-foundation.org,
-        areber@redhat.com, serge@hallyn.com, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH 00/23] proc: Introduce /proc/namespaces/ directory to
- expose namespaces lineary
-Message-ID: <20200730133804.sebkpyx5asijj66l@wittgenstein>
-References: <159611007271.535980.15362304262237658692.stgit@localhost.localdomain>
- <20200730130852.kyzam5rihehviaia@wittgenstein>
+        id S1728293AbgG3Nle (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 30 Jul 2020 09:41:34 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:34442 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728286AbgG3Nld (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 30 Jul 2020 09:41:33 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 06UDfRWM107364;
+        Thu, 30 Jul 2020 08:41:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1596116487;
+        bh=LlD7J8iYz9YS4y6oTZTgbYS1wE+qcP20Ye+/P7WW81w=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=FtONpzrT1uVyS/p9GwsThHhRU/kmEFqFGDadOuQGZP/ywELnRGkCs5X3Xmje4uQO4
+         I1HpJPeluEo6GYe5ct3Qo2iYwKlc5L/hdsSkAzxd4tcX/oh0QWrEAD+Wc8cvUmpMWt
+         YaO/C9WwdURHBRzfMpbld27dK5g6fLiPPgEq3UIs=
+Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 06UDfRpg125709;
+        Thu, 30 Jul 2020 08:41:27 -0500
+Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 30
+ Jul 2020 08:41:27 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Thu, 30 Jul 2020 08:41:26 -0500
+Received: from [10.250.53.226] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 06UDfQ2C036307;
+        Thu, 30 Jul 2020 08:41:26 -0500
+Subject: Re: [net-next v5 PATCH 0/7] Add PRP driver
+To:     David Miller <davem@davemloft.net>
+CC:     <kuba@kernel.org>, <netdev@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-api@vger.kernel.org>,
+        <nsekhar@ti.com>, <grygorii.strashko@ti.com>,
+        <vinicius.gomes@intel.com>
+References: <20200722144022.15746-1-m-karicheri2@ti.com>
+ <20200727.122120.336438917999066726.davem@davemloft.net>
+From:   Murali Karicheri <m-karicheri2@ti.com>
+Message-ID: <fb10c323-d5c2-93d6-9784-51ff632fb3ff@ti.com>
+Date:   Thu, 30 Jul 2020 09:41:26 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200730130852.kyzam5rihehviaia@wittgenstein>
+In-Reply-To: <20200727.122120.336438917999066726.davem@davemloft.net>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-[Cc: linux-api]
+Hi Dave,
 
-On Thu, Jul 30, 2020 at 03:08:53PM +0200, Christian Brauner wrote:
-> On Thu, Jul 30, 2020 at 02:59:20PM +0300, Kirill Tkhai wrote:
-> > Currently, there is no a way to list or iterate all or subset of namespaces
-> > in the system. Some namespaces are exposed in /proc/[pid]/ns/ directories,
-> > but some also may be as open files, which are not attached to a process.
-> > When a namespace open fd is sent over unix socket and then closed, it is
-> > impossible to know whether the namespace exists or not.
-> > 
-> > Also, even if namespace is exposed as attached to a process or as open file,
-> > iteration over /proc/*/ns/* or /proc/*/fd/* namespaces is not fast, because
-> > this multiplies at tasks and fds number.
-> > 
-> > This patchset introduces a new /proc/namespaces/ directory, which exposes
-> > subset of permitted namespaces in linear view:
-> > 
-> > # ls /proc/namespaces/ -l
-> > lrwxrwxrwx 1 root root 0 Jul 29 16:50 'cgroup:[4026531835]' -> 'cgroup:[4026531835]'
-> > lrwxrwxrwx 1 root root 0 Jul 29 16:50 'ipc:[4026531839]' -> 'ipc:[4026531839]'
-> > lrwxrwxrwx 1 root root 0 Jul 29 16:50 'mnt:[4026531840]' -> 'mnt:[4026531840]'
-> > lrwxrwxrwx 1 root root 0 Jul 29 16:50 'mnt:[4026531861]' -> 'mnt:[4026531861]'
-> > lrwxrwxrwx 1 root root 0 Jul 29 16:50 'mnt:[4026532133]' -> 'mnt:[4026532133]'
-> > lrwxrwxrwx 1 root root 0 Jul 29 16:50 'mnt:[4026532134]' -> 'mnt:[4026532134]'
-> > lrwxrwxrwx 1 root root 0 Jul 29 16:50 'mnt:[4026532135]' -> 'mnt:[4026532135]'
-> > lrwxrwxrwx 1 root root 0 Jul 29 16:50 'mnt:[4026532136]' -> 'mnt:[4026532136]'
-> > lrwxrwxrwx 1 root root 0 Jul 29 16:50 'net:[4026531993]' -> 'net:[4026531993]'
-> > lrwxrwxrwx 1 root root 0 Jul 29 16:50 'pid:[4026531836]' -> 'pid:[4026531836]'
-> > lrwxrwxrwx 1 root root 0 Jul 29 16:50 'time:[4026531834]' -> 'time:[4026531834]'
-> > lrwxrwxrwx 1 root root 0 Jul 29 16:50 'user:[4026531837]' -> 'user:[4026531837]'
-> > lrwxrwxrwx 1 root root 0 Jul 29 16:50 'uts:[4026531838]' -> 'uts:[4026531838]'
-> > 
-> > Namespace ns is exposed, in case of its user_ns is permitted from /proc's pid_ns.
-> > I.e., /proc is related to pid_ns, so in /proc/namespace we show only a ns, which is
-> > 
-> > 	in_userns(pid_ns->user_ns, ns->user_ns).
-> > 
-> > In case of ns is a user_ns:
-> > 
-> > 	in_userns(pid_ns->user_ns, ns).
-> > 
-> > The patchset follows this steps:
-> > 
-> > 1)A generic counter in ns_common is introduced instead of separate
-> >   counters for every ns type (net::count, uts_namespace::kref,
-> >   user_namespace::count, etc). Patches [1-8];
-> > 2)Patch [9] introduces IDR to link and iterate alive namespaces;
-> > 3)Patch [10] is refactoring;
-> > 4)Patch [11] actually adds /proc/namespace directory and fs methods;
-> > 5)Patches [12-23] make every namespace to use the added methods
-> >   and to appear in /proc/namespace directory.
-> > 
-> > This may be usefull to write effective debug utils (say, fast build
-> > of networks topology) and checkpoint/restore software.
+On 7/27/20 3:21 PM, David Miller wrote:
+> From: Murali Karicheri <m-karicheri2@ti.com>
+> Date: Wed, 22 Jul 2020 10:40:15 -0400
 > 
-> Kirill,
+>> This series is dependent on the following patches sent out to
+>> netdev list. All (1-3) are already merged to net/master as of
+>> sending this, but not on the net-next master branch. So need
+>> to apply them to net-next before applying this series. v3 of
+>> the iproute2 patches can be merged to work with this series
+>> as there are no updates since then.
+>>
+>> [1] https://marc.info/?l=linux-netdev&m=159526378131542&w=2
+>> [2] https://marc.info/?l=linux-netdev&m=159499772225350&w=2
+>> [3] https://marc.info/?l=linux-netdev&m=159499772425352&w=2
+>>
+>> This series adds support for Parallel Redundancy Protocol (PRP)
+>> in the Linux HSR driver as defined in IEC-62439-3. PRP Uses a
+>> Redundancy Control Trailer (RCT) the format of which is
+>> similar to HSR Tag. This is used for implementing redundancy.
+>   ...
 > 
-> Thanks for working on this!
-> We have a need for this functionality too for namespace introspection.
-> I actually had a prototype of this as well but mine was based on debugfs
-> but /proc/namespaces seems like a good place.
+> Series applied to net-next, thank you.
+> 
+Thanks for applying this series. Just wondering who will
+pick up the v3 of the iproute2 patch I have posted to go
+with this.
+
+https://marc.info/?l=linux-netdev&m=159499933326135&w=2
+
+I will reply to that thread as well.
+
+Thanks
+-- 
+Murali Karicheri
+Texas Instruments
