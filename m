@@ -2,123 +2,164 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C964234696
-	for <lists+linux-api@lfdr.de>; Fri, 31 Jul 2020 15:08:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23934234770
+	for <lists+linux-api@lfdr.de>; Fri, 31 Jul 2020 16:10:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730237AbgGaNIN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 31 Jul 2020 09:08:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38158 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726306AbgGaNIM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 31 Jul 2020 09:08:12 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1576C061574;
-        Fri, 31 Jul 2020 06:08:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=yj2xoKAlywTl8ua8JXKgkinbNIInpoi9iZwApZLpN2A=; b=lxhLj+6vz4x4ci3cMgZ260rQw0
-        OJj6UHCushW5rXV/rva78XtNf8Lqj9latQCF+qH8fJDo2i3+qSOYB5Ee1OQMfti4CudmhNRKXmWGn
-        V37fFhMvteQiPOxnsLmZLLDONGsNCv4WmgI3KO86/GqYMPeh6skRpctvUxr92QVr1PEuh6wkywaDN
-        UDr6jqSIq6jc5oLRhr4SjIWiBwYrzhIrfqXvXaWo5zcht1R+faNn32zi1c0Y5nVk6NZeY71vyLjNA
-        jS0iTJtNbZvsSZSfaBv0oij76BB3ZkVOsMsT/yCA0noHRDX1QksuDxj5lLM+/O7LH44gdHbu8nIMk
-        7C1vL1bw==;
-Received: from hch by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1k1UlW-0004do-Ce; Fri, 31 Jul 2020 13:08:02 +0000
-Date:   Fri, 31 Jul 2020 14:08:02 +0100
-From:   "hch@infradead.org" <hch@infradead.org>
-To:     Damien Le Moal <Damien.LeMoal@wdc.com>
-Cc:     "hch@infradead.org" <hch@infradead.org>,
-        Kanchan Joshi <joshiiitr@gmail.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        Pavel Begunkov <asml.silence@gmail.com>,
-        Kanchan Joshi <joshi.k@samsung.com>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "bcrl@kvack.org" <bcrl@kvack.org>,
+        id S1727851AbgGaOKk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 31 Jul 2020 10:10:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58696 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728206AbgGaOKk (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 31 Jul 2020 10:10:40 -0400
+Received: from gaia (unknown [95.146.230.158])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 52369206DA;
+        Fri, 31 Jul 2020 14:10:34 +0000 (UTC)
+Date:   Fri, 31 Jul 2020 15:10:31 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Christopher Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Idan Yaniv <idan.yaniv@ibm.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
         Matthew Wilcox <willy@infradead.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-aio@kvack.org" <linux-aio@kvack.org>,
-        "io-uring@vger.kernel.org" <io-uring@vger.kernel.org>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        SelvaKumar S <selvakuma.s1@samsung.com>,
-        Nitesh Shetty <nj.shetty@samsung.com>,
-        Javier Gonzalez <javier.gonz@samsung.com>,
-        Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
-        Naohiro Aota <Naohiro.Aota@wdc.com>
-Subject: Re: [PATCH v4 6/6] io_uring: add support for zone-append
-Message-ID: <20200731130802.GA16665@infradead.org>
-References: <MWHPR04MB3758DC08EA17780E498E9EC0E74E0@MWHPR04MB3758.namprd04.prod.outlook.com>
- <20200731064526.GA25674@infradead.org>
- <MWHPR04MB37581344328A42EA7F5ED13EE74E0@MWHPR04MB3758.namprd04.prod.outlook.com>
- <CA+1E3rLM4G4SwzD6RWsK6Ssp7NmhiPedZDjrqN3kORQr9fxCtw@mail.gmail.com>
- <MWHPR04MB375863C20C1EF2CB27E62703E74E0@MWHPR04MB3758.namprd04.prod.outlook.com>
- <20200731091416.GA29634@infradead.org>
- <MWHPR04MB37586D39CA389296CE0252A4E74E0@MWHPR04MB3758.namprd04.prod.outlook.com>
- <20200731094135.GA4104@infradead.org>
- <MWHPR04MB3758A4B2967DB1FABAAD9265E74E0@MWHPR04MB3758.namprd04.prod.outlook.com>
- <20200731125110.GA11500@infradead.org>
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
+        x86@kernel.org
+Subject: Re: [PATCH v2 3/7] mm: introduce memfd_secret system call to create
+ "secret" memory areas
+Message-ID: <20200731141031.GD29569@gaia>
+References: <20200727162935.31714-1-rppt@kernel.org>
+ <20200727162935.31714-4-rppt@kernel.org>
+ <20200730162209.GB3128@gaia>
+ <20200730204409.GB534153@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200731125110.GA11500@infradead.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20200730204409.GB534153@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-And FYI, this is what I'd do for a hacky aio-only prototype (untested):
+On Thu, Jul 30, 2020 at 11:44:09PM +0300, Mike Rapoport wrote:
+> On Thu, Jul 30, 2020 at 05:22:10PM +0100, Catalin Marinas wrote:
+> > On Mon, Jul 27, 2020 at 07:29:31PM +0300, Mike Rapoport wrote:
+> > > For instance, the following example will create an uncached mapping (error
+> > > handling is omitted):
+> > > 
+> > > 	fd = memfd_secret(SECRETMEM_UNCACHED);
+> > > 	ftruncate(fd, MAP_SIZE);
+> > > 	ptr = mmap(NULL, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+[...]
+> > > +static int secretmem_mmap(struct file *file, struct vm_area_struct *vma)
+> > > +{
+> > > +	struct secretmem_ctx *ctx = file->private_data;
+> > > +	unsigned long mode = ctx->mode;
+> > > +	unsigned long len = vma->vm_end - vma->vm_start;
+> > > +
+> > > +	if (!mode)
+> > > +		return -EINVAL;
+> > > +
+> > > +	if ((vma->vm_flags & (VM_SHARED | VM_MAYSHARE)) == 0)
+> > > +		return -EINVAL;
+> > > +
+> > > +	if (mlock_future_check(vma->vm_mm, vma->vm_flags | VM_LOCKED, len))
+> > > +		return -EAGAIN;
+> > > +
+> > > +	switch (mode) {
+> > > +	case SECRETMEM_UNCACHED:
+> > > +		vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
+> > > +		fallthrough;
+> > > +	case SECRETMEM_EXCLUSIVE:
+> > > +		vma->vm_ops = &secretmem_vm_ops;
+> > > +		break;
+> > > +	default:
+> > > +		return -EINVAL;
+> > > +	}
+> > > +
+> > > +	vma->vm_flags |= VM_LOCKED;
+> > > +
+> > > +	return 0;
+> > > +}
+> > 
+> > I think the uncached mapping is not the right thing for arm/arm64. First
+> > of all, pgprot_noncached() gives us Strongly Ordered (Device memory)
+> > semantics together with not allowing unaligned accesses. I suspect the
+> > semantics are different on x86.
+>  
+> Hmm, on x86 it's also Strongly Ordered, but I didn't find any alignment
+> restrictions. Is there a mode for arm64 that can provide similar
+> semantics?
+> 
+> Would it make sence to use something like
+> 
+> #define pgprot_uncached(prot) \
+> 	__pgprot_modify(prot, PTE_ATTRINDX_MASK, \
+> 			PTE_ATTRINDX(MT_NORMAL_NC) | PTE_PXN)
+> 
+> or is it too weak?
 
+Reading Elena's email, that's about preventing speculative loads. While
+the arm64 Normal NC is non-cacheable (equivalent to write-combine), a
+CPU is allowed to speculatively read from it. A carefully crafted gadget
+could leave an imprint on a different part of the cache via speculative
+execution based on a value in the secret memory. So IIUC, we want memory
+that cannot be speculatively loaded from and that would be Device memory
+on arm64 (with the alignment restrictions).
 
-diff --git a/fs/aio.c b/fs/aio.c
-index 91e7cc4a9f179b..42b1934e38758b 100644
---- a/fs/aio.c
-+++ b/fs/aio.c
-@@ -1438,7 +1438,10 @@ static void aio_complete_rw(struct kiocb *kiocb, long res, long res2)
- 	}
- 
- 	iocb->ki_res.res = res;
--	iocb->ki_res.res2 = res2;
-+	if ((kiocb->ki_flags & IOCB_REPORT_OFFSET) && res > 0)
-+		iocb->ki_res.res2 = kiocb->ki_pos - res;
-+	else
-+		iocb->ki_res.res2 = res2;
- 	iocb_put(iocb);
- }
- 
-@@ -1452,6 +1455,8 @@ static int aio_prep_rw(struct kiocb *req, const struct iocb *iocb)
- 	req->ki_flags = iocb_flags(req->ki_filp);
- 	if (iocb->aio_flags & IOCB_FLAG_RESFD)
- 		req->ki_flags |= IOCB_EVENTFD;
-+	if (iocb->aio_flags & IOCB_FLAG_REPORT_OFFSET)
-+		req->ki_flags |= IOCB_REPORT_OFFSET;
- 	req->ki_hint = ki_hint_validate(file_write_hint(req->ki_filp));
- 	if (iocb->aio_flags & IOCB_FLAG_IOPRIO) {
- 		/*
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index f5abba86107d86..522b0a3437d420 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -316,6 +316,7 @@ enum rw_hint {
- #define IOCB_WRITE		(1 << 6)
- #define IOCB_NOWAIT		(1 << 7)
- #define IOCB_NOIO		(1 << 9)
-+#define IOCB_REPORT_OFFSET	(1 << 10)
- 
- struct kiocb {
- 	struct file		*ki_filp;
-diff --git a/include/uapi/linux/aio_abi.h b/include/uapi/linux/aio_abi.h
-index 8387e0af0f768a..e4313d7aa3b7e7 100644
---- a/include/uapi/linux/aio_abi.h
-+++ b/include/uapi/linux/aio_abi.h
-@@ -55,6 +55,7 @@ enum {
-  */
- #define IOCB_FLAG_RESFD		(1 << 0)
- #define IOCB_FLAG_IOPRIO	(1 << 1)
-+#define IOCB_FLAG_REPORT_OFFSET	(1 << 2)
- 
- /* read() from /dev/aio returns these structures. */
- struct io_event {
+Now, I think we could relax this to Device_GRE. So maybe add a
+pgprot_nospec() and allow architectures to define whatever they find
+suitable. The exact semantics will be different between architectures.
+
+> > The second, more serious problem, is that I can't find any place where
+> > the caches are flushed for the page mapped on fault. When a page is
+> > allocated, assuming GFP_ZERO, only the caches are guaranteed to be
+> > zeroed. Exposing this subsequently to user space as uncached would allow
+> > the user to read stale data prior to zeroing. The arm64
+> > set_direct_map_default_noflush() doesn't do any cache maintenance.
+> 
+> Well, the idea of uncached mappings came from Elena [1] to prevent
+> possibility of side channels that leak user space memory. So I think
+> even without cache flushing after the allocation, user space is
+> protected as all its memory accesses bypass cache so even after the page
+> is freed there won't be stale data in the cache.
+> 
+> I think that it makes sense to limit SECRETMEM_UNCACHED only for
+> architectures that define an appropriate protection, e.g.
+> pgprot_uncahced(). For x86 it can be aliased to pgprot_noncached() and
+> other architecures can define their versions.
+
+Indeed, though as I said above, maybe use a name that suggests no
+speculation since non-cacheable doesn't always guarantee that. Something
+like pgprot_nospec() and SECRETMEM_NOSPEC.
+
+However, your implementation still has the problem that such memory must
+have the caches flushed before being mapped in user-space, otherwise we
+leak other secrets via such pages to the caller. The only generic API we
+have in the kernel for such things is the DMA one. If hch doesn't mind,
+you could abuse it and call arch_dma_prep_coherent() prior to
+set_direct_map_invalid_noflush() (if the mapping is non-cacheable).
+
+-- 
+Catalin
