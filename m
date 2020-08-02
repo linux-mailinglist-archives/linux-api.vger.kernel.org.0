@@ -2,162 +2,75 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 99FC623543C
-	for <lists+linux-api@lfdr.de>; Sat,  1 Aug 2020 22:10:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 706822356CA
+	for <lists+linux-api@lfdr.de>; Sun,  2 Aug 2020 13:56:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726345AbgHAUK2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 1 Aug 2020 16:10:28 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:42887 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725883AbgHAUK2 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 1 Aug 2020 16:10:28 -0400
-Received: from ip5f5af08c.dynamic.kabel-deutschland.de ([95.90.240.140] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1k1xpe-00044g-DI; Sat, 01 Aug 2020 20:10:14 +0000
-Date:   Sat, 1 Aug 2020 22:10:13 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     "Dmitry V. Levin" <ldv@altlinux.org>
-Cc:     Peilin Ye <yepeilin.cs@gmail.com>, Oleg Nesterov <oleg@redhat.com>,
-        Elvira Khabirova <lineprinter@altlinux.org>,
-        Eugene Syromyatnikov <evgsyr@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v3] ptrace: Prevent
- kernel-infoleak in ptrace_get_syscall_info()
-Message-ID: <20200801201013.gjqj4digttp2rtmj@wittgenstein>
-References: <20200801020841.227522-1-yepeilin.cs@gmail.com>
- <20200801152044.230416-1-yepeilin.cs@gmail.com>
- <20200801160818.GB4964@altlinux.org>
+        id S1728200AbgHBL4L (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 2 Aug 2020 07:56:11 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:51162 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726578AbgHBL4K (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 2 Aug 2020 07:56:10 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id D07881C0BE1; Sun,  2 Aug 2020 13:56:08 +0200 (CEST)
+Date:   Sun, 2 Aug 2020 13:56:01 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     David Laight <David.Laight@ACULAB.COM>
+Cc:     'Andy Lutomirski' <luto@kernel.org>,
+        "madvenka@linux.microsoft.com" <madvenka@linux.microsoft.com>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        linux-integrity <linux-integrity@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        Oleg Nesterov <oleg@redhat.com>, X86 ML <x86@kernel.org>
+Subject: Re: [PATCH v1 0/4] [RFC] Implement Trampoline File Descriptor
+Message-ID: <20200802115600.GB1162@bug>
+References: <20200728131050.24443-1-madvenka@linux.microsoft.com>
+ <CALCETrVy5OMuUx04-wWk9FJbSxkrT2vMfN_kANinudrDwC4Cig@mail.gmail.com>
+ <b9879beef3e740c0aeb1af73485069a8@AcuMS.aculab.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200801160818.GB4964@altlinux.org>
+In-Reply-To: <b9879beef3e740c0aeb1af73485069a8@AcuMS.aculab.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Aug 01, 2020 at 07:08:19PM +0300, Dmitry V. Levin wrote:
-> On Sat, Aug 01, 2020 at 11:20:44AM -0400, Peilin Ye wrote:
-> > ptrace_get_syscall_info() is potentially copying uninitialized stack
-> > memory to userspace, since the compiler may leave a 3-byte hole near the
-> > beginning of `info`. Fix it by adding a padding field to `struct
-> > ptrace_syscall_info`.
+Hi!
+
+> > This is quite clever, but now I???m wondering just how much kernel help
+> > is really needed. In your series, the trampoline is an non-executable
+> > page.  I can think of at least two alternative approaches, and I'd
+> > like to know the pros and cons.
 > > 
-> > Cc: stable@vger.kernel.org
-> > Fixes: 201766a20e30 ("ptrace: add PTRACE_GET_SYSCALL_INFO request")
-> > Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
-> > Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
-> > ---
-> > Change in v3:
-> >     - Remove unnecessary `__aligned__` attribute. (Suggested by
-> >       Dmitry V. Levin <ldv@altlinux.org>)
+> > 1. Entirely userspace: a return trampoline would be something like:
 > > 
-> > Change in v2:
-> >     - Add a padding field to `struct ptrace_syscall_info`, instead of
-> >       doing memset() on `info`. (Suggested by Dmitry V. Levin
-> >       <ldv@altlinux.org>)
-> > 
-> > Reference: https://lwn.net/Articles/417989/
-> > 
-> > $ # before:
-> > $ pahole -C "ptrace_syscall_info" kernel/ptrace.o
-> > struct ptrace_syscall_info {
-> > 	__u8                       op;                   /*     0     1 */
-> > 
-> > 	/* XXX 3 bytes hole, try to pack */
-> > 
-> > 	__u32                      arch __attribute__((__aligned__(4))); /*     4     4 */
-> > 	__u64                      instruction_pointer;  /*     8     8 */
-> > 	__u64                      stack_pointer;        /*    16     8 */
-> > 	union {
-> > 		struct {
-> > 			__u64      nr;                   /*    24     8 */
-> > 			__u64      args[6];              /*    32    48 */
-> > 		} entry;                                 /*    24    56 */
-> > 		struct {
-> > 			__s64      rval;                 /*    24     8 */
-> > 			__u8       is_error;             /*    32     1 */
-> > 		} exit;                                  /*    24    16 */
-> > 		struct {
-> > 			__u64      nr;                   /*    24     8 */
-> > 			__u64      args[6];              /*    32    48 */
-> > 			/* --- cacheline 1 boundary (64 bytes) was 16 bytes ago --- */
-> > 			__u32      ret_data;             /*    80     4 */
-> > 		} seccomp;                               /*    24    64 */
-> > 	};                                               /*    24    64 */
-> > 
-> > 	/* size: 88, cachelines: 2, members: 5 */
-> > 	/* sum members: 85, holes: 1, sum holes: 3 */
-> > 	/* forced alignments: 1, forced holes: 1, sum forced holes: 3 */
-> > 	/* last cacheline: 24 bytes */
-> > } __attribute__((__aligned__(8)));
-> > $
-> > $ # after:
-> > $ pahole -C "ptrace_syscall_info" kernel/ptrace.o
-> > struct ptrace_syscall_info {
-> > 	__u8                       op;                   /*     0     1 */
-> > 	__u8                       pad[3];               /*     1     3 */
-> > 	__u32                      arch;                 /*     4     4 */
-> > 	__u64                      instruction_pointer;  /*     8     8 */
-> > 	__u64                      stack_pointer;        /*    16     8 */
-> > 	union {
-> > 		struct {
-> > 			__u64      nr;                   /*    24     8 */
-> > 			__u64      args[6];              /*    32    48 */
-> > 		} entry;                                 /*    24    56 */
-> > 		struct {
-> > 			__s64      rval;                 /*    24     8 */
-> > 			__u8       is_error;             /*    32     1 */
-> > 		} exit;                                  /*    24    16 */
-> > 		struct {
-> > 			__u64      nr;                   /*    24     8 */
-> > 			__u64      args[6];              /*    32    48 */
-> > 			/* --- cacheline 1 boundary (64 bytes) was 16 bytes ago --- */
-> > 			__u32      ret_data;             /*    80     4 */
-> > 		} seccomp;                               /*    24    64 */
-> > 	};                                               /*    24    64 */
-> > 
-> > 	/* size: 88, cachelines: 2, members: 6 */
-> > 	/* last cacheline: 24 bytes */
-> > };
-> > $ _
-> > 
-> >  include/uapi/linux/ptrace.h | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/include/uapi/linux/ptrace.h b/include/uapi/linux/ptrace.h
-> > index a71b6e3b03eb..83ee45fa634b 100644
-> > --- a/include/uapi/linux/ptrace.h
-> > +++ b/include/uapi/linux/ptrace.h
-> > @@ -81,7 +81,8 @@ struct seccomp_metadata {
-> >  
-> >  struct ptrace_syscall_info {
-> >  	__u8 op;	/* PTRACE_SYSCALL_INFO_* */
-> > -	__u32 arch __attribute__((__aligned__(sizeof(__u32))));
-> > +	__u8 pad[3];
-> > +	__u32 arch;
-> >  	__u64 instruction_pointer;
-> >  	__u64 stack_pointer;
-> >  	union {
+> > 1:
+> > pushq %rax
+> > pushq %rbc
+> > pushq %rcx
+> > ...
+> > pushq %r15
+> > movq %rsp, %rdi # pointer to saved regs
+> > leaq 1b(%rip), %rsi # pointer to the trampoline itself
+> > callq trampoline_handler # see below
 > 
-> Reviewed-by: Dmitry V. Levin <ldv@altlinux.org>
+> For nested calls (where the trampoline needs to pass the
+> original stack frame to the nested function) I think you
+> just need a page full of:
+> 	mov	$0, scratch_reg; jmp trampoline_handler
 
-Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
+I believe you could do with mov %pc, scratch_reg; jmp ...
 
-Oh fun.
-I'd pick this up and run the ptrace tests that we have for this. If they
-pass I'd apply to my fixes branch and send after the merge window unless
-I hear objections.
+That has advantage of being able to share single physical page across multiple virtual pages...
 
-Fwiw, what was the original reason for using
-__attribute__((__aligned__(sizeof(__u32))))?
-b4 mbox is failing to download the relevant thread(s) for me.
 
-Thanks!
-Christian
+									Pavel
+-- 
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
