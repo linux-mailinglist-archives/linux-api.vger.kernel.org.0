@@ -2,128 +2,143 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B59923A86A
-	for <lists+linux-api@lfdr.de>; Mon,  3 Aug 2020 16:30:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 933DA23A8FE
+	for <lists+linux-api@lfdr.de>; Mon,  3 Aug 2020 16:57:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726865AbgHCOal (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 3 Aug 2020 10:30:41 -0400
-Received: from wnew3-smtp.messagingengine.com ([64.147.123.17]:40355 "EHLO
-        wnew3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726358AbgHCOak (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 3 Aug 2020 10:30:40 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-        by mailnew.west.internal (Postfix) with ESMTP id 7BBDB10D1;
-        Mon,  3 Aug 2020 10:30:38 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Mon, 03 Aug 2020 10:30:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=
-        message-id:subject:from:to:cc:date:in-reply-to:references
-        :content-type:mime-version:content-transfer-encoding; s=fm3; bh=
-        6ek7rotfn8yHr2SVRzyFzJOuazfE8xSPG939AHlpXcs=; b=eMfuj2cAVKP+mJQT
-        biNupJQwLHqaYhHLFPuUZQyX6CGdZVry0cLxvTO0phcdbXXnC+pMPkI29PiaDNuG
-        aus0TI6+71rhFFJ6BuivmuUCNYH+sJkr9LS0qGEhf58g6Kq5foxI8EqS5PQ4BNtR
-        m2Hdlp6p41lZC7lp1a58aYOyyx6HUKRh+y49rCGvH3/At3UhVpzU/LLsFFbPog+Q
-        o+YatBlPIgnd5sSWDoODyp/+5qt4iIs/KHw+Wt+p37JNiEMwKJQSodCj8DAIHgqt
-        92SGbDsncSpk0NxE6QhXTLUk7L+zUbWsu/4R0Yvsu1HaAUw9aPmQK8Z3tV+EcTxW
-        XObDxQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:in-reply-to:message-id:mime-version:references
-        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; bh=6ek7rotfn8yHr2SVRzyFzJOuazfE8xSPG939AHlpX
-        cs=; b=koW4Adc0qWAHAZh5OZze593zLQ5jC/97529jgi5ZrIO85WbZaTvEqIQYr
-        FzDW3RVPNUW5x4HnrPnHyRr6XmXm9VP8iHULgGRKn+X1jvbZ6z9ptyApoH5WSadi
-        H6wQAGmPvBQ4QiQWgzvSdwzx6x0ev37TRK7ZDLqk2H9gAmJeOH4fV/UIissEABEd
-        XpLESd5lLaS64CIhyrHxFsftbia3cayePjctHkOuTYP6ZBHCYy2iaZ9Ze725oW/D
-        fNGMN5ICfcWD3u4HYrxir3Sp56lt/TXEKJNl9Bg1yJWqZp3OgM88ok7OhlCLQ3Kd
-        CIIiZfqW8kk15A5jO9EULcEaGWWYw==
-X-ME-Sender: <xms:jB8oX9DYMRIhNCgzRhkgmRWYIqvLOsYXnTdrp5z4cl9pF3Zup2mUyw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrjeeggdejjecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefkuffhvfffjghftggfggfgsehtjeertddtreejnecuhfhrohhmpefkrghnucfm
-    vghnthcuoehrrghvvghnsehthhgvmhgrfidrnhgvtheqnecuggftrfgrthhtvghrnhepfe
-    efteetvdeguddvveefveeftedtffduudehueeihfeuvefgveehffeludeggfejnecukfhp
-    peehkedrjedrvdehtddrudekheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
-    epmhgrihhlfhhrohhmpehrrghvvghnsehthhgvmhgrfidrnhgvth
-X-ME-Proxy: <xmx:jB8oX7hMug9NSJyrBx-_hsaMghqA8sU1pT1QNwHXC8iZ-PoSEBXb8A>
-    <xmx:jB8oX4lSQFRztQdi_y97W_W-WMfF73BDlC4jB3L_cbtLHrSDvH_uzw>
-    <xmx:jB8oX3ymudJ9OvqndBdAuE8iQpa_i2PpNRXb7Io4TRefSNVLy68EDw>
-    <xmx:jh8oX5JfCwhU_CdTBs5mjIgpfDFvki_ar5qP-6ciQt1_eoT-iTdbyo6YQfc>
-Received: from mickey.themaw.net (58-7-250-185.dyn.iinet.net.au [58.7.250.185])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 01829328005D;
-        Mon,  3 Aug 2020 10:30:30 -0400 (EDT)
-Message-ID: <bfba8e858885b8c507b8816d5296f7ab7f949e78.camel@themaw.net>
-Subject: Re: [PATCH 13/17] watch_queue: Implement mount topology and
- attribute change notifications [ver #5]
-From:   Ian Kent <raven@themaw.net>
-To:     David Howells <dhowells@redhat.com>
-Cc:     Miklos Szeredi <miklos@szeredi.hu>,
+        id S1726999AbgHCO42 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 3 Aug 2020 10:56:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37188 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726817AbgHCO42 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 3 Aug 2020 10:56:28 -0400
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com [IPv6:2607:f8b0:4864:20::742])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2D78C06179F
+        for <linux-api@vger.kernel.org>; Mon,  3 Aug 2020 07:56:27 -0700 (PDT)
+Received: by mail-qk1-x742.google.com with SMTP id q128so3000823qkd.2
+        for <linux-api@vger.kernel.org>; Mon, 03 Aug 2020 07:56:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=lca.pw; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=uoxUh7w9S9WoHetqVWaE7PcRU88z96URBWxyZ+DAwkc=;
+        b=gJfhM6esZzSfXkUvP5yQrCmFvH8pvz4rJ+mEBVt7IlRuA6L3Y8qq1USaYHHgw5mOQ5
+         l1z+gyKki5iyIqvlp4BgRrKd7gdcnw7HGeYtxpcbn/z1xWf3k1IBd3kjKGBKgFG08Tqt
+         x3q0RiWPelTZDyOz5bVJSh4JZ927D/eswkAe8OXZ9bXVuWzWY0FauBGvH+w+EkW9L/g5
+         qDNxk1OifG1rBTL73R8+tRFWskO4NTDBQzhRPb8QA3WtJWfTL65MvhSausBX+rymJ6Yo
+         cJo5oNM9Hmw+g5rPAjw5TrCks1EV6nddKOL7VQG4u7dSbYwP7oqt19nuMN+mSOMa9NSF
+         wjhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=uoxUh7w9S9WoHetqVWaE7PcRU88z96URBWxyZ+DAwkc=;
+        b=NPB4VfcCZ4vd/BHBtpN64UOnHHgEU/pwCHaDdgdIJk1+7pIfGgQFcmbGMedUC/uit9
+         BaQkVTkdZj/9z+ZwqLaUh7Ak1HLQJqwvd5IUwK9HuwijcHUZ5KZCbeMUJ7MkED6Ydasi
+         IbAPPeYiCgql2RefGb4Ntv8ev9ZX3Sx5OWH+pNIjfUVGY2DEtSQFRss0Br3LurZOd8Sn
+         i5/Wch/Hviw42dRByGW6n/9dYvFcFiImQCeVn1RlbHCCT82mN7GnBewnLprinOz3GZ5M
+         hqu3lOJ05K6Rxobt06JFDjbEw0R7nXsuaMDtxOrJv8RMFjm6gdPYWjDt8F9bGgDHrF7h
+         iJ/g==
+X-Gm-Message-State: AOAM532zsnBI0drMJnGkER05XzeNNNZA/N48Euo63BkLlV60eFLYoi3a
+        Mx86vd4WZub6gw/mZZ7tAgk7Vw==
+X-Google-Smtp-Source: ABdhPJybT0NeMC+s5f4yB6V+6S6WlOdq+mDZaFmpgmNNrtR1kY4sdRYJIO1H091jYtQK+uaIOX0MRQ==
+X-Received: by 2002:a37:910:: with SMTP id 16mr15814433qkj.466.1596466586662;
+        Mon, 03 Aug 2020 07:56:26 -0700 (PDT)
+Received: from lca.pw (pool-71-184-117-43.bstnma.fios.verizon.net. [71.184.117.43])
+        by smtp.gmail.com with ESMTPSA id i65sm20542228qkf.126.2020.08.03.07.56.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Aug 2020 07:56:25 -0700 (PDT)
+Date:   Mon, 3 Aug 2020 10:56:23 -0400
+From:   Qian Cai <cai@lca.pw>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        Nicolas Dichtel <nicolas.dichtel@6wind.com>,
-        Christian Brauner <christian@brauner.io>, andres@anarazel.de,
-        Jeff Layton <jlayton@redhat.com>, dray@redhat.com,
-        Karel Zak <kzak@redhat.com>, keyrings@vger.kernel.org,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        LSM <linux-security-module@vger.kernel.org>,
-        linux-kernel@vger.kernel.org
-Date:   Mon, 03 Aug 2020 22:30:26 +0800
-In-Reply-To: <1692826.1596457912@warthog.procyon.org.uk>
-References: <303106be4785135446e56cb606138a6e94885887.camel@themaw.net>
-         <CAJfpeguO8Qwkzx9zfGVT7W+pT5p6fgj-_8oJqJbXX_KQBpLLEQ@mail.gmail.com>
-         <1293241.1595501326@warthog.procyon.org.uk>
-         <CAJfpegspWA6oUtdcYvYF=3fij=Bnq03b8VMbU9RNMKc+zzjbag@mail.gmail.com>
-         <158454378820.2863966.10496767254293183123.stgit@warthog.procyon.org.uk>
-         <158454391302.2863966.1884682840541676280.stgit@warthog.procyon.org.uk>
-         <2003787.1595585999@warthog.procyon.org.uk>
-         <865566fb800a014868a9a7e36a00a14430efb11e.camel@themaw.net>
-         <2023286.1595590563@warthog.procyon.org.uk>
-         <CAJfpegsT_3YqHPWCZGX7Lr+sE0NVmczWz5L6cN8CzsVz4YKLCQ@mail.gmail.com>
-         <1283475.1596449889@warthog.procyon.org.uk>
-         <1576646.1596455376@warthog.procyon.org.uk>
-         <1692826.1596457912@warthog.procyon.org.uk>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        sfr@canb.auug.org.au, linux-next@vger.kernel.org
+Subject: Re: add file system helpers that take kernel pointers for the init
+ code v4
+Message-ID: <20200803145622.GB4631@lca.pw>
+References: <20200728163416.556521-1-hch@lst.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200728163416.556521-1-hch@lst.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, 2020-08-03 at 13:31 +0100, David Howells wrote:
-> Ian Kent <raven@themaw.net> wrote:
+On Tue, Jul 28, 2020 at 06:33:53PM +0200, Christoph Hellwig wrote:
+> Hi Al and Linus,
 > 
-> > > I'm changing it so that the fields are 64-bit, but initialised
-> > > with the
-> > > existing mount ID in the notifications set.  The fsinfo set
-> > > changes that
-> > > to a unique ID.  I'm tempted to make the unique IDs start at
-> > > UINT_MAX+1 to
-> > > disambiguate them.
-> > 
-> > Mmm ... so what would I use as a mount id that's not used, like
-> > NULL
-> > for strings?
-> 
-> Zero is skipped, so you could use that.
-> 
-> > I'm using -1 now but changing this will mean I need something
-> > different.
-> 
-> It's 64-bits, so you're not likely to see it reach -1, even if it
-> does start
-> at UINT_MAX+1.
+> currently a lot of the file system calls in the early in code (and the
+> devtmpfs kthread) rely on the implicit set_fs(KERNEL_DS) during boot.
+> This is one of the few last remaining places we need to deal with to kill
+> off set_fs entirely, so this series adds new helpers that take kernel
+> pointers.  These helpers are in init/ and marked __init and thus will
+> be discarded after bootup.  A few also need to be duplicated in devtmpfs,
+> though unfortunately.
 
-Ha, either or, I don't think it will be a problem, there's
-bound to be a few changes so the components using this will
-need to change a bit before it's finalized, shouldn't be a
-big deal I think. At least not for me and shouldn't be much
-for libmount either I think.
+Reverting this series from next-20200803 fixed the crash below on shutdown.
 
-Ian
+[ 7303.287890][    T1] systemd-shutdown[1]: All loop devices detached.
+[ 7303.287930][    T1] systemd-shutdown[1]: Detaching DM devices.
+[ 7303.441674][    T1] printk: shutdown: 9 output lines suppressed due to ratelimiting
+[ 7303.443999][    T1] Kernel panic - not syncing: Attempted to kill init! exitcode=0x00000100
+[ 7303.444027][    T1] CPU: 120 PID: 1 Comm: shutdown Not tainted 5.8.0-next-20200803 #2
+[ 7303.444053][    T1] Call Trace:
+[ 7303.444069][    T1] [c000000015d27b70] [c0000000006f3778] dump_stack+0xfc/0x174 (unreliable)
+[ 7303.444103][    T1] [c000000015d27bc0] [c0000000000c9328] panic+0x214/0x4ac
+[ 7303.444140][    T1] [c000000015d27c60] [c0000000000d4d28] do_exit+0xda8/0xee0
+[ 7303.444178][    T1] [c000000015d27d60] [c0000000000d4f1c] do_group_exit+0x5c/0xd0
+list_empty at include/linux/list.h:282
+(inlined by) thread_group_empty at include/linux/sched/signal.h:671
+(inlined by) do_group_exit at kernel/exit.c:888
+[ 7303.444205][    T1] [c000000015d27da0] [c0000000000d4fac] sys_exit_group+0x1c/0x20
+sys_exit_group at kernel/exit.c:914
+[ 7303.444234][    T1] [c000000015d27dc0] [c00000000002c628] system_call_exception+0xf8/0x1d0
+[ 7303.444262][    T1] [c000000015d27e20] [c00000000000d0a8] system_call_common+0xe8/0x218
+[ 7304.936912][    T1] ---[ end Kernel panic - not syncing: Attempted to kill init! exitcode=0x00000100 ]---
 
+> 
+> The series sits on top of my previous
+> 
+>   "decruft the early init / initrd / initramfs code v2"
+> 
+> series.
+> 
+> 
+> Git tree:
+> 
+>     git://git.infradead.org/users/hch/misc.git init_path
+> 
+> Gitweb:
+> 
+>     http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/init_path
+> 
+> 
+> Changes since v3:
+>  - rename fs/for_init.c to fs/init.c
+>  - document the purpose of the routines in fs/init.c with a comment
+>  - don't mark devtmpfs __init as that will cause it to get overwritten
+>    by initmem poisoning
+>  - add an init_dup helper to make Al more happy than with the version
+>    commit to the "decruft the early init / initrd / initramfs code v2"
+>    series
+> 
+> Changes since v2:
+>  - move to fs/for_init.c
+>  - reuse the init routines in devtmpfs after refactoring devtmpfsd
+>    (and thus the broken error handling in the previous version)
+>  - actually use kern_path in a place where user_path_at sneaked back in
+> 
+> Changes since v1:
+>  - avoid most core VFS changes
+>  - renamed the functions and move them to init/ and devtmpfs
+>  - drop a bunch of cleanups that can be submitted independently now
+> 
+> 
+> Diffstat:
