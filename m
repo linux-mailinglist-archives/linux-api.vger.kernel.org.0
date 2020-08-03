@@ -2,86 +2,165 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B1A923A4FB
-	for <lists+linux-api@lfdr.de>; Mon,  3 Aug 2020 14:32:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17C5023A732
+	for <lists+linux-api@lfdr.de>; Mon,  3 Aug 2020 15:06:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729272AbgHCMcB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 3 Aug 2020 08:32:01 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:47192 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729259AbgHCMcB (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 3 Aug 2020 08:32:01 -0400
+        id S1726971AbgHCNG1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 3 Aug 2020 09:06:27 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48662 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726515AbgHCNG1 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 3 Aug 2020 09:06:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1596457920;
+        s=mimecast20190719; t=1596459985;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=+FTqyOz+KM8b1l5RbH2zS34D2EqLt9IQI9azf1e1ydg=;
-        b=Ef+XjQPsux6IyzMUGQ5kDNPTWaC2If6GYzukTnXE+Ak+eoi6GIcUkm0aGbSYHQ6hTzzd+G
-        3zYjIjSIoM6K4TU/kqa95NPYTxQ+rHa6AvWm60tfzuux15pmYoeoLWW2/SrUtNPHmCy5s1
-        ZI6C6whezzxVz69w7AuORtRV0fsw/hQ=
+         content-transfer-encoding:content-transfer-encoding;
+        bh=pwPDTywOojI/7bsmmT70RBPy/Nqmgh7kaCKLIQz3WEI=;
+        b=YDlIDWHnwdTB+S+j+Psfyn0jaql5URTd813jKDFLoeteiYEcOO2iLoxJUD9tRArPFjUTvW
+        9IFsD8TmnHpWMOwdJlyJhGOo7m3Mwi+pCxlc8D4Ek2DIZsaOVx6zhAwXwlfyf4DKymSJt/
+        uxdAq1AmX1B2DImAExWvwAz2hC+KGHM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-77-YLQh1wy0P0eZHtUDK-Mg4w-1; Mon, 03 Aug 2020 08:31:58 -0400
-X-MC-Unique: YLQh1wy0P0eZHtUDK-Mg4w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+ us-mta-225-JOtaLftLN66601CSTdmQTw-1; Mon, 03 Aug 2020 09:06:24 -0400
+X-MC-Unique: JOtaLftLN66601CSTdmQTw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B7D55101C8A8;
-        Mon,  3 Aug 2020 12:31:56 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 128DD8015F7;
+        Mon,  3 Aug 2020 13:06:22 +0000 (UTC)
 Received: from warthog.procyon.org.uk (ovpn-112-32.rdu2.redhat.com [10.10.112.32])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 8724E7176A;
-        Mon,  3 Aug 2020 12:31:53 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 8ADEA1001B0B;
+        Mon,  3 Aug 2020 13:06:18 +0000 (UTC)
+Subject: [PATCH 0/5] Mount notifications [ver #2]
 From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <303106be4785135446e56cb606138a6e94885887.camel@themaw.net>
-References: <303106be4785135446e56cb606138a6e94885887.camel@themaw.net> <CAJfpeguO8Qwkzx9zfGVT7W+pT5p6fgj-_8oJqJbXX_KQBpLLEQ@mail.gmail.com> <1293241.1595501326@warthog.procyon.org.uk> <CAJfpegspWA6oUtdcYvYF=3fij=Bnq03b8VMbU9RNMKc+zzjbag@mail.gmail.com> <158454378820.2863966.10496767254293183123.stgit@warthog.procyon.org.uk> <158454391302.2863966.1884682840541676280.stgit@warthog.procyon.org.uk> <2003787.1595585999@warthog.procyon.org.uk> <865566fb800a014868a9a7e36a00a14430efb11e.camel@themaw.net> <2023286.1595590563@warthog.procyon.org.uk> <CAJfpegsT_3YqHPWCZGX7Lr+sE0NVmczWz5L6cN8CzsVz4YKLCQ@mail.gmail.com> <1283475.1596449889@warthog.procyon.org.uk> <1576646.1596455376@warthog.procyon.org.uk>
-To:     Ian Kent <raven@themaw.net>
-Cc:     dhowells@redhat.com, Miklos Szeredi <miklos@szeredi.hu>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Casey Schaufler <casey@schaufler-ca.com>,
+To:     viro@zeniv.linux.org.uk
+Cc:     linux-security-module@vger.kernel.org,
         Stephen Smalley <sds@tycho.nsa.gov>,
-        Nicolas Dichtel <nicolas.dichtel@6wind.com>,
-        Christian Brauner <christian@brauner.io>, andres@anarazel.de,
-        Jeff Layton <jlayton@redhat.com>, dray@redhat.com,
-        Karel Zak <kzak@redhat.com>, keyrings@vger.kernel.org,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        LSM <linux-security-module@vger.kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 13/17] watch_queue: Implement mount topology and attribute change notifications [ver #5]
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        James Morris <jamorris@linux.microsoft.com>,
+        dhowells@redhat.com, torvalds@linux-foundation.org,
+        casey@schaufler-ca.com, sds@tycho.nsa.gov,
+        nicolas.dichtel@6wind.com, raven@themaw.net, christian@brauner.io,
+        jlayton@redhat.com, kzak@redhat.com, mszeredi@redhat.com,
+        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Mon, 03 Aug 2020 14:06:17 +0100
+Message-ID: <159645997768.1779777.8286723139418624756.stgit@warthog.procyon.org.uk>
+User-Agent: StGit/0.23
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <1692825.1596457912.1@warthog.procyon.org.uk>
-Date:   Mon, 03 Aug 2020 13:31:52 +0100
-Message-ID: <1692826.1596457912@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Ian Kent <raven@themaw.net> wrote:
 
-> > I'm changing it so that the fields are 64-bit, but initialised with the
-> > existing mount ID in the notifications set.  The fsinfo set changes that
-> > to a unique ID.  I'm tempted to make the unique IDs start at UINT_MAX+1 to
-> > disambiguate them.
-> 
-> Mmm ... so what would I use as a mount id that's not used, like NULL
-> for strings?
+Here's a set of patches to add notifications for mount topology events,
+such as mounting, unmounting, mount expiry, mount reconfiguration.
 
-Zero is skipped, so you could use that.
+An LSM hook is included to an LSM to rule on whether or not a mount watch
+may be set on a particular path.
 
-> I'm using -1 now but changing this will mean I need something
-> different.
+Why do we want mount notifications?  Whilst /proc/mounts can be polled, it
+only tells you that something changed in your namespace.  To find out, you
+have to trawl /proc/mounts or similar to work out what changed in the mount
+object attributes and mount topology.  I'm told that the proc file holding
+the namespace_sem is a point of contention, especially as the process of
+generating the text descriptions of the mounts/superblocks can be quite
+involved.
 
-It's 64-bits, so you're not likely to see it reach -1, even if it does start
-at UINT_MAX+1.
+The notification generated here directly indicates the mounts involved in
+any particular event and gives an idea of what the change was.
+
+This is combined with a new fsinfo() system call that allows, amongst other
+things, the ability to retrieve in one go an { id, change_counter } tuple
+from all the children of a specified mount, allowing buffer overruns to be
+dealt with quickly.
+
+This is of use to systemd to improve efficiency:
+
+	https://lore.kernel.org/linux-fsdevel/20200227151421.3u74ijhqt6ekbiss@ws.net.home/
+
+And it's not just Red Hat that's potentially interested in this:
+
+	https://lore.kernel.org/linux-fsdevel/293c9bd3-f530-d75e-c353-ddeabac27cf6@6wind.com/
+
+The kernel patches can also be found here:
+
+	https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/log/?h=notifications-pipe-core
+
+
+===================
+SIGNIFICANT CHANGES
+===================
+
+ ver #2:
+
+ (*) Make the ID fields in the mount notification 64-bits.  They're left
+     referring to the mount ID here, but switched to the mount unique ID in
+     the patch in fsinfo that adds that. [Requested by Miklós Szeredi]
+
+ (*) Dropped the event counters from the mount notification message.
+     [Requested by Miklós].
+
+     This can easily be added back later as the message length can be
+     increased to show it.
+
+ (*) Moved the mount event counters over to the fsinfo patchset.
+
 
 David
+---
+David Howells (5):
+      watch_queue: Limit the number of watches a user can hold
+      watch_queue: Make watch_sizeof() check record size
+      watch_queue: Add security hooks to rule on setting mount watches
+      watch_queue: Implement mount topology and attribute change notifications
+      watch_queue: sample: Display mount tree change notifications
+
+
+ Documentation/watch_queue.rst               |  12 +-
+ arch/alpha/kernel/syscalls/syscall.tbl      |   1 +
+ arch/arm/tools/syscall.tbl                  |   1 +
+ arch/arm64/include/asm/unistd.h             |   2 +-
+ arch/arm64/include/asm/unistd32.h           |   2 +
+ arch/ia64/kernel/syscalls/syscall.tbl       |   1 +
+ arch/m68k/kernel/syscalls/syscall.tbl       |   1 +
+ arch/microblaze/kernel/syscalls/syscall.tbl |   1 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl   |   1 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl   |   1 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl   |   1 +
+ arch/parisc/kernel/syscalls/syscall.tbl     |   1 +
+ arch/powerpc/kernel/syscalls/syscall.tbl    |   1 +
+ arch/s390/kernel/syscalls/syscall.tbl       |   1 +
+ arch/sh/kernel/syscalls/syscall.tbl         |   1 +
+ arch/sparc/kernel/syscalls/syscall.tbl      |   1 +
+ arch/x86/entry/syscalls/syscall_32.tbl      |   1 +
+ arch/x86/entry/syscalls/syscall_64.tbl      |   1 +
+ arch/xtensa/kernel/syscalls/syscall.tbl     |   1 +
+ fs/Kconfig                                  |   9 +
+ fs/Makefile                                 |   1 +
+ fs/mount.h                                  |  18 ++
+ fs/mount_notify.c                           | 222 ++++++++++++++++++++
+ fs/namespace.c                              |  22 ++
+ include/linux/dcache.h                      |   1 +
+ include/linux/lsm_hook_defs.h               |   3 +
+ include/linux/lsm_hooks.h                   |   6 +
+ include/linux/security.h                    |   8 +
+ include/linux/syscalls.h                    |   2 +
+ include/linux/watch_queue.h                 |   7 +-
+ include/uapi/asm-generic/unistd.h           |   4 +-
+ include/uapi/linux/watch_queue.h            |  31 ++-
+ kernel/sys_ni.c                             |   3 +
+ samples/watch_queue/watch_test.c            |  41 +++-
+ security/security.c                         |   7 +
+ 35 files changed, 411 insertions(+), 6 deletions(-)
+ create mode 100644 fs/mount_notify.c
+
 
