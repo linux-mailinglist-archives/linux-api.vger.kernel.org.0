@@ -2,89 +2,101 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 86CDD23A102
-	for <lists+linux-api@lfdr.de>; Mon,  3 Aug 2020 10:27:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BA5823A1BD
+	for <lists+linux-api@lfdr.de>; Mon,  3 Aug 2020 11:30:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726321AbgHCI1a convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Mon, 3 Aug 2020 04:27:30 -0400
-Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151]:60199 "EHLO
-        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725806AbgHCI13 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 3 Aug 2020 04:27:29 -0400
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-238-5RDLBwWzPy-44Oq5Oxj5QQ-1; Mon, 03 Aug 2020 09:27:26 +0100
-X-MC-Unique: 5RDLBwWzPy-44Oq5Oxj5QQ-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Mon, 3 Aug 2020 09:27:25 +0100
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
- Mon, 3 Aug 2020 09:27:25 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Mark Rutland' <mark.rutland@arm.com>,
-        "Madhavan T. Venkataraman" <madvenka@linux.microsoft.com>
-CC:     Andy Lutomirski <luto@kernel.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        linux-integrity <linux-integrity@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "LSM List" <linux-security-module@vger.kernel.org>,
-        Oleg Nesterov <oleg@redhat.com>, X86 ML <x86@kernel.org>
-Subject: RE: [PATCH v1 0/4] [RFC] Implement Trampoline File Descriptor
-Thread-Topic: [PATCH v1 0/4] [RFC] Implement Trampoline File Descriptor
-Thread-Index: AQHWZ2jYT+e4gDrzGEmP/30MMvDTCqkmD9qg
-Date:   Mon, 3 Aug 2020 08:27:25 +0000
-Message-ID: <a3068e3126a942c7a3e7ac115499deb1@AcuMS.aculab.com>
-References: <20200728131050.24443-1-madvenka@linux.microsoft.com>
- <CALCETrVy5OMuUx04-wWk9FJbSxkrT2vMfN_kANinudrDwC4Cig@mail.gmail.com>
- <6540b4b7-3f70-adbf-c922-43886599713a@linux.microsoft.com>
- <CALCETrWnNR5v3ZCLfBVQGYK8M0jAvQMaAc9uuO05kfZuh-4d6w@mail.gmail.com>
- <46a1adef-65f0-bd5e-0b17-54856fb7e7ee@linux.microsoft.com>
- <20200731183146.GD67415@C02TD0UTHF1T.local>
-In-Reply-To: <20200731183146.GD67415@C02TD0UTHF1T.local>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        id S1726169AbgHCJ3y (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 3 Aug 2020 05:29:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43160 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725965AbgHCJ3l (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 3 Aug 2020 05:29:41 -0400
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DF02C061756
+        for <linux-api@vger.kernel.org>; Mon,  3 Aug 2020 02:29:40 -0700 (PDT)
+Received: by mail-ed1-x541.google.com with SMTP id m20so17229163eds.2
+        for <linux-api@vger.kernel.org>; Mon, 03 Aug 2020 02:29:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=owNLFqTMe1SU5EaKmrLtcVAQ4KDndakWi4Xb0Cu0Z7c=;
+        b=E5LkGHz5hRcvvUwxDdXSDeNZX1oJy9nnYaDR4Qa2WN7LPbOyqMkQToA2KaIosRDx2l
+         /vAExylwGECGrMNjwVPDmYo7pNQ2YqGjS2ohu2O6bKfvmdR8zsidyAa/NkbgnEMDSLHI
+         4UqRBKbGyq8XWb5T0s7zheGCNIklGnT6FDvMg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=owNLFqTMe1SU5EaKmrLtcVAQ4KDndakWi4Xb0Cu0Z7c=;
+        b=aGtJ8ISbWSkD2RbnMQJmB+j6ikgJBt4z31P3q2wzmAEYaCdY5Q9yDix0/MP0h5Me3J
+         vYtjZKNR3mtha+HKq5fTjABlZYlulhd7SAMBcHv4g3PtzODxafpUrk/KoIF2o636P6ug
+         /XxJVfuqBKLDcxULcZVJrO3eUoggvZjLfvf7jmLe2gMr6c6L3nJ+PJUfAKY8Vp9Tv6Wa
+         120ZxJlBR8yXMr29Zk7ZZ5cUSVpj5WcOZ67KqnM1sv3hO83CUxRRumaNcXOMFpla6hhR
+         mZqyvRdJoSQoSfuc0MSmw1B/9HBKRRczsx4+OfKZrhdKM1qCtLh1+rFezpYx93GY+nD7
+         n+/Q==
+X-Gm-Message-State: AOAM531Tgla5IgALRmxcLCwDtY25W0cNhztkM/QZyZzeMYxB4jKNN0hp
+        eCDnHiImtjQ8/cnXmOXwVz3X6y2wXb25YY6bL9onsQ==
+X-Google-Smtp-Source: ABdhPJwwRwE/z9+48aOsHKHN045IllUewS+ZVaDKVLXEbNVYV6u3PqSbaJ4L7LCc7hyeEJUAG7ii5G7P1/+cTZ4bZsc=
+X-Received: by 2002:aa7:c915:: with SMTP id b21mr15388861edt.17.1596446978906;
+ Mon, 03 Aug 2020 02:29:38 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+References: <158454378820.2863966.10496767254293183123.stgit@warthog.procyon.org.uk>
+ <158454391302.2863966.1884682840541676280.stgit@warthog.procyon.org.uk>
+ <CAJfpegspWA6oUtdcYvYF=3fij=Bnq03b8VMbU9RNMKc+zzjbag@mail.gmail.com> <1293241.1595501326@warthog.procyon.org.uk>
+In-Reply-To: <1293241.1595501326@warthog.procyon.org.uk>
+From:   Miklos Szeredi <miklos@szeredi.hu>
+Date:   Mon, 3 Aug 2020 11:29:27 +0200
+Message-ID: <CAJfpeguvLMCw1H8+DPsfZE_k0sEiRtA17pD9HjnceSsAvqqAZw@mail.gmail.com>
+Subject: Re: [PATCH 13/17] watch_queue: Implement mount topology and attribute
+ change notifications [ver #5]
+To:     David Howells <dhowells@redhat.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        Nicolas Dichtel <nicolas.dichtel@6wind.com>,
+        Ian Kent <raven@themaw.net>,
+        Christian Brauner <christian@brauner.io>, andres@anarazel.de,
+        Jeff Layton <jlayton@redhat.com>, dray@redhat.com,
+        Karel Zak <kzak@redhat.com>, keyrings@vger.kernel.org,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        LSM <linux-security-module@vger.kernel.org>,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Mark Rutland
-> Sent: 31 July 2020 19:32
-...
-> > It requires PC-relative data references. I have not worked on all architectures.
-> > So, I need to study this. But do all ISAs support PC-relative data references?
-> 
-> Not all do, but pretty much any recent ISA will as it's a practical
-> necessity for fast position-independent code.
+On Thu, Jul 23, 2020 at 12:48 PM David Howells <dhowells@redhat.com> wrote:
 
-i386 has neither PC-relative addressing nor moves from %pc.
-The cpu architecture knows that the sequence:
-	call	1f  
-1:	pop	%reg  
-is used to get the %pc value so is treated specially so that
-it doesn't 'trash' the return stack.
+>
+> > >                 __u32   topology_changes;
+> > >                 __u32   attr_changes;
+> > >                 __u32   aux_topology_changes;
+> >
+> > Being 32bit this introduces wraparound effects.  Is that really worth it?
+>
+> You'd have to make 2 billion changes without whoever's monitoring getting a
+> chance to update their counters.  But maybe it's not worth it putting them
+> here.  If you'd prefer, I can make the counters all 64-bit and just retrieve
+> them with fsinfo().
 
-So PIC code isn't too bad, but you have to use the correct
-sequence.
+Yes, I think that would be preferable.
 
-	David
+> > >         n->watch.info & NOTIFY_MOUNT_IS_RECURSIVE if true indicates that
+> > >         the notifcation was generated by an event (eg. SETATTR) that was
+> > >         applied recursively.  The notification is only generated for the
+> > >         object that initially triggered it.
+> >
+> > Unused in this patchset.  Please don't add things to the API which are not
+> > used.
+>
+> Christian Brauner has patches for mount_setattr() that will need to use this.
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
+Fine, then that patch can add the flag.
 
+Thanks,
+Miklos
