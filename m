@@ -2,157 +2,104 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D4099239CE9
-	for <lists+linux-api@lfdr.de>; Mon,  3 Aug 2020 00:59:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 09A2A23A0A6
+	for <lists+linux-api@lfdr.de>; Mon,  3 Aug 2020 10:08:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726906AbgHBW7C (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 2 Aug 2020 18:59:02 -0400
-Received: from linux.microsoft.com ([13.77.154.182]:57188 "EHLO
-        linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726257AbgHBW7C (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 2 Aug 2020 18:59:02 -0400
-Received: from [192.168.254.32] (unknown [47.187.206.220])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 2BD5420B4908;
-        Sun,  2 Aug 2020 15:59:00 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2BD5420B4908
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1596409140;
-        bh=Q7q31WyGpO6J3iZ6HoTSTxcyY2RYOO3HoBrVjNyqpPA=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=pT2y52UBji3W0nv8oaWqlXsVHl+hqxrTJnSZ5683V0Vq7481OEdHqda3OONYprXUp
-         pUvC7Ja7yH7A7A7PnhVPoN4/nCrqBhOuCsyTs5k8KgsuxVR6rM+c6V/PJxlx37f+KW
-         8krLq5y3aSQx9KIXxSdL4F/U4BEfCPv/l8nRqqTQ=
-Subject: Re: [PATCH v1 0/4] [RFC] Implement Trampoline File Descriptor
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        id S1725926AbgHCII1 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Mon, 3 Aug 2020 04:08:27 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([185.58.86.151]:26896 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725951AbgHCII0 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 3 Aug 2020 04:08:26 -0400
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-111-PHrlPE41MKu5ed8gAMWPYg-1; Mon, 03 Aug 2020 09:08:22 +0100
+X-MC-Unique: PHrlPE41MKu5ed8gAMWPYg-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Mon, 3 Aug 2020 09:08:21 +0100
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
+ Mon, 3 Aug 2020 09:08:21 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Pavel Machek' <pavel@ucw.cz>
+CC:     'Andy Lutomirski' <luto@kernel.org>,
+        "madvenka@linux.microsoft.com" <madvenka@linux.microsoft.com>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
         Linux API <linux-api@vger.kernel.org>,
         linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
         Linux FS Devel <linux-fsdevel@vger.kernel.org>,
         linux-integrity <linux-integrity@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
+        "LSM List" <linux-security-module@vger.kernel.org>,
         Oleg Nesterov <oleg@redhat.com>, X86 ML <x86@kernel.org>
+Subject: RE: [PATCH v1 0/4] [RFC] Implement Trampoline File Descriptor
+Thread-Topic: [PATCH v1 0/4] [RFC] Implement Trampoline File Descriptor
+Thread-Index: AQHWZQT/T+e4gDrzGEmP/30MMvDTCqkgFteggASWI4CAAWJTUA==
+Date:   Mon, 3 Aug 2020 08:08:21 +0000
+Message-ID: <c02fbae7a0754a58884b370657575845@AcuMS.aculab.com>
 References: <20200728131050.24443-1-madvenka@linux.microsoft.com>
  <CALCETrVy5OMuUx04-wWk9FJbSxkrT2vMfN_kANinudrDwC4Cig@mail.gmail.com>
- <3b916198-3a98-bd19-9a1c-f2d8d44febe8@linux.microsoft.com>
- <CALCETrUJ2hBmJujyCtEqx4=pknRvjvi1-Gj9wfRcMMzejjKQsQ@mail.gmail.com>
-From:   "Madhavan T. Venkataraman" <madvenka@linux.microsoft.com>
-Message-ID: <0fa7d888-c4fd-aeb3-db08-151ea648558d@linux.microsoft.com>
-Date:   Sun, 2 Aug 2020 17:58:59 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <CALCETrUJ2hBmJujyCtEqx4=pknRvjvi1-Gj9wfRcMMzejjKQsQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+ <b9879beef3e740c0aeb1af73485069a8@AcuMS.aculab.com>
+ <20200802115600.GB1162@bug>
+In-Reply-To: <20200802115600.GB1162@bug>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
+MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+From: Pavel Machek <pavel@ucw.cz>
+> Sent: 02 August 2020 12:56
+> Hi!
+> 
+> > > This is quite clever, but now I???m wondering just how much kernel help
+> > > is really needed. In your series, the trampoline is an non-executable
+> > > page.  I can think of at least two alternative approaches, and I'd
+> > > like to know the pros and cons.
+> > >
+> > > 1. Entirely userspace: a return trampoline would be something like:
+> > >
+> > > 1:
+> > > pushq %rax
+> > > pushq %rbc
+> > > pushq %rcx
+> > > ...
+> > > pushq %r15
+> > > movq %rsp, %rdi # pointer to saved regs
+> > > leaq 1b(%rip), %rsi # pointer to the trampoline itself
+> > > callq trampoline_handler # see below
+> >
+> > For nested calls (where the trampoline needs to pass the
+> > original stack frame to the nested function) I think you
+> > just need a page full of:
+> > 	mov	$0, scratch_reg; jmp trampoline_handler
+> 
+> I believe you could do with mov %pc, scratch_reg; jmp ...
+> 
+> That has advantage of being able to share single physical
+> page across multiple virtual pages...
 
+A lot of architecture don't let you copy %pc that way so you would
+have to use 'call' - but that trashes the return address cache.
+It also needs the trampoline handler to know the addresses
+of the trampolines.
 
-On 8/2/20 3:00 PM, Andy Lutomirski wrote:
-> On Sun, Aug 2, 2020 at 11:54 AM Madhavan T. Venkataraman
-> <madvenka@linux.microsoft.com> wrote:
->> More responses inline..
->>
->> On 7/28/20 12:31 PM, Andy Lutomirski wrote:
->>>> On Jul 28, 2020, at 6:11 AM, madvenka@linux.microsoft.com wrote:
->>>>
->>>> ﻿From: "Madhavan T. Venkataraman" <madvenka@linux.microsoft.com>
->>>>
->>> 2. Use existing kernel functionality.  Raise a signal, modify the
->>> state, and return from the signal.  This is very flexible and may not
->>> be all that much slower than trampfd.
->> Let me understand this. You are saying that the trampoline code
->> would raise a signal and, in the signal handler, set up the context
->> so that when the signal handler returns, we end up in the target
->> function with the context correctly set up. And, this trampoline code
->> can be generated statically at build time so that there are no
->> security issues using it.
->>
->> Have I understood your suggestion correctly?
-> yes.
->
->> So, my argument would be that this would always incur the overhead
->> of a trip to the kernel. I think twice the overhead if I am not mistaken.
->> With trampfd, we can have the kernel generate the code so that there
->> is no performance penalty at all.
-> I feel like trampfd is too poorly defined at this point to evaluate.
-> There are three general things it could do.  It could generate actual
-> code that varies by instance.  It could have static code that does not
-> vary.  And it could actually involve a kernel entry.
->
-> If it involves a kernel entry, then it's slow.  Maybe this is okay for
-> some use cases.
+	David
 
-Yes. IMO, it is OK for most cases except where dynamic code
-is used specifically for enhancing performance such as interpreters
-using JIT code for frequently executed sequences and dynamic
-binary translation.
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
 
-> If it involves only static code, I see no good reason that it should
-> be in the kernel.
-
-It does not involve only static code. This is meant for dynamic code.
-However, see below.
-
-> If it involves dynamic code, then I think it needs a clearly defined
-> use case that actually requires dynamic code.
-
-Fair enough. I will work on this and get back to you. This might take
-a little time. So, bear with me.
-
-But I would like to make one point here. There are many applications
-and libraries out there that use trampolines. They may all require the
-same sort of things:
-
-    - set register context
-    - push stuff on stack
-    - jump to a target PC
-
-But in each case, the context would be different:
-
-    - only register context
-    - only stack context
-    - both register and stack contexts
-    - different registers
-    - different values pushed on the stack
-    - different target PCs
-
-If we had to do this purely at user level, each application/library would
-need to roll its own solution, the solution has to be implemented for
-each supported architecture and maintained. While the code is static
-in each separate case, it is dynamic across all of them.
-
-That is, the kernel will generate the code on the fly for each trampoline
-instance based on its current context. It will not maintain any static
-trampoline code at all.
-
-Basically, it will supply the context to an arch-specific function and say:
-
-    - generate instructions for loading these regs with these values
-    - generate instructions to push these values on the stack
-    - generate an instruction to jump to this target PC
-
-It will place all of those generated instructions on a page and return the address.
-
-So, even with the static case, there is a lot of value in the kernel providing
-this. Plus, it has the framework to handle dynamic code.
-
->> Also, signals are asynchronous. So, they are vulnerable to race conditions.
->> To prevent other signals from coming in while handling the raised signal,
->> we would need to block and unblock signals. This will cause more
->> overhead.
-> If you're worried about raise() racing against signals from out of
-> thread, you have bigger problems to deal with.
-
-Agreed. The signal blocking is just one example of problems related
-to signals. There are other bigger problems as well. So, let us remove
-the signal-based approach from our discussions.
-
-Thanks.
-
-Madhavan
