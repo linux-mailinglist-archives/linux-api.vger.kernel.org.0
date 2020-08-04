@@ -2,71 +2,78 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 77DE323B072
-	for <lists+linux-api@lfdr.de>; Tue,  4 Aug 2020 00:49:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 574C123B2A8
+	for <lists+linux-api@lfdr.de>; Tue,  4 Aug 2020 04:16:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728213AbgHCWs4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 3 Aug 2020 18:48:56 -0400
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:46331 "EHLO
-        new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726770AbgHCWs4 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 3 Aug 2020 18:48:56 -0400
+        id S1726872AbgHDCP7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 3 Aug 2020 22:15:59 -0400
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:49735 "EHLO
+        wnew1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725975AbgHDCP6 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 3 Aug 2020 22:15:58 -0400
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-        by mailnew.nyi.internal (Postfix) with ESMTP id AF6BF5804EF;
-        Mon,  3 Aug 2020 18:48:54 -0400 (EDT)
+        by mailnew.west.internal (Postfix) with ESMTP id D0BE1109E;
+        Mon,  3 Aug 2020 22:15:56 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Mon, 03 Aug 2020 18:48:54 -0400
+  by compute2.internal (MEProxy); Mon, 03 Aug 2020 22:15:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=
         message-id:subject:from:to:cc:date:in-reply-to:references
         :content-type:mime-version:content-transfer-encoding; s=fm3; bh=
-        THOZEHX1IYOljNZcOu9rJ4ttNxpkzNp6II0FV+RfVmU=; b=SKPIS2AE91bKyzja
-        nWa9F0jtD3a/JAMrvcDqIfxp+e6niqvABjEHLRU7LmtA/6J1VAZ7tdHwGZY++yE/
-        QFcWt2dDEy+zsZNL50+x2WqbtVG+7SUiEdoMOt2pdlSlZWbuhR4vbe0J0h6SGoC6
-        IJ/QZ7meZXMuPE0lNdwC6Q5s65bpfrerHpCaJjBJIbFj6jZeLp/Klp7fh5U2sFU1
-        uM+ejc+J9wfvcpNMRSHOrE5JAdLPST9zjJh7ftlayVjlZfLvDOLp1SXGdReMvS8l
-        JUmQ+D/I7q2raLv3C+kGeU3pqolvgeeEIZZUBVEFDRxfDFPLFi4RE673BgnrAdvE
-        xuZHdw==
+        Yf5WKRO+L01e+K0gQ+L/XIx6I13Eu/IhzjwnU3V5dgc=; b=c6z5GPuRxHtsPtGY
+        P2POfINNzW66vYofIVzYVwHi13eTDhiL2WxSOKOvbymdtptV7Mp+qlpNOL9tHc83
+        7fmMAA6LyGKVnsT+O8LfiHvywmCyYJ3iVdZ1rVggs1J82fMbth7pQPw/4iZoZYZ6
+        j4FhANVoVoqR3fzOjngPvn7ypuMd2gIFNfr4RUpoq6owEo8lQi9zNjuAgaoZtPC5
+        z3uLb7fxv8OvYiSlmnwoCPCmR1WNcVH0VvhxPaLgvMa52OaYzMJp5MJ4nBo97rAp
+        FtbgtlMsub9XfboFIqq8Z2Fn7ztP3CRkAFrIIoirO/xa4bMWi8UN8ya2RaYt9xlQ
+        msCcEA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-transfer-encoding:content-type
         :date:from:in-reply-to:message-id:mime-version:references
         :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; bh=THOZEHX1IYOljNZcOu9rJ4ttNxpkzNp6II0FV+RfV
-        mU=; b=VdpfVhwuGSr+wvjIqM9NIoa+Rhg0GQ3xapsMGUZuiKG231yP3lUq7/alB
-        G5GOoa53n4nJO29GX/NZo9HKbevyMae2cYeqRchH52f/k+MhaP4US/e8uNRdOJF2
-        N9pxlxJUzHz0qwAziRmVdTCIAd8GvkmoKBXc6yblCQnOWFe1mxDLTdd6OQDlXS/h
-        X7wDtor6pDbQN6bI6ArQP2LF2Bus4XBFFd2d5y5jDJnEqxzVL26avgpTgEflDs+n
-        e3yq/2gWR4sqmSTk4naJsa2PzsgCKu0Ekg5QrKS5F1kIQh6htPwdBiPDY3pWWnaN
-        MsDVQeia9eYcMpDRHQgBq78Ih3N3A==
-X-ME-Sender: <xms:VZQoXw2a42WGwSue6AdNL6HwonUsnXw1CwXtRNbwj9JMmRF_1HKvkQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrjeehgdduhecutefuodetggdotefrodftvf
+        :x-sasl-enc; s=fm3; bh=Yf5WKRO+L01e+K0gQ+L/XIx6I13Eu/IhzjwnU3V5d
+        gc=; b=nFx19OQYzzZpwIHK6HpTDDfgmz5APlzGRIrPXSKbMKbCjhJLMd9hjYCV/
+        nt/IqfJaZ3H6oCg9XzUyPcdbUAggHTBBdSkT2kwwlHk+xoR9jPRg17l0gHFJ9VOW
+        ENJnDcKVKCq0pPnLHq4WNa+Hw5O5KS3RGu/0+G10QClUN5jMgG1uJg6EMj5JsP7Y
+        2suqHnujWz3a5aeQN27H22ipANuVkaGJ4m50iCQo6g7Y0OhSM/jt5VvU4tDFhcEp
+        4DLT/n/3Oh2N3lLE22sLsRoPPnplqJWHlKJxasVXH+OSSTKi82THesNcef9ixwqP
+        U4QcPM9C10N9mJOycOn3BR7LLrfVg==
+X-ME-Sender: <xms:28QoX9kfHU6I_-P-KFh2NCyyMhNxO0Wy56iSBdkKI5_54YoL7qltNg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrjeehgdehjecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
     fjughrpefkuffhvfffjghftggfggfgsehtkeertddtreejnecuhfhrohhmpefkrghnucfm
-    vghnthcuoehrrghvvghnsehthhgvmhgrfidrnhgvtheqnecuggftrfgrthhtvghrnheple
-    egtdelledtffetjeduteefgfeiheehkeffheeuhfekgeekueelheffheeigeejnecuffho
-    mhgrihhnpehgihhthhhusgdrtghomhdpkhgvrhhnvghlrdhorhhgnecukfhppeduudekrd
-    dvtdekrdegjedrudeiudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgr
-    ihhlfhhrohhmpehrrghvvghnsehthhgvmhgrfidrnhgvth
-X-ME-Proxy: <xmx:VZQoX7FhQnBjq5oCrSpZkjKbXwQRF_EuXb40YIVfvAyxmcjktbKVgg>
-    <xmx:VZQoX472lPSIQDekhd503JWCWACpKo1E_S8tP8bo1UO0__QRoutdKQ>
-    <xmx:VZQoX536u6x3smkO9YZs1V3SgPwApPI2t4H5YM0-fnglTroZ2iaukQ>
-    <xmx:VpQoXy26O5xri8ckaQtxVw6APJOGfOSeVISXel41P24qXsmKL1Yccw>
+    vghnthcuoehrrghvvghnsehthhgvmhgrfidrnhgvtheqnecuggftrfgrthhtvghrnhepgf
+    elleekteehleegheeujeeuudfhueffgfelhefgvedthefhhffhhfdtudfgfeehnecukfhp
+    peduudekrddvtdekrdegjedrudeiudenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
+    grmhepmhgrihhlfhhrohhmpehrrghvvghnsehthhgvmhgrfidrnhgvth
+X-ME-Proxy: <xmx:28QoX42hBT_u_f-GDrU9bAY2IwY1BIl1uRaOxGt1nlKBi0UyIUYeaQ>
+    <xmx:28QoXzrP5g94gMa__7eHy5VgGK6VG041qEheMqb1HaU1RwJDQiX3hA>
+    <xmx:28QoX9nDz72gVMjYcV8Caf9p_0KxKhaSeU7w54d29-HZHR65WMi5Cw>
+    <xmx:3MQoX9yMsQy_Sa6iqa0KFI5VWNpxAgWRegW3V-tKjokRuAyJAk3yIh4uc0w>
 Received: from mickey.themaw.net (unknown [118.208.47.161])
-        by mail.messagingengine.com (Postfix) with ESMTPA id A93D9328005D;
-        Mon,  3 Aug 2020 18:48:49 -0400 (EDT)
-Message-ID: <8eb2e52f1cbdbb8bcf5c5205a53bdc9aaa11a071.camel@themaw.net>
-Subject: Re: [GIT PULL] Mount notifications
+        by mail.messagingengine.com (Postfix) with ESMTPA id D9CA2328005E;
+        Mon,  3 Aug 2020 22:15:50 -0400 (EDT)
+Message-ID: <ac1f5e3406abc0af4cd08d818fe920a202a67586.camel@themaw.net>
+Subject: Re: [GIT PULL] Filesystem Information
 From:   Ian Kent <raven@themaw.net>
-To:     David Howells <dhowells@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     viro@zeniv.linux.org.uk, kzak@redhat.com, jlayton@redhat.com,
-        mszeredi@redhat.com, nicolas.dichtel@6wind.com,
-        christian@brauner.io, linux-api@vger.kernel.org,
+To:     Miklos Szeredi <miklos@szeredi.hu>,
+        David Howells <dhowells@redhat.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>, Karel Zak <kzak@redhat.com>,
+        Jeff Layton <jlayton@redhat.com>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Nicolas Dichtel <nicolas.dichtel@6wind.com>,
+        Christian Brauner <christian@brauner.io>,
+        Lennart Poettering <lennart@poettering.net>,
+        Linux API <linux-api@vger.kernel.org>,
         linux-fsdevel@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Tue, 04 Aug 2020 06:48:45 +0800
-In-Reply-To: <1842689.1596468469@warthog.procyon.org.uk>
+        LSM <linux-security-module@vger.kernel.org>,
+        linux-kernel@vger.kernel.org
+Date:   Tue, 04 Aug 2020 10:15:47 +0800
+In-Reply-To: <CAJfpegunY3fuxh486x9ysKtXbhTE0745ZCVHcaqs9Gww9RV2CQ@mail.gmail.com>
 References: <1842689.1596468469@warthog.procyon.org.uk>
+         <1845353.1596469795@warthog.procyon.org.uk>
+         <CAJfpegunY3fuxh486x9ysKtXbhTE0745ZCVHcaqs9Gww9RV2CQ@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
 MIME-Version: 1.0
@@ -76,172 +83,81 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, 2020-08-03 at 16:27 +0100, David Howells wrote:
-> Hi Linus,
+On Mon, 2020-08-03 at 18:42 +0200, Miklos Szeredi wrote:
+> On Mon, Aug 3, 2020 at 5:50 PM David Howells <dhowells@redhat.com>
+> wrote:
+> > 
+> > Hi Linus,
+> > 
+> > Here's a set of patches that adds a system call, fsinfo(), that
+> > allows
+> > information about the VFS, mount topology, superblock and files to
+> > be
+> > retrieved.
+> > 
+> > The patchset is based on top of the mount notifications patchset so
+> > that
+> > the mount notification mechanism can be hooked to provide event
+> > counters
+> > that can be retrieved with fsinfo(), thereby making it a lot faster
+> > to work
+> > out which mounts have changed.
+> > 
+> > Note that there was a last minute change requested by Miklós: the
+> > event
+> > counter bits got moved from the mount notification patchset to this
+> > one.
+> > The counters got made atomic_long_t inside the kernel and __u64 in
+> > the
+> > UAPI.  The aggregate changes can be assessed by comparing pre-
+> > change tag,
+> > fsinfo-core-20200724 to the requested pull tag.
+> > 
+> > Karel Zak has created preliminary patches that add support to
+> > libmount[*]
+> > and Ian Kent has started working on making systemd use these and
+> > mount
+> > notifications[**].
 > 
-> Here's a set of patches to add notifications for mount topology
-> events,
-> such as mounting, unmounting, mount expiry, mount reconfiguration.
+> So why are you asking to pull at this stage?
 > 
-> The first patch in the series adds a hard limit on the number of
-> watches
-> that any particular user can add.  The RLIMIT_NOFILE value for the
-> process
-> adding a watch is used as the limit.  Even if you don't take the rest
-> of
-> the series, can you at least take this one?
-> 
-> An LSM hook is included for an LSM to rule on whether or not a mount
-> watch
-> may be set on a particular path.
-> 
-> This series is intended to be taken in conjunction with the fsinfo
-> series
-> which I'll post a pull request for shortly and which is dependent on
-> it.
-> 
-> Karel Zak[*] has created preliminary patches that add support to
-> libmount
-> and Ian Kent has started working on making systemd use them.
-> 
-> [*] https://github.com/karelzak/util-linux/commits/topic/fsinfo
-> 
-> Note that there have been some last minute changes to the patchset:
-> you
-> wanted something adding and Miklós wanted some bits taking
-> out/changing.
-> I've placed a tag, fsinfo-core-20200724 on the aggregate of these two
-> patchsets that can be compared to fsinfo-core-20200803.
-> 
-> To summarise the changes: I added the limiter that you wanted;
-> removed an
-> unused symbol; made the mount ID fields in the notificaion 64-bit
-> (the
-> fsinfo patchset has a change to convey the mount uniquifier instead
-> of the
-> mount ID); removed the event counters from the mount notification and
-> moved
-> the event counters into the fsinfo patchset.
+> Has anyone done a review of the patchset?
 
-I've pushed my systemd changes to a github repo.
-I haven't yet updated it with the changes above but will get to it.
+I have been working with the patch set as it has evolved for quite a
+while now.
 
-They can be found at:
-https://github.com/raven-au/systemd.git branch notifications-devel
+I've been reading the kernel code quite a bit and forwarded questions
+and minor changes to David as they arose.
+
+As for a review, not specifically, but while the series implements a
+rather large change it's surprisingly straight forward to read.
+
+In the time I have been working with it I haven't noticed any problems
+except for those few minor things that I reported to David early on (in
+some cases accompanied by simple patches).
+
+And more recently (obviously) I've been working with the mount
+notifications changes and, from a readability POV, I find it's the
+same as the fsinfo() code.
 
 > 
-> 
-> ====
-> WHY?
-> ====
-> 
-> Why do we want mount notifications?  Whilst /proc/mounts can be
-> polled, it
-> only tells you that something changed in your namespace.  To find
-> out, you
-> have to trawl /proc/mounts or similar to work out what changed in the
-> mount
-> object attributes and mount topology.  I'm told that the proc file
-> holding
-> the namespace_sem is a point of contention, especially as the process
-> of
-> generating the text descriptions of the mounts/superblocks can be
-> quite
-> involved.
-> 
-> The notification generated here directly indicates the mounts
-> involved in
-> any particular event and gives an idea of what the change was.
-> 
-> This is combined with a new fsinfo() system call that allows, amongst
-> other
-> things, the ability to retrieve in one go an { id, change_counter }
-> tuple
-> from all the children of a specified mount, allowing buffer overruns
-> to be
-> dealt with quickly.
-> 
-> This is of use to systemd to improve efficiency:
-> 
-> 	
-> https://lore.kernel.org/linux-fsdevel/20200227151421.3u74ijhqt6ekbiss@ws.net.home/
-> 
-> And it's not just Red Hat that's potentially interested in this:
-> 
-> 	
-> https://lore.kernel.org/linux-fsdevel/293c9bd3-f530-d75e-c353-ddeabac27cf6@6wind.com/
-> 
-> 
-> David
-> ---
-> The following changes since commit
-> ba47d845d715a010f7b51f6f89bae32845e6acb7:
-> 
->   Linux 5.8-rc6 (2020-07-19 15:41:18 -0700)
-> 
-> are available in the Git repository at:
-> 
->   git://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git 
-> tags/mount-notifications-20200803
-> 
-> for you to fetch changes up to
-> 841a0dfa511364fa9a8d67512e0643669f1f03e3:
-> 
->   watch_queue: sample: Display mount tree change notifications (2020-
-> 08-03 12:15:38 +0100)
-> 
-> ----------------------------------------------------------------
-> Mount notifications
-> 
-> ----------------------------------------------------------------
-> David Howells (5):
->       watch_queue: Limit the number of watches a user can hold
->       watch_queue: Make watch_sizeof() check record size
->       watch_queue: Add security hooks to rule on setting mount
-> watches
->       watch_queue: Implement mount topology and attribute change
-> notifications
->       watch_queue: sample: Display mount tree change notifications
-> 
->  Documentation/watch_queue.rst               |  12 +-
->  arch/alpha/kernel/syscalls/syscall.tbl      |   1 +
->  arch/arm/tools/syscall.tbl                  |   1 +
->  arch/arm64/include/asm/unistd.h             |   2 +-
->  arch/arm64/include/asm/unistd32.h           |   2 +
->  arch/ia64/kernel/syscalls/syscall.tbl       |   1 +
->  arch/m68k/kernel/syscalls/syscall.tbl       |   1 +
->  arch/microblaze/kernel/syscalls/syscall.tbl |   1 +
->  arch/mips/kernel/syscalls/syscall_n32.tbl   |   1 +
->  arch/mips/kernel/syscalls/syscall_n64.tbl   |   1 +
->  arch/mips/kernel/syscalls/syscall_o32.tbl   |   1 +
->  arch/parisc/kernel/syscalls/syscall.tbl     |   1 +
->  arch/powerpc/kernel/syscalls/syscall.tbl    |   1 +
->  arch/s390/kernel/syscalls/syscall.tbl       |   1 +
->  arch/sh/kernel/syscalls/syscall.tbl         |   1 +
->  arch/sparc/kernel/syscalls/syscall.tbl      |   1 +
->  arch/x86/entry/syscalls/syscall_32.tbl      |   1 +
->  arch/x86/entry/syscalls/syscall_64.tbl      |   1 +
->  arch/xtensa/kernel/syscalls/syscall.tbl     |   1 +
->  fs/Kconfig                                  |   9 ++
->  fs/Makefile                                 |   1 +
->  fs/mount.h                                  |  18 +++
->  fs/mount_notify.c                           | 222
-> ++++++++++++++++++++++++++++
->  fs/namespace.c                              |  22 +++
->  include/linux/dcache.h                      |   1 +
->  include/linux/lsm_hook_defs.h               |   3 +
->  include/linux/lsm_hooks.h                   |   6 +
->  include/linux/sched/user.h                  |   3 +
->  include/linux/security.h                    |   8 +
->  include/linux/syscalls.h                    |   2 +
->  include/linux/watch_queue.h                 |   7 +-
->  include/uapi/asm-generic/unistd.h           |   4 +-
->  include/uapi/linux/watch_queue.h            |  31 +++-
->  kernel/sys_ni.c                             |   3 +
->  kernel/watch_queue.c                        |   8 +
->  samples/watch_queue/watch_test.c            |  41 ++++-
->  security/security.c                         |   7 +
->  37 files changed, 422 insertions(+), 6 deletions(-)
->  create mode 100644 fs/mount_notify.c
-> 
+> I think it's obvious that this API needs more work.  The integration
+> work done by Ian is a good direction, but it's not quite the full
+> validation and review that a complex new API needs.
+
+Maybe but the system call is fundamental to making notifications useful
+and, as I say, after working with it for quite a while I don't fell
+there's missing features (that David hasn't added along the way) and
+have found it provides what's needed for what I'm doing (for mount
+notifications at least).
+
+I'll be posting a github PR for systemd for discussion soon while I
+get on with completing the systemd change. Like overflow handling and
+meson build system changes to allow building with and without the
+util-linux libmount changes.
+
+So, ideally, I'd like to see the series merged, we've been working on
+it for quite a considerable time now.
+
+Ian
 
