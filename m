@@ -2,172 +2,425 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B88123BB09
-	for <lists+linux-api@lfdr.de>; Tue,  4 Aug 2020 15:20:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35FEA23BB41
+	for <lists+linux-api@lfdr.de>; Tue,  4 Aug 2020 15:40:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728508AbgHDNTe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 4 Aug 2020 09:19:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46554 "EHLO
+        id S1725950AbgHDNkO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 4 Aug 2020 09:40:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728597AbgHDNTX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Aug 2020 09:19:23 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E518C06179F
-        for <linux-api@vger.kernel.org>; Tue,  4 Aug 2020 06:19:18 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id o18so42361348eje.7
-        for <linux-api@vger.kernel.org>; Tue, 04 Aug 2020 06:19:18 -0700 (PDT)
+        with ESMTP id S1726897AbgHDNiY (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Aug 2020 09:38:24 -0400
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D606DC06179F
+        for <linux-api@vger.kernel.org>; Tue,  4 Aug 2020 06:38:21 -0700 (PDT)
+Received: by mail-ed1-x542.google.com with SMTP id v22so19089602edy.0
+        for <linux-api@vger.kernel.org>; Tue, 04 Aug 2020 06:38:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=szeredi.hu; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1tiNv5DVcOXdEPntNp/BHigQ6vn1IdXaRNNTHtn8xqU=;
-        b=KEhgw4sBlsPCdz3kxw6pOlJHSKiC7Xhrls74Blf9MLTBsZBCWCUz06ysPssFA9U19y
-         Yr1EAIthn/gCTRdcIfAYF+6wn1SeTRE1WGDZQperfGWrs4+nANZWMbHukGdUWX4kW5Ms
-         t0R69K52Mm+kNPbIdl2Wftun28JL8wpQIioC8=
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=BL+HRUdphF7y1mDIe4TAPt3GhgVXBM0iHVLi0mxnXW0=;
+        b=NSVO26GNREg7AVBCgVqCzAcGqTkqheGeKdaAuy0KakoJXXrNUlZ84EzEyY4yvHmZI5
+         O6tmd5s5RlTzliIqTPB4rHJBbPbSY4qoCXvcsJepnvgS3zREnqIMCM2NpSCqYLRE0pv4
+         edd/ODepvfGug/XPWac8UAHvAeCp+Wtb4dpBM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1tiNv5DVcOXdEPntNp/BHigQ6vn1IdXaRNNTHtn8xqU=;
-        b=e9ovEQiMIFOVri2XNoVUpAoYXYRDrUnA4R945At4WwRIuGCJ91plTrl0FyWfQuX9iH
-         4eOmZC/86v0HiqWWrz+Z06aNa+Gcgvv1MMUpvpPcynFQZ9h9VgYSBuUpH6LAp9wnhjJS
-         QM262Jbgp+sw7f5YTKVZRK61nzL7vrHoSEDYkpMMK8/Ruo0+LQoyKTKDQP9popCe/tBQ
-         LHy3IcvI3vapDs35uzf3sTuvW/tvOfieH7/9Wl0agA1lY9BPBII33EEr/tCGh+KbNrOf
-         cHOoEnPMTAJCFtfjcN9pnSP0wqEUE0DQ4BEjnNvrN7DTbJfNpo5qK0iadDtPPQ7rEp2f
-         iu8A==
-X-Gm-Message-State: AOAM533d5Js05F2pnz8Ad2vXzH5O7h3xMUvC1G52QizqIxT4nFW4Bat4
-        PNYxQWoWpAa8ULysr4FOu0oIBU0gGWARNV9vERCR/e/F
-X-Google-Smtp-Source: ABdhPJyoWlMhvjqTJH7OiyxKhB5EGgaKJVZv6f4IRwD539FbIC9dkAFHWgaT/ph3af6QlUQF5Jf2SpagpjgID6l9h+k=
-X-Received: by 2002:a17:907:405f:: with SMTP id ns23mr3966025ejb.511.1596547156596;
- Tue, 04 Aug 2020 06:19:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <158454378820.2863966.10496767254293183123.stgit@warthog.procyon.org.uk>
- <158454391302.2863966.1884682840541676280.stgit@warthog.procyon.org.uk>
- <CAJfpegspWA6oUtdcYvYF=3fij=Bnq03b8VMbU9RNMKc+zzjbag@mail.gmail.com>
- <1293241.1595501326@warthog.procyon.org.uk> <CAJfpeguvLMCw1H8+DPsfZE_k0sEiRtA17pD9HjnceSsAvqqAZw@mail.gmail.com>
- <43c061d26ddef2aa3ca1ac726da7db9ab461e7be.camel@themaw.net>
-In-Reply-To: <43c061d26ddef2aa3ca1ac726da7db9ab461e7be.camel@themaw.net>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=BL+HRUdphF7y1mDIe4TAPt3GhgVXBM0iHVLi0mxnXW0=;
+        b=e134q9sdyy/FA9NTbsHl3pUd+XiWkJpIcGx7paFKUjg3imT+15rqnAxF9RykSkVaTS
+         Gq8Ql/jBsMqGi2z0GNXKHs041ajLjWozuBIGsXqp/WU6vyDKHrSbOzxDMoyYmFM96YFF
+         hefEd8IcVznrm/NrU2C7jk+QbvpepfHCd/oenrIesl2BijUWLfcW2iQijiFouSG4yQNG
+         +y/yWKPPKqz00+M7qGMw4zId05vFRNkJj9/btSBiOh/hxmyR0YyCxFBzJys5ndcQjO4y
+         waVI20VWk5G4Cqdsc2pANVuEiWsNQjo3y765CJielvJUV3wp4Q6FK6fMsoPyfe5ZEtsG
+         ymeA==
+X-Gm-Message-State: AOAM530Zo539W5fCBfHp80DsD65LV4dc9FFOHre8d/T3bLISAydapR6N
+        213UqDuVPBU32HNGkxwkPisF9A==
+X-Google-Smtp-Source: ABdhPJwQ6u6Rdo8AHzpErMesCPuQNq6ArD3bzdOtJwNufzvYWW/taKK/GFn8W4BLEmJJ2eVzhamzjA==
+X-Received: by 2002:aa7:d585:: with SMTP id r5mr8623729edq.30.1596548300295;
+        Tue, 04 Aug 2020 06:38:20 -0700 (PDT)
+Received: from miu.piliscsaba.redhat.com (catv-212-96-48-140.catv.broadband.hu. [212.96.48.140])
+        by smtp.gmail.com with ESMTPSA id dc23sm18860515edb.50.2020.08.04.06.38.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Aug 2020 06:38:19 -0700 (PDT)
+Date:   Tue, 4 Aug 2020 15:38:17 +0200
 From:   Miklos Szeredi <miklos@szeredi.hu>
-Date:   Tue, 4 Aug 2020 15:19:05 +0200
-Message-ID: <CAJfpeguFkDDhz7+70pSUv_j=xY5L08ESpaE+jER9vE5p+ZmfFw@mail.gmail.com>
-Subject: Re: [PATCH 13/17] watch_queue: Implement mount topology and attribute
- change notifications [ver #5]
-To:     Ian Kent <raven@themaw.net>
-Cc:     David Howells <dhowells@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        Nicolas Dichtel <nicolas.dichtel@6wind.com>,
-        Christian Brauner <christian@brauner.io>, andres@anarazel.de,
-        Jeff Layton <jlayton@redhat.com>, dray@redhat.com,
-        Karel Zak <kzak@redhat.com>, keyrings@vger.kernel.org,
-        Linux API <linux-api@vger.kernel.org>,
+To:     David Howells <dhowells@redhat.com>
+Cc:     viro@zeniv.linux.org.uk, torvalds@linux-foundation.org,
+        raven@themaw.net, mszeredi@redhat.com, christian@brauner.io,
+        jannh@google.com, darrick.wong@oracle.com, kzak@redhat.com,
+        jlayton@redhat.com, linux-api@vger.kernel.org,
         linux-fsdevel@vger.kernel.org,
-        LSM <linux-security-module@vger.kernel.org>,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 08/18] fsinfo: Allow mount topology and propagation info
+ to be retrieved [ver #21]
+Message-ID: <20200804133817.GD32719@miu.piliscsaba.redhat.com>
+References: <159646178122.1784947.11705396571718464082.stgit@warthog.procyon.org.uk>
+ <159646185371.1784947.14555585307218856883.stgit@warthog.procyon.org.uk>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <159646185371.1784947.14555585307218856883.stgit@warthog.procyon.org.uk>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Aug 4, 2020 at 1:39 PM Ian Kent <raven@themaw.net> wrote:
->
-> On Mon, 2020-08-03 at 11:29 +0200, Miklos Szeredi wrote:
-> > On Thu, Jul 23, 2020 at 12:48 PM David Howells <dhowells@redhat.com>
-> > wrote:
-> >
-> > > > >                 __u32   topology_changes;
-> > > > >                 __u32   attr_changes;
-> > > > >                 __u32   aux_topology_changes;
-> > > >
-> > > > Being 32bit this introduces wraparound effects.  Is that really
-> > > > worth it?
-> > >
-> > > You'd have to make 2 billion changes without whoever's monitoring
-> > > getting a
-> > > chance to update their counters.  But maybe it's not worth it
-> > > putting them
-> > > here.  If you'd prefer, I can make the counters all 64-bit and just
-> > > retrieve
-> > > them with fsinfo().
-> >
-> > Yes, I think that would be preferable.
->
-> I think this is the source of the recommendation for removing the
-> change counters from the notification message, correct?
->
-> While it looks like I may not need those counters for systemd message
-> buffer overflow handling myself I think removing them from the
-> notification message isn't a sensible thing to do.
->
-> If you need to detect missing messages, perhaps due to message buffer
-> overflow, then you need change counters that are relevant to the
-> notification message itself. That's so the next time you get a message
-> for that object you can be sure that change counter comparisons you
-> you make relate to object notifications you have processed.
+On Mon, Aug 03, 2020 at 02:37:33PM +0100, David Howells wrote:
+> Add a couple of attributes to allow information about the mount topology
+> and propagation to be retrieved:
+> 
+>  (1) FSINFO_ATTR_MOUNT_TOPOLOGY.
+> 
+>      Information about a mount's parentage in the mount topology tree and
+>      its propagation attributes.
+> 
+>      This has to be collected with the VFS namespace lock held, so it's
+>      separate from FSINFO_ATTR_MOUNT_INFO.  The topology change counter
+>      that a subsequent patch will export can be used to work out from the
+>      cheaper _INFO attribute as to whether the more expensive _TOPOLOGY
+>      attribute needs requerying.
+> 
+>      MOUNT_PROPAGATION_* flags are added to linux/mount.h for UAPI
+>      consumption.  At some point a mount_setattr() system call needs to be
+>      added.
+> 
+>  (2) FSINFO_ATTR_MOUNT_CHILDREN.
+> 
+>      Information about a mount's children in the mount topology tree.
+> 
+>      This is formatted as an array of structures, one for each child and
+>      capped with one for the argument mount (checked after listing all the
+>      children).  Each element contains the static IDs of the respective
+>      mount object along with a sum of its change attributes.
+> 
+> Signed-off-by: David Howells <dhowells@redhat.com>
+> ---
+> 
+>  fs/fsinfo.c                 |    2 +
+>  fs/internal.h               |    2 +
+>  fs/namespace.c              |   94 +++++++++++++++++++++++++++++++++++++++++++
+>  include/uapi/linux/fsinfo.h |   27 ++++++++++++
+>  include/uapi/linux/mount.h  |   13 +++++-
+>  samples/vfs/test-fsinfo.c   |   55 +++++++++++++++++++++++++
+>  6 files changed, 192 insertions(+), 1 deletion(-)
+> 
+> diff --git a/fs/fsinfo.c b/fs/fsinfo.c
+> index f276857709ee..0540cce89555 100644
+> --- a/fs/fsinfo.c
+> +++ b/fs/fsinfo.c
+> @@ -291,9 +291,11 @@ static const struct fsinfo_attribute fsinfo_common_attributes[] = {
+>  	FSINFO_VSTRUCT_N(FSINFO_ATTR_FSINFO_ATTRIBUTE_INFO, (void *)123UL),
+>  
+>  	FSINFO_VSTRUCT	(FSINFO_ATTR_MOUNT_INFO,	fsinfo_generic_mount_info),
+> +	FSINFO_VSTRUCT	(FSINFO_ATTR_MOUNT_TOPOLOGY,	fsinfo_generic_mount_topology),
+>  	FSINFO_STRING	(FSINFO_ATTR_MOUNT_PATH,	fsinfo_generic_seq_read),
+>  	FSINFO_STRING	(FSINFO_ATTR_MOUNT_POINT,	fsinfo_generic_mount_point),
+>  	FSINFO_STRING	(FSINFO_ATTR_MOUNT_POINT_FULL,	fsinfo_generic_mount_point_full),
+> +	FSINFO_LIST	(FSINFO_ATTR_MOUNT_CHILDREN,	fsinfo_generic_mount_children),
+>  	{}
+>  };
+>  
+> diff --git a/fs/internal.h b/fs/internal.h
+> index a56008b7f3ec..cb5edcc7125a 100644
+> --- a/fs/internal.h
+> +++ b/fs/internal.h
+> @@ -98,8 +98,10 @@ extern void dissolve_on_fput(struct vfsmount *);
+>  extern int lookup_mount_object(struct path *, unsigned int, struct path *);
+>  extern int fsinfo_generic_mount_source(struct path *, struct fsinfo_context *);
+>  extern int fsinfo_generic_mount_info(struct path *, struct fsinfo_context *);
+> +extern int fsinfo_generic_mount_topology(struct path *, struct fsinfo_context *);
+>  extern int fsinfo_generic_mount_point(struct path *, struct fsinfo_context *);
+>  extern int fsinfo_generic_mount_point_full(struct path *, struct fsinfo_context *);
+> +extern int fsinfo_generic_mount_children(struct path *, struct fsinfo_context *);
+>  
+>  /*
+>   * fs_struct.c
+> diff --git a/fs/namespace.c b/fs/namespace.c
+> index c196af35d39d..b5c2a3b4f96d 100644
+> --- a/fs/namespace.c
+> +++ b/fs/namespace.c
+> @@ -4303,6 +4303,54 @@ int fsinfo_generic_mount_info(struct path *path, struct fsinfo_context *ctx)
+>  	return sizeof(*p);
+>  }
+>  
+> +/*
+> + * Retrieve information about the topology at the nominated mount and
+> + * its propogation attributes.
+> + */
+> +int fsinfo_generic_mount_topology(struct path *path, struct fsinfo_context *ctx)
+> +{
+> +	struct fsinfo_mount_topology *p = ctx->buffer;
+> +	struct mount *m;
+> +	struct path root;
+> +
+> +	get_fs_root(current->fs, &root);
+> +
+> +	namespace_lock();
+> +
+> +	m = real_mount(path->mnt);
+> +
+> +	p->parent_id = m->mnt_parent->mnt_id;
+> +
+> +	if (path->mnt == root.mnt) {
+> +		p->parent_id = m->mnt_id;
+> +	} else {
+> +		rcu_read_lock();
+> +		if (!are_paths_connected(&root, path))
+> +			p->parent_id = m->mnt_id;
+> +		rcu_read_unlock();
+> +	}
+> +
+> +	if (IS_MNT_SHARED(m)) {
+> +		p->shared_group_id = m->mnt_group_id;
+> +		p->propagation_type |= MOUNT_PROPAGATION_SHARED;
+> +	} else if (IS_MNT_SLAVE(m)) {
+> +		int source = m->mnt_master->mnt_group_id;
+> +		int from = get_dominating_id(m, &root);
+> +		p->dependent_source_id = source;
+> +		if (from && from != source)
+> +			p->dependent_clone_of_id = from;
+> +		p->propagation_type |= MOUNT_PROPAGATION_DEPENDENT;
+> +	} else if (IS_MNT_UNBINDABLE(m)) {
+> +		p->propagation_type |= MOUNT_PROPAGATION_UNBINDABLE;
+> +	} else {
+> +		p->propagation_type |= MOUNT_PROPAGATION_PRIVATE;
+> +	}
+> +
+> +	namespace_unlock();
+> +	path_put(&root);
+> +	return sizeof(*p);
+> +}
+> +
+>  /*
+>   * Return the path of this mount relative to its parent and clipped to
+>   * the current chroot.
+> @@ -4379,4 +4427,50 @@ int fsinfo_generic_mount_point_full(struct path *path, struct fsinfo_context *ct
+>  	return (ctx->buffer + ctx->buf_size) - p;
+>  }
+>  
+> +/*
+> + * Store a mount record into the fsinfo buffer.
+> + */
+> +static void fsinfo_store_mount(struct fsinfo_context *ctx, const struct mount *p,
+> +			       bool is_root)
+> +{
+> +	struct fsinfo_mount_child record = {};
+> +	unsigned int usage = ctx->usage;
+> +
+> +	if (ctx->usage >= INT_MAX)
+> +		return;
+> +	ctx->usage = usage + sizeof(record);
+> +	if (!ctx->buffer || ctx->usage > ctx->buf_size)
+> +		return;
+> +
+> +	record.mnt_unique_id	= p->mnt_unique_id;
+> +	record.mnt_id		= p->mnt_id;
+> +	record.parent_id	= is_root ? p->mnt_id : p->mnt_parent->mnt_id;
+> +	memcpy(ctx->buffer + usage, &record, sizeof(record));
+> +}
+> +
+> +/*
+> + * Return information about the submounts relative to path.
+> + */
+> +int fsinfo_generic_mount_children(struct path *path, struct fsinfo_context *ctx)
+> +{
+> +	struct mount *m, *child;
+> +
+> +	m = real_mount(path->mnt);
+> +
+> +	read_seqlock_excl(&mount_lock);
+> +
+> +	list_for_each_entry_rcu(child, &m->mnt_mounts, mnt_child) {
+> +		if (child->mnt_parent != m)
+> +			continue;
+> +		fsinfo_store_mount(ctx, child, false);
+> +	}
+> +
+> +	/* End the list with a copy of the parameter mount's details so that
+> +	 * userspace can quickly check for changes.
+> +	 */
+> +	fsinfo_store_mount(ctx, m, true);
+> +	read_sequnlock_excl(&mount_lock);
+> +	return ctx->usage;
+> +}
+> +
+>  #endif /* CONFIG_FSINFO */
+> diff --git a/include/uapi/linux/fsinfo.h b/include/uapi/linux/fsinfo.h
+> index 15ef161905cd..f0a352b7028e 100644
+> --- a/include/uapi/linux/fsinfo.h
+> +++ b/include/uapi/linux/fsinfo.h
+> @@ -35,6 +35,8 @@
+>  #define FSINFO_ATTR_MOUNT_PATH		0x201	/* Bind mount/superblock path (string) */
+>  #define FSINFO_ATTR_MOUNT_POINT		0x202	/* Relative path of mount in parent (string) */
+>  #define FSINFO_ATTR_MOUNT_POINT_FULL	0x203	/* Absolute path of mount (string) */
+> +#define FSINFO_ATTR_MOUNT_TOPOLOGY	0x204	/* Mount object topology */
+> +#define FSINFO_ATTR_MOUNT_CHILDREN	0x205	/* Children of this mount (list) */
+>  
+>  /*
+>   * Optional fsinfo() parameter structure.
+> @@ -102,6 +104,31 @@ struct fsinfo_mount_info {
+>  
+>  #define FSINFO_ATTR_MOUNT_INFO__STRUCT struct fsinfo_mount_info
+>  
+> +/*
+> + * Information struct for fsinfo(FSINFO_ATTR_MOUNT_TOPOLOGY).
+> + */
+> +struct fsinfo_mount_topology {
+> +	__u32	parent_id;		/* Parent mount identifier */
 
-I don't quite get it.  Change notification is just that: a
-notification.   You need to know what object that notification relates
-to, to be able to retrieve the up to date attributes of said object.
-
-What happens if you get a change counter N in the notification
-message, then get a change counter N + 1 in the attribute retrieval?
-You know that another change happened, and you haven't yet processed
-the notification yet.  So when the notification with N + 1 comes in,
-you can optimize away the attribute retrieve.
-
-Nice optimization, but it's optimizing a race condition, and I don't
-think that's warranted.  I don't see any other use for the change
-counter in the notification message.
+Again, which mount ID does this refer to?  I think we want this to be *the*
+mount id that's both unique and can be looked up and that is 64 bits wide.
 
 
-> Yes, I know it isn't quite that simple, but tallying up what you have
-> processed in the current batch of messages (or in multiple batches of
-> messages if more than one read has been possible) to perform the check
-> is a user space responsibility. And it simply can't be done if the
-> counters consistency is in question which it would be if you need to
-> perform another system call to get it.
->
-> It's way more useful to have these in the notification than obtainable
-> via fsinfo() IMHO.
+> +	__u32	shared_group_id;	/* Shared: mount group ID */
+> +	__u32	dependent_source_id;	/* Dependent: source mount group ID */
+> +	__u32	dependent_clone_of_id;	/* Dependent: ID of mount this was cloned from */
 
-What is it useful for?
+Another set of ID's that are currently 32bit *internally* but that doesn't mean
+they will always be 32 bit.
 
-If the notification itself would contain the list of updated
-attributes and their new values, then yes, this would make sense.  If
-the notification just tells us that the object was modified, but not
-the modifications themselves, then I don't see how the change counter
-in itself could add any information (other than optimizing the race
-condition above).
+And that last one (apart from "slave" being obfuscated) is simply incorrect.  It
+has nothing to do with cloning.  It's the "ID of the closest peer group in the
+propagation chain that has a representative mount in the current root".
 
-Thanks,
-Miklos
+> +	__u32	propagation_type;	/* MOUNT_PROPAGATION_* type */
+> +};
+> +
+> +#define FSINFO_ATTR_MOUNT_TOPOLOGY__STRUCT struct fsinfo_mount_topology
+> +
+> +/*
+> + * Information struct element for fsinfo(FSINFO_ATTR_MOUNT_CHILDREN).
+> + * - An extra element is placed on the end representing the parent mount.
+> + */
+> +struct fsinfo_mount_child {
+> +	__u64	mnt_unique_id;		/* Kernel-lifetime unique mount ID */
+> +	__u32	mnt_id;			/* Mount identifier (use with AT_FSINFO_MOUNTID_PATH) */
+> +	__u32	parent_id;		/* Parent mount identifier */
 
-Thanks,
 
+Again, which ID do we want for this and parent?  Preferably one which is 64bit.
+As it is we are operating with 96bit mount ID's, which is excessive.
 
-
->
-> >
-> > > > >         n->watch.info & NOTIFY_MOUNT_IS_RECURSIVE if true
-> > > > > indicates that
-> > > > >         the notifcation was generated by an event (eg. SETATTR)
-> > > > > that was
-> > > > >         applied recursively.  The notification is only
-> > > > > generated for the
-> > > > >         object that initially triggered it.
-> > > >
-> > > > Unused in this patchset.  Please don't add things to the API
-> > > > which are not
-> > > > used.
-> > >
-> > > Christian Brauner has patches for mount_setattr() that will need to
-> > > use this.
-> >
-> > Fine, then that patch can add the flag.
-> >
-> > Thanks,
-> > Miklos
->
+> +};
+> +
+> +#define FSINFO_ATTR_MOUNT_CHILDREN__STRUCT struct fsinfo_mount_child
+> +
+>  /*
+>   * Information struct for fsinfo(FSINFO_ATTR_STATFS).
+>   * - This gives extended filesystem information.
+> diff --git a/include/uapi/linux/mount.h b/include/uapi/linux/mount.h
+> index 96a0240f23fe..9ac8bb708843 100644
+> --- a/include/uapi/linux/mount.h
+> +++ b/include/uapi/linux/mount.h
+> @@ -105,7 +105,7 @@ enum fsconfig_command {
+>  #define FSMOUNT_CLOEXEC		0x00000001
+>  
+>  /*
+> - * Mount attributes.
+> + * Mount object attributes (these are separate to filesystem attributes).
+>   */
+>  #define MOUNT_ATTR_RDONLY	0x00000001 /* Mount read-only */
+>  #define MOUNT_ATTR_NOSUID	0x00000002 /* Ignore suid and sgid bits */
+> @@ -117,4 +117,15 @@ enum fsconfig_command {
+>  #define MOUNT_ATTR_STRICTATIME	0x00000020 /* - Always perform atime updates */
+>  #define MOUNT_ATTR_NODIRATIME	0x00000080 /* Do not update directory access times */
+>  
+> +/*
+> + * Mount object propagation type.
+> + */
+> +enum propagation_type {
+> +	/* 0 is left unallocated to mean "no change" in mount_setattr()  */
+> +	MOUNT_PROPAGATION_UNBINDABLE	= 1, /* Make unbindable. */
+> +	MOUNT_PROPAGATION_PRIVATE	= 2, /* Do not receive or send mount events. */
+> +	MOUNT_PROPAGATION_DEPENDENT	= 3, /* Only receive mount events. */
+> +	MOUNT_PROPAGATION_SHARED	= 4, /* Send and receive mount events. */
+> +};
+> +
+>  #endif /* _UAPI_LINUX_MOUNT_H */
+> diff --git a/samples/vfs/test-fsinfo.c b/samples/vfs/test-fsinfo.c
+> index f3bebb7318d9..b7290ea8eb55 100644
+> --- a/samples/vfs/test-fsinfo.c
+> +++ b/samples/vfs/test-fsinfo.c
+> @@ -21,6 +21,7 @@
+>  #include <sys/syscall.h>
+>  #include <linux/fsinfo.h>
+>  #include <linux/socket.h>
+> +#include <linux/mount.h>
+>  #include <sys/stat.h>
+>  #include <arpa/inet.h>
+>  
+> @@ -305,6 +306,58 @@ static void dump_fsinfo_generic_mount_info(void *reply, unsigned int size)
+>  	printf("\tattr    : %x\n", r->attr);
+>  }
+>  
+> +static void dump_fsinfo_generic_mount_topology(void *reply, unsigned int size)
+> +{
+> +	struct fsinfo_mount_topology *r = reply;
+> +
+> +	printf("\n");
+> +	printf("\tparent  : %x\n", r->parent_id);
+> +
+> +	switch (r->propagation_type) {
+> +	case MOUNT_PROPAGATION_UNBINDABLE:
+> +		printf("\tpropag  : unbindable\n");
+> +		break;
+> +	case MOUNT_PROPAGATION_PRIVATE:
+> +		printf("\tpropag  : private\n");
+> +		break;
+> +	case MOUNT_PROPAGATION_DEPENDENT:
+> +		printf("\tpropag  : dependent source=%x clone_of=%x\n",
+> +		       r->dependent_source_id, r->dependent_clone_of_id);
+> +		break;
+> +	case MOUNT_PROPAGATION_SHARED:
+> +		printf("\tpropag  : shared group=%x\n", r->shared_group_id);
+> +		break;
+> +	default:
+> +		printf("\tpropag  : unknown type %x\n", r->propagation_type);
+> +		break;
+> +	}
+> +
+> +}
+> +
+> +static void dump_fsinfo_generic_mount_children(void *reply, unsigned int size)
+> +{
+> +	struct fsinfo_mount_child *r = reply;
+> +	ssize_t mplen;
+> +	char path[32], *mp;
+> +
+> +	struct fsinfo_params params = {
+> +		.flags		= FSINFO_FLAGS_QUERY_MOUNT,
+> +		.request	= FSINFO_ATTR_MOUNT_POINT,
+> +	};
+> +
+> +	if (!list_last) {
+> +		sprintf(path, "%u", r->mnt_id);
+> +		mplen = get_fsinfo(path, "FSINFO_ATTR_MOUNT_POINT", &params, (void **)&mp);
+> +		if (mplen < 0)
+> +			mp = "-";
+> +	} else {
+> +		mp = "<this>";
+> +	}
+> +
+> +	printf("%8x %16llx %s\n",
+> +	       r->mnt_id, (unsigned long long)r->mnt_unique_id, mp);
+> +}
+> +
+>  static void dump_string(void *reply, unsigned int size)
+>  {
+>  	char *s = reply, *p;
+> @@ -383,9 +436,11 @@ static const struct fsinfo_attribute fsinfo_attributes[] = {
+>  	FSINFO_LIST	(FSINFO_ATTR_FSINFO_ATTRIBUTES,	fsinfo_meta_attributes),
+>  
+>  	FSINFO_VSTRUCT	(FSINFO_ATTR_MOUNT_INFO,	fsinfo_generic_mount_info),
+> +	FSINFO_VSTRUCT	(FSINFO_ATTR_MOUNT_TOPOLOGY,	fsinfo_generic_mount_topology),
+>  	FSINFO_STRING	(FSINFO_ATTR_MOUNT_PATH,	string),
+>  	FSINFO_STRING_N	(FSINFO_ATTR_MOUNT_POINT,	string),
+>  	FSINFO_STRING_N	(FSINFO_ATTR_MOUNT_POINT_FULL,	string),
+> +	FSINFO_LIST	(FSINFO_ATTR_MOUNT_CHILDREN,	fsinfo_generic_mount_children),
+>  	{}
+>  };
+>  
+> 
+> 
