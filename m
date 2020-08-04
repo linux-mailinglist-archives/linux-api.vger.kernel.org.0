@@ -2,88 +2,122 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5710D23BC96
-	for <lists+linux-api@lfdr.de>; Tue,  4 Aug 2020 16:48:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62ECC23BD54
+	for <lists+linux-api@lfdr.de>; Tue,  4 Aug 2020 17:40:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726656AbgHDOsQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 4 Aug 2020 10:48:16 -0400
-Received: from linux.microsoft.com ([13.77.154.182]:46302 "EHLO
-        linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729009AbgHDOsN (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Aug 2020 10:48:13 -0400
-Received: from [192.168.254.32] (unknown [47.187.206.220])
-        by linux.microsoft.com (Postfix) with ESMTPSA id C779220B4908;
-        Tue,  4 Aug 2020 07:48:11 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C779220B4908
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1596552492;
-        bh=WWoZU5hW4wXDmLDqxKWgVjJhEBnDZrlL0eZeSoA1M0E=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=Zd9gPm9PZos91WvJOt0oayxz099VIuOsWoBZIXUJDFjP7lCj1dlQONa0QNp25lwdY
-         dsm1r5OpjOcAXzNUDHh+nWWnMfnxq0oL6LMUtoVLftLBOD3ttlLrNDioYA+AS/vahh
-         DP92H/rykDhIN5jKmVDwqf9m4OvMWrU04m/O4Ps0=
-Subject: Re: [PATCH v1 0/4] [RFC] Implement Trampoline File Descriptor
-To:     David Laight <David.Laight@ACULAB.COM>,
-        'Mark Rutland' <mark.rutland@arm.com>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        linux-integrity <linux-integrity@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        Oleg Nesterov <oleg@redhat.com>, X86 ML <x86@kernel.org>
-References: <20200728131050.24443-1-madvenka@linux.microsoft.com>
- <CALCETrVy5OMuUx04-wWk9FJbSxkrT2vMfN_kANinudrDwC4Cig@mail.gmail.com>
- <6540b4b7-3f70-adbf-c922-43886599713a@linux.microsoft.com>
- <CALCETrWnNR5v3ZCLfBVQGYK8M0jAvQMaAc9uuO05kfZuh-4d6w@mail.gmail.com>
- <46a1adef-65f0-bd5e-0b17-54856fb7e7ee@linux.microsoft.com>
- <20200731183146.GD67415@C02TD0UTHF1T.local>
- <86625441-80f3-2909-2f56-e18e2b60957d@linux.microsoft.com>
- <20200804135558.GA7440@C02TD0UTHF1T.local>
- <c898918d18f34fd5b004cd1549b6a99e@AcuMS.aculab.com>
-From:   "Madhavan T. Venkataraman" <madvenka@linux.microsoft.com>
-Message-ID: <5f3c9616-52f5-f539-a39f-3fd3ada4f0aa@linux.microsoft.com>
-Date:   Tue, 4 Aug 2020 09:48:11 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <c898918d18f34fd5b004cd1549b6a99e@AcuMS.aculab.com>
-Content-Type: text/plain; charset=utf-8
+        id S1727997AbgHDPjw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 4 Aug 2020 11:39:52 -0400
+Received: from bedivere.hansenpartnership.com ([66.63.167.143]:51856 "EHLO
+        bedivere.hansenpartnership.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727038AbgHDPjt (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Aug 2020 11:39:49 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by bedivere.hansenpartnership.com (Postfix) with ESMTP id 9ACC18EE19F;
+        Tue,  4 Aug 2020 08:39:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
+        s=20151216; t=1596555587;
+        bh=ubA7UgAjztHk4GVyHjlFRj5OwpgCUgVMlAu9TLOG2Po=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=mCiJhDrQYtjSKfKCoc+zcXJw20GOjtM2YdZhPriO5Hpid2hhKtxkt8+OGJwn2AR3k
+         /FzvI51x/wnSixkOpn44wsemSD62wUTee772UZzM6yfGamb8lw4JDlhYCqImJp8k0g
+         hmxDKw2bpbC2GIaRZMiNMW3KnidEG+hyy2eB6oS4=
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+        by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id Bg9YfVLl3_vu; Tue,  4 Aug 2020 08:39:47 -0700 (PDT)
+Received: from [153.66.254.194] (unknown [50.35.76.230])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 939768EE0E4;
+        Tue,  4 Aug 2020 08:39:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
+        s=20151216; t=1596555586;
+        bh=ubA7UgAjztHk4GVyHjlFRj5OwpgCUgVMlAu9TLOG2Po=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=bmKnsvG0vWB3ZUCvyzNR7rWc4eZ9+ZsNbdyYPV9VoolPcD7XlGUzdRm1c07fHjqT1
+         qmu1PsFAW7gpFD+aA+3WSAkibprMkfYJ8qYBN+PYTXiY0qbHHzX8qwXsshnmHzmyD6
+         Q9O+aU2LAAvWaja75qo/xTXfUs/5DETrYxxrcOpI=
+Message-ID: <1596555579.10158.23.camel@HansenPartnership.com>
+Subject: Re: [PATCH 00/18] VFS: Filesystem information [ver #21]
+From:   James Bottomley <James.Bottomley@HansenPartnership.com>
+To:     David Howells <dhowells@redhat.com>, viro@zeniv.linux.org.uk
+Cc:     Theodore Ts'o <tytso@mit.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Jeff Layton <jlayton@kernel.org>, linux-ext4@vger.kernel.org,
+        Carlos Maiolino <cmaiolino@redhat.com>,
+        "Darrick J. Wong" <darrick.wong@oracle.com>,
+        linux-api@vger.kernel.org, torvalds@linux-foundation.org,
+        raven@themaw.net, mszeredi@redhat.com, christian@brauner.io,
+        jannh@google.com, kzak@redhat.com, jlayton@redhat.com,
+        linux-fsdevel@vger.kernel.org,
+        linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Tue, 04 Aug 2020 08:39:39 -0700
+In-Reply-To: <159646178122.1784947.11705396571718464082.stgit@warthog.procyon.org.uk>
+References: <159646178122.1784947.11705396571718464082.stgit@warthog.procyon.org.uk>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.26.6 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Mon, 2020-08-03 at 14:36 +0100, David Howells wrote:
+> Here's a set of patches that adds a system call, fsinfo(), that
+> allows information about the VFS, mount topology, superblock and
+> files to be retrieved.
+> 
+> The patchset is based on top of the notifications patchset and allows
+> event counters implemented in the latter to be retrieved to allow
+> overruns to be efficiently managed.
+
+Could I repeat the question I asked about six months back that never
+got answered:
+
+https://lore.kernel.org/linux-api/1582316494.3376.45.camel@HansenPartnership.com/
+
+It sort of petered out into a long winding thread about why not use
+sysfs instead, which really doesn't look like a good idea to me.
+
+I'll repeat the information for those who want to quote it easily on
+reply without having to use a web interface:
+
+---
+Could I make a suggestion about how this should be done in a way that
+doesn't actually require the fsinfo syscall at all: it could just be
+done with fsconfig.  The idea is based on something I've wanted to do
+for configfd but couldn't because otherwise it wouldn't substitute for
+fsconfig, but Christian made me think it was actually essential to the
+ability of the seccomp and other verifier tools in the critique of
+configfd and I belive the same critique applies here.
+
+Instead of making fsconfig functionally configure ... as in you pass
+the attribute name, type and parameters down into the fs specific
+handler and the handler does a string match and then verifies the
+parameters and then acts on them, make it table configured, so what
+each fstype does is register a table of attributes which can be got and
+optionally set (with each attribute having a get and optional set
+function).  We'd have multiple tables per fstype, so the generic VFS
+can register a table of attributes it understands for every fstype
+(things like name, uuid and the like) and then each fs type would
+register a table of fs specific attributes following the same pattern. 
+The system would examine the fs specific table before the generic one,
+allowing overrides.  fsconfig would have the ability to both get and
+set attributes, permitting retrieval as well as setting (which is how I
+get rid of the fsinfo syscall), we'd have a global parameter, which
+would retrieve the entire table by name and type so the whole thing is
+introspectable because the upper layer knows a-priori all the
+attributes which can be set for a given fs type and what type they are
+(so we can make more of the parsing generic).  Any attribute which
+doesn't have a set routine would be read only and all attributes would
+have to have a get routine meaning everything is queryable.
+
+I think I know how to code this up in a way that would be fully
+transparent to the existing syscalls.
+---
+
+James
 
 
-On 8/4/20 9:33 AM, David Laight wrote:
->>> If you look at the libffi reference patch I have included, the architecture
->>> specific changes to use trampfd just involve a single C function call to
->>> a common code function.
-> No idea what libffi is, but it must surely be simpler to
-> rewrite it to avoid nested function definitions.
-
-Sorry if I wasn't clear.
-
-libffi is a separate use case and GCC nested functions is a separate one.
-libffi is not used to solve the nested function stuff.
-
-For nested functions, GCC generates trampoline code and arranges to
-place it on the stack and execute it.
-
-I agree with your other points about nested function implementation.
-
-Madhavan
-> Or find a book from the 1960s on how to do recursive
-> calls and nested functions in FORTRAN-IV.
->
-> 	David
->
-> -
-> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-> Registration No: 1397386 (Wales)
 
