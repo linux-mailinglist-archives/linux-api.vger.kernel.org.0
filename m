@@ -2,43 +2,43 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B0DBC23B9B6
-	for <lists+linux-api@lfdr.de>; Tue,  4 Aug 2020 13:39:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A106F23BA62
+	for <lists+linux-api@lfdr.de>; Tue,  4 Aug 2020 14:33:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730251AbgHDLjL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 4 Aug 2020 07:39:11 -0400
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:55241 "EHLO
+        id S1726333AbgHDMdB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 4 Aug 2020 08:33:01 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:36261 "EHLO
         new1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730114AbgHDLjL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Aug 2020 07:39:11 -0400
+        by vger.kernel.org with ESMTP id S1727779AbgHDMcQ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Aug 2020 08:32:16 -0400
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-        by mailnew.nyi.internal (Postfix) with ESMTP id DB1925804D6;
-        Tue,  4 Aug 2020 07:39:09 -0400 (EDT)
+        by mailnew.nyi.internal (Postfix) with ESMTP id C94F6580552;
+        Tue,  4 Aug 2020 08:32:13 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Tue, 04 Aug 2020 07:39:09 -0400
+  by compute2.internal (MEProxy); Tue, 04 Aug 2020 08:32:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=
         message-id:subject:from:to:cc:date:in-reply-to:references
         :content-type:mime-version:content-transfer-encoding; s=fm3; bh=
-        GQ35A9QLvt3V3tS5rPqimLchSew/FSuuzCyzXhgfQ1A=; b=kgmfeQ16/whTJorz
-        oDXKB2tNiHs4zASSvo8rupSnw6le9xoRXka0xaj7eV1wl3KlXxBhK9jvlsTpW2I5
-        xsqmOgAxEZ04mc47DOuGlA4WLwH8ReSGT3CX0oWl0cPaE9WRB0c2N5PNFPwImKjp
-        UzO2vax/wxc0UYA6hmwLJxwZrqt5pa4iUidvhF6dqCQK426CwvYxw555f30uYIvR
-        5H59ywR/VBrOYplxFR96RIqaR1p3Kpveny5vknoRtvERGVbcu6gcbZSXfoNGICLf
-        JSUc+2qau2R1fVjOXNFZ5Wse4yAxvWD38Gjvifzg2oiXG9T4x8N2VfojR17r6pCH
-        aNJubw==
+        GQrvTmzmmFYdgKDOjC8EuXBs0YT7HCIH7S0aDNWKxu4=; b=clTQFpIMSolCW6jY
+        xc99NEC4kl0YqyNOsm6qSVHOkZFRyhaNemvV42oGz7IHHSv3+EpRvRgaPZX4cMIy
+        uG0kY97csqAYzzeIO62vthsBgZrguMDBKu/4hEXIjO4S9A+KjMpZagxQ5rSB+eIx
+        O5n0AO9Qqsy1lDc9obh3cjdW33gc9VxRh7KFRLYeHawdsj7/3L8vr7yb2w8VxEy4
+        6F9I8qHqZYZzJPQ2+9u5WHdCut/HdViUN3H6TEGza9MYaxUCBpBxQSfW58VjyVwo
+        /k3Ao5jizSrnCh6TCBW6h/8qVBg4fpTax4o6yrywHYuGXFDhRak1DbcxlLj+7Lht
+        VWfBLA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-transfer-encoding:content-type
         :date:from:in-reply-to:message-id:mime-version:references
         :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; bh=GQ35A9QLvt3V3tS5rPqimLchSew/FSuuzCyzXhgfQ
-        1A=; b=SuTtTF54ZVjtLRGZxW/mCEyxi8WJ79N7TT0VougsywuI0KnekAV1lIaze
-        Mx1dJTOV5LinaEM9B5OTBio4cyf+3MoG0+iQnJj+ueVaURezbQgrwYwqk/kjPkNc
-        YqS8C6ENPzYQ3Ym50YC0gOcx/LETOp+69CC//o2YoAMmr/E+f7i4ojaapVtSI6SH
-        Zp93f+pg0914IfG1V/AgFvOs8e+RYREM3C/TI0SzgWmbOTDPR/4l1Z1h+n1qUu22
-        5ui/Ha//jDx8ms2B66MAeki0JL+UEbsOPON1qFpCa8eHEiYGFzONdv+6DCO1m6y7
-        zvN+SH0dYq0xvo4S75gUgveK5q8yg==
-X-ME-Sender: <xms:3EgpX400z3VYmHzvXLn-oWTZ1iL2u1k5Etyw-8b3mvwLK_HyCvjXew>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrjeeigdeggecutefuodetggdotefrodftvf
+        :x-sasl-enc; s=fm3; bh=GQrvTmzmmFYdgKDOjC8EuXBs0YT7HCIH7S0aDNWKx
+        u4=; b=CdBBGHL97gKyORvrfh7sIlaBs00XY1tMVHmMDPzGTQSg4+bSBCCqF0hFt
+        IEOc0mHjwjmFv+oIHhMtp9t73oOn8Cksi2OJH0E+hhO5fxCI2oRe2y2ODq1db5vE
+        GjMdoyORzN3OkoEAWJJkbhe/oM+BTvd34+WwFilOZM1ls0pcUHGNrzmgJupL0lwh
+        ZmXqcQagnbWVfqbkqhUP6hOgg1Y6/bJVv9Xw4qEUzBuicH9wojYTrZau8RYBRimo
+        kL6iylsRcEy5jdV1F/iCrShzmtZ0eV4NnoWaj6K31/l79V0bN9nFYTr5bevOyUts
+        izE9B7fraIwpvRSS6TWlVZ+ve9TtQ==
+X-ME-Sender: <xms:TFUpX4-ox1o4MRnKnWdE272jhCVKtxE-9wztQZddi5qFKWRXZKovwQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrjeeigdehgecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
     fjughrpefkuffhvfffjghftggfggfgsehtjeertddtreejnecuhfhrohhmpefkrghnucfm
@@ -46,38 +46,29 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrjeeigdeggecutefuodetggdote
     efteetvdeguddvveefveeftedtffduudehueeihfeuvefgveehffeludeggfejnecukfhp
     peduudekrddvtdekrdegjedrudeiudenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
     grmhepmhgrihhlfhhrohhmpehrrghvvghnsehthhgvmhgrfidrnhgvth
-X-ME-Proxy: <xmx:3EgpXzEqYlIuPLrgIGwJdakWHmizB75srQO8z2eYXH5NDgNKEgOzmA>
-    <xmx:3EgpXw5VQKDqee8BLKXJOzLC_HOH9vQlxbfxh6OuHS9C1VUnONq_OA>
-    <xmx:3EgpXx03mtl9O9w5GDGW8D_W8prLa__CUW0Sw40CfzWxL_07Mloh9Q>
-    <xmx:3UgpX6cESCXEwV8tzUkYv1s_c-6OOit-Sn19G8ePNtnYk8yaV_5zcw>
+X-ME-Proxy: <xmx:TFUpXwtbPbbZc6pREsPaXvlLpznOoU3pBIZOBhXXNNcVQ2h0mLttnw>
+    <xmx:TFUpX-D9bye0WAANnM0viVcGOmAzEJX1_LFFaakEqE-0b_L9nXh0Yg>
+    <xmx:TFUpX4fEKfhE8UMAm7Q4DP_ltPtsf8PFO0R1s9TQiYNAy1w7fbTTDQ>
+    <xmx:TVUpXwoVZSDciaCCPlUM353wOLXDPtV5BJH8lEGIxW6IJfby6hy0zw>
 Received: from mickey.themaw.net (unknown [118.208.47.161])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 61C5D30600A6;
-        Tue,  4 Aug 2020 07:39:03 -0400 (EDT)
-Message-ID: <43c061d26ddef2aa3ca1ac726da7db9ab461e7be.camel@themaw.net>
-Subject: Re: [PATCH 13/17] watch_queue: Implement mount topology and
- attribute change notifications [ver #5]
+        by mail.messagingengine.com (Postfix) with ESMTPA id 078F830600A6;
+        Tue,  4 Aug 2020 08:32:07 -0400 (EDT)
+Message-ID: <3341383b655b39697b4dcdb9f64c5f3bc46a6ac4.camel@themaw.net>
+Subject: Re: [PATCH 06/18] fsinfo: Add a uniquifier ID to struct mount [ver
+ #21]
 From:   Ian Kent <raven@themaw.net>
 To:     Miklos Szeredi <miklos@szeredi.hu>,
         David Howells <dhowells@redhat.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        Nicolas Dichtel <nicolas.dichtel@6wind.com>,
-        Christian Brauner <christian@brauner.io>, andres@anarazel.de,
-        Jeff Layton <jlayton@redhat.com>, dray@redhat.com,
-        Karel Zak <kzak@redhat.com>, keyrings@vger.kernel.org,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        LSM <linux-security-module@vger.kernel.org>,
-        linux-kernel@vger.kernel.org
-Date:   Tue, 04 Aug 2020 19:38:59 +0800
-In-Reply-To: <CAJfpeguvLMCw1H8+DPsfZE_k0sEiRtA17pD9HjnceSsAvqqAZw@mail.gmail.com>
-References: <158454378820.2863966.10496767254293183123.stgit@warthog.procyon.org.uk>
-         <158454391302.2863966.1884682840541676280.stgit@warthog.procyon.org.uk>
-         <CAJfpegspWA6oUtdcYvYF=3fij=Bnq03b8VMbU9RNMKc+zzjbag@mail.gmail.com>
-         <1293241.1595501326@warthog.procyon.org.uk>
-         <CAJfpeguvLMCw1H8+DPsfZE_k0sEiRtA17pD9HjnceSsAvqqAZw@mail.gmail.com>
+Cc:     viro@zeniv.linux.org.uk, torvalds@linux-foundation.org,
+        mszeredi@redhat.com, christian@brauner.io, jannh@google.com,
+        darrick.wong@oracle.com, kzak@redhat.com, jlayton@redhat.com,
+        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Tue, 04 Aug 2020 20:32:04 +0800
+In-Reply-To: <20200804104108.GC32719@miu.piliscsaba.redhat.com>
+References: <159646178122.1784947.11705396571718464082.stgit@warthog.procyon.org.uk>
+         <159646183662.1784947.5709738540440380373.stgit@warthog.procyon.org.uk>
+         <20200804104108.GC32719@miu.piliscsaba.redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
 MIME-Version: 1.0
@@ -87,68 +78,109 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, 2020-08-03 at 11:29 +0200, Miklos Szeredi wrote:
-> On Thu, Jul 23, 2020 at 12:48 PM David Howells <dhowells@redhat.com>
-> wrote:
-> 
-> > > >                 __u32   topology_changes;
-> > > >                 __u32   attr_changes;
-> > > >                 __u32   aux_topology_changes;
-> > > 
-> > > Being 32bit this introduces wraparound effects.  Is that really
-> > > worth it?
+On Tue, 2020-08-04 at 12:41 +0200, Miklos Szeredi wrote:
+> On Mon, Aug 03, 2020 at 02:37:16PM +0100, David Howells wrote:
+> > Add a uniquifier ID to struct mount that is effectively unique over
+> > the
+> > kernel lifetime to deal around mnt_id values being reused.  This
+> > can then
+> > be exported through fsinfo() to allow detection of replacement
+> > mounts that
+> > happen to end up with the same mount ID.
 > > 
-> > You'd have to make 2 billion changes without whoever's monitoring
-> > getting a
-> > chance to update their counters.  But maybe it's not worth it
-> > putting them
-> > here.  If you'd prefer, I can make the counters all 64-bit and just
-> > retrieve
-> > them with fsinfo().
-> 
-> Yes, I think that would be preferable.
-
-I think this is the source of the recommendation for removing the
-change counters from the notification message, correct?
-
-While it looks like I may not need those counters for systemd message
-buffer overflow handling myself I think removing them from the
-notification message isn't a sensible thing to do.
-
-If you need to detect missing messages, perhaps due to message buffer
-overflow, then you need change counters that are relevant to the
-notification message itself. That's so the next time you get a message
-for that object you can be sure that change counter comparisons you
-you make relate to object notifications you have processed.
-
-Yes, I know it isn't quite that simple, but tallying up what you have
-processed in the current batch of messages (or in multiple batches of
-messages if more than one read has been possible) to perform the check
-is a user space responsibility. And it simply can't be done if the
-counters consistency is in question which it would be if you need to
-perform another system call to get it.
-
-It's way more useful to have these in the notification than obtainable
-via fsinfo() IMHO.
-
-> 
-> > > >         n->watch.info & NOTIFY_MOUNT_IS_RECURSIVE if true
-> > > > indicates that
-> > > >         the notifcation was generated by an event (eg. SETATTR)
-> > > > that was
-> > > >         applied recursively.  The notification is only
-> > > > generated for the
-> > > >         object that initially triggered it.
-> > > 
-> > > Unused in this patchset.  Please don't add things to the API
-> > > which are not
-> > > used.
+> > The normal mount handle is still used for referring to a particular
+> > mount.
 > > 
-> > Christian Brauner has patches for mount_setattr() that will need to
-> > use this.
+> > The mount notification is then changed to convey these unique mount
+> > IDs
+> > rather than the mount handle.
+> > 
+> > Signed-off-by: David Howells <dhowells@redhat.com>
+> > ---
+> > 
+> >  fs/mount.h        |    3 +++
+> >  fs/mount_notify.c |    4 ++--
+> >  fs/namespace.c    |    3 +++
+> >  3 files changed, 8 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/fs/mount.h b/fs/mount.h
+> > index 85456a5f5a3a..1037781be055 100644
+> > --- a/fs/mount.h
+> > +++ b/fs/mount.h
+> > @@ -79,6 +79,9 @@ struct mount {
+> >  	int mnt_expiry_mark;		/* true if marked for
+> > expiry */
+> >  	struct hlist_head mnt_pins;
+> >  	struct hlist_head mnt_stuck_children;
+> > +#ifdef CONFIG_FSINFO
+> > +	u64	mnt_unique_id;		/* ID unique over lifetime of
+> > kernel */
+> > +#endif
 > 
-> Fine, then that patch can add the flag.
+> Not sure if it's worth making conditional.
 > 
-> Thanks,
-> Miklos
+> >  #ifdef CONFIG_MOUNT_NOTIFICATIONS
+> >  	struct watch_list *mnt_watchers; /* Watches on dentries within
+> > this mount */
+> >  #endif
+> > diff --git a/fs/mount_notify.c b/fs/mount_notify.c
+> > index 44f570e4cebe..d8ba66ed5f77 100644
+> > --- a/fs/mount_notify.c
+> > +++ b/fs/mount_notify.c
+> > @@ -90,7 +90,7 @@ void notify_mount(struct mount *trigger,
+> >  	n.watch.type	= WATCH_TYPE_MOUNT_NOTIFY;
+> >  	n.watch.subtype	= subtype;
+> >  	n.watch.info	= info_flags | watch_sizeof(n);
+> > -	n.triggered_on	= trigger->mnt_id;
+> > +	n.triggered_on	= trigger->mnt_unique_id;
+> >  
+> >  	switch (subtype) {
+> >  	case NOTIFY_MOUNT_EXPIRY:
+> > @@ -102,7 +102,7 @@ void notify_mount(struct mount *trigger,
+> >  	case NOTIFY_MOUNT_UNMOUNT:
+> >  	case NOTIFY_MOUNT_MOVE_FROM:
+> >  	case NOTIFY_MOUNT_MOVE_TO:
+> > -		n.auxiliary_mount	= aux->mnt_id;
+> > +		n.auxiliary_mount = aux->mnt_unique_id;
+> 
+> Hmm, so we now have two ID's:
+> 
+>  - one can be used to look up the mount
+>  - one is guaranteed to be unique
+> 
+> With this change the mount cannot be looked up with
+> FSINFO_FLAGS_QUERY_MOUNT,
+> right?
+> 
+> Should we be merging the two ID's into a single one which has both
+> properties?
+
+I'd been thinking we would probably need to change to 64 bit ids
+for a while now and I thought that was what was going to happen.
+
+We'll need to change libmount and current code but better early
+on than later.
+
+Ian
+
+> 
+> >  		break;
+> >  
+> >  	default:
+> > diff --git a/fs/namespace.c b/fs/namespace.c
+> > index b2b9920ffd3c..1db8a64cd76f 100644
+> > --- a/fs/namespace.c
+> > +++ b/fs/namespace.c
+> > @@ -115,6 +115,9 @@ static int mnt_alloc_id(struct mount *mnt)
+> >  	if (res < 0)
+> >  		return res;
+> >  	mnt->mnt_id = res;
+> > +#ifdef CONFIG_FSINFO
+> > +	mnt->mnt_unique_id = atomic64_inc_return(&vfs_unique_counter);
+> > +#endif
+> >  	return 0;
+> >  }
+> >  
+> > 
+> > 
 
