@@ -2,142 +2,160 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B56A23BFA3
-	for <lists+linux-api@lfdr.de>; Tue,  4 Aug 2020 21:18:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53A9823C077
+	for <lists+linux-api@lfdr.de>; Tue,  4 Aug 2020 22:04:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726942AbgHDTSw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 4 Aug 2020 15:18:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45384 "EHLO
+        id S1726967AbgHDUEW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 4 Aug 2020 16:04:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726429AbgHDTSv (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Aug 2020 15:18:51 -0400
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BC78C06179F
-        for <linux-api@vger.kernel.org>; Tue,  4 Aug 2020 12:18:51 -0700 (PDT)
-Received: by mail-ej1-x643.google.com with SMTP id m19so3187879ejd.8
-        for <linux-api@vger.kernel.org>; Tue, 04 Aug 2020 12:18:51 -0700 (PDT)
+        with ESMTP id S1726644AbgHDUEV (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Aug 2020 16:04:21 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59350C06174A;
+        Tue,  4 Aug 2020 13:04:21 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id g8so3780820wmk.3;
+        Tue, 04 Aug 2020 13:04:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=iECZKbCttisI32R5vOBuQe0LHnglBF7s4axnvjSdNlk=;
-        b=nQ4grv0/FGhjcX/X9Q+kj/w809eT436vH2U+X4EgTlnaRGNA7g8vikX3m+zfSmYRaT
-         i6cmBUlwtVL6LQdpbpBz3ozbnlKtLwkowabhGu0920duv5F6NKDItb0IoNMhvkRdBd2i
-         gIIVodOYdnVzl0Ma8TCtUfhW97EQEZHXDBBfE=
+        d=gmail.com; s=20161025;
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Z2vR9mbW2WGuKToLgembDnAlnOKrvrY4I1IvKrW5yHM=;
+        b=COTRw/30XcvY8dsrfNO1B5k9TMGZAXxjXnP6rKByR6NyxhKyjir5K2tqrwDSOXz8OD
+         Q3cpvnuzC/tWfxcGcA4xdcgKX+7OmqKW28S2wF9+z3rYxdFPsqSRjPJX/wn21pokbNWM
+         kqlJiNXMVy8rZ4OEVU45EJkLvsD5Ekyr0dzKr7Sapo8fcezhuqjIOaasgqZj4xnbwDUx
+         CrFfdvQ9h+WMg230sy0/kQx8XutVZGzr7s3ux4vgE+HFcDyUwrPhzJ1Y5muGIiQ4cfIO
+         aglZWEFK3ZgStGf12qSfqPkYo+plflmGZ1/xlcHKyPb0fbOGfMNrVXkt3OGS7KBQa0fq
+         OtTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=iECZKbCttisI32R5vOBuQe0LHnglBF7s4axnvjSdNlk=;
-        b=NE7eA/q7WINDMbbojOP58e/0pAHm/8f3V+rZRSmvPBbw8rfEUC7dMNi7yvxhMrR4i2
-         5ZiME++VC4YCP3vcf9TJOc7xtEE1qzs5SEb2TEz/o500WoH6rTA3FitxIdJQCQ8E+/sr
-         9QpFpqKJMAvkcpctj3VSTMqfiITvekRYX0ni3beiNZkMAEBd62H3G82Y6VbjjLok7L8v
-         4LmuIyjl7KciBJJrpFbXNEyRi+tkQw6obSXiKF1supNM47fguHspnyvPV1eBP+1Fp1np
-         GtQF4IkVsMFhwOkHG1j9A8gxVUaFPtnvJztbfbNiaX8SsBNEHjkHywlikrLcJuEVNjlm
-         rUhg==
-X-Gm-Message-State: AOAM533q6Rnrvra1R7v0CtKuxm6iUkL73AaQJA+J9RUQ08ZB6av1xguZ
-        hItz6DxTc3nPxk3zH35VWxYkMn+iHRKchBuCc0Cpsg==
-X-Google-Smtp-Source: ABdhPJxzCVu2FMIuLxYbxYX+UMEg7zT277U5zuZN2lWf6qdwT1ZHQkTlmDhsVnKdcF178T6jfpPcrpCd3ySV7qJkuu8=
-X-Received: by 2002:a17:906:4aca:: with SMTP id u10mr20883333ejt.320.1596568729975;
- Tue, 04 Aug 2020 12:18:49 -0700 (PDT)
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Z2vR9mbW2WGuKToLgembDnAlnOKrvrY4I1IvKrW5yHM=;
+        b=qqCHIsci6aYPPLBXDAi858ocpCMrVgaDDaTxMw/nJRxhwHYhhp6mjIJmuJ/CMb5R7Y
+         yQhjnLTdc6S6u7vi3U7iWXtepKqJEnIIN5tbiR724xE4jEK/lZAAZviv9C9q04dpvCRy
+         g9+2JkGZ4qEoLtk1w555Qw4NrA9JAHnoY02matq0w0lyh54ZW5CH+lAHWHJwSSEN2P9B
+         SsHf9kwPNxLTJCWKB5ZKwfFzNuhptgllmJjBk8U2CWOW9I3K9xvqmXl9oUhmqV5QVTSM
+         4qprtdpoHAMUJ7Tq7YPCy+ENtryZTZLFdxOb8M93pYpVDxzrf/b3coBAZQ03WAV/o1TF
+         d9iQ==
+X-Gm-Message-State: AOAM532qHr2pZT+DkAk7aWb1cmvau41oGd4CHlyo2Y3QW4k3YF5KNZ1s
+        V/mBkep0+ZZKsIO/lqGh9G2G0mu9
+X-Google-Smtp-Source: ABdhPJyLdMViH8MP8NG3KIsM1Pc/5pyaenMXCzGx0UU2Bfe3AoReMhSidx8tYImOMt6VhV6EbKer6A==
+X-Received: by 2002:a1c:5581:: with SMTP id j123mr83550wmb.75.1596571459680;
+        Tue, 04 Aug 2020 13:04:19 -0700 (PDT)
+Received: from ?IPv6:2001:a61:241a:1101:8c63:f991:aa91:da82? ([2001:a61:241a:1101:8c63:f991:aa91:da82])
+        by smtp.gmail.com with ESMTPSA id p8sm33783277wrq.9.2020.08.04.13.04.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Aug 2020 13:04:18 -0700 (PDT)
+Cc:     mtk.manpages@gmail.com, Carlos O'Donell <carlos@redhat.com>,
+        "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>,
+        linux-man <linux-man@vger.kernel.org>,
+        Zack Weinberg <zackw@panix.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Paul Eggert <eggert@cs.ucla.edu>,
+        Joseph Myers <joseph@codesourcery.com>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [RFC PATCH] Replacing "master-slave" terminology for
+ pseudoterminals
+To:     enh <enh@google.com>
+References: <b3b4cf95-5eaa-0b4e-34cc-1a855e7148b6@gmail.com>
+ <88273c2f-ce21-db54-688d-5bebd4a81ecd@redhat.com>
+ <cbf7666c-440e-b4bd-0ff6-712123845fae@gmail.com>
+ <c690ad2f-5f3c-5a8b-7b4c-ad29976aeab0@redhat.com>
+ <CAJgzZoqR4Vh0phZjrDB9dgxNPzH0a35YjC1CwKb3mREOFn5Kbg@mail.gmail.com>
+ <c756202e-7af8-c1b4-e99f-d77f3eae8c09@gmail.com>
+ <CAJgzZoqFvn649xG5XSNBmUutgGQ8b16ELhVsdf0XD0QwFrRtZw@mail.gmail.com>
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Message-ID: <bf5bf287-c44a-dec5-211d-772d1a70b5b3@gmail.com>
+Date:   Tue, 4 Aug 2020 22:04:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <159646178122.1784947.11705396571718464082.stgit@warthog.procyon.org.uk>
- <1596555579.10158.23.camel@HansenPartnership.com>
-In-Reply-To: <1596555579.10158.23.camel@HansenPartnership.com>
-From:   Miklos Szeredi <miklos@szeredi.hu>
-Date:   Tue, 4 Aug 2020 21:18:38 +0200
-Message-ID: <CAJfpegtbX4DZcEuyF1oBatP__jRc_=HFmcJE8XUHjy1rwtqdOg@mail.gmail.com>
-Subject: Re: [PATCH 00/18] VFS: Filesystem information [ver #21]
-To:     James Bottomley <James.Bottomley@hansenpartnership.com>
-Cc:     David Howells <dhowells@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Jeff Layton <jlayton@kernel.org>, linux-ext4@vger.kernel.org,
-        Carlos Maiolino <cmaiolino@redhat.com>,
-        "Darrick J. Wong" <darrick.wong@oracle.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Ian Kent <raven@themaw.net>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Christian Brauner <christian@brauner.io>,
-        Jann Horn <jannh@google.com>, Karel Zak <kzak@redhat.com>,
-        Jeff Layton <jlayton@redhat.com>,
-        linux-fsdevel@vger.kernel.org,
-        LSM <linux-security-module@vger.kernel.org>,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAJgzZoqFvn649xG5XSNBmUutgGQ8b16ELhVsdf0XD0QwFrRtZw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Aug 4, 2020 at 5:40 PM James Bottomley
-<James.Bottomley@hansenpartnership.com> wrote:
->
-> On Mon, 2020-08-03 at 14:36 +0100, David Howells wrote:
-> > Here's a set of patches that adds a system call, fsinfo(), that
-> > allows information about the VFS, mount topology, superblock and
-> > files to be retrieved.
-> >
-> > The patchset is based on top of the notifications patchset and allows
-> > event counters implemented in the latter to be retrieved to allow
-> > overruns to be efficiently managed.
->
-> Could I repeat the question I asked about six months back that never
-> got answered:
->
-> https://lore.kernel.org/linux-api/1582316494.3376.45.camel@HansenPartnership.com/
->
-> It sort of petered out into a long winding thread about why not use
-> sysfs instead, which really doesn't look like a good idea to me.
->
-> I'll repeat the information for those who want to quote it easily on
-> reply without having to use a web interface:
->
-> ---
-> Could I make a suggestion about how this should be done in a way that
-> doesn't actually require the fsinfo syscall at all: it could just be
-> done with fsconfig.  The idea is based on something I've wanted to do
-> for configfd but couldn't because otherwise it wouldn't substitute for
-> fsconfig, but Christian made me think it was actually essential to the
-> ability of the seccomp and other verifier tools in the critique of
-> configfd and I belive the same critique applies here.
->
-> Instead of making fsconfig functionally configure ... as in you pass
-> the attribute name, type and parameters down into the fs specific
-> handler and the handler does a string match and then verifies the
-> parameters and then acts on them, make it table configured, so what
-> each fstype does is register a table of attributes which can be got and
-> optionally set (with each attribute having a get and optional set
-> function).  We'd have multiple tables per fstype, so the generic VFS
-> can register a table of attributes it understands for every fstype
-> (things like name, uuid and the like) and then each fs type would
-> register a table of fs specific attributes following the same pattern.
-> The system would examine the fs specific table before the generic one,
-> allowing overrides.  fsconfig would have the ability to both get and
-> set attributes, permitting retrieval as well as setting (which is how I
-> get rid of the fsinfo syscall), we'd have a global parameter, which
-> would retrieve the entire table by name and type so the whole thing is
-> introspectable because the upper layer knows a-priori all the
-> attributes which can be set for a given fs type and what type they are
-> (so we can make more of the parsing generic).  Any attribute which
-> doesn't have a set routine would be read only and all attributes would
-> have to have a get routine meaning everything is queryable.
+On 8/4/20 7:25 PM, enh wrote:
+> On Fri, Jul 31, 2020 at 12:48 AM Michael Kerrisk (man-pages)
+> <mtk.manpages@gmail.com> wrote:
+>>
+>> Hi Elliot,
+>>
+>> On 7/30/20 10:35 PM, enh wrote:
+>>> On Thu, Jul 30, 2020 at 4:38 AM Carlos O'Donell <carlos@redhat.com> wrote:
+>>>>
+>>>> On 7/30/20 5:16 AM, Michael Kerrisk (man-pages) wrote:
+>>>>> I know what you mean. One reason for that verbosity is the need to
+>>>>> clearly distinguish "pseudoterminal device/end" from "pseudoterminal
+>>>>> device pair". It's hard to avoid being wordy there.
+>>>>
+>>>> The perfect is the enemy of the good. My feeling is that as others
+>>>> write this text in emails or discussions, we'll eventually all settle
+>>>> on some other short form we find agreeable and then later we can adjust
+>>>> the man pages to use that.
+>>>
+>>> based on my own brief experience, i'm expecting that _code_ will
+>>> settle on pty and tty. but if you're reading the man pages to
+>>> understand the concepts -- which are inherently quite confusing -- i
+>>> think spelling things out in longhand might remain useful in that
+>>> context.
+>>>
+>>>> Until then taking the lead to change this
+>>>> language is the correct way forward.
+>>>
+>>> yeah, definitely.
+>>>
+>>> i'd prefer for michael to go first -- since the bionic documentation
+>>> is basically just a link to man7.org, and even without that he's the
+>>> canonical source -- but i'm happy to go first and submit my change
+>>> first if it helps us make progress :-)
+>>
+>> I'd prefer to take this a little slowly. I don't plan to merge the
+>> changes just yet. I'm interested to get a bit more feedback first,
+>> including from Zack. (I'm guessing Zack is on holiday or so, which
+>> is why we've not heard from him.) Also, if we have rough consensus
+>> on this change, I would like to raise it with the POSIX folk; it
+>> would of course be great if there was a corresponding change in the
+>> standard, so that we all (all UNIX) have a common set of reference
+>> terms.
+> 
+> the good news is that it came up at this week's austin group meeting...
 
-fsconfig(2) takes an fd referring to an fs_context, that in turn
-refers to a super_block.
+Yes, I (also) noticed in the Austin group minutes.
 
-So using fsconfig() for retrieving super_block attributes would be
-fine (modulo value being const, and lack of buffer size).
+> the bad news is that (afaik) none of us were there.
+> 
+> i had been planning to suggest we try to join next week anyway, to
+> avoid having this stall again.
 
-But what about mount attributes?
+I suggest that we lay the groundwork with an email. I've started
+crafting a mail to the POSIX folk that will CC all of the parties
+to the discussion we have already been having, and pointing at the
+current proposal. I'll send it out tomorrow morning. 
 
-I don't buy the argument that an API needs to be designed around the
-requirements of seccomp and the like.  It should be the other way
-round.  In that, I think your configfd idea was fine, and would answer
-the above question.
+One complication in trying to have this discussion on mailing lists
+is that the Austin list can only be  posted to by subscribers :-(.)
+If you want to participate in the discussion, it may be best to join
+the Austin Group mailing list (which essentially means joining the
+Austin Group), if you are not already a member. I think you can 
+find the steps to do so here:
 
-Thanks,
-Miklos
+https://www.opengroup.org/austin/lists.html
+
+If you don't do this, your mails to the austin-group-l@opengroup.org
+list will be rejected.
+
+Cheers,
+
+Michael
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
