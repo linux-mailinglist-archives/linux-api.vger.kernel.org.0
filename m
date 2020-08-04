@@ -2,185 +2,95 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A106F23BA62
-	for <lists+linux-api@lfdr.de>; Tue,  4 Aug 2020 14:33:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A39B923BA77
+	for <lists+linux-api@lfdr.de>; Tue,  4 Aug 2020 14:37:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726333AbgHDMdB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 4 Aug 2020 08:33:01 -0400
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:36261 "EHLO
-        new1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727779AbgHDMcQ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Aug 2020 08:32:16 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-        by mailnew.nyi.internal (Postfix) with ESMTP id C94F6580552;
-        Tue,  4 Aug 2020 08:32:13 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Tue, 04 Aug 2020 08:32:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=
-        message-id:subject:from:to:cc:date:in-reply-to:references
-        :content-type:mime-version:content-transfer-encoding; s=fm3; bh=
-        GQrvTmzmmFYdgKDOjC8EuXBs0YT7HCIH7S0aDNWKxu4=; b=clTQFpIMSolCW6jY
-        xc99NEC4kl0YqyNOsm6qSVHOkZFRyhaNemvV42oGz7IHHSv3+EpRvRgaPZX4cMIy
-        uG0kY97csqAYzzeIO62vthsBgZrguMDBKu/4hEXIjO4S9A+KjMpZagxQ5rSB+eIx
-        O5n0AO9Qqsy1lDc9obh3cjdW33gc9VxRh7KFRLYeHawdsj7/3L8vr7yb2w8VxEy4
-        6F9I8qHqZYZzJPQ2+9u5WHdCut/HdViUN3H6TEGza9MYaxUCBpBxQSfW58VjyVwo
-        /k3Ao5jizSrnCh6TCBW6h/8qVBg4fpTax4o6yrywHYuGXFDhRak1DbcxlLj+7Lht
-        VWfBLA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:in-reply-to:message-id:mime-version:references
-        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; bh=GQrvTmzmmFYdgKDOjC8EuXBs0YT7HCIH7S0aDNWKx
-        u4=; b=CdBBGHL97gKyORvrfh7sIlaBs00XY1tMVHmMDPzGTQSg4+bSBCCqF0hFt
-        IEOc0mHjwjmFv+oIHhMtp9t73oOn8Cksi2OJH0E+hhO5fxCI2oRe2y2ODq1db5vE
-        GjMdoyORzN3OkoEAWJJkbhe/oM+BTvd34+WwFilOZM1ls0pcUHGNrzmgJupL0lwh
-        ZmXqcQagnbWVfqbkqhUP6hOgg1Y6/bJVv9Xw4qEUzBuicH9wojYTrZau8RYBRimo
-        kL6iylsRcEy5jdV1F/iCrShzmtZ0eV4NnoWaj6K31/l79V0bN9nFYTr5bevOyUts
-        izE9B7fraIwpvRSS6TWlVZ+ve9TtQ==
-X-ME-Sender: <xms:TFUpX4-ox1o4MRnKnWdE272jhCVKtxE-9wztQZddi5qFKWRXZKovwQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrjeeigdehgecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefkuffhvfffjghftggfggfgsehtjeertddtreejnecuhfhrohhmpefkrghnucfm
-    vghnthcuoehrrghvvghnsehthhgvmhgrfidrnhgvtheqnecuggftrfgrthhtvghrnhepfe
-    efteetvdeguddvveefveeftedtffduudehueeihfeuvefgveehffeludeggfejnecukfhp
-    peduudekrddvtdekrdegjedrudeiudenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
-    grmhepmhgrihhlfhhrohhmpehrrghvvghnsehthhgvmhgrfidrnhgvth
-X-ME-Proxy: <xmx:TFUpXwtbPbbZc6pREsPaXvlLpznOoU3pBIZOBhXXNNcVQ2h0mLttnw>
-    <xmx:TFUpX-D9bye0WAANnM0viVcGOmAzEJX1_LFFaakEqE-0b_L9nXh0Yg>
-    <xmx:TFUpX4fEKfhE8UMAm7Q4DP_ltPtsf8PFO0R1s9TQiYNAy1w7fbTTDQ>
-    <xmx:TVUpXwoVZSDciaCCPlUM353wOLXDPtV5BJH8lEGIxW6IJfby6hy0zw>
-Received: from mickey.themaw.net (unknown [118.208.47.161])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 078F830600A6;
-        Tue,  4 Aug 2020 08:32:07 -0400 (EDT)
-Message-ID: <3341383b655b39697b4dcdb9f64c5f3bc46a6ac4.camel@themaw.net>
-Subject: Re: [PATCH 06/18] fsinfo: Add a uniquifier ID to struct mount [ver
- #21]
-From:   Ian Kent <raven@themaw.net>
-To:     Miklos Szeredi <miklos@szeredi.hu>,
-        David Howells <dhowells@redhat.com>
-Cc:     viro@zeniv.linux.org.uk, torvalds@linux-foundation.org,
-        mszeredi@redhat.com, christian@brauner.io, jannh@google.com,
-        darrick.wong@oracle.com, kzak@redhat.com, jlayton@redhat.com,
-        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Tue, 04 Aug 2020 20:32:04 +0800
-In-Reply-To: <20200804104108.GC32719@miu.piliscsaba.redhat.com>
-References: <159646178122.1784947.11705396571718464082.stgit@warthog.procyon.org.uk>
-         <159646183662.1784947.5709738540440380373.stgit@warthog.procyon.org.uk>
-         <20200804104108.GC32719@miu.piliscsaba.redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
+        id S1726333AbgHDMh3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 4 Aug 2020 08:37:29 -0400
+Received: from sonic315-13.consmr.mail.bf2.yahoo.com ([74.6.134.123]:45785
+        "EHLO sonic315-13.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725864AbgHDMh2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Aug 2020 08:37:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1596544647; bh=+NKq2YP/4c3bLm2HmGhxa/KCZOXr0NIUKHs/ECuC0yk=; h=Date:From:Reply-To:Subject:References:From:Subject; b=M87E3x2wdWuLkyJ7nrQr+TaIwjkrvsfKGHDVJctxFQnoOZB78/YLhOYmKRt/buy1HXZnGlCl1cwHewoh6YfrzEL/R3ieKfW+t5A97zgh+NBjSrHeC9QbGyssGfyB+jFkm+CUQubEsrDLGe30NSQo4s44mRPDZj1DP/07tk7od0k3dowS7hN7LpStnlP7juXTl1NhDQAFLfsYZy4Oq/1tt0TMk2iSS06/dsAk/iaK82P8UxNOvkWW4J7fgg1RKSf9WJhso2e6vf4Ao1c4COgpvBmRYi9GTNjZ3cLDpd3gE+HHiXbOWk1iLmjyGPNv5Qew79fz8auAa1RQDXZkZdDYtQ==
+X-YMail-OSG: zWBYfy8VM1lZ0R8Aii91tRY_MfFydI3XwePexgDYXJ2.iOQQYSWVJHjPxTQSwRO
+ ulc2YiORP._obj8wye2263YQfgvrtjon.hObcRACwM23ilOF7XqTWkgY06kgVrtgt6fNva.D00kj
+ 2lyMrcFlxq9OIGJWvSXCBQ2JInQNFXyteJ5WzSjsQRSos2UDAmoksioNNCzl_Bl.gyMG165Pf8WT
+ rqerRrbNkUtSMrMRJzWWLiUWs_M2P4KstucBJ53ueZnqLnyVB0ZhkHwS4fiKghMSxCbr1Ym3pBKz
+ 5442xxCTaCdhrqJW6Ucei0WPvjJKQkuFknVhdvWS5HslTpckNwZm7v2r0mlJHQEDTCM0XjMIoeLf
+ WQLoyKhYPuSDz8Lh.1fZAay4g15Us0o60RDSlq3Eum4GK5dnp3NLv3iwlneHdj_Ur2eg.EucOgQz
+ 7PLBaWJaueFpTHaGh5VR3jc78fx4w7Egn7E9qP26E9D2rlUO34UmsBtjF0LG9maD1GsCouf10kY4
+ zIlqrpWT9T8Mp_7bfaz6x7nt8TnYDuQOe.Naccqs8ffn0SHF.PZV2YL1PpWPHfjibW6LbIcfnZRF
+ CDZbEl7CXCwhsur06gyDX2WKdn_JE.dzkWLEhjtoHcJyUlpmc0F18awGaTdgJygR3cfuaIhcx5pt
+ BFEuzVyhC6Mt7KYv0g92jL.rX9OA2XDjCZCb.k0TDaBLLKwb06_J0_4ZE2LpPOfnQCKzBE6ljAI4
+ VCJ56q0X6D2b1FGdDEhnGSqIoWv0AH6SYpMjWJ.wJDTeTMjyUoxvzo0wvAYcjVR055jOGBJgmplQ
+ 2CkRAt4AiwS.hC8Zp6b7Pz0Ip6jeYFSsByADmqkwnb4l2mst1BXKCNY4NzUTsm75xShACRQeB2FV
+ oM2shkAwdEfJuM6VgyUsxbIG8KeTB7cK95n9E9Y5tImMV8CKmaDGUaZWGyje4ZMnsJUwMgVrWgQi
+ dtW_VL7yDq0ZTz1Ea0ZMPZFqUK6ObpIp03vXurV5TMedoex0kGk_o0e78FENKPEEYDeVOQyGKXS6
+ 6MC99VcGSQP8NkKekg0MBzwsqkjwpyLlLF85feOINJCGJdeosTcBoJtlsQVPni.IHyKkFnOKvt0d
+ n7tdYy445lOj7iqIZZf29wB4Qy.h.FZ43mWE7rcCRuA9vEsi2xcFMutsu8h.W6z7ZPpjqrZ01vqf
+ kJKXTGjuDgVSb.QO.0E5D_WTG4giIwj00ukRmrEDGDIkZnW5KEKBrcPOQxHtFckays3TyG3LWR4m
+ amMNnZmRQOVjbyyGtASrE0xtTLf.R8rxN7NRTdIU_4_uHA_jYib71pLTrKQWzCQNwmisaLlf7u20
+ 2
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic315.consmr.mail.bf2.yahoo.com with HTTP; Tue, 4 Aug 2020 12:37:27 +0000
+Date:   Tue, 4 Aug 2020 12:37:24 +0000 (UTC)
+From:   "Mrs. Mina A. Brunel" <bmrsminaa4@gmail.com>
+Reply-To: amrsminaabrunel@gmail.com
+Message-ID: <324990117.248248.1596544644405@mail.yahoo.com>
+Subject: My Dear in the lord
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+References: <324990117.248248.1596544644405.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.16397 YMailNodin Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:79.0) Gecko/20100101 Firefox/79.0
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, 2020-08-04 at 12:41 +0200, Miklos Szeredi wrote:
-> On Mon, Aug 03, 2020 at 02:37:16PM +0100, David Howells wrote:
-> > Add a uniquifier ID to struct mount that is effectively unique over
-> > the
-> > kernel lifetime to deal around mnt_id values being reused.  This
-> > can then
-> > be exported through fsinfo() to allow detection of replacement
-> > mounts that
-> > happen to end up with the same mount ID.
-> > 
-> > The normal mount handle is still used for referring to a particular
-> > mount.
-> > 
-> > The mount notification is then changed to convey these unique mount
-> > IDs
-> > rather than the mount handle.
-> > 
-> > Signed-off-by: David Howells <dhowells@redhat.com>
-> > ---
-> > 
-> >  fs/mount.h        |    3 +++
-> >  fs/mount_notify.c |    4 ++--
-> >  fs/namespace.c    |    3 +++
-> >  3 files changed, 8 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/fs/mount.h b/fs/mount.h
-> > index 85456a5f5a3a..1037781be055 100644
-> > --- a/fs/mount.h
-> > +++ b/fs/mount.h
-> > @@ -79,6 +79,9 @@ struct mount {
-> >  	int mnt_expiry_mark;		/* true if marked for
-> > expiry */
-> >  	struct hlist_head mnt_pins;
-> >  	struct hlist_head mnt_stuck_children;
-> > +#ifdef CONFIG_FSINFO
-> > +	u64	mnt_unique_id;		/* ID unique over lifetime of
-> > kernel */
-> > +#endif
-> 
-> Not sure if it's worth making conditional.
-> 
-> >  #ifdef CONFIG_MOUNT_NOTIFICATIONS
-> >  	struct watch_list *mnt_watchers; /* Watches on dentries within
-> > this mount */
-> >  #endif
-> > diff --git a/fs/mount_notify.c b/fs/mount_notify.c
-> > index 44f570e4cebe..d8ba66ed5f77 100644
-> > --- a/fs/mount_notify.c
-> > +++ b/fs/mount_notify.c
-> > @@ -90,7 +90,7 @@ void notify_mount(struct mount *trigger,
-> >  	n.watch.type	= WATCH_TYPE_MOUNT_NOTIFY;
-> >  	n.watch.subtype	= subtype;
-> >  	n.watch.info	= info_flags | watch_sizeof(n);
-> > -	n.triggered_on	= trigger->mnt_id;
-> > +	n.triggered_on	= trigger->mnt_unique_id;
-> >  
-> >  	switch (subtype) {
-> >  	case NOTIFY_MOUNT_EXPIRY:
-> > @@ -102,7 +102,7 @@ void notify_mount(struct mount *trigger,
-> >  	case NOTIFY_MOUNT_UNMOUNT:
-> >  	case NOTIFY_MOUNT_MOVE_FROM:
-> >  	case NOTIFY_MOUNT_MOVE_TO:
-> > -		n.auxiliary_mount	= aux->mnt_id;
-> > +		n.auxiliary_mount = aux->mnt_unique_id;
-> 
-> Hmm, so we now have two ID's:
-> 
->  - one can be used to look up the mount
->  - one is guaranteed to be unique
-> 
-> With this change the mount cannot be looked up with
-> FSINFO_FLAGS_QUERY_MOUNT,
-> right?
-> 
-> Should we be merging the two ID's into a single one which has both
-> properties?
 
-I'd been thinking we would probably need to change to 64 bit ids
-for a while now and I thought that was what was going to happen.
 
-We'll need to change libmount and current code but better early
-on than later.
+My Dear in the lord
 
-Ian
 
-> 
-> >  		break;
-> >  
-> >  	default:
-> > diff --git a/fs/namespace.c b/fs/namespace.c
-> > index b2b9920ffd3c..1db8a64cd76f 100644
-> > --- a/fs/namespace.c
-> > +++ b/fs/namespace.c
-> > @@ -115,6 +115,9 @@ static int mnt_alloc_id(struct mount *mnt)
-> >  	if (res < 0)
-> >  		return res;
-> >  	mnt->mnt_id = res;
-> > +#ifdef CONFIG_FSINFO
-> > +	mnt->mnt_unique_id = atomic64_inc_return(&vfs_unique_counter);
-> > +#endif
-> >  	return 0;
-> >  }
-> >  
-> > 
-> > 
+My name is Mrs. Mina A. Brunel I am a Norway Citizen who is living in Burki=
+na Faso, I am married to Mr. Brunel Patrice, a politician who owns a small =
+gold company in Burkina Faso; He died of Leprosy and Radesyge, in the year =
+February 2010, During his lifetime he deposited the sum of =E2=82=AC 8.5 Mi=
+llion Euro) Eight million, Five hundred thousand Euros in a bank in Ouagado=
+ugou the capital city of Burkina Faso in West Africa. The money was from th=
+e sale of his company and death benefits payment and entitlements of my dec=
+eased husband by his company.
 
+I am sending you this message with heavy tears in my eyes and great sorrow =
+in my heart, and also praying that it will reach you in good health because=
+ I am not in good health, I sleep every night without knowing if I may be a=
+live to see the next day. I am suffering from long time cancer and presentl=
+y I am partially suffering from Leprosy, which has become difficult for me =
+to move around. I was married to my late husband for more than 6 years with=
+out having a child and my doctor confided that I have less chance to live, =
+having to know when the cup of death will come, I decided to contact you to=
+ claim the fund since I don't have any relation I grew up from an orphanage=
+ home.
+
+I have decided to donate this money for the support of helping Motherless b=
+abies/Less privileged/Widows and churches also to build the house of God be=
+cause I am dying and diagnosed with cancer for about 3 years ago. I have de=
+cided to donate from what I have inherited from my late husband to you for =
+the good work of Almighty God; I will be going in for an operation surgery =
+soon.
+
+Now I want you to stand as my next of kin to claim the funds for charity pu=
+rposes. Because of this money remains unclaimed after my death, the bank ex=
+ecutives or the government will take the money as unclaimed fund and maybe =
+use it for selfishness and worthless ventures, I need a very honest person =
+who can claim this money and use it for Charity works, for orphanages, wido=
+ws and also build schools and churches for less privilege that will be name=
+d after my late husband and my name.
+
+I need your urgent answer to know if you will be able to execute this proje=
+ct, and I will give you more information on how the fund will be transferre=
+d to your bank account or online banking.
+
+Thanks
+Mrs. Mina A. Brunel
