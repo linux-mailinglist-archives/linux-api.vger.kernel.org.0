@@ -2,122 +2,214 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 62ECC23BD54
-	for <lists+linux-api@lfdr.de>; Tue,  4 Aug 2020 17:40:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A22123BD7D
+	for <lists+linux-api@lfdr.de>; Tue,  4 Aug 2020 17:46:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727997AbgHDPjw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 4 Aug 2020 11:39:52 -0400
-Received: from bedivere.hansenpartnership.com ([66.63.167.143]:51856 "EHLO
-        bedivere.hansenpartnership.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727038AbgHDPjt (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Aug 2020 11:39:49 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by bedivere.hansenpartnership.com (Postfix) with ESMTP id 9ACC18EE19F;
-        Tue,  4 Aug 2020 08:39:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
-        s=20151216; t=1596555587;
-        bh=ubA7UgAjztHk4GVyHjlFRj5OwpgCUgVMlAu9TLOG2Po=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=mCiJhDrQYtjSKfKCoc+zcXJw20GOjtM2YdZhPriO5Hpid2hhKtxkt8+OGJwn2AR3k
-         /FzvI51x/wnSixkOpn44wsemSD62wUTee772UZzM6yfGamb8lw4JDlhYCqImJp8k0g
-         hmxDKw2bpbC2GIaRZMiNMW3KnidEG+hyy2eB6oS4=
-Received: from bedivere.hansenpartnership.com ([127.0.0.1])
-        by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id Bg9YfVLl3_vu; Tue,  4 Aug 2020 08:39:47 -0700 (PDT)
-Received: from [153.66.254.194] (unknown [50.35.76.230])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 939768EE0E4;
-        Tue,  4 Aug 2020 08:39:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
-        s=20151216; t=1596555586;
-        bh=ubA7UgAjztHk4GVyHjlFRj5OwpgCUgVMlAu9TLOG2Po=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=bmKnsvG0vWB3ZUCvyzNR7rWc4eZ9+ZsNbdyYPV9VoolPcD7XlGUzdRm1c07fHjqT1
-         qmu1PsFAW7gpFD+aA+3WSAkibprMkfYJ8qYBN+PYTXiY0qbHHzX8qwXsshnmHzmyD6
-         Q9O+aU2LAAvWaja75qo/xTXfUs/5DETrYxxrcOpI=
-Message-ID: <1596555579.10158.23.camel@HansenPartnership.com>
-Subject: Re: [PATCH 00/18] VFS: Filesystem information [ver #21]
-From:   James Bottomley <James.Bottomley@HansenPartnership.com>
-To:     David Howells <dhowells@redhat.com>, viro@zeniv.linux.org.uk
-Cc:     Theodore Ts'o <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Jeff Layton <jlayton@kernel.org>, linux-ext4@vger.kernel.org,
-        Carlos Maiolino <cmaiolino@redhat.com>,
-        "Darrick J. Wong" <darrick.wong@oracle.com>,
-        linux-api@vger.kernel.org, torvalds@linux-foundation.org,
-        raven@themaw.net, mszeredi@redhat.com, christian@brauner.io,
-        jannh@google.com, kzak@redhat.com, jlayton@redhat.com,
-        linux-fsdevel@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Tue, 04 Aug 2020 08:39:39 -0700
-In-Reply-To: <159646178122.1784947.11705396571718464082.stgit@warthog.procyon.org.uk>
-References: <159646178122.1784947.11705396571718464082.stgit@warthog.procyon.org.uk>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.26.6 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1728910AbgHDPqq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 4 Aug 2020 11:46:46 -0400
+Received: from linux.microsoft.com ([13.77.154.182]:53610 "EHLO
+        linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728295AbgHDPqo (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Aug 2020 11:46:44 -0400
+Received: from [192.168.254.32] (unknown [47.187.206.220])
+        by linux.microsoft.com (Postfix) with ESMTPSA id 9B23A20B4908;
+        Tue,  4 Aug 2020 08:46:41 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9B23A20B4908
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1596556002;
+        bh=wHC31skMgFt/ebqHymj769kGPOKXA4hyoGb1xMjf0fI=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=EutcuYNAeGhOfkiO8T1sIvfJSLcvl24ddG2j+NfgLnwZCraC2VozjLawrJmUJlmea
+         uMTlKW22ne7ngBbcz+KuCNluoJpU8MvjXq4d9Zax32BecuA0bRhi+seD3ikjWvtxPt
+         m71EidTy92505Hg9DsZNgxuxfBJvroeKJTm5VwQk=
+Subject: Re: [PATCH v1 0/4] [RFC] Implement Trampoline File Descriptor
+To:     Mark Rutland <mark.rutland@arm.com>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        linux-integrity <linux-integrity@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        Oleg Nesterov <oleg@redhat.com>, X86 ML <x86@kernel.org>
+References: <20200728131050.24443-1-madvenka@linux.microsoft.com>
+ <CALCETrVy5OMuUx04-wWk9FJbSxkrT2vMfN_kANinudrDwC4Cig@mail.gmail.com>
+ <6540b4b7-3f70-adbf-c922-43886599713a@linux.microsoft.com>
+ <CALCETrWnNR5v3ZCLfBVQGYK8M0jAvQMaAc9uuO05kfZuh-4d6w@mail.gmail.com>
+ <46a1adef-65f0-bd5e-0b17-54856fb7e7ee@linux.microsoft.com>
+ <20200731183146.GD67415@C02TD0UTHF1T.local>
+ <86625441-80f3-2909-2f56-e18e2b60957d@linux.microsoft.com>
+ <20200804135558.GA7440@C02TD0UTHF1T.local>
+From:   "Madhavan T. Venkataraman" <madvenka@linux.microsoft.com>
+Message-ID: <874ec700-405f-bad8-175f-884b4f6f66f2@linux.microsoft.com>
+Date:   Tue, 4 Aug 2020 10:46:40 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20200804135558.GA7440@C02TD0UTHF1T.local>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, 2020-08-03 at 14:36 +0100, David Howells wrote:
-> Here's a set of patches that adds a system call, fsinfo(), that
-> allows information about the VFS, mount topology, superblock and
-> files to be retrieved.
-> 
-> The patchset is based on top of the notifications patchset and allows
-> event counters implemented in the latter to be retrieved to allow
-> overruns to be efficiently managed.
+Hey Mark,
 
-Could I repeat the question I asked about six months back that never
-got answered:
+I am working on putting together an improved definition of trampfd per
+Andy's comment. I will try to address your comments in that improved
+definition. Once I send that out, I will respond to your emails as well.
 
-https://lore.kernel.org/linux-api/1582316494.3376.45.camel@HansenPartnership.com/
+Thanks.
 
-It sort of petered out into a long winding thread about why not use
-sysfs instead, which really doesn't look like a good idea to me.
+Madhavan
 
-I'll repeat the information for those who want to quote it easily on
-reply without having to use a web interface:
-
----
-Could I make a suggestion about how this should be done in a way that
-doesn't actually require the fsinfo syscall at all: it could just be
-done with fsconfig.  The idea is based on something I've wanted to do
-for configfd but couldn't because otherwise it wouldn't substitute for
-fsconfig, but Christian made me think it was actually essential to the
-ability of the seccomp and other verifier tools in the critique of
-configfd and I belive the same critique applies here.
-
-Instead of making fsconfig functionally configure ... as in you pass
-the attribute name, type and parameters down into the fs specific
-handler and the handler does a string match and then verifies the
-parameters and then acts on them, make it table configured, so what
-each fstype does is register a table of attributes which can be got and
-optionally set (with each attribute having a get and optional set
-function).  We'd have multiple tables per fstype, so the generic VFS
-can register a table of attributes it understands for every fstype
-(things like name, uuid and the like) and then each fs type would
-register a table of fs specific attributes following the same pattern. 
-The system would examine the fs specific table before the generic one,
-allowing overrides.  fsconfig would have the ability to both get and
-set attributes, permitting retrieval as well as setting (which is how I
-get rid of the fsinfo syscall), we'd have a global parameter, which
-would retrieve the entire table by name and type so the whole thing is
-introspectable because the upper layer knows a-priori all the
-attributes which can be set for a given fs type and what type they are
-(so we can make more of the parsing generic).  Any attribute which
-doesn't have a set routine would be read only and all attributes would
-have to have a get routine meaning everything is queryable.
-
-I think I know how to code this up in a way that would be fully
-transparent to the existing syscalls.
----
-
-James
-
-
+On 8/4/20 8:55 AM, Mark Rutland wrote:
+> On Mon, Aug 03, 2020 at 12:58:04PM -0500, Madhavan T. Venkataraman wrote:
+>> On 7/31/20 1:31 PM, Mark Rutland wrote:
+>>> On Fri, Jul 31, 2020 at 12:13:49PM -0500, Madhavan T. Venkataraman wrote:
+>>>> On 7/30/20 3:54 PM, Andy Lutomirski wrote:
+>>>>> On Thu, Jul 30, 2020 at 7:24 AM Madhavan T. Venkataraman
+>>>>> <madvenka@linux.microsoft.com> wrote:
+>>>>> When the kernel generates the code for a trampoline, it can hard code data values
+>>>> in the generated code itself so it does not need PC-relative data referencing.
+>>>>
+>>>> And, for ISAs that do support the large offset, we do have to implement and
+>>>> maintain the code page stuff for different ISAs for each application and library
+>>>> if we did not use trampfd.
+>>> Trampoline code is architecture specific today, so I don't see that as a
+>>> major issue. Common structural bits can probably be shared even if the
+>>> specifid machine code cannot.
+>> True. But an implementor may prefer a standard mechanism provided by
+>> the kernel so all of his architectures can be supported easily with less
+>> effort.
+>>
+>> If you look at the libffi reference patch I have included, the architecture
+>> specific changes to use trampfd just involve a single C function call to
+>> a common code function.
+> Sure but in addition to that each architecture backend had to define a
+> set of arguments to that. I view the C function is analagous to the
+> "common structural bits".
+>
+> I appreciate that your patch is small today (and architectures seem to
+> largely align on what they need), but I don't think it's necessarily
+> true that things will remain so simple as architecture are extended and
+> their calling conventions evolve, and I also don't think it's clear that
+> this will work for more complex cases elsewhere.
+>
+> [...]
+>
+>>>> With the user level trampoline table approach, the data part of the trampoline table
+>>>> can be hacked by an attacker if an application has a vulnerability. Specifically, the
+>>>> target PC can be altered to some arbitrary location. Trampfd implements an
+>>>> "Allowed PCS" context. In the libffi changes, I have created a read-only array of
+>>>> all ABI handlers used in closures for each architecture. This read-only array
+>>>> can be used to restrict the PC values for libffi trampolines to prevent hacking.
+>>>>
+>>>> To generalize, we can implement security rules/features if the trampoline
+>>>> object is in the kernel.
+>>> I don't follow this argument. If it's possible to statically define that
+>>> in the kernel, it's also possible to do that in userspace without any
+>>> new kernel support.
+>> It is not statically defined in the kernel.
+>>
+>> Let us take the libffi example. In the 64-bit X86 arch code, there are 3
+>> ABI handlers:
+>>
+>>     ffi_closure_unix64_sse
+>>     ffi_closure_unix64
+>>     ffi_closure_win64
+>>
+>> I could create an "Allowed PCs" context like this:
+>>
+>> struct my_allowed_pcs {
+>>     struct trampfd_values    pcs;
+>>     __u64                             pc_values[3];
+>> };
+>>
+>> const struct my_allowed_pcs    my_allowed_pcs = {
+>>     { 3, 0 },
+>>     (uintptr_t) ffi_closure_unix64_sse,
+>>     (uintptr_t) ffi_closure_unix64,
+>>     (uintptr_t) ffi_closure_win64,
+>> };
+>>
+>> I have created a read-only array of allowed ABI handlers that closures use.
+>>
+>> When I set up the context for a closure trampoline, I could do this:
+>>
+>>     pwrite(trampfd, &my_allowed_pcs, sizeof(my_allowed_pcs), TRAMPFD_ALLOWED_PCS_OFFSET);
+>>    
+>> This copies the array into the trampoline object in the kernel.
+>> When the register context is set for the trampoline, the kernel checks
+>> the PC register value against allowed PCs.
+>>
+>> Because my_allowed_pcs is read-only, a hacker cannot modify it. So, the only
+>> permitted target PCs enforced by the kernel are the ABI handlers.
+> Sorry, when I said "statically define" meant when you knew legitimate
+> targets ahead of time when you create the trampoline (i.e. whether you
+> could enumerate those and know they would not change dynamically).
+>
+> My point was that you can achieve the same in userspace if the
+> trampoline and array of legitimate targets are in read-only memory,
+> without having to trap to the kernel.
+>
+> I think the key point here is that an adversary must be prevented from
+> altering a trampoline and any associated metadata, and I think that
+> there are ways of achieving that without having to trap into the kernel,
+> and without the kernel having to be intimately aware of the calling
+> conventions used in userspace.
+>
+> [...]
+>
+>>>> Trampfd is a framework that can be used to implement multiple things. May be,
+>>>> a few of those things can also be implemented in user land itself. But I think having
+>>>> just one mechanism to execute dynamic code objects is preferable to having
+>>>> multiple mechanisms not standardized across all applications.
+>>> In abstract, having a common interface sounds nice, but in practice
+>>> elements of this are always architecture-specific (e.g. interactiosn
+>>> with HW CFI), and that common interface can result in more pain as it
+>>> doesn't fit naturally into the context that ISAs were designed for (e.g. 
+>>> where control-flow instructions are extended with new semantics).
+>> In the case of trampfd, the code generation is indeed architecture
+>> specific. But that is in the kernel. The application is not affected by it.
+> As an ABI detail, applications are *definitely* affected by this, and it
+> is wrong to suggest they are not even if you don't have a specific case
+> in mind today. As this forms a contract between userspace and the kernel
+> it's overly simplistic to say that it's the kernel's problem
+>
+> For example, in the case of BTI on arm64, what should the trampoline
+> set PSTATE.BTYPE to? Different use-cases *will* want different values,
+> and not necessarily the value of PSTATE at the instant the call to the
+> trampoline was made. In the case of libffi specifically using the
+> original value of PSTATE.BTYPE probably is sound, but other code
+> sequences may need to restrict/broaden or entirely change that.
+>
+>> Again, referring to the libffi reference patch, I have defined wrapper
+>> functions for trampfd in common code. The architecture specific code
+>> in libffi only calls the set_context function defined in common code.
+>> Even this is required only because register names are specific to each
+>> architecture and the target PC (to the ABI handler) is specific to
+>> each architecture-ABI combo.
+>>
+>>> It also meass that you can't share the rough approach across OSs which
+>>> do not implement an identical mechanism, so for code abstracting by ISA
+>>> first, then by platform/ABI, there isn't much saving.
+>> Why can you not share the same approach across OSes? In fact,
+>> I have tried to design it so that other OSes can use the same
+>> mechanism.
+> Sure, but where they *don't*, you must fall back to the existing
+> purely-userspace mechanisms, and so a codebase now has the burden of
+> maintaining two distinct mechanisms.
+>
+> Whereas if there's a way of doing this in userspace with (stronger)
+> enforcement of memory permissions the trampoline code can be common for
+> when this is present or absent, which is much easier for a codebase rto
+> maintain, and could make use of weaker existing mechanisms to improve
+> the situation on systems without the new functionality.
+>
+> Thanks,
+> Mark.
 
