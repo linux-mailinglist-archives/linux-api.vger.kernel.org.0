@@ -2,86 +2,94 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D9D123CFC6
-	for <lists+linux-api@lfdr.de>; Wed,  5 Aug 2020 21:25:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B031823CFE7
+	for <lists+linux-api@lfdr.de>; Wed,  5 Aug 2020 21:26:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728970AbgHETZL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 5 Aug 2020 15:25:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52818 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728489AbgHERZG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 5 Aug 2020 13:25:06 -0400
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86A19C0086A8
-        for <linux-api@vger.kernel.org>; Wed,  5 Aug 2020 07:46:44 -0700 (PDT)
-Received: by mail-ed1-x541.google.com with SMTP id c10so3016584edk.6
-        for <linux-api@vger.kernel.org>; Wed, 05 Aug 2020 07:46:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=3edvsdiBJ+dMkVwgYQe5b56g/OTwtECyNQldn00sS/k=;
-        b=pIV877Jp9EOP/kj6De7JQRLtf8VLarGd/I50CrlfCnVlTSEvY4ZesiGKNPAJkMSA9S
-         1xuBLUfpu8+qhUlXVyP6XOQ6q0sRV7EwvIwaXpVhCVUJTjQCjAneENJ37v5t/IG4dAAS
-         5v+E0LKx1h0Z1Z/D73XVOhVsAP6a9wsqDzKnw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3edvsdiBJ+dMkVwgYQe5b56g/OTwtECyNQldn00sS/k=;
-        b=I5t2dAPZKwTAl74s1jrp6sURVUETq92O3MAV0P6MAjOUmff28mQp2+xoUio5RuaKsj
-         6seqRjyAujgM1pHb3Ozw4WwkJayxRVZuQbqF/aDZk0jm2CJPXCajh7P4F8ZAxgBMXF0g
-         wi9X5TR3NtAvPG9KpkyvzuixDukdw90kgftR5ccuKYdJYE0imDv1pm0to5uMAU2Amitz
-         LJBhT7VVOl3gAJq+mVNqeuRxImSuh9IcqgwUTW8i2RLnsDvj0QHxrd6BkZ8lZMOO7EL5
-         6mWokZJwarHXlvpZWWODWz1R30mdVRbRMvNR1SS6yVKQWSBPuzRlNy9K/+E52loLyDIO
-         sFAA==
-X-Gm-Message-State: AOAM533faPiAtNNKsW0+zVShH84EMJOb1GtO8ItszgChncbzkb3gl0EN
-        CORfWWioDUPTntPIgeyd4QyDCXfUnlR/lIHP0o7cmQ==
-X-Google-Smtp-Source: ABdhPJy96Yk1HJK8pmfb/tsUqlvWao5KdebzpybEXlIErIo0+XHeGRmkn8IkxZto7tV3EPeU3amgjnjkLpPlXf7haIA=
-X-Received: by 2002:a05:6402:13d4:: with SMTP id a20mr3180723edx.161.1596638802798;
- Wed, 05 Aug 2020 07:46:42 -0700 (PDT)
-MIME-Version: 1.0
-References: <159646178122.1784947.11705396571718464082.stgit@warthog.procyon.org.uk>
- <159646183662.1784947.5709738540440380373.stgit@warthog.procyon.org.uk>
- <20200804104108.GC32719@miu.piliscsaba.redhat.com> <2306029.1596636828@warthog.procyon.org.uk>
-In-Reply-To: <2306029.1596636828@warthog.procyon.org.uk>
-From:   Miklos Szeredi <miklos@szeredi.hu>
-Date:   Wed, 5 Aug 2020 16:46:31 +0200
-Message-ID: <CAJfpegtOguKOGWxv-sA_C9eSWG_3Srnj_k=oW-wSHNprCipFVg@mail.gmail.com>
-Subject: Re: [PATCH 06/18] fsinfo: Add a uniquifier ID to struct mount [ver #21]
-To:     David Howells <dhowells@redhat.com>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Ian Kent <raven@themaw.net>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Christian Brauner <christian@brauner.io>,
-        Jann Horn <jannh@google.com>,
+        id S1728695AbgHET0H (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 5 Aug 2020 15:26:07 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:50146 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728688AbgHEROC (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 5 Aug 2020 13:14:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1596647641;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=yTnFp3FGNnUMIV+drG+EiP28NPY1kzNtc5gU15VKTgg=;
+        b=IRftECynq87jUiSLcCluSeDUigQgevfSUIo+31YFvyNWw7GnRHKSlxJX9Rgcgob9LAPp8y
+        tDwIVkeO/inoizwk/LsywieN9mWYkLHc+ihG3R+Rh40+ICBvLsEJVoiyWPdf94DJG1bTM/
+        3qJrLHjmS6LLj27dPcMgDAIAFwfSdDQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-404-CVKT19CpOAaHFqv9tWctXA-1; Wed, 05 Aug 2020 13:13:57 -0400
+X-MC-Unique: CVKT19CpOAaHFqv9tWctXA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3CC2D80183C;
+        Wed,  5 Aug 2020 17:13:55 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-112-32.rdu2.redhat.com [10.10.112.32])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 089C25D9DC;
+        Wed,  5 Aug 2020 17:13:48 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <1596555579.10158.23.camel@HansenPartnership.com>
+References: <1596555579.10158.23.camel@HansenPartnership.com> <159646178122.1784947.11705396571718464082.stgit@warthog.procyon.org.uk>
+To:     James Bottomley <James.Bottomley@HansenPartnership.com>
+Cc:     dhowells@redhat.com, viro@zeniv.linux.org.uk,
+        Theodore Ts'o <tytso@mit.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Jeff Layton <jlayton@kernel.org>, linux-ext4@vger.kernel.org,
+        Carlos Maiolino <cmaiolino@redhat.com>,
         "Darrick J. Wong" <darrick.wong@oracle.com>,
-        Karel Zak <kzak@redhat.com>, Jeff Layton <jlayton@redhat.com>,
-        Linux API <linux-api@vger.kernel.org>,
+        linux-api@vger.kernel.org, torvalds@linux-foundation.org,
+        raven@themaw.net, mszeredi@redhat.com, christian@brauner.io,
+        jannh@google.com, kzak@redhat.com, jlayton@redhat.com,
         linux-fsdevel@vger.kernel.org,
-        LSM <linux-security-module@vger.kernel.org>,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/18] VFS: Filesystem information [ver #21]
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <2329128.1596647628.1@warthog.procyon.org.uk>
+Date:   Wed, 05 Aug 2020 18:13:48 +0100
+Message-ID: <2329129.1596647628@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Aug 5, 2020 at 4:14 PM David Howells <dhowells@redhat.com> wrote:
+James Bottomley <James.Bottomley@HansenPartnership.com> wrote:
 
-> However, looking up that identifier requires some sort of structure for doing
-> this and it's kind of worst case for the IDR tree as the keys are gradually
-> going to spread out, causing it to eat more memory.  It may be a tradeoff
-> worth making, and the memory consumption might not be that bad - or we could
-> use some other data structure such as an rbtree.
+> It sort of petered out into a long winding thread about why not use
+> sysfs instead, which really doesn't look like a good idea to me.
 
-idr_alloc_cyclic() seems to be a good template for doing the lower
-32bit allocation, and we can add code to increment the high 32bit on
-wraparound.
+It seemed to turn into a set of procfs symlinks that pointed at a bunch of
+sysfs stuff - or possibly some special filesystem.
 
-Lots of code uses idr_alloc_cyclic() so I guess it shouldn't be too
-bad in terms of memory use or performance.
+> Could I make a suggestion about how this should be done in a way that
+> doesn't actually require the fsinfo syscall at all: it could just be
+> done with fsconfig.
 
-Thanks,
-Miklos
+I'd prefer to keep it separate.  The interface for fsconfig() is intended to
+move stuff into the kernel, not out of it.  Better to add a parallel syscall
+to go the other way (kind of like we have setxattr/getxattr, sendmsg/recvmsg).
+
+Further, fsinfo() can refer directly to a file/fd/mount/whatever, but
+fsconfig() doesn't do that.  You have to use fspick() to get a context before
+you can use fsconfig().  Now, that's fine if you want to gather several pieces
+of information from a particular object, but it's not so good if you want to
+get one piece of information from each of several objects.
+
+> ... make it table configured...
+
+I did, kind of (though I didn't call it that).  Al rewrote the code to get rid
+of it.
+
+David
+
