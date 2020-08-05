@@ -2,236 +2,217 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0069F23C30E
-	for <lists+linux-api@lfdr.de>; Wed,  5 Aug 2020 03:33:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF0D223C32B
+	for <lists+linux-api@lfdr.de>; Wed,  5 Aug 2020 03:54:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725950AbgHEBd4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 4 Aug 2020 21:33:56 -0400
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:47787 "EHLO
+        id S1726568AbgHEByA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 4 Aug 2020 21:54:00 -0400
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:48731 "EHLO
         wnew1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725863AbgHEBdz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Aug 2020 21:33:55 -0400
+        by vger.kernel.org with ESMTP id S1725904AbgHEBx7 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Aug 2020 21:53:59 -0400
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-        by mailnew.west.internal (Postfix) with ESMTP id ECBB9C6C;
-        Tue,  4 Aug 2020 21:33:53 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Tue, 04 Aug 2020 21:33:54 -0400
+        by mailnew.west.internal (Postfix) with ESMTP id CB856601;
+        Tue,  4 Aug 2020 21:53:57 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Tue, 04 Aug 2020 21:53:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=
         message-id:subject:from:to:cc:date:in-reply-to:references
         :content-type:mime-version:content-transfer-encoding; s=fm3; bh=
-        FgynrCS35t+Bb0YX8gjfGwWuq/yMZ4J2VELd+N8H7BI=; b=ETmZ1YajbBIgESVe
-        Ua4pz7szM2WGYY5v4Cu+mrMf7ztyifMqPrdnjWj/LAAsF+8bsoj3Nn84EZDLrWIk
-        L0ToE3TMG44ne4l1NiLSKISNJDM5pZeZMwKLJIiTl6hP5Cd5aABfslWSx6F+h6Ex
-        r7zPEe8efX0kNHDh5D6wIg7xjbLAnynkN5968NzlkTP+jzIMwa7v5PW1kBJD3sUz
-        de3icdVla3m1oJstQdU6VvNIvzUcPLspndSbQcGZ73ymkz158/goA4wlUgQSEd6Q
-        Ny8GPVp3ca9KDxLeKn9CePrNn0SLmdoRc2n0xo3xlIvvmxyIdToE0xms5JF3GRPh
-        bN1iEw==
+        rPYF5yA8hLNR4c7pU4Df6+cNnwOEB80CCSVmFwv4puA=; b=YE+d82rIPbXuqxKn
+        CXWvxCQaWgzhv0XBh1YVuS/u8Fz0WWKMS//bQaBDHULPvdD5yvCyzb+jBcSJ3Mdh
+        1mUsM4K1IdFBQfkLZ0yAYYF+34SvOvlgsIs94InE758/8SOWYBZfj36o9d0cB545
+        nUafKcJcssT+8CBoAFNAlVaWgAC4X7wHow2XrOFUfdVWrtSlfz7MyL4uHBh6AI2G
+        ycpE8qcsRdXa90ejYNkcz5NKCUQZYBBGovcRLN+zL0L6eB7Cs7/xlZ/npofRWONZ
+        1oUZqJt3HQ8033SHLXsx1sqCfRXt64zZ+zNeX6Iq2cD4lBee121EAawySjv89w5c
+        nTw2fA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-transfer-encoding:content-type
         :date:from:in-reply-to:message-id:mime-version:references
         :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; bh=FgynrCS35t+Bb0YX8gjfGwWuq/yMZ4J2VELd+N8H7
-        BI=; b=GC+il859d8TmcV47HgpBL9N46aRTHV+7XxGjkgOjmHOyIZkwNW57N/B75
-        zUwplzERnMRetwNDh6YOT0NkH5zFSVU0vC6UlP6vlCUW3hy2f9+sNkfJL52+PNL2
-        qELkH7mXxFa5CdH9DjZBNjqp0hhljEKgTFTbesHZFB+RNw+O3YUzN4zdS91cAx09
-        bYLIJiQAQKP+dpTF1l4pLjF7Uu9Eg2Tghw5z7aCcw3iPgV1J/kqJsTmx1CKNTlVi
-        GdQQEIV3OPiCuZ4iHPJtyMilAAsGnq4E/kJYN64976YSLNgWLAT0vn3FaKhFW3Ex
-        KokPW+xvg5DusY8VuXPVWuONg/dBw==
-X-ME-Sender: <xms:gAwqX-UW0uR18mHggpye3C_wfhKRRFmCObwRjQf3o87fOgkFhHrKSg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrjeejgdeglecutefuodetggdotefrodftvf
+        :x-sasl-enc; s=fm3; bh=rPYF5yA8hLNR4c7pU4Df6+cNnwOEB80CCSVmFwv4p
+        uA=; b=jgUjtgUfMjrVXlKCmnCFFqJRatOzXD+NEJFZq47Rzhx6N0/vyRokeyTfD
+        mTjr2N5w0ddJEQ1yGJWC/6+6DI9G9M218fx1WUJhn2aAzI9cAC0dFyW7vbCBWL9/
+        OluyU20xC54EE0Cj0pbj49mXIG1fDRenSPdSJluKS2nQdDvCIUS7mjxxBIUH5oTh
+        wJh2M5bhy4GNcwK/2qMZdvpM1V6K7A+HzDrsLSp/FtebaGTkmigfFVjKV8nVr92N
+        m4LMH8JGBwkpUm+LOkmox3+ZliFks7+8Sdh8P9bUCyvbUQLP/4Dwrys5FRAf4X6m
+        4wwPNlTdaggnYdC2c/HTHizozvNAg==
+X-ME-Sender: <xms:NBEqXymkRrlVO5xktKBzf0ANqsZ26TDxhaukMJRmDd1jnt-UyUNGPQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrjeejgdehfecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefkuffhvfffjghftggfggfgsehtkeertddtreejnecuhfhrohhmpefkrghnucfm
-    vghnthcuoehrrghvvghnsehthhgvmhgrfidrnhgvtheqnecuggftrfgrthhtvghrnhepgf
-    elleekteehleegheeujeeuudfhueffgfelhefgvedthefhhffhhfdtudfgfeehnecukfhp
+    fjughrpefkuffhvfffjghftggfggfgsehtjeertddtreejnecuhfhrohhmpefkrghnucfm
+    vghnthcuoehrrghvvghnsehthhgvmhgrfidrnhgvtheqnecuggftrfgrthhtvghrnhepfe
+    efteetvdeguddvveefveeftedtffduudehueeihfeuvefgveehffeludeggfejnecukfhp
     peehkedrjedrvdehhedrvddvtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
     epmhgrihhlfhhrohhmpehrrghvvghnsehthhgvmhgrfidrnhgvth
-X-ME-Proxy: <xmx:gAwqX6mZFyemB4mMthm_drtrXJiGpITbypQR-z9_UPav4djBuvZ3qA>
-    <xmx:gAwqXyabRgY8ElTyvdSkiauLn7cG-wG6-u8M0wOpOdDaOqY-jSwqZA>
-    <xmx:gAwqX1WfX1uY2Z9MVE-U0R3Rw9YXV2lmhbX23pc7ox9F-9gpbQBp5Q>
-    <xmx:gQwqX1g_HyIOGI2h83NXPwX8rAu2TeVeYsGgmXvhMOrXLpQ8M0ZSoY6LdIU>
+X-ME-Proxy: <xmx:NBEqX53XUobCLoxk8ViEmFPfFVxhV4n8SkdnTKtrD2roLlpm_3zv0Q>
+    <xmx:NBEqXwo0GYEBS0IXO-_Zm0V5YRX6VOjmYI6gjRgvIoEiku8QKQ7K6g>
+    <xmx:NBEqX2mQl4ZOb1JottGZERsKA41UNsdkW4kNX_47B1jazMOc-geySQ>
+    <xmx:NREqX2N-KA3YGhusO26WSXjOI-4EW_NPYYrRQwx1c6rLZ1aEeZrtip8tmpM>
 Received: from mickey.themaw.net (58-7-255-220.dyn.iinet.net.au [58.7.255.220])
-        by mail.messagingengine.com (Postfix) with ESMTPA id E351930600B2;
-        Tue,  4 Aug 2020 21:33:47 -0400 (EDT)
-Message-ID: <dd1a41a129cd6e8d13525a14807e6dc65b52e0bf.camel@themaw.net>
-Subject: Re: [GIT PULL] Filesystem Information
+        by mail.messagingengine.com (Postfix) with ESMTPA id 94858328005D;
+        Tue,  4 Aug 2020 21:53:50 -0400 (EDT)
+Message-ID: <c558fc4af785f62a2751be3b297d1ccbbfcfa969.camel@themaw.net>
+Subject: Re: [PATCH 13/17] watch_queue: Implement mount topology and
+ attribute change notifications [ver #5]
 From:   Ian Kent <raven@themaw.net>
 To:     Miklos Szeredi <miklos@szeredi.hu>
 Cc:     David Howells <dhowells@redhat.com>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>, Karel Zak <kzak@redhat.com>,
-        Jeff Layton <jlayton@redhat.com>,
-        Miklos Szeredi <mszeredi@redhat.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
         Nicolas Dichtel <nicolas.dichtel@6wind.com>,
-        Christian Brauner <christian@brauner.io>,
-        Lennart Poettering <lennart@poettering.net>,
+        Christian Brauner <christian@brauner.io>, andres@anarazel.de,
+        Jeff Layton <jlayton@redhat.com>, dray@redhat.com,
+        Karel Zak <kzak@redhat.com>, keyrings@vger.kernel.org,
         Linux API <linux-api@vger.kernel.org>,
         linux-fsdevel@vger.kernel.org,
         LSM <linux-security-module@vger.kernel.org>,
         linux-kernel@vger.kernel.org
-Date:   Wed, 05 Aug 2020 09:33:44 +0800
-In-Reply-To: <CAJfpegu8omNZ613tLgUY7ukLV131tt7owR+JJ346Kombt79N0A@mail.gmail.com>
-References: <1842689.1596468469@warthog.procyon.org.uk>
-         <1845353.1596469795@warthog.procyon.org.uk>
-         <CAJfpegunY3fuxh486x9ysKtXbhTE0745ZCVHcaqs9Gww9RV2CQ@mail.gmail.com>
-         <ac1f5e3406abc0af4cd08d818fe920a202a67586.camel@themaw.net>
-         <CAJfpegu8omNZ613tLgUY7ukLV131tt7owR+JJ346Kombt79N0A@mail.gmail.com>
+Date:   Wed, 05 Aug 2020 09:53:46 +0800
+In-Reply-To: <CAJfpeguFkDDhz7+70pSUv_j=xY5L08ESpaE+jER9vE5p+ZmfFw@mail.gmail.com>
+References: <158454378820.2863966.10496767254293183123.stgit@warthog.procyon.org.uk>
+         <158454391302.2863966.1884682840541676280.stgit@warthog.procyon.org.uk>
+         <CAJfpegspWA6oUtdcYvYF=3fij=Bnq03b8VMbU9RNMKc+zzjbag@mail.gmail.com>
+         <1293241.1595501326@warthog.procyon.org.uk>
+         <CAJfpeguvLMCw1H8+DPsfZE_k0sEiRtA17pD9HjnceSsAvqqAZw@mail.gmail.com>
+         <43c061d26ddef2aa3ca1ac726da7db9ab461e7be.camel@themaw.net>
+         <CAJfpeguFkDDhz7+70pSUv_j=xY5L08ESpaE+jER9vE5p+ZmfFw@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, 2020-08-04 at 16:36 +0200, Miklos Szeredi wrote:
-> On Tue, Aug 4, 2020 at 4:15 AM Ian Kent <raven@themaw.net> wrote:
-> > On Mon, 2020-08-03 at 18:42 +0200, Miklos Szeredi wrote:
-> > > On Mon, Aug 3, 2020 at 5:50 PM David Howells <dhowells@redhat.com
-> > > >
+On Tue, 2020-08-04 at 15:19 +0200, Miklos Szeredi wrote:
+> On Tue, Aug 4, 2020 at 1:39 PM Ian Kent <raven@themaw.net> wrote:
+> > On Mon, 2020-08-03 at 11:29 +0200, Miklos Szeredi wrote:
+> > > On Thu, Jul 23, 2020 at 12:48 PM David Howells <
+> > > dhowells@redhat.com>
 > > > wrote:
-> > > > Hi Linus,
-> > > > 
-> > > > Here's a set of patches that adds a system call, fsinfo(), that
-> > > > allows
-> > > > information about the VFS, mount topology, superblock and files
-> > > > to
-> > > > be
-> > > > retrieved.
-> > > > 
-> > > > The patchset is based on top of the mount notifications
-> > > > patchset so
-> > > > that
-> > > > the mount notification mechanism can be hooked to provide event
-> > > > counters
-> > > > that can be retrieved with fsinfo(), thereby making it a lot
-> > > > faster
-> > > > to work
-> > > > out which mounts have changed.
-> > > > 
-> > > > Note that there was a last minute change requested by Miklós:
-> > > > the
-> > > > event
-> > > > counter bits got moved from the mount notification patchset to
-> > > > this
-> > > > one.
-> > > > The counters got made atomic_long_t inside the kernel and __u64
-> > > > in
-> > > > the
-> > > > UAPI.  The aggregate changes can be assessed by comparing pre-
-> > > > change tag,
-> > > > fsinfo-core-20200724 to the requested pull tag.
-> > > > 
-> > > > Karel Zak has created preliminary patches that add support to
-> > > > libmount[*]
-> > > > and Ian Kent has started working on making systemd use these
-> > > > and
-> > > > mount
-> > > > notifications[**].
 > > > 
-> > > So why are you asking to pull at this stage?
+> > > > > >                 __u32   topology_changes;
+> > > > > >                 __u32   attr_changes;
+> > > > > >                 __u32   aux_topology_changes;
+> > > > > 
+> > > > > Being 32bit this introduces wraparound effects.  Is that
+> > > > > really
+> > > > > worth it?
+> > > > 
+> > > > You'd have to make 2 billion changes without whoever's
+> > > > monitoring
+> > > > getting a
+> > > > chance to update their counters.  But maybe it's not worth it
+> > > > putting them
+> > > > here.  If you'd prefer, I can make the counters all 64-bit and
+> > > > just
+> > > > retrieve
+> > > > them with fsinfo().
 > > > 
-> > > Has anyone done a review of the patchset?
+> > > Yes, I think that would be preferable.
 > > 
-> > I have been working with the patch set as it has evolved for quite
-> > a
-> > while now.
+> > I think this is the source of the recommendation for removing the
+> > change counters from the notification message, correct?
 > > 
-> > I've been reading the kernel code quite a bit and forwarded
-> > questions
-> > and minor changes to David as they arose.
+> > While it looks like I may not need those counters for systemd
+> > message
+> > buffer overflow handling myself I think removing them from the
+> > notification message isn't a sensible thing to do.
 > > 
-> > As for a review, not specifically, but while the series implements
-> > a
-> > rather large change it's surprisingly straight forward to read.
+> > If you need to detect missing messages, perhaps due to message
+> > buffer
+> > overflow, then you need change counters that are relevant to the
+> > notification message itself. That's so the next time you get a
+> > message
+> > for that object you can be sure that change counter comparisons you
+> > you make relate to object notifications you have processed.
+> 
+> I don't quite get it.  Change notification is just that: a
+> notification.   You need to know what object that notification
+> relates
+> to, to be able to retrieve the up to date attributes of said object.
+> 
+> What happens if you get a change counter N in the notification
+> message, then get a change counter N + 1 in the attribute retrieval?
+> You know that another change happened, and you haven't yet processed
+> the notification yet.  So when the notification with N + 1 comes in,
+> you can optimize away the attribute retrieve.
+> 
+> Nice optimization, but it's optimizing a race condition, and I don't
+> think that's warranted.  I don't see any other use for the change
+> counter in the notification message.
+> 
+> 
+> > Yes, I know it isn't quite that simple, but tallying up what you
+> > have
+> > processed in the current batch of messages (or in multiple batches
+> > of
+> > messages if more than one read has been possible) to perform the
+> > check
+> > is a user space responsibility. And it simply can't be done if the
+> > counters consistency is in question which it would be if you need
+> > to
+> > perform another system call to get it.
 > > 
-> > In the time I have been working with it I haven't noticed any
-> > problems
-> > except for those few minor things that I reported to David early on
-> > (in
-> > some cases accompanied by simple patches).
-> > 
-> > And more recently (obviously) I've been working with the mount
-> > notifications changes and, from a readability POV, I find it's the
-> > same as the fsinfo() code.
-> > 
-> > > I think it's obvious that this API needs more work.  The
-> > > integration
-> > > work done by Ian is a good direction, but it's not quite the full
-> > > validation and review that a complex new API needs.
-> > 
-> > Maybe but the system call is fundamental to making notifications
-> > useful
-> > and, as I say, after working with it for quite a while I don't fell
-> > there's missing features (that David hasn't added along the way)
-> > and
-> > have found it provides what's needed for what I'm doing (for mount
-> > notifications at least).
+> > It's way more useful to have these in the notification than
+> > obtainable
+> > via fsinfo() IMHO.
 > 
-> Apart from the various issues related to the various mount ID's and
-> their sizes, my general comment is (and was always): why are we
-> adding
-> a multiplexer for retrieval of mostly unrelated binary structures?
-> 
-> <linux/fsinfo.h> is 345 lines.  This is not a simple and clean API.
-> 
-> A simple and clean replacement API would be:
-> 
-> int get_mount_attribute(int dfd, const char *path, const char
-> *attr_name, char *value_buf, size_t buf_size, int flags);
-> 
-> No header file needed with dubiously sized binary values.
-> 
-> The only argument was performance, but apart from purely synthetic
-> microbenchmarks that hasn't been proven to be an issue.
-> 
-> And notice how similar the above interface is to getxattr(), or the
-> proposed readfile().  Where has the "everything is  a file"
-> philosophy
-> gone?
+> What is it useful for?
 
-Maybe, but that philosophy (in a roundabout way) is what's resulted
-in some of the problems we now have. Granted it's blind application
-of that philosophy rather than the philosophy itself but that is
-what happens.
+Only to verify that you have seen all the notifications.
 
-I get that your comments are driven by the way that philosophy should
-be applied which is more of a "if it works best doing it that way then
-do it that way, and that's usually a file".
+If you have to grab that info with a separate call then the count
+isn't necessarily consistent because other notifications can occur
+while you grab it.
 
-In this case there is a logical division of various types of file
-system information and the underlying suggestion is maybe it's time
-to move away from the "everything is a file" hard and fast rule,
-and get rid of some of the problems that have resulted from it.
+My per-object rant isn't quite right, what's needed is a consistent
+way to verify you have seen everything you were supposed to.
 
-The notifications is an example, yes, the delivery mechanism is
-a "file" but the design of the queueing mechanism makes a lot of
-sense for the throughput that's going to be needed as time marches
-on. Then there's different sub-systems each with unique information
-that needs to be deliverable some other way because delivering "all"
-the information via the notification would be just plain wrong so
-a multi-faceted information delivery mechanism makes the most
-sense to allow specific targeted retrieval of individual items of
-information.
-
-But that also supposes your at least open to the idea that "maybe
-not everything should be a file".
+I think your point is that if you grab the info in another call and
+it doesn't match you need to refresh and that's fine but I think it's
+better to be able to verify you have got everything that was sent as
+you go and avoid the need for the refresh more often.
 
 > 
-> I think we already lost that with the xattr API, that should have
-> been
-> done in a way that fits this philosophy.  But given that we  have "/"
-> as the only special purpose char in filenames, and even repetitions
-> are allowed, it's hard to think of a good way to do that.  Pity.
-> 
-> Still I think it would be nice to have a general purpose attribute
-> retrieval API instead of the multiplicity of binary ioctls, xattrs,
-> etc.
-> 
-> Is that totally crazy?  Nobody missing the beauty in recently
-> introduced APIs?
+> If the notification itself would contain the list of updated
+> attributes and their new values, then yes, this would make sense.  If
+> the notification just tells us that the object was modified, but not
+> the modifications themselves, then I don't see how the change counter
+> in itself could add any information (other than optimizing the race
+> condition above).
 > 
 > Thanks,
 > Miklos
+> 
+> Thanks,
+> 
+> 
+> 
+> > > > > >         n->watch.info & NOTIFY_MOUNT_IS_RECURSIVE if true
+> > > > > > indicates that
+> > > > > >         the notifcation was generated by an event (eg.
+> > > > > > SETATTR)
+> > > > > > that was
+> > > > > >         applied recursively.  The notification is only
+> > > > > > generated for the
+> > > > > >         object that initially triggered it.
+> > > > > 
+> > > > > Unused in this patchset.  Please don't add things to the API
+> > > > > which are not
+> > > > > used.
+> > > > 
+> > > > Christian Brauner has patches for mount_setattr() that will
+> > > > need to
+> > > > use this.
+> > > 
+> > > Fine, then that patch can add the flag.
+> > > 
+> > > Thanks,
+> > > Miklos
 
