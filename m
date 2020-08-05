@@ -2,91 +2,86 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0744323C7B2
-	for <lists+linux-api@lfdr.de>; Wed,  5 Aug 2020 10:25:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C074623CBCF
+	for <lists+linux-api@lfdr.de>; Wed,  5 Aug 2020 17:48:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726439AbgHEIY4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 5 Aug 2020 04:24:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53322 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725983AbgHEIYp (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 5 Aug 2020 04:24:45 -0400
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 222CFC061757
-        for <linux-api@vger.kernel.org>; Wed,  5 Aug 2020 01:24:39 -0700 (PDT)
-Received: by mail-ej1-x643.google.com with SMTP id a26so19649145ejc.2
-        for <linux-api@vger.kernel.org>; Wed, 05 Aug 2020 01:24:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=YRkoVvZyMZKrXPZJsbTSg0eFnj2VcDca+RKzJ60eyTc=;
-        b=UYk0LJ7zSStHb1U495GvSSdmH6LUhiPYmcg6PAq1rMqY11Eyd7mimZZrA3M0EtvJUe
-         vvHGhC/9MvozJfhIiIgBsFE7xq5Hm++FVNDlJ2kUw02Jto10O7BN/4nzlscTmBPJj7xg
-         U2829Bced+hHMLcR8pAqx46/TL8W7/1KfFh6M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=YRkoVvZyMZKrXPZJsbTSg0eFnj2VcDca+RKzJ60eyTc=;
-        b=R3Nj74KKsMJ/V9HbWLwgjPLc8qJTeksKEJuXgdMmaj3VCzWg6/bRjQoAnADcDPUoAm
-         j7Xbofcfgd3fbYRbZ/TmPFBO7Ci8b4vLmfceE2ZTHYjhehCV/eb03KJ+80kWnxyR/YLM
-         nb5IHvuxKIOYd1Yjc6AI1w/mcZ1n66oNDH5EHpkWlTgSmd2QNbz5dTzEpUXRLFQnYKSM
-         6ZU6wiKNLnodiZKK4GPbNVijwNUhCzDcGh5ngRzTyKXb9feJ3jbsZ+S3m9pliv4rGOhr
-         N8kDl6D/uqfnYU9gzij7KEXPwF52ErlteatxyiDMeKzg416jZBZN8WNzV8oiexTbBYpy
-         +Xsw==
-X-Gm-Message-State: AOAM530lfgeCg/3HnypB+KAMuIZxCKV2Jfmx6+9sSzcdN/hLg3paPOq6
-        VmL2sL1LziKT1ZEQpvVvwTLOZi8qAf1sjp1q744agw==
-X-Google-Smtp-Source: ABdhPJxrLumgFgqYyoKDBG2k5IrM0kpKGeRUM6PbmX2nVN5dA62HAF0gWDOE78RgoqsR4O8I2bJbm1frFluN5es5kOU=
-X-Received: by 2002:a17:906:22c1:: with SMTP id q1mr2028127eja.443.1596615874689;
- Wed, 05 Aug 2020 01:24:34 -0700 (PDT)
-MIME-Version: 1.0
-References: <1842689.1596468469@warthog.procyon.org.uk> <1845353.1596469795@warthog.procyon.org.uk>
- <CAJfpegunY3fuxh486x9ysKtXbhTE0745ZCVHcaqs9Gww9RV2CQ@mail.gmail.com>
- <ac1f5e3406abc0af4cd08d818fe920a202a67586.camel@themaw.net> <CAJfpegu8omNZ613tLgUY7ukLV131tt7owR+JJ346Kombt79N0A@mail.gmail.com>
-In-Reply-To: <CAJfpegu8omNZ613tLgUY7ukLV131tt7owR+JJ346Kombt79N0A@mail.gmail.com>
-From:   Miklos Szeredi <miklos@szeredi.hu>
-Date:   Wed, 5 Aug 2020 10:24:23 +0200
-Message-ID: <CAJfpegtNP8rQSS4Z14Ja4x-TOnejdhDRTsmmDD-Cccy2pkfVVw@mail.gmail.com>
-Subject: file metadata via fs API (was: [GIT PULL] Filesystem Information)
-To:     Ian Kent <raven@themaw.net>
-Cc:     David Howells <dhowells@redhat.com>,
+        id S1725996AbgHEPq7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 5 Aug 2020 11:46:59 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:45261 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726644AbgHEPku (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 5 Aug 2020 11:40:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1596641785;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=tg1NaN73CW0LtnEK10fe+dApSmqLG8nxdGa4rhiVRvI=;
+        b=XbLe8kAnlsqrG4q/HLi1Fl1jCaiDEIimVOGc1ZWyJy3mS9uYkSgxvQcqjPJJnd84JNTw8l
+        esHz0LElwzZE8ZIHOErYnLFwHPr0oEVQzfUUstMiGFxU3pVnGKhaoG4njdgICi1JRohU/9
+        fL+D1h35nPaYO+lCegxBLdvD7cYZ4GM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-321-K9dMuQccOZWetAzznd3kwg-1; Wed, 05 Aug 2020 11:30:16 -0400
+X-MC-Unique: K9dMuQccOZWetAzznd3kwg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BCFCE107B83C;
+        Wed,  5 Aug 2020 15:30:14 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-112-32.rdu2.redhat.com [10.10.112.32])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 710C660BF3;
+        Wed,  5 Aug 2020 15:30:11 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <CAJfpegtOguKOGWxv-sA_C9eSWG_3Srnj_k=oW-wSHNprCipFVg@mail.gmail.com>
+References: <CAJfpegtOguKOGWxv-sA_C9eSWG_3Srnj_k=oW-wSHNprCipFVg@mail.gmail.com> <159646178122.1784947.11705396571718464082.stgit@warthog.procyon.org.uk> <159646183662.1784947.5709738540440380373.stgit@warthog.procyon.org.uk> <20200804104108.GC32719@miu.piliscsaba.redhat.com> <2306029.1596636828@warthog.procyon.org.uk>
+To:     Miklos Szeredi <miklos@szeredi.hu>
+Cc:     dhowells@redhat.com, Al Viro <viro@zeniv.linux.org.uk>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>, Karel Zak <kzak@redhat.com>,
-        Jeff Layton <jlayton@redhat.com>,
+        Ian Kent <raven@themaw.net>,
         Miklos Szeredi <mszeredi@redhat.com>,
-        Nicolas Dichtel <nicolas.dichtel@6wind.com>,
         Christian Brauner <christian@brauner.io>,
-        Lennart Poettering <lennart@poettering.net>,
+        Jann Horn <jannh@google.com>,
+        "Darrick J. Wong" <darrick.wong@oracle.com>,
+        Karel Zak <kzak@redhat.com>, Jeff Layton <jlayton@redhat.com>,
         Linux API <linux-api@vger.kernel.org>,
         linux-fsdevel@vger.kernel.org,
         LSM <linux-security-module@vger.kernel.org>,
         linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 06/18] fsinfo: Add a uniquifier ID to struct mount [ver #21]
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <2315924.1596641410.1@warthog.procyon.org.uk>
+Date:   Wed, 05 Aug 2020 16:30:10 +0100
+Message-ID: <2315925.1596641410@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Aug 4, 2020 at 4:36 PM Miklos Szeredi <miklos@szeredi.hu> wrote:
+Miklos Szeredi <miklos@szeredi.hu> wrote:
 
-> I think we already lost that with the xattr API, that should have been
-> done in a way that fits this philosophy.  But given that we  have "/"
-> as the only special purpose char in filenames, and even repetitions
-> are allowed, it's hard to think of a good way to do that.  Pity.
+> idr_alloc_cyclic() seems to be a good template for doing the lower
+> 32bit allocation, and we can add code to increment the high 32bit on
+> wraparound.
+> 
+> Lots of code uses idr_alloc_cyclic() so I guess it shouldn't be too
+> bad in terms of memory use or performance.
 
-One way this could be solved is to allow opting into an alternative
-path resolution mode.
+It's optimised for shortness of path and trades memory for performance.  It's
+currently implemented using an xarray, so memory usage is dependent on the
+sparseness of the tree.  Each node in the tree is 576 bytes and in the worst
+case, each one node will contain one mount - and then you have to backfill the
+ancestry, though for lower memory costs.
 
-E.g.
-  openat(AT_FDCWD, "foo/bar//mnt/info", O_RDONLY | O_ALT);
+Systemd makes life more interesting since it sets up a whole load of
+propagations.  Each mount you make may cause several others to be created, but
+that would likely make the tree more efficient.
 
-Yes, the implementation might be somewhat tricky, but that's another
-question.  Also I'm pretty sure that we should be reducing the
-POSIX-ness of anything below "//" to the bare minimum.  No seeking,
-etc....
+David
 
-I think this would open up some nice possibilities beyond the fsinfo thing.
-
-Thanks,
-Miklos
