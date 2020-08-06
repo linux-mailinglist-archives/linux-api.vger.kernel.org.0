@@ -2,134 +2,179 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EE3F23D67C
-	for <lists+linux-api@lfdr.de>; Thu,  6 Aug 2020 07:43:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8672D23D8DB
+	for <lists+linux-api@lfdr.de>; Thu,  6 Aug 2020 11:43:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727843AbgHFFnY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 6 Aug 2020 01:43:24 -0400
-Received: from wnew3-smtp.messagingengine.com ([64.147.123.17]:44399 "EHLO
-        wnew3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726093AbgHFFnX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 6 Aug 2020 01:43:23 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-        by mailnew.west.internal (Postfix) with ESMTP id B1A6FC10;
-        Thu,  6 Aug 2020 01:43:21 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Thu, 06 Aug 2020 01:43:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=
-        message-id:subject:from:to:cc:date:in-reply-to:references
-        :content-type:mime-version:content-transfer-encoding; s=fm3; bh=
-        Awpd/iaKMwO3xriBXgL7yRd6ZsbwGEwHcJ9iVbEAWAs=; b=1krTwyayDva0Q1mK
-        m6P8LfWxFtP0gbC5ZJ4RXLrW4Xe3B+4DvLjbWeiGFj6KbGknmmigNG2sczhB0pcG
-        13nhBFr7d4/GOjO6ol86Fq6R0tks5VS0Y8ZasfxsrRZlVdjrKyq8YzfFcG6cksw2
-        fmiIS+SwhFecOGr6hs2vrTnBCgZZQAyTlJlvrrSvijUecgyWUFcre4aMZaTcWp8V
-        o2ffi+CgrWkpBgpdrNBWsVFhZsR0EaRMyXM9kMFOYp48W1uOibG7iUx/HBqCzMqT
-        3qy2MXnvbgV1QDuMCz5n5aCDC7hrTdsaymx+RfzFPZP9v/yME/r2wN+n572rU40y
-        6Rdb5A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:in-reply-to:message-id:mime-version:references
-        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; bh=Awpd/iaKMwO3xriBXgL7yRd6ZsbwGEwHcJ9iVbEAW
-        As=; b=q4byEJlGrJpU4Clt62ffMOHvyBeHqc8C49IeF6pTmi7wr38QHrxKsMNpl
-        y5dLQJjehgjmpRhgdyrHqIJM96MnLMEqv2uIEfVh+6c/g4ip2shY47lR8d6Cmmlf
-        OwIWw4AENYOwphwTZwXTQgCLOcFzMdAQseX4NITk+jA3z/mDNi6EVqnH4hA94Cex
-        M4teDxu4YBDH0MvD4NF99T/BrjbDMC3Qv4FyRD4oxYERb2ttk1kc7Cj6nXM71eh/
-        J4RQK7qglO5YRf3zWv639KugPAyujWjKJ56z+0VJ2tvQNHtTQAqFRmKOTC7Z2CxZ
-        GBj2WEEHNmbzR/5lxWi9FFCZQsfqw==
-X-ME-Sender: <xms:d5grXypyMjU5lPa9O4PGPfW_TL8izh0JfU_S0FxO4JBNUUSrSvVtcQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrjeelgddutdduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepkffuhffvffgjfhgtfggggfesthejredttderjeenucfhrhhomhepkfgrnhcu
-    mfgvnhhtuceorhgrvhgvnhesthhhvghmrgifrdhnvghtqeenucggtffrrghtthgvrhhnpe
-    effeettedvgeduvdevfeevfeettdffudduheeuiefhueevgfevheffledugefgjeenucfk
-    phepuddukedrvddtkedrhedvrddutdelnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
-    hrrghmpehmrghilhhfrhhomheprhgrvhgvnhesthhhvghmrgifrdhnvght
-X-ME-Proxy: <xmx:d5grXwp0uuu8oMFPdvGqzuBMRqEA3BQKG45IOM9gIDwhnWZDUE42EQ>
-    <xmx:d5grX3O8PH9YKBd8nAHvF_fed9saYJjKkXqKcvJbWWRWqa2xQdb7Ww>
-    <xmx:d5grXx77End6UsceFnSpNn6SWZS4jkW4VNblRQK2WzSbvaqpHFr_2w>
-    <xmx:eZgrX-x5TRGWifJQA8UOi0mdSPMkYSl7bB2iSPKyppoLGJ0yjVu8kiLTR-w>
-Received: from mickey.themaw.net (unknown [118.208.52.109])
-        by mail.messagingengine.com (Postfix) with ESMTPA id E5174328005E;
-        Thu,  6 Aug 2020 01:43:14 -0400 (EDT)
-Message-ID: <61ad7b12b1d242247b066e6ffbf5f9382bc57b2a.camel@themaw.net>
-Subject: Re: [PATCH 06/18] fsinfo: Add a uniquifier ID to struct mount [ver
- #21]
-From:   Ian Kent <raven@themaw.net>
-To:     Matthew Wilcox <willy@infradead.org>,
-        David Howells <dhowells@redhat.com>
-Cc:     Miklos Szeredi <miklos@szeredi.hu>,
-        Al Viro <viro@zeniv.linux.org.uk>,
+        id S1729076AbgHFJnj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 6 Aug 2020 05:43:39 -0400
+Received: from foss.arm.com ([217.140.110.172]:41644 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729027AbgHFJnh (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 6 Aug 2020 05:43:37 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 10F511045;
+        Thu,  6 Aug 2020 02:43:14 -0700 (PDT)
+Received: from [10.163.65.54] (unknown [10.163.65.54])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7C8FB3F9AB;
+        Thu,  6 Aug 2020 02:43:10 -0700 (PDT)
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Christian Brauner <christian@brauner.io>,
-        Jann Horn <jannh@google.com>,
-        "Darrick J. Wong" <darrick.wong@oracle.com>,
-        Karel Zak <kzak@redhat.com>, Jeff Layton <jlayton@redhat.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        LSM <linux-security-module@vger.kernel.org>,
-        linux-kernel@vger.kernel.org
-Date:   Thu, 06 Aug 2020 13:43:11 +0800
-In-Reply-To: <20200805193303.GM23808@casper.infradead.org>
-References: <CAJfpegtOguKOGWxv-sA_C9eSWG_3Srnj_k=oW-wSHNprCipFVg@mail.gmail.com>
-         <159646178122.1784947.11705396571718464082.stgit@warthog.procyon.org.uk>
-         <159646183662.1784947.5709738540440380373.stgit@warthog.procyon.org.uk>
-         <20200804104108.GC32719@miu.piliscsaba.redhat.com>
-         <2306029.1596636828@warthog.procyon.org.uk>
-         <2315925.1596641410@warthog.procyon.org.uk>
-         <20200805193303.GM23808@casper.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, rafael@kernel.org
+From:   Vikas Kumar <vikas.kumar2@arm.com>
+Subject: [LTP-FAIL][02/21] fs: refactor ksys_umount
+Message-ID: <d28d2235-9b1c-0403-59ca-e57ac5d0460e@arm.com>
+Date:   Thu, 6 Aug 2020 15:13:06 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, 2020-08-05 at 20:33 +0100, Matthew Wilcox wrote:
-> On Wed, Aug 05, 2020 at 04:30:10PM +0100, David Howells wrote:
-> > Miklos Szeredi <miklos@szeredi.hu> wrote:
-> > 
-> > > idr_alloc_cyclic() seems to be a good template for doing the
-> > > lower
-> > > 32bit allocation, and we can add code to increment the high 32bit
-> > > on
-> > > wraparound.
-> > > 
-> > > Lots of code uses idr_alloc_cyclic() so I guess it shouldn't be
-> > > too
-> > > bad in terms of memory use or performance.
-> > 
-> > It's optimised for shortness of path and trades memory for
-> > performance.  It's
-> > currently implemented using an xarray, so memory usage is dependent
-> > on the
-> > sparseness of the tree.  Each node in the tree is 576 bytes and in
-> > the worst
-> > case, each one node will contain one mount - and then you have to
-> > backfill the
-> > ancestry, though for lower memory costs.
-> > 
-> > Systemd makes life more interesting since it sets up a whole load
-> > of
-> > propagations.  Each mount you make may cause several others to be
-> > created, but
-> > that would likely make the tree more efficient.
-> 
-> I would recommend using xa_alloc and ignoring the ID assigned from
-> xa_alloc.  Looking up by unique ID is then a matter of iterating
-> every
-> mount (xa_for_each()) looking for a matching unique ID in the mount
-> struct.  That's O(n) search, but it's faster than a linked list, and
-> we
-> don't have that many mounts in a system.
+Hi Christoph,
 
-How many is not many, 5000, 10000, I agree that 30000 plus is fairly
-rare, even for the autofs direct mount case I hope the implementation
-here will help to fix.
+We have seen LTP test(utime06 and umount03) failure in Next Master with 
+commit Id 41525f56e256("fs: refactor ksys_umount").
+I didn't analysis root cause of problem, i am reporting this issue.
 
-Ian
+---------------------------------------------
+LTP Testcase    Result    Exit Value
+----------------------------------- ---------
+umount03          FAIL           4
+utime06             FAIL           2
+--------------------------------------------
+
+LTP utime06 Fail Log:
+/dev/loop0 is mounted; will not make a filesystem here!
+utime06     0  TINFO  :  Using test device LTP_DEV='/dev/loop0'
+utime06     0  TINFO  :  Formatting /dev/loop0 with ext2 opts='' extra 
+opts=''
+utime06     1  TBROK  :  tst_mkfs.c:102: utime06.c:122: mkfs.ext2 failed 
+with 1
+utime06     2  TBROK  :  tst_mkfs.c:102: Remaining cases broken
+
+LTP umount03 Fail Log:
+tst_device.c:262: INFO: Using test device LTP_DEV='/dev/loop0'
+tst_mkfs.c:89: INFO: Formatting /dev/loop0 with ext2 opts='' extra opts=''
+mke2fs 1.44.5 (15-Dec-2018)
+tst_test.c:1244: INFO: Timeout per run is 0h 05m 00s
+umount03.c:35: PASS: umount() fails as expected: EPERM (1)
+tst_device.c:383: INFO: umount('mntpoint') failed with EBUSY, try 1...
+tst_device.c:387: INFO: Likely gvfsd-trash is probing newly mounted fs, 
+kill it to speed up tests.
+tst_device.c:383: INFO: umount('mntpoint') failed with EBUSY, try 2...
+tst_device.c:383: INFO: umount('mntpoint') failed with EBUSY, try 3...
+tst_device.c:383: INFO: umount('mntpoint') failed with EBUSY, try 48...
+tst_device.c:383: INFO: umount('mntpoint') failed with EBUSY, try 49...
+tst_device.c:383: INFO: umount('mntpoint') failed with EBUSY, try 50...
+tst_device.c:394: WARN: Failed to umount('mntpoint') after 50 retries
+tst_tmpdir.c:336: WARN: tst_rmdir: rmobj(/scratch/ltp-Lnmh7tbxY6/gx0hJU) 
+failed: remove(/scratch/ltp-Lnmh7tbxY6/gx0hJU/mntpoint) failed; 
+errno=16: EBUSY
+
+Regards,
+
+Vikas
+
+
+Below Commit ID 41525f56e256 Bisected for This fail:
+
+     commit 41525f56e2564c2feff4fb2824823900efb3a39f
+     Author: Christoph Hellwig <hch@lst.de>
+     Date:   Tue Jul 21 10:54:34 2020 +0200
+
+     fs: refactor ksys_umount
+
+     Factor out a path_umount helper that takes a struct path * instead 
+of the
+     actual file name.  This will allow to convert the init and devtmpfs 
+code
+     to properly mount based on a kernel pointer instead of relying on the
+     implicit set_fs(KERNEL_DS) during early init.
+
+     Signed-off-by: Christoph Hellwig <hch@lst.de>
+
+---
+  fs/namespace.c | 40 ++++++++++++++++++----------------------
+  1 file changed, 18 insertions(+), 22 deletions(-)
+
+diff --git a/fs/namespace.c b/fs/namespace.c
+index 6f8234f74bed90..43834b59eff6c3 100644
+--- a/fs/namespace.c
++++ b/fs/namespace.c
+@@ -1706,36 +1706,19 @@ static inline bool may_mandlock(void)
+  }
+  #endif
+
+-/*
+- * Now umount can handle mount points as well as block devices.
+- * This is important for filesystems which use unnamed block devices.
+- *
+- * We now support a flag for forced unmount like the other 'big iron'
+- * unixes. Our API is identical to OSF/1 to avoid making a mess of AMD
+- */
+-
+-int ksys_umount(char __user *name, int flags)
++static int path_umount(struct path *path, int flags)
+  {
+-    struct path path;
+      struct mount *mnt;
+      int retval;
+-    int lookup_flags = LOOKUP_MOUNTPOINT;
+
+      if (flags & ~(MNT_FORCE | MNT_DETACH | MNT_EXPIRE | UMOUNT_NOFOLLOW))
+          return -EINVAL;
+-
+      if (!may_mount())
+          return -EPERM;
+
+-    if (!(flags & UMOUNT_NOFOLLOW))
+-        lookup_flags |= LOOKUP_FOLLOW;
+-
+-    retval = user_path_at(AT_FDCWD, name, lookup_flags, &path);
+-    if (retval)
+-        goto out;
+-    mnt = real_mount(path.mnt);
++    mnt = real_mount(path->mnt);
+      retval = -EINVAL;
+-    if (path.dentry != path.mnt->mnt_root)
++    if (path->dentry != path->mnt->mnt_root)
+          goto dput_and_out;
+      if (!check_mnt(mnt))
+          goto dput_and_out;
+@@ -1748,12 +1731,25 @@ int ksys_umount(char __user *name, int flags)
+      retval = do_umount(mnt, flags);
+  dput_and_out:
+      /* we mustn't call path_put() as that would clear mnt_expiry_mark */
+-    dput(path.dentry);
++    dput(path->dentry);
+      mntput_no_expire(mnt);
+-out:
+      return retval;
+  }
+
++int ksys_umount(char __user *name, int flags)
++{
++    int lookup_flags = LOOKUP_MOUNTPOINT;
++    struct path path;
++    int ret;
++
++    if (!(flags & UMOUNT_NOFOLLOW))
++        lookup_flags |= LOOKUP_FOLLOW;
++    ret = user_path_at(AT_FDCWD, name, lookup_flags, &path);
++    if (ret)
++        return ret;
++    return path_umount(&path, flags);
++}
++
+SYSCALL_DEFINE2(umount, char __user *, name, int, flags)
+  {
+
 
