@@ -2,176 +2,83 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 84A5023DD15
-	for <lists+linux-api@lfdr.de>; Thu,  6 Aug 2020 19:00:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0157523DE29
+	for <lists+linux-api@lfdr.de>; Thu,  6 Aug 2020 19:24:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729332AbgHFRAD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 6 Aug 2020 13:00:03 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:56960 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728862AbgHFQ75 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 6 Aug 2020 12:59:57 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 076G4WnY125708;
-        Thu, 6 Aug 2020 11:04:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1596729872;
-        bh=ICIS9Sht6UPt8BwrkTEtZAjurj+RzuPZfxYhonfMTBQ=;
-        h=Subject:From:To:References:Date:In-Reply-To;
-        b=feCyacuHlGAmRnLqHVxvPEvYz5TuNd62e1X9qchvYdNPXPm1YsfrgvItZOT22bvr8
-         qPPvJGxytrFr2M7mfhnmFrtTECc+vvuaFW5dvbv2ijNkUQFDmnFQIZjl62D2aYqPSU
-         teu2V9VGS6RX5ZX+gxIC2d0R/vfpy3j77ee5j9uA=
-Received: from DFLE110.ent.ti.com (dfle110.ent.ti.com [10.64.6.31])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 076G4Wqw111227
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 6 Aug 2020 11:04:32 -0500
-Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE110.ent.ti.com
- (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 6 Aug
- 2020 11:04:32 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Thu, 6 Aug 2020 11:04:32 -0500
-Received: from [10.250.53.226] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 076G4V8G043252;
-        Thu, 6 Aug 2020 11:04:31 -0500
-Subject: Re: [net-next iproute2 PATCH v3 1/2] iplink: hsr: add support for
- creating PRP device similar to HSR
-From:   Murali Karicheri <m-karicheri2@ti.com>
-To:     <davem@davemloft.net>, <kuba@kernel.org>, <netdev@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-api@vger.kernel.org>,
-        <nsekhar@ti.com>, <grygorii.strashko@ti.com>,
-        <vinicius.gomes@intel.com>, <stephen@networkplumber.org>,
-        <kuznet@ms2.inr.ac.ru>
-References: <20200717152205.826-1-m-karicheri2@ti.com>
-Message-ID: <e6ac459e-b81c-48ee-d82c-36a533e2aa29@ti.com>
-Date:   Thu, 6 Aug 2020 12:04:31 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1729797AbgHFRWv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 6 Aug 2020 13:22:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44924 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729602AbgHFRFS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 6 Aug 2020 13:05:18 -0400
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5302FC061757
+        for <linux-api@vger.kernel.org>; Thu,  6 Aug 2020 03:48:03 -0700 (PDT)
+Received: by mail-lf1-x143.google.com with SMTP id 140so25862480lfi.5
+        for <linux-api@vger.kernel.org>; Thu, 06 Aug 2020 03:48:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+F2bvw4279AFpRAqqHr9VWj7UEazWN4PYw+oY2vMYa8=;
+        b=FZytDxuwtIQKZP3iyMnkL/T5/O6IjGWF8fDMueWvMixfJVT0mifTHd743Bj5ndEbvF
+         Ry3pSxktKyczlATkt3Yt3ovkS/7xygecOfGuZjdmwzIF1ipy2NB6pzZh7ao+//ZmTBdi
+         CNueY6UNDJK95eeClCokRBbkY+gs/dvS4CmGuViCqjkLaaAk6CHbcDPe2G0ACzGAQgJk
+         e2j0KobbMTFzhGr0tX49nsTraHwHmcfyZkGr3JFEYz5IDfkFrtxpTM5/yJ2kbliylX1/
+         6CdNnBknNmq8X/aEHsaa3VyymRzrCUR2fqPcatDBEnKFlg1Ox34Pspo9XJ0SqdLbbNBm
+         6rHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+F2bvw4279AFpRAqqHr9VWj7UEazWN4PYw+oY2vMYa8=;
+        b=CeBWX3hTP2d2bzJSRb5PWVfSMCsueaaIBxnHg5yEjQya6KTDfFWX8Qvwd4CARcNAWz
+         OQE6brX2VhPu4/zlo8eQfTGQax4Oj4Nq/jaFch/gxuW1yJZ6VbHpkrKLwuoKP7oDxNYt
+         IJNgFDAf1LTNRRtTEwjkaJSDFlWnZHFnzjfAVJ5ZVfdf+48QdFeYrYI7gTVTeN06I5Vs
+         zAbpghXDvcqHGPCRBR0S+T3D0xUCo2/0YOkRjXOHcmDqEOrdTnl7+q0s9oXCb0ZC8dkw
+         0agVyy9h/6g94zhzSp3USi/BZloNHqMIHvjz0cBSGaBAz+9WIpp5ujNq4ccqOrcH7NSF
+         vogg==
+X-Gm-Message-State: AOAM532UZ2ncrhU3mit32k9OcSZLQtXoLa9SMp/rR9bVsMvXaiSKilAM
+        jm+YYmJWzEvLLo8Zi5XNseNw9kbA4+CkrvpqWSj6hQ==
+X-Google-Smtp-Source: ABdhPJw3YRS5JPfc1W80PkQQEw6/Xj8PLvezRr9eMiA5H0m5fq09Fro360+A1GEpHIZKK8g2u9ca4vq/md8Y6ToCaw0=
+X-Received: by 2002:ac2:5e26:: with SMTP id o6mr3576663lfg.194.1596710881135;
+ Thu, 06 Aug 2020 03:48:01 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200717152205.826-1-m-karicheri2@ti.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20200529072017.2906-1-linus.walleij@linaro.org>
+ <CAFEAcA-x0y6ufRXebckRdGSLOBzbdBsk=uw+foK4p+HDeVrA9A@mail.gmail.com>
+ <CACRpkdZk-Pv49PyhtrW7ZQo+iebOapVb7L2T_cxh0SpYtcv5Xw@mail.gmail.com> <CACRpkdbOiL7=KUNa0==P+H-3SynhMt1=JweCY8ihbEZLK=b78w@mail.gmail.com>
+In-Reply-To: <CACRpkdbOiL7=KUNa0==P+H-3SynhMt1=JweCY8ihbEZLK=b78w@mail.gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 6 Aug 2020 12:47:49 +0200
+Message-ID: <CACRpkdY-w7TD89eRMJQSvhrPC7gxSPYPmMhPO2FUOxtzYRcRsg@mail.gmail.com>
+Subject: Re: [PATCH v2] fcntl: Add 32bit filesystem mode
+To:     "Theodore Ts'o" <tytso@mit.edu>
+Cc:     Andreas Dilger <adilger.kernel@dilger.ca>,
+        Ext4 Developers List <linux-ext4@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        QEMU Developers <qemu-devel@nongnu.org>,
+        Florian Weimer <fw@deneb.enyo.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Stephen, Alexey,
+On Sun, Jul 19, 2020 at 2:34 PM Linus Walleij <linus.walleij@linaro.org> wrote:
+> On Mon, Jul 6, 2020 at 10:54 AM Linus Walleij <linus.walleij@linaro.org> wrote:
+>
+> > Ted, can you merge this patch?
+> >
+> > It seems QEMU is happy and AFICT it uses the approach you want :)
+>
+> Gentle ping!
 
-On 7/17/20 11:22 AM, Murali Karicheri wrote:
-> This patch enhances the iplink command to add a proto parameters to
-> create PRP device/interface similar to HSR. Both protocols are
-> quite similar and requires a pair of Ethernet interfaces. So re-use
-> the existing HSR iplink command to create PRP device/interface as
-> well. Use proto parameter to differentiate the two protocols.
-> 
-> Signed-off-by: Murali Karicheri <m-karicheri2@ti.com>
-> ---
->   dependent on the series "[net-next PATCH v3 0/7] Add PRP driver"
->   include/uapi/linux/if_link.h | 12 +++++++++++-
->   ip/iplink_hsr.c              | 19 +++++++++++++++++--
->   2 files changed, 28 insertions(+), 3 deletions(-)
-> 
-> diff --git a/include/uapi/linux/if_link.h b/include/uapi/linux/if_link.h
-> index a8901a39a345..fa2e3f642deb 100644
-> --- a/include/uapi/linux/if_link.h
-> +++ b/include/uapi/linux/if_link.h
-> @@ -904,7 +904,14 @@ enum {
->   #define IFLA_IPOIB_MAX (__IFLA_IPOIB_MAX - 1)
->   
->   
-> -/* HSR section */
-> +/* HSR/PRP section, both uses same interface */
-> +
-> +/* Different redundancy protocols for hsr device */
-> +enum {
-> +	HSR_PROTOCOL_HSR,
-> +	HSR_PROTOCOL_PRP,
-> +	HSR_PROTOCOL_MAX,
-> +};
->   
->   enum {
->   	IFLA_HSR_UNSPEC,
-> @@ -914,6 +921,9 @@ enum {
->   	IFLA_HSR_SUPERVISION_ADDR,	/* Supervision frame multicast addr */
->   	IFLA_HSR_SEQ_NR,
->   	IFLA_HSR_VERSION,		/* HSR version */
-> +	IFLA_HSR_PROTOCOL,		/* Indicate different protocol than
-> +					 * HSR. For example PRP.
-> +					 */
->   	__IFLA_HSR_MAX,
->   };
->   
-> diff --git a/ip/iplink_hsr.c b/ip/iplink_hsr.c
-> index 7d9167d4e6a3..6ea138a23cbc 100644
-> --- a/ip/iplink_hsr.c
-> +++ b/ip/iplink_hsr.c
-> @@ -25,7 +25,7 @@ static void print_usage(FILE *f)
->   {
->   	fprintf(f,
->   		"Usage:\tip link add name NAME type hsr slave1 SLAVE1-IF slave2 SLAVE2-IF\n"
-> -		"\t[ supervision ADDR-BYTE ] [version VERSION]\n"
-> +		"\t[ supervision ADDR-BYTE ] [version VERSION] [proto PROTOCOL]\n"
->   		"\n"
->   		"NAME\n"
->   		"	name of new hsr device (e.g. hsr0)\n"
-> @@ -35,7 +35,9 @@ static void print_usage(FILE *f)
->   		"	0-255; the last byte of the multicast address used for HSR supervision\n"
->   		"	frames (default = 0)\n"
->   		"VERSION\n"
-> -		"	0,1; the protocol version to be used. (default = 0)\n");
-> +		"	0,1; the protocol version to be used. (default = 0)\n"
-> +		"PROTOCOL\n"
-> +		"	0 - HSR, 1 - PRP. (default = 0 - HSR)\n");
->   }
->   
->   static void usage(void)
-> @@ -49,6 +51,7 @@ static int hsr_parse_opt(struct link_util *lu, int argc, char **argv,
->   	int ifindex;
->   	unsigned char multicast_spec;
->   	unsigned char protocol_version;
-> +	unsigned char protocol = HSR_PROTOCOL_HSR;
->   
->   	while (argc > 0) {
->   		if (matches(*argv, "supervision") == 0) {
-> @@ -64,6 +67,13 @@ static int hsr_parse_opt(struct link_util *lu, int argc, char **argv,
->   				invarg("version is invalid", *argv);
->   			addattr_l(n, 1024, IFLA_HSR_VERSION,
->   				  &protocol_version, 1);
-> +		} else if (matches(*argv, "proto") == 0) {
-> +			NEXT_ARG();
-> +			if (!(get_u8(&protocol, *argv, 0) == HSR_PROTOCOL_HSR ||
-> +			      get_u8(&protocol, *argv, 0) == HSR_PROTOCOL_PRP))
-> +				invarg("protocol is invalid", *argv);
-> +			addattr_l(n, 1024, IFLA_HSR_PROTOCOL,
-> +				  &protocol, 1);
->   		} else if (matches(*argv, "slave1") == 0) {
->   			NEXT_ARG();
->   			ifindex = ll_name_to_index(*argv);
-> @@ -140,6 +150,11 @@ static void hsr_print_opt(struct link_util *lu, FILE *f, struct rtattr *tb[])
->   					 RTA_PAYLOAD(tb[IFLA_HSR_SUPERVISION_ADDR]),
->   					 ARPHRD_VOID,
->   					 b1, sizeof(b1)));
-> +	if (tb[IFLA_HSR_PROTOCOL])
-> +		print_int(PRINT_ANY,
-> +			  "proto",
-> +			  "proto %d ",
-> +			  rta_getattr_u8(tb[IFLA_HSR_PROTOCOL]));
->   }
->   
->   static void hsr_print_help(struct link_util *lu, int argc, char **argv,
-> Sorry, I missed you in my email on this patch set as I didn't realize
-that the maintainers are different than the netdev maintainers. My bad.
-The PRP driver support in kernel is merged by Dave to net-next and this
-iproute2 change has to go with it. So please review and apply this if it
-looks good. The kernel part merged is at
+Special merge-window ping.
 
-https://www.spinics.net/lists/linux-api/msg42615.html
+Shall I resend the patch?
 
--- 
-Murali Karicheri
-Texas Instruments
+Yours,
+Linus Walleij
