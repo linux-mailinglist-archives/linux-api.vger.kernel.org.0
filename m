@@ -2,92 +2,107 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F1D923D2B1
-	for <lists+linux-api@lfdr.de>; Wed,  5 Aug 2020 22:15:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 546B823D529
+	for <lists+linux-api@lfdr.de>; Thu,  6 Aug 2020 03:47:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726585AbgHEUPL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 5 Aug 2020 16:15:11 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:59243 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726551AbgHEQUv (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 5 Aug 2020 12:20:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1596644449;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=DHFlZmfElMYNy0WR9YIOE++ShLmq+Nylm/oekejIBn8=;
-        b=eUrfOov91pCGRCux7Vq/UqdrAwLhBzd6Yuht5RSPzxzbK7XLO/SSTpkDGHpjOvBstb4WE+
-        RcPdAT3MNQb2DjoKO++incdyOgk5lTEzp4jD3vNCRU7fR8cbyFYpH5AC3e3YqDKQrGOO07
-        8048aqyilUVBh5AAu5n5LvDJJ6PZtTM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-307-oiElo-DiOHyMD5tPH4SYlQ-1; Wed, 05 Aug 2020 12:07:07 -0400
-X-MC-Unique: oiElo-DiOHyMD5tPH4SYlQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B20558;
-        Wed,  5 Aug 2020 16:07:02 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-112-32.rdu2.redhat.com [10.10.112.32])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 96B4B87E2A;
-        Wed,  5 Aug 2020 16:06:59 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <20200804135641.GE32719@miu.piliscsaba.redhat.com>
-References: <20200804135641.GE32719@miu.piliscsaba.redhat.com> <159646178122.1784947.11705396571718464082.stgit@warthog.procyon.org.uk> <159646187082.1784947.4293611877413578847.stgit@warthog.procyon.org.uk>
+        id S1726005AbgHFBrz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 5 Aug 2020 21:47:55 -0400
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:33477 "EHLO
+        wnew1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725998AbgHFBry (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 5 Aug 2020 21:47:54 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+        by mailnew.west.internal (Postfix) with ESMTP id B3836D43;
+        Wed,  5 Aug 2020 21:47:52 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Wed, 05 Aug 2020 21:47:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=
+        message-id:subject:from:to:cc:date:in-reply-to:references
+        :content-type:mime-version:content-transfer-encoding; s=fm3; bh=
+        U/mBUsHb71A738YQ5oNiB6WYMuEfMjRBkpOFnVl3kck=; b=SbMcZbCujvCFqvMG
+        UYR2zXtt8MdtVE6zCyaBbYKHz6/FBXAFbOgKg02VuGsGEVcRNYpNR7qyAsAkcP+i
+        x5NTNCq90+2Xo0WQXAcOd87Oknpx4mKWlV4ChRhpu1iPox6Hd31qhdTZXabRGFtd
+        Z6mRTpX7sHtoblLP23SoSTczxYxklD1b/JjRWk5ohE3Ljg40DfbsDge0FoByNf6p
+        PSX/Db2HUGV1Ynz4jePO0u1Q5CNScjDSUkINwI7dCgCSnz62hu8wAoikK7JH2c0K
+        xUXLUx7td3ABBIPyrRcdhcxx3KWThrf7eBDVS+ONxkVJtq2eSwlLE+rxvLiChpjc
+        c5or7Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; bh=U/mBUsHb71A738YQ5oNiB6WYMuEfMjRBkpOFnVl3k
+        ck=; b=GSa5KQgndYXvTiLwV902ReZEGcG6iZqZL2q2MA56f91jcSXIr5+9piJ6r
+        HbcMxVP1pb9TmRUIEIQoC4eyFtHQ9LxaXUp2rVhQPv6PvFohFJbklhwl/CRQLS5R
+        i3FBLgCNY/xjscE5bqHOva3pBeqx3ANZcUW0EecigD2hqEQMkOBCdMZtiWJmCIy8
+        kynUr+f0+E9m0AQ2hoeGCCrEI97PgP8HipKrwbGO0CEJQy/GAPDjqu3PiCXJ9w/l
+        bWzXGdv/XCrqbGVt4UmYl91l9tutor6QaMDiMEK1xm4pA7zg9ifooHj1g8mgIPCt
+        20HL7XwAzaDWgWJhy9lXE2t15qhpQ==
+X-ME-Sender: <xms:R2ErX-Ow0TFcTtDZrZeKOB7EXkGcFyJWbTfpwaJoU1lJLKqSgS_eiw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrjeelgdehvdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefkuffhvfffjghftggfggfgsehtjeertddtreejnecuhfhrohhmpefkrghnucfm
+    vghnthcuoehrrghvvghnsehthhgvmhgrfidrnhgvtheqnecuggftrfgrthhtvghrnhepfe
+    efteetvdeguddvveefveeftedtffduudehueeihfeuvefgveehffeludeggfejnecukfhp
+    peduudekrddvtdekrdehvddruddtleenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
+    grmhepmhgrihhlfhhrohhmpehrrghvvghnsehthhgvmhgrfidrnhgvth
+X-ME-Proxy: <xmx:R2ErX89ebs4xGXj3osgQqYAy76fviH262DcjF9AhUz5dcG_abpUbRQ>
+    <xmx:R2ErX1SwYO5T_NvB8DU9zVrp31k0l-VE0UPfdhT8i-mESmigYto58A>
+    <xmx:R2ErX-v36Qd5Efi5Q5w8Y-K6ArBRt249ARC-EA4B-pNs2oia7VukoQ>
+    <xmx:SGErX27p6Gko2FlPisZFLjpUCL0wiWWZvxt3AzDh2CqzDPeWIkGwgxjfrs8>
+Received: from mickey.themaw.net (unknown [118.208.52.109])
+        by mail.messagingengine.com (Postfix) with ESMTPA id B32DF328005E;
+        Wed,  5 Aug 2020 21:47:46 -0400 (EDT)
+Message-ID: <25a6f18404b55e3991ffa0874e6bec78eed7463d.camel@themaw.net>
+Subject: Re: [PATCH 10/18] fsinfo: Provide notification overrun handling
+ support [ver #21]
+From:   Ian Kent <raven@themaw.net>
 To:     Miklos Szeredi <miklos@szeredi.hu>
-Cc:     dhowells@redhat.com, viro@zeniv.linux.org.uk,
-        torvalds@linux-foundation.org, raven@themaw.net,
-        mszeredi@redhat.com, christian@brauner.io, jannh@google.com,
-        darrick.wong@oracle.com, kzak@redhat.com, jlayton@redhat.com,
-        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 10/18] fsinfo: Provide notification overrun handling support [ver #21]
+Cc:     David Howells <dhowells@redhat.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Christian Brauner <christian@brauner.io>,
+        Jann Horn <jannh@google.com>,
+        "Darrick J. Wong" <darrick.wong@oracle.com>,
+        Karel Zak <kzak@redhat.com>, Jeff Layton <jlayton@redhat.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        LSM <linux-security-module@vger.kernel.org>,
+        linux-kernel@vger.kernel.org
+Date:   Thu, 06 Aug 2020 09:47:43 +0800
+In-Reply-To: <CAJfpeguvTspY7pi52n1aznebCF2jYki40hy5idkgu1D2y6C6mg@mail.gmail.com>
+References: <159646178122.1784947.11705396571718464082.stgit@warthog.procyon.org.uk>
+         <159646187082.1784947.4293611877413578847.stgit@warthog.procyon.org.uk>
+         <20200804135641.GE32719@miu.piliscsaba.redhat.com>
+         <94bba6f200bb2bbf83f4945faa2ccb83fd947540.camel@themaw.net>
+         <5078554c6028e29c91d815c63e2af1ffac2ecbbb.camel@themaw.net>
+         <CAJfpegs1NLaamFA12f=EJRN4B3_iC+Uzi2NQKTV-fBSypcufLQ@mail.gmail.com>
+         <e1caad2bff5faf9b24b59fe4ee51df255412cc56.camel@themaw.net>
+         <CAJfpeguvTspY7pi52n1aznebCF2jYki40hy5idkgu1D2y6C6mg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <2320581.1596643618.1@warthog.procyon.org.uk>
-Date:   Wed, 05 Aug 2020 17:06:58 +0100
-Message-ID: <2320582.1596643618@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Miklos Szeredi <miklos@szeredi.hu> wrote:
+On Wed, 2020-08-05 at 13:27 +0200, Miklos Szeredi wrote:
+> On Wed, Aug 5, 2020 at 1:23 PM Ian Kent <raven@themaw.net> wrote:
+> > On Wed, 2020-08-05 at 09:45 +0200, Miklos Szeredi wrote:
+> > > Hmm, what's the other possibility for lost notifications?
+> > 
+> > In user space that is:
+> > 
+> > Multi-threaded application races, single threaded applications and
+> > signal processing races, other bugs ...
+> 
+> Okay, let's fix the bugs then.
 
-> Shoun't we just make sure that the likelyhood of overruns is low
+It's the the bugs you don't know about that get you, in this case
+the world "is" actually out to get you, ;)
 
-That's not necessarily easy.  To avoid overruns you need a bigger buffer.  The
-buffer is preallocated from unswappable kernel space.  Yes, you can increase
-the size of the buffer, but it eats out of your pipe bufferage limit.
-
-Further, it's a *general* notifications queue, not just for a specific
-purpose, but that means it might get connected to multiple sources, and doing
-something like tearing down a container might generate enough notifications to
-overrun the queue.
-
-> and if it happens, just reinitialize everthing from scratch (shouldn't be
-> *that* expensive).
-
-If you then spend time reinitialising everything, you're increasing the
-likelihood of racing with further events.  Further, there multiple expenses:
-firstly, you have to tear down and discard all the data that you've spent time
-setting up; secondly, it takes time doing all this; thirdly, it takes cpu
-cycles away from applications.
-
-The reason I put the event counters in there and made it so that fsinfo()
-could read all the mounts in a subtree and their event counters in one go is
-to make it faster for the user to find out what changed in the event that a
-notification is lost.
-
-I have a patch (not included here as it occasionally induces oopses) that
-attempts to make this doable under the RCU read lock so that it doesn't
-prevent mounts from taking place during the scan.
-
-David
+Ian
 
