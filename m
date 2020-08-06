@@ -2,129 +2,124 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E82C23DA3A
-	for <lists+linux-api@lfdr.de>; Thu,  6 Aug 2020 14:17:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D55D23DB96
+	for <lists+linux-api@lfdr.de>; Thu,  6 Aug 2020 18:22:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728919AbgHFMRo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 6 Aug 2020 08:17:44 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:32230 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726970AbgHFLPk (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 6 Aug 2020 07:15:40 -0400
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 076B5Irv003910;
-        Thu, 6 Aug 2020 07:14:27 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 32ra0rjm1p-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 06 Aug 2020 07:14:26 -0400
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 076B5tLh007950;
-        Thu, 6 Aug 2020 07:14:26 -0400
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com [159.122.73.72])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 32ra0rjm0j-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 06 Aug 2020 07:14:25 -0400
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
-        by ppma06fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 076B6ULk029608;
-        Thu, 6 Aug 2020 11:14:23 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
-        by ppma06fra.de.ibm.com with ESMTP id 32mynhba4f-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 06 Aug 2020 11:14:22 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
-        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 076BEKJH58065174
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 6 Aug 2020 11:14:20 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id B613BAE051;
-        Thu,  6 Aug 2020 11:14:20 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 6127CAE055;
-        Thu,  6 Aug 2020 11:14:17 +0000 (GMT)
-Received: from linux.ibm.com (unknown [9.145.24.39])
-        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Thu,  6 Aug 2020 11:14:17 +0000 (GMT)
-Date:   Thu, 6 Aug 2020 14:14:15 +0300
-From:   Mike Rapoport <rppt@linux.ibm.com>
-To:     "Kirill A. Shutemov" <kirill@shutemov.name>
-Cc:     Mike Rapoport <rppt@kernel.org>, linux-kernel@vger.kernel.org,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Idan Yaniv <idan.yaniv@ibm.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
-        x86@kernel.org
-Subject: Re: [PATCH v3 3/6] mm: introduce memfd_secret system call to create
- "secret" memory areas
-Message-ID: <20200806111415.GL163101@linux.ibm.com>
-References: <20200804095035.18778-1-rppt@kernel.org>
- <20200804095035.18778-4-rppt@kernel.org>
- <20200806102757.7vobcaewdukr2xdl@box>
+        id S1727838AbgHFQVo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 6 Aug 2020 12:21:44 -0400
+Received: from verein.lst.de ([213.95.11.211]:50194 "EHLO verein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727964AbgHFQUo (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 6 Aug 2020 12:20:44 -0400
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id B828768D0F; Thu,  6 Aug 2020 16:48:35 +0200 (CEST)
+Date:   Thu, 6 Aug 2020 16:48:35 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     Al Viro <viro@zeniv.linux.org.uk>
+Cc:     Christoph Hellwig <hch@lst.de>, Vikas Kumar <vikas.kumar2@arm.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, rafael@kernel.org
+Subject: Re: [LTP-FAIL][02/21] fs: refactor ksys_umount
+Message-ID: <20200806144834.GA7818@lst.de>
+References: <d28d2235-9b1c-0403-59ca-e57ac5d0460e@arm.com> <20200806141732.GA5902@lst.de> <20200806143221.GQ1236603@ZenIV.linux.org.uk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200806102757.7vobcaewdukr2xdl@box>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
- definitions=2020-08-06_06:2020-08-06,2020-08-06 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 adultscore=0
- mlxlogscore=923 lowpriorityscore=0 suspectscore=1 bulkscore=0
- clxscore=1015 spamscore=0 priorityscore=1501 impostorscore=0 phishscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2008060079
+In-Reply-To: <20200806143221.GQ1236603@ZenIV.linux.org.uk>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Aug 06, 2020 at 01:27:57PM +0300, Kirill A. Shutemov wrote:
-> On Tue, Aug 04, 2020 at 12:50:32PM +0300, Mike Rapoport wrote:
-> > From: Mike Rapoport <rppt@linux.ibm.com>
-> > 
-> > Introduce "memfd_secret" system call with the ability to create memory
-> > areas visible only in the context of the owning process and not mapped not
-> > only to other processes but in the kernel page tables as well.
-> > 
-> > The user will create a file descriptor using the memfd_secret() system call
-> > where flags supplied as a parameter to this system call will define the
-> > desired protection mode for the memory associated with that file
-> > descriptor. Currently there are two protection modes:
-> > 
-> > * exclusive - the memory area is unmapped from the kernel direct map and it
-> >               is present only in the page tables of the owning mm.
-> > * uncached  - the memory area is present only in the page tables of the
-> >               owning mm and it is mapped there as uncached.
+On Thu, Aug 06, 2020 at 03:32:21PM +0100, Al Viro wrote:
+> On Thu, Aug 06, 2020 at 04:17:32PM +0200, Christoph Hellwig wrote:
+> > Fix for umount03 below.  The other one works fine here, but from
+> > your logs this might be a follow on if you run it after umount without
+> > the fix.
 > 
-> I'm not sure why flag for exclusive mode is needed. It has to be default.
-> And if you want uncached on top of that set the flag.
+> Ugh...
+> 
+> How about 
+> static int may_umount(const struct path *path, int flags)
 
-Makes sense.
+may_umount is already take.  But with can_umount this would work:
 
-> What am I missing?
->
-> -- 
->  Kirill A. Shutemov
+---
+From e4ccb3da160831a43eeea48c68d2d43fd7cf6724 Mon Sep 17 00:00:00 2001
+From: Christoph Hellwig <hch@lst.de>
+Date: Thu, 6 Aug 2020 16:07:10 +0200
+Subject: fs: fix a struct path leak in path_umount
 
+Make sure we also put the dentry and vfsmnt in the illegal flags
+and !may_umount cases.
+
+Fixes: 41525f56e256 ("fs: refactor ksys_umount")
+Reported-by: Vikas Kumar <vikas.kumar2@arm.com>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ fs/namespace.c | 32 ++++++++++++++++++--------------
+ 1 file changed, 18 insertions(+), 14 deletions(-)
+
+diff --git a/fs/namespace.c b/fs/namespace.c
+index a7301790abb211..1c74a46367df4e 100644
+--- a/fs/namespace.c
++++ b/fs/namespace.c
+@@ -1706,34 +1706,38 @@ static inline bool may_mandlock(void)
+ }
+ #endif
+ 
+-int path_umount(struct path *path, int flags)
++static int can_umount(const struct path *path, int flags)
+ {
+-	struct mount *mnt;
+-	int retval;
++	struct mount *mnt = real_mount(path->mnt);
+ 
+ 	if (flags & ~(MNT_FORCE | MNT_DETACH | MNT_EXPIRE | UMOUNT_NOFOLLOW))
+ 		return -EINVAL;
+ 	if (!may_mount())
+ 		return -EPERM;
+-
+-	mnt = real_mount(path->mnt);
+-	retval = -EINVAL;
+ 	if (path->dentry != path->mnt->mnt_root)
+-		goto dput_and_out;
++		return -EINVAL;
+ 	if (!check_mnt(mnt))
+-		goto dput_and_out;
++		return -EINVAL;
+ 	if (mnt->mnt.mnt_flags & MNT_LOCKED) /* Check optimistically */
+-		goto dput_and_out;
+-	retval = -EPERM;
++		return -EINVAL;
+ 	if (flags & MNT_FORCE && !capable(CAP_SYS_ADMIN))
+-		goto dput_and_out;
++		return -EPERM;
++	return 0;
++}
++
++int path_umount(struct path *path, int flags)
++{
++	struct mount *mnt = real_mount(path->mnt);
++	int ret;
++
++	ret = can_umount(path, flags);
++	if (!ret)
++		ret = do_umount(mnt, flags);
+ 
+-	retval = do_umount(mnt, flags);
+-dput_and_out:
+ 	/* we mustn't call path_put() as that would clear mnt_expiry_mark */
+ 	dput(path->dentry);
+ 	mntput_no_expire(mnt);
+-	return retval;
++	return ret;
+ }
+ 
+ static int ksys_umount(char __user *name, int flags)
 -- 
-Sincerely yours,
-Mike.
+2.27.0
+
