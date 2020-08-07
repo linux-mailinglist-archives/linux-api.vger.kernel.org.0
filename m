@@ -2,261 +2,119 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A1F5D23F1BF
-	for <lists+linux-api@lfdr.de>; Fri,  7 Aug 2020 19:11:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9668323F3CB
+	for <lists+linux-api@lfdr.de>; Fri,  7 Aug 2020 22:29:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726595AbgHGRLC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 7 Aug 2020 13:11:02 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24991 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726810AbgHGRLA (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 7 Aug 2020 13:11:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1596820257;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=LBwwWQVoE2g2j8GR2C8Q+iCKgjoYpxs4sQmpmGrjX/k=;
-        b=Z8eIrYxOwP0eVcS0jen3el9W2tiyLHIEvYodiuKoWJnVSnZPaRNwxWQO/W0rngoBQ14Nhp
-        XPB3Nk7WvWVnPbq6tFqkXRVsziyKbbkwiI1hFh/whd3pmSQNcC14N1CENLeddTQvlrWMb7
-        Q7uJ/EXcDIjkd5juaUiY3d26T/0PIhg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-424-hIOUfRY4NaKbZ5eIn_NyyA-1; Fri, 07 Aug 2020 13:10:48 -0400
-X-MC-Unique: hIOUfRY4NaKbZ5eIn_NyyA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B53C18017FB;
-        Fri,  7 Aug 2020 17:10:45 +0000 (UTC)
-Received: from madcap2.tricolour.ca (unknown [10.10.110.51])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 154D38AC13;
-        Fri,  7 Aug 2020 17:10:28 +0000 (UTC)
-Date:   Fri, 7 Aug 2020 13:10:25 -0400
-From:   Richard Guy Briggs <rgb@redhat.com>
-To:     Paul Moore <paul@paul-moore.com>
-Cc:     nhorman@tuxdriver.com, linux-api@vger.kernel.org,
-        containers@lists.linux-foundation.org,
-        LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
-        Linux-Audit Mailing List <linux-audit@redhat.com>,
-        netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
-        simo@redhat.com, netdev@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
-        mpatel@redhat.com, Serge Hallyn <serge@hallyn.com>, aris@redhat.com
-Subject: Re: [PATCH ghak90 V9 11/13] audit: contid check descendancy and
- nesting
-Message-ID: <20200807171025.523i2sxfyfl7dfjy@madcap2.tricolour.ca>
-References: <cover.1593198710.git.rgb@redhat.com>
- <01229b93733d9baf6ac9bb0cc243eeb08ad579cd.1593198710.git.rgb@redhat.com>
- <CAHC9VhT6cLxxws_pYWcL=mWe786xPoTTFfPZ1=P4hx4V3nytXA@mail.gmail.com>
+        id S1726256AbgHGU3h (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 7 Aug 2020 16:29:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44268 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725893AbgHGU3g (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 7 Aug 2020 16:29:36 -0400
+Received: from mail-il1-x144.google.com (mail-il1-x144.google.com [IPv6:2607:f8b0:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD37DC061756;
+        Fri,  7 Aug 2020 13:29:36 -0700 (PDT)
+Received: by mail-il1-x144.google.com with SMTP id z17so2834611ill.6;
+        Fri, 07 Aug 2020 13:29:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=uq3Rm3BodEbHoD3xpm4HpbWX1fCXnHobKwQS9eSoca4=;
+        b=BM8RHOdk46N+DeGLK9WTKkMYUkIB4fexT7uOlF79JjFH11zN1g/IDmLcSQCtkuwngn
+         r46/DeVJjrv9lKfKrdHHQuVScjeQiOaKJSwY9wjuNTdWsvRjDUnl/HHzqs9EO/081Miq
+         wdI2AiaNkAx1NGAuG5qdMcXHvZpdqekA0Kev49MF9WOrn83XpMBgp7ehIKkOjE7e46lU
+         0z4BAQ/F1aXYZRnjf9q0LZ3RtANjeAyQlZf/9+8HxqhjShyGSfgA08uIf/J6h/3t12Z7
+         CFEZMpvZW0kN1Vv59hHqIaQOdsKTVw9clSzgmhVFD88DVHzDLqks3CY76+d/yK4x4VWx
+         It1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=uq3Rm3BodEbHoD3xpm4HpbWX1fCXnHobKwQS9eSoca4=;
+        b=bMAg/EcUny46Z97LH0cHSqCgGJmNXfSrV2vcBSCRl+TMFvyfKxrKH4ifVabVszmNDu
+         HBoHINHjapbQ0hwukZwJ0AWAQoPmD+GDv1bMG0TPk2ciKJd/eLC/i6FRx5Li+X/Gtfcz
+         4nl6iqoAI/P0xRR1qmdQzzq36QyvT8lkKlkHJaKlEgG69SnzzEdPymfFICVFmxRZHi+f
+         KC55Hx9pt63Qh1sUNsIIYomMlITeiNEvLp8WM5G3WQBxfuaIlm06ky1YWpcWGnJD61UQ
+         LkUmLw4F2KUqNj9kIQBaGjToSt1DAis9P3FtAH1kM/x6NUE1gfsZ0zldGATrn5O6/heC
+         wnEg==
+X-Gm-Message-State: AOAM531qq0Qd2m/95YfFoor9JwYgELQZPX46AGeXviqu2IZDDBgwxXn6
+        ROPhsftgCf9R+0eBnjq+soJuReE0vm6/HwCfK10=
+X-Google-Smtp-Source: ABdhPJwC9P+sOC25h3PoOSP50YpPCTyAOEUT0secwM5VyYf3NZXaBzxAMi6eRm+95YX8Kh14rxVqTZmqDD/zYQktLX0=
+X-Received: by 2002:a92:5e9c:: with SMTP id f28mr6357090ilg.302.1596832176074;
+ Fri, 07 Aug 2020 13:29:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHC9VhT6cLxxws_pYWcL=mWe786xPoTTFfPZ1=P4hx4V3nytXA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+References: <20200709182642.1773477-1-keescook@chromium.org> <20200709182642.1773477-4-keescook@chromium.org>
+In-Reply-To: <20200709182642.1773477-4-keescook@chromium.org>
+From:   John Stultz <john.stultz@linaro.org>
+Date:   Fri, 7 Aug 2020 13:29:24 -0700
+Message-ID: <CANcMJZAcDAG7Dq7vo=M-SZwujj+BOKMh7wKvywHq+tEX3GDbBQ@mail.gmail.com>
+Subject: Re: [PATCH v7 3/9] net/scm: Regularize compat handling of scm_detach_fds()
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Sargun Dhillon <sargun@sargun.me>,
+        Christian Brauner <christian@brauner.io>,
+        Tycho Andersen <tycho@tycho.ws>,
+        David Laight <David.Laight@aculab.com>,
+        Christoph Hellwig <hch@lst.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Matt Denton <mpdenton@google.com>,
+        Jann Horn <jannh@google.com>, Chris Palmer <palmer@google.com>,
+        Robert Sesek <rsesek@google.com>,
+        Giuseppe Scrivano <gscrivan@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Will Drewry <wad@chromium.org>, Shuah Khan <shuah@kernel.org>,
+        netdev <netdev@vger.kernel.org>,
+        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        Amit Pundir <amit.pundir@linaro.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2020-07-05 11:11, Paul Moore wrote:
-> On Sat, Jun 27, 2020 at 9:23 AM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > Require the target task to be a descendant of the container
-> > orchestrator/engine.
-> >
-> > You would only change the audit container ID from one set or inherited
-> > value to another if you were nesting containers.
-> >
-> > If changing the contid, the container orchestrator/engine must be a
-> > descendant and not same orchestrator as the one that set it so it is not
-> > possible to change the contid of another orchestrator's container.
+On Thu, Jul 9, 2020 at 11:28 AM Kees Cook <keescook@chromium.org> wrote:
+>
+> Duplicate the cleanups from commit 2618d530dd8b ("net/scm: cleanup
+> scm_detach_fds") into the compat code.
+>
+> Replace open-coded __receive_sock() with a call to the helper.
+>
+> Move the check added in commit 1f466e1f15cf ("net: cleanly handle kernel
+> vs user buffers for ->msg_control") to before the compat call, even
+> though it should be impossible for an in-kernel call to also be compat.
+>
+> Correct the int "flags" argument to unsigned int to match fd_install()
+> and similar APIs.
+>
+> Regularize any remaining differences, including a whitespace issue,
+> a checkpatch warning, and add the check from commit 6900317f5eff ("net,
+> scm: fix PaX detected msg_controllen overflow in scm_detach_fds") which
+> fixed an overflow unique to 64-bit. To avoid confusion when comparing
+> the compat handler to the native handler, just include the same check
+> in the compat handler.
+>
+> Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> ---
 
-Are we able to agree on the premises above?  Is anything asserted that
-should not be and is there anything missing?
+Hey Kees,
+  So during the merge window (while chasing a few other regressions),
+I noticed occasionally my Dragonboard 845c running AOSP having trouble
+with the web browser crashing or other apps hanging, and I've bisected
+the issue down to this change.
 
-I've been sitting on my response below for more than a week trying to
-understand the issues raised and to give it the proper attention to a
-reply.  Please excuse my tardiness at replying on this issue since I'm
-still having trouble thinking through all the scenarios for nesting.
+Unfortunately it doesn't revert cleanly so I can't validate reverting
+it sorts things against linus/HEAD.  Anyway, I wanted to check and see
+if you had any other reports of similar or any ideas what might be
+going wrong?
 
-> > Since the task_is_descendant() function is used in YAMA and in audit,
-> > remove the duplication and pull the function into kernel/core/sched.c
-> >
-> > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> > ---
-> >  include/linux/sched.h    |  3 +++
-> >  kernel/audit.c           | 23 +++++++++++++++++++++--
-> >  kernel/sched/core.c      | 33 +++++++++++++++++++++++++++++++++
-> >  security/yama/yama_lsm.c | 33 ---------------------------------
-> >  4 files changed, 57 insertions(+), 35 deletions(-)
-> >
-> > diff --git a/include/linux/sched.h b/include/linux/sched.h
-> > index 2213ac670386..06938d0b9e0c 100644
-> > --- a/include/linux/sched.h
-> > +++ b/include/linux/sched.h
-> > @@ -2047,4 +2047,7 @@ static inline void rseq_syscall(struct pt_regs *regs)
-> >
-> >  const struct cpumask *sched_trace_rd_span(struct root_domain *rd);
-> >
-> > +extern int task_is_descendant(struct task_struct *parent,
-> > +                             struct task_struct *child);
-> > +
-> >  #endif
-> > diff --git a/kernel/audit.c b/kernel/audit.c
-> > index a862721dfd9b..efa65ec01239 100644
-> > --- a/kernel/audit.c
-> > +++ b/kernel/audit.c
-> > @@ -2713,6 +2713,20 @@ int audit_signal_info(int sig, struct task_struct *t)
-> >         return audit_signal_info_syscall(t);
-> >  }
-> >
-> > +static bool audit_contid_isnesting(struct task_struct *tsk)
-> > +{
-> > +       bool isowner = false;
-> > +       bool ownerisparent = false;
-> > +
-> > +       rcu_read_lock();
-> > +       if (tsk->audit && tsk->audit->cont) {
-> > +               isowner = current == tsk->audit->cont->owner;
-> > +               ownerisparent = task_is_descendant(tsk->audit->cont->owner, current);
-> 
-> I want to make sure I'm understanding this correctly and I keep
-> mentally tripping over something: it seems like for a given audit
-> container ID a task is either the owner or a descendent, there is no
-> third state, is that correct?
-
-Sure there is.  It could be another owner (which is addressed when we
-search for an existing contobj match), or in the next patch, the
-owner's parent if nested or a peer.
-
-> Assuming that is true, can the descendent check simply be a negative
-> owner check given they both have the same audit container ID?
-
-There isn't actually a check in my code for the orchestrator contid and
-task contid being the same.  Maybe I was making this check more
-complicated than necessary, and still incomplete, but see below for more...
-
-> > +       }
-> > +       rcu_read_unlock();
-> > +       return !isowner && ownerisparent;
-> > +}
-> > +
-> >  /*
-> >   * audit_set_contid - set current task's audit contid
-> >   * @task: target task
-> > @@ -2755,8 +2769,13 @@ int audit_set_contid(struct task_struct *task, u64 contid)
-> >                 rc = -EBUSY;
-> >                 goto unlock;
-> >         }
-> > -       /* if contid is already set, deny */
-> > -       if (audit_contid_set(task))
-> > +       /* if task is not descendant, block */
-> > +       if (task == current || !task_is_descendant(current, task)) {
-> 
-> I'm also still fuzzy on why we can't let a task set it's own audit
-> container ID, assuming it meets all the criteria established in patch
-> 2/13.  It somewhat made sense when you were tracking inherited vs
-> explicitly set audit container IDs, but that doesn't appear to be the
-> case so far in this patchset, yes?
-
-I'm still having a strong reluctance to permit this but can't come up
-with a solid technical reason right now, but it feels like a layer
-violation.  If we forbid it and discover it necessary and harmless, then
-permitting it won't break the API.  If we permit it and later discover a
-reason it causes a problem, then blocking it will break the API.  I have
-heard that there are cases where there is no orchestrator/engine, so in
-those cases I conclude that a process would need to set its own contid
-but I'm having trouble recalling what those circumstances are.
-
-I also was seriously considering blocking any contid set on the initial
-user or PID namespaces to avoid polluting them, and even had a tested
-patch to implement it, but this starts making assumptions about the
-definition of a container with respect to namespaces which we have been
-deliberately avoiding.
-
-> > +               rc = -EXDEV;
-> 
-> I'm fairly confident we had a discussion about not using all these
-> different error codes, but that may be a moot point given my next
-> comment.
-
-Yes, we did.  I reduced both circumstances down to what you requested,
-shedding two along the way.  Given the number of different ways
-orchestrators, contids and tasks can be related, I'd rather have more,
-not fewer diagnostics to understand what it thinks is happenning.  This
-is a realtively minor detail in the context of the rest of the
-discussion in this thread.
-
-> > +               goto unlock;
-> > +       }
-> > +       /* only allow contid setting again if nesting */
-> > +       if (audit_contid_set(task) && !audit_contid_isnesting(task))
-> >                 rc = -EEXIST;
-> 
-> It seems like what we need in audit_set_contid() is a check to ensure
-> that the task being modified is only modified by the owner of the
-> audit container ID, yes?  If so, I would think we could do this quite
-> easily with the following, or similar logic, (NOTE: assumes both
-> current and tsk are properly setup):
-> 
->   if ((current->audit->cont != tsk->audit->cont) || (current->audit->cont->owner != current))
->     return -EACCESS;
-
-Not necessarily.
-
-If we start from the premise that once set, a contid on a task cannot be
-unset, and then that it cannot be set to another value, then the oldest
-ancestor in any container must not be able to change contid.  That
-leaves any descendant (that hasn't threaded or parented) free to nest.
-
-If we allow a task to modify its own contid (from the potential change
-above), then if it inherited its contid, it could set its own.  This
-still looks like a layer violation to me.  Going back to some
-discussions with Eric Biederman from a number of years ago, it seems
-wrong to me that a task should be able to see its own contid, let alone
-be able to set it.  This came out of a CRIU concern about serial nsIDs
-based on proc inode numbers not being portable.  Is it still a
-consideration?
-
-Another scenario comes to mind.  Should an orchestrator be able to set
-the contid of a descendant of one of the former's child orchestrators?
-This doesn't sound like a good idea leaping generations and I can't come
-up with a valid use case.
-
-> This is somewhat independent of the above issue, but we may also want
-> to add to the capability check.  Patch 2 adds a
-> "capable(CAP_AUDIT_CONTROL)" which is good, but perhaps we also need a
-> "ns_capable(CAP_AUDIT_CONTROL)" to allow a given audit container ID
-> orchestrator/owner the ability to control which of it's descendants
-> can change their audit container ID, for example:
-> 
->   if (!capable(CAP_AUDIT_CONTROL) ||
->       !ns_capable(current->nsproxy->user_ns, CAP_AUDIT_CONTROL))
->     return -EPERM;
-
-Why does ns_capable keep being raised?  The last patch, capcontid, was
-developed to solve this previously raised issue.  The issue was an
-unprivileged user creating a user namespace with full capabilities,
-circumventing capable() and being able to change the main audit
-configuration.  It was already discussed in v8 and before that and my
-last posting in the thread was left dangling with an unanswered
-question:
-https://lkml.org/lkml/2020/2/6/333
-
-I only see this being potentially useful with audit namespaces in
-conjunction with unprivileged user namespaces in the future with the
-implementation of multiple audit daemons for the ability of an
-unprivileged user to run their own distro container without influencing
-the master audit configuration.
-
-> paul moore
-
-- RGB
-
---
-Richard Guy Briggs <rgb@redhat.com>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems
-Remote, Ottawa, Red Hat Canada
-IRC: rgb, SunRaycer
-Voice: +1.647.777.2635, Internal: (81) 32635
-
+thanks
+-john
