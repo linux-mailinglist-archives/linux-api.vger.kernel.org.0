@@ -2,51 +2,49 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D79423EEAA
-	for <lists+linux-api@lfdr.de>; Fri,  7 Aug 2020 16:08:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 955A623EFC5
+	for <lists+linux-api@lfdr.de>; Fri,  7 Aug 2020 17:06:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726095AbgHGOII (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 7 Aug 2020 10:08:08 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40804 "EHLO
+        id S1726212AbgHGPGd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 7 Aug 2020 11:06:33 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25923 "EHLO
         us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726514AbgHGODu (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 7 Aug 2020 10:03:50 -0400
+        with ESMTP id S1726523AbgHGPG2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 7 Aug 2020 11:06:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1596808991;
+        s=mimecast20190719; t=1596812786;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=4jkFvtc0/cVLXMEonOCyvDbru2s10L42s9UjSm/sTUw=;
-        b=KWmS6i4y73qgPzBAcuyKtylzXOqrrjo4OHfHpkK+Z5td6OMbjW2rFJ+Y28te/LIofBWdsh
-        8Pi/gorZO506B5qa8H0ke7J3Gk1gE7f2VxEFaoyLoGYq94KsEliWUzfsfyjOsjgw0pKuto
-        QfYBdP1SVtN3p/qOltRbkBYVUxo6gQU=
+         content-transfer-encoding:content-transfer-encoding;
+        bh=uTzSeO9LJ/fgrO0vB/deWP/c4fURGdv9ZVO/IS4V2IA=;
+        b=ZPMsX6NyVVPfEKrUU76yJf5TNUBMcNFOJRH5QHLiRmMYxuzBjY/0A7fUflLvYPErTnB8W+
+        1BEJpwfpuD1ZyW8eNitB6Jhbg4ThA/plCpJ+7PTNG17sYHm3PUcxQJ/AWGJIhtvQCt86my
+        GgxbSh9hRhaXq1hjm7CkihTYurSIJgo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-158-d2TXLffXM7Cw8CuSWldhuQ-1; Fri, 07 Aug 2020 10:03:06 -0400
-X-MC-Unique: d2TXLffXM7Cw8CuSWldhuQ-1
+ us-mta-159-v6HwMxBdOUW-40cqebJcUg-1; Fri, 07 Aug 2020 11:06:20 -0400
+X-MC-Unique: v6HwMxBdOUW-40cqebJcUg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B365FD8DED;
-        Fri,  7 Aug 2020 14:02:53 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3821100AA21;
+        Fri,  7 Aug 2020 15:06:18 +0000 (UTC)
 Received: from warthog.procyon.org.uk (ovpn-113-69.rdu2.redhat.com [10.10.113.69])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 2E9F85D9FC;
-        Fri,  7 Aug 2020 14:02:52 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 00FC05D9D5;
+        Fri,  7 Aug 2020 15:06:16 +0000 (UTC)
 Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
         Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
         Kingdom.
         Registered in England and Wales under Company Registration No. 3798903
-Subject: [PATCH 5/5] Add manpage for fsconfig(2)
+Subject: [PATCH 1/2] Add a manpage for watch_queue(7)
 From:   David Howells <dhowells@redhat.com>
-To:     mtk.manpages@gmail.com, viro@zeniv.linux.org.uk
-Cc:     dhowells@redhat.com, linux-fsdevel@vger.kernel.org,
-        christian.brauner@ubuntu.com, linux-man@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Fri, 07 Aug 2020 15:02:51 +0100
-Message-ID: <159680897140.29015.15318866561972877762.stgit@warthog.procyon.org.uk>
-In-Reply-To: <159680892602.29015.6551860260436544999.stgit@warthog.procyon.org.uk>
-References: <159680892602.29015.6551860260436544999.stgit@warthog.procyon.org.uk>
+To:     mtk.manpages@gmail.com
+Cc:     torvalds@linux-foundation.org, dhowells@redhat.com,
+        keyrings@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-man@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Date:   Fri, 07 Aug 2020 16:06:16 +0100
+Message-ID: <159681277616.35436.11229310534842613599.stgit@warthog.procyon.org.uk>
 User-Agent: StGit/0.23
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -57,302 +55,305 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Add a manual page to document the fsconfig() system call.
+Add a manual page for the notifications/watch_queue facility.
 
 Signed-off-by: David Howells <dhowells@redhat.com>
 ---
 
- man2/fsconfig.2 |  282 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 282 insertions(+)
- create mode 100644 man2/fsconfig.2
+ man7/watch_queue.7 |  285 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 285 insertions(+)
+ create mode 100644 man7/watch_queue.7
 
-diff --git a/man2/fsconfig.2 b/man2/fsconfig.2
+diff --git a/man7/watch_queue.7 b/man7/watch_queue.7
 new file mode 100644
-index 000000000..32f0bce13
+index 000000000..6b22ad689
 --- /dev/null
-+++ b/man2/fsconfig.2
-@@ -0,0 +1,282 @@
-+'\" t
-+.\" Copyright (c) 2020 David Howells <dhowells@redhat.com>
++++ b/man7/watch_queue.7
+@@ -0,0 +1,285 @@
 +.\"
-+.\" %%%LICENSE_START(VERBATIM)
-+.\" Permission is granted to make and distribute verbatim copies of this
-+.\" manual provided the copyright notice and this permission notice are
-+.\" preserved on all copies.
++.\" Copyright (C) 2020 Red Hat, Inc. All Rights Reserved.
++.\" Written by David Howells (dhowells@redhat.com)
 +.\"
-+.\" Permission is granted to copy and distribute modified versions of this
-+.\" manual under the conditions for verbatim copying, provided that the
-+.\" entire resulting derived work is distributed under the terms of a
-+.\" permission notice identical to this one.
++.\" This program is free software; you can redistribute it and/or
++.\" modify it under the terms of the GNU General Public Licence
++.\" as published by the Free Software Foundation; either version
++.\" 2 of the Licence, or (at your option) any later version.
 +.\"
-+.\" Since the Linux kernel and libraries are constantly changing, this
-+.\" manual page may be incorrect or out-of-date.  The author(s) assume no
-+.\" responsibility for errors or omissions, or for damages resulting from
-+.\" the use of the information contained herein.  The author(s) may not
-+.\" have taken the same level of care in the production of this manual,
-+.\" which is licensed free of charge, as they might when working
-+.\" professionally.
-+.\"
-+.\" Formatted or processed versions of this manual, if unaccompanied by
-+.\" the source, must acknowledge the copyright and authors of this work.
-+.\" %%%LICENSE_END
-+.\"
-+.TH FSCONFIG 2 2020-08-07 "Linux" "Linux Programmer's Manual"
++.TH WATCH_QUEUE 7 "2020-08-07" Linux "General Kernel Notifications"
++.\"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 +.SH NAME
-+fsconfig \- Filesystem parameterisation
++General kernel notification queue
++.\"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 +.SH SYNOPSIS
-+.nf
-+.B #include <sys/types.h>
-+.br
-+.B #include <sys/mount.h>
-+.br
-+.B #include <unistd.h>
-+.br
-+.B #include <sys/mount.h>
-+.PP
-+.BI "int fsconfig(int *" fd ", unsigned int " cmd ", const char *" key ,
-+.br
-+.BI "             const void __user *" value ", int " aux ");"
-+.br
-+.BI
-+.fi
-+.PP
-+.IR Note :
-+There is no glibc wrapper for this system call.
-+.SH DESCRIPTION
-+.PP
-+.BR fsconfig ()
-+is used to supply parameters to and issue commands against a filesystem
-+configuration context as set up by
-+.BR fsopen (2)
-+or
-+.BR fspick (2).
-+The context is supplied attached to the file descriptor specified by
-+.I fd
-+argument.
-+.PP
-+The
-+.I cmd
-+argument indicates the command to be issued, where some of the commands simply
-+supply parameters to the context.  The meaning of
-+.IR key ", " value " and " aux
-+are command-dependent; unless required for the command, these should be set to
-+NULL or 0.
-+.PP
-+The available commands are:
-+.TP
-+.B FSCONFIG_SET_FLAG
-+Set the parameter named by
-+.IR key
-+to true.  This may incur error
-+.B EINVAL
-+if the parameter requires an argument.
-+.TP
-+.B FSCONFIG_SET_STRING
-+Set the parameter named by
-+.I key
-+to a string.  This may incur error
-+.B EINVAL
-+if the parser doesn't want a parameter here, wants a non-string or the string
-+cannot be interpreted appropriately.
-+.I value
-+points to a NUL-terminated string.
-+.TP
-+.B FSCONFIG_SET_BINARY
-+Set the parameter named by
-+.I key
-+to be a binary blob argument.  This may cause
-+.B EINVAL
-+to be returned if the filesystem parser isn't expecting a binary blob and it
-+can't be converted to something usable.
-+.I value
-+points to the data and
-+.I aux
-+indicates the size of the data.
-+.TP
-+.B FSCONFIG_SET_PATH
-+Set the parameter named by
-+.I key
-+to the object at the provided path.
-+.I value
-+should point to a NULL-terminated pathname string and aux may indicate
-+.B AT_FDCWD
-+or a file descriptor indicating a directory from which to begin a relative
-+pathwalk.  This may return any errors incurred by the pathwalk and may return
-+.B EINVAL
-+if the parameter isn't expecting a path.
-+.IP
-+Note that FSCONFIG_SET_STRING can be used instead, implying AT_FDCWD.
-+.TP
-+.B FSCONFIG_SET_PATH_EMPTY
-+As FSCONFIG_SET_PATH, but with
-+.B AT_EMPTY_PATH
-+applied to the pathwalk.
-+.TP
-+.B FSCONFIG_SET_FD
-+Set the parameter named by
-+.I key
-+to the file descriptor specified by
-+.IR aux .
-+This will incur
-+.B EINVAL
-+if the parameter doesn't expect a file descriptor or
-+.B EBADF
-+if the file descriptor is invalid.
-+.IP
-+Note that FSCONFIG_SET_STRING can be used instead with the file descriptor
-+passed as a decimal string.
-+.TP
-+.B FSCONFIG_CMD_CREATE
-+This command causes the filesystem to take the parameters set in the context
-+and to try to create filesystem representation in the kernel.  If it can share
-+an existing one, it may do that instead if the filesystem type and parameters
-+permit that.  This is intended for use with
-+.BR fsopen (2).
-+.TP
-+.B FSCONFIG_CMD_RECONFIGURE
-+This command causes the filesystem to apply the parameters set in the context
-+to an already existing filesystem representation in memory and to alter it.
-+This is intended for use with
-+.BR fspick (2),
-+but may also by used against the context created by
-+.BR fsopen()
-+after
-+.BR fsmount (2)
-+has been called on it.
++#include <linux/watch_queue.h>
++.EX
 +
-+.\"________________________________________________________
-+.SH EXAMPLES
++pipe2(fds, O_NOTIFICATION_PIPE);
++ioctl(fds[0], IOC_WATCH_QUEUE_SET_SIZE, max_message_count);
++ioctl(fds[0], IOC_WATCH_QUEUE_SET_FILTER, &filter);
++keyctl_watch_key(KEY_SPEC_SESSION_KEYRING, fds[0], 0x01);
++for (;;) {
++	buf_len = read(fds[0], buffer, sizeof(buffer));
++	...
++}
++.EE
++.SH OVERVIEW
++.PP
++The general kernel notification queue is a general purpose transport for kernel
++notification messages to userspace.  Notification messages are marked with type
++information so that events from multiple sources can be distinguished.
++Messages are also of variable length to accommodate different information for
++each type.
++.PP
++Queues are implemented on top of standard pipes and multiple independent queues
++can be created.  After a pipe has been created, its size and filtering can be
++configured and event sources attached.  The pipe can then be read or polled to
++wait for messages.
++.PP
++Multiple messages may be read out of the queue at a time if the buffer is large
++enough, but messages will not get split amongst multiple reads.  If the buffer
++isn't large enough for a message,
++.B ENOBUFS
++will be returned.
++.PP
++In the case of message loss,
++.BR read (2)
++will fabricate a loss message and pass that to userspace immediately after the
++point at which the loss occurred.
++.PP
++A notification pipe allocates a certain amount of locked kernel memory (so that
++the kernel can write a notification into it from contexts where allocation is
++restricted), and so is subject to pipe resource limit restrictions.
++.PP
++Sources must be attached to a queue manually; there's no single global event
++source, but rather a variety of sources, each of which can be attached to by
++multiple queues.  Attachments can be set up by:
++.TP
++.BR keyctl_watch_key (3)
++Monitor a key or keyring for changes.
++.PP
++Because a source can produce a lot of different events, not all of which may be
++of interest to the watcher, a filter can be set on a queue to determine whether
++a particular event will get inserted in a queue at the point of posting inside
++the kernel.
++
++.\"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
++.SH MESSAGE STRUCTURE
++.PP
++The output from reading the pipe is divided into variable length messages.
++Read will never split a message across two separate read calls.  Each message
++begins with a header of the form:
 +.PP
 +.in +4n
-+.nf
-+fsconfig(sfd, FSCONFIG_SET_FLAG, "ro", NULL, 0);
++.EX
++struct watch_notification {
++	__u32	type:24;
++	__u32	subtype:8;
++	__u32	info;
++};
++.EE
++.in
++.PP
++Where
++.I type
++indicates the general class of notification,
++.I subtype
++indicates the specific type of notification within that class and
++.I info
++includes the message length (in bytes), the watcher's ID and some type-specific
++information.
++.PP
++A special message type,
++.BR WATCH_TYPE_META ,
++exists to convey information about the notification facility itself.  It has a
++number of subtypes:
++.TP
++.B WATCH_META_LOSS_NOTIFICATION
++This indicates one or more messages were lost, probably due to a buffer
++overrun.
++.TP
++.B WATCH_META_REMOVAL_NOTIFICATION
++This indicates that a notification source went away whilst it is being watched.
++This comes in two lengths: a short variant that carries just the header and a
++long variant that includes a 64-bit identifier as well that identifies the
++source more precisely (which variant is used and how the identifier should be
++interpreted is source dependent).
++.PP
++.I info
++includes the following fields:
++.TP
++.B WATCH_INFO_LENGTH
++Bits 0-6 indicate the size of the message in bytes, and can be between 8 and
++127.
++.TP
++.B WATCH_INFO_ID
++Bits 8-15 indicate the tag given to the source binding call.  This is a number
++between 0 and 255 and is purely a source index for userspace's use and isn't
++interpreted by the kernel.
++.TP
++.B WATCH_INFO_TYPE_INFO
++Bits 16-31 indicate subtype-dependent information.
 +
-+fsconfig(sfd, FSCONFIG_SET_STRING, "user_xattr", "false", 0);
++.\"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
++.SH IOCTL COMMANDS
++Pipes opened O_NOTIFICATION_PIPE have the following
++.IR ioctl ()
++commands available:
++.TP
++.B IOC_WATCH_QUEUE_SET_SIZE
++The ioctl argument is indicates the maximum number of messages that can be
++inserted into the pipe.  This must be a power of two.  This command also
++pre-allocates memory to hold messages.
++.IP
++This may only be done once and the queue cannot be used until this command has
++been done.
++.TP
++.B IOC_WATCH_QUEUE_SET_FILTER
++This is used to set filters on the notifications that get written into the
++buffer.  The ioctl argument points to a structure of the following form:
++.IP
++.in +4n
++.EX
++struct watch_notification_filter {
++	__u32	nr_filters;
++	__u32	__reserved;
++	struct watch_notification_type_filter filters[];
++};
++.EE
++.in
++.IP
++Where
++.I nr_filters
++indicates the number of elements in the
++.IR filters []
++array.  Each element in the filters array specifies a filter and is of the
++following form:
++.IP
++.in +4n
++.EX
++struct watch_notification_type_filter {
++	__u32	type;
++	__u32	info_filter;
++	__u32	info_mask;
++	__u32	subtype_filter[8];
++};
++.EE
++.in
++.IP
++Where
++.I type
++refer to the type field in a notification record header, info_filter and
++info_mask refer to the info field and subtype_filter is a bit-mask of subtypes.
++.IP
++If no filters are installed, all notifications are allowed by default and if
++one or more filters are installed, notifications are disallowed by default.
++.IP
++A notifications matches a filter if, for notification N and filter F:
++.IP
++.in +4n
++.EX
++N->type == F->type &&
++(F->subtype_filter[N->subtype >> 5] &
++	(1U << (N->subtype & 31))) &&
++(N->info & F->info_mask) == F->info_filter)
++.EE
++.in
++.IP
 +
-+fsconfig(sfd, FSCONFIG_SET_BINARY, "ms_pac", pac_buffer, pac_size);
 +
-+fsconfig(sfd, FSCONFIG_SET_PATH, "journal", "/dev/sdd4", AT_FDCWD);
++.\"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
++.SH EXAMPLE
++To use the notification mechanism, first of all the pipe has to be opened and
++the size must be set:
++.PP
++.in +4n
++.EX
++int fds[2];
++pipe2(fd[0], O_NOTIFICATION_QUEUE);
++int wfd = fd[0];
 +
-+dirfd = open("/dev/", O_PATH);
-+fsconfig(sfd, FSCONFIG_SET_PATH, "journal", "sdd4", dirfd);
++ioctl(wfd, IOC_WATCH_QUEUE_SET_SIZE, 16);
++.EE
++.in
++.PP
++From this point, the queue is open for business.  Filters can be set to
++restrict the notifications that get inserted into the buffer from the sources
++that are being watched.  For example:
++.PP
++.in +4n
++.EX
++static struct watch_notification_filter filter = {
++	.nr_filters	= 1,
++	.__reserved	= 0,
++	.filters = {
++		[0]	= {
++			.type			= WATCH_TYPE_KEY_NOTIFY,
++			.subtype_filter[0]	= 1 << NOTIFY_KEY_LINKED,
++			.info_filter		= 1 << WATCH_INFO_FLAG_2,
++			.info_mask		= 1 << WATCH_INFO_FLAG_2,
++		},
++	},
++};
 +
-+fd = open("/overlays/mine/", O_PATH);
-+fsconfig(sfd, FSCONFIG_SET_PATH_EMPTY, "lower_dir", "", fd);
-+
-+pipe(pipefds);
-+fsconfig(sfd, FSCONFIG_SET_FD, "fd", NULL, pipefds[1]);
-+.fi
++ioctl(wfd, IOC_WATCH_QUEUE_SET_FILTER, &filter);
++.EE
++.in
++.PP
++will only allow key-change notifications that indicate a key is linked into a
++keyring and then only if type-specific flag WATCH_INFO_FLAG_2 is set on the
++notification.
++.PP
++Sources can then be watched, for example:
++.PP
++.in +4n
++.EX
++keyctl_watch_key(KEY_SPEC_SESSION_KEYRING, wfd, 0x33);
++.EE
++.in
++.PP
++The first places a watch on the process's session keyring, directing the
++notifications to the buffer we just created and specifying that they should be
++tagged with 0x33 in the info ID field.
++.PP
++When it is determined that there is something in the buffer, messages can be
++read out of the ring with something like the following:
++.PP
++.in +4n
++.EX
++for (;;) {
++	unsigned char buf[128];
++	read(fd, buf, sizeof(buf));
++	struct watch_notification *n = (struct watch_notification *)buf;
++	switch (n->type) {
++	case WATCH_TYPE_META:
++		switch (n->subtype) {
++		case WATCH_META_REMOVAL_NOTIFICATION:
++			saw_removal_notification(n);
++			break;
++		case WATCH_META_LOSS_NOTIFICATION:
++			printf("-- LOSS --\n");
++			break;
++		}
++		break;
++	case WATCH_TYPE_KEY_NOTIFY:
++		saw_key_change(n);
++		break;
++	}
++}
++.EE
 +.in
 +.PP
 +
 +.\"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-+.\"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-+.\"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-+.SH RETURN VALUE
-+On success, the function returns 0.  On error, \-1 is returned, and
-+.I errno
-+is set appropriately.
-+.SH ERRORS
-+The error values given below result from filesystem type independent
-+errors.
-+Each filesystem type may have its own special errors and its
-+own special behavior.
-+See the Linux kernel source code for details.
-+.TP
-+.B EACCES
-+A component of a path was not searchable.
-+(See also
-+.BR path_resolution (7).)
-+.TP
-+.B EACCES
-+Mounting a read-only filesystem was attempted without specifying the
-+.RB ' ro '
-+parameter.
-+.TP
-+.B EACCES
-+A specified block device is located on a filesystem mounted with the
-+.B MS_NODEV
-+option.
-+.\" mtk: Probably: write permission is required for MS_BIND, with
-+.\" the error EPERM if not present; CAP_DAC_OVERRIDE is required.
-+.TP
-+.B EBADF
-+The file descriptor given by
-+.I fd
-+or possibly by
-+.I aux
-+(depending on the command) is invalid.
-+.TP
-+.B EBUSY
-+The context attached to
-+.I fd
-+is in the wrong state for the given command.
-+.TP
-+.B EBUSY
-+The filesystem representation cannot be reconfigured read-only because it still
-+holds files open for writing.
-+.TP
-+.B EFAULT
-+One of the pointer arguments points outside the user address space.
-+.TP
-+.B EINVAL
-+.I fd
-+does not refer to a filesystem configuration context.
-+.TP
-+.B EINVAL
-+One of the source parameters referred to an invalid superblock.
-+.TP
-+.B ELOOP
-+Too many links encountered during pathname resolution.
-+.TP
-+.B ENAMETOOLONG
-+A path name was longer than
-+.BR MAXPATHLEN .
-+.TP
-+.B ENOENT
-+A pathname was empty or had a nonexistent component.
-+.TP
-+.B ENOMEM
-+The kernel could not allocate sufficient memory to complete the call.
-+.TP
-+.B ENOTBLK
-+Once of the parameters does not refer to a block device (and a device was
-+required).
-+.TP
-+.B ENOTDIR
-+.IR pathname ,
-+or a prefix of
-+.IR source ,
-+is not a directory.
-+.TP
-+.B EOPNOTSUPP
-+The command given by
-+.I cmd
-+was not valid.
-+.TP
-+.B ENXIO
-+The major number of a block device parameter is out of range.
-+.TP
-+.B EPERM
-+The caller does not have the required privileges.
-+.SH CONFORMING TO
-+These functions are Linux-specific and should not be used in programs intended
-+to be portable.
 +.SH VERSIONS
-+.BR fsconfig ()
-+was added to Linux in kernel 5.1.
-+.SH NOTES
-+Glibc does not (yet) provide a wrapper for the
-+.BR fsconfig ()
-+system call; call it using
-+.BR syscall (2).
++The notification queue driver first appeared in v5.8 of the Linux kernel.
 +.SH SEE ALSO
-+.BR mountpoint (1),
-+.BR fsmount (2),
-+.BR fsopen (2),
-+.BR fspick (2),
-+.BR mount_namespaces (7),
-+.BR path_resolution (7)
++.ad l
++.nh
++.BR keyctl (1),
++.BR ioctl (2),
++.BR pipe2 (2),
++.BR read (2),
++.BR keyctl_watch_key (3)
 
 
