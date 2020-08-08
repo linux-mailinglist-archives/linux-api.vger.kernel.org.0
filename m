@@ -2,146 +2,85 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 78EAA23F6C6
-	for <lists+linux-api@lfdr.de>; Sat,  8 Aug 2020 09:18:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A41E323F946
+	for <lists+linux-api@lfdr.de>; Sun,  9 Aug 2020 00:17:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726128AbgHHHR7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 8 Aug 2020 03:17:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59078 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725764AbgHHHR6 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 8 Aug 2020 03:17:58 -0400
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED21CC061756
-        for <linux-api@vger.kernel.org>; Sat,  8 Aug 2020 00:17:57 -0700 (PDT)
-Received: by mail-pj1-x1044.google.com with SMTP id mt12so2087301pjb.4
-        for <linux-api@vger.kernel.org>; Sat, 08 Aug 2020 00:17:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=eCir4Ayk72PEJKd/j3pe7BJGzgEnAkyDXiuG2Izic9E=;
-        b=J7Jeyp1bV8d1URPGbqvopRR/3Xv35lGlgk3bx/aVLux30Z0Cmt4M/ru2/CBSKrc2Yn
-         LEJbOfinClv/JPRyH+MHFh9ugxQs5r4SbmaNlbh5n8VMkUwpagi9FtI+PHeqB3dPKLZF
-         bpEda01yNbqZ47Ba6PWHX3rxvgyf6J7BQX6EQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=eCir4Ayk72PEJKd/j3pe7BJGzgEnAkyDXiuG2Izic9E=;
-        b=CjFuLL4B+dx7qp2KakuIsvabQ8sDMrg/N/Zu5j6dTAxCdoICaA03bk03GnjsikwgXM
-         UEqIMKvYbTqGrASGR4Daj9iSAnBaEnn8pRTnG4YmbOrnTgPJl+vup7WvA2edTc70tKpw
-         61lP/c6mv5rXqWJQBfNz6cajCBg+UNb+i10YoJRszqyyNRnjlGWMzyC0PVCWjZGY2dzc
-         eUBwls0bqaAeIEnOzdd2oX1l9SRrzpkJwpUjZZYQfCy1frvS7EtPlJRMCUolqTLG2OPt
-         f6pl1P6sVU2nkcnEkZXzwsdDBSxXVjJ+Ffvpp45bbdreKMnE8FaejtyaomQpoc6lx9WO
-         M0xA==
-X-Gm-Message-State: AOAM533XBuc+7UbQDaaNuD0mNHPc4/x7pvUIY9ZQCRggfaWwTekCOg3b
-        6VDbnQyS/IPXHyfRJF3n7OITBw==
-X-Google-Smtp-Source: ABdhPJx+ciLdH6ySwDMsUNQtApGD+XkDqifS0PpDf22ilxzYv3YOdIibv7N9AvGktGE1tc4I58GOOA==
-X-Received: by 2002:a17:90a:bc41:: with SMTP id t1mr16615267pjv.181.1596871077273;
-        Sat, 08 Aug 2020 00:17:57 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id j142sm16303934pfd.100.2020.08.08.00.17.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Aug 2020 00:17:56 -0700 (PDT)
-Date:   Sat, 8 Aug 2020 00:17:55 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     John Stultz <john.stultz@linaro.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Sargun Dhillon <sargun@sargun.me>,
-        Christian Brauner <christian@brauner.io>,
-        Tycho Andersen <tycho@tycho.ws>,
-        David Laight <David.Laight@aculab.com>,
-        Christoph Hellwig <hch@lst.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Matt Denton <mpdenton@google.com>,
-        Jann Horn <jannh@google.com>, Chris Palmer <palmer@google.com>,
-        Robert Sesek <rsesek@google.com>,
-        Giuseppe Scrivano <gscrivan@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Will Drewry <wad@chromium.org>, Shuah Khan <shuah@kernel.org>,
-        netdev <netdev@vger.kernel.org>,
-        containers@lists.linux-foundation.org,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-kselftest@vger.kernel.org,
-        Amit Pundir <amit.pundir@linaro.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>
-Subject: Re: [PATCH v7 3/9] net/scm: Regularize compat handling of
- scm_detach_fds()
-Message-ID: <202008080017.1298B0C@keescook>
-References: <20200709182642.1773477-1-keescook@chromium.org>
- <20200709182642.1773477-4-keescook@chromium.org>
- <CANcMJZAcDAG7Dq7vo=M-SZwujj+BOKMh7wKvywHq+tEX3GDbBQ@mail.gmail.com>
- <202008071516.83432C389@keescook>
- <CALAqxLXqjEN0S+eGeFA_obaunBK_+xqKbQtdQj1w+wegz-6U5w@mail.gmail.com>
+        id S1726009AbgHHWRw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 8 Aug 2020 18:17:52 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:37712 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725779AbgHHWRw (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 8 Aug 2020 18:17:52 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id EAB141C0BDA; Sun,  9 Aug 2020 00:17:49 +0200 (CEST)
+Date:   Sun, 9 Aug 2020 00:17:48 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     "Madhavan T. Venkataraman" <madvenka@linux.microsoft.com>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org, oleg@redhat.com,
+        x86@kernel.org
+Subject: Re: [PATCH v1 0/4] [RFC] Implement Trampoline File Descriptor
+Message-ID: <20200808221748.GA1020@bug>
+References: <aefc85852ea518982e74b233e11e16d2e707bc32>
+ <20200728131050.24443-1-madvenka@linux.microsoft.com>
+ <20200731180955.GC67415@C02TD0UTHF1T.local>
+ <6236adf7-4bed-534e-0956-fddab4fd96b6@linux.microsoft.com>
+ <20200804143018.GB7440@C02TD0UTHF1T.local>
+ <b3368692-afe6-89b5-d634-12f4f0a601f8@linux.microsoft.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CALAqxLXqjEN0S+eGeFA_obaunBK_+xqKbQtdQj1w+wegz-6U5w@mail.gmail.com>
+In-Reply-To: <b3368692-afe6-89b5-d634-12f4f0a601f8@linux.microsoft.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Aug 07, 2020 at 05:02:15PM -0700, John Stultz wrote:
-> On Fri, Aug 7, 2020 at 3:18 PM Kees Cook <keescook@chromium.org> wrote:
-> >
-> > On Fri, Aug 07, 2020 at 01:29:24PM -0700, John Stultz wrote:
-> > > On Thu, Jul 9, 2020 at 11:28 AM Kees Cook <keescook@chromium.org> wrote:
-> > > >
-> > > > Duplicate the cleanups from commit 2618d530dd8b ("net/scm: cleanup
-> > > > scm_detach_fds") into the compat code.
-> > > >
-> > > > Replace open-coded __receive_sock() with a call to the helper.
-> > > >
-> > > > Move the check added in commit 1f466e1f15cf ("net: cleanly handle kernel
-> > > > vs user buffers for ->msg_control") to before the compat call, even
-> > > > though it should be impossible for an in-kernel call to also be compat.
-> > > >
-> > > > Correct the int "flags" argument to unsigned int to match fd_install()
-> > > > and similar APIs.
-> > > >
-> > > > Regularize any remaining differences, including a whitespace issue,
-> > > > a checkpatch warning, and add the check from commit 6900317f5eff ("net,
-> > > > scm: fix PaX detected msg_controllen overflow in scm_detach_fds") which
-> > > > fixed an overflow unique to 64-bit. To avoid confusion when comparing
-> > > > the compat handler to the native handler, just include the same check
-> > > > in the compat handler.
-> > > >
-> > > > Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
-> > > > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > > > ---
-> > >
-> > > Hey Kees,
-> > >   So during the merge window (while chasing a few other regressions),
-> > > I noticed occasionally my Dragonboard 845c running AOSP having trouble
-> > > with the web browser crashing or other apps hanging, and I've bisected
-> > > the issue down to this change.
-> > >
-> > > Unfortunately it doesn't revert cleanly so I can't validate reverting
-> > > it sorts things against linus/HEAD.  Anyway, I wanted to check and see
-> > > if you had any other reports of similar or any ideas what might be
-> > > going wrong?
-> >
-> > Hi; Yes, sorry for the trouble. I had a typo in a refactor of
-> > SCM_RIGHTS. I suspect it'll be fixed by this:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=1fa2c0a0c814fbae0eb3e79a510765225570d043
-> >
-> > Can you verify Linus's latest tree works for you? If not, there might be
-> > something else hiding in the corners...
-> 
-> Thanks so much! Yes, I just updated to Linus' latest and the issue has
-> disappeared!
-> 
-> thanks again!
+Hi!
 
-Whew; sorry again and thanks for testing! :)
+> Thanks for the lively discussion. I have tried to answer some of the
+> comments below.
 
+> > There are options today, e.g.
+> >
+> > a) If the restriction is only per-alias, you can have distinct aliases
+> >    where one is writable and another is executable, and you can make it
+> >    hard to find the relationship between the two.
+> >
+> > b) If the restriction is only temporal, you can write instructions into
+> >    an RW- buffer, transition the buffer to R--, verify the buffer
+> >    contents, then transition it to --X.
+> >
+> > c) You can have two processes A and B where A generates instrucitons into
+> >    a buffer that (only) B can execute (where B may be restricted from
+> >    making syscalls like write, mprotect, etc).
+> 
+> The general principle of the mitigation is W^X. I would argue that
+> the above options are violations of the W^X principle. If they are
+> allowed today, they must be fixed. And they will be. So, we cannot
+> rely on them.
+
+Would you mind describing your threat model?
+
+Because I believe you are using model different from everyone else.
+
+In particular, I don't believe b) is a problem or should be fixed.
+
+I'll add d), application mmaps a file(R--), and uses write syscall to change
+trampolines in it.
+
+> b) This is again a violation. The kernel should refuse to give execute
+> ???????? permission to a page that was writeable in the past and refuse to
+> ???????? give write permission to a page that was executable in the past.
+
+Why?
+
+										Pavel
 -- 
-Kees Cook
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
