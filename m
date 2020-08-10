@@ -2,89 +2,89 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 27B52240A66
-	for <lists+linux-api@lfdr.de>; Mon, 10 Aug 2020 17:41:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A249240AB4
+	for <lists+linux-api@lfdr.de>; Mon, 10 Aug 2020 17:44:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726419AbgHJPlZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 10 Aug 2020 11:41:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53242 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728489AbgHJPlW (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 10 Aug 2020 11:41:22 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E123420774;
-        Mon, 10 Aug 2020 15:41:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1597074081;
-        bh=/DZI2CFBXPZXY6W2D41iKfNlsWTLOnIsj8qhKNBhXyc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FnzRu9GImI9oEyDWHQAcntUlob1mf068CGlKWLj/oKXM7dkyIU9SLC12tkja3BnsT
-         n2FUkDjXa/QIF0ivhbsZFXgkn6CmJyJaK/GQhtEx1N6TZ8wpLHSU1No/9ZcbQWCnnD
-         vQwOK+h0ldJSALe1FJ9TNCb9dImTC6q9cE1JKX+I=
-Date:   Mon, 10 Aug 2020 17:41:32 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Eugene Lubarsky <elubarsky.linux@gmail.com>
-Cc:     linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, adobriyan@gmail.com,
-        avagin@gmail.com, dsahern@gmail.com
-Subject: Re: [RFC PATCH 0/5] Introduce /proc/all/ to gather stats from all
- processes
-Message-ID: <20200810154132.GA4171851@kroah.com>
-References: <20200810145852.9330-1-elubarsky.linux@gmail.com>
- <20200810150453.GB3962761@kroah.com>
- <20200811012700.2c349082@eug-lubuntu>
+        id S1726350AbgHJPoa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 10 Aug 2020 11:44:30 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:54910 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726406AbgHJPo3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 10 Aug 2020 11:44:29 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 07AFhw58086078;
+        Mon, 10 Aug 2020 10:43:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1597074238;
+        bh=WkEloO0vK6rOToy94HdrGPp6kcZXQrZulDOI3ozBGjM=;
+        h=Subject:From:To:References:Date:In-Reply-To;
+        b=PtZVxNAQS7tKESdGPbarT6BJ5ycfc83vXrzaWBsBUdO/7iewL22Wc/pcXl0GnEBlO
+         7HKhaDnbgTyhNCS2NpY3+bGNHkNwHqTjqKRjmWlcMzWkO4lbFI6ia1i0I2tOrTif+e
+         lxsGVAd4Zk4KrL8/tmleZb46SqDgnXz1bNWuqplI=
+Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 07AFhwu0038934;
+        Mon, 10 Aug 2020 10:43:58 -0500
+Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE108.ent.ti.com
+ (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 10
+ Aug 2020 10:43:58 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE110.ent.ti.com
+ (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Mon, 10 Aug 2020 10:43:58 -0500
+Received: from [10.250.227.175] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 07AFhuQg012659;
+        Mon, 10 Aug 2020 10:43:56 -0500
+Subject: Re: [net-next iproute2 PATCH v4 0/2] iplink: hsr: add support for
+ creating PRP device
+From:   Murali Karicheri <m-karicheri2@ti.com>
+To:     <davem@davemloft.net>, <kuba@kernel.org>, <netdev@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-api@vger.kernel.org>,
+        <nsekhar@ti.com>, <vinicius.gomes@intel.com>,
+        <stephen@networkplumber.org>, <kuznet@ms2.inr.ac.ru>
+References: <20200806203712.2712-1-m-karicheri2@ti.com>
+Message-ID: <8be17fb1-7ffc-aab4-aec2-b3b4bacf26d8@ti.com>
+Date:   Mon, 10 Aug 2020 11:43:55 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200811012700.2c349082@eug-lubuntu>
+In-Reply-To: <20200806203712.2712-1-m-karicheri2@ti.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Aug 11, 2020 at 01:27:00AM +1000, Eugene Lubarsky wrote:
-> On Mon, 10 Aug 2020 17:04:53 +0200
-> Greg KH <gregkh@linuxfoundation.org> wrote:
-> > How many syscalls does this save on?
-> > 
-> > Perhaps you want my proposed readfile(2) syscall:
-> > 	https://lore.kernel.org/r/20200704140250.423345-1-gregkh@linuxfoundation.org
-> > to help out with things like this?  :)
+iproute2 maintainers,
+
+On 8/6/20 4:37 PM, Murali Karicheri wrote:
+> This series enhances the iproute2 iplink module to add support
+> for creating PRP device similar to HSR. The kernel part of this
+> is already merged to net-next and the same can be referenced
+> at https://www.spinics.net/lists/linux-api/msg42615.html
 > 
-> The proposed readfile sounds great and would help, but if there are
-> 1000 processes wouldn't that require 1000 readfile calls to read their
-> proc files?
-
-Yes, but that should be better than 1000 open, 1000 read, and then 1000
-close calls, right?  :)
-
-> With something like this the stats for 1000 processes could be
-> retrieved with an open, a few reads and a close.
-
-And have you benchmarked any of this?  Try working with the common tools
-that want this information and see if it actually is noticeable (hint, I
-have been doing that with the readfile work and it's surprising what the
-results are in places...)
-
+> v3 of the series is rebased to iproute2-next/master at
+> git://git.kernel.org/pub/scm/network/iproute2/iproute2-next
+> and send as v4.
 > 
-> > 
-> > > The proposed files in this proof-of-concept patch set are:
-> > > 
-> > > * /proc/all/stat
-> > 
-> > I think the problem will be defining "all" in the case of the specific
-> > namespace you are dealing with, right?  How will this handle all of
-> > those issues properly for all of these different statisics?
-> > 
+> Please apply this if looks good.
 > 
-> Currently I'm trying to re-use the existing code in fs/proc that
-> controls which PIDs are visible, but may well be missing something..
+> Murali Karicheri (2):
+>    iplink: hsr: add support for creating PRP device similar to HSR
+>    ip: iplink: prp: update man page for new parameter
+> 
+>   ip/iplink_hsr.c       | 19 +++++++++++++++++--
+>   man/man8/ip-link.8.in |  9 ++++++++-
+>   2 files changed, 25 insertions(+), 3 deletions(-)
+> 
+Please merge this series to iproute2 as it is the missing piece
+needed to fully support PRP protocol support in netdev subsystem. Kernel
+part is already merged and expected to be in v5.9.x kernel.
 
-Try it out and see if it works correctly.  And pid namespaces are not
-the only thing these days from what I call :)
-
-thanks,
-
-greg k-h
+Thanks
+-- 
+Murali Karicheri
+Texas Instruments
