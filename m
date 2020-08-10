@@ -2,64 +2,59 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C7312404FF
-	for <lists+linux-api@lfdr.de>; Mon, 10 Aug 2020 13:02:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 104B92407F6
+	for <lists+linux-api@lfdr.de>; Mon, 10 Aug 2020 16:59:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726500AbgHJLCp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 10 Aug 2020 07:02:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51942 "EHLO
+        id S1726566AbgHJO67 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 10 Aug 2020 10:58:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726466AbgHJLCo (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 10 Aug 2020 07:02:44 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E25CAC061787
-        for <linux-api@vger.kernel.org>; Mon, 10 Aug 2020 04:02:43 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id m22so8990045ljj.5
-        for <linux-api@vger.kernel.org>; Mon, 10 Aug 2020 04:02:42 -0700 (PDT)
+        with ESMTP id S1726528AbgHJO67 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 10 Aug 2020 10:58:59 -0400
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F01CDC061756;
+        Mon, 10 Aug 2020 07:58:58 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id r4so5024974pls.2;
+        Mon, 10 Aug 2020 07:58:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=U2JMQwQuDgHlcfFwPb65GGl9226SqxYKSo8gW1+qV4A=;
-        b=ycd09Q6Ye7sc8xqUC49v6AA4FxlLR1Hhhh1W8l247b5DxMeoGrHGyCyBbcY+ZiSH90
-         GeV1Cf91H5eFnM79C4JBDeH9AXTAfcF7ZDnLEOm5K2bMnAM4iFLTNk+ZxhgM0X9fCmmD
-         ZTurMhH/RXWXDFaHBRgqIxCSL+pjcAemO3QhifUTqZlHj2WS1S6BNKnBgDBRLmszQ3V9
-         Ps1F8x7lzay/fBYHEHQ45zhw8pAG4B+koE1WUB9pF9+RVvc3+qiJ738gc55yoaogOoOE
-         ImEfQsr/iFcxtv087s9yBFxnrKp3K/GIPtIvcZcMneoY3EMVmvCGymFyzAAwYhiONzBa
-         3oEA==
+        bh=3EOXOOWYYlAj99G6WV2By0kWl8SEe77hw4rKVyQwu0k=;
+        b=jSa433kL6JihAjzQB2FOaVyp+FMxCEVWBQ6/BOiywhrd3vANIBjSxgF2SUz3ypRjxA
+         mDMRPSEPY3SB6ePtMUgBmIBhojD2LNaRH/ZBoUNpDgZ0IVzoJpvYYbC54yvQutNIsYo8
+         Vn+oNNp+cmzYEyRbML8I0jGD7bry7/jM48QFfvXlL/0oM+t7lpiamVNewmAEKcT15kZh
+         geWKthbuDMVElHXDFzXXNXMUnrmTnimWaB+2tv89sg361HXEw4e7nnuLiIWDzsnClwRC
+         TUMd2f2TCX0nNbVdUbdQRtpxN9T6EncjWaZosRo4lN2a4eCB3Xh9qPh0deEoWahfOy7T
+         JR/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=U2JMQwQuDgHlcfFwPb65GGl9226SqxYKSo8gW1+qV4A=;
-        b=nVuFtb7JSvnC32IAuBxV5zthF5TMDjMkhorzolljgb1NrE9dbnmxmsjkt2/LiGNZ58
-         af4jMN86dAxgrFNubvDY4Av8SVgL3WNyyAqVO4NSMml3zYUVSCPFDAcnYl7XcCyLCRzp
-         wFbmn1XHpkgmDW+yBJxr2yDBtZF8X6A0FpQOHu0Xqfgb6g+7r+D9CgZ+7JTnq+8iw0TL
-         edg0kzAqPFzNqU0Xy+IVVWIdtsbeWohVmsDkA8QVYBFRznseuXKPZdUk3M0x2GT3v5S+
-         yzTryTpwTymZwQ7DRjsvcdtTkL9miocH5OI0lz1omgrB2KsItWZJb0tWSoaxidDhkSNC
-         fBdg==
-X-Gm-Message-State: AOAM531yHjHyEKQ1EuPidR3l3iJmrm/Zpq03CcFYDW5nNfcRR/0ixaEg
-        ZMOSL9rQWQ/l1AjTwB7cjAtojw==
-X-Google-Smtp-Source: ABdhPJw3yxD6ZDS/L2suPjxFjHfDzdlOqM5qnYl24R3NyHXPuk0N9Bpai2F2cl0Q/XqafWDMauOqGA==
-X-Received: by 2002:a2e:9e8a:: with SMTP id f10mr262329ljk.330.1597057357892;
-        Mon, 10 Aug 2020 04:02:37 -0700 (PDT)
-Received: from genomnajs.ideon.se ([85.235.10.227])
-        by smtp.gmail.com with ESMTPSA id k12sm10551672lfe.68.2020.08.10.04.02.36
+        bh=3EOXOOWYYlAj99G6WV2By0kWl8SEe77hw4rKVyQwu0k=;
+        b=bGbhXnfiT9Rt2Ey/BgOrmVWaVXgNr5eZbW5gd0TeHIfvMXbqvfemabtAuuXAHH9Mzq
+         pea64+1Xsp8NSHRLY7pO+R4zaVdpBO9v+Uip0F8Z5mUJ241ZNl4Umg5xoG5z0ZZ6AbCj
+         iW6P/OGjixu3T5vM6Bmce/5gwsA8AXmWXBwGkNgI/0EuLon8X0k+Aalo61Vzc65D1O9F
+         YusXZniZGOkOMFyIW49o0+HeLcrrGWYTJassRzuSAcRUhjDuLog5Qk6U4ljaG0iK2Skz
+         k63y1uUj6ENQ2RtgQWgOnUfeUThEUDbq9DRzxTKUMS+aBYkUYKuPw1q5hjn3BTIljvKW
+         2y6w==
+X-Gm-Message-State: AOAM531FRZpxQaonYvA8jd00Vh3b1BWfiwnj9BfEocw5apByba+z5aUB
+        TCTYG/M0iXUGlymr9sK2FteLAP39v/A=
+X-Google-Smtp-Source: ABdhPJxCbs4JlT5SLgTjn/gn7TmQM2XGF2gJa9n1eCk5hEQdNQtxFDZYx4GB+O3XbN3A8gOfHpnX/A==
+X-Received: by 2002:a17:90a:ff85:: with SMTP id hf5mr26790162pjb.79.1597071538285;
+        Mon, 10 Aug 2020 07:58:58 -0700 (PDT)
+Received: from localhost.localdomain ([124.170.227.101])
+        by smtp.gmail.com with ESMTPSA id o192sm25631162pfg.81.2020.08.10.07.58.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Aug 2020 04:02:37 -0700 (PDT)
-From:   Linus Walleij <linus.walleij@linaro.org>
-To:     Theodore Ts'o <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>
-Cc:     linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, qemu-devel@nongnu.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Florian Weimer <fw@deneb.enyo.de>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Andy Lutomirski <luto@kernel.org>
-Subject: [PATCH v3] fcntl: Add 32bit filesystem mode
-Date:   Mon, 10 Aug 2020 13:02:33 +0200
-Message-Id: <20200810110233.4374-1-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.26.2
+        Mon, 10 Aug 2020 07:58:57 -0700 (PDT)
+From:   Eugene Lubarsky <elubarsky.linux@gmail.com>
+To:     linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, adobriyan@gmail.com,
+        avagin@gmail.com, dsahern@gmail.com
+Subject: [RFC PATCH 0/5] Introduce /proc/all/ to gather stats from all processes
+Date:   Tue, 11 Aug 2020 00:58:47 +1000
+Message-Id: <20200810145852.9330-1-elubarsky.linux@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
@@ -67,107 +62,64 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-It was brought to my attention that this bug from 2018 was
-still unresolved: 32 bit emulators like QEMU were given
-64 bit hashes when running 32 bit emulation on 64 bit systems.
+This is an idea for substantially reducing the number of syscalls needed
+by monitoring tools whilst mostly re-using the existing API.
 
-This adds a flag to the fcntl() F_GETFD and F_SETFD operations
-to set the underlying filesystem into 32bit mode even if the
-file handle was opened using 64bit mode without the compat
-syscalls.
+The proposed files in this proof-of-concept patch set are:
 
-Programs that need the 32 bit file system behavior need to
-issue a fcntl() system call such as in this example:
+* /proc/all/stat
+      A stat line for each process in the existing format.
 
-  #define FD_32BIT_MODE 2
+* /proc/all/statm
+      statm lines but starting with a PID column.
 
-  int main(int argc, char** argv) {
-    DIR* dir;
-    int err;
-    int fd;
+* /proc/all/status
+      status info for all processes in the existing format.
 
-    dir = opendir("/boot");
-    fd = dirfd(dir);
-    err = fcntl(fd, F_SETFD, FD_32BIT_MODE);
-    if (err) {
-      printf("fcntl() failed! err=%d\n", err);
-      return 1;
-    }
-    printf("dir=%p\n", dir);
-    printf("readdir(dir)=%p\n", readdir(dir));
-    printf("errno=%d: %s\n", errno, strerror(errno));
-    return 0;
-  }
+* /proc/all/io
+      The existing /proc/pid/io data but formatted as a single line for
+      each process, similarly to stat/statm, with a PID column added.
 
-This can be pretty hard to test since C libraries and linux
-userspace security extensions aggressively filter the parameters
-that are passed down and allowed to commit into actual system
-calls.
+* /proc/all/statx
+      Gathers info from stat, statm and io; the purpose is actually
+      not so much to reduce syscalls but to help userspace be more
+      efficient by not having to store data in e.g. hashtables in order
+      to gather it from separate /proc/all/ files.
 
-Cc: Florian Weimer <fw@deneb.enyo.de>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: Andy Lutomirski <luto@kernel.org>
-Suggested-by: Theodore Ts'o <tytso@mit.edu>
-Link: https://bugs.launchpad.net/qemu/+bug/1805913
-Link: https://lore.kernel.org/lkml/87bm56vqg4.fsf@mid.deneb.enyo.de/
-Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=205957
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
-ChangeLog v2->v3:
-- Realized that I also have to clear the flag correspondingly
-  if someone ask for !FD_32BIT_MODE after setting it the
-  first time.
-ChangeLog v1->v2:
-- Use a new flag FD_32BIT_MODE to F_GETFD and F_SETFD
-  instead of a new fcntl operation, there is already a fcntl
-  operation to set random flags.
-- Sorry for taking forever to respin this patch :(
----
- fs/fcntl.c                       | 7 +++++++
- include/uapi/asm-generic/fcntl.h | 8 ++++++++
- 2 files changed, 15 insertions(+)
+      The format proposed here starts with the unchanged stat line
+      and begins the other info with a few characters, repeating for
+      each process:
 
-diff --git a/fs/fcntl.c b/fs/fcntl.c
-index 2e4c0fa2074b..a937be835924 100644
---- a/fs/fcntl.c
-+++ b/fs/fcntl.c
-@@ -335,10 +335,17 @@ static long do_fcntl(int fd, unsigned int cmd, unsigned long arg,
- 		break;
- 	case F_GETFD:
- 		err = get_close_on_exec(fd) ? FD_CLOEXEC : 0;
-+		/* Report 32bit file system mode */
-+		if (filp->f_mode & FMODE_32BITHASH)
-+			err |= FD_32BIT_MODE;
- 		break;
- 	case F_SETFD:
- 		err = 0;
- 		set_close_on_exec(fd, arg & FD_CLOEXEC);
-+		if (arg & FD_32BIT_MODE)
-+			filp->f_mode |= FMODE_32BITHASH;
-+		else
-+			filp->f_mode &= ~FMODE_32BITHASH;
- 		break;
- 	case F_GETFL:
- 		err = filp->f_flags;
-diff --git a/include/uapi/asm-generic/fcntl.h b/include/uapi/asm-generic/fcntl.h
-index 9dc0bf0c5a6e..edd3573cb7ef 100644
---- a/include/uapi/asm-generic/fcntl.h
-+++ b/include/uapi/asm-generic/fcntl.h
-@@ -160,6 +160,14 @@ struct f_owner_ex {
- 
- /* for F_[GET|SET]FL */
- #define FD_CLOEXEC	1	/* actually anything with low bit set goes */
-+/*
-+ * This instructs the kernel to provide 32bit semantics (such as hashes) from
-+ * the file system layer, when running a userland that depend on 32bit
-+ * semantics on a kernel that supports 64bit userland, but does not use the
-+ * compat ioctl() for e.g. open(), so that the kernel would otherwise assume
-+ * that the userland process is capable of dealing with 64bit semantics.
-+ */
-+#define FD_32BIT_MODE	2
- 
- /* for posix fcntl() and lockf() */
- #ifndef F_RDLCK
+      ...
+      25 (cat) R 1 1 0 0 -1 4194304 185 0 16 0 2 0 0 0 20 ...
+      m 662 188 167 5 0 112 0
+      io 4292 0 12 0 0 0 0
+      ...
+
+
+There has been a proposal with some overlapping goals: /proc/task-diag
+(https://github.com/avagin/linux-task-diag), but I'm not sure about
+its current status.
+
+
+
+Best Wishes,
+
+Eugene
+
+
+Eugene Lubarsky (5):
+  fs/proc: Introduce /proc/all/stat
+  fs/proc: Introduce /proc/all/statm
+  fs/proc: Introduce /proc/all/status
+  fs/proc: Introduce /proc/all/io
+  fs/proc: Introduce /proc/all/statx
+
+ fs/proc/base.c     | 215 +++++++++++++++++++++++++++++++++++++++++++--
+ fs/proc/internal.h |   1 +
+ fs/proc/root.c     |   1 +
+ 3 files changed, 210 insertions(+), 7 deletions(-)
+
 -- 
-2.26.2
+2.25.1
 
