@@ -2,85 +2,172 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A41E323F946
-	for <lists+linux-api@lfdr.de>; Sun,  9 Aug 2020 00:17:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C7312404FF
+	for <lists+linux-api@lfdr.de>; Mon, 10 Aug 2020 13:02:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726009AbgHHWRw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 8 Aug 2020 18:17:52 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:37712 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725779AbgHHWRw (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 8 Aug 2020 18:17:52 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id EAB141C0BDA; Sun,  9 Aug 2020 00:17:49 +0200 (CEST)
-Date:   Sun, 9 Aug 2020 00:17:48 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     "Madhavan T. Venkataraman" <madvenka@linux.microsoft.com>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org, oleg@redhat.com,
-        x86@kernel.org
-Subject: Re: [PATCH v1 0/4] [RFC] Implement Trampoline File Descriptor
-Message-ID: <20200808221748.GA1020@bug>
-References: <aefc85852ea518982e74b233e11e16d2e707bc32>
- <20200728131050.24443-1-madvenka@linux.microsoft.com>
- <20200731180955.GC67415@C02TD0UTHF1T.local>
- <6236adf7-4bed-534e-0956-fddab4fd96b6@linux.microsoft.com>
- <20200804143018.GB7440@C02TD0UTHF1T.local>
- <b3368692-afe6-89b5-d634-12f4f0a601f8@linux.microsoft.com>
+        id S1726500AbgHJLCp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 10 Aug 2020 07:02:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51942 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726466AbgHJLCo (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 10 Aug 2020 07:02:44 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E25CAC061787
+        for <linux-api@vger.kernel.org>; Mon, 10 Aug 2020 04:02:43 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id m22so8990045ljj.5
+        for <linux-api@vger.kernel.org>; Mon, 10 Aug 2020 04:02:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=U2JMQwQuDgHlcfFwPb65GGl9226SqxYKSo8gW1+qV4A=;
+        b=ycd09Q6Ye7sc8xqUC49v6AA4FxlLR1Hhhh1W8l247b5DxMeoGrHGyCyBbcY+ZiSH90
+         GeV1Cf91H5eFnM79C4JBDeH9AXTAfcF7ZDnLEOm5K2bMnAM4iFLTNk+ZxhgM0X9fCmmD
+         ZTurMhH/RXWXDFaHBRgqIxCSL+pjcAemO3QhifUTqZlHj2WS1S6BNKnBgDBRLmszQ3V9
+         Ps1F8x7lzay/fBYHEHQ45zhw8pAG4B+koE1WUB9pF9+RVvc3+qiJ738gc55yoaogOoOE
+         ImEfQsr/iFcxtv087s9yBFxnrKp3K/GIPtIvcZcMneoY3EMVmvCGymFyzAAwYhiONzBa
+         3oEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=U2JMQwQuDgHlcfFwPb65GGl9226SqxYKSo8gW1+qV4A=;
+        b=nVuFtb7JSvnC32IAuBxV5zthF5TMDjMkhorzolljgb1NrE9dbnmxmsjkt2/LiGNZ58
+         af4jMN86dAxgrFNubvDY4Av8SVgL3WNyyAqVO4NSMml3zYUVSCPFDAcnYl7XcCyLCRzp
+         wFbmn1XHpkgmDW+yBJxr2yDBtZF8X6A0FpQOHu0Xqfgb6g+7r+D9CgZ+7JTnq+8iw0TL
+         edg0kzAqPFzNqU0Xy+IVVWIdtsbeWohVmsDkA8QVYBFRznseuXKPZdUk3M0x2GT3v5S+
+         yzTryTpwTymZwQ7DRjsvcdtTkL9miocH5OI0lz1omgrB2KsItWZJb0tWSoaxidDhkSNC
+         fBdg==
+X-Gm-Message-State: AOAM531yHjHyEKQ1EuPidR3l3iJmrm/Zpq03CcFYDW5nNfcRR/0ixaEg
+        ZMOSL9rQWQ/l1AjTwB7cjAtojw==
+X-Google-Smtp-Source: ABdhPJw3yxD6ZDS/L2suPjxFjHfDzdlOqM5qnYl24R3NyHXPuk0N9Bpai2F2cl0Q/XqafWDMauOqGA==
+X-Received: by 2002:a2e:9e8a:: with SMTP id f10mr262329ljk.330.1597057357892;
+        Mon, 10 Aug 2020 04:02:37 -0700 (PDT)
+Received: from genomnajs.ideon.se ([85.235.10.227])
+        by smtp.gmail.com with ESMTPSA id k12sm10551672lfe.68.2020.08.10.04.02.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Aug 2020 04:02:37 -0700 (PDT)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     Theodore Ts'o <tytso@mit.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>
+Cc:     linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, qemu-devel@nongnu.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Florian Weimer <fw@deneb.enyo.de>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Andy Lutomirski <luto@kernel.org>
+Subject: [PATCH v3] fcntl: Add 32bit filesystem mode
+Date:   Mon, 10 Aug 2020 13:02:33 +0200
+Message-Id: <20200810110233.4374-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b3368692-afe6-89b5-d634-12f4f0a601f8@linux.microsoft.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi!
+It was brought to my attention that this bug from 2018 was
+still unresolved: 32 bit emulators like QEMU were given
+64 bit hashes when running 32 bit emulation on 64 bit systems.
 
-> Thanks for the lively discussion. I have tried to answer some of the
-> comments below.
+This adds a flag to the fcntl() F_GETFD and F_SETFD operations
+to set the underlying filesystem into 32bit mode even if the
+file handle was opened using 64bit mode without the compat
+syscalls.
 
-> > There are options today, e.g.
-> >
-> > a) If the restriction is only per-alias, you can have distinct aliases
-> >    where one is writable and another is executable, and you can make it
-> >    hard to find the relationship between the two.
-> >
-> > b) If the restriction is only temporal, you can write instructions into
-> >    an RW- buffer, transition the buffer to R--, verify the buffer
-> >    contents, then transition it to --X.
-> >
-> > c) You can have two processes A and B where A generates instrucitons into
-> >    a buffer that (only) B can execute (where B may be restricted from
-> >    making syscalls like write, mprotect, etc).
-> 
-> The general principle of the mitigation is W^X. I would argue that
-> the above options are violations of the W^X principle. If they are
-> allowed today, they must be fixed. And they will be. So, we cannot
-> rely on them.
+Programs that need the 32 bit file system behavior need to
+issue a fcntl() system call such as in this example:
 
-Would you mind describing your threat model?
+  #define FD_32BIT_MODE 2
 
-Because I believe you are using model different from everyone else.
+  int main(int argc, char** argv) {
+    DIR* dir;
+    int err;
+    int fd;
 
-In particular, I don't believe b) is a problem or should be fixed.
+    dir = opendir("/boot");
+    fd = dirfd(dir);
+    err = fcntl(fd, F_SETFD, FD_32BIT_MODE);
+    if (err) {
+      printf("fcntl() failed! err=%d\n", err);
+      return 1;
+    }
+    printf("dir=%p\n", dir);
+    printf("readdir(dir)=%p\n", readdir(dir));
+    printf("errno=%d: %s\n", errno, strerror(errno));
+    return 0;
+  }
 
-I'll add d), application mmaps a file(R--), and uses write syscall to change
-trampolines in it.
+This can be pretty hard to test since C libraries and linux
+userspace security extensions aggressively filter the parameters
+that are passed down and allowed to commit into actual system
+calls.
 
-> b) This is again a violation. The kernel should refuse to give execute
-> ???????? permission to a page that was writeable in the past and refuse to
-> ???????? give write permission to a page that was executable in the past.
+Cc: Florian Weimer <fw@deneb.enyo.de>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Andy Lutomirski <luto@kernel.org>
+Suggested-by: Theodore Ts'o <tytso@mit.edu>
+Link: https://bugs.launchpad.net/qemu/+bug/1805913
+Link: https://lore.kernel.org/lkml/87bm56vqg4.fsf@mid.deneb.enyo.de/
+Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=205957
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ChangeLog v2->v3:
+- Realized that I also have to clear the flag correspondingly
+  if someone ask for !FD_32BIT_MODE after setting it the
+  first time.
+ChangeLog v1->v2:
+- Use a new flag FD_32BIT_MODE to F_GETFD and F_SETFD
+  instead of a new fcntl operation, there is already a fcntl
+  operation to set random flags.
+- Sorry for taking forever to respin this patch :(
+---
+ fs/fcntl.c                       | 7 +++++++
+ include/uapi/asm-generic/fcntl.h | 8 ++++++++
+ 2 files changed, 15 insertions(+)
 
-Why?
-
-										Pavel
+diff --git a/fs/fcntl.c b/fs/fcntl.c
+index 2e4c0fa2074b..a937be835924 100644
+--- a/fs/fcntl.c
++++ b/fs/fcntl.c
+@@ -335,10 +335,17 @@ static long do_fcntl(int fd, unsigned int cmd, unsigned long arg,
+ 		break;
+ 	case F_GETFD:
+ 		err = get_close_on_exec(fd) ? FD_CLOEXEC : 0;
++		/* Report 32bit file system mode */
++		if (filp->f_mode & FMODE_32BITHASH)
++			err |= FD_32BIT_MODE;
+ 		break;
+ 	case F_SETFD:
+ 		err = 0;
+ 		set_close_on_exec(fd, arg & FD_CLOEXEC);
++		if (arg & FD_32BIT_MODE)
++			filp->f_mode |= FMODE_32BITHASH;
++		else
++			filp->f_mode &= ~FMODE_32BITHASH;
+ 		break;
+ 	case F_GETFL:
+ 		err = filp->f_flags;
+diff --git a/include/uapi/asm-generic/fcntl.h b/include/uapi/asm-generic/fcntl.h
+index 9dc0bf0c5a6e..edd3573cb7ef 100644
+--- a/include/uapi/asm-generic/fcntl.h
++++ b/include/uapi/asm-generic/fcntl.h
+@@ -160,6 +160,14 @@ struct f_owner_ex {
+ 
+ /* for F_[GET|SET]FL */
+ #define FD_CLOEXEC	1	/* actually anything with low bit set goes */
++/*
++ * This instructs the kernel to provide 32bit semantics (such as hashes) from
++ * the file system layer, when running a userland that depend on 32bit
++ * semantics on a kernel that supports 64bit userland, but does not use the
++ * compat ioctl() for e.g. open(), so that the kernel would otherwise assume
++ * that the userland process is capable of dealing with 64bit semantics.
++ */
++#define FD_32BIT_MODE	2
+ 
+ /* for posix fcntl() and lockf() */
+ #ifndef F_RDLCK
 -- 
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
+2.26.2
+
