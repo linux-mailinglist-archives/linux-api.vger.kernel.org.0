@@ -2,120 +2,123 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CD69241F0A
-	for <lists+linux-api@lfdr.de>; Tue, 11 Aug 2020 19:18:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E87C2241FF0
+	for <lists+linux-api@lfdr.de>; Tue, 11 Aug 2020 20:49:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729163AbgHKRSL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 11 Aug 2020 13:18:11 -0400
-Received: from linux.microsoft.com ([13.77.154.182]:56798 "EHLO
-        linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728990AbgHKRSK (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Aug 2020 13:18:10 -0400
-Received: from [10.137.106.139] (unknown [131.107.174.11])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 364D420B4908;
-        Tue, 11 Aug 2020 10:18:09 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 364D420B4908
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1597166289;
-        bh=4CUNuNiiePWf1WTPIiwYBL13LZ+7k2/9/J/jpcaXW7A=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=PoJFWvdJ1RO9aetIAjmD0rk7oHcgoNUd11mJAo6cf98zwa1+fMROHW9q/uMp6iMeX
-         Gx9jAgsZekiKh7pxAVZrnSCW536fsoku8TARzOm+dS5qqA/BlR8Bpa7J8vLGhpHHRD
-         Yi+yCyW66KZsN6+KFh8r2FianF/MQzdF5N+1bL7A=
-Subject: Re: [PATCH v7 0/7] Add support for O_MAYEXEC
-To:     =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>,
-        Jann Horn <jannh@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Mimi Zohar <zohar@linux.ibm.com>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Christian Heimes <christian@python.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Eric Chiang <ericchiang@google.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
-        Matthew Garrett <mjg59@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?UTF-8?Q?Philippe_Tr=c3=a9buchet?= 
-        <philippe.trebuchet@ssi.gouv.fr>,
-        Scott Shell <scottsh@microsoft.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Steve Dower <steve.dower@python.org>,
-        Steve Grubb <sgrubb@redhat.com>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        Thibaut Sautereau <thibaut.sautereau@clip-os.org>,
-        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-integrity@vger.kernel.org,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-References: <20200723171227.446711-1-mic@digikod.net>
- <202007241205.751EBE7@keescook>
- <0733fbed-cc73-027b-13c7-c368c2d67fb3@digikod.net>
- <20200810202123.GC1236603@ZenIV.linux.org.uk>
- <917bb071-8b1a-3ba4-dc16-f8d7b4cc849f@digikod.net>
- <CAG48ez0NAV5gPgmbDaSjo=zzE=FgnYz=-OHuXwu0Vts=B5gesA@mail.gmail.com>
- <0cc94c91-afd3-27cd-b831-8ea16ca8ca93@digikod.net>
-From:   Deven Bowers <deven.desai@linux.microsoft.com>
-Message-ID: <77d685ec-aba2-6a2c-5d25-1172279ceb83@linux.microsoft.com>
-Date:   Tue, 11 Aug 2020 10:18:08 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        id S1726468AbgHKStt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 11 Aug 2020 14:49:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34546 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725889AbgHKSts (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Aug 2020 14:49:48 -0400
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19F06C061787
+        for <linux-api@vger.kernel.org>; Tue, 11 Aug 2020 11:49:48 -0700 (PDT)
+Received: by mail-ej1-x643.google.com with SMTP id kq25so14231749ejb.3
+        for <linux-api@vger.kernel.org>; Tue, 11 Aug 2020 11:49:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=QR5EthpwytHc0ejjeS7AxrlPWVpWopYIIKYLKzP2Eq4=;
+        b=qsi/YfmV5n8FbsFLNbmPsP/XkvX4WKPoDYdfXAcHJX7sKPLBuRLurDA3+/2q3dTeSc
+         QR8qUCCSWYQi8swtBn5FT3wk2zToUXW4QeK5DefeOUHbAjTA30lN66ie4B4qXy6igVCz
+         4BHo6BVZ9hbN3e+PMfS3B/xKbDT6XmlbbOAG8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QR5EthpwytHc0ejjeS7AxrlPWVpWopYIIKYLKzP2Eq4=;
+        b=NYfFNXG3yqSbkZ1/lcJzHh7zeBBXRgLQpI/j20IvKuiMM9IPCfWenwDkMZ68q094Vp
+         1M9bzwReAVtZ/eKIjLGCXZncq2WFRbWfNyFzdM5JoN3bqr9kikMt8OSo4ppPUGr0qRPr
+         4qd1/Jyf8rqkinBMCKxx4n+MYlORAv9YT5cWIp76bkw6qVaMyTwP2McgiWXA6V/kR34w
+         WS44yO7CmGxuAQVFpmeg6ZDcm5/zilku8KIUgCOVX8iA3eIHXcw/PrCFnfkfLkMrOh7X
+         rH0swZoHFBC5AEbtF4zEQzOeu2/ENJmyfK5htGsiRcDTaM9t9jWElfJPwpS5qJ0VDtGq
+         K6ug==
+X-Gm-Message-State: AOAM532nBgyFqakjYBwMNbhKYIN+NYj864q23Y1gX7sCE9jnhpiZNVME
+        fd3ZS6Ui4XhrE7I39puvPWLZ0tbN00lRWAerGq3vog==
+X-Google-Smtp-Source: ABdhPJwnvaq93oJFCq5dS1yTahe560sCcekZabn8tDE66ijpKnt1L+Oo8yrivZ6IVjeel10rJKNsayxlhVFf1TUW2Xc=
+X-Received: by 2002:a17:907:94ca:: with SMTP id dn10mr27509087ejc.110.1597171786328;
+ Tue, 11 Aug 2020 11:49:46 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <0cc94c91-afd3-27cd-b831-8ea16ca8ca93@digikod.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <1842689.1596468469@warthog.procyon.org.uk> <1845353.1596469795@warthog.procyon.org.uk>
+ <CAJfpegunY3fuxh486x9ysKtXbhTE0745ZCVHcaqs9Gww9RV2CQ@mail.gmail.com>
+ <ac1f5e3406abc0af4cd08d818fe920a202a67586.camel@themaw.net>
+ <CAJfpegu8omNZ613tLgUY7ukLV131tt7owR+JJ346Kombt79N0A@mail.gmail.com>
+ <CAJfpegtNP8rQSS4Z14Ja4x-TOnejdhDRTsmmDD-Cccy2pkfVVw@mail.gmail.com>
+ <20200811135419.GA1263716@miu.piliscsaba.redhat.com> <CAHk-=wjzLmMRf=QG-n+1HnxWCx4KTQn9+OhVvUSJ=ZCQd6Y1WA@mail.gmail.com>
+ <CAJfpegtWai+5Tzxi1_G+R2wEZz0q66uaOFndNE0YEQSDjq0f_A@mail.gmail.com> <CAHk-=wg_bfVf5eazwH2uXTG-auCYZUpq-xb1kDeNjY7yaXS7bw@mail.gmail.com>
+In-Reply-To: <CAHk-=wg_bfVf5eazwH2uXTG-auCYZUpq-xb1kDeNjY7yaXS7bw@mail.gmail.com>
+From:   Miklos Szeredi <miklos@szeredi.hu>
+Date:   Tue, 11 Aug 2020 20:49:35 +0200
+Message-ID: <CAJfpeguo5nAWcmduX4frknQGiRJeaj9Rdj018xUBrwqOJhVufw@mail.gmail.com>
+Subject: Re: file metadata via fs API (was: [GIT PULL] Filesystem Information)
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        David Howells <dhowells@redhat.com>,
+        Al Viro <viro@zeniv.linux.org.uk>, Karel Zak <kzak@redhat.com>,
+        Jeff Layton <jlayton@redhat.com>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Nicolas Dichtel <nicolas.dichtel@6wind.com>,
+        Christian Brauner <christian@brauner.io>,
+        Lennart Poettering <lennart@poettering.net>,
+        Linux API <linux-api@vger.kernel.org>,
+        Ian Kent <raven@themaw.net>,
+        LSM <linux-security-module@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Tue, Aug 11, 2020 at 6:05 PM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 
+> and then people do "$(srctree)/". If you haven't seen that kind of
+> pattern where the pathname has two (or sometimes more!) slashes in the
+> middle, you've led a very sheltered life.
 
-On 8/11/2020 1:48 AM, Mickaël Salaün wrote:
+Oh, I have.   That's why I opted for triple slashes, since that should
+work most of the time even in those concatenated cases.  And yes, I
+know, most is not always, and this might just be hiding bugs, etc...
+I think the pragmatic approach would be to try this and see how many
+triple slash hits a normal workload gets and if it's reasonably low,
+then hopefully that together with warnings for O_ALT would be enough.
 
-[...snip]
+>  (b) even if the new user space were to think about that, and remove
+> those (hah! when have you ever seen user space do that?), as Al
+> mentioned, the user *filesystem* might have pathnames with double
+> slashes as part of symlinks.
+>
+> So now we'd have to make sure that when we traverse symlinks, that
+> O_ALT gets cleared.
 
->>> It is a
->>> good practice to check as soon as possible such properties, and it may
->>> enables to avoid (user space) time-of-check to time-of-use (TOCTOU)
->>> attacks (i.e. misuse of already open resources).
->>
->> The assumption that security checks should happen as early as possible
->> can actually cause security problems. For example, because seccomp was
->> designed to do its checks as early as possible, including before
->> ptrace, we had an issue for a long time where the ptrace API could be
->> abused to bypass seccomp filters.
->>
->> Please don't decide that a check must be ordered first _just_ because
->> it is a security check. While that can be good for limiting attack
->> surface, it can also create issues when the idea is applied too
->> broadly.
-> 
-> I'd be interested with such security issue examples.
-> 
-> I hope that delaying checks will not be an issue for mechanisms such as
-> IMA or IPE:
-> https://lore.kernel.org/lkml/1544699060.6703.11.camel@linux.ibm.com/
-> 
-> Any though Mimi, Deven, Chrome OS folks?
-> 
+That's exactly what I implemented in the proof of concept patch.
 
-I don't see an issue with IPE. As long as the hypothetical new syscall
-and associated security hook have the file struct available in the
-hook, it should integrate fairly easily.
+> Which means that it's not a unified namespace
+> after all, because you can't make symlinks point to metadata.
 
-[...snip]
+I don't think that's a great deal.  Also I think other limitations
+would make sense:
+
+ - no mounts allowed under ///
+ - no ./.. resolution after ///
+ - no hardlinks
+ - no special files, just regular and directory
+ - no seeking (regular or dir)
+
+>     cat my-file.tar/inside/the/archive.c
+>
+> or similar.
+>
+> Al has convinced me it's a horrible idea (and there you have a
+> non-ambiguous marker: the slash at the end of a pathname that
+> otherwise looks and acts as a non-directory)
+
+Umm, can you remind me what's so horrible about that?  Yeah, hard
+linked directories are a no-no.  But it doesn't have to be implemented
+in a way to actually be a problem with hard links.
+
+Thanks,
+Miklos
