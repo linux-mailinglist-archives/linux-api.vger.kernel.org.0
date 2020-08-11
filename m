@@ -2,58 +2,61 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D82F9241D27
-	for <lists+linux-api@lfdr.de>; Tue, 11 Aug 2020 17:30:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2869241D4D
+	for <lists+linux-api@lfdr.de>; Tue, 11 Aug 2020 17:39:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728912AbgHKPas (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 11 Aug 2020 11:30:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60272 "EHLO
+        id S1728939AbgHKPja (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 11 Aug 2020 11:39:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728869AbgHKPap (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Aug 2020 11:30:45 -0400
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51C62C061788
-        for <linux-api@vger.kernel.org>; Tue, 11 Aug 2020 08:30:45 -0700 (PDT)
-Received: by mail-ej1-x642.google.com with SMTP id bo3so13520340ejb.11
-        for <linux-api@vger.kernel.org>; Tue, 11 Aug 2020 08:30:44 -0700 (PDT)
+        with ESMTP id S1728918AbgHKPj3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Aug 2020 11:39:29 -0400
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E95FEC06178A
+        for <linux-api@vger.kernel.org>; Tue, 11 Aug 2020 08:39:28 -0700 (PDT)
+Received: by mail-pl1-x643.google.com with SMTP id t10so6982621plz.10
+        for <linux-api@vger.kernel.org>; Tue, 11 Aug 2020 08:39:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2+Iq2qCHUHVaNAKHuF0ZSvBIxw9aZEr5eRrwEH0pyDM=;
-        b=UHuiqJr7X2atxIGSHLT+svSK5gdNsubwckkEdoLhXVa0P5T2fMneByo6aZKzG8LldX
-         T1q+WwMY0FUEt+jhdI91DgqUpJ4E3NQyPft4lnwP2z3OP679ywggUOEnwc9ZpPQSZeqm
-         UJZcOolg7KSv4Nk5wS9SsRafbH+gx/jq+8o2c=
+        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
+        h=content-transfer-encoding:from:mime-version:subject:date:message-id
+         :references:cc:in-reply-to:to;
+        bh=k5Vv6xhQn88lB15k7GWg1mV+u5XAmiBOD5QRLYqo0NY=;
+        b=nHEtCEzA+K3xCyhNyTZMcv8HcHHns+1Hk8pycDEXFieqNICHleSe+O63Dg8nrD0ywV
+         o9FxDHPVmLM0E84TppnHf8iG7S6jFvmUO80JLVLQouLtTWeM771ruHtVW5aDq9qPlFD/
+         nPvs2QyLb4JcANu1Lw9v6YsDaxc4gzzjaYoAo+A4op1aaTwKJdGjDEBtT2htvCkHP/QB
+         M2r/LMeVxfL75GbnkDd0Rr7a/6JSOT1h/M4gxH2FCh1IUGFdbam1qcqLH8k5yRdjSkoQ
+         WGIhvHaJscZeR6w7h6ionNs/EknZAEI60DlrcQnPgdDW7ZSAV7EvgtRxy0pWXvYZnNYr
+         I/wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2+Iq2qCHUHVaNAKHuF0ZSvBIxw9aZEr5eRrwEH0pyDM=;
-        b=Q3hwJSwR39jEO/aAQd+iBbf8VBNNDDKR+WJqtHePriLT02Ez+S+2PiMkHd/0X1ED3o
-         R8iJuh1Tma4Ot4RIz87RO+TvYtqX68E4ASIrItNJ3AE6ZORxhaj/q3TYHxkPPYJXJDBk
-         W1qC6fMnD0WVmwTqb9pWuF3wPlUk6VOWAWZ+X1SLRubSmGpF0qzaPRZGFUoHJJpbmVI6
-         FO0gBQS57bnWZCYsVlWz7OB8kvRRFGdqdpqJjziBcyRO+AP780B583sdbeukirfVsXGs
-         qcpiMltV4DWRlo9jyN376P9qFyBeOx/A39mb7HiBYPjc+nRBUPYX/neEQgu4PJsbAvm1
-         JYWg==
-X-Gm-Message-State: AOAM531DYE7p/zDIg98UbWNW95jE79YrcghD0CJMSvAvrhpqeJJK3tgP
-        PiMYYKOcXaOUtBtjJASEaTdJDW8VjGZ7oPV6KwO7Lw==
-X-Google-Smtp-Source: ABdhPJzBzum8mnm+vTGkWQzIaTCUoEszBkoemTUzdbDb+99lWLtwfHPa77uVvxYBE8u6HRWpehJ7Yt8BQd5fvoZKDLs=
-X-Received: by 2002:a17:907:94ca:: with SMTP id dn10mr26676759ejc.110.1597159843363;
- Tue, 11 Aug 2020 08:30:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <1842689.1596468469@warthog.procyon.org.uk> <1845353.1596469795@warthog.procyon.org.uk>
- <CAJfpegunY3fuxh486x9ysKtXbhTE0745ZCVHcaqs9Gww9RV2CQ@mail.gmail.com>
- <ac1f5e3406abc0af4cd08d818fe920a202a67586.camel@themaw.net>
- <CAJfpegu8omNZ613tLgUY7ukLV131tt7owR+JJ346Kombt79N0A@mail.gmail.com>
- <CAJfpegtNP8rQSS4Z14Ja4x-TOnejdhDRTsmmDD-Cccy2pkfVVw@mail.gmail.com>
- <20200811135419.GA1263716@miu.piliscsaba.redhat.com> <CAHk-=wjzLmMRf=QG-n+1HnxWCx4KTQn9+OhVvUSJ=ZCQd6Y1WA@mail.gmail.com>
-In-Reply-To: <CAHk-=wjzLmMRf=QG-n+1HnxWCx4KTQn9+OhVvUSJ=ZCQd6Y1WA@mail.gmail.com>
-From:   Miklos Szeredi <miklos@szeredi.hu>
-Date:   Tue, 11 Aug 2020 17:30:32 +0200
-Message-ID: <CAJfpegtWai+5Tzxi1_G+R2wEZz0q66uaOFndNE0YEQSDjq0f_A@mail.gmail.com>
+        h=x-gm-message-state:content-transfer-encoding:from:mime-version
+         :subject:date:message-id:references:cc:in-reply-to:to;
+        bh=k5Vv6xhQn88lB15k7GWg1mV+u5XAmiBOD5QRLYqo0NY=;
+        b=qKV4fe1EnqdZI4SURGcb8qXQNwZQOJIC7Js18wHAsyXrxKQlbBjE1ELdDb9yyQrtPe
+         dOzxmnhKNdhEhNI5ItyUqmv+3/BK+JhMJZGofvpMc39xuhfpN6cf0p0zLNmJ5a9qaWFT
+         Tt7hc88v8couuq8R82Gmjhl29ntOHb74W7SUWOinjQ8ZBDUJSkWbkrOFMxl19jbbUOLM
+         Rm/dz5Wm+Mpc53mB3Wb8bX6C691SFMMMRqEbKsAmDYUsFWm2gIDq+UkLT4abetylag/T
+         rPVquAO1ceDYnuoREPpAFSg6ayf6+tUz8DsWvDvrns7ove1PpogBlGN3Scmhvm3MBMpm
+         zGSg==
+X-Gm-Message-State: AOAM532IgpjE/fziOosVWhI/cPfhnPr+6vIbbi11w537c5vWh4DXykEF
+        pqCUxOr01nNx0zJF00NlTDsMYA==
+X-Google-Smtp-Source: ABdhPJy0yB+Dw1/CiiHffwfE44OfK3nBhmxE+9kmrh4+Xqbf7oNah664PCqIvEwN6uoP1FczdMwiuQ==
+X-Received: by 2002:a17:902:8693:: with SMTP id g19mr1455443plo.66.1597160368219;
+        Tue, 11 Aug 2020 08:39:28 -0700 (PDT)
+Received: from ?IPv6:2601:646:c200:1ef2:6127:e67c:651c:a994? ([2601:646:c200:1ef2:6127:e67c:651c:a994])
+        by smtp.gmail.com with ESMTPSA id 193sm25644247pfu.169.2020.08.11.08.39.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Aug 2020 08:39:27 -0700 (PDT)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From:   Andy Lutomirski <luto@amacapital.net>
+Mime-Version: 1.0 (1.0)
 Subject: Re: file metadata via fs API (was: [GIT PULL] Filesystem Information)
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+Date:   Tue, 11 Aug 2020 08:39:26 -0700
+Message-Id: <5C8E0FA8-274E-4B56-9B5A-88E768D01F3A@amacapital.net>
+References: <CAHk-=wjzLmMRf=QG-n+1HnxWCx4KTQn9+OhVvUSJ=ZCQd6Y1WA@mail.gmail.com>
+Cc:     Miklos Szeredi <miklos@szeredi.hu>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         David Howells <dhowells@redhat.com>,
         Al Viro <viro@zeniv.linux.org.uk>, Karel Zak <kzak@redhat.com>,
         Jeff Layton <jlayton@redhat.com>,
@@ -65,47 +68,76 @@ Cc:     linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         Ian Kent <raven@themaw.net>,
         LSM <linux-security-module@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAHk-=wjzLmMRf=QG-n+1HnxWCx4KTQn9+OhVvUSJ=ZCQd6Y1WA@mail.gmail.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+X-Mailer: iPhone Mail (17G68)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Aug 11, 2020 at 5:20 PM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> [ I missed the beginning of this discussion, so maybe this was already
+
+
+> On Aug 11, 2020, at 8:20 AM, Linus Torvalds <torvalds@linux-foundation.org=
+> wrote:
+>=20
+> =EF=BB=BF[ I missed the beginning of this discussion, so maybe this was al=
+ready
 > suggested ]
->
-> On Tue, Aug 11, 2020 at 6:54 AM Miklos Szeredi <miklos@szeredi.hu> wrote:
-> >
-> > >
-> > > E.g.
-> > >   openat(AT_FDCWD, "foo/bar//mnt/info", O_RDONLY | O_ALT);
-> >
-> > Proof of concept patch and test program below.
->
+>=20
+>> On Tue, Aug 11, 2020 at 6:54 AM Miklos Szeredi <miklos@szeredi.hu> wrote:=
+
+>>=20
+>>>=20
+>>> E.g.
+>>>  openat(AT_FDCWD, "foo/bar//mnt/info", O_RDONLY | O_ALT);
+>>=20
+>> Proof of concept patch and test program below.
+>=20
 > I don't think this works for the reasons Al says, but a slight
 > modification might.
->
+>=20
 > IOW, if you do something more along the lines of
->
->        fd = open(""foo/bar", O_PATH);
->        metadatafd = openat(fd, "metadataname", O_ALT);
->
+>=20
+>       fd =3D open(""foo/bar", O_PATH);
+>       metadatafd =3D openat(fd, "metadataname", O_ALT);
+>=20
 > it might be workable.
+>=20
+> So you couldn't do it with _one_ pathname, because that is always
+> fundamentally going to hit pathname lookup rules.
+>=20
+> But if you start a new path lookup with new rules, that's fine.
+>=20
+> This is what I think xattrs should always have done, because they are
+> broken garbage.
+>=20
+> In fact, if we do it right, I think we could have "getxattr()" be 100%
+> equivalent to (modulo all the error handling that this doesn't do, of
+> course):
+>=20
+>  ssize_t getxattr(const char *path, const char *name,
+>                        void *value, size_t size)
+>  {
+>     int fd, attrfd;
+>=20
+>     fd =3D open(path, O_PATH);
+>     attrfd =3D openat(fd, name, O_ALT);
+>     close(fd);
+>     read(attrfd, value, size);
+>     close(attrfd);
+>  }
+>=20
+> and you'd still use getxattr() and friends as a shorthand (and for
+> POSIX compatibility), but internally in the kernel we'd have a
+> interface around that "xattrs are just file handles" model.
+>=20
+>=20
 
-That would have been my backup suggestion, in case the unified
-namespace doesn't work out.
+This is a lot like a less nutty version of NTFS streams, whereas the /// ide=
+a is kind of like an extra-nutty version of NTFS streams.
 
-I wouldn't think the normal lookup rules really get in the way if we
-explicitly enable alternative path lookup with a flag.  The rules just
-need to be documented.
-
-What's the disadvantage of doing it with a single lookup WITH an enabling flag?
-
-It's definitely not going to break anything, so no backward
-compatibility issues whatsoever.
-
-Thanks,
-Miklos
+I am personally not a fan of the in-band signaling implications of overloadi=
+ng /.  For example, there is plenty of code out there that thinks that (a + =E2=
+=80=9C/=E2=80=9C + b) concatenates paths. With /// overloaded, this stops be=
+ing true.=
