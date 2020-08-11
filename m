@@ -2,142 +2,131 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 952472413D0
-	for <lists+linux-api@lfdr.de>; Tue, 11 Aug 2020 01:27:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EFAD2417FA
+	for <lists+linux-api@lfdr.de>; Tue, 11 Aug 2020 10:09:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726859AbgHJX1T (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 10 Aug 2020 19:27:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53444 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728018AbgHJX1S (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 10 Aug 2020 19:27:18 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72A92C06174A;
-        Mon, 10 Aug 2020 16:27:18 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: krisman)
-        with ESMTPSA id 2E52A2948A6
-From:   Gabriel Krisman Bertazi <krisman@collabora.com>
-To:     luto@kernel.org, tglx@linutronix.de
-Cc:     keescook@chromium.org, x86@kernel.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        willy@infradead.org, linux-kselftest@vger.kernel.org,
-        shuah@kernel.org, Gabriel Krisman Bertazi <krisman@collabora.com>,
-        kernel@collabora.com
-Subject: [PATCH v5 9/9] doc: Document Syscall User Dispatch
-Date:   Mon, 10 Aug 2020 19:26:36 -0400
-Message-Id: <20200810232636.1415588-10-krisman@collabora.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200810232636.1415588-1-krisman@collabora.com>
-References: <20200810232636.1415588-1-krisman@collabora.com>
+        id S1728209AbgHKIJW convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Tue, 11 Aug 2020 04:09:22 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151]:42699 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728178AbgHKIJU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Aug 2020 04:09:20 -0400
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mtapsc-6-6yjApz6GO-e2kdqAupHRLw-1; Tue, 11 Aug 2020 09:09:13 +0100
+X-MC-Unique: 6yjApz6GO-e2kdqAupHRLw-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Tue, 11 Aug 2020 09:09:10 +0100
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
+ Tue, 11 Aug 2020 09:09:10 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     =?iso-8859-1?Q?=27Micka=EBl_Sala=FCn=27?= <mic@digikod.net>,
+        Al Viro <viro@zeniv.linux.org.uk>
+CC:     Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Alexei Starovoitov" <ast@kernel.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        "Christian Brauner" <christian.brauner@ubuntu.com>,
+        Christian Heimes <christian@python.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Deven Bowers <deven.desai@linux.microsoft.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Eric Biggers" <ebiggers@kernel.org>,
+        Eric Chiang <ericchiang@google.com>,
+        "Florian Weimer" <fweimer@redhat.com>,
+        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
+        Matthew Garrett <mjg59@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        =?iso-8859-1?Q?Philippe_Tr=E9buchet?= 
+        <philippe.trebuchet@ssi.gouv.fr>,
+        "Scott Shell" <scottsh@microsoft.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Steve Dower <steve.dower@python.org>,
+        Steve Grubb <sgrubb@redhat.com>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Thibaut Sautereau <thibaut.sautereau@clip-os.org>,
+        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
+        "kernel-hardening@lists.openwall.com" 
+        <kernel-hardening@lists.openwall.com>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: RE: [PATCH v7 0/7] Add support for O_MAYEXEC
+Thread-Topic: [PATCH v7 0/7] Add support for O_MAYEXEC
+Thread-Index: AQHWb1PwbfAzth+cK0yvrOzhTaEjE6kx5WiAgAAMbuyAAJu5IA==
+Date:   Tue, 11 Aug 2020 08:09:10 +0000
+Message-ID: <26a4a8378f3b4ad28eaa476853092716@AcuMS.aculab.com>
+References: <20200723171227.446711-1-mic@digikod.net>
+ <202007241205.751EBE7@keescook>
+ <0733fbed-cc73-027b-13c7-c368c2d67fb3@digikod.net>
+ <20200810202123.GC1236603@ZenIV.linux.org.uk>
+ <30b8c003f49d4280be5215f634ca2c06@AcuMS.aculab.com>
+ <20200810222838.GF1236603@ZenIV.linux.org.uk>
+ <2531a0e8-5122-867c-ba06-5d2e623a3834@digikod.net>
+In-Reply-To: <2531a0e8-5122-867c-ba06-5d2e623a3834@digikod.net>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Explain the interface, provide some background and security notes.
+> On 11/08/2020 00:28, Al Viro wrote:
+> > On Mon, Aug 10, 2020 at 10:09:09PM +0000, David Laight wrote:
+> >>> On Mon, Aug 10, 2020 at 10:11:53PM +0200, Mickaël Salaün wrote:
+> >>>> It seems that there is no more complains nor questions. Do you want me
+> >>>> to send another series to fix the order of the S-o-b in patch 7?
+> >>>
+> >>> There is a major question regarding the API design and the choice of
+> >>> hooking that stuff on open().  And I have not heard anything resembling
+> >>> a coherent answer.
+> >>
+> >> To me O_MAYEXEC is just the wrong name.
+> >> The bit would be (something like) O_INTERPRET to indicate
+> >> what you want to do with the contents.
+> 
+> The properties is "execute permission". This can then be checked by
+> interpreters or other applications, then the generic O_MAYEXEC name.
 
-Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
----
- .../admin-guide/syscall-user-dispatch.rst     | 87 +++++++++++++++++++
- 1 file changed, 87 insertions(+)
- create mode 100644 Documentation/admin-guide/syscall-user-dispatch.rst
+The english sense of MAYEXEC is just wrong for what you are trying
+to check.
 
-diff --git a/Documentation/admin-guide/syscall-user-dispatch.rst b/Documentation/admin-guide/syscall-user-dispatch.rst
-new file mode 100644
-index 000000000000..96616660fded
---- /dev/null
-+++ b/Documentation/admin-guide/syscall-user-dispatch.rst
-@@ -0,0 +1,87 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=====================
-+Syscall User Dispatch
-+=====================
-+
-+Background
-+----------
-+
-+Compatibility layers like Wine need a way to efficiently emulate system
-+calls of only a part of their process - the part that has the
-+incompatible code - while being able to execute native syscalls without
-+a high performance penalty on the native part of the process.  Seccomp
-+falls short on this task, since it has limited support to efficiently
-+filter syscalls based on memory regions, and it doesn't support removing
-+filters.  Therefore a new mechanism is necessary.
-+
-+Syscall User Dispatch brings the filtering of the syscall dispatcher
-+address back to userspace.  The application is in control of a flip
-+switch, indicating the current personality of the process.  A
-+multiple-personality application can then flip the switch without
-+invoking the kernel, when crossing the compatibility layer API
-+boundaries, to enable/disable the syscall redirection and execute
-+syscalls directly (disabled) or send them to be emulated in userspace
-+through a SIGSYS.
-+
-+The goal of this design is to provide very quick compatibility layer
-+boundary crosses, which is achieved by not executing a syscall to change
-+personality every time the compatibility layer executes.  Instead, a
-+userspace memory region exposed to the kernel indicates the current
-+personality, and the application simply modifies that variable to
-+configure the mechanism.
-+
-+There is a relatively high cost associated with handling signals on most
-+architectures, like x86, but at least for Wine, syscalls issued by
-+native Windows code are currently not known to be a performance problem,
-+since they are quite rare, at least for modern gaming applications.
-+
-+Since this mechanism is designed to capture syscalls issued by
-+non-native applications, it must function on syscalls whose invocation
-+ABI is completely unexpected to Linux.  Syscall User Dispatch, therefore
-+doesn't rely on any of the syscall ABI to make the filtering.  It uses
-+only the syscall dispatcher address and the userspace key.
-+
-+Interface
-+---------
-+
-+A process can setup this mechanism on supported kernels
-+CONFIG_SYSCALL_USER_DISPATCH) by executing the following prctl:
-+
-+   prctl(PR_SET_SYSCALL_USER_DISPATCH, <op>, <start_addr>, <end_addr>, [selector])
-+
-+<op> is either PR_SYS_DISPATCH_ON or PR_SYS_DISPATCH_OFF, to enable and
-+disable the mechanism globally for that thread.  When
-+PR_SYS_DISPATCH_OFF is used, the other fields must be zero.
-+
-+<start_addr> and <end_addr> delimit a closed memory region interval from
-+which syscalls are always executed directly, regardless of the userspace
-+selector.  This provides a fast path for the C library, which includes
-+the most common syscall dispatchers in the native code applications, and
-+also provides a way for the signal handler to return without triggering
-+a nested SIGSYS on (rt_)sigreturn.  Users of this interface should make
-+sure that at least the signal trampoline code is included in this
-+region. In addition, for syscalls that implement the trampoline code on
-+the vDSO, that trampoline is never intercepted.
-+
-+[selector] is a pointer to a char-sized region in the process memory
-+region, that provides a quick way to enable disable syscall redirection
-+thread-wide, without the need to invoke the kernel directly.  selector
-+can be set to PR_SYS_DISPATCH_ON or PR_SYS_DISPATCH_OFF.  Any other
-+value should terminate the program with a SIGSYS.
-+
-+Security Notes
-+--------------
-+
-+Syscall User Dispatch provides functionality for compatibility layers to
-+quickly capture system calls issued by a non-native part of the
-+application, while not impacting the Linux native regions of the
-+process.  It is not a mechanism for sandboxing system calls, and it
-+should not be seen as a security mechanism, since it is trivial for a
-+malicious application to subvert the mechanism by jumping to an allowed
-+dispatcher region prior to executing the syscall, or to discover the
-+address and modify the selector value.  If the use case requires any
-+kind of security sandboxing, Seccomp should be used instead.
-+
-+Any fork or exec of the existing process resets the mechanism to
-+PR_SYS_DISPATCH_OFF.
--- 
-2.28.0
+> > ... which does not answer the question - name of constant is the least of
+> > the worries here.  Why the hell is "apply some unspecified checks to
+> > file" combined with opening it, rather than being an independent primitive
+> > you apply to an already opened file?  Just in case - "'cuz that's how we'd
+> > done it" does not make a good answer...
+
+Maybe an access_ok() that acts on an open fd would be more
+appropriate.
+Which might end up being an fcntrl() action.
+That would give you a full 32bit mask of options.
+
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
 
