@@ -2,75 +2,54 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A2869241D4D
-	for <lists+linux-api@lfdr.de>; Tue, 11 Aug 2020 17:39:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EEA1D241DA9
+	for <lists+linux-api@lfdr.de>; Tue, 11 Aug 2020 17:54:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728939AbgHKPja (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 11 Aug 2020 11:39:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33392 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728918AbgHKPj3 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Aug 2020 11:39:29 -0400
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E95FEC06178A
-        for <linux-api@vger.kernel.org>; Tue, 11 Aug 2020 08:39:28 -0700 (PDT)
-Received: by mail-pl1-x643.google.com with SMTP id t10so6982621plz.10
-        for <linux-api@vger.kernel.org>; Tue, 11 Aug 2020 08:39:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=content-transfer-encoding:from:mime-version:subject:date:message-id
-         :references:cc:in-reply-to:to;
-        bh=k5Vv6xhQn88lB15k7GWg1mV+u5XAmiBOD5QRLYqo0NY=;
-        b=nHEtCEzA+K3xCyhNyTZMcv8HcHHns+1Hk8pycDEXFieqNICHleSe+O63Dg8nrD0ywV
-         o9FxDHPVmLM0E84TppnHf8iG7S6jFvmUO80JLVLQouLtTWeM771ruHtVW5aDq9qPlFD/
-         nPvs2QyLb4JcANu1Lw9v6YsDaxc4gzzjaYoAo+A4op1aaTwKJdGjDEBtT2htvCkHP/QB
-         M2r/LMeVxfL75GbnkDd0Rr7a/6JSOT1h/M4gxH2FCh1IUGFdbam1qcqLH8k5yRdjSkoQ
-         WGIhvHaJscZeR6w7h6ionNs/EknZAEI60DlrcQnPgdDW7ZSAV7EvgtRxy0pWXvYZnNYr
-         I/wA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:content-transfer-encoding:from:mime-version
-         :subject:date:message-id:references:cc:in-reply-to:to;
-        bh=k5Vv6xhQn88lB15k7GWg1mV+u5XAmiBOD5QRLYqo0NY=;
-        b=qKV4fe1EnqdZI4SURGcb8qXQNwZQOJIC7Js18wHAsyXrxKQlbBjE1ELdDb9yyQrtPe
-         dOzxmnhKNdhEhNI5ItyUqmv+3/BK+JhMJZGofvpMc39xuhfpN6cf0p0zLNmJ5a9qaWFT
-         Tt7hc88v8couuq8R82Gmjhl29ntOHb74W7SUWOinjQ8ZBDUJSkWbkrOFMxl19jbbUOLM
-         Rm/dz5Wm+Mpc53mB3Wb8bX6C691SFMMMRqEbKsAmDYUsFWm2gIDq+UkLT4abetylag/T
-         rPVquAO1ceDYnuoREPpAFSg6ayf6+tUz8DsWvDvrns7ove1PpogBlGN3Scmhvm3MBMpm
-         zGSg==
-X-Gm-Message-State: AOAM532IgpjE/fziOosVWhI/cPfhnPr+6vIbbi11w537c5vWh4DXykEF
-        pqCUxOr01nNx0zJF00NlTDsMYA==
-X-Google-Smtp-Source: ABdhPJy0yB+Dw1/CiiHffwfE44OfK3nBhmxE+9kmrh4+Xqbf7oNah664PCqIvEwN6uoP1FczdMwiuQ==
-X-Received: by 2002:a17:902:8693:: with SMTP id g19mr1455443plo.66.1597160368219;
-        Tue, 11 Aug 2020 08:39:28 -0700 (PDT)
-Received: from ?IPv6:2601:646:c200:1ef2:6127:e67c:651c:a994? ([2601:646:c200:1ef2:6127:e67c:651c:a994])
-        by smtp.gmail.com with ESMTPSA id 193sm25644247pfu.169.2020.08.11.08.39.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Aug 2020 08:39:27 -0700 (PDT)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From:   Andy Lutomirski <luto@amacapital.net>
-Mime-Version: 1.0 (1.0)
-Subject: Re: file metadata via fs API (was: [GIT PULL] Filesystem Information)
-Date:   Tue, 11 Aug 2020 08:39:26 -0700
-Message-Id: <5C8E0FA8-274E-4B56-9B5A-88E768D01F3A@amacapital.net>
-References: <CAHk-=wjzLmMRf=QG-n+1HnxWCx4KTQn9+OhVvUSJ=ZCQd6Y1WA@mail.gmail.com>
-Cc:     Miklos Szeredi <miklos@szeredi.hu>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        David Howells <dhowells@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>, Karel Zak <kzak@redhat.com>,
-        Jeff Layton <jlayton@redhat.com>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Nicolas Dichtel <nicolas.dichtel@6wind.com>,
-        Christian Brauner <christian@brauner.io>,
-        Lennart Poettering <lennart@poettering.net>,
-        Linux API <linux-api@vger.kernel.org>,
-        Ian Kent <raven@themaw.net>,
-        LSM <linux-security-module@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-In-Reply-To: <CAHk-=wjzLmMRf=QG-n+1HnxWCx4KTQn9+OhVvUSJ=ZCQd6Y1WA@mail.gmail.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-X-Mailer: iPhone Mail (17G68)
+        id S1728959AbgHKPyr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 11 Aug 2020 11:54:47 -0400
+Received: from linux.microsoft.com ([13.77.154.182]:46966 "EHLO
+        linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728902AbgHKPyn (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Aug 2020 11:54:43 -0400
+Received: from [192.168.254.32] (unknown [47.187.206.220])
+        by linux.microsoft.com (Postfix) with ESMTPSA id 526A020B4908;
+        Tue, 11 Aug 2020 08:54:41 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 526A020B4908
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1597161281;
+        bh=4AnwX8pKWPwuyBMQsqp5N2j48UHwDWqRiS19V2RyUzA=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=XjJgHPUVELV8QE2+Nsp1p5tMtuU8P+D3ZycY0KrJ6EOneE/ByWA3lLQxw3g/B9Mw2
+         vWi2ncOTpaIkbJhV4RsoLHIkICD1ZGWQ7AXMucKMWRJHnO31eOS5fl2cDtURk5xkzx
+         AtMEKomaUXd1s2zq9SUxj3UK2cWtqfSH2YCiPVhU=
+Subject: Re: [PATCH v1 0/4] [RFC] Implement Trampoline File Descriptor
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org, oleg@redhat.com,
+        x86@kernel.org
+References: <aefc85852ea518982e74b233e11e16d2e707bc32>
+ <20200728131050.24443-1-madvenka@linux.microsoft.com>
+ <20200731180955.GC67415@C02TD0UTHF1T.local>
+ <6236adf7-4bed-534e-0956-fddab4fd96b6@linux.microsoft.com>
+ <20200804143018.GB7440@C02TD0UTHF1T.local>
+ <b3368692-afe6-89b5-d634-12f4f0a601f8@linux.microsoft.com>
+ <20200808221748.GA1020@bug>
+ <6cca8eac-f767-b891-dc92-eaa7504a0e8b@linux.microsoft.com>
+ <20200811130837.hi6wllv6g67j5wds@duo.ucw.cz>
+From:   "Madhavan T. Venkataraman" <madvenka@linux.microsoft.com>
+Message-ID: <1eec55aa-1bd6-b273-a88e-09d3c726111c@linux.microsoft.com>
+Date:   Tue, 11 Aug 2020 10:54:40 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20200811130837.hi6wllv6g67j5wds@duo.ucw.cz>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
@@ -78,66 +57,67 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 
 
-> On Aug 11, 2020, at 8:20 AM, Linus Torvalds <torvalds@linux-foundation.org=
-> wrote:
->=20
-> =EF=BB=BF[ I missed the beginning of this discussion, so maybe this was al=
-ready
-> suggested ]
->=20
->> On Tue, Aug 11, 2020 at 6:54 AM Miklos Szeredi <miklos@szeredi.hu> wrote:=
+On 8/11/20 8:08 AM, Pavel Machek wrote:
+> Hi!
+> 
+>>>> Thanks for the lively discussion. I have tried to answer some of the
+>>>> comments below.
+>>>
+>>>>> There are options today, e.g.
+>>>>>
+>>>>> a) If the restriction is only per-alias, you can have distinct aliases
+>>>>>    where one is writable and another is executable, and you can make it
+>>>>>    hard to find the relationship between the two.
+>>>>>
+>>>>> b) If the restriction is only temporal, you can write instructions into
+>>>>>    an RW- buffer, transition the buffer to R--, verify the buffer
+>>>>>    contents, then transition it to --X.
+>>>>>
+>>>>> c) You can have two processes A and B where A generates instrucitons into
+>>>>>    a buffer that (only) B can execute (where B may be restricted from
+>>>>>    making syscalls like write, mprotect, etc).
+>>>>
+>>>> The general principle of the mitigation is W^X. I would argue that
+>>>> the above options are violations of the W^X principle. If they are
+>>>> allowed today, they must be fixed. And they will be. So, we cannot
+>>>> rely on them.
+>>>
+>>> Would you mind describing your threat model?
+>>>
+>>> Because I believe you are using model different from everyone else.
+>>>
+>>> In particular, I don't believe b) is a problem or should be fixed.
+>>
+>> It is a problem because a kernel that implements W^X properly
+>> will not allow it. It has no idea what has been done in userland.
+>> It has no idea that the user has checked and verified the buffer
+>> contents after transitioning the page to R--.
+> 
+> No, it is not a problem. W^X is designed to protect from attackers
+> doing buffer overflows, not attackers doing arbitrary syscalls.
+> 
 
->>=20
->>>=20
->>> E.g.
->>>  openat(AT_FDCWD, "foo/bar//mnt/info", O_RDONLY | O_ALT);
->>=20
->> Proof of concept patch and test program below.
->=20
-> I don't think this works for the reasons Al says, but a slight
-> modification might.
->=20
-> IOW, if you do something more along the lines of
->=20
->       fd =3D open(""foo/bar", O_PATH);
->       metadatafd =3D openat(fd, "metadataname", O_ALT);
->=20
-> it might be workable.
->=20
-> So you couldn't do it with _one_ pathname, because that is always
-> fundamentally going to hit pathname lookup rules.
->=20
-> But if you start a new path lookup with new rules, that's fine.
->=20
-> This is what I think xattrs should always have done, because they are
-> broken garbage.
->=20
-> In fact, if we do it right, I think we could have "getxattr()" be 100%
-> equivalent to (modulo all the error handling that this doesn't do, of
-> course):
->=20
->  ssize_t getxattr(const char *path, const char *name,
->                        void *value, size_t size)
->  {
->     int fd, attrfd;
->=20
->     fd =3D open(path, O_PATH);
->     attrfd =3D openat(fd, name, O_ALT);
->     close(fd);
->     read(attrfd, value, size);
->     close(attrfd);
->  }
->=20
-> and you'd still use getxattr() and friends as a shorthand (and for
-> POSIX compatibility), but internally in the kernel we'd have a
-> interface around that "xattrs are just file handles" model.
->=20
->=20
+Hey Pavel,
 
-This is a lot like a less nutty version of NTFS streams, whereas the /// ide=
-a is kind of like an extra-nutty version of NTFS streams.
+You are correct. The W^X implementation today still has some holes.
+IIUC, the principle of W^X is - user should not be able to (W) write code
+into a page and use some trick to get it to (X) execute. So, what I
+was trying to say was that the W^X principle is not implemented
+completely today.
 
-I am personally not a fan of the in-band signaling implications of overloadi=
-ng /.  For example, there is plenty of code out there that thinks that (a + =E2=
-=80=9C/=E2=80=9C + b) concatenates paths. With /// overloaded, this stops be=
-ing true.=
+Mark Rutland mentioned some other tricks as well which are being used
+today.
+
+For instance, Microsoft has submitted this proposal:
+
+ https://microsoft.github.io/ipe/
+
+IPE is an LSM. In this proposal, only mappings that are backed by a
+signature verified file can have execute permissions. This means that
+all anonymous page based tricks will fail. And, file mapping based
+tricks will fail as well when temporary files are used to load code
+and mmap(). That is the intent.
+
+Thanks!
+
+Madhavan
