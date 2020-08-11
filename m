@@ -2,70 +2,120 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A2F92241E6E
-	for <lists+linux-api@lfdr.de>; Tue, 11 Aug 2020 18:39:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CD69241F0A
+	for <lists+linux-api@lfdr.de>; Tue, 11 Aug 2020 19:18:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729111AbgHKQjM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 11 Aug 2020 12:39:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42544 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729011AbgHKQjM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Aug 2020 12:39:12 -0400
-Received: from ZenIV.linux.org.uk (zeniv.linux.org.uk [IPv6:2002:c35c:fd02::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53129C06174A;
-        Tue, 11 Aug 2020 09:39:12 -0700 (PDT)
-Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1k5XIn-00DfBA-Cv; Tue, 11 Aug 2020 16:39:05 +0000
-Date:   Tue, 11 Aug 2020 17:39:05 +0100
-From:   Al Viro <viro@zeniv.linux.org.uk>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Miklos Szeredi <miklos@szeredi.hu>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        David Howells <dhowells@redhat.com>,
-        Karel Zak <kzak@redhat.com>, Jeff Layton <jlayton@redhat.com>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Nicolas Dichtel <nicolas.dichtel@6wind.com>,
-        Christian Brauner <christian@brauner.io>,
-        Lennart Poettering <lennart@poettering.net>,
+        id S1729163AbgHKRSL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 11 Aug 2020 13:18:11 -0400
+Received: from linux.microsoft.com ([13.77.154.182]:56798 "EHLO
+        linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728990AbgHKRSK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Aug 2020 13:18:10 -0400
+Received: from [10.137.106.139] (unknown [131.107.174.11])
+        by linux.microsoft.com (Postfix) with ESMTPSA id 364D420B4908;
+        Tue, 11 Aug 2020 10:18:09 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 364D420B4908
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1597166289;
+        bh=4CUNuNiiePWf1WTPIiwYBL13LZ+7k2/9/J/jpcaXW7A=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=PoJFWvdJ1RO9aetIAjmD0rk7oHcgoNUd11mJAo6cf98zwa1+fMROHW9q/uMp6iMeX
+         Gx9jAgsZekiKh7pxAVZrnSCW536fsoku8TARzOm+dS5qqA/BlR8Bpa7J8vLGhpHHRD
+         Yi+yCyW66KZsN6+KFh8r2FianF/MQzdF5N+1bL7A=
+Subject: Re: [PATCH v7 0/7] Add support for O_MAYEXEC
+To:     =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>,
+        Jann Horn <jannh@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Mimi Zohar <zohar@linux.ibm.com>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Christian Heimes <christian@python.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Eric Chiang <ericchiang@google.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
+        Matthew Garrett <mjg59@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?UTF-8?Q?Philippe_Tr=c3=a9buchet?= 
+        <philippe.trebuchet@ssi.gouv.fr>,
+        Scott Shell <scottsh@microsoft.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Steve Dower <steve.dower@python.org>,
+        Steve Grubb <sgrubb@redhat.com>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Thibaut Sautereau <thibaut.sautereau@clip-os.org>,
+        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
         Linux API <linux-api@vger.kernel.org>,
-        Ian Kent <raven@themaw.net>,
-        LSM <linux-security-module@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: file metadata via fs API (was: [GIT PULL] Filesystem Information)
-Message-ID: <20200811163905.GM1236603@ZenIV.linux.org.uk>
-References: <1842689.1596468469@warthog.procyon.org.uk>
- <1845353.1596469795@warthog.procyon.org.uk>
- <CAJfpegunY3fuxh486x9ysKtXbhTE0745ZCVHcaqs9Gww9RV2CQ@mail.gmail.com>
- <ac1f5e3406abc0af4cd08d818fe920a202a67586.camel@themaw.net>
- <CAJfpegu8omNZ613tLgUY7ukLV131tt7owR+JJ346Kombt79N0A@mail.gmail.com>
- <CAJfpegtNP8rQSS4Z14Ja4x-TOnejdhDRTsmmDD-Cccy2pkfVVw@mail.gmail.com>
- <20200811135419.GA1263716@miu.piliscsaba.redhat.com>
- <CAHk-=wjzLmMRf=QG-n+1HnxWCx4KTQn9+OhVvUSJ=ZCQd6Y1WA@mail.gmail.com>
- <20200811160534.GL1236603@ZenIV.linux.org.uk>
- <CAHk-=wgHZig-+dXQeW4pPEjdYsrq=3bgc+vUhwiT2Ox4ipLHwg@mail.gmail.com>
+        linux-integrity@vger.kernel.org,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+References: <20200723171227.446711-1-mic@digikod.net>
+ <202007241205.751EBE7@keescook>
+ <0733fbed-cc73-027b-13c7-c368c2d67fb3@digikod.net>
+ <20200810202123.GC1236603@ZenIV.linux.org.uk>
+ <917bb071-8b1a-3ba4-dc16-f8d7b4cc849f@digikod.net>
+ <CAG48ez0NAV5gPgmbDaSjo=zzE=FgnYz=-OHuXwu0Vts=B5gesA@mail.gmail.com>
+ <0cc94c91-afd3-27cd-b831-8ea16ca8ca93@digikod.net>
+From:   Deven Bowers <deven.desai@linux.microsoft.com>
+Message-ID: <77d685ec-aba2-6a2c-5d25-1172279ceb83@linux.microsoft.com>
+Date:   Tue, 11 Aug 2020 10:18:08 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wgHZig-+dXQeW4pPEjdYsrq=3bgc+vUhwiT2Ox4ipLHwg@mail.gmail.com>
+In-Reply-To: <0cc94c91-afd3-27cd-b831-8ea16ca8ca93@digikod.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Aug 11, 2020 at 09:09:36AM -0700, Linus Torvalds wrote:
-> On Tue, Aug 11, 2020 at 9:05 AM Al Viro <viro@zeniv.linux.org.uk> wrote:
-> >
-> > Except that you suddenly see non-directory dentries get children.
-> > And a lot of dcache-related logics needs to be changed if that
-> > becomes possible.
+
+
+On 8/11/2020 1:48 AM, Mickaël Salaün wrote:
+
+[...snip]
+
+>>> It is a
+>>> good practice to check as soon as possible such properties, and it may
+>>> enables to avoid (user space) time-of-check to time-of-use (TOCTOU)
+>>> attacks (i.e. misuse of already open resources).
+>>
+>> The assumption that security checks should happen as early as possible
+>> can actually cause security problems. For example, because seccomp was
+>> designed to do its checks as early as possible, including before
+>> ptrace, we had an issue for a long time where the ptrace API could be
+>> abused to bypass seccomp filters.
+>>
+>> Please don't decide that a check must be ordered first _just_ because
+>> it is a security check. While that can be good for limiting attack
+>> surface, it can also create issues when the idea is applied too
+>> broadly.
 > 
-> Yeah, I think you'd basically need to associate a (dynamic)
-> mount-point to that path when you start doing O_ALT. Or something.
+> I'd be interested with such security issue examples.
+> 
+> I hope that delaying checks will not be an issue for mechanisms such as
+> IMA or IPE:
+> https://lore.kernel.org/lkml/1544699060.6703.11.camel@linux.ibm.com/
+> 
+> Any though Mimi, Deven, Chrome OS folks?
+> 
 
-Whee...  That's going to be non-workable for xattrs - fgetxattr()
-needs to work after unlink().  And you'd obviously need to prevent
-crossing into that sucker on normal lookups, which would add quite
-a few interesting twists around the automount points.
+I don't see an issue with IPE. As long as the hypothetical new syscall
+and associated security hook have the file struct available in the
+hook, it should integrate fairly easily.
 
-I'm not saying it's not doable, but it won't be anywhere near
-straightforward.  And API semantics questions are still there...
+[...snip]
