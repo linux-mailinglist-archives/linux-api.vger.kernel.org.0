@@ -2,50 +2,29 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 23B57242C1D
-	for <lists+linux-api@lfdr.de>; Wed, 12 Aug 2020 17:22:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E5DB242D64
+	for <lists+linux-api@lfdr.de>; Wed, 12 Aug 2020 18:34:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726523AbgHLPWh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 Aug 2020 11:22:37 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42015 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726447AbgHLPWg (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Aug 2020 11:22:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1597245754;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=oDh0PVbFmTAjxTuN6pRKl4F3Ayg+hzteD+Qm6hAhSXE=;
-        b=G2DCqYAtiCe/miklDkkoenuG8wMMs9cvTiPVp2wzhKPy8fYeSsGuy1g2/QwahfxaDsWSW7
-        keIxGd6C5sFbfwjm2kzKGkgGVH8+IAwYQxE52d93kOf1q7yqBaPcW+zyZGirkvifJ24bKi
-        rewwekRGZBH7Egq5rsN65yRZzWHZxuw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-283-IIXQZXrePlKe_3WN_cCaxA-1; Wed, 12 Aug 2020 11:22:32 -0400
-X-MC-Unique: IIXQZXrePlKe_3WN_cCaxA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2EE0B800D55;
-        Wed, 12 Aug 2020 15:22:30 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-120-127.rdu2.redhat.com [10.10.120.127])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id DA7B760CCA;
-        Wed, 12 Aug 2020 15:22:26 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <CAJfpegsQF1aN4XJ_8j977rnQESxc=Kcn7Z2C+LnVDWXo4PKhTQ@mail.gmail.com>
-References: <CAJfpegsQF1aN4XJ_8j977rnQESxc=Kcn7Z2C+LnVDWXo4PKhTQ@mail.gmail.com> <CAHk-=wjzLmMRf=QG-n+1HnxWCx4KTQn9+OhVvUSJ=ZCQd6Y1WA@mail.gmail.com> <5C8E0FA8-274E-4B56-9B5A-88E768D01F3A@amacapital.net> <a6cd01ed-918a-0ed7-aa87-0585db7b6852@schaufler-ca.com> <CAJfpegvUBpb+C2Ab=CLAwWffOaeCedr-b7ZZKZnKvF4ph1nJrw@mail.gmail.com> <CAG48ez3Li+HjJ6-wJwN-A84WT2MFE131Dt+6YiU96s+7NO5wkQ@mail.gmail.com> <CAJfpeguh5VaDBdVkV3FJtRsMAvXHWUcBfEpQrYPEuX9wYzg9dA@mail.gmail.com> <CAHk-=whE42mFLi8CfNcdB6Jc40tXsG3sR+ThWAFihhBwfUbczA@mail.gmail.com> <CAJfpegtXtj2Q1wsR-3eUNA0S=_skzHF0CEmcK_Krd8dtKkWkGA@mail.gmail.com> <20200812143957.GQ1236603@ZenIV.linux.org.uk> <CAJfpegvFBdp3v9VcCp-wNDjZnQF3q6cufb-8PJieaGDz14sbBg@mail.gmail.com> <20200812150807.GR1236603@ZenIV.linux.org.uk>
+        id S1726679AbgHLQeD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 Aug 2020 12:34:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37492 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726600AbgHLQeD (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Aug 2020 12:34:03 -0400
+Received: from ZenIV.linux.org.uk (zeniv.linux.org.uk [IPv6:2002:c35c:fd02::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 258B7C061383;
+        Wed, 12 Aug 2020 09:34:03 -0700 (PDT)
+Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1k5thD-00EB4R-36; Wed, 12 Aug 2020 16:33:47 +0000
+Date:   Wed, 12 Aug 2020 17:33:47 +0100
+From:   Al Viro <viro@zeniv.linux.org.uk>
 To:     Miklos Szeredi <miklos@szeredi.hu>
-Cc:     dhowells@redhat.com, Al Viro <viro@zeniv.linux.org.uk>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Jann Horn <jannh@google.com>,
         Casey Schaufler <casey@schaufler-ca.com>,
         Andy Lutomirski <luto@amacapital.net>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        David Howells <dhowells@redhat.com>,
         Karel Zak <kzak@redhat.com>, Jeff Layton <jlayton@redhat.com>,
         Miklos Szeredi <mszeredi@redhat.com>,
         Nicolas Dichtel <nicolas.dichtel@6wind.com>,
@@ -56,23 +35,68 @@ Cc:     dhowells@redhat.com, Al Viro <viro@zeniv.linux.org.uk>,
         LSM <linux-security-module@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Subject: Re: file metadata via fs API (was: [GIT PULL] Filesystem Information)
+Message-ID: <20200812163347.GS1236603@ZenIV.linux.org.uk>
+References: <a6cd01ed-918a-0ed7-aa87-0585db7b6852@schaufler-ca.com>
+ <CAJfpegvUBpb+C2Ab=CLAwWffOaeCedr-b7ZZKZnKvF4ph1nJrw@mail.gmail.com>
+ <CAG48ez3Li+HjJ6-wJwN-A84WT2MFE131Dt+6YiU96s+7NO5wkQ@mail.gmail.com>
+ <CAJfpeguh5VaDBdVkV3FJtRsMAvXHWUcBfEpQrYPEuX9wYzg9dA@mail.gmail.com>
+ <CAHk-=whE42mFLi8CfNcdB6Jc40tXsG3sR+ThWAFihhBwfUbczA@mail.gmail.com>
+ <CAJfpegtXtj2Q1wsR-3eUNA0S=_skzHF0CEmcK_Krd8dtKkWkGA@mail.gmail.com>
+ <20200812143957.GQ1236603@ZenIV.linux.org.uk>
+ <CAJfpegvFBdp3v9VcCp-wNDjZnQF3q6cufb-8PJieaGDz14sbBg@mail.gmail.com>
+ <20200812150807.GR1236603@ZenIV.linux.org.uk>
+ <CAJfpegsQF1aN4XJ_8j977rnQESxc=Kcn7Z2C+LnVDWXo4PKhTQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <144851.1597245746.1@warthog.procyon.org.uk>
-Date:   Wed, 12 Aug 2020 16:22:26 +0100
-Message-ID: <144852.1597245746@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJfpegsQF1aN4XJ_8j977rnQESxc=Kcn7Z2C+LnVDWXo4PKhTQ@mail.gmail.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Miklos Szeredi <miklos@szeredi.hu> wrote:
+On Wed, Aug 12, 2020 at 05:13:14PM +0200, Miklos Szeredi wrote:
 
+> > Lovely.  And what of fchdir() to those?
+> 
+> Not allowed.
+
+Not allowed _how_?  Existing check is "is it a directory"; what do you
+propose?  IIRC, you've mentioned using readdir() in that context, so
+it's not that you only allow to open the leaves there.
+
+> > > > Is that a flat space, or can they be directories?"
+> > >
+> > > Yes it has a directory tree.   But you can't mkdir, rename, link,
+> > > symlink, etc on anything in there.
+> >
+> > That kills the "shared inode" part - you'll get deadlocks from
+> > hell that way.
+> 
+> No.  The shared inode is not for lookup, just for the open file.
+
+Bloody hell...  So what inodes are you using for lookups?  And that
+thing you would be passing to readdir() - what inode will _that_ have?
+
+> > Next: what will that tree be attached to?  As in, "what's the parent
+> > of its root"?  And while we are at it, what will be the struct mount
+> > used with those - same as the original file, something different
+> > attached to it, something created on the fly for each pathwalk and
+> > lazy-umounted?  And see above re fchdir() - if they can be directories,
+> > it's very much in the game.
+> 
 > Why does it have to have a struct mount?  It does not have to use
 > dentry/mount based path lookup.
 
-file->f_path.mnt
+What the fuck?  So we suddenly get an additional class of objects
+serving as kinda-sorta analogues of dentries *AND* now struct file
+might refer to that instead of a dentry/mount pair - all on the VFS
+level?  And so do all the syscalls you want to allow for such "pathnames"?
 
-David
+Sure, that avoids all questions about dcache interactions - by growing
+a replacement layer and making just about everything in fs/namei.c,
+fs/open.c, etc. special-case the handling of that crap.
 
+But yes, the syscall-level interface will be simple.  Wonderful.
+
+I really hope that's not what you have in mind, though.
