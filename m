@@ -2,66 +2,50 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6772C242BF6
-	for <lists+linux-api@lfdr.de>; Wed, 12 Aug 2020 17:13:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23B57242C1D
+	for <lists+linux-api@lfdr.de>; Wed, 12 Aug 2020 17:22:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726510AbgHLPNi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 Aug 2020 11:13:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53290 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726596AbgHLPN3 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Aug 2020 11:13:29 -0400
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36553C061384
-        for <linux-api@vger.kernel.org>; Wed, 12 Aug 2020 08:13:29 -0700 (PDT)
-Received: by mail-ed1-x52f.google.com with SMTP id l23so1790927edv.11
-        for <linux-api@vger.kernel.org>; Wed, 12 Aug 2020 08:13:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=VN6ir83bMjgYQIdeAbdj93K7AbOe8f4BRPi3nEgO7zE=;
-        b=VndYFHLsjboSueemTm/gTWyU/6d+bUbeH7HKxWM99Yng+XUQUYNG/AbXbblBZBH/An
-         /D674H4Y7QIjzxINCgZkEWjRdtLus6PyQhylX/IDuaUQ2j/48lydT4RO0vFLUPvqjs0i
-         laNjZmgU04BRpDmsumDv8mvr+p3mwHETI4Oyo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VN6ir83bMjgYQIdeAbdj93K7AbOe8f4BRPi3nEgO7zE=;
-        b=h/HcgpjCajkbsuQLpx17SSSUaMKMLdbjG7YDwQnR+f7+UwrgLQoHuvu/RxsQAPwun4
-         bLTQH5kuMT2WzRiLwLbfXPWvjHGP7ST+G3W7SO1ChOwAnL7r4QFIaCO1Z79O1SMmBTMA
-         G6CSZgWxmrD8uT/3T5slv3cIUvIRQZdCpn8EV5OF0nMdRqEpExjnxekCEmqXGmgS8pSe
-         /npWjBqZdsw67DdtTQsfhMUdzAWkZxR4fB9zGcGfcmN1aioJeYc6ZGAaMfrKV2HxvyRP
-         XK5ApXGuaqQVWoIkzZ/Z4+gXCBovi2xplgAsc8mOqGlcONrLySoln+04dxAmCLPVaTGn
-         Wivg==
-X-Gm-Message-State: AOAM533yA5oWrjhaQwvAKd4Sohexfb/4VDKpImJockEIJHE+EzRcgTEA
-        +W9zJ3L9Ygub3iB0ZoRnYpTk+kqxHq/iXfrPMwTvSg==
-X-Google-Smtp-Source: ABdhPJx4u1q1FLW556zPlIsLcP302q5ujVZaE+rGeWv7TC31XhI4j+ua8W7rg17I4ZmHnOSV4oPmxDB/frsEThGPkcc=
-X-Received: by 2002:a05:6402:13d4:: with SMTP id a20mr368514edx.161.1597245205349;
- Wed, 12 Aug 2020 08:13:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAHk-=wjzLmMRf=QG-n+1HnxWCx4KTQn9+OhVvUSJ=ZCQd6Y1WA@mail.gmail.com>
- <5C8E0FA8-274E-4B56-9B5A-88E768D01F3A@amacapital.net> <a6cd01ed-918a-0ed7-aa87-0585db7b6852@schaufler-ca.com>
- <CAJfpegvUBpb+C2Ab=CLAwWffOaeCedr-b7ZZKZnKvF4ph1nJrw@mail.gmail.com>
- <CAG48ez3Li+HjJ6-wJwN-A84WT2MFE131Dt+6YiU96s+7NO5wkQ@mail.gmail.com>
- <CAJfpeguh5VaDBdVkV3FJtRsMAvXHWUcBfEpQrYPEuX9wYzg9dA@mail.gmail.com>
- <CAHk-=whE42mFLi8CfNcdB6Jc40tXsG3sR+ThWAFihhBwfUbczA@mail.gmail.com>
- <CAJfpegtXtj2Q1wsR-3eUNA0S=_skzHF0CEmcK_Krd8dtKkWkGA@mail.gmail.com>
- <20200812143957.GQ1236603@ZenIV.linux.org.uk> <CAJfpegvFBdp3v9VcCp-wNDjZnQF3q6cufb-8PJieaGDz14sbBg@mail.gmail.com>
- <20200812150807.GR1236603@ZenIV.linux.org.uk>
-In-Reply-To: <20200812150807.GR1236603@ZenIV.linux.org.uk>
-From:   Miklos Szeredi <miklos@szeredi.hu>
-Date:   Wed, 12 Aug 2020 17:13:14 +0200
-Message-ID: <CAJfpegsQF1aN4XJ_8j977rnQESxc=Kcn7Z2C+LnVDWXo4PKhTQ@mail.gmail.com>
-Subject: Re: file metadata via fs API (was: [GIT PULL] Filesystem Information)
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        id S1726523AbgHLPWh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 Aug 2020 11:22:37 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42015 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726447AbgHLPWg (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Aug 2020 11:22:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1597245754;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=oDh0PVbFmTAjxTuN6pRKl4F3Ayg+hzteD+Qm6hAhSXE=;
+        b=G2DCqYAtiCe/miklDkkoenuG8wMMs9cvTiPVp2wzhKPy8fYeSsGuy1g2/QwahfxaDsWSW7
+        keIxGd6C5sFbfwjm2kzKGkgGVH8+IAwYQxE52d93kOf1q7yqBaPcW+zyZGirkvifJ24bKi
+        rewwekRGZBH7Egq5rsN65yRZzWHZxuw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-283-IIXQZXrePlKe_3WN_cCaxA-1; Wed, 12 Aug 2020 11:22:32 -0400
+X-MC-Unique: IIXQZXrePlKe_3WN_cCaxA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2EE0B800D55;
+        Wed, 12 Aug 2020 15:22:30 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-120-127.rdu2.redhat.com [10.10.120.127])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id DA7B760CCA;
+        Wed, 12 Aug 2020 15:22:26 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <CAJfpegsQF1aN4XJ_8j977rnQESxc=Kcn7Z2C+LnVDWXo4PKhTQ@mail.gmail.com>
+References: <CAJfpegsQF1aN4XJ_8j977rnQESxc=Kcn7Z2C+LnVDWXo4PKhTQ@mail.gmail.com> <CAHk-=wjzLmMRf=QG-n+1HnxWCx4KTQn9+OhVvUSJ=ZCQd6Y1WA@mail.gmail.com> <5C8E0FA8-274E-4B56-9B5A-88E768D01F3A@amacapital.net> <a6cd01ed-918a-0ed7-aa87-0585db7b6852@schaufler-ca.com> <CAJfpegvUBpb+C2Ab=CLAwWffOaeCedr-b7ZZKZnKvF4ph1nJrw@mail.gmail.com> <CAG48ez3Li+HjJ6-wJwN-A84WT2MFE131Dt+6YiU96s+7NO5wkQ@mail.gmail.com> <CAJfpeguh5VaDBdVkV3FJtRsMAvXHWUcBfEpQrYPEuX9wYzg9dA@mail.gmail.com> <CAHk-=whE42mFLi8CfNcdB6Jc40tXsG3sR+ThWAFihhBwfUbczA@mail.gmail.com> <CAJfpegtXtj2Q1wsR-3eUNA0S=_skzHF0CEmcK_Krd8dtKkWkGA@mail.gmail.com> <20200812143957.GQ1236603@ZenIV.linux.org.uk> <CAJfpegvFBdp3v9VcCp-wNDjZnQF3q6cufb-8PJieaGDz14sbBg@mail.gmail.com> <20200812150807.GR1236603@ZenIV.linux.org.uk>
+To:     Miklos Szeredi <miklos@szeredi.hu>
+Cc:     dhowells@redhat.com, Al Viro <viro@zeniv.linux.org.uk>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         Jann Horn <jannh@google.com>,
         Casey Schaufler <casey@schaufler-ca.com>,
         Andy Lutomirski <luto@amacapital.net>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        David Howells <dhowells@redhat.com>,
         Karel Zak <kzak@redhat.com>, Jeff Layton <jlayton@redhat.com>,
         Miklos Szeredi <mszeredi@redhat.com>,
         Nicolas Dichtel <nicolas.dichtel@6wind.com>,
@@ -71,85 +55,24 @@ Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Ian Kent <raven@themaw.net>,
         LSM <linux-security-module@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: file metadata via fs API (was: [GIT PULL] Filesystem Information)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <144851.1597245746.1@warthog.procyon.org.uk>
+Date:   Wed, 12 Aug 2020 16:22:26 +0100
+Message-ID: <144852.1597245746@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Aug 12, 2020 at 5:08 PM Al Viro <viro@zeniv.linux.org.uk> wrote:
->
-> On Wed, Aug 12, 2020 at 04:46:20PM +0200, Miklos Szeredi wrote:
->
-> > > "Can those suckers be passed to
-> > > ...at() as starting points?
-> >
-> > No.
->
-> Lovely.  And what of fchdir() to those?
+Miklos Szeredi <miklos@szeredi.hu> wrote:
 
-Not allowed.
+> Why does it have to have a struct mount?  It does not have to use
+> dentry/mount based path lookup.
 
-> Are they all non-directories?
-> Because the starting point of ...at() can be simulated that way...
->
-> > >  Can they be bound in namespace?
-> >
-> > No.
-> >
-> > > Can something be bound *on* them?
-> >
-> > No.
-> >
-> > >  What do they have for inodes
-> > > and what maintains their inumbers (and st_dev, while we are at
-> > > it)?
-> >
-> > Irrelevant.  Can be some anon dev + shared inode.
-> >
-> > The only attribute of an attribute that I can think of that makes
-> > sense would be st_size, but even that is probably unimportant.
-> >
-> > >  Can _they_ have secondaries like that (sensu Swift)?
-> >
-> > Reference?
->
-> http://www.online-literature.com/swift/3515/
->         So, naturalists observe, a flea
->         Has smaller fleas that on him prey;
->         And these have smaller still to bite 'em,
->         And so proceed ad infinitum.
-> of course ;-)
-> IOW, can the things in those trees have secondary trees on them, etc.?
-> Not "will they have it in your originally intended use?" - "do we need
-> the architecture of the entire thing to be capable to deal with that?"
+file->f_path.mnt
 
-No.
+David
 
->
-> > > Is that a flat space, or can they be directories?"
-> >
-> > Yes it has a directory tree.   But you can't mkdir, rename, link,
-> > symlink, etc on anything in there.
->
-> That kills the "shared inode" part - you'll get deadlocks from
-> hell that way.
-
-No.  The shared inode is not for lookup, just for the open file.
-
->  "Can't mkdir" doesn't save you from that.  BTW,
-> what of unlink()?  If the tree shape is not a hardwired constant,
-> you get to decide how it's initially populated...
->
-> Next: what will that tree be attached to?  As in, "what's the parent
-> of its root"?  And while we are at it, what will be the struct mount
-> used with those - same as the original file, something different
-> attached to it, something created on the fly for each pathwalk and
-> lazy-umounted?  And see above re fchdir() - if they can be directories,
-> it's very much in the game.
-
-Why does it have to have a struct mount?  It does not have to use
-dentry/mount based path lookup.
-
-Thanks,
-Miklos
