@@ -2,190 +2,160 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A70D24238B
-	for <lists+linux-api@lfdr.de>; Wed, 12 Aug 2020 02:54:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E05B242437
+	for <lists+linux-api@lfdr.de>; Wed, 12 Aug 2020 05:17:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726405AbgHLAxy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 11 Aug 2020 20:53:54 -0400
-Received: from wnew2-smtp.messagingengine.com ([64.147.123.27]:53521 "EHLO
-        wnew2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726333AbgHLAxy (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Aug 2020 20:53:54 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-        by mailnew.west.internal (Postfix) with ESMTP id 57EADB10;
-        Tue, 11 Aug 2020 20:53:52 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Tue, 11 Aug 2020 20:53:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=
-        message-id:subject:from:to:cc:date:in-reply-to:references
-        :content-type:mime-version:content-transfer-encoding; s=fm3; bh=
-        cPWWSWjp5+yRqK3+DqGTMH/lSARmGj5rks/w1/txg0w=; b=TQfG91XIX1ygqwLM
-        4sfnV7xe4g4iEY5T2ZgoPGIvuSUQw+4Hf0WlavPnkJH899yiUIYsRzhXtEorXMX6
-        JAjvuuyWT1VNZIPp5VFu+F/GckYHBFLgVBBlZX3enRz9VH6EXmkGNTuYIOF+Pfie
-        N0Nc+c2F1+NDnBuqWPJZrMqWJcOSrBnnqHlWAYHiuaTQdT9c6JPPrReJyKqTh2zm
-        No2QYEQU3HDNmmEoy/TTxJT8NjkMiNy7TnYqJSxosnnLuWRdzPKhyemSRNRdWOOX
-        nJv1YGH8vIspNblClS2yjsYAnEuDv2lO8WXcUJOh1kj5w7MnPoVwFwYeRZ8fIj/K
-        bsvHPA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:in-reply-to:message-id:mime-version:references
-        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; bh=cPWWSWjp5+yRqK3+DqGTMH/lSARmGj5rks/w1/txg
-        0w=; b=GKFvGOVtMQ4f6ZSR6opBfHGjXI8/Gi3A9rXrmNwm17kxUUGeU/gCtQnQb
-        wLMCvOJHSAJMdDPy/WOUoEYBESKjUUr4GrKdc2/d2uTtoVhOhqYs9EY65Xy2ZMUO
-        Y8NBx/ctIdwH0H9DpWZet46rZr13YJby/IiCTlBYIQHDMaK0zOaTBxM+mCo2bCYg
-        pHXAnI3K+nqlWKfqrESxED1CKyXKT+2gR/zo/upH3VBlDaWgQ8pUkpzGQBwWAHBH
-        hoJXrRDIKWLWCQmMI/pm4/chCHou6osTKG0Kjdttd8wEHWZlv0b9Q8cTCHl1BK7a
-        zqEnQqzoM+HB0wWq+tPKpw17f3Tdg==
-X-ME-Sender: <xms:nz0zXzjMSOgJ2xYPBvOcU-Ha_7ok9jmXV1szTmzx9oAbUQylQwt_ig>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrledugdeflecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefkuffhvfffjghftggfggfgsehtjeertddtreejnecuhfhrohhmpefkrghnucfm
-    vghnthcuoehrrghvvghnsehthhgvmhgrfidrnhgvtheqnecuggftrfgrthhtvghrnhepfe
-    efteetvdeguddvveefveeftedtffduudehueeihfeuvefgveehffeludeggfejnecukfhp
-    peehkedrjedrvddtfedruddugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
-    epmhgrihhlfhhrohhmpehrrghvvghnsehthhgvmhgrfidrnhgvth
-X-ME-Proxy: <xmx:nz0zXwBgD2ob41umt3OPIRxuqE-g0HsfHsGO8Ae0YGqbihrt08cUNQ>
-    <xmx:nz0zXzE4LHDsOlcxqYR__fNM67Gt9hc6dTIOMjTlpFY0PrJeOvz26A>
-    <xmx:nz0zXwRfXw2PKoUB9Y2MCwNnLb_YXNKnq7azqZl4ax9OitEysQiqTw>
-    <xmx:nz0zX1q-mYvkP_QKgcFtn6lCIncYt0j7rJdpNseI8r85f0aJ5AKup7fACM4>
-Received: from mickey.themaw.net (58-7-203-114.dyn.iinet.net.au [58.7.203.114])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 4BC3F30600A6;
-        Tue, 11 Aug 2020 20:53:45 -0400 (EDT)
-Message-ID: <78ff6a85f5fc5f3e72f899728520a39b358b10c7.camel@themaw.net>
-Subject: Re: file metadata via fs API (was: [GIT PULL] Filesystem
- Information)
-From:   Ian Kent <raven@themaw.net>
-To:     Christian Brauner <christian.brauner@ubuntu.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Miklos Szeredi <miklos@szeredi.hu>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        David Howells <dhowells@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>, Karel Zak <kzak@redhat.com>,
-        Jeff Layton <jlayton@redhat.com>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Nicolas Dichtel <nicolas.dichtel@6wind.com>,
-        Christian Brauner <christian@brauner.io>,
-        Lennart Poettering <lennart@poettering.net>,
-        Linux API <linux-api@vger.kernel.org>,
-        LSM <linux-security-module@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Date:   Wed, 12 Aug 2020 08:53:42 +0800
-In-Reply-To: <20200811193916.zcwebstmbyvushau@wittgenstein>
-References: <1842689.1596468469@warthog.procyon.org.uk>
-         <1845353.1596469795@warthog.procyon.org.uk>
-         <CAJfpegunY3fuxh486x9ysKtXbhTE0745ZCVHcaqs9Gww9RV2CQ@mail.gmail.com>
-         <ac1f5e3406abc0af4cd08d818fe920a202a67586.camel@themaw.net>
-         <CAJfpegu8omNZ613tLgUY7ukLV131tt7owR+JJ346Kombt79N0A@mail.gmail.com>
-         <CAJfpegtNP8rQSS4Z14Ja4x-TOnejdhDRTsmmDD-Cccy2pkfVVw@mail.gmail.com>
-         <20200811135419.GA1263716@miu.piliscsaba.redhat.com>
-         <CAHk-=wjzLmMRf=QG-n+1HnxWCx4KTQn9+OhVvUSJ=ZCQd6Y1WA@mail.gmail.com>
-         <CAJfpegtWai+5Tzxi1_G+R2wEZz0q66uaOFndNE0YEQSDjq0f_A@mail.gmail.com>
-         <CAHk-=wg_bfVf5eazwH2uXTG-auCYZUpq-xb1kDeNjY7yaXS7bw@mail.gmail.com>
-         <20200811193916.zcwebstmbyvushau@wittgenstein>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
+        id S1726489AbgHLDRS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 11 Aug 2020 23:17:18 -0400
+Received: from mail-io1-f69.google.com ([209.85.166.69]:34493 "EHLO
+        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726488AbgHLDRR (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Aug 2020 23:17:17 -0400
+Received: by mail-io1-f69.google.com with SMTP id 127so655004iou.1
+        for <linux-api@vger.kernel.org>; Tue, 11 Aug 2020 20:17:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=2FxaZz2wzxy2yGxxRulgV5SYGolbOKGdFSA96kJFpbE=;
+        b=leVRUS9QSvQczJ5BTg9rZaEA3oJkgztvHyXfQkOgGWSqVwsrWo2l98BciADZ8clj+B
+         yaHRCTdRIabKROmBRN/W2XaTlOaujpXL60A36Phvtydx4r1SPudsRb3WEd61EqOyXmb7
+         Vps3XVPFoCekzesXd5L1M0RguFKQQ7x8LYwXSzQM5HrIg95ZFNuENTJzDGsaNDGNqq7K
+         NJz6+nc7AmUlPklylxrqQfQEUHe6TAuOv5ZWJzv7yW3wM0wDdUctMdtagX0nVQQiRQJJ
+         Hky8gcwCycwGooP53b/XDrCLkEUb8LN/yIw1HN+b2oy9XoteMnQtM+aF9Ml7Oh5ec7Ai
+         hUEA==
+X-Gm-Message-State: AOAM532Pyi93xnuFwlZRsURC7KPZXNkAVYDQaRnx/x2XAztpWQiv4lwW
+        0evjJXYzONG1e1gjFgvlrZzOPCaLfRL0We56smtmFDqQk0AM
+X-Google-Smtp-Source: ABdhPJyhViwJRe11cEFZ/5sPX7qOSHXuy/RZXOu9nQNmAP9bJCnnNMWBXMKSc/bmO4qQY0ZfTyVqxMslTn2CbN8qkg+8DWhHrmfE
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a5e:991a:: with SMTP id t26mr25266609ioj.7.1597202236468;
+ Tue, 11 Aug 2020 20:17:16 -0700 (PDT)
+Date:   Tue, 11 Aug 2020 20:17:16 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000f0724405aca59f64@google.com>
+Subject: KASAN: use-after-free Read in path_init (2)
+From:   syzbot <syzbot+bbeb1c88016c7db4aa24@syzkaller.appspotmail.com>
+To:     arnd@arndb.de, christian.brauner@ubuntu.com, hch@lst.de,
+        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux@dominikbrodowski.net,
+        syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, 2020-08-11 at 21:39 +0200, Christian Brauner wrote:
-> On Tue, Aug 11, 2020 at 09:05:22AM -0700, Linus Torvalds wrote:
-> > On Tue, Aug 11, 2020 at 8:30 AM Miklos Szeredi <miklos@szeredi.hu>
-> > wrote:
-> > > What's the disadvantage of doing it with a single lookup WITH an
-> > > enabling flag?
-> > > 
-> > > It's definitely not going to break anything, so no backward
-> > > compatibility issues whatsoever.
-> > 
-> > No backwards compatibility issues for existing programs, no.
-> > 
-> > But your suggestion is fundamentally ambiguous, and you most
-> > definitely *can* hit that if people start using this in new
-> > programs.
-> > 
-> > Where does that "unified" pathname come from? It will be generated
-> > from "base filename + metadata name" in user space, and
-> > 
-> >  (a) the base filename might have double or triple slashes in it
-> > for
-> > whatever reasons.
-> > 
-> > This is not some "made-up gotcha" thing - I see double slashes
-> > *all*
-> > the time when we have things like Makefiles doing
-> > 
-> >     srctree=../../src/
-> > 
-> > and then people do "$(srctree)/". If you haven't seen that kind of
-> > pattern where the pathname has two (or sometimes more!) slashes in
-> > the
-> > middle, you've led a very sheltered life.
-> > 
-> >  (b) even if the new user space were to think about that, and
-> > remove
-> > those (hah! when have you ever seen user space do that?), as Al
-> > mentioned, the user *filesystem* might have pathnames with double
-> > slashes as part of symlinks.
-> > 
-> > So now we'd have to make sure that when we traverse symlinks, that
-> > O_ALT gets cleared. Which means that it's not a unified namespace
-> > after all, because you can't make symlinks point to metadata.
-> > 
-> > Or we'd retroactively change the semantics of a symlink, and that
-> > _is_
-> > a backwards compatibility issue. Not with old software, no, but it
-> > changes the meaning of old symlinks!
-> > 
-> > So no, I don't think a unified namespace ends up working.
-> > 
-> > And I say that as somebody who actually loves the concept. Ask Al:
-> > I
-> > have a few times pushed for "let's allow directory behavior on
-> > regular
-> > files", so that you could do things like a tar-filesystem, and
-> > access
-> > the contents of a tar-file by just doing
-> > 
-> >     cat my-file.tar/inside/the/archive.c
-> > 
-> > or similar.
-> > 
-> > Al has convinced me it's a horrible idea (and there you have a
-> > non-ambiguous marker: the slash at the end of a pathname that
-> > otherwise looks and acts as a non-directory)
-> > 
-> 
-> Putting my kernel hat down, putting my userspace hat on.
-> 
-> I'm looking at this from a potential user of this interface.
-> I'm not a huge fan of the metadata fd approach I'd much rather have a
-> dedicated system call rather than opening a side-channel metadata fd
-> that I can read binary data from. Maybe I'm alone in this but I was
-> under the impression that other users including Ian, Lennart, and
-> Karel
-> have said on-list in some form that they would prefer this approach.
-> There are even patches for systemd and libmount, I thought?
+Hello,
 
-Not quite sure what you mean here.
+syzbot found the following issue on:
 
-Karel (with some contributions by me) has implemented the interfaces
-for David's mount notifications and fsinfo() call in libmount. We
-still have a little more to do on that.
+HEAD commit:    5631c5e0 Merge tag 'xfs-5.9-merge-7' of git://git.kernel.o..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=17076984900000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=afba7c06f91e56eb
+dashboard link: https://syzkaller.appspot.com/bug?extid=bbeb1c88016c7db4aa24
+compiler:       gcc (GCC) 10.1.0-syz 20200507
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1502ce02900000
 
-I also have a systemd implementation that uses these libmount features
-for mount table handling that works quite well, with a couple more
-things to do to complete it, that Lennart has done an initial review
-for.
+The issue was bisected to:
 
-It's no secret that I don't like the proc file system in general
-but it is really useful for many things, that's just the way it
-is.
+commit e24ab0ef689de43649327f54cd1088f3dad25bb3
+Author: Christoph Hellwig <hch@lst.de>
+Date:   Tue Jul 21 08:48:15 2020 +0000
 
-Ian
+    fs: push the getname from do_rmdir into the callers
 
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=155f36c2900000
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=175f36c2900000
+console output: https://syzkaller.appspot.com/x/log.txt?x=135f36c2900000
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+bbeb1c88016c7db4aa24@syzkaller.appspotmail.com
+Fixes: e24ab0ef689d ("fs: push the getname from do_rmdir into the callers")
+
+==================================================================
+BUG: KASAN: use-after-free in path_init+0x116b/0x13c0 fs/namei.c:2207
+Read of size 8 at addr ffff88807853c940 by task syz-executor.2/8233
+
+CPU: 0 PID: 8233 Comm: syz-executor.2 Not tainted 5.8.0-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Call Trace:
+ __dump_stack lib/dump_stack.c:77 [inline]
+ dump_stack+0x18f/0x20d lib/dump_stack.c:118
+ print_address_description.constprop.0.cold+0xae/0x436 mm/kasan/report.c:383
+ __kasan_report mm/kasan/report.c:513 [inline]
+ kasan_report.cold+0x1f/0x37 mm/kasan/report.c:530
+ path_init+0x116b/0x13c0 fs/namei.c:2207
+ path_parentat+0x22/0x1b0 fs/namei.c:2384
+ filename_parentat+0x188/0x560 fs/namei.c:2407
+ do_rmdir+0xa8/0x440 fs/namei.c:3732
+ do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
+ entry_SYSCALL_64_after_hwframe+0x44/0xa9
+RIP: 0033:0x45ce79
+Code: 2d b6 fb ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 0f 83 fb b5 fb ff c3 66 2e 0f 1f 84 00 00 00 00
+RSP: 002b:00007f756fb2bc78 EFLAGS: 00000246 ORIG_RAX: 0000000000000054
+RAX: ffffffffffffffda RBX: 00000000000260c0 RCX: 000000000045ce79
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 00000000200000c0
+RBP: 000000000118bff0 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 000000000118bfcc
+R13: 00007ffedeb9931f R14: 00007f756fb2c9c0 R15: 000000000118bfcc
+
+Allocated by task 8233:
+ save_stack+0x1b/0x40 mm/kasan/common.c:48
+ set_track mm/kasan/common.c:56 [inline]
+ __kasan_kmalloc.constprop.0+0xc2/0xd0 mm/kasan/common.c:494
+ slab_post_alloc_hook mm/slab.h:586 [inline]
+ slab_alloc mm/slab.c:3320 [inline]
+ kmem_cache_alloc+0x12c/0x3b0 mm/slab.c:3484
+ getname_flags.part.0+0x50/0x4f0 fs/namei.c:138
+ getname_flags include/linux/audit.h:320 [inline]
+ getname fs/namei.c:209 [inline]
+ __do_sys_rmdir fs/namei.c:3783 [inline]
+ __se_sys_rmdir fs/namei.c:3781 [inline]
+ __x64_sys_rmdir+0xb1/0x100 fs/namei.c:3781
+ do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
+ entry_SYSCALL_64_after_hwframe+0x44/0xa9
+
+Freed by task 8233:
+ save_stack+0x1b/0x40 mm/kasan/common.c:48
+ set_track mm/kasan/common.c:56 [inline]
+ kasan_set_free_info mm/kasan/common.c:316 [inline]
+ __kasan_slab_free+0xf5/0x140 mm/kasan/common.c:455
+ __cache_free mm/slab.c:3426 [inline]
+ kmem_cache_free+0x7f/0x310 mm/slab.c:3694
+ putname+0xe1/0x120 fs/namei.c:259
+ do_rmdir+0x145/0x440 fs/namei.c:3773
+ do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
+ entry_SYSCALL_64_after_hwframe+0x44/0xa9
+
+The buggy address belongs to the object at ffff88807853c940
+ which belongs to the cache names_cache of size 4096
+The buggy address is located 0 bytes inside of
+ 4096-byte region [ffff88807853c940, ffff88807853d940)
+The buggy address belongs to the page:
+page:ffffea0001e14f00 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 head:ffffea0001e14f00 order:1 compound_mapcount:0
+flags: 0xfffe0000010200(slab|head)
+raw: 00fffe0000010200 ffffea0001e14e88 ffffea0001e14f88 ffff8880aa246380
+raw: 0000000000000000 ffff88807853c940 0000000100000001 0000000000000000
+page dumped because: kasan: bad access detected
+
+Memory state around the buggy address:
+ ffff88807853c800: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff88807853c880: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>ffff88807853c900: fc fc fc fc fc fc fc fc fb fb fb fb fb fb fb fb
+                                           ^
+ ffff88807853c980: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff88807853ca00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+==================================================================
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
