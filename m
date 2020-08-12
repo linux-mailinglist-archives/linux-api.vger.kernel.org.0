@@ -2,46 +2,47 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 54F0524220A
-	for <lists+linux-api@lfdr.de>; Tue, 11 Aug 2020 23:35:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6A8A2422F8
+	for <lists+linux-api@lfdr.de>; Wed, 12 Aug 2020 02:05:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726258AbgHKVfk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 11 Aug 2020 17:35:40 -0400
-Received: from sonic312-30.consmr.mail.ne1.yahoo.com ([66.163.191.211]:36264
-        "EHLO sonic312-30.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725987AbgHKVfh (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Aug 2020 17:35:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1597181736; bh=8w+EvcZsCqHpbTMb7B5p6NtPpopAs+8fJLhaCvPEguQ=; h=Subject:To:Cc:References:From:Date:In-Reply-To:From:Subject; b=i91CjXySd1TgYGOpZu2BTool5O+P8ufWcekoPfjnGFQp9kbbp4YCkeAzRTkM7AH8X3sfZ6sfWbJLK+FvddMQew7r5WK2dolRfKKtYB/IZ1DsFL0lWIv4vHJ6llQU/fFMYQo5h9TPmE2ayh6tItTnfAL5+Ldx4qBqCuG9VTH2MM1IvZNd3bBP7AM5qSRczXL+Efnqqm+SOq+gjKKb/sI1EIIzZwMj+/Ia3qfxdmSawd9ZwDE8hgiq5af6YRVSlcAoHNrMxSWpOiaE488/kd6fbcE3rRxpBnlnfLD5g9qRaB5lNZ34ODqUJtSClBjL7H+bCwvj7G5Pij/onFn6TBN22w==
-X-YMail-OSG: WpZ3b0IVM1lOWflYFjwxd55lge1PeLe6UFcnTAkXmNFz68kn9XRwy3GlteeHBPi
- dzQAo.fvGwnt0N1bdticMs1as11oix7oMxoAXjzv0YmACD9HGQ38XBuJScIsbASifn4MIcIOmcv4
- 5iDwRWMvXuDPIY37R38Rfeo_swDDA0w5ecqTDEoAzH7cQMPjz6fkj_1BQPYXJkMetYuxZXB2fivU
- .TFgOCK.C4_82teyT5tKiHwgfYzrZIf3jCUML8pZDLKqf202bzrDoP9wycwhqKzdAyd7pVbvfL10
- DL4oIU2JdaN5ri6mfHU.cqraJdoCGf2ptndpgPnU_6L_YRyd2XjM814y1ZbKtsQKnWSXjoljv6pw
- wwVoumV.nOdtp49.GffNPS1g3zcAaP.TYdSORXIyA_24BsvEkbuxr8hNRo86mdawuxIWbTaKtaHO
- 0rKTCWQeXircV8F3XrgiK5XQgOype7HvJAddh0tN2JUVNRLKFsYVafPZEuqk68G9FQmBZAY.AYIa
- 5TUFl23mEH7o6gG9Z8sE7hgq_.3IdEGf761nmp6qmbXFS75A12MamD_dc2Fbfo5ui7gDfQAGGb0W
- 3UE8LNRuOuQ16wqoob86h4FrYVQVesPXlEBlSyUhAQPUG5TP_P2T0I56X2_frrGULaI.wsvS94kL
- rIASWAkB3Bp..fw0Ag3zYlfR4oGMB6uXa65aGnMvoqsfEYt7ORRyyP0oiSQsJzKM1n5mr3oFDaWY
- Bs4afdjlRC.A0dyd9FboZFNgTzHwgdo_Yg1NhlQEDUJZ1hbzvsWLB12qQInlMTfcBondpNmP34fk
- IhIwj0tfBbuguSuudR98cKAf_DioUGANHc1nIGTidBz4BSbS.1Oa7O_JjpWi4O4WAp_7RBfNt3MA
- S3NpsokMdgsIOKTlZVp7eN3mK18dczJs0_.0Xi21tc6.ohEr70gLejLMbbjhREn9kURu..k1gdNr
- EUYPJOSwDZf5eaGQd9j7.VH8Asu16xztRa9cmxzyNZGyF2WqcOOrGbkvhfAuOGe0zd7yfh0WKAQI
- 8B3AoCYRz.wccr9hd.lS7kNel5rjpCUfpweZK_cP66XAZ_fCyoKDdLFOElU6zKQFdzGTCGEyMlyn
- ATPwA6O1Qe2ruuFkx.y6HLhdHAQ85jMhnNpdRFY4KedHWYsdnAG..cS9lxAfTM81z31E.3fcOOhx
- DvKyYL_YM7HhsGmX6wiXskyDSzS7H1jNTqei_OTjrr2j2m7lZQKDVMEYv6n3yhaTgbwxkSX8gGNP
- 5PWXqcKMMQ8A5YDvuNBAhk1LJgXBnD6D5xJep6cmbHeyeC_JVyL1wRB_dAyYUNBscorpkn0D5hY_
- IxFJD0tiQhnl2tetFuJqrpq_NGHIR8aIq4ZkkHC1D4fys0ELI59Iq_CK1iV_6bLhFJKGZMrcSImc
- kvVBYO4myW2zF9GmT33nOUpmciPoyK_pdh_NHRQSECyWXoWVsu_ju8Wc7OgY8bnn9mTKZrflDwcB
- _B5SCzE92E6IdAorK8ll.vqIRtuhjgePlgw--
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic312.consmr.mail.ne1.yahoo.com with HTTP; Tue, 11 Aug 2020 21:35:36 +0000
-Received: by smtp415.mail.bf1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA ID 96b01fe5efcd5843237bda437e1afa7c;
-          Tue, 11 Aug 2020 21:35:35 +0000 (UTC)
-Subject: Re: file metadata via fs API (was: [GIT PULL] Filesystem Information)
-To:     Miklos Szeredi <miklos@szeredi.hu>
-Cc:     Andy Lutomirski <luto@amacapital.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+        id S1726501AbgHLAFr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 11 Aug 2020 20:05:47 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23868 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726164AbgHLAFn (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Aug 2020 20:05:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1597190740;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=2jvOO01wJQ7L+h65rqFuV46JFZcKV/98XxuqqDs02rY=;
+        b=Ox/Em/hOEgZVvcqmDducQa3e46V3oT+OU+8Elq0Zjo5Esbn+7oZB8SzCxjsGUNcsRf2uA+
+        FRlmUVm1rbrivh2wHaJbR0P///LJLi1jxTdf+ztTBXyfcTSVmqQqnKSMAuk3ig2zZbnUSm
+        LNrGfQwDhXe+X2rtsVN6Xxi0q7pcpOU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-488-lrrbiAU6MvS7mSu0Py8dfg-1; Tue, 11 Aug 2020 20:05:39 -0400
+X-MC-Unique: lrrbiAU6MvS7mSu0Py8dfg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B5F680048A;
+        Wed, 12 Aug 2020 00:05:37 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-120-127.rdu2.redhat.com [10.10.120.127])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C2D5972ADE;
+        Wed, 12 Aug 2020 00:05:33 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <CAHk-=wjzLmMRf=QG-n+1HnxWCx4KTQn9+OhVvUSJ=ZCQd6Y1WA@mail.gmail.com>
+References: <CAHk-=wjzLmMRf=QG-n+1HnxWCx4KTQn9+OhVvUSJ=ZCQd6Y1WA@mail.gmail.com> <1842689.1596468469@warthog.procyon.org.uk> <1845353.1596469795@warthog.procyon.org.uk> <CAJfpegunY3fuxh486x9ysKtXbhTE0745ZCVHcaqs9Gww9RV2CQ@mail.gmail.com> <ac1f5e3406abc0af4cd08d818fe920a202a67586.camel@themaw.net> <CAJfpegu8omNZ613tLgUY7ukLV131tt7owR+JJ346Kombt79N0A@mail.gmail.com> <CAJfpegtNP8rQSS4Z14Ja4x-TOnejdhDRTsmmDD-Cccy2pkfVVw@mail.gmail.com> <20200811135419.GA1263716@miu.piliscsaba.redhat.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     dhowells@redhat.com, Miklos Szeredi <miklos@szeredi.hu>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        David Howells <dhowells@redhat.com>,
         Al Viro <viro@zeniv.linux.org.uk>, Karel Zak <kzak@redhat.com>,
         Jeff Layton <jlayton@redhat.com>,
         Miklos Szeredi <mszeredi@redhat.com>,
@@ -51,71 +52,229 @@ Cc:     Andy Lutomirski <luto@amacapital.net>,
         Linux API <linux-api@vger.kernel.org>,
         Ian Kent <raven@themaw.net>,
         LSM <linux-security-module@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Casey Schaufler <casey@schaufler-ca.com>
-References: <CAHk-=wjzLmMRf=QG-n+1HnxWCx4KTQn9+OhVvUSJ=ZCQd6Y1WA@mail.gmail.com>
- <5C8E0FA8-274E-4B56-9B5A-88E768D01F3A@amacapital.net>
- <a6cd01ed-918a-0ed7-aa87-0585db7b6852@schaufler-ca.com>
- <CAJfpegvUBpb+C2Ab=CLAwWffOaeCedr-b7ZZKZnKvF4ph1nJrw@mail.gmail.com>
-From:   Casey Schaufler <casey@schaufler-ca.com>
-Message-ID: <c013f32e-3931-f832-5857-2537a0b3d634@schaufler-ca.com>
-Date:   Tue, 11 Aug 2020 14:35:33 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: file metadata via fs API (was: [GIT PULL] Filesystem Information)
 MIME-Version: 1.0
-In-Reply-To: <CAJfpegvUBpb+C2Ab=CLAwWffOaeCedr-b7ZZKZnKvF4ph1nJrw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Mailer: WebService/1.1.16455 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo Apache-HttpAsyncClient/4.1.4 (Java/11.0.7)
+Content-Transfer-Encoding: quoted-printable
+Date:   Wed, 12 Aug 2020 01:05:33 +0100
+Message-ID: <52483.1597190733@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 8/11/2020 1:28 PM, Miklos Szeredi wrote:
-> On Tue, Aug 11, 2020 at 6:17 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
+Linus Torvalds <torvalds@linux-foundation.org> wrote:
+
+> [ I missed the beginning of this discussion, so maybe this was already
+> suggested ]
+
+Well, the start of it was my proposal of an fsinfo() system call.  That at =
+its
+simplest takes an object reference (eg. a path) and an integer attribute ID=
+ (it
+could use a string instead, I suppose, but it would mean a bunch of strcmps
+instead of integer comparisons) and returns the value of the attribute.  Bu=
+t I
+allow you to do slightly more interesting things than that too.
+
+Mikl=C3=B3s seems dead-set against adding a system call specifically for th=
+is -
+though he's proposed extending open in various ways and also proposed an
+additional syscall, readfile(), that does the open+read+close all in one st=
+ep.
+
+I think also at some point, he (or maybe James?) proposed adding a new magic
+filesystem mounted somewhere on proc (reflecting an open fd) that then had a
+bunch of symlinks to somewhere in sysfs (reflecting a mount).  The idea bei=
+ng
+that you did something like:
+
+	fd =3D open("/path/to/object", O_PATH);
+	sprintf(name, "/proc/self/fds/%u/attr1", fd);
+	attrfd =3D open(name, O_RDONLY);
+	read(attrfd, buf1, sizeof(buf1));
+	close(attrfd);
+	sprintf(name, "/proc/self/fds/%u/attr2", fd);
+	attrfd =3D open(name, O_RDONLY);
+	read(attrfd, buf2, sizeof(buf2));
+	close(attrfd);
+
+or:
+
+	sprintf(name, "/proc/self/fds/%u/attr1", fd);
+	readfile(name, buf1, sizeof(buf1));
+	sprintf(name, "/proc/self/fds/%u/attr2", fd);
+	readfile(name, buf2, sizeof(buf2));
+
+and then "/proc/self/fds/12/attr2" might then be a symlink to, say,
+"/sys/mounts/615/mount_attr".
+
+Mikl=C3=B3s's justification for this was that it could then be operated fro=
+m a shell
+script without the need for a utility - except that bash, at least, can't do
+O_PATH opens.
+
+James has proposed making fsconfig() able to retrieve attributes (though I'd
+prefer to give it a sibling syscall that does the retrieval rather than mak=
+ing
+fsconfig() do that too).
+
+>   {
+>      int fd, attrfd;
 >
->> Since a////////b has known meaning, and lots of applications
->> play loose with '/', its really dangerous to treat the string as
->> special. We only get away with '.' and '..' because their behavior
->> was defined before many of y'all were born.
-> So the founding fathers have set things in stone and now we can't
-> change it.   Right?
+>      fd =3D open(path, O_PATH);
+>      attrfd =3D openat(fd, name, O_ALT);
+>      close(fd);
+>      read(attrfd, value, size);
+>      close(attrfd);
+>   }
 
-The founders did lots of things that, in retrospect, weren't
-such great ideas, but that we have to live with.
+Please don't go down this path.  You're proposing five syscalls - including
+creating two file descriptors - to do what fsinfo() does in one.
 
-> Well that's how it looks... but let's think a little; we have '/' and
-> '\0' that can't be used in filenames.  Also '.' and '..' are
-> prohibited names. It's not a trivial limitation, so applications are
-> probably not used to dumping binary data into file names.
+Do you have a particular objection to adding a syscall specifically for
+retrieving filesystem/VFS information?
 
-Hee Hee. Back in the early days of UNIX (the 1970s) there was command
-dsw(1) "delete from switches" because files with untypeible names where
-unfortunately common. I would question the assertion that "applications
-are not used to dumping binary data into file names", based on how
-often I've wished we still had dsw(1).
+-~-
 
->   And that
-> means it's probably possible to find a fairly short combination that
-> is never used in practice (probably containing the "/." sequence).
+Anyway, in case you're interested in what I want to get out of this - which=
+ is
+the reason for it being posted in the first place:
 
-You'd think, but you'd be wrong. In the UNIX days we tried everything
-from "..." to ".NO_HID." and there always arose a problem or two. Not
-the least of which is that a "magic" pathname generated on an old system,
-then mounted on a new system will never give you the results you want.
+ (*) The ability to retrieve various attributes of a filesystem/superblock,
+     including information on:
+
+	- Filesystem features: Does it support things like hard links, user
+          quotas, direct I/O.
+
+	- Filesystem limits: What's the maximum size of a file, an xattr, a
+          directory; how many files can it support.
+
+	- Supported API features: What FS_IOC_GETFLAGS does it support?  Which
+          can be set?  Does it have Windows file attributes available?  What
+          statx attributes are supported?  What do the timestamps support?
+          What sort of case handling is done on filenames?
+
+     Note that for a lot of cases, this stuff is fixed and can just be memc=
+py'd
+     from rodata.  Some of this is variable, however, in things like ext4 a=
+nd
+     xfs, depending on, say, mkfs configuration.  The situation is even more
+     complex with network filesystems as this may depend on the server they=
+'re
+     talking to.
+
+     But note also that some of this stuff might change file-to-file, even
+     within a superblock.
+
+ (*) The ability to retrieve attributes of a mount point, including informa=
+tion
+     on the flags, propagation settings and child lists.
+
+ (*) The ability to quickly retrieve a list of accessible mount point IDs,
+     with change event counters to permit userspace (eg. systemd) to quickly
+     determine if anything changed in the even of an overrun.
+
+ (*) The ability to find mounts/superblocks by mount ID.  Paths are not uni=
+que
+     identifiers for mountpoints.  You can stack multiple mounts on the same
+     directory, but a path only sees the top one.
+
+ (*) The ability to look inside a different mount namespace - one to which =
+you
+     have a reference fd.  This would allow a container manager to look ins=
+ide
+     the container it is managing.
+
+ (*) The ability to expose filesystem-specific attributes.  Network filesys=
+tems
+     can expose lists of servers and server addresses, for instance.
+
+ (*) The ability to use the object referenced to determine the namespace
+     (particularly the network namespace) to look in.  The problem with loo=
+king
+     in, say, /proc/net/... is that it looks at current's net namespace -
+     whether or not the object of interest is in the same one.
+
+ (*) The ability to query the context attached to the fd obtained from
+     fsopen().  Such a context may not have a superblock attached to it yet=
+ or
+     may not be mounted yet.
+
+     The aim is to allow a container manager to supervise a mount being mad=
+e in
+     a container.  It kind of pairs with fsconfig() in that respect.
+
+ (*) The ability to query mount and superblock event counters to help a
+     watching process handle overrun in the notifications queue.
 
 
-> Why couldn't we reserve such a combination now?
->
-> I have no idea how to find such it, but other than that, I see no
-> theoretical problem with extending the list of reserved filenames.
+What I've done with fsinfo() is:
 
-You need a sequence that is never used in any language, and
-that has never been used as a magic shell sequence. If you want
-a fun story to tell over beers, look up how using the "@" as the
-erase character on a TTY33 lead to it being used in email addresses.
+ (*) Provided a number of ways to refer to the object to be queried (path,
+     dirfd+path, fd, mount ID - with others planned).
 
-> Thanks,
-> Miklos
+ (*) Made it so that attibutes are referenced by a numeric ID to keep search
+     time minimal.  Numeric IDs must be declared in uapi/linux/fsinfo.h.
+
+ (*) Made it so that the core does most of the work.  Filesystems are given=
+ an
+     in-kernel buffer to copy into and don't get to see any userspace point=
+ers.
+
+ (*) Made it so that values are not, by and large, encoded as text if it ca=
+n be
+     avoided.  Backward and forward compatibility on binary structs is hand=
+led
+     by the core.  The filesystem just fills in the values in the UAPI stru=
+ct
+     in the buffer.  The core will zero-pad or truncate the data to match w=
+hat
+     userspace asked for.
+
+     The UAPI struct must be declared in uapi/linux/fsinfo.h.
+
+ (*) Made it so that, for some attributes, the core will fill in the data as
+     best it can from what's available in the superblock, mount struct or m=
+ount
+     namespace.  The filesystem can then amend this if it wants to.
+
+ (*) Made it so that attributes are typed.  The types are few: string, stru=
+ct,
+     list of struct, opaque.  Structs are extensible: the length is the
+     version, a new version is required to be a superset of the old version=
+ and
+     excess requestage is simply cleared by the kernel.
+
+     Information about the type of an attribute can be queried by fsinfo().
+
+
+What I want to avoid:
+
+ (*) Adding another magic filesystem.
+
+ (*) Adding symlinks from proc to sysfs.
+
+ (*) Having to use open to get an attribute.
+
+ (*) Having to use multiple opens to get an attribute.
+
+ (*) Having to pathwalk to get to the attribute from the object being queri=
+ed.
+
+ (*) Allocating another O_ open flag for this.
+
+ (*) Avoidable text encoding and decoding.
+
+ (*) Letting the filesystem access the userspace buffer.
+
+Note that I'm not against splitting fsinfo() into a set of sibling syscalls=
+ if
+that makes it more palatable, or even against using strings for the attribu=
+te
+IDs, though I'd prefer to avoid the strcmps.
+
+David
+
