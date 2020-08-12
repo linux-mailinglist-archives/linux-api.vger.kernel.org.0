@@ -2,59 +2,46 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 70A3E242AFE
-	for <lists+linux-api@lfdr.de>; Wed, 12 Aug 2020 16:11:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93F2E242B53
+	for <lists+linux-api@lfdr.de>; Wed, 12 Aug 2020 16:24:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726434AbgHLOLP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 Aug 2020 10:11:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43698 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726558AbgHLOLJ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Aug 2020 10:11:09 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28631C061386
-        for <linux-api@vger.kernel.org>; Wed, 12 Aug 2020 07:11:09 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id g19so2413057ejc.9
-        for <linux-api@vger.kernel.org>; Wed, 12 Aug 2020 07:11:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=iAI5XSM3iLSzZtbpzf+lyAZodExx8Fv/UVCtkgNqIpw=;
-        b=Ev5v2cO14QrSiyYcOC/Fz6swER260kegAoQqygVAc1l4xp7iWj9y1sNUklptY5fWyh
-         UpTrThzpnTLffpSrHOf2H63dAcVssZmBeRiLgorfycUPPCMMTFGXSVEqYOgJikBrkCYO
-         UVuT7X9u60ilNRyU6Ttwt5duD6hAUjAYWcjFk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=iAI5XSM3iLSzZtbpzf+lyAZodExx8Fv/UVCtkgNqIpw=;
-        b=mJK96ufWldry7pMTTo6c3xUnmeq3o8QYWyGEb3dGeKpCXkeL54LKOfHmRjlnCJt+QP
-         pjUtZ7ex8ZcWiqY+uwNKy1gTrcVJfRg0H9miTzErFAigmZeUiubHLxXfFhDvJ8LakIB2
-         tg0PtTCMy+B/jUq8G0mCurx6cZ3vTX+bFNf0BbzfS/Sox6L1EOIW76LObTt0S0cws+EA
-         oJ1IVbKT/9U6J07odo37vkrEbOpEg9V8pAFoZggJ0KFCGBmpb9i618BvabRX3IlK8HqF
-         jrvgp4nyW1JJjzcwDoQa/rA7pomXuiZh6/2pUlFPsLFmLennBgmNczjVl8kWX48kH7rL
-         98kw==
-X-Gm-Message-State: AOAM533Ej6ZdgVd3OhE7w/a/8RrW94hFVaosNQ4tt10Uwtvx8hUC+KYx
-        Il+HgnKEuvDg2EfyPiyGP1ruoHlOWU66df9U7qCSpA==
-X-Google-Smtp-Source: ABdhPJx3PJ9aL5obqkNAu7vPQ/SqsQ9TATEfUryRI39r11CbP3IrD6FZDXg7ftvqa1wiyALQ92/dDqI6E8aZplVgzoI=
-X-Received: by 2002:a17:906:4e4f:: with SMTP id g15mr16755594ejw.443.1597241467668;
- Wed, 12 Aug 2020 07:11:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <1842689.1596468469@warthog.procyon.org.uk> <1845353.1596469795@warthog.procyon.org.uk>
- <CAJfpegunY3fuxh486x9ysKtXbhTE0745ZCVHcaqs9Gww9RV2CQ@mail.gmail.com>
- <ac1f5e3406abc0af4cd08d818fe920a202a67586.camel@themaw.net>
- <CAJfpegu8omNZ613tLgUY7ukLV131tt7owR+JJ346Kombt79N0A@mail.gmail.com>
- <CAJfpegtNP8rQSS4Z14Ja4x-TOnejdhDRTsmmDD-Cccy2pkfVVw@mail.gmail.com>
- <20200811135419.GA1263716@miu.piliscsaba.redhat.com> <CAHk-=wjzLmMRf=QG-n+1HnxWCx4KTQn9+OhVvUSJ=ZCQd6Y1WA@mail.gmail.com>
- <135551.1597240486@warthog.procyon.org.uk>
-In-Reply-To: <135551.1597240486@warthog.procyon.org.uk>
-From:   Miklos Szeredi <miklos@szeredi.hu>
-Date:   Wed, 12 Aug 2020 16:10:56 +0200
-Message-ID: <CAJfpegvLaoQHZTm1-QKorzsL3ZDnTOcHpcAJn36yF=n-YymCow@mail.gmail.com>
-Subject: Re: file metadata via fs API (was: [GIT PULL] Filesystem Information)
-To:     David Howells <dhowells@redhat.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        id S1726574AbgHLOYB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 Aug 2020 10:24:01 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32470 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726488AbgHLOYB (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Aug 2020 10:24:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1597242240;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=xF1PzXjpzf3p7zUDwOJiId7wF1Lsnzi9qAduhzfHZOs=;
+        b=jWXDnfjE4wqOn4bEEvXdXlupZOFftiU128aNgDaIGXvYs8AGEnxjvDzJJLigFcQcP4NKyr
+        D1GSoAcVrVywDEfUi4M4dXj9fzoegBgHEEyY6xstDjCofxkEyFwjcHNSH4XRq1DPNe5veq
+        /rTpwZDzUsmR0mLZ/Wr6XT2Z1WsjQQU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-309-gt8_i8atP8K4P7OsjX-rFQ-1; Wed, 12 Aug 2020 10:23:59 -0400
+X-MC-Unique: gt8_i8atP8K4P7OsjX-rFQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6D6F101C8A5;
+        Wed, 12 Aug 2020 14:23:56 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-120-127.rdu2.redhat.com [10.10.120.127])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id B129F5D6BD;
+        Wed, 12 Aug 2020 14:23:53 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <CAJfpegvLaoQHZTm1-QKorzsL3ZDnTOcHpcAJn36yF=n-YymCow@mail.gmail.com>
+References: <CAJfpegvLaoQHZTm1-QKorzsL3ZDnTOcHpcAJn36yF=n-YymCow@mail.gmail.com> <1842689.1596468469@warthog.procyon.org.uk> <1845353.1596469795@warthog.procyon.org.uk> <CAJfpegunY3fuxh486x9ysKtXbhTE0745ZCVHcaqs9Gww9RV2CQ@mail.gmail.com> <ac1f5e3406abc0af4cd08d818fe920a202a67586.camel@themaw.net> <CAJfpegu8omNZ613tLgUY7ukLV131tt7owR+JJ346Kombt79N0A@mail.gmail.com> <CAJfpegtNP8rQSS4Z14Ja4x-TOnejdhDRTsmmDD-Cccy2pkfVVw@mail.gmail.com> <20200811135419.GA1263716@miu.piliscsaba.redhat.com> <CAHk-=wjzLmMRf=QG-n+1HnxWCx4KTQn9+OhVvUSJ=ZCQd6Y1WA@mail.gmail.com> <135551.1597240486@warthog.procyon.org.uk>
+To:     Miklos Szeredi <miklos@szeredi.hu>
+Cc:     dhowells@redhat.com,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         Al Viro <viro@zeniv.linux.org.uk>, Karel Zak <kzak@redhat.com>,
         Jeff Layton <jlayton@redhat.com>,
@@ -66,54 +53,31 @@ Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Ian Kent <raven@themaw.net>,
         LSM <linux-security-module@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: file metadata via fs API (was: [GIT PULL] Filesystem Information)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <137928.1597242232.1@warthog.procyon.org.uk>
+Date:   Wed, 12 Aug 2020 15:23:52 +0100
+Message-ID: <137929.1597242232@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Aug 12, 2020 at 3:54 PM David Howells <dhowells@redhat.com> wrote:
->
-> Linus Torvalds <torvalds@linux-foundation.org> wrote:
->
-> > IOW, if you do something more along the lines of
-> >
-> >        fd = open(""foo/bar", O_PATH);
-> >        metadatafd = openat(fd, "metadataname", O_ALT);
-> >
-> > it might be workable.
->
-> What is it going to walk through?  You need to end up with an inode and dentry
-> from somewhere.
->
-> It sounds like this would have to open up a procfs-like magic filesystem, and
-> walk into it.  But how would that actually work?  Would you create a new
-> superblock each time you do this, labelled with the starting object (say the
-> dentry for "foo/bar" in this case), and then walk from the root?
->
-> An alternative, maybe, could be to make a new dentry type, say, and include it
-> in the superblock of the object being queried - and let the filesystems deal
-> with it.  That would mean that non-dir dentries would then have virtual
-> children.  You could then even use this to implement resource forks...
->
-> Another alternative would be to note O_ALT and then skip pathwalk entirely,
-> but just use the name as a key to the attribute, creating an anonfd to read
-> it.  But then why use openat() at all?  You could instead do:
->
->         metadatafd = openmeta(fd, "metadataname");
->
-> and save the page flag.  You could even merge the two opens and do:
->
->         metadatafd = openmeta("foo/bar", "metadataname");
->
-> Why not even combine this with Miklos's readfile() idea:
->
->         readmeta(AT_FDCWD, "foo/bar", "metadataname", buf, sizeof(buf));
+Miklos Szeredi <miklos@szeredi.hu> wrote:
 
-And writemeta() and createmeta() and readdirmeta() and ...
+> The point is that generic operations already exist and no need to add
+> new, specialized ones to access metadata.
 
-The point is that generic operations already exist and no need to add
-new, specialized ones to access metadata.
+open and read already exist, yes, but the metadata isn't currently in
+convenient inodes and dentries that you can just walk through.  So you're
+going to end up with a specialised filesystem instead, I suspect.  Basically,
+it's the same as your do-everything-through-/proc/self/fds/ approach.
 
-Thanks,
-Miklos
+And it's going to be heavier.  I don't know if you're planning on creating a
+superblock each time you do an O_ALT open, but you will end up creating some
+inodes, dentries and a file - even before you get to the reading bit.
+
+David
+
