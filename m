@@ -2,122 +2,152 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC7B5242F98
-	for <lists+linux-api@lfdr.de>; Wed, 12 Aug 2020 21:50:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BF0D243077
+	for <lists+linux-api@lfdr.de>; Wed, 12 Aug 2020 23:28:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726658AbgHLTuv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 Aug 2020 15:50:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39462 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726612AbgHLTuu (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Aug 2020 15:50:50 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0ED2BC061385
-        for <linux-api@vger.kernel.org>; Wed, 12 Aug 2020 12:50:50 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id z14so3618540ljm.1
-        for <linux-api@vger.kernel.org>; Wed, 12 Aug 2020 12:50:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=l0LPNTEWbU2mq6BgRpzsioeNr4RPYOF2TnDOgMD6NIs=;
-        b=U1hdSpOUSLOjOrO72XqzG+q96d1pIF0cv/aZqt7kBp+fkvgL9591I+FRTAk0LrnIxR
-         8JT4UZPZRO/zc5YAudhwHewQ4vDe1rgRhtOdIJf44K3wQIjkVGrwuKfqWiz5aOBB7xzw
-         NmuJO1e6+UoXEurWxTmy0lrzQtpRHAgwv0Dgc=
+        id S1726546AbgHLV2Q (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 Aug 2020 17:28:16 -0400
+Received: from mail-il1-f198.google.com ([209.85.166.198]:44330 "EHLO
+        mail-il1-f198.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726490AbgHLV2P (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Aug 2020 17:28:15 -0400
+Received: by mail-il1-f198.google.com with SMTP id z15so2754314ile.11
+        for <linux-api@vger.kernel.org>; Wed, 12 Aug 2020 14:28:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=l0LPNTEWbU2mq6BgRpzsioeNr4RPYOF2TnDOgMD6NIs=;
-        b=EOcp9q7laCAMCQggncMP6gM7i/Sw1FFIXIhTELJ+VlrzjEZrjWm3rgdl9/ntgqfXyX
-         DMc1tag7dcNHUzUTm/abCxt7LJQ7+No0MDc6He/4PWk+dGquYoOCHZSipuWDPf3Ya9kK
-         Uv/mSzHq+nU/Mk6kKMLJVFtawolHRC9Nq2rPNCGnfzu6PZLJv1YCO3u6xd/1LI0o+B6/
-         0XUPMwQZ6RMx+QQ/skf5cOEpwBE0iFvOLrBTpet5e4aFybDdXwj+eluUZ32CU+NtfFlK
-         jwGBg3CaJegvvArZkL6mYcfcXTKiYGy0lx9xTOE2nWFC/CiycM6FXlogWKQ6ptItT8Tg
-         PoNA==
-X-Gm-Message-State: AOAM531hWUVMflT+9NtXXE0be8JULmj6t69YsPPzQFMsHBgUhNIAwlWl
-        s5q317T1P+8PKjKj+2sFPonrcTpK7sw=
-X-Google-Smtp-Source: ABdhPJwf+Yelm5DcWtliLWyZv+h6izZ4Oa6xcqPBwIGshG7hghnCLGggNytCCItSAq0z77lMQGzN+Q==
-X-Received: by 2002:a2e:8957:: with SMTP id b23mr344084ljk.331.1597261847859;
-        Wed, 12 Aug 2020 12:50:47 -0700 (PDT)
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com. [209.85.167.42])
-        by smtp.gmail.com with ESMTPSA id p11sm629922ljg.17.2020.08.12.12.50.46
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Aug 2020 12:50:46 -0700 (PDT)
-Received: by mail-lf1-f42.google.com with SMTP id d2so1817459lfj.1
-        for <linux-api@vger.kernel.org>; Wed, 12 Aug 2020 12:50:46 -0700 (PDT)
-X-Received: by 2002:a05:6512:3b7:: with SMTP id v23mr500353lfp.10.1597261845653;
- Wed, 12 Aug 2020 12:50:45 -0700 (PDT)
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=ilCTY64RuUG02GFuuWjDIx1Ci3e/PJFPZPYdOkrJo64=;
+        b=Ms/ldm2L5wbxbysVZUG8e8y8LD3b7uiRO/fXFe9w6jWbvHafaEd7sAn8dySf+29PBV
+         1rh5E8cXPSCfrJoTCESJP3bmXbDTo1nMfZhRX8h2KPXKJ8X4LgTHE3SADMpTi0HyOor0
+         WRtJMBZ1+N7ckPM85tyOMcoH8cdF2r3UbbwwXEv9iQytAQA8QpkHdmzn98WHlB0ib5w+
+         jOVsf/eHmpj1prBC10tRJSn0MPAXw/LCqTkSOT2cWWlyh6Y+um88geAdHkkxRGWZWGJ8
+         OmEhan+QmutOc91OxBj8DOkVqgqEKX7n7NJcKT5u6jHNQBBzdw3c2NSchrATw72GUwB9
+         srfQ==
+X-Gm-Message-State: AOAM532cJY1Cjs6Y3uschZuG3/ICrkOtqv5d6nDrxEz7KSMprb+3Uydu
+        MC2AHvnE7pPXPpM60anZdLq5vNupb1pRnz3tpZFz07b6Z9wl
+X-Google-Smtp-Source: ABdhPJw33yFNC2zXSn+p5lX5ZDyAPSvDLXh/be+FiUata4vDh7uXDJLRiUIDIPGB5q7w3Dy5crJD3YjdBt0+8CgnWYplEalN/W0s
 MIME-Version: 1.0
-References: <1842689.1596468469@warthog.procyon.org.uk> <1845353.1596469795@warthog.procyon.org.uk>
- <CAJfpegunY3fuxh486x9ysKtXbhTE0745ZCVHcaqs9Gww9RV2CQ@mail.gmail.com>
- <ac1f5e3406abc0af4cd08d818fe920a202a67586.camel@themaw.net>
- <CAJfpegu8omNZ613tLgUY7ukLV131tt7owR+JJ346Kombt79N0A@mail.gmail.com>
- <CAJfpegtNP8rQSS4Z14Ja4x-TOnejdhDRTsmmDD-Cccy2pkfVVw@mail.gmail.com>
- <20200811135419.GA1263716@miu.piliscsaba.redhat.com> <CAHk-=wjzLmMRf=QG-n+1HnxWCx4KTQn9+OhVvUSJ=ZCQd6Y1WA@mail.gmail.com>
- <52483.1597190733@warthog.procyon.org.uk> <CAHk-=wiPx0UJ6Q1X=azwz32xrSeKnTJcH8enySwuuwnGKkHoPA@mail.gmail.com>
- <066f9aaf-ee97-46db-022f-5d007f9e6edb@redhat.com>
-In-Reply-To: <066f9aaf-ee97-46db-022f-5d007f9e6edb@redhat.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Wed, 12 Aug 2020 12:50:28 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgz5H-xYG4bOrHaEtY7rvFA1_6+mTSpjrgK8OsNbfF+Pw@mail.gmail.com>
-Message-ID: <CAHk-=wgz5H-xYG4bOrHaEtY7rvFA1_6+mTSpjrgK8OsNbfF+Pw@mail.gmail.com>
-Subject: Re: file metadata via fs API
-To:     Steven Whitehouse <swhiteho@redhat.com>
-Cc:     David Howells <dhowells@redhat.com>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>, Karel Zak <kzak@redhat.com>,
-        Jeff Layton <jlayton@redhat.com>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Nicolas Dichtel <nicolas.dichtel@6wind.com>,
-        Christian Brauner <christian@brauner.io>,
-        Lennart Poettering <lennart@poettering.net>,
-        Linux API <linux-api@vger.kernel.org>,
-        Ian Kent <raven@themaw.net>,
-        LSM <linux-security-module@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+X-Received: by 2002:a92:aa4b:: with SMTP id j72mr1651939ili.141.1597267694581;
+ Wed, 12 Aug 2020 14:28:14 -0700 (PDT)
+Date:   Wed, 12 Aug 2020 14:28:14 -0700
+In-Reply-To: <000000000000f0724405aca59f64@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000008bfef305acb4ddee@google.com>
+Subject: Re: KASAN: use-after-free Read in path_init (2)
+From:   syzbot <syzbot+bbeb1c88016c7db4aa24@syzkaller.appspotmail.com>
+To:     arnd@arndb.de, christian.brauner@ubuntu.com, hch@lst.de,
+        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux@dominikbrodowski.net,
+        syzkaller-bugs@googlegroups.com, torvalds@linux-foundation.org,
+        viro@zeniv.linux.org.uk
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Aug 12, 2020 at 12:34 PM Steven Whitehouse <swhiteho@redhat.com> wrote:
->
-> The point of this is to give us the ability to monitor mounts from
-> userspace.
+syzbot has found a reproducer for the following issue on:
 
-We haven't had that before, I don't see why it's suddenly such a big deal.
+HEAD commit:    fb893de3 Merge tag 'tag-chrome-platform-for-v5.9' of git:/..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=16139be2900000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=f1fedc63022bf07e
+dashboard link: https://syzkaller.appspot.com/bug?extid=bbeb1c88016c7db4aa24
+compiler:       gcc (GCC) 10.1.0-syz 20200507
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15fa83e2900000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15920c4a900000
 
-The notification side I understand. Polling /proc files is not the answer.
+The issue was bisected to:
 
-But the whole "let's design this crazy subsystem for it" seems way
-overkill. I don't see anybody caring that deeply.
+commit e24ab0ef689de43649327f54cd1088f3dad25bb3
+Author: Christoph Hellwig <hch@lst.de>
+Date:   Tue Jul 21 08:48:15 2020 +0000
 
-It really smells like "do it because we can, not because we must".
+    fs: push the getname from do_rmdir into the callers
 
-Who the hell cares about monitoring mounts at a kHz frequencies? If
-this is for MIS use, you want a nice GUI and not wasting CPU time
-polling.
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=155f36c2900000
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=175f36c2900000
+console output: https://syzkaller.appspot.com/x/log.txt?x=135f36c2900000
 
-I'm starting to ignore the pull requests from David Howells, because
-by now they have had the same pattern for a couple of years now:
-esoteric new interfaces that seem overdesigned for corner-cases that
-I'm not seeing people clamoring for.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+bbeb1c88016c7db4aa24@syzkaller.appspotmail.com
+Fixes: e24ab0ef689d ("fs: push the getname from do_rmdir into the callers")
 
-I need (a) proof this is actualyl something real users care about and
-(b) way more open discussion and implementation from multiple parties.
+==================================================================
+BUG: KASAN: use-after-free in path_init+0x116b/0x13c0 fs/namei.c:2207
+Read of size 8 at addr ffff8880950a8a80 by task syz-executor167/6821
 
-Because right now it looks like a small in-cabal of a couple of people
-who have wild ideas but I'm not seeing the wider use of it.
+CPU: 0 PID: 6821 Comm: syz-executor167 Not tainted 5.8.0-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Call Trace:
+ __dump_stack lib/dump_stack.c:77 [inline]
+ dump_stack+0x18f/0x20d lib/dump_stack.c:118
+ print_address_description.constprop.0.cold+0xae/0x497 mm/kasan/report.c:383
+ __kasan_report mm/kasan/report.c:513 [inline]
+ kasan_report.cold+0x1f/0x37 mm/kasan/report.c:530
+ path_init+0x116b/0x13c0 fs/namei.c:2207
+ path_parentat+0x22/0x1b0 fs/namei.c:2384
+ filename_parentat+0x188/0x560 fs/namei.c:2407
+ do_rmdir+0xa8/0x440 fs/namei.c:3732
+ do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
+ entry_SYSCALL_64_after_hwframe+0x44/0xa9
+RIP: 0033:0x4403e9
+Code: 18 89 d0 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 0f 83 7b 13 fc ff c3 66 2e 0f 1f 84 00 00 00 00
+RSP: 002b:00007ffd4e3bdb58 EFLAGS: 00000246 ORIG_RAX: 0000000000000054
+RAX: ffffffffffffffda RBX: 69662f7375622f2e RCX: 00000000004403e9
+RDX: 00000000004403e9 RSI: 00000000004403e9 RDI: 0000000020000080
+RBP: 2f31656c69662f2e R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000401bf0
+R13: 0000000000401c80 R14: 0000000000000000 R15: 0000000000000000
 
-Convince me otherwise. AGAIN. This is the exact same issue I had with
-the notification queues that I really wanted actual use-cases for, and
-feedback from actual outside users.
+Allocated by task 6821:
+ kasan_save_stack+0x1b/0x40 mm/kasan/common.c:48
+ kasan_set_track mm/kasan/common.c:56 [inline]
+ __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:461
+ slab_post_alloc_hook mm/slab.h:518 [inline]
+ slab_alloc mm/slab.c:3312 [inline]
+ kmem_cache_alloc+0x138/0x3a0 mm/slab.c:3482
+ getname_flags.part.0+0x50/0x4f0 fs/namei.c:138
+ getname_flags include/linux/audit.h:320 [inline]
+ getname fs/namei.c:209 [inline]
+ __do_sys_rmdir fs/namei.c:3783 [inline]
+ __se_sys_rmdir fs/namei.c:3781 [inline]
+ __x64_sys_rmdir+0xb1/0x100 fs/namei.c:3781
+ do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
+ entry_SYSCALL_64_after_hwframe+0x44/0xa9
 
-I really think this is engineering for its own sake, rather than
-responding to actual user concerns.
+Freed by task 6821:
+ kasan_save_stack+0x1b/0x40 mm/kasan/common.c:48
+ kasan_set_track+0x1c/0x30 mm/kasan/common.c:56
+ kasan_set_free_info+0x1b/0x30 mm/kasan/generic.c:355
+ __kasan_slab_free+0xd8/0x120 mm/kasan/common.c:422
+ __cache_free mm/slab.c:3418 [inline]
+ kmem_cache_free.part.0+0x67/0x1f0 mm/slab.c:3693
+ putname+0xe1/0x120 fs/namei.c:259
+ do_rmdir+0x145/0x440 fs/namei.c:3773
+ do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
+ entry_SYSCALL_64_after_hwframe+0x44/0xa9
 
-               Linus
+The buggy address belongs to the object at ffff8880950a8a80
+ which belongs to the cache names_cache of size 4096
+The buggy address is located 0 bytes inside of
+ 4096-byte region [ffff8880950a8a80, ffff8880950a9a80)
+The buggy address belongs to the page:
+page:00000000c8532513 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x950a8
+head:00000000c8532513 order:1 compound_mapcount:0
+flags: 0xfffe0000010200(slab|head)
+raw: 00fffe0000010200 ffffea0002540e88 ffffea000251ef88 ffff88821bc47a00
+raw: 0000000000000000 ffff8880950a8a80 0000000100000001 0000000000000000
+page dumped because: kasan: bad access detected
+
+Memory state around the buggy address:
+ ffff8880950a8980: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff8880950a8a00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>ffff8880950a8a80: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                   ^
+ ffff8880950a8b00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff8880950a8b80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+==================================================================
+
