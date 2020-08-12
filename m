@@ -2,41 +2,71 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A39E1242F64
-	for <lists+linux-api@lfdr.de>; Wed, 12 Aug 2020 21:34:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC7B5242F98
+	for <lists+linux-api@lfdr.de>; Wed, 12 Aug 2020 21:50:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726540AbgHLTe0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 Aug 2020 15:34:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45672 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726554AbgHLTe0 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Aug 2020 15:34:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1597260864;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=9pSEoniKEkFNSbD4TVkJ4Otoswkj5jDImE3i/ppi82o=;
-        b=TAMILBsrqXIGZSvSbutFexYOkO91UTG1s8g8GpQ/iaK2oaHiGsxWqj7R9QXYbFlQ/3uZoo
-        4/xaIYIErSSXflJ23de1ZXLTbfI86aiavW0TlaZBW8YamUnNEh9Mj662CpFRlI8vvUbwK8
-        UBwSTnPiMQRk99XNiEaWKgsCqVD6H7s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-394-PsWf2ViBP-2ePLGug1Gcog-1; Wed, 12 Aug 2020 15:34:23 -0400
-X-MC-Unique: PsWf2ViBP-2ePLGug1Gcog-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B39E61902EB3;
-        Wed, 12 Aug 2020 19:34:20 +0000 (UTC)
-Received: from fogou.chygwyn.com (unknown [10.33.36.12])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 239A3100AE52;
-        Wed, 12 Aug 2020 19:34:13 +0000 (UTC)
+        id S1726658AbgHLTuv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 Aug 2020 15:50:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39462 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726612AbgHLTuu (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Aug 2020 15:50:50 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0ED2BC061385
+        for <linux-api@vger.kernel.org>; Wed, 12 Aug 2020 12:50:50 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id z14so3618540ljm.1
+        for <linux-api@vger.kernel.org>; Wed, 12 Aug 2020 12:50:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=l0LPNTEWbU2mq6BgRpzsioeNr4RPYOF2TnDOgMD6NIs=;
+        b=U1hdSpOUSLOjOrO72XqzG+q96d1pIF0cv/aZqt7kBp+fkvgL9591I+FRTAk0LrnIxR
+         8JT4UZPZRO/zc5YAudhwHewQ4vDe1rgRhtOdIJf44K3wQIjkVGrwuKfqWiz5aOBB7xzw
+         NmuJO1e6+UoXEurWxTmy0lrzQtpRHAgwv0Dgc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=l0LPNTEWbU2mq6BgRpzsioeNr4RPYOF2TnDOgMD6NIs=;
+        b=EOcp9q7laCAMCQggncMP6gM7i/Sw1FFIXIhTELJ+VlrzjEZrjWm3rgdl9/ntgqfXyX
+         DMc1tag7dcNHUzUTm/abCxt7LJQ7+No0MDc6He/4PWk+dGquYoOCHZSipuWDPf3Ya9kK
+         Uv/mSzHq+nU/Mk6kKMLJVFtawolHRC9Nq2rPNCGnfzu6PZLJv1YCO3u6xd/1LI0o+B6/
+         0XUPMwQZ6RMx+QQ/skf5cOEpwBE0iFvOLrBTpet5e4aFybDdXwj+eluUZ32CU+NtfFlK
+         jwGBg3CaJegvvArZkL6mYcfcXTKiYGy0lx9xTOE2nWFC/CiycM6FXlogWKQ6ptItT8Tg
+         PoNA==
+X-Gm-Message-State: AOAM531hWUVMflT+9NtXXE0be8JULmj6t69YsPPzQFMsHBgUhNIAwlWl
+        s5q317T1P+8PKjKj+2sFPonrcTpK7sw=
+X-Google-Smtp-Source: ABdhPJwf+Yelm5DcWtliLWyZv+h6izZ4Oa6xcqPBwIGshG7hghnCLGggNytCCItSAq0z77lMQGzN+Q==
+X-Received: by 2002:a2e:8957:: with SMTP id b23mr344084ljk.331.1597261847859;
+        Wed, 12 Aug 2020 12:50:47 -0700 (PDT)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com. [209.85.167.42])
+        by smtp.gmail.com with ESMTPSA id p11sm629922ljg.17.2020.08.12.12.50.46
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 Aug 2020 12:50:46 -0700 (PDT)
+Received: by mail-lf1-f42.google.com with SMTP id d2so1817459lfj.1
+        for <linux-api@vger.kernel.org>; Wed, 12 Aug 2020 12:50:46 -0700 (PDT)
+X-Received: by 2002:a05:6512:3b7:: with SMTP id v23mr500353lfp.10.1597261845653;
+ Wed, 12 Aug 2020 12:50:45 -0700 (PDT)
+MIME-Version: 1.0
+References: <1842689.1596468469@warthog.procyon.org.uk> <1845353.1596469795@warthog.procyon.org.uk>
+ <CAJfpegunY3fuxh486x9ysKtXbhTE0745ZCVHcaqs9Gww9RV2CQ@mail.gmail.com>
+ <ac1f5e3406abc0af4cd08d818fe920a202a67586.camel@themaw.net>
+ <CAJfpegu8omNZ613tLgUY7ukLV131tt7owR+JJ346Kombt79N0A@mail.gmail.com>
+ <CAJfpegtNP8rQSS4Z14Ja4x-TOnejdhDRTsmmDD-Cccy2pkfVVw@mail.gmail.com>
+ <20200811135419.GA1263716@miu.piliscsaba.redhat.com> <CAHk-=wjzLmMRf=QG-n+1HnxWCx4KTQn9+OhVvUSJ=ZCQd6Y1WA@mail.gmail.com>
+ <52483.1597190733@warthog.procyon.org.uk> <CAHk-=wiPx0UJ6Q1X=azwz32xrSeKnTJcH8enySwuuwnGKkHoPA@mail.gmail.com>
+ <066f9aaf-ee97-46db-022f-5d007f9e6edb@redhat.com>
+In-Reply-To: <066f9aaf-ee97-46db-022f-5d007f9e6edb@redhat.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Wed, 12 Aug 2020 12:50:28 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgz5H-xYG4bOrHaEtY7rvFA1_6+mTSpjrgK8OsNbfF+Pw@mail.gmail.com>
+Message-ID: <CAHk-=wgz5H-xYG4bOrHaEtY7rvFA1_6+mTSpjrgK8OsNbfF+Pw@mail.gmail.com>
 Subject: Re: file metadata via fs API
-To:     Linus Torvalds <torvalds@linux-foundation.org>,
-        David Howells <dhowells@redhat.com>
-Cc:     Miklos Szeredi <miklos@szeredi.hu>,
+To:     Steven Whitehouse <swhiteho@redhat.com>
+Cc:     David Howells <dhowells@redhat.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         Al Viro <viro@zeniv.linux.org.uk>, Karel Zak <kzak@redhat.com>,
         Jeff Layton <jlayton@redhat.com>,
@@ -48,90 +78,46 @@ Cc:     Miklos Szeredi <miklos@szeredi.hu>,
         Ian Kent <raven@themaw.net>,
         LSM <linux-security-module@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <1842689.1596468469@warthog.procyon.org.uk>
- <1845353.1596469795@warthog.procyon.org.uk>
- <CAJfpegunY3fuxh486x9ysKtXbhTE0745ZCVHcaqs9Gww9RV2CQ@mail.gmail.com>
- <ac1f5e3406abc0af4cd08d818fe920a202a67586.camel@themaw.net>
- <CAJfpegu8omNZ613tLgUY7ukLV131tt7owR+JJ346Kombt79N0A@mail.gmail.com>
- <CAJfpegtNP8rQSS4Z14Ja4x-TOnejdhDRTsmmDD-Cccy2pkfVVw@mail.gmail.com>
- <20200811135419.GA1263716@miu.piliscsaba.redhat.com>
- <CAHk-=wjzLmMRf=QG-n+1HnxWCx4KTQn9+OhVvUSJ=ZCQd6Y1WA@mail.gmail.com>
- <52483.1597190733@warthog.procyon.org.uk>
- <CAHk-=wiPx0UJ6Q1X=azwz32xrSeKnTJcH8enySwuuwnGKkHoPA@mail.gmail.com>
-From:   Steven Whitehouse <swhiteho@redhat.com>
-Message-ID: <066f9aaf-ee97-46db-022f-5d007f9e6edb@redhat.com>
-Date:   Wed, 12 Aug 2020 20:34:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
-MIME-Version: 1.0
-In-Reply-To: <CAHk-=wiPx0UJ6Q1X=azwz32xrSeKnTJcH8enySwuuwnGKkHoPA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi,
-
-On 12/08/2020 19:18, Linus Torvalds wrote:
-> On Tue, Aug 11, 2020 at 5:05 PM David Howells <dhowells@redhat.com> wrote:
->> Well, the start of it was my proposal of an fsinfo() system call.
-> Ugh. Ok, it's that thing.
+On Wed, Aug 12, 2020 at 12:34 PM Steven Whitehouse <swhiteho@redhat.com> wrote:
 >
-> This all seems *WAY* over-designed - both your fsinfo and Miklos' version.
->
-> What's wrong with fstatfs()? All the extra magic metadata seems to not
-> really be anything people really care about.
->
-> What people are actually asking for seems to be some unique mount ID,
-> and we have 16 bytes of spare information in 'struct statfs64'.
->
-> All the other fancy fsinfo stuff seems to be "just because", and like
-> complete overdesign.
->
-> Let's not add system calls just because we can.
->
->               Linus
->
+> The point of this is to give us the ability to monitor mounts from
+> userspace.
 
-The point of this is to give us the ability to monitor mounts from 
-userspace. The original inspiration was rtnetlink, in that we need a 
-"dump" operation to give us a snapshot of the current mount state, plus 
-then a stream of events which allow us to keep that state updated. The 
-tricky question is what happens in case of overflow of the events queue, 
-and just like netlink, that needs a resync of the current state to fix 
-that, since we can't block mounts, of course.
+We haven't had that before, I don't see why it's suddenly such a big deal.
 
-The fsinfo syscall was designed to be the "dump" operation in this 
-system. David's other patch set provides the stream of events. So the 
-two are designed to work together. We had the discussion on using 
-netlink, of whatever form a while back, and there are a number of 
-reasons why that doesn't work (namespace being one).
+The notification side I understand. Polling /proc files is not the answer.
 
-I think fstatfs might also suffer from the issue of not being easy to 
-call on things for which you have no path (e.g. over-mounted mounts) 
-Plus we need to know which paths to query, which is why we need to 
-enumerate the mounts in the first place - how would we get the fds for 
-each mount? It might give you some sb info, but it doesn't tell you the 
-options that the sb is mounted with, and it doesn't tell you where it is 
-mounted either.
+But the whole "let's design this crazy subsystem for it" seems way
+overkill. I don't see anybody caring that deeply.
 
-The overall aim is to solve some issues relating to scaling to large 
-numbers of mount in systemd and autofs, and also to provide a 
-generically useful interface that other tools may use to monitor mounts 
-in due course too. Currently parsing /proc/mounts is the only option, 
-and that tends to be slow and is certainly not atomic. Extension to 
-other sb related messages is a future goal, quota being one possible 
-application for the notifications.
+It really smells like "do it because we can, not because we must".
 
-If there is a simpler way to get to that goal, then thats all to the 
-good, and we should definitely consider it,
+Who the hell cares about monitoring mounts at a kHz frequencies? If
+this is for MIS use, you want a nice GUI and not wasting CPU time
+polling.
 
-Steve.
+I'm starting to ignore the pull requests from David Howells, because
+by now they have had the same pattern for a couple of years now:
+esoteric new interfaces that seem overdesigned for corner-cases that
+I'm not seeing people clamoring for.
 
+I need (a) proof this is actualyl something real users care about and
+(b) way more open discussion and implementation from multiple parties.
 
+Because right now it looks like a small in-cabal of a couple of people
+who have wild ideas but I'm not seeing the wider use of it.
 
+Convince me otherwise. AGAIN. This is the exact same issue I had with
+the notification queues that I really wanted actual use-cases for, and
+feedback from actual outside users.
 
+I really think this is engineering for its own sake, rather than
+responding to actual user concerns.
+
+               Linus
