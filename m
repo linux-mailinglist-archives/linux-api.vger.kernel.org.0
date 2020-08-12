@@ -2,72 +2,30 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BA5C5242E79
-	for <lists+linux-api@lfdr.de>; Wed, 12 Aug 2020 20:24:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3DE4242E87
+	for <lists+linux-api@lfdr.de>; Wed, 12 Aug 2020 20:33:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726526AbgHLSYq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 Aug 2020 14:24:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54478 "EHLO
+        id S1726604AbgHLSdk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 Aug 2020 14:33:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726512AbgHLSYq (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Aug 2020 14:24:46 -0400
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19499C061383
-        for <linux-api@vger.kernel.org>; Wed, 12 Aug 2020 11:24:46 -0700 (PDT)
-Received: by mail-ej1-x642.google.com with SMTP id a26so3359500ejc.2
-        for <linux-api@vger.kernel.org>; Wed, 12 Aug 2020 11:24:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=O5NX6kMDP5qmBpQCPkWzwhmOd6ct20g0CcQwpleYHFc=;
-        b=US2q3MwnTSjWfqpie9O3CRcizx9uSCz4S3vkL7p/ooj414+R066sTYC3Q4A4VD1OD6
-         WbBdeRdiPaC//fSZsRo3WOoZpu8gTtAt7k7tMZ8hwJVqEhGHjLO4oOIslMbvG22T1LrR
-         FvpBZZmDKWHcNGLeiM+6hKFDuuH8IvkNuF9T8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=O5NX6kMDP5qmBpQCPkWzwhmOd6ct20g0CcQwpleYHFc=;
-        b=X36Cd5mfKXj9BvOecCeWCyAlTScO+Jn6Fpx1Q1JQbdkLPa6qJGGZa3BSlX8BMtcvnK
-         Y254ojmvXhUOY+drxqrP6TGfx7d2aV0i/O37uMT34oVtjbT8ZxhHXhXKGxYNAJGALKcn
-         69T35oB5YpdQi0EOeggdjOyrDod536w+FVZdBiyOj4/lfiZ/cNJaatwaYgCG6Gm8S402
-         75WIhoVJqBH1HuPn+l/HM4hm3YcsbvhCybkfgVgxg4vZSNJTZsU1X6CuIbYCI/yVurHO
-         ECzPndtVKgK7/1HLmEOYP7LY/hhhWPVeiStnr/HhhZbBeA+SjoofCxyINzN9Qt7Trlbf
-         FuYQ==
-X-Gm-Message-State: AOAM532P76xMkQb2R7tZZ6SOzkaeLzAMaOQH0feJ1llImsCaP4WxIS9v
-        q+2MusjRkTJQJEJfHKPBcg+pXmcAd28=
-X-Google-Smtp-Source: ABdhPJy3hBNU+hEYx3wuvCaRT5B8ecaY3u8GAuEP3EPpUoPVec0lUzkunr8xo3v+4t9adokLMRXhig==
-X-Received: by 2002:a17:906:fa0c:: with SMTP id lo12mr1149401ejb.390.1597256684341;
-        Wed, 12 Aug 2020 11:24:44 -0700 (PDT)
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com. [209.85.208.48])
-        by smtp.gmail.com with ESMTPSA id 89sm1996865eda.6.2020.08.12.11.24.43
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Aug 2020 11:24:44 -0700 (PDT)
-Received: by mail-ed1-f48.google.com with SMTP id ba10so2267332edb.3
-        for <linux-api@vger.kernel.org>; Wed, 12 Aug 2020 11:24:43 -0700 (PDT)
-X-Received: by 2002:a19:408d:: with SMTP id n135mr315813lfa.192.1597256320205;
- Wed, 12 Aug 2020 11:18:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <1842689.1596468469@warthog.procyon.org.uk> <1845353.1596469795@warthog.procyon.org.uk>
- <CAJfpegunY3fuxh486x9ysKtXbhTE0745ZCVHcaqs9Gww9RV2CQ@mail.gmail.com>
- <ac1f5e3406abc0af4cd08d818fe920a202a67586.camel@themaw.net>
- <CAJfpegu8omNZ613tLgUY7ukLV131tt7owR+JJ346Kombt79N0A@mail.gmail.com>
- <CAJfpegtNP8rQSS4Z14Ja4x-TOnejdhDRTsmmDD-Cccy2pkfVVw@mail.gmail.com>
- <20200811135419.GA1263716@miu.piliscsaba.redhat.com> <CAHk-=wjzLmMRf=QG-n+1HnxWCx4KTQn9+OhVvUSJ=ZCQd6Y1WA@mail.gmail.com>
- <52483.1597190733@warthog.procyon.org.uk>
-In-Reply-To: <52483.1597190733@warthog.procyon.org.uk>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Wed, 12 Aug 2020 11:18:23 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wiPx0UJ6Q1X=azwz32xrSeKnTJcH8enySwuuwnGKkHoPA@mail.gmail.com>
-Message-ID: <CAHk-=wiPx0UJ6Q1X=azwz32xrSeKnTJcH8enySwuuwnGKkHoPA@mail.gmail.com>
-Subject: Re: file metadata via fs API (was: [GIT PULL] Filesystem Information)
-To:     David Howells <dhowells@redhat.com>
-Cc:     Miklos Szeredi <miklos@szeredi.hu>,
+        with ESMTP id S1726557AbgHLSdk (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Aug 2020 14:33:40 -0400
+Received: from ZenIV.linux.org.uk (zeniv.linux.org.uk [IPv6:2002:c35c:fd02::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37BF8C061383;
+        Wed, 12 Aug 2020 11:33:40 -0700 (PDT)
+Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1k5vZ0-00EEH8-Kk; Wed, 12 Aug 2020 18:33:26 +0000
+Date:   Wed, 12 Aug 2020 19:33:26 +0100
+From:   Al Viro <viro@zeniv.linux.org.uk>
+To:     Miklos Szeredi <miklos@szeredi.hu>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Jann Horn <jannh@google.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Andy Lutomirski <luto@amacapital.net>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>, Karel Zak <kzak@redhat.com>,
-        Jeff Layton <jlayton@redhat.com>,
+        David Howells <dhowells@redhat.com>,
+        Karel Zak <kzak@redhat.com>, Jeff Layton <jlayton@redhat.com>,
         Miklos Szeredi <mszeredi@redhat.com>,
         Nicolas Dichtel <nicolas.dichtel@6wind.com>,
         Christian Brauner <christian@brauner.io>,
@@ -76,29 +34,62 @@ Cc:     Miklos Szeredi <miklos@szeredi.hu>,
         Ian Kent <raven@themaw.net>,
         LSM <linux-security-module@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: file metadata via fs API (was: [GIT PULL] Filesystem Information)
+Message-ID: <20200812183326.GU1236603@ZenIV.linux.org.uk>
+References: <CAJfpeguh5VaDBdVkV3FJtRsMAvXHWUcBfEpQrYPEuX9wYzg9dA@mail.gmail.com>
+ <CAHk-=whE42mFLi8CfNcdB6Jc40tXsG3sR+ThWAFihhBwfUbczA@mail.gmail.com>
+ <CAJfpegtXtj2Q1wsR-3eUNA0S=_skzHF0CEmcK_Krd8dtKkWkGA@mail.gmail.com>
+ <20200812143957.GQ1236603@ZenIV.linux.org.uk>
+ <CAJfpegvFBdp3v9VcCp-wNDjZnQF3q6cufb-8PJieaGDz14sbBg@mail.gmail.com>
+ <20200812150807.GR1236603@ZenIV.linux.org.uk>
+ <CAJfpegsQF1aN4XJ_8j977rnQESxc=Kcn7Z2C+LnVDWXo4PKhTQ@mail.gmail.com>
+ <20200812163347.GS1236603@ZenIV.linux.org.uk>
+ <CAJfpegv8MTnO9YAiFUJPjr3ryeT82=KWHUpLFmgRNOcQfeS17w@mail.gmail.com>
+ <20200812173911.GT1236603@ZenIV.linux.org.uk>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200812173911.GT1236603@ZenIV.linux.org.uk>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Aug 11, 2020 at 5:05 PM David Howells <dhowells@redhat.com> wrote:
->
-> Well, the start of it was my proposal of an fsinfo() system call.
+On Wed, Aug 12, 2020 at 06:39:11PM +0100, Al Viro wrote:
+> On Wed, Aug 12, 2020 at 07:16:37PM +0200, Miklos Szeredi wrote:
+> > On Wed, Aug 12, 2020 at 6:33 PM Al Viro <viro@zeniv.linux.org.uk> wrote:
+> > >
+> > > On Wed, Aug 12, 2020 at 05:13:14PM +0200, Miklos Szeredi wrote:
+> > 
+> > > > Why does it have to have a struct mount?  It does not have to use
+> > > > dentry/mount based path lookup.
+> > >
+> > > What the fuck?  So we suddenly get an additional class of objects
+> > > serving as kinda-sorta analogues of dentries *AND* now struct file
+> > > might refer to that instead of a dentry/mount pair - all on the VFS
+> > > level?  And so do all the syscalls you want to allow for such "pathnames"?
+> > 
+> > The only syscall I'd want to allow is open, everything else would be
+> > on the open files themselves.
+> > 
+> > file->f_path can refer to an anon mount/inode, the real object is
+> > referred to by file->private_data.
+> > 
+> > The change to namei.c would be on the order of ~10 lines.  No other
+> > parts of the VFS would be affected.
+> 
+> If some of the things you open are directories (and you *have* said that
+> directories will be among those just upthread, and used references to
+> readdir() as argument in favour of your approach elsewhere in the thread),
+> you will have to do something about fchdir().  And that's the least of
+> the issues.
 
-Ugh. Ok, it's that thing.
+BTW, what would such opened files look like from /proc/*/fd/* POV?  And
+what would happen if you walk _through_ that symlink, with e.g. ".."
+following it?  Or with names of those attributes, for that matter...
+What about a normal open() of such a sucker?  It won't know where to
+look for your ->private_data...
 
-This all seems *WAY* over-designed - both your fsinfo and Miklos' version.
-
-What's wrong with fstatfs()? All the extra magic metadata seems to not
-really be anything people really care about.
-
-What people are actually asking for seems to be some unique mount ID,
-and we have 16 bytes of spare information in 'struct statfs64'.
-
-All the other fancy fsinfo stuff seems to be "just because", and like
-complete overdesign.
-
-Let's not add system calls just because we can.
-
-             Linus
+FWIW, you keep refering to regularity of this stuff from the syscall
+POV, but it looks like you have no real idea of what subset of the
+things available for normal descriptors will be available for those.
