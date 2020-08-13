@@ -2,116 +2,94 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D7DAC2438B0
-	for <lists+linux-api@lfdr.de>; Thu, 13 Aug 2020 12:36:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C319243B57
+	for <lists+linux-api@lfdr.de>; Thu, 13 Aug 2020 16:15:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726557AbgHMKg5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 13 Aug 2020 06:36:57 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:46414 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726102AbgHMKg5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 13 Aug 2020 06:36:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1597315015;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=nHTuFVTalfQfPA2SgrXd36xvN0GI3IA7pVeXYZFZfuE=;
-        b=YjVN439ywW+xeseIOdy7uo7XDhoznvbxmO6YF9QAe+czVHGS2K/iMP7E0lb8uOqGyRFDiE
-        589VYv5VonE03yhr2yPN2syUbqGzAPoqu8G3kxlutbzQqs+AOdH/4TfiGuBBYK4+56DiuA
-        1t+zWLZH/pvPSaOBM5zi2MR29w0he3U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-213-BabCGu27OAmcOQkv6mZDEg-1; Thu, 13 Aug 2020 06:36:52 -0400
-X-MC-Unique: BabCGu27OAmcOQkv6mZDEg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28E848BF8A4;
-        Thu, 13 Aug 2020 10:36:41 +0000 (UTC)
-Received: from ws.net.home (unknown [10.40.193.69])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 5A4CF6760B;
-        Thu, 13 Aug 2020 10:36:37 +0000 (UTC)
-Date:   Thu, 13 Aug 2020 12:36:34 +0200
-From:   Karel Zak <kzak@redhat.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Steven Whitehouse <swhiteho@redhat.com>,
-        David Howells <dhowells@redhat.com>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Jeff Layton <jlayton@redhat.com>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Nicolas Dichtel <nicolas.dichtel@6wind.com>,
-        Christian Brauner <christian@brauner.io>,
-        Lennart Poettering <lennart@poettering.net>,
-        Linux API <linux-api@vger.kernel.org>,
-        Ian Kent <raven@themaw.net>,
-        LSM <linux-security-module@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: file metadata via fs API
-Message-ID: <20200813103634.ey2xxwgbn3e4lhdr@ws.net.home>
-References: <CAJfpegunY3fuxh486x9ysKtXbhTE0745ZCVHcaqs9Gww9RV2CQ@mail.gmail.com>
- <ac1f5e3406abc0af4cd08d818fe920a202a67586.camel@themaw.net>
- <CAJfpegu8omNZ613tLgUY7ukLV131tt7owR+JJ346Kombt79N0A@mail.gmail.com>
- <CAJfpegtNP8rQSS4Z14Ja4x-TOnejdhDRTsmmDD-Cccy2pkfVVw@mail.gmail.com>
- <20200811135419.GA1263716@miu.piliscsaba.redhat.com>
- <CAHk-=wjzLmMRf=QG-n+1HnxWCx4KTQn9+OhVvUSJ=ZCQd6Y1WA@mail.gmail.com>
- <52483.1597190733@warthog.procyon.org.uk>
- <CAHk-=wiPx0UJ6Q1X=azwz32xrSeKnTJcH8enySwuuwnGKkHoPA@mail.gmail.com>
- <066f9aaf-ee97-46db-022f-5d007f9e6edb@redhat.com>
- <CAHk-=wgz5H-xYG4bOrHaEtY7rvFA1_6+mTSpjrgK8OsNbfF+Pw@mail.gmail.com>
+        id S1726252AbgHMOPy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 13 Aug 2020 10:15:54 -0400
+Received: from smtp-42aa.mail.infomaniak.ch ([84.16.66.170]:40381 "EHLO
+        smtp-42aa.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726102AbgHMOPx (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 13 Aug 2020 10:15:53 -0400
+Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4BS7rT0dsFzlhcWv;
+        Thu, 13 Aug 2020 16:15:21 +0200 (CEST)
+Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
+        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4BS7rN3mlnzlh8T7;
+        Thu, 13 Aug 2020 16:15:16 +0200 (CEST)
+Subject: Re: [PATCH v20 05/12] LSM: Infrastructure management of the
+ superblock
+To:     Stephen Smalley <sds@tycho.nsa.gov>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Kees Cook <keescook@chromium.org>,
+        John Johansen <john.johansen@canonical.com>
+Cc:     linux-kernel@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-security-module@vger.kernel.org, x86@kernel.org
+References: <20200802215903.91936-1-mic@digikod.net>
+ <20200802215903.91936-6-mic@digikod.net>
+ <779c290b-45f5-b86c-c573-2edb4004105d@tycho.nsa.gov>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <03f522c0-414c-434b-a0d1-57c3b17fa67f@digikod.net>
+Date:   Thu, 13 Aug 2020 16:15:01 +0200
+User-Agent: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wgz5H-xYG4bOrHaEtY7rvFA1_6+mTSpjrgK8OsNbfF+Pw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <779c290b-45f5-b86c-c573-2edb4004105d@tycho.nsa.gov>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
+X-Antivirus-Code: 0x100000
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Aug 12, 2020 at 12:50:28PM -0700, Linus Torvalds wrote:
-> Convince me otherwise. AGAIN. This is the exact same issue I had with
-> the notification queues that I really wanted actual use-cases for, and
-> feedback from actual outside users.
 
-I thought (in last 10 years) we all agree that /proc/self/mountinfo is
-the expensive, ineffective and fragile way how to deliver information to
-userspace.
+On 12/08/2020 21:16, Stephen Smalley wrote:
+> On 8/2/20 5:58 PM, Mickaël Salaün wrote:
+>> From: Casey Schaufler <casey@schaufler-ca.com>
+>>
+>> Move management of the superblock->sb_security blob out
+>> of the individual security modules and into the security
+>> infrastructure. Instead of allocating the blobs from within
+>> the modules the modules tell the infrastructure how much
+>> space is required, and the space is allocated there.
+>>
+>> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+>> Reviewed-by: Kees Cook <keescook@chromium.org>
+>> Reviewed-by: John Johansen <john.johansen@canonical.com>
+>> Reviewed-by: Stephen Smalley <sds@tycho.nsa.gov>
+>> Reviewed-by: Mickaël Salaün <mic@digikod.net>
+>> Link:
+>> https://lore.kernel.org/r/20190829232935.7099-2-casey@schaufler-ca.com
+>> ---
+>>
+>> Changes since v17:
+>> * Rebase the original LSM stacking patch from v5.3 to v5.7: I fixed some
+>>    diff conflicts caused by code moves and function renames in
+>>    selinux/include/objsec.h and selinux/hooks.c .  I checked that it
+>>    builds but I didn't test the changes for SELinux nor SMACK.
+> 
+> You shouldn't retain Signed-off-by and Reviewed-by lines from an earlier
+> patch if you made non-trivial changes to it (even more so if you didn't
+> test them).
 
-We have systems with thousands of mountpoints and compose mountinfo in
-kernel and again parse it in userspace takes time and it's strange if
-you need info about just one mountpoint. 
-
-Unfortunately, the same systems modify the huge mount table extremely
-often, because it starts/stops large number of containers and every 
-container means a mount operation(s).
-
-In this crazy environment, we have userspace tools like systemd or udisk 
-which react to VFS changes and there is no elegant way how to get
-details about a modified mount node from kernel.
-
-And of course we already have negative feedback from users who
-maintain large systems -- mountinfo returns inconsistent data if you
-read it by more read() calls (hopefully fixed by recent Miklos'
-mountinfo cursors); system is pretty busy to compose+parse mountinfo,
-etc.
-
-> I really think this is engineering for its own sake, rather than
-> responding to actual user concerns.
-
-We're too old and too lazy for "engineering for its own sake" :-)
-there is pressure from users ...
-
-Maybe David's fsinfo() sucks, but it does not mean that
-/proc/self/mountinfo is something cool. Right?
-
-We have to dig deep grave for /proc/self/mountinfo ...
-
-    Karel
-
--- 
- Karel Zak  <kzak@redhat.com>
- http://karelzak.blogspot.com
-
+I think I made trivial changes according to the original patch. But
+without reply from other people with Signed-off-by or Reviewed-by
+(Casey, Kees, John), I'll remove them. I guess you don't want your
+Reviewed-by to be kept, so I'll remove it, except if you want to review
+this patch (or the modified part).
