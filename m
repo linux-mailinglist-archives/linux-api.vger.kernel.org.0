@@ -2,187 +2,128 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 548C1243C84
-	for <lists+linux-api@lfdr.de>; Thu, 13 Aug 2020 17:32:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4096E243EF1
+	for <lists+linux-api@lfdr.de>; Thu, 13 Aug 2020 20:39:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726522AbgHMPb7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 13 Aug 2020 11:31:59 -0400
-Received: from smtp-42aa.mail.infomaniak.ch ([84.16.66.170]:40829 "EHLO
-        smtp-42aa.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726427AbgHMPb7 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 13 Aug 2020 11:31:59 -0400
-Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4BS9XG4mmCzlhLv2;
-        Thu, 13 Aug 2020 17:31:26 +0200 (CEST)
-Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
-        by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4BS9XC0vpZzlh8T5;
-        Thu, 13 Aug 2020 17:31:23 +0200 (CEST)
-Subject: Re: [PATCH v7 3/7] exec: Move path_noexec() check earlier
-To:     "Eric W. Biederman" <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>
-Cc:     linux-kernel@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Christian Heimes <christian@python.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Deven Bowers <deven.desai@linux.microsoft.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Eric Chiang <ericchiang@google.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
-        Matthew Garrett <mjg59@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        =?UTF-8?Q?Philippe_Tr=c3=a9buchet?= 
-        <philippe.trebuchet@ssi.gouv.fr>,
-        Scott Shell <scottsh@microsoft.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Steve Dower <steve.dower@python.org>,
-        Steve Grubb <sgrubb@redhat.com>,
-        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
-        Thibaut Sautereau <thibaut.sautereau@clip-os.org>,
-        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-References: <20200723171227.446711-1-mic@digikod.net>
- <20200723171227.446711-4-mic@digikod.net>
- <87a6z1m0u1.fsf@x220.int.ebiederm.org>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <89b6bb7f-d841-cf0a-8d5c-26c611b56ae7@digikod.net>
-Date:   Thu, 13 Aug 2020 17:31:22 +0200
-User-Agent: 
+        id S1726427AbgHMSjZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 13 Aug 2020 14:39:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52696 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726167AbgHMSjX (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 13 Aug 2020 14:39:23 -0400
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABDF5C061757;
+        Thu, 13 Aug 2020 11:39:23 -0700 (PDT)
+Received: by mail-ot1-x344.google.com with SMTP id k12so5646114otr.1;
+        Thu, 13 Aug 2020 11:39:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Y7lNN8r9lQHJr7MGliJHH6oai9G3/LoeZrHO1ezSymg=;
+        b=hZRKobHrmcwd7ZBaJZr1UhFE9EkEawa4jcXjhvjc7A0JwqsL2rpjf/L2SIHFKiStNe
+         soofYzcuF4lbxAffpF62tDVqI6gyYJ9/0dqVuP2p7hHzu1f0m160hVIWhzVrFQDGnPGA
+         qgizYVuYrqGjKEBqH2Q3s65w4PlO6j52SlGLMZajVogKJwB30YP3dvngY4Gy/1MwL31a
+         GDBac+LreOXZsEeDAnjUis2LdW5yrixuTiK8/6lkZ8uTgg5/JfoiAm0Cx4HcAb7AbIG9
+         zlTtycrarSA3+uJtnGv3xkTJqZ/SES7upawwm/Jcj2Rqwbr4NcmYDVBn8WKQtr7Ka2b6
+         Tvjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Y7lNN8r9lQHJr7MGliJHH6oai9G3/LoeZrHO1ezSymg=;
+        b=uDCEVHg7hO3fvln7wjUzgzYofzVbFn3MdE3RJbTHdMVMizZdyhITg3vHWKHHRqIpV0
+         gpvTNkBjhxs6HTGrfwepySZLMsBesdSH24bQYfw8V54auncthqR0c8W0nfkOEhWq30tD
+         hr2mAUODg+JW3PGMADcnIgoyM9XLR6lXd6SddXKdJt7JCiN5GPt0aV51qL/FbHzv3OgX
+         p87+4yNNjFLNJr9YyiV/aGUymEtxM8nlWqaT1+Ym309ImjJM2Cd5zb3ULTTaK8mzrFeI
+         xAooL73jwnzFJZp3stGWDhKF6jdnjk8MZaYwBOy4Z/40pzXsjSATMg+v9RYO4bX/LKoV
+         nKsQ==
+X-Gm-Message-State: AOAM531dO0W+CnLp0FxcRQTQ2b76SjtoMgKsU0Py6Eilbxwm65TKX9Ij
+        hLhXpl5MrCoQpXfCEJJIW0g2pF6g1kQ6571HzRA=
+X-Google-Smtp-Source: ABdhPJxOp79nbcc+gKMVWTSK9TAVg9Xfj8b3S6m17wgxhIQIhStE/aQ6riTh85EJ8Bn2tWlj/ZtPP3EqiCpIShZ/YfE=
+X-Received: by 2002:a05:6830:16d8:: with SMTP id l24mr5273440otr.89.1597343963111;
+ Thu, 13 Aug 2020 11:39:23 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <87a6z1m0u1.fsf@x220.int.ebiederm.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
-X-Antivirus-Code: 0x100000
+References: <20200802215903.91936-1-mic@digikod.net> <20200802215903.91936-6-mic@digikod.net>
+ <779c290b-45f5-b86c-c573-2edb4004105d@tycho.nsa.gov> <03f522c0-414c-434b-a0d1-57c3b17fa67f@digikod.net>
+In-Reply-To: <03f522c0-414c-434b-a0d1-57c3b17fa67f@digikod.net>
+From:   Stephen Smalley <stephen.smalley.work@gmail.com>
+Date:   Thu, 13 Aug 2020 14:39:12 -0400
+Message-ID: <CAEjxPJ7POnxKy=5w-iQkKhjftxf2-=UuvA6D8EmhUPJyS1F6qg@mail.gmail.com>
+Subject: Re: [PATCH v20 05/12] LSM: Infrastructure management of the superblock
+To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc:     Stephen Smalley <sds@tycho.nsa.gov>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Kees Cook <keescook@chromium.org>,
+        John Johansen <john.johansen@canonical.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        linux-kselftest@vger.kernel.org,
+        LSM List <linux-security-module@vger.kernel.org>,
+        x86@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Kees Cook wrote this patch, which is in Andrew Morton's tree, but I
-think you're talking about O_MAYEXEC, not this patch specifically.
+On Thu, Aug 13, 2020 at 10:17 AM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net>=
+ wrote:
+>
+>
+> On 12/08/2020 21:16, Stephen Smalley wrote:
+> > On 8/2/20 5:58 PM, Micka=C3=ABl Sala=C3=BCn wrote:
+> >> From: Casey Schaufler <casey@schaufler-ca.com>
+> >>
+> >> Move management of the superblock->sb_security blob out
+> >> of the individual security modules and into the security
+> >> infrastructure. Instead of allocating the blobs from within
+> >> the modules the modules tell the infrastructure how much
+> >> space is required, and the space is allocated there.
+> >>
+> >> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+> >> Reviewed-by: Kees Cook <keescook@chromium.org>
+> >> Reviewed-by: John Johansen <john.johansen@canonical.com>
+> >> Reviewed-by: Stephen Smalley <sds@tycho.nsa.gov>
+> >> Reviewed-by: Micka=C3=ABl Sala=C3=BCn <mic@digikod.net>
+> >> Link:
+> >> https://lore.kernel.org/r/20190829232935.7099-2-casey@schaufler-ca.com
+> >> ---
+> >>
+> >> Changes since v17:
+> >> * Rebase the original LSM stacking patch from v5.3 to v5.7: I fixed so=
+me
+> >>    diff conflicts caused by code moves and function renames in
+> >>    selinux/include/objsec.h and selinux/hooks.c .  I checked that it
+> >>    builds but I didn't test the changes for SELinux nor SMACK.
+> >
+> > You shouldn't retain Signed-off-by and Reviewed-by lines from an earlie=
+r
+> > patch if you made non-trivial changes to it (even more so if you didn't
+> > test them).
+>
+> I think I made trivial changes according to the original patch. But
+> without reply from other people with Signed-off-by or Reviewed-by
+> (Casey, Kees, John), I'll remove them. I guess you don't want your
+> Reviewed-by to be kept, so I'll remove it, except if you want to review
+> this patch (or the modified part).
 
-On 11/08/2020 21:36, Eric W. Biederman wrote:
-> Mickaël Salaün <mic@digikod.net> writes:
-> 
->> From: Kees Cook <keescook@chromium.org>
->>
->> The path_noexec() check, like the regular file check, was happening too
->> late, letting LSMs see impossible execve()s. Check it earlier as well
->> in may_open() and collect the redundant fs/exec.c path_noexec() test
->> under the same robustness comment as the S_ISREG() check.
->>
->> My notes on the call path, and related arguments, checks, etc:
-> 
-> A big question arises, that I think someone already asked.
-
-Al Viro and Jann Horn expressed such concerns for O_MAYEXEC:
-https://lore.kernel.org/lkml/0cc94c91-afd3-27cd-b831-8ea16ca8ca93@digikod.net/
-
-> 
-> Why perform this test in may_open directly instead of moving
-> it into inode_permission.  That way the code can be shared with
-> faccessat, and any other code path that wants it?
-
-This patch is just a refactoring.
-
-About O_MAYEXEC, path-based LSM, IMA and IPE need to work on a struct
-file, whereas inode_permission() only gives a struct inode. However,
-faccessat2(2) (with extended flags) seems to be the perfect candidate if
-we want to be able to check file descriptors.
-
-> 
-> That would look to provide a more maintainable kernel.
-
-Why would it be more maintainable?
-
-> 
-> Eric
-> 
-> 
->> do_open_execat()
->>     struct open_flags open_exec_flags = {
->>         .open_flag = O_LARGEFILE | O_RDONLY | __FMODE_EXEC,
->>         .acc_mode = MAY_EXEC,
->>         ...
->>     do_filp_open(dfd, filename, open_flags)
->>         path_openat(nameidata, open_flags, flags)
->>             file = alloc_empty_file(open_flags, current_cred());
->>             do_open(nameidata, file, open_flags)
->>                 may_open(path, acc_mode, open_flag)
->>                     /* new location of MAY_EXEC vs path_noexec() test */
->>                     inode_permission(inode, MAY_OPEN | acc_mode)
->>                         security_inode_permission(inode, acc_mode)
->>                 vfs_open(path, file)
->>                     do_dentry_open(file, path->dentry->d_inode, open)
->>                         security_file_open(f)
->>                         open()
->>     /* old location of path_noexec() test */
->>
->> Signed-off-by: Mickaël Salaün <mic@digikod.net>
->> Signed-off-by: Kees Cook <keescook@chromium.org>
->> Link: https://lore.kernel.org/r/20200605160013.3954297-4-keescook@chromium.org
->> ---
->>  fs/exec.c  | 12 ++++--------
->>  fs/namei.c |  4 ++++
->>  2 files changed, 8 insertions(+), 8 deletions(-)
->>
->> diff --git a/fs/exec.c b/fs/exec.c
->> index bdc6a6eb5dce..4eea20c27b01 100644
->> --- a/fs/exec.c
->> +++ b/fs/exec.c
->> @@ -147,10 +147,8 @@ SYSCALL_DEFINE1(uselib, const char __user *, library)
->>  	 * and check again at the very end too.
->>  	 */
->>  	error = -EACCES;
->> -	if (WARN_ON_ONCE(!S_ISREG(file_inode(file)->i_mode)))
->> -		goto exit;
->> -
->> -	if (path_noexec(&file->f_path))
->> +	if (WARN_ON_ONCE(!S_ISREG(file_inode(file)->i_mode) ||
->> +			 path_noexec(&file->f_path)))
->>  		goto exit;
->>  
->>  	fsnotify_open(file);
->> @@ -897,10 +895,8 @@ static struct file *do_open_execat(int fd, struct filename *name, int flags)
->>  	 * and check again at the very end too.
->>  	 */
->>  	err = -EACCES;
->> -	if (WARN_ON_ONCE(!S_ISREG(file_inode(file)->i_mode)))
->> -		goto exit;
->> -
->> -	if (path_noexec(&file->f_path))
->> +	if (WARN_ON_ONCE(!S_ISREG(file_inode(file)->i_mode) ||
->> +			 path_noexec(&file->f_path)))
->>  		goto exit;
->>  
->>  	err = deny_write_access(file);
->> diff --git a/fs/namei.c b/fs/namei.c
->> index a559ad943970..ddc9b25540fe 100644
->> --- a/fs/namei.c
->> +++ b/fs/namei.c
->> @@ -2863,6 +2863,10 @@ static int may_open(const struct path *path, int acc_mode, int flag)
->>  			return -EACCES;
->>  		flag &= ~O_TRUNC;
->>  		break;
->> +	case S_IFREG:
->> +		if ((acc_mode & MAY_EXEC) && path_noexec(path))
->> +			return -EACCES;
->> +		break;
->>  	}
->>  
->>  	error = inode_permission(inode, MAY_OPEN | acc_mode);
+At the very least your Reviewed-by line is wrong - yours should be
+Signed-off-by because the patch went through you and you modified it.
+I'll try to take a look as time permits but FYI you should this
+address (already updated in MAINTAINERS) going forward.
