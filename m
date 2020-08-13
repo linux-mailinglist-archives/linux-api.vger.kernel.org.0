@@ -2,43 +2,43 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F6BE2431EB
-	for <lists+linux-api@lfdr.de>; Thu, 13 Aug 2020 03:01:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C41B22432EA
+	for <lists+linux-api@lfdr.de>; Thu, 13 Aug 2020 05:45:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726533AbgHMBBp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 Aug 2020 21:01:45 -0400
-Received: from wnew2-smtp.messagingengine.com ([64.147.123.27]:60243 "EHLO
-        wnew2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726078AbgHMBBo (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Aug 2020 21:01:44 -0400
+        id S1726567AbgHMDpK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 Aug 2020 23:45:10 -0400
+Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:56871 "EHLO
+        wnew4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726334AbgHMDpK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Aug 2020 23:45:10 -0400
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-        by mailnew.west.internal (Postfix) with ESMTP id 2FEF5B4F;
-        Wed, 12 Aug 2020 21:01:42 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Wed, 12 Aug 2020 21:01:43 -0400
+        by mailnew.west.internal (Postfix) with ESMTP id 14D72FC9;
+        Wed, 12 Aug 2020 23:45:08 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Wed, 12 Aug 2020 23:45:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=
         message-id:subject:from:to:cc:date:in-reply-to:references
         :content-type:mime-version:content-transfer-encoding; s=fm3; bh=
-        JG1tgGZ/mQI9+jPnvtxoNjrRjRVSVgKjSvfLuuK+16o=; b=YsGy5BPCab5tRtyn
-        T6XQlYKFThZ2rbXRsDmInqLDn3V+VijsKNYx70VBFA3doBccGyS0GW3fKT/FMT7L
-        CrBLO4cZrRIcshJcwe9IrNnzTbQ68p1q2X2pwGhtlBs5HglthTBZAr9KpLoQjJv2
-        oi3NcyHfLBdsPSsGxsnMx9SDmhTd4aF9faRx6U0qZeJQ9XTEsd8UeWvulViu7sgz
-        M4BI3M18nX91VCBQwn6GqhfMJyQl+83/+Zgn6d6HB/KuWfm3VcPRTriQhajyAxxV
-        oz3FU48W8KTuaXUBTFi+LZgxdGqB1WmQTFh/FqrIUtfGRkz1Rq0PIghWQmGxto1f
-        lWNgew==
+        riEkJBk9dtTCMdsd2KuRcCF6pt/EtfYew54yr6yCdJ0=; b=KzEjKotH5i2EDTcj
+        kvBpYZ5LOAFPB3zMvzFYCfj8QWTdLQM6ENrhOYMHVPnS/e1YFPtX5i0OPsSeL4ru
+        PvwvOAY2wvRAwmRget9I0dt/a1ke9rAouh2Wgi2a1F19YRdQe3xFr0skY7v9g6xp
+        YWkG5uEGTHHDSHw749P3caLQRxi2dSKsT9mKL9i2Lic5SF4/V2/qd6SyDloKKpzn
+        mC3Mz1GgSqOEtMZUFV4s6SCZeHuu0eWGZAhz+kwbNCNU4scom7ETFIfALUgxvfGB
+        4kPIYmLPdrtA1QtIDzQ87SzdCUe+OvdLZADloyG/TQvZRy86RDL6cxypjy6IGbit
+        yROLsQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-transfer-encoding:content-type
         :date:from:in-reply-to:message-id:mime-version:references
         :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; bh=JG1tgGZ/mQI9+jPnvtxoNjrRjRVSVgKjSvfLuuK+1
-        6o=; b=RH5FLj2bOOLTC4WTSYiN1K8+Bst9j2gJtQjvt1s4rIUBCFWcgvSQNu7mr
-        pitZlBaELSNmB5K6TdX/oxfSa6WSs86X76XCrRuzYGg2ufjODnJNYaqveT/zepbA
-        BndAAner4iGUjtl59qs5PZL69w/6x+vmR9fuAcrwvpaXx0Pv6YYmESh4Ca+Hd43W
-        glFdlaDtbCVVeTgI1kGiVMR0KpGy/bOtopMb+wMeycysNBh0E7KPyqGwmG2Ot6m5
-        ttCYaDmLSvbz0bSoBlQlaGHIoTzdyFlF/BhEw2Tt8rA7TPEVZbT1nQ1kxycxsFzX
-        /XT9WtixMxBZ6UL5iT3K+hMPRHNtQ==
-X-ME-Sender: <xms:9JA0X-Fv-D3nOwj7nvd5kBrnL1tU_QBWutemZ9nnRS87eH-bFHP78A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrleefgdegfecutefuodetggdotefrodftvf
+        :x-sasl-enc; s=fm3; bh=riEkJBk9dtTCMdsd2KuRcCF6pt/EtfYew54yr6yCd
+        J0=; b=Y5xPbwpSaJE7r6+Mg7K2AJQddMRP2uXhV5YS+cJGQmJF5qa1oXZGzN/k1
+        R+socj+BfnH/JFqfoZm4RiPdIMOgXWYE6bTDevZjmItShA7NGhZdEh9jJOoXfNqp
+        2yzFqbjNKqvPDhkbD3GePGpxGZSVtFCDuaclNV3rhg96gmwn8q8fWGShLUVdaCuS
+        uhmTKmhH948l8vmP+bRPZ02NjzV6Vql+G7EGt5vcxSLvxO16Ux/y16XqZvvCUfhD
+        N298oO9RFrzp6hhtvgm8BA6PUVN5RDvNlbJ9f7FFe9hgXO3p7ypNkJp4gXM/+jwH
+        0t2/59pboQs6CDp7CZCrcdb3IrctQ==
+X-ME-Sender: <xms:Qrc0X8Lc1yZIEPskEWLBeDxIuetSBLIxdPQ6GpEA1g7a2j3loMUpZg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrleefgdejjecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
     fjughrpefkuffhvfffjghftggfggfgsehtjeertddtreejnecuhfhrohhmpefkrghnucfm
@@ -46,23 +46,22 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrleefgdegfecutefuodetggdote
     efteetvdeguddvveefveeftedtffduudehueeihfeuvefgveehffeludeggfejnecukfhp
     peehkedrjedrvddtfedruddugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
     epmhgrihhlfhhrohhmpehrrghvvghnsehthhgvmhgrfidrnhgvth
-X-ME-Proxy: <xmx:9JA0X_XkrSBnRmi74Bg3JzuS8s5qttogVC2Mn6oDIYDVmqCQx28qvg>
-    <xmx:9JA0X4Ly-qQ4urlCcGK9tYnFrRqqOIwfyz55PKmNa2Zi8KWvxi28aw>
-    <xmx:9JA0X4F5dUXrRhj6BYFcFd0QMbTsHSfXVHw4YEq8q7Dw4oBH4GFblg>
-    <xmx:9ZA0X9MTb5f9KI-jQamiXciLjfeovByEMET6DTE8mqkLLPmnmUxzutIpcsM>
+X-ME-Proxy: <xmx:Qrc0X8JmDYFlSNcZKK2nszokJSpdOioE1XPHpaqoyty_dHf6SuSp7Q>
+    <xmx:Qrc0X8tkP-vChz8GV1z1A9ihiy8aqTa6b_5PBYaV7Fix_HUT3C6GRg>
+    <xmx:Qrc0X5a4k1gagaBZVNG52KO4BnXvOZwG_cOsYiNF5ppt2zi0xteFIA>
+    <xmx:Q7c0XwQsbzSGPz00inTTQlqYeTpp31KU-MhIhYYisLYqmKnYMTSOyrVk97A>
 Received: from mickey.themaw.net (58-7-203-114.dyn.iinet.net.au [58.7.203.114])
-        by mail.messagingengine.com (Postfix) with ESMTPA id AF46D3280065;
-        Wed, 12 Aug 2020 21:01:35 -0400 (EDT)
-Message-ID: <989bb93754a4af69c02a9f42b05549f7e72630b3.camel@themaw.net>
+        by mail.messagingengine.com (Postfix) with ESMTPA id BA4CC306005F;
+        Wed, 12 Aug 2020 23:44:58 -0400 (EDT)
+Message-ID: <20a60b5984a7f6e3e7d351b789c0b0beedfb2653.camel@themaw.net>
 Subject: Re: file metadata via fs API
 From:   Ian Kent <raven@themaw.net>
-To:     David Howells <dhowells@redhat.com>,
-        Miklos Szeredi <miklos@szeredi.hu>
-Cc:     Karel Zak <kzak@redhat.com>,
-        Steven Whitehouse <swhiteho@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Steven Whitehouse <swhiteho@redhat.com>
+Cc:     David Howells <dhowells@redhat.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
+        Al Viro <viro@zeniv.linux.org.uk>, Karel Zak <kzak@redhat.com>,
         Jeff Layton <jlayton@redhat.com>,
         Miklos Szeredi <mszeredi@redhat.com>,
         Nicolas Dichtel <nicolas.dichtel@6wind.com>,
@@ -71,21 +70,20 @@ Cc:     Karel Zak <kzak@redhat.com>,
         Linux API <linux-api@vger.kernel.org>,
         LSM <linux-security-module@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Date:   Thu, 13 Aug 2020 09:01:31 +0800
-In-Reply-To: <131358.1597237585@warthog.procyon.org.uk>
-References: <CAJfpegv4sC2zm+N5tvEmYaEFvvWJRHfdGqXUoBzbeKj81uNCvQ@mail.gmail.com>
+Date:   Thu, 13 Aug 2020 11:44:54 +0800
+In-Reply-To: <CAHk-=wgz5H-xYG4bOrHaEtY7rvFA1_6+mTSpjrgK8OsNbfF+Pw@mail.gmail.com>
+References: <1842689.1596468469@warthog.procyon.org.uk>
+         <1845353.1596469795@warthog.procyon.org.uk>
+         <CAJfpegunY3fuxh486x9ysKtXbhTE0745ZCVHcaqs9Gww9RV2CQ@mail.gmail.com>
+         <ac1f5e3406abc0af4cd08d818fe920a202a67586.camel@themaw.net>
          <CAJfpegu8omNZ613tLgUY7ukLV131tt7owR+JJ346Kombt79N0A@mail.gmail.com>
          <CAJfpegtNP8rQSS4Z14Ja4x-TOnejdhDRTsmmDD-Cccy2pkfVVw@mail.gmail.com>
          <20200811135419.GA1263716@miu.piliscsaba.redhat.com>
          <CAHk-=wjzLmMRf=QG-n+1HnxWCx4KTQn9+OhVvUSJ=ZCQd6Y1WA@mail.gmail.com>
          <52483.1597190733@warthog.procyon.org.uk>
-         <CAJfpegt=cQ159kEH9zCYVHV7R_08jwMxF0jKrSUV5E=uBg4Lzw@mail.gmail.com>
-         <98802.1597220949@warthog.procyon.org.uk>
-         <CAJfpegsVJo9e=pHf3YGWkE16fT0QaNGhgkUdq4KUQypXaD=OgQ@mail.gmail.com>
-         <d2d179c7-9b60-ca1a-0c9f-d308fc7af5ce@redhat.com>
-         <CAJfpeguMjU+n-JXE6aUQQGeMpCS4bsy4HQ37NHJ8aD8Aeg2qhA@mail.gmail.com>
-         <20200812112825.b52tqeuro2lquxlw@ws.net.home>
-         <131358.1597237585@warthog.procyon.org.uk>
+         <CAHk-=wiPx0UJ6Q1X=azwz32xrSeKnTJcH8enySwuuwnGKkHoPA@mail.gmail.com>
+         <066f9aaf-ee97-46db-022f-5d007f9e6edb@redhat.com>
+         <CAHk-=wgz5H-xYG4bOrHaEtY7rvFA1_6+mTSpjrgK8OsNbfF+Pw@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
 MIME-Version: 1.0
@@ -95,29 +93,70 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, 2020-08-12 at 14:06 +0100, David Howells wrote:
-> Miklos Szeredi <miklos@szeredi.hu> wrote:
+On Wed, 2020-08-12 at 12:50 -0700, Linus Torvalds wrote:
+> On Wed, Aug 12, 2020 at 12:34 PM Steven Whitehouse <
+> swhiteho@redhat.com> wrote:
+> > The point of this is to give us the ability to monitor mounts from
+> > userspace.
 > 
-> > That presumably means the mount ID <-> mount path mapping already
-> > exists, which means it's just possible to use the open(mount_path,
-> > O_PATH) to obtain the base fd.
-> 
-> No, you can't.  A path more correspond to multiple mounts stacked on
-> top of
-> each other, e.g.:
-> 
-> 	mount -t tmpfs none /mnt
-> 	mount -t tmpfs none /mnt
-> 	mount -t tmpfs none /mnt
-> 
-> Now you have three co-located mounts and you can't use the path to
-> differentiate them.  I think this might be an issue in autofs, but
-> Ian would
-> need to comment on that.
+> We haven't had that before, I don't see why it's suddenly such a big
+> deal.
 
-It is a problem for autofs, direct mounts in particular, but also
-for mount ordering at times when umounting a tree of mounts where
-mounts are covered or at shutdown.
+Because there's a trend occurring in user space where there are
+frequent and persistent mount changes that cause high overhead.
 
-Ian
+I've seen the number of problems building up over the last few months
+that are essentially the same problem that I wanted to resolve. And
+that's related to side effects of autofs using a large number of
+mounts.
+
+The problems are real.
+
+> 
+> The notification side I understand. Polling /proc files is not the
+> answer.
+
+Yep, that's one aspect, getting the information about a mount without
+reading the entire mount table seems like the sensible thing to do to
+allow for a more efficient notification mechanism.
+
+> 
+> But the whole "let's design this crazy subsystem for it" seems way
+> overkill. I don't see anybody caring that deeply.
+> 
+> It really smells like "do it because we can, not because we must".
+> 
+> Who the hell cares about monitoring mounts at a kHz frequencies? If
+> this is for MIS use, you want a nice GUI and not wasting CPU time
+> polling.
+
+That part of the problem still remains.
+
+The kernel sending a continuous stream of wake ups under load does
+also introduce a resource problem but that's probably something to
+handle in user space.
+
+> 
+> I'm starting to ignore the pull requests from David Howells, because
+> by now they have had the same pattern for a couple of years now:
+> esoteric new interfaces that seem overdesigned for corner-cases that
+> I'm not seeing people clamoring for.
+> 
+> I need (a) proof this is actualyl something real users care about and
+> (b) way more open discussion and implementation from multiple
+> parties.
+> 
+> Because right now it looks like a small in-cabal of a couple of
+> people
+> who have wild ideas but I'm not seeing the wider use of it.
+> 
+> Convince me otherwise. AGAIN. This is the exact same issue I had with
+> the notification queues that I really wanted actual use-cases for,
+> and
+> feedback from actual outside users.
+> 
+> I really think this is engineering for its own sake, rather than
+> responding to actual user concerns.
+> 
+>                Linus
 
