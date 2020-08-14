@@ -2,48 +2,36 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC921244E34
-	for <lists+linux-api@lfdr.de>; Fri, 14 Aug 2020 19:47:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65B85244E5D
+	for <lists+linux-api@lfdr.de>; Fri, 14 Aug 2020 20:09:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728464AbgHNRrM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 14 Aug 2020 13:47:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36972 "EHLO mail.kernel.org"
+        id S1728032AbgHNSJs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 14 Aug 2020 14:09:48 -0400
+Received: from mga03.intel.com ([134.134.136.65]:35926 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726213AbgHNRrJ (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 14 Aug 2020 13:47:09 -0400
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5C14C20829
-        for <linux-api@vger.kernel.org>; Fri, 14 Aug 2020 17:47:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1597427228;
-        bh=akv/UmJpcxiw7tC5PwlDZdR2KC9Vs7eUyK1bJfdTthU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=M1BVD6SnLlAB2txByxPfGzUWpVOp3wq3n7nM5a54Y2PQJRoJlEXq4f0QbkFagm6pg
-         9dBY7bMOODEevE6mAvxFYo35Mi9HPTiws8gRQ5R225rEKUaODsFf8AGNqWHm7C1l6j
-         PV+URg/mt57tVczx/6gYBnLYKuLv/hYkJ1cGVOd8=
-Received: by mail-wr1-f49.google.com with SMTP id f12so9032927wru.13
-        for <linux-api@vger.kernel.org>; Fri, 14 Aug 2020 10:47:08 -0700 (PDT)
-X-Gm-Message-State: AOAM531kpMObGZ6//M4urVGxmJX6aBb8sfw8crX8tgrtAoOuNFBy7aCz
-        cKimNgKkZLEYRTmaieggIkkADiJWfa7OzO92ROdu0g==
-X-Google-Smtp-Source: ABdhPJyUWIngePPeonF9Qb5pi4t0BlSXHz3udbBaINEYqUbzO/kdzoB39Yt/n/fFkRBlsagQA4nriALJiUYA+FrSZsE=
-X-Received: by 2002:adf:e90f:: with SMTP id f15mr3752426wrm.18.1597427226974;
- Fri, 14 Aug 2020 10:47:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200130162340.GA14232@rapoport-lnx>
-In-Reply-To: <20200130162340.GA14232@rapoport-lnx>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Fri, 14 Aug 2020 10:46:55 -0700
-X-Gmail-Original-Message-ID: <CALCETrVOWodgnRBFpPLEnc_Bfg=fgfAJiD1p-eE1uwCMc6c9Tg@mail.gmail.com>
-Message-ID: <CALCETrVOWodgnRBFpPLEnc_Bfg=fgfAJiD1p-eE1uwCMc6c9Tg@mail.gmail.com>
+        id S1726297AbgHNSJr (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 14 Aug 2020 14:09:47 -0400
+IronPort-SDR: t0QPCrR9K+XSoKEoYhqyoOYGZTVTpOZ8wf92HJVMPzL7J2otVE0kxiB9X0EjnE9WOPfk2JNKcA
+ eppaveygQN2Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9713"; a="154447902"
+X-IronPort-AV: E=Sophos;i="5.76,313,1592895600"; 
+   d="scan'208";a="154447902"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2020 11:09:47 -0700
+IronPort-SDR: UQpSNjmO0xPV0bQyD3NIE4hDJg4PISR4wPUxIqIJ3dVGCKuk8x/1AW8nfgjupEL6Wwy8uG6R+m
+ BHyjvY+x6oQg==
+X-IronPort-AV: E=Sophos;i="5.76,313,1592895600"; 
+   d="scan'208";a="470666904"
+Received: from cliu2-mobl1.ccr.corp.intel.com (HELO [10.255.229.124]) ([10.255.229.124])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2020 11:09:46 -0700
 Subject: Re: [RFC PATCH] mm: extend memfd with ability to create "secret"
  memory areas
-To:     Mike Rapoport <rppt@kernel.org>
+To:     Andy Lutomirski <luto@kernel.org>, Mike Rapoport <rppt@kernel.org>
 Cc:     LKML <linux-kernel@vger.kernel.org>,
         Alan Cox <alan@linux.intel.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
         Christopher Lameter <cl@linux.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         James Bottomley <jejb@linux.ibm.com>,
@@ -55,69 +43,95 @@ Cc:     LKML <linux-kernel@vger.kernel.org>,
         Tycho Andersen <tycho@tycho.ws>,
         Linux API <linux-api@vger.kernel.org>,
         Linux-MM <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
+References: <20200130162340.GA14232@rapoport-lnx>
+ <CALCETrVOWodgnRBFpPLEnc_Bfg=fgfAJiD1p-eE1uwCMc6c9Tg@mail.gmail.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <6e020a65-b516-9407-228f-2a3a32947ab9@intel.com>
+Date:   Fri, 14 Aug 2020 11:09:46 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <CALCETrVOWodgnRBFpPLEnc_Bfg=fgfAJiD1p-eE1uwCMc6c9Tg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jan 30, 2020 at 8:23 AM Mike Rapoport <rppt@kernel.org> wrote:
->
-> Hi,
->
-> This is essentially a resend of my attempt to implement "secret" mappings
-> using a file descriptor [1].
->
-> I've done a couple of experiments with secret/exclusive/whatever
-> memory backed by a file-descriptor using a chardev and memfd_create
-> syscall. There is indeed no need for VM_ flag, but there are still places
-> that would require special care, e.g vm_normal_page(), madvise(DO_FORK), so
-> it won't be completely free of core mm modifications.
->
-> Below is a POC that implements extension to memfd_create() that allows
-> mapping of a "secret" memory. The "secrecy" mode should be explicitly set
-> using ioctl(), for now I've implemented exclusive and uncached mappings.
+On 8/14/20 10:46 AM, Andy Lutomirski wrote:
+> I'm a little unconvinced about the security benefits.  As far as I
+> know, UC memory will not end up in cache by any means (unless
+> aliased), but it's going to be tough to do much with UC data with
+> anything resembling reasonable performance without derived values
+> getting cached.
 
-Hi-
+I think this is much more in the category of raising the bar than
+providing any absolute security guarantees.
 
-Sorry for the extremely delayed response.
+Let's say you have a secret and you read it into some registers and then
+spill them on the stack.  You've got two cached copies, one for the
+primary data and another for the stack copy.  Secret areas don't get rid
+of the stack copy, but they do get rid of the other one.  One cache copy
+is better than two.  Bar raised. :)
 
-I like the general concept, and I like the exclusive concept.  While
-it is certainly annoying for the kernel to manage non-direct-mapped
-pages, I think it's the future.  But I have serious concerns about the
-uncached part.  Here are some concerns.
+There are also some stronger protections, less in the bar-raising
+category.  On x86 at least, uncached accesses also crush speculation.
+You can't, for instance, speculatively get wrong values if you're not
+speculating in the first place.  I was thinking of things like Load
+Value Injection[1].
 
-If it's done at all, I think it should be MFD_SECRET_X86_UNCACHED.  I
-think that uncached memory is outside the scope of things that can
-reasonably be considered to be architecture-neutral.  (For example, on
-x86, UC and WC have very different semantics, and UC has quite
-different properties than WB for things like atomics.  Also, the
-performance of UC is interesting at best, and the ways to even
-moderately efficiently read from UC memory or write to UC memory are
-highly x86-specific.)
+I _believe_ there are also things like AES-NI that can get strong
+protection from stuff like this.  They load encryption keys into (AVX)
+registers and then can do encrypt/decrypt operations without the keys
+leaving the registers.  If the key was loaded from a secret memory area
+right into the registers, I think the protection from cache attacks
+would be pretty strong.
 
-I'm a little unconvinced about the security benefits.  As far as I
-know, UC memory will not end up in cache by any means (unless
-aliased), but it's going to be tough to do much with UC data with
-anything resembling reasonable performance without derived values
-getting cached.  It's likely entirely impossible to do it reliably
-without asm.  But even with plain WB memory, getting it into L1 really
-should not be that bad unless major new vulnerabilities are
-discovered.  And there are other approaches that could be more
-arch-neutral and more performant.  For example, there could be an
-option to flush a few cache lines on schedule out.  This way a task
-could work on some (exclusive but WB) secret memory and have the cache
-lines flushed if anything interrupts it.  Combined with turning SMT
-off, this could offer comparable protection with much less overhead.
 
-UC also doesn't seem reliable on x86, sadly.  From asking around,
-there are at least a handful of scenarios under which the kernel can
-ask the CPU for UC but get WB anyway.  Apparently Xen hypervisors will
-do this unless the domain has privileged MMIO access, and ESXi will do
-it under some set of common circumstances.  So unless we probe somehow
-or have fancy enumeration or administrative configuration, I'm not
-sure we can even get predictable behavior if we hand userspace a
-supposedly UC mapping.  Giving user code WB when it thinks it has UC
-could end badly.
-
---Andy
+1.
+https://software.intel.com/security-software-guidance/insights/deep-dive-load-value-injection
