@@ -2,116 +2,122 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F720244D44
-	for <lists+linux-api@lfdr.de>; Fri, 14 Aug 2020 19:05:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC921244E34
+	for <lists+linux-api@lfdr.de>; Fri, 14 Aug 2020 19:47:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728116AbgHNRFb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 14 Aug 2020 13:05:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33998 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726772AbgHNRFa (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 14 Aug 2020 13:05:30 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD061C061384
-        for <linux-api@vger.kernel.org>; Fri, 14 Aug 2020 10:05:29 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id v12so10660199ljc.10
-        for <linux-api@vger.kernel.org>; Fri, 14 Aug 2020 10:05:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qYuJ9NHHO+qnoSaHW0PlHI0fiXCW7zDlZFu/ah5uFho=;
-        b=QZC+eNnnLcPaczh2E7Iym7nx2PQpiiDURT50bzxJZUsdtO86YlDCUBTiiWPJAXsWnA
-         U49+U2ao8O1Ymle/LvRAFOmnKYrXWnRy0koTc1q4uPH3YiU1H0Bu0Wp5Fx58rMDOEorn
-         lZP3mAReqkIBPzLDybNfptRtvd5sif7WdrmnA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qYuJ9NHHO+qnoSaHW0PlHI0fiXCW7zDlZFu/ah5uFho=;
-        b=HCVrfyW79KCPKmqyuCuG8Wf6DnsWIEaXivLO9cHllUNk5fdzAR+mOAV1dxlDrNAQHd
-         xlvLZmOOtJDRM0meFc6e4Yzp4x6cKB+V+kBHDUUR/ANPzjedVqbBdqpnOrUogWaGmFh1
-         ycvjC/QrKKm/ac9m1tfqIEQrQYBVq0xxuzk7BsErsXf/QwnUqTSFUmZq/TYvNppYna+t
-         bhRuj31kcZH37Ym5/zCieD+BmSpD+MDvPhCu0vMYAvdqaahzzhkXgwIHBssQAMYplhng
-         ux+rUDoPgYemC1e/6EJBjld/Cl4gok0N/vu8PXWOifUxiIZmkEsj51h2ZHCUXtbwbzlF
-         K7UQ==
-X-Gm-Message-State: AOAM532CdKKxkPoAgpGB/J0NixfCB8TSaWHu/c8o+rewR8oGm/jLniOh
-        cV0rlMhc86NXM8fxBpL8fCWQbrMymkCGEw==
-X-Google-Smtp-Source: ABdhPJxoIvU0Q2hbO5GfRTvWY+LgpOOVAFbDNt4HQLL0UmE5DxTrVHNFQon8x7OVZPLC9R4ShIW4Qw==
-X-Received: by 2002:a05:651c:221:: with SMTP id z1mr1628327ljn.52.1597424728132;
-        Fri, 14 Aug 2020 10:05:28 -0700 (PDT)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com. [209.85.208.170])
-        by smtp.gmail.com with ESMTPSA id j6sm1858983lja.23.2020.08.14.10.05.26
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Aug 2020 10:05:26 -0700 (PDT)
-Received: by mail-lj1-f170.google.com with SMTP id t6so10643791ljk.9
-        for <linux-api@vger.kernel.org>; Fri, 14 Aug 2020 10:05:26 -0700 (PDT)
-X-Received: by 2002:a2e:9a11:: with SMTP id o17mr1629608lji.314.1597424726058;
- Fri, 14 Aug 2020 10:05:26 -0700 (PDT)
+        id S1728464AbgHNRrM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 14 Aug 2020 13:47:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36972 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726213AbgHNRrJ (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 14 Aug 2020 13:47:09 -0400
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5C14C20829
+        for <linux-api@vger.kernel.org>; Fri, 14 Aug 2020 17:47:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1597427228;
+        bh=akv/UmJpcxiw7tC5PwlDZdR2KC9Vs7eUyK1bJfdTthU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=M1BVD6SnLlAB2txByxPfGzUWpVOp3wq3n7nM5a54Y2PQJRoJlEXq4f0QbkFagm6pg
+         9dBY7bMOODEevE6mAvxFYo35Mi9HPTiws8gRQ5R225rEKUaODsFf8AGNqWHm7C1l6j
+         PV+URg/mt57tVczx/6gYBnLYKuLv/hYkJ1cGVOd8=
+Received: by mail-wr1-f49.google.com with SMTP id f12so9032927wru.13
+        for <linux-api@vger.kernel.org>; Fri, 14 Aug 2020 10:47:08 -0700 (PDT)
+X-Gm-Message-State: AOAM531kpMObGZ6//M4urVGxmJX6aBb8sfw8crX8tgrtAoOuNFBy7aCz
+        cKimNgKkZLEYRTmaieggIkkADiJWfa7OzO92ROdu0g==
+X-Google-Smtp-Source: ABdhPJyUWIngePPeonF9Qb5pi4t0BlSXHz3udbBaINEYqUbzO/kdzoB39Yt/n/fFkRBlsagQA4nriALJiUYA+FrSZsE=
+X-Received: by 2002:adf:e90f:: with SMTP id f15mr3752426wrm.18.1597427226974;
+ Fri, 14 Aug 2020 10:47:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <1842689.1596468469@warthog.procyon.org.uk> <1845353.1596469795@warthog.procyon.org.uk>
- <CAJfpegunY3fuxh486x9ysKtXbhTE0745ZCVHcaqs9Gww9RV2CQ@mail.gmail.com>
- <ac1f5e3406abc0af4cd08d818fe920a202a67586.camel@themaw.net>
- <CAJfpegu8omNZ613tLgUY7ukLV131tt7owR+JJ346Kombt79N0A@mail.gmail.com>
- <CAJfpegtNP8rQSS4Z14Ja4x-TOnejdhDRTsmmDD-Cccy2pkfVVw@mail.gmail.com>
- <20200811135419.GA1263716@miu.piliscsaba.redhat.com> <CAHk-=wjzLmMRf=QG-n+1HnxWCx4KTQn9+OhVvUSJ=ZCQd6Y1WA@mail.gmail.com>
- <52483.1597190733@warthog.procyon.org.uk> <CAHk-=wiPx0UJ6Q1X=azwz32xrSeKnTJcH8enySwuuwnGKkHoPA@mail.gmail.com>
- <679456f1-5867-4017-b1d6-95197d2fa81b@auristor.com>
-In-Reply-To: <679456f1-5867-4017-b1d6-95197d2fa81b@auristor.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Fri, 14 Aug 2020 10:05:09 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whLhwum2E+qperD=TypGHXxoBtXOu-HHDd9L9_XFFyiaA@mail.gmail.com>
-Message-ID: <CAHk-=whLhwum2E+qperD=TypGHXxoBtXOu-HHDd9L9_XFFyiaA@mail.gmail.com>
-Subject: Re: file metadata via fs API (was: [GIT PULL] Filesystem Information)
-To:     Jeffrey E Altman <jaltman@auristor.com>
-Cc:     David Howells <dhowells@redhat.com>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>, Karel Zak <kzak@redhat.com>,
-        Jeff Layton <jlayton@redhat.com>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Nicolas Dichtel <nicolas.dichtel@6wind.com>,
-        Christian Brauner <christian@brauner.io>,
-        Lennart Poettering <lennart@poettering.net>,
+References: <20200130162340.GA14232@rapoport-lnx>
+In-Reply-To: <20200130162340.GA14232@rapoport-lnx>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Fri, 14 Aug 2020 10:46:55 -0700
+X-Gmail-Original-Message-ID: <CALCETrVOWodgnRBFpPLEnc_Bfg=fgfAJiD1p-eE1uwCMc6c9Tg@mail.gmail.com>
+Message-ID: <CALCETrVOWodgnRBFpPLEnc_Bfg=fgfAJiD1p-eE1uwCMc6c9Tg@mail.gmail.com>
+Subject: Re: [RFC PATCH] mm: extend memfd with ability to create "secret"
+ memory areas
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Alan Cox <alan@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Christopher Lameter <cl@linux.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Matthew Wilcox <willy@infradead.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Reshetova, Elena" <elena.reshetova@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tycho Andersen <tycho@tycho.ws>,
         Linux API <linux-api@vger.kernel.org>,
-        Ian Kent <raven@themaw.net>,
-        LSM <linux-security-module@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Linux-MM <linux-mm@kvack.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Aug 12, 2020 at 8:53 PM Jeffrey E Altman <jaltman@auristor.com> wrote:
+On Thu, Jan 30, 2020 at 8:23 AM Mike Rapoport <rppt@kernel.org> wrote:
 >
-> For the AFS community, fsinfo offers a method of exposing some server
-> and volume properties that are obtained via "path ioctls" in OpenAFS and
-> AuriStorFS.  Some example of properties that might be exposed include
-> answers to questions such as:
+> Hi,
+>
+> This is essentially a resend of my attempt to implement "secret" mappings
+> using a file descriptor [1].
+>
+> I've done a couple of experiments with secret/exclusive/whatever
+> memory backed by a file-descriptor using a chardev and memfd_create
+> syscall. There is indeed no need for VM_ flag, but there are still places
+> that would require special care, e.g vm_normal_page(), madvise(DO_FORK), so
+> it won't be completely free of core mm modifications.
+>
+> Below is a POC that implements extension to memfd_create() that allows
+> mapping of a "secret" memory. The "secrecy" mode should be explicitly set
+> using ioctl(), for now I've implemented exclusive and uncached mappings.
 
-Note that several of the questions you ask aren't necessarily
-mount-related at all.
+Hi-
 
-Doing it by mount ends up being completely the wrong thing.
+Sorry for the extremely delayed response.
 
-For example, at a minimum, these guys may well be per-directory (or
-even possibly per-file):
+I like the general concept, and I like the exclusive concept.  While
+it is certainly annoying for the kernel to manage non-direct-mapped
+pages, I think it's the future.  But I have serious concerns about the
+uncached part.  Here are some concerns.
 
->  * where is a mounted volume hosted? which fileservers, named by uuid
->  * what is the block size? 1K, 4K, ...
->  * are directories just-send-8, case-sensitive, case-preserving, or
->    case-insensitive?
->  * if not just-send-8, what character set is used?
->  * if Unicode, what normalization rules? etc.
->  * what volume security policy (authn, integ, priv) is assigned, if any?
->  * what is the replication policy, if any?
->  * what is the volume encryption policy, if any?
+If it's done at all, I think it should be MFD_SECRET_X86_UNCACHED.  I
+think that uncached memory is outside the scope of things that can
+reasonably be considered to be architecture-neutral.  (For example, on
+x86, UC and WC have very different semantics, and UC has quite
+different properties than WB for things like atomics.  Also, the
+performance of UC is interesting at best, and the ways to even
+moderately efficiently read from UC memory or write to UC memory are
+highly x86-specific.)
 
-and trying to solve this with some kind of "mount info" is pure garbage.
+I'm a little unconvinced about the security benefits.  As far as I
+know, UC memory will not end up in cache by any means (unless
+aliased), but it's going to be tough to do much with UC data with
+anything resembling reasonable performance without derived values
+getting cached.  It's likely entirely impossible to do it reliably
+without asm.  But even with plain WB memory, getting it into L1 really
+should not be that bad unless major new vulnerabilities are
+discovered.  And there are other approaches that could be more
+arch-neutral and more performant.  For example, there could be an
+option to flush a few cache lines on schedule out.  This way a task
+could work on some (exclusive but WB) secret memory and have the cache
+lines flushed if anything interrupts it.  Combined with turning SMT
+off, this could offer comparable protection with much less overhead.
 
-Honestly, I really think you may want an extended [f]statfs(), not
-some mount tracking.
+UC also doesn't seem reliable on x86, sadly.  From asking around,
+there are at least a handful of scenarios under which the kernel can
+ask the CPU for UC but get WB anyway.  Apparently Xen hypervisors will
+do this unless the domain has privileged MMIO access, and ESXi will do
+it under some set of common circumstances.  So unless we probe somehow
+or have fancy enumeration or administrative configuration, I'm not
+sure we can even get predictable behavior if we hand userspace a
+supposedly UC mapping.  Giving user code WB when it thinks it has UC
+could end badly.
 
-                 Linus
+--Andy
