@@ -2,109 +2,125 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C0929248DED
-	for <lists+linux-api@lfdr.de>; Tue, 18 Aug 2020 20:25:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6A3B248E2E
+	for <lists+linux-api@lfdr.de>; Tue, 18 Aug 2020 20:51:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726632AbgHRSZs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 18 Aug 2020 14:25:48 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:9235 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726588AbgHRSZr (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 18 Aug 2020 14:25:47 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f3c1cba0001>; Tue, 18 Aug 2020 11:23:55 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 18 Aug 2020 11:25:47 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 18 Aug 2020 11:25:47 -0700
-Received: from [10.2.49.218] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 18 Aug
- 2020 18:25:41 +0000
-Subject: Re: [PATCH v3] mm: introduce reference pages
-To:     Matthew Wilcox <willy@infradead.org>
-CC:     Peter Collingbourne <pcc@google.com>,
-        "Kirill A . Shutemov" <kirill@shutemov.name>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Catalin Marinas" <catalin.marinas@arm.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        <linux-mm@kvack.org>, kernel test robot <lkp@intel.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>
-References: <20200814213310.42170-1-pcc@google.com>
- <c2f7efa7-0b52-b92f-79bc-a0cc26b0d92c@nvidia.com>
- <20200818030021.GM17456@casper.infradead.org>
-From:   John Hubbard <jhubbard@nvidia.com>
-Message-ID: <2ce2125f-5424-63d5-16a2-a4e1da76053e@nvidia.com>
-Date:   Tue, 18 Aug 2020 11:25:41 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        id S1726685AbgHRSvw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 18 Aug 2020 14:51:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37142 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726630AbgHRSvr (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 18 Aug 2020 14:51:47 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3415BC061389
+        for <linux-api@vger.kernel.org>; Tue, 18 Aug 2020 11:51:46 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id t6so22586026ljk.9
+        for <linux-api@vger.kernel.org>; Tue, 18 Aug 2020 11:51:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=U7uYPAcT0a2iCnawB895QmRQ5uyxHh+JN3tvANE4Kno=;
+        b=OfpfhktcB0EPTZRtZL54l/zyIACV/6gX4M1jGmcmJz+vzsbzEUHkXqlwyyhXnVEw/b
+         pb0mQNipDGcNuotJJcAm05QIjnugVLc3nSBHazWgWqbIC1R7nPjSnZAExUgdxpbrDVDF
+         qQ/ANj0NRdAF1Kakd5EKBxqxVxEd2U/8zf13I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=U7uYPAcT0a2iCnawB895QmRQ5uyxHh+JN3tvANE4Kno=;
+        b=queQcDemBsr47ua2KFrrGxGQOntwLAcBeJWjedW/Sajw3FGxOz+HLVulE33qgrDqPx
+         avYkM6mcPwngA0kFxlhBgrosJFm1aR4j6K3aF/S4fVX7WdFVTYFFsqH8nh67kUqLBoRR
+         1eHEbicJp9DnprESElCyXPhA+SxxukzG6H2i+HQeVDgnRjeqF5wHcdDZCtQo0eeUAN5r
+         hLv5bvVrlohmzfbYPq4qD0YAEJW0WbZJmURsBRsNp3THNMGaoqSHuel+hw6Ekjucl+0w
+         LE9/LkunpkrXjNE0YOmHV/7WVYKGjwQohW1oiaXHelQV6/+Hv1btPKVJjSlaslrcoyg4
+         9c+Q==
+X-Gm-Message-State: AOAM531GVykraPd/FR8b6hlv4w101ElkPIJuoLfgFGvJYF8dpYkD3ou5
+        G+lA+IH2kgmh+1F6VH3zp4uvpxXkMR7s4A==
+X-Google-Smtp-Source: ABdhPJyMENb/a9N7GNRqLRiy4nFTNRpnj6ao4LQLtHjDOF0Wl0CJlxpcoWRlEZY1ivWV8O6/Mc/Tyg==
+X-Received: by 2002:a2e:8144:: with SMTP id t4mr11158446ljg.100.1597776703815;
+        Tue, 18 Aug 2020 11:51:43 -0700 (PDT)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com. [209.85.167.49])
+        by smtp.gmail.com with ESMTPSA id z18sm6158278lji.107.2020.08.18.11.51.41
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Aug 2020 11:51:42 -0700 (PDT)
+Received: by mail-lf1-f49.google.com with SMTP id v15so10749508lfg.6
+        for <linux-api@vger.kernel.org>; Tue, 18 Aug 2020 11:51:41 -0700 (PDT)
+X-Received: by 2002:ac2:46d0:: with SMTP id p16mr10615970lfo.142.1597776701601;
+ Tue, 18 Aug 2020 11:51:41 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200818030021.GM17456@casper.infradead.org>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1597775035; bh=jd+8W6y4hx20CWRRPjc9DIa9OXmFSc2Rf98XZmP8xww=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=XPxZFquO6BA6KLKmkHcIXEzKU+w0/Z7CJ2gDt4x9bphHOp0pwo5wp/7UhFNawwH/M
-         2CSyfcoU5dXekP7VsUXq2QJZKo4ZanGXOHJZbnK+227dIbVQ/ovTWGLq6deB1aQTSy
-         qpkYeH/D5GaYNbMKh78UtGu8oIz04jXfPNhG9aU0gKZbjyruzLN1/t0YilbMEpGvnb
-         i687cd/itAIwFaJJ9sSJIiOX8AnynXiVcBDokebWBQe4xykp/ntpZ/ahrhwIdsNh9E
-         GgZMamtCgCQ0bR/nhzOhAEtckrAkBSIDv4ptpsAEsCCCURchgRx/RoyA88KJbvwdoU
-         1N7jTgGcb9QNQ==
+References: <1842689.1596468469@warthog.procyon.org.uk> <1845353.1596469795@warthog.procyon.org.uk>
+ <CAJfpegunY3fuxh486x9ysKtXbhTE0745ZCVHcaqs9Gww9RV2CQ@mail.gmail.com>
+ <ac1f5e3406abc0af4cd08d818fe920a202a67586.camel@themaw.net>
+ <CAJfpegu8omNZ613tLgUY7ukLV131tt7owR+JJ346Kombt79N0A@mail.gmail.com>
+ <CAJfpegtNP8rQSS4Z14Ja4x-TOnejdhDRTsmmDD-Cccy2pkfVVw@mail.gmail.com>
+ <20200811135419.GA1263716@miu.piliscsaba.redhat.com> <CAHk-=wjzLmMRf=QG-n+1HnxWCx4KTQn9+OhVvUSJ=ZCQd6Y1WA@mail.gmail.com>
+ <52483.1597190733@warthog.procyon.org.uk> <CAHk-=wiPx0UJ6Q1X=azwz32xrSeKnTJcH8enySwuuwnGKkHoPA@mail.gmail.com>
+ <066f9aaf-ee97-46db-022f-5d007f9e6edb@redhat.com> <CAHk-=wgz5H-xYG4bOrHaEtY7rvFA1_6+mTSpjrgK8OsNbfF+Pw@mail.gmail.com>
+ <94f907f0-996e-0456-db8a-7823e2ef3d3f@redhat.com> <CAHk-=wig0ZqWxgWtD9F1xZzE7jEmgLmXRWABhss0+er3ZRtb9g@mail.gmail.com>
+ <CAHk-=wh4qaj6iFTrbHy8TPfmM3fj+msYC5X_KE0rCdStJKH2NA@mail.gmail.com> <CAJfpegsr8URJHoFunnGShB-=jqypvtrmLV-BcWajkHux2H4x2w@mail.gmail.com>
+In-Reply-To: <CAJfpegsr8URJHoFunnGShB-=jqypvtrmLV-BcWajkHux2H4x2w@mail.gmail.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Tue, 18 Aug 2020 11:51:25 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wh5YifP7hzKSbwJj94+DZ2czjrZsczy6GBimiogZws=rg@mail.gmail.com>
+Message-ID: <CAHk-=wh5YifP7hzKSbwJj94+DZ2czjrZsczy6GBimiogZws=rg@mail.gmail.com>
+Subject: Re: file metadata via fs API
+To:     Miklos Szeredi <miklos@szeredi.hu>
+Cc:     Steven Whitehouse <swhiteho@redhat.com>,
+        David Howells <dhowells@redhat.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>, Karel Zak <kzak@redhat.com>,
+        Jeff Layton <jlayton@redhat.com>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Nicolas Dichtel <nicolas.dichtel@6wind.com>,
+        Christian Brauner <christian@brauner.io>,
+        Lennart Poettering <lennart@poettering.net>,
+        Linux API <linux-api@vger.kernel.org>,
+        Ian Kent <raven@themaw.net>,
+        LSM <linux-security-module@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 8/17/20 8:00 PM, Matthew Wilcox wrote:
-> On Mon, Aug 17, 2020 at 07:31:39PM -0700, John Hubbard wrote:
->>>             Real time (s)    Max RSS (KiB)
->>> anon        2.237081         107088
->>> memset      2.252241         112180
->>> refpage     2.243786         107128
->>>
->>> We can see that RSS for refpage is almost the same as anon, and real
->>> time overhead is 44% that of memset.
->>>
->>
->> Are some of the numbers stale, maybe? Try as I might, I cannot combine
->> anything above to come up with 44%. :)
-> 
-> You're not trying hard enough ;-)
-> 
-> (2.252241 - 2.237081) / 2.237081 = .00677668801442594166
-> (2.243786 - 2.237081) / 2.237081 = .00299720930981041812
-> .00299720930981041812 / .00677668801442594166 = .44228232189973614648
-> 
-> tadaa!
+On Tue, Aug 18, 2020 at 5:50 AM Miklos Szeredi <miklos@szeredi.hu> wrote:
+>
+> How do you propose handling variable size attributes, like the list of
+> fs options?
 
-haha, OK then! :) Next time I may try harder, but on the other hand my
-interpretation of the results is still "this is a small effect", even
-if there is a way to make it sound large by comparing the 3rd significant
-digits of the results...
+I really REALLY think those things should just be ASCII data.
 
-> 
-> As I said last time this was posted, I'm just not excited by this.  We go
-> from having a 0.68% time overhead down to an 0.30% overhead, which just
-> doesn't move the needle for me.  Maybe there's a better benchmark than
-> this to show benefits from this patchset.
-> 
+I think marshalling binary data is actively evil and wrong. It's great
+for well-specified wire protocols. It's great for internal
+communication in user space. It's *NOT* great for a kernel system call
+interface.
 
-Yes, I wonder if there is an artificial workload that just uses refpages
-really extensively, maybe we can get some good solid improvements shown
-with that? Otherwise, it seems like we've just learned that memset is
-actually pretty good in this case. :)
+One single simple binary structure? Sure. That's how system calls
+work. I'm not claiming that things like "stat()" are wrong because
+they take binary data.
 
-thanks,
--- 
-John Hubbard
-NVIDIA
+But marshalling random binary structures into some buffer? Let's avoid
+that. Particularly for these kinds of fairly free-form things like fs
+options.
+
+Those things *are* strings, most of them. Exactly because it needs a
+level of flexibility that binary data just doesn't have.
+
+So I'd suggest something that is very much like "statfsat()", which
+gets a buffer and a length, and returns an extended "struct statfs"
+*AND* just a string description at the end.
+
+And if you don't pass a sufficiently big buffer, it will not do some
+random "continuations". No state between system calls. It gets
+truncated, and you need to pass a bigger buffer, kind of like
+"snprintf()".
+
+I think people who have problems parsing plain ASCII text are just
+wrong. It's not that expensive. The thing that makes /proc/mounts
+expensive is not the individual lines - it's that there are a lot of
+them.
+
+                     Linus
