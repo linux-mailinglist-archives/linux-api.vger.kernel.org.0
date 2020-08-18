@@ -2,78 +2,128 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 63B4C247C5B
-	for <lists+linux-api@lfdr.de>; Tue, 18 Aug 2020 05:00:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3B192481EC
+	for <lists+linux-api@lfdr.de>; Tue, 18 Aug 2020 11:30:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726370AbgHRDAh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 17 Aug 2020 23:00:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56502 "EHLO
+        id S1726519AbgHRJas (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 18 Aug 2020 05:30:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726367AbgHRDAh (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 17 Aug 2020 23:00:37 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE4F0C061389;
-        Mon, 17 Aug 2020 20:00:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=H/DbB7pBbgOn0Q7tg6eRhr3Ei+qntcmROPbAJdmUrhw=; b=u87PHldgMoutph7ROXXKPW6Net
-        IP4fTTbxnyRR07BhgV6D3YRSO/IxkIO5LkD6I4FuhQ581WaJ9FrcOecpYLCD0UBfjwAJqEi5Q9lRS
-        wNPULqtX27dSr7bHCPBVSwo0G6X1E6TKDENC9lcO+dTtPz9IMZSjb8rv5k5wFPBejOuNUoXTJltIH
-        ug4hv7XNR529sEK0m146F+kViawZ9VJ66neSUMc9ZO6NhUracFmiQN754uqopJvZbYyVUN33sA3bN
-        mGynXKFAflNHpcZHyyw4IOwKmS07Ac8Oyrg0XWsqymRvXNH9IRWxcanOXTrZBhDI18XY0dJFxrcMR
-        dMnlTKYA==;
-Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1k7rrJ-0000A0-4D; Tue, 18 Aug 2020 03:00:21 +0000
-Date:   Tue, 18 Aug 2020 04:00:21 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Peter Collingbourne <pcc@google.com>,
-        "Kirill A . Shutemov" <kirill@shutemov.name>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-mm@kvack.org, kernel test robot <lkp@intel.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3] mm: introduce reference pages
-Message-ID: <20200818030021.GM17456@casper.infradead.org>
-References: <20200814213310.42170-1-pcc@google.com>
- <c2f7efa7-0b52-b92f-79bc-a0cc26b0d92c@nvidia.com>
+        with ESMTP id S1726420AbgHRJao (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 18 Aug 2020 05:30:44 -0400
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EFDAC061343
+        for <linux-api@vger.kernel.org>; Tue, 18 Aug 2020 02:30:43 -0700 (PDT)
+Received: by mail-ej1-x644.google.com with SMTP id f24so21280613ejx.6
+        for <linux-api@vger.kernel.org>; Tue, 18 Aug 2020 02:30:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=G6i6GBK3wCZWsxoTDmOd3ySKBv/GJjmU+V1QuwmXmlk=;
+        b=ovlkGX8qod/bhtZAl4qKbrC5By2+6D1ouRJLhibBITDMjhaNSGfIZF8qD5afYOF5Nw
+         cV3HmxMj4H3TwTUZZL+0v5NHdrDqt/ZYDq/gwxcfRy2TrsVF+JbuOfSgvwm+uVCQwinw
+         +XSe4C1sN6eZB5AEceOR647X9E3OJg51aCnWA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=G6i6GBK3wCZWsxoTDmOd3ySKBv/GJjmU+V1QuwmXmlk=;
+        b=pO3hPHKLK6/flB/eECmyAxpve9zbj/xcMYqH9we0OyognAY2q2EhzvTOXKkl7amSBc
+         uVVOh3M2x38ZfgN1qrsiX5j86RQ41NJwy3DKwXD6KBmET3ppnHOrMajiT9LuZyb7UDyv
+         V7rdFG7T2HpiQanQFlB0R9er7M3W2gcmIXnE2VEk1QPFUFZwtC4/X6vsM+cbRWHgwljD
+         cchlvTy3oN+MPVJ//NAX1HzMspLl6nSd2f65H6ir2rLeNNavFx/VNK9tujQ02Uvuhk7x
+         6w0wATTX6KVQGS2Cs0hknJnRNZODAiAneqxEYJ9PtPrYUZLNd9SnT5sGfoKolhksTWBh
+         QTsw==
+X-Gm-Message-State: AOAM531yMr09ValHZIYFbTe2XxQCAxQWVtedhSlPZSx/dsAAqew+o5xl
+        fuB7qEfuFvmFNdtFKyWVpX/igqyIVZyR9EEKtCWotA==
+X-Google-Smtp-Source: ABdhPJyWhZ+Aimi0ZuSzLKiWku7A6fJlEGDRdk6YXN2wx1FCgab6GIvDYrRG/JdcRLqANDa9XagvVxIlvjL5Gz03FEI=
+X-Received: by 2002:a17:906:4e4f:: with SMTP id g15mr18796618ejw.443.1597743042044;
+ Tue, 18 Aug 2020 02:30:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c2f7efa7-0b52-b92f-79bc-a0cc26b0d92c@nvidia.com>
+References: <CAJfpeguh5VaDBdVkV3FJtRsMAvXHWUcBfEpQrYPEuX9wYzg9dA@mail.gmail.com>
+ <CAHk-=whE42mFLi8CfNcdB6Jc40tXsG3sR+ThWAFihhBwfUbczA@mail.gmail.com>
+ <CAJfpegtXtj2Q1wsR-3eUNA0S=_skzHF0CEmcK_Krd8dtKkWkGA@mail.gmail.com>
+ <20200812143957.GQ1236603@ZenIV.linux.org.uk> <CAJfpegvFBdp3v9VcCp-wNDjZnQF3q6cufb-8PJieaGDz14sbBg@mail.gmail.com>
+ <20200812150807.GR1236603@ZenIV.linux.org.uk> <CAJfpegsQF1aN4XJ_8j977rnQESxc=Kcn7Z2C+LnVDWXo4PKhTQ@mail.gmail.com>
+ <20200812163347.GS1236603@ZenIV.linux.org.uk> <CAJfpegv8MTnO9YAiFUJPjr3ryeT82=KWHUpLFmgRNOcQfeS17w@mail.gmail.com>
+ <20200812173911.GT1236603@ZenIV.linux.org.uk> <20200812183326.GU1236603@ZenIV.linux.org.uk>
+In-Reply-To: <20200812183326.GU1236603@ZenIV.linux.org.uk>
+From:   Miklos Szeredi <miklos@szeredi.hu>
+Date:   Tue, 18 Aug 2020 11:30:30 +0200
+Message-ID: <CAJfpegs2EkMNthnMvdr5NtLKxfQjTgJYSNhHOMROm0S98OJb4A@mail.gmail.com>
+Subject: Re: file metadata via fs API (was: [GIT PULL] Filesystem Information)
+To:     Al Viro <viro@zeniv.linux.org.uk>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Jann Horn <jannh@google.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Andy Lutomirski <luto@amacapital.net>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        David Howells <dhowells@redhat.com>,
+        Karel Zak <kzak@redhat.com>, Jeff Layton <jlayton@redhat.com>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Nicolas Dichtel <nicolas.dichtel@6wind.com>,
+        Christian Brauner <christian@brauner.io>,
+        Lennart Poettering <lennart@poettering.net>,
+        Linux API <linux-api@vger.kernel.org>,
+        Ian Kent <raven@themaw.net>,
+        LSM <linux-security-module@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Aug 17, 2020 at 07:31:39PM -0700, John Hubbard wrote:
-> >            Real time (s)    Max RSS (KiB)
-> > anon        2.237081         107088
-> > memset      2.252241         112180
-> > refpage     2.243786         107128
-> > 
-> > We can see that RSS for refpage is almost the same as anon, and real
-> > time overhead is 44% that of memset.
-> > 
-> 
-> Are some of the numbers stale, maybe? Try as I might, I cannot combine
-> anything above to come up with 44%. :)
+On Wed, Aug 12, 2020 at 8:33 PM Al Viro <viro@zeniv.linux.org.uk> wrote:
+>
+> On Wed, Aug 12, 2020 at 06:39:11PM +0100, Al Viro wrote:
+> > On Wed, Aug 12, 2020 at 07:16:37PM +0200, Miklos Szeredi wrote:
+> > > On Wed, Aug 12, 2020 at 6:33 PM Al Viro <viro@zeniv.linux.org.uk> wrote:
+> > > >
+> > > > On Wed, Aug 12, 2020 at 05:13:14PM +0200, Miklos Szeredi wrote:
+> > >
+> > > > > Why does it have to have a struct mount?  It does not have to use
+> > > > > dentry/mount based path lookup.
+> > > >
+> > > > What the fuck?  So we suddenly get an additional class of objects
+> > > > serving as kinda-sorta analogues of dentries *AND* now struct file
+> > > > might refer to that instead of a dentry/mount pair - all on the VFS
+> > > > level?  And so do all the syscalls you want to allow for such "pathnames"?
+> > >
+> > > The only syscall I'd want to allow is open, everything else would be
+> > > on the open files themselves.
+> > >
+> > > file->f_path can refer to an anon mount/inode, the real object is
+> > > referred to by file->private_data.
+> > >
+> > > The change to namei.c would be on the order of ~10 lines.  No other
+> > > parts of the VFS would be affected.
+> >
+> > If some of the things you open are directories (and you *have* said that
+> > directories will be among those just upthread, and used references to
+> > readdir() as argument in favour of your approach elsewhere in the thread),
+> > you will have to do something about fchdir().  And that's the least of
+> > the issues.
+>
+> BTW, what would such opened files look like from /proc/*/fd/* POV?  And
+> what would happen if you walk _through_ that symlink, with e.g. ".."
+> following it?  Or with names of those attributes, for that matter...
+> What about a normal open() of such a sucker?  It won't know where to
+> look for your ->private_data...
+>
+> FWIW, you keep refering to regularity of this stuff from the syscall
+> POV, but it looks like you have no real idea of what subset of the
+> things available for normal descriptors will be available for those.
 
-You're not trying hard enough ;-)
+I have said that IMO using a non-seekable anon-file would be okay for
+those.   All the answers fall out of that:  nothing works on those
+fd's except read/write/getdents.  No fchdir(), no /proc/*/fd deref,
+etc...
 
-(2.252241 - 2.237081) / 2.237081 = .00677668801442594166
-(2.243786 - 2.237081) / 2.237081 = .00299720930981041812
-.00299720930981041812 / .00677668801442594166 = .44228232189973614648
+Starting with a very limited functionality and expanding on that if
+necessary is I think a good way to not get bogged down with the
+details.
 
-tadaa!
-
-As I said last time this was posted, I'm just not excited by this.  We go
-from having a 0.68% time overhead down to an 0.30% overhead, which just
-doesn't move the needle for me.  Maybe there's a better benchmark than
-this to show benefits from this patchset.
-
+Thanks,
+Miklos
