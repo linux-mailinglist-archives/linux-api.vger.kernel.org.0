@@ -2,183 +2,89 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E5ED24A65A
-	for <lists+linux-api@lfdr.de>; Wed, 19 Aug 2020 20:54:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5958224A862
+	for <lists+linux-api@lfdr.de>; Wed, 19 Aug 2020 23:21:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726772AbgHSSyU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 19 Aug 2020 14:54:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34906 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726707AbgHSSyT (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 19 Aug 2020 14:54:19 -0400
-Received: from smtp-42ad.mail.infomaniak.ch (smtp-42ad.mail.infomaniak.ch [IPv6:2001:1600:3:17::42ad])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A317C061343
-        for <linux-api@vger.kernel.org>; Wed, 19 Aug 2020 11:54:17 -0700 (PDT)
-Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4BWxlD0kK1zlhQGJ;
-        Wed, 19 Aug 2020 20:54:00 +0200 (CEST)
-Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
-        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4BWxlB6m3Xzlh8TC;
-        Wed, 19 Aug 2020 20:53:58 +0200 (CEST)
-Subject: Re: [PATCH v1 0/4] [RFC] Implement Trampoline File Descriptor
-To:     Mark Rutland <mark.rutland@arm.com>,
-        "Madhavan T. Venkataraman" <madvenka@linux.microsoft.com>
-Cc:     kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org, oleg@redhat.com,
-        x86@kernel.org
-References: <aefc85852ea518982e74b233e11e16d2e707bc32>
- <20200728131050.24443-1-madvenka@linux.microsoft.com>
- <20200731180955.GC67415@C02TD0UTHF1T.local>
- <6236adf7-4bed-534e-0956-fddab4fd96b6@linux.microsoft.com>
- <20200804143018.GB7440@C02TD0UTHF1T.local>
- <b3368692-afe6-89b5-d634-12f4f0a601f8@linux.microsoft.com>
- <20200812100650.GB28154@C02TD0UTHF1T.local>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <41c4de64-68d0-6fcb-e5c3-63ebd459262e@digikod.net>
-Date:   Wed, 19 Aug 2020 20:53:42 +0200
-User-Agent: 
+        id S1726912AbgHSVVy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 19 Aug 2020 17:21:54 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:37058 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726617AbgHSVVx (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 19 Aug 2020 17:21:53 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 07JLLl48060542;
+        Wed, 19 Aug 2020 16:21:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1597872107;
+        bh=/+Tm+6kFguoE4AbqqrMbP10cUaIjmqI1jlWKYkTK0Kw=;
+        h=Subject:From:To:References:Date:In-Reply-To;
+        b=YaevMVCPmnTnxP4vlbBk7fCwqnzZuFnDubTpw/Tq0317sXCcXaRjQbwd/XxlXm+lM
+         06HD0tDc8F3TD+YXdDnQyc5/qnnQJytLOT7/O8luoJpvdxhrKL3AWrEt1S9RVnqgb/
+         J8TImc9gky92tjefjq/VDqwQFwqY9/InimcV0gSA=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 07JLLlud064031
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 19 Aug 2020 16:21:47 -0500
+Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 19
+ Aug 2020 16:21:47 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Wed, 19 Aug 2020 16:21:47 -0500
+Received: from [10.250.53.226] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 07JLLk8k030523;
+        Wed, 19 Aug 2020 16:21:46 -0500
+Subject: Re: [PATCH iproute2 v5 0/2] iplink: hsr: add support for creating PRP
+ device
+From:   Murali Karicheri <m-karicheri2@ti.com>
+To:     <davem@davemloft.net>, <kuba@kernel.org>, <netdev@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-api@vger.kernel.org>,
+        <nsekhar@ti.com>, <vinicius.gomes@intel.com>,
+        <stephen@networkplumber.org>
+References: <20200817211737.576-1-m-karicheri2@ti.com>
+Message-ID: <44143c5d-ba93-363f-ca74-f9d7833c403f@ti.com>
+Date:   Wed, 19 Aug 2020 17:21:46 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200812100650.GB28154@C02TD0UTHF1T.local>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200817211737.576-1-m-karicheri2@ti.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
-X-Antivirus-Code: 0x100000
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+Hi, Stephen,
 
-On 12/08/2020 12:06, Mark Rutland wrote:
-> On Thu, Aug 06, 2020 at 12:26:02PM -0500, Madhavan T. Venkataraman wrote:
->> Thanks for the lively discussion. I have tried to answer some of the
->> comments below.
->>
->> On 8/4/20 9:30 AM, Mark Rutland wrote:
->>>
->>>> So, the context is - if security settings in a system disallow a page to have
->>>> both write and execute permissions, how do you allow the execution of
->>>> genuine trampolines that are runtime generated and placed in a data
->>>> page or a stack page?
->>> There are options today, e.g.
->>>
->>> a) If the restriction is only per-alias, you can have distinct aliases
->>>    where one is writable and another is executable, and you can make it
->>>    hard to find the relationship between the two.
->>>
->>> b) If the restriction is only temporal, you can write instructions into
->>>    an RW- buffer, transition the buffer to R--, verify the buffer
->>>    contents, then transition it to --X.
->>>
->>> c) You can have two processes A and B where A generates instrucitons into
->>>    a buffer that (only) B can execute (where B may be restricted from
->>>    making syscalls like write, mprotect, etc).
->>
->> The general principle of the mitigation is W^X. I would argue that
->> the above options are violations of the W^X principle. If they are
->> allowed today, they must be fixed. And they will be. So, we cannot
->> rely on them.
+On 8/17/20 5:17 PM, Murali Karicheri wrote:
+> This series enhances the iproute2 iplink module to add support
+> for creating PRP device similar to HSR. The kernel part of this
+> is already merged to v5.9 master
 > 
-> Hold on.
+> v5 - addressed comment from Stephen Hemminger
+>     - Sending this with a iproute2 prefix so that this can
+>       be merged to v5.9 iprout2 if possible.
+> v3 of the series is rebased to iproute2-next/master at
+> git://git.kernel.org/pub/scm/network/iproute2/iproute2-next
+> and send as v4.
 > 
-> Contemporary W^X means that a given virtual alias cannot be writeable
-> and executeable simultaneously, permitting (a) and (b). If you read the
-> references on the Wikipedia page for W^X you'll see the OpenBSD 3.3
-> release notes and related presentation make this clear, and further they
-> expect (b) to occur with JITS flipping W/X with mprotect().
-
-W^X (with "permanent" mprotect restrictions [1]) goes back to 2000 with
-PaX [2] (which predates partial OpenBSD implementation from 2003).
-
-[1] https://pax.grsecurity.net/docs/mprotect.txt
-[2] https://undeadly.org/cgi?action=article;sid=20030417082752
-
+> Please apply this if looks good.
 > 
-> Please don't conflate your assumed stronger semantics with the general
-> principle. It not matching you expectations does not necessarily mean
-> that it is wrong.
 > 
-> If you want a stronger W^X semantics, please refer to this specifically
-> with a distinct name.
+> Murali Karicheri (2):
+>    iplink: hsr: add support for creating PRP device similar to HSR
+>    ip: iplink: prp: update man page for new parameter
 > 
->> a) This requires a remap operation. Two mappings point to the same
->>      physical page. One mapping has W and the other one has X. This
->>      is a violation of W^X.
->>
->> b) This is again a violation. The kernel should refuse to give execute
->>      permission to a page that was writeable in the past and refuse to
->>      give write permission to a page that was executable in the past.
->>
->> c) This is just a variation of (a).
+>   ip/iplink_hsr.c       | 17 +++++++++++++++--
+>   man/man8/ip-link.8.in |  9 ++++++++-
+>   2 files changed, 23 insertions(+), 3 deletions(-)
 > 
-> As above, this is not true.
-> 
-> If you have a rationale for why this is desirable or necessary, please
-> justify that before using this as justification for additional features.
-> 
->> In general, the problem with user-level methods to map and execute
->> dynamic code is that the kernel cannot tell if a genuine application is
->> using them or an attacker is using them or piggy-backing on them.
-> 
-> Yes, and as I pointed out the same is true for trampfd unless you can
-> somehow authenticate the calls are legitimate (in both callsite and the
-> set of arguments), and I don't see any reasonable way of doing that.
-> 
-> If you relax your threat model to an attacker not being able to make
-> arbitrary syscalls, then your suggestion that userspace can perorm
-> chceks between syscalls may be sufficient, but as I pointed out that's
-> equally true for a sealed memfd or similar.
-> 
->> Off the top of my head, I have tried to identify some examples
->> where we can have more trust on dynamic code and have the kernel
->> permit its execution.
->>
->> 1. If the kernel can do the job, then that is one safe way. Here, the kernel
->>     is the code. There is no code generation involved. This is what I
->>     have presented in the patch series as the first cut.
-> 
-> This is sleight-of-hand; it doesn't matter where the logic is performed
-> if the power is identical. Practically speaking this is equivalent to
-> some dynamic code generation.
-> 
-> I think that it's misleading to say that because the kernel emulates
-> something it is safe when the provenance of the syscall arguments cannot
-> be verified.
-> 
-> [...]
-> 
->> Anyway, these are just examples. The principle is - if we can identify
->> dynamic code that has a certain measure of trust, can the kernel
->> permit their execution?
-> 
-> My point generally is that the kernel cannot identify this, and if
-> usrspace code is trusted to dynamically generate trampfd arguments it
-> can equally be trusted to dyncamilly generate code.
-> 
-> [...]
-> 
->> As I have mentioned above, I intend to have the kernel generate code
->> only if the code generation is simple enough. For more complicated cases,
->> I plan to use a user-level code generator that is for exclusive kernel use.
->> I have yet to work out the details on how this would work. Need time.
-> 
-> This reads to me like trampfd is only dealing with a few special cases
-> and we know that we need a more general solution.
-> 
-> I hope I am mistaken, but I get the strong impression that you're trying
-> to justify your existing solution rather than trying to understand the
-> problem space.
-> 
-> To be clear, my strong opinion is that we should not be trying to do
-> this sort of emulation or code generation within the kernel. I do think
-> it's worthwhile to look at mechanisms to make it harder to subvert
-> dynamic userspace code generation, but I think the code generation
-> itself needs to live in userspace (e.g. for ABI reasons I previously
-> mentioned).
-> 
-> Mark.
-> 
+Can we merge this version please?
+-- 
+Murali Karicheri
+Texas Instruments
