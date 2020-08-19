@@ -2,87 +2,128 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A7D924A224
-	for <lists+linux-api@lfdr.de>; Wed, 19 Aug 2020 16:55:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1305824A4F9
+	for <lists+linux-api@lfdr.de>; Wed, 19 Aug 2020 19:34:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726792AbgHSOzo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 19 Aug 2020 10:55:44 -0400
-Received: from lhrrgout.huawei.com ([185.176.76.210]:2673 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726899AbgHSOzn (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 19 Aug 2020 10:55:43 -0400
-Received: from lhreml710-chm.china.huawei.com (unknown [172.18.7.107])
-        by Forcepoint Email with ESMTP id BE0AA37D166D367E32FE;
-        Wed, 19 Aug 2020 15:55:41 +0100 (IST)
-Received: from lhrphicprd00229.huawei.com (10.123.41.22) by
- lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1913.5; Wed, 19 Aug 2020 15:55:41 +0100
-From:   Jonathan Cameron <Jonathan.Cameron@huawei.com>
-To:     <linux-mm@kvack.org>, <linux-acpi@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <x86@kernel.org>
-CC:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>, <rafael@kernel.org>,
-        <linux-kernel@vger.kernel.org>, Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>, <linuxarm@huawei.com>,
+        id S1726707AbgHSReB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 19 Aug 2020 13:34:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39722 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725939AbgHSReA (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 19 Aug 2020 13:34:00 -0400
+Received: from kernel.org (unknown [87.70.91.42])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2E536206FA;
+        Wed, 19 Aug 2020 17:33:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1597858440;
+        bh=1Kuiv8iGgm6SalVVkZfBiL4OHWxQAxShozxNk+zBolU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=PfCq2RYoBnpI+rRZ0w6qSWuewp0KRf89Aalz44HYo9TFEhrDUQICW5QIJCrh8Ca0K
+         uLAW8PYxM/i8eVvlbksIuqNR9MKaOckhfOZhXePVk3EU37CkhLrBof1KFmHs22XZC0
+         sszvftR/cJX4BhW1GWf6wauiWhaZ3R/1Xv2rD11Y=
+Date:   Wed, 19 Aug 2020 20:33:47 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christopher Lameter <cl@linux.com>,
         Dan Williams <dan.j.williams@intel.com>,
-        Brice Goglin <Brice.Goglin@inria.fr>,
-        Sean V Kelley <sean.v.kelley@linux.intel.com>,
-        <linux-api@vger.kernel.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [PATCH v9 6/6] docs: mm: numaperf.rst Add brief description for access class 1.
-Date:   Wed, 19 Aug 2020 22:51:11 +0800
-Message-ID: <20200819145111.1715026-7-Jonathan.Cameron@huawei.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20200819145111.1715026-1-Jonathan.Cameron@huawei.com>
-References: <20200819145111.1715026-1-Jonathan.Cameron@huawei.com>
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Idan Yaniv <idan.yaniv@ibm.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
+        linux-riscv@lists.infradead.org, x86@kernel.org
+Subject: Re: [PATCH v4 6/6] mm: secretmem: add ability to reserve memory at
+ boot
+Message-ID: <20200819173347.GW752365@kernel.org>
+References: <20200818141554.13945-1-rppt@kernel.org>
+ <20200818141554.13945-7-rppt@kernel.org>
+ <03ec586d-c00c-c57e-3118-7186acb7b823@redhat.com>
+ <20200819115335.GU752365@kernel.org>
+ <10bf57a9-c3c2-e13c-ca50-e872b7a2db0c@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.123.41.22]
-X-ClientProxiedBy: lhreml741-chm.china.huawei.com (10.201.108.191) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <10bf57a9-c3c2-e13c-ca50-e872b7a2db0c@redhat.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Try to make minimal changes to the document which already describes
-access class 0 in a generic fashion (including IO initiatiors that
-are not CPUs).
+On Wed, Aug 19, 2020 at 02:10:43PM +0200, David Hildenbrand wrote:
+> On 19.08.20 13:53, Mike Rapoport wrote:
+> > On Wed, Aug 19, 2020 at 12:49:05PM +0200, David Hildenbrand wrote:
+> >> On 18.08.20 16:15, Mike Rapoport wrote:
+> >>> From: Mike Rapoport <rppt@linux.ibm.com>
+> >>>
+> >>> Taking pages out from the direct map and bringing them back may create
+> >>> undesired fragmentation and usage of the smaller pages in the direct
+> >>> mapping of the physical memory.
+> >>>
+> >>> This can be avoided if a significantly large area of the physical memory
+> >>> would be reserved for secretmem purposes at boot time.
+> >>>
+> >>> Add ability to reserve physical memory for secretmem at boot time using
+> >>> "secretmem" kernel parameter and then use that reserved memory as a global
+> >>> pool for secret memory needs.
+> >>
+> >> Wouldn't something like CMA be the better fit? Just wondering. Then, the
+> >> memory can actually be reused for something else while not needed.
+> > 
+> > The memory allocated as secret is removed from the direct map and the
+> > boot time reservation is intended to reduce direct map fragmentatioan
+> > and to avoid splitting 1G pages there. So with CMA I'd still need to
+> > allocate 1G chunks for this and once 1G page is dropped from the direct
+> > map it still cannot be reused for anything else until it is freed.
+> > 
+> > I could use CMA to do the boot time reservation, but doing the
+> > reservesion directly seemed simpler and more explicit to me.
+> 
+> Well, using CMA would give you the possibility to let the memory be used
+> for other purposes until you decide it's the right time to take it +
+> remove the direct mapping etc.
 
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
----
- Documentation/admin-guide/mm/numaperf.rst | 8 ++++++++
- 1 file changed, 8 insertions(+)
+I still can't say I follow you here. If I reseve a CMA area as a pool
+for secret memory 1G pages, it is still reserved and it still cannot be
+used for other purposes, right?
 
-diff --git a/Documentation/admin-guide/mm/numaperf.rst b/Documentation/admin-guide/mm/numaperf.rst
-index 4d69ef1de830..b89bb85eac75 100644
---- a/Documentation/admin-guide/mm/numaperf.rst
-+++ b/Documentation/admin-guide/mm/numaperf.rst
-@@ -56,6 +56,11 @@ nodes' access characteristics share the same performance relative to other
- linked initiator nodes. Each target within an initiator's access class,
- though, do not necessarily perform the same as each other.
- 
-+The access class "1" is used to allow differentiation between initiators
-+that are CPUs and hence suitable for generic task scheduling, and
-+IO initiators such as GPUs and NICs.  Unlike access class 0, only
-+nodes containing CPUs are considered.
-+
- ================
- NUMA Performance
- ================
-@@ -88,6 +93,9 @@ The latency attributes are provided in nanoseconds.
- The values reported here correspond to the rated latency and bandwidth
- for the platform.
- 
-+Access class 1, takes the same form, but only includes values for CPU to
-+memory activity.
-+
- ==========
- NUMA Cache
- ==========
+> I wonder if a sane approach would be to require to allocate a pool
+> during boot and only take pages ever from that pool. That would avoid
+> spilling many unmovable pages all over the place, locally limiting them
+> to your area here.
+
+That's what I tried to implement. The pool reserved at boot time is in a
+way similar to booting with mem=X and then splitting the remaining
+memory between the VMs.
+In this case, the memory reserved at boot is never in the direct map and
+allocations from such pool will not cause fragmentation.
+
+> -- 
+> Thanks,
+> 
+> David / dhildenb
+> 
+
 -- 
-2.19.1
-
+Sincerely yours,
+Mike.
