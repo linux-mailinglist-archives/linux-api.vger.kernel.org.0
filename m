@@ -2,153 +2,113 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C16D424C28F
-	for <lists+linux-api@lfdr.de>; Thu, 20 Aug 2020 17:52:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A395124C4BB
+	for <lists+linux-api@lfdr.de>; Thu, 20 Aug 2020 19:42:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729408AbgHTPwm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 20 Aug 2020 11:52:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46228 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728809AbgHTPwk (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 20 Aug 2020 11:52:40 -0400
-Received: from kernel.org (unknown [87.70.91.42])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 50D6F22D02;
-        Thu, 20 Aug 2020 15:52:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1597938759;
-        bh=olFkF8WbsFuHtZd9ChmwDnMhq4dAB75kWwSK+0maCo0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rXdI/2i+uTIyui9Dqky2lOsnOB5jHumUoz9vyCWVksi+jCX/cin2X0NAhZkvzzrrA
-         kwB1mQk9tmImk5FV5Ln6HbAMWznc6VF7fXJ8iI6/UHeReZUV1SP7agq0ae+f8/MDDg
-         S/yXBOXnLzIrn/7Y0W5T1dTvbgWrpaeScrKjGVKk=
-Date:   Thu, 20 Aug 2020 18:52:28 +0300
-From:   Mike Rapoport <rppt@kernel.org>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Idan Yaniv <idan.yaniv@ibm.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
-        linux-riscv@lists.infradead.org, x86@kernel.org
-Subject: Re: [PATCH v4 6/6] mm: secretmem: add ability to reserve memory at
- boot
-Message-ID: <20200820155228.GZ752365@kernel.org>
-References: <20200818141554.13945-1-rppt@kernel.org>
- <20200818141554.13945-7-rppt@kernel.org>
- <03ec586d-c00c-c57e-3118-7186acb7b823@redhat.com>
- <20200819115335.GU752365@kernel.org>
- <10bf57a9-c3c2-e13c-ca50-e872b7a2db0c@redhat.com>
- <20200819173347.GW752365@kernel.org>
- <6c8b30fb-1b6c-d446-0b09-255b79468f7c@redhat.com>
+        id S1728227AbgHTRl7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 20 Aug 2020 13:41:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48420 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727895AbgHTRlo (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 20 Aug 2020 13:41:44 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 831C4C061385;
+        Thu, 20 Aug 2020 10:41:42 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id a79so1381762pfa.8;
+        Thu, 20 Aug 2020 10:41:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=oDyvq15BnfthkLtUukIEJz89Sj2Uqn2+fWCc9qUql5I=;
+        b=Z+WGG4b4dkuKHsVtQe1i9WduYBqyH8S4uKxDElpd5cXsi4H11GIlZWCcZgd657XegK
+         uXT4JpFirhXkXu2XTJxbGr5kFdHmoP1OHsrCr6Qthuzimm9pMZzi5zXTgR6Sv5BgXyDs
+         hAhjr2OCzC2ulfDbsdYYA0LsBy0GFR/kM86YP/n5Exz7CmfTxKOvL7qShI/d6Ll+fa8n
+         Bi/NHJ8ocQ4qJoBa0SbGaagVawc0sq0uBEW8OKbSQRZBvqrd/tBRPv8bIRqvQdvoLMZ/
+         mSZXUw6GLC8ziVIN0UOUCm0rcnPhT9ElfrcwW67Ze23Tq2PGkJi5fpezXOZP/Ac4DgTY
+         Hliw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=oDyvq15BnfthkLtUukIEJz89Sj2Uqn2+fWCc9qUql5I=;
+        b=frW0kT98idrzSCKRULlgMqg+MqEfS9aoBzoJm1oOg3FOwPII3sz6wa3fpilCtAuLqB
+         qxU050XFz/2lZK7uqQb3oFYPPt+UTSsPTikmpzHRMQlAdtPNY+lFn/pQP7ovDKkFHD4w
+         Up1gsrW28cYI29rxNwPDW0mv4lDAZBYhpIOG1vyZk7dMt4lSPamDd8/3ND2H9gZg1EQL
+         PKDH7wJ48cI720SoTNan5wyebpbIbNQgqe7CRB9BTbiulb4QTvuRE+afPFvlTIXPxWkE
+         MPS2ZLVQbx+kXA/yjNZw7iEmWoqVdlWjjlCt/1+omX3VlR5HGmGmdjr60P56Zwo/URyo
+         QjCA==
+X-Gm-Message-State: AOAM530mVA5GLWxNoIpmrU752bgKffDOfWSyfjiykmqbyt1rgI2jmLwu
+        l5LzXSYe/HNZ2tF/s6+8JZY=
+X-Google-Smtp-Source: ABdhPJwLc9pERZHVMQlxakOJ6eWDFDhXz9bYZmx7M4I1O/HKPbfxjfH2YWKYleJW+BZ4TawkiN2DPg==
+X-Received: by 2002:a62:fc8c:: with SMTP id e134mr3018219pfh.113.1597945301788;
+        Thu, 20 Aug 2020 10:41:41 -0700 (PDT)
+Received: from gmail.com ([2601:600:9b7f:872e:a655:30fb:7373:c762])
+        by smtp.gmail.com with ESMTPSA id y10sm2698316pjv.55.2020.08.20.10.41.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Aug 2020 10:41:41 -0700 (PDT)
+Date:   Thu, 20 Aug 2020 10:41:39 -0700
+From:   Andrei Vagin <avagin@gmail.com>
+To:     Eugene Lubarsky <elubarsky.linux@gmail.com>
+Cc:     linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, adobriyan@gmail.com,
+        dsahern@gmail.com, Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>
+Subject: Re: [RFC PATCH 0/5] Introduce /proc/all/ to gather stats from all
+ processes
+Message-ID: <20200820174139.GA919358@gmail.com>
+References: <20200810145852.9330-1-elubarsky.linux@gmail.com>
+ <20200812075135.GA191218@gmail.com>
+ <20200814010100.3e9b6423@eug-lubuntu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=koi8-r
 Content-Disposition: inline
-In-Reply-To: <6c8b30fb-1b6c-d446-0b09-255b79468f7c@redhat.com>
+In-Reply-To: <20200814010100.3e9b6423@eug-lubuntu>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Aug 19, 2020 at 07:45:29PM +0200, David Hildenbrand wrote:
-> On 19.08.20 19:33, Mike Rapoport wrote:
-> > On Wed, Aug 19, 2020 at 02:10:43PM +0200, David Hildenbrand wrote:
-> >> On 19.08.20 13:53, Mike Rapoport wrote:
-> >>> On Wed, Aug 19, 2020 at 12:49:05PM +0200, David Hildenbrand wrote:
-> >>>> On 18.08.20 16:15, Mike Rapoport wrote:
-> >>>>> From: Mike Rapoport <rppt@linux.ibm.com>
-> >>>>>
-> >>>>> Taking pages out from the direct map and bringing them back may create
-> >>>>> undesired fragmentation and usage of the smaller pages in the direct
-> >>>>> mapping of the physical memory.
-> >>>>>
-> >>>>> This can be avoided if a significantly large area of the physical memory
-> >>>>> would be reserved for secretmem purposes at boot time.
-> >>>>>
-> >>>>> Add ability to reserve physical memory for secretmem at boot time using
-> >>>>> "secretmem" kernel parameter and then use that reserved memory as a global
-> >>>>> pool for secret memory needs.
-> >>>>
-> >>>> Wouldn't something like CMA be the better fit? Just wondering. Then, the
-> >>>> memory can actually be reused for something else while not needed.
-> >>>
-> >>> The memory allocated as secret is removed from the direct map and the
-> >>> boot time reservation is intended to reduce direct map fragmentatioan
-> >>> and to avoid splitting 1G pages there. So with CMA I'd still need to
-> >>> allocate 1G chunks for this and once 1G page is dropped from the direct
-> >>> map it still cannot be reused for anything else until it is freed.
-> >>>
-> >>> I could use CMA to do the boot time reservation, but doing the
-> >>> reservesion directly seemed simpler and more explicit to me.
-> >>
-> >> Well, using CMA would give you the possibility to let the memory be used
-> >> for other purposes until you decide it's the right time to take it +
-> >> remove the direct mapping etc.
-> > 
-> > I still can't say I follow you here. If I reseve a CMA area as a pool
-> > for secret memory 1G pages, it is still reserved and it still cannot be
-> > used for other purposes, right?
+On Fri, Aug 14, 2020 at 01:01:00AM +1000, Eugene Lubarsky wrote:
+> On Wed, 12 Aug 2020 00:51:35 -0700
+> Andrei Vagin <avagin@gmail.com> wrote:
 > 
-> So, AFAIK, if you create a CMA pool it can be used for any MOVABLE
-> allocations (similar to ZONE_MOVABLE) until you actually allocate CMA
-> memory from that region. Other allocations on that are will then be
-> migrated away (using alloc_contig_range()).
+> > Maybe we need resurrect the task_diag series instead of inventing
+> > another less-effective interface...
 > 
-> For example, if you have a 1~GiB CMA area, you could allocate 4~MB pages
-> from that CMA area on demand (removing the direct mapping, etc ..), and
-> free when no longer needed (instantiating the direct mapping). The free
-> memory in that area could used for MOVABLE allocations.
+> I would certainly welcome the resurrection of task_diag - it is clearly
+> more efficient than this /proc/all/ idea. It would be good to find out
+> if there's anything in particular that's currently blocking it.
 
-The boot time resrvation is intended to avoid splitting 1G pages in the
-direct map. Without the boot time reservation, we maintain a pool of 2M
-pages so the 1G pages are split and 2M pages remain unsplit.
+Unfotunatly, I don't have enough time to lead a process of pushing
+task_diag into the upstream. So if it is interesting for you, you can
+restart this process and I am ready to help as much as time will permit.
 
-If I scale your example to match the requirement to avoid splitting 1G
-pages in the direct map, that would mean creating a CMA area of several
-tens of gigabytes and then doing cma_alloc() of 1G each time we need to
-refill the secretmem pool. 
+I think the main blocking issue was a lack of interest from the wide
+audience to this. The slow proc is the problem just for a few users, but
+task_diag is a big subsystem that repeats functionality of another
+subsystem with all derived problems like code duplication.
 
-It is quite probable that we won't be able to get 1G from CMA after the
-system worked for some time.
+Another blocking issue is a new interface. There was no consensus on
+this. Initially, I suggested to use netlink sockets, but developers from
+non-network subsystem objected on this, so the transaction file
+interface was introduced. The main idea similar to netlink sockets is
+that we write a request and read a response.
 
-With boot time reservation we won't need physcally contiguous 1G to
-satisfy smaller allocation requests for secretmem because we don't need
-to maintain 1G mappings in the secretmem pool.
+There were some security concerns but I think I fixed them.
 
-That said, I believe the addition of the boot time reservation, either
-direct or with CMA, can be added as an incrememntal patch after the
-"core" functionality is merged.
-
-> Please let me know if I am missing something important.
 > 
-> -- 
-> Thanks,
-> 
-> David / dhildenb
-> 
+> This RFC is mainly meant to check whether such an addition would
+> be acceptable from an API point of view. It currently has an obvious
+> performance issue in that seq_file seems to only return one page at a
+> time so lots of read syscalls are still required. However I may not
+> have the time to figure out a proposed fix for this by myself.
+> Regardless, text-based formats can't match the efficiency of task_diag,
+> but binary ones are also possible.
 
--- 
-Sincerely yours,
-Mike.
+I don't have objections to this series. It can be an option if we
+will decide that we don't want to do a major rework here.
+
+
+Thanks,
+Andrei
