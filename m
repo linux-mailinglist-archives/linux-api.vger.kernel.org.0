@@ -2,260 +2,117 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DAA9724D163
-	for <lists+linux-api@lfdr.de>; Fri, 21 Aug 2020 11:25:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3645724D4BB
+	for <lists+linux-api@lfdr.de>; Fri, 21 Aug 2020 14:14:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726805AbgHUJZD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 Aug 2020 05:25:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53460 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725806AbgHUJZA (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Aug 2020 05:25:00 -0400
-Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com [IPv6:2607:f8b0:4864:20::d43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C06A0C061385;
-        Fri, 21 Aug 2020 02:25:00 -0700 (PDT)
-Received: by mail-io1-xd43.google.com with SMTP id g13so1069217ioo.9;
-        Fri, 21 Aug 2020 02:25:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=pMdNY3sv9mJXm4dWbAhnEfdGoUuG/B2UyNnuHuc9KrQ=;
-        b=fLO0TSGExzN8cxNQ+HY4Uv30yWCIgeN+YLPICKZFNRU3rnQbPtidPt12hSV2xyv10f
-         mtC6t4iAD/s8oUH9+VKkE9kxfAduMByf0LrD+665cQ41y2CLQqXNqBnGc20dFCh/mRPl
-         rHdk5YDiN5AcW0tBZ+d9EMKzkVQsEJyDWfj753CqyvC/8HQFsbp83baFAv9J9Iu2FpHK
-         eZhzIBpwoX8cdlw9pLVUZA8ZpcjatF8w6Cl+0JNG2OPyScvMtRS8H+GtNlYpgen4Uq8k
-         zaeVxVRECCXVtPdTD6DC6Vg+6ut6PawPsEF1lnTfdwR2XLjXmzv8nB0rGWYg3O+6TvCj
-         DFbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pMdNY3sv9mJXm4dWbAhnEfdGoUuG/B2UyNnuHuc9KrQ=;
-        b=f9+3VOQB6i7ZH8R0SQDfZiRKWhP6Mi1+xHpgy9ffkA3ppuCq+h/EGK73COsGcMHuE9
-         xRShxBYykfUwVuL9V0YWs+TysKaa7RMR84vRYTmFE/oifHwkbni1blXXg5601v6kpdU+
-         8lp1JLS7aWaeBtioB5ybItxWyacmDXEPUDaPe5CO0vcXv81kii62DEyiXhlRk9u8X53d
-         6/xnW6JphIEIkI/bZrCP6iz5C4+80peJCs949h0XtTboG5b/n4JZDi0Gg+R0adH4euN2
-         HoJ+qYqbiow6BqCOHDvwvyMurT2EgpKu/4SisxxBVjociFznknPgCOG1bg4MkvR23nZm
-         dODA==
-X-Gm-Message-State: AOAM530/mJxr4hnOpFb81weRimd0TJ+ZTlkYa9J5VnA/WCmvOWxw+ryt
-        uvBB/1vf66Hyl73g4TiEVvLG/lBJ1QKNK0ic3T8=
-X-Google-Smtp-Source: ABdhPJyLT/ftjg3C32lOMXRnk+cpBoBzYYYxiYa7eVyvpwipOeqTw+HhHTsQEVY0uwjyfwdW3GPNbyPdeq7FZujEgw0=
-X-Received: by 2002:a5e:980f:: with SMTP id s15mr1707909ioj.5.1598001899978;
- Fri, 21 Aug 2020 02:24:59 -0700 (PDT)
+        id S1727106AbgHUMOD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 Aug 2020 08:14:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45540 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727029AbgHUMN6 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 21 Aug 2020 08:13:58 -0400
+Received: from localhost (104.sub-72-107-126.myvzw.com [72.107.126.104])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B1E0D2078D;
+        Fri, 21 Aug 2020 12:13:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1598012038;
+        bh=uVOgG9JFL4Fi6p0po8bQ65Th7wRBuNvR5zhzLTPFR5k=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=ox5cTwPbjAUMDQ3PBaEQj29JiEe+7IH6AXVS6NxjULgL51ySfWOkFhBpDTJzVedaY
+         /UuJysTOHbBMdbgEM7N7gU5gumkTHskOHzhwVjf+hvwlVhTurv/GZKKfyOQ8zI5AmJ
+         zAPVwHcdFODduuOfyQXQDv1dwLqxCHq47/KNa/tk=
+Date:   Fri, 21 Aug 2020 07:13:56 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+Cc:     linux-mm@kvack.org, linux-acpi@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, x86@kernel.org,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>, rafael@kernel.org,
+        linux-kernel@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>, linuxarm@huawei.com,
+        Dan Williams <dan.j.williams@intel.com>,
+        Brice Goglin <Brice.Goglin@inria.fr>,
+        Sean V Kelley <sean.v.kelley@linux.intel.com>,
+        linux-api@vger.kernel.org, Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH v9 4/6] ACPI: HMAT: Fix handling of changes from ACPI 6.2
+ to ACPI 6.3
+Message-ID: <20200821121356.GA1616281@bjorn-Precision-5520>
 MIME-Version: 1.0
-References: <cover.1597993855.git.osandov@osandov.com> <64cc229872230dc6998a3dbf2264513870a8a6f6.1597994017.git.osandov@osandov.com>
-In-Reply-To: <64cc229872230dc6998a3dbf2264513870a8a6f6.1597994017.git.osandov@osandov.com>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Fri, 21 Aug 2020 12:24:48 +0300
-Message-ID: <CAOQ4uxgEpYqQ9MeuS=76tOtjFCrL8urkDoPoHxu+A5s4C2HGRA@mail.gmail.com>
-Subject: Re: [PATCH man-pages v5] Document encoded I/O
-To:     Omar Sandoval <osandov@osandov.com>
-Cc:     linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux Btrfs <linux-btrfs@vger.kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dave Chinner <david@fromorbit.com>,
-        Jann Horn <jannh@google.com>, Aleksa Sarai <cyphar@cyphar.com>,
-        Linux API <linux-api@vger.kernel.org>, kernel-team@fb.com,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        linux-man <linux-man@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200821094258.00007925@Huawei.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Aug 21, 2020 at 10:38 AM Omar Sandoval <osandov@osandov.com> wrote:
->
-> From: Omar Sandoval <osandov@fb.com>
->
-> This adds a new page, encoded_io(7), providing an overview of encoded
-> I/O and updates fcntl(2), open(2), and preadv2(2)/pwritev2(2) to
-> reference it.
->
-> Cc: Michael Kerrisk <mtk.manpages@gmail.com>
-> Cc: linux-man <linux-man@vger.kernel.org>
-> Signed-off-by: Omar Sandoval <osandov@fb.com>
-> ---
+[+cc Keith, author of 3accf7ae37a9 ("acpi/hmat: Parse and report
+heterogeneous memory")]
 
-Omar,
+On Fri, Aug 21, 2020 at 09:42:58AM +0100, Jonathan Cameron wrote:
+> On Thu, 20 Aug 2020 17:21:29 -0500
+> Bjorn Helgaas <helgaas@kernel.org> wrote:
+> 
+> > On Wed, Aug 19, 2020 at 10:51:09PM +0800, Jonathan Cameron wrote:
+> > > In ACPI 6.3, the Memory Proximity Domain Attributes Structure
+> > > changed substantially.  One of those changes was that the flag
+> > > for "Memory Proximity Domain field is valid" was deprecated.
+> > > 
+> > > This was because the field "Proximity Domain for the Memory"
+> > > became a required field and hence having a validity flag makes
+> > > no sense.
+> > > 
+> > > So the correct logic is to always assume the field is there.
+> > > Current code assumes it never is.
+> > > 
+> > > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > > ---
+> > >  drivers/acpi/numa/hmat.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/acpi/numa/hmat.c b/drivers/acpi/numa/hmat.c
+> > > index 2c32cfb72370..07cfe50136e0 100644
+> > > --- a/drivers/acpi/numa/hmat.c
+> > > +++ b/drivers/acpi/numa/hmat.c
+> > > @@ -424,7 +424,7 @@ static int __init hmat_parse_proximity_domain(union acpi_subtable_headers *heade
+> > >  		pr_info("HMAT: Memory Flags:%04x Processor Domain:%u Memory Domain:%u\n",
+> > >  			p->flags, p->processor_PD, p->memory_PD);
+> > >  
+> > > -	if (p->flags & ACPI_HMAT_MEMORY_PD_VALID && hmat_revision == 1) {
+> > > +	if ((p->flags & ACPI_HMAT_MEMORY_PD_VALID && hmat_revision == 1) || hmat_revision == 2) {  
+> > 
+> > I hope/assume the spec is written in such a way that p->memory_PD is
+> > required for any revision > 1?  So maybe this should be:
+> > 
+> >   if ((p->flags & ACPI_HMAT_MEMORY_PD_VALID && hmat_revision == 1) ||
+> >       hmat_revision > 1) {
 
-Thanks for making the clarifications. Some questions below.
+I should have said simply:
 
-[...]
+  if (hmat_revision == 1 && p->flags & ACPI_HMAT_MEMORY_PD_VALID)
 
-> +.PP
-> +As the filesystem page cache typically contains decoded data,
-> +encoded I/O bypasses the page cache.
-> +.SS Extent layout
-> +By using
-> +.IR len ,
-> +.IR unencoded_len ,
-> +and
-> +.IR unencoded_offset ,
-> +it is possible to refer to a subset of an unencoded extent.
-> +.PP
-> +In the simplest case,
-> +.I len
-> +is equal to
-> +.I unencoded_len
-> +and
-> +.I unencoded_offset
-> +is zero.
-> +This means that the entire unencoded extent is used.
-> +.PP
-> +However, suppose we read 50 bytes into a file
-> +which contains a single compressed extent.
-> +The filesystem must still return the entire compressed extent
-> +for us to be able to decompress it,
-> +so
-> +.I unencoded_len
-> +would be the length of the entire decompressed extent.
-> +However, because the read was at offset 50,
-> +the first 50 bytes should be ignored.
-> +Therefore,
-> +.I unencoded_offset
-> +would be 50,
-> +and
-> +.I len
-> +would accordingly be
-> +.IR unencoded_len\ -\ 50 .
-> +.PP
-> +Additionally, suppose we want to create an encrypted file with length 500,
-> +but the file is encrypted with a block cipher using a block size of 4096.
-> +The unencoded data would therefore include the appropriate padding,
-> +and
-> +.I unencoded_len
-> +would be 4096.
-> +However, to represent the logical size of the file,
-> +.I len
-> +would be 500
-> +(and
-> +.I unencoded_offset
-> +would be 0).
-> +.PP
-> +Similar situations can arise in other cases:
-> +.IP * 3
-> +If the filesystem pads data to the filesystem block size before compressing,
-> +then compressed files with a size unaligned to the filesystem block size will
-> +end with an extent with
-> +.I len
-> +<
-> +.IR unencoded_len .
-> +.IP *
-> +Extents cloned from the middle of a larger encoded extent with
-> +.B FICLONERANGE
-> +may have a non-zero
-> +.I unencoded_offset
-> +and/or
-> +.I len
-> +<
-> +.IR unencoded_len .
-> +.IP *
-> +If the middle of an encoded extent is overwritten,
-> +the filesystem may create extents with a non-zero
-> +.I unencoded_offset
-> +and/or
-> +.I len
-> +<
-> +.I unencoded_len
-> +for the parts that were not overwritten.
+We shouldn't even test p->flags for ACPI_HMAT_MEMORY_PD_VALID unless
+we already know it's revision 1.
 
-So in this case, would the reader be getting extents "out of unencoded order"?
-e.g. unencoded range 0..4096 and then unencoded range 10..20?
-Or would reader be reading the encoded full block twice, once for
-ragne 0..10 and once for range 20..4096?
+And unless there was a revision 0 of HMAT, there's no need to look for
+hmat_revison > 1.
 
+> Good point.  We have existing protections elsewhere against
+> hmat_revision being anything other than 1 or 2, so we should aim to
+> keep that in only one place.
 
+I think the "Ignoring HMAT: Unknown revision" test in hmat_init(),
+added by 3accf7ae37a9 ("acpi/hmat: Parse and report heterogeneous
+memory"), is a mistake.
 
-> +.SS Security
-> +Encoded I/O creates the potential for some security issues:
-> +.IP * 3
-> +Encoded writes allow writing arbitrary data which the kernel will decode on
-> +a subsequent read. Decompression algorithms are complex and may have bugs
-> +which can be exploited by maliciously crafted data.
-> +.IP *
-> +Encoded reads may return data which is not logically present in the file
-> +(see the discussion of
-> +.I len
-> +vs.
-> +.I unencoded_len
-> +above).
-> +It may not be intended for this data to be readable.
-> +.PP
-> +Therefore, encoded I/O requires privilege.
-> +Namely, the
-> +.B RWF_ENCODED
-> +flag may only be used when the file was opened with the
-> +.B O_ALLOW_ENCODED
-> +flag to
-> +.BR open (2),
-> +which requires the
-> +.B CAP_SYS_ADMIN
-> +capability.
-> +.B O_ALLOW_ENCODED
-> +may be set and cleared with
-> +.BR fcntl (2).
-> +Note that it is not cleared on
-> +.BR fork (2)
-> +or
-> +.BR execve (2);
-> +one may wish to use
-> +.B O_CLOEXEC
-> +with
-> +.BR O_ALLOW_ENCODED .
-> +.SS Filesystem support
-> +Encoded I/O is supported on the following filesystems:
-> +.TP
-> +Btrfs (since Linux 5.10)
-> +.IP
-> +Btrfs supports encoded reads and writes of compressed data.
-> +The data is encoded as follows:
-> +.RS
-> +.IP * 3
-> +If
-> +.I compression
-> +is
-> +.BR ENCODED_IOV_COMPRESSION_ZLIB ,
-> +then the encoded data is a single zlib stream.
-> +.IP *
-> +If
-> +.I compression
-> +is
-> +.BR ENCODED_IOV_COMPRESSION_LZO ,
-> +then the encoded data is compressed page by page with LZO1X
-> +and wrapped in the format documented in the Linux kernel source file
-> +.IR fs/btrfs/lzo.c .
+And I think hmat_normalize() has a similar mistake in that it tests
+explicitly for hmat_revision == 2 when it should accept 2 AND anything
+later.
 
-:-/ So maybe call it ENCODED_IOV_COMPRESSION_BTRFS_LZO?
+We should assume that future spec revisions will be backwards
+compatible.  Otherwise we're forced to make kernel changes when we
+otherwise would not have to.
 
-I understand why you want the encoding format not to be opaque, but
-I imagine the encoded data is not going to be migrated as is between
-different filesystems. So just call it for what it is - a private
-filesystem encoding
-format. If you have a format that is standard and other filesystems are likely
-to use, fine, but let's not make an API that discourages using
-"private" encoding, just for the sake of it and make life harder for no good
-reason.
-
-All the reader of this man page may be interested to know is which
-filesystems are expected to support which encoding types and a general
-description of what they mean (as you did).
-Making this page wrongly appear as a standard for encoding formats is not
-going to play out well...
-
-> +.IP *
-> +If
-> +.I compression
-> +is
-> +.BR ENCODED_IOV_COMPRESSION_ZSTD ,
-> +then the encoded data is a single zstd frame compressed with the
-> +.I windowLog
-> +compression parameter set to no more than 17.
-
-Even that small detail is a bit limiting to filesystems and should
-therefore be tagged as a private btrfs encoding IMO.
-
-Thanks,
-Amir.
+Bjorn
