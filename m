@@ -2,111 +2,95 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5175924E1EC
-	for <lists+linux-api@lfdr.de>; Fri, 21 Aug 2020 22:14:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B259224E276
+	for <lists+linux-api@lfdr.de>; Fri, 21 Aug 2020 23:13:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725831AbgHUUOG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 Aug 2020 16:14:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41458 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726391AbgHUUN7 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Aug 2020 16:13:59 -0400
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76978C061574
-        for <linux-api@vger.kernel.org>; Fri, 21 Aug 2020 13:13:59 -0700 (PDT)
-Received: by mail-ej1-x644.google.com with SMTP id md23so3058909ejb.6
-        for <linux-api@vger.kernel.org>; Fri, 21 Aug 2020 13:13:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4BtYd9/pAyG1sqGYcTy0rM8tdo0b9K0n3vpfXHvN2DE=;
-        b=j1MIxYG+ikKdio/J7EEBu7O+TNel4fKx2ssCXBwf1QibUwKRpqucOcuBx8WB9+MiBp
-         yWrpVaS2g4Or8Vsgeq38loMK2o7Ehei2ZhGdshzTafjfyQPoSREWCiy0QXYZYfRIFhsT
-         rTX73zkaUPpfX9PRT8k7hafwBU0/ZL0kTf0UUf4nCTb6d68XXCqd64OJIKfV2JWombm8
-         WTvRKC3G/CXx75X6/3nsms/N8S8lVzAnUwH06hP72mPQZLr6XxUyXRvWSt0dEEaBoIAL
-         5jICYw/OQX1fLwvVhaTNQEe18HTXI5YoEY/jhuo+AvRywFaNHSFUfJHBfv8LqQl2sIo2
-         vCyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4BtYd9/pAyG1sqGYcTy0rM8tdo0b9K0n3vpfXHvN2DE=;
-        b=olk/sWAoHgcwclCFopce5MZ+/vM+uLnKBbeqwx/qcXVwsMjG220DLbveIzLamvzsX/
-         rOf4WffpNT6I34lTFlPgpmUDWMdz8iLQoLqqK4rtEK7zOMVPFJINHFM0zgwoa8XHQ34q
-         shEISUwELmEQmwJsECERA3ynfc0GWc+ETIVRWgZucNtN5mgJPgjx/WR5OR57b/jM1cU5
-         Zwx3mszgkwuQTz8peCMk971Iyh9/rNNY7/akKomfObeddlvPxdONfR5ZgUcITfg3lrO/
-         h1cH5+Ntgbz4O1H4zPI2IGVTj3SW0Y4VD607BNXf7715ole+JNQSy5bj10PSvCRmQonv
-         a4tg==
-X-Gm-Message-State: AOAM533qCOl3aZYmopZ9lAoJRcSsQCaU6rSwrcuX3849t3UToQ1iMpQN
-        VEq6pYbU/TTJQ0lhgrmX5KvMjv/S2ENeaoGPI080
-X-Google-Smtp-Source: ABdhPJyd88CfX7VJaFvZK1tKg0a4ztk8lkZlg+SopdBDlMcFpbfuejWoSXXNsA00gY0qnev4OvuNLAl+o4ySJ/3jueM=
-X-Received: by 2002:a17:906:43c9:: with SMTP id j9mr4526810ejn.542.1598040837725;
- Fri, 21 Aug 2020 13:13:57 -0700 (PDT)
+        id S1726364AbgHUVNx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 Aug 2020 17:13:53 -0400
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:55644 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725948AbgHUVNw (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Aug 2020 17:13:52 -0400
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 07LLDjNF040124;
+        Fri, 21 Aug 2020 16:13:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1598044425;
+        bh=WwdW1q9vNwz6qCi6gk0mJU/6nFPX5njwv0KN/zOhsSE=;
+        h=Subject:From:To:References:Date:In-Reply-To;
+        b=KD3N13aaRHy67nc+d6u0/bJ2w+bNoEYUT2vNJ49sByFbLbKftGTe0S03uOC703Uvy
+         p/+34ujvZT+FRr77f1fUW99r7xC9LOaDAviEvXq6ttv/pcEM/2NpsNJd/9lzsddwam
+         YhT7Zc19zzziIboizJr7A1Wy5mBBNKkzRqehryLc=
+Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 07LLDjNE097715
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 21 Aug 2020 16:13:45 -0500
+Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 21
+ Aug 2020 16:13:45 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Fri, 21 Aug 2020 16:13:45 -0500
+Received: from [10.250.65.199] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 07LLDia1055288;
+        Fri, 21 Aug 2020 16:13:44 -0500
+Subject: Re: [PATCH iproute2 v5 0/2] iplink: hsr: add support for creating PRP
+ device
+From:   Murali Karicheri <m-karicheri2@ti.com>
+To:     <davem@davemloft.net>, <kuba@kernel.org>, <netdev@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-api@vger.kernel.org>,
+        <nsekhar@ti.com>, <vinicius.gomes@intel.com>,
+        <stephen@networkplumber.org>
+References: <20200817211737.576-1-m-karicheri2@ti.com>
+ <44143c5d-ba93-363f-ca74-f9d7833c403f@ti.com>
+Message-ID: <64c3e8a9-94b1-b47c-93e7-186d98eb5e10@ti.com>
+Date:   Fri, 21 Aug 2020 17:13:44 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <cover.1593198710.git.rgb@redhat.com> <01229b93733d9baf6ac9bb0cc243eeb08ad579cd.1593198710.git.rgb@redhat.com>
- <CAHC9VhT6cLxxws_pYWcL=mWe786xPoTTFfPZ1=P4hx4V3nytXA@mail.gmail.com> <20200807171025.523i2sxfyfl7dfjy@madcap2.tricolour.ca>
-In-Reply-To: <20200807171025.523i2sxfyfl7dfjy@madcap2.tricolour.ca>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Fri, 21 Aug 2020 16:13:45 -0400
-Message-ID: <CAHC9VhQ3MVUY8Zs4GNXdaqhiPJBzHW_YcCe=DghAgo7g6yrNBw@mail.gmail.com>
-Subject: Re: [PATCH ghak90 V9 11/13] audit: contid check descendancy and nesting
-To:     Richard Guy Briggs <rgb@redhat.com>
-Cc:     nhorman@tuxdriver.com, linux-api@vger.kernel.org,
-        containers@lists.linux-foundation.org,
-        LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
-        Linux-Audit Mailing List <linux-audit@redhat.com>,
-        netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
-        simo@redhat.com, netdev@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
-        mpatel@redhat.com, Serge Hallyn <serge@hallyn.com>, aris@redhat.com
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <44143c5d-ba93-363f-ca74-f9d7833c403f@ti.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Aug 7, 2020 at 1:10 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> On 2020-07-05 11:11, Paul Moore wrote:
-> > On Sat, Jun 27, 2020 at 9:23 AM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > Require the target task to be a descendant of the container
-> > > orchestrator/engine.
+Stephen,
 
-If you want to get formal about this, you need to define "target" in
-the sentence above.  Target of what?
+On 8/19/20 5:21 PM, Murali Karicheri wrote:
+> Hi, Stephen,
+> 
+> On 8/17/20 5:17 PM, Murali Karicheri wrote:
+>> This series enhances the iproute2 iplink module to add support
+>> for creating PRP device similar to HSR. The kernel part of this
+>> is already merged to v5.9 master
+>>
+>> v5 - addressed comment from Stephen Hemminger
+>>     - Sending this with a iproute2 prefix so that this can
+>>       be merged to v5.9 iprout2 if possible.
+>> v3 of the series is rebased to iproute2-next/master at
+>> git://git.kernel.org/pub/scm/network/iproute2/iproute2-next
+>> and send as v4.
+>>
+>> Please apply this if looks good.
+>>
+>>
+>> Murali Karicheri (2):
+>>    iplink: hsr: add support for creating PRP device similar to HSR
+>>    ip: iplink: prp: update man page for new parameter
+>>
+>>   ip/iplink_hsr.c       | 17 +++++++++++++++--
+>>   man/man8/ip-link.8.in |  9 ++++++++-
+>>   2 files changed, 23 insertions(+), 3 deletions(-)
+>>
+> Can we merge this version please?
 
-FWIW, I read the above to basically mean that a task can only set the
-audit container ID of processes which are beneath it in the "process
-tree" where the "process tree" is defined as the relationship between
-a parent and children processes such that the children processes are
-branches below the parent process.
-
-I have no problem with that, with the understanding that nesting
-complicates it somewhat.  For example, this isn't true when one of the
-children is a nested orchestrator, is it?
-
-> > > You would only change the audit container ID from one set or inherited
-> > > value to another if you were nesting containers.
-
-I thought we decided we were going to allow an orchestrator to move a
-process between audit container IDs, yes?  no?
-
-> > > If changing the contid, the container orchestrator/engine must be a
-> > > descendant and not same orchestrator as the one that set it so it is not
-> > > possible to change the contid of another orchestrator's container.
-
-Try rephrasing the above please, it isn't clear to me what you are
-trying to say.
-
-> Are we able to agree on the premises above?  Is anything asserted that
-> should not be and is there anything missing?
-
-See above.
-
-If you want to go back to the definitions/assumptions stage, it
-probably isn't worth worrying about the other comments until we get
-the above sorted.
-
+Ping .... Thank you!
 -- 
-paul moore
-www.paul-moore.com
+Murali Karicheri
+Texas Instruments
