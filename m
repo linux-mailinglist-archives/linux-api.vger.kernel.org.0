@@ -2,124 +2,182 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 220D424D606
-	for <lists+linux-api@lfdr.de>; Fri, 21 Aug 2020 15:18:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E78AB24D672
+	for <lists+linux-api@lfdr.de>; Fri, 21 Aug 2020 15:47:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727942AbgHUNSS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 Aug 2020 09:18:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33256 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727123AbgHUNSP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Aug 2020 09:18:15 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63C9FC061385
-        for <linux-api@vger.kernel.org>; Fri, 21 Aug 2020 06:18:12 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id qc22so2243980ejb.4
-        for <linux-api@vger.kernel.org>; Fri, 21 Aug 2020 06:18:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9Ewq1eqi128tS/YtHe1Hdp0zK/pkzPgQy1G+gIZ86vk=;
-        b=NU0Mcks72tdUBoRxTtGff5uEDLvy5q+04uOXS/JLA0SJHrmqdiP6jaEKtTvuhKsMgU
-         lDfci7M0dnl3iqCTEKGFvbcUksW7F5hk3a91SmK7L3wWBKVmDsI9uP/rUVnGbwAsuDli
-         PjLRD2P5KK/Uqcps5LzpvzKRXm9f6EQs1OMtc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9Ewq1eqi128tS/YtHe1Hdp0zK/pkzPgQy1G+gIZ86vk=;
-        b=uRHtCUeRuWo13Tp1RcUQjN8Yp/UTaz6B4uNT0XCqeNFnhD/U9FqUXN5YsBO09Jmy2Y
-         4ECHR01vUtj+3Gr0QAbhHTI6lK4KCxS+JmEiNWyhvYJQ4akkdKJfZBfoLTwyZT9SU+UT
-         WB8RqtutZrtmN59Tny1Md9RxkTdfN9rcZ44Hh7+e3dRs+nIlfy5zGZl3QgvZHB/aXng8
-         S86WPP8cUqkVypvoRJBHs37HnhropRDItwBhfFnWWo5YnH1uGaxZSDxIVU4IKVZJqLWa
-         sMunls9W4ntisbZ415phJ4PRtu9xhpQrRirAELGl33C7ASBPP9V0efjdvrGj/DiXQOPs
-         sCog==
-X-Gm-Message-State: AOAM531tWvwUquewLmzRZbzIHNmoxiMmaUOlSEvtATvlX8dWrgWaMbqC
-        vHfV+8t1busqulCYDMywOtB5MgceyDbTaMvWmBvuoQ==
-X-Google-Smtp-Source: ABdhPJx3TSW7MukTCaIid5gIoeUYGZLVJD0O+yZ7UPk2PTQBJG9g/hYdPVKEFV4KdfwhkvYvNtwBHnp0gKnoaXGmvjM=
-X-Received: by 2002:a17:906:b2d7:: with SMTP id cf23mr2811015ejb.113.1598015890534;
- Fri, 21 Aug 2020 06:18:10 -0700 (PDT)
+        id S1728989AbgHUNqd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 Aug 2020 09:46:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39312 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728917AbgHUNqY (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 21 Aug 2020 09:46:24 -0400
+Received: from localhost (104.sub-72-107-126.myvzw.com [72.107.126.104])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 34E7A20578;
+        Fri, 21 Aug 2020 13:46:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1598017583;
+        bh=eR4savNfPpi1Bov9kuM6We12VX5PsJEnD49TjFI45vg=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=GkneyOgRoOluuwCS8xddIUouzrh/qxThxKNQqmUwYR7Jnj2FNd7CmaGUCo9Y5LNWH
+         EO7HofDa6BDrqn5DFQtjbw35eaJgRLSAij7dSUApb/jB2fCp5ifAMxfdRww/kcoeSJ
+         88rBxQ9cvp6v3DCLnmkaTHi5lqEzwBvg2yvXhMoo=
+Date:   Fri, 21 Aug 2020 08:46:22 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+Cc:     linux-mm@kvack.org, linux-acpi@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, x86@kernel.org,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>, rafael@kernel.org,
+        linux-kernel@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>, linuxarm@huawei.com,
+        Dan Williams <dan.j.williams@intel.com>,
+        Brice Goglin <Brice.Goglin@inria.fr>,
+        Sean V Kelley <sean.v.kelley@linux.intel.com>,
+        linux-api@vger.kernel.org, Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH v9 4/6] ACPI: HMAT: Fix handling of changes from ACPI 6.2
+ to ACPI 6.3
+Message-ID: <20200821134622.GA1620197@bjorn-Precision-5520>
 MIME-Version: 1.0
-References: <1842689.1596468469@warthog.procyon.org.uk> <1845353.1596469795@warthog.procyon.org.uk>
- <CAJfpegunY3fuxh486x9ysKtXbhTE0745ZCVHcaqs9Gww9RV2CQ@mail.gmail.com>
- <ac1f5e3406abc0af4cd08d818fe920a202a67586.camel@themaw.net>
- <CAJfpegu8omNZ613tLgUY7ukLV131tt7owR+JJ346Kombt79N0A@mail.gmail.com>
- <CAJfpegtNP8rQSS4Z14Ja4x-TOnejdhDRTsmmDD-Cccy2pkfVVw@mail.gmail.com>
- <20200811135419.GA1263716@miu.piliscsaba.redhat.com> <CAHk-=wjzLmMRf=QG-n+1HnxWCx4KTQn9+OhVvUSJ=ZCQd6Y1WA@mail.gmail.com>
- <52483.1597190733@warthog.procyon.org.uk> <CAHk-=wiPx0UJ6Q1X=azwz32xrSeKnTJcH8enySwuuwnGKkHoPA@mail.gmail.com>
- <066f9aaf-ee97-46db-022f-5d007f9e6edb@redhat.com> <CAHk-=wgz5H-xYG4bOrHaEtY7rvFA1_6+mTSpjrgK8OsNbfF+Pw@mail.gmail.com>
- <94f907f0-996e-0456-db8a-7823e2ef3d3f@redhat.com> <CAHk-=wig0ZqWxgWtD9F1xZzE7jEmgLmXRWABhss0+er3ZRtb9g@mail.gmail.com>
- <CAHk-=wh4qaj6iFTrbHy8TPfmM3fj+msYC5X_KE0rCdStJKH2NA@mail.gmail.com>
- <CAJfpegsr8URJHoFunnGShB-=jqypvtrmLV-BcWajkHux2H4x2w@mail.gmail.com>
- <CAHk-=wh5YifP7hzKSbwJj94+DZ2czjrZsczy6GBimiogZws=rg@mail.gmail.com>
- <CAJfpegt9yEHX3C-sF9UyOXJcRa1cfDnf450OEJ47Xk=FmyEs8A@mail.gmail.com> <CAHk-=wiUcfgC1PdbS_4mfAj2+VTacOwD_uUu6krSxjpvh42T7A@mail.gmail.com>
-In-Reply-To: <CAHk-=wiUcfgC1PdbS_4mfAj2+VTacOwD_uUu6krSxjpvh42T7A@mail.gmail.com>
-From:   Miklos Szeredi <miklos@szeredi.hu>
-Date:   Fri, 21 Aug 2020 15:17:59 +0200
-Message-ID: <CAJfpegsBSsMkSXReN6Sheye1cksCO2pcqcx_3VwY4C1J9kDhaw@mail.gmail.com>
-Subject: Re: file metadata via fs API
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Steven Whitehouse <swhiteho@redhat.com>,
-        David Howells <dhowells@redhat.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>, Karel Zak <kzak@redhat.com>,
-        Jeff Layton <jlayton@redhat.com>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Nicolas Dichtel <nicolas.dichtel@6wind.com>,
-        Christian Brauner <christian@brauner.io>,
-        Lennart Poettering <lennart@poettering.net>,
-        Linux API <linux-api@vger.kernel.org>,
-        Ian Kent <raven@themaw.net>,
-        LSM <linux-security-module@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200821135901.0000260b@Huawei.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Aug 18, 2020 at 10:53 PM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
+On Fri, Aug 21, 2020 at 01:59:01PM +0100, Jonathan Cameron wrote:
+> On Fri, 21 Aug 2020 07:13:56 -0500
+> Bjorn Helgaas <helgaas@kernel.org> wrote:
+> 
+> > [+cc Keith, author of 3accf7ae37a9 ("acpi/hmat: Parse and report
+> > heterogeneous memory")]
+> > 
+> > On Fri, Aug 21, 2020 at 09:42:58AM +0100, Jonathan Cameron wrote:
+> > > On Thu, 20 Aug 2020 17:21:29 -0500
+> > > Bjorn Helgaas <helgaas@kernel.org> wrote:
+> > >   
+> > > > On Wed, Aug 19, 2020 at 10:51:09PM +0800, Jonathan Cameron wrote:  
+> > > > > In ACPI 6.3, the Memory Proximity Domain Attributes Structure
+> > > > > changed substantially.  One of those changes was that the flag
+> > > > > for "Memory Proximity Domain field is valid" was deprecated.
+> > > > > 
+> > > > > This was because the field "Proximity Domain for the Memory"
+> > > > > became a required field and hence having a validity flag makes
+> > > > > no sense.
+> > > > > 
+> > > > > So the correct logic is to always assume the field is there.
+> > > > > Current code assumes it never is.
+> > > > > 
+> > > > > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > > > > ---
+> > > > >  drivers/acpi/numa/hmat.c | 2 +-
+> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > > 
+> > > > > diff --git a/drivers/acpi/numa/hmat.c b/drivers/acpi/numa/hmat.c
+> > > > > index 2c32cfb72370..07cfe50136e0 100644
+> > > > > --- a/drivers/acpi/numa/hmat.c
+> > > > > +++ b/drivers/acpi/numa/hmat.c
+> > > > > @@ -424,7 +424,7 @@ static int __init hmat_parse_proximity_domain(union acpi_subtable_headers *heade
+> > > > >  		pr_info("HMAT: Memory Flags:%04x Processor Domain:%u Memory Domain:%u\n",
+> > > > >  			p->flags, p->processor_PD, p->memory_PD);
+> > > > >  
+> > > > > -	if (p->flags & ACPI_HMAT_MEMORY_PD_VALID && hmat_revision == 1) {
+> > > > > +	if ((p->flags & ACPI_HMAT_MEMORY_PD_VALID && hmat_revision == 1) || hmat_revision == 2) {    
+> > > > 
+> > > > I hope/assume the spec is written in such a way that p->memory_PD is
+> > > > required for any revision > 1?  So maybe this should be:
+> > > > 
+> > > >   if ((p->flags & ACPI_HMAT_MEMORY_PD_VALID && hmat_revision == 1) ||
+> > > >       hmat_revision > 1) {  
+> > 
+> > I should have said simply:
+> > 
+> >   if (hmat_revision == 1 && p->flags & ACPI_HMAT_MEMORY_PD_VALID)
+> > 
+> > We shouldn't even test p->flags for ACPI_HMAT_MEMORY_PD_VALID unless
+> > we already know it's revision 1.
+> > 
+> > And unless there was a revision 0 of HMAT, there's no need to look for
+> > hmat_revison > 1.
+> 
+> It needs to stay as an or statement as you had the first time.
+> The field is always valid for hmat_revision > 1, and valid for
+> hmat_revision == 1 with the flag set.  You could express it as
+> 
+> if ((p->flags & ACPI_HMAT_MEMORY_PD_VALID) || (hmat_revision != 1))
+> 
+> but that seems more confusing to me.
 
-> Basically, I think a rough rule of thumb can and should be:
->
->  - stuff that the VFS knows about natively and fully is clearly pretty
-> mount-agnostic and generic, and can be represented in whatever
-> extended "struct statfs_x" directly.
->
->  - anything that is variable-format and per-fs should be expressed in
-> the ASCII buffer
->
-> Look at our fancy new fs_context - that's pretty much what it does
-> even inside the kernel. Sure, we have "binary" fields there for core
-> basic information ("struct dentry *root", but also things like flags
-> with MNT_NOSUID), but the configuration stuff is ASCII that the
-> filesystem can parse itself.
->
-> Exactly because some things are very much specific to some
-> filesystems, not generic things.
->
-> So we fundamentally already have a mix of "standard FS data" and
-> "filesystem-specific options", and it's already basically split that
-> way: binary flag fields for the generic stuff, and ASCII text for the
-> odd options.
+Oh, you're right, sorry!  There are two questions here:
 
-Okay.
+1) In what order should we test "p->flags & ACPI_HMAT_MEMORY_PD_VALID"
+   and "hmat_revision == 1"?  ACPI_HMAT_MEMORY_PD_VALID is defined
+   only when "hmat_revision == 1", so I think we should test the
+   revision first.
 
-Something else:  do we want a separate statmount(2) or is it okay to
-mix per-mount and per-sb attributes in the same syscall?
+   When "hmat_revision == 2", ACPI_HMAT_MEMORY_PD_VALID is reserved,
+   so we shouldn't test it, even if we later check the revision and
+   discard the result of the flag test.  This is a tiny thing,
+   admittedly, but I think it follows the spec more clearly.
 
-/proc/mounts concatenates mount and sb options (since it copies the
-/etc/mtab format)
+2) Do we need to test hmat_revision for anything other than 1?  Yes,
+   you're right, see below.
 
-/proc/self/mountinfo separates per-mount and per-sb data into
-different fields at least, but the fields themselves are mixed
+> > > Good point.  We have existing protections elsewhere against
+> > > hmat_revision being anything other than 1 or 2, so we should aim to
+> > > keep that in only one place.  
+> > 
+> > I think the "Ignoring HMAT: Unknown revision" test in hmat_init(),
+> > added by 3accf7ae37a9 ("acpi/hmat: Parse and report heterogeneous
+> > memory"), is a mistake.
+> > 
+> > And I think hmat_normalize() has a similar mistake in that it tests
+> > explicitly for hmat_revision == 2 when it should accept 2 AND anything
+> > later.
+> > 
+> > We should assume that future spec revisions will be backwards
+> > compatible.  Otherwise we're forced to make kernel changes when we
+> > otherwise would not have to.
+> 
+> I disagree with this. There is no rule in ACPI about maintaining
+> backwards compatibility. The assumption is that the version number
+> will always be checked.  The meaning of fields changed between
+> version 1 and version 2 so it would be bold to assume that won't
+> happen in the future!
 
-If we are introducing completely new interfaces, I think it would make
-sense to separate per-mount and per-sb attributes somehow.  Atomicity
-arguments don't apply since they have separate locking.  And we
-already have separate interfaces for configuring them...
+There *is* a rule about maintaining backwards compatibility.  ACPI
+v6.3, sec 5.2.2, says:
 
-Thanks,
-Miklos
+  All versions of the ACPI tables must maintain backward
+  compatibility. To accomplish this, modifications of the tables
+  consist of redefinition of previously reserved fields and values
+  plus appending data to the 1.0 tables. Modifications of the ACPI
+  tables require that the version numbers of the modified tables be
+  incremented.
+
+> HMAT is an optional table, so if someone boots up an old kernel
+> they are probably better off failing to use it at all than
+> misinterpreting it. 
+
+An old kernel tests:
+
+  if (p->flags & ACPI_HMAT_MEMORY_PD_VALID && hmat_revision == 1)
+    target = find_mem_target(p->memory_PD);
+
+which is fine on old firmware.  On new firmware (hmat_revision == 2),
+it will ignore p->memory_PD.  That is probably a problem, but I think
+we should check for that at the place where we need a memory_PD and
+don't find one.  That's more general than sanity checking a revision.
+
+A new kernel that tests:
+
+  if ((hmat_revision == 1 && p->flags & ACPI_HMAT_MEMORY_PD_VALID) ||
+       hmat_revision > 1)
+    target = find_mem_target(p->memory_PD);
+
+will do the right thing on both old and new firmware.
+
+Bjorn
