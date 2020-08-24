@@ -2,54 +2,53 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8650725096C
-	for <lists+linux-api@lfdr.de>; Mon, 24 Aug 2020 21:33:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9CAC2509AA
+	for <lists+linux-api@lfdr.de>; Mon, 24 Aug 2020 21:54:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726413AbgHXTdZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 24 Aug 2020 15:33:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53202 "EHLO
+        id S1726513AbgHXTyc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 24 Aug 2020 15:54:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726189AbgHXTdY (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 24 Aug 2020 15:33:24 -0400
-Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com [IPv6:2607:f8b0:4864:20::843])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21C29C061573
-        for <linux-api@vger.kernel.org>; Mon, 24 Aug 2020 12:33:24 -0700 (PDT)
-Received: by mail-qt1-x843.google.com with SMTP id y65so718361qtd.2
-        for <linux-api@vger.kernel.org>; Mon, 24 Aug 2020 12:33:24 -0700 (PDT)
+        with ESMTP id S1726119AbgHXTyc (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 24 Aug 2020 15:54:32 -0400
+Received: from mail-qv1-xf44.google.com (mail-qv1-xf44.google.com [IPv6:2607:f8b0:4864:20::f44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1445FC061574
+        for <linux-api@vger.kernel.org>; Mon, 24 Aug 2020 12:54:32 -0700 (PDT)
+Received: by mail-qv1-xf44.google.com with SMTP id x6so4391622qvr.8
+        for <linux-api@vger.kernel.org>; Mon, 24 Aug 2020 12:54:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=toxicpanda-com.20150623.gappssmtp.com; s=20150623;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=51kP9Tifqbgd3Uyz9HqcjJGWpWdHZ2apFmWcYfbWByQ=;
-        b=cZpArxXL14yz7I2zGy87ZKjyTQeiikaabE4c/UxB4d64VkhBvLVumjxm9n0twhHm+s
-         jf/W1XVZTCTWoQAjqVRoylTK0wJD7g26WhG8EPT+JPQfcdMHAikfE0owmnbTwWZF/6+M
-         CnfLcgyCSqMPlbbvUfJjhoQzyQbMG+h8psuFdV+orCynGMTdrwnco4NHyqEHnKCM3hV5
-         GR/xu/UUQlEPGRqXzNisKUx7rdnKsMDbT7UQADO1XY5ujEG/dn0XCHb1IkX6wC0tMsMI
-         C4PqR/Iha07VfpTrwTd+uAoQZkQYbCP3a511EEtYNgbsiDWUtkzbsbVv0cd2LWrxgKTQ
-         Wr6w==
+        bh=aoGmJKu/IYMkCMsmrRk+N9ZX2m6o31tS+9YtnF+yBmM=;
+        b=XozqMs7n1YDGDWeKjTh8V+vZoyH4wIxNv2f9afi8rbknqyPtrS2635xvwFy8vZsPS9
+         o3hpIUzLk7DjHbh3IbBk5nommv2xJsAj5U1jU5QedGJjve5qXG+uu7w/QjzKKrNGy+D+
+         1eWdtaaMUFG7D8RH6PMYqAn8VBRdN6NWRLE6rD5nRkTQHWxFRGxQPG9uagBLGHYxfzUv
+         cUDXZ+weDPggh1zogIgGdZVKb0eZgRMIFA77cWWLM4x9kgWQR1je5mr3Bh2t1Nh4H1ub
+         uIjhibyua1UpQibZgwXHD7sy1VahPOaFg70bnNHmyxl9SdMwh6/UGvZRo3Q4GITfkaF4
+         +wig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=51kP9Tifqbgd3Uyz9HqcjJGWpWdHZ2apFmWcYfbWByQ=;
-        b=ib9Fbla9m3mTbgq20vduTGbQS21AD/MkFvKxAKORv0hF0RkvWJ22xSaTjgDypp7ODR
-         sz0UFyYJ1sBmIfFfFEsb/6evq4iD2XPzPwnFAclPiA5PZlAkxBJbdG9HRsICH2MJvlcX
-         8sY4plemQvCjuY7AgVKSdiLcAJcamksklzpzyTkTyDw9Dfe9X88rUJUV+MCSqsGsFvaF
-         ybeB2qj1cKSe6GIFJtfx9uu7XRqULRFNn+4eTYmFZtL5n6//X4VwKnVhUmIVJnZcxdyz
-         +gUDyRt2Lkk1cBe4NHWb+3MYcfDVDVqa/apOGJvrZ8ijp2feVUFds84tcrqT66jL3Mib
-         OZEw==
-X-Gm-Message-State: AOAM533r/2cx6nfmH+9JqrEVB2CgSSOrNpqkg8z6aVOtVRRBOSMygPG8
-        5Mn8Dnv9iy/jcIyi5Z4otCs/xQ==
-X-Google-Smtp-Source: ABdhPJymbALVwQ+92K7/Kx4PwQy+Axcn5LRTFd6I+yOZ6Qk3mbyyw1qrGGRQofxKv3o2mvWYzTXqKg==
-X-Received: by 2002:ac8:3ae5:: with SMTP id x92mr6125835qte.139.1598297603305;
-        Mon, 24 Aug 2020 12:33:23 -0700 (PDT)
+        bh=aoGmJKu/IYMkCMsmrRk+N9ZX2m6o31tS+9YtnF+yBmM=;
+        b=YRISkQf3PL6y9IKOP3TxEXau9LWub3I5zT00QkQ8cymTzgLUyotV7Y43iBRx1dEHss
+         2QQ1RLdD+LCdfmMm6r0T1mTBcSxyWJIq4PhfIh/gXL19DWCZ3ltwPdJU/xnuBZQrG8lu
+         P0h9eQDzX9k6ET59MnWyr3xzi+H9kWPvHXtlwynyVRK3DL/Jdvf1SC1O8ctBjfi2UJYK
+         WMLxlrc9KvIo9rHBfeVB1eJsPVxrFfjTKoq8B7O9OnSlaSPGt5qOcKrK4vMMZIFdaID/
+         4qVSmkudk3cuBUYuHH+Dx6s9Ibweb+nBkY/gGpIR8xR1PafiXC6B8iQHVEq2gJDja7Nq
+         lUEQ==
+X-Gm-Message-State: AOAM533OsJJ3AeYhjJCYy+jiGQ7cBpzwnUIPZSdYWFt5MWQv7AqXoZUs
+        qay0ywmsmWQ1CyPaoxrxRdynUA==
+X-Google-Smtp-Source: ABdhPJx9gGcxy2qG2eaRGpYM3/vQX1ezJSqBiTigWkWx1WNt29oRgPZbAV9b/5ZPyMpoSmDnyyxdzw==
+X-Received: by 2002:ad4:5849:: with SMTP id de9mr6245875qvb.22.1598298871066;
+        Mon, 24 Aug 2020 12:54:31 -0700 (PDT)
 Received: from [192.168.1.45] (cpe-174-109-172-136.nc.res.rr.com. [174.109.172.136])
-        by smtp.gmail.com with ESMTPSA id x2sm7317766qki.46.2020.08.24.12.33.21
+        by smtp.gmail.com with ESMTPSA id s184sm10496382qkf.50.2020.08.24.12.54.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Aug 2020 12:33:22 -0700 (PDT)
-Subject: Re: [PATCH v5 7/9] btrfs: optionally extend i_size in
- cow_file_range_inline()
+        Mon, 24 Aug 2020 12:54:30 -0700 (PDT)
+Subject: Re: [PATCH v5 8/9] btrfs: implement RWF_ENCODED reads
 To:     Omar Sandoval <osandov@osandov.com>, linux-fsdevel@vger.kernel.org,
         linux-btrfs@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
         Christoph Hellwig <hch@infradead.org>
@@ -58,14 +57,14 @@ Cc:     Dave Chinner <david@fromorbit.com>, Jann Horn <jannh@google.com>,
         Aleksa Sarai <cyphar@cyphar.com>, linux-api@vger.kernel.org,
         kernel-team@fb.com
 References: <cover.1597993855.git.osandov@osandov.com>
- <602ed7659d19b2693cd1277fcea8dbe21928157f.1597993855.git.osandov@osandov.com>
+ <a52f9e7743bb924cdfa87906295e422bc48801c7.1597993855.git.osandov@osandov.com>
 From:   Josef Bacik <josef@toxicpanda.com>
-Message-ID: <e72ee90f-f587-fd8a-bf79-257ca9aa6851@toxicpanda.com>
-Date:   Mon, 24 Aug 2020 15:33:20 -0400
+Message-ID: <06545b90-976e-35a7-182d-8e005fc6b199@toxicpanda.com>
+Date:   Mon, 24 Aug 2020 15:54:29 -0400
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:68.0)
  Gecko/20100101 Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <602ed7659d19b2693cd1277fcea8dbe21928157f.1597993855.git.osandov@osandov.com>
+In-Reply-To: <a52f9e7743bb924cdfa87906295e422bc48801c7.1597993855.git.osandov@osandov.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -77,20 +76,39 @@ X-Mailing-List: linux-api@vger.kernel.org
 On 8/21/20 3:38 AM, Omar Sandoval wrote:
 > From: Omar Sandoval <osandov@fb.com>
 > 
-> Currently, an inline extent is always created after i_size is extended
-> from btrfs_dirty_pages(). However, for encoded writes, we only want to
-> update i_size after we successfully created the inline extent. Add an
-> update_i_size parameter to cow_file_range_inline() and
-> insert_inline_extent() and pass in the size of the extent rather than
-> determining it from i_size. Since the start parameter is always passed
-> as 0, get rid of it and simplify the logic in these two functions. While
-> we're here, let's document the requirements for creating an inline
-> extent.
+> There are 4 main cases:
+> 
+> 1. Inline extents: we copy the data straight out of the extent buffer.
+> 2. Hole/preallocated extents: we fill in zeroes.
+> 3. Regular, uncompressed extents: we read the sectors we need directly
+>     from disk.
+> 4. Regular, compressed extents: we read the entire compressed extent
+>     from disk and indicate what subset of the decompressed extent is in
+>     the file.
+> 
+> This initial implementation simplifies a few things that can be improved
+> in the future:
+> 
+> - We hold the inode lock during the operation.
+> - Cases 1, 3, and 4 allocate temporary memory to read into before
+>    copying out to userspace.
 > 
 > Signed-off-by: Omar Sandoval <osandov@fb.com>
 
-Reviewed-by: Josef Bacik <josef@toxicpanda.com>
 
-Thanks,
+<snip>
+
+> +	tmp = kmalloc(count, GFP_NOFS);
+> +	if (!tmp) {
+> +		ret = -ENOMEM;
+> +		goto out;
+> +	}
+> +	read_extent_buffer(leaf, tmp, ptr, count);
+> +	btrfs_free_path(path);
+
+Why not just btrfs_release_path(), you're freeing below anyway.
+
+Also a mention that we're explicitly not handling read repairs and backup copies 
+would be good in the changelog as well.  Thanks,
 
 Josef
