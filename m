@@ -2,352 +2,208 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CEB7C24FDB0
-	for <lists+linux-api@lfdr.de>; Mon, 24 Aug 2020 14:25:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECEF825011A
+	for <lists+linux-api@lfdr.de>; Mon, 24 Aug 2020 17:28:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727042AbgHXMZ3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 24 Aug 2020 08:25:29 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34468 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727015AbgHXMZW (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 24 Aug 2020 08:25:22 -0400
+        id S1726912AbgHXP2C (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 24 Aug 2020 11:28:02 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:59020 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727024AbgHXP1p (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 24 Aug 2020 11:27:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1598271917;
+        s=mimecast20190719; t=1598282863;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=YIrUagrIHqVugLe9LDIcRiclQwViyPRhpo0ZeXWbh6s=;
-        b=cVxiidc/ZTFldY8wazzvc3ZbWJm/j0NUpePha6UErGAyVBC/f2ybDaKmYeiekTrubJE4MU
-        J5gIXimJM2R8x03JGkwI/syUpao4T5H4Pbop02efE/+NMSWOoXZOiKrfX1Wl+wIk4/ChbX
-        uHIZyi07kORlP360hB81hgBaJnRzOb8=
+        bh=Pi1uzJfERgfFWmgM6UYAK6ASgLDYuQWOOL3VyRC2LTU=;
+        b=gaTgkDFqE4P3WhxSTOihWPbvPKkvB7ylw3Ocj1ibyOqnWUHkfcLld2NabTPU+dLmKiGBvt
+        l1mzOvc9NFkzo4iFm8tx1GRP5rnFn4kvVCNquxXbrgP+pZvG/mH6G1fkNFKaTS2UhzQM7U
+        yMImu48qCJT9Bdlibg8t5Hs0oQ0z4wE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-80-wtioiY04O42CHdMewKloVA-1; Mon, 24 Aug 2020 08:25:15 -0400
-X-MC-Unique: wtioiY04O42CHdMewKloVA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+ us-mta-330-zNVOyuFhNP-iiZLLTEszfQ-1; Mon, 24 Aug 2020 11:27:41 -0400
+X-MC-Unique: zNVOyuFhNP-iiZLLTEszfQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0D3764085;
-        Mon, 24 Aug 2020 12:25:14 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB26D18BFEF8;
+        Mon, 24 Aug 2020 15:27:34 +0000 (UTC)
 Received: from warthog.procyon.org.uk (ovpn-120-127.rdu2.redhat.com [10.10.120.127])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 3EC3F60BF1;
-        Mon, 24 Aug 2020 12:25:13 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 0139E5F206;
+        Mon, 24 Aug 2020 15:27:32 +0000 (UTC)
 Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
         Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
         Kingdom.
         Registered in England and Wales under Company Registration No. 3798903
-Subject: [PATCH 5/5] Add manpage for fsconfig(2)
 From:   David Howells <dhowells@redhat.com>
-To:     mtk.manpages@gmail.com, viro@zeniv.linux.org.uk
-Cc:     dhowells@redhat.com, linux-fsdevel@vger.kernel.org,
-        linux-man@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Date:   Mon, 24 Aug 2020 13:25:12 +0100
-Message-ID: <159827191245.306468.4903071494263813779.stgit@warthog.procyon.org.uk>
-In-Reply-To: <159827188271.306468.16962617119460123110.stgit@warthog.procyon.org.uk>
-References: <159827188271.306468.16962617119460123110.stgit@warthog.procyon.org.uk>
-User-Agent: StGit/0.23
+In-Reply-To: <20200807160531.GA1345000@erythro.dev.benboeckel.internal>
+References: <20200807160531.GA1345000@erythro.dev.benboeckel.internal> <159681277616.35436.11229310534842613599.stgit@warthog.procyon.org.uk>
+To:     me@benboeckel.net
+Cc:     dhowells@redhat.com, mtk.manpages@gmail.com,
+        torvalds@linux-foundation.org, keyrings@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-man@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] Add a manpage for watch_queue(7)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <329585.1598282852.1@warthog.procyon.org.uk>
+Content-Transfer-Encoding: quoted-printable
+Date:   Mon, 24 Aug 2020 16:27:32 +0100
+Message-ID: <329586.1598282852@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Add a manual page to document the fsconfig() system call.
+Ben Boeckel <me@benboeckel.net> wrote:
 
-Signed-off-by: David Howells <dhowells@redhat.com>
----
+> > +In the case of message loss,
+> > +.BR read (2)
+> > +will fabricate a loss message and pass that to userspace immediately =
+after the
+> > +point at which the loss occurred.
+> =
 
- man2/fsconfig.2 |  277 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 277 insertions(+)
- create mode 100644 man2/fsconfig.2
+> If multiple messages are dropped in a row, is there one loss message per
+> loss message or per loss event?
 
-diff --git a/man2/fsconfig.2 b/man2/fsconfig.2
-new file mode 100644
-index 000000000..da53d2fcb
---- /dev/null
-+++ b/man2/fsconfig.2
-@@ -0,0 +1,277 @@
-+'\" t
-+.\" Copyright (c) 2020 David Howells <dhowells@redhat.com>
-+.\"
-+.\" %%%LICENSE_START(VERBATIM)
-+.\" Permission is granted to make and distribute verbatim copies of this
-+.\" manual provided the copyright notice and this permission notice are
-+.\" preserved on all copies.
-+.\"
-+.\" Permission is granted to copy and distribute modified versions of this
-+.\" manual under the conditions for verbatim copying, provided that the
-+.\" entire resulting derived work is distributed under the terms of a
-+.\" permission notice identical to this one.
-+.\"
-+.\" Since the Linux kernel and libraries are constantly changing, this
-+.\" manual page may be incorrect or out-of-date.  The author(s) assume no
-+.\" responsibility for errors or omissions, or for damages resulting from
-+.\" the use of the information contained herein.  The author(s) may not
-+.\" have taken the same level of care in the production of this manual,
-+.\" which is licensed free of charge, as they might when working
-+.\" professionally.
-+.\"
-+.\" Formatted or processed versions of this manual, if unaccompanied by
-+.\" the source, must acknowledge the copyright and authors of this work.
-+.\" %%%LICENSE_END
-+.\"
-+.TH FSCONFIG 2 2020-08-24 "Linux" "Linux Programmer's Manual"
-+.SH NAME
-+fsconfig \- Filesystem parameterisation
-+.SH SYNOPSIS
-+.nf
-+.B #include <sys/types.h>
-+.B #include <sys/mount.h>
-+.B #include <unistd.h>
-+.B #include <sys/mount.h>
-+.PP
-+.BI "int fsconfig(int *" fd ", unsigned int " cmd ", const char *" key ,
-+.br
-+.BI "             const void __user *" value ", int " aux ");"
-+.br
-+.BI
-+.fi
-+.PP
-+.IR Note :
-+There is no glibc wrapper for this system call.
-+.SH DESCRIPTION
-+.PP
-+.BR fsconfig ()
-+is used to supply parameters to and issue commands against a filesystem
-+configuration context as set up by
-+.BR fsopen (2)
-+or
-+.BR fspick (2).
-+The context is supplied attached to the file descriptor specified by
-+.I fd
-+argument.
-+.PP
-+The
-+.I cmd
-+argument indicates the command to be issued, where some of the commands simply
-+supply parameters to the context.  The meaning of
-+.IR key ", " value " and " aux
-+are command-dependent; unless required for the command, these should be set to
-+NULL or 0.
-+.PP
-+The available commands are:
-+.TP
-+.B FSCONFIG_SET_FLAG
-+Set the parameter named by
-+.IR key
-+to true.  This may fail with error
-+.B EINVAL
-+if the parameter requires an argument.
-+.TP
-+.B FSCONFIG_SET_STRING
-+Set the parameter named by
-+.I key
-+to a string.  This may fail with error
-+.B EINVAL
-+if the parser doesn't want a parameter here, wants a non-string or the string
-+cannot be interpreted appropriately.
-+.I value
-+points to a NUL-terminated string.
-+.TP
-+.B FSCONFIG_SET_BINARY
-+Set the parameter named by
-+.I key
-+to be a binary blob argument.  This may cause
-+.B EINVAL
-+to be returned if the filesystem parser isn't expecting a binary blob and it
-+can't be converted to something usable.
-+.I value
-+points to the data and
-+.I aux
-+indicates the size of the data.
-+.TP
-+.B FSCONFIG_SET_PATH
-+Set the parameter named by
-+.I key
-+to the object at the provided path.
-+.I value
-+should point to a NUL-terminated pathname string and aux may indicate
-+.B AT_FDCWD
-+or a file descriptor indicating a directory from which to begin a relative
-+path resolution.  This may fail with error
-+.B EINVAL
-+if the parameter isn't expecting a path; it may also fail if the path cannot
-+be resolved with the typcal errors for that
-+.RB "(" ENOENT ", " ENOTDIR ", " EPERM ", " EACCES ", etc.)."
-+.IP
-+Note that FSCONFIG_SET_STRING can be used instead, implying AT_FDCWD.
-+.TP
-+.B FSCONFIG_SET_PATH_EMPTY
-+As FSCONFIG_SET_PATH, but with
-+.B AT_EMPTY_PATH
-+applied to the pathwalk.
-+.TP
-+.B FSCONFIG_SET_FD
-+Set the parameter named by
-+.I key
-+to the file descriptor specified by
-+.IR aux .
-+This will fail with
-+.B EINVAL
-+if the parameter doesn't expect a file descriptor or
-+.B EBADF
-+if the file descriptor is invalid.
-+.IP
-+Note that FSCONFIG_SET_STRING can be used instead with the file descriptor
-+passed as a decimal string.
-+.TP
-+.B FSCONFIG_CMD_CREATE
-+This command triggers the filesystem to take the parameters set in the context
-+and to try to create filesystem representation in the kernel.  If an existing
-+representation can be shared, the filesystem may do that instead if the
-+parameters permit.  This is intended for use with
-+.BR fsopen (2).
-+.TP
-+.B FSCONFIG_CMD_RECONFIGURE
-+This command causes the driver to alter the parameters of an already live
-+filesystem instance according to the parameters stored in the context.  This
-+is intended for use with
-+.BR fspick (2),
-+but may also by used against the context created by
-+.BR fsopen()
-+after
-+.BR fsmount (2)
-+has been called on it.
-+
-+.\"________________________________________________________
-+.SH EXAMPLES
-+.PP
-+.in +4n
-+.nf
-+fsconfig(sfd, FSCONFIG_SET_FLAG, "ro", NULL, 0);
-+
-+fsconfig(sfd, FSCONFIG_SET_STRING, "user_xattr", "false", 0);
-+
-+fsconfig(sfd, FSCONFIG_SET_BINARY, "ms_pac", pac_buffer, pac_size);
-+
-+fsconfig(sfd, FSCONFIG_SET_PATH, "journal", "/dev/sdd4", AT_FDCWD);
-+
-+dirfd = open("/dev/", O_PATH);
-+fsconfig(sfd, FSCONFIG_SET_PATH, "journal", "sdd4", dirfd);
-+
-+fd = open("/overlays/mine/", O_PATH);
-+fsconfig(sfd, FSCONFIG_SET_PATH_EMPTY, "lower_dir", "", fd);
-+
-+pipe(pipefds);
-+fsconfig(sfd, FSCONFIG_SET_FD, "fd", NULL, pipefds[1]);
-+.fi
-+.in
-+.PP
-+.SH RETURN VALUE
-+On success, the function returns 0.  On error, \-1 is returned, and
-+.I errno
-+is set appropriately.
-+.SH ERRORS
-+The error values given below result from filesystem type independent
-+errors.
-+Each filesystem type may have its own special errors and its
-+own special behavior.
-+See the Linux kernel source code for details.
-+.TP
-+.B EACCES
-+A component of a path was not searchable.
-+(See also
-+.BR path_resolution (7).)
-+.TP
-+.B EACCES
-+Mounting a read-only filesystem was attempted without specifying the
-+.RB ' ro '
-+parameter.
-+.TP
-+.B EACCES
-+A specified block device is located on a filesystem mounted with the
-+.B MS_NODEV
-+option.
-+.\" mtk: Probably: write permission is required for MS_BIND, with
-+.\" the error EPERM if not present; CAP_DAC_OVERRIDE is required.
-+.TP
-+.B EBADF
-+The file descriptor given by
-+.I fd
-+or possibly by
-+.I aux
-+(depending on the command) is invalid.
-+.TP
-+.B EBUSY
-+The context attached to
-+.I fd
-+is in the wrong state for the given command.
-+.TP
-+.B EBUSY
-+The filesystem representation cannot be reconfigured read-only because it still
-+holds files open for writing.
-+.TP
-+.B EFAULT
-+One of the pointer arguments points outside the accessible address space.
-+.TP
-+.B EINVAL
-+.I fd
-+does not refer to a filesystem configuration context.
-+.TP
-+.B EINVAL
-+One of the source parameters referred to an invalid superblock.
-+.TP
-+.B ELOOP
-+Too many links encountered during pathname resolution.
-+.TP
-+.B ENAMETOOLONG
-+A path name was longer than
-+.BR MAXPATHLEN .
-+.TP
-+.B ENOENT
-+A pathname was empty or had a nonexistent component.
-+.TP
-+.B ENOMEM
-+The kernel could not allocate sufficient memory to complete the call.
-+.TP
-+.B ENOTBLK
-+Once of the parameters does not refer to a block device (and a device was
-+required).
-+.TP
-+.B ENOTDIR
-+.IR pathname ,
-+or a prefix of
-+.IR source ,
-+is not a directory.
-+.TP
-+.B EOPNOTSUPP
-+The command given by
-+.I cmd
-+was not valid.
-+.TP
-+.B ENXIO
-+The major number of a block device parameter is out of range.
-+.TP
-+.B EPERM
-+The caller does not have the required privileges.
-+.SH CONFORMING TO
-+These functions are Linux-specific and should not be used in programs intended
-+to be portable.
-+.SH VERSIONS
-+.BR fsconfig ()
-+was added to Linux in kernel 5.2.
-+.SH NOTES
-+Glibc does not (yet) provide a wrapper for the
-+.BR fsconfig ()
-+system call; call it using
-+.BR syscall (2).
-+.SH SEE ALSO
-+.BR mountpoint (1),
-+.BR fsmount (2),
-+.BR fsopen (2),
-+.BR fspick (2),
-+.BR mount_namespaces (7),
-+.BR path_resolution (7)
+One loss message.  I set a flag on the last slot in the pipe ring to say t=
+hat
+message loss occurred, but there's insufficient space to store a counter
+without making the slot larger (and I really don't want to do that).
 
+Note that every slot in the pipe ring has such a flag, so you could,
+theoretically, get a loss message after every normal message that you read
+out.
+
+> > +A notification pipe allocates a certain amount of locked kernel memor=
+y (so that
+> > +the kernel can write a notification into it from contexts where alloc=
+ation is
+> > +restricted), and so is subject to pipe resource limit restrictions.
+> =
+
+> A reference to the relevant manpage for resource limitations would be
+> nice here. I'd assume `setrlimit(2)`, but I don't see anything
+> pipe-specific there.
+
+I can change that to:
+
+	... and so is subject to pipe resource limit restrictions - see
+	.BR pipe (7),
+	in the section on
+	.BR "/proc files" .
+
+> > +of interest to the watcher, a filter can be set on a queue to determi=
+ne whether
+> =
+
+> "a filter can be set"? If multiple filters are allowed, "filters can be
+> added" might work better here to indicate that multiple filters are
+> allowed. Otherwise, "a single filter" would make it clearer that only
+> one is supported.
+
+How about:
+
+	Because a source can produce a lot of different events, not all of
+	which may be of interest to the watcher, a single set of filters can
+	be set on a queue to determine whether a particular event will get
+	inserted in a queue at the point of posting inside the kernel.
+
+> Are there macros for extracting these fields available?
+
+WATCH_INFO_LENGTH, WATCH_INFO_ID and WATCH_INFO_TYPE_INFO are masks.  Ther=
+e
+are also shift macros (you add __SHIFT to the mask macro name).  I'm not s=
+ure
+how best to do this in troff.
+
+> Why not also have bitfields for these?
+
+It makes it a lot simpler to filter.
+
+> Or is there some ABI issues with
+> non-power-of-2 bitfield sizes? For clarity, which bit is bit 0? Low addr=
+ess
+> or LSB? Is this documented in some other manpage?
+
+bit 0 is 2^0 in this case.  I'm not sure how better to describe it.
+
+> Also, bit 7 is unused (for alignment I assume)? Is it always 0, 1, or
+> indeterminate?
+
+It's reserved and should always be 0 - but that's solely at the kernel's
+discretion (ie. userspace doesn't gets to set it).
+
+> > +This is used to set filters on the notifications that get written int=
+o the
+> =
+
+> "set" -> "add"? If I call this multiple times, is only the last call
+> effective or do I need to keep a list of all filters myself so I can
+> append in the future (since I see no analogous GET_FILTER call)?
+
+"Set".  You cannot add filters, you can only set/replace/remove the whole =
+set.
+
+Also, I didn't provide a GET_FILTER, assuming that you could probably keep
+track of them yourself.
+
+> Does this have implications for criu restoring a process?
+
+Maybe?
+
+> > +	unsigned char buf[128];
+> =
+
+> Is 128 the maximum message size?
+
+127 actually.  This is specified earlier in the manual page.
+
+> Do we have a macro for this? If it isn't, shouldn't there be code for
+> detecting ENOBUFS and using a bigger buffer? Or at least not rolling wit=
+h a
+> busted buffer.
+
+WATCH_INFO_LENGTH can be used for this.  I'll make the example say:
+
+	unsigned char buf[WATCH_INFO_LENGTH];
+
+> > +	case WATCH_TYPE_META:
+> =
+
+> From above, if a filter is added, all messages not matching a filter are
+> dropped. Are WATCH_TYPE_META messages special in this case?
+
+Yes.  They only do two things at the moment: Tell you that something you w=
+ere
+watching went away and tell you that messages were lost.  I've amended the
+filter section to note that this cannot be filtered.
+
+> The Rust developer in me wants to see:
+
+I don't touch Rust ;-)
+
+> 	default:
+> 		/* Subtypes may be added in future kernel versions. */
+> 		printf("unrecognized meta subtype: %d\n", n->subtype);
+> 		break;
+> =
+
+> unless we're guaranteeing that no other subtypes exist for this type
+> (updating the docs with new types doesn't help those who copy/paste from
+> here as a seed).
+
+I'm trying to keep the example small.  It's pseudo-code rather than real c=
+ode.
+I *could* expand it to a fully working program, but that would make it a l=
+ot
+bigger and harder to read.  As you pointed out, I haven't bothered with th=
+e
+error checking, for example.
+
+David
 
