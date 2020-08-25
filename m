@@ -2,30 +2,30 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 65B47250D17
-	for <lists+linux-api@lfdr.de>; Tue, 25 Aug 2020 02:30:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B68E3250DA4
+	for <lists+linux-api@lfdr.de>; Tue, 25 Aug 2020 02:34:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728406AbgHYAaD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 24 Aug 2020 20:30:03 -0400
-Received: from mga17.intel.com ([192.55.52.151]:12299 "EHLO mga17.intel.com"
+        id S1728357AbgHYAd2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 24 Aug 2020 20:33:28 -0400
+Received: from mga17.intel.com ([192.55.52.151]:12283 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728376AbgHYA35 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 24 Aug 2020 20:29:57 -0400
-IronPort-SDR: wSyQFvxW6aOYXy81X67MBlU4iqFaVJttYfuWtYE0AzfEn6SLtEGchF3zApEiklnKwbI28JJZwI
- X2Asaap0594Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9723"; a="136075327"
+        id S1726041AbgHYA3d (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 24 Aug 2020 20:29:33 -0400
+IronPort-SDR: ptWo45aXPjMJa5vHYvObbwOBDUDzSYU6Q/+/b0+P7iQ4u+iKoJMnRcEyJDH5XmFByARgSrGX1K
+ AS49vHukV3Lw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9723"; a="136075245"
 X-IronPort-AV: E=Sophos;i="5.76,350,1592895600"; 
-   d="scan'208";a="136075327"
+   d="scan'208";a="136075245"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2020 17:29:44 -0700
-IronPort-SDR: O38BpPAaXuiCSMvWvFl4YcZutv8k41p7B/0eD76u20d4BlVXdqQJz8EA+P1aUczqdsnCa39Y8Z
- FxFXlc5t4gwg==
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2020 17:29:29 -0700
+IronPort-SDR: +ixf0feFasPgS2JIBfpwdEH7OcPp+nDHQQ7IwSKUCHdN49S3H5pYwxzxO/ddWTMF876ij7k2In
+ zcK5DzFLh5fA==
 X-IronPort-AV: E=Sophos;i="5.76,350,1592895600"; 
-   d="scan'208";a="474135035"
+   d="scan'208";a="474134921"
 Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2020 17:29:44 -0700
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2020 17:29:28 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -52,15 +52,11 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        Mark Brown <broonie@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>
-Subject: [PATCH v11 23/25] ELF: Introduce arch_setup_elf_property()
-Date:   Mon, 24 Aug 2020 17:25:38 -0700
-Message-Id: <20200825002540.3351-24-yu-cheng.yu@intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [PATCH v11 00/25] Control-flow Enforcement: Shadow Stack
+Date:   Mon, 24 Aug 2020 17:25:15 -0700
+Message-Id: <20200825002540.3351-1-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200825002540.3351-1-yu-cheng.yu@intel.com>
-References: <20200825002540.3351-1-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
@@ -68,162 +64,159 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-An ELF file's .note.gnu.property indicates arch features supported by the
-file.  These features are extracted by arch_parse_elf_property() and stored
-in 'arch_elf_state'.  Introduce arch_setup_elf_property() for enabling such
-features.  The first use-case of this function is shadow stack.
+Control-flow Enforcement (CET) is a new Intel processor feature that blocks
+return/jump-oriented programming attacks.  Details are in "Intel 64 and
+IA-32 Architectures Software Developer's Manual" [1].
 
-ARM64 is the other arch that has ARCH_USER_GNU_PROPERTY and arch_parse_elf_
-property().  Add arch_setup_elf_property() for it.
+CET can protect applications and the kernel.  This series enables only
+application-level protection, and has three parts:
 
-Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Dave Martin <Dave.Martin@arm.com>
----
-v11:
-- Combine three patches of arch_setup_elf_property() into one.
-- Add empty arch_setup_elf_property() for arm64.
+  - shadow stack [2],
+  - indirect branch tracking, ptrace [3], and
+  - selftests [4].
 
-v9:
-- Change cpu_feature_enabled() to static_cpu_has().
+I have run tests on these patches for quite some time, and they have been
+very stable.  Linux distributions with CET are available now, and Intel
+processors with CET are becoming available.  It would be nice if CET
+support can be accepted into the kernel.  I will be working to address any
+issues should they come up.
 
- arch/arm64/include/asm/elf.h |  5 +++++
- arch/x86/Kconfig             |  2 ++
- arch/x86/include/asm/elf.h   | 13 +++++++++++++
- arch/x86/kernel/process_64.c | 32 ++++++++++++++++++++++++++++++++
- fs/binfmt_elf.c              |  4 ++++
- include/linux/elf.h          |  6 ++++++
- 6 files changed, 62 insertions(+)
+Changes in v11:
 
-diff --git a/arch/arm64/include/asm/elf.h b/arch/arm64/include/asm/elf.h
-index 8d1c8dcb87fd..d37bc7915935 100644
---- a/arch/arm64/include/asm/elf.h
-+++ b/arch/arm64/include/asm/elf.h
-@@ -281,6 +281,11 @@ static inline int arch_parse_elf_property(u32 type, const void *data,
- 	return 0;
- }
- 
-+static inline int arch_setup_elf_property(struct arch_elf_state *arch)
-+{
-+	return 0;
-+}
-+
- static inline int arch_elf_pt_proc(void *ehdr, void *phdr,
- 				   struct file *f, bool is_interp,
- 				   struct arch_elf_state *state)
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index e93be385cd04..6b6dad011763 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -1950,6 +1950,8 @@ config X86_INTEL_SHADOW_STACK_USER
- 	select X86_INTEL_CET
- 	select ARCH_MAYBE_MKWRITE
- 	select ARCH_HAS_SHADOW_STACK
-+	select ARCH_USE_GNU_PROPERTY
-+	select ARCH_BINFMT_ELF_STATE
- 	help
- 	  Shadow Stacks provides protection against program stack
- 	  corruption.  It's a hardware feature.  This only matters
-diff --git a/arch/x86/include/asm/elf.h b/arch/x86/include/asm/elf.h
-index b9a5d488f1a5..0e1be2a13359 100644
---- a/arch/x86/include/asm/elf.h
-+++ b/arch/x86/include/asm/elf.h
-@@ -385,6 +385,19 @@ extern int compat_arch_setup_additional_pages(struct linux_binprm *bprm,
- 					      int uses_interp);
- #define compat_arch_setup_additional_pages compat_arch_setup_additional_pages
- 
-+#ifdef CONFIG_ARCH_BINFMT_ELF_STATE
-+struct arch_elf_state {
-+	unsigned int gnu_property;
-+};
-+
-+#define INIT_ARCH_ELF_STATE {	\
-+	.gnu_property = 0,	\
-+}
-+
-+#define arch_elf_pt_proc(ehdr, phdr, elf, interp, state) (0)
-+#define arch_check_elf(ehdr, interp, interp_ehdr, state) (0)
-+#endif
-+
- /* Do not change the values. See get_align_mask() */
- enum align_flags {
- 	ALIGN_VA_32	= BIT(0),
-diff --git a/arch/x86/kernel/process_64.c b/arch/x86/kernel/process_64.c
-index 9afefe325acb..fd4644865a3b 100644
---- a/arch/x86/kernel/process_64.c
-+++ b/arch/x86/kernel/process_64.c
-@@ -837,3 +837,35 @@ unsigned long KSTK_ESP(struct task_struct *task)
- {
- 	return task_pt_regs(task)->sp;
- }
-+
-+#ifdef CONFIG_ARCH_USE_GNU_PROPERTY
-+int arch_parse_elf_property(u32 type, const void *data, size_t datasz,
-+			     bool compat, struct arch_elf_state *state)
-+{
-+	if (type != GNU_PROPERTY_X86_FEATURE_1_AND)
-+		return 0;
-+
-+	if (datasz != sizeof(unsigned int))
-+		return -ENOEXEC;
-+
-+	state->gnu_property = *(unsigned int *)data;
-+	return 0;
-+}
-+
-+int arch_setup_elf_property(struct arch_elf_state *state)
-+{
-+	int r = 0;
-+
-+	if (!IS_ENABLED(CONFIG_X86_INTEL_CET))
-+		return r;
-+
-+	memset(&current->thread.cet, 0, sizeof(struct cet_status));
-+
-+	if (static_cpu_has(X86_FEATURE_SHSTK)) {
-+		if (state->gnu_property & GNU_PROPERTY_X86_FEATURE_1_SHSTK)
-+			r = cet_setup_shstk();
-+	}
-+
-+	return r;
-+}
-+#endif
-diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
-index 13d053982dd7..2b4cfc256895 100644
---- a/fs/binfmt_elf.c
-+++ b/fs/binfmt_elf.c
-@@ -1217,6 +1217,10 @@ static int load_elf_binary(struct linux_binprm *bprm)
- 
- 	set_binfmt(&elf_format);
- 
-+	retval = arch_setup_elf_property(&arch_state);
-+	if (retval < 0)
-+		goto out;
-+
- #ifdef ARCH_HAS_SETUP_ADDITIONAL_PAGES
- 	retval = arch_setup_additional_pages(bprm, !!interpreter);
- 	if (retval < 0)
-diff --git a/include/linux/elf.h b/include/linux/elf.h
-index 5d5b0321da0b..4827695ca415 100644
---- a/include/linux/elf.h
-+++ b/include/linux/elf.h
-@@ -82,9 +82,15 @@ static inline int arch_parse_elf_property(u32 type, const void *data,
- {
- 	return 0;
- }
-+
-+static inline int arch_setup_elf_property(struct arch_elf_state *arch)
-+{
-+	return 0;
-+}
- #else
- extern int arch_parse_elf_property(u32 type, const void *data, size_t datasz,
- 				   bool compat, struct arch_elf_state *arch);
-+extern int arch_setup_elf_property(struct arch_elf_state *arch);
- #endif
- 
- #ifdef CONFIG_ARCH_HAVE_ELF_PROT
+- Rebase to v5.9-rc1.
+- There was no more caller passing vm_flags to do_mmap() and the input
+  parameter was removed.  Shadow stack allocation is a new user passing
+  VM_SHSTK.  Thus, reintroduce the parameter and do_mmap_pgoff().
+- Selftests/x86/sigreturn does a sigreturn from 64-bit to a 32-bit context,
+  and needs a shadow stack in the 32-bit address range.  For all similar
+  purposes, change shadow stack allocation arch_prctl() to take MAP_32BIT
+  and MAP_POPULATE flags from the user.
+- Update arch_prctl() for checking invalid inputs and using proper return
+  codes.
+- Other smaller changes are noted in each patch's log.
+
+[1] Intel 64 and IA-32 Architectures Software Developer's Manual:
+
+    https://software.intel.com/en-us/download/intel-64-and-ia-32-
+    architectures-sdm-combined-volumes-1-2a-2b-2c-2d-3a-3b-3c-3d-and-4
+
+[2] CET Shadow Stack patches v10:
+
+    https://lkml.kernel.org/r/20200429220732.31602-1-yu-cheng.yu@intel.com/
+
+[3] There is no Indirect Branch Tracking patches v10.  There have been no
+    major changes since v9:
+
+    https://lkml.kernel.org/r/20200205182308.4028-1-yu-cheng.yu@intel.com/
+
+[4] I am holding off the selftests changes and working to get Acked-by's.
+    The earlier version of the selftests patches:
+
+    https://lkml.kernel.org/r/20200521211720.20236-1-yu-cheng.yu@intel.com/
+
+Yu-cheng Yu (25):
+  Documentation/x86: Add CET description
+  x86/cpufeatures: Add CET CPU feature flags for Control-flow
+    Enforcement Technology (CET)
+  x86/fpu/xstate: Introduce CET MSR XSAVES supervisor states
+  x86/cet: Add control-protection fault handler
+  x86/cet/shstk: Add Kconfig option for user-mode Shadow Stack
+  x86/mm: Change _PAGE_DIRTY to _PAGE_DIRTY_HW
+  x86/mm: Remove _PAGE_DIRTY_HW from kernel RO pages
+  x86/mm: Introduce _PAGE_COW
+  drm/i915/gvt: Change _PAGE_DIRTY to _PAGE_DIRTY_BITS
+  x86/mm: Update pte_modify for _PAGE_COW
+  x86/mm: Update ptep_set_wrprotect() and pmdp_set_wrprotect() for
+    transition from _PAGE_DIRTY_HW to _PAGE_COW
+  mm: Introduce VM_SHSTK for shadow stack memory
+  x86/mm: Shadow Stack page fault error checking
+  x86/mm: Update maybe_mkwrite() for shadow stack
+  mm: Fixup places that call pte_mkwrite() directly
+  mm: Add guard pages around a shadow stack.
+  mm/mmap: Add shadow stack pages to memory accounting
+  mm: Update can_follow_write_pte() for shadow stack
+  mm: Re-introduce do_mmap_pgoff()
+  x86/cet/shstk: User-mode shadow stack support
+  x86/cet/shstk: Handle signals for shadow stack
+  binfmt_elf: Define GNU_PROPERTY_X86_FEATURE_1_AND properties
+  ELF: Introduce arch_setup_elf_property()
+  x86/cet/shstk: Handle thread shadow stack
+  x86/cet/shstk: Add arch_prctl functions for shadow stack
+
+ .../admin-guide/kernel-parameters.txt         |   6 +
+ Documentation/x86/index.rst                   |   1 +
+ Documentation/x86/intel_cet.rst               | 143 +++++++
+ arch/arm64/include/asm/elf.h                  |   5 +
+ arch/x86/Kconfig                              |  36 ++
+ arch/x86/ia32/ia32_signal.c                   |  17 +
+ arch/x86/include/asm/cet.h                    |  40 ++
+ arch/x86/include/asm/cpufeatures.h            |   2 +
+ arch/x86/include/asm/disabled-features.h      |   8 +-
+ arch/x86/include/asm/elf.h                    |  13 +
+ arch/x86/include/asm/fpu/internal.h           |  10 +
+ arch/x86/include/asm/fpu/types.h              |  23 +-
+ arch/x86/include/asm/fpu/xstate.h             |   5 +-
+ arch/x86/include/asm/idtentry.h               |   4 +
+ arch/x86/include/asm/mmu_context.h            |   3 +
+ arch/x86/include/asm/msr-index.h              |  17 +
+ arch/x86/include/asm/pgtable.h                | 209 +++++++++-
+ arch/x86/include/asm/pgtable_types.h          |  58 ++-
+ arch/x86/include/asm/processor.h              |  15 +
+ arch/x86/include/asm/special_insns.h          |  32 ++
+ arch/x86/include/asm/traps.h                  |   2 +
+ arch/x86/include/uapi/asm/prctl.h             |   5 +
+ arch/x86/include/uapi/asm/processor-flags.h   |   2 +
+ arch/x86/include/uapi/asm/sigcontext.h        |   9 +
+ arch/x86/kernel/Makefile                      |   2 +
+ arch/x86/kernel/cet.c                         | 357 ++++++++++++++++++
+ arch/x86/kernel/cet_prctl.c                   |  98 +++++
+ arch/x86/kernel/cpu/common.c                  |  28 ++
+ arch/x86/kernel/cpu/cpuid-deps.c              |   2 +
+ arch/x86/kernel/fpu/signal.c                  | 100 +++++
+ arch/x86/kernel/fpu/xstate.c                  |  28 +-
+ arch/x86/kernel/idt.c                         |   4 +
+ arch/x86/kernel/process.c                     |  14 +-
+ arch/x86/kernel/process_64.c                  |  32 ++
+ arch/x86/kernel/relocate_kernel_64.S          |   2 +-
+ arch/x86/kernel/signal.c                      |  10 +
+ arch/x86/kernel/signal_compat.c               |   2 +-
+ arch/x86/kernel/traps.c                       |  59 +++
+ arch/x86/kvm/vmx/vmx.c                        |   2 +-
+ arch/x86/mm/fault.c                           |  19 +
+ arch/x86/mm/mmap.c                            |   2 +
+ arch/x86/mm/pat/set_memory.c                  |   2 +-
+ arch/x86/mm/pgtable.c                         |  25 ++
+ drivers/gpu/drm/i915/gvt/gtt.c                |   2 +-
+ fs/aio.c                                      |   6 +-
+ fs/binfmt_elf.c                               |   4 +
+ fs/hugetlbfs/inode.c                          |   2 +-
+ fs/proc/task_mmu.c                            |   3 +
+ include/linux/elf.h                           |   6 +
+ include/linux/fs.h                            |   2 +-
+ include/linux/mm.h                            |  46 ++-
+ include/linux/pgtable.h                       |  35 ++
+ include/uapi/asm-generic/siginfo.h            |   3 +-
+ include/uapi/linux/elf.h                      |   9 +
+ ipc/shm.c                                     |   2 +-
+ mm/gup.c                                      |   8 +-
+ mm/huge_memory.c                              |  10 +-
+ mm/memory.c                                   |   5 +-
+ mm/migrate.c                                  |   3 +-
+ mm/mmap.c                                     |  21 +-
+ mm/mprotect.c                                 |   2 +-
+ mm/nommu.c                                    |   6 +-
+ mm/shmem.c                                    |   2 +-
+ mm/util.c                                     |   4 +-
+ scripts/as-x86_64-has-shadow-stack.sh         |   4 +
+ .../arch/x86/include/asm/disabled-features.h  |   8 +-
+ tools/arch/x86/include/uapi/asm/prctl.h       |   5 +
+ 67 files changed, 1574 insertions(+), 77 deletions(-)
+ create mode 100644 Documentation/x86/intel_cet.rst
+ create mode 100644 arch/x86/include/asm/cet.h
+ create mode 100644 arch/x86/kernel/cet.c
+ create mode 100644 arch/x86/kernel/cet_prctl.c
+ create mode 100755 scripts/as-x86_64-has-shadow-stack.sh
+
 -- 
 2.21.0
 
