@@ -2,75 +2,81 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BA1625180C
-	for <lists+linux-api@lfdr.de>; Tue, 25 Aug 2020 13:52:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2C28251B74
+	for <lists+linux-api@lfdr.de>; Tue, 25 Aug 2020 16:55:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729885AbgHYLwP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 25 Aug 2020 07:52:15 -0400
-Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.50]:33681 "EHLO
-        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725893AbgHYLwM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 25 Aug 2020 07:52:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1598356325;
-        s=strato-dkim-0002; d=chronox.de;
-        h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
-        bh=D2qqsSA5sHWxkwGYpXIctTVmxWLQwISn1aS53FcUiHw=;
-        b=sJXEBJaiRrHx8Ivj6PCqR+pcomDUO/Z+qeeRx5lKpv2HBVNgflv5cYeyhMUnNMiSi6
-        jyk0abqOyC7GK0/TAmPLJuy8PcwQmNKAQWwAmNxxYhIwS2zJ+TWRYVBtFCmQPbYprzde
-        dd2cWAB5WY2dVKmyq6Z68vQP31ZnRWLaH/v0i+2TMSorKevT+FqYaXmz/XrXtGKsOVJ2
-        iGU9eq0R+wBsDAUhBU4iSFJAituTnDbeSqmjBnJf5cbVI/D+fRnn/iiiTwxYgYRydpx6
-        IfFjokgZDjNtuQti1/vIMK31jEOVADZRWiBZIY3OWKGCsOM8NJ8aVjlQT9Ijm7AAo+Bk
-        nWqQ==
-X-RZG-AUTH: ":P2ERcEykfu11Y98lp/T7+hdri+uKZK8TKWEqNyiHySGSa9k9xmwdNnzHHXDaIvSXRbo="
-X-RZG-CLASS-ID: mo00
-Received: from tauon.chronox.de
-        by smtp.strato.de (RZmta 46.10.7 DYNA|AUTH)
-        with ESMTPSA id 002e9aw7PBpJb3K
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-        (Client did not present a certificate);
-        Tue, 25 Aug 2020 13:51:19 +0200 (CEST)
-From:   Stephan Mueller <smueller@chronox.de>
-To:     Arnd Bergmann <arnd@arndb.de>, kernel test robot <lkp@intel.com>
-Cc:     kbuild-all@lists.01.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-crypto@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        linux-api@vger.kernel.org,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "Alexander E. Patrakov" <patrakov@gmail.com>,
-        "Ahmed S. Darwish" <darwish.07@gmail.com>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>, Willy Tarreau <w@1wt.eu>
-Subject: Re: [PATCH v34 01/12] Linux Random Number Generator
-Date:   Tue, 25 Aug 2020 13:51:19 +0200
-Message-ID: <6658249.kC03pvyZki@tauon.chronox.de>
-In-Reply-To: <202008251912.50LKcRvL%lkp@intel.com>
-References: <5695397.lOV4Wx5bFT@positron.chronox.de> <202008251912.50LKcRvL%lkp@intel.com>
+        id S1726502AbgHYOyy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 25 Aug 2020 10:54:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37502 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726230AbgHYOyp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 25 Aug 2020 10:54:45 -0400
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB120C061574
+        for <linux-api@vger.kernel.org>; Tue, 25 Aug 2020 07:54:44 -0700 (PDT)
+Received: by mail-ed1-x544.google.com with SMTP id q4so1689327eds.3
+        for <linux-api@vger.kernel.org>; Tue, 25 Aug 2020 07:54:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=PAuXBSedgkB7JHEREAU3K2PTRg23BPy/IdSFB7zdDLM=;
+        b=FYivZ9jj9cmyJMHjrm0U+p8PDWIHai8s22SHR+VZ4rJRpWmeSAXel6gnMnC02vFJqe
+         KKn1gEmANgxod+RExR9ABlEbWH3N8HcIhRcjZ3EC6nhsATUqhm10FYOaELyXdLICpGVa
+         MH/a2FVLsbYSFHC7OeIr3G6/9qHR9cfATZoBstoqGoUV383aw3LtEFTb4Kkk9gbInOWd
+         AGGgkVFQrClUsPUIEoqCP3rlcbyvoFDAzkp9+7sm6C58vrd9xGSOSUZhZqU0EgbQd+My
+         UF807sCdMYWBgIwSs9pbEJ3bB/SSmy7iCkZJzU2YSUdP8quAEQBccZvbror44+ZzmKB5
+         MJzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=PAuXBSedgkB7JHEREAU3K2PTRg23BPy/IdSFB7zdDLM=;
+        b=Auws9AidGk9CCxrgWK3quinKW6akyA61Twd6s2yvwD+6z7ziBODJBRHqB5XdV8ce91
+         eLOHTfCKbV/lJCTk0u+HbjzKnyLbb6lvdRJFAOfEEOd9sBqaAIeyUyC9/5QVYWiEmZGD
+         nPIUkvgliBss8sBGlzP1gOs6OzQPoYO6kdCYKVdBk8kprP1wnG400bQe6kfU6XYbD0lN
+         nyKJgpYw34g+voyMOH+mXMkDERlqRQJ7b1+HRWUuRJULLkWC1EMhjtdxF2fzkMJckCwX
+         pq5+YxQGeNpeS1e6oSPNNPLv6n/QqjxB/o5NU7YgptAxCrwVcayT8Fz7vM3/ECU3Kpv5
+         3joQ==
+X-Gm-Message-State: AOAM530BrGgdOsfgdT0YZinlR1p6wKR68k6EeDLF/loPwqqcwAgi066+
+        zdsVvuxxKAJORwHkRL5ytrDqd0fxouImfZCeUSI=
+X-Google-Smtp-Source: ABdhPJyjMX/XfmZPhoQIWNCm+u0ZxV9T3Uav/eOCTHYEv5VH35VxJtmCQ0QtkWJxYyy0tGW+st3Uynid1KR1Cqy0CrA=
+X-Received: by 2002:a05:6402:1ac8:: with SMTP id ba8mr10197764edb.316.1598367283393;
+ Tue, 25 Aug 2020 07:54:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Received: by 2002:a54:280e:0:0:0:0:0 with HTTP; Tue, 25 Aug 2020 07:54:42
+ -0700 (PDT)
+Reply-To: kalifabahati@gmail.com
+From:   "Mr. Kalifa Bahati" <nicelobenoite003@gmail.com>
+Date:   Tue, 25 Aug 2020 16:54:42 +0200
+Message-ID: <CALP9+Pk+b2HLJ7j3sWBUdTsT6ppf3jCL5EUHFUqXhxz3sF4njg@mail.gmail.com>
+Subject: Hello
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Am Dienstag, 25. August 2020, 13:28:53 CEST schrieb kernel test robot:
+Greetings,
 
-Hi,
+I know that this mail will come to you as a surprise as we have never
+met before, but need not to worry as I am contacting you independently
+of my investigation and no one is informed of this communication. I
+need your urgent assistance in transferring the sum of $11,300,000.00
+USD immediately to your private account.The money has been here in our
+Bank lying dormant for years now without anybody coming for the claim
+of it.
 
-> All warnings (new ones prefixed by >>):
-> >> drivers/char/lrng/lrng_drng.c:381:6: warning: no previous prototype for
-> >> 'lrng_reset' [-Wmissing-prototypes]
->      381 | void lrng_reset(void)
-> 
->          |      ^~~~~~~~~~
+I want to release the money to you as the relative to our deceased
+customer (the account owner) who died along with his supposed NEXT OF
+KIN since 16th October 2005. The Banking laws here does not allow such
+money to stay more than 15 years, because the money will be recalled
+to the Bank treasury account as an unclaimed fund.
 
-The prototype is covered in an ifdef in lrng_internal.h as it is only needed 
-for a specific configuration. I have moved the prototype out of that 
-configuration conditional now.
+By indicating your interest I will send you the full details on how
+the business will be executed.
 
-Thanks.
+Please respond urgently and delete if you are not interested.
 
-Ciao
-Stephan
-
-
+Best Regards,
+Mr. Kalifa Bahati
