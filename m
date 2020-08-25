@@ -2,30 +2,30 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 509CD250CFA
-	for <lists+linux-api@lfdr.de>; Tue, 25 Aug 2020 02:29:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B45B1250CFF
+	for <lists+linux-api@lfdr.de>; Tue, 25 Aug 2020 02:29:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728211AbgHYA3f (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 24 Aug 2020 20:29:35 -0400
-Received: from mga17.intel.com ([192.55.52.151]:12294 "EHLO mga17.intel.com"
+        id S1728259AbgHYA3j (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 24 Aug 2020 20:29:39 -0400
+Received: from mga17.intel.com ([192.55.52.151]:12296 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728152AbgHYA3e (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 24 Aug 2020 20:29:34 -0400
-IronPort-SDR: 6orEPWS/eLmNEocHju70jQYrDBvo2HolFBb7FRSzrZHlid8TVI/AbhHyuMslJmj1Zvliqv/R8O
- U0PpHdOxYtZA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9723"; a="136075272"
+        id S1728239AbgHYA3g (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 24 Aug 2020 20:29:36 -0400
+IronPort-SDR: RqzFnScqxFmPpRHQlK3YgFEWYLS5DR3kmlngynochwf22e1ikmZImAFWrH/9bidpX0jOx2F3te
+ B8a2JTPyEISQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9723"; a="136075284"
 X-IronPort-AV: E=Sophos;i="5.76,350,1592895600"; 
-   d="scan'208";a="136075272"
+   d="scan'208";a="136075284"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2020 17:29:33 -0700
-IronPort-SDR: Q7oZ8rBW1MW97Jr/V+HreD129oTSM6KcACxLjj5IssxvHysecFa/1GhiXc2TqOytbM3l6DonCJ
- xU/ts3UqVwHA==
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2020 17:29:36 -0700
+IronPort-SDR: V0kQ26yYMCa8m5gx20e6HHqkIYTDZvkUIo+1sNBujf9XL0hAzOw6GidInRZ9Od4TCe4opIyAYC
+ +JXc0WLWMFmw==
 X-IronPort-AV: E=Sophos;i="5.76,350,1592895600"; 
-   d="scan'208";a="474134957"
+   d="scan'208";a="474134973"
 Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2020 17:29:33 -0700
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2020 17:29:35 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -52,10 +52,10 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, Christoph Hellwig <hch@lst.de>
-Subject: [PATCH v11 07/25] x86/mm: Remove _PAGE_DIRTY_HW from kernel RO pages
-Date:   Mon, 24 Aug 2020 17:25:22 -0700
-Message-Id: <20200825002540.3351-8-yu-cheng.yu@intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [PATCH v11 10/25] x86/mm: Update pte_modify for _PAGE_COW
+Date:   Mon, 24 Aug 2020 17:25:25 -0700
+Message-Id: <20200825002540.3351-11-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200825002540.3351-1-yu-cheng.yu@intel.com>
 References: <20200825002540.3351-1-yu-cheng.yu@intel.com>
@@ -66,55 +66,81 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Kernel read-only PTEs are setup as _PAGE_DIRTY_HW.  Since these become
-shadow stack PTEs, remove the dirty bit.
+Pte_modify() changes a PTE to 'newprot'.  It doesn't use the pte_*()
+helpers that a previous patch fixed up, so we need a new site.
+
+Introduce fixup_dirty_pte() to set the dirty bits based on _PAGE_RW, and
+apply the same changes to pmd_modify().
 
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Kees Cook <keescook@chromium.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Andy Lutomirski <luto@kernel.org>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Peter Zijlstra <peterz@infradead.org>
 ---
- arch/x86/include/asm/pgtable_types.h | 6 +++---
- arch/x86/mm/pat/set_memory.c         | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
+v10:
+- Replace _PAGE_CHG_MASK approach with fixup functions.
 
-diff --git a/arch/x86/include/asm/pgtable_types.h b/arch/x86/include/asm/pgtable_types.h
-index 192e1326b3db..5f31f1c407b9 100644
---- a/arch/x86/include/asm/pgtable_types.h
-+++ b/arch/x86/include/asm/pgtable_types.h
-@@ -193,10 +193,10 @@ enum page_cache_mode {
- #define _KERNPG_TABLE		 (__PP|__RW|   0|___A|   0|___D|   0|   0| _ENC)
- #define _PAGE_TABLE_NOENC	 (__PP|__RW|_USR|___A|   0|___D|   0|   0)
- #define _PAGE_TABLE		 (__PP|__RW|_USR|___A|   0|___D|   0|   0| _ENC)
--#define __PAGE_KERNEL_RO	 (__PP|   0|   0|___A|__NX|___D|   0|___G)
--#define __PAGE_KERNEL_ROX	 (__PP|   0|   0|___A|   0|___D|   0|___G)
-+#define __PAGE_KERNEL_RO	 (__PP|   0|   0|___A|__NX|   0|   0|___G)
-+#define __PAGE_KERNEL_ROX	 (__PP|   0|   0|___A|   0|   0|   0|___G)
- #define __PAGE_KERNEL_NOCACHE	 (__PP|__RW|   0|___A|__NX|___D|   0|___G| __NC)
--#define __PAGE_KERNEL_VVAR	 (__PP|   0|_USR|___A|__NX|___D|   0|___G)
-+#define __PAGE_KERNEL_VVAR	 (__PP|   0|_USR|___A|__NX|   0|   0|___G)
- #define __PAGE_KERNEL_LARGE	 (__PP|__RW|   0|___A|__NX|___D|_PSE|___G)
- #define __PAGE_KERNEL_LARGE_EXEC (__PP|__RW|   0|___A|   0|___D|_PSE|___G)
- #define __PAGE_KERNEL_WP	 (__PP|__RW|   0|___A|__NX|___D|   0|___G| __WP)
-diff --git a/arch/x86/mm/pat/set_memory.c b/arch/x86/mm/pat/set_memory.c
-index d1b2a889f035..962434fdf0d9 100644
---- a/arch/x86/mm/pat/set_memory.c
-+++ b/arch/x86/mm/pat/set_memory.c
-@@ -1932,7 +1932,7 @@ int set_memory_nx(unsigned long addr, int numpages)
+ arch/x86/include/asm/pgtable.h | 33 +++++++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
+
+diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
+index ac4ed814be96..3bdb192a904b 100644
+--- a/arch/x86/include/asm/pgtable.h
++++ b/arch/x86/include/asm/pgtable.h
+@@ -727,6 +727,21 @@ static inline pmd_t pmd_mkinvalid(pmd_t pmd)
  
- int set_memory_ro(unsigned long addr, int numpages)
+ static inline u64 flip_protnone_guard(u64 oldval, u64 val, u64 mask);
+ 
++static inline pteval_t fixup_dirty_pte(pteval_t pteval)
++{
++	pte_t pte = __pte(pteval);
++
++	if (pte_dirty(pte)) {
++		pte = pte_mkclean(pte);
++
++		if (pte_flags(pte) & _PAGE_RW)
++			pte = pte_set_flags(pte, _PAGE_DIRTY_HW);
++		else
++			pte = pte_set_flags(pte, _PAGE_COW);
++	}
++	return pte_val(pte);
++}
++
+ static inline pte_t pte_modify(pte_t pte, pgprot_t newprot)
  {
--	return change_page_attr_clear(&addr, numpages, __pgprot(_PAGE_RW), 0);
-+	return change_page_attr_clear(&addr, numpages, __pgprot(_PAGE_RW | _PAGE_DIRTY_HW), 0);
+ 	pteval_t val = pte_val(pte), oldval = val;
+@@ -737,16 +752,34 @@ static inline pte_t pte_modify(pte_t pte, pgprot_t newprot)
+ 	 */
+ 	val &= _PAGE_CHG_MASK;
+ 	val |= check_pgprot(newprot) & ~_PAGE_CHG_MASK;
++	val = fixup_dirty_pte(val);
+ 	val = flip_protnone_guard(oldval, val, PTE_PFN_MASK);
+ 	return __pte(val);
  }
  
- int set_memory_rw(unsigned long addr, int numpages)
++static inline int pmd_write(pmd_t pmd);
++static inline pmdval_t fixup_dirty_pmd(pmdval_t pmdval)
++{
++	pmd_t pmd = __pmd(pmdval);
++
++	if (pmd_dirty(pmd)) {
++		pmd = pmd_mkclean(pmd);
++
++		if (pmd_flags(pmd) & _PAGE_RW)
++			pmd = pmd_set_flags(pmd, _PAGE_DIRTY_HW);
++		else
++			pmd = pmd_set_flags(pmd, _PAGE_COW);
++	}
++	return pmd_val(pmd);
++}
++
+ static inline pmd_t pmd_modify(pmd_t pmd, pgprot_t newprot)
+ {
+ 	pmdval_t val = pmd_val(pmd), oldval = val;
+ 
+ 	val &= _HPAGE_CHG_MASK;
+ 	val |= check_pgprot(newprot) & ~_HPAGE_CHG_MASK;
++	val = fixup_dirty_pmd(val);
+ 	val = flip_protnone_guard(oldval, val, PHYSICAL_PMD_PAGE_MASK);
+ 	return __pmd(val);
+ }
 -- 
 2.21.0
 
