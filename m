@@ -2,209 +2,274 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B51CD250C83
-	for <lists+linux-api@lfdr.de>; Tue, 25 Aug 2020 01:49:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF33A250CF7
+	for <lists+linux-api@lfdr.de>; Tue, 25 Aug 2020 02:29:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726831AbgHXXtP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 24 Aug 2020 19:49:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36484 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726745AbgHXXtN (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 24 Aug 2020 19:49:13 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BF7EC061755
-        for <linux-api@vger.kernel.org>; Mon, 24 Aug 2020 16:49:13 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id o13so5504797pgf.0
-        for <linux-api@vger.kernel.org>; Mon, 24 Aug 2020 16:49:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=osandov-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=AmkrCLujxDI1c4Ep3Oyzt+yWmvm0w6UdnGpLz40Q0IE=;
-        b=pB7eTlEquwCPl/L4eg6LBf0zmAb5JgNjHUs0LVnJm0aJnVOc/P4B5gW3et04lXgdzu
-         0VpbP+wNS6z28ZGxIvwlnJ/cbjD982nNuBobOTaQEDJuMsvhse/2trI34TaOneKQaAS6
-         9u45PO5Pa1Xv0LA1bQmYrKhiSx6rhASaKv1sfnu+OXLkHJV4tI7rrrHy3EmrZBPyXHLK
-         bbZ8J65Of4oYy0LhsEO63CLmQ8Svwg8gTFBx1GnLXDtIisGlQzxjFNAuX1eCjGlP2XRo
-         2egkyq9k0u9HYy0+okLq4cbPX5f9RaE2/jfR+lUWt5ALyRCdiBNVQAU+e4zxqH7Zo89+
-         ioKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=AmkrCLujxDI1c4Ep3Oyzt+yWmvm0w6UdnGpLz40Q0IE=;
-        b=BZV25YFN8fDn7GcNYrxkCuTWoqh0xGTUC+hYAoKI2ByeQeJV2FJf+lAYzbmXwkNRo+
-         sCyqyMHdK8XAAisimiZddgitLra+c6xvSPQEa320UOvAxodKajKO2uzsqAV/Oi3Kx1qs
-         9VV8MoLfrNMj6Y/EsNNq4MC2iCf8uMc0G4zHOoCawP1+JS2M2Yt5BEbWMdK5tAiWZQEy
-         qUZ9omszMpwTS2c5bli2MEAWKzwr2DP84ZkcSrCmNChESXmvimz5WFyE9e54VwH0U1F0
-         AOHqEopeG1/4faPkA8UNhTahEkMXp2dCn7H/6qXKfKHNtumZUfXMjLJsWmSAsjE0OAh3
-         cMtQ==
-X-Gm-Message-State: AOAM532tBXaRtVJ4qdErhME3kgT0S+Quh3sESB4CUujtWEhKGZE4Gsn4
-        oH6xJJTZgfWaS9H6b5C91z4GiA==
-X-Google-Smtp-Source: ABdhPJwgLA+j1+Ua7OdYOkEAkCKln/R1NdyUayWhnhl7SoZ71Atg6NxFgN0HKR/SlUx0XpFhNs6wfg==
-X-Received: by 2002:a63:4451:: with SMTP id t17mr4264443pgk.92.1598312952588;
-        Mon, 24 Aug 2020 16:49:12 -0700 (PDT)
-Received: from exodia.localdomain ([2601:602:8b80:8e0::c6ee])
-        by smtp.gmail.com with ESMTPSA id g129sm12764674pfb.33.2020.08.24.16.49.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2020 16:49:11 -0700 (PDT)
-Date:   Mon, 24 Aug 2020 16:49:03 -0700
-From:   Omar Sandoval <osandov@osandov.com>
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux Btrfs <linux-btrfs@vger.kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dave Chinner <david@fromorbit.com>,
-        Jann Horn <jannh@google.com>, Aleksa Sarai <cyphar@cyphar.com>,
-        Linux API <linux-api@vger.kernel.org>, kernel-team@fb.com
-Subject: Re: [PATCH v5 3/9] fs: add RWF_ENCODED for reading/writing
- compressed data
-Message-ID: <20200824234903.GA202819@exodia.localdomain>
-References: <cover.1597993855.git.osandov@osandov.com>
- <9020a583581b644ae86b7c05de6a39fd5204f06d.1597993855.git.osandov@osandov.com>
- <CAOQ4uxi=QcV-Rg=bSpYGid24Qp4zOgjKuOH2E5QA+OMrA-EsLQ@mail.gmail.com>
+        id S1727872AbgHYA3b (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 24 Aug 2020 20:29:31 -0400
+Received: from mga17.intel.com ([192.55.52.151]:12289 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726593AbgHYA3b (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 24 Aug 2020 20:29:31 -0400
+IronPort-SDR: kbamqamzarT/yrxBifErmn/YuYDnP35P6leVqKm2DYqyy7nTcu8X3NgSBMmm3OnW5zaYxazSH6
+ abmzng/D/Jhw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9723"; a="136075249"
+X-IronPort-AV: E=Sophos;i="5.76,350,1592895600"; 
+   d="scan'208";a="136075249"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2020 17:29:29 -0700
+IronPort-SDR: I7wwnriYe3/d0U7TLK1Qy22Y13+ieIA2PpRnP4sMLoWFNCBzYz8nuyPBwZKTk0WlNcOfp81n2L
+ j7047IvqPKYQ==
+X-IronPort-AV: E=Sophos;i="5.76,350,1592895600"; 
+   d="scan'208";a="474134925"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2020 17:29:29 -0700
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [PATCH v11 01/25] Documentation/x86: Add CET description
+Date:   Mon, 24 Aug 2020 17:25:16 -0700
+Message-Id: <20200825002540.3351-2-yu-cheng.yu@intel.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20200825002540.3351-1-yu-cheng.yu@intel.com>
+References: <20200825002540.3351-1-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOQ4uxi=QcV-Rg=bSpYGid24Qp4zOgjKuOH2E5QA+OMrA-EsLQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Aug 21, 2020 at 11:47:54AM +0300, Amir Goldstein wrote:
-> On Fri, Aug 21, 2020 at 10:38 AM Omar Sandoval <osandov@osandov.com> wrote:
-> >
-> > From: Omar Sandoval <osandov@fb.com>
-> >
-> > Btrfs supports transparent compression: data written by the user can be
-> > compressed when written to disk and decompressed when read back.
-> > However, we'd like to add an interface to write pre-compressed data
-> > directly to the filesystem, and the matching interface to read
-> > compressed data without decompressing it. This adds support for
-> > so-called "encoded I/O" via preadv2() and pwritev2().
-> >
-> > A new RWF_ENCODED flags indicates that a read or write is "encoded". If
-> > this flag is set, iov[0].iov_base points to a struct encoded_iov which
-> > is used for metadata: namely, the compression algorithm, unencoded
-> > (i.e., decompressed) length, and what subrange of the unencoded data
-> > should be used (needed for truncated or hole-punched extents and when
-> > reading in the middle of an extent). For reads, the filesystem returns
-> > this information; for writes, the caller provides it to the filesystem.
-> > iov[0].iov_len must be set to sizeof(struct encoded_iov), which can be
-> > used to extend the interface in the future a la copy_struct_from_user().
-> > The remaining iovecs contain the encoded extent.
-> >
-> > This adds the VFS helpers for supporting encoded I/O and documentation
-> > for filesystem support.
-> >
-> > Signed-off-by: Omar Sandoval <osandov@fb.com>
-> > ---
-> >  Documentation/filesystems/encoded_io.rst |  74 ++++++++++
-> >  Documentation/filesystems/index.rst      |   1 +
-> >  include/linux/fs.h                       |  16 +++
-> >  include/uapi/linux/fs.h                  |  33 ++++-
-> >  mm/filemap.c                             | 166 +++++++++++++++++++++--
-> >  5 files changed, 276 insertions(+), 14 deletions(-)
-> >  create mode 100644 Documentation/filesystems/encoded_io.rst
-> >
-> > diff --git a/Documentation/filesystems/encoded_io.rst b/Documentation/filesystems/encoded_io.rst
-> > new file mode 100644
-> > index 000000000000..50405276d866
-> > --- /dev/null
-> > +++ b/Documentation/filesystems/encoded_io.rst
-> > @@ -0,0 +1,74 @@
-> > +===========
-> > +Encoded I/O
-> > +===========
-> > +
-> > +Encoded I/O is a mechanism for reading and writing encoded (e.g., compressed
-> > +and/or encrypted) data directly from/to the filesystem. The userspace interface
-> > +is thoroughly described in the :manpage:`encoded_io(7)` man page; this document
-> > +describes the requirements for filesystem support.
-> > +
-> > +First of all, a filesystem supporting encoded I/O must indicate this by setting
-> > +the ``FMODE_ENCODED_IO`` flag in its ``file_open`` file operation::
-> > +
-> > +    static int foo_file_open(struct inode *inode, struct file *filp)
-> > +    {
-> > +            ...
-> > +            filep->f_mode |= FMODE_ENCODED_IO;
-> > +            ...
-> > +    }
-> > +
-> > +Encoded I/O goes through ``read_iter`` and ``write_iter``, designated by the
-> > +``IOCB_ENCODED`` flag in ``kiocb->ki_flags``.
-> > +
-> > +Reads
-> > +=====
-> > +
-> > +Encoded ``read_iter`` should:
-> > +
-> > +1. Call ``generic_encoded_read_checks()`` to validate the file and buffers
-> > +   provided by userspace.
-> > +2. Initialize the ``encoded_iov`` appropriately.
-> > +3. Copy it to the user with ``copy_encoded_iov_to_iter()``.
-> > +4. Copy the encoded data to the user.
-> > +5. Advance ``kiocb->ki_pos`` by ``encoded_iov->len``.
-> > +6. Return the size of the encoded data read, not including the ``encoded_iov``.
-> > +
-> > +There are a few details to be aware of:
-> > +
-> > +* Encoded ``read_iter`` should support reading unencoded data if the extent is
-> > +  not encoded.
-> > +* If the buffers provided by the user are not large enough to contain an entire
-> > +  encoded extent, then ``read_iter`` should return ``-ENOBUFS``. This is to
-> > +  avoid confusing userspace with truncated data that cannot be properly
-> > +  decoded.
-> > +* Reads in the middle of an encoded extent can be returned by setting
-> > +  ``encoded_iov->unencoded_offset`` to non-zero.
-> > +* Truncated unencoded data (e.g., because the file does not end on a block
-> > +  boundary) may be returned by setting ``encoded_iov->len`` to a value smaller
-> > +  value than ``encoded_iov->unencoded_len - encoded_iov->unencoded_offset``.
-> > +
-> > +Writes
-> > +======
-> > +
-> > +Encoded ``write_iter`` should (in addition to the usual accounting/checks done
-> > +by ``write_iter``):
-> > +
-> > +1. Call ``copy_encoded_iov_from_iter()`` to get and validate the
-> > +   ``encoded_iov``.
-> > +2. Call ``generic_encoded_write_checks()`` instead of
-> > +   ``generic_write_checks()``.
-> > +3. Check that the provided encoding in ``encoded_iov`` is supported.
-> > +4. Advance ``kiocb->ki_pos`` by ``encoded_iov->len``.
-> > +5. Return the size of the encoded data written.
-> > +
-> > +Again, there are a few details:
-> > +
-> > +* Encoded ``write_iter`` doesn't need to support writing unencoded data.
-> > +* ``write_iter`` should either write all of the encoded data or none of it; it
-> > +  must not do partial writes.
-> > +* ``write_iter`` doesn't need to validate the encoded data; a subsequent read
-> > +  may return, e.g., ``-EIO`` if the data is not valid.
-> > +* The user may lie about the unencoded size of the data; a subsequent read
-> > +  should truncate or zero-extend the unencoded data rather than returning an
-> > +  error.
-> > +* Be careful of page cache coherency.
-> 
-> Haha that rings in my head like the "Smoking kills!" warnings...
-> 
-> I find it a bit odd that you mix page cache at all when reading
-> unencoded extents.
-> Feels like a file with FMODE_ENCODED_IO should stick to direct IO in all cases.
-> I don't know how btrfs deals with mixing direct IO and page cache IO normally,
-> but surely the rules could be made even stricter for an inode accessed with this
-> new API?
-> 
-> Is there something I am misunderstanding?
-> 
-> Thanks,
-> Amir.
+Explain no_user_shstk/no_user_ibt kernel parameters, and introduce a new
+document on Control-flow Enforcement Technology (CET).
 
-I'm not completely following here, are you suggesting that if a file is
-open with O_ALLOW_ENCODED, buffered I/O to that file should return an
-error? Btrfs at least does the necessary range locking and page cache
-invalidation to ensure that direct I/O gets along with buffered I/O (and
-now encoded I/O).
+Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+Reviewed-by: Kees Cook <keescook@chromium.org>
+---
+v11:
+- Add back GLIBC tunables information.
+- Add ARCH_X86_CET_MMAP_SHSTK information.
+
+v10:
+- Change no_cet_shstk and no_cet_ibt to no_user_shstk and no_user_ibt.
+- Remove the opcode section, as it is already in the Intel SDM.
+- Remove sections related to GLIBC implementation.
+- Remove shadow stack memory management section, as it is already in the
+  code comments.
+- Remove legacy bitmap related information, as it is not supported now.
+- Fix arch_ioctl() related text.
+- Change SHSTK, IBT to plain English.
+
+ .../admin-guide/kernel-parameters.txt         |   6 +
+ Documentation/x86/index.rst                   |   1 +
+ Documentation/x86/intel_cet.rst               | 143 ++++++++++++++++++
+ 3 files changed, 150 insertions(+)
+ create mode 100644 Documentation/x86/intel_cet.rst
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index bdc1f33fd3d1..c85373c120a3 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3167,6 +3167,12 @@
+ 			noexec=on: enable non-executable mappings (default)
+ 			noexec=off: disable non-executable mappings
+ 
++	no_user_shstk	[X86-64] Disable Shadow Stack for user-mode
++			applications
++
++	no_user_ibt	[X86-64] Disable Indirect Branch Tracking for user-mode
++			applications
++
+ 	nosmap		[X86,PPC]
+ 			Disable SMAP (Supervisor Mode Access Prevention)
+ 			even if it is supported by processor.
+diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
+index 265d9e9a093b..2aef972a868d 100644
+--- a/Documentation/x86/index.rst
++++ b/Documentation/x86/index.rst
+@@ -19,6 +19,7 @@ x86-specific Documentation
+    tlb
+    mtrr
+    pat
++   intel_cet
+    intel-iommu
+    intel_txt
+    amd-memory-encryption
+diff --git a/Documentation/x86/intel_cet.rst b/Documentation/x86/intel_cet.rst
+new file mode 100644
+index 000000000000..2deda249bc2c
+--- /dev/null
++++ b/Documentation/x86/intel_cet.rst
+@@ -0,0 +1,143 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=========================================
++Control-flow Enforcement Technology (CET)
++=========================================
++
++[1] Overview
++============
++
++Control-flow Enforcement Technology (CET) is an Intel processor feature
++that provides protection against return/jump-oriented programming (ROP)
++attacks.  It can be set up to protect both applications and the kernel.
++Only user-mode protection is implemented in the 64-bit kernel, including
++support for running legacy 32-bit applications.
++
++CET introduces Shadow Stack and Indirect Branch Tracking.  Shadow stack is
++a secondary stack allocated from memory and cannot be directly modified by
++applications.  When executing a CALL, the processor pushes the return
++address to both the normal stack and the shadow stack.  Upon function
++return, the processor pops the shadow stack copy and compares it to the
++normal stack copy.  If the two differ, the processor raises a control-
++protection fault.  Indirect branch tracking verifies indirect CALL/JMP
++targets are intended as marked by the compiler with 'ENDBR' opcodes.
++
++There are two kernel configuration options:
++
++    X86_INTEL_SHADOW_STACK_USER, and
++    X86_INTEL_BRANCH_TRACKING_USER.
++
++These need to be enabled to build a CET-enabled kernel, and Binutils v2.31
++and GCC v8.1 or later are required to build a CET kernel.  To build a CET-
++enabled application, GLIBC v2.28 or later is also required.
++
++There are two command-line options for disabling CET features::
++
++    no_user_shstk - disables user shadow stack, and
++    no_user_ibt   - disables user indirect branch tracking.
++
++At run time, /proc/cpuinfo shows CET features if the processor supports
++CET.
++
++[2] Application Enabling
++========================
++
++An application's CET capability is marked in its ELF header and can be
++verified from the following command output, in the NT_GNU_PROPERTY_TYPE_0
++field:
++
++    readelf -n <application>
++
++If an application supports CET and is statically linked, it will run with
++CET protection.  If the application needs any shared libraries, the loader
++checks all dependencies and enables CET when all requirements are met.
++
++[3] Backward Compatibility
++==========================
++
++GLIBC provides a few tunables for backward compatibility.
++
++GLIBC_TUNABLES=glibc.tune.hwcaps=-SHSTK,-IBT
++    Turn off SHSTK/IBT for the current shell.
++
++GLIBC_TUNABLES=glibc.tune.x86_shstk=<on, permissive>
++    This controls how dlopen() handles SHSTK legacy libraries::
++
++        on         - continue with SHSTK enabled;
++        permissive - continue with SHSTK off.
++
++[4] CET arch_prctl()'s
++======================
++
++Several arch_prctl()'s have been added for CET:
++
++arch_prctl(ARCH_X86_CET_STATUS, u64 *addr)
++    Return CET feature status.
++
++    The parameter 'addr' is a pointer to a user buffer.
++    On returning to the caller, the kernel fills the following
++    information::
++
++        *addr       = shadow stack/indirect branch tracking status
++        *(addr + 1) = shadow stack base address
++        *(addr + 2) = shadow stack size
++
++arch_prctl(ARCH_X86_CET_DISABLE, u64 features)
++    Disable shadow stack and/or indirect branch tracking as specified in
++    'features'.  Return -EPERM if CET is locked.
++
++arch_prctl(ARCH_X86_CET_LOCK)
++    Lock in all CET features.  They cannot be turned off afterwards.
++
++arch_prctl(ARCH_X86_CET_MMAP_SHSTK, u64 *args)
++    Allocate a new shadow stack and put a restore token at top.
++
++    The parameter 'args' is a pointer to a user buffer::
++
++        *args = desired size
++        *(args + 1) = MAP_32BIT or MAP_POPULATE
++
++    On returning, *args is the allocated shadow stack address.
++
++Note:
++  There is no CET-enabling arch_prctl function.  By design, CET is enabled
++  automatically if the binary and the system can support it.
++
++[5] The implementation of the Shadow Stack
++==========================================
++
++Shadow Stack size
++-----------------
++
++A task's shadow stack is allocated from memory to a fixed size of
++MIN(RLIMIT_STACK, 4 GB).  In other words, the shadow stack is allocated to
++the maximum size of the normal stack, but capped to 4 GB.  However,
++a compat-mode application's address space is smaller, each of its thread's
++shadow stack size is MIN(1/4 RLIMIT_STACK, 4 GB).
++
++Signal
++------
++
++The main program and its signal handlers use the same shadow stack.
++Because the shadow stack stores only return addresses, a large shadow
++stack covers the condition that both the program stack and the signal
++alternate stack run out.
++
++The kernel creates a restore token for the shadow stack restoring address
++and verifies that token when restoring from the signal handler.
++
++Fork
++----
++
++The shadow stack's vma has VM_SHSTK flag set; its PTEs are required to be
++read-only and dirty.  When a shadow stack PTE is not RO and dirty, a
++shadow access triggers a page fault with the shadow stack access bit set
++in the page fault error code.
++
++When a task forks a child, its shadow stack PTEs are copied and both the
++parent's and the child's shadow stack PTEs are cleared of the dirty bit.
++Upon the next shadow stack access, the resulting shadow stack page fault
++is handled by page copy/re-use.
++
++When a pthread child is created, the kernel allocates a new shadow stack
++for the new thread.
+-- 
+2.21.0
+
