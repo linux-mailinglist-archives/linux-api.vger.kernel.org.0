@@ -2,30 +2,30 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B561250D72
-	for <lists+linux-api@lfdr.de>; Tue, 25 Aug 2020 02:33:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2520C250D67
+	for <lists+linux-api@lfdr.de>; Tue, 25 Aug 2020 02:32:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728272AbgHYAcc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 24 Aug 2020 20:32:32 -0400
+        id S1728352AbgHYA3v (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 24 Aug 2020 20:29:51 -0400
 Received: from mga17.intel.com ([192.55.52.151]:12300 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728266AbgHYA3k (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 24 Aug 2020 20:29:40 -0400
-IronPort-SDR: 6eGLiMYQTrTqxJHgW3XcpSSK7x2lMaU9MXZK3TtKJa2CI4J8NO+5rgNY1uq6nGFPqtKQiLRGRa
- iU31wkl8E0hg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9723"; a="136075298"
+        id S1728312AbgHYA3s (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 24 Aug 2020 20:29:48 -0400
+IronPort-SDR: gTKWExgthYu5jLkfqxfCH7BdIs7wN0RAZW7PTB1D3oHmnZbPVxJ0s2MpheKUEB+5mg0OazDd92
+ XvRnCergXGvw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9723"; a="136075304"
 X-IronPort-AV: E=Sophos;i="5.76,350,1592895600"; 
-   d="scan'208";a="136075298"
+   d="scan'208";a="136075304"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2020 17:29:38 -0700
-IronPort-SDR: PwY2YUAEDmzoxJ//oekfj9daSHLGf7UAvu8e/8o+YAr661TgSKDpAG5bU5j2OfK/JnONoP0W34
- g/e+ae08qNbA==
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2020 17:29:39 -0700
+IronPort-SDR: ImGOLQcTSsZKHqrNuXXAiFacd1lAl5GqfBl/eKiS3sJo3nKhmeh7hOcDC+xBM8TDvofjyNNq3y
+ JirNgz2TlPjw==
 X-IronPort-AV: E=Sophos;i="5.76,350,1592895600"; 
-   d="scan'208";a="474134992"
+   d="scan'208";a="474135001"
 Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2020 17:29:38 -0700
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2020 17:29:39 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -53,9 +53,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v11 14/25] x86/mm: Update maybe_mkwrite() for shadow stack
-Date:   Mon, 24 Aug 2020 17:25:29 -0700
-Message-Id: <20200825002540.3351-15-yu-cheng.yu@intel.com>
+Subject: [PATCH v11 16/25] mm: Add guard pages around a shadow stack.
+Date:   Mon, 24 Aug 2020 17:25:31 -0700
+Message-Id: <20200825002540.3351-17-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200825002540.3351-1-yu-cheng.yu@intel.com>
 References: <20200825002540.3351-1-yu-cheng.yu@intel.com>
@@ -66,130 +66,96 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Shadow stack memory is writable, but its VMA has VM_SHSTK instead of
-VM_WRITE.  Update maybe_mkwrite() to include the shadow stack.
+INCSSP(Q/D) increments shadow stack pointer and 'pops and discards' the
+first and the last elements in the range, effectively touches those memory
+areas.
+
+The maximum moving distance by INCSSPQ is 255 * 8 = 2040 bytes and
+255 * 4 = 1020 bytes by INCSSPD.  Both ranges are far from PAGE_SIZE.
+Thus, putting a gap page on both ends of a shadow stack prevents INCSSP,
+CALL, and RET from going beyond.
 
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 ---
- arch/x86/Kconfig        |  4 ++++
- arch/x86/mm/pgtable.c   | 18 ++++++++++++++++++
- include/linux/mm.h      |  2 ++
- include/linux/pgtable.h | 24 ++++++++++++++++++++++++
- mm/huge_memory.c        |  2 ++
- 5 files changed, 50 insertions(+)
+v10:
+- Define ARCH_SHADOW_STACK_GUARD_GAP.
 
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 4844649ee884..e93be385cd04 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -1935,6 +1935,9 @@ config AS_HAS_SHADOW_STACK
- config X86_INTEL_CET
- 	def_bool n
+ arch/x86/include/asm/processor.h | 10 ++++++++++
+ include/linux/mm.h               | 24 ++++++++++++++++++++----
+ 2 files changed, 30 insertions(+), 4 deletions(-)
+
+diff --git a/arch/x86/include/asm/processor.h b/arch/x86/include/asm/processor.h
+index 97143d87994c..01acbd63cad8 100644
+--- a/arch/x86/include/asm/processor.h
++++ b/arch/x86/include/asm/processor.h
+@@ -840,6 +840,16 @@ static inline void spin_lock_prefetch(const void *x)
+ #define STACK_TOP		TASK_SIZE_LOW
+ #define STACK_TOP_MAX		TASK_SIZE_MAX
  
-+config ARCH_MAYBE_MKWRITE
-+	def_bool n
++/*
++ * Shadow stack pointer is moved by CALL, JMP, and INCSSP(Q/D).  INCSSPQ
++ * moves shadow stack pointer up to 255 * 8 = ~2 KB (~1KB for INCSSPD) and
++ * touches the first and the last element in the range, which triggers a
++ * page fault if the range is not in a shadow stack.  Because of this,
++ * creating 4-KB guard pages around a shadow stack prevents these
++ * instructions from going beyond.
++ */
++#define ARCH_SHADOW_STACK_GUARD_GAP PAGE_SIZE
 +
- config ARCH_HAS_SHADOW_STACK
- 	def_bool n
- 
-@@ -1945,6 +1948,7 @@ config X86_INTEL_SHADOW_STACK_USER
- 	depends on AS_HAS_SHADOW_STACK
- 	select ARCH_USES_HIGH_VMA_FLAGS
- 	select X86_INTEL_CET
-+	select ARCH_MAYBE_MKWRITE
- 	select ARCH_HAS_SHADOW_STACK
- 	help
- 	  Shadow Stacks provides protection against program stack
-diff --git a/arch/x86/mm/pgtable.c b/arch/x86/mm/pgtable.c
-index dfd82f51ba66..a9666b64bc05 100644
---- a/arch/x86/mm/pgtable.c
-+++ b/arch/x86/mm/pgtable.c
-@@ -610,6 +610,24 @@ int pmdp_clear_flush_young(struct vm_area_struct *vma,
+ #define INIT_THREAD  {						\
+ 	.addr_limit		= KERNEL_DS,			\
  }
- #endif
- 
-+#ifdef CONFIG_ARCH_MAYBE_MKWRITE
-+pte_t arch_maybe_mkwrite(pte_t pte, struct vm_area_struct *vma)
-+{
-+	if (likely(vma->vm_flags & VM_SHSTK))
-+		pte = pte_mkwrite_shstk(pte);
-+	return pte;
-+}
-+
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+pmd_t arch_maybe_pmd_mkwrite(pmd_t pmd, struct vm_area_struct *vma)
-+{
-+	if (likely(vma->vm_flags & VM_SHSTK))
-+		pmd = pmd_mkwrite_shstk(pmd);
-+	return pmd;
-+}
-+#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
-+#endif /* CONFIG_ARCH_MAYBE_MKWRITE */
-+
- /**
-  * reserve_top_address - reserves a hole in the top of kernel address space
-  * @reserve - size of hole to reserve
 diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 62f5f496a6d1..9c2efefb9281 100644
+index 9c2efefb9281..d437ce0c85ac 100644
 --- a/include/linux/mm.h
 +++ b/include/linux/mm.h
-@@ -962,6 +962,8 @@ static inline pte_t maybe_mkwrite(pte_t pte, struct vm_area_struct *vma)
+@@ -2608,6 +2608,10 @@ extern vm_fault_t filemap_page_mkwrite(struct vm_fault *vmf);
+ int __must_check write_one_page(struct page *page);
+ void task_dirty_inc(struct task_struct *tsk);
+ 
++#ifndef ARCH_SHADOW_STACK_GUARD_GAP
++#define ARCH_SHADOW_STACK_GUARD_GAP 0
++#endif
++
+ extern unsigned long stack_guard_gap;
+ /* Generic expand stack which grows the stack according to GROWS{UP,DOWN} */
+ extern int expand_stack(struct vm_area_struct *vma, unsigned long address);
+@@ -2640,9 +2644,15 @@ static inline struct vm_area_struct * find_vma_intersection(struct mm_struct * m
+ static inline unsigned long vm_start_gap(struct vm_area_struct *vma)
  {
- 	if (likely(vma->vm_flags & VM_WRITE))
- 		pte = pte_mkwrite(pte);
-+	else
-+		pte = arch_maybe_mkwrite(pte, vma);
- 	return pte;
- }
+ 	unsigned long vm_start = vma->vm_start;
++	unsigned long gap = 0;
  
-diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
-index a124c21e3204..4445d009f5ec 100644
---- a/include/linux/pgtable.h
-+++ b/include/linux/pgtable.h
-@@ -1354,6 +1354,30 @@ static inline bool arch_has_pfn_modify_check(void)
- }
- #endif /* !_HAVE_ARCH_PFN_MODIFY_ALLOWED */
- 
-+#ifdef CONFIG_MMU
-+#ifdef CONFIG_ARCH_MAYBE_MKWRITE
-+pte_t arch_maybe_mkwrite(pte_t pte, struct vm_area_struct *vma);
+-	if (vma->vm_flags & VM_GROWSDOWN) {
+-		vm_start -= stack_guard_gap;
++	if (vma->vm_flags & VM_GROWSDOWN)
++		gap = stack_guard_gap;
++	else if (vma->vm_flags & VM_SHSTK)
++		gap = ARCH_SHADOW_STACK_GUARD_GAP;
 +
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+pmd_t arch_maybe_pmd_mkwrite(pmd_t pmd, struct vm_area_struct *vma);
-+#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
-+
-+#else /* !CONFIG_ARCH_MAYBE_MKWRITE */
-+static inline pte_t arch_maybe_mkwrite(pte_t pte, struct vm_area_struct *vma)
-+{
-+	return pte;
-+}
-+
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+static inline pmd_t arch_maybe_pmd_mkwrite(pmd_t pmd, struct vm_area_struct *vma)
-+{
-+	return pmd;
-+}
-+#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
-+
-+#endif /* CONFIG_ARCH_MAYBE_MKWRITE */
-+#endif /* CONFIG_MMU */
-+
- /*
-  * Architecture PAGE_KERNEL_* fallbacks
-  *
-diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index 2ccff8472cd4..a580b5fb6e1a 100644
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -464,6 +464,8 @@ pmd_t maybe_pmd_mkwrite(pmd_t pmd, struct vm_area_struct *vma)
++	if (gap != 0) {
++		vm_start -= gap;
+ 		if (vm_start > vma->vm_start)
+ 			vm_start = 0;
+ 	}
+@@ -2652,9 +2662,15 @@ static inline unsigned long vm_start_gap(struct vm_area_struct *vma)
+ static inline unsigned long vm_end_gap(struct vm_area_struct *vma)
  {
- 	if (likely(vma->vm_flags & VM_WRITE))
- 		pmd = pmd_mkwrite(pmd);
-+	else
-+		pmd = arch_maybe_pmd_mkwrite(pmd, vma);
- 	return pmd;
- }
+ 	unsigned long vm_end = vma->vm_end;
++	unsigned long gap = 0;
++
++	if (vma->vm_flags & VM_GROWSUP)
++		gap = stack_guard_gap;
++	else if (vma->vm_flags & VM_SHSTK)
++		gap = ARCH_SHADOW_STACK_GUARD_GAP;
  
+-	if (vma->vm_flags & VM_GROWSUP) {
+-		vm_end += stack_guard_gap;
++	if (gap != 0) {
++		vm_end += gap;
+ 		if (vm_end < vma->vm_end)
+ 			vm_end = -PAGE_SIZE;
+ 	}
 -- 
 2.21.0
 
