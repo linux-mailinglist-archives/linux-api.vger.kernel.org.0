@@ -2,30 +2,30 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 10168250D69
-	for <lists+linux-api@lfdr.de>; Tue, 25 Aug 2020 02:32:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2FE9250D25
+	for <lists+linux-api@lfdr.de>; Tue, 25 Aug 2020 02:30:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728667AbgHYAcX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 24 Aug 2020 20:32:23 -0400
+        id S1728377AbgHYA35 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 24 Aug 2020 20:29:57 -0400
 Received: from mga17.intel.com ([192.55.52.151]:12299 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728334AbgHYA3v (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 24 Aug 2020 20:29:51 -0400
-IronPort-SDR: ZeLeKEpSPQgBSSF/lUpvs5tyH6r2Ytgx8CdaDulTTAXyYEAyMq0GLRx2QdbOBNp/22XN1blMoo
- LLRuvoQx/0TQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9723"; a="136075314"
+        id S1728354AbgHYA34 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 24 Aug 2020 20:29:56 -0400
+IronPort-SDR: tKiYv2hannt0+9cjDyuP9ml4e3mGbToI5d3tVoA7i0j8xaIrrWvxi6ZIjyINkS5sCi3SMZjMVa
+ FUpRMUgCEJQg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9723"; a="136075321"
 X-IronPort-AV: E=Sophos;i="5.76,350,1592895600"; 
-   d="scan'208";a="136075314"
+   d="scan'208";a="136075321"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2020 17:29:41 -0700
-IronPort-SDR: rSTwxk7XXewjizOXAq/AoJScn+WIy74vviqcj88Qqm3EojR+vV91fP/JA5UEbXfUF58n2LIyiC
- zSbPghq8DNPA==
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2020 17:29:43 -0700
+IronPort-SDR: nrCnJaMP+F5srhUHKuRmw6BCDqkCjxfjXEb4//3V7Yk161t9mpmsNBO8PUtVBvqTfZL3qm2mdC
+ ZpvMu80AmNrQ==
 X-IronPort-AV: E=Sophos;i="5.76,350,1592895600"; 
-   d="scan'208";a="474135014"
+   d="scan'208";a="474135026"
 Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2020 17:29:41 -0700
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2020 17:29:42 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -52,12 +52,10 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        Peter Collingbourne <pcc@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v11 19/25] mm: Re-introduce do_mmap_pgoff()
-Date:   Mon, 24 Aug 2020 17:25:34 -0700
-Message-Id: <20200825002540.3351-20-yu-cheng.yu@intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [PATCH v11 21/25] x86/cet/shstk: Handle signals for shadow stack
+Date:   Mon, 24 Aug 2020 17:25:36 -0700
+Message-Id: <20200825002540.3351-22-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200825002540.3351-1-yu-cheng.yu@intel.com>
 References: <20200825002540.3351-1-yu-cheng.yu@intel.com>
@@ -68,246 +66,565 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-There was no more caller passing vm_flags to do_mmap(), and vm_flags was
-removed from the function's input by:
+To deliver a signal, create a shadow stack restore token and put a restore
+token and the signal restorer address on the shadow stack.  For sigreturn,
+verify the token and restore the shadow stack pointer.
 
-    commit 45e55300f114 ("mm: remove unnecessary wrapper function do_mmap_pgoff()").
+Introduce WRUSS, which is a kernel-mode instruction but writes directly to
+user shadow stack.  It is used to construct the user signal stack as
+described above.
 
-There is a new user now.  Shadow stack allocation passes VM_SHSTK to
-do_mmap().  Re-introduce the vm_flags and do_mmap_pgoff().
+Introduce a signal context extension struct 'sc_ext', which is used to save
+shadow stack restore token address and WAIT_ENDBR status.  WAIT_ENDBR will
+be introduced later in the Indirect Branch Tracking (IBT) series, but add
+that into sc_ext now to keep the struct stable in case the IBT series is
+applied later.
 
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc: Peter Collingbourne <pcc@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Oleg Nesterov <oleg@redhat.com>
-Cc: linux-mm@kvack.org
 ---
- fs/aio.c             |  6 +++---
- fs/hugetlbfs/inode.c |  2 +-
- include/linux/fs.h   |  2 +-
- include/linux/mm.h   | 12 +++++++++++-
- ipc/shm.c            |  2 +-
- mm/mmap.c            | 16 ++++++++--------
- mm/nommu.c           |  6 +++---
- mm/shmem.c           |  2 +-
- mm/util.c            |  4 ++--
- 9 files changed, 31 insertions(+), 21 deletions(-)
+v10:
+- Combine with WRUSS instruction patch, since it is used only here.
+- Revise signal restore code to the latest supervisor states handling.
+  Move shadow stack restore token checking out of the fast path.
 
-diff --git a/fs/aio.c b/fs/aio.c
-index 5736bff48e9e..91e7cc4a9f17 100644
---- a/fs/aio.c
-+++ b/fs/aio.c
-@@ -525,9 +525,9 @@ static int aio_setup_ring(struct kioctx *ctx, unsigned int nr_events)
- 		return -EINTR;
- 	}
+v9:
+- Update CET MSR access according to XSAVES supervisor state changes.
+- Add 'wait_endbr' to struct 'sc_ext'.
+- Update and simplify signal frame allocation, setup, and restoration.
+- Update commit log text.
+
+v2:
+- Move CET status from sigcontext to a separate struct sc_ext, which is
+  located above the fpstate on the signal frame.
+- Add a restore token for sigreturn address.
+
+ arch/x86/ia32/ia32_signal.c            |  17 +++
+ arch/x86/include/asm/cet.h             |   8 ++
+ arch/x86/include/asm/fpu/internal.h    |  10 ++
+ arch/x86/include/asm/special_insns.h   |  32 ++++++
+ arch/x86/include/uapi/asm/sigcontext.h |   9 ++
+ arch/x86/kernel/cet.c                  | 152 +++++++++++++++++++++++++
+ arch/x86/kernel/fpu/signal.c           | 100 ++++++++++++++++
+ arch/x86/kernel/signal.c               |  10 ++
+ 8 files changed, 338 insertions(+)
+
+diff --git a/arch/x86/ia32/ia32_signal.c b/arch/x86/ia32/ia32_signal.c
+index 81cf22398cd1..cec9cf0a00cf 100644
+--- a/arch/x86/ia32/ia32_signal.c
++++ b/arch/x86/ia32/ia32_signal.c
+@@ -35,6 +35,7 @@
+ #include <asm/sigframe.h>
+ #include <asm/sighandling.h>
+ #include <asm/smap.h>
++#include <asm/cet.h>
  
--	ctx->mmap_base = do_mmap(ctx->aio_ring_file, 0, ctx->mmap_size,
--				 PROT_READ | PROT_WRITE,
--				 MAP_SHARED, 0, &unused, NULL);
-+	ctx->mmap_base = do_mmap_pgoff(ctx->aio_ring_file, 0, ctx->mmap_size,
-+				       PROT_READ | PROT_WRITE,
-+				       MAP_SHARED, 0, &unused, NULL);
- 	mmap_write_unlock(mm);
- 	if (IS_ERR((void *)ctx->mmap_base)) {
- 		ctx->mmap_size = 0;
-diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
-index b5c109703daa..f936bcf02cce 100644
---- a/fs/hugetlbfs/inode.c
-+++ b/fs/hugetlbfs/inode.c
-@@ -140,7 +140,7 @@ static int hugetlbfs_file_mmap(struct file *file, struct vm_area_struct *vma)
- 	 * already been checked by prepare_hugepage_range.  If you add
- 	 * any error returns here, do so after setting VM_HUGETLB, so
- 	 * is_vm_hugetlb_page tests below unmap_region go the right
--	 * way when do_mmap unwinds (may be important on powerpc
-+	 * way when do_mmap_pgoff unwinds (may be important on powerpc
- 	 * and ia64).
- 	 */
- 	vma->vm_flags |= VM_HUGETLB | VM_DONTEXPAND;
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index e019ea2f1347..75a98288e7c5 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -538,7 +538,7 @@ static inline int mapping_mapped(struct address_space *mapping)
+ static inline void reload_segments(struct sigcontext_32 *sc)
+ {
+@@ -205,6 +206,7 @@ static void __user *get_sigframe(struct ksignal *ksig, struct pt_regs *regs,
+ 				 void __user **fpstate)
+ {
+ 	unsigned long sp, fx_aligned, math_size;
++	void __user *restorer = NULL;
+ 
+ 	/* Default to using normal stack */
+ 	sp = regs->sp;
+@@ -218,8 +220,23 @@ static void __user *get_sigframe(struct ksignal *ksig, struct pt_regs *regs,
+ 		 ksig->ka.sa.sa_restorer)
+ 		sp = (unsigned long) ksig->ka.sa.sa_restorer;
+ 
++	if (ksig->ka.sa.sa_flags & SA_RESTORER) {
++		restorer = ksig->ka.sa.sa_restorer;
++	} else if (current->mm->context.vdso) {
++		if (ksig->ka.sa.sa_flags & SA_SIGINFO)
++			restorer = current->mm->context.vdso +
++				vdso_image_32.sym___kernel_rt_sigreturn;
++		else
++			restorer = current->mm->context.vdso +
++				vdso_image_32.sym___kernel_sigreturn;
++	}
++
+ 	sp = fpu__alloc_mathframe(sp, 1, &fx_aligned, &math_size);
+ 	*fpstate = (struct _fpstate_32 __user *) sp;
++
++	if (save_cet_to_sigframe(1, *fpstate, (unsigned long)restorer))
++		return (void __user *) -1L;
++
+ 	if (copy_fpstate_to_sigframe(*fpstate, (void __user *)fx_aligned,
+ 				     math_size) < 0)
+ 		return (void __user *) -1L;
+diff --git a/arch/x86/include/asm/cet.h b/arch/x86/include/asm/cet.h
+index caac0687c8e4..56fe08eebae6 100644
+--- a/arch/x86/include/asm/cet.h
++++ b/arch/x86/include/asm/cet.h
+@@ -6,6 +6,8 @@
+ #include <linux/types.h>
+ 
+ struct task_struct;
++struct sc_ext;
++
+ /*
+  * Per-thread CET status
+  */
+@@ -17,8 +19,14 @@ struct cet_status {
+ #ifdef CONFIG_X86_INTEL_CET
+ int cet_setup_shstk(void);
+ void cet_disable_free_shstk(struct task_struct *p);
++int cet_verify_rstor_token(bool ia32, unsigned long ssp, unsigned long *new_ssp);
++void cet_restore_signal(struct sc_ext *sc);
++int cet_setup_signal(bool ia32, unsigned long rstor, struct sc_ext *sc);
+ #else
+ static inline void cet_disable_free_shstk(struct task_struct *p) {}
++static inline void cet_restore_signal(struct sc_ext *sc) { return; }
++static inline int cet_setup_signal(bool ia32, unsigned long rstor,
++				   struct sc_ext *sc) { return -EINVAL; }
+ #endif
+ 
+ #endif /* __ASSEMBLY__ */
+diff --git a/arch/x86/include/asm/fpu/internal.h b/arch/x86/include/asm/fpu/internal.h
+index 0a460f2a3f90..cd4249b37f45 100644
+--- a/arch/x86/include/asm/fpu/internal.h
++++ b/arch/x86/include/asm/fpu/internal.h
+@@ -442,6 +442,16 @@ static inline void copy_kernel_to_fpregs(union fpregs_state *fpstate)
+ 	__copy_kernel_to_fpregs(fpstate, -1);
+ }
+ 
++#ifdef CONFIG_X86_INTEL_CET
++extern int save_cet_to_sigframe(int ia32, void __user *fp,
++				unsigned long restorer);
++#else
++static inline int save_cet_to_sigframe(int ia32, void __user *fp,
++				unsigned long restorer)
++{
++	return 0;
++}
++#endif
+ extern int copy_fpstate_to_sigframe(void __user *buf, void __user *fp, int size);
  
  /*
-  * Might pages of this file have been modified in userspace?
-- * Note that i_mmap_writable counts all VM_SHARED vmas: do_mmap
-+ * Note that i_mmap_writable counts all VM_SHARED vmas: do_mmap_pgoff
-  * marks vma as VM_SHARED if it is shared, and the file was opened for
-  * writing i.e. vma may be mprotected writable even if now readonly.
-  *
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index d437ce0c85ac..36b239aa5aa7 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -2553,13 +2553,23 @@ extern unsigned long mmap_region(struct file *file, unsigned long addr,
- 	struct list_head *uf);
- extern unsigned long do_mmap(struct file *file, unsigned long addr,
- 	unsigned long len, unsigned long prot, unsigned long flags,
--	unsigned long pgoff, unsigned long *populate, struct list_head *uf);
-+	vm_flags_t vm_flags, unsigned long pgoff, unsigned long *populate,
-+	struct list_head *uf);
- extern int __do_munmap(struct mm_struct *, unsigned long, size_t,
- 		       struct list_head *uf, bool downgrade);
- extern int do_munmap(struct mm_struct *, unsigned long, size_t,
- 		     struct list_head *uf);
- extern int do_madvise(unsigned long start, size_t len_in, int behavior);
+diff --git a/arch/x86/include/asm/special_insns.h b/arch/x86/include/asm/special_insns.h
+index 59a3e13204c3..21c42cef12a9 100644
+--- a/arch/x86/include/asm/special_insns.h
++++ b/arch/x86/include/asm/special_insns.h
+@@ -232,6 +232,38 @@ static inline void clwb(volatile void *__p)
+ 		: [pax] "a" (p));
+ }
  
-+static inline unsigned long
-+do_mmap_pgoff(struct file *file, unsigned long addr,
-+	unsigned long len, unsigned long prot, unsigned long flags,
-+	unsigned long pgoff, unsigned long *populate,
-+	struct list_head *uf)
++#ifdef CONFIG_X86_INTEL_CET
++#if defined(CONFIG_IA32_EMULATION) || defined(CONFIG_X86_X32)
++static inline int write_user_shstk_32(unsigned long addr, unsigned int val)
 +{
-+	return do_mmap(file, addr, len, prot, flags, 0, pgoff, populate, uf);
++	asm_volatile_goto("1: wrussd %1, (%0)\n"
++			  _ASM_EXTABLE(1b, %l[fail])
++			  :: "r" (addr), "r" (val)
++			  :: fail);
++	return 0;
++fail:
++	return -EPERM;
++}
++#else
++static inline int write_user_shstk_32(unsigned long addr, unsigned int val)
++{
++	WARN_ONCE(1, "%s used but not supported.\n", __func__);
++	return -EFAULT;
++}
++#endif
++
++static inline int write_user_shstk_64(unsigned long addr, unsigned long val)
++{
++	asm_volatile_goto("1: wrussq %1, (%0)\n"
++			  _ASM_EXTABLE(1b, %l[fail])
++			  :: "r" (addr), "r" (val)
++			  :: fail);
++	return 0;
++fail:
++	return -EPERM;
++}
++#endif /* CONFIG_X86_INTEL_CET */
++
+ #define nop() asm volatile ("nop")
+ 
+ #endif /* __KERNEL__ */
+diff --git a/arch/x86/include/uapi/asm/sigcontext.h b/arch/x86/include/uapi/asm/sigcontext.h
+index 844d60eb1882..cf2d55db3be4 100644
+--- a/arch/x86/include/uapi/asm/sigcontext.h
++++ b/arch/x86/include/uapi/asm/sigcontext.h
+@@ -196,6 +196,15 @@ struct _xstate {
+ 	/* New processor state extensions go here: */
+ };
+ 
++/*
++ * Located at the end of sigcontext->fpstate, aligned to 8.
++ */
++struct sc_ext {
++	unsigned long total_size;
++	unsigned long ssp;
++	unsigned long wait_endbr;
++};
++
+ /*
+  * The 32-bit signal frame:
+  */
+diff --git a/arch/x86/kernel/cet.c b/arch/x86/kernel/cet.c
+index a1be8ccee1cc..a08a956ac3aa 100644
+--- a/arch/x86/kernel/cet.c
++++ b/arch/x86/kernel/cet.c
+@@ -19,6 +19,8 @@
+ #include <asm/fpu/xstate.h>
+ #include <asm/fpu/types.h>
+ #include <asm/cet.h>
++#include <asm/special_insns.h>
++#include <uapi/asm/sigcontext.h>
+ 
+ static void start_update_msrs(void)
+ {
+@@ -72,6 +74,80 @@ static unsigned long alloc_shstk(unsigned long size, int flags)
+ 	return addr;
+ }
+ 
++#define TOKEN_MODE_MASK	3UL
++#define TOKEN_MODE_64	1UL
++#define IS_TOKEN_64(token) ((token & TOKEN_MODE_MASK) == TOKEN_MODE_64)
++#define IS_TOKEN_32(token) ((token & TOKEN_MODE_MASK) == 0)
++
++/*
++ * Verify the restore token at the address of 'ssp' is
++ * valid and then set shadow stack pointer according to the
++ * token.
++ */
++int cet_verify_rstor_token(bool ia32, unsigned long ssp,
++			   unsigned long *new_ssp)
++{
++	unsigned long token;
++
++	*new_ssp = 0;
++
++	if (!IS_ALIGNED(ssp, 8))
++		return -EINVAL;
++
++	if (get_user(token, (unsigned long __user *)ssp))
++		return -EFAULT;
++
++	/* Is 64-bit mode flag correct? */
++	if (!ia32 && !IS_TOKEN_64(token))
++		return -EINVAL;
++	else if (ia32 && !IS_TOKEN_32(token))
++		return -EINVAL;
++
++	token &= ~TOKEN_MODE_MASK;
++
++	/*
++	 * Restore address properly aligned?
++	 */
++	if ((!ia32 && !IS_ALIGNED(token, 8)) || !IS_ALIGNED(token, 4))
++		return -EINVAL;
++
++	/*
++	 * Token was placed properly?
++	 */
++	if ((ALIGN_DOWN(token, 8) - 8) != ssp)
++		return -EINVAL;
++
++	*new_ssp = token;
++	return 0;
 +}
 +
- #ifdef CONFIG_MMU
- extern int __mm_populate(unsigned long addr, unsigned long len,
- 			 int ignore_errors);
-diff --git a/ipc/shm.c b/ipc/shm.c
-index f1ed36e3ac9f..6cf24a5994ec 100644
---- a/ipc/shm.c
-+++ b/ipc/shm.c
-@@ -1556,7 +1556,7 @@ long do_shmat(int shmid, char __user *shmaddr, int shmflg,
- 			goto invalid;
- 	}
- 
--	addr = do_mmap(file, addr, size, prot, flags, 0, &populate, NULL);
-+	addr = do_mmap_pgoff(file, addr, size, prot, flags, 0, &populate, NULL);
- 	*raddr = addr;
- 	err = 0;
- 	if (IS_ERR_VALUE(addr))
-diff --git a/mm/mmap.c b/mm/mmap.c
-index 574b3f273462..81d4a00092da 100644
---- a/mm/mmap.c
-+++ b/mm/mmap.c
-@@ -1030,7 +1030,7 @@ static inline int is_mergeable_anon_vma(struct anon_vma *anon_vma1,
-  * anon_vmas, nor if same anon_vma is assigned but offsets incompatible.
-  *
-  * We don't check here for the merged mmap wrapping around the end of pagecache
-- * indices (16TB on ia32) because do_mmap() does not permit mmap's which
-+ * indices (16TB on ia32) because do_mmap_pgoff() does not permit mmap's which
-  * wrap, nor mmaps which cover the final page at index -1UL.
-  */
- static int
-@@ -1365,11 +1365,11 @@ static inline bool file_mmap_ok(struct file *file, struct inode *inode,
-  */
- unsigned long do_mmap(struct file *file, unsigned long addr,
- 			unsigned long len, unsigned long prot,
--			unsigned long flags, unsigned long pgoff,
--			unsigned long *populate, struct list_head *uf)
-+			unsigned long flags, vm_flags_t vm_flags,
-+			unsigned long pgoff, unsigned long *populate,
-+			struct list_head *uf)
++/*
++ * Create a restore token on the shadow stack.
++ * A token is always 8-byte and aligned to 8.
++ */
++static int create_rstor_token(bool ia32, unsigned long ssp,
++			      unsigned long *new_ssp)
++{
++	unsigned long addr;
++
++	*new_ssp = 0;
++
++	if ((!ia32 && !IS_ALIGNED(ssp, 8)) || !IS_ALIGNED(ssp, 4))
++		return -EINVAL;
++
++	addr = ALIGN_DOWN(ssp, 8) - 8;
++
++	/* Is the token for 64-bit? */
++	if (!ia32)
++		ssp |= TOKEN_MODE_64;
++
++	if (write_user_shstk_64(addr, ssp))
++		return -EFAULT;
++
++	*new_ssp = addr;
++	return 0;
++}
++
+ int cet_setup_shstk(void)
  {
- 	struct mm_struct *mm = current->mm;
--	vm_flags_t vm_flags;
- 	int pkey = 0;
+ 	unsigned long addr, size;
+@@ -136,3 +212,79 @@ void cet_disable_free_shstk(struct task_struct *tsk)
+ 	cet->shstk_base = 0;
+ 	cet->shstk_size = 0;
+ }
++
++/*
++ * Called from __fpu__restore_sig() and XSAVES buffer is protected by
++ * set_thread_flag(TIF_NEED_FPU_LOAD) in the slow path.
++ */
++void cet_restore_signal(struct sc_ext *sc_ext)
++{
++	struct cet_user_state *cet_user_state;
++	struct cet_status *cet = &current->thread.cet;
++	u64 msr_val = 0;
++
++	if (!static_cpu_has(X86_FEATURE_SHSTK))
++		return;
++
++	cet_user_state = get_xsave_addr(&current->thread.fpu.state.xsave,
++					XFEATURE_CET_USER);
++	if (!cet_user_state)
++		return;
++
++	if (cet->shstk_size) {
++		if (test_thread_flag(TIF_NEED_FPU_LOAD))
++			cet_user_state->user_ssp = sc_ext->ssp;
++		else
++			wrmsrl(MSR_IA32_PL3_SSP, sc_ext->ssp);
++
++		msr_val |= CET_SHSTK_EN;
++	}
++
++	if (test_thread_flag(TIF_NEED_FPU_LOAD))
++		cet_user_state->user_cet = msr_val;
++	else
++		wrmsrl(MSR_IA32_U_CET, msr_val);
++}
++
++/*
++ * Setup the shadow stack for the signal handler: first,
++ * create a restore token to keep track of the current ssp,
++ * and then the return address of the signal handler.
++ */
++int cet_setup_signal(bool ia32, unsigned long rstor_addr, struct sc_ext *sc_ext)
++{
++	struct cet_status *cet = &current->thread.cet;
++	unsigned long ssp = 0, new_ssp = 0;
++	int err;
++
++	if (cet->shstk_size) {
++		if (!rstor_addr)
++			return -EINVAL;
++
++		ssp = cet_get_shstk_addr();
++		err = create_rstor_token(ia32, ssp, &new_ssp);
++		if (err)
++			return err;
++
++		if (ia32) {
++			ssp = new_ssp - sizeof(u32);
++			err = write_user_shstk_32(ssp, (unsigned int)rstor_addr);
++		} else {
++			ssp = new_ssp - sizeof(u64);
++			err = write_user_shstk_64(ssp, rstor_addr);
++		}
++
++		if (err)
++			return err;
++
++		sc_ext->ssp = new_ssp;
++	}
++
++	if (ssp) {
++		start_update_msrs();
++		wrmsrl(MSR_IA32_PL3_SSP, ssp);
++		end_update_msrs();
++	}
++
++	return 0;
++}
+diff --git a/arch/x86/kernel/fpu/signal.c b/arch/x86/kernel/fpu/signal.c
+index a4ec65317a7f..d02ea8c11128 100644
+--- a/arch/x86/kernel/fpu/signal.c
++++ b/arch/x86/kernel/fpu/signal.c
+@@ -52,6 +52,74 @@ static inline int check_for_xstate(struct fxregs_state __user *buf,
+ 	return 0;
+ }
  
- 	*populate = 0;
-@@ -1431,7 +1431,7 @@ unsigned long do_mmap(struct file *file, unsigned long addr,
- 	 * to. we assume access permissions have been handled by the open
- 	 * of the memory object, so we don't do any here.
- 	 */
--	vm_flags = calc_vm_prot_bits(prot, pkey) | calc_vm_flag_bits(flags) |
-+	vm_flags |= calc_vm_prot_bits(prot, pkey) | calc_vm_flag_bits(flags) |
- 			mm->def_flags | VM_MAYREAD | VM_MAYWRITE | VM_MAYEXEC;
++#ifdef CONFIG_X86_INTEL_CET
++int save_cet_to_sigframe(int ia32, void __user *fp, unsigned long restorer)
++{
++	int err = 0;
++
++	if (!current->thread.cet.shstk_size)
++		return 0;
++
++	if (fp) {
++		struct sc_ext ext = {0, 0, 0};
++
++		err = cet_setup_signal(ia32, restorer, &ext);
++		if (!err) {
++			void __user *p = fp;
++
++			ext.total_size = sizeof(ext);
++
++			if (ia32)
++				p += sizeof(struct fregs_state);
++
++			p += fpu_user_xstate_size + FP_XSTATE_MAGIC2_SIZE;
++			p = (void __user *)ALIGN((unsigned long)p, 8);
++
++			if (copy_to_user(p, &ext, sizeof(ext)))
++				return -EFAULT;
++		}
++	}
++
++	return err;
++}
++
++static int get_cet_from_sigframe(int ia32, void __user *fp, struct sc_ext *ext)
++{
++	int err = 0;
++
++	memset(ext, 0, sizeof(*ext));
++
++	if (!current->thread.cet.shstk_size)
++		return 0;
++
++	if (fp) {
++		void __user *p = fp;
++
++		if (ia32)
++			p += sizeof(struct fregs_state);
++
++		p += fpu_user_xstate_size + FP_XSTATE_MAGIC2_SIZE;
++		p = (void __user *)ALIGN((unsigned long)p, 8);
++
++		if (copy_from_user(ext, p, sizeof(*ext)))
++			return -EFAULT;
++
++		if (ext->total_size != sizeof(*ext))
++			return -EFAULT;
++
++		if (current->thread.cet.shstk_size)
++			err = cet_verify_rstor_token(ia32, ext->ssp, &ext->ssp);
++	}
++
++	return err;
++}
++#else
++static int get_cet_from_sigframe(int ia32, void __user *fp, struct sc_ext *ext)
++{
++	return 0;
++}
++#endif
++
+ /*
+  * Signal frame handlers.
+  */
+@@ -295,6 +363,7 @@ static int __fpu__restore_sig(void __user *buf, void __user *buf_fx, int size)
+ 	struct task_struct *tsk = current;
+ 	struct fpu *fpu = &tsk->thread.fpu;
+ 	struct user_i387_ia32_struct env;
++	struct sc_ext sc_ext;
+ 	u64 user_xfeatures = 0;
+ 	int fx_only = 0;
+ 	int ret = 0;
+@@ -335,6 +404,10 @@ static int __fpu__restore_sig(void __user *buf, void __user *buf_fx, int size)
+ 	if ((unsigned long)buf_fx % 64)
+ 		fx_only = 1;
  
- 	if (flags & MAP_LOCKED)
-@@ -2233,7 +2233,7 @@ get_unmapped_area(struct file *file, unsigned long addr, unsigned long len,
++	ret = get_cet_from_sigframe(ia32_fxstate, buf, &sc_ext);
++	if (ret)
++		return ret;
++
+ 	if (!ia32_fxstate) {
  		/*
- 		 * mmap_region() will call shmem_zero_setup() to create a file,
- 		 * so use shmem's get_unmapped_area in case it can be huge.
--		 * do_mmap() will clear pgoff, so match alignment.
-+		 * do_mmap_pgoff() will clear pgoff, so match alignment.
- 		 */
- 		pgoff = 0;
- 		get_area = shmem_get_unmapped_area;
-@@ -3006,7 +3006,7 @@ SYSCALL_DEFINE5(remap_file_pages, unsigned long, start, unsigned long, size,
- 	}
+ 		 * Attempt to restore the FPU registers directly from user
+@@ -349,6 +422,8 @@ static int __fpu__restore_sig(void __user *buf, void __user *buf_fx, int size)
+ 		pagefault_enable();
+ 		if (!ret) {
  
- 	file = get_file(vma->vm_file);
--	ret = do_mmap(vma->vm_file, start, size,
-+	ret = do_mmap_pgoff(vma->vm_file, start, size,
- 			prot, flags, pgoff, &populate, NULL);
- 	fput(file);
- out:
-@@ -3226,7 +3226,7 @@ int insert_vm_struct(struct mm_struct *mm, struct vm_area_struct *vma)
- 	 * By setting it to reflect the virtual start address of the
- 	 * vma, merges and splits can happen in a seamless way, just
- 	 * using the existing file pgoff checks and manipulations.
--	 * Similarly in do_mmap and in do_brk.
-+	 * Similarly in do_mmap_pgoff and in do_brk.
- 	 */
- 	if (vma_is_anonymous(vma)) {
- 		BUG_ON(vma->anon_vma);
-diff --git a/mm/nommu.c b/mm/nommu.c
-index 75a327149af1..71a4ea828f06 100644
---- a/mm/nommu.c
-+++ b/mm/nommu.c
-@@ -1078,6 +1078,7 @@ unsigned long do_mmap(struct file *file,
- 			unsigned long len,
- 			unsigned long prot,
- 			unsigned long flags,
-+			vm_flags_t vm_flags,
- 			unsigned long pgoff,
- 			unsigned long *populate,
- 			struct list_head *uf)
-@@ -1085,7 +1086,6 @@ unsigned long do_mmap(struct file *file,
- 	struct vm_area_struct *vma;
- 	struct vm_region *region;
- 	struct rb_node *rb;
--	vm_flags_t vm_flags;
- 	unsigned long capabilities, result;
- 	int ret;
++			cet_restore_signal(&sc_ext);
++
+ 			/*
+ 			 * Restore supervisor states: previous context switch
+ 			 * etc has done XSAVES and saved the supervisor states
+@@ -423,6 +498,8 @@ static int __fpu__restore_sig(void __user *buf, void __user *buf_fx, int size)
+ 		if (unlikely(init_bv))
+ 			copy_kernel_to_xregs(&init_fpstate.xsave, init_bv);
  
-@@ -1104,7 +1104,7 @@ unsigned long do_mmap(struct file *file,
++		cet_restore_signal(&sc_ext);
++
+ 		/*
+ 		 * Restore previously saved supervisor xstates along with
+ 		 * copied-in user xstates.
+@@ -491,12 +568,35 @@ int fpu__restore_sig(void __user *buf, int ia32_frame)
+ 	return __fpu__restore_sig(buf, buf_fx, size);
+ }
  
- 	/* we've determined that we can make the mapping, now translate what we
- 	 * now know into VMA flags */
--	vm_flags = determine_vm_flags(file, prot, flags, capabilities);
-+	vm_flags |= determine_vm_flags(file, prot, flags, capabilities);
- 
- 	/* we're going to need to record the mapping */
- 	region = kmem_cache_zalloc(vm_region_jar, GFP_KERNEL);
-@@ -1763,7 +1763,7 @@ EXPORT_SYMBOL_GPL(access_process_vm);
-  *
-  * Check the shared mappings on an inode on behalf of a shrinking truncate to
-  * make sure that any outstanding VMAs aren't broken and then shrink the
-- * vm_regions that extend beyond so that do_mmap() doesn't
-+ * vm_regions that extend beyond so that do_mmap_pgoff() doesn't
-  * automatically grant mappings that are too large.
-  */
- int nommu_shrink_inode_mappings(struct inode *inode, size_t size,
-diff --git a/mm/shmem.c b/mm/shmem.c
-index 271548ca20f3..dea76ecc849b 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -4246,7 +4246,7 @@ EXPORT_SYMBOL_GPL(shmem_file_setup_with_mnt);
- 
- /**
-  * shmem_zero_setup - setup a shared anonymous mapping
-- * @vma: the vma to be mmapped is prepared by do_mmap
-+ * @vma: the vma to be mmapped is prepared by do_mmap_pgoff
-  */
- int shmem_zero_setup(struct vm_area_struct *vma)
++#ifdef CONFIG_X86_INTEL_CET
++static unsigned long fpu__alloc_sigcontext_ext(unsigned long sp)
++{
++	struct cet_status *cet = &current->thread.cet;
++
++	/*
++	 * sigcontext_ext is at: fpu + fpu_user_xstate_size +
++	 * FP_XSTATE_MAGIC2_SIZE, then aligned to 8.
++	 */
++	if (cet->shstk_size)
++		sp -= (sizeof(struct sc_ext) + 8);
++
++	return sp;
++}
++#else
++static unsigned long fpu__alloc_sigcontext_ext(unsigned long sp)
++{
++	return sp;
++}
++#endif
++
+ unsigned long
+ fpu__alloc_mathframe(unsigned long sp, int ia32_frame,
+ 		     unsigned long *buf_fx, unsigned long *size)
  {
-diff --git a/mm/util.c b/mm/util.c
-index 5ef378a2a038..8d6280c05238 100644
---- a/mm/util.c
-+++ b/mm/util.c
-@@ -503,8 +503,8 @@ unsigned long vm_mmap_pgoff(struct file *file, unsigned long addr,
- 	if (!ret) {
- 		if (mmap_write_lock_killable(mm))
- 			return -EINTR;
--		ret = do_mmap(file, addr, len, prot, flag, pgoff, &populate,
--			      &uf);
-+		ret = do_mmap_pgoff(file, addr, len, prot, flag, pgoff,
-+				    &populate, &uf);
- 		mmap_write_unlock(mm);
- 		userfaultfd_unmap_complete(mm, &uf);
- 		if (populate)
+ 	unsigned long frame_size = xstate_sigframe_size();
+ 
++	sp = fpu__alloc_sigcontext_ext(sp);
++
+ 	*buf_fx = sp = round_down(sp - frame_size, 64);
+ 	if (ia32_frame && use_fxsr()) {
+ 		frame_size += sizeof(struct fregs_state);
+diff --git a/arch/x86/kernel/signal.c b/arch/x86/kernel/signal.c
+index d5fa494c2304..c5f465f5aeb4 100644
+--- a/arch/x86/kernel/signal.c
++++ b/arch/x86/kernel/signal.c
+@@ -46,6 +46,7 @@
+ #include <asm/syscall.h>
+ #include <asm/sigframe.h>
+ #include <asm/signal.h>
++#include <asm/cet.h>
+ 
+ #ifdef CONFIG_X86_64
+ /*
+@@ -239,6 +240,9 @@ get_sigframe(struct k_sigaction *ka, struct pt_regs *regs, size_t frame_size,
+ 	unsigned long buf_fx = 0;
+ 	int onsigstack = on_sig_stack(sp);
+ 	int ret;
++#ifdef CONFIG_X86_64
++	void __user *restorer = NULL;
++#endif
+ 
+ 	/* redzone */
+ 	if (IS_ENABLED(CONFIG_X86_64))
+@@ -270,6 +274,12 @@ get_sigframe(struct k_sigaction *ka, struct pt_regs *regs, size_t frame_size,
+ 	if (onsigstack && !likely(on_sig_stack(sp)))
+ 		return (void __user *)-1L;
+ 
++#ifdef CONFIG_X86_64
++	if (ka->sa.sa_flags & SA_RESTORER)
++		restorer = ka->sa.sa_restorer;
++	ret = save_cet_to_sigframe(0, *fpstate, (unsigned long)restorer);
++#endif
++
+ 	/* save i387 and extended state */
+ 	ret = copy_fpstate_to_sigframe(*fpstate, (void __user *)buf_fx, math_size);
+ 	if (ret < 0)
 -- 
 2.21.0
 
