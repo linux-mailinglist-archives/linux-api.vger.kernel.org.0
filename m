@@ -2,34 +2,34 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C25325134E
-	for <lists+linux-api@lfdr.de>; Tue, 25 Aug 2020 09:36:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BD9325135C
+	for <lists+linux-api@lfdr.de>; Tue, 25 Aug 2020 09:37:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729560AbgHYHgr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 25 Aug 2020 03:36:47 -0400
-Received: from mo4-p04-ob.smtp.rzone.de ([85.215.255.121]:25363 "EHLO
+        id S1729611AbgHYHh3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 25 Aug 2020 03:37:29 -0400
+Received: from mo4-p04-ob.smtp.rzone.de ([85.215.255.120]:16014 "EHLO
         mo4-p04-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729528AbgHYHgj (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 25 Aug 2020 03:36:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1598340994;
+        with ESMTP id S1729446AbgHYHgl (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 25 Aug 2020 03:36:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1598340996;
         s=strato-dkim-0002; d=chronox.de;
         h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
         X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
-        bh=lPCGqpAj9btDOboOCtgyMx9ydHKjLifCJ74WWzaZL7I=;
-        b=ZpOvEJ+HNlmqAWbAjOvKTlLhPaywa8tUJ7nxtaRZBQsQLdgy4o6Mye5sdAi3nSRqyz
-        kGuQslJG2pa6Mcn8H9azHCiakMwUXUvDmfgYgowNRqpI52VjX4+yDOxuX0mDsJ1vamy5
-        lQMkqBYXTNenD3FJOOEz/X3WnxNphKIV8ZHj1qFWwakVSD0L3sKxkOiIfMfDd2XqkcQ7
-        PPorsCFqFSlK9cD0rOvUsC+5Y4py8obXgsEXomaND/MYCU5F+qYaimJmQAoy3pTqEl0s
-        cUtptd2KiTGuEjdjU/AZTCgvtN2uTQpPaciE9yRfX2TX6mLPdiWRWoNEXEA/z2qKgiG3
-        GHXw==
+        bh=7EPfKm4bONRKvGNiPWE251KoUKcr4PmmMFG3HTladI8=;
+        b=JFvsIdbOx1c7Ss/Pwkx9mBJYAatARnE35ZovvIlMflPdBDL/IzzPXp4I3i+imb4/Vr
+        473C8gcDluR3CGNNiFvWHJFAVPGogPbE+V0tteUMgJb2w0bJZdzLgwom/ikhsHXthP7z
+        lodUbyTaApDcUqfiEJsGKjxlPtFIWiJtkraH8R5he4tsQhMnQ5y88byOWg31hIzWNBZ1
+        amdu7T4mYK2HYrRpldokEa/QMsEEohVPjvotNqMLpGQRZ0HMpY0BIy+/IduymOEWCXv0
+        ovhQ3CBkdfbUMOEqe3+DXR7GBew6OWjlQA5oss7EfQ99/HvIuvIzEoeQX6C74GOxw17C
+        dn7Q==
 X-RZG-AUTH: ":P2ERcEykfu11Y98lp/T7+hdri+uKZK8TKWEqNyiHySGSa9k9xmwdNnzHHXDaIvSXRbo="
 X-RZG-CLASS-ID: mo00
 Received: from positron.chronox.de
         by smtp.strato.de (RZmta 46.10.7 DYNA|AUTH)
-        with ESMTPSA id 002e9aw7P7ZOZGV
+        with ESMTPSA id 002e9aw7P7ZNZGU
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
         (Client did not present a certificate);
-        Tue, 25 Aug 2020 09:35:24 +0200 (CEST)
+        Tue, 25 Aug 2020 09:35:23 +0200 (CEST)
 From:   Stephan =?ISO-8859-1?Q?M=FCller?= <smueller@chronox.de>
 To:     Arnd Bergmann <arnd@arndb.de>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -57,9 +57,9 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Julia Lawall <julia.lawall@inria.fr>,
         Dan Carpenter <dan.carpenter@oracle.com>,
         Andy Lavr <andy.lavr@gmail.com>
-Subject: [PATCH v34 02/12] LRNG - allocate one DRNG instance per NUMA node
-Date:   Tue, 25 Aug 2020 09:23:09 +0200
-Message-ID: <4318343.LvFx2qVVIh@positron.chronox.de>
+Subject: [PATCH v34 03/12] LRNG - sysctls and /proc interface
+Date:   Tue, 25 Aug 2020 09:23:40 +0200
+Message-ID: <4621114.GXAFRqVoOG@positron.chronox.de>
 In-Reply-To: <11649613.O9o76ZdvQC@positron.chronox.de>
 References: <2544450.mvXUDI8C0e@positron.chronox.de> <5532247.MhkbZ0Pkbq@positron.chronox.de> <11649613.O9o76ZdvQC@positron.chronox.de>
 MIME-Version: 1.0
@@ -70,21 +70,36 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-In order to improve NUMA-locality when serving getrandom(2) requests,
-allocate one DRNG instance per node.
+The LRNG sysctl interface provides the same controls as the existing
+/dev/random implementation. These sysctls behave identically and are
+implemented identically. The goal is to allow a possible merge of the
+existing /dev/random implementation with this implementation which
+implies that this patch tries have a very close similarity. Yet, all
+sysctls are documented at [1].
 
-The DRNG instance that is present right from the start of the kernel is
-reused as the first per-NUMA-node DRNG. For all remaining online NUMA
-nodes a new DRNG instance is allocated.
+In addition, it provides the file lrng_type which provides details about
+the LRNG:
 
-During boot time, the multiple DRNG instances are seeded sequentially.
-With this, the first DRNG instance (referenced as the initial DRNG
-in the code) is completely seeded with 256 bits of entropy before the
-next DRNG instance is completely seeded.
+=2D the name of the DRNG that produces the random numbers for /dev/random,
+/dev/urandom, getrandom(2)
 
-When random numbers are requested, the NUMA-node-local DRNG is checked
-whether it has been already fully seeded. If this is not the case, the
-initial DRNG is used to serve the request.
+=2D the hash used to produce random numbers from the entropy pool
+
+=2D the number of secondary DRNG instances
+
+=2D indicator whether the LRNG operates SP800-90B compliant
+
+=2D indicator whether a high-resolution timer is identified - only with a
+high-resolution timer the interrupt noise source will deliver sufficient
+entropy
+
+=2D indicator whether the LRNG has been minimally seeded (i.e. is the
+secondary DRNG seeded with at least 128 bits of of entropy)
+
+=2D indicator whether the LRNG has been fully seeded (i.e. is the
+secondary DRNG seeded with at least 256 bits of entropy)
+
+[1] https://www.chronox.de/lrng.html
 
 CC: "Eric W. Biederman" <ebiederm@xmission.com>
 CC: "Alexander E. Patrakov" <patrakov@gmail.com>
@@ -109,149 +124,225 @@ Tested-by: Marcelo Henrique Cerri <marcelo.cerri@canonical.com>
 Tested-by: Neil Horman <nhorman@redhat.com>
 Signed-off-by: Stephan Mueller <smueller@chronox.de>
 =2D--
- drivers/char/lrng/Makefile        |   2 +
- drivers/char/lrng/lrng_internal.h |   5 ++
- drivers/char/lrng/lrng_numa.c     | 101 ++++++++++++++++++++++++++++++
- 3 files changed, 108 insertions(+)
- create mode 100644 drivers/char/lrng/lrng_numa.c
+ drivers/char/lrng/Makefile          |   1 +
+ drivers/char/lrng/lrng_interfaces.c |   1 -
+ drivers/char/lrng/lrng_internal.h   |   4 +
+ drivers/char/lrng/lrng_proc.c       | 163 ++++++++++++++++++++++++++++
+ 4 files changed, 168 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/char/lrng/lrng_proc.c
 
 diff --git a/drivers/char/lrng/Makefile b/drivers/char/lrng/Makefile
-index 1d2a0211973d..0a32f22c2c1a 100644
+index 0a32f22c2c1a..e69c176f0161 100644
 =2D-- a/drivers/char/lrng/Makefile
 +++ b/drivers/char/lrng/Makefile
-@@ -7,3 +7,5 @@ obj-y				+=3D lrng_pool.o lrng_aux.o \
- 				   lrng_sw_noise.o lrng_archrandom.o \
- 				   lrng_drng.o lrng_chacha20.o \
+@@ -9,3 +9,4 @@ obj-y				+=3D lrng_pool.o lrng_aux.o \
  				   lrng_interfaces.o \
-+
-+obj-$(CONFIG_NUMA)		+=3D lrng_numa.o
+=20
+ obj-$(CONFIG_NUMA)		+=3D lrng_numa.o
++obj-$(CONFIG_SYSCTL)		+=3D lrng_proc.o
+diff --git a/drivers/char/lrng/lrng_interfaces.c b/drivers/char/lrng/lrng_i=
+nterfaces.c
+index ff8b73e4c936..78ebbfd20f0c 100644
+=2D-- a/drivers/char/lrng/lrng_interfaces.c
++++ b/drivers/char/lrng/lrng_interfaces.c
+@@ -38,7 +38,6 @@ static DECLARE_WAIT_QUEUE_HEAD(lrng_write_wait);
+ static DECLARE_WAIT_QUEUE_HEAD(lrng_init_wait);
+ static struct fasync_struct *fasync;
+=20
+=2Dstruct ctl_table random_table[];
+ /********************************** Helper *******************************=
+****/
+=20
+ /* Is the DRNG seed level too low? */
 diff --git a/drivers/char/lrng/lrng_internal.h b/drivers/char/lrng/lrng_int=
 ernal.h
-index f86afe8d2612..de034260c323 100644
+index de034260c323..4ccfe53e6ce9 100644
 =2D-- a/drivers/char/lrng/lrng_internal.h
 +++ b/drivers/char/lrng/lrng_internal.h
-@@ -256,8 +256,13 @@ int lrng_drng_get_sleep(u8 *outbuf, u32 outbuflen);
- void lrng_drng_force_reseed(void);
- void lrng_drng_seed_work(struct work_struct *dummy);
+@@ -117,7 +117,11 @@ void lrng_cc20_init_state_boot(struct chacha20_state *=
+state);
 =20
-+#ifdef CONFIG_NUMA
-+struct lrng_drng **lrng_drng_instances(void);
-+void lrng_drngs_numa_alloc(void);
-+#else	/* CONFIG_NUMA */
- static inline struct lrng_drng **lrng_drng_instances(void) { return NULL; }
- static inline void lrng_drngs_numa_alloc(void) { return; }
-+#endif /* CONFIG_NUMA */
-=20
- /************************** Health Test linking code *********************=
+ /********************************** /proc ********************************=
 *****/
 =20
-diff --git a/drivers/char/lrng/lrng_numa.c b/drivers/char/lrng/lrng_numa.c
++#ifdef CONFIG_SYSCTL
++void lrng_pool_inc_numa_node(void);
++#else
+ static inline void lrng_pool_inc_numa_node(void) { }
++#endif
+=20
+ /****************************** LRNG interfaces **************************=
+*****/
+=20
+diff --git a/drivers/char/lrng/lrng_proc.c b/drivers/char/lrng/lrng_proc.c
 new file mode 100644
-index 000000000000..947c5b3ed517
+index 000000000000..e5aba75968c1
 =2D-- /dev/null
-+++ b/drivers/char/lrng/lrng_numa.c
-@@ -0,0 +1,101 @@
++++ b/drivers/char/lrng/lrng_proc.c
+@@ -0,0 +1,163 @@
 +// SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
 +/*
-+ * LRNG NUMA support
++ * LRNG proc and sysctl interfaces
 + *
 + * Copyright (C) 2016 - 2020, Stephan Mueller <smueller@chronox.de>
 + */
 +
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-+
 +#include <linux/lrng.h>
-+#include <linux/slab.h>
++#include <linux/proc_fs.h>
++#include <linux/seq_file.h>
++#include <linux/sysctl.h>
++#include <linux/uuid.h>
 +
 +#include "lrng_internal.h"
 +
-+static struct lrng_drng **lrng_drng __read_mostly =3D NULL;
-+
-+struct lrng_drng **lrng_drng_instances(void)
++/*
++ * This function is used to return both the bootid UUID, and random
++ * UUID.  The difference is in whether table->data is NULL; if it is,
++ * then a new UUID is generated and returned to the user.
++ *
++ * If the user accesses this via the proc interface, the UUID will be
++ * returned as an ASCII string in the standard UUID format; if via the
++ * sysctl system call, as 16 bytes of binary data.
++ */
++static int lrng_proc_do_uuid(struct ctl_table *table, int write,
++			     void *buffer, size_t *lenp, loff_t *ppos)
 +{
-+	return lrng_drng;
++	struct ctl_table fake_table;
++	unsigned char buf[64], tmp_uuid[16], *uuid;
++
++	uuid =3D table->data;
++	if (!uuid) {
++		uuid =3D tmp_uuid;
++		generate_random_uuid(uuid);
++	} else {
++		static DEFINE_SPINLOCK(bootid_spinlock);
++
++		spin_lock(&bootid_spinlock);
++		if (!uuid[8])
++			generate_random_uuid(uuid);
++		spin_unlock(&bootid_spinlock);
++	}
++
++	sprintf(buf, "%pU", uuid);
++
++	fake_table.data =3D buf;
++	fake_table.maxlen =3D sizeof(buf);
++
++	return proc_dostring(&fake_table, write, buffer, lenp, ppos);
 +}
 +
-+/* Allocate the data structures for the per-NUMA node DRNGs */
-+static void _lrng_drngs_numa_alloc(struct work_struct *work)
++static int lrng_proc_do_entropy(struct ctl_table *table, int write,
++				void *buffer, size_t *lenp, loff_t *ppos)
 +{
-+	struct lrng_drng **drngs;
++	struct ctl_table fake_table;
++	int entropy_count;
++
++	entropy_count =3D lrng_avail_entropy();
++
++	fake_table.data =3D &entropy_count;
++	fake_table.maxlen =3D sizeof(entropy_count);
++
++	return proc_dointvec(&fake_table, write, buffer, lenp, ppos);
++}
++
++static int lrng_sysctl_poolsize =3D LRNG_POOL_SIZE_BITS;
++static int lrng_min_write_thresh;
++static int lrng_max_write_thresh =3D LRNG_POOL_SIZE_BITS;
++static char lrng_sysctl_bootid[16];
++static int lrng_drng_reseed_max_min;
++
++struct ctl_table random_table[] =3D {
++	{
++		.procname	=3D "poolsize",
++		.data		=3D &lrng_sysctl_poolsize,
++		.maxlen		=3D sizeof(int),
++		.mode		=3D 0444,
++		.proc_handler	=3D proc_dointvec,
++	},
++	{
++		.procname	=3D "entropy_avail",
++		.maxlen		=3D sizeof(int),
++		.mode		=3D 0444,
++		.proc_handler	=3D lrng_proc_do_entropy,
++	},
++	{
++		.procname	=3D "write_wakeup_threshold",
++		.data		=3D &lrng_write_wakeup_bits,
++		.maxlen		=3D sizeof(int),
++		.mode		=3D 0644,
++		.proc_handler	=3D proc_dointvec_minmax,
++		.extra1		=3D &lrng_min_write_thresh,
++		.extra2		=3D &lrng_max_write_thresh,
++	},
++	{
++		.procname	=3D "boot_id",
++		.data		=3D &lrng_sysctl_bootid,
++		.maxlen		=3D 16,
++		.mode		=3D 0444,
++		.proc_handler	=3D lrng_proc_do_uuid,
++	},
++	{
++		.procname	=3D "uuid",
++		.maxlen		=3D 16,
++		.mode		=3D 0444,
++		.proc_handler	=3D lrng_proc_do_uuid,
++	},
++	{
++		.procname       =3D "urandom_min_reseed_secs",
++		.data           =3D &lrng_drng_reseed_max_time,
++		.maxlen         =3D sizeof(int),
++		.mode           =3D 0644,
++		.proc_handler   =3D proc_dointvec,
++		.extra1		=3D &lrng_drng_reseed_max_min,
++	},
++	{ }
++};
++
++/* Number of online DRNGs */
++static u32 numa_drngs =3D 1;
++
++void lrng_pool_inc_numa_node(void)
++{
++	numa_drngs++;
++}
++
++static int lrng_proc_type_show(struct seq_file *m, void *v)
++{
 +	struct lrng_drng *lrng_drng_init =3D lrng_drng_init_instance();
-+	u32 node;
-+	bool init_drng_used =3D false;
++	unsigned long flags =3D 0;
++	unsigned char buf[300];
 +
-+	mutex_lock(&lrng_crypto_cb_update);
++	lrng_drng_lock(lrng_drng_init, &flags);
++	snprintf(buf, sizeof(buf),
++		 "DRNG name: %s\n"
++		 "Hash for reading entropy pool: %s\n"
++		 "DRNG security strength: %d bits\n"
++		 "number of DRNG instances: %u\n"
++		 "SP800-90B compliance: %s\n"
++		 "High-resolution timer: %s\n"
++		 "LRNG minimally seeded: %s\n"
++		 "LRNG fully seeded: %s\n",
++		 lrng_drng_init->crypto_cb->lrng_drng_name(),
++		 lrng_drng_init->crypto_cb->lrng_hash_name(),
++		 LRNG_DRNG_SECURITY_STRENGTH_BITS, numa_drngs,
++		 lrng_sp80090b_compliant() ? "true" : "false",
++		 lrng_pool_highres_timer() ? "true" : "false",
++		 lrng_state_min_seeded() ? "true" : "false",
++		 lrng_state_fully_seeded() ? "true" : "false");
++	lrng_drng_unlock(lrng_drng_init, &flags);
 +
-+	/* per-NUMA-node DRNGs are already present */
-+	if (lrng_drng)
-+		goto unlock;
++	seq_write(m, buf, strlen(buf));
 +
-+	drngs =3D kcalloc(nr_node_ids, sizeof(void *), GFP_KERNEL|__GFP_NOFAIL);
-+	for_each_online_node(node) {
-+		struct lrng_drng *drng;
-+
-+		if (!init_drng_used) {
-+			drngs[node] =3D lrng_drng_init;
-+			init_drng_used =3D true;
-+			continue;
-+		}
-+
-+		drng =3D kmalloc_node(sizeof(struct lrng_drng),
-+				     GFP_KERNEL|__GFP_NOFAIL, node);
-+		memset(drng, 0, sizeof(lrng_drng));
-+
-+		drng->crypto_cb =3D lrng_drng_init->crypto_cb;
-+		drng->drng =3D drng->crypto_cb->lrng_drng_alloc(
-+					LRNG_DRNG_SECURITY_STRENGTH_BYTES);
-+		if (IS_ERR(drng->drng)) {
-+			kfree(drng);
-+			goto err;
-+		}
-+
-+		mutex_init(&drng->lock);
-+		spin_lock_init(&drng->spin_lock);
-+
-+		/*
-+		 * No reseeding of NUMA DRNGs from previous DRNGs as this
-+		 * would complicate the code. Let it simply reseed.
-+		 */
-+		lrng_drng_reset(drng);
-+		drngs[node] =3D drng;
-+
-+		lrng_pool_inc_numa_node();
-+		pr_info("DRNG for NUMA node %d allocated\n", node);
-+	}
-+
-+	/* Ensure that all NUMA nodes receive changed memory here. */
-+	mb();
-+
-+	if (!cmpxchg(&lrng_drng, NULL, drngs))
-+		goto unlock;
-+
-+err:
-+	for_each_online_node(node) {
-+		struct lrng_drng *drng =3D drngs[node];
-+
-+		if (drng =3D=3D lrng_drng_init)
-+			continue;
-+
-+		if (drng) {
-+			drng->crypto_cb->lrng_drng_dealloc(drng->drng);
-+			kfree(drng);
-+		}
-+	}
-+	kfree(drngs);
-+
-+unlock:
-+	mutex_unlock(&lrng_crypto_cb_update);
++	return 0;
 +}
 +
-+static DECLARE_WORK(lrng_drngs_numa_alloc_work, _lrng_drngs_numa_alloc);
-+
-+void lrng_drngs_numa_alloc(void)
++static int __init lrng_proc_type_init(void)
 +{
-+	schedule_work(&lrng_drngs_numa_alloc_work);
++	proc_create_single("lrng_type", 0444, NULL, &lrng_proc_type_show);
++	return 0;
 +}
++
++module_init(lrng_proc_type_init);
 =2D-=20
 2.26.2
 
