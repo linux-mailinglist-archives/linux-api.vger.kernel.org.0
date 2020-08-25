@@ -2,104 +2,233 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A544F25151C
-	for <lists+linux-api@lfdr.de>; Tue, 25 Aug 2020 11:15:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D45C02515D6
+	for <lists+linux-api@lfdr.de>; Tue, 25 Aug 2020 11:59:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729056AbgHYJPM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 25 Aug 2020 05:15:12 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46648 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1729028AbgHYJPD (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 25 Aug 2020 05:15:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1598346900;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=92i+0YUtQgEC4ia+7x4FHZS4hUNlAuigR1V4PDLFWpU=;
-        b=dXID83x2aRkxAWfQMPZWk/vI0Qh6hxbzpf47lTeb+tvwUuSj24TdgkBRIgaD3YGlKDHCvj
-        SX0gBQ3rs/KB+oGq+tV6STleCJU2EMW74zeeqTsUIgHcgFv0Gbs6KFrUuNrUir9FoGGTcZ
-        CrwCG66NpsxslHzCJrVNy5/sTPOAUQQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-493-qjGmojjQPt2LSoxrEMPg0A-1; Tue, 25 Aug 2020 05:14:56 -0400
-X-MC-Unique: qjGmojjQPt2LSoxrEMPg0A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7438100746B;
-        Tue, 25 Aug 2020 09:14:52 +0000 (UTC)
-Received: from oldenburg2.str.redhat.com (ovpn-112-37.ams2.redhat.com [10.36.112.37])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 5353C808AB;
-        Tue, 25 Aug 2020 09:14:39 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list\:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-Subject: Re: [PATCH v11 9/9] x86: Disallow vsyscall emulation when CET is enabled
-References: <20200825002645.3658-1-yu-cheng.yu@intel.com>
-        <20200825002645.3658-10-yu-cheng.yu@intel.com>
-        <CALCETrVXwUDu2m-XEd-_J03L=sricM4cMxQYVkdGRWZDjmMB2g@mail.gmail.com>
-Date:   Tue, 25 Aug 2020 11:14:37 +0200
-In-Reply-To: <CALCETrVXwUDu2m-XEd-_J03L=sricM4cMxQYVkdGRWZDjmMB2g@mail.gmail.com>
-        (Andy Lutomirski's message of "Mon, 24 Aug 2020 17:32:35 -0700")
-Message-ID: <87pn7f9jeq.fsf@oldenburg2.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+        id S1729607AbgHYJ7X (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 25 Aug 2020 05:59:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46838 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726000AbgHYJ7W (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 25 Aug 2020 05:59:22 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70F32C061574;
+        Tue, 25 Aug 2020 02:59:22 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id v15so6463888pgh.6;
+        Tue, 25 Aug 2020 02:59:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=WuOdQNvCjYwjeeuaYczsQ/P924POkklEK/vv0xfrg3U=;
+        b=lXb6ckPFahNycu6CtGG1p9wquWKSFOre6VDxCxEGjOmxt0n9nr2KiBW3wWI7qWPGZj
+         HrZ0IWgEVNx2jG0UtMovukKewnDnCLODATnCvmHNo1UFo5pLmwI35gu8YCqzzCeFRrkd
+         RnvjbGZdUvvOhE/zQbF3m4aZ+dDPSGyFF1/KASb36w7dSKOg7/AS4flOG+6nlMpfl8UL
+         h6vTcE0qSgOIFpfXSX5y2OXr2hvvTvykuKQ5Jsam6atKnfmiKkJEq7OUqMOCheuCzL6k
+         pxOTQikUUA/13oyToSNIB2/CGtB+wChbW7iaK7seCaBsDTOWOIBjCgDkc2cgOsjFxdbQ
+         3MKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=WuOdQNvCjYwjeeuaYczsQ/P924POkklEK/vv0xfrg3U=;
+        b=MgyHj9pbwLKjcp7lswhVTagNE9k29K4dzKgbhZUbezWxUE32peWij3ZT17Ha4Nr2dt
+         HiYoWuWVUbE4rfJhrKiq2UOJ0N1d851QPBZYZqx3HlV3NTwsX1IVjDtEi5Jhr+/AWqNj
+         HsNvVKpDiIDR13b56KIpKhCn9y33S8XTTtCfPiVqLqXKLtYOOQOWx+t+n6Vw9zmHon9r
+         v4meDN4CmzQvJq1T/Er7C53Nt9wwaaAVMQqTUfGCVESzxQyepmpecdBiI0vSX7J0etcK
+         4d0yPtMS5ClgM1N+30i9rxSPSrDYyIsshCzqEPinpdT+TcJAWezgnLkwKKnND1/Pj6dj
+         4Amg==
+X-Gm-Message-State: AOAM531r+5nli8SqvQ6sxKDaV+NHCV3R+q5Vwj8fMBFIUM3FlE1lKwRB
+        4pbQh7+GJwKD+jNP2VhqCf8=
+X-Google-Smtp-Source: ABdhPJzbut3aC8gHdJTxkZ42OLIA3m5jiNHvtlvcEkiWLF5SYUkaFovRawIucnrULxoml+nrQ8IQKA==
+X-Received: by 2002:a65:5c4c:: with SMTP id v12mr5866579pgr.95.1598349561945;
+        Tue, 25 Aug 2020 02:59:21 -0700 (PDT)
+Received: from eug-lubuntu (27-32-121-201.static.tpgi.com.au. [27.32.121.201])
+        by smtp.gmail.com with ESMTPSA id t10sm12426204pgp.15.2020.08.25.02.59.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Aug 2020 02:59:21 -0700 (PDT)
+Date:   Tue, 25 Aug 2020 19:59:09 +1000
+From:   Eugene Lubarsky <elubarsky.linux@gmail.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, adobriyan@gmail.com,
+        avagin@gmail.com, dsahern@gmail.com
+Subject: Re: [RFC PATCH 0/5] Introduce /proc/all/ to gather stats from all
+ processes
+Message-ID: <20200825195909.1d1dcd72@eug-lubuntu>
+In-Reply-To: <20200810154132.GA4171851@kroah.com>
+References: <20200810145852.9330-1-elubarsky.linux@gmail.com>
+        <20200810150453.GB3962761@kroah.com>
+        <20200811012700.2c349082@eug-lubuntu>
+        <20200810154132.GA4171851@kroah.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Andy Lutomirski:
+On Mon, 10 Aug 2020 17:41:32 +0200
+Greg KH <gregkh@linuxfoundation.org> wrote:
 
-> On Mon, Aug 24, 2020 at 5:30 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->>
->> From: "H.J. Lu" <hjl.tools@gmail.com>
->>
->> Emulation of the legacy vsyscall page is required by some programs built
->> before 2013.  Newer programs after 2013 don't use it.  Disallow vsyscall
->> emulation when Control-flow Enforcement (CET) is enabled to enhance
->> security.
->
-> NAK.
->
-> By all means disable execute emulation if CET-IBT is enabled at the
-> time emulation is attempted, and maybe even disable the vsyscall page
-> entirely if you can magically tell that CET-IBT will be enabled when a
-> process starts, but you don't get to just disable it outright on a
-> CET-enabled kernel.
+> On Tue, Aug 11, 2020 at 01:27:00AM +1000, Eugene Lubarsky wrote:
+> > On Mon, 10 Aug 2020 17:04:53 +0200
+> > Greg KH <gregkh@linuxfoundation.org> wrote: =20
+> And have you benchmarked any of this?  Try working with the common
+> tools that want this information and see if it actually is noticeable
+> (hint, I have been doing that with the readfile work and it's
+> surprising what the results are in places...)
 
-Yeah, we definitely would have to revert/avoid this downstream.  People
-definitely want to run glibc-2.12-era workloads on current kernels.
-Thanks for catching it.
+Apologies for the delay. Here are some benchmarks with atop.
 
-Florian
+Patch to atop at: https://github.com/eug48/atop/commits/proc-all
+Patch to add /proc/all/schedstat & cpuset below.
+atop not collecting threads & cmdline as /proc/all/ doesn't support it.
+10,000 processes, kernel 5.8, nested KVM, 2 cores of i7-6700HQ @ 2.60GHz
+
+# USE_PROC_ALL=3D0 ./atop -w test 1 &
+# pidstat -p $(pidof atop) 1
+
+01:33:05   %usr %system  %guest   %wait    %CPU   CPU  Command
+01:33:06  33.66   33.66    0.00    0.99   67.33     1  atop
+01:33:07  33.00   32.00    0.00    2.00   65.00     0  atop
+01:33:08  34.00   31.00    0.00    1.00   65.00     0  atop
+...
+Average:  33.15   32.79    0.00    1.09   65.94     -  atop
+
+
+# USE_PROC_ALL=3D1 ./atop -w test 1 &
+# pidstat -p $(pidof atop) 1
+
+01:33:33   %usr %system  %guest   %wait    %CPU   CPU  Command
+01:33:34  28.00   14.00    0.00    1.00   42.00     1  atop
+01:33:35  28.00   14.00    0.00    0.00   42.00     1  atop
+01:33:36  26.00   13.00    0.00    0.00   39.00     1  atop
+...
+Average:  27.08   12.86    0.00    0.35   39.94     -  atop
+
+So CPU usage goes down from ~65% to ~40%.
+
+Data collection times in milliseconds are:
+
+# xsv cat columns proc.csv procall.csv \
+> | xsv stats \
+> | xsv select field,min,max,mean,stddev \
+> | xsv table
+field           min  max  mean     stddev
+/proc time      558  625  586.59   18.29
+/proc/all time  231  262  243.56   8.02
+
+Much performance optimisation can still be done, e.g. the modified atop
+uses fgets which is reading 1KB at a time, and seq_file seems to only
+return 4KB pages. task_diag should be much faster still.
+
+I'd imagine this sort of thing would be useful for daemons monitoring
+large numbers of processes. I don't run such systems myself; my initial
+motivation was frustration with the Kubernetes kubelet having ~2-4% CPU
+usage even with a couple of containers. Basic profiling suggests syscalls
+have a lot to do with it - it's actually reading loads of tiny cgroup files
+and enumerating many directories every 10 seconds, but /proc has similar
+issues and seemed easier to start with.
+
+Anyway, I've read that io_uring could also help here in the near future,
+which would be really cool especially if there was a way to enumerate
+directories and read many files regex-style in a single operation,
+e.g. /proc/[0-9].*/(stat|statm|io)
+
+> > Currently I'm trying to re-use the existing code in fs/proc that
+> > controls which PIDs are visible, but may well be missing
+> > something.. =20
+>=20
+> Try it out and see if it works correctly.  And pid namespaces are not
+> the only thing these days from what I call :)
+>=20
+I've tried `unshare --fork --pid --mount-proc cat /proc/all/stat`
+which seems to behave correctly. ptrace flags are handled by the
+existing code.
+
+
+Best Wishes,
+Eugene
+
+
+=46rom 2ffc2e388f7ce4e3f182c2442823e5f13bae03dd Mon Sep 17 00:00:00 2001
+From: Eugene Lubarsky <elubarsky.linux@gmail.com>
+Date: Tue, 25 Aug 2020 12:36:41 +1000
+Subject: [RFC PATCH] fs/proc: /proc/all: add schedstat and cpuset
+
+Signed-off-by: Eugene Lubarsky <elubarsky.linux@gmail.com>
+---
+ fs/proc/base.c | 42 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
+
+diff --git a/fs/proc/base.c b/fs/proc/base.c
+index 0bba4b3a985e..44d73f1ade4a 100644
+--- a/fs/proc/base.c
++++ b/fs/proc/base.c
+@@ -3944,6 +3944,36 @@ static int proc_all_io(struct seq_file *m, void *v)
+ }
+ #endif
+=20
++#ifdef CONFIG_PROC_PID_CPUSET
++static int proc_all_cpuset(struct seq_file *m, void *v)
++{
++	struct all_iter *iter =3D (struct all_iter *) v;
++	struct pid_namespace *ns =3D iter->ns;
++	struct task_struct *task =3D iter->tgid_iter.task;
++	struct pid *pid =3D task->thread_pid;
++
++	seq_put_decimal_ull(m, "", pid_nr_ns(pid, ns));
++	seq_puts(m, " ");
++
++	return proc_cpuset_show(m, ns, pid, task);
++}
++#endif
++
++#ifdef CONFIG_SCHED_INFO
++static int proc_all_schedstat(struct seq_file *m, void *v)
++{
++	struct all_iter *iter =3D (struct all_iter *) v;
++	struct pid_namespace *ns =3D iter->ns;
++	struct task_struct *task =3D iter->tgid_iter.task;
++	struct pid *pid =3D task->thread_pid;
++
++	seq_put_decimal_ull(m, "", pid_nr_ns(pid, ns));
++	seq_puts(m, " ");
++
++	return proc_pid_schedstat(m, ns, pid, task);
++}
++#endif
++
+ static int proc_all_statx(struct seq_file *m, void *v)
+ {
+ 	struct all_iter *iter =3D (struct all_iter *) v;
+@@ -3990,6 +4020,12 @@ PROC_ALL_OPS(status);
+ #ifdef CONFIG_TASK_IO_ACCOUNTING
+ 	PROC_ALL_OPS(io);
+ #endif
++#ifdef CONFIG_SCHED_INFO
++	PROC_ALL_OPS(schedstat);
++#endif
++#ifdef CONFIG_PROC_PID_CPUSET
++	PROC_ALL_OPS(cpuset);
++#endif
+=20
+ #define PROC_ALL_CREATE(NAME) \
+ 	do { \
+@@ -4011,4 +4047,10 @@ void __init proc_all_init(void)
+ #ifdef CONFIG_TASK_IO_ACCOUNTING
+ 	PROC_ALL_CREATE(io);
+ #endif
++#ifdef CONFIG_SCHED_INFO
++	PROC_ALL_CREATE(schedstat);
++#endif
++#ifdef CONFIG_PROC_PID_CPUSET
++	PROC_ALL_CREATE(cpuset);
++#endif
+ }
+--=20
+2.25.1
 
