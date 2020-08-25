@@ -2,42 +2,43 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CEB3250DA0
-	for <lists+linux-api@lfdr.de>; Tue, 25 Aug 2020 02:34:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A126250DB5
+	for <lists+linux-api@lfdr.de>; Tue, 25 Aug 2020 02:36:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728763AbgHYAeI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 24 Aug 2020 20:34:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44446 "EHLO mail.kernel.org"
+        id S1727913AbgHYAgQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 24 Aug 2020 20:36:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47774 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728761AbgHYAeA (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 24 Aug 2020 20:34:00 -0400
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+        id S1728069AbgHYAgO (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 24 Aug 2020 20:36:14 -0400
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4C68B22B3F
-        for <linux-api@vger.kernel.org>; Tue, 25 Aug 2020 00:33:59 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3C19E22B49
+        for <linux-api@vger.kernel.org>; Tue, 25 Aug 2020 00:36:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598315639;
-        bh=FZVk5iiXJbmA3My8loC+sCM7p8RHhlYbxo2KYPIse/o=;
+        s=default; t=1598315773;
+        bh=rGvi9MthtY3Zm6e8LjprXXopxA9y4zSlrOEw0NKum+4=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=mggVYqUIgHbDQKb/yVaAMmhrthhgWbYYBwu714YhVe9OQ2/ALMq/Cy86XMLrV9SX/
-         uHsQgq2f4G38hwoV06S/mM/5jXTexbRiA/MbDFdzed59wrq9ZCjjKcezLf2jFRFip5
-         yOW67xQag00gSYB+iKbRbVfU9CrDRiNoY6/71ri0=
-Received: by mail-wm1-f50.google.com with SMTP id a65so706997wme.5
-        for <linux-api@vger.kernel.org>; Mon, 24 Aug 2020 17:33:59 -0700 (PDT)
-X-Gm-Message-State: AOAM533RVjAPxXRt7Y2U2V1yDzmWslAsdG96gxFV9tlIX1F4kVzJPUj5
-        vi6MRcvhLB1aIFk3pbLWbc4WYCXpEaNZzY1nody2iA==
-X-Google-Smtp-Source: ABdhPJxs5innMByMfHrDOfrJMbYWcoGG4lrxdYWHbQ0NbBl3UqboIJUvK4aNgCRUoVaifdvLV7DHlZhHzHiKtSmebvY=
-X-Received: by 2002:a1c:ba08:: with SMTP id k8mr1702940wmf.49.1598315637952;
- Mon, 24 Aug 2020 17:33:57 -0700 (PDT)
+        b=B6Wx3Ta6WhVMQKKzGweK4EThUhgXM6QWLkS94KXmCxlmle+2iB0Dv09wyhNA8aRbN
+         dsQ53FpEURe72/ch7xsfDwPS91aaJSasia0EbG688D9gOu1Hx5x7lX3qZHeTOZW6D8
+         4wSVwPTFbnEboYBj+ztOR0WlttNyXQD1wqIUFjiw=
+Received: by mail-wr1-f43.google.com with SMTP id b18so291360wrs.7
+        for <linux-api@vger.kernel.org>; Mon, 24 Aug 2020 17:36:13 -0700 (PDT)
+X-Gm-Message-State: AOAM53271wRU1SH3g8MoaFfbYlJRQYBHz+b1/tbYjiRfepsH5M/CIpG1
+        kDA5L7sr7I6rQw39NjKRRD/9lj2uQG4FZXWk2oEW3w==
+X-Google-Smtp-Source: ABdhPJycfFTryYvqMmogFZ4f07fwtEQYtW9RheeU7iIaKlRW/yfrBCrffVk+TftqJezyfeIoiX/ikLMCzBNMBUeOh9k=
+X-Received: by 2002:adf:9283:: with SMTP id 3mr7902213wrn.70.1598315771751;
+ Mon, 24 Aug 2020 17:36:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200825002645.3658-1-yu-cheng.yu@intel.com> <20200825002645.3658-9-yu-cheng.yu@intel.com>
-In-Reply-To: <20200825002645.3658-9-yu-cheng.yu@intel.com>
+References: <20200825002540.3351-1-yu-cheng.yu@intel.com> <20200825002540.3351-26-yu-cheng.yu@intel.com>
+In-Reply-To: <20200825002540.3351-26-yu-cheng.yu@intel.com>
 From:   Andy Lutomirski <luto@kernel.org>
-Date:   Mon, 24 Aug 2020 17:33:46 -0700
-X-Gmail-Original-Message-ID: <CALCETrWo5kNeQd=cfU647_htcDNJpVPKv2d8JqdjeLRFCb1wXA@mail.gmail.com>
-Message-ID: <CALCETrWo5kNeQd=cfU647_htcDNJpVPKv2d8JqdjeLRFCb1wXA@mail.gmail.com>
-Subject: Re: [PATCH v11 8/9] x86/vdso: Insert endbr32/endbr64 to vDSO
+Date:   Mon, 24 Aug 2020 17:36:00 -0700
+X-Gmail-Original-Message-ID: <CALCETrVpLnZGfWWLpJO+aZ9aBbx5KGaCskejXiCXF1GtsFFoPg@mail.gmail.com>
+Message-ID: <CALCETrVpLnZGfWWLpJO+aZ9aBbx5KGaCskejXiCXF1GtsFFoPg@mail.gmail.com>
+Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
+ shadow stack
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -74,19 +75,17 @@ List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 On Mon, Aug 24, 2020 at 5:30 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->
-> From: "H.J. Lu" <hjl.tools@gmail.com>
->
-> When Indirect Branch Tracking (IBT) is enabled, vDSO functions may be
-> called indirectly, and must have ENDBR32 or ENDBR64 as the first
-> instruction.  The compiler must support -fcf-protection=branch so that it
-> can be used to compile vDSO.
->
-> Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> Acked-by: Andy Lutomirski <luto@kernel.org>
 
-I revoke my Ack.  Please don't repeat the list of object files.  Maybe
-add the option to CFL?
+> arch_prctl(ARCH_X86_CET_MMAP_SHSTK, u64 *args)
+>     Allocate a new shadow stack.
+>
+>     The parameter 'args' is a pointer to a user buffer.
+>
+>     *args = desired size
+>     *(args + 1) = MAP_32BIT or MAP_POPULATE
+>
+>     On returning, *args is the allocated shadow stack address.
+
+This is hideous.  Would this be better as a new syscall?
 
 --Andy
