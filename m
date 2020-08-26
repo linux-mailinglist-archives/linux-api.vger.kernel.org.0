@@ -2,118 +2,128 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CB14253587
-	for <lists+linux-api@lfdr.de>; Wed, 26 Aug 2020 18:55:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 77B192535B2
+	for <lists+linux-api@lfdr.de>; Wed, 26 Aug 2020 19:05:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726990AbgHZQzM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 26 Aug 2020 12:55:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50676 "EHLO mail.kernel.org"
+        id S1727001AbgHZRFJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 26 Aug 2020 13:05:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33396 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726858AbgHZQzL (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 26 Aug 2020 12:55:11 -0400
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+        id S1726971AbgHZRFH (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 26 Aug 2020 13:05:07 -0400
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 86FEA22B4E
-        for <linux-api@vger.kernel.org>; Wed, 26 Aug 2020 16:55:10 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4548922CA1
+        for <linux-api@vger.kernel.org>; Wed, 26 Aug 2020 17:05:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598460910;
-        bh=90eG2YC7ABsnYjclAXIjb+dB+da3NK2fm+peh/LcFOk=;
+        s=default; t=1598461506;
+        bh=Fp4rNpiuId6Zd1SRZaw++Fjp3anMdRDaszmTeS7uFZQ=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ALtDO/SGIdIyXtJEgnSUc5+3ECVAWbJUiZmmv4zc0htOnx8GLxrv0eP+vpvcifgBr
-         4ercfZTjzUiKDT5N/tuG4G2vavO/VGYzZeLs6HiGnTXGWKm7MN/9B3hZhOaXf9NEbv
-         YSjGr0Kf2NouFCLwjCP/LyibUnKlXuGq7Sbuc8Yc=
-Received: by mail-wm1-f50.google.com with SMTP id s13so2462513wmh.4
-        for <linux-api@vger.kernel.org>; Wed, 26 Aug 2020 09:55:10 -0700 (PDT)
-X-Gm-Message-State: AOAM533qU3HqAxA3CFLUXl5FMUwFiVHUUlePasJm48fOWe66pbMBOjsK
-        duaUnHGjbOXSJrVjFU7/nzYaM/lBrPOeH/JtWeADHw==
-X-Google-Smtp-Source: ABdhPJzm6zw8GgmvAuLjLkF//j2YOGcbQK27MpOGIKs7o1yACCh0Pt9TsTFQE/afB1qwmSFWs+CN/ps0CGFC5GDu0TQ=
-X-Received: by 2002:a1c:bc45:: with SMTP id m66mr7394687wmf.36.1598460908958;
- Wed, 26 Aug 2020 09:55:08 -0700 (PDT)
+        b=IXsZbehfS9rUMHIUdoa09eOQCVQ3Gh0ntq3FHoKtDEBmxNo4m64QNUZgFCYV/FBvm
+         pA0iOF4Eb1d4wGL5f7juoUUApYPt8PaUV0XRtuZ1fvkTFHbKiaCRhCTKGYqTqFGDje
+         m7p05GH9gD2W5ZWdl9vtHaNQM1v4gDB8YxzDl5VE=
+Received: by mail-wr1-f46.google.com with SMTP id p17so2559701wrj.8
+        for <linux-api@vger.kernel.org>; Wed, 26 Aug 2020 10:05:06 -0700 (PDT)
+X-Gm-Message-State: AOAM531utW+Xbv+AAHfjhCA056zXC3WoQYIWycEYKqareWzUZLhc6a01
+        F4anemEJ4CeItZQmQfV2WFv/hFfPuKVrIkl5spcUdA==
+X-Google-Smtp-Source: ABdhPJxT1whGlvFPDBPqTZxg6JBM1ZNVE0c8Sb8po9BtCcEYhiPPubL7pcyJ9YiMCYEcuPYkefPEyiGW6FbklL+xVTI=
+X-Received: by 2002:a5d:570e:: with SMTP id a14mr1919991wrv.70.1598461504645;
+ Wed, 26 Aug 2020 10:05:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200130162340.GA14232@rapoport-lnx> <CALCETrVOWodgnRBFpPLEnc_Bfg=fgfAJiD1p-eE1uwCMc6c9Tg@mail.gmail.com>
- <6e020a65-b516-9407-228f-2a3a32947ab9@intel.com>
-In-Reply-To: <6e020a65-b516-9407-228f-2a3a32947ab9@intel.com>
+References: <20200825002540.3351-1-yu-cheng.yu@intel.com> <20200825002540.3351-26-yu-cheng.yu@intel.com>
+ <CALCETrVpLnZGfWWLpJO+aZ9aBbx5KGaCskejXiCXF1GtsFFoPg@mail.gmail.com>
+ <2d253891-9393-44d0-35e0-4b9a2da23cec@intel.com> <086c73d8-9b06-f074-e315-9964eb666db9@intel.com>
+ <73c2211f-8811-2d9f-1930-1c5035e6129c@intel.com> <af258a0e-56e9-3747-f765-dfe45ce76bba@intel.com>
+ <ef7f9e24-f952-d78c-373e-85435f742688@intel.com> <20200826164604.GW6642@arm.com>
+ <87ft892vvf.fsf@oldenburg2.str.redhat.com>
+In-Reply-To: <87ft892vvf.fsf@oldenburg2.str.redhat.com>
 From:   Andy Lutomirski <luto@kernel.org>
-Date:   Wed, 26 Aug 2020 09:54:57 -0700
-X-Gmail-Original-Message-ID: <CALCETrUwO_y_b=kazRjen-de50r9b9TVXUXz_WT_hD3d3tTWxQ@mail.gmail.com>
-Message-ID: <CALCETrUwO_y_b=kazRjen-de50r9b9TVXUXz_WT_hD3d3tTWxQ@mail.gmail.com>
-Subject: Re: [RFC PATCH] mm: extend memfd with ability to create "secret"
- memory areas
-To:     Dave Hansen <dave.hansen@intel.com>
-Cc:     Andy Lutomirski <luto@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Alan Cox <alan@linux.intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Christopher Lameter <cl@linux.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Reshetova, Elena" <elena.reshetova@intel.com>,
+Date:   Wed, 26 Aug 2020 10:04:53 -0700
+X-Gmail-Original-Message-ID: <CALCETrVeNA0Kt2rW0CRCVo1JE0CKaBxu9KrJiyqUA8LPraY=7g@mail.gmail.com>
+Message-ID: <CALCETrVeNA0Kt2rW0CRCVo1JE0CKaBxu9KrJiyqUA8LPraY=7g@mail.gmail.com>
+Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
+ shadow stack
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     Dave Martin <Dave.Martin@arm.com>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Andy Lutomirski <luto@kernel.org>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Aug 14, 2020 at 11:09 AM Dave Hansen <dave.hansen@intel.com> wrote:
+On Wed, Aug 26, 2020 at 9:52 AM Florian Weimer <fweimer@redhat.com> wrote:
 >
-> On 8/14/20 10:46 AM, Andy Lutomirski wrote:
-> > I'm a little unconvinced about the security benefits.  As far as I
-> > know, UC memory will not end up in cache by any means (unless
-> > aliased), but it's going to be tough to do much with UC data with
-> > anything resembling reasonable performance without derived values
-> > getting cached.
+> * Dave Martin:
 >
-> I think this is much more in the category of raising the bar than
-> providing any absolute security guarantees.
-
-The problem here is that we're raising the bar in a way that is
-weirdly architecture dependent, *extremely* nonperformant, and may not
-even accomplish what it's trying to accomplish.
-
+> > On Tue, Aug 25, 2020 at 04:34:27PM -0700, Yu, Yu-cheng wrote:
+> >> On 8/25/2020 4:20 PM, Dave Hansen wrote:
+> >> >On 8/25/20 2:04 PM, Yu, Yu-cheng wrote:
+> >> >>>>I think this is more arch-specific.  Even if it becomes a new syscall,
+> >> >>>>we still need to pass the same parameters.
+> >> >>>
+> >> >>>Right, but without the copying in and out of memory.
+> >> >>>
+> >> >>Linux-api is already on the Cc list.  Do we need to add more people to
+> >> >>get some agreements for the syscall?
+> >> >What kind of agreement are you looking for?  I'd suggest just coding it
+> >> >up and posting the patches.  Adding syscalls really is really pretty
+> >> >straightforward and isn't much code at all.
+> >> >
+> >>
+> >> Sure, I will do that.
+> >
+> > Alternatively, would a regular prctl() work here?
 >
-> Let's say you have a secret and you read it into some registers and then
-> spill them on the stack.  You've got two cached copies, one for the
-> primary data and another for the stack copy.  Secret areas don't get rid
-> of the stack copy, but they do get rid of the other one.  One cache copy
-> is better than two.  Bar raised. :)
-
-If we have two bars right next to each other and we raise one of them,
-did we really accomplish much?  I admit that having a secret in its
-own dedicated cache line seems like an easier target than a secret in
-a cache line that may be quickly overwritten by something else.  But
-even user registers right now aren't specially protected -- pt_regs
-lives is cached and probably has a predictable location, especially if
-you execve() a setuid program.
-
+> Is this something appliation code has to call, or just the dynamic
+> loader?
 >
-> There are also some stronger protections, less in the bar-raising
-> category.  On x86 at least, uncached accesses also crush speculation.
-> You can't, for instance, speculatively get wrong values if you're not
-> speculating in the first place.  I was thinking of things like Load
-> Value Injection[1].
-
-This seems genuinely useful, but it doesn't really address the fact
-that requesting UC memory via PAT apparently has a good chance of
-getting WB anyway.
-
+> prctl in glibc is a variadic function, so if there's a mismatch between
+> the kernel/userspace syscall convention and the userspace calling
+> convention (for variadic functions) for specific types, it can't be made
+> to work in a generic way.
 >
-> I _believe_ there are also things like AES-NI that can get strong
-> protection from stuff like this.  They load encryption keys into (AVX)
-> registers and then can do encrypt/decrypt operations without the keys
-> leaving the registers.  If the key was loaded from a secret memory area
-> right into the registers, I think the protection from cache attacks
-> would be pretty strong.
+> The loader can use inline assembly for system calls and does not have
+> this issue, but applications would be implcated by it.
 >
 
-Except for context switches :)
->
-> 1.
-> https://software.intel.com/security-software-guidance/insights/deep-dive-load-value-injection
+I would expect things like Go and various JITs to call it directly.
+
+If we wanted to be fancy and add a potentially more widely useful
+syscall, how about:
+
+mmap_special(void *addr, size_t length, int prot, int flags, int type);
+
+Where type is something like MMAP_SPECIAL_X86_SHSTK.  Fundamentally,
+this is really just mmap() except that we want to map something a bit
+magical, and we don't want to require opening a device node to do it.
+
+--Andy
