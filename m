@@ -2,126 +2,103 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 959322535BC
-	for <lists+linux-api@lfdr.de>; Wed, 26 Aug 2020 19:08:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D99B225363E
+	for <lists+linux-api@lfdr.de>; Wed, 26 Aug 2020 20:03:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726887AbgHZRIu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 26 Aug 2020 13:08:50 -0400
-Received: from foss.arm.com ([217.140.110.172]:49226 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726854AbgHZRIu (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 26 Aug 2020 13:08:50 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C2A95101E;
-        Wed, 26 Aug 2020 10:08:48 -0700 (PDT)
-Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0B85B3F68F;
-        Wed, 26 Aug 2020 10:08:44 -0700 (PDT)
-Date:   Wed, 26 Aug 2020 18:08:42 +0100
-From:   Dave Martin <Dave.Martin@arm.com>
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Andy Lutomirski <luto@kernel.org>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
- shadow stack
-Message-ID: <20200826170841.GX6642@arm.com>
-References: <20200825002540.3351-1-yu-cheng.yu@intel.com>
- <20200825002540.3351-26-yu-cheng.yu@intel.com>
- <CALCETrVpLnZGfWWLpJO+aZ9aBbx5KGaCskejXiCXF1GtsFFoPg@mail.gmail.com>
- <2d253891-9393-44d0-35e0-4b9a2da23cec@intel.com>
- <086c73d8-9b06-f074-e315-9964eb666db9@intel.com>
- <73c2211f-8811-2d9f-1930-1c5035e6129c@intel.com>
- <af258a0e-56e9-3747-f765-dfe45ce76bba@intel.com>
- <ef7f9e24-f952-d78c-373e-85435f742688@intel.com>
- <20200826164604.GW6642@arm.com>
- <87ft892vvf.fsf@oldenburg2.str.redhat.com>
+        id S1726739AbgHZSC7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 26 Aug 2020 14:02:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35900 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726187AbgHZSC6 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 26 Aug 2020 14:02:58 -0400
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FB89C061574;
+        Wed, 26 Aug 2020 11:02:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=mShoHnabcEwjLMnW9gTjGmQe26962ZfrGYbtNUBfp98=; b=KuwL89BQQ50l3S2q48Px0USuuT
+        Gq8vGSmEx7aaHDZS86Ez8JbCnEKXCzoT8h0G6G59ZE2vcbBdjhUuIZ4MNWqn+AbTDpnzwqf1nXt4D
+        Rxrx6L46lnw30SXQizvImv8X0I5P2xSLJwgiJftsUATxDNpFJ0a+kqL7qWjo5ihfug6kYPkFuWzVh
+        gyEV/m7NdTq6UQGw8xrQHb+W52CnVM+YrmTijb1B0KSHjfTEKLkMnvqwBWKCF2owKcTnDURH0N0Qp
+        fDZB4naQcgdhlnSqS8KdUC90IXQVQ6ssKv+uYd4J+yhBuzdG/xETDNjg1Vsi8rXoURCSekRy7pZcq
+        5L/AFMLA==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kAzl5-0000E8-98; Wed, 26 Aug 2020 18:02:51 +0000
+Subject: Re: [PATCH v20 22/23] LSM: Add /proc attr entry for full LSM context
+To:     Casey Schaufler <casey@schaufler-ca.com>,
+        casey.schaufler@intel.com, jmorris@namei.org,
+        linux-security-module@vger.kernel.org, selinux@vger.kernel.org
+Cc:     linux-audit@redhat.com, keescook@chromium.org,
+        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
+        paul@paul-moore.com, sds@tycho.nsa.gov, linux-api@vger.kernel.org
+References: <20200826145247.10029-1-casey@schaufler-ca.com>
+ <20200826145247.10029-23-casey@schaufler-ca.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <2e16e5dc-d040-8e8d-0fda-eb631b4b72e1@infradead.org>
+Date:   Wed, 26 Aug 2020 11:02:46 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87ft892vvf.fsf@oldenburg2.str.redhat.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20200826145247.10029-23-casey@schaufler-ca.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Aug 26, 2020 at 06:51:48PM +0200, Florian Weimer wrote:
-> * Dave Martin:
-> 
-> > On Tue, Aug 25, 2020 at 04:34:27PM -0700, Yu, Yu-cheng wrote:
-> >> On 8/25/2020 4:20 PM, Dave Hansen wrote:
-> >> >On 8/25/20 2:04 PM, Yu, Yu-cheng wrote:
-> >> >>>>I think this is more arch-specific.  Even if it becomes a new syscall,
-> >> >>>>we still need to pass the same parameters.
-> >> >>>
-> >> >>>Right, but without the copying in and out of memory.
-> >> >>>
-> >> >>Linux-api is already on the Cc list.  Do we need to add more people to
-> >> >>get some agreements for the syscall?
-> >> >What kind of agreement are you looking for?  I'd suggest just coding it
-> >> >up and posting the patches.  Adding syscalls really is really pretty
-> >> >straightforward and isn't much code at all.
-> >> >
-> >> 
-> >> Sure, I will do that.
-> >
-> > Alternatively, would a regular prctl() work here?
-> 
-> Is this something appliation code has to call, or just the dynamic
-> loader?
-> 
-> prctl in glibc is a variadic function, so if there's a mismatch between
-> the kernel/userspace syscall convention and the userspace calling
-> convention (for variadic functions) for specific types, it can't be made
-> to work in a generic way.
->
-> The loader can use inline assembly for system calls and does not have
-> this issue, but applications would be implcated by it.
+Hi,
 
-To the extent that this is a problem, libc's prctl() wrapper has to
-handle it already.  New prctl() calls tend to demand precisely 4
-arguments and require unused arguments to be 0, but this is more down to
-policy rather than because anything breaks otherwise.
+On 8/26/20 7:52 AM, Casey Schaufler wrote:
+> diff --git a/Documentation/security/lsm.rst b/Documentation/security/lsm.rst
+> index 6a2a2e973080..fd4c87358d54 100644
+> --- a/Documentation/security/lsm.rst
+> +++ b/Documentation/security/lsm.rst
+> @@ -129,3 +129,31 @@ to identify it as the first security module to be registered.
+>  The capabilities security module does not use the general security
+>  blobs, unlike other modules. The reasons are historical and are
+>  based on overhead, complexity and performance concerns.
+> +
+> +LSM External Interfaces
+> +=======================
+> +
+> +The LSM infrastructure does not generally provide external interfaces.
+> +The individual security modules provide what external interfaces they
+> +require.
+> +
+> +The file ``/sys/kernel/security/lsm`` provides a comma
+> +separated list of the active security modules.
+> +
+> +The file ``/proc/pid/attr/display`` contains the name of the security
+> +module for which the ``/proc/pid/attr/current`` interface will
+> +apply. This interface can be written to.
+> +
+> +The infrastructure does provide an interface for the special
+> +case where multiple security modules provide a process context.
+> +This is provided in compound context format.
+> +
+> +-  `lsm\0value\0lsm\0value\0`
+> +
+> +The `lsm` and `value` fields are nul terminated bytestrings.
 
-You're right that this has implications: for i386, libc probably pulls
-more arguments off the stack than are really there in some situations.
-This isn't a new problem though.  There are already generic prctls with
-fewer than 4 args that are used on x86.
+Preferably                          NUL-terminated
 
-Merging the actual prctl() and arch_prctl() syscalls doesn't acutally
-stop libc from retaining separate wrappers if they have different
-argument marshaling requirements in some corner cases.
+> +Each field may contain whitespace or non-printable characters.
+> +The nul bytes are included in the size of a compound context.
+
+       NUL
+
+> +The context ``Bell\0Secret\0Biba\0Loose\0`` has a size of 23.
+> +
+> +The file ``/proc/pid/attr/context`` provides the security
+> +context of the identified process.
 
 
-There might be some underlying reason by x86 has its own call and nobody
-else followed the same model, but I don't know what it is.
-
-Cheers
----Dave
+thanks.
+-- 
+~Randy
+Reported-by: Randy Dunlap <rdunlap@infradead.org>
