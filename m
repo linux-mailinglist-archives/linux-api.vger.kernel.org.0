@@ -2,98 +2,112 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 27CF525243C
-	for <lists+linux-api@lfdr.de>; Wed, 26 Aug 2020 01:34:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AF7B252875
+	for <lists+linux-api@lfdr.de>; Wed, 26 Aug 2020 09:31:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726610AbgHYXec (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 25 Aug 2020 19:34:32 -0400
-Received: from mga02.intel.com ([134.134.136.20]:9369 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726542AbgHYXec (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 25 Aug 2020 19:34:32 -0400
-IronPort-SDR: ZN+OV2SFvIotG49YgGU8rrxns0mJE/9HDrfzzPoLzPJ86VEYrAYkKoruTmaknORLiEbgoKMCF5
- vQvMny8PkGNQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9724"; a="143984475"
-X-IronPort-AV: E=Sophos;i="5.76,354,1592895600"; 
-   d="scan'208";a="143984475"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2020 16:34:29 -0700
-IronPort-SDR: jDH1O40YY4lOk1YRVka2qfIczRRKbt6rlwfRgT/NIKrAOgYtq0SF7EEESuwd0piSxHaIIvjQiR
- Ag1HGEmIkTmw==
-X-IronPort-AV: E=Sophos;i="5.76,354,1592895600"; 
-   d="scan'208";a="336668677"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.213.162.112]) ([10.213.162.112])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2020 16:34:28 -0700
-Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
- shadow stack
-To:     Dave Hansen <dave.hansen@intel.com>,
-        Andy Lutomirski <luto@kernel.org>
-Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
+        id S1726700AbgHZHba (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 26 Aug 2020 03:31:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50252 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725957AbgHZHb3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 26 Aug 2020 03:31:29 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D0AFC061574;
+        Wed, 26 Aug 2020 00:31:29 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id k20so714472wmi.5;
+        Wed, 26 Aug 2020 00:31:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=iugUDxAIQnsl/7ZTyF/vSE3EIH4/fyRR8BQQUZWp5EQ=;
+        b=Z2eetczZorq1PwBzNArWIukQAkQr+paPOisqwgvveDDD3GU3KOHoDs/79J2caxqSz1
+         iO1GLncjUMrj7RwcK1kbLNigUHVYYnWwVF39f+w41H2Gr86d6pu0j4f4j5sVlJwkXlq6
+         SwaV6AE3U4Nn31pMY3y96WnIM7ZXc+amAEGdWaIlzIAQDTfd6Hd29krGLP1RJoNaunW5
+         qD7saoAmwowVM9j+mV3naqQYj5d8wTTLpBtAMevaOQ6ggdOzMLCdUkmU3BGAbZzuuAX7
+         Bcj451PyKs6PK7CZlx+woOjvfOIWkTNTQUo8zrHw9cqGCnYtD3b+XGwsAMc/hDMC+3xH
+         DLBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=iugUDxAIQnsl/7ZTyF/vSE3EIH4/fyRR8BQQUZWp5EQ=;
+        b=UH4TroUE770PKmbH68Ob3UExd6LU3WTsKiZFnWl++wwj9dXX3LkrTe42V1Dg996+3T
+         nMxZXH3nVPCTHVw9xCMhOO1xEh8CZ+0BrD03CINHwEt7BCXGW9+9A7GQz+rtWwZmsv3w
+         2BeKXLmCp4TwOv1mvpXXmikej3mJR+gdrXfywvxNK7YU3/G5L6CpL4mmwHeu8e7lcjTm
+         VOugwbEarfrHnwuOOG4GhEQgsAIBGuFi1JrE2KQDq4rtpW72TUIQhPguFEhD/Q8QY4Cw
+         EyImptqkwnpPZIJzTF68pOFZZi6zvLSeLw9gDYd/ZqwL+/P0sBvmBWj79XqUPZxbXdCJ
+         58bw==
+X-Gm-Message-State: AOAM5325U9xD55NoSTSEjqq9SZxY/2LG+V+dlGJVccAEQEusLhRnSYuu
+        5aTWXx3C7Id3Pj8vVP1gZ38=
+X-Google-Smtp-Source: ABdhPJy68Qvq8AcZg5rqsHqIO4qYh0hH2z1tsgQ09aHUGpv1lVQhmf9NzotCzkFjNfZwGbmAnPUEAA==
+X-Received: by 2002:a1c:de55:: with SMTP id v82mr5057597wmg.181.1598427087731;
+        Wed, 26 Aug 2020 00:31:27 -0700 (PDT)
+Received: from ?IPv6:2001:a61:253c:4c01:2cf1:7133:9da2:66a9? ([2001:a61:253c:4c01:2cf1:7133:9da2:66a9])
+        by smtp.gmail.com with ESMTPSA id f6sm4390016wme.32.2020.08.26.00.31.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Aug 2020 00:31:26 -0700 (PDT)
+Cc:     mtk.manpages@gmail.com, Alexander Viro <viro@zeniv.linux.org.uk>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        linux-man <linux-man@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-References: <20200825002540.3351-1-yu-cheng.yu@intel.com>
- <20200825002540.3351-26-yu-cheng.yu@intel.com>
- <CALCETrVpLnZGfWWLpJO+aZ9aBbx5KGaCskejXiCXF1GtsFFoPg@mail.gmail.com>
- <2d253891-9393-44d0-35e0-4b9a2da23cec@intel.com>
- <086c73d8-9b06-f074-e315-9964eb666db9@intel.com>
- <73c2211f-8811-2d9f-1930-1c5035e6129c@intel.com>
- <af258a0e-56e9-3747-f765-dfe45ce76bba@intel.com>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <ef7f9e24-f952-d78c-373e-85435f742688@intel.com>
-Date:   Tue, 25 Aug 2020 16:34:27 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        lkml <linux-kernel@vger.kernel.org>, Karel Zak <kzak@redhat.com>
+Subject: Re: [PATCH 2/5] Add manpages for move_mount(2) and open_tree(2)
+To:     David Howells <dhowells@redhat.com>
+References: <CAKgNAkjHcxYpzVohhJnxcHXO4s-4Ti_pNsmTZrD-CMu-EUCOoA@mail.gmail.com>
+ <159680892602.29015.6551860260436544999.stgit@warthog.procyon.org.uk>
+ <159680894741.29015.5588747939240667925.stgit@warthog.procyon.org.uk>
+ <287644.1598263702@warthog.procyon.org.uk>
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Message-ID: <91c4ada9-5b5d-e93e-0bf6-b0a36b240880@gmail.com>
+Date:   Wed, 26 Aug 2020 09:31:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <af258a0e-56e9-3747-f765-dfe45ce76bba@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <287644.1598263702@warthog.procyon.org.uk>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 8/25/2020 4:20 PM, Dave Hansen wrote:
-> On 8/25/20 2:04 PM, Yu, Yu-cheng wrote:
->>>> I think this is more arch-specific.  Even if it becomes a new syscall,
->>>> we still need to pass the same parameters.
->>>
->>> Right, but without the copying in and out of memory.
->>>
->> Linux-api is already on the Cc list.  Do we need to add more people to
->> get some agreements for the syscall?
-> What kind of agreement are you looking for?  I'd suggest just coding it
-> up and posting the patches.  Adding syscalls really is really pretty
-> straightforward and isn't much code at all.
+On 8/24/20 12:08 PM, David Howells wrote:
+> Michael Kerrisk (man-pages) <mtk.manpages@gmail.com> wrote:
 > 
+>>> +To access the source mount object or the destination mountpoint, no
+>>> +permissions are required on the object itself, but if either pathname is
+>>> +supplied, execute (search) permission is required on all of the directories
+>>> +specified in
+>>> +.IR from_pathname " or " to_pathname .
+>>> +.PP
+>>> +The caller does, however, require the appropriate capabilities or permission
+>>> +to effect a mount.
+>>
+>> Maybe better: s/effect/create/
+> 
+> The mount has already been created.  We're moving/attaching it.  
 
-Sure, I will do that.
+Ahh -- then the verb was wrong.
+
+to effect == to cause, bring about
+to affect == to change, have an impact on
+
+> Maybe:
+> 
+> 	The caller does, however, require the appropriate privilege (Linux:
+> 	the CAP_SYS_ADMIN capability) to move or attach mounts.
+
+Yes, better.
 
 Thanks,
-Yu-cheng
+
+Michael
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
