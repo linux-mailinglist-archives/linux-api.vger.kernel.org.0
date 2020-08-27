@@ -2,35 +2,61 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 76134254CAD
-	for <lists+linux-api@lfdr.de>; Thu, 27 Aug 2020 20:14:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8515C254D52
+	for <lists+linux-api@lfdr.de>; Thu, 27 Aug 2020 20:56:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726845AbgH0SNy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 27 Aug 2020 14:13:54 -0400
-Received: from mga17.intel.com ([192.55.52.151]:48462 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726243AbgH0SNy (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 27 Aug 2020 14:13:54 -0400
-IronPort-SDR: WrnzObmuJOy57JjsYfD0y8fTXE8Bra6ttBhMYXfvLG78kKPXzT0MTLrU8vnsQtqx3j026zSFwR
- +TGDvmuuDc8A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9726"; a="136609330"
-X-IronPort-AV: E=Sophos;i="5.76,360,1592895600"; 
-   d="scan'208";a="136609330"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2020 11:13:53 -0700
-IronPort-SDR: kU95U/D1O7kHgHr1WXXPT1vdBAMIbglRTHBy0TxJgYsrsBJ105d5EwsufFz1dq2ONoiEaDdGpR
- SH4Z20+xAPUA==
-X-IronPort-AV: E=Sophos;i="5.76,360,1592895600"; 
-   d="scan'208";a="339608214"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.213.179.54]) ([10.213.179.54])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2020 11:13:49 -0700
-Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
- shadow stack
-To:     Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>
-Cc:     Dave Martin <Dave.Martin@arm.com>,
+        id S1726321AbgH0S4u (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 27 Aug 2020 14:56:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43596 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726246AbgH0S4u (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 27 Aug 2020 14:56:50 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DAD5C061233
+        for <linux-api@vger.kernel.org>; Thu, 27 Aug 2020 11:56:50 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id s2so2484775pjr.4
+        for <linux-api@vger.kernel.org>; Thu, 27 Aug 2020 11:56:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
+        h=content-transfer-encoding:from:mime-version:subject:date:message-id
+         :references:cc:in-reply-to:to;
+        bh=qvX+0t4taP46QXZOUzH9jS+RyGYBYFHPCCevAMrrHDg=;
+        b=1qJZF1j7aP9/gm8JJKCOiOmY8yDhder5SBu4XDeJXypfw+jqz30KJKC2TixCvPVViK
+         xlyPbT0mk9IkEZAohEpohg9pTxIu+yU+8I99UYuFfB2+W6d1yn9K/s/ZEdAeYNwEFrh7
+         uIEw6O9Sv5M7d82YW0k2n7hJ42sUVJ+0AyoHw/pBvsJg0JfJkhZLOV0kygxS5bRK7lwp
+         hnZ4sJgY33aokxqI9jOqk7Ssge/vXqhthQtrILVuuzdVHv1aHxPjsnxK2HiRQfrXnTEO
+         n/GkIFN8FvZ2rmUMRWcnfMJIwbR8JUj0xzI1/BNVZ2o8q0vatriR3W41ZXJSnyJeurqg
+         8wYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:content-transfer-encoding:from:mime-version
+         :subject:date:message-id:references:cc:in-reply-to:to;
+        bh=qvX+0t4taP46QXZOUzH9jS+RyGYBYFHPCCevAMrrHDg=;
+        b=e6YmSWOIwzkxlllwJ4GrBn4mWoadVrBkei3Ke5eOKE5kPkm832Z1gOrf+P3xOuIrOV
+         Dmt2j0bgMvqvsKNJBc3CBILCtUUqgHBYVLdsIr0jnChHJ3ySdx1Dh/0NA6ilFC/OMb8Z
+         JHZ+tfrzT9GVfprk/LgTsOluHsrgTP1B3TPOGE7Dke91/d9LH0zF9Ly3A9seGtLoEB77
+         JDFPhDAtDlY8l4qVbNkMi9kdwbuSigCmX65JGxr/MWfwinE6kQP5gcEHYs1fAukRRBVT
+         KhRVla6tETWt71mbw1fzX8uvcaDV/EtIoex5qk6KmEHyiayhn98phSiwEEAMDfiPPvKO
+         N+rw==
+X-Gm-Message-State: AOAM533dzfwZRl3/KGvc0x8pDHIzp5mbAcePbz2CpSHMHMImWQ+bKHZi
+        NRrV7S5paVh5oNgWzDVt041XXg==
+X-Google-Smtp-Source: ABdhPJw0Il7nyzGXecauI/EFZTlrviyvlwdNvPHCgqm8m/VXXhnhoQ1jf2Ta5Mdp8f616+x7S9BSZw==
+X-Received: by 2002:a17:90a:ec03:: with SMTP id l3mr200548pjy.193.1598554609609;
+        Thu, 27 Aug 2020 11:56:49 -0700 (PDT)
+Received: from ?IPv6:2601:646:c200:1ef2:f108:b6a3:155e:4f99? ([2601:646:c200:1ef2:f108:b6a3:155e:4f99])
+        by smtp.gmail.com with ESMTPSA id y203sm3847139pfb.58.2020.08.27.11.56.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Aug 2020 11:56:48 -0700 (PDT)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From:   Andy Lutomirski <luto@amacapital.net>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for shadow stack
+Date:   Thu, 27 Aug 2020 11:56:44 -0700
+Message-Id: <4BDFD364-798C-4537-A88E-F94F101F524B@amacapital.net>
+References: <a770d45d-b147-a8c5-b7f8-30d668cbed84@intel.com>
+Cc:     Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Dave Martin <Dave.Martin@arm.com>,
         Dave Hansen <dave.hansen@intel.com>,
         Andy Lutomirski <luto@kernel.org>, X86 ML <x86@kernel.org>,
         "H. Peter Anvin" <hpa@zytor.com>,
@@ -57,68 +83,50 @@ Cc:     Dave Martin <Dave.Martin@arm.com>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
         Weijiang Yang <weijiang.yang@intel.com>
-References: <20200825002540.3351-1-yu-cheng.yu@intel.com>
- <20200825002540.3351-26-yu-cheng.yu@intel.com>
- <CALCETrVpLnZGfWWLpJO+aZ9aBbx5KGaCskejXiCXF1GtsFFoPg@mail.gmail.com>
- <2d253891-9393-44d0-35e0-4b9a2da23cec@intel.com>
- <086c73d8-9b06-f074-e315-9964eb666db9@intel.com>
- <73c2211f-8811-2d9f-1930-1c5035e6129c@intel.com>
- <af258a0e-56e9-3747-f765-dfe45ce76bba@intel.com>
- <ef7f9e24-f952-d78c-373e-85435f742688@intel.com>
- <20200826164604.GW6642@arm.com> <87ft892vvf.fsf@oldenburg2.str.redhat.com>
- <20200826170841.GX6642@arm.com> <87tuwow7kg.fsf@oldenburg2.str.redhat.com>
- <CAMe9rOrhjLSaMNABnzd=Kp5UeVot1Qkx0_PnMng=sT+wd9Xubw@mail.gmail.com>
- <873648w6qr.fsf@oldenburg2.str.redhat.com>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <a770d45d-b147-a8c5-b7f8-30d668cbed84@intel.com>
-Date:   Thu, 27 Aug 2020 11:13:48 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-MIME-Version: 1.0
-In-Reply-To: <873648w6qr.fsf@oldenburg2.str.redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <a770d45d-b147-a8c5-b7f8-30d668cbed84@intel.com>
+To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+X-Mailer: iPhone Mail (17G80)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 8/27/2020 6:36 AM, Florian Weimer wrote:
-> * H. J. Lu:
-> 
->> On Thu, Aug 27, 2020 at 6:19 AM Florian Weimer <fweimer@redhat.com> wrote:
->>>
->>> * Dave Martin:
->>>
->>>> You're right that this has implications: for i386, libc probably pulls
->>>> more arguments off the stack than are really there in some situations.
->>>> This isn't a new problem though.  There are already generic prctls with
->>>> fewer than 4 args that are used on x86.
->>>
->>> As originally posted, glibc prctl would have to know that it has to pull
->>> an u64 argument off the argument list for ARCH_X86_CET_DISABLE.  But
->>> then the u64 argument is a problem for arch_prctl as well.
->>>
->>
->> Argument of ARCH_X86_CET_DISABLE is int and passed in register.
-> 
-> The commit message and the C source say otherwise, I think (not sure
-> about the C source, not a kernel hacker).
-> 
 
-H.J. Lu suggested that we fix x86 arch_prctl() to take four arguments, 
-and then keep MMAP_SHSTK as an arch_prctl().  Because now the map flags 
-and size are all in registers, this also solves problems being pointed 
-out earlier.  Without a wrapper, the shadow stack mmap call (from user 
-space) will be:
 
-syscall(_NR_arch_prctl, ARCH_X86_CET_MMAP_SHSTK, size, MAP_32BIT).
+> On Aug 27, 2020, at 11:13 AM, Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
+>=20
+> =EF=BB=BFOn 8/27/2020 6:36 AM, Florian Weimer wrote:
+>> * H. J. Lu:
+>>>> On Thu, Aug 27, 2020 at 6:19 AM Florian Weimer <fweimer@redhat.com> wro=
+te:
+>>>>>=20
+>>>>> * Dave Martin:
+>>>>>=20
+>>>>>> You're right that this has implications: for i386, libc probably pull=
+s
+>>>>>> more arguments off the stack than are really there in some situations=
+.
+>>>>>> This isn't a new problem though.  There are already generic prctls wi=
+th
+>>>>>> fewer than 4 args that are used on x86.
+>>>>>=20
+>>>>> As originally posted, glibc prctl would have to know that it has to pu=
+ll
+>>>>> an u64 argument off the argument list for ARCH_X86_CET_DISABLE.  But
+>>>>> then the u64 argument is a problem for arch_prctl as well.
+>>>>>=20
+>>>=20
+>>> Argument of ARCH_X86_CET_DISABLE is int and passed in register.
+>> The commit message and the C source say otherwise, I think (not sure
+>> about the C source, not a kernel hacker).
+>=20
+> H.J. Lu suggested that we fix x86 arch_prctl() to take four arguments, and=
+ then keep MMAP_SHSTK as an arch_prctl().  Because now the map flags and siz=
+e are all in registers, this also solves problems being pointed out earlier.=
+  Without a wrapper, the shadow stack mmap call (from user space) will be:
+>=20
+> syscall(_NR_arch_prctl, ARCH_X86_CET_MMAP_SHSTK, size, MAP_32BIT).
 
-I think this would be a nice alternative to another new syscall.
-
-If this looks good to everyone, I can send out new patches as response 
-to my current version, and then after all issues fixed, send v12.
-
-Thanks,
-Yu-cheng
+I admit I don=E2=80=99t see a show stopping technical reason we can=E2=80=99=
+t add arguments to an existing syscall, but I=E2=80=99m pretty sure it=E2=80=
+=99s unprecedented, and it doesn=E2=80=99t seem like a good idea.
