@@ -2,162 +2,106 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AFC0E2559E4
-	for <lists+linux-api@lfdr.de>; Fri, 28 Aug 2020 14:16:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D73B3255FD8
+	for <lists+linux-api@lfdr.de>; Fri, 28 Aug 2020 19:39:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729123AbgH1MQa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 28 Aug 2020 08:16:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35138 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726904AbgH1MQ1 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 28 Aug 2020 08:16:27 -0400
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD408C061264;
-        Fri, 28 Aug 2020 05:16:26 -0700 (PDT)
-Received: by mail-pf1-x441.google.com with SMTP id c142so498317pfb.7;
-        Fri, 28 Aug 2020 05:16:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BPWyeQjOL84Jb5AfPDrFdN4woon9x0ZwzLXbpOLTTvw=;
-        b=oZj2kw/tuWcySMJ3pIpznfWs1Tb76fRPK+UPKfChBdpRWtKNKZM71bcgVXOiXWeV8S
-         metA9nojJNE/wVZF7Sn2L6B88MV2zKqk4/I8pqzJ9ffk+/0lguyBVAQsTr2zUIxEtmik
-         vnyw7nu1eir0ZWAX1+ZAyWmkWaH2Oq9K53trAB6TcY5CzRVAdeUAqSCV1myf8xEa4I7B
-         4I/ou0TbSQuoQp9M5pgfi7KgJluF5CJgAyTKDJ02qbUCPD9aCqWrYwwo56FZl4ML6OKB
-         TQAArFggP3VkMgGwmLwpGOp+IkxOEtnNiOSeHRiA4/qQpLMEsfmp2HLpNVWLXo4S8ubp
-         V3kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BPWyeQjOL84Jb5AfPDrFdN4woon9x0ZwzLXbpOLTTvw=;
-        b=ZRtK4eXiRscpwWpBYWcoaXAxmmKFsRFCrosyl7FfVkhdD+PbqpGTCMIvmqSYTvWoIV
-         TOLtL4UCt4hC9JhRACvkLm6j0+GRYtV3FOoItZALvqaJYYtzkTrnuLERu8M8s8YtLtjw
-         M4KJTDWxNgZBa2T6N0D28GpNEeg5uYZRw+xd4LFANPVh2D1WoG7zhwKxLZAYYt9nnS1t
-         fX6qdFuhwLozw7M7l33d1+UtT0LvDA12Vx4Pl58u39TmETdXMGh+O5IWo58YW8RyKjIn
-         ldAqrRKGLKyHqM9PxCQm04+63x24iBw/vlIOnvEXHsJJNGXxaanUYW4XuScMQ2QVCQ3s
-         jpGg==
-X-Gm-Message-State: AOAM532eM0LKGzfuW2S9z0TUI5tWbfTSyNxWaLhpUdIMzYLSg3VYob5R
-        Iigc/faDchZvaZdppbrjDC40/n6+1FU=
-X-Google-Smtp-Source: ABdhPJwlNyi2HHYjvilBjQHIXwHhmD+zLvJYyiC0r4Usr0k9psbQAuxr3ZWPb2W1OKeofbcRkVD2aw==
-X-Received: by 2002:a63:455d:: with SMTP id u29mr447012pgk.178.1598616986108;
-        Fri, 28 Aug 2020 05:16:26 -0700 (PDT)
-Received: from gnu-cfl-2.localdomain (c-69-181-90-243.hsd1.ca.comcast.net. [69.181.90.243])
-        by smtp.gmail.com with ESMTPSA id s6sm1172834pjz.17.2020.08.28.05.16.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Aug 2020 05:16:25 -0700 (PDT)
-Received: from gnu-cfl-2.localdomain (localhost [IPv6:::1])
-        by gnu-cfl-2.localdomain (Postfix) with ESMTP id CA5BA1A014F;
-        Fri, 28 Aug 2020 05:16:24 -0700 (PDT)
-From:   "H.J. Lu" <hjl.tools@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-api@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Subject: [PATCH] x86: Extend arch_prctl (int, ...) to 5 arguments
-Date:   Fri, 28 Aug 2020 05:16:24 -0700
-Message-Id: <20200828121624.108243-1-hjl.tools@gmail.com>
-X-Mailer: git-send-email 2.26.2
+        id S1726828AbgH1RjV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 28 Aug 2020 13:39:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56416 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726771AbgH1RjT (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 28 Aug 2020 13:39:19 -0400
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 694EA21532
+        for <linux-api@vger.kernel.org>; Fri, 28 Aug 2020 17:39:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1598636358;
+        bh=nds4FCanqTVJv34u/NxVJCyvtJsI4h+1rVN+aRFYiGg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=TyRrjGkegJtc5NUYxIc2CRRvLWWkqf3QVI21p9DZd3r+zXtNHhiTBFd3UlkrkLutM
+         m2gdFyeVpnX0PkMaqL510A5pXF7hkUeHvcLoBDY0+OUjfZznfyPRQlCtxAFsXLhhnV
+         xMSL/cxiwuYQZXZgTbn4Xr4D7RH+IXBRyvCTlYAE=
+Received: by mail-wm1-f45.google.com with SMTP id a65so148609wme.5
+        for <linux-api@vger.kernel.org>; Fri, 28 Aug 2020 10:39:18 -0700 (PDT)
+X-Gm-Message-State: AOAM5327QXgwbSDyAloh/YLDGhKGQ8H5cHCT4r9yFBTDhr+K+yxj3jM/
+        FJMBYBQbbrroluniDJuxZ77owC11d6qZ44293M82Bw==
+X-Google-Smtp-Source: ABdhPJyhwm17L0OXGgBqLsRtUxnb+FTpBy4Z2839DwNgsYJBjPegOYm2k1/SJF+gcG8rpzzWXr5f2DuOidvrokSrcrI=
+X-Received: by 2002:a1c:7e02:: with SMTP id z2mr214706wmc.138.1598636356748;
+ Fri, 28 Aug 2020 10:39:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <a770d45d-b147-a8c5-b7f8-30d668cbed84@intel.com>
+ <4BDFD364-798C-4537-A88E-F94F101F524B@amacapital.net> <CAMe9rOoTjSwRSPuqP6RKkDzPA_VPh5gVYRVFJ-ezAD4Et-FUng@mail.gmail.com>
+ <CALCETrW=-ahC7GUCCyX7nPjCHfG3tiyDespud2Z7UbB6yWWWAA@mail.gmail.com>
+ <CAMe9rOrt5hz6qsNAxPgdKCOhRcKKESv-D3rxdSfraeJ-LFHM4w@mail.gmail.com>
+ <87v9h3thj9.fsf@oldenburg2.str.redhat.com> <CAMe9rOr=BZw3GyXf0g6tAZnfa8NbamoyBoU9KqoxtHg9c2yZhw@mail.gmail.com>
+In-Reply-To: <CAMe9rOr=BZw3GyXf0g6tAZnfa8NbamoyBoU9KqoxtHg9c2yZhw@mail.gmail.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Fri, 28 Aug 2020 10:39:05 -0700
+X-Gmail-Original-Message-ID: <CALCETrUUKb6oyBmB3CSeVy1xT7mcnV=BD2eipAnKUhma7K3qKw@mail.gmail.com>
+Message-ID: <CALCETrUUKb6oyBmB3CSeVy1xT7mcnV=BD2eipAnKUhma7K3qKw@mail.gmail.com>
+Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
+ shadow stack
+To:     "H.J. Lu" <hjl.tools@gmail.com>
+Cc:     Florian Weimer <fweimer@redhat.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Dave Hansen <dave.hansen@intel.com>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Extend x86 arch_prctl (int, ...) to 5 arguments so that more arguments
-can be passed to the kernel in registers.  The initial usage is to support
-shadow stack in Intel CET.  In the current glibc, there is no arch_prctl
-wrapper for i386.  There are arch_prctl wrappers with 2 arguments for
-x86-64 and x32.  Since the first user of the new arch_prctl extension is
-the C library, there should be no issue with the extension.
+On Fri, Aug 28, 2020 at 4:38 AM H.J. Lu <hjl.tools@gmail.com> wrote:
+>
+> On Thu, Aug 27, 2020 at 11:24 PM Florian Weimer <fweimer@redhat.com> wrote:
+> >
+> > * H. J. Lu:
+> >
+> > > Can you think of ANY issues of passing more arguments to arch_prctl?
+> >
+> > On x32, the glibc arch_prctl system call wrapper only passes two
+> > arguments to the kernel, and applications have no way of detecting that.
+> > musl only passes two arguments on all architectures.  It happens to work
+> > anyway with default compiler flags, but that's an accident.
+>
+> In the current glibc, there is no arch_prctl wrapper for i386.  There are
+> arch_prctl wrappers with 2 arguments for x86-64 and x32.  But this isn't an
+> issue for glibc since glibc is both the provider and the user of the new
+> arch_prctl extension.  Besides,
+>
+> long syscall(long number, ...);
+>
+> is always available.
 
-Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
----
- arch/x86/include/asm/proto.h |  3 ++-
- arch/x86/kernel/process.c    |  3 ++-
- arch/x86/kernel/process_32.c |  6 ++++--
- arch/x86/kernel/process_64.c | 13 +++++++++----
- 4 files changed, 17 insertions(+), 8 deletions(-)
-
-diff --git a/arch/x86/include/asm/proto.h b/arch/x86/include/asm/proto.h
-index 28996fe19301..98bcada76fac 100644
---- a/arch/x86/include/asm/proto.h
-+++ b/arch/x86/include/asm/proto.h
-@@ -36,6 +36,7 @@ void x86_report_nx(void);
- extern int reboot_force;
- 
- long do_arch_prctl_common(struct task_struct *task, int option,
--			  unsigned long cpuid_enabled);
-+			  unsigned long cpuid_enabled, unsigned long arg3,
-+			  unsigned long arg4, unsigned long arg5);
- 
- #endif /* _ASM_X86_PROTO_H */
-diff --git a/arch/x86/kernel/process.c b/arch/x86/kernel/process.c
-index 994d8393f2f7..9f8bc3b9a495 100644
---- a/arch/x86/kernel/process.c
-+++ b/arch/x86/kernel/process.c
-@@ -972,7 +972,8 @@ unsigned long get_wchan(struct task_struct *p)
- }
- 
- long do_arch_prctl_common(struct task_struct *task, int option,
--			  unsigned long cpuid_enabled)
-+			  unsigned long cpuid_enabled, unsigned long arg3,
-+			  unsigned long arg4, unsigned long arg5)
- {
- 	switch (option) {
- 	case ARCH_GET_CPUID:
-diff --git a/arch/x86/kernel/process_32.c b/arch/x86/kernel/process_32.c
-index 4f2f54e1281c..bd8d9c61b092 100644
---- a/arch/x86/kernel/process_32.c
-+++ b/arch/x86/kernel/process_32.c
-@@ -221,7 +221,9 @@ __switch_to(struct task_struct *prev_p, struct task_struct *next_p)
- 	return prev_p;
- }
- 
--SYSCALL_DEFINE2(arch_prctl, int, option, unsigned long, arg2)
-+SYSCALL_DEFINE5(arch_prctl, int, option, unsigned long, arg2,
-+		unsigned long, arg3, unsigned long, arg4,
-+		unsigned long, arg5)
- {
--	return do_arch_prctl_common(current, option, arg2);
-+	return do_arch_prctl_common(current, option, arg2, arg3, arg4, arg5);
- }
-diff --git a/arch/x86/kernel/process_64.c b/arch/x86/kernel/process_64.c
-index 9afefe325acb..6441aa912561 100644
---- a/arch/x86/kernel/process_64.c
-+++ b/arch/x86/kernel/process_64.c
-@@ -815,21 +815,26 @@ long do_arch_prctl_64(struct task_struct *task, int option, unsigned long arg2)
- 	return ret;
- }
- 
--SYSCALL_DEFINE2(arch_prctl, int, option, unsigned long, arg2)
-+SYSCALL_DEFINE5(arch_prctl, int, option, unsigned long, arg2,
-+		unsigned long, arg3, unsigned long, arg4,
-+		unsigned long, arg5)
- {
- 	long ret;
- 
- 	ret = do_arch_prctl_64(current, option, arg2);
- 	if (ret == -EINVAL)
--		ret = do_arch_prctl_common(current, option, arg2);
-+		ret = do_arch_prctl_common(current, option, arg2, arg3, arg4,
-+					   arg5);
- 
- 	return ret;
- }
- 
- #ifdef CONFIG_IA32_EMULATION
--COMPAT_SYSCALL_DEFINE2(arch_prctl, int, option, unsigned long, arg2)
-+COMPAT_SYSCALL_DEFINE5(arch_prctl, int, option, unsigned long, arg2,
-+		       unsigned long, arg3, unsigned long, arg4,
-+		       unsigned long, arg5)
- {
--	return do_arch_prctl_common(current, option, arg2);
-+	return do_arch_prctl_common(current, option, arg2, arg3, arg4, arg5);
- }
- #endif
- 
--- 
-2.26.2
-
+Userspace is probably full of tools and libraries that contain tables
+of system calls and their signatures.  Think tracing, audit, container
+management, etc.  I don't know how they will react to the addition of
+new arguments.
