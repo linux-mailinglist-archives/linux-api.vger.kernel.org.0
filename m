@@ -2,106 +2,176 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D73B3255FD8
-	for <lists+linux-api@lfdr.de>; Fri, 28 Aug 2020 19:39:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 40D4C255FDE
+	for <lists+linux-api@lfdr.de>; Fri, 28 Aug 2020 19:40:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726828AbgH1RjV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 28 Aug 2020 13:39:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56416 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726771AbgH1RjT (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 28 Aug 2020 13:39:19 -0400
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 694EA21532
-        for <linux-api@vger.kernel.org>; Fri, 28 Aug 2020 17:39:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598636358;
-        bh=nds4FCanqTVJv34u/NxVJCyvtJsI4h+1rVN+aRFYiGg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=TyRrjGkegJtc5NUYxIc2CRRvLWWkqf3QVI21p9DZd3r+zXtNHhiTBFd3UlkrkLutM
-         m2gdFyeVpnX0PkMaqL510A5pXF7hkUeHvcLoBDY0+OUjfZznfyPRQlCtxAFsXLhhnV
-         xMSL/cxiwuYQZXZgTbn4Xr4D7RH+IXBRyvCTlYAE=
-Received: by mail-wm1-f45.google.com with SMTP id a65so148609wme.5
-        for <linux-api@vger.kernel.org>; Fri, 28 Aug 2020 10:39:18 -0700 (PDT)
-X-Gm-Message-State: AOAM5327QXgwbSDyAloh/YLDGhKGQ8H5cHCT4r9yFBTDhr+K+yxj3jM/
-        FJMBYBQbbrroluniDJuxZ77owC11d6qZ44293M82Bw==
-X-Google-Smtp-Source: ABdhPJyhwm17L0OXGgBqLsRtUxnb+FTpBy4Z2839DwNgsYJBjPegOYm2k1/SJF+gcG8rpzzWXr5f2DuOidvrokSrcrI=
-X-Received: by 2002:a1c:7e02:: with SMTP id z2mr214706wmc.138.1598636356748;
- Fri, 28 Aug 2020 10:39:16 -0700 (PDT)
+        id S1726400AbgH1Rka (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 28 Aug 2020 13:40:30 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:47155 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726010AbgH1Rk1 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 28 Aug 2020 13:40:27 -0400
+Received: from mail-qk1-f169.google.com ([209.85.222.169]) by
+ mrelayeu.kundenserver.de (mreue106 [212.227.15.145]) with ESMTPSA (Nemesis)
+ id 1MOzfO-1jxNRN2pJ6-00PJer; Fri, 28 Aug 2020 19:40:25 +0200
+Received: by mail-qk1-f169.google.com with SMTP id u3so185287qkd.9;
+        Fri, 28 Aug 2020 10:40:25 -0700 (PDT)
+X-Gm-Message-State: AOAM533XkDu9B412xJ3Rs+VCdAaoSP3JhLehzVWvWs3xowUAcHYtp2Pl
+        W2nDLpXrUbuqAkKueaZ6+KbqS7fxN7JoT/YCQwI=
+X-Google-Smtp-Source: ABdhPJzCBEo0V55un3Qk90Ymj8++lkumRxJxJL9N83eWCYBj8QoEBWG/1LB8a5CefOTbYjb1QZFqechgK54VbTulcbk=
+X-Received: by 2002:ae9:f106:: with SMTP id k6mr220528qkg.3.1598636424271;
+ Fri, 28 Aug 2020 10:40:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <a770d45d-b147-a8c5-b7f8-30d668cbed84@intel.com>
- <4BDFD364-798C-4537-A88E-F94F101F524B@amacapital.net> <CAMe9rOoTjSwRSPuqP6RKkDzPA_VPh5gVYRVFJ-ezAD4Et-FUng@mail.gmail.com>
- <CALCETrW=-ahC7GUCCyX7nPjCHfG3tiyDespud2Z7UbB6yWWWAA@mail.gmail.com>
- <CAMe9rOrt5hz6qsNAxPgdKCOhRcKKESv-D3rxdSfraeJ-LFHM4w@mail.gmail.com>
- <87v9h3thj9.fsf@oldenburg2.str.redhat.com> <CAMe9rOr=BZw3GyXf0g6tAZnfa8NbamoyBoU9KqoxtHg9c2yZhw@mail.gmail.com>
-In-Reply-To: <CAMe9rOr=BZw3GyXf0g6tAZnfa8NbamoyBoU9KqoxtHg9c2yZhw@mail.gmail.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Fri, 28 Aug 2020 10:39:05 -0700
-X-Gmail-Original-Message-ID: <CALCETrUUKb6oyBmB3CSeVy1xT7mcnV=BD2eipAnKUhma7K3qKw@mail.gmail.com>
-Message-ID: <CALCETrUUKb6oyBmB3CSeVy1xT7mcnV=BD2eipAnKUhma7K3qKw@mail.gmail.com>
-Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
- shadow stack
-To:     "H.J. Lu" <hjl.tools@gmail.com>
-Cc:     Florian Weimer <fweimer@redhat.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Dave Hansen <dave.hansen@intel.com>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
+References: <20200622192900.22757-1-minchan@kernel.org> <20200622192900.22757-4-minchan@kernel.org>
+In-Reply-To: <20200622192900.22757-4-minchan@kernel.org>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Fri, 28 Aug 2020 19:40:08 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a0Mnp2ekmX-BX9yr+N8fy2=gBtASELLXoa9uGSpSS9aOA@mail.gmail.com>
+Message-ID: <CAK8P3a0Mnp2ekmX-BX9yr+N8fy2=gBtASELLXoa9uGSpSS9aOA@mail.gmail.com>
+Subject: Re: [PATCH v8 3/4] mm/madvise: introduce process_madvise() syscall:
+ an external memory hinting API
+To:     Minchan Kim <minchan@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
         LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        linux-mm <linux-mm@kvack.org>,
         Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
+        Oleksandr Natalenko <oleksandr@redhat.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Tim Murray <timmurray@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Dias <joaodias@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jann Horn <jannh@google.com>,
+        alexander.h.duyck@linux.intel.com,
+        SeongJae Park <sj38.park@gmail.com>,
+        David Rientjes <rientjes@google.com>,
+        Arjun Roy <arjunroy@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Christian Brauner <christian@brauner.io>,
+        Daniel Colascione <dancol@google.com>,
+        Jens Axboe <axboe@kernel.dk>,
+        Kirill Tkhai <ktkhai@virtuozzo.com>,
+        SeongJae Park <sjpark@amazon.de>,
+        linux-man <linux-man@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:ePpQ0C5U7DhvQmZ31hdw0nqhHl1U7AbjczLbWIcGJDcp6QFAVdn
+ BrcDyxUk3jxTcaZXcmqtmfW7rJ27TLausUQH9CqWm7kowFS4sAOm8grEvMR/1TP10LOXO+m
+ +UY/bIvECmSs7RblNKXtqLmpMrRoOYHkW1GwlowkKaBno7Ku68yqwlzNQqG2rK2/z1QqRmN
+ A/H0uAtfH/TUGWmZ/ft4Q==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ECq869FnHk4=:l6LfDOCiFZFgK1KiBxX1yg
+ zaDr6Ll+MNWcPhNMU0PHV3bGybj5IZd8fvfbU4FcsnBkm1Pf2E/VAamehLChVblpEqGI2Pvlz
+ BIDR0fG7rqgnkoWBQABGYUYQvb+6n4tRzUPAEF5cEUOSMAddqwHytjAzECdA53d3G8rw7WD/K
+ f8VB/JhIeWhsDyUngk34CRP3JPUs50ShWxaBp9S1ZoVcjY6sZNa/JcA9vfIN0Mz2VGqA+VsMJ
+ H3vJM+JKHAQTNmrtxWjsShZ8Rxxbno/dCZZh+fJhcPWWFQFKirbjUVaqYaaW7qQpvjAyL5F+Z
+ Yu7Cydd0gi21LB6pSclHima8I6x4WGPoUgmyrN51zCDggxsXiEPMCJ2dWWZUz5lel+LqiFnZU
+ du9wyHg+Pgpod5PQJmNkprxl/Xm9PomluJdylnhGiks5hi0TLih/g7oq2D9a/Y2//bmKHiOfx
+ ZKgXNSzZujpw9xhdcWFIHjCrDjQKvyAEtlXoMmNcCg0+VXZ7eoOEvZaNhemrIUz/460niHGQc
+ Sd6n+J6vh/UJoW9DMQRipuGDRdT2Z4MCV2Z79uCODiwv5tp7ALmBof+Eo+T67K2eJ6kNIT2xh
+ B/73kityIbDtZzgo22+qrd8UtgOdybY+rVScooPZU1qZGJVcq0YWDyjTvL8cn3c528bCWmeJ0
+ yeHm7OhE2D+BrVNq+yga3bhweEVCJGpGtPlB4I3uM9eECqS4MgWHgzcqKdMxbRZhyminbwHMA
+ X4gNJGXX1BYAcqkUQ59CxpAF+JFCfCfdfnjZw1PAKHqPyliXZxSYyRrGNj9cdNU0BAzLs/G5F
+ JUSpaS/eJ+vzI4iUhjXIqN1FgAg0xX+WG7uBY0Af4pRMb/OFjQcI0PNEMselqKehcy6R6ArpN
+ uvjQoTvzLooGNFTYS2u+BS5gsdb09U4IMdSHM/ejURIGytBvwSRCOaochnX2h5ghWsP2dHctn
+ WZoACUoOk7zcA82oCqYZoSzNDUO3UBMfpaGKxB1EbVPeHPJP3EH/Q
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Aug 28, 2020 at 4:38 AM H.J. Lu <hjl.tools@gmail.com> wrote:
+On Mon, Jun 22, 2020 at 9:29 PM Minchan Kim <minchan@kernel.org> wrote:
+> So finally, the API is as follows,
 >
-> On Thu, Aug 27, 2020 at 11:24 PM Florian Weimer <fweimer@redhat.com> wrote:
-> >
-> > * H. J. Lu:
-> >
-> > > Can you think of ANY issues of passing more arguments to arch_prctl?
-> >
-> > On x32, the glibc arch_prctl system call wrapper only passes two
-> > arguments to the kernel, and applications have no way of detecting that.
-> > musl only passes two arguments on all architectures.  It happens to work
-> > anyway with default compiler flags, but that's an accident.
->
-> In the current glibc, there is no arch_prctl wrapper for i386.  There are
-> arch_prctl wrappers with 2 arguments for x86-64 and x32.  But this isn't an
-> issue for glibc since glibc is both the provider and the user of the new
-> arch_prctl extension.  Besides,
->
-> long syscall(long number, ...);
->
-> is always available.
+>      ssize_t process_madvise(int pidfd, const struct iovec *iovec,
+>                unsigned long vlen, int advice, unsigned int flags);
 
-Userspace is probably full of tools and libraries that contain tables
-of system calls and their signatures.  Think tracing, audit, container
-management, etc.  I don't know how they will react to the addition of
-new arguments.
+I had not followed the discussion earlier and only now came across
+the syscall in linux-next, sorry for stirring things up this late.
+
+> diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
+> index 94bf4958d114..8f959d90338a 100644
+> --- a/arch/x86/entry/syscalls/syscall_64.tbl
+> +++ b/arch/x86/entry/syscalls/syscall_64.tbl
+> @@ -364,6 +364,7 @@
+>  440    common  watch_mount             sys_watch_mount
+>  441    common  watch_sb                sys_watch_sb
+>  442    common  fsinfo                  sys_fsinfo
+> +443    64      process_madvise         sys_process_madvise
+>
+>  #
+>  # x32-specific system call numbers start at 512 to avoid cache impact
+> @@ -407,3 +408,4 @@
+>  545    x32     execveat                compat_sys_execveat
+>  546    x32     preadv2                 compat_sys_preadv64v2
+>  547    x32     pwritev2                compat_sys_pwritev64v2
+> +548    x32     process_madvise         compat_sys_process_madvise
+
+I think we should not add any new x32-specific syscalls. Instead I think
+the compat_sys_process_madvise/sys_process_madvise can be
+merged into one.
+
+> +       mm = mm_access(task, PTRACE_MODE_ATTACH_FSCREDS);
+> +       if (IS_ERR_OR_NULL(mm)) {
+> +               ret = IS_ERR(mm) ? PTR_ERR(mm) : -ESRCH;
+> +               goto release_task;
+> +       }
+
+Minor point: Having to use IS_ERR_OR_NULL() tends to be fragile,
+and I would try to avoid that. Can mm_access() be changed to
+itself return PTR_ERR(-ESRCH) instead of NULL to improve its
+calling conventions? I see there are only three other callers.
+
+
+> +       ret = import_iovec(READ, vec, vlen, ARRAY_SIZE(iovstack), &iov, &iter);
+> +       if (ret >= 0) {
+> +               ret = do_process_madvise(pidfd, &iter, behavior, flags);
+> +               kfree(iov);
+> +       }
+> +       return ret;
+> +}
+> +
+> +#ifdef CONFIG_COMPAT
+...
+> +
+> +       ret = compat_import_iovec(READ, vec, vlen, ARRAY_SIZE(iovstack),
+> +                               &iov, &iter);
+> +       if (ret >= 0) {
+> +               ret = do_process_madvise(pidfd, &iter, behavior, flags);
+> +               kfree(iov);
+> +       }
+
+Every syscall that passes an iovec seems to do this. If we make import_iovec()
+handle both cases directly, this syscall and a number of others can
+be simplified, and you avoid the x32 entry point I mentioned above
+
+Something like (untested)
+
+index dad8d0cfaaf7..0de4ddff24c1 100644
+--- a/lib/iov_iter.c
++++ b/lib/iov_iter.c
+@@ -1683,8 +1683,13 @@ ssize_t import_iovec(int type, const struct
+iovec __user * uvector,
+ {
+        ssize_t n;
+        struct iovec *p;
+-       n = rw_copy_check_uvector(type, uvector, nr_segs, fast_segs,
+-                                 *iov, &p);
++
++       if (in_compat_syscall())
++               n = compat_rw_copy_check_uvector(type, uvector, nr_segs,
++                                                fast_segs, *iov, &p);
++       else
++               n = rw_copy_check_uvector(type, uvector, nr_segs,
++                                         fast_segs, *iov, &p);
+        if (n < 0) {
+                if (p != *iov)
+                        kfree(p);
+
+
+      Arnd
