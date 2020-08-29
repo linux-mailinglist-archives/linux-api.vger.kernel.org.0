@@ -2,130 +2,90 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4976F2561E1
-	for <lists+linux-api@lfdr.de>; Fri, 28 Aug 2020 22:15:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60B8225640D
+	for <lists+linux-api@lfdr.de>; Sat, 29 Aug 2020 04:00:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726720AbgH1UPp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 28 Aug 2020 16:15:45 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:48187 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726146AbgH1UPn (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 28 Aug 2020 16:15:43 -0400
-Received: from mail-qk1-f175.google.com ([209.85.222.175]) by
- mrelayeu.kundenserver.de (mreue010 [212.227.15.129]) with ESMTPSA (Nemesis)
- id 1MS43X-1k0w3a1rdj-00TU2H; Fri, 28 Aug 2020 22:15:41 +0200
-Received: by mail-qk1-f175.google.com with SMTP id g72so204338qke.8;
-        Fri, 28 Aug 2020 13:15:41 -0700 (PDT)
-X-Gm-Message-State: AOAM5331iSCAYRtGmzgu+rq3Lq2kDdtGxdGldSh7WOtPnW/VNRPyAgqC
-        boaVuzk+1UouW8HWvJ8PblfeaOVw4CCZCClGYEI=
-X-Google-Smtp-Source: ABdhPJyFxFIv+GcJZpKlS+lPDRy1qPULULsQ3S/m8TXtBVzsR15m6l0uoJmkbm1MsalFQvPRw8Dsa1/8I63jaxHy9uo=
-X-Received: by 2002:a37:a04b:: with SMTP id j72mr892253qke.352.1598645740122;
- Fri, 28 Aug 2020 13:15:40 -0700 (PDT)
+        id S1726446AbgH2CAE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 28 Aug 2020 22:00:04 -0400
+Received: from brightrain.aerifal.cx ([216.12.86.13]:47892 "EHLO
+        brightrain.aerifal.cx" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726392AbgH2CAD (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 28 Aug 2020 22:00:03 -0400
+Date:   Fri, 28 Aug 2020 22:00:02 -0400
+From:   Rich Felker <dalias@libc.org>
+To:     linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>
+Subject: [RESEND PATCH] vfs: add RWF_NOAPPEND flag for pwritev2
+Message-ID: <20200829020002.GC3265@brightrain.aerifal.cx>
 MIME-Version: 1.0
-References: <20200622192900.22757-1-minchan@kernel.org> <20200622192900.22757-4-minchan@kernel.org>
- <CAK8P3a0Mnp2ekmX-BX9yr+N8fy2=gBtASELLXoa9uGSpSS9aOA@mail.gmail.com>
- <9c339413-68c7-344e-dd01-327cb988d385@kernel.dk> <ffe549f6-bed5-07f9-43a7-ec8cc12ab59d@kernel.dk>
-In-Reply-To: <ffe549f6-bed5-07f9-43a7-ec8cc12ab59d@kernel.dk>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Fri, 28 Aug 2020 22:15:24 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0rWjvSTDO_p7mKDv24OcdnWvMaM+_pHPEDGZGwn5BG=Q@mail.gmail.com>
-Message-ID: <CAK8P3a0rWjvSTDO_p7mKDv24OcdnWvMaM+_pHPEDGZGwn5BG=Q@mail.gmail.com>
-Subject: Re: [PATCH v8 3/4] mm/madvise: introduce process_madvise() syscall:
- an external memory hinting API
-To:     Jens Axboe <axboe@kernel.dk>
-Cc:     Minchan Kim <minchan@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        linux-mm <linux-mm@kvack.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Oleksandr Natalenko <oleksandr@redhat.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Tim Murray <timmurray@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        John Dias <joaodias@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jann Horn <jannh@google.com>,
-        alexander.h.duyck@linux.intel.com,
-        SeongJae Park <sj38.park@gmail.com>,
-        David Rientjes <rientjes@google.com>,
-        Arjun Roy <arjunroy@google.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Christian Brauner <christian@brauner.io>,
-        Daniel Colascione <dancol@google.com>,
-        Kirill Tkhai <ktkhai@virtuozzo.com>,
-        SeongJae Park <sjpark@amazon.de>,
-        linux-man <linux-man@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:nyLHj6ZpuzHpQ/Rd2Zu2ZXBe+DoHH8w3eBCH+32bWGdcQqn303K
- /toMw6tB1D0VEVbfcBpipXwuXza07IgVsiY6a1nX4T/okWht3ONmbaiWoBfg7WkLg2xDUo0
- JnWfRr2eAG31Xl7tZ06m50/3gEY2iGyZoryyr0eupPi1V4KQ2qjC0XW6WpEvtKBsW0susOp
- VqSXHs4R2Ls4zQu7Tx70Q==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:7msRCAyRGig=:DAPNv7qMT9UJ8LGCCJMsYg
- i9VkG4C7kuFe9V9lQ3fFeZnp54+jORtKOSaBCTchQWjnHDeKFkuUYEQ7x5PC2R0dhgmpYTL8T
- EJvbZ27r4EC0qcpRs5T5E0Yi5ZVTXnylbdOiJ4pvNlOE8tmpeNOScD0oGM9wb0Tr1Tl78swol
- vdhL9izIxBzx1ebZ8hPHzR9YLRH6dAMGPiHwH0By7YLILRMJehpec+9PTfk6nNqx3mgQXYrU5
- FkeQqdZBryVgG8qSEDEhKJAkNKuqlfB03zuc/Z/32p5lujRx4TkcBqvMLteb+I/0s8b1S6mXD
- MHY8AnS4yXtZjkB9R8nONJJTxVeqSNIFx/JwfyxQAI03sVpG7/Yne1/XPn81NAPev3PFgbONc
- McLl0MQNN9HpfyJbU1xj25suvPMsJMIMlbpn0EIH2N8cXlmE1eMTPwNiUcmZi11m5stcWqNYK
- aPn6YkJ3dLXgYIBNZ7bFwG2qH9N2uknSXE5i52zH2uZmq17QLVPksdSMWcHRxSNa+u4mkKpjI
- 0O8012W/3RBizbqFYxXUw1DcPjcvom2Aqqz4YJhmtFMxaVo9/xda/ofktyLGIJn+pS6jZzHFH
- Uh9q/WEHR8BAVtmsf9yFJzf0fbWQF7bvHLPZ4rG/0tt7jZjC5gZkeDUmFUGikTWRyiAGm9ycS
- nnS66N/IZ2S+rRYLrB30mqpON3X/cEhLNrWiOT/gyxVc/r2dhvpEA6ey5LnoKQiZaif9Pewuq
- 2YWb+9HmLgI0O7VWq0pRDui9KQiBwTigdT5wwg16wW7RxCELirjHu3IA+Q06fkVc9s+txrR63
- xUVE7RIQp3aJ/tEZLVkT6+iSgfWn41SayDMenKgLpe+4Vo49iqU6Wsow03ny4rZEl+s5xFn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Aug 28, 2020 at 9:27 PM Jens Axboe <axboe@kernel.dk> wrote:
-> On 8/28/20 12:24 PM, Jens Axboe wrote:
+The pwrite function, originally defined by POSIX (thus the "p"), is
+defined to ignore O_APPEND and write at the offset passed as its
+argument. However, historically Linux honored O_APPEND if set and
+ignored the offset. This cannot be changed due to stability policy,
+but is documented in the man page as a bug.
 
-> >> @@ -1683,8 +1683,13 @@ ssize_t import_iovec(int type, const struct
-> >> iovec __user * uvector,
-> >>  {
-> >>         ssize_t n;
-> >>         struct iovec *p;
-> >> -       n = rw_copy_check_uvector(type, uvector, nr_segs, fast_segs,
-> >> -                                 *iov, &p);
-> >> +
-> >> +       if (in_compat_syscall())
-> >> +               n = compat_rw_copy_check_uvector(type, uvector, nr_segs,
-> >> +                                                fast_segs, *iov, &p);
-> >> +       else
-> >> +               n = rw_copy_check_uvector(type, uvector, nr_segs,
-> >> +                                         fast_segs, *iov, &p);
-> >>         if (n < 0) {
-> >>                 if (p != *iov)
-> >>                         kfree(p);
-> >
-> > Doesn't work for the async case, where you want to be holding on to the
-> > allocated iovec. But in general I think it's a good helper for the sync
-> > case, which is by far the majority.
->
-> Nevermind, I'm an idiot for reading this totally wrong.
->
+Now that there's a pwritev2 syscall providing a superset of the pwrite
+functionality that has a flags argument, the conforming behavior can
+be offered to userspace via a new flag. Since pwritev2 checks flag
+validity (in kiocb_set_rw_flags) and reports unknown ones with
+EOPNOTSUPP, callers will not get wrong behavior on old kernels that
+don't support the new flag; the error is reported and the caller can
+decide how to handle it.
 
-I think you are right about the need to pick the compat vs native
-behavior based on req->ctx->compat instead of in_compat_syscall()
-inside of io_import_iovec().
+Signed-off-by: Rich Felker <dalias@libc.org>
+---
+ include/linux/fs.h      | 4 ++++
+ include/uapi/linux/fs.h | 5 ++++-
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
-That one can probably call a lower-level version and when all other
-callers get changed to calling
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index e0d909d35763..3a769a972f79 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -3397,6 +3397,8 @@ static inline int kiocb_set_rw_flags(struct kiocb *ki, rwf_t flags)
+ {
+ 	if (unlikely(flags & ~RWF_SUPPORTED))
+ 		return -EOPNOTSUPP;
++	if (unlikely((flags & RWF_APPEND) && (flags & RWF_NOAPPEND)))
++		return -EINVAL;
+ 
+ 	if (flags & RWF_NOWAIT) {
+ 		if (!(ki->ki_filp->f_mode & FMODE_NOWAIT))
+@@ -3411,6 +3413,8 @@ static inline int kiocb_set_rw_flags(struct kiocb *ki, rwf_t flags)
+ 		ki->ki_flags |= (IOCB_DSYNC | IOCB_SYNC);
+ 	if (flags & RWF_APPEND)
+ 		ki->ki_flags |= IOCB_APPEND;
++	if (flags & RWF_NOAPPEND)
++		ki->ki_flags &= ~IOCB_APPEND;
+ 	return 0;
+ }
+ 
+diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+index 379a612f8f1d..591357d9b3c9 100644
+--- a/include/uapi/linux/fs.h
++++ b/include/uapi/linux/fs.h
+@@ -299,8 +299,11 @@ typedef int __bitwise __kernel_rwf_t;
+ /* per-IO O_APPEND */
+ #define RWF_APPEND	((__force __kernel_rwf_t)0x00000010)
+ 
++/* per-IO negation of O_APPEND */
++#define RWF_NOAPPEND	((__force __kernel_rwf_t)0x00000020)
++
+ /* mask of flags supported by the kernel */
+ #define RWF_SUPPORTED	(RWF_HIPRI | RWF_DSYNC | RWF_SYNC | RWF_NOWAIT |\
+-			 RWF_APPEND)
++			 RWF_APPEND | RWF_NOAPPEND)
+ 
+ #endif /* _UAPI_LINUX_FS_H */
+-- 
+2.21.0
 
-ssize_t import_iovec(int type, const struct iovec __user * uvector,
-                 unsigned nr_segs, unsigned fast_segs,
-                 struct iovec **iov, struct iov_iter *i)
-{
-       return __import_iovec(type, uvector, nr_segs, fast_segs, iov,
-i, in_compat_syscall());
-}
-
-      Arnd
