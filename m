@@ -2,90 +2,85 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 60B8225640D
-	for <lists+linux-api@lfdr.de>; Sat, 29 Aug 2020 04:00:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E63C256583
+	for <lists+linux-api@lfdr.de>; Sat, 29 Aug 2020 09:02:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726446AbgH2CAE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 28 Aug 2020 22:00:04 -0400
-Received: from brightrain.aerifal.cx ([216.12.86.13]:47892 "EHLO
-        brightrain.aerifal.cx" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726392AbgH2CAD (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 28 Aug 2020 22:00:03 -0400
-Date:   Fri, 28 Aug 2020 22:00:02 -0400
-From:   Rich Felker <dalias@libc.org>
-To:     linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>
-Subject: [RESEND PATCH] vfs: add RWF_NOAPPEND flag for pwritev2
-Message-ID: <20200829020002.GC3265@brightrain.aerifal.cx>
+        id S1726001AbgH2HCh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 29 Aug 2020 03:02:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40238 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725886AbgH2HCg (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 29 Aug 2020 03:02:36 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F73BC061236;
+        Sat, 29 Aug 2020 00:02:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=9U9dGK0bqJLSVOUuBWXaxoDilhxzVYEaDPKgn3CAclI=; b=YfaX1TJf7HA6uhNhJQiWhVOa96
+        f0ehNVUSyn/j0g/TXrjTt2eoL7mJwEB4PB/JJiVMi5LP9i0Al6Caf4Lm0tnG4qPm+56zU1QgHO5KD
+        zRUe6vhjo0W4XXSUuEeI/I+YhnlDlJDIpE0Vz0B3crHHkxS+LD7Ce5nKBERAGV3SrwNdc5jXEkH+L
+        TT9HMk6Idvnye6juI2mrnxGfJz/Y9+Bftdi20lxWcnnRC5XMrPf7C8x6ilSfuCiEiXoBdRoCP3Rv1
+        ADtVbrtSOnk1GeYxMvqzbU/Yz18EpXB8qaJ0Olsk4Ci3SFrP0SCj75p0juusf5HA04sAnypvPh5mq
+        hT3wh4Ww==;
+Received: from hch by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kBusg-0000WP-5C; Sat, 29 Aug 2020 07:02:30 +0000
+Date:   Sat, 29 Aug 2020 08:02:30 +0100
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Minchan Kim <minchan@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        linux-mm <linux-mm@kvack.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Oleksandr Natalenko <oleksandr@redhat.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Tim Murray <timmurray@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Dias <joaodias@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jann Horn <jannh@google.com>,
+        alexander.h.duyck@linux.intel.com,
+        SeongJae Park <sj38.park@gmail.com>,
+        David Rientjes <rientjes@google.com>,
+        Arjun Roy <arjunroy@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Christian Brauner <christian@brauner.io>,
+        Daniel Colascione <dancol@google.com>,
+        Jens Axboe <axboe@kernel.dk>,
+        Kirill Tkhai <ktkhai@virtuozzo.com>,
+        SeongJae Park <sjpark@amazon.de>,
+        linux-man <linux-man@vger.kernel.org>
+Subject: Re: [PATCH v8 3/4] mm/madvise: introduce process_madvise() syscall:
+ an external memory hinting API
+Message-ID: <20200829070230.GA1099@infradead.org>
+References: <20200622192900.22757-1-minchan@kernel.org>
+ <20200622192900.22757-4-minchan@kernel.org>
+ <CAK8P3a0Mnp2ekmX-BX9yr+N8fy2=gBtASELLXoa9uGSpSS9aOA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <CAK8P3a0Mnp2ekmX-BX9yr+N8fy2=gBtASELLXoa9uGSpSS9aOA@mail.gmail.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-The pwrite function, originally defined by POSIX (thus the "p"), is
-defined to ignore O_APPEND and write at the offset passed as its
-argument. However, historically Linux honored O_APPEND if set and
-ignored the offset. This cannot be changed due to stability policy,
-but is documented in the man page as a bug.
+On Fri, Aug 28, 2020 at 07:40:08PM +0200, Arnd Bergmann wrote:
+> Every syscall that passes an iovec seems to do this. If we make import_iovec()
+> handle both cases directly, this syscall and a number of others can
+> be simplified, and you avoid the x32 entry point I mentioned above
 
-Now that there's a pwritev2 syscall providing a superset of the pwrite
-functionality that has a flags argument, the conforming behavior can
-be offered to userspace via a new flag. Since pwritev2 checks flag
-validity (in kiocb_set_rw_flags) and reports unknown ones with
-EOPNOTSUPP, callers will not get wrong behavior on old kernels that
-don't support the new flag; the error is reported and the caller can
-decide how to handle it.
-
-Signed-off-by: Rich Felker <dalias@libc.org>
----
- include/linux/fs.h      | 4 ++++
- include/uapi/linux/fs.h | 5 ++++-
- 2 files changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index e0d909d35763..3a769a972f79 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -3397,6 +3397,8 @@ static inline int kiocb_set_rw_flags(struct kiocb *ki, rwf_t flags)
- {
- 	if (unlikely(flags & ~RWF_SUPPORTED))
- 		return -EOPNOTSUPP;
-+	if (unlikely((flags & RWF_APPEND) && (flags & RWF_NOAPPEND)))
-+		return -EINVAL;
- 
- 	if (flags & RWF_NOWAIT) {
- 		if (!(ki->ki_filp->f_mode & FMODE_NOWAIT))
-@@ -3411,6 +3413,8 @@ static inline int kiocb_set_rw_flags(struct kiocb *ki, rwf_t flags)
- 		ki->ki_flags |= (IOCB_DSYNC | IOCB_SYNC);
- 	if (flags & RWF_APPEND)
- 		ki->ki_flags |= IOCB_APPEND;
-+	if (flags & RWF_NOAPPEND)
-+		ki->ki_flags &= ~IOCB_APPEND;
- 	return 0;
- }
- 
-diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
-index 379a612f8f1d..591357d9b3c9 100644
---- a/include/uapi/linux/fs.h
-+++ b/include/uapi/linux/fs.h
-@@ -299,8 +299,11 @@ typedef int __bitwise __kernel_rwf_t;
- /* per-IO O_APPEND */
- #define RWF_APPEND	((__force __kernel_rwf_t)0x00000010)
- 
-+/* per-IO negation of O_APPEND */
-+#define RWF_NOAPPEND	((__force __kernel_rwf_t)0x00000020)
-+
- /* mask of flags supported by the kernel */
- #define RWF_SUPPORTED	(RWF_HIPRI | RWF_DSYNC | RWF_SYNC | RWF_NOWAIT |\
--			 RWF_APPEND)
-+			 RWF_APPEND | RWF_NOAPPEND)
- 
- #endif /* _UAPI_LINUX_FS_H */
--- 
-2.21.0
-
+FYI, I do have a series that does this (even tested) and kills tons of
+compat syscalls by that.  But by doing that I found the problem that
+compat syscalls issued by io_uring don't trigger in_compat_syscall().
+I need to go back to fixing the io_uring vs in_compat_syscall() issue
+(probably for 5.9) and then submit the whole thing.
