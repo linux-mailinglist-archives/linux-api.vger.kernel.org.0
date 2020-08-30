@@ -2,126 +2,130 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BB3AC256AFB
-	for <lists+linux-api@lfdr.de>; Sun, 30 Aug 2020 03:00:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C790256EF1
+	for <lists+linux-api@lfdr.de>; Sun, 30 Aug 2020 17:06:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728439AbgH3BA3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 29 Aug 2020 21:00:29 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:35308 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728246AbgH3BA1 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 29 Aug 2020 21:00:27 -0400
-Received: by mail-pg1-f194.google.com with SMTP id g29so2330111pgl.2;
-        Sat, 29 Aug 2020 18:00:27 -0700 (PDT)
+        id S1727044AbgH3PG3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 30 Aug 2020 11:06:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54518 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727935AbgH3PGO (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 30 Aug 2020 11:06:14 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0408C061236
+        for <linux-api@vger.kernel.org>; Sun, 30 Aug 2020 08:06:13 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id c8so2121356lfh.9
+        for <linux-api@vger.kernel.org>; Sun, 30 Aug 2020 08:06:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hqQ8AtdFMS0ym9cnkvwXQx8xXEYehPD89tUpAkFBrhM=;
+        b=iAF3hF5DV7MaK2Vla97BRmuHRZzXPlTAov2WZVMKuCL2tZHZSZq9cBt6yr7oxyLToo
+         bQX3kLIRIJcinshXJHPYhojYeiVW8PqiLGRjzFiABARktiwDXnkw9qSJwFvgBpan7aOO
+         +GGOL6mWb0nYteHzB3v2V+OgB4f3L8uNAufxdX/JR3Kz27nIbG1VecMHe/xWyX7b8gaq
+         GYb3EtJ6rFUJGlXxOhwHtAIYfwbwavqkVinNZCaWcSiToyIkGOtuOEVjW5KFmHXXrw53
+         QZ/5CZpE8dIQklst1vAjbM6W1FB066Y+jUqt2sEQSWUCIGAPIqLtocblf20KmxWuQN2C
+         nLRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=4x9Y37hGo7dYMbHIwPQnyQub3kar4dZzeiDIibRQ0Z0=;
-        b=DlSooqYJBqWiGlEggg1P8ytwz531RIRNJ6FCBZyacsPYnvjCBeaAlNwnnw70nEl+uz
-         nmFX66Ej2P8O7/+OsgNkSgeiGYOv9mevgGa0BJ17wQswbM5c/lU8T5/hKPngTo2vTWmx
-         q/spO8PCkf7DqhbW8qoNA3xSpeK2LCKK4McmO6PInWITYwL9fRHb8GeHVrEac6d9dOQI
-         1HPrrV2HhXXAlSpgKqIvCCFQiF76+sR84UFeKUfOuzfmDuIc4aomzHlmJpe2ifCnPnbN
-         PVs/EPutrz+q69F+ZGXjmSTPSGauMTNVuAktwk/oaeh3ISnxaBrjU9+JSXFGYD+zffMZ
-         UDbA==
-X-Gm-Message-State: AOAM530HH1agX7z0qLXCBZwi0ZMFVtwH9hRxXXrhmdglKqMTIR0tg1rt
-        KDBoTy6cxMpQrfPfC00QqO8xOKhKsU4=
-X-Google-Smtp-Source: ABdhPJywUsXxxHLzlNySajXEDKXm3bSoyUhsQ213Vz8vJbMsGZtiz7tobg71wwlz9DfUm0Goq/pUIA==
-X-Received: by 2002:aa7:8b0c:: with SMTP id f12mr4556707pfd.58.1598749226303;
-        Sat, 29 Aug 2020 18:00:26 -0700 (PDT)
-Received: from [192.168.3.218] (c-73-241-217-19.hsd1.ca.comcast.net. [73.241.217.19])
-        by smtp.gmail.com with ESMTPSA id c143sm3891930pfb.84.2020.08.29.18.00.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 29 Aug 2020 18:00:25 -0700 (PDT)
-Subject: Re: [PATCH v2] block: grant IOPRIO_CLASS_RT to CAP_SYS_NICE
-To:     Khazhismel Kumykov <khazhy@google.com>,
-        Jens Axboe <axboe@kernel.dk>
-Cc:     Serge Hallyn <serge@hallyn.com>,
-        Paolo Valente <paolo.valente@linaro.org>,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org
-References: <20200824221034.2170308-1-khazhy@google.com>
-From:   Bart Van Assche <bvanassche@acm.org>
-Autocrypt: addr=bvanassche@acm.org; prefer-encrypt=mutual; keydata=
- mQENBFSOu4oBCADcRWxVUvkkvRmmwTwIjIJvZOu6wNm+dz5AF4z0FHW2KNZL3oheO3P8UZWr
- LQOrCfRcK8e/sIs2Y2D3Lg/SL7qqbMehGEYcJptu6mKkywBfoYbtBkVoJ/jQsi2H0vBiiCOy
- fmxMHIPcYxaJdXxrOG2UO4B60Y/BzE6OrPDT44w4cZA9DH5xialliWU447Bts8TJNa3lZKS1
- AvW1ZklbvJfAJJAwzDih35LxU2fcWbmhPa7EO2DCv/LM1B10GBB/oQB5kvlq4aA2PSIWkqz4
- 3SI5kCPSsygD6wKnbRsvNn2mIACva6VHdm62A7xel5dJRfpQjXj2snd1F/YNoNc66UUTABEB
- AAG0JEJhcnQgVmFuIEFzc2NoZSA8YnZhbmFzc2NoZUBhY20ub3JnPokBOQQTAQIAIwUCVI67
- igIbAwcLCQgHAwIBBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFcPTXFzhAJ8QkH/1AdXblKL65M
- Y1Zk1bYKnkAb4a98LxCPm/pJBilvci6boefwlBDZ2NZuuYWYgyrehMB5H+q+Kq4P0IBbTqTa
- jTPAANn62A6jwJ0FnCn6YaM9TZQjM1F7LoDX3v+oAkaoXuq0dQ4hnxQNu792bi6QyVdZUvKc
- macVFVgfK9n04mL7RzjO3f+X4midKt/s+G+IPr4DGlrq+WH27eDbpUR3aYRk8EgbgGKvQFdD
- CEBFJi+5ZKOArmJVBSk21RHDpqyz6Vit3rjep7c1SN8s7NhVi9cjkKmMDM7KYhXkWc10lKx2
- RTkFI30rkDm4U+JpdAd2+tP3tjGf9AyGGinpzE2XY1K5AQ0EVI67igEIAKiSyd0nECrgz+H5
- PcFDGYQpGDMTl8MOPCKw/F3diXPuj2eql4xSbAdbUCJzk2ETif5s3twT2ER8cUTEVOaCEUY3
- eOiaFgQ+nGLx4BXqqGewikPJCe+UBjFnH1m2/IFn4T9jPZkV8xlkKmDUqMK5EV9n3eQLkn5g
- lco+FepTtmbkSCCjd91EfThVbNYpVQ5ZjdBCXN66CKyJDMJ85HVr5rmXG/nqriTh6cv1l1Js
- T7AFvvPjUPknS6d+BETMhTkbGzoyS+sywEsQAgA+BMCxBH4LvUmHYhpS+W6CiZ3ZMxjO8Hgc
- ++w1mLeRUvda3i4/U8wDT3SWuHcB3DWlcppECLkAEQEAAYkBHwQYAQIACQUCVI67igIbDAAK
- CRBxXD01xc4QCZ4dB/0QrnEasxjM0PGeXK5hcZMT9Eo998alUfn5XU0RQDYdwp6/kMEXMdmT
- oH0F0xB3SQ8WVSXA9rrc4EBvZruWQ+5/zjVrhhfUAx12CzL4oQ9Ro2k45daYaonKTANYG22y
- //x8dLe2Fv1By4SKGhmzwH87uXxbTJAUxiWIi1np0z3/RDnoVyfmfbbL1DY7zf2hYXLLzsJR
- mSsED/1nlJ9Oq5fALdNEPgDyPUerqHxcmIub+pF0AzJoYHK5punqpqfGmqPbjxrJLPJfHVKy
- goMj5DlBMoYqEgpbwdUYkH6QdizJJCur4icy8GUNbisFYABeoJ91pnD4IGei3MTdvINSZI5e
-Message-ID: <e50a4ff6-39fb-6ba0-40ab-d348fbf5567f@acm.org>
-Date:   Sat, 29 Aug 2020 18:00:24 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hqQ8AtdFMS0ym9cnkvwXQx8xXEYehPD89tUpAkFBrhM=;
+        b=XGEpaGSOMtcV3Y7t39LvwX1IyAgDfnEDWhXHuBxNGja+sa+UcTPddVuELQwu+pY5xL
+         qLVLe68qABtp3yW7TgRIrO/i9zyzPokMzmVx6QfbU5wak1vb/x8B0jvDpXyanGhKNT74
+         VVCVDe35jW1uMpicepv1N5zpHDMn5X4sDB/5XBJAUUhZeEgPiw2tnAXeKnRuJz0dA+Rd
+         I5t6qVrKXNVg5IMm4JSPEq9osUB1A81hTDbq7KiyKgJo8XyBmkp9LQE814udc61l+ssl
+         DPq5oQXiNtYyLJBAEP/KPcvlQm7HwtdwORMYEnmfdXCHbq4HN8+YaaaBuEIddF7W21yk
+         t9lQ==
+X-Gm-Message-State: AOAM532zUPGyRgPHlJ0+u9fLTeca3Mfd1tsok/RhM4tljCvxYjrOEddP
+        ZXYhGx7xU+mS/xWBhzQZzYpZhiULa/sobUuoMhP8TA==
+X-Google-Smtp-Source: ABdhPJwVwLYPWD7KtU6ZDFzNcrcxstYiGCbmWW1akQet2KsblsR9CgOdMt9+7OuFdIfhjiuts7wSnKpIadr7RNhcKQk=
+X-Received: by 2002:a19:2286:: with SMTP id i128mr3570361lfi.45.1598799971846;
+ Sun, 30 Aug 2020 08:06:11 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200824221034.2170308-1-khazhy@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200829020002.GC3265@brightrain.aerifal.cx>
+In-Reply-To: <20200829020002.GC3265@brightrain.aerifal.cx>
+From:   Jann Horn <jannh@google.com>
+Date:   Sun, 30 Aug 2020 17:05:45 +0200
+Message-ID: <CAG48ez1BExw7DdCEeRD1hG5ZpRObpGDodnizW2xD5tC0saTDqg@mail.gmail.com>
+Subject: Re: [RESEND PATCH] vfs: add RWF_NOAPPEND flag for pwritev2
+To:     Rich Felker <dalias@libc.org>
+Cc:     linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2020-08-24 15:10, Khazhismel Kumykov wrote:
-> CAP_SYS_ADMIN is too broad, and ionice fits into CAP_SYS_NICE's grouping.
-> 
-> Retain CAP_SYS_ADMIN permission for backwards compatibility.
-> 
-> Signed-off-by: Khazhismel Kumykov <khazhy@google.com>
-> ---
->  block/ioprio.c                  | 2 +-
->  include/uapi/linux/capability.h | 2 ++
->  2 files changed, 3 insertions(+), 1 deletion(-)
-> 
-> v2: fix embarrassing logic mistake
-> diff --git a/block/ioprio.c b/block/ioprio.c
-> index 77bcab11dce5..276496246fe9 100644
-> --- a/block/ioprio.c
-> +++ b/block/ioprio.c
-> @@ -69,7 +69,7 @@ int ioprio_check_cap(int ioprio)
->  
->  	switch (class) {
->  		case IOPRIO_CLASS_RT:
-> -			if (!capable(CAP_SYS_ADMIN))
-> +			if (!capable(CAP_SYS_NICE) && !capable(CAP_SYS_ADMIN))
->  				return -EPERM;
->  			/* fall through */
->  			/* rt has prio field too */
-> diff --git a/include/uapi/linux/capability.h b/include/uapi/linux/capability.h
-> index 395dd0df8d08..c6ca33034147 100644
-> --- a/include/uapi/linux/capability.h
-> +++ b/include/uapi/linux/capability.h
-> @@ -288,6 +288,8 @@ struct vfs_ns_cap_data {
->     processes and setting the scheduling algorithm used by another
->     process. */
->  /* Allow setting cpu affinity on other processes */
-> +/* Allow setting realtime ioprio class */
-> +/* Allow setting ioprio class on other processes */
->  
->  #define CAP_SYS_NICE         23
+On Sat, Aug 29, 2020 at 4:00 AM Rich Felker <dalias@libc.org> wrote:
+> The pwrite function, originally defined by POSIX (thus the "p"), is
+> defined to ignore O_APPEND and write at the offset passed as its
+> argument. However, historically Linux honored O_APPEND if set and
+> ignored the offset. This cannot be changed due to stability policy,
+> but is documented in the man page as a bug.
+>
+> Now that there's a pwritev2 syscall providing a superset of the pwrite
+> functionality that has a flags argument, the conforming behavior can
+> be offered to userspace via a new flag.
+[...]
+> diff --git a/include/linux/fs.h b/include/linux/fs.h
+[...]
+> @@ -3411,6 +3413,8 @@ static inline int kiocb_set_rw_flags(struct kiocb *ki, rwf_t flags)
+>                 ki->ki_flags |= (IOCB_DSYNC | IOCB_SYNC);
+>         if (flags & RWF_APPEND)
+>                 ki->ki_flags |= IOCB_APPEND;
+> +       if (flags & RWF_NOAPPEND)
+> +               ki->ki_flags &= ~IOCB_APPEND;
+>         return 0;
+>  }
 
-From https://www.kernel.org/doc/man-pages/linux-api-ml.html:
-"all Linux kernel patches that change userspace interfaces should be CCed
-to linux-api@vger.kernel.org"
+Linux enforces the S_APPEND flag (set by "chattr +a") only at open()
+time, not at write() time:
 
-So I have added the linux-api mailing list to the Cc-list. Anyway:
+# touch testfile
+# exec 100>testfile
+# echo foo > testfile
+# cat testfile
+foo
+# chattr +a testfile
+# echo bar > testfile
+bash: testfile: Operation not permitted
+# echo bar >&100
+# cat testfile
+bar
+#
 
-Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+At open() time, the kernel enforces that you can't use O_WRONLY/O_RDWR
+without also setting O_APPEND if the file is marked as append-only:
+
+static int may_open(const struct path *path, int acc_mode, int flag)
+{
+[...]
+  /*
+   * An append-only file must be opened in append mode for writing.
+   */
+  if (IS_APPEND(inode)) {
+    if  ((flag & O_ACCMODE) != O_RDONLY && !(flag & O_APPEND))
+      return -EPERM;
+    if (flag & O_TRUNC)
+      return -EPERM;
+  }
+[...]
+}
+
+It seems to me like your patch will permit bypassing S_APPEND by
+opening an append-only file with O_WRONLY|O_APPEND, then calling
+pwritev2() with RWF_NOAPPEND? I think you'll have to add an extra
+check for IS_APPEND() somewhere.
+
+
+One could also argue that if an O_APPEND file descriptor is handed
+across privilege boundaries, a programmer might reasonably expect that
+the recipient will not be able to use the file descriptor for
+non-append writes; if that is not actually true, that should probably
+be noted in the open.2 manpage, at the end of the description of
+O_APPEND.
