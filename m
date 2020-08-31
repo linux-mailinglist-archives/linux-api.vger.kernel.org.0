@@ -2,111 +2,155 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 08598257CF5
-	for <lists+linux-api@lfdr.de>; Mon, 31 Aug 2020 17:35:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B505E257DDE
+	for <lists+linux-api@lfdr.de>; Mon, 31 Aug 2020 17:46:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729093AbgHaPcP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 31 Aug 2020 11:32:15 -0400
-Received: from brightrain.aerifal.cx ([216.12.86.13]:48524 "EHLO
-        brightrain.aerifal.cx" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729029AbgHaPcM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 31 Aug 2020 11:32:12 -0400
-Date:   Mon, 31 Aug 2020 11:32:08 -0400
-From:   Rich Felker <dalias@libc.org>
-To:     Jann Horn <jannh@google.com>
+        id S1726714AbgHaPqt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 31 Aug 2020 11:46:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57856 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726791AbgHaPqs (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 31 Aug 2020 11:46:48 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEE7CC061575
+        for <linux-api@vger.kernel.org>; Mon, 31 Aug 2020 08:46:47 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id y2so7285883ljc.1
+        for <linux-api@vger.kernel.org>; Mon, 31 Aug 2020 08:46:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+AoMEfgYRxQkncZxnPbeI2rx7pGrsAFC42S72eCBWIc=;
+        b=abrgTriqszl9wlmYoiAi460uozclBt//bwVG6oUCXIYMaa47WhwIZ5OK0cldnL8eqx
+         kNKaDE2trDqOmVr2v/5ZmMIBj2c5PslJlv2Elxb/ggWXIl4U516/Abqy0/HIN11cbHzC
+         h8C0QuQWNNXaJFVu9EOU4Qi0NTNySPdoHprKNcyWCbK9chZpfcUvtCbiRjiPab6dcFod
+         cFZFGqvlQJm9x3ZyscjpjPZ69FH2ahfgHP/+UCwH1Y5lgf1ncOpukzXYqKZ78eqI2EBq
+         7lhaKLnGzzeilsmbuB5IrcJQGGm0tySPQBMaTkEq/xFYC2aa8zaYOqufmsUAWhTl1Ena
+         7ICQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+AoMEfgYRxQkncZxnPbeI2rx7pGrsAFC42S72eCBWIc=;
+        b=SQq8BYI94EDkP/IINuShtM2blo9cBlDCI27MNnPa/bau2eMs0ARnsQ6itVJhdaIT6T
+         HO/EQt2BLQMAji6FvVdwci8i2vURQMLndBPzYnqDUPirWBep+cqMI1aRaqVjyMSky4iz
+         908jxw4rvJ3ti9V2r+fFBELSKX2HqEmWiuqRStDsreJKg94RtM9eXLHAk+u/AlQlJ8Mp
+         4ym8ETOlcS8kY3MwLJ4+UgN5fvh6k6pLKd2BpTb6HSEjV61twch26DUyBN4yD3WNOAly
+         ZMeKCLEzwz9ErKR9VJ02YXIWmTxPcyGUxe1CHIknhFBSwlynndB2dWpZgkTd+k4gb3Nv
+         T6uw==
+X-Gm-Message-State: AOAM532OywKDL4HkKEdvvtULTbRq2XBXj+P2+4Aun56zFAG2BEM3vzI7
+        v5P5U9ZgR5JDt2jTpFiaanc6qJLQ6sTv6X7bnAXjfQ==
+X-Google-Smtp-Source: ABdhPJw8ICUjRfg1psgk3VeEEbjk3V7kQYtrfhITr5IhGR+QFzandviK26WiXtH9qc+8aQaXY2IApqpO+DdwQrzFP68=
+X-Received: by 2002:a2e:9990:: with SMTP id w16mr872000lji.156.1598888805568;
+ Mon, 31 Aug 2020 08:46:45 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200831153207.GO3265@brightrain.aerifal.cx>
+In-Reply-To: <20200831153207.GO3265@brightrain.aerifal.cx>
+From:   Jann Horn <jannh@google.com>
+Date:   Mon, 31 Aug 2020 17:46:19 +0200
+Message-ID: <CAG48ez39WNuoxYO=RaW5OeVGSOy=uEAZ+xW_++TP7yjkUKGqkg@mail.gmail.com>
+Subject: Re: [PATCH v2] vfs: add RWF_NOAPPEND flag for pwritev2
+To:     Rich Felker <dalias@libc.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Jens Axboe <axboe@kernel.dk>
 Cc:     linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         kernel list <linux-kernel@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
         Pavel Begunkov <asml.silence@gmail.com>
-Subject: [PATCH v2] vfs: add RWF_NOAPPEND flag for pwritev2
-Message-ID: <20200831153207.GO3265@brightrain.aerifal.cx>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.5.21 (2010-09-15)
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-The pwrite function, originally defined by POSIX (thus the "p"), is
-defined to ignore O_APPEND and write at the offset passed as its
-argument. However, historically Linux honored O_APPEND if set and
-ignored the offset. This cannot be changed due to stability policy,
-but is documented in the man page as a bug.
+On Mon, Aug 31, 2020 at 5:32 PM Rich Felker <dalias@libc.org> wrote:
+> The pwrite function, originally defined by POSIX (thus the "p"), is
+> defined to ignore O_APPEND and write at the offset passed as its
+> argument. However, historically Linux honored O_APPEND if set and
+> ignored the offset. This cannot be changed due to stability policy,
+> but is documented in the man page as a bug.
+>
+> Now that there's a pwritev2 syscall providing a superset of the pwrite
+> functionality that has a flags argument, the conforming behavior can
+> be offered to userspace via a new flag. Since pwritev2 checks flag
+> validity (in kiocb_set_rw_flags) and reports unknown ones with
+> EOPNOTSUPP, callers will not get wrong behavior on old kernels that
+> don't support the new flag; the error is reported and the caller can
+> decide how to handle it.
+>
+> Signed-off-by: Rich Felker <dalias@libc.org>
 
-Now that there's a pwritev2 syscall providing a superset of the pwrite
-functionality that has a flags argument, the conforming behavior can
-be offered to userspace via a new flag. Since pwritev2 checks flag
-validity (in kiocb_set_rw_flags) and reports unknown ones with
-EOPNOTSUPP, callers will not get wrong behavior on old kernels that
-don't support the new flag; the error is reported and the caller can
-decide how to handle it.
+Reviewed-by: Jann Horn <jannh@google.com>
 
-Signed-off-by: Rich Felker <dalias@libc.org>
----
+Note that if this lands, Michael Kerrisk will probably be happy if you
+send a corresponding patch for the manpage man2/readv.2.
 
-Changes in v2: I've added a check to ensure that RWF_NOAPPEND does not
-override O_APPEND for S_APPEND (chattr +a) inodes, and fixed conflicts
-with 1752f0adea98ef85, which optimized kiocb_set_rw_flags to work with
-a local copy of flags. Unfortunately the same optimization does not
-work for RWF_NOAPPEND since it needs to remove flags from the original
-set at function entry.
+Btw, I'm not really sure whose tree this should go through - VFS is
+normally Al Viro's turf, but it looks like the most recent
+modifications to this function have gone through Jens Axboe's tree?
 
-If desired, I could further change this so that kiocb_flags is
-initialized to ki->ki_flags, with assignment-back in place of |= at
-the end of the function. This would allow the same local variable
-pattern in the RWF_NOAPPEND code path, which might be more elegant,
-but I'm not sure if the emitted code would improve or get worse.
-
-
- include/linux/fs.h      | 7 +++++++
- include/uapi/linux/fs.h | 5 ++++-
- 2 files changed, 11 insertions(+), 1 deletion(-)
-
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 7519ae003a08..924e17ac8e7e 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -3321,6 +3321,8 @@ static inline int kiocb_set_rw_flags(struct kiocb *ki, rwf_t flags)
- 		return 0;
- 	if (unlikely(flags & ~RWF_SUPPORTED))
- 		return -EOPNOTSUPP;
-+	if (unlikely((flags & RWF_APPEND) && (flags & RWF_NOAPPEND)))
-+		return -EINVAL;
- 
- 	if (flags & RWF_NOWAIT) {
- 		if (!(ki->ki_filp->f_mode & FMODE_NOWAIT))
-@@ -3335,6 +3337,11 @@ static inline int kiocb_set_rw_flags(struct kiocb *ki, rwf_t flags)
- 		kiocb_flags |= (IOCB_DSYNC | IOCB_SYNC);
- 	if (flags & RWF_APPEND)
- 		kiocb_flags |= IOCB_APPEND;
-+	if ((flags & RWF_NOAPPEND) && (ki->ki_flags & IOCB_APPEND)) {
-+		if (IS_APPEND(file_inode(ki->ki_filp)))
-+			return -EPERM;
-+		ki->ki_flags &= ~IOCB_APPEND;
-+	}
- 
- 	ki->ki_flags |= kiocb_flags;
- 	return 0;
-diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
-index f44eb0a04afd..d5e54e0742cf 100644
---- a/include/uapi/linux/fs.h
-+++ b/include/uapi/linux/fs.h
-@@ -300,8 +300,11 @@ typedef int __bitwise __kernel_rwf_t;
- /* per-IO O_APPEND */
- #define RWF_APPEND	((__force __kernel_rwf_t)0x00000010)
- 
-+/* per-IO negation of O_APPEND */
-+#define RWF_NOAPPEND	((__force __kernel_rwf_t)0x00000020)
-+
- /* mask of flags supported by the kernel */
- #define RWF_SUPPORTED	(RWF_HIPRI | RWF_DSYNC | RWF_SYNC | RWF_NOWAIT |\
--			 RWF_APPEND)
-+			 RWF_APPEND | RWF_NOAPPEND)
- 
- #endif /* _UAPI_LINUX_FS_H */
--- 
-2.21.0
-
+> ---
+>
+> Changes in v2: I've added a check to ensure that RWF_NOAPPEND does not
+> override O_APPEND for S_APPEND (chattr +a) inodes, and fixed conflicts
+> with 1752f0adea98ef85, which optimized kiocb_set_rw_flags to work with
+> a local copy of flags. Unfortunately the same optimization does not
+> work for RWF_NOAPPEND since it needs to remove flags from the original
+> set at function entry.
+>
+> If desired, I could further change this so that kiocb_flags is
+> initialized to ki->ki_flags, with assignment-back in place of |= at
+> the end of the function. This would allow the same local variable
+> pattern in the RWF_NOAPPEND code path, which might be more elegant,
+> but I'm not sure if the emitted code would improve or get worse.
+>
+>
+>  include/linux/fs.h      | 7 +++++++
+>  include/uapi/linux/fs.h | 5 ++++-
+>  2 files changed, 11 insertions(+), 1 deletion(-)
+>
+> diff --git a/include/linux/fs.h b/include/linux/fs.h
+> index 7519ae003a08..924e17ac8e7e 100644
+> --- a/include/linux/fs.h
+> +++ b/include/linux/fs.h
+> @@ -3321,6 +3321,8 @@ static inline int kiocb_set_rw_flags(struct kiocb *ki, rwf_t flags)
+>                 return 0;
+>         if (unlikely(flags & ~RWF_SUPPORTED))
+>                 return -EOPNOTSUPP;
+> +       if (unlikely((flags & RWF_APPEND) && (flags & RWF_NOAPPEND)))
+> +               return -EINVAL;
+>
+>         if (flags & RWF_NOWAIT) {
+>                 if (!(ki->ki_filp->f_mode & FMODE_NOWAIT))
+> @@ -3335,6 +3337,11 @@ static inline int kiocb_set_rw_flags(struct kiocb *ki, rwf_t flags)
+>                 kiocb_flags |= (IOCB_DSYNC | IOCB_SYNC);
+>         if (flags & RWF_APPEND)
+>                 kiocb_flags |= IOCB_APPEND;
+> +       if ((flags & RWF_NOAPPEND) && (ki->ki_flags & IOCB_APPEND)) {
+> +               if (IS_APPEND(file_inode(ki->ki_filp)))
+> +                       return -EPERM;
+> +               ki->ki_flags &= ~IOCB_APPEND;
+> +       }
+>
+>         ki->ki_flags |= kiocb_flags;
+>         return 0;
+> diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+> index f44eb0a04afd..d5e54e0742cf 100644
+> --- a/include/uapi/linux/fs.h
+> +++ b/include/uapi/linux/fs.h
+> @@ -300,8 +300,11 @@ typedef int __bitwise __kernel_rwf_t;
+>  /* per-IO O_APPEND */
+>  #define RWF_APPEND     ((__force __kernel_rwf_t)0x00000010)
+>
+> +/* per-IO negation of O_APPEND */
+> +#define RWF_NOAPPEND   ((__force __kernel_rwf_t)0x00000020)
+> +
+>  /* mask of flags supported by the kernel */
+>  #define RWF_SUPPORTED  (RWF_HIPRI | RWF_DSYNC | RWF_SYNC | RWF_NOWAIT |\
+> -                        RWF_APPEND)
+> +                        RWF_APPEND | RWF_NOAPPEND)
+>
+>  #endif /* _UAPI_LINUX_FS_H */
+> --
+> 2.21.0
+>
