@@ -2,118 +2,135 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E3548259ABC
-	for <lists+linux-api@lfdr.de>; Tue,  1 Sep 2020 18:53:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD0BA259D07
+	for <lists+linux-api@lfdr.de>; Tue,  1 Sep 2020 19:24:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730013AbgIAQx0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 1 Sep 2020 12:53:26 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38737 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1730033AbgIAQxZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 1 Sep 2020 12:53:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1598979204;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=avbleNGUb+J89GYGqB+uFJ1WJDboHCvs4T7vUTWniQ8=;
-        b=R6uQPZbv2IftuUXHbLoCZMgTt9LB0eEuKHMGwioq5juIbauoa0f1N0UgCp4tQp2jXa3V3/
-        OfSLP56BSDz8vb9xIpQA+kjwM2UvYP01i7GhK842qxA9fj0NhpaAIJ5SHJ3e+AbpU/e0i0
-        vINKtSnwvA04lWEwPeRaHREYeEvRp/I=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-168-Aag7nKneMkuxngkgxQu7uA-1; Tue, 01 Sep 2020 12:53:22 -0400
-X-MC-Unique: Aag7nKneMkuxngkgxQu7uA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A8BD10ABDA7;
-        Tue,  1 Sep 2020 16:53:20 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.40.192.114])
-        by smtp.corp.redhat.com (Postfix) with SMTP id 283C87C558;
-        Tue,  1 Sep 2020 16:53:16 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Tue,  1 Sep 2020 18:53:20 +0200 (CEST)
-Date:   Tue, 1 Sep 2020 18:53:16 +0200
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Christian Brauner <christian@brauner.io>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Ingo Molnar <mingo@kernel.org>,
+        id S1732567AbgIARXV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 1 Sep 2020 13:23:21 -0400
+Received: from mga11.intel.com ([192.55.52.93]:59156 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729384AbgIARXP (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 1 Sep 2020 13:23:15 -0400
+IronPort-SDR: 4B0tkcJC6JmsWNq3TyA+uqJaq/KHgRyf5UCkhB3Rk0oPDtDqP2jMsF8yLlDf3w96GsrMNe73XO
+ we4wYTnQ1VCg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9731"; a="154729712"
+X-IronPort-AV: E=Sophos;i="5.76,379,1592895600"; 
+   d="scan'208";a="154729712"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2020 10:23:14 -0700
+IronPort-SDR: wuavfJxSyAPpELTV8WPFMMAHFUIjYWk2p5fLGqafU8dChGcX+q9xPL+vQSSxs9yoHADPFY7gzF
+ UEmYO/DPRnJg==
+X-IronPort-AV: E=Sophos;i="5.76,379,1592895600"; 
+   d="scan'208";a="301519837"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.241.30]) ([10.212.241.30])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2020 10:23:12 -0700
+Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
+ shadow stack
+To:     Dave Martin <Dave.Martin@arm.com>, "H.J. Lu" <hjl.tools@gmail.com>
+Cc:     Dave Hansen <dave.hansen@intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Florian Weimer <fweimer@redhat.com>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromium.org>,
-        Sargun Dhillon <sargun@sargun.me>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        linux-kselftest@vger.kernel.org,
-        Josh Triplett <josh@joshtriplett.org>,
-        Jens Axboe <axboe@kernel.dk>, linux-api@vger.kernel.org
-Subject: Re: [PATCH 1/4] pidfd: support PIDFD_NONBLOCK in pidfd_open()
-Message-ID: <20200901165315.GD4386@redhat.com>
-References: <20200831134551.1599689-1-christian.brauner@ubuntu.com>
- <20200831134551.1599689-2-christian.brauner@ubuntu.com>
- <20200901162309.GB4386@redhat.com>
- <20200901163308.mwd334y462fmml6s@wittgenstein>
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+References: <086c73d8-9b06-f074-e315-9964eb666db9@intel.com>
+ <73c2211f-8811-2d9f-1930-1c5035e6129c@intel.com>
+ <af258a0e-56e9-3747-f765-dfe45ce76bba@intel.com>
+ <ef7f9e24-f952-d78c-373e-85435f742688@intel.com>
+ <20200826164604.GW6642@arm.com> <87ft892vvf.fsf@oldenburg2.str.redhat.com>
+ <CALCETrVeNA0Kt2rW0CRCVo1JE0CKaBxu9KrJiyqUA8LPraY=7g@mail.gmail.com>
+ <0e9996bc-4c1b-cc99-9616-c721b546f857@intel.com>
+ <4f2dfefc-b55e-bf73-f254-7d95f9c67e5c@intel.com>
+ <CAMe9rOqt9kbqERC8U1+K-LiDyNYuuuz3TX++DChrRJwr5ajt6Q@mail.gmail.com>
+ <20200901102758.GY6642@arm.com>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <c91bbad8-9e45-724b-4526-fe3674310c57@intel.com>
+Date:   Tue, 1 Sep 2020 10:23:11 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200901163308.mwd334y462fmml6s@wittgenstein>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20200901102758.GY6642@arm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 09/01, Christian Brauner wrote:
->
-> On Tue, Sep 01, 2020 at 06:23:10PM +0200, Oleg Nesterov wrote:
-> > On 08/31, Christian Brauner wrote:
-> > >
-> > > --- /dev/null
-> > > +++ b/include/uapi/linux/pidfd.h
-> > > @@ -0,0 +1,12 @@
-> > > +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> > > +
-> > > +#ifndef _UAPI_LINUX_PIDFD_H
-> > > +#define _UAPI_LINUX_PIDFD_H
-> > > +
-> > > +#include <linux/types.h>
-> > > +#include <linux/fcntl.h>
-> > > +
-> > > +/* Flags for pidfd_open().  */
-> > > +#define PIDFD_NONBLOCK O_NONBLOCK
-> > > +
-> > > +#endif /* _UAPI_LINUX_PIDFD_H */
-> >
-> > Why? Can't we simply use O_NONBLOCK ?
->
-> It's the same thing we seem to do for any other (anon inode) fds:
->
-> include/linux/eventfd.h:#define		EFD_NONBLOCK O_NONBLOCK
-> include/uapi/linux/inotify.h:#define	IN_NONBLOCK O_NONBLOCK
-> include/uapi/linux/signalfd.h:#define	SFD_NONBLOCK O_NONBLOCK
-> include/uapi/linux/timerfd.h:#define	TFD_NONBLOCK O_NONBLOCK
->
-> also for O_CLOEXEC:
->
-> include/linux/eventfd.h:#define		EFD_CLOEXEC O_CLOEXEC
-> include/linux/userfaultfd_k.h:#define	UFFD_CLOEXEC O_CLOEXEC
-> include/uapi/linux/eventpoll.h:#define	EPOLL_CLOEXEC O_CLOEXEC
-> include/uapi/linux/mount.h:#define	OPEN_TREE_CLOEXEC    O_CLOEXEC
-> include/uapi/linux/perf_event.h:#define PERF_FLAG_FD_CLOEXEC (1UL << 3) /* O_CLOEXEC */
-> include/uapi/linux/signalfd.h:#define	SFD_CLOEXEC O_CLOEXEC
-> include/uapi/linux/timerfd.h:#define	TFD_CLOEXEC O_CLOEXEC
->
-> So I think we should just do the same.
+On 9/1/2020 3:28 AM, Dave Martin wrote:
+> On Thu, Aug 27, 2020 at 06:26:11AM -0700, H.J. Lu wrote:
+>> On Wed, Aug 26, 2020 at 12:57 PM Dave Hansen <dave.hansen@intel.com> wrote:
+>>>
+>>> On 8/26/20 11:49 AM, Yu, Yu-cheng wrote:
+>>>>> I would expect things like Go and various JITs to call it directly.
+>>>>>
+>>>>> If we wanted to be fancy and add a potentially more widely useful
+>>>>> syscall, how about:
+>>>>>
+>>>>> mmap_special(void *addr, size_t length, int prot, int flags, int type);
+>>>>>
+>>>>> Where type is something like MMAP_SPECIAL_X86_SHSTK.  Fundamentally,
+>>>>> this is really just mmap() except that we want to map something a bit
+>>>>> magical, and we don't want to require opening a device node to do it.
+>>>>
+>>>> One benefit of MMAP_SPECIAL_* is there are more free bits than MAP_*.
+>>>> Does ARM have similar needs for memory mapping, Dave?
+>>>
+>>> No idea.
+>>>
+>>> But, mmap_special() is *basically* mmap2() with extra-big flags space.
+>>> I suspect it will grow some more uses on top of shadow stacks.  It could
+>>> have, for instance, been used to allocate MPX bounds tables.
+>>
+>> There is no reason we can't use
+>>
+>> long arch_prctl (int, unsigned long, unsigned long, unsigned long, ..);
+>>
+>> for ARCH_X86_CET_MMAP_SHSTK.   We just need to use
+>>
+>> syscall (SYS_arch_prctl, ARCH_X86_CET_MMAP_SHSTK, ...);
+> 
+> 
+> For arm64 (and sparc etc.) we continue to use the regular mmap/mprotect
+> family of calls.  One or two additional arch-specific mmap flags are
+> sufficient for now.
+> 
+> Is x86 definitely not going to fit within those calls?
 
-Hmm, OK, then I have to agree.
+That can work for x86.  Andy, what if we create PROT_SHSTK, which can 
+been seen only from the user.  Once in kernel, it is translated to 
+VM_SHSTK.  One question for mremap/mprotect is, do we allow a normal 
+data area to become shadow stack?
 
-> A clean flag namespace seems
-> nicer to me too tbh.
+> 
+> For now, I can't see what arg[2] is used for (and hence the type
+> argument of mmap_special()), but I haven't dug through the whole series.
 
-Disagree but this doesn't matter ;)
+If we use the approach above, then we don't need arch_prctl changes.
 
-Oleg.
-
+Thanks,
+Yu-cheng
