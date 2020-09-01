@@ -2,23 +2,41 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E66D2597CE
-	for <lists+linux-api@lfdr.de>; Tue,  1 Sep 2020 18:20:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32754259830
+	for <lists+linux-api@lfdr.de>; Tue,  1 Sep 2020 18:24:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732007AbgIAQSp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 1 Sep 2020 12:18:45 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:54113 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731974AbgIAQSo (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 1 Sep 2020 12:18:44 -0400
-Received: from ip5f5af70b.dynamic.kabel-deutschland.de ([95.90.247.11] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1kD8zZ-00015R-Fs; Tue, 01 Sep 2020 16:18:41 +0000
-Date:   Tue, 1 Sep 2020 18:18:40 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Oleg Nesterov <oleg@redhat.com>
+        id S1728469AbgIAQXf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 1 Sep 2020 12:23:35 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:31919 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729981AbgIAQXX (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 1 Sep 2020 12:23:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1598977402;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=a32Yjr2eFkkA5dmrRXs0DH1p+/gxeW0TLToW+n8z3yc=;
+        b=hgNGO+u9jxtRdhjzkNizg4FWAFEvrIFyxzrcOVMkeqjH1vtpMm+dXsFNT/7NUgHiG+Lsle
+        l6m1yh4yLPNT8K7BOv3CYx/5o7Tmfn2DM76L48YT8g8vUkne+MiAqHJOFFxexyRz2hg93N
+        bqv6AP+bZywIQEfK9OEH/L02wHY1NyY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-90-W7hirFWAM9WKO2i0NHJmjA-1; Tue, 01 Sep 2020 12:23:17 -0400
+X-MC-Unique: W7hirFWAM9WKO2i0NHJmjA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B61110ABDAB;
+        Tue,  1 Sep 2020 16:23:15 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.40.192.114])
+        by smtp.corp.redhat.com (Postfix) with SMTP id 9CA257EB9A;
+        Tue,  1 Sep 2020 16:23:11 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Tue,  1 Sep 2020 18:23:14 +0200 (CEST)
+Date:   Tue, 1 Sep 2020 18:23:10 +0200
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
 Cc:     linux-kernel@vger.kernel.org,
         Christian Brauner <christian@brauner.io>,
         "Peter Zijlstra (Intel)" <peterz@infradead.org>,
@@ -30,69 +48,41 @@ Cc:     linux-kernel@vger.kernel.org,
         Aleksa Sarai <cyphar@cyphar.com>,
         linux-kselftest@vger.kernel.org,
         Josh Triplett <josh@joshtriplett.org>,
-        Jens Axboe <axboe@kernel.dk>, linux-api@vger.kernel.org,
-        Jann Horn <jannh@google.com>
-Subject: Re: [PATCH 2/4] exit: support non-blocking pidfds
-Message-ID: <20200901161840.e5eo33ctmq7zavak@wittgenstein>
+        Jens Axboe <axboe@kernel.dk>, linux-api@vger.kernel.org
+Subject: Re: [PATCH 1/4] pidfd: support PIDFD_NONBLOCK in pidfd_open()
+Message-ID: <20200901162309.GB4386@redhat.com>
 References: <20200831134551.1599689-1-christian.brauner@ubuntu.com>
- <20200831134551.1599689-3-christian.brauner@ubuntu.com>
- <20200901161154.GA4386@redhat.com>
+ <20200831134551.1599689-2-christian.brauner@ubuntu.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200901161154.GA4386@redhat.com>
+In-Reply-To: <20200831134551.1599689-2-christian.brauner@ubuntu.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Sep 01, 2020 at 06:11:54PM +0200, Oleg Nesterov wrote:
-> On 08/31, Christian Brauner wrote:
-> >
-> > --- a/kernel/exit.c
-> > +++ b/kernel/exit.c
-> > @@ -934,6 +934,7 @@ struct wait_opts {
-> >  
-> >  	wait_queue_entry_t		child_wait;
-> >  	int			notask_error;
-> > +	int			eagain_error;
-> >  };
-> >  
-> >  static int eligible_pid(struct wait_opts *wo, struct task_struct *p)
-> > @@ -1461,6 +1462,8 @@ static long do_wait(struct wait_opts *wo)
-> >  
-> >  notask:
-> >  	retval = wo->notask_error;
-> > +	if (!retval)
-> > +		retval = wo->eagain_error;
-> >  	if (!retval && !(wo->wo_flags & WNOHANG)) {
-> >  		retval = -ERESTARTSYS;
-> 
-> I must have missed something but I don't understand why do we need
-> the new ->eagain_error and the change in do_wait().
-> 
-> > @@ -1544,6 +1551,11 @@ static long kernel_waitid(int which, pid_t upid, struct waitid_info *infop,
-> >  	wo.wo_flags	= options;
-> >  	wo.wo_info	= infop;
-> >  	wo.wo_rusage	= ru;
-> > +	wo.eagain_error = 0;
-> > +	if (f_flags & O_NONBLOCK) {
-> > +		wo.wo_flags	|= WNOHANG;
-> > +		wo.eagain_error	= -EAGAIN;
-> > +	}
-> >  	ret = do_wait(&wo);
-> 
-> Can't kernel_waitid() simply do
-> 
-> 	if (f_flags & O_NONBLOCK)
-> 		wo.wo_flags |= WNOHANG;
-> 	ret = do_wait();
-> 	if (!ret & (f_flags & O_NONBLOCK))
-> 		ret = -EAGAIN;
-> 
-> ?
+On 08/31, Christian Brauner wrote:
+>
+> --- /dev/null
+> +++ b/include/uapi/linux/pidfd.h
+> @@ -0,0 +1,12 @@
+> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> +
+> +#ifndef _UAPI_LINUX_PIDFD_H
+> +#define _UAPI_LINUX_PIDFD_H
+> +
+> +#include <linux/types.h>
+> +#include <linux/fcntl.h>
+> +
+> +/* Flags for pidfd_open().  */
+> +#define PIDFD_NONBLOCK O_NONBLOCK
+> +
+> +#endif /* _UAPI_LINUX_PIDFD_H */
 
-Heh, indeed, that's even a smaller patch. Will change to that!
+Why? Can't we simply use O_NONBLOCK ?
 
-Thanks for the review, Oleg!
-Christia
+Oleg.
+
