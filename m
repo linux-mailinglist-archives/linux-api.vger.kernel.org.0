@@ -2,38 +2,33 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC5B2259DA0
-	for <lists+linux-api@lfdr.de>; Tue,  1 Sep 2020 19:51:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05A19259DC0
+	for <lists+linux-api@lfdr.de>; Tue,  1 Sep 2020 19:58:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728365AbgIARu5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 1 Sep 2020 13:50:57 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34223 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728079AbgIARu5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 1 Sep 2020 13:50:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1598982655;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=LJQ9qbxmQlGXiLqbEYSaeGjkLOhWAWXWbiUsuRzUZMg=;
-        b=MgHej4kt+seujZyGpQvoqPG2yWC1yv4Wd0gGDcSRt+HQdV62ICZRBtpp9Pvzs/LFj16+k0
-        /INhxhldAuOXice/vTQBLekX6yvMEiO2NY8+hHetr/nGr0OTMkPLdusmmJde378JW9uY1z
-        Jwo+QJU80rXubNaNFgf7csJ/n+ogi1Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-356-0uJb2eE_NhiqiYY54UEPVA-1; Tue, 01 Sep 2020 13:50:51 -0400
-X-MC-Unique: 0uJb2eE_NhiqiYY54UEPVA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02495802B7E;
-        Tue,  1 Sep 2020 17:50:48 +0000 (UTC)
-Received: from oldenburg2.str.redhat.com (ovpn-113-228.ams2.redhat.com [10.36.113.228])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 6923B5C1BB;
-        Tue,  1 Sep 2020 17:50:34 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+        id S1728365AbgIAR6a (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 1 Sep 2020 13:58:30 -0400
+Received: from mga18.intel.com ([134.134.136.126]:21068 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726140AbgIAR63 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 1 Sep 2020 13:58:29 -0400
+IronPort-SDR: tsaXhVb5DH2Pqio5lfj0Dj4oJhOMtQMkHO/iirC3pO/QCkzQ1DxXAJobuqs34X4DY9dRa1Mcc8
+ IukZZxe/vxKw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9731"; a="144922321"
+X-IronPort-AV: E=Sophos;i="5.76,379,1592895600"; 
+   d="scan'208";a="144922321"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2020 10:58:27 -0700
+IronPort-SDR: XwMESqPFxr04kLMfyQaui9VPnLF/D1itQuPP2/9KGJduUhBwiqOg07SfbLgLhc4VMmOKQNhS4d
+ WGuXhXSy4f2Q==
+X-IronPort-AV: E=Sophos;i="5.76,379,1592895600"; 
+   d="scan'208";a="477293602"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.241.30]) ([10.212.241.30])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2020 10:58:25 -0700
+Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
+ shadow stack
+To:     Florian Weimer <fweimer@redhat.com>
 Cc:     "H.J. Lu" <hjl.tools@gmail.com>, Dave Martin <Dave.Martin@arm.com>,
         Dave Hansen <dave.hansen@intel.com>,
         Andy Lutomirski <luto@kernel.org>, X86 ML <x86@kernel.org>,
@@ -61,47 +56,47 @@ Cc:     "H.J. Lu" <hjl.tools@gmail.com>, Dave Martin <Dave.Martin@arm.com>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
         Weijiang Yang <weijiang.yang@intel.com>
-Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
- shadow stack
 References: <20200825002540.3351-1-yu-cheng.yu@intel.com>
-        <20200825002540.3351-26-yu-cheng.yu@intel.com>
-        <CALCETrVpLnZGfWWLpJO+aZ9aBbx5KGaCskejXiCXF1GtsFFoPg@mail.gmail.com>
-        <2d253891-9393-44d0-35e0-4b9a2da23cec@intel.com>
-        <086c73d8-9b06-f074-e315-9964eb666db9@intel.com>
-        <73c2211f-8811-2d9f-1930-1c5035e6129c@intel.com>
-        <af258a0e-56e9-3747-f765-dfe45ce76bba@intel.com>
-        <ef7f9e24-f952-d78c-373e-85435f742688@intel.com>
-        <20200826164604.GW6642@arm.com>
-        <87ft892vvf.fsf@oldenburg2.str.redhat.com>
-        <20200826170841.GX6642@arm.com>
-        <87tuwow7kg.fsf@oldenburg2.str.redhat.com>
-        <CAMe9rOrhjLSaMNABnzd=Kp5UeVot1Qkx0_PnMng=sT+wd9Xubw@mail.gmail.com>
-        <873648w6qr.fsf@oldenburg2.str.redhat.com>
-        <CAMe9rOqpLyWR+Ek7aBiRY+Kr6sRxkSHAo2Sc6h0YCv3X3-3TuQ@mail.gmail.com>
-        <CAMe9rOpuwZesJqY_2wYhdRXMhd7g0a+MRqPtXKh7wX5B5-OSbA@mail.gmail.com>
-        <3c12b6ee-7c93-dcf4-fbf7-2698003386dd@intel.com>
-Date:   Tue, 01 Sep 2020 19:50:32 +0200
-In-Reply-To: <3c12b6ee-7c93-dcf4-fbf7-2698003386dd@intel.com> (Yu-cheng Yu's
-        message of "Tue, 1 Sep 2020 10:49:01 -0700")
-Message-ID: <87o8mpqtcn.fsf@oldenburg2.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ <20200825002540.3351-26-yu-cheng.yu@intel.com>
+ <CALCETrVpLnZGfWWLpJO+aZ9aBbx5KGaCskejXiCXF1GtsFFoPg@mail.gmail.com>
+ <2d253891-9393-44d0-35e0-4b9a2da23cec@intel.com>
+ <086c73d8-9b06-f074-e315-9964eb666db9@intel.com>
+ <73c2211f-8811-2d9f-1930-1c5035e6129c@intel.com>
+ <af258a0e-56e9-3747-f765-dfe45ce76bba@intel.com>
+ <ef7f9e24-f952-d78c-373e-85435f742688@intel.com>
+ <20200826164604.GW6642@arm.com> <87ft892vvf.fsf@oldenburg2.str.redhat.com>
+ <20200826170841.GX6642@arm.com> <87tuwow7kg.fsf@oldenburg2.str.redhat.com>
+ <CAMe9rOrhjLSaMNABnzd=Kp5UeVot1Qkx0_PnMng=sT+wd9Xubw@mail.gmail.com>
+ <873648w6qr.fsf@oldenburg2.str.redhat.com>
+ <CAMe9rOqpLyWR+Ek7aBiRY+Kr6sRxkSHAo2Sc6h0YCv3X3-3TuQ@mail.gmail.com>
+ <CAMe9rOpuwZesJqY_2wYhdRXMhd7g0a+MRqPtXKh7wX5B5-OSbA@mail.gmail.com>
+ <3c12b6ee-7c93-dcf4-fbf7-2698003386dd@intel.com>
+ <87o8mpqtcn.fsf@oldenburg2.str.redhat.com>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <b84e6fae-5d51-b0a0-d917-76f86b3186b7@intel.com>
+Date:   Tue, 1 Sep 2020 10:58:25 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <87o8mpqtcn.fsf@oldenburg2.str.redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Yu-cheng Yu:
+On 9/1/2020 10:50 AM, Florian Weimer wrote:
+> * Yu-cheng Yu:
+> 
+>> Like other arch_prctl()'s, this parameter was 'unsigned long'
+>> earlier. The idea was, since this arch_prctl is only implemented for
+>> the 64-bit kernel, we wanted it to look as 64-bit only.  I will change
+>> it back to 'unsigned long'.
+> 
+> What about x32?  In general, long is rather problematic for x32.
 
-> Like other arch_prctl()'s, this parameter was 'unsigned long'
-> earlier. The idea was, since this arch_prctl is only implemented for
-> the 64-bit kernel, we wanted it to look as 64-bit only.  I will change
-> it back to 'unsigned long'.
-
-What about x32?  In general, long is rather problematic for x32.
-
-Thanks,
-Florian
-
+The problem is the size of 'long', right?
+Because this parameter is passed in a register, and only the lower bits 
+are used, x32 works as well.
