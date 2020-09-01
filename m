@@ -2,160 +2,181 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D2CE25808A
-	for <lists+linux-api@lfdr.de>; Mon, 31 Aug 2020 20:15:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A152B25849F
+	for <lists+linux-api@lfdr.de>; Tue,  1 Sep 2020 02:07:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729181AbgHaSPH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 31 Aug 2020 14:15:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52904 "EHLO
+        id S1725929AbgIAAHs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 31 Aug 2020 20:07:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727058AbgHaSPG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 31 Aug 2020 14:15:06 -0400
-Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com [IPv6:2607:f8b0:4864:20::d43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F697C061573;
-        Mon, 31 Aug 2020 11:15:06 -0700 (PDT)
-Received: by mail-io1-xd43.google.com with SMTP id z25so4293649iol.10;
-        Mon, 31 Aug 2020 11:15:06 -0700 (PDT)
+        with ESMTP id S1725872AbgIAAHr (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 31 Aug 2020 20:07:47 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 511ABC061573;
+        Mon, 31 Aug 2020 17:07:47 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id w7so1632276pfi.4;
+        Mon, 31 Aug 2020 17:07:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2gSAPrDjVFU9gx8jAU0bnZ1hQWEfjuAFbMKOLGx6XL4=;
-        b=dJV28rHReMIEvJ1D3zsEscE+DsFUT1m/nULxUyByVga8DkFPnloOowvZvym7qghYpN
-         Y7dNsaJ/aSlrx+Oo8e5K4bJqr0FySaidW2HFo4HqwGB9NP2etFNV4mMGCKWZy4/1tjzs
-         Xj4SnLWQWOGQOg2Kv9GgCIgjHmzz/Ic4Azk+72s+KpFI3/v/b6luB7Xgdv3dexK19aQE
-         AiVY6wXxcZuis0xXHMVC2Gx7dR/wlIGH46Wv7IgVwSoEgSKLFfp8thPlFfpKmFLlNyEV
-         nRG4A+87hfEMLDWf9oPtg7Y0l9BusVF+kD5u7sAIewO3d9Nyjr79TmLAAEecAo88pvSq
-         ZGBw==
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Qhlsr+suuDkN/ZVkq37k+a1bP/C6TH/jBPPik3MNM3E=;
+        b=VBhEdOAw9J6tfskz+U2eNtrKbJi9CZSc9QFc49BdI8wskdNqDi3UDJc7R2gQkJGA2k
+         ZXVCADlVT2TJgZ1mxBun3T0kTRN03VOgEyK4RBqFS7TmdU/TUfFxKtHslManRVHqJEjQ
+         ADI3FUK+jFBYtHyOVD//c5KVHMgqy5ZdfDwT2rnTwqjFgUD6Fzzv1RY7m24RIxh/QM0X
+         FrjsdzDX7No/55e5OXCdOCBe8Gh0Dfqo/zgePKKEk9S1rn0lmrGCuQrpQTKvx6PUN0s3
+         me9PTx/goe1rFzqvjXcfEKJdKJCZ8yHmcxzWQCV48Wv+Sjt3FeA5p61D90tmorZC/S4v
+         eYyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2gSAPrDjVFU9gx8jAU0bnZ1hQWEfjuAFbMKOLGx6XL4=;
-        b=PTx9mA1voBFg/3BoAbDDeLTxYHZFJC9/Lw/RHcfi71hbe/qCk3rC2Rq34OdBI2S5Dc
-         x8nTS7kY68HBHfM/uSDFcOhCEHxm89GSZcDQVLwDggCieiJp5HSDr4GowzAVhfACIbrH
-         GmZlpGBPzAN/w3R4q6yYtwZYNCQTk3462++m4ivd+yoYcCNiZvWCjOA4ssG6zC9RJr4L
-         JGWK2jAzI4SIF7Doj058mvezmt3Xz7dP8UOiNcKRCmCHBllY+lDHSiSH8E6YWdo+Txb5
-         gO6dJzLCOKori7+R/ivAv8gc9wjY+2LfT2PX2QVUdG1J/+fU236I3iteYI1tojHA/Dnp
-         E4tg==
-X-Gm-Message-State: AOAM532xfC6jAsaKbIXJNoool1aeAAONXh5kOzFmHBKzY+VJOSVeqtFW
-        M1C9eQHaGXbbky5HnqVZMYcapOllzRPVQ+MbsbI=
-X-Google-Smtp-Source: ABdhPJxBmDDdCWGh2NgUQ30pW7bEjobvVj0+2EvkprhMPzz2SKBdzcFEdOUrVUHnQ64VGFYe65ZWSRQKGUIj3Mojae0=
-X-Received: by 2002:a05:6602:2b13:: with SMTP id p19mr2343159iov.30.1598897705770;
- Mon, 31 Aug 2020 11:15:05 -0700 (PDT)
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=Qhlsr+suuDkN/ZVkq37k+a1bP/C6TH/jBPPik3MNM3E=;
+        b=jldyPYSZvqnCwAWZxjUj0nFiVSQn6tr6Owai1/MKIjiHkxuXomrBrUiCYWMUA8kUbW
+         1GI1IZ5Pd4o4O5sZ7lUzqmHu/yGoRRiaYgf0jERlAEz7uFdblSmXH2twVXM39kWMHqzG
+         PN+nMfU88nGeGMwnKmfjT4EQHPoYw4c4I//7nTYLfGx93aa0SLOdbego/6/4UAc//6Qa
+         3S9CKUL+5noJA7m+S6/6dCTmHxMvegorOw/K4Z7Zt1CYX9Bbw5Gn6zz6hWFOhR0nO/7t
+         /cunVYLRNEzJw4bzqwaINOQQFT/2yjPwUeTmamDF6m5jRukBLCnhFQOJPgXJDw8ScjuS
+         Gg3Q==
+X-Gm-Message-State: AOAM533QXWz/1bCRB5ckxDzmFbFjytuPJaAjONL3Zqjfp6Ia8kz+ebPP
+        NNScIHz7BkMa6kjarmGe5EDByOau/f8=
+X-Google-Smtp-Source: ABdhPJwTkw89fLl8yoCut62uET3njozAyscjbC1KEVyOrdhZDCNO99/4q/7r9iDjxjBzWeu/IF2zvA==
+X-Received: by 2002:aa7:9910:: with SMTP id z16mr3322533pff.120.1598918866562;
+        Mon, 31 Aug 2020 17:07:46 -0700 (PDT)
+Received: from bbox-1.mtv.corp.google.com ([2620:15c:211:1:7220:84ff:fe09:5e58])
+        by smtp.gmail.com with ESMTPSA id k5sm769777pjq.5.2020.08.31.17.07.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Aug 2020 17:07:45 -0700 (PDT)
+From:   Minchan Kim <minchan@kernel.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
+        oleksandr@redhat.com, Suren Baghdasaryan <surenb@google.com>,
+        Tim Murray <timmurray@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Dias <joaodias@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jann Horn <jannh@google.com>,
+        alexander.h.duyck@linux.intel.com, sj38.park@gmail.com,
+        David Rientjes <rientjes@google.com>,
+        Arjun Roy <arjunroy@google.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Minchan Kim <minchan@kernel.org>
+Subject: [PATCH v9 0/3] introduce memory hinting API for external process
+Date:   Mon, 31 Aug 2020 17:06:30 -0700
+Message-Id: <20200901000633.1920247-1-minchan@kernel.org>
+X-Mailer: git-send-email 2.28.0.402.g5ffc5be6b7-goog
 MIME-Version: 1.0
-References: <30b491ad-a7e1-f7b5-26b8-2cfffc81a080@huawei.com>
-In-Reply-To: <30b491ad-a7e1-f7b5-26b8-2cfffc81a080@huawei.com>
-From:   Yury Norov <yury.norov@gmail.com>
-Date:   Mon, 31 Aug 2020 11:15:00 -0700
-Message-ID: <CAAH8bW_p3LJPgOoJgUHt6O0run+LB2RbjnAVpeLn_KCAZKNR+A@mail.gmail.com>
-Subject: Re: [Question] About SECCOMP issue for ILP32
-To:     Xiongfeng Wang <wangxiongfeng2@huawei.com>
-Cc:     bobo.shaobowang@huawei.com,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        Adam Borowski <kilobyte@angband.pl>,
-        Alexander Graf <agraf@suse.de>,
-        Alexey Klimov <klimov.linux@gmail.com>,
-        Andreas Schwab <schwab@suse.de>,
-        Andrew Pinski <pinskia@gmail.com>,
-        Bamvor Zhangjian <bamv2005@gmail.com>,
-        Chris Metcalf <cmetcalf@mellanox.com>,
-        Christoph Muellner <christoph.muellner@theobroma-systems.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Florian Weimer <fweimer@redhat.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        James Hogan <james.hogan@imgtec.com>,
-        James Morse <james.morse@arm.com>,
-        Joseph Myers <joseph@codesourcery.com>,
-        Lin Yongting <linyongting@huawei.com>,
-        Manuel Montezelo <manuel.montezelo@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Martin Schwidefsky <schwidefsky@de.ibm.com>,
-        Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
-        Nathan_Lynch <Nathan_Lynch@mentor.com>,
-        Philipp Tomsich <philipp.tomsich@theobroma-systems.com>,
-        Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
-        Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
-        Steve Ellcey <sellcey@caviumnetworks.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        "yury.norov@gmail.com" <yury.norov@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Aug 31, 2020 at 5:48 AM Xiongfeng Wang
-<wangxiongfeng2@huawei.com> wrote:
->
-> Hi Yury,
->
+Now, we have MADV_PAGEOUT and MADV_COLD as madvise hinting API. With that,
+application could give hints to kernel what memory range are preferred to be
+reclaimed. However, in some platform(e.g., Android), the information
+required to make the hinting decision is not known to the app.
+Instead, it is known to a centralized userspace daemon(e.g., ActivityManagerService),
+and that daemon must be able to initiate reclaim on its own without any app
+involvement.
 
-Hi Xiongfeng,
+To solve the concern, this patch introduces new syscall - process_madvise(2).
+Bascially, it's same with madvise(2) syscall but it has some differences.
 
-[restore CC list]
+1. It needs pidfd of target process to provide the hint
+2. It supports only MADV_{COLD|PAGEOUT} at this moment.
+   Other hints in madvise will be opened when there are explicit requests from
+   community to prevent unexpected bugs we couldn't support.
+3. Only privileged processes can do something for other process's address
+   space.
 
-Haven't seen this before. What kernel / glibc / ltp do you use?
+For more detail of the new API, please see "mm: introduce external memory hinting API"
+description in this patchset.
 
-> We were testing the ILP32 feature and came accross a problem. Very apperaciate
-> it if you could give us some help !
->
-> We compile the LTP testsuite with '-mabi=ilp32' and run it on a machine with
-> kernel and glibc applied with ILP32 patches. But we failed on one testcase,
-> prctl04. It print the following error info.
-> 'prctl04.c:199: FAIL: SECCOMP_MODE_STRICT doesn't permit read(2) write(2) and
-> _exit(2)'
->
-> The testcase is like below, syscall 'prctl' followed by a syscall 'write'.
-> prctl(PR_SET_SECCOMP, SECCOMP_MODE_STRICT);
-> SAFE_WRITE(1, fd, "a", 1);
->
-> When we execute syscall 'write', we receive a SIGKILL. It's not as expected.
-> We track the kernel and found out it is because we failed the syscall_whitelist
-> check in '__secure_computing_strict'. Because flag 'TIF_32BIT_AARCH64' is set,
-> we falls into the 'in_compat_syscall()' branch. We compare the parameter
-> 'this_syscall' with return value of 'get_compat_model_syscalls()'
-> The syscall number of '__NR_write' for ilp32 application is 64, but it is 4 for
-> 'model_syscalls_32' returned from 'get_compat_model_syscalls()'
-> So '__secure_computing_strict' retuned with 'do_exit(SIGKILL)'. We have a
-> modification like below, but I am not sure if it correct or not.
->
-> --- a/kernel/seccomp.c
-> +++ b/kernel/seccomp.c
-> @@ -618,7 +618,7 @@ static void __secure_computing_strict(int this_syscall)
->  {
->         const int *syscall_whitelist = mode1_syscalls;
->  #ifdef CONFIG_COMPAT
-> -       if (in_compat_syscall())
-> +       if (is_a32_compat_task())
->                 syscall_whitelist = get_compat_mode1_syscalls();
+* from v8 - https://lore.kernel.org/linux-api/20200622192900.22757-1-minchan@kernel.org/
+  * drop passing task_struct to do_madvise - Linus
+  * remove compat syscall entry - Christian
+  * drop mmget_still_valid since we don't need any longer
+    * https://patchwork.kernel.org/patch/11740595/
 
-It calls the arch function from generic code. It may break build for
-other arches.
-This also looks dangerous because it treats ILP32 execution as non-compat.
+* from v7 -  http://lore.kernel.org/r/20200302193630.68771-1-minchan@kernel.org
+  * dropping pid support from new syscall and fold releated patches into syscall patch
+  * dropping KSM patch by discussion - Oleksandr, I lost the discussion.
+    Please resend the single patch against of the patchset if you resolves the discussion.
+    https://lore.kernel.org/linux-api/20200302193630.68771-8-minchan@kernel.org/
 
-The right approach would be implementing arch-specific
-get_compat_mode1_syscalls()
-in arch/arm64/include/asm/seccomp.h that returns an appropriate table.
-Refer MIPS
-code for this: arch/mips/include/asm/seccomp.h
+* from v6 - https://lore.kernel.org/linux-api/20200219014433.88424-1-minchan@kernel.org/
+  * fix comments and descriptions - Suren
+  * Add Reviewed-by - Suren
+  * fix build break reported by 0-day
 
-Thanks,
-Yury
+* from v5 - https://lore.kernel.org/linux-mm/20200214170520.160271-1-minchan@kernel.org/
+  * use null task and requestor's mm for io_madvise - Jann and Jens
+  * use right commit description for moving pidfd_get_pid - Christian
 
->  #endif
->         do {
->
->
-> Thanks,
-> Xiongfeng
->
+* from v4 - https://lore.kernel.org/linux-mm/20200212233946.246210-1-minchan@kernel.org/
+  * pass mm down to functions, not accessing task->mm - Jann
+  * clean up - Alexander
+  * add Reviewed-by - Alexander, SeongJae
+  * patch reordering
+
+* from v3 - https://lore.kernel.org/linux-mm/20200128001641.5086-1-minchan@kernel.org/
+  * verify task->mm aftere access_mm - Oleg
+  * split some patches for easy review - Alexander
+  * clean up fatal signal checking - Suren
+
+* from v2 - https://lore.kernel.org/linux-mm/20200116235953.163318-1-minchan@kernel.org/
+  * check signal callee and caller to bail out - Kirill Tkhai
+  * put more clarification for justification of new API
+
+* from v1 - https://lore.kernel.org/linux-mm/20200110213433.94739-1-minchan@kernel.org/
+  * fix syscall number - SeongJae
+  * use get_pid_task - Kirill Tkhai
+  * extend API to support pid as well as pidfd - Kirill Tkhai
+
+This patchset is against on v5.9-rc2-mmots-2020-08-30-18-40.
+
+Minchan Kim (3):
+  mm/madvise: pass mm to do_madvise
+  pid: move pidfd_get_pid() to pid.c
+  mm/madvise: introduce process_madvise() syscall: an external memory
+    hinting API
+
+ arch/alpha/kernel/syscalls/syscall.tbl      |   1 +
+ arch/arm/tools/syscall.tbl                  |   1 +
+ arch/arm64/include/asm/unistd.h             |   2 +-
+ arch/arm64/include/asm/unistd32.h           |   2 +
+ arch/ia64/kernel/syscalls/syscall.tbl       |   1 +
+ arch/m68k/kernel/syscalls/syscall.tbl       |   1 +
+ arch/microblaze/kernel/syscalls/syscall.tbl |   1 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl   |   1 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl   |   1 +
+ arch/parisc/kernel/syscalls/syscall.tbl     |   1 +
+ arch/powerpc/kernel/syscalls/syscall.tbl    |   1 +
+ arch/s390/kernel/syscalls/syscall.tbl       |   1 +
+ arch/sh/kernel/syscalls/syscall.tbl         |   1 +
+ arch/sparc/kernel/syscalls/syscall.tbl      |   1 +
+ arch/x86/entry/syscalls/syscall_32.tbl      |   1 +
+ arch/x86/entry/syscalls/syscall_64.tbl      |   1 +
+ arch/xtensa/kernel/syscalls/syscall.tbl     |   1 +
+ fs/io_uring.c                               |   2 +-
+ include/linux/mm.h                          |   2 +-
+ include/linux/pid.h                         |   1 +
+ include/linux/syscalls.h                    |   2 +
+ include/uapi/asm-generic/unistd.h           |   4 +-
+ kernel/exit.c                               |  17 ---
+ kernel/pid.c                                |  17 +++
+ kernel/sys_ni.c                             |   1 +
+ mm/madvise.c                                | 141 ++++++++++++++++++--
+ 26 files changed, 171 insertions(+), 35 deletions(-)
+
+-- 
+2.28.0.402.g5ffc5be6b7-goog
+
