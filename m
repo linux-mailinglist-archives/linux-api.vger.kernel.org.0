@@ -2,199 +2,130 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DDDC725A950
-	for <lists+linux-api@lfdr.de>; Wed,  2 Sep 2020 12:23:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BD0B25AC72
+	for <lists+linux-api@lfdr.de>; Wed,  2 Sep 2020 16:00:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726479AbgIBKX0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 2 Sep 2020 06:23:26 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:49502 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726247AbgIBKXX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 2 Sep 2020 06:23:23 -0400
-Received: from ip5f5af70b.dynamic.kabel-deutschland.de ([95.90.247.11] helo=wittgenstein.fritz.box)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1kDPvE-00069F-Af; Wed, 02 Sep 2020 10:23:20 +0000
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Christian Brauner <christian@brauner.io>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Ingo Molnar <mingo@kernel.org>,
+        id S1726853AbgIBOAE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 2 Sep 2020 10:00:04 -0400
+Received: from foss.arm.com ([217.140.110.172]:38552 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727025AbgIBN6l (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 2 Sep 2020 09:58:41 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D830231B;
+        Wed,  2 Sep 2020 06:58:40 -0700 (PDT)
+Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 24EBA3F71F;
+        Wed,  2 Sep 2020 06:58:37 -0700 (PDT)
+Date:   Wed, 2 Sep 2020 14:58:35 +0100
+From:   Dave Martin <Dave.Martin@arm.com>
+To:     Dave Hansen <dave.hansen@intel.com>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>,
+        Florian Weimer <fweimer@redhat.com>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromium.org>,
-        Sargun Dhillon <sargun@sargun.me>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        linux-kselftest@vger.kernel.org,
-        Josh Triplett <josh@joshtriplett.org>,
-        Jens Axboe <axboe@kernel.dk>, linux-api@vger.kernel.org,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Shuah Khan <shuah@kernel.org>
-Subject: [PATCH v2 4/4] tests: add waitid() tests for non-blocking pidfds
-Date:   Wed,  2 Sep 2020 12:21:30 +0200
-Message-Id: <20200902102130.147672-5-christian.brauner@ubuntu.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200902102130.147672-1-christian.brauner@ubuntu.com>
-References: <20200902102130.147672-1-christian.brauner@ubuntu.com>
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
+ shadow stack
+Message-ID: <20200902135832.GD6642@arm.com>
+References: <20200826164604.GW6642@arm.com>
+ <87ft892vvf.fsf@oldenburg2.str.redhat.com>
+ <CALCETrVeNA0Kt2rW0CRCVo1JE0CKaBxu9KrJiyqUA8LPraY=7g@mail.gmail.com>
+ <0e9996bc-4c1b-cc99-9616-c721b546f857@intel.com>
+ <4f2dfefc-b55e-bf73-f254-7d95f9c67e5c@intel.com>
+ <CAMe9rOqt9kbqERC8U1+K-LiDyNYuuuz3TX++DChrRJwr5ajt6Q@mail.gmail.com>
+ <20200901102758.GY6642@arm.com>
+ <c91bbad8-9e45-724b-4526-fe3674310c57@intel.com>
+ <CALCETrWJQgtO_tP1pEaDYYsFgkZ=fOxhyTRE50THcxYoHyTTwg@mail.gmail.com>
+ <32005d57-e51a-7c7f-4e86-612c2ff067f3@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <32005d57-e51a-7c7f-4e86-612c2ff067f3@intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Verify that the PIDFD_NONBLOCK flag works with pidfd_open() and that
-waitid() with a non-blocking pidfd returns EAGAIN:
+On Tue, Sep 01, 2020 at 11:11:37AM -0700, Dave Hansen wrote:
+> On 9/1/20 10:45 AM, Andy Lutomirski wrote:
+> >>> For arm64 (and sparc etc.) we continue to use the regular mmap/mprotect
+> >>> family of calls.  One or two additional arch-specific mmap flags are
+> >>> sufficient for now.
+> >>>
+> >>> Is x86 definitely not going to fit within those calls?
+> >> That can work for x86.  Andy, what if we create PROT_SHSTK, which can
+> >> been seen only from the user.  Once in kernel, it is translated to
+> >> VM_SHSTK.  One question for mremap/mprotect is, do we allow a normal
+> >> data area to become shadow stack?
+> > I'm unconvinced that we want to use a somewhat precious PROT_ or VM_
+> > bit for this.  Using a flag bit makes sense if we expect anyone to
+> > ever map an fd or similar as a shadow stack, but that seems a bit odd
+> > in the first place.  To me, it seems more logical for a shadow stack
+> > to be a special sort of mapping with a special vm_ops, not a normal
+> > mapping with a special flag set.  Although I realize that we want
+> > shadow stacks to work like anonymous memory with respect to fork().
+> > Dave?
+> 
+> I actually don't like the idea of *creating* mappings much.
+> 
+> I think the pkey model has worked out pretty well where we separate
+> creating the mapping from doing something *to* it, like changing
+> protections.  For instance, it would be nice if we could preserve things
+> like using hugetlbfs or heck even doing KSM for shadow stacks.
+> 
+> If we're *creating* mappings, we've pretty much ruled out things like
+> hugetlbfs.
+> 
+> Something like mprotect_shstk() would allow an implementation today that
+> only works on anonymous memory *and* sets up a special vm_ops.  But, the
+> same exact ABI could do wonky stuff in the future if we decided we
+> wanted to do shadow stacks on DAX or hugetlbfs or whatever.
+> 
+> I don't really like the idea of PROT_SHSTK those are plumbed into a
+> bunch of interfaces.  But, I also can't deny that it seems to be working
+> fine for the arm64 folks.
 
-	TAP version 13
-	1..3
-	# Starting 3 tests from 1 test cases.
-	#  RUN           global.wait_simple ...
-	#            OK  global.wait_simple
-	ok 1 global.wait_simple
-	#  RUN           global.wait_states ...
-	#            OK  global.wait_states
-	ok 2 global.wait_states
-	#  RUN           global.wait_nonblock ...
-	#            OK  global.wait_nonblock
-	ok 3 global.wait_nonblock
-	# PASSED: 3 / 3 tests passed.
-	# Totals: pass:3 fail:0 xfail:0 xpass:0 skip:0 error:0
+Note, there are some rough edges, such as what happens when someone
+calls mprotect() on memory marked with PROT_BTI.  Unless the caller
+knows whether PROT_BTI should be set for that page, the flag may get
+unintentionally cleared.  Since the flag only applies to text pages
+though, it's not _that_ much of a concern.  Software that deals with
+writable text pages is also usually involved in generating the code and
+so will know about PROT_BTI.  That's was the theory anyway.
 
-Cc: Shuah Khan <shuah@kernel.org>
-Cc: linux-kselftest@vger.kernel.org
-Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
----
-/* v2 */
-unchanged
----
- tools/testing/selftests/pidfd/pidfd.h      |  4 ++
- tools/testing/selftests/pidfd/pidfd_wait.c | 83 +++++++++++++++++++++-
- 2 files changed, 86 insertions(+), 1 deletion(-)
+In the longer term, it might be preferable to have a mprotect2() that
+can leave some flags unmodified, and that doesn't silently ignore
+unknown flags (at least one of mmap or mprotect does; I don't recall
+which).  We attempt didn't go this far, for now.
 
-diff --git a/tools/testing/selftests/pidfd/pidfd.h b/tools/testing/selftests/pidfd/pidfd.h
-index a2c80914e3dc..01f8d3c0cf2c 100644
---- a/tools/testing/selftests/pidfd/pidfd.h
-+++ b/tools/testing/selftests/pidfd/pidfd.h
-@@ -46,6 +46,10 @@
- #define __NR_pidfd_getfd -1
- #endif
- 
-+#ifndef PIDFD_NONBLOCK
-+#define PIDFD_NONBLOCK O_NONBLOCK
-+#endif
-+
- /*
-  * The kernel reserves 300 pids via RESERVED_PIDS in kernel/pid.c
-  * That means, when it wraps around any pid < 300 will be skipped.
-diff --git a/tools/testing/selftests/pidfd/pidfd_wait.c b/tools/testing/selftests/pidfd/pidfd_wait.c
-index 075c716f6fb8..cefce4d3d2f6 100644
---- a/tools/testing/selftests/pidfd/pidfd_wait.c
-+++ b/tools/testing/selftests/pidfd/pidfd_wait.c
-@@ -21,6 +21,11 @@
- 
- #define ptr_to_u64(ptr) ((__u64)((uintptr_t)(ptr)))
- 
-+/* Attempt to de-conflict with the selftests tree. */
-+#ifndef SKIP
-+#define SKIP(s, ...)	XFAIL(s, ##__VA_ARGS__)
-+#endif
-+
- static pid_t sys_clone3(struct clone_args *args)
- {
- 	return syscall(__NR_clone3, args, sizeof(struct clone_args));
-@@ -65,7 +70,7 @@ TEST(wait_simple)
- 	pidfd = -1;
- 
- 	pid = sys_clone3(&args);
--	ASSERT_GE(pid, 1);
-+	ASSERT_GE(pid, 0);
- 
- 	if (pid == 0)
- 		exit(EXIT_SUCCESS);
-@@ -133,4 +138,80 @@ TEST(wait_states)
- 	EXPECT_EQ(close(pidfd), 0);
- }
- 
-+TEST(wait_nonblock)
-+{
-+	int pidfd, status = 0;
-+	unsigned int flags = 0;
-+	pid_t parent_tid = -1;
-+	struct clone_args args = {
-+		.parent_tid = ptr_to_u64(&parent_tid),
-+		.flags = CLONE_PARENT_SETTID,
-+		.exit_signal = SIGCHLD,
-+	};
-+	int ret;
-+	pid_t pid;
-+	siginfo_t info = {
-+		.si_signo = 0,
-+	};
-+
-+	/*
-+	 * Callers need to see ECHILD with non-blocking pidfds when no child
-+	 * processes exists.
-+	 */
-+	pidfd = sys_pidfd_open(getpid(), PIDFD_NONBLOCK);
-+	EXPECT_GE(pidfd, 0) {
-+		/* pidfd_open() doesn't support PIDFD_NONBLOCK. */
-+		ASSERT_EQ(errno, EINVAL);
-+		SKIP(return, "Skipping PIDFD_NONBLOCK test");
-+	}
-+
-+	pid = sys_waitid(P_PIDFD, pidfd, &info, WEXITED, NULL);
-+	ASSERT_LT(pid, 0);
-+	ASSERT_EQ(errno, ECHILD);
-+	EXPECT_EQ(close(pidfd), 0);
-+
-+	pid = sys_clone3(&args);
-+	ASSERT_GE(pid, 0);
-+
-+	if (pid == 0) {
-+		kill(getpid(), SIGSTOP);
-+		exit(EXIT_SUCCESS);
-+	}
-+
-+	pidfd = sys_pidfd_open(pid, PIDFD_NONBLOCK);
-+	EXPECT_GE(pidfd, 0) {
-+		/* pidfd_open() doesn't support PIDFD_NONBLOCK. */
-+		ASSERT_EQ(errno, EINVAL);
-+		SKIP(return, "Skipping PIDFD_NONBLOCK test");
-+	}
-+
-+	flags = fcntl(pidfd, F_GETFL, 0);
-+	ASSERT_GT(flags, 0);
-+	ASSERT_GT((flags & O_NONBLOCK), 0);
-+
-+	/*
-+	 * Callers need to see EAGAIN/EWOULDBLOCK with non-blocking pidfd when
-+	 * child processes exist but none have exited.
-+	 */
-+	pid = sys_waitid(P_PIDFD, pidfd, &info, WEXITED, NULL);
-+	ASSERT_LT(pid, 0);
-+	ASSERT_EQ(errno, EAGAIN);
-+
-+	ASSERT_EQ(sys_waitid(P_PIDFD, pidfd, &info, WSTOPPED, NULL), 0);
-+	ASSERT_EQ(info.si_signo, SIGCHLD);
-+	ASSERT_EQ(info.si_code, CLD_STOPPED);
-+	ASSERT_EQ(info.si_pid, parent_tid);
-+
-+	ASSERT_EQ(sys_pidfd_send_signal(pidfd, SIGCONT, NULL, 0), 0);
-+
-+	ASSERT_EQ(fcntl(pidfd, F_SETFL, (flags & ~O_NONBLOCK)), 0);
-+
-+	ASSERT_EQ(sys_waitid(P_PIDFD, pidfd, &info, WEXITED, NULL), 0);
-+	ASSERT_EQ(info.si_signo, SIGCHLD);
-+	ASSERT_EQ(info.si_code, CLD_EXITED);
-+	ASSERT_EQ(info.si_pid, parent_tid);
-+
-+	EXPECT_EQ(close(pidfd), 0);
-+}
-+
- TEST_HARNESS_MAIN
--- 
-2.28.0
+For arm64 it seemed fairly natural for the BTI flag to be a PROT_ flag,
+but I don't know enough detail about x86 shstk to know whether it's a
+natural fit there.
 
+Cheers
+---Dave
