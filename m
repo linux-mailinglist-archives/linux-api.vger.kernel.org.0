@@ -2,151 +2,87 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 309DC25B504
-	for <lists+linux-api@lfdr.de>; Wed,  2 Sep 2020 22:04:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD6FC25B536
+	for <lists+linux-api@lfdr.de>; Wed,  2 Sep 2020 22:15:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726490AbgIBUEH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 2 Sep 2020 16:04:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35890 "EHLO
+        id S1726726AbgIBUOn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 2 Sep 2020 16:14:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726400AbgIBUEC (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 2 Sep 2020 16:04:02 -0400
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FEFFC061245
-        for <linux-api@vger.kernel.org>; Wed,  2 Sep 2020 13:04:01 -0700 (PDT)
-Received: by mail-ej1-x642.google.com with SMTP id z23so382468ejr.13
-        for <linux-api@vger.kernel.org>; Wed, 02 Sep 2020 13:04:01 -0700 (PDT)
+        with ESMTP id S1726936AbgIBUOe (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 2 Sep 2020 16:14:34 -0400
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48BCBC061244;
+        Wed,  2 Sep 2020 13:14:34 -0700 (PDT)
+Received: by mail-ot1-x343.google.com with SMTP id k20so466106otr.1;
+        Wed, 02 Sep 2020 13:14:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=F516FSLG1Fg8AtLKWaugsZmUz1NztosX6XlYqbdsuWY=;
-        b=f6Y2z+4eUCL25q5+1hV+JdNT5QdsgtJQm4tYO85DSSJSP6ZbhVl0Pu/DGRtriAVW+b
-         WfP1t1YBGF9QBZamybjj9qIxqSYyBtWhFH+UNdEsL5i46u/W/nO3/DaUVi8nknD45c6h
-         dQmMY6/P3s7DaNBO12JbCBxZsP/wuCG5/ZPos3Yi4GFKwWHFNFcBd24JwwQsnu+v+meI
-         WccDRMkKFTcytzbZsyNJYl4UWpZa3uO5ENrpsL8JMWimpV6NgRkETZKsp6Je7IDQx/14
-         ZrGlSRPKBZHel/NtVFdQkQrr+l9Bnc9XSYPUtsdV77DkGFS9r+kfiSpO/cYOf/QQxkZV
-         3PIw==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=suskJZAhhjGPyfzpjHKUgDnYaYIBJVKayGrzunUwjkE=;
+        b=NXneTfPzbwpxYqCpRItbeYtQ9ktjsEXsnMi3VhIDt7E2w+tuR2J10+9TbnlH1W8/dv
+         XfVUTcfvUK+ioH/yneIC/qH7le9q6ZJLgU9OpM7C08On7oAC7At3hmyKJ3aiQxrsgxwF
+         19dkOCqc3J2IkUG8gmevfWneEBnFhvohbzA0RQIRtTw8rsox+815w8XOHzdNoJ8V19rf
+         8An8U7yDj9LV+Az4y2Xsx5xjyUDCE9SVyntKrgFSbpVlJyxSwSUINspIfrjzX/TzYC4y
+         F1ewYXKoFn3EtnmkUDvn6JmehjS480KcGpiFuoaRnRyw9oNv4uFoREXNGJquCvm1cXED
+         X+Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=F516FSLG1Fg8AtLKWaugsZmUz1NztosX6XlYqbdsuWY=;
-        b=iw47O4sfNBnhExN++EpwyXntylfrjDCno8Vlj7d647eKl6TWrJW0/gv3ZBc67Z+/Sc
-         r10JwrF27RyXrVl+c9DAWP0BBPr22H+tW5epF+//bI6S4hPOo+mgA6amhr9nbCaNqp1w
-         UF08DfNTc6AulpL9sHAZI6iDRUB1Tuw/V7lK6Z+8i3vvFgOmpMngjM03Lr4MZrdr1zV+
-         axK50f5TQTK8RMRokq+YCWC4abAcYftWWoGSok/qyMXuyZbpora5TzblPSPgEsnHky1f
-         /KO/ijq0NRzWkDhlC30NSFc7925pWg8ctXd0TtF+hq1uk9p0nGgoxAmxNZnSCIYfK5Wf
-         I58w==
-X-Gm-Message-State: AOAM532vnz7h9a6J0ccCfDSPYwymkvY9EFjuREgyT1W6eLDbIhXcRXgo
-        UqahGnXQijzm2U20bRF9puBgA4fmNNI5XtikhQ0utg==
-X-Google-Smtp-Source: ABdhPJwnWyiUGJ5BXUL9kg40H50dxwEYKvN25v96OuWjX6DKbErT05o6VXF3YX5pYXjmTfRVQSjnap/k1SenzliIvsE=
-X-Received: by 2002:a17:906:4088:: with SMTP id u8mr1814815ejj.184.1599077039554;
- Wed, 02 Sep 2020 13:03:59 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=suskJZAhhjGPyfzpjHKUgDnYaYIBJVKayGrzunUwjkE=;
+        b=pJN2wDEtd2/DbZFGOMWL33mm7m9pWLtnFp5x/JcLP4Vzn4DQc8f1LqM4d/+oEU9AEt
+         PwLhy4QafzYEgZC/LuMZ3QxEcDylGTxnyppMpLfQ77KzpHyY6TaXl1exSBZFPDrpYABj
+         yAkHW6JV4sO5kKLuX9FqNks98wO9XKFN+XPOzKLJ2zHOh4e28+kc7dKGIuDgnxrVNwpc
+         DwAFj0n31DQJ4PhLafhL8vcPToOshKDVKmjHr04jVoXZ1Qd6ge6on53JhOExH/Hu5oEt
+         vEJnNsfmLVWsX9OB36UKcssE/BUj2nAuADNpy7zHqCjicxLaRdxwgCOe44FbtLUeO05n
+         cwGQ==
+X-Gm-Message-State: AOAM533gJtJQEx7KFGWh5kjE+vzbyAVC3wbaRDd32Qho27v2i45Mb4Hs
+        gjDN86W4e8JYBduu5gngWPpM0ym7NifW/+zxLVQcTMmJ
+X-Google-Smtp-Source: ABdhPJzOOPPiscqZ4JYYa0ccAxr0YcUZaX1N88o+045RfHWYTYf7vSZhHIwwpjHUdFsqhszvg18l83mlBUfhZeLwHZM=
+X-Received: by 2002:a9d:a2b:: with SMTP id 40mr8974otg.308.1599077673643; Wed,
+ 02 Sep 2020 13:14:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200825002645.3658-1-yu-cheng.yu@intel.com> <20200825002645.3658-7-yu-cheng.yu@intel.com>
-In-Reply-To: <20200825002645.3658-7-yu-cheng.yu@intel.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Wed, 2 Sep 2020 22:03:33 +0200
-Message-ID: <CAG48ez21a_afHJrRQeweuHu8c+fxJ+VN1dezD18UOtZA5q-Shg@mail.gmail.com>
-Subject: Re: [PATCH v11 6/9] x86/cet: Add PTRACE interface for CET
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     "the arch/x86 maintainers" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
+References: <159827188271.306468.16962617119460123110.stgit@warthog.procyon.org.uk>
+ <159827190508.306468.12755090833140558156.stgit@warthog.procyon.org.uk>
+ <CAKgNAkho1WSOsxvCYQOs7vDxpfyeJ9JGdTL-Y0UEZtO3jVfmKw@mail.gmail.com> <667616.1599063270@warthog.procyon.org.uk>
+In-Reply-To: <667616.1599063270@warthog.procyon.org.uk>
+Reply-To: mtk.manpages@gmail.com
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Date:   Wed, 2 Sep 2020 22:14:22 +0200
+Message-ID: <CAKgNAkhjDB9bvQ0h5b13fkbhuP9tYrkBQe7w1cbeOH8gM--D0g@mail.gmail.com>
+Subject: Re: [PATCH 4/5] Add manpage for fsopen(2) and fsmount(2)
+To:     David Howells <dhowells@redhat.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        linux-man <linux-man@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
+        lkml <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Aug 25, 2020 at 2:30 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
-> Add REGSET_CET64/REGSET_CET32 to get/set CET MSRs:
+On Wed, 2 Sep 2020 at 18:14, David Howells <dhowells@redhat.com> wrote:
 >
->     IA32_U_CET (user-mode CET settings) and
->     IA32_PL3_SSP (user-mode Shadow Stack)
-[...]
-> diff --git a/arch/x86/kernel/fpu/regset.c b/arch/x86/kernel/fpu/regset.c
-[...]
-> +int cetregs_get(struct task_struct *target, const struct user_regset *regset,
-> +               struct membuf to)
-> +{
-> +       struct fpu *fpu = &target->thread.fpu;
-> +       struct cet_user_state *cetregs;
-> +
-> +       if (!boot_cpu_has(X86_FEATURE_SHSTK))
-> +               return -ENODEV;
-> +
-> +       fpu__prepare_read(fpu);
-> +       cetregs = get_xsave_addr(&fpu->state.xsave, XFEATURE_CET_USER);
-> +       if (!cetregs)
-> +               return -EFAULT;
+> Michael Kerrisk (man-pages) <mtk.manpages@gmail.com> wrote:
+>
+> > The term "filesystem configuration context" is introduced, but never
+> > really explained. I think it would be very helpful to have a sentence
+> > or three that explains this concept at the start of the page.
+>
+> Does that need a .7 manpage?
 
-Can this branch ever be hit without a kernel bug? If yes, I think
--EFAULT is probably a weird error code to choose here. If no, this
-should probably use WARN_ON(). Same thing in cetregs_set().
+I was hoping a sentence or a paragraph in this page might suffice. Do
+you think more is required?
 
-> +       return membuf_write(&to, cetregs, sizeof(struct cet_user_state));
-> +}
-[...]
-> diff --git a/arch/x86/kernel/ptrace.c b/arch/x86/kernel/ptrace.c
-[...]
-> @@ -52,7 +52,9 @@ enum x86_regset {
->         REGSET_IOPERM64 = REGSET_XFP,
->         REGSET_XSTATE,
->         REGSET_TLS,
-> +       REGSET_CET64 = REGSET_TLS,
->         REGSET_IOPERM32,
-> +       REGSET_CET32,
->  };
-[...]
-> @@ -1229,6 +1231,13 @@ static struct user_regset x86_64_regsets[] __ro_after_init = {
-[...]
-> +       [REGSET_CET64] = {
-> +               .core_note_type = NT_X86_CET,
-> +               .n = sizeof(struct cet_user_state) / sizeof(u64),
-> +               .size = sizeof(u64), .align = sizeof(u64),
-> +               .active = cetregs_active, .regset_get = cetregs_get,
-> +               .set = cetregs_set
-> +       },
->  };
-[...]
-> @@ -1284,6 +1293,13 @@ static struct user_regset x86_32_regsets[] __ro_after_init = {
-[...]
-> +       [REGSET_CET32] = {
-> +               .core_note_type = NT_X86_CET,
-> +               .n = sizeof(struct cet_user_state) / sizeof(u64),
-> +               .size = sizeof(u64), .align = sizeof(u64),
-> +               .active = cetregs_active, .regset_get = cetregs_get,
-> +               .set = cetregs_set
-> +       },
->  };
+Cheers,
 
-Why are there different identifiers for 32-bit CET and 64-bit CET when
-they operate on the same structs and have the same handlers? If
-there's a good reason for that, the commit message should probably
-point that out.
+Michael
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
