@@ -2,94 +2,106 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 542B325A1AC
-	for <lists+linux-api@lfdr.de>; Wed,  2 Sep 2020 00:52:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1477125A94D
+	for <lists+linux-api@lfdr.de>; Wed,  2 Sep 2020 12:23:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726946AbgIAWvl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 1 Sep 2020 18:51:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37728 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726674AbgIAWvf (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 1 Sep 2020 18:51:35 -0400
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8940DC061247
-        for <linux-api@vger.kernel.org>; Tue,  1 Sep 2020 15:51:35 -0700 (PDT)
-Received: by mail-pl1-x643.google.com with SMTP id h2so1311596plr.0
-        for <linux-api@vger.kernel.org>; Tue, 01 Sep 2020 15:51:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=73Z9tnUqBHSQd4rVrF0YKolOG5wWkir8Qe+k7njEBUs=;
-        b=JbImz5WsjQvNso/bkzCqvJB3HU/vCONvAuUDL1NUhxq8EXfgBd6gJU/ZbPxsO4JCoj
-         fbia4mrRoqvjC9hA2NE877kpM8KSXxurm3Sx0F3EUrx5+hNHxVqURx7Al9dd/TdZJEt8
-         M1fRjT4TjPeMdm8pIPkKuO+B86gugS4YQG5QKHpnEVfRzc6aBzdOh87c4uZbVSn+adTT
-         Bxa6y9Yjd8zSdL7Y/JPXy23oNwj/xfQCIeHasUirag5WP3wtFNsX5pt6tutvFlh8uRUh
-         ocSwHqvV58dwCL2IXYTiyWDy2SrnKLJDmavsdFO+jTguZkigciC00f+5WMe4rTC2CbZt
-         9JMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=73Z9tnUqBHSQd4rVrF0YKolOG5wWkir8Qe+k7njEBUs=;
-        b=La6SGarD2DsgS4nXCUGzDoGBynuk9jKQouyChcHG1Q5rdxleVylLZrS7XygyA2HEcQ
-         lefoBPcJslwk0mj8fwg/kHz48jzdCiV+H1tOLrJuM8cSict60OdjF3eUdYHgkuETK2+H
-         Icw/pdHmM8B76Aym5nWdbQXy/EJiiooSBaDJTIMM/bOFmTuo8nRGVrX5JjyE7g+XCq/U
-         9ovcPNt11n4AtdZ3AUOa+u/qYJEplNMK3gKAfoaOCshSKNoNVoGWWM1RAUBxV3kZM+Jo
-         PIX0c6wZbcygsVbOs6yLxzOFpDMGHCy98sZKnK0Nl8/7ypchnWQwvcT7bHZjaHn0IaZz
-         SQoA==
-X-Gm-Message-State: AOAM530YQZ9KnBSVmm1R1kmtt5hHhVVyaFMjTgSR5bgH1DTFBsDv/NOe
-        QeN25BfbrE9m0e2WDoaCZQntNfbI55czW7bx
-X-Google-Smtp-Source: ABdhPJybEiMVNVLdw9lLzttpP8rQTxf/7m5Nxo5x90EP5wGNQib42AHfwb/cCr16WzqHroCbzeq4CQ==
-X-Received: by 2002:a17:902:a70d:: with SMTP id w13mr3305891plq.94.1599000694466;
-        Tue, 01 Sep 2020 15:51:34 -0700 (PDT)
-Received: from [192.168.1.187] ([66.219.217.173])
-        by smtp.gmail.com with ESMTPSA id f21sm2554223pjj.48.2020.09.01.15.51.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Sep 2020 15:51:33 -0700 (PDT)
-Subject: Re: [PATCH v2] block: grant IOPRIO_CLASS_RT to CAP_SYS_NICE
-To:     Khazhismel Kumykov <khazhy@google.com>,
-        Bart Van Assche <bvanassche@acm.org>
-Cc:     Serge Hallyn <serge@hallyn.com>,
-        Paolo Valente <paolo.valente@linaro.org>,
-        linux-block@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org
-References: <20200824221034.2170308-1-khazhy@google.com>
- <e50a4ff6-39fb-6ba0-40ab-d348fbf5567f@acm.org>
- <CACGdZY+6qdymU5cVqu9cVep+P6uNw6muxznZ23XJkxdiihiKFg@mail.gmail.com>
-From:   Jens Axboe <axboe@kernel.dk>
-Message-ID: <97f1712d-ed8a-b84a-b3b2-acc518cd9324@kernel.dk>
-Date:   Tue, 1 Sep 2020 16:51:32 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726310AbgIBKXW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 2 Sep 2020 06:23:22 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:49488 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726140AbgIBKXU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 2 Sep 2020 06:23:20 -0400
+Received: from ip5f5af70b.dynamic.kabel-deutschland.de ([95.90.247.11] helo=wittgenstein.fritz.box)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1kDPvB-00069F-FI; Wed, 02 Sep 2020 10:23:17 +0000
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Christian Brauner <christian@brauner.io>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Kees Cook <keescook@chromium.org>,
+        Sargun Dhillon <sargun@sargun.me>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        linux-kselftest@vger.kernel.org,
+        Josh Triplett <josh@joshtriplett.org>,
+        Jens Axboe <axboe@kernel.dk>, linux-api@vger.kernel.org,
+        Christian Brauner <christian.brauner@ubuntu.com>
+Subject: [PATCH v2 0/4] Support non-blocking pidfds
+Date:   Wed,  2 Sep 2020 12:21:26 +0200
+Message-Id: <20200902102130.147672-1-christian.brauner@ubuntu.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <CACGdZY+6qdymU5cVqu9cVep+P6uNw6muxznZ23XJkxdiihiKFg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 9/1/20 4:49 PM, Khazhismel Kumykov wrote:
-> On Sat, Aug 29, 2020 at 6:00 PM Bart Van Assche <bvanassche@acm.org> wrote:
->>
->> From https://www.kernel.org/doc/man-pages/linux-api-ml.html:
->> "all Linux kernel patches that change userspace interfaces should be CCed
->> to linux-api@vger.kernel.org"
->>
->> So I have added the linux-api mailing list to the Cc-list. Anyway:
-> Thanks, sorry for missing that!
->>
->> Reviewed-by: Bart Van Assche <bvanassche@acm.org>
-> 
-> Jens, does this change look good?
+Hi,
 
-Yes, I'll queue it up for 5.10.
+Passing a non-blocking pidfd to waitid() currently has no effect, i.e.
+is not supported. There are users which would like to use waitid() on
+pidfds that are O_NONBLOCK and mix it with pidfds that are blocking and
+both pass them to waitid().
+The expected behavior is to have waitid() return -EAGAIN for
+non-blocking pidfds and to block for blocking pidfds without needing to
+perform any additional checks for flags set on the pidfd before passing
+it to waitid().
+Non-blocking pidfds will return EAGAIN from waitid() when no child
+process is ready yet. Returning -EAGAIN for non-blocking pidfds makes it
+easier for event loops that handle EAGAIN specially.
 
+It also makes the API more consistent and uniform. In essence, waitid()
+is treated like a read on a non-blocking pidfd or a recvmsg() on a
+non-blocking socket.
+With the addition of support for non-blocking pidfds we support the same
+functionality that sockets do. For sockets() recvmsg() supports
+MSG_DONTWAIT for pidfds waitid() supports WNOHANG. Both flags are
+per-call options. In contrast non-blocking pidfds and non-blocking
+sockets are a setting on an open file description affecting all threads
+in the calling process as well as other processes that hold file
+descriptors referring to the same open file description. Both behaviors,
+per call and per open file description, have genuine use-cases.
+
+A concrete use-case that was brought on-list (see [1]) was Josh's async
+pidfd library. Ever since the introduction of pidfds and more advanced
+async io various programming languages such as Rust have grown support
+for async event libraries. These libraries are created to help build
+epoll-based event loops around file descriptors. A common pattern is to
+automatically make all file descriptors they manage to O_NONBLOCK.
+
+For such libraries the EAGAIN error code is treated specially. When a
+function is called that returns EAGAIN the function isn't called again
+until the event loop indicates the the file descriptor is ready.
+Supporting EAGAIN when waiting on pidfds makes such libraries just work
+with little effort.
+
+Thanks!
+Christian
+
+[1]: https://lore.kernel.org/lkml/20200811181236.GA18763@localhost/
+
+Christian Brauner (4):
+  pidfd: support PIDFD_NONBLOCK in pidfd_open()
+  exit: support non-blocking pidfds
+  tests: port pidfd_wait to kselftest harness
+  tests: add waitid() tests for non-blocking pidfds
+
+ include/uapi/linux/pidfd.h                 |  12 +
+ kernel/exit.c                              |  15 +-
+ kernel/pid.c                               |  12 +-
+ tools/testing/selftests/pidfd/pidfd.h      |   4 +
+ tools/testing/selftests/pidfd/pidfd_wait.c | 298 +++++++++------------
+ 5 files changed, 157 insertions(+), 184 deletions(-)
+ create mode 100644 include/uapi/linux/pidfd.h
+
+
+base-commit: d012a7190fc1fd72ed48911e77ca97ba4521bccd
 -- 
-Jens Axboe
+2.28.0
 
