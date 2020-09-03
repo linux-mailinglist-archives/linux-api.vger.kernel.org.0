@@ -2,186 +2,136 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BA90B25BBE7
-	for <lists+linux-api@lfdr.de>; Thu,  3 Sep 2020 09:46:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB80825C28F
+	for <lists+linux-api@lfdr.de>; Thu,  3 Sep 2020 16:28:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727989AbgICHqm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 3 Sep 2020 03:46:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33066 "EHLO mail.kernel.org"
+        id S1729250AbgICO2J (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 3 Sep 2020 10:28:09 -0400
+Received: from mga18.intel.com ([134.134.136.126]:44987 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726814AbgICHqk (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 3 Sep 2020 03:46:40 -0400
-Received: from kernel.org (unknown [77.127.89.201])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 769A5206C0;
-        Thu,  3 Sep 2020 07:46:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599119199;
-        bh=TM+Crt61G+Ba31blWDvtRLfW2Z9YrFGY3wqQAum69FQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=MF0yChXGd/fYnmNaBfXMyB3f9aoO7AYFy3Yxm15OKist2YnWvIrJDv6yYYWnoUPN7
-         3KGMOlzVwUUPwq8SItaWyQl5JTjaF1oF0P/NR62dyeRpeElV7VBo1Fs+nbHyCXZR3C
-         GKujz+cNu0eyfNMXe39zrI6L+NlvvpdLt0ibHzLw=
-Date:   Thu, 3 Sep 2020 10:46:27 +0300
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Idan Yaniv <idan.yaniv@ibm.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
+        id S1729343AbgICO1B (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 3 Sep 2020 10:27:01 -0400
+IronPort-SDR: ieTJP0ba9vKyhaPpTycNXPGdYgxH+Xoxcm5WiRXAQ18q7Nn88STN/gmL/jRtsFPiGTONKgJK/5
+ QUh4D2RS7Oow==
+X-IronPort-AV: E=McAfee;i="6000,8403,9733"; a="145274696"
+X-IronPort-AV: E=Sophos;i="5.76,387,1592895600"; 
+   d="scan'208";a="145274696"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2020 07:26:59 -0700
+IronPort-SDR: GBtStz2sZiaoRRPyakQnVVI6aA1XF5h+b63oOQ6DF0pvr9tPf5gpUkg1pU1WzeQSmfz5By5QEL
+ eutbJCobqW+g==
+X-IronPort-AV: E=Sophos;i="5.76,387,1592895600"; 
+   d="scan'208";a="446922586"
+Received: from jhoh-mobl2.amr.corp.intel.com (HELO [10.212.33.96]) ([10.212.33.96])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2020 07:26:57 -0700
+Subject: Re: [PATCH v11 6/9] x86/cet: Add PTRACE interface for CET
+To:     Andy Lutomirski <luto@amacapital.net>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Cc:     Jann Horn <jannh@google.com>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
-        linux-riscv@lists.infradead.org, x86@kernel.org
-Subject: Re: [PATCH v4 0/6] mm: introduce memfd_secret system call to create
- "secret" memory areas
-Message-ID: <20200903074627.GA1213823@kernel.org>
-References: <20200818141554.13945-1-rppt@kernel.org>
+        Ingo Molnar <mingo@redhat.com>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+References: <46e42e5e-0bca-5f3f-efc9-5ab15827cc0b@intel.com>
+ <40BC093A-F430-4DCC-8DC0-2BA90A6FC3FA@amacapital.net>
+From:   Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ xsFNBE6HMP0BEADIMA3XYkQfF3dwHlj58Yjsc4E5y5G67cfbt8dvaUq2fx1lR0K9h1bOI6fC
+ oAiUXvGAOxPDsB/P6UEOISPpLl5IuYsSwAeZGkdQ5g6m1xq7AlDJQZddhr/1DC/nMVa/2BoY
+ 2UnKuZuSBu7lgOE193+7Uks3416N2hTkyKUSNkduyoZ9F5twiBhxPJwPtn/wnch6n5RsoXsb
+ ygOEDxLEsSk/7eyFycjE+btUtAWZtx+HseyaGfqkZK0Z9bT1lsaHecmB203xShwCPT49Blxz
+ VOab8668QpaEOdLGhtvrVYVK7x4skyT3nGWcgDCl5/Vp3TWA4K+IofwvXzX2ON/Mj7aQwf5W
+ iC+3nWC7q0uxKwwsddJ0Nu+dpA/UORQWa1NiAftEoSpk5+nUUi0WE+5DRm0H+TXKBWMGNCFn
+ c6+EKg5zQaa8KqymHcOrSXNPmzJuXvDQ8uj2J8XuzCZfK4uy1+YdIr0yyEMI7mdh4KX50LO1
+ pmowEqDh7dLShTOif/7UtQYrzYq9cPnjU2ZW4qd5Qz2joSGTG9eCXLz5PRe5SqHxv6ljk8mb
+ ApNuY7bOXO/A7T2j5RwXIlcmssqIjBcxsRRoIbpCwWWGjkYjzYCjgsNFL6rt4OL11OUF37wL
+ QcTl7fbCGv53KfKPdYD5hcbguLKi/aCccJK18ZwNjFhqr4MliQARAQABzShEYXZpZCBDaHJp
+ c3RvcGhlciBIYW5zZW4gPGRhdmVAc3I3MS5uZXQ+wsF7BBMBAgAlAhsDBgsJCAcDAgYVCAIJ
+ CgsEFgIDAQIeAQIXgAUCTo3k0QIZAQAKCRBoNZUwcMmSsMO2D/421Xg8pimb9mPzM5N7khT0
+ 2MCnaGssU1T59YPE25kYdx2HntwdO0JA27Wn9xx5zYijOe6B21ufrvsyv42auCO85+oFJWfE
+ K2R/IpLle09GDx5tcEmMAHX6KSxpHmGuJmUPibHVbfep2aCh9lKaDqQR07gXXWK5/yU1Dx0r
+ VVFRaHTasp9fZ9AmY4K9/BSA3VkQ8v3OrxNty3OdsrmTTzO91YszpdbjjEFZK53zXy6tUD2d
+ e1i0kBBS6NLAAsqEtneplz88T/v7MpLmpY30N9gQU3QyRC50jJ7LU9RazMjUQY1WohVsR56d
+ ORqFxS8ChhyJs7BI34vQusYHDTp6PnZHUppb9WIzjeWlC7Jc8lSBDlEWodmqQQgp5+6AfhTD
+ kDv1a+W5+ncq+Uo63WHRiCPuyt4di4/0zo28RVcjtzlGBZtmz2EIC3vUfmoZbO/Gn6EKbYAn
+ rzz3iU/JWV8DwQ+sZSGu0HmvYMt6t5SmqWQo/hyHtA7uF5Wxtu1lCgolSQw4t49ZuOyOnQi5
+ f8R3nE7lpVCSF1TT+h8kMvFPv3VG7KunyjHr3sEptYxQs4VRxqeirSuyBv1TyxT+LdTm6j4a
+ mulOWf+YtFRAgIYyyN5YOepDEBv4LUM8Tz98lZiNMlFyRMNrsLV6Pv6SxhrMxbT6TNVS5D+6
+ UorTLotDZKp5+M7BTQRUY85qARAAsgMW71BIXRgxjYNCYQ3Xs8k3TfAvQRbHccky50h99TUY
+ sqdULbsb3KhmY29raw1bgmyM0a4DGS1YKN7qazCDsdQlxIJp9t2YYdBKXVRzPCCsfWe1dK/q
+ 66UVhRPP8EGZ4CmFYuPTxqGY+dGRInxCeap/xzbKdvmPm01Iw3YFjAE4PQ4hTMr/H76KoDbD
+ cq62U50oKC83ca/PRRh2QqEqACvIH4BR7jueAZSPEDnzwxvVgzyeuhwqHY05QRK/wsKuhq7s
+ UuYtmN92Fasbxbw2tbVLZfoidklikvZAmotg0dwcFTjSRGEg0Gr3p/xBzJWNavFZZ95Rj7Et
+ db0lCt0HDSY5q4GMR+SrFbH+jzUY/ZqfGdZCBqo0cdPPp58krVgtIGR+ja2Mkva6ah94/oQN
+ lnCOw3udS+Eb/aRcM6detZr7XOngvxsWolBrhwTQFT9D2NH6ryAuvKd6yyAFt3/e7r+HHtkU
+ kOy27D7IpjngqP+b4EumELI/NxPgIqT69PQmo9IZaI/oRaKorYnDaZrMXViqDrFdD37XELwQ
+ gmLoSm2VfbOYY7fap/AhPOgOYOSqg3/Nxcapv71yoBzRRxOc4FxmZ65mn+q3rEM27yRztBW9
+ AnCKIc66T2i92HqXCw6AgoBJRjBkI3QnEkPgohQkZdAb8o9WGVKpfmZKbYBo4pEAEQEAAcLB
+ XwQYAQIACQUCVGPOagIbDAAKCRBoNZUwcMmSsJeCEACCh7P/aaOLKWQxcnw47p4phIVR6pVL
+ e4IEdR7Jf7ZL00s3vKSNT+nRqdl1ugJx9Ymsp8kXKMk9GSfmZpuMQB9c6io1qZc6nW/3TtvK
+ pNGz7KPPtaDzvKA4S5tfrWPnDr7n15AU5vsIZvgMjU42gkbemkjJwP0B1RkifIK60yQqAAlT
+ YZ14P0dIPdIPIlfEPiAWcg5BtLQU4Wg3cNQdpWrCJ1E3m/RIlXy/2Y3YOVVohfSy+4kvvYU3
+ lXUdPb04UPw4VWwjcVZPg7cgR7Izion61bGHqVqURgSALt2yvHl7cr68NYoFkzbNsGsye9ft
+ M9ozM23JSgMkRylPSXTeh5JIK9pz2+etco3AfLCKtaRVysjvpysukmWMTrx8QnI5Nn5MOlJj
+ 1Ov4/50JY9pXzgIDVSrgy6LYSMc4vKZ3QfCY7ipLRORyalFDF3j5AGCMRENJjHPD6O7bl3Xo
+ 4DzMID+8eucbXxKiNEbs21IqBZbbKdY1GkcEGTE7AnkA3Y6YB7I/j9mQ3hCgm5muJuhM/2Fr
+ OPsw5tV/LmQ5GXH0JQ/TZXWygyRFyyI2FqNTx4WHqUn3yFj8rwTAU1tluRUYyeLy0ayUlKBH
+ ybj0N71vWO936MqP6haFERzuPAIpxj2ezwu0xb1GjTk4ynna6h5GjnKgdfOWoRtoWndMZxbA
+ z5cecg==
+Message-ID: <b3809dd7-8566-0517-2389-8089475135b7@intel.com>
+Date:   Thu, 3 Sep 2020 07:26:56 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200818141554.13945-1-rppt@kernel.org>
+In-Reply-To: <40BC093A-F430-4DCC-8DC0-2BA90A6FC3FA@amacapital.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Any updates on this?
+On 9/2/20 9:35 PM, Andy Lutomirski wrote:
+>>>>>> +       fpu__prepare_read(fpu);
+>>>>>> +       cetregs = get_xsave_addr(&fpu->state.xsave, XFEATURE_CET_USER);
+>>>>>> +       if (!cetregs)
+>>>>>> +               return -EFAULT;
+>>>>> Can this branch ever be hit without a kernel bug? If yes, I think
+>>>>> -EFAULT is probably a weird error code to choose here. If no, this
+>>>>> should probably use WARN_ON(). Same thing in cetregs_set().
+>>>> When a thread is not CET-enabled, its CET state does not exist.  I looked at EFAULT, and it means "Bad address".  Maybe this can be ENODEV, which means "No such device"?
+> Having read the code, I’m unconvinced. It looks like a get_xsave_addr() failure means “state not saved; task sees INIT state”.  So *maybe* it’s reasonable -ENODEV this, but I’m not really convinced. I tend to think we should return the actual INIT state and that we should permit writes and handle them correctly.
 
-On Tue, Aug 18, 2020 at 05:15:48PM +0300, Mike Rapoport wrote:
-> From: Mike Rapoport <rppt@linux.ibm.com>
-> 
-> Hi,
-> 
-> This is an implementation of "secret" mappings backed by a file descriptor. 
-> 
-> v4 changes:
-> * rebase on v5.9-rc1
-> * Do not redefine PMD_PAGE_ORDER in fs/dax.c, thanks Kirill
-> * Make secret mappings exclusive by default and only require flags to
->   memfd_secret() system call for uncached mappings, thanks again Kirill :)
-> 
-> v3 changes:
-> * Squash kernel-parameters.txt update into the commit that added the
->   command line option.
-> * Make uncached mode explicitly selectable by architectures. For now enable
->   it only on x86.
-> 
-> v2 changes:
-> * Follow Michael's suggestion and name the new system call 'memfd_secret'
-> * Add kernel-parameters documentation about the boot option
-> * Fix i386-tinyconfig regression reported by the kbuild bot.
->   CONFIG_SECRETMEM now depends on !EMBEDDED to disable it on small systems
->   from one side and still make it available unconditionally on
->   architectures that support SET_DIRECT_MAP.
-> 
-> 
-> The file descriptor backing secret memory mappings is created using a
-> dedicated memfd_secret system call The desired protection mode for the
-> memory is configured using flags parameter of the system call. The mmap()
-> of the file descriptor created with memfd_secret() will create a "secret"
-> memory mapping. The pages in that mapping will be marked as not present in
-> the direct map and will have desired protection bits set in the user page
-> table. For instance, current implementation allows uncached mappings.
-> 
-> Although normally Linux userspace mappings are protected from other users, 
-> such secret mappings are useful for environments where a hostile tenant is
-> trying to trick the kernel into giving them access to other tenants
-> mappings.
-> 
-> Additionally, the secret mappings may be used as a mean to protect guest
-> memory in a virtual machine host.
-> 
-> For demonstration of secret memory usage we've created a userspace library
-> [1] that does two things: the first is act as a preloader for openssl to
-> redirect all the OPENSSL_malloc calls to secret memory meaning any secret
-> keys get automatically protected this way and the other thing it does is
-> expose the API to the user who needs it. We anticipate that a lot of the
-> use cases would be like the openssl one: many toolkits that deal with
-> secret keys already have special handling for the memory to try to give
-> them greater protection, so this would simply be pluggable into the
-> toolkits without any need for user application modification.
-> 
-> I've hesitated whether to continue to use new flags to memfd_create() or to
-> add a new system call and I've decided to use a new system call after I've
-> started to look into man pages update. There would have been two completely
-> independent descriptions and I think it would have been very confusing.
-> 
-> Hiding secret memory mappings behind an anonymous file allows (ab)use of
-> the page cache for tracking pages allocated for the "secret" mappings as
-> well as using address_space_operations for e.g. page migration callbacks.
-> 
-> The anonymous file may be also used implicitly, like hugetlb files, to
-> implement mmap(MAP_SECRET) and use the secret memory areas with "native" mm
-> ABIs in the future.
-> 
-> As the fragmentation of the direct map was one of the major concerns raised
-> during the previous postings, I've added an amortizing cache of PMD-size
-> pages to each file descriptor and an ability to reserve large chunks of the
-> physical memory at boot time and then use this memory as an allocation pool
-> for the secret memory areas.
-> 
-> v3: https://lore.kernel.org/lkml/20200804095035.18778-1-rppt@kernel.org
-> v2: https://lore.kernel.org/lkml/20200727162935.31714-1-rppt@kernel.org
-> v1: https://lore.kernel.org/lkml/20200720092435.17469-1-rppt@kernel.org/
-> rfc-v2: https://lore.kernel.org/lkml/20200706172051.19465-1-rppt@kernel.org/
-> rfc-v1: https://lore.kernel.org/lkml/20200130162340.GA14232@rapoport-lnx/
-> 
-> Mike Rapoport (6):
->   mm: add definition of PMD_PAGE_ORDER
->   mmap: make mlock_future_check() global
->   mm: introduce memfd_secret system call to create "secret" memory areas
->   arch, mm: wire up memfd_secret system call were relevant
->   mm: secretmem: use PMD-size pages to amortize direct map fragmentation
->   mm: secretmem: add ability to reserve memory at boot
-> 
->  arch/Kconfig                           |   7 +
->  arch/arm64/include/asm/unistd.h        |   2 +-
->  arch/arm64/include/asm/unistd32.h      |   2 +
->  arch/arm64/include/uapi/asm/unistd.h   |   1 +
->  arch/riscv/include/asm/unistd.h        |   1 +
->  arch/x86/Kconfig                       |   1 +
->  arch/x86/entry/syscalls/syscall_32.tbl |   1 +
->  arch/x86/entry/syscalls/syscall_64.tbl |   1 +
->  fs/dax.c                               |  11 +-
->  include/linux/pgtable.h                |   3 +
->  include/linux/syscalls.h               |   1 +
->  include/uapi/asm-generic/unistd.h      |   7 +-
->  include/uapi/linux/magic.h             |   1 +
->  include/uapi/linux/secretmem.h         |   8 +
->  kernel/sys_ni.c                        |   2 +
->  mm/Kconfig                             |   4 +
->  mm/Makefile                            |   1 +
->  mm/internal.h                          |   3 +
->  mm/mmap.c                              |   5 +-
->  mm/secretmem.c                         | 451 +++++++++++++++++++++++++
->  20 files changed, 501 insertions(+), 12 deletions(-)
->  create mode 100644 include/uapi/linux/secretmem.h
->  create mode 100644 mm/secretmem.c
-> 
-> -- 
-> 2.26.2
-> 
+PTRACE is asking for access to the values in the *registers*, not for
+the value in the kernel XSAVE buffer.  We just happen to only have the
+kernel XSAVE buffer around.
 
--- 
-Sincerely yours,
-Mike.
+If we want to really support PTRACE we have to allow the registers to be
+get/set, regardless of what state they are in, INIT state or not.  So,
+yeah I agree with Andy.
