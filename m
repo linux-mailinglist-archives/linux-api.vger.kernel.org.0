@@ -2,80 +2,103 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BDD625C81D
-	for <lists+linux-api@lfdr.de>; Thu,  3 Sep 2020 19:35:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D628025C852
+	for <lists+linux-api@lfdr.de>; Thu,  3 Sep 2020 19:59:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726990AbgICRfJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 3 Sep 2020 13:35:09 -0400
-Received: from albireo.enyo.de ([37.24.231.21]:40558 "EHLO albireo.enyo.de"
+        id S1728085AbgICR7S (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 3 Sep 2020 13:59:18 -0400
+Received: from mga18.intel.com ([134.134.136.126]:1301 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726025AbgICRfJ (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 3 Sep 2020 13:35:09 -0400
-Received: from [172.17.203.2] (helo=deneb.enyo.de)
-        by albireo.enyo.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1kDt8U-0004Wm-Jl; Thu, 03 Sep 2020 17:34:58 +0000
-Received: from fw by deneb.enyo.de with local (Exim 4.92)
-        (envelope-from <fw@deneb.enyo.de>)
-        id 1kDt8U-00087R-Fu; Thu, 03 Sep 2020 19:34:58 +0200
-From:   Florian Weimer <fw@deneb.enyo.de>
-To:     Minchan Kim <minchan@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
-        oleksandr@redhat.com, Suren Baghdasaryan <surenb@google.com>,
-        Tim Murray <timmurray@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        John Dias <joaodias@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jann Horn <jannh@google.com>,
-        alexander.h.duyck@linux.intel.com, sj38.park@gmail.com,
-        David Rientjes <rientjes@google.com>,
-        Arjun Roy <arjunroy@google.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Christian Brauner <christian@brauner.io>,
-        Daniel Colascione <dancol@google.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        Kirill Tkhai <ktkhai@virtuozzo.com>,
-        SeongJae Park <sjpark@amazon.de>, linux-man@vger.kernel.org
-Subject: Re: [PATCH v9 3/3] mm/madvise: introduce process_madvise() syscall: an external memory hinting API
-References: <20200901000633.1920247-1-minchan@kernel.org>
-        <20200901000633.1920247-4-minchan@kernel.org>
-        <87blippc7p.fsf@mid.deneb.enyo.de>
-        <20200903172618.GB1959033@google.com>
-Date:   Thu, 03 Sep 2020 19:34:58 +0200
-In-Reply-To: <20200903172618.GB1959033@google.com> (Minchan Kim's message of
-        "Thu, 3 Sep 2020 10:26:18 -0700")
-Message-ID: <87pn72lq65.fsf@mid.deneb.enyo.de>
+        id S1726327AbgICR7R (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 3 Sep 2020 13:59:17 -0400
+IronPort-SDR: Zey8bhnXoWmUpAaat3pVpAK6f3SZOPQBi8xZwhy83WX+eZ99nSpcrQVUuI5IJ8uZmy+pQ3cntM
+ 26sdud4xUmZg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9733"; a="145329662"
+X-IronPort-AV: E=Sophos;i="5.76,387,1592895600"; 
+   d="scan'208";a="145329662"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2020 10:59:16 -0700
+IronPort-SDR: X6hOgUBXuT53zGBETVRIl8Y3udPYgeOjMvy4EgfTvR+oR8iOyOvL0gprGjnPMNJMYyxw+50upa
+ fFrRD+sU+TdQ==
+X-IronPort-AV: E=Sophos;i="5.76,387,1592895600"; 
+   d="scan'208";a="334548855"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.173.133]) ([10.209.173.133])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2020 10:59:15 -0700
+Subject: Re: [PATCH v11 6/9] x86/cet: Add PTRACE interface for CET
+To:     Dave Hansen <dave.hansen@intel.com>,
+        Andy Lutomirski <luto@kernel.org>
+Cc:     Jann Horn <jannh@google.com>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+References: <46e42e5e-0bca-5f3f-efc9-5ab15827cc0b@intel.com>
+ <40BC093A-F430-4DCC-8DC0-2BA90A6FC3FA@amacapital.net>
+ <b3809dd7-8566-0517-2389-8089475135b7@intel.com>
+ <88261152-2de1-fe8d-7ab0-acb108e97e04@intel.com>
+ <1b51d89c-c7de-2032-df23-e138d1369ffa@intel.com>
+ <CALCETrUq3xiHV2xOZV-FD_de_P_TL-Bs91XT+F+79psBfigCSg@mail.gmail.com>
+ <21491d05-6306-0a6f-58a7-8bf29feae8c7@intel.com>
+ <CALCETrXJkXXDF=tdu3KBHgzDO+E-HhqMk9Ttixgk4WX_PLPDJw@mail.gmail.com>
+ <8fcde9bb-284f-f089-96d3-702f501a6258@intel.com>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <2a58982b-8a69-1280-86ec-d0b70ede4453@intel.com>
+Date:   Thu, 3 Sep 2020 10:59:14 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <8fcde9bb-284f-f089-96d3-702f501a6258@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Minchan Kim:
+On 9/3/2020 9:42 AM, Dave Hansen wrote:
+> On 9/3/20 9:32 AM, Andy Lutomirski wrote:
+>>> Taking the config register out of the init state is illogical, as is
+>>> writing to SSP while the config register is in its init state.
+>> What's so special about the INIT state?  It's optimized by XSAVES, but
+>> it's just a number, right?  So taking the register out of the INIT
+>> state is kind of like saying "gdb wanted to set xmm0 to (0,0,0,1), but
+>> it was in the INIT state to begin with", right?
+> 
+> Yeah, that's a good point.  The init state shouldn't be special, as the
+> hardware is within its right to choose not to use the init optimization
+> at any time.
+> 
+Then, I would suggest changing get_xsave_addr() to return non-null for 
+the INIT state case.  For the other two cases, it still returns NULL. 
+But this also requires any write to INIT states to set xstate_bv bits 
+properly.  This would be a pitfall for any code addition later on.
 
-> On Tue, Sep 01, 2020 at 08:46:02PM +0200, Florian Weimer wrote:
->> * Minchan Kim:
->> 
->> >       ssize_t process_madvise(int pidfd, const struct iovec *iovec,
->> >                 unsigned long vlen, int advice, unsigned int flags);
->> 
->> size_t for vlen provides a clearer hint regarding the type of special
->> treatment needed for ILP32 here (zero extension, not changing the type
->> to long long).
->> 
->
-> All existing system calls using iove in Linux uses unsigned long so
-> I want to be consistent with them unless process_madvise need something
-> speicial.
-
-Userspace uses int, following POSIX (where applicable).  There is no
-consistency to be had here.
+Looking at this another way.  Would it be better for the debugger to get 
+an error and then to set the MSR directly first (vs. changing the XSAVES 
+INIT state first)?
