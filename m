@@ -2,41 +2,23 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A99125C3C9
-	for <lists+linux-api@lfdr.de>; Thu,  3 Sep 2020 16:58:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8506D25C53A
+	for <lists+linux-api@lfdr.de>; Thu,  3 Sep 2020 17:25:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729132AbgICO61 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 3 Sep 2020 10:58:27 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:36682 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729161AbgICO6V (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 3 Sep 2020 10:58:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1599145100;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=bAzDqUsZ3/S0Arl+SG6AfwuZzD/9UqKF/7Kwa7yb0iM=;
-        b=JH8nJ1JqvIkb7jX0gzc8nZdJUEDYRRL5VFehv8S2cdv0BMgKPIuWZa7Iy1O6eUiIqg0NYk
-        izX1IjuJUbXWYGEDT2deim2Qh1nB4nQNZAUbaMn6yfWq0nsbQDTaom7TJXb9ui9vtG5VCs
-        usFstHZg9fRgr/mfm1jZ/b57+NzQMXM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-43-QvP6zRKEMW6q3GiEMxQAfg-1; Thu, 03 Sep 2020 10:58:16 -0400
-X-MC-Unique: QvP6zRKEMW6q3GiEMxQAfg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5F18CF9BB;
-        Thu,  3 Sep 2020 14:58:14 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.40.192.114])
-        by smtp.corp.redhat.com (Postfix) with SMTP id CE33186580;
-        Thu,  3 Sep 2020 14:58:10 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Thu,  3 Sep 2020 16:58:14 +0200 (CEST)
-Date:   Thu, 3 Sep 2020 16:58:09 +0200
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Christian Brauner <christian.brauner@ubuntu.com>
+        id S1726543AbgICPZh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 3 Sep 2020 11:25:37 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:36697 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728618AbgICPZh (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 3 Sep 2020 11:25:37 -0400
+Received: from ip5f5af70b.dynamic.kabel-deutschland.de ([95.90.247.11] helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1kDr7D-0000vI-Hl; Thu, 03 Sep 2020 15:25:31 +0000
+Date:   Thu, 3 Sep 2020 17:25:29 +0200
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Oleg Nesterov <oleg@redhat.com>
 Cc:     linux-kernel@vger.kernel.org,
         Christian Brauner <christian@brauner.io>,
         "Peter Zijlstra (Intel)" <peterz@infradead.org>,
@@ -50,74 +32,85 @@ Cc:     linux-kernel@vger.kernel.org,
         Josh Triplett <josh@joshtriplett.org>,
         Jens Axboe <axboe@kernel.dk>, linux-api@vger.kernel.org
 Subject: Re: [PATCH v2 1/4] pidfd: support PIDFD_NONBLOCK in pidfd_open()
-Message-ID: <20200903145808.GK4386@redhat.com>
+Message-ID: <20200903152529.llgvshvvoymwealz@wittgenstein>
 References: <20200902102130.147672-1-christian.brauner@ubuntu.com>
  <20200902102130.147672-2-christian.brauner@ubuntu.com>
+ <20200903145808.GK4386@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200902102130.147672-2-christian.brauner@ubuntu.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20200903145808.GK4386@redhat.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Christian, off-topic question...
+On Thu, Sep 03, 2020 at 04:58:09PM +0200, Oleg Nesterov wrote:
+> Christian, off-topic question...
+> 
+> On 09/02, Christian Brauner wrote:
+> >
+> > -static int pidfd_create(struct pid *pid)
+> > +static int pidfd_create(struct pid *pid, unsigned int flags)
+> >  {
+> >  	int fd;
+> >
+> >  	fd = anon_inode_getfd("[pidfd]", &pidfd_fops, get_pid(pid),
+> > -			      O_RDWR | O_CLOEXEC);
+> > +			      flags | O_RDWR | O_CLOEXEC);
+> 
+> I just noticed this comment above pidfd_create:
+> 
+> 	 * Note, that this function can only be called after the fd table has
+> 	 * been unshared to avoid leaking the pidfd to the new process.
+> 
+> what does it mean?
+> 
+> Of course, if fd table is shared then pidfd can "leak" to another process,
+> but this is true for any file and sys_pidfd_open() doesn't do any check?
 
-On 09/02, Christian Brauner wrote:
->
-> -static int pidfd_create(struct pid *pid)
-> +static int pidfd_create(struct pid *pid, unsigned int flags)
->  {
->  	int fd;
->
->  	fd = anon_inode_getfd("[pidfd]", &pidfd_fops, get_pid(pid),
-> -			      O_RDWR | O_CLOEXEC);
-> +			      flags | O_RDWR | O_CLOEXEC);
+It's the same comment we added in kernel/fork.c to make callers aware
+that they can leak a pidfd to another process unintentionally. Sure,
+this is true of any fd but since pidfds were a new type of handle and on
+another process at that we felt that this was important to spell out. The
+"can only" should've arguably been "should probably".
 
-I just noticed this comment above pidfd_create:
+> 
+> 
+> 
+> In fact I think this helper buys nothing but adds the unnecessary get/put_pid,
+> we can kill it and change pidfd_open() to do
+> 
+> 	SYSCALL_DEFINE2(pidfd_open, pid_t, pid, unsigned int, flags)
+> 	{
+> 		int fd;
+> 		struct pid *p;
+> 
+> 		if (flags & ~PIDFD_NONBLOCK)
+> 			return -EINVAL;
+> 
+> 		if (pid <= 0)
+> 			return -EINVAL;
+> 
+> 		p = find_get_pid(pid);
+> 		if (!p)
+> 			return -ESRCH;
+> 
+> 		fd = -EINVAL;
+> 		if (pid_has_task(p, PIDTYPE_TGID)) {
+> 			fd = anon_inode_getfd("[pidfd]", &pidfd_fops, pid,
+> 						flags | O_RDWR | O_CLOEXEC);
+> 		}
+> 		if (fd < 0)
+> 			put_pid(p);
+> 		return fd;
+> 	}
 
-	 * Note, that this function can only be called after the fd table has
-	 * been unshared to avoid leaking the pidfd to the new process.
+Sure, I'd totally take a patch like that!
 
-what does it mean?
+> 
+> but this is cosmetic and off-topic too.
 
-Of course, if fd table is shared then pidfd can "leak" to another process,
-but this is true for any file and sys_pidfd_open() doesn't do any check?
+No, much appreciated. Good-looking code is important. :)
 
-
-
-In fact I think this helper buys nothing but adds the unnecessary get/put_pid,
-we can kill it and change pidfd_open() to do
-
-	SYSCALL_DEFINE2(pidfd_open, pid_t, pid, unsigned int, flags)
-	{
-		int fd;
-		struct pid *p;
-
-		if (flags & ~PIDFD_NONBLOCK)
-			return -EINVAL;
-
-		if (pid <= 0)
-			return -EINVAL;
-
-		p = find_get_pid(pid);
-		if (!p)
-			return -ESRCH;
-
-		fd = -EINVAL;
-		if (pid_has_task(p, PIDTYPE_TGID)) {
-			fd = anon_inode_getfd("[pidfd]", &pidfd_fops, pid,
-						flags | O_RDWR | O_CLOEXEC);
-		}
-		if (fd < 0)
-			put_pid(p);
-		return fd;
-	}
-
-but this is cosmetic and off-topic too.
-
-Oleg.
-
+Christian
