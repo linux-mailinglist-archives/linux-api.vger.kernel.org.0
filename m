@@ -2,99 +2,111 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 64B5125C2B1
-	for <lists+linux-api@lfdr.de>; Thu,  3 Sep 2020 16:33:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50E4F25C393
+	for <lists+linux-api@lfdr.de>; Thu,  3 Sep 2020 16:54:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729166AbgICOdA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 3 Sep 2020 10:33:00 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:46394 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729057AbgICObg (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 3 Sep 2020 10:31:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1599143495;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=H7bJQ7h2myCkqnHq7O24s1ZUYNalRzEYrGJNorlqx6s=;
-        b=AUQSdRQH4PcxdN9PdwZG90owQKwPJdYPuqvLCDhROwZiIx7r8b+du7e3yYN/9U8SGiNvQB
-        OpOVwCVZfMKTSZMKXALpY2EKYv7Hr/9KvhisrFBIiQPLypIJ5J3P3e+hDZYpJHYCOOoXhP
-        qcjJGMQfimR7Xh8FWxk9FmEB5TvQ/V8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-41-nWV_P8BGM4aUcJJCqxZSZw-1; Thu, 03 Sep 2020 10:31:33 -0400
-X-MC-Unique: nWV_P8BGM4aUcJJCqxZSZw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1729272AbgICOyV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 3 Sep 2020 10:54:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52062 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729309AbgICOyT (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 3 Sep 2020 10:54:19 -0400
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6248C425E8;
-        Thu,  3 Sep 2020 14:31:31 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.40.192.114])
-        by smtp.corp.redhat.com (Postfix) with SMTP id 14BDB1055803;
-        Thu,  3 Sep 2020 14:31:26 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Thu,  3 Sep 2020 16:31:31 +0200 (CEST)
-Date:   Thu, 3 Sep 2020 16:31:25 +0200
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Christian Brauner <christian@brauner.io>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>,
-        Sargun Dhillon <sargun@sargun.me>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        linux-kselftest@vger.kernel.org,
-        Josh Triplett <josh@joshtriplett.org>,
-        Jens Axboe <axboe@kernel.dk>, linux-api@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] pidfd: support PIDFD_NONBLOCK in pidfd_open()
-Message-ID: <20200903143124.GJ4386@redhat.com>
-References: <20200902102130.147672-1-christian.brauner@ubuntu.com>
- <20200902102130.147672-2-christian.brauner@ubuntu.com>
+        by mail.kernel.org (Postfix) with ESMTPSA id 5E4812137B
+        for <linux-api@vger.kernel.org>; Thu,  3 Sep 2020 14:54:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1599144858;
+        bh=mriIatmtdubimfxx6F+KYhhAQsXMp4Zfj9n/rnqEnYg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=MfmZFBjT64s2kj82dccACMNfccL3q/EDxxTceknRnn5UC3AImrGOzEffZCZJBQLHb
+         xsY0ha/O5YBHgCotpGQ0WDdqXQ8tT675l0QXQ1Xgz+E+lw7gbhM7WmZIOITJodOcZN
+         IMv6xVYpajk0/OrPonK7qnFLO3OuTIBZUFe3Lv/M=
+Received: by mail-wm1-f44.google.com with SMTP id z9so3212238wmk.1
+        for <linux-api@vger.kernel.org>; Thu, 03 Sep 2020 07:54:18 -0700 (PDT)
+X-Gm-Message-State: AOAM532FIEBbV6CQ8YUaPfPXskxZU4I+ap4uj67gUT6v1B7sy07INLzB
+        4qpU74zvIHmeKzfg7+XrP0pBmroyEEHWQggIrFwhQg==
+X-Google-Smtp-Source: ABdhPJwZWPiuPxsfeWv1J/1dfx0Phx0Z+CR6jZc6Vth7ClO5Nnnsw9BnQ2BG0ronnM+rSbGLQcOzQkjyBYwFKrdO6uM=
+X-Received: by 2002:a1c:740c:: with SMTP id p12mr2909254wmc.176.1599144856798;
+ Thu, 03 Sep 2020 07:54:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200902102130.147672-2-christian.brauner@ubuntu.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+References: <46e42e5e-0bca-5f3f-efc9-5ab15827cc0b@intel.com>
+ <40BC093A-F430-4DCC-8DC0-2BA90A6FC3FA@amacapital.net> <b3809dd7-8566-0517-2389-8089475135b7@intel.com>
+In-Reply-To: <b3809dd7-8566-0517-2389-8089475135b7@intel.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Thu, 3 Sep 2020 07:54:05 -0700
+X-Gmail-Original-Message-ID: <CALCETrVY6XXUkePL0D0gmGEkq_oB2Ly_uXo6QQUz1v0H7sf_-g@mail.gmail.com>
+Message-ID: <CALCETrVY6XXUkePL0D0gmGEkq_oB2Ly_uXo6QQUz1v0H7sf_-g@mail.gmail.com>
+Subject: Re: [PATCH v11 6/9] x86/cet: Add PTRACE interface for CET
+To:     Dave Hansen <dave.hansen@intel.com>
+Cc:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        Jann Horn <jannh@google.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 09/02, Christian Brauner wrote:
+On Thu, Sep 3, 2020 at 7:27 AM Dave Hansen <dave.hansen@intel.com> wrote:
 >
-> -static int pidfd_create(struct pid *pid)
-> +static int pidfd_create(struct pid *pid, unsigned int flags)
->  {
->  	int fd;
->  
->  	fd = anon_inode_getfd("[pidfd]", &pidfd_fops, get_pid(pid),
-> -			      O_RDWR | O_CLOEXEC);
-> +			      flags | O_RDWR | O_CLOEXEC);
->  	if (fd < 0)
->  		put_pid(pid);
->  
-> @@ -565,7 +567,7 @@ SYSCALL_DEFINE2(pidfd_open, pid_t, pid, unsigned int, flags)
->  	int fd;
->  	struct pid *p;
->  
-> -	if (flags)
-> +	if (flags & ~PIDFD_NONBLOCK)
->  		return -EINVAL;
->  
->  	if (pid <= 0)
-> @@ -576,7 +578,7 @@ SYSCALL_DEFINE2(pidfd_open, pid_t, pid, unsigned int, flags)
->  		return -ESRCH;
->  
->  	if (pid_has_task(p, PIDTYPE_TGID))
-> -		fd = pidfd_create(p);
-> +		fd = pidfd_create(p, flags);
->  	else
->  		fd = -EINVAL;
->  
+> On 9/2/20 9:35 PM, Andy Lutomirski wrote:
+> >>>>>> +       fpu__prepare_read(fpu);
+> >>>>>> +       cetregs =3D get_xsave_addr(&fpu->state.xsave, XFEATURE_CET=
+_USER);
+> >>>>>> +       if (!cetregs)
+> >>>>>> +               return -EFAULT;
+> >>>>> Can this branch ever be hit without a kernel bug? If yes, I think
+> >>>>> -EFAULT is probably a weird error code to choose here. If no, this
+> >>>>> should probably use WARN_ON(). Same thing in cetregs_set().
+> >>>> When a thread is not CET-enabled, its CET state does not exist.  I l=
+ooked at EFAULT, and it means "Bad address".  Maybe this can be ENODEV, whi=
+ch means "No such device"?
+> > Having read the code, I=E2=80=99m unconvinced. It looks like a get_xsav=
+e_addr() failure means =E2=80=9Cstate not saved; task sees INIT state=E2=80=
+=9D.  So *maybe* it=E2=80=99s reasonable -ENODEV this, but I=E2=80=99m not =
+really convinced. I tend to think we should return the actual INIT state an=
+d that we should permit writes and handle them correctly.
+>
+> PTRACE is asking for access to the values in the *registers*, not for
+> the value in the kernel XSAVE buffer.  We just happen to only have the
+> kernel XSAVE buffer around.
+>
+> If we want to really support PTRACE we have to allow the registers to be
+> get/set, regardless of what state they are in, INIT state or not.  So,
+> yeah I agree with Andy.
 
-Reviewed-by: Oleg Nesterov <oleg@redhat.com>
+I think the core dump code gets here, too, so the values might be in
+registers as well.  I hope that fpu__prepare_read() does the right
+thing in this case.
 
+--Andy
