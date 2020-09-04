@@ -2,93 +2,138 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F145225DABB
-	for <lists+linux-api@lfdr.de>; Fri,  4 Sep 2020 15:57:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0930F25DAF2
+	for <lists+linux-api@lfdr.de>; Fri,  4 Sep 2020 16:07:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730548AbgIDN5y (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 4 Sep 2020 09:57:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54658 "EHLO
+        id S1730570AbgIDOHm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 4 Sep 2020 10:07:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730599AbgIDNxp (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 4 Sep 2020 09:53:45 -0400
-Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com [IPv6:2607:f8b0:4864:20::f49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D74EC061245
-        for <linux-api@vger.kernel.org>; Fri,  4 Sep 2020 06:53:44 -0700 (PDT)
-Received: by mail-qv1-xf49.google.com with SMTP id ff20so3867974qvb.7
-        for <linux-api@vger.kernel.org>; Fri, 04 Sep 2020 06:53:44 -0700 (PDT)
+        with ESMTP id S1730564AbgIDOG7 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 4 Sep 2020 10:06:59 -0400
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 398FAC061245;
+        Fri,  4 Sep 2020 07:06:38 -0700 (PDT)
+Received: by mail-oi1-x242.google.com with SMTP id w16so6628745oia.2;
+        Fri, 04 Sep 2020 07:06:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:to:cc;
-        bh=6QhKTbTEeY1hMpwGRn3I4+LPI2vg1nOM4QWM63CXncA=;
-        b=nBQKq2tZPHnHW6+VjusqM7szXA10nJIkygMDcuxIOkW1Cr311hBbBCr2AU9gMR5Clc
-         3C8/3M/R0g35KUMJ+X+SMr3E+wfpTlr1WHpcdCWuL0nssZaWcqyeERm25cn3LIyfPoQz
-         fpMpl4DgjhIPtuz46UcOQwO7E9frYXls10Y1w4UsL2Pn76eFN4PtI3rfAHrAdgZrGhql
-         M8DkLpjUPpoSva9fXKh9llb5tB1j8EpfNZBrOnWaKRpkuJctbiG4XiyypLCAf9Q81n95
-         1drRRPeUEzVtEp1RwvYCBDIQPhxNTwsS9s/7JjfrzNbLFyrSEa0dpY+OHbnhKxNjM0Ry
-         o5Dg==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Wr4ik479hXJMABoUt+QySGUcxYVpD0giYre42tl6Lak=;
+        b=pb+ilJUJRPhJ/T5Cca3PbrSqzWYKDzd+9lVwpvCtKeG4tVFR5fQw4XDiIQxMEernf8
+         cN/W80EeOycrznLPrK9RkdvnacufPub2oUdkxxGTpGcA1GBMVIWkw8BcapZhRF7M9hCX
+         LrD+cFDk+B5RNXXHuTCwraVJ0QWLjLRxgn87VwM/dXlhI1esf59Ab11er8fAr6j7znQn
+         1V9KCjQAelo+dg9xaytKB3gQHCJarbecol+hxcLg9/Xw65DqUlhuFRQhvem9IilKf3KU
+         QrlZV18mXNtahcZ9xGvB827p/mMnHDDm/dVEvJf//2styAsjRlmRlP03lJjgKsdCw9HM
+         LR3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=6QhKTbTEeY1hMpwGRn3I4+LPI2vg1nOM4QWM63CXncA=;
-        b=mn8h5NPRowN+Ews2i5xThd7vtRvSgcXoc4X+T8iZunuX0KfYh9bYXo/0VKifY4qn8P
-         ZsonEkQn03Xh4m+2ZiL+09KrRJXHNDb4q6J1DWY2mGHiI+UTB1Ih/IaZPGJDiomxDDBC
-         HW84Kl3kzo7xyf5E0rEuI/S67yOv+/DOgu5hMNHspMlGYWMW3pENoF211PtTZ7/J6p/f
-         O/pdvJoKtkaZVqoPHQ1CrUvjC3JIykHWw4svM1yXFR92AL3bVGAG4r+PXJU7PfQCOmG+
-         kTTo619TtacGq/PHiJwATmiL++nUJvnWFNBCFUBc/9H1e5WLdR9oyq5o+J/lQnU2L72i
-         h9jg==
-X-Gm-Message-State: AOAM530rJqHbKsVHekKrhkvJFxHCVlAFkhRoyrKru0+nNWYlS6yVDJs0
-        x4YxQ1DeO5H5rlmg/ZXBuh84guNf
-X-Google-Smtp-Source: ABdhPJxQcGmIFWhXaDJlfBg9IY86LASa1SjfOzRlyC9IPT6aHtPDVbg/sEqfYFy1y9Rg9qWeo6OqFTmg
-X-Received: from gnomeregan.cam.corp.google.com ([2620:15c:6:14:1ea0:b8ff:fe76:1e48])
- (user=brho job=sendgmr) by 2002:a05:6214:292:: with SMTP id
- l18mr6631318qvv.5.1599227623676; Fri, 04 Sep 2020 06:53:43 -0700 (PDT)
-Date:   Fri,  4 Sep 2020 09:53:32 -0400
-In-Reply-To: <20200728163416.556521-22-hch@lst.de>
-Message-Id: <20200904135332.1130070-1-brho@google.com>
-Mime-Version: 1.0
-References: <20200728163416.556521-22-hch@lst.de>
-X-Mailer: git-send-email 2.28.0.526.ge36021eeef-goog
-Subject: [PATCH] init: fix error check in clean_path()
-From:   Barret Rhoden <brho@google.com>
-To:     hch@lst.de
-Cc:     gregkh@linuxfoundation.org, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-raid@vger.kernel.org, rafael@kernel.org,
-        torvalds@linux-foundation.org, viro@zeniv.linux.org.uk,
-        luto@kernel.org
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Wr4ik479hXJMABoUt+QySGUcxYVpD0giYre42tl6Lak=;
+        b=YFHRXYJWMLh/4WzZyeLNHs3mmdzOgyik91fNNkBpqM3zEmRv3il4NDFA7mZ/STlxJV
+         IeV4gRztZGpD87BTxLBVwgLwVusI9T+EicOa8swRiG2OxnXgJPIH2eDe5U+0M1cWkSrF
+         IQ3DQzB4lts4gNRZ/Rw+JOxLvrqi/QabCX2ZxOVLwrNy8W3cWli6uTjlpaoL0uDRwg4v
+         Fkv/lu2mJJVL78g17xCS9LK+OG3Y5ch9iQ9wjtWxntnGtuGUtuIOmbrn+Y/11EIhkpL1
+         zcMfp6UtrLhC/XuaL3yES9g0Wg+J7xJTWOCBDVbfh3zOnUTUAZBcO6+64qBHQupDXGd2
+         5X5g==
+X-Gm-Message-State: AOAM530raUbSwRRHlwxX1FcBx7yj2JLPjwWF/dw0kOOw7jJVIsb4S0+U
+        lFOD24nFZqpfTacMsoHpv6100zi+/J1egJAlUuU=
+X-Google-Smtp-Source: ABdhPJziFDpId3xQV+kTiECfez29XequCwVUbV9zAOTxbsVuPohRo7dKhwXxjzjzByWc3HuEEQrlxZ5l47bnwwTL+yY=
+X-Received: by 2002:a54:4f9b:: with SMTP id g27mr5430650oiy.140.1599228397615;
+ Fri, 04 Sep 2020 07:06:37 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200802215903.91936-1-mic@digikod.net> <20200802215903.91936-6-mic@digikod.net>
+ <779c290b-45f5-b86c-c573-2edb4004105d@tycho.nsa.gov> <03f522c0-414c-434b-a0d1-57c3b17fa67f@digikod.net>
+ <CAEjxPJ7POnxKy=5w-iQkKhjftxf2-=UuvA6D8EmhUPJyS1F6qg@mail.gmail.com>
+In-Reply-To: <CAEjxPJ7POnxKy=5w-iQkKhjftxf2-=UuvA6D8EmhUPJyS1F6qg@mail.gmail.com>
+From:   Stephen Smalley <stephen.smalley.work@gmail.com>
+Date:   Fri, 4 Sep 2020 10:06:26 -0400
+Message-ID: <CAEjxPJ7ARJO57MBW66=xsBzMMRb=9uLgqocK5eskHCaiVMx7Vw@mail.gmail.com>
+Subject: Re: [PATCH v20 05/12] LSM: Infrastructure management of the superblock
+To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc:     Stephen Smalley <sds@tycho.nsa.gov>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Kees Cook <keescook@chromium.org>,
+        John Johansen <john.johansen@canonical.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        linux-kselftest@vger.kernel.org,
+        LSM List <linux-security-module@vger.kernel.org>,
+        X86 ML <x86@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-init_stat() returns 0 on success, same as vfs_lstat().  When it replaced
-vfs_lstat(), the '!' was dropped.
+On Thu, Aug 13, 2020 at 2:39 PM Stephen Smalley
+<stephen.smalley.work@gmail.com> wrote:
+>
+> On Thu, Aug 13, 2020 at 10:17 AM Micka=C3=ABl Sala=C3=BCn <mic@digikod.ne=
+t> wrote:
+> >
+> >
+> > On 12/08/2020 21:16, Stephen Smalley wrote:
+> > > On 8/2/20 5:58 PM, Micka=C3=ABl Sala=C3=BCn wrote:
+> > >> From: Casey Schaufler <casey@schaufler-ca.com>
+> > >>
+> > >> Move management of the superblock->sb_security blob out
+> > >> of the individual security modules and into the security
+> > >> infrastructure. Instead of allocating the blobs from within
+> > >> the modules the modules tell the infrastructure how much
+> > >> space is required, and the space is allocated there.
+> > >>
+> > >> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+> > >> Reviewed-by: Kees Cook <keescook@chromium.org>
+> > >> Reviewed-by: John Johansen <john.johansen@canonical.com>
+> > >> Reviewed-by: Stephen Smalley <sds@tycho.nsa.gov>
+> > >> Reviewed-by: Micka=C3=ABl Sala=C3=BCn <mic@digikod.net>
+> > >> Link:
+> > >> https://lore.kernel.org/r/20190829232935.7099-2-casey@schaufler-ca.c=
+om
+> > >> ---
+> > >>
+> > >> Changes since v17:
+> > >> * Rebase the original LSM stacking patch from v5.3 to v5.7: I fixed =
+some
+> > >>    diff conflicts caused by code moves and function renames in
+> > >>    selinux/include/objsec.h and selinux/hooks.c .  I checked that it
+> > >>    builds but I didn't test the changes for SELinux nor SMACK.
+> > >
+> > > You shouldn't retain Signed-off-by and Reviewed-by lines from an earl=
+ier
+> > > patch if you made non-trivial changes to it (even more so if you didn=
+'t
+> > > test them).
+> >
+> > I think I made trivial changes according to the original patch. But
+> > without reply from other people with Signed-off-by or Reviewed-by
+> > (Casey, Kees, John), I'll remove them. I guess you don't want your
+> > Reviewed-by to be kept, so I'll remove it, except if you want to review
+> > this patch (or the modified part).
+>
+> At the very least your Reviewed-by line is wrong - yours should be
+> Signed-off-by because the patch went through you and you modified it.
+> I'll try to take a look as time permits but FYI you should this
+> address (already updated in MAINTAINERS) going forward.
 
-Fixes: 716308a5331b ("init: add an init_stat helper")
-Signed-off-by: Barret Rhoden <brho@google.com>
----
-
-Andy: this was broken in virtme.  "/init: source: not found"
-
- init/initramfs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/init/initramfs.c b/init/initramfs.c
-index e6dbfb767057..1f97c0328a7a 100644
---- a/init/initramfs.c
-+++ b/init/initramfs.c
-@@ -297,7 +297,7 @@ static void __init clean_path(char *path, umode_t fmode)
- {
- 	struct kstat st;
- 
--	if (init_stat(path, &st, AT_SYMLINK_NOFOLLOW) &&
-+	if (!init_stat(path, &st, AT_SYMLINK_NOFOLLOW) &&
- 	    (st.mode ^ fmode) & S_IFMT) {
- 		if (S_ISDIR(st.mode))
- 			init_rmdir(path);
--- 
-2.28.0.526.ge36021eeef-goog
-
+I finally got around to reviewing your updated patch.  You can drop
+the old line and add:
+Reviewed-by: Stephen Smalley <stephen.smalley.work@gmail.com>
