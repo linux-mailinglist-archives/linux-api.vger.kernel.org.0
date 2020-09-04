@@ -2,22 +2,21 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6023425D7A0
-	for <lists+linux-api@lfdr.de>; Fri,  4 Sep 2020 13:41:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E74F425D79F
+	for <lists+linux-api@lfdr.de>; Fri,  4 Sep 2020 13:41:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729797AbgIDLle (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 4 Sep 2020 07:41:34 -0400
-Received: from mx01.bbu.dsd.mx.bitdefender.com ([91.199.104.161]:49528 "EHLO
+        id S1729582AbgIDLlc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 4 Sep 2020 07:41:32 -0400
+Received: from mx01.bbu.dsd.mx.bitdefender.com ([91.199.104.161]:49556 "EHLO
         mx01.bbu.dsd.mx.bitdefender.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728263AbgIDLlU (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 4 Sep 2020 07:41:20 -0400
-X-Greylist: delayed 610 seconds by postgrey-1.27 at vger.kernel.org; Fri, 04 Sep 2020 07:41:18 EDT
+        by vger.kernel.org with ESMTP id S1729797AbgIDLlV (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 4 Sep 2020 07:41:21 -0400
 Received: from smtp.bitdefender.com (smtp01.buh.bitdefender.com [10.17.80.75])
-        by mx01.bbu.dsd.mx.bitdefender.com (Postfix) with ESMTPS id CD72B30747C8;
-        Fri,  4 Sep 2020 14:31:06 +0300 (EEST)
+        by mx01.bbu.dsd.mx.bitdefender.com (Postfix) with ESMTPS id 9B813307C934;
+        Fri,  4 Sep 2020 14:31:07 +0300 (EEST)
 Received: from localhost.localdomain (unknown [195.189.155.252])
-        by smtp.bitdefender.com (Postfix) with ESMTPSA id 041833072787;
-        Fri,  4 Sep 2020 14:31:05 +0300 (EEST)
+        by smtp.bitdefender.com (Postfix) with ESMTPSA id D31BB3072785;
+        Fri,  4 Sep 2020 14:31:06 +0300 (EEST)
 From:   =?UTF-8?q?Adalbert=20Laz=C4=83r?= <alazar@bitdefender.com>
 To:     linux-mm@kvack.org
 Cc:     linux-api@vger.kernel.org,
@@ -37,9 +36,9 @@ Cc:     linux-api@vger.kernel.org,
         Matthew Wilcox <willy@infradead.org>,
         Christian Brauner <christian.brauner@ubuntu.com>,
         =?UTF-8?q?Adalbert=20Laz=C4=83r?= <alazar@bitdefender.com>
-Subject: [RESEND RFC PATCH 2/5] mm: let the VMA decide how zap_pte_range() acts on mapped pages
-Date:   Fri,  4 Sep 2020 14:31:13 +0300
-Message-Id: <20200904113116.20648-3-alazar@bitdefender.com>
+Subject: [RESEND RFC PATCH 3/5] mm/mmu_notifier: remove lockdep map, allow mmu notifier to be used in nested scenarios
+Date:   Fri,  4 Sep 2020 14:31:14 +0300
+Message-Id: <20200904113116.20648-4-alazar@bitdefender.com>
 In-Reply-To: <20200904113116.20648-1-alazar@bitdefender.com>
 References: <20200904113116.20648-1-alazar@bitdefender.com>
 MIME-Version: 1.0
@@ -52,281 +51,107 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 From: Mircea Cirjaliu <mcirjaliu@bitdefender.com>
 
-Instead of having one big function to handle all cases of page unmapping,
-have multiple implementation-defined callbacks, each for its own VMA type.
-In the future, exotic VMA implementations won't have to bloat the unique
-zapping function with another case of mappings.
+The combination of remote mapping + KVM causes nested range invalidations,
+which reports lockdep warnings.
 
 Signed-off-by: Mircea Cirjaliu <mcirjaliu@bitdefender.com>
 Signed-off-by: Adalbert Lazăr <alazar@bitdefender.com>
 ---
- include/linux/mm.h |  16 ++++
- mm/memory.c        | 182 +++++++++++++++++++++++++--------------------
- 2 files changed, 116 insertions(+), 82 deletions(-)
+ include/linux/mmu_notifier.h |  5 +----
+ mm/mmu_notifier.c            | 19 -------------------
+ 2 files changed, 1 insertion(+), 23 deletions(-)
 
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 1be4482a7b81..39e55467aa49 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -36,6 +36,7 @@ struct file_ra_state;
- struct user_struct;
- struct writeback_control;
- struct bdi_writeback;
-+struct zap_details;
+diff --git a/include/linux/mmu_notifier.h b/include/linux/mmu_notifier.h
+index 736f6918335e..81ea457d41be 100644
+--- a/include/linux/mmu_notifier.h
++++ b/include/linux/mmu_notifier.h
+@@ -440,12 +440,10 @@ mmu_notifier_invalidate_range_start(struct mmu_notifier_range *range)
+ {
+ 	might_sleep();
  
- void init_mm_internals(void);
+-	lock_map_acquire(&__mmu_notifier_invalidate_range_start_map);
+ 	if (mm_has_notifiers(range->mm)) {
+ 		range->flags |= MMU_NOTIFIER_RANGE_BLOCKABLE;
+ 		__mmu_notifier_invalidate_range_start(range);
+ 	}
+-	lock_map_release(&__mmu_notifier_invalidate_range_start_map);
+ }
  
-@@ -601,6 +602,14 @@ struct vm_operations_struct {
- 	 */
- 	struct page *(*find_special_page)(struct vm_area_struct *vma,
- 					  unsigned long addr);
+ static inline int
+@@ -453,12 +451,11 @@ mmu_notifier_invalidate_range_start_nonblock(struct mmu_notifier_range *range)
+ {
+ 	int ret = 0;
+ 
+-	lock_map_acquire(&__mmu_notifier_invalidate_range_start_map);
+ 	if (mm_has_notifiers(range->mm)) {
+ 		range->flags &= ~MMU_NOTIFIER_RANGE_BLOCKABLE;
+ 		ret = __mmu_notifier_invalidate_range_start(range);
+ 	}
+-	lock_map_release(&__mmu_notifier_invalidate_range_start_map);
 +
-+	/*
-+	 * Called by zap_pte_range() for use by special VMAs that implement
-+	 * custom zapping behavior.
-+	 */
-+	int (*zap_pte)(struct vm_area_struct *vma, unsigned long addr,
-+		       pte_t *pte, int rss[], struct mmu_gather *tlb,
-+		       struct zap_details *details);
- };
- 
- static inline void vma_init(struct vm_area_struct *vma, struct mm_struct *mm)
-@@ -1594,6 +1603,13 @@ static inline bool can_do_mlock(void) { return false; }
- extern int user_shm_lock(size_t, struct user_struct *);
- extern void user_shm_unlock(size_t, struct user_struct *);
- 
-+/*
-+ * Flags returned by zap_pte implementations
-+ */
-+#define ZAP_PTE_CONTINUE	0
-+#define ZAP_PTE_FLUSH		(1 << 0)	/* Ask for TLB flush. */
-+#define ZAP_PTE_BREAK		(1 << 1)	/* Break PTE iteration. */
-+
- /*
-  * Parameter block passed down to zap_pte_range in exceptional cases.
-  */
-diff --git a/mm/memory.c b/mm/memory.c
-index 8e78fb151f8f..a225bfd01417 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -1031,18 +1031,109 @@ int copy_page_range(struct mm_struct *dst_mm, struct mm_struct *src_mm,
  	return ret;
  }
  
-+static int zap_pte_common(struct vm_area_struct *vma, unsigned long addr,
-+			  pte_t *pte, int rss[], struct mmu_gather *tlb,
-+			  struct zap_details *details)
-+{
-+	struct mm_struct *mm = tlb->mm;
-+	pte_t ptent = *pte;
-+	swp_entry_t entry;
-+	int flags = 0;
-+
-+	if (pte_present(ptent)) {
-+		struct page *page;
-+
-+		page = vm_normal_page(vma, addr, ptent);
-+		if (unlikely(details) && page) {
-+			/*
-+			 * unmap_shared_mapping_pages() wants to
-+			 * invalidate cache without truncating:
-+			 * unmap shared but keep private pages.
-+			 */
-+			if (details->check_mapping &&
-+			    details->check_mapping != page_rmapping(page))
-+				return 0;
-+		}
-+		ptent = ptep_get_and_clear_full(mm, addr, pte, tlb->fullmm);
-+		tlb_remove_tlb_entry(tlb, pte, addr);
-+		if (unlikely(!page))
-+			return 0;
-+
-+		if (!PageAnon(page)) {
-+			if (pte_dirty(ptent)) {
-+				flags |= ZAP_PTE_FLUSH;
-+				set_page_dirty(page);
-+			}
-+			if (pte_young(ptent) &&
-+			    likely(!(vma->vm_flags & VM_SEQ_READ)))
-+				mark_page_accessed(page);
-+		}
-+		rss[mm_counter(page)]--;
-+		page_remove_rmap(page, false);
-+		if (unlikely(page_mapcount(page) < 0))
-+			print_bad_pte(vma, addr, ptent, page);
-+		if (unlikely(__tlb_remove_page(tlb, page)))
-+			flags |= ZAP_PTE_FLUSH | ZAP_PTE_BREAK;
-+		return flags;
-+	}
-+
-+	entry = pte_to_swp_entry(ptent);
-+	if (non_swap_entry(entry) && is_device_private_entry(entry)) {
-+		struct page *page = device_private_entry_to_page(entry);
-+
-+		if (unlikely(details && details->check_mapping)) {
-+			/*
-+			 * unmap_shared_mapping_pages() wants to
-+			 * invalidate cache without truncating:
-+			 * unmap shared but keep private pages.
-+			 */
-+			if (details->check_mapping != page_rmapping(page))
-+				return 0;
-+		}
-+
-+		pte_clear_not_present_full(mm, addr, pte, tlb->fullmm);
-+		rss[mm_counter(page)]--;
-+		page_remove_rmap(page, false);
-+		put_page(page);
-+		return 0;
-+	}
-+
-+	/* If details->check_mapping, we leave swap entries. */
-+	if (unlikely(details))
-+		return 0;
-+
-+	if (!non_swap_entry(entry))
-+		rss[MM_SWAPENTS]--;
-+	else if (is_migration_entry(entry)) {
-+		struct page *page;
-+
-+		page = migration_entry_to_page(entry);
-+		rss[mm_counter(page)]--;
-+	}
-+	if (unlikely(!free_swap_and_cache(entry)))
-+		print_bad_pte(vma, addr, ptent, NULL);
-+	pte_clear_not_present_full(mm, addr, pte, tlb->fullmm);
-+
-+	return flags;
-+}
-+
- static unsigned long zap_pte_range(struct mmu_gather *tlb,
- 				struct vm_area_struct *vma, pmd_t *pmd,
- 				unsigned long addr, unsigned long end,
- 				struct zap_details *details)
- {
- 	struct mm_struct *mm = tlb->mm;
--	int force_flush = 0;
-+	int flags = 0;
- 	int rss[NR_MM_COUNTERS];
- 	spinlock_t *ptl;
- 	pte_t *start_pte;
- 	pte_t *pte;
--	swp_entry_t entry;
-+
-+	int (*zap_pte)(struct vm_area_struct *vma, unsigned long addr,
-+		       pte_t *pte, int rss[], struct mmu_gather *tlb,
-+		       struct zap_details *details) = zap_pte_common;
-+	if (vma->vm_ops && vma->vm_ops->zap_pte)
-+		zap_pte = vma->vm_ops->zap_pte;
+diff --git a/mm/mmu_notifier.c b/mm/mmu_notifier.c
+index 06852b896fa6..928751bd8630 100644
+--- a/mm/mmu_notifier.c
++++ b/mm/mmu_notifier.c
+@@ -22,12 +22,6 @@
+ /* global SRCU for all MMs */
+ DEFINE_STATIC_SRCU(srcu);
  
- 	tlb_change_page_size(tlb, PAGE_SIZE);
- again:
-@@ -1058,92 +1149,19 @@ static unsigned long zap_pte_range(struct mmu_gather *tlb,
- 
- 		if (!zap_is_atomic(details) && need_resched())
- 			break;
+-#ifdef CONFIG_LOCKDEP
+-struct lockdep_map __mmu_notifier_invalidate_range_start_map = {
+-	.name = "mmu_notifier_invalidate_range_start"
+-};
+-#endif
 -
--		if (pte_present(ptent)) {
--			struct page *page;
--
--			page = vm_normal_page(vma, addr, ptent);
--			if (unlikely(details) && page) {
--				/*
--				 * unmap_shared_mapping_pages() wants to
--				 * invalidate cache without truncating:
--				 * unmap shared but keep private pages.
--				 */
--				if (details->check_mapping &&
--				    details->check_mapping != page_rmapping(page))
--					continue;
--			}
--			ptent = ptep_get_and_clear_full(mm, addr, pte,
--							tlb->fullmm);
--			tlb_remove_tlb_entry(tlb, pte, addr);
--			if (unlikely(!page))
--				continue;
--
--			if (!PageAnon(page)) {
--				if (pte_dirty(ptent)) {
--					force_flush = 1;
--					set_page_dirty(page);
--				}
--				if (pte_young(ptent) &&
--				    likely(!(vma->vm_flags & VM_SEQ_READ)))
--					mark_page_accessed(page);
--			}
--			rss[mm_counter(page)]--;
--			page_remove_rmap(page, false);
--			if (unlikely(page_mapcount(page) < 0))
--				print_bad_pte(vma, addr, ptent, page);
--			if (unlikely(__tlb_remove_page(tlb, page))) {
--				force_flush = 1;
--				addr += PAGE_SIZE;
--				break;
--			}
--			continue;
--		}
--
--		entry = pte_to_swp_entry(ptent);
--		if (non_swap_entry(entry) && is_device_private_entry(entry)) {
--			struct page *page = device_private_entry_to_page(entry);
--
--			if (unlikely(details && details->check_mapping)) {
--				/*
--				 * unmap_shared_mapping_pages() wants to
--				 * invalidate cache without truncating:
--				 * unmap shared but keep private pages.
--				 */
--				if (details->check_mapping !=
--				    page_rmapping(page))
--					continue;
--			}
--
--			pte_clear_not_present_full(mm, addr, pte, tlb->fullmm);
--			rss[mm_counter(page)]--;
--			page_remove_rmap(page, false);
--			put_page(page);
--			continue;
-+		if (flags & ZAP_PTE_BREAK) {
-+			flags &= ~ZAP_PTE_BREAK;
-+			break;
- 		}
- 
--		/* If details->check_mapping, we leave swap entries. */
--		if (unlikely(details))
--			continue;
--
--		if (!non_swap_entry(entry))
--			rss[MM_SWAPENTS]--;
--		else if (is_migration_entry(entry)) {
--			struct page *page;
--
--			page = migration_entry_to_page(entry);
--			rss[mm_counter(page)]--;
--		}
--		if (unlikely(!free_swap_and_cache(entry)))
--			print_bad_pte(vma, addr, ptent, NULL);
--		pte_clear_not_present_full(mm, addr, pte, tlb->fullmm);
-+		flags |= zap_pte(vma, addr, pte, rss, tlb, details);
- 	} while (pte++, addr += PAGE_SIZE, addr != end);
- 
- 	add_mm_rss_vec(mm, rss);
- 	arch_leave_lazy_mmu_mode();
- 
- 	/* Do the actual TLB flush before dropping ptl */
--	if (force_flush)
-+	if (flags & ZAP_PTE_FLUSH)
- 		tlb_flush_mmu_tlbonly(tlb);
- 	pte_unmap_unlock(start_pte, ptl);
- 
-@@ -1153,8 +1171,8 @@ static unsigned long zap_pte_range(struct mmu_gather *tlb,
- 	 * entries before releasing the ptl), free the batched
- 	 * memory too. Restart if we didn't do everything.
+ /*
+  * The mmu_notifier_subscriptions structure is allocated and installed in
+  * mm->notifier_subscriptions inside the mm_take_all_locks() protected
+@@ -242,8 +236,6 @@ mmu_interval_read_begin(struct mmu_interval_notifier *interval_sub)
+ 	 * will always clear the below sleep in some reasonable time as
+ 	 * subscriptions->invalidate_seq is even in the idle state.
  	 */
--	if (force_flush) {
--		force_flush = 0;
-+	if (flags & ZAP_PTE_FLUSH) {
-+		flags &= ~ZAP_PTE_FLUSH;
- 		tlb_flush_mmu(tlb);
- 	}
+-	lock_map_acquire(&__mmu_notifier_invalidate_range_start_map);
+-	lock_map_release(&__mmu_notifier_invalidate_range_start_map);
+ 	if (is_invalidating)
+ 		wait_event(subscriptions->wq,
+ 			   READ_ONCE(subscriptions->invalidate_seq) != seq);
+@@ -572,13 +564,11 @@ void __mmu_notifier_invalidate_range_end(struct mmu_notifier_range *range,
+ 	struct mmu_notifier_subscriptions *subscriptions =
+ 		range->mm->notifier_subscriptions;
  
+-	lock_map_acquire(&__mmu_notifier_invalidate_range_start_map);
+ 	if (subscriptions->has_itree)
+ 		mn_itree_inv_end(subscriptions);
+ 
+ 	if (!hlist_empty(&subscriptions->list))
+ 		mn_hlist_invalidate_end(subscriptions, range, only_end);
+-	lock_map_release(&__mmu_notifier_invalidate_range_start_map);
+ }
+ 
+ void __mmu_notifier_invalidate_range(struct mm_struct *mm,
+@@ -612,13 +602,6 @@ int __mmu_notifier_register(struct mmu_notifier *subscription,
+ 	lockdep_assert_held_write(&mm->mmap_sem);
+ 	BUG_ON(atomic_read(&mm->mm_users) <= 0);
+ 
+-	if (IS_ENABLED(CONFIG_LOCKDEP)) {
+-		fs_reclaim_acquire(GFP_KERNEL);
+-		lock_map_acquire(&__mmu_notifier_invalidate_range_start_map);
+-		lock_map_release(&__mmu_notifier_invalidate_range_start_map);
+-		fs_reclaim_release(GFP_KERNEL);
+-	}
+-
+ 	if (!mm->notifier_subscriptions) {
+ 		/*
+ 		 * kmalloc cannot be called under mm_take_all_locks(), but we
+@@ -1062,8 +1045,6 @@ void mmu_interval_notifier_remove(struct mmu_interval_notifier *interval_sub)
+ 	 * The possible sleep on progress in the invalidation requires the
+ 	 * caller not hold any locks held by invalidation callbacks.
+ 	 */
+-	lock_map_acquire(&__mmu_notifier_invalidate_range_start_map);
+-	lock_map_release(&__mmu_notifier_invalidate_range_start_map);
+ 	if (seq)
+ 		wait_event(subscriptions->wq,
+ 			   READ_ONCE(subscriptions->invalidate_seq) != seq);
