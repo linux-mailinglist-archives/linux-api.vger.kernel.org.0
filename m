@@ -2,139 +2,113 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DB84925E2D6
-	for <lists+linux-api@lfdr.de>; Fri,  4 Sep 2020 22:32:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BEF6D25E2E2
+	for <lists+linux-api@lfdr.de>; Fri,  4 Sep 2020 22:34:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728169AbgIDUcg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 4 Sep 2020 16:32:36 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:42132 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728202AbgIDUc2 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 4 Sep 2020 16:32:28 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: krisman)
-        with ESMTPSA id C61EE29B03D
-From:   Gabriel Krisman Bertazi <krisman@collabora.com>
-To:     luto@kernel.org, tglx@linutronix.de, keescook@chromium.org
-Cc:     x86@kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, willy@infradead.org,
-        linux-kselftest@vger.kernel.org, shuah@kernel.org,
-        Gabriel Krisman Bertazi <krisman@collabora.com>,
-        kernel@collabora.com
-Subject: [PATCH v6 9/9] doc: Document Syscall User Dispatch
-Date:   Fri,  4 Sep 2020 16:31:47 -0400
-Message-Id: <20200904203147.2908430-10-krisman@collabora.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200904203147.2908430-1-krisman@collabora.com>
-References: <20200904203147.2908430-1-krisman@collabora.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1726842AbgIDUeQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 4 Sep 2020 16:34:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60086 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726791AbgIDUeO (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 4 Sep 2020 16:34:14 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF03CC061244
+        for <linux-api@vger.kernel.org>; Fri,  4 Sep 2020 13:34:14 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id m8so5239663pfh.3
+        for <linux-api@vger.kernel.org>; Fri, 04 Sep 2020 13:34:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
+        h=content-transfer-encoding:mime-version:subject:from:in-reply-to:cc
+         :date:message-id:references:to;
+        bh=kqY1zbvJIdcS3k1CRT2WeBjod3BmevNfAT/msz2WAyw=;
+        b=1N7M5pHRondOJ1rVX5cHyTUEza0iy8R/V7/N5f3eUIcTSjl/oX6t0HcFrbp+KvjzgP
+         wxs40SnVXgc3yypZlOTO8bKnzPV2NQyEY9obVObQezshwodz13tcEkpEiMCebjxJ0Qdh
+         eDKJa+LHvC+E1YUs/Et0CNDPuB8/90E0qXDQsAWojm+Tb9ZHEQEPUctu0HFdFgifXL8T
+         JjM6RQijruFfhA+929Cjz8QOQH/KyueoJSU2bOONkS6jYCqp7ztJmomCaz8snaiyahtn
+         IsdN3/BHx+qtJDflG0dtZIHcz3SDrUCBnyE9SgYVXnklJ+7nZmeKhkzUf/0bRCUL7ynF
+         9EJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:content-transfer-encoding:mime-version:subject
+         :from:in-reply-to:cc:date:message-id:references:to;
+        bh=kqY1zbvJIdcS3k1CRT2WeBjod3BmevNfAT/msz2WAyw=;
+        b=An0oy3kwrHZf8ajYFOHjMT8edPBK0VlV6s/wuxCrnMUm9TuHlx1G60OoPRPFfI5b78
+         BQt/Sy+A/reOQDcOjhNcPhtxf8ymY0wRlBIPKP2Jn8OsaCmsPP7ehVS8El5oet1UI/Sb
+         F9TNQHVGGr5casP6xFps054ma414rcbZEgMA9nZXaFr1eztTyr4PAKvrrvG2UqmEQqrj
+         FqsuK3NG8LHYhIc41OZAo1mLPo14qFQWqEYgNahWklMBBq36kFNS7McLBv8UOmfFJ7mO
+         kSTEQx9FKZuAeql4Y7J6ai0BjA4VEpHH2ox74TQeD+OWnw6nNA6XLtH2YO9TarPMBi31
+         xqcQ==
+X-Gm-Message-State: AOAM5309ntfD6NKctAqhSkZjD21msPPiMkr1+/acm7iBvCw6yV4gqHR0
+        Cu6+h1wMLR9lVj8GJUIwynF0wQ==
+X-Google-Smtp-Source: ABdhPJxw9SbgEx6xa6sj3S0oRThNURxowXBBpD0rSQoVTxoc+yhppxHHQ5NAwGlpNRWE7etTN3m5Vw==
+X-Received: by 2002:a63:2f02:: with SMTP id v2mr8483422pgv.369.1599251654135;
+        Fri, 04 Sep 2020 13:34:14 -0700 (PDT)
+Received: from ?IPv6:2600:1010:b003:ad53:ddbf:74c3:7dc7:4b93? ([2600:1010:b003:ad53:ddbf:74c3:7dc7:4b93])
+        by smtp.gmail.com with ESMTPSA id j9sm7434354pfe.170.2020.09.04.13.34.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Sep 2020 13:34:13 -0700 (PDT)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0 (1.0)
+Subject: Re: [RESEND RFC PATCH 0/5] Remote mapping
+From:   Andy Lutomirski <luto@amacapital.net>
+In-Reply-To: <d22e1e08-e2c1-510e-5ae7-accbf69731bf@redhat.com>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        =?utf-8?Q?Adalbert_Laz=C4=83r?= <alazar@bitdefender.com>,
+        Linux-MM <linux-mm@kvack.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Graf <graf@amazon.com>,
+        Stefan Hajnoczi <stefanha@redhat.com>,
+        Jerome Glisse <jglisse@redhat.com>,
+        =?utf-8?Q?Mihai_Don=C8=9Bu?= <mdontu@bitdefender.com>,
+        Mircea Cirjaliu <mcirjaliu@bitdefender.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Sargun Dhillon <sargun@sargun.me>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Oleg Nesterov <oleg@redhat.com>, Jann Horn <jannh@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>
+Date:   Fri, 4 Sep 2020 13:34:11 -0700
+Message-Id: <70D23368-A24D-4A15-8FC7-FA728D102475@amacapital.net>
+References: <d22e1e08-e2c1-510e-5ae7-accbf69731bf@redhat.com>
+To:     Paolo Bonzini <pbonzini@redhat.com>
+X-Mailer: iPhone Mail (17G80)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Explain the interface, provide some background and security notes.
 
-Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
----
- .../admin-guide/syscall-user-dispatch.rst     | 87 +++++++++++++++++++
- 1 file changed, 87 insertions(+)
- create mode 100644 Documentation/admin-guide/syscall-user-dispatch.rst
+>> On Sep 4, 2020, at 1:09 PM, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>>=20
+>> =EF=BB=BFOn 04/09/20 21:39, Andy Lutomirski wrote:
+>> I'm a little concerned that it's actually too clever and that maybe a
+>> more straightforward solution should be investigated.  I personally
+>> rather dislike the KVM model in which the guest address space mirrors
+>> the host (QEMU) address space rather than being its own thing.  In
+>> particular, the current model means that extra-special-strange
+>> mappings like SEV-encrypted memory are required to be present in the
+>> QEMU page tables in order for the guest to see them.
+>> (If I had noticed that last bit before it went upstream, I would have
+>> NAKked it.  I would still like to see it deprecated and ideally
+>> eventually removed from the kernel.  We have absolutely no business
+>> creating incoherent mappings like this.)
+>=20
+> NACK first and ask second, right Andy?  I see that nothing has changed
+> since Alan Cox left Linux.
 
-diff --git a/Documentation/admin-guide/syscall-user-dispatch.rst b/Documentation/admin-guide/syscall-user-dispatch.rst
-new file mode 100644
-index 000000000000..96616660fded
---- /dev/null
-+++ b/Documentation/admin-guide/syscall-user-dispatch.rst
-@@ -0,0 +1,87 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=====================
-+Syscall User Dispatch
-+=====================
-+
-+Background
-+----------
-+
-+Compatibility layers like Wine need a way to efficiently emulate system
-+calls of only a part of their process - the part that has the
-+incompatible code - while being able to execute native syscalls without
-+a high performance penalty on the native part of the process.  Seccomp
-+falls short on this task, since it has limited support to efficiently
-+filter syscalls based on memory regions, and it doesn't support removing
-+filters.  Therefore a new mechanism is necessary.
-+
-+Syscall User Dispatch brings the filtering of the syscall dispatcher
-+address back to userspace.  The application is in control of a flip
-+switch, indicating the current personality of the process.  A
-+multiple-personality application can then flip the switch without
-+invoking the kernel, when crossing the compatibility layer API
-+boundaries, to enable/disable the syscall redirection and execute
-+syscalls directly (disabled) or send them to be emulated in userspace
-+through a SIGSYS.
-+
-+The goal of this design is to provide very quick compatibility layer
-+boundary crosses, which is achieved by not executing a syscall to change
-+personality every time the compatibility layer executes.  Instead, a
-+userspace memory region exposed to the kernel indicates the current
-+personality, and the application simply modifies that variable to
-+configure the mechanism.
-+
-+There is a relatively high cost associated with handling signals on most
-+architectures, like x86, but at least for Wine, syscalls issued by
-+native Windows code are currently not known to be a performance problem,
-+since they are quite rare, at least for modern gaming applications.
-+
-+Since this mechanism is designed to capture syscalls issued by
-+non-native applications, it must function on syscalls whose invocation
-+ABI is completely unexpected to Linux.  Syscall User Dispatch, therefore
-+doesn't rely on any of the syscall ABI to make the filtering.  It uses
-+only the syscall dispatcher address and the userspace key.
-+
-+Interface
-+---------
-+
-+A process can setup this mechanism on supported kernels
-+CONFIG_SYSCALL_USER_DISPATCH) by executing the following prctl:
-+
-+   prctl(PR_SET_SYSCALL_USER_DISPATCH, <op>, <start_addr>, <end_addr>, [selector])
-+
-+<op> is either PR_SYS_DISPATCH_ON or PR_SYS_DISPATCH_OFF, to enable and
-+disable the mechanism globally for that thread.  When
-+PR_SYS_DISPATCH_OFF is used, the other fields must be zero.
-+
-+<start_addr> and <end_addr> delimit a closed memory region interval from
-+which syscalls are always executed directly, regardless of the userspace
-+selector.  This provides a fast path for the C library, which includes
-+the most common syscall dispatchers in the native code applications, and
-+also provides a way for the signal handler to return without triggering
-+a nested SIGSYS on (rt_)sigreturn.  Users of this interface should make
-+sure that at least the signal trampoline code is included in this
-+region. In addition, for syscalls that implement the trampoline code on
-+the vDSO, that trampoline is never intercepted.
-+
-+[selector] is a pointer to a char-sized region in the process memory
-+region, that provides a quick way to enable disable syscall redirection
-+thread-wide, without the need to invoke the kernel directly.  selector
-+can be set to PR_SYS_DISPATCH_ON or PR_SYS_DISPATCH_OFF.  Any other
-+value should terminate the program with a SIGSYS.
-+
-+Security Notes
-+--------------
-+
-+Syscall User Dispatch provides functionality for compatibility layers to
-+quickly capture system calls issued by a non-native part of the
-+application, while not impacting the Linux native regions of the
-+process.  It is not a mechanism for sandboxing system calls, and it
-+should not be seen as a security mechanism, since it is trivial for a
-+malicious application to subvert the mechanism by jumping to an allowed
-+dispatcher region prior to executing the syscall, or to discover the
-+address and modify the selector value.  If the use case requires any
-+kind of security sandboxing, Seccomp should be used instead.
-+
-+Any fork or exec of the existing process resets the mechanism to
-+PR_SYS_DISPATCH_OFF.
--- 
-2.28.0
+NACKs are negotiable.  And maybe someone can convince me that the SEV mappin=
+g scheme is reasonable, but I would be surprised.
 
+Regardless, you seem to be suggesting that you want to have enclave VMs in w=
+hich the enclave can see some memory that the parent VM can=E2=80=99t see. H=
+ow does this fit into the KVM mapping model?  How does this remote mapping m=
+echanism help?  Do you want QEMU to have that memory mapped in its own paget=
+ables?
+
+As it stands, the way that KVM memory mappings are created seems to be conve=
+nient, but it also seems to be resulting in increasing bizarre userspace map=
+pings.  At what point is the right solution to decouple KVM=E2=80=99s mappin=
+gs from QEMU=E2=80=99s?=
