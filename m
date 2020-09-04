@@ -2,66 +2,65 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A3BA25E22C
-	for <lists+linux-api@lfdr.de>; Fri,  4 Sep 2020 21:49:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E0A425E263
+	for <lists+linux-api@lfdr.de>; Fri,  4 Sep 2020 22:08:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727847AbgIDTtQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 4 Sep 2020 15:49:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53212 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726842AbgIDTtQ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 4 Sep 2020 15:49:16 -0400
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com [IPv6:2607:f8b0:4864:20::742])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51838C061244
-        for <linux-api@vger.kernel.org>; Fri,  4 Sep 2020 12:49:15 -0700 (PDT)
-Received: by mail-qk1-x742.google.com with SMTP id w16so7503310qkj.7
-        for <linux-api@vger.kernel.org>; Fri, 04 Sep 2020 12:49:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=Wlp5eq0L4jf0fV1dZhNQXxwrYrnlfBr1ejU/Wv6GFRE=;
-        b=dukJUYr81zmJLJUq/pSBUq9knB3bs5cVV7IdVU+zFjBm0RI3v5y9t5zYBXwNDChKum
-         +sJ/Xp3y45b6rmrsS1B3T/3Za7B56UHjMUG5Q58BgF7a3FTZBOFsopO87a8ply+So4OT
-         Dty7MuUow8EoYwyWxZ5pbV+mhDVSNKl71gPorUkDXYtIx737bmRAgxkaqGOeCfQJin6h
-         gt78V7U8E8qUQnc97Ho5MK8GKp0GIpUQBKSEMQXp59ISDoFWzxb+cIOTO2HTJQ4pYR34
-         EaK3WYBENHr+ZYWXFZ4LUw5TfhaMw9oE20M+pYJbOYL8Ju7GsZtnjzmbdjBR25RUTKh7
-         UfOQ==
+        id S1726621AbgIDUId (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 4 Sep 2020 16:08:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44844 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726618AbgIDUIc (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 4 Sep 2020 16:08:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1599250111;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=rx/MrJrBjON2MHt5LyXI11U1Seqyg13O7xGK8kHsIoY=;
+        b=D3BSQYBGPBOLIGWRFLK7qqOmjKbIMbZz1ba2DrA8xDL2bNqEUubBAXNPsfYBAf55SEIdJ2
+        poL0RJtWvZyLiauGl8LTmu19+0Ck4bVCmZlKVPc6yypwMEr2CBbr85nKIGJwj1qICuNp3p
+        c4cCajVVOFfXoLwdibmepVK6B/zBXKM=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-535-lmGa9-VoNO2_sMpi92FMTg-1; Fri, 04 Sep 2020 16:08:15 -0400
+X-MC-Unique: lmGa9-VoNO2_sMpi92FMTg-1
+Received: by mail-ed1-f72.google.com with SMTP id n25so3120374edr.13
+        for <linux-api@vger.kernel.org>; Fri, 04 Sep 2020 13:08:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=Wlp5eq0L4jf0fV1dZhNQXxwrYrnlfBr1ejU/Wv6GFRE=;
-        b=bpBh60BPkIhRXgOd4XPAnlWhcPxDmYA76AUlc6q/W4ViDBeiklNvKP3wzDANrzjjPh
-         lq30EZ8jcgxHAmQITGeEwKIp0VElaa/KkLZcyH1Lcjs8KNMUhQY+LBK6Yi9Z6xWbjnpO
-         HOGcRWDRkdqnjOj4M5aci464uTSx4FZAh49FW56OF4FwIp2srItJ1DahNsAeHtfU5R/O
-         rCl/Ftaf1Q2Df1zdEvZgCWOLnrtBJvAmg8dZirhgm0ESraPazV+9aqVAWaBfWo73DnD1
-         f1VqwSLyMYJ1Z10Qxab6lm9ott+UlGtJFiYNv0qs8qiPI1t54+45tjfiXpVk7v8Qrmkc
-         MeWw==
-X-Gm-Message-State: AOAM530baqqZNDq2nyrT2dH6ZzWAnrBBuRufE14YNqQwATZ1iAfatO2c
-        lUIJO3fCW4kfCU8Y+1ceHgt/dA==
-X-Google-Smtp-Source: ABdhPJwOjyB3sB4YRkZQ0ZL+RtGFS9Bz0C/TP12GqAsX1WiYNNC8MVUuTcOSB7KvXJpNMwoAUxuu+g==
-X-Received: by 2002:a37:6109:: with SMTP id v9mr9321198qkb.418.1599248953730;
-        Fri, 04 Sep 2020 12:49:13 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
-        by smtp.gmail.com with ESMTPSA id y7sm5333481qtn.11.2020.09.04.12.49.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2020 12:49:12 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1kEHhv-0014CU-Rm; Fri, 04 Sep 2020 16:49:11 -0300
-Date:   Fri, 4 Sep 2020 16:49:11 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Adalbert =?utf-8?B?TGF6xINy?= <alazar@bitdefender.com>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=rx/MrJrBjON2MHt5LyXI11U1Seqyg13O7xGK8kHsIoY=;
+        b=AD8Fl93aMBWBOp3lis+K46uff8VsEE/gnVNLSplGbLPOjB1A1QqcyVZLEdgAiYbTbu
+         b3n/MuRkTkofsvEep6awz9/251PsZiu36R7Dhvmrey1JuN3UzGEeJUXaFHtWeHfflwFl
+         8JiKK9XK5F3nkneU6+ksoou0gQLV7r4M2SKGr+cXS7z3JW65eIiLWs27ApD7c9BNTDgT
+         efGp/LNOjuLYi5lz7VqG/pAY+hlG8LhiKn5u4Ty5CB7WYHNyBy3r4cVCbl02TGpq2sBG
+         d+547tDggzM4JMD/Hi1NEn9r7i9f4gCf8lKzFnuiwMcDOUtERYBBY69Z6wJkBOXGF0JP
+         axcQ==
+X-Gm-Message-State: AOAM5334QWE/qSdqT5m8t9enqaeOjv+PjUj4f6Ket80JoEmNFYhrpD4a
+        Sz6swHaw46RMnKYDFbqtwTWwi4HgFjx8Yootaur9OgU2YxOTvv970PGJAg9Kz9QRDZBuhHoEqI1
+        VCzwEb/vS42LEbYBD3TCd
+X-Received: by 2002:a17:906:b09a:: with SMTP id x26mr9058607ejy.162.1599250094045;
+        Fri, 04 Sep 2020 13:08:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyQ0UoNYy5Xw/wkWRcGO3CqSDHSu/bI9UKBdSj6xmuqYNYindMGVrqenMWuWm7GhIdJ9AVESA==
+X-Received: by 2002:a17:906:b09a:: with SMTP id x26mr9058576ejy.162.1599250093821;
+        Fri, 04 Sep 2020 13:08:13 -0700 (PDT)
+Received: from [192.168.10.150] ([93.56.170.5])
+        by smtp.gmail.com with ESMTPSA id d2sm7138622ejm.19.2020.09.04.13.08.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Sep 2020 13:08:13 -0700 (PDT)
+Subject: Re: [RESEND RFC PATCH 0/5] Remote mapping
+To:     Matthew Wilcox <willy@infradead.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     =?UTF-8?Q?Adalbert_Laz=c4=83r?= <alazar@bitdefender.com>,
         linux-mm@kvack.org, linux-api@vger.kernel.org,
         Andrew Morton <akpm@linux-foundation.org>,
         Alexander Graf <graf@amazon.com>,
         Stefan Hajnoczi <stefanha@redhat.com>,
         Jerome Glisse <jglisse@redhat.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Mihai =?utf-8?B?RG9uyJt1?= <mdontu@bitdefender.com>,
+        =?UTF-8?Q?Mihai_Don=c8=9bu?= <mdontu@bitdefender.com>,
         Mircea Cirjaliu <mcirjaliu@bitdefender.com>,
         Andy Lutomirski <luto@kernel.org>,
         Arnd Bergmann <arnd@arndb.de>,
@@ -70,54 +69,57 @@ Cc:     Adalbert =?utf-8?B?TGF6xINy?= <alazar@bitdefender.com>,
         Oleg Nesterov <oleg@redhat.com>, Jann Horn <jannh@google.com>,
         Kees Cook <keescook@chromium.org>,
         Christian Brauner <christian.brauner@ubuntu.com>
-Subject: Re: [RESEND RFC PATCH 0/5] Remote mapping
-Message-ID: <20200904194911.GA87483@ziepe.ca>
 References: <20200904113116.20648-1-alazar@bitdefender.com>
  <20200904121148.GR24045@ziepe.ca>
  <20200904194139.GA5881@casper.infradead.org>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <bcc4affe-416e-ccb6-1ab1-5144de30f546@redhat.com>
+Date:   Fri, 4 Sep 2020 22:08:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <20200904194139.GA5881@casper.infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Sep 04, 2020 at 08:41:39PM +0100, Matthew Wilcox wrote:
-> On Fri, Sep 04, 2020 at 09:11:48AM -0300, Jason Gunthorpe wrote:
-> > On Fri, Sep 04, 2020 at 02:31:11PM +0300, Adalbert Lazăr wrote:
-> > > VMAs obtained by mmap()ing memory access fds mirror the contents of the remote
-> > > process address space within the specified range. Pages are installed in the
-> > > current process page tables at fault time and removed by the mmu_interval_notifier
-> > > invalidate callbck. No further memory management is involved.
-> > > On attempts to access a hole, or if a mapping was removed by PIDFD_MEM_UNMAP,
-> > > or if the remote process address space was reaped by OOM, the remote mapping
-> > > fault handler returns VM_FAULT_SIGBUS.
-> > 
-> > I still think anything along these lines needs to meet the XPMEM use
-> > cases as well, we have to have more general solutions for such MM
-> > stuff:
-> > 
-> > https://gitlab.com/hjelmn/xpmem
-> > 
-> > However, I think this fundamentally falls into some of the same bad
-> > direction as xpmem.
-> > 
-> > I would much rather see this design copy & clone the VMA's than try to
-> > mirror the PTEs inside the VMAs from the remote into a single giant
-> > VMA and somehow split/mirror the VMA ops.
-> 
-> I'm on holiday for the next few days, but does the mshare() API work for
-> your use case?
->
+On 04/09/20 21:41, Matthew Wilcox wrote:
 > Proposal: http://www.wil.cx/~willy/linux/sileby.html
 > Start at implementation:
 > http://git.infradead.org/users/willy/linux.git/shortlog/refs/heads/mshare
 
-Let me ask around, it seems in a similar space at least!
+The main difference between mshare() and this is that we don't want an
+all-or-nothing thing.
+
+Adalbert's introspection thing is rather simple, but what I would like
+to be able to do (and the reason why I suggested the multi-pidfd
+approach) is actually a bit more complex:
+
+- a parent process creates a range of memory
+
+- there are multiple VMs child processes.  One of this VM is a primary
+VM, the others are enclave VMs.  VMs are created by the parent process
+and each VM gets a different view of the memory range through pidfd_mem.
+
+- once an enclave VM is created, the primary VM must not be able to
+access the memory that has been assigned to the enclave VM.  If the
+parent unmaps the memory in the primary VM, the child must SIGBUS when
+it's accessed.
+
+- if memory is removed from a VM and assigned to another, this should
+not involve any copy at all.
+
+For this usecase the range of memory would be backed by hugetlbfs,
+anonymous memory, VFIO, whatever.  Userfaultfd is certainly part of the
+picture here on the VM side.  Having userfaultfd on the parent side
+would be nice though I don't have a use for it right now.  I'm not sure
+about non-anonymous VMAs.
 
 Thanks,
-Jason
- 
+
+Paolo
+
