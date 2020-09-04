@@ -2,51 +2,41 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0877625E206
-	for <lists+linux-api@lfdr.de>; Fri,  4 Sep 2020 21:39:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFC2F25E21A
+	for <lists+linux-api@lfdr.de>; Fri,  4 Sep 2020 21:42:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726441AbgIDTjZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 4 Sep 2020 15:39:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53414 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726221AbgIDTjY (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 4 Sep 2020 15:39:24 -0400
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 38FE4208FE
-        for <linux-api@vger.kernel.org>; Fri,  4 Sep 2020 19:39:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599248364;
-        bh=RmjdF/oHJi/3WsNTWPfXAZJjc7dD4QJxqtKHWGFhaY4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Y1o6AU6wnE4cKa2sVTMvvF98GBPa3kf10zb2k9OyNzsTlvAeCnLsXrxLX5Yl5+PsV
-         DNWxaKPe/hkRRTQHxA1IrPwYyXRbq5uBF69CbAz5jm0qhHf4Wlp59wTni/lzhEHCW1
-         /4dky9yz5LnF7ZO2jDJt/om5NUG2Li4Xvq7Q+c1c=
-Received: by mail-wm1-f54.google.com with SMTP id z9so7429795wmk.1
-        for <linux-api@vger.kernel.org>; Fri, 04 Sep 2020 12:39:24 -0700 (PDT)
-X-Gm-Message-State: AOAM532gU76snXDbSwvIcJZWQ+gZUANPJBMrsUmpBCHnvPrVkFrzoq8c
-        2pSdZ6q0er0wBPrBSvtlUR2ClslzcM0D4Ho0Q6LZtw==
-X-Google-Smtp-Source: ABdhPJy6MrVLj8wN3xqE2lrca40RAAU/O1tF0PzE0euj/LnWCHYniQ59ghbEpr8F38RNHijEoqwiOEfzuzwZPhNNQmg=
-X-Received: by 2002:a05:600c:4104:: with SMTP id j4mr8778079wmi.36.1599248362720;
- Fri, 04 Sep 2020 12:39:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200904113116.20648-1-alazar@bitdefender.com>
-In-Reply-To: <20200904113116.20648-1-alazar@bitdefender.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Fri, 4 Sep 2020 12:39:10 -0700
-X-Gmail-Original-Message-ID: <CALCETrVc0RCcvVhxL=x2ics-Snhh1F6o5M7EVsA2rPYcaynMyA@mail.gmail.com>
-Message-ID: <CALCETrVc0RCcvVhxL=x2ics-Snhh1F6o5M7EVsA2rPYcaynMyA@mail.gmail.com>
-Subject: Re: [RESEND RFC PATCH 0/5] Remote mapping
-To:     =?UTF-8?Q?Adalbert_Laz=C4=83r?= <alazar@bitdefender.com>
-Cc:     Linux-MM <linux-mm@kvack.org>,
-        Linux API <linux-api@vger.kernel.org>,
+        id S1727865AbgIDTlu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 4 Sep 2020 15:41:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52034 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726441AbgIDTls (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 4 Sep 2020 15:41:48 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC6D2C061245
+        for <linux-api@vger.kernel.org>; Fri,  4 Sep 2020 12:41:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+        Sender:Reply-To:Content-ID:Content-Description;
+        bh=3XphRgx8UKKTziy8WhApuAQLUL4SuQrn1if9cGELvRs=; b=vqK+QfWlRKK9hrJvyTRswgGBlV
+        hzVazHMiNCIES6LUe9bW7PqML+xMmOg/NGa7yOpQijX5maK1FgQBa+f8Ld/u6JJqpjjv80hQVz2h1
+        3hKDHNbW2vyr0FopJ78Uz7xXfwl6KP451GoFlAgBEwvxwunNpuFab3RfXjEN68YkSZzFta3XHDesB
+        sVhynGxeOmiURZ87LT5cvDa14sTIkY55Zy/qAK2aPa4yIntYl7F9MvMhSs+YEgJjaiAimtqB6PjhY
+        H0RSGlwtA//vVX9TYch4MkEnlx7p/5c/VjQ814dCElHO8Js5DFX/lnulI7bZhkg5otrFtiCThDDr9
+        S88rL8hg==;
+Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kEHad-00023O-WD; Fri, 04 Sep 2020 19:41:40 +0000
+Date:   Fri, 4 Sep 2020 20:41:39 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     Adalbert =?utf-8?B?TGF6xINy?= <alazar@bitdefender.com>,
+        linux-mm@kvack.org, linux-api@vger.kernel.org,
         Andrew Morton <akpm@linux-foundation.org>,
         Alexander Graf <graf@amazon.com>,
         Stefan Hajnoczi <stefanha@redhat.com>,
         Jerome Glisse <jglisse@redhat.com>,
         Paolo Bonzini <pbonzini@redhat.com>,
-        =?UTF-8?B?TWloYWkgRG9uyJt1?= <mdontu@bitdefender.com>,
+        Mihai =?utf-8?B?RG9uyJt1?= <mdontu@bitdefender.com>,
         Mircea Cirjaliu <mcirjaliu@bitdefender.com>,
         Andy Lutomirski <luto@kernel.org>,
         Arnd Bergmann <arnd@arndb.de>,
@@ -54,40 +44,48 @@ Cc:     Linux-MM <linux-mm@kvack.org>,
         Aleksa Sarai <cyphar@cyphar.com>,
         Oleg Nesterov <oleg@redhat.com>, Jann Horn <jannh@google.com>,
         Kees Cook <keescook@chromium.org>,
-        Matthew Wilcox <willy@infradead.org>,
         Christian Brauner <christian.brauner@ubuntu.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [RESEND RFC PATCH 0/5] Remote mapping
+Message-ID: <20200904194139.GA5881@casper.infradead.org>
+References: <20200904113116.20648-1-alazar@bitdefender.com>
+ <20200904121148.GR24045@ziepe.ca>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200904121148.GR24045@ziepe.ca>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Sep 4, 2020 at 4:41 AM Adalbert Laz=C4=83r <alazar@bitdefender.com>=
- wrote:
->
-> This patchset adds support for the remote mapping feature.
-> Remote mapping, as its name suggests, is a means for transparent and
-> zero-copy access of a remote process' address space.
-> access of a remote process' address space.
->
+On Fri, Sep 04, 2020 at 09:11:48AM -0300, Jason Gunthorpe wrote:
+> On Fri, Sep 04, 2020 at 02:31:11PM +0300, Adalbert Lazăr wrote:
+> > VMAs obtained by mmap()ing memory access fds mirror the contents of the remote
+> > process address space within the specified range. Pages are installed in the
+> > current process page tables at fault time and removed by the mmu_interval_notifier
+> > invalidate callbck. No further memory management is involved.
+> > On attempts to access a hole, or if a mapping was removed by PIDFD_MEM_UNMAP,
+> > or if the remote process address space was reaped by OOM, the remote mapping
+> > fault handler returns VM_FAULT_SIGBUS.
+> 
+> I still think anything along these lines needs to meet the XPMEM use
+> cases as well, we have to have more general solutions for such MM
+> stuff:
+> 
+> https://gitlab.com/hjelmn/xpmem
+> 
+> However, I think this fundamentally falls into some of the same bad
+> direction as xpmem.
+> 
+> I would much rather see this design copy & clone the VMA's than try to
+> mirror the PTEs inside the VMAs from the remote into a single giant
+> VMA and somehow split/mirror the VMA ops.
 
-I think this is very clever, but I find myself wondering what happens
-if people start trying to abuse this by, for example, setting up a
-remote mapping pointing to fun regions like userfaultfd or another
-remote mapping.
+I'm on holiday for the next few days, but does the mshare() API work for
+your use case?
 
-I'm a little concerned that it's actually too clever and that maybe a
-more straightforward solution should be investigated.  I personally
-rather dislike the KVM model in which the guest address space mirrors
-the host (QEMU) address space rather than being its own thing.  In
-particular, the current model means that extra-special-strange
-mappings like SEV-encrypted memory are required to be present in the
-QEMU page tables in order for the guest to see them.
+Proposal: http://www.wil.cx/~willy/linux/sileby.html
+Start at implementation:
+http://git.infradead.org/users/willy/linux.git/shortlog/refs/heads/mshare
 
-(If I had noticed that last bit before it went upstream, I would have
-NAKked it.  I would still like to see it deprecated and ideally
-eventually removed from the kernel.  We have absolutely no business
-creating incoherent mappings like this.)
-
---Andy
