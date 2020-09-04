@@ -2,107 +2,139 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E53925E28E
-	for <lists+linux-api@lfdr.de>; Fri,  4 Sep 2020 22:18:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 702AC25E2C8
+	for <lists+linux-api@lfdr.de>; Fri,  4 Sep 2020 22:32:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728045AbgIDUSZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 4 Sep 2020 16:18:25 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31233 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726441AbgIDUSY (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 4 Sep 2020 16:18:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1599250702;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=4ur9HpmZf28TON8CHWc9+9TwgcC5lgzfKgaHYfzgcxs=;
-        b=FlgYTkMGOL2hkq/k2smX5e/X+/EVY2vdO6YzVp9lJOGVv9qZTSMgGLQV8GfmYBCLvAk/5Z
-        SYhxjj/kGAcU4kmHpLSK8a+QnxyKRx6QlKbfD/yNl0/Ps31BYb++J+3IIZa4ONYLmL0vXH
-        8dCJPu10LNGWjKNsyWVvdDyntKXWbWw=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-573-TPIY3L6AMdS5WV-eCFSpaA-1; Fri, 04 Sep 2020 16:18:20 -0400
-X-MC-Unique: TPIY3L6AMdS5WV-eCFSpaA-1
-Received: by mail-ed1-f69.google.com with SMTP id b12so3133198edw.15
-        for <linux-api@vger.kernel.org>; Fri, 04 Sep 2020 13:18:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=4ur9HpmZf28TON8CHWc9+9TwgcC5lgzfKgaHYfzgcxs=;
-        b=pDZBx62Ma1BmEUPW9Oq+uSda32ftrn+xp0Gm99AE49d7mHYreHT9Sz0F/Uh/IzFScP
-         6RiaTqN9lBteRsrXKCKg6Cocl3hyksreht3SIeB+cPq+EB09pao2q6JZ9c08RPjDtwcg
-         7ZOH1FStu8yZ7WBgCY/xoCn9tWrMfJqfNCBPEjUZATymvAe80V+gAL3VCIB/WR2GVRHV
-         ehj2SB8g9ovxuO+nvqoYWCXQtSj8PHapyjhgGo+RvFtlgXajn1b8rZtvqhAD1ln8bsQw
-         398C4qOAfvuHk4YttBga1fKAVpEULl8Z9I11zbaQ/bLmHoj11UpiRdFvXrhS4zjaySRe
-         jKCA==
-X-Gm-Message-State: AOAM5304XLE/bG94D1C6MwEzqH0ye5Hv+bgM6n/mjbmhpgpotXSkNFlZ
-        MkblGkSMtmK5T/Me/CfVgu0gO2vkI0yExolWk3zlWi1t8uumm8xcFeOuN4Z0jRKK8ckEDNDvR/F
-        2XmwSQPjy52Ml374D5TOR
-X-Received: by 2002:a17:906:b154:: with SMTP id bt20mr9625634ejb.272.1599250699549;
-        Fri, 04 Sep 2020 13:18:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw8Ggiccs73r/w622i0UNJHJe4gtmawevHQ5W9SQCuqBXAXICrfKwM/er78OQ+xfgsFYnvaOA==
-X-Received: by 2002:a17:906:b154:: with SMTP id bt20mr9625611ejb.272.1599250699359;
-        Fri, 04 Sep 2020 13:18:19 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:6276:52ed:96d5:c094? ([2001:b07:6468:f312:6276:52ed:96d5:c094])
-        by smtp.gmail.com with ESMTPSA id ci27sm7276701ejc.23.2020.09.04.13.18.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Sep 2020 13:18:18 -0700 (PDT)
-Subject: Re: [RESEND RFC PATCH 0/5] Remote mapping
-To:     Florian Weimer <fw@deneb.enyo.de>,
-        =?UTF-8?Q?Adalbert_Laz=c4=83r?= <alazar@bitdefender.com>
-Cc:     linux-mm@kvack.org, linux-api@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Graf <graf@amazon.com>,
-        Stefan Hajnoczi <stefanha@redhat.com>,
-        Jerome Glisse <jglisse@redhat.com>,
-        =?UTF-8?Q?Mihai_Don=c8=9bu?= <mdontu@bitdefender.com>,
-        Mircea Cirjaliu <mcirjaliu@bitdefender.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Sargun Dhillon <sargun@sargun.me>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Oleg Nesterov <oleg@redhat.com>, Jann Horn <jannh@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>
-References: <20200904113116.20648-1-alazar@bitdefender.com>
- <87pn71gxi8.fsf@mid.deneb.enyo.de>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <5447a405-4e4f-8034-eb86-ec2f6ddf45f0@redhat.com>
-Date:   Fri, 4 Sep 2020 22:18:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        id S1728072AbgIDUcD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 4 Sep 2020 16:32:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59746 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726621AbgIDUcB (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 4 Sep 2020 16:32:01 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE51CC061244;
+        Fri,  4 Sep 2020 13:32:00 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: krisman)
+        with ESMTPSA id D3A1129B031
+From:   Gabriel Krisman Bertazi <krisman@collabora.com>
+To:     luto@kernel.org, tglx@linutronix.de, keescook@chromium.org
+Cc:     x86@kernel.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, willy@infradead.org,
+        linux-kselftest@vger.kernel.org, shuah@kernel.org,
+        Gabriel Krisman Bertazi <krisman@collabora.com>,
+        kernel@collabora.com
+Subject: [PATCH v6 0/9] Syscall User Dispatch
+Date:   Fri,  4 Sep 2020 16:31:38 -0400
+Message-Id: <20200904203147.2908430-1-krisman@collabora.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <87pn71gxi8.fsf@mid.deneb.enyo.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 04/09/20 21:19, Florian Weimer wrote:
-> I'm not sure what the advantage is of returning separate file
-> descriptors, and nit operating directly on the pidfd.
+Hi,
 
-For privilege separation.  So far, the common case of pidfd operations
-has been that whoever possesses a pidfd has "power" over the target
-process.  Here however we also want to cover the case where one
-privileged process wants to set up and manage a memory range for
-multiple children.  The privilege process can do so by passing the
-access file descriptor via SCM_RIGHTS.
+The v6 of this patch series include only the type change requested by
+Andy on the vdso patch, but since v5 included some bigger changes, I'm
+documenting them in this cover letter as well.
 
-We also want different children to have visibility over different
-ranges, which is why there are multiple control fds rather than using
-the pidfd itself as control fd.  You could have the map/unmap/lock ioctl
-on the pidfd itself and the access fd as an argument of the ioctl, but
-it seems cleaner to represent the pidfd-mem control capability as its
-own file descriptor.
+Please note this applies on top of Linus tree, and it succeeds seccomp
+and syscall user dispatch selftests.
 
-Paolo
+v5 cover letter
+--------------
+
+This is v5 of Syscall User Dispatch.  It has some big changes in
+comparison to v4.
+
+First of all, it allows the vdso trampoline code for architectures that
+support it.  This is exposed through an arch hook.  It also addresses
+the concern about what happens when a bad selector is provided, instead
+of SIGSEGV, we fail with SIGSYS, which is more debug-able.
+
+Another major change is that it is now based on top of Gleixner's common
+syscall entry work, and is supposed to only be used by that code.
+Therefore, the entry symbol is not exported outside of kernel/entry/ code.
+
+The biggest change in this version is the attempt to avoid using one of
+the final TIF flags on x86 32 bit, without increasing the size of that
+variable to 64 bit.  My expectation is that, with this work, plus the
+removal of TIF_IA32, TIF_X32 and TIF_FORCE_TF, we might be able to avoid
+changing this field to 64 bits at all.  Instead, this follows the
+suggestion by Andy to have a generic TIF flag for SECCOMP and this
+mechanism, and use another field to decide which one is enabled.  The
+code for this is not complex, so it seems like a viable approach.
+
+Finally, this version adds some documentation to the feature.
+
+Kees, I dropped your reviewed-by on patch 5, given the amount of
+changes.
+
+Thanks,
+
+Previous submissions are archived at:
+
+RFC/v1: https://lkml.org/lkml/2020/7/8/96
+v2: https://lkml.org/lkml/2020/7/9/17
+v3: https://lkml.org/lkml/2020/7/12/4
+v4: https://www.spinics.net/lists/linux-kselftest/msg16377.html
+v5: https://lkml.org/lkml/2020/8/10/1320
+
+Gabriel Krisman Bertazi (9):
+  kernel: Support TIF_SYSCALL_INTERCEPT flag
+  kernel: entry: Support TIF_SYSCAL_INTERCEPT on common entry code
+  x86: vdso: Expose sigreturn address on vdso to the kernel
+  signal: Expose SYS_USER_DISPATCH si_code type
+  kernel: Implement selective syscall userspace redirection
+  kernel: entry: Support Syscall User Dispatch for common syscall entry
+  x86: Enable Syscall User Dispatch
+  selftests: Add kselftest for syscall user dispatch
+  doc: Document Syscall User Dispatch
+
+ .../admin-guide/syscall-user-dispatch.rst     |  87 ++++++
+ arch/Kconfig                                  |  21 ++
+ arch/x86/Kconfig                              |   1 +
+ arch/x86/entry/vdso/vdso2c.c                  |   2 +
+ arch/x86/entry/vdso/vdso32/sigreturn.S        |   2 +
+ arch/x86/entry/vdso/vma.c                     |  15 +
+ arch/x86/include/asm/elf.h                    |   1 +
+ arch/x86/include/asm/thread_info.h            |   4 +-
+ arch/x86/include/asm/vdso.h                   |   2 +
+ arch/x86/kernel/signal_compat.c               |   2 +-
+ fs/exec.c                                     |   8 +
+ include/linux/entry-common.h                  |   6 +-
+ include/linux/sched.h                         |   8 +-
+ include/linux/seccomp.h                       |  20 +-
+ include/linux/syscall_intercept.h             |  71 +++++
+ include/linux/syscall_user_dispatch.h         |  29 ++
+ include/uapi/asm-generic/siginfo.h            |   3 +-
+ include/uapi/linux/prctl.h                    |   5 +
+ kernel/entry/Makefile                         |   1 +
+ kernel/entry/common.c                         |  32 +-
+ kernel/entry/common.h                         |  15 +
+ kernel/entry/syscall_user_dispatch.c          | 101 ++++++
+ kernel/fork.c                                 |  10 +-
+ kernel/seccomp.c                              |   7 +-
+ kernel/sys.c                                  |   5 +
+ tools/testing/selftests/Makefile              |   1 +
+ .../syscall_user_dispatch/.gitignore          |   2 +
+ .../selftests/syscall_user_dispatch/Makefile  |   9 +
+ .../selftests/syscall_user_dispatch/config    |   1 +
+ .../syscall_user_dispatch.c                   | 292 ++++++++++++++++++
+ 30 files changed, 744 insertions(+), 19 deletions(-)
+ create mode 100644 Documentation/admin-guide/syscall-user-dispatch.rst
+ create mode 100644 include/linux/syscall_intercept.h
+ create mode 100644 include/linux/syscall_user_dispatch.h
+ create mode 100644 kernel/entry/common.h
+ create mode 100644 kernel/entry/syscall_user_dispatch.c
+ create mode 100644 tools/testing/selftests/syscall_user_dispatch/.gitignore
+ create mode 100644 tools/testing/selftests/syscall_user_dispatch/Makefile
+ create mode 100644 tools/testing/selftests/syscall_user_dispatch/config
+ create mode 100644 tools/testing/selftests/syscall_user_dispatch/syscall_user_dispatch.c
+
+-- 
+2.28.0
 
