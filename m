@@ -2,156 +2,101 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D32725E9AC
-	for <lists+linux-api@lfdr.de>; Sat,  5 Sep 2020 20:27:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA8CC25EC01
+	for <lists+linux-api@lfdr.de>; Sun,  6 Sep 2020 03:25:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728397AbgIES1h (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 5 Sep 2020 14:27:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39801 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728393AbgIES1g (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 5 Sep 2020 14:27:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1599330454;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=BtgZJueEOiQwnrF4MWuzBn6DByhoMOeJI2jFjsPl+JU=;
-        b=ZqsjRBBMTi5OB+K1sS8c+b2MlIdBvKC0wZJKgPnlErOn0+RGXJacv7ROSyVu8i++XML5MZ
-        9P5o2j9oBLN7HkPdIMWNdfEC9trGnfxtgnOt0ij7iuXsW4PtXpGuwIP2piiCRIfm1XEJki
-        OwaNoP2vyVL+f2oIUIOtgk0851slSWA=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-34-opMoPyuKMvyfzCNOl8-TAA-1; Sat, 05 Sep 2020 14:27:32 -0400
-X-MC-Unique: opMoPyuKMvyfzCNOl8-TAA-1
-Received: by mail-wr1-f71.google.com with SMTP id j7so1992129wro.14
-        for <linux-api@vger.kernel.org>; Sat, 05 Sep 2020 11:27:31 -0700 (PDT)
+        id S1728751AbgIFBZi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 5 Sep 2020 21:25:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42186 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728742AbgIFBZi (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 5 Sep 2020 21:25:38 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17320C061573;
+        Sat,  5 Sep 2020 18:25:37 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id m8so990908pgi.3;
+        Sat, 05 Sep 2020 18:25:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=VTiZOrUEwCVKpqxE/AFo1ktXq/+qAF9fLESFNSzH6aE=;
+        b=CyHQQY39mVD5MdQkmOEu4m1Lfsa7Yfo1+uFrp6vvolj/HATw9iuXQUZS03eSyyZfUg
+         Giha01eTNrSeDmEERlQ40Fu7LHtUj2Sj4j8JG+bFusqaPGu5mu/nlRi4I1uZFp5TB4av
+         WxQZ73LhDceREPFoFYxQvLxi0QcmkLDYc64jis3TpbrY33dBlJzXAthDzmzLlSgplGVd
+         Akmia9r73rZA/Atf45qgtAmIpq6xh+ryokp28WUH0PwJUeqKWLmRD9jLjN45K1AYWYgk
+         0aYdng+vkNrQsvaSBBGoH6K2JqqReYApqhtkIZlL9FKJuJBhig8QSA0L0ZbLn3g/y49C
+         DRfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=BtgZJueEOiQwnrF4MWuzBn6DByhoMOeJI2jFjsPl+JU=;
-        b=hM46AHT3rVBsVzxKGIZcQYFQ0o0aVaIvwwnlalY/SPz1xIC9H+Zy1WE+qkZrNhMewA
-         uqz3IFfeGdCKPg7M5gGxsB7AT3rLGLjzp/e10YSEoGK3UbKJpn4ehairGw2S6xripJx4
-         JUEE8RL12t2Vsk+vN35FHpexCS2Tmk/STu7pV4jsik6rlW2D9nfW+G6L+WGe97ur1/fr
-         Ud5ij9PM7IXDSNzQa5P7ITLlD4TZZIpDQkHwJMXRzFNwHIh5RJhqbdVEaEGVN28meYOx
-         vD4Ansht3Wo+wHSfjSxiBFsrQ89WjvNmCHWwV/umpy/cEfkQwyKbxcXD6jKEPCmvBKZB
-         wppg==
-X-Gm-Message-State: AOAM532FgBCbyNdIqCTmz6tXZm1kWwB4UbLTBtA2LE7OoHAwwjz0zQ7C
-        Km0dCNVugmc1xe2FxFQIbicyxJ6MujKEgp0bu8utDX7KKDtY42Wvj+O5bZIhJdRfgbnLdHEQ8X1
-        2ug/E59/q2SRRvYGaw4Dx
-X-Received: by 2002:adf:dd82:: with SMTP id x2mr14129300wrl.419.1599330450944;
-        Sat, 05 Sep 2020 11:27:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw/x/sd7F1MCI06oI6NuHBEe16ZyXTnQS5UlsXBps+fFu54kInH2QDOs1ht+0nTW3W26BpTEg==
-X-Received: by 2002:adf:dd82:: with SMTP id x2mr14129282wrl.419.1599330450666;
-        Sat, 05 Sep 2020 11:27:30 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:7ac8:5f99:2279:bef0? ([2001:b07:6468:f312:7ac8:5f99:2279:bef0])
-        by smtp.gmail.com with ESMTPSA id h8sm18696461wrw.68.2020.09.05.11.27.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 05 Sep 2020 11:27:29 -0700 (PDT)
-Subject: Re: [RESEND RFC PATCH 0/5] Remote mapping
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     =?UTF-8?Q?Adalbert_Laz=c4=83r?= <alazar@bitdefender.com>,
-        Linux-MM <linux-mm@kvack.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Graf <graf@amazon.com>,
-        Stefan Hajnoczi <stefanha@redhat.com>,
-        Jerome Glisse <jglisse@redhat.com>,
-        =?UTF-8?Q?Mihai_Don=c8=9bu?= <mdontu@bitdefender.com>,
-        Mircea Cirjaliu <mcirjaliu@bitdefender.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Sargun Dhillon <sargun@sargun.me>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Oleg Nesterov <oleg@redhat.com>, Jann Horn <jannh@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>
-References: <d22e1e08-e2c1-510e-5ae7-accbf69731bf@redhat.com>
- <70D23368-A24D-4A15-8FC7-FA728D102475@amacapital.net>
- <836cff86-e670-8c69-6cbd-b22c5b5538df@redhat.com>
- <CALCETrUcxFJzN_Vz7qe+79eg8033+uUKOAAMEVj-cB1Gp6pouw@mail.gmail.com>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <bbe80f23-86c5-9d8f-8144-f292a6fc81b4@redhat.com>
-Date:   Sat, 5 Sep 2020 20:27:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=VTiZOrUEwCVKpqxE/AFo1ktXq/+qAF9fLESFNSzH6aE=;
+        b=skQ8CepWK2RBXEOLHFluiBar0F7o2Y9IsZcQMNMEDRoUIOnS2AfYC7pH3Yk48b36FT
+         L32Uw6yGE8XwYbgtPETmqmWq6Rd+pF8gacmj3z+3eMSh1yA0iaIE+ChFlwYa9WV0MEF9
+         YHBb6tWHEWbUJNvNkjnxZkV4FH60TarqVh16wj2bc4nu8LXW/a9JNTE3ALnnEj8XG13s
+         ITwmqFl78ijKobIX4cogSoAL8nWi237717BBtItjHw00llzxBp+RL+twyEeMdiye0Blh
+         vJ1gMa1zbHfo4vrBTrdD7WMUBQcnK0sp9TbkjU0ru9qCc3PL4/ZcLqBKG6eYVhObcJo+
+         +ZIQ==
+X-Gm-Message-State: AOAM533qaR61KWfhdNtr9eX+7omQ2Kgn8tHQJj6mUHFhiGhu5S0Pd0Jz
+        nx5fsRumalJPi/E7BPuPN5bPVv+Fudc=
+X-Google-Smtp-Source: ABdhPJyAas0c1rm+JxxgA7N8e5Q/XIm7noVCHFHdk/B7mnOyXua7RyPhrtaWcw3zRTTDFHdzv+XRfQ==
+X-Received: by 2002:a63:f606:: with SMTP id m6mr3821621pgh.193.1599355534940;
+        Sat, 05 Sep 2020 18:25:34 -0700 (PDT)
+Received: from localhost.localdomain ([161.81.62.213])
+        by smtp.gmail.com with ESMTPSA id w206sm3070386pfc.1.2020.09.05.18.25.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 05 Sep 2020 18:25:34 -0700 (PDT)
+From:   Tom Yan <tom.ty89@gmail.com>
+To:     linux-scsi@vger.kernel.org, dgilbert@interlog.com,
+        bvanassche@acm.org
+Cc:     stern@rowland.harvard.edu.com, akinobu.mita@gmail.com, hch@lst.de,
+        linux-api@vger.kernel.org, Tom Yan <tom.ty89@gmail.com>
+Subject: [PATCH RESEND 1/4] scsi: sg: fix BLKSECTGET ioctl
+Date:   Sun,  6 Sep 2020 09:25:09 +0800
+Message-Id: <20200906012512.1428-1-tom.ty89@gmail.com>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <CAGnHSE=bhpL4REG5PXST6dF3gSWeewg1Eqr+sLw_9rtqL-ToFQ@mail.gmail.com>
+References: <CAGnHSE=bhpL4REG5PXST6dF3gSWeewg1Eqr+sLw_9rtqL-ToFQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CALCETrUcxFJzN_Vz7qe+79eg8033+uUKOAAMEVj-cB1Gp6pouw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 05/09/20 01:17, Andy Lutomirski wrote:
-> There's sev_pin_memory(), so QEMU must have at least some idea of
-> which memory could potentially be encrypted.  Is it in fact the case
-> that QEMU doesn't know that some SEV pinned memory might actually be
-> used for DMA until the guest tries to do DMA on that memory?  If so,
-> yuck.
+It should give out the maximum number of sectors per request
+instead of maximum number of bytes.
 
-Yes.  All the memory is pinned, all the memory could potentially be used
-for DMA (of garbage if it's encrypted).  And it's the same for pretty
-much all protected VM extensions (SEV, POWER, s390, Intel TDX).
+Signed-off-by: Tom Yan <tom.ty89@gmail.com>
+---
+ drivers/scsi/sg.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
->> The primary VM and the enclave VM(s) would each get a different memory
->> access file descriptor.  QEMU would treat them no differently from any
->> other externally-provided memory backend, say hugetlbfs or memfd, so
->> yeah they would be mmap-ed to userspace and the host virtual address
->> passed as usual to KVM.
-> 
-> Would the VM processes mmap() these descriptors, or would KVM learn
-> how to handle that memory without it being mapped?
-
-The idea is that the process mmaps them, QEMU would treat them just the
-same as a hugetlbfs file descriptor for example.
-
->> The manager can decide at any time to hide some memory from the parent
->> VM (in order to give it to an enclave).  This would actually be done on
->> request of the parent VM itself [...] But QEMU is
->> untrusted, so the manager cannot rely on QEMU behaving well.  Hence the
->> privilege separation model that was implemented here.
-> 
-> How does this work?  Is there a revoke mechanism, or does the parent
-> just munmap() the memory itself?
-
-The parent has ioctls to add and remove memory from the pidfd-mem.  So
-unmapping is just calling the ioctl that removes a range.
-
->> So what you are suggesting is that KVM manages its own address space
->> instead of host virtual addresses (and with no relationship to host
->> virtual addresses, it would be just a "cookie")?
-> 
-> [...] For this pidfd-mem scheme in particular, it might avoid the nasty
-> corner case I mentioned.  With pidfd-mem as in this patchset, I'm
-> concerned about what happens when process A maps some process B
-> memory, process B maps some of process A's memory, and there's a
-> recursive mapping that results.  Or when a process maps its own
-> memory, for that matter.
-> 
-> Or memfd could get fancier with operations to split memfds, remove
-> pages from memfds, etc.  Maybe that's overkill.
-
-Doing it directly with memfd is certainly an option, especially since
-MFD_HUGE_* exists.  Basically you'd have a system call to create a
-secondary view of the memfd, and the syscall interface could still be
-very similar to what is in this patch, in particular the control/access
-pair.  Probably this could be used also to implement Matthew Wilcox's ideas.
-
-I still believe that the pidfd-mem concept has merit as a
-"capability-like" PTRACE_{PEEK,POKE}DATA replacement, but it would not
-need any of privilege separation or mmap support, only direct read/write.
-
-So there's two concepts mixed in one interface in this patch, with two
-completely different usecases.  Merging them is clever, but perhaps too
-clever.  I can say that since it was my idea. :D
-
-Thanks,
-
-Paolo
+diff --git a/drivers/scsi/sg.c b/drivers/scsi/sg.c
+index 20472aaaf630..e57831910228 100644
+--- a/drivers/scsi/sg.c
++++ b/drivers/scsi/sg.c
+@@ -922,6 +922,7 @@ sg_ioctl_common(struct file *filp, Sg_device *sdp, Sg_fd *sfp,
+ 	int result, val, read_only;
+ 	Sg_request *srp;
+ 	unsigned long iflags;
++	unsigned int max_sectors;
+ 
+ 	SCSI_LOG_TIMEOUT(3, sg_printk(KERN_INFO, sdp,
+ 				   "sg_ioctl: cmd=0x%x\n", (int) cmd_in));
+@@ -1114,8 +1115,9 @@ sg_ioctl_common(struct file *filp, Sg_device *sdp, Sg_fd *sfp,
+ 		sdp->sgdebug = (char) val;
+ 		return 0;
+ 	case BLKSECTGET:
+-		return put_user(max_sectors_bytes(sdp->device->request_queue),
+-				ip);
++		max_sectors = min_t(unsigned int, USHRT_MAX,
++				    queue_max_sectors(sdp->device->request_queue));
++		return put_user(max_sectors, ip);
+ 	case BLKTRACESETUP:
+ 		return blk_trace_setup(sdp->device->request_queue,
+ 				       sdp->disk->disk_name,
+-- 
+2.28.0
 
