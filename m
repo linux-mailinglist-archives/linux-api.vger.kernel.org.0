@@ -2,115 +2,70 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A1F0125F386
-	for <lists+linux-api@lfdr.de>; Mon,  7 Sep 2020 09:03:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F22725F392
+	for <lists+linux-api@lfdr.de>; Mon,  7 Sep 2020 09:05:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726896AbgIGHCU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 7 Sep 2020 03:02:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58736 "EHLO
+        id S1726841AbgIGHFY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 7 Sep 2020 03:05:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726771AbgIGHCJ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 7 Sep 2020 03:02:09 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BE63C061574;
-        Mon,  7 Sep 2020 00:02:08 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id g4so14563479wrs.5;
-        Mon, 07 Sep 2020 00:02:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ylv/Ec3IQY/nRnVl7KUf4rlIbzcbzilcAdfCxVxqCdM=;
-        b=eGZAavdZlKtcT3lSWI7KautQwycdwOhhWwW/QEDVhWUcao0t3/TnmTEfUdfslBudpC
-         8nOaO+bFIkEwWAZNjSOuhZ6S26BDST+w8i732lh7nQ3kIYL04wbpYO6FdH0Xvm/2JWaJ
-         ySiPaxUHkEGfTtRKfTj2b7T2yXI56gul9vy5dixsvYnOcR6BLkNU5NcTV5022OWDUrso
-         uPL9AKxRJWrPp+jiZrtrq8sEq5j4iSINePJYRZ86f9QwUqYx7XzAfdVcV+/qz1oqvkxz
-         NHic36LO7xaBXZ7JXPidaQ6oPLkn4BoGtaSdmOAQohYSiqIQdzMaGTWbAUJrsDHKZnGF
-         B4dQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ylv/Ec3IQY/nRnVl7KUf4rlIbzcbzilcAdfCxVxqCdM=;
-        b=kQUDjwR2DxLPzrntfzoR9k/MdjyFt6rlbGZtMCSw5Vt9VpyCtCFFU4semoqizrrweQ
-         VUypzNBmKZDVrMZmd0EGCI9UnRTGogBSVjnBKhcbYs+0xk6B9KoC1fpGQ+xIDTLL8QLR
-         2mmrM506vf4qZylzZJVelTBeQyroR0tfryYQtBu0eDUUtTNLc0DnM+MDLU0kszCDO+l3
-         kZO8cmvGqknukajxJFLlc4u363sH1KpSSVcSnpMwvPVYZ45x9OsHDHJa9qcrTikGFVfE
-         xabPK9yEfFvwddCm3whbjkjFAZiMoCR2g6tohykE9gAsB1qX3q87x8LNADmgFN3d74U0
-         w4yw==
-X-Gm-Message-State: AOAM531PTa1voJrZuf1Y/KWhLy0ldCfaU5mGR2l7OoP42nrrKS+7iTY9
-        oeOhqr243+cKS7HFCjoQZR5E+ochjg20EumOTlU=
-X-Google-Smtp-Source: ABdhPJw8TAjLd5BYGCY0Tr5/xWkqYwtfubZPgWpkYEtQ1vEu4nZ7Ih5my0t7n5KCYlQdFMaMMGHicv8EGLY6kCKlCsI=
-X-Received: by 2002:adf:dd51:: with SMTP id u17mr19759514wrm.355.1599462127129;
- Mon, 07 Sep 2020 00:02:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200731064526.GA25674@infradead.org> <MWHPR04MB37581344328A42EA7F5ED13EE74E0@MWHPR04MB3758.namprd04.prod.outlook.com>
- <CA+1E3rLM4G4SwzD6RWsK6Ssp7NmhiPedZDjrqN3kORQr9fxCtw@mail.gmail.com>
- <MWHPR04MB375863C20C1EF2CB27E62703E74E0@MWHPR04MB3758.namprd04.prod.outlook.com>
- <20200731091416.GA29634@infradead.org> <MWHPR04MB37586D39CA389296CE0252A4E74E0@MWHPR04MB3758.namprd04.prod.outlook.com>
- <20200731094135.GA4104@infradead.org> <MWHPR04MB3758A4B2967DB1FABAAD9265E74E0@MWHPR04MB3758.namprd04.prod.outlook.com>
- <20200731125110.GA11500@infradead.org> <CY4PR04MB37517D633920E4D31AC6EA0DE74B0@CY4PR04MB3751.namprd04.prod.outlook.com>
- <20200814081411.GA16943@infradead.org>
-In-Reply-To: <20200814081411.GA16943@infradead.org>
-From:   Kanchan Joshi <joshiiitr@gmail.com>
-Date:   Mon, 7 Sep 2020 12:31:42 +0530
-Message-ID: <CA+1E3r+WXC_MK5Zf2OZEv17ddJDjtXbhpRFoeDns4F341xMhow@mail.gmail.com>
-Subject: Re: [PATCH v4 6/6] io_uring: add support for zone-append
-To:     "hch@infradead.org" <hch@infradead.org>
-Cc:     Damien Le Moal <Damien.LeMoal@wdc.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        Pavel Begunkov <asml.silence@gmail.com>,
-        Kanchan Joshi <joshi.k@samsung.com>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "bcrl@kvack.org" <bcrl@kvack.org>,
+        with ESMTP id S1726422AbgIGHFX (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 7 Sep 2020 03:05:23 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3222C061573
+        for <linux-api@vger.kernel.org>; Mon,  7 Sep 2020 00:05:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=GbAgRu66Ekz1RYk4pCPO3eJmtqkEE30lovVRFEF4vok=; b=nqP2FTxHeFszCKaZh0qvlZukE3
+        kr4YSHilqxw+vzgUpzwUUiG4zkmQN6bk2VgXLHYeTABWb+oxoAx4g6uuQDXwhORJ5zf9p6pmH+6OK
+        xi3E7kh2TGK7w5FmhcMchkjYbI4XEPFiOn/FEwFtx6uudgM0VMcq5GzZ/6ssaI4ZtodLZ2eWa+/GL
+        1upAriDhiSvrP39aBUI2oTRoj2bUJnx2FSIGlgbYBdSbEQuFsDbFHph6tVwRehZuOFwBQlpp72019
+        dj4cIXyVzyS/8IVzRRuF8HvFv0VrnBsMba8kyLoWfcDGv153ScXFCjb3vSYeCfiiVb1Fh1M31HWNo
+        1EffDnHA==;
+Received: from hch by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kFBDC-0006z1-3N; Mon, 07 Sep 2020 07:05:10 +0000
+Date:   Mon, 7 Sep 2020 08:05:10 +0100
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Paolo Bonzini <pbonzini@redhat.com>
+Cc:     Andy Lutomirski <luto@amacapital.net>,
+        Andy Lutomirski <luto@kernel.org>,
+        Adalbert Laz??r <alazar@bitdefender.com>,
+        Linux-MM <linux-mm@kvack.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Graf <graf@amazon.com>,
+        Stefan Hajnoczi <stefanha@redhat.com>,
+        Jerome Glisse <jglisse@redhat.com>,
+        Mihai Don??u <mdontu@bitdefender.com>,
+        Mircea Cirjaliu <mcirjaliu@bitdefender.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Sargun Dhillon <sargun@sargun.me>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Oleg Nesterov <oleg@redhat.com>, Jann Horn <jannh@google.com>,
+        Kees Cook <keescook@chromium.org>,
         Matthew Wilcox <willy@infradead.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-aio@kvack.org" <linux-aio@kvack.org>,
-        "io-uring@vger.kernel.org" <io-uring@vger.kernel.org>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        SelvaKumar S <selvakuma.s1@samsung.com>,
-        Nitesh Shetty <nj.shetty@samsung.com>,
-        Javier Gonzalez <javier.gonz@samsung.com>,
-        Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
-        Naohiro Aota <Naohiro.Aota@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
+        Christian Brauner <christian.brauner@ubuntu.com>
+Subject: Re: [RESEND RFC PATCH 0/5] Remote mapping
+Message-ID: <20200907070510.GA25834@infradead.org>
+References: <d22e1e08-e2c1-510e-5ae7-accbf69731bf@redhat.com>
+ <70D23368-A24D-4A15-8FC7-FA728D102475@amacapital.net>
+ <836cff86-e670-8c69-6cbd-b22c5b5538df@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <836cff86-e670-8c69-6cbd-b22c5b5538df@redhat.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Aug 14, 2020 at 1:44 PM hch@infradead.org <hch@infradead.org> wrote:
->
-> On Wed, Aug 05, 2020 at 07:35:28AM +0000, Damien Le Moal wrote:
-> > > the write pointer.  The only interesting addition is that we also want
-> > > to report where we wrote.  So I'd rather have RWF_REPORT_OFFSET or so.
-> >
-> > That works for me. But that rules out having the same interface for raw block
-> > devices since O_APPEND has no meaning in that case. So for raw block devices, it
-> > will have to be through zonefs. That works for me, and I think it was your idea
-> > all along. Can you confirm please ?
->
-> Yes.  I don't think think raw syscall level access to the zone append
-> primitive makes sense.  Either use zonefs for a file-like API, or
-> use the NVMe pass through interface for 100% raw access.
+On Fri, Sep 04, 2020 at 11:58:57PM +0200, Paolo Bonzini wrote:
+> So why say NACK?  Any half-decent maintainer would hold on merging the
+> patches at least until the discussion is over.  Also I suppose any
+> deprecation proposal should come with a description of an alternative.
 
-But there are use-cases which benefit from supporting zone-append on
-raw block-dev path.
-Certain user-space log-structured/cow FS/DB will use the device that
-way. Aerospike is one example.
-Pass-through is synchronous, and we lose the ability to use io-uring.
-
-For async uring/aio to block-dev, file-pointer will not be moved to
-EoF, but that position was not very important anyway- as with this
-interface we expect many async appends outstanding, all with
-zone-start.
-Do you think RWF_APPEND | RWF_REPORT_OFFSET_DIRECT/INDIRECT is too bad
-for direct block-dev. Could you please suggest another way to go about
-it?
-
-
-
---
-Kanchan
+Please stop these totally pointless and overly aggressive personal
+attacks.  A maintainers prime job is to say no.
