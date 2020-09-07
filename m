@@ -2,70 +2,87 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F22725F392
-	for <lists+linux-api@lfdr.de>; Mon,  7 Sep 2020 09:05:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5597F25F550
+	for <lists+linux-api@lfdr.de>; Mon,  7 Sep 2020 10:33:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726841AbgIGHFY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 7 Sep 2020 03:05:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59232 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726422AbgIGHFX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 7 Sep 2020 03:05:23 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3222C061573
-        for <linux-api@vger.kernel.org>; Mon,  7 Sep 2020 00:05:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=GbAgRu66Ekz1RYk4pCPO3eJmtqkEE30lovVRFEF4vok=; b=nqP2FTxHeFszCKaZh0qvlZukE3
-        kr4YSHilqxw+vzgUpzwUUiG4zkmQN6bk2VgXLHYeTABWb+oxoAx4g6uuQDXwhORJ5zf9p6pmH+6OK
-        xi3E7kh2TGK7w5FmhcMchkjYbI4XEPFiOn/FEwFtx6uudgM0VMcq5GzZ/6ssaI4ZtodLZ2eWa+/GL
-        1upAriDhiSvrP39aBUI2oTRoj2bUJnx2FSIGlgbYBdSbEQuFsDbFHph6tVwRehZuOFwBQlpp72019
-        dj4cIXyVzyS/8IVzRRuF8HvFv0VrnBsMba8kyLoWfcDGv153ScXFCjb3vSYeCfiiVb1Fh1M31HWNo
-        1EffDnHA==;
-Received: from hch by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kFBDC-0006z1-3N; Mon, 07 Sep 2020 07:05:10 +0000
-Date:   Mon, 7 Sep 2020 08:05:10 +0100
-From:   Christoph Hellwig <hch@infradead.org>
+        id S1728278AbgIGIdX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 7 Sep 2020 04:33:23 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:56428 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728270AbgIGIdU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 7 Sep 2020 04:33:20 -0400
+Received: from ip5f5af70b.dynamic.kabel-deutschland.de ([95.90.247.11] helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1kFCaP-0003zW-JD; Mon, 07 Sep 2020 08:33:13 +0000
+Date:   Mon, 7 Sep 2020 10:33:12 +0200
+From:   Christian Brauner <christian.brauner@ubuntu.com>
 To:     Paolo Bonzini <pbonzini@redhat.com>
-Cc:     Andy Lutomirski <luto@amacapital.net>,
-        Andy Lutomirski <luto@kernel.org>,
-        Adalbert Laz??r <alazar@bitdefender.com>,
-        Linux-MM <linux-mm@kvack.org>,
-        Linux API <linux-api@vger.kernel.org>,
+Cc:     Florian Weimer <fw@deneb.enyo.de>,
+        Adalbert =?utf-8?B?TGF6xINy?= <alazar@bitdefender.com>,
+        linux-mm@kvack.org, linux-api@vger.kernel.org,
         Andrew Morton <akpm@linux-foundation.org>,
         Alexander Graf <graf@amazon.com>,
         Stefan Hajnoczi <stefanha@redhat.com>,
         Jerome Glisse <jglisse@redhat.com>,
-        Mihai Don??u <mdontu@bitdefender.com>,
+        Mihai =?utf-8?B?RG9uyJt1?= <mdontu@bitdefender.com>,
         Mircea Cirjaliu <mcirjaliu@bitdefender.com>,
+        Andy Lutomirski <luto@kernel.org>,
         Arnd Bergmann <arnd@arndb.de>,
         Sargun Dhillon <sargun@sargun.me>,
         Aleksa Sarai <cyphar@cyphar.com>,
         Oleg Nesterov <oleg@redhat.com>, Jann Horn <jannh@google.com>,
         Kees Cook <keescook@chromium.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>
+        Matthew Wilcox <willy@infradead.org>
 Subject: Re: [RESEND RFC PATCH 0/5] Remote mapping
-Message-ID: <20200907070510.GA25834@infradead.org>
-References: <d22e1e08-e2c1-510e-5ae7-accbf69731bf@redhat.com>
- <70D23368-A24D-4A15-8FC7-FA728D102475@amacapital.net>
- <836cff86-e670-8c69-6cbd-b22c5b5538df@redhat.com>
+Message-ID: <20200907083312.33wvjkqazbrsf3hg@wittgenstein>
+References: <20200904113116.20648-1-alazar@bitdefender.com>
+ <87pn71gxi8.fsf@mid.deneb.enyo.de>
+ <5447a405-4e4f-8034-eb86-ec2f6ddf45f0@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <836cff86-e670-8c69-6cbd-b22c5b5538df@redhat.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <5447a405-4e4f-8034-eb86-ec2f6ddf45f0@redhat.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Sep 04, 2020 at 11:58:57PM +0200, Paolo Bonzini wrote:
-> So why say NACK?  Any half-decent maintainer would hold on merging the
-> patches at least until the discussion is over.  Also I suppose any
-> deprecation proposal should come with a description of an alternative.
+Hey Paolo,
 
-Please stop these totally pointless and overly aggressive personal
-attacks.  A maintainers prime job is to say no.
+On Fri, Sep 04, 2020 at 10:18:17PM +0200, Paolo Bonzini wrote:
+> On 04/09/20 21:19, Florian Weimer wrote:
+> > I'm not sure what the advantage is of returning separate file
+> > descriptors, and nit operating directly on the pidfd.
+> 
+> For privilege separation.  So far, the common case of pidfd operations
+> has been that whoever possesses a pidfd has "power" over the target
+
+I may misunderstand you but that's actually not quite true. Currently,
+pidfds are just handles on processes and currently only convey identity.
+They don't guarantee any sort of privilege over the target process. We
+have had discussion to treat them more as a capability in the future but
+that needs to be carefully thought out.
+
+> process.  Here however we also want to cover the case where one
+> privileged process wants to set up and manage a memory range for
+> multiple children.  The privilege process can do so by passing the
+> access file descriptor via SCM_RIGHTS.
+> 
+> We also want different children to have visibility over different
+> ranges, which is why there are multiple control fds rather than using
+> the pidfd itself as control fd.  You could have the map/unmap/lock ioctl
+> on the pidfd itself and the access fd as an argument of the ioctl, but
+> it seems cleaner to represent the pidfd-mem control capability as its
+> own file descriptor.
+
+We have very much on purpose avoided adding ioctls() on top of pidfds
+and I'm not fond of the idea of starting to add them. Supporting
+ioctl()s on an fd usually opens up a can of worms and makes sneaking in
+questionable features more likely (I'm not saying your patchset does
+that!).
+If this interface holds up, I would ask you to please either keep this
+as a separate fd type or please propose system calls only.
+
+Christian
