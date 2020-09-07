@@ -2,95 +2,200 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BA5D425FBA1
-	for <lists+linux-api@lfdr.de>; Mon,  7 Sep 2020 15:47:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AB7325FBCA
+	for <lists+linux-api@lfdr.de>; Mon,  7 Sep 2020 16:06:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729596AbgIGNrr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 7 Sep 2020 09:47:47 -0400
-Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:52233 "EHLO
-        wout4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729666AbgIGNrh (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 7 Sep 2020 09:47:37 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailout.west.internal (Postfix) with ESMTP id 2BF3160C;
-        Mon,  7 Sep 2020 09:36:35 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Mon, 07 Sep 2020 09:36:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm1; bh=dK41NMPYg6hwFg/2puosTJfcGSF
-        TVcf3K/ccUSnYXxY=; b=nyBopx3J9A/4Yia7oSzLKfpL7eCaylJmj1PNC3r6qsj
-        gyKycyHIA3S0ZBScPLhPjbNsS8BQrlBOAyUqGizCZ3kCU6OyYxy2nOytZeOWK6Ut
-        bBgQYMGSV9nWyLRI1iesQHm3HlyFbmXiDfvw+bKFc8VJ1lC9RNzyQEPW+RBSco6J
-        KAMFcFUG+HRPVdmMj7ymyK1/NhcWc6yjRnvN8SUeyVl03rvqd1OWCbEStUvnlv/t
-        eR6CMabTLfOMB7An9L3UGbFtQU1i46thSaHK5Cnv7zYf30Sn7VY2wqkCJ6KXr2iz
-        MF1Eql4foXDZDL9W0UAaOn7NZqR4WjZ8yYC4tEuqS0w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=dK41NM
-        PYg6hwFg/2puosTJfcGSFTVcf3K/ccUSnYXxY=; b=PDf0mhD646jHV6yFjnsRIl
-        WzDygkPnUoUbmaDj7SMc26NztPA0CNLGHWjBEYJ1Hhkx/aPEATCFOdExcmFRQR3u
-        ucT7LMl+3XDpuZ01xJNNVmhDiT6Sw4dSGGZkLqv1XNF8/Z0d5wB4Ij8gk+1QAmlX
-        9B1QvmNp7/QDr04E9QV7A45MiPpg2tZPdpnep/6VYH3YSfNzXBcKNkEf/PwvltwT
-        ChQYe/WoBarmm8gmUI7gq4qOHCdigK8BPCuF4i9kemo/CerG71zY4maM+ZxTkiKA
-        LB4myuE13r1ggI0aKPcrTMb4ANN+bYVLpsQ2mED3z16W1P03h/Lwxu3/00fazyig
-        ==
-X-ME-Sender: <xms:YjdWX4yQixl0PbVG-bErTnFnGr6jlmZS5myfzC2Eb3sY8yrOi5wAAg>
-    <xme:YjdWX8RvUDX2amk7i3hC7rJiVbYI-HhovfsA7oiGyFUEOzaMFQTTXyugb5_hlAbZZ
-    gKQ6Q16ZWVSzA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudehtddgieejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgvghcu
-    mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeevueehje
-    fgfffgiedvudekvdektdelleelgefhleejieeugeegveeuuddukedvteenucfkphepkeef
-    rdekiedrjeegrdeigeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
-    hlfhhrohhmpehgrhgvgheskhhrohgrhhdrtghomh
-X-ME-Proxy: <xmx:YjdWX6UGuu-iujTDIQlcS9jkiN7OQqTMBEdh_oF-IIXC4cax3y0ciQ>
-    <xmx:YjdWX2h-LK8ROdICENh-H9z9x4cLcGzec264kOwCQ3tuMW0p8_ySRw>
-    <xmx:YjdWX6AGp4M1p582cDyLASM1FqkkbPXLa2GAmBh0Oa85LJMOq7wvEw>
-    <xmx:YjdWX9NHkMdpwEy_OAD-hRckyQk5MYTVkbvaHM90zuXRylgQm64GYA>
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        by mail.messagingengine.com (Postfix) with ESMTPA id E50473064674;
-        Mon,  7 Sep 2020 09:36:33 -0400 (EDT)
-Date:   Mon, 7 Sep 2020 15:36:46 +0200
-From:   Greg KH <greg@kroah.com>
-To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-Cc:     James Bottomley <James.Bottomley@hansenpartnership.com>,
-        linux-integrity@vger.kernel.org, Mimi Zohar <zohar@linux.ibm.com>,
-        linux-api@vger.kernel.org
-Subject: Re: [PATCH RESEND v4 0/1] add sysfs exports for TPM 2 PCR registers
-Message-ID: <20200907133646.GA2779642@kroah.com>
-References: <20200906203245.18429-1-James.Bottomley@HansenPartnership.com>
- <20200907053824.GA279469@kroah.com>
- <20200907132322.GB106839@linux.intel.com>
+        id S1729764AbgIGOFw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 7 Sep 2020 10:05:52 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:58586 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729596AbgIGOFS (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 7 Sep 2020 10:05:18 -0400
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id 7246235698C99C02FCBB;
+        Mon,  7 Sep 2020 22:05:01 +0800 (CST)
+Received: from lhrphicprd00229.huawei.com (10.123.41.22) by
+ DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
+ 14.3.487.0; Mon, 7 Sep 2020 22:04:53 +0800
+From:   Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To:     <linux-mm@kvack.org>, <linux-acpi@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <x86@kernel.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        <rafael@kernel.org>, Ingo Molnar <mingo@redhat.com>
+CC:     Bjorn Helgaas <bhelgaas@google.com>,
+        <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>, <linuxarm@huawei.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Brice Goglin <Brice.Goglin@inria.fr>,
+        "Sean V Kelley" <sean.v.kelley@linux.intel.com>,
+        <linux-api@vger.kernel.org>, "Hanjun Guo" <guohanjun@huawei.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: [PATCH v10 1/6] ACPI: Support Generic Initiator only domains
+Date:   Mon, 7 Sep 2020 22:03:02 +0800
+Message-ID: <20200907140307.571932-2-Jonathan.Cameron@huawei.com>
+X-Mailer: git-send-email 2.19.1
+In-Reply-To: <20200907140307.571932-1-Jonathan.Cameron@huawei.com>
+References: <20200907140307.571932-1-Jonathan.Cameron@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200907132322.GB106839@linux.intel.com>
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.123.41.22]
+X-CFilter-Loop: Reflected
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Sep 07, 2020 at 04:23:22PM +0300, Jarkko Sakkinen wrote:
-> On Mon, Sep 07, 2020 at 07:38:24AM +0200, Greg KH wrote:
-> > Please just use a binary blob format.  Binary sysfs files are exactly
-> > what this is for, you are just passing the data through the kernel from
-> > the hardware to userspace.
-> > 
-> > You can have 24 binary files if that makes it easier, but the existing
-> > format really is an abuse of sysfs.
-> > 
-> > Or use securityfs, that's fine too, but as you say, you have to write
-> > more code for that.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> 
-> I suggested this in previous round: to have a single 'pcrs' binary file
-> with <TPM Alg ID, blob> pairs contained.
+Generic Initiators are a new ACPI concept that allows for the
+description of proximity domains that contain a device which
+performs memory access (such as a network card) but neither
+host CPU nor Memory.
 
-That's fine with me!
+This patch has the parsing code and provides the infrastructure
+for an architecture to associate these new domains with their
+nearest memory processing node.
+
+Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+---
+ drivers/acpi/numa/srat.c | 69 +++++++++++++++++++++++++++++++++++++++-
+ drivers/base/node.c      |  3 ++
+ include/linux/nodemask.h |  1 +
+ 3 files changed, 72 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/acpi/numa/srat.c b/drivers/acpi/numa/srat.c
+index 15bbaab8500b..d27e8585132d 100644
+--- a/drivers/acpi/numa/srat.c
++++ b/drivers/acpi/numa/srat.c
+@@ -130,6 +130,36 @@ acpi_table_print_srat_entry(struct acpi_subtable_header *header)
+ 		}
+ 		break;
+ 
++	case ACPI_SRAT_TYPE_GENERIC_AFFINITY:
++	{
++		struct acpi_srat_generic_affinity *p =
++			(struct acpi_srat_generic_affinity *)header;
++
++		if (p->device_handle_type == 0) {
++			/*
++			 * For pci devices this may be the only place they
++			 * are assigned a proximity domain
++			 */
++			pr_debug("SRAT Generic Initiator(Seg:%u BDF:%u) in proximity domain %d %s\n",
++				 *(u16 *)(&p->device_handle[0]),
++				 *(u16 *)(&p->device_handle[2]),
++				 p->proximity_domain,
++				 (p->flags & ACPI_SRAT_GENERIC_AFFINITY_ENABLED) ?
++				"enabled" : "disabled");
++		} else {
++			/*
++			 * In this case we can rely on the device having a
++			 * proximity domain reference
++			 */
++			pr_debug("SRAT Generic Initiator(HID=%.8s UID=%.4s) in proximity domain %d %s\n",
++				(char *)(&p->device_handle[0]),
++				(char *)(&p->device_handle[8]),
++				p->proximity_domain,
++				(p->flags & ACPI_SRAT_GENERIC_AFFINITY_ENABLED) ?
++				"enabled" : "disabled");
++		}
++	}
++	break;
+ 	default:
+ 		pr_warn("Found unsupported SRAT entry (type = 0x%x)\n",
+ 			header->type);
+@@ -332,6 +362,41 @@ acpi_parse_gicc_affinity(union acpi_subtable_headers *header,
+ 	return 0;
+ }
+ 
++#if defined(CONFIG_X86) || defined(CONFIG_ARM64)
++static int __init
++acpi_parse_gi_affinity(union acpi_subtable_headers *header,
++		       const unsigned long end)
++{
++	struct acpi_srat_generic_affinity *gi_affinity;
++	int node;
++
++	gi_affinity = (struct acpi_srat_generic_affinity *)header;
++	if (!gi_affinity)
++		return -EINVAL;
++	acpi_table_print_srat_entry(&header->common);
++
++	if (!(gi_affinity->flags & ACPI_SRAT_GENERIC_AFFINITY_ENABLED))
++		return -EINVAL;
++
++	node = acpi_map_pxm_to_node(gi_affinity->proximity_domain);
++	if (node == NUMA_NO_NODE || node >= MAX_NUMNODES) {
++		pr_err("SRAT: Too many proximity domains.\n");
++		return -EINVAL;
++	}
++	node_set(node, numa_nodes_parsed);
++	node_set_state(node, N_GENERIC_INITIATOR);
++
++	return 0;
++}
++#else
++static int __init
++acpi_parse_gi_affinity(union acpi_subtable_headers *header,
++		       const unsigned long end)
++{
++	return 0;
++}
++#endif /* defined(CONFIG_X86) || defined (CONFIG_ARM64) */
++
+ static int __initdata parsed_numa_memblks;
+ 
+ static int __init
+@@ -385,7 +450,7 @@ int __init acpi_numa_init(void)
+ 
+ 	/* SRAT: System Resource Affinity Table */
+ 	if (!acpi_table_parse(ACPI_SIG_SRAT, acpi_parse_srat)) {
+-		struct acpi_subtable_proc srat_proc[3];
++		struct acpi_subtable_proc srat_proc[4];
+ 
+ 		memset(srat_proc, 0, sizeof(srat_proc));
+ 		srat_proc[0].id = ACPI_SRAT_TYPE_CPU_AFFINITY;
+@@ -394,6 +459,8 @@ int __init acpi_numa_init(void)
+ 		srat_proc[1].handler = acpi_parse_x2apic_affinity;
+ 		srat_proc[2].id = ACPI_SRAT_TYPE_GICC_AFFINITY;
+ 		srat_proc[2].handler = acpi_parse_gicc_affinity;
++		srat_proc[3].id = ACPI_SRAT_TYPE_GENERIC_AFFINITY;
++		srat_proc[3].handler = acpi_parse_gi_affinity;
+ 
+ 		acpi_table_parse_entries_array(ACPI_SIG_SRAT,
+ 					sizeof(struct acpi_table_srat),
+diff --git a/drivers/base/node.c b/drivers/base/node.c
+index 508b80f6329b..53383f1f683c 100644
+--- a/drivers/base/node.c
++++ b/drivers/base/node.c
+@@ -980,6 +980,8 @@ static struct node_attr node_state_attr[] = {
+ #endif
+ 	[N_MEMORY] = _NODE_ATTR(has_memory, N_MEMORY),
+ 	[N_CPU] = _NODE_ATTR(has_cpu, N_CPU),
++	[N_GENERIC_INITIATOR] = _NODE_ATTR(has_generic_initiator,
++					   N_GENERIC_INITIATOR),
+ };
+ 
+ static struct attribute *node_state_attrs[] = {
+@@ -991,6 +993,7 @@ static struct attribute *node_state_attrs[] = {
+ #endif
+ 	&node_state_attr[N_MEMORY].attr.attr,
+ 	&node_state_attr[N_CPU].attr.attr,
++	&node_state_attr[N_GENERIC_INITIATOR].attr.attr,
+ 	NULL
+ };
+ 
+diff --git a/include/linux/nodemask.h b/include/linux/nodemask.h
+index 27e7fa36f707..3334ce056335 100644
+--- a/include/linux/nodemask.h
++++ b/include/linux/nodemask.h
+@@ -399,6 +399,7 @@ enum node_states {
+ #endif
+ 	N_MEMORY,		/* The node has memory(regular, high, movable) */
+ 	N_CPU,		/* The node has one or more cpus */
++	N_GENERIC_INITIATOR,	/* The node has one or more Generic Initiators */
+ 	NR_NODE_STATES
+ };
+ 
+-- 
+2.19.1
+
