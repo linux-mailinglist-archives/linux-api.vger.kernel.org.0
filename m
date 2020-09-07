@@ -2,160 +2,119 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EC8E425F813
-	for <lists+linux-api@lfdr.de>; Mon,  7 Sep 2020 12:26:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD7A725F80E
+	for <lists+linux-api@lfdr.de>; Mon,  7 Sep 2020 12:26:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728509AbgIGK03 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 7 Sep 2020 06:26:29 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:59727 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728721AbgIGKQX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 7 Sep 2020 06:16:23 -0400
-Received: from ip5f5af70b.dynamic.kabel-deutschland.de ([95.90.247.11] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1kFECA-0005WP-VQ; Mon, 07 Sep 2020 10:16:19 +0000
-Date:   Mon, 7 Sep 2020 12:16:18 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Gabriel Krisman Bertazi <krisman@collabora.com>
-Cc:     luto@kernel.org, tglx@linutronix.de, keescook@chromium.org,
-        x86@kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, willy@infradead.org,
-        linux-kselftest@vger.kernel.org, shuah@kernel.org,
-        kernel@collabora.com
-Subject: Re: [PATCH v6 2/9] kernel: entry: Support TIF_SYSCAL_INTERCEPT on
- common entry code
-Message-ID: <20200907101618.dnxv5n4x4vty73hr@wittgenstein>
-References: <20200904203147.2908430-1-krisman@collabora.com>
- <20200904203147.2908430-3-krisman@collabora.com>
+        id S1728811AbgIGK0B (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 7 Sep 2020 06:26:01 -0400
+Received: from mail-eopbgr40096.outbound.protection.outlook.com ([40.107.4.96]:32894
+        "EHLO EUR03-DB5-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728525AbgIGKZy (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 7 Sep 2020 06:25:54 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Pzo+WvnaC6+qZO/pvrClw276mEfXmlsYjFes+N7GtCj6GpRhjMWEdG8W3j668rGqznY0ks5ZTW0mpbu0DQajsheQqpKXyQ+zmJGcJGa1vQopWv/NxLWgljdKbFNqsx77eG/WOl+OlrEWrQuSy6Q/smzfoxUr4qrLOTGHkdKzuCmsJyc+lWEyqhN+SYSW5CI+MS7M+LiUBZ/1fKSIdalGFcRiahp/nM2NCJ9E5LKzs4rB90hpYYlKcI2SGJlROoeHU8VjpiUTyFhUnx8S9LmwY7FAPC9jv6BchfLA+yHsoCxH7kLPcFXTqBsZzsbakCtGMnnPcYEqf/3XCY6Fy+IGCA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XOTJHRkLc06PNbfrHoSfnobwRGTa7tX+ibuiGbU+Sw8=;
+ b=EjGm30qT2gyH31m1KQp5lw1ljm5S9V5LiT5vbpINBUKxi+g/4o4Ri3RkH3aOtpGHKTSpR8wIXpb3ZVZ+g1hhrbjDBPBfV6j12eZ8VAUvG3UafQN6H9oXq4K1NYe3JIWaJQ25YTNHc/gbqwvquX/FbJgrINXRoHFJpMPVmP/w72ziVyTKpB4ppg7PjELnqfvIQzXcE4EQ7SowNQ5HycQXz7i5lAjy3DaYPyIF6/S2HoqKogYcWRuXYbCN1kpU+6Ir6ghCKogoGdkTmgt5koGOqykoXcVjty4gkca/Ej5VQvBaM2mbVwvM9sX5XkdPHBisqne7GAgmg7VXMBute7rx4Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bitdefender.com; dmarc=pass action=none
+ header.from=bitdefender.com; dkim=pass header.d=bitdefender.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bitdefender.onmicrosoft.com; s=selector2-bitdefender-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XOTJHRkLc06PNbfrHoSfnobwRGTa7tX+ibuiGbU+Sw8=;
+ b=FxkquCZkUCEh9LFgWGsye2N4HYaozlzkc9UZO1GiMnOuU3Z+T/51KwcNA1QQj4wS8ze4VwbDw0rC8cICx7vhPzKL6ggwhlINWqjMWyHZDpUlp3cSyoTp/IJj4F+x9uXW43eY/6lj/yeZRZzZuShlAyf9erpf35IaX5jrnpY/ncs=
+Received: from AM7PR02MB6082.eurprd02.prod.outlook.com (2603:10a6:20b:1af::16)
+ by AM6PR02MB4549.eurprd02.prod.outlook.com (2603:10a6:20b:62::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.15; Mon, 7 Sep
+ 2020 10:25:50 +0000
+Received: from AM7PR02MB6082.eurprd02.prod.outlook.com
+ ([fe80::9dcc:d3cc:dbe:5b33]) by AM7PR02MB6082.eurprd02.prod.outlook.com
+ ([fe80::9dcc:d3cc:dbe:5b33%8]) with mapi id 15.20.3348.019; Mon, 7 Sep 2020
+ 10:25:50 +0000
+From:   Mircea CIRJALIU - MELIU <mcirjaliu@bitdefender.com>
+To:     Andy Lutomirski <luto@kernel.org>,
+        =?utf-8?B?QWRhbGJlcnQgTGF6xINy?= <alazar@bitdefender.com>
+CC:     Linux-MM <linux-mm@kvack.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Graf <graf@amazon.com>,
+        Stefan Hajnoczi <stefanha@redhat.com>,
+        Jerome Glisse <jglisse@redhat.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        =?utf-8?B?TWloYWkgRG9uyJt1?= <mdontu@bitdefender.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Sargun Dhillon <sargun@sargun.me>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Oleg Nesterov <oleg@redhat.com>, Jann Horn <jannh@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>
+Subject: RE: [RESEND RFC PATCH 0/5] Remote mapping
+Thread-Topic: [RESEND RFC PATCH 0/5] Remote mapping
+Thread-Index: AQHWgq7sJAwNYCdpy0yn8gtG4wotq6lY4MAAgAQXCeA=
+Date:   Mon, 7 Sep 2020 10:25:50 +0000
+Message-ID: <AM7PR02MB6082589CFC5C0C2848495553BB280@AM7PR02MB6082.eurprd02.prod.outlook.com>
+References: <20200904113116.20648-1-alazar@bitdefender.com>
+ <CALCETrVc0RCcvVhxL=x2ics-Snhh1F6o5M7EVsA2rPYcaynMyA@mail.gmail.com>
+In-Reply-To: <CALCETrVc0RCcvVhxL=x2ics-Snhh1F6o5M7EVsA2rPYcaynMyA@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=bitdefender.com;
+x-originating-ip: [31.5.46.39]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 0183a4de-b0ca-4c19-da6e-08d8531864b2
+x-ms-traffictypediagnostic: AM6PR02MB4549:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <AM6PR02MB4549A8861CA4BD647E911194BB280@AM6PR02MB4549.eurprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: dcqLI43yoYXx6HreFOC3iBqJZvFlupQf9Vz4yzDOmTtqoiovl/tZuhSTNJYf9x82cw9oruZbAZDgojWEl8ZiCWAxECeoh/MHBu5Ouu+/bgE196wn9Euax6+ZjOMGh3ILiet/jlxP/6BrrCvDmwBFDojyAbigECzWcmTwUCUfqjmdSkwoI7laEzk1+qjJ4Zk2YHnwwPe3ptrENxo34+wogZn1hUdXh+H0JyPHPPgxIwioNLUfZb1hoe1DRsnR8axcGraEa2CFCplBRjzgTp/bjZ4UDIYI2hN/NkLEZK4/+Hj8JHFa4YYnbpwxlKbt3t682jRdvET9L/TFnabd7j2zbA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR02MB6082.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(396003)(39850400004)(136003)(346002)(376002)(6636002)(66446008)(186003)(52536014)(71200400001)(86362001)(478600001)(2906002)(55016002)(64756008)(9686003)(66556008)(76116006)(66476007)(66946007)(54906003)(33656002)(7416002)(316002)(5660300002)(83380400001)(4744005)(110136005)(8936002)(8676002)(7696005)(26005)(4326008)(6506007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: iaCgljNWgWAQPEikejLO4mY1byAqgVZHlTGHKWLGcKzxQxquroljTKg21H3l4phIseXO86IqGN7V1TETSM76MZSNFuVkezymp16V4gqmZRBO9xg/pyPQ5SRtvzij6faOGZ6M/EA83SrEcZe7sjt++uZkPKsR4aXcPXUQwujLCp7NBiM2Gu5S93yMlK0V1Xh21we51p0HMwH/YpUdJh1v+SS8nfyjc9G1sj5lmA9aU533dtZmEQuFpm85YMFZIoxOmM6LNEvOy3lN8cPDT8pS8DJ/+1Qd59S1FKB2XHJyK7h0AEzILDkl6p6yzt3h2hIm19jhmOeN/NND+QZRE9/aDvXHuvmXWea4/98K3EgA5L7IWb/BoOD4Lstq8eTVej0XwticjRzXsi7XhqEhfZ/zfklGEPBlN2WGIHZNMKY4mgsk/8NVt91JAQy24hgso+d4lHugXvHsBVVDH70X/2Pvz2iEX10N6GJPoNGDUzx1O9rjggZyRIa/0EPxU29+MOLRJeTgFJBO+UsYbwSIgfebj6o7UY1ZcwSxxbJylZTvgL5xpFggUX6Ll/ASHLM5or3SN7282t6f+Qn2WO2+S1wTAuIw+JcCaJP8d4+IS+4SZ2HRm4C5muwL7Q/634c3UZNNTkphNSs62orbpNFKcnIN2A==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200904203147.2908430-3-krisman@collabora.com>
+X-OriginatorOrg: bitdefender.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR02MB6082.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0183a4de-b0ca-4c19-da6e-08d8531864b2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Sep 2020 10:25:50.5991
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 487baf29-f1da-469a-9221-243f830c36f3
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: axyNqPkPeK36ydjWVhcWyQzerhNTAjDyoHkUxHhrJO9IWdFI8Kkeb7ueVuTJUKNLfPHwBf3gBNIQgLYDeotkc4jt5y99anKZ/W4L4707UKk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR02MB4549
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Sep 04, 2020 at 04:31:40PM -0400, Gabriel Krisman Bertazi wrote:
-> Syscalls that use common entry code (x86 at the moment of this writing)
-> need to have their defines updated inside this commit.  This added a
-> measureable overhead of 1ns to seccomp_benchmark selftests on a
-> bare-metal AMD system.
-> 
-> Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
-> ---
->  arch/x86/include/asm/thread_info.h |  4 ++--
->  include/linux/entry-common.h       |  6 +-----
->  kernel/entry/common.c              | 24 +++++++++++++++++++++---
->  3 files changed, 24 insertions(+), 10 deletions(-)
-> 
-> diff --git a/arch/x86/include/asm/thread_info.h b/arch/x86/include/asm/thread_info.h
-> index 267701ae3d86..cf723181e1f2 100644
-> --- a/arch/x86/include/asm/thread_info.h
-> +++ b/arch/x86/include/asm/thread_info.h
-> @@ -82,7 +82,7 @@ struct thread_info {
->  #define TIF_SSBD		5	/* Speculative store bypass disable */
->  #define TIF_SYSCALL_EMU		6	/* syscall emulation active */
->  #define TIF_SYSCALL_AUDIT	7	/* syscall auditing active */
-> -#define TIF_SECCOMP		8	/* secure computing */
-> +#define TIF_SYSCALL_INTERCEPT	8	/* Intercept system call */
->  #define TIF_SPEC_IB		9	/* Indirect branch speculation mitigation */
->  #define TIF_SPEC_FORCE_UPDATE	10	/* Force speculation MSR update in context switch */
->  #define TIF_USER_RETURN_NOTIFY	11	/* notify kernel of userspace return */
-> @@ -112,7 +112,7 @@ struct thread_info {
->  #define _TIF_SSBD		(1 << TIF_SSBD)
->  #define _TIF_SYSCALL_EMU	(1 << TIF_SYSCALL_EMU)
->  #define _TIF_SYSCALL_AUDIT	(1 << TIF_SYSCALL_AUDIT)
-> -#define _TIF_SECCOMP		(1 << TIF_SECCOMP)
-> +#define _TIF_SYSCALL_INTERCEPT	(1 << TIF_SYSCALL_INTERCEPT)
->  #define _TIF_SPEC_IB		(1 << TIF_SPEC_IB)
->  #define _TIF_SPEC_FORCE_UPDATE	(1 << TIF_SPEC_FORCE_UPDATE)
->  #define _TIF_USER_RETURN_NOTIFY	(1 << TIF_USER_RETURN_NOTIFY)
-> diff --git a/include/linux/entry-common.h b/include/linux/entry-common.h
-> index efebbffcd5cc..72ce9ca860c6 100644
-> --- a/include/linux/entry-common.h
-> +++ b/include/linux/entry-common.h
-> @@ -21,10 +21,6 @@
->  # define _TIF_SYSCALL_TRACEPOINT	(0)
->  #endif
->  
-> -#ifndef _TIF_SECCOMP
-> -# define _TIF_SECCOMP			(0)
-> -#endif
-> -
->  #ifndef _TIF_SYSCALL_AUDIT
->  # define _TIF_SYSCALL_AUDIT		(0)
->  #endif
-> @@ -45,7 +41,7 @@
->  #endif
->  
->  #define SYSCALL_ENTER_WORK						\
-> -	(_TIF_SYSCALL_TRACE | _TIF_SYSCALL_AUDIT | _TIF_SECCOMP |	\
-> +	(_TIF_SYSCALL_TRACE | _TIF_SYSCALL_AUDIT | _TIF_SYSCALL_INTERCEPT | \
->  	 _TIF_SYSCALL_TRACEPOINT | _TIF_SYSCALL_EMU |			\
->  	 ARCH_SYSCALL_ENTER_WORK)
->  
-> diff --git a/kernel/entry/common.c b/kernel/entry/common.c
-> index fcae019158ca..44fd089d59da 100644
-> --- a/kernel/entry/common.c
-> +++ b/kernel/entry/common.c
-> @@ -4,6 +4,7 @@
->  #include <linux/entry-common.h>
->  #include <linux/livepatch.h>
->  #include <linux/audit.h>
-> +#include <linux/syscall_intercept.h>
->  
->  #define CREATE_TRACE_POINTS
->  #include <trace/events/syscalls.h>
-> @@ -41,6 +42,20 @@ static inline void syscall_enter_audit(struct pt_regs *regs, long syscall)
->  	}
->  }
->  
-> +static inline long do_syscall_intercept(struct pt_regs *regs)
-
-Hey Gabriel,
-
-I think you can drop the pt_regs argument and just have this be
-
-static inline do_syscall_intercept(void)
-
-otherwise
-
-Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
-
-> +{
-> +	int sysint_work = READ_ONCE(current->syscall_intercept);
-> +	int ret;
-> +
-> +	if (sysint_work & SYSINT_SECCOMP) {
-> +		ret = __secure_computing(NULL);
-> +		if (ret == -1L)
-> +			return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static long syscall_trace_enter(struct pt_regs *regs, long syscall,
->  				unsigned long ti_work)
->  {
-> @@ -53,9 +68,12 @@ static long syscall_trace_enter(struct pt_regs *regs, long syscall,
->  			return -1L;
->  	}
->  
-> -	/* Do seccomp after ptrace, to catch any tracer changes. */
-> -	if (ti_work & _TIF_SECCOMP) {
-> -		ret = __secure_computing(NULL);
-> +	/*
-> +	 * Do syscall interception like seccomp after ptrace, to catch
-> +	 * any tracer changes.
-> +	 */
-> +	if (ti_work & _TIF_SYSCALL_INTERCEPT) {
-> +		ret = do_syscall_intercept(regs);
->  		if (ret == -1L)
->  			return ret;
->  	}
-> -- 
-> 2.28.0
+PiBGcm9tOiBBbmR5IEx1dG9taXJza2kgPGx1dG9Aa2VybmVsLm9yZz4NCj4gSSB0aGluayB0aGlz
+IGlzIHZlcnkgY2xldmVyLCBidXQgSSBmaW5kIG15c2VsZiB3b25kZXJpbmcgd2hhdCBoYXBwZW5z
+IGlmIHBlb3BsZQ0KPiBzdGFydCB0cnlpbmcgdG8gYWJ1c2UgdGhpcyBieSwgZm9yIGV4YW1wbGUs
+IHNldHRpbmcgdXAgYSByZW1vdGUgbWFwcGluZw0KPiBwb2ludGluZyB0byBmdW4gcmVnaW9ucyBs
+aWtlIHVzZXJmYXVsdGZkIG9yIGFub3RoZXIgcmVtb3RlIG1hcHBpbmcuDQoNCkNhbiBwdHJhY2Uo
+KSBiZSB1c2VkIHRvIGFidXNlIGZ1biByZWdpb25zIG9mIGEgcHJvY2VzcyBhZGRyZXNzIHNwYWNl
+Pw0KUmVtb3RlIG1hcHBpbmcgcmVjdXJzaXZlbmVzcyBjYW4gYmUgZWxpbWluYXRlZCBieSBjaGVj
+a2luZyB0aGUgVk1BIHRoZQ0KcmVtb3RlIHBhZ2UgaXMgZXh0cmFjdGVkIGZyb20uIChOWUkpDQoN
+Cj4gSSdtIGEgbGl0dGxlIGNvbmNlcm5lZCB0aGF0IGl0J3MgYWN0dWFsbHkgdG9vIGNsZXZlciBh
+bmQgdGhhdCBtYXliZSBhIG1vcmUNCj4gc3RyYWlnaHRmb3J3YXJkIHNvbHV0aW9uIHNob3VsZCBi
+ZSBpbnZlc3RpZ2F0ZWQuICBJIHBlcnNvbmFsbHkgcmF0aGVyIGRpc2xpa2UNCj4gdGhlIEtWTSBt
+b2RlbCBpbiB3aGljaCB0aGUgZ3Vlc3QgYWRkcmVzcyBzcGFjZSBtaXJyb3JzIHRoZSBob3N0IChR
+RU1VKQ0KPiBhZGRyZXNzIHNwYWNlIHJhdGhlciB0aGFuIGJlaW5nIGl0cyBvd24gdGhpbmcuDQoN
+CkkndmUgc2VlbiBhIGZldyBpbnRlcm5hbCBtbWFwKClzIHRocm91Z2hvdXQgdGhlIGtlcm5lbC4g
+SnVzdCB3b25kZXJpbmcgaG93DQptZW1vcnkgYWNjb3VudGluZyBpcyBpbXBsZW1lbnRlZCBmb3Ig
+dGhlc2UgY2FzZXMuIFdpbGwgdGhpcyBiZSByZWZsZWN0ZWQgaW4NCnRoZSBtZW1vcnkgdXNhZ2Ug
+b2YgdGhlIHByb2Nlc3MgdGhhdCBjb250cm9scyBzdWNoIGEgbW9kdWxlPyBFc3BlY2lhbGx5IGlu
+DQp0aGUgY2FzZSBvZiBhIHZpcnR1YWwgbWFjaGluZSB0aGF0IG5lZWRzIGEgZmV3IEdCcyBvZiBt
+ZW1vcnkuDQoNCk1pcmNlYQ0KDQo=
