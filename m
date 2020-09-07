@@ -2,70 +2,99 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 72C1725FD01
-	for <lists+linux-api@lfdr.de>; Mon,  7 Sep 2020 17:25:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C9F425FCCE
+	for <lists+linux-api@lfdr.de>; Mon,  7 Sep 2020 17:16:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730153AbgIGPZ0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 7 Sep 2020 11:25:26 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:40572 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730176AbgIGPYl (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 7 Sep 2020 11:24:41 -0400
-Received: from ip5f5af70b.dynamic.kabel-deutschland.de ([95.90.247.11] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1kFIiK-0004KC-Bk; Mon, 07 Sep 2020 15:05:48 +0000
-Date:   Mon, 7 Sep 2020 17:05:47 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Adalbert =?utf-8?B?TGF6xINy?= <alazar@bitdefender.com>
+        id S1730086AbgIGPQi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 7 Sep 2020 11:16:38 -0400
+Received: from mx01.bbu.dsd.mx.bitdefender.com ([91.199.104.161]:43950 "EHLO
+        mx01.bbu.dsd.mx.bitdefender.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730081AbgIGPQc (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 7 Sep 2020 11:16:32 -0400
+Received: from smtp.bitdefender.com (smtp02.buh.bitdefender.net [10.17.80.76])
+        by mx01.bbu.dsd.mx.bitdefender.com (Postfix) with ESMTPS id 922FF30747BE;
+        Mon,  7 Sep 2020 18:16:03 +0300 (EEST)
+Received: from localhost (unknown [195.189.155.252])
+        by smtp.bitdefender.com (Postfix) with ESMTPSA id 679503038E24;
+        Mon,  7 Sep 2020 18:16:03 +0300 (EEST)
+From:   Adalbert =?iso-8859-2?b?TGF643I=?= <alazar@bitdefender.com>
+Subject: Re: [RESEND RFC PATCH 4/5] mm/remote_mapping: use a pidfd to access
+ memory belonging to unrelated process
+To:     Oleg Nesterov <oleg@redhat.com>
 Cc:     linux-mm@kvack.org, linux-api@vger.kernel.org,
         Andrew Morton <akpm@linux-foundation.org>,
         Alexander Graf <graf@amazon.com>,
         Stefan Hajnoczi <stefanha@redhat.com>,
         Jerome Glisse <jglisse@redhat.com>,
         Paolo Bonzini <pbonzini@redhat.com>,
-        Mihai =?utf-8?B?RG9uyJt1?= <mdontu@bitdefender.com>,
+        Mihai =?UTF-8?b?RG9uyJt1?= <mdontu@bitdefender.com>,
         Mircea Cirjaliu <mcirjaliu@bitdefender.com>,
         Andy Lutomirski <luto@kernel.org>,
         Arnd Bergmann <arnd@arndb.de>,
         Sargun Dhillon <sargun@sargun.me>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Oleg Nesterov <oleg@redhat.com>, Jann Horn <jannh@google.com>,
+        Aleksa Sarai <cyphar@cyphar.com>, Jann Horn <jannh@google.com>,
         Kees Cook <keescook@chromium.org>,
-        Matthew Wilcox <willy@infradead.org>
-Subject: Re: [RESEND RFC PATCH 0/5] Remote mapping
-Message-ID: <20200907150547.hst4luvrpntdb3lr@wittgenstein>
+        Matthew Wilcox <willy@infradead.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>
+In-Reply-To: <20200907143008.GB31050@redhat.com>
 References: <20200904113116.20648-1-alazar@bitdefender.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+        <20200904113116.20648-5-alazar@bitdefender.com>
+        <20200907143008.GB31050@redhat.com>
+Date:   Mon, 07 Sep 2020 18:16:30 +0300
+Message-ID: <15994917900.dEaCB.18501@host>
+User-agent: void
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200904113116.20648-1-alazar@bitdefender.com>
+MIME-Version: 1.0
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Sep 04, 2020 at 02:31:11PM +0300, Adalbert Lazăr wrote:
-> This patchset adds support for the remote mapping feature.
-> Remote mapping, as its name suggests, is a means for transparent and
-> zero-copy access of a remote process' address space.
-> access of a remote process' address space.
+On Mon, 7 Sep 2020 16:30:08 +0200, Oleg Nesterov <oleg@redhat.com> wrote:
+> it seems that nobody is going to review this patch ;)
 > 
-> The feature was designed according to a specification suggested by
-> Paolo Bonzini:
-> >> The proposed API is a new pidfd system call, through which the parent
-> >> can map portions of its virtual address space into a file descriptor
-> >> and then pass that file descriptor to a child.
-> >>
-> >> This should be:
-> >>
-> >> - upstreamable, pidfd is the new cool thing and we could sell it as a
-> >> better way to do PTRACE_{PEEK,POKE}DATA
+> So I tried to read mirror_vm_fault() and the usage of mmap_sem doesn't
+> look right to me. But let me repeat, this is not my area I can be easily
+> wrong, please correct me.
+> 
+> On 09/04, Adalbert Lazăr wrote:
+> >
+> > +static vm_fault_t mirror_vm_fault(struct vm_fault *vmf)
+> > +{
+> > +	struct vm_area_struct *vma = vmf->vma;
+> > +	struct mm_struct *mm = vma->vm_mm;
+> > +	struct remote_vma_context *ctx = vma->vm_private_data;
+> > +	struct remote_view *view = ctx->view;
+> > +	struct file *file = vma->vm_file;
+> > +	struct remote_file_context *fctx = file->private_data;
+> > +	unsigned long req_addr;
+> > +	unsigned int gup_flags;
+> > +	struct page *req_page;
+> > +	vm_fault_t result = VM_FAULT_SIGBUS;
+> > +	struct mm_struct *src_mm = fctx->mm;
+> > +	unsigned long seq;
+> > +	int idx;
+> > +
+> > +fault_retry:
+> > +	seq = mmu_interval_read_begin(&view->mmin);
+> > +
+> > +	idx = srcu_read_lock(&fctx->fault_srcu);
+> > +
+> > +	/* check if view was invalidated */
+> > +	if (unlikely(!READ_ONCE(view->valid))) {
+> > +		pr_debug("%s: region [%lx-%lx) was invalidated!!\n", __func__,
+> > +			view->offset, view->offset + view->size);
+> > +		goto out_invalid;		/* VM_FAULT_SIGBUS */
+> > +	}
+> > +
+> > +	/* drop current mm semapchore */
+> > +	up_read(&current->mm->mmap_sem);
+> 
+> Please use mmap_read_lock/unlock(mm) instead of down/up_read(mmap_sem).
 
-In all honesty, that sentence made me a bit uneasy as it reads like this
-is implemented on top of pidfds because it makes it more likely to go
-upstream not because it is the right design. To be clear, I'm not
-implying any sort of malicious intent on your part but I would suggest
-to phrase this a little better. :)
+This patch series is based on 5.7-rc2.
+The cover letter has base-commit: present, but I forgot to mention this
+explicitly, sorry.
+
+Adalbert
