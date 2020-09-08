@@ -2,98 +2,125 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D860F26196A
-	for <lists+linux-api@lfdr.de>; Tue,  8 Sep 2020 20:14:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8ED2C2619B4
+	for <lists+linux-api@lfdr.de>; Tue,  8 Sep 2020 20:25:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731797AbgIHSOT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 8 Sep 2020 14:14:19 -0400
-Received: from bedivere.hansenpartnership.com ([66.63.167.143]:37156 "EHLO
-        bedivere.hansenpartnership.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731475AbgIHSOP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 8 Sep 2020 14:14:15 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by bedivere.hansenpartnership.com (Postfix) with ESMTP id AE64E8EE111;
-        Tue,  8 Sep 2020 11:14:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
-        s=20151216; t=1599588852;
-        bh=j/Z0xwPcvtu9ZFC2XX7h+d9waydMl0v6qHFUaoPjNXk=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=Nf/ewMMU+jXtifGqH5AQdiiGzyn6RylgiTNyniz1kh+k7AIdHGjPhx25JLpxjd0lQ
-         SNITD048HJWn0oR7pnqd1X2Gr9Yw22czw4bKKmRqy5e30O8qbUJMviLoNnwU6HDYwp
-         hEfDxBiTxKcPG6KQzW2caTjpTT9OpAOszhbT3DRw=
-Received: from bedivere.hansenpartnership.com ([127.0.0.1])
-        by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id pdo-vp8VfLxG; Tue,  8 Sep 2020 11:14:12 -0700 (PDT)
-Received: from [153.66.254.174] (c-73-35-198-56.hsd1.wa.comcast.net [73.35.198.56])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 0D4448EE0C6;
-        Tue,  8 Sep 2020 11:14:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
-        s=20151216; t=1599588852;
-        bh=j/Z0xwPcvtu9ZFC2XX7h+d9waydMl0v6qHFUaoPjNXk=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=Nf/ewMMU+jXtifGqH5AQdiiGzyn6RylgiTNyniz1kh+k7AIdHGjPhx25JLpxjd0lQ
-         SNITD048HJWn0oR7pnqd1X2Gr9Yw22czw4bKKmRqy5e30O8qbUJMviLoNnwU6HDYwp
-         hEfDxBiTxKcPG6KQzW2caTjpTT9OpAOszhbT3DRw=
-Message-ID: <1599588851.10803.29.camel@HansenPartnership.com>
-Subject: Re: [PATCH RESEND v4 0/1] add sysfs exports for TPM 2 PCR registers
-From:   James Bottomley <James.Bottomley@HansenPartnership.com>
-To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Greg KH <greg@kroah.com>
-Cc:     linux-integrity@vger.kernel.org, Mimi Zohar <zohar@linux.ibm.com>,
-        linux-api@vger.kernel.org
-Date:   Tue, 08 Sep 2020 11:14:11 -0700
-In-Reply-To: <20200908180513.GB5390@linux.intel.com>
-References: <20200906203245.18429-1-James.Bottomley@HansenPartnership.com>
-         <20200907053824.GA279469@kroah.com>
-         <20200907132322.GB106839@linux.intel.com>
-         <1599515528.4232.55.camel@HansenPartnership.com>
-         <20200908054552.GB303404@kroah.com> <20200908180513.GB5390@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.26.6 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1726660AbgIHSZ2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 8 Sep 2020 14:25:28 -0400
+Received: from mga04.intel.com ([192.55.52.120]:51499 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726642AbgIHSZZ (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 8 Sep 2020 14:25:25 -0400
+IronPort-SDR: dG5By9HBXXJoXUGErJ6k/+2MyMDAkdGFigq6MHw5IC1d4AaGwY/WhuE+YiEFL0JTzYmNp+z0O0
+ rSqFh8q/Su1g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9738"; a="155602347"
+X-IronPort-AV: E=Sophos;i="5.76,406,1592895600"; 
+   d="scan'208";a="155602347"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2020 11:25:23 -0700
+IronPort-SDR: bTS1USQJwqhUAqTZ1mXCWmgKPD1f8ak2tiuGhfZUz3y/kZrFWzwSTM0whGUwwHvZRrXPondA26
+ 9gLrCKJRf3PA==
+X-IronPort-AV: E=Sophos;i="5.76,406,1592895600"; 
+   d="scan'208";a="448891489"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.111.239]) ([10.209.111.239])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2020 11:25:21 -0700
+Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
+ shadow stack
+To:     Dave Hansen <dave.hansen@intel.com>,
+        Andy Lutomirski <luto@kernel.org>
+Cc:     Dave Martin <Dave.Martin@arm.com>, "H.J. Lu" <hjl.tools@gmail.com>,
+        Florian Weimer <fweimer@redhat.com>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+References: <086c73d8-9b06-f074-e315-9964eb666db9@intel.com>
+ <73c2211f-8811-2d9f-1930-1c5035e6129c@intel.com>
+ <af258a0e-56e9-3747-f765-dfe45ce76bba@intel.com>
+ <ef7f9e24-f952-d78c-373e-85435f742688@intel.com>
+ <20200826164604.GW6642@arm.com> <87ft892vvf.fsf@oldenburg2.str.redhat.com>
+ <CALCETrVeNA0Kt2rW0CRCVo1JE0CKaBxu9KrJiyqUA8LPraY=7g@mail.gmail.com>
+ <0e9996bc-4c1b-cc99-9616-c721b546f857@intel.com>
+ <4f2dfefc-b55e-bf73-f254-7d95f9c67e5c@intel.com>
+ <CAMe9rOqt9kbqERC8U1+K-LiDyNYuuuz3TX++DChrRJwr5ajt6Q@mail.gmail.com>
+ <20200901102758.GY6642@arm.com>
+ <c91bbad8-9e45-724b-4526-fe3674310c57@intel.com>
+ <CALCETrWJQgtO_tP1pEaDYYsFgkZ=fOxhyTRE50THcxYoHyTTwg@mail.gmail.com>
+ <32005d57-e51a-7c7f-4e86-612c2ff067f3@intel.com>
+ <46dffdfd-92f8-0f05-6164-945f217b0958@intel.com>
+ <ed929729-4677-3d3b-6bfd-b379af9272b8@intel.com>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <6e1e22a5-1b7f-2783-351e-c8ed2d4893b8@intel.com>
+Date:   Tue, 8 Sep 2020 11:25:20 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
+MIME-Version: 1.0
+In-Reply-To: <ed929729-4677-3d3b-6bfd-b379af9272b8@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, 2020-09-08 at 21:05 +0300, Jarkko Sakkinen wrote:
-> On Tue, Sep 08, 2020 at 07:45:52AM +0200, Greg KH wrote:
-> > On Mon, Sep 07, 2020 at 02:52:08PM -0700, James Bottomley wrote:
-[...]
-> > > I've got to say I think binary attributes are actively evil.  I
-> > > can see
-> > > they're a necessity when there's no good way to represent the
-> > > data they
-> > > contain, like the bios measurement log or firmware code or a raw
-> > > interface like we do for the SMP frame code in libsas.  But when
-> > > there's a well understood and easy to produce user friendly non-
-> > > binary
-> > > representation, I think dumping binary is inimical to being a
-> > > good API.
-> > 
-> > Agreed.
-> > 
-> > thanks,
-> > 
-> > greg k-h
+On 9/8/2020 10:57 AM, Dave Hansen wrote:
+> On 9/8/20 10:50 AM, Yu, Yu-cheng wrote:
+>> What about this:
+>>
+>> - Do not add any new syscall or arch_prctl for creating a new shadow stack.
+>>
+>> - Add a new arch_prctl that can turn an anonymous mapping to a shadow
+>> stack mapping.
+>>
+>> This allows the application to do whatever is necessary.  It can even
+>> allow GDB or JIT code to create or fix a call stack.
 > 
-> Looking at the patch, something like <device>/pcrs/<hash>/<index>
-> would be a bit cleaner representation than the current <device>/pcrs-
-> <hash>/<index>.
+> Fine with me.  But, it's going to effectively be
+> 
+> 	arch_prctl(PR_CONVERT_TO_SHS..., addr, len);
+> 
+> when it could just as easily be:
+> 
+> 	madvise(addr, len, MADV_SHSTK...);
+> 
+> Or a new syscall.  The only question in my mind is whether we want to do
+> something generic that we can use for other similar things in the
+> future, like:
+> 
+> 	madvise2(addr, len, flags, MADV2_SHSTK...);
+> 
+> I don't really feel strongly about it, though.  Could you please share
+> your logic on why you want a prctl() as opposed to a whole new syscall?
+> 
 
-That's actually a technical limitation of using the current attribute
-groups API: It's designed to support single level directories in sysfs
-(or no directory at all).  That's not to say we can't do multi-level
-ones, but if we do we have to roll our own machinery for managing the
-files rather than relying on the groups API.
+A new syscall is more intrusive, I think.  When creating a new shadow 
+stack, the kernel also installs a restore token on the top of the new 
+shadow stack, and it is somewhat x86-specific.  So far no other arch's 
+need this.
 
-Given that the current groups API does all the nasty lifetime
-management that I'd otherwise have to do in the patch, I have a strong
-incentive for keeping it, which is why the single <device>/pcrs-
-<hash>/<index> format.
-
-James
-
+Yes, madvise is better if the kernel only needs to change the mapping. 
+The application itself can create the restore token before calling 
+madvise().
