@@ -2,59 +2,62 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A73A82617C2
-	for <lists+linux-api@lfdr.de>; Tue,  8 Sep 2020 19:42:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4963526176A
+	for <lists+linux-api@lfdr.de>; Tue,  8 Sep 2020 19:34:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732002AbgIHRlU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 8 Sep 2020 13:41:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56834 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731623AbgIHQOE (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 8 Sep 2020 12:14:04 -0400
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBB96C061379;
-        Tue,  8 Sep 2020 05:50:25 -0700 (PDT)
-Received: by mail-ot1-x344.google.com with SMTP id e23so14723553otk.7;
-        Tue, 08 Sep 2020 05:50:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=xtdyDDmFLb1n/bPdUXOwa5UJMDQzkeNGV49EUd3+LOA=;
-        b=KqsK1NT52K0nEsZYDrIpWu/nttM49kNDxDkaTEQ41DlAcJMqFgy9wed9oAOhBOhmp9
-         JjWIha7WgNUYARkHfU31ZSSrWF9UpyHjc97HwVebb5O26IgiHCFN+l4d/KFWvBWtcZTv
-         Vth5VaeiQvFW3eko41wx4jAtxw2/mg/opj2NomPN7bIdTGl/eFfj34xI+YtfoyBJLhO4
-         ZYaKesEZJWG9ZzXmK/OlmuV73f6uZZIja67+5/qKm7MUEk2RinVcTzcSZzgUo4ISxXyG
-         s1WPksUe7qCIKILuYyO3eGU9gozVTrOuUEkYGUdPmjxsNt2nTuZ5m4OdpixNMvbgJDBA
-         7mvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=xtdyDDmFLb1n/bPdUXOwa5UJMDQzkeNGV49EUd3+LOA=;
-        b=lF7EuLUvOI0d50EyfDmByouOzxgf4sq1SjCTHmYfkzISCy6YEWEyBB+KtUlbkR4Pc/
-         wYmUwgjQncLYMo273nheXGPfs9qqOnaoE5KZST1BfrIrhybuNJIt52LeBJl7dnzyzejq
-         paAlzDICfBebFXs9lEmrNp6u7FrJ4sBvIkZjgnIeyx4DpLPJqciutF60GD54Ar+trhrB
-         0VGWGDUV+aPym7jLVv1IYzWQIurGSHAaeG56/wRP0PiVHWyOSUlT9wEHbe3npzTreKgW
-         ClJVbz7OXY/6IjDTNm02eyAZ/TKhWeUF53dit4aOKYCNX0fc7iGViR/5JYEZbYJ2ASZh
-         qQ5g==
-X-Gm-Message-State: AOAM5329Lt9WlVWVERfGbmmuLfj1q4FARf2K45Mj6q59YtmQ9HYW0888
-        Z8T/9cZoKGQUMiG8ZR7Nc98Z5AIi+QVFKkij8eY=
-X-Google-Smtp-Source: ABdhPJwtfceBKr4ySVSekpTEJOWofhFAdR/HN5Djc/qSNrXRqYaxksUN/th6Slnv/3Rr9epMjUvjruy4l7jgMS6+JTI=
-X-Received: by 2002:a05:6830:1be7:: with SMTP id k7mr17851789otb.162.1599569425234;
- Tue, 08 Sep 2020 05:50:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200908075956.1069018-1-mic@digikod.net> <20200908075956.1069018-2-mic@digikod.net>
- <d216615b48c093ebe9349a9dab3830b646575391.camel@linux.ibm.com> <75451684-58f3-b946-dca4-4760fa0d7440@digikod.net>
-In-Reply-To: <75451684-58f3-b946-dca4-4760fa0d7440@digikod.net>
-From:   Stephen Smalley <stephen.smalley.work@gmail.com>
-Date:   Tue, 8 Sep 2020 08:50:14 -0400
-Message-ID: <CAEjxPJ49_BgGX50ZAhHh79Qy3OMN6sssnUHT_2yXqdmgyt==9w@mail.gmail.com>
-Subject: Re: [RFC PATCH v8 1/3] fs: Introduce AT_INTERPRETED flag for faccessat2(2)
-To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
-Cc:     Mimi Zohar <zohar@linux.ibm.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Aleksa Sarai <cyphar@cyphar.com>,
+        id S1726272AbgIHRc7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 8 Sep 2020 13:32:59 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:44412 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1731496AbgIHQPU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 8 Sep 2020 12:15:20 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 088FEIPO064333;
+        Tue, 8 Sep 2020 11:24:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=7IkzNkZoIUlzOFHw4iTv2RvvdzGg7LZHb0YG+GU5VtQ=;
+ b=Iq2UPoVJJ6oPpgMLMZ6A6VwVNUCH6DP8XdwhNnkdWSC41s+l1O1Ixh6fujSHT63KIfmE
+ 8q5OYZDVSCxPgEo/AyNaMFYJrysqmwHzsyQ9UdKhMFB+F87i+P97/5MWIEFcUhXzz5X0
+ LVgXeHP9OABM4SY32A4pOUp+EwE6u2Z6qScXkOo9NNk0AbUG9zw49Db4lJtXVGhsrXU9
+ OiHGTexSLOrJPKEplVVrvCCZUDwmE0IzN/TrGzeIJdFWDUAu39uICBne4u+dTw2QaRZR
+ etNrZxYgd+03HXpNiVvJ5buymzV7nyJ5tbEzJQ/el0Di9ooawDBbM4gsLc84Fl2wJiDT 2w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 33e949rn8d-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 08 Sep 2020 11:24:39 -0400
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 088FEl3b066233;
+        Tue, 8 Sep 2020 11:24:38 -0400
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com [149.81.74.108])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 33e949rn6w-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 08 Sep 2020 11:24:38 -0400
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+        by ppma05fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 088FNRZ2013119;
+        Tue, 8 Sep 2020 15:24:36 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+        by ppma05fra.de.ibm.com with ESMTP id 33c2a8a6b3-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 08 Sep 2020 15:24:35 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
+        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 088FOXh431850958
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 8 Sep 2020 15:24:33 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 8F2065204F;
+        Tue,  8 Sep 2020 15:24:33 +0000 (GMT)
+Received: from li-f45666cc-3089-11b2-a85c-c57d1a57929f.ibm.com (unknown [9.160.24.202])
+        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 295D75204E;
+        Tue,  8 Sep 2020 15:24:25 +0000 (GMT)
+Message-ID: <01c23b2607a7dbf734722399931473c053d9b362.camel@linux.ibm.com>
+Subject: Re: [RFC PATCH v8 1/3] fs: Introduce AT_INTERPRETED flag for
+ faccessat2(2)
+From:   Mimi Zohar <zohar@linux.ibm.com>
+To:     =?ISO-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+        linux-kernel@vger.kernel.org
+Cc:     Aleksa Sarai <cyphar@cyphar.com>,
         Alexei Starovoitov <ast@kernel.org>,
         Al Viro <viro@zeniv.linux.org.uk>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -75,63 +78,116 @@ Cc:     Mimi Zohar <zohar@linux.ibm.com>,
         Matthew Wilcox <willy@infradead.org>,
         Michael Kerrisk <mtk.manpages@gmail.com>,
         Miklos Szeredi <mszeredi@redhat.com>,
-        =?UTF-8?Q?Philippe_Tr=C3=A9buchet?= 
+        Philippe =?ISO-8859-1?Q?Tr=E9buchet?= 
         <philippe.trebuchet@ssi.gouv.fr>,
         Scott Shell <scottsh@microsoft.com>,
         Sean Christopherson <sean.j.christopherson@intel.com>,
         Shuah Khan <shuah@kernel.org>,
         Steve Dower <steve.dower@python.org>,
         Steve Grubb <sgrubb@redhat.com>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
         Thibaut Sautereau <thibaut.sautereau@clip-os.org>,
         Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
         kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
         linux-integrity@vger.kernel.org,
-        LSM List <linux-security-module@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        linux-security-module@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org,
         Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
-        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@linux.microsoft.com>,
+        =?ISO-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@linux.microsoft.com>,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
         John Johansen <john.johansen@canonical.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Date:   Tue, 08 Sep 2020 11:24:25 -0400
+In-Reply-To: <75451684-58f3-b946-dca4-4760fa0d7440@digikod.net>
+References: <20200908075956.1069018-1-mic@digikod.net>
+         <20200908075956.1069018-2-mic@digikod.net>
+         <d216615b48c093ebe9349a9dab3830b646575391.camel@linux.ibm.com>
+         <75451684-58f3-b946-dca4-4760fa0d7440@digikod.net>
+Content-Type: text/plain; charset="ISO-8859-15"
+X-Mailer: Evolution 3.28.5 (3.28.5-12.el8) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
+ definitions=2020-09-08_07:2020-09-08,2020-09-08 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxscore=0
+ adultscore=0 priorityscore=1501 suspectscore=0 clxscore=1015
+ impostorscore=0 malwarescore=0 phishscore=0 mlxlogscore=525
+ lowpriorityscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2006250000 definitions=main-2009080138
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Sep 8, 2020 at 8:43 AM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> w=
-rote:
->
->
+On Tue, 2020-09-08 at 14:43 +0200, Mickaël Salaün wrote:
 > On 08/09/2020 14:28, Mimi Zohar wrote:
 > > Hi Mickael,
-> >
-> > On Tue, 2020-09-08 at 09:59 +0200, Micka=C3=ABl Sala=C3=BCn wrote:
-> >> +                    mode |=3D MAY_INTERPRETED_EXEC;
-> >> +                    /*
-> >> +                     * For compatibility reasons, if the system-wide =
-policy
-> >> +                     * doesn't enforce file permission checks, then
-> >> +                     * replaces the execute permission request with a=
- read
-> >> +                     * permission request.
-> >> +                     */
-> >> +                    mode &=3D ~MAY_EXEC;
-> >> +                    /* To be executed *by* user space, files must be =
-readable. */
-> >> +                    mode |=3D MAY_READ;
-> >
-> > After this change, I'm wondering if it makes sense to add a call to
-> > security_file_permission().  IMA doesn't currently define it, but
-> > could.
->
-> Yes, that's the idea. We could replace the following inode_permission()
-> with file_permission(). I'm not sure how this will impact other LSMs thou=
-gh.
+> > 
+> > On Tue, 2020-09-08 at 09:59 +0200, Mickaël Salaün wrote:
+> >> diff --git a/fs/open.c b/fs/open.c
+> >> index 9af548fb841b..879bdfbdc6fa 100644
+> >> --- a/fs/open.c
+> >> +++ b/fs/open.c
+> >> @@ -405,9 +405,13 @@ static long do_faccessat(int dfd, const char __user *filename, int mode, int fla
+> >>  	if (mode & ~S_IRWXO)	/* where's F_OK, X_OK, W_OK, R_OK? */
+> >>  		return -EINVAL;
+> >>  
+> >> -	if (flags & ~(AT_EACCESS | AT_SYMLINK_NOFOLLOW | AT_EMPTY_PATH))
+> >> +	if (flags & ~(AT_EACCESS | AT_SYMLINK_NOFOLLOW | AT_EMPTY_PATH |
+> >> +				AT_INTERPRETED))
+> >>  		return -EINVAL;
+> >>  
+> >> +	/* Only allows X_OK with AT_INTERPRETED for now. */
+> >> +	if ((flags & AT_INTERPRETED) && !(mode & S_IXOTH))
+> >> +		return -EINVAL;
+> >>  	if (flags & AT_SYMLINK_NOFOLLOW)
+> >>  		lookup_flags &= ~LOOKUP_FOLLOW;
+> >>  	if (flags & AT_EMPTY_PATH)
+> >> @@ -426,7 +430,30 @@ static long do_faccessat(int dfd, const char __user *filename, int mode, int fla
+> >>  
+> >>  	inode = d_backing_inode(path.dentry);
+> >>  
+> >> -	if ((mode & MAY_EXEC) && S_ISREG(inode->i_mode)) {
+> >> +	if ((flags & AT_INTERPRETED)) {
+> >> +		/*
+> >> +		 * For compatibility reasons, without a defined security policy
+> >> +		 * (via sysctl or LSM), using AT_INTERPRETED must map the
+> >> +		 * execute permission to the read permission.  Indeed, from
+> >> +		 * user space point of view, being able to execute data (e.g.
+> >> +		 * scripts) implies to be able to read this data.
+> >> +		 *
+> >> +		 * The MAY_INTERPRETED_EXEC bit is set to enable LSMs to add
+> >> +		 * custom checks, while being compatible with current policies.
+> >> +		 */
+> >> +		if ((mode & MAY_EXEC)) {
+> > 
+> > Why is the ISREG() test being dropped?   Without dropping it, there
+> > would be no reason for making the existing test an "else" clause.
+> 
+> The ISREG() is not dropped, it is just moved below with the rest of the
+> original code. The corresponding code (with the path_noexec call) for
+> AT_INTERPRETED is added with the next commit, and it relies on the
+> sysctl configuration for compatibility reasons.
 
-They are not equivalent at least as far as SELinux is concerned.
-security_file_permission() was only to be used to revalidate
-read/write permissions previously checked at file open to support
-policy changes and file or process label changes.  We'd have to modify
-the SELinux hook if we wanted to have it check execute access even if
-nothing has changed since open time.
+Dropping the S_ISREG() check here without an explanation is wrong and
+probably unsafe, as it is only re-added in the subsequent patch and
+only for the "sysctl_interpreted_access" case.  Adding this new test
+after the existing test is probably safer.  If the original test fails,
+it returns the same value as this test -EACCES.
+
+Mimi
+
+> 
+> > 
+> >> +			mode |= MAY_INTERPRETED_EXEC;
+> >> +			/*
+> >> +			 * For compatibility reasons, if the system-wide policy
+> >> +			 * doesn't enforce file permission checks, then
+> >> +			 * replaces the execute permission request with a read
+> >> +			 * permission request.
+> >> +			 */
+> >> +			mode &= ~MAY_EXEC;
+> >> +			/* To be executed *by* user space, files must be readable. */
+> >> +			mode |= MAY_READ;
+
+
