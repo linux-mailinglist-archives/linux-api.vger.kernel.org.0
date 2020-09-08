@@ -2,110 +2,105 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A48582609B8
-	for <lists+linux-api@lfdr.de>; Tue,  8 Sep 2020 06:59:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D62E260A49
+	for <lists+linux-api@lfdr.de>; Tue,  8 Sep 2020 07:46:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726387AbgIHE7z (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 8 Sep 2020 00:59:55 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:47178 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726279AbgIHE7z (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 8 Sep 2020 00:59:55 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: krisman)
-        with ESMTPSA id 2488328F7E8
-From:   Gabriel Krisman Bertazi <krisman@collabora.com>
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     luto@kernel.org, tglx@linutronix.de, keescook@chromium.org,
-        x86@kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, willy@infradead.org,
-        linux-kselftest@vger.kernel.org, shuah@kernel.org,
-        kernel@collabora.com
-Subject: Re: [PATCH v6 1/9] kernel: Support TIF_SYSCALL_INTERCEPT flag
-Organization: Collabora
-References: <20200904203147.2908430-1-krisman@collabora.com>
-        <20200904203147.2908430-2-krisman@collabora.com>
-        <20200907101608.ldfhhvcy3vmrkg6b@wittgenstein>
-Date:   Tue, 08 Sep 2020 00:59:49 -0400
-In-Reply-To: <20200907101608.ldfhhvcy3vmrkg6b@wittgenstein> (Christian
-        Brauner's message of "Mon, 7 Sep 2020 12:16:08 +0200")
-Message-ID: <87wo14n9ru.fsf@collabora.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+        id S1728676AbgIHFqA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 8 Sep 2020 01:46:00 -0400
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:48483 "EHLO
+        wout1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728654AbgIHFp6 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 8 Sep 2020 01:45:58 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailout.west.internal (Postfix) with ESMTP id 0C862C36;
+        Tue,  8 Sep 2020 01:45:56 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Tue, 08 Sep 2020 01:45:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm1; bh=RzbxhO67ICGW54veN9IStE7J1Fe
+        6Y49VyElbXUI/WAo=; b=oLovFA1ZNAEJpmSDjERuiGz6k6LPoHCMY320kjciCcz
+        Mp6clqpgRaUo0+ET1nWFmZnnUuMpc+s3+c34BRcrsU4RgrFtzXTAqV+oVU+UamtH
+        R0q3O6tEV9jY6hMjdG9PAWljUZl7B9cCQJTjcqay93apJ8el3cySN5Wxz5u4ub1g
+        bsxWMzyHLNJPQno7uS+fCYHnF03qR4gOLb1Zz1ixWHd1nmB2Bo2WVz5FrAPBchAo
+        oEsp2grqnpCnCCoT+ZW0a5WqoH5cNbsBFizLbq8IfXvtROaNsIAZFSQuULWD8SjC
+        aCRKGKkcE6YdWtAismauwQ+eJrDZTdMm+QoDkhlrj8w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=RzbxhO
+        67ICGW54veN9IStE7J1Fe6Y49VyElbXUI/WAo=; b=Sq9Cnzr+aam6wymjI/S9/O
+        GPcj02LrX8poR8H4BXk0InXmJJb68h5rZO0eUSRjMEtqnJA5uWLz2LDp/MvyOtaK
+        Cnrjdvy7ONqPb12Wad6/x2yqE7nYZNzuQUG+XzO5TJ7GkEYZ5OA2iej8i/dFvmTa
+        VFSleyp1OJVHprV3XELuROh/Z3JmUIL32KAqErITKYc1GAjYOY+yL9D+aU4iUDGq
+        V1DHHY5L0MM9LrzEbs0VK22DFzrcWfcRqc0I2GMLyUwg3n2//XCFLde87w2lZ0kW
+        /xpmMkv5P3Kz5EX57jyBzERVappR/gm02g8gj7MJEliRKGAaqtPyLxx8fBr+hj1g
+        ==
+X-ME-Sender: <xms:lBpXX6aWSRXWZjx0L8X3ZVuCF_K3l1UNeLc9Tj42nY1-C8DOt_G6MQ>
+    <xme:lBpXX9ZkrEoRD9cZ_xX6kDVuMAxdM6NgA7cfpHQZv6zJxmDrDlX-Rnx9beacCnrPE
+    IhHFpD-SqnMSg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudehuddgleejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgvghcu
+    mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeevueehje
+    fgfffgiedvudekvdektdelleelgefhleejieeugeegveeuuddukedvteenucfkphepkeef
+    rdekiedrjeegrdeigeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
+    hlfhhrohhmpehgrhgvgheskhhrohgrhhdrtghomh
+X-ME-Proxy: <xmx:lBpXX0-Lpy7BlHDVMiSAMDXsestTtAZUV4_Qa7vVrdEPrzshiKGoIQ>
+    <xmx:lBpXX8q2NpjYIlSvEHon8hcdpsZcQnEmZeiFk39ONgJX7nto7_mzQQ>
+    <xmx:lBpXX1oUAeK_cM3izGi1f0rf8bds8nEV0PogwD2JM_tBbGprq3rKhw>
+    <xmx:lBpXX82SlGGux2yC8_ALTS0uixQ7IFB9qFr89IcFZ1n6WaVi2cNYoQ>
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        by mail.messagingengine.com (Postfix) with ESMTPA id DB0493064610;
+        Tue,  8 Sep 2020 01:45:55 -0400 (EDT)
+Date:   Tue, 8 Sep 2020 07:45:52 +0200
+From:   Greg KH <greg@kroah.com>
+To:     James Bottomley <James.Bottomley@hansenpartnership.com>
+Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        linux-integrity@vger.kernel.org, Mimi Zohar <zohar@linux.ibm.com>,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH RESEND v4 0/1] add sysfs exports for TPM 2 PCR registers
+Message-ID: <20200908054552.GB303404@kroah.com>
+References: <20200906203245.18429-1-James.Bottomley@HansenPartnership.com>
+ <20200907053824.GA279469@kroah.com>
+ <20200907132322.GB106839@linux.intel.com>
+ <1599515528.4232.55.camel@HansenPartnership.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1599515528.4232.55.camel@HansenPartnership.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Christian Brauner <christian.brauner@ubuntu.com> writes:
+On Mon, Sep 07, 2020 at 02:52:08PM -0700, James Bottomley wrote:
+> On Mon, 2020-09-07 at 16:23 +0300, Jarkko Sakkinen wrote:
+> > On Mon, Sep 07, 2020 at 07:38:24AM +0200, Greg KH wrote:
+> > > Please just use a binary blob format.  Binary sysfs files are
+> > > exactly what this is for, you are just passing the data through the
+> > > kernel from the hardware to userspace.
+> > > 
+> > > You can have 24 binary files if that makes it easier, but the
+> > > existing format really is an abuse of sysfs.
+> 
+> There is no existing format for TPM 2.0 ... that's part of the problem
+> since we certainly didn't want to carry over the TPM 1.2 format.
 
-> On Fri, Sep 04, 2020 at 04:31:39PM -0400, Gabriel Krisman Bertazi wrote:
->> index afe01e232935..3511c98a7849 100644
->> --- a/include/linux/sched.h
->> +++ b/include/linux/sched.h
->> @@ -959,7 +959,11 @@ struct task_struct {
->>  	kuid_t				loginuid;
->>  	unsigned int			sessionid;
->>  #endif
->> -	struct seccomp			seccomp;
->> +
->> +	struct {
->> +		unsigned int			syscall_intercept;
->> +		struct seccomp			seccomp;
->> +	};
->
-> If there's no specific reason to do this I'd not wrap this in an
-> anonymous struct. It doesn't really buy anything and there doesn't seem
-> to be  precedent in struct task_struct right now. Also, if this somehow
-> adds padding it seems you might end up increasing the size of struct
-> task_struct more than necessary by accident? (I might be wrong
-> though.)
+Ok, then no, if there is not already a binary format then you should not
+use a binary sysfs file as you are then just sending a kernel structure
+to userspace, not a hardware structure.
 
-Hi Christian,
+> I've got to say I think binary attributes are actively evil.  I can see
+> they're a necessity when there's no good way to represent the data they
+> contain, like the bios measurement log or firmware code or a raw
+> interface like we do for the SMP frame code in libsas.  But when
+> there's a well understood and easy to produce user friendly non-binary
+> representation, I think dumping binary is inimical to being a good API.
 
-Thanks for your review on this and on the other patches of this series.
+Agreed.
 
-I wrapped these to prevent struct layout randomization from separating
-the flags field from seccomp, as they are going to be used together and
-I was trying to reduce overhead to seccomp entry due to two cache misses
-when reading this structure.  Measuring it seccomp_benchmark didn't show
-any difference with the unwrapped version, so perhaps it was a bit of
-premature optimization?
+thanks,
 
->> diff --git a/include/linux/syscall_intercept.h b/include/linux/syscall_intercept.h
->> new file mode 100644
->> index 000000000000..725d157699da
->> --- /dev/null
->> +++ b/include/linux/syscall_intercept.h
->> @@ -0,0 +1,70 @@
->> +/* SPDX-License-Identifier: GPL-2.0 */
->> +/*
->> + * Copyright (C) 2020 Collabora Ltd.
->> + */
->> +#ifndef _SYSCALL_INTERCEPT_H
->> +#define _SYSCALL_INTERCEPT_H
->> +
->> +#include <linux/sched.h>
->> +#include <linux/sched/signal.h>
->> +#include <linux/thread_info.h>
->> +
->> +#define SYSINT_SECCOMP		0x1
->
-> <bikeshed>
->
-> Can we maybe use a better name for this? I noone minds the extra
-> characters I'd suggest:
-> SYSCALL_INTERCEPT_SECCOMP
-> or
-> SYS_INTERCEPT_SECCOMP
->
-> </bikeshed>
->
-
-will do.
-
-Thanks,
-
--- 
-Gabriel Krisman Bertazi
+greg k-h
