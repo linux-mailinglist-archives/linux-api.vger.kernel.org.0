@@ -2,242 +2,104 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D92E263037
-	for <lists+linux-api@lfdr.de>; Wed,  9 Sep 2020 17:10:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 509692633BD
+	for <lists+linux-api@lfdr.de>; Wed,  9 Sep 2020 19:09:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728709AbgIIPJh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 9 Sep 2020 11:09:37 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:42763 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1730093AbgIIL7a (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 9 Sep 2020 07:59:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1599652741;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Z3UaBeQLwySDgbYv1//ym4a5uQWApJgjQehsNp+Ge+U=;
-        b=KPdYL86qQ1mB+8T1GYWg3w8ckuAMOfjmGuolxjQKdv/nspY2uOw2JN7SHWOkiDNmBtkzb4
-        5Tlz+K3vG2CUgCtCgmBy6Iry6cKcUcyDr0KSALXymXos+1zGcE8eJPMRiwy3O7VN0BkojL
-        jKMOvLKnjC6nBOO/w33hxCCskAnv8Mw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-524-Otv-oQy-PLWyX_LQoEpklg-1; Wed, 09 Sep 2020 07:38:59 -0400
-X-MC-Unique: Otv-oQy-PLWyX_LQoEpklg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16407873085;
-        Wed,  9 Sep 2020 11:38:57 +0000 (UTC)
-Received: from localhost (ovpn-112-226.ams2.redhat.com [10.36.112.226])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 0DAC25D9E8;
-        Wed,  9 Sep 2020 11:38:52 +0000 (UTC)
-Date:   Wed, 9 Sep 2020 12:38:51 +0100
-From:   Stefan Hajnoczi <stefanha@redhat.com>
-To:     Andy Lutomirski <luto@kernel.org>,
-        Adalbert =?utf-8?B?TGF6xINy?= <alazar@bitdefender.com>
-Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
-        Linux-MM <linux-mm@kvack.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Graf <graf@amazon.com>,
-        Jerome Glisse <jglisse@redhat.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Mihai =?utf-8?B?RG9uyJt1?= <mdontu@bitdefender.com>,
-        Mircea Cirjaliu <mcirjaliu@bitdefender.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Sargun Dhillon <sargun@sargun.me>,
+        id S1730914AbgIIRJS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 9 Sep 2020 13:09:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34714 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730478AbgIIRJA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 9 Sep 2020 13:09:00 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D83C1C061573;
+        Wed,  9 Sep 2020 10:08:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+        Sender:Reply-To:Content-ID:Content-Description;
+        bh=MRdA/hKdv0ZcdKd+zTHc7r+qLakKPSZ3f21yjj7iix8=; b=W0z7GgqihZ/V4Z7UeVxZGpUsGi
+        fNtN2kOEVeoJg5PsX4hYNOL9UiKCDC1aL6S8iu96XC/lfTSWIcTebCpqJ42vX/9r6SALHImHwdpEA
+        w7x5dNWyxDOj35NtO6bfUn0jhcKHgNnDIik72Xdto/v3qNPbg2L8s335x9JHltpJEUoFNxzi0jMZM
+        56LECQWH4AagiWAmkERe4aycbsVrjyL+mF0zcaH9PgyWiPunyhED6QEeXT32E2RCY2sPDVmsdl36+
+        X1Kl0YB/gsqBOMjd8Swoai7DBdYFxORo1iIW5YcAOH8/JyAJQk3ipHD1bhuZmBnXCqF23m8pepW8E
+        GSsMNYIg==;
+Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kG3aV-0008Hj-Iu; Wed, 09 Sep 2020 17:08:51 +0000
+Date:   Wed, 9 Sep 2020 18:08:51 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>, linux-kernel@vger.kernel.org,
         Aleksa Sarai <cyphar@cyphar.com>,
-        Oleg Nesterov <oleg@redhat.com>, Jann Horn <jannh@google.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Christian Heimes <christian@python.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Deven Bowers <deven.desai@linux.microsoft.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Eric Chiang <ericchiang@google.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromium.org>,
-        Matthew Wilcox <willy@infradead.org>
-Subject: Re: [RESEND RFC PATCH 0/5] Remote mapping
-Message-ID: <20200909113851.GB15584@stefanha-x1.localdomain>
-References: <20200904113116.20648-1-alazar@bitdefender.com>
- <20200907150547.hst4luvrpntdb3lr@wittgenstein>
- <CALCETrUSUp_7svg8EHNTk3nQ0x9sdzMCU=h8G-Sy6=SODq5GHg@mail.gmail.com>
+        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
+        Matthew Garrett <mjg59@google.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Philippe =?iso-8859-1?Q?Tr=E9buchet?= 
+        <philippe.trebuchet@ssi.gouv.fr>,
+        Scott Shell <scottsh@microsoft.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Steve Dower <steve.dower@python.org>,
+        Steve Grubb <sgrubb@redhat.com>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Thibaut Sautereau <thibaut.sautereau@clip-os.org>,
+        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [RFC PATCH v8 0/3] Add support for AT_INTERPRETED (was O_MAYEXEC)
+Message-ID: <20200909170851.GL6583@casper.infradead.org>
+References: <20200908075956.1069018-1-mic@digikod.net>
+ <20200908185026.GU1236603@ZenIV.linux.org.uk>
+ <e3223b50-0d00-3b64-1e09-cfb1b9648b02@digikod.net>
 MIME-Version: 1.0
-In-Reply-To: <CALCETrUSUp_7svg8EHNTk3nQ0x9sdzMCU=h8G-Sy6=SODq5GHg@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="vGgW1X5XWziG23Ko"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e3223b50-0d00-3b64-1e09-cfb1b9648b02@digikod.net>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
---vGgW1X5XWziG23Ko
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, Sep 09, 2020 at 09:19:11AM +0200, Mickaël Salaün wrote:
+> 
+> On 08/09/2020 20:50, Al Viro wrote:
+> > On Tue, Sep 08, 2020 at 09:59:53AM +0200, Mickaël Salaün wrote:
+> >> Hi,
+> >>
+> >> This height patch series rework the previous O_MAYEXEC series by not
+> >> adding a new flag to openat2(2) but to faccessat2(2) instead.  As
+> >> suggested, this enables to perform the access check on a file descriptor
+> >> instead of on a file path (while opening it).  This may require two
+> >> checks (one on open and then with faccessat2) but it is a more generic
+> >> approach [8].
+> > 
+> > Again, why is that folded into lookup/open/whatnot, rather than being
+> > an operation applied to a file (e.g. O_PATH one)?
+> 
+> I don't understand your question. AT_INTERPRETED can and should be used
+> with AT_EMPTY_PATH. The two checks I wrote about was for IMA.
 
-On Mon, Sep 07, 2020 at 01:43:48PM -0700, Andy Lutomirski wrote:
-> On Mon, Sep 7, 2020 at 8:05 AM Christian Brauner
-> <christian.brauner@ubuntu.com> wrote:
-> >
-> > On Fri, Sep 04, 2020 at 02:31:11PM +0300, Adalbert Laz=C4=83r wrote:
-> > > This patchset adds support for the remote mapping feature.
-> > > Remote mapping, as its name suggests, is a means for transparent and
-> > > zero-copy access of a remote process' address space.
-> > > access of a remote process' address space.
-> > >
-> > > The feature was designed according to a specification suggested by
-> > > Paolo Bonzini:
-> > > >> The proposed API is a new pidfd system call, through which the par=
-ent
-> > > >> can map portions of its virtual address space into a file descript=
-or
-> > > >> and then pass that file descriptor to a child.
-> > > >>
-> > > >> This should be:
-> > > >>
-> > > >> - upstreamable, pidfd is the new cool thing and we could sell it a=
-s a
-> > > >> better way to do PTRACE_{PEEK,POKE}DATA
-> >
-> > In all honesty, that sentence made me a bit uneasy as it reads like thi=
-s
-> > is implemented on top of pidfds because it makes it more likely to go
-> > upstream not because it is the right design. To be clear, I'm not
-> > implying any sort of malicious intent on your part but I would suggest
-> > to phrase this a little better. :)
->=20
->=20
-> I thought about this whole thing some more, and here are some thoughts.
->=20
-> First, I was nervous about two things.  One was faulting in pages from
-> the wrong context.  (When a normal page fault or KVM faults in a page,
-> the mm is loaded.  (In the KVM case, the mm is sort of not loaded when
-> the actual fault happens, but the mm is loaded when the fault is
-> handled, I think.  Maybe there are workqueues involved and I'm wrong.)
->  When a remote mapping faults in a page, the mm is *not* loaded.)
-> This ought not to be a problem, though -- get_user_pages_remote() also
-> faults in pages from a non-current mm, and that's at least supposed to
-> work correctly, so maybe this is okay.
->=20
-> Second is recursion.  I think this is a genuine problem.
->=20
-> And I think that tying this to pidfds is the wrong approach.  In fact,
-> tying it to processes at all seems wrong.  There is a lot of demand
-> for various forms of memory isolation in which memory is mapped only
-> by its intended user.  Using something tied to a process mm gets in
-> the way of this in the same way that KVM's current mapping model gets
-> in the way.
->=20
-> All that being said, I think the whole idea of making fancy address
-> spaces composed from other mappable objects is neat and possibly quite
-> useful.  And, if you squint a bit, this is a lot like what KVM does
-> today.
->=20
-> So I suggest something that may be more generally useful as an
-> alternative.  This is a sketch and very subject to bikeshedding:
->=20
-> Create an empty address space:
->=20
-> int address_space_create(int flags, etc);
->=20
-> Map an fd into an address space:
->=20
-> int address_space_mmap(int asfd, int fd_to_map, offset, size, prot,
-> ...);  /* might run out of args here */
->=20
-> Unmap from an address space:
->=20
-> int address_space_munmap(int asfd, unsigned long addr, unsigned long len)=
-;
->=20
-> Stick an address space into KVM:
->=20
-> ioctl(vmfd, KVM_MAP_ADDRESS_SPACE, asfd);  /* or similar */
->=20
-> Maybe some day allow mapping an address space into a process.
->=20
-> mmap(..., asfd, ...);
->=20
->=20
-> And at least for now, there's a rule that an address space that is
-> address_space_mmapped into an address space is disallowed.
->=20
->=20
-> Maybe some day we also allow mremap(), madvise(), etc.  And maybe some
-> day we allow creating a special address_space that represents a real
-> process's address space.
->=20
->=20
-> Under the hood, an address_space could own an mm_struct that is not
-> used by any tasks.  And we could have special memfds that are bound to
-> a VM such that all you can do with them is stick them into an
-> address_space and map that address_space into the VM in question.  For
-> this to work, we would want a special vm_operation for mapping into a
-> VM.
->=20
->=20
-> What do you all think?  Is this useful?  Does it solve your problems?
-> Is it a good approach going forward?
+Al is saying you should add a new syscall, not try to fold it into
+some existing syscall.
 
-Hi Adalbert and Andy,
-As everyone continues to discuss how the mechanism should look, I want
-to share two use cases for something like this. Let me know if you would
-like more detail on these use cases.
-
-They requirement in both cases is that process A can map a virtual
-memory range from process B so that mmap/munmap operations within the
-memory range in process B also affect process A.
-
-An enforcing vIOMMU for vhost-user and vfio-user
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-vhost-user, vfio-user, and other out-of-process device emulation
-interfaces need a way for the virtual machine manager (VMM) to enforce
-the vIOMMU mappings on the device emulation process. The VMM emulates
-the vIOMMU and only wants to expose a subset of memory to the device
-emulation process. This subset can change as the guest programs the
-vIOMMU.
-
-Today the VMM passes all guest RAM fds to the device emulation process
-and has no way of restricting access or revoking it later.
-
-The new mechanism would allow the VMM to add/remove mappings so that the
-device emulation process can only access ranges of memory programmed by
-the guest vIOMMU. Accesses to unmapped addresses would raise a signal.
-
-Accelerating the virtio-fs DAX window
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The virtiofsd vhost-user process handles guest file map/unmap messages.
-The map/unmap messages allow the guest to map ranges of files into its
-memory space. The guest kernel then uses DAX to access the file pages
-without copying their contents into the guest page cache and mmap
-MAP_SHARED is coherent when guests access the same file.
-
-Today virtiofsd sends a message to the VMM over a UNIX domain socket
-asking for an mmap/munmap. The VMM must perform the mapping on behalf of
-virtiofsd. This communication and file descriptor passing is clumsy and
-slow.
-
-The new mechanism would allow virtiofsd to map/unmap without extra
-coordination with the VMM. The VMM only needs to perform an initial mmap
-of the DAX window so that kvm.ko can resolve page faults to that region.
-
-Stefan
-
---vGgW1X5XWziG23Ko
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9YvssACgkQnKSrs4Gr
-c8jgmAgAuJ0jppeoVYZkdUALumrBuzhXCQHDvchy1ZDTx/LXIOH5qdykOl5yDwbX
-1Nnd+ADNa1DURY4ugsfdUexIi6ggJKZ0IlK0p4YO9JRvKnB6Db9chzUd5tylhAac
-YfOfIh+AHojv2O144RUoPwMIFebDTd+ZIWNnDe3yufSJ/eXFFoA6TXSQoEfyxjTM
-DPUHgbxDjXqciDD+m5S/oOPv6b/Krkce4aR/+KAFX3erP9Jea2FYbRK3ID6Dly9r
-B8307HMKuIvxlPTFsp1PgRTni/jwTraGvKRq9Pk4SgLoz3Cu0smDOQI93PyRvGf9
-0ewFaj+4BoTulmHbxK8hXHA666AUaA==
-=+lbr
------END PGP SIGNATURE-----
-
---vGgW1X5XWziG23Ko--
-
+I agree with him.  Add a new syscall, just like you were told to do it
+last time.
