@@ -2,121 +2,214 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 71A7A264A28
-	for <lists+linux-api@lfdr.de>; Thu, 10 Sep 2020 18:46:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B11B6264A31
+	for <lists+linux-api@lfdr.de>; Thu, 10 Sep 2020 18:47:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726922AbgIJQo6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 10 Sep 2020 12:44:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56178 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725831AbgIJQnp (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 10 Sep 2020 12:43:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1599756194;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=TgSJjTXbpkXh2o0gkcQWD9wwqe3worwk3nJzHA/vWWg=;
-        b=OWTprGlgaNS3Bg73XwwpR4AIE/Us9t7MxyNxCuidWnn6RGhsgcHawaaQ3gxbUFu3M1zMB6
-        eVniJbYEJmG4QKfCotv8iqm4rXoDL4nMPyq3gv73hIAjBtdcP/nhmTfR9FN4+MQ2bp9bt8
-        XYn+pNCC2iaW+cZbR9kFiaaxjAu/jTY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-27-TeaD4IRHOQaY8UHnGtFJPg-1; Thu, 10 Sep 2020 12:43:10 -0400
-X-MC-Unique: TeaD4IRHOQaY8UHnGtFJPg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5CF81801AEA;
-        Thu, 10 Sep 2020 16:43:08 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.40.195.89])
-        by smtp.corp.redhat.com (Postfix) with SMTP id 26F737EEC9;
-        Thu, 10 Sep 2020 16:43:03 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Thu, 10 Sep 2020 18:43:08 +0200 (CEST)
-Date:   Thu, 10 Sep 2020 18:43:03 +0200
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Mircea CIRJALIU - MELIU <mcirjaliu@bitdefender.com>
-Cc:     Adalbert =?utf-8?B?TGF6xINy?= <alazar@bitdefender.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        id S1726167AbgIJQrW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 10 Sep 2020 12:47:22 -0400
+Received: from smtp-1908.mail.infomaniak.ch ([185.125.25.8]:52761 "EHLO
+        smtp-1908.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725974AbgIJQrO (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 10 Sep 2020 12:47:14 -0400
+Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4BnPst0XCMzlhPqw;
+        Thu, 10 Sep 2020 18:46:26 +0200 (CEST)
+Received: from localhost (unknown [94.23.54.103])
+        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4BnPsr3F4Wzlh8T3;
+        Thu, 10 Sep 2020 18:46:24 +0200 (CEST)
+From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
+To:     linux-kernel@vger.kernel.org
+Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Graf <graf@amazon.com>,
-        Stefan Hajnoczi <stefanha@redhat.com>,
-        Jerome Glisse <jglisse@redhat.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Mihai =?utf-8?B?RG9uyJt1?= <mdontu@bitdefender.com>,
         Andy Lutomirski <luto@kernel.org>,
         Arnd Bergmann <arnd@arndb.de>,
-        Sargun Dhillon <sargun@sargun.me>,
-        Aleksa Sarai <cyphar@cyphar.com>, Jann Horn <jannh@google.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Christian Heimes <christian@python.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Deven Bowers <deven.desai@linux.microsoft.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Eric Chiang <ericchiang@google.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromium.org>,
+        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
+        Matthew Garrett <mjg59@google.com>,
         Matthew Wilcox <willy@infradead.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>
-Subject: Re: [RESEND RFC PATCH 4/5] mm/remote_mapping: use a pidfd to access
- memory belonging to unrelated process
-Message-ID: <20200910164302.GA12976@redhat.com>
-References: <20200904113116.20648-1-alazar@bitdefender.com>
- <20200904113116.20648-5-alazar@bitdefender.com>
- <20200907143008.GB31050@redhat.com>
- <AM7PR02MB608232256B97797EDE394552BB260@AM7PR02MB6082.eurprd02.prod.outlook.com>
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        =?UTF-8?q?Philippe=20Tr=C3=A9buchet?= 
+        <philippe.trebuchet@ssi.gouv.fr>,
+        Scott Shell <scottsh@microsoft.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Steve Dower <steve.dower@python.org>,
+        Steve Grubb <sgrubb@redhat.com>,
+        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+        Thibaut Sautereau <thibaut.sautereau@clip-os.org>,
+        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: [RFC PATCH v9 0/3] Add introspect_access(2) (was O_MAYEXEC)
+Date:   Thu, 10 Sep 2020 18:46:09 +0200
+Message-Id: <20200910164612.114215-1-mic@digikod.net>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <AM7PR02MB608232256B97797EDE394552BB260@AM7PR02MB6082.eurprd02.prod.outlook.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 09/09, Mircea CIRJALIU - MELIU wrote:
->
-> > From: Oleg Nesterov <oleg@redhat.com>
-> >
-> > But why is it safe to drop ->mmap_sem without checking
-> > FAULT_FLAG_ALLOW_RETRY/RETRY_NOWAIT ?
-> >
-> Dropping mmap_sem will have the same effects regardless of FAULT_FLAG_ALLOW_RETRY/RETRY_NOWAIT.
-> Another thread can unmap the VMA from underneath us, or remap another one in its place.
-> In the end, the VMA has to be revalidated when re-acquiring the mmap_sem.
-> Or am I wrong?!
+Hi,
 
-To simplify, lets forget about RETRY_NOWAIT/TRIED.
+This ninth patch series rework the previous AT_INTERPRETED and O_MAYEXEC
+series with a new syscall: introspect_access(2) .  Access check are now
+only possible on a file descriptor, which enable to avoid possible race
+conditions in user space.
 
-Again, I can be easily wrong. But iiuc, you simply can't drop mmap_sem
-if FAULT_FLAG_ALLOW_RETRY is not set, the caller doesn't expect mmap_sem
-can be unlocked.
+For now, the only LSM hook triggered by introspect_access(2) is
+inode_permission() which takes a struct inode as argument.  However,
+struct path is still available in this syscall, which enables to add a
+new hook to fit the needs of IMA and other path-based LSMs.
 
-OTOH, if FAULT_FLAG_ALLOW_RETRY is set and you drop mmap_sem, you can
-only return VM_FAULT_RETRY to let the caller know it was dropped.
+Goal of introspect_access(2)
+============================
 
-> > > +	 * If FAULT_FLAG_ALLOW_RETRY is set, the mmap_sem must be
-> > released
-> > > +	 * before returning VM_FAULT_RETRY only if
-> > FAULT_FLAG_RETRY_NOWAIT is
-> > > +	 * not set.
-> >
-> > Well, iiuc FAULT_FLAG_ALLOW_RETRY means that ->fault() _can_ drop
-> > mmap_sem and return VM_FAULT_RETRY (unless NOWAIT).
->
-> That comment is just copied from elsewhere in the code.
-> My interpretation was that the fault handler _should_ return with mmap_sem
-> held or not depending on FAULT_FLAG_RETRY_NOWAIT.
+The goal of this patch series is to enable to control script execution
+with interpreters help.  A new introspect_access() system call is added
+to enable user space script interpreters to delegate to the kernel (and
+thus the system security policy) the permission to interpret/execute
+scripts or other files containing what can be seen as commands.
 
-Yes, this depends on FAULT_FLAG_RETRY_NOWAIT.
+A simple system-wide security policy can be enforced by the system
+administrator through a sysctl configuration consistent with the mount
+points or the file access rights.  The documentation patch explains the
+prerequisites.
 
-But your comment above looks as if he mmap_sem must be _always_ released
-if FAULT_FLAG_ALLOW_RETRY && !FAULT_FLAG_RETRY_NOWAIT. This is not true.
+Furthermore, the security policy can also be delegated to an LSM, either
+a MAC system or an integrity system.  For instance, the new kernel
+MAY_INTROSPECTION_EXEC flag is required to close a major IMA
+measurement/appraisal interpreter integrity gap by bringing the ability
+to check the use of scripts [1].  Other uses are expected, such as for
+magic-links [2], SGX integration [3], bpffs [4] or IPE [5].
 
+Possible extended usage
+=======================
 
-Nevermind. If you ever resend this patch, please CC mm/ experts. I tried
-to look at this code again and I feel it has much more problems, but as
-I said this is not my area.
+For now, only the X_OK mode is compatible with introspect_access(2).
+This enables to restrict the addition of new control flows in a process.
+Using R_OK or W_OK with introspect_access(2) returns -EINVAL.
 
-And I think you should split this patch, mirror_vm_fault() should come in
-a separate patch to simplify the review.
+Possible future use-cases for R_OK with introspect_access(2) may be to
+check configuration files that may impact the behavior of applications
+(i.e.  influence critical part of the current control flow).  Those
+should then be trusted as well.  The W_OK with introspect_access(2)
+could be used to check that a file descriptor is allowed to receive
+sensitive data such as debug logs.
 
-Oleg.
+Prerequisite of its use
+=======================
+
+User space needs to adapt to take advantage of this new feature.  For
+example, the PEP 578 [6] (Runtime Audit Hooks) enables Python 3.8 to be
+extended with policy enforcement points related to code interpretation,
+which can be used to align with the PowerShell audit features.
+Additional Python security improvements (e.g. a limited interpreter
+without -c, stdin piping of code) are on their way [7].
+
+Examples
+========
+
+The initial idea comes from CLIP OS 4 and the original implementation
+has been used for more than 12 years:
+https://github.com/clipos-archive/clipos4_doc
+Chrome OS has a similar approach:
+https://chromium.googlesource.com/chromiumos/docs/+/master/security/noexec_shell_scripts.md
+
+Userland patches can be found here:
+https://github.com/clipos-archive/clipos4_portage-overlay/search?q=O_MAYEXEC
+Actually, there is more than the O_MAYEXEC changes (which matches this search)
+e.g., to prevent Python interactive execution. There are patches for
+Bash, Wine, Java (Icedtea), Busybox's ash, Perl and Python. There are
+also some related patches which do not directly rely on O_MAYEXEC but
+which restrict the use of browser plugins and extensions, which may be
+seen as scripts too:
+https://github.com/clipos-archive/clipos4_portage-overlay/tree/master/www-client
+
+An introduction to O_MAYEXEC was given at the Linux Security Summit
+Europe 2018 - Linux Kernel Security Contributions by ANSSI:
+https://www.youtube.com/watch?v=chNjCRtPKQY&t=17m15s
+The "write xor execute" principle was explained at Kernel Recipes 2018 -
+CLIP OS: a defense-in-depth OS:
+https://www.youtube.com/watch?v=PjRE0uBtkHU&t=11m14s
+See also an overview article: https://lwn.net/Articles/820000/
+
+This patch series can be applied on top of v5.9-rc4 .  This can be tested
+with CONFIG_SYSCTL.  I would really appreciate constructive comments on
+this patch series.
+
+Previous version:
+https://lore.kernel.org/lkml/20200908075956.1069018-1-mic@digikod.net/
+
+[1] https://lore.kernel.org/lkml/1544647356.4028.105.camel@linux.ibm.com/
+[2] https://lore.kernel.org/lkml/20190904201933.10736-6-cyphar@cyphar.com/
+[3] https://lore.kernel.org/lkml/CALCETrVovr8XNZSroey7pHF46O=kj_c5D9K8h=z2T_cNrpvMig@mail.gmail.com/
+[4] https://lore.kernel.org/lkml/CALCETrVeZ0eufFXwfhtaG_j+AdvbzEWE0M3wjXMWVEO7pj+xkw@mail.gmail.com/
+[5] https://lore.kernel.org/lkml/20200406221439.1469862-12-deven.desai@linux.microsoft.com/
+[6] https://www.python.org/dev/peps/pep-0578/
+[7] https://lore.kernel.org/lkml/0c70debd-e79e-d514-06c6-4cd1e021fa8b@python.org/
+
+Regards,
+
+Mickaël Salaün (3):
+  fs: Add introspect_access(2) syscall implementation and related sysctl
+  arch: Wire up introspect_access(2)
+  selftest/interpreter: Add tests for introspect_access(2) policies
+
+ Documentation/admin-guide/sysctl/fs.rst       |  50 +++
+ arch/alpha/kernel/syscalls/syscall.tbl        |   1 +
+ arch/arm/tools/syscall.tbl                    |   1 +
+ arch/arm64/include/asm/unistd.h               |   2 +-
+ arch/arm64/include/asm/unistd32.h             |   2 +
+ arch/ia64/kernel/syscalls/syscall.tbl         |   1 +
+ arch/m68k/kernel/syscalls/syscall.tbl         |   1 +
+ arch/microblaze/kernel/syscalls/syscall.tbl   |   1 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl     |   1 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl     |   1 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl     |   1 +
+ arch/parisc/kernel/syscalls/syscall.tbl       |   1 +
+ arch/powerpc/kernel/syscalls/syscall.tbl      |   1 +
+ arch/s390/kernel/syscalls/syscall.tbl         |   1 +
+ arch/sh/kernel/syscalls/syscall.tbl           |   1 +
+ arch/sparc/kernel/syscalls/syscall.tbl        |   1 +
+ arch/x86/entry/syscalls/syscall_32.tbl        |   1 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |   1 +
+ arch/xtensa/kernel/syscalls/syscall.tbl       |   1 +
+ fs/open.c                                     |  79 ++++
+ include/linux/fs.h                            |   3 +
+ include/linux/syscalls.h                      |   1 +
+ include/uapi/asm-generic/unistd.h             |   4 +-
+ kernel/sysctl.c                               |  12 +-
+ .../testing/selftests/interpreter/.gitignore  |   2 +
+ tools/testing/selftests/interpreter/Makefile  |  18 +
+ tools/testing/selftests/interpreter/config    |   1 +
+ .../interpreter/introspection_policy_test.c   | 361 ++++++++++++++++++
+ 28 files changed, 547 insertions(+), 4 deletions(-)
+ create mode 100644 tools/testing/selftests/interpreter/.gitignore
+ create mode 100644 tools/testing/selftests/interpreter/Makefile
+ create mode 100644 tools/testing/selftests/interpreter/config
+ create mode 100644 tools/testing/selftests/interpreter/introspection_policy_test.c
+
+-- 
+2.28.0
 
