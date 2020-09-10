@@ -2,120 +2,345 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 16B4E265197
-	for <lists+linux-api@lfdr.de>; Thu, 10 Sep 2020 22:58:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 105132651D3
+	for <lists+linux-api@lfdr.de>; Thu, 10 Sep 2020 23:03:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727868AbgIJU6f (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 10 Sep 2020 16:58:35 -0400
-Received: from mga09.intel.com ([134.134.136.24]:3015 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727822AbgIJU5h (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 10 Sep 2020 16:57:37 -0400
-IronPort-SDR: 1TOdK89RVbF3hDO+XZUCXcHQLyqMN/h+TJdD5Xm0Dap1hzpGY8NsGojs3RnyDXh/Bb+7FoGx84
- nSikh2SkziqA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9740"; a="159582264"
-X-IronPort-AV: E=Sophos;i="5.76,413,1592895600"; 
-   d="scan'208";a="159582264"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2020 13:57:34 -0700
-IronPort-SDR: +mn3ZiCSVnFZ30u7TW5QvgoUkYPpic/R9XiyV69EN7U2pwwaj+iOxS/N7afN/O1Ibq44m56u5x
- /OrvUjhRlazw==
-X-IronPort-AV: E=Sophos;i="5.76,413,1592895600"; 
-   d="scan'208";a="505269924"
-Received: from asthajai-mobl.amr.corp.intel.com (HELO [10.209.150.113]) ([10.209.150.113])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2020 13:57:34 -0700
-Subject: Re: Ways to deprecate /sys/devices/system/memory/memoryX/phys_device
- ?
-To:     David Hildenbrand <david@redhat.com>,
-        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        =?UTF-8?Q?Jan_H=c3=b6ppner?= <hoeppner@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        linux-api@vger.kernel.org,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <21852ccb-bd06-9281-7c8e-485ec02f2883@redhat.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <0175453a-7969-f482-a228-34c5840fe0e0@intel.com>
-Date:   Thu, 10 Sep 2020 13:57:33 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1727825AbgIJVC5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 10 Sep 2020 17:02:57 -0400
+Received: from brightrain.aerifal.cx ([216.12.86.13]:52356 "EHLO
+        brightrain.aerifal.cx" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731202AbgIJOja (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 10 Sep 2020 10:39:30 -0400
+Date:   Thu, 10 Sep 2020 10:23:37 -0400
+From:   Rich Felker <dalias@libc.org>
+To:     linux-api@vger.kernel.org
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] vfs: add fchmodat2 syscall
+Message-ID: <20200910142335.GG3265@brightrain.aerifal.cx>
 MIME-Version: 1.0
-In-Reply-To: <21852ccb-bd06-9281-7c8e-485ec02f2883@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 9/10/20 3:20 AM, David Hildenbrand wrote:
-> While I'd love to rip it out completely, I think it would break old
-> lsmem/chmem completely - and I assume that's not acceptable. I was
-> wondering what would be considered safe to do now/in the future:
-> 
-> 1. Make it always return 0 (just as if "sclp.rzm" would be set to 0 on
-> s390x). This will make old lsmem/chmem behave differently after
-> switching to a new kernel, like if sclp.rzm would not be set by HW -
-> AFAIU, it will assume all memory is in a single memory increment. Do we
-> care?
-> 2. Restrict it to s390x only. It always returned 0 on other
-> architectures, I was not able to find any user.
+POSIX defines fchmodat as having a 4th argument, flags, that can be
+AT_SYMLINK_NOFOLLOW. Support for changing the access mode of symbolic
+links is optional (EOPNOTSUPP allowed if not supported), but this flag
+is important even on systems where symlinks do not have access modes,
+since it's the only way to safely change the mode of a file which
+might be asynchronously replaced with a symbolic link, without a race
+condition whereby the link target is changed.
 
-By "restrict it", do you mean just remove the sysfs file on everything
-other than s390x?  That seems like a good idea, especially if we don't
-have any users.  That, plus boot option or something to reenable it
-would be nice if someone trips over it disappearing.
+It's possible to emulate AT_SYMLINK_NOFOLLOW in userspace, and both
+musl libc and glibc do this, by opening an O_PATH file descriptor and
+performing chmod on the corresponding magic symlink in /proc/self/fd.
+However, this requires procfs to be mounted and accessible.
 
-If there is a user, we stand a chance of finding them because they'll
-hopefully get a good error message.  Worst case, an strace will show an
--ENOENT and should be pretty easy to track down.
+It was determined (see glibc issue #14578 and commit a492b1e5ef) that,
+on some filesystems, performing chmod on the link itself produces a
+change in the inode's access mode, but returns an EOPNOTSUPP error.
+This is non-conforming and wrong. Rather than try to fix all the
+broken filesystem backends, block attempts to change the symlink
+access mode via fchmodat2 at the frontend layer. This matches the
+userspace emulation done in libc implementations. No change is made to
+the underlying chmod_common(), so it's still possible to attempt
+changes via procfs, if desired. If at some point all filesystems have
+been fixed, this could be relaxed to allow filesystems to make their
+own decision whether changing access mode of links is supported.
+
+Signed-off-by: Rich Felker <dalias@libc.org>
+---
+ arch/alpha/kernel/syscalls/syscall.tbl      |  1 +
+ arch/arm/tools/syscall.tbl                  |  1 +
+ arch/arm64/include/asm/unistd.h             |  2 +-
+ arch/arm64/include/asm/unistd32.h           |  2 ++
+ arch/ia64/kernel/syscalls/syscall.tbl       |  1 +
+ arch/m68k/kernel/syscalls/syscall.tbl       |  1 +
+ arch/microblaze/kernel/syscalls/syscall.tbl |  1 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl   |  1 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl   |  1 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl   |  1 +
+ arch/parisc/kernel/syscalls/syscall.tbl     |  1 +
+ arch/powerpc/kernel/syscalls/syscall.tbl    |  1 +
+ arch/s390/kernel/syscalls/syscall.tbl       |  1 +
+ arch/sh/kernel/syscalls/syscall.tbl         |  1 +
+ arch/sparc/kernel/syscalls/syscall.tbl      |  1 +
+ arch/x86/entry/syscalls/syscall_32.tbl      |  1 +
+ arch/x86/entry/syscalls/syscall_64.tbl      |  1 +
+ arch/xtensa/kernel/syscalls/syscall.tbl     |  1 +
+ fs/open.c                                   | 29 ++++++++++++++++++---
+ include/linux/syscalls.h                    |  2 ++
+ include/uapi/asm-generic/unistd.h           |  4 ++-
+ 21 files changed, 49 insertions(+), 6 deletions(-)
+
+diff --git a/arch/alpha/kernel/syscalls/syscall.tbl b/arch/alpha/kernel/syscalls/syscall.tbl
+index ec8bed9e7b75..5648fa8be7a1 100644
+--- a/arch/alpha/kernel/syscalls/syscall.tbl
++++ b/arch/alpha/kernel/syscalls/syscall.tbl
+@@ -479,3 +479,4 @@
+ 547	common	openat2				sys_openat2
+ 548	common	pidfd_getfd			sys_pidfd_getfd
+ 549	common	faccessat2			sys_faccessat2
++550	common	fchmodat2			sys_fchmodat2
+diff --git a/arch/arm/tools/syscall.tbl b/arch/arm/tools/syscall.tbl
+index 171077cbf419..b6b715bb3315 100644
+--- a/arch/arm/tools/syscall.tbl
++++ b/arch/arm/tools/syscall.tbl
+@@ -453,3 +453,4 @@
+ 437	common	openat2				sys_openat2
+ 438	common	pidfd_getfd			sys_pidfd_getfd
+ 439	common	faccessat2			sys_faccessat2
++440	common	fchmodat2			sys_fchmodat2
+diff --git a/arch/arm64/include/asm/unistd.h b/arch/arm64/include/asm/unistd.h
+index 3b859596840d..b3b2019f8d16 100644
+--- a/arch/arm64/include/asm/unistd.h
++++ b/arch/arm64/include/asm/unistd.h
+@@ -38,7 +38,7 @@
+ #define __ARM_NR_compat_set_tls		(__ARM_NR_COMPAT_BASE + 5)
+ #define __ARM_NR_COMPAT_END		(__ARM_NR_COMPAT_BASE + 0x800)
+ 
+-#define __NR_compat_syscalls		440
++#define __NR_compat_syscalls		441
+ #endif
+ 
+ #define __ARCH_WANT_SYS_CLONE
+diff --git a/arch/arm64/include/asm/unistd32.h b/arch/arm64/include/asm/unistd32.h
+index 734860ac7cf9..cd0845f3c19f 100644
+--- a/arch/arm64/include/asm/unistd32.h
++++ b/arch/arm64/include/asm/unistd32.h
+@@ -887,6 +887,8 @@ __SYSCALL(__NR_openat2, sys_openat2)
+ __SYSCALL(__NR_pidfd_getfd, sys_pidfd_getfd)
+ #define __NR_faccessat2 439
+ __SYSCALL(__NR_faccessat2, sys_faccessat2)
++#define __NR_fchmodat2 440
++__SYSCALL(__NR_fchmodat2, sys_fchmodat2)
+ 
+ /*
+  * Please add new compat syscalls above this comment and update
+diff --git a/arch/ia64/kernel/syscalls/syscall.tbl b/arch/ia64/kernel/syscalls/syscall.tbl
+index f52a41f4c340..7c3f8564d0f3 100644
+--- a/arch/ia64/kernel/syscalls/syscall.tbl
++++ b/arch/ia64/kernel/syscalls/syscall.tbl
+@@ -360,3 +360,4 @@
+ 437	common	openat2				sys_openat2
+ 438	common	pidfd_getfd			sys_pidfd_getfd
+ 439	common	faccessat2			sys_faccessat2
++440	common	fchmodat2			sys_fchmodat2
+diff --git a/arch/m68k/kernel/syscalls/syscall.tbl b/arch/m68k/kernel/syscalls/syscall.tbl
+index 81fc799d8392..063d875377bf 100644
+--- a/arch/m68k/kernel/syscalls/syscall.tbl
++++ b/arch/m68k/kernel/syscalls/syscall.tbl
+@@ -439,3 +439,4 @@
+ 437	common	openat2				sys_openat2
+ 438	common	pidfd_getfd			sys_pidfd_getfd
+ 439	common	faccessat2			sys_faccessat2
++440	common	fchmodat2			sys_fchmodat2
+diff --git a/arch/microblaze/kernel/syscalls/syscall.tbl b/arch/microblaze/kernel/syscalls/syscall.tbl
+index b4e263916f41..6aea8a435fd0 100644
+--- a/arch/microblaze/kernel/syscalls/syscall.tbl
++++ b/arch/microblaze/kernel/syscalls/syscall.tbl
+@@ -445,3 +445,4 @@
+ 437	common	openat2				sys_openat2
+ 438	common	pidfd_getfd			sys_pidfd_getfd
+ 439	common	faccessat2			sys_faccessat2
++440	common	fchmodat2			sys_fchmodat2
+diff --git a/arch/mips/kernel/syscalls/syscall_n32.tbl b/arch/mips/kernel/syscalls/syscall_n32.tbl
+index f9df9edb67a4..a9205843251d 100644
+--- a/arch/mips/kernel/syscalls/syscall_n32.tbl
++++ b/arch/mips/kernel/syscalls/syscall_n32.tbl
+@@ -378,3 +378,4 @@
+ 437	n32	openat2				sys_openat2
+ 438	n32	pidfd_getfd			sys_pidfd_getfd
+ 439	n32	faccessat2			sys_faccessat2
++440	n32	fchmodat2			sys_fchmodat2
+diff --git a/arch/mips/kernel/syscalls/syscall_n64.tbl b/arch/mips/kernel/syscalls/syscall_n64.tbl
+index 557f9954a2b9..31da28e2d6f3 100644
+--- a/arch/mips/kernel/syscalls/syscall_n64.tbl
++++ b/arch/mips/kernel/syscalls/syscall_n64.tbl
+@@ -354,3 +354,4 @@
+ 437	n64	openat2				sys_openat2
+ 438	n64	pidfd_getfd			sys_pidfd_getfd
+ 439	n64	faccessat2			sys_faccessat2
++440	n64	fchmodat2			sys_fchmodat2
+diff --git a/arch/mips/kernel/syscalls/syscall_o32.tbl b/arch/mips/kernel/syscalls/syscall_o32.tbl
+index 195b43cf27c8..af0e38302ed8 100644
+--- a/arch/mips/kernel/syscalls/syscall_o32.tbl
++++ b/arch/mips/kernel/syscalls/syscall_o32.tbl
+@@ -427,3 +427,4 @@
+ 437	o32	openat2				sys_openat2
+ 438	o32	pidfd_getfd			sys_pidfd_getfd
+ 439	o32	faccessat2			sys_faccessat2
++440	o32	fchmodat2			sys_fchmodat2
+diff --git a/arch/parisc/kernel/syscalls/syscall.tbl b/arch/parisc/kernel/syscalls/syscall.tbl
+index def64d221cd4..379cdb44ca0b 100644
+--- a/arch/parisc/kernel/syscalls/syscall.tbl
++++ b/arch/parisc/kernel/syscalls/syscall.tbl
+@@ -437,3 +437,4 @@
+ 437	common	openat2				sys_openat2
+ 438	common	pidfd_getfd			sys_pidfd_getfd
+ 439	common	faccessat2			sys_faccessat2
++440	common	fchmodat2			sys_fchmodat2
+diff --git a/arch/powerpc/kernel/syscalls/syscall.tbl b/arch/powerpc/kernel/syscalls/syscall.tbl
+index c2d737ff2e7b..ada11db506e6 100644
+--- a/arch/powerpc/kernel/syscalls/syscall.tbl
++++ b/arch/powerpc/kernel/syscalls/syscall.tbl
+@@ -529,3 +529,4 @@
+ 437	common	openat2				sys_openat2
+ 438	common	pidfd_getfd			sys_pidfd_getfd
+ 439	common	faccessat2			sys_faccessat2
++440	common	fchmodat2			sys_fchmodat2
+diff --git a/arch/s390/kernel/syscalls/syscall.tbl b/arch/s390/kernel/syscalls/syscall.tbl
+index 10456bc936fb..a4dae0abb353 100644
+--- a/arch/s390/kernel/syscalls/syscall.tbl
++++ b/arch/s390/kernel/syscalls/syscall.tbl
+@@ -442,3 +442,4 @@
+ 437  common	openat2			sys_openat2			sys_openat2
+ 438  common	pidfd_getfd		sys_pidfd_getfd			sys_pidfd_getfd
+ 439  common	faccessat2		sys_faccessat2			sys_faccessat2
++440  common	fchmodat2		sys_fchmodat2			sys_fchmodat2
+diff --git a/arch/sh/kernel/syscalls/syscall.tbl b/arch/sh/kernel/syscalls/syscall.tbl
+index ae0a00beea5f..b59b4408b85f 100644
+--- a/arch/sh/kernel/syscalls/syscall.tbl
++++ b/arch/sh/kernel/syscalls/syscall.tbl
+@@ -442,3 +442,4 @@
+ 437	common	openat2				sys_openat2
+ 438	common	pidfd_getfd			sys_pidfd_getfd
+ 439	common	faccessat2			sys_faccessat2
++440	common	fchmodat2			sys_fchmodat2
+diff --git a/arch/sparc/kernel/syscalls/syscall.tbl b/arch/sparc/kernel/syscalls/syscall.tbl
+index 4af114e84f20..e817416f81df 100644
+--- a/arch/sparc/kernel/syscalls/syscall.tbl
++++ b/arch/sparc/kernel/syscalls/syscall.tbl
+@@ -485,3 +485,4 @@
+ 437	common	openat2			sys_openat2
+ 438	common	pidfd_getfd			sys_pidfd_getfd
+ 439	common	faccessat2			sys_faccessat2
++440	common	fchmodat2			sys_fchmodat2
+diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
+index 9d1102873666..208b06650cef 100644
+--- a/arch/x86/entry/syscalls/syscall_32.tbl
++++ b/arch/x86/entry/syscalls/syscall_32.tbl
+@@ -444,3 +444,4 @@
+ 437	i386	openat2			sys_openat2
+ 438	i386	pidfd_getfd		sys_pidfd_getfd
+ 439	i386	faccessat2		sys_faccessat2
++440	i386	fchmodat2		sys_fchmodat2
+diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
+index f30d6ae9a688..d9a591db72fb 100644
+--- a/arch/x86/entry/syscalls/syscall_64.tbl
++++ b/arch/x86/entry/syscalls/syscall_64.tbl
+@@ -361,6 +361,7 @@
+ 437	common	openat2			sys_openat2
+ 438	common	pidfd_getfd		sys_pidfd_getfd
+ 439	common	faccessat2		sys_faccessat2
++440	common	fchmodat2		sys_fchmodat2
+ 
+ #
+ # x32-specific system call numbers start at 512 to avoid cache impact
+diff --git a/arch/xtensa/kernel/syscalls/syscall.tbl b/arch/xtensa/kernel/syscalls/syscall.tbl
+index 6276e3c2d3fc..ff756cb2f5d7 100644
+--- a/arch/xtensa/kernel/syscalls/syscall.tbl
++++ b/arch/xtensa/kernel/syscalls/syscall.tbl
+@@ -410,3 +410,4 @@
+ 437	common	openat2				sys_openat2
+ 438	common	pidfd_getfd			sys_pidfd_getfd
+ 439	common	faccessat2			sys_faccessat2
++440	common	fchmodat2			sys_fchmodat2
+diff --git a/fs/open.c b/fs/open.c
+index 9af548fb841b..570a21f4d81e 100644
+--- a/fs/open.c
++++ b/fs/open.c
+@@ -610,15 +610,30 @@ SYSCALL_DEFINE2(fchmod, unsigned int, fd, umode_t, mode)
+ 	return err;
+ }
+ 
+-static int do_fchmodat(int dfd, const char __user *filename, umode_t mode)
++static int do_fchmodat(int dfd, const char __user *filename, umode_t mode, int flags)
+ {
+ 	struct path path;
+ 	int error;
+ 	unsigned int lookup_flags = LOOKUP_FOLLOW;
++
++	if (flags & AT_SYMLINK_NOFOLLOW)
++		lookup_flags &= ~LOOKUP_FOLLOW;
++	if (flags & ~AT_SYMLINK_NOFOLLOW)
++		return -EINVAL;
+ retry:
+ 	error = user_path_at(dfd, filename, lookup_flags, &path);
+ 	if (!error) {
+-		error = chmod_common(&path, mode);
++		/* Block chmod from getting to fs layer. Ideally the
++		 * fs would either allow it or fail with EOPNOTSUPP,
++		 * but some are buggy and return an error but change
++		 * the mode, which is non-conforming and wrong.
++		 * Userspace emulation of AT_SYMLINK_NOFOLLOW in
++		 * glibc and musl blocked it too, for same reason. */
++		if (S_ISLNK(path.dentry->d_inode->i_mode)
++		    && (flags & AT_SYMLINK_NOFOLLOW))
++			error = -EOPNOTSUPP;
++		else
++			error = chmod_common(&path, mode);
+ 		path_put(&path);
+ 		if (retry_estale(error, lookup_flags)) {
+ 			lookup_flags |= LOOKUP_REVAL;
+@@ -628,15 +643,21 @@ static int do_fchmodat(int dfd, const char __user *filename, umode_t mode)
+ 	return error;
+ }
+ 
++SYSCALL_DEFINE4(fchmodat2, int, dfd, const char __user *, filename,
++		umode_t, mode, int, flags)
++{
++	return do_fchmodat(dfd, filename, mode, flags);
++}
++
+ SYSCALL_DEFINE3(fchmodat, int, dfd, const char __user *, filename,
+ 		umode_t, mode)
+ {
+-	return do_fchmodat(dfd, filename, mode);
++	return do_fchmodat(dfd, filename, mode, 0);
+ }
+ 
+ SYSCALL_DEFINE2(chmod, const char __user *, filename, umode_t, mode)
+ {
+-	return do_fchmodat(AT_FDCWD, filename, mode);
++	return do_fchmodat(AT_FDCWD, filename, mode, 0);
+ }
+ 
+ int chown_common(const struct path *path, uid_t user, gid_t group)
+diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+index 75ac7f8ae93c..ced00c56eba7 100644
+--- a/include/linux/syscalls.h
++++ b/include/linux/syscalls.h
+@@ -435,6 +435,8 @@ asmlinkage long sys_chroot(const char __user *filename);
+ asmlinkage long sys_fchmod(unsigned int fd, umode_t mode);
+ asmlinkage long sys_fchmodat(int dfd, const char __user * filename,
+ 			     umode_t mode);
++asmlinkage long sys_fchmodat2(int dfd, const char __user * filename,
++			      umode_t mode, int flags);
+ asmlinkage long sys_fchownat(int dfd, const char __user *filename, uid_t user,
+ 			     gid_t group, int flag);
+ asmlinkage long sys_fchown(unsigned int fd, uid_t user, gid_t group);
+diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
+index 995b36c2ea7d..ebf5cdb3f444 100644
+--- a/include/uapi/asm-generic/unistd.h
++++ b/include/uapi/asm-generic/unistd.h
+@@ -859,9 +859,11 @@ __SYSCALL(__NR_openat2, sys_openat2)
+ __SYSCALL(__NR_pidfd_getfd, sys_pidfd_getfd)
+ #define __NR_faccessat2 439
+ __SYSCALL(__NR_faccessat2, sys_faccessat2)
++#define __NR_fchmodat2 440
++__SYSCALL(__NR_fchmodat2, sys_fchmodat2)
+ 
+ #undef __NR_syscalls
+-#define __NR_syscalls 440
++#define __NR_syscalls 441
+ 
+ /*
+  * 32 bit systems traditionally used different
+-- 
+2.21.0
+
