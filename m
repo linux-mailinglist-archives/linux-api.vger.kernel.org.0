@@ -2,109 +2,106 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 04D0A265039
-	for <lists+linux-api@lfdr.de>; Thu, 10 Sep 2020 22:08:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29F0626510E
+	for <lists+linux-api@lfdr.de>; Thu, 10 Sep 2020 22:41:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726792AbgIJUIA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 10 Sep 2020 16:08:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52424 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726901AbgIJUF6 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 10 Sep 2020 16:05:58 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BBD9C061573;
-        Thu, 10 Sep 2020 13:05:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=c2OmDmw3CBNdMhbSUreC74RlMC1GtRl7G6wTRWdIDhg=; b=oalS+EShumiM+wP4ntMj+va6+Q
-        Nh1j9337AoOX5aS6ehlDvYBnbeH5wAQR/9ls36am10xynQpwjAzNspdirI5ohbUmCjgytsp6ExJhu
-        61TqiAGlfQvDFqi1JocYtyt1E3SBqZt+RHR5ElNE0185BXyGVupHaZe0djMdV/ttf1KoyzZ8hdeFJ
-        z0CoXaDzfHr5fh5hlf6Gt1AywT/4OZMjRpww4aVwjYJG+OoB5dzIFkkHg42E79TUXRRyuDmQBueyp
-        KAqaQ+Hi5YPbc5abQpTeFLdmAJTJqOQETXvwfl9CDwTes6XA46M10L1IXyJSp5ODcSg+CifPThbbA
-        V4gIP2hA==;
-Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kGSpD-0003dj-CF; Thu, 10 Sep 2020 20:05:43 +0000
-Date:   Thu, 10 Sep 2020 21:05:43 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-        Mimi Zohar <zohar@linux.ibm.com>, linux-kernel@vger.kernel.org,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Christian Heimes <christian@python.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Deven Bowers <deven.desai@linux.microsoft.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Eric Chiang <ericchiang@google.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
-        Matthew Garrett <mjg59@google.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Philippe =?iso-8859-1?Q?Tr=E9buchet?= 
-        <philippe.trebuchet@ssi.gouv.fr>,
-        Scott Shell <scottsh@microsoft.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Steve Dower <steve.dower@python.org>,
-        Steve Grubb <sgrubb@redhat.com>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        Thibaut Sautereau <thibaut.sautereau@clip-os.org>,
-        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [RFC PATCH v9 0/3] Add introspect_access(2) (was O_MAYEXEC)
-Message-ID: <20200910200543.GY6583@casper.infradead.org>
-References: <20200910164612.114215-1-mic@digikod.net>
- <20200910170424.GU6583@casper.infradead.org>
- <f6e2358c-8e5e-e688-3e66-2cdd943e360e@digikod.net>
- <a48145770780d36e90f28f1526805a7292eb74f6.camel@linux.ibm.com>
- <880bb4ee-89a2-b9b0-747b-0f779ceda995@digikod.net>
- <20200910184033.GX6583@casper.infradead.org>
- <20200910200010.GF1236603@ZenIV.linux.org.uk>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200910200010.GF1236603@ZenIV.linux.org.uk>
+        id S1726419AbgIJUhe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 10 Sep 2020 16:37:34 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36678 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726855AbgIJUbU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 10 Sep 2020 16:31:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1599769874;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=oG4VtYBGXuzb613fx5hBBNMTZQ49H6hy0YeFdmvTD8g=;
+        b=C9bZqdKbaeDJakDOqUDQblf0NOkQfYT97zSVih1hf2bO/l8pkg8iFkHRyRxrBG/fFCdvNT
+        uT5eVNfD4jOZ+4EmKn3CxzEnkxC5L2qCs0utjj/vPfvaF7FE0JyWVtov3mcGzLEYr8Mfsm
+        EuCSFdRE91WUyv/bVidX6Dv1iOF4JG0=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-267-FHMnbu0QNo-jRi-DLf9ZHA-1; Thu, 10 Sep 2020 16:31:12 -0400
+X-MC-Unique: FHMnbu0QNo-jRi-DLf9ZHA-1
+Received: by mail-ed1-f71.google.com with SMTP id d13so3053909edz.18
+        for <linux-api@vger.kernel.org>; Thu, 10 Sep 2020 13:31:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:content-transfer-encoding:from:mime-version
+         :subject:date:message-id:references:cc:in-reply-to:to;
+        bh=oG4VtYBGXuzb613fx5hBBNMTZQ49H6hy0YeFdmvTD8g=;
+        b=JSSrptN43R1QAl/BWbZtP2JQUINhlFwudUT9Nc/fjJKghF6A5LVEWH7v6ewkMtUaqN
+         fzI5eOQiP+qewv8bjhyACdoyqpKwgNpUhwDkpSvy3PnfwdITv1Zo+HxSZHS1Lv0L1nWm
+         zbkljhen+f5V4xmmpqD844eIgW9tM/O0atQTjrma38UTyIORiEW7R7Nxw8WyGJFLAV89
+         6pg/UxRvW67rcmcEFN6OYrfKKvjhwE10AX9FsA47uMCA7JzGtV9aDeiScjyFprsm2GrO
+         eCdYLOid/e5koHadFcAAPPouXIPzDpGEoPPW/5Z61mNGhNNru0Y4b0qdN7AOeq4qqlGK
+         59QQ==
+X-Gm-Message-State: AOAM533O9Fljdpb9iihbLKQ2fk0l8FK2gJNE0Bj5s2LaqnphMLpTkptX
+        H/kc7HTosDBfk2CjZKb7KiVi038GfoxuyfN+xuDLDkoqdFUsge7ynYQe53iE9bsPaTx/qy49tPo
+        mZvjQDjwkzOAOsumYMHGz
+X-Received: by 2002:a17:906:4d4d:: with SMTP id b13mr10371708ejv.221.1599769870992;
+        Thu, 10 Sep 2020 13:31:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwH4nFbqdIdClpGW3cyhzIHHW/NNlAPR9E4pCL3OlvSjq9ChPfVJPacAk9tIeJ6YFp4UpQGsg==
+X-Received: by 2002:a17:906:4d4d:: with SMTP id b13mr10371701ejv.221.1599769870830;
+        Thu, 10 Sep 2020 13:31:10 -0700 (PDT)
+Received: from [192.168.3.122] (p5b0c6042.dip0.t-ipconnect.de. [91.12.96.66])
+        by smtp.gmail.com with ESMTPSA id d6sm21881edm.31.2020.09.10.13.31.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Sep 2020 13:31:10 -0700 (PDT)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From:   David Hildenbrand <david@redhat.com>
+Mime-Version: 1.0 (1.0)
+Subject: Re: Ways to deprecate /sys/devices/system/memory/memoryX/phys_device ?
+Date:   Thu, 10 Sep 2020 22:31:09 +0200
+Message-Id: <3E00A442-7107-48DA-8172-EED95F6E1663@redhat.com>
+References: <f14f7f00-0501-bb93-88cc-780ae4fbaad3@intel.com>
+Cc:     David Hildenbrand <david@redhat.com>,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        =?utf-8?Q?Jan_H=C3=B6ppner?= <hoeppner@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        linux-api@vger.kernel.org,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+In-Reply-To: <f14f7f00-0501-bb93-88cc-780ae4fbaad3@intel.com>
+To:     Dave Hansen <dave.hansen@intel.com>
+X-Mailer: iPhone Mail (17G68)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Sep 10, 2020 at 09:00:10PM +0100, Al Viro wrote:
-> On Thu, Sep 10, 2020 at 07:40:33PM +0100, Matthew Wilcox wrote:
-> > On Thu, Sep 10, 2020 at 08:38:21PM +0200, Mickaël Salaün wrote:
-> > > There is also the use case of noexec mounts and file permissions. From
-> > > user space point of view, it doesn't matter which kernel component is in
-> > > charge of defining the policy. The syscall should then not be tied with
-> > > a verification/integrity/signature/appraisal vocabulary, but simply an
-> > > access control one.
-> > 
-> > permission()?
-> 
-> int lsm(int fd, const char *how, char *error, int size);
-> 
-> Seriously, this is "ask LSM to apply special policy to file"; let's
-> _not_ mess with flags, etc. for that; give it decent bandwidth
-> and since it's completely opaque for the rest of the kernel,
-> just a pass a string to be parsed by LSM as it sees fit.
 
-Hang on, it does have some things which aren't BD^W^WLSM.  It lets
-the interpreter honour the mount -o noexec option.  I presume it's
-not easily defeated by
-	cat /home/salaun/bin/bad.pl | perl -
+
+> Am 10.09.2020 um 22:01 schrieb Dave Hansen <dave.hansen@intel.com>:
+>=20
+> =EF=BB=BFOn 9/10/20 3:20 AM, David Hildenbrand wrote:
+>> I was just exploring how /sys/devices/system/memory/memoryX/phys_device
+>> is/was used. It's one of these interfaces that most probably never
+>> should have been added but now we are stuck with it.
+>=20
+> While I'm all for cleanups, what specific problems is phys_device causing?=
+
+>=20
+
+Mostly stumbling over it, understanding that it is basically unused with new=
+ userspace for good reason, questioning its existence.
+
+E.g., I am working on virtio-mem support for s390x. Displaying misleading/wr=
+ong phys_device indications isn=E2=80=98t particularly helpful - especially o=
+nce there are different ways to hotplug memory for an architecture.
+
+> Are you hoping that we can just remove users of memoryX/* until there
+> are no more left, and this is the easiest place to start?
+
+At least reducing it to a minimum with clear semantics. Even with automatic o=
+nlining there are still reasons why we need to keep the interface for now (e=
+.g., reloading kexec to update the kdump headers on memory hot(un)plug). But=
+ also standby memory handling on s399x requires it (->manual onlining).=
 
