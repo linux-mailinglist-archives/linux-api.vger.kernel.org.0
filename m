@@ -2,15 +2,15 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 16DE1264F96
-	for <lists+linux-api@lfdr.de>; Thu, 10 Sep 2020 21:47:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29274264F51
+	for <lists+linux-api@lfdr.de>; Thu, 10 Sep 2020 21:40:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726833AbgIJTq5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 10 Sep 2020 15:46:57 -0400
-Received: from brightrain.aerifal.cx ([216.12.86.13]:52400 "EHLO
+        id S1726675AbgIJTjn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 10 Sep 2020 15:39:43 -0400
+Received: from brightrain.aerifal.cx ([216.12.86.13]:52406 "EHLO
         brightrain.aerifal.cx" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731283AbgIJPZf (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 10 Sep 2020 11:25:35 -0400
+        with ESMTP id S1731387AbgIJPlT (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 10 Sep 2020 11:41:19 -0400
 Date:   Thu, 10 Sep 2020 10:23:37 -0400
 From:   Rich Felker <dalias@libc.org>
 To:     linux-api@vger.kernel.org
