@@ -2,106 +2,120 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29F0626510E
-	for <lists+linux-api@lfdr.de>; Thu, 10 Sep 2020 22:41:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16B4E265197
+	for <lists+linux-api@lfdr.de>; Thu, 10 Sep 2020 22:58:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726419AbgIJUhe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 10 Sep 2020 16:37:34 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36678 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726855AbgIJUbU (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 10 Sep 2020 16:31:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1599769874;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=oG4VtYBGXuzb613fx5hBBNMTZQ49H6hy0YeFdmvTD8g=;
-        b=C9bZqdKbaeDJakDOqUDQblf0NOkQfYT97zSVih1hf2bO/l8pkg8iFkHRyRxrBG/fFCdvNT
-        uT5eVNfD4jOZ+4EmKn3CxzEnkxC5L2qCs0utjj/vPfvaF7FE0JyWVtov3mcGzLEYr8Mfsm
-        EuCSFdRE91WUyv/bVidX6Dv1iOF4JG0=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-267-FHMnbu0QNo-jRi-DLf9ZHA-1; Thu, 10 Sep 2020 16:31:12 -0400
-X-MC-Unique: FHMnbu0QNo-jRi-DLf9ZHA-1
-Received: by mail-ed1-f71.google.com with SMTP id d13so3053909edz.18
-        for <linux-api@vger.kernel.org>; Thu, 10 Sep 2020 13:31:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:content-transfer-encoding:from:mime-version
-         :subject:date:message-id:references:cc:in-reply-to:to;
-        bh=oG4VtYBGXuzb613fx5hBBNMTZQ49H6hy0YeFdmvTD8g=;
-        b=JSSrptN43R1QAl/BWbZtP2JQUINhlFwudUT9Nc/fjJKghF6A5LVEWH7v6ewkMtUaqN
-         fzI5eOQiP+qewv8bjhyACdoyqpKwgNpUhwDkpSvy3PnfwdITv1Zo+HxSZHS1Lv0L1nWm
-         zbkljhen+f5V4xmmpqD844eIgW9tM/O0atQTjrma38UTyIORiEW7R7Nxw8WyGJFLAV89
-         6pg/UxRvW67rcmcEFN6OYrfKKvjhwE10AX9FsA47uMCA7JzGtV9aDeiScjyFprsm2GrO
-         eCdYLOid/e5koHadFcAAPPouXIPzDpGEoPPW/5Z61mNGhNNru0Y4b0qdN7AOeq4qqlGK
-         59QQ==
-X-Gm-Message-State: AOAM533O9Fljdpb9iihbLKQ2fk0l8FK2gJNE0Bj5s2LaqnphMLpTkptX
-        H/kc7HTosDBfk2CjZKb7KiVi038GfoxuyfN+xuDLDkoqdFUsge7ynYQe53iE9bsPaTx/qy49tPo
-        mZvjQDjwkzOAOsumYMHGz
-X-Received: by 2002:a17:906:4d4d:: with SMTP id b13mr10371708ejv.221.1599769870992;
-        Thu, 10 Sep 2020 13:31:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwH4nFbqdIdClpGW3cyhzIHHW/NNlAPR9E4pCL3OlvSjq9ChPfVJPacAk9tIeJ6YFp4UpQGsg==
-X-Received: by 2002:a17:906:4d4d:: with SMTP id b13mr10371701ejv.221.1599769870830;
-        Thu, 10 Sep 2020 13:31:10 -0700 (PDT)
-Received: from [192.168.3.122] (p5b0c6042.dip0.t-ipconnect.de. [91.12.96.66])
-        by smtp.gmail.com with ESMTPSA id d6sm21881edm.31.2020.09.10.13.31.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Sep 2020 13:31:10 -0700 (PDT)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From:   David Hildenbrand <david@redhat.com>
-Mime-Version: 1.0 (1.0)
-Subject: Re: Ways to deprecate /sys/devices/system/memory/memoryX/phys_device ?
-Date:   Thu, 10 Sep 2020 22:31:09 +0200
-Message-Id: <3E00A442-7107-48DA-8172-EED95F6E1663@redhat.com>
-References: <f14f7f00-0501-bb93-88cc-780ae4fbaad3@intel.com>
-Cc:     David Hildenbrand <david@redhat.com>,
+        id S1727868AbgIJU6f (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 10 Sep 2020 16:58:35 -0400
+Received: from mga09.intel.com ([134.134.136.24]:3015 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727822AbgIJU5h (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 10 Sep 2020 16:57:37 -0400
+IronPort-SDR: 1TOdK89RVbF3hDO+XZUCXcHQLyqMN/h+TJdD5Xm0Dap1hzpGY8NsGojs3RnyDXh/Bb+7FoGx84
+ nSikh2SkziqA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9740"; a="159582264"
+X-IronPort-AV: E=Sophos;i="5.76,413,1592895600"; 
+   d="scan'208";a="159582264"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2020 13:57:34 -0700
+IronPort-SDR: +mn3ZiCSVnFZ30u7TW5QvgoUkYPpic/R9XiyV69EN7U2pwwaj+iOxS/N7afN/O1Ibq44m56u5x
+ /OrvUjhRlazw==
+X-IronPort-AV: E=Sophos;i="5.76,413,1592895600"; 
+   d="scan'208";a="505269924"
+Received: from asthajai-mobl.amr.corp.intel.com (HELO [10.209.150.113]) ([10.209.150.113])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2020 13:57:34 -0700
+Subject: Re: Ways to deprecate /sys/devices/system/memory/memoryX/phys_device
+ ?
+To:     David Hildenbrand <david@redhat.com>,
         Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
         Michal Hocko <mhocko@kernel.org>,
         "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
         Greg KH <gregkh@linuxfoundation.org>,
-        =?utf-8?Q?Jan_H=C3=B6ppner?= <hoeppner@linux.ibm.com>,
+        =?UTF-8?Q?Jan_H=c3=b6ppner?= <hoeppner@linux.ibm.com>,
         Heiko Carstens <hca@linux.ibm.com>,
         "linux-mm@kvack.org" <linux-mm@kvack.org>,
         linux-api@vger.kernel.org,
         Dave Hansen <dave.hansen@linux.intel.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-In-Reply-To: <f14f7f00-0501-bb93-88cc-780ae4fbaad3@intel.com>
-To:     Dave Hansen <dave.hansen@intel.com>
-X-Mailer: iPhone Mail (17G68)
+References: <21852ccb-bd06-9281-7c8e-485ec02f2883@redhat.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <0175453a-7969-f482-a228-34c5840fe0e0@intel.com>
+Date:   Thu, 10 Sep 2020 13:57:33 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <21852ccb-bd06-9281-7c8e-485ec02f2883@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On 9/10/20 3:20 AM, David Hildenbrand wrote:
+> While I'd love to rip it out completely, I think it would break old
+> lsmem/chmem completely - and I assume that's not acceptable. I was
+> wondering what would be considered safe to do now/in the future:
+> 
+> 1. Make it always return 0 (just as if "sclp.rzm" would be set to 0 on
+> s390x). This will make old lsmem/chmem behave differently after
+> switching to a new kernel, like if sclp.rzm would not be set by HW -
+> AFAIU, it will assume all memory is in a single memory increment. Do we
+> care?
+> 2. Restrict it to s390x only. It always returned 0 on other
+> architectures, I was not able to find any user.
 
+By "restrict it", do you mean just remove the sysfs file on everything
+other than s390x?  That seems like a good idea, especially if we don't
+have any users.  That, plus boot option or something to reenable it
+would be nice if someone trips over it disappearing.
 
-> Am 10.09.2020 um 22:01 schrieb Dave Hansen <dave.hansen@intel.com>:
->=20
-> =EF=BB=BFOn 9/10/20 3:20 AM, David Hildenbrand wrote:
->> I was just exploring how /sys/devices/system/memory/memoryX/phys_device
->> is/was used. It's one of these interfaces that most probably never
->> should have been added but now we are stuck with it.
->=20
-> While I'm all for cleanups, what specific problems is phys_device causing?=
-
->=20
-
-Mostly stumbling over it, understanding that it is basically unused with new=
- userspace for good reason, questioning its existence.
-
-E.g., I am working on virtio-mem support for s390x. Displaying misleading/wr=
-ong phys_device indications isn=E2=80=98t particularly helpful - especially o=
-nce there are different ways to hotplug memory for an architecture.
-
-> Are you hoping that we can just remove users of memoryX/* until there
-> are no more left, and this is the easiest place to start?
-
-At least reducing it to a minimum with clear semantics. Even with automatic o=
-nlining there are still reasons why we need to keep the interface for now (e=
-.g., reloading kexec to update the kdump headers on memory hot(un)plug). But=
- also standby memory handling on s399x requires it (->manual onlining).=
-
+If there is a user, we stand a chance of finding them because they'll
+hopefully get a good error message.  Worst case, an strace will show an
+-ENOENT and should be pretty easy to track down.
