@@ -2,112 +2,83 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 47D97265C3D
-	for <lists+linux-api@lfdr.de>; Fri, 11 Sep 2020 11:12:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3462B265C83
+	for <lists+linux-api@lfdr.de>; Fri, 11 Sep 2020 11:32:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725785AbgIKJM5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 11 Sep 2020 05:12:57 -0400
-Received: from mx2.suse.de ([195.135.220.15]:39940 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725730AbgIKJMz (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 11 Sep 2020 05:12:55 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 85D8DABEA;
-        Fri, 11 Sep 2020 09:13:08 +0000 (UTC)
-Date:   Fri, 11 Sep 2020 11:12:52 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Dave Hansen <dave.hansen@intel.com>,
-        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Jan =?iso-8859-1?Q?H=F6ppner?= <hoeppner@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        linux-api@vger.kernel.org,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: Ways to deprecate /sys/devices/system/memory/memoryX/phys_device
- ?
-Message-ID: <20200911091252.GD7986@dhcp22.suse.cz>
-References: <f14f7f00-0501-bb93-88cc-780ae4fbaad3@intel.com>
- <3E00A442-7107-48DA-8172-EED95F6E1663@redhat.com>
- <20200911072035.GC7986@dhcp22.suse.cz>
- <02cdbf90-b29f-a9ec-c83d-49f2548e3e91@redhat.com>
+        id S1725730AbgIKJcc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 11 Sep 2020 05:32:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35300 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725710AbgIKJc3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 11 Sep 2020 05:32:29 -0400
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16B2DC061573;
+        Fri, 11 Sep 2020 02:32:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=byQIC6UgJWmseFC9nmbs7RXzJK3qdkILERsCoHCugWs=; b=ZQQgMBfS9f9fKGY16bSRLKCWq1
+        di1lXzV9qLQwRVhx8rKhL5OEqPI40hatWWKJuXZQQ5T3BNIVVheCCUg3aV2SQPk6kRDQsMzhE0I8N
+        3SjYXRORXxuErboIWUpQAq6vztkTGTcbHVENERQl6Thbgotic4jL/3dldPKzMixUYr/U7j3nGzx7R
+        g5BzVFC1Bk7IelEby7CMrUBxgygWVvshaWuR8O6aL2aZhEhSc7RYy2dsuvGddS9pIJ+QRUmjMm++x
+        vsqiYNJPEjwajyMaC+jG54on15/cFnP2rzHLO0VME7+N10ITOsT/Us4xi2tcBfSiLfNfvnADx5xd/
+        MmeLgxcg==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kGfPr-0002xq-6V; Fri, 11 Sep 2020 09:32:23 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 59F22303DA0;
+        Fri, 11 Sep 2020 11:32:21 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 4C4F62B06AFFE; Fri, 11 Sep 2020 11:32:21 +0200 (CEST)
+Date:   Fri, 11 Sep 2020 11:32:21 +0200
+From:   peterz@infradead.org
+To:     Gabriel Krisman Bertazi <krisman@collabora.com>
+Cc:     luto@kernel.org, tglx@linutronix.de, keescook@chromium.org,
+        x86@kernel.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, willy@infradead.org,
+        linux-kselftest@vger.kernel.org, shuah@kernel.org,
+        kernel@collabora.com
+Subject: Re: [PATCH v6 1/9] kernel: Support TIF_SYSCALL_INTERCEPT flag
+Message-ID: <20200911093221.GD1362448@hirez.programming.kicks-ass.net>
+References: <20200904203147.2908430-1-krisman@collabora.com>
+ <20200904203147.2908430-2-krisman@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <02cdbf90-b29f-a9ec-c83d-49f2548e3e91@redhat.com>
+In-Reply-To: <20200904203147.2908430-2-krisman@collabora.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri 11-09-20 10:09:07, David Hildenbrand wrote:
-[...]
-> Consider two cases:
-> 
-> 1. Hot(un)plugging huge DIMMs: many (not all!) use cases want to
-> online/offline the whole thing. HW can effectively only plug/unplug the
-> whole thing. It makes sense in some (most?) setups to represent one DIMM
-> as one memory block device.
+On Fri, Sep 04, 2020 at 04:31:39PM -0400, Gabriel Krisman Bertazi wrote:
+> +static inline void __set_tsk_syscall_intercept(struct task_struct *tsk,
+> +					   unsigned int type)
+> +{
+> +	tsk->syscall_intercept |= type;
+> +
+> +	if (tsk->syscall_intercept)
+> +		set_tsk_thread_flag(tsk, TIF_SYSCALL_INTERCEPT);
+> +}
 
-Yes, for the physical hotplug it doesn't really make much sense to me to
-offline portions that the HW cannot hotremove.
+Did the above want to be:
 
-> 2. Hot(un)plugging small memory increments. This is mostly the case in
-> virtualized environments - especially hyper-v balloon, xen balloon,
-> virtio-mem and (drumroll) ppc dlpar and s390x standby memory. On PPC,
-> you want at least all (16MB!) memory block devices that can get
-> unplugged again individually ("LMBs") as separate memory blocks. Same on
-> s390x on memory increment size (currently effectively the memory block
-> size).
+	unsigned int old = tsk->syscall_intercept;
+	tsk->syscall_intercept |= type;
+	if (!old)
+		set_tsk_thread_flag(tsk, TIF_SYSCALL_INTERCEPT)
 
-Yes I do recognize those usecase even though I will not pretend I
-consider it quesitonable. E.g. any hotplug with a smaller granularity
-than the memory model in Linus allows is just dubious. We simply cannot
-implement that without a lot of wasting and then the question is what is
-the real point.
+?
 
-> In summary, larger memory block devices mostly only make sense with
-> DIMMs (and for boot memory in some cases). We will still end up with
-> many memory block devices in other configurations.
-
-And that is fine because the boot time memory is still likely the
-primary source of memory. And reducing memory devices for those is a
-huge improvement already (just think of a multi TB system with
-gazillions pointless memory devices). 
-
-> I do agree that a "disable sysfs" option is interesting - even with
-> memory hotplug (we mostly need a way to configure it and a way to notify
-> kexec-tools about memory hot(un)plug events). I am currently (once
-> again) looking into improving auto-onlining support in the kernel.
-> 
-> Having that said, I much rather want to see smaller improvements (that
-> can be fine-tuned individually - like allowing variable-sized memory
-> blocks) than doing a switch to "new shiny" and figuring out after a
-> while that we need "new shiny2".
-
-There is only one certainty. Providing a long term interface with ever
-growing (ab)users is a hard target. And shinyN might be needed in the
-end. Who knows. My main point is that the existing interface is hitting
-a wall on usecases which _do_not_care_ about memory hotplug. And that is
-something we should be looking at.
-
-> I consider removing "phys_device" as one of these tunables. The question
-> would be how to make such sysfs changes easy to configure
-> ("-phys_device", "+variable_sized_blocks" ...)
-
-I am with you on that. There are more candidates in memory block
-directories which have dubious value. Deprecation process is a PITA and
-that's why I thought that it would make sense to focus on something that
-we can mis^Wdesign with exising and forming usecases in mind that would
-get rid of all the cruft that we know it doesn't work (removable would
-be another one.
-
-I am definitely not going to insist and I appreciate you are trying to
-clean this up. That is highly appreciated of course.
--- 
-Michal Hocko
-SUSE Labs
+> +static inline void __clear_tsk_syscall_intercept(struct task_struct *tsk,
+> +					     unsigned int type)
+> +{
+> +	tsk->syscall_intercept &= ~type;
+> +
+> +	if (tsk->syscall_intercept == 0)
+> +		clear_tsk_thread_flag(tsk, TIF_SYSCALL_INTERCEPT);
+> +}
