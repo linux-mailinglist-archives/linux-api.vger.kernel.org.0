@@ -2,60 +2,59 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 08AD3265992
-	for <lists+linux-api@lfdr.de>; Fri, 11 Sep 2020 08:48:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 989942659B7
+	for <lists+linux-api@lfdr.de>; Fri, 11 Sep 2020 08:57:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725747AbgIKGsu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 11 Sep 2020 02:48:50 -0400
-Received: from verein.lst.de ([213.95.11.211]:35691 "EHLO verein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725468AbgIKGsr (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 11 Sep 2020 02:48:47 -0400
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 2702967373; Fri, 11 Sep 2020 08:48:45 +0200 (CEST)
-Date:   Fri, 11 Sep 2020 08:48:44 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Tom Yan <tom.ty89@gmail.com>
-Cc:     Christoph Hellwig <hch@lst.de>, linux-scsi@vger.kernel.org,
-        dgilbert@interlog.com, Bart Van Assche <bvanassche@acm.org>,
-        Alan Stern <stern@rowland.harvard.edu>, akinobu.mita@gmail.com,
-        linux-api@vger.kernel.org
-Subject: Re: [PATCH RESEND 2/4] scsi: sg: implement BLKSSZGET
-Message-ID: <20200911064844.GA22190@lst.de>
-References: <CAGnHSE=bhpL4REG5PXST6dF3gSWeewg1Eqr+sLw_9rtqL-ToFQ@mail.gmail.com> <20200906012716.1553-1-tom.ty89@gmail.com> <20200906012716.1553-2-tom.ty89@gmail.com> <20200907060927.GA18909@lst.de> <CAGnHSEnWPSaM3xS1MtFUJDrSZPfaH_VwAiQ5UkndFTVe3uWNVA@mail.gmail.com> <20200908084258.GA17030@lst.de> <CAGnHSE=ASs3DG2yp1NpODHimwxHe+=XPRsOyDdkB3ThtyEU-KA@mail.gmail.com> <20200910052835.GB18283@lst.de> <CAGnHSE=pcW0zJMSaowdsRXFa=TmOeidekgvDuEPB8PU7mheXNA@mail.gmail.com>
+        id S1725550AbgIKG5j (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 11 Sep 2020 02:57:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39684 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725601AbgIKG5h (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 11 Sep 2020 02:57:37 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A24B2C061573;
+        Thu, 10 Sep 2020 23:57:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=AWt8e+Mw6r/7C0+LOLgGANF7RmbTfkJ8gpEXJHWIld0=; b=G6cv9eisU0LtwkwwXlXiXiLdhR
+        jmkKpqdBGd+Qsm4IhkTCC+p4FisKqwrSIcQ4WzxXmnBQb9HShW57MDI2CdCBOdt87/PmEA5cd9RQd
+        TMmlAZqktVm/kEMuPzfQLN6RswYqw39EhZlX5KU7J25019UQo+TZ9NNqY0OUl7J30W7nlPw98UHFt
+        m7TDXq7b/WBrv4qgahljvhYOrkyhjvVvZrJ/FqWUlZMZ7u/91o+NY6w8beXkrZpfBZJPQbjVLqnig
+        5Mvvi8c7ai5K+fu26Utfic43zLfLMYIRJ+6ZpDxMbfWG6tY1zXJtg1Y0LCplMKVTRNP3F8j+Ngla5
+        e0EL5+6A==;
+Received: from hch by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kGd01-0000HK-76; Fri, 11 Sep 2020 06:57:33 +0000
+Date:   Fri, 11 Sep 2020 07:57:33 +0100
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Rich Felker <dalias@libc.org>
+Cc:     Christoph Hellwig <hch@infradead.org>, linux-api@vger.kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] vfs: add fchmodat2 syscall
+Message-ID: <20200911065733.GA31579@infradead.org>
+References: <20200910142335.GG3265@brightrain.aerifal.cx>
+ <20200910162059.GA18228@infradead.org>
+ <20200910163949.GJ3265@brightrain.aerifal.cx>
+ <20200910164234.GA25140@infradead.org>
+ <20200910170256.GK3265@brightrain.aerifal.cx>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAGnHSE=pcW0zJMSaowdsRXFa=TmOeidekgvDuEPB8PU7mheXNA@mail.gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20200910170256.GK3265@brightrain.aerifal.cx>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Sep 11, 2020 at 10:52:19AM +0800, Tom Yan wrote:
-> > How is that an advantage?  Applications that works with block devices
-> > don't really work with a magic passthrough character device.
-> 
-> You must assume that there are applications already assuming that
-> work. (And it will, at least in some cases, if this series get
-> merged.)
+On Thu, Sep 10, 2020 at 01:02:56PM -0400, Rich Felker wrote:
+> Would you be happy with a pair of patches where the first blocks chmod
+> of symlinks in chmod_common and the second adds the syscall with
+> flags? I think this is a clearly understandable fix, but it does
+> eliminate the ability to *fix* link access modes that have been set to
+> ridiculous values (note: I don't think it really matters since the
+> modes don't do anything anyway) in the past.
 
-Why "must" I assume that?
-
-> And you have not been giving me a solid point anyway, as I said, it's
-> just queue_*() at the end of the day; regardless of whether those
-> would work in all sg cases, we have been using them in the sg driver
-> anyway.
-> 
-> And it's not like we have to guarantee that (the) ioctls can work in
-> every case anyway, right? (Especially when they aren't named SG_*).
-
-No.  While it is unfortunte we have all kinds of cases of ioctls working
-differnetly on different devices.
-
-> 
-> I mean, what's even your point? How do you propose we fix this?
-
-I propose to not "fix" anything, because nothing is broken except for
-maybe a lack of documentation.
+I'd be much happier with that, yes.
