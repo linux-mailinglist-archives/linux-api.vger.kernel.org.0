@@ -2,92 +2,120 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B3C7265F08
-	for <lists+linux-api@lfdr.de>; Fri, 11 Sep 2020 13:50:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65C67265F60
+	for <lists+linux-api@lfdr.de>; Fri, 11 Sep 2020 14:17:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725859AbgIKLtJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 11 Sep 2020 07:49:09 -0400
-Received: from mga17.intel.com ([192.55.52.151]:48953 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725786AbgIKLs1 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 11 Sep 2020 07:48:27 -0400
-IronPort-SDR: 3AnpwDsXuE06RIg+I1Gk/jjAaR15AZVFbylKOadIh46/jHevA5BtbJ4idR8TjmllFNJ9jMFzp3
- awxLB00ozzzA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9740"; a="138758154"
-X-IronPort-AV: E=Sophos;i="5.76,415,1592895600"; 
-   d="scan'208";a="138758154"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2020 04:48:27 -0700
-IronPort-SDR: y/vYZamaS5v01sprW1Hq3VAz1KZgkumJU8FeuFXu/b5jA3fOjhzwpMXKq6fBzPbb5TjR1CkqYq
- 7ctqNySjkVuw==
-X-IronPort-AV: E=Sophos;i="5.76,415,1592895600"; 
-   d="scan'208";a="334489179"
-Received: from amaksymi-mobl.ger.corp.intel.com (HELO localhost) ([10.252.60.247])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2020 04:48:23 -0700
-Date:   Fri, 11 Sep 2020 14:48:20 +0300
-From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-To:     Greg KH <greg@kroah.com>
-Cc:     James Bottomley <James.Bottomley@hansenpartnership.com>,
-        linux-integrity@vger.kernel.org, Mimi Zohar <zohar@linux.ibm.com>,
-        linux-api@vger.kernel.org
-Subject: Re: [PATCH RESEND v4 0/1] add sysfs exports for TPM 2 PCR registers
-Message-ID: <20200911114820.GB6877@linux.intel.com>
-References: <20200906203245.18429-1-James.Bottomley@HansenPartnership.com>
- <20200907053824.GA279469@kroah.com>
- <20200907132322.GB106839@linux.intel.com>
- <1599515528.4232.55.camel@HansenPartnership.com>
- <20200908054552.GB303404@kroah.com>
- <20200908180513.GB5390@linux.intel.com>
- <1599588851.10803.29.camel@HansenPartnership.com>
- <20200909070729.GD311356@kroah.com>
+        id S1725846AbgIKMRH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 11 Sep 2020 08:17:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60554 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725822AbgIKMQj (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 11 Sep 2020 08:16:39 -0400
+Received: from smtp-1909.mail.infomaniak.ch (smtp-1909.mail.infomaniak.ch [IPv6:2001:1600:3:17::1909])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89434C061756;
+        Fri, 11 Sep 2020 05:16:36 -0700 (PDT)
+Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4Bnvqv0ZqWzlhfqK;
+        Fri, 11 Sep 2020 14:16:27 +0200 (CEST)
+Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
+        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4Bnvqq5mSFzlh8T4;
+        Fri, 11 Sep 2020 14:16:23 +0200 (CEST)
+Subject: Re: [RFC PATCH v9 0/3] Add introspect_access(2) (was O_MAYEXEC)
+To:     Matthew Wilcox <willy@infradead.org>,
+        Al Viro <viro@zeniv.linux.org.uk>
+Cc:     Mimi Zohar <zohar@linux.ibm.com>, linux-kernel@vger.kernel.org,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Christian Heimes <christian@python.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Deven Bowers <deven.desai@linux.microsoft.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Eric Chiang <ericchiang@google.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
+        Matthew Garrett <mjg59@google.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        =?UTF-8?Q?Philippe_Tr=c3=a9buchet?= 
+        <philippe.trebuchet@ssi.gouv.fr>,
+        Scott Shell <scottsh@microsoft.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Steve Dower <steve.dower@python.org>,
+        Steve Grubb <sgrubb@redhat.com>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Thibaut Sautereau <thibaut.sautereau@clip-os.org>,
+        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+References: <20200910164612.114215-1-mic@digikod.net>
+ <20200910170424.GU6583@casper.infradead.org>
+ <f6e2358c-8e5e-e688-3e66-2cdd943e360e@digikod.net>
+ <a48145770780d36e90f28f1526805a7292eb74f6.camel@linux.ibm.com>
+ <880bb4ee-89a2-b9b0-747b-0f779ceda995@digikod.net>
+ <20200910184033.GX6583@casper.infradead.org>
+ <20200910200010.GF1236603@ZenIV.linux.org.uk>
+ <20200910200543.GY6583@casper.infradead.org>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <3dd9b2b3-6304-03df-bfba-13864169453e@digikod.net>
+Date:   Fri, 11 Sep 2020 14:16:23 +0200
+User-Agent: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200909070729.GD311356@kroah.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20200910200543.GY6583@casper.infradead.org>
+Content-Type: text/plain; charset=iso-8859-15
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Sep 09, 2020 at 09:07:29AM +0200, Greg KH wrote:
-> On Tue, Sep 08, 2020 at 11:14:11AM -0700, James Bottomley wrote:
-> > On Tue, 2020-09-08 at 21:05 +0300, Jarkko Sakkinen wrote:
-> > > On Tue, Sep 08, 2020 at 07:45:52AM +0200, Greg KH wrote:
-> > > > On Mon, Sep 07, 2020 at 02:52:08PM -0700, James Bottomley wrote:
-> > [...]
-> > > > > I've got to say I think binary attributes are actively evil.  I
-> > > > > can see
-> > > > > they're a necessity when there's no good way to represent the
-> > > > > data they
-> > > > > contain, like the bios measurement log or firmware code or a raw
-> > > > > interface like we do for the SMP frame code in libsas.  But when
-> > > > > there's a well understood and easy to produce user friendly non-
-> > > > > binary
-> > > > > representation, I think dumping binary is inimical to being a
-> > > > > good API.
-> > > > 
-> > > > Agreed.
-> > > > 
-> > > > thanks,
-> > > > 
-> > > > greg k-h
-> > > 
-> > > Looking at the patch, something like <device>/pcrs/<hash>/<index>
-> > > would be a bit cleaner representation than the current <device>/pcrs-
-> > > <hash>/<index>.
-> > 
-> > That's actually a technical limitation of using the current attribute
-> > groups API: It's designed to support single level directories in sysfs
-> > (or no directory at all).  That's not to say we can't do multi-level
-> > ones, but if we do we have to roll our own machinery for managing the
-> > files rather than relying on the groups API.
+
+On 10/09/2020 22:05, Matthew Wilcox wrote:
+> On Thu, Sep 10, 2020 at 09:00:10PM +0100, Al Viro wrote:
+>> On Thu, Sep 10, 2020 at 07:40:33PM +0100, Matthew Wilcox wrote:
+>>> On Thu, Sep 10, 2020 at 08:38:21PM +0200, Mickaël Salaün wrote:
+>>>> There is also the use case of noexec mounts and file permissions. From
+>>>> user space point of view, it doesn't matter which kernel component is in
+>>>> charge of defining the policy. The syscall should then not be tied with
+>>>> a verification/integrity/signature/appraisal vocabulary, but simply an
+>>>> access control one.
+>>>
+>>> permission()?
+>>
+>> int lsm(int fd, const char *how, char *error, int size);
+>>
+>> Seriously, this is "ask LSM to apply special policy to file"; let's
+>> _not_ mess with flags, etc. for that; give it decent bandwidth
+>> and since it's completely opaque for the rest of the kernel,
+>> just a pass a string to be parsed by LSM as it sees fit.
+
+Well, I don't know why you're so angry against LSM, but as noticed by
+Matthew, the main focus of this patch series is not about LSM (no hook,
+no security/* code, only file permission and mount option checks,
+nothing fancy). Moreover, the syscall you're proposing doesn't make
+sense, but I guess it's yet another sarcastic reply. Please, cool down.
+We asked for constructive comments and already followed your previous
+requests (even if we didn't get answers for some questions), but
+seriously, this one is nonsense.
+
 > 
-> Agreed, do NOT do multi-level attribute groups please, userspace tools
-> will not handle them well, if at all.
+> Hang on, it does have some things which aren't BD^W^WLSM.  It lets
+> the interpreter honour the mount -o noexec option.  I presume it's
+> not easily defeated by
+> 	cat /home/salaun/bin/bad.pl | perl -
+> 
 
-OK, thanks for confirming this.
-
-/Jarkko
+Funny. I know there is a lot of text and links but please read the
+commit messages before further comments.
