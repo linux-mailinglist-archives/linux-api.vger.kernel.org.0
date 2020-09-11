@@ -2,89 +2,103 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BF52266908
-	for <lists+linux-api@lfdr.de>; Fri, 11 Sep 2020 21:39:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 91432266943
+	for <lists+linux-api@lfdr.de>; Fri, 11 Sep 2020 21:56:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725908AbgIKTjY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 11 Sep 2020 15:39:24 -0400
-Received: from mga04.intel.com ([192.55.52.120]:35496 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725906AbgIKTjO (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 11 Sep 2020 15:39:14 -0400
-IronPort-SDR: oEYaWAgeu2ATZrtH/fVdq0ocmEjtKnnghewuEG5yU/a6hdB9S6la42dxg2o+gnKYfOmO9YRwcK
- L5bY2fK6D8jA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9741"; a="156236548"
-X-IronPort-AV: E=Sophos;i="5.76,416,1592895600"; 
-   d="scan'208";a="156236548"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2020 12:35:26 -0700
-IronPort-SDR: M7/D4TnmvrVYdO12abJTw9PGqbe4NCf6FHJQShTyWGPx3iBQdeT2VMiyV+wugMzVMBfrLcNF3y
- zlqqVxToic/A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,416,1592895600"; 
-   d="scan'208";a="505599370"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmsmga006.fm.intel.com with ESMTP; 11 Sep 2020 12:35:26 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Fri, 11 Sep 2020 12:35:26 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Fri, 11 Sep 2020 12:35:26 -0700
-Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
- fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.1713.004;
- Fri, 11 Sep 2020 12:35:26 -0700
-From:   "Luck, Tony" <tony.luck@intel.com>
-To:     "Hansen, Dave" <dave.hansen@intel.com>,
+        id S1725802AbgIKT4q (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 11 Sep 2020 15:56:46 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51970 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725794AbgIKT4n (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 11 Sep 2020 15:56:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1599854201;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=HiRrxuwpYWnQMo5FTx+dqZUh/zO6pDjeXZnxQ5ttgXM=;
+        b=hSEYd+1AX1WQ+YoMstjzmjnPZisJz2UzQ//XsHPW/ZmPbjydd8m8avEWEdhM2CKaageOTj
+        Pl4ADpE9uvKWmlAuiPJuPsmYC97i7Nl++LOAsJ+k0IAxJMrDxzYz7RQgf9E9fOod2MANc/
+        dzZfP7AYIdQ1WY1mUF3Qg/Npbr3bJNk=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-101-iLX0Ud5ENJ2mNozesrOD0A-1; Fri, 11 Sep 2020 15:56:39 -0400
+X-MC-Unique: iLX0Ud5ENJ2mNozesrOD0A-1
+Received: by mail-ed1-f70.google.com with SMTP id bm14so5392536edb.2
+        for <linux-api@vger.kernel.org>; Fri, 11 Sep 2020 12:56:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:content-transfer-encoding:from:mime-version
+         :subject:date:message-id:references:cc:in-reply-to:to;
+        bh=HiRrxuwpYWnQMo5FTx+dqZUh/zO6pDjeXZnxQ5ttgXM=;
+        b=XqtBCseSgcH01sU8rE3EWSOinKgq4a7EzX/JlPB7hpm8oEW0gn+hfl3S44NucqstHj
+         OP8TVh0p50LoGT5JsXItk8a+sOgjxEjcTb23hl3VTbDNa3c2mqZktNarKvG1oXPCTqpB
+         AuL7+pOjI5Gwn/d53AxC3xLzjseSS9LAwK4CKemWzD8/gI/S4LIqjXbD0fZ+qn5mY6k7
+         jRwIB791ySmMimM6uOwvoaE66IIzOYwmhnqM0HvvDAFyUt7tDFL+H5EB3bA4fvKqgVxK
+         DWMOqPL7LxjtOklcSG629lw28ZXlcpcDfEvZQSoSkIqH7bB3zLeq+xWt/Ha61mEzoot6
+         13Ew==
+X-Gm-Message-State: AOAM533YrK/FqTpM9xw556T721LycB4J5E3DOoWMKN1mHQK6A24ZqTIf
+        So2Dy3KnEZ49n5keAFl++6QMC/c04rD6jUqGb6dEXbwXnCtK03fofxCUoswm5ISlUBiEZCUegg7
+        YJDLA1A5Tn5KWeDnxz4ny
+X-Received: by 2002:a17:907:264c:: with SMTP id ar12mr3728411ejc.80.1599854198606;
+        Fri, 11 Sep 2020 12:56:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyI2PQqNt1dvpjMD5lrK1YjwwLI/bFW1FAJaJVtd+QNRGaoPSJVEC6/DS0aphwnU+mNXyXTeQ==
+X-Received: by 2002:a17:907:264c:: with SMTP id ar12mr3728402ejc.80.1599854198424;
+        Fri, 11 Sep 2020 12:56:38 -0700 (PDT)
+Received: from [192.168.3.122] (p5b0c6263.dip0.t-ipconnect.de. [91.12.98.99])
+        by smtp.gmail.com with ESMTPSA id e4sm2486542edk.38.2020.09.11.12.56.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Sep 2020 12:56:37 -0700 (PDT)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From:   David Hildenbrand <david@redhat.com>
+Mime-Version: 1.0 (1.0)
+Subject: Re: Ways to deprecate /sys/devices/system/memory/memoryX/phys_device ?
+Date:   Fri, 11 Sep 2020 21:56:36 +0200
+Message-Id: <F078F2C8-989D-4A5A-BCB8-F7E215A795A4@redhat.com>
+References: <75611c1b4ab44265acff75aa8754d48f@intel.com>
+Cc:     "Hansen, Dave" <dave.hansen@intel.com>,
         David Hildenbrand <david@redhat.com>,
-        Michal Hocko <mhocko@suse.com>
-CC:     Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
         "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
         Greg KH <gregkh@linuxfoundation.org>,
-        =?utf-8?B?SmFuIEjDtnBwbmVy?= <hoeppner@linux.ibm.com>,
+        =?utf-8?Q?Jan_H=C3=B6ppner?= <hoeppner@linux.ibm.com>,
         Heiko Carstens <hca@linux.ibm.com>,
         "linux-mm@kvack.org" <linux-mm@kvack.org>,
         "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: Ways to deprecate /sys/devices/system/memory/memoryX/phys_device
- ?
-Thread-Topic: Ways to deprecate /sys/devices/system/memory/memoryX/phys_device
- ?
-Thread-Index: AQHWiHEhJKJA6edVxE2SxRFnpdxADalj0+dw
-Date:   Fri, 11 Sep 2020 19:35:24 +0000
-Message-ID: <75611c1b4ab44265acff75aa8754d48f@intel.com>
-References: <f14f7f00-0501-bb93-88cc-780ae4fbaad3@intel.com>
- <3E00A442-7107-48DA-8172-EED95F6E1663@redhat.com>
- <20200911072035.GC7986@dhcp22.suse.cz>
- <02cdbf90-b29f-a9ec-c83d-49f2548e3e91@redhat.com>
- <20200911091252.GD7986@dhcp22.suse.cz>
- <0f532ff3-972b-bd91-30fe-1c3111d920bf@redhat.com>
- <3b079fda-4e89-b61b-0aca-a0c4ae834fd8@intel.com>
-In-Reply-To: <3b079fda-4e89-b61b-0aca-a0c4ae834fd8@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
+In-Reply-To: <75611c1b4ab44265acff75aa8754d48f@intel.com>
+To:     "Luck, Tony" <tony.luck@intel.com>
+X-Mailer: iPhone Mail (17G68)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-PiBJdCdzIGFjdHVhbGx5IHJlYWxseSBoYXJkIHRvIG1hcCBhIERJTU0gdG8gYSBwaHlzaWNhbCBh
-ZGRyZXNzLg0KPiBJbnRlcmxlYXZpbmcgY2FuIG1lYW4gdGhhdCBvbmUgcGFnZSBhY3R1YWxseSBz
-cGFucyBhIGJ1bmNoIG9mIERJTU1zLg0KDQpIZWghIElmIE5VTUEgbW9kZSBpcyB0dXJuZWQgb2Zm
-IHlvdXIgc2luZ2xlIHBhZ2UgbWF5IGhhdmUgY2FjaGUgbGluZXMNCmZyb20gKmV2ZXJ5KiBESU1N
-IGluIHRoZSBzeXN0ZW0uIEV2ZW4gd2l0aCBOVU1BIHR1cm5lZCBvbiB0aGUgcGFnZQ0Kd2lsbCBo
-YXZlIGNhY2hlIGxpbmVzIGZyb20gZXZlcnkgRElNTSBvbiB0aGUgc29ja2V0Lg0KDQotVG9ueQ0K
+
+
+> Am 11.09.2020 um 21:36 schrieb Luck, Tony <tony.luck@intel.com>:
+>=20
+> =EF=BB=BF
+>>=20
+>> It's actually really hard to map a DIMM to a physical address.
+>> Interleaving can mean that one page actually spans a bunch of DIMMs.
+>=20
+> Heh! If NUMA mode is turned off your single page may have cache lines
+> from *every* DIMM in the system. Even with NUMA turned on the page
+> will have cache lines from every DIMM on the socket.
+>=20
+
+Thanks Dave and Tony, that=E2=80=98s valuable information!
+
+How would it behave after hotplugging a single DIMM  - I assume a single pag=
+e will only be mapped to that DIMM (otherwise a lot of stuff would habe to b=
+e moved around. Would the mapping change after a reboot - especially can a D=
+IMM that could get hotunplugged before suddenly no longer be hotunplugged in=
+dividually?
+
+> -Tony
+
