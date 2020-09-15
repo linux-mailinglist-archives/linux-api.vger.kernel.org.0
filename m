@@ -2,147 +2,148 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 54D28269781
-	for <lists+linux-api@lfdr.de>; Mon, 14 Sep 2020 23:14:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 938D7269A9B
+	for <lists+linux-api@lfdr.de>; Tue, 15 Sep 2020 02:44:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725986AbgINVOj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 14 Sep 2020 17:14:39 -0400
-Received: from mga07.intel.com ([134.134.136.100]:59381 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725920AbgINVOi (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 14 Sep 2020 17:14:38 -0400
-IronPort-SDR: I3/nT/J49rPlJjZ8PhV4OJDPCN+1BOIetkpMgJPaO36RqUXdn9Qh851wXg7wpLd0/wjvT54eGm
- TGzk3ImcyVaA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9744"; a="223346394"
-X-IronPort-AV: E=Sophos;i="5.76,427,1592895600"; 
-   d="scan'208";a="223346394"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2020 14:14:37 -0700
-IronPort-SDR: W53SDa1Kax8hoEunV0wuIdroinQDI3GpJ7uh5RfdH+MsSsK346X3Ly6jMFIw2pDVFuL4j4uCj0
- +yNJiQww3DTA==
-X-IronPort-AV: E=Sophos;i="5.76,427,1592895600"; 
-   d="scan'208";a="507290653"
-Received: from pkamat-mobl1.amr.corp.intel.com (HELO [10.209.79.20]) ([10.209.79.20])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2020 14:14:35 -0700
-Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
- shadow stack
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-References: <086c73d8-9b06-f074-e315-9964eb666db9@intel.com>
- <4f2dfefc-b55e-bf73-f254-7d95f9c67e5c@intel.com>
- <CAMe9rOqt9kbqERC8U1+K-LiDyNYuuuz3TX++DChrRJwr5ajt6Q@mail.gmail.com>
- <20200901102758.GY6642@arm.com>
- <c91bbad8-9e45-724b-4526-fe3674310c57@intel.com>
- <CALCETrWJQgtO_tP1pEaDYYsFgkZ=fOxhyTRE50THcxYoHyTTwg@mail.gmail.com>
- <32005d57-e51a-7c7f-4e86-612c2ff067f3@intel.com>
- <46dffdfd-92f8-0f05-6164-945f217b0958@intel.com>
- <ed929729-4677-3d3b-6bfd-b379af9272b8@intel.com>
- <6e1e22a5-1b7f-2783-351e-c8ed2d4893b8@intel.com>
- <5979c58d-a6e3-d14d-df92-72cdeb97298d@intel.com>
- <ab1a3344-60f4-9b9d-81d4-e6538fdcafcf@intel.com>
- <08c91835-8486-9da5-a7d1-75e716fc5d36@intel.com>
- <a881837d-c844-30e8-a614-8b92be814ef6@intel.com>
- <cbec8861-8722-ec31-2c02-1cfed20255eb@intel.com>
- <b3379d26-d8a7-deb7-59f1-c994bb297dcb@intel.com>
- <a1efc4330a3beff10671949eddbba96f8cde96da.camel@intel.com>
- <41aa5e8f-ad88-2934-6d10-6a78fcbe019b@intel.com>
- <CALCETrX5qJAZBe9sHL6+HFvre-bbo+us1==q9KHNCyRrzaUsjw@mail.gmail.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <c61c9bf3-4097-089c-4e6d-d0ae0e4480f3@intel.com>
-Date:   Mon, 14 Sep 2020 14:14:34 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726064AbgIOAoN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 14 Sep 2020 20:44:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48380 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726019AbgIOAoM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 14 Sep 2020 20:44:12 -0400
+Received: from mail-ua1-x942.google.com (mail-ua1-x942.google.com [IPv6:2607:f8b0:4864:20::942])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED008C06174A
+        for <linux-api@vger.kernel.org>; Mon, 14 Sep 2020 17:44:10 -0700 (PDT)
+Received: by mail-ua1-x942.google.com with SMTP id z46so455133uac.13
+        for <linux-api@vger.kernel.org>; Mon, 14 Sep 2020 17:44:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=BoSlPGs10Ah7Ip1us1heQdTTSl7SgyITEYcV+Lqb3hY=;
+        b=QwuTsUtXEVEQEtd5CP6AH1XNi03owaessppVcj6SJH0eQrzxs+Xrkrs/qHcRUrUIzN
+         MbCJv0zJIPb+qZ9P7WBPB1x19A4EmP5nqLw40DclOPEckOKMyM0POkHD7PN+F9oOcSEW
+         JDeMvdZZoPpicsCp7OlfuAbXYXqzXrzZToXVDXjC3FtPmjjFG7FgTBfkcxLuacyEaibw
+         ZmpdUdIPBszGbU49OLOFRpExw5nP9gVOR+J7udmnGKo/a+vEkJdrMxqQLrwYEeEEDCD6
+         wi+VKGhfe7+uZodGRRmlNqNyjijd6v2hXofW5F3qGSaEJDrk883KnUbMD62IjM1xHyq7
+         jGgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=BoSlPGs10Ah7Ip1us1heQdTTSl7SgyITEYcV+Lqb3hY=;
+        b=QfBu0/y1ttJihGCioEm1fKl7WEra9BUzsZnzKWVB0WOCOY8BGw6i2L2D/ZPljN+LXD
+         i1MEpQxWLTgZ4C6BF+tX5wllzmLMG7TeZAf/wYyfEAkcRCOu7t0TmTKvfOHRIvdY2GTq
+         Y3Jm7aGKQ3lyfkhGljPJ3Ia0x4eUtHxA+VXLAIWUljKbTBhuF1Zk1ZfJuIETE0c0ppks
+         JDw93epn418M7BzO3zoQTWD6mHuBP6GEHzKojnmEcMdBlfu2W8SsOC7KdZTn+9y5KRJC
+         ENpan5vVF8zdDnmYUT9wBuAtv/5MS1fdl05On2kFMaBg2ZLdfDgcFzqKAGwQUfPlTa/3
+         fBJg==
+X-Gm-Message-State: AOAM531NNz+GzrvF07/pN/m23joF4RpV2DOVILvI6+XRKFAvgWgvf0YC
+        WZEPviK4Am3KchgNLTcstvKuomEGEaY6tppQ4ZXjpobPHiBUbx3u
+X-Google-Smtp-Source: ABdhPJzLd5XT4Z6UjFNpFE2MstW6cSFyWufD3+ryPMHs8eeaF61LZuLpoS+zQE8ITWJN2v3pyWv3CyoHocnfA6Wj8h4=
+X-Received: by 2002:ab0:20a:: with SMTP id 10mr8179288uas.86.1600130649381;
+ Mon, 14 Sep 2020 17:44:09 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CALCETrX5qJAZBe9sHL6+HFvre-bbo+us1==q9KHNCyRrzaUsjw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Mon, 14 Sep 2020 17:43:58 -0700
+Message-ID: <CAJuCfpGz1kPM3G1gZH+09Z7aoWKg05QSAMMisJ7H5MdmRrRhNQ@mail.gmail.com>
+Subject: [RFC]: userspace memory reaping
+To:     linux-api@vger.kernel.org, linux-mm <linux-mm@kvack.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Roman Gushchin <guro@fb.com>, Rik van Riel <riel@surriel.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Christian Brauner <christian@brauner.io>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Tim Murray <timmurray@google.com>,
+        kernel-team <kernel-team@android.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 9/14/20 11:31 AM, Andy Lutomirski wrote:
-> No matter what we do, the effects of calling vfork() are going to be a
-> bit odd with SHSTK enabled.  I suppose we could disallow this, but
-> that seems likely to cause its own issues.
+Last year I sent an RFC about using oom-reaper while killing a
+process: https://patchwork.kernel.org/cover/10894999. During LSFMM2019
+discussion https://lwn.net/Articles/787217 a couple of alternative
+options were discussed with the most promising one (outlined in the
+last paragraph of https://lwn.net/Articles/787217) suggesting to use a
+remote version of madvise(MADV_DONTNEED) operation to force memory
+reclaim of a killed process. With process_madvise() making its way
+through reviews (https://patchwork.kernel.org/patch/11747133/), I
+would like to revive this discussion and get feedback on several
+possible options, their pros and cons.
 
-What's odd about it?  If you're a vfork()'d child, you can't touch the
-stack at all, right?  If you do, you or your parent will probably die a
-horrible death.
+The need is similar to why oom-reaper was introduced - when a process
+is being killed to free memory we want to make sure memory is freed
+even if the victim is in uninterruptible sleep or is busy and reaction
+to SIGKILL is delayed by an unpredictable amount of time. I
+experimented with enabling process_madvise(MADV_DONTNEED) operation
+and using it to force memory reclaim of the target process after
+sending SIGKILL. Unfortunately this approach requires the caller to
+read proc/pid/maps to extract the list of VMAs to pass as an input to
+process_madvise(). This is a time consuming operation. I measured
+times similar to what Minchan indicated in
+https://lore.kernel.org/linux-mm/20190528032632.GF6879@google.com/ and
+the reason reading proc/pid/maps consumes that much time is the number
+of read syscalls required to read this file. proc/pid/maps file, being
+a seq_file, can be read in chunks of up to 4096 bytes (1 page). Even
+if userspace provides bigger buffer, only up to 4096 bytes will be
+read with one syscall. Measured on Qualcomm=C2=AE Snapdragon 855=E2=84=A2 u=
+sing its
+Big core of 2.84GHz a single read syscall takes between 50 and 200us
+(in case there was no contention on mmap_sem or some other lock during
+the syscall). Taking one typical example from my tests, a 219232 bytes
+long proc/pid/maps file describing 1623 VMAs required 55 read
+syscalls. With mmap_sem contention proc/pid/maps read can take even
+longer. In my tests I measured typical delays of 3-7ms with occasional
+delays of up to 20ms when a read syscall was blocked and the process
+got into uninterruptible sleep.
 
-The extra shadow stacks sanity checks means we'll probably see shadow
-stack exceptions instead of the slightly more chaotic death without them.
+While the objective is to guarantee forward progress even when the
+victim cannot terminate, we still want this mechanism to be efficient
+because we perform these operations to relieve memory pressure before
+it affects user experience.
 
+Alternative options I would like your feedback are:
+1. Introduce a dedicated process_madvise(MADV_DONTNEED_MM)
+specifically for this case to indicate that the whole mm can be freed.
+2. A new syscall to efficiently obtain a vector of VMAs (start,
+length, flags) of the process instead of reading /proc/pid/maps. The
+size of the vector is still limited by UIO_MAXIOV (1024), so several
+calls might be needed to query larger number of VMAs, however it will
+still be an order of magnitude more efficient than reading
+/proc/pid/maps file in 4K or smaller chunks.
+3. Use process_madvise() flags parameter to indicate a bulk operation
+which ignores input vectors. Sample usage: process_madvise(pidfd,
+MADV_DONTNEED, vector=3DNULL, vlen=3D0, flags=3DPMADV_FLAG_FILE |
+PMADV_FLAG_ANON);
+4. madvise()/process_madvise() handle gaps between VMAs, so we could
+provide one vector element spanning the entire address space. There
+are technical issues with this approach (process_madvise return value
+can't handle such a large number of bytes and there is MAX_RW_COUNT
+limit on max number of bytes one process_madvise call can handle) but
+I would still like to hear opinions about it. If this option is
+preferable maybe we can deal with these limitations.
+
+We can also go back to reclaiming victim's memory asynchronously but
+synchronous method has the following advantages:
+- reaping will be performed in the caller's context and therefore with
+caller's priority, CPU affinity, CPU bandwidth, reaping workload will
+be charged to the caller and accounted for.
+- reaping is a blocking/synchronous operation for the caller, so when
+it's finished, the caller can be sure mm is freed (or almost freed
+considering lazy freeing and batching mechanisms) and it can reassess
+the memory conditions right away.
+- for very large MMs (not really my case) caller could split the VMA
+vector and perform reaping from multiple threads to make it faster.
+This would not be possible with options (1) and (3).
+
+Would really appreciate your feedback on these options for future developme=
+nt.
+Thanks,
+Suren.
