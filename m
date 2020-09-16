@@ -2,126 +2,115 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 74DF826B7CF
-	for <lists+linux-api@lfdr.de>; Wed, 16 Sep 2020 02:30:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BC6326BBF4
+	for <lists+linux-api@lfdr.de>; Wed, 16 Sep 2020 07:47:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726695AbgIONrr convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Tue, 15 Sep 2020 09:47:47 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:57535 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726463AbgIONpl (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 15 Sep 2020 09:45:41 -0400
-Received: from mail-qt1-f170.google.com ([209.85.160.170]) by
- mrelayeu.kundenserver.de (mreue108 [212.227.15.145]) with ESMTPSA (Nemesis)
- id 1N1whr-1kTI1d3eQL-012DRo; Tue, 15 Sep 2020 15:32:29 +0200
-Received: by mail-qt1-f170.google.com with SMTP id v54so3115865qtj.7;
-        Tue, 15 Sep 2020 06:32:28 -0700 (PDT)
-X-Gm-Message-State: AOAM530SItU2P7qoSTCT7UVCHRW9byUo0tCmq+/cq66XoTHX6QSgPQ/n
-        e5Z0LKxfxTNHFIbZsXM0+658b2GA2tA7Y+WuAsQ=
-X-Google-Smtp-Source: ABdhPJxxLmMCN4A/oxqNJBXyjnHh2EThJJR2LF/8Sz6ABSTqKRD1ROg//n2YBFK6xkQVViDw3D8KsqM5aPAmkXBsQb0=
-X-Received: by 2002:aed:2ce5:: with SMTP id g92mr5576894qtd.204.1600176747244;
- Tue, 15 Sep 2020 06:32:27 -0700 (PDT)
+        id S1726093AbgIPFrZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 16 Sep 2020 01:47:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35998 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726068AbgIPFrY (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 16 Sep 2020 01:47:24 -0400
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FA75C06174A;
+        Tue, 15 Sep 2020 22:47:24 -0700 (PDT)
+Received: by mail-ej1-x644.google.com with SMTP id gr14so8594490ejb.1;
+        Tue, 15 Sep 2020 22:47:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=vQiJOB/UdJOF4poHaKg0u3Y1sMH91TcjjSLPEnuargo=;
+        b=bZwjDS/6nCw1FqZcriRPBeuMMfwH8PHl9L5lA7qiqEDP3rDAcAcNgGPDO0zOaynrGm
+         5Cpt+rzvXSpDcaBoN1ds22Y0ceJv4fgRJtmrugLhO6lcVQc82BPA479Vzz/xl9h1WEFS
+         QIkg672Skh97B/sQbTRVncS3wFgY8pXP+j9FipZx+ELD08i+oqQMfR93WM1b5WMLZc2J
+         19fERFIV4gHmhmV7zyxjRgnIESCRDLJuAZxUGycAX8dJidbgfjYwBGUWK+Aj2RcMfolD
+         0+yIFsmbDhGxmiq8bR7cHoj8DBMqpNi9Oc3Tt+w0JsHm3E7gF/4katlrJc3MNoWRkjy3
+         Qz7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vQiJOB/UdJOF4poHaKg0u3Y1sMH91TcjjSLPEnuargo=;
+        b=NzfttC/JIgQ4/+Ymua2YoXJnLYNh0MKFlbahh76jboAMCUfNXXMpcR2F7iYkfiOfEO
+         XnH5z+0l0q6t4VRPhO8GvNxAZzI0pkk9up0SGB6zMrkQHgP7wXMEdUOXDyVOWBbPUJaG
+         6vsqKu4BLtpdCbSNSta5Aubq/ZUHonK1UylOlDhmXc/DgAKdo0OWH4bRm+sAnJK00qHn
+         UqgV7snybC7R5jJsjaSVUccwujmB3kaNn65TFZ+J+dN7rwzQxpkf2lCvKH8t2fP8rQ50
+         jWvEFiIw154rJrEiNjBor3X/skFMlBk8XKUOC2IWAMe3ifD7iTKN3Cs+Uq0HSWH+TqNA
+         roJQ==
+X-Gm-Message-State: AOAM5335h6iq/p6KsZYJOADqwmwk16cJNKlKeafgRwo1VOjcc4F13Dnt
+        /+nviumx2M8QpV0QCuhxNMk+od4lPyXWU6UaXrh+3UP4o5o=
+X-Google-Smtp-Source: ABdhPJwGsZk/mogHqr3oAyP56+OJiYK3EKSenA9xR3UUMnUzp8mWjJMt6fotj/nkmcbn8dZeWcuqYDUaLfO+eApUwTg=
+X-Received: by 2002:a17:906:5488:: with SMTP id r8mr23235909ejo.483.1600235242767;
+ Tue, 15 Sep 2020 22:47:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200910164612.114215-1-mic@digikod.net> <20200910164612.114215-3-mic@digikod.net>
-In-Reply-To: <20200910164612.114215-3-mic@digikod.net>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Tue, 15 Sep 2020 15:32:11 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a2bhKp8pHYP1nDg__pgPoNssVUkLo3y6bFiGjCKv-c0cA@mail.gmail.com>
-Message-ID: <CAK8P3a2bhKp8pHYP1nDg__pgPoNssVUkLo3y6bFiGjCKv-c0cA@mail.gmail.com>
-Subject: Re: [RFC PATCH v9 2/3] arch: Wire up introspect_access(2)
-To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Christian Heimes <christian@python.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Deven Bowers <deven.desai@linux.microsoft.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Eric Chiang <ericchiang@google.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
-        Matthew Garrett <mjg59@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        =?UTF-8?Q?Philippe_Tr=C3=A9buchet?= 
-        <philippe.trebuchet@ssi.gouv.fr>,
-        Scott Shell <scottsh@microsoft.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Steve Dower <steve.dower@python.org>,
-        Steve Grubb <sgrubb@redhat.com>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        Thibaut Sautereau <thibaut.sautereau@clip-os.org>,
-        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-integrity@vger.kernel.org,
-        LSM List <linux-security-module@vger.kernel.org>,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@linux.microsoft.com>,
-        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>
+References: <CAGnHSE=bhpL4REG5PXST6dF3gSWeewg1Eqr+sLw_9rtqL-ToFQ@mail.gmail.com>
+ <20200906012716.1553-1-tom.ty89@gmail.com> <20200906012716.1553-2-tom.ty89@gmail.com>
+ <20200907060927.GA18909@lst.de> <CAGnHSEnWPSaM3xS1MtFUJDrSZPfaH_VwAiQ5UkndFTVe3uWNVA@mail.gmail.com>
+ <20200908084258.GA17030@lst.de> <CAGnHSE=ASs3DG2yp1NpODHimwxHe+=XPRsOyDdkB3ThtyEU-KA@mail.gmail.com>
+ <20200910052835.GB18283@lst.de> <CAGnHSE=pcW0zJMSaowdsRXFa=TmOeidekgvDuEPB8PU7mheXNA@mail.gmail.com>
+ <20200911064844.GA22190@lst.de>
+In-Reply-To: <20200911064844.GA22190@lst.de>
+From:   Tom Yan <tom.ty89@gmail.com>
+Date:   Wed, 16 Sep 2020 13:47:11 +0800
+Message-ID: <CAGnHSEmHDABNOEKyvp2zjPbYjDasdzo-QjxNC8xwh4MnnuDJgQ@mail.gmail.com>
+Subject: Re: [PATCH RESEND 2/4] scsi: sg: implement BLKSSZGET
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     linux-scsi@vger.kernel.org, dgilbert@interlog.com,
+        Bart Van Assche <bvanassche@acm.org>,
+        Alan Stern <stern@rowland.harvard.edu>, akinobu.mita@gmail.com,
+        linux-api@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Provags-ID: V03:K1:CK476NVovWPJ8+inQF3omOMsQlGdPbubct6+uilUnLxRtV3MCqb
- ivXBFVdJYMUlQt6XhTgFkleJyx6mVTBSEpmlRol2enIZJ3CU+hxZ8TG4yEOXDyADeYdS2cH
- R0sVNOEkDFueSeLd67GLD/YKWpDnnX1KcdkgrFtWRAs3grG8XRZ85E8Fh0390UujdxEk4Ra
- LwsZGdZoRi6H/y20iZ3ng==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:XwP+wphoa1w=:PIFFfXMYmjLcKw3c5lsBUn
- 7GYapSOe/3c4HtF+NydsTSX6gqO9sYQGC0LnV60gS+EORzQIWRMBldCUy5xngsI8Xph3Jnslv
- RiuazdbDFmxRMPPDatwtQkJt+R/kX41D8MlOgINrh8NTWAYRDrv0b1sfzYga1lO4MHzCHu4ke
- QHfU0xWsrxqE3575AGJhd1gCzqbY7R1g6pzVOymv8UeCtVl9dGw9rIWZ6ZWi0pt/s/JHAzQHA
- E6V1sc/0wz2jeE0hkqkw9O8XTuPW0JvTSj/FcBEFkreF37S9bXw4aS0QPJXQ7veHdggR6HZDw
- aKnjtPi3IuLoVdaTOyHBxSfNQT+qBAzb5E4mFrztv/DxSzHeJnOVyFV3Kh18VDye+KgtN+iHp
- IV7ZHHLO9onSO6Kt5ghErVjgGmQGl3tvKPbQjUvMyssif7a/1JBYAsh1e7wtXccJ52VIkTvNU
- puqVM5L3IjWZ+dmCk+FB6eW+am5w2gIBpQbEKhyvvN67OOgHFWWcDaxUdtAfBcju1vB9bOhV5
- bPCZA2g61VDWV0Oo+W1UC8jUM71meOh0MNDQ4Z/zQ2gt5BNztRrndJVyEnRRyFGpZ2ozzG0Pr
- 1rDg43iN/X86oGRMyYcokc4YDlhRBN7EsQgxJDwIzBxcunTy9pslr/8izFSeLh/VNjHF61Xmh
- ZzBOnVEXdoTwIeP7xJbNa/VRGQeXhhEJaYyhO/WHZQC4URc8+WO2PUSto1VlDjkTgLtH668lt
- j7AjK77HwW7ZmpIGA5dWswBQbH8s124lYIFOSHbrpyMUXqzwWp6pRm23VITJPPckxhi2JLXlG
- cOSqRPuqS30qLLkl16HCmrlit631wIwqr0xTsAY3Yz10fsW+msANFW+ZlvmXf08H19F0IYZST
- jXhFSeQXHCpzf6n1MKbgpQVESQLsN21ckX/RHkpHQhY52JoYki6nhKguWCzlb8Nkamuis4xqi
- L4lnssYJFnCZw/O3Nec/Z86HNyQo9CjfN0SmL+j4naoXpbdfupqPX
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Sep 10, 2020 at 6:46 PM Mickaël Salaün <mic@digikod.net> wrote:
+On Fri, 11 Sep 2020 at 14:48, Christoph Hellwig <hch@lst.de> wrote:
 >
-> From: Mickaël Salaün <mic@linux.microsoft.com>
+> On Fri, Sep 11, 2020 at 10:52:19AM +0800, Tom Yan wrote:
+> > > How is that an advantage?  Applications that works with block devices
+> > > don't really work with a magic passthrough character device.
+> >
+> > You must assume that there are applications already assuming that
+> > work. (And it will, at least in some cases, if this series get
+> > merged.)
 >
-> Wire up access_interpreted(2) for all architectures.
->
-> Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
-> Reviewed-by: Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>
-> Cc: Al Viro <viro@zeniv.linux.org.uk>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Vincent Strubel <vincent.strubel@ssi.gouv.fr>
-> ---
->
-> Changes since v7:
-> * New patch for the new syscall.
-> * Increase syscall numbers by 2 to leave space for new ones (in
->   linux-next): watch_mount(2) and process_madvise(2).
+> Why "must" I assume that?
 
-I checked that the syscall calling conventions are sane and that
-it is wired up correctly on all architectures in this patch.
+Because of the name. The whole discussion was about the name. (Well,
+also because 'I must assume that some applications has already been
+"relying" on the wrong name.')
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+>
+> > And you have not been giving me a solid point anyway, as I said, it's
+> > just queue_*() at the end of the day; regardless of whether those
+> > would work in all sg cases, we have been using them in the sg driver
+> > anyway.
+> >
+> > And it's not like we have to guarantee that (the) ioctls can work in
+> > every case anyway, right? (Especially when they aren't named SG_*).
+>
+> No.  While it is unfortunte we have all kinds of cases of ioctls working
+> differnetly on different devices.
+>
+> >
+> > I mean, what's even your point? How do you propose we fix this?
+>
+> I propose to not "fix" anything, because nothing is broken except for
+> maybe a lack of documentation.
 
-I did not look at the system call implementation or its purpose though,
-as that is not my area.
+It won't really help anyway. Documenting something wrong won't make it
+correct anyway. It's just wrong, semantically wrong, logically wrong;
+expecting people to "rtfm and realize the difference" only makes it
+even more wrong. End of story.
+
+This was never about whether it is "broken" or whether we should
+provide means to fetch the limit in the number of bytes or sectors. It
+was always just about the name.
+
+Just one last question. So should we not even replace the bit shift
+with queue_logicial_block_size() in max_sectors_bytes()? Given that we
+"must assume that it has been that way for long enough so applications
+must have been dealing with the flaw on their own already and fixing
+it will only breaks them"?
