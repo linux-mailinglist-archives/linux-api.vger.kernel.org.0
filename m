@@ -2,85 +2,81 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8950026CDF0
-	for <lists+linux-api@lfdr.de>; Wed, 16 Sep 2020 23:07:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EC7B26CF83
+	for <lists+linux-api@lfdr.de>; Thu, 17 Sep 2020 01:20:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726149AbgIPVH1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 16 Sep 2020 17:07:27 -0400
-Received: from brightrain.aerifal.cx ([216.12.86.13]:54180 "EHLO
-        brightrain.aerifal.cx" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726486AbgIPQOc (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 16 Sep 2020 12:14:32 -0400
-Date:   Wed, 16 Sep 2020 11:41:22 -0400
-From:   Rich Felker <dalias@libc.org>
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     linux-api@vger.kernel.org,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] vfs: block chmod of symlinks
-Message-ID: <20200916154122.GU3265@brightrain.aerifal.cx>
-References: <20200916002157.GO3265@brightrain.aerifal.cx>
- <20200916002253.GP3265@brightrain.aerifal.cx>
- <20200916062553.GB27867@infradead.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200916062553.GB27867@infradead.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Sender: linux-api-owner@vger.kernel.org
+        id S1726285AbgIPXUY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 16 Sep 2020 19:20:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39814 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726084AbgIPXUY (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 16 Sep 2020 19:20:24 -0400
+Received: from X1 (unknown [67.22.170.76])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id AA81722205;
+        Wed, 16 Sep 2020 23:20:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600298423;
+        bh=g39pvrmQ7hfk10VvG24PcSf7yUXQxh3QrCaIs2OFPxw=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=GGy3cWrY1KWygiIV+LN8jdTlPMczqnmnOowS6kdzNzT02rztNefpmWOud0sB5DuhW
+         tYPB2wewkh27YeY5ELsjeG6otz7U7l9BXGGjwZ40yc/FJb39YCYRFP4SKYro0qWLdA
+         08KKQW84Cld8I364URHf5f0fJMPvSvi2987Kgz9w=
+Date:   Wed, 16 Sep 2020 16:20:20 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christopher Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Idan Yaniv <idan.yaniv@ibm.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
+        linux-riscv@lists.infradead.org, x86@kernel.org
+Subject: Re: [PATCH v5 0/5] mm: introduce memfd_secret system call to create
+ "secret" memory areas
+Message-Id: <20200916162020.0d68c2bd6711024cfcaa8bd7@linux-foundation.org>
+In-Reply-To: <20200916073539.3552-1-rppt@kernel.org>
+References: <20200916073539.3552-1-rppt@kernel.org>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Sep 16, 2020 at 07:25:53AM +0100, Christoph Hellwig wrote:
-> On Tue, Sep 15, 2020 at 08:22:54PM -0400, Rich Felker wrote:
-> > It was discovered while implementing userspace emulation of fchmodat
-> > AT_SYMLINK_NOFOLLOW (using O_PATH and procfs magic symlinks; otherwise
-> > it's not possible to target symlinks with chmod operations) that some
-> > filesystems erroneously allow access mode of symlinks to be changed,
-> > but return failure with EOPNOTSUPP (see glibc issue #14578 and commit
-> > a492b1e5ef). This inconsistency is non-conforming and wrong, and the
-> > consensus seems to be that it was unintentional to allow link modes to
-> > be changed in the first place.
-> > 
-> > Signed-off-by: Rich Felker <dalias@libc.org>
-> > ---
-> >  fs/open.c | 6 ++++++
-> >  1 file changed, 6 insertions(+)
-> > 
-> > diff --git a/fs/open.c b/fs/open.c
-> > index 9af548fb841b..cdb7964aaa6e 100644
-> > --- a/fs/open.c
-> > +++ b/fs/open.c
-> > @@ -570,6 +570,12 @@ int chmod_common(const struct path *path, umode_t mode)
-> >  	struct iattr newattrs;
-> >  	int error;
-> >  
-> > +	/* Block chmod from getting to fs layer. Ideally the fs would either
-> > +	 * allow it or fail with EOPNOTSUPP, but some are buggy and return
-> > +	 * an error but change the mode, which is non-conforming and wrong. */
-> > +	if (S_ISLNK(inode->i_mode))
-> > +		return -EOPNOTSUPP;
-> 
-> Our usualy place for this would be setattr_prepare.  Also the comment
-> style is off, and I don't think we should talk about buggy file systems
-> here, but a policy to not allow the chmod.  I also suspect the right
-> error value is EINVAL - EOPNOTSUPP isn't really used in normal posix
-> file system interfaces.
+On Wed, 16 Sep 2020 10:35:34 +0300 Mike Rapoport <rppt@kernel.org> wrote:
 
-EINVAL is non-conforming here. POSIX defines it as unsupported mode or
-flag. Lack of support for setting an access mode on symlinks is a
-distinct failure reason, and POSIX does not allow overloading error
-codes like this.
+> This is an implementation of "secret" mappings backed by a file descriptor. 
+> I've dropped the boot time reservation patch for now as it is not strictly
+> required for the basic usage and can be easily added later either with or
+> without CMA.
 
-Even if it were permitted, it would be bad to do this because it would
-make it impossible for the application to tell whether the cause of
-failure is an invalid mode or that the filesystem/implementation
-doesn't support modes on symlinks. This matters because one is usually
-a fatal error and the other is a condition to ignore. Moreover, the
-affected applications (e.g. coreutils, tar, etc.) already accept
-EOPNOTSUPP here from libc. Defining a new error would break them
-unless libc translated whatever the syscall returns to the expected
-EOPNOTSUPP.
+It seems early days for this, especially as regards reviewer buyin. 
+But I'll toss it in there to get it some additional testing.
 
-Rich
+A test suite in tools/testging/selftests/ would be helpful, especially
+for arch maintainers.
+
+I assume that user-facing manpage alterations are planned?
