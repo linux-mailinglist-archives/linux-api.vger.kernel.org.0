@@ -2,126 +2,122 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DE5326C872
-	for <lists+linux-api@lfdr.de>; Wed, 16 Sep 2020 20:49:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C7C226C9CA
+	for <lists+linux-api@lfdr.de>; Wed, 16 Sep 2020 21:26:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728067AbgIPStq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 16 Sep 2020 14:49:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47876 "EHLO mail.kernel.org"
+        id S1727778AbgIPTZ7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 16 Sep 2020 15:25:59 -0400
+Received: from mga06.intel.com ([134.134.136.31]:27693 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728243AbgIPStl (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 16 Sep 2020 14:49:41 -0400
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8137D221E8
-        for <linux-api@vger.kernel.org>; Wed, 16 Sep 2020 18:49:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600282180;
-        bh=16sTH0SegakzZKBjY8U3FsytaAxRFzwi1y28PIc8vKg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=A8v0KRNufPmq2ID94lvuAYBLHSHS5ug/gBN4O948j2OLRL/yNp7TGrcaoMc8dhzbO
-         gakR5PNyJc34jx5b5aXJZqOG+ECqvTX6r+JpS79zCVia6YDkI+sbXhF5mFPtKxxwmH
-         lKt5qdjIMkNtCN34jJEvfHrZYNfN+/RBAbfSnBT8=
-Received: by mail-lf1-f51.google.com with SMTP id x69so8113440lff.3
-        for <linux-api@vger.kernel.org>; Wed, 16 Sep 2020 11:49:40 -0700 (PDT)
-X-Gm-Message-State: AOAM531FG+E7vJ+limsLtA7/nm9l/N/TN3HyKKpsiSD44g7iS3dJ0M/n
-        e6zKwXjW3XCC/T9+bILVgWmgHPf6upBv2ih/FfQdWQ==
-X-Google-Smtp-Source: ABdhPJwUX3bHQLCL84qG4wIC/JlN+nYNkgmXwAB8lo/1k8NF8oo4sGXt7L/6GSwGvTFkR4oICcgx71syaFhCR+ehMOk=
-X-Received: by 2002:a5d:5111:: with SMTP id s17mr28001448wrt.70.1600282177590;
- Wed, 16 Sep 2020 11:49:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200916072842.3502-1-rppt@kernel.org>
-In-Reply-To: <20200916072842.3502-1-rppt@kernel.org>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Wed, 16 Sep 2020 11:49:25 -0700
-X-Gmail-Original-Message-ID: <CALCETrV6nFQ4tzhxKPSnK+Ec=U8ojY0k_-G2EqEG-WMGT4TkUw@mail.gmail.com>
-Message-ID: <CALCETrV6nFQ4tzhxKPSnK+Ec=U8ojY0k_-G2EqEG-WMGT4TkUw@mail.gmail.com>
-Subject: Re: [PATCH v5 0/5] mm: introduce memfd_secret system call to create
- "secret" memory areas
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Idan Yaniv <idan.yaniv@ibm.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
+        id S1727269AbgIPTZO (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 16 Sep 2020 15:25:14 -0400
+IronPort-SDR: Elx3oz4ZLtqSKa/D6RMCTUrl2Y2uaEvFDMMBDDa2k/6fptnJeOAa2FaMylOTv6dYpOUHOL++23
+ ks/l5P6vV8+Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9746"; a="221106327"
+X-IronPort-AV: E=Sophos;i="5.76,434,1592895600"; 
+   d="scan'208";a="221106327"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2020 12:25:13 -0700
+IronPort-SDR: eg/Zchq5mOXDbpxpZFJ33RXMAD8TeVG7Z6YeVuuDo5eZiEwZNocXGb+rGVRDmIBihv4mUFVhg8
+ Lk6TY0hQd4LA==
+X-IronPort-AV: E=Sophos;i="5.76,434,1592895600"; 
+   d="scan'208";a="451983016"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.184.15]) ([10.212.184.15])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2020 12:25:12 -0700
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
+ shadow stack
+To:     Andy Lutomirski <luto@kernel.org>,
+        Dave Hansen <dave.hansen@intel.com>
+Cc:     Dave Martin <Dave.Martin@arm.com>, "H.J. Lu" <hjl.tools@gmail.com>,
+        Florian Weimer <fweimer@redhat.com>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
+        Ingo Molnar <mingo@redhat.com>,
         LKML <linux-kernel@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-riscv@lists.infradead.org, X86 ML <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+References: <086c73d8-9b06-f074-e315-9964eb666db9@intel.com>
+ <20200901102758.GY6642@arm.com>
+ <c91bbad8-9e45-724b-4526-fe3674310c57@intel.com>
+ <CALCETrWJQgtO_tP1pEaDYYsFgkZ=fOxhyTRE50THcxYoHyTTwg@mail.gmail.com>
+ <32005d57-e51a-7c7f-4e86-612c2ff067f3@intel.com>
+ <46dffdfd-92f8-0f05-6164-945f217b0958@intel.com>
+ <ed929729-4677-3d3b-6bfd-b379af9272b8@intel.com>
+ <6e1e22a5-1b7f-2783-351e-c8ed2d4893b8@intel.com>
+ <5979c58d-a6e3-d14d-df92-72cdeb97298d@intel.com>
+ <ab1a3344-60f4-9b9d-81d4-e6538fdcafcf@intel.com>
+ <08c91835-8486-9da5-a7d1-75e716fc5d36@intel.com>
+ <a881837d-c844-30e8-a614-8b92be814ef6@intel.com>
+ <cbec8861-8722-ec31-2c02-1cfed20255eb@intel.com>
+ <b3379d26-d8a7-deb7-59f1-c994bb297dcb@intel.com>
+ <a1efc4330a3beff10671949eddbba96f8cde96da.camel@intel.com>
+ <41aa5e8f-ad88-2934-6d10-6a78fcbe019b@intel.com>
+ <CALCETrX5qJAZBe9sHL6+HFvre-bbo+us1==q9KHNCyRrzaUsjw@mail.gmail.com>
+ <c61c9bf3-4097-089c-4e6d-d0ae0e4480f3@intel.com>
+ <CALCETrXGSXzqdAOK7tnDDYMJ5Uj4=u=AEvgdroS3BxRoyO3r+g@mail.gmail.com>
+Message-ID: <35af3052-324f-06e3-5092-ac6d435f1725@intel.com>
+Date:   Wed, 16 Sep 2020 12:25:11 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
+MIME-Version: 1.0
+In-Reply-To: <CALCETrXGSXzqdAOK7tnDDYMJ5Uj4=u=AEvgdroS3BxRoyO3r+g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Sep 16, 2020 at 12:28 AM Mike Rapoport <rppt@kernel.org> wrote:
->
-> From: Mike Rapoport <rppt@linux.ibm.com>
->
-> Hi,
->
-> This is an implementation of "secret" mappings backed by a file descriptor.
-> I've dropped the boot time reservation patch for now as it is not strictly
-> required for the basic usage and can be easily added later either with or
-> without CMA.
->
-> v5 changes:
-> * rebase on v5.9-rc5
-> * drop boot time memory reservation patch
->
-> v4 changes:
-> * rebase on v5.9-rc1
-> * Do not redefine PMD_PAGE_ORDER in fs/dax.c, thanks Kirill
-> * Make secret mappings exclusive by default and only require flags to
->   memfd_secret() system call for uncached mappings, thanks again Kirill :)
->
-> v3 changes:
-> * Squash kernel-parameters.txt update into the commit that added the
->   command line option.
-> * Make uncached mode explicitly selectable by architectures. For now enable
->   it only on x86.
->
-> v2 changes:
-> * Follow Michael's suggestion and name the new system call 'memfd_secret'
-> * Add kernel-parameters documentation about the boot option
-> * Fix i386-tinyconfig regression reported by the kbuild bot.
->   CONFIG_SECRETMEM now depends on !EMBEDDED to disable it on small systems
->   from one side and still make it available unconditionally on
->   architectures that support SET_DIRECT_MAP.
->
-> The file descriptor backing secret memory mappings is created using a
-> dedicated memfd_secret system call The desired protection mode for the
-> memory is configured using flags parameter of the system call. The mmap()
-> of the file descriptor created with memfd_secret() will create a "secret"
-> memory mapping. The pages in that mapping will be marked as not present in
-> the direct map and will have desired protection bits set in the user page
-> table. For instance, current implementation allows uncached mappings.
+On 9/16/2020 6:52 AM, Andy Lutomirski wrote:
+> On Mon, Sep 14, 2020 at 2:14 PM Dave Hansen <dave.hansen@intel.com> wrote:
+>>
+>> On 9/14/20 11:31 AM, Andy Lutomirski wrote:
+>>> No matter what we do, the effects of calling vfork() are going to be a
+>>> bit odd with SHSTK enabled.  I suppose we could disallow this, but
+>>> that seems likely to cause its own issues.
+>>
+>> What's odd about it?  If you're a vfork()'d child, you can't touch the
+>> stack at all, right?  If you do, you or your parent will probably die a
+>> horrible death.
+>>
+> 
+> An evil program could vfork(), have the child do a bunch of returns
+> and a bunch of calls, and exit.  The net effect would be to change the
+> parent's shadow stack contents.  In a sufficiently strict model, this
+> is potentially problematic.
 
-I still have serious concerns with uncached mappings.  I'm not saying
-I can't be convinced, but I'm not currently convinced that we should
-allow user code to create UC mappings on x86.
+When a vfork child returns, its parent's shadow stack pointer is where 
+it was before the child starts.  To move the shadow stack pointer and 
+re-use the content left by the child, the parent needs to use CALL, RET, 
+INCSSP, or RSTORSSP.  This seems to be difficult.
 
---Andy
+> 
+> The question is: how much do we want to protect userspace from itself?
+ >
+
+If any issue comes up, people can always find ways to counter it.
+
+> --Andy
+> 
