@@ -2,81 +2,110 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EC7B26CF83
-	for <lists+linux-api@lfdr.de>; Thu, 17 Sep 2020 01:20:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D7D3F26D066
+	for <lists+linux-api@lfdr.de>; Thu, 17 Sep 2020 03:10:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726285AbgIPXUY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 16 Sep 2020 19:20:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39814 "EHLO mail.kernel.org"
+        id S1726040AbgIQBKM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 16 Sep 2020 21:10:12 -0400
+Received: from albireo.enyo.de ([37.24.231.21]:38836 "EHLO albireo.enyo.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726084AbgIPXUY (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 16 Sep 2020 19:20:24 -0400
-Received: from X1 (unknown [67.22.170.76])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AA81722205;
-        Wed, 16 Sep 2020 23:20:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600298423;
-        bh=g39pvrmQ7hfk10VvG24PcSf7yUXQxh3QrCaIs2OFPxw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=GGy3cWrY1KWygiIV+LN8jdTlPMczqnmnOowS6kdzNzT02rztNefpmWOud0sB5DuhW
-         tYPB2wewkh27YeY5ELsjeG6otz7U7l9BXGGjwZ40yc/FJb39YCYRFP4SKYro0qWLdA
-         08KKQW84Cld8I364URHf5f0fJMPvSvi2987Kgz9w=
-Date:   Wed, 16 Sep 2020 16:20:20 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Idan Yaniv <idan.yaniv@ibm.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        id S1726022AbgIQBKK (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 16 Sep 2020 21:10:10 -0400
+X-Greylist: delayed 347 seconds by postgrey-1.27 at vger.kernel.org; Wed, 16 Sep 2020 21:10:08 EDT
+Received: from [172.17.203.2] (helo=deneb.enyo.de)
+        by albireo.enyo.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        id 1kIiLL-0001Q0-41; Thu, 17 Sep 2020 01:04:11 +0000
+Received: from fw by deneb.enyo.de with local (Exim 4.92)
+        (envelope-from <fw@deneb.enyo.de>)
+        id 1kIiLK-0001qn-R0; Thu, 17 Sep 2020 03:04:10 +0200
+From:   Florian Weimer <fw@deneb.enyo.de>
+To:     madvenka@linux.microsoft.com
+Cc:     kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
-        linux-riscv@lists.infradead.org, x86@kernel.org
-Subject: Re: [PATCH v5 0/5] mm: introduce memfd_secret system call to create
- "secret" memory areas
-Message-Id: <20200916162020.0d68c2bd6711024cfcaa8bd7@linux-foundation.org>
-In-Reply-To: <20200916073539.3552-1-rppt@kernel.org>
-References: <20200916073539.3552-1-rppt@kernel.org>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org, oleg@redhat.com,
+        x86@kernel.org, libffi-discuss@sourceware.org
+Subject: Re: [PATCH v2 0/4] [RFC] Implement Trampoline File Descriptor
+References: <20200916150826.5990-1-madvenka@linux.microsoft.com>
+Date:   Thu, 17 Sep 2020 03:04:10 +0200
+In-Reply-To: <20200916150826.5990-1-madvenka@linux.microsoft.com> (madvenka's
+        message of "Wed, 16 Sep 2020 10:08:22 -0500")
+Message-ID: <87v9gdz01h.fsf@mid.deneb.enyo.de>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, 16 Sep 2020 10:35:34 +0300 Mike Rapoport <rppt@kernel.org> wrote:
+* madvenka:
 
-> This is an implementation of "secret" mappings backed by a file descriptor. 
-> I've dropped the boot time reservation patch for now as it is not strictly
-> required for the basic usage and can be easily added later either with or
-> without CMA.
+> Examples of trampolines
+> =======================
+>
+> libffi (A Portable Foreign Function Interface Library):
+>
+> libffi allows a user to define functions with an arbitrary list of
+> arguments and return value through a feature called "Closures".
+> Closures use trampolines to jump to ABI handlers that handle calling
+> conventions and call a target function. libffi is used by a lot
+> of different applications. To name a few:
+>
+> 	- Python
+> 	- Java
+> 	- Javascript
+> 	- Ruby FFI
+> 	- Lisp
+> 	- Objective C
 
-It seems early days for this, especially as regards reviewer buyin. 
-But I'll toss it in there to get it some additional testing.
+libffi does not actually need this.  It currently collocates
+trampolines and the data they need on the same page, but that's
+actually unecessary.  It's possible to avoid doing this just by
+changing libffi, without any kernel changes.
 
-A test suite in tools/testging/selftests/ would be helpful, especially
-for arch maintainers.
+I think this has already been done for the iOS port.
 
-I assume that user-facing manpage alterations are planned?
+> The code for trampoline X in the trampoline table is:
+> 
+> 	load	&code_table[X], code_reg
+> 	load	(code_reg), code_reg
+> 	load	&data_table[X], data_reg
+> 	load	(data_reg), data_reg
+> 	jump	code_reg
+> 
+> The addresses &code_table[X] and &data_table[X] are baked into the
+> trampoline code. So, PC-relative data references are not needed. The user
+> can modify code_table[X] and data_table[X] dynamically.
+
+You can put this code into the libffi shared object and map it from
+there, just like the rest of the libffi code.  To get more
+trampolines, you can map the page containing the trampolines multiple
+times, each instance preceded by a separate data page with the control
+information.
+
+I think the previous patch submission has also resulted in several
+comments along those lines, so I'm not sure why you are reposting
+this.
+
+> libffi
+> ======
+>
+> I have implemented my solution for libffi and provided the changes for
+> X86 and ARM, 32-bit and 64-bit. Here is the reference patch:
+>
+> http://linux.microsoft.com/~madvenka/libffi/libffi.v2.txt
+
+The URL does not appear to work, I get a 403 error.
+
+> If the trampfd patchset gets accepted, I will send the libffi changes
+> to the maintainers for a review. BTW, I have also successfully executed
+> the libffi self tests.
+
+I have not seen your libffi changes, but I expect that the complexity
+is about the same as a userspace-only solution.
+
+
+Cc:ing libffi upstream for awareness.  The start of the thread is
+here:
+
+<https://lore.kernel.org/linux-api/20200916150826.5990-1-madvenka@linux.microsoft.com/>
