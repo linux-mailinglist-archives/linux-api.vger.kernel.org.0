@@ -2,96 +2,82 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C88226DCD4
-	for <lists+linux-api@lfdr.de>; Thu, 17 Sep 2020 15:30:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8293C26DF57
+	for <lists+linux-api@lfdr.de>; Thu, 17 Sep 2020 17:14:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726716AbgIQNaF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 17 Sep 2020 09:30:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59604 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727016AbgIQN3x (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 17 Sep 2020 09:29:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1600349389;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=qjkdQTJ/VBG7ZFMg5Nhpzya4K81fiyu8UjZya2led1Q=;
-        b=V5lZC3/t/VHSw6TIrIt2X6QD/sgLQyk6RiZ8PC8zlIS9egEgDe4zyS+1EY3fzLGPlx2jZg
-        oFd7fQKwgckZA7QxZb4zwOloG1Z0VYKvFoqoPQF+TP1wko7vAVxUFBZ2wI3LP9pBnxGnWn
-        SAJIE+khwUpVwTOoa4sQ4S4YJDrOLBw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-579-Q_ysnWYENLK5sfwraF7T4g-1; Thu, 17 Sep 2020 09:27:41 -0400
-X-MC-Unique: Q_ysnWYENLK5sfwraF7T4g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC33956B35;
-        Thu, 17 Sep 2020 13:27:35 +0000 (UTC)
-Received: from ovpn-66-148.rdu2.redhat.com (ovpn-66-148.rdu2.redhat.com [10.10.66.148])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 17FB860BEC;
-        Thu, 17 Sep 2020 13:27:28 +0000 (UTC)
-Message-ID: <5d97da4d86db258fdc9b20be3c12588089e17da2.camel@redhat.com>
-Subject: Re: [PATCH v5 0/5] mm: introduce memfd_secret system call to create
- "secret" memory areas
-From:   Qian Cai <cai@redhat.com>
-To:     Mike Rapoport <rppt@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Idan Yaniv <idan.yaniv@ibm.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
-        linux-riscv@lists.infradead.org, x86@kernel.org,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        linux-next@vger.kernel.org
-Date:   Thu, 17 Sep 2020 09:27:27 -0400
-In-Reply-To: <20200916073539.3552-1-rppt@kernel.org>
-References: <20200916073539.3552-1-rppt@kernel.org>
+        id S1727964AbgIQPOW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 17 Sep 2020 11:14:22 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:52283 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727464AbgIQPLv (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 17 Sep 2020 11:11:51 -0400
+X-Greylist: delayed 316 seconds by postgrey-1.27 at vger.kernel.org; Thu, 17 Sep 2020 11:11:46 EDT
+Received: from mail-qk1-f176.google.com ([209.85.222.176]) by
+ mrelayeu.kundenserver.de (mreue108 [212.227.15.145]) with ESMTPSA (Nemesis)
+ id 1MPosX-1k4oS230h1-00MvZo; Thu, 17 Sep 2020 17:06:09 +0200
+Received: by mail-qk1-f176.google.com with SMTP id o16so2503067qkj.10;
+        Thu, 17 Sep 2020 08:06:09 -0700 (PDT)
+X-Gm-Message-State: AOAM530uPMI73zvlf6p4VX51VC/BBLDZoBNraF9NJ/JlDTmUnz6m6ALE
+        oEGjREXJVWOi4OkqHEVTxCdOspb43VVHvatQv3g=
+X-Google-Smtp-Source: ABdhPJzKte3sE0w3grmNzAcZz6I6dO+iCU7vaqRU7ZPNRSPiGZWy3ZkwDFx390y2hVXA2c946+2P8Nzpm+An38NI1VY=
+X-Received: by 2002:a05:620a:15a7:: with SMTP id f7mr26786546qkk.3.1600355168294;
+ Thu, 17 Sep 2020 08:06:08 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200917074159.2442167-1-hch@lst.de> <20200917074159.2442167-2-hch@lst.de>
+In-Reply-To: <20200917074159.2442167-2-hch@lst.de>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Thu, 17 Sep 2020 17:05:52 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a3+qdbGzWdi=PNL+goHDK9M=Y65p=UYTW=ze8PuN=KS_A@mail.gmail.com>
+Message-ID: <CAK8P3a3+qdbGzWdi=PNL+goHDK9M=Y65p=UYTW=ze8PuN=KS_A@mail.gmail.com>
+Subject: Re: [PATCH 1/3] compat: lift compat_s64 and compat_u64 to <asm-generic/compat.h>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     "the arch/x86 maintainers" <x86@kernel.org>,
+        Jan Kara <jack@suse.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Provags-ID: V03:K1:+kyRdoGXMGcCoFFC2gvTHjAv7SkQshfKd/Um6FcFTo8Qn+GeSAo
+ oOAy5+6t8LQKXIpKs71bAw8AFw1iRKGHN4lAgIB/YCjlUvC3ry9a12LGmsIgZXijB88vNd7
+ RbvBybC/W3/2cfui3Zl+iCXmnDwD8g/kcU2HZWGsBl+i//lF/oKRbrADyjo5NLZBqNue5jw
+ ZOgV5f4oO1PvcgSPMJ+9g==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:mOo9i8sIh1k=:PP27u5MgpCHKe0ejjq6zOJ
+ 0Nqw0ZPKfl0F+SPI/M5VW+dBb6I6ebHhsM9So4z/ZvX57wnLp9fKEbzjf/bWN7NGtqSSu/d1v
+ MiigtWR0aB4zNJhFwMAuDsZhUamdRahHBIUUr/SzxrjZ/pv7YLo3r2c4ijxl713YWTSYK2gwH
+ CeRC3k85gjAHlc39g4k5Bau4Ylbe6SQGEaKvB2hCQd2Dp5uaUbIb4n4X5vExa/0kUFNAS65Zn
+ 2fL3JCRQx0THOZb7A4rut2OIRRM41H4Bgzp9vS9HA8gxhiEFdIsM3+s9GTNA/b4T6b2W3MpKu
+ Ajy5ODzpgZTStxLsyQfZ/1zYXhJXGzlmnrrDyLrS2faQV0Szgmy/+tBfH2C6CBP2ET/3zp2bs
+ vffioUiYscYw7YFnULPfe4MBsGYvhtUK3vc9G00JF/4mlB+2KhqAwscm5kO0CmLxrjoTD/B49
+ ZEwnZVKLuBGzrc0QOh3aMV5+SZKkTvaj5/m0Ihi3RkM2BjoExyQIQ8PVq27Qrj2/JjbxC/DUM
+ sUDAEUhjqi1lOwNufa9xxwPvIqM44lr+OZnKSpn4sPeJocQP2QXK42eLUrVYokDnFhnudU89y
+ oR5MCqhOY65ICgLGcyXanPy5aYJY63hS/dg2Z50RYPOBqaFPbRnBOZOiSo/GSiSr60lsv825x
+ DULdu07eJN5Q+TTCJoHzZPpL8jD6ppRc4+hVWcKz5IGgO7ONJ1OCEd6y7smPFQbGB9AcE5ztd
+ D4HRTod+4j2tX5Hye9EhyBraDmWBuSfTkSQOReX00jcdI8duhECo9wjqOoC1OG0cv22wWYgLt
+ QmdDXADF0ZhDq+Nm/lOlZcd9RndVAEi17pS3PINIiI0gBwSgZp+GAn6KNSGo+ZppPNGh0toit
+ hjTcIs2lUofrt2UkoCjW5MkzRrwxfyx0vt9xK7yGgrlIFDxQnoOSSI3cEfvaaDZz11UkJLQwy
+ Y4KwUiTZB2KpxG2+/XajqtTBBjwT/ChWQjbMreSKNuWKeb508+WUL
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, 2020-09-16 at 10:35 +0300, Mike Rapoport wrote:
-> From: Mike Rapoport <rppt@linux.ibm.com>
-> 
-> Hi,
-> 
-> This is an implementation of "secret" mappings backed by a file descriptor. 
-> I've dropped the boot time reservation patch for now as it is not strictly
-> required for the basic usage and can be easily added later either with or
-> without CMA.
+On Thu, Sep 17, 2020 at 9:46 AM Christoph Hellwig <hch@lst.de> wrote:
+>
+> lift the compat_s64 and compat_u64 definitions into common code using the
+> COMPAT_FOR_U64_ALIGNMENT symbol for the x86 special case.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  arch/arm64/include/asm/compat.h   | 2 --
+>  arch/mips/include/asm/compat.h    | 2 --
+>  arch/parisc/include/asm/compat.h  | 2 --
+>  arch/powerpc/include/asm/compat.h | 2 --
+>  arch/s390/include/asm/compat.h    | 2 --
+>  arch/sparc/include/asm/compat.h   | 3 +--
+>  arch/x86/include/asm/compat.h     | 2 --
+>  include/asm-generic/compat.h      | 8 ++++++++
+>  8 files changed, 9 insertions(+), 14 deletions(-)
 
-On powerpc: https://gitlab.com/cailca/linux-mm/-/blob/master/powerpc.config
-
-There is a compiling warning from the today's linux-next:
-
-<stdin>:1532:2: warning: #warning syscall memfd_secret not implemented [-Wcpp]
-
+Acked-by: Arnd Bergmann <arnd@arndb.de>
