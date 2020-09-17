@@ -2,82 +2,171 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8293C26DF57
-	for <lists+linux-api@lfdr.de>; Thu, 17 Sep 2020 17:14:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3919326E00D
+	for <lists+linux-api@lfdr.de>; Thu, 17 Sep 2020 17:51:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727964AbgIQPOW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 17 Sep 2020 11:14:22 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:52283 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727464AbgIQPLv (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 17 Sep 2020 11:11:51 -0400
-X-Greylist: delayed 316 seconds by postgrey-1.27 at vger.kernel.org; Thu, 17 Sep 2020 11:11:46 EDT
-Received: from mail-qk1-f176.google.com ([209.85.222.176]) by
- mrelayeu.kundenserver.de (mreue108 [212.227.15.145]) with ESMTPSA (Nemesis)
- id 1MPosX-1k4oS230h1-00MvZo; Thu, 17 Sep 2020 17:06:09 +0200
-Received: by mail-qk1-f176.google.com with SMTP id o16so2503067qkj.10;
-        Thu, 17 Sep 2020 08:06:09 -0700 (PDT)
-X-Gm-Message-State: AOAM530uPMI73zvlf6p4VX51VC/BBLDZoBNraF9NJ/JlDTmUnz6m6ALE
-        oEGjREXJVWOi4OkqHEVTxCdOspb43VVHvatQv3g=
-X-Google-Smtp-Source: ABdhPJzKte3sE0w3grmNzAcZz6I6dO+iCU7vaqRU7ZPNRSPiGZWy3ZkwDFx390y2hVXA2c946+2P8Nzpm+An38NI1VY=
-X-Received: by 2002:a05:620a:15a7:: with SMTP id f7mr26786546qkk.3.1600355168294;
- Thu, 17 Sep 2020 08:06:08 -0700 (PDT)
+        id S1728259AbgIQPv3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 17 Sep 2020 11:51:29 -0400
+Received: from linux.microsoft.com ([13.77.154.182]:55182 "EHLO
+        linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727959AbgIQPvA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 17 Sep 2020 11:51:00 -0400
+Received: from [192.168.254.38] (unknown [47.187.206.220])
+        by linux.microsoft.com (Postfix) with ESMTPSA id B4CB020B7178;
+        Thu, 17 Sep 2020 08:36:03 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B4CB020B7178
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1600356964;
+        bh=QO+LfG0Faopxheg2cutvYRBT+pPhms6wveYLa1LgL+U=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=BFLuqVFA/BDQQm7DZtjpCvIA39dAw9ux6L9xLBXRs6zIIXnRN+iAbXLuSLqhrzA+k
+         BG7bFfSeOzurlviYcp2xoC7KmQR6uPkch48sGL+8ZSgMbTtNqSk+vcT3F4zKwn48wg
+         Rw5oLxGtZN7S6/Kam+IanR5OdBOQIIId/5GCFEoU=
+Subject: Re: [PATCH v2 0/4] [RFC] Implement Trampoline File Descriptor
+To:     Florian Weimer <fw@deneb.enyo.de>
+Cc:     kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org, oleg@redhat.com,
+        x86@kernel.org, libffi-discuss@sourceware.org
+References: <20200916150826.5990-1-madvenka@linux.microsoft.com>
+ <87v9gdz01h.fsf@mid.deneb.enyo.de>
+From:   "Madhavan T. Venkataraman" <madvenka@linux.microsoft.com>
+Message-ID: <96ea02df-4154-5888-1669-f3beeed60b33@linux.microsoft.com>
+Date:   Thu, 17 Sep 2020 10:36:02 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200917074159.2442167-1-hch@lst.de> <20200917074159.2442167-2-hch@lst.de>
-In-Reply-To: <20200917074159.2442167-2-hch@lst.de>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Thu, 17 Sep 2020 17:05:52 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a3+qdbGzWdi=PNL+goHDK9M=Y65p=UYTW=ze8PuN=KS_A@mail.gmail.com>
-Message-ID: <CAK8P3a3+qdbGzWdi=PNL+goHDK9M=Y65p=UYTW=ze8PuN=KS_A@mail.gmail.com>
-Subject: Re: [PATCH 1/3] compat: lift compat_s64 and compat_u64 to <asm-generic/compat.h>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     "the arch/x86 maintainers" <x86@kernel.org>,
-        Jan Kara <jack@suse.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:+kyRdoGXMGcCoFFC2gvTHjAv7SkQshfKd/Um6FcFTo8Qn+GeSAo
- oOAy5+6t8LQKXIpKs71bAw8AFw1iRKGHN4lAgIB/YCjlUvC3ry9a12LGmsIgZXijB88vNd7
- RbvBybC/W3/2cfui3Zl+iCXmnDwD8g/kcU2HZWGsBl+i//lF/oKRbrADyjo5NLZBqNue5jw
- ZOgV5f4oO1PvcgSPMJ+9g==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:mOo9i8sIh1k=:PP27u5MgpCHKe0ejjq6zOJ
- 0Nqw0ZPKfl0F+SPI/M5VW+dBb6I6ebHhsM9So4z/ZvX57wnLp9fKEbzjf/bWN7NGtqSSu/d1v
- MiigtWR0aB4zNJhFwMAuDsZhUamdRahHBIUUr/SzxrjZ/pv7YLo3r2c4ijxl713YWTSYK2gwH
- CeRC3k85gjAHlc39g4k5Bau4Ylbe6SQGEaKvB2hCQd2Dp5uaUbIb4n4X5vExa/0kUFNAS65Zn
- 2fL3JCRQx0THOZb7A4rut2OIRRM41H4Bgzp9vS9HA8gxhiEFdIsM3+s9GTNA/b4T6b2W3MpKu
- Ajy5ODzpgZTStxLsyQfZ/1zYXhJXGzlmnrrDyLrS2faQV0Szgmy/+tBfH2C6CBP2ET/3zp2bs
- vffioUiYscYw7YFnULPfe4MBsGYvhtUK3vc9G00JF/4mlB+2KhqAwscm5kO0CmLxrjoTD/B49
- ZEwnZVKLuBGzrc0QOh3aMV5+SZKkTvaj5/m0Ihi3RkM2BjoExyQIQ8PVq27Qrj2/JjbxC/DUM
- sUDAEUhjqi1lOwNufa9xxwPvIqM44lr+OZnKSpn4sPeJocQP2QXK42eLUrVYokDnFhnudU89y
- oR5MCqhOY65ICgLGcyXanPy5aYJY63hS/dg2Z50RYPOBqaFPbRnBOZOiSo/GSiSr60lsv825x
- DULdu07eJN5Q+TTCJoHzZPpL8jD6ppRc4+hVWcKz5IGgO7ONJ1OCEd6y7smPFQbGB9AcE5ztd
- D4HRTod+4j2tX5Hye9EhyBraDmWBuSfTkSQOReX00jcdI8duhECo9wjqOoC1OG0cv22wWYgLt
- QmdDXADF0ZhDq+Nm/lOlZcd9RndVAEi17pS3PINIiI0gBwSgZp+GAn6KNSGo+ZppPNGh0toit
- hjTcIs2lUofrt2UkoCjW5MkzRrwxfyx0vt9xK7yGgrlIFDxQnoOSSI3cEfvaaDZz11UkJLQwy
- Y4KwUiTZB2KpxG2+/XajqtTBBjwT/ChWQjbMreSKNuWKeb508+WUL
+In-Reply-To: <87v9gdz01h.fsf@mid.deneb.enyo.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Sep 17, 2020 at 9:46 AM Christoph Hellwig <hch@lst.de> wrote:
->
-> lift the compat_s64 and compat_u64 definitions into common code using the
-> COMPAT_FOR_U64_ALIGNMENT symbol for the x86 special case.
->
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  arch/arm64/include/asm/compat.h   | 2 --
->  arch/mips/include/asm/compat.h    | 2 --
->  arch/parisc/include/asm/compat.h  | 2 --
->  arch/powerpc/include/asm/compat.h | 2 --
->  arch/s390/include/asm/compat.h    | 2 --
->  arch/sparc/include/asm/compat.h   | 3 +--
->  arch/x86/include/asm/compat.h     | 2 --
->  include/asm-generic/compat.h      | 8 ++++++++
->  8 files changed, 9 insertions(+), 14 deletions(-)
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+
+On 9/16/20 8:04 PM, Florian Weimer wrote:
+> * madvenka:
+> 
+>> Examples of trampolines
+>> =======================
+>>
+>> libffi (A Portable Foreign Function Interface Library):
+>>
+>> libffi allows a user to define functions with an arbitrary list of
+>> arguments and return value through a feature called "Closures".
+>> Closures use trampolines to jump to ABI handlers that handle calling
+>> conventions and call a target function. libffi is used by a lot
+>> of different applications. To name a few:
+>>
+>> 	- Python
+>> 	- Java
+>> 	- Javascript
+>> 	- Ruby FFI
+>> 	- Lisp
+>> 	- Objective C
+> 
+> libffi does not actually need this.  It currently collocates
+> trampolines and the data they need on the same page, but that's
+> actually unecessary.  It's possible to avoid doing this just by
+> changing libffi, without any kernel changes.
+> 
+> I think this has already been done for the iOS port.
+> 
+
+The trampoline table that has been implemented for the iOS port (MACH)
+is based on PC-relative data referencing. That is, the code and data
+are placed in adjacent pages so that the code can access the data using
+an address relative to the current PC.
+
+This is an ISA feature that is not supported on all architectures.
+
+Now, if it is a performance feature, we can include some architectures
+and exclude others. But this is a security feature. IMO, we cannot
+exclude any architecture even if it is a legacy one as long as Linux
+is running on the architecture. So, we need a solution that does
+not assume any specific ISA feature.
+
+>> The code for trampoline X in the trampoline table is:
+>>
+>> 	load	&code_table[X], code_reg
+>> 	load	(code_reg), code_reg
+>> 	load	&data_table[X], data_reg
+>> 	load	(data_reg), data_reg
+>> 	jump	code_reg
+>>
+>> The addresses &code_table[X] and &data_table[X] are baked into the
+>> trampoline code. So, PC-relative data references are not needed. The user
+>> can modify code_table[X] and data_table[X] dynamically.
+> 
+> You can put this code into the libffi shared object and map it from
+> there, just like the rest of the libffi code.  To get more
+> trampolines, you can map the page containing the trampolines multiple
+> times, each instance preceded by a separate data page with the control
+> information.
+> 
+
+If you put the code in the libffi shared object, how do you pass data to
+the code at runtime? If the code we are talking about is a function, then
+there is an ABI defined way to pass data to the function. But if the
+code we are talking about is some arbitrary code such as a trampoline,
+there is no ABI defined way to pass data to it except in a couple of
+platforms such as HP PA-RISC that have support for function descriptors
+in the ABI itself.
+
+As mentioned before, if the ISA supports PC-relative data references
+(e.g., X86 64-bit platforms support RIP-relative data references)
+then we can pass data to that code by placing the code and data in
+adjacent pages. So, you can implement the trampoline table for X64.
+i386 does not support it.
+
+
+> I think the previous patch submission has also resulted in several
+> comments along those lines, so I'm not sure why you are reposting
+> this.
+
+IIRC, I have answered all of those comments by mentioning the point
+that we need to support all architectures without requiring special
+ISA features. Taking the kernel's help in this is one solution.
+
+
+> 
+>> libffi
+>> ======
+>>
+>> I have implemented my solution for libffi and provided the changes for
+>> X86 and ARM, 32-bit and 64-bit. Here is the reference patch:
+>>
+>> http://linux.microsoft.com/~madvenka/libffi/libffi.v2.txt
+> 
+> The URL does not appear to work, I get a 403 error.
+
+I apologize for that. That site is supposed to be accessible publicly.
+I will contact the administrator and get this resolved.
+
+Sorry for the annoyance.
+
+> 
+>> If the trampfd patchset gets accepted, I will send the libffi changes
+>> to the maintainers for a review. BTW, I have also successfully executed
+>> the libffi self tests.
+> 
+> I have not seen your libffi changes, but I expect that the complexity
+> is about the same as a userspace-only solution.
+> 
+> 
+
+I agree. The complexity is about the same. But the support is for all
+architectures. Once the common code is in place, the changes for each
+architecture are trivial.
+
+Madhavan
+
+> Cc:ing libffi upstream for awareness.  The start of the thread is
+> here:
+> 
+> <https://lore.kernel.org/linux-api/20200916150826.5990-1-madvenka@linux.microsoft.com/>
+> 
