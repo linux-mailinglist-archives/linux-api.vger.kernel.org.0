@@ -2,420 +2,439 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B1F026D528
-	for <lists+linux-api@lfdr.de>; Thu, 17 Sep 2020 09:51:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 678BD26D545
+	for <lists+linux-api@lfdr.de>; Thu, 17 Sep 2020 09:53:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726200AbgIQHu4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 17 Sep 2020 03:50:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53368 "EHLO
+        id S1726192AbgIQHx1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 17 Sep 2020 03:53:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726153AbgIQHuv (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 17 Sep 2020 03:50:51 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E4C3C06174A;
-        Thu, 17 Sep 2020 00:50:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-        Content-Type:Content-ID:Content-Description;
-        bh=NwPQsZEQkoMniUW7tI70t4UHcepNJDHuOzL+OOVm8IQ=; b=n1v6Fb0SQmGKG4Ec74xjrnz4nv
-        jwDnARKoDlko6ezLoHswaQi4/Dgh5+4QagGT+FLdabYvPVzA93caQsU6XfyfTtclaPVnZCgiPRBl3
-        Q/shZzZee6HLz69AHR6mlBzyE/Zg1LqQsC7BpAP8uStI5HLM0hAHXsuQz/tPg9KktmB61gMbIGDb+
-        lzsQAkOK7rABWzcLmcGy2Pj9H6WE3yvcYX4EulJfd5cpEWSoYhe+zCGIEWY/AYwfnzWiijDvwwOKK
-        26VWwXH1wDn1J/AWCZiQ/mmuybxr0yd3Ru7fZ8wjtsAb/gDlA7VqXYMXV4+6wCgrs+cQC8zSXruhW
-        2CjqveJQ==;
-Received: from 089144214092.atnat0023.highway.a1.net ([89.144.214.92] helo=localhost)
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kIogn-0006ww-37; Thu, 17 Sep 2020 07:50:45 +0000
-From:   Christoph Hellwig <hch@lst.de>
-To:     x86@kernel.org, Jan Kara <jack@suse.com>
-Cc:     linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        Jan Kara <jack@suse.cz>
-Subject: [PATCH 3/3] quota: simplify the quotactl compat handling
-Date:   Thu, 17 Sep 2020 09:41:59 +0200
-Message-Id: <20200917074159.2442167-4-hch@lst.de>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200917074159.2442167-1-hch@lst.de>
-References: <20200917074159.2442167-1-hch@lst.de>
+        with ESMTP id S1726392AbgIQHwt (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 17 Sep 2020 03:52:49 -0400
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 541ACC06174A;
+        Thu, 17 Sep 2020 00:52:49 -0700 (PDT)
+Received: by mail-ot1-x342.google.com with SMTP id u25so1077228otq.6;
+        Thu, 17 Sep 2020 00:52:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=0UlSbYsUidVoXTUQAkak7JZEzdY6B0MPenGz0FDLL1U=;
+        b=qeJ5ysKlzW9h+KRm1d5MbiITjK2hIwj8ex2iSUtElJlWzifmaqtUF6q6mmY2G4PLWs
+         8651a0HIet1dzA9HLYYBe2KKIukmy0X0q5k2uZkzrrYsLCFSvj6mKNBbRSo7VmmbYl/W
+         eI8IreP2DGKBwAYw4M6CBfA0LoKFjYe6fXFbzlmyoWPa+PGnA0hdQ3c9mePpY9S4fFeE
+         pNF7Tcv+5N2Xj/nDf1KkRfNMQC7kxOOFLMY6fadUtUjcHtXOw6vrAYpoRf0u1BYwxap8
+         uY4JIaUU14wPkxvClAv5r9hKndjC+ZAjY+9QWHkRzjg8lUO/ao+ni+LaPu3Vs8C3CO9v
+         JzGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=0UlSbYsUidVoXTUQAkak7JZEzdY6B0MPenGz0FDLL1U=;
+        b=NufeiDx92yC/UZs2iVpY95S07fVyBtzvCzT3Xl7HU3blugkBNt1q+YAYxbKvkBqbXt
+         lXrMJm6EiMRKZ1X43CBkTSusf9fB6unJLS0DQqf0b9DxqoK2KMZlmzHheTygEGLWbWSy
+         D/wrjj83fVuMD0EJ3dQBhq6H2fPkVHZi403kfMOis9qxvU5qVFHV50ekwyhjQBAxEvRy
+         oA+nMVLzHcjrFfd6CH//RrIu5EZVMMsyaFNjQZ3fIoCmW0wKsy38tOWv5s2qGqLh733i
+         5vu8ydBfwHpl8cZUsfWUXkaIiHakNz8BnDjiNOIe141Rn3zbWJDprMbEHJTvVurvVRWt
+         DYqQ==
+X-Gm-Message-State: AOAM531ZrtMTTttx24iPeUK/GotajSucr5L2gmrKVxxulNP7XuqWEtH6
+        wEX+8OTQ1ZCKMX/nV1IZrqCQzjlK1XFhVl+NPss=
+X-Google-Smtp-Source: ABdhPJxZrRhAVMSfdToNzvs1EUzqJy9F8kC6LvGGb6+LhaVMLDNTsDkWUatVnILbdC/qT5UYI4Uu2X9pSTwqQkSalQo=
+X-Received: by 2002:a9d:68d3:: with SMTP id i19mr16754967oto.308.1600329168527;
+ Thu, 17 Sep 2020 00:52:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+References: <20200602204219.186620-1-christian.brauner@ubuntu.com>
+ <20200602204219.186620-2-christian.brauner@ubuntu.com> <CAKgNAkiHYer_d+AvRUDPgS3WfCQXKrrCuXFV1g9t2zim7QBpXw@mail.gmail.com>
+In-Reply-To: <CAKgNAkiHYer_d+AvRUDPgS3WfCQXKrrCuXFV1g9t2zim7QBpXw@mail.gmail.com>
+Reply-To: mtk.manpages@gmail.com
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Date:   Thu, 17 Sep 2020 09:52:37 +0200
+Message-ID: <CAKgNAkgrBsy1H4E1a-8z9CWan6C3e7mai42ufG_GHqB2y7n+Xw@mail.gmail.com>
+Subject: Re: [PATCH v5 1/3] open: add close_range()
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Kyle Evans <self@kyle-evans.net>,
+        Victor Stinner <victor.stinner@gmail.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        Jann Horn <jannh@google.com>, Oleg Nesterov <oleg@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>, Shuah Khan <shuah@kernel.org>,
+        David Howells <dhowells@redhat.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Fold the misaligned u64 workarounds into the main quotactl flow instead
-of implementing a separate compat syscall handler.
+Hey Christian,
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Acked-by: Jan Kara <jack@suse.cz>
----
- arch/x86/entry/syscalls/syscall_32.tbl |   2 +-
- fs/quota/Kconfig                       |   5 --
- fs/quota/Makefile                      |   1 -
- fs/quota/compat.c                      | 120 -------------------------
- fs/quota/compat.h                      |  34 +++++++
- fs/quota/quota.c                       |  73 ++++++++++++---
- include/linux/quotaops.h               |   3 -
- kernel/sys_ni.c                        |   1 -
- 8 files changed, 94 insertions(+), 145 deletions(-)
- delete mode 100644 fs/quota/compat.c
- create mode 100644 fs/quota/compat.h
+Could we please have a manual page for the close_range(2) syscall
+that's about to land in 5.9?
 
-diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
-index 9d11028736661b..3db3d8823dc899 100644
---- a/arch/x86/entry/syscalls/syscall_32.tbl
-+++ b/arch/x86/entry/syscalls/syscall_32.tbl
-@@ -142,7 +142,7 @@
- 128	i386	init_module		sys_init_module
- 129	i386	delete_module		sys_delete_module
- 130	i386	get_kernel_syms
--131	i386	quotactl		sys_quotactl			compat_sys_quotactl32
-+131	i386	quotactl		sys_quotactl
- 132	i386	getpgid			sys_getpgid
- 133	i386	fchdir			sys_fchdir
- 134	i386	bdflush			sys_bdflush
-diff --git a/fs/quota/Kconfig b/fs/quota/Kconfig
-index d1ceb76adb71e7..b59cd172b5f97c 100644
---- a/fs/quota/Kconfig
-+++ b/fs/quota/Kconfig
-@@ -70,8 +70,3 @@ config QFMT_V2
- config QUOTACTL
- 	bool
- 	default n
--
--config QUOTACTL_COMPAT
--	bool
--	depends on QUOTACTL && COMPAT_FOR_U64_ALIGNMENT
--	default y
-diff --git a/fs/quota/Makefile b/fs/quota/Makefile
-index f2b49d0f0287c9..9160639daffa75 100644
---- a/fs/quota/Makefile
-+++ b/fs/quota/Makefile
-@@ -4,5 +4,4 @@ obj-$(CONFIG_QFMT_V1)		+= quota_v1.o
- obj-$(CONFIG_QFMT_V2)		+= quota_v2.o
- obj-$(CONFIG_QUOTA_TREE)	+= quota_tree.o
- obj-$(CONFIG_QUOTACTL)		+= quota.o kqid.o
--obj-$(CONFIG_QUOTACTL_COMPAT)	+= compat.o
- obj-$(CONFIG_QUOTA_NETLINK_INTERFACE)	+= netlink.o
-diff --git a/fs/quota/compat.c b/fs/quota/compat.c
-deleted file mode 100644
-index c305728576193d..00000000000000
---- a/fs/quota/compat.c
-+++ /dev/null
-@@ -1,120 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--
--#include <linux/syscalls.h>
--#include <linux/compat.h>
--#include <linux/quotaops.h>
--
--/*
-- * This code works only for 32 bit quota tools over 64 bit OS (x86_64, ia64)
-- * and is necessary due to alignment problems.
-- */
--struct compat_if_dqblk {
--	compat_u64 dqb_bhardlimit;
--	compat_u64 dqb_bsoftlimit;
--	compat_u64 dqb_curspace;
--	compat_u64 dqb_ihardlimit;
--	compat_u64 dqb_isoftlimit;
--	compat_u64 dqb_curinodes;
--	compat_u64 dqb_btime;
--	compat_u64 dqb_itime;
--	compat_uint_t dqb_valid;
--};
--
--/* XFS structures */
--struct compat_fs_qfilestat {
--	compat_u64 dqb_bhardlimit;
--	compat_u64 qfs_nblks;
--	compat_uint_t qfs_nextents;
--};
--
--struct compat_fs_quota_stat {
--	__s8		qs_version;
--	__u16		qs_flags;
--	__s8		qs_pad;
--	struct compat_fs_qfilestat	qs_uquota;
--	struct compat_fs_qfilestat	qs_gquota;
--	compat_uint_t	qs_incoredqs;
--	compat_int_t	qs_btimelimit;
--	compat_int_t	qs_itimelimit;
--	compat_int_t	qs_rtbtimelimit;
--	__u16		qs_bwarnlimit;
--	__u16		qs_iwarnlimit;
--};
--
--COMPAT_SYSCALL_DEFINE4(quotactl32, unsigned int, cmd,
--		       const char __user *, special, qid_t, id,
--		       void __user *, addr)
--{
--	unsigned int cmds;
--	struct if_dqblk __user *dqblk;
--	struct compat_if_dqblk __user *compat_dqblk;
--	struct fs_quota_stat __user *fsqstat;
--	struct compat_fs_quota_stat __user *compat_fsqstat;
--	compat_uint_t data;
--	u16 xdata;
--	long ret;
--
--	cmds = cmd >> SUBCMDSHIFT;
--
--	switch (cmds) {
--	case Q_GETQUOTA:
--		dqblk = compat_alloc_user_space(sizeof(struct if_dqblk));
--		compat_dqblk = addr;
--		ret = kernel_quotactl(cmd, special, id, dqblk);
--		if (ret)
--			break;
--		if (copy_in_user(compat_dqblk, dqblk, sizeof(*compat_dqblk)) ||
--			get_user(data, &dqblk->dqb_valid) ||
--			put_user(data, &compat_dqblk->dqb_valid))
--			ret = -EFAULT;
--		break;
--	case Q_SETQUOTA:
--		dqblk = compat_alloc_user_space(sizeof(struct if_dqblk));
--		compat_dqblk = addr;
--		ret = -EFAULT;
--		if (copy_in_user(dqblk, compat_dqblk, sizeof(*compat_dqblk)) ||
--			get_user(data, &compat_dqblk->dqb_valid) ||
--			put_user(data, &dqblk->dqb_valid))
--			break;
--		ret = kernel_quotactl(cmd, special, id, dqblk);
--		break;
--	case Q_XGETQSTAT:
--		fsqstat = compat_alloc_user_space(sizeof(struct fs_quota_stat));
--		compat_fsqstat = addr;
--		ret = kernel_quotactl(cmd, special, id, fsqstat);
--		if (ret)
--			break;
--		ret = -EFAULT;
--		/* Copying qs_version, qs_flags, qs_pad */
--		if (copy_in_user(compat_fsqstat, fsqstat,
--			offsetof(struct compat_fs_quota_stat, qs_uquota)))
--			break;
--		/* Copying qs_uquota */
--		if (copy_in_user(&compat_fsqstat->qs_uquota,
--			&fsqstat->qs_uquota,
--			sizeof(compat_fsqstat->qs_uquota)) ||
--			get_user(data, &fsqstat->qs_uquota.qfs_nextents) ||
--			put_user(data, &compat_fsqstat->qs_uquota.qfs_nextents))
--			break;
--		/* Copying qs_gquota */
--		if (copy_in_user(&compat_fsqstat->qs_gquota,
--			&fsqstat->qs_gquota,
--			sizeof(compat_fsqstat->qs_gquota)) ||
--			get_user(data, &fsqstat->qs_gquota.qfs_nextents) ||
--			put_user(data, &compat_fsqstat->qs_gquota.qfs_nextents))
--			break;
--		/* Copying the rest */
--		if (copy_in_user(&compat_fsqstat->qs_incoredqs,
--			&fsqstat->qs_incoredqs,
--			sizeof(struct compat_fs_quota_stat) -
--			offsetof(struct compat_fs_quota_stat, qs_incoredqs)) ||
--			get_user(xdata, &fsqstat->qs_iwarnlimit) ||
--			put_user(xdata, &compat_fsqstat->qs_iwarnlimit))
--			break;
--		ret = 0;
--		break;
--	default:
--		ret = kernel_quotactl(cmd, special, id, addr);
--	}
--	return ret;
--}
-diff --git a/fs/quota/compat.h b/fs/quota/compat.h
-new file mode 100644
-index 00000000000000..ef7d1e12d650b3
---- /dev/null
-+++ b/fs/quota/compat.h
-@@ -0,0 +1,34 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <linux/compat.h>
-+
-+struct compat_if_dqblk {
-+	compat_u64			dqb_bhardlimit;
-+	compat_u64			dqb_bsoftlimit;
-+	compat_u64			dqb_curspace;
-+	compat_u64			dqb_ihardlimit;
-+	compat_u64			dqb_isoftlimit;
-+	compat_u64			dqb_curinodes;
-+	compat_u64			dqb_btime;
-+	compat_u64			dqb_itime;
-+	compat_uint_t			dqb_valid;
-+};
-+
-+struct compat_fs_qfilestat {
-+	compat_u64			dqb_bhardlimit;
-+	compat_u64			qfs_nblks;
-+	compat_uint_t			qfs_nextents;
-+};
-+
-+struct compat_fs_quota_stat {
-+	__s8				qs_version;
-+	__u16				qs_flags;
-+	__s8				qs_pad;
-+	struct compat_fs_qfilestat	qs_uquota;
-+	struct compat_fs_qfilestat	qs_gquota;
-+	compat_uint_t			qs_incoredqs;
-+	compat_int_t			qs_btimelimit;
-+	compat_int_t			qs_itimelimit;
-+	compat_int_t			qs_rtbtimelimit;
-+	__u16				qs_bwarnlimit;
-+	__u16				qs_iwarnlimit;
-+};
-diff --git a/fs/quota/quota.c b/fs/quota/quota.c
-index 47f9e151988b3e..6b37d58f1067d4 100644
---- a/fs/quota/quota.c
-+++ b/fs/quota/quota.c
-@@ -19,6 +19,7 @@
- #include <linux/types.h>
- #include <linux/writeback.h>
- #include <linux/nospec.h>
-+#include "compat.h"
- 
- static int check_quotactl_permission(struct super_block *sb, int type, int cmd,
- 				     qid_t id)
-@@ -211,8 +212,18 @@ static int quota_getquota(struct super_block *sb, int type, qid_t id,
- 	if (ret)
- 		return ret;
- 	copy_to_if_dqblk(&idq, &fdq);
--	if (copy_to_user(addr, &idq, sizeof(idq)))
--		return -EFAULT;
-+
-+	if (compat_need_64bit_alignment_fixup()) {
-+		struct compat_if_dqblk __user *compat_dqblk = addr;
-+
-+		if (copy_to_user(compat_dqblk, &idq, sizeof(*compat_dqblk)))
-+			return -EFAULT;
-+		if (put_user(idq.dqb_valid, &compat_dqblk->dqb_valid))
-+			return -EFAULT;
-+	} else {
-+		if (copy_to_user(addr, &idq, sizeof(idq)))
-+			return -EFAULT;
-+	}
- 	return 0;
- }
- 
-@@ -277,8 +288,16 @@ static int quota_setquota(struct super_block *sb, int type, qid_t id,
- 	struct if_dqblk idq;
- 	struct kqid qid;
- 
--	if (copy_from_user(&idq, addr, sizeof(idq)))
--		return -EFAULT;
-+	if (compat_need_64bit_alignment_fixup()) {
-+		struct compat_if_dqblk __user *compat_dqblk = addr;
-+
-+		if (copy_from_user(&idq, compat_dqblk, sizeof(*compat_dqblk)) ||
-+		    get_user(idq.dqb_valid, &compat_dqblk->dqb_valid))
-+			return -EFAULT;
-+	} else {
-+		if (copy_from_user(&idq, addr, sizeof(idq)))
-+			return -EFAULT;
-+	}
- 	if (!sb->s_qcop->set_dqblk)
- 		return -ENOSYS;
- 	qid = make_kqid(current_user_ns(), type, id);
-@@ -382,6 +401,33 @@ static int quota_getstate(struct super_block *sb, int type,
- 	return 0;
- }
- 
-+static int compat_copy_fs_qfilestat(struct compat_fs_qfilestat __user *to,
-+		struct fs_qfilestat *from)
-+{
-+	if (copy_to_user(to, from, sizeof(*to)) ||
-+	    put_user(from->qfs_nextents, &to->qfs_nextents))
-+		return -EFAULT;
-+	return 0;
-+}
-+
-+static int compat_copy_fs_quota_stat(struct compat_fs_quota_stat __user *to,
-+		struct fs_quota_stat *from)
-+{
-+	if (put_user(from->qs_version, &to->qs_version) ||
-+	    put_user(from->qs_flags, &to->qs_flags) ||
-+	    put_user(from->qs_pad, &to->qs_pad) ||
-+	    compat_copy_fs_qfilestat(&to->qs_uquota, &from->qs_uquota) ||
-+	    compat_copy_fs_qfilestat(&to->qs_gquota, &from->qs_gquota) ||
-+	    put_user(from->qs_incoredqs, &to->qs_incoredqs) ||
-+	    put_user(from->qs_btimelimit, &to->qs_btimelimit) ||
-+	    put_user(from->qs_itimelimit, &to->qs_itimelimit) ||
-+	    put_user(from->qs_rtbtimelimit, &to->qs_rtbtimelimit) ||
-+	    put_user(from->qs_bwarnlimit, &to->qs_bwarnlimit) ||
-+	    put_user(from->qs_iwarnlimit, &to->qs_iwarnlimit))
-+		return -EFAULT;
-+	return 0;
-+}
-+
- static int quota_getxstate(struct super_block *sb, int type, void __user *addr)
- {
- 	struct fs_quota_stat fqs;
-@@ -390,9 +436,14 @@ static int quota_getxstate(struct super_block *sb, int type, void __user *addr)
- 	if (!sb->s_qcop->get_state)
- 		return -ENOSYS;
- 	ret = quota_getstate(sb, type, &fqs);
--	if (!ret && copy_to_user(addr, &fqs, sizeof(fqs)))
-+	if (ret)
-+		return ret;
-+
-+	if (compat_need_64bit_alignment_fixup())
-+		return compat_copy_fs_quota_stat(addr, &fqs);
-+	if (copy_to_user(addr, &fqs, sizeof(fqs)))
- 		return -EFAULT;
--	return ret;
-+	return 0;
- }
- 
- static int quota_getstatev(struct super_block *sb, int type,
-@@ -816,8 +867,8 @@ static struct super_block *quotactl_block(const char __user *special, int cmd)
-  * calls. Maybe we need to add the process quotas etc. in the future,
-  * but we probably should use rlimits for that.
-  */
--int kernel_quotactl(unsigned int cmd, const char __user *special,
--		    qid_t id, void __user *addr)
-+SYSCALL_DEFINE4(quotactl, unsigned int, cmd, const char __user *, special,
-+		qid_t, id, void __user *, addr)
- {
- 	uint cmds, type;
- 	struct super_block *sb = NULL;
-@@ -871,9 +922,3 @@ int kernel_quotactl(unsigned int cmd, const char __user *special,
- 		path_put(pathp);
- 	return ret;
- }
--
--SYSCALL_DEFINE4(quotactl, unsigned int, cmd, const char __user *, special,
--		qid_t, id, void __user *, addr)
--{
--	return kernel_quotactl(cmd, special, id, addr);
--}
-diff --git a/include/linux/quotaops.h b/include/linux/quotaops.h
-index 9cf0cd3dc88c68..a0f6668924d3ef 100644
---- a/include/linux/quotaops.h
-+++ b/include/linux/quotaops.h
-@@ -27,9 +27,6 @@ static inline bool is_quota_modification(struct inode *inode, struct iattr *ia)
- 		(ia->ia_valid & ATTR_GID && !gid_eq(ia->ia_gid, inode->i_gid));
- }
- 
--int kernel_quotactl(unsigned int cmd, const char __user *special,
--		    qid_t id, void __user *addr);
--
- #if defined(CONFIG_QUOTA)
- 
- #define quota_error(sb, fmt, args...) \
-diff --git a/kernel/sys_ni.c b/kernel/sys_ni.c
-index 4d59775ea79c1e..c925d1e1777efc 100644
---- a/kernel/sys_ni.c
-+++ b/kernel/sys_ni.c
-@@ -369,7 +369,6 @@ COND_SYSCALL_COMPAT(fanotify_mark);
- /* x86 */
- COND_SYSCALL(vm86old);
- COND_SYSCALL(modify_ldt);
--COND_SYSCALL_COMPAT(quotactl32);
- COND_SYSCALL(vm86);
- COND_SYSCALL(kexec_file_load);
- 
+Thanks,
+
+Michael
+
+On Wed, 3 Jun 2020 at 12:24, Michael Kerrisk (man-pages)
+<mtk.manpages@gmail.com> wrote:
+>
+> Hi Christian,
+>
+> Could we have a manual page for this API (best before it's merged)?
+>
+> Thanks,
+>
+> Michael
+>
+> On Tue, 2 Jun 2020 at 22:44, Christian Brauner
+> <christian.brauner@ubuntu.com> wrote:
+> >
+> > This adds the close_range() syscall. It allows to efficiently close a range
+> > of file descriptors up to all file descriptors of a calling task.
+> >
+> > I've also coordinated with some FreeBSD developers who got in touch with
+> > me (Cced below). FreeBSD intends to add the same syscall once we merged it.
+> > Quite a bunch of projects in userspace are waiting on this syscall
+> > including Python and systemd.
+> >
+> > The syscall came up in a recent discussion around the new mount API and
+> > making new file descriptor types cloexec by default. During this
+> > discussion, Al suggested the close_range() syscall (cf. [1]). Note, a
+> > syscall in this manner has been requested by various people over time.
+> >
+> > First, it helps to close all file descriptors of an exec()ing task. This
+> > can be done safely via (quoting Al's example from [1] verbatim):
+> >
+> >         /* that exec is sensitive */
+> >         unshare(CLONE_FILES);
+> >         /* we don't want anything past stderr here */
+> >         close_range(3, ~0U);
+> >         execve(....);
+> >
+> > The code snippet above is one way of working around the problem that file
+> > descriptors are not cloexec by default. This is aggravated by the fact that
+> > we can't just switch them over without massively regressing userspace. For
+> > a whole class of programs having an in-kernel method of closing all file
+> > descriptors is very helpful (e.g. demons, service managers, programming
+> > language standard libraries, container managers etc.).
+> > (Please note, unshare(CLONE_FILES) should only be needed if the calling
+> > task is multi-threaded and shares the file descriptor table with another
+> > thread in which case two threads could race with one thread allocating file
+> > descriptors and the other one closing them via close_range(). For the
+> > general case close_range() before the execve() is sufficient.)
+> >
+> > Second, it allows userspace to avoid implementing closing all file
+> > descriptors by parsing through /proc/<pid>/fd/* and calling close() on each
+> > file descriptor. From looking at various large(ish) userspace code bases
+> > this or similar patterns are very common in:
+> > - service managers (cf. [4])
+> > - libcs (cf. [6])
+> > - container runtimes (cf. [5])
+> > - programming language runtimes/standard libraries
+> >   - Python (cf. [2])
+> >   - Rust (cf. [7], [8])
+> > As Dmitry pointed out there's even a long-standing glibc bug about missing
+> > kernel support for this task (cf. [3]).
+> > In addition, the syscall will also work for tasks that do not have procfs
+> > mounted and on kernels that do not have procfs support compiled in. In such
+> > situations the only way to make sure that all file descriptors are closed
+> > is to call close() on each file descriptor up to UINT_MAX or RLIMIT_NOFILE,
+> > OPEN_MAX trickery (cf. comment [8] on Rust).
+> >
+> > The performance is striking. For good measure, comparing the following
+> > simple close_all_fds() userspace implementation that is essentially just
+> > glibc's version in [6]:
+> >
+> > static int close_all_fds(void)
+> > {
+> >         int dir_fd;
+> >         DIR *dir;
+> >         struct dirent *direntp;
+> >
+> >         dir = opendir("/proc/self/fd");
+> >         if (!dir)
+> >                 return -1;
+> >         dir_fd = dirfd(dir);
+> >         while ((direntp = readdir(dir))) {
+> >                 int fd;
+> >                 if (strcmp(direntp->d_name, ".") == 0)
+> >                         continue;
+> >                 if (strcmp(direntp->d_name, "..") == 0)
+> >                         continue;
+> >                 fd = atoi(direntp->d_name);
+> >                 if (fd == dir_fd || fd == 0 || fd == 1 || fd == 2)
+> >                         continue;
+> >                 close(fd);
+> >         }
+> >         closedir(dir);
+> >         return 0;
+> > }
+> >
+> > to close_range() yields:
+> > 1. closing 4 open files:
+> >    - close_all_fds(): ~280 us
+> >    - close_range():    ~24 us
+> >
+> > 2. closing 1000 open files:
+> >    - close_all_fds(): ~5000 us
+> >    - close_range():   ~800 us
+> >
+> > close_range() is designed to allow for some flexibility. Specifically, it
+> > does not simply always close all open file descriptors of a task. Instead,
+> > callers can specify an upper bound.
+> > This is e.g. useful for scenarios where specific file descriptors are
+> > created with well-known numbers that are supposed to be excluded from
+> > getting closed.
+> > For extra paranoia close_range() comes with a flags argument. This can e.g.
+> > be used to implement extension. Once can imagine userspace wanting to stop
+> > at the first error instead of ignoring errors under certain circumstances.
+> > There might be other valid ideas in the future. In any case, a flag
+> > argument doesn't hurt and keeps us on the safe side.
+> >
+> > From an implementation side this is kept rather dumb. It saw some input
+> > from David and Jann but all nonsense is obviously my own!
+> > - Errors to close file descriptors are currently ignored. (Could be changed
+> >   by setting a flag in the future if needed.)
+> > - __close_range() is a rather simplistic wrapper around __close_fd().
+> >   My reasoning behind this is based on the nature of how __close_fd() needs
+> >   to release an fd. But maybe I misunderstood specifics:
+> >   We take the files_lock and rcu-dereference the fdtable of the calling
+> >   task, we find the entry in the fdtable, get the file and need to release
+> >   files_lock before calling filp_close().
+> >   In the meantime the fdtable might have been altered so we can't just
+> >   retake the spinlock and keep the old rcu-reference of the fdtable
+> >   around. Instead we need to grab a fresh reference to the fdtable.
+> >   If my reasoning is correct then there's really no point in fancyfying
+> >   __close_range(): We just need to rcu-dereference the fdtable of the
+> >   calling task once to cap the max_fd value correctly and then go on
+> >   calling __close_fd() in a loop.
+> >
+> > /* References */
+> > [1]: https://lore.kernel.org/lkml/20190516165021.GD17978@ZenIV.linux.org.uk/
+> > [2]: https://github.com/python/cpython/blob/9e4f2f3a6b8ee995c365e86d976937c141d867f8/Modules/_posixsubprocess.c#L220
+> > [3]: https://sourceware.org/bugzilla/show_bug.cgi?id=10353#c7
+> > [4]: https://github.com/systemd/systemd/blob/5238e9575906297608ff802a27e2ff9effa3b338/src/basic/fd-util.c#L217
+> > [5]: https://github.com/lxc/lxc/blob/ddf4b77e11a4d08f09b7b9cd13e593f8c047edc5/src/lxc/start.c#L236
+> > [6]: https://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/unix/sysv/linux/grantpt.c;h=2030e07fa6e652aac32c775b8c6e005844c3c4eb;hb=HEAD#l17
+> >      Note that this is an internal implementation that is not exported.
+> >      Currently, libc seems to not provide an exported version of this
+> >      because of missing kernel support to do this.
+> > [7]: https://github.com/rust-lang/rust/issues/12148
+> > [8]: https://github.com/rust-lang/rust/blob/5f47c0613ed4eb46fca3633c1297364c09e5e451/src/libstd/sys/unix/process2.rs#L303-L308
+> >      Rust's solution is slightly different but is equally unperformant.
+> >      Rust calls getdtablesize() which is a glibc library function that
+> >      simply returns the current RLIMIT_NOFILE or OPEN_MAX values. Rust then
+> >      goes on to call close() on each fd. That's obviously overkill for most
+> >      tasks. Rarely, tasks - especially non-demons - hit RLIMIT_NOFILE or
+> >      OPEN_MAX.
+> >      Let's be nice and assume an unprivileged user with RLIMIT_NOFILE set
+> >      to 1024. Even in this case, there's a very high chance that in the
+> >      common case Rust is calling the close() syscall 1021 times pointlessly
+> >      if the task just has 0, 1, and 2 open.
+> >
+> > Suggested-by: Al Viro <viro@zeniv.linux.org.uk>
+> > Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
+> > Cc: Arnd Bergmann <arnd@arndb.de>
+> > Cc: Kyle Evans <self@kyle-evans.net>
+> > Cc: Jann Horn <jannh@google.com>
+> > Cc: David Howells <dhowells@redhat.com>
+> > Cc: Dmitry V. Levin <ldv@altlinux.org>
+> > Cc: Oleg Nesterov <oleg@redhat.com>
+> > Cc: Linus Torvalds <torvalds@linux-foundation.org>
+> > Cc: Florian Weimer <fweimer@redhat.com>
+> > Cc: linux-api@vger.kernel.org
+> > ---
+> > /* v2 */
+> > - Linus Torvalds <torvalds@linux-foundation.org>:
+> >   - add cond_resched() to yield cpu when closing a lot of file descriptors
+> > - Al Viro <viro@zeniv.linux.org.uk>:
+> >   - add cond_resched() to yield cpu when closing a lot of file descriptors
+> >
+> > /* v3 */
+> > unchanged
+> >
+> > /* v4 */
+> > - Oleg Nesterov <oleg@redhat.com>:
+> >   - fix braino: s/max()/min()/
+> >
+> > /* v5 */
+> > unchanged
+> > ---
+> >  fs/file.c                | 62 ++++++++++++++++++++++++++++++++++------
+> >  fs/open.c                | 20 +++++++++++++
+> >  include/linux/fdtable.h  |  2 ++
+> >  include/linux/syscalls.h |  2 ++
+> >  4 files changed, 78 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/fs/file.c b/fs/file.c
+> > index abb8b7081d7a..e260bfe687d1 100644
+> > --- a/fs/file.c
+> > +++ b/fs/file.c
+> > @@ -10,6 +10,7 @@
+> >  #include <linux/syscalls.h>
+> >  #include <linux/export.h>
+> >  #include <linux/fs.h>
+> > +#include <linux/kernel.h>
+> >  #include <linux/mm.h>
+> >  #include <linux/sched/signal.h>
+> >  #include <linux/slab.h>
+> > @@ -620,12 +621,9 @@ void fd_install(unsigned int fd, struct file *file)
+> >
+> >  EXPORT_SYMBOL(fd_install);
+> >
+> > -/*
+> > - * The same warnings as for __alloc_fd()/__fd_install() apply here...
+> > - */
+> > -int __close_fd(struct files_struct *files, unsigned fd)
+> > +static struct file *pick_file(struct files_struct *files, unsigned fd)
+> >  {
+> > -       struct file *file;
+> > +       struct file *file = NULL;
+> >         struct fdtable *fdt;
+> >
+> >         spin_lock(&files->file_lock);
+> > @@ -637,15 +635,63 @@ int __close_fd(struct files_struct *files, unsigned fd)
+> >                 goto out_unlock;
+> >         rcu_assign_pointer(fdt->fd[fd], NULL);
+> >         __put_unused_fd(files, fd);
+> > -       spin_unlock(&files->file_lock);
+> > -       return filp_close(file, files);
+> >
+> >  out_unlock:
+> >         spin_unlock(&files->file_lock);
+> > -       return -EBADF;
+> > +       return file;
+> > +}
+> > +
+> > +/*
+> > + * The same warnings as for __alloc_fd()/__fd_install() apply here...
+> > + */
+> > +int __close_fd(struct files_struct *files, unsigned fd)
+> > +{
+> > +       struct file *file;
+> > +
+> > +       file = pick_file(files, fd);
+> > +       if (!file)
+> > +               return -EBADF;
+> > +
+> > +       return filp_close(file, files);
+> >  }
+> >  EXPORT_SYMBOL(__close_fd); /* for ksys_close() */
+> >
+> > +/**
+> > + * __close_range() - Close all file descriptors in a given range.
+> > + *
+> > + * @fd:     starting file descriptor to close
+> > + * @max_fd: last file descriptor to close
+> > + *
+> > + * This closes a range of file descriptors. All file descriptors
+> > + * from @fd up to and including @max_fd are closed.
+> > + */
+> > +int __close_range(struct files_struct *files, unsigned fd, unsigned max_fd)
+> > +{
+> > +       unsigned int cur_max;
+> > +
+> > +       if (fd > max_fd)
+> > +               return -EINVAL;
+> > +
+> > +       rcu_read_lock();
+> > +       cur_max = files_fdtable(files)->max_fds;
+> > +       rcu_read_unlock();
+> > +
+> > +       /* cap to last valid index into fdtable */
+> > +       max_fd = min(max_fd, (cur_max - 1));
+> > +       while (fd <= max_fd) {
+> > +               struct file *file;
+> > +
+> > +               file = pick_file(files, fd++);
+> > +               if (!file)
+> > +                       continue;
+> > +
+> > +               filp_close(file, files);
+> > +               cond_resched();
+> > +       }
+> > +
+> > +       return 0;
+> > +}
+> > +
+> >  /*
+> >   * variant of __close_fd that gets a ref on the file for later fput.
+> >   * The caller must ensure that filp_close() called on the file, and then
+> > diff --git a/fs/open.c b/fs/open.c
+> > index 719b320ede52..87e076e9e127 100644
+> > --- a/fs/open.c
+> > +++ b/fs/open.c
+> > @@ -1279,6 +1279,26 @@ SYSCALL_DEFINE1(close, unsigned int, fd)
+> >         return retval;
+> >  }
+> >
+> > +/**
+> > + * close_range() - Close all file descriptors in a given range.
+> > + *
+> > + * @fd:     starting file descriptor to close
+> > + * @max_fd: last file descriptor to close
+> > + * @flags:  reserved for future extensions
+> > + *
+> > + * This closes a range of file descriptors. All file descriptors
+> > + * from @fd up to and including @max_fd are closed.
+> > + * Currently, errors to close a given file descriptor are ignored.
+> > + */
+> > +SYSCALL_DEFINE3(close_range, unsigned int, fd, unsigned int, max_fd,
+> > +               unsigned int, flags)
+> > +{
+> > +       if (flags)
+> > +               return -EINVAL;
+> > +
+> > +       return __close_range(current->files, fd, max_fd);
+> > +}
+> > +
+> >  /*
+> >   * This routine simulates a hangup on the tty, to arrange that users
+> >   * are given clean terminals at login time.
+> > diff --git a/include/linux/fdtable.h b/include/linux/fdtable.h
+> > index f07c55ea0c22..fcd07181a365 100644
+> > --- a/include/linux/fdtable.h
+> > +++ b/include/linux/fdtable.h
+> > @@ -121,6 +121,8 @@ extern void __fd_install(struct files_struct *files,
+> >                       unsigned int fd, struct file *file);
+> >  extern int __close_fd(struct files_struct *files,
+> >                       unsigned int fd);
+> > +extern int __close_range(struct files_struct *files, unsigned int fd,
+> > +                        unsigned int max_fd);
+> >  extern int __close_fd_get_file(unsigned int fd, struct file **res);
+> >
+> >  extern struct kmem_cache *files_cachep;
+> > diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+> > index 1815065d52f3..18fea399329b 100644
+> > --- a/include/linux/syscalls.h
+> > +++ b/include/linux/syscalls.h
+> > @@ -442,6 +442,8 @@ asmlinkage long sys_openat(int dfd, const char __user *filename, int flags,
+> >  asmlinkage long sys_openat2(int dfd, const char __user *filename,
+> >                             struct open_how *how, size_t size);
+> >  asmlinkage long sys_close(unsigned int fd);
+> > +asmlinkage long sys_close_range(unsigned int fd, unsigned int max_fd,
+> > +                               unsigned int flags);
+> >  asmlinkage long sys_vhangup(void);
+> >
+> >  /* fs/pipe.c */
+> > --
+> > 2.26.2
+> >
+>
+>
+> --
+> Michael Kerrisk
+> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+> Linux/UNIX System Programming Training: http://man7.org/training/
+
+
+
 -- 
-2.28.0
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
