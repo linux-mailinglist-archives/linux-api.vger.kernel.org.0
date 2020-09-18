@@ -2,38 +2,39 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5590426F1C6
-	for <lists+linux-api@lfdr.de>; Fri, 18 Sep 2020 04:54:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A03E26F0FD
+	for <lists+linux-api@lfdr.de>; Fri, 18 Sep 2020 04:48:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727562AbgIRCxv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 17 Sep 2020 22:53:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58372 "EHLO mail.kernel.org"
+        id S1727318AbgIRCJT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 17 Sep 2020 22:09:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:32828 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727164AbgIRCHq (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 17 Sep 2020 22:07:46 -0400
+        id S1728262AbgIRCJR (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 17 Sep 2020 22:09:17 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 04F382388E;
-        Fri, 18 Sep 2020 02:07:44 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1F23E23976;
+        Fri, 18 Sep 2020 02:09:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600394865;
-        bh=w4PyLfMXw28cvumyu67lhikdu0uy4bifbRxV2t7MvoM=;
+        s=default; t=1600394956;
+        bh=JYuoka6Dcpa7rPPX+K0pgm8y9LHlMras/8gA7lLYGAY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=1zxcLa7pCZMbnf2Zcu2P9Bg//smLJu6Jw3kMelFpH/jiDMUkWIH0JCyVdFqEn7YUV
-         A1HnBflRvhAtizciB+W+cp2sg19mBGmv0mDA7tCnIu59s1wmtoKhxY+Ciap/JcFgQW
-         NKI9FuswfRMn9jAOvug7rPcI1+lBtjst4Qb+G0R8=
+        b=JpNlqPiTCgUm2WmrTfFSnl33FR0dGLbN2HHgsmJ4Gz+e4tsTHtqE8ceN1S3t5hatS
+         UjPrAevXFfRX3DlO6Y4Jq8u4qF6s2pSx2R5mmSfwVnXDuGlFuW2EH+n8sJKGLD77lK
+         EbwsZUN39xGaUO/RJXIJY9R3Casz7s51QlqtEThc=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
+Cc:     Sven Schnelle <svens@linux.ibm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-api@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 318/330] selftests/x86/syscall_nt: Clear weird flags after each test
-Date:   Thu, 17 Sep 2020 22:00:58 -0400
-Message-Id: <20200918020110.2063155-318-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 063/206] selftests/ftrace: fix glob selftest
+Date:   Thu, 17 Sep 2020 22:05:39 -0400
+Message-Id: <20200918020802.2065198-63-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200918020110.2063155-1-sashal@kernel.org>
-References: <20200918020110.2063155-1-sashal@kernel.org>
+In-Reply-To: <20200918020802.2065198-1-sashal@kernel.org>
+References: <20200918020802.2065198-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -42,33 +43,37 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Andy Lutomirski <luto@kernel.org>
+From: Sven Schnelle <svens@linux.ibm.com>
 
-[ Upstream commit a61fa2799ef9bf6c4f54cf7295036577cececc72 ]
+[ Upstream commit af4ddd607dff7aabd466a4a878e01b9f592a75ab ]
 
-Clear the weird flags before logging to improve strace output --
-logging results while, say, TF is set does no one any favors.
+test.d/ftrace/func-filter-glob.tc is failing on s390 because it has
+ARCH_INLINE_SPIN_LOCK and friends set to 'y'. So the usual
+__raw_spin_lock symbol isn't in the ftrace function list. Change
+'*aw*lock' to '*spin*lock' which would hopefully match some of the
+locking functions on all platforms.
 
-Signed-off-by: Andy Lutomirski <luto@kernel.org>
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Link: https://lkml.kernel.org/r/907bfa5a42d4475b8245e18b67a04b13ca51ffdb.1593191971.git.luto@kernel.org
+Reviewed-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
+Signed-off-by: Sven Schnelle <svens@linux.ibm.com>
+Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- tools/testing/selftests/x86/syscall_nt.c | 1 +
- 1 file changed, 1 insertion(+)
+ .../testing/selftests/ftrace/test.d/ftrace/func-filter-glob.tc  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tools/testing/selftests/x86/syscall_nt.c b/tools/testing/selftests/x86/syscall_nt.c
-index 02309a1950413..a765f62ee7668 100644
---- a/tools/testing/selftests/x86/syscall_nt.c
-+++ b/tools/testing/selftests/x86/syscall_nt.c
-@@ -59,6 +59,7 @@ static void do_it(unsigned long extraflags)
- 	set_eflags(get_eflags() | extraflags);
- 	syscall(SYS_getpid);
- 	flags = get_eflags();
-+	set_eflags(X86_EFLAGS_IF | X86_EFLAGS_FIXED);
- 	if ((flags & extraflags) == extraflags) {
- 		printf("[OK]\tThe syscall worked and flags are still set\n");
- 	} else {
+diff --git a/tools/testing/selftests/ftrace/test.d/ftrace/func-filter-glob.tc b/tools/testing/selftests/ftrace/test.d/ftrace/func-filter-glob.tc
+index 27a54a17da65d..f4e92afab14b2 100644
+--- a/tools/testing/selftests/ftrace/test.d/ftrace/func-filter-glob.tc
++++ b/tools/testing/selftests/ftrace/test.d/ftrace/func-filter-glob.tc
+@@ -30,7 +30,7 @@ ftrace_filter_check '*schedule*' '^.*schedule.*$'
+ ftrace_filter_check 'schedule*' '^schedule.*$'
+ 
+ # filter by *mid*end
+-ftrace_filter_check '*aw*lock' '.*aw.*lock$'
++ftrace_filter_check '*pin*lock' '.*pin.*lock$'
+ 
+ # filter by start*mid*
+ ftrace_filter_check 'mutex*try*' '^mutex.*try.*'
 -- 
 2.25.1
 
