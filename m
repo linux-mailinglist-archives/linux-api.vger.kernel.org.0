@@ -2,36 +2,36 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D456426EB05
-	for <lists+linux-api@lfdr.de>; Fri, 18 Sep 2020 04:03:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04D9926EB77
+	for <lists+linux-api@lfdr.de>; Fri, 18 Sep 2020 04:06:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726810AbgIRCCh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 17 Sep 2020 22:02:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47888 "EHLO mail.kernel.org"
+        id S1726799AbgIRCFZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 17 Sep 2020 22:05:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53478 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726798AbgIRCCg (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 17 Sep 2020 22:02:36 -0400
+        id S1726109AbgIRCFR (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 17 Sep 2020 22:05:17 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 22F35221EC;
-        Fri, 18 Sep 2020 02:02:35 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id AC6582388E;
+        Fri, 18 Sep 2020 02:05:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600394555;
-        bh=A6iVWKRWFky6V91r7CvpkOKV8Ult2j1FeDLCBRix+y0=;
+        s=default; t=1600394716;
+        bh=u1qOtWnMXAlI04ZQS3g+oAR6V6XOrFj1hlQQ0sO9zp0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PQPeJmPVdK57xBrSP1E/mHxNZ5vZMWD50xPgqcn34CPJiNFIjD5M4Qqh2LQSx4fRg
-         mf9QNVW/fi3VaR1D4yHMj9IhFnVx5JGRqBAJP9sBUqpfFJXyzXbbO99Khi9mJLk4iz
-         wEyfIVWgOKMbE7fpa1IakLEB9gg7uiu4812J15og=
+        b=o1q1maf5js0nsQtet2uG7EdAJJXKd1gsNKK+Gb+9tuep/iYyz7kDh+p7hJ8hBSwaT
+         G3vNDMryjiKKR2YgiVIkO6QD8gW9hDeuGK7ZlVjJZaoMEAH+Cl3gmpXhyuV8vLYnTQ
+         w9ERsnDe2/mbDFxioL8csH337wrS77sw1pZ0WtCE=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Stanislav Fomichev <sdf@google.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Lawrence Brakmo <brakmo@fb.com>,
+Cc:     Bernd Edlinger <bernd.edlinger@hotmail.de>,
+        Kees Cook <keescook@chromium.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
         Sasha Levin <sashal@kernel.org>, linux-api@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 071/330] selftests/bpf: De-flake test_tcpbpf
-Date:   Thu, 17 Sep 2020 21:56:51 -0400
-Message-Id: <20200918020110.2063155-71-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 200/330] selftests/ptrace: add test cases for dead-locks
+Date:   Thu, 17 Sep 2020 21:59:00 -0400
+Message-Id: <20200918020110.2063155-200-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200918020110.2063155-1-sashal@kernel.org>
 References: <20200918020110.2063155-1-sashal@kernel.org>
@@ -43,147 +43,138 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Stanislav Fomichev <sdf@google.com>
+From: Bernd Edlinger <bernd.edlinger@hotmail.de>
 
-[ Upstream commit ef8c84effce3c7a0b8196fcda8f430c815ab511c ]
+[ Upstream commit 2de4e82318c7f9d34f4b08599a612cd4cd10bf0b ]
 
-It looks like BPF program that handles BPF_SOCK_OPS_STATE_CB state
-can race with the bpf_map_lookup_elem("global_map"); I sometimes
-see the failures in this test and re-running helps.
+This adds test cases for ptrace deadlocks.
 
-Since we know that we expect the callback to be called 3 times (one
-time for listener socket, two times for both ends of the connection),
-let's export this number and add simple retry logic around that.
+Additionally fixes a compile problem in get_syscall_info.c,
+observed with gcc-4.8.4:
 
-Also, let's make EXPECT_EQ() not return on failure, but continue
-evaluating all conditions; that should make potential debugging
-easier.
+get_syscall_info.c: In function 'get_syscall_info':
+get_syscall_info.c:93:3: error: 'for' loop initial declarations are only
+                                 allowed in C99 mode
+   for (unsigned int i = 0; i < ARRAY_SIZE(args); ++i) {
+   ^
+get_syscall_info.c:93:3: note: use option -std=c99 or -std=gnu99 to compile
+                               your code
 
-With this fix in place I don't observe the flakiness anymore.
-
-Signed-off-by: Stanislav Fomichev <sdf@google.com>
-Signed-off-by: Alexei Starovoitov <ast@kernel.org>
-Cc: Lawrence Brakmo <brakmo@fb.com>
-Link: https://lore.kernel.org/bpf/20191204190955.170934-1-sdf@google.com
+Signed-off-by: Bernd Edlinger <bernd.edlinger@hotmail.de>
+Reviewed-by: Kees Cook <keescook@chromium.org>
+Signed-off-by: Eric W. Biederman <ebiederm@xmission.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../selftests/bpf/progs/test_tcpbpf_kern.c    |  1 +
- tools/testing/selftests/bpf/test_tcpbpf.h     |  1 +
- .../testing/selftests/bpf/test_tcpbpf_user.c  | 25 +++++++++++++------
- 3 files changed, 20 insertions(+), 7 deletions(-)
+ tools/testing/selftests/ptrace/Makefile   |  4 +-
+ tools/testing/selftests/ptrace/vmaccess.c | 86 +++++++++++++++++++++++
+ 2 files changed, 88 insertions(+), 2 deletions(-)
+ create mode 100644 tools/testing/selftests/ptrace/vmaccess.c
 
-diff --git a/tools/testing/selftests/bpf/progs/test_tcpbpf_kern.c b/tools/testing/selftests/bpf/progs/test_tcpbpf_kern.c
-index 2e233613d1fc0..7fa4595d2b66b 100644
---- a/tools/testing/selftests/bpf/progs/test_tcpbpf_kern.c
-+++ b/tools/testing/selftests/bpf/progs/test_tcpbpf_kern.c
-@@ -131,6 +131,7 @@ int bpf_testcb(struct bpf_sock_ops *skops)
- 				g.bytes_received = skops->bytes_received;
- 				g.bytes_acked = skops->bytes_acked;
- 			}
-+			g.num_close_events++;
- 			bpf_map_update_elem(&global_map, &key, &g,
- 					    BPF_ANY);
- 		}
-diff --git a/tools/testing/selftests/bpf/test_tcpbpf.h b/tools/testing/selftests/bpf/test_tcpbpf.h
-index 7bcfa62070056..6220b95cbd02c 100644
---- a/tools/testing/selftests/bpf/test_tcpbpf.h
-+++ b/tools/testing/selftests/bpf/test_tcpbpf.h
-@@ -13,5 +13,6 @@ struct tcpbpf_globals {
- 	__u64 bytes_received;
- 	__u64 bytes_acked;
- 	__u32 num_listen;
-+	__u32 num_close_events;
- };
- #endif
-diff --git a/tools/testing/selftests/bpf/test_tcpbpf_user.c b/tools/testing/selftests/bpf/test_tcpbpf_user.c
-index 716b4e3be5813..3ae127620463d 100644
---- a/tools/testing/selftests/bpf/test_tcpbpf_user.c
-+++ b/tools/testing/selftests/bpf/test_tcpbpf_user.c
-@@ -16,6 +16,9 @@
+diff --git a/tools/testing/selftests/ptrace/Makefile b/tools/testing/selftests/ptrace/Makefile
+index c0b7f89f09300..2f1f532c39dbc 100644
+--- a/tools/testing/selftests/ptrace/Makefile
++++ b/tools/testing/selftests/ptrace/Makefile
+@@ -1,6 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-CFLAGS += -iquote../../../../include/uapi -Wall
++CFLAGS += -std=c99 -pthread -iquote../../../../include/uapi -Wall
  
- #include "test_tcpbpf.h"
+-TEST_GEN_PROGS := get_syscall_info peeksiginfo
++TEST_GEN_PROGS := get_syscall_info peeksiginfo vmaccess
  
-+/* 3 comes from one listening socket + both ends of the connection */
-+#define EXPECTED_CLOSE_EVENTS		3
+ include ../lib.mk
+diff --git a/tools/testing/selftests/ptrace/vmaccess.c b/tools/testing/selftests/ptrace/vmaccess.c
+new file mode 100644
+index 0000000000000..4db327b445862
+--- /dev/null
++++ b/tools/testing/selftests/ptrace/vmaccess.c
+@@ -0,0 +1,86 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * Copyright (c) 2020 Bernd Edlinger <bernd.edlinger@hotmail.de>
++ * All rights reserved.
++ *
++ * Check whether /proc/$pid/mem can be accessed without causing deadlocks
++ * when de_thread is blocked with ->cred_guard_mutex held.
++ */
 +
- #define EXPECT_EQ(expected, actual, fmt)			\
- 	do {							\
- 		if ((expected) != (actual)) {			\
-@@ -23,13 +26,14 @@
- 			       "    Actual: %" fmt "\n"		\
- 			       "  Expected: %" fmt "\n",	\
- 			       (actual), (expected));		\
--			goto err;				\
-+			ret--;					\
- 		}						\
- 	} while (0)
- 
- int verify_result(const struct tcpbpf_globals *result)
- {
- 	__u32 expected_events;
-+	int ret = 0;
- 
- 	expected_events = ((1 << BPF_SOCK_OPS_TIMEOUT_INIT) |
- 			   (1 << BPF_SOCK_OPS_RWND_INIT) |
-@@ -48,15 +52,15 @@ int verify_result(const struct tcpbpf_globals *result)
- 	EXPECT_EQ(0x80, result->bad_cb_test_rv, PRIu32);
- 	EXPECT_EQ(0, result->good_cb_test_rv, PRIu32);
- 	EXPECT_EQ(1, result->num_listen, PRIu32);
-+	EXPECT_EQ(EXPECTED_CLOSE_EVENTS, result->num_close_events, PRIu32);
- 
--	return 0;
--err:
--	return -1;
-+	return ret;
- }
- 
- int verify_sockopt_result(int sock_map_fd)
- {
- 	__u32 key = 0;
-+	int ret = 0;
- 	int res;
- 	int rv;
- 
-@@ -69,9 +73,7 @@ int verify_sockopt_result(int sock_map_fd)
- 	rv = bpf_map_lookup_elem(sock_map_fd, &key, &res);
- 	EXPECT_EQ(0, rv, "d");
- 	EXPECT_EQ(1, res, "d");
--	return 0;
--err:
--	return -1;
-+	return ret;
- }
- 
- static int bpf_find_map(const char *test, struct bpf_object *obj,
-@@ -96,6 +98,7 @@ int main(int argc, char **argv)
- 	int error = EXIT_FAILURE;
- 	struct bpf_object *obj;
- 	int cg_fd = -1;
-+	int retry = 10;
- 	__u32 key = 0;
- 	int rv;
- 
-@@ -134,12 +137,20 @@ int main(int argc, char **argv)
- 	if (sock_map_fd < 0)
- 		goto err;
- 
-+retry_lookup:
- 	rv = bpf_map_lookup_elem(map_fd, &key, &g);
- 	if (rv != 0) {
- 		printf("FAILED: bpf_map_lookup_elem returns %d\n", rv);
- 		goto err;
- 	}
- 
-+	if (g.num_close_events != EXPECTED_CLOSE_EVENTS && retry--) {
-+		printf("Unexpected number of close events (%d), retrying!\n",
-+		       g.num_close_events);
-+		usleep(100);
-+		goto retry_lookup;
++#include "../kselftest_harness.h"
++#include <stdio.h>
++#include <fcntl.h>
++#include <pthread.h>
++#include <signal.h>
++#include <unistd.h>
++#include <sys/ptrace.h>
++
++static void *thread(void *arg)
++{
++	ptrace(PTRACE_TRACEME, 0, 0L, 0L);
++	return NULL;
++}
++
++TEST(vmaccess)
++{
++	int f, pid = fork();
++	char mm[64];
++
++	if (!pid) {
++		pthread_t pt;
++
++		pthread_create(&pt, NULL, thread, NULL);
++		pthread_join(pt, NULL);
++		execlp("true", "true", NULL);
 +	}
 +
- 	if (verify_result(&g)) {
- 		printf("FAILED: Wrong stats\n");
- 		goto err;
++	sleep(1);
++	sprintf(mm, "/proc/%d/mem", pid);
++	f = open(mm, O_RDONLY);
++	ASSERT_GE(f, 0);
++	close(f);
++	f = kill(pid, SIGCONT);
++	ASSERT_EQ(f, 0);
++}
++
++TEST(attach)
++{
++	int s, k, pid = fork();
++
++	if (!pid) {
++		pthread_t pt;
++
++		pthread_create(&pt, NULL, thread, NULL);
++		pthread_join(pt, NULL);
++		execlp("sleep", "sleep", "2", NULL);
++	}
++
++	sleep(1);
++	k = ptrace(PTRACE_ATTACH, pid, 0L, 0L);
++	ASSERT_EQ(errno, EAGAIN);
++	ASSERT_EQ(k, -1);
++	k = waitpid(-1, &s, WNOHANG);
++	ASSERT_NE(k, -1);
++	ASSERT_NE(k, 0);
++	ASSERT_NE(k, pid);
++	ASSERT_EQ(WIFEXITED(s), 1);
++	ASSERT_EQ(WEXITSTATUS(s), 0);
++	sleep(1);
++	k = ptrace(PTRACE_ATTACH, pid, 0L, 0L);
++	ASSERT_EQ(k, 0);
++	k = waitpid(-1, &s, 0);
++	ASSERT_EQ(k, pid);
++	ASSERT_EQ(WIFSTOPPED(s), 1);
++	ASSERT_EQ(WSTOPSIG(s), SIGSTOP);
++	k = ptrace(PTRACE_DETACH, pid, 0L, 0L);
++	ASSERT_EQ(k, 0);
++	k = waitpid(-1, &s, 0);
++	ASSERT_EQ(k, pid);
++	ASSERT_EQ(WIFEXITED(s), 1);
++	ASSERT_EQ(WEXITSTATUS(s), 0);
++	k = waitpid(-1, NULL, 0);
++	ASSERT_EQ(k, -1);
++	ASSERT_EQ(errno, ECHILD);
++}
++
++TEST_HARNESS_MAIN
 -- 
 2.25.1
 
