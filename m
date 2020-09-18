@@ -2,34 +2,34 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 449A526FA13
-	for <lists+linux-api@lfdr.de>; Fri, 18 Sep 2020 12:12:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DCF7626FA04
+	for <lists+linux-api@lfdr.de>; Fri, 18 Sep 2020 12:12:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726723AbgIRKMa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 18 Sep 2020 06:12:30 -0400
-Received: from mo4-p04-ob.smtp.rzone.de ([85.215.255.120]:31486 "EHLO
-        mo4-p04-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726514AbgIRKMV (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 18 Sep 2020 06:12:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1600423937;
+        id S1725874AbgIRKMR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 18 Sep 2020 06:12:17 -0400
+Received: from mo4-p03-ob.smtp.rzone.de ([85.215.255.100]:29477 "EHLO
+        mo4-p03-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726139AbgIRKMO (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 18 Sep 2020 06:12:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1600423932;
         s=strato-dkim-0002; d=chronox.de;
         h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
         X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
-        bh=izF07z6Mxe3cc4U56dnUzWp3gqFzbBS1w8yZJx36BTU=;
-        b=NQeltcJfiGaeO3mvjBVsYq48AvXE79+CAcN7fUc4G5YHUNhtkV+CWoRQnjeSrjp+rh
-        2rsJwv6sQ9bxc/QBQv2oRLLKmUfz/fHoBoD0tqsUlO7qReFfUkBehNYoMG3YyeyIpNFi
-        Rjm6zzNpiTHfO1t28/3R1rUD+Z/1Ksg4taOOX9E7xWwLNSiwglaAW9aoDaMWJm+aVWxI
-        u3kHpHAumV1GxBdm989Th3RvVvN7AoVtqz5S+kwrFEfcOtoQnxAz+9JIPyWLueSiS6nU
-        +1RAKeUXFvjeMwY1kncaPE5ouPoslMuHRudQkTzzbgNYLltUpY8a16D2O7yKj+V2ETf8
-        0LRQ==
+        bh=Es9pGKLx4z5oIgmChL28JnLmrOhua6NbH8JPKO7vMAs=;
+        b=VwL/1DcajkV0w7hBIPVZxOSBgMDtjp5ADCLuSvBYFcVFD8VC0VJw1p2qZt3ApenYqt
+        xG/ObQkWpG4WqbkQbOZkOaxQPWwh2O0n/fcM3IJkLAfxLlen4m/OC4pbzXf9ZOYecc65
+        e5FHLk5MtOgaiAQx4P1/hdVyMMH7OOa14Y7peq9Cou/WFxhGv1NdRjRtaVn+IyQRexzI
+        Ax43Cy1CYitM9oXwtK2MGN8qsVhtbH5GzkmY43NRW3yvzHKhX4wPgVzizx/18Uadc35f
+        NTvWtMgyrFE4pXTT7vgTd+tYZBfwcWbPrjJVDcriWvw+D5p1TIRWEy6PHultzHdeTuDQ
+        tRpQ==
 X-RZG-AUTH: ":P2ERcEykfu11Y98lp/T7+hdri+uKZK8TKWEqNyiHySGSa9k9xmwdNnzHHXDaJPScXyVH"
 X-RZG-CLASS-ID: mo00
 Received: from positron.chronox.de
         by smtp.strato.de (RZmta 46.10.7 DYNA|AUTH)
-        with ESMTPSA id 002e9aw8IA0B2T7
+        with ESMTPSA id 002e9aw8IA0A2T4
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
         (Client did not present a certificate);
-        Fri, 18 Sep 2020 12:00:11 +0200 (CEST)
+        Fri, 18 Sep 2020 12:00:10 +0200 (CEST)
 From:   Stephan =?ISO-8859-1?Q?M=FCller?= <smueller@chronox.de>
 To:     Arnd Bergmann <arnd@arndb.de>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -57,9 +57,9 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Julia Lawall <julia.lawall@inria.fr>,
         Dan Carpenter <dan.carpenter@oracle.com>,
         Andy Lavr <andy.lavr@gmail.com>, ebiggers@kernel.org
-Subject: [PATCH v35 08/13] LRNG - add kernel crypto API PRNG extension
-Date:   Fri, 18 Sep 2020 11:51:03 +0200
-Message-ID: <7176488.EvYhyI6sBW@positron.chronox.de>
+Subject: [PATCH v35 09/13] crypto: provide access to a static Jitter RNG state
+Date:   Fri, 18 Sep 2020 11:51:25 +0200
+Message-ID: <3352123.iIbC2pHGDl@positron.chronox.de>
 In-Reply-To: <5667034.lOV4Wx5bFT@positron.chronox.de>
 References: <2544450.mvXUDI8C0e@positron.chronox.de> <5532247.MhkbZ0Pkbq@positron.chronox.de> <5667034.lOV4Wx5bFT@positron.chronox.de>
 MIME-Version: 1.0
@@ -69,18 +69,12 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Add runtime-pluggable support for all PRNGs that are accessible via
-the kernel crypto API, including hardware PRNGs. The PRNG is selected
-with the module parameter drng_name where the name must be one that the
-kernel crypto API can resolve into an RNG.
-
-This allows using of the kernel crypto API PRNG implementations that
-provide an interface to hardware PRNGs. Using this extension,
-the LRNG uses the hardware PRNGs to generate random numbers. An
-example is the S390 CPACF support providing such a PRNG.
-
-The hash is provided by a kernel crypto API SHASH whose digest size
-complies with the seedsize of the PRNG.
+To support the LRNG operation which uses the Jitter RNG separately
+from the kernel crypto API, at a time where potentially the regular
+memory management is not yet initialized, the Jitter RNG needs to
+provide a state whose memory is defined at compile time. As only once
+instance will ever be needed by the LRNG, define once static memory
+block which is solely to be used by the LRNG.
 
 CC: "Eric W. Biederman" <ebiederm@xmission.com>
 CC: "Alexander E. Patrakov" <patrakov@gmail.com>
@@ -98,292 +92,97 @@ CC: Andy Lutomirski <luto@kernel.org>
 CC: Florian Weimer <fweimer@redhat.com>
 CC: Lennart Poettering <mzxreary@0pointer.de>
 CC: Nicolai Stange <nstange@suse.de>
-Reviewed-by: Marcelo Henrique Cerri <marcelo.cerri@canonical.com>
 Reviewed-by: Roman Drahtmueller <draht@schaltsekun.de>
 Tested-by: Roman Drahtm=FCller <draht@schaltsekun.de>
 Tested-by: Marcelo Henrique Cerri <marcelo.cerri@canonical.com>
 Tested-by: Neil Horman <nhorman@redhat.com>
 Signed-off-by: Stephan Mueller <smueller@chronox.de>
 =2D--
- drivers/char/lrng/Kconfig      |  13 ++
- drivers/char/lrng/Makefile     |   1 +
- drivers/char/lrng/lrng_kcapi.c | 228 +++++++++++++++++++++++++++++++++
- 3 files changed, 242 insertions(+)
- create mode 100644 drivers/char/lrng/lrng_kcapi.c
+ crypto/jitterentropy-kcapi.c                  |  3 +-
+ crypto/jitterentropy.c                        | 31 ++++++++++++++++++-
+ .../crypto/internal}/jitterentropy.h          |  3 ++
+ 3 files changed, 34 insertions(+), 3 deletions(-)
+ rename {crypto =3D> include/crypto/internal}/jitterentropy.h (84%)
 
-diff --git a/drivers/char/lrng/Kconfig b/drivers/char/lrng/Kconfig
-index a3c4cd153f35..af487b3391e0 100644
-=2D-- a/drivers/char/lrng/Kconfig
-+++ b/drivers/char/lrng/Kconfig
-@@ -91,6 +91,19 @@ config LRNG_DRBG
- 	  Enable the SP800-90A DRBG support for the LRNG. Once the
- 	  module is loaded, output from /dev/random, /dev/urandom,
- 	  getrandom(2), or get_random_bytes_full is provided by a DRBG.
-+
-+config LRNG_KCAPI
-+	tristate "Kernel Crypto API support for the LRNG"
-+	depends on CRYPTO
-+	depends on !LRNG_DRBG
-+	select CRYPTO_RNG
-+	select LRNG_KCAPI_HASH
-+	help
-+	  Enable the support for generic pseudo-random number
-+	  generators offered by the kernel crypto API with the
-+	  LRNG. Once the module is loaded, output from /dev/random,
-+	  /dev/urandom, getrandom(2), or get_random_bytes is
-+	  provided by the selected kernel crypto API RNG.
- endif # LRNG_DRNG_SWITCH
+diff --git a/crypto/jitterentropy-kcapi.c b/crypto/jitterentropy-kcapi.c
+index eb7d1dd506bf..25a192f5984e 100644
+=2D-- a/crypto/jitterentropy-kcapi.c
++++ b/crypto/jitterentropy-kcapi.c
+@@ -43,8 +43,7 @@
+ #include <linux/time.h>
+ #include <linux/crypto.h>
+ #include <crypto/internal/rng.h>
+=2D
+=2D#include "jitterentropy.h"
++#include <crypto/internal/jitterentropy.h>
 =20
- endif # LRNG
-diff --git a/drivers/char/lrng/Makefile b/drivers/char/lrng/Makefile
-index 6ebd252db12f..97d2b13d3227 100644
-=2D-- a/drivers/char/lrng/Makefile
-+++ b/drivers/char/lrng/Makefile
-@@ -13,3 +13,4 @@ obj-$(CONFIG_SYSCTL)		+=3D lrng_proc.o
- obj-$(CONFIG_LRNG_DRNG_SWITCH)	+=3D lrng_switch.o
- obj-$(CONFIG_LRNG_KCAPI_HASH)	+=3D lrng_kcapi_hash.o
- obj-$(CONFIG_LRNG_DRBG)		+=3D lrng_drbg.o
-+obj-$(CONFIG_LRNG_KCAPI)	+=3D lrng_kcapi.o
-diff --git a/drivers/char/lrng/lrng_kcapi.c b/drivers/char/lrng/lrng_kcapi.c
-new file mode 100644
-index 000000000000..197dc84552e9
-=2D-- /dev/null
-+++ b/drivers/char/lrng/lrng_kcapi.c
-@@ -0,0 +1,228 @@
-+// SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
-+/*
-+ * Backend for the LRNG providing the cryptographic primitives using the
-+ * kernel crypto API.
-+ *
-+ * Copyright (C) 2018 - 2020, Stephan Mueller <smueller@chronox.de>
-+ */
+ /*************************************************************************=
+**
+  * Helper function
+diff --git a/crypto/jitterentropy.c b/crypto/jitterentropy.c
+index 6e147c43fc18..fa1459f09b01 100644
+=2D-- a/crypto/jitterentropy.c
++++ b/crypto/jitterentropy.c
+@@ -117,7 +117,7 @@ struct rand_data {
+ #define JENT_EHEALTH		9 /* Health test failed during initialization */
+ #define JENT_ERCT		10 /* RCT failed during initialization */
+=20
+=2D#include "jitterentropy.h"
++#include <crypto/internal/jitterentropy.h>
+=20
+ /*************************************************************************=
+**
+  * Adaptive Proportion Test
+@@ -854,3 +854,32 @@ int jent_entropy_init(void)
+=20
+ 	return 0;
+ }
 +
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-+
-+#include <crypto/hash.h>
-+#include <crypto/rng.h>
-+#include <linux/init.h>
-+#include <linux/module.h>
-+#include <linux/lrng.h>
-+
-+#include "lrng_kcapi_hash.h"
-+
-+static char *drng_name =3D NULL;
-+module_param(drng_name, charp, 0444);
-+MODULE_PARM_DESC(drng_name, "Kernel crypto API name of DRNG");
-+
-+static char *pool_hash =3D "sha512";
-+module_param(pool_hash, charp, 0444);
-+MODULE_PARM_DESC(pool_hash,
-+		 "Kernel crypto API name of hash or keyed message digest to read the ent=
-ropy pool");
-+
-+static char *seed_hash =3D NULL;
-+module_param(seed_hash, charp, 0444);
-+MODULE_PARM_DESC(seed_hash,
-+		 "Kernel crypto API name of hash with output size equal to seedsize of D=
-RNG to bring seed string to the size required by the DRNG");
-+
-+struct lrng_drng_info {
-+	struct crypto_rng *kcapi_rng;
-+	void *lrng_hash;
-+};
-+
-+static void *lrng_kcapi_drng_hash_alloc(void)
++struct rand_data *jent_lrng_entropy_collector(void)
 +{
-+	return lrng_kcapi_hash_alloc(pool_hash);
++	static unsigned char lrng_jent_mem[JENT_MEMORY_SIZE];
++	static struct rand_data lrng_jent_state =3D {
++		.data		=3D 0,
++		.old_data	=3D 0,
++		.prev_time	=3D 0,
++		.last_delta	=3D 0,
++		.last_delta2	=3D 0,
++		.osr		=3D 1,
++		.mem		=3D lrng_jent_mem,
++		.memlocation	=3D 0,
++		.memblocks	=3D JENT_MEMORY_BLOCKSIZE,
++		.memblocksize	=3D JENT_MEMORY_BLOCKS,
++		.memaccessloops	=3D JENT_MEMORY_ACCESSLOOPS,
++		.rct_count	=3D 0,
++		.apt_observations =3D 0,
++		.apt_count	=3D 0,
++		.apt_base	=3D 0,
++		.apt_base_set	=3D 0,
++		.health_failure =3D 0
++	};
++
++	if (jent_entropy_init())
++		return NULL;
++
++	return &lrng_jent_state;
 +}
+diff --git a/crypto/jitterentropy.h b/include/crypto/internal/jitterentropy=
+=2Eh
+similarity index 84%
+rename from crypto/jitterentropy.h
+rename to include/crypto/internal/jitterentropy.h
+index c83fff32d130..6e07d86eac82 100644
+=2D-- a/crypto/jitterentropy.h
++++ b/include/crypto/internal/jitterentropy.h
+@@ -15,3 +15,6 @@ extern int jent_read_entropy(struct rand_data *ec, unsign=
+ed char *data,
+ extern struct rand_data *jent_entropy_collector_alloc(unsigned int osr,
+ 						      unsigned int flags);
+ extern void jent_entropy_collector_free(struct rand_data *entropy_collecto=
+r);
 +
-+static int lrng_kcapi_drng_seed_helper(void *drng, const u8 *inbuf,
-+				       u32 inbuflen)
-+{
-+	SHASH_DESC_ON_STACK(shash, NULL);
-+	struct lrng_drng_info *lrng_drng_info =3D (struct lrng_drng_info *)drng;
-+	struct crypto_rng *kcapi_rng =3D lrng_drng_info->kcapi_rng;
-+	void *hash =3D lrng_drng_info->lrng_hash;
-+	u32 digestsize =3D lrng_kcapi_hash_digestsize(hash);
-+	u8 digest[64] __aligned(8);
-+	int ret;
-+
-+	if (!hash)
-+		return crypto_rng_reset(kcapi_rng, inbuf, inbuflen);
-+
-+	BUG_ON(digestsize > sizeof(digest));
-+
-+	ret =3D lrng_kcapi_hash_init(shash, hash) ?:
-+	      lrng_kcapi_hash_update(shash, inbuf, inbuflen) ?:
-+	      lrng_kcapi_hash_final(shash, digest);
-+	if (ret)
-+		return ret;
-+
-+	ret =3D crypto_rng_reset(kcapi_rng, digest, digestsize);
-+	if (ret)
-+		return ret;
-+
-+	memzero_explicit(digest, digestsize);
-+	return 0;
-+}
-+
-+static int lrng_kcapi_drng_generate_helper(void *drng, u8 *outbuf,
-+					   u32 outbuflen)
-+{
-+	struct lrng_drng_info *lrng_drng_info =3D (struct lrng_drng_info *)drng;
-+	struct crypto_rng *kcapi_rng =3D lrng_drng_info->kcapi_rng;
-+	int ret =3D crypto_rng_get_bytes(kcapi_rng, outbuf, outbuflen);
-+
-+	if (ret < 0)
-+		return ret;
-+
-+	return outbuflen;
-+}
-+
-+static void *lrng_kcapi_drng_alloc(u32 sec_strength)
-+{
-+	struct lrng_drng_info *lrng_drng_info;
-+	struct crypto_rng *kcapi_rng;
-+	int seedsize;
-+	void *ret =3D  ERR_PTR(-ENOMEM);
-+
-+	if (!drng_name) {
-+		pr_err("DRNG name missing\n");
-+		return ERR_PTR(-EINVAL);
-+	}
-+
-+	if (!memcmp(drng_name, "drbg", 4)) {
-+		pr_err("SP800-90A DRBG cannot be allocated using lrng_kcapi backend, use=
- lrng_drbg backend instead\n");
-+		return ERR_PTR(-EINVAL);
-+	}
-+
-+	if (!memcmp(drng_name, "stdrng", 6)) {
-+		pr_err("stdrng cannot be allocated using lrng_kcapi backend, it is too u=
-nspecific and potentially may allocate the DRBG\n");
-+		return ERR_PTR(-EINVAL);
-+	}
-+
-+	lrng_drng_info =3D kmalloc(sizeof(*lrng_drng_info), GFP_KERNEL);
-+	if (!lrng_drng_info)
-+		return ERR_PTR(-ENOMEM);
-+
-+	kcapi_rng =3D crypto_alloc_rng(drng_name, 0, 0);
-+	if (IS_ERR(kcapi_rng)) {
-+		pr_err("DRNG %s cannot be allocated\n", drng_name);
-+		ret =3D ERR_CAST(kcapi_rng);
-+		goto free;
-+	}
-+	lrng_drng_info->kcapi_rng =3D kcapi_rng;
-+
-+	seedsize =3D  crypto_rng_seedsize(kcapi_rng);
-+
-+	if (sec_strength > seedsize)
-+		pr_info("Seedsize DRNG (%u bits) lower than security strength of LRNG no=
-ise source (%u bits)\n",
-+			crypto_rng_seedsize(kcapi_rng) * 8, sec_strength * 8);
-+
-+	if (seedsize) {
-+		void *lrng_hash;
-+
-+		if (!seed_hash) {
-+			switch (seedsize) {
-+			case 32:
-+				seed_hash =3D "sha256";
-+				break;
-+			case 48:
-+				seed_hash =3D "sha384";
-+				break;
-+			case 64:
-+				seed_hash =3D "sha512";
-+				break;
-+			default:
-+				pr_err("Seed size %d cannot be processed\n",
-+				       seedsize);
-+				goto dealloc;
-+			}
-+		}
-+
-+		lrng_hash =3D lrng_kcapi_hash_alloc(seed_hash);
-+		if (IS_ERR(lrng_hash)) {
-+			ret =3D ERR_CAST(lrng_hash);
-+			goto dealloc;
-+		}
-+
-+		if (seedsize !=3D lrng_kcapi_hash_digestsize(lrng_hash)) {
-+			pr_err("Seed hash output size not equal to DRNG seed size\n");
-+			lrng_kcapi_hash_dealloc(lrng_hash);
-+			ret =3D ERR_PTR(-EINVAL);
-+			goto dealloc;
-+		}
-+
-+		lrng_drng_info->lrng_hash =3D lrng_hash;
-+
-+		pr_info("Seed hash %s allocated\n", seed_hash);
-+	} else {
-+		lrng_drng_info->lrng_hash =3D NULL;
-+	}
-+
-+	pr_info("Kernel crypto API DRNG %s allocated\n", drng_name);
-+
-+	return lrng_drng_info;
-+
-+dealloc:
-+	crypto_free_rng(kcapi_rng);
-+free:
-+	kfree(lrng_drng_info);
-+	return ret;
-+}
-+
-+static void lrng_kcapi_drng_dealloc(void *drng)
-+{
-+	struct lrng_drng_info *lrng_drng_info =3D (struct lrng_drng_info *)drng;
-+	struct crypto_rng *kcapi_rng =3D lrng_drng_info->kcapi_rng;
-+
-+	crypto_free_rng(kcapi_rng);
-+	if (lrng_drng_info->lrng_hash)
-+		lrng_kcapi_hash_dealloc(lrng_drng_info->lrng_hash);
-+	kfree(lrng_drng_info);
-+	pr_info("DRNG %s deallocated\n", drng_name);
-+}
-+
-+static const char *lrng_kcapi_drng_name(void)
-+{
-+	return drng_name;
-+}
-+
-+static const char *lrng_kcapi_pool_hash(void)
-+{
-+	return pool_hash;
-+}
-+
-+static const struct lrng_crypto_cb lrng_kcapi_crypto_cb =3D {
-+	.lrng_drng_name			=3D lrng_kcapi_drng_name,
-+	.lrng_hash_name			=3D lrng_kcapi_pool_hash,
-+	.lrng_drng_alloc		=3D lrng_kcapi_drng_alloc,
-+	.lrng_drng_dealloc		=3D lrng_kcapi_drng_dealloc,
-+	.lrng_drng_seed_helper		=3D lrng_kcapi_drng_seed_helper,
-+	.lrng_drng_generate_helper	=3D lrng_kcapi_drng_generate_helper,
-+	.lrng_hash_alloc		=3D lrng_kcapi_drng_hash_alloc,
-+	.lrng_hash_dealloc		=3D lrng_kcapi_hash_dealloc,
-+	.lrng_hash_digestsize		=3D lrng_kcapi_hash_digestsize,
-+	.lrng_hash_init			=3D lrng_kcapi_hash_init,
-+	.lrng_hash_update		=3D lrng_kcapi_hash_update,
-+	.lrng_hash_final		=3D lrng_kcapi_hash_final,
-+};
-+
-+static int __init lrng_kcapi_init(void)
-+{
-+	return lrng_set_drng_cb(&lrng_kcapi_crypto_cb);
-+}
-+static void __exit lrng_kcapi_exit(void)
-+{
-+	lrng_set_drng_cb(NULL);
-+}
-+
-+late_initcall(lrng_kcapi_init);
-+module_exit(lrng_kcapi_exit);
-+MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_AUTHOR("Stephan Mueller <smueller@chronox.de>");
-+MODULE_DESCRIPTION("Linux Random Number Generator - kernel crypto API DRNG=
- backend");
++/* Access to statically allocated Jitter RNG instance */
++extern struct rand_data *jent_lrng_entropy_collector(void);
 =2D-=20
 2.26.2
 
