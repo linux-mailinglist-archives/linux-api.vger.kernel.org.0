@@ -2,120 +2,116 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D062F27095C
-	for <lists+linux-api@lfdr.de>; Sat, 19 Sep 2020 02:12:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4740427160B
+	for <lists+linux-api@lfdr.de>; Sun, 20 Sep 2020 18:50:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726185AbgISAME (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 18 Sep 2020 20:12:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51978 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726064AbgISAME (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 18 Sep 2020 20:12:04 -0400
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 66859235F9
-        for <linux-api@vger.kernel.org>; Sat, 19 Sep 2020 00:12:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600474323;
-        bh=etjZlYYd1IIPDO1NfKNkztbf4goZGkm6DYQVvva74MI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=L7h6oG+UCIlVAj7i6PyxRQf7m9hC/1jmn3wsGAiTRhuPMAOQbzjvfwU1eUsohup7x
-         nsEMlDfmILL1Qv9F7HCx4sxrvxUj9AqhKo2z0RWVDQolq2dDHte4dIn/vts80Gz3rj
-         iLjVZ1Ydk2VK8jPEt1IyztAW9dwtHXaJ1tj9YxRE=
-Received: by mail-wm1-f54.google.com with SMTP id l15so7681324wmh.1
-        for <linux-api@vger.kernel.org>; Fri, 18 Sep 2020 17:12:03 -0700 (PDT)
-X-Gm-Message-State: AOAM532MWa8lDmgFS6QqnF1+4IXmWN6V/8gnA9atsye10qlsEadHvUCA
-        jJLFlKqWyYdYsEJeFE1crY4/SXsG0udV65l9TdcysA==
-X-Google-Smtp-Source: ABdhPJxmOMUD3oJeWUBWSi+Yvq5YFeJEC+DLVGlDfJl03Mlbg5VJuyOxaSuU065pkOCJwFJ0EmxFOn3UVUdyN4X8nu8=
-X-Received: by 2002:a05:600c:4104:: with SMTP id j4mr17372943wmi.36.1600474321906;
- Fri, 18 Sep 2020 17:12:01 -0700 (PDT)
+        id S1726305AbgITQuv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 20 Sep 2020 12:50:51 -0400
+Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.52]:27719 "EHLO
+        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726267AbgITQuv (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 20 Sep 2020 12:50:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1600620646;
+        s=strato-dkim-0002; d=chronox.de;
+        h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+        bh=OLR7KLlF/JzCb7U35Y0Ov3zt4ftoGTUVmg0q5c2S7X8=;
+        b=AXFBj5iFdqqm2RyFxhGonh9KuIog7gpzd7oaPSl1w8CkWElzaVeCsBCICZ+z+XMJeG
+        7hhZLAm+6EPVdJX9KWP4wZqCOtWI3wwtY6fOU+bXUu1iU/JtPtzYfG14W+49PKHPs2+u
+        chCNqeEc0xVwmsJmUyiHFv6Ox9ap6wzNP+45tpLrPsaq/MTryqW6yrGB/qYAtBit9Xl5
+        S2V6Zi6z1Z2zMU8ZigqgIWgg3W8qVZbHVquuI4cwGTu0M637bJN7B0RygsU+9WCYxeDe
+        TIDTSQhvz4WjbwbEep4lv9kp/ZQnuRs2mAYXQvujn1aOd52pOMt4ltHviU2VGrALvpnk
+        aJ/Q==
+X-RZG-AUTH: ":P2ERcEykfu11Y98lp/T7+hdri+uKZK8TKWEqNyiHySGSa9k9xmwdNnzGHXPbI/Sa6ro="
+X-RZG-CLASS-ID: mo00
+Received: from tauon.chronox.de
+        by smtp.strato.de (RZmta 46.10.7 DYNA|AUTH)
+        with ESMTPSA id 002e9aw8KGnwCmn
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+        (Client did not present a certificate);
+        Sun, 20 Sep 2020 18:49:58 +0200 (CEST)
+From:   Stephan Mueller <smueller@chronox.de>
+To:     Arnd Bergmann <arnd@arndb.de>, kernel test robot <lkp@intel.com>
+Cc:     kbuild-all@lists.01.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-crypto@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        linux-api@vger.kernel.org,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "Alexander E. Patrakov" <patrakov@gmail.com>,
+        "Ahmed S. Darwish" <darwish.07@gmail.com>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>, Willy Tarreau <w@1wt.eu>
+Subject: Re: [PATCH v35 01/13] Linux Random Number Generator
+Date:   Sun, 20 Sep 2020 18:49:57 +0200
+Message-ID: <4146830.tdWV9SEqCh@tauon.chronox.de>
+In-Reply-To: <202009182001.I8MjZZ8x%lkp@intel.com>
+References: <4288186.LvFx2qVVIh@positron.chronox.de> <202009182001.I8MjZZ8x%lkp@intel.com>
 MIME-Version: 1.0
-References: <20200918192312.25978-1-yu-cheng.yu@intel.com> <20200918192312.25978-9-yu-cheng.yu@intel.com>
-In-Reply-To: <20200918192312.25978-9-yu-cheng.yu@intel.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Fri, 18 Sep 2020 17:11:50 -0700
-X-Gmail-Original-Message-ID: <CALCETrXfixDGJhf0yPw-OckjEdeF2SbYjWFm8VbLriiP0Krhrg@mail.gmail.com>
-Message-ID: <CALCETrXfixDGJhf0yPw-OckjEdeF2SbYjWFm8VbLriiP0Krhrg@mail.gmail.com>
-Subject: Re: [PATCH v12 8/8] x86: Disallow vsyscall emulation when CET is enabled
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Sep 18, 2020 at 12:23 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->
-> Emulation of the legacy vsyscall page is required by some programs
-> built before 2013.  Newer programs after 2013 don't use it.
-> Disable vsyscall emulation when Control-flow Enforcement (CET) is
-> enabled to enhance security.
->
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> ---
-> v12:
-> - Disable vsyscall emulation only when it is attempted (vs. at compile time).
->
->  arch/x86/entry/vsyscall/vsyscall_64.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
->
-> diff --git a/arch/x86/entry/vsyscall/vsyscall_64.c b/arch/x86/entry/vsyscall/vsyscall_64.c
-> index 44c33103a955..3196e963e365 100644
-> --- a/arch/x86/entry/vsyscall/vsyscall_64.c
-> +++ b/arch/x86/entry/vsyscall/vsyscall_64.c
-> @@ -150,6 +150,15 @@ bool emulate_vsyscall(unsigned long error_code,
->
->         WARN_ON_ONCE(address != regs->ip);
->
-> +#ifdef CONFIG_X86_INTEL_CET
-> +       if (current->thread.cet.shstk_size ||
-> +           current->thread.cet.ibt_enabled) {
-> +               warn_bad_vsyscall(KERN_INFO, regs,
-> +                                 "vsyscall attempted with cet enabled");
-> +               return false;
-> +       }
+Am Freitag, 18. September 2020, 15:02:17 CEST schrieb kernel test robot:
 
-Nope, try again.  Having IBT on does *not* mean that every library in
-the process knows that we have indirect branch tracking.  The legacy
-bitmap exists for a reason.  Also, I want a way to flag programs as
-not using the vsyscall page, but that flag should not be called CET.
-And a process with vsyscalls off should not be able to read the
-vsyscall page, and /proc/self/maps should be correct.
+Hi,
 
-So you have some choices:
+> All errors (new ones prefixed by >>):
+> >> drivers/char/lrng/lrng_chacha20.c:33:8: error: structure variable
+> >> 'chacha20' with 'latent_entropy' attribute has a non-integer field
+> >> 'block'
+>       33 | struct chacha20_state chacha20 __latent_entropy;
+> 
+>          |        ^~~~~~~~~~~~~~
+> 
+> #
+> https://github.com/0day-ci/linux/commit/ecb964754fd80cca434d6d2ad6db8f28a15
+> 92fa1 git remote add linux-review https://github.com/0day-ci/linux
+> git fetch --no-tags linux-review
+> Stephan-M-ller/dev-random-a-new-approach/20200918-181505 git checkout
+> ecb964754fd80cca434d6d2ad6db8f28a1592fa1
+> vim +33 drivers/char/lrng/lrng_chacha20.c
+> 
+>     27
+>     28	/*
+>     29	 * Have a static memory blocks for the ChaCha20 DRNG instance to
+> avoid calling 30	 * kmalloc too early in the boot cycle. For 
+subsequent
+> allocation requests, 31	 * such as per-NUMA-node DRNG instances, 
+kmalloc
+> will be used. 32	 */
+> 
+>   > 33	struct chacha20_state chacha20 __latent_entropy;
 
-1. Drop this patch and make it work.
+I do not think this report is valid. The following definitions apply:
 
-2. Add a real per-process vsyscall control.  Either make it depend on
-vsyscall=xonly and wire it up correctly or actually make it work
-correctly with vsyscall=emulate.
+struct chacha20_state {
+        struct chacha20_block block;
+};
 
-NAK to any hacks in this space.  Do it right or don't do it at all.
+struct chacha20_block {
+        u32 constants[4];
+        union {
+#define CHACHA_KEY_SIZE_WORDS (CHACHA_KEY_SIZE / sizeof(u32))
+                u32 u[CHACHA_KEY_SIZE_WORDS];
+                u8  b[CHACHA_KEY_SIZE];
+        } key;
+        u32 counter;
+        u32 nonce[3];
+};
+
+
+This implies that struct chacha20_state and thus the chacha20 variable is a 
+linear buffer with in total 4 + 8 + 1 + 3  = 16 32-bit integers which are at 
+least aligned on a 32-bit boundary and are designated as u32 integers.
+
+Please let me know if I need to make a tweak to the definitions to convince 
+the code analyzer it is a flat linear buffer consisting of integers and thus 
+to understand the structure correctly.
+
+Thanks a lot.
+
+Ciao
+Stephan
+
+
