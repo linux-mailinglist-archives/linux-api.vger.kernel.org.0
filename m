@@ -2,342 +2,149 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 207F6273146
-	for <lists+linux-api@lfdr.de>; Mon, 21 Sep 2020 19:55:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9BD82735CD
+	for <lists+linux-api@lfdr.de>; Tue, 22 Sep 2020 00:31:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727630AbgIURzn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 21 Sep 2020 13:55:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45178 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727534AbgIURzn (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 21 Sep 2020 13:55:43 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 536C3C061755;
-        Mon, 21 Sep 2020 10:55:43 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id f2so9705572pgd.3;
-        Mon, 21 Sep 2020 10:55:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=qJvUV/ZOl5BC2PLiKGGB8lltWoSv68/dQ80XBoidpxw=;
-        b=gXUGK058qlUtWe2n2PHDtsH3SQ8KxKbdgW1zrQ7FnQZUsuSRmenroG2zh0YKpRDXJZ
-         Rf5fviou19jex1Zn2U133JPbz5mY7BuxAnVOsukLoXSc9kdgjoLCoWQ5LPMz0t2uiCgU
-         nqCzExCVn3BQuEvoQCiQa4Ff4RDc16rW9kFdhxiKd9ZXTZl28dkAuPwlD7mE9TPIkJjP
-         6BlJCJjstJ8VW6+WHpa1vEFCfTW1OuHxs6hptCngniXaT3dLryyqcgYtFfIV/S4zSu7Q
-         bwCWIZUJG3QQascK6ZSLgu/yw7gsrVQUkC7XPaH/5c5NHUa9KfmyCEndl6ibycF9upWP
-         4rvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=qJvUV/ZOl5BC2PLiKGGB8lltWoSv68/dQ80XBoidpxw=;
-        b=lrhokf3e6T+HGQnijyTrFSTi0a5Q8EuDlNQLf+i0OyekxMOJ0hR8ZOMF5iVxAw+fy3
-         zbb2uLFNBtsnvu1oY9XQuUiLoduWH6u7eHdkAeatp5aBEOQkjrRHL9Fzyx7wq1gzKeHT
-         DdRIlDj/SKhdFlVww48lEm8GFUbxMmxBAHkJ62wQ1ewZyExPYxPcpeZ3P6kMPIg4xR6v
-         XfSBpdxBbuRmSENOkSo1DKD9LZ+ai9/xAHrAkR53cPhcIFmFHJFtdFEv8aGn8wcFMlQ1
-         14Q4wKKxgz9SsGFMziUdI2/bjpg92EKPfAFRaif0liCfvCW23K8rK9Dru4MpxuTAVBPN
-         LQfg==
-X-Gm-Message-State: AOAM533fYouLooIGewa8pn4iksvc1/PsBuPiLws2v0JgiG+lsqX1jMFM
-        SvQiVnMmsxFPmVBqVdv4rlo=
-X-Google-Smtp-Source: ABdhPJwD0j76vWtv33Cc1/OzRKVsHaKhbghjvH2Xt/yyjEmum7e5KqJJsDsWFpImwDLAo/Y0dQv8XQ==
-X-Received: by 2002:a63:f615:: with SMTP id m21mr624271pgh.154.1600710942737;
-        Mon, 21 Sep 2020 10:55:42 -0700 (PDT)
-Received: from google.com ([2620:15c:211:1:7220:84ff:fe09:5e58])
-        by smtp.gmail.com with ESMTPSA id e17sm12347576pff.6.2020.09.21.10.55.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2020 10:55:41 -0700 (PDT)
-Sender: Minchan Kim <minchan.kim@gmail.com>
-Date:   Mon, 21 Sep 2020 10:55:39 -0700
-From:   Minchan Kim <minchan@kernel.org>
-To:     Christoph Hellwig <hch@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
-        oleksandr@redhat.com, Suren Baghdasaryan <surenb@google.com>,
-        Tim Murray <timmurray@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        John Dias <joaodias@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jann Horn <jannh@google.com>,
-        alexander.h.duyck@linux.intel.com, sj38.park@gmail.com,
-        David Rientjes <rientjes@google.com>,
-        Arjun Roy <arjunroy@google.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Christian Brauner <christian@brauner.io>,
-        Daniel Colascione <dancol@google.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        Kirill Tkhai <ktkhai@virtuozzo.com>,
-        SeongJae Park <sjpark@amazon.de>, linux-man@vger.kernel.org
-Subject: Re: [PATCH v9 3/3] mm/madvise: introduce process_madvise() syscall:
- an external memory hinting API
-Message-ID: <20200921175539.GB387368@google.com>
-References: <20200901000633.1920247-1-minchan@kernel.org>
- <20200901000633.1920247-4-minchan@kernel.org>
- <20200921065633.GA8070@infradead.org>
+        id S1728458AbgIUWbK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 21 Sep 2020 18:31:10 -0400
+Received: from mga06.intel.com ([134.134.136.31]:58094 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726467AbgIUWbJ (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 21 Sep 2020 18:31:09 -0400
+IronPort-SDR: VeVNtURqeGX/xM9Q1QURQfXIgQnuKVaM2uqv/KPa+uYonOBwlVT19SSNVS+WnXR9s+Lly6TJ2L
+ 9RlmlaV9EZ9g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9751"; a="222082760"
+X-IronPort-AV: E=Sophos;i="5.77,288,1596524400"; 
+   d="scan'208";a="222082760"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2020 15:31:08 -0700
+IronPort-SDR: 5R1SQoNcWLlKqNjxwtPEh8x6viFzeqqQMSnvUtxSvUDhsjtdZBpyPsKbBfiWbuG2Wbb8jGUb+n
+ /N8qJ38F82EA==
+X-IronPort-AV: E=Sophos;i="5.77,288,1596524400"; 
+   d="scan'208";a="290176507"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.102.78]) ([10.212.102.78])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2020 15:31:07 -0700
+Subject: Re: [PATCH v12 1/8] x86/cet/ibt: Add Kconfig option for user-mode
+ Indirect Branch Tracking
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+References: <20200918192312.25978-1-yu-cheng.yu@intel.com>
+ <20200918192312.25978-2-yu-cheng.yu@intel.com>
+ <ce2524cc-081b-aec9-177a-11c7431cb20d@infradead.org>
+ <20200918205933.GB4304@duo.ucw.cz>
+ <019b5e45-b116-7f3d-f1f2-3680afbd676c@intel.com>
+ <20200918214020.GF4304@duo.ucw.cz>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <c2b5d697-634d-a5cb-2728-cead44a221c9@intel.com>
+Date:   Mon, 21 Sep 2020 15:30:46 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200921065633.GA8070@infradead.org>
+In-Reply-To: <20200918214020.GF4304@duo.ucw.cz>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Sep 21, 2020 at 07:56:33AM +0100, Christoph Hellwig wrote:
-> On Mon, Aug 31, 2020 at 05:06:33PM -0700, Minchan Kim wrote:
-> > There is usecase that System Management Software(SMS) want to give a
-> > memory hint like MADV_[COLD|PAGEEOUT] to other processes and in the
-> > case of Android, it is the ActivityManagerService.
-> > 
-> > The information required to make the reclaim decision is not known to
-> > the app.  Instead, it is known to the centralized userspace
-> > daemon(ActivityManagerService), and that daemon must be able to
-> > initiate reclaim on its own without any app involvement.
-> > 
-> > To solve the issue, this patch introduces a new syscall process_madvise(2).
-> > It uses pidfd of an external process to give the hint. It also supports
-> > vector address range because Android app has thousands of vmas due to
-> > zygote so it's totally waste of CPU and power if we should call the
-> > syscall one by one for each vma.(With testing 2000-vma syscall vs
-> > 1-vector syscall, it showed 15% performance improvement.  I think it
-> > would be bigger in real practice because the testing ran very cache
-> > friendly environment).
+On 9/18/2020 2:40 PM, Pavel Machek wrote:
+> On Fri 2020-09-18 14:25:12, Yu, Yu-cheng wrote:
+>> On 9/18/2020 1:59 PM, Pavel Machek wrote:
+>>> On Fri 2020-09-18 13:24:13, Randy Dunlap wrote:
+>>>> Hi,
+>>>>
+>>>> If you do another version of this:
+>>>>
+>>>> On 9/18/20 12:23 PM, Yu-cheng Yu wrote:
+>>>>> Introduce Kconfig option X86_INTEL_BRANCH_TRACKING_USER.
+>>>>>
+>>>>> Indirect Branch Tracking (IBT) provides protection against CALL-/JMP-
+>>>>> oriented programming attacks.  It is active when the kernel has this
+>>>>> feature enabled, and the processor and the application support it.
+>>>>> When this feature is enabled, legacy non-IBT applications continue to
+>>>>> work, but without IBT protection.
+>>>>>
+>>>>> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+>>>>> ---
+>>>>> v10:
+>>>>> - Change build-time CET check to config depends on.
+>>>>>
+>>>>>    arch/x86/Kconfig | 16 ++++++++++++++++
+>>>>>    1 file changed, 16 insertions(+)
+>>>>>
+>>>>> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+>>>>> index 6b6dad011763..b047e0a8d1c2 100644
+>>>>> --- a/arch/x86/Kconfig
+>>>>> +++ b/arch/x86/Kconfig
+>>>>> @@ -1963,6 +1963,22 @@ config X86_INTEL_SHADOW_STACK_USER
+>>>>>    	  If unsure, say y.
+>>>>> +config X86_INTEL_BRANCH_TRACKING_USER
+>>>>> +	prompt "Intel Indirect Branch Tracking for user-mode"
+>>>>> +	def_bool n
+>>>>> +	depends on CPU_SUP_INTEL && X86_64
+>>>>> +	depends on $(cc-option,-fcf-protection)
+>>>>> +	select X86_INTEL_CET
+>>>>> +	help
+>>>>> +	  Indirect Branch Tracking (IBT) provides protection against
+>>>>> +	  CALL-/JMP-oriented programming attacks.  It is active when
+>>>>> +	  the kernel has this feature enabled, and the processor and
+>>>>> +	  the application support it.  When this feature is enabled,
+>>>>> +	  legacy non-IBT applications continue to work, but without
+>>>>> +	  IBT protection.
+>>>>> +
+>>>>> +	  If unsure, say y
+>>>>
+>>>> 	  If unsure, say y.
+>>>
+>>> Actually, it would be "If unsure, say Y.", to be consistent with the
+>>> rest of the Kconfig.
+>>>
+>>> But I wonder if Yes by default is good idea. Only very new CPUs will
+>>> support this, right? Are they even available at the market? Should the
+>>> help text say "if your CPU is Whatever Lake or newer, ...." :-) ?
+>>
+>> I will revise the wording if there is another version.  But a CET-capable
+>> kernel can run on legacy systems.  We have been testing that combination.
 > 
-> I'm really not sure this syscall is a good idea.  If you want central
-> control you should implement an IPC mechanisms that allows your
-> supervisor daemon to tell the application to perform the madvice
-> instead of forcing the behavior on it.
+> Yes, but enabling CET is unneccessary overhead on older systems. And
+> Kconfig is great place to explain that.
 
-There was dicussion about the approach. There were several issues.
-One of them was the target app was already freezed and we wanted
-to run the syscall in caller's context, not callee.
+Maybe I'll add:
 
-> 
-> >  /*
-> >   * The madvise(2) system call.
-> >   *
-> > @@ -1036,6 +1049,11 @@ madvise_behavior_valid(int behavior)
-> >   *  MADV_DONTDUMP - the application wants to prevent pages in the given range
-> >   *		from being included in its core dump.
-> >   *  MADV_DODUMP - cancel MADV_DONTDUMP: no longer exclude from core dump.
-> > + *  MADV_COLD - the application is not expected to use this memory soon,
-> > + *		deactivate pages in this range so that they can be reclaimed
-> > + *		easily if memory pressure hanppens.
-> > + *  MADV_PAGEOUT - the application is not expected to use this memory soon,
-> > + *		page out the pages in this range immediately.
-> 
-> This should really go into a separate patch, as it has nothing to do
-> with the new syscall.
+If the kernel is to be used only on older systems that do not support 
+IBT, and the size of the binary is important, you can save 900 KB by 
+disabling this feature.
 
-Technically, right but I expected it's not worth to have separate patch.
+Otherwise, if unsure, say Y.
 
-> 
-> > +static int process_madvise_vec(struct mm_struct *mm, struct iov_iter *iter, int behavior)
-> > +{
-> > +	struct iovec iovec;
-> > +	int ret = 0;
-> > +
-> > +	while (iov_iter_count(iter)) {
-> > +		iovec = iov_iter_iovec(iter);
-> > +		ret = do_madvise(mm, (unsigned long)iovec.iov_base, iovec.iov_len, behavior);
-> > +		if (ret < 0)
-> > +			break;
-> > +		iov_iter_advance(iter, iovec.iov_len);
-> > +	}
-> > +
-> > +	return ret;
-> 
-> Please avoid the entirely pointless overly long line.
-> 
-> > +static inline int madv_import_iovec(int type, const struct iovec __user *uvec, unsigned int nr_segs,
-> > +		unsigned int fast_segs, struct iovec **iov, struct iov_iter *i)
-> > +{
-> > +#ifdef CONFIG_COMPAT
-> > +	if (in_compat_syscall())
-> > +		return compat_import_iovec(type, (struct compat_iovec __user *)uvec, nr_segs,
-> > +				fast_segs, iov, i);
-> > +#endif
-> 
-> More of the same.
-> 
-> > +SYSCALL_DEFINE5(process_madvise, int, pidfd, const struct iovec __user *, vec,
-> > +		unsigned long, vlen, int, behavior, unsigned int, flags)
-> > +{
-> > +	ssize_t ret;
-> > +	struct iovec iovstack[UIO_FASTIOV];
-> > +	struct iovec *iov = iovstack;
-> > +	struct iov_iter iter;
-> > +
-> > +	ret = madv_import_iovec(READ, vec, vlen, ARRAY_SIZE(iovstack), &iov, &iter);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	ret = do_process_madvise(pidfd, &iter, behavior, flags);
-> > +	kfree(iov);
-> > +	return ret;
-> 
-> Even more here.  But more importantly there seems to be absolutely
-> no reason for the madv_import_iovec and do_process_madvise helpers
-> that both are tiny and have this even smaller function as the only
-> caller.
+How is that?
 
-Fair enough.
-
-
-Andrew, could you fold this patch?
-Thank you.
-
-From 02d63c6b3f61a1085f4eab80f5171bd2627b5ab0 Mon Sep 17 00:00:00 2001
-From: Minchan Kim <minchan@kernel.org>
-Date: Mon, 21 Sep 2020 09:31:25 -0700
-Subject: [PATCH] mm: do not use helper functions for process_madvise
-
-This patch removes helper functions process_madvise_vec,
-do_process_madvise and madv_import_iovec and use them inline.
-
-Signed-off-by: Minchan Kim <minchan@kernel.org>
----
- mm/madvise.c | 97 +++++++++++++++++++++++-----------------------------
- 1 file changed, 43 insertions(+), 54 deletions(-)
-
-diff --git a/mm/madvise.c b/mm/madvise.c
-index ae266dfede8a..aa8bc65dbdb6 100644
---- a/mm/madvise.c
-+++ b/mm/madvise.c
-@@ -1166,37 +1166,40 @@ SYSCALL_DEFINE3(madvise, unsigned long, start, size_t, len_in, int, behavior)
- 	return do_madvise(current->mm, start, len_in, behavior);
- }
- 
--static int process_madvise_vec(struct mm_struct *mm, struct iov_iter *iter, int behavior)
--{
--	struct iovec iovec;
--	int ret = 0;
--
--	while (iov_iter_count(iter)) {
--		iovec = iov_iter_iovec(iter);
--		ret = do_madvise(mm, (unsigned long)iovec.iov_base, iovec.iov_len, behavior);
--		if (ret < 0)
--			break;
--		iov_iter_advance(iter, iovec.iov_len);
--	}
--
--	return ret;
--}
--
--static ssize_t do_process_madvise(int pidfd, struct iov_iter *iter,
--				int behavior, unsigned int flags)
-+SYSCALL_DEFINE5(process_madvise, int, pidfd, const struct iovec __user *, vec,
-+		size_t, vlen, int, behavior, unsigned int, flags)
- {
- 	ssize_t ret;
-+	struct iovec iovstack[UIO_FASTIOV], iovec;
-+	struct iovec *iov = iovstack;
-+	struct iov_iter iter;
- 	struct pid *pid;
- 	struct task_struct *task;
- 	struct mm_struct *mm;
--	size_t total_len = iov_iter_count(iter);
-+	size_t total_len;
- 
--	if (flags != 0)
--		return -EINVAL;
-+	if (flags != 0) {
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+#ifdef CONFIG_COMPAT
-+	if (in_compat_syscall())
-+		ret = compat_import_iovec(READ,
-+				(struct compat_iovec __user *)vec, vlen,
-+				ARRAY_SIZE(iovstack), &iov, &iter);
-+	else
-+#endif
-+		ret = import_iovec(READ, vec, vlen, ARRAY_SIZE(iovstack),
-+				&iov, &iter);
-+	if (ret < 0)
-+		goto out;
- 
- 	pid = pidfd_get_pid(pidfd);
--	if (IS_ERR(pid))
--		return PTR_ERR(pid);
-+	if (IS_ERR(pid)) {
-+		ret = PTR_ERR(pid);
-+		goto free_iov;
-+	}
- 
- 	task = get_pid_task(pid, PIDTYPE_PID);
- 	if (!task) {
-@@ -1216,43 +1219,29 @@ static ssize_t do_process_madvise(int pidfd, struct iov_iter *iter,
- 		goto release_task;
- 	}
- 
--	ret = process_madvise_vec(mm, iter, behavior);
--	if (ret >= 0)
--		ret = total_len - iov_iter_count(iter);
-+	total_len = iov_iter_count(&iter);
-+
-+	while (iov_iter_count(&iter)) {
-+		iovec = iov_iter_iovec(&iter);
-+		ret = do_madvise(mm, (unsigned long)iovec.iov_base,
-+					iovec.iov_len, behavior);
-+		if (ret < 0)
-+			break;
-+		iov_iter_advance(&iter, iovec.iov_len);
-+	}
-+
-+	if (ret == 0)
-+		ret = total_len - iov_iter_count(&iter);
- 
- 	mmput(mm);
-+	return ret;
-+
- release_task:
- 	put_task_struct(task);
- put_pid:
- 	put_pid(pid);
--	return ret;
--}
--
--static inline int madv_import_iovec(int type, const struct iovec __user *uvec, size_t nr_segs,
--		unsigned int fast_segs, struct iovec **iov, struct iov_iter *i)
--{
--#ifdef CONFIG_COMPAT
--	if (in_compat_syscall())
--		return compat_import_iovec(type, (struct compat_iovec __user *)uvec, nr_segs,
--				fast_segs, iov, i);
--#endif
--
--	return import_iovec(type, uvec, nr_segs, fast_segs, iov, i);
--}
--
--SYSCALL_DEFINE5(process_madvise, int, pidfd, const struct iovec __user *, vec,
--		size_t, vlen, int, behavior, unsigned int, flags)
--{
--	ssize_t ret;
--	struct iovec iovstack[UIO_FASTIOV];
--	struct iovec *iov = iovstack;
--	struct iov_iter iter;
--
--	ret = madv_import_iovec(READ, vec, vlen, ARRAY_SIZE(iovstack), &iov, &iter);
--	if (ret < 0)
--		return ret;
--
--	ret = do_process_madvise(pidfd, &iter, behavior, flags);
-+free_iov:
- 	kfree(iov);
-+out:
- 	return ret;
- }
--- 
-2.28.0.681.g6f77f65b4e-goog
-
-
+Thanks,
+Yu-cheng
