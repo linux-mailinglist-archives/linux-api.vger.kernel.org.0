@@ -2,116 +2,157 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4740427160B
-	for <lists+linux-api@lfdr.de>; Sun, 20 Sep 2020 18:50:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18BF7271B28
+	for <lists+linux-api@lfdr.de>; Mon, 21 Sep 2020 08:56:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726305AbgITQuv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 20 Sep 2020 12:50:51 -0400
-Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.52]:27719 "EHLO
-        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726267AbgITQuv (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 20 Sep 2020 12:50:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1600620646;
-        s=strato-dkim-0002; d=chronox.de;
-        h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
-        bh=OLR7KLlF/JzCb7U35Y0Ov3zt4ftoGTUVmg0q5c2S7X8=;
-        b=AXFBj5iFdqqm2RyFxhGonh9KuIog7gpzd7oaPSl1w8CkWElzaVeCsBCICZ+z+XMJeG
-        7hhZLAm+6EPVdJX9KWP4wZqCOtWI3wwtY6fOU+bXUu1iU/JtPtzYfG14W+49PKHPs2+u
-        chCNqeEc0xVwmsJmUyiHFv6Ox9ap6wzNP+45tpLrPsaq/MTryqW6yrGB/qYAtBit9Xl5
-        S2V6Zi6z1Z2zMU8ZigqgIWgg3W8qVZbHVquuI4cwGTu0M637bJN7B0RygsU+9WCYxeDe
-        TIDTSQhvz4WjbwbEep4lv9kp/ZQnuRs2mAYXQvujn1aOd52pOMt4ltHviU2VGrALvpnk
-        aJ/Q==
-X-RZG-AUTH: ":P2ERcEykfu11Y98lp/T7+hdri+uKZK8TKWEqNyiHySGSa9k9xmwdNnzGHXPbI/Sa6ro="
-X-RZG-CLASS-ID: mo00
-Received: from tauon.chronox.de
-        by smtp.strato.de (RZmta 46.10.7 DYNA|AUTH)
-        with ESMTPSA id 002e9aw8KGnwCmn
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-        (Client did not present a certificate);
-        Sun, 20 Sep 2020 18:49:58 +0200 (CEST)
-From:   Stephan Mueller <smueller@chronox.de>
-To:     Arnd Bergmann <arnd@arndb.de>, kernel test robot <lkp@intel.com>
-Cc:     kbuild-all@lists.01.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-crypto@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        linux-api@vger.kernel.org,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "Alexander E. Patrakov" <patrakov@gmail.com>,
-        "Ahmed S. Darwish" <darwish.07@gmail.com>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>, Willy Tarreau <w@1wt.eu>
-Subject: Re: [PATCH v35 01/13] Linux Random Number Generator
-Date:   Sun, 20 Sep 2020 18:49:57 +0200
-Message-ID: <4146830.tdWV9SEqCh@tauon.chronox.de>
-In-Reply-To: <202009182001.I8MjZZ8x%lkp@intel.com>
-References: <4288186.LvFx2qVVIh@positron.chronox.de> <202009182001.I8MjZZ8x%lkp@intel.com>
+        id S1726338AbgIUG4l (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 21 Sep 2020 02:56:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55768 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726244AbgIUG4l (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 21 Sep 2020 02:56:41 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17A46C061755;
+        Sun, 20 Sep 2020 23:56:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=md7y5e0HfZ1GvUz4qtvne4abAY5FcLsckYHQg6+5lwk=; b=TwmIb7j7s/EhHzRsO+fjzmtM0w
+        hSz6/NAIH+PW0N60E6ZKqCDxVD+5kC32d/y2WJAdFpVIhOrJGhA1kZjoZ8+ag3tRqldF59Ntymt/R
+        UYisBw69nueYH5xPgn7roJdfZqH9hPzTiYv6+PSsTHbLFU5NOEJDVxQzFEtmF16zofaHXbKlKPDRl
+        iCbEfq4zBUJvNSM+wleDMPmA9PT7IgaDPxn8rr50JeynC92bRMAydCmz/w3mAQPJU8hy6Um0pKPZd
+        iLyOz9f0lNwDdqFRropjn2SWG/3vDlgvrFEiyIaCOaCsXHx/ssKPiFx4oBW/3rTKofvmiZFcs+Wwj
+        vGU1Lo8A==;
+Received: from hch by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kKFkX-00026F-FF; Mon, 21 Sep 2020 06:56:33 +0000
+Date:   Mon, 21 Sep 2020 07:56:33 +0100
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Minchan Kim <minchan@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
+        oleksandr@redhat.com, Suren Baghdasaryan <surenb@google.com>,
+        Tim Murray <timmurray@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Dias <joaodias@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jann Horn <jannh@google.com>,
+        alexander.h.duyck@linux.intel.com, sj38.park@gmail.com,
+        David Rientjes <rientjes@google.com>,
+        Arjun Roy <arjunroy@google.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Christian Brauner <christian@brauner.io>,
+        Daniel Colascione <dancol@google.com>,
+        Jens Axboe <axboe@kernel.dk>,
+        Kirill Tkhai <ktkhai@virtuozzo.com>,
+        SeongJae Park <sjpark@amazon.de>, linux-man@vger.kernel.org
+Subject: Re: [PATCH v9 3/3] mm/madvise: introduce process_madvise() syscall:
+ an external memory hinting API
+Message-ID: <20200921065633.GA8070@infradead.org>
+References: <20200901000633.1920247-1-minchan@kernel.org>
+ <20200901000633.1920247-4-minchan@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200901000633.1920247-4-minchan@kernel.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Am Freitag, 18. September 2020, 15:02:17 CEST schrieb kernel test robot:
-
-Hi,
-
-> All errors (new ones prefixed by >>):
-> >> drivers/char/lrng/lrng_chacha20.c:33:8: error: structure variable
-> >> 'chacha20' with 'latent_entropy' attribute has a non-integer field
-> >> 'block'
->       33 | struct chacha20_state chacha20 __latent_entropy;
+On Mon, Aug 31, 2020 at 05:06:33PM -0700, Minchan Kim wrote:
+> There is usecase that System Management Software(SMS) want to give a
+> memory hint like MADV_[COLD|PAGEEOUT] to other processes and in the
+> case of Android, it is the ActivityManagerService.
 > 
->          |        ^~~~~~~~~~~~~~
+> The information required to make the reclaim decision is not known to
+> the app.  Instead, it is known to the centralized userspace
+> daemon(ActivityManagerService), and that daemon must be able to
+> initiate reclaim on its own without any app involvement.
 > 
-> #
-> https://github.com/0day-ci/linux/commit/ecb964754fd80cca434d6d2ad6db8f28a15
-> 92fa1 git remote add linux-review https://github.com/0day-ci/linux
-> git fetch --no-tags linux-review
-> Stephan-M-ller/dev-random-a-new-approach/20200918-181505 git checkout
-> ecb964754fd80cca434d6d2ad6db8f28a1592fa1
-> vim +33 drivers/char/lrng/lrng_chacha20.c
-> 
->     27
->     28	/*
->     29	 * Have a static memory blocks for the ChaCha20 DRNG instance to
-> avoid calling 30	 * kmalloc too early in the boot cycle. For 
-subsequent
-> allocation requests, 31	 * such as per-NUMA-node DRNG instances, 
-kmalloc
-> will be used. 32	 */
-> 
->   > 33	struct chacha20_state chacha20 __latent_entropy;
+> To solve the issue, this patch introduces a new syscall process_madvise(2).
+> It uses pidfd of an external process to give the hint. It also supports
+> vector address range because Android app has thousands of vmas due to
+> zygote so it's totally waste of CPU and power if we should call the
+> syscall one by one for each vma.(With testing 2000-vma syscall vs
+> 1-vector syscall, it showed 15% performance improvement.  I think it
+> would be bigger in real practice because the testing ran very cache
+> friendly environment).
 
-I do not think this report is valid. The following definitions apply:
+I'm really not sure this syscall is a good idea.  If you want central
+control you should implement an IPC mechanisms that allows your
+supervisor daemon to tell the application to perform the madvice
+instead of forcing the behavior on it.
 
-struct chacha20_state {
-        struct chacha20_block block;
-};
+>  /*
+>   * The madvise(2) system call.
+>   *
+> @@ -1036,6 +1049,11 @@ madvise_behavior_valid(int behavior)
+>   *  MADV_DONTDUMP - the application wants to prevent pages in the given range
+>   *		from being included in its core dump.
+>   *  MADV_DODUMP - cancel MADV_DONTDUMP: no longer exclude from core dump.
+> + *  MADV_COLD - the application is not expected to use this memory soon,
+> + *		deactivate pages in this range so that they can be reclaimed
+> + *		easily if memory pressure hanppens.
+> + *  MADV_PAGEOUT - the application is not expected to use this memory soon,
+> + *		page out the pages in this range immediately.
 
-struct chacha20_block {
-        u32 constants[4];
-        union {
-#define CHACHA_KEY_SIZE_WORDS (CHACHA_KEY_SIZE / sizeof(u32))
-                u32 u[CHACHA_KEY_SIZE_WORDS];
-                u8  b[CHACHA_KEY_SIZE];
-        } key;
-        u32 counter;
-        u32 nonce[3];
-};
+This should really go into a separate patch, as it has nothing to do
+with the new syscall.
 
+> +static int process_madvise_vec(struct mm_struct *mm, struct iov_iter *iter, int behavior)
+> +{
+> +	struct iovec iovec;
+> +	int ret = 0;
+> +
+> +	while (iov_iter_count(iter)) {
+> +		iovec = iov_iter_iovec(iter);
+> +		ret = do_madvise(mm, (unsigned long)iovec.iov_base, iovec.iov_len, behavior);
+> +		if (ret < 0)
+> +			break;
+> +		iov_iter_advance(iter, iovec.iov_len);
+> +	}
+> +
+> +	return ret;
 
-This implies that struct chacha20_state and thus the chacha20 variable is a 
-linear buffer with in total 4 + 8 + 1 + 3  = 16 32-bit integers which are at 
-least aligned on a 32-bit boundary and are designated as u32 integers.
+Please avoid the entirely pointless overly long line.
 
-Please let me know if I need to make a tweak to the definitions to convince 
-the code analyzer it is a flat linear buffer consisting of integers and thus 
-to understand the structure correctly.
+> +static inline int madv_import_iovec(int type, const struct iovec __user *uvec, unsigned int nr_segs,
+> +		unsigned int fast_segs, struct iovec **iov, struct iov_iter *i)
+> +{
+> +#ifdef CONFIG_COMPAT
+> +	if (in_compat_syscall())
+> +		return compat_import_iovec(type, (struct compat_iovec __user *)uvec, nr_segs,
+> +				fast_segs, iov, i);
+> +#endif
 
-Thanks a lot.
+More of the same.
 
-Ciao
-Stephan
+> +SYSCALL_DEFINE5(process_madvise, int, pidfd, const struct iovec __user *, vec,
+> +		unsigned long, vlen, int, behavior, unsigned int, flags)
+> +{
+> +	ssize_t ret;
+> +	struct iovec iovstack[UIO_FASTIOV];
+> +	struct iovec *iov = iovstack;
+> +	struct iov_iter iter;
+> +
+> +	ret = madv_import_iovec(READ, vec, vlen, ARRAY_SIZE(iovstack), &iov, &iter);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = do_process_madvise(pidfd, &iter, behavior, flags);
+> +	kfree(iov);
+> +	return ret;
 
-
+Even more here.  But more importantly there seems to be absolutely
+no reason for the madv_import_iovec and do_process_madvise helpers
+that both are tiny and have this even smaller function as the only
+caller.
