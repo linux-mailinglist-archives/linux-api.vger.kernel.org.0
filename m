@@ -2,147 +2,131 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D8C3D271D2D
-	for <lists+linux-api@lfdr.de>; Mon, 21 Sep 2020 10:08:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DA67272BB9
+	for <lists+linux-api@lfdr.de>; Mon, 21 Sep 2020 18:22:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726507AbgIUIIB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 21 Sep 2020 04:08:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38560 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726333AbgIUIH6 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 21 Sep 2020 04:07:58 -0400
-Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11D7EC0613D2;
-        Mon, 21 Sep 2020 01:07:58 -0700 (PDT)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 4BvxrN6CR4z9sRf;
-        Mon, 21 Sep 2020 18:07:48 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
-        s=201702; t=1600675674;
-        bh=iaBdLJOvxyJXfcUEqmY+3Nksf5Jf9xHCFLBtVdF2GM8=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=K5wKwexmDJAci9TTwYRSQ0w9PM5CiPqAwagC2tcao/hBigyuoMxG1C8D0UmTRvwbU
-         EhPScTRFe/siLj3BjXiyv9uIFmQY0S4UmOdPSVysuZGSDahrfPB83W3uawREPQpzd0
-         kHld44CU++GsPbN3dC1XVd4QoBpM6Lgj+V1kNNdSetTvjN8TgT8QvRc6F00jrjsQD6
-         lDVtnrJaxh5Jw5LEvG/jpEkcuTha5XPYFINClW5XVtzMcKkHT38c4BYivb3A3RLDRr
-         JaS6Iuw/LnkzJSYvM742RWyWBJTrmzSqPEqXAqPcsYg8niNwEgDNwWig1CMgfOS4OB
-         vkx4v/7kdkZQQ==
-Date:   Mon, 21 Sep 2020 18:07:48 +1000
-From:   Stephen Rothwell <sfr@canb.auug.org.au>
-To:     Qian Cai <cai@redhat.com>
-Cc:     Mike Rapoport <rppt@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Idan Yaniv <idan.yaniv@ibm.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
+        id S1727361AbgIUQWa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 21 Sep 2020 12:22:30 -0400
+Received: from mga02.intel.com ([134.134.136.20]:36798 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726419AbgIUQW3 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 21 Sep 2020 12:22:29 -0400
+IronPort-SDR: WAODNz+AWg2Fv1qgtS+4SfBx2nYuI6MWYQRyP3bsZ7tj77dLTudoIB7CoTTrUlXTS1nvPJoRVC
+ b8iThqVFPTkA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9751"; a="148077072"
+X-IronPort-AV: E=Sophos;i="5.77,287,1596524400"; 
+   d="scan'208";a="148077072"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2020 09:22:27 -0700
+IronPort-SDR: DzeCj1CYXt5zm0Njvv2xtnUdYaZZmhzsBjJGNA1e7sXxqTd/uptwCH02FfBaxY46EttPZoUWgv
+ pQwlJ5MOClew==
+X-IronPort-AV: E=Sophos;i="5.77,287,1596524400"; 
+   d="scan'208";a="348153605"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.102.78]) ([10.212.102.78])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2020 09:22:26 -0700
+Subject: Re: [PATCH v12 8/8] x86: Disallow vsyscall emulation when CET is
+ enabled
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
-        linux-riscv@lists.infradead.org, x86@kernel.org,
-        linux-next@vger.kernel.org
-Subject: Re: [PATCH v5 0/5] mm: introduce memfd_secret system call to create
- "secret" memory areas
-Message-ID: <20200921180748.4f88028d@canb.auug.org.au>
-In-Reply-To: <fdd0240c187f974fccc553acea895f638d5e822a.camel@redhat.com>
-References: <20200916073539.3552-1-rppt@kernel.org>
-        <5d97da4d86db258fdc9b20be3c12588089e17da2.camel@redhat.com>
-        <fdd0240c187f974fccc553acea895f638d5e822a.camel@redhat.com>
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+References: <20200918192312.25978-1-yu-cheng.yu@intel.com>
+ <20200918192312.25978-9-yu-cheng.yu@intel.com>
+ <CALCETrXfixDGJhf0yPw-OckjEdeF2SbYjWFm8VbLriiP0Krhrg@mail.gmail.com>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <c96c98ec-d72a-81a3-06e2-2040f3ece33a@intel.com>
+Date:   Mon, 21 Sep 2020 09:22:25 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/qIGimAfxVKTvCJ+PllFC0A/";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+In-Reply-To: <CALCETrXfixDGJhf0yPw-OckjEdeF2SbYjWFm8VbLriiP0Krhrg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
---Sig_/qIGimAfxVKTvCJ+PllFC0A/
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 9/18/2020 5:11 PM, Andy Lutomirski wrote:
+> On Fri, Sep 18, 2020 at 12:23 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+>>
+>> Emulation of the legacy vsyscall page is required by some programs
+>> built before 2013.  Newer programs after 2013 don't use it.
+>> Disable vsyscall emulation when Control-flow Enforcement (CET) is
+>> enabled to enhance security.
+>>
+>> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+>> ---
+>> v12:
+>> - Disable vsyscall emulation only when it is attempted (vs. at compile time).
+>>
+>>   arch/x86/entry/vsyscall/vsyscall_64.c | 9 +++++++++
+>>   1 file changed, 9 insertions(+)
+>>
+>> diff --git a/arch/x86/entry/vsyscall/vsyscall_64.c b/arch/x86/entry/vsyscall/vsyscall_64.c
+>> index 44c33103a955..3196e963e365 100644
+>> --- a/arch/x86/entry/vsyscall/vsyscall_64.c
+>> +++ b/arch/x86/entry/vsyscall/vsyscall_64.c
+>> @@ -150,6 +150,15 @@ bool emulate_vsyscall(unsigned long error_code,
+>>
+>>          WARN_ON_ONCE(address != regs->ip);
+>>
+>> +#ifdef CONFIG_X86_INTEL_CET
+>> +       if (current->thread.cet.shstk_size ||
+>> +           current->thread.cet.ibt_enabled) {
+>> +               warn_bad_vsyscall(KERN_INFO, regs,
+>> +                                 "vsyscall attempted with cet enabled");
+>> +               return false;
+>> +       }
+> 
+> Nope, try again.  Having IBT on does *not* mean that every library in
+> the process knows that we have indirect branch tracking.  The legacy
+> bitmap exists for a reason.  Also, I want a way to flag programs as
+> not using the vsyscall page, but that flag should not be called CET.
+> And a process with vsyscalls off should not be able to read the
+> vsyscall page, and /proc/self/maps should be correct.
+> 
+> So you have some choices:
+> 
+> 1. Drop this patch and make it work.
+> 
+> 2. Add a real per-process vsyscall control.  Either make it depend on
+> vsyscall=xonly and wire it up correctly or actually make it work
+> correctly with vsyscall=emulate.
+> 
+> NAK to any hacks in this space.  Do it right or don't do it at all.
+> 
 
-Hi all,
+We can drop this patch, and bring back the previous patch that fixes up 
+shadow stack and ibt.  That makes vsyscall emulation work correctly, and 
+does not force the application to do anything different from what is 
+working now.  I will post the previous patch as a reply to this thread 
+so that people can make comments on it.
 
-On Fri, 18 Sep 2020 14:25:15 -0400 Qian Cai <cai@redhat.com> wrote:
->
-> On Thu, 2020-09-17 at 09:27 -0400, Qian Cai wrote:
-> > On Wed, 2020-09-16 at 10:35 +0300, Mike Rapoport wrote: =20
-> > > From: Mike Rapoport <rppt@linux.ibm.com>
-> > >=20
-> > > This is an implementation of "secret" mappings backed by a file descr=
-iptor.=20
-> > > I've dropped the boot time reservation patch for now as it is not str=
-ictly
-> > > required for the basic usage and can be easily added later either wit=
-h or
-> > > without CMA. =20
-> >=20
-> > On powerpc: https://gitlab.com/cailca/linux-mm/-/blob/master/powerpc.co=
-nfig
-> >=20
-> > There is a compiling warning from the today's linux-next:
-> >=20
-> > <stdin>:1532:2: warning: #warning syscall memfd_secret not implemented =
-[-Wcpp] =20
->=20
-> This should silence the warning:
->=20
-> diff --git a/scripts/checksyscalls.sh b/scripts/checksyscalls.sh
-> index a18b47695f55..b7609958ee36 100755
-> --- a/scripts/checksyscalls.sh
-> +++ b/scripts/checksyscalls.sh
-> @@ -40,6 +40,10 @@ cat << EOF
->  #define __IGNORE_setrlimit	/* setrlimit */
->  #endif
-> =20
-> +#ifndef __ARCH_WANT_MEMFD_SECRET
-> +#define __IGNORE_memfd_secret
-> +#endif
-> +
->  /* Missing flags argument */
->  #define __IGNORE_renameat	/* renameat2 */
->=20
-
-Added to linux-next today.
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/qIGimAfxVKTvCJ+PllFC0A/
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl9oX1QACgkQAVBC80lX
-0GwVfQgAho6bGSHnGAjI0IiMmFRLcHM+KMH0XiVgh9bvUjVASl1mVgeIe7v//Oef
-uyH9zCWyUFof0EnaT4f5uZctC2pe/qvb7BsEdaSlLUSz4X8J1xLWfdYbdJHMvtYR
-WnrFHwGCmEtpImNTTZtXcdDZeliVgq41XGd/h1Z59o6givzPYTtIK59LlOOcZj3y
-KIY0ELXUPauFOINBbfRzs0xlB6upYfVrHUdh9/glsrY4wVcEfPhjgFVAk+Ua/4/E
-/ksLJ+WeUZxJ/2SOPL5Vm23vZvmSE0fD4krBBiANbBiKShRgJRU21uc/ulEdHh5E
-qZjQA6jjcKFGbIbi78Sb6LxIzI/mKQ==
-=OfZk
------END PGP SIGNATURE-----
-
---Sig_/qIGimAfxVKTvCJ+PllFC0A/--
+Yu-cheng
