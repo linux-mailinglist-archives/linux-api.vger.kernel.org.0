@@ -2,189 +2,172 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3318A2736C6
-	for <lists+linux-api@lfdr.de>; Tue, 22 Sep 2020 01:48:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CA6F274395
+	for <lists+linux-api@lfdr.de>; Tue, 22 Sep 2020 15:56:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728672AbgIUXsk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 21 Sep 2020 19:48:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59240 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728712AbgIUXsj (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 21 Sep 2020 19:48:39 -0400
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 93F7623AA3
-        for <linux-api@vger.kernel.org>; Mon, 21 Sep 2020 23:48:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600732118;
-        bh=N8vHQdEHpTHWvUHKpDbNH8Yi1jVK5l/yl5V+P+NE0OA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=goDxIMoDoxVa3C64VsVsoO1jj5SNv4S6MzZHZ98rF+dlRwaM2zylky7OMs58V0cIt
-         0k34+7+qqV1O1on10uR7KTin37l5HHeADO5pXJZJTKNV4jiznZr/kCqEdpy6SoWJMv
-         J+loS6sIAobeIhC7PKoJMovzXnqu/F07k7RzKvZA=
-Received: by mail-wr1-f54.google.com with SMTP id c18so15004374wrm.9
-        for <linux-api@vger.kernel.org>; Mon, 21 Sep 2020 16:48:38 -0700 (PDT)
-X-Gm-Message-State: AOAM531h2ICHIhXQAwVsUXSr1fE32w2p8b194KRxBALFq6ArUZR7YDA5
-        E96m0HEJSICoWCYy3LdQJiQ7SldQvbf+ctI3jk/Wdg==
-X-Google-Smtp-Source: ABdhPJzngS+LJRRhcziEyC3Eee4FojJ0Xz7OhABh4eqwGzQo/447WGnYoKx4dZhgKZSGTGYlukUJFQ1u+OQ1i1Jxyaw=
-X-Received: by 2002:a5d:6a47:: with SMTP id t7mr2138226wrw.75.1600732116993;
- Mon, 21 Sep 2020 16:48:36 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200918192312.25978-1-yu-cheng.yu@intel.com> <20200918192312.25978-9-yu-cheng.yu@intel.com>
- <CALCETrXfixDGJhf0yPw-OckjEdeF2SbYjWFm8VbLriiP0Krhrg@mail.gmail.com>
- <c96c98ec-d72a-81a3-06e2-2040f3ece33a@intel.com> <24718de58ab7bc6d7288c58d3567ad802eeb6542.camel@intel.com>
-In-Reply-To: <24718de58ab7bc6d7288c58d3567ad802eeb6542.camel@intel.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Mon, 21 Sep 2020 16:48:25 -0700
-X-Gmail-Original-Message-ID: <CALCETrWssUxxfhPPJZgPOmpaQcf4o9qCe1j-P7yiPyZVV+O8ZQ@mail.gmail.com>
-Message-ID: <CALCETrWssUxxfhPPJZgPOmpaQcf4o9qCe1j-P7yiPyZVV+O8ZQ@mail.gmail.com>
-Subject: Re: [PATCH v12 8/8] x86: Disallow vsyscall emulation when CET is enabled
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     Andy Lutomirski <luto@kernel.org>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
+        id S1726654AbgIVN40 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 22 Sep 2020 09:56:26 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:15298 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726653AbgIVN4Z (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 22 Sep 2020 09:56:25 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 08MDhlnA017604;
+        Tue, 22 Sep 2020 09:56:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=7GKrSmqkYAC7wLfUIDBY2wTrdJBOxyfdYmxuWzNiUbk=;
+ b=ZpiaqIPFgie4DRCixVjeEmo7zTB5p000jDyv8k55epI+sn+BaHNqcwqJRUAgYoCdveRC
+ ZifQjVGDZVN+kvmGB2juRJiX4UAJG0ctYZnzwj4+gh0Ezv8/yhIblDXCxEmpwKEhPqeo
+ 7PeL7t+KsJCNqGX4gLbl5wu1abCK/CwV4dlveMRAOJ5CEoE1BFm+Ls9WXca7E3p0ebFN
+ KurFuUhFJfyHdGXVZi/qSGuFS2LnDdqVSgHAS/myXx95X7rmT80MCZr7Y/5nP+UPoeTj
+ CQNqdczUPvB4o8Q2tVDBXs/CYdouvGK8/kVCgWAPhSwh8eavTXGXdQAnodA6b4SHkmTk uQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 33qjdfrdhr-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 22 Sep 2020 09:56:19 -0400
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08MDiLwb021599;
+        Tue, 22 Sep 2020 09:56:18 -0400
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com [159.122.73.72])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 33qjdfrdgk-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 22 Sep 2020 09:56:18 -0400
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+        by ppma06fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08MDpSYr003827;
+        Tue, 22 Sep 2020 13:56:15 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+        by ppma06fra.de.ibm.com with ESMTP id 33n98gsnae-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 22 Sep 2020 13:56:15 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 08MDuDLq29491652
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 22 Sep 2020 13:56:13 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id E92BFA404D;
+        Tue, 22 Sep 2020 13:56:12 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 7D674A4040;
+        Tue, 22 Sep 2020 13:56:12 +0000 (GMT)
+Received: from thinkpad (unknown [9.171.5.34])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with SMTP;
+        Tue, 22 Sep 2020 13:56:12 +0000 (GMT)
+Date:   Tue, 22 Sep 2020 15:56:11 +0200
+From:   Gerald Schaefer <gerald.schaefer@linux.ibm.com>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Michal Hocko <mhocko@kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Jan =?UTF-8?B?SMO2cHBuZXI=?= <hoeppner@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        linux-api@vger.kernel.org,
         Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: Ways to deprecate
+ /sys/devices/system/memory/memoryX/phys_device ?
+Message-ID: <20200922155611.379373f7@thinkpad>
+In-Reply-To: <21852ccb-bd06-9281-7c8e-485ec02f2883@redhat.com>
+References: <21852ccb-bd06-9281-7c8e-485ec02f2883@redhat.com>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
+ definitions=2020-09-22_12:2020-09-21,2020-09-22 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 adultscore=0
+ spamscore=0 priorityscore=1501 clxscore=1011 mlxlogscore=999
+ impostorscore=0 suspectscore=0 malwarescore=0 phishscore=0 mlxscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009220106
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Sep 21, 2020 at 3:37 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->
-> On Mon, 2020-09-21 at 09:22 -0700, Yu, Yu-cheng wrote:
-> > On 9/18/2020 5:11 PM, Andy Lutomirski wrote:
-> > > On Fri, Sep 18, 2020 at 12:23 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
-> > > > Emulation of the legacy vsyscall page is required by some programs
-> > > > built before 2013.  Newer programs after 2013 don't use it.
-> > > > Disable vsyscall emulation when Control-flow Enforcement (CET) is
-> > > > enabled to enhance security.
-> > > >
-> > > > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> [...]
-> > >
-> > > Nope, try again.  Having IBT on does *not* mean that every library in
-> > > the process knows that we have indirect branch tracking.  The legacy
-> > > bitmap exists for a reason.  Also, I want a way to flag programs as
-> > > not using the vsyscall page, but that flag should not be called CET.
-> > > And a process with vsyscalls off should not be able to read the
-> > > vsyscall page, and /proc/self/maps should be correct.
-> > >
-> > > So you have some choices:
-> > >
-> > > 1. Drop this patch and make it work.
-> > >
-> > > 2. Add a real per-process vsyscall control.  Either make it depend on
-> > > vsyscall=xonly and wire it up correctly or actually make it work
-> > > correctly with vsyscall=emulate.
-> > >
-> > > NAK to any hacks in this space.  Do it right or don't do it at all.
-> > >
-> >
-> > We can drop this patch, and bring back the previous patch that fixes up
-> > shadow stack and ibt.  That makes vsyscall emulation work correctly, and
-> > does not force the application to do anything different from what is
-> > working now.  I will post the previous patch as a reply to this thread
-> > so that people can make comments on it.
-> >
-> > Yu-cheng
->
-> Here is the patch:
->
-> ------
->
-> From dfdee39c795ee5dcee2c77f6ba344a61f4d8124b Mon Sep 17 00:00:00 2001
-> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> Date: Thu, 29 Nov 2018 14:15:38 -0800
-> Subject: [PATCH 34/43] x86/vsyscall/64: Fixup Shadow Stack and Indirect Branch
->  Tracking for vsyscall emulation
->
-> Vsyscall entry points are effectively branch targets.  Mark them with
-> ENDBR64 opcodes.  When emulating the RET instruction, unwind the shadow
-> stack and reset IBT state machine.
->
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> ---
->  arch/x86/entry/vsyscall/vsyscall_64.c     | 29 +++++++++++++++++++++++
->  arch/x86/entry/vsyscall/vsyscall_emu_64.S |  9 +++++++
->  arch/x86/entry/vsyscall/vsyscall_trace.h  |  1 +
->  3 files changed, 39 insertions(+)
->
-> diff --git a/arch/x86/entry/vsyscall/vsyscall_64.c
-> b/arch/x86/entry/vsyscall/vsyscall_64.c
-> index 44c33103a955..0131c9f7f9c5 100644
-> --- a/arch/x86/entry/vsyscall/vsyscall_64.c
-> +++ b/arch/x86/entry/vsyscall/vsyscall_64.c
-> @@ -38,6 +38,9 @@
->  #include <asm/fixmap.h>
->  #include <asm/traps.h>
->  #include <asm/paravirt.h>
-> +#include <asm/fpu/xstate.h>
-> +#include <asm/fpu/types.h>
-> +#include <asm/fpu/internal.h>
->
->  #define CREATE_TRACE_POINTS
->  #include "vsyscall_trace.h"
-> @@ -286,6 +289,32 @@ bool emulate_vsyscall(unsigned long error_code,
->         /* Emulate a ret instruction. */
->         regs->ip = caller;
->         regs->sp += 8;
-> +
-> +       if (current->thread.cet.shstk_size ||
-> +           current->thread.cet.ibt_enabled) {
-> +               u64 r;
-> +
-> +               fpregs_lock();
-> +               if (test_thread_flag(TIF_NEED_FPU_LOAD))
-> +                       __fpregs_load_activate();
+On Thu, 10 Sep 2020 12:20:34 +0200
+David Hildenbrand <david@redhat.com> wrote:
 
-Wouldn't this be nicer if you operated on the memory image, not the registers?
+> Hi everybody,
+> 
+> I was just exploring how /sys/devices/system/memory/memoryX/phys_device
+> is/was used. It's one of these interfaces that most probably never
+> should have been added but now we are stuck with it.
+> 
+> "phys_device" was used on s390x in older versions of lsmem[2]/chmem[3],
+> back when they were still part of s390x-tools. They were later replaced
+> [5] by the variants in linux-utils. For example, RHEL6 and RHEL7 contain
+> lsmem/chmem from s390-utils. RHEL8 switched to versions from util-linux
+> on s390x [4].
+> 
+> "phys_device" was added with sysfs support for memory hotplug in commit
+> 3947be1969a9 ("[PATCH] memory hotplug: sysfs and add/remove functions")
+> in 2005. It always returned 0.
+> 
+> s390x started returning something != 0 on some setups (if sclp.rzm is
+> set by HW) in 2010 via commit 57b552ba0b2f("memory hotplug/s390: set
+> phys_device").
+> 
+> For s390x, it allowed for identifying which memory block devices belong
+> to the same memory increment (RZM). Only if all memory block devices
+> comprising a single memory increment were offline, the memory could
+> actually be removed in the hypervisor.
+> 
+> Since commit e5d709bb5fb7 ("s390/memory hotplug: provide
+> memory_block_size_bytes() function") in 2013 a memory block devices
+> spans at least one memory increment - which is why the interface isn't
+> really helpful/used anymore (except by old lsmem/chmem tools).
 
-> +
-> +#ifdef CONFIG_X86_INTEL_BRANCH_TRACKING_USER
-> +               /* Fixup branch tracking */
-> +               if (current->thread.cet.ibt_enabled) {
-> +                       rdmsrl(MSR_IA32_U_CET, r);
-> +                       wrmsrl(MSR_IA32_U_CET, r & ~CET_WAIT_ENDBR);
-> +               }
-> +#endif
+Correct, so I do not see any problem for s390 with removing / changing
+that for the upstream kernel. BTW, that commit also gave some relief
+on the scaling issue, at least for s390. With increasing total memory
+size, we also have increasing increment and thus memory block size.
 
-Seems reasonable on first glance.
+Of course, that also has some limitations, IIRC max. 1 GB increment
+size, but still better than the 256 MB default size.
 
-> +
-> +#ifdef CONFIG_X86_INTEL_SHADOW_STACK_USER
-> +               /* Unwind shadow stack. */
-> +               if (current->thread.cet.shstk_size) {
-> +                       rdmsrl(MSR_IA32_PL3_SSP, r);
-> +                       wrmsrl(MSR_IA32_PL3_SSP, r + 8);
-> +               }
-> +#endif
+> 
+> There were once RFC patches to make use of it in ACPI, but it could be
+> solved using different interfaces [1].
+> 
+> 
+> While I'd love to rip it out completely, I think it would break old
+> lsmem/chmem completely - and I assume that's not acceptable. I was
+> wondering what would be considered safe to do now/in the future:
+> 
+> 1. Make it always return 0 (just as if "sclp.rzm" would be set to 0 on
+> s390x). This will make old lsmem/chmem behave differently after
+> switching to a new kernel, like if sclp.rzm would not be set by HW -
+> AFAIU, it will assume all memory is in a single memory increment. Do we
+> care?
 
-What happens if the result is noncanonical?  A quick skim of the SDM
-didn't find anything.  This latter issue goes away if you operate on
-the memory image, though -- writing a bogus value is just fine, since
-the FP restore will handle it.
+No, at least not until that kernel change would be backported to some
+old distribution level where we still use lsmem/chmem from s390-tools.
+Given that this is just some clean-up w/o any functional benefit, and
+hopefully w/o any negative impact, I think we can safely assume that no
+distributor will do that "just for fun".
+
+Even if there would be good reasons for backports, then I guess we also
+have good reasons for backporting / switching to the util-linux version
+of lsmem / chmem for such distribution levels. Alternatively, adjust the
+s390-tools lsmem / chmem there.
+
+But I would rather "rip it out completely" than just return 0. You'd
+need some lsmem / chmem changes anyway, at least in case this would
+ever be backported.
+
+> 2. Restrict it to s390x only. It always returned 0 on other
+> architectures, I was not able to find any user.
+> 
+> I think 2 should be safe to do (never used on other archs). I do wonder
+> what the feelings are about 1.
+
+Please don't add any s390-specific workarounds here, that does not
+really sound like a clean-up, rather the opposite.
+
+That being said, I do not really see the benefit of this change at
+all. As Michal mentioned, there really should be some more fundamental
+change. And from the rest of this thread, it also seems that phys_device
+usage might not be the biggest issue here.
