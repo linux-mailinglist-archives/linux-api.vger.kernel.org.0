@@ -2,125 +2,108 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 14D302759CF
-	for <lists+linux-api@lfdr.de>; Wed, 23 Sep 2020 16:22:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E1757275A53
+	for <lists+linux-api@lfdr.de>; Wed, 23 Sep 2020 16:39:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726498AbgIWOWS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 23 Sep 2020 10:22:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60468 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726130AbgIWOWR (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Sep 2020 10:22:17 -0400
-Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com [IPv6:2607:f8b0:4864:20::e42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1774C0613CE
-        for <linux-api@vger.kernel.org>; Wed, 23 Sep 2020 07:22:17 -0700 (PDT)
-Received: by mail-vs1-xe42.google.com with SMTP id 7so83535vsp.6
-        for <linux-api@vger.kernel.org>; Wed, 23 Sep 2020 07:22:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=DfASuP4wTyn3pr6VYvm8A1z5RVX46kLf4FcH4npIyzc=;
-        b=D4nNydf+MHc+IWQZKD3zTZKNm9RDLRVf/ccFBiozGSMayUBpd+Nfk55jyjJJlWdo2s
-         90YZZJmlz465/26fH4FhpNPrJxICDVSVh2Ff7cg5G09PCizdTa00F5sZBtCRdeFfq4ne
-         OMvuIii0a+wdxKNhTqttw+N0+F6TAv10tlqac7xzm1uiix7bWROjgeT749p3o6BwunjP
-         r8QMKPmx8Plf5kRBoRJwNyyfI0qwKo1zWFMvUBgiXiGN8OYe+h8u6ps2iUeWtcbWffkx
-         2Ij0YugqNZa8iYouPDA4bHfLObTlLYXI0ThxaM7rNl/5QhtguMDpZKTIXxAURJYKZVY6
-         MPyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=DfASuP4wTyn3pr6VYvm8A1z5RVX46kLf4FcH4npIyzc=;
-        b=Ak/7/LVrdci9Tkk2cYYmYcYpb94iwunoH1uhfBFXu2DPe7m5iQ+NIsmVWpf3WWuSz7
-         rbLuWSVEPJCFjHvcqb7mEnbS2cGZhU2MSQIYUccQ/QG/65kUu8/+TYUHIlVDcRLXZdvI
-         sQrF3YSg5rXdS985ABfCKMQ2vGZsVtbEa5owsn19RVygKm++Cjcpixh7X5sKSYnxGegO
-         csgLVXfJV1Pg3qCw9QgIbDVETkQCERwzldVwv8TCZh3j8WQj7pDvOnlSG8Dd59pEwSrU
-         80ZXxUOSzEQ5lrtI3VDgcLs7dBktg+TtkZXH5vVEbfRenXstbXRwqFulvZw75EpK6S1e
-         Eb7Q==
-X-Gm-Message-State: AOAM531NCINhkXXPSa/ITReLaNM7YfJaK98a9JCBbzpmqG6MmRcEZGZ0
-        yUwsbmRRdYBeVg2KKmlW2K+k674qNdicZC7YnFHDkg==
-X-Google-Smtp-Source: ABdhPJyGT5d7kAzOWWOZyEuq+BVCrWdPRUSfm6tf7pVHXKklSwXBe0J8rse0+Sbr94QBjZSwHfW71Ao8kAoWRyg03gY=
-X-Received: by 2002:a05:6102:310f:: with SMTP id e15mr92501vsh.39.1600870936625;
- Wed, 23 Sep 2020 07:22:16 -0700 (PDT)
+        id S1726572AbgIWOjs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 23 Sep 2020 10:39:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36574 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726156AbgIWOjs (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Sep 2020 10:39:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1600871986;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=XtUNJYHV2J1JZ6JLBA0jisxCSujCzEq2vD80O/D6hKQ=;
+        b=iY5/7dAe6kEgdFVW1z/ow1frn3WX7v/28nEB8WFbbrAEe9TNIK2z7i2fG2Y0iPR6iocjS2
+        EHFfhUwf8l/aWF2K3tFuqit5C/OHl0g7qc9K1bHx/r3UBnkGqa634OfPvBEAr2qomvrLJh
+        WS5qkt1Wp4Gi/vs+X3QEeA1AoaKRN3Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-497-Ai1jqBmFMUa4zYresSj0Pg-1; Wed, 23 Sep 2020 10:39:44 -0400
+X-MC-Unique: Ai1jqBmFMUa4zYresSj0Pg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CBF2018A2249;
+        Wed, 23 Sep 2020 14:39:40 +0000 (UTC)
+Received: from oldenburg2.str.redhat.com (ovpn-114-108.ams2.redhat.com [10.36.114.108])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 147BA7882D;
+        Wed, 23 Sep 2020 14:39:32 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Solar Designer <solar@openwall.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, madvenka@linux.microsoft.com,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org, oleg@redhat.com,
+        x86@kernel.org, luto@kernel.org, David.Laight@ACULAB.COM,
+        mark.rutland@arm.com, mic@digikod.net,
+        Rich Felker <dalias@libc.org>
+Subject: Re: [PATCH v2 0/4] [RFC] Implement Trampoline File Descriptor
+References: <20200922215326.4603-1-madvenka@linux.microsoft.com>
+        <20200923081426.GA30279@amd> <20200923091456.GA6177@openwall.com>
+Date:   Wed, 23 Sep 2020 16:39:31 +0200
+In-Reply-To: <20200923091456.GA6177@openwall.com> (Solar Designer's message of
+        "Wed, 23 Sep 2020 11:14:57 +0200")
+Message-ID: <87wo0ko8v0.fsf@oldenburg2.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-From:   Naresh Kamboju <naresh.kamboju@linaro.org>
-Date:   Wed, 23 Sep 2020 19:52:05 +0530
-Message-ID: <CA+G9fYtF44bTzjswt26tOwfEQxrWvcSOROmEtH0HKfGn24QbRQ@mail.gmail.com>
-Subject: selftests: pidfd: pidfd_wait hangs on linux next kernel on all devices
-To:     "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>, linux-api@vger.kernel.org,
-        open list <linux-kernel@vger.kernel.org>
-Cc:     Christian Brauner <christian@brauner.io>,
-        Kees Cook <keescook@chromium.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Sargun Dhillon <sargun@sargun.me>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Jens Axboe <axboe@kernel.dk>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Shuah Khan <shuah@kernel.org>, lkft-triage@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-selftests: pidfd: pidfd_wait hangs on linux next kernel on x86_64,
-i386 and arm64 Juno-r2
-These devices are using NFS mounted rootfs.
-I have tested pidfd testcases independently and all test PASS.
+* Solar Designer:
 
-The Hang or exit from test run noticed when run by run_kselftest.sh
+> While I share my opinion here, I don't mean that to block Madhavan's
+> work.  I'd rather defer to people more knowledgeable in current userland
+> and ABI issues/limitations and plans on dealing with those, especially
+> to Florian Weimer.  I haven't seen Florian say anything specific for or
+> against Madhavan's proposal, and I'd like to.  (Have I missed that?)
 
-pidfd_wait.c:208:wait_nonblock:Expected sys_waitid(P_PIDFD, pidfd,
-&info, WSTOPPED, NULL) (-1) == 0 (0)
-wait_nonblock: Test terminated by assertion
+There was a previous discussion, where I provided feedback (not much
+different from the feedback here, given that the mechanism is mostly the
+same).
 
-metadata:
-  git branch: master
-  git repo: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-  git commit: e64997027d5f171148687e58b78c8b3c869a6158
-  git describe: next-20200922
-  make_kernelversion: 5.9.0-rc6
-  kernel-config:
-http://snapshots.linaro.org/openembedded/lkft/lkft/sumo/intel-core2-32/lkft/linux-next/865/config
+I think it's unnecessary for the libffi use case.  Precompiled code can
+be loaded from disk because the libffi trampolines are so regular.  On
+most architectures, it's not even the code that's patched, but some of
+the data driving it, which happens to be located on the same page due to
+a libffi quirk.
 
-Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+The libffi use case is a bit strange anyway: its trampolines are
+type-generic, and the per-call adjustment is data-driven.  This means
+that once you have libffi in the process, you have a generic
+data-to-function-call mechanism available that can be abused (it's even
+fully CET compatible in recent versions).  And then you need to look at
+the processes that use libffi.  A lot of them contain bytecode
+interpreters, and those enable data-driven arbitrary code execution as
+well.  I know that there are efforts under way to harden Python, but
+it's going to be tough to get to the point where things are still
+difficult for an attacker once they have the ability to make mprotect
+calls.
 
-Test output log:
----------------------
-[ 1385.104983] audit: type=1701 audit(1600804535.960:87865):
-auid=4294967295 uid=0 gid=0 ses=4294967295 subj=kernel pid=31268
-comm=\"pidfd_wait\"
-exe=\"/opt/kselftests/default-in-kernel/pidfd/pidfd_wait\" sig=6 res=1
+It was pointed out to me that libffi is doing things wrong, and the
+trampolines should not be type-generic, but generated so that they match
+the function being called.  That is, the marshal/unmarshal code would be
+open-coded in the trampoline, rather than using some generic mechanism
+plus run-time dispatch on data tables describing the function type.
+That is a very different design (and typically used by compilers (JIT or
+not JIT) to implement native calls).  Mapping some code page with a
+repeating pattern would no longer work to defeat anti-JIT measures
+because it's closer to real JIT.  I don't know if kernel support could
+make sense in this context, but it would be a completely different
+patch.
 
-# selftests: pidfd: pidfd_wait
-# TAP version 13
-# 1..3
-# # Starting 3 tests from 1 test cases.
-# #  RUN           global.wait_simple ...
-# #            OK  global.wait_simple
-# ok 1 global.wait_simple
-# #  RUN           global.wait_states ...
-# #            OK  global.wait_states
-# ok 2 global.wait_states
-# #  RUN           global.wait_nonblock ...
-# # pidfd_wait.c:208:wait_nonblock:Expected sys_waitid(P_PIDFD, pidfd,
-&info, WSTOPPED, NULL) (-1) == 0 (0)
-# # wait_nonblock: Test terminated by assertion
-# #          FAIL  global.wait_nonblock
-# not ok 3 global.wait_nonblock
-# # FAILED: 2 / 3 tests passed.
-# # Totals: pass:2 fail:1 xfail:0 xpass:0 skip:0 error:0
-Marking unfinished test run as failed
-
-ref:
-https://lkft.validation.linaro.org/scheduler/job/1782129#L11737
-https://lkft.validation.linaro.org/scheduler/job/1782130#L12735
-https://lkft.validation.linaro.org/scheduler/job/1782138#L14178
-
+Thanks,
+Florian
 -- 
-Linaro LKFT
-https://lkft.linaro.org
+Red Hat GmbH, https://de.redhat.com/ , Registered seat: Grasbrunn,
+Commercial register: Amtsgericht Muenchen, HRB 153243,
+Managing Directors: Charles Cachera, Brian Klemm, Laurie Krebs, Michael O'Neill
+
