@@ -2,154 +2,119 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 381C4276434
-	for <lists+linux-api@lfdr.de>; Thu, 24 Sep 2020 00:53:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CFB027644A
+	for <lists+linux-api@lfdr.de>; Thu, 24 Sep 2020 01:04:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726605AbgIWWxu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 23 Sep 2020 18:53:50 -0400
-Received: from mga11.intel.com ([192.55.52.93]:63901 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726199AbgIWWxu (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 23 Sep 2020 18:53:50 -0400
-IronPort-SDR: MiOAvGEXy5n9iIj68p/DWxuo87qmK6ZtEEarEF1C9gvmqJMCDrC2c4u0bpRl19jA9p4IdGkROa
- V2EW8TCyrmfQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9753"; a="158389848"
-X-IronPort-AV: E=Sophos;i="5.77,295,1596524400"; 
-   d="scan'208";a="158389848"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2020 15:53:49 -0700
-IronPort-SDR: BYKhOwQlUlHGeOQCLjfa9TuFxaZnO3BqZuVcym7DN9rrPABLMmp85vEsfVQfR3BuL/WFt/jt9S
- q0mI50+nPCMQ==
-X-IronPort-AV: E=Sophos;i="5.77,295,1596524400"; 
-   d="scan'208";a="342588691"
-Received: from anizami-mobl.amr.corp.intel.com (HELO [10.209.27.212]) ([10.209.27.212])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2020 15:53:47 -0700
-Subject: Re: [PATCH v12 8/8] x86: Disallow vsyscall emulation when CET is
- enabled
-To:     Andy Lutomirski <luto@kernel.org>,
-        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Cc:     Sean Christopherson <sean.j.christopherson@intel.com>,
-        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-References: <20200918192312.25978-1-yu-cheng.yu@intel.com>
- <20200918192312.25978-9-yu-cheng.yu@intel.com>
- <CALCETrXfixDGJhf0yPw-OckjEdeF2SbYjWFm8VbLriiP0Krhrg@mail.gmail.com>
- <c96c98ec-d72a-81a3-06e2-2040f3ece33a@intel.com>
- <24718de58ab7bc6d7288c58d3567ad802eeb6542.camel@intel.com>
- <CALCETrWssUxxfhPPJZgPOmpaQcf4o9qCe1j-P7yiPyZVV+O8ZQ@mail.gmail.com>
- <20200923212925.GC15101@linux.intel.com>
- <a2e872ef-5539-c7c1-49ca-95d590f3b92a@intel.com>
- <e7c20f4c-23a0-4a34-3895-c4f60993ec41@intel.com>
- <a862be68-dc81-6db5-c79b-5bbd87ccddaf@intel.com>
- <CALCETrW7o-j01aWCFjmy2TRm7X75Vd5EW_gAfOSP0nQfekkEmA@mail.gmail.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- xsFNBE6HMP0BEADIMA3XYkQfF3dwHlj58Yjsc4E5y5G67cfbt8dvaUq2fx1lR0K9h1bOI6fC
- oAiUXvGAOxPDsB/P6UEOISPpLl5IuYsSwAeZGkdQ5g6m1xq7AlDJQZddhr/1DC/nMVa/2BoY
- 2UnKuZuSBu7lgOE193+7Uks3416N2hTkyKUSNkduyoZ9F5twiBhxPJwPtn/wnch6n5RsoXsb
- ygOEDxLEsSk/7eyFycjE+btUtAWZtx+HseyaGfqkZK0Z9bT1lsaHecmB203xShwCPT49Blxz
- VOab8668QpaEOdLGhtvrVYVK7x4skyT3nGWcgDCl5/Vp3TWA4K+IofwvXzX2ON/Mj7aQwf5W
- iC+3nWC7q0uxKwwsddJ0Nu+dpA/UORQWa1NiAftEoSpk5+nUUi0WE+5DRm0H+TXKBWMGNCFn
- c6+EKg5zQaa8KqymHcOrSXNPmzJuXvDQ8uj2J8XuzCZfK4uy1+YdIr0yyEMI7mdh4KX50LO1
- pmowEqDh7dLShTOif/7UtQYrzYq9cPnjU2ZW4qd5Qz2joSGTG9eCXLz5PRe5SqHxv6ljk8mb
- ApNuY7bOXO/A7T2j5RwXIlcmssqIjBcxsRRoIbpCwWWGjkYjzYCjgsNFL6rt4OL11OUF37wL
- QcTl7fbCGv53KfKPdYD5hcbguLKi/aCccJK18ZwNjFhqr4MliQARAQABzShEYXZpZCBDaHJp
- c3RvcGhlciBIYW5zZW4gPGRhdmVAc3I3MS5uZXQ+wsF7BBMBAgAlAhsDBgsJCAcDAgYVCAIJ
- CgsEFgIDAQIeAQIXgAUCTo3k0QIZAQAKCRBoNZUwcMmSsMO2D/421Xg8pimb9mPzM5N7khT0
- 2MCnaGssU1T59YPE25kYdx2HntwdO0JA27Wn9xx5zYijOe6B21ufrvsyv42auCO85+oFJWfE
- K2R/IpLle09GDx5tcEmMAHX6KSxpHmGuJmUPibHVbfep2aCh9lKaDqQR07gXXWK5/yU1Dx0r
- VVFRaHTasp9fZ9AmY4K9/BSA3VkQ8v3OrxNty3OdsrmTTzO91YszpdbjjEFZK53zXy6tUD2d
- e1i0kBBS6NLAAsqEtneplz88T/v7MpLmpY30N9gQU3QyRC50jJ7LU9RazMjUQY1WohVsR56d
- ORqFxS8ChhyJs7BI34vQusYHDTp6PnZHUppb9WIzjeWlC7Jc8lSBDlEWodmqQQgp5+6AfhTD
- kDv1a+W5+ncq+Uo63WHRiCPuyt4di4/0zo28RVcjtzlGBZtmz2EIC3vUfmoZbO/Gn6EKbYAn
- rzz3iU/JWV8DwQ+sZSGu0HmvYMt6t5SmqWQo/hyHtA7uF5Wxtu1lCgolSQw4t49ZuOyOnQi5
- f8R3nE7lpVCSF1TT+h8kMvFPv3VG7KunyjHr3sEptYxQs4VRxqeirSuyBv1TyxT+LdTm6j4a
- mulOWf+YtFRAgIYyyN5YOepDEBv4LUM8Tz98lZiNMlFyRMNrsLV6Pv6SxhrMxbT6TNVS5D+6
- UorTLotDZKp5+M7BTQRUY85qARAAsgMW71BIXRgxjYNCYQ3Xs8k3TfAvQRbHccky50h99TUY
- sqdULbsb3KhmY29raw1bgmyM0a4DGS1YKN7qazCDsdQlxIJp9t2YYdBKXVRzPCCsfWe1dK/q
- 66UVhRPP8EGZ4CmFYuPTxqGY+dGRInxCeap/xzbKdvmPm01Iw3YFjAE4PQ4hTMr/H76KoDbD
- cq62U50oKC83ca/PRRh2QqEqACvIH4BR7jueAZSPEDnzwxvVgzyeuhwqHY05QRK/wsKuhq7s
- UuYtmN92Fasbxbw2tbVLZfoidklikvZAmotg0dwcFTjSRGEg0Gr3p/xBzJWNavFZZ95Rj7Et
- db0lCt0HDSY5q4GMR+SrFbH+jzUY/ZqfGdZCBqo0cdPPp58krVgtIGR+ja2Mkva6ah94/oQN
- lnCOw3udS+Eb/aRcM6detZr7XOngvxsWolBrhwTQFT9D2NH6ryAuvKd6yyAFt3/e7r+HHtkU
- kOy27D7IpjngqP+b4EumELI/NxPgIqT69PQmo9IZaI/oRaKorYnDaZrMXViqDrFdD37XELwQ
- gmLoSm2VfbOYY7fap/AhPOgOYOSqg3/Nxcapv71yoBzRRxOc4FxmZ65mn+q3rEM27yRztBW9
- AnCKIc66T2i92HqXCw6AgoBJRjBkI3QnEkPgohQkZdAb8o9WGVKpfmZKbYBo4pEAEQEAAcLB
- XwQYAQIACQUCVGPOagIbDAAKCRBoNZUwcMmSsJeCEACCh7P/aaOLKWQxcnw47p4phIVR6pVL
- e4IEdR7Jf7ZL00s3vKSNT+nRqdl1ugJx9Ymsp8kXKMk9GSfmZpuMQB9c6io1qZc6nW/3TtvK
- pNGz7KPPtaDzvKA4S5tfrWPnDr7n15AU5vsIZvgMjU42gkbemkjJwP0B1RkifIK60yQqAAlT
- YZ14P0dIPdIPIlfEPiAWcg5BtLQU4Wg3cNQdpWrCJ1E3m/RIlXy/2Y3YOVVohfSy+4kvvYU3
- lXUdPb04UPw4VWwjcVZPg7cgR7Izion61bGHqVqURgSALt2yvHl7cr68NYoFkzbNsGsye9ft
- M9ozM23JSgMkRylPSXTeh5JIK9pz2+etco3AfLCKtaRVysjvpysukmWMTrx8QnI5Nn5MOlJj
- 1Ov4/50JY9pXzgIDVSrgy6LYSMc4vKZ3QfCY7ipLRORyalFDF3j5AGCMRENJjHPD6O7bl3Xo
- 4DzMID+8eucbXxKiNEbs21IqBZbbKdY1GkcEGTE7AnkA3Y6YB7I/j9mQ3hCgm5muJuhM/2Fr
- OPsw5tV/LmQ5GXH0JQ/TZXWygyRFyyI2FqNTx4WHqUn3yFj8rwTAU1tluRUYyeLy0ayUlKBH
- ybj0N71vWO936MqP6haFERzuPAIpxj2ezwu0xb1GjTk4ynna6h5GjnKgdfOWoRtoWndMZxbA
- z5cecg==
-Message-ID: <97273aa8-9aa4-78ee-21ca-d728835f44a7@intel.com>
-Date:   Wed, 23 Sep 2020 15:53:46 -0700
+        id S1726572AbgIWXEL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 23 Sep 2020 19:04:11 -0400
+Received: from linux.microsoft.com ([13.77.154.182]:47754 "EHLO
+        linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726265AbgIWXEK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Sep 2020 19:04:10 -0400
+Received: from [192.168.254.38] (unknown [47.187.206.220])
+        by linux.microsoft.com (Postfix) with ESMTPSA id 8074320B7179;
+        Wed, 23 Sep 2020 16:04:09 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8074320B7179
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1600902250;
+        bh=HgpNPjY5iVu1CzxgcR4kgt+n2CI09GHM7/xa0p1o1Kk=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=muj4KSg6D89EDGio3heOxHCQwEdt6gWLUvMQcKlmrgOQqUz62EUPYL8kaIGhY51c7
+         BiX3Nbq3xO6O7AV7JtpP/RXJguNQGwEe7nrqG4qvPO8M3K1jLBNuvwOX52gI+DcYSx
+         kyoUN+2J9pxrSBa9emDc+4CJsNIRwh9UwZhyvp0k=
+Subject: Re: [PATCH v2 0/4] [RFC] Implement Trampoline File Descriptor
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org, oleg@redhat.com,
+        x86@kernel.org, luto@kernel.org, David.Laight@ACULAB.COM,
+        fweimer@redhat.com, mark.rutland@arm.com, mic@digikod.net
+References: <210d7cd762d5307c2aa1676705b392bd445f1baa>
+ <20200922215326.4603-1-madvenka@linux.microsoft.com>
+ <20200923084232.GB30279@amd>
+ <34257bc9-173d-8ef9-0c97-fb6bd0f69ecb@linux.microsoft.com>
+ <20200923205156.GA12034@duo.ucw.cz>
+From:   "Madhavan T. Venkataraman" <madvenka@linux.microsoft.com>
+Message-ID: <fe30c3bc-8bdb-4bf7-328d-84c9d449bc67@linux.microsoft.com>
+Date:   Wed, 23 Sep 2020 18:04:08 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <CALCETrW7o-j01aWCFjmy2TRm7X75Vd5EW_gAfOSP0nQfekkEmA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200923205156.GA12034@duo.ucw.cz>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 9/23/20 3:47 PM, Andy Lutomirski wrote:
-> On Wed, Sep 23, 2020 at 3:20 PM Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
->> On 9/23/2020 3:08 PM, Dave Hansen wrote:
->>> On 9/23/20 3:06 PM, Yu, Yu-cheng wrote:
->>>> I think I'll add a check here for (r + 8) >= TASK_SIZE_MAX.  It is
->>>> better than getting a fault.
->>> There's also wrmsr_safe().
+
+
+On 9/23/20 3:51 PM, Pavel Machek wrote:
+> Hi!
+> 
+>>>> Scenario 2
+>>>> ----------
+>>>>
+>>>> We know what code we need in advance. User trampolines are a good example of
+>>>> this. It is possible to define such code statically with some help from the
+>>>> kernel.
+>>>>
+>>>> This RFC addresses (2). (1) needs a general purpose trusted code generator
+>>>> and is out of scope for this RFC.
 >>>
->> Yes, thanks.
+>>> This is slightly less crazy talk than introduction talking about holes
+>>> in W^X. But it is very, very far from normal Unix system, where you
+>>> have selection of interpretters to run your malware on (sh, python,
+>>> awk, emacs, ...) and often you can even compile malware from sources. 
+>>>
+>>> And as you noted, we don't have "a general purpose trusted code
+>>> generator" for our systems.
+>>>
+>>> I believe you should simply delete confusing "introduction" and
+>>> provide details of super-secure system where your patches would be
+>>> useful, instead.
 >>
->> Since I am going to change this to:
+>> This RFC talks about converting dynamic code (which cannot be authenticated)
+>> to static code that can be authenticated using signature verification. That
+>> is the scope of this RFC.
 >>
->> fpu__prepare_write(), then write to the XSAVES area.
+>> If I have not been clear before, by dynamic code, I mean machine code that is
+>> dynamic in nature. Scripts are beyond the scope of this RFC.
 >>
->> The kernel does not expect XRSTORS to fail ("Bad FPU state detected..."
->> message).  So maybe still check the address first.
-> Surely there are plenty of ways to use ptrace() to poke garbage into
-> the FPU state.  We should be able to handle this type of failure
-> somewhat gracefully.
+>> Also, malware compiled from sources is not dynamic code. That is orthogonal
+>> to this RFC. If such malware has a valid signature that the kernel permits its
+>> execution, we have a systemic problem.
+>>
+>> I am not saying that script authentication or compiled malware are not problems.
+>> I am just saying that this RFC is not trying to solve all of the security problems.
+>> It is trying to define one way to convert dynamic code to static code to address
+>> one class of problems.
+> 
+> Well, you don't have to solve all problems at once.
+> 
+> But solutions have to exist, and AFAIK in this case they don't. You
+> are armoring doors, but ignoring open windows.
+> 
 
-Yeah, agreed.  I'd much rather make XRSTORS able to #GP gracefully than
-teach the kernel exhaustively about every possible error condition it
-can encounter.
+I am afraid I don't agree that the other open security issues must be
+addressed for this RFC to make sense. If you think that any of those
+issues actually has a bad interaction/intersection with this RFC,
+let me know how and I will address it.
 
-We *might* want to do something like to preserve the warning if the task
-hasn't been ptrace'd, or had the memory buffer written to directly or
-tainted in another way.
+> Or very probably you are thinking about something different than
+> normal desktop distros (Debian 10). Because on my systems, I have
+> python, gdb and gcc...
+> 
+> It would be nice to specify what other pieces need to be present for
+> this to make sense -- because it makes no sense on Debian 10.
+> 
+
+Since this RFC pertains to converting dynamic machine code to static
+code, it has nothing to do with the other items you have mentioned.
+I am not disagreeing that the other items need to be addressed. But
+they are orthogonal.
+
+Madhavan
