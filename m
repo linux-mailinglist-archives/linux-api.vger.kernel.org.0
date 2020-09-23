@@ -2,101 +2,128 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 78FCA276276
-	for <lists+linux-api@lfdr.de>; Wed, 23 Sep 2020 22:49:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E6B0276289
+	for <lists+linux-api@lfdr.de>; Wed, 23 Sep 2020 22:52:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726680AbgIWUt5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 23 Sep 2020 16:49:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35770 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726199AbgIWUt5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Sep 2020 16:49:57 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45452C0613CE
-        for <linux-api@vger.kernel.org>; Wed, 23 Sep 2020 13:49:57 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id r19so382293pls.1
-        for <linux-api@vger.kernel.org>; Wed, 23 Sep 2020 13:49:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=vR/4IIWUNKe15foWwpTS+9b9UDo/Qa9Bzr4DnMS8/ac=;
-        b=cvjPnC0ctMeBB9Bs+hCjmPTbXFlh28AtvRC9s1zm2hw5bXo4ZM3zQP6zMGV/EI6SFo
-         ZCLDgL2ZjoUvZ0VvL5o3QAIC/+pFqbd6cKVOng6IcDOjV9fnoffLoUMEnL06XcnSYhD5
-         +9ECmXqHcYULlG40Fvwx9JHw4WrGQFnblwk/g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=vR/4IIWUNKe15foWwpTS+9b9UDo/Qa9Bzr4DnMS8/ac=;
-        b=nulUyFWwhn6yjuFWK2UWi0bSyTYkNsdPx2roN+PPrEvanWsbDqwO8CaaEoZ8i1ikEc
-         QLhrX6HJIeXvhC7OMH7cIgMbm8DQ2XvZ1j8Hc3qA+qIjcSNGLw0tR6KaN8L1+Rti9ZVX
-         zOkudfUPh979zJPAek23CiSy84oImh1RKgZSUsHHT/8jQ0KkX0n9Xp70ZoAbKMgj91By
-         hcZR7IHqJSVm769g2HKPXqkVBJeqMmrdwHyEe0KtqPHEVc7GKQ+o2VO+d01lUsO1E+Uk
-         Vr17qV3jdWcM2uEGRTn2g+HbIaldmaGNkaaMrQt2AuF1HiqIe+0WYyiPse86UcR5Uhaw
-         2iAQ==
-X-Gm-Message-State: AOAM532OR+13EZhsVdeqft8ppGa7mc9sR8YTSVaH/2S4OrzQ6jJ7rLRl
-        rDa/LxYJPs624QM5ZMZRgwmMsw==
-X-Google-Smtp-Source: ABdhPJzAZbjKC++0LwmLMQfeQPatEJ5NMT1jot2+hrKf5dZand6yk9QurwfKoHW0Dn2mkHpfk4pEKA==
-X-Received: by 2002:a17:90b:3c3:: with SMTP id go3mr1124426pjb.64.1600894196835;
-        Wed, 23 Sep 2020 13:49:56 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id m20sm514433pfa.115.2020.09.23.13.49.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2020 13:49:55 -0700 (PDT)
-Date:   Wed, 23 Sep 2020 13:49:54 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Gabriel Krisman Bertazi <krisman@collabora.com>
-Cc:     tglx@linutronix.de, luto@kernel.org, x86@kernel.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        willy@infradead.org, linux-kselftest@vger.kernel.org,
-        shuah@kernel.org, kernel@collabora.com
-Subject: Re: [PATCH v6 1/9] kernel: Support TIF_SYSCALL_INTERCEPT flag
-Message-ID: <202009231349.4A25EAF@keescook>
-References: <20200904203147.2908430-1-krisman@collabora.com>
- <20200904203147.2908430-2-krisman@collabora.com>
- <202009221243.6BC5635E@keescook>
- <874kno6yct.fsf@collabora.com>
+        id S1726768AbgIWUwC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 23 Sep 2020 16:52:02 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:33862 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726265AbgIWUwC (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Sep 2020 16:52:02 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 2992C1C0BB6; Wed, 23 Sep 2020 22:51:57 +0200 (CEST)
+Date:   Wed, 23 Sep 2020 22:51:56 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     "Madhavan T. Venkataraman" <madvenka@linux.microsoft.com>
+Cc:     kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org, oleg@redhat.com,
+        x86@kernel.org, luto@kernel.org, David.Laight@ACULAB.COM,
+        fweimer@redhat.com, mark.rutland@arm.com, mic@digikod.net
+Subject: Re: [PATCH v2 0/4] [RFC] Implement Trampoline File Descriptor
+Message-ID: <20200923205156.GA12034@duo.ucw.cz>
+References: <210d7cd762d5307c2aa1676705b392bd445f1baa>
+ <20200922215326.4603-1-madvenka@linux.microsoft.com>
+ <20200923084232.GB30279@amd>
+ <34257bc9-173d-8ef9-0c97-fb6bd0f69ecb@linux.microsoft.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="45Z9DzgjV8m4Oswq"
 Content-Disposition: inline
-In-Reply-To: <874kno6yct.fsf@collabora.com>
+In-Reply-To: <34257bc9-173d-8ef9-0c97-fb6bd0f69ecb@linux.microsoft.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Sep 23, 2020 at 04:18:26PM -0400, Gabriel Krisman Bertazi wrote:
-> Kees Cook <keescook@chromium.org> writes:
-> 
-> > On Fri, Sep 04, 2020 at 04:31:39PM -0400, Gabriel Krisman Bertazi wrote:
-> >> Convert TIF_SECCOMP into a generic TI flag for any syscall interception
-> >> work being done by the kernel.  The actual type of work is exposed by a
-> >> new flag field outside of thread_info.  This ensures that the
-> >> syscall_intercept field is only accessed if struct seccomp has to be
-> >> accessed already, such that it doesn't incur in a much higher cost to
-> >> the seccomp path.
-> >> 
-> >> In order to avoid modifying every architecture at once, this patch has a
-> >> transition mechanism, such that architectures that define TIF_SECCOMP
-> >> continue to work by ignoring the syscall_intercept flag, as long as they
-> >> don't support other syscall interception mechanisms like the future
-> >> syscall user dispatch.  When migrating TIF_SECCOMP to
-> >> TIF_SYSCALL_INTERCEPT, they should adopt the semantics of checking the
-> >> syscall_intercept flag, like it is done in the common entry syscall
-> >> code, or even better, migrate to the common syscall entry code.
-> >
-> > Can we "eat" all the other flags like ptrace, audit, etc, too? Doing
-> > this only for seccomp seems strange.
-> 
-> Hi Kees, Thanks again for the review.
-> 
-> Yes, we can, and I'm happy to follow up with that as part of my TIF
-> clean up work, but can we not block the current patchset to be merged
-> waiting for that, as this already grew a lot from the original feature
-> submission?
 
-In that case, I'd say just add the new TIF flag. The consolidation can
-come later.
+--45Z9DzgjV8m4Oswq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Kees Cook
+Hi!
+
+> >> Scenario 2
+> >> ----------
+> >>
+> >> We know what code we need in advance. User trampolines are a good exam=
+ple of
+> >> this. It is possible to define such code statically with some help fro=
+m the
+> >> kernel.
+> >>
+> >> This RFC addresses (2). (1) needs a general purpose trusted code gener=
+ator
+> >> and is out of scope for this RFC.
+> >=20
+> > This is slightly less crazy talk than introduction talking about holes
+> > in W^X. But it is very, very far from normal Unix system, where you
+> > have selection of interpretters to run your malware on (sh, python,
+> > awk, emacs, ...) and often you can even compile malware from sources.=
+=20
+> >=20
+> > And as you noted, we don't have "a general purpose trusted code
+> > generator" for our systems.
+> >=20
+> > I believe you should simply delete confusing "introduction" and
+> > provide details of super-secure system where your patches would be
+> > useful, instead.
+>=20
+> This RFC talks about converting dynamic code (which cannot be authenticat=
+ed)
+> to static code that can be authenticated using signature verification. Th=
+at
+> is the scope of this RFC.
+>=20
+> If I have not been clear before, by dynamic code, I mean machine code tha=
+t is
+> dynamic in nature. Scripts are beyond the scope of this RFC.
+>=20
+> Also, malware compiled from sources is not dynamic code. That is orthogon=
+al
+> to this RFC. If such malware has a valid signature that the kernel permit=
+s its
+> execution, we have a systemic problem.
+>=20
+> I am not saying that script authentication or compiled malware are not pr=
+oblems.
+> I am just saying that this RFC is not trying to solve all of the security=
+ problems.
+> It is trying to define one way to convert dynamic code to static code to =
+address
+> one class of problems.
+
+Well, you don't have to solve all problems at once.
+
+But solutions have to exist, and AFAIK in this case they don't. You
+are armoring doors, but ignoring open windows.
+
+Or very probably you are thinking about something different than
+normal desktop distros (Debian 10). Because on my systems, I have
+python, gdb and gcc...
+
+It would be nice to specify what other pieces need to be present for
+this to make sense -- because it makes no sense on Debian 10.
+
+Best regards,
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--45Z9DzgjV8m4Oswq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCX2u1bAAKCRAw5/Bqldv6
+8ov1AJ9oh8sVA5W7qErLEsJzifoDuHM8DACgh6w28VCKvVj+dLDCdmUuI6zKsgc=
+=0Viq
+-----END PGP SIGNATURE-----
+
+--45Z9DzgjV8m4Oswq--
