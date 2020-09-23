@@ -2,121 +2,90 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 36977275CC6
-	for <lists+linux-api@lfdr.de>; Wed, 23 Sep 2020 18:06:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7824B275F41
+	for <lists+linux-api@lfdr.de>; Wed, 23 Sep 2020 20:00:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726718AbgIWQGS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 23 Sep 2020 12:06:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48288 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726156AbgIWQGS (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Sep 2020 12:06:18 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AE47C0613CE;
-        Wed, 23 Sep 2020 09:06:18 -0700 (PDT)
-Received: from zn.tnic (p200300ec2f0d130017aaf728a0fb4ec3.dip0.t-ipconnect.de [IPv6:2003:ec:2f0d:1300:17aa:f728:a0fb:4ec3])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E1F481EC02F2;
-        Wed, 23 Sep 2020 18:06:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1600877176;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=343RpSxaPLwXKOF6olutaSZsdcv4UEsmZkrtNn2OpcY=;
-        b=VLIuwTxoVNU1goesTkQIAtnSRmkFhM9Q6J3Hc6/77DLuSaIZ1lKbkazp8DbC/sQPzViAKb
-        NIUDFuJczQy3px7or/+ld3gN8KOvCrkWguBAbZ1b1odrnjRbuuo6Sa09UrsGJO2274mty9
-        BKt497sLS7pMn2fozfJMvCtnNeK+m2c=
-Date:   Wed, 23 Sep 2020 18:06:09 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc:     linux-mm@kvack.org, linux-acpi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, x86@kernel.org,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        rafael@kernel.org, Ingo Molnar <mingo@redhat.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        linuxarm@huawei.com, Dan Williams <dan.j.williams@intel.com>,
-        Brice Goglin <Brice.Goglin@inria.fr>,
-        Sean V Kelley <sean.v.kelley@linux.intel.com>,
-        linux-api@vger.kernel.org, Hanjun Guo <guohanjun@huawei.com>
-Subject: Re: [PATCH v10 2/6] x86: Support Generic Initiator only proximity
- domains
-Message-ID: <20200923160609.GO28545@zn.tnic>
-References: <20200907140307.571932-1-Jonathan.Cameron@huawei.com>
- <20200907140307.571932-3-Jonathan.Cameron@huawei.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+        id S1726234AbgIWSAP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 23 Sep 2020 14:00:15 -0400
+Received: from mother.openwall.net ([195.42.179.200]:53990 "HELO
+        mother.openwall.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1726424AbgIWSAP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Sep 2020 14:00:15 -0400
+Received: (qmail 18029 invoked from network); 23 Sep 2020 18:00:12 -0000
+Received: from localhost (HELO pvt.openwall.com) (127.0.0.1)
+  by localhost with SMTP; 23 Sep 2020 18:00:12 -0000
+Received: by pvt.openwall.com (Postfix, from userid 503)
+        id 59151AB844; Wed, 23 Sep 2020 20:00:07 +0200 (CEST)
+Date:   Wed, 23 Sep 2020 20:00:07 +0200
+From:   Solar Designer <solar@openwall.com>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     madvenka@linux.microsoft.com, kernel-hardening@lists.openwall.com,
+        linux-api@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org, oleg@redhat.com,
+        x86@kernel.org, luto@kernel.org, David.Laight@ACULAB.COM,
+        fweimer@redhat.com, mark.rutland@arm.com, mic@digikod.net,
+        Rich Felker <dalias@libc.org>
+Subject: Re: [PATCH v2 0/4] [RFC] Implement Trampoline File Descriptor
+Message-ID: <20200923180007.GA8646@openwall.com>
+References: <20200922215326.4603-1-madvenka@linux.microsoft.com> <20200923081426.GA30279@amd> <20200923091456.GA6177@openwall.com> <20200923141102.GA7142@openwall.com> <20200923151835.GA32555@duo.ucw.cz>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200907140307.571932-3-Jonathan.Cameron@huawei.com>
+In-Reply-To: <20200923151835.GA32555@duo.ucw.cz>
+User-Agent: Mutt/1.4.2.3i
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Sep 07, 2020 at 10:03:03PM +0800, Jonathan Cameron wrote:
-> In common with memoryless domains we only register GI domains
-> if the proximity node is not online. If a domain is already
-> a memory containing domain, or a memoryless domain there is
-> nothing to do just because it also contains a Generic Initiator.
+On Wed, Sep 23, 2020 at 05:18:35PM +0200, Pavel Machek wrote:
+> > It sure does make sense to combine ret2libc/ROP to mprotect() with one's
+> > own injected shellcode.  Compared to doing everything from ROP, this is
+> > easier and more reliable across versions/builds if the desired
+> > payload
 > 
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> ---
->  arch/x86/include/asm/numa.h |  2 ++
->  arch/x86/kernel/setup.c     |  1 +
->  arch/x86/mm/numa.c          | 14 ++++++++++++++
->  3 files changed, 17 insertions(+)
+> Ok, so this starts to be a bit confusing.
 > 
-> diff --git a/arch/x86/include/asm/numa.h b/arch/x86/include/asm/numa.h
-> index bbfde3d2662f..f631467272a3 100644
-> --- a/arch/x86/include/asm/numa.h
-> +++ b/arch/x86/include/asm/numa.h
-> @@ -62,12 +62,14 @@ extern void numa_clear_node(int cpu);
->  extern void __init init_cpu_to_node(void);
->  extern void numa_add_cpu(int cpu);
->  extern void numa_remove_cpu(int cpu);
-> +extern void init_gi_nodes(void);
->  #else	/* CONFIG_NUMA */
->  static inline void numa_set_node(int cpu, int node)	{ }
->  static inline void numa_clear_node(int cpu)		{ }
->  static inline void init_cpu_to_node(void)		{ }
->  static inline void numa_add_cpu(int cpu)		{ }
->  static inline void numa_remove_cpu(int cpu)		{ }
-> +static inline void init_gi_nodes(void)			{ }
->  #endif	/* CONFIG_NUMA */
->  
->  #ifdef CONFIG_DEBUG_PER_CPU_MAPS
-> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
-> index 3511736fbc74..9062c146f03a 100644
-> --- a/arch/x86/kernel/setup.c
-> +++ b/arch/x86/kernel/setup.c
-> @@ -1218,6 +1218,7 @@ void __init setup_arch(char **cmdline_p)
->  	prefill_possible_map();
->  
->  	init_cpu_to_node();
-> +	init_gi_nodes();
+> I thought W^X is to protect from attackers that have overflowed buffer
+> somewhere, but can not to do arbitrary syscalls, yet.
+> 
+> You are saying that there's important class of attackers that can do
+> some syscalls but not arbitrary ones.
 
-Can this function be an early_initcall() or so instead which you can
-call in numa.c directly instead of exporting it and calling it here?
+They might be able to do many, most, or all arbitrary syscalls via
+ret2libc or such.  The crucial detail is that each time they do that,
+they risk incompatibility with the given target system (version, build,
+maybe ASLR if gadgets from multiple libraries are involved).  By using
+mprotect(), they only take this risk once (need to get the address of an
+mprotect() gadget and of what to change protections on right), and then
+they can invoke multiple syscalls from their shellcode more reliably.
+So for doing a lot of work, mprotect() combined with injected code can
+be easier and more reliable.  It is also an extra option an attacker can
+use, in addition to doing everything via borrowed code.  More
+flexibility for the attacker means the attacker may choose whichever
+approach works better in a given case (or try several).
 
->  	io_apic_init_mappings();
->  
-> diff --git a/arch/x86/mm/numa.c b/arch/x86/mm/numa.c
-> index aa76ec2d359b..fc630dc6764e 100644
-> --- a/arch/x86/mm/numa.c
-> +++ b/arch/x86/mm/numa.c
-> @@ -747,6 +747,20 @@ static void __init init_memory_less_node(int nid)
->  	 */
->  }
->  
-> +/*
-> + * Generic Initiator Nodes may have neither CPU nor Memory.
-> + * At this stage if either of the others were present we would
+I am embarrassed for not thinking/recalling this when I first posted
+earlier today.  It's actually obvious.  I'm just getting old and rusty.
 
-Who's "we"? And what is "either of the others"? The other nodes?
+> I'd like to see definition of that attacker (and perhaps description
+> of the system the protection is expected to be useful on -- if it is
+> not close to common Linux distros).
 
--- 
-Regards/Gruss,
-    Boris.
+There's nothing unusual about that attacker and the system.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+A couple of other things Brad kindly pointed out:
+
+SELinux already has similar protections (execmem, execmod):
+
+http://lkml.iu.edu/hypermail/linux/kernel/0508.2/0194.html
+https://danwalsh.livejournal.com/6117.html
+
+PaX MPROTECT is implemented in a way or at a layer that covers ptrace()
+abuse that I mentioned.  (At least that's how I understood Brad.)
+
+Alexander
+
+P.S. Meanwhile, Twitter locked my account "for security purposes".  Fun.
+I'll just let it be for now.
