@@ -2,187 +2,125 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 32434275986
-	for <lists+linux-api@lfdr.de>; Wed, 23 Sep 2020 16:11:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 14D302759CF
+	for <lists+linux-api@lfdr.de>; Wed, 23 Sep 2020 16:22:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726681AbgIWOLQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 23 Sep 2020 10:11:16 -0400
-Received: from mother.openwall.net ([195.42.179.200]:55690 "HELO
-        mother.openwall.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1726156AbgIWOLO (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Sep 2020 10:11:14 -0400
-Received: (qmail 30262 invoked from network); 23 Sep 2020 14:11:11 -0000
-Received: from localhost (HELO pvt.openwall.com) (127.0.0.1)
-  by localhost with SMTP; 23 Sep 2020 14:11:11 -0000
-Received: by pvt.openwall.com (Postfix, from userid 503)
-        id C2648AB844; Wed, 23 Sep 2020 16:11:02 +0200 (CEST)
-Date:   Wed, 23 Sep 2020 16:11:02 +0200
-From:   Solar Designer <solar@openwall.com>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     madvenka@linux.microsoft.com, kernel-hardening@lists.openwall.com,
-        linux-api@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org, oleg@redhat.com,
-        x86@kernel.org, luto@kernel.org, David.Laight@ACULAB.COM,
-        fweimer@redhat.com, mark.rutland@arm.com, mic@digikod.net,
-        Rich Felker <dalias@libc.org>
-Subject: Re: [PATCH v2 0/4] [RFC] Implement Trampoline File Descriptor
-Message-ID: <20200923141102.GA7142@openwall.com>
-References: <20200922215326.4603-1-madvenka@linux.microsoft.com> <20200923081426.GA30279@amd> <20200923091456.GA6177@openwall.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200923091456.GA6177@openwall.com>
-User-Agent: Mutt/1.4.2.3i
+        id S1726498AbgIWOWS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 23 Sep 2020 10:22:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60468 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726130AbgIWOWR (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Sep 2020 10:22:17 -0400
+Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com [IPv6:2607:f8b0:4864:20::e42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1774C0613CE
+        for <linux-api@vger.kernel.org>; Wed, 23 Sep 2020 07:22:17 -0700 (PDT)
+Received: by mail-vs1-xe42.google.com with SMTP id 7so83535vsp.6
+        for <linux-api@vger.kernel.org>; Wed, 23 Sep 2020 07:22:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=DfASuP4wTyn3pr6VYvm8A1z5RVX46kLf4FcH4npIyzc=;
+        b=D4nNydf+MHc+IWQZKD3zTZKNm9RDLRVf/ccFBiozGSMayUBpd+Nfk55jyjJJlWdo2s
+         90YZZJmlz465/26fH4FhpNPrJxICDVSVh2Ff7cg5G09PCizdTa00F5sZBtCRdeFfq4ne
+         OMvuIii0a+wdxKNhTqttw+N0+F6TAv10tlqac7xzm1uiix7bWROjgeT749p3o6BwunjP
+         r8QMKPmx8Plf5kRBoRJwNyyfI0qwKo1zWFMvUBgiXiGN8OYe+h8u6ps2iUeWtcbWffkx
+         2Ij0YugqNZa8iYouPDA4bHfLObTlLYXI0ThxaM7rNl/5QhtguMDpZKTIXxAURJYKZVY6
+         MPyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=DfASuP4wTyn3pr6VYvm8A1z5RVX46kLf4FcH4npIyzc=;
+        b=Ak/7/LVrdci9Tkk2cYYmYcYpb94iwunoH1uhfBFXu2DPe7m5iQ+NIsmVWpf3WWuSz7
+         rbLuWSVEPJCFjHvcqb7mEnbS2cGZhU2MSQIYUccQ/QG/65kUu8/+TYUHIlVDcRLXZdvI
+         sQrF3YSg5rXdS985ABfCKMQ2vGZsVtbEa5owsn19RVygKm++Cjcpixh7X5sKSYnxGegO
+         csgLVXfJV1Pg3qCw9QgIbDVETkQCERwzldVwv8TCZh3j8WQj7pDvOnlSG8Dd59pEwSrU
+         80ZXxUOSzEQ5lrtI3VDgcLs7dBktg+TtkZXH5vVEbfRenXstbXRwqFulvZw75EpK6S1e
+         Eb7Q==
+X-Gm-Message-State: AOAM531NCINhkXXPSa/ITReLaNM7YfJaK98a9JCBbzpmqG6MmRcEZGZ0
+        yUwsbmRRdYBeVg2KKmlW2K+k674qNdicZC7YnFHDkg==
+X-Google-Smtp-Source: ABdhPJyGT5d7kAzOWWOZyEuq+BVCrWdPRUSfm6tf7pVHXKklSwXBe0J8rse0+Sbr94QBjZSwHfW71Ao8kAoWRyg03gY=
+X-Received: by 2002:a05:6102:310f:: with SMTP id e15mr92501vsh.39.1600870936625;
+ Wed, 23 Sep 2020 07:22:16 -0700 (PDT)
+MIME-Version: 1.0
+From:   Naresh Kamboju <naresh.kamboju@linaro.org>
+Date:   Wed, 23 Sep 2020 19:52:05 +0530
+Message-ID: <CA+G9fYtF44bTzjswt26tOwfEQxrWvcSOROmEtH0HKfGn24QbRQ@mail.gmail.com>
+Subject: selftests: pidfd: pidfd_wait hangs on linux next kernel on all devices
+To:     "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>, linux-api@vger.kernel.org,
+        open list <linux-kernel@vger.kernel.org>
+Cc:     Christian Brauner <christian@brauner.io>,
+        Kees Cook <keescook@chromium.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Sargun Dhillon <sargun@sargun.me>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Jens Axboe <axboe@kernel.dk>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Shuah Khan <shuah@kernel.org>, lkft-triage@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Sep 23, 2020 at 11:14:56AM +0200, Solar Designer wrote:
-> On Wed, Sep 23, 2020 at 10:14:26AM +0200, Pavel Machek wrote:
-> > > Introduction
-> > > ============
-> > > 
-> > > Dynamic code is used in many different user applications. Dynamic code is
-> > > often generated at runtime. Dynamic code can also just be a pre-defined
-> > > sequence of machine instructions in a data buffer. Examples of dynamic
-> > > code are trampolines, JIT code, DBT code, etc.
-> > > 
-> > > Dynamic code is placed either in a data page or in a stack page. In order
-> > > to execute dynamic code, the page it resides in needs to be mapped with
-> > > execute permissions. Writable pages with execute permissions provide an
-> > > attack surface for hackers. Attackers can use this to inject malicious
-> > > code, modify existing code or do other harm.
-> > > 
-> > > To mitigate this, LSMs such as SELinux implement W^X. That is, they may not
-> > > allow pages to have both write and execute permissions. This prevents
-> > > dynamic code from executing and blocks applications that use it. To allow
-> > > genuine applications to run, exceptions have to be made for them (by setting
-> > > execmem, etc) which opens the door to security issues.
-> > > 
-> > > The W^X implementation today is not complete. There exist many user level
-> > > tricks that can be used to load and execute dynamic code. E.g.,
-> > > 
-> > > - Load the code into a file and map the file with R-X.
-> > > 
-> > > - Load the code in an RW- page. Change the permissions to R--. Then,
-> > >   change the permissions to R-X.
-> > > 
-> > > - Load the code in an RW- page. Remap the page with R-X to get a separate
-> > >   mapping to the same underlying physical page.
-> > > 
-> > > IMO, these are all security holes as an attacker can exploit them to inject
-> > > his own code.
-> > 
-> > IMO, you are smoking crack^H^H very seriously misunderstanding what
-> > W^X is supposed to protect from.
-> > 
-> > W^X is not supposed to protect you from attackers that can already do
-> > system calls. So loading code into a file then mapping the file as R-X
-> > is in no way security hole in W^X.
-> > 
-> > If you want to provide protection from attackers that _can_ do system
-> > calls, fine, but please don't talk about W^X and please specify what
-> > types of attacks you want to prevent and why that's good thing.
-> 
-> On one hand, Pavel is absolutely right.  It is ridiculous to say that
-> "these are all security holes as an attacker can exploit them to inject
-> his own code."
+selftests: pidfd: pidfd_wait hangs on linux next kernel on x86_64,
+i386 and arm64 Juno-r2
+These devices are using NFS mounted rootfs.
+I have tested pidfd testcases independently and all test PASS.
 
-I stand corrected, due to Brad's tweet and follow-ups here:
+The Hang or exit from test run noticed when run by run_kselftest.sh
 
-https://twitter.com/spendergrsec/status/1308728284390318082
+pidfd_wait.c:208:wait_nonblock:Expected sys_waitid(P_PIDFD, pidfd,
+&info, WSTOPPED, NULL) (-1) == 0 (0)
+wait_nonblock: Test terminated by assertion
 
-It sure does make sense to combine ret2libc/ROP to mprotect() with one's
-own injected shellcode.  Compared to doing everything from ROP, this is
-easier and more reliable across versions/builds if the desired payload
-is non-trivial.  My own example: invoking a shell in a local attack on
-Linux is trivial enough to do via ret2libc only, but a connect-back
-shell in a remote attack might be easier and more reliably done via
-mprotect() + shellcode.
+metadata:
+  git branch: master
+  git repo: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+  git commit: e64997027d5f171148687e58b78c8b3c869a6158
+  git describe: next-20200922
+  make_kernelversion: 5.9.0-rc6
+  kernel-config:
+http://snapshots.linaro.org/openembedded/lkft/lkft/sumo/intel-core2-32/lkft/linux-next/865/config
 
-Per the follow-ups, this was an established technique on Windows and iOS
-until further hardening prevented it.  So it does make sense for Linux
-to do the same (as an option because of it breaking existing stuff), and
-not so much as policy enforcement for the sake of it and ease of
-reasoning, but mostly to force real-world exploits to be more complex
-and less reliable.
+Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
 
-> On the other hand, "what W^X is supposed to protect from" depends on how
-> the term W^X is defined (historically, by PaX and OpenBSD).  It may be
-> that W^X is partially not a feature to defeat attacks per se, but also a
-> policy enforcement feature preventing use of dangerous techniques (JIT).
-> 
-> Such policy might or might not make sense.  It might make sense for ease
-> of reasoning, e.g. "I've flipped this setting, and now I'm certain the
-> system doesn't have JIT within a process (can still have it through
-> dynamically creating and invoking an entire new program), so there are
-> no opportunities for an attacker to inject code nor generate previously
-> non-existing ROP gadgets into an executable mapping within a process."
-> 
-> I do find it questionable whether such policy and such reasoning make
-> sense beyond academia.
+Test output log:
+---------------------
+[ 1385.104983] audit: type=1701 audit(1600804535.960:87865):
+auid=4294967295 uid=0 gid=0 ses=4294967295 subj=kernel pid=31268
+comm=\"pidfd_wait\"
+exe=\"/opt/kselftests/default-in-kernel/pidfd/pidfd_wait\" sig=6 res=1
 
-I was wrong in the above, focusing on the wrong thing.
+# selftests: pidfd: pidfd_wait
+# TAP version 13
+# 1..3
+# # Starting 3 tests from 1 test cases.
+# #  RUN           global.wait_simple ...
+# #            OK  global.wait_simple
+# ok 1 global.wait_simple
+# #  RUN           global.wait_states ...
+# #            OK  global.wait_states
+# ok 2 global.wait_states
+# #  RUN           global.wait_nonblock ...
+# # pidfd_wait.c:208:wait_nonblock:Expected sys_waitid(P_PIDFD, pidfd,
+&info, WSTOPPED, NULL) (-1) == 0 (0)
+# # wait_nonblock: Test terminated by assertion
+# #          FAIL  global.wait_nonblock
+# not ok 3 global.wait_nonblock
+# # FAILED: 2 / 3 tests passed.
+# # Totals: pass:2 fail:1 xfail:0 xpass:0 skip:0 error:0
+Marking unfinished test run as failed
 
-> Then, there might be even more ways in which W^X is not perfect enough
-> to enable such reasoning.  What about using ptrace(2) to inject code?
-> Should enabling W^X also disable ability to debug programs by non-root?
-> We already have Yama ptrace_scope, which can achieve that at the highest
-> setting, although that's rather inconvenient and is probably unexpected
-> by most to be a requirement for having (ridiculously?) full W^X allowing
-> for the academic reasoning.
+ref:
+https://lkft.validation.linaro.org/scheduler/job/1782129#L11737
+https://lkft.validation.linaro.org/scheduler/job/1782130#L12735
+https://lkft.validation.linaro.org/scheduler/job/1782138#L14178
 
-Thinking out loud:
-
-Technically, ptrace() is also usable from a ROP chain.  It might be too
-cumbersome to bother using to get a shellcode going, but OTOH it's just
-one function to be invoked in a similar fashion multiple times, so might
-be more reliable than having a ROP chain depend on multiple actually
-needed functions directly (moving that dependency into the shellcode).
-
-> Personally, I am for policies that make more practical sense.  For
-> example, years ago I advocated here on kernel-hardening that we should
-> have a mode where ELF flags enabling/disabling executable stack are
-> ignored, and non-executable stack is always enforced.  This should also
-> be extended to default (at program startup) permissions on more than
-> just stack (but also on .bss, typical libcs' heap allocations, etc.)
-> However, I am not convinced there's enough value in extending the policy
-> to restricting explicit uses of mprotect(2).
-> 
-> Yes, PaX did that, and its emutramp.txt said "runtime code generation is
-> by its nature incompatible with PaX's PAGEEXEC/SEGMEXEC and MPROTECT
-> features, therefore the real solution is not in emulation but by
-> designing a kernel API for runtime code generation and modifying
-> userland to make use of it."  However, not being convinced in the
-> MPROTECT feature having enough practical value,
-
-I am convinced now, however:
-
-> I am also not convinced
-> "a kernel API for runtime code generation and modifying userland to make
-> use of it" is the way to go.
-
-doesn't automatically follow from the above, because:
-
-> Having static instead of dynamically-generated trampolines in userland
-> code where possible (and making other userland/ABI changes to make that
-> possible in more/all cases) is an obvious improvement, and IMO should be
-> a priority over the above.
-> 
-> While I share my opinion here, I don't mean that to block Madhavan's
-> work.  I'd rather defer to people more knowledgeable in current userland
-> and ABI issues/limitations and plans on dealing with those, especially
-> to Florian Weimer.  I haven't seen Florian say anything specific for or
-> against Madhavan's proposal, and I'd like to.  (Have I missed that?)
-> It'd be wrong to introduce a kernel API that userland doesn't need, and
-> it'd be right to introduce one that userland actually intends to use.
-> 
-> I've also added Rich Felker to CC here, for musl libc and its possible
-> intent to use the proposed API.  (My guess is there's no such need, and
-> thus no intent, but Rich might want to confirm that or correct me.)
-
-So need to hear more from the userland folks, I guess.
-
-Alexander
+-- 
+Linaro LKFT
+https://lkft.linaro.org
