@@ -2,121 +2,121 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B3B9F275B71
-	for <lists+linux-api@lfdr.de>; Wed, 23 Sep 2020 17:18:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36977275CC6
+	for <lists+linux-api@lfdr.de>; Wed, 23 Sep 2020 18:06:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726613AbgIWPSj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 23 Sep 2020 11:18:39 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:56626 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726603AbgIWPSj (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Sep 2020 11:18:39 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 8B8181C0BBB; Wed, 23 Sep 2020 17:18:35 +0200 (CEST)
-Date:   Wed, 23 Sep 2020 17:18:35 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Solar Designer <solar@openwall.com>
-Cc:     madvenka@linux.microsoft.com, kernel-hardening@lists.openwall.com,
-        linux-api@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org, oleg@redhat.com,
-        x86@kernel.org, luto@kernel.org, David.Laight@ACULAB.COM,
-        fweimer@redhat.com, mark.rutland@arm.com, mic@digikod.net,
-        Rich Felker <dalias@libc.org>
-Subject: Re: [PATCH v2 0/4] [RFC] Implement Trampoline File Descriptor
-Message-ID: <20200923151835.GA32555@duo.ucw.cz>
-References: <20200922215326.4603-1-madvenka@linux.microsoft.com>
- <20200923081426.GA30279@amd>
- <20200923091456.GA6177@openwall.com>
- <20200923141102.GA7142@openwall.com>
+        id S1726718AbgIWQGS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 23 Sep 2020 12:06:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48288 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726156AbgIWQGS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Sep 2020 12:06:18 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AE47C0613CE;
+        Wed, 23 Sep 2020 09:06:18 -0700 (PDT)
+Received: from zn.tnic (p200300ec2f0d130017aaf728a0fb4ec3.dip0.t-ipconnect.de [IPv6:2003:ec:2f0d:1300:17aa:f728:a0fb:4ec3])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E1F481EC02F2;
+        Wed, 23 Sep 2020 18:06:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1600877176;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=343RpSxaPLwXKOF6olutaSZsdcv4UEsmZkrtNn2OpcY=;
+        b=VLIuwTxoVNU1goesTkQIAtnSRmkFhM9Q6J3Hc6/77DLuSaIZ1lKbkazp8DbC/sQPzViAKb
+        NIUDFuJczQy3px7or/+ld3gN8KOvCrkWguBAbZ1b1odrnjRbuuo6Sa09UrsGJO2274mty9
+        BKt497sLS7pMn2fozfJMvCtnNeK+m2c=
+Date:   Wed, 23 Sep 2020 18:06:09 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc:     linux-mm@kvack.org, linux-acpi@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, x86@kernel.org,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        rafael@kernel.org, Ingo Molnar <mingo@redhat.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        linuxarm@huawei.com, Dan Williams <dan.j.williams@intel.com>,
+        Brice Goglin <Brice.Goglin@inria.fr>,
+        Sean V Kelley <sean.v.kelley@linux.intel.com>,
+        linux-api@vger.kernel.org, Hanjun Guo <guohanjun@huawei.com>
+Subject: Re: [PATCH v10 2/6] x86: Support Generic Initiator only proximity
+ domains
+Message-ID: <20200923160609.GO28545@zn.tnic>
+References: <20200907140307.571932-1-Jonathan.Cameron@huawei.com>
+ <20200907140307.571932-3-Jonathan.Cameron@huawei.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="fUYQa+Pmc3FrFX/N"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200923141102.GA7142@openwall.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200907140307.571932-3-Jonathan.Cameron@huawei.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Mon, Sep 07, 2020 at 10:03:03PM +0800, Jonathan Cameron wrote:
+> In common with memoryless domains we only register GI domains
+> if the proximity node is not online. If a domain is already
+> a memory containing domain, or a memoryless domain there is
+> nothing to do just because it also contains a Generic Initiator.
+> 
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> ---
+>  arch/x86/include/asm/numa.h |  2 ++
+>  arch/x86/kernel/setup.c     |  1 +
+>  arch/x86/mm/numa.c          | 14 ++++++++++++++
+>  3 files changed, 17 insertions(+)
+> 
+> diff --git a/arch/x86/include/asm/numa.h b/arch/x86/include/asm/numa.h
+> index bbfde3d2662f..f631467272a3 100644
+> --- a/arch/x86/include/asm/numa.h
+> +++ b/arch/x86/include/asm/numa.h
+> @@ -62,12 +62,14 @@ extern void numa_clear_node(int cpu);
+>  extern void __init init_cpu_to_node(void);
+>  extern void numa_add_cpu(int cpu);
+>  extern void numa_remove_cpu(int cpu);
+> +extern void init_gi_nodes(void);
+>  #else	/* CONFIG_NUMA */
+>  static inline void numa_set_node(int cpu, int node)	{ }
+>  static inline void numa_clear_node(int cpu)		{ }
+>  static inline void init_cpu_to_node(void)		{ }
+>  static inline void numa_add_cpu(int cpu)		{ }
+>  static inline void numa_remove_cpu(int cpu)		{ }
+> +static inline void init_gi_nodes(void)			{ }
+>  #endif	/* CONFIG_NUMA */
+>  
+>  #ifdef CONFIG_DEBUG_PER_CPU_MAPS
+> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+> index 3511736fbc74..9062c146f03a 100644
+> --- a/arch/x86/kernel/setup.c
+> +++ b/arch/x86/kernel/setup.c
+> @@ -1218,6 +1218,7 @@ void __init setup_arch(char **cmdline_p)
+>  	prefill_possible_map();
+>  
+>  	init_cpu_to_node();
+> +	init_gi_nodes();
 
---fUYQa+Pmc3FrFX/N
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Can this function be an early_initcall() or so instead which you can
+call in numa.c directly instead of exporting it and calling it here?
 
-Hi!
+>  	io_apic_init_mappings();
+>  
+> diff --git a/arch/x86/mm/numa.c b/arch/x86/mm/numa.c
+> index aa76ec2d359b..fc630dc6764e 100644
+> --- a/arch/x86/mm/numa.c
+> +++ b/arch/x86/mm/numa.c
+> @@ -747,6 +747,20 @@ static void __init init_memory_less_node(int nid)
+>  	 */
+>  }
+>  
+> +/*
+> + * Generic Initiator Nodes may have neither CPU nor Memory.
+> + * At this stage if either of the others were present we would
 
-> > > > The W^X implementation today is not complete. There exist many user=
- level
-> > > > tricks that can be used to load and execute dynamic code. E.g.,
-> > > >=20
-> > > > - Load the code into a file and map the file with R-X.
-> > > >=20
-> > > > - Load the code in an RW- page. Change the permissions to R--. Then,
-> > > >   change the permissions to R-X.
-> > > >=20
-> > > > - Load the code in an RW- page. Remap the page with R-X to get a se=
-parate
-> > > >   mapping to the same underlying physical page.
-> > > >=20
-> > > > IMO, these are all security holes as an attacker can exploit them t=
-o inject
-> > > > his own code.
-> > >=20
-> > > IMO, you are smoking crack^H^H very seriously misunderstanding what
-> > > W^X is supposed to protect from.
-> > >=20
-> > > W^X is not supposed to protect you from attackers that can already do
-> > > system calls. So loading code into a file then mapping the file as R-X
-> > > is in no way security hole in W^X.
-> > >=20
-> > > If you want to provide protection from attackers that _can_ do system
-> > > calls, fine, but please don't talk about W^X and please specify what
-> > > types of attacks you want to prevent and why that's good thing.
-> >=20
-> > On one hand, Pavel is absolutely right.  It is ridiculous to say that
-> > "these are all security holes as an attacker can exploit them to inject
-> > his own code."
->=20
-> I stand corrected, due to Brad's tweet and follow-ups here:
->=20
-> https://twitter.com/spendergrsec/status/1308728284390318082
->=20
-> It sure does make sense to combine ret2libc/ROP to mprotect() with one's
-> own injected shellcode.  Compared to doing everything from ROP, this is
-> easier and more reliable across versions/builds if the desired
-> payload
+Who's "we"? And what is "either of the others"? The other nodes?
 
-Ok, so this starts to be a bit confusing.
+-- 
+Regards/Gruss,
+    Boris.
 
-I thought W^X is to protect from attackers that have overflowed buffer
-somewhere, but can not to do arbitrary syscalls, yet.
-
-You are saying that there's important class of attackers that can do
-some syscalls but not arbitrary ones.
-
-I'd like to see definition of that attacker (and perhaps description
-of the system the protection is expected to be useful on -- if it is
-not close to common Linux distros).
-
-Best regards,
-
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---fUYQa+Pmc3FrFX/N
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCX2tnSwAKCRAw5/Bqldv6
-8i65AKCaFokdFtwbykoqIQdSHvCvSHOLDQCdFG4dtfWtOuYiT5+Qq+ozWoM46eM=
-=Ferp
------END PGP SIGNATURE-----
-
---fUYQa+Pmc3FrFX/N--
+https://people.kernel.org/tglx/notes-about-netiquette
