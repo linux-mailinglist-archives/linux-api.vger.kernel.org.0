@@ -2,144 +2,116 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E8062277AAE
-	for <lists+linux-api@lfdr.de>; Thu, 24 Sep 2020 22:47:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9ACFC277AC0
+	for <lists+linux-api@lfdr.de>; Thu, 24 Sep 2020 22:52:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726559AbgIXUqS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 24 Sep 2020 16:46:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59684 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726239AbgIXUqS (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Sep 2020 16:46:18 -0400
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FE18C0613D4
-        for <linux-api@vger.kernel.org>; Thu, 24 Sep 2020 13:46:18 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id j2so272051eds.9
-        for <linux-api@vger.kernel.org>; Thu, 24 Sep 2020 13:46:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hNWgf5JR/cvx4+k2/k8//+NsLRafA9SikURsJTJxHl8=;
-        b=N/W4hr3EM1UoBKdrsToiPIHVsXsZea5kjUdS8aVBO0VqX+vlNG+bO2voUqHrH92lkx
-         v+cCb7BIpfE7J0COXu9ZveiX7hBiBESo1VPhidpBI1JkRyqPepo3jqNxoErSa7ggD7Bj
-         MLUMxpjuK+mfC0nMTCX4DLvJzLTliYNOhloeeWBzNrArRN2m8nCyPvgHXMO/qRm9xIP9
-         yDphfjjdEEvwDc1H58P3k8bEMGyF3FdmngMgF+y095/bdm8FGMsTS2nWw1Bvs8iIGz40
-         6fSaqQQ8BTbKoWXpnnOg8j1RUBcZ/ah40mqYQZ90MYPclO65VlQGxG253bBnA8WCIAyt
-         MFzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hNWgf5JR/cvx4+k2/k8//+NsLRafA9SikURsJTJxHl8=;
-        b=KzIaXvWQRmAp5iw3Br2cl5xlBw3PyF2NhHWSYj9IkWlYXloxFXmWGZ7jFIqJU2Jz8H
-         23iM2KnLNyqbtPNg3Dymd/K/w2qwBD3a1J6EWPVborazX0BQnF6m+l6Vc2+h+SCl5/+n
-         zaLvW77B5ZyDjSXBWywMmoCNmseKOTeuAREu4LzNpp1nDQH9CMotdT4ujSy0NT6y81mM
-         wLUL1RAyNfXpTRilxAbJORt/xuwL+xwR1ScrpUAz+FyHebTLg4ShSl8DRQBAZHJ84l5j
-         TWD3MckqwsgZloV2L6dliC9qFCVn+XhhLQ21BgiZeyB316iecUQTWQdG4G+FvTOeeRwS
-         wLWw==
-X-Gm-Message-State: AOAM53074/uluvy5sugWwHm3uWntTVCwmPa61duu/VVMZXGX/5awKaDX
-        cA8fS3OmGbEGj/RyvbQcsqi9hsoiV8T5BoqzBT+O
-X-Google-Smtp-Source: ABdhPJys8MteKkL5WUs90rL77+/4O8I7EJZDSmxK4s4ECn/X6tsLMwrENyCDpmW58kDnYfzhj5A5Va1MBnTmQWGW++s=
-X-Received: by 2002:aa7:cd06:: with SMTP id b6mr625058edw.196.1600980376408;
- Thu, 24 Sep 2020 13:46:16 -0700 (PDT)
+        id S1726406AbgIXUwv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 24 Sep 2020 16:52:51 -0400
+Received: from albireo.enyo.de ([37.24.231.21]:36894 "EHLO albireo.enyo.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725208AbgIXUwv (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 24 Sep 2020 16:52:51 -0400
+Received: from [172.17.203.2] (helo=deneb.enyo.de)
+        by albireo.enyo.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        id 1kLYEI-0006aW-SF; Thu, 24 Sep 2020 20:52:38 +0000
+Received: from fw by deneb.enyo.de with local (Exim 4.92)
+        (envelope-from <fw@deneb.enyo.de>)
+        id 1kLYEI-0006Fs-ML; Thu, 24 Sep 2020 22:52:38 +0200
+From:   Florian Weimer <fw@deneb.enyo.de>
+To:     "Madhavan T. Venkataraman" <madvenka@linux.microsoft.com>
+Cc:     Arvind Sankar <nivedita@alum.mit.edu>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org, oleg@redhat.com,
+        x86@kernel.org, libffi-discuss@sourceware.org, luto@kernel.org,
+        David.Laight@ACULAB.COM, mark.rutland@arm.com, mic@digikod.net,
+        pavel@ucw.cz
+Subject: Re: [PATCH v2 0/4] [RFC] Implement Trampoline File Descriptor
+References: <20200916150826.5990-1-madvenka@linux.microsoft.com>
+        <87v9gdz01h.fsf@mid.deneb.enyo.de>
+        <96ea02df-4154-5888-1669-f3beeed60b33@linux.microsoft.com>
+        <20200923014616.GA1216401@rani.riverdale.lan>
+        <20200923091125.GB1240819@rani.riverdale.lan>
+        <a742b9cd-4ffb-60e0-63b8-894800009700@linux.microsoft.com>
+        <20200923195147.GA1358246@rani.riverdale.lan>
+        <2ed2becd-49b5-7e76-9836-6a43707f539f@linux.microsoft.com>
+Date:   Thu, 24 Sep 2020 22:52:38 +0200
+In-Reply-To: <2ed2becd-49b5-7e76-9836-6a43707f539f@linux.microsoft.com>
+        (Madhavan T. Venkataraman's message of "Thu, 24 Sep 2020 15:23:52
+        -0500")
+Message-ID: <87o8luvqw9.fsf@mid.deneb.enyo.de>
 MIME-Version: 1.0
-References: <20200923232923.3142503-1-keescook@chromium.org>
- <20200923232923.3142503-5-keescook@chromium.org> <CAG48ez251v19U60GYH4aWE6+C-3PYw5mr_Ax_kxnebqDOBn_+Q@mail.gmail.com>
- <202009240038.864365E@keescook> <CAHC9VhQpto1KuL7PhjtdjtAjJ2nC+rZNSM7+nSZ_ksqGXbhY+Q@mail.gmail.com>
- <202009241251.F719CC4@keescook>
-In-Reply-To: <202009241251.F719CC4@keescook>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Thu, 24 Sep 2020 16:46:05 -0400
-Message-ID: <CAHC9VhQudGg55atznkuWWW5h0d+vZZhO2NF4yNAqreg4NDsHKg@mail.gmail.com>
-Subject: Re: [PATCH 4/6] seccomp: Emulate basic filters for constant action results
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Tom Hromatka <tom.hromatka@oracle.com>,
-        Jann Horn <jannh@google.com>,
-        YiFei Zhu <yifeifz2@illinois.edu>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Tycho Andersen <tycho@tycho.pizza>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Will Drewry <wad@chromium.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Giuseppe Scrivano <gscrivan@redhat.com>,
-        Tobin Feldman-Fitzthum <tobin@ibm.com>,
-        Dimitrios Skarlatos <dskarlat@cs.cmu.edu>,
-        Valentin Rothberg <vrothber@redhat.com>,
-        Hubertus Franke <frankeh@us.ibm.com>,
-        Jack Chen <jianyan2@illinois.edu>,
-        Josep Torrellas <torrella@illinois.edu>,
-        Tianyin Xu <tyxu@illinois.edu>, bpf <bpf@vger.kernel.org>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Sep 24, 2020 at 3:52 PM Kees Cook <keescook@chromium.org> wrote:
-> On Thu, Sep 24, 2020 at 11:28:55AM -0400, Paul Moore wrote:
-> > On Thu, Sep 24, 2020 at 3:46 AM Kees Cook <keescook@chromium.org> wrote:
-> > > On Thu, Sep 24, 2020 at 01:47:47AM +0200, Jann Horn wrote:
-> > > > On Thu, Sep 24, 2020 at 1:29 AM Kees Cook <keescook@chromium.org> wrote:
-> > > > > This emulates absolutely the most basic seccomp filters to figure out
-> > > > > if they will always give the same results for a given arch/nr combo.
-> > > > >
-> > > > > Nearly all seccomp filters are built from the following ops:
-> > > > >
-> > > > > BPF_LD  | BPF_W    | BPF_ABS
-> > > > > BPF_JMP | BPF_JEQ  | BPF_K
-> > > > > BPF_JMP | BPF_JGE  | BPF_K
-> > > > > BPF_JMP | BPF_JGT  | BPF_K
-> > > > > BPF_JMP | BPF_JSET | BPF_K
-> > > > > BPF_JMP | BPF_JA
-> > > > > BPF_RET | BPF_K
-> > > > >
-> > > > > These are now emulated to check for accesses beyond seccomp_data::arch
-> > > > > or unknown instructions.
-> > > > >
-> > > > > Not yet implemented are:
-> > > > >
-> > > > > BPF_ALU | BPF_AND (generated by libseccomp and Chrome)
-> > > >
-> > > > BPF_AND is normally only used on syscall arguments, not on the syscall
-> > > > number or the architecture, right? And when a syscall argument is
-> > > > loaded, we abort execution anyway. So I think there is no need to
-> > > > implement those?
-> > >
-> > > Is that right? I can't actually tell what libseccomp is doing with
-> > > ALU|AND. It looks like it's using it for building jump lists?
-> >
-> > There is an ALU|AND op in the jump resolution code, but that is really
-> > just if libseccomp needs to fixup the accumulator because a code block
-> > is expecting a masked value (right now that would only be a syscall
-> > argument, not the syscall number itself).
-> >
-> > > Paul, Tom, under what cases does libseccomp emit ALU|AND into filters?
-> >
-> > Presently the only place where libseccomp uses ALU|AND is when the
-> > masked equality comparison is used for comparing syscall arguments
-> > (SCMP_CMP_MASKED_EQ).  I can't honestly say I have any good
-> > information about how often that is used by libseccomp callers, but if
-> > I do a quick search on GitHub for "SCMP_CMP_MASKED_EQ" I see 2k worth
-> > of code hits; take that for whatever it is worth.  Tom may have some
-> > more/better information.
-> >
-> > Of course no promises on future use :)  As one quick example, I keep
-> > thinking about adding the instruction pointer to the list of things
-> > that can be compared as part of a libseccomp rule, and if we do that I
-> > would expect that we would want to also allow a masked comparison (and
-> > utilize another ALU|AND bpf op there).  However, I'm not sure how
-> > useful that would be in practice.
+* Madhavan T. Venkataraman:
+
+> Otherwise, using an ABI quirk or a calling convention side effect to
+> load the PC into a GPR is, IMO, non-standard or non-compliant or
+> non-approved or whatever you want to call it. I would be
+> conservative and not use it. Who knows what incompatibility there
+> will be with some future software or hardware features?
+
+AArch64 PAC makes a backwards-incompatible change that touches this
+area, but we'll see if they can actually get away with it.
+
+In general, these things are baked into the ABI, even if they are not
+spelled out explicitly in the psABI supplement.
+
+> For instance, in the i386 example, we do a call without a matching return.
+> Also, we use a pop to undo the call. Can anyone tell me if this kind of use
+> is an ABI approved one?
+
+Yes, for i386, this is completely valid from an ABI point of view.
+It's equally possible to use a regular function call and just read the
+return address that has been pushed to the stack.  Then there's no
+stack mismatch at all.  Return stack predictors (including the one
+used by SHSTK) also recognize the CALL 0 construct, so that's fine as
+well.  The i386 psABI does not use function descriptors, and either
+approach (out-of-line thunk or CALL 0) is in common use to materialize
+the program counter in a register and construct the GOT pointer.
+
+> If the kernel supplies this, then all applications and libraries can use
+> it for all architectures with one single, simple API. Without this, each
+> application/library has to roll its own solution for every architecture-ABI
+> combo it wants to support.
+
+Is there any other user for these type-generic trampolines?
+Everything else I've seen generates machine code specific to the
+function being called.  libffi is quite the outlier in my experience
+because the trampoline calls a generic data-driven
+marshaller/unmarshaller.  The other trampoline generators put this
+marshalling code directly into the generated trampoline.
+
+I'm still not convinced that this can't be done directly in libffi,
+without kernel help.  Hiding the architecture-specific code in the
+kernel doesn't reduce overall system complexity.
+
+> As an example, in libffi:
 >
-> Okay, cool. Thanks for checking on that. It sounds like the arg-less
-> bitmap optimization can continue to ignore ALU|AND for now. :)
+> 	ffi_closure_alloc() would call alloc_tramp()
+>
+> 	ffi_prep_closure_loc() would call init_tramp()
+>
+> 	ffi_closure_free() would call free_tramp()
+>
+> That is it! It works on all the architectures supported in the kernel for
+> trampfd.
 
-What's really the worst that could happen anyways? (/me ducks)  The
-worst case is the filter falls back to the current performance levels
-right?
+ffi_prep_closure_loc would still need to check whether the trampoline
+has been allocated by alloc_tramp because some applications supply
+their own (executable and writable) mapping.  ffi_closure_alloc would
+need to support different sizes (not matching the trampoline).  It's
+also unclear to me to what extent software out there writes to the
+trampoline data directly, bypassing the libffi API (the structs are
+not opaque, after all).  And all the existing libffi memory management
+code (including the embedded dlmalloc copy) would be needed to support
+kernels without trampfd for years to come.
 
--- 
-paul moore
-www.paul-moore.com
+I very much agree that we have a gap in libffi when it comes to
+JIT-less operation.  But I'm not convinced that kernel support is
+needed to close it, or that it is even the right design.
