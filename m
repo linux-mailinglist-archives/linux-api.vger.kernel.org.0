@@ -2,154 +2,135 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B9EEA277B19
-	for <lists+linux-api@lfdr.de>; Thu, 24 Sep 2020 23:35:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 40BE2277B75
+	for <lists+linux-api@lfdr.de>; Fri, 25 Sep 2020 00:05:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726559AbgIXVfW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 24 Sep 2020 17:35:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38946 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726185AbgIXVfV (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Sep 2020 17:35:21 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 981B1C0613CE
-        for <linux-api@vger.kernel.org>; Thu, 24 Sep 2020 14:35:21 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id w7so807385pfi.4
-        for <linux-api@vger.kernel.org>; Thu, 24 Sep 2020 14:35:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=3CW8CM9pV/u4FfPt/5+0+4IcrrDDgdR3Q+VzmdoOROI=;
-        b=CRtDJNrzy8wbkCV74afPa/S3o604Di/g6RRZLW1jbvaELJCnfqJ5X54uFz+2y4YVd+
-         JMjENCSOJ8WiO+/T8ChnYyaZuJsyEhQOs0Plk7trxC06nHNaxqpOcT8y+sEuG5d/YU/D
-         b9pHibkXtd7atL74qEQo+eWeQ6auJ2I9asgk8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=3CW8CM9pV/u4FfPt/5+0+4IcrrDDgdR3Q+VzmdoOROI=;
-        b=Q2IRkQAm71BMrhhbMmelEOA04ZTC5w3CRV6/kbIeFu3LzAp+nDNQtijYLBeDA6H9hF
-         Aactqe3kHF8NR3W6YRcvRmRz2m+TC9qCETgGUUX/0jKwCv2AJyPFrCIREnCHM8HsBXFd
-         Qj5n3CoUlgnazkozHqIyq/Zx+MxO/aQOQVrT/eiqudT5STf7KKrMj5K6CK9Xe/HEnNM9
-         +BXs26YvfFy6GkDNG6ljJmq9Bw3vwEOOpnZY7Y9K/AZ+ciS0PvK85loRg/spokZDZLOh
-         hU81b0GXEfAGLbSps9pu60vWKW61TTUfxxkt/OCf4sRS4ZQUmT/5aZCAfHI65cAB5Giq
-         2txw==
-X-Gm-Message-State: AOAM531AuoYKhJ2XR9RsL/pwdS7xQdAGGXeK9BjiUcQXhxGerZrShU8+
-        NFLXqMW8mMjMw85ZycUrWoMWjg==
-X-Google-Smtp-Source: ABdhPJxPeQACYa4PqAeVCmVjvEbFidWdEHIEqDxU1SIdF2rEbkc88hcnIkpEODEOh3ASDI7d2YovtA==
-X-Received: by 2002:a62:e107:0:b029:13c:1611:658b with SMTP id q7-20020a62e1070000b029013c1611658bmr954182pfh.8.1600983320933;
-        Thu, 24 Sep 2020 14:35:20 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id 64sm378291pfz.204.2020.09.24.14.35.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Sep 2020 14:35:19 -0700 (PDT)
-Date:   Thu, 24 Sep 2020 14:35:18 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Paul Moore <paul@paul-moore.com>
-Cc:     Tom Hromatka <tom.hromatka@oracle.com>,
-        Jann Horn <jannh@google.com>,
-        YiFei Zhu <yifeifz2@illinois.edu>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Tycho Andersen <tycho@tycho.pizza>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Will Drewry <wad@chromium.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Giuseppe Scrivano <gscrivan@redhat.com>,
-        Tobin Feldman-Fitzthum <tobin@ibm.com>,
-        Dimitrios Skarlatos <dskarlat@cs.cmu.edu>,
-        Valentin Rothberg <vrothber@redhat.com>,
-        Hubertus Franke <frankeh@us.ibm.com>,
-        Jack Chen <jianyan2@illinois.edu>,
-        Josep Torrellas <torrella@illinois.edu>,
-        Tianyin Xu <tyxu@illinois.edu>, bpf <bpf@vger.kernel.org>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 4/6] seccomp: Emulate basic filters for constant action
- results
-Message-ID: <202009241434.CF8C1BA1D@keescook>
-References: <20200923232923.3142503-1-keescook@chromium.org>
- <20200923232923.3142503-5-keescook@chromium.org>
- <CAG48ez251v19U60GYH4aWE6+C-3PYw5mr_Ax_kxnebqDOBn_+Q@mail.gmail.com>
- <202009240038.864365E@keescook>
- <CAHC9VhQpto1KuL7PhjtdjtAjJ2nC+rZNSM7+nSZ_ksqGXbhY+Q@mail.gmail.com>
- <202009241251.F719CC4@keescook>
- <CAHC9VhQudGg55atznkuWWW5h0d+vZZhO2NF4yNAqreg4NDsHKg@mail.gmail.com>
+        id S1726682AbgIXWFq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 24 Sep 2020 18:05:46 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:60532 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726645AbgIXWFq (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Sep 2020 18:05:46 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 251041C0BD9; Fri, 25 Sep 2020 00:05:42 +0200 (CEST)
+Date:   Fri, 25 Sep 2020 00:05:40 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
+Cc:     "Madhavan T. Venkataraman" <madvenka@linux.microsoft.com>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org, oleg@redhat.com,
+        x86@kernel.org, luto@kernel.org, David.Laight@ACULAB.COM,
+        fweimer@redhat.com, mark.rutland@arm.com
+Subject: Re: [PATCH v2 0/4] [RFC] Implement Trampoline File Descriptor
+Message-ID: <20200924220540.GA13185@amd>
+References: <210d7cd762d5307c2aa1676705b392bd445f1baa>
+ <20200922215326.4603-1-madvenka@linux.microsoft.com>
+ <20200923084232.GB30279@amd>
+ <34257bc9-173d-8ef9-0c97-fb6bd0f69ecb@linux.microsoft.com>
+ <20200923205156.GA12034@duo.ucw.cz>
+ <c5ddf0c2-962a-f93a-e666-1c6f64482d97@digikod.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="SUOF0GtieIMvvwua"
 Content-Disposition: inline
-In-Reply-To: <CAHC9VhQudGg55atznkuWWW5h0d+vZZhO2NF4yNAqreg4NDsHKg@mail.gmail.com>
+In-Reply-To: <c5ddf0c2-962a-f93a-e666-1c6f64482d97@digikod.net>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Sep 24, 2020 at 04:46:05PM -0400, Paul Moore wrote:
-> On Thu, Sep 24, 2020 at 3:52 PM Kees Cook <keescook@chromium.org> wrote:
-> > On Thu, Sep 24, 2020 at 11:28:55AM -0400, Paul Moore wrote:
-> > > On Thu, Sep 24, 2020 at 3:46 AM Kees Cook <keescook@chromium.org> wrote:
-> > > > On Thu, Sep 24, 2020 at 01:47:47AM +0200, Jann Horn wrote:
-> > > > > On Thu, Sep 24, 2020 at 1:29 AM Kees Cook <keescook@chromium.org> wrote:
-> > > > > > This emulates absolutely the most basic seccomp filters to figure out
-> > > > > > if they will always give the same results for a given arch/nr combo.
-> > > > > >
-> > > > > > Nearly all seccomp filters are built from the following ops:
-> > > > > >
-> > > > > > BPF_LD  | BPF_W    | BPF_ABS
-> > > > > > BPF_JMP | BPF_JEQ  | BPF_K
-> > > > > > BPF_JMP | BPF_JGE  | BPF_K
-> > > > > > BPF_JMP | BPF_JGT  | BPF_K
-> > > > > > BPF_JMP | BPF_JSET | BPF_K
-> > > > > > BPF_JMP | BPF_JA
-> > > > > > BPF_RET | BPF_K
-> > > > > >
-> > > > > > These are now emulated to check for accesses beyond seccomp_data::arch
-> > > > > > or unknown instructions.
-> > > > > >
-> > > > > > Not yet implemented are:
-> > > > > >
-> > > > > > BPF_ALU | BPF_AND (generated by libseccomp and Chrome)
-> > > > >
-> > > > > BPF_AND is normally only used on syscall arguments, not on the syscall
-> > > > > number or the architecture, right? And when a syscall argument is
-> > > > > loaded, we abort execution anyway. So I think there is no need to
-> > > > > implement those?
-> > > >
-> > > > Is that right? I can't actually tell what libseccomp is doing with
-> > > > ALU|AND. It looks like it's using it for building jump lists?
-> > >
-> > > There is an ALU|AND op in the jump resolution code, but that is really
-> > > just if libseccomp needs to fixup the accumulator because a code block
-> > > is expecting a masked value (right now that would only be a syscall
-> > > argument, not the syscall number itself).
-> > >
-> > > > Paul, Tom, under what cases does libseccomp emit ALU|AND into filters?
-> > >
-> > > Presently the only place where libseccomp uses ALU|AND is when the
-> > > masked equality comparison is used for comparing syscall arguments
-> > > (SCMP_CMP_MASKED_EQ).  I can't honestly say I have any good
-> > > information about how often that is used by libseccomp callers, but if
-> > > I do a quick search on GitHub for "SCMP_CMP_MASKED_EQ" I see 2k worth
-> > > of code hits; take that for whatever it is worth.  Tom may have some
-> > > more/better information.
-> > >
-> > > Of course no promises on future use :)  As one quick example, I keep
-> > > thinking about adding the instruction pointer to the list of things
-> > > that can be compared as part of a libseccomp rule, and if we do that I
-> > > would expect that we would want to also allow a masked comparison (and
-> > > utilize another ALU|AND bpf op there).  However, I'm not sure how
-> > > useful that would be in practice.
-> >
-> > Okay, cool. Thanks for checking on that. It sounds like the arg-less
-> > bitmap optimization can continue to ignore ALU|AND for now. :)
-> 
-> What's really the worst that could happen anyways? (/me ducks)  The
-> worst case is the filter falls back to the current performance levels
-> right?
 
-Worse case for adding complexity to verifier is the bitmaps can be
-tricked into a bad state, but I've tried to design this so that it can
-only fail toward just running the filter. :)
+--SUOF0GtieIMvvwua
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Kees Cook
+Hi!
+
+> >>> I believe you should simply delete confusing "introduction" and
+> >>> provide details of super-secure system where your patches would be
+> >>> useful, instead.
+> >>
+> >> This RFC talks about converting dynamic code (which cannot be authenti=
+cated)
+> >> to static code that can be authenticated using signature verification.=
+ That
+> >> is the scope of this RFC.
+> >>
+> >> If I have not been clear before, by dynamic code, I mean machine code =
+that is
+> >> dynamic in nature. Scripts are beyond the scope of this RFC.
+> >>
+> >> Also, malware compiled from sources is not dynamic code. That is ortho=
+gonal
+> >> to this RFC. If such malware has a valid signature that the kernel per=
+mits its
+> >> execution, we have a systemic problem.
+> >>
+> >> I am not saying that script authentication or compiled malware are not=
+ problems.
+> >> I am just saying that this RFC is not trying to solve all of the secur=
+ity problems.
+> >> It is trying to define one way to convert dynamic code to static code =
+to address
+> >> one class of problems.
+> >=20
+> > Well, you don't have to solve all problems at once.
+> >=20
+> > But solutions have to exist, and AFAIK in this case they don't. You
+> > are armoring doors, but ignoring open windows.
+>=20
+> FYI, script execution is being addressed (for the kernel part) by this
+> patch series:
+> https://lore.kernel.org/lkml/20200924153228.387737-1-mic@digikod.net/
+
+Ok.
+
+> > Or very probably you are thinking about something different than
+> > normal desktop distros (Debian 10). Because on my systems, I have
+> > python, gdb and gcc...
+>=20
+> It doesn't make sense for a tailored security system to leave all these
+> tools available to an attacker.
+
+And it also does not make sense to use "trampoline file descriptor" on
+generic system... while W^X should make sense there.
+
+> > It would be nice to specify what other pieces need to be present for
+> > this to make sense -- because it makes no sense on Debian 10.
+>=20
+> Not all kernel features make sense for a generic/undefined usage,
+> especially specific security mechanisms (e.g. SELinux, Smack, Tomoyo,
+> SafeSetID, LoadPin, IMA, IPE, secure/trusted boot, lockdown, etc.), but
+> they can still be definitely useful.
+
+Yep... so... I'd expect something like... "so you have single-purpose
+system with all script interpreters removed, IMA hashing all the files
+to make sure they are not modified, and W^X enabled. Attacker can
+still execute code after buffer overflow by .... and trapoline file
+descriptor addrsses that"... so that people running generic systems
+can stop reading after first sentence.
+
+Best regards,
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--SUOF0GtieIMvvwua
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAl9tGDQACgkQMOfwapXb+vJJrACguUwBUXADnMj7K1we9pMBCXao
+yuMAoLYUAsqVN8r3PK8Ax9IBA9TWFYbf
+=yH8g
+-----END PGP SIGNATURE-----
+
+--SUOF0GtieIMvvwua--
