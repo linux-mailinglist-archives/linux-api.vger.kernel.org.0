@@ -2,133 +2,218 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6639427754E
-	for <lists+linux-api@lfdr.de>; Thu, 24 Sep 2020 17:29:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5828C277565
+	for <lists+linux-api@lfdr.de>; Thu, 24 Sep 2020 17:32:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728384AbgIXP3I (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 24 Sep 2020 11:29:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38958 "EHLO
+        id S1728459AbgIXPcp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 24 Sep 2020 11:32:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728315AbgIXP3I (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Sep 2020 11:29:08 -0400
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E76DC0613CE
-        for <linux-api@vger.kernel.org>; Thu, 24 Sep 2020 08:29:07 -0700 (PDT)
-Received: by mail-ed1-x541.google.com with SMTP id n22so3796462edt.4
-        for <linux-api@vger.kernel.org>; Thu, 24 Sep 2020 08:29:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=DWwrSFR+XsVbo72EXCPGN7Yvsrb6I0oZs+oVxjkh+2I=;
-        b=hN3JCT4/0mr9lHn1el6A+W9IHJhVcZfLNiBn+2+2ptYhZ2E3ln93PIdOTyrZm4MsWg
-         0pPA5aEFZnOI3KgY8otAO4fYpSdYshKnZ4CmKXSbw5JqMttXF9UPXapl5M86DohboovX
-         I3ro4WAml5gPUcfGG3zbCTYxhnoAJoBotyNRCrSyqpZDz/gaQeuJnjABGulXeW+vgul2
-         WfLGjGxh/urIx8OZzhTSMu8/a21/AzyXO11afB8SfNqZpdfRIv+08n215LLwBniNZZEh
-         jK3alXiJ//9LzmOTJndQYIOo7J2mNf+tk68S7tAY55J1Ph4eY4IoKrvEDEnzodg3nw3v
-         1Idg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DWwrSFR+XsVbo72EXCPGN7Yvsrb6I0oZs+oVxjkh+2I=;
-        b=q7xaoW1AsBdCtfL6Cs4wXIDnSKUwKjZCZB300P8eZLTgKSNcHqKqfmPu+EIM72RzGu
-         pCCrRmuLnaKYOnfOqWdTct2yHzCcEnbtm8FJAgp6GOw46B9b/4DrkF+MQa64s6W2qp4h
-         OwdDo7N467oDkXM4lzM5hp+33a6HZhnxoPfFIIvhvTL4aAHKvYs9xHN007pHtQfka1wn
-         +ZEjB9pqtLBYz4q3VUbubtiaWP/1aVgUbz4SbYxkWReKJZzSPj9n0+GN97c6ed4a30aw
-         Unt5zQ+XjSjIrxHg5rb4MYOD/yBu88cpP0LlsqvcbV/0IGWrZsAUJ/VZvV+lIn2uOwK1
-         MFtg==
-X-Gm-Message-State: AOAM5331i1k/YHoKbzRwd36r9bxL6SkZE+2yWM+S2R+r57j3l4JeTz63
-        B2DJ4jtuHYP7AsmZ0PCFyzfvd1wPvsKwPRAIhBPS
-X-Google-Smtp-Source: ABdhPJxwnRvlu4GIjD+pyeEz7LhCUZQ/skYgUffP4gTtRClyXesIuk5Q/rFSvs+tgZ6Sn7QvuUd3X5CwxfSMAX6NAl0=
-X-Received: by 2002:aa7:ce97:: with SMTP id y23mr494977edv.128.1600961346147;
- Thu, 24 Sep 2020 08:29:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200923232923.3142503-1-keescook@chromium.org>
- <20200923232923.3142503-5-keescook@chromium.org> <CAG48ez251v19U60GYH4aWE6+C-3PYw5mr_Ax_kxnebqDOBn_+Q@mail.gmail.com>
- <202009240038.864365E@keescook>
-In-Reply-To: <202009240038.864365E@keescook>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Thu, 24 Sep 2020 11:28:55 -0400
-Message-ID: <CAHC9VhQpto1KuL7PhjtdjtAjJ2nC+rZNSM7+nSZ_ksqGXbhY+Q@mail.gmail.com>
-Subject: Re: [PATCH 4/6] seccomp: Emulate basic filters for constant action results
-To:     Kees Cook <keescook@chromium.org>,
-        Tom Hromatka <tom.hromatka@oracle.com>
-Cc:     Jann Horn <jannh@google.com>, YiFei Zhu <yifeifz2@illinois.edu>,
+        with ESMTP id S1728480AbgIXPcp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Sep 2020 11:32:45 -0400
+Received: from smtp-190f.mail.infomaniak.ch (smtp-190f.mail.infomaniak.ch [IPv6:2001:1600:3:17::190f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE9AAC0613D5
+        for <linux-api@vger.kernel.org>; Thu, 24 Sep 2020 08:32:44 -0700 (PDT)
+Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4BxzZG4XJ9zlhtK0;
+        Thu, 24 Sep 2020 17:32:38 +0200 (CEST)
+Received: from localhost (unknown [94.23.54.103])
+        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4BxzZC0SC5zllmgp;
+        Thu, 24 Sep 2020 17:32:35 +0200 (CEST)
+From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
+To:     Al Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        James Morris <jmorris@namei.org>,
+        Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
+Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Casey Schaufler <casey@schaufler-ca.com>,
         Christian Brauner <christian.brauner@ubuntu.com>,
-        Tycho Andersen <tycho@tycho.pizza>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Will Drewry <wad@chromium.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Giuseppe Scrivano <gscrivan@redhat.com>,
-        Tobin Feldman-Fitzthum <tobin@ibm.com>,
-        Dimitrios Skarlatos <dskarlat@cs.cmu.edu>,
-        Valentin Rothberg <vrothber@redhat.com>,
-        Hubertus Franke <frankeh@us.ibm.com>,
-        Jack Chen <jianyan2@illinois.edu>,
-        Josep Torrellas <torrella@illinois.edu>,
-        Tianyin Xu <tyxu@illinois.edu>, bpf <bpf@vger.kernel.org>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Christian Heimes <christian@python.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Deven Bowers <deven.desai@linux.microsoft.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Eric Chiang <ericchiang@google.com>,
+        Florian Weimer <fweimer@redhat.com>, Jan Kara <jack@suse.cz>,
+        Jann Horn <jannh@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
+        "Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>,
+        Matthew Garrett <mjg59@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        =?UTF-8?q?Philippe=20Tr=C3=A9buchet?= 
+        <philippe.trebuchet@ssi.gouv.fr>,
+        Scott Shell <scottsh@microsoft.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Steve Dower <steve.dower@python.org>,
+        Steve Grubb <sgrubb@redhat.com>,
+        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+        Thibaut Sautereau <thibaut.sautereau@clip-os.org>,
+        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org
+Subject: [PATCH v10 0/3] Add trusted_for(2) (was O_MAYEXEC)
+Date:   Thu, 24 Sep 2020 17:32:25 +0200
+Message-Id: <20200924153228.387737-1-mic@digikod.net>
+X-Mailer: git-send-email 2.28.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Sep 24, 2020 at 3:46 AM Kees Cook <keescook@chromium.org> wrote:
-> On Thu, Sep 24, 2020 at 01:47:47AM +0200, Jann Horn wrote:
-> > On Thu, Sep 24, 2020 at 1:29 AM Kees Cook <keescook@chromium.org> wrote:
-> > > This emulates absolutely the most basic seccomp filters to figure out
-> > > if they will always give the same results for a given arch/nr combo.
-> > >
-> > > Nearly all seccomp filters are built from the following ops:
-> > >
-> > > BPF_LD  | BPF_W    | BPF_ABS
-> > > BPF_JMP | BPF_JEQ  | BPF_K
-> > > BPF_JMP | BPF_JGE  | BPF_K
-> > > BPF_JMP | BPF_JGT  | BPF_K
-> > > BPF_JMP | BPF_JSET | BPF_K
-> > > BPF_JMP | BPF_JA
-> > > BPF_RET | BPF_K
-> > >
-> > > These are now emulated to check for accesses beyond seccomp_data::arch
-> > > or unknown instructions.
-> > >
-> > > Not yet implemented are:
-> > >
-> > > BPF_ALU | BPF_AND (generated by libseccomp and Chrome)
-> >
-> > BPF_AND is normally only used on syscall arguments, not on the syscall
-> > number or the architecture, right? And when a syscall argument is
-> > loaded, we abort execution anyway. So I think there is no need to
-> > implement those?
->
-> Is that right? I can't actually tell what libseccomp is doing with
-> ALU|AND. It looks like it's using it for building jump lists?
+Hi,
 
-There is an ALU|AND op in the jump resolution code, but that is really
-just if libseccomp needs to fixup the accumulator because a code block
-is expecting a masked value (right now that would only be a syscall
-argument, not the syscall number itself).
+This tenth patch series renames the syscall from introspect_access(2) to
+trusted_for(2) and the sysctl from fs.introspect_policy to
+fs.trust_policy.  Indeed, the final goal is to enable the kernel to be a
+global policy manager by entrusting processes with access control at
+their level.  To reach this goal, two complementary parts are required:
+* user space needs to be able to know if it can trust some file
+  descriptor content for a specific usage;
+* and the kernel needs to make available some part of the policy
+  configured by the system administrator.
 
-> Paul, Tom, under what cases does libseccomp emit ALU|AND into filters?
+We removed the MAY_INTROSPECT_EXEC which was passed to
+inode_permission().  LSMs wishing to use this new syscall will need to
+implement such new flag.
 
-Presently the only place where libseccomp uses ALU|AND is when the
-masked equality comparison is used for comparing syscall arguments
-(SCMP_CMP_MASKED_EQ).  I can't honestly say I have any good
-information about how often that is used by libseccomp callers, but if
-I do a quick search on GitHub for "SCMP_CMP_MASKED_EQ" I see 2k worth
-of code hits; take that for whatever it is worth.  Tom may have some
-more/better information.
+Primary goal of trusted_for(2)
+==============================
 
-Of course no promises on future use :)  As one quick example, I keep
-thinking about adding the instruction pointer to the list of things
-that can be compared as part of a libseccomp rule, and if we do that I
-would expect that we would want to also allow a masked comparison (and
-utilize another ALU|AND bpf op there).  However, I'm not sure how
-useful that would be in practice.
+This new syscall enables user space to ask the kernel: is this file
+descriptor's content trusted to be used for this purpose?  The set of
+usage currently only contains "execution", but other may follow (e.g.
+"configuration", "sensitive_data").  If the kernel identifies the file
+descriptor as trustworthy for this usage, user space should then take
+this information into account.  The "execution" usage means that the
+content of the file descriptor is trusted according to the system policy
+to be executed by user space, which means that it interprets the content
+or (try to) maps it as executable memory.
+
+A simple system-wide security policy can be enforced by the system
+administrator through a sysctl configuration consistent with the mount
+points or the file access rights.  The documentation patch explains the
+prerequisites.
+
+It is important to note that this can only enable to extend access
+control managed by the kernel.  Hence it enables current access control
+mechanism to be extended and become a superset of what they can
+currently control.  Indeed, the security policy could also be delegated
+to an LSM, either a MAC system or an integrity system.  For instance,
+this is required to close a major IMA measurement/appraisal interpreter
+integrity gap by bringing the ability to check the use of scripts [1].
+Other uses are expected, such as for magic-links [2], SGX integration
+[3], bpffs [4].
+
+Complementary W^X protections can be brought by SELinux, IPE [5] and
+trampfd [6].
+
+Prerequisite of its use
+=======================
+
+User space needs to adapt to take advantage of this new feature.  For
+example, the PEP 578 [7] (Runtime Audit Hooks) enables Python 3.8 to be
+extended with policy enforcement points related to code interpretation,
+which can be used to align with the PowerShell audit features.
+Additional Python security improvements (e.g. a limited interpreter
+without -c, stdin piping of code) are on their way [8].
+
+Examples
+========
+
+The initial idea comes from CLIP OS 4 and the original implementation
+has been used for more than 12 years:
+https://github.com/clipos-archive/clipos4_doc
+Chrome OS has a similar approach:
+https://chromium.googlesource.com/chromiumos/docs/+/master/security/noexec_shell_scripts.md
+
+Userland patches can be found here:
+https://github.com/clipos-archive/clipos4_portage-overlay/search?q=O_MAYEXEC
+Actually, there is more than the O_MAYEXEC changes (which matches this search)
+e.g., to prevent Python interactive execution. There are patches for
+Bash, Wine, Java (Icedtea), Busybox's ash, Perl and Python. There are
+also some related patches which do not directly rely on O_MAYEXEC but
+which restrict the use of browser plugins and extensions, which may be
+seen as scripts too:
+https://github.com/clipos-archive/clipos4_portage-overlay/tree/master/www-client
+
+An introduction to O_MAYEXEC was given at the Linux Security Summit
+Europe 2018 - Linux Kernel Security Contributions by ANSSI:
+https://www.youtube.com/watch?v=chNjCRtPKQY&t=17m15s
+The "write xor execute" principle was explained at Kernel Recipes 2018 -
+CLIP OS: a defense-in-depth OS:
+https://www.youtube.com/watch?v=PjRE0uBtkHU&t=11m14s
+See also an overview article: https://lwn.net/Articles/820000/
+
+This patch series can be applied on top of v5.9-rc6 .  This can be tested
+with CONFIG_SYSCTL.  I would really appreciate constructive comments on
+this patch series.
+
+Previous version:
+https://lore.kernel.org/kernel-hardening/20200910164612.114215-1-mic@digikod.net/
+
+[1] https://lore.kernel.org/lkml/1544647356.4028.105.camel@linux.ibm.com/
+[2] https://lore.kernel.org/lkml/20190904201933.10736-6-cyphar@cyphar.com/
+[3] https://lore.kernel.org/lkml/CALCETrVovr8XNZSroey7pHF46O=kj_c5D9K8h=z2T_cNrpvMig@mail.gmail.com/
+[4] https://lore.kernel.org/lkml/CALCETrVeZ0eufFXwfhtaG_j+AdvbzEWE0M3wjXMWVEO7pj+xkw@mail.gmail.com/
+[5] https://lore.kernel.org/lkml/20200406221439.1469862-12-deven.desai@linux.microsoft.com/
+[6] https://lore.kernel.org/lkml/20200922215326.4603-1-madvenka@linux.microsoft.com/
+[7] https://www.python.org/dev/peps/pep-0578/
+[8] https://lore.kernel.org/lkml/0c70debd-e79e-d514-06c6-4cd1e021fa8b@python.org/
+
+Regards,
+
+Mickaël Salaün (3):
+  fs: Add trusted_for(2) syscall implementation and related sysctl
+  arch: Wire up trusted_for(2)
+  selftest/interpreter: Add tests for trusted_for(2) policies
+
+ Documentation/admin-guide/sysctl/fs.rst       |  50 +++
+ arch/alpha/kernel/syscalls/syscall.tbl        |   1 +
+ arch/arm/tools/syscall.tbl                    |   1 +
+ arch/arm64/include/asm/unistd.h               |   2 +-
+ arch/arm64/include/asm/unistd32.h             |   2 +
+ arch/ia64/kernel/syscalls/syscall.tbl         |   1 +
+ arch/m68k/kernel/syscalls/syscall.tbl         |   1 +
+ arch/microblaze/kernel/syscalls/syscall.tbl   |   1 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl     |   1 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl     |   1 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl     |   1 +
+ arch/parisc/kernel/syscalls/syscall.tbl       |   1 +
+ arch/powerpc/kernel/syscalls/syscall.tbl      |   1 +
+ arch/s390/kernel/syscalls/syscall.tbl         |   1 +
+ arch/sh/kernel/syscalls/syscall.tbl           |   1 +
+ arch/sparc/kernel/syscalls/syscall.tbl        |   1 +
+ arch/x86/entry/syscalls/syscall_32.tbl        |   1 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |   1 +
+ arch/xtensa/kernel/syscalls/syscall.tbl       |   1 +
+ fs/open.c                                     |  77 ++++
+ include/linux/fs.h                            |   1 +
+ include/linux/syscalls.h                      |   1 +
+ include/uapi/asm-generic/unistd.h             |   4 +-
+ include/uapi/linux/trusted-for.h              |  18 +
+ kernel/sysctl.c                               |  12 +-
+ .../testing/selftests/interpreter/.gitignore  |   2 +
+ tools/testing/selftests/interpreter/Makefile  |  21 +
+ tools/testing/selftests/interpreter/config    |   1 +
+ .../selftests/interpreter/trust_policy_test.c | 362 ++++++++++++++++++
+ 29 files changed, 565 insertions(+), 4 deletions(-)
+ create mode 100644 include/uapi/linux/trusted-for.h
+ create mode 100644 tools/testing/selftests/interpreter/.gitignore
+ create mode 100644 tools/testing/selftests/interpreter/Makefile
+ create mode 100644 tools/testing/selftests/interpreter/config
+ create mode 100644 tools/testing/selftests/interpreter/trust_policy_test.c
 
 -- 
-paul moore
-www.paul-moore.com
+2.28.0
+
