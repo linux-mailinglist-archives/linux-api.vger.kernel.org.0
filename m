@@ -2,97 +2,90 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A8D9E276BB4
-	for <lists+linux-api@lfdr.de>; Thu, 24 Sep 2020 10:22:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E7C9276FD2
+	for <lists+linux-api@lfdr.de>; Thu, 24 Sep 2020 13:24:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726958AbgIXIWm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 24 Sep 2020 04:22:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57560 "EHLO
+        id S1727330AbgIXLYp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 24 Sep 2020 07:24:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726906AbgIXIWm (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Sep 2020 04:22:42 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 716EAC0613CE;
-        Thu, 24 Sep 2020 01:22:42 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id g29so1466390pgl.2;
-        Thu, 24 Sep 2020 01:22:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=VffSKFOKcNEqzHH96dUPgeCMOjgSgi5QH+6TbDKTeEM=;
-        b=HipLz25IFRXLxQfyxq4wFJF7SpeY50MTG/68Rn/bZPdFoaCB5RgVZiDO4bHvmNvvZ4
-         p6sy/hJUOSKo+2YZx+a56N8Jo1WSofPDYjUzrdr0Y9+lMc/FYU6gFdDq++W+y6HTyIKr
-         6mX4yJsgG5TwesHDZi2GvGeqpZfz7eeXMfifbLMX3X53uJX3I7PNLjiYgbYEiM3GObBZ
-         dHckkMr2aM7gdOwFHBRH+P5Nt7EophqGBog+xZTERCxnN0mRajqsDE4Hzhxfbw75pTON
-         f/koI/Lz+OIUxDB7Lc9S4XTXrzH4IG0HToeF13Cq1r6oyNExplV1dMJJ5LN2muREHtWZ
-         2Wgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VffSKFOKcNEqzHH96dUPgeCMOjgSgi5QH+6TbDKTeEM=;
-        b=Yg2vYYvEwN/EIhJ5sH4rui34bi3aIeATPtEdfZh24Wt3rZaMSXOqeu/B0Y62rDj2eh
-         6Mfu/GFMfnd3g/gpQWIRBUNdh0AlYi/+49y9VbQOwACR2iN3dAxmE4IXjp9s9ITumtzR
-         aE5oda5KVgd5BVgu+1T3qXcqJcoYkn9+lWMyGeT4m7ztTJnOvTKrzCbOf+K/1RMo57ig
-         ONd+XW3LtIREU7Uh0RNIIX6TgMsUx2+IVK+Vjpns0szpuXBCy26ayD1gzirmjvznHN6p
-         9uJrtMvxz+wVIOnCX7d5mNNAHUipjGkrw+A9XxRhMmX+owXemXaalC1ywsOG4TFktgm/
-         hCOw==
-X-Gm-Message-State: AOAM5317x7b/oo/Evc5PlxSyPYxys2kj4EAQyjdPyZtdUumzU1B2h23y
-        SKdiBTM24ZhVVZEyaKirxMsBLTd+liliSJS25rk=
-X-Google-Smtp-Source: ABdhPJyN6S3PvfBf/m7CmcAzF+8SBUXc1APBXPdomlmhd7pAkzxdoiweeazvaxZ3itj9ZG2VZdsL6HkmkZuhi7/iYzU=
-X-Received: by 2002:aa7:8d4c:0:b029:150:f692:4129 with SMTP id
- s12-20020aa78d4c0000b0290150f6924129mr3496844pfe.11.1600935761975; Thu, 24
- Sep 2020 01:22:41 -0700 (PDT)
+        with ESMTP id S1727195AbgIXLYp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Sep 2020 07:24:45 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F215C0613CE;
+        Thu, 24 Sep 2020 04:24:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=LKUxmCaND0rMd4TqkVPk13jipt+snOdJO/HwxFGNvVc=; b=YJTYTmtZYUZeNGEgx90scbS7qo
+        5tQ7gYe7tUdKBUnsLlMoUjSiT0KxarH6WQVTUsP8IcdaPPdaKtVPbt6e9nTatqVTBmBFLISAWV8UL
+        SGBw3sovX06wUyp+SihgpLVizAnUqIfZQz6XeqzCw6gX7kAWachwju1KoBUGYnV2G/tLxEnRcGt8p
+        DdB5eZTHgVDOcowpDRveom1QhQBPRBeAGiE0mLmoPS5gUOBPuHAAhNoGMtVeIykWrUahes6USsO2k
+        mAfZp1o5eEMtL7/nkx0rtB91Pyl+Yv8mcYzhFHegOsKGmJ2NV2lvuPkPaDgz3QsUggg/CicbivMC0
+        39dIXcLA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kLPMg-0001am-3i; Thu, 24 Sep 2020 11:24:42 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 4EC15300DB4;
+        Thu, 24 Sep 2020 13:24:41 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 3BB59203161DB; Thu, 24 Sep 2020 13:24:41 +0200 (CEST)
+Date:   Thu, 24 Sep 2020 13:24:41 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Gabriel Krisman Bertazi <krisman@collabora.com>
+Cc:     luto@kernel.org, tglx@linutronix.de, keescook@chromium.org,
+        x86@kernel.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, willy@infradead.org,
+        linux-kselftest@vger.kernel.org, shuah@kernel.org,
+        kernel@collabora.com
+Subject: Re: [PATCH v6 1/9] kernel: Support TIF_SYSCALL_INTERCEPT flag
+Message-ID: <20200924112441.GF2628@hirez.programming.kicks-ass.net>
+References: <20200904203147.2908430-1-krisman@collabora.com>
+ <20200904203147.2908430-2-krisman@collabora.com>
+ <20200911093221.GD1362448@hirez.programming.kicks-ass.net>
+ <878sdgnkj6.fsf@collabora.com>
 MIME-Version: 1.0
-References: <20200923232923.3142503-1-keescook@chromium.org>
- <20200923232923.3142503-4-keescook@chromium.org> <CAG48ez0d80fOSTyn5QbH33WPz5UkzJJOo+V8of7YMR8pVQxumw@mail.gmail.com>
- <202009240018.A4D8274F@keescook> <CABqSeARV4prXOWf9qOBnm5Mm_aAdjwquqFFLQSuL0EegqeWEkA@mail.gmail.com>
- <202009240112.C48EF38EC2@keescook>
-In-Reply-To: <202009240112.C48EF38EC2@keescook>
-From:   YiFei Zhu <zhuyifei1999@gmail.com>
-Date:   Thu, 24 Sep 2020 03:22:31 -0500
-Message-ID: <CABqSeAR+DO3=Gt1KAAYKTJd7k07sH+aQCkofXxm7nX2TXh=w6A@mail.gmail.com>
-Subject: Re: [PATCH 3/6] seccomp: Implement constant action bitmaps
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Jann Horn <jannh@google.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Giuseppe Scrivano <gscrivan@redhat.com>,
-        Will Drewry <wad@chromium.org>, bpf <bpf@vger.kernel.org>,
-        YiFei Zhu <yifeifz2@illinois.edu>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        Tobin Feldman-Fitzthum <tobin@ibm.com>,
-        Hubertus Franke <frankeh@us.ibm.com>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Valentin Rothberg <vrothber@redhat.com>,
-        Dimitrios Skarlatos <dskarlat@cs.cmu.edu>,
-        Jack Chen <jianyan2@illinois.edu>,
-        Josep Torrellas <torrella@illinois.edu>,
-        Tianyin Xu <tyxu@illinois.edu>,
-        kernel list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <878sdgnkj6.fsf@collabora.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Sep 24, 2020 at 3:15 AM Kees Cook <keescook@chromium.org> wrote:
-> I was trying to be helpful: you hadn't seen the RFC, and it was missing
-> the emulator piece, which I wanted to be small, so I put got it out the
-> door today. I didn't want you to think you needed to port the larger
-> emulator over, for example.
+On Fri, Sep 11, 2020 at 04:08:45PM -0400, Gabriel Krisman Bertazi wrote:
+> peterz@infradead.org writes:
+> 
+> > On Fri, Sep 04, 2020 at 04:31:39PM -0400, Gabriel Krisman Bertazi wrote:
+> >> +static inline void __set_tsk_syscall_intercept(struct task_struct *tsk,
+> >> +					   unsigned int type)
+> >> +{
+> >> +	tsk->syscall_intercept |= type;
+> >> +
+> >> +	if (tsk->syscall_intercept)
+> >> +		set_tsk_thread_flag(tsk, TIF_SYSCALL_INTERCEPT);
+> >> +}
+> >
+> > Did the above want to be:
+> >
+> > 	unsigned int old = tsk->syscall_intercept;
+> > 	tsk->syscall_intercept |= type;
+> > 	if (!old)
+> > 		set_tsk_thread_flag(tsk, TIF_SYSCALL_INTERCEPT)
+> >
+> 
+> Hi Peter,
+> 
+> Thanks for the review!
+> 
+> I'm not sure this change gains us anything.  For now,
+> __set_tsk_syscall_intercept cannot be called with !type, so both
+> versions behave the same, but my version is safe with that scenario.
+> This won't be called frequent enough for the extra calls to
+> set_tsk_thread_flag matter.  Am I missing something?
 
-There's no architecture-dependent code in the emulator. It just has to
-iterate through all the arch numbers. So I don't know what you are
-referring to by "port ... over".
-The logic is simple. If the emulator determines the filter must be an
-allow for a given arch / syscall pair, then it is "cached by bitmap".
-
-> I'm open to ideas, but I want to have a non-optional performance
-> improvement as the first step. :)
-
-How about "performance improvement by default"? It's not like most end
-users / distros would turn off something that's enabled by default
-when they upgrade to a new kernel.
-
-YiFei Zhu
+Your version will do set_tsk_thread_flag() for every invocation
+(assuming non-zero type). That's sub-optimal.
