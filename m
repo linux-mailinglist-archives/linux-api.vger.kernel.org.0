@@ -2,142 +2,201 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F7A92779B8
-	for <lists+linux-api@lfdr.de>; Thu, 24 Sep 2020 21:52:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F29C2779E4
+	for <lists+linux-api@lfdr.de>; Thu, 24 Sep 2020 22:07:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726321AbgIXTwL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 24 Sep 2020 15:52:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51332 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726242AbgIXTwL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Sep 2020 15:52:11 -0400
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43AACC0613D3
-        for <linux-api@vger.kernel.org>; Thu, 24 Sep 2020 12:52:11 -0700 (PDT)
-Received: by mail-pf1-x443.google.com with SMTP id k13so470754pfg.1
-        for <linux-api@vger.kernel.org>; Thu, 24 Sep 2020 12:52:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=k70Xue22GFlB0rY9wGgnFf8SK2vwmBPDgshtczHYd+4=;
-        b=U97pSE2E3cWH2OMa2/1j1GXuJM9azr9TZPGI6w4DyW57tj+j9Ltmd/pid9zUZwnBNi
-         v1Nj4NptXZH5IE/5pxa9rv2NDAvYXrXKU7qOVssXD0Xio+R+4dq8ZzTUZn5qwdmrkUA9
-         t4M6wZmpJXLoyG+/Q2rEe/S1dt04TRaQ99LTA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=k70Xue22GFlB0rY9wGgnFf8SK2vwmBPDgshtczHYd+4=;
-        b=it29bBJKADcrKpxR6olQBKn2aqus3oPgDrmBmrL5COwRWxcaq+gwzJ2cVOa5dJyiuA
-         XCUpT6UMGZEu2DM0ZuT/FVaawE/1PAVO4KALKMdRSI+XnLc+W5pMMdkHmJmiruVVc2Jc
-         DQ7Aqe94nbvCkWSDaFT1PcvAYMd6KNSpKmJRAeSzOtMtLf8QMjyyDuI0+J3zSMcuPDv5
-         vzaCapgPEGAY6hNCTWZqcMLQXIro9uZviK+hly0aLiHs0kohUObIRfA3dNhp+Dh8Ozax
-         l4SlszN51uOpc5lw5O53hKTJV0V4tl3cAmdjdW+G9P5W2x0gU58MU7/Q5NQh3huhRtss
-         b5VA==
-X-Gm-Message-State: AOAM533WJO92gcRUubUXG92OMMvsyXmRlYESJ4oXbR4Bz2xav49spHlz
-        4AoDZlVOKD7t4v+cqZTJ0fY0tg==
-X-Google-Smtp-Source: ABdhPJzpsUJFf8IHAHpxoWh4JONrQ/df6mHI3aKnLsuTt2XZEKCv+YjNg5jbY6Sd/88urNoAFy6ZIg==
-X-Received: by 2002:a63:42:: with SMTP id 63mr553646pga.419.1600977130625;
-        Thu, 24 Sep 2020 12:52:10 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id g9sm295305pfo.144.2020.09.24.12.52.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Sep 2020 12:52:09 -0700 (PDT)
-Date:   Thu, 24 Sep 2020 12:52:08 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Paul Moore <paul@paul-moore.com>
-Cc:     Tom Hromatka <tom.hromatka@oracle.com>,
-        Jann Horn <jannh@google.com>,
-        YiFei Zhu <yifeifz2@illinois.edu>,
+        id S1726239AbgIXUG6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 24 Sep 2020 16:06:58 -0400
+Received: from relays-agent03.techservices.illinois.edu ([192.17.82.70]:39802
+        "EHLO illinois.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726183AbgIXUG6 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Sep 2020 16:06:58 -0400
+X-Greylist: delayed 1080 seconds by postgrey-1.27 at vger.kernel.org; Thu, 24 Sep 2020 16:06:57 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=illinois.edu; h=references :
+ in-reply-to : from : date : message-id : subject : to : cc : content-type
+ : mime-version; s=campusrelays;
+ bh=/eDeqaFyUH+t373rLitrTZEIIaPUpbaRV0kHjAm9kjE=;
+ b=JtAhWbmh7v/UH98BbWW5+W/NwV77m+uLYAtyxBqBXDaJHYiSyk0B/DyItK0EYH4u8O2K
+ TiEabP8aa+GFJkvwrPG3A53rvNBRG6rxp5d/dw50T5rBXBsY5obuanS3Al4AN9Hk+W0f
+ XVJMi/1lePj6LCc/O7wbPqjXe5t63RPsfJ5Avh7vqz/uKmC3tqlSE0AY321lvTXr3HvW
+ X7GkzwFTtnc/jfKuleexqkuIkRr/csrsVn4zNYHUyHxWIUfVyZ/wBZ3F1Zhz1A78bWtO
+ tJIdOa29AH7Ip2SSfmdZR8Rlv5xeHPTSjMCdVzI3uRYXQ9r3W/eQMRTme1xGH7sPPC9G 4w== 
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2168.outbound.protection.outlook.com [104.47.55.168])
+        by relays-agent03.techservices.illinois.edu (8.16.0.42/8.16.0.42) with ESMTPS id 08OJmsGZ013552
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 24 Sep 2020 14:48:55 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=F+yC8EeCFtxyT33LaBA5xrq4muwINwrPEhI7p011lFPkPzOz2pdZ4/fcz0vqsXsLqx2tkIi+qVZCoNzVpD5310EIs8LV8raKY/IHgd9V25GF6eXjsaFgDRTC4a9/QNHhJXk20KkZtyiFoJapftMTO1aTGux3/5xqFD2WCKPGPP6C/SjoClZhrSc8lpgCptJSZ4CDlvn0fKvMOpCKOjf5+hvfuK8c4VRa1mpKPn3/NxUHuAAB6FJLnfUqnXAnXC1jSRcSPw1JM5MANlO1FYrxLpGXgc3ahSEPATPNGOcv+phr5v8TyFv+X35Q4wf8FdICa4UJzMDtWBT4IBx72066Nw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/eDeqaFyUH+t373rLitrTZEIIaPUpbaRV0kHjAm9kjE=;
+ b=BmMllYT/PJi5942q+qWFgJviAiGRcFZlOGG/Fg+Xi2wT0lHYs8lYarXe2WCML6qVd63OpzHd3hpUWufmFyxK+pmtopxUrvgT6fksD53FbJjMA4m+6CnZpXGdvSnkn8pCqPUO79FthlD64bBnc4RyEAUwydbeTYcXDcxq9dHNJQExwO2XafchK7HkFWO3Utt5s17olLjQ4ryrhC4lxGAEpCMvZ5/sx62Aw9JY8RjsRoTAQBMa7uwQkA7z81rtDrzRVQGo8vmnF4Mz1jgYz8XDMOfhhm+yPnoy12Nq47b6mUd81Kh+Exc5ACE6+9De26fc3p1MBicyzCBDMoiV6nY+Pw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=illinois.edu; dmarc=pass action=none header.from=illinois.edu;
+ dkim=pass header.d=illinois.edu; arc=none
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none
+ header.from=illinois.edu;
+Received: from DM5PR11MB1692.namprd11.prod.outlook.com (2603:10b6:3:d::23) by
+ DM5PR1101MB2185.namprd11.prod.outlook.com (2603:10b6:4:4f::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3412.22; Thu, 24 Sep 2020 19:48:53 +0000
+Received: from DM5PR11MB1692.namprd11.prod.outlook.com
+ ([fe80::c0ad:426c:3acd:3913]) by DM5PR11MB1692.namprd11.prod.outlook.com
+ ([fe80::c0ad:426c:3acd:3913%6]) with mapi id 15.20.3391.027; Thu, 24 Sep 2020
+ 19:48:53 +0000
+X-Gm-Message-State: AOAM532+gsBwskfeU7ofQ7qOKnV981Yczo34XEwOVfMVAi/O6IFM08Qe
+        IDVpGHS0PRvUsGhQCKsu5F1T9+VX/XFnmNQsXa0=
+X-Google-Smtp-Source: ABdhPJyj+Sk/ztigsJ/n9fAvmUST2Rwf4QsW6kca8GDDYtzy07Ixu5L7nWXa2hpO9pt1Tw2ZB25QgUpKG7lcMyu4pPE=
+X-Received: by 2002:a7b:c1d4:: with SMTP id a20mr312371wmj.30.1600976929010;
+ Thu, 24 Sep 2020 12:48:49 -0700 (PDT)
+References: <20200923232923.3142503-1-keescook@chromium.org>
+ <20200924185702.GA9225@redhat.com> <9dbe8e3bbdad43a1872202ff38c34ca2@DM5PR11MB1692.namprd11.prod.outlook.com>
+In-Reply-To: <9dbe8e3bbdad43a1872202ff38c34ca2@DM5PR11MB1692.namprd11.prod.outlook.com>
+From:   Tianyin Xu <tyxu@illinois.edu>
+Date:   Thu, 24 Sep 2020 14:48:37 -0500
+X-Gmail-Original-Message-ID: <CAGMVDEEtNXWp4xOhC+EMa_Z_1KMQhKQohCKVY=Z70wTuLr5X+g@mail.gmail.com>
+Message-ID: <CAGMVDEEtNXWp4xOhC+EMa_Z_1KMQhKQohCKVY=Z70wTuLr5X+g@mail.gmail.com>
+Subject: Re: [PATCH v1 0/6] seccomp: Implement constant action bitmaps
+To:     Jann Horn <jannh@google.com>
+Cc:     Andrea Arcangeli <aarcange@redhat.com>,
+        Kees Cook <keescook@chromium.org>,
+        "Zhu, YiFei" <yifeifz2@illinois.edu>,
         Christian Brauner <christian.brauner@ubuntu.com>,
         Tycho Andersen <tycho@tycho.pizza>,
         Andy Lutomirski <luto@amacapital.net>,
         Will Drewry <wad@chromium.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
         Giuseppe Scrivano <gscrivan@redhat.com>,
         Tobin Feldman-Fitzthum <tobin@ibm.com>,
         Dimitrios Skarlatos <dskarlat@cs.cmu.edu>,
         Valentin Rothberg <vrothber@redhat.com>,
         Hubertus Franke <frankeh@us.ibm.com>,
-        Jack Chen <jianyan2@illinois.edu>,
-        Josep Torrellas <torrella@illinois.edu>,
-        Tianyin Xu <tyxu@illinois.edu>, bpf <bpf@vger.kernel.org>,
+        "Chen, Jianyan" <jianyan2@illinois.edu>,
+        "Torrellas, Josep" <torrella@illinois.edu>,
+        bpf <bpf@vger.kernel.org>,
         Linux Containers <containers@lists.linux-foundation.org>,
         Linux API <linux-api@vger.kernel.org>,
         kernel list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 4/6] seccomp: Emulate basic filters for constant action
- results
-Message-ID: <202009241251.F719CC4@keescook>
-References: <20200923232923.3142503-1-keescook@chromium.org>
- <20200923232923.3142503-5-keescook@chromium.org>
- <CAG48ez251v19U60GYH4aWE6+C-3PYw5mr_Ax_kxnebqDOBn_+Q@mail.gmail.com>
- <202009240038.864365E@keescook>
- <CAHC9VhQpto1KuL7PhjtdjtAjJ2nC+rZNSM7+nSZ_ksqGXbhY+Q@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-ClientProxiedBy: AM0P190CA0016.EURP190.PROD.OUTLOOK.COM
+ (2603:10a6:208:190::26) To DM5PR11MB1692.namprd11.prod.outlook.com
+ (2603:10b6:3:d::23)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHC9VhQpto1KuL7PhjtdjtAjJ2nC+rZNSM7+nSZ_ksqGXbhY+Q@mail.gmail.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mail-wm1-f50.google.com (209.85.128.50) by AM0P190CA0016.EURP190.PROD.OUTLOOK.COM (2603:10a6:208:190::26) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.22 via Frontend Transport; Thu, 24 Sep 2020 19:48:52 +0000
+Received: by mail-wm1-f50.google.com with SMTP id k18so356230wmj.5;        Thu, 24 Sep 2020 12:48:52 -0700 (PDT)
+X-Gm-Message-State: AOAM532+gsBwskfeU7ofQ7qOKnV981Yczo34XEwOVfMVAi/O6IFM08Qe
+        IDVpGHS0PRvUsGhQCKsu5F1T9+VX/XFnmNQsXa0=
+X-Google-Smtp-Source: ABdhPJyj+Sk/ztigsJ/n9fAvmUST2Rwf4QsW6kca8GDDYtzy07Ixu5L7nWXa2hpO9pt1Tw2ZB25QgUpKG7lcMyu4pPE=
+X-Received: by 2002:a7b:c1d4:: with SMTP id a20mr312371wmj.30.1600976929010;
+ Thu, 24 Sep 2020 12:48:49 -0700 (PDT)
+X-Gmail-Original-Message-ID: <CAGMVDEEtNXWp4xOhC+EMa_Z_1KMQhKQohCKVY=Z70wTuLr5X+g@mail.gmail.com>
+X-Originating-IP: [209.85.128.50]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d5f134f5-6a88-4ee2-5d33-08d860c2dd68
+X-MS-TrafficTypeDiagnostic: DM5PR1101MB2185:
+X-Microsoft-Antispam-PRVS: <DM5PR1101MB2185219CC78BF3D85FCB8B9EBB390@DM5PR1101MB2185.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: t4/roYsX17cJquvZAgNYM4mKjXxywrCaPHnqd9CTwwTYHnBNHARkTQ2eCsQqfGv0h8vDhL77U8iTkOH1LQAMrbcVj9Nu/v/gzCSi5H+uUL57zSnUZSMu6YDuHSZd1biZpzLfa7etYsrl6WxF5f3edapBuHvUs1p7VYVSzuXSPmk5GD13phtL5GGOGbK3vww09ruijcNoM23l5wNX1FuCTnBn+63p8FMZoCN6/qoiuR96AP4YH/rSs/EEvfjNuWtgILohlSFRsTiKtqepOtvhMg4jidmqOKjk7wUkEywJX2RX7+5+JF9wPRCOZ0CWtGT0251nyc6KpqU/wYPbJ9UOw7mktt/VRT99SXjgGy1mtHcctfgu05OBQ+QdcuzdsMw6GmT2dXnWZLQt1H/9J5cSsQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR11MB1692.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(376002)(396003)(346002)(136003)(366004)(39860400002)(55446002)(86362001)(52116002)(786003)(478600001)(2906002)(54906003)(450100002)(6666004)(53546011)(42186006)(186003)(6862004)(26005)(66946007)(83380400001)(8676002)(4326008)(66476007)(5660300002)(316002)(66556008)(9686003)(8936002)(83080400001)(75432002)(966005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: iYsYykG5+Dle0ND1/sU3gu+HJTOyM5foAO6ffyrR0cioequfkIkGvUBNNb095jx17JprqTKet10qzLF48pf/bksco2txPwWXCQNkOP0ivAM1yQmrmF7lymAY3ySgNScgU+iVhLIksR7mHj2d5ncdwv6y90O4dDGCw5wcHv95j4sL24fH9xsmNOQ/hRPOPdoyEbSYv6cHMne2GwgXw3qmr5GHL0fMWMqegNcsrTk+l8mp0bL5Ag7jYuflBmXt6NUo8U/IoVL8zNBtAc+cWcTJI5tz4n+v7iJ3aAaXeKEGS4CLRKBHx6bDt6G7++izeBrZtGagO2TBukjXiT28a61B4sGfsGEw6VGMRoec5u84sDLm8D2hmzZTWXTez+PiP8ImXKxbaBtCCMSaG5Uk+3BNcVhZQSkuIJLgp1psVbS6/E794JhPahAjHNEZCWtTvY+LLodwL3S87qqp773w/EcokEggLj8JRjhV1a0Ua4L6OgLpUe2iyGYwdPL5LR2CLXrGf8D9nHVMEVZNOVJG25IYw3SijtvFLgSrrwGs8PozJVjF5uVsLRGfIFenNXqXWkEr4B2PfSBmqW9O5x/y1F2oBPOMdIRTGREQDlpK14MCV9cpqGLImnMtrvyKflozsr/whlTVyGn8GHEIhYLwho18OQ==
+X-OriginatorOrg: illinois.edu
+X-MS-Exchange-CrossTenant-Network-Message-Id: d5f134f5-6a88-4ee2-5d33-08d860c2dd68
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR11MB1692.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2020 19:48:53.3138
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 44467e6f-462c-4ea2-823f-7800de5434e3
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0K53g63T+1GZZhH5+iG9sJxdSZxWkJBDBnLuTfKUYA+QPqXovW3UokamR/GeOOvzgcljmrb21mi0dk+kA7NhFw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1101MB2185
+X-Spam-Details: rule=cautious_plus_nq_notspam policy=cautious_plus_nq score=0 clxscore=1011
+ bulkscore=0 phishscore=0 lowpriorityscore=0 priorityscore=1501
+ malwarescore=0 mlxscore=0 spamscore=0 adultscore=0 impostorscore=0
+ mlxlogscore=999 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2006250000 definitions=main-2009240143
+X-Spam-Score: 0
+X-Spam-OrigSender: tyxu@illinois.edu
+X-Spam-Bar: 
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Sep 24, 2020 at 11:28:55AM -0400, Paul Moore wrote:
-> On Thu, Sep 24, 2020 at 3:46 AM Kees Cook <keescook@chromium.org> wrote:
-> > On Thu, Sep 24, 2020 at 01:47:47AM +0200, Jann Horn wrote:
-> > > On Thu, Sep 24, 2020 at 1:29 AM Kees Cook <keescook@chromium.org> wrote:
-> > > > This emulates absolutely the most basic seccomp filters to figure out
-> > > > if they will always give the same results for a given arch/nr combo.
-> > > >
-> > > > Nearly all seccomp filters are built from the following ops:
-> > > >
-> > > > BPF_LD  | BPF_W    | BPF_ABS
-> > > > BPF_JMP | BPF_JEQ  | BPF_K
-> > > > BPF_JMP | BPF_JGE  | BPF_K
-> > > > BPF_JMP | BPF_JGT  | BPF_K
-> > > > BPF_JMP | BPF_JSET | BPF_K
-> > > > BPF_JMP | BPF_JA
-> > > > BPF_RET | BPF_K
-> > > >
-> > > > These are now emulated to check for accesses beyond seccomp_data::arch
-> > > > or unknown instructions.
-> > > >
-> > > > Not yet implemented are:
-> > > >
-> > > > BPF_ALU | BPF_AND (generated by libseccomp and Chrome)
-> > >
-> > > BPF_AND is normally only used on syscall arguments, not on the syscall
-> > > number or the architecture, right? And when a syscall argument is
-> > > loaded, we abort execution anyway. So I think there is no need to
-> > > implement those?
+On Thu, Sep 24, 2020 at 2:19 PM Jann Horn <jannh@google.com> wrote:
+>
+> On Thu, Sep 24, 2020 at 8:57 PM Andrea Arcangeli <aarcange@redhat.com> wrote:
 > >
-> > Is that right? I can't actually tell what libseccomp is doing with
-> > ALU|AND. It looks like it's using it for building jump lists?
-> 
-> There is an ALU|AND op in the jump resolution code, but that is really
-> just if libseccomp needs to fixup the accumulator because a code block
-> is expecting a masked value (right now that would only be a syscall
-> argument, not the syscall number itself).
-> 
-> > Paul, Tom, under what cases does libseccomp emit ALU|AND into filters?
-> 
-> Presently the only place where libseccomp uses ALU|AND is when the
-> masked equality comparison is used for comparing syscall arguments
-> (SCMP_CMP_MASKED_EQ).  I can't honestly say I have any good
-> information about how often that is used by libseccomp callers, but if
-> I do a quick search on GitHub for "SCMP_CMP_MASKED_EQ" I see 2k worth
-> of code hits; take that for whatever it is worth.  Tom may have some
-> more/better information.
-> 
-> Of course no promises on future use :)  As one quick example, I keep
-> thinking about adding the instruction pointer to the list of things
-> that can be compared as part of a libseccomp rule, and if we do that I
-> would expect that we would want to also allow a masked comparison (and
-> utilize another ALU|AND bpf op there).  However, I'm not sure how
-> useful that would be in practice.
+> > Hello,
+> >
+> > I'm posting this only for the record, feel free to ignore.
+> >
+> > On Wed, Sep 23, 2020 at 04:29:17PM -0700, Kees Cook wrote:
+> > > rfc: https://lore.kernel.org/lkml/20200616074934.1600036-1-keescook@chromium.org/
+> > > alternative: https://lore.kernel.org/containers/cover.1600661418.git.yifeifz2@illinois.edu/
+> > > v1:
+> > > - rebase to for-next/seccomp
+> > > - finish X86_X32 support for both pinning and bitmaps
+> >
+> > It's pretty clear the O(1) seccomp filter bitmap was first was
+> > proposed by your RFC in June (albeit it was located in the wrong place
+> > and is still in the wrong place in v1).
+> >
+> > > - replace TLB magic with Jann's emulator
+> >     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> >
+> > That's a pretty fundamental change in v1 compared to your the
+> > non-competing TLB magic technique you used in the RFC last June.
+> >
+> > The bitmap isn't the clever part of the patch, the bitmap can be
+> > reviewed in seconds, the difficult part to implement and to review is
+> > how you fill the bitmap and in that respect there's absolutely nothing
+> > in common in between the "rfc:" and the "alternative" link.
+> >
+> > In June your bitmap-filling engine was this:
+> >
+> > https://lore.kernel.org/lkml/20200616074934.1600036-5-keescook@chromium.org/
+> >
+> > Then on Sep 21 YiFei Zhu posted his new innovative BPF emulation
+> > innovation that obsoleted your TLB magic of June:
+> >
+> > https://lists.linuxfoundation.org/pipermail/containers/2020-September/042153.html
+> >
+> > And on Sep 23 instead of collaborating and helping YiFei Zhu to
+> > improve his BPF emulator, you posted the same technique that looks
+> > remarkably similar without giving YiFei Zhu any attribution and you
+> > instead attribute the whole idea to Jann Horn:
+> >
+> > https://lkml.kernel.org/r/20200923232923.3142503-5-keescook@chromium.org
+>
+> You're missing that I did suggest the BPF emulation approach (with
+> code very similar to Kees' current code) back in June:
+> https://lore.kernel.org/lkml/CAG48ez1p=dR_2ikKq=xVxkoGg0fYpTBpkhJSv1w-6BG=76PAvw@mail.gmail.com/
 
-Okay, cool. Thanks for checking on that. It sounds like the arg-less
-bitmap optimization can continue to ignore ALU|AND for now. :)
+I don't see it's a bad thing that two (or three?) teams come up with
+the same ideas,
+and I'm actually happy that the final solution is largely converging,
+thanks to all the discussions so far.
 
--- 
-Kees Cook
+It's better to collaborate and help each other, instead of racing on
+two separate patches,
+and everyone involved should be acknowledged.
+
+Not sure if it matters, we actually started working on seccomp cache
+in the end of 2018,
+and our idea is to also support arguments in the cache.
+We still have the paper draft sent to an academic conference at Apr 2019 :)
+Unfortunately, our paper kept being rejected until recently.
+Sadly, as academics, we prioritized papers over upstream.
+
+I'm disclosing these not to dismiss anyone's innovations and hardwork.
+I do really think we should work together to merge the right pieces of code,
+instead of competing or ignoring others' effort.
+
+--
+Tianyin Xu
+University of Illinois at Urbana-Champaign
+https://tianyin.github.io/
