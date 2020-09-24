@@ -2,110 +2,118 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CB5F277682
-	for <lists+linux-api@lfdr.de>; Thu, 24 Sep 2020 18:21:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25028277710
+	for <lists+linux-api@lfdr.de>; Thu, 24 Sep 2020 18:44:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726522AbgIXQVa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 24 Sep 2020 12:21:30 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:35348 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726477AbgIXQVa (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Sep 2020 12:21:30 -0400
-Received: from ip5f5af089.dynamic.kabel-deutschland.de ([95.90.240.137] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1kLTzr-00031R-6I; Thu, 24 Sep 2020 16:21:27 +0000
-Date:   Thu, 24 Sep 2020 18:21:26 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Naresh Kamboju <naresh.kamboju@linaro.org>
-Cc:     "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>, linux-api@vger.kernel.org,
-        open list <linux-kernel@vger.kernel.org>,
-        Christian Brauner <christian@brauner.io>,
-        Kees Cook <keescook@chromium.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Sargun Dhillon <sargun@sargun.me>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Jens Axboe <axboe@kernel.dk>, Shuah Khan <shuah@kernel.org>,
-        lkft-triage@lists.linaro.org
-Subject: Re: selftests: pidfd: pidfd_wait hangs on linux next kernel on all
- devices
-Message-ID: <20200924162126.mbthwz32w7rba7oe@wittgenstein>
-References: <CA+G9fYtF44bTzjswt26tOwfEQxrWvcSOROmEtH0HKfGn24QbRQ@mail.gmail.com>
- <20200924143317.getruzwu423g3o3e@wittgenstein>
+        id S1726477AbgIXQod (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 24 Sep 2020 12:44:33 -0400
+Received: from smtp-8fac.mail.infomaniak.ch ([83.166.143.172]:39415 "EHLO
+        smtp-8fac.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726645AbgIXQoc (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Sep 2020 12:44:32 -0400
+Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4By19B01Y1zlhTqt;
+        Thu, 24 Sep 2020 18:44:30 +0200 (CEST)
+Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
+        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4By1972FNszlh8Yx;
+        Thu, 24 Sep 2020 18:44:27 +0200 (CEST)
+Subject: Re: [PATCH v2 0/4] [RFC] Implement Trampoline File Descriptor
+To:     Pavel Machek <pavel@ucw.cz>,
+        "Madhavan T. Venkataraman" <madvenka@linux.microsoft.com>
+Cc:     kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org, oleg@redhat.com,
+        x86@kernel.org, luto@kernel.org, David.Laight@ACULAB.COM,
+        fweimer@redhat.com, mark.rutland@arm.com
+References: <210d7cd762d5307c2aa1676705b392bd445f1baa>
+ <20200922215326.4603-1-madvenka@linux.microsoft.com>
+ <20200923084232.GB30279@amd>
+ <34257bc9-173d-8ef9-0c97-fb6bd0f69ecb@linux.microsoft.com>
+ <20200923205156.GA12034@duo.ucw.cz>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <c5ddf0c2-962a-f93a-e666-1c6f64482d97@digikod.net>
+Date:   Thu, 24 Sep 2020 18:44:26 +0200
+User-Agent: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200924143317.getruzwu423g3o3e@wittgenstein>
+In-Reply-To: <20200923205156.GA12034@duo.ucw.cz>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Sep 24, 2020 at 04:33:17PM +0200, Christian Brauner wrote:
-> On Wed, Sep 23, 2020 at 07:52:05PM +0530, Naresh Kamboju wrote:
-> > selftests: pidfd: pidfd_wait hangs on linux next kernel on x86_64,
-> > i386 and arm64 Juno-r2
-> > These devices are using NFS mounted rootfs.
-> > I have tested pidfd testcases independently and all test PASS.
-> > 
-> > The Hang or exit from test run noticed when run by run_kselftest.sh
-> > 
-> > pidfd_wait.c:208:wait_nonblock:Expected sys_waitid(P_PIDFD, pidfd,
-> > &info, WSTOPPED, NULL) (-1) == 0 (0)
-> > wait_nonblock: Test terminated by assertion
-> > 
-> > metadata:
-> >   git branch: master
-> >   git repo: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-> >   git commit: e64997027d5f171148687e58b78c8b3c869a6158
-> >   git describe: next-20200922
-> >   make_kernelversion: 5.9.0-rc6
-> >   kernel-config:
-> > http://snapshots.linaro.org/openembedded/lkft/lkft/sumo/intel-core2-32/lkft/linux-next/865/config
-> > 
-> > Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+
+On 23/09/2020 22:51, Pavel Machek wrote:
+> Hi!
 > 
-> Thanks for reproting this. I'm taking a look now!
+>>>> Scenario 2
+>>>> ----------
+>>>>
+>>>> We know what code we need in advance. User trampolines are a good example of
+>>>> this. It is possible to define such code statically with some help from the
+>>>> kernel.
+>>>>
+>>>> This RFC addresses (2). (1) needs a general purpose trusted code generator
+>>>> and is out of scope for this RFC.
+>>>
+>>> This is slightly less crazy talk than introduction talking about holes
+>>> in W^X. But it is very, very far from normal Unix system, where you
+>>> have selection of interpretters to run your malware on (sh, python,
+>>> awk, emacs, ...) and often you can even compile malware from sources. 
+>>>
+>>> And as you noted, we don't have "a general purpose trusted code
+>>> generator" for our systems.
+>>>
+>>> I believe you should simply delete confusing "introduction" and
+>>> provide details of super-secure system where your patches would be
+>>> useful, instead.
+>>
+>> This RFC talks about converting dynamic code (which cannot be authenticated)
+>> to static code that can be authenticated using signature verification. That
+>> is the scope of this RFC.
+>>
+>> If I have not been clear before, by dynamic code, I mean machine code that is
+>> dynamic in nature. Scripts are beyond the scope of this RFC.
+>>
+>> Also, malware compiled from sources is not dynamic code. That is orthogonal
+>> to this RFC. If such malware has a valid signature that the kernel permits its
+>> execution, we have a systemic problem.
+>>
+>> I am not saying that script authentication or compiled malware are not problems.
+>> I am just saying that this RFC is not trying to solve all of the security problems.
+>> It is trying to define one way to convert dynamic code to static code to address
+>> one class of problems.
+> 
+> Well, you don't have to solve all problems at once.
+> 
+> But solutions have to exist, and AFAIK in this case they don't. You
+> are armoring doors, but ignoring open windows.
 
-Ok, this is a simple race in the selftests, that I overlooked and which
-is more likely to hit when there's a lot of processes running on the
-system. Basically the child process hasn't SIGSTOPed itself yet but the
-parent is already calling waitid() on a O_NONBLOCK pidfd. Since it
-doesn't find a WSTOPPED process it returns -EAGAIN correctly.
+FYI, script execution is being addressed (for the kernel part) by this
+patch series:
+https://lore.kernel.org/lkml/20200924153228.387737-1-mic@digikod.net/
 
-The fix for this is to move the line where we're removing the O_NONBLOCK
-property from the fd before the waitid() WSTOPPED call so we hang until
-the child becomes stopped.
+> 
+> Or very probably you are thinking about something different than
+> normal desktop distros (Debian 10). Because on my systems, I have
+> python, gdb and gcc...
 
-So I believe the fix is:
+It doesn't make sense for a tailored security system to leave all these
+tools available to an attacker.
 
-diff --git a/tools/testing/selftests/pidfd/pidfd_wait.c b/tools/testing/selftests/pidfd/pidfd_wait.c
-index 4063d6f31fa4..be2943f072f6 100644
---- a/tools/testing/selftests/pidfd/pidfd_wait.c
-+++ b/tools/testing/selftests/pidfd/pidfd_wait.c
-@@ -205,6 +205,8 @@ TEST(wait_nonblock)
-        ret = sys_waitid(P_PIDFD, pidfd, &info, WEXITED | WNOHANG, NULL);
-        ASSERT_EQ(ret, 0);
+> 
+> It would be nice to specify what other pieces need to be present for
+> this to make sense -- because it makes no sense on Debian 10.
 
-+       ASSERT_EQ(fcntl(pidfd, F_SETFL, (flags & ~O_NONBLOCK)), 0);
-+
-        ASSERT_EQ(sys_waitid(P_PIDFD, pidfd, &info, WSTOPPED, NULL), 0);
-        ASSERT_EQ(info.si_signo, SIGCHLD);
-        ASSERT_EQ(info.si_code, CLD_STOPPED);
-@@ -212,8 +214,6 @@ TEST(wait_nonblock)
+Not all kernel features make sense for a generic/undefined usage,
+especially specific security mechanisms (e.g. SELinux, Smack, Tomoyo,
+SafeSetID, LoadPin, IMA, IPE, secure/trusted boot, lockdown, etc.), but
+they can still be definitely useful.
 
-        ASSERT_EQ(sys_pidfd_send_signal(pidfd, SIGCONT, NULL, 0), 0);
-
--       ASSERT_EQ(fcntl(pidfd, F_SETFL, (flags & ~O_NONBLOCK)), 0);
--
-        ASSERT_EQ(sys_waitid(P_PIDFD, pidfd, &info, WEXITED, NULL), 0);
-        ASSERT_EQ(info.si_signo, SIGCHLD);
-        ASSERT_EQ(info.si_code, CLD_EXITED);
-
-Christian
+> 
+> Best regards,
+> 									Pavel
+> 
