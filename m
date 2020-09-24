@@ -2,141 +2,142 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E7F82277928
-	for <lists+linux-api@lfdr.de>; Thu, 24 Sep 2020 21:22:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F7A92779B8
+	for <lists+linux-api@lfdr.de>; Thu, 24 Sep 2020 21:52:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728813AbgIXTWs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 24 Sep 2020 15:22:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46770 "EHLO
+        id S1726321AbgIXTwL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 24 Sep 2020 15:52:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728802AbgIXTWr (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Sep 2020 15:22:47 -0400
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C7A4C0613CE;
-        Thu, 24 Sep 2020 12:22:47 -0700 (PDT)
-Received: by mail-pj1-x1044.google.com with SMTP id fa1so305846pjb.0;
-        Thu, 24 Sep 2020 12:22:47 -0700 (PDT)
+        with ESMTP id S1726242AbgIXTwL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Sep 2020 15:52:11 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43AACC0613D3
+        for <linux-api@vger.kernel.org>; Thu, 24 Sep 2020 12:52:11 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id k13so470754pfg.1
+        for <linux-api@vger.kernel.org>; Thu, 24 Sep 2020 12:52:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=LSyf3SkDlCwf2HoUFoGuJC/iHiB7H7zbzGxUquhsjX0=;
-        b=Y54jGFG4Dvfx79HKsQQAX/hTavu8nf5mTVKAs2Q9rI27U4li2hxb16xlVrYcxiwUre
-         yqhiSQ75HFHd9M1l4umpPyFWdpS+CKBhCC9cDQzg1tiEF31h5wAe/ebGKa+NNcIeEAcG
-         wDMkHxWJrqr1Ay++nsF2xRTsAYWtpoKO3u6Kuhk36DRmoGxsT1al430J+VfImf4nYwbY
-         TVSoC/E+otAt7IteRNBTL0M2I2Ooc/gq7c5NpXWMNxQBO/F/v25jxybnWqjAHzx5Ov6X
-         SYNMQiLTkw6kZZvlVHdYtR1OoCtFjIFkhW0MxBoJl6pi5cPcik8mQZW/pTCMtQBPw0Wm
-         R8Mw==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=k70Xue22GFlB0rY9wGgnFf8SK2vwmBPDgshtczHYd+4=;
+        b=U97pSE2E3cWH2OMa2/1j1GXuJM9azr9TZPGI6w4DyW57tj+j9Ltmd/pid9zUZwnBNi
+         v1Nj4NptXZH5IE/5pxa9rv2NDAvYXrXKU7qOVssXD0Xio+R+4dq8ZzTUZn5qwdmrkUA9
+         t4M6wZmpJXLoyG+/Q2rEe/S1dt04TRaQ99LTA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=LSyf3SkDlCwf2HoUFoGuJC/iHiB7H7zbzGxUquhsjX0=;
-        b=P6K7wYJ34e5PmK6QvLsvczuDijx9hUIa0A6zexf9yYzRDLgEoLWBKnPXVOxAYhQfY/
-         uXHSrnSpI28T/xtRz5vMzhW+vkSu+ds5I01lso8spI0YInq29szsheZ9YIJfW2emmwBC
-         k83VkyM/lRICHvgPzFQ5iGN5Sey0zOJwCqrOtlk7eGwXlgY7gfk6I9pJU9fyeER4pbAp
-         FO3O2Gz8Nbg1eRyVd2R6FhEA8l8mJ3WuRJVYBrKnA95Bg66yjmcfvEdq+Uy5ALpiCaXb
-         2AP1RRdww/6QoeiOynX2EkC4zN69gjl8jr32ucTbROo61eqwhwYhLpGIy3GCDoPV55X8
-         1yJQ==
-X-Gm-Message-State: AOAM532pJ+EyigpUu4lSrzoRLaXHfGtxnHKnnS3N68CvXbQEnl4DpPVd
-        BMvdECbtmGoIZcv4iXhs7WwUS5zegV4=
-X-Google-Smtp-Source: ABdhPJzcpOiwS2fDjHUZJg7vVG5h4/KkDzF8MA2f4ZusOHCMZPBL5vzXHq+iQDqywOn+Gt3xDFY04w==
-X-Received: by 2002:a17:90b:104f:: with SMTP id gq15mr370787pjb.215.1600975366882;
-        Thu, 24 Sep 2020 12:22:46 -0700 (PDT)
-Received: from jacob-builder.jf.intel.com (jfdmzpr04-ext.jf.intel.com. [134.134.137.73])
-        by smtp.gmail.com with ESMTPSA id o15sm140918pgi.74.2020.09.24.12.22.46
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 24 Sep 2020 12:22:46 -0700 (PDT)
-From:   Jacob Pan <jacob.pan.linux@gmail.com>
-X-Google-Original-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To:     iommu@lists.linux-foundation.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        "Lu Baolu" <baolu.lu@linux.intel.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-api@vger.kernel.org,
-        Jean-Philippe Brucker <jean-philippe@linaro.com>,
-        Eric Auger <eric.auger@redhat.com>,
-        Jacob Pan <jacob.jun.pan@linux.intel.com>,
-        Yi Liu <yi.l.liu@intel.com>,
-        "Tian, Kevin" <kevin.tian@intel.com>,
-        Raj Ashok <ashok.raj@intel.com>, Wu Hao <hao.wu@intel.com>,
-        Yi Sun <yi.y.sun@intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v11 6/6] iommu/vt-d: Check UAPI data processed by IOMMU core
-Date:   Thu, 24 Sep 2020 12:24:20 -0700
-Message-Id: <1600975460-64521-7-git-send-email-jacob.jun.pan@linux.intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1600975460-64521-1-git-send-email-jacob.jun.pan@linux.intel.com>
-References: <1600975460-64521-1-git-send-email-jacob.jun.pan@linux.intel.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=k70Xue22GFlB0rY9wGgnFf8SK2vwmBPDgshtczHYd+4=;
+        b=it29bBJKADcrKpxR6olQBKn2aqus3oPgDrmBmrL5COwRWxcaq+gwzJ2cVOa5dJyiuA
+         XCUpT6UMGZEu2DM0ZuT/FVaawE/1PAVO4KALKMdRSI+XnLc+W5pMMdkHmJmiruVVc2Jc
+         DQ7Aqe94nbvCkWSDaFT1PcvAYMd6KNSpKmJRAeSzOtMtLf8QMjyyDuI0+J3zSMcuPDv5
+         vzaCapgPEGAY6hNCTWZqcMLQXIro9uZviK+hly0aLiHs0kohUObIRfA3dNhp+Dh8Ozax
+         l4SlszN51uOpc5lw5O53hKTJV0V4tl3cAmdjdW+G9P5W2x0gU58MU7/Q5NQh3huhRtss
+         b5VA==
+X-Gm-Message-State: AOAM533WJO92gcRUubUXG92OMMvsyXmRlYESJ4oXbR4Bz2xav49spHlz
+        4AoDZlVOKD7t4v+cqZTJ0fY0tg==
+X-Google-Smtp-Source: ABdhPJzpsUJFf8IHAHpxoWh4JONrQ/df6mHI3aKnLsuTt2XZEKCv+YjNg5jbY6Sd/88urNoAFy6ZIg==
+X-Received: by 2002:a63:42:: with SMTP id 63mr553646pga.419.1600977130625;
+        Thu, 24 Sep 2020 12:52:10 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id g9sm295305pfo.144.2020.09.24.12.52.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Sep 2020 12:52:09 -0700 (PDT)
+Date:   Thu, 24 Sep 2020 12:52:08 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Paul Moore <paul@paul-moore.com>
+Cc:     Tom Hromatka <tom.hromatka@oracle.com>,
+        Jann Horn <jannh@google.com>,
+        YiFei Zhu <yifeifz2@illinois.edu>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Tycho Andersen <tycho@tycho.pizza>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Will Drewry <wad@chromium.org>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Giuseppe Scrivano <gscrivan@redhat.com>,
+        Tobin Feldman-Fitzthum <tobin@ibm.com>,
+        Dimitrios Skarlatos <dskarlat@cs.cmu.edu>,
+        Valentin Rothberg <vrothber@redhat.com>,
+        Hubertus Franke <frankeh@us.ibm.com>,
+        Jack Chen <jianyan2@illinois.edu>,
+        Josep Torrellas <torrella@illinois.edu>,
+        Tianyin Xu <tyxu@illinois.edu>, bpf <bpf@vger.kernel.org>,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 4/6] seccomp: Emulate basic filters for constant action
+ results
+Message-ID: <202009241251.F719CC4@keescook>
+References: <20200923232923.3142503-1-keescook@chromium.org>
+ <20200923232923.3142503-5-keescook@chromium.org>
+ <CAG48ez251v19U60GYH4aWE6+C-3PYw5mr_Ax_kxnebqDOBn_+Q@mail.gmail.com>
+ <202009240038.864365E@keescook>
+ <CAHC9VhQpto1KuL7PhjtdjtAjJ2nC+rZNSM7+nSZ_ksqGXbhY+Q@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHC9VhQpto1KuL7PhjtdjtAjJ2nC+rZNSM7+nSZ_ksqGXbhY+Q@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-IOMMU generic layer already does sanity checks on UAPI data for version
-match and argsz range based on generic information.
+On Thu, Sep 24, 2020 at 11:28:55AM -0400, Paul Moore wrote:
+> On Thu, Sep 24, 2020 at 3:46 AM Kees Cook <keescook@chromium.org> wrote:
+> > On Thu, Sep 24, 2020 at 01:47:47AM +0200, Jann Horn wrote:
+> > > On Thu, Sep 24, 2020 at 1:29 AM Kees Cook <keescook@chromium.org> wrote:
+> > > > This emulates absolutely the most basic seccomp filters to figure out
+> > > > if they will always give the same results for a given arch/nr combo.
+> > > >
+> > > > Nearly all seccomp filters are built from the following ops:
+> > > >
+> > > > BPF_LD  | BPF_W    | BPF_ABS
+> > > > BPF_JMP | BPF_JEQ  | BPF_K
+> > > > BPF_JMP | BPF_JGE  | BPF_K
+> > > > BPF_JMP | BPF_JGT  | BPF_K
+> > > > BPF_JMP | BPF_JSET | BPF_K
+> > > > BPF_JMP | BPF_JA
+> > > > BPF_RET | BPF_K
+> > > >
+> > > > These are now emulated to check for accesses beyond seccomp_data::arch
+> > > > or unknown instructions.
+> > > >
+> > > > Not yet implemented are:
+> > > >
+> > > > BPF_ALU | BPF_AND (generated by libseccomp and Chrome)
+> > >
+> > > BPF_AND is normally only used on syscall arguments, not on the syscall
+> > > number or the architecture, right? And when a syscall argument is
+> > > loaded, we abort execution anyway. So I think there is no need to
+> > > implement those?
+> >
+> > Is that right? I can't actually tell what libseccomp is doing with
+> > ALU|AND. It looks like it's using it for building jump lists?
+> 
+> There is an ALU|AND op in the jump resolution code, but that is really
+> just if libseccomp needs to fixup the accumulator because a code block
+> is expecting a masked value (right now that would only be a syscall
+> argument, not the syscall number itself).
+> 
+> > Paul, Tom, under what cases does libseccomp emit ALU|AND into filters?
+> 
+> Presently the only place where libseccomp uses ALU|AND is when the
+> masked equality comparison is used for comparing syscall arguments
+> (SCMP_CMP_MASKED_EQ).  I can't honestly say I have any good
+> information about how often that is used by libseccomp callers, but if
+> I do a quick search on GitHub for "SCMP_CMP_MASKED_EQ" I see 2k worth
+> of code hits; take that for whatever it is worth.  Tom may have some
+> more/better information.
+> 
+> Of course no promises on future use :)  As one quick example, I keep
+> thinking about adding the instruction pointer to the list of things
+> that can be compared as part of a libseccomp rule, and if we do that I
+> would expect that we would want to also allow a masked comparison (and
+> utilize another ALU|AND bpf op there).  However, I'm not sure how
+> useful that would be in practice.
 
-This patch adjusts the following data checking responsibilities:
-- removes the redundant version check from VT-d driver
-- removes the check for vendor specific data size
-- adds check for the use of reserved/undefined flags
+Okay, cool. Thanks for checking on that. It sounds like the arg-less
+bitmap optimization can continue to ignore ALU|AND for now. :)
 
-Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
----
- drivers/iommu/intel/iommu.c |  3 +--
- drivers/iommu/intel/svm.c   | 11 +++++++++--
- include/uapi/linux/iommu.h  |  1 +
- 3 files changed, 11 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index 461f3a6864d4..18ed3b3c70d7 100644
---- a/drivers/iommu/intel/iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -5408,8 +5408,7 @@ intel_iommu_sva_invalidate(struct iommu_domain *domain, struct device *dev,
- 	int ret = 0;
- 	u64 size = 0;
- 
--	if (!inv_info || !dmar_domain ||
--	    inv_info->version != IOMMU_CACHE_INVALIDATE_INFO_VERSION_1)
-+	if (!inv_info || !dmar_domain)
- 		return -EINVAL;
- 
- 	if (!dev || !dev_is_pci(dev))
-diff --git a/drivers/iommu/intel/svm.c b/drivers/iommu/intel/svm.c
-index 99353d6468fa..0cb9a15f1112 100644
---- a/drivers/iommu/intel/svm.c
-+++ b/drivers/iommu/intel/svm.c
-@@ -284,8 +284,15 @@ int intel_svm_bind_gpasid(struct iommu_domain *domain, struct device *dev,
- 	if (WARN_ON(!iommu) || !data)
- 		return -EINVAL;
- 
--	if (data->version != IOMMU_GPASID_BIND_VERSION_1 ||
--	    data->format != IOMMU_PASID_FORMAT_INTEL_VTD)
-+	if (data->format != IOMMU_PASID_FORMAT_INTEL_VTD)
-+		return -EINVAL;
-+
-+	/* IOMMU core ensures argsz is more than the start of the union */
-+	if (data->argsz < offsetofend(struct iommu_gpasid_bind_data, vendor.vtd))
-+		return -EINVAL;
-+
-+	/* Make sure no undefined flags are used in vendor data */
-+	if (data->vendor.vtd.flags & ~(IOMMU_SVA_VTD_GPASID_LAST - 1))
- 		return -EINVAL;
- 
- 	if (!dev_is_pci(dev))
-diff --git a/include/uapi/linux/iommu.h b/include/uapi/linux/iommu.h
-index 66d4ca40b40f..e1d9e75f2c94 100644
---- a/include/uapi/linux/iommu.h
-+++ b/include/uapi/linux/iommu.h
-@@ -288,6 +288,7 @@ struct iommu_gpasid_bind_data_vtd {
- #define IOMMU_SVA_VTD_GPASID_PWT	(1 << 3) /* page-level write through */
- #define IOMMU_SVA_VTD_GPASID_EMTE	(1 << 4) /* extended mem type enable */
- #define IOMMU_SVA_VTD_GPASID_CD		(1 << 5) /* PASID-level cache disable */
-+#define IOMMU_SVA_VTD_GPASID_LAST	(1 << 6)
- 	__u64 flags;
- 	__u32 pat;
- 	__u32 emt;
 -- 
-2.7.4
-
+Kees Cook
