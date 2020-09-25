@@ -2,136 +2,103 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BF8F27811D
-	for <lists+linux-api@lfdr.de>; Fri, 25 Sep 2020 09:07:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 224142781DB
+	for <lists+linux-api@lfdr.de>; Fri, 25 Sep 2020 09:42:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727380AbgIYHHP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 25 Sep 2020 03:07:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41924 "EHLO
+        id S1727454AbgIYHmB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 25 Sep 2020 03:42:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727068AbgIYHHM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 25 Sep 2020 03:07:12 -0400
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2A2BC0613CE;
-        Fri, 25 Sep 2020 00:07:11 -0700 (PDT)
-Received: by mail-pj1-x1042.google.com with SMTP id u3so1292163pjr.3;
-        Fri, 25 Sep 2020 00:07:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=oXHAzrDSGjCjB2rkCK3StmtVizqd8imW6WJ6CCyJZeQ=;
-        b=gt9l35Cg3svYq9N0uBGPNxc+e9Lj33iOExb3HpMPwqd2IPv6C27pIvDXvzxWOzcHBW
-         Yh6glD+IXSLk5VfF1jBzqvUUkan5XiVd6XlMp+D3SVOURcaVZ3nn2+1MK3naJ7SRwHJT
-         VQ+9/V2/FG6I3s/4f6i3P5/lZ05PsRTL9Avex18L+gg4JE3fmaJDBPu0MGlCNYxRDVEt
-         QIEcXSjUOn52P6voDi2cMT4cgBLkxfo/Jh1fns0C9xKWvlYlMBlOg6y/rZGEd5SbFpAI
-         KDzO3BcKFpdoY8pgwzuEdmuNrO5qQPcTyFezyookmPHET2xLWBBgUm/ISJ2ttmeyDB9c
-         FnPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=oXHAzrDSGjCjB2rkCK3StmtVizqd8imW6WJ6CCyJZeQ=;
-        b=QU7sH8hi7L1z3Bkf/69V5ROTu+zPZXbnU09D8aLB/zDE+5ZmuwDKftmjRdf+KL3m4X
-         jrElQQKMy5LAapRGaqArc+AnPVGsSuPvYXj9DGXd3cXjrs5QvE2Mm1X8n+4R6xuwAIej
-         Zvbk1vX4rm3xK7zl6RbBl0NbnFpcnKgdtsj1X3Vnc+C5drcGdIlbokONDv6DrP07xToA
-         rhm5AN8X67aJ8DphpkeIxnUuVuhpjwEfE/aJXLVquslg/Fgzwe8pCYkl1KVGkpGryzGb
-         CuGOIiaCs4w2QprKsm+CksksxJRp4felDkBMH1O07uUk8oCF+evSHyp3EWjV8D6zdKEm
-         5gPA==
-X-Gm-Message-State: AOAM530cWSKJNp0oAFaLJNlwlfHgHltKrFXZQOHGe6xnVaIfKAwiYnyn
-        XEODrSt7XRSWD/YkWHWkZHdI4pkt/fwTLkT3v68=
-X-Google-Smtp-Source: ABdhPJzlGUGW2iKkTkrAVqTUKcvO9npurfnjC2yNvq753E1M0AVW5b7tjO01qNJKAYI3kQSCeflzbuJKPBvB5TUeDog=
-X-Received: by 2002:a17:90a:6e45:: with SMTP id s5mr1374059pjm.12.1601017631436;
- Fri, 25 Sep 2020 00:07:11 -0700 (PDT)
+        with ESMTP id S1727068AbgIYHl7 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 25 Sep 2020 03:41:59 -0400
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC8F9C0613CE;
+        Fri, 25 Sep 2020 00:41:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=bEXaXvm5X4dVutGWrM3SYTUTdFiVFeL65RE2m3et63M=; b=AqV8/Bz0cSC83Rc4UodMLetV/b
+        H4Q0vcq/B2nX6a/1NGaWGgPy9xNSn1LvND0PyUTXFyVQQDT5oLPB4R8c7F6DSJkAKF4WKQIGFUdkp
+        udYIlykogxqOjzXHo0dTH45OCQejslQx2zAkvYqsHkMfv2CW07yzU8ffQkFQ4Dd7EdxOV3+i8mUKa
+        njAOTD+HbtsvbRxCq0XxlyIIOyW7fVHnik1sUzOd/1V41Nkhyz5aKi+ibCKKW9+5ewaVOy4aE5Mzo
+        VDZRWpKNxXaa+GC031A6g07PAtFVpr0wW25aGZhIH14Nqkbd8hTliMwkhW/hIGQa2kxzNPWzmWLq7
+        ov9vR0rA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kLiMF-0003cu-I3; Fri, 25 Sep 2020 07:41:31 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 59EEE302753;
+        Fri, 25 Sep 2020 09:41:25 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id B942B20104626; Fri, 25 Sep 2020 09:41:25 +0200 (CEST)
+Date:   Fri, 25 Sep 2020 09:41:25 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christopher Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Idan Yaniv <idan.yaniv@ibm.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Shuah Khan <shuah@kernel.org>, Tycho Andersen <tycho@tycho.ws>,
+        Will Deacon <will@kernel.org>, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
+        x86@kernel.org
+Subject: Re: [PATCH v6 5/6] mm: secretmem: use PMD-size pages to amortize
+ direct map fragmentation
+Message-ID: <20200925074125.GQ2628@hirez.programming.kicks-ass.net>
+References: <20200924132904.1391-1-rppt@kernel.org>
+ <20200924132904.1391-6-rppt@kernel.org>
 MIME-Version: 1.0
-References: <20200923232923.3142503-1-keescook@chromium.org>
- <43039bb6-9d9f-b347-fa92-ea34ccc21d3d@rasmusvillemoes.dk> <CABqSeAQKksqM1SdsQMoR52AJ5CY0VE2tk8-TJaMuOrkCprQ0MQ@mail.gmail.com>
- <27b4ef86-fee5-fc35-993b-3352ce504c73@rasmusvillemoes.dk>
-In-Reply-To: <27b4ef86-fee5-fc35-993b-3352ce504c73@rasmusvillemoes.dk>
-From:   YiFei Zhu <zhuyifei1999@gmail.com>
-Date:   Fri, 25 Sep 2020 02:07:00 -0500
-Message-ID: <CABqSeATHtvA7qm7j_kxBsbxRCd5B=MHtxGdsYsXEJ-TRRYKTgA@mail.gmail.com>
-Subject: Re: [PATCH v1 0/6] seccomp: Implement constant action bitmaps
-To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc:     Kees Cook <keescook@chromium.org>,
-        YiFei Zhu <yifeifz2@illinois.edu>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Giuseppe Scrivano <gscrivan@redhat.com>,
-        Will Drewry <wad@chromium.org>, bpf <bpf@vger.kernel.org>,
-        Jann Horn <jannh@google.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        Tobin Feldman-Fitzthum <tobin@ibm.com>,
-        Hubertus Franke <frankeh@us.ibm.com>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Valentin Rothberg <vrothber@redhat.com>,
-        Dimitrios Skarlatos <dskarlat@cs.cmu.edu>,
-        Jack Chen <jianyan2@illinois.edu>,
-        Josep Torrellas <torrella@illinois.edu>,
-        Tianyin Xu <tyxu@illinois.edu>,
-        kernel list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200924132904.1391-6-rppt@kernel.org>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Sep 25, 2020 at 12:56 AM Rasmus Villemoes
-<linux@rasmusvillemoes.dk> wrote:
-> Yes, the man page would read something like
->
->        SECCOMP_SET_MODE_FILTER_BITMAP
->               The system calls allowed are defined by a pointer to a
-> Berkeley Packet Filter (BPF) passed  via  args.
->               This argument is a pointer to a struct sock_fprog_bitmap;
->
-> with that struct containing whatever information/extra pointers needed
-> for passing the bitmap(s) in addition to the bpf prog.
->
-> And SECCOMP_SET_MODE_FILTER would internally just be updated to work
-> as-if all-zero allow-bitmaps were passed along. The internal kernel
-> bitmap would just be the and of the bitmaps in the filter stack.
->
-> Sure, it's UAPI, so would certainly need more careful thought on details
-> of just how the arg struct looks like etc. etc., but I was wondering why
-> it hadn't been discussed at all.
+On Thu, Sep 24, 2020 at 04:29:03PM +0300, Mike Rapoport wrote:
+> From: Mike Rapoport <rppt@linux.ibm.com>
+> 
+> Removing a PAGE_SIZE page from the direct map every time such page is
+> allocated for a secret memory mapping will cause severe fragmentation of
+> the direct map. This fragmentation can be reduced by using PMD-size pages
+> as a pool for small pages for secret memory mappings.
+> 
+> Add a gen_pool per secretmem inode and lazily populate this pool with
+> PMD-size pages.
 
-If SECCOMP_SET_MODE_FILTER is attached before / after
-SECCOMP_SET_MODE_FILTER_BITMAP, does it mean all bitmap gets void?
+What's the actual efficacy of this? Since the pmd is per inode, all I
+need is a lot of inodes and we're in business to destroy the directmap,
+no?
 
-Would it make sense to have SECCOMP_SET_MODE_FILTER run through the
-emulator to see if we can construct a bitmap anyways for "legacy
-no-bitmap" support?
+Afaict there's no privs needed to use this, all a process needs is to
+stay below the mlock limit, so a 'fork-bomb' that maps a single secret
+page will utterly destroy the direct map.
 
-Another thing to consider is that in both patch series we only
-construct one final bitmap that, if the bit is set, seccomp will not
-call into the BPF filter. If the bit is not set, then all filters are
-called in sequence, even if some of them "must allow the syscall".
-With SECCOMP_SET_MODE_FILTER_BITMAP, the filter BPF code will no
-longer have the "if it's this syscall" for any syscalls that are given
-in the bitmaps, and calling into these filters will be a false
-negative. So we would need extra logic to make "does this filter have
-a bitmap? if so check bitmap first". Probably won't be too
-complicated, but idk if it is actually worth the complexity. wdyt?
+I really don't like this, at all.
 
-> Regardless, I'd like to see some numbers, certainly for the "how much
-> faster does a getpid() or read() or any of the other syscalls that
-> nobody disallows" get, but also "what's the cost of doing that emulation
-> at seccomp(2) time".
-
-The former has been given in my RFC patch [1]. In an extreme case of
-no side channel mitigations, in the same amount of time, unixbench
-syscall mixed runs 33295685 syscalls without seccomp, 20661056
-syscalls with docker profile, 25719937 syscalls with bitmapped docker
-profile. Though, I think Jack was running on Ubuntu and it did not
-have a libseccomp shipped with the distro that's new enough to do the
-binary decision tree generation [2].
-
-I'll try to profile the latter later on my qemu-kvm, with a recent
-libsecomp with binary tree and docker's profile, probably both direct
-filter attaches and filter attaches with fork(). I'm guessing if I
-have fork() the cost of fork() will overshadow seccomp() though.
-
-[1] https://lore.kernel.org/containers/cover.1600661418.git.yifeifz2@illinois.edu/
-[2] https://github.com/seccomp/libseccomp/pull/152
-
-YiFei Zhu
+IIRC Kirill looked at merging the directmap. I think he ran into
+performance issues there, but we really need something like that before
+something like this lands.
