@@ -2,269 +2,112 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB0C827903C
-	for <lists+linux-api@lfdr.de>; Fri, 25 Sep 2020 20:25:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DEE4D279254
+	for <lists+linux-api@lfdr.de>; Fri, 25 Sep 2020 22:38:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729593AbgIYSZI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 25 Sep 2020 14:25:08 -0400
-Received: from mail.efficios.com ([167.114.26.124]:44834 "EHLO
-        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727733AbgIYSZI (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 25 Sep 2020 14:25:08 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 0FD8F2D0B50;
-        Fri, 25 Sep 2020 14:15:30 -0400 (EDT)
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id IEbueKNW6RUW; Fri, 25 Sep 2020 14:15:29 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id A28722D0DA9;
-        Fri, 25 Sep 2020 14:15:29 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com A28722D0DA9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1601057729;
-        bh=0x2DyR7P5kIFKDZl1Me0aWp215/aUuzCV5thSrCYrY4=;
-        h=From:To:Date:Message-Id;
-        b=YS6m59Y1vjr4kWoyrTIBMj7r4LcCQydtOBFwQ/iaokf18W1/hFwdXCFi302IJKZ+a
-         rD2VhVcIl1oE0GheBqjQVSSQSC2vJyucT6YS4RVG4NjIaR2HOh8m6WNLEZKLvPgSBY
-         PXSzZqTVSVm6uijtwiLCzJ7guFVIcQECWblXxXiBXPkNsIBE4UsX3Tw1Kds+OR1IkX
-         EpM+TxaaLBZyp+MPrDTA8cVDzsOXQzU8K4bn5bql2vIWJABKgm0DgqcRMdPMhoXGhy
-         i1z46CaeeSiUYDjErc4yjWDmT+Yg943KhzGrswCXYdDA+xH1GULUaPl0g+YLKRw0Rf
-         b9pMy8bpGJheQ==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 8JxkvBFC_Goy; Fri, 25 Sep 2020 14:15:29 -0400 (EDT)
-Received: from localhost.localdomain (192-222-181-218.qc.cable.ebox.net [192.222.181.218])
-        by mail.efficios.com (Postfix) with ESMTPSA id 344132D0EB2;
-        Fri, 25 Sep 2020 14:15:29 -0400 (EDT)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        linux-api@vger.kernel.org,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Florian Weimer <fw@deneb.enyo.de>, carlos@redhat.com,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Subject: [RFC PATCH 2/2] selftests/rseq: Adapt x86-64 rseq selftest to rseq KTLS prototype
-Date:   Fri, 25 Sep 2020 14:15:18 -0400
-Message-Id: <20200925181518.4141-2-mathieu.desnoyers@efficios.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200925181518.4141-1-mathieu.desnoyers@efficios.com>
-References: <20200925181518.4141-1-mathieu.desnoyers@efficios.com>
+        id S1726239AbgIYUir (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 25 Sep 2020 16:38:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54738 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728827AbgIYUif (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 25 Sep 2020 16:38:35 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEE46C0613CE
+        for <linux-api@vger.kernel.org>; Fri, 25 Sep 2020 13:30:59 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id t14so3539651pgl.10
+        for <linux-api@vger.kernel.org>; Fri, 25 Sep 2020 13:30:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=xalch59fDuEKl76YuuW9L6ISBYkH/TTx0Ff+RgikJxo=;
+        b=hYaTNdNHJvLXhzfO+DdQhP+Y6AQFVGOXPqty1ToYGSxhw3Gg9u0qORgOjwXhmBR7X+
+         3RBtz3lDH0PW6AmY/qY7MMzKY6CsGoSJzyEB+byHzQg5n948zglNKeCBqL+BXCy6ISuz
+         pLQE8ykuQBc1+Zol1mYktHi8NsaELoQn/dyBc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=xalch59fDuEKl76YuuW9L6ISBYkH/TTx0Ff+RgikJxo=;
+        b=RkmBk/9l4fP5EWsccc5/l2oPWMibLp7PWSesoh/S4JGZ00V2/LU9CHaNdAmKi2zN6q
+         c5/SVli2kT9Sy/BijOswhLVM4rIk6s3et+1LXmsJSDIWOEteduUgfbDlKplrp5BZ911Z
+         VomQXYEtJ5lvDn+KRW/ir/6j8zcJ9/UPZ4XuqxPP2jX1w94fUub8TJd/ojYUC7RuytDy
+         pNDU2tbQ5GZfGdvkxKfyiXr4g/gobXJuhYLump6tIwRQJOn9kvHdhCaw9F5v+FjeLySj
+         DyXBy5rlZfwJXX7T1X3xDftICrcFfVaILGEarr5vyrQ2Dwbuh0z23dYY+RsIK4kbtCWS
+         7ZEg==
+X-Gm-Message-State: AOAM530N7SfsyCtGt0J2KCDoMErvyOABDOESL8L72EGrp3AF6359figU
+        AVdvgfS5c9b++XxcqN7GEgaD7g==
+X-Google-Smtp-Source: ABdhPJzmfj4AEPYzK8yIYg6dWta0UdlI0MvUEx+twtC6hiM5Se1DgdD+x9UOcYpIEItGRJ46ESH7fA==
+X-Received: by 2002:a17:902:c252:b029:d2:4345:5c7 with SMTP id 18-20020a170902c252b02900d2434505c7mr1152244plg.4.1601065859302;
+        Fri, 25 Sep 2020 13:30:59 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id g1sm70849pjs.30.2020.09.25.13.30.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Sep 2020 13:30:58 -0700 (PDT)
+Date:   Fri, 25 Sep 2020 13:30:57 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Gabriel Krisman Bertazi <krisman@collabora.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>, luto@kernel.org,
+        x86@kernel.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, willy@infradead.org,
+        linux-kselftest@vger.kernel.org, shuah@kernel.org,
+        kernel@collabora.com
+Subject: Re: [PATCH v6 1/9] kernel: Support TIF_SYSCALL_INTERCEPT flag
+Message-ID: <202009251327.587D111@keescook>
+References: <20200904203147.2908430-1-krisman@collabora.com>
+ <20200904203147.2908430-2-krisman@collabora.com>
+ <202009221243.6BC5635E@keescook>
+ <874kno6yct.fsf@collabora.com>
+ <202009231349.4A25EAF@keescook>
+ <87o8luuvze.fsf@nanos.tec.linutronix.de>
+ <87k0whsuh1.fsf@collabora.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87k0whsuh1.fsf@collabora.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-The rseq KTLS ABI only requires a single SET_KTLS_OFFSET system call at
-library init for the entire thread group. There is no more need for
-per-thread registration.
+On Fri, Sep 25, 2020 at 12:15:54PM -0400, Gabriel Krisman Bertazi wrote:
+> Thomas Gleixner <tglx@linutronix.de> writes:
+> 
+> > On Wed, Sep 23 2020 at 13:49, Kees Cook wrote:
+> >> On Wed, Sep 23, 2020 at 04:18:26PM -0400, Gabriel Krisman Bertazi wrote:
+> >>> Kees Cook <keescook@chromium.org> writes:
+> >>> Yes, we can, and I'm happy to follow up with that as part of my TIF
+> >>> clean up work, but can we not block the current patchset to be merged
+> >>> waiting for that, as this already grew a lot from the original feature
+> >>> submission?
+> >>
+> >> In that case, I'd say just add the new TIF flag. The consolidation can
+> >> come later.
+> >
+> > No. This is exactly the wrong order. Cleanup and consolidation have
+> > precedence over features. I'm tired of 'we'll do that later' songs,
+> > simply because in the very end I'm going to be the idiot who mops up the
+> > resulting mess.
+> >
+> 
+> No problem.  I will follow up with a patchset consolidating those flags
+> into this syscall_intercept interface I proposed.  I assume there is no
+> immediate concerns with the consolidation approach itself.
 
-The only architecture-specific part of this patch is
-rseq_get_thread_pointer, which is only implemented for x86-64
-so far. Other architectures can rely on __builtin_thread_pointer(), but
-it is unfortunately unimplemented by gcc for at least x86-32 and x86-64
-at the moment.
+I think the only issue is just finding a clean way to set/unset the
+flags safely/quickly (a lock seems too heavy to me).
 
-This is a minimal change to the rseq selftests which keeps using a
-fixed-size __rseq_abi TLS inital-exec variable in user-space, but
-use the rseq KTLS ABI for registration to the kernel.
+Should thread_info hold an entire u32 for all intercept flags (then the
+TIF_WORK tests is just a zero-test of the intercept u32 word)? Or should
+there be a TIF_INTERCEPT and a totally separate u32 (e.g. in
+task_struct) indicating which intercepts? (And if they're separate, how
+do we atomically set/unset)
 
-In order to facilitate prototyping without requiring an updated glibc,
-there is one per-thread operation which is still performed right after
-thread creation: RSEQ_FLAG_SET_KTLS_THREAD. It sets the rseq_ktls flag
-to true in the current task struct. This is meant to be performed by
-glibc through use of clone3 CLONE_RSEQ_KTLS.
+i.e.:
 
-Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: Carlos O'Donell <carlos@redhat.com>
-Cc: "Florian Weimer <fweimer@redhat.com>
-Cc: Peter Zijlstra (Intel) <peterz@infradead.org>
-Cc: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: Boqun Feng <boqun.feng@gmail.com>
----
- tools/testing/selftests/rseq/rseq-x86.h |   8 ++
- tools/testing/selftests/rseq/rseq.c     | 101 ++++++++----------------
- tools/testing/selftests/rseq/rseq.h     |   2 +-
- 3 files changed, 44 insertions(+), 67 deletions(-)
+atomic_start
+	toggle a per-intercept bit
+	set TIF_INTERCEPT = !!(intercept word)
+atomic_end
 
-diff --git a/tools/testing/selftests/rseq/rseq-x86.h b/tools/testing/selftests/rseq/rseq-x86.h
-index b2da6004fe30..e959d3fb1dea 100644
---- a/tools/testing/selftests/rseq/rseq-x86.h
-+++ b/tools/testing/selftests/rseq/rseq-x86.h
-@@ -28,6 +28,14 @@
- 
- #ifdef __x86_64__
- 
-+static inline void *rseq_get_thread_pointer(void)
-+{
-+	void *p;
-+
-+	asm ("mov %%fs:0, %0" : "=r" (p));
-+	return p;
-+}
-+
- #define rseq_smp_mb()	\
- 	__asm__ __volatile__ ("lock; addl $0,-128(%%rsp)" ::: "memory", "cc")
- #define rseq_smp_rmb()	rseq_barrier()
-diff --git a/tools/testing/selftests/rseq/rseq.c b/tools/testing/selftests/rseq/rseq.c
-index 7159eb777fd3..9bc5c195a79a 100644
---- a/tools/testing/selftests/rseq/rseq.c
-+++ b/tools/testing/selftests/rseq/rseq.c
-@@ -31,7 +31,7 @@
- 
- #define ARRAY_SIZE(arr)	(sizeof(arr) / sizeof((arr)[0]))
- 
--__thread volatile struct rseq __rseq_abi = {
-+__thread struct rseq __rseq_abi = {
- 	.cpu_id = RSEQ_CPU_ID_UNINITIALIZED,
- };
- 
-@@ -47,83 +47,26 @@ static int rseq_ownership;
- 
- static __thread volatile uint32_t __rseq_refcount;
- 
--static void signal_off_save(sigset_t *oldset)
--{
--	sigset_t set;
--	int ret;
--
--	sigfillset(&set);
--	ret = pthread_sigmask(SIG_BLOCK, &set, oldset);
--	if (ret)
--		abort();
--}
--
--static void signal_restore(sigset_t oldset)
--{
--	int ret;
--
--	ret = pthread_sigmask(SIG_SETMASK, &oldset, NULL);
--	if (ret)
--		abort();
--}
--
--static int sys_rseq(volatile struct rseq *rseq_abi, uint32_t rseq_len,
-+static int sys_rseq(void *ptr, uint32_t rseq_len,
- 		    int flags, uint32_t sig)
- {
--	return syscall(__NR_rseq, rseq_abi, rseq_len, flags, sig);
-+	return syscall(__NR_rseq, ptr, rseq_len, flags, sig);
- }
- 
- int rseq_register_current_thread(void)
- {
--	int rc, ret = 0;
--	sigset_t oldset;
-+	int rc;
- 
--	if (!rseq_ownership)
--		return 0;
--	signal_off_save(&oldset);
--	if (__rseq_refcount == UINT_MAX) {
--		ret = -1;
--		goto end;
--	}
--	if (__rseq_refcount++)
--		goto end;
--	rc = sys_rseq(&__rseq_abi, sizeof(struct rseq), 0, RSEQ_SIG);
--	if (!rc) {
--		assert(rseq_current_cpu_raw() >= 0);
--		goto end;
-+	rc = sys_rseq(NULL, 0, RSEQ_FLAG_SET_KTLS_THREAD, 0);
-+	if (rc) {
-+		abort();
- 	}
--	if (errno != EBUSY)
--		__rseq_abi.cpu_id = RSEQ_CPU_ID_REGISTRATION_FAILED;
--	ret = -1;
--	__rseq_refcount--;
--end:
--	signal_restore(oldset);
--	return ret;
-+	return 0;
- }
- 
- int rseq_unregister_current_thread(void)
- {
--	int rc, ret = 0;
--	sigset_t oldset;
--
--	if (!rseq_ownership)
--		return 0;
--	signal_off_save(&oldset);
--	if (!__rseq_refcount) {
--		ret = -1;
--		goto end;
--	}
--	if (--__rseq_refcount)
--		goto end;
--	rc = sys_rseq(&__rseq_abi, sizeof(struct rseq),
--		      RSEQ_FLAG_UNREGISTER, RSEQ_SIG);
--	if (!rc)
--		goto end;
--	__rseq_refcount = 1;
--	ret = -1;
--end:
--	signal_restore(oldset);
--	return ret;
-+	return 0;
- }
- 
- int32_t rseq_fallback_current_cpu(void)
-@@ -140,11 +83,37 @@ int32_t rseq_fallback_current_cpu(void)
- 
- void __attribute__((constructor)) rseq_init(void)
- {
-+	int rc;
-+	long rseq_abi_offset;
-+	struct rseq_ktls_layout layout;
-+	struct rseq_ktls_offset offset;
-+
- 	/* Check whether rseq is handled by another library. */
- 	if (__rseq_handled)
- 		return;
- 	__rseq_handled = 1;
- 	rseq_ownership = 1;
-+
-+	rseq_abi_offset = (long) &__rseq_abi - (long) rseq_get_thread_pointer();
-+
-+	rc = sys_rseq(&layout, 0, RSEQ_FLAG_GET_KTLS_LAYOUT, 0);
-+	if (rc) {
-+		abort();
-+	}
-+	if (layout.size > sizeof(struct rseq) || layout.alignment > __alignof__(struct rseq)) {
-+		abort();
-+	}
-+	offset.offset = rseq_abi_offset;
-+	rc = sys_rseq(&offset, 0, RSEQ_FLAG_SET_KTLS_OFFSET, 0);
-+	if (rc) {
-+		abort();
-+	}
-+	rc = sys_rseq(NULL, 0, RSEQ_FLAG_SET_SIG, RSEQ_SIG);
-+	if (rc) {
-+		abort();
-+	}
-+
-+	assert(rseq_current_cpu_raw() >= 0);
- }
- 
- void __attribute__((destructor)) rseq_fini(void)
-diff --git a/tools/testing/selftests/rseq/rseq.h b/tools/testing/selftests/rseq/rseq.h
-index 3f63eb362b92..3c4fad7be4f7 100644
---- a/tools/testing/selftests/rseq/rseq.h
-+++ b/tools/testing/selftests/rseq/rseq.h
-@@ -43,7 +43,7 @@
- #define RSEQ_INJECT_FAILED
- #endif
- 
--extern __thread volatile struct rseq __rseq_abi;
-+extern __thread __attribute__((tls_model("initial-exec"))) struct rseq __rseq_abi;
- extern int __rseq_handled;
- 
- #define rseq_likely(x)		__builtin_expect(!!(x), 1)
 -- 
-2.17.1
-
+Kees Cook
