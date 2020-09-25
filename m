@@ -2,469 +2,633 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 98ABB278D71
-	for <lists+linux-api@lfdr.de>; Fri, 25 Sep 2020 17:59:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53DFA278DB1
+	for <lists+linux-api@lfdr.de>; Fri, 25 Sep 2020 18:09:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729333AbgIYP7H (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 25 Sep 2020 11:59:07 -0400
-Received: from mga18.intel.com ([134.134.136.126]:60264 "EHLO mga18.intel.com"
+        id S1729009AbgIYQJj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 25 Sep 2020 12:09:39 -0400
+Received: from mga04.intel.com ([192.55.52.120]:24060 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728932AbgIYP7H (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 25 Sep 2020 11:59:07 -0400
-IronPort-SDR: xc3B7uSBpOBjRUVcHLehbS9aeJebYrJBahCJh0Ruo+usouuSoIb2iOzisfAFfsqbeNj6fzO8HF
- pUZK4npz7TYg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9755"; a="149338397"
+        id S1727812AbgIYQJj (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 25 Sep 2020 12:09:39 -0400
+IronPort-SDR: tRWnfQ7OSqu0yqJPKzYuWUTKAa86Wb4iBPXAP7YBhZfWv2j2w0v0pwu3zqyhnGq4Won4KwPcFq
+ JFJuh86+r86A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9755"; a="158942337"
 X-IronPort-AV: E=Sophos;i="5.77,302,1596524400"; 
-   d="scan'208";a="149338397"
+   d="scan'208";a="158942337"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2020 08:59:03 -0700
-IronPort-SDR: u2lScz7p+jXuEaVemEFcSztUjUhrRhEnr5bXEhUoXkPGAUQRAEsQl/K6pLG3qG2GndyRoqpAlj
- 0gHai0Hko3gg==
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2020 07:57:28 -0700
+IronPort-SDR: eseqoOG3AgJOxzWo1BKSawx7BfN0V1HAw175u0yVdfSH40WWj2HVSLoj5ROef7JLaU5y01Xv9C
+ /Smn6xARoRkw==
 X-IronPort-AV: E=Sophos;i="5.77,302,1596524400"; 
-   d="scan'208";a="383528566"
-Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2020 08:59:03 -0700
-Date:   Fri, 25 Sep 2020 09:01:10 -0700
-From:   Jacob Pan <jacob.jun.pan@linux.intel.com>
-To:     Jean-Philippe Brucker <jean-philippe@linaro.org>
-Cc:     Jacob Pan <jacob.pan.linux@gmail.com>,
-        iommu@lists.linux-foundation.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-api@vger.kernel.org,
-        Jean-Philippe Brucker <jean-philippe@linaro.com>,
-        Eric Auger <eric.auger@redhat.com>,
-        Yi Liu <yi.l.liu@intel.com>,
-        "Tian, Kevin" <kevin.tian@intel.com>,
-        Raj Ashok <ashok.raj@intel.com>, Wu Hao <hao.wu@intel.com>,
-        Yi Sun <yi.y.sun@intel.com>,
+   d="scan'208";a="487499229"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2020 07:57:27 -0700
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
         Randy Dunlap <rdunlap@infradead.org>,
-        jacob.jun.pan@linux.intel.com
-Subject: Re: [PATCH v11 5/6] iommu/uapi: Handle data and argsz filled by
- users
-Message-ID: <20200925090110.6c168f17@jacob-builder>
-In-Reply-To: <20200925094636.GC490533@myrica>
-References: <1600975460-64521-1-git-send-email-jacob.jun.pan@linux.intel.com>
-        <1600975460-64521-6-git-send-email-jacob.jun.pan@linux.intel.com>
-        <20200925094636.GC490533@myrica>
-Organization: OTC
-X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [PATCH v13 21/26] x86/cet/shstk: Handle signals for shadow stack
+Date:   Fri, 25 Sep 2020 07:56:44 -0700
+Message-Id: <20200925145649.5438-22-yu-cheng.yu@intel.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20200925145649.5438-1-yu-cheng.yu@intel.com>
+References: <20200925145649.5438-1-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Jean-Philippe,
+To deliver a signal, create a shadow stack restore token and put a restore
+token and the signal restorer address on the shadow stack.  For sigreturn,
+verify the token and restore the shadow stack pointer.
 
-On Fri, 25 Sep 2020 11:46:36 +0200, Jean-Philippe Brucker
-<jean-philippe@linaro.org> wrote:
+Introduce WRUSS, which is a kernel-mode instruction but writes directly to
+user shadow stack.  It is used to construct the user signal stack as
+described above.
 
-> On Thu, Sep 24, 2020 at 12:24:19PM -0700, Jacob Pan wrote:
-> > IOMMU user APIs are responsible for processing user data. This patch
-> > changes the interface such that user pointers can be passed into IOMMU
-> > code directly. Separate kernel APIs without user pointers are introduced
-> > for in-kernel users of the UAPI functionality.
-> > 
-> > IOMMU UAPI data has a user filled argsz field which indicates the data
-> > length of the structure. User data is not trusted, argsz must be
-> > validated based on the current kernel data size, mandatory data size,
-> > and feature flags.
-> > 
-> > User data may also be extended, resulting in possible argsz increase.
-> > Backward compatibility is ensured based on size and flags (or
-> > the functional equivalent fields) checking.
-> > 
-> > This patch adds sanity checks in the IOMMU layer. In addition to argsz,
-> > reserved/unused fields in padding, flags, and version are also checked.
-> > Details are documented in Documentation/userspace-api/iommu.rst
-> > 
-> > Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
-> > Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>  
-> 
-> Reviewed-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> 
-> Some comments below in case you're resending, but nothing important.
-> 
-Thanks for the review, I will respin.
+Introduce a signal context extension struct 'sc_ext', which is used to save
+shadow stack restore token address and WAIT_ENDBR status.  WAIT_ENDBR will
+be introduced later in the Indirect Branch Tracking (IBT) series, but add
+that into sc_ext now to keep the struct stable in case the IBT series is
+applied later.
 
-> > ---
-> >  drivers/iommu/iommu.c      | 199
-> > +++++++++++++++++++++++++++++++++++++++++++--
-> > include/linux/iommu.h      |  28 +++++-- include/uapi/linux/iommu.h |
-> > 1 + 3 files changed, 212 insertions(+), 16 deletions(-)
-> > 
-> > diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-> > index 4ae02291ccc2..5c1b7ae48aae 100644
-> > --- a/drivers/iommu/iommu.c
-> > +++ b/drivers/iommu/iommu.c
-> > @@ -1961,34 +1961,219 @@ int iommu_attach_device(struct iommu_domain
-> > *domain, struct device *dev) }
-> >  EXPORT_SYMBOL_GPL(iommu_attach_device);
-> >  
-> > +/*
-> > + * Check flags and other user provided data for valid combinations. We
-> > also
-> > + * make sure no reserved fields or unused flags are set. This is to
-> > ensure
-> > + * not breaking userspace in the future when these fields or flags are
-> > used.
-> > + */
-> > +static int iommu_check_cache_invl_data(struct
-> > iommu_cache_invalidate_info *info) +{
-> > +	u32 mask;
-> > +	int i;
-> > +
-> > +	if (info->version != IOMMU_CACHE_INVALIDATE_INFO_VERSION_1)
-> > +		return -EINVAL;
-> > +
-> > +	mask = (1 << IOMMU_CACHE_INV_TYPE_NR) - 1;
-> > +	if (info->cache & ~mask)
-> > +		return -EINVAL;
-> > +
-> > +	if (info->granularity >= IOMMU_INV_GRANU_NR)
-> > +		return -EINVAL;
-> > +
-> > +	switch (info->granularity) {
-> > +	case IOMMU_INV_GRANU_ADDR:
-> > +		if (info->cache & IOMMU_CACHE_INV_TYPE_PASID)
-> > +			return -EINVAL;
-> > +
-> > +		mask = IOMMU_INV_ADDR_FLAGS_PASID |
-> > +			IOMMU_INV_ADDR_FLAGS_ARCHID |
-> > +			IOMMU_INV_ADDR_FLAGS_LEAF;
-> > +
-> > +		if (info->granu.addr_info.flags & ~mask)
-> > +			return -EINVAL;
-> > +		break;
-> > +	case IOMMU_INV_GRANU_PASID:
-> > +		mask = IOMMU_INV_PASID_FLAGS_PASID |
-> > +			IOMMU_INV_PASID_FLAGS_ARCHID;
-> > +		if (info->granu.pasid_info.flags & ~mask)
-> > +			return -EINVAL;
-> > +
-> > +		break;
-> > +	case IOMMU_INV_GRANU_DOMAIN:
-> > +		if (info->cache & IOMMU_CACHE_INV_TYPE_DEV_IOTLB)
-> > +			return -EINVAL;
-> > +		break;
-> > +	default:
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	/* Check reserved padding fields */
-> > +	for (i = 0; i < sizeof(info->padding); i++) {
-> > +		if (info->padding[i])
-> > +			return -EINVAL;
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  int iommu_uapi_cache_invalidate(struct iommu_domain *domain, struct
-> > device *dev,
-> > -				struct iommu_cache_invalidate_info
-> > *inv_info)
-> > +				void __user *uinfo)
-> >  {
-> > +	struct iommu_cache_invalidate_info inv_info = { 0 };
-> > +	u32 minsz;
-> > +	int ret = 0;  
-> 
-> nit: no need to initialize it
-> 
-got it.
+Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+---
+v13:
+- Check restore token pointing to a valid address.
 
-> > +
-> >  	if (unlikely(!domain->ops->cache_invalidate))
-> >  		return -ENODEV;
-> >  
-> > -	return domain->ops->cache_invalidate(domain, dev, inv_info);
-> > +	/*
-> > +	 * No new spaces can be added before the variable sized union,
-> > the
-> > +	 * minimum size is the offset to the union.
-> > +	 */
-> > +	minsz = offsetof(struct iommu_cache_invalidate_info, granu);  
-> 
-> Why not use offsetofend() to avoid naming the unions?
-> 
-offsetofend() was used in earlier version but the named union would avoid
-future code change if we were to re-purpose the padding fields.
-minzs is always at the offsetof the union due to our expansion rules.
+v10:
+- Combine with WRUSS instruction patch, since it is used only here.
+- Revise signal restore code to the latest supervisor states handling.
+  Move shadow stack restore token checking out of the fast path.
 
-> > +
-> > +	/* Copy minsz from user to get flags and argsz */
-> > +	if (copy_from_user(&inv_info, uinfo, minsz))
-> > +		return -EFAULT;
-> > +
-> > +	/* Fields before variable size union is mandatory */
-> > +	if (inv_info.argsz < minsz)
-> > +		return -EINVAL;
-> > +
-> > +	/* PASID and address granu require additional info beyond
-> > minsz */
-> > +	if (inv_info.argsz == minsz &&
-> > +	    ((inv_info.granularity == IOMMU_INV_GRANU_PASID) ||
-> > +		    (inv_info.granularity == IOMMU_INV_GRANU_ADDR)))
-> > +		return -EINVAL;  
-> 
-> Made redundant by the two checks below
-> 
-Good point! This case is covered by the two checks below.
+v9:
+- Update CET MSR access according to XSAVES supervisor state changes.
+- Add 'wait_endbr' to struct 'sc_ext'.
+- Update and simplify signal frame allocation, setup, and restoration.
+- Update commit log text.
 
-> > +
-> > +	if (inv_info.granularity == IOMMU_INV_GRANU_PASID &&
-> > +	    inv_info.argsz < offsetofend(struct
-> > iommu_cache_invalidate_info, granu.pasid_info))
-> > +		return -EINVAL;
-> > +
-> > +	if (inv_info.granularity == IOMMU_INV_GRANU_ADDR &&
-> > +	    inv_info.argsz < offsetofend(struct
-> > iommu_cache_invalidate_info, granu.addr_info))
-> > +		return -EINVAL;
-> > +
-> > +	/*
-> > +	 * User might be using a newer UAPI header which has a larger
-> > data
-> > +	 * size, we shall support the existing flags within the current
-> > +	 * size. Copy the remaining user data _after_ minsz but not
-> > more
-> > +	 * than the current kernel supported size.
-> > +	 */
-> > +	if (copy_from_user((void *)&inv_info + minsz, uinfo + minsz,
-> > +			   min_t(u32, inv_info.argsz,
-> > sizeof(inv_info)) - minsz))
-> > +		return -EFAULT;
-> > +
-> > +	/* Now the argsz is validated, check the content */
-> > +	ret = iommu_check_cache_invl_data(&inv_info);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	return domain->ops->cache_invalidate(domain, dev, &inv_info);
-> >  }
-> >  EXPORT_SYMBOL_GPL(iommu_uapi_cache_invalidate);
-> >  
-> > -int iommu_uapi_sva_bind_gpasid(struct iommu_domain *domain,
-> > -			       struct device *dev, struct
-> > iommu_gpasid_bind_data *data) +static int iommu_check_bind_data(struct
-> > iommu_gpasid_bind_data *data) +{
-> > +	u32 mask;
-> > +	int i;
-> > +
-> > +	if (data->version != IOMMU_GPASID_BIND_VERSION_1)
-> > +		return -EINVAL;
-> > +
-> > +	/* Check the range of supported formats */
-> > +	if (data->format >= IOMMU_PASID_FORMAT_LAST)
-> > +		return -EINVAL;
-> > +
-> > +	/* Check all flags */
-> > +	mask = IOMMU_SVA_GPASID_VAL;
-> > +	if (data->flags & ~mask)
-> > +		return -EINVAL;
-> > +
-> > +	/* Check reserved padding fields */
-> > +	for (i = 0; i < sizeof(data->padding); i++) {
-> > +		if (data->padding[i])
-> > +			return -EINVAL;
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int iommu_sva_prepare_bind_data(void __user *udata,
-> > +				       struct iommu_gpasid_bind_data
-> > *data) {
-> > +	u32 minsz;
-> > +
-> > +	/*
-> > +	 * No new spaces can be added before the variable sized union,
-> > the
-> > +	 * minimum size is the offset to the union.
-> > +	 */
-> > +	minsz = offsetof(struct iommu_gpasid_bind_data, vendor);
-> > +
-> > +	/* Copy minsz from user to get flags and argsz */
-> > +	if (copy_from_user(data, udata, minsz))
-> > +		return -EFAULT;
-> > +
-> > +	/* Fields before variable size union is mandatory */  
-> 
-> "are mandatory", but this comment is a bit redundant.
-> 
-Yes, it is implied by minsz. But I still feel it adds more clarity. Will
-fix the plural.
+v2:
+- Move CET status from sigcontext to a separate struct sc_ext, which is
+  located above the fpstate on the signal frame.
+- Add a restore token for sigreturn address.
 
-Thanks!
+ arch/x86/ia32/ia32_signal.c            |  17 +++
+ arch/x86/include/asm/cet.h             |   8 ++
+ arch/x86/include/asm/fpu/internal.h    |  10 ++
+ arch/x86/include/asm/special_insns.h   |  32 ++++++
+ arch/x86/include/uapi/asm/sigcontext.h |   9 ++
+ arch/x86/kernel/cet.c                  | 152 +++++++++++++++++++++++++
+ arch/x86/kernel/fpu/signal.c           | 100 ++++++++++++++++
+ arch/x86/kernel/signal.c               |  10 ++
+ 8 files changed, 338 insertions(+)
 
-> Thanks,
-> Jean
-> 
-> > +	if (data->argsz < minsz)
-> > +		return -EINVAL;
-> > +	/*
-> > +	 * User might be using a newer UAPI header, we shall let IOMMU
-> > vendor
-> > +	 * driver decide on what size it needs. Since the guest PASID
-> > bind data
-> > +	 * can be vendor specific, larger argsz could be the result of
-> > extension
-> > +	 * for one vendor but it should not affect another vendor.
-> > +	 * Copy the remaining user data _after_ minsz
-> > +	 */
-> > +	if (copy_from_user((void *)data + minsz, udata + minsz,
-> > +			   min_t(u32, data->argsz, sizeof(*data)) -
-> > minsz))
-> > +		return -EFAULT;
-> > +
-> > +	return iommu_check_bind_data(data);
-> > +}
-> > +
-> > +int iommu_uapi_sva_bind_gpasid(struct iommu_domain *domain, struct
-> > device *dev,
-> > +			       void __user *udata)
-> > +{
-> > +	struct iommu_gpasid_bind_data data = { 0 };
-> > +	int ret;
-> > +
-> >  	if (unlikely(!domain->ops->sva_bind_gpasid))
-> >  		return -ENODEV;
-> >  
-> > -	return domain->ops->sva_bind_gpasid(domain, dev, data);
-> > +	ret = iommu_sva_prepare_bind_data(udata, &data);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	return domain->ops->sva_bind_gpasid(domain, dev, &data);
-> >  }
-> >  EXPORT_SYMBOL_GPL(iommu_uapi_sva_bind_gpasid);
-> >  
-> > -int iommu_uapi_sva_unbind_gpasid(struct iommu_domain *domain, struct
-> > device *dev,
-> > -				 ioasid_t pasid)
-> > +int iommu_sva_unbind_gpasid(struct iommu_domain *domain, struct device
-> > *dev,
-> > +			     ioasid_t pasid)
-> >  {
-> >  	if (unlikely(!domain->ops->sva_unbind_gpasid))
-> >  		return -ENODEV;
-> >  
-> >  	return domain->ops->sva_unbind_gpasid(dev, pasid);
-> >  }
-> > +EXPORT_SYMBOL_GPL(iommu_sva_unbind_gpasid);
-> > +
-> > +int iommu_uapi_sva_unbind_gpasid(struct iommu_domain *domain, struct
-> > device *dev,
-> > +				 void __user *udata)
-> > +{
-> > +	struct iommu_gpasid_bind_data data = { 0 };
-> > +	int ret;
-> > +
-> > +	if (unlikely(!domain->ops->sva_bind_gpasid))
-> > +		return -ENODEV;
-> > +
-> > +	ret = iommu_sva_prepare_bind_data(udata, &data);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	return iommu_sva_unbind_gpasid(domain, dev, data.hpasid);
-> > +}
-> >  EXPORT_SYMBOL_GPL(iommu_uapi_sva_unbind_gpasid);
-> >  
-> >  static void __iommu_detach_device(struct iommu_domain *domain,
-> > diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-> > index 710d5d2691eb..3ca3a40fc80f 100644
-> > --- a/include/linux/iommu.h
-> > +++ b/include/linux/iommu.h
-> > @@ -426,11 +426,14 @@ extern void iommu_detach_device(struct
-> > iommu_domain *domain, struct device *dev);
-> >  extern int iommu_uapi_cache_invalidate(struct iommu_domain *domain,
-> >  				       struct device *dev,
-> > -				       struct
-> > iommu_cache_invalidate_info *inv_info);
-> > +				       void __user *uinfo);
-> > +
-> >  extern int iommu_uapi_sva_bind_gpasid(struct iommu_domain *domain,
-> > -				      struct device *dev, struct
-> > iommu_gpasid_bind_data *data);
-> > +				      struct device *dev, void __user
-> > *udata); extern int iommu_uapi_sva_unbind_gpasid(struct iommu_domain
-> > *domain,
-> > -					struct device *dev, ioasid_t
-> > pasid);
-> > +					struct device *dev, void
-> > __user *udata); +extern int iommu_sva_unbind_gpasid(struct iommu_domain
-> > *domain,
-> > +				   struct device *dev, ioasid_t pasid);
-> >  extern struct iommu_domain *iommu_get_domain_for_dev(struct device
-> > *dev); extern struct iommu_domain *iommu_get_dma_domain(struct device
-> > *dev); extern int iommu_map(struct iommu_domain *domain, unsigned long
-> > iova, @@ -1032,22 +1035,29 @@ static inline int
-> > iommu_sva_get_pasid(struct iommu_sva *handle) return
-> > IOMMU_PASID_INVALID; }
-> >  
-> > -static inline int iommu_uapi_cache_invalidate(struct iommu_domain
-> > *domain,
-> > -					      struct device *dev,
-> > -					      struct
-> > iommu_cache_invalidate_info *inv_info) +static inline int
-> > +iommu_uapi_cache_invalidate(struct iommu_domain *domain,
-> > +			    struct device *dev,
-> > +			    struct iommu_cache_invalidate_info
-> > *inv_info) {
-> >  	return -ENODEV;
-> >  }
-> >  
-> >  static inline int iommu_uapi_sva_bind_gpasid(struct iommu_domain
-> > *domain,
-> > -					     struct device *dev,
-> > -					     struct
-> > iommu_gpasid_bind_data *data)
-> > +					     struct device *dev, void
-> > __user *udata) {
-> >  	return -ENODEV;
-> >  }
-> >  
-> >  static inline int iommu_uapi_sva_unbind_gpasid(struct iommu_domain
-> > *domain,
-> > -					       struct device *dev, int
-> > pasid)
-> > +					       struct device *dev,
-> > void __user *udata) +{
-> > +	return -ENODEV;
-> > +}
-> > +
-> > +static inline int iommu_sva_unbind_gpasid(struct iommu_domain *domain,
-> > +					  struct device *dev,
-> > +					  ioasid_t pasid)
-> >  {
-> >  	return -ENODEV;
-> >  }
-> > diff --git a/include/uapi/linux/iommu.h b/include/uapi/linux/iommu.h
-> > index 5946779ac1f9..66d4ca40b40f 100644
-> > --- a/include/uapi/linux/iommu.h
-> > +++ b/include/uapi/linux/iommu.h
-> > @@ -322,6 +322,7 @@ struct iommu_gpasid_bind_data {
-> >  #define IOMMU_GPASID_BIND_VERSION_1	1
-> >  	__u32 version;
-> >  #define IOMMU_PASID_FORMAT_INTEL_VTD	1
-> > +#define IOMMU_PASID_FORMAT_LAST		2
-> >  	__u32 format;
-> >  	__u32 addr_width;
-> >  #define IOMMU_SVA_GPASID_VAL	(1 << 0) /* guest PASID valid */
-> > -- 
-> > 2.7.4
-> >   
+diff --git a/arch/x86/ia32/ia32_signal.c b/arch/x86/ia32/ia32_signal.c
+index 81cf22398cd1..cec9cf0a00cf 100644
+--- a/arch/x86/ia32/ia32_signal.c
++++ b/arch/x86/ia32/ia32_signal.c
+@@ -35,6 +35,7 @@
+ #include <asm/sigframe.h>
+ #include <asm/sighandling.h>
+ #include <asm/smap.h>
++#include <asm/cet.h>
+ 
+ static inline void reload_segments(struct sigcontext_32 *sc)
+ {
+@@ -205,6 +206,7 @@ static void __user *get_sigframe(struct ksignal *ksig, struct pt_regs *regs,
+ 				 void __user **fpstate)
+ {
+ 	unsigned long sp, fx_aligned, math_size;
++	void __user *restorer = NULL;
+ 
+ 	/* Default to using normal stack */
+ 	sp = regs->sp;
+@@ -218,8 +220,23 @@ static void __user *get_sigframe(struct ksignal *ksig, struct pt_regs *regs,
+ 		 ksig->ka.sa.sa_restorer)
+ 		sp = (unsigned long) ksig->ka.sa.sa_restorer;
+ 
++	if (ksig->ka.sa.sa_flags & SA_RESTORER) {
++		restorer = ksig->ka.sa.sa_restorer;
++	} else if (current->mm->context.vdso) {
++		if (ksig->ka.sa.sa_flags & SA_SIGINFO)
++			restorer = current->mm->context.vdso +
++				vdso_image_32.sym___kernel_rt_sigreturn;
++		else
++			restorer = current->mm->context.vdso +
++				vdso_image_32.sym___kernel_sigreturn;
++	}
++
+ 	sp = fpu__alloc_mathframe(sp, 1, &fx_aligned, &math_size);
+ 	*fpstate = (struct _fpstate_32 __user *) sp;
++
++	if (save_cet_to_sigframe(1, *fpstate, (unsigned long)restorer))
++		return (void __user *) -1L;
++
+ 	if (copy_fpstate_to_sigframe(*fpstate, (void __user *)fx_aligned,
+ 				     math_size) < 0)
+ 		return (void __user *) -1L;
+diff --git a/arch/x86/include/asm/cet.h b/arch/x86/include/asm/cet.h
+index 5750fbcbb952..73435856ce54 100644
+--- a/arch/x86/include/asm/cet.h
++++ b/arch/x86/include/asm/cet.h
+@@ -6,6 +6,8 @@
+ #include <linux/types.h>
+ 
+ struct task_struct;
++struct sc_ext;
++
+ /*
+  * Per-thread CET status
+  */
+@@ -18,9 +20,15 @@ struct cet_status {
+ int cet_setup_shstk(void);
+ void cet_disable_shstk(void);
+ void cet_free_shstk(struct task_struct *p);
++int cet_verify_rstor_token(bool ia32, unsigned long ssp, unsigned long *new_ssp);
++void cet_restore_signal(struct sc_ext *sc);
++int cet_setup_signal(bool ia32, unsigned long rstor, struct sc_ext *sc);
+ #else
+ static inline void cet_disable_shstk(void) {}
+ static inline void cet_free_shstk(struct task_struct *p) {}
++static inline void cet_restore_signal(struct sc_ext *sc) { return; }
++static inline int cet_setup_signal(bool ia32, unsigned long rstor,
++				   struct sc_ext *sc) { return -EINVAL; }
+ #endif
+ 
+ #endif /* __ASSEMBLY__ */
+diff --git a/arch/x86/include/asm/fpu/internal.h b/arch/x86/include/asm/fpu/internal.h
+index 0a460f2a3f90..ec900a7a4786 100644
+--- a/arch/x86/include/asm/fpu/internal.h
++++ b/arch/x86/include/asm/fpu/internal.h
+@@ -442,6 +442,16 @@ static inline void copy_kernel_to_fpregs(union fpregs_state *fpstate)
+ 	__copy_kernel_to_fpregs(fpstate, -1);
+ }
+ 
++#ifdef CONFIG_X86_CET
++extern int save_cet_to_sigframe(int ia32, void __user *fp,
++				unsigned long restorer);
++#else
++static inline int save_cet_to_sigframe(int ia32, void __user *fp,
++				unsigned long restorer)
++{
++	return 0;
++}
++#endif
+ extern int copy_fpstate_to_sigframe(void __user *buf, void __user *fp, int size);
+ 
+ /*
+diff --git a/arch/x86/include/asm/special_insns.h b/arch/x86/include/asm/special_insns.h
+index 59a3e13204c3..ee86c19da532 100644
+--- a/arch/x86/include/asm/special_insns.h
++++ b/arch/x86/include/asm/special_insns.h
+@@ -232,6 +232,38 @@ static inline void clwb(volatile void *__p)
+ 		: [pax] "a" (p));
+ }
+ 
++#ifdef CONFIG_X86_CET
++#if defined(CONFIG_IA32_EMULATION) || defined(CONFIG_X86_X32)
++static inline int write_user_shstk_32(unsigned long addr, unsigned int val)
++{
++	asm_volatile_goto("1: wrussd %1, (%0)\n"
++			  _ASM_EXTABLE(1b, %l[fail])
++			  :: "r" (addr), "r" (val)
++			  :: fail);
++	return 0;
++fail:
++	return -EPERM;
++}
++#else
++static inline int write_user_shstk_32(unsigned long addr, unsigned int val)
++{
++	WARN_ONCE(1, "%s used but not supported.\n", __func__);
++	return -EFAULT;
++}
++#endif
++
++static inline int write_user_shstk_64(unsigned long addr, unsigned long val)
++{
++	asm_volatile_goto("1: wrussq %1, (%0)\n"
++			  _ASM_EXTABLE(1b, %l[fail])
++			  :: "r" (addr), "r" (val)
++			  :: fail);
++	return 0;
++fail:
++	return -EPERM;
++}
++#endif /* CONFIG_X86_CET */
++
+ #define nop() asm volatile ("nop")
+ 
+ #endif /* __KERNEL__ */
+diff --git a/arch/x86/include/uapi/asm/sigcontext.h b/arch/x86/include/uapi/asm/sigcontext.h
+index 844d60eb1882..cf2d55db3be4 100644
+--- a/arch/x86/include/uapi/asm/sigcontext.h
++++ b/arch/x86/include/uapi/asm/sigcontext.h
+@@ -196,6 +196,15 @@ struct _xstate {
+ 	/* New processor state extensions go here: */
+ };
+ 
++/*
++ * Located at the end of sigcontext->fpstate, aligned to 8.
++ */
++struct sc_ext {
++	unsigned long total_size;
++	unsigned long ssp;
++	unsigned long wait_endbr;
++};
++
+ /*
+  * The 32-bit signal frame:
+  */
+diff --git a/arch/x86/kernel/cet.c b/arch/x86/kernel/cet.c
+index f8b0a077594f..51ddd17aee8f 100644
+--- a/arch/x86/kernel/cet.c
++++ b/arch/x86/kernel/cet.c
+@@ -19,6 +19,8 @@
+ #include <asm/fpu/xstate.h>
+ #include <asm/fpu/types.h>
+ #include <asm/cet.h>
++#include <asm/special_insns.h>
++#include <uapi/asm/sigcontext.h>
+ 
+ static void start_update_msrs(void)
+ {
+@@ -72,6 +74,80 @@ static unsigned long alloc_shstk(unsigned long size, int flags)
+ 	return addr;
+ }
+ 
++#define TOKEN_MODE_MASK	3UL
++#define TOKEN_MODE_64	1UL
++#define IS_TOKEN_64(token) ((token & TOKEN_MODE_MASK) == TOKEN_MODE_64)
++#define IS_TOKEN_32(token) ((token & TOKEN_MODE_MASK) == 0)
++
++/*
++ * Verify the restore token at the address of 'ssp' is
++ * valid and then set shadow stack pointer according to the
++ * token.
++ */
++int cet_verify_rstor_token(bool ia32, unsigned long ssp,
++			   unsigned long *new_ssp)
++{
++	unsigned long token;
++
++	*new_ssp = 0;
++
++	if (!IS_ALIGNED(ssp, 8))
++		return -EINVAL;
++
++	if (get_user(token, (unsigned long __user *)ssp))
++		return -EFAULT;
++
++	/* Is 64-bit mode flag correct? */
++	if (!ia32 && !IS_TOKEN_64(token))
++		return -EINVAL;
++	else if (ia32 && !IS_TOKEN_32(token))
++		return -EINVAL;
++
++	token &= ~TOKEN_MODE_MASK;
++
++	/*
++	 * Restore address properly aligned?
++	 */
++	if ((!ia32 && !IS_ALIGNED(token, 8)) || !IS_ALIGNED(token, 4))
++		return -EINVAL;
++
++	/*
++	 * Token was placed properly?
++	 */
++	if (((ALIGN_DOWN(token, 8) - 8) != ssp) || (token >= TASK_SIZE_MAX))
++		return -EINVAL;
++
++	*new_ssp = token;
++	return 0;
++}
++
++/*
++ * Create a restore token on the shadow stack.
++ * A token is always 8-byte and aligned to 8.
++ */
++static int create_rstor_token(bool ia32, unsigned long ssp,
++			      unsigned long *new_ssp)
++{
++	unsigned long addr;
++
++	*new_ssp = 0;
++
++	if ((!ia32 && !IS_ALIGNED(ssp, 8)) || !IS_ALIGNED(ssp, 4))
++		return -EINVAL;
++
++	addr = ALIGN_DOWN(ssp, 8) - 8;
++
++	/* Is the token for 64-bit? */
++	if (!ia32)
++		ssp |= TOKEN_MODE_64;
++
++	if (write_user_shstk_64(addr, ssp))
++		return -EFAULT;
++
++	*new_ssp = addr;
++	return 0;
++}
++
+ int cet_setup_shstk(void)
+ {
+ 	unsigned long addr, size;
+@@ -145,3 +221,79 @@ void cet_free_shstk(struct task_struct *tsk)
+ 	cet->shstk_base = 0;
+ 	cet->shstk_size = 0;
+ }
++
++/*
++ * Called from __fpu__restore_sig() and XSAVES buffer is protected by
++ * set_thread_flag(TIF_NEED_FPU_LOAD) in the slow path.
++ */
++void cet_restore_signal(struct sc_ext *sc_ext)
++{
++	struct cet_user_state *cet_user_state;
++	struct cet_status *cet = &current->thread.cet;
++	u64 msr_val = 0;
++
++	if (!static_cpu_has(X86_FEATURE_SHSTK))
++		return;
++
++	cet_user_state = get_xsave_addr(&current->thread.fpu.state.xsave,
++					XFEATURE_CET_USER);
++	if (!cet_user_state)
++		return;
++
++	if (cet->shstk_size) {
++		if (test_thread_flag(TIF_NEED_FPU_LOAD))
++			cet_user_state->user_ssp = sc_ext->ssp;
++		else
++			wrmsrl(MSR_IA32_PL3_SSP, sc_ext->ssp);
++
++		msr_val |= CET_SHSTK_EN;
++	}
++
++	if (test_thread_flag(TIF_NEED_FPU_LOAD))
++		cet_user_state->user_cet = msr_val;
++	else
++		wrmsrl(MSR_IA32_U_CET, msr_val);
++}
++
++/*
++ * Setup the shadow stack for the signal handler: first,
++ * create a restore token to keep track of the current ssp,
++ * and then the return address of the signal handler.
++ */
++int cet_setup_signal(bool ia32, unsigned long rstor_addr, struct sc_ext *sc_ext)
++{
++	struct cet_status *cet = &current->thread.cet;
++	unsigned long ssp = 0, new_ssp = 0;
++	int err;
++
++	if (cet->shstk_size) {
++		if (!rstor_addr)
++			return -EINVAL;
++
++		ssp = cet_get_shstk_addr();
++		err = create_rstor_token(ia32, ssp, &new_ssp);
++		if (err)
++			return err;
++
++		if (ia32) {
++			ssp = new_ssp - sizeof(u32);
++			err = write_user_shstk_32(ssp, (unsigned int)rstor_addr);
++		} else {
++			ssp = new_ssp - sizeof(u64);
++			err = write_user_shstk_64(ssp, rstor_addr);
++		}
++
++		if (err)
++			return err;
++
++		sc_ext->ssp = new_ssp;
++	}
++
++	if (ssp) {
++		start_update_msrs();
++		wrmsrl(MSR_IA32_PL3_SSP, ssp);
++		end_update_msrs();
++	}
++
++	return 0;
++}
+diff --git a/arch/x86/kernel/fpu/signal.c b/arch/x86/kernel/fpu/signal.c
+index a4ec65317a7f..c0c2141cb4b3 100644
+--- a/arch/x86/kernel/fpu/signal.c
++++ b/arch/x86/kernel/fpu/signal.c
+@@ -52,6 +52,74 @@ static inline int check_for_xstate(struct fxregs_state __user *buf,
+ 	return 0;
+ }
+ 
++#ifdef CONFIG_X86_CET
++int save_cet_to_sigframe(int ia32, void __user *fp, unsigned long restorer)
++{
++	int err = 0;
++
++	if (!current->thread.cet.shstk_size)
++		return 0;
++
++	if (fp) {
++		struct sc_ext ext = {0, 0, 0};
++
++		err = cet_setup_signal(ia32, restorer, &ext);
++		if (!err) {
++			void __user *p = fp;
++
++			ext.total_size = sizeof(ext);
++
++			if (ia32)
++				p += sizeof(struct fregs_state);
++
++			p += fpu_user_xstate_size + FP_XSTATE_MAGIC2_SIZE;
++			p = (void __user *)ALIGN((unsigned long)p, 8);
++
++			if (copy_to_user(p, &ext, sizeof(ext)))
++				return -EFAULT;
++		}
++	}
++
++	return err;
++}
++
++static int get_cet_from_sigframe(int ia32, void __user *fp, struct sc_ext *ext)
++{
++	int err = 0;
++
++	memset(ext, 0, sizeof(*ext));
++
++	if (!current->thread.cet.shstk_size)
++		return 0;
++
++	if (fp) {
++		void __user *p = fp;
++
++		if (ia32)
++			p += sizeof(struct fregs_state);
++
++		p += fpu_user_xstate_size + FP_XSTATE_MAGIC2_SIZE;
++		p = (void __user *)ALIGN((unsigned long)p, 8);
++
++		if (copy_from_user(ext, p, sizeof(*ext)))
++			return -EFAULT;
++
++		if (ext->total_size != sizeof(*ext))
++			return -EFAULT;
++
++		if (current->thread.cet.shstk_size)
++			err = cet_verify_rstor_token(ia32, ext->ssp, &ext->ssp);
++	}
++
++	return err;
++}
++#else
++static int get_cet_from_sigframe(int ia32, void __user *fp, struct sc_ext *ext)
++{
++	return 0;
++}
++#endif
++
+ /*
+  * Signal frame handlers.
+  */
+@@ -295,6 +363,7 @@ static int __fpu__restore_sig(void __user *buf, void __user *buf_fx, int size)
+ 	struct task_struct *tsk = current;
+ 	struct fpu *fpu = &tsk->thread.fpu;
+ 	struct user_i387_ia32_struct env;
++	struct sc_ext sc_ext;
+ 	u64 user_xfeatures = 0;
+ 	int fx_only = 0;
+ 	int ret = 0;
+@@ -335,6 +404,10 @@ static int __fpu__restore_sig(void __user *buf, void __user *buf_fx, int size)
+ 	if ((unsigned long)buf_fx % 64)
+ 		fx_only = 1;
+ 
++	ret = get_cet_from_sigframe(ia32_fxstate, buf, &sc_ext);
++	if (ret)
++		return ret;
++
+ 	if (!ia32_fxstate) {
+ 		/*
+ 		 * Attempt to restore the FPU registers directly from user
+@@ -349,6 +422,8 @@ static int __fpu__restore_sig(void __user *buf, void __user *buf_fx, int size)
+ 		pagefault_enable();
+ 		if (!ret) {
+ 
++			cet_restore_signal(&sc_ext);
++
+ 			/*
+ 			 * Restore supervisor states: previous context switch
+ 			 * etc has done XSAVES and saved the supervisor states
+@@ -423,6 +498,8 @@ static int __fpu__restore_sig(void __user *buf, void __user *buf_fx, int size)
+ 		if (unlikely(init_bv))
+ 			copy_kernel_to_xregs(&init_fpstate.xsave, init_bv);
+ 
++		cet_restore_signal(&sc_ext);
++
+ 		/*
+ 		 * Restore previously saved supervisor xstates along with
+ 		 * copied-in user xstates.
+@@ -491,12 +568,35 @@ int fpu__restore_sig(void __user *buf, int ia32_frame)
+ 	return __fpu__restore_sig(buf, buf_fx, size);
+ }
+ 
++#ifdef CONFIG_X86_CET
++static unsigned long fpu__alloc_sigcontext_ext(unsigned long sp)
++{
++	struct cet_status *cet = &current->thread.cet;
++
++	/*
++	 * sigcontext_ext is at: fpu + fpu_user_xstate_size +
++	 * FP_XSTATE_MAGIC2_SIZE, then aligned to 8.
++	 */
++	if (cet->shstk_size)
++		sp -= (sizeof(struct sc_ext) + 8);
++
++	return sp;
++}
++#else
++static unsigned long fpu__alloc_sigcontext_ext(unsigned long sp)
++{
++	return sp;
++}
++#endif
++
+ unsigned long
+ fpu__alloc_mathframe(unsigned long sp, int ia32_frame,
+ 		     unsigned long *buf_fx, unsigned long *size)
+ {
+ 	unsigned long frame_size = xstate_sigframe_size();
+ 
++	sp = fpu__alloc_sigcontext_ext(sp);
++
+ 	*buf_fx = sp = round_down(sp - frame_size, 64);
+ 	if (ia32_frame && use_fxsr()) {
+ 		frame_size += sizeof(struct fregs_state);
+diff --git a/arch/x86/kernel/signal.c b/arch/x86/kernel/signal.c
+index be0d7d4152ec..f39335ed4f7e 100644
+--- a/arch/x86/kernel/signal.c
++++ b/arch/x86/kernel/signal.c
+@@ -46,6 +46,7 @@
+ #include <asm/syscall.h>
+ #include <asm/sigframe.h>
+ #include <asm/signal.h>
++#include <asm/cet.h>
+ 
+ #ifdef CONFIG_X86_64
+ /*
+@@ -239,6 +240,9 @@ get_sigframe(struct k_sigaction *ka, struct pt_regs *regs, size_t frame_size,
+ 	unsigned long buf_fx = 0;
+ 	int onsigstack = on_sig_stack(sp);
+ 	int ret;
++#ifdef CONFIG_X86_64
++	void __user *restorer = NULL;
++#endif
+ 
+ 	/* redzone */
+ 	if (IS_ENABLED(CONFIG_X86_64))
+@@ -270,6 +274,12 @@ get_sigframe(struct k_sigaction *ka, struct pt_regs *regs, size_t frame_size,
+ 	if (onsigstack && !likely(on_sig_stack(sp)))
+ 		return (void __user *)-1L;
+ 
++#ifdef CONFIG_X86_64
++	if (ka->sa.sa_flags & SA_RESTORER)
++		restorer = ka->sa.sa_restorer;
++	ret = save_cet_to_sigframe(0, *fpstate, (unsigned long)restorer);
++#endif
++
+ 	/* save i387 and extended state */
+ 	ret = copy_fpstate_to_sigframe(*fpstate, (void __user *)buf_fx, math_size);
+ 	if (ret < 0)
+-- 
+2.21.0
 
-
-Thanks,
-
-Jacob
