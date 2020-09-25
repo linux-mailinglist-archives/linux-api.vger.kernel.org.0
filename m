@@ -2,145 +2,134 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 23598278CE3
-	for <lists+linux-api@lfdr.de>; Fri, 25 Sep 2020 17:37:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45C64278CF2
+	for <lists+linux-api@lfdr.de>; Fri, 25 Sep 2020 17:39:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729064AbgIYPhc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 25 Sep 2020 11:37:32 -0400
-Received: from mga04.intel.com ([192.55.52.120]:20941 "EHLO mga04.intel.com"
+        id S1728693AbgIYPjM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 25 Sep 2020 11:39:12 -0400
+Received: from mx2.suse.de ([195.135.220.15]:57154 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728858AbgIYPhc (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 25 Sep 2020 11:37:32 -0400
-IronPort-SDR: 20KLv/1wlaBeaZltSAPfT0s5Z8UrRekxjaVvbCc5JJh0KxH3ZaPyKZRyhpW7NnXigzIhpRAG8+
- A1rYX4JFq/rQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9755"; a="158942298"
-X-IronPort-AV: E=Sophos;i="5.77,302,1596524400"; 
-   d="scan'208";a="158942298"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2020 07:57:22 -0700
-IronPort-SDR: Xn7tOP38aTzxS1F3DgT594Nc5/t0LVjgKiMcYDrlupByZ9U9chgs6eqiGEd6P1jD3DYPb6t+FY
- EwIB+RHGZh9Q==
-X-IronPort-AV: E=Sophos;i="5.77,302,1596524400"; 
-   d="scan'208";a="487499179"
-Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2020 07:57:21 -0700
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
+        id S1728678AbgIYPjM (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 25 Sep 2020 11:39:12 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1601048349;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=jDnBhjhUv7YmI2bb5gm13xCZ5HPNcb3nq4eD9eHGM6I=;
+        b=G3g2WkorQDLCkKfxkqvc66L0olkKD9cuZWPclS07u6X4tJRnpoRrAWzK9W9pArxeL9tyxh
+        RNSC1iTHPwqiaYZOUBBty1wDxcG9kPltD5gU2SP6owKvAssYCWxufwyz3e+0fcf9Gd9Z0i
+        SapfbUbiajqlZFrXyqSHVOHhxwCwLnU=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 90176ACA3;
+        Fri, 25 Sep 2020 15:39:09 +0000 (UTC)
+Date:   Fri, 25 Sep 2020 17:39:08 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Jan =?iso-8859-1?Q?H=F6ppner?= <hoeppner@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        linux-api@vger.kernel.org,
         Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v13 12/26] mm: Introduce VM_SHSTK for shadow stack memory
-Date:   Fri, 25 Sep 2020 07:56:35 -0700
-Message-Id: <20200925145649.5438-13-yu-cheng.yu@intel.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200925145649.5438-1-yu-cheng.yu@intel.com>
-References: <20200925145649.5438-1-yu-cheng.yu@intel.com>
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: Ways to deprecate /sys/devices/system/memory/memoryX/phys_device
+ ?
+Message-ID: <20200925153908.GH3389@dhcp22.suse.cz>
+References: <21852ccb-bd06-9281-7c8e-485ec02f2883@redhat.com>
+ <20200922155611.379373f7@thinkpad>
+ <a7d02345-2195-3092-a368-ca3209e2c93e@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a7d02345-2195-3092-a368-ca3209e2c93e@redhat.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-A Shadow Stack PTE must be read-only and have _PAGE_DIRTY set.  However,
-read-only and Dirty PTEs also exist for copy-on-write (COW) pages.  These
-two cases are handled differently for page faults.  Introduce VM_SHSTK to
-track shadow stack VMAs.
+On Fri 25-09-20 16:49:28, David Hildenbrand wrote:
+> >> There were once RFC patches to make use of it in ACPI, but it could be
+> >> solved using different interfaces [1].
+> >>
+> >>
+> >> While I'd love to rip it out completely, I think it would break old
+> >> lsmem/chmem completely - and I assume that's not acceptable. I was
+> >> wondering what would be considered safe to do now/in the future:
+> >>
+> >> 1. Make it always return 0 (just as if "sclp.rzm" would be set to 0 on
+> >> s390x). This will make old lsmem/chmem behave differently after
+> >> switching to a new kernel, like if sclp.rzm would not be set by HW -
+> >> AFAIU, it will assume all memory is in a single memory increment. Do we
+> >> care?
+> > 
+> > No, at least not until that kernel change would be backported to some
+> > old distribution level where we still use lsmem/chmem from s390-tools.
+> > Given that this is just some clean-up w/o any functional benefit, and
+> > hopefully w/o any negative impact, I think we can safely assume that no
+> > distributor will do that "just for fun".
+> > 
+> > Even if there would be good reasons for backports, then I guess we also
+> > have good reasons for backporting / switching to the util-linux version
+> > of lsmem / chmem for such distribution levels. Alternatively, adjust the
+> > s390-tools lsmem / chmem there.
+> > 
+> > But I would rather "rip it out completely" than just return 0. You'd
+> > need some lsmem / chmem changes anyway, at least in case this would
+> > ever be backported.
+> 
+> Thanks for your input Gerald.
+> 
+> So unless people would be running shiny new kernels on older
+> distributions it shouldn't be a problem (and I don't think we care too
+> much about something like that). I don't expect something like that to
+> get backported - there is absolutely no reason to do so IMHO.
 
-Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-Reviewed-by: Kees Cook <keescook@chromium.org>
----
-v9:
-- Add VM_SHSTK case to arch_vma_name().
-- Revise the commit log to explain why adding a new VM flag.
+Ohh, there are many people running current Linus tree on an older
+distribution. Including me.
 
- arch/x86/mm/mmap.c | 2 ++
- fs/proc/task_mmu.c | 3 +++
- include/linux/mm.h | 8 ++++++++
- 3 files changed, 13 insertions(+)
+> >> 2. Restrict it to s390x only. It always returned 0 on other
+> >> architectures, I was not able to find any user.
+> >>
+> >> I think 2 should be safe to do (never used on other archs). I do wonder
+> >> what the feelings are about 1.
+> > 
+> > Please don't add any s390-specific workarounds here, that does not
+> > really sound like a clean-up, rather the opposite.
+> 
+> People seem to have different opinions here. I'm happy as long as we can
+> get rid of it (either now, or in the future with a new model).
+> 
+> > 
+> > That being said, I do not really see the benefit of this change at
+> > all. As Michal mentioned, there really should be some more fundamental
+> > change. And from the rest of this thread, it also seems that phys_device
+> > usage might not be the biggest issue here.
+> > 
+> 
+> As I already expressed, I am more of a friend of small, incremental
+> changes than having a single big world switch where everything will be
+> shiny and perfect.
+> 
+> (Deprecating it now - in any way - stops any new users from appearing -
+> both, in the kernel and from user space - eventually making the big
+> world switch later a little easier because there is one thing less that
+> vanished)
 
-diff --git a/arch/x86/mm/mmap.c b/arch/x86/mm/mmap.c
-index c90c20904a60..a22c6b6fc607 100644
---- a/arch/x86/mm/mmap.c
-+++ b/arch/x86/mm/mmap.c
-@@ -165,6 +165,8 @@ unsigned long get_mmap_base(int is_legacy)
- 
- const char *arch_vma_name(struct vm_area_struct *vma)
- {
-+	if (vma->vm_flags & VM_SHSTK)
-+		return "[shadow stack]";
- 	return NULL;
- }
- 
-diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-index 5066b0251ed8..436dd37f2d4c 100644
---- a/fs/proc/task_mmu.c
-+++ b/fs/proc/task_mmu.c
-@@ -663,6 +663,9 @@ static void show_smap_vma_flags(struct seq_file *m, struct vm_area_struct *vma)
- 		[ilog2(VM_PKEY_BIT4)]	= "",
- #endif
- #endif /* CONFIG_ARCH_HAS_PKEYS */
-+#ifdef CONFIG_X86_SHADOW_STACK_USER
-+		[ilog2(VM_SHSTK)]	= "ss",
-+#endif
- 	};
- 	size_t i;
- 
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index b2f370f0b420..a1d61731d7b4 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -304,11 +304,13 @@ extern unsigned int kobjsize(const void *objp);
- #define VM_HIGH_ARCH_BIT_2	34	/* bit only usable on 64-bit architectures */
- #define VM_HIGH_ARCH_BIT_3	35	/* bit only usable on 64-bit architectures */
- #define VM_HIGH_ARCH_BIT_4	36	/* bit only usable on 64-bit architectures */
-+#define VM_HIGH_ARCH_BIT_5	37	/* bit only usable on 64-bit architectures */
- #define VM_HIGH_ARCH_0	BIT(VM_HIGH_ARCH_BIT_0)
- #define VM_HIGH_ARCH_1	BIT(VM_HIGH_ARCH_BIT_1)
- #define VM_HIGH_ARCH_2	BIT(VM_HIGH_ARCH_BIT_2)
- #define VM_HIGH_ARCH_3	BIT(VM_HIGH_ARCH_BIT_3)
- #define VM_HIGH_ARCH_4	BIT(VM_HIGH_ARCH_BIT_4)
-+#define VM_HIGH_ARCH_5	BIT(VM_HIGH_ARCH_BIT_5)
- #endif /* CONFIG_ARCH_USES_HIGH_VMA_FLAGS */
- 
- #ifdef CONFIG_ARCH_HAS_PKEYS
-@@ -324,6 +326,12 @@ extern unsigned int kobjsize(const void *objp);
- #endif
- #endif /* CONFIG_ARCH_HAS_PKEYS */
- 
-+#ifdef CONFIG_X86_SHADOW_STACK_USER
-+# define VM_SHSTK	VM_HIGH_ARCH_5
-+#else
-+# define VM_SHSTK	VM_NONE
-+#endif
-+
- #if defined(CONFIG_X86)
- # define VM_PAT		VM_ARCH_1	/* PAT reserves whole VMA at once (x86) */
- #elif defined(CONFIG_PPC)
+Realistically people do not care about deprecation all that much. They
+simply use whatever they can find or somebody will show them. Really,
+deprecation has never really worked. The only thing that worked was to
+remove the functionality and then wait for somebody to complain and
+revert or somehow allow the functionality without necessity to alter the
+userspace.
+
+As much as I would like to remove as much crud as possible I strongly
+suspect that the existing hotplug interface is just a lost case and it
+doesn't make for the best used time to put a lip stick on a pig. Even if
+we remove this particular interface we are not going to get rid of a lot
+of code or we won't gain any more sensible semantic, right?
 -- 
-2.21.0
-
+Michal Hocko
+SUSE Labs
