@@ -2,67 +2,84 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CDC39278DDE
-	for <lists+linux-api@lfdr.de>; Fri, 25 Sep 2020 18:16:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E778F278DF0
+	for <lists+linux-api@lfdr.de>; Fri, 25 Sep 2020 18:18:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727495AbgIYQQA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 25 Sep 2020 12:16:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42124 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727402AbgIYQP7 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 25 Sep 2020 12:15:59 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9498C0613CE;
-        Fri, 25 Sep 2020 09:15:59 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: krisman)
-        with ESMTPSA id 9F94829D78D
-From:   Gabriel Krisman Bertazi <krisman@collabora.com>
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     Kees Cook <keescook@chromium.org>, luto@kernel.org, x86@kernel.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        willy@infradead.org, linux-kselftest@vger.kernel.org,
-        shuah@kernel.org, kernel@collabora.com
-Subject: Re: [PATCH v6 1/9] kernel: Support TIF_SYSCALL_INTERCEPT flag
-Organization: Collabora
-References: <20200904203147.2908430-1-krisman@collabora.com>
-        <20200904203147.2908430-2-krisman@collabora.com>
-        <202009221243.6BC5635E@keescook> <874kno6yct.fsf@collabora.com>
-        <202009231349.4A25EAF@keescook>
-        <87o8luuvze.fsf@nanos.tec.linutronix.de>
-Date:   Fri, 25 Sep 2020 12:15:54 -0400
-In-Reply-To: <87o8luuvze.fsf@nanos.tec.linutronix.de> (Thomas Gleixner's
-        message of "Fri, 25 Sep 2020 10:00:21 +0200")
-Message-ID: <87k0whsuh1.fsf@collabora.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+        id S1729406AbgIYQSz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 25 Sep 2020 12:18:55 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49126 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729092AbgIYQSy (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 25 Sep 2020 12:18:54 -0400
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4759223600
+        for <linux-api@vger.kernel.org>; Fri, 25 Sep 2020 16:18:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601050734;
+        bh=GUc4jpnEvctVnzgDAzmULezA1tRJBanFMPyHYi3PskM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=cET+LyFrgZBvlCFjcW/UfnU9JVLddwQbaqcsDW7+dYYfjiX3C89dpiH44QVfwhyiM
+         W+slZaP8r08NiHpX29xBrXll+lgSJ8OE1mRjirUFy0R4pepwnRjSknAHzI1blzfSph
+         2eH0Fx8m9sMCrg+RjSHd3gWrDQsuwnIiJD2aY4QM=
+Received: by mail-wr1-f41.google.com with SMTP id z4so4236470wrr.4
+        for <linux-api@vger.kernel.org>; Fri, 25 Sep 2020 09:18:54 -0700 (PDT)
+X-Gm-Message-State: AOAM533cT9tRjcvyqknKS1cFdv6XHif78cPOlHJovBTUMSt7QARi9J+G
+        V7+ERa9NVoHWeKZXr7X37Whcy8szJj6xhmEMe1zXDQ==
+X-Google-Smtp-Source: ABdhPJzJVQ4SroX19lHOoDdodedOBW7zt9uLDHTfG6pZa6tPMOiFKYUvMXunh9BhjogLm/n0RMCIDmE5ewnQIks5cFk=
+X-Received: by 2002:adf:ce8e:: with SMTP id r14mr5289436wrn.257.1601050732711;
+ Fri, 25 Sep 2020 09:18:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20200925145804.5821-1-yu-cheng.yu@intel.com> <20200925145804.5821-8-yu-cheng.yu@intel.com>
+In-Reply-To: <20200925145804.5821-8-yu-cheng.yu@intel.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Fri, 25 Sep 2020 09:18:40 -0700
+X-Gmail-Original-Message-ID: <CALCETrUyLfbodgH3vWqneFgpJb0DEiqRs-ZikhrhhVUR_13xjQ@mail.gmail.com>
+Message-ID: <CALCETrUyLfbodgH3vWqneFgpJb0DEiqRs-ZikhrhhVUR_13xjQ@mail.gmail.com>
+Subject: Re: [PATCH v13 7/8] x86/vdso: Insert endbr32/endbr64 to vDSO
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Thomas Gleixner <tglx@linutronix.de> writes:
-
-> On Wed, Sep 23 2020 at 13:49, Kees Cook wrote:
->> On Wed, Sep 23, 2020 at 04:18:26PM -0400, Gabriel Krisman Bertazi wrote:
->>> Kees Cook <keescook@chromium.org> writes:
->>> Yes, we can, and I'm happy to follow up with that as part of my TIF
->>> clean up work, but can we not block the current patchset to be merged
->>> waiting for that, as this already grew a lot from the original feature
->>> submission?
->>
->> In that case, I'd say just add the new TIF flag. The consolidation can
->> come later.
+On Fri, Sep 25, 2020 at 7:58 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
 >
-> No. This is exactly the wrong order. Cleanup and consolidation have
-> precedence over features. I'm tired of 'we'll do that later' songs,
-> simply because in the very end I'm going to be the idiot who mops up the
-> resulting mess.
+> From: "H.J. Lu" <hjl.tools@gmail.com>
 >
+> When Indirect Branch Tracking (IBT) is enabled, vDSO functions may be
+> called indirectly, and must have ENDBR32 or ENDBR64 as the first
+> instruction.  The compiler must support -fcf-protection=branch so that it
+> can be used to compile vDSO.
 
-No problem.  I will follow up with a patchset consolidating those flags
-into this syscall_intercept interface I proposed.  I assume there is no
-immediate concerns with the consolidation approach itself.
-
--- 
-Gabriel Krisman Bertazi
+Acked-by: Andy Lutomirski <luto@kernel.org>
