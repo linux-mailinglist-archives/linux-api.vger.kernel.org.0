@@ -2,49 +2,50 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 71F6F278E7B
-	for <lists+linux-api@lfdr.de>; Fri, 25 Sep 2020 18:30:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA448278E88
+	for <lists+linux-api@lfdr.de>; Fri, 25 Sep 2020 18:31:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728069AbgIYQaw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 25 Sep 2020 12:30:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44470 "EHLO
+        id S1729469AbgIYQaz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 25 Sep 2020 12:30:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728654AbgIYQaw (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 25 Sep 2020 12:30:52 -0400
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D00CC0613CE;
-        Fri, 25 Sep 2020 09:30:52 -0700 (PDT)
-Received: by mail-pj1-x1041.google.com with SMTP id t7so2094666pjd.3;
-        Fri, 25 Sep 2020 09:30:52 -0700 (PDT)
+        with ESMTP id S1728654AbgIYQay (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 25 Sep 2020 12:30:54 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 750E4C0613CE;
+        Fri, 25 Sep 2020 09:30:54 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id x22so3670750pfo.12;
+        Fri, 25 Sep 2020 09:30:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=TjJK6XN5jlS9wkc7N97gyRXrkYGGb2wNNiD+ZxlnoDY=;
-        b=Ytu1IT20bjPDOrxeMxT5l67LMIda5L5usR+fLSz8zC/ivopJkNvACGbl8N6Wx0/IwV
-         qGa3dIY5oUQFKYGL43bmVCEIir1FD9+TADuLMOFkrOhcbD4utnlupFIPhh9vDYQf1doP
-         AaiRwttnDGpJVCWzqUsWicV51z9GU9oX+IXnCWL4btbQCNMwwk/ULht+Zy86Spi1xmLn
-         3R8bW7wzSXMcS3niDevXzeijrzotWpfLWvctPqyk2RohEFas/IZawJVF0IDOXFsNVU+V
-         Q/Od4zBV3N8wJF7+GRVWNLLBuQ593w9doO1vIo988UooNCggYD66TxdTI1hH58ERW6lP
-         Ny4w==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=B1ewdPXd793uzSm94QTwRbEaE1FZR+m0CytxIeckPH0=;
+        b=S1IDJ3dp4STz8dSGm6vRFqebNpmueb4zIiKm7yX1R+pl+TJHtfGduJFDcOQILgWltR
+         FzpjESLsye0B3knVq/GG1XjIGlYZA/Wt1OHHw9c+iNA9Up06jgN2Xi4sNaVP8Tbvw+s0
+         ZYolo01XSIY9lKByC2wnmxnZwNAc0A889b0fL8KkvDOVKYZEisggtroCzQi6RkzNopzH
+         3EUAEBzxtVlqkcRsALXETS1xNKLnQbnmJpBJNlRT2XD0wwQUViQ4fRy7W005eYZ+yhCQ
+         CEDO+u2YR86rVBrd2YVMwBUMuSqrJFPuVw5s7rKJiG1ZiVXuMMFEjbMER3gHkSwvl9pK
+         8g6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=TjJK6XN5jlS9wkc7N97gyRXrkYGGb2wNNiD+ZxlnoDY=;
-        b=Y8iuOwOQjWrHMrbASVnfVnxpIV3aA7IHvrW9+htVwxzW5NCVEoeRYcQw5IJC2uwZ84
-         cHwfhp3I7pSmjIR+Kd1yaDNgHqc2EUHeCDGceJj243Lb1RVHprCyidnKQmlGTBiQzjo/
-         ldsmsgPWKd5y0RIzJJpzUxwX61DfUYUf7cSimQXEjPkqQYPGfFOGuC4gj6FsWtbCKJs+
-         88K4s75PKPzqYDt0n468QhqcKI4RqlP7JHj2ehob9x4qtH+dAK+PC8c0jofxRJ827XsU
-         JVg45FZf3CzSlMdHNjlEhsiSGLs2Vfmdn9X6dEMfjAIx7MP60E6l36GF0x0pQ8lqXVB8
-         KX2w==
-X-Gm-Message-State: AOAM532LHNiez/4vmZ82OgP+blQuZ/gXcaobSx5QFB7Rd+GqUdQuTbrE
-        dqF9ZjoEN2XrJbPgREpDAJ8=
-X-Google-Smtp-Source: ABdhPJw9WV8IFgqFgR7/YTd9vFzMCOePTuSLuRR93fCwMzasZmyOHxVnFzGm952RNmAwPYx7+Wd0gA==
-X-Received: by 2002:a17:90b:f0b:: with SMTP id br11mr380158pjb.191.1601051451563;
-        Fri, 25 Sep 2020 09:30:51 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=B1ewdPXd793uzSm94QTwRbEaE1FZR+m0CytxIeckPH0=;
+        b=WHzT/5FNCUofUQspfkOLwob4Tpj28MQDc/F9aWXWYGZ6Gfrex3Ms2mM+eq24BcRGLZ
+         zY08eOdKwZK2xF2EIFH/AGT+6cBiTl4Os6qub0xRl0nTQGijEP1ZeaIZpQJubxt49akA
+         WoyxvPw+KY8kPP5ITds3eA0ppiz9agn/TPvahj6qK7wN+p2TGdaaoUtk1YxfT99J0NlJ
+         GNj1s5kZNPR2lrRxQhg0l6C2OjjKiz7aZgFYxRhU59pNi8pYiYjXo8kaMqcHgc3KFXaD
+         5b3TzD8uo0gsIwHagmptuTGJY5+yWCXJy3JvsL31QVsH+RXjYlmItyFXZTsFKGhcrMKy
+         bEjw==
+X-Gm-Message-State: AOAM532FGgfm+uVhs8jxDvMQnKrUV3nNjrqYiUbkMANiwqTIgPnbHAYV
+        fuyHbxSvSRuxhaIgRX10cVU=
+X-Google-Smtp-Source: ABdhPJySmvOSadsqtXtLET+sbcXd1PA+yl651vyf/6j7k3QI0Gb4yMk8bzHGN6eAPPZrD3clD3AGHA==
+X-Received: by 2002:a17:902:9006:b029:d2:341:6520 with SMTP id a6-20020a1709029006b02900d203416520mr196789plp.37.1601051453978;
+        Fri, 25 Sep 2020 09:30:53 -0700 (PDT)
 Received: from jacob-builder.jf.intel.com (jfdmzpr04-ext.jf.intel.com. [134.134.137.73])
-        by smtp.gmail.com with ESMTPSA id j19sm3197039pfe.108.2020.09.25.09.30.49
+        by smtp.gmail.com with ESMTPSA id j19sm3197039pfe.108.2020.09.25.09.30.52
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 25 Sep 2020 09:30:50 -0700 (PDT)
+        Fri, 25 Sep 2020 09:30:53 -0700 (PDT)
 From:   Jacob Pan <jacob.pan.linux@gmail.com>
 X-Google-Original-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
 To:     iommu@lists.linux-foundation.org,
@@ -62,118 +63,264 @@ Cc:     linux-api@vger.kernel.org,
         "Tian, Kevin" <kevin.tian@intel.com>,
         Raj Ashok <ashok.raj@intel.com>, Wu Hao <hao.wu@intel.com>,
         Yi Sun <yi.y.sun@intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v12 0/6] IOMMU user API enhancement
-Date:   Fri, 25 Sep 2020 09:32:41 -0700
-Message-Id: <1601051567-54787-1-git-send-email-jacob.jun.pan@linux.intel.com>
+        Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
+Subject: [PATCH v12 1/6] docs: IOMMU user API
+Date:   Fri, 25 Sep 2020 09:32:42 -0700
+Message-Id: <1601051567-54787-2-git-send-email-jacob.jun.pan@linux.intel.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1601051567-54787-1-git-send-email-jacob.jun.pan@linux.intel.com>
+References: <1601051567-54787-1-git-send-email-jacob.jun.pan@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-IOMMU user API header was introduced to support nested DMA translation and
-related fault handling. The current UAPI data structures consist of three
-areas that cover the interactions between host kernel and guest:
- - fault handling
- - cache invalidation
- - bind guest page tables, i.e. guest PASID
+IOMMU UAPI is newly introduced to support communications between guest
+virtual IOMMU and host IOMMU. There has been lots of discussions on how
+it should work with VFIO UAPI and userspace in general.
 
-Future extensions are likely to support more architectures and vIOMMU features.
+This document is intended to clarify the UAPI design and usage. The
+mechanics of how future extensions should be achieved are also covered
+in this documentation.
 
-In the previous discussion, using user-filled data size and feature flags is
-made a preferred approach over a unified version number.
-https://lkml.org/lkml/2020/1/29/45
-
-In addition to introduce argsz field to data structures, this patchset is also
-trying to document the UAPI design, usage, and extension rules. VT-d driver
-changes to utilize the new argsz field is included, VFIO usage is to follow.
-
-This set is available at:
-https://github.com/jacobpan/linux.git vsva_v5.9_uapi_v12
-
-Thanks,
-
-Jacob
-
-
-Changelog:
-v12
-	- Removed a redundant check in cache invalidate API
-v11
-	- Use #define instead of enum in PASID data format, squashed change
-	  into "iommu/uapi: Handle data and argsz filled by users"
-	- Remove alloc/free from documentation per Yi's comment. IOMMU UAPI
-	  does not perform IOASID alloc/free.
-v10
-	- Documentation grammar fixes based on Randy's review
-v9
-	- Directly pass PASID value to iommu_sva_unbind_gpasid() without
-	  the superfluous data in struct iommu_gpasid_bind_data.
-v8
-	- Rebased to v5.9-rc2
-	- Addressed review comments from Eric Auger
-	  1. added a check for the unused vendor flags
-	  2. commit message improvements
-v7
-	- Added PASID data format enum for range checking
-	- Tidy up based on reviews from Alex W.
-	- Removed doc section for vIOMMU fault handling
-v6
-	- Renamed all UAPI functions with iommu_uapi_ prefix
-	- Replaced argsz maxsz checking with flag specific size checks
-	- Documentation improvements based on suggestions by Eric Auger
-	  Replaced example code with a pointer to the actual code
-	- Added more checks for illegal flags combinations
-	- Added doc file to MAINTAINERS
-v5
-	- Addjusted paddings in UAPI data to be 8 byte aligned
-	- Do not clobber argsz in IOMMU core before passing on to vendor driver
-	- Removed pr_warn_ for invalid UAPI data check, just return -EINVAL
-	- Clarified VFIO responsibility in UAPI data handling
-	- Use iommu_uapi prefix to differentiate APIs has in-kernel caller
-	- Added comment for unchecked flags of invalidation granularity
-	- Added example in doc to show vendor data checking
-
-v4
-	- Added checks of UAPI data for reserved fields, version, and flags.
-	- Removed version check from vendor driver (vt-d)
-	- Relaxed argsz check to match the UAPI struct size instead of variable
-	  union size
-	- Updated documentation
-
-v3:
-	- Rewrote backward compatibility rule to support existing code
-	  re-compiled with newer kernel UAPI header that runs on older
-	  kernel. Based on review comment from Alex W.
-	  https://lore.kernel.org/linux-iommu/20200611094741.6d118fa8@w520.home/
-	- Take user pointer directly in UAPI functions. Perform argsz check
-	  and copy_from_user() in IOMMU driver. Eliminate the need for
-	  VFIO or other upper layer to parse IOMMU data.
-	- Create wrapper function for in-kernel users of UAPI functions
-v2:
-	- Removed unified API version and helper
-	- Introduced argsz for each UAPI data
-	- Introduced UAPI doc
-
-
-Jacob Pan (6):
-  docs: IOMMU user API
-  iommu/uapi: Add argsz for user filled data
-  iommu/uapi: Use named union for user data
-  iommu/uapi: Rename uapi functions
-  iommu/uapi: Handle data and argsz filled by users
-  iommu/vt-d: Check UAPI data processed by IOMMU core
-
+Cc: linux-api@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
+---
  Documentation/userspace-api/iommu.rst | 209 ++++++++++++++++++++++++++++++++++
  MAINTAINERS                           |   1 +
- drivers/iommu/intel/iommu.c           |  25 ++--
- drivers/iommu/intel/svm.c             |  13 ++-
- drivers/iommu/iommu.c                 | 196 +++++++++++++++++++++++++++++--
- include/linux/iommu.h                 |  35 ++++--
- include/uapi/linux/iommu.h            |  18 ++-
- 7 files changed, 456 insertions(+), 41 deletions(-)
+ 2 files changed, 210 insertions(+)
  create mode 100644 Documentation/userspace-api/iommu.rst
 
+diff --git a/Documentation/userspace-api/iommu.rst b/Documentation/userspace-api/iommu.rst
+new file mode 100644
+index 000000000000..d3108c1519d5
+--- /dev/null
++++ b/Documentation/userspace-api/iommu.rst
+@@ -0,0 +1,209 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. iommu:
++
++=====================================
++IOMMU Userspace API
++=====================================
++
++IOMMU UAPI is used for virtualization cases where communications are
++needed between physical and virtual IOMMU drivers. For baremetal
++usage, the IOMMU is a system device which does not need to communicate
++with userspace directly.
++
++The primary use cases are guest Shared Virtual Address (SVA) and
++guest IO virtual address (IOVA), wherein the vIOMMU implementation
++relies on the physical IOMMU and for this reason requires interactions
++with the host driver.
++
++.. contents:: :local:
++
++Functionalities
++===============
++Communications of user and kernel involve both directions. The
++supported user-kernel APIs are as follows:
++
++1. Bind/Unbind guest PASID (e.g. Intel VT-d)
++2. Bind/Unbind guest PASID table (e.g. ARM SMMU)
++3. Invalidate IOMMU caches upon guest requests
++4. Report errors to the guest and serve page requests
++
++Requirements
++============
++The IOMMU UAPIs are generic and extensible to meet the following
++requirements:
++
++1. Emulated and para-virtualised vIOMMUs
++2. Multiple vendors (Intel VT-d, ARM SMMU, etc.)
++3. Extensions to the UAPI shall not break existing userspace
++
++Interfaces
++==========
++Although the data structures defined in IOMMU UAPI are self-contained,
++there are no user API functions introduced. Instead, IOMMU UAPI is
++designed to work with existing user driver frameworks such as VFIO.
++
++Extension Rules & Precautions
++-----------------------------
++When IOMMU UAPI gets extended, the data structures can *only* be
++modified in two ways:
++
++1. Adding new fields by re-purposing the padding[] field. No size change.
++2. Adding new union members at the end. May increase the structure sizes.
++
++No new fields can be added *after* the variable sized union in that it
++will break backward compatibility when offset moves. A new flag must
++be introduced whenever a change affects the structure using either
++method. The IOMMU driver processes the data based on flags which
++ensures backward compatibility.
++
++Version field is only reserved for the unlikely event of UAPI upgrade
++at its entirety.
++
++It's *always* the caller's responsibility to indicate the size of the
++structure passed by setting argsz appropriately.
++Though at the same time, argsz is user provided data which is not
++trusted. The argsz field allows the user app to indicate how much data
++it is providing; it's still the kernel's responsibility to validate
++whether it's correct and sufficient for the requested operation.
++
++Compatibility Checking
++----------------------
++When IOMMU UAPI extension results in some structure size increase,
++IOMMU UAPI code shall handle the following cases:
++
++1. User and kernel has exact size match
++2. An older user with older kernel header (smaller UAPI size) running on a
++   newer kernel (larger UAPI size)
++3. A newer user with newer kernel header (larger UAPI size) running
++   on an older kernel.
++4. A malicious/misbehaving user passing illegal/invalid size but within
++   range. The data may contain garbage.
++
++Feature Checking
++----------------
++While launching a guest with vIOMMU, it is strongly advised to check
++the compatibility upfront, as some subsequent errors happening during
++vIOMMU operation, such as cache invalidation failures cannot be nicely
++escalated to the guest due to IOMMU specifications. This can lead to
++catastrophic failures for the users.
++
++User applications such as QEMU are expected to import kernel UAPI
++headers. Backward compatibility is supported per feature flags.
++For example, an older QEMU (with older kernel header) can run on newer
++kernel. Newer QEMU (with new kernel header) may refuse to initialize
++on an older kernel if new feature flags are not supported by older
++kernel. Simply recompiling existing code with newer kernel header should
++not be an issue in that only existing flags are used.
++
++IOMMU vendor driver should report the below features to IOMMU UAPI
++consumers (e.g. via VFIO).
++
++1. IOMMU_NESTING_FEAT_SYSWIDE_PASID
++2. IOMMU_NESTING_FEAT_BIND_PGTBL
++3. IOMMU_NESTING_FEAT_BIND_PASID_TABLE
++4. IOMMU_NESTING_FEAT_CACHE_INVLD
++5. IOMMU_NESTING_FEAT_PAGE_REQUEST
++
++Take VFIO as example, upon request from VFIO userspace (e.g. QEMU),
++VFIO kernel code shall query IOMMU vendor driver for the support of
++the above features. Query result can then be reported back to the
++userspace caller. Details can be found in
++Documentation/driver-api/vfio.rst.
++
++
++Data Passing Example with VFIO
++------------------------------
++As the ubiquitous userspace driver framework, VFIO is already IOMMU
++aware and shares many key concepts such as device model, group, and
++protection domain. Other user driver frameworks can also be extended
++to support IOMMU UAPI but it is outside the scope of this document.
++
++In this tight-knit VFIO-IOMMU interface, the ultimate consumer of the
++IOMMU UAPI data is the host IOMMU driver. VFIO facilitates user-kernel
++transport, capability checking, security, and life cycle management of
++process address space ID (PASID).
++
++VFIO layer conveys the data structures down to the IOMMU driver. It
++follows the pattern below::
++
++   struct {
++	__u32 argsz;
++	__u32 flags;
++	__u8  data[];
++   };
++
++Here data[] contains the IOMMU UAPI data structures. VFIO has the
++freedom to bundle the data as well as parse data size based on its own flags.
++
++In order to determine the size and feature set of the user data, argsz
++and flags (or the equivalent) are also embedded in the IOMMU UAPI data
++structures.
++
++A "__u32 argsz" field is *always* at the beginning of each structure.
++
++For example:
++::
++
++   struct iommu_cache_invalidate_info {
++	__u32	argsz;
++	#define IOMMU_CACHE_INVALIDATE_INFO_VERSION_1 1
++	__u32	version;
++	/* IOMMU paging structure cache */
++	#define IOMMU_CACHE_INV_TYPE_IOTLB	(1 << 0) /* IOMMU IOTLB */
++	#define IOMMU_CACHE_INV_TYPE_DEV_IOTLB	(1 << 1) /* Device IOTLB */
++	#define IOMMU_CACHE_INV_TYPE_PASID	(1 << 2) /* PASID cache */
++	#define IOMMU_CACHE_INV_TYPE_NR		(3)
++	__u8	cache;
++	__u8	granularity;
++	__u8	padding[6];
++	union {
++		struct iommu_inv_pasid_info pasid_info;
++		struct iommu_inv_addr_info addr_info;
++	} granu;
++   };
++
++VFIO is responsible for checking its own argsz and flags. It then
++invokes appropriate IOMMU UAPI functions. The user pointers are passed
++to the IOMMU layer for further processing. The responsibilities are
++divided as follows:
++
++- Generic IOMMU layer checks argsz range based on UAPI data in the
++  current kernel version.
++
++- Generic IOMMU layer checks content of the UAPI data for non-zero
++  reserved bits in flags, padding fields, and unsupported version.
++  This is to ensure not breaking userspace in the future when these
++  fields or flags are used.
++
++- Vendor IOMMU driver checks argsz based on vendor flags. UAPI data
++  is consumed based on flags. Vendor driver has access to
++  unadulterated argsz value in case of vendor specific future
++  extensions. Currently, it does not perform the copy_from_user()
++  itself. A __user pointer can be provided in some future scenarios
++  where there's vendor data outside of the structure definition.
++
++IOMMU code treats UAPI data in two categories:
++
++- structure contains vendor data
++  (Example: iommu_uapi_cache_invalidate())
++
++- structure contains only generic data
++  (Example: iommu_uapi_sva_bind_gpasid())
++
++
++
++Sharing UAPI with in-kernel users
++---------------------------------
++For UAPIs that are shared with in-kernel users, a wrapper function is
++provided to distinguish the callers. For example,
++
++Userspace caller ::
++
++  int iommu_uapi_sva_unbind_gpasid(struct iommu_domain *domain,
++                                   struct device *dev,
++                                   void __user *udata)
++
++In-kernel caller ::
++
++  int iommu_sva_unbind_gpasid(struct iommu_domain *domain,
++                              struct device *dev, ioasid_t ioasid);
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d746519253c3..00d51eef3d3c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -9125,6 +9125,7 @@ L:	iommu@lists.linux-foundation.org
+ S:	Maintained
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git
+ F:	Documentation/devicetree/bindings/iommu/
++F:	Documentation/userspace-api/iommu.rst
+ F:	drivers/iommu/
+ F:	include/linux/iommu.h
+ F:	include/linux/iova.h
 -- 
 2.7.4
 
