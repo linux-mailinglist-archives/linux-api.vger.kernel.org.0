@@ -2,119 +2,134 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C9E5E278466
-	for <lists+linux-api@lfdr.de>; Fri, 25 Sep 2020 11:50:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 111B32784C9
+	for <lists+linux-api@lfdr.de>; Fri, 25 Sep 2020 12:12:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727997AbgIYJu5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 25 Sep 2020 05:50:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39024 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727733AbgIYJu5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 25 Sep 2020 05:50:57 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47002C0613CE;
-        Fri, 25 Sep 2020 02:50:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=28F9ogfbtjbZVl/n21rnRnyA08/27VBA9tFd1Emv+00=; b=eDtTZJcKIKXiogPX8IEoroVaur
-        XW7EI4ZB21PTkWWr9eWrFNLyAkJMplmIZMrBeAnSzW1ixnZ6BrvaKgafONbS0Joxy2CeX/wnHxrF3
-        QqwrtXqNNoROvt9GzJImRgUczIUwWbo+Q/n6g6pLgQxTCohc5HZjzKY9ukoT8pzxVga7MCJTci00u
-        0GD1c38oFcQp82w8s0Sb1WyrTVLELnCaIlpKcH9QKL4xD5S/TA24mg6YoIDwpyhlh+50WQmGXx9t3
-        Am6sBfG2czlVMfNPRh2C6JExGJ+N5gbSe/yCFv0CGD1FP+tm8XQ/O71XwgOzhlYZ/Xlfujol8O6M7
-        B2891KUQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kLkN6-0000zO-FY; Fri, 25 Sep 2020 09:50:32 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id D5927301A27;
-        Fri, 25 Sep 2020 11:50:29 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id BEFA320104626; Fri, 25 Sep 2020 11:50:29 +0200 (CEST)
-Date:   Fri, 25 Sep 2020 11:50:29 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Mike Rapoport <rppt@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Idan Yaniv <idan.yaniv@ibm.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Shuah Khan <shuah@kernel.org>, Tycho Andersen <tycho@tycho.ws>,
-        Will Deacon <will@kernel.org>, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
-        x86@kernel.org
-Subject: Re: [PATCH v6 5/6] mm: secretmem: use PMD-size pages to amortize
- direct map fragmentation
-Message-ID: <20200925095029.GX2628@hirez.programming.kicks-ass.net>
-References: <20200924132904.1391-1-rppt@kernel.org>
- <20200924132904.1391-6-rppt@kernel.org>
- <20200925074125.GQ2628@hirez.programming.kicks-ass.net>
- <8435eff6-7fa9-d923-45e5-d8850e4c6d73@redhat.com>
+        id S1727402AbgIYKMG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 25 Sep 2020 06:12:06 -0400
+Received: from smtp-bc0c.mail.infomaniak.ch ([45.157.188.12]:52177 "EHLO
+        smtp-bc0c.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727132AbgIYKMG (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 25 Sep 2020 06:12:06 -0400
+Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4BySPv3N5jzlhwQV;
+        Fri, 25 Sep 2020 12:12:03 +0200 (CEST)
+Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
+        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4BySPs41tdzllmgP;
+        Fri, 25 Sep 2020 12:12:01 +0200 (CEST)
+Subject: Re: [PATCH v2 0/4] [RFC] Implement Trampoline File Descriptor
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     "Madhavan T. Venkataraman" <madvenka@linux.microsoft.com>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org, oleg@redhat.com,
+        x86@kernel.org, luto@kernel.org, David.Laight@ACULAB.COM,
+        fweimer@redhat.com, mark.rutland@arm.com
+References: <210d7cd762d5307c2aa1676705b392bd445f1baa>
+ <20200922215326.4603-1-madvenka@linux.microsoft.com>
+ <20200923084232.GB30279@amd>
+ <34257bc9-173d-8ef9-0c97-fb6bd0f69ecb@linux.microsoft.com>
+ <20200923205156.GA12034@duo.ucw.cz>
+ <c5ddf0c2-962a-f93a-e666-1c6f64482d97@digikod.net>
+ <20200924220540.GA13185@amd>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <eec5d097-c70f-365b-3548-66726ad49f04@digikod.net>
+Date:   Fri, 25 Sep 2020 12:12:01 +0200
+User-Agent: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8435eff6-7fa9-d923-45e5-d8850e4c6d73@redhat.com>
+In-Reply-To: <20200924220540.GA13185@amd>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Sep 25, 2020 at 11:00:30AM +0200, David Hildenbrand wrote:
-> On 25.09.20 09:41, Peter Zijlstra wrote:
-> > On Thu, Sep 24, 2020 at 04:29:03PM +0300, Mike Rapoport wrote:
-> >> From: Mike Rapoport <rppt@linux.ibm.com>
-> >>
-> >> Removing a PAGE_SIZE page from the direct map every time such page is
-> >> allocated for a secret memory mapping will cause severe fragmentation of
-> >> the direct map. This fragmentation can be reduced by using PMD-size pages
-> >> as a pool for small pages for secret memory mappings.
-> >>
-> >> Add a gen_pool per secretmem inode and lazily populate this pool with
-> >> PMD-size pages.
-> > 
-> > What's the actual efficacy of this? Since the pmd is per inode, all I
-> > need is a lot of inodes and we're in business to destroy the directmap,
-> > no?
-> > 
-> > Afaict there's no privs needed to use this, all a process needs is to
-> > stay below the mlock limit, so a 'fork-bomb' that maps a single secret
-> > page will utterly destroy the direct map.
-> > 
-> > I really don't like this, at all.
+
+On 25/09/2020 00:05, Pavel Machek wrote:
+> Hi!
 > 
-> As I expressed earlier, I would prefer allowing allocation of secretmem
-> only from a previously defined CMA area. This would physically locally
-> limit the pain.
+>>>>> I believe you should simply delete confusing "introduction" and
+>>>>> provide details of super-secure system where your patches would be
+>>>>> useful, instead.
+>>>>
+>>>> This RFC talks about converting dynamic code (which cannot be authenticated)
+>>>> to static code that can be authenticated using signature verification. That
+>>>> is the scope of this RFC.
+>>>>
+>>>> If I have not been clear before, by dynamic code, I mean machine code that is
+>>>> dynamic in nature. Scripts are beyond the scope of this RFC.
+>>>>
+>>>> Also, malware compiled from sources is not dynamic code. That is orthogonal
+>>>> to this RFC. If such malware has a valid signature that the kernel permits its
+>>>> execution, we have a systemic problem.
+>>>>
+>>>> I am not saying that script authentication or compiled malware are not problems.
+>>>> I am just saying that this RFC is not trying to solve all of the security problems.
+>>>> It is trying to define one way to convert dynamic code to static code to address
+>>>> one class of problems.
+>>>
+>>> Well, you don't have to solve all problems at once.
+>>>
+>>> But solutions have to exist, and AFAIK in this case they don't. You
+>>> are armoring doors, but ignoring open windows.
+>>
+>> FYI, script execution is being addressed (for the kernel part) by this
+>> patch series:
+>> https://lore.kernel.org/lkml/20200924153228.387737-1-mic@digikod.net/
+> 
+> Ok.
+> 
+>>> Or very probably you are thinking about something different than
+>>> normal desktop distros (Debian 10). Because on my systems, I have
+>>> python, gdb and gcc...
+>>
+>> It doesn't make sense for a tailored security system to leave all these
+>> tools available to an attacker.
+> 
+> And it also does not make sense to use "trampoline file descriptor" on
+> generic system... while W^X should make sense there.
 
-Given that this thing doesn't have a migrate hook, that seems like an
-eminently reasonable contraint. Because not only will it mess up the
-directmap, it will also destroy the ability of the page-allocator /
-compaction to re-form high order blocks by sprinkling holes throughout.
+Well, as said before, (full/original/system-wide) W^X may require
+trampfd (as well as other building-blocks).
 
-Also, this is all very close to XPFO, yet I don't see that mentioned
-anywhere.
+I guess most Linux deployments are not on "generic systems"
+anyway (even if they may be based on generic distros), and W^X
+contradicts the fact that users/attackers can do whatever they want on
+the system.
 
-Further still, it has this HAVE_SECRETMEM_UNCACHED nonsense which is
-completely unused. I'm not at all sure exposing UNCACHED to random
-userspace is a sane idea.
+> 
+>>> It would be nice to specify what other pieces need to be present for
+>>> this to make sense -- because it makes no sense on Debian 10.
+>>
+>> Not all kernel features make sense for a generic/undefined usage,
+>> especially specific security mechanisms (e.g. SELinux, Smack, Tomoyo,
+>> SafeSetID, LoadPin, IMA, IPE, secure/trusted boot, lockdown, etc.), but
+>> they can still be definitely useful.
+> 
+> Yep... so... I'd expect something like... "so you have single-purpose
+> system
+
+No one talked about a single-purpose system.
+
+> with all script interpreters removed,
+
+Not necessarily with the patch series I pointed out just before.
+
+> IMA hashing all the files
+> to make sure they are not modified, and W^X enabled.
+
+System-wide W^X is not only for memory, and as Madhavan said: "this RFC
+pertains to converting dynamic [writable] machine code to static
+[non-writable] code".
+
+> Attacker can
+> still execute code after buffer overflow by .... and trapoline file
+> descriptor addrsses that"... so that people running generic systems
+> can stop reading after first sentence.
+
+Are you proposing to add a
+"[feature-not-useful-without-a-proper-system-configuration]" tag in
+subjects? :)
