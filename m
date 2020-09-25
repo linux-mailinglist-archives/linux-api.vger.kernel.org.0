@@ -2,178 +2,270 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 47650278B3A
-	for <lists+linux-api@lfdr.de>; Fri, 25 Sep 2020 16:49:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76172278B68
+	for <lists+linux-api@lfdr.de>; Fri, 25 Sep 2020 16:57:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728966AbgIYOth (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 25 Sep 2020 10:49:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26755 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726368AbgIYOth (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 25 Sep 2020 10:49:37 -0400
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1601045375;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-        bh=d5ct6KOSt/TbxCyW901RYIrLyX9ZminnN3Qq7MjEq2M=;
-        b=PFe04kh8+6vmv/3ac9M7mWkdpAGB7XoYRaPoZiwzPawV8cnIgsEePcgksY5za5/Zd5gOEO
-        DXhhjTzywGTpsAe3wrPb4dyCBY4P6PSWateaZh8fxDVcr2WeidvqexW0G25TlRv/n9Kwjz
-        UkP2WYJ4yLb1/AOrSbpyvwUj0+gjU5Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-84--1Srb6P1NOWCSP8NzXNJGg-1; Fri, 25 Sep 2020 10:49:33 -0400
-X-MC-Unique: -1Srb6P1NOWCSP8NzXNJGg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA295802EA3;
-        Fri, 25 Sep 2020 14:49:31 +0000 (UTC)
-Received: from [10.36.112.211] (ovpn-112-211.ams2.redhat.com [10.36.112.211])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 870781002C29;
-        Fri, 25 Sep 2020 14:49:29 +0000 (UTC)
-Subject: Re: Ways to deprecate /sys/devices/system/memory/memoryX/phys_device
- ?
-To:     Gerald Schaefer <gerald.schaefer@linux.ibm.com>
-Cc:     Michal Hocko <mhocko@kernel.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        =?UTF-8?Q?Jan_H=c3=b6ppner?= <hoeppner@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        linux-api@vger.kernel.org,
+        id S1729016AbgIYO5c (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 25 Sep 2020 10:57:32 -0400
+Received: from mga04.intel.com ([192.55.52.120]:17319 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728974AbgIYO5c (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 25 Sep 2020 10:57:32 -0400
+IronPort-SDR: e4qfbc6nnLP6n3SeQO3If/MfjA5Co/X74DS9erhyR4+ilZ3KRW+W3rD8yQ3NG9j338T1UTqHB4
+ 2eu54+7V13xw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9755"; a="158942246"
+X-IronPort-AV: E=Sophos;i="5.77,302,1596524400"; 
+   d="scan'208";a="158942246"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2020 07:57:14 -0700
+IronPort-SDR: Er0JJcz2MKSigqT+baqkcjHmkETdh31Gm4Br8Y4f7TQT0ghLjTZJWwynNHKfguqa0AgEJBXoOA
+ Y8IPA7NEUiqw==
+X-IronPort-AV: E=Sophos;i="5.77,302,1596524400"; 
+   d="scan'208";a="487499128"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2020 07:57:13 -0700
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <21852ccb-bd06-9281-7c8e-485ec02f2883@redhat.com>
- <20200922155611.379373f7@thinkpad>
-From:   David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat GmbH
-Message-ID: <a7d02345-2195-3092-a368-ca3209e2c93e@redhat.com>
-Date:   Fri, 25 Sep 2020 16:49:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [PATCH v13 01/26] Documentation/x86: Add CET description
+Date:   Fri, 25 Sep 2020 07:56:24 -0700
+Message-Id: <20200925145649.5438-2-yu-cheng.yu@intel.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20200925145649.5438-1-yu-cheng.yu@intel.com>
+References: <20200925145649.5438-1-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20200922155611.379373f7@thinkpad>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
->> There were once RFC patches to make use of it in ACPI, but it could be
->> solved using different interfaces [1].
->>
->>
->> While I'd love to rip it out completely, I think it would break old
->> lsmem/chmem completely - and I assume that's not acceptable. I was
->> wondering what would be considered safe to do now/in the future:
->>
->> 1. Make it always return 0 (just as if "sclp.rzm" would be set to 0 on
->> s390x). This will make old lsmem/chmem behave differently after
->> switching to a new kernel, like if sclp.rzm would not be set by HW -
->> AFAIU, it will assume all memory is in a single memory increment. Do we
->> care?
-> 
-> No, at least not until that kernel change would be backported to some
-> old distribution level where we still use lsmem/chmem from s390-tools.
-> Given that this is just some clean-up w/o any functional benefit, and
-> hopefully w/o any negative impact, I think we can safely assume that no
-> distributor will do that "just for fun".
-> 
-> Even if there would be good reasons for backports, then I guess we also
-> have good reasons for backporting / switching to the util-linux version
-> of lsmem / chmem for such distribution levels. Alternatively, adjust the
-> s390-tools lsmem / chmem there.
-> 
-> But I would rather "rip it out completely" than just return 0. You'd
-> need some lsmem / chmem changes anyway, at least in case this would
-> ever be backported.
+Explain no_user_shstk/no_user_ibt kernel parameters, and introduce a new
+document on Control-flow Enforcement Technology (CET).
 
-Thanks for your input Gerald.
+Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+Reviewed-by: Kees Cook <keescook@chromium.org>
+---
+v13:
+- Change X86_INTEL_* to X86_*.
 
-So unless people would be running shiny new kernels on older
-distributions it shouldn't be a problem (and I don't think we care too
-much about something like that). I don't expect something like that to
-get backported - there is absolutely no reason to do so IMHO.
+v12:
+- Remove ARCH_X86_CET_MMAP_SHSTK information.
 
-> 
->> 2. Restrict it to s390x only. It always returned 0 on other
->> architectures, I was not able to find any user.
->>
->> I think 2 should be safe to do (never used on other archs). I do wonder
->> what the feelings are about 1.
-> 
-> Please don't add any s390-specific workarounds here, that does not
-> really sound like a clean-up, rather the opposite.
+v11:
+- Add back GLIBC tunables information.
+- Add ARCH_X86_CET_MMAP_SHSTK information.
 
-People seem to have different opinions here. I'm happy as long as we can
-get rid of it (either now, or in the future with a new model).
+v10:
+- Change no_cet_shstk and no_cet_ibt to no_user_shstk and no_user_ibt.
+- Remove the opcode section, as it is already in the Intel SDM.
+- Remove sections related to GLIBC implementation.
+- Remove shadow stack memory management section, as it is already in the
+  code comments.
+- Remove legacy bitmap related information, as it is not supported now.
+- Fix arch_ioctl() related text.
+- Change SHSTK, IBT to plain English.
 
-> 
-> That being said, I do not really see the benefit of this change at
-> all. As Michal mentioned, there really should be some more fundamental
-> change. And from the rest of this thread, it also seems that phys_device
-> usage might not be the biggest issue here.
-> 
+ .../admin-guide/kernel-parameters.txt         |   6 +
+ Documentation/x86/index.rst                   |   1 +
+ Documentation/x86/intel_cet.rst               | 133 ++++++++++++++++++
+ 3 files changed, 140 insertions(+)
+ create mode 100644 Documentation/x86/intel_cet.rst
 
-As I already expressed, I am more of a friend of small, incremental
-changes than having a single big world switch where everything will be
-shiny and perfect.
-
-(Deprecating it now - in any way - stops any new users from appearing -
-both, in the kernel and from user space - eventually making the big
-world switch later a little easier because there is one thing less that
-vanished)
-
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index a1068742a6df..7c7124a6a7ac 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3164,6 +3164,12 @@
+ 			noexec=on: enable non-executable mappings (default)
+ 			noexec=off: disable non-executable mappings
+ 
++	no_user_shstk	[X86-64] Disable Shadow Stack for user-mode
++			applications
++
++	no_user_ibt	[X86-64] Disable Indirect Branch Tracking for user-mode
++			applications
++
+ 	nosmap		[X86,PPC]
+ 			Disable SMAP (Supervisor Mode Access Prevention)
+ 			even if it is supported by processor.
+diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
+index 265d9e9a093b..2aef972a868d 100644
+--- a/Documentation/x86/index.rst
++++ b/Documentation/x86/index.rst
+@@ -19,6 +19,7 @@ x86-specific Documentation
+    tlb
+    mtrr
+    pat
++   intel_cet
+    intel-iommu
+    intel_txt
+    amd-memory-encryption
+diff --git a/Documentation/x86/intel_cet.rst b/Documentation/x86/intel_cet.rst
+new file mode 100644
+index 000000000000..c9ebb3d9dd00
+--- /dev/null
++++ b/Documentation/x86/intel_cet.rst
+@@ -0,0 +1,133 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=========================================
++Control-flow Enforcement Technology (CET)
++=========================================
++
++[1] Overview
++============
++
++Control-flow Enforcement Technology (CET) is an Intel processor feature
++that provides protection against return/jump-oriented programming (ROP)
++attacks.  It can be set up to protect both applications and the kernel.
++Only user-mode protection is implemented in the 64-bit kernel, including
++support for running legacy 32-bit applications.
++
++CET introduces Shadow Stack and Indirect Branch Tracking.  Shadow stack is
++a secondary stack allocated from memory and cannot be directly modified by
++applications.  When executing a CALL, the processor pushes the return
++address to both the normal stack and the shadow stack.  Upon function
++return, the processor pops the shadow stack copy and compares it to the
++normal stack copy.  If the two differ, the processor raises a control-
++protection fault.  Indirect branch tracking verifies indirect CALL/JMP
++targets are intended as marked by the compiler with 'ENDBR' opcodes.
++
++There are two kernel configuration options:
++
++    X86_SHADOW_STACK_USER, and
++    X86_BRANCH_TRACKING_USER.
++
++These need to be enabled to build a CET-enabled kernel, and Binutils v2.31
++and GCC v8.1 or later are required to build a CET kernel.  To build a CET-
++enabled application, GLIBC v2.28 or later is also required.
++
++There are two command-line options for disabling CET features::
++
++    no_user_shstk - disables user shadow stack, and
++    no_user_ibt   - disables user indirect branch tracking.
++
++At run time, /proc/cpuinfo shows CET features if the processor supports
++CET.
++
++[2] Application Enabling
++========================
++
++An application's CET capability is marked in its ELF header and can be
++verified from the following command output, in the NT_GNU_PROPERTY_TYPE_0
++field:
++
++    readelf -n <application>
++
++If an application supports CET and is statically linked, it will run with
++CET protection.  If the application needs any shared libraries, the loader
++checks all dependencies and enables CET when all requirements are met.
++
++[3] Backward Compatibility
++==========================
++
++GLIBC provides a few tunables for backward compatibility.
++
++GLIBC_TUNABLES=glibc.tune.hwcaps=-SHSTK,-IBT
++    Turn off SHSTK/IBT for the current shell.
++
++GLIBC_TUNABLES=glibc.tune.x86_shstk=<on, permissive>
++    This controls how dlopen() handles SHSTK legacy libraries::
++
++        on         - continue with SHSTK enabled;
++        permissive - continue with SHSTK off.
++
++[4] CET arch_prctl()'s
++======================
++
++Several arch_prctl()'s have been added for CET:
++
++arch_prctl(ARCH_X86_CET_STATUS, u64 *addr)
++    Return CET feature status.
++
++    The parameter 'addr' is a pointer to a user buffer.
++    On returning to the caller, the kernel fills the following
++    information::
++
++        *addr       = shadow stack/indirect branch tracking status
++        *(addr + 1) = shadow stack base address
++        *(addr + 2) = shadow stack size
++
++arch_prctl(ARCH_X86_CET_DISABLE, unsigned int features)
++    Disable shadow stack and/or indirect branch tracking as specified in
++    'features'.  Return -EPERM if CET is locked.
++
++arch_prctl(ARCH_X86_CET_LOCK)
++    Lock in all CET features.  They cannot be turned off afterwards.
++
++Note:
++  There is no CET-enabling arch_prctl function.  By design, CET is enabled
++  automatically if the binary and the system can support it.
++
++[5] The implementation of the Shadow Stack
++==========================================
++
++Shadow Stack size
++-----------------
++
++A task's shadow stack is allocated from memory to a fixed size of
++MIN(RLIMIT_STACK, 4 GB).  In other words, the shadow stack is allocated to
++the maximum size of the normal stack, but capped to 4 GB.  However,
++a compat-mode application's address space is smaller, each of its thread's
++shadow stack size is MIN(1/4 RLIMIT_STACK, 4 GB).
++
++Signal
++------
++
++The main program and its signal handlers use the same shadow stack.
++Because the shadow stack stores only return addresses, a large shadow
++stack covers the condition that both the program stack and the signal
++alternate stack run out.
++
++The kernel creates a restore token for the shadow stack restoring address
++and verifies that token when restoring from the signal handler.
++
++Fork
++----
++
++The shadow stack's vma has VM_SHSTK flag set; its PTEs are required to be
++read-only and dirty.  When a shadow stack PTE is not RO and dirty, a
++shadow access triggers a page fault with the shadow stack access bit set
++in the page fault error code.
++
++When a task forks a child, its shadow stack PTEs are copied and both the
++parent's and the child's shadow stack PTEs are cleared of the dirty bit.
++Upon the next shadow stack access, the resulting shadow stack page fault
++is handled by page copy/re-use.
++
++When a pthread child is created, the kernel allocates a new shadow stack
++for the new thread.
 -- 
-Thanks,
-
-David / dhildenb
+2.21.0
 
