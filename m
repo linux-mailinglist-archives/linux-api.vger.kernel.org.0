@@ -2,136 +2,143 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DC5E27800F
-	for <lists+linux-api@lfdr.de>; Fri, 25 Sep 2020 07:56:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F15D4278054
+	for <lists+linux-api@lfdr.de>; Fri, 25 Sep 2020 08:09:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727127AbgIYF4u (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 25 Sep 2020 01:56:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59314 "EHLO
+        id S1727090AbgIYGJs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 25 Sep 2020 02:09:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727110AbgIYF4u (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 25 Sep 2020 01:56:50 -0400
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CFE5C0613D3
-        for <linux-api@vger.kernel.org>; Thu, 24 Sep 2020 22:56:49 -0700 (PDT)
-Received: by mail-ej1-x643.google.com with SMTP id j11so2031799ejk.0
-        for <linux-api@vger.kernel.org>; Thu, 24 Sep 2020 22:56:49 -0700 (PDT)
+        with ESMTP id S1727110AbgIYGJs (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 25 Sep 2020 02:09:48 -0400
+Received: from mail-ua1-x944.google.com (mail-ua1-x944.google.com [IPv6:2607:f8b0:4864:20::944])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B4CEC0613D3
+        for <linux-api@vger.kernel.org>; Thu, 24 Sep 2020 23:09:48 -0700 (PDT)
+Received: by mail-ua1-x944.google.com with SMTP id h15so563345uab.3
+        for <linux-api@vger.kernel.org>; Thu, 24 Sep 2020 23:09:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=PHvJCnf/e3w+kWddJhhNAUVQMYCOoytl80Q0gn/kXVM=;
-        b=ShdjI09HEYlSizD4uVM0B2rxoJnN8U2bQb09Wy+Bt5b05y7VaybgV6048Ct9oMNFC0
-         5ZuNRFl1xvZT54kcWZm6nV7++CSa/aNWkwsaYltPyAOfaCPz1p9rS80d1afmgWjIiLfk
-         QByKHsiiFOXOgqaUReS6BxYLxrysJg3zJgNro=
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+Gekh1/5HoSJgzGHBdPAl6wdzLsESdx094pfUMDJNyY=;
+        b=dD5keCca5UgZ+EkGaoslYMH6ugraBNwjEpWR+NeC67ssf+Snq7vYe3XpYQ7kzkqMKz
+         Sm19c1aeIJMEIuC7O+mIAJDQ4GaduImiLb8BwTm/ijJo/9/RLR6zG9UFvkrMiIl/LfGV
+         a8iQ4bTXB38uRWc2wFr/Tg+pgiR4/WnsCAUXlAz4D2AzOHt372+ILQ3QpEr85DCqDmoI
+         0qrscfR//nr/b1WyvAfUKdycS2Gqnk/zzMU5nxViEninjYR2SqXS5Vwc0k0zj5pbO/WJ
+         jxHVuJs1GCPTxtgHn5l9JxRSNMQbaMoBlUmELwE8Jd2o2T8e4Jv5Oac3vVxusY3hsN3z
+         R95Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=PHvJCnf/e3w+kWddJhhNAUVQMYCOoytl80Q0gn/kXVM=;
-        b=tzPAHlkm8jOvq2TRA0L3pzeR7UklFXQG/Em39i9M8lQyDOxZAHiM2shFSDKUZ20Wdy
-         bgjbCOuhEGuyasolSldnnnLnovPk3oxFABCno51c/ajaaeiw34KQwxHsLiajvCfLN5n2
-         ciO3uv7isnOYI0bNT5tsyqgNWmcDg+bTCdS3vNaWmAMorgGUYSwGH5CawL2JUsOpo59v
-         jMBLVFwUqauF8bg2mq4JfbyCIQx04A5dwoIgv7S/LXModtCQx1VKZnYGNoeWafaJ2aQA
-         +ictYp1uTDV7Bsfvv1iopvNUI2TF49R6GRIjY9RDSRmFqqk5KlRmg65NkSa5L6xvvm9i
-         BKMA==
-X-Gm-Message-State: AOAM532j2DQPUKUwqeXI+B7dGQL+/xnyNlqi2rbxOzv7wgzI+x/Mgr+k
-        WhvJZjj0A4UXo00oFgdniyIJTA==
-X-Google-Smtp-Source: ABdhPJzIM58jxMOmE2zPrllWl3bqZQksl9iktnNDkyFfkSPoqVYRt7Y7NFlYBnC9G6KhTmZPTNAT/w==
-X-Received: by 2002:a17:906:841a:: with SMTP id n26mr1099782ejx.213.1601013408160;
-        Thu, 24 Sep 2020 22:56:48 -0700 (PDT)
-Received: from [192.168.1.149] (5.186.115.188.cgn.fibianet.dk. [5.186.115.188])
-        by smtp.gmail.com with ESMTPSA id s30sm1055003edc.8.2020.09.24.22.56.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Sep 2020 22:56:47 -0700 (PDT)
-Subject: Re: [PATCH v1 0/6] seccomp: Implement constant action bitmaps
-To:     YiFei Zhu <zhuyifei1999@gmail.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc:     Kees Cook <keescook@chromium.org>,
-        YiFei Zhu <yifeifz2@illinois.edu>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Giuseppe Scrivano <gscrivan@redhat.com>,
-        Will Drewry <wad@chromium.org>, bpf <bpf@vger.kernel.org>,
-        Jann Horn <jannh@google.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        Tobin Feldman-Fitzthum <tobin@ibm.com>,
-        Hubertus Franke <frankeh@us.ibm.com>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Valentin Rothberg <vrothber@redhat.com>,
-        Dimitrios Skarlatos <dskarlat@cs.cmu.edu>,
-        Jack Chen <jianyan2@illinois.edu>,
-        Josep Torrellas <torrella@illinois.edu>,
-        Tianyin Xu <tyxu@illinois.edu>,
-        kernel list <linux-kernel@vger.kernel.org>
-References: <20200923232923.3142503-1-keescook@chromium.org>
- <43039bb6-9d9f-b347-fa92-ea34ccc21d3d@rasmusvillemoes.dk>
- <CABqSeAQKksqM1SdsQMoR52AJ5CY0VE2tk8-TJaMuOrkCprQ0MQ@mail.gmail.com>
-From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Message-ID: <27b4ef86-fee5-fc35-993b-3352ce504c73@rasmusvillemoes.dk>
-Date:   Fri, 25 Sep 2020 07:56:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+Gekh1/5HoSJgzGHBdPAl6wdzLsESdx094pfUMDJNyY=;
+        b=oqzqR2XFNg/1HmR1P1h8Cq8wvH9gVQY30vJxSmt4xG2pHYyLhiO3dtPVFqi+dH/TGE
+         jfrDlg5ISW6zyl92iklbuUdcUsOJ5XetwQQ48p8kVfs9BGZWy8fl2vSyu031kXHZV3/e
+         DWEirq5ixG0YxMg/PkYt6I9DR5zzMb5VQ8MCJmPlJj9xjBgXmN+oAtU3DR6wNdd1g09p
+         745Mpv/RcG+qVJRlEYOk04SsC4aOI2Lf1C6hQZq7IgeTPSCRu79YXNJcxrGW0Sbs4rrZ
+         fg53iH4StWhNH9L5o/K4uiyImj5M3FAy0iuugF8qDq5so5lCjl/ZAsQhvta9USSrqmE/
+         WQ+A==
+X-Gm-Message-State: AOAM531fBKPfjxtPqfFvYZosaC2HlO2ClPYc/B5ZMmssCUpuTSPJN5ST
+        ckxPlbxn/zJEdEc+wxgr3ddKfvlLo9GcSzH0HaUKxg==
+X-Google-Smtp-Source: ABdhPJws0yBakJxLSgvK/0x/1OQPz7YxRxkZQcqwZiHxwegfJTqjSbUaJljKms2pqCM5u1+NBYuCQeQxme7+GWDW+OM=
+X-Received: by 2002:a9f:29c5:: with SMTP id s63mr1581180uas.34.1601014186979;
+ Thu, 24 Sep 2020 23:09:46 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CABqSeAQKksqM1SdsQMoR52AJ5CY0VE2tk8-TJaMuOrkCprQ0MQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <CA+G9fYtF44bTzjswt26tOwfEQxrWvcSOROmEtH0HKfGn24QbRQ@mail.gmail.com>
+ <20200924143317.getruzwu423g3o3e@wittgenstein> <20200924162126.mbthwz32w7rba7oe@wittgenstein>
+In-Reply-To: <20200924162126.mbthwz32w7rba7oe@wittgenstein>
+From:   Naresh Kamboju <naresh.kamboju@linaro.org>
+Date:   Fri, 25 Sep 2020 11:39:35 +0530
+Message-ID: <CA+G9fYsCRxD+ViHgtOUtVba4wxzH1vua2gQwj6OvbBLoLj7=AA@mail.gmail.com>
+Subject: Re: selftests: pidfd: pidfd_wait hangs on linux next kernel on all devices
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>, linux-api@vger.kernel.org,
+        open list <linux-kernel@vger.kernel.org>,
+        Christian Brauner <christian@brauner.io>,
+        Kees Cook <keescook@chromium.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Sargun Dhillon <sargun@sargun.me>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Jens Axboe <axboe@kernel.dk>, Shuah Khan <shuah@kernel.org>,
+        lkft-triage@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 24/09/2020 15.58, YiFei Zhu wrote:
-> On Thu, Sep 24, 2020 at 8:46 AM Rasmus Villemoes
-> <linux@rasmusvillemoes.dk> wrote:
->> But one thing I'm wondering about and I haven't seen addressed anywhere:
->> Why build the bitmap on the kernel side (with all the complexity of
->> having to emulate the filter for all syscalls)? Why can't userspace just
->> hand the kernel "here's a new filter: the syscalls in this bitmap are
->> always allowed noquestionsasked, for the rest, run this bpf". Sure, that
->> might require a new syscall or extending seccomp(2) somewhat, but isn't
->> that a _lot_ simpler? It would probably also mean that the bpf we do get
->> handed is a lot smaller. Userspace might need to pass a couple of
->> bitmaps, one for each relevant arch, but you get the overall idea.
-> 
-> Perhaps. The thing is, the current API expects any filter attaches to
-> be "additive". If a new filter gets attached that says "disallow read"
-> then no matter whatever has been attached already, "read" shall not be
-> allowed at the next syscall, bypassing all previous allowlist bitmaps
-> (so you need to emulate the bpf anyways here?). We should also not
-> have a API that could let anyone escape the secomp jail. Say "prctl"
-> is permitted but "read" is not permitted, one must not be allowed to
-> attach a bitmap so that "read" now appears in the allowlist. The only
-> way this could potentially work is to attach a BPF filter and a bitmap
-> at the same time in the same syscall, which might mean API redesign?
+On Thu, 24 Sep 2020 at 21:51, Christian Brauner
+<christian.brauner@ubuntu.com> wrote:
+>
+> On Thu, Sep 24, 2020 at 04:33:17PM +0200, Christian Brauner wrote:
+> > On Wed, Sep 23, 2020 at 07:52:05PM +0530, Naresh Kamboju wrote:
+> > > selftests: pidfd: pidfd_wait hangs on linux next kernel on x86_64,
+> > > i386 and arm64 Juno-r2
+> > > These devices are using NFS mounted rootfs.
+> > > I have tested pidfd testcases independently and all test PASS.
+> > >
+> > > The Hang or exit from test run noticed when run by run_kselftest.sh
+> > >
+> > > pidfd_wait.c:208:wait_nonblock:Expected sys_waitid(P_PIDFD, pidfd,
+> > > &info, WSTOPPED, NULL) (-1) == 0 (0)
+> > > wait_nonblock: Test terminated by assertion
+> > >
+> > > metadata:
+> > >   git branch: master
+> > >   git repo: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+> > >   git commit: e64997027d5f171148687e58b78c8b3c869a6158
+> > >   git describe: next-20200922
+> > >   make_kernelversion: 5.9.0-rc6
+> > >   kernel-config:
+> > > http://snapshots.linaro.org/openembedded/lkft/lkft/sumo/intel-core2-32/lkft/linux-next/865/config
+> > >
+> > > Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+> >
+> > Thanks for reproting this. I'm taking a look now!
+>
+> Ok, this is a simple race in the selftests, that I overlooked and which
+> is more likely to hit when there's a lot of processes running on the
+> system. Basically the child process hasn't SIGSTOPed itself yet but the
+> parent is already calling waitid() on a O_NONBLOCK pidfd. Since it
+> doesn't find a WSTOPPED process it returns -EAGAIN correctly.
+>
+> The fix for this is to move the line where we're removing the O_NONBLOCK
+> property from the fd before the waitid() WSTOPPED call so we hang until
+> the child becomes stopped.
+>
+> So I believe the fix is:
 
-Yes, the man page would read something like
+This patch applied and scheduled for kselftest full test run.
 
-       SECCOMP_SET_MODE_FILTER_BITMAP
-              The system calls allowed are defined by a pointer to a
-Berkeley Packet Filter (BPF) passed  via  args.
-              This argument is a pointer to a struct sock_fprog_bitmap;
+>
+> diff --git a/tools/testing/selftests/pidfd/pidfd_wait.c b/tools/testing/selftests/pidfd/pidfd_wait.c
+> index 4063d6f31fa4..be2943f072f6 100644
+> --- a/tools/testing/selftests/pidfd/pidfd_wait.c
+> +++ b/tools/testing/selftests/pidfd/pidfd_wait.c
+> @@ -205,6 +205,8 @@ TEST(wait_nonblock)
+>         ret = sys_waitid(P_PIDFD, pidfd, &info, WEXITED | WNOHANG, NULL);
+>         ASSERT_EQ(ret, 0);
+>
+> +       ASSERT_EQ(fcntl(pidfd, F_SETFL, (flags & ~O_NONBLOCK)), 0);
+> +
+>         ASSERT_EQ(sys_waitid(P_PIDFD, pidfd, &info, WSTOPPED, NULL), 0);
+>         ASSERT_EQ(info.si_signo, SIGCHLD);
+>         ASSERT_EQ(info.si_code, CLD_STOPPED);
+> @@ -212,8 +214,6 @@ TEST(wait_nonblock)
+>
+>         ASSERT_EQ(sys_pidfd_send_signal(pidfd, SIGCONT, NULL, 0), 0);
+>
+> -       ASSERT_EQ(fcntl(pidfd, F_SETFL, (flags & ~O_NONBLOCK)), 0);
+> -
+>         ASSERT_EQ(sys_waitid(P_PIDFD, pidfd, &info, WEXITED, NULL), 0);
+>         ASSERT_EQ(info.si_signo, SIGCHLD);
+>         ASSERT_EQ(info.si_code, CLD_EXITED);
+>
+> Christian
 
-with that struct containing whatever information/extra pointers needed
-for passing the bitmap(s) in addition to the bpf prog.
-
-And SECCOMP_SET_MODE_FILTER would internally just be updated to work
-as-if all-zero allow-bitmaps were passed along. The internal kernel
-bitmap would just be the and of the bitmaps in the filter stack.
-
-Sure, it's UAPI, so would certainly need more careful thought on details
-of just how the arg struct looks like etc. etc., but I was wondering why
-it hadn't been discussed at all.
-
->> I'm also a bit worried about the performance of doing that emulation;
->> that's constant extra overhead for, say, launching a docker container.
-> 
-> IMO, launching a docker container is so expensive this should be negligible.
-
-Regardless, I'd like to see some numbers, certainly for the "how much
-faster does a getpid() or read() or any of the other syscalls that
-nobody disallows" get, but also "what's the cost of doing that emulation
-at seccomp(2) time".
-
-Rasmus
+- Naresh
