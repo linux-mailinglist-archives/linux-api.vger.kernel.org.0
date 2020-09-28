@@ -2,209 +2,184 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A07C27B4E1
-	for <lists+linux-api@lfdr.de>; Mon, 28 Sep 2020 20:58:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2B9727B4E7
+	for <lists+linux-api@lfdr.de>; Mon, 28 Sep 2020 21:00:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726578AbgI1S6k (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 28 Sep 2020 14:58:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53482 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726500AbgI1S6k (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 28 Sep 2020 14:58:40 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 142AEC061755;
-        Mon, 28 Sep 2020 11:58:40 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id d4so2169938wmd.5;
-        Mon, 28 Sep 2020 11:58:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qzLx+ktMPVhQAktjSFRBaXH0o66/8M0vKBETAdf1Yx4=;
-        b=RYjU8DFGC3OKNRooUCoAsNT82Ecoc3NppLjTMfL3psheFuIc2gxNhNsy9kGyOSpsxe
-         XkbyCfc6wdtuRVKVzZBlgdr5Hb3R4QiVZKlg8VUfDpYvSFQc9P8gIv0NDjkbH6BOSD6l
-         /HpHbj0scL9/CIEc8UI0zMmlVHzd7TAtmoviJ1wlBQPJT/S0+bay2Sjpo4QYLhzYwh+3
-         nI4RyguxXOCD2pHc4MYHY+7p3p0wjm9FEod+wE2JE2gZcyDnZmT3y0B9q0TZ8aQ+P9sM
-         K+xyknUeZDn1qoc/nrQVRgT2rvBGzdkzSGQs9aiti1mev+azxSxrx1RcbByRAKlaO0TM
-         OnvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qzLx+ktMPVhQAktjSFRBaXH0o66/8M0vKBETAdf1Yx4=;
-        b=gdhcab2bUgprb1aIjI60m0/1pqVKWCHCczDAQVuL9JKjfQDlFh/dohQ6HmlpttsaYo
-         eScPit074XmBlSashv/0/ke1cP6diLSWo9lYAjnzx4c1gUhnDkgCEMS3jtvojBXwBP1/
-         cBAmcr1guz1GDSZdzgq4IGCGgI7HtMnChixIlIAI/ncBFpdnQRfaInIKTu/MjbENJ4lD
-         JsDom4yUuqQL/9YJRqB3e5esKrAMYaE/uT1hm4PntoSvuvPnHEd283qIpzXNb5YwBgL4
-         BrYFUkSbCxgaGa9RbQt3btniiysAX+ljWA5khRISjPVdSum+QjzYuEtqen+c1ojbqiPI
-         cawA==
-X-Gm-Message-State: AOAM532u/A0eACD/pvKhzo+Tvcr44lRskSaCJgtMenLBmyz8sTmioDt9
-        bAGDKWMidepzZtvy3NsacQYyhBbiDpmgutoaW6s=
-X-Google-Smtp-Source: ABdhPJxfvtSw/ZhL8NlA6HZcJ6dh91x4IhK4/Mxt/FgbMU2pzQdY4fBuBDZ7RHTYnZNdn803D/7Osnd3Adxo91wuQ/o=
-X-Received: by 2002:a7b:c1d9:: with SMTP id a25mr636586wmj.4.1601319518619;
- Mon, 28 Sep 2020 11:58:38 -0700 (PDT)
+        id S1726389AbgI1TAw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 28 Sep 2020 15:00:52 -0400
+Received: from mga17.intel.com ([192.55.52.151]:21559 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726228AbgI1TAw (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 28 Sep 2020 15:00:52 -0400
+IronPort-SDR: 8o7EDK0c9ZAxylgnD5n/vrLTviF24O4nwtxAWQSFp0lPiPtQHq0y0Ti80GMaOiIzUFzmIQDiPH
+ A3BG93+TEFSg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9758"; a="142060597"
+X-IronPort-AV: E=Sophos;i="5.77,313,1596524400"; 
+   d="scan'208";a="142060597"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2020 11:38:46 -0700
+IronPort-SDR: JExQWT9GytmoqUJjWWfoYiFWm2ROgswGk82oXhpKsrogI/lX+XzPT5+ZNvBpVwls4DrM/WjH9G
+ 3eMVhQSaIUzg==
+X-IronPort-AV: E=Sophos;i="5.77,313,1596524400"; 
+   d="scan'208";a="311889478"
+Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2020 11:38:45 -0700
+Date:   Mon, 28 Sep 2020 11:40:53 -0700
+From:   Jacob Pan <jacob.jun.pan@linux.intel.com>
+To:     Jacob Pan <jacob.pan.linux@gmail.com>
+Cc:     iommu@lists.linux-foundation.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        Joerg Roedel <joro@8bytes.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        "Lu Baolu" <baolu.lu@linux.intel.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-api@vger.kernel.org,
+        Jean-Philippe Brucker <jean-philippe@linaro.com>,
+        Eric Auger <eric.auger@redhat.com>,
+        Yi Liu <yi.l.liu@intel.com>,
+        "Tian, Kevin" <kevin.tian@intel.com>,
+        Raj Ashok <ashok.raj@intel.com>, Wu Hao <hao.wu@intel.com>,
+        Yi Sun <yi.y.sun@intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        jacob.jun.pan@linux.intel.com
+Subject: Re: [PATCH v12 0/6] IOMMU user API enhancement
+Message-ID: <20200928114053.79170d23@jacob-builder>
+In-Reply-To: <1601051567-54787-1-git-send-email-jacob.jun.pan@linux.intel.com>
+References: <1601051567-54787-1-git-send-email-jacob.jun.pan@linux.intel.com>
+Organization: OTC
+X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <CA+1E3rLM4G4SwzD6RWsK6Ssp7NmhiPedZDjrqN3kORQr9fxCtw@mail.gmail.com>
- <MWHPR04MB375863C20C1EF2CB27E62703E74E0@MWHPR04MB3758.namprd04.prod.outlook.com>
- <20200731091416.GA29634@infradead.org> <MWHPR04MB37586D39CA389296CE0252A4E74E0@MWHPR04MB3758.namprd04.prod.outlook.com>
- <20200731094135.GA4104@infradead.org> <MWHPR04MB3758A4B2967DB1FABAAD9265E74E0@MWHPR04MB3758.namprd04.prod.outlook.com>
- <20200731125110.GA11500@infradead.org> <CY4PR04MB37517D633920E4D31AC6EA0DE74B0@CY4PR04MB3751.namprd04.prod.outlook.com>
- <20200814081411.GA16943@infradead.org> <CA+1E3r+WXC_MK5Zf2OZEv17ddJDjtXbhpRFoeDns4F341xMhow@mail.gmail.com>
- <20200908151801.GA16742@infradead.org> <CA+1E3r+MSEW=-SL8L+pquq+cFAu+nQOULQ+HZoQsCvdjKMkrNw@mail.gmail.com>
- <MWHPR04MB3758A78AFAED3543F8D38266E7360@MWHPR04MB3758.namprd04.prod.outlook.com>
-In-Reply-To: <MWHPR04MB3758A78AFAED3543F8D38266E7360@MWHPR04MB3758.namprd04.prod.outlook.com>
-From:   Kanchan Joshi <joshiiitr@gmail.com>
-Date:   Tue, 29 Sep 2020 00:28:12 +0530
-Message-ID: <CA+1E3rJANOsPOzjtJHSViVMq+Uc-sB0iZoExxBG++v2ghaL4uA@mail.gmail.com>
-Subject: Re: [PATCH v4 6/6] io_uring: add support for zone-append
-To:     Damien Le Moal <Damien.LeMoal@wdc.com>
-Cc:     "hch@infradead.org" <hch@infradead.org>,
-        Jens Axboe <axboe@kernel.dk>,
-        Pavel Begunkov <asml.silence@gmail.com>,
-        Kanchan Joshi <joshi.k@samsung.com>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "bcrl@kvack.org" <bcrl@kvack.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-aio@kvack.org" <linux-aio@kvack.org>,
-        "io-uring@vger.kernel.org" <io-uring@vger.kernel.org>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        SelvaKumar S <selvakuma.s1@samsung.com>,
-        Nitesh Shetty <nj.shetty@samsung.com>,
-        Javier Gonzalez <javier.gonz@samsung.com>,
-        Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
-        Naohiro Aota <Naohiro.Aota@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Sep 25, 2020 at 8:22 AM Damien Le Moal <Damien.LeMoal@wdc.com> wrote:
->
-> On 2020/09/25 2:20, Kanchan Joshi wrote:
-> > On Tue, Sep 8, 2020 at 8:48 PM hch@infradead.org <hch@infradead.org> wrote:
-> >>
-> >> On Mon, Sep 07, 2020 at 12:31:42PM +0530, Kanchan Joshi wrote:
-> >>> But there are use-cases which benefit from supporting zone-append on
-> >>> raw block-dev path.
-> >>> Certain user-space log-structured/cow FS/DB will use the device that
-> >>> way. Aerospike is one example.
-> >>> Pass-through is synchronous, and we lose the ability to use io-uring.
-> >>
-> >> So use zonefs, which is designed exactly for that use case.
-> >
-> > Not specific to zone-append, but in general it may not be good to lock
-> > new features/interfaces to ZoneFS alone, given that direct-block
-> > interface has its own merits.
-> > Mapping one file to a one zone is good for some use-cases, but
-> > limiting for others.
-> > Some user-space FS/DBs would be more efficient (less meta, indirection)
-> > with the freedom to decide file-to-zone mapping/placement.
->
-> There is no metadata in zonefs. One file == one zone and the mapping between
-> zonefs files and zones is static, determined at mount time simply using report
-> zones. Zonefs files cannot be renamed nor deleted in anyway. Choosing a zonefs
-> file *is* the same as choosing a zone. Zonfes is *not* a POSIX file system doing
-> dynamic block allocation to files. The backing storage of files in zonefs is
-> static and fixed to the zone they represent. The difference between zonefs vs
-> raw zoned block device is the API that has to be used by the application, that
-> is, file descriptor representing the entire disk for raw disk vs file descriptor
-> representing one zone in zonefs. Note that the later has *a lot* of advantages
-> over the former: enables O_APPEND use, protects against bugs with user write
-> offsets mistakes, adds consistency of cached data against zone resets, and more.
->
-> > - Rocksdb and those LSM style DBs would map SSTable to zone, but
-> > SSTable file may be two small (initially) and may become too large
-> > (after compaction) for a zone.
->
-> You are contradicting yourself here. If a SSTable is mapped to a zone, then its
-> size cannot exceed the zone capacity, regardless of the interface used to access
-> the zones. And except for L0 tables which can be smaller (and are in memory
-> anyway), all levels tables have the same maximum size, which for zoned drives
-> must be the zone capacity. In any case, solving any problem in this area does
-> not depend in any way on zonefs vs raw disk interface. The implementation will
-> differ depending on the chosen interface, but what needs to be done to map
-> SSTables to zones is the same in both cases.
->
-> > - The internal parallelism of a single zone is a design-choice, and
-> > depends on the drive. Writing multiple zones parallely (striped/raid
-> > way) can give better performance than writing on one. In that case one
-> > would want to file that seamlessly combines multiple-zones in a
-> > striped fashion.
->
-> Then write a FS for that... Or have a library do it in user space. For the
-> library case, the implementation will differ for zonefs vs raw disk due to the
-> different API (regular file vs block devicer file), but the principles to follow
-> for stripping zones into a single storage object remain the same.
+Hi Joerg,
 
-ZoneFS is better when it is about dealing at single-zone granularity,
-and direct-block seems better when it is about grouping zones (in
-various ways including striping). The latter case (i.e. grouping
-zones) requires more involved mapping, and I agree that it can be left
-to application (for both ZoneFS and raw-block backends).
-But when an application tries that on ZoneFS, apart from mapping there
-would be additional cost of indirection/fd-management (due to
-file-on-files).
-And if new features (zone-append for now) are available only on
-ZoneFS, it forces application to use something that maynot be most
-optimal for its need.
+Just wondering if you will be able to take this for v5.10? There hasn't
+been any material changes since we last discussed in LPC. We have VFIO and
+other vSVA patches depending on it.
 
-Coming to the original problem of plumbing append - I think divergence
-started because RWF_APPEND did not have any meaning for block device.
-Did I miss any other reason?
-How about write-anywhere semantics (RWF_RELAXED_WRITE or
-RWF_ANONYMOUS_WRITE flag) on block-dev.
-Zone-append works a lot like write-anywhere on block-dev (or on any
-other file that combines multiple-zones, in non-sequential fashion).
+Thanks!
 
-> > Also it seems difficult (compared to block dev) to fit simple-copy TP
-> > in ZoneFS. The new
-> > command needs: one NVMe drive, list of source LBAs and one destination
-> > LBA. In ZoneFS, we would deal with N+1 file-descriptors (N source zone
-> > file, and one destination zone file) for that. While with block
-> > interface, we do not need  more than one file-descriptor representing
-> > the entire device. With more zone-files, we face open/close overhead too.
->
-> Are you expecting simple-copy to allow requests that are not zone aligned ? I do
-> not think that will ever happen. Otherwise, the gotcha cases for it would be far
-> too numerous. Simple-copy is essentially an optimized regular write command.
-> Similarly to that command, it will not allow copies over zone boundaries and
-> will need the destination LBA to be aligned to the destination zone WP. I have
-> not checked the TP though and given the NVMe NDA, I will stop the discussion here.
+Jacob 
 
-TP is ratified, if that is the problem you are referring to.
+On Fri, 25 Sep 2020 09:32:41 -0700, Jacob Pan <jacob.pan.linux@gmail.com>
+wrote:
 
-> filesend() could be used as the interface for simple-copy. Implementing that in
-> zonefs would not be that hard. What is your plan for simple-copy interface for
-> raw block device ? An  ioctl ? filesend() too ? As as with any other user level
-> API, we should not be restricted to a particular device type if we can avoid it,
-> so in-kernel emulation of the feature is needed for devices that do not have
-> simple-copy or scsi extended copy. filesend() seems to me like the best choice
-> since all of that is already implemented there.
-
-At this moment, ioctl as sync and io-uring for async. sendfile() and
-copy_file_range() takes two fds....with that we can represent copy
-from one source zone to another zone.
-But it does not fit to represent larger copy (from N source zones to
-one destination zone).
-Not sure if I am clear, perhaps sending RFC would be better for
-discussion on simple-copy.
-
-> As for the open()/close() overhead for zonefs, may be some use cases may suffer
-> from it, but my tests with LevelDB+zonefs did not show any significant
-> difference. zonefs open()/close() operations are way faster than for a regular
-> file system since there is no metadata and all inodes always exist in-memory.
-> And zonefs() now supports MAR/MOR limits for O_WRONLY open(). That can simplify
-> things for the user.
->
->
-> --
-> Damien Le Moal
-> Western Digital Research
-
+> IOMMU user API header was introduced to support nested DMA translation and
+> related fault handling. The current UAPI data structures consist of three
+> areas that cover the interactions between host kernel and guest:
+>  - fault handling
+>  - cache invalidation
+>  - bind guest page tables, i.e. guest PASID
+> 
+> Future extensions are likely to support more architectures and vIOMMU
+> features.
+> 
+> In the previous discussion, using user-filled data size and feature flags
+> is made a preferred approach over a unified version number.
+> https://lkml.org/lkml/2020/1/29/45
+> 
+> In addition to introduce argsz field to data structures, this patchset is
+> also trying to document the UAPI design, usage, and extension rules. VT-d
+> driver changes to utilize the new argsz field is included, VFIO usage is
+> to follow.
+> 
+> This set is available at:
+> https://github.com/jacobpan/linux.git vsva_v5.9_uapi_v12
+> 
+> Thanks,
+> 
+> Jacob
+> 
+> 
+> Changelog:
+> v12
+> 	- Removed a redundant check in cache invalidate API
+> v11
+> 	- Use #define instead of enum in PASID data format, squashed
+> change into "iommu/uapi: Handle data and argsz filled by users"
+> 	- Remove alloc/free from documentation per Yi's comment. IOMMU
+> UAPI does not perform IOASID alloc/free.
+> v10
+> 	- Documentation grammar fixes based on Randy's review
+> v9
+> 	- Directly pass PASID value to iommu_sva_unbind_gpasid() without
+> 	  the superfluous data in struct iommu_gpasid_bind_data.
+> v8
+> 	- Rebased to v5.9-rc2
+> 	- Addressed review comments from Eric Auger
+> 	  1. added a check for the unused vendor flags
+> 	  2. commit message improvements
+> v7
+> 	- Added PASID data format enum for range checking
+> 	- Tidy up based on reviews from Alex W.
+> 	- Removed doc section for vIOMMU fault handling
+> v6
+> 	- Renamed all UAPI functions with iommu_uapi_ prefix
+> 	- Replaced argsz maxsz checking with flag specific size checks
+> 	- Documentation improvements based on suggestions by Eric Auger
+> 	  Replaced example code with a pointer to the actual code
+> 	- Added more checks for illegal flags combinations
+> 	- Added doc file to MAINTAINERS
+> v5
+> 	- Addjusted paddings in UAPI data to be 8 byte aligned
+> 	- Do not clobber argsz in IOMMU core before passing on to vendor
+> driver
+> 	- Removed pr_warn_ for invalid UAPI data check, just return
+> -EINVAL
+> 	- Clarified VFIO responsibility in UAPI data handling
+> 	- Use iommu_uapi prefix to differentiate APIs has in-kernel caller
+> 	- Added comment for unchecked flags of invalidation granularity
+> 	- Added example in doc to show vendor data checking
+> 
+> v4
+> 	- Added checks of UAPI data for reserved fields, version, and
+> flags.
+> 	- Removed version check from vendor driver (vt-d)
+> 	- Relaxed argsz check to match the UAPI struct size instead of
+> variable union size
+> 	- Updated documentation
+> 
+> v3:
+> 	- Rewrote backward compatibility rule to support existing code
+> 	  re-compiled with newer kernel UAPI header that runs on older
+> 	  kernel. Based on review comment from Alex W.
+> 	  https://lore.kernel.org/linux-iommu/20200611094741.6d118fa8@w520.home/
+> 	- Take user pointer directly in UAPI functions. Perform argsz
+> check and copy_from_user() in IOMMU driver. Eliminate the need for
+> 	  VFIO or other upper layer to parse IOMMU data.
+> 	- Create wrapper function for in-kernel users of UAPI functions
+> v2:
+> 	- Removed unified API version and helper
+> 	- Introduced argsz for each UAPI data
+> 	- Introduced UAPI doc
+> 
+> 
+> Jacob Pan (6):
+>   docs: IOMMU user API
+>   iommu/uapi: Add argsz for user filled data
+>   iommu/uapi: Use named union for user data
+>   iommu/uapi: Rename uapi functions
+>   iommu/uapi: Handle data and argsz filled by users
+>   iommu/vt-d: Check UAPI data processed by IOMMU core
+> 
+>  Documentation/userspace-api/iommu.rst | 209
+> ++++++++++++++++++++++++++++++++++ MAINTAINERS
+> |   1 + drivers/iommu/intel/iommu.c           |  25 ++--
+>  drivers/iommu/intel/svm.c             |  13 ++-
+>  drivers/iommu/iommu.c                 | 196
+> +++++++++++++++++++++++++++++-- include/linux/iommu.h                 |
+> 35 ++++-- include/uapi/linux/iommu.h            |  18 ++-
+>  7 files changed, 456 insertions(+), 41 deletions(-)
+>  create mode 100644 Documentation/userspace-api/iommu.rst
+> 
 
 
--- 
-Joshi
+Thanks,
+
+Jacob
