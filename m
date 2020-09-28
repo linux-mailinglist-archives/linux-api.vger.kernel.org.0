@@ -2,21 +2,21 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8113527AE5A
-	for <lists+linux-api@lfdr.de>; Mon, 28 Sep 2020 14:55:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05B6B27AE69
+	for <lists+linux-api@lfdr.de>; Mon, 28 Sep 2020 14:56:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726630AbgI1Mza (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 28 Sep 2020 08:55:30 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:40600 "EHLO huawei.com"
+        id S1726380AbgI1M4K (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 28 Sep 2020 08:56:10 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:14255 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726380AbgI1Mza (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 28 Sep 2020 08:55:30 -0400
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id C8B40645ED381BB04DC0;
-        Mon, 28 Sep 2020 20:55:27 +0800 (CST)
+        id S1726534AbgI1M4K (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 28 Sep 2020 08:56:10 -0400
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id B09369B943540C5BB11D;
+        Mon, 28 Sep 2020 20:56:04 +0800 (CST)
 Received: from lhrphicprd00229.huawei.com (10.123.41.22) by
- DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
- 14.3.487.0; Mon, 28 Sep 2020 20:55:18 +0800
+ DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
+ 14.3.487.0; Mon, 28 Sep 2020 20:55:53 +0800
 From:   Jonathan Cameron <Jonathan.Cameron@huawei.com>
 To:     <linux-mm@kvack.org>, <linux-acpi@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>, <x86@kernel.org>,
@@ -31,9 +31,9 @@ CC:     Bjorn Helgaas <bhelgaas@google.com>,
         <linux-api@vger.kernel.org>, "Borislav Petkov" <bp@alien8.de>,
         Hanjun Guo <guohanjun@huawei.com>,
         Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [PATCH v11 3/6] ACPI: Let ACPI know we support Generic Initiator Affinity Structures
-Date:   Mon, 28 Sep 2020 20:52:32 +0800
-Message-ID: <20200928125235.446188-4-Jonathan.Cameron@huawei.com>
+Subject: [PATCH v11 4/6] ACPI: HMAT: Fix handling of changes from ACPI 6.2 to ACPI 6.3
+Date:   Mon, 28 Sep 2020 20:52:33 +0800
+Message-ID: <20200928125235.446188-5-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <20200928125235.446188-1-Jonathan.Cameron@huawei.com>
 References: <20200928125235.446188-1-Jonathan.Cameron@huawei.com>
@@ -46,48 +46,38 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Until we tell ACPI that we support generic initiators, it will have
-to operate in fall back domain mode and all _PXM entries should
-be on existing non GI domains.
+In ACPI 6.3, the Memory Proximity Domain Attributes Structure
+changed substantially.  One of those changes was that the flag
+for "Memory Proximity Domain field is valid" was deprecated.
 
-This patch sets the relevant OSC bit to make that happen.
+This was because the field "Proximity Domain for the Memory"
+became a required field and hence having a validity flag makes
+no sense.
+
+So the correct logic is to always assume the field is there.
+Current code assumes it never is.
 
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 ---
 v11: No change
 
- drivers/acpi/bus.c   | 4 ++++
- include/linux/acpi.h | 1 +
- 2 files changed, 5 insertions(+)
+ drivers/acpi/numa/hmat.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/acpi/bus.c b/drivers/acpi/bus.c
-index 54002670cb7a..113c661eb848 100644
---- a/drivers/acpi/bus.c
-+++ b/drivers/acpi/bus.c
-@@ -303,7 +303,11 @@ static void acpi_bus_osc_support(void)
- 	capbuf[OSC_SUPPORT_DWORD] |= OSC_SB_HOTPLUG_OST_SUPPORT;
- 	capbuf[OSC_SUPPORT_DWORD] |= OSC_SB_PCLPI_SUPPORT;
+diff --git a/drivers/acpi/numa/hmat.c b/drivers/acpi/numa/hmat.c
+index 2c32cfb72370..6a91a55229ae 100644
+--- a/drivers/acpi/numa/hmat.c
++++ b/drivers/acpi/numa/hmat.c
+@@ -424,7 +424,8 @@ static int __init hmat_parse_proximity_domain(union acpi_subtable_headers *heade
+ 		pr_info("HMAT: Memory Flags:%04x Processor Domain:%u Memory Domain:%u\n",
+ 			p->flags, p->processor_PD, p->memory_PD);
  
-+#ifdef CONFIG_ARM64
-+	capbuf[OSC_SUPPORT_DWORD] |= OSC_SB_GENERIC_INITIATOR_SUPPORT;
-+#endif
- #ifdef CONFIG_X86
-+	capbuf[OSC_SUPPORT_DWORD] |= OSC_SB_GENERIC_INITIATOR_SUPPORT;
- 	if (boot_cpu_has(X86_FEATURE_HWP)) {
- 		capbuf[OSC_SUPPORT_DWORD] |= OSC_SB_CPC_SUPPORT;
- 		capbuf[OSC_SUPPORT_DWORD] |= OSC_SB_CPCV2_SUPPORT;
-diff --git a/include/linux/acpi.h b/include/linux/acpi.h
-index 1e4cdc6c7ae2..1321518a53d2 100644
---- a/include/linux/acpi.h
-+++ b/include/linux/acpi.h
-@@ -546,6 +546,7 @@ acpi_status acpi_run_osc(acpi_handle handle, struct acpi_osc_context *context);
- #define OSC_SB_PCLPI_SUPPORT			0x00000080
- #define OSC_SB_OSLPI_SUPPORT			0x00000100
- #define OSC_SB_CPC_DIVERSE_HIGH_SUPPORT		0x00001000
-+#define OSC_SB_GENERIC_INITIATOR_SUPPORT	0x00002000
- 
- extern bool osc_sb_apei_support_acked;
- extern bool osc_pc_lpi_support_confirmed;
+-	if (p->flags & ACPI_HMAT_MEMORY_PD_VALID && hmat_revision == 1) {
++	if ((hmat_revision == 1 && p->flags & ACPI_HMAT_MEMORY_PD_VALID) ||
++	    hmat_revision > 1) {
+ 		target = find_mem_target(p->memory_PD);
+ 		if (!target) {
+ 			pr_debug("HMAT: Memory Domain missing from SRAT\n");
 -- 
 2.19.1
 
