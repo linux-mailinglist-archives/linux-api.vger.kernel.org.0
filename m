@@ -2,87 +2,121 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA7D727AE76
-	for <lists+linux-api@lfdr.de>; Mon, 28 Sep 2020 14:57:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4E8C27B097
+	for <lists+linux-api@lfdr.de>; Mon, 28 Sep 2020 17:14:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726552AbgI1M5R (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 28 Sep 2020 08:57:17 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:14256 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726504AbgI1M5Q (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 28 Sep 2020 08:57:16 -0400
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id A282C398555205D45582;
-        Mon, 28 Sep 2020 20:57:12 +0800 (CST)
-Received: from lhrphicprd00229.huawei.com (10.123.41.22) by
- DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
- 14.3.487.0; Mon, 28 Sep 2020 20:57:06 +0800
-From:   Jonathan Cameron <Jonathan.Cameron@huawei.com>
-To:     <linux-mm@kvack.org>, <linux-acpi@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <x86@kernel.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        <rafael@kernel.org>, Ingo Molnar <mingo@redhat.com>
-CC:     Bjorn Helgaas <bhelgaas@google.com>,
-        <linux-kernel@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>, <linuxarm@huawei.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Brice Goglin <Brice.Goglin@inria.fr>,
-        "Sean V Kelley" <sean.v.kelley@linux.intel.com>,
-        <linux-api@vger.kernel.org>, "Borislav Petkov" <bp@alien8.de>,
-        Hanjun Guo <guohanjun@huawei.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [PATCH v11 6/6] docs: mm: numaperf.rst Add brief description for access class 1.
-Date:   Mon, 28 Sep 2020 20:52:35 +0800
-Message-ID: <20200928125235.446188-7-Jonathan.Cameron@huawei.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20200928125235.446188-1-Jonathan.Cameron@huawei.com>
-References: <20200928125235.446188-1-Jonathan.Cameron@huawei.com>
+        id S1726327AbgI1POa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 28 Sep 2020 11:14:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49249 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726325AbgI1POa (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 28 Sep 2020 11:14:30 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1601306068;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=GDx1d4uF52ufWWLZ4NH1bd4kYuWSE/VqVT2CjETd86o=;
+        b=Rl5wodSPr3aLnJMEPI0KNjnqO2KaMHkqgzwi1rBAtMfW9LMZzpZaOx8O+UHUoFxGPyXst2
+        6D/N6YLBEekjksK+onMKRJMZAV4Gk1Gn351z0dskYokThs8fysZQEpiH3++OgUeaXNJYxT
+        r69q5HIoG3xjltU9mJLG2xltE0z8uH0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-193-mpnVVk3dNCGbX1d9LReang-1; Mon, 28 Sep 2020 11:14:25 -0400
+X-MC-Unique: mpnVVk3dNCGbX1d9LReang-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F119C1891E98;
+        Mon, 28 Sep 2020 15:14:21 +0000 (UTC)
+Received: from oldenburg2.str.redhat.com (ovpn-114-84.ams2.redhat.com [10.36.114.84])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 6188D6EE5C;
+        Mon, 28 Sep 2020 15:14:06 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api@vger.kernel.org,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        carlos@redhat.com, Vincenzo Frascino <vincenzo.frascino@arm.com>
+Subject: Re: [RFC PATCH 1/2] rseq: Implement KTLS prototype for x86-64
+References: <20200925181518.4141-1-mathieu.desnoyers@efficios.com>
+Date:   Mon, 28 Sep 2020 17:13:59 +0200
+In-Reply-To: <20200925181518.4141-1-mathieu.desnoyers@efficios.com> (Mathieu
+        Desnoyers's message of "Fri, 25 Sep 2020 14:15:17 -0400")
+Message-ID: <87r1qm2atk.fsf@oldenburg2.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.123.41.22]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Try to make minimal changes to the document which already describes
-access class 0 in a generic fashion (including IO initiatiors that
-are not CPUs).
+* Mathieu Desnoyers:
 
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
----
- v11: No change.
+> Upstreaming efforts aiming to integrate rseq support into glibc led to
+> interesting discussions, where we identified a clear need to extend the
+> size of the per-thread structure shared between kernel and user-space
+> (struct rseq).  This is something that is not possible with the current
+> rseq ABI.  The fact that the current non-extensible rseq kernel ABI
+> would also prevent glibc's ABI to be extended prevents its integration
+> into glibc.
+>
+> Discussions with glibc maintainers led to the following design, which we
+> are calling "Kernel Thread Local Storage" or KTLS:
+>
+> - at glibc library init:
+>   - glibc queries the size and alignment of the KTLS area supported by the
+>     kernel,
+>   - glibc reserves the memory area required by the kernel for main
+>     thread,
+>   - glibc registers the offset from thread pointer where the KTLS area
+>     will be placed for all threads belonging to the threads group which
+>     are created with clone3 CLONE_RSEQ_KTLS,
+> - at nptl thread creation:
+>   - glibc reserves the memory area required by the kernel,
+> - application/libraries can query glibc for the offset/size of the
+>   KTLS area, and offset from the thread pointer to access that area.
 
- Documentation/admin-guide/mm/numaperf.rst | 8 ++++++++
- 1 file changed, 8 insertions(+)
+One remaining challenge see is that we want to use vDSO functions to
+abstract away the exact layout of the KTLS area.  For example, there are
+various implementation strategies for getuid optimizations, some of them
+exposing a shared struct cred in a thread group, and others not doing
+that.
 
-diff --git a/Documentation/admin-guide/mm/numaperf.rst b/Documentation/admin-guide/mm/numaperf.rst
-index 4d69ef1de830..b89bb85eac75 100644
---- a/Documentation/admin-guide/mm/numaperf.rst
-+++ b/Documentation/admin-guide/mm/numaperf.rst
-@@ -56,6 +56,11 @@ nodes' access characteristics share the same performance relative to other
- linked initiator nodes. Each target within an initiator's access class,
- though, do not necessarily perform the same as each other.
- 
-+The access class "1" is used to allow differentiation between initiators
-+that are CPUs and hence suitable for generic task scheduling, and
-+IO initiators such as GPUs and NICs.  Unlike access class 0, only
-+nodes containing CPUs are considered.
-+
- ================
- NUMA Performance
- ================
-@@ -88,6 +93,9 @@ The latency attributes are provided in nanoseconds.
- The values reported here correspond to the rated latency and bandwidth
- for the platform.
- 
-+Access class 1, takes the same form, but only includes values for CPU to
-+memory activity.
-+
- ==========
- NUMA Cache
- ==========
+The vDSO has access to the thread pointer because it's ABI (something
+that we recently (and quite conveniently) clarified for x86).  What it
+does not know is the offset of the KTLS area from the thread pointer.
+In the original rseq implementation, this offset could vary from thread
+to thread in a process, although the submitted glibc implementation did
+not use this level of flexibility and the offset is constant.  The vDSO
+is not relocated by the run-time dynamic loader, so it can't use ELF TLS
+data.
+
+Furthermore, not all threads in a thread group may have an associated
+KTLS area.  In a potential glibc implementation, only the threads
+created by pthread_create would have it; threads created directly using
+clone would lack it (and would not even run with a correctly set up
+userspace TCB).
+
+So we have a bootstrap issue here that needs to be solved, I think.
+
+In most cases, I would not be too eager to bypass the vDSO completely,
+and having the kernel expose a data-only interface.  I could perhaps
+make an exception for the current TID because that's so convenient to
+use in mutex implementations, and errno.  With the latter, we could
+directly expose the vDSO implementation to applications, assuming that
+we agree that the vDSO will not fail with ENOSYS to request fallback to
+the system call, but will itself perform the system call.
+
+Thanks,
+Florian
 -- 
-2.19.1
+Red Hat GmbH, https://de.redhat.com/ , Registered seat: Grasbrunn,
+Commercial register: Amtsgericht Muenchen, HRB 153243,
+Managing Directors: Charles Cachera, Brian Klemm, Laurie Krebs, Michael O'Neill
 
