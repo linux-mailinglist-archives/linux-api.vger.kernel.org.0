@@ -2,51 +2,59 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 83C5427B5E3
-	for <lists+linux-api@lfdr.de>; Mon, 28 Sep 2020 22:04:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4AF527B611
+	for <lists+linux-api@lfdr.de>; Mon, 28 Sep 2020 22:16:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726389AbgI1UEx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 28 Sep 2020 16:04:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35444 "EHLO
+        id S1726466AbgI1UQP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 28 Sep 2020 16:16:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726228AbgI1UEx (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 28 Sep 2020 16:04:53 -0400
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E32EBC061755
-        for <linux-api@vger.kernel.org>; Mon, 28 Sep 2020 13:04:52 -0700 (PDT)
-Received: by mail-pg1-x544.google.com with SMTP id m34so1826812pgl.9
-        for <linux-api@vger.kernel.org>; Mon, 28 Sep 2020 13:04:52 -0700 (PDT)
+        with ESMTP id S1726310AbgI1UQO (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 28 Sep 2020 16:16:14 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8914DC061755;
+        Mon, 28 Sep 2020 13:16:14 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id x123so2163887pfc.7;
+        Mon, 28 Sep 2020 13:16:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=DrORwxFSTGYgq7rDpyN+PgrRRMbvRryObis6SlzlegQ=;
-        b=E4DiKgHZ8+3lgXItSKuRg/Zp0KCE480TlXTghysXO3BoLDWSNo77w7adL5ZNKFzaJt
-         JrIB8dlPqKMbNAPQuhOffpeY5lxUoDQaCkYU7Gb2rde/d/IV3kPzLjUCB6bh4IovYwuN
-         dW8ea1YKN4Z7HbEGJI1W39qM7Swg4rgPmsp04=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=n5fs9N7O7kX4WZI+JaZ5Zk9F/Ve3sjOEq/KE/y3eZEA=;
+        b=NZZZsyHQde4tfNecmEB/UwHVyhxXIFIl6/O1nny0WP+j9dJhH+pBYRPhP8MSl140QK
+         InD9RjbRzHGBObk/JneSjeXMH4JucKSx5DzB6OkVmm8Eh5WPSjtBdcsguuEF+L1tOBHS
+         0teuOg7LPUKGVf57kIlbHTpiFvwupixku8VU27OI5vaz5j1nxcPKWmaLg7rMWTJrswgI
+         C9T0DsyuqYa5HIzqBoRia9AbvGc0R5CX+a2uZ/KLHwrWKmVetxKxydeVw/vuljEdRP4D
+         hE89hploklteLSgB9Ht4BjNaRzMziS1T7Le8UKp1ypjmAGEq1T721TB89vB+LHMCBIGf
+         sQUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=DrORwxFSTGYgq7rDpyN+PgrRRMbvRryObis6SlzlegQ=;
-        b=KtlSW2qLM4FSXVlRLbqRIRmhPGXBPjDw/m1NnXaTvkEQ7grp0pNzF2kdDMHCJUbfqt
-         k0AA3kvi+6ubay12GDlH7qwMlPtC1K6LZW9OqPmaaqgbrfH9Gm57C1aEoWSR5hCqxvWE
-         Indpy2JpudlKb5MAgDo4Pvj8s43ECOqnG5mikEbsogyeQ3cBziqQ7LXlDuGzJNscDRAe
-         6eWH95WC6J8Ja6LnH/HvhntytrUPPuJxs6r20z+dfUtxXV01k8BYzYeROe6IOL6IET5Q
-         yJXipTu6iTWUR7lOQ75VWWJY1E1Ndd7kWTREOSDjp37EVH5VPVRIka8IVskef5r8Hi9r
-         q9gA==
-X-Gm-Message-State: AOAM532LIuopMj4edM0xVEVOLTZO0GOGFyNV1xQILOjEpvjyt3uu/8+J
-        bYKKc0VzrnV4egIxSe3gyMNfIQ==
-X-Google-Smtp-Source: ABdhPJxeNwqKkdDur1frnecEaZEFzGE9kbnLnamH2R59vj03CRfItMAxTnbIVtTMyXXwLb+Jai9NWg==
-X-Received: by 2002:aa7:99c2:0:b029:142:440b:fa28 with SMTP id v2-20020aa799c20000b0290142440bfa28mr961093pfi.30.1601323492379;
-        Mon, 28 Sep 2020 13:04:52 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id w203sm2928796pff.0.2020.09.28.13.04.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2020 13:04:51 -0700 (PDT)
-Date:   Mon, 28 Sep 2020 13:04:50 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     YiFei Zhu <zhuyifei1999@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=n5fs9N7O7kX4WZI+JaZ5Zk9F/Ve3sjOEq/KE/y3eZEA=;
+        b=WhyxRoG4SYOl4p9uIfs+M9W3qIAWPAwEpqqfuQTCGpMl6/QJXFdoKRpyLrjTIEuRDB
+         Z9hPgeCpx8AbT2j5p0PRbJkkZQRi9f6HySkX4vAcE7g0/7Jq92dM0IEAQzK8eeARN6an
+         3UJRWcFKthujh2q3/4euURMXv0UuxawbUmUkXZlP77AtY7dk7+Dv234JHJFgrK3etJBl
+         QkwFESwbTyIAQ6CGFLIEVXLbe6CP88XlkfqACU6TMY5gc2qhRQBy5dksYOhq6aA3ymr4
+         HFvqkszZoQ3DfmfrQoLIvPb8Z77hOSg4rDA7XRsTaIntFAumKLs0T7PTGhjZdHCatqNa
+         dpEA==
+X-Gm-Message-State: AOAM531SpE6A/9GTDWdKKtmQevLHfrWMfBQbwjPLP63wPA7HyVfBbwED
+        8zBmJbycfH9ShMOHm3a7/zyzHi+aB1+z0tnotGc=
+X-Google-Smtp-Source: ABdhPJwD//xv3MXMApixX8ayuv2V0hLURpgssTUGig7LrHLy6w9oveNK0ZVrUSLMjUtZsjaxR0mfr9O6qxu7It2uvY8=
+X-Received: by 2002:a17:902:778e:b029:d2:8046:efe2 with SMTP id
+ o14-20020a170902778eb02900d28046efe2mr1026132pll.44.1601324174119; Mon, 28
+ Sep 2020 13:16:14 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200923232923.3142503-1-keescook@chromium.org>
+ <43039bb6-9d9f-b347-fa92-ea34ccc21d3d@rasmusvillemoes.dk> <CABqSeAQKksqM1SdsQMoR52AJ5CY0VE2tk8-TJaMuOrkCprQ0MQ@mail.gmail.com>
+ <27b4ef86-fee5-fc35-993b-3352ce504c73@rasmusvillemoes.dk> <CABqSeATHtvA7qm7j_kxBsbxRCd5B=MHtxGdsYsXEJ-TRRYKTgA@mail.gmail.com>
+ <CABqSeASMObs7HtwfM=ua9Tbx1mfHZaxCMWD6AP6-6hR4-Xcn=Q@mail.gmail.com> <202009281259.D7D18AE95@keescook>
+In-Reply-To: <202009281259.D7D18AE95@keescook>
+From:   YiFei Zhu <zhuyifei1999@gmail.com>
+Date:   Mon, 28 Sep 2020 15:16:02 -0500
+Message-ID: <CABqSeAT4Qaq6BrYYc2S974b8ejKB4j4R+y3tMk_P7wTPxYNgGg@mail.gmail.com>
+Subject: Re: [PATCH v1 0/6] seccomp: Implement constant action bitmaps
+To:     Kees Cook <keescook@chromium.org>
 Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         YiFei Zhu <yifeifz2@illinois.edu>,
         Andrea Arcangeli <aarcange@redhat.com>,
@@ -64,74 +72,18 @@ Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         Josep Torrellas <torrella@illinois.edu>,
         Tianyin Xu <tyxu@illinois.edu>,
         kernel list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v1 0/6] seccomp: Implement constant action bitmaps
-Message-ID: <202009281259.D7D18AE95@keescook>
-References: <20200923232923.3142503-1-keescook@chromium.org>
- <43039bb6-9d9f-b347-fa92-ea34ccc21d3d@rasmusvillemoes.dk>
- <CABqSeAQKksqM1SdsQMoR52AJ5CY0VE2tk8-TJaMuOrkCprQ0MQ@mail.gmail.com>
- <27b4ef86-fee5-fc35-993b-3352ce504c73@rasmusvillemoes.dk>
- <CABqSeATHtvA7qm7j_kxBsbxRCd5B=MHtxGdsYsXEJ-TRRYKTgA@mail.gmail.com>
- <CABqSeASMObs7HtwfM=ua9Tbx1mfHZaxCMWD6AP6-6hR4-Xcn=Q@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CABqSeASMObs7HtwfM=ua9Tbx1mfHZaxCMWD6AP6-6hR4-Xcn=Q@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Sep 26, 2020 at 01:11:50PM -0500, YiFei Zhu wrote:
-> On Fri, Sep 25, 2020 at 2:07 AM YiFei Zhu <zhuyifei1999@gmail.com> wrote:
-> > I'll try to profile the latter later on my qemu-kvm, with a recent
-> > libsecomp with binary tree and docker's profile, probably both direct
-> > filter attaches and filter attaches with fork(). I'm guessing if I
-> > have fork() the cost of fork() will overshadow seccomp() though.
-> 
-> I'm surprised. That is not the case as far as I can tell.
-> 
-> I wrote a benchmark [1] that would fork() and in the child attach a
-> seccomp filter, look at the CLOCK_MONOTONIC difference, then add it to
-> a struct timespec shared with the parent. It checks the difference
-> with the timespec before prctl and before fork. CLOCK_MONOTONIC
-> instead of CLOCK_PROCESS_CPUTIME_ID because of fork.
-> 
-> I ran `./seccomp_emu_bench 100000` in my qemu-kvm and here are the results:
-> without emulator:
-> Benchmarking 100000 syscalls...
-> 19799663603 (19.8s)
-> seecomp attach without fork: 197996 ns
-> 33911173847 (33.9s)
-> seecomp attach with fork: 339111 ns
-> 
-> with emulator:
-> Benchmarking 100000 syscalls...
-> 54428289147 (54.4s)
-> seecomp attach without fork: 544282 ns
-> 69494235408 (69.5s)
-> seecomp attach with fork: 694942 ns
-> 
-> fork seems to take around 150us, seccomp attach takes around 200us,
-> and the filter emulation overhead is around 350us. I had no idea that
-> fork was this fast. If I wrote my benchmark badly please criticise.
+On Mon, Sep 28, 2020 at 3:04 PM Kees Cook <keescook@chromium.org> wrote:
+> Regardless, let's take things one step at a time. First, let's do
+> the simplest version of the feature, and then let's look at further
+> optimizations.
+>
+> Can you send a v3 and we can continue from there?
 
-You're calling clock_gettime() inside your loop. That might change the
-numbers. Why not just measure outside the loop, or better yet, use
-"perf" to measure the time in prctl().
+ok, will do later tonight / tomorrow.
 
-> Given that we are doubling the time to fork() + seccomp attach filter,
-> I think yeah running the emulator on the first instance of a syscall,
-> holding a lock, is a much better idea. If I naively divide 350us by
-> the number of syscall + arch pairs emulated the overhead is less than
-> 1 us and that should be okay since it only happens for the first
-> invocation of the particular syscall.
-> 
-> [1] https://gist.github.com/zhuyifei1999/d7bee62bea14187e150fef59db8e30b1
-
-Regardless, let's take things one step at a time. First, let's do
-the simplest version of the feature, and then let's look at further
-optimizations.
-
-Can you send a v3 and we can continue from there?
-
--- 
-Kees Cook
+YiFeiZhu
