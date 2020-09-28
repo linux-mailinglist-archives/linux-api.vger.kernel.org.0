@@ -2,91 +2,128 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E15B27B355
-	for <lists+linux-api@lfdr.de>; Mon, 28 Sep 2020 19:35:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DD1B27B362
+	for <lists+linux-api@lfdr.de>; Mon, 28 Sep 2020 19:37:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726424AbgI1RfY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 28 Sep 2020 13:35:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40644 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726310AbgI1RfX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 28 Sep 2020 13:35:23 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2E26C061755;
-        Mon, 28 Sep 2020 10:35:23 -0700 (PDT)
-Received: from zn.tnic (p200300ec2f072200163fab7f7d674efc.dip0.t-ipconnect.de [IPv6:2003:ec:2f07:2200:163f:ab7f:7d67:4efc])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1726558AbgI1Rh5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 28 Sep 2020 13:37:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47564 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726497AbgI1Rh5 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 28 Sep 2020 13:37:57 -0400
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 9B0441EC02E6;
-        Mon, 28 Sep 2020 19:35:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1601314520;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=WbkRGMcHOzgWAfzMvo2jeQ+oAxhJlxu+eHh38TdzE4E=;
-        b=jR8n4DIGYDB0pG2ql/9oa/0Q4IsPzkQ2N0750m+hiVJDkofk7IkYDHDLrzcZh6/1y5voJM
-        B9v+bNGym/IdAzjPw5jxOXvK1w3biDCCXbQdLBGoxk1Douctth3BsO6ZC93k+SuXBQ9vqb
-        H4blBMdIrfYxSC8D+drDKN80zXuLSfw=
-Date:   Mon, 28 Sep 2020 19:35:13 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc:     linux-mm@kvack.org, linux-acpi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, x86@kernel.org,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        rafael@kernel.org, Ingo Molnar <mingo@redhat.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        linuxarm@huawei.com, Dan Williams <dan.j.williams@intel.com>,
-        Brice Goglin <Brice.Goglin@inria.fr>,
-        Sean V Kelley <sean.v.kelley@linux.intel.com>,
-        linux-api@vger.kernel.org, Hanjun Guo <guohanjun@huawei.com>
-Subject: Re: [PATCH v11 2/6] x86: Support Generic Initiator only proximity
- domains
-Message-ID: <20200928173513.GG1685@zn.tnic>
-References: <20200928125235.446188-1-Jonathan.Cameron@huawei.com>
- <20200928125235.446188-3-Jonathan.Cameron@huawei.com>
+        by mail.kernel.org (Postfix) with ESMTPSA id B5EAF21548
+        for <linux-api@vger.kernel.org>; Mon, 28 Sep 2020 17:37:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601314677;
+        bh=NigSMLyumIm9ggwTyG5LDnbruxmBhHyjdEZJ9Az6pxk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=BWf0gF/1Q2N2DRi0WitlGM15dK3OoCFj7ovB6s6ZXn5zi2NKs3faVDgZTWbQcnGc0
+         cGifc3fJghySiXTrJ7GmiKOHhCYNGczgcFgzS1ey7Yzx4wfjeZSNbAhghZBhCql8PV
+         XM6gRGQYTk2QBxa7BidHfDlS6u3mAqGTqwZNQJ1I=
+Received: by mail-wm1-f47.google.com with SMTP id y15so2010493wmi.0
+        for <linux-api@vger.kernel.org>; Mon, 28 Sep 2020 10:37:56 -0700 (PDT)
+X-Gm-Message-State: AOAM530Y20WlLXT64I3lGNF3uzuhSG5oa5bKyeRg5TS05VPS1AY0s/nJ
+        Fewij5SoYC1LKfQ4hr/laRgsoSmR1iddvN953U36gA==
+X-Google-Smtp-Source: ABdhPJz8+wjcR1Xd7cJT/xzMQ5Y823qmYExTDDQnf50+Oxufxdq2wRFjnFMC9Lbm2uLY6O2u6ua5c+9MahX9wVjYQZA=
+X-Received: by 2002:a1c:740c:: with SMTP id p12mr291853wmc.176.1601314675297;
+ Mon, 28 Sep 2020 10:37:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200928125235.446188-3-Jonathan.Cameron@huawei.com>
+References: <d0e4077e-129f-6823-dcea-a101ef626e8c@intel.com>
+ <99B32E59-CFF2-4756-89BD-AEA0021F355F@amacapital.net> <d9099183dadde8fe675e1b10e589d13b0d46831f.camel@intel.com>
+In-Reply-To: <d9099183dadde8fe675e1b10e589d13b0d46831f.camel@intel.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Mon, 28 Sep 2020 10:37:42 -0700
+X-Gmail-Original-Message-ID: <CALCETrWuhPE3A7eWC=ERJa7i7jLtsXnfu04PKUFJ-Gybro+p=Q@mail.gmail.com>
+Message-ID: <CALCETrWuhPE3A7eWC=ERJa7i7jLtsXnfu04PKUFJ-Gybro+p=Q@mail.gmail.com>
+Subject: Re: [PATCH v13 8/8] x86/vsyscall/64: Fixup Shadow Stack and Indirect
+ Branch Tracking for vsyscall emulation
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     Andy Lutomirski <luto@kernel.org>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Sep 28, 2020 at 08:52:31PM +0800, Jonathan Cameron wrote:
-> In common with memoryless domains we only register GI domains
-				   ^^^^
+On Mon, Sep 28, 2020 at 9:59 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+>
+> On Fri, 2020-09-25 at 09:51 -0700, Andy Lutomirski wrote:
+> > > On Sep 25, 2020, at 9:48 AM, Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
+> +
+> +               cet = get_xsave_addr(&fpu->state.xsave, XFEATURE_CET_USER);
+> +               if (!cet) {
+> +                       /*
+> +                        * This is an unlikely case where the task is
+> +                        * CET-enabled, but CET xstate is in INIT.
+> +                        */
+> +                       WARN_ONCE(1, "CET is enabled, but no xstates");
 
-> if the proximity node is not online. If a domain is already
-> a memory containing domain, or a memoryless domain there is
-> nothing to do just because it also contains a Generic Initiator.
+"unlikely" doesn't really cover this.
 
-...
+> +                       fpregs_unlock();
+> +                       goto sigsegv;
+> +               }
+> +
+> +               if (cet->user_ssp && ((cet->user_ssp + 8) < TASK_SIZE_MAX))
+> +                       cet->user_ssp += 8;
 
-> +/*
-> + * A node may exist which has one or more Generic Initiators but no CPUs and no
-> + * memory.
-> + *
-> + * This function must be called after init_cpu_to_node() to ensure that we have
-									  ^^^
+This looks buggy.  The condition should be "if SHSTK is on, then add 8
+to user_ssp".  If the result is noncanonical, then some appropriate
+exception should be generated, probably by the FPU restore code -- see
+below.  You should be checking the SHSTK_EN bit, not SSP.
 
-You love that "we". :)
+Also, can you point me to where any of these canonicality rules are
+documented in the SDM?  I looked and I can't find them.
 
-Pls use passive voice in your commit message: no "we" or "I", etc, and
-describe your changes in imperative mood.
 
-Also, pls read section "2) Describe your changes" in
-Documentation/process/submitting-patches.rst for more details.
+This reminds me: this code in extable.c needs to change.
 
-Bottom line is: personal pronouns are ambiguous in text, especially with
-so many parties/companies/etc developing the kernel so let's avoid them
-please.
+__visible bool ex_handler_fprestore(const struct exception_table_entry *fixup,
+                                    struct pt_regs *regs, int trapnr,
+                                    unsigned long error_code,
+                                    unsigned long fault_addr)
+{
+        regs->ip = ex_fixup_addr(fixup);
 
-Thx.
+        WARN_ONCE(1, "Bad FPU state detected at %pB, reinitializing
+FPU registers.",
+                  (void *)instruction_pointer(regs));
 
--- 
-Regards/Gruss,
-    Boris.
+        __copy_kernel_to_fpregs(&init_fpstate, -1);
 
-https://people.kernel.org/tglx/notes-about-netiquette
+Now that we have supervisor states like CET, this is buggy.  This
+should do something intelligent like initializing all the *user* state
+and trying again.  If that succeeds, a signal should be sent rather
+than just corrupting the task.  And if it fails, then perhaps some
+actual intelligence is needed.  We certainly should not just disable
+CET because something is wrong with the CET MSRs.
