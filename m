@@ -2,97 +2,136 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 99FA327B541
-	for <lists+linux-api@lfdr.de>; Mon, 28 Sep 2020 21:27:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83C5427B5E3
+	for <lists+linux-api@lfdr.de>; Mon, 28 Sep 2020 22:04:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726328AbgI1T1I (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 28 Sep 2020 15:27:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57836 "EHLO
+        id S1726389AbgI1UEx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 28 Sep 2020 16:04:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726325AbgI1T1I (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 28 Sep 2020 15:27:08 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06C8CC061755;
-        Mon, 28 Sep 2020 12:27:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=wvOiw2+3bAcRKK9sP6ssyc0QGj9+IdGfx8mVk/nIt+w=; b=Q7y/5cgmDerOTHDRh4oEv9UU//
-        E8wq/Q4/XuX538oWiXR/DXe1vpuxeaHGJWP92muVimbmfWaY6oD2LNjf3yoO75rNdPl5yBSSNkfYZ
-        TUZPmCaq4h0Ebgh07+l4ArZqy90lM0dqpBBRLlMnGiDTXmeIDM1+jkym7vjuyPt2PgawtGYGDKyuw
-        4UUe9JNcuR9bu2zJzh0M4xavAaxNGie+ArR2nI/cTTJ4En/LfdmAPTh8sQP+SaWO6cNlkhjsNIB9f
-        6d3WM3KYyg2Lww+7H/il1O4Btu3qPdBHDPkdJbQJL6FhPWhz1ETtlB2PnQ1/DYFzen7meTCvND6PL
-        XZnsT74A==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kMynZ-000560-K9; Mon, 28 Sep 2020 19:26:58 +0000
-Subject: Re: [PATCH v11 6/6] docs: mm: numaperf.rst Add brief description for
- access class 1.
-To:     Jonathan Cameron <Jonathan.Cameron@huawei.com>, linux-mm@kvack.org,
-        linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        x86@kernel.org, Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        rafael@kernel.org, Ingo Molnar <mingo@redhat.com>
-Cc:     Bjorn Helgaas <bhelgaas@google.com>, linux-kernel@vger.kernel.org,
-        Thomas Gleixner <tglx@linutronix.de>, linuxarm@huawei.com,
-        Dan Williams <dan.j.williams@intel.com>,
-        Brice Goglin <Brice.Goglin@inria.fr>,
-        Sean V Kelley <sean.v.kelley@linux.intel.com>,
-        linux-api@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
-        Hanjun Guo <guohanjun@huawei.com>
-References: <20200928125235.446188-1-Jonathan.Cameron@huawei.com>
- <20200928125235.446188-7-Jonathan.Cameron@huawei.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <15e6f95b-adac-97e5-5ea9-4dd28ecf560d@infradead.org>
-Date:   Mon, 28 Sep 2020 12:26:50 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        with ESMTP id S1726228AbgI1UEx (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 28 Sep 2020 16:04:53 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E32EBC061755
+        for <linux-api@vger.kernel.org>; Mon, 28 Sep 2020 13:04:52 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id m34so1826812pgl.9
+        for <linux-api@vger.kernel.org>; Mon, 28 Sep 2020 13:04:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=DrORwxFSTGYgq7rDpyN+PgrRRMbvRryObis6SlzlegQ=;
+        b=E4DiKgHZ8+3lgXItSKuRg/Zp0KCE480TlXTghysXO3BoLDWSNo77w7adL5ZNKFzaJt
+         JrIB8dlPqKMbNAPQuhOffpeY5lxUoDQaCkYU7Gb2rde/d/IV3kPzLjUCB6bh4IovYwuN
+         dW8ea1YKN4Z7HbEGJI1W39qM7Swg4rgPmsp04=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=DrORwxFSTGYgq7rDpyN+PgrRRMbvRryObis6SlzlegQ=;
+        b=KtlSW2qLM4FSXVlRLbqRIRmhPGXBPjDw/m1NnXaTvkEQ7grp0pNzF2kdDMHCJUbfqt
+         k0AA3kvi+6ubay12GDlH7qwMlPtC1K6LZW9OqPmaaqgbrfH9Gm57C1aEoWSR5hCqxvWE
+         Indpy2JpudlKb5MAgDo4Pvj8s43ECOqnG5mikEbsogyeQ3cBziqQ7LXlDuGzJNscDRAe
+         6eWH95WC6J8Ja6LnH/HvhntytrUPPuJxs6r20z+dfUtxXV01k8BYzYeROe6IOL6IET5Q
+         yJXipTu6iTWUR7lOQ75VWWJY1E1Ndd7kWTREOSDjp37EVH5VPVRIka8IVskef5r8Hi9r
+         q9gA==
+X-Gm-Message-State: AOAM532LIuopMj4edM0xVEVOLTZO0GOGFyNV1xQILOjEpvjyt3uu/8+J
+        bYKKc0VzrnV4egIxSe3gyMNfIQ==
+X-Google-Smtp-Source: ABdhPJxeNwqKkdDur1frnecEaZEFzGE9kbnLnamH2R59vj03CRfItMAxTnbIVtTMyXXwLb+Jai9NWg==
+X-Received: by 2002:aa7:99c2:0:b029:142:440b:fa28 with SMTP id v2-20020aa799c20000b0290142440bfa28mr961093pfi.30.1601323492379;
+        Mon, 28 Sep 2020 13:04:52 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id w203sm2928796pff.0.2020.09.28.13.04.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Sep 2020 13:04:51 -0700 (PDT)
+Date:   Mon, 28 Sep 2020 13:04:50 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     YiFei Zhu <zhuyifei1999@gmail.com>
+Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        YiFei Zhu <yifeifz2@illinois.edu>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Giuseppe Scrivano <gscrivan@redhat.com>,
+        Will Drewry <wad@chromium.org>, bpf <bpf@vger.kernel.org>,
+        Jann Horn <jannh@google.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        Tobin Feldman-Fitzthum <tobin@ibm.com>,
+        Hubertus Franke <frankeh@us.ibm.com>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Valentin Rothberg <vrothber@redhat.com>,
+        Dimitrios Skarlatos <dskarlat@cs.cmu.edu>,
+        Jack Chen <jianyan2@illinois.edu>,
+        Josep Torrellas <torrella@illinois.edu>,
+        Tianyin Xu <tyxu@illinois.edu>,
+        kernel list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v1 0/6] seccomp: Implement constant action bitmaps
+Message-ID: <202009281259.D7D18AE95@keescook>
+References: <20200923232923.3142503-1-keescook@chromium.org>
+ <43039bb6-9d9f-b347-fa92-ea34ccc21d3d@rasmusvillemoes.dk>
+ <CABqSeAQKksqM1SdsQMoR52AJ5CY0VE2tk8-TJaMuOrkCprQ0MQ@mail.gmail.com>
+ <27b4ef86-fee5-fc35-993b-3352ce504c73@rasmusvillemoes.dk>
+ <CABqSeATHtvA7qm7j_kxBsbxRCd5B=MHtxGdsYsXEJ-TRRYKTgA@mail.gmail.com>
+ <CABqSeASMObs7HtwfM=ua9Tbx1mfHZaxCMWD6AP6-6hR4-Xcn=Q@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200928125235.446188-7-Jonathan.Cameron@huawei.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CABqSeASMObs7HtwfM=ua9Tbx1mfHZaxCMWD6AP6-6hR4-Xcn=Q@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi--
-
-On 9/28/20 5:52 AM, Jonathan Cameron wrote:
-> Try to make minimal changes to the document which already describes
-> access class 0 in a generic fashion (including IO initiatiors that
-> are not CPUs).
+On Sat, Sep 26, 2020 at 01:11:50PM -0500, YiFei Zhu wrote:
+> On Fri, Sep 25, 2020 at 2:07 AM YiFei Zhu <zhuyifei1999@gmail.com> wrote:
+> > I'll try to profile the latter later on my qemu-kvm, with a recent
+> > libsecomp with binary tree and docker's profile, probably both direct
+> > filter attaches and filter attaches with fork(). I'm guessing if I
+> > have fork() the cost of fork() will overshadow seccomp() though.
 > 
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> ---
->  v11: No change.
+> I'm surprised. That is not the case as far as I can tell.
 > 
->  Documentation/admin-guide/mm/numaperf.rst | 8 ++++++++
->  1 file changed, 8 insertions(+)
+> I wrote a benchmark [1] that would fork() and in the child attach a
+> seccomp filter, look at the CLOCK_MONOTONIC difference, then add it to
+> a struct timespec shared with the parent. It checks the difference
+> with the timespec before prctl and before fork. CLOCK_MONOTONIC
+> instead of CLOCK_PROCESS_CPUTIME_ID because of fork.
 > 
-> diff --git a/Documentation/admin-guide/mm/numaperf.rst b/Documentation/admin-guide/mm/numaperf.rst
-> index 4d69ef1de830..b89bb85eac75 100644
-> --- a/Documentation/admin-guide/mm/numaperf.rst
-> +++ b/Documentation/admin-guide/mm/numaperf.rst
-
-> @@ -88,6 +93,9 @@ The latency attributes are provided in nanoseconds.
->  The values reported here correspond to the rated latency and bandwidth
->  for the platform.
->  
-> +Access class 1, takes the same form, but only includes values for CPU to
-> +memory activity.
-
--ETOOMANYCOMMAS.
-
-Drop the first comma for sure. Maybe even the second one.
-
-> +
->  ==========
->  NUMA Cache
->  ==========
+> I ran `./seccomp_emu_bench 100000` in my qemu-kvm and here are the results:
+> without emulator:
+> Benchmarking 100000 syscalls...
+> 19799663603 (19.8s)
+> seecomp attach without fork: 197996 ns
+> 33911173847 (33.9s)
+> seecomp attach with fork: 339111 ns
 > 
+> with emulator:
+> Benchmarking 100000 syscalls...
+> 54428289147 (54.4s)
+> seecomp attach without fork: 544282 ns
+> 69494235408 (69.5s)
+> seecomp attach with fork: 694942 ns
+> 
+> fork seems to take around 150us, seccomp attach takes around 200us,
+> and the filter emulation overhead is around 350us. I had no idea that
+> fork was this fast. If I wrote my benchmark badly please criticise.
 
-thanks.
+You're calling clock_gettime() inside your loop. That might change the
+numbers. Why not just measure outside the loop, or better yet, use
+"perf" to measure the time in prctl().
+
+> Given that we are doubling the time to fork() + seccomp attach filter,
+> I think yeah running the emulator on the first instance of a syscall,
+> holding a lock, is a much better idea. If I naively divide 350us by
+> the number of syscall + arch pairs emulated the overhead is less than
+> 1 us and that should be okay since it only happens for the first
+> invocation of the particular syscall.
+> 
+> [1] https://gist.github.com/zhuyifei1999/d7bee62bea14187e150fef59db8e30b1
+
+Regardless, let's take things one step at a time. First, let's do
+the simplest version of the feature, and then let's look at further
+optimizations.
+
+Can you send a v3 and we can continue from there?
+
 -- 
-~Randy
-
+Kees Cook
