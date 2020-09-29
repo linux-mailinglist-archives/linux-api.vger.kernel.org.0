@@ -2,142 +2,133 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 75EED27CBE0
-	for <lists+linux-api@lfdr.de>; Tue, 29 Sep 2020 14:31:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CE5827CE61
+	for <lists+linux-api@lfdr.de>; Tue, 29 Sep 2020 15:05:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729294AbgI2Mar (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 29 Sep 2020 08:30:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45957 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729241AbgI2L3L (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 29 Sep 2020 07:29:11 -0400
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1601378902;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=qGARCpvA09aUjSBBoDGMfF3ZU07Wv/ZTQCcyI1kBack=;
-        b=CZ4ysgpAOnYB7JlK2AuOHZPbOUS52Z2g9o2SjJWTzg8+k5wTvUEGcsBuTcmuVHWRdZEcyM
-        SVWbAz4WJ9igitdo1eFF1AjJLc/xMMvqHPYEgFfxHq9EdcQSia4XDwOp0kgvFdwTQaDyZS
-        yltZCTFrl2vH/uVEagT1nGwfc7QViZU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-195-q2JR0HniPwOJr1qIWbxPXQ-1; Tue, 29 Sep 2020 07:26:14 -0400
-X-MC-Unique: q2JR0HniPwOJr1qIWbxPXQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1728707AbgI2NFr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 29 Sep 2020 09:05:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46754 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728674AbgI2NFr (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 29 Sep 2020 09:05:47 -0400
+Received: from kernel.org (unknown [87.71.73.56])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D1B3425D8;
-        Tue, 29 Sep 2020 11:26:12 +0000 (UTC)
-Received: from [10.36.113.210] (ovpn-113-210.ams2.redhat.com [10.36.113.210])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 885B155796;
-        Tue, 29 Sep 2020 11:26:05 +0000 (UTC)
-Subject: Re: [PATCH v12 6/6] iommu/vt-d: Check UAPI data processed by IOMMU
- core
-To:     Jacob Pan <jacob.pan.linux@gmail.com>,
-        iommu@lists.linux-foundation.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-api@vger.kernel.org,
-        Jean-Philippe Brucker <jean-philippe@linaro.com>,
-        Jacob Pan <jacob.jun.pan@linux.intel.com>,
-        Yi Liu <yi.l.liu@intel.com>,
-        "Tian, Kevin" <kevin.tian@intel.com>,
-        Raj Ashok <ashok.raj@intel.com>, Wu Hao <hao.wu@intel.com>,
-        Yi Sun <yi.y.sun@intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-References: <1601051567-54787-1-git-send-email-jacob.jun.pan@linux.intel.com>
- <1601051567-54787-7-git-send-email-jacob.jun.pan@linux.intel.com>
-From:   Auger Eric <eric.auger@redhat.com>
-Message-ID: <814e10c3-4957-2ce6-0490-7af0daa327e4@redhat.com>
-Date:   Tue, 29 Sep 2020 13:26:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        by mail.kernel.org (Postfix) with ESMTPSA id 4CD4820848;
+        Tue, 29 Sep 2020 13:05:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601384746;
+        bh=w8jEjdPVhwgAP8ieOGmZq7rvrkzmFW13pl6Bcj/9DDg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=YfoO9Oo/YwKl80W7Ps/3xh0cfYEHin8QOUrn/iFqhLYw+b2DAWHKu9Y+mnqgIAACA
+         uQkYtRdB+liRGsxjQlUpAtvTPmGTHbQnf35XbZMDwXCeXkiEteBW7/GT/3ZbUZnHCL
+         kuQnBbyQK81Mz6jqRSLbGj/2AcjW0JSpMYmSqJQw=
+Date:   Tue, 29 Sep 2020 16:05:29 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christopher Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Idan Yaniv <idan.yaniv@ibm.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Shuah Khan <shuah@kernel.org>, Tycho Andersen <tycho@tycho.ws>,
+        Will Deacon <will@kernel.org>, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
+        x86@kernel.org
+Subject: Re: [PATCH v6 5/6] mm: secretmem: use PMD-size pages to amortize
+ direct map fragmentation
+Message-ID: <20200929130529.GE2142832@kernel.org>
+References: <20200924132904.1391-1-rppt@kernel.org>
+ <20200924132904.1391-6-rppt@kernel.org>
+ <20200925074125.GQ2628@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
-In-Reply-To: <1601051567-54787-7-git-send-email-jacob.jun.pan@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200925074125.GQ2628@hirez.programming.kicks-ass.net>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Jacob,
-
-On 9/25/20 6:32 PM, Jacob Pan wrote:
-> IOMMU generic layer already does sanity checks on UAPI data for version
-> match and argsz range based on generic information.
+On Fri, Sep 25, 2020 at 09:41:25AM +0200, Peter Zijlstra wrote:
+> On Thu, Sep 24, 2020 at 04:29:03PM +0300, Mike Rapoport wrote:
+> > From: Mike Rapoport <rppt@linux.ibm.com>
+> > 
+> > Removing a PAGE_SIZE page from the direct map every time such page is
+> > allocated for a secret memory mapping will cause severe fragmentation of
+> > the direct map. This fragmentation can be reduced by using PMD-size pages
+> > as a pool for small pages for secret memory mappings.
+> > 
+> > Add a gen_pool per secretmem inode and lazily populate this pool with
+> > PMD-size pages.
 > 
-> This patch adjusts the following data checking responsibilities:
-> - removes the redundant version check from VT-d driver
-> - removes the check for vendor specific data size
-> - adds check for the use of reserved/undefined flags
+> What's the actual efficacy of this? Since the pmd is per inode, all I
+> need is a lot of inodes and we're in business to destroy the directmap,
+> no?
 > 
-> Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
+> Afaict there's no privs needed to use this, all a process needs is to
+> stay below the mlock limit, so a 'fork-bomb' that maps a single secret
+> page will utterly destroy the direct map.
 
-Thanks
+This indeed will cause 1G pages in the direct map to be split into 2M
+chunks, but I disagree with 'destroy' term here. Citing the cover letter
+of an earlier version of this series:
 
-Eric
-> ---
->  drivers/iommu/intel/iommu.c |  3 +--
->  drivers/iommu/intel/svm.c   | 11 +++++++++--
->  include/uapi/linux/iommu.h  |  1 +
->  3 files changed, 11 insertions(+), 4 deletions(-)
+  I've tried to find some numbers that show the benefit of using larger
+  pages in the direct map, but I couldn't find anything so I've run a
+  couple of benchmarks from phoronix-test-suite on my laptop (i7-8650U
+  with 32G RAM).
+  
+  I've tested three variants: the default with 28G of the physical
+  memory covered with 1G pages, then I disabled 1G pages using
+  "nogbpages" in the kernel command line and at last I've forced the
+  entire direct map to use 4K pages using a simple patch to
+  arch/x86/mm/init.c.  I've made runs of the benchmarks with SSD and
+  tmpfs.
+  
+  Surprisingly, the results does not show huge advantage for large
+  pages. For instance, here the results for kernel build with
+  'make -j8', in seconds:
+  
+                        |  1G    |  2M    |  4K
+  ----------------------+--------+--------+---------
+  ssd, mitigations=on	| 308.75 | 317.37 | 314.9
+  ssd, mitigations=off	| 305.25 | 295.32 | 304.92
+  ram, mitigations=on	| 301.58 | 322.49 | 306.54
+  ram, mitigations=off	| 299.32 | 288.44 | 310.65
+  
+  All the results I have are available here:
+ 
+  https://docs.google.com/spreadsheets/d/1tdD-cu8e93vnfGsTFxZ5YdaEfs2E1GELlvWNOGkJV2U/edit?usp=sharing
+
+The numbers suggest that using smaller pages in the direct map does not
+necessarily leads to performance degradation and some runs produced
+better results with smaller pages in the direct map.
+
+> I really don't like this, at all.
 > 
-> diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-> index 461f3a6864d4..18ed3b3c70d7 100644
-> --- a/drivers/iommu/intel/iommu.c
-> +++ b/drivers/iommu/intel/iommu.c
-> @@ -5408,8 +5408,7 @@ intel_iommu_sva_invalidate(struct iommu_domain *domain, struct device *dev,
->  	int ret = 0;
->  	u64 size = 0;
->  
-> -	if (!inv_info || !dmar_domain ||
-> -	    inv_info->version != IOMMU_CACHE_INVALIDATE_INFO_VERSION_1)
-> +	if (!inv_info || !dmar_domain)
->  		return -EINVAL;
->  
->  	if (!dev || !dev_is_pci(dev))
-> diff --git a/drivers/iommu/intel/svm.c b/drivers/iommu/intel/svm.c
-> index 99353d6468fa..0cb9a15f1112 100644
-> --- a/drivers/iommu/intel/svm.c
-> +++ b/drivers/iommu/intel/svm.c
-> @@ -284,8 +284,15 @@ int intel_svm_bind_gpasid(struct iommu_domain *domain, struct device *dev,
->  	if (WARN_ON(!iommu) || !data)
->  		return -EINVAL;
->  
-> -	if (data->version != IOMMU_GPASID_BIND_VERSION_1 ||
-> -	    data->format != IOMMU_PASID_FORMAT_INTEL_VTD)
-> +	if (data->format != IOMMU_PASID_FORMAT_INTEL_VTD)
-> +		return -EINVAL;
-> +
-> +	/* IOMMU core ensures argsz is more than the start of the union */
-> +	if (data->argsz < offsetofend(struct iommu_gpasid_bind_data, vendor.vtd))
-> +		return -EINVAL;
-> +
-> +	/* Make sure no undefined flags are used in vendor data */
-> +	if (data->vendor.vtd.flags & ~(IOMMU_SVA_VTD_GPASID_LAST - 1))
->  		return -EINVAL;
->  
->  	if (!dev_is_pci(dev))
-> diff --git a/include/uapi/linux/iommu.h b/include/uapi/linux/iommu.h
-> index 66d4ca40b40f..e1d9e75f2c94 100644
-> --- a/include/uapi/linux/iommu.h
-> +++ b/include/uapi/linux/iommu.h
-> @@ -288,6 +288,7 @@ struct iommu_gpasid_bind_data_vtd {
->  #define IOMMU_SVA_VTD_GPASID_PWT	(1 << 3) /* page-level write through */
->  #define IOMMU_SVA_VTD_GPASID_EMTE	(1 << 4) /* extended mem type enable */
->  #define IOMMU_SVA_VTD_GPASID_CD		(1 << 5) /* PASID-level cache disable */
-> +#define IOMMU_SVA_VTD_GPASID_LAST	(1 << 6)
->  	__u64 flags;
->  	__u32 pat;
->  	__u32 emt;
-> 
+> IIRC Kirill looked at merging the directmap. I think he ran into
+> performance issues there, but we really need something like that before
+> something like this lands.
 
+-- 
+Sincerely yours,
+Mike.
