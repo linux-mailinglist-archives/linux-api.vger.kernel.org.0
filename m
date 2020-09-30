@@ -2,52 +2,52 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BA54127E722
-	for <lists+linux-api@lfdr.de>; Wed, 30 Sep 2020 12:51:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B86C27E727
+	for <lists+linux-api@lfdr.de>; Wed, 30 Sep 2020 12:51:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729307AbgI3Kvo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 30 Sep 2020 06:51:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56046 "EHLO
+        id S1729630AbgI3Kvr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 30 Sep 2020 06:51:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729247AbgI3Kvm (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 30 Sep 2020 06:51:42 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC4D2C061755;
-        Wed, 30 Sep 2020 03:51:41 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id a9so1233105wmm.2;
-        Wed, 30 Sep 2020 03:51:41 -0700 (PDT)
+        with ESMTP id S1729620AbgI3Kvq (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 30 Sep 2020 06:51:46 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 607ADC061755;
+        Wed, 30 Sep 2020 03:51:46 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id s13so1186190wmh.4;
+        Wed, 30 Sep 2020 03:51:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=cc:subject:to:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=tqVFGVAAqOr/HituRPYESwmmeBRtShKDZVb7RzcsHgM=;
-        b=PnLizlAZqxd7JLwu0gBMh8sJ8+1BjPvCYISntumb0JpdbklsEjCWT4vH+lF2jfbvWT
-         vP0s9tKY3pWAGIjhK/q3R/pOdG2KbhSGWJmMO8Wp7g2zScgv/VTJQ1IWgMn7pGISny2T
-         xhQm0q0mIxaeoB/4ZJzzO0BGoq7s3e6sZ2bgYrK5/pDZuC5pHVgpIp4aTQyP0Ip38hIA
-         qYflLSwqhEE5d+eCOC0PFcqmRBKUcOBRWxDDzfW1ANHnDoldELMDoF3fYfQaD4p8VHea
-         7tR7BoYItxdnKvvRAmAxR+lCv4ZW4CRktY5uoiCPQ8M4btcdVKR+tLDdkbond+8Ahq7d
-         yA6w==
+        bh=dQxyi9NUn2aVc445EPYlbyra07UxZtysSydx/NMNIvU=;
+        b=FDIiMDNN7g/etKD56qUitXx59Rv5vpZ3ItGDEoEXNmpB3pT8qN7in6OPvs32J7g3oq
+         ACAOVu+DYBR4Ph8Rg5678gEm5tKKwgPPxEr5yUUvXoTVTwE9Ajy82lvDAZCgM7bBOrkf
+         MSAyjzVK84mp6G1xgM3d/Yh0wPnlcPkIeD3YEjAqLf9aV4oWjHZP5/QQJ4HuVNLIi5Eo
+         7A0d3PO17Xegawva3m/KONtT9iSbXjzAa5YKXfrkdja7FztPGFzdMr60aj1pfb7jUS9i
+         B/jQXolKFf5K35dEqS5eRaAKMpMGtzsDt95mNm4ICyxABl+zwBarH8N1VHiatcEJyCoJ
+         XIlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:cc:subject:to:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=tqVFGVAAqOr/HituRPYESwmmeBRtShKDZVb7RzcsHgM=;
-        b=R0vwzH1avMif84IzqAH2tQJBE5vdeFoaxcKGz/uAEGV2UWDxhfsYJ6rWfT7KY0bI1M
-         Ub0R4N51uKbLcRvPU5j1Q4/sprIiIdAyUQQoAHHK2yQbvrtU17xdEjeAitvZfX39xVus
-         KcHvqn0cdzrxrF2QclXoWQBsmMfJ9dsYktNHU90NHip+Te9/8ax28MMeLx6Nk4y25omi
-         MZQD2b2mGoYj9/1vqhuNeP59dQ9wzsc9d0MSEUR4MW4e10G2QZODwtxicub+TP5xCCFc
-         xWYqAcy8ah0g9Ywtb6/JCp7Q50Jc6AX3weFbRcJBsUbd9JXNsuySpYXBLO4Ai4fQYEUH
-         6omA==
-X-Gm-Message-State: AOAM532jhWHbYaV7B9/nhwCWqzXkhxhH0VzrtNhNmVHGx05q02cfYj+w
-        pz+GKFCzDyw4NKEk3YB9kjXEYfPwrWU=
-X-Google-Smtp-Source: ABdhPJxZhQXWEbA6ZBgJdGmmv8YywOCofNMZCNHSeINw/d/qufRVIq54IH8E3V4eZtMEGw6bM2L7qw==
-X-Received: by 2002:a1c:7514:: with SMTP id o20mr2283465wmc.76.1601463100174;
-        Wed, 30 Sep 2020 03:51:40 -0700 (PDT)
+        bh=dQxyi9NUn2aVc445EPYlbyra07UxZtysSydx/NMNIvU=;
+        b=cBwmA5kotKC9bnvWas20Ian3WiL1U1OtqSItYL43a8pCYu3jxtdtDqvKjMceuZxQI7
+         0pX7w3+p4e7BVrxn7g6gik6yVhur7xGMNXZ86rRrrjDYce93kLPlFgDDbv0bSWSWWLEa
+         tcplv3/d+Pb9rUuYvPYOjepclUXuv6h56oTVXGKKtWyZcJ9zg/LO2Ikz+yEWEG1fuLxc
+         iKdos9VccBoSQmcYHedlFtiGvvN65WeWisf4dunq7otXDrT8o2dgwiKs5BrLG88mTqyn
+         72O09gC2MDyS5wEI3+Olb5VSUnBEgPaBhHtyVN3ez7wJRpVMTgSAAwQSzY08cKjezWAi
+         FBdg==
+X-Gm-Message-State: AOAM532pUgmT0qAvCCM/wvp76WgbnJZhDBUL4jMXFLalIzq3a1f7ANBG
+        ecbCvmzzldK0CpYWsxR8pVkO5E6BX3g=
+X-Google-Smtp-Source: ABdhPJy3LmnkdhOtP4774bpFxkagkz3Zv72J2jp661xKpSgb6ctz4ZdwpYDEE+A9rjSvL79eSUHoww==
+X-Received: by 2002:a7b:cb44:: with SMTP id v4mr2335277wmj.101.1601463104832;
+        Wed, 30 Sep 2020 03:51:44 -0700 (PDT)
 Received: from ?IPv6:2001:a61:2479:6801:d8fe:4132:9f23:7e8f? ([2001:a61:2479:6801:d8fe:4132:9f23:7e8f])
-        by smtp.gmail.com with ESMTPSA id c4sm2215754wrp.85.2020.09.30.03.51.38
+        by smtp.gmail.com with ESMTPSA id 76sm2272084wma.42.2020.09.30.03.51.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Sep 2020 03:51:39 -0700 (PDT)
+        Wed, 30 Sep 2020 03:51:44 -0700 (PDT)
 Cc:     mtk.manpages@gmail.com,
         Thadeu Lima de Souza Cascardo <cascardo@canonical.com>,
         Ingo Molnar <mingo@kernel.org>,
@@ -57,18 +57,18 @@ Cc:     mtk.manpages@gmail.com,
         Peter Zijlstra <peterz@infradead.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         linux-man@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH 1/2] sched_getattr.2: update to include changed size
- semantics
+Subject: Re: [PATCH 2/2] openat2.2: fix minor reference typo
 To:     Aleksa Sarai <cyphar@cyphar.com>
 References: <CAKgNAkiMNssJ2kCtGXd9ZUMFrG6uVtECBXMLGf2EZeS5-rkPKA@mail.gmail.com>
  <20200929223509.11783-1-cyphar@cyphar.com>
+ <20200929223509.11783-2-cyphar@cyphar.com>
 From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <2ad3f3e3-5664-7874-bab5-3831ccf9e65b@gmail.com>
-Date:   Wed, 30 Sep 2020 12:51:38 +0200
+Message-ID: <2e779575-9d6e-7b54-e665-2cc607aaba74@gmail.com>
+Date:   Wed, 30 Sep 2020 12:51:42 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200929223509.11783-1-cyphar@cyphar.com>
+In-Reply-To: <20200929223509.11783-2-cyphar@cyphar.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -77,13 +77,7 @@ List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 On 9/30/20 12:35 AM, Aleksa Sarai wrote:
-> Due to a userspace breakage, commit 1251201c0d34 ("sched/core: Fix
-> uclamp ABI bug, clean up and robustify sched_read_attr() ABI logic and
-> code") changed the semantics of sched_getattr(2) when the userspace
-> struct is smaller than the kernel struct. Now, any trailing non-zero
-> data in the kernel structure is ignored when copying to userspace. We
-> also document the original error code correctly (it was EFBIG not
-> E2BIG) in the BUGS section.
+> Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
 
 Thanks, Aleksa. Patch applied.
 
@@ -91,48 +85,23 @@ Cheers,
 
 Michael
 
-
-> Ref: 1251201c0d34 ("sched/core: Fix uclamp ABI bug, clean up and
->                     robustify sched_read_attr() ABI logic and code")
-> Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
 > ---
->  man2/sched_setattr.2 | 16 ++++++++++++----
->  1 file changed, 12 insertions(+), 4 deletions(-)
+>  man2/openat2.2 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/man2/sched_setattr.2 b/man2/sched_setattr.2
-> index 2592a761a086..da0972a6a86d 100644
-> --- a/man2/sched_setattr.2
-> +++ b/man2/sched_setattr.2
-> @@ -286,10 +286,8 @@ structure,
->  the additional bytes in the user-space structure are not touched.
->  If the caller-provided structure is smaller than the kernel
->  .I sched_attr
-> -structure and the kernel needs to return values outside the provided space,
-> -.BR sched_getattr ()
-> -fails with the error
-> -.BR E2BIG .
-> +structure, the kernel will silently not return any values which would be stored
-> +outside the provided space.
->  As with
->  .BR sched_setattr (),
->  these semantics allow for future extensibility of the interface.
-> @@ -416,6 +414,16 @@ failed with the error
->  instead of
->  .BR E2BIG
->  for the case described in ERRORS.
-> +.PP
-> +In Linux versions up to 5.3,
-> +.BR sched_getattr ()
-> +failed with the error
-> +.BR EFBIG
-> +if the in-kernel
-> +.IR sched_attr
-> +structure was larger than the
-> +.IR size
-> +passed by user space.
->  .\" In Linux versions up to up 3.15,
->  .\" FIXME . patch from Peter Zijlstra pending
->  .\" .BR sched_setattr ()
+> diff --git a/man2/openat2.2 b/man2/openat2.2
+> index 29b716d97ac4..53056ee6d292 100644
+> --- a/man2/openat2.2
+> +++ b/man2/openat2.2
+> @@ -493,7 +493,7 @@ acting as an implicit version number.
+>  (Because new extension fields will always
+>  be appended, the structure size will always increase.)
+>  This extensibility design is very similar to other system calls such as
+> -.BR perf_setattr (2),
+> +.BR sched_setattr (2),
+>  .BR perf_event_open (2),
+>  and
+>  .BR clone3 (2).
 > 
 
 
