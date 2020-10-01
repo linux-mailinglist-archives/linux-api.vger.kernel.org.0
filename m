@@ -2,82 +2,96 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5833D28086E
-	for <lists+linux-api@lfdr.de>; Thu,  1 Oct 2020 22:26:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79F98280869
+	for <lists+linux-api@lfdr.de>; Thu,  1 Oct 2020 22:24:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729412AbgJAU00 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 1 Oct 2020 16:26:26 -0400
-Received: from brightrain.aerifal.cx ([216.12.86.13]:59104 "EHLO
-        brightrain.aerifal.cx" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726671AbgJAU0V (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 1 Oct 2020 16:26:21 -0400
-Date:   Thu, 1 Oct 2020 16:11:08 -0400
-From:   Rich Felker <dalias@aerifal.cx>
-To:     Petr Vorel <petr.vorel@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, musl@lists.openwall.com,
-        linux-api@vger.kernel.org, libc-alpha@sourceware.org,
-        Peter Korsgaard <peter@korsgaard.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Baruch Siach <baruch@tkos.co.il>,
-        "David S . Miller" <davem@davemloft.net>,
-        Michal Kubecek <mkubecek@suse.cz>,
-        Stephen Hemminger <stephen@networkplumber.org>
-Subject: Re: [musl] [PATCH 1/1] uapi: Don't include <linux/sysinfo.h> in
- <linux/kernel.h>
-Message-ID: <20201001201108.GR17637@brightrain.aerifal.cx>
-References: <20201001195231.17226-1-petr.vorel@gmail.com>
+        id S1729412AbgJAUYA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 1 Oct 2020 16:24:00 -0400
+Received: from smtp-bc0e.mail.infomaniak.ch ([45.157.188.14]:50839 "EHLO
+        smtp-bc0e.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726606AbgJAUYA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 1 Oct 2020 16:24:00 -0400
+Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4C2PjB3MxpzlhX62;
+        Thu,  1 Oct 2020 22:23:58 +0200 (CEST)
+Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
+        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4C2Pj72KZtzllmgR;
+        Thu,  1 Oct 2020 22:23:55 +0200 (CEST)
+Subject: Re: [PATCH v11 2/3] arch: Wire up trusted_for(2)
+To:     Tycho Andersen <tycho@tycho.pizza>, Arnd Bergmann <arnd@arndb.de>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        James Morris <jmorris@namei.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Christian Heimes <christian@python.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Deven Bowers <deven.desai@linux.microsoft.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Eric Chiang <ericchiang@google.com>,
+        Florian Weimer <fweimer@redhat.com>, Jan Kara <jack@suse.cz>,
+        Jann Horn <jannh@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
+        "Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>,
+        Matthew Garrett <mjg59@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        =?UTF-8?Q?Philippe_Tr=c3=a9buchet?= 
+        <philippe.trebuchet@ssi.gouv.fr>,
+        Scott Shell <scottsh@microsoft.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Steve Dower <steve.dower@python.org>,
+        Steve Grubb <sgrubb@redhat.com>,
+        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+        Thibaut Sautereau <thibaut.sautereau@clip-os.org>,
+        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>,
+        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>
+References: <20201001170232.522331-1-mic@digikod.net>
+ <20201001170232.522331-3-mic@digikod.net> <20201001193306.GE1260245@cisco>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <7ccdf4b0-8158-fb82-fb4f-ad78518dbc30@digikod.net>
+Date:   Thu, 1 Oct 2020 22:23:54 +0200
+User-Agent: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <20201001193306.GE1260245@cisco>
+Content-Type: text/plain; charset=iso-8859-15
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201001195231.17226-1-petr.vorel@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Oct 01, 2020 at 09:52:31PM +0200, Petr Vorel wrote:
-> + update code where needed (include <linux/sysinfo.h> in code which
-> included <linux/kernel.h> only to get struct sysinfo or SI_LOAD_SHIFT).
-> 
-> The reason is to avoid indirect <linux/sysinfo.h> include when using
-> some network headers: <linux/netlink.h> or others [1] ->
-> <linux/kernel.h> -> <linux/sysinfo.h>.
-> 
-> This indirect include causes redefinition of struct sysinfo when
-> included both <sys/sysinfo.h> and some of network headers:
-> 
-> In file included from x86_64-buildroot-linux-musl/sysroot/usr/include/linux/kernel.h:5,
->                  from x86_64-buildroot-linux-musl/sysroot/usr/include/linux/netlink.h:5,
->                  from ../include/tst_netlink.h:14,
->                  from tst_crypto.c:13:
-> x86_64-buildroot-linux-musl/sysroot/usr/include/linux/sysinfo.h:8:8: error: redefinition of â€˜struct sysinfoâ€™
->  struct sysinfo {
->         ^~~~~~~
-> In file included from ../include/tst_safe_macros.h:15,
->                  from ../include/tst_test.h:93,
->                  from tst_crypto.c:11:
-> x86_64-buildroot-linux-musl/sysroot/usr/include/sys/sysinfo.h:10:8: note: originally defined here
-> 
-> [1] or <linux/sysctl.h>, <linux/ethtool.h>, <linux/mroute6.h>, <linux/ethtool.h>
-> 
-> Suggested-by: Rich Felker <dalias@aerifal.cx>
-> Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
-> ---
-> Hi,
-> 
-> this looks to be long standing problem: python-psutil [2], iproute2 [3],
-> even for glibc in the past [4] and it tried to be solved before [5].
-> 
-> This will require glibc fix after:
 
-You can't do this; it breaks the existing contract with glibc. New
-kernel headers can't force a glibc upgrade. You just have to get rid
-of use of <linux/kernel.h> elsewhere in the uapi headers. It was a
-mistake that <linux/sysinfo.h> was ever separated out of
-<linux/kernel.h> since it didn't (and couldn't) fix the contract that
-<linux/kernel.h> exposes struct sysinfo (and that it's misnamed). But
-it's no big deal. This can all be fixed without any breakage anywhere
-just by not using it.
+On 01/10/2020 21:33, Tycho Andersen wrote:
+> On Thu, Oct 01, 2020 at 07:02:31PM +0200, Mickaël Salaün wrote:
+>> --- a/include/uapi/asm-generic/unistd.h
+>> +++ b/include/uapi/asm-generic/unistd.h
+>> @@ -859,9 +859,11 @@ __SYSCALL(__NR_openat2, sys_openat2)
+>>  __SYSCALL(__NR_pidfd_getfd, sys_pidfd_getfd)
+>>  #define __NR_faccessat2 439
+>>  __SYSCALL(__NR_faccessat2, sys_faccessat2)
+>> +#define __NR_trusted_for 443
+>> +__SYSCALL(__NR_trusted_for, sys_trusted_for)
+>>  
+>>  #undef __NR_syscalls
+>> -#define __NR_syscalls 440
+>> +#define __NR_syscalls 444
+> 
+> Looks like a rebase problem here?
 
-Rich
+No, it is a synchronization with the -next tree (cf. changelog) as asked
+(and acked for a previous version) by Arnd.
