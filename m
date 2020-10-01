@@ -2,131 +2,235 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 77699280872
-	for <lists+linux-api@lfdr.de>; Thu,  1 Oct 2020 22:27:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C62828095A
+	for <lists+linux-api@lfdr.de>; Thu,  1 Oct 2020 23:20:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732274AbgJAU1I (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 1 Oct 2020 16:27:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56660 "EHLO
+        id S1726626AbgJAVUC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 1 Oct 2020 17:20:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726855AbgJAU1H (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 1 Oct 2020 16:27:07 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99979C0613D0;
-        Thu,  1 Oct 2020 13:27:07 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id k18so4485606wmj.5;
-        Thu, 01 Oct 2020 13:27:07 -0700 (PDT)
+        with ESMTP id S1726581AbgJAVUB (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 1 Oct 2020 17:20:01 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74283C0613D0;
+        Thu,  1 Oct 2020 14:20:01 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id g4so287743wrs.5;
+        Thu, 01 Oct 2020 14:20:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=EyAWOpM2Pk1ZBrqrrdSu1rvJL+knSPmewqYJM3X+YZM=;
-        b=F/S72vRwMmvTJ8PZszfC8/s9iZSqKMIp6JFsHp/36W7P7WL0kTOBZl0wLTfDfoL/wi
-         8WD7usifl3QPwN4x5b/SV0VnWj9SY5ac7BhI++csXd8RMaXHTxRF9JIq/MWsDpiNCnN5
-         9Gf6dpGxpQCixE0zna1HpZ8uRyk0ztae+mSIFEmaqiafuJuvV4FA2Q68PbwDf9Qi9O/c
-         gctjBXDPm2/SyD7NBPid3xT9mnjxpeDE+FQPHlINiy0HcSKPnsYzrbBxx13xdw3U97m3
-         N5b2HUh3OFxpOX9VSvp4c/E4kn+rpH1V/TNU62j+tfCK8O0UIDCrIyZKSSnRsAHR/N+n
-         Tn0g==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=92mK7zBHisCWLSyJKdx4TrhYPHWohdb3930tufPI2eQ=;
+        b=Fb3HmbV7xJzzE55ouXOFztkTWp0bKdRdgzVsp6GqE2lJqMrMp7xLRTFVhBgLBnGqAR
+         k/XIcp5tNhCvReHQeIl0YIihMYd72fmXqIC5rD4HGYrCXGW8imJTH816gR0KauZGdE/N
+         G4HCILSEZgX3W/ODY9Gr+zfmQjzcedJOGlfCdi1Gead/7PyfPo02AYI+5TqQjmLelOUk
+         cVeFILE2TCSZ+A3bL0Fq+Sh2MC3hOHMp+1yaIWd7RbKpu4OwbT2LBPcv4QcmP/p1xT0G
+         nhNMajuz75wAV6iThjbsGTirHOzhC1plmyD29GVH2GT/bNCyk6kwt9VMGiMAfcvvxwQo
+         e5Qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
-         :references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to;
-        bh=EyAWOpM2Pk1ZBrqrrdSu1rvJL+knSPmewqYJM3X+YZM=;
-        b=GvNH1WXGMtpbuqjWxGn2iLFBeVxreaDNMHKuTr1oQnRsrbs90zUWch8LjZJNdsqiWz
-         m/Vsrm1YXFB6wXpRfz57tgClfhOd4aD/BIHb27xcKnzRvys+BQVVbGuBbDNazycg9mBG
-         rXAHkv3sHiwVSp9tciXyzW2vUAnRsx5LLZzdzzSkVLwV5AJDDObDMe8nEJhOilKU7bAu
-         DY5WzSYKgBtHW8Asq4WAwoEtgFcs1850nqskr0maylVvYcsEUaFxa8+znV1HbRMrb8da
-         mY18U3gknZGUW1HM4TnaBK8k08Xv0UR7DdXPJPeUqXN19M5kLD8YoVDBVj6NLDjKSLOh
-         McgQ==
-X-Gm-Message-State: AOAM531+Vm6V9c4pUkJit+18E7Eg0F8px4Tfn/Yr9GXtMzWBAl5zZUsx
-        4G3RT94uR5R4zd8/lX+d7YI=
-X-Google-Smtp-Source: ABdhPJxr5dY8ODx0EjH/xdbyXabo34Q9MVQw09XwyWKsxYblozqkXLVpvYyaSpB+6I9MEDSt2HvZhA==
-X-Received: by 2002:a1c:9ad0:: with SMTP id c199mr1800943wme.54.1601584026233;
-        Thu, 01 Oct 2020 13:27:06 -0700 (PDT)
-Received: from dell5510 ([62.201.25.198])
-        by smtp.gmail.com with ESMTPSA id w15sm10273988wro.46.2020.10.01.13.27.05
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=92mK7zBHisCWLSyJKdx4TrhYPHWohdb3930tufPI2eQ=;
+        b=Ab8IEqskowxuIdd+EdZWpv61hw5T3eUmqf1mKAqd7gmqZN5FFtqyogWyz9naNSe7X4
+         iUqxzR8GVTLcEoeJ6w8i2PqTLW86ga3uaJBH/H0BD7r+Mmh3zSom0gvTqSzXwnpbPlmE
+         VWtkqFssaTwX0BNi90BqvDit+oFl+AhJl1XQ4AnXqlWEvl3tr6CnIuZyXczHRqzDBwq/
+         hKffQAqnsnUqGXr+RLyMM7OgicL/bVVhr/AQvnfzQyW+Th7+ADDcNlLjTrGPMK2d3ynd
+         b0m4eIkBSpJTBZvB6sZVu5jGqOIXyzDdxZ65ev8kkpgrc7GUEl3K4lBPMguzTfA6UyFv
+         oE5Q==
+X-Gm-Message-State: AOAM5328JfpDxPb6T4G20r5hgmQ/4EnI9NmBq5Fp7496mRNABA5AnKM6
+        F8DS0sZl1z9kTFYBGphROpiOTpIGIw9K4Q==
+X-Google-Smtp-Source: ABdhPJx+5C2pl861hVRnpuxaeLSGcq52n+kjey8zmxUpkImCEOo8imG9vXHMS48cPyOtB3hf0HhJ3g==
+X-Received: by 2002:adf:9124:: with SMTP id j33mr11044813wrj.272.1601587199869;
+        Thu, 01 Oct 2020 14:19:59 -0700 (PDT)
+Received: from dell5510.suse.de ([62.201.25.198])
+        by smtp.gmail.com with ESMTPSA id l3sm1664763wmh.27.2020.10.01.14.19.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2020 13:27:05 -0700 (PDT)
-Date:   Thu, 1 Oct 2020 22:27:03 +0200
+        Thu, 01 Oct 2020 14:19:59 -0700 (PDT)
 From:   Petr Vorel <petr.vorel@gmail.com>
-To:     Rich Felker <dalias@aerifal.cx>
-Cc:     linux-kernel@vger.kernel.org, musl@lists.openwall.com,
-        linux-api@vger.kernel.org, libc-alpha@sourceware.org,
-        Peter Korsgaard <peter@korsgaard.com>,
-        Florian Weimer <fweimer@redhat.com>,
+To:     linux-kernel@vger.kernel.org
+Cc:     Petr Vorel <petr.vorel@gmail.com>, Rich Felker <dalias@aerifal.cx>,
+        musl@lists.openwall.com, Peter Korsgaard <peter@korsgaard.com>,
         Baruch Siach <baruch@tkos.co.il>,
         "David S . Miller" <davem@davemloft.net>,
         Michal Kubecek <mkubecek@suse.cz>,
-        Stephen Hemminger <stephen@networkplumber.org>
-Subject: Re: [musl] [PATCH 1/1] uapi: Don't include <linux/sysinfo.h> in
- <linux/kernel.h>
-Message-ID: <20201001202703.GD24195@dell5510>
-Reply-To: Petr Vorel <petr.vorel@gmail.com>
-References: <20201001195231.17226-1-petr.vorel@gmail.com>
- <20201001201108.GR17637@brightrain.aerifal.cx>
+        Stephen Hemminger <stephen@networkplumber.org>,
+        Florian Weimer <fweimer@redhat.com>, linux-api@vger.kernel.org,
+        libc-alpha@sourceware.org
+Subject: [RFC PATCH v2 1/1] uapi: Introduce <linux/align.h>
+Date:   Thu,  1 Oct 2020 23:19:42 +0200
+Message-Id: <20201001211942.13336-1-petr.vorel@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201001201108.GR17637@brightrain.aerifal.cx>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Rich,
+move there code from <linux/kernel.h>,
+and include it in UAPI headers instead of <linux/kernel.h>.
 
-> On Thu, Oct 01, 2020 at 09:52:31PM +0200, Petr Vorel wrote:
-> > + update code where needed (include <linux/sysinfo.h> in code which
-> > included <linux/kernel.h> only to get struct sysinfo or SI_LOAD_SHIFT).
+The reason is to avoid indirect <linux/sysinfo.h> include when using
+some network headers: <linux/netlink.h> or others -> <linux/kernel.h>
+-> <linux/sysinfo.h>.
 
-> > The reason is to avoid indirect <linux/sysinfo.h> include when using
-> > some network headers: <linux/netlink.h> or others [1] ->
-> > <linux/kernel.h> -> <linux/sysinfo.h>.
+This indirect include causes on MUSL redefinition of struct sysinfo when
+included both <sys/sysinfo.h> and some of UAPI headers:
 
-> > This indirect include causes redefinition of struct sysinfo when
-> > included both <sys/sysinfo.h> and some of network headers:
+In file included from x86_64-buildroot-linux-musl/sysroot/usr/include/linux/kernel.h:5,
+                 from x86_64-buildroot-linux-musl/sysroot/usr/include/linux/netlink.h:5,
+                 from ../include/tst_netlink.h:14,
+                 from tst_crypto.c:13:
+x86_64-buildroot-linux-musl/sysroot/usr/include/linux/sysinfo.h:8:8: error: redefinition of ‘struct sysinfo’
+ struct sysinfo {
+        ^~~~~~~
+In file included from ../include/tst_safe_macros.h:15,
+                 from ../include/tst_test.h:93,
+                 from tst_crypto.c:11:
+x86_64-buildroot-linux-musl/sysroot/usr/include/sys/sysinfo.h:10:8: note: originally defined here
 
-> > In file included from x86_64-buildroot-linux-musl/sysroot/usr/include/linux/kernel.h:5,
-> >                  from x86_64-buildroot-linux-musl/sysroot/usr/include/linux/netlink.h:5,
-> >                  from ../include/tst_netlink.h:14,
-> >                  from tst_crypto.c:13:
-> > x86_64-buildroot-linux-musl/sysroot/usr/include/linux/sysinfo.h:8:8: error: redefinition of ‘struct sysinfo’
-> >  struct sysinfo {
-> >         ^~~~~~~
-> > In file included from ../include/tst_safe_macros.h:15,
-> >                  from ../include/tst_test.h:93,
-> >                  from tst_crypto.c:11:
-> > x86_64-buildroot-linux-musl/sysroot/usr/include/sys/sysinfo.h:10:8: note: originally defined here
+Suggested-by: Rich Felker <dalias@aerifal.cx>
+Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
+---
+Changes v1->v2:
+* Move kernel.h content into new header in order not break the existing
+contract with glibc.
 
-> > [1] or <linux/sysctl.h>, <linux/ethtool.h>, <linux/mroute6.h>, <linux/ethtool.h>
-
-> > Suggested-by: Rich Felker <dalias@aerifal.cx>
-> > Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
-> > ---
-> > Hi,
-
-> > this looks to be long standing problem: python-psutil [2], iproute2 [3],
-> > even for glibc in the past [4] and it tried to be solved before [5].
-
-> > This will require glibc fix after:
-
-> You can't do this; it breaks the existing contract with glibc. New
-> kernel headers can't force a glibc upgrade.
-Right, got that.
-
-> You just have to get rid
-> of use of <linux/kernel.h> elsewhere in the uapi headers. It was a
-> mistake that <linux/sysinfo.h> was ever separated out of
-> <linux/kernel.h> since it didn't (and couldn't) fix the contract that
-> <linux/kernel.h> exposes struct sysinfo (and that it's misnamed). But
-> it's no big deal. This can all be fixed without any breakage anywhere
-> just by not using it.
-Back to your original suggestion to move the alignment macros to a separate
-header. I was trying to avoid it not sure if introducing new header is
-acceptable, but we'll see.
-
-> Rich
+Background: long standing problem: python-psutil [1], iproute2 [2],
+even for glibc in the past [3].
 
 Kind regards,
 Petr
+
+[1] https://git.buildroot.net/buildroot/commit/?id=ab930190d7754b7f5fdda115b2069d00f1320861
+[2] http://patchwork.ozlabs.org/project/netdev/patch/602128d22db86bd67e11dec8fe40a73832c222c9.1559230347.git.baruch@tkos.co.il/
+[3] https://www.mail-archive.com/busybox@busybox.net/msg15363.html
+
+ include/uapi/linux/align.h              | 10 ++++++++++
+ include/uapi/linux/ethtool.h            |  2 +-
+ include/uapi/linux/kernel.h             |  9 +--------
+ include/uapi/linux/lightnvm.h           |  2 +-
+ include/uapi/linux/mroute6.h            |  2 +-
+ include/uapi/linux/netfilter/x_tables.h |  2 +-
+ include/uapi/linux/netlink.h            |  2 +-
+ include/uapi/linux/sysctl.h             |  2 +-
+ 8 files changed, 17 insertions(+), 14 deletions(-)
+ create mode 100644 include/uapi/linux/align.h
+
+diff --git a/include/uapi/linux/align.h b/include/uapi/linux/align.h
+new file mode 100644
+index 000000000000..6d2fef859d03
+--- /dev/null
++++ b/include/uapi/linux/align.h
+@@ -0,0 +1,10 @@
++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++#ifndef _UAPI_LINUX_ALIGN_H
++#define _UAPI_LINUX_ALIGN_H
++
++#define __ALIGN_KERNEL(x, a)		__ALIGN_KERNEL_MASK(x, (typeof(x))(a) - 1)
++#define __ALIGN_KERNEL_MASK(x, mask)	(((x) + (mask)) & ~(mask))
++
++#define __KERNEL_DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
++
++#endif /* _UAPI_LINUX_ALIGN_H */
+diff --git a/include/uapi/linux/ethtool.h b/include/uapi/linux/ethtool.h
+index b4f2d134e713..73ca97a6ec86 100644
+--- a/include/uapi/linux/ethtool.h
++++ b/include/uapi/linux/ethtool.h
+@@ -14,7 +14,7 @@
+ #ifndef _UAPI_LINUX_ETHTOOL_H
+ #define _UAPI_LINUX_ETHTOOL_H
+ 
+-#include <linux/kernel.h>
++#include <linux/align.h>
+ #include <linux/types.h>
+ #include <linux/if_ether.h>
+ 
+diff --git a/include/uapi/linux/kernel.h b/include/uapi/linux/kernel.h
+index 0ff8f7477847..15f70c510311 100644
+--- a/include/uapi/linux/kernel.h
++++ b/include/uapi/linux/kernel.h
+@@ -3,13 +3,6 @@
+ #define _UAPI_LINUX_KERNEL_H
+ 
+ #include <linux/sysinfo.h>
+-
+-/*
+- * 'kernel.h' contains some often-used function prototypes etc
+- */
+-#define __ALIGN_KERNEL(x, a)		__ALIGN_KERNEL_MASK(x, (typeof(x))(a) - 1)
+-#define __ALIGN_KERNEL_MASK(x, mask)	(((x) + (mask)) & ~(mask))
+-
+-#define __KERNEL_DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
++#include <linux/align.h>
+ 
+ #endif /* _UAPI_LINUX_KERNEL_H */
+diff --git a/include/uapi/linux/lightnvm.h b/include/uapi/linux/lightnvm.h
+index f9a1be7fc696..d686cd576a24 100644
+--- a/include/uapi/linux/lightnvm.h
++++ b/include/uapi/linux/lightnvm.h
+@@ -21,7 +21,7 @@
+ #define _UAPI_LINUX_LIGHTNVM_H
+ 
+ #ifdef __KERNEL__
+-#include <linux/kernel.h>
++#include <linux/align.h>
+ #include <linux/ioctl.h>
+ #else /* __KERNEL__ */
+ #include <stdio.h>
+diff --git a/include/uapi/linux/mroute6.h b/include/uapi/linux/mroute6.h
+index c36177a86516..e638aaefbe7f 100644
+--- a/include/uapi/linux/mroute6.h
++++ b/include/uapi/linux/mroute6.h
+@@ -2,7 +2,7 @@
+ #ifndef _UAPI__LINUX_MROUTE6_H
+ #define _UAPI__LINUX_MROUTE6_H
+ 
+-#include <linux/kernel.h>
++#include <linux/align.h>
+ #include <linux/types.h>
+ #include <linux/sockios.h>
+ #include <linux/in6.h>		/* For struct sockaddr_in6. */
+diff --git a/include/uapi/linux/netfilter/x_tables.h b/include/uapi/linux/netfilter/x_tables.h
+index a8283f7dbc51..c49d7a630d05 100644
+--- a/include/uapi/linux/netfilter/x_tables.h
++++ b/include/uapi/linux/netfilter/x_tables.h
+@@ -1,7 +1,7 @@
+ /* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+ #ifndef _UAPI_X_TABLES_H
+ #define _UAPI_X_TABLES_H
+-#include <linux/kernel.h>
++#include <linux/align.h>
+ #include <linux/types.h>
+ 
+ #define XT_FUNCTION_MAXNAMELEN 30
+diff --git a/include/uapi/linux/netlink.h b/include/uapi/linux/netlink.h
+index eac8a6a648ea..2ff384e9bf00 100644
+--- a/include/uapi/linux/netlink.h
++++ b/include/uapi/linux/netlink.h
+@@ -2,7 +2,7 @@
+ #ifndef _UAPI__LINUX_NETLINK_H
+ #define _UAPI__LINUX_NETLINK_H
+ 
+-#include <linux/kernel.h>
++#include <linux/align.h>
+ #include <linux/socket.h> /* for __kernel_sa_family_t */
+ #include <linux/types.h>
+ 
+diff --git a/include/uapi/linux/sysctl.h b/include/uapi/linux/sysctl.h
+index 27c1ed2822e6..18360ea6dd4e 100644
+--- a/include/uapi/linux/sysctl.h
++++ b/include/uapi/linux/sysctl.h
+@@ -23,7 +23,7 @@
+ #ifndef _UAPI_LINUX_SYSCTL_H
+ #define _UAPI_LINUX_SYSCTL_H
+ 
+-#include <linux/kernel.h>
++#include <linux/align.h>
+ #include <linux/types.h>
+ #include <linux/compiler.h>
+ 
+-- 
+2.28.0
+
