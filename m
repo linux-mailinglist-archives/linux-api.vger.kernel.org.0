@@ -2,245 +2,215 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EBF228044A
-	for <lists+linux-api@lfdr.de>; Thu,  1 Oct 2020 18:51:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 125B62804D2
+	for <lists+linux-api@lfdr.de>; Thu,  1 Oct 2020 19:12:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732407AbgJAQvl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 1 Oct 2020 12:51:41 -0400
-Received: from mga01.intel.com ([192.55.52.88]:59840 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732016AbgJAQvl (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 1 Oct 2020 12:51:41 -0400
-IronPort-SDR: jgp66Icb9SwbB6eEHv6R1yhBmm+K2sToWhrceCkSOhX1EkToiMCa1iRc4pE2mt+K3Sys9OcYJb
- g5FQxk1SXxkA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9761"; a="180933792"
-X-IronPort-AV: E=Sophos;i="5.77,323,1596524400"; 
-   d="scan'208";a="180933792"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2020 09:51:38 -0700
-IronPort-SDR: MI//hR/qDfigJQ/WhDVCXIhf6/vl8bAvbmWqe3dt+FZvFbfeHbaqAKVc7xnQKoOak2hvZBeZho
- A8V7kczDvZog==
-X-IronPort-AV: E=Sophos;i="5.77,323,1596524400"; 
-   d="scan'208";a="346148630"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.213.183.12]) ([10.213.183.12])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2020 09:51:35 -0700
-Subject: Re: [PATCH v13 8/8] x86/vsyscall/64: Fixup Shadow Stack and Indirect
- Branch Tracking for vsyscall emulation
-To:     Andy Lutomirski <luto@kernel.org>, "H.J. Lu" <hjl.tools@gmail.com>
-Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
+        id S1732751AbgJARMp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 1 Oct 2020 13:12:45 -0400
+Received: from smtp-190e.mail.infomaniak.ch ([185.125.25.14]:53891 "EHLO
+        smtp-190e.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1732876AbgJARMa (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 1 Oct 2020 13:12:30 -0400
+X-Greylist: delayed 574 seconds by postgrey-1.27 at vger.kernel.org; Thu, 01 Oct 2020 13:12:28 EDT
+Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4C2KF85H94zlhPF8;
+        Thu,  1 Oct 2020 19:02:52 +0200 (CEST)
+Received: from localhost (unknown [94.23.54.103])
+        by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4C2KF42P4czlh8TP;
+        Thu,  1 Oct 2020 19:02:48 +0200 (CEST)
+From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
+To:     Al Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        James Morris <jmorris@namei.org>,
+        Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
+Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Christian Heimes <christian@python.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Deven Bowers <deven.desai@linux.microsoft.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Eric Chiang <ericchiang@google.com>,
+        Florian Weimer <fweimer@redhat.com>, Jan Kara <jack@suse.cz>,
+        Jann Horn <jannh@google.com>,
         Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-References: <d0e4077e-129f-6823-dcea-a101ef626e8c@intel.com>
- <99B32E59-CFF2-4756-89BD-AEA0021F355F@amacapital.net>
- <d9099183dadde8fe675e1b10e589d13b0d46831f.camel@intel.com>
- <CALCETrWuhPE3A7eWC=ERJa7i7jLtsXnfu04PKUFJ-Gybro+p=Q@mail.gmail.com>
- <b8797fcd-9d70-5749-2277-ef61f2e1be1f@intel.com>
- <CALCETrWvWAxEuyteLaPmmu-r5LcWdh_DuW4JAOh3pVD4skWoBQ@mail.gmail.com>
- <CALCETrVvob1dbdWSvaB0ZK1kJ19o9ZKy=U3tFifwOR++_xk=zA@mail.gmail.com>
- <dd4310bd-a76b-cf19-4f12-0b52d7bc483d@intel.com>
- <CALCETrXgde6yHTKw1Njnxp9cANp6Ee8bmG9C2X4e-Fz0ZZCuBw@mail.gmail.com>
- <CAMe9rOonjX-b46sJ3AYSJZV84d=oU6-KhScnk5vksVqoLgQ90A@mail.gmail.com>
- <CALCETrWoGXDDEvy10LoYVY6c_tkpMVABhCy+8pse9Rw8L9L=5A@mail.gmail.com>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <79d1e67d-2394-1ce6-3bad-cce24ba792bd@intel.com>
-Date:   Thu, 1 Oct 2020 09:51:35 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
+        "Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>,
+        Matthew Garrett <mjg59@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        =?UTF-8?q?Philippe=20Tr=C3=A9buchet?= 
+        <philippe.trebuchet@ssi.gouv.fr>,
+        Scott Shell <scottsh@microsoft.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Steve Dower <steve.dower@python.org>,
+        Steve Grubb <sgrubb@redhat.com>,
+        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+        Thibaut Sautereau <thibaut.sautereau@clip-os.org>,
+        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org
+Subject: [PATCH v11 0/3] Add trusted_for(2) (was O_MAYEXEC)
+Date:   Thu,  1 Oct 2020 19:02:29 +0200
+Message-Id: <20201001170232.522331-1-mic@digikod.net>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <CALCETrWoGXDDEvy10LoYVY6c_tkpMVABhCy+8pse9Rw8L9L=5A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 9/30/2020 6:10 PM, Andy Lutomirski wrote:
-> On Wed, Sep 30, 2020 at 6:01 PM H.J. Lu <hjl.tools@gmail.com> wrote:
->>
->> On Wed, Sep 30, 2020 at 4:44 PM Andy Lutomirski <luto@kernel.org> wrote:
+Hi,
 
-[...]
+This eleventh patch series brings small fixes.
 
->>>>>>>    From 09803e66dca38d7784e32687d0693550948199ed Mon Sep 17 00:00:00 2001
->>>>>>> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
->>>>>>> Date: Thu, 29 Nov 2018 14:15:38 -0800
->>>>>>> Subject: [PATCH v13 8/8] x86/vsyscall/64: Fixup Shadow Stack and
->>>>>>> Indirect Branch
->>>>>>>     Tracking for vsyscall emulation
->>>>>>>
->>>>>>> Vsyscall entry points are effectively branch targets.  Mark them with
->>>>>>> ENDBR64 opcodes.  When emulating the RET instruction, unwind shadow stack
->>>>>>> and reset IBT state machine.
->>>>>>>
->>>>>>> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
->>>>>>> ---
->>>>>>> v13:
->>>>>>> - Check shadow stack address is canonical.
->>>>>>> - Change from writing to MSRs to writing to CET xstate.
->>>>>>>
->>>>>>>     arch/x86/entry/vsyscall/vsyscall_64.c     | 34 +++++++++++++++++++++++
->>>>>>>     arch/x86/entry/vsyscall/vsyscall_emu_64.S |  9 ++++++
->>>>>>>     arch/x86/entry/vsyscall/vsyscall_trace.h  |  1 +
->>>>>>>     3 files changed, 44 insertions(+)
->>>>>>>
->>>>>>> diff --git a/arch/x86/entry/vsyscall/vsyscall_64.c
->>>>>>> b/arch/x86/entry/vsyscall/vsyscall_64.c
->>>>>>> index 44c33103a955..30b166091d46 100644
->>>>>>> --- a/arch/x86/entry/vsyscall/vsyscall_64.c
->>>>>>> +++ b/arch/x86/entry/vsyscall/vsyscall_64.c
->>>>>>> @@ -38,6 +38,9 @@
->>>>>>>     #include <asm/fixmap.h>
->>>>>>>     #include <asm/traps.h>
->>>>>>>     #include <asm/paravirt.h>
->>>>>>> +#include <asm/fpu/xstate.h>
->>>>>>> +#include <asm/fpu/types.h>
->>>>>>> +#include <asm/fpu/internal.h>
->>>>>>>
->>>>>>>     #define CREATE_TRACE_POINTS
->>>>>>>     #include "vsyscall_trace.h"
->>>>>>> @@ -286,6 +289,44 @@ bool emulate_vsyscall(unsigned long error_code,
->>>>>>>           /* Emulate a ret instruction. */
->>>>>>>           regs->ip = caller;
->>>>>>>           regs->sp += 8;
->>>>>>> +
->>>>>>> +#ifdef CONFIG_X86_CET
->>>>>>> +       if (tsk->thread.cet.shstk_size || tsk->thread.cet.ibt_enabled) {
->>>>>>> +               struct cet_user_state *cet;
->>>>>>> +               struct fpu *fpu;
->>>>>>> +
->>>>>>> +               fpu = &tsk->thread.fpu;
->>>>>>> +               fpregs_lock();
->>>>>>> +
->>>>>>> +               if (!test_thread_flag(TIF_NEED_FPU_LOAD)) {
->>>>>>> +                       copy_fpregs_to_fpstate(fpu);
->>>>>>> +                       set_thread_flag(TIF_NEED_FPU_LOAD);
->>>>>>> +               }
->>>>>>> +
->>>>>>> +               cet = get_xsave_addr(&fpu->state.xsave, XFEATURE_CET_USER);
->>>>>>> +               if (!cet) {
->>>>>>> +                       /*
->>>>>>> +                        * This should not happen.  The task is
->>>>>>> +                        * CET-enabled, but CET xstate is in INIT.
->>>>>>> +                        */
->>>>>>
-[...]
->>>>>>
->>>>>
->>>>> For what it's worth, I think there is an alternative.  If you all
->>>>> (userspace people, etc) can come up with a credible way for a user
->>>>> program to statically declare that it doesn't need vsyscalls, then we
->>>>> could make SHSTK depend on *that*, and we could avoid this mess.  This
->>>>> breaks orthogonality, but it's probably a decent outcome.
->>>>>
->>>>
->>>> Would an arch_prctl(DISABLE_VSYSCALL) work?  The kernel then sets a
->>>> thread flag, and in emulate_vsyscall(), checks the flag.
->>>>
->>>> When CET is enabled, ld-linux will do DISABLE_VSYSCALL.
->>>>
->>>> How is that?
->>>
->>> Backwards, no?  Presumably vsyscall needs to be disabled before or
->>> concurrently with CET being enabled, not after.
->>>
->>> I think the solution of making vsyscall emulation work correctly with
->>> CET is going to be better and possibly more straightforward.
->>>
->>
->> We can do
->>
->> 1. Add ARCH_X86_DISABLE_VSYSCALL to disable the vsyscall page.
->> 2. If CPU supports CET and the program is CET enabled:
->>      a. Disable the vsyscall page.
->>      b. Pass control to user.
->>      c. Enable the vsyscall page when ARCH_X86_CET_DISABLE is called.
->>
->> So when control is passed from kernel to user, the vsyscall page is
->> disabled if the program
->> is CET enabled.
-> 
-> Let me say this one more time:
-> 
-> If we have a per-process vsyscall disable control and a per-process
-> CET control, we are going to keep those settings orthogonal.  I'm
-> willing to entertain an option in which enabling SHSTK without also
-> disabling vsyscalls is disallowed, We are *not* going to have any CET
-> flags magically disable vsyscalls, though, and we are not going to
-> have a situation where disabling vsyscalls on process startup requires
-> enabling SHSTK.
-> 
-> Any possible static vsyscall controls (and CET controls, for that
-> matter) also need to come with some explanation of whether they are
-> properties set on the ELF loader, the ELF program being loaded, or
-> both.  And this explanation needs to cover what happens when old
-> binaries link against new libc versions and vice versa.  A new
-> CET-enabled binary linked against old libc running on a new kernel
-> that is expected to work on a non-CET CPU MUST work on a CET CPU, too.
-> 
-> Right now, literally the only thing preventing vsyscall emulation from
-> coexisting with SHSTK is that the implementation eeds work.
-> 
-> So your proposal is rejected.  Sorry.
->
-I think, even with shadow stack/ibt enabled, we can still allow XONLY 
-without too much mess.
+Andrew, should this be merged with your tree?
 
-What about this?
+The final goal of this patch series is to enable the kernel to be a
+global policy manager by entrusting processes with access control at
+their level.  To reach this goal, two complementary parts are required:
+* user space needs to be able to know if it can trust some file
+  descriptor content for a specific usage;
+* and the kernel needs to make available some part of the policy
+  configured by the system administrator.
 
-Thanks,
-Yu-cheng
+Primary goal of trusted_for(2)
+==============================
 
-======
+This new syscall enables user space to ask the kernel: is this file
+descriptor's content trusted to be used for this purpose?  The set of
+usage currently only contains "execution", but other may follow (e.g.
+"configuration", "sensitive_data").  If the kernel identifies the file
+descriptor as trustworthy for this usage, user space should then take
+this information into account.  The "execution" usage means that the
+content of the file descriptor is trusted according to the system policy
+to be executed by user space, which means that it interprets the content
+or (try to) maps it as executable memory.
 
-diff --git a/arch/x86/entry/vsyscall/vsyscall_64.c 
-b/arch/x86/entry/vsyscall/vsyscall_64.c
-index 8b0b32ac7791..d39da0a15521 100644
---- a/arch/x86/entry/vsyscall/vsyscall_64.c
-+++ b/arch/x86/entry/vsyscall/vsyscall_64.c
-@@ -48,16 +48,16 @@
-  static enum { EMULATE, XONLY, NONE } vsyscall_mode __ro_after_init =
-  #ifdef CONFIG_LEGACY_VSYSCALL_NONE
-         NONE;
--#elif defined(CONFIG_LEGACY_VSYSCALL_XONLY)
-+#elif defined(CONFIG_LEGACY_VSYSCALL_XONLY) || defined(CONFIG_X86_CET)
-         XONLY;
--#else
-+#else
-         EMULATE;
-  #endif
+A simple system-wide security policy can be enforced by the system
+administrator through a sysctl configuration consistent with the mount
+points or the file access rights.  The documentation patch explains the
+prerequisites.
 
-  static int __init vsyscall_setup(char *str)
-  {
-         if (str) {
--               if (!strcmp("emulate", str))
-+               if (!strcmp("emulate", str) && !IS_ENABLED(CONFIG_X86_CET))
-                         vsyscall_mode = EMULATE;
-                 else if (!strcmp("xonly", str))
-                         vsyscall_mode = XONLY;
+It is important to note that this can only enable to extend access
+control managed by the kernel.  Hence it enables current access control
+mechanism to be extended and become a superset of what they can
+currently control.  Indeed, the security policy could also be delegated
+to an LSM, either a MAC system or an integrity system.  For instance,
+this is required to close a major IMA measurement/appraisal interpreter
+integrity gap by bringing the ability to check the use of scripts [1].
+Other uses are expected, such as for magic-links [2], SGX integration
+[3], bpffs [4].
+
+Complementary W^X protections can be brought by SELinux, IPE [5] and
+trampfd [6].
+
+Prerequisite of its use
+=======================
+
+User space needs to adapt to take advantage of this new feature.  For
+example, the PEP 578 [7] (Runtime Audit Hooks) enables Python 3.8 to be
+extended with policy enforcement points related to code interpretation,
+which can be used to align with the PowerShell audit features.
+Additional Python security improvements (e.g. a limited interpreter
+without -c, stdin piping of code) are on their way [8].
+
+Examples
+========
+
+The initial idea comes from CLIP OS 4 and the original implementation
+has been used for more than 12 years:
+https://github.com/clipos-archive/clipos4_doc
+Chrome OS has a similar approach:
+https://chromium.googlesource.com/chromiumos/docs/+/master/security/noexec_shell_scripts.md
+
+Userland patches can be found here:
+https://github.com/clipos-archive/clipos4_portage-overlay/search?q=O_MAYEXEC
+Actually, there is more than the O_MAYEXEC changes (which matches this search)
+e.g., to prevent Python interactive execution. There are patches for
+Bash, Wine, Java (Icedtea), Busybox's ash, Perl and Python. There are
+also some related patches which do not directly rely on O_MAYEXEC but
+which restrict the use of browser plugins and extensions, which may be
+seen as scripts too:
+https://github.com/clipos-archive/clipos4_portage-overlay/tree/master/www-client
+
+An introduction to O_MAYEXEC was given at the Linux Security Summit
+Europe 2018 - Linux Kernel Security Contributions by ANSSI:
+https://www.youtube.com/watch?v=chNjCRtPKQY&t=17m15s
+The "write xor execute" principle was explained at Kernel Recipes 2018 -
+CLIP OS: a defense-in-depth OS:
+https://www.youtube.com/watch?v=PjRE0uBtkHU&t=11m14s
+See also an overview article: https://lwn.net/Articles/820000/
+
+This patch series can be applied on top of v5.9-rc7 .  This can be tested
+with CONFIG_SYSCTL.  I would really appreciate constructive comments on
+this patch series.
+
+Previous version:
+https://lore.kernel.org/lkml/20200924153228.387737-1-mic@digikod.net/
+
+[1] https://lore.kernel.org/lkml/1544647356.4028.105.camel@linux.ibm.com/
+[2] https://lore.kernel.org/lkml/20190904201933.10736-6-cyphar@cyphar.com/
+[3] https://lore.kernel.org/lkml/CALCETrVovr8XNZSroey7pHF46O=kj_c5D9K8h=z2T_cNrpvMig@mail.gmail.com/
+[4] https://lore.kernel.org/lkml/CALCETrVeZ0eufFXwfhtaG_j+AdvbzEWE0M3wjXMWVEO7pj+xkw@mail.gmail.com/
+[5] https://lore.kernel.org/lkml/20200406221439.1469862-12-deven.desai@linux.microsoft.com/
+[6] https://lore.kernel.org/lkml/20200922215326.4603-1-madvenka@linux.microsoft.com/
+[7] https://www.python.org/dev/peps/pep-0578/
+[8] https://lore.kernel.org/lkml/0c70debd-e79e-d514-06c6-4cd1e021fa8b@python.org/
+
+Regards,
+
+Mickaël Salaün (3):
+  fs: Add trusted_for(2) syscall implementation and related sysctl
+  arch: Wire up trusted_for(2)
+  selftest/interpreter: Add tests for trusted_for(2) policies
+
+ Documentation/admin-guide/sysctl/fs.rst       |  50 +++
+ arch/alpha/kernel/syscalls/syscall.tbl        |   1 +
+ arch/arm/tools/syscall.tbl                    |   1 +
+ arch/arm64/include/asm/unistd.h               |   2 +-
+ arch/arm64/include/asm/unistd32.h             |   2 +
+ arch/ia64/kernel/syscalls/syscall.tbl         |   1 +
+ arch/m68k/kernel/syscalls/syscall.tbl         |   1 +
+ arch/microblaze/kernel/syscalls/syscall.tbl   |   1 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl     |   1 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl     |   1 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl     |   1 +
+ arch/parisc/kernel/syscalls/syscall.tbl       |   1 +
+ arch/powerpc/kernel/syscalls/syscall.tbl      |   1 +
+ arch/s390/kernel/syscalls/syscall.tbl         |   1 +
+ arch/sh/kernel/syscalls/syscall.tbl           |   1 +
+ arch/sparc/kernel/syscalls/syscall.tbl        |   1 +
+ arch/x86/entry/syscalls/syscall_32.tbl        |   1 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |   1 +
+ arch/xtensa/kernel/syscalls/syscall.tbl       |   1 +
+ fs/open.c                                     |  77 ++++
+ include/linux/fs.h                            |   1 +
+ include/linux/syscalls.h                      |   2 +
+ include/uapi/asm-generic/unistd.h             |   4 +-
+ include/uapi/linux/trusted-for.h              |  18 +
+ kernel/sysctl.c                               |  12 +-
+ tools/testing/selftests/Makefile              |   1 +
+ .../testing/selftests/interpreter/.gitignore  |   2 +
+ tools/testing/selftests/interpreter/Makefile  |  21 +
+ tools/testing/selftests/interpreter/config    |   1 +
+ .../selftests/interpreter/trust_policy_test.c | 362 ++++++++++++++++++
+ 30 files changed, 567 insertions(+), 4 deletions(-)
+ create mode 100644 include/uapi/linux/trusted-for.h
+ create mode 100644 tools/testing/selftests/interpreter/.gitignore
+ create mode 100644 tools/testing/selftests/interpreter/Makefile
+ create mode 100644 tools/testing/selftests/interpreter/config
+ create mode 100644 tools/testing/selftests/interpreter/trust_policy_test.c
+
+-- 
+2.28.0
+
