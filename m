@@ -2,151 +2,115 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ACE4F2852DA
-	for <lists+linux-api@lfdr.de>; Tue,  6 Oct 2020 22:04:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C52632853FB
+	for <lists+linux-api@lfdr.de>; Tue,  6 Oct 2020 23:41:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727242AbgJFUEQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 6 Oct 2020 16:04:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51519 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727178AbgJFUEQ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 6 Oct 2020 16:04:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1602014654;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=nAsLvgW1nDOTPpn1U85aTp/X7z+VtDo99/tckF5jXNI=;
-        b=iGvuAtojmV7k69MejaC4O5HTbnKN7dN9I6xPrjq3AgVn7746bb1zdtFsaAbCmcE5bBZV+W
-        2s56X+TtcRjMyUWkdXcPFBjXrnxltr6EjpuoGu0hrDSl1nJgWP8oDF4VoscwrYN67bPgkk
-        T7ICsQAJIIR3Lh8AUHAwwRF3WRhbXcs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-483-r50GUUy5MiC9VEv4faOv2Q-1; Tue, 06 Oct 2020 16:04:10 -0400
-X-MC-Unique: r50GUUy5MiC9VEv4faOv2Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1726600AbgJFVlS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 6 Oct 2020 17:41:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40950 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725947AbgJFVlS (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 6 Oct 2020 17:41:18 -0400
+Received: from localhost (cha74-h07-176-172-165-181.dsl.sta.abo.bbox.fr [176.172.165.181])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9DA58804018;
-        Tue,  6 Oct 2020 20:04:08 +0000 (UTC)
-Received: from madcap2.tricolour.ca (unknown [10.10.110.18])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 767315D9CD;
-        Tue,  6 Oct 2020 20:03:50 +0000 (UTC)
-Date:   Tue, 6 Oct 2020 16:03:47 -0400
-From:   Richard Guy Briggs <rgb@redhat.com>
-To:     Paul Moore <paul@paul-moore.com>
-Cc:     nhorman@tuxdriver.com, linux-api@vger.kernel.org,
-        containers@lists.linux-foundation.org,
-        LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
-        Linux-Audit Mailing List <linux-audit@redhat.com>,
-        netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
-        simo@redhat.com, netdev@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
-        mpatel@redhat.com, Serge Hallyn <serge@hallyn.com>, aris@redhat.com
-Subject: Re: [PATCH ghak90 V9 11/13] audit: contid check descendancy and
- nesting
-Message-ID: <20201006200347.GI2882171@madcap2.tricolour.ca>
-References: <cover.1593198710.git.rgb@redhat.com>
- <01229b93733d9baf6ac9bb0cc243eeb08ad579cd.1593198710.git.rgb@redhat.com>
- <CAHC9VhT6cLxxws_pYWcL=mWe786xPoTTFfPZ1=P4hx4V3nytXA@mail.gmail.com>
- <20200807171025.523i2sxfyfl7dfjy@madcap2.tricolour.ca>
- <CAHC9VhQ3MVUY8Zs4GNXdaqhiPJBzHW_YcCe=DghAgo7g6yrNBw@mail.gmail.com>
+        by mail.kernel.org (Postfix) with ESMTPSA id A895B208B6;
+        Tue,  6 Oct 2020 21:41:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602020477;
+        bh=9wLduu0HibYTvQ1PxET1bwvOHmceqeDnpLGd3eg73zU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=2gCpOuwlb9OCrTs8XdwbsjCC4BukoUfz0Mvac17ZIGhzrZJLjfCkNYUOHOHUoqqri
+         OIOiw9PbygkXW73CcQougUiK/NjNN+08X/TVwhkLEOiN9KU6jcrRLND5yoQwFZvivV
+         kkF0BPaHRf4ooYAz0mS3oP3jWuSjTIeE9AhIWZDA=
+Date:   Tue, 6 Oct 2020 23:41:13 +0200
+From:   Frederic Weisbecker <frederic@kernel.org>
+To:     Alex Belits <abelits@marvell.com>
+Cc:     "mingo@kernel.org" <mingo@kernel.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "will@kernel.org" <will@kernel.org>,
+        Prasun Kapoor <pkapoor@marvell.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [EXT] Re: [PATCH v4 10/13] task_isolation: don't interrupt CPUs
+ with tick_nohz_full_kick_cpu()
+Message-ID: <20201006214113.GA38684@lothringen>
+References: <04be044c1bcd76b7438b7563edc35383417f12c8.camel@marvell.com>
+ <5acf7502c071c0d1365ba5e5940e003a7da6521f.camel@marvell.com>
+ <20201001144454.GB6595@lothringen>
+ <ab85fd564686845648d08779b1d4ecc3ab440b2a.camel@marvell.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHC9VhQ3MVUY8Zs4GNXdaqhiPJBzHW_YcCe=DghAgo7g6yrNBw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <ab85fd564686845648d08779b1d4ecc3ab440b2a.camel@marvell.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2020-08-21 16:13, Paul Moore wrote:
-> On Fri, Aug 7, 2020 at 1:10 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > On 2020-07-05 11:11, Paul Moore wrote:
-> > > On Sat, Jun 27, 2020 at 9:23 AM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > > Require the target task to be a descendant of the container
-> > > > orchestrator/engine.
+On Sun, Oct 04, 2020 at 03:22:09PM +0000, Alex Belits wrote:
 > 
-> If you want to get formal about this, you need to define "target" in
-> the sentence above.  Target of what?
-
-The target is the task having its audit container identifier modified by
-the orchestrator current task.
-
-> FWIW, I read the above to basically mean that a task can only set the
-> audit container ID of processes which are beneath it in the "process
-> tree" where the "process tree" is defined as the relationship between
-> a parent and children processes such that the children processes are
-> branches below the parent process.
-
-Yes.
-
-> I have no problem with that, with the understanding that nesting
-> complicates it somewhat.  For example, this isn't true when one of the
-> children is a nested orchestrator, is it?
-
-It should still be true if that child is a nested orchestrator that has
-not yet spawned any children or threads (or they have all died off).
-
-It does get more complicated when we consider the scenario outlined
-below about perceived layer violations...
-
-> > > > You would only change the audit container ID from one set or inherited
-> > > > value to another if you were nesting containers.
+> On Thu, 2020-10-01 at 16:44 +0200, Frederic Weisbecker wrote:
+> > > @@ -268,7 +269,8 @@ static void tick_nohz_full_kick(void)
+> > >   */
+> > >  void tick_nohz_full_kick_cpu(int cpu)
+> > >  {
+> > > -	if (!tick_nohz_full_cpu(cpu))
+> > > +	smp_rmb();
+> > 
+> > What is it ordering?
 > 
-> I thought we decided we were going to allow an orchestrator to move a
-> process between audit container IDs, yes?  no?
-
-We did?  I don't remember anything about that.  Has this been requested?
-This seems to violate the rule that we can't change the audit container
-identifier once it has been set (other than nesting).  Can you suggest a
-use case?
-
-> > > > If changing the contid, the container orchestrator/engine must be a
-> > > > descendant and not same orchestrator as the one that set it so it is not
-> > > > possible to change the contid of another orchestrator's container.
+> ll_isol_flags will be read in task_isolation_on_cpu(), that accrss
+> should be ordered against writing in
+> task_isolation_kernel_enter(), fast_task_isolation_cpu_cleanup()
+> and task_isolation_start().
 > 
-> Try rephrasing the above please, it isn't clear to me what you are
-> trying to say.
+> Since task_isolation_on_cpu() is often called for multiple CPUs in a
+> sequence, it would be wasteful to include a barrier inside it.
 
-This is harder than I expected to rephrase...  It also makes it clear
-that there are some scenarios that have not been considered that may
-need to be restricted.
+Then I think you meant a full barrier: smp_mb()
 
-Orchestrator A spawned task B which is itself an orchestrator without
-chidren yet.  Orchestrator A sets the audit container identifier of B.
-Neither A, nor B, nor any other child of A (or any of their
-descendants), nor any orchestrator outside the tree of A (uncles, aunts
-and cousins are outside), can change the audit container identifier of
-B.
-
-Orchestrator B spawns task C.  Here's where it gets tricky.  It seems
-like a layer violation for B to spawn a child C and have A reach over B
-to set the audit container identifier of C, especially if B is also an
-orchestrator.  This all will be especially hard to police if we don't
-limit the ability of an orchestrator task to set an audit container
-identifier to that orchestrator's immediate children, only once.
-
-> > Are we able to agree on the premises above?  Is anything asserted that
-> > should not be and is there anything missing?
 > 
-> See above.
+> > > +	if (!tick_nohz_full_cpu(cpu) || task_isolation_on_cpu(cpu))
+> > >  		return;
+> > 
+> > You can't simply ignore an IPI. There is always a reason for a
+> > nohz_full CPU
+> > to be kicked. Something triggered a tick dependency. It can be posix
+> > cpu timers
+> > for example, or anything.
 > 
-> If you want to go back to the definitions/assumptions stage, it
-> probably isn't worth worrying about the other comments until we get
-> the above sorted.
+> I realize that this is unusual, however the idea is that while the task
+> is running in isolated mode in userspace, we assume that from this CPUs
+> point of view whatever is happening in kernel, can wait until CPU is
+> back in kernel and when it first enters kernel from this mode, it
+> should "catch up" with everything that happened in its absence.
+> task_isolation_kernel_enter() is supposed to do that, so by the time
+> anything should be done involving the rest of the kernel, CPU is back
+> to normal.
 
-I don't want to.  I'm trying to confirm that we are on the same page.
+You can't assume that. If something needs the tick, this can't wait.
+If the user did something wrong, such as setting a posix cpu timer
+to an isolated task, that's his fault and the kernel has to stick with
+correctness and kick that task out of isolation mode.
 
-> paul moore
+> 
+> It is application's responsibility to avoid triggering things that
+> break its isolation
 
-- RGB
+Precisely.
 
---
-Richard Guy Briggs <rgb@redhat.com>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems
-Remote, Ottawa, Red Hat Canada
-IRC: rgb, SunRaycer
-Voice: +1.647.777.2635, Internal: (81) 32635
+> so the application assumes that everything that
+> involves entering kernel will not be available while it is isolated.
 
+We can't do things that way and just ignore IPIs. You need to solve the
+source of the noise, not the symptoms.
+
+Thanks.
