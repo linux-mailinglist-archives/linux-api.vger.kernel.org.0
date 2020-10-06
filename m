@@ -2,142 +2,123 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4003F284952
-	for <lists+linux-api@lfdr.de>; Tue,  6 Oct 2020 11:25:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16561284A5B
+	for <lists+linux-api@lfdr.de>; Tue,  6 Oct 2020 12:35:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726060AbgJFJZk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 6 Oct 2020 05:25:40 -0400
-Received: from foss.arm.com ([217.140.110.172]:42816 "EHLO foss.arm.com"
+        id S1725942AbgJFKfp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 6 Oct 2020 06:35:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35832 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725939AbgJFJZk (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 6 Oct 2020 05:25:40 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A53D7113E;
-        Tue,  6 Oct 2020 02:25:39 -0700 (PDT)
-Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A89A23F71F;
-        Tue,  6 Oct 2020 02:25:37 -0700 (PDT)
-Date:   Tue, 6 Oct 2020 10:25:34 +0100
-From:   Dave Martin <Dave.Martin@arm.com>
-To:     "H.J. Lu" <hjl.tools@gmail.com>
-Cc:     "Chang S. Bae" <chang.seok.bae@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>, Borislav Petkov <bp@suse.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        Len Brown <len.brown@intel.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Tony Luck <tony.luck@intel.com>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        GNU C Library <libc-alpha@sourceware.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC PATCH 0/4] x86: Improve Minimum Alternate Stack Size
-Message-ID: <20201006092532.GU6642@arm.com>
-References: <20200929205746.6763-1-chang.seok.bae@intel.com>
- <20201005134534.GT6642@arm.com>
- <CAMe9rOpZm43aDG3UJeaioU32zSYdTxQ=ZyZuSS4u0zjbs9RoKw@mail.gmail.com>
+        id S1725891AbgJFKfp (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 6 Oct 2020 06:35:45 -0400
+Received: from localhost (deu95-h05-176-171-255-236.dsl.sta.abo.bbox.fr [176.171.255.236])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 902922080A;
+        Tue,  6 Oct 2020 10:35:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601980544;
+        bh=iZXnIWy2l9HS4uSNbQ+gW7Bpg/P6i/Lo3Y/xZuANNPI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=IzBvH0x38Q/wYJTIs5xaQFknuuvw6tcwd+CJNR1lm5ErfYidSkQjB904MEqA24RDp
+         tWuIQrtdCJMR7a62G9Nlp4ziIGdX717ojn/gcpR91sYQmkZ8UIA2ZkS3hbBkc0HrHC
+         p9Drw9nndIDRv0SXKKYRaOh3zKeZCO/pdThg+b38=
+Date:   Tue, 6 Oct 2020 12:35:41 +0200
+From:   Frederic Weisbecker <frederic@kernel.org>
+To:     Nitesh Narayan Lal <nitesh@redhat.com>
+Cc:     Alex Belits <abelits@marvell.com>,
+        "mingo@kernel.org" <mingo@kernel.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "will@kernel.org" <will@kernel.org>,
+        Prasun Kapoor <pkapoor@marvell.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [EXT] Re: [PATCH v4 03/13] task_isolation: userspace hard
+ isolation from kernel
+Message-ID: <20201006103541.GA31325@lothringen>
+References: <04be044c1bcd76b7438b7563edc35383417f12c8.camel@marvell.com>
+ <b18546567a2ed61073ae86f2d9945257ab285dfa.camel@marvell.com>
+ <20201001135640.GA1748@lothringen>
+ <7e54b3c5e0d4c91eb64f2dd1583dd687bc34757e.camel@marvell.com>
+ <20201004231404.GA66364@lothringen>
+ <d0289bb9-cc10-9e64-f8ac-b4d252b424b8@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMe9rOpZm43aDG3UJeaioU32zSYdTxQ=ZyZuSS4u0zjbs9RoKw@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <d0289bb9-cc10-9e64-f8ac-b4d252b424b8@redhat.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Oct 05, 2020 at 10:17:06PM +0100, H.J. Lu wrote:
-> On Mon, Oct 5, 2020 at 6:45 AM Dave Martin <Dave.Martin@arm.com> wrote:
-> >
-> > On Tue, Sep 29, 2020 at 01:57:42PM -0700, Chang S. Bae wrote:
-> > > During signal entry, the kernel pushes data onto the normal userspace
-> > > stack. On x86, the data pushed onto the user stack includes XSAVE state,
-> > > which has grown over time as new features and larger registers have been
-> > > added to the architecture.
-> > >
-> > > MINSIGSTKSZ is a constant provided in the kernel signal.h headers and
-> > > typically distributed in lib-dev(el) packages, e.g. [1]. Its value is
-> > > compiled into programs and is part of the user/kernel ABI. The MINSIGSTKSZ
-> > > constant indicates to userspace how much data the kernel expects to push on
-> > > the user stack, [2][3].
-> > >
-> > > However, this constant is much too small and does not reflect recent
-> > > additions to the architecture. For instance, when AVX-512 states are in
-> > > use, the signal frame size can be 3.5KB while MINSIGSTKSZ remains 2KB.
-> > >
-> > > The bug report [4] explains this as an ABI issue. The small MINSIGSTKSZ can
-> > > cause user stack overflow when delivering a signal.
-> > >
-> > > In this series, we suggest a couple of things:
-> > > 1. Provide a variable minimum stack size to userspace, as a similar
-> > >    approach to [5]
-> > > 2. Avoid using a too-small alternate stack
-> >
-> > I can't comment on the x86 specifics, but the approach followed in this
-> > series does seem consistent with the way arm64 populates
-> > AT_MINSIGSTKSZ.
-> >
-> > I need to dig up my glibc hacks for providing a sysconf interface to
-> > this...
+On Mon, Oct 05, 2020 at 02:52:49PM -0400, Nitesh Narayan Lal wrote:
 > 
-> Here is my proposal for glibc:
+> On 10/4/20 7:14 PM, Frederic Weisbecker wrote:
+> > On Sun, Oct 04, 2020 at 02:44:39PM +0000, Alex Belits wrote:
+> >> On Thu, 2020-10-01 at 15:56 +0200, Frederic Weisbecker wrote:
+> >>> External Email
+> >>>
+> >>> -------------------------------------------------------------------
+> >>> ---
+> >>> On Wed, Jul 22, 2020 at 02:49:49PM +0000, Alex Belits wrote:
+> >>>> +/*
+> >>>> + * Description of the last two tasks that ran isolated on a given
+> >>>> CPU.
+> >>>> + * This is intended only for messages about isolation breaking. We
+> >>>> + * don't want any references to actual task while accessing this
+> >>>> from
+> >>>> + * CPU that caused isolation breaking -- we know nothing about
+> >>>> timing
+> >>>> + * and don't want to use locking or RCU.
+> >>>> + */
+> >>>> +struct isol_task_desc {
+> >>>> +	atomic_t curr_index;
+> >>>> +	atomic_t curr_index_wr;
+> >>>> +	bool	warned[2];
+> >>>> +	pid_t	pid[2];
+> >>>> +	pid_t	tgid[2];
+> >>>> +	char	comm[2][TASK_COMM_LEN];
+> >>>> +};
+> >>>> +static DEFINE_PER_CPU(struct isol_task_desc, isol_task_descs);
+> >>> So that's quite a huge patch that would have needed to be split up.
+> >>> Especially this tracing engine.
+> >>>
+> >>> Speaking of which, I agree with Thomas that it's unnecessary. It's
+> >>> too much
+> >>> code and complexity. We can use the existing trace events and perform
+> >>> the
+> >>> analysis from userspace to find the source of the disturbance.
+> >> The idea behind this is that isolation breaking events are supposed to
+> >> be known to the applications while applications run normally, and they
+> >> should not require any analysis or human intervention to be handled.
+> > Sure but you can use trace events for that. Just trace interrupts, workqueues,
+> > timers, syscalls, exceptions and scheduler events and you get all the local
+> > disturbance. You might want to tune a few filters but that's pretty much it.
+> >
+> > As for the source of the disturbances, if you really need that information,
+> > you can trace the workqueue and timer queue events and just filter those that
+> > target your isolated CPUs.
+> >
 > 
-> https://sourceware.org/pipermail/libc-alpha/2020-September/118098.html
+> I agree that we can do all those things with tracing.
+> However, IMHO having a simplified logging mechanism to gather the source of
+> violation may help in reducing the manual effort.
+> 
+> Although, I am not sure how easy will it be to maintain such an interface
+> over time.
 
-Thanks for the link.
+The thing is: tracing is your simplified logging mechanism here. You can achieve
+the same in userspace with _way_ less code, no race, and you can do it in
+bash.
 
-Are there patches yet?  I already had some hacks in the works, but I can
-drop them if there's something already out there.
-
-
-> 1. Define SIGSTKSZ and MINSIGSTKSZ to 64KB.
-
-Can we do this?  IIUC, this is an ABI break and carries the risk of
-buffer overruns.
-
-The reason for not simply increasing the kernel's MINSIGSTKSZ #define
-(apart from the fact that it is rarely used, due to glibc's shadowing
-definitions) was that userspace binaries will have baked in the old
-value of the constant and may be making assumptions about it.
-
-For example, the type (char [MINSIGSTKSZ]) changes if this #define
-changes.  This could be a problem if an newly built library tries to
-memcpy() or dump such an object defined by and old binary.
-Bounds-checking and the stack sizes passed to things like sigaltstack()
-and makecontext() could similarly go wrong.
+Thanks.
 
 
-> 2. Add _SC_RSVD_SIG_STACK_SIZE for signal stack size reserved by the kernel.
 
-How about "_SC_MINSIGSTKSZ"?  This was my initial choice since only the
-discovery method is changing.  The meaning of the value is exactly the
-same as before.
-
-If we are going to rename it though, it could make sense to go for
-something more directly descriptive, say, "_SC_SIGNAL_FRAME_SIZE".
-
-The trouble with including "STKSZ" is that is sounds like a
-recommendation for your stack size.  While the signal frame size is
-relevant to picking a stack size, it's not the only thing to
-consider.
-
-
-Also, do we need a _SC_SIGSTKSZ constant, or should the entire concept
-of a "recommended stack size" be abandoned?  glibc can at least make a
-slightly more informed guess about suitable stack sizes than the kernel
-(and glibc already has to guess anyway, in order to determine the
-default thread stack size).
-
-
-> 3. Deprecate SIGSTKSZ and MINSIGSTKSZ if _SC_RSVD_SIG_STACK_SIZE
-> is in use.
-
-Great if we can do it.  I was concerned that this might be
-controversial.
-
-Would this just be a recommendation, or can we enforce it somehow?
-
-Cheers
----Dave
