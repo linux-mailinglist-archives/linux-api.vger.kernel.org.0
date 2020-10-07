@@ -2,115 +2,141 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C52632853FB
-	for <lists+linux-api@lfdr.de>; Tue,  6 Oct 2020 23:41:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 382FC285C64
+	for <lists+linux-api@lfdr.de>; Wed,  7 Oct 2020 12:06:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726600AbgJFVlS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 6 Oct 2020 17:41:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40950 "EHLO mail.kernel.org"
+        id S1727761AbgJGKGF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 7 Oct 2020 06:06:05 -0400
+Received: from foss.arm.com ([217.140.110.172]:41114 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725947AbgJFVlS (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 6 Oct 2020 17:41:18 -0400
-Received: from localhost (cha74-h07-176-172-165-181.dsl.sta.abo.bbox.fr [176.172.165.181])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A895B208B6;
-        Tue,  6 Oct 2020 21:41:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602020477;
-        bh=9wLduu0HibYTvQ1PxET1bwvOHmceqeDnpLGd3eg73zU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=2gCpOuwlb9OCrTs8XdwbsjCC4BukoUfz0Mvac17ZIGhzrZJLjfCkNYUOHOHUoqqri
-         OIOiw9PbygkXW73CcQougUiK/NjNN+08X/TVwhkLEOiN9KU6jcrRLND5yoQwFZvivV
-         kkF0BPaHRf4ooYAz0mS3oP3jWuSjTIeE9AhIWZDA=
-Date:   Tue, 6 Oct 2020 23:41:13 +0200
-From:   Frederic Weisbecker <frederic@kernel.org>
-To:     Alex Belits <abelits@marvell.com>
+        id S1727014AbgJGKGE (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 7 Oct 2020 06:06:04 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 00865113E;
+        Wed,  7 Oct 2020 03:06:04 -0700 (PDT)
+Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 032763F71F;
+        Wed,  7 Oct 2020 03:06:01 -0700 (PDT)
+Date:   Wed, 7 Oct 2020 11:05:59 +0100
+From:   Dave Martin <Dave.Martin@arm.com>
+To:     "Bae, Chang Seok" <chang.seok.bae@intel.com>
 Cc:     "mingo@kernel.org" <mingo@kernel.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "will@kernel.org" <will@kernel.org>,
-        Prasun Kapoor <pkapoor@marvell.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [EXT] Re: [PATCH v4 10/13] task_isolation: don't interrupt CPUs
- with tick_nohz_full_kick_cpu()
-Message-ID: <20201006214113.GA38684@lothringen>
-References: <04be044c1bcd76b7438b7563edc35383417f12c8.camel@marvell.com>
- <5acf7502c071c0d1365ba5e5940e003a7da6521f.camel@marvell.com>
- <20201001144454.GB6595@lothringen>
- <ab85fd564686845648d08779b1d4ecc3ab440b2a.camel@marvell.com>
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "bp@suse.de" <bp@suse.de>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "luto@kernel.org" <luto@kernel.org>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "Hansen, Dave" <dave.hansen@intel.com>,
+        "Luck, Tony" <tony.luck@intel.com>,
+        "Brown, Len" <len.brown@intel.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "mpe@ellerman.id.au" <mpe@ellerman.id.au>
+Subject: Re: [RFC PATCH 1/4] x86/signal: Introduce helpers to get the maximum
+ signal frame size
+Message-ID: <20201007100558.GE6642@arm.com>
+References: <20200929205746.6763-1-chang.seok.bae@intel.com>
+ <20200929205746.6763-2-chang.seok.bae@intel.com>
+ <20201005134230.GS6642@arm.com>
+ <74ca7e8a61f051eadc895cf8b29e591cc3d0f548.camel@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ab85fd564686845648d08779b1d4ecc3ab440b2a.camel@marvell.com>
+In-Reply-To: <74ca7e8a61f051eadc895cf8b29e591cc3d0f548.camel@intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sun, Oct 04, 2020 at 03:22:09PM +0000, Alex Belits wrote:
-> 
-> On Thu, 2020-10-01 at 16:44 +0200, Frederic Weisbecker wrote:
-> > > @@ -268,7 +269,8 @@ static void tick_nohz_full_kick(void)
-> > >   */
-> > >  void tick_nohz_full_kick_cpu(int cpu)
-> > >  {
-> > > -	if (!tick_nohz_full_cpu(cpu))
-> > > +	smp_rmb();
+On Tue, Oct 06, 2020 at 05:45:24PM +0000, Bae, Chang Seok wrote:
+> On Mon, 2020-10-05 at 14:42 +0100, Dave Martin wrote:
+> > On Tue, Sep 29, 2020 at 01:57:43PM -0700, Chang S. Bae wrote:
+> > > 
+> > > +/*
+> > > + * The FP state frame contains an XSAVE buffer which must be 64-byte aligned.
+> > > + * If a signal frame starts at an unaligned address, extra space is required.
+> > > + * This is the max alignment padding, conservatively.
+> > > + */
+> > > +#define MAX_XSAVE_PADDING	63UL
+> > > +
+> > > +/*
+> > > + * The frame data is composed of the following areas and laid out as:
+> > > + *
+> > > + * -------------------------
+> > > + * | alignment padding     |
+> > > + * -------------------------
+> > > + * | (f)xsave frame        |
+> > > + * -------------------------
+> > > + * | fsave header          |
+> > > + * -------------------------
+> > > + * | siginfo + ucontext    |
+> > > + * -------------------------
+> > > + */
+> > > +
+> > > +/* max_frame_size tells userspace the worst case signal stack size. */
+> > > +static unsigned long __ro_after_init max_frame_size;
+> > > +
+> > > +void __init init_sigframe_size(void)
+> > > +{
+> > > +	/*
+> > > +	 * Use the largest of possible structure formats. This might
+> > > +	 * slightly oversize the frame for 64-bit apps.
+> > > +	 */
+> > > +
+> > > +	if (IS_ENABLED(CONFIG_X86_32) ||
+> > > +	    IS_ENABLED(CONFIG_IA32_EMULATION))
+> > > +		max_frame_size = max((unsigned long)SIZEOF_sigframe_ia32,
+> > > +				     (unsigned long)SIZEOF_rt_sigframe_ia32);
+> > > +
+> > > +	if (IS_ENABLED(CONFIG_X86_X32_ABI))
+> > > +		max_frame_size = max(max_frame_size, (unsigned long)SIZEOF_rt_sigframe_x32);
+> > > +
+> > > +	if (IS_ENABLED(CONFIG_X86_64))
+> > > +		max_frame_size = max(max_frame_size, (unsigned long)SIZEOF_rt_sigframe);
+> > > +
+> > > +	max_frame_size += fpu__get_fpstate_sigframe_size() + MAX_XSAVE_PADDING;
 > > 
-> > What is it ordering?
-> 
-> ll_isol_flags will be read in task_isolation_on_cpu(), that accrss
-> should be ordered against writing in
-> task_isolation_kernel_enter(), fast_task_isolation_cpu_cleanup()
-> and task_isolation_start().
-> 
-> Since task_isolation_on_cpu() is often called for multiple CPUs in a
-> sequence, it would be wasteful to include a barrier inside it.
-
-Then I think you meant a full barrier: smp_mb()
-
-> 
-> > > +	if (!tick_nohz_full_cpu(cpu) || task_isolation_on_cpu(cpu))
-> > >  		return;
+> > For arm64, we round the worst-case padding up by one.
 > > 
-> > You can't simply ignore an IPI. There is always a reason for a
-> > nohz_full CPU
-> > to be kicked. Something triggered a tick dependency. It can be posix
-> > cpu timers
-> > for example, or anything.
 > 
-> I realize that this is unusual, however the idea is that while the task
-> is running in isolated mode in userspace, we assume that from this CPUs
-> point of view whatever is happening in kernel, can wait until CPU is
-> back in kernel and when it first enters kernel from this mode, it
-> should "catch up" with everything that happened in its absence.
-> task_isolation_kernel_enter() is supposed to do that, so by the time
-> anything should be done involving the rest of the kernel, CPU is back
-> to normal.
-
-You can't assume that. If something needs the tick, this can't wait.
-If the user did something wrong, such as setting a posix cpu timer
-to an isolated task, that's his fault and the kernel has to stick with
-correctness and kick that task out of isolation mode.
-
+> Yeah, I saw that. The ARM code adds the max padding, too:
 > 
-> It is application's responsibility to avoid triggering things that
-> break its isolation
+> 	signal_minsigstksz = sigframe_size(&user) +
+> 		round_up(sizeof(struct frame_record), 16) +
+> 		16; /* max alignment padding */
+> 
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm64/kernel/signal.c#n973
+> 
+> > I can't remember the full rationale for this, but it at least seemed a
+> > bit weird to report a size that is not a multiple of the alignment.
+> > 
+> 
+> Because the last state size of XSAVE may not be 64B aligned, the (reported)
+> sum of xstate size here does not guarantee 64B alignment.
+> 
+> > I'm can't think of a clear argument as to why it really matters, though.
+> 
+> We care about the start of XSAVE buffer for the XSAVE instructions, to be
+> 64B-aligned.
 
-Precisely.
+Ah, I see.  That makes sense.
 
-> so the application assumes that everything that
-> involves entering kernel will not be available while it is isolated.
+For arm64, there is no additional alignment padding inside the frame,
+only the padding inserted after the frame to ensure that the base
+address is 16-byte aligned.
 
-We can't do things that way and just ignore IPIs. You need to solve the
-source of the noise, not the symptoms.
+However, I wonder whether people will tend to assume that AT_MINSIGSTKSZ
+is a sensible (if minimal) amount of stack to allocate.  Allocating an
+odd number of bytes, or any amount that isn't a multiple of the
+architecture's preferred (or mandated) stack alignment probably doesn't
+make sense.
 
-Thanks.
+AArch64 has a mandatory stack alignment of 16 bytes; I'm not sure about
+x86.
+
+Cheers
+---Dave
