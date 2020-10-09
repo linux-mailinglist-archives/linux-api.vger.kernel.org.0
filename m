@@ -2,102 +2,284 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C6C4288D42
-	for <lists+linux-api@lfdr.de>; Fri,  9 Oct 2020 17:48:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EED5289031
+	for <lists+linux-api@lfdr.de>; Fri,  9 Oct 2020 19:43:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389286AbgJIPsE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 9 Oct 2020 11:48:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37404 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389144AbgJIPsD (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 9 Oct 2020 11:48:03 -0400
-Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com [IPv6:2607:f8b0:4864:20::e43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84D8DC0613D2
-        for <linux-api@vger.kernel.org>; Fri,  9 Oct 2020 08:48:02 -0700 (PDT)
-Received: by mail-vs1-xe43.google.com with SMTP id l6so4334505vsr.7
-        for <linux-api@vger.kernel.org>; Fri, 09 Oct 2020 08:48:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1s7SFVVtG+zkirZ7bkWpAc7gUPf2lUPf5PGcrM42htU=;
-        b=EJ7O+uLcJf6nvUr9EC1/Doka02Isx4ZQYUCXQAYp1Tru8iYKcouB20EP7Jhdo1VTBp
-         MzMIjT8m8U2GEXCPuroaOvHt688rkRmUkPe/LaaRGzNHNbpLv8C+i2AichO+8LC9X72X
-         RFJPVKDpct7h36VPjAovZCcN96vpRRWbzhvfr+7hrVNbNQbd02ssSKuouy2jPz7jyAda
-         CzzV2XsKZJotwPzs6JjTJUmlh7d4ZPxNSqfZKrm1f6UaTNG+NvMd4moQsIiG4BeY7i/+
-         8T7wVPchh9HnlsX2ett7hs5cvIU9QltNjItmk4LFalacluRaWGnIvya5XQ7aHHxhm4Cx
-         9NiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1s7SFVVtG+zkirZ7bkWpAc7gUPf2lUPf5PGcrM42htU=;
-        b=LmxCwT8JwDD3N61tc7eyuf3zod/gvNBDeI3ErR6P+NVVYp6WwL0cGlItZ9ahnBzM55
-         kUgjLsyR2uf6xQ8UdihwIAA3F3bgSJzZjpMJuaZCON5So5ZzEG/OX2Q7qjbPVPoiDV71
-         QYyCOlkXWoU0R0HZ4Wxcbb0vFJQ/6zntaSQjel8BLhi/JAUwjJgIUqNDurzox/l4789O
-         3mmbxPF0NqKirxB6m9kON0EVfSwVifTUdBgXqcqvFdWS4uLdwRrnS6X1tifLLB8+Wa+B
-         ML7lDnvy7SFelUa+MZJAEBWfOhPp1pgz2lFZt9PL7Yl2BZuF8IRQC5qEgvEBEtv4jZvL
-         c2oA==
-X-Gm-Message-State: AOAM530y7ygzrVBwRx2cG09xe+hPU1WcBNnk0F4rTjihDONA0CaHH7tQ
-        Q0t/xkRUv6+RtAtZrB7LTWQeuEtAvEOLYQr9z/eeHQ==
-X-Google-Smtp-Source: ABdhPJxp7f+60/J6JDUzJ/c6E3vSsWzH0hIeWTKliprDTgEl22Tdcq/Rz2OXjb1KSbM+q+Ha6kQveXeCp1Vy5WCEs28=
-X-Received: by 2002:a67:fb96:: with SMTP id n22mr8234444vsr.13.1602258481302;
- Fri, 09 Oct 2020 08:48:01 -0700 (PDT)
+        id S2387780AbgJIRnF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 9 Oct 2020 13:43:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39204 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387717AbgJIRmp (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 9 Oct 2020 13:42:45 -0400
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D1E4F22284
+        for <linux-api@vger.kernel.org>; Fri,  9 Oct 2020 17:42:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602265364;
+        bh=gUOFuwn0cjC/he11EKalMfxi4MeQUBOwGoQDNcWNbT8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=vUhERsT7oViNCbN1yktcMSLrq2UoiL+noUEm/Nye3+FW9gP3EmlaS86YkwsSmaEix
+         VKEv0b99m6WYBTuDlZn2jRkrcKSPZWQCkuG0rlY9WIYSzqWA12nvkNsx/DBwy+Z+Qu
+         294/O/M6pWO1Cn6Y2Yz1mQFSimhCMSQLopcfyo3Q=
+Received: by mail-wr1-f44.google.com with SMTP id e17so11119291wru.12
+        for <linux-api@vger.kernel.org>; Fri, 09 Oct 2020 10:42:43 -0700 (PDT)
+X-Gm-Message-State: AOAM532gYW7UvIv3aut2XMGWgWNHwDD4FVPi3ZyaE+5aekZEOkf//yWM
+        1ZbgRHYfJft0D/svWvKGLETlVZS9iyCQAteP8nHvBQ==
+X-Google-Smtp-Source: ABdhPJzf70K4oYcxfMAjLVRVkzKqNGakkCA08giq0JSBoVJW1VDse/vwgNbdxjH+Vx69hTz8VQgAVnajSUf1U4ZTUOo=
+X-Received: by 2002:a5d:5281:: with SMTP id c1mr16067721wrv.184.1602265362208;
+ Fri, 09 Oct 2020 10:42:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1602204097.git.pcc@google.com> <19c5900e71a386eae3f00d90bb243bd385d9c6df.1602204097.git.pcc@google.com>
- <CAMuHMdXAA4kukQSzkSBJBTPLUfVGYKRMAxE_ezGGM=Hw_WFPVQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdXAA4kukQSzkSBJBTPLUfVGYKRMAxE_ezGGM=Hw_WFPVQ@mail.gmail.com>
-From:   Peter Collingbourne <pcc@google.com>
-Date:   Fri, 9 Oct 2020 08:47:50 -0700
-Message-ID: <CAMn1gO4yZEshEYXg0G5h6csHO6UaqHTR-KGtdGdioQ3mcTArFg@mail.gmail.com>
-Subject: Re: [PATCH v11 3/8] arch: move SA_* definitions to generic headers
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Will Deacon <will@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Helge Deller <deller@gmx.de>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
+References: <d0e4077e-129f-6823-dcea-a101ef626e8c@intel.com>
+ <99B32E59-CFF2-4756-89BD-AEA0021F355F@amacapital.net> <d9099183dadde8fe675e1b10e589d13b0d46831f.camel@intel.com>
+ <CALCETrWuhPE3A7eWC=ERJa7i7jLtsXnfu04PKUFJ-Gybro+p=Q@mail.gmail.com>
+ <b8797fcd-9d70-5749-2277-ef61f2e1be1f@intel.com> <CALCETrWvWAxEuyteLaPmmu-r5LcWdh_DuW4JAOh3pVD4skWoBQ@mail.gmail.com>
+ <CALCETrVvob1dbdWSvaB0ZK1kJ19o9ZKy=U3tFifwOR++_xk=zA@mail.gmail.com>
+ <dd4310bd-a76b-cf19-4f12-0b52d7bc483d@intel.com> <CALCETrXgde6yHTKw1Njnxp9cANp6Ee8bmG9C2X4e-Fz0ZZCuBw@mail.gmail.com>
+ <CAMe9rOonjX-b46sJ3AYSJZV84d=oU6-KhScnk5vksVqoLgQ90A@mail.gmail.com>
+ <CALCETrWoGXDDEvy10LoYVY6c_tkpMVABhCy+8pse9Rw8L9L=5A@mail.gmail.com>
+ <79d1e67d-2394-1ce6-3bad-cce24ba792bd@intel.com> <CALCETrU-pjSFBGBROukA8dtSUmft9E1j86oS16Lw0Oz1yzv8Gw@mail.gmail.com>
+ <ac8da604-3dff-ddb2-f530-2a256da3618d@intel.com>
+In-Reply-To: <ac8da604-3dff-ddb2-f530-2a256da3618d@intel.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Fri, 9 Oct 2020 10:42:30 -0700
+X-Gmail-Original-Message-ID: <CALCETrWhdM4NOhvzhNyChV9FaiBTjrQwzN+neMnY0FtHDforZQ@mail.gmail.com>
+Message-ID: <CALCETrWhdM4NOhvzhNyChV9FaiBTjrQwzN+neMnY0FtHDforZQ@mail.gmail.com>
+Subject: Re: [PATCH v13 8/8] x86/vsyscall/64: Fixup Shadow Stack and Indirect
+ Branch Tracking for vsyscall emulation
+To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Cc:     Andy Lutomirski <luto@kernel.org>, "H.J. Lu" <hjl.tools@gmail.com>,
+        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
-        David Spickett <david.spickett@linaro.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Richard Henderson <rth@twiddle.net>
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Oct 9, 2020 at 12:49 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+On Tue, Oct 6, 2020 at 12:09 PM Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
 >
-> On Fri, Oct 9, 2020 at 2:51 AM Peter Collingbourne <pcc@google.com> wrote:
-> > Most architectures with the exception of alpha, mips, parisc and
-> > sparc use the same values for these flags. Move their definitions into
-> > asm-generic/signal-defs.h and allow the architectures with non-standard
-> > values to override them. Also, document the non-standard flag values
-> > in order to make it easier to add new generic flags in the future.
+> On 10/1/2020 10:26 AM, Andy Lutomirski wrote:
+> > On Thu, Oct 1, 2020 at 9:51 AM Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
+> >>
+> >> On 9/30/2020 6:10 PM, Andy Lutomirski wrote:
+> >>> On Wed, Sep 30, 2020 at 6:01 PM H.J. Lu <hjl.tools@gmail.com> wrote:
+> >>>>
+> >>>> On Wed, Sep 30, 2020 at 4:44 PM Andy Lutomirski <luto@kernel.org> wrote:
+> >>
+> >> [...]
+> >>
+> >>>>>>>>>     From 09803e66dca38d7784e32687d0693550948199ed Mon Sep 17 00:00:00 2001
+> >>>>>>>>> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> >>>>>>>>> Date: Thu, 29 Nov 2018 14:15:38 -0800
+> >>>>>>>>> Subject: [PATCH v13 8/8] x86/vsyscall/64: Fixup Shadow Stack and
+> >>>>>>>>> Indirect Branch
+> >>>>>>>>>      Tracking for vsyscall emulation
+> >>>>>>>>>
+> >>>>>>>>> Vsyscall entry points are effectively branch targets.  Mark them with
+> >>>>>>>>> ENDBR64 opcodes.  When emulating the RET instruction, unwind shadow stack
+> >>>>>>>>> and reset IBT state machine.
+> >>>>>>>>>
+> >>>>>>>>> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+>
+> [...]
+>
+> >>>>>>>>
+> >>>>>>>
+> >>>>>>> For what it's worth, I think there is an alternative.  If you all
+> >>>>>>> (userspace people, etc) can come up with a credible way for a user
+> >>>>>>> program to statically declare that it doesn't need vsyscalls, then we
+> >>>>>>> could make SHSTK depend on *that*, and we could avoid this mess.  This
+> >>>>>>> breaks orthogonality, but it's probably a decent outcome.
+> >>>>>>>
+> >>>>>>
+> >>>>>> Would an arch_prctl(DISABLE_VSYSCALL) work?  The kernel then sets a
+> >>>>>> thread flag, and in emulate_vsyscall(), checks the flag.
+> >>>>>>
+> >>>>>> When CET is enabled, ld-linux will do DISABLE_VSYSCALL.
+> >>>>>>
+> >>>>>> How is that?
+> >>>>>
+> >>>>> Backwards, no?  Presumably vsyscall needs to be disabled before or
+> >>>>> concurrently with CET being enabled, not after.
+> >>>>>
+> >>>>> I think the solution of making vsyscall emulation work correctly with
+> >>>>> CET is going to be better and possibly more straightforward.
+> >>>>>
+> >>>>
+> >>>> We can do
+> >>>>
+> >>>> 1. Add ARCH_X86_DISABLE_VSYSCALL to disable the vsyscall page.
+> >>>> 2. If CPU supports CET and the program is CET enabled:
+> >>>>       a. Disable the vsyscall page.
+> >>>>       b. Pass control to user.
+> >>>>       c. Enable the vsyscall page when ARCH_X86_CET_DISABLE is called.
+> >>>>
+> >>>> So when control is passed from kernel to user, the vsyscall page is
+> >>>> disabled if the program
+> >>>> is CET enabled.
+> >>>
+> >>> Let me say this one more time:
+> >>>
+> >>> If we have a per-process vsyscall disable control and a per-process
+> >>> CET control, we are going to keep those settings orthogonal.  I'm
+> >>> willing to entertain an option in which enabling SHSTK without also
+> >>> disabling vsyscalls is disallowed, We are *not* going to have any CET
+> >>> flags magically disable vsyscalls, though, and we are not going to
+> >>> have a situation where disabling vsyscalls on process startup requires
+> >>> enabling SHSTK.
+> >>>
+> >>> Any possible static vsyscall controls (and CET controls, for that
+> >>> matter) also need to come with some explanation of whether they are
+> >>> properties set on the ELF loader, the ELF program being loaded, or
+> >>> both.  And this explanation needs to cover what happens when old
+> >>> binaries link against new libc versions and vice versa.  A new
+> >>> CET-enabled binary linked against old libc running on a new kernel
+> >>> that is expected to work on a non-CET CPU MUST work on a CET CPU, too.
+> >>>
+> >>> Right now, literally the only thing preventing vsyscall emulation from
+> >>> coexisting with SHSTK is that the implementation eeds work.
+> >>>
+> >>> So your proposal is rejected.  Sorry.
+> >>>
+> >> I think, even with shadow stack/ibt enabled, we can still allow XONLY
+> >> without too much mess.
+> >>
+> >> What about this?
+> >>
+> >> Thanks,
+> >> Yu-cheng
+> >>
+> >> ======
+> >>
+> >> diff --git a/arch/x86/entry/vsyscall/vsyscall_64.c
+> >> b/arch/x86/entry/vsyscall/vsyscall_64.c
+> >> index 8b0b32ac7791..d39da0a15521 100644
+> >> --- a/arch/x86/entry/vsyscall/vsyscall_64.c
+> >> +++ b/arch/x86/entry/vsyscall/vsyscall_64.c
+> >> @@ -48,16 +48,16 @@
+> >>    static enum { EMULATE, XONLY, NONE } vsyscall_mode __ro_after_init =
+> >>    #ifdef CONFIG_LEGACY_VSYSCALL_NONE
+> >>           NONE;
+> >> -#elif defined(CONFIG_LEGACY_VSYSCALL_XONLY)
+> >> +#elif defined(CONFIG_LEGACY_VSYSCALL_XONLY) || defined(CONFIG_X86_CET)
+> >>           XONLY;
+> >> -#else
+> >> +#else
+> >>           EMULATE;
+> >>    #endif
 > >
-> > A consequence of this change is that on powerpc and x86, the constants'
-> > values aside from SA_RESETHAND change signedness from unsigned
-> > to signed. This is not expected to impact realistic use of these
-> > constants. In particular the typical use of the constants where they
-> > are or'ed together and assigned to sa_flags (or another int variable)
-> > would not be affected.
+> > I don't get it.
 > >
-> > Signed-off-by: Peter Collingbourne <pcc@google.com>
-> > Link: https://linux-review.googlesource.com/id/Ia3849f18b8009bf41faca374e701cdca36974528
+> > First, you can't do any of this based on config -- it must be runtime.
+> >
+> > Second, and more importantly, I don't see how XONLY helps at all.  The
+> > (non-executable) text that's exposed to user code in EMULATE mode is
+> > trivial to get right with CET -- your code already handles it.  It's
+> > the emulation code (that runs identically in EMULATE and XONLY mode)
+> > that's tricky.
+> >
 >
-> >  arch/m68k/include/uapi/asm/signal.h    | 24 -------------
+> Hi,
 >
-> Please preserve my
-> Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> given on v9 when posting new versions.
+> There has been some ambiguity in my previous proposals.  To make things
+> clear, I created a patch for arch_prctl(VSYSCALL_CTL), which controls
+> the TIF_VSYSCALL_DISABLE flag.  It is entirely orthogonal to shadow
+> stack or IBT.  On top of the patch, we can do SET_PERSONALITY2() to
+> disable vsyscall, e.g.
 
-Sorry about that, I've applied your Acked-by locally and I'll include
-it in future patches.
+NAK.  Let me try explaining again.
 
-Peter
+>
+> ======
+> diff --git a/arch/x86/include/asm/elf.h b/arch/x86/include/asm/elf.h
+> index 0e1be2a13359..c730ff00bc62 100644
+> --- a/arch/x86/include/asm/elf.h
+> +++ b/arch/x86/include/asm/elf.h
+> @@ -394,6 +394,19 @@ struct arch_elf_state {
+>         .gnu_property = 0,      \
+>   }
+>
+> +#define SET_PERSONALITY2(ex, state)                            \
+> +do {                                                           \
+> +       unsigned int has_cet;                                   \
+> +                                                               \
+> +       has_cet = GNU_PROPERTY_X86_FEATURE_1_SHSTK |            \
+> +                 GNU_PROPERTY_X86_FEATURE_1_IBT;               \
+> +                                                               \
+> +       if ((state)->gnu_property & has_cet)                    \
+> +               set_thread_flag(TIF_VSYSCALL_DISABLE);          \
+> +                                                               \
+> +       SET_PERSONALITY(ex);                                    \
+> +} while (0)
+> +
+
+This is not what "orthogonal" means.  If the bits were orthogonal, the
+logic would be:
+
+if (gnu_property & DISABLE_VSYSCALL)
+  disable vsyscall;
+if (gnu_property & SHSTK)
+  enable SHSTK;
+if (gnu_property & IBT);
+  enable IBT;
+
+and, if necessarily (although I still think it would be preferable not
+to do this):
+
+if ((gnu_property & (DISABLE_VSYSCALL | SHSTK)) == SHSTK)
+  return -EINVAL;
+
+As far as I'm concerned, you have two choices:
+
+a) Make SHSTK work *correctly* with vsyscall emulation.
+
+b) Add a high quality mechanism to disable vsyscall emulation and make
+SHSTK depend on that.
+
+As far as I'm concerned, (a) is preferable.  Ideally we'd get (a)
+*and* a high quality vsyscall emulation disable mechanism with no
+dependencies.
+
+
+> diff --git a/arch/x86/entry/vsyscall/vsyscall_64.c
+> b/arch/x86/entry/vsyscall/vsyscall_64.c
+> index 44c33103a955..fe8f3db6d21b 100644
+> --- a/arch/x86/entry/vsyscall/vsyscall_64.c
+> +++ b/arch/x86/entry/vsyscall/vsyscall_64.c
+> @@ -127,6 +127,9 @@ bool emulate_vsyscall(unsigned long error_code,
+>         long ret;
+>         unsigned long orig_dx;
+>
+> +       if (test_thread_flag(TIF_VSYSCALL_DISABLE))
+> +               return false;
+> +
+
+This needs to be per-mm, not per-thread.  There's a patch floating
+around that gets us about a quarter of the way there.  I'm not
+convinced that CET should wait for this to finish.
