@@ -2,56 +2,57 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3641B287F8A
-	for <lists+linux-api@lfdr.de>; Fri,  9 Oct 2020 02:44:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C225287F8B
+	for <lists+linux-api@lfdr.de>; Fri,  9 Oct 2020 02:44:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729017AbgJIAoj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 8 Oct 2020 20:44:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38856 "EHLO
+        id S1729251AbgJIAol (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 8 Oct 2020 20:44:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725852AbgJIAoj (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 8 Oct 2020 20:44:39 -0400
-Received: from mail-qv1-xf4a.google.com (mail-qv1-xf4a.google.com [IPv6:2607:f8b0:4864:20::f4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E28DC0613D2
-        for <linux-api@vger.kernel.org>; Thu,  8 Oct 2020 17:44:39 -0700 (PDT)
-Received: by mail-qv1-xf4a.google.com with SMTP id y45so4656688qve.15
-        for <linux-api@vger.kernel.org>; Thu, 08 Oct 2020 17:44:39 -0700 (PDT)
+        with ESMTP id S1725852AbgJIAol (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 8 Oct 2020 20:44:41 -0400
+Received: from mail-pl1-x64a.google.com (mail-pl1-x64a.google.com [IPv6:2607:f8b0:4864:20::64a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 624F6C0613D2
+        for <linux-api@vger.kernel.org>; Thu,  8 Oct 2020 17:44:41 -0700 (PDT)
+Received: by mail-pl1-x64a.google.com with SMTP id y24so4837828plr.20
+        for <linux-api@vger.kernel.org>; Thu, 08 Oct 2020 17:44:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=sender:date:in-reply-to:message-id:mime-version:references:subject
          :from:to:cc;
-        bh=rzMGsQb7TxYXn1kDvzHyiw2ifcfCd8plm4Sue9XJjyM=;
-        b=ZIztv9cq//luPsycYI+8U4X1CuixN6L67TV9Sssy3JZKD4sUk4dms+R4te+fwlnfst
-         6b9P0qiViYGGYb7YQKXHWzGw1NgSm16HzxlJ4DENMGwAasB5eTfk6Lj9nqrd4dW/Zgba
-         jZzykMizj4bo4SZBpbtQqRQ0OzjmZZOMi4ru59VbB7hbfKM5DNgXQBs4e0kHm6VHeqOC
-         oNMpugUj7YiqEsnIv6bzfr4KYCDV4unzSOcrtK35XJGyQ5wO5bqni0/8AWHnlQpG/tJJ
-         krKZ3fNQPNmLVtnVHybTZC7c+R66a/nLahAu+KJRRvo/nWEfZgPTc4+X+yBS2k5pqOxu
-         FUHg==
+        bh=ir77EZ13MZinhNAPWi5gLYTER+Mb71MlO6lCEMWC2nA=;
+        b=TFYGZFsp/wyH4JHEMfBA4EHPDqXb9wPQgW6ympWFBeF+qCWNoO3idk7LtVyxl28fkw
+         jBM5DCn27TxWfYHBTNBzPb+ec4+0KnDURbAC5CL2jsMXHPSaLEIRcyTxZQtkGqKtj26u
+         4cmmkMBp1nrrcBDhlLdbeP2oZKD3VqtdgrakJzsDLTLE78t/I6E9iy+rpU8oQ2AAnF5m
+         0ouXFZ8CuXgozjiU+27OqC9WFSahyIt9GDhX6lm+O1rol+mgk/c8dhwwh+eeF3qCBOp3
+         8Ba0PKJZTtCUzIEdcINYxP4RY7OxTuIVt0Too6bKEyBJq78yubXH/53d9RLv/Te361Xi
+         s7vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=rzMGsQb7TxYXn1kDvzHyiw2ifcfCd8plm4Sue9XJjyM=;
-        b=iEjVNL+tge2HNkTo321PSGUGag7BxSxbaR8aYW6ASdYZaAwJYpk/B0Dnst/e9tzkNQ
-         cIyKY9tycZ+JC1erQu/lsdbVK8QiPPPNm0+GGb2+uCsJhbr1C/cURjTfQs+ULwPkSThk
-         sNEDWefNUGOVBB6y42tx3l17l5qaTR8P6dErT1xgvh6jOuw2wfFAtJImdcZsZw/rrhza
-         ahZGtbUBn2cCPjw8bdnB6D0B/YXhBVBjosO4lJgRpq6tXud7sGxRgcJFhT2Qk3oLgkXv
-         YUIVjBIsubWzK7uqtUwPjPXwS7Dae+HpDhGyNucs7AUjLnm+GjYwvzQiKSl/qJUtkE/L
-         Y5ig==
-X-Gm-Message-State: AOAM530yNPQUgHO5jC/CPW0fQxOymmwv/EQxV5NMAilIHoI+353TwYBx
-        zkv38DoXlxNZZTt0PK/06i7LwqI=
-X-Google-Smtp-Source: ABdhPJzDHqjKD7qglW2bdfF6MKUt/l0+ZI0sO4TsfNpMV50roTfOJrluMTQdLFb3tvn/pdhiwgRM3bE=
+        bh=ir77EZ13MZinhNAPWi5gLYTER+Mb71MlO6lCEMWC2nA=;
+        b=BRuntooqicv/F3Ies1Yb9N0e/Qkz18rV0vCM0M5j9T0NkDW3OUX52WAB8VKCKHv/tX
+         rWUFB5KlJJ2FT0EZA6s8Li4MYTbFEv7Ugv7k2zhLzNDqKvkixT0+m4E7gChvy+8cIxGV
+         yqwk19iwYAj9OOWjFDcAEXrBnIxLqcfoG6N9PY5nDbp81MReQCFATXHq4KWUqH/2Hqiy
+         kQiG1N1HhFPcx8PZ6ucV4r1sPdtl9dHgXwa4TZaDDIv52Fcx9AvleJQ8TCXdiPKXzPDM
+         JmWTT9NzsP2eikmDWmWSIuaelDAHethussrLLSbOQzYGBwgkwynCC0CPNw8WeV4Vveov
+         Aymw==
+X-Gm-Message-State: AOAM530rFoLHX4LtlYxBURB7t1Jsrxbu6Bn2mzvXr3hIK9Hs6nPDKAHC
+        aBW2PkApnWADol9YNqB01Jwm59o=
+X-Google-Smtp-Source: ABdhPJxhG6yuaHO7qavYT+O2XY9DHx4cSNgzFRV7DvL4LbR1KS7fql0fwYbf/0PV6ptoprRFNCRq+JM=
 Sender: "pcc via sendgmr" <pcc@pcc-desktop.svl.corp.google.com>
 X-Received: from pcc-desktop.svl.corp.google.com ([2620:15c:2ce:0:7220:84ff:fe09:385a])
- (user=pcc job=sendgmr) by 2002:ad4:42ae:: with SMTP id e14mr10416859qvr.44.1602204278266;
- Thu, 08 Oct 2020 17:44:38 -0700 (PDT)
-Date:   Thu,  8 Oct 2020 17:44:14 -0700
+ (user=pcc job=sendgmr) by 2002:a17:90a:e553:: with SMTP id
+ ei19mr1664300pjb.136.1602204280856; Thu, 08 Oct 2020 17:44:40 -0700 (PDT)
+Date:   Thu,  8 Oct 2020 17:44:15 -0700
 In-Reply-To: <cover.1602204097.git.pcc@google.com>
-Message-Id: <19c5900e71a386eae3f00d90bb243bd385d9c6df.1602204097.git.pcc@google.com>
+Message-Id: <501509fe0126cc76bfb4e6cc6c969c52f932b2c8.1602204097.git.pcc@google.com>
 Mime-Version: 1.0
 References: <cover.1602204097.git.pcc@google.com>
 X-Mailer: git-send-email 2.28.0.1011.ga647a8990f-goog
-Subject: [PATCH v11 3/8] arch: move SA_* definitions to generic headers
+Subject: [PATCH v11 4/8] signal: clear non-uapi flag bits when
+ passing/returning sa_flags
 From:   Peter Collingbourne <pcc@google.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Evgenii Stepanov <eugenis@google.com>,
@@ -73,520 +74,137 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Most architectures with the exception of alpha, mips, parisc and
-sparc use the same values for these flags. Move their definitions into
-asm-generic/signal-defs.h and allow the architectures with non-standard
-values to override them. Also, document the non-standard flag values
-in order to make it easier to add new generic flags in the future.
+Previously we were not clearing non-uapi flag bits in
+sigaction.sa_flags when storing the userspace-provided sa_flags or
+when returning them via oldact. Start doing so.
 
-A consequence of this change is that on powerpc and x86, the constants'
-values aside from SA_RESETHAND change signedness from unsigned
-to signed. This is not expected to impact realistic use of these
-constants. In particular the typical use of the constants where they
-are or'ed together and assigned to sa_flags (or another int variable)
-would not be affected.
+This allows userspace to detect missing support for flag bits and
+allows the kernel to use non-uapi bits internally, as we are already
+doing in arch/x86 for two flag bits. Now that this change is in
+place, we no longer need the code in arch/x86 that was hiding these
+bits from userspace, so remove it.
 
+This is technically a userspace-visible behavior change for sigaction, as
+the unknown bits returned via oldact.sa_flags are no longer set. However,
+we are free to define the behavior for unknown bits exactly because
+their behavior is currently undefined, so for now we can define the
+meaning of each of them to be "clear the bit in oldact.sa_flags unless
+the bit becomes known in the future". Furthermore, this behavior is
+consistent with OpenBSD [1], illumos [2] and XNU [3] (FreeBSD [4] and
+NetBSD [5] fail the syscall if unknown bits are set). So there is some
+precedent for this behavior in other kernels, and in particular in XNU,
+which is probably the most popular kernel among those that I looked at,
+which means that this change is less likely to be a compatibility issue.
+
+Link: [1] https://github.com/openbsd/src/blob/f634a6a4b5bf832e9c1de77f7894ae2625e74484/sys/kern/kern_sig.c#L278
+Link: [2] https://github.com/illumos/illumos-gate/blob/76f19f5fdc974fe5be5c82a556e43a4df93f1de1/usr/src/uts/common/syscall/sigaction.c#L86
+Link: [3] https://github.com/apple/darwin-xnu/blob/a449c6a3b8014d9406c2ddbdc81795da24aa7443/bsd/kern/kern_sig.c#L480
+Link: [4] https://github.com/freebsd/freebsd/blob/eded70c37057857c6e23fae51f86b8f8f43cd2d0/sys/kern/kern_sig.c#L699
+Link: [5] https://github.com/NetBSD/src/blob/3365779becdcedfca206091a645a0e8e22b2946e/sys/kern/sys_sig.c#L473
 Signed-off-by: Peter Collingbourne <pcc@google.com>
-Link: https://linux-review.googlesource.com/id/Ia3849f18b8009bf41faca374e701cdca36974528
+Link: https://linux-review.googlesource.com/id/I35aab6f5be932505d90f3b3450c083b4db1eca86
 ---
-v11:
-- tweak the commit message to point out the change from unsigned
-  to signed
-
 v10:
-- move the comments around and add one for SA_SIGINFO
+- rename SA_UAPI_FLAGS -> UAPI_SA_FLAGS
+- refactor how we define it to avoid mentioning flags more
+  than once
 
- arch/alpha/include/uapi/asm/signal.h   | 14 --------
- arch/arm/include/uapi/asm/signal.h     | 28 ++-------------
- arch/h8300/include/uapi/asm/signal.h   | 24 -------------
- arch/ia64/include/uapi/asm/signal.h    | 24 -------------
- arch/m68k/include/uapi/asm/signal.h    | 24 -------------
- arch/mips/include/uapi/asm/signal.h    | 12 -------
- arch/parisc/include/uapi/asm/signal.h  | 13 -------
- arch/powerpc/include/uapi/asm/signal.h | 24 -------------
- arch/s390/include/uapi/asm/signal.h    | 24 -------------
- arch/sparc/include/uapi/asm/signal.h   |  4 +--
- arch/x86/include/uapi/asm/signal.h     | 24 -------------
- arch/xtensa/include/uapi/asm/signal.h  | 24 -------------
- include/uapi/asm-generic/signal-defs.h | 47 ++++++++++++++++++++++++++
- include/uapi/asm-generic/signal.h      | 29 ----------------
- 14 files changed, 51 insertions(+), 264 deletions(-)
+ arch/arm/include/asm/signal.h    |  2 ++
+ arch/parisc/include/asm/signal.h |  2 ++
+ arch/x86/kernel/signal_compat.c  |  7 -------
+ include/linux/signal_types.h     | 12 ++++++++++++
+ kernel/signal.c                  | 10 ++++++++++
+ 5 files changed, 26 insertions(+), 7 deletions(-)
 
-diff --git a/arch/alpha/include/uapi/asm/signal.h b/arch/alpha/include/uapi/asm/signal.h
-index 74c750bf1c1a..a69dd8d080a8 100644
---- a/arch/alpha/include/uapi/asm/signal.h
-+++ b/arch/alpha/include/uapi/asm/signal.h
-@@ -60,20 +60,6 @@ typedef unsigned long sigset_t;
- #define SIGRTMIN	32
- #define SIGRTMAX	_NSIG
+diff --git a/arch/arm/include/asm/signal.h b/arch/arm/include/asm/signal.h
+index 65530a042009..430be7774402 100644
+--- a/arch/arm/include/asm/signal.h
++++ b/arch/arm/include/asm/signal.h
+@@ -17,6 +17,8 @@ typedef struct {
+ 	unsigned long sig[_NSIG_WORDS];
+ } sigset_t;
  
--/*
-- * SA_FLAGS values:
-- *
-- * SA_ONSTACK indicates that a registered stack_t will be used.
-- * SA_RESTART flag to get restarting signals (which were the default long ago)
-- * SA_NOCLDSTOP flag to turn off SIGCHLD when children stop.
-- * SA_RESETHAND clears the handler when the signal is delivered.
-- * SA_NOCLDWAIT flag on SIGCHLD to inhibit zombies.
-- * SA_NODEFER prevents the current signal from being masked in the handler.
-- *
-- * SA_ONESHOT and SA_NOMASK are the historical Linux names for the Single
-- * Unix names RESETHAND and NODEFER respectively.
-- */
++#define __ARCH_UAPI_SA_FLAGS	(SA_THIRTYTWO | SA_RESTORER)
++
+ #define __ARCH_HAS_SA_RESTORER
+ 
+ #include <asm/sigcontext.h>
+diff --git a/arch/parisc/include/asm/signal.h b/arch/parisc/include/asm/signal.h
+index 715c96ba2ec8..30dd1e43ef88 100644
+--- a/arch/parisc/include/asm/signal.h
++++ b/arch/parisc/include/asm/signal.h
+@@ -21,6 +21,8 @@ typedef struct {
+ 	unsigned long sig[_NSIG_WORDS];
+ } sigset_t;
+ 
++#define __ARCH_UAPI_SA_FLAGS	_SA_SIGGFAULT
++
+ #include <asm/sigcontext.h>
+ 
+ #endif /* !__ASSEMBLY */
+diff --git a/arch/x86/kernel/signal_compat.c b/arch/x86/kernel/signal_compat.c
+index 9ccbf0576cd0..c599013ae8cb 100644
+--- a/arch/x86/kernel/signal_compat.c
++++ b/arch/x86/kernel/signal_compat.c
+@@ -165,16 +165,9 @@ void sigaction_compat_abi(struct k_sigaction *act, struct k_sigaction *oact)
+ {
+ 	signal_compat_build_tests();
+ 
+-	/* Don't leak in-kernel non-uapi flags to user-space */
+-	if (oact)
+-		oact->sa.sa_flags &= ~(SA_IA32_ABI | SA_X32_ABI);
 -
- #define SA_ONSTACK	0x00000001
- #define SA_RESTART	0x00000002
- #define SA_NOCLDSTOP	0x00000004
-diff --git a/arch/arm/include/uapi/asm/signal.h b/arch/arm/include/uapi/asm/signal.h
-index 9b4185ba4f8a..7727f0984d26 100644
---- a/arch/arm/include/uapi/asm/signal.h
-+++ b/arch/arm/include/uapi/asm/signal.h
-@@ -60,33 +60,11 @@ typedef unsigned long sigset_t;
- #define SIGSWI		32
+ 	if (!act)
+ 		return;
  
- /*
-- * SA_FLAGS values:
-- *
-- * SA_NOCLDSTOP		flag to turn off SIGCHLD when children stop.
-- * SA_NOCLDWAIT		flag on SIGCHLD to inhibit zombies.
-- * SA_SIGINFO		deliver the signal with SIGINFO structs
-- * SA_THIRTYTWO		delivers the signal in 32-bit mode, even if the task 
-- *			is running in 26-bit.
-- * SA_ONSTACK		allows alternate signal stacks (see sigaltstack(2)).
-- * SA_RESTART		flag to get restarting signals (which were the default long ago)
-- * SA_NODEFER		prevents the current signal from being masked in the handler.
-- * SA_RESETHAND		clears the handler when the signal is delivered.
-- *
-- * SA_ONESHOT and SA_NOMASK are the historical Linux names for the Single
-- * Unix names RESETHAND and NODEFER respectively.
-+ * SA_THIRTYTWO historically meant deliver the signal in 32-bit mode, even if
-+ * the task is running in 26-bit. But since the kernel no longer supports
-+ * 26-bit mode, the flag has no effect.
-  */
--#define SA_NOCLDSTOP	0x00000001
--#define SA_NOCLDWAIT	0x00000002
--#define SA_SIGINFO	0x00000004
- #define SA_THIRTYTWO	0x02000000
--#define SA_RESTORER	0x04000000
--#define SA_ONSTACK	0x08000000
--#define SA_RESTART	0x10000000
--#define SA_NODEFER	0x40000000
--#define SA_RESETHAND	0x80000000
+-	/* Don't let flags to be set from userspace */
+-	act->sa.sa_flags &= ~(SA_IA32_ABI | SA_X32_ABI);
 -
--#define SA_NOMASK	SA_NODEFER
--#define SA_ONESHOT	SA_RESETHAND
+ 	if (in_ia32_syscall())
+ 		act->sa.sa_flags |= SA_IA32_ABI;
+ 	if (in_x32_syscall())
+diff --git a/include/linux/signal_types.h b/include/linux/signal_types.h
+index f8a90ae9c6ec..a7887ad84d36 100644
+--- a/include/linux/signal_types.h
++++ b/include/linux/signal_types.h
+@@ -68,4 +68,16 @@ struct ksignal {
+ 	int sig;
+ };
  
- #define MINSIGSTKSZ	2048
- #define SIGSTKSZ	8192
-diff --git a/arch/h8300/include/uapi/asm/signal.h b/arch/h8300/include/uapi/asm/signal.h
-index e15521037348..2cd0dce2b6a6 100644
---- a/arch/h8300/include/uapi/asm/signal.h
-+++ b/arch/h8300/include/uapi/asm/signal.h
-@@ -57,30 +57,6 @@ typedef unsigned long sigset_t;
- #define SIGRTMIN	32
- #define SIGRTMAX	_NSIG
- 
--/*
-- * SA_FLAGS values:
-- *
-- * SA_ONSTACK indicates that a registered stack_t will be used.
-- * SA_RESTART flag to get restarting signals (which were the default long ago)
-- * SA_NOCLDSTOP flag to turn off SIGCHLD when children stop.
-- * SA_RESETHAND clears the handler when the signal is delivered.
-- * SA_NOCLDWAIT flag on SIGCHLD to inhibit zombies.
-- * SA_NODEFER prevents the current signal from being masked in the handler.
-- *
-- * SA_ONESHOT and SA_NOMASK are the historical Linux names for the Single
-- * Unix names RESETHAND and NODEFER respectively.
-- */
--#define SA_NOCLDSTOP	0x00000001
--#define SA_NOCLDWAIT	0x00000002 /* not supported yet */
--#define SA_SIGINFO	0x00000004
--#define SA_ONSTACK	0x08000000
--#define SA_RESTART	0x10000000
--#define SA_NODEFER	0x40000000
--#define SA_RESETHAND	0x80000000
--
--#define SA_NOMASK	SA_NODEFER
--#define SA_ONESHOT	SA_RESETHAND
--
- #define SA_RESTORER	0x04000000
- 
- #define MINSIGSTKSZ	2048
-diff --git a/arch/ia64/include/uapi/asm/signal.h b/arch/ia64/include/uapi/asm/signal.h
-index aa98ff1b9e22..38166a88e4c9 100644
---- a/arch/ia64/include/uapi/asm/signal.h
-+++ b/arch/ia64/include/uapi/asm/signal.h
-@@ -53,30 +53,6 @@
- #define SIGRTMIN	32
- #define SIGRTMAX	_NSIG
- 
--/*
-- * SA_FLAGS values:
-- *
-- * SA_ONSTACK indicates that a registered stack_t will be used.
-- * SA_RESTART flag to get restarting signals (which were the default long ago)
-- * SA_NOCLDSTOP flag to turn off SIGCHLD when children stop.
-- * SA_RESETHAND clears the handler when the signal is delivered.
-- * SA_NOCLDWAIT flag on SIGCHLD to inhibit zombies.
-- * SA_NODEFER prevents the current signal from being masked in the handler.
-- *
-- * SA_ONESHOT and SA_NOMASK are the historical Linux names for the Single
-- * Unix names RESETHAND and NODEFER respectively.
-- */
--#define SA_NOCLDSTOP	0x00000001
--#define SA_NOCLDWAIT	0x00000002
--#define SA_SIGINFO	0x00000004
--#define SA_ONSTACK	0x08000000
--#define SA_RESTART	0x10000000
--#define SA_NODEFER	0x40000000
--#define SA_RESETHAND	0x80000000
--
--#define SA_NOMASK	SA_NODEFER
--#define SA_ONESHOT	SA_RESETHAND
--
- #define SA_RESTORER	0x04000000
- 
- /*
-diff --git a/arch/m68k/include/uapi/asm/signal.h b/arch/m68k/include/uapi/asm/signal.h
-index 915cc755a184..4619291df601 100644
---- a/arch/m68k/include/uapi/asm/signal.h
-+++ b/arch/m68k/include/uapi/asm/signal.h
-@@ -57,30 +57,6 @@ typedef unsigned long sigset_t;
- #define SIGRTMIN	32
- #define SIGRTMAX	_NSIG
- 
--/*
-- * SA_FLAGS values:
-- *
-- * SA_ONSTACK indicates that a registered stack_t will be used.
-- * SA_RESTART flag to get restarting signals (which were the default long ago)
-- * SA_NOCLDSTOP flag to turn off SIGCHLD when children stop.
-- * SA_RESETHAND clears the handler when the signal is delivered.
-- * SA_NOCLDWAIT flag on SIGCHLD to inhibit zombies.
-- * SA_NODEFER prevents the current signal from being masked in the handler.
-- *
-- * SA_ONESHOT and SA_NOMASK are the historical Linux names for the Single
-- * Unix names RESETHAND and NODEFER respectively.
-- */
--#define SA_NOCLDSTOP	0x00000001
--#define SA_NOCLDWAIT	0x00000002
--#define SA_SIGINFO	0x00000004
--#define SA_ONSTACK	0x08000000
--#define SA_RESTART	0x10000000
--#define SA_NODEFER	0x40000000
--#define SA_RESETHAND	0x80000000
--
--#define SA_NOMASK	SA_NODEFER
--#define SA_ONESHOT	SA_RESETHAND
--
- #define MINSIGSTKSZ	2048
- #define SIGSTKSZ	8192
- 
-diff --git a/arch/mips/include/uapi/asm/signal.h b/arch/mips/include/uapi/asm/signal.h
-index 53104b10aae2..e6c78a15cb2f 100644
---- a/arch/mips/include/uapi/asm/signal.h
-+++ b/arch/mips/include/uapi/asm/signal.h
-@@ -62,18 +62,6 @@ typedef unsigned long old_sigset_t;		/* at least 32 bits */
- #define SIGRTMAX	_NSIG
- 
- /*
-- * SA_FLAGS values:
-- *
-- * SA_ONSTACK indicates that a registered stack_t will be used.
-- * SA_RESTART flag to get restarting signals (which were the default long ago)
-- * SA_NOCLDSTOP flag to turn off SIGCHLD when children stop.
-- * SA_RESETHAND clears the handler when the signal is delivered.
-- * SA_NOCLDWAIT flag on SIGCHLD to inhibit zombies.
-- * SA_NODEFER prevents the current signal from being masked in the handler.
-- *
-- * SA_ONESHOT and SA_NOMASK are the historical Linux names for the Single
-- * Unix names RESETHAND and NODEFER respectively.
-- *
-  * SA_RESTORER used to be defined as 0x04000000 but only the O32 ABI ever
-  * supported its use and no libc was using it, so the entire sa-restorer
-  * functionality was removed with lmo commit 39bffc12c3580ab for 2.5.48
-diff --git a/arch/parisc/include/uapi/asm/signal.h b/arch/parisc/include/uapi/asm/signal.h
-index e67b1bfb82ba..a0112318c387 100644
---- a/arch/parisc/include/uapi/asm/signal.h
-+++ b/arch/parisc/include/uapi/asm/signal.h
-@@ -41,19 +41,6 @@
- #define SIGRTMIN	32
- #define SIGRTMAX	_NSIG /* it's 44 under HP/UX */
- 
--/*
-- * SA_FLAGS values:
-- *
-- * SA_ONSTACK indicates that a registered stack_t will be used.
-- * SA_RESTART flag to get restarting signals (which were the default long ago)
-- * SA_NOCLDSTOP flag to turn off SIGCHLD when children stop.
-- * SA_RESETHAND clears the handler when the signal is delivered.
-- * SA_NOCLDWAIT flag on SIGCHLD to inhibit zombies.
-- * SA_NODEFER prevents the current signal from being masked in the handler.
-- *
-- * SA_ONESHOT and SA_NOMASK are the historical Linux names for the Single
-- * Unix names RESETHAND and NODEFER respectively.
-- */
- #define SA_ONSTACK	0x00000001
- #define SA_RESETHAND	0x00000004
- #define SA_NOCLDSTOP	0x00000008
-diff --git a/arch/powerpc/include/uapi/asm/signal.h b/arch/powerpc/include/uapi/asm/signal.h
-index 85b0a7aa43e7..04873dd311c2 100644
---- a/arch/powerpc/include/uapi/asm/signal.h
-+++ b/arch/powerpc/include/uapi/asm/signal.h
-@@ -60,30 +60,6 @@ typedef struct {
- #define SIGRTMIN	32
- #define SIGRTMAX	_NSIG
- 
--/*
-- * SA_FLAGS values:
-- *
-- * SA_ONSTACK is not currently supported, but will allow sigaltstack(2).
-- * SA_RESTART flag to get restarting signals (which were the default long ago)
-- * SA_NOCLDSTOP flag to turn off SIGCHLD when children stop.
-- * SA_RESETHAND clears the handler when the signal is delivered.
-- * SA_NOCLDWAIT flag on SIGCHLD to inhibit zombies.
-- * SA_NODEFER prevents the current signal from being masked in the handler.
-- *
-- * SA_ONESHOT and SA_NOMASK are the historical Linux names for the Single
-- * Unix names RESETHAND and NODEFER respectively.
-- */
--#define SA_NOCLDSTOP	0x00000001U
--#define SA_NOCLDWAIT	0x00000002U
--#define SA_SIGINFO	0x00000004U
--#define SA_ONSTACK	0x08000000U
--#define SA_RESTART	0x10000000U
--#define SA_NODEFER	0x40000000U
--#define SA_RESETHAND	0x80000000U
--
--#define SA_NOMASK	SA_NODEFER
--#define SA_ONESHOT	SA_RESETHAND
--
- #define SA_RESTORER	0x04000000U
- 
- #define MINSIGSTKSZ	2048
-diff --git a/arch/s390/include/uapi/asm/signal.h b/arch/s390/include/uapi/asm/signal.h
-index 9a14a611ed82..0189f326aac5 100644
---- a/arch/s390/include/uapi/asm/signal.h
-+++ b/arch/s390/include/uapi/asm/signal.h
-@@ -65,30 +65,6 @@ typedef unsigned long sigset_t;
- #define SIGRTMIN        32
- #define SIGRTMAX        _NSIG
- 
--/*
-- * SA_FLAGS values:
-- *
-- * SA_ONSTACK indicates that a registered stack_t will be used.
-- * SA_RESTART flag to get restarting signals (which were the default long ago)
-- * SA_NOCLDSTOP flag to turn off SIGCHLD when children stop.
-- * SA_RESETHAND clears the handler when the signal is delivered.
-- * SA_NOCLDWAIT flag on SIGCHLD to inhibit zombies.
-- * SA_NODEFER prevents the current signal from being masked in the handler.
-- *
-- * SA_ONESHOT and SA_NOMASK are the historical Linux names for the Single
-- * Unix names RESETHAND and NODEFER respectively.
-- */
--#define SA_NOCLDSTOP    0x00000001
--#define SA_NOCLDWAIT    0x00000002
--#define SA_SIGINFO      0x00000004
--#define SA_ONSTACK      0x08000000
--#define SA_RESTART      0x10000000
--#define SA_NODEFER      0x40000000
--#define SA_RESETHAND    0x80000000
--
--#define SA_NOMASK       SA_NODEFER
--#define SA_ONESHOT      SA_RESETHAND
--
- #define SA_RESTORER     0x04000000
- 
- #define MINSIGSTKSZ     2048
-diff --git a/arch/sparc/include/uapi/asm/signal.h b/arch/sparc/include/uapi/asm/signal.h
-index ff9505923b9a..53758d53ac0e 100644
---- a/arch/sparc/include/uapi/asm/signal.h
-+++ b/arch/sparc/include/uapi/asm/signal.h
-@@ -137,13 +137,11 @@ struct sigstack {
- #define SA_STACK	_SV_SSTACK
- #define SA_ONSTACK	_SV_SSTACK
- #define SA_RESTART	_SV_INTR
--#define SA_ONESHOT	_SV_RESET
-+#define SA_RESETHAND	_SV_RESET
- #define SA_NODEFER	0x20u
- #define SA_NOCLDWAIT    0x100u
- #define SA_SIGINFO      0x200u
- 
--#define SA_NOMASK	SA_NODEFER
--
- #define SIG_BLOCK          0x01	/* for blocking signals */
- #define SIG_UNBLOCK        0x02	/* for unblocking signals */
- #define SIG_SETMASK        0x04	/* for setting the signal mask */
-diff --git a/arch/x86/include/uapi/asm/signal.h b/arch/x86/include/uapi/asm/signal.h
-index e5745d593dc7..164a22a72984 100644
---- a/arch/x86/include/uapi/asm/signal.h
-+++ b/arch/x86/include/uapi/asm/signal.h
-@@ -62,30 +62,6 @@ typedef unsigned long sigset_t;
- #define SIGRTMIN	32
- #define SIGRTMAX	_NSIG
- 
--/*
-- * SA_FLAGS values:
-- *
-- * SA_ONSTACK indicates that a registered stack_t will be used.
-- * SA_RESTART flag to get restarting signals (which were the default long ago)
-- * SA_NOCLDSTOP flag to turn off SIGCHLD when children stop.
-- * SA_RESETHAND clears the handler when the signal is delivered.
-- * SA_NOCLDWAIT flag on SIGCHLD to inhibit zombies.
-- * SA_NODEFER prevents the current signal from being masked in the handler.
-- *
-- * SA_ONESHOT and SA_NOMASK are the historical Linux names for the Single
-- * Unix names RESETHAND and NODEFER respectively.
-- */
--#define SA_NOCLDSTOP	0x00000001u
--#define SA_NOCLDWAIT	0x00000002u
--#define SA_SIGINFO	0x00000004u
--#define SA_ONSTACK	0x08000000u
--#define SA_RESTART	0x10000000u
--#define SA_NODEFER	0x40000000u
--#define SA_RESETHAND	0x80000000u
--
--#define SA_NOMASK	SA_NODEFER
--#define SA_ONESHOT	SA_RESETHAND
--
- #define SA_RESTORER	0x04000000
- 
- #define MINSIGSTKSZ	2048
-diff --git a/arch/xtensa/include/uapi/asm/signal.h b/arch/xtensa/include/uapi/asm/signal.h
-index 005dec5bfde4..79ddabaa4e5d 100644
---- a/arch/xtensa/include/uapi/asm/signal.h
-+++ b/arch/xtensa/include/uapi/asm/signal.h
-@@ -72,30 +72,6 @@ typedef struct {
- #define SIGRTMIN	32
- #define SIGRTMAX	(_NSIG-1)
- 
--/*
-- * SA_FLAGS values:
-- *
-- * SA_ONSTACK indicates that a registered stack_t will be used.
-- * SA_RESTART flag to get restarting signals (which were the default long ago)
-- * SA_NOCLDSTOP flag to turn off SIGCHLD when children stop.
-- * SA_RESETHAND clears the handler when the signal is delivered.
-- * SA_NOCLDWAIT flag on SIGCHLD to inhibit zombies.
-- * SA_NODEFER prevents the current signal from being masked in the handler.
-- *
-- * SA_ONESHOT and SA_NOMASK are the historical Linux names for the Single
-- * Unix names RESETHAND and NODEFER respectively.
-- */
--#define SA_NOCLDSTOP	0x00000001
--#define SA_NOCLDWAIT	0x00000002 /* not supported yet */
--#define SA_SIGINFO	0x00000004
--#define SA_ONSTACK	0x08000000
--#define SA_RESTART	0x10000000
--#define SA_NODEFER	0x40000000
--#define SA_RESETHAND	0x80000000
--
--#define SA_NOMASK	SA_NODEFER
--#define SA_ONESHOT	SA_RESETHAND
--
- #define SA_RESTORER	0x04000000
- 
- #define MINSIGSTKSZ	2048
-diff --git a/include/uapi/asm-generic/signal-defs.h b/include/uapi/asm-generic/signal-defs.h
-index e9304c95ceea..493953fe319b 100644
---- a/include/uapi/asm-generic/signal-defs.h
-+++ b/include/uapi/asm-generic/signal-defs.h
-@@ -4,6 +4,53 @@
- 
- #include <linux/compiler.h>
- 
-+/*
-+ * SA_FLAGS values:
-+ *
-+ * SA_NOCLDSTOP flag to turn off SIGCHLD when children stop.
-+ * SA_NOCLDWAIT flag on SIGCHLD to inhibit zombies.
-+ * SA_SIGINFO delivers the signal with SIGINFO structs.
-+ * SA_ONSTACK indicates that a registered stack_t will be used.
-+ * SA_RESTART flag to get restarting signals (which were the default long ago)
-+ * SA_NODEFER prevents the current signal from being masked in the handler.
-+ * SA_RESETHAND clears the handler when the signal is delivered.
-+ *
-+ * SA_ONESHOT and SA_NOMASK are the historical Linux names for the Single
-+ * Unix names RESETHAND and NODEFER respectively.
-+ *
-+ * The following bits are used in architecture-specific SA_* definitions and
-+ * should be avoided for new generic flags: 3, 4, 5, 6, 7, 8, 9, 16, 24, 25, 26.
-+ */
-+#ifndef SA_NOCLDSTOP
-+#define SA_NOCLDSTOP	0x00000001
++#ifndef __ARCH_UAPI_SA_FLAGS
++#ifdef SA_RESTORER
++#define __ARCH_UAPI_SA_FLAGS	SA_RESTORER
++#else
++#define __ARCH_UAPI_SA_FLAGS	0
 +#endif
-+#ifndef SA_NOCLDWAIT
-+#define SA_NOCLDWAIT	0x00000002
-+#endif
-+#ifndef SA_SIGINFO
-+#define SA_SIGINFO	0x00000004
-+#endif
-+#ifndef SA_ONSTACK
-+#define SA_ONSTACK	0x08000000
-+#endif
-+#ifndef SA_RESTART
-+#define SA_RESTART	0x10000000
-+#endif
-+#ifndef SA_NODEFER
-+#define SA_NODEFER	0x40000000
-+#endif
-+#ifndef SA_RESETHAND
-+#define SA_RESETHAND	0x80000000
 +#endif
 +
-+#define SA_NOMASK	SA_NODEFER
-+#define SA_ONESHOT	SA_RESETHAND
++#define UAPI_SA_FLAGS                                                          \
++	(SA_NOCLDSTOP | SA_NOCLDWAIT | SA_SIGINFO | SA_ONSTACK | SA_RESTART |  \
++	 SA_NODEFER | SA_RESETHAND | __ARCH_UAPI_SA_FLAGS)
 +
-+/*
-+ * New architectures should not define the obsolete
-+ *	SA_RESTORER	0x04000000
-+ */
-+
- #ifndef SIG_BLOCK
- #define SIG_BLOCK          0	/* for blocking signals */
- #endif
-diff --git a/include/uapi/asm-generic/signal.h b/include/uapi/asm-generic/signal.h
-index 5c716a952cbe..f634822906e4 100644
---- a/include/uapi/asm-generic/signal.h
-+++ b/include/uapi/asm-generic/signal.h
-@@ -52,35 +52,6 @@
- #define SIGRTMAX	_NSIG
- #endif
+ #endif /* _LINUX_SIGNAL_TYPES_H */
+diff --git a/kernel/signal.c b/kernel/signal.c
+index a38b3edc6851..2ef8c238679e 100644
+--- a/kernel/signal.c
++++ b/kernel/signal.c
+@@ -3984,6 +3984,16 @@ int do_sigaction(int sig, struct k_sigaction *act, struct k_sigaction *oact)
+ 	if (oact)
+ 		*oact = *k;
  
--/*
-- * SA_FLAGS values:
-- *
-- * SA_ONSTACK indicates that a registered stack_t will be used.
-- * SA_RESTART flag to get restarting signals (which were the default long ago)
-- * SA_NOCLDSTOP flag to turn off SIGCHLD when children stop.
-- * SA_RESETHAND clears the handler when the signal is delivered.
-- * SA_NOCLDWAIT flag on SIGCHLD to inhibit zombies.
-- * SA_NODEFER prevents the current signal from being masked in the handler.
-- *
-- * SA_ONESHOT and SA_NOMASK are the historical Linux names for the Single
-- * Unix names RESETHAND and NODEFER respectively.
-- */
--#define SA_NOCLDSTOP	0x00000001
--#define SA_NOCLDWAIT	0x00000002
--#define SA_SIGINFO	0x00000004
--#define SA_ONSTACK	0x08000000
--#define SA_RESTART	0x10000000
--#define SA_NODEFER	0x40000000
--#define SA_RESETHAND	0x80000000
--
--#define SA_NOMASK	SA_NODEFER
--#define SA_ONESHOT	SA_RESETHAND
--
--/*
-- * New architectures should not define the obsolete
-- *	SA_RESTORER	0x04000000
-- */
--
- #if !defined MINSIGSTKSZ || !defined SIGSTKSZ
- #define MINSIGSTKSZ	2048
- #define SIGSTKSZ	8192
++	/*
++	 * Clear unknown flag bits in order to allow userspace to detect missing
++	 * support for flag bits and to allow the kernel to use non-uapi bits
++	 * internally.
++	 */
++	if (act)
++		act->sa.sa_flags &= UAPI_SA_FLAGS;
++	if (oact)
++		oact->sa.sa_flags &= UAPI_SA_FLAGS;
++
+ 	sigaction_compat_abi(act, oact);
+ 
+ 	if (act) {
 -- 
 2.28.0.1011.ga647a8990f-goog
 
