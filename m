@@ -2,176 +2,113 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DA5228C267
-	for <lists+linux-api@lfdr.de>; Mon, 12 Oct 2020 22:30:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50A1628C341
+	for <lists+linux-api@lfdr.de>; Mon, 12 Oct 2020 22:48:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728392AbgJLUa5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 12 Oct 2020 16:30:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38412 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730401AbgJLUa4 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 12 Oct 2020 16:30:56 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E1DAC0613D0;
-        Mon, 12 Oct 2020 13:30:56 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id e23so11352682wme.2;
-        Mon, 12 Oct 2020 13:30:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=v+S/WeTaJhr5udoYnCYs6HSyWnfSG0aTQiRF77j2gcE=;
-        b=cyPZsRdjoOAy5zaNXrqfdpCnPm4A4y7tC1NnG5LwNj5pdullZE+lbMOYksKln0IMqg
-         9iwv2m4oVvBiwJCYn6POZumwvpvCSYlNsUrmcCtnyRstSSGQ9iPINKjGleZBVJr7v0HZ
-         fYv82PIG2VDYfo3hDNi0uxYV7T+wHtOiloYABD3bfVOQ4qMnVTczQ94X8tfwA6vSIwHv
-         /Oz+FNiPw3UnF4A6Miz5Uu+UA2UgGtIYTtUj39TNfjC//ZwNS4ebo4ULyss32mBuQbyJ
-         atC4JyfKpsolxQGqOQ9KGxUEU3sPuRxSc9lQCqqrUmbhZGcrikH1TW4bALnKCxw8OpXS
-         da/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=v+S/WeTaJhr5udoYnCYs6HSyWnfSG0aTQiRF77j2gcE=;
-        b=MQZhTh2Ml44zdfHcIkd2zHHO2jKHCiPpfGRCHsocWcoN9+hB+3d1DaFewMlHktbbY1
-         8L9qZmP4MyqiGhGEphLbpDgzSrJBF5ZPYD6YssOc3JW52l3YL2FOGUUsN7ldlNKSyXIn
-         lhOvHGZrvJWGPgXl0Xx4bH5cflsFA5vDGySmGWDebX4es+QwemSUqteJOl5wG1BbRcaf
-         wG+oEXzTSIj0Fqdr/p0cH8wn+EKfp11j7OkBJZeOdoy4ZYqfRSCplAzVgz1baaHQbssc
-         kG8KHTOSIcQpwJpQWs4fZG/hWud6WMeTm0nJeuofMowAT1FNbsUJwHwVDxmUYHufp0vP
-         hzLQ==
-X-Gm-Message-State: AOAM53184RMYtQDm6zpWNCAF4zZrKswm3JlgZ21KWkjQGXDP0/7BU2Ud
-        zUZL+ard9jZ+no4jLS21GOU8ekNAnS8=
-X-Google-Smtp-Source: ABdhPJxOhn5AdG4k0m0VXqOag2CnjWAslhBsDh1zFUxuQW8QXWnzeti+o0gBCaTzGJKfs3z1jyFLJg==
-X-Received: by 2002:a05:600c:2cd0:: with SMTP id l16mr12395320wmc.18.1602534654648;
-        Mon, 12 Oct 2020 13:30:54 -0700 (PDT)
-Received: from [192.168.1.10] (static-176-175-73-29.ftth.abo.bbox.fr. [176.175.73.29])
-        by smtp.gmail.com with ESMTPSA id 205sm10289105wme.38.2020.10.12.13.30.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Oct 2020 13:30:53 -0700 (PDT)
-Cc:     mtk.manpages@gmail.com, David Howells <dhowells@redhat.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        id S1729225AbgJLUsp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 12 Oct 2020 16:48:45 -0400
+Received: from mga18.intel.com ([134.134.136.126]:32797 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726567AbgJLUsp (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 12 Oct 2020 16:48:45 -0400
+IronPort-SDR: Ga9jL4XqRZoF/1D1vPbHZsHj3CpAhD1MgNQqMX+Mylk6bSQjbiKpXtgx504ddlcc0SLEVcLG2d
+ aHJWxQBJQKZQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9772"; a="153633359"
+X-IronPort-AV: E=Sophos;i="5.77,367,1596524400"; 
+   d="scan'208";a="153633359"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2020 13:48:44 -0700
+IronPort-SDR: H1g1CQHMtcwO1nWWiBZcdHpuTzPfruHJRRdh25uJeXaBoAYCtJIBhg3KVBUEXVaTG53rphSmVx
+ fgUHljXAvRCA==
+X-IronPort-AV: E=Sophos;i="5.77,367,1596524400"; 
+   d="scan'208";a="356745959"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.167.7]) ([10.209.167.7])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2020 13:48:43 -0700
+Subject: Re: [PATCH v14 03/26] x86/fpu/xstate: Introduce CET MSR XSAVES
+ supervisor states
+To:     Cyrill Gorcunov <gorcunov@gmail.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
         Peter Zijlstra <peterz@infradead.org>,
-        Nicolas Dichtel <nicolas.dichtel@6wind.com>,
-        Ian Kent <raven@themaw.net>,
-        Christian Brauner <christian@brauner.io>,
-        keyrings@vger.kernel.org,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Davide Libenzi <davidel@xmailserver.org>
-Subject: Re: Regression: epoll edge-triggered (EPOLLET) for pipes/FIFOs
-To:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Alexander Viro <aviro@redhat.com>
-References: <CAKgNAkjMBGeAwF=2MKK758BhxvW58wYTgYKB2V-gY1PwXxrH+Q@mail.gmail.com>
- <CAHk-=wig1HDZzkDEOxsxUjr7jMU_R5Z1s+v_JnFBv4HtBfP7QQ@mail.gmail.com>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <81229415-fb97-51f7-332c-d5e468bcbf2a@gmail.com>
-Date:   Mon, 12 Oct 2020 22:30:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+References: <20201012153850.26996-1-yu-cheng.yu@intel.com>
+ <20201012153850.26996-4-yu-cheng.yu@intel.com> <20201012195808.GD14048@grain>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <b98933fd-e424-1a14-6591-7ba598ab90c6@intel.com>
+Date:   Mon, 12 Oct 2020 13:48:42 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
 MIME-Version: 1.0
-In-Reply-To: <CAHk-=wig1HDZzkDEOxsxUjr7jMU_R5Z1s+v_JnFBv4HtBfP7QQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20201012195808.GD14048@grain>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-[CC += Davide]
-
-Hello Linus,
-
-Thanks for your quick reply.
-
-On 10/12/20 9:25 PM, Linus Torvalds wrote:
-> On Mon, Oct 12, 2020 at 11:40 AM Michael Kerrisk (man-pages)
-> <mtk.manpages@gmail.com> wrote:
->>
->> Between Linux 5.4 and 5.5 a regression was introduced in the operation
->> of the epoll EPOLLET flag. From some manual bisecting, the regression
->> appears to have been introduced in
->>
->>          commit 1b6b26ae7053e4914181eedf70f2d92c12abda8a
->>          Author: Linus Torvalds <torvalds@linux-foundation.org>
->>          Date:   Sat Dec 7 12:14:28 2019 -0800
->>
->>              pipe: fix and clarify pipe write wakeup logic
->>
->> (I also built a kernel from the  immediate preceding commit, and did
->> not observe the regression.)
+On 10/12/2020 12:58 PM, Cyrill Gorcunov wrote:
+> On Mon, Oct 12, 2020 at 08:38:27AM -0700, Yu-cheng Yu wrote:
+> ...
+>>   /*
+>>    * x86-64 Task Priority Register, CR8
+>> diff --git a/arch/x86/kernel/fpu/xstate.c b/arch/x86/kernel/fpu/xstate.c
+>> index 038e19c0019e..705fd9b94e31 100644
+>> --- a/arch/x86/kernel/fpu/xstate.c
+>> +++ b/arch/x86/kernel/fpu/xstate.c
+>> @@ -38,6 +38,9 @@ static const char *xfeature_names[] =
+>>   	"Processor Trace (unused)"	,
+>>   	"Protection Keys User registers",
+>>   	"unknown xstate feature"	,
+>> +	"Control-flow User registers"	,
+>> +	"Control-flow Kernel registers"	,
+>> +	"unknown xstate feature"	,
+>>   };
+>>   
+>>   static short xsave_cpuid_features[] __initdata = {
+>> @@ -51,6 +54,9 @@ static short xsave_cpuid_features[] __initdata = {
+>>   	X86_FEATURE_AVX512F,
+>>   	X86_FEATURE_INTEL_PT,
+>>   	X86_FEATURE_PKU,
+>> +	-1,		   /* Unused */
+>> +	X86_FEATURE_SHSTK, /* XFEATURE_CET_USER */
+>> +	X86_FEATURE_SHSTK, /* XFEATURE_CET_KERNEL */
+>>   };
 > 
-> So the difference from that commit is that now we only wake up a
-> reader of a pipe when we add data to it AND IT WAS EMPTY BEFORE.
+> Why do you need "-1" here in the array? The only 1:1 mapping is between
+> the names itselves and values, not indices of arrays so i don't understand
+> why we need this unused value. Sorry if it is a dumb questions and
+> been discussed already.
 > 
->> The aim of ET (edge-triggered) notification is that epoll_wait() will
->> tell us a file descriptor is ready only if there has been new activity
->> on the FD since we were last informed about the FD. So, in the
->> following scenario where the read end of a pipe is being monitored
->> with EPOLLET, we see:
->>
->> [Write a byte to write end of pipe]
->> 1. Call epoll_wait() ==> tells us pipe read end is ready
->> 2. Call epoll_wait() [again] ==> does not tell us that the read end of
->> pipe is ready
-> 
-> Right.
-> 
->> If we go further:
->>
->> [Write another byte to write end of pipe]
->> 3. Call epoll_wait() ==> tells us pipe read end is ready
-> 
-> No.
-> 
-> The "read end" readiness has not changed. It was ready before, it's
-> ready now, there's no change in readiness.
-> 
-> Now, the old pipe behavior was that it would wake up writers whether
-> they needed it or not, so epoll got woken up even if the readiness
-> didn't actually change.
-> 
-> So we do have a change in behavior.
-> 
-> However, clearly your test is wrong, and there is no edge difference.
-> 
-> Now, if this is more than just a buggy test - and it actually breaks
-> some actual application and real behavior - we'll need to fix it. A
-> regression is a regression, and we'll need to be bug-for-bug
-> compatible for people who depended on bugs.
 
-I don't think this is correct. The epoll(7) manual page
-sill carries the text written long ago by Davide Libenzi,
-the creator of epoll:
+The indices are used indirectly in fpu__init_system_xstate() to set bits 
+in xfeatures_mask_all, i.e.
 
-    Since  even with edge-triggered epoll, multiple events can be gen‐
-    erated upon receipt of multiple chunks of data, the caller has the
-    option  to specify the EPOLLONESHOT flag, to tell epoll to disable
-    the associated file descriptor after the receipt of an event  with
-    epoll_wait(2).
+xfeatures_mask_all &= ~BIT_ULL(i).
 
-My reading of that text is that in the scenario that I describe a
-readiness notification should be generated at step 3 (and indeed
-should be generated whenever additional data bleeds into the channel).
-Indeed, the very rationale for the existence of the EPOLLONESHOT flag
-is to *prevent* notifications in such circumstances. And, as I noted,
-sockets and terminals do (still) behave in the way that I expect in
-this scenario.
+So they need to match the xstate feature bits.
 
-So, I don't think this is a buggy test. It (still) appears to me
-that this is a breakage of intended and documented behavior.
-(Whether it breaks some actual application, I do not know. But
-I have also seen that sometimes reports of such breakages take
-a very time to come in.)
-
-Thanks,
-
-Michael
-
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Yu-cheng
