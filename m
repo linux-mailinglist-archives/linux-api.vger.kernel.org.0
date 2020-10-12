@@ -2,104 +2,141 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8363D28C14C
-	for <lists+linux-api@lfdr.de>; Mon, 12 Oct 2020 21:15:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C932428C169
+	for <lists+linux-api@lfdr.de>; Mon, 12 Oct 2020 21:26:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730883AbgJLTPQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 12 Oct 2020 15:15:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54880 "EHLO
+        id S2387648AbgJLT0I (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 12 Oct 2020 15:26:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729890AbgJLTPQ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 12 Oct 2020 15:15:16 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 025EDC0613D0;
-        Mon, 12 Oct 2020 12:15:16 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id c21so1531115ljj.0;
-        Mon, 12 Oct 2020 12:15:15 -0700 (PDT)
+        with ESMTP id S2387785AbgJLT0F (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 12 Oct 2020 15:26:05 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01373C0613D0
+        for <linux-api@vger.kernel.org>; Mon, 12 Oct 2020 12:26:05 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id d24so14989375ljg.10
+        for <linux-api@vger.kernel.org>; Mon, 12 Oct 2020 12:26:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=HoEgSi7W4gHD9lScysoMmzA283msUCELsQqu811nuNc=;
-        b=Ql1melcRhvWByESFg5O9z6kB9ZaejNEcoZdrPtWcHm5Eb+e5dEy98OHoHK4KMI2qvs
-         BQbhmbBhTukGkR6Q48H5ZM27KZKnMeP2hVXC0TSoA+qQvkm9o8wE/+LF1rVnj/ar4xAF
-         Qror7GlA7bJ2bzmz2QWfUBs8yBTTNxkCL0HpPmUzKqOhaDoa6qRTCjs8xGcriqroLZAR
-         V76TOINy7/Wulmj/k/4QrmvLbA9NzyHoH/vyZUqRMQ8pMYwL1LPGHQswhd0jwVv+3eSy
-         bVo9G1b4xp9hb1TemZo1b/eBszcC0Kc+o3gaCGKztpcU+AG/e+dFRg+PlwYmkACn1S5I
-         Tc/Q==
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8Cu/ApJS4ZPLXmdUPjA+GEO/t+NxWjvWW5qIGNmGRzc=;
+        b=KFwAcCtc5hqxnxdy48E86El0HI8pAhZnlOW3+QgeKE01jtXo4zTzLlN5+FR3xaB33M
+         z4FtZpoJGAU/LpQzEwaDJl7xQ1sa+11Ln2+hlhYjJxmDMtqyLJ78uTq9KY9gnS9PUaSo
+         GVVeaTgyS2hFPjBaaxjSqG3EgNKS0gELsmvCw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=HoEgSi7W4gHD9lScysoMmzA283msUCELsQqu811nuNc=;
-        b=aXSorLj5P5Qttjb+8kuZec5RXrWs7tpcmpze1LHcSvgQA3vmcsKdbwv3ICpGzzMOpU
-         3gFGTXfi7g3Qw0+6AZ86DdpcBs5sNZWReopECJQrfpR7lFj3OI9Q945TlCGbK0IkwJ56
-         Dxr4XMcRJKrIVwApcTRTasT8+vhvCVf/JYTisnxLFxXqrH6SSp6HtPRy+df8Io58PnYL
-         J2Gev2CMqubZX4r++Hu8kScE9ndXojGRqMifxDeCa1cFQrRhC+7MXQiQBI9NovGDJL9N
-         a7TFITLXHxsrBB/26mYuLdhAA6Yd8t65h5cvSFAPqA/R3341bXvtcni2E9OXNrZZBokT
-         r7Uw==
-X-Gm-Message-State: AOAM531YOwRbKrJJCPWvXnjSys2ZQNXfsPAappc5QDMBbUpWgwBDX0aO
-        LYIpbZGG79zfV/34xqvezyI=
-X-Google-Smtp-Source: ABdhPJyunP+sr/B3JWabN71d6meVGuLl7M/RSAPI9eowpJdSxaoXQ/4ExdCfDtrOaJiRLT2GklJNOQ==
-X-Received: by 2002:a2e:a41a:: with SMTP id p26mr3102963ljn.126.1602530114236;
-        Mon, 12 Oct 2020 12:15:14 -0700 (PDT)
-Received: from grain.localdomain ([5.18.102.224])
-        by smtp.gmail.com with ESMTPSA id q27sm1092814lfd.261.2020.10.12.12.15.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Oct 2020 12:15:13 -0700 (PDT)
-Received: by grain.localdomain (Postfix, from userid 1000)
-        id 0C3381A032A; Mon, 12 Oct 2020 22:15:11 +0300 (MSK)
-Date:   Mon, 12 Oct 2020 22:15:11 +0300
-From:   Cyrill Gorcunov <gorcunov@gmail.com>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v14 1/7] x86/cet/ibt: Add Kconfig option for user-mode
- Indirect Branch Tracking
-Message-ID: <20201012191511.GC14048@grain>
-References: <20201012154530.28382-1-yu-cheng.yu@intel.com>
- <20201012154530.28382-2-yu-cheng.yu@intel.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8Cu/ApJS4ZPLXmdUPjA+GEO/t+NxWjvWW5qIGNmGRzc=;
+        b=LwwGCJOXBwh/PHMW/S+QhaROXdBtg+6QOhPXZBPs4S/Xna71y9t0bJkps21uarJP1y
+         pAOctPMEl/ehtqKbDrkDp9X/UTHoQeLCwD56jw8QT923VU5euhlQ6jC2mOfgYsboIdYt
+         39bCbBweHDIS+5jyXJKXjmRygkkVmYDUvTN3QAkTiv71B51Yt/9NGEPhWlzCmpsCAlkv
+         wn+fcf93Pr3TawGYNgXDG4tzi4IGTfo9RQPjXFdujfnH9Vfv1xBTbpKkaODOrf4uYAZC
+         wYnc9WBTpFJgPmLBNYYodAUVBR2oN+2ZX2W7DIeXsf9SO1VCQkSDyhKDTgTJwmm1/vf4
+         Ppug==
+X-Gm-Message-State: AOAM532rWOjb9K+YaetjUxJwyx8w0P6kxlWb/RInC4klBWpFinRBwUtd
+        V+xC7qeVxFIo+89YTh8x2UFpwUP9ST5AHg==
+X-Google-Smtp-Source: ABdhPJy8C4zjje0jilty82B7OVXgxmiB682xrTMt91OP8GquKcn9Nh0KFMi/9vs3yC1G5CUTJweTbA==
+X-Received: by 2002:a2e:9ccc:: with SMTP id g12mr8277005ljj.135.1602530762451;
+        Mon, 12 Oct 2020 12:26:02 -0700 (PDT)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com. [209.85.208.177])
+        by smtp.gmail.com with ESMTPSA id m20sm297485ljj.94.2020.10.12.12.26.00
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 Oct 2020 12:26:00 -0700 (PDT)
+Received: by mail-lj1-f177.google.com with SMTP id f21so17979989ljh.7
+        for <linux-api@vger.kernel.org>; Mon, 12 Oct 2020 12:26:00 -0700 (PDT)
+X-Received: by 2002:a05:651c:514:: with SMTP id o20mr3545582ljp.312.1602530759770;
+ Mon, 12 Oct 2020 12:25:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201012154530.28382-2-yu-cheng.yu@intel.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
+References: <CAKgNAkjMBGeAwF=2MKK758BhxvW58wYTgYKB2V-gY1PwXxrH+Q@mail.gmail.com>
+In-Reply-To: <CAKgNAkjMBGeAwF=2MKK758BhxvW58wYTgYKB2V-gY1PwXxrH+Q@mail.gmail.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Mon, 12 Oct 2020 12:25:44 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wig1HDZzkDEOxsxUjr7jMU_R5Z1s+v_JnFBv4HtBfP7QQ@mail.gmail.com>
+Message-ID: <CAHk-=wig1HDZzkDEOxsxUjr7jMU_R5Z1s+v_JnFBv4HtBfP7QQ@mail.gmail.com>
+Subject: Re: Regression: epoll edge-triggered (EPOLLET) for pipes/FIFOs
+To:     Michael Kerrisk-manpages <mtk.manpages@gmail.com>,
+        Alexander Viro <aviro@redhat.com>
+Cc:     David Howells <dhowells@redhat.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Nicolas Dichtel <nicolas.dichtel@6wind.com>,
+        Ian Kent <raven@themaw.net>,
+        Christian Brauner <christian@brauner.io>,
+        keyrings@vger.kernel.org,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Oct 12, 2020 at 08:45:24AM -0700, Yu-cheng Yu wrote:
-...
-> +	  the application support it.  When this feature is enabled,
-> +	  legacy non-IBT applications continue to work, but without
-> +	  IBT protection.
-> +	  Support for this feature is only known to be present on
-> +	  processors released in 2020 or later.  CET features are also
-> +	  known to increase kernel text size by 3.7 KB.
+On Mon, Oct 12, 2020 at 11:40 AM Michael Kerrisk (man-pages)
+<mtk.manpages@gmail.com> wrote:
+>
+> Between Linux 5.4 and 5.5 a regression was introduced in the operation
+> of the epoll EPOLLET flag. From some manual bisecting, the regression
+> appears to have been introduced in
+>
+>          commit 1b6b26ae7053e4914181eedf70f2d92c12abda8a
+>          Author: Linus Torvalds <torvalds@linux-foundation.org>
+>          Date:   Sat Dec 7 12:14:28 2019 -0800
+>
+>              pipe: fix and clarify pipe write wakeup logic
+>
+> (I also built a kernel from the  immediate preceding commit, and did
+> not observe the regression.)
 
-It seems the last sentence is redundant - new features always bloat
-the kernel code and precise size may differ depending on compiler
-and options. Surely this can be patched on top.
+So the difference from that commit is that now we only wake up a
+reader of a pipe when we add data to it AND IT WAS EMPTY BEFORE.
+
+> The aim of ET (edge-triggered) notification is that epoll_wait() will
+> tell us a file descriptor is ready only if there has been new activity
+> on the FD since we were last informed about the FD. So, in the
+> following scenario where the read end of a pipe is being monitored
+> with EPOLLET, we see:
+>
+> [Write a byte to write end of pipe]
+> 1. Call epoll_wait() ==> tells us pipe read end is ready
+> 2. Call epoll_wait() [again] ==> does not tell us that the read end of
+> pipe is ready
+
+Right.
+
+> If we go further:
+>
+> [Write another byte to write end of pipe]
+> 3. Call epoll_wait() ==> tells us pipe read end is ready
+
+No.
+
+The "read end" readiness has not changed. It was ready before, it's
+ready now, there's no change in readiness.
+
+Now, the old pipe behavior was that it would wake up writers whether
+they needed it or not, so epoll got woken up even if the readiness
+didn't actually change.
+
+So we do have a change in behavior.
+
+However, clearly your test is wrong, and there is no edge difference.
+
+Now, if this is more than just a buggy test - and it actually breaks
+some actual application and real behavior - we'll need to fix it. A
+regression is a regression, and we'll need to be bug-for-bug
+compatible for people who depended on bugs.
+
+But if it's only a test, and no actual workflow that got broken, then
+it's just a buggy test.
+
+[ Adding Al to the participants, not because he has anything to do
+with this pipe change, but because he's been working on epoll
+cleanups, and I just want him to be aware of this thread. Al - Michael
+has a test program for this thing that may or may not be worth keeping
+in mind ]
+
+                  Linus
