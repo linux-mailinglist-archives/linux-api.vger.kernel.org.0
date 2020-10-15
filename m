@@ -2,221 +2,167 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8A0728F907
-	for <lists+linux-api@lfdr.de>; Thu, 15 Oct 2020 21:00:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05BE628F95C
+	for <lists+linux-api@lfdr.de>; Thu, 15 Oct 2020 21:26:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391293AbgJOTAY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 15 Oct 2020 15:00:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42856 "EHLO
+        id S2391460AbgJOT0C (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 15 Oct 2020 15:26:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391292AbgJOTAX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 15 Oct 2020 15:00:23 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AF87C061755;
-        Thu, 15 Oct 2020 12:00:22 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id g12so4910497wrp.10;
-        Thu, 15 Oct 2020 12:00:21 -0700 (PDT)
+        with ESMTP id S2391450AbgJOT0C (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 15 Oct 2020 15:26:02 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC210C0613D2
+        for <linux-api@vger.kernel.org>; Thu, 15 Oct 2020 12:26:00 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id i1so5080829wro.1
+        for <linux-api@vger.kernel.org>; Thu, 15 Oct 2020 12:26:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LtnFpFZ6Eux9pZL1tvnlYFv1q6tc9+T02TAa4IMAPEs=;
-        b=MDVAXh5LbJMffglNpS5omNCG8K4I1h2dvPDEEB17Kpi3RMF/07K019/kC99g2XepjS
-         xPikUHiTQ3NtAwmmJd2DF7JQYpAgsVTCjYy2VOe2yZMBV5AF3TOOS8XUqizE/oq7BR/V
-         03h1ijB8Bp6LLYbzvZIfoeY11WsPEfkwwKP8VexOV1lltRQI9QE+7NEB8Nnr7j0mYKEI
-         vl7H8OrzhRX4va2cDgYvZqrvawG80knndqet4fY4LPH68BrCrOz8lFHJtPvt7tveTpD5
-         pXXB8goZWxkuVlFVmsBMf8jTnbuNVdxueGe1v1lRki2DEu5vDA+fcWNTfGRnoDYQcVqn
-         GCkw==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BM5j8lFQHmLcRInx4ruZjAKix1kTSPiqlMHVrc6IXZk=;
+        b=RQ38oRb0HDdpyJFT4QueSLjg4Jba/1+K+imPMYvEzhEj8x0iJd4uroXsyHUp+xyEXE
+         p4Z/AgcUID1tuzqUpWPbP9GnN0pDXG/Z6h95HcmBgj5164uijucopL9B5+2ffsjsdZPI
+         zkcwLujawBscI0HizUBM9XECG8twNArBnGmjCZOxWygRrxa3vduez/Z5vtjetIrAcCfm
+         1W68d+tsSrfhFi4vioRPido2vmr1sWz1xpDarY3mBO1cwYnjHnWKfQU3Dhp2VPZ5nKz1
+         tdaDkT3x2fyS82L+C2pfrinntVs2HXorzxuNmLWtIvbR7fM2rbJgPxeo002IM9E73cua
+         9Zjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LtnFpFZ6Eux9pZL1tvnlYFv1q6tc9+T02TAa4IMAPEs=;
-        b=PbooII6D+XTVQuezOY8l6vbUNRRvMDkLiQMU2ywKy+JwPmqSfPhw3yVOxnYHfpWCNI
-         ug44pEC4Vh3v+zT16dbZ8i+98f/K+edQi4aa32d1lso6QrfqUfVPPja1ip9SS+xh4Vku
-         twCmoS+OjmI9A/GO4JtDJ5CDyq4DwfPgYedc3k/I+Uh3PSh/Lldy0WnZ6/IYM4Z4Nrvg
-         TL6U21h1JtVJ9D4YVfBqASTqkAhDIuAKifhRFmMyetpunaadeNXvsMRk9/re2EqCGYIP
-         ZbcWtSePTvfoIQN/gRAX1vIHAPXWuWeyZ3qhYCTWU/AOhqMw0XaJyL03ypUOhS/5htj9
-         GREw==
-X-Gm-Message-State: AOAM5334YCYc8+0K7fDQN2/zbIjcG1R/x2eP7lokuOzGum8uPjWmAmQO
-        wIpGdpIZ2BI6P9PB5+Vjc32jo1mjkK01gQ==
-X-Google-Smtp-Source: ABdhPJy2G92cXrzENPYaER413jANkBxArMBX2o6QwdRQyx6MdgMmLN8jW5peq4v6G8MxoKr4qUSlow==
-X-Received: by 2002:a5d:6110:: with SMTP id v16mr6312237wrt.219.1602788420527;
-        Thu, 15 Oct 2020 12:00:20 -0700 (PDT)
-Received: from dell5510.suse.de ([62.201.25.198])
-        by smtp.gmail.com with ESMTPSA id r3sm261146wrm.51.2020.10.15.12.00.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2020 12:00:19 -0700 (PDT)
-From:   Petr Vorel <petr.vorel@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Petr Vorel <petr.vorel@gmail.com>, Rich Felker <dalias@aerifal.cx>,
-        musl@lists.openwall.com, Peter Korsgaard <peter@korsgaard.com>,
-        Baruch Siach <baruch@tkos.co.il>,
-        Florian Weimer <fweimer@redhat.com>, linux-api@vger.kernel.org,
-        libc-alpha@sourceware.org
-Subject: [PATCH v3 1/1] uapi: Move constants from <linux/kernel.h> to <linux/const.h>
-Date:   Thu, 15 Oct 2020 21:00:13 +0200
-Message-Id: <20201015190013.8901-1-petr.vorel@gmail.com>
-X-Mailer: git-send-email 2.28.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BM5j8lFQHmLcRInx4ruZjAKix1kTSPiqlMHVrc6IXZk=;
+        b=tVvOu/TIPQxgiwS4UmHMSMKHNr/pQA3isFra5+vyuGrTrqSlWffmh3vOENajzojUDe
+         Ak7oJloy1Tic8WqCzsYjA0iCoU+4n/MPYERp1gcF7NfPHIzLcK0zAwrjTSu7/P10LZJr
+         2Kx+itu+WRCm0cYVaWMalC0afSrvtBf+zpSkOHdqMGyTbe/H+wPuAKklbpqFq9Vr3Wbp
+         bKTIRuFBKnO3q1mD3DImYEvUwijvAGy8j53HAg8vzdiailyFOkWCfAeQ4TOVijUhAfK7
+         RWgrbAI9lhNaUBvUCku6JpLYwGFinTr1B6e2xD5wrOU0Dt8GQ5YvdeN7WawOjJ5gbRcr
+         A4iA==
+X-Gm-Message-State: AOAM5327hEKub4j06s4jc7WQaWtSdmM9tFQKvHcbLYB9L5/jXw9q7pmh
+        jrhPxYOpPZSsLBEt7woul8LD7rma8AOpjfmnTOU61A==
+X-Google-Smtp-Source: ABdhPJxkkb+qmNoeoJdvu/rhJW682Savil74aegbnLYZMmBT7v7xPl/T9j5ZrOhc3OwiCZGEIMJOL5dRdwyqGVaBxVc=
+X-Received: by 2002:a5d:498a:: with SMTP id r10mr6072067wrq.106.1602789959057;
+ Thu, 15 Oct 2020 12:25:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <CAJuCfpGz1kPM3G1gZH+09Z7aoWKg05QSAMMisJ7H5MdmRrRhNQ@mail.gmail.com>
+ <CAJuCfpGjuUz5FPpR5iQ7oURJAhnP1ffBAnERuTUp9uPxQCRhDg@mail.gmail.com>
+ <20201014120937.GC4440@dhcp22.suse.cz> <CAJuCfpEQ_ADYsMrF_zjfAeQ3d-FALSP+CeYsvgH2H1-FSoGGqg@mail.gmail.com>
+ <20201015092030.GB22589@dhcp22.suse.cz>
+In-Reply-To: <20201015092030.GB22589@dhcp22.suse.cz>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Thu, 15 Oct 2020 12:25:43 -0700
+Message-ID: <CAJuCfpHwXcq1PfzHgqyYBR3N53TtV2WMt_Oubz0JZkvJHbFKGw@mail.gmail.com>
+Subject: Re: [RFC]: userspace memory reaping
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     linux-api@vger.kernel.org, linux-mm <linux-mm@kvack.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Roman Gushchin <guro@fb.com>, Rik van Riel <riel@surriel.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Christian Brauner <christian@brauner.io>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Tim Murray <timmurray@google.com>,
+        kernel-team <kernel-team@android.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Mel Gorman <mgorman@techsingularity.net>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-and include <linux/const.h> in UAPI headers instead of <linux/kernel.h>.
+On Thu, Oct 15, 2020 at 2:20 AM Michal Hocko <mhocko@suse.com> wrote:
+>
+> On Wed 14-10-20 09:57:20, Suren Baghdasaryan wrote:
+> > On Wed, Oct 14, 2020 at 5:09 AM Michal Hocko <mhocko@suse.com> wrote:
+> [...]
+> > > > > The need is similar to why oom-reaper was introduced - when a process
+> > > > > is being killed to free memory we want to make sure memory is freed
+> > > > > even if the victim is in uninterruptible sleep or is busy and reaction
+> > > > > to SIGKILL is delayed by an unpredictable amount of time. I
+> > > > > experimented with enabling process_madvise(MADV_DONTNEED) operation
+> > > > > and using it to force memory reclaim of the target process after
+> > > > > sending SIGKILL. Unfortunately this approach requires the caller to
+> > > > > read proc/pid/maps to extract the list of VMAs to pass as an input to
+> > > > > process_madvise().
+> > >
+> > > Well I would argue that this is not really necessary. You can simply
+> > > call process_madvise with the full address range and let the kernel
+> > > operated only on ranges which are safe to tear down asynchronously.
+> > > Sure that would require some changes to the existing code to not fail
+> > > on those ranges if they contain incompatible vmas but that should be
+> > > possible. If we are worried about backward compatibility then a
+> > > dedicated flag could override.
+> > >
+> >
+> > IIUC this is very similar to the last option I proposed. I think this
+> > is doable if we treat it as a special case. process_madvise() return
+> > value not being able to handle a large range would still be a problem.
+> > Maybe we can return MAX_INT in those cases?
+>
+> madvise is documented to return
+>        On success, madvise() returns zero.  On error, it returns -1 and
+>        errno is set appropriately.
+> [...]
+> NOTES
+>    Linux notes
+>        The Linux implementation requires that the address addr be
+>        page-aligned, and allows length to be zero.  If there are some
+>        parts of the specified address range that are not mapped, the
+>        Linux version of madvise() ignores them and applies the call to
+>        the rest (but returns ENOMEM from the system call, as it should).
+>
+> I have learned about ENOMEM case only now. And it seems this is indeed
+> what we are implementing. So if we want to add a new mode to
+> opportunistically attempt madvise on the whole given range without a
+> failure then we need a specific flag for that. Advice is a number rather
+> than a bitmask but (ab)using the top bit or use negative number space
+> (e.g. -MADV_DONTNEED) for that sounds possible albeit bit hackish.
 
-The reason is to avoid indirect <linux/sysinfo.h> include when using
-some network headers: <linux/netlink.h> or others -> <linux/kernel.h>
--> <linux/sysinfo.h>.
+process_madvise() has an additional flag parameter. Why not have a
+separate flag to denote that we want to just skip VMA gaps and proceed
+without error? Something like MADVF_SKIP_GAPS?
 
-This indirect include causes on MUSL redefinition of struct sysinfo when
-included both <sys/sysinfo.h> and some of UAPI headers:
+>
+> [...]
+> > > I do have a vague recollection that we have discussed a kill(2) based
+> > > approach as well in the past. Essentially SIG_KILL_SYNC which would
+> > > not only send the signal but it would start a teardown of resources
+> > > owned by the task - at least those we can remove safely. The interface
+> > > would be much more simple and less tricky to use. You just make your
+> > > userspace oom killer or potentially other users call SIG_KILL_SYNC which
+> > > will be more expensive but you would at least know that as many
+> > > resources have been freed as the kernel can afford at the moment.
+> >
+> > Correct, my early RFC here
+> > https://patchwork.kernel.org/project/linux-mm/patch/20190411014353.113252-3-surenb@google.com
+> > was using a new flag for pidfd_send_signal() to request mm reaping by
+> > oom-reaper kthread. IIUC you propose to have a new SIG_KILL_SYNC
+> > signal instead of a new pidfd_send_signal() flag and otherwise a very
+> > similar solution. Is my understanding correct?
+>
+> Well, I think you shouldn't focus too much on the oom-reaper aspect
+> of it. Sure it can be used for that but I believe that a new signal
+> should provide a sync behavior. People more familiar with the process
+> management would be better off defining what is possible for a new sync
+> signal.  Ideally not only pro-active process destruction but also sync
+> waiting until the target process is released so that you know that once
+> kill syscall returns the process is gone.
 
-In file included from x86_64-buildroot-linux-musl/sysroot/usr/include/linux/kernel.h:5,
-                 from x86_64-buildroot-linux-musl/sysroot/usr/include/linux/netlink.h:5,
-                 from ../include/tst_netlink.h:14,
-                 from tst_crypto.c:13:
-x86_64-buildroot-linux-musl/sysroot/usr/include/linux/sysinfo.h:8:8: error: redefinition of ‘struct sysinfo’
- struct sysinfo {
-        ^~~~~~~
-In file included from ../include/tst_safe_macros.h:15,
-                 from ../include/tst_test.h:93,
-                 from tst_crypto.c:11:
-x86_64-buildroot-linux-musl/sysroot/usr/include/sys/sysinfo.h:10:8: note: originally defined here
+If your suggestion is for SIG_KILL_SYNC to perform victim's resource
+cleanup in the context of the caller while the victim is in
+uninterruptible sleep that would definitely be useful. I assume there
+are some resources which can't be reclaimed until the process itself
+wakes up and handles the SIGKILL. If so, I hope kill(SIG_KILL_SYNC)
+would not have to wait for the victim to wake up and handle the
+signal. This would really complicate the userspace in cases when we
+just want to reclaim whatever we can without victim's involvement and
+continue. For cases when waiting is required waitid() with P_PIDFD can
+be used.
+Would this semantic work?
 
-Suggested-by: Rich Felker <dalias@aerifal.cx>
-Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
----
-Changes v2->v3:
-* Move things to <linux/const.h> instead of creating new header
-<linux/align.h>.
-
-Kind regards,
-Petr
-
- include/uapi/linux/const.h              | 5 +++++
- include/uapi/linux/ethtool.h            | 2 +-
- include/uapi/linux/kernel.h             | 9 +--------
- include/uapi/linux/lightnvm.h           | 2 +-
- include/uapi/linux/mroute6.h            | 2 +-
- include/uapi/linux/netfilter/x_tables.h | 2 +-
- include/uapi/linux/netlink.h            | 2 +-
- include/uapi/linux/sysctl.h             | 2 +-
- 8 files changed, 12 insertions(+), 14 deletions(-)
-
-diff --git a/include/uapi/linux/const.h b/include/uapi/linux/const.h
-index 5ed721ad5b19..af2a44c08683 100644
---- a/include/uapi/linux/const.h
-+++ b/include/uapi/linux/const.h
-@@ -28,4 +28,9 @@
- #define _BITUL(x)	(_UL(1) << (x))
- #define _BITULL(x)	(_ULL(1) << (x))
- 
-+#define __ALIGN_KERNEL(x, a)		__ALIGN_KERNEL_MASK(x, (typeof(x))(a) - 1)
-+#define __ALIGN_KERNEL_MASK(x, mask)	(((x) + (mask)) & ~(mask))
-+
-+#define __KERNEL_DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
-+
- #endif /* _UAPI_LINUX_CONST_H */
-diff --git a/include/uapi/linux/ethtool.h b/include/uapi/linux/ethtool.h
-index b4f2d134e713..0a9cced74e6d 100644
---- a/include/uapi/linux/ethtool.h
-+++ b/include/uapi/linux/ethtool.h
-@@ -14,7 +14,7 @@
- #ifndef _UAPI_LINUX_ETHTOOL_H
- #define _UAPI_LINUX_ETHTOOL_H
- 
--#include <linux/kernel.h>
-+#include <linux/const.h>
- #include <linux/types.h>
- #include <linux/if_ether.h>
- 
-diff --git a/include/uapi/linux/kernel.h b/include/uapi/linux/kernel.h
-index 0ff8f7477847..fadf2db71fe8 100644
---- a/include/uapi/linux/kernel.h
-+++ b/include/uapi/linux/kernel.h
-@@ -3,13 +3,6 @@
- #define _UAPI_LINUX_KERNEL_H
- 
- #include <linux/sysinfo.h>
--
--/*
-- * 'kernel.h' contains some often-used function prototypes etc
-- */
--#define __ALIGN_KERNEL(x, a)		__ALIGN_KERNEL_MASK(x, (typeof(x))(a) - 1)
--#define __ALIGN_KERNEL_MASK(x, mask)	(((x) + (mask)) & ~(mask))
--
--#define __KERNEL_DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
-+#include <linux/const.h>
- 
- #endif /* _UAPI_LINUX_KERNEL_H */
-diff --git a/include/uapi/linux/lightnvm.h b/include/uapi/linux/lightnvm.h
-index f9a1be7fc696..ead2e72e5c88 100644
---- a/include/uapi/linux/lightnvm.h
-+++ b/include/uapi/linux/lightnvm.h
-@@ -21,7 +21,7 @@
- #define _UAPI_LINUX_LIGHTNVM_H
- 
- #ifdef __KERNEL__
--#include <linux/kernel.h>
-+#include <linux/const.h>
- #include <linux/ioctl.h>
- #else /* __KERNEL__ */
- #include <stdio.h>
-diff --git a/include/uapi/linux/mroute6.h b/include/uapi/linux/mroute6.h
-index c36177a86516..a1fd6173e2db 100644
---- a/include/uapi/linux/mroute6.h
-+++ b/include/uapi/linux/mroute6.h
-@@ -2,7 +2,7 @@
- #ifndef _UAPI__LINUX_MROUTE6_H
- #define _UAPI__LINUX_MROUTE6_H
- 
--#include <linux/kernel.h>
-+#include <linux/const.h>
- #include <linux/types.h>
- #include <linux/sockios.h>
- #include <linux/in6.h>		/* For struct sockaddr_in6. */
-diff --git a/include/uapi/linux/netfilter/x_tables.h b/include/uapi/linux/netfilter/x_tables.h
-index a8283f7dbc51..b8c6bb233ac1 100644
---- a/include/uapi/linux/netfilter/x_tables.h
-+++ b/include/uapi/linux/netfilter/x_tables.h
-@@ -1,7 +1,7 @@
- /* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
- #ifndef _UAPI_X_TABLES_H
- #define _UAPI_X_TABLES_H
--#include <linux/kernel.h>
-+#include <linux/const.h>
- #include <linux/types.h>
- 
- #define XT_FUNCTION_MAXNAMELEN 30
-diff --git a/include/uapi/linux/netlink.h b/include/uapi/linux/netlink.h
-index eac8a6a648ea..7ba6d3b9cdec 100644
---- a/include/uapi/linux/netlink.h
-+++ b/include/uapi/linux/netlink.h
-@@ -2,7 +2,7 @@
- #ifndef _UAPI__LINUX_NETLINK_H
- #define _UAPI__LINUX_NETLINK_H
- 
--#include <linux/kernel.h>
-+#include <linux/const.h>
- #include <linux/socket.h> /* for __kernel_sa_family_t */
- #include <linux/types.h>
- 
-diff --git a/include/uapi/linux/sysctl.h b/include/uapi/linux/sysctl.h
-index 27c1ed2822e6..458179df9b27 100644
---- a/include/uapi/linux/sysctl.h
-+++ b/include/uapi/linux/sysctl.h
-@@ -23,7 +23,7 @@
- #ifndef _UAPI_LINUX_SYSCTL_H
- #define _UAPI_LINUX_SYSCTL_H
- 
--#include <linux/kernel.h>
-+#include <linux/const.h>
- #include <linux/types.h>
- #include <linux/compiler.h>
- 
--- 
-2.28.0
-
+>
+> --
+> Michal Hocko
+> SUSE Labs
