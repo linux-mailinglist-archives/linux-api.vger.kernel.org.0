@@ -2,124 +2,148 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C107A28FE85
-	for <lists+linux-api@lfdr.de>; Fri, 16 Oct 2020 08:50:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BADB7290FFB
+	for <lists+linux-api@lfdr.de>; Sat, 17 Oct 2020 08:03:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394392AbgJPGuh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 16 Oct 2020 02:50:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39490 "EHLO
+        id S2436904AbgJQGDC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 17 Oct 2020 02:03:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730492AbgJPGug (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 16 Oct 2020 02:50:36 -0400
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com [IPv6:2607:f8b0:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A553C061755;
-        Thu, 15 Oct 2020 23:50:35 -0700 (PDT)
-Received: by mail-oi1-x244.google.com with SMTP id h10so1317606oie.5;
-        Thu, 15 Oct 2020 23:50:35 -0700 (PDT)
+        with ESMTP id S2411569AbgJQGBh (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 17 Oct 2020 02:01:37 -0400
+Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com [IPv6:2607:f8b0:4864:20::749])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A6CEC0613D3
+        for <linux-api@vger.kernel.org>; Fri, 16 Oct 2020 17:12:44 -0700 (PDT)
+Received: by mail-qk1-x749.google.com with SMTP id q15so2617412qkq.23
+        for <linux-api@vger.kernel.org>; Fri, 16 Oct 2020 17:12:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=yp9ezkkjfxFU72KviY2SkL912AddVp1dJs01IZSrZBg=;
-        b=f7XD5Y6tkQqNxCb9E2piNE/vVBs2nIqq57a1OUPD+2wvy5Mlq3Tx1ZXcM9tHRRYK7x
-         eqL4Cc2a6SA8D4e4qUReAf3gDYqvBmbUTIOMNByP1SMSo80g4jqQD95ytopbeGsoXpUq
-         H+IFbMbZRNippsbYwMWl4lMLLOHZSeb6c/7ozB9qMwJTSOjTwrInneS7Y4vOfsc+xW8Z
-         8gy5YZuzw+zYfV8ugPK4XDNjsd+2ntOuQBfB5qCJHuY0QcQESfzrx+A1B2cAmCGq5c9D
-         m4J47Z1JuODqDzTcxzwAEHypWfNz/TiDZ9Eu3JtbykLszQWiVsPc2SXlWRsqi31mDfN5
-         abpw==
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=0SzVqODEfPVXxLTAWYh1OlMRZX67EtQRCd+LR3qS49c=;
+        b=WuhlseqJkkPmSyZw616Hrf+g3JLaplGgcP+WbLNqPy6pbqoUqVy2fZfRmPjkKnlNEF
+         a5QjECu3iU010I4z4m5sv9yOYLjtgYQMD/ntbgYb0y7oaqRCzmy2Jhr0dSTYhJP9QDev
+         EABizo8Mme8p3TdOVqWL5im2eC+Shw6NDyno9Z+iAkK0YzHTLLQ20+l7sz/2txyxDbtN
+         kv8S9RWCC9Rte4uKn/cBRjsG1J8fN5X/JRpTFdBNv79AQ/ntKnI9Gz3mlw1vqxnB9Ixz
+         WWMeIe5grQwW+JAz61iF76EpV/juD7Z3uLyAlFgBDg4FPo6mb2jDawciNLJtNzKVYiE1
+         UbDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=yp9ezkkjfxFU72KviY2SkL912AddVp1dJs01IZSrZBg=;
-        b=FHuDFRpZyCfZoVwtegE5cd1P89DrQ5lLNdAMqHNYZuCSAdLE0JqdRbstgZl/dKYBjZ
-         /XukWmawwFFNJFJHchJROM0uCigB7cSOTaKB3oOKgOl5rBCSLQ2YVXNfY5yMEelU3bey
-         U0X6Z/FVZVXtxTsuOvkdCYUItBRsBB8qAnf8dFYTI9NWNJ9rgWao+0qXNh9i78KHI2w8
-         6zmvYH9suxLF2LnbNRD6Xa2I4PjHxwkNQfJo+RdNGEoiUDplDbBShQj5ihrxae+1YyRs
-         4wrmjOM13Y7jfOJPmX1+5t1sgfIUH3ow9ks0DBkHT4csl3BBZUurXyKcw5a+d9CxWOAR
-         KqzA==
-X-Gm-Message-State: AOAM531tVzCD5wfJpl5j/bu6+Tte3EKvkA6w6nNQMcaQzFbMoCkwt4j9
-        rxWlYYw71Vo/CrVN3l3C5sbnSqu/Iru2JOMht35vxwi26pA=
-X-Google-Smtp-Source: ABdhPJxxET8Z7gDhnMrab9PWw1QSWqPZi2aX8J9f+URrB7gyQFY/lMVbekd5YiqEg/0BXNj9zczVPsII0FL4f7AyZwM=
-X-Received: by 2002:aca:bb41:: with SMTP id l62mr1469702oif.148.1602831034578;
- Thu, 15 Oct 2020 23:50:34 -0700 (PDT)
-MIME-Version: 1.0
-References: <159827188271.306468.16962617119460123110.stgit@warthog.procyon.org.uk>
- <159827190508.306468.12755090833140558156.stgit@warthog.procyon.org.uk>
- <CAKgNAkho1WSOsxvCYQOs7vDxpfyeJ9JGdTL-Y0UEZtO3jVfmKw@mail.gmail.com>
- <667616.1599063270@warthog.procyon.org.uk> <CAKgNAkhjDB9bvQ0h5b13fkbhuP9tYrkBQe7w1cbeOH8gM--D0g@mail.gmail.com>
- <CAKgNAkh9h3aA1hiYownT2O=xg5JmZwmJUCvQ1Z4f85MTq-26Fw@mail.gmail.com>
-In-Reply-To: <CAKgNAkh9h3aA1hiYownT2O=xg5JmZwmJUCvQ1Z4f85MTq-26Fw@mail.gmail.com>
-Reply-To: mtk.manpages@gmail.com
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Date:   Fri, 16 Oct 2020 08:50:23 +0200
-Message-ID: <CAKgNAkju-65h1bKBUJQf-k=TCZeFmD9Nf4ZgZ9Mm_TQ1rQA6MA@mail.gmail.com>
-Subject: Re: [PATCH 4/5] Add manpage for fsopen(2) and fsmount(2)
-To:     David Howells <dhowells@redhat.com>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        linux-man <linux-man@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=0SzVqODEfPVXxLTAWYh1OlMRZX67EtQRCd+LR3qS49c=;
+        b=DCnomnNc3gWuA3SC8zNIImf2qH0z3ahPbRKKNj19XAGdubr87qNG0X4iari9NrvBSh
+         f8CKVZ1xw4bg0nUib8UvkKiX91Q+WcLSBFi2UBbsgrAbe1Si1WTQXcueGg9lSogdGv87
+         mum0hbqT072WldKL6r0VCTHouiqQMncUnBMmaNYCIBUi8NGNtnetYIiPWED0RYiPJEAW
+         /IY7zpg1MiX4jYKqD3vANEJepo7ZGzAC4QUWu80RNxDUyn3ejgcvqqdeqO0HWzEhLb0h
+         MmJ+lJvgw65YMCOWdipNtREkdwYwFV6fHIzVagKNAqq4QHVlcyjkxhWwEWKvtQZRgWoI
+         rB+g==
+X-Gm-Message-State: AOAM532T/0ZRznHN/qrcgZWiCZlV62//XFht3gFcUfatAHKeZx4tuJdq
+        73kL/mq8of0TlTLmB/RPOONZqXY=
+X-Google-Smtp-Source: ABdhPJwrcG+HjhDPcsvVqMBOCzJnFkmyrsDDTznxLj+oymEZ6nBA7SBVRkAeE4Jure8saQqIjl/72hc=
+Sender: "pcc via sendgmr" <pcc@pcc-desktop.svl.corp.google.com>
+X-Received: from pcc-desktop.svl.corp.google.com ([2620:15c:2ce:0:7220:84ff:fe09:385a])
+ (user=pcc job=sendgmr) by 2002:a05:6214:943:: with SMTP id
+ dn3mr6291415qvb.45.1602893563003; Fri, 16 Oct 2020 17:12:43 -0700 (PDT)
+Date:   Fri, 16 Oct 2020 17:12:25 -0700
+Message-Id: <cover.1602892799.git.pcc@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.29.0.rc1.297.gfa9743e501-goog
+Subject: [PATCH v12 0/8] arm64: expose FAR_EL1 tag bits in siginfo
+From:   Peter Collingbourne <pcc@google.com>
+To:     Catalin Marinas <catalin.marinas@arm.com>,
+        Evgenii Stepanov <eugenis@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Will Deacon <will@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>
+Cc:     Peter Collingbourne <pcc@google.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Richard Henderson <rth@twiddle.net>, linux-api@vger.kernel.org,
+        Helge Deller <deller@gmx.de>,
+        David Spickett <david.spickett@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi David,
+The kernel currently clears the tag bits (i.e. bits 56-63) in the fault
+address exposed via siginfo.si_addr and sigcontext.fault_address. However,
+the tag bits may be needed by tools in order to accurately diagnose
+memory errors, such as HWASan [1] or future tools based on the Memory
+Tagging Extension (MTE).
 
-Another ping for these five patches please!
+We should not stop clearing these bits in the existing fault address
+fields, because there may be existing userspace applications that are
+expecting the tag bits to be cleared. Instead, create a new pair of
+union fields in siginfo._sigfault, and store the tag bits of FAR_EL1
+there, together with a mask specifying which bits are valid.
 
-Cheers,
+However, one does not simply add fields to siginfo, at least not without
+a mechanism for userspace to detect that they are present and valid.
+Therefore, the first seven patches in this series introduce a mechanism
+for userspace to detect the presence of our new siginfo fields,
+and the last patch uses it to advertise the presence of said fields.
 
-Michael
+The series can be viewed on Gerrit here:
+https://linux-review.googlesource.com/q/Ia8876bad8c798e0a32df7c2ce1256c4771c81446
 
-On Fri, 11 Sep 2020 at 14:44, Michael Kerrisk (man-pages)
-<mtk.manpages@gmail.com> wrote:
->
-> Hi David,
->
-> A ping for these five patches please!
->
-> Cheers,
->
-> Michael
->
-> On Wed, 2 Sep 2020 at 22:14, Michael Kerrisk (man-pages)
-> <mtk.manpages@gmail.com> wrote:
-> >
-> > On Wed, 2 Sep 2020 at 18:14, David Howells <dhowells@redhat.com> wrote:
-> > >
-> > > Michael Kerrisk (man-pages) <mtk.manpages@gmail.com> wrote:
-> > >
-> > > > The term "filesystem configuration context" is introduced, but never
-> > > > really explained. I think it would be very helpful to have a sentence
-> > > > or three that explains this concept at the start of the page.
-> > >
-> > > Does that need a .7 manpage?
-> >
-> > I was hoping a sentence or a paragraph in this page might suffice. Do
-> > you think more is required?
-> >
-> > Cheers,
-> >
-> > Michael
-> >
-> > --
-> > Michael Kerrisk
-> > Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-> > Linux/UNIX System Programming Training: http://man7.org/training/
->
->
->
-> --
-> Michael Kerrisk
-> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-> Linux/UNIX System Programming Training: http://man7.org/training/
+[1] http://clang.llvm.org/docs/HardwareAssistedAddressSanitizerDesign.html
 
+Helge Deller (1):
+  parisc: Drop parisc special case for __sighandler_t
 
+Peter Collingbourne (7):
+  parisc: start using signal-defs.h
+  arch: move SA_* definitions to generic headers
+  signal: clear non-uapi flag bits when passing/returning sa_flags
+  signal: define the SA_UNSUPPORTED bit in sa_flags
+  signal: deduplicate code dealing with common _sigfault fields
+  signal: define the field siginfo.si_xflags
+  arm64: expose FAR_EL1 tag bits in siginfo
+
+ Documentation/arm64/tagged-pointers.rst    |  21 +++-
+ arch/alpha/include/uapi/asm/signal.h       |  14 ---
+ arch/arm/include/asm/signal.h              |   2 +
+ arch/arm/include/uapi/asm/signal.h         |  28 +----
+ arch/arm64/include/asm/exception.h         |   2 +-
+ arch/arm64/include/asm/signal.h            |  19 +++
+ arch/arm64/include/asm/system_misc.h       |   2 +-
+ arch/arm64/include/asm/traps.h             |   6 +-
+ arch/arm64/kernel/debug-monitors.c         |   5 +-
+ arch/arm64/kernel/entry-common.c           |   2 -
+ arch/arm64/kernel/ptrace.c                 |   7 +-
+ arch/arm64/kernel/sys_compat.c             |   5 +-
+ arch/arm64/kernel/traps.c                  |  29 ++---
+ arch/arm64/mm/fault.c                      |  68 ++++++-----
+ arch/h8300/include/uapi/asm/signal.h       |  24 ----
+ arch/ia64/include/uapi/asm/signal.h        |  24 ----
+ arch/m68k/include/uapi/asm/signal.h        |  24 ----
+ arch/mips/include/uapi/asm/signal.h        |  12 --
+ arch/parisc/include/asm/signal.h           |   2 +
+ arch/parisc/include/uapi/asm/signal.h      |  34 +-----
+ arch/powerpc/include/uapi/asm/signal.h     |  24 ----
+ arch/powerpc/platforms/powernv/vas-fault.c |   1 +
+ arch/s390/include/uapi/asm/signal.h        |  24 ----
+ arch/sparc/include/uapi/asm/signal.h       |   4 +-
+ arch/x86/include/uapi/asm/signal.h         |  24 ----
+ arch/x86/kernel/signal_compat.c            |  19 +--
+ arch/xtensa/include/uapi/asm/signal.h      |  24 ----
+ include/linux/compat.h                     |   4 +
+ include/linux/signal.h                     |  29 +++++
+ include/linux/signal_types.h               |  12 ++
+ include/uapi/asm-generic/siginfo.h         |  14 +++
+ include/uapi/asm-generic/signal-defs.h     |  58 +++++++++
+ include/uapi/asm-generic/signal.h          |  29 -----
+ include/uapi/linux/ptrace.h                |  12 ++
+ kernel/ptrace.c                            |  32 ++++-
+ kernel/signal.c                            | 134 +++++++++++----------
+ 36 files changed, 345 insertions(+), 429 deletions(-)
+ create mode 100644 arch/arm64/include/asm/signal.h
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+2.29.0.rc1.297.gfa9743e501-goog
+
