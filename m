@@ -2,799 +2,253 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BDB80290FCA
-	for <lists+linux-api@lfdr.de>; Sat, 17 Oct 2020 08:01:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BE10290F49
+	for <lists+linux-api@lfdr.de>; Sat, 17 Oct 2020 07:33:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2411762AbgJQGBh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 17 Oct 2020 02:01:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57298 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2411569AbgJQGBg (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 17 Oct 2020 02:01:36 -0400
-Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com [IPv6:2607:f8b0:4864:20::f49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 913A8C0613DF
-        for <linux-api@vger.kernel.org>; Fri, 16 Oct 2020 17:13:01 -0700 (PDT)
-Received: by mail-qv1-xf49.google.com with SMTP id h12so2469610qvk.22
-        for <linux-api@vger.kernel.org>; Fri, 16 Oct 2020 17:13:01 -0700 (PDT)
+        id S2408336AbgJQFdi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 17 Oct 2020 01:33:38 -0400
+Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]:39286 "EHLO
+        mx0b-0016f401.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2407466AbgJQFdh (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 17 Oct 2020 01:33:37 -0400
+Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
+        by mx0a-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 09H0A2lk014152;
+        Fri, 16 Oct 2020 17:17:31 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version; s=pfpt0220;
+ bh=3c7PfFBtp90M4ddyms7ICtlv9IQbMvFQpoc3UyFOhDU=;
+ b=WIx9EzENj6fnSBGDaHyqbvofOp2TObZVVM3tdN+HtFuEKJJGz/9WMA09kDYpa2jt8YZF
+ +MCweSTRM9lalHgOP5qSrEW5OhI7mQd5RkOa+ybaqf08gCObeKULQ3Xx8YTWmVpl5+Qq
+ zuh7e9mBzrPDsk0ISbkaL+yTW5Adz64/8zJ+psL552nM7lFbq1ThrUQcdCRfj9T/ihoE
+ Nya5kW4uA3AzRdAluUIVp8AHQnBykm8TcUKayAIIHINW9x2vOp3GIigQQMToLiHpwOYA
+ O3JbETYxyZeEOZBqo571bwV9IWLVWZHRQdMcFJxsonwZdFJd5rINly09vCK1im+zpS1q XA== 
+Received: from sc-exch02.marvell.com ([199.233.58.182])
+        by mx0a-0016f401.pphosted.com with ESMTP id 343aap1qsm-2
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+        Fri, 16 Oct 2020 17:17:30 -0700
+Received: from DC5-EXCH02.marvell.com (10.69.176.39) by SC-EXCH02.marvell.com
+ (10.93.176.82) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 16 Oct
+ 2020 17:17:30 -0700
+Received: from SC-EXCH03.marvell.com (10.93.176.83) by DC5-EXCH02.marvell.com
+ (10.69.176.39) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 16 Oct
+ 2020 17:17:29 -0700
+Received: from NAM04-SN1-obe.outbound.protection.outlook.com (104.47.44.56) by
+ SC-EXCH03.marvell.com (10.93.176.83) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2 via Frontend Transport; Fri, 16 Oct 2020 17:17:29 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DmV5r2SSKLB3fwaqjk/C4zLb9ZxEbBcCnqvw8x27dAMsRZQXAbLZ4AWB4YOImbnDsylg9K29alwMMULEpfdOc7QkqbWwtOwpwSKO4nA/hn1rHBR6bg8iiP++xz9uqOMTxO+qMxpzC9CUdAfxWHquHOnxk2BSygF5joAlbizJJiLq4rYPKQvavbwCJ1uyMImnUWueNnfJDF1TQvJ/ux0Ak28vGnm8jFZrGKIIj3qWszAB0Y8osbqYlhEsx8mKgxGPsDHIC+0ZON5/GwVKR3xRnsbv1bmAThdqVnIdnvGaxNBDcMU7OXo7NG7qyk5ahv5euMftv/YuqkoJ217El0LZYQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3c7PfFBtp90M4ddyms7ICtlv9IQbMvFQpoc3UyFOhDU=;
+ b=VnWhpkpZINgVztvmDB8BjCBcDpSYCyJLv1gYSIbixq4HK5B4jNiWiJXFZvsbuYVrWnEjdIDq5h01lPbXLjOk4lIcB1PfYg6j0HPoQ5HCZyBFcmYCVB6lwP/quHhUxeWTT8XES5CaQDbASkTlFReixIUAUpNv6fl+5ROESR1AQEAwIMZRGRBkT6UtEnrWRtB9WkunJUZxGbRhYcTL81ms5cepBocUvnN1Mxg6tPCGMGvSgeMQ1E/IEssMHbZMsnk6l6H2HZk6A5CUo2+MbfuncrMg6166UNiUM+Xeh5lwPYkXOKtReLvLw0IKM6WBQGAX4y2+1GL5sXUUNQ/nXId7Jw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
+ dkim=pass header.d=marvell.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:to:cc;
-        bh=pWGV7xJCvC8k7fgQ54mupI+JUXUhKA/xzXZC3/lI2ZM=;
-        b=kb6MgAkHHE53O+hOVjl24/ze/JzAkklX/oImrsyYHMZMz8awVsS7YEj2t+ruhAF5rm
-         sB271v46atMl3JGWsi5ADOuA6M7zLU00DHdNBjId4F81dmGGuEUtfHpaHouqwPABaf7c
-         gWBLpRhsQxsT+cuWbUhcJc9Ozxo4prutwmJyqBhRnTN27asUYEo9D++Tv+AIB+8MYfiW
-         zfqVJexq3+jiTLV8Bv2yNt82LwOMcVp+oumqQzKtskYb11Hlk7zPZQB0whqPysh0uQtk
-         nTmXRlTWjKF/9sMI/wxhQVDS5uqyjyIHN6miqNI3XyIy/cbl7VKRVI8L2tom3PX+36Bi
-         Dw2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=pWGV7xJCvC8k7fgQ54mupI+JUXUhKA/xzXZC3/lI2ZM=;
-        b=RSjbXhg+lklVKkCcuc+YehvaZjWgk0JYUDv2IF8q5mGj/ilfiFwi1m98qX9G+lT5ri
-         0/OBG84nJSCxW8Oao6QOToxzWRxDe9XP8OYkiwrL2UzsXqZwcD284EyNsvggANy1VpCI
-         w1kk60O3HDovCodVms4/VarWj/KtuO6EnLy7lEOVS3aXvqQh2Owuy85Dn/GpF1cKoNmJ
-         FeBSMrSx3mMyB9pjpRbaPRFCYPIjFZigYQmxo0zBJ1Ed0voK6wPAyRlxpx4H04ysOHnv
-         kCws34kNJtHpNhlz9OQfrEfYf+Tk1khMIqtzzj4gKOUBDM0JwliDHuHoTF6fQESGm2tJ
-         CYiQ==
-X-Gm-Message-State: AOAM532/036Q1hdOgNCdHK98VAJXQgJrHHWf9ObCDKvusRJSWmbFkz62
-        lNBXmg57ZevkWF8M4k2++L+41R4=
-X-Google-Smtp-Source: ABdhPJwX6pkhnMIrSTnMxWFbnh+rtPRTDQvrcOkudFGY0t6k2wfki35CnptP8I8yztKkY7xUI3C8fNk=
-Sender: "pcc via sendgmr" <pcc@pcc-desktop.svl.corp.google.com>
-X-Received: from pcc-desktop.svl.corp.google.com ([2620:15c:2ce:0:7220:84ff:fe09:385a])
- (user=pcc job=sendgmr) by 2002:ad4:4391:: with SMTP id s17mr6769982qvr.60.1602893580541;
- Fri, 16 Oct 2020 17:13:00 -0700 (PDT)
-Date:   Fri, 16 Oct 2020 17:12:33 -0700
-In-Reply-To: <cover.1602892799.git.pcc@google.com>
-Message-Id: <2dec46a70da175478932d034ebe74d0b4f5133c4.1602892799.git.pcc@google.com>
-Mime-Version: 1.0
-References: <cover.1602892799.git.pcc@google.com>
-X-Mailer: git-send-email 2.29.0.rc1.297.gfa9743e501-goog
-Subject: [PATCH v12 8/8] arm64: expose FAR_EL1 tag bits in siginfo
-From:   Peter Collingbourne <pcc@google.com>
-To:     Catalin Marinas <catalin.marinas@arm.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Will Deacon <will@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>
-Cc:     Peter Collingbourne <pcc@google.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Richard Henderson <rth@twiddle.net>, linux-api@vger.kernel.org,
-        Helge Deller <deller@gmx.de>,
-        David Spickett <david.spickett@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+ d=marvell.onmicrosoft.com; s=selector1-marvell-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3c7PfFBtp90M4ddyms7ICtlv9IQbMvFQpoc3UyFOhDU=;
+ b=Ry3Fw7y3zFo4QpLGNXrrJtBz8Aui/t5ZObhfIoM/iPYh1jiI2dimggfrlN6zcOnkcDaVC2baTl0I3JcXRkcVopxzVvDdnKiy+tDZ9UQb1bKUGK4Bz8Wj0OUtfiZrfM9hRqVFdmLaLW15XjFpD1Az2+St5KEi6YRpWSjEO6F9Q4Q=
+Received: from MW2PR18MB2267.namprd18.prod.outlook.com (2603:10b6:907:3::11)
+ by CO6PR18MB3987.namprd18.prod.outlook.com (2603:10b6:5:34e::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.24; Sat, 17 Oct
+ 2020 00:17:25 +0000
+Received: from MW2PR18MB2267.namprd18.prod.outlook.com
+ ([fe80::69b0:73ce:7112:3b95]) by MW2PR18MB2267.namprd18.prod.outlook.com
+ ([fe80::69b0:73ce:7112:3b95%7]) with mapi id 15.20.3455.031; Sat, 17 Oct 2020
+ 00:17:25 +0000
+From:   Alex Belits <abelits@marvell.com>
+To:     "frederic@kernel.org" <frederic@kernel.org>
+CC:     "mingo@kernel.org" <mingo@kernel.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "will@kernel.org" <will@kernel.org>,
+        Prasun Kapoor <pkapoor@marvell.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
+Subject: Re: [EXT] Re: [PATCH v4 10/13] task_isolation: don't interrupt CPUs
+ with tick_nohz_full_kick_cpu()
+Thread-Topic: [EXT] Re: [PATCH v4 10/13] task_isolation: don't interrupt CPUs
+ with tick_nohz_full_kick_cpu()
+Thread-Index: AQHWYDhuh3VfINlM20KwSBz5WuaF0amDQmgAgATBZ4CAA46SgIAP4vOA
+Date:   Sat, 17 Oct 2020 00:17:24 +0000
+Message-ID: <5b9b9ff8e90d98ad8b3c2aaf65c3088c463eb15d.camel@marvell.com>
+References: <04be044c1bcd76b7438b7563edc35383417f12c8.camel@marvell.com>
+         <5acf7502c071c0d1365ba5e5940e003a7da6521f.camel@marvell.com>
+         <20201001144454.GB6595@lothringen>
+         <ab85fd564686845648d08779b1d4ecc3ab440b2a.camel@marvell.com>
+         <20201006214113.GA38684@lothringen>
+In-Reply-To: <20201006214113.GA38684@lothringen>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=marvell.com;
+x-originating-ip: [173.228.7.197]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: bdde0565-e876-445f-87e2-08d872320662
+x-ms-traffictypediagnostic: CO6PR18MB3987:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <CO6PR18MB3987B120899F49613A42F3C6BC000@CO6PR18MB3987.namprd18.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: c8ewBcaKnFshBX+G7nx3WP1+VyqYccBEuApcOobur3RmGVqqsg0N6C/L5bRtiBMHx4ohFXBGoYEJtps8lXKnd8hy0PtZhqZRUHM5mu2EVBeEZTPQmQ/69oza1GXRcyPTeOftWTtGMJeHeIxmla6mS8hDJmzTQSxq4pEXogEqU4+X4I1dfcsj6SGsS8MYiF8pLxuu/WWSpsy+cD9e77221gBneIEzvzXrXgbYnnLB8F/amIqx9h4dostPrcBfMJaUseP3H4ENk99ZI91fe8+OkfwwXM+W5uQZm6A2ZYYifznyrxeirrxYktKp0XSmOlNyQmUV0Ni4qZqocFfDS7VK5Q==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR18MB2267.namprd18.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(39860400002)(366004)(346002)(376002)(396003)(71200400001)(66556008)(6486002)(6916009)(4326008)(8676002)(6512007)(478600001)(186003)(86362001)(7416002)(2906002)(5660300002)(76116006)(2616005)(36756003)(64756008)(83380400001)(66446008)(66476007)(66946007)(6506007)(54906003)(91956017)(26005)(316002)(8936002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: nfwIm+sVwpr+T82QHA39cg2bV8KLx+Z5ZZq12qxJMcsoq8w1njD7SPFLGeBg+YDtugcczy+a4j/YkWeE0gTTDJaSsABry/0tqf+4qoiPQJe7wLJET/neZVwunj/rd1Pgae+mjq6oMKBYEGgXrCsF4YPnxA6ZR9hAOwbTXsIm4InmLZMDCr6xqhDXJn+6HhxkPSgKHdbtWdS/I/nb7i9BJrbepTQcT7QIttwCKk5hDLB/Hsk0tFUx7AW5SdTHSI0yXNKWm0XN7Sn0JjxZwXAUbtr9FImn6AxAlxrn26bhVgN+pSU4SuyEB0Twc20V8rpcUEZ6NkdcLyAAwTiPcY9UePIqpz17zlPNTvmqZeNU+cGOrDXEA68pk5/WKLeFEr8I5lrZL1GkX6w0g2sOGm9Bn+mtCl8eDlIVgvLuJyCDbNPdQz0avL9W2gVAo+QiIGHajBFfCp1SsF3QBi4RN/6esZXcxDUpCbJjzwtpJSw8Q1AqfNXUDjb8QxxXKuHFjvxRDuPUrlj5eEL8wbemLflcRmXZ36zMtRtJhJj9nblFqtodFXczF+tDVcFD7Kve/aMV1klU8CFViw8uTfHm2xVsql7DWgmcEs4GHgLlRIHhfqFCg1e7S1esXwRQvYwT5c4hoxjFfE6vker4hvSYhYEjFQ==
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <E4E498FC4B890B4E9B996BD1B65649FA@namprd18.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR18MB2267.namprd18.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bdde0565-e876-445f-87e2-08d872320662
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Oct 2020 00:17:25.2927
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: PMN82s7yEAdrAcqsMyGKGyage2BiRrHcVtVx+eHjUVnwkesLoGTuFu0/EKIusbnoDfN3Jp9XOU6ZeYna8rcGng==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR18MB3987
+X-OriginatorOrg: marvell.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
+ definitions=2020-10-16_12:2020-10-16,2020-10-16 signatures=0
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-The kernel currently clears the tag bits (i.e. bits 56-63) in the fault
-address exposed via siginfo.si_addr and sigcontext.fault_address. However,
-the tag bits may be needed by tools in order to accurately diagnose
-memory errors, such as HWASan [1] or future tools based on the Memory
-Tagging Extension (MTE).
-
-We should not stop clearing these bits in the existing fault address
-fields, because there may be existing userspace applications that are
-expecting the tag bits to be cleared. Instead, create a new pair of
-union fields in siginfo._sigfault, and store the tag bits of FAR_EL1
-there, together with a mask specifying which bits are valid.
-
-A flag is added to si_xflags to allow userspace to determine whether
-the values in the fields are valid.
-
-[1] http://clang.llvm.org/docs/HardwareAssistedAddressSanitizerDesign.html
-
-Signed-off-by: Peter Collingbourne <pcc@google.com>
-Link: https://linux-review.googlesource.com/id/Ia8876bad8c798e0a32df7c2ce1256c4771c81446
----
-v12:
-- add new fields to signal_compat.c test cases
-- rebased to 5.10-rc1
-- mask out bits 63:60 for tag check faults
-
-v11:
-- add a comment explaining what the arch hook should do
-- rename ignored bits to tag bits
-
-v10:
-- rename the flag to SIXFLAG_ADDR_IGNORED_BITS
-- use an arch hook to specify which bits are ignored, instead
-  of passing them explicitly
-- while refactoring for the arch hook, noticed that my previous
-  patches missed a case involving cache maintenance instructions,
-  so expose the tag bits for that signal as well
-
-v9:
-- make the ignored bits fields generic
-- add some new dependent patches that prepare us to store the
-  field in such a way that userspace can detect their presence
-
-v8:
-- rebase onto 5.8rc2
-
-v7:
-- switch to a new siginfo field instead of using sigcontext
-- merge the patch back into one since the other patches are now
-  unnecessary
-
-v6:
-- move fault address and fault code into the kernel_siginfo data structure
-- split the patch in three since it was getting large and now has
-  generic and arch-specific parts
-
-v5:
-- add padding to fault_addr_top_byte_context in order to ensure the correct
-  size and preserve sp alignment
-
-v4:
-- expose only the tag bits in the context instead of the entire FAR_EL1
-- remove mention of the new context from the sigcontext.__reserved[] note
-
-v3:
-- add documentation to tagged-pointers.rst
-- update comments in sigcontext.h
-
-v2:
-- revert changes to hw_breakpoint.c
-- rename set_thread_esr to set_thread_far_esr
-
- Documentation/arm64/tagged-pointers.rst | 21 +++++---
- arch/arm64/include/asm/exception.h      |  2 +-
- arch/arm64/include/asm/signal.h         | 19 +++++++
- arch/arm64/include/asm/system_misc.h    |  2 +-
- arch/arm64/include/asm/traps.h          |  6 +--
- arch/arm64/kernel/debug-monitors.c      |  5 +-
- arch/arm64/kernel/entry-common.c        |  2 -
- arch/arm64/kernel/ptrace.c              |  7 +--
- arch/arm64/kernel/sys_compat.c          |  5 +-
- arch/arm64/kernel/traps.c               | 29 ++++++-----
- arch/arm64/mm/fault.c                   | 68 ++++++++++++++-----------
- arch/x86/kernel/signal_compat.c         |  9 +++-
- include/linux/compat.h                  |  2 +
- include/linux/signal.h                  | 16 ++++++
- include/uapi/asm-generic/siginfo.h      | 10 ++++
- kernel/signal.c                         | 18 ++++++-
- 16 files changed, 148 insertions(+), 73 deletions(-)
- create mode 100644 arch/arm64/include/asm/signal.h
-
-diff --git a/Documentation/arm64/tagged-pointers.rst b/Documentation/arm64/tagged-pointers.rst
-index eab4323609b9..032c09a876f4 100644
---- a/Documentation/arm64/tagged-pointers.rst
-+++ b/Documentation/arm64/tagged-pointers.rst
-@@ -53,12 +53,21 @@ visibility.
- Preserving tags
- ---------------
- 
--Non-zero tags are not preserved when delivering signals. This means that
--signal handlers in applications making use of tags cannot rely on the
--tag information for user virtual addresses being maintained for fields
--inside siginfo_t. One exception to this rule is for signals raised in
--response to watchpoint debug exceptions, where the tag information will
--be preserved.
-+Non-zero tags are not preserved in the fault address fields
-+siginfo.si_addr or sigcontext.fault_address when delivering
-+signals. This means that signal handlers in applications making use
-+of tags cannot rely on the tag information for user virtual addresses
-+being maintained in these fields. One exception to this rule is for
-+signals raised in response to watchpoint debug exceptions, where the
-+tag information will be preserved.
-+
-+The fault address tag is preserved in the si_addr_tag_bits field
-+of siginfo, which is set for signals raised in response to data aborts
-+and instruction aborts. The si_addr_tag_bits_mask field indicates
-+which bits of the field are valid. The validity of these fields is
-+indicated by the SIXFLAG_ADDR_TAG_BITS flag in siginfo.si_xflags,
-+and the validity of si_xflags in turn is indicated by the kernel
-+indicating support for the sigaction.sa_flags flag SA_XFLAGS.
- 
- The architecture prevents the use of a tagged PC, so the upper byte will
- be set to a sign-extension of bit 55 on exception return.
-diff --git a/arch/arm64/include/asm/exception.h b/arch/arm64/include/asm/exception.h
-index 99b9383cd036..2a8aa1884d8a 100644
---- a/arch/arm64/include/asm/exception.h
-+++ b/arch/arm64/include/asm/exception.h
-@@ -32,7 +32,7 @@ static inline u32 disr_to_esr(u64 disr)
- }
- 
- asmlinkage void enter_from_user_mode(void);
--void do_mem_abort(unsigned long addr, unsigned int esr, struct pt_regs *regs);
-+void do_mem_abort(unsigned long far, unsigned int esr, struct pt_regs *regs);
- void do_undefinstr(struct pt_regs *regs);
- void do_bti(struct pt_regs *regs);
- asmlinkage void bad_mode(struct pt_regs *regs, int reason, unsigned int esr);
-diff --git a/arch/arm64/include/asm/signal.h b/arch/arm64/include/asm/signal.h
-new file mode 100644
-index 000000000000..46f9b3c61896
---- /dev/null
-+++ b/arch/arm64/include/asm/signal.h
-@@ -0,0 +1,19 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef __ARM64_ASM_SIGNAL_H
-+#define __ARM64_ASM_SIGNAL_H
-+
-+#include <uapi/asm/signal.h>
-+#include <uapi/asm/siginfo.h>
-+
-+static inline unsigned long arch_addr_tag_bits_mask(unsigned long sig,
-+						    unsigned long si_code)
-+{
-+	if (sig == SIGTRAP && si_code == TRAP_BRKPT)
-+		return 0;
-+	if (sig == SIGSEGV && si_code == SEGV_MTESERR)
-+		return 0xfUL << 56;
-+	return 0xffUL << 56;
-+}
-+#define arch_addr_tag_bits_mask arch_addr_tag_bits_mask
-+
-+#endif
-diff --git a/arch/arm64/include/asm/system_misc.h b/arch/arm64/include/asm/system_misc.h
-index 1ab63cfbbaf1..673be2d1263c 100644
---- a/arch/arm64/include/asm/system_misc.h
-+++ b/arch/arm64/include/asm/system_misc.h
-@@ -22,7 +22,7 @@ void die(const char *msg, struct pt_regs *regs, int err);
- 
- struct siginfo;
- void arm64_notify_die(const char *str, struct pt_regs *regs,
--		      int signo, int sicode, void __user *addr,
-+		      int signo, int sicode, unsigned long far,
- 		      int err);
- 
- void hook_debug_fault_code(int nr, int (*fn)(unsigned long, unsigned int,
-diff --git a/arch/arm64/include/asm/traps.h b/arch/arm64/include/asm/traps.h
-index d96dc2c7c09d..54f32a0675df 100644
---- a/arch/arm64/include/asm/traps.h
-+++ b/arch/arm64/include/asm/traps.h
-@@ -26,9 +26,9 @@ void register_undef_hook(struct undef_hook *hook);
- void unregister_undef_hook(struct undef_hook *hook);
- void force_signal_inject(int signal, int code, unsigned long address, unsigned int err);
- void arm64_notify_segfault(unsigned long addr);
--void arm64_force_sig_fault(int signo, int code, void __user *addr, const char *str);
--void arm64_force_sig_mceerr(int code, void __user *addr, short lsb, const char *str);
--void arm64_force_sig_ptrace_errno_trap(int errno, void __user *addr, const char *str);
-+void arm64_force_sig_fault(int signo, int code, unsigned long far, const char *str);
-+void arm64_force_sig_mceerr(int code, unsigned long far, short lsb, const char *str);
-+void arm64_force_sig_ptrace_errno_trap(int errno, unsigned long far, const char *str);
- 
- /*
-  * Move regs->pc to next instruction and do necessary setup before it
-diff --git a/arch/arm64/kernel/debug-monitors.c b/arch/arm64/kernel/debug-monitors.c
-index fa76151de6ff..4f3661eeb7ec 100644
---- a/arch/arm64/kernel/debug-monitors.c
-+++ b/arch/arm64/kernel/debug-monitors.c
-@@ -234,9 +234,8 @@ static void send_user_sigtrap(int si_code)
- 	if (interrupts_enabled(regs))
- 		local_irq_enable();
- 
--	arm64_force_sig_fault(SIGTRAP, si_code,
--			     (void __user *)instruction_pointer(regs),
--			     "User debug trap");
-+	arm64_force_sig_fault(SIGTRAP, si_code, instruction_pointer(regs),
-+			      "User debug trap");
- }
- 
- static int single_step_handler(unsigned long unused, unsigned int esr,
-diff --git a/arch/arm64/kernel/entry-common.c b/arch/arm64/kernel/entry-common.c
-index 43d4c329775f..dbbddfbf4a72 100644
---- a/arch/arm64/kernel/entry-common.c
-+++ b/arch/arm64/kernel/entry-common.c
-@@ -22,7 +22,6 @@ static void notrace el1_abort(struct pt_regs *regs, unsigned long esr)
- 	unsigned long far = read_sysreg(far_el1);
- 
- 	local_daif_inherit(regs);
--	far = untagged_addr(far);
- 	do_mem_abort(far, esr, regs);
- }
- NOKPROBE_SYMBOL(el1_abort);
-@@ -114,7 +113,6 @@ static void notrace el0_da(struct pt_regs *regs, unsigned long esr)
- 
- 	user_exit_irqoff();
- 	local_daif_restore(DAIF_PROCCTX);
--	far = untagged_addr(far);
- 	do_mem_abort(far, esr, regs);
- }
- NOKPROBE_SYMBOL(el0_da);
-diff --git a/arch/arm64/kernel/ptrace.c b/arch/arm64/kernel/ptrace.c
-index f49b349e16a3..8ac487c84e37 100644
---- a/arch/arm64/kernel/ptrace.c
-+++ b/arch/arm64/kernel/ptrace.c
-@@ -192,14 +192,11 @@ static void ptrace_hbptriggered(struct perf_event *bp,
- 				break;
- 			}
- 		}
--		arm64_force_sig_ptrace_errno_trap(si_errno,
--						  (void __user *)bkpt->trigger,
-+		arm64_force_sig_ptrace_errno_trap(si_errno, bkpt->trigger,
- 						  desc);
- 	}
- #endif
--	arm64_force_sig_fault(SIGTRAP, TRAP_HWBKPT,
--			      (void __user *)(bkpt->trigger),
--			      desc);
-+	arm64_force_sig_fault(SIGTRAP, TRAP_HWBKPT, bkpt->trigger, desc);
- }
- 
- /*
-diff --git a/arch/arm64/kernel/sys_compat.c b/arch/arm64/kernel/sys_compat.c
-index 3c18c2454089..265fe3eb1069 100644
---- a/arch/arm64/kernel/sys_compat.c
-+++ b/arch/arm64/kernel/sys_compat.c
-@@ -68,7 +68,7 @@ do_compat_cache_op(unsigned long start, unsigned long end, int flags)
-  */
- long compat_arm_syscall(struct pt_regs *regs, int scno)
- {
--	void __user *addr;
-+	unsigned long addr;
- 
- 	switch (scno) {
- 	/*
-@@ -111,8 +111,7 @@ long compat_arm_syscall(struct pt_regs *regs, int scno)
- 		break;
- 	}
- 
--	addr  = (void __user *)instruction_pointer(regs) -
--		(compat_thumb_mode(regs) ? 2 : 4);
-+	addr = instruction_pointer(regs) - (compat_thumb_mode(regs) ? 2 : 4);
- 
- 	arm64_notify_die("Oops - bad compat syscall(2)", regs,
- 			 SIGILL, ILL_ILLTRP, addr, scno);
-diff --git a/arch/arm64/kernel/traps.c b/arch/arm64/kernel/traps.c
-index 8af4e0e85736..f4ddbe9ed3f1 100644
---- a/arch/arm64/kernel/traps.c
-+++ b/arch/arm64/kernel/traps.c
-@@ -170,32 +170,32 @@ static void arm64_show_signal(int signo, const char *str)
- 	__show_regs(regs);
- }
- 
--void arm64_force_sig_fault(int signo, int code, void __user *addr,
-+void arm64_force_sig_fault(int signo, int code, unsigned long far,
- 			   const char *str)
- {
- 	arm64_show_signal(signo, str);
- 	if (signo == SIGKILL)
- 		force_sig(SIGKILL);
- 	else
--		force_sig_fault(signo, code, addr);
-+		force_sig_fault(signo, code, (void __user *)far);
- }
- 
--void arm64_force_sig_mceerr(int code, void __user *addr, short lsb,
-+void arm64_force_sig_mceerr(int code, unsigned long far, short lsb,
- 			    const char *str)
- {
- 	arm64_show_signal(SIGBUS, str);
--	force_sig_mceerr(code, addr, lsb);
-+	force_sig_mceerr(code, (void __user *)far, lsb);
- }
- 
--void arm64_force_sig_ptrace_errno_trap(int errno, void __user *addr,
-+void arm64_force_sig_ptrace_errno_trap(int errno, unsigned long far,
- 				       const char *str)
- {
- 	arm64_show_signal(SIGTRAP, str);
--	force_sig_ptrace_errno_trap(errno, addr);
-+	force_sig_ptrace_errno_trap(errno, (void __user *)far);
- }
- 
- void arm64_notify_die(const char *str, struct pt_regs *regs,
--		      int signo, int sicode, void __user *addr,
-+		      int signo, int sicode, unsigned long far,
- 		      int err)
- {
- 	if (user_mode(regs)) {
-@@ -203,7 +203,7 @@ void arm64_notify_die(const char *str, struct pt_regs *regs,
- 		current->thread.fault_address = 0;
- 		current->thread.fault_code = err;
- 
--		arm64_force_sig_fault(signo, sicode, addr, str);
-+		arm64_force_sig_fault(signo, sicode, far, str);
- 	} else {
- 		die(str, regs, err);
- 	}
-@@ -374,7 +374,7 @@ void force_signal_inject(int signal, int code, unsigned long address, unsigned i
- 		signal = SIGKILL;
- 	}
- 
--	arm64_notify_die(desc, regs, signal, code, (void __user *)address, err);
-+	arm64_notify_die(desc, regs, signal, code, address, err);
- }
- 
- /*
-@@ -385,7 +385,7 @@ void arm64_notify_segfault(unsigned long addr)
- 	int code;
- 
- 	mmap_read_lock(current->mm);
--	if (find_vma(current->mm, addr) == NULL)
-+	if (find_vma(current->mm, untagged_addr(addr)) == NULL)
- 		code = SEGV_MAPERR;
- 	else
- 		code = SEGV_ACCERR;
-@@ -448,12 +448,13 @@ NOKPROBE_SYMBOL(do_ptrauth_fault);
- 
- static void user_cache_maint_handler(unsigned int esr, struct pt_regs *regs)
- {
--	unsigned long address;
-+	unsigned long tagged_address, address;
- 	int rt = ESR_ELx_SYS64_ISS_RT(esr);
- 	int crm = (esr & ESR_ELx_SYS64_ISS_CRM_MASK) >> ESR_ELx_SYS64_ISS_CRM_SHIFT;
- 	int ret = 0;
- 
--	address = untagged_addr(pt_regs_read_reg(regs, rt));
-+	tagged_address = pt_regs_read_reg(regs, rt);
-+	address = untagged_addr(tagged_address);
- 
- 	switch (crm) {
- 	case ESR_ELx_SYS64_ISS_CRM_DC_CVAU:	/* DC CVAU, gets promoted */
-@@ -480,7 +481,7 @@ static void user_cache_maint_handler(unsigned int esr, struct pt_regs *regs)
- 	}
- 
- 	if (ret)
--		arm64_notify_segfault(address);
-+		arm64_notify_segfault(tagged_address);
- 	else
- 		arm64_skip_faulting_instruction(regs, AARCH64_INSN_SIZE);
- }
-@@ -772,7 +773,7 @@ asmlinkage void bad_mode(struct pt_regs *regs, int reason, unsigned int esr)
-  */
- void bad_el0_sync(struct pt_regs *regs, int reason, unsigned int esr)
- {
--	void __user *pc = (void __user *)instruction_pointer(regs);
-+	unsigned long pc = instruction_pointer(regs);
- 
- 	current->thread.fault_address = 0;
- 	current->thread.fault_code = esr;
-diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
-index 94c99c1c19e3..1d9d678cfc01 100644
---- a/arch/arm64/mm/fault.c
-+++ b/arch/arm64/mm/fault.c
-@@ -40,7 +40,7 @@
- #include <asm/traps.h>
- 
- struct fault_info {
--	int	(*fn)(unsigned long addr, unsigned int esr,
-+	int	(*fn)(unsigned long far, unsigned int esr,
- 		      struct pt_regs *regs);
- 	int	sig;
- 	int	code;
-@@ -385,8 +385,11 @@ static void set_thread_esr(unsigned long address, unsigned int esr)
- 	current->thread.fault_code = esr;
- }
- 
--static void do_bad_area(unsigned long addr, unsigned int esr, struct pt_regs *regs)
-+static void do_bad_area(unsigned long far, unsigned int esr,
-+			struct pt_regs *regs)
- {
-+	unsigned long addr = untagged_addr(far);
-+
- 	/*
- 	 * If we are in kernel mode at this point, we have no context to
- 	 * handle this fault with.
-@@ -395,8 +398,7 @@ static void do_bad_area(unsigned long addr, unsigned int esr, struct pt_regs *re
- 		const struct fault_info *inf = esr_to_fault_info(esr);
- 
- 		set_thread_esr(addr, esr);
--		arm64_force_sig_fault(inf->sig, inf->code, (void __user *)addr,
--				      inf->name);
-+		arm64_force_sig_fault(inf->sig, inf->code, far, inf->name);
- 	} else {
- 		__do_kernel_fault(addr, esr, regs);
- 	}
-@@ -448,7 +450,7 @@ static bool is_write_abort(unsigned int esr)
- 	return (esr & ESR_ELx_WNR) && !(esr & ESR_ELx_CM);
- }
- 
--static int __kprobes do_page_fault(unsigned long addr, unsigned int esr,
-+static int __kprobes do_page_fault(unsigned long far, unsigned int esr,
- 				   struct pt_regs *regs)
- {
- 	const struct fault_info *inf;
-@@ -456,6 +458,7 @@ static int __kprobes do_page_fault(unsigned long addr, unsigned int esr,
- 	vm_fault_t fault;
- 	unsigned long vm_flags = VM_ACCESS_FLAGS;
- 	unsigned int mm_flags = FAULT_FLAG_DEFAULT;
-+	unsigned long addr = untagged_addr(far);
- 
- 	if (kprobe_page_fault(regs, esr))
- 		return 0;
-@@ -567,8 +570,7 @@ static int __kprobes do_page_fault(unsigned long addr, unsigned int esr,
- 		 * We had some memory, but were unable to successfully fix up
- 		 * this page fault.
- 		 */
--		arm64_force_sig_fault(SIGBUS, BUS_ADRERR, (void __user *)addr,
--				      inf->name);
-+		arm64_force_sig_fault(SIGBUS, BUS_ADRERR, far, inf->name);
- 	} else if (fault & (VM_FAULT_HWPOISON_LARGE | VM_FAULT_HWPOISON)) {
- 		unsigned int lsb;
- 
-@@ -576,8 +578,7 @@ static int __kprobes do_page_fault(unsigned long addr, unsigned int esr,
- 		if (fault & VM_FAULT_HWPOISON_LARGE)
- 			lsb = hstate_index_to_shift(VM_FAULT_GET_HINDEX(fault));
- 
--		arm64_force_sig_mceerr(BUS_MCEERR_AR, (void __user *)addr, lsb,
--				       inf->name);
-+		arm64_force_sig_mceerr(BUS_MCEERR_AR, far, lsb, inf->name);
- 	} else {
- 		/*
- 		 * Something tried to access memory that isn't in our memory
-@@ -585,8 +586,7 @@ static int __kprobes do_page_fault(unsigned long addr, unsigned int esr,
- 		 */
- 		arm64_force_sig_fault(SIGSEGV,
- 				      fault == VM_FAULT_BADACCESS ? SEGV_ACCERR : SEGV_MAPERR,
--				      (void __user *)addr,
--				      inf->name);
-+				      far, inf->name);
- 	}
- 
- 	return 0;
-@@ -596,33 +596,35 @@ static int __kprobes do_page_fault(unsigned long addr, unsigned int esr,
- 	return 0;
- }
- 
--static int __kprobes do_translation_fault(unsigned long addr,
-+static int __kprobes do_translation_fault(unsigned long far,
- 					  unsigned int esr,
- 					  struct pt_regs *regs)
- {
-+	unsigned long addr = untagged_addr(far);
-+
- 	if (is_ttbr0_addr(addr))
--		return do_page_fault(addr, esr, regs);
-+		return do_page_fault(far, esr, regs);
- 
--	do_bad_area(addr, esr, regs);
-+	do_bad_area(far, esr, regs);
- 	return 0;
- }
- 
--static int do_alignment_fault(unsigned long addr, unsigned int esr,
-+static int do_alignment_fault(unsigned long far, unsigned int esr,
- 			      struct pt_regs *regs)
- {
--	do_bad_area(addr, esr, regs);
-+	do_bad_area(far, esr, regs);
- 	return 0;
- }
- 
--static int do_bad(unsigned long addr, unsigned int esr, struct pt_regs *regs)
-+static int do_bad(unsigned long far, unsigned int esr, struct pt_regs *regs)
- {
- 	return 1; /* "fault" */
- }
- 
--static int do_sea(unsigned long addr, unsigned int esr, struct pt_regs *regs)
-+static int do_sea(unsigned long far, unsigned int esr, struct pt_regs *regs)
- {
- 	const struct fault_info *inf;
--	void __user *siaddr;
-+	unsigned long siaddr;
- 
- 	inf = esr_to_fault_info(esr);
- 
-@@ -635,18 +637,23 @@ static int do_sea(unsigned long addr, unsigned int esr, struct pt_regs *regs)
- 	}
- 
- 	if (esr & ESR_ELx_FnV)
--		siaddr = NULL;
-+		siaddr = 0;
- 	else
--		siaddr  = (void __user *)addr;
-+		siaddr  = untagged_addr(far);
- 	arm64_notify_die(inf->name, regs, inf->sig, inf->code, siaddr, esr);
- 
- 	return 0;
- }
- 
--static int do_tag_check_fault(unsigned long addr, unsigned int esr,
-+static int do_tag_check_fault(unsigned long far, unsigned int esr,
- 			      struct pt_regs *regs)
- {
--	do_bad_area(addr, esr, regs);
-+	/*
-+	 * The architecture specifies that bits 63:60 of FAR_EL1 are UNKNOWN for tag
-+	 * check faults. Mask them out now so that userspace doesn't see them.
-+	 */
-+	far &= (1UL << 60) - 1;
-+	do_bad_area(far, esr, regs);
- 	return 0;
- }
- 
-@@ -717,11 +724,12 @@ static const struct fault_info fault_info[] = {
- 	{ do_bad,		SIGKILL, SI_KERNEL,	"unknown 63"			},
- };
- 
--void do_mem_abort(unsigned long addr, unsigned int esr, struct pt_regs *regs)
-+void do_mem_abort(unsigned long far, unsigned int esr, struct pt_regs *regs)
- {
- 	const struct fault_info *inf = esr_to_fault_info(esr);
-+	unsigned long addr = untagged_addr(far);
- 
--	if (!inf->fn(addr, esr, regs))
-+	if (!inf->fn(far, esr, regs))
- 		return;
- 
- 	if (!user_mode(regs)) {
-@@ -730,8 +738,7 @@ void do_mem_abort(unsigned long addr, unsigned int esr, struct pt_regs *regs)
- 		show_pte(addr);
- 	}
- 
--	arm64_notify_die(inf->name, regs,
--			 inf->sig, inf->code, (void __user *)addr, esr);
-+	arm64_notify_die(inf->name, regs, inf->sig, inf->code, addr, esr);
- }
- NOKPROBE_SYMBOL(do_mem_abort);
- 
-@@ -744,8 +751,8 @@ NOKPROBE_SYMBOL(do_el0_irq_bp_hardening);
- 
- void do_sp_pc_abort(unsigned long addr, unsigned int esr, struct pt_regs *regs)
- {
--	arm64_notify_die("SP/PC alignment exception", regs,
--			 SIGBUS, BUS_ADRALN, (void __user *)addr, esr);
-+	arm64_notify_die("SP/PC alignment exception", regs, SIGBUS, BUS_ADRALN,
-+			 addr, esr);
- }
- NOKPROBE_SYMBOL(do_sp_pc_abort);
- 
-@@ -871,8 +878,7 @@ void do_debug_exception(unsigned long addr_if_watchpoint, unsigned int esr,
- 		arm64_apply_bp_hardening();
- 
- 	if (inf->fn(addr_if_watchpoint, esr, regs)) {
--		arm64_notify_die(inf->name, regs,
--				 inf->sig, inf->code, (void __user *)pc, esr);
-+		arm64_notify_die(inf->name, regs, inf->sig, inf->code, pc, esr);
- 	}
- 
- 	debug_exception_exit(regs);
-diff --git a/arch/x86/kernel/signal_compat.c b/arch/x86/kernel/signal_compat.c
-index 243a8cc3b41b..aa33674a4972 100644
---- a/arch/x86/kernel/signal_compat.c
-+++ b/arch/x86/kernel/signal_compat.c
-@@ -121,8 +121,8 @@ static inline void signal_compat_build_tests(void)
- #endif
- 
- 	CHECK_CSI_OFFSET(_sigfault);
--	CHECK_CSI_SIZE  (_sigfault, 8*sizeof(int));
--	CHECK_SI_SIZE   (_sigfault, 16*sizeof(int));
-+	CHECK_CSI_SIZE  (_sigfault, 10*sizeof(int));
-+	CHECK_SI_SIZE   (_sigfault, 20*sizeof(int));
- 
- 	BUILD_BUG_ON(offsetof(siginfo_t, si_addr) != 0x10);
- 	BUILD_BUG_ON(offsetof(compat_siginfo_t, si_addr) != 0x0C);
-@@ -141,6 +141,11 @@ static inline void signal_compat_build_tests(void)
- 	BUILD_BUG_ON(offsetof(siginfo_t, si_xflags) != 0x48);
- 	BUILD_BUG_ON(offsetof(compat_siginfo_t, si_xflags) != 0x28);
- 
-+	BUILD_BUG_ON(offsetof(siginfo_t, si_addr_tag_bits) != 0x50);
-+	BUILD_BUG_ON(offsetof(siginfo_t, si_addr_tag_bits_mask) != 0x58);
-+	BUILD_BUG_ON(offsetof(compat_siginfo_t, si_addr_tag_bits) != 0x2C);
-+	BUILD_BUG_ON(offsetof(compat_siginfo_t, si_addr_tag_bits_mask) != 0x30);
-+
- 	CHECK_CSI_OFFSET(_sigpoll);
- 	CHECK_CSI_SIZE  (_sigpoll, 2*sizeof(int));
- 	CHECK_SI_SIZE   (_sigpoll, 4*sizeof(int));
-diff --git a/include/linux/compat.h b/include/linux/compat.h
-index ea77a24ce6a2..345d029adadc 100644
---- a/include/linux/compat.h
-+++ b/include/linux/compat.h
-@@ -239,6 +239,8 @@ typedef struct compat_siginfo {
- 				compat_uptr_t _pad[6];
- 			};
- 			u32 _xflags;
-+			compat_uptr_t _addr_tag_bits;
-+			compat_uptr_t _addr_tag_bits_mask;
- 		} _sigfault;
- 
- 		/* SIGPOLL */
-diff --git a/include/linux/signal.h b/include/linux/signal.h
-index 9b7fef0c559d..e12f211f5c12 100644
---- a/include/linux/signal.h
-+++ b/include/linux/signal.h
-@@ -480,4 +480,20 @@ struct seq_file;
- extern void render_sigset_t(struct seq_file *, const char *, sigset_t *);
- #endif
- 
-+#ifndef arch_addr_tag_bits_mask
-+/*
-+ * Given a signal and si_code which correspond to the _sigfault union member,
-+ * if tag bits are present in the fault address which must appear in
-+ * si_addr_tag_bits instead of si_addr, this hook must return a bitmask where 1
-+ * corresponds to bits appearing in si_addr_tag_bits and 0 corresponds to bits
-+ * appearing in si_addr. The value returned by this function will also be
-+ * available in si_addr_tag_bits_mask.
-+ */
-+static inline unsigned long arch_addr_tag_bits_mask(unsigned long sig,
-+						    unsigned long si_code)
-+{
-+	return 0;
-+}
-+#endif
-+
- #endif /* _LINUX_SIGNAL_H */
-diff --git a/include/uapi/asm-generic/siginfo.h b/include/uapi/asm-generic/siginfo.h
-index 8158d5df666a..e5fe256c4979 100644
---- a/include/uapi/asm-generic/siginfo.h
-+++ b/include/uapi/asm-generic/siginfo.h
-@@ -94,6 +94,8 @@ union __sifields {
- 			void *_pad[6];
- 		};
- 		__u32 _xflags;
-+		unsigned long _addr_tag_bits;
-+		unsigned long _addr_tag_bits_mask;
- 	} _sigfault;
- 
- 	/* SIGPOLL */
-@@ -156,6 +158,8 @@ typedef struct siginfo {
- #define si_addr_lsb	_sifields._sigfault._addr_lsb
- /* si_xflags is only valid if 0 < si_code < SI_KERNEL */
- #define si_xflags	_sifields._sigfault._xflags
-+#define si_addr_tag_bits	_sifields._sigfault._addr_tag_bits
-+#define si_addr_tag_bits_mask	_sifields._sigfault._addr_tag_bits_mask
- #define si_lower	_sifields._sigfault._addr_bnd._lower
- #define si_upper	_sifields._sigfault._addr_bnd._upper
- #define si_pkey		_sifields._sigfault._addr_pkey._pkey
-@@ -298,6 +302,12 @@ typedef struct siginfo {
- #define EMT_TAGOVF	1	/* tag overflow */
- #define NSIGEMT		1
- 
-+/*
-+ * SIGILL, SIGFPE, SIGSEGV, SIGBUS, SIGTRAP, SIGEMT si_xflags
-+ */
-+#define SIXFLAG_ADDR_TAG_BITS	1
-+/* si_addr_tag_bits{,_mask} fields valid */
-+
- /*
-  * sigevent definitions
-  * 
-diff --git a/kernel/signal.c b/kernel/signal.c
-index 5c715a01942f..f41b40c9caf1 100644
---- a/kernel/signal.c
-+++ b/kernel/signal.c
-@@ -1652,11 +1652,16 @@ void force_sigsegv(int sig)
- static void set_sigfault_common_fields(struct kernel_siginfo *info, int sig,
- 				       int code, void __user *addr)
- {
-+	unsigned long addr_long = (unsigned long)addr;
-+	unsigned long tag_bits_mask = arch_addr_tag_bits_mask(sig, code);
-+
- 	info->si_signo = sig;
- 	info->si_errno = 0;
- 	info->si_code = code;
--	info->si_addr = addr;
--	info->si_xflags = 0;
-+	info->si_addr = (void __user *)(addr_long & ~tag_bits_mask);
-+	info->si_xflags = SIXFLAG_ADDR_TAG_BITS;
-+	info->si_addr_tag_bits = addr_long & tag_bits_mask;
-+	info->si_addr_tag_bits_mask = tag_bits_mask;
- }
- 
- int force_sig_fault_to_task(int sig, int code, void __user *addr
-@@ -3271,6 +3276,13 @@ void copy_siginfo_to_external32(struct compat_siginfo *to,
- 		to->si_trapno = from->si_trapno;
- #endif
- 		to->si_xflags = from->si_xflags;
-+		/*
-+		 * These assignments involve a truncation, but as with si_addr
-+		 * they will be derived from a 32-bit fault address so we
-+		 * should not expect any truncation in practice.
-+		 */
-+		to->si_addr_tag_bits = from->si_addr_tag_bits;
-+		to->si_addr_tag_bits_mask = from->si_addr_tag_bits_mask;
- 	}
- 
- 	switch (layout) {
-@@ -3347,6 +3359,8 @@ static int post_copy_siginfo_from_user32(kernel_siginfo_t *to,
- 		to->si_trapno = from->si_trapno;
- #endif
- 		to->si_xflags = from->si_xflags;
-+		to->si_addr_tag_bits = from->si_addr_tag_bits;
-+		to->si_addr_tag_bits_mask = from->si_addr_tag_bits_mask;
- 	}
- 
- 	switch (layout) {
--- 
-2.29.0.rc1.297.gfa9743e501-goog
-
+DQpPbiBUdWUsIDIwMjAtMTAtMDYgYXQgMjM6NDEgKzAyMDAsIEZyZWRlcmljIFdlaXNiZWNrZXIg
+d3JvdGU6DQo+IE9uIFN1biwgT2N0IDA0LCAyMDIwIGF0IDAzOjIyOjA5UE0gKzAwMDAsIEFsZXgg
+QmVsaXRzIHdyb3RlOg0KPiA+IE9uIFRodSwgMjAyMC0xMC0wMSBhdCAxNjo0NCArMDIwMCwgRnJl
+ZGVyaWMgV2Vpc2JlY2tlciB3cm90ZToNCj4gPiA+ID4gQEAgLTI2OCw3ICsyNjksOCBAQCBzdGF0
+aWMgdm9pZCB0aWNrX25vaHpfZnVsbF9raWNrKHZvaWQpDQo+ID4gPiA+ICAgKi8NCj4gPiA+ID4g
+IHZvaWQgdGlja19ub2h6X2Z1bGxfa2lja19jcHUoaW50IGNwdSkNCj4gPiA+ID4gIHsNCj4gPiA+
+ID4gLQlpZiAoIXRpY2tfbm9oel9mdWxsX2NwdShjcHUpKQ0KPiA+ID4gPiArCXNtcF9ybWIoKTsN
+Cj4gPiA+IA0KPiA+ID4gV2hhdCBpcyBpdCBvcmRlcmluZz8NCj4gPiANCj4gPiBsbF9pc29sX2Zs
+YWdzIHdpbGwgYmUgcmVhZCBpbiB0YXNrX2lzb2xhdGlvbl9vbl9jcHUoKSwgdGhhdCBhY2Nyc3MN
+Cj4gPiBzaG91bGQgYmUgb3JkZXJlZCBhZ2FpbnN0IHdyaXRpbmcgaW4NCj4gPiB0YXNrX2lzb2xh
+dGlvbl9rZXJuZWxfZW50ZXIoKSwgZmFzdF90YXNrX2lzb2xhdGlvbl9jcHVfY2xlYW51cCgpDQo+
+ID4gYW5kIHRhc2tfaXNvbGF0aW9uX3N0YXJ0KCkuDQo+ID4gDQo+ID4gU2luY2UgdGFza19pc29s
+YXRpb25fb25fY3B1KCkgaXMgb2Z0ZW4gY2FsbGVkIGZvciBtdWx0aXBsZSBDUFVzIGluDQo+ID4g
+YQ0KPiA+IHNlcXVlbmNlLCBpdCB3b3VsZCBiZSB3YXN0ZWZ1bCB0byBpbmNsdWRlIGEgYmFycmll
+ciBpbnNpZGUgaXQuDQo+IA0KPiBUaGVuIEkgdGhpbmsgeW91IG1lYW50IGEgZnVsbCBiYXJyaWVy
+OiBzbXBfbWIoKQ0KDQpGb3IgcmVhZC1vbmx5IG9wZXJhdGlvbj8gdGFza19pc29sYXRpb25fb25f
+Y3B1KCkgaXMgdGhlIG9ubHkgcGxhY2UNCndoZXJlIHBlci1jcHUgbGxfaXNvbF9mbGFncyBpcyBh
+Y2Nlc3NlZCwgcmVhZC1vbmx5LCBmcm9tIG11bHRpcGxlIENQVXMuDQpBbGwgb3RoZXIgYWNjZXNz
+IHRvIGxsX2lzb2xfZmxhZ3MgaXMgZG9uZSBmcm9tIHRoZSBsb2NhbCBDUFUsIGFuZA0Kd3JpdGVz
+IGFyZSBmb2xsb3dlZCBieSBzbXBfbWIoKS4gVGhlcmUgYXJlIG5vIG90aGVyIGRlcGVuZGVuY2ll
+cyBoZXJlLA0KZXhjZXB0IG9wZXJhdGlvbnMgdGhhdCBkZXBlbmQgb24gdGhlIHZhbHVlIHJldHVy
+bmVkIGZyb20NCnRhc2tfaXNvbGF0aW9uX29uX2NwdSgpLg0KDQpJZi93aGVuIG1vcmUgZmxhZ3Mg
+d2lsbCBiZSBhZGRlZCwgdGhvc2UgcnVsZXMgd2lsbCBiZSBzdGlsbCBmb2xsb3dlZCwNCmJlY2F1
+c2UgdGhlIGludGVudGlvbiBpcyB0byBzdG9yZSB0aGUgc3RhdGUgb2YgaXNvbGF0aW9uIGFuZCBw
+aGFzZXMgb2YNCmVudGVyaW5nL2JyZWFraW5nL3JlcG9ydGluZyBpdCB0aGF0IGNhbiBvbmx5IGJl
+IHVwZGF0ZWQgZnJvbSB0aGUgbG9jYWwNCkNQVXMuDQoNCj4gDQo+ID4gPiA+ICsJaWYgKCF0aWNr
+X25vaHpfZnVsbF9jcHUoY3B1KSB8fA0KPiA+ID4gPiB0YXNrX2lzb2xhdGlvbl9vbl9jcHUoY3B1
+KSkNCj4gPiA+ID4gIAkJcmV0dXJuOw0KPiA+ID4gDQo+ID4gPiBZb3UgY2FuJ3Qgc2ltcGx5IGln
+bm9yZSBhbiBJUEkuIFRoZXJlIGlzIGFsd2F5cyBhIHJlYXNvbiBmb3IgYQ0KPiA+ID4gbm9oel9m
+dWxsIENQVQ0KPiA+ID4gdG8gYmUga2lja2VkLiBTb21ldGhpbmcgdHJpZ2dlcmVkIGEgdGljayBk
+ZXBlbmRlbmN5LiBJdCBjYW4gYmUNCj4gPiA+IHBvc2l4DQo+ID4gPiBjcHUgdGltZXJzDQo+ID4g
+PiBmb3IgZXhhbXBsZSwgb3IgYW55dGhpbmcuDQoNClRoaXMgd2FzIGFkZGVkIHNvbWUgdGltZSBh
+Z28sIHdoZW4gdGltZXJzIGFwcGVhcmVkIGFuZCBDUFVzIHdlcmUga2lja2VkDQpzZWVtaW5nbHkg
+b3V0IG9mIG5vd2hlcmUuIEF0IHRoYXQgcG9pbnQgYnJlYWtpbmcgcG9zaXggdGltZXJzIHdoZW4N
+CnJ1bm5pbmcgdGFza3MgdGhhdCBhcmUgbm90IHN1cHBvc2VkIHRvIHJlbHkgb24gcG9zaXggdGlt
+ZXJzLCB3YXMgdGhlDQpsZWFzdCBwcm9ibGVtYXRpYyBzb2x1dGlvbi4gRnJvbSB1c2VyJ3MgcG9p
+bnQgb2YgdmlldyBpbiB0aGlzIGNhc2UNCmVudGVyaW5nIGlzb2xhdGlvbiBoYWQgYW4gZWZmZWN0
+IG9uIHRpbWVyIHNpbWlsYXIgdG8gdGFzayBleGl0aW5nIHdoaWxlDQp0aGUgdGltZXIgaXMgcnVu
+bmluZy4NCg0KUmlnaHQgbm93LCB0aGVyZSBhcmUgc3RpbGwgc291cmNlcyBvZiBzdXBlcmZsdW91
+cyBjYWxscyB0byB0aGlzLCB3aGVuDQp0aWNrX25vaHpfZnVsbF9raWNrX2FsbCgpIGlzIHVzZWQu
+IElmIEkgd2lsbCBiZSBhYmxlIHRvIGNvbmZpcm0gdGhhdA0KdGhpcyBpcyB0aGUgb25seSBwcm9i
+bGVtYXRpYyBwbGFjZSwgSSB3b3VsZCByYXRoZXIgZml4IGNhbGxzIHRvIGl0LCBhbmQNCm1ha2Ug
+dGhpcyBjb25kaXRpb24gcHJvZHVjZSBhIHdhcm5pbmcuDQoNClRoaXMgZ2l2ZXMgbWUgYW4gaWRl
+YSB0aGF0IGlmIHRoZXJlIHdpbGwgYmUgYSBtZWNoYW5pc20gc3BlY2lmaWNhbGx5DQpmb3IgcmVw
+b3J0aW5nIGtlcm5lbCBlbnRyeSBhbmQgaXNvbGF0aW9uIGJyZWFraW5nLCBtYXliZSBpdCBzaG91
+bGQgYmUNCnBvc3NpYmxlIHRvIGFkZCBhIGRpc3RpbmN0aW9uIGJldHdlZW46DQoNCjEuIGlzb2xh
+dGlvbiBicmVha2luZyB0aGF0IGFscmVhZHkgaGFwcGVuZWQgdXBvbiBrZXJuZWwgZW50cnk7DQoy
+LiBwZXJmb3JtaW5nIG9wZXJhdGlvbiB0aGF0IHdpbGwgaW1tZWRpYXRlbHkgYW5kIHN5bmNocm9u
+b3VzbHkgY2F1c2UNCmlzb2xhdGlvbiBicmVha2luZzsNCjMuIG9wZXJhdGlvbnMgb3IgY29uZGl0
+aW9ucyB0aGF0IHdpbGwgZXZlbnR1YWxseSBvciBhc3luY2hyb25vdXNseQ0KY2F1c2UgaXNvbGF0
+aW9uIGJyZWFraW5nIChoYXZpbmcgdGltZXJzIHJ1bm5pbmcsIHBvc3NpYmx5IHNlbmRpbmcNCnNp
+Z25hbHMgc2hvdWxkIGJlIGluIHRoZSBzYW1lIGNhdGVnb3J5KS4NCg0KVGhpcyB3aWxsIGJlICgy
+KS4NCg0KSSBhc3N1bWUgdGhhdCB3aGVuIHJlcG9ydGluZyBvZiBpc29sYXRpb24gYnJlYWtpbmcg
+d2lsbCBiZSBzZXBhcmF0ZWQNCmZyb20gdGhlIGlzb2xhdGlvbiBpbXBsZW1lbnRhdGlvbiwgaXQg
+d2lsbCBiZSBpbXBsZW1lbnRlZCBhcyBhIHJ1bnRpbWUNCmVycm9yIGNvbmRpdGlvbiByZXBvcnRp
+bmcgbWVjaGFuaXNtLiBUaGVuIGl0IGNhbiBiZSBmb2N1c2VkIG9uDQpwcm92aWRpbmcgaW5mb3Jt
+YXRpb24gYWJvdXQgY2F0ZWdvcnkgb2YgZXZlbnRzIGFuZCB0aGVpciBzb3VyY2VzLCBhbmQNCmhh
+dmUgaW50ZXJuYWwgbG9naWMgZGVzaWduZWQgZm9yIHRoYXQgcHVycG9zZSwgYXMgb3Bwb3NlZCB0
+byBkZXNpZ25lZA0KZW50aXJlbHkgZm9yIGRlYnVnZ2luZywgcHJvdmlkaW5nIGZsZXhpYmlsaXR5
+IGFuZCBvYnRhaW5pbmcgbWF4aW11bQ0KZGV0YWlscyBhYm91dCBpbnRlcm5hbHMgaW52b2x2ZWQu
+DQoNCj4gPiANCj4gPiBJIHJlYWxpemUgdGhhdCB0aGlzIGlzIHVudXN1YWwsIGhvd2V2ZXIgdGhl
+IGlkZWEgaXMgdGhhdCB3aGlsZSB0aGUNCj4gPiB0YXNrDQo+ID4gaXMgcnVubmluZyBpbiBpc29s
+YXRlZCBtb2RlIGluIHVzZXJzcGFjZSwgd2UgYXNzdW1lIHRoYXQgZnJvbSB0aGlzDQo+ID4gQ1BV
+cw0KPiA+IHBvaW50IG9mIHZpZXcgd2hhdGV2ZXIgaXMgaGFwcGVuaW5nIGluIGtlcm5lbCwgY2Fu
+IHdhaXQgdW50aWwgQ1BVDQo+ID4gaXMNCj4gPiBiYWNrIGluIGtlcm5lbCBhbmQgd2hlbiBpdCBm
+aXJzdCBlbnRlcnMga2VybmVsIGZyb20gdGhpcyBtb2RlLCBpdA0KPiA+IHNob3VsZCAiY2F0Y2gg
+dXAiIHdpdGggZXZlcnl0aGluZyB0aGF0IGhhcHBlbmVkIGluIGl0cyBhYnNlbmNlLg0KPiA+IHRh
+c2tfaXNvbGF0aW9uX2tlcm5lbF9lbnRlcigpIGlzIHN1cHBvc2VkIHRvIGRvIHRoYXQsIHNvIGJ5
+IHRoZQ0KPiA+IHRpbWUNCj4gPiBhbnl0aGluZyBzaG91bGQgYmUgZG9uZSBpbnZvbHZpbmcgdGhl
+IHJlc3Qgb2YgdGhlIGtlcm5lbCwgQ1BVIGlzDQo+ID4gYmFjaw0KPiA+IHRvIG5vcm1hbC4NCj4g
+DQo+IFlvdSBjYW4ndCBhc3N1bWUgdGhhdC4gSWYgc29tZXRoaW5nIG5lZWRzIHRoZSB0aWNrLCB0
+aGlzIGNhbid0IHdhaXQuDQo+IElmIHRoZSB1c2VyIGRpZCBzb21ldGhpbmcgd3JvbmcsIHN1Y2gg
+YXMgc2V0dGluZyBhIHBvc2l4IGNwdSB0aW1lcg0KPiB0byBhbiBpc29sYXRlZCB0YXNrLCB0aGF0
+J3MgaGlzIGZhdWx0IGFuZCB0aGUga2VybmVsIGhhcyB0byBzdGljaw0KPiB3aXRoDQo+IGNvcnJl
+Y3RuZXNzIGFuZCBraWNrIHRoYXQgdGFzayBvdXQgb2YgaXNvbGF0aW9uIG1vZGUuDQoNClRoYXQg
+d291bGQgYmUgdHJ1ZSBpZiBub3QgbXVsdGlwbGUgImxldCdzIGp1c3QgdGVsbCBhbGwgb3RoZXIg
+Q1BVcyB0aGF0DQp0aGV5IHNob3VsZCBjaGVjayBpZiB0aGV5IGhhdmUgdG8gdXBkYXRlIHNvbWV0
+aGluZyIgc2l0dWF0aW9ucyBsaWtlIHRoZQ0KYWJvdmUuDQoNCkluIGNhc2Ugb2YgdGltZXJzIGl0
+J3MgcG9zc2libGUgdGhhdCBJIHdpbGwgYmUgYWJsZSB0byBlbGltaW5hdGUgYWxsDQpzcGVjaWZp
+YyBpbnN0YW5jZXMgd2hlbiB0aGlzIGlzIGRvbmUsIGhvd2V2ZXIgSSB0aGluayB0aGF0IGFzIGEg
+Z2VuZXJhbA0KYXBwcm9hY2ggd2UgaGF2ZSB0byBlc3RhYmxpc2ggc29tZSBkaXN0aW5jdGlvbiBi
+ZXR3ZWVuIHRoaW5ncyB0aGF0IG11c3QNCmNhdXNlIElQSSAoYW5kIGJyZWFrIGlzb2xhdGlvbikg
+YW5kIHRoaW5ncyB0aGF0IG1heSBiZSBkZWxheWVkIHVudGlsDQp0aGUgaXNvbGF0ZWQgdXNlcnNw
+YWNlIHRhc2sgd2lsbCBhbGxvdyB0aGF0IG9yIHNvbWUgb3RoZXIgdW5hdm9pZGFibGUNCmlzb2xh
+dGlvbi1icmVha2luZyBldmVudCB3aWxsIGhhcHBlbi4NCg0KPiANCj4gPiBJdCBpcyBhcHBsaWNh
+dGlvbidzIHJlc3BvbnNpYmlsaXR5IHRvIGF2b2lkIHRyaWdnZXJpbmcgdGhpbmdzIHRoYXQNCj4g
+PiBicmVhayBpdHMgaXNvbGF0aW9uDQo+IA0KPiBQcmVjaXNlbHkuDQoNClJpZ2h0LiBIb3dldmVy
+IHRoZXJlIGFyZSB0aW5ncyBsaWtlIHRpY2tfbm9oel9mdWxsX2tpY2tfYWxsKCkgYW5kDQpzaW1p
+bGFyIHByb2NlZHVyZXMgdGhhdCByZXN1bHQgaW4gbWFzcy1zZW5kaW5nIG9mIElQSXMgd2l0aG91
+dA0KZGV0ZXJtaW5pbmcgaWYgdGFyZ2V0IENQVXMgaGF2ZSBhbnl0aGluZyB0byBkbyB3aXRoIHRo
+ZSBldmVudCBhdCBhbGwsDQpsZWF2ZSBhbG9uZSBoYXZlIHRvIGhhbmRsZSBpdCByaWdodCBub3cs
+IGl0IGRvZXMgbm90IGdpdmUgbWUgYW4NCmltcHJlc3Npb24gdGhhdCB3ZSBjYW4gYmxhbWUgYXBw
+bGljYXRpb24gZm9yIGl0LiBJIHJlYWxpemUgdGhhdCB0aGlzIGlzDQpkb25lIGZvciBhIHJlYXNv
+biwgd2l0aCB0aGUgYXNzdW1wdGlvbiB0aGF0IHNlbmRpbmcgSVBJcyBpcyAiY2hlYXBlciINCmFu
+ZCBkb2VzIG5vdCByZXF1aXJlIGNvbXBsZXggc3luY2hyb25pemF0aW9uIGNvbXBhcmVkIHRvIGRl
+dGVybWluaW5nDQp3aGF0IGFuZCB3aGVuIHNob3VsZCBiZSBub3RpZmllZCwgaG93ZXZlciB0aGlz
+IGlzIG5vdCBjb21wYXRpYmxlIHdpdGgNCmdvYWxzIG9mIHRhc2sgaXNvbGF0aW9uLg0KDQo+IA0K
+PiA+IHNvIHRoZSBhcHBsaWNhdGlvbiBhc3N1bWVzIHRoYXQgZXZlcnl0aGluZyB0aGF0DQo+ID4g
+aW52b2x2ZXMgZW50ZXJpbmcga2VybmVsIHdpbGwgbm90IGJlIGF2YWlsYWJsZSB3aGlsZSBpdCBp
+cw0KPiA+IGlzb2xhdGVkLg0KPiANCj4gV2UgY2FuJ3QgZG8gdGhpbmdzIHRoYXQgd2F5IGFuZCBq
+dXN0IGlnbm9yZSBJUElzLiBZb3UgbmVlZCB0byBzb2x2ZQ0KPiB0aGUNCj4gc291cmNlIG9mIHRo
+ZSBub2lzZSwgbm90IHRoZSBzeW1wdG9tcy4NCg0KSXQgbWF5IGJlIHRoYXQgZXZlbnR1YWxseSB3
+ZSBjYW4gY29tcGxldGVseSBlbGltaW5hdGUgdGhvc2UgdGhpbmdzIChhdA0KbGVhc3Qgd2hlbiBp
+c29sYXRpb24gaXMgZW5hYmxlZCBhbmQgdGhpcyBpcyByZWxldmFudCksIGhvd2V2ZXIgZm9yIHRo
+ZQ0KcHVycG9zZSBvZiBoYXZpbmcgdXNhYmxlIGNvZGUgd2l0aG91dCBtYXNzaXZlIGNoYW5nZXMg
+aW4gbnVtZXJvdXMNCmNhbGxlcnMsIGluIG15IG9waW5pb24sIHdlIHNob3VsZCBhY2tub3dsZWRn
+ZSB0aGF0IHNvbWUgdGhpbmdzIHNob3VsZA0KYmUgZGlzYWJsZWQgd2hpbGUgdGhlIHRhc2sgaXMg
+aXNvbGF0ZWQsIGFuZCBjYWxsZWQgb24gaXNvbGF0aW9uIGV4aXQgLS0NCmVpdGhlciB1bmNvbmRp
+dGlvbmFsbHkgb3IgY29uZGl0aW9uYWxseSBpZiB0aGV5IHdlcmUgcmVxdWVzdGVkIHdoaWxlDQp0
+aGUgdGFzayB3YXMgaXNvbGF0ZWQuDQoNCkkgYmVsaWV2ZSB0aGF0IGFzIGxvbmcgYXMgd2UgY3Jl
+YXRlIGEgZGlzdGluY3Rpb24gYmV0d2VlbiAibXVzdCBicmVhaw0KaXNvbGF0aW9uIiwgImRlbGF5
+ZWQgdW50aWwgdGhlIGVuZCBvZiBpc29sYXRpb24iIGFuZCAiY2FuIGJlIHNhZmVseQ0KaWdub3Jl
+ZCBpZiB0aGUgdGFzayBpcyBpc29sYXRlZCIgSVBJcywgd2Ugd2lsbCBlbmQgdXAgd2l0aCBsZXNz
+DQppbnRydXNpdmUgY2hhbmdlcyBhbmQgcmVsaWFibHkgd29ya2luZyBmdW5jdGlvbmFsaXR5Lg0K
+DQpUaGVuIGlmIHdlIHdpbGwgYmUgYWJsZSB0byBlbGltaW5hdGUgdGhlIHNvdXJjZXMgb2YgdGhp
+bmdzIGluIHRoZSBsYXN0DQp0d28gY2F0ZWdvcmllcywgd2UgY2FuIHRyZWF0IHRoZW0gYXMgaWYg
+dGhleSB3ZXJlIGluIHRoZSBmaXJzdCBvbmUuDQoNCkl0IG1heSBiZSB0aGF0IHRoZSB0aW1lcnMg
+YXJlIGFscmVhZHkgcmVhZHkgdG8gdGhpcywgYW5kIEkgc2hvdWxkIGp1c3QNCmNoZWNrIHdoYXQg
+Y2F1c2VzIHRpY2tfbm9oel9mdWxsX2tpY2tfYWxsKCkgY2FsbHMuIElmIHNvLCB0aGlzDQpwYXJ0
+aWN1bGFyIGNoZWNrIHdvbid0IGJlIG5lY2Vzc2FyeSBiZWNhdXNlIGFsbCBjYWxscyB3aWxsIGhh
+cHBlbiBmb3IgYQ0KZ29vZCByZWFzb24gaW4gc2l0dWF0aW9ucyBjb250cm9sbGVkIGJ5IGFwcGxp
+Y2F0aW9uLiBIb3dldmVyIGFzIGENCmdlbmVyYWwgYXBwcm9hY2ggSSB0aGluaywgd2UgbmVlZCB0
+aGlzIGxvbmdlciB3YXkgd2l0aCBkZWNpc2lvbnMgYWJvdXQNCmRlbGF5aW5nIG9yIGlnbm9yaW5n
+IGV2ZW50cy4NCg0KLS0gDQpBbGV4DQo=
