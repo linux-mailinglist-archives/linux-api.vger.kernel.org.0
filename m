@@ -2,92 +2,126 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4964829107A
-	for <lists+linux-api@lfdr.de>; Sat, 17 Oct 2020 09:18:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 444DE29118B
+	for <lists+linux-api@lfdr.de>; Sat, 17 Oct 2020 13:02:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2411784AbgJQHSC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 17 Oct 2020 03:18:02 -0400
-Received: from wtarreau.pck.nerim.net ([62.212.114.60]:43868 "EHLO 1wt.eu"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2411783AbgJQHSC (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Sat, 17 Oct 2020 03:18:02 -0400
-Received: (from willy@localhost)
-        by pcw.home.local (8.15.2/8.15.2/Submit) id 09H7HL0w014146;
-        Sat, 17 Oct 2020 09:17:21 +0200
-Date:   Sat, 17 Oct 2020 09:17:21 +0200
-From:   Willy Tarreau <w@1wt.eu>
-To:     Jann Horn <jannh@google.com>
-Cc:     Colm MacCarthaigh <colmmacc@amazon.com>,
-        "Catangiu, Adrian Costin" <acatan@amazon.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Jason Donenfeld <Jason@zx2c4.com>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Eric Biggers <ebiggers@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        "open list:VIRTIO GPU DRIVER" 
-        <virtualization@lists.linux-foundation.org>,
-        "Graf (AWS), Alexander" <graf@amazon.de>,
-        "Woodhouse, David" <dwmw@amazon.co.uk>, bonzini@gnu.org,
-        "Singh, Balbir" <sblbir@amazon.com>,
-        "Weiss, Radu" <raduweis@amazon.com>, oridgar@gmail.com,
-        ghammer@redhat.com, Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Qemu Developers <qemu-devel@nongnu.org>,
-        KVM list <kvm@vger.kernel.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH] drivers/virt: vmgenid: add vm generation id driver
-Message-ID: <20201017071721.GA14143@1wt.eu>
-References: <788878CE-2578-4991-A5A6-669DCABAC2F2@amazon.com>
- <CAG48ez0EanBvDyfthe+hAP0OC8iGLNSq2e5wJVz-=ENNGF97_w@mail.gmail.com>
- <20201017033606.GA14014@1wt.eu>
- <CAG48ez0x2S9XuCrANAQbXNi8Jjwm822-fnQSmr-Zr07JgrEs1g@mail.gmail.com>
- <6CC3DB03-27BA-4F5E-8ADA-BE605D83A85C@amazon.com>
- <CAG48ez1ZtvjOs2CEq8-EMosPCd_o7WQ3Mz_+1mDe7OrH2arxFA@mail.gmail.com>
- <20201017053712.GA14105@1wt.eu>
- <CAG48ez1h0ynXfGap_KiHiPVTfcB8NBQJ-2dnj08ZNfuhrW0jWA@mail.gmail.com>
- <20201017064442.GA14117@1wt.eu>
- <CAG48ez3pXLC+eqAXDCniM0a+5yP2XJODDkZqiUTZUOttCE_LbA@mail.gmail.com>
+        id S2437540AbgJQLCj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 17 Oct 2020 07:02:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46902 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2437535AbgJQLCi (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 17 Oct 2020 07:02:38 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BE7AC061755
+        for <linux-api@vger.kernel.org>; Sat, 17 Oct 2020 04:02:38 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id x16so5496342ljh.2
+        for <linux-api@vger.kernel.org>; Sat, 17 Oct 2020 04:02:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ryHcnFL3X2ubTpBi4U39WXt6C9kRreCQ/0huSf2L3do=;
+        b=aOWznuCaQIlixDU6SOesCp6hl51I1s6KBDUb+jgvBaeife3h9N30l976G6IrkovzTQ
+         FSIWj+wmSSx2kzywl0OajEnHOszeeqwksy0drW25QW6E0tqsJD4Qs53VdDkR0LoqUYxm
+         rDoVg7ZYME194C3fODz2iU4P96FsjnkELXjqQy16AXZ4mBpFXdYcZWyo+fF33sL86Z3K
+         9evbXoKZ+yEGX7TbxJmgjtyQvHdTJDj2ZNhfAU9l+E35NoqMjMSwmoS2YpVt7B3G8rM8
+         IggfzkJlJ69uFBZD7IGI8u41HdWzXkHpW5AXjZynudtn7ekuNqQ3FOlqer1KlukwYjgC
+         F3Hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ryHcnFL3X2ubTpBi4U39WXt6C9kRreCQ/0huSf2L3do=;
+        b=OWvhiXY8rWLHR1YJbwBMjjd9btcPkg2y1/acuw2GgdCJDOwit0QH01qsDQPkfg9n31
+         Cd11XcqSn+pJMDGJqvytZGfuYdNmyD9/9c5IAImigJwTvAhKhgXX6bTHHMT8GigGh/CM
+         5S8yAieO7DAzrTLUSm6J6FO8TLDS1GYp/nCHiysCi69r/eObpJv2c6I7mLXfMalbUq2m
+         mkvjeiCcbf2tKqTWyhte0toXHd+vIX/MAzKH0PobdN/+EEnDM8LonzFzDVrb7f9GjDUp
+         AD6P/5l8mESZfER+iyueuyX904BNlLfRQv9vFOd3EWMdLlFaXLYExGQu5TdB3wA33Lfz
+         a/Cg==
+X-Gm-Message-State: AOAM532HzawFECLl/ssIBkqiOC2Zgv1hkRwc6icoNw7LRtXKSQ2XRkkB
+        70DHweXmpZ/sVdD4FjRVK2hZ0l4M5LPzTkLYNfzaDA==
+X-Google-Smtp-Source: ABdhPJzEAJpkMmeWOAsIyaY5DQSRSQojEHMoHGdEt3bZzz+5k9SDt+ciMo/9jdZGqVTpXGdmFn57NiiVo2tLReq0cdY=
+X-Received: by 2002:a2e:8816:: with SMTP id x22mr2949059ljh.377.1602932556614;
+ Sat, 17 Oct 2020 04:02:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAG48ez3pXLC+eqAXDCniM0a+5yP2XJODDkZqiUTZUOttCE_LbA@mail.gmail.com>
-User-Agent: Mutt/1.6.1 (2016-04-27)
+References: <00000000000014370305b1c55370@google.com> <202010162042.7C51549A16@keescook>
+ <CACT4Y+bG=89ii+kzgGvNiZnB9ZEcAsy-3YofJeW5K_rynp_S7g@mail.gmail.com>
+In-Reply-To: <CACT4Y+bG=89ii+kzgGvNiZnB9ZEcAsy-3YofJeW5K_rynp_S7g@mail.gmail.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Sat, 17 Oct 2020 13:02:10 +0200
+Message-ID: <CAG48ez0LKk7iEersZe-S25SGJm-AFVW2jzG32X=NkKon+1Fuxw@mail.gmail.com>
+Subject: Re: UBSAN: array-index-out-of-bounds in alg_bind
+To:     Dmitry Vyukov <dvyukov@google.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        syzbot <syzbot+92ead4eb8e26a26d465e@syzkaller.appspotmail.com>,
+        "open list:HARDWARE RANDOM NUMBER GENERATOR CORE" 
+        <linux-crypto@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+        linux-hardening@vger.kernel.org,
+        Elena Petrova <lenaptr@google.com>,
+        Vegard Nossum <vegard.nossum@oracle.com>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Oct 17, 2020 at 08:55:34AM +0200, Jann Horn wrote:
-> My suggestion is to use a counter *in the UAPI*, not in the hypervisor
-> protocol. (And as long as that counter can only miss increments in a
-> cryptographically negligible fraction of cases, everything's fine.)
+On Sat, Oct 17, 2020 at 12:50 PM Dmitry Vyukov <dvyukov@google.com> wrote:
+> On Sat, Oct 17, 2020 at 5:49 AM Kees Cook <keescook@chromium.org> wrote:
+> > On Fri, Oct 16, 2020 at 01:12:24AM -0700, syzbot wrote:
+> > > dashboard link: https://syzkaller.appspot.com/bug?extid=92ead4eb8e26a26d465e
+> > > [...]
+> > > Reported-by: syzbot+92ead4eb8e26a26d465e@syzkaller.appspotmail.com
+> > > [...]
+> > > UBSAN: array-index-out-of-bounds in crypto/af_alg.c:166:2
+> > > index 91 is out of range for type '__u8 [64]'
+> >
+> > This seems to be an "as intended", if very odd. false positive (the actual
+> > memory area is backed by the on-stack _K_SS_MAXSIZE-sized sockaddr_storage
+> > "address" variable in __sys_bind. But yes, af_alg's salg_name member
+> > size here doesn't make sense.
+>
+> As Vegard noted elsewhere, compilers can start making assumptions
+> based on absence of UB and compile code in surprising ways as the
+> result leading to very serious and very real bugs.
+>
+> One example would be a compiler generating jump table for common sizes
+> during PGO and leaving size > 64 as wild jump.
+>
+> Another example would be a compiler assuming that copy size <= 64.
+> Then if there is another copy into a 64-byte buffer with a proper size
+> check, the compiler can now drop that size check (since it now knows
+> size <= 64) and we get real stack smash (for a copy that does have a
+> proper size check before!).
 
-OK I got it now and I agree.
+FWIW, the kernel currently still has a bunch of places that use
+C89-style length-1 arrays (which were in the past used to work around
+C89's lack of proper flexible arrays). Gustavo A. R. Silva has a bunch
+of patches pending to change those places now, but those are not
+marked for stable backporting; so in all currently released kernels,
+we'll probably keep having length-1 arrays at the ends of C structs
+that are used as if they were flexible arrays. (Unless someone makes
+the case that these patches are not just cleanups but actually fix
+some sort of real bug, and therefore need to be backported.)
 
-> > If what is sought is pure
-> > randomness (in the sense that it's unpredictable, which I don't think
-> > is needed here), then randoms are better.
-> 
-> And this is what *the hypervisor protocol* gives us (which could be
-> very useful for reseeding the kernel RNG).
+The code in this example looks just like one of those C89-style
+length-1 arrays to me (except that the length isn't 1).
 
-As an external source, yes very likely, as long as it's not trivially
-observable by everyone under the same hypervisor :-)
+Of course I do agree that this should be cleaned up, and that having
+bogus array lengths in the source code is a bad idea.
 
-> > Now the initial needs in the forwarded message are not entirely clear
-> > to me but I wanted to rule out the apparent mismatch between the expressed
-> > needs for uniqueness and the proposed solutions solely based on randomness.
-> 
-> Sure, from a theoretical standpoint, it would be a little bit nicer if
-> the hypervisor protocol included a generation number along with the
-> 128-bit random value. But AFAIU it doesn't, so if we want this to just
-> work under Microsoft's existing hypervisor, we'll have to make do with
-> checking whether the random value changed. :P
+> And we do want compilers to be that smart today. Because of all levels
+> of abstractions/macros/inlining we actually have lots of
+> redundant/nonsensical code in the end after all inlining and
+> expansions, and we do want compilers to infer things, remove redundant
+> checks, etc so that we can have both nice abstract source code and
+> efficient machine code at the same time.
 
-OK got it, thanks for the explanation!
-
-Willy
+I guess that kinda leads to the question: Do we just need to fix the
+kernel code here (which is comparatively easy), or do you think that
+this is a sufficiently big problem that we need to go and somehow
+change the actual UAPI headers here (e.g. by deprecating the existing
+UAPI struct and making a new one with a different name)?
