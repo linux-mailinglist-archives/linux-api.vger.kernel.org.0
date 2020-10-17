@@ -2,127 +2,131 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C697290FA1
-	for <lists+linux-api@lfdr.de>; Sat, 17 Oct 2020 07:53:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CAAA291016
+	for <lists+linux-api@lfdr.de>; Sat, 17 Oct 2020 08:21:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436757AbgJQFxS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 17 Oct 2020 01:53:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55962 "EHLO
+        id S2437082AbgJQGV3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 17 Oct 2020 02:21:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2436669AbgJQFxR (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 17 Oct 2020 01:53:17 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6773C0613D5
-        for <linux-api@vger.kernel.org>; Fri, 16 Oct 2020 22:53:16 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id a28so230277ljn.3
-        for <linux-api@vger.kernel.org>; Fri, 16 Oct 2020 22:53:16 -0700 (PDT)
+        with ESMTP id S2437079AbgJQGV2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 17 Oct 2020 02:21:28 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C448DC061755
+        for <linux-api@vger.kernel.org>; Fri, 16 Oct 2020 23:21:26 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id c21so5049886ljn.13
+        for <linux-api@vger.kernel.org>; Fri, 16 Oct 2020 23:21:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=M3YB82PP3WUpBHFEbh3oPhQQSux8Pw6AFe+SN7DiJGw=;
-        b=amsP3PlI3ZycdlVxgLx5tS3RcZ/aE2JugXN/de8WjJzEbbWQfg5yay9mu9yMNOTQEG
-         zDGufeyQG0D8nAwfy0A+eh+5b93z85bXUL2cX8T/4mhVh2wiIWZNqlk28ZRb4QzNB/dh
-         AIBnGWL+ksEigCgQdVu62IDy26gLVIDUnczpRvNend8MTTwuaCQtont43SmFPbW4CRcT
-         cmRIzAt2jsd2hPhc8PRzFfChw9wh+qGJaBiAl8a3e2bI5TkwKjB9tCNO3N3jC/SV0wIn
-         USEp5Yt0/QCw/q0JJrWcSGJN2B9ryqMiiGMVPf4OXy69UAR96sfkVVyhw3En3TdcYtr6
-         S+7g==
+        bh=K5fP2IedoKQlRQouSCWpsDIMKmWivfsQ9eQLA1F2LGk=;
+        b=LMmylegyEXB4ETZFcAg0jZ3ywuK/RWOoyd8IF2q7wbf0FlBPa1CmGDbEXkW+jghAbm
+         L/ZDBTeW0W+eYkvJeGow+VVh0xMTCd2CjHybf0Yd0FJf6PC7WL4xF2qG5wrVBC42yxgQ
+         8zg/2jexyYshW1yQH1s+pVSH0LX9mH5ZboR6fOLWNE1KqDRC8jjvr83OZzi4/ipuIs9Q
+         dFrUSBctQ7q6gHPyfMClsBZMkU9oNgNQp7tdM4fX4J+lCCSGXw7In/UD6xkyOWe4J850
+         JMe5a+2COrcu8wW2/OjDhZZYR++6Jrvj9sBrMWL/JEJjmvrImBEV8RyU9R0lJv9ID5mO
+         57jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=M3YB82PP3WUpBHFEbh3oPhQQSux8Pw6AFe+SN7DiJGw=;
-        b=NhkjrLgDHnE6zJrKekwUb33QgvaLcRg/K8AwKIjmVrj04iEyMV63h45FlCL50K+aeH
-         PsBizsjPbSeDv0ofFolr+AyLp1t+stv4YMCLk38jr5KV+Q3xK6tdTJUgAOJDwh0ZZ1wn
-         Vd9bU5ui4qXj50PaTbjMVTLDdPodcAv1A1ud4YZDAZyz9GmhpUTYxEiOkWydxGw8n3KL
-         ElUoggi8MZRYUkj60S4YFgNs2Tm6u62JksgghTcrMd2p5h7z/U2EwYTyv0vo7s4HaeRu
-         MkDBlyyH4BDfQE7wUX/EQm2jiduoR8/x6+xFa7zOCUMRClwOlkXlcEbTm/+bUYTcRtOG
-         sGLg==
-X-Gm-Message-State: AOAM531W0VQa7W4rIUpnhDziFomQZcEjaFK/D5izE1JsetCz3BAFWJng
-        zrTaWUyd9RFXvH01w6WT7ZHFMZYDxW+OfgoqE1GLUw==
-X-Google-Smtp-Source: ABdhPJyqRwgfzaNO4k6jC4+ngiz4xp94h1rvkVA6jI+YkhoWwbWi6nRJWMl5uQZtM/9C6Yz+umn28GEOA1tFiD8OGAE=
-X-Received: by 2002:a2e:504b:: with SMTP id v11mr2673538ljd.138.1602913994976;
- Fri, 16 Oct 2020 22:53:14 -0700 (PDT)
+        bh=K5fP2IedoKQlRQouSCWpsDIMKmWivfsQ9eQLA1F2LGk=;
+        b=h0o/sSe2iHIwCUcq6iq6pqT6No1kTQ+O95R281md7iGAMTVVPPO/yPGzkOpBNcS6fN
+         Jh3nNogjbujKpTEBWUtVHoJdpEuli9k2ORRMiNmmqH8aBlHPaRAKn67IBoHM0qmfusCj
+         bgA7ImqRXl82ze7cMUbQ+U3ootiybqGmVpci6QpUb+mvicPZoz4xSGWeYxisGyrL5aiB
+         R1/GcUKntdm0fL4RSmoczwp57UzuW9V7AFj3H6cU9d5VOVj08TMija9F+/wxDefmDnRJ
+         uNFZQeDgltWS8IqQ0c5DS3hVGDU/6HX7RV/WrvGZPGOkYjB+R4LjJu6x/gRfaKosje33
+         eTLQ==
+X-Gm-Message-State: AOAM532wHvV6qOX8OC/LafYN1wlT9itFKB+Ou8t8L9wc51SvKvQomZyG
+        mIZP0uMLxaZJpgcjR2dQZpun+sgPRXyW3XYWBi7+ZA==
+X-Google-Smtp-Source: ABdhPJxODCfO9ZVU11lc/q6G6VCj8F3pnGVHFozeCzeN2p8bjSk3h58nmS2HKf7Nkir5cfAE2D9bdypZ/Mc+oRT6tqk=
+X-Received: by 2002:a05:651c:1205:: with SMTP id i5mr2905687lja.47.1602915685058;
+ Fri, 16 Oct 2020 23:21:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <788878CE-2578-4991-A5A6-669DCABAC2F2@amazon.com>
- <CAG48ez0EanBvDyfthe+hAP0OC8iGLNSq2e5wJVz-=ENNGF97_w@mail.gmail.com>
- <20201017033606.GA14014@1wt.eu> <CAG48ez0x2S9XuCrANAQbXNi8Jjwm822-fnQSmr-Zr07JgrEs1g@mail.gmail.com>
- <6CC3DB03-27BA-4F5E-8ADA-BE605D83A85C@amazon.com> <CAG48ez1ZtvjOs2CEq8-EMosPCd_o7WQ3Mz_+1mDe7OrH2arxFA@mail.gmail.com>
- <20201017053712.GA14105@1wt.eu>
-In-Reply-To: <20201017053712.GA14105@1wt.eu>
+References: <00000000000014370305b1c55370@google.com> <202010162042.7C51549A16@keescook>
+In-Reply-To: <202010162042.7C51549A16@keescook>
 From:   Jann Horn <jannh@google.com>
-Date:   Sat, 17 Oct 2020 07:52:48 +0200
-Message-ID: <CAG48ez1h0ynXfGap_KiHiPVTfcB8NBQJ-2dnj08ZNfuhrW0jWA@mail.gmail.com>
-Subject: Re: [PATCH] drivers/virt: vmgenid: add vm generation id driver
-To:     Willy Tarreau <w@1wt.eu>
-Cc:     Colm MacCarthaigh <colmmacc@amazon.com>,
-        "Catangiu, Adrian Costin" <acatan@amazon.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Jason Donenfeld <Jason@zx2c4.com>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Eric Biggers <ebiggers@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+Date:   Sat, 17 Oct 2020 08:20:58 +0200
+Message-ID: <CAG48ez1KEOHL5VCNtrsRTHa6Wj9xUY+daReb4V08O8dFzarkjw@mail.gmail.com>
+Subject: Re: UBSAN: array-index-out-of-bounds in alg_bind
+To:     Kees Cook <keescook@chromium.org>
+Cc:     herbert@gondor.apana.org.au,
+        syzbot <syzbot+92ead4eb8e26a26d465e@syzkaller.appspotmail.com>,
+        linux-crypto@vger.kernel.org,
         kernel list <linux-kernel@vger.kernel.org>,
-        "open list:VIRTIO GPU DRIVER" 
-        <virtualization@lists.linux-foundation.org>,
-        "Graf (AWS), Alexander" <graf@amazon.de>,
-        "Woodhouse, David" <dwmw@amazon.co.uk>, bonzini@gnu.org,
-        "Singh, Balbir" <sblbir@amazon.com>,
-        "Weiss, Radu" <raduweis@amazon.com>, oridgar@gmail.com,
-        ghammer@redhat.com, Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Qemu Developers <qemu-devel@nongnu.org>,
-        KVM list <kvm@vger.kernel.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+        linux-hardening@vger.kernel.org,
+        Elena Petrova <lenaptr@google.com>,
         Linux API <linux-api@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Oct 17, 2020 at 7:37 AM Willy Tarreau <w@1wt.eu> wrote:
-> On Sat, Oct 17, 2020 at 07:01:31AM +0200, Jann Horn wrote:
-> > Microsoft's documentation
-> > (http://go.microsoft.com/fwlink/?LinkId=260709) says that the VM
-> > Generation ID that we get after a fork "is a 128-bit,
-> > cryptographically random integer value". If multiple people use the
-> > same image, it guarantees that each use of the image gets its own,
-> > fresh ID:
++linux-api because this is about fixing UAPI without breaking userspace
+
+On Sat, Oct 17, 2020 at 8:02 AM Kees Cook <keescook@chromium.org> wrote:
+> On Fri, Oct 16, 2020 at 01:12:24AM -0700, syzbot wrote:
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=92ead4eb8e26a26d465e
+> > [...]
+> > Reported-by: syzbot+92ead4eb8e26a26d465e@syzkaller.appspotmail.com
+> > [...]
+> > UBSAN: array-index-out-of-bounds in crypto/af_alg.c:166:2
+> > index 91 is out of range for type '__u8 [64]'
 >
-> No. It cannot be more unique than the source that feeds that cryptographic
-> transformation. All it guarantees is that the entropy source is protected
-> from being guessed based on the output. Applying cryptography on a simple
-> counter provides apparently random numbers that will be unique for a long
-> period for the same source, but as soon as you duplicate that code between
-> users and they start from the same counter they'll get the same IDs.
+> This seems to be an "as intended", if very odd. false positive (the actual
+> memory area is backed by the on-stack _K_SS_MAXSIZE-sized sockaddr_storage
+> "address" variable in __sys_bind. But yes, af_alg's salg_name member
+> size here doesn't make sense. The origin appears to be that 3f69cc60768b
+> ("crypto: af_alg - Allow arbitrarily long algorithm names") intentionally
+> didn't extend the kernel structure (which is actually just using the UAPI
+> structure). I don't see a reason the UAPI couldn't have been extended:
+> it's a sockaddr implementation, so the size is always passed in as part
+> of the existing API.
+
+If you e.g. recompiled the wrong parts of the "btcheck" project with
+such changed UAPI headers, I think you'd get OOB writes, because they
+have this in a header
+(https://sources.debian.org/src/btcheck/2.1-4/src/kernelcryptoapi.h/?hl=29#L29):
+
+typedef struct {
+  struct sockaddr_alg sa;
+  int safd;
+  int fd;
+} lkca_hash_ctx;
+
+so if you rebuilt e.g. kernelcryptoapi.o (which uses the struct)
+without also rebuilding hash.o (which allocates the struct), code in
+kernelcryptoapi.o would write beyond the end of lkca_hash_ctx, I
+think.
+
+Sure, there aren't many places that do this kind of thing for this
+struct. But at least in theory, you can't change the size of UAPI
+structs because someone might be passing instances of that struct
+around between object files.
+
+> At the very least the kernel needs to switch to using a correctly-sized
+> structure: I expected UBSAN_BOUNDS to be enabled globally by default at
+> some point in the future (with the minimal runtime -- the
+> instrumentation is tiny and catches real issues).
+
+Yeah, the kernel should probably use a struct that looks different
+from the userspace one. :/ I guess we'll probably end up with some
+ugly hack with "#ifdef __KERNEL__", where the same struct has
+different sizes between kernel and userspace? Or am I being too
+puritan about UAPI consistency?
+
+> Reproduction:
 >
-> This is why I think that using a counter is better if you really need something
-> unique. Randoms only reduce predictability which helps avoiding collisions.
+> struct sockaddr_alg sa = {
+>     .salg_family = AF_ALG,
+>     .salg_type = "skcipher",
+>     .salg_name = "cbc(aes)"
+> };
+> fd = socket(AF_ALG, SOCK_SEQPACKET, 0);
+> bind(fd, (void *)&sa, sizeof(sa));
+>
+> Replace "sizeof(sa)" with x where 64<x<=128.
 
-Microsoft's spec tells us that they're giving us cryptographically
-random numbers. Where they're getting those from is not our problem.
-(And if even the hypervisor is not able to collect enough entropy to
-securely generate random numbers, worrying about RNG reseeding in the
-guest would be kinda pointless, we'd be fairly screwed anyway.)
-
-Also note that we don't actually need to *always* reinitialize RNG
-state on forks for functional correctness; it is fine if that fails
-with a probability of 2^-128, because functionally everything will be
-fine, and an attacker who is that lucky could also just guess an AES
-key (which has the same probability of being successful). (And also
-2^-128 is such a tiny number that it doesn't matter anyway.)
-
-> And I'm saying this as someone who had on his external gateway the same SSH
-> host key as 89 other hosts on the net, each of them using randoms to provide
-> a universally unique one...
-
-If your SSH host key was shared with 89 other hosts, it evidently
-wasn't generated from cryptographically random numbers. :P Either
-because the key generator was not properly hooked up to the system's
-entropy pool (if you're talking about the Debian fiasco), or because
-the system simply did not have enough entropy available. (Or because
-the key generator is broken, but I don't think that ever happened with
-OpenSSH?)
+I think you mean 88<x<=128 ?
