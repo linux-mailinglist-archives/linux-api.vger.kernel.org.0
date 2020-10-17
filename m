@@ -2,161 +2,138 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E09FC2911FE
-	for <lists+linux-api@lfdr.de>; Sat, 17 Oct 2020 15:24:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D1CE2291280
+	for <lists+linux-api@lfdr.de>; Sat, 17 Oct 2020 16:42:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437999AbgJQNY1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 17 Oct 2020 09:24:27 -0400
-Received: from mail.zx2c4.com ([192.95.5.64]:57293 "EHLO mail.zx2c4.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2436577AbgJQNYY (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Sat, 17 Oct 2020 09:24:24 -0400
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTP id bac32541;
-        Sat, 17 Oct 2020 12:50:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=zx2c4.com; h=mime-version
-        :references:in-reply-to:from:date:message-id:subject:to:cc
-        :content-type; s=mail; bh=uGCG7KNtg2p4bchOTMYLEyZNL+g=; b=QxUmPA
-        mGKLUxw8T3WCFlV0XpwpKEj0fsH9rWxbR1s8qeVdIsVRxoYn0Qu7i3QvXemqb6UA
-        fYbrwB8JGevznVpLa00KYO2fmQHumHJuYSy6jjVhji4gR/LlzFNK2Wou7HV+gLy+
-        4KwI/h+xMMZGKOvyk2K3FbVosThwTVJEPa790gKKGbaiKnXIAdlQfLQBSVFaoe5I
-        +6tnhlM1Gu53be2m6+cDvU6p4wJrwXfJ9FtzAC01yf+CsaTu+b75RVlQapwM4Ggk
-        AyT7iGA+0UDknsRX9CBK0IqkEMLCEHce1RMYcRDtm6J+7dy+5XEcZezQ61gjqzI6
-        zOhO/QG1w5i5FQug==
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id b66e6cb2 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-        Sat, 17 Oct 2020 12:50:26 +0000 (UTC)
-Received: by mail-io1-f46.google.com with SMTP id q9so7380252iow.6;
-        Sat, 17 Oct 2020 06:24:21 -0700 (PDT)
-X-Gm-Message-State: AOAM5337ef0MRnTGOcNE7I33BrLLSpaPXbhhh/VBBaqtmZwCLQVy2TUe
-        vRWD24lmoduk1pWYLTGF77hwIC3M4wMyZbS0Tis=
-X-Google-Smtp-Source: ABdhPJyVxZDidiJqmIZbWDt23iI4Qy6FrajshbbcrzIpyjI66H8R1XUYjnt0B8/rT53Orh6wpTDpZ4jH9cVkio72wDE=
-X-Received: by 2002:a05:6638:f03:: with SMTP id h3mr5867605jas.36.1602941059429;
- Sat, 17 Oct 2020 06:24:19 -0700 (PDT)
+        id S2438388AbgJQOmI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 17 Oct 2020 10:42:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52190 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2438360AbgJQOmI (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 17 Oct 2020 10:42:08 -0400
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com [IPv6:2607:f8b0:4864:20::741])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B8FDC061755
+        for <linux-api@vger.kernel.org>; Sat, 17 Oct 2020 07:42:08 -0700 (PDT)
+Received: by mail-qk1-x741.google.com with SMTP id 188so4304614qkk.12
+        for <linux-api@vger.kernel.org>; Sat, 17 Oct 2020 07:42:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9CncpsOILmLKwmuLD+64MGtHxizM1mPz6idw5KYbDws=;
+        b=NoJwgQLbKZ7Hu0/tmLxhrQqwAEPpHHzII4ro9saGyVBh2KkMbPMebjoK6qIwZeVAiw
+         Uqg1vJkUIACrR/ptH8JoOFqJBCqRSO3U4kzWdIXQncjOecN8OqPgYTg2/AP01ZRSLg+u
+         1/hV5kSvRpHMkM+hgyzBWKB5HZoqjM0CwQARcaN0iZDM5FTw5oW+rJo7Jq6Jp4hbud21
+         9uOZiVO5aXXWdpnPVNLmoaFzjoZ8/Z5r+XQONDB9y72QsECDJ4lp59UC+/LnjcdzVuez
+         lwzpIZ80h9uLuwErVHGAk6Vnu4dt42UhqdCGXlDZVoM5xCQXtGliOd34H1NvtJ02fHXs
+         pDOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9CncpsOILmLKwmuLD+64MGtHxizM1mPz6idw5KYbDws=;
+        b=sezTwWoQstdY/p65N4Sj2e6YvcProo5bEBRX/j/f+fbtzZGJgwhtdG+Mu7JdWqiL4y
+         uZ3Ydk+MiGUqJUubwHbqhE+motdyi9P8a45GFwVDNTJ9e4zEyOHJAReM1y8K0WUBFZV8
+         XWFF5AWfBafA5xUcNZGkAfblTAqubCt/YgOnqv6HtRBAhyWiyL2HHt1zhAub9nC5zM+d
+         LHM8yBXu8LV5X06P0IhYK0EA81nQ4npiuMycXjKDaBQM/rM9/gDLPSiMULWY89NXKKym
+         CRPwDKyX2vE14dgUssIkGatxTF5oIVifUQOZUHqC0/u6dciIw4UkeBuFb53gOu96edAH
+         p9PQ==
+X-Gm-Message-State: AOAM530ynGS2u2rWVx35isjnB+uo3NS+RwWlxFORN45QfcOV1rIIJD+6
+        vXs3NZhd8rxnpt4V6O1Mn4TZzhL6TNlcesDP7qUFkA==
+X-Google-Smtp-Source: ABdhPJwRz4xCGWsXfmJotwOmnaXVke0rNvSDHk56uNYOReGF9ulLpLK3zw48BxNzjCGSB3ztI+OleQQ83/3me8zAsKI=
+X-Received: by 2002:a37:9747:: with SMTP id z68mr8387175qkd.424.1602945726771;
+ Sat, 17 Oct 2020 07:42:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <788878CE-2578-4991-A5A6-669DCABAC2F2@amazon.com>
- <CAG48ez0EanBvDyfthe+hAP0OC8iGLNSq2e5wJVz-=ENNGF97_w@mail.gmail.com>
- <20201017033606.GA14014@1wt.eu> <CAG48ez0x2S9XuCrANAQbXNi8Jjwm822-fnQSmr-Zr07JgrEs1g@mail.gmail.com>
- <6CC3DB03-27BA-4F5E-8ADA-BE605D83A85C@amazon.com> <CAG48ez1ZtvjOs2CEq8-EMosPCd_o7WQ3Mz_+1mDe7OrH2arxFA@mail.gmail.com>
- <20201017053712.GA14105@1wt.eu> <CAG48ez1h0ynXfGap_KiHiPVTfcB8NBQJ-2dnj08ZNfuhrW0jWA@mail.gmail.com>
- <20201017064442.GA14117@1wt.eu> <CAG48ez3pXLC+eqAXDCniM0a+5yP2XJODDkZqiUTZUOttCE_LbA@mail.gmail.com>
-In-Reply-To: <CAG48ez3pXLC+eqAXDCniM0a+5yP2XJODDkZqiUTZUOttCE_LbA@mail.gmail.com>
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date:   Sat, 17 Oct 2020 15:24:08 +0200
-X-Gmail-Original-Message-ID: <CAHmME9qHGSF8w3DoyCP+ud_N0MAJ5_8zsUWx=rxQB1mFnGcu9w@mail.gmail.com>
-Message-ID: <CAHmME9qHGSF8w3DoyCP+ud_N0MAJ5_8zsUWx=rxQB1mFnGcu9w@mail.gmail.com>
-Subject: Re: [PATCH] drivers/virt: vmgenid: add vm generation id driver
+References: <00000000000014370305b1c55370@google.com> <202010162042.7C51549A16@keescook>
+ <CACT4Y+bG=89ii+kzgGvNiZnB9ZEcAsy-3YofJeW5K_rynp_S7g@mail.gmail.com> <CAG48ez0LKk7iEersZe-S25SGJm-AFVW2jzG32X=NkKon+1Fuxw@mail.gmail.com>
+In-Reply-To: <CAG48ez0LKk7iEersZe-S25SGJm-AFVW2jzG32X=NkKon+1Fuxw@mail.gmail.com>
+From:   Dmitry Vyukov <dvyukov@google.com>
+Date:   Sat, 17 Oct 2020 16:41:55 +0200
+Message-ID: <CACT4Y+beaHrWisaSsV90xQn+t2Xn-bxvVgmx8ih_h=yJYPjs4A@mail.gmail.com>
+Subject: Re: UBSAN: array-index-out-of-bounds in alg_bind
 To:     Jann Horn <jannh@google.com>
-Cc:     Willy Tarreau <w@1wt.eu>, Colm MacCarthaigh <colmmacc@amazon.com>,
-        "Catangiu, Adrian Costin" <acatan@amazon.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Eric Biggers <ebiggers@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        "open list:VIRTIO GPU DRIVER" 
-        <virtualization@lists.linux-foundation.org>,
-        "Graf (AWS), Alexander" <graf@amazon.de>,
-        "Woodhouse, David" <dwmw@amazon.co.uk>, bonzini@gnu.org,
-        "Singh, Balbir" <sblbir@amazon.com>,
-        "Weiss, Radu" <raduweis@amazon.com>, oridgar@gmail.com,
-        ghammer@redhat.com, Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Qemu Developers <qemu-devel@nongnu.org>,
-        KVM list <kvm@vger.kernel.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
+Cc:     Kees Cook <keescook@chromium.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        syzbot <syzbot+92ead4eb8e26a26d465e@syzkaller.appspotmail.com>,
+        "open list:HARDWARE RANDOM NUMBER GENERATOR CORE" 
+        <linux-crypto@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+        linux-hardening@vger.kernel.org,
+        Elena Petrova <lenaptr@google.com>,
+        Vegard Nossum <vegard.nossum@oracle.com>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
         Linux API <linux-api@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-After discussing this offline with Jann a bit, I have a few general
-comments on the design of this.
+On Sat, Oct 17, 2020 at 1:02 PM Jann Horn <jannh@google.com> wrote:
+> > > > dashboard link: https://syzkaller.appspot.com/bug?extid=92ead4eb8e26a26d465e
+> > > > [...]
+> > > > Reported-by: syzbot+92ead4eb8e26a26d465e@syzkaller.appspotmail.com
+> > > > [...]
+> > > > UBSAN: array-index-out-of-bounds in crypto/af_alg.c:166:2
+> > > > index 91 is out of range for type '__u8 [64]'
+> > >
+> > > This seems to be an "as intended", if very odd. false positive (the actual
+> > > memory area is backed by the on-stack _K_SS_MAXSIZE-sized sockaddr_storage
+> > > "address" variable in __sys_bind. But yes, af_alg's salg_name member
+> > > size here doesn't make sense.
+> >
+> > As Vegard noted elsewhere, compilers can start making assumptions
+> > based on absence of UB and compile code in surprising ways as the
+> > result leading to very serious and very real bugs.
+> >
+> > One example would be a compiler generating jump table for common sizes
+> > during PGO and leaving size > 64 as wild jump.
+> >
+> > Another example would be a compiler assuming that copy size <= 64.
+> > Then if there is another copy into a 64-byte buffer with a proper size
+> > check, the compiler can now drop that size check (since it now knows
+> > size <= 64) and we get real stack smash (for a copy that does have a
+> > proper size check before!).
+>
+> FWIW, the kernel currently still has a bunch of places that use
+> C89-style length-1 arrays (which were in the past used to work around
+> C89's lack of proper flexible arrays). Gustavo A. R. Silva has a bunch
+> of patches pending to change those places now, but those are not
+> marked for stable backporting; so in all currently released kernels,
+> we'll probably keep having length-1 arrays at the ends of C structs
+> that are used as if they were flexible arrays. (Unless someone makes
+> the case that these patches are not just cleanups but actually fix
+> some sort of real bug, and therefore need to be backported.)
+>
+> The code in this example looks just like one of those C89-style
+> length-1 arrays to me (except that the length isn't 1).
+>
+> Of course I do agree that this should be cleaned up, and that having
+> bogus array lengths in the source code is a bad idea.
+>
+> > And we do want compilers to be that smart today. Because of all levels
+> > of abstractions/macros/inlining we actually have lots of
+> > redundant/nonsensical code in the end after all inlining and
+> > expansions, and we do want compilers to infer things, remove redundant
+> > checks, etc so that we can have both nice abstract source code and
+> > efficient machine code at the same time.
+>
+> I guess that kinda leads to the question: Do we just need to fix the
+> kernel code here (which is comparatively easy), or do you think that
+> this is a sufficiently big problem that we need to go and somehow
+> change the actual UAPI headers here (e.g. by deprecating the existing
+> UAPI struct and making a new one with a different name)?
 
-First, the UUID communicated by the hypervisor should be consumed by
-the kernel -- added as another input to the rng -- and then userspace
-should be notified that it should reseed any userspace RNGs that it
-may have, without actually communicating that UUID to userspace. IOW,
-I agree with Jann there. Then, it's the functioning of this
-notification mechanism to userspace that is interesting to me.
+Good question. What I wrote is not based on some concrete
+miscompilation at hand. I just meant that there are more things
+involved that may appear at first glance.
 
-There are a few design goals of notifying userspace: it should be
-fast, because people who are using userspace RNGs are usually doing so
-in the first place to completely avoid syscall overhead for whatever
-high performance application they have - e.g. I recall conversations
-with Colm about his TLS implementation needing to make random IVs
-_really_ fast. It should also happen as early as possible, with no
-race or as minimal as possible race window, so that userspace doesn't
-begin using old randomness and then switch over after the damage is
-already done.
-
-I'm also not wedded to using Microsoft's proprietary hypervisor design
-for this. If we come up with a better interface, I don't think it's
-asking too much to implement that and reasonably expect for Microsoft
-to catch up. Maybe someone here will find that controversial, but
-whatever -- discussing ideal designs does not seem out of place or
-inappropriate for how we usually approach things in the kernel, and a
-closed source hypervisor coming along shouldn't disrupt that.
-
-So, anyway, here are a few options with some pros and cons for the
-kernel notifying userspace that its RNG should reseed.
-
-1. SIGRND - a new signal. Lol.
-
-2. Userspace opens a file descriptor that it can epoll on. Pros are
-that many notification mechanisms already use this. Cons is that this
-requires syscall and might be more racy than we want. Another con is
-that this a new thing for userspace programs to do.
-
-3. We stick an atomic counter in the vDSO, Jann's suggestion. Pros are
-that this is extremely fast, and also simple to use and implement.
-There are enough sequence points in typical crypto programs that
-checking to see whether this counter has changed before doing whatever
-operation seems easy enough. Cons are that typically we've been
-conservative about adding things to the vDSO, and this is also a new
-thing for userspace programs to do.
-
-4. We already have a mechanism for this kind of thing, because the
-same issue comes up when fork()ing. The solution was MADV_WIPEONFORK,
-where userspace marks a page to be zeroed when forking, for the
-purposes of the RNG being notified when its world gets split in two.
-This is basically the same thing as we're discussing here with guest
-snapshots, except it's on the system level rather than the process
-level, and a system has many processes. But the problem space is still
-almost the same, and we could simply reuse that same mechanism. There
-are a few implementation strategies for that:
-
-4a. We mess with the PTEs of all processes' pages that are
-MADV_WIPEONFORK, like fork does now, when the hypervisor notifies us
-to do so. Then we wind up reusing the already existing logic for
-userspace RNGs. Cons might be that this usually requires semaphores,
-and we're in irq context, so we'd have to hoist to a workqueue, which
-means either more wake up latency, or a larger race window.
-
-4b. We just memzero all processes' pages that are MADV_WIPEONFORK,
-when the hypervisor notifies us to do so. Then we wind up reusing the
-already existing logic for userspace RNGs.
-
-4c. The guest kernel maintains an array of physical addresses that are
-MADV_WIPEONFORK. The hypervisor knows about this array and its
-location through whatever protocol, and before resuming a
-moved/snapshotted/duplicated VM, it takes the responsibility for
-memzeroing this memory. The huge pro here would be that this
-eliminates all races, and reduces complexity quite a bit, because the
-hypervisor can perfectly synchronize its bringup (and SMP bringup)
-with this, and it can even optimize things like on-disk memory
-snapshots to simply not write out those pages to disk.
-
-A 4c-like approach seems like it'd be a lot of bang for the buck -- we
-reuse the existing mechanism (MADV_WIPEONFORK), so there's no new
-userspace API to deal with, and it'd be race free, and eliminate a lot
-of kernel complexity.
-
-But 4b and 3 don't seem too bad either.
-
-Any thoughts on 4c? Is that utterly insane, or does that actually get
-us somewhere close to what we want?
-
-Jason
+Re proactively fixing UAPI, I would say if somebody is up to doing it
+now, I would say it's good and a right change. Otherwise delaying
+fixing it is also a reasonable strategy because (1) there are probably
+more such cases, (2) any work on enabling more optimizations, global
+optimizations, etc is only feasible if there is a tool that helps to
+identify all places that need to be fixed. So whoever/whenever will be
+fixing this, one more or one less case probably does not matter much.
+It's a different story if there is already a tool/compiler warning
+that traps on some code and that code harms deployment of the tool.
