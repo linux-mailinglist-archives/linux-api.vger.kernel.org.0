@@ -2,162 +2,435 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 87B0F290F84
-	for <lists+linux-api@lfdr.de>; Sat, 17 Oct 2020 07:42:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7455C290FE3
+	for <lists+linux-api@lfdr.de>; Sat, 17 Oct 2020 08:02:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436598AbgJQFmC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 17 Oct 2020 01:42:02 -0400
-Received: from mx0b-0016f401.pphosted.com ([67.231.156.173]:29152 "EHLO
-        mx0b-0016f401.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2411693AbgJQFmB (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 17 Oct 2020 01:42:01 -0400
-Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
-        by mx0b-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 09H1BHxv016687;
-        Fri, 16 Oct 2020 18:13:22 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version; s=pfpt0220;
- bh=qxYRNYcBZHve6q7ipE5aq+bLghDuu6rqnpeeDfrN9fg=;
- b=CzEDcR62kEe2aZvIZKYTb3clvutZ9A/rzotv9PQ5j1NnbR4HKJFxDVEIvoDliidWezEg
- aDZ9MRJnfOsL7MKqa2eMeTFFryAzZMJBiRQmCV2mhxFHKPnfR1EaWDM6Z3P/1p831Kb+
- 415qVz2qZas3b0m7FdyZ2PyLTfzM2uyD0DftMcX9/ZGtjX0ZxqP5bGQhmhJjPdCr2Iyo
- uhV5l+FVfwLO4WAnV2ALkpMXTSeSL0vF1CuRWrE9s1it5xKmlWKF32ovlSCgXuhLhFZ5
- 3XEA8pQ/QcFA+/qAu9FLzO8LmglctwJ5Voj40FmkAC3YfohUWlSUNVyAm8NCEWDKFfE5 dA== 
-Received: from sc-exch03.marvell.com ([199.233.58.183])
-        by mx0b-0016f401.pphosted.com with ESMTP id 343cfjrst9-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Fri, 16 Oct 2020 18:13:21 -0700
-Received: from SC-EXCH04.marvell.com (10.93.176.84) by SC-EXCH03.marvell.com
- (10.93.176.83) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 16 Oct
- 2020 18:13:19 -0700
-Received: from SC-EXCH02.marvell.com (10.93.176.82) by SC-EXCH04.marvell.com
- (10.93.176.84) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 16 Oct
- 2020 18:13:19 -0700
-Received: from NAM02-CY1-obe.outbound.protection.outlook.com (104.47.37.57) by
- SC-EXCH02.marvell.com (10.93.176.82) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2 via Frontend Transport; Fri, 16 Oct 2020 18:13:19 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=b1C9L8GHKLutubi7eqGCI3uZYxCPLh6JbryXTpx18kjAx1LZt3B2BQhCq/snEVeRdw6rFLk4xdGhJJFghACRQv1UMKSvzbUsa6WkSsO7HEh/HRrbroPdfYnDR+39q8t57d5PAvZmOAD2yQdUZeDT5XQGK80+xc2y3RjwitJYpQO4/OP6itJg+XyBKcq5KLIxA+ToGR6GJjUMYHFTfisHggBHI37drcAiav5zZAtR+b3ehnbuxkpkeQxJz/TwKF+SlN/54Itkpoy3jYJs66OzN92ZpkIZcoW2XcMmgNidzTnioTTXlYMDp2sv+690bOWVaK6fZVHX7lFr8nWRvTRR8A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qxYRNYcBZHve6q7ipE5aq+bLghDuu6rqnpeeDfrN9fg=;
- b=Wdkrx1nGOMxgwkQ1uu4aR7mzjzxIc05l8E4gP1tBt2PZiJDArqVOfakEpeH3Sd2q/HDTzWFL2miwU/uAePi5h+/mtFotvAkgKC+YP79Kmra4jJ135ke+MBA1P3Q86d+8XKS3yjeaCU6PgvYCu/CpiollNf2Bh8ofbg82L2pb0JnVzb5fgPl6hPUip3vQq/Gc/iOdGTar3YpKk0h8qpe64kJ5oLiOoHxZIib7aMsN/prMtz3CbRUuxPFBvfMOfukyTHxncq9edrQfF9K3RODx7bQRFB//5S0/DNUSVMSMB5OowV0PwiOELDlJtmpzc883xGdC8faGL14YJAONm+tL9g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
- dkim=pass header.d=marvell.com; arc=none
+        id S2436900AbgJQGC0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 17 Oct 2020 02:02:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57294 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2408610AbgJQGBk (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 17 Oct 2020 02:01:40 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E67DDC0610D0
+        for <linux-api@vger.kernel.org>; Fri, 16 Oct 2020 18:40:36 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id v6so5592209lfa.13
+        for <linux-api@vger.kernel.org>; Fri, 16 Oct 2020 18:40:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marvell.onmicrosoft.com; s=selector1-marvell-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qxYRNYcBZHve6q7ipE5aq+bLghDuu6rqnpeeDfrN9fg=;
- b=lrRo8v/VUZYyVGSwvYK8fzmciBy7KA8OWvuEj9FRgWLhpxkniL/grxdKss2rdDWR+0AHPemC3qBpA3Aat1pacn/SFZm+BSRfFBy7kWgwsxk02ZLAk+SbeUHSBoNt8oODBLvxzjlKMfRvUCKLq/iNnkyUsaot0rHwD2Q4daRIego=
-Received: from MW2PR18MB2267.namprd18.prod.outlook.com (2603:10b6:907:3::11)
- by MWHPR1801MB1822.namprd18.prod.outlook.com (2603:10b6:301:6b::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.23; Sat, 17 Oct
- 2020 01:13:18 +0000
-Received: from MW2PR18MB2267.namprd18.prod.outlook.com
- ([fe80::69b0:73ce:7112:3b95]) by MW2PR18MB2267.namprd18.prod.outlook.com
- ([fe80::69b0:73ce:7112:3b95%7]) with mapi id 15.20.3455.031; Sat, 17 Oct 2020
- 01:13:18 +0000
-From:   Alex Belits <abelits@marvell.com>
-To:     "frederic@kernel.org" <frederic@kernel.org>,
-        "nitesh@redhat.com" <nitesh@redhat.com>
-CC:     "mingo@kernel.org" <mingo@kernel.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "will@kernel.org" <will@kernel.org>,
-        Prasun Kapoor <pkapoor@marvell.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
-Subject: Re: [EXT] Re: [PATCH v4 03/13] task_isolation: userspace hard
- isolation from kernel
-Thread-Topic: [EXT] Re: [PATCH v4 03/13] task_isolation: userspace hard
- isolation from kernel
-Thread-Index: AQHWYDdZDqoeqvfF50CzG3l43t/UoamDNPAAgATEYwCAAI5YAIABSVeAgAEHb4CAEKyCAA==
-Date:   Sat, 17 Oct 2020 01:13:17 +0000
-Message-ID: <98978b81e7eda04c256c3d837c36a032f5d475fb.camel@marvell.com>
-References: <04be044c1bcd76b7438b7563edc35383417f12c8.camel@marvell.com>
-         <b18546567a2ed61073ae86f2d9945257ab285dfa.camel@marvell.com>
-         <20201001135640.GA1748@lothringen>
-         <7e54b3c5e0d4c91eb64f2dd1583dd687bc34757e.camel@marvell.com>
-         <20201004231404.GA66364@lothringen>
-         <d0289bb9-cc10-9e64-f8ac-b4d252b424b8@redhat.com>
-         <20201006103541.GA31325@lothringen>
-In-Reply-To: <20201006103541.GA31325@lothringen>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=marvell.com;
-x-originating-ip: [173.228.7.197]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c5676cdc-75ee-4b49-5fba-08d87239d4bd
-x-ms-traffictypediagnostic: MWHPR1801MB1822:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MWHPR1801MB18223A1275DCAE4050719D73BC000@MWHPR1801MB1822.namprd18.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 3URA+X43WSV3Wb3OTUPp0tlhgi0d7Soi9DqIryds9a+p+VlnsELzCdogvbFyoM9WMq17Dgda5WcKzDSdA14TBP/RUFuusps37sdHCnGVXuWQGWoZlj2VzzC0hIS8A4HDUNHOMWHDrota90CobO0gUhFoUyBpz5x0Klh/KLoBErUX11vcMmBlIZlFzMmpiM4RkW+TLs2IRAA1JD5EyRNIxtVyRqW2oIYkVapk49UGDgknd1YQNgz80m35vmSeBA0WZsVBegLOblXBVwI75idbLLxYWBMWmb1GtyitGvY2sk/M7KKVgsZ3iam96bDi4YbXanVuajsK2ggNB77DLSPksw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR18MB2267.namprd18.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(396003)(346002)(136003)(39860400002)(376002)(53546011)(6506007)(66476007)(66556008)(186003)(2616005)(86362001)(6486002)(4326008)(76116006)(91956017)(6512007)(316002)(66946007)(7416002)(8936002)(71200400001)(66446008)(64756008)(5660300002)(54906003)(2906002)(478600001)(26005)(110136005)(8676002)(36756003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: oBdLSWmrMTGPMPVGdZvFEzjKVgx1jgt+ob9L8IxL3ZO42nhX74QllPNmCdUT7rRLRA9ZW1pS2zlq2SZqnun/70ayWBq2rrzu+/gEhWd9Ajy1ljD8RBlFgqQm47qlZPmLzqNma7oxDNQ0RNGUa6nmCOJdSXQlHC8UEHsy27vvnk7TLqiB9OVB24lSU2jmzapjefnO50k3tUdZ86EZkHWaAMWNgHrqrVddOOibZcG7oryIWjlesJ/K+8z+qowi+MsfI3oq84A/d9SsBjXr+axQUrKCPrS3EfnanRTmpModrvoysv4Eg46oKDA8yQHyG+ii2vjRiiOu8CmnGvsdEy8eIGAjhvNUt7kNwdloQG3lYqj9QA4N8djOeKbwFxSMbsY15VZMVj4giEbjETdZ9CQf+pqeGKegfelXqbfPLBrIOu0KiycRj9AvS4O3B/v2KqoL+5yG27yUlc2ryKrc/To+/GrAoSSK/yTUWsaNRWAKYh8OrnrEU4gy2bIT3ZnUcP0V0OoT8BJYmh4MmMy1/7GYErpuqPKnZyhmjqj1yrawAYk33iiEyYki6d9xJy3wlOCfxTpJeboGL+w9d6VVN9Dele3jrkr0wZf1o8BUJAuq1FBXO7gofk2bIGI+5LC6TrZ1rbZNbgDz4g2DWmCCZIboLg==
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <E1C4E13D2BD46A429F475C927F23F3C9@namprd18.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BopKGQtPaTfGwvlC86xQaWETvH2e42ZAR9Kr5ZDpv5s=;
+        b=dQiCd8XyqN/Fitc8jJSyUjY0qDqNyPd4ShZrsSIFOTL3hIXs/X4bpKQd9pwCeUBOFb
+         rOLxxBpLKrOA8rhA0PKoUKMLfJVMXtBRFwpgtaWBjmnQFfjRPHciUbyHFxHAs2M7Ew5r
+         Go6yyxTpGz2QKjj6Qe+uxMDSvLKOxUJLCapzz+Bz4LuJMdcWwb/eeIp4hUxbTF6+EAzG
+         xukDvdgot880aXqWOTeg+XakhsxqiTDpmPUY2afjLe/JRu3gDGQclNJUgrrh8wEYaq5e
+         oKCRvn2Io8fmIn5mXPhnlbp+xC5dBXEyamkajNc8GtUTODOpFnryQCw4W12GE+nS0sDV
+         5jGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BopKGQtPaTfGwvlC86xQaWETvH2e42ZAR9Kr5ZDpv5s=;
+        b=QMTdVqh17UnTNTAe6DZGWm43dETQAWC6kihJ46J2PEhDMRlw/rBdc92e+44AwLMiwC
+         aRYy1BVQ4EURM/PHjwF/WlNjC1Ue/X4oN75q7HP0+zKgQSE8BFI4HQ23lut8Nf8QBvDq
+         Yyf02qQYYWgSxnQNOar1cVHOqdwL7Vlo45snTrZTKbuuEGhu1qQlEwtKVnMgwF6UTNiw
+         Ummr1zsdDFXMIGEu5Jt9652rB8+e2law4owbMRlmBVnI0TsRbOpAJIgKCduuKkX3WKP/
+         d6gIUNY3Uf5nizTpl29D4UZvqPAhEc6Ig4yMgTMjRUfUEWZtVzSKh7gxHEfX6/sUIeXt
+         sLtg==
+X-Gm-Message-State: AOAM531jolmKnH85DEfrAAZ4lHUZ7zn8nO21Pnx6T4WIZiCyFe8+hqr8
+        wzeQVHLHK6w/W1d7aetPH5iSTg3vDyjlvUd3CPGfsw==
+X-Google-Smtp-Source: ABdhPJzGuYJEkcAsnQmiRIzfXcMIc/qN2/3dOgPxRLYyuzsdMoyuYhfEYm6oFrU0i0UreLfHV5fP3MEtahH4QnFku+A=
+X-Received: by 2002:a19:e308:: with SMTP id a8mr2221438lfh.573.1602898834832;
+ Fri, 16 Oct 2020 18:40:34 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR18MB2267.namprd18.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c5676cdc-75ee-4b49-5fba-08d87239d4bd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Oct 2020 01:13:17.9698
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: oVD0YUawy/yBvoyLQiyqgE1dtT2WqDqqQl35zKi2H7vXvisuK6WUcXkC6ejckHHKX+fQIh6oQeRlmT54v/QlOQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1801MB1822
-X-OriginatorOrg: marvell.com
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
- definitions=2020-10-16_12:2020-10-16,2020-10-16 signatures=0
+References: <AQHWo8lIfZnFKGe8nkGmhTCXwq5R3w==> <788878CE-2578-4991-A5A6-669DCABAC2F2@amazon.com>
+In-Reply-To: <788878CE-2578-4991-A5A6-669DCABAC2F2@amazon.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Sat, 17 Oct 2020 03:40:08 +0200
+Message-ID: <CAG48ez0EanBvDyfthe+hAP0OC8iGLNSq2e5wJVz-=ENNGF97_w@mail.gmail.com>
+Subject: Re: [PATCH] drivers/virt: vmgenid: add vm generation id driver
+To:     "Catangiu, Adrian Costin" <acatan@amazon.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Jason Donenfeld <Jason@zx2c4.com>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>, Willy Tarreau <w@1wt.eu>,
+        Eric Biggers <ebiggers@kernel.org>
+Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "virtualization@lists.linux-foundation.org" 
+        <virtualization@lists.linux-foundation.org>,
+        "Graf (AWS), Alexander" <graf@amazon.de>,
+        "MacCarthaigh, Colm" <colmmacc@amazon.com>,
+        "Woodhouse, David" <dwmw@amazon.co.uk>,
+        "bonzini@gnu.org" <bonzini@gnu.org>,
+        "Singh, Balbir" <sblbir@amazon.com>,
+        "Weiss, Radu" <raduweis@amazon.com>,
+        "oridgar@gmail.com" <oridgar@gmail.com>,
+        "ghammer@redhat.com" <ghammer@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "mst@redhat.com" <mst@redhat.com>,
+        "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+        KVM list <kvm@vger.kernel.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-DQpPbiBUdWUsIDIwMjAtMTAtMDYgYXQgMTI6MzUgKzAyMDAsIEZyZWRlcmljIFdlaXNiZWNrZXIg
-d3JvdGU6DQo+IE9uIE1vbiwgT2N0IDA1LCAyMDIwIGF0IDAyOjUyOjQ5UE0gLTA0MDAsIE5pdGVz
-aCBOYXJheWFuIExhbCB3cm90ZToNCj4gPiBPbiAxMC80LzIwIDc6MTQgUE0sIEZyZWRlcmljIFdl
-aXNiZWNrZXIgd3JvdGU6DQo+ID4gPiBPbiBTdW4sIE9jdCAwNCwgMjAyMCBhdCAwMjo0NDozOVBN
-ICswMDAwLCBBbGV4IEJlbGl0cyB3cm90ZToNCj4gPiA+IA0KPiA+ID4gPiBUaGUgaWRlYSBiZWhp
-bmQgdGhpcyBpcyB0aGF0IGlzb2xhdGlvbiBicmVha2luZyBldmVudHMgYXJlDQo+ID4gPiA+IHN1
-cHBvc2VkIHRvDQo+ID4gPiA+IGJlIGtub3duIHRvIHRoZSBhcHBsaWNhdGlvbnMgd2hpbGUgYXBw
-bGljYXRpb25zIHJ1biBub3JtYWxseSwNCj4gPiA+ID4gYW5kIHRoZXkNCj4gPiA+ID4gc2hvdWxk
-IG5vdCByZXF1aXJlIGFueSBhbmFseXNpcyBvciBodW1hbiBpbnRlcnZlbnRpb24gdG8gYmUNCj4g
-PiA+ID4gaGFuZGxlZC4NCj4gPiA+IFN1cmUgYnV0IHlvdSBjYW4gdXNlIHRyYWNlIGV2ZW50cyBm
-b3IgdGhhdC4gSnVzdCB0cmFjZQ0KPiA+ID4gaW50ZXJydXB0cywgd29ya3F1ZXVlcywNCj4gPiA+
-IHRpbWVycywgc3lzY2FsbHMsIGV4Y2VwdGlvbnMgYW5kIHNjaGVkdWxlciBldmVudHMgYW5kIHlv
-dSBnZXQgYWxsDQo+ID4gPiB0aGUgbG9jYWwNCj4gPiA+IGRpc3R1cmJhbmNlLiBZb3UgbWlnaHQg
-d2FudCB0byB0dW5lIGEgZmV3IGZpbHRlcnMgYnV0IHRoYXQncw0KPiA+ID4gcHJldHR5IG11Y2gg
-aXQuDQo+IA0KPiBmb3JtYXRpb24sDQo+ID4gPiB5b3UgY2FuIHRyYWNlIHRoZSB3b3JrcXVldWUg
-YW5kIHRpbWVyIHF1ZXVlIGV2ZW50cyBhbmQganVzdA0KPiA+ID4gZmlsdGVyIHRob3NlIHRoYXQN
-Cj4gPiA+IHRhcmdldCB5b3VyIGlzb2xhdGVkIENQVXMuDQo+ID4gPiANCj4gPiANCj4gPiBJIGFn
-cmVlIHRoYXQgd2UgY2FuIGRvIGFsbCB0aG9zZSB0aGluZ3Mgd2l0aCB0cmFjaW5nLg0KPiA+IEhv
-d2V2ZXIsIElNSE8gaGF2aW5nIGEgc2ltcGxpZmllZCBsb2dnaW5nIG1lY2hhbmlzbSB0byBnYXRo
-ZXIgdGhlDQo+ID4gc291cmNlIG9mDQo+ID4gdmlvbGF0aW9uIG1heSBoZWxwIGluIHJlZHVjaW5n
-IHRoZSBtYW51YWwgZWZmb3J0Lg0KPiA+IA0KPiA+IEFsdGhvdWdoLCBJIGFtIG5vdCBzdXJlIGhv
-dyBlYXN5IHdpbGwgaXQgYmUgdG8gbWFpbnRhaW4gc3VjaCBhbg0KPiA+IGludGVyZmFjZQ0KPiA+
-IG92ZXIgdGltZS4NCj4gDQo+IFRoZSB0aGluZyBpczogdHJhY2luZyBpcyB5b3VyIHNpbXBsaWZp
-ZWQgbG9nZ2luZyBtZWNoYW5pc20gaGVyZS4gWW91DQo+IGNhbiBhY2hpZXZlDQo+IHRoZSBzYW1l
-IGluIHVzZXJzcGFjZSB3aXRoIF93YXlfIGxlc3MgY29kZSwgbm8gcmFjZSwgYW5kIHlvdSBjYW4g
-ZG8NCj4gaXQgaW4NCj4gYmFzaC4NCg0KVGhlIGlkZWEgaXMgdGhhdCB0aGlzIG1lY2hhbmlzbSBz
-aG91bGQgYmUgdXNhYmxlIHdoZW4gbm8gb25lIGlzIHRoZXJlDQp0byBydW4gdGhpbmdzIGluIGJh
-c2gsIG9yIG5vIGluZm9ybWF0aW9uIGFib3V0IHdoYXQgbWlnaHQgaGFwcGVuLiBJdA0Kc2hvdWxk
-IGJlIGFibGUgdG8gcmVwb3J0IHJhcmUgZXZlbnRzIGluIHByb2R1Y3Rpb24gd2hlbiB1c2VycyBt
-YXkgbm90DQpiZSBhYmxlIHRvIHJlcHJvZHVjZSB0aGVtLg0KDQotLSANCkFsZXgNCg==
+[adding some more people who are interested in RNG stuff: Andy, Jason,
+Theodore, Willy Tarreau, Eric Biggers. also linux-api@, because this
+concerns some pretty fundamental API stuff related to RNG usage]
+
+On Fri, Oct 16, 2020 at 4:33 PM Catangiu, Adrian Costin
+<acatan@amazon.com> wrote:
+> - Background
+>
+> The VM Generation ID is a feature defined by Microsoft (paper:
+> http://go.microsoft.com/fwlink/?LinkId=260709) and supported by
+> multiple hypervisor vendors.
+>
+> The feature is required in virtualized environments by apps that work
+> with local copies/caches of world-unique data such as random values,
+> uuids, monotonically increasing counters, etc.
+> Such apps can be negatively affected by VM snapshotting when the VM
+> is either cloned or returned to an earlier point in time.
+>
+> The VM Generation ID is a simple concept meant to alleviate the issue
+> by providing a unique ID that changes each time the VM is restored
+> from a snapshot. The hw provided UUID value can be used to
+> differentiate between VMs or different generations of the same VM.
+>
+> - Problem
+>
+> The VM Generation ID is exposed through an ACPI device by multiple
+> hypervisor vendors but neither the vendors or upstream Linux have no
+> default driver for it leaving users to fend for themselves.
+>
+> Furthermore, simply finding out about a VM generation change is only
+> the starting point of a process to renew internal states of possibly
+> multiple applications across the system. This process could benefit
+> from a driver that provides an interface through which orchestration
+> can be easily done.
+>
+> - Solution
+>
+> This patch is a driver which exposes the Virtual Machine Generation ID
+> via a char-dev FS interface that provides ID update sync and async
+> notification, retrieval and confirmation mechanisms:
+>
+> When the device is 'open()'ed a copy of the current vm UUID is
+> associated with the file handle. 'read()' operations block until the
+> associated UUID is no longer up to date - until HW vm gen id changes -
+> at which point the new UUID is provided/returned. Nonblocking 'read()'
+> uses EWOULDBLOCK to signal that there is no _new_ UUID available.
+>
+> 'poll()' is implemented to allow polling for UUID updates. Such
+> updates result in 'EPOLLIN' events.
+>
+> Subsequent read()s following a UUID update no longer block, but return
+> the updated UUID. The application needs to acknowledge the UUID update
+> by confirming it through a 'write()'.
+> Only on writing back to the driver the right/latest UUID, will the
+> driver mark this "watcher" as up to date and remove EPOLLIN status.
+>
+> 'mmap()' support allows mapping a single read-only shared page which
+> will always contain the latest UUID value at offset 0.
+
+It would be nicer if that page just contained an incrementing counter,
+instead of a UUID. It's not like the application cares *what* the UUID
+changed to, just that it *did* change and all RNGs state now needs to
+be reseeded from the kernel, right? And an application can't reliably
+read the entire UUID from the memory mapping anyway, because the VM
+might be forked in the middle.
+
+So I think your kernel driver should detect UUID changes and then turn
+those into a monotonically incrementing counter. (Probably 64 bits
+wide?) (That's probably also a little bit faster than comparing an
+entire UUID.)
+
+An option might be to put that counter into the vDSO, instead of a
+separate VMA; but I don't know how the other folks feel about that.
+Andy, do you have opinions on this? That way, normal userspace code
+that uses this infrastructure wouldn't have to mess around with a
+special device at all. And it'd be usable in seccomp sandboxes and so
+on without needing special plumbing. And libraries wouldn't have to
+call open() and mess with file descriptor numbers.
+
+> The driver also adds support for tracking count of open file handles
+> that haven't acknowledged an UUID update. This is exposed through
+> two IOCTLs:
+>  * VMGENID_GET_OUTDATED_WATCHERS: immediately returns the number of
+>    _outdated_ watchers - number of file handles that were open during
+>    a VM generation change, and which have not yet confirmed the new
+>    Vm-Gen-Id.
+>  * VMGENID_WAIT_WATCHERS: blocks until there are no more _outdated_
+>    watchers, or if a 'timeout' argument is provided, until the timeout
+>    expires.
+
+Does this mean that code that uses the memory mapping to detect
+changes is still supposed to confirm generation IDs? What about
+multithreaded processes, especially ones that use libraries - if a
+library opens a single file descriptor that is used from multiple
+threads, is the library required to synchronize all its threads before
+confirming the change? That seems like it could get messy. And it
+again means that this interface can't easily be used from inside
+seccomp sandboxes.
+
+[...]
+> diff --git a/Documentation/virt/vmgenid.rst b/Documentation/virt/vmgenid.rst
+[...]
+> +``close()``:
+> +  Removes the file handle as a Vm-Gen-Id watcher.
+
+(Linux doesn't have "file handles". Technically close() just closes a
+file descriptor, and if that file descriptor points to the same file
+description object (aka struct file) as another file descriptor,
+nothing happens.)
+
+> +Example application workflows
+> +-----------------------------
+> +
+> +1) Watchdog thread simplified example::
+> +
+> +       void watchdog_thread_handler(int *thread_active)
+> +       {
+> +               uuid_t uuid;
+> +               int fd = open("/dev/vmgenid", O_RDWR, S_IRUSR | S_IWUSR);
+
+In case we actually keep this API, you should use O_CLOEXEC here.
+
+> +
+> +               do {
+> +                       // read new UUID - blocks until VM generation changes
+> +                       read(fd, &uuid, sizeof(uuid));
+> +
+> +                       // because of VM generation change, we need to rebuild world
+> +                       reseed_app_env();
+> +
+> +                       // confirm we're done handling UUID update
+> +                       write(fd, &uuid, sizeof(uuid));
+> +               } while (atomic_read(thread_active));
+> +
+> +               close(fd);
+> +       }
+[...]
+> +3) Mapped memory polling simplified example::
+> +
+> +       /*
+> +        * app/library function that provides cached secrets
+> +        */
+> +       char * safe_cached_secret(app_data_t *app)
+> +       {
+> +               char *secret;
+> +               volatile uuid_t *const uuid_ptr = get_vmgenid_mapping(app);
+> +       again:
+> +               secret = __cached_secret(app);
+> +
+> +               if (unlikely(*uuid_ptr != app->cached_uuid)) {
+> +                       app->cached_uuid = *uuid_ptr;
+> +
+> +                       // rebuild world then confirm the uuid update (thru write)
+> +                       rebuild_caches(app);
+> +                       ack_vmgenid_update(app);
+> +
+> +                       goto again;
+> +               }
+> +
+> +               return secret;
+> +       }
+> +
+> +4) Orchestrator simplified example::
+> +
+> +       /*
+> +        * orchestrator - manages multiple apps and libraries used by a service
+> +        * and tries to make sure all sensitive components gracefully handle
+> +        * VM generation changes.
+> +        * Following function is called on detection of a VM generation change.
+> +        */
+> +       int handle_vmgen_update(int vmgenfd, uuid_t new_uuid)
+> +       {
+> +               // pause until all components have handled event
+> +               pause_service();
+> +
+> +               // confirm *this* watcher as up-to-date
+> +               write(fd, &new_uuid, sizeof(uuid_t));
+> +
+> +               // wait for all *others*
+> +               ioctl(fd, VMGENID_WAIT_WATCHERS, NULL);
+> +
+> +               // all apps on the system have rebuilt worlds
+> +               resume_service();
+> +       }
+
+Can you describe what value such an "Orchestrator" would add? Because
+it seems to me like this will just unnecessarily complicate things.
+
+[...]
+> diff --git a/drivers/virt/Makefile b/drivers/virt/Makefile
+> index fd33124..a1f8dcc 100644
+> --- a/drivers/virt/Makefile
+> +++ b/drivers/virt/Makefile
+> @@ -4,4 +4,5 @@
+>  #
+>
+>  obj-$(CONFIG_FSL_HV_MANAGER)   += fsl_hypervisor.o
+> +obj-$(CONFIG_VMGENID)          += vmgenid.o
+>  obj-y                          += vboxguest/
+> diff --git a/drivers/virt/vmgenid.c b/drivers/virt/vmgenid.c
+[...]
+> +static int vmgenid_close(struct inode *inode, struct file *file)
+> +{
+> +       struct file_data *file_data = (struct file_data *) file->private_data;
+> +       struct dev_data *priv = file_data->dev_data;
+> +
+> +       if (!vmgenid_uuid_matches(priv, &file_data->acked_uuid))
+> +               vmgenid_put_outdated_watchers(priv);
+> +       atomic_dec(&priv->watchers);
+
+What happens if the UUID changes between the previous two calls? Then
+the outdated watcher count will go out of sync, right?
+
+(But as I've said, I think that maybe the outdated watcher counting is
+a bad idea in general, and we should just get rid of it.)
+
+> +       kfree(file->private_data);
+> +
+> +       return 0;
+> +}
+> +
+> +static ssize_t
+> +vmgenid_read(struct file *file, char __user *ubuf, size_t nbytes, loff_t *ppos)
+> +{
+> +       struct file_data *file_data =
+> +               (struct file_data *) file->private_data;
+> +       struct dev_data *priv = file_data->dev_data;
+> +       ssize_t ret;
+> +
+> +       if (nbytes == 0)
+> +               return 0;
+> +       /* disallow partial UUID reads */
+> +       if (nbytes < sizeof(uuid_t))
+> +               return -EINVAL;
+> +       nbytes = sizeof(uuid_t);
+> +
+> +       if (vmgenid_uuid_matches(priv, &file_data->acked_uuid)) {
+> +               if (file->f_flags & O_NONBLOCK)
+> +                       return -EAGAIN;
+> +               ret = wait_event_interruptible(
+> +                       priv->read_wait,
+> +                       !vmgenid_uuid_matches(priv, &file_data->acked_uuid)
+> +               );
+> +               if (ret)
+> +                       return ret;
+> +       }
+> +
+> +       ret = copy_to_user(ubuf, &priv->uuid, nbytes);
+
+If the VM is again forked in the middle of this, will userspace see a
+torn UUID (consisting of half old and half new value)?
+
+> +       if (ret)
+> +               return -EFAULT;
+> +
+> +       return nbytes;
+> +}
+[...]
+> +static vm_fault_t vmgenid_vm_fault(struct vm_fault *vmf)
+> +{
+> +       struct page *page;
+> +       struct file_data *file_data =
+> +                       (struct file_data *) vmf->vma->vm_private_data;
+> +       struct dev_data *priv = file_data->dev_data;
+> +
+> +       if (priv->map_buf) {
+> +               page = virt_to_page(priv->map_buf);
+> +               get_page(page);
+> +               vmf->page = page;
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static const struct vm_operations_struct vmgenid_vm_ops = {
+> +       .fault = vmgenid_vm_fault,
+> +};
+> +
+> +static int vmgenid_mmap(struct file *file, struct vm_area_struct *vma)
+> +{
+> +       if (vma->vm_pgoff != 0 || vma_pages(vma) > 1)
+> +               return -EINVAL;
+> +
+> +       if ((vma->vm_flags & VM_WRITE) != 0)
+> +               return -EPERM;
+
+This doesn't work, you also need to clear VM_MAYWRITE. See e.g. binder_mmap().
+
+Also, I think mmap handlers for special mappings like this usually
+directly install the page inside the mmap handler, using something
+like vm_insert_page(). And then they don't need a ->fault handler.
+
+(But if we decide to put this into the vDSO, the whole memory mapping
+thing would become unnecessary anyway.)
+
+> +       vma->vm_ops = &vmgenid_vm_ops;
+> +       vma->vm_flags |= VM_DONTEXPAND | VM_DONTDUMP;
+> +       vma->vm_private_data = file->private_data;
+> +
+> +       return 0;
+> +}
+> +
+> +static const struct file_operations fops = {
+> +       .owner          = THIS_MODULE,
+> +       .mmap           = vmgenid_mmap,
+> +       .open           = vmgenid_open,
+> +       .release        = vmgenid_close,
+> +       .read           = vmgenid_read,
+> +       .write          = vmgenid_write,
+> +       .poll           = vmgenid_poll,
+> +       .compat_ioctl   = vmgenid_ioctl,
+
+You don't need to define a compat_ioctl if the normal ioctl handler is the same.
+
+> +       .unlocked_ioctl = vmgenid_ioctl,
+> +};
+[...]
+> +static void vmgenid_acpi_notify(struct acpi_device *device, u32 event)
+> +{
+> +       uuid_t old_uuid;
+> +       struct dev_data *priv;
+> +
+> +       pr_debug("VMGENID notified, event %u", event);
+> +
+> +       if (!device || !acpi_driver_data(device)) {
+> +               pr_err("VMGENID notify with NULL private data");
+> +               return;
+> +       }
+> +       priv = acpi_driver_data(device);
+> +
+> +       /* update VM Generation UUID */
+> +       old_uuid = priv->uuid;
+> +       memcpy_fromio(&priv->uuid, priv->uuid_iomap, sizeof(uuid_t));
+> +
+> +       if (!vmgenid_uuid_matches(priv, &old_uuid)) {
+> +               /* HW uuid updated */
+> +               memcpy((void *) priv->map_buf, &priv->uuid, sizeof(uuid_t));
+> +               atomic_set(&priv->outdated_watchers,
+> +                        atomic_read(&priv->watchers));
+> +               wake_up_interruptible(&priv->read_wait);
+> +       }
+> +}
+
+If we know that the VM just got forked, we should probably also make
+sure that we reseed the kernel's internal RNG before we tell userspace
+to fetch new RNG seeds from the kernel? Otherwise this is kinda
+pointless. Or are we already taking care of that elsewhere? If not, we
+should probably mix the UUID into the entropy pool (at least
+`write_pool(&input_pool, uuid, sizeof(uuid_t))`, although technically
+it would be better to do it in a way that ensures that userspace can't
+write the same value into the RNG - maybe we should introduce type
+prefixes into write_pool()?) and then trigger a reseed of everything
+else (`crng_reseed(&primary_crng, &input_pool)`).
