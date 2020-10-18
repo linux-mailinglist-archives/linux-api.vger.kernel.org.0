@@ -2,86 +2,144 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9784E291439
-	for <lists+linux-api@lfdr.de>; Sat, 17 Oct 2020 22:03:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5469291547
+	for <lists+linux-api@lfdr.de>; Sun, 18 Oct 2020 04:08:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2439670AbgJQUDz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 17 Oct 2020 16:03:55 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:51326 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2439665AbgJQUDz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 17 Oct 2020 16:03:55 -0400
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1602965033;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=fD8To0G31Wnjv4CSMouQW042TTW/VTVEOWWDfMh5qQE=;
-        b=MMY/7PwSl8pTU+QjRZoRdBJnqBHwz3WNOQs0ZqfB9wtPAyxcZphka1I8Ox3P5w0HQEfHwc
-        SB1bT3KSbn97AzStxmqRWvD7Jd1jINNp6UzvOCJeJVGYRRL3eexJl/Vemp+B9FDCZ0+3Fq
-        ss12hKC4M9SCODCom0ozeSDBsVLSh1PAsl1aXNQdx7EndPJwIV1/mfzl+oW7mFRzHpBKYf
-        ZzNn7oai9typ1Hao6RIxtPLiPSbCytsNDkTgasYyf+PB/qvtmFUugyLPS669321TQUPE/x
-        jnKNK2t5jeFrlr50fDhlJipvwCarc80vKcxm/4D6B5Vi8z6egogWTImuKBe0yg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1602965033;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=fD8To0G31Wnjv4CSMouQW042TTW/VTVEOWWDfMh5qQE=;
-        b=PSyszyaXkHnx+TsPjL80dPcUU/8lGfYRE5vJu8CKE5x06QLwbhdfM79YhpSyaQN11p4USa
-        FOppEQaJ2xqSucCA==
-To:     Alex Belits <abelits@marvell.com>,
-        "nitesh\@redhat.com" <nitesh@redhat.com>,
-        "frederic\@kernel.org" <frederic@kernel.org>
-Cc:     "mingo\@kernel.org" <mingo@kernel.org>,
-        "davem\@davemloft.net" <davem@davemloft.net>,
-        "linux-api\@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "rostedt\@goodmis.org" <rostedt@goodmis.org>,
-        "peterz\@infradead.org" <peterz@infradead.org>,
-        "linux-arch\@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "catalin.marinas\@arm.com" <catalin.marinas@arm.com>,
-        "will\@kernel.org" <will@kernel.org>,
-        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Prasun Kapoor <pkapoor@marvell.com>,
-        "netdev\@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-arm-kernel\@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [EXT] Re: [PATCH v4 03/13] task_isolation: userspace hard isolation from kernel
-In-Reply-To: <e9c5513d0d8dcd8b2db07a932e9f45640be6b0ea.camel@marvell.com>
-References: <04be044c1bcd76b7438b7563edc35383417f12c8.camel@marvell.com> <b18546567a2ed61073ae86f2d9945257ab285dfa.camel@marvell.com> <20201001135640.GA1748@lothringen> <7e54b3c5e0d4c91eb64f2dd1583dd687bc34757e.camel@marvell.com> <20201004231404.GA66364@lothringen> <d0289bb9-cc10-9e64-f8ac-b4d252b424b8@redhat.com> <91b8301b0888bf9e5ff7711c3b49d21beddf569a.camel@marvell.com> <87r1pwj0nh.fsf@nanos.tec.linutronix.de> <e9c5513d0d8dcd8b2db07a932e9f45640be6b0ea.camel@marvell.com>
-Date:   Sat, 17 Oct 2020 22:03:52 +0200
-Message-ID: <87mu0kipqv.fsf@nanos.tec.linutronix.de>
+        id S2440083AbgJRCIg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 17 Oct 2020 22:08:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44272 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2440049AbgJRCIe (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 17 Oct 2020 22:08:34 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28536C0613D4
+        for <linux-api@vger.kernel.org>; Sat, 17 Oct 2020 19:08:33 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id x16so7259719ljh.2
+        for <linux-api@vger.kernel.org>; Sat, 17 Oct 2020 19:08:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=EoL7d0lHzdswPEFGsAEJJdNfE07sA8igVy5PEUcTbDQ=;
+        b=JYBvkmsN9RysEeFQRgQMS2IGgQheKP8WCpVEITeoShBcDrScb2YzXJWCS9fBQBrxMO
+         n86hAFDTEQHXskSLJ578m/TKYBOiwMg0z/aLu4hSKM9fzy3Bml2AtFnKiNFHXmC81ou5
+         oLgoTyjjd7m8dU7zn1iDkaLBmUIFwukS3W1degboeUcB5xxmHAwJ7X7ZJjY5qLq4Uevz
+         9565oX51vhmKmr/jiZRuPNAZjyZvYkS6kUYo9TyvCsqYY8xkBsy/gcixSZeElDfa4GKl
+         lQjC5lLseYNii8XoYpb7znRj1djIzK3pwUzl9c71Hf2cfPLya0ovLXiar856omGyFgtc
+         cBdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=EoL7d0lHzdswPEFGsAEJJdNfE07sA8igVy5PEUcTbDQ=;
+        b=MZHpjuk4oIPllqn7/bTv/5cw8plRrkfIZTbQkWzs9w4JtVgpEKH3dTw+X8dE5Cy+i5
+         iJzV0DUaXivltTpJBxXdeXLtZMXot9JXqqcs+K2HqE3bNF536IzQqYdad6ZnZxSppITj
+         FokPnyGSweCARLaNaCocLp+O1Cmhd9EcKdVwXfOTYVcBR3b7VEdMSyZzLmB1+bxyUL1k
+         bYVaDlGx5lhGL7Fh70nv+xfvvvSU2q12evDbGRaYDc9Kmwk3oPeY04Zzm7LsxQ2uLJZP
+         HyGMgfxMkPfvClQwQ0vTWFI7e0iVDmtiTwNCzhj8/GS6FkF/vNAdMys215htwTIc2U+P
+         90Qg==
+X-Gm-Message-State: AOAM5335Mli0sfQtDfIRi1Gqb66xw1WX790awD70/c+81l6MFVEKoCjw
+        KAznl/gjzG0bTz4vypX5dZbhBrkApC++XvfHK2GgCw==
+X-Google-Smtp-Source: ABdhPJxVC4A8hz5Ph8xI5Lcuiwu6i49AGWglYFrVbrHYISFimwHqgN7R9bAY4u2r3Hi8cj+JpNCqLDs0HlkcXSFAtqI=
+X-Received: by 2002:a05:651c:1313:: with SMTP id u19mr1073920lja.47.1602986911177;
+ Sat, 17 Oct 2020 19:08:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <788878CE-2578-4991-A5A6-669DCABAC2F2@amazon.com>
+ <CAG48ez0EanBvDyfthe+hAP0OC8iGLNSq2e5wJVz-=ENNGF97_w@mail.gmail.com>
+ <20201017033606.GA14014@1wt.eu> <CAG48ez0x2S9XuCrANAQbXNi8Jjwm822-fnQSmr-Zr07JgrEs1g@mail.gmail.com>
+ <6CC3DB03-27BA-4F5E-8ADA-BE605D83A85C@amazon.com> <CAG48ez1ZtvjOs2CEq8-EMosPCd_o7WQ3Mz_+1mDe7OrH2arxFA@mail.gmail.com>
+ <20201017053712.GA14105@1wt.eu> <CAG48ez1h0ynXfGap_KiHiPVTfcB8NBQJ-2dnj08ZNfuhrW0jWA@mail.gmail.com>
+ <20201017064442.GA14117@1wt.eu> <CAG48ez3pXLC+eqAXDCniM0a+5yP2XJODDkZqiUTZUOttCE_LbA@mail.gmail.com>
+ <CAHmME9qHGSF8w3DoyCP+ud_N0MAJ5_8zsUWx=rxQB1mFnGcu9w@mail.gmail.com> <aacdff7a-2af1-4f46-6ab2-2a9d5b865d35@amazon.de>
+In-Reply-To: <aacdff7a-2af1-4f46-6ab2-2a9d5b865d35@amazon.de>
+From:   Jann Horn <jannh@google.com>
+Date:   Sun, 18 Oct 2020 04:08:04 +0200
+Message-ID: <CAG48ez0JYK2_tk0DuEgKY2y0d38N+O5HJrH2je7RRk6o7XBixA@mail.gmail.com>
+Subject: Re: [PATCH] drivers/virt: vmgenid: add vm generation id driver
+To:     Alexander Graf <graf@amazon.de>
+Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>, Willy Tarreau <w@1wt.eu>,
+        Colm MacCarthaigh <colmmacc@amazon.com>,
+        "Catangiu, Adrian Costin" <acatan@amazon.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Eric Biggers <ebiggers@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        "open list:VIRTIO GPU DRIVER" 
+        <virtualization@lists.linux-foundation.org>,
+        "Woodhouse, David" <dwmw@amazon.co.uk>, bonzini@gnu.org,
+        "Singh, Balbir" <sblbir@amazon.com>,
+        "Weiss, Radu" <raduweis@amazon.com>, oridgar@gmail.com,
+        ghammer@redhat.com, Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Qemu Developers <qemu-devel@nongnu.org>,
+        KVM list <kvm@vger.kernel.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Linux API <linux-api@vger.kernel.org>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Oct 17 2020 at 16:15, Alex Belits wrote:
-> On Sat, 2020-10-17 at 18:08 +0200, Thomas Gleixner wrote:
->> On Sat, Oct 17 2020 at 01:08, Alex Belits wrote:
->> > I think that the goal of "finding source of disturbance" interface
->> > is
->> > different from what can be accomplished by tracing in two ways:
->> > 
->> > 1. "Source of disturbance" should provide some useful information
->> > about
->> > category of event and it cause as opposed to determining all
->> > precise
->> > details about things being called that resulted or could result in
->> > disturbance. It should not depend on the user's knowledge about
->> > details
->> 
->> Tracepoints already give you selectively useful information.
->
-> Carefully placed tracepoints also can give the user information about
-> failures of open(), write(), execve() or mmap(). However syscalls still
-> provide an error code instead of returning generic failure and letting
-> user debug the cause.
+On Sat, Oct 17, 2020 at 8:09 PM Alexander Graf <graf@amazon.de> wrote:
+> There are applications way beyond that though. What do you do with
+> applications that already consumed randomness? For example a cached pool
+> of SSL keys. Or a higher level language primitive that consumes
+> randomness and caches its seed somewhere in an internal data structure.
 
-I have absolutely no idea what you are trying to tell me.
+For deterministic protection, those would also have to poll some
+memory location that tells them whether the VmGenID changed:
 
-Thanks,
+1. between reading entropy from their RNG pool and using it
+2. between collecting data from external sources (user input, clock,
+...) and encrypting it
 
-        tglx
+and synchronously shoot down the connection if a change happened. If
+e.g. an application inside the VM has an AES-GCM-encrypted TLS
+connection and, directly after the VM is restored, triggers an
+application-level timeout that sends some fixed message across the
+connection, then the TLS library must guarantee that either the VM was
+already committed to sending exactly that message before the VM was
+forked or the message will be blocked. If we don't do that, an
+attacker who captures both a single packet from the forked VM and
+traffic from the old VM can decrypt the next message from the old VM
+after the fork (because AES-GCM is like AES-CTR plus an authenticator,
+and CTR means that when keystream reuse occurs and one of the
+plaintexts is known, the attacker can simply recover the other
+plaintext using XOR).
+
+(Or maybe, in disaster failover environments, TLS 1.3 servers could
+get away with rekeying the connection instead of shooting it down? Ask
+your resident friendly cryptographer whether that would be secure, I
+am not one.)
+
+I don't think a mechanism based around asynchronously telling the
+application and waiting for it to confirm the rotation at a later
+point is going to cut it; we should have some hard semantics on when
+an application needs to poll this value.
+
+> Or even worse: your system's host ssh key.
+
+Mmmh... I think I normally would not want a VM to reset its host ssh
+key after merely restoring a snapshot though? And more importantly,
+Microsoft's docs say that they also change the VmGenID on disaster
+failover. I think you very much wouldn't want your server to lose its
+host key every time disaster failover happens. On the other hand,
+after importing a public VM image, it might be a good idea.
+
+I guess you could push that responsibility on the user, by adding an
+option to the sshd_config that tells OpenSSH whether the host key
+should be rotated on an ID change or not... but that still would not
+be particularly pretty.
+
+Ideally we would have the host tell us what type of events happened to
+the VM, or something like that... or maybe even get the host VM
+management software to ask the user whether they're importing a public
+image... I really feel like with Microsoft's current protocol, we
+don't get enough information to figure out what we should do about
+private long-term authentication keys.
