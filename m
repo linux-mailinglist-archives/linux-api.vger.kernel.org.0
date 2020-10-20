@@ -2,197 +2,834 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EA272938B6
-	for <lists+linux-api@lfdr.de>; Tue, 20 Oct 2020 12:01:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5468293DFC
+	for <lists+linux-api@lfdr.de>; Tue, 20 Oct 2020 15:58:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731387AbgJTKBG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 20 Oct 2020 06:01:06 -0400
-Received: from smtp-fw-33001.amazon.com ([207.171.190.10]:55864 "EHLO
-        smtp-fw-33001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728761AbgJTKBG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 20 Oct 2020 06:01:06 -0400
+        id S2407762AbgJTN6d (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 20 Oct 2020 09:58:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35180 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2407722AbgJTN6c (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 20 Oct 2020 09:58:32 -0400
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7D3BC0613CE
+        for <linux-api@vger.kernel.org>; Tue, 20 Oct 2020 06:58:30 -0700 (PDT)
+Received: by mail-ed1-x543.google.com with SMTP id dn5so1938951edb.10
+        for <linux-api@vger.kernel.org>; Tue, 20 Oct 2020 06:58:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
-  t=1603188065; x=1634724065;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=xYkebfF5v1VYrfmpt5H76y0GpMhcmAnnFxGU/jvjOsc=;
-  b=Qbiet4WZAFw+PqTjoZOhhRbkVP7PhTfhIKnfgsJ+AgEyth+eCouom0DQ
-   tm0icSLZ21QM23n7pW5B1JTywhStWP5Q38hoTqr7A4oVsjjLVlx/hSP39
-   KWeKVlH4xBFXzqptnZ49jQvcSbTEDUFItZIupvOfMwhZr20ZOHB39v3Qb
-   g=;
-X-IronPort-AV: E=Sophos;i="5.77,396,1596499200"; 
-   d="scan'208";a="85061117"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1a-821c648d.us-east-1.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-33001.sea14.amazon.com with ESMTP; 20 Oct 2020 10:00:58 +0000
-Received: from EX13MTAUWC002.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
-        by email-inbound-relay-1a-821c648d.us-east-1.amazon.com (Postfix) with ESMTPS id 6FE06A1DBD;
-        Tue, 20 Oct 2020 10:00:50 +0000 (UTC)
-Received: from EX13D20UWC001.ant.amazon.com (10.43.162.244) by
- EX13MTAUWC002.ant.amazon.com (10.43.162.240) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 20 Oct 2020 10:00:50 +0000
-Received: from Alexanders-MacBook-Air.local (10.43.161.237) by
- EX13D20UWC001.ant.amazon.com (10.43.162.244) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 20 Oct 2020 10:00:44 +0000
-Subject: Re: [PATCH] drivers/virt: vmgenid: add vm generation id driver
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Andy Lutomirski <luto@kernel.org>
-CC:     Jann Horn <jannh@google.com>,
-        "Catangiu, Adrian Costin" <acatan@amazon.com>,
-        Jason Donenfeld <Jason@zx2c4.com>,
-        Theodore Tso <tytso@mit.edu>, Willy Tarreau <w@1wt.eu>,
-        Eric Biggers <ebiggers@kernel.org>,
-        "open list, DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        <virtualization@lists.linux-foundation.org>,
-        "MacCarthaigh, Colm" <colmmacc@amazon.com>,
-        "Woodhouse, David" <dwmw@amazon.co.uk>, <bonzini@gnu.org>,
-        "Singh, Balbir" <sblbir@amazon.com>,
-        "Weiss, Radu" <raduweis@amazon.com>, <oridgar@gmail.com>,
-        <ghammer@redhat.com>, "Jonathan Corbet" <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <mst@redhat.com>, <qemu-devel@nongnu.org>,
-        KVM list <kvm@vger.kernel.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        linux-api <linux-api@vger.kernel.org>
-References: <788878CE-2578-4991-A5A6-669DCABAC2F2@amazon.com>
- <CAG48ez0EanBvDyfthe+hAP0OC8iGLNSq2e5wJVz-=ENNGF97_w@mail.gmail.com>
- <CALCETrViTg_BWvRa+nfDWq=_B_ithzL-anVJNpsgHaXe9VgCNQ@mail.gmail.com>
- <476895871.28084.1603127702969.JavaMail.zimbra@efficios.com>
-From:   Alexander Graf <graf@amazon.de>
-Message-ID: <487fd972-0d45-168b-af3d-6e67eb6d08d3@amazon.de>
-Date:   Tue, 20 Oct 2020 12:00:42 +0200
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.3.3
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=ppHWaSWUI0xLNx7UcvyvxyJpXKJ26tlxxJKAYv49UPU=;
+        b=pyVrDXIxIdBMOPBFucRjhvwf4dbPNGHHgn7ww2eFVnRgy8RA4m0LXvtvvvYxQ6IcsU
+         3fg/qsbpDEWBlm68cGFC/M8oU1sftT8fVMD/zcCeuY1lY/btYodtwFbIMAQAPxz2yCEm
+         eg6UO62Hwb4GptOXPJ70Hd3TTv2QIwiT5AkfNEMRCBzh+xjIIy+XIt6biSUfOB6B3RFw
+         W0S7qkJg+IPvCpQ6ZEzOBytci+P73G+JZoF4MMrMnQkJvKj/u7B+j9qvlQDQbSzM+lnX
+         ZQy3E/lk/qnatNs7WbIcXa+vlxtG8JynB0iNdKFGVHa54gIsxK+dumuH3Bx76uSNno0k
+         3l+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=ppHWaSWUI0xLNx7UcvyvxyJpXKJ26tlxxJKAYv49UPU=;
+        b=Bs8IUMfM+T6x70P5spC1a1KcXAYUqUEdNWn7kwl9vMJfG+SSC0h5Byl1auvMZyU+rN
+         RfL43kM7kiA8us8BgWxefsWRA81HLLsEuL/uk+UtVlDIe0KMX71hEe4BCJ+txrvMVr6W
+         yVjEFXvN4or9+W/2pbEQrz7hrWBNkIjzl0PvpJDDieCVIzDXvn8zGhvZQUFudmS4ByzA
+         6ed/0WfzmI5IjF7aNb/rtm+M/LlYAXb/4q/nOKlo1CFllOjd3ep/Tl/HZmGV5eqt7Nu6
+         utDWt8ptAFGwy1Rc0Rs2LJ7wvtzpABW9aHRQ5CyZw7Ezn4ohsp76m98Tyq3G+z8xpG55
+         Izxw==
+X-Gm-Message-State: AOAM531478XvMp10rFjiUHvYaW4ji9eVb16AHBrR+WosEwVUUtkT5YG1
+        TvteqgiTf1QZ86/Dixn0M1M4iA==
+X-Google-Smtp-Source: ABdhPJx1QBf1MIZcH4lh98xh4GxDnBLsiUjKILDHc9p9M8uwMzSb6uLkN29LKxHTBFW1F1g1ZH+iHw==
+X-Received: by 2002:aa7:ce18:: with SMTP id d24mr3043642edv.9.1603202309450;
+        Tue, 20 Oct 2020 06:58:29 -0700 (PDT)
+Received: from myrica ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
+        by smtp.gmail.com with ESMTPSA id e5sm2719044ejb.26.2020.10.20.06.58.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Oct 2020 06:58:28 -0700 (PDT)
+Date:   Tue, 20 Oct 2020 15:58:09 +0200
+From:   Jean-Philippe Brucker <jean-philippe@linaro.org>
+To:     Jacob Pan <jacob.pan.linux@gmail.com>
+Cc:     iommu@lists.linux-foundation.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        Joerg Roedel <joro@8bytes.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-api@vger.kernel.org,
+        Jean-Philippe Brucker <jean-philippe@linaro.com>,
+        Eric Auger <eric.auger@redhat.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        Yi Liu <yi.l.liu@intel.com>,
+        "Tian, Kevin" <kevin.tian@intel.com>,
+        Raj Ashok <ashok.raj@intel.com>, Wu Hao <hao.wu@intel.com>,
+        Yi Sun <yi.y.sun@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 01/14] docs: Document IO Address Space ID (IOASID) APIs
+Message-ID: <20201020135809.GA1515830@myrica>
+References: <1601329121-36979-1-git-send-email-jacob.jun.pan@linux.intel.com>
+ <1601329121-36979-2-git-send-email-jacob.jun.pan@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <476895871.28084.1603127702969.JavaMail.zimbra@efficios.com>
-Content-Language: en-US
-X-Originating-IP: [10.43.161.237]
-X-ClientProxiedBy: EX13D01UWB003.ant.amazon.com (10.43.161.94) To
- EX13D20UWC001.ant.amazon.com (10.43.162.244)
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: attachment
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1601329121-36979-2-git-send-email-jacob.jun.pan@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-CgpPbiAxOS4xMC4yMCAxOToxNSwgTWF0aGlldSBEZXNub3llcnMgd3JvdGU6Cj4gCj4gCj4gLS0t
-LS0gT24gT2N0IDE3LCAyMDIwLCBhdCAyOjEwIFBNLCBBbmR5IEx1dG9taXJza2kgbHV0b0BrZXJu
-ZWwub3JnIHdyb3RlOgo+IAo+PiBPbiBGcmksIE9jdCAxNiwgMjAyMCBhdCA2OjQwIFBNIEphbm4g
-SG9ybiA8amFubmhAZ29vZ2xlLmNvbT4gd3JvdGU6Cj4+Pgo+Pj4gW2FkZGluZyBzb21lIG1vcmUg
-cGVvcGxlIHdobyBhcmUgaW50ZXJlc3RlZCBpbiBSTkcgc3R1ZmY6IEFuZHksIEphc29uLAo+Pj4g
-VGhlb2RvcmUsIFdpbGx5IFRhcnJlYXUsIEVyaWMgQmlnZ2Vycy4gYWxzbyBsaW51eC1hcGlALCBi
-ZWNhdXNlIHRoaXMKPj4+IGNvbmNlcm5zIHNvbWUgcHJldHR5IGZ1bmRhbWVudGFsIEFQSSBzdHVm
-ZiByZWxhdGVkIHRvIFJORyB1c2FnZV0KPj4+Cj4+PiBPbiBGcmksIE9jdCAxNiwgMjAyMCBhdCA0
-OjMzIFBNIENhdGFuZ2l1LCBBZHJpYW4gQ29zdGluCj4+PiA8YWNhdGFuQGFtYXpvbi5jb20+IHdy
-b3RlOgo+Pj4+IC0gQmFja2dyb3VuZAo+Pj4+Cj4+Pj4gVGhlIFZNIEdlbmVyYXRpb24gSUQgaXMg
-YSBmZWF0dXJlIGRlZmluZWQgYnkgTWljcm9zb2Z0IChwYXBlcjoKPj4+PiBodHRwOi8vZ28ubWlj
-cm9zb2Z0LmNvbS9md2xpbmsvP0xpbmtJZD0yNjA3MDkpIGFuZCBzdXBwb3J0ZWQgYnkKPj4+PiBt
-dWx0aXBsZSBoeXBlcnZpc29yIHZlbmRvcnMuCj4+Pj4KPj4+PiBUaGUgZmVhdHVyZSBpcyByZXF1
-aXJlZCBpbiB2aXJ0dWFsaXplZCBlbnZpcm9ubWVudHMgYnkgYXBwcyB0aGF0IHdvcmsKPj4+PiB3
-aXRoIGxvY2FsIGNvcGllcy9jYWNoZXMgb2Ygd29ybGQtdW5pcXVlIGRhdGEgc3VjaCBhcyByYW5k
-b20gdmFsdWVzLAo+Pj4+IHV1aWRzLCBtb25vdG9uaWNhbGx5IGluY3JlYXNpbmcgY291bnRlcnMs
-IGV0Yy4KPj4+PiBTdWNoIGFwcHMgY2FuIGJlIG5lZ2F0aXZlbHkgYWZmZWN0ZWQgYnkgVk0gc25h
-cHNob3R0aW5nIHdoZW4gdGhlIFZNCj4+Pj4gaXMgZWl0aGVyIGNsb25lZCBvciByZXR1cm5lZCB0
-byBhbiBlYXJsaWVyIHBvaW50IGluIHRpbWUuCj4+Pj4KPj4+PiBUaGUgVk0gR2VuZXJhdGlvbiBJ
-RCBpcyBhIHNpbXBsZSBjb25jZXB0IG1lYW50IHRvIGFsbGV2aWF0ZSB0aGUgaXNzdWUKPj4+PiBi
-eSBwcm92aWRpbmcgYSB1bmlxdWUgSUQgdGhhdCBjaGFuZ2VzIGVhY2ggdGltZSB0aGUgVk0gaXMg
-cmVzdG9yZWQKPj4+PiBmcm9tIGEgc25hcHNob3QuIFRoZSBodyBwcm92aWRlZCBVVUlEIHZhbHVl
-IGNhbiBiZSB1c2VkIHRvCj4+Pj4gZGlmZmVyZW50aWF0ZSBiZXR3ZWVuIFZNcyBvciBkaWZmZXJl
-bnQgZ2VuZXJhdGlvbnMgb2YgdGhlIHNhbWUgVk0uCj4+Pj4KPj4+PiAtIFByb2JsZW0KPj4+Pgo+
-Pj4+IFRoZSBWTSBHZW5lcmF0aW9uIElEIGlzIGV4cG9zZWQgdGhyb3VnaCBhbiBBQ1BJIGRldmlj
-ZSBieSBtdWx0aXBsZQo+Pj4+IGh5cGVydmlzb3IgdmVuZG9ycyBidXQgbmVpdGhlciB0aGUgdmVu
-ZG9ycyBvciB1cHN0cmVhbSBMaW51eCBoYXZlIG5vCj4+Pj4gZGVmYXVsdCBkcml2ZXIgZm9yIGl0
-IGxlYXZpbmcgdXNlcnMgdG8gZmVuZCBmb3IgdGhlbXNlbHZlcy4KPj4+Pgo+Pj4+IEZ1cnRoZXJt
-b3JlLCBzaW1wbHkgZmluZGluZyBvdXQgYWJvdXQgYSBWTSBnZW5lcmF0aW9uIGNoYW5nZSBpcyBv
-bmx5Cj4+Pj4gdGhlIHN0YXJ0aW5nIHBvaW50IG9mIGEgcHJvY2VzcyB0byByZW5ldyBpbnRlcm5h
-bCBzdGF0ZXMgb2YgcG9zc2libHkKPj4+PiBtdWx0aXBsZSBhcHBsaWNhdGlvbnMgYWNyb3NzIHRo
-ZSBzeXN0ZW0uIFRoaXMgcHJvY2VzcyBjb3VsZCBiZW5lZml0Cj4+Pj4gZnJvbSBhIGRyaXZlciB0
-aGF0IHByb3ZpZGVzIGFuIGludGVyZmFjZSB0aHJvdWdoIHdoaWNoIG9yY2hlc3RyYXRpb24KPj4+
-PiBjYW4gYmUgZWFzaWx5IGRvbmUuCj4+Pj4KPj4+PiAtIFNvbHV0aW9uCj4+Pj4KPj4+PiBUaGlz
-IHBhdGNoIGlzIGEgZHJpdmVyIHdoaWNoIGV4cG9zZXMgdGhlIFZpcnR1YWwgTWFjaGluZSBHZW5l
-cmF0aW9uIElECj4+Pj4gdmlhIGEgY2hhci1kZXYgRlMgaW50ZXJmYWNlIHRoYXQgcHJvdmlkZXMg
-SUQgdXBkYXRlIHN5bmMgYW5kIGFzeW5jCj4+Pj4gbm90aWZpY2F0aW9uLCByZXRyaWV2YWwgYW5k
-IGNvbmZpcm1hdGlvbiBtZWNoYW5pc21zOgo+Pj4+Cj4+Pj4gV2hlbiB0aGUgZGV2aWNlIGlzICdv
-cGVuKCknZWQgYSBjb3B5IG9mIHRoZSBjdXJyZW50IHZtIFVVSUQgaXMKPj4+PiBhc3NvY2lhdGVk
-IHdpdGggdGhlIGZpbGUgaGFuZGxlLiAncmVhZCgpJyBvcGVyYXRpb25zIGJsb2NrIHVudGlsIHRo
-ZQo+Pj4+IGFzc29jaWF0ZWQgVVVJRCBpcyBubyBsb25nZXIgdXAgdG8gZGF0ZSAtIHVudGlsIEhX
-IHZtIGdlbiBpZCBjaGFuZ2VzIC0KPj4+PiBhdCB3aGljaCBwb2ludCB0aGUgbmV3IFVVSUQgaXMg
-cHJvdmlkZWQvcmV0dXJuZWQuIE5vbmJsb2NraW5nICdyZWFkKCknCj4+Pj4gdXNlcyBFV09VTERC
-TE9DSyB0byBzaWduYWwgdGhhdCB0aGVyZSBpcyBubyBfbmV3XyBVVUlEIGF2YWlsYWJsZS4KPj4+
-Pgo+Pj4+ICdwb2xsKCknIGlzIGltcGxlbWVudGVkIHRvIGFsbG93IHBvbGxpbmcgZm9yIFVVSUQg
-dXBkYXRlcy4gU3VjaAo+Pj4+IHVwZGF0ZXMgcmVzdWx0IGluICdFUE9MTElOJyBldmVudHMuCj4+
-Pj4KPj4+PiBTdWJzZXF1ZW50IHJlYWQoKXMgZm9sbG93aW5nIGEgVVVJRCB1cGRhdGUgbm8gbG9u
-Z2VyIGJsb2NrLCBidXQgcmV0dXJuCj4+Pj4gdGhlIHVwZGF0ZWQgVVVJRC4gVGhlIGFwcGxpY2F0
-aW9uIG5lZWRzIHRvIGFja25vd2xlZGdlIHRoZSBVVUlEIHVwZGF0ZQo+Pj4+IGJ5IGNvbmZpcm1p
-bmcgaXQgdGhyb3VnaCBhICd3cml0ZSgpJy4KPj4+PiBPbmx5IG9uIHdyaXRpbmcgYmFjayB0byB0
-aGUgZHJpdmVyIHRoZSByaWdodC9sYXRlc3QgVVVJRCwgd2lsbCB0aGUKPj4+PiBkcml2ZXIgbWFy
-ayB0aGlzICJ3YXRjaGVyIiBhcyB1cCB0byBkYXRlIGFuZCByZW1vdmUgRVBPTExJTiBzdGF0dXMu
-Cj4+Pj4KPj4+PiAnbW1hcCgpJyBzdXBwb3J0IGFsbG93cyBtYXBwaW5nIGEgc2luZ2xlIHJlYWQt
-b25seSBzaGFyZWQgcGFnZSB3aGljaAo+Pj4+IHdpbGwgYWx3YXlzIGNvbnRhaW4gdGhlIGxhdGVz
-dCBVVUlEIHZhbHVlIGF0IG9mZnNldCAwLgo+Pj4KPj4+IEl0IHdvdWxkIGJlIG5pY2VyIGlmIHRo
-YXQgcGFnZSBqdXN0IGNvbnRhaW5lZCBhbiBpbmNyZW1lbnRpbmcgY291bnRlciwKPj4+IGluc3Rl
-YWQgb2YgYSBVVUlELiBJdCdzIG5vdCBsaWtlIHRoZSBhcHBsaWNhdGlvbiBjYXJlcyAqd2hhdCog
-dGhlIFVVSUQKPj4+IGNoYW5nZWQgdG8sIGp1c3QgdGhhdCBpdCAqZGlkKiBjaGFuZ2UgYW5kIGFs
-bCBSTkdzIHN0YXRlIG5vdyBuZWVkcyB0bwo+Pj4gYmUgcmVzZWVkZWQgZnJvbSB0aGUga2VybmVs
-LCByaWdodD8gQW5kIGFuIGFwcGxpY2F0aW9uIGNhbid0IHJlbGlhYmx5Cj4+PiByZWFkIHRoZSBl
-bnRpcmUgVVVJRCBmcm9tIHRoZSBtZW1vcnkgbWFwcGluZyBhbnl3YXksIGJlY2F1c2UgdGhlIFZN
-Cj4+PiBtaWdodCBiZSBmb3JrZWQgaW4gdGhlIG1pZGRsZS4KPj4+Cj4+PiBTbyBJIHRoaW5rIHlv
-dXIga2VybmVsIGRyaXZlciBzaG91bGQgZGV0ZWN0IFVVSUQgY2hhbmdlcyBhbmQgdGhlbiB0dXJu
-Cj4+PiB0aG9zZSBpbnRvIGEgbW9ub3RvbmljYWxseSBpbmNyZW1lbnRpbmcgY291bnRlci4gKFBy
-b2JhYmx5IDY0IGJpdHMKPj4+IHdpZGU/KSAoVGhhdCdzIHByb2JhYmx5IGFsc28gYSBsaXR0bGUg
-Yml0IGZhc3RlciB0aGFuIGNvbXBhcmluZyBhbgo+Pj4gZW50aXJlIFVVSUQuKQo+Pj4KPj4+IEFu
-IG9wdGlvbiBtaWdodCBiZSB0byBwdXQgdGhhdCBjb3VudGVyIGludG8gdGhlIHZEU08sIGluc3Rl
-YWQgb2YgYQo+Pj4gc2VwYXJhdGUgVk1BOyBidXQgSSBkb24ndCBrbm93IGhvdyB0aGUgb3RoZXIg
-Zm9sa3MgZmVlbCBhYm91dCB0aGF0Lgo+Pj4gQW5keSwgZG8geW91IGhhdmUgb3BpbmlvbnMgb24g
-dGhpcz8gVGhhdCB3YXksIG5vcm1hbCB1c2Vyc3BhY2UgY29kZQo+Pj4gdGhhdCB1c2VzIHRoaXMg
-aW5mcmFzdHJ1Y3R1cmUgd291bGRuJ3QgaGF2ZSB0byBtZXNzIGFyb3VuZCB3aXRoIGEKPj4+IHNw
-ZWNpYWwgZGV2aWNlIGF0IGFsbC4gQW5kIGl0J2QgYmUgdXNhYmxlIGluIHNlY2NvbXAgc2FuZGJv
-eGVzIGFuZCBzbwo+Pj4gb24gd2l0aG91dCBuZWVkaW5nIHNwZWNpYWwgcGx1bWJpbmcuIEFuZCBs
-aWJyYXJpZXMgd291bGRuJ3QgaGF2ZSB0bwo+Pj4gY2FsbCBvcGVuKCkgYW5kIG1lc3Mgd2l0aCBm
-aWxlIGRlc2NyaXB0b3IgbnVtYmVycy4KPj4KPj4gVGhlIHZEU08gbWlnaHQgYmUgYW5ub3lpbmds
-eSBzbG93IGZvciB0aGlzLiAgU29tZXRoaW5nIGxpa2UgdGhlIHJzZXEKPj4gcGFnZSBtaWdodCBt
-YWtlIHNlbnNlLiAgSXQgY291bGQgYmUgYSBnZW5lcmljIGluZGljYXRpb24gb2YgInN5c3RlbQo+
-PiB3ZW50IHRocm91Z2ggc29tZSBmb3JtIG9mIHN1c3BlbmQiLgo+IAo+IFRoaXMgbWlnaHQgaW5k
-ZWVkIGZpdCBuaWNlbHkgYXMgYW4gZXh0ZW5zaW9uIG9mIG15IEtUTFMgcHJvdG90eXBlIChleHRl
-bnNpYmxlIHJzZXEpOgo+IAo+IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xrbWwvMjAyMDA5MjUx
-ODE1MTguNDE0MS0xLW1hdGhpZXUuZGVzbm95ZXJzQGVmZmljaW9zLmNvbS8KPiAKPiBUaGVyZSBh
-cmUgYSBmZXcgd2F5cyB3ZSBjb3VsZCB3aXJlIHRoaW5ncyB1cC4gT25lIG1pZ2h0IGJlIHRvIGFk
-ZCB0aGUKPiBVVUlEIGZpZWxkIGludG8gdGhlIGV4dGVuZGVkIEtUTFMgc3RydWN0dXJlIChzbyBp
-dCdzIGFsd2F5cyB1cGRhdGVkIGFmdGVyIGl0Cj4gY2hhbmdlcyBvbiBuZXh0IHJldHVybiB0byB1
-c2VyLXNwYWNlKS4gRm9yIHRoaXMgSSBhc3N1bWUgdGhhdCB0aGUgTGludXggc2NoZWR1bGVyCgpJ
-IHRoaW5rIG9uZSB0aGF0IHRoYXQgYmVjYW1lIGFwcGFyZW50IGluIHRoZSBkaXNjdXNzaW9uIGlu
-IHRoaXMgdGhyZWFkIAp3YXMgdGhhdCB3ZSB3YW50IGEgTGludXggaW50ZXJuYWwgZ2VuZXJhdGlv
-biBjb3VudGVyIHJhdGhlciB0aGFuIGV4cG9zZSAKdGhlIFVVSUQgdmVyYmF0aW0uIFRoYXQgd2F5
-LCB3ZSBkb24ndCBnaXZlIGF3YXkgcG90ZW50aWFsIHNlY3JldHMgdG8gCnVzZXIgc3BhY2UgYW5k
-IHdlIGNhbiBzdXBwb3J0IG90aGVyIGFyY2hpdGVjdHVyZXMgbW9yZSBlYXNpbHkuCgo+IHdpdGhp
-biB0aGUgZ3Vlc3QgVk0gYWx3YXlzIHByZWVtcHRzIGFsbCB0aHJlYWRzIGJlZm9yZSBhIFZNIGlz
-IHN1c3BlbmRlZCAoaXMgdGhhdAo+IGluZGVlZCB0cnVlID8pLgoKVGhlIFZNIGRvZXMgbm90IGtu
-b3cgdGhhdCBpdCBnZXRzIHNuYXBzaG90dGVkLiBJdCBvbmx5IGtub3dzIHRoYXQgaXQgCmdldHMg
-cmVzdW1lZCAodGhyb3VnaCB0aGlzIGludGVyZmFjZSkuCgo+IFRoaXMgbGVhZHMgdG8gb25lIGlt
-cG9ydGFudCBxdWVzdGlvbiB0aG91Z2g6IGhvdyBpcyB0aGUgVVVJRCBjaGVjayB2cyBjb21taXQg
-b3BlcmF0aW9uCj4gbWFkZSBhdG9taWMgd2l0aCByZXNwZWN0IHRvIHN1c3BlbmQgPyBVbmxlc3Mg
-d2UgdXNlIHJzZXEgY3JpdGljYWwgc2VjdGlvbnMgaW4gYXNzZW1ibHksCj4gd2hlcmUgdGhlIGtl
-cm5lbCB3aWxsIGFib3J0IHRoZSByc2VxIGNyaXRpY2FsIHNlY3Rpb24gb24gcHJlZW1wdGlvbiwg
-SSBkb24ndCBzZWUgaG93IHdlCj4gY2FuIGVuc3VyZSB0aGF0IHRoZSBVVUlEIHZhbHVlIGRvZXMg
-bm90IGNoYW5nZSByaWdodCBhZnRlciBpdCBoYXMgYmVlbiBjaGVja2VkLCBiZWZvcmUKPiB0aGUg
-ImNvbW1pdCIgc2lkZS1lZmZlY3QuIEFuZCB3aGF0IGlzIHRoZSBleHBlY3RlZCAiY29tbWl0IiBz
-aWRlLWVmZmVjdCA/IElzIGl0IGEgc3RvcmUKPiB0byBhIHZhcmlhYmxlIGluIHVzZXItc3BhY2Ug
-bWVtb3J5LCBvciBpcyBpdCBpc3N1aW5nIGEgc3lzdGVtIGNhbGwgd2hpY2ggc2VuZHMgYSBwYWNr
-ZXQgb3Zlcgo+IHRoZSBuZXR3b3JrID8KCkkgdGhpbmsgdGhlIGVhc2llc3QgYW5zd2VyIEkgY291
-bGQgY29tZSB1cCB3aXRoIGhlcmUgd291bGQgYmUgIm1ha2UgaXQgYSAKdTMyIi4gVGhlbiB5b3Ug
-Y2FuIGp1c3QgYWNjZXNzIGl0IGF0b21pY2FsbHkgYW55d2hlcmUsIG5vPwoKVGhlIGJ1cmRlbiBv
-biB1c2VyIHNwYWNlIHdpdGggc3VjaCBhbiBpbnRlcmZhY2UgaXMgc3RpbGwgcHJldHR5IGhpZ2gg
-CnRob3VnaC4gQWxsIHVzZXIgc3BhY2UgdGhhdCB3YW50cyB0byBkbyBhICJ0cmFuc2FjdGlvbiIg
-YmFzZWQgb24gc2VjcmV0cyAKd291bGQgbm93IG5lZWQgdG8gcmVhZCB0aGUgZ2VuZXJhdGlvbiBJ
-RCBhdCB0aGUgYmVnaW5uaW5nIG9mIHRoZSAKdHJhbnNhY3Rpb24gYW5kIGRvdWJsZSBjaGVjayB3
-aGV0aGVyIGl0J3Mgc3RpbGwgdGhlIHNhbWUgYXQgdGhlIGVuZCBvZiAKaXQgKGUuZy4gYmVmb3Jl
-IHNlbmRpbmcgb3V0IGEgbmV0d29yayBwYWNrZXQgYmFzZWQgb24gYSBrZXkgZGVyaXZlZCBmcm9t
-IApyYW5kb21uZXNzPykuCgoKQWxleAoKCgpBbWF6b24gRGV2ZWxvcG1lbnQgQ2VudGVyIEdlcm1h
-bnkgR21iSApLcmF1c2Vuc3RyLiAzOAoxMDExNyBCZXJsaW4KR2VzY2hhZWZ0c2Z1ZWhydW5nOiBD
-aHJpc3RpYW4gU2NobGFlZ2VyLCBKb25hdGhhbiBXZWlzcwpFaW5nZXRyYWdlbiBhbSBBbXRzZ2Vy
-aWNodCBDaGFybG90dGVuYnVyZyB1bnRlciBIUkIgMTQ5MTczIEIKU2l0ejogQmVybGluClVzdC1J
-RDogREUgMjg5IDIzNyA4NzkKCgo=
+On Mon, Sep 28, 2020 at 02:38:28PM -0700, Jacob Pan wrote:
+> IOASID is used to identify address spaces that can be targeted by device
+> DMA. It is a system-wide resource that is essential to its many users.
+> This document is an attempt to help developers from all vendors navigate
+> the APIs. At this time, ARM SMMU and Intel’s Scalable IO Virtualization
+> (SIOV) enabled platforms are the primary users of IOASID. Examples of
+> how SIOV components interact with IOASID APIs are provided in that many
+> APIs are driven by the requirements from SIOV.
+> 
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+> Signed-off-by: Wu Hao <hao.wu@intel.com>
+> Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
 
+This looks good to me, with small comments below.
+
+> ---
+>  Documentation/driver-api/ioasid.rst | 648 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 648 insertions(+)
+>  create mode 100644 Documentation/driver-api/ioasid.rst
+> 
+> diff --git a/Documentation/driver-api/ioasid.rst b/Documentation/driver-api/ioasid.rst
+> new file mode 100644
+> index 000000000000..7f8e702997ab
+> --- /dev/null
+> +++ b/Documentation/driver-api/ioasid.rst
+> @@ -0,0 +1,648 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +.. ioasid:
+> +
+> +===================
+> +IO Address Space ID
+> +===================
+> +
+> +IOASID is a generic name for PCIe Process Address ID (PASID) or ARM
+> +SMMU SubstreamID. An IOASID identifies an address space that DMA
+> +requests can target.
+> +
+> +The primary use cases for IOASID are Shared Virtual Address (SVA) and
+> +multiple IOVA spaces per device. However, the requirements for IOASID
+> +management can vary among hardware architectures.
+> +
+> +For baremetal IOVA, IOASID #0 is used for DMA request without
+
+       bare metal
+
+> +PASID. Even though some architectures such as VT-d also offers
+> +the flexibility of using any PASIDs for DMA request without PASID.
+> +PASID #0 is reserved and not allocated from any ioasid_set.
+> +
+> +Multiple IOVA spaces per device are mapped to auxiliary domains which
+> +can be used for mediated device assignment with and without a virtual
+> +IOMMU (vIOMMU). An IOASID is allocated for each auxiliary domain as default
+> +PASID. Without vIOMMU, default IOASID is used for DMA map/unmap
+> +APIs. With vIOMMU, default IOASID is used for guest IOVA where DMA
+> +request with PASID is required for the device. The reason is that
+> +there is only one PASID #0 per device, e.g. VT-d, RID_PASID is per PCI
+
+                                               on VT-d
+
+> +device.
+> +
+> +This document covers the generic features supported by IOASID
+> +APIs. Vendor-specific use cases are also illustrated with Intel's VT-d
+> +based platforms as the first example.
+> +
+> +.. contents:: :local:
+> +
+> +Glossary
+> +========
+> +PASID - Process Address Space ID
+> +
+> +IOASID - IO Address Space ID (generic term for PCIe PASID and
+> +SubstreamID in SMMU)
+> +
+> +SVA/SVM - Shared Virtual Addressing/Memory
+> +
+> +ENQCMD - Intel X86 ISA for efficient workqueue submission [1]
+> +!!!TODO: Link to Spec at the bottom
+
+Yes, or maybe hyperlinks at the end of this section would be better. There
+are references and lists all over the document so keeping things as close
+as possible avoids confusion.
+
+> +
+> +DSA - Intel Data Streaming Accelerator [2]
+> +
+> +VDCM - Virtual Device Composition Module [3]
+> +
+> +SIOV - Intel Scalable IO Virtualization
+> +
+> +
+> +Key Concepts
+> +============
+> +
+> +IOASID Set
+> +-----------
+> +An IOASID set is a group of IOASIDs allocated from the system-wide
+> +IOASID pool. Refer to IOASID set APIs for more details.
+
+                         IOASID Set Level APIs
+
+> +
+> +IOASID set is particularly useful for guest SVA where each guest could
+> +have its own IOASID set for security and efficiency reasons.
+> +
+> +IOASID Set Private ID (SPID)
+> +----------------------------
+> +Each IOASID set has a private namespace of SPIDs. An SPID maps to a
+> +single system-wide IOASID. Conversely, each IOASID may be associated
+> +with an alias ID, local to the IOASID set, named SPID.
+> +SPIDs can be used as guest IOASIDs where each guest could do
+> +IOASID allocation from its own pool and map them to host physical
+> +IOASIDs. SPIDs are particularly useful for supporting live migration
+> +where decoupling guest and host physical resources are necessary.
+> +
+> +For example, two VMs can both allocate guest PASID/SPID #101 but map to
+> +different host PASIDs #201 and #202 respectively as shown in the
+> +diagram below.
+> +::
+> +
+> + .------------------.    .------------------.
+> + |   VM 1           |    |   VM 2           |
+> + |                  |    |                  |
+> + |------------------|    |------------------|
+> + | GPASID/SPID 101  |    | GPASID/SPID 101  |
+> + '------------------'    -------------------'     Guest
+> + __________|______________________|____________________
+> +           |                      |               Host
+> +           v                      v
+> + .------------------.    .------------------.
+> + | Host IOASID 201  |    | Host IOASID 202  |
+> + '------------------'    '------------------'
+> + |   IOASID set 1   |    |   IOASID set 2   |
+> + '------------------'    '------------------'
+> +
+> +Guest PASID is treated as IOASID set private ID (SPID) within an
+> +IOASID set, mappings between guest and host IOASIDs are stored in the
+> +set for inquiry.
+> +
+> +IOASID APIs
+> +===========
+> +To get the IOASID APIs, users must #include <linux/ioasid.h>. These APIs
+> +serve the following functionalities:
+> +
+> +  - IOASID allocation/Free
+
+                         freeing (or release)
+
+> +  - Group management in the form of ioasid_set
+> +  - Private data storage and lookup
+> +  - Reference counting
+> +  - Event notification in case of a state change
+> +
+> +IOASID Set Level APIs
+> +--------------------------
+> +For use cases such as guest SVA it is necessary to manage IOASIDs at
+> +ioasid_set level. For example, VMs may allocate multiple IOASIDs for
+> +guest process address sharing (vSVA). It is imperative to enforce
+> +VM-IOASID ownership such that a malicious guest cannot target DMA
+> +traffic outside its own IOASIDs, or free an active IOASID that belongs
+> +to another VM.
+> +
+> +The IOASID set APIs serve the following purposes:
+> +
+> + - Ownership/permission enforcement
+> + - Take collective actions, e.g. free an entire set
+> + - Event notifications within a set
+> + - Look up a set based on token
+> + - Quota enforcement
+> +
+> +Each IOASID set is created with a token, which can be one of the
+> +following token types:
+> +
+> + - IOASID_SET_TYPE_NULL (Arbitrary u64 value)
+
+Maybe NULL isn't the best name then. NONE?
+
+> + - IOASID_SET_TYPE_MM (Set token is a mm_struct)
+> +
+> +The explicit MM token type is useful when multiple users of an IOASID
+> +set under the same process need to communicate about their shared IOASIDs.
+> +E.g. An IOASID set created by VFIO for one guest can be associated
+> +with the KVM instance for the same guest since they share a common mm_struct.
+> +A token must be unique within its type.
+> +
+> +::
+> +
+> + struct ioasid_set *ioasid_alloc_set(void *token, ioasid_t quota, u32 type)
+> +
+> + int ioasid_adjust_set(struct ioasid_set *set, int quota);
+> +
+> + void ioasid_set_get(struct ioasid_set *set)
+> +
+> + void ioasid_set_put(struct ioasid_set *set)
+> +
+> + void ioasid_set_get_locked(struct ioasid_set *set)
+> +
+> + void ioasid_set_put_locked(struct ioasid_set *set)
+> +
+> + int ioasid_set_for_each_ioasid(struct ioasid_set *set,
+> +                                void (*fn)(ioasid_t id, void *data),
+> +				void *data)
+
+misaligned
+
+> +
+> +
+> +Individual IOASID APIs
+> +----------------------
+> +Once an ioasid_set is created, IOASIDs can be allocated from the set.
+> +Within the IOASID set namespace, set private ID (SPID) is supported. In
+> +the VM use case, SPID can be used for storing guest PASID.
+> +
+> +::
+> +
+> + ioasid_t ioasid_alloc(struct ioasid_set *set, ioasid_t min, ioasid_t max,
+> +                       void *private);
+> +
+> + int ioasid_get(struct ioasid_set *set, ioasid_t ioasid);
+> +
+> + void ioasid_put(struct ioasid_set *set, ioasid_t ioasid);
+> +
+> + int ioasid_get_locked(struct ioasid_set *set, ioasid_t ioasid);
+> +
+> + void ioasid_put_locked(struct ioasid_set *set, ioasid_t ioasid);
+> +
+> + void *ioasid_find(struct ioasid_set *set, ioasid_t ioasid,
+> +                   bool (*getter)(void *));
+> +
+> + ioasid_t ioasid_find_by_spid(struct ioasid_set *set, ioasid_t spid)
+> +
+> + int ioasid_attach_data(struct ioasid_set *set, ioasid_t ioasid,
+> +                        void *data);
+> + int ioasid_attach_spid(struct ioasid_set *set, ioasid_t ioasid,
+> +                        ioasid_t spid);
+> +
+> +
+> +Notifications
+> +-------------
+> +An IOASID may have multiple users, each user may have hardware context
+> +associated with an IOASID. When the status of an IOASID changes,
+> +e.g. an IOASID is being freed, users need to be notified such that the
+> +associated hardware context can be cleared, flushed, and drained.
+> +
+> +::
+> +
+> + int ioasid_register_notifier(struct ioasid_set *set, struct
+> +                              notifier_block *nb)
+> +
+> + void ioasid_unregister_notifier(struct ioasid_set *set,
+> +                                 struct notifier_block *nb)
+> +
+> + int ioasid_register_notifier_mm(struct mm_struct *mm, struct
+> +                                 notifier_block *nb)
+> +
+> + void ioasid_unregister_notifier_mm(struct mm_struct *mm, struct
+> +                                    notifier_block *nb)
+> +
+> + int ioasid_notify(ioasid_t ioasid, enum ioasid_notify_val cmd,
+> +                   unsigned int flags)
+> +
+> +"_mm" flavor of the ioasid_register_notifier() APIs are used when
+> +an IOASID user need to listen to the IOASID events belong to a
+> +process but without the knowledge of the associated ioasid_set.
+> +
+> +Events
+> +~~~~~~
+> +Notification events are pertinent to individual IOASIDs, they can be
+> +one of the following:
+> +
+> + - ALLOC
+> + - FREE
+> + - BIND
+> + - UNBIND
+> +
+> +Ordering
+> +~~~~~~~~
+> +Ordering is supported by IOASID notification priorities as the
+> +following (in ascending order):
+> +
+> +::
+> +
+> + enum ioasid_notifier_prios {
+> +	IOASID_PRIO_LAST,
+> +	IOASID_PRIO_IOMMU,
+> +	IOASID_PRIO_DEVICE,
+> +	IOASID_PRIO_CPU,
+> + };
+> +
+> +When registered, notifiers are assigned a priority that affect the
+> +call order. For example, notifiers with CPU priority get called before
+> +notifiers with device priority and so on.
+> +
+> +The typical use case is when an IOASID is freed due to an exception, DMA
+> +source should be quiesced before tearing down other hardware contexts
+> +in the system. This will reduce the churn in handling faults. DMA work
+> +submission is performed by the CPU which is granted higher priority than
+> +devices.
+> +
+> +Level Sensitivity
+> +~~~~~~~~~~~~~~~~~
+> +For each IOASID state transition, IOASID core ensures that there is
+> +only one notification sent. This resembles level triggered interrupt
+> +where a single interrupt is raised during a state transition.
+> +For example, if ioasid_free() is called twice by a user before the
+> +IOASID is reclaimed, IOASID core will only send out a single
+> +IOASID_NOTIFY_FREE event. Similarly, for IOASID_NOTIFY_BIND/UNBIND
+> +events, which is only sent out once when a SPID is attached/detached.
+> +
+> +IOASID notifications cannot be sent directly by IOASID users, they are
+> +sent out by the IOASID core as a by-product of the following APIs:
+> +- ioasid_alloc/free(), emit IOASID_NOTIFY_ALLOC/FREE
+> +- ioasid_attach/detach_spid() emit IOASID_NOTIFY_BIND/UNBIND
+> +
+> +Scopes
+> +~~~~~~
+> +There are two types of notifiers in IOASID core: system-wide and
+> +ioasid_set-wide.
+> +
+> +System-wide notifier is catering for users that need to handle all the
+> +IOASIDs in the system. E.g. The IOMMU driver.
+> +
+> +Per ioasid_set notifier can be used by VM specific components such as
+> +KVM. After all, each KVM instance only cares about IOASIDs within its
+> +own set/guest.
+> +
+> +
+> +Atomicity
+> +~~~~~~~~~
+> +IOASID notifiers are atomic due to spinlocks used inside the IOASID
+> +core. For tasks that cannot be completed in the notifier handler,
+> +async work can be submitted to complete the work later as long as
+> +there is no ordering requirement.
+> +
+> +Reference counting
+> +------------------
+> +IOASID lifecycle management is based on reference counting. Users of
+> +IOASID who intend to align lifecycle with the IOASID need to hold
+> +a reference of the IOASID. The IOASID will not be returned to the pool
+> +for allocation until all references are dropped. Calling ioasid_free()
+> +will mark the IOASID as FREE_PENDING if the IOASID has outstanding
+> +references. No new references can be taken by ioasid_get() once an
+> +IOASID is in the FREE_PENDING state. ioasid_free() can be called
+> +multiple times without an error until all refs are dropped.
+> +
+> +ioasid_put() decrements and tests refcount of the IOASID. If refcount
+> +is 0, ioasid will be freed. Deleted from the system-wide xarray as
+> +well as per set xarray.
+
+These xarray structures haven't been introduced so far. I would leave out
+this level of detail because it's not relevant to the user and will be
+difficult to keep in sync with the internals of IOASID.
+
+> The IOASID will be returned to the pool and
+> +available for new allocations.
+> +
+> +Event notifications are used to inform users of IOASID status change.
+> +IOASID_FREE event prompts users to drop their references after
+> +clearing its context.
+> +
+> +For example, on VT-d platform when an IOASID is freed, teardown
+> +actions are performed on KVM, device driver (VDCM), and the IOMMU
+> +driver. To quiesce VCPU for work submission, KVM notifier handler must
+> +be called before VDCM handler. Therefore, KVM and VDCM shall use
+> +notification priority IOASID_PRIO_CPU andIOASID_PRIO_DEVICE
+
+                                         and IOASID_PRIO_DEVICE
+
+> +respectively.
+> +
+> +For both KVM and VDCM, notifier blocks shall be registered on the
+> +IOASID set such that *only* events from the matching VM are received.
+> +
+> +If KVM attempts to register a notifier block before the IOASID set is
+> +created using the MM token, the notifier block will be placed on a
+> +pending list inside IOASID core. Once the token matching IOASID set
+> +is created, IOASID will register the notifier block automatically.
+> +IOASID core does not replay events for the existing IOASIDs in the
+> +set. For IOASID set of MM type, notification blocks can be registered
+> +on empty sets only. This is to avoid lost events.
+> +
+> +IOMMU driver shall register notifier block on global chain::
+> +
+> + static struct notifier_block pasid_nb_vtd = {
+> +	.notifier_call = pasid_status_change_vtd,
+> +	.priority      = IOASID_PRIO_IOMMU,
+> + };
+> +
+> +Custom allocator APIs
+> +---------------------
+> +
+> +::
+> +
+> + int ioasid_register_allocator(struct ioasid_allocator_ops *allocator);
+> +
+> + void ioasid_unregister_allocator(struct ioasid_allocator_ops *allocator);
+> +
+> +Allocator Choices
+> +~~~~~~~~~~~~~~~~~
+> +IOASIDs are allocated for both host and guest SVA/IOVA usage. However,
+> +allocators can be different. For example, on VT-d guest PASID
+> +allocation must be performed via a virtual command interface which is
+> +emulated by VMM.
+> +
+> +IOASID core has the notion of "custom allocator" such that guest can
+> +register virtual command allocator that precedes the default one.
+
+"Supersedes", rather than "precedes"?
+
+> +
+> +Namespaces
+> +~~~~~~~~~~
+> +IOASIDs are limited system resources that default to 20 bits in
+> +size. Each device can have its own PASID table for security reasons.
+> +Theoretically the namespace can be per device also.
+> +
+> +However IOASID namespace is system-wide for two reasons:
+> +- Simplicity
+> +- Sharing resources of a single device to multiple VMs.
+> +
+> +Take VT-d as an example, VT-d supports shared workqueue and ENQCMD[1]
+> +where one IOASID could be used to submit work on multiple devices that
+> +are shared with other VMs. This requires IOASID to be
+> +system-wide. This is also the reason why guests must use an
+> +emulated virtual command interface to allocate IOASID from the host.
+> +
+> +Life cycle
+> +==========
+> +This section covers IOASID life cycle management for both bare-metal
+> +and guest usages. In bare-metal SVA, MMU notifier is directly hooked
+> +up with IOMMU driver, therefore the IOASID life cycle matches the
+> +process address space (MM) life cycle.
+> +
+> +However, guest MMU notifier is not available to host IOMMU driver,
+> +when guest MM terminates unexpectedly, the events have to go through
+> +VFIO and IOMMU UAPI to reach host IOMMU driver. There are also more
+> +parties involved in guest SVA, e.g. on Intel VT-d platform, IOASIDs
+> +are used by IOMMU driver, KVM, VDCM, and VFIO.
+> +
+> +Native IOASID Life Cycle (VT-d Example)
+> +---------------------------------------
+> +
+> +The normal flow of native SVA code with Intel Data Streaming
+> +Accelerator(DSA) [2] as example:
+> +
+> +1. Host user opens accelerator FD, e.g. DSA driver, or uacce;
+> +2. DSA driver allocate WQ, do sva_bind_device();
+> +3. IOMMU driver calls ioasid_alloc(), then bind PASID with device,
+> +   mmu_notifier_get()
+> +4. DMA starts by DSA driver userspace
+> +5. DSA userspace close FD
+> +6. DSA/uacce kernel driver handles FD.close()
+> +7. DSA driver stops DMA
+> +8. DSA driver calls sva_unbind_device();
+> +9. IOMMU driver does unbind, clears PASID context in IOMMU, flush
+> +   TLBs. mmu_notifier_put() called.
+> +10. mmu_notifier.release() called, IOMMU SVA code calls ioasid_free()*
+> +11. The IOASID is returned to the pool, reclaimed.
+> +
+> +::
+> +
+> +   * With ENQCMD, PASID used on VT-d is not released in mmu_notifier() but
+> +     mmdrop(). mmdrop comes after FD close which does not make a difference.
+> +
+> +During the normal teardown, the following three key steps would happen in
+> +order: (7), (9), (11).
+> +
+> +Exception happens when process terminates *before* device driver stops
+> +DMA and call IOMMU driver to unbind. The detailed flow of process
+> +exits are as follows:
+> +
+> +::
+> +
+> +   do_exit() {
+> +	exit_mm() {
+> +		mm_put();
+> +		exit_mmap() {
+> +			intel_invalidate_range() //mmu notifier
+> +			tlb_finish_mmu()
+> +			mmu_notifier_release(mm) {
+> +				intel_mm_release() {
+> +   (9)					intel_iommu_teardown_pasid();
+> +                                        intel_iommu_flush_tlbs();
+> +				}
+> +				// tlb_invalidate_range cb removed
+> +			}
+> +			unmap_vmas();
+> +                        free_pgtables(); // IOMMU cannot walk PGT after this
+
+or rather, it *must* not walk PGT at this point? PGT should be disabled on
+the IOMMU side at step 9, before the TLB invalidation
+
+> +		};
+> +	}
+> +	exit_files(tsk) {
+> +		close_files() {
+> +			dsa_close();
+> +   (7)			dsa_stop_dma();
+> +                        intel_svm_unbind_pasid(); //nothing to do
+> +		}
+> +	}
+> +   }
+> +
+> +   mmdrop() /* some random time later, lazy mm user */ {
+> +   	mm_free_pgd();
+> +        destroy_context(mm); {
+> +   (11)	        ioasid_free();
+> +	}
+> +   }
+> +
+> +As shown in the list above, step #2 could happen before
+> +#1. Unrecoverable(UR) faults could happen between #2 and #1.
+> +Fault processing is disabled by the IOMMU driver in #2, therefore the UR
+> +fault never reaches the driver.
+
+Did you mean steps (7) and (9) instead for #1 and #2?
+
+> +
+> +
+> +Also notice that TLB invalidation occurs at mmu_notifier
+> +invalidate_range callback as well as the release callback. The reason
+> +is that release callback will delete IOMMU driver from the notifier
+> +chain which may skip invalidate_range() calls during the exit path.
+
+I think this whole section also goes too deep in implementation details,
+and is susceptible to become out of sync with the code pretty quickly.
+I don't feel strongly about this, though, leave it if you want.
+
+> +
+> +To avoid unnecessary reporting of UR fault, IOMMU driver shall disable
+> +fault reporting after free and before unbind.
+> +
+> +Guest IOASID Life Cycle (VT-d Example)
+> +--------------------------------------
+> +Guest IOASID life cycle starts with guest driver open(), this could be
+> +uacce or individual accelerator driver such as DSA. At FD open,
+> +sva_bind_device() is called which triggers a series of actions.
+> +
+> +The example below is an illustration of *normal* operations that
+> +involves *all* the SW components in VT-d. The flow can be simpler if
+> +no ENQCMD is supported.
+> +
+> +::
+> +
+> +     VFIO        IOMMU        KVM        VDCM        IOASID       Ref
+> +   ..................................................................
+> +   1             ioasid_register_notifier/_mm()
+> +   2 ioasid_alloc()                                               1
+> +   3 bind_gpasid()
+> +   4             iommu_bind()->ioasid_get()                       2
+> +   5             ioasid_notify(BIND)
+> +   6                          -> ioasid_get()                     3
+> +   7                          -> vmcs_update_atomic()
+> +   8 mdev_write(gpasid)
+> +   9                                    hpasid=
+> +   10                                   find_by_spid(gpasid)      4
+
+Are 9 and 10 the same step?
+
+> +   11                                   vdev_write(hpasid)
+
+What's the 'v' in vdev? Aren't we writing to the physical device here?
+
+> +   12 -------- GUEST STARTS DMA --------------------------
+> +   13 -------- GUEST STOPS DMA --------------------------
+> +   14 mdev_clear(gpasid)
+> +   15                                   vdev_clear(hpasid)
+> +   16                                   ioasid_put()               3
+> +   17 unbind_gpasid()
+> +   18            iommu_ubind()
+> +   19            ioasid_notify(UNBIND)
+> +   20                          -> vmcs_update_atomic()
+> +   21                          -> ioasid_put()                     2
+> +   22 ioasid_free()                                                1
+> +   23            ioasid_put()                                      0
+> +   24                                                 Reclaimed
+> +   -------------- New Life Cycle Begin ----------------------------
+> +   1  ioasid_alloc()                                  ->           1
+> +
+> +   Note: IOASID Notification Events: FREE, BIND, UNBIND
+
+Is FREE at step 22?
+
+> +
+> +Exception cases arise when a guest crashes or a malicious guest
+> +attempts to cause disruption on the host system. The fault handling
+> +rules are:
+> +
+> +1. IOASID free must *always* succeed.
+> +2. An inactive period may be required before the freed IOASID is
+> +   reclaimed. During this period, consumers of IOASID perform cleanup.
+> +3. Malfunction is limited to the guest owned resources for all
+> +   programming errors.
+> +
+> +The primary source of exception is when the following are out of
+> +order:
+> +
+> +1. Start/Stop of DMA activity
+> +   (Guest device driver, mdev via VFIO)
+> +2. Setup/Teardown of IOMMU PASID context, IOTLB, DevTLB flushes
+> +   (Host IOMMU driver bind/unbind)
+> +3. Setup/Teardown of VMCS PASID translation table entries (KVM) in
+> +   case of ENQCMD
+> +4. Programming/Clearing host PASID in VDCM (Host VDCM driver)
+> +5. IOASID alloc/free (Host IOASID)
+> +
+> +VFIO is the *only* user-kernel interface, which is ultimately
+> +responsible for exception handling.
+> +
+> +#1 is processed the same way as the assigned device today based on
+> +device file descriptors and events. There is no special handling.
+> +
+> +#3 is based on bind/unbind events emitted by #2.
+> +
+> +#4 is naturally aligned with IOASID life cycle in that an illegal
+> +guest PASID programming would fail in obtaining reference of the
+> +matching host IOASID.
+> +
+> +#5 is similar to #4. The fault will be reported to the user if PASID
+> +used in the ENQCMD is not set up in VMCS PASID translation table.
+> +
+> +Therefore, the remaining out of order problem is between #2 and
+> +#5. I.e. unbind vs. free. More specifically, free before unbind.
+> +
+> +IOASID notifier and refcounting are used to ensure order. Following
+> +a publisher-subscriber pattern where:
+> +
+> +- Publishers: VFIO & IOMMU
+> +- Subscribers: KVM, VDCM, IOMMU
+> +
+> +IOASID reference must be acquired before receiving the FREE event. The
+> +reference must be dropped at the end of the processing in order to
+> +return the IOASID to the pool.
+> +
+> +Let's examine the IOASID life cycle again when free happens *before*
+> +unbind. This could be a result of misbehaving guests or crash. Assuming
+> +VFIO cannot enforce unbind->free order. Notice that the setup part up
+> +until step #12 is identical to the normal case, the flow below starts
+> +with step 13.
+> +
+> +::
+> +
+> +     VFIO        IOMMU        KVM        VDCM        IOASID       Ref
+> +   ..................................................................
+> +   13 -------- GUEST STARTS DMA --------------------------
+> +   14 -------- *GUEST MISBEHAVES!!!* ----------------
+> +   15 ioasid_free()
+> +   16                                             ioasid_notify(FREE)
+> +   17                                             mark_free_pending (1)
+
+Could we use superscript ¹²³⁴ for footnotes? These look like function
+parameters
+
+> +   18                          kvm_nb_handler(FREE)
+> +   19                          vmcs_update_atomic()
+> +   20                          ioasid_put_locked()   ->           3
+> +   21                                   vdcm_nb_handler(FREE)
+> +   22            iomm_nb_handler(FREE)
+
+iommu_nb_handler
+
+> +   23 ioasid_free() returns(2)          schedule_work()           2
+
+I completely lost track here, couldn't figure out in which direction to
+read the diagram. What work is scheduled? Why does the IOMMU driver drop
+its reference to the IOASID before unbdind_gpasid()?
+
+> +   24            schedule_work()        vdev_clear_wk(hpasid)
+> +   25            teardown_pasid_wk()
+> +   26                                   ioasid_put() ->           1
+> +   27            ioasid_put()                                     0
+> +   28                                                 Reclaimed
+> +   29 unbind_gpasid()
+> +   30            iommu_unbind()->ioasid_find() Fails(3)
+> +   -------------- New Life Cycle Begin ----------------------------
+> +
+> +Note:
+> +
+> +1. By marking IOASID FREE_PENDING at step #17, no new references can be
+> +   held. ioasid_get/find() will return -ENOENT;
+
+s/held/taken
+
+Thanks,
+Jean
+
+> +2. After step #23, all events can go out of order. Shall not affect
+> +   the outcome.
+> +3. IOMMU driver fails to find private data for unbinding. If unbind is
+> +   called after the same IOASID is allocated for the same guest again,
+> +   this is a programming error. The damage is limited to the guest
+> +   itself since unbind performs permission checking based on the
+> +   IOASID set associated with the guest process.
+> +4. Workqueues are used by VDCM and IOMMU driver for processing that
+> +   requires thread context.
+> +
+> +
+> +KVM PASID Translation Table Updates
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +Per VM PASID translation table is maintained by KVM in order to
+> +support ENQCMD in the guest. The table contains host-guest PASID
+> +translations to be consumed by CPU ucode. The synchronization of the
+> +PASID states depends on VFIO/IOMMU driver, where IOCTL and atomic
+> +notifiers are used. KVM must register IOASID notifier per VM instance
+> +during launch time. The following events are handled:
+> +
+> +1. BIND/UNBIND
+> +2. FREE
+> +
+> +Rules:
+> +
+> +1. Multiple devices can bind with the same PASID, this can be different PCI
+> +   devices or mdevs within the same PCI device. However, only the
+> +   *first* BIND and *last* UNBIND emit notifications.
+> +2. IOASID code is responsible for ensuring the correctness of H-G
+> +   PASID mapping. There is no need for KVM to validate the
+> +   notification data.
+> +3. When UNBIND happens *after* FREE, KVM will see error in
+> +   ioasid_get() even when the reclaim is not done. IOMMU driver will
+> +   also avoid sending UNBIND if the PASID is already FREE.
+> +4. When KVM terminates *before* FREE & UNBIND, references will be
+> +   dropped for all host PASIDs.
+> +
+> +VDCM PASID Programming
+> +~~~~~~~~~~~~~~~~~~~~~~
+> +VDCM composes virtual devices and exposes them to the guests. When
+> +the guest allocates a PASID then program it to the virtual device, VDCM
+> +intercepts the programming attempt then programs the matching host
+> +PASID on to the hardware.
+> +Conversely, when a device is going away, VDCM must be informed such
+> +that PASID context on the hardware can be cleared. There could be
+> +multiple mdevs assigned to different guests in the same VDCM. Since
+> +the PASID table is shared at PCI device level, lazy clearing is not
+> +secure. A malicious guest can attack by using newly freed PASIDs that
+> +are allocated by another guest.
+> +
+> +By holding a reference of the PASID until VDCM cleans up the HW context,
+> +it is guaranteed that PASID life cycles do not cross within the same
+> +device.
+> +
+> +
+> +Reference
+> +====================================================
+> +1. https://software.intel.com/sites/default/files/managed/c5/15/architecture-instruction-set-extensions-programming-reference.pdf
+> +
+> +2. https://01.org/blogs/2019/introducing-intel-data-streaming-accelerator
+> +
+> +3. https://software.intel.com/en-us/download/intel-data-streaming-accelerator-preliminary-architecture-specification
+> -- 
+> 2.7.4
+> 
