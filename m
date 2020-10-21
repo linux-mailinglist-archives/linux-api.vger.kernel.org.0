@@ -2,303 +2,208 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BD1BB294F57
-	for <lists+linux-api@lfdr.de>; Wed, 21 Oct 2020 16:58:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4200F2950FB
+	for <lists+linux-api@lfdr.de>; Wed, 21 Oct 2020 18:40:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2442799AbgJUO6V (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 21 Oct 2020 10:58:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41418 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2442789AbgJUO6V (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 21 Oct 2020 10:58:21 -0400
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4160AC0613CF
-        for <linux-api@vger.kernel.org>; Wed, 21 Oct 2020 07:58:21 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id l16so2918092eds.3
-        for <linux-api@vger.kernel.org>; Wed, 21 Oct 2020 07:58:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=974kBlJ63qD5EYogdaxTOFg/LSMsXr6xzzQDrgDmhVo=;
-        b=TdPu+ofWfrp0hwZWxhUq2KJS2zjbi8MrOCRcvRVvru7pOPrruypz9/Jga2crVESF3W
-         Sgd6gNwn7b7g9HAdaUgq69DALhZenDShkEzj4sDr70Ktq2eS4TH9j3nCiZ+Ibr20uv48
-         2HdetkUPnrVr5uz+ySBJQPe84nLfS3V5hAPiynmVgfOx/+drK4mGICmVHXYFm89vTnmV
-         bRqtXTZEi2o4y8N/WmwOj1JlaunStuLcIkFSdWKD+ZTiThH7GDgkq+hlLcz6bgp+gVb5
-         JbOCGDSRnGNAFRWdG7pgjKtDmuvnG3YvittRYtVL7MSYHQsNN/WjH7tiKbJ23OMmJSV2
-         0qbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=974kBlJ63qD5EYogdaxTOFg/LSMsXr6xzzQDrgDmhVo=;
-        b=MdRSbBC6shFL2e7/+DY9nBBMiWfiJzCsH5HXiQdKQwk2VNSnwJxWPiL0szUcgjsfIv
-         DZeZe1Rtj/TDPqauo4sdhvo170FH3HDWF+V6pXSxOXsqaQFX/uXfAM+hoEqiXsklaUrm
-         KKrLsBBagIwUEsD68uBTmLLgcCjQgFY/DIM6Nn9tKg6PuBipIJ5hjiaVPFLsVxg4GoIf
-         U/AJqG/Td+Wy8vs9hXZ9TWlGVZLK2xaYLuZ0N5kSNl+X+KKWr7DNYKtgnvtqqI48oCyH
-         KsSA1dYcjejiCQMYxVDcdHQimMDZUxn9jlp/V/XsIJfJ1WydCjfS6ZMx2P/AmO9M/gpD
-         t/dg==
-X-Gm-Message-State: AOAM530xeUDDnoy5jG3wncmgPAEFLxu/2vvShUc6nRbS41BZbkpuHU68
-        RCvfdYluPsAG9CAQh48qW9nM8w==
-X-Google-Smtp-Source: ABdhPJyd8qNnKzXbBi18/h0hVzpH2outHPyVpO68TJvh4T7AJopg7XFZjjhKPN7GZcGnnukbpphClw==
-X-Received: by 2002:a05:6402:3191:: with SMTP id di17mr3387453edb.376.1603292299867;
-        Wed, 21 Oct 2020 07:58:19 -0700 (PDT)
-Received: from myrica ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
-        by smtp.gmail.com with ESMTPSA id n25sm2377864ejd.114.2020.10.21.07.58.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2020 07:58:19 -0700 (PDT)
-Date:   Wed, 21 Oct 2020 16:58:00 +0200
-From:   Jean-Philippe Brucker <jean-philippe@linaro.org>
-To:     Jacob Pan <jacob.pan.linux@gmail.com>
-Cc:     iommu@lists.linux-foundation.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-api@vger.kernel.org,
-        Jean-Philippe Brucker <jean-philippe@linaro.com>,
-        Eric Auger <eric.auger@redhat.com>,
-        Jacob Pan <jacob.jun.pan@linux.intel.com>,
-        Yi Liu <yi.l.liu@intel.com>,
-        "Tian, Kevin" <kevin.tian@intel.com>,
-        Raj Ashok <ashok.raj@intel.com>, Wu Hao <hao.wu@intel.com>,
-        Yi Sun <yi.y.sun@intel.com>, Dave Jiang <dave.jiang@intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v3 08/14] iommu/ioasid: Add reference couting functions
-Message-ID: <20201021145800.GF1653231@myrica>
-References: <1601329121-36979-1-git-send-email-jacob.jun.pan@linux.intel.com>
- <1601329121-36979-9-git-send-email-jacob.jun.pan@linux.intel.com>
+        id S2503106AbgJUQjv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 21 Oct 2020 12:39:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59114 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731154AbgJUQju (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 21 Oct 2020 12:39:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1603298387;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=YklPv8/0OmCyptwlWRuggJNTmVWGoVbcydh3UqMAmHw=;
+        b=NpjyFbNCsIK++Au5ZBhZQ2KM8/IgQsJOnOBnKvVFmD/k/Ak/rvt7pma+tdsNE7tW48sqqi
+        BnX870V6sv8l8Auc6SmHi/Js+6P7ikr8sidTf897p/h5jrx8S/dagqVcxfp14PQOvWKHLm
+        C503Zh3OHOikq82Dk/ima6wgBkmiaVU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-359-jJiRbKeWMNqcOmXwf7GJ-g-1; Wed, 21 Oct 2020 12:39:43 -0400
+X-MC-Unique: jJiRbKeWMNqcOmXwf7GJ-g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 969AB5F9C1;
+        Wed, 21 Oct 2020 16:39:41 +0000 (UTC)
+Received: from madcap2.tricolour.ca (unknown [10.10.110.2])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 2BC5E27CC1;
+        Wed, 21 Oct 2020 16:39:28 +0000 (UTC)
+Date:   Wed, 21 Oct 2020 12:39:26 -0400
+From:   Richard Guy Briggs <rgb@redhat.com>
+To:     Paul Moore <paul@paul-moore.com>
+Cc:     nhorman@tuxdriver.com, linux-api@vger.kernel.org,
+        containers@lists.linux-foundation.org,
+        LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
+        Linux-Audit Mailing List <linux-audit@redhat.com>,
+        netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
+        simo@redhat.com, netdev@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
+        mpatel@redhat.com, Serge Hallyn <serge@hallyn.com>
+Subject: Re: [PATCH ghak90 V9 05/13] audit: log container info of syscalls
+Message-ID: <20201021163926.GA3929765@madcap2.tricolour.ca>
+References: <cover.1593198710.git.rgb@redhat.com>
+ <6e2e10432e1400f747918eeb93bf45029de2aa6c.1593198710.git.rgb@redhat.com>
+ <CAHC9VhSCm5eeBcyY8bBsnxr-hK4rkso9_NJHJec2OXLu4m5QTA@mail.gmail.com>
+ <20200729194058.kcbsqjhzunjpipgm@madcap2.tricolour.ca>
+ <CAHC9VhRUwCKBjffA_XNSjUwvUn8e6zfmy8WD203dK7R2KD0__g@mail.gmail.com>
+ <20201002195231.GH2882171@madcap2.tricolour.ca>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1601329121-36979-9-git-send-email-jacob.jun.pan@linux.intel.com>
+In-Reply-To: <20201002195231.GH2882171@madcap2.tricolour.ca>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Sep 28, 2020 at 02:38:35PM -0700, Jacob Pan wrote:
-> There can be multiple users of an IOASID, each user could have hardware
-> contexts associated with the IOASID. In order to align lifecycles,
-> reference counting is introduced in this patch. It is expected that when
-> an IOASID is being freed, each user will drop a reference only after its
-> context is cleared.
+On 2020-10-02 15:52, Richard Guy Briggs wrote:
+> On 2020-08-21 15:15, Paul Moore wrote:
+> > On Wed, Jul 29, 2020 at 3:41 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > On 2020-07-05 11:10, Paul Moore wrote:
+> > > > On Sat, Jun 27, 2020 at 9:22 AM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > 
+> > ...
+> > 
+> > > > > diff --git a/kernel/auditsc.c b/kernel/auditsc.c
+> > > > > index f03d3eb0752c..9e79645e5c0e 100644
+> > > > > --- a/kernel/auditsc.c
+> > > > > +++ b/kernel/auditsc.c
+> > > > > @@ -1458,6 +1466,7 @@ static void audit_log_exit(void)
+> > > > >         struct audit_buffer *ab;
+> > > > >         struct audit_aux_data *aux;
+> > > > >         struct audit_names *n;
+> > > > > +       struct audit_contobj *cont;
+> > > > >
+> > > > >         context->personality = current->personality;
+> > > > >
+> > > > > @@ -1541,7 +1550,7 @@ static void audit_log_exit(void)
+> > > > >         for (aux = context->aux_pids; aux; aux = aux->next) {
+> > > > >                 struct audit_aux_data_pids *axs = (void *)aux;
+> > > > >
+> > > > > -               for (i = 0; i < axs->pid_count; i++)
+> > > > > +               for (i = 0; i < axs->pid_count; i++) {
+> > > > >                         if (audit_log_pid_context(context, axs->target_pid[i],
+> > > > >                                                   axs->target_auid[i],
+> > > > >                                                   axs->target_uid[i],
+> > > > > @@ -1549,14 +1558,20 @@ static void audit_log_exit(void)
+> > > > >                                                   axs->target_sid[i],
+> > > > >                                                   axs->target_comm[i]))
+> > > > >                                 call_panic = 1;
+> > > > > +                       audit_log_container_id(context, axs->target_cid[i]);
+> > > > > +               }
+> > > >
+> > > > It might be nice to see an audit event example including the
+> > > > ptrace/signal information.  I'm concerned there may be some confusion
+> > > > about associating the different audit container IDs with the correct
+> > > > information in the event.
+> > >
+> > > This is the subject of ghat81, which is a test for ptrace and signal
+> > > records.
+> > >
+> > > This was the reason I had advocated for an op= field since there is a
+> > > possibility of multiple contid records per event.
+> > 
+> > I think an "op=" field is the wrong way to link audit container ID to
+> > a particular record.  It may be convenient, but I fear that it would
+> > be overloading the field too much.
 > 
-> Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> ---
->  drivers/iommu/ioasid.c | 117 +++++++++++++++++++++++++++++++++++++++++++++++++
->  include/linux/ioasid.h |  24 ++++++++++
->  2 files changed, 141 insertions(+)
+> Ok, after looking at the field dictionary how about item, rel, ref or rec?
+> Item perhaps could be added to the OBJ_PID records, but that might be
+> overloading a field that is already used in PATH records.  "rel" for
+> relates-to, "ref" for reference to, "rec" for record...  Perhaps pid=
+> would be enough to tie this record to the OBJ_PID record or the SYSCALL
+> record, but in the case of network events, the pid may refer to a kernel
+> thread.
 > 
-> diff --git a/drivers/iommu/ioasid.c b/drivers/iommu/ioasid.c
-> index 9628e78b2ab4..828cc44b1b1c 100644
-> --- a/drivers/iommu/ioasid.c
-> +++ b/drivers/iommu/ioasid.c
-> @@ -16,8 +16,26 @@ static ioasid_t ioasid_capacity = PCI_PASID_MAX;
->  static ioasid_t ioasid_capacity_avail = PCI_PASID_MAX;
->  static DEFINE_XARRAY_ALLOC(ioasid_sets);
->  
-> +enum ioasid_state {
-> +	IOASID_STATE_INACTIVE,
-> +	IOASID_STATE_ACTIVE,
-> +	IOASID_STATE_FREE_PENDING,
-> +};
-> +
-> +/**
-> + * struct ioasid_data - Meta data about ioasid
-> + *
-> + * @id:		Unique ID
-> + * @users:	Number of active users
-> + * @state:	Track state of the IOASID
-> + * @set:	ioasid_set of the IOASID belongs to
-> + * @private:	Private data associated with the IOASID
-> + * @rcu:	For free after RCU grace period
-> + */
->  struct ioasid_data {
->  	ioasid_t id;
-> +	refcount_t users;
-> +	enum ioasid_state state;
->  	struct ioasid_set *set;
->  	void *private;
->  	struct rcu_head rcu;
-> @@ -511,6 +529,8 @@ ioasid_t ioasid_alloc(struct ioasid_set *set, ioasid_t min, ioasid_t max,
->  		goto exit_free;
->  	}
->  	data->id = id;
-> +	data->state = IOASID_STATE_ACTIVE;
-> +	refcount_set(&data->users, 1);
->  
->  	/* Store IOASID in the per set data */
->  	if (xa_err(xa_store(&set->xa, id, data, GFP_ATOMIC))) {
-> @@ -560,6 +580,14 @@ static void ioasid_free_locked(struct ioasid_set *set, ioasid_t ioasid)
->  	if (WARN_ON(!xa_load(&ioasid_sets, data->set->id)))
->  		return;
->  
-> +	/* Free is already in progress */
-> +	if (data->state == IOASID_STATE_FREE_PENDING)
-> +		return;
-
-But the previous call to ioasid_free_locked() dropped a reference, then
-returned because more refs where held. Shouldn't this call also
-dec_and_test() the reference and call ioasid_do_free_locked() if
-necessary?
-
-> +
-> +	data->state = IOASID_STATE_FREE_PENDING;
-> +	if (!refcount_dec_and_test(&data->users))
-> +		return;
-> +
->  	ioasid_do_free_locked(data);
->  }
->  
-> @@ -717,6 +745,95 @@ void ioasid_set_for_each_ioasid(struct ioasid_set *set,
->  }
->  EXPORT_SYMBOL_GPL(ioasid_set_for_each_ioasid);
->  
-> +int ioasid_get_locked(struct ioasid_set *set, ioasid_t ioasid)
-> +{
-> +	struct ioasid_data *data;
-> +
-> +	data = xa_load(&active_allocator->xa, ioasid);
-> +	if (!data) {
-> +		pr_err("Trying to get unknown IOASID %u\n", ioasid);
-> +		return -EINVAL;
-> +	}
-> +	if (data->state == IOASID_STATE_FREE_PENDING) {
-> +		pr_err("Trying to get IOASID being freed%u\n", ioasid);
-
-Strange placement of the %u
-
-> +		return -EBUSY;
-> +	}
-> +
-> +	/* Check set ownership if the set is non-null */
-> +	if (set && data->set != set) {
-> +		pr_err("Trying to get IOASID %u outside the set\n", ioasid);
-> +		/* data found but does not belong to the set */
-> +		return -EACCES;
-> +	}
-> +	refcount_inc(&data->users);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(ioasid_get_locked);
-
-If this is a public facing let's add a lockdep_assert_held() to make sure
-they do hold the right lock. Same for ioasid_put_locked().
-
-Thanks,
-Jean
-
-> +
-> +/**
-> + * ioasid_get - Obtain a reference to an ioasid
-> + * @set:	the ioasid_set to check permission against if not NULL
-> + * @ioasid:	the ID to remove
-> + *
-> + *
-> + * Return: 0 on success, error if failed.
-> + */
-> +int ioasid_get(struct ioasid_set *set, ioasid_t ioasid)
-> +{
-> +	int ret;
-> +
-> +	spin_lock(&ioasid_allocator_lock);
-> +	ret = ioasid_get_locked(set, ioasid);
-> +	spin_unlock(&ioasid_allocator_lock);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(ioasid_get);
-> +
-> +bool ioasid_put_locked(struct ioasid_set *set, ioasid_t ioasid)
-> +{
-> +	struct ioasid_data *data;
-> +
-> +	data = xa_load(&active_allocator->xa, ioasid);
-> +	if (!data) {
-> +		pr_err("Trying to put unknown IOASID %u\n", ioasid);
-> +		return false;
-> +	}
-> +	if (set && data->set != set) {
-> +		pr_err("Trying to drop IOASID %u outside the set\n", ioasid);
-> +		return false;
-> +	}
-> +	if (!refcount_dec_and_test(&data->users))
-> +		return false;
-> +
-> +	ioasid_do_free_locked(data);
-> +
-> +	return true;
-> +}
-> +EXPORT_SYMBOL_GPL(ioasid_put_locked);
-> +
-> +/**
-> + * ioasid_put - Release a reference to an ioasid
-> + * @set:	the ioasid_set to check permission against if not NULL
-> + * @ioasid:	the ID to remove
-> + *
-> + * Put a reference to the IOASID, free it when the number of references drops to
-> + * zero.
-> + *
-> + * Return: %true if the IOASID was freed, %false otherwise.
-> + */
-> +bool ioasid_put(struct ioasid_set *set, ioasid_t ioasid)
-> +{
-> +	bool ret;
-> +
-> +	spin_lock(&ioasid_allocator_lock);
-> +	ret = ioasid_put_locked(set, ioasid);
-> +	spin_unlock(&ioasid_allocator_lock);
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(ioasid_put);
-> +
->  /**
->   * ioasid_find - Find IOASID data
->   * @set: the IOASID set
-> diff --git a/include/linux/ioasid.h b/include/linux/ioasid.h
-> index aab58bc26714..16d421357173 100644
-> --- a/include/linux/ioasid.h
-> +++ b/include/linux/ioasid.h
-> @@ -73,6 +73,10 @@ void *ioasid_find(struct ioasid_set *set, ioasid_t ioasid,
->  		  bool (*getter)(void *));
->  int ioasid_register_allocator(struct ioasid_allocator_ops *allocator);
->  void ioasid_unregister_allocator(struct ioasid_allocator_ops *allocator);
-> +int ioasid_get(struct ioasid_set *set, ioasid_t ioasid);
-> +int ioasid_get_locked(struct ioasid_set *set, ioasid_t ioasid);
-> +bool ioasid_put(struct ioasid_set *set, ioasid_t ioasid);
-> +bool ioasid_put_locked(struct ioasid_set *set, ioasid_t ioasid);
->  int ioasid_attach_data(ioasid_t ioasid, void *data);
->  void ioasid_detach_data(ioasid_t ioasid);
->  void ioasid_set_for_each_ioasid(struct ioasid_set *sdata,
-> @@ -112,6 +116,26 @@ static inline void ioasid_set_put(struct ioasid_set *set)
->  {
->  }
->  
-> +static inline int ioasid_get(struct ioasid_set *set, ioasid_t ioasid)
-> +{
-> +	return -ENOTSUPP;
-> +}
-> +
-> +static inline int ioasid_get_locked(struct ioasid_set *set, ioasid_t ioasid)
-> +{
-> +	return -ENOTSUPP;
-> +}
-> +
-> +static inline bool ioasid_put(struct ioasid_set *set, ioasid_t ioasid)
-> +{
-> +	return false;
-> +}
-> +
-> +static inline bool ioasid_put_locked(struct ioasid_set *set, ioasid_t ioasid)
-> +{
-> +	return false;
-> +}
-> +
->  static inline void *ioasid_find(struct ioasid_set *set, ioasid_t ioasid, bool (*getter)(void *))
->  {
->  	return NULL;
-> -- 
-> 2.7.4
+> > Like I said above, I think it would be good to see an audit event
+> > example including the ptrace/signal information.  This way we can talk
+> > about it on-list and hash out the various solutions if it proves to be
+> > a problem.
 > 
+> See the list posting from 2020-09-29 "auditing signals" pointing to
+> ghat81 test case about testing ptrace and signals from 18 months ago.
+> 
+> I think I have a way to generate a signal to multiple targets in one
+> syscall...  The added challenge is to also give those targets different
+> audit container identifiers.
+
+Here is an exmple I was able to generate after updating the testsuite
+script to include a signalling example of a nested audit container
+identifier:
+
+----
+type=PROCTITLE msg=audit(2020-10-21 10:31:16.655:6731) : proctitle=/usr/bin/perl -w containerid/test
+type=CONTAINER_ID msg=audit(2020-10-21 10:31:16.655:6731) : contid=7129731255799087104^3333941723245477888
+type=OBJ_PID msg=audit(2020-10-21 10:31:16.655:6731) : opid=115583 oauid=root ouid=root oses=1 obj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 ocomm=perl
+type=CONTAINER_ID msg=audit(2020-10-21 10:31:16.655:6731) : contid=3333941723245477888
+type=OBJ_PID msg=audit(2020-10-21 10:31:16.655:6731) : opid=115580 oauid=root ouid=root oses=1 obj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 ocomm=perl
+type=CONTAINER_ID msg=audit(2020-10-21 10:31:16.655:6731) : contid=8098399240850112512^3333941723245477888
+type=OBJ_PID msg=audit(2020-10-21 10:31:16.655:6731) : opid=115582 oauid=root ouid=root oses=1 obj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 ocomm=perl
+type=SYSCALL msg=audit(2020-10-21 10:31:16.655:6731) : arch=x86_64 syscall=kill success=yes exit=0 a0=0xfffe3c84 a1=SIGTERM a2=0x4d524554 a3=0x0 items=0 ppid=115564 pid=115567 auid=root uid=root gid=root euid=root suid=root fsuid=root egid=root sgid=root fsgid=root tty=ttyS0 ses=1 comm=perl exe=/usr/bin/perl subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 key=testsuite-1603290671-AcLtUulY                     
+----
+
+There are three CONTAINER_ID records which need some way of associating with OBJ_PID records.  An additional CONTAINER_ID record would be present if the killing process itself had an audit container identifier.  I think the most obvious way to connect them is with a pid= field in the CONTAINER_ID record.
+
+> > > > > @@ -1575,6 +1590,14 @@ static void audit_log_exit(void)
+> > > > >
+> > > > >         audit_log_proctitle();
+> > > > >
+> > > > > +       rcu_read_lock();
+> > > > > +       cont = _audit_contobj_get(current);
+> > > > > +       rcu_read_unlock();
+> > > > > +       audit_log_container_id(context, cont);
+> > > > > +       rcu_read_lock();
+> > > > > +       _audit_contobj_put(cont);
+> > > > > +       rcu_read_unlock();
+> > > >
+> > > > Do we need to grab an additional reference for the audit container
+> > > > object here?  We don't create any additional references here that
+> > > > persist beyond the lifetime of this function, right?
+> > >
+> > > Why do we need another reference?  There's one for each pointer pointing
+> > > to it and so far we have just one from this task.  Or are you thinking
+> > > of the contid hash list, which is only added to when a task points to it
+> > > and gets removed from that list when the last task stops pointing to it.
+> > > Later that gets more complicated with network namespaces and nested
+> > > container objects.  For now we just needed it while generating the
+> > > record, then it gets freed.
+> > 
+> > I don't think we need to grab an additional reference here, that is
+> > why I asked the question.  The code above grabs a reference for the
+> > audit container ID object associated with the current task and then
+> > drops it before returning; if the current task, and it's associated
+> > audit container ID object, disappears in the middle of the function
+> > we've got much bigger worries :)
+> 
+> I misunderstood your question previously thinking you wanted yet another
+> reference taken in this case, when in fact it was the opposite and you
+> thought the one taken here was superfluous.
+> 
+> I don't *need* to grab the additional references here, but those are the
+> accessor functions that exist, so I either create sub-accessor functions
+> without the refcount manipulations that called from the primary accessor
+> functions or open code a reduncancy...  The locking has been updated to
+> protect the _put by a spin-lock.  Now that I look at it, the 4th to 7th
+> lines could be bypassed by a cont == NULL check.
+> 
+> It is somewhat hidden now since this sequence of 7 commands has been
+> abstracted into another function that is called from a second location.
+> 
+> > paul moore
+> 
+> - RGB
+
+- RGB
+
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
+
