@@ -2,187 +2,227 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A532E294270
-	for <lists+linux-api@lfdr.de>; Tue, 20 Oct 2020 20:48:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DDC3E294F3B
+	for <lists+linux-api@lfdr.de>; Wed, 21 Oct 2020 16:55:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437595AbgJTSsB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 20 Oct 2020 14:48:01 -0400
-Received: from mail.efficios.com ([167.114.26.124]:36852 "EHLO
-        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2437713AbgJTSr7 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 20 Oct 2020 14:47:59 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id C440C2DD550;
-        Tue, 20 Oct 2020 14:47:57 -0400 (EDT)
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id icPB035Au0zd; Tue, 20 Oct 2020 14:47:57 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 3E6482DD726;
-        Tue, 20 Oct 2020 14:47:57 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 3E6482DD726
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1603219677;
-        bh=0G55Jjn+yLDTEo95H/YMY9F6JPADwDSbuwGNt0k6SXk=;
-        h=Date:From:To:Message-ID:MIME-Version;
-        b=OTU3/AMQIYUoqdwfh2PdKV1GQ7jHj34ZYf2SlbsgfYtKVThUkR9TV6v9jpF1dhrRH
-         zOCKlMnhzptwj/sxL12cHRwM3o+aiEa0xBqMpF9cPR6KIQ8Gqqd+sIhiQ4TIcaT5gH
-         d6NJnVx8wlcwXwDrInz+0kHT52RErZbaJhsERQYSVGQ9/VUYqbRoNAEzs/8umtmJcZ
-         mmzMYns6wop3n4zdP3aKqmJqGcVWei+D0hC+Q+yyXNJeN8I9Ixd4p1vp3YvfzVsJGz
-         OFIGRUV/rA4lITr2cJlUWC0pmohrLkyRDRFGJ2vRlu5qNRAi5aQSWz6X3Yd3aofz5q
-         Sv0vRFFWU3htg==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id dQDrfJVEjK7e; Tue, 20 Oct 2020 14:47:57 -0400 (EDT)
-Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
-        by mail.efficios.com (Postfix) with ESMTP id 2DB262DD7A6;
-        Tue, 20 Oct 2020 14:47:57 -0400 (EDT)
-Date:   Tue, 20 Oct 2020 14:47:57 -0400 (EDT)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        paulmck <paulmck@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        linux-api <linux-api@vger.kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        carlos <carlos@redhat.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>
-Message-ID: <1247061646.32339.1603219677094.JavaMail.zimbra@efficios.com>
-In-Reply-To: <873631yp8t.fsf@oldenburg2.str.redhat.com>
-References: <20200925181518.4141-1-mathieu.desnoyers@efficios.com> <87r1qm2atk.fsf@oldenburg2.str.redhat.com> <905713397.71512.1601314192367.JavaMail.zimbra@efficios.com> <873631yp8t.fsf@oldenburg2.str.redhat.com>
-Subject: Re: [RFC PATCH 1/2] rseq: Implement KTLS prototype for x86-64
+        id S2443778AbgJUOy7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 21 Oct 2020 10:54:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40872 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2443653AbgJUOy6 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 21 Oct 2020 10:54:58 -0400
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77557C0613CF
+        for <linux-api@vger.kernel.org>; Wed, 21 Oct 2020 07:54:58 -0700 (PDT)
+Received: by mail-ej1-x641.google.com with SMTP id e22so3684585ejr.4
+        for <linux-api@vger.kernel.org>; Wed, 21 Oct 2020 07:54:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=BFCPvM2IrIxIbO/NAcdmKF4cshlij12nw9Eb0WJDBag=;
+        b=gtraypYYX1Ts6KvEYPbWTw38IGVzD3hSarSd3/Gs5PLsvUR0OJ0quvcAk1qwBnB4eV
+         E6qili6MZI8oOMOUenDUtlxhJb7rLtMhImtFofl3fq/Na6Udq4wr+05g5K2MG7pmP/Fk
+         RIHSA1rm2s1ZRNmzGRZNvWpdiQSwFlRvi6DermMxq3byJLg7xzP9CMBhShZCDU1o8M1T
+         GUWKNZwGtrolIY/ZUpP470LmDY13GXicW2Bv5diWJg+EykFuwV+jXR7apuP4VOJLEUAZ
+         hTJYD2Y4TV4wKdvro4O4firrBitP8OqhnYCK6S4JlxRC0w9Q1lfqmkNteDpRRdVtOu0M
+         xhBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=BFCPvM2IrIxIbO/NAcdmKF4cshlij12nw9Eb0WJDBag=;
+        b=f2jL6S9tHVNGnsGnd+Zl29MFXnHKomc9W9rThffwOB99IAx3TxzyWmMI90vzJrDLyj
+         4hRqCuN6XCw8bcOkJl9ydPIGlu/rxt5pXD3fRLlA9fi0wbYIE+nDq0yL9PTJMTFHEMyi
+         c9nS7dZEEbIOD2X6kdAWgVYctHWk4jddAvtLgvHaLEpIrEPgdv8oo9U2RFmK6kIujPnQ
+         eiJOYTIwcOflOAn82TxUWrs4BhYc221NialhdRYQaopbqt5cDvEot8u6VyiyWas/KMVP
+         UvhxLrLHLc2LyVoC/mxxcvWxMbTsHnMsAAHTdIGbRleT2Dh2Luc9bUCqjEPOYrr1AlSn
+         v+2g==
+X-Gm-Message-State: AOAM5308i4cKA2rLHAmd3VZjAwQYz3wVqFkVCo49g6xBMzJMeJX4Cgru
+        CD0aN1ouv/WHLtVrNl8hatig7A==
+X-Google-Smtp-Source: ABdhPJzhzTRYyOOgZYy1AMK6rSQ1NL+2tSuKTUBIqZvdQLncyfEHZsHZ7BDLcE7Yw9HNN5D2QgbCQg==
+X-Received: by 2002:a17:906:d292:: with SMTP id ay18mr4038597ejb.244.1603292097022;
+        Wed, 21 Oct 2020 07:54:57 -0700 (PDT)
+Received: from myrica ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
+        by smtp.gmail.com with ESMTPSA id y1sm2226896edj.76.2020.10.21.07.54.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Oct 2020 07:54:56 -0700 (PDT)
+Date:   Wed, 21 Oct 2020 16:54:36 +0200
+From:   Jean-Philippe Brucker <jean-philippe@linaro.org>
+To:     Jacob Pan <jacob.pan.linux@gmail.com>
+Cc:     iommu@lists.linux-foundation.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        Joerg Roedel <joro@8bytes.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-api@vger.kernel.org,
+        Jean-Philippe Brucker <jean-philippe@linaro.com>,
+        Eric Auger <eric.auger@redhat.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        Yi Liu <yi.l.liu@intel.com>,
+        "Tian, Kevin" <kevin.tian@intel.com>,
+        Raj Ashok <ashok.raj@intel.com>, Wu Hao <hao.wu@intel.com>,
+        Yi Sun <yi.y.sun@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v3 03/14] iommu/ioasid: Add a separate function for
+ detach data
+Message-ID: <20201021145436.GA1653231@myrica>
+References: <1601329121-36979-1-git-send-email-jacob.jun.pan@linux.intel.com>
+ <1601329121-36979-4-git-send-email-jacob.jun.pan@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [167.114.26.124]
-X-Mailer: Zimbra 8.8.15_GA_3968 (ZimbraWebClient - FF81 (Linux)/8.8.15_GA_3968)
-Thread-Topic: rseq: Implement KTLS prototype for x86-64
-Thread-Index: i/hhmILYI0bX65bbHI+Ec7cJZSCn7Q==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1601329121-36979-4-git-send-email-jacob.jun.pan@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
------ On Sep 29, 2020, at 4:13 AM, Florian Weimer fweimer@redhat.com wrote:
-
-> * Mathieu Desnoyers:
+On Mon, Sep 28, 2020 at 02:38:30PM -0700, Jacob Pan wrote:
+> IOASID private data can be cleared by ioasid_attach_data() with a NULL
+> data pointer. A common use case is for a caller to free the data
+> afterward. ioasid_attach_data() calls synchronize_rcu() before return
+> such that free data can be sure without outstanding readers.
+> However, since synchronize_rcu() may sleep, ioasid_attach_data() cannot
+> be used under spinlocks.
 > 
->>> So we have a bootstrap issue here that needs to be solved, I think.
->>
->> The one thing I'm not sure about is whether the vDSO interface is indeed
->> superior to KTLS, or if it is just the model we are used to.
->>
->> AFAIU, the current use-cases for vDSO is that an application calls into
->> glibc, which then calls the vDSO function exposed by the kernel. I wonder
->> whether the vDSO indirection is really needed if we typically have a glibc
->> function used as indirection ? For an end user, what is the benefit of vDSO
->> over accessing KTLS data directly from glibc ?
+> This patch adds ioasid_detach_data() as a separate API where
+> synchronize_rcu() is called only in this case. ioasid_attach_data() can
+> then be used under spinlocks. In addition, this change makes the API
+> symmetrical.
 > 
-> I think the kernel can only reasonably maintain a single userspace data
-> structure.  It's not reasonable to update several versions of the data
-> structure in parallel.
+> Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
 
-I disagree with your statement. Considering that the kernel needs to keep
-ABI compatibility for whatever it exposes to user-space, claiming that it
-should never update several versions of data structures exposed to user-space
-in parallel means that once a data structure is exposed to user-space as ABI
-in a certain way, it can never ever change in the future, even if we find
-a better way to do things.
+A typo below, but
 
-It makes more sense to allow multiple data structures to be updated
-in parallel until older ones become deprecated/unused/irrelevant, at
-which point those can be configured out at build time and eventually
-phased out after years of deprecation. Having the ability to update multiple
-data structures in user-space with replicated information is IMHO necessary
-to allow creation of new/better accelerated ABIs.
+Reviewed-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 
+> ---
+>  drivers/iommu/intel/svm.c |  4 ++--
+>  drivers/iommu/ioasid.c    | 54 ++++++++++++++++++++++++++++++++++++++---------
+>  include/linux/ioasid.h    |  5 ++++-
+>  3 files changed, 50 insertions(+), 13 deletions(-)
 > 
-> This means that glibc would have to support multiple kernel data
-> structures, and users might lose userspace acceleration after a kernel
-> update, until they update glibc as well.  The glibc update should be
-> ABI-compatible, but someone would still have to backport it, apply it to
-> container images, etc.
+> diff --git a/drivers/iommu/intel/svm.c b/drivers/iommu/intel/svm.c
+> index 2c5645f0737a..06a16bee7b65 100644
+> --- a/drivers/iommu/intel/svm.c
+> +++ b/drivers/iommu/intel/svm.c
+> @@ -398,7 +398,7 @@ int intel_svm_bind_gpasid(struct iommu_domain *domain, struct device *dev,
+>  	list_add_rcu(&sdev->list, &svm->devs);
+>   out:
+>  	if (!IS_ERR_OR_NULL(svm) && list_empty(&svm->devs)) {
+> -		ioasid_attach_data(data->hpasid, NULL);
+> +		ioasid_detach_data(data->hpasid);
+>  		kfree(svm);
+>  	}
+>  
+> @@ -441,7 +441,7 @@ int intel_svm_unbind_gpasid(struct device *dev, int pasid)
+>  				 * the unbind, IOMMU driver will get notified
+>  				 * and perform cleanup.
+>  				 */
+> -				ioasid_attach_data(pasid, NULL);
+> +				ioasid_detach_data(pasid);
+>  				kfree(svm);
+>  			}
+>  		}
+> diff --git a/drivers/iommu/ioasid.c b/drivers/iommu/ioasid.c
+> index 5f63af07acd5..6cfbdfb492e0 100644
+> --- a/drivers/iommu/ioasid.c
+> +++ b/drivers/iommu/ioasid.c
+> @@ -272,24 +272,58 @@ int ioasid_attach_data(ioasid_t ioasid, void *data)
+>  
+>  	spin_lock(&ioasid_allocator_lock);
+>  	ioasid_data = xa_load(&active_allocator->xa, ioasid);
+> -	if (ioasid_data)
+> -		rcu_assign_pointer(ioasid_data->private, data);
+> -	else
+> +
+> +	if (!ioasid_data) {
+>  		ret = -ENOENT;
+> -	spin_unlock(&ioasid_allocator_lock);
+> +		goto done_unlock;
+> +	}
+>  
+> -	/*
+> -	 * Wait for readers to stop accessing the old private data, so the
+> -	 * caller can free it.
+> -	 */
+> -	if (!ret)
+> -		synchronize_rcu();
+> +	if (ioasid_data->private) {
+> +		ret = -EBUSY;
+> +		goto done_unlock;
+> +	}
+> +	rcu_assign_pointer(ioasid_data->private, data);
+> +
+> +done_unlock:
+> +	spin_unlock(&ioasid_allocator_lock);
+>  
+>  	return ret;
+>  }
+>  EXPORT_SYMBOL_GPL(ioasid_attach_data);
+>  
+>  /**
+> + * ioasid_detach_data - Clear the private data of an ioasid
+> + *
+> + * @ioasid: the IOASIDD to clear private data
 
-No. If the kernel ever exposes a data structure to user-space as ABI,
-then it needs to stay there, and not break userspace. Hence the need to
-duplicate information provided to user-space if need be, so we can move
-on to better ABIs without breaking the old ones.
+IOASID
 
+> + */
+> +void ioasid_detach_data(ioasid_t ioasid)
+> +{
+> +	struct ioasid_data *ioasid_data;
+> +
+> +	spin_lock(&ioasid_allocator_lock);
+> +	ioasid_data = xa_load(&active_allocator->xa, ioasid);
+> +
+> +	if (!ioasid_data) {
+> +		pr_warn("IOASID %u not found to detach data from\n", ioasid);
+> +		goto done_unlock;
+> +	}
+> +
+> +	if (ioasid_data->private) {
+> +		rcu_assign_pointer(ioasid_data->private, NULL);
+> +		goto done_unlock;
+> +	}
+> +
+> +done_unlock:
+> +	spin_unlock(&ioasid_allocator_lock);
+> +	/*
+> +	 * Wait for readers to stop accessing the old private data,
+> +	 * so the caller can free it.
+> +	 */
+> +	synchronize_rcu();
+> +}
+> +EXPORT_SYMBOL_GPL(ioasid_detach_data);
+> +
+> +/**
+>   * ioasid_alloc - Allocate an IOASID
+>   * @set: the IOASID set
+>   * @min: the minimum ID (inclusive)
+> diff --git a/include/linux/ioasid.h b/include/linux/ioasid.h
+> index 9c44947a68c8..c7f649fa970a 100644
+> --- a/include/linux/ioasid.h
+> +++ b/include/linux/ioasid.h
+> @@ -40,7 +40,7 @@ void *ioasid_find(struct ioasid_set *set, ioasid_t ioasid,
+>  int ioasid_register_allocator(struct ioasid_allocator_ops *allocator);
+>  void ioasid_unregister_allocator(struct ioasid_allocator_ops *allocator);
+>  int ioasid_attach_data(ioasid_t ioasid, void *data);
+> -
+> +void ioasid_detach_data(ioasid_t ioasid);
+>  #else /* !CONFIG_IOASID */
+>  static inline ioasid_t ioasid_alloc(struct ioasid_set *set, ioasid_t min,
+>  				    ioasid_t max, void *private)
+> @@ -72,5 +72,8 @@ static inline int ioasid_attach_data(ioasid_t ioasid, void *data)
+>  	return -ENOTSUPP;
+>  }
+>  
+> +static inline void ioasid_detach_data(ioasid_t ioasid)
+> +{
+> +}
+>  #endif /* CONFIG_IOASID */
+>  #endif /* __LINUX_IOASID_H */
+> -- 
+> 2.7.4
 > 
-> What's worse, the glibc code would be quite hard to test because we
-> would have to keep around multiple kernel versions to exercise all the
-> different data structure variants.
-> 
-> In contrast, the vDSO code always matches the userspace data structures,
-> is always updated at the same time, and tested together.  That looks
-> like a clear win to me.
-
-For cases where the overhead of vDSO is not an issue, I agree that it
-makes things tidier than directly accessing a data structure. The
-documentation of the ABI becomes much simpler as well.
-
-> 
->> If we decide that using KTLS from a vDSO function is indeed a requirement,
->> then, as you point out, the thread_pointer is available as ABI, but we miss
->> the KTLS offset.
->>
->> Some ideas on how we could solve this: we could either make the KTLS
->> offset part of the ABI (fixed offset), or save the offset near the
->> thread pointer at a location that would become ABI. It would have to
->> be already populated with something which can help detect the case
->> where a vDSO is called from a thread which does not populate KTLS
->> though. Is that even remotely doable ?
-> 
-> I don't know.
-> 
-> We could decide that these accelerated system calls must only be called
-> with a valid TCB.  That's unavoidable if the vDSO sets errno directly,
-> so it's perhaps not a big loss.  It's also backwards-compatible because
-> existing TCB-less code won't know about those new vDSO entrypoints.
-> Calling into glibc from a TCB-less thread has always been undefined.
-> TCB-less code would have to make direct, non-vDSO system calls, as today.
-> 
-> For discovering the KTLS offset, a per-process page at a fixed offset
-> from the vDSO code (i.e., what real shared objects already do for global
-> data) could store this offset.  This way, we could entirely avoid an ABI
-> dependency.
-
-Or as Andy mentioned, we would simply pass the ktls offset as argument to
-the vDSO ? It seems simple enough. Would it fit all our use-cases including
-errno ?
-
-> 
-> We'll see what will break once we have the correct TID after vfork. 8->
-> glibc currently supports malloc-after-vfork as an extension, and
-> a lot of software depends on it (OpenJDK, for example).
-
-I am not sure to see how that is related to ktls ?
-
-> 
->>> With the latter, we could
->>> directly expose the vDSO implementation to applications, assuming that
->>> we agree that the vDSO will not fail with ENOSYS to request fallback to
->>> the system call, but will itself perform the system call.
->>
->> We should not forget the fields needed by rseq as well: the rseq_cs
->> pointer and the cpu_id fields need to be accessed directly from the
->> rseq critical section, without function call. Those use-cases require
->> that applications and library can know the KTLS offset and size and
->> use those fields directly.
-> 
-> Yes, but those offsets could be queried using a function from the vDSO
-> (or using a glibc interface, to simplify linking).
-
-Good point!
-
-Thanks,
-
-Mathieu
-
-
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-http://www.efficios.com
