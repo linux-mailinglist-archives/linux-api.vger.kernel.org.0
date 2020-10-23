@@ -2,65 +2,126 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E4230295311
-	for <lists+linux-api@lfdr.de>; Wed, 21 Oct 2020 21:45:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 785E6296847
+	for <lists+linux-api@lfdr.de>; Fri, 23 Oct 2020 03:21:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2505062AbgJUTpX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 21 Oct 2020 15:45:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57734 "EHLO
+        id S374287AbgJWBVo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 22 Oct 2020 21:21:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2438786AbgJUTpX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 21 Oct 2020 15:45:23 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F34EC0613CF
-        for <linux-api@vger.kernel.org>; Wed, 21 Oct 2020 12:45:21 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id md26so4924148ejb.10
-        for <linux-api@vger.kernel.org>; Wed, 21 Oct 2020 12:45:21 -0700 (PDT)
+        with ESMTP id S374283AbgJWBVo (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 22 Oct 2020 21:21:44 -0400
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3CEFC0613CE
+        for <linux-api@vger.kernel.org>; Thu, 22 Oct 2020 18:21:43 -0700 (PDT)
+Received: by mail-ej1-x642.google.com with SMTP id k3so53999ejj.10
+        for <linux-api@vger.kernel.org>; Thu, 22 Oct 2020 18:21:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=vK9ss8MeUQvX1scGiGwfXticAesjqQKBtNGkqG2qcrE=;
-        b=cymAI3DaSpVftgKY+Zsk8ShmzIBDw3B+40JXGenrKT6Wab5cpqbuUrst2/EJ1tLIFI
-         JuaVYQvqTZ7zu5kBMF7PxOO5hbU6nuDV7pLnTm/76vhYjJWy9eDZwEKBnJz43P7+SFYr
-         /HkfAciTdyP9pteRowq6CObFZy7UEDqdD6pzqbp0BDVKLeo75SEJFl2LKdLYB/Z0d4Dc
-         TWdGIn2BOe1TCFnkXYIKfXreDYAzYN+uzT9gic82ZDgs4sbOpxDKa7HURwSRkd6C9CEw
-         mR38J6X5SJaY6aOBsDtAgRNyXt2T/U7BuM69wbaoFxQE1nOuanna377VQt0cOitk59mK
-         difA==
+        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=aoxn8RZh5GwLX2OTvbY4F3fYrAFarAXAp+zyIW9UVc0=;
+        b=bWPmglrUmUWeh/iJB7I1EBJU+TdBzoO9kJeAZdj0Mj7vyjbv9DyccX5Lt+lUFusiZw
+         HWpqEJDPjpY3Pe66lK3CAkBsqcDG1SzJroJ/TrLWOH68lnkP3CHZa96739LkvB31F0p2
+         UKaI6v6FS6fL3igL3m2SvuN8QdEUHemh+0A+WspZbjpxU8NlNH1xji6y4zYUku/PAtIG
+         VlsE4Z2Vr2DxmyRQoiSH2mQuJn6k9T8lU/ZuPxibEI768Vlsje7dAVkK4A+TJ9+adHG8
+         +FBZ1+GlJF4yKcmomBogElmJ3P88v835veafFeBLgDo8obHbAFEfQjagR4wLw4RxeZia
+         Dx4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=vK9ss8MeUQvX1scGiGwfXticAesjqQKBtNGkqG2qcrE=;
-        b=XcXHgTHY/bXsxdLPPZHjYxXwXzINaZ/RBNo/Ae8e3QyQ+V3B8Z6id9HBo8jxc0kJDn
-         PkKEMFQS/4mpiKqE1Y6sD4zImRwkQpFSl3rqomC43p0PJClEjSO6QdwzuQinjj/TzWc7
-         HJqAnrDQcG4kTeJzdB92wr012+NPEAg2o0yn98fpcBaeh4F1mg9RUXBe/MFAzhgzdAwi
-         xkEV7eajBeGwTGWLZLGZ8mKedS0U6uYwfuWjPBBcSYJdX5AQwnSA8L1PwhRQCG322/1W
-         pvutyWsThXVHJdHIgN89Em5g3dafu6gZBgxcBpY6FDqba6ho//dhbMbiHx8UGJ6DLFQR
-         G0Ug==
-X-Gm-Message-State: AOAM53084EfjGKCAaqMnW7yVCjrEdMIwLZ0zFgccGuL5pCbg85Rn4/aX
-        npnib2uUkxgyLIvDq68QADMW1Q5ISAnTrOkYLeo=
-X-Google-Smtp-Source: ABdhPJyU+1p7qgHJgxzTb85q7/xvgCHbjzFhbc9xW8MhG5WiWdNh3LMlqgsgtrTR8ZCBWDEpQqRe+FbMXmgsgTAB6Ck=
-X-Received: by 2002:a17:906:14d:: with SMTP id 13mr5097677ejh.516.1603309518770;
- Wed, 21 Oct 2020 12:45:18 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=aoxn8RZh5GwLX2OTvbY4F3fYrAFarAXAp+zyIW9UVc0=;
+        b=Nb+KwVUVekF6McIX+mMv5rr2SW1Hs7SBqpJvHNWLjN2D4Qy8f9BkDUNs2iau6qwhVK
+         QCWUDITyyskrjVmoxGCtnRZtlsc60nvdJLjsugq6TsP03h+e6EgGOpnezEhe7oDj5r/b
+         SzCfTyHv7e9T9UvE+rV73trJUMOg/KzJ7fW2qtIMNQoWJ6pWerxVkaPNIEaMtqDFTdJ4
+         JlEOPmPnz5E6KoSJreBDTQQnwlk4O76PAdXddSMi2mFY/vsi+u0bjg+L8QTzsQV+FZt8
+         M2L9WIREoadepy8HRawJmALBiRhZNY0+zroiXiKBK4kRYBtOcQX7/4jWvEKqOiQbOdTd
+         osPg==
+X-Gm-Message-State: AOAM5323Cj0Pjnp0aQjO6kqeUBidFse9xB7sC3wVQC9PoznANMvewNrq
+        JJ5qN6Wk1W5HlwPjlzRIZi99T9D6XSHaiyel/3wy
+X-Google-Smtp-Source: ABdhPJzDtfnYw+rfKgxc4a8mUFIh6ll/aQ2+0itoJxliGHEeO3L/XBWkrOQEYSixIJb79O9lCBjh5YKgmDlUs8u/x/U=
+X-Received: by 2002:a17:906:25cc:: with SMTP id n12mr4813564ejb.488.1603416102090;
+ Thu, 22 Oct 2020 18:21:42 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a05:6402:d9:0:0:0:0 with HTTP; Wed, 21 Oct 2020 12:45:18
- -0700 (PDT)
-Reply-To: mfdp@tlen.pl
-From:   Mr Bill T Winters <hs8qfc11@gmail.com>
-Date:   Wed, 21 Oct 2020 12:45:18 -0700
-Message-ID: <CAJWArj4gBBYET0rTbwn+4QEkVW=UMveYgDoxtofKZkd4MZUdDg@mail.gmail.com>
-Subject: Good Morning!
-To:     undisclosed-recipients:;
+References: <cover.1593198710.git.rgb@redhat.com> <6e2e10432e1400f747918eeb93bf45029de2aa6c.1593198710.git.rgb@redhat.com>
+ <CAHC9VhSCm5eeBcyY8bBsnxr-hK4rkso9_NJHJec2OXLu4m5QTA@mail.gmail.com>
+ <20200729194058.kcbsqjhzunjpipgm@madcap2.tricolour.ca> <CAHC9VhRUwCKBjffA_XNSjUwvUn8e6zfmy8WD203dK7R2KD0__g@mail.gmail.com>
+ <20201002195231.GH2882171@madcap2.tricolour.ca> <20201021163926.GA3929765@madcap2.tricolour.ca>
+In-Reply-To: <20201021163926.GA3929765@madcap2.tricolour.ca>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Thu, 22 Oct 2020 21:21:31 -0400
+Message-ID: <CAHC9VhRb7XMyTrcrmzM3yQO+eLdO_r2+DOLKr9apDDeH4ua2Ew@mail.gmail.com>
+Subject: Re: [PATCH ghak90 V9 05/13] audit: log container info of syscalls
+To:     Richard Guy Briggs <rgb@redhat.com>
+Cc:     nhorman@tuxdriver.com, linux-api@vger.kernel.org,
+        containers@lists.linux-foundation.org,
+        LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
+        Linux-Audit Mailing List <linux-audit@redhat.com>,
+        netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
+        simo@redhat.com, netdev@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
+        mpatel@redhat.com, Serge Hallyn <serge@hallyn.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
--- 
-I Mr Bill T, did you Receive the (FUND), that was paid to you?
-Let me know with your full name:...  immediately,
+On Wed, Oct 21, 2020 at 12:39 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> Here is an exmple I was able to generate after updating the testsuite
+> script to include a signalling example of a nested audit container
+> identifier:
+>
+> ----
+> type=3DPROCTITLE msg=3Daudit(2020-10-21 10:31:16.655:6731) : proctitle=3D=
+/usr/bin/perl -w containerid/test
+> type=3DCONTAINER_ID msg=3Daudit(2020-10-21 10:31:16.655:6731) : contid=3D=
+7129731255799087104^3333941723245477888
+> type=3DOBJ_PID msg=3Daudit(2020-10-21 10:31:16.655:6731) : opid=3D115583 =
+oauid=3Droot ouid=3Droot oses=3D1 obj=3Dunconfined_u:unconfined_r:unconfine=
+d_t:s0-s0:c0.c1023 ocomm=3Dperl
+> type=3DCONTAINER_ID msg=3Daudit(2020-10-21 10:31:16.655:6731) : contid=3D=
+3333941723245477888
+> type=3DOBJ_PID msg=3Daudit(2020-10-21 10:31:16.655:6731) : opid=3D115580 =
+oauid=3Droot ouid=3Droot oses=3D1 obj=3Dunconfined_u:unconfined_r:unconfine=
+d_t:s0-s0:c0.c1023 ocomm=3Dperl
+> type=3DCONTAINER_ID msg=3Daudit(2020-10-21 10:31:16.655:6731) : contid=3D=
+8098399240850112512^3333941723245477888
+> type=3DOBJ_PID msg=3Daudit(2020-10-21 10:31:16.655:6731) : opid=3D115582 =
+oauid=3Droot ouid=3Droot oses=3D1 obj=3Dunconfined_u:unconfined_r:unconfine=
+d_t:s0-s0:c0.c1023 ocomm=3Dperl
+> type=3DSYSCALL msg=3Daudit(2020-10-21 10:31:16.655:6731) : arch=3Dx86_64 =
+syscall=3Dkill success=3Dyes exit=3D0 a0=3D0xfffe3c84 a1=3DSIGTERM a2=3D0x4=
+d524554 a3=3D0x0 items=3D0 ppid=3D115564 pid=3D115567 auid=3Droot uid=3Droo=
+t gid=3Droot euid=3Droot suid=3Droot fsuid=3Droot egid=3Droot sgid=3Droot f=
+sgid=3Droot tty=3DttyS0 ses=3D1 comm=3Dperl exe=3D/usr/bin/perl subj=3Dunco=
+nfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 key=3Dtestsuite-160329067=
+1-AcLtUulY
+> ----
+>
+> There are three CONTAINER_ID records which need some way of associating w=
+ith OBJ_PID records.  An additional CONTAINER_ID record would be present if=
+ the killing process itself had an audit container identifier.  I think the=
+ most obvious way to connect them is with a pid=3D field in the CONTAINER_I=
+D record.
 
-Sincerely Yours, Respectfully,
+Using a "pid=3D" field as a way to link CONTAINER_ID records to other
+records raises a few questions.  What happens if/when we need to
+represent those PIDs in the context of a namespace?  Are we ever going
+to need to link to records which don't have a "pid=3D" field?  I haven't
+done the homework to know if either of these are a concern right now,
+but I worry that this might become a problem in the future.
 
-Mr Bill T Winters,
-Group Chief Executive Officer & Executive Director,
+The idea of using something like "item=3D" is interesting.  As you
+mention, the "item=3D" field does present some overlap problems with the
+PATH record, but perhaps we can do something similar.  What if we
+added a "record=3D" (or similar, I'm not worried about names at this
+point) to each record, reset to 0/1 at the start of each event, and
+when we needed to link records somehow we could add a "related=3D1,..,N"
+field.  This would potentially be useful beyond just the audit
+container ID work.
+
+--=20
+paul moore
+www.paul-moore.com
