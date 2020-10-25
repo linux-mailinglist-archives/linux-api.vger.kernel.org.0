@@ -2,189 +2,228 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 79331297A1C
-	for <lists+linux-api@lfdr.de>; Sat, 24 Oct 2020 02:56:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C8EE02984B5
+	for <lists+linux-api@lfdr.de>; Sun, 25 Oct 2020 23:29:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1757143AbgJXAwa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 23 Oct 2020 20:52:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45914 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1757142AbgJXAwa (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 23 Oct 2020 20:52:30 -0400
-Received: from ebiggers-linuxstation.mtv.corp.google.com (unknown [104.132.1.76])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7D67A2137B;
-        Sat, 24 Oct 2020 00:52:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603500749;
-        bh=NZB0h7Jpq6DmOfGEmEupTswD29UD7PJtM1kWqbdQOrQ=;
-        h=From:To:Cc:Subject:Date:From;
-        b=LGMq/RZ/UYSfgBSKwH8FZ1OKec5/ct1jLIJjNYJDMSkCVDLKTu4mdbkLzqPDl+tpg
-         heaIS1PFy9pHCkzyhipDWR0gbOH+oL3FBLOAoGxLaPcMphqnFBGNd9jfBBrGUI8Nhm
-         CvTSp29EcgzSakAXd2/Fu6APFZWJLGoMrxEu58Ro=
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     linux-fscrypt@vger.kernel.org
-Cc:     linux-api@vger.kernel.org
-Subject: [PATCH] fscrypt: remove kernel-internal constants from UAPI header
-Date:   Fri, 23 Oct 2020 17:51:31 -0700
-Message-Id: <20201024005132.495952-1-ebiggers@kernel.org>
-X-Mailer: git-send-email 2.29.0.rc1.297.gfa9743e501-goog
+        id S1419451AbgJYW3U (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 25 Oct 2020 18:29:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36810 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1419360AbgJYW3U (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 25 Oct 2020 18:29:20 -0400
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EE9CC061755;
+        Sun, 25 Oct 2020 15:29:19 -0700 (PDT)
+Received: by mail-ej1-x644.google.com with SMTP id h24so10730526ejg.9;
+        Sun, 25 Oct 2020 15:29:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=lh2oS0OcdW/8/KVlxidM+IVHUHZT9Oaa9CWag9blTrU=;
+        b=lvfMgB6F7HQZQ8d7WfSI56Pd+ImLiyWdCjGsgXPLcOU0JXd5UAwHudJhDI8Lz2w74u
+         uxk0v//O3brXwOBywx3aAPK8m57ZPw3VndRZSPuuyA/JqsJWTrv7IKBNlWQFVj56e/LI
+         /jmxfgMnNhEwzmGPUW4lLCtosElcIhzYf9J+7vCVbsqUVu5nCcWR4dtP8wC5T+U31QFu
+         whRsQU9g0j76ztPh+AdeBWYMlztpIdsrGO+QS5cz4shhXRvZivTrZ6RJl3RCTNQZCwm8
+         OF1+Tu8uY5U5Y5a38Z3HaW3R5PInIMoe6QaIXnd3ssj5xFJ3mHpXtMz1x0eKPNUng01+
+         kGBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
+         :references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=lh2oS0OcdW/8/KVlxidM+IVHUHZT9Oaa9CWag9blTrU=;
+        b=f8A7M+aqm/xCvWoxQpq+NI8sR1xVe1NVWhoa/yZoZV8rrgM8GQX7fx1UIvLchlGZE1
+         XVJkM+7AG4nrjsV+Y1+QiHV1n76ZR+oEaxakJR8rTECLfHn7PgqJniNOs2F7Cr4UPS/z
+         Eqwfs0RPiy0DZO35ooq/yBow+CDzUqD5/slc2MQIYSHespWHe0YmLNn3pR+x2PvJmCKA
+         IlZEGTb8nu1Qgd5F1FDtJKYSKjJOwciskg+6L1ohHEafQg0Vfuw99TFoFqGy8Clh4g3t
+         ZlS5hv7eGxeYHvj7bRaqBnRpiNDRxeF97TuhZ1FbSHWxxoYbQUi9AQcuWLOKXMGjIvjP
+         oBBw==
+X-Gm-Message-State: AOAM532k4XesH5D2ZgnPkF9R++cKTq7oYDCqkiHJmGpiA1X2E9ypLzQ7
+        Q1qdJ8193W1OxnUy/SZTtXf/ZLqQPbuJ2g==
+X-Google-Smtp-Source: ABdhPJybTN4d3NEuEwszBwb9KG4Fifsz/c2RociVCzidJ7soLTC19SpC6VfDoIDLLfhfkMWJD1vyTw==
+X-Received: by 2002:a17:906:3488:: with SMTP id g8mr12379738ejb.296.1603664958123;
+        Sun, 25 Oct 2020 15:29:18 -0700 (PDT)
+Received: from x230 ([62.201.25.198])
+        by smtp.gmail.com with ESMTPSA id t15sm4144110edr.27.2020.10.25.15.29.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 Oct 2020 15:29:17 -0700 (PDT)
+Date:   Sun, 25 Oct 2020 23:29:15 +0100
+From:   Petr Vorel <petr.vorel@gmail.com>
+To:     Pablo Neira Ayuso <pablo@netfilter.org>,
+        Jozsef Kadlecsik <kadlec@netfilter.org>,
+        Florian Westphal <fw@strlen.de>
+Cc:     Rich Felker <dalias@aerifal.cx>, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netfilter-devel@vger.kernel.org
+Subject: Re: [PATCH v3 1/1] uapi: Move constants from <linux/kernel.h> to
+ <linux/const.h>
+Message-ID: <20201025222915.GA40443@x230>
+Reply-To: Petr Vorel <petr.vorel@gmail.com>
+References: <20201015190013.8901-1-petr.vorel@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201015190013.8901-1-petr.vorel@gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Eric Biggers <ebiggers@google.com>
+Hi Pablo, Jozsef, Florian,
 
-There isn't really any valid reason to use __FSCRYPT_MODE_MAX or
-FSCRYPT_POLICY_FLAGS_VALID in a userspace program.  These constants are
-only meant to be used by the kernel internally, and they are defined in
-the UAPI header next to the mode numbers and flags only so that kernel
-developers don't forget to update them when adding new modes or flags.
+Cc you as the patch touched also netlink UAPI headers.
 
-In https://lkml.kernel.org/r/20201005074133.1958633-2-satyat@google.com
-there was an example of someone wanting to use __FSCRYPT_MODE_MAX in a
-user program, and it was wrong because the program would have broken if
-__FSCRYPT_MODE_MAX were ever increased.  So having this definition
-available is harmful.  FSCRYPT_POLICY_FLAGS_VALID has the same problem.
+Kind regards,
+Petr
 
-So, remove these definitions from the UAPI header.  Replace
-FSCRYPT_POLICY_FLAGS_VALID with just listing the valid flags explicitly
-in the one kernel function that needs it.  Move __FSCRYPT_MODE_MAX to
-fscrypt_private.h, remove the double underscores (which were only
-present to discourage use by userspace), and add a BUILD_BUG_ON() and
-comments to (hopefully) ensure it is kept in sync.
+> and include <linux/const.h> in UAPI headers instead of <linux/kernel.h>.
 
-Keep the old name FS_POLICY_FLAGS_VALID, since it's been around for
-longer and there's a greater chance that removing it would break source
-compatibility with some program.  Indeed, mtd-utils is using it in
-an #ifdef, and removing it would introduce compiler warnings (about
-FS_POLICY_FLAGS_PAD_* being redefined) into the mtd-utils build.
-However, reduce its value to 0x07 so that it only includes the flags
-with old names (the ones present before Linux 5.4), and try to make it
-clear that it's now "frozen" and no new flags should be added to it.
+> The reason is to avoid indirect <linux/sysinfo.h> include when using
+> some network headers: <linux/netlink.h> or others -> <linux/kernel.h>
+> -> <linux/sysinfo.h>.
 
-Fixes: 2336d0deb2d4 ("fscrypt: use FSCRYPT_ prefix for uapi constants")
-Cc: <stable@vger.kernel.org> # v5.4+
-Signed-off-by: Eric Biggers <ebiggers@google.com>
----
- fs/crypto/fscrypt_private.h  | 9 ++++++---
- fs/crypto/keyring.c          | 2 +-
- fs/crypto/keysetup.c         | 4 +++-
- fs/crypto/policy.c           | 5 ++++-
- include/uapi/linux/fscrypt.h | 5 ++---
- 5 files changed, 16 insertions(+), 9 deletions(-)
+> This indirect include causes on MUSL redefinition of struct sysinfo when
+> included both <sys/sysinfo.h> and some of UAPI headers:
 
-diff --git a/fs/crypto/fscrypt_private.h b/fs/crypto/fscrypt_private.h
-index 4f5806a3b73d..322ecae9a758 100644
---- a/fs/crypto/fscrypt_private.h
-+++ b/fs/crypto/fscrypt_private.h
-@@ -25,6 +25,9 @@
- #define FSCRYPT_CONTEXT_V1	1
- #define FSCRYPT_CONTEXT_V2	2
- 
-+/* Keep this in sync with include/uapi/linux/fscrypt.h */
-+#define FSCRYPT_MODE_MAX	FSCRYPT_MODE_ADIANTUM
-+
- struct fscrypt_context_v1 {
- 	u8 version; /* FSCRYPT_CONTEXT_V1 */
- 	u8 contents_encryption_mode;
-@@ -491,9 +494,9 @@ struct fscrypt_master_key {
- 	 * Per-mode encryption keys for the various types of encryption policies
- 	 * that use them.  Allocated and derived on-demand.
- 	 */
--	struct fscrypt_prepared_key mk_direct_keys[__FSCRYPT_MODE_MAX + 1];
--	struct fscrypt_prepared_key mk_iv_ino_lblk_64_keys[__FSCRYPT_MODE_MAX + 1];
--	struct fscrypt_prepared_key mk_iv_ino_lblk_32_keys[__FSCRYPT_MODE_MAX + 1];
-+	struct fscrypt_prepared_key mk_direct_keys[FSCRYPT_MODE_MAX + 1];
-+	struct fscrypt_prepared_key mk_iv_ino_lblk_64_keys[FSCRYPT_MODE_MAX + 1];
-+	struct fscrypt_prepared_key mk_iv_ino_lblk_32_keys[FSCRYPT_MODE_MAX + 1];
- 
- 	/* Hash key for inode numbers.  Initialized only when needed. */
- 	siphash_key_t		mk_ino_hash_key;
-diff --git a/fs/crypto/keyring.c b/fs/crypto/keyring.c
-index 53cc552a7b8f..d7ec52cb3d9a 100644
---- a/fs/crypto/keyring.c
-+++ b/fs/crypto/keyring.c
-@@ -44,7 +44,7 @@ static void free_master_key(struct fscrypt_master_key *mk)
- 
- 	wipe_master_key_secret(&mk->mk_secret);
- 
--	for (i = 0; i <= __FSCRYPT_MODE_MAX; i++) {
-+	for (i = 0; i <= FSCRYPT_MODE_MAX; i++) {
- 		fscrypt_destroy_prepared_key(&mk->mk_direct_keys[i]);
- 		fscrypt_destroy_prepared_key(&mk->mk_iv_ino_lblk_64_keys[i]);
- 		fscrypt_destroy_prepared_key(&mk->mk_iv_ino_lblk_32_keys[i]);
-diff --git a/fs/crypto/keysetup.c b/fs/crypto/keysetup.c
-index d3c3e5d9b41f..43408d2f0acf 100644
---- a/fs/crypto/keysetup.c
-+++ b/fs/crypto/keysetup.c
-@@ -56,6 +56,8 @@ static struct fscrypt_mode *
- select_encryption_mode(const union fscrypt_policy *policy,
- 		       const struct inode *inode)
- {
-+	BUILD_BUG_ON(ARRAY_SIZE(fscrypt_modes) != FSCRYPT_MODE_MAX + 1);
-+
- 	if (S_ISREG(inode->i_mode))
- 		return &fscrypt_modes[fscrypt_policy_contents_mode(policy)];
- 
-@@ -168,7 +170,7 @@ static int setup_per_mode_enc_key(struct fscrypt_info *ci,
- 	unsigned int hkdf_infolen = 0;
- 	int err;
- 
--	if (WARN_ON(mode_num > __FSCRYPT_MODE_MAX))
-+	if (WARN_ON(mode_num > FSCRYPT_MODE_MAX))
- 		return -EINVAL;
- 
- 	prep_key = &keys[mode_num];
-diff --git a/fs/crypto/policy.c b/fs/crypto/policy.c
-index 4441d9944b9e..faa0f21daa68 100644
---- a/fs/crypto/policy.c
-+++ b/fs/crypto/policy.c
-@@ -175,7 +175,10 @@ static bool fscrypt_supported_v2_policy(const struct fscrypt_policy_v2 *policy,
- 		return false;
- 	}
- 
--	if (policy->flags & ~FSCRYPT_POLICY_FLAGS_VALID) {
-+	if (policy->flags & ~(FSCRYPT_POLICY_FLAGS_PAD_MASK |
-+			      FSCRYPT_POLICY_FLAG_DIRECT_KEY |
-+			      FSCRYPT_POLICY_FLAG_IV_INO_LBLK_64 |
-+			      FSCRYPT_POLICY_FLAG_IV_INO_LBLK_32)) {
- 		fscrypt_warn(inode, "Unsupported encryption flags (0x%02x)",
- 			     policy->flags);
- 		return false;
-diff --git a/include/uapi/linux/fscrypt.h b/include/uapi/linux/fscrypt.h
-index e5de60336938..9f4428be3e36 100644
---- a/include/uapi/linux/fscrypt.h
-+++ b/include/uapi/linux/fscrypt.h
-@@ -20,7 +20,6 @@
- #define FSCRYPT_POLICY_FLAG_DIRECT_KEY		0x04
- #define FSCRYPT_POLICY_FLAG_IV_INO_LBLK_64	0x08
- #define FSCRYPT_POLICY_FLAG_IV_INO_LBLK_32	0x10
--#define FSCRYPT_POLICY_FLAGS_VALID		0x1F
- 
- /* Encryption algorithms */
- #define FSCRYPT_MODE_AES_256_XTS		1
-@@ -28,7 +27,7 @@
- #define FSCRYPT_MODE_AES_128_CBC		5
- #define FSCRYPT_MODE_AES_128_CTS		6
- #define FSCRYPT_MODE_ADIANTUM			9
--#define __FSCRYPT_MODE_MAX			9
-+/* If adding a mode number > 9, update FSCRYPT_MODE_MAX in fscrypt_private.h */
- 
- /*
-  * Legacy policy version; ad-hoc KDF and no key verification.
-@@ -177,7 +176,7 @@ struct fscrypt_get_key_status_arg {
- #define FS_POLICY_FLAGS_PAD_32		FSCRYPT_POLICY_FLAGS_PAD_32
- #define FS_POLICY_FLAGS_PAD_MASK	FSCRYPT_POLICY_FLAGS_PAD_MASK
- #define FS_POLICY_FLAG_DIRECT_KEY	FSCRYPT_POLICY_FLAG_DIRECT_KEY
--#define FS_POLICY_FLAGS_VALID		FSCRYPT_POLICY_FLAGS_VALID
-+#define FS_POLICY_FLAGS_VALID		0x07	/* contains old flags only */
- #define FS_ENCRYPTION_MODE_INVALID	0	/* never used */
- #define FS_ENCRYPTION_MODE_AES_256_XTS	FSCRYPT_MODE_AES_256_XTS
- #define FS_ENCRYPTION_MODE_AES_256_GCM	2	/* never used */
--- 
-2.29.0.rc1.297.gfa9743e501-goog
+> In file included from x86_64-buildroot-linux-musl/sysroot/usr/include/linux/kernel.h:5,
+>                  from x86_64-buildroot-linux-musl/sysroot/usr/include/linux/netlink.h:5,
+>                  from ../include/tst_netlink.h:14,
+>                  from tst_crypto.c:13:
+> x86_64-buildroot-linux-musl/sysroot/usr/include/linux/sysinfo.h:8:8: error: redefinition of ‘struct sysinfo’
+>  struct sysinfo {
+>         ^~~~~~~
+> In file included from ../include/tst_safe_macros.h:15,
+>                  from ../include/tst_test.h:93,
+>                  from tst_crypto.c:11:
+> x86_64-buildroot-linux-musl/sysroot/usr/include/sys/sysinfo.h:10:8: note: originally defined here
 
+> Suggested-by: Rich Felker <dalias@aerifal.cx>
+> Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
+> ---
+> Changes v2->v3:
+> * Move things to <linux/const.h> instead of creating new header
+> <linux/align.h>.
+
+> Kind regards,
+> Petr
+
+>  include/uapi/linux/const.h              | 5 +++++
+>  include/uapi/linux/ethtool.h            | 2 +-
+>  include/uapi/linux/kernel.h             | 9 +--------
+>  include/uapi/linux/lightnvm.h           | 2 +-
+>  include/uapi/linux/mroute6.h            | 2 +-
+>  include/uapi/linux/netfilter/x_tables.h | 2 +-
+>  include/uapi/linux/netlink.h            | 2 +-
+>  include/uapi/linux/sysctl.h             | 2 +-
+>  8 files changed, 12 insertions(+), 14 deletions(-)
+
+> diff --git a/include/uapi/linux/const.h b/include/uapi/linux/const.h
+> index 5ed721ad5b19..af2a44c08683 100644
+> --- a/include/uapi/linux/const.h
+> +++ b/include/uapi/linux/const.h
+> @@ -28,4 +28,9 @@
+>  #define _BITUL(x)	(_UL(1) << (x))
+>  #define _BITULL(x)	(_ULL(1) << (x))
+
+> +#define __ALIGN_KERNEL(x, a)		__ALIGN_KERNEL_MASK(x, (typeof(x))(a) - 1)
+> +#define __ALIGN_KERNEL_MASK(x, mask)	(((x) + (mask)) & ~(mask))
+> +
+> +#define __KERNEL_DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
+> +
+>  #endif /* _UAPI_LINUX_CONST_H */
+> diff --git a/include/uapi/linux/ethtool.h b/include/uapi/linux/ethtool.h
+> index b4f2d134e713..0a9cced74e6d 100644
+> --- a/include/uapi/linux/ethtool.h
+> +++ b/include/uapi/linux/ethtool.h
+> @@ -14,7 +14,7 @@
+>  #ifndef _UAPI_LINUX_ETHTOOL_H
+>  #define _UAPI_LINUX_ETHTOOL_H
+
+> -#include <linux/kernel.h>
+> +#include <linux/const.h>
+>  #include <linux/types.h>
+>  #include <linux/if_ether.h>
+
+> diff --git a/include/uapi/linux/kernel.h b/include/uapi/linux/kernel.h
+> index 0ff8f7477847..fadf2db71fe8 100644
+> --- a/include/uapi/linux/kernel.h
+> +++ b/include/uapi/linux/kernel.h
+> @@ -3,13 +3,6 @@
+>  #define _UAPI_LINUX_KERNEL_H
+
+>  #include <linux/sysinfo.h>
+> -
+> -/*
+> - * 'kernel.h' contains some often-used function prototypes etc
+> - */
+> -#define __ALIGN_KERNEL(x, a)		__ALIGN_KERNEL_MASK(x, (typeof(x))(a) - 1)
+> -#define __ALIGN_KERNEL_MASK(x, mask)	(((x) + (mask)) & ~(mask))
+> -
+> -#define __KERNEL_DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
+> +#include <linux/const.h>
+
+>  #endif /* _UAPI_LINUX_KERNEL_H */
+> diff --git a/include/uapi/linux/lightnvm.h b/include/uapi/linux/lightnvm.h
+> index f9a1be7fc696..ead2e72e5c88 100644
+> --- a/include/uapi/linux/lightnvm.h
+> +++ b/include/uapi/linux/lightnvm.h
+> @@ -21,7 +21,7 @@
+>  #define _UAPI_LINUX_LIGHTNVM_H
+
+>  #ifdef __KERNEL__
+> -#include <linux/kernel.h>
+> +#include <linux/const.h>
+>  #include <linux/ioctl.h>
+>  #else /* __KERNEL__ */
+>  #include <stdio.h>
+> diff --git a/include/uapi/linux/mroute6.h b/include/uapi/linux/mroute6.h
+> index c36177a86516..a1fd6173e2db 100644
+> --- a/include/uapi/linux/mroute6.h
+> +++ b/include/uapi/linux/mroute6.h
+> @@ -2,7 +2,7 @@
+>  #ifndef _UAPI__LINUX_MROUTE6_H
+>  #define _UAPI__LINUX_MROUTE6_H
+
+> -#include <linux/kernel.h>
+> +#include <linux/const.h>
+>  #include <linux/types.h>
+>  #include <linux/sockios.h>
+>  #include <linux/in6.h>		/* For struct sockaddr_in6. */
+> diff --git a/include/uapi/linux/netfilter/x_tables.h b/include/uapi/linux/netfilter/x_tables.h
+> index a8283f7dbc51..b8c6bb233ac1 100644
+> --- a/include/uapi/linux/netfilter/x_tables.h
+> +++ b/include/uapi/linux/netfilter/x_tables.h
+> @@ -1,7 +1,7 @@
+>  /* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+>  #ifndef _UAPI_X_TABLES_H
+>  #define _UAPI_X_TABLES_H
+> -#include <linux/kernel.h>
+> +#include <linux/const.h>
+>  #include <linux/types.h>
+
+>  #define XT_FUNCTION_MAXNAMELEN 30
+> diff --git a/include/uapi/linux/netlink.h b/include/uapi/linux/netlink.h
+> index eac8a6a648ea..7ba6d3b9cdec 100644
+> --- a/include/uapi/linux/netlink.h
+> +++ b/include/uapi/linux/netlink.h
+> @@ -2,7 +2,7 @@
+>  #ifndef _UAPI__LINUX_NETLINK_H
+>  #define _UAPI__LINUX_NETLINK_H
+
+> -#include <linux/kernel.h>
+> +#include <linux/const.h>
+>  #include <linux/socket.h> /* for __kernel_sa_family_t */
+>  #include <linux/types.h>
+
+> diff --git a/include/uapi/linux/sysctl.h b/include/uapi/linux/sysctl.h
+> index 27c1ed2822e6..458179df9b27 100644
+> --- a/include/uapi/linux/sysctl.h
+> +++ b/include/uapi/linux/sysctl.h
+> @@ -23,7 +23,7 @@
+>  #ifndef _UAPI_LINUX_SYSCTL_H
+>  #define _UAPI_LINUX_SYSCTL_H
+
+> -#include <linux/kernel.h>
+> +#include <linux/const.h>
+>  #include <linux/types.h>
+>  #include <linux/compiler.h>
