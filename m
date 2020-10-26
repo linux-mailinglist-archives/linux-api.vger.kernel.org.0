@@ -2,151 +2,103 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 198B52999CC
-	for <lists+linux-api@lfdr.de>; Mon, 26 Oct 2020 23:40:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 19EFF299A22
+	for <lists+linux-api@lfdr.de>; Tue, 27 Oct 2020 00:05:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394612AbgJZWko (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 26 Oct 2020 18:40:44 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:45267 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2394617AbgJZWkn (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 26 Oct 2020 18:40:43 -0400
-Received: by mail-lf1-f65.google.com with SMTP id r127so14358778lff.12
-        for <linux-api@vger.kernel.org>; Mon, 26 Oct 2020 15:40:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=p5mpdK7QEfDL5slMiMMuatEPuKSHdDFbWljAr9yhKWI=;
-        b=v55KPbIzkQ6XpCeJxtQgHmpkBNNN3Vy4h0+4aIkEH2igYiZnH3CJAMrDuHf4tTQvx5
-         +wXxRLMS9dNA15/QVPY7OUGem1hJkBceu7Qdttdve4KhzOvZExMdsVKYf6MXC5q5nBxM
-         ISMeVIjjKOUupiKOaEUrZycc/H68pAdqeHFEeGIWgKeX/aVznb3gEMTl0+pY3SlQwmhL
-         4P0OPOFRSDesfWW6znsYcdBpbch5cxisQWglfrmvWLm7vAWsovJGRlypeM3gwYPgCVsJ
-         Iz2407lA5bXQ2uYEgM/3LbzxpmTCudk6S2cEF3eN8yhmyvi0FvkkcZ22BJTwAtCS1z+8
-         VgWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=p5mpdK7QEfDL5slMiMMuatEPuKSHdDFbWljAr9yhKWI=;
-        b=eV6yLX9cTCi+6Pq74eVD7VwotIiEmORBbJe+SrAO812xfGUdcwYirR272SbxSQKSWU
-         MSaCXSoi/Hyq4O2uEv24Xx7amFI7LvyzLOPo5CuAgRpnAsU/88FR1RfDmX0Yl76tKYPH
-         yt+DbWPH4cqdVX/NogPo7xSEGKdBjhZxu+lo41Vit9WlhZHayQb1rIjAOXVPQTsJww9O
-         Yd7V4agSaldfeqenVnXC4SOCauNYgjQu9NYpWULCxzEqe9MTU5ZW8NNX5XAT8qQPQwWG
-         JvhxECA5m6Gxm+sQJARL+4ZkQta53x54fCj5OgOCOzst+8QNioPBQFL/dWodvqYVZkd9
-         U5mQ==
-X-Gm-Message-State: AOAM530AhmgPEuz0mgIYMdGwHLOlDNX/sopr2EqGT8LaeEH28tKE0ZMA
-        cFwe3qJ7s44HoLCSezj2FbZEQ9WPSIsqlBexjGtNyg==
-X-Google-Smtp-Source: ABdhPJxjFDjWOwRZrKpaQ7DfqAb76Wdq0EnB5RBSKFjRVQvhEwDyFBnOIEaqJQyewYmpprB2TRhB0ucxFKBwT21u16o=
-X-Received: by 2002:a05:6512:52f:: with SMTP id o15mr5593174lfc.381.1603752038729;
- Mon, 26 Oct 2020 15:40:38 -0700 (PDT)
-MIME-Version: 1.0
-References: <CACT4Y+beaHrWisaSsV90xQn+t2Xn-bxvVgmx8ih_h=yJYPjs4A@mail.gmail.com>
- <20201026200715.170261-1-ebiggers@kernel.org> <CAG48ez2Og6fWUKZbNO5EtYK-jS+J8rf6r+rOyfUp1MUuy4kMyA@mail.gmail.com>
- <20201026215658.GA185792@sol.localdomain>
-In-Reply-To: <20201026215658.GA185792@sol.localdomain>
-From:   Jann Horn <jannh@google.com>
-Date:   Mon, 26 Oct 2020 23:40:12 +0100
-Message-ID: <CAG48ez2u-B_DQ5yyiexycTz6okQZvU0rB3+MG1nAFtoahfPa6Q@mail.gmail.com>
-Subject: Re: [PATCH] crypto: af_alg - avoid undefined behavior accessing salg_name
+        id S2395394AbgJZXFe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 26 Oct 2020 19:05:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51540 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2394532AbgJZXFe (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 26 Oct 2020 19:05:34 -0400
+Received: from embeddedor (187-162-31-110.static.axtel.net [187.162.31.110])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4F02820708;
+        Mon, 26 Oct 2020 23:05:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1603753533;
+        bh=RwF68q7rWMakpYJrYb4RVe9ctlmCI3barcjAXGkRwLc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=gk6jHcIGj+qiBILPGm7kEfQ55hrZh2laXQP6e3qjHyNAUduo9rOlKzbjap8+Wk/iQ
+         x8e0SWXQpaxMKBsYBdScNXZQB4oSs1qNOX1t57TmW/TnBrfEvR0gSuv2gups0lSNDs
+         HvVTI0CI/2BRDzlbxGBoOupcOy6jApVRBrwktIpg=
+Date:   Mon, 26 Oct 2020 18:10:59 -0500
+From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
 To:     Eric Biggers <ebiggers@kernel.org>
-Cc:     "open list:HARDWARE RANDOM NUMBER GENERATOR CORE" 
-        <linux-crypto@vger.kernel.org>,
+Cc:     linux-crypto@vger.kernel.org,
         Herbert Xu <herbert@gondor.apana.org.au>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-        linux-hardening@vger.kernel.org,
-        Linux API <linux-api@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
+        syzkaller-bugs@googlegroups.com, linux-hardening@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jann Horn <jannh@google.com>,
         Kees Cook <keescook@chromium.org>,
         Elena Petrova <lenaptr@google.com>,
         Vegard Nossum <vegard.nossum@oracle.com>,
-        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
-        stable <stable@vger.kernel.org>,
-        syzbot <syzbot+92ead4eb8e26a26d465e@syzkaller.appspotmail.com>
-Content-Type: text/plain; charset="UTF-8"
+        stable@vger.kernel.org,
+        syzbot+92ead4eb8e26a26d465e@syzkaller.appspotmail.com
+Subject: Re: [PATCH] crypto: af_alg - avoid undefined behavior accessing
+ salg_name
+Message-ID: <20201026231059.GB26823@embeddedor>
+References: <CACT4Y+beaHrWisaSsV90xQn+t2Xn-bxvVgmx8ih_h=yJYPjs4A@mail.gmail.com>
+ <20201026200715.170261-1-ebiggers@kernel.org>
+ <20201026212148.GA26823@embeddedor>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201026212148.GA26823@embeddedor>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Oct 26, 2020 at 10:57 PM Eric Biggers <ebiggers@kernel.org> wrote:
-> On Mon, Oct 26, 2020 at 10:23:35PM +0100, 'Jann Horn' via syzkaller-bugs wrote:
-> > On Mon, Oct 26, 2020 at 9:08 PM Eric Biggers <ebiggers@kernel.org> wrote:
-> > > Commit 3f69cc60768b ("crypto: af_alg - Allow arbitrarily long algorithm
-> > > names") made the kernel start accepting arbitrarily long algorithm names
-> > > in sockaddr_alg.
-> >
-> > That's not true; it's still limited by the size of struct
-> > sockaddr_storage (128 bytes total for the entire address).
->
-> Interesting, so the actual limit is 104 bytes.  It seems like the intent of that
-> commit was to make it unlimited, though...
->
-> > If you make it longer, __copy_msghdr_from_user() will silently truncate the
-> > size.
->
-> That's used for sys_sendmsg(), which AFAICT isn't relevant here.  sockaddr_alg
-> is used with sys_bind(), which fails with EINVAL if the address is longer than
-> sizeof(struct sockaddr_storage).
+On Mon, Oct 26, 2020 at 04:21:48PM -0500, Gustavo A. R. Silva wrote:
+> > +/*
+> > + * Linux v4.12 and later removed the 64-byte limit on salg_name[]; it's now an
+> > + * arbitrary-length field.  We had to keep the original struct above for source
+> > + * compatibility with existing userspace programs, though.  Use the new struct
+> > + * below if support for very long algorithm names is needed.  To do this,
+> > + * allocate 'sizeof(struct sockaddr_alg_new) + strlen(algname) + 1' bytes, and
+> > + * copy algname (including the null terminator) into salg_name.
+> > + */
+> > +struct sockaddr_alg_new {
+> > +	__u16	salg_family;
+> > +	__u8	salg_type[14];
+> > +	__u32	salg_feat;
+> > +	__u32	salg_mask;
+> > +	__u8	salg_name[];
+> > +};
+> > +
+> 
+> How something like this, instead:
+> 
+>  struct sockaddr_alg {
+> -	__u16	salg_family;
+> -	__u8	salg_type[14];
+> -	__u32	salg_feat;
+> -	__u32	salg_mask;
+> -	__u8	salg_name[64];
+> +	union {
+> +		struct {
+> +			__u16	salg_v1_family;
+> +			__u8	salg_v1_type[14];
+> +			__u32	salg_v1_feat;
+> +			__u32	salg_v1_mask;
+> +			__u8	salg_name[64];
+> +		};
+> +		struct {
+> +			__u16	salg_family;
+> +			__u8	salg_type[14];
+> +			__u32	salg_feat;
+> +			__u32	salg_mask;
+> +			__u8	salg_name_new[];
+> +		};
+> +	};
+>  };
+> 
 
-Ugh, of course you're right, sorry.
+Something similar to the following approach might work:
 
-> However, since sys_sendmsg() is truncating overly-long addresses, it's probably
-> the case that sizeof(struct sockaddr_storage) can never be increased in the
-> future...
+https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git/commit/?h=testing/uapi/gntalloc&id=db46c8aba41c436edb0b4ef2941bd7390b0e5d61
 
-Eh, I think there'd probably be bigger issues with that elsewhere.
-
-> > > This is broken because the kernel can access indices >= 64 in salg_name,
-> > > which is undefined behavior -- even though the memory that is accessed
-> > > is still located within the sockaddr structure.  It would only be
-> > > defined behavior if the array were properly marked as arbitrary-length
-> > > (either by making it a flexible array, which is the recommended way
-> > > these days, or by making it an array of length 0 or 1).
-> > >
-> > > We can't simply change salg_name into a flexible array, since that would
-> > > break source compatibility with userspace programs that embed
-> > > sockaddr_alg into another struct, or (more commonly) declare a
-> > > sockaddr_alg like 'struct sockaddr_alg sa = { .salg_name = "foo" };'.
-> > >
-> > > One solution would be to change salg_name into a flexible array only
-> > > when '#ifdef __KERNEL__'.  However, that would keep userspace without an
-> > > easy way to actually use the longer algorithm names.
-> > >
-> > > Instead, add a new structure 'sockaddr_alg_new' that has the flexible
-> > > array field, and expose it to both userspace and the kernel.
-> > > Make the kernel use it correctly in alg_bind().
-> > [...]
-> > > @@ -147,7 +147,7 @@ static int alg_bind(struct socket *sock, struct sockaddr *uaddr, int addr_len)
-> > >         const u32 allowed = CRYPTO_ALG_KERN_DRIVER_ONLY;
-> > >         struct sock *sk = sock->sk;
-> > >         struct alg_sock *ask = alg_sk(sk);
-> > > -       struct sockaddr_alg *sa = (void *)uaddr;
-> > > +       struct sockaddr_alg_new *sa = (void *)uaddr;
-> > >         const struct af_alg_type *type;
-> > >         void *private;
-> > >         int err;
-> > > @@ -155,7 +155,11 @@ static int alg_bind(struct socket *sock, struct sockaddr *uaddr, int addr_len)
-> > >         if (sock->state == SS_CONNECTED)
-> > >                 return -EINVAL;
-> > >
-> > > -       if (addr_len < sizeof(*sa))
-> > > +       BUILD_BUG_ON(offsetof(struct sockaddr_alg_new, salg_name) !=
-> > > +                    offsetof(struct sockaddr_alg, salg_name));
-> > > +       BUILD_BUG_ON(offsetof(struct sockaddr_alg, salg_name) != sizeof(*sa));
-> > > +
-> > > +       if (addr_len < sizeof(*sa) + 1)
-> > >                 return -EINVAL;
-> > >
-> > >         /* If caller uses non-allowed flag, return error. */
-> > > @@ -163,7 +167,7 @@ static int alg_bind(struct socket *sock, struct sockaddr *uaddr, int addr_len)
-> > >                 return -EINVAL;
-> > >
-> > >         sa->salg_type[sizeof(sa->salg_type) - 1] = 0;
-> > > -       sa->salg_name[sizeof(sa->salg_name) + addr_len - sizeof(*sa) - 1] = 0;
-> > > +       sa->salg_name[addr_len - sizeof(*sa) - 1] = 0;
-> >
-> > This looks like an out-of-bounds write in the case `addr_len ==
-> > sizeof(struct sockaddr_storage)`.
-
-Sorry, I've been unusually unconcentrated today. Sorry about the
-noise, ignore what I said.
+--
+Gustavo
