@@ -2,107 +2,129 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 38262299ADC
-	for <lists+linux-api@lfdr.de>; Tue, 27 Oct 2020 00:40:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EA79829A651
+	for <lists+linux-api@lfdr.de>; Tue, 27 Oct 2020 09:12:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407440AbgJZXkN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 26 Oct 2020 19:40:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37002 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2407433AbgJZXkM (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 26 Oct 2020 19:40:12 -0400
-Received: from gmail.com (unknown [104.132.1.76])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S2508846AbgJ0IMp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 27 Oct 2020 04:12:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55890 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2508850AbgJ0IMo (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 27 Oct 2020 04:12:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1603786363;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=NAcngyuptikvYGGpjHccIA10XCuP57p7z320i7MuxeE=;
+        b=Cp1perTca7ew4Y15f97Qo81wQNADEPhZ6yXBDF3VvkfvdqAHKFpPKtIy8S6v2QyW0lx83F
+        CFgeHJVpctAuEsaKDo9uw6F2j+3jrsoMcYdMCalgWEra+pqpDFH6rvb14DAAu6xl7P0uHo
+        BzGGZlpcEiBUb2DtvRxgA/zaqMOsD7c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-251-Q8AvrUgQOMaVTr9oXfijqA-1; Tue, 27 Oct 2020 04:12:38 -0400
+X-MC-Unique: Q8AvrUgQOMaVTr9oXfijqA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8C14C206FB;
-        Mon, 26 Oct 2020 23:40:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603755611;
-        bh=ZgbflWpbtTfBxG7usPJTb2WZqEYqd438hFIgnDyXuZk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=s4jrG+TkxPz3M1yPMrS2r30WcawYO1jYf1AyyGHiEtn1vMdQ1ui0K8jDexcGCGsR4
-         qgptXFeRExv0dD6gh+fJm5OBVo/+BvYnP2/KSs6/f7rLeJY31E+VlYDOdJudJL6N96
-         sKfCkkyZpbO6hx2jpem2/n1ODJmzZYKLLznl6ih8=
-Date:   Mon, 26 Oct 2020 16:40:10 -0700
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc:     linux-crypto@vger.kernel.org,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        syzkaller-bugs@googlegroups.com, linux-hardening@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jann Horn <jannh@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Elena Petrova <lenaptr@google.com>,
-        Vegard Nossum <vegard.nossum@oracle.com>,
-        stable@vger.kernel.org,
-        syzbot+92ead4eb8e26a26d465e@syzkaller.appspotmail.com
-Subject: Re: [PATCH] crypto: af_alg - avoid undefined behavior accessing
- salg_name
-Message-ID: <20201026234010.GD1947033@gmail.com>
-References: <CACT4Y+beaHrWisaSsV90xQn+t2Xn-bxvVgmx8ih_h=yJYPjs4A@mail.gmail.com>
- <20201026200715.170261-1-ebiggers@kernel.org>
- <20201026212148.GA26823@embeddedor>
- <20201026231059.GB26823@embeddedor>
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1338664085;
+        Tue, 27 Oct 2020 08:12:33 +0000 (UTC)
+Received: from [10.36.113.185] (ovpn-113-185.ams2.redhat.com [10.36.113.185])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id AB67E5B4B3;
+        Tue, 27 Oct 2020 08:12:24 +0000 (UTC)
+Subject: Re: [PATCH v7 3/7] set_memory: allow set_direct_map_*_noflush() for
+ multiple pages
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
+Cc:     "tycho@tycho.ws" <tycho@tycho.ws>, "cl@linux.com" <cl@linux.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "will@kernel.org" <will@kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "kirill@shutemov.name" <kirill@shutemov.name>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "rppt@linux.ibm.com" <rppt@linux.ibm.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "Williams, Dan J" <dan.j.williams@intel.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "willy@infradead.org" <willy@infradead.org>,
+        "luto@kernel.org" <luto@kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "linux-nvdimm@lists.01.org" <linux-nvdimm@lists.01.org>,
+        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "Reshetova, Elena" <elena.reshetova@intel.com>,
+        "palmer@dabbelt.com" <palmer@dabbelt.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "mtk.manpages@gmail.com" <mtk.manpages@gmail.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "jejb@linux.ibm.com" <jejb@linux.ibm.com>,
+        "paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>
+References: <20201026083752.13267-1-rppt@kernel.org>
+ <20201026083752.13267-4-rppt@kernel.org>
+ <e754ae3873e02e398e58091d586fe57e105803db.camel@intel.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <9202c4c1-9f1f-175f-0a85-fc8c30bc5e3b@redhat.com>
+Date:   Tue, 27 Oct 2020 09:12:23 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201026231059.GB26823@embeddedor>
+In-Reply-To: <e754ae3873e02e398e58091d586fe57e105803db.camel@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Oct 26, 2020 at 06:10:59PM -0500, Gustavo A. R. Silva wrote:
-> On Mon, Oct 26, 2020 at 04:21:48PM -0500, Gustavo A. R. Silva wrote:
-> > > +/*
-> > > + * Linux v4.12 and later removed the 64-byte limit on salg_name[]; it's now an
-> > > + * arbitrary-length field.  We had to keep the original struct above for source
-> > > + * compatibility with existing userspace programs, though.  Use the new struct
-> > > + * below if support for very long algorithm names is needed.  To do this,
-> > > + * allocate 'sizeof(struct sockaddr_alg_new) + strlen(algname) + 1' bytes, and
-> > > + * copy algname (including the null terminator) into salg_name.
-> > > + */
-> > > +struct sockaddr_alg_new {
-> > > +	__u16	salg_family;
-> > > +	__u8	salg_type[14];
-> > > +	__u32	salg_feat;
-> > > +	__u32	salg_mask;
-> > > +	__u8	salg_name[];
-> > > +};
-> > > +
-> > 
-> > How something like this, instead:
-> > 
-> >  struct sockaddr_alg {
-> > -	__u16	salg_family;
-> > -	__u8	salg_type[14];
-> > -	__u32	salg_feat;
-> > -	__u32	salg_mask;
-> > -	__u8	salg_name[64];
-> > +	union {
-> > +		struct {
-> > +			__u16	salg_v1_family;
-> > +			__u8	salg_v1_type[14];
-> > +			__u32	salg_v1_feat;
-> > +			__u32	salg_v1_mask;
-> > +			__u8	salg_name[64];
-> > +		};
-> > +		struct {
-> > +			__u16	salg_family;
-> > +			__u8	salg_type[14];
-> > +			__u32	salg_feat;
-> > +			__u32	salg_mask;
-> > +			__u8	salg_name_new[];
-> > +		};
-> > +	};
-> >  };
-> > 
+On 26.10.20 20:01, Edgecombe, Rick P wrote:
+> On Mon, 2020-10-26 at 10:37 +0200, Mike Rapoport wrote:
+>> +++ b/arch/x86/mm/pat/set_memory.c
+>> @@ -2184,14 +2184,14 @@ static int __set_pages_np(struct page *page,
+>> int numpages)
+>>         return __change_page_attr_set_clr(&cpa, 0);
+>>  }
+>>  
+>> -int set_direct_map_invalid_noflush(struct page *page)
+>> +int set_direct_map_invalid_noflush(struct page *page, int numpages)
+>>  {
+>> -       return __set_pages_np(page, 1);
+>> +       return __set_pages_np(page, numpages);
+>>  }
+>>  
+>> -int set_direct_map_default_noflush(struct page *page)
+>> +int set_direct_map_default_noflush(struct page *page, int numpages)
+>>  {
+>> -       return __set_pages_p(page, 1);
+>> +       return __set_pages_p(page, numpages);
+>>  }
 > 
-> Something similar to the following approach might work:
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git/commit/?h=testing/uapi/gntalloc&id=db46c8aba41c436edb0b4ef2941bd7390b0e5d61
+> Somewhat related to your other series, this could result in large NP
+> pages and trip up hibernate.
 > 
 
-I suppose so.  It's very confusing to see a union like that at first glance,
-though.  It definitely needs an explanatory comment...
+It feels somewhat desirable to disable hibernation once secretmem is
+enabled, right? Otherwise you'll be writing out your secrets to swap,
+where they will remain even after booting up again ...
 
-- Eric
+Skipping secretmem pages when hibernating is the wrong approach I guess ...
+
+-- 
+Thanks,
+
+David / dhildenb
+
