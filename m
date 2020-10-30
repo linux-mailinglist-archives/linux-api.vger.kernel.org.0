@@ -2,114 +2,121 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C94729FC09
-	for <lists+linux-api@lfdr.de>; Fri, 30 Oct 2020 04:08:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 96F632A01ED
+	for <lists+linux-api@lfdr.de>; Fri, 30 Oct 2020 10:57:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726220AbgJ3DIN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 29 Oct 2020 23:08:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42080 "EHLO
+        id S1726110AbgJ3J5g (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 30 Oct 2020 05:57:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726122AbgJ3DIM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 29 Oct 2020 23:08:12 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D02AC0613D7
-        for <linux-api@vger.kernel.org>; Thu, 29 Oct 2020 20:08:12 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id a7so5984310lfk.9
-        for <linux-api@vger.kernel.org>; Thu, 29 Oct 2020 20:08:12 -0700 (PDT)
+        with ESMTP id S1726014AbgJ3J5f (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 30 Oct 2020 05:57:35 -0400
+Received: from mail-il1-x143.google.com (mail-il1-x143.google.com [IPv6:2607:f8b0:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC7D9C0613CF;
+        Fri, 30 Oct 2020 02:57:35 -0700 (PDT)
+Received: by mail-il1-x143.google.com with SMTP id q1so5977144ilt.6;
+        Fri, 30 Oct 2020 02:57:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=zehjsoI4/E9mlHSzS3GihRUsNzlSRlM3AQ/tc2JFGWU=;
-        b=q9NaR3BRuvTzXjW1tFWJC7ghaDMvWYJV4F/R/sfglQ1Do9mBfL2N70a3GMysG9ufy0
-         u543bRU8Q+xerhl0QLubqtnupkWBP51hSdP6NGnIl1X+ZkNPyDykSBY9poLAPBpDjUaq
-         0s/iVSYcxsg8yKonlY/PJPY/jry+VmI1lRRiHS3TdiNh6LhgQu6AH1HsJODK3KCF2zbN
-         XVJIkv9q1FDLnxGo0lUOJKAN5HFGYiHMifoR0MiKuttOYdJ8iNLqqbr7jNQUtCT2HPv6
-         PpvSh6aIPeBUKzLXaKv3qj2zy2CI2ktJbdFRW/aJd/vL4/1EkohKJVopAvgKPxXjiB09
-         YJRg==
+         :cc;
+        bh=/KHmwpEf5KO59HQ9FXioTrkHMQnSCZyA82voNpwNnxU=;
+        b=GRHC3d3uHyqgAX2bNvYF5h8/iEP8by/R6OwvXZSq+WCITM51vMsZn4GtwUmgPBcPTE
+         JIFj14HuPPgbTZQIawYp/WdHFcCfbmwDz6AQau0lHfSWxoyRMIQGFCa6mC/lT/vC48Fh
+         wYTYSi05HENiGIZrygUitWfPOvtbzSnv0hw2foQqpN3bXy/biCRwd2YEEEo1sCaotdD+
+         hA6wLP2AV/oTN011TL9T9aeU4s8MfJlR9YyL3VBEDUL1hZNcVpgED15piK/dbU9mR+9J
+         OBeYqC0iHVutFieBZGl23BYx95gCrsOrOmHBWMlmgoUyWbvcB9q8hEMkjqBqpL+HaXhc
+         2LDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=zehjsoI4/E9mlHSzS3GihRUsNzlSRlM3AQ/tc2JFGWU=;
-        b=WOpPbUJs4zLzSeQT6NfcT4jKrXPLuHN84lTl5J0bK3YI+KQdflcvrgs9Qtcxu1aROf
-         AGnjeLEuW3gEwvpGgLnEBdQsKc7Wu1OdP/cpOC2tso/2jPFCUNVQYfupm9ubvmedQOPN
-         SB0hM2R/vCUiVxmaBy7dp7VTCh/eX/HpPjR9fwigFJkCu7dpi5fgzzG9cWBsdx/Y5ydR
-         IjZWd0Ekk56wR1NLCr3xY+40pWAHiLXlPHPGZGJnF1W1vXWpTRtioDwNwLXjarC5tKCY
-         9jEp+Zo22b8gPfXfnnPRr/OKf33bNgJKil1PzRlYaqEphPUjwte39EIClBFe7P9fGgXs
-         Va/Q==
-X-Gm-Message-State: AOAM531fvPUUJYWhwQaP8c1x+NfoCvOTx66wkjEwdZqqm7hP9mzjwmQr
-        kk110fDlfZc32yZwc0vxEDq/MrD5egfU/1g44cZcMw==
-X-Google-Smtp-Source: ABdhPJwFhikEezi6cK75+Nh1jGpDUQvWygSxV/rVzK4JtvxTrHv+oYrN72yFW4FSMWmsrMzt7Jt48+wkeRxq1/Q08TY=
-X-Received: by 2002:a19:e308:: with SMTP id a8mr30300lfh.573.1604027290187;
- Thu, 29 Oct 2020 20:08:10 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=/KHmwpEf5KO59HQ9FXioTrkHMQnSCZyA82voNpwNnxU=;
+        b=MPYeG5L3Q4s2ik9jeEeYMYcCvIkcSlUffhLZDzg3IhIpsmJdcbB1SBeSO2uNQxTqw6
+         AdR+Pk4NZ/jPEFHAubpei1Lk6cyB2FbMwEavNR7cKlLJGYlVYT2qatKXixSlEELIN6Fo
+         5+M32rGJFEEO1lDM7BRnoVF9UjdsBE+YJ4bPZjoiVmCIzsm2E7+W5+xQcTCTCgJT6das
+         VTNDavB6lE6NSKHKs7lVE/DlnCGwdZH+zc4d4GtIY5Hwn+jlMdt8xyZ7pggI+BXxJuR9
+         4t7SujPC3ui0ImpSRlo4Pm2azPK0Sgy/H6nCKSCZTTxmJtsRtcaxlkBZGeDLtqIhYk9K
+         zVuA==
+X-Gm-Message-State: AOAM531nz1pG6hSWVBeyE2EIT9gmzLLCNiMKVZaVDQGYk/mK0KiJ60Fm
+        o3TfoJSCwm+3Ot7l60Hd68aIzznNHz9v1XbmCBA=
+X-Google-Smtp-Source: ABdhPJxFlt//ACc/IV26fZ1qCGgWOIH/npCA4rcrvS/8aohcRHMILRDfiUHL83JStMqAq2lFcdcahBWGZNVdziI1h1E=
+X-Received: by 2002:a05:6e02:14c9:: with SMTP id o9mr1218968ilk.137.1604051855144;
+ Fri, 30 Oct 2020 02:57:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201027200358.557003-1-mic@digikod.net> <20201027200358.557003-9-mic@digikod.net>
- <CAG48ez1San538w=+He309vHg4pBSCvAf7e5xeHdqeOHA6qwitw@mail.gmail.com> <de287149-ff42-40ca-5bd1-f48969880a06@digikod.net>
-In-Reply-To: <de287149-ff42-40ca-5bd1-f48969880a06@digikod.net>
-From:   Jann Horn <jannh@google.com>
-Date:   Fri, 30 Oct 2020 04:07:44 +0100
-Message-ID: <CAG48ez1FQVkt78129WozBwFbVhAPyAr9oJAHFHAbbNxEBr9h1g@mail.gmail.com>
-Subject: Re: [PATCH v22 08/12] landlock: Add syscall implementations
-To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>,
-        Kees Cook <keescook@chromium.org>
-Cc:     James Morris <jmorris@namei.org>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+References: <20201029003252.2128653-1-christian.brauner@ubuntu.com> <20201029003252.2128653-34-christian.brauner@ubuntu.com>
+In-Reply-To: <20201029003252.2128653-34-christian.brauner@ubuntu.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Fri, 30 Oct 2020 11:57:24 +0200
+Message-ID: <CAOQ4uxjyNB2zE+GE8Wmwjq__C7e4mrWMrS8RDVOOQFLtezjTkg@mail.gmail.com>
+Subject: Re: [PATCH 33/34] overlayfs: handle idmapped merged mounts
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@linux.microsoft.com>
+        John Johansen <john.johansen@canonical.com>,
+        James Morris <jmorris@namei.org>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+        Geoffrey Thomas <geofft@ldpreload.com>,
+        Mrunal Patel <mpatel@redhat.com>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Theodore Tso <tytso@mit.edu>, Alban Crequy <alban@kinvolk.io>,
+        Tycho Andersen <tycho@tycho.ws>,
+        David Howells <dhowells@redhat.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Jann Horn <jannh@google.com>,
+        Seth Forshee <seth.forshee@canonical.com>,
+        =?UTF-8?Q?St=C3=A9phane_Graber?= <stgraber@ubuntu.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Lennart Poettering <lennart@poettering.net>,
+        "Eric W. Biederman" <ebiederm@xmission.com>, smbarber@chromium.org,
+        Phil Estes <estesp@gmail.com>, Serge Hallyn <serge@hallyn.com>,
+        Kees Cook <keescook@chromium.org>,
+        Todd Kjos <tkjos@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Ext4 <linux-ext4@vger.kernel.org>,
+        overlayfs <linux-unionfs@vger.kernel.org>,
+        Linux Audit <linux-audit@redhat.com>,
+        linux-integrity <linux-integrity@vger.kernel.org>,
+        selinux@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Oct 29, 2020 at 12:30 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net>=
- wrote:
-> On 29/10/2020 02:06, Jann Horn wrote:
-> > On Tue, Oct 27, 2020 at 9:04 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.n=
-et> wrote:
-> >> These 3 system calls are designed to be used by unprivileged processes
-> >> to sandbox themselves:
-[...]
-> >> +       /*
-> >> +        * Similar checks as for seccomp(2), except that an -EPERM may=
- be
-> >> +        * returned.
-> >> +        */
-> >> +       if (!task_no_new_privs(current)) {
-> >> +               err =3D security_capable(current_cred(), current_user_=
-ns(),
-> >> +                               CAP_SYS_ADMIN, CAP_OPT_NOAUDIT);
-> >
-> > I think this should be ns_capable_noaudit(current_user_ns(), CAP_SYS_AD=
-MIN)?
+> -int ovl_permission(struct inode *inode, int mask)
+> +int ovl_permission_mapped(struct user_namespace *user_ns,
+> +                         struct inode *inode, int mask)
+>  {
+>         struct inode *upperinode = ovl_inode_upper(inode);
+>         struct inode *realinode = upperinode ?: ovl_inode_lower(inode);
+> -       struct user_namespace *user_ns;
+> +       struct user_namespace *real_user_ns;
+>         const struct cred *old_cred;
+>         int err;
 >
-> Right. The main difference is that ns_capable*() set PF_SUPERPRIV in
-> current->flags. I guess seccomp should use ns_capable_noaudit() as well?
+> @@ -302,15 +313,15 @@ int ovl_permission(struct inode *inode, int mask)
+>         }
+>
+>         if (upperinode)
+> -               user_ns = ovl_upper_mnt_user_ns(OVL_FS(inode->i_sb));
+> +               real_user_ns = ovl_upper_mnt_user_ns(OVL_FS(inode->i_sb));
+>         else
+> -               user_ns = OVL_I(inode)->lower_user_ns;
+> +               real_user_ns = OVL_I(inode)->lower_user_ns;
 
-Yeah. That seccomp code is from commit e2cfabdfd0756, with commit date
-in April 2012, while ns_capable_noaudit() was introduced in commit
-98f368e9e263, with commit date in June 2016; the seccomp code predates
-the availability of that API.
+These changes look strange in this patch. Better use real_user_ns in previous
+patch.
 
-Do you want to send a patch to Kees for that, or should I?
+Thanks,
+Amir.
