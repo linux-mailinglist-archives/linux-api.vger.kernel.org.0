@@ -2,146 +2,117 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DFAE29FB23
-	for <lists+linux-api@lfdr.de>; Fri, 30 Oct 2020 03:18:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8399229FBF5
+	for <lists+linux-api@lfdr.de>; Fri, 30 Oct 2020 04:03:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725831AbgJ3CSJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 29 Oct 2020 22:18:09 -0400
-Received: from mail.hallyn.com ([178.63.66.53]:38118 "EHLO mail.hallyn.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725781AbgJ3CSJ (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 29 Oct 2020 22:18:09 -0400
-Received: by mail.hallyn.com (Postfix, from userid 1001)
-        id 027D69B4; Thu, 29 Oct 2020 21:18:05 -0500 (CDT)
-Date:   Thu, 29 Oct 2020 21:18:05 -0500
-From:   "Serge E. Hallyn" <serge@hallyn.com>
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Aleksa Sarai <cyphar@cyphar.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        linux-fsdevel@vger.kernel.org,
-        John Johansen <john.johansen@canonical.com>,
-        James Morris <jmorris@namei.org>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-        Geoffrey Thomas <geofft@ldpreload.com>,
-        Mrunal Patel <mpatel@redhat.com>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Theodore Tso <tytso@mit.edu>, Alban Crequy <alban@kinvolk.io>,
-        Tycho Andersen <tycho@tycho.ws>,
-        David Howells <dhowells@redhat.com>,
-        James Bottomley <James.Bottomley@hansenpartnership.com>,
-        Jann Horn <jannh@google.com>,
-        Seth Forshee <seth.forshee@canonical.com>,
-        =?iso-8859-1?Q?St=E9phane?= Graber <stgraber@ubuntu.com>,
-        Lennart Poettering <lennart@poettering.net>,
-        smbarber@chromium.org, Phil Estes <estesp@gmail.com>,
-        Serge Hallyn <serge@hallyn.com>,
-        Kees Cook <keescook@chromium.org>,
-        Todd Kjos <tkjos@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        containers@lists.linux-foundation.org,
-        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-unionfs@vger.kernel.org,
-        linux-audit@redhat.com, linux-integrity@vger.kernel.org,
-        selinux@vger.kernel.org
-Subject: Re: [PATCH 00/34] fs: idmapped mounts
-Message-ID: <20201030021805.GA20489@mail.hallyn.com>
-References: <20201029003252.2128653-1-christian.brauner@ubuntu.com>
- <87pn51ghju.fsf@x220.int.ebiederm.org>
- <20201029155148.5odu4j2kt62ahcxq@yavin.dot.cyphar.com>
- <87361xdm4c.fsf@x220.int.ebiederm.org>
+        id S1726197AbgJ3DDH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 29 Oct 2020 23:03:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41282 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725797AbgJ3DDG (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 29 Oct 2020 23:03:06 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA33EC0613CF
+        for <linux-api@vger.kernel.org>; Thu, 29 Oct 2020 20:03:05 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id l28so5968324lfp.10
+        for <linux-api@vger.kernel.org>; Thu, 29 Oct 2020 20:03:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=qetmnWNVsQksjakl8dXjUkaIoxiVzA6keFiGM2ap5AY=;
+        b=AybJN8x6VEeLGCBEBx81sKm96EvpYJ8EOMN+ehVaa6kd1osmMtolGYpNiB+P0jXeBh
+         JKcVuff4V9jHq7LjenAGN4DP3DoekAwTcbRvi61IrciA2+MhWuRptX/cfrMWp2rh9BUL
+         WfSbatM3Au8j1fzzyV3HW0euf/Cis4dc9BCinMZ0G63d+e5Ck9hSrP0cmSaexwCaLIK9
+         WfxfJxdjfpqlNROWMWoWk7G1JjCULiMI0/IvyTkN/Ok5//vRUceaGL6seL1jFZ9UpPZ/
+         9JxTapyOGkoyBE2PhKDWHY3u4CBkCKKhDihE7xCjbPZeuq44+LhTw7iHPhvtRuHFZqre
+         rTQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=qetmnWNVsQksjakl8dXjUkaIoxiVzA6keFiGM2ap5AY=;
+        b=kfnkQDWZMPYZD/2ttpjo/re7B+P2M4BUgtelcNsYlgGbUwGmFWrO2e5Ycx+bgV6oWO
+         7Wr7yPnGidYwCiYWGd8DvY8jQINfUrnctTOkpQOyAIYvCnKhhZVBS7fJdLmpVB6aS2KO
+         /Kifbr3JRYtpaZUO4RVIXVyk76abdvHkoclyGJACfASTgB8i6V+tMipd+4mxeFAsTeli
+         EB3qWpA+8vVSHbLW0ywhTAHBVOlJuFD+sflDq7X/9RDCIvCpI1NTuM2xH/xdZZJkKnFg
+         dsyAS4OMQy/Elg8WV96y3pG6QvQs/bZxWVz6TcKn6e4x9syGVrkeGBCnI3whntRSPRHz
+         NwKw==
+X-Gm-Message-State: AOAM530D3rGH+CHrb+F60FM7I4ZcoWlZYg+UaqCYUxqM/1Kr7LNpQUzq
+        xPH/83kgqTGh4dda6zmUa9a9Be7PzBYdG9akQrzMeg==
+X-Google-Smtp-Source: ABdhPJzYTNXH60XmJevS1nU77QTkbnJdxDa2BUkj+JK2GK03XFm5dsruLADHPeQtCXNc8JlilkKNtelCRS8CC6e1sv0=
+X-Received: by 2002:a19:c357:: with SMTP id t84mr39422lff.34.1604026983869;
+ Thu, 29 Oct 2020 20:03:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87361xdm4c.fsf@x220.int.ebiederm.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20201027200358.557003-1-mic@digikod.net> <20201027200358.557003-2-mic@digikod.net>
+ <CAG48ez3CKa12SFHjVUPnYzJm2E7OBWnuh3JzVMrsvqdcMS1A8A@mail.gmail.com> <afa8e978-d22c-f06a-d57b-e0d1a9918062@digikod.net>
+In-Reply-To: <afa8e978-d22c-f06a-d57b-e0d1a9918062@digikod.net>
+From:   Jann Horn <jannh@google.com>
+Date:   Fri, 30 Oct 2020 04:02:37 +0100
+Message-ID: <CAG48ez0eXxjRJ2S3pbYqEsp8xVCdHQMKrPg9WHPB_Rv_kWC_nA@mail.gmail.com>
+Subject: Re: [PATCH v22 01/12] landlock: Add object management
+To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc:     James Morris <jmorris@namei.org>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@linux.microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Oct 29, 2020 at 11:37:23AM -0500, Eric W. Biederman wrote:
-> Aleksa Sarai <cyphar@cyphar.com> writes:
-> 
-> > On 2020-10-29, Eric W. Biederman <ebiederm@xmission.com> wrote:
-> >> Christian Brauner <christian.brauner@ubuntu.com> writes:
-> >> 
-> >> > Hey everyone,
-> >> >
-> >> > I vanished for a little while to focus on this work here so sorry for
-> >> > not being available by mail for a while.
-> >> >
-> >> > Since quite a long time we have issues with sharing mounts between
-> >> > multiple unprivileged containers with different id mappings, sharing a
-> >> > rootfs between multiple containers with different id mappings, and also
-> >> > sharing regular directories and filesystems between users with different
-> >> > uids and gids. The latter use-cases have become even more important with
-> >> > the availability and adoption of systemd-homed (cf. [1]) to implement
-> >> > portable home directories.
-> >> 
-> >> Can you walk us through the motivating use case?
-> >> 
-> >> As of this year's LPC I had the distinct impression that the primary use
-> >> case for such a feature was due to the RLIMIT_NPROC problem where two
-> >> containers with the same users still wanted different uid mappings to
-> >> the disk because the users were conflicting with each other because of
-> >> the per user rlimits.
-> >> 
-> >> Fixing rlimits is straight forward to implement, and easier to manage
-> >> for implementations and administrators.
+On Thu, Oct 29, 2020 at 10:30 AM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net>=
+ wrote:
+> On 29/10/2020 02:05, Jann Horn wrote:
+> > On Tue, Oct 27, 2020 at 9:04 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.n=
+et> wrote:
+> >> A Landlock object enables to identify a kernel object (e.g. an inode).
+> >> A Landlock rule is a set of access rights allowed on an object.  Rules
+> >> are grouped in rulesets that may be tied to a set of processes (i.e.
+> >> subjects) to enforce a scoped access-control (i.e. a domain).
+[...]
+> >> diff --git a/security/landlock/object.c b/security/landlock/object.c
+> > [...]
+> >> +void landlock_put_object(struct landlock_object *const object)
+> >> +{
+> >> +       /*
+> >> +        * The call to @object->underops->release(object) might sleep =
+e.g.,
 > >
-> > This is separate to the question of "isolated user namespaces" and
-> > managing different mappings between containers. This patchset is solving
-> > the same problem that shiftfs solved -- sharing a single directory tree
-> > between containers that have different ID mappings. rlimits (nor any of
-> > the other proposals we discussed at LPC) will help with this problem.
-> 
-> First and foremost: A uid shift on write to a filesystem is a security
-> bug waiting to happen.  This is especially in the context of facilities
-> like iouring, that play very agressive games with how process context
-> makes it to  system calls.
-> 
-> The only reason containers were not immediately exploitable when iouring
-> was introduced is because the mechanisms are built so that even if
-> something escapes containment the security properties still apply.
-> Changes to the uid when writing to the filesystem does not have that
-> property.  The tiniest slip in containment will be a security issue.
-> 
-> This is not even the least bit theoretical.  I have seem reports of how
-> shitfs+overlayfs created a situation where anyone could read
-> /etc/shadow.
-> 
-> If you are going to write using the same uid to disk from different
-> containers the question becomes why can't those containers configure
-> those users to use the same kuid?
+> > s/ e.g.,/, e.g./
+>
+> I indeed prefer the comma preceding the "e.g.", but it seems that there
+> is a difference between UK english and US english:
+> https://english.stackexchange.com/questions/16172/should-i-always-use-a-c=
+omma-after-e-g-or-i-e
+> Looking at the kernel documentation makes it clear:
+> $ git grep -F 'e.g. ' | wc -l
+> 1179
+> $ git grep -F 'e.g., ' | wc -l
+> 160
+>
+> I'll apply your fix in the whole patch series.
 
-Because if user 'myapp' in two otherwise isolated containers both have
-the same kuid, so that they can write to a shared directory, then root
-in container 1 has privilege over all files owned by 'myapp' in
-container 2.
-
-Whereas if they can each have distinct kuids, but when writing to the
-shared fs have a shared uid not otherwise belonging to either container,
-their rootfs's can remain completely off limits to each other.
-
-> What fixing rlimits does is it fixes one of the reasons that different
-> containers could not share the same kuid for users that want to write to
-> disk with the same uid.
-> 
-> 
-> I humbly suggest that it will be more secure, and easier to maintain for
-> both developers and users if we fix the reasons people want different
-> containers to have the same user running with different kuids.
-> 
-> If not what are the reasons we fundamentally need the same on-disk user
-> using multiple kuids in the kernel?
-> 
-> Eric
+Ooh, sorry. I didn't realize that that's valid in UK English...
