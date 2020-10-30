@@ -2,96 +2,82 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 355112A05A4
-	for <lists+linux-api@lfdr.de>; Fri, 30 Oct 2020 13:41:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E2FE2A08AC
+	for <lists+linux-api@lfdr.de>; Fri, 30 Oct 2020 15:58:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726602AbgJ3Mlg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 30 Oct 2020 08:41:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45996 "EHLO
+        id S1726875AbgJ3O6j (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 30 Oct 2020 10:58:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726318AbgJ3Mld (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 30 Oct 2020 08:41:33 -0400
-Received: from smtp-8fad.mail.infomaniak.ch (smtp-8fad.mail.infomaniak.ch [IPv6:2001:1600:3:17::8fad])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A174C0613CF
-        for <linux-api@vger.kernel.org>; Fri, 30 Oct 2020 05:41:33 -0700 (PDT)
-Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4CN24C353wzlhbLm;
-        Fri, 30 Oct 2020 13:41:31 +0100 (CET)
-Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
-        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4CN2494vmzzlh8TR;
-        Fri, 30 Oct 2020 13:41:29 +0100 (CET)
-Subject: Re: [PATCH v22 08/12] landlock: Add syscall implementations
-To:     Jann Horn <jannh@google.com>, Kees Cook <keescook@chromium.org>
-Cc:     James Morris <jmorris@namei.org>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>
-References: <20201027200358.557003-1-mic@digikod.net>
- <20201027200358.557003-9-mic@digikod.net>
- <CAG48ez1San538w=+He309vHg4pBSCvAf7e5xeHdqeOHA6qwitw@mail.gmail.com>
- <de287149-ff42-40ca-5bd1-f48969880a06@digikod.net>
- <CAG48ez1FQVkt78129WozBwFbVhAPyAr9oJAHFHAbbNxEBr9h1g@mail.gmail.com>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <163f298b-b492-fee0-b475-102ae8170419@digikod.net>
-Date:   Fri, 30 Oct 2020 13:41:29 +0100
-User-Agent: 
+        with ESMTP id S1726772AbgJ3O6c (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 30 Oct 2020 10:58:32 -0400
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81C75C0613D9
+        for <linux-api@vger.kernel.org>; Fri, 30 Oct 2020 07:58:31 -0700 (PDT)
+Received: by mail-ed1-x542.google.com with SMTP id t11so6905646edj.13
+        for <linux-api@vger.kernel.org>; Fri, 30 Oct 2020 07:58:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=9fkQXWnoPSypfyxvIrXWSyd1r4Ua0eeDJczOBpIf/BU=;
+        b=cba/prsbSBmYoHoIyJJ/4nz72WNuXyuE8Im8hHokykrknu6T+ZGQ3oNaEZCnDQMKfK
+         7InrWK9/LAehftIUxFF07tvuUQ/41xDXt8c8cRINmlHgR1biRfbdW9zZPxVC6xa8zOlP
+         K6M6oRsBtl8MN1IVNiGcNelh1LOXBPRCedQHjpXjHdhTZUoXOfQ5ssal2G05i4dOSCvv
+         FIx5VhgkFc0MSmWonLWORS6bGxkDSNKyYqWmGabj1TsHCGlpIexLxPpAsXs6aOmBy4OY
+         u1xNW9W0JHHwE2pLQBvrBX9wQMtbUIk6CF2f6hu1cvsgwIaE0/cl0h377THHVavVg8oE
+         Ypbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=9fkQXWnoPSypfyxvIrXWSyd1r4Ua0eeDJczOBpIf/BU=;
+        b=UlceRCafkV8YY3TvwHX/6K7InZQIHdu/S/+GiIFLSjmcrSkheoMaePxYb8h/9yg5qz
+         RYCDzVI7/mwHoxtw6BeKohoDBcWY/vEGGwIHZSS7dcW8fgrD8F1REugH0qdDmHPi8mjp
+         kn8MvazLe+SUK2i4jwdmcRinDDlRHwBvLhMuAfyfyJw+CuO2VLQF+8uR8LTN/EMxfeA/
+         fje93ckxT3PT/y+dgn+OKirG9hWZyua7fos0ohXmUVsaBXuPgSVk95pkI0AUkmwQ2NxR
+         lKETERQRGviOCSZRaKnTKp/M8Ws+//7GrfEqif5JM2qZnbRTiZNqutdYiRtt8lv6U3pS
+         S9aQ==
+X-Gm-Message-State: AOAM533Uz7RcuQRr12K9kPK2bpaO3Gk8UGYLyMbJHnYiCadZUFofTsXS
+        TNLKwPkuPq4cJlcB5SavNwhpl3/4D6APXPpj8A==
+X-Google-Smtp-Source: ABdhPJz2xsjxOvoK0J4Ck702AA6tUztWDi8Hr+jNkMDLFNqNVV9sSKYCidfmYBReGemdlea1AJeouFi1w4gUiDPqlYM=
+X-Received: by 2002:a50:9e82:: with SMTP id a2mr2760020edf.117.1604069910083;
+ Fri, 30 Oct 2020 07:58:30 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAG48ez1FQVkt78129WozBwFbVhAPyAr9oJAHFHAbbNxEBr9h1g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a50:f14c:0:0:0:0:0 with HTTP; Fri, 30 Oct 2020 07:58:29
+ -0700 (PDT)
+Reply-To: li.anable85@gmail.com
+From:   Liliane Abel <k.griest04@gmail.com>
+Date:   Fri, 30 Oct 2020 15:58:29 +0100
+Message-ID: <CABAZL7kO5JQZMDhdiGK6i8XTXe8pbB5xWmsnDKzGXmDahQmacQ@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+Dearest
 
-On 30/10/2020 04:07, Jann Horn wrote:
-> On Thu, Oct 29, 2020 at 12:30 PM Mickaël Salaün <mic@digikod.net> wrote:
->> On 29/10/2020 02:06, Jann Horn wrote:
->>> On Tue, Oct 27, 2020 at 9:04 PM Mickaël Salaün <mic@digikod.net> wrote:
->>>> These 3 system calls are designed to be used by unprivileged processes
->>>> to sandbox themselves:
-> [...]
->>>> +       /*
->>>> +        * Similar checks as for seccomp(2), except that an -EPERM may be
->>>> +        * returned.
->>>> +        */
->>>> +       if (!task_no_new_privs(current)) {
->>>> +               err = security_capable(current_cred(), current_user_ns(),
->>>> +                               CAP_SYS_ADMIN, CAP_OPT_NOAUDIT);
->>>
->>> I think this should be ns_capable_noaudit(current_user_ns(), CAP_SYS_ADMIN)?
->>
->> Right. The main difference is that ns_capable*() set PF_SUPERPRIV in
->> current->flags. I guess seccomp should use ns_capable_noaudit() as well?
-> 
-> Yeah. That seccomp code is from commit e2cfabdfd0756, with commit date
-> in April 2012, while ns_capable_noaudit() was introduced in commit
-> 98f368e9e263, with commit date in June 2016; the seccomp code predates
-> the availability of that API.
-> 
-> Do you want to send a patch to Kees for that, or should I?
-> 
+Greeting my dear, I am Liliane Abel by name, The only daughter of late
+Mr.Benson Abel. My father is one of the top Politician in our country
+and my mother is a farmers and cocoa merchant when they were both
+alive. After the death of my mother, long ago, my father was
+controlling their business until he was poisoned by his business
+associates which he suffered and died.
 
-I found another case of this inconsistency in ptrace. I sent patches:
-https://lore.kernel.org/lkml/20201030123849.770769-1-mic@digikod.net/
+Before the death of my father, He told me about (two million five
+hundred thousand united states dollars) which he deposited in the bank
+in Lome-Togo, It was the money he intended to transfer overseas for
+investment before he was poisoned. He also instructed me that I should
+seek for foreign partners in any country of my choice who will assist
+me transfer this money in overseas account where the money will be
+wisely invested.
+I am seeking for your kind assistance in the following ways:  (1) to
+provide a safe bank account into where the money will be transferred
+for investment. (2) To serve as a guardian of this fund since I am a
+girl of 19 years old. (3) To make arrangement for me to come over to
+your country to further my education. This is my reason for writing to
+you. Please if you are willing to assist me I will offer you 25% of
+the total money. Reply if  you are interested
+Best regards.
+Liliane Abel.
