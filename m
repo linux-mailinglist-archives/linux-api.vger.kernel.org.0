@@ -2,60 +2,23 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6220C29F73E
-	for <lists+linux-api@lfdr.de>; Thu, 29 Oct 2020 22:59:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DFAE29FB23
+	for <lists+linux-api@lfdr.de>; Fri, 30 Oct 2020 03:18:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725794AbgJ2V7R (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 29 Oct 2020 17:59:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50836 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725774AbgJ2V7Q (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 29 Oct 2020 17:59:16 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70DAEC0613D2
-        for <linux-api@vger.kernel.org>; Thu, 29 Oct 2020 14:59:16 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id t14so3485469pgg.1
-        for <linux-api@vger.kernel.org>; Thu, 29 Oct 2020 14:59:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=content-transfer-encoding:from:mime-version:subject:date:message-id
-         :references:cc:in-reply-to:to;
-        bh=7mpKGmhk7KbAdNRg8CrtKSJUwgz+Qb8kytsY0ITcAGk=;
-        b=ovnhX+qIKiPabZOH4hn59CbnR86mckuEhcSQzDfD4ogDnQOeqgaiDVK+ftwlz4GjBw
-         IF1LruixH+2U6xBdFKzvJSsEFdLRlm7NDiQJeYH8lEDgRegvi09Eyiiv8FzMP+YkBG7h
-         ErfC2CZ5UKzIDsJHnHHf2T8LL8QH3qahSBYYYcM+SOXYKIjkpy79Ly9naIJkDg8sGB2z
-         5bXFt7H0PEyXuS99nQGXBuMc9J66121arDOCzaie84/i+VyFUCX/8Q4tK2WqqJo5rtL0
-         KrmO0EobGfrkMQOJZUGWcNnsaI2FFqZ7n7t71N7ySdNYlzkPHlmVRfWSzIMDotoXHJrg
-         nPig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:content-transfer-encoding:from:mime-version
-         :subject:date:message-id:references:cc:in-reply-to:to;
-        bh=7mpKGmhk7KbAdNRg8CrtKSJUwgz+Qb8kytsY0ITcAGk=;
-        b=MMs965GF+12p9wmcSn9wwNVFf+vbCVYcagpBwKpOAH8LycpQVtI/LROa4XPj7+yK+r
-         xM9rWmT642JQv+KHJJqu9QUmhcEHrQmtH2pmZRnbdPiKnXDQ04VutXwVIzj30nESE0ZH
-         J36QFLBKGkisRs3Nb7Psmhv5Zq+9pAGWZ73+42vd2GiinMT1wAADtMmCpo0bmk3X1Yqu
-         QgqUlxXp+bDmkXYjV/1YGLv+Lj/vUmhxdEXL2tgrgzH1pN+4f4nfoygK+YwMWkgQ+OP6
-         J8n9L+RBnF4eiA+vx9a9p0GM1H2VfJbkqd2AlSMhrFpVDQ3xv1BaMt9bhxkr+P73GYba
-         SngA==
-X-Gm-Message-State: AOAM533cYNuMg/WW2IzIDjRiMsF1PoowWb8r/PxszHbNf8jpDP9U/m0c
-        zERCaM/WDhbBr1s6U0ahYM9rHg==
-X-Google-Smtp-Source: ABdhPJxSWOh4ftHI47KiCrZ0illEdrC1OP4fiqquB1QRs+VL+ywYh7woPj1uc9hDTpndfsW71KZ7Hw==
-X-Received: by 2002:a63:1d12:: with SMTP id d18mr5911604pgd.314.1604008755871;
-        Thu, 29 Oct 2020 14:59:15 -0700 (PDT)
-Received: from ?IPv6:2600:1012:b011:6d49:b5a8:d1fb:e286:b4a2? ([2600:1012:b011:6d49:b5a8:d1fb:e286:b4a2])
-        by smtp.gmail.com with ESMTPSA id mp13sm814127pjb.36.2020.10.29.14.59.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Oct 2020 14:59:15 -0700 (PDT)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From:   Andy Lutomirski <luto@amacapital.net>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH 00/34] fs: idmapped mounts
-Date:   Thu, 29 Oct 2020 14:58:55 -0700
-Message-Id: <8E455D54-FED4-4D06-8CB7-FC6291C64259@amacapital.net>
-References: <20201029003252.2128653-1-christian.brauner@ubuntu.com>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        id S1725831AbgJ3CSJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 29 Oct 2020 22:18:09 -0400
+Received: from mail.hallyn.com ([178.63.66.53]:38118 "EHLO mail.hallyn.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725781AbgJ3CSJ (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 29 Oct 2020 22:18:09 -0400
+Received: by mail.hallyn.com (Postfix, from userid 1001)
+        id 027D69B4; Thu, 29 Oct 2020 21:18:05 -0500 (CDT)
+Date:   Thu, 29 Oct 2020 21:18:05 -0500
+From:   "Serge E. Hallyn" <serge@hallyn.com>
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     Aleksa Sarai <cyphar@cyphar.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
         Christoph Hellwig <hch@infradead.org>,
         linux-fsdevel@vger.kernel.org,
         John Johansen <john.johansen@canonical.com>,
@@ -76,14 +39,13 @@ Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Theodore Tso <tytso@mit.edu>, Alban Crequy <alban@kinvolk.io>,
         Tycho Andersen <tycho@tycho.ws>,
         David Howells <dhowells@redhat.com>,
-        James Bottomley <james.bottomley@hansenpartnership.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
         Jann Horn <jannh@google.com>,
         Seth Forshee <seth.forshee@canonical.com>,
-        =?utf-8?Q?St=C3=A9phane_Graber?= <stgraber@ubuntu.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
+        =?iso-8859-1?Q?St=E9phane?= Graber <stgraber@ubuntu.com>,
         Lennart Poettering <lennart@poettering.net>,
-        "Eric W. Biederman" <ebiederm@xmission.com>, smbarber@chromium.org,
-        Phil Estes <estesp@gmail.com>, Serge Hallyn <serge@hallyn.com>,
+        smbarber@chromium.org, Phil Estes <estesp@gmail.com>,
+        Serge Hallyn <serge@hallyn.com>,
         Kees Cook <keescook@chromium.org>,
         Todd Kjos <tkjos@google.com>, Jonathan Corbet <corbet@lwn.net>,
         containers@lists.linux-foundation.org,
@@ -91,109 +53,95 @@ Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         linux-ext4@vger.kernel.org, linux-unionfs@vger.kernel.org,
         linux-audit@redhat.com, linux-integrity@vger.kernel.org,
         selinux@vger.kernel.org
-In-Reply-To: <20201029003252.2128653-1-christian.brauner@ubuntu.com>
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-X-Mailer: iPhone Mail (18A393)
+Subject: Re: [PATCH 00/34] fs: idmapped mounts
+Message-ID: <20201030021805.GA20489@mail.hallyn.com>
+References: <20201029003252.2128653-1-christian.brauner@ubuntu.com>
+ <87pn51ghju.fsf@x220.int.ebiederm.org>
+ <20201029155148.5odu4j2kt62ahcxq@yavin.dot.cyphar.com>
+ <87361xdm4c.fsf@x220.int.ebiederm.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87361xdm4c.fsf@x220.int.ebiederm.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Thu, Oct 29, 2020 at 11:37:23AM -0500, Eric W. Biederman wrote:
+> Aleksa Sarai <cyphar@cyphar.com> writes:
+> 
+> > On 2020-10-29, Eric W. Biederman <ebiederm@xmission.com> wrote:
+> >> Christian Brauner <christian.brauner@ubuntu.com> writes:
+> >> 
+> >> > Hey everyone,
+> >> >
+> >> > I vanished for a little while to focus on this work here so sorry for
+> >> > not being available by mail for a while.
+> >> >
+> >> > Since quite a long time we have issues with sharing mounts between
+> >> > multiple unprivileged containers with different id mappings, sharing a
+> >> > rootfs between multiple containers with different id mappings, and also
+> >> > sharing regular directories and filesystems between users with different
+> >> > uids and gids. The latter use-cases have become even more important with
+> >> > the availability and adoption of systemd-homed (cf. [1]) to implement
+> >> > portable home directories.
+> >> 
+> >> Can you walk us through the motivating use case?
+> >> 
+> >> As of this year's LPC I had the distinct impression that the primary use
+> >> case for such a feature was due to the RLIMIT_NPROC problem where two
+> >> containers with the same users still wanted different uid mappings to
+> >> the disk because the users were conflicting with each other because of
+> >> the per user rlimits.
+> >> 
+> >> Fixing rlimits is straight forward to implement, and easier to manage
+> >> for implementations and administrators.
+> >
+> > This is separate to the question of "isolated user namespaces" and
+> > managing different mappings between containers. This patchset is solving
+> > the same problem that shiftfs solved -- sharing a single directory tree
+> > between containers that have different ID mappings. rlimits (nor any of
+> > the other proposals we discussed at LPC) will help with this problem.
+> 
+> First and foremost: A uid shift on write to a filesystem is a security
+> bug waiting to happen.  This is especially in the context of facilities
+> like iouring, that play very agressive games with how process context
+> makes it to  system calls.
+> 
+> The only reason containers were not immediately exploitable when iouring
+> was introduced is because the mechanisms are built so that even if
+> something escapes containment the security properties still apply.
+> Changes to the uid when writing to the filesystem does not have that
+> property.  The tiniest slip in containment will be a security issue.
+> 
+> This is not even the least bit theoretical.  I have seem reports of how
+> shitfs+overlayfs created a situation where anyone could read
+> /etc/shadow.
+> 
+> If you are going to write using the same uid to disk from different
+> containers the question becomes why can't those containers configure
+> those users to use the same kuid?
 
+Because if user 'myapp' in two otherwise isolated containers both have
+the same kuid, so that they can write to a shared directory, then root
+in container 1 has privilege over all files owned by 'myapp' in
+container 2.
 
-> On Oct 28, 2020, at 5:35 PM, Christian Brauner <christian.brauner@ubuntu.c=
-om> wrote:
->=20
-> =EF=BB=BFHey everyone,
->=20
-> I vanished for a little while to focus on this work here so sorry for
-> not being available by mail for a while.
->=20
-> Since quite a long time we have issues with sharing mounts between
-> multiple unprivileged containers with different id mappings, sharing a
-> rootfs between multiple containers with different id mappings, and also
-> sharing regular directories and filesystems between users with different
-> uids and gids. The latter use-cases have become even more important with
-> the availability and adoption of systemd-homed (cf. [1]) to implement
-> portable home directories.
->=20
-> The solutions we have tried and proposed so far include the introduction
-> of fsid mappings, a tiny overlay based filesystem, and an approach to
-> call override creds in the vfs. None of these solutions have covered all
-> of the above use-cases.
->=20
-> The solution proposed here has it's origins in multiple discussions
-> during Linux Plumbers 2017 during and after the end of the containers
-> microconference.
-> To the best of my knowledge this involved Aleksa, St=C3=A9phane, Eric, Dav=
-id,
-> James, and myself. A variant of the solution proposed here has also been
-> discussed, again to the best of my knowledge, after a Linux conference
-> in St. Petersburg in Russia between Christoph, Tycho, and myself in 2017
-> after Linux Plumbers.
-> I've taken the time to finally implement a working version of this
-> solution over the last weeks to the best of my abilities. Tycho has
-> signed up for this sligthly crazy endeavour as well and he has helped
-> with the conversion of the xattr codepaths.
->=20
-> The core idea is to make idmappings a property of struct vfsmount
-> instead of tying it to a process being inside of a user namespace which
-> has been the case for all other proposed approaches.
-> It means that idmappings become a property of bind-mounts, i.e. each
-> bind-mount can have a separate idmapping. This has the obvious advantage
-> that idmapped mounts can be created inside of the initial user
-> namespace, i.e. on the host itself instead of requiring the caller to be
-> located inside of a user namespace. This enables such use-cases as e.g.
-> making a usb stick available in multiple locations with different
-> idmappings (see the vfat port that is part of this patch series).
->=20
-> The vfsmount struct gains a new struct user_namespace member. The
-> idmapping of the user namespace becomes the idmapping of the mount. A
-> caller that is either privileged with respect to the user namespace of
-> the superblock of the underlying filesystem or a caller that is
-> privileged with respect to the user namespace a mount has been idmapped
-> with can create a new bind-mount and mark it with a user namespace.
+Whereas if they can each have distinct kuids, but when writing to the
+shared fs have a shared uid not otherwise belonging to either container,
+their rootfs's can remain completely off limits to each other.
 
-So one way of thinking about this is that a user namespace that has an idmap=
-ped mount can, effectively, create or chown files with *any* on-disk uid or g=
-id by doing it directly (if that uid exists in-namespace, which is likely fo=
-r interesting ids like 0) or by creating a new userns with that id inside.
-
-For a file system that is private to a container, this seems moderately safe=
-, although this may depend on what exactly =E2=80=9Cprivate=E2=80=9D means. W=
-e probably want a mechanism such that, if you are outside the namespace, a r=
-eference to a file with the namespace=E2=80=99s vfsmnt does not confer suid p=
-rivilege.
-
-Imagine the following attack: user creates a namespace with a root user and a=
-rranges to get an idmapped fs, e.g. by inserting an ext4 usb stick or using w=
-hatever container management tool does this.  Inside the namespace, the user=
- creates a suid-root file.
-
-Now, outside the namespace, the user has privilege over the namespace.  (I=E2=
-=80=99m assuming there is some tool that will idmap things in a namespace ow=
-ned by an unprivileged user, which seems likely.). So the user makes a new b=
-ind mount and if maps it to the init namespace. Game over.
-
-So I think we need to have some control to mitigate this in a comprehensible=
- way. A big hammer would be to require nosuid. A smaller hammer might be to s=
-ay that you can=E2=80=99t create a new idmapped mount unless you have privil=
-ege over the userns that you want to use for the idmap and to say that a vfs=
-mnt=E2=80=99s paths don=E2=80=99t do suid outside the idmap namespace.  We a=
-lready do the latter for the vfsmnt=E2=80=99s mntns=E2=80=99s userns.
-
-Hmm.  What happens if we require that an idmap userns equal the vfsmnt=E2=80=
-=99s mntns=E2=80=99s userns?  Is that too limiting?
-
-I hope that whatever solution gets used is straightforward enough to wrap on=
-e=E2=80=99s head around.
-
-> When a file/inode is accessed through an idmapped mount the i_uid and
-> i_gid of the inode will be remapped according to the user namespace the
-> mount has been marked with. When a new object is created based on the
-> fsuid and fsgid of the caller they will similarly be remapped according
-> to the user namespace of the mount they care created from.
-
-By =E2=80=9Cmapped according to=E2=80=9D, I presume you mean that the on-dis=
-k uid/gid is the gid as seen in the user namespace in question.
-
-
+> What fixing rlimits does is it fixes one of the reasons that different
+> containers could not share the same kuid for users that want to write to
+> disk with the same uid.
+> 
+> 
+> I humbly suggest that it will be more secure, and easier to maintain for
+> both developers and users if we fix the reasons people want different
+> containers to have the same user running with different kuids.
+> 
+> If not what are the reasons we fundamentally need the same on-disk user
+> using multiple kuids in the kernel?
+> 
+> Eric
