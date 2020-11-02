@@ -2,226 +2,175 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 03D2C2A3260
-	for <lists+linux-api@lfdr.de>; Mon,  2 Nov 2020 18:55:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 381AE2A3519
+	for <lists+linux-api@lfdr.de>; Mon,  2 Nov 2020 21:29:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725831AbgKBRy6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 2 Nov 2020 12:54:58 -0500
-Received: from foss.arm.com ([217.140.110.172]:35650 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725817AbgKBRy5 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 2 Nov 2020 12:54:57 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EE2231396;
-        Mon,  2 Nov 2020 09:54:56 -0800 (PST)
-Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F26DE3F719;
-        Mon,  2 Nov 2020 09:54:54 -0800 (PST)
-Date:   Mon, 2 Nov 2020 17:54:51 +0000
-From:   Dave Martin <Dave.Martin@arm.com>
-To:     Peter Collingbourne <pcc@google.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Will Deacon <will@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Helge Deller <deller@gmx.de>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        linux-api@vger.kernel.org,
-        David Spickett <david.spickett@linaro.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Richard Henderson <rth@twiddle.net>
-Subject: Re: [PATCH v12 8/8] arm64: expose FAR_EL1 tag bits in siginfo
-Message-ID: <20201102175451.GF6882@arm.com>
-References: <cover.1602892799.git.pcc@google.com>
- <2dec46a70da175478932d034ebe74d0b4f5133c4.1602892799.git.pcc@google.com>
+        id S1725929AbgKBU3h (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 2 Nov 2020 15:29:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49100 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725852AbgKBU3h (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 2 Nov 2020 15:29:37 -0500
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A24BDC061A04
+        for <linux-api@vger.kernel.org>; Mon,  2 Nov 2020 12:29:36 -0800 (PST)
+Received: by mail-wm1-x343.google.com with SMTP id k18so10737421wmj.5
+        for <linux-api@vger.kernel.org>; Mon, 02 Nov 2020 12:29:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ECOxljNhNX/s1sQ6iseERJZz03J3Iz4bJCTWa11aECk=;
+        b=jPO0UrA+g8o1Z94W0ABEZZV+bkPHrnTbfSRspSkgKKEvySDQKARqABAqhAPSZhyPPu
+         egtFdNIu1i1Ue/xxkt0NhC2mEbVb59sN81GRBmSf7cnvvmDcVV7B20mnMXionPtPiRCZ
+         7Tp/ALKy6GXTAPbbS/mcYUxxtVngeYdwZH6xE9u6gnIbdPkes8jzXHjkGPlJhtRCRHOJ
+         YrIFb90mCDqzB55cBoXZjHARhiQUBIaVH+2iAnGHyYW22ppskRea8zUb97CO2UBPXWKk
+         mnHySbK9GOyi0eQ0GKdGsfg2KDJXiBW+Q+pgSC7Z82uxMbeIpAOYvh8NJmnTn0s9+Ha6
+         8wMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ECOxljNhNX/s1sQ6iseERJZz03J3Iz4bJCTWa11aECk=;
+        b=ngs1mLNf8ABg5XC5Lw0cqZ6VezJPOfvvOZ7KhrpSLoOenW3qI5tSwZCmvrzb89eILE
+         NTwFElYl54/OYquuZu5atXRHtWNIr6YXZUVSHp3lLjvrBm5YuTVkbS7dVDsUtjc1j7gG
+         dWT+5jcRmajNq8287AHhBAJ8hiYO+ZgTX0bFEpeBjvOkcTyj0Rc/wlwzlw4+LDt0cnb6
+         ay92OWlQgfMGhtJCsXGwihNHgQ8c2H7acUEOVAswrVmFN8ITdVuJscxC/fVxTXc/QMHI
+         SWA2G90WL4DoDHX/74bnQZdHVNggCzNpj9H+AkKGkIbw2EZmEZxjsbkJvX1750Z7ml0x
+         gi/A==
+X-Gm-Message-State: AOAM530xunxLiil7s6xPqwCYWqoPbFjdFHYVVPwNAwIG/62YDYJSgo6u
+        Qf7/vj1UJx/30F5kNKbSXXZJqHqx4ErD3Oj8ukWUIA==
+X-Google-Smtp-Source: ABdhPJyBqPT7hImxXae117HZTa3xYjk6cLTEcHGERmKQOGcQAtw23SsJ9EEH1gW1YbRM9hOa//4svSCGGim8n//N9+I=
+X-Received: by 2002:a1c:ba0b:: with SMTP id k11mr8999674wmf.37.1604348975030;
+ Mon, 02 Nov 2020 12:29:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2dec46a70da175478932d034ebe74d0b4f5133c4.1602892799.git.pcc@google.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+References: <CAJuCfpGz1kPM3G1gZH+09Z7aoWKg05QSAMMisJ7H5MdmRrRhNQ@mail.gmail.com>
+ <CAJuCfpGjuUz5FPpR5iQ7oURJAhnP1ffBAnERuTUp9uPxQCRhDg@mail.gmail.com>
+ <20201014120937.GC4440@dhcp22.suse.cz> <CAJuCfpEQ_ADYsMrF_zjfAeQ3d-FALSP+CeYsvgH2H1-FSoGGqg@mail.gmail.com>
+ <20201015092030.GB22589@dhcp22.suse.cz> <CAJuCfpHwXcq1PfzHgqyYBR3N53TtV2WMt_Oubz0JZkvJHbFKGw@mail.gmail.com>
+In-Reply-To: <CAJuCfpHwXcq1PfzHgqyYBR3N53TtV2WMt_Oubz0JZkvJHbFKGw@mail.gmail.com>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Mon, 2 Nov 2020 12:29:24 -0800
+Message-ID: <CAJuCfpH9iUt0cs1GBQppgdcD8chojCNXk22S+PeSgQ-bA7iitQ@mail.gmail.com>
+Subject: Re: [RFC]: userspace memory reaping
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     linux-api@vger.kernel.org, linux-mm <linux-mm@kvack.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Roman Gushchin <guro@fb.com>, Rik van Riel <riel@surriel.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Christian Brauner <christian@brauner.io>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Tim Murray <timmurray@google.com>,
+        kernel-team <kernel-team@android.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Mel Gorman <mgorman@techsingularity.net>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Oct 16, 2020 at 05:12:33PM -0700, Peter Collingbourne wrote:
-> The kernel currently clears the tag bits (i.e. bits 56-63) in the fault
-> address exposed via siginfo.si_addr and sigcontext.fault_address. However,
-> the tag bits may be needed by tools in order to accurately diagnose
-> memory errors, such as HWASan [1] or future tools based on the Memory
-> Tagging Extension (MTE).
-> 
-> We should not stop clearing these bits in the existing fault address
-> fields, because there may be existing userspace applications that are
-> expecting the tag bits to be cleared. Instead, create a new pair of
-> union fields in siginfo._sigfault, and store the tag bits of FAR_EL1
-> there, together with a mask specifying which bits are valid.
-> 
-> A flag is added to si_xflags to allow userspace to determine whether
-> the values in the fields are valid.
-> 
-> [1] http://clang.llvm.org/docs/HardwareAssistedAddressSanitizerDesign.html
-> 
-> Signed-off-by: Peter Collingbourne <pcc@google.com>
-> Link: https://linux-review.googlesource.com/id/Ia8876bad8c798e0a32df7c2ce1256c4771c81446
-> ---
-> v12:
-> - add new fields to signal_compat.c test cases
-> - rebased to 5.10-rc1
-> - mask out bits 63:60 for tag check faults
-> 
-> v11:
-> - add a comment explaining what the arch hook should do
-> - rename ignored bits to tag bits
-> 
-> v10:
-> - rename the flag to SIXFLAG_ADDR_IGNORED_BITS
-> - use an arch hook to specify which bits are ignored, instead
->   of passing them explicitly
-> - while refactoring for the arch hook, noticed that my previous
->   patches missed a case involving cache maintenance instructions,
->   so expose the tag bits for that signal as well
-> 
-> v9:
-> - make the ignored bits fields generic
-> - add some new dependent patches that prepare us to store the
->   field in such a way that userspace can detect their presence
-> 
-> v8:
-> - rebase onto 5.8rc2
-> 
-> v7:
-> - switch to a new siginfo field instead of using sigcontext
-> - merge the patch back into one since the other patches are now
->   unnecessary
-> 
-> v6:
-> - move fault address and fault code into the kernel_siginfo data structure
-> - split the patch in three since it was getting large and now has
->   generic and arch-specific parts
-> 
-> v5:
-> - add padding to fault_addr_top_byte_context in order to ensure the correct
->   size and preserve sp alignment
-> 
-> v4:
-> - expose only the tag bits in the context instead of the entire FAR_EL1
-> - remove mention of the new context from the sigcontext.__reserved[] note
-> 
-> v3:
-> - add documentation to tagged-pointers.rst
-> - update comments in sigcontext.h
-> 
-> v2:
-> - revert changes to hw_breakpoint.c
-> - rename set_thread_esr to set_thread_far_esr
-> 
->  Documentation/arm64/tagged-pointers.rst | 21 +++++---
->  arch/arm64/include/asm/exception.h      |  2 +-
->  arch/arm64/include/asm/signal.h         | 19 +++++++
->  arch/arm64/include/asm/system_misc.h    |  2 +-
->  arch/arm64/include/asm/traps.h          |  6 +--
->  arch/arm64/kernel/debug-monitors.c      |  5 +-
->  arch/arm64/kernel/entry-common.c        |  2 -
->  arch/arm64/kernel/ptrace.c              |  7 +--
->  arch/arm64/kernel/sys_compat.c          |  5 +-
->  arch/arm64/kernel/traps.c               | 29 ++++++-----
->  arch/arm64/mm/fault.c                   | 68 ++++++++++++++-----------
->  arch/x86/kernel/signal_compat.c         |  9 +++-
->  include/linux/compat.h                  |  2 +
->  include/linux/signal.h                  | 16 ++++++
->  include/uapi/asm-generic/siginfo.h      | 10 ++++
->  kernel/signal.c                         | 18 ++++++-
->  16 files changed, 148 insertions(+), 73 deletions(-)
->  create mode 100644 arch/arm64/include/asm/signal.h
-> 
-> diff --git a/Documentation/arm64/tagged-pointers.rst b/Documentation/arm64/tagged-pointers.rst
-> index eab4323609b9..032c09a876f4 100644
-> --- a/Documentation/arm64/tagged-pointers.rst
-> +++ b/Documentation/arm64/tagged-pointers.rst
-> @@ -53,12 +53,21 @@ visibility.
->  Preserving tags
->  ---------------
->  
-> -Non-zero tags are not preserved when delivering signals. This means that
-> -signal handlers in applications making use of tags cannot rely on the
-> -tag information for user virtual addresses being maintained for fields
-> -inside siginfo_t. One exception to this rule is for signals raised in
-> -response to watchpoint debug exceptions, where the tag information will
-> -be preserved.
-> +Non-zero tags are not preserved in the fault address fields
-> +siginfo.si_addr or sigcontext.fault_address when delivering
-> +signals. This means that signal handlers in applications making use
-> +of tags cannot rely on the tag information for user virtual addresses
-> +being maintained in these fields. One exception to this rule is for
-> +signals raised in response to watchpoint debug exceptions, where the
-> +tag information will be preserved.
-> +
-> +The fault address tag is preserved in the si_addr_tag_bits field
-> +of siginfo, which is set for signals raised in response to data aborts
-> +and instruction aborts. The si_addr_tag_bits_mask field indicates
-> +which bits of the field are valid. The validity of these fields is
-> +indicated by the SIXFLAG_ADDR_TAG_BITS flag in siginfo.si_xflags,
-> +and the validity of si_xflags in turn is indicated by the kernel
-> +indicating support for the sigaction.sa_flags flag SA_XFLAGS.
->  
->  The architecture prevents the use of a tagged PC, so the upper byte will
->  be set to a sign-extension of bit 55 on exception return.
-> diff --git a/arch/arm64/include/asm/exception.h b/arch/arm64/include/asm/exception.h
-> index 99b9383cd036..2a8aa1884d8a 100644
-> --- a/arch/arm64/include/asm/exception.h
-> +++ b/arch/arm64/include/asm/exception.h
-> @@ -32,7 +32,7 @@ static inline u32 disr_to_esr(u64 disr)
->  }
->  
->  asmlinkage void enter_from_user_mode(void);
-> -void do_mem_abort(unsigned long addr, unsigned int esr, struct pt_regs *regs);
-> +void do_mem_abort(unsigned long far, unsigned int esr, struct pt_regs *regs);
->  void do_undefinstr(struct pt_regs *regs);
->  void do_bti(struct pt_regs *regs);
->  asmlinkage void bad_mode(struct pt_regs *regs, int reason, unsigned int esr);
-> diff --git a/arch/arm64/include/asm/signal.h b/arch/arm64/include/asm/signal.h
-> new file mode 100644
-> index 000000000000..46f9b3c61896
-> --- /dev/null
-> +++ b/arch/arm64/include/asm/signal.h
-> @@ -0,0 +1,19 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#ifndef __ARM64_ASM_SIGNAL_H
-> +#define __ARM64_ASM_SIGNAL_H
-> +
-> +#include <uapi/asm/signal.h>
-> +#include <uapi/asm/siginfo.h>
-> +
-> +static inline unsigned long arch_addr_tag_bits_mask(unsigned long sig,
-> +						    unsigned long si_code)
-> +{
-> +	if (sig == SIGTRAP && si_code == TRAP_BRKPT)
-> +		return 0;
-> +	if (sig == SIGSEGV && si_code == SEGV_MTESERR)
-> +		return 0xfUL << 56;
+On Thu, Oct 15, 2020 at 12:25 PM Suren Baghdasaryan <surenb@google.com> wrote:
+>
+> On Thu, Oct 15, 2020 at 2:20 AM Michal Hocko <mhocko@suse.com> wrote:
+> >
+> > On Wed 14-10-20 09:57:20, Suren Baghdasaryan wrote:
+> > > On Wed, Oct 14, 2020 at 5:09 AM Michal Hocko <mhocko@suse.com> wrote:
+> > [...]
+> > > > > > The need is similar to why oom-reaper was introduced - when a process
+> > > > > > is being killed to free memory we want to make sure memory is freed
+> > > > > > even if the victim is in uninterruptible sleep or is busy and reaction
+> > > > > > to SIGKILL is delayed by an unpredictable amount of time. I
+> > > > > > experimented with enabling process_madvise(MADV_DONTNEED) operation
+> > > > > > and using it to force memory reclaim of the target process after
+> > > > > > sending SIGKILL. Unfortunately this approach requires the caller to
+> > > > > > read proc/pid/maps to extract the list of VMAs to pass as an input to
+> > > > > > process_madvise().
+> > > >
+> > > > Well I would argue that this is not really necessary. You can simply
+> > > > call process_madvise with the full address range and let the kernel
+> > > > operated only on ranges which are safe to tear down asynchronously.
+> > > > Sure that would require some changes to the existing code to not fail
+> > > > on those ranges if they contain incompatible vmas but that should be
+> > > > possible. If we are worried about backward compatibility then a
+> > > > dedicated flag could override.
+> > > >
+> > >
+> > > IIUC this is very similar to the last option I proposed. I think this
+> > > is doable if we treat it as a special case. process_madvise() return
+> > > value not being able to handle a large range would still be a problem.
+> > > Maybe we can return MAX_INT in those cases?
+> >
+> > madvise is documented to return
+> >        On success, madvise() returns zero.  On error, it returns -1 and
+> >        errno is set appropriately.
+> > [...]
+> > NOTES
+> >    Linux notes
+> >        The Linux implementation requires that the address addr be
+> >        page-aligned, and allows length to be zero.  If there are some
+> >        parts of the specified address range that are not mapped, the
+> >        Linux version of madvise() ignores them and applies the call to
+> >        the rest (but returns ENOMEM from the system call, as it should).
+> >
+> > I have learned about ENOMEM case only now. And it seems this is indeed
+> > what we are implementing. So if we want to add a new mode to
+> > opportunistically attempt madvise on the whole given range without a
+> > failure then we need a specific flag for that. Advice is a number rather
+> > than a bitmask but (ab)using the top bit or use negative number space
+> > (e.g. -MADV_DONTNEED) for that sounds possible albeit bit hackish.
+>
+> process_madvise() has an additional flag parameter. Why not have a
+> separate flag to denote that we want to just skip VMA gaps and proceed
+> without error? Something like MADVF_SKIP_GAPS?
+>
+> >
+> > [...]
+> > > > I do have a vague recollection that we have discussed a kill(2) based
+> > > > approach as well in the past. Essentially SIG_KILL_SYNC which would
+> > > > not only send the signal but it would start a teardown of resources
+> > > > owned by the task - at least those we can remove safely. The interface
+> > > > would be much more simple and less tricky to use. You just make your
+> > > > userspace oom killer or potentially other users call SIG_KILL_SYNC which
+> > > > will be more expensive but you would at least know that as many
+> > > > resources have been freed as the kernel can afford at the moment.
+> > >
+> > > Correct, my early RFC here
+> > > https://patchwork.kernel.org/project/linux-mm/patch/20190411014353.113252-3-surenb@google.com
+> > > was using a new flag for pidfd_send_signal() to request mm reaping by
+> > > oom-reaper kthread. IIUC you propose to have a new SIG_KILL_SYNC
+> > > signal instead of a new pidfd_send_signal() flag and otherwise a very
+> > > similar solution. Is my understanding correct?
+> >
+> > Well, I think you shouldn't focus too much on the oom-reaper aspect
+> > of it. Sure it can be used for that but I believe that a new signal
+> > should provide a sync behavior. People more familiar with the process
+> > management would be better off defining what is possible for a new sync
+> > signal.  Ideally not only pro-active process destruction but also sync
+> > waiting until the target process is released so that you know that once
+> > kill syscall returns the process is gone.
+>
+> If your suggestion is for SIG_KILL_SYNC to perform victim's resource
+> cleanup in the context of the caller while the victim is in
+> uninterruptible sleep that would definitely be useful. I assume there
+> are some resources which can't be reclaimed until the process itself
+> wakes up and handles the SIGKILL. If so, I hope kill(SIG_KILL_SYNC)
+> would not have to wait for the victim to wake up and handle the
+> signal. This would really complicate the userspace in cases when we
+> just want to reclaim whatever we can without victim's involvement and
+> continue. For cases when waiting is required waitid() with P_PIDFD can
+> be used.
+> Would this semantic work?
+>
 
-Should this be 0xffUL << 56?
+To follow up on this. Should I post an RFC implementing SIGKILL_SYNC
+which in addition to sending a kill signal would also reap the
+victim's mm in the context of the caller? Maybe having some code will
+get the discussion moving forward?
 
-I thought MTE ignored bits 63:60, rather than requiring them to be 0?
-
-The whole tag byte may be relevant for debugging purposes, even if only
-some of the bits are checked in hardware.
-
-
-For consistency, I wonder whether it makes sense to expose the bits as
-tag bits for watchpoint execeptions, even if they are left un-cleared in
-si_addr for historical reasons.
-
-
-> +	return 0xffUL << 56;
-> +}
-> +#define arch_addr_tag_bits_mask arch_addr_tag_bits_mask
-
-[...]
-
-Cheers
----Dave
+> >
+> > --
+> > Michal Hocko
+> > SUSE Labs
