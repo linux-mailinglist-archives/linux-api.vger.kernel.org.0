@@ -2,93 +2,117 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C23DD2A1EC2
-	for <lists+linux-api@lfdr.de>; Sun,  1 Nov 2020 15:48:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D187D2A22F5
+	for <lists+linux-api@lfdr.de>; Mon,  2 Nov 2020 03:17:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726529AbgKAOsM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 1 Nov 2020 09:48:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56374 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726458AbgKAOsM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 1 Nov 2020 09:48:12 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C547C0617A6;
-        Sun,  1 Nov 2020 06:48:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=wOeDmyzsiaD9d4vQIUmd2QRH3McGyUDmsoqxKEoWZww=; b=u4A9GPinHUcyv/GuBI9CUkuCA3
-        cGrepLQETbEhTnlzMKHcI/xVbGsuLVVjpOnXqaLJ2xM7aA/e4IeUFFy4pl/XhoOMxIO1NWJO77hgs
-        TxcTs1U4UkGlh3HmXIDyBvl+HqeLCfTcMG40+Ccb4S+3Imr6e1DI9LpMSvnmIZteEo3+cLZ0CEl2w
-        tj4uibh+Bk02kRbkODztXDTTPL39VWuytSTYPqpY5MxoGALTRxEIEhWnPEw/Rw1KLJoB/5uYztCZJ
-        fulyNsYFTfQC6hY8dEMmCU6IdqK6FVgpc52QqtBY3sR+nY0H3cNgFYjE7VIBfLeRPcfH1ZvPU3WAk
-        tdVc5nDA==;
-Received: from hch by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kZEeP-0006fC-Iw; Sun, 01 Nov 2020 14:48:09 +0000
-Date:   Sun, 1 Nov 2020 14:48:09 +0000
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        linux-fsdevel@vger.kernel.org,
-        John Johansen <john.johansen@canonical.com>,
-        James Morris <jmorris@namei.org>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-        Geoffrey Thomas <geofft@ldpreload.com>,
-        Mrunal Patel <mpatel@redhat.com>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Theodore Tso <tytso@mit.edu>, Alban Crequy <alban@kinvolk.io>,
-        Tycho Andersen <tycho@tycho.ws>,
-        David Howells <dhowells@redhat.com>,
-        James Bottomley <James.Bottomley@hansenpartnership.com>,
-        Jann Horn <jannh@google.com>,
-        Seth Forshee <seth.forshee@canonical.com>,
-        St??phane Graber <stgraber@ubuntu.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Lennart Poettering <lennart@poettering.net>,
-        "Eric W. Biederman" <ebiederm@xmission.com>, smbarber@chromium.org,
-        Phil Estes <estesp@gmail.com>, Serge Hallyn <serge@hallyn.com>,
-        Kees Cook <keescook@chromium.org>,
-        Todd Kjos <tkjos@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        containers@lists.linux-foundation.org,
-        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-unionfs@vger.kernel.org,
-        linux-audit@redhat.com, linux-integrity@vger.kernel.org,
-        selinux@vger.kernel.org
-Subject: Re: [PATCH 07/34] capability: handle idmapped mounts
-Message-ID: <20201101144809.GE23378@infradead.org>
-References: <20201029003252.2128653-1-christian.brauner@ubuntu.com>
- <20201029003252.2128653-8-christian.brauner@ubuntu.com>
+        id S1727686AbgKBCRV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 1 Nov 2020 21:17:21 -0500
+Received: from mail-io1-f71.google.com ([209.85.166.71]:41590 "EHLO
+        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727687AbgKBCRU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 1 Nov 2020 21:17:20 -0500
+Received: by mail-io1-f71.google.com with SMTP id j21so7454367iog.8
+        for <linux-api@vger.kernel.org>; Sun, 01 Nov 2020 18:17:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=bX3kU4P8yJuAY82nsfBl0rlgJH/7CdYcGrqPlOLjb6A=;
+        b=XWzPa/Y5HudWK7LJ7x2r4KtWdU/gpIF9HvLdfrSK/17rMwHgvopkJu0QKqQ9q6lz2P
+         DIiX3bgo8nTTgTvU3bOPyYywndWyikSJdfUilJpot6Wp/eCc9KkZZ08/lXKKkI/0FTei
+         fIjk+BLiewE5CaP6VyjdPVDgL93MLPKJKNlw1XzGokO3z5bXt55qbMKkdlYO+xZYTeGa
+         Dkp79x7uVk264QI3rOajm9G2m6yta0A9ZaOEbeMs1c946rT8Sf5dbMoPj4MNUDtFmn+S
+         2wuw+2ndjEGByw8Yl5IEK7GsiJyZp2C7sqLZNbLTig0RVENegPia3eiSyMn5rV37GJ6d
+         JIsQ==
+X-Gm-Message-State: AOAM533bsTqOr1n94OIJtUgMl8Rr7KOByUZb69JYHCl0HmOWVPO1pmyi
+        dmWZmaL9d8QX4YVYIdFayi4k0mPZIWJ4v7/7PNhUsze3V90k
+X-Google-Smtp-Source: ABdhPJwULsSw1nWFIVrIGiYn037uYE295gM+Ktp0k2e6asH2TIZtXJtu6z7hccagspKZOHSss24KU1iUY9QXh3Ua/3XwHqAxGA21
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201029003252.2128653-8-christian.brauner@ubuntu.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+X-Received: by 2002:a05:6638:a11:: with SMTP id 17mr10180222jan.59.1604283437871;
+ Sun, 01 Nov 2020 18:17:17 -0800 (PST)
+Date:   Sun, 01 Nov 2020 18:17:17 -0800
+In-Reply-To: <00000000000014370305b1c55370@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000006ef8a105b31658b5@google.com>
+Subject: Re: UBSAN: array-index-out-of-bounds in alg_bind
+From:   syzbot <syzbot+92ead4eb8e26a26d465e@syzkaller.appspotmail.com>
+To:     davem@davemloft.net, dvyukov@google.com, ebiggers@kernel.org,
+        gustavoars@kernel.org, herbert@gondor.apana.org.au,
+        jannh@google.com, keescook@chromium.org, lenaptr@google.com,
+        linux-api@vger.kernel.org, linux-crypto@vger.kernel.org,
+        linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org, syzkaller-bugs@googlegroups.com,
+        vegard.nossum@oracle.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
->  /**
->   * capable_wrt_inode_uidgid - Check nsown_capable and uid and gid mapped
->   * @inode: The inode in question
-> @@ -501,9 +513,7 @@ bool privileged_wrt_inode_uidgid(struct user_namespace *ns, const struct inode *
->   */
->  bool capable_wrt_inode_uidgid(const struct inode *inode, int cap)
->  {
-> +	return capable_wrt_mapped_inode_uidgid(&init_user_ns, inode, cap);
->  }
->  EXPORT_SYMBOL(capable_wrt_inode_uidgid);
+syzbot has found a reproducer for the following issue on:
 
-Please avoid these silly wrappers and just switch all callers to pass
-the namespaces instead of creating boilerplate code.  Same for the other
-functions where you do this even even worse the method calls.
+HEAD commit:    3cea11cd Linux 5.10-rc2
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=1443bf92500000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=e791ddf0875adf65
+dashboard link: https://syzkaller.appspot.com/bug?extid=92ead4eb8e26a26d465e
+compiler:       clang version 11.0.0 (https://github.com/llvm/llvm-project.git ca2dcbd030eadbf0aa9b660efe864ff08af6e18b)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=145afc2c500000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=141ad11a500000
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+92ead4eb8e26a26d465e@syzkaller.appspotmail.com
+
+================================================================================
+UBSAN: array-index-out-of-bounds in crypto/af_alg.c:166:2
+index 98 is out of range for type '__u8 [64]'
+CPU: 1 PID: 8468 Comm: syz-executor983 Not tainted 5.10.0-rc2-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Call Trace:
+ __dump_stack lib/dump_stack.c:77 [inline]
+ dump_stack+0x137/0x1be lib/dump_stack.c:118
+ ubsan_epilogue lib/ubsan.c:148 [inline]
+ __ubsan_handle_out_of_bounds+0xdb/0x130 lib/ubsan.c:356
+ alg_bind+0x738/0x740 crypto/af_alg.c:166
+ __sys_bind+0x283/0x360 net/socket.c:1656
+ __do_sys_bind net/socket.c:1667 [inline]
+ __se_sys_bind net/socket.c:1665 [inline]
+ __x64_sys_bind+0x76/0x80 net/socket.c:1665
+ do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
+ entry_SYSCALL_64_after_hwframe+0x44/0xa9
+RIP: 0033:0x4402c9
+Code: 18 89 d0 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 0f 83 7b 13 fc ff c3 66 2e 0f 1f 84 00 00 00 00
+RSP: 002b:00007ffe05301528 EFLAGS: 00000246 ORIG_RAX: 0000000000000031
+RAX: ffffffffffffffda RBX: 00000000004002c8 RCX: 00000000004402c9
+RDX: 000000000000007b RSI: 00000000200000c0 RDI: 0000000000000003
+RBP: 00000000006ca018 R08: 0000000000000000 R09: 00000000004002c8
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000401ad0
+R13: 0000000000401b60 R14: 0000000000000000 R15: 0000000000000000
+================================================================================
+Kernel panic - not syncing: panic_on_warn set ...
+CPU: 1 PID: 8468 Comm: syz-executor983 Not tainted 5.10.0-rc2-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Call Trace:
+ __dump_stack lib/dump_stack.c:77 [inline]
+ dump_stack+0x137/0x1be lib/dump_stack.c:118
+ panic+0x291/0x800 kernel/panic.c:231
+ ubsan_epilogue lib/ubsan.c:162 [inline]
+ __ubsan_handle_out_of_bounds+0x12b/0x130 lib/ubsan.c:356
+ alg_bind+0x738/0x740 crypto/af_alg.c:166
+ __sys_bind+0x283/0x360 net/socket.c:1656
+ __do_sys_bind net/socket.c:1667 [inline]
+ __se_sys_bind net/socket.c:1665 [inline]
+ __x64_sys_bind+0x76/0x80 net/socket.c:1665
+ do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
+ entry_SYSCALL_64_after_hwframe+0x44/0xa9
+RIP: 0033:0x4402c9
+Code: 18 89 d0 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 0f 83 7b 13 fc ff c3 66 2e 0f 1f 84 00 00 00 00
+RSP: 002b:00007ffe05301528 EFLAGS: 00000246 ORIG_RAX: 0000000000000031
+RAX: ffffffffffffffda RBX: 00000000004002c8 RCX: 00000000004402c9
+RDX: 000000000000007b RSI: 00000000200000c0 RDI: 0000000000000003
+RBP: 00000000006ca018 R08: 0000000000000000 R09: 00000000004002c8
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000401ad0
+R13: 0000000000401b60 R14: 0000000000000000 R15: 0000000000000000
+Kernel Offset: disabled
+Rebooting in 86400 seconds..
+
