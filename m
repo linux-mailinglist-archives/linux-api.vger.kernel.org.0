@@ -2,140 +2,226 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A0A642A3243
-	for <lists+linux-api@lfdr.de>; Mon,  2 Nov 2020 18:51:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 03D2C2A3260
+	for <lists+linux-api@lfdr.de>; Mon,  2 Nov 2020 18:55:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726140AbgKBRv3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 2 Nov 2020 12:51:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55475 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725789AbgKBRv2 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 2 Nov 2020 12:51:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1604339486;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=lp/prYQuMgVXccCGCiV61cLz4v5q5/mm6tHCPraHIqM=;
-        b=EKQezKoEaQPVX0E/k1X4C/PLH+ukdpxJSN79mCzwzIu+B7Qv7oLCnGtx9+Sip+GlK1bsQJ
-        CAf2b8g9yEqtQduC91gEuPv8Nzmr3RHL6XE2kbyRYhxXK+84na4K4NZJcF9DdLXj5yAeEV
-        oA7Qf/09Hr525GSyHeWOYiePRs9Ql0w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-593-JugxVAtvMxar3jfSZTXWbg-1; Mon, 02 Nov 2020 12:51:22 -0500
-X-MC-Unique: JugxVAtvMxar3jfSZTXWbg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1873F879512;
-        Mon,  2 Nov 2020 17:51:18 +0000 (UTC)
-Received: from [10.36.113.163] (ovpn-113-163.ams2.redhat.com [10.36.113.163])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id EA9C15B4A9;
-        Mon,  2 Nov 2020 17:51:10 +0000 (UTC)
-Subject: Re: [PATCH v6 0/6] mm: introduce memfd_secret system call to create
- "secret" memory areas
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Idan Yaniv <idan.yaniv@ibm.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Shuah Khan <shuah@kernel.org>, Tycho Andersen <tycho@tycho.ws>,
-        Will Deacon <will@kernel.org>, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
-        x86@kernel.org
-References: <20200924132904.1391-1-rppt@kernel.org>
- <9c38ac3b-c677-6a87-ce82-ec53b69eaf71@redhat.com>
- <20201102174308.GF4879@kernel.org>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <d4cb2c87-4744-3929-cedd-2be78625a741@redhat.com>
-Date:   Mon, 2 Nov 2020 18:51:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        id S1725831AbgKBRy6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 2 Nov 2020 12:54:58 -0500
+Received: from foss.arm.com ([217.140.110.172]:35650 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725817AbgKBRy5 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 2 Nov 2020 12:54:57 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EE2231396;
+        Mon,  2 Nov 2020 09:54:56 -0800 (PST)
+Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F26DE3F719;
+        Mon,  2 Nov 2020 09:54:54 -0800 (PST)
+Date:   Mon, 2 Nov 2020 17:54:51 +0000
+From:   Dave Martin <Dave.Martin@arm.com>
+To:     Peter Collingbourne <pcc@google.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Evgenii Stepanov <eugenis@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Helge Deller <deller@gmx.de>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        linux-api@vger.kernel.org,
+        David Spickett <david.spickett@linaro.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Richard Henderson <rth@twiddle.net>
+Subject: Re: [PATCH v12 8/8] arm64: expose FAR_EL1 tag bits in siginfo
+Message-ID: <20201102175451.GF6882@arm.com>
+References: <cover.1602892799.git.pcc@google.com>
+ <2dec46a70da175478932d034ebe74d0b4f5133c4.1602892799.git.pcc@google.com>
 MIME-Version: 1.0
-In-Reply-To: <20201102174308.GF4879@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2dec46a70da175478932d034ebe74d0b4f5133c4.1602892799.git.pcc@google.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
->> Assume you have a system with quite some ZONE_MOVABLE memory (esp. in
->> virtualized environments), eating up a significant amount of !ZONE_MOVABLE
->> memory dynamically at runtime can lead to non-obvious issues. It looks like
->> you have plenty of free memory, but the kernel might still OOM when trying
->> to do kernel allocations e.g., for pagetables. With CMA we at least know
->> what we're dealing with - it behaves like ZONE_MOVABLE except for the owner
->> that can place unmovable pages there. We can use it to compute statically
->> the amount of ZONE_MOVABLE memory we can have in the system without doing
->> harm to the system.
+On Fri, Oct 16, 2020 at 05:12:33PM -0700, Peter Collingbourne wrote:
+> The kernel currently clears the tag bits (i.e. bits 56-63) in the fault
+> address exposed via siginfo.si_addr and sigcontext.fault_address. However,
+> the tag bits may be needed by tools in order to accurately diagnose
+> memory errors, such as HWASan [1] or future tools based on the Memory
+> Tagging Extension (MTE).
 > 
-> Why would you say that secretmem allocates from !ZONE_MOVABLE?
-> If we put boot time reservations aside, the memory allocation for
-> secretmem follows the same rules as the memory allocations for any file
-> descriptor. That means we allocate memory with GFP_HIGHUSER_MOVABLE.
-
-Oh, okay - I missed that! I had the impression that pages are unmovable 
-and allocating from ZONE_MOVABLE would be a violation of that?
-
-> After the allocation the memory indeed becomes unmovable but it's not
-> like we are eating memory from other zones here.
-
-... and here you have your problem. That's a no-no. We only allow it in 
-very special cases where it can't be avoided - e.g., vfio having to pin 
-guest memory when passing through memory to VMs.
-
-Hotplug memory, online it to ZONE_MOVABLE. Allocate secretmem. Try to 
-unplug the memory again -> endless loop in offline_pages().
-
-Or have a CMA area that gets used with GFP_HIGHUSER_MOVABLE. Allocate 
-secretmem. The owner of the area tries to allocate memory - always 
-fails. Purpose of CMA destroyed.
-
+> We should not stop clearing these bits in the existing fault address
+> fields, because there may be existing userspace applications that are
+> expecting the tag bits to be cleared. Instead, create a new pair of
+> union fields in siginfo._sigfault, and store the tag bits of FAR_EL1
+> there, together with a mask specifying which bits are valid.
 > 
->> Ideally, we would want to support page migration/compaction and allow for
->> allocation from ZONE_MOVABLE as well. Would involve temporarily mapping,
->> copying, unmapping. Sounds feasible, but not sure which roadblocks we would
->> find on the way.
+> A flag is added to si_xflags to allow userspace to determine whether
+> the values in the fields are valid.
 > 
-> We can support migration/compaction with temporary mapping. The first
-> roadblock I've hit there was that migration allocates 4K destination
-> page and if we use it in secret map we are back to scrambling the direct
-> map into 4K pieces. It still sounds feasible but not as trivial :)
-
-That sounds like the proper way for me to do it then.
-
+> [1] http://clang.llvm.org/docs/HardwareAssistedAddressSanitizerDesign.html
 > 
-> But again, there is nothing in the current form of secretmem that
-> prevents allocation from ZONE_MOVABLE.
+> Signed-off-by: Peter Collingbourne <pcc@google.com>
+> Link: https://linux-review.googlesource.com/id/Ia8876bad8c798e0a32df7c2ce1256c4771c81446
+> ---
+> v12:
+> - add new fields to signal_compat.c test cases
+> - rebased to 5.10-rc1
+> - mask out bits 63:60 for tag check faults
+> 
+> v11:
+> - add a comment explaining what the arch hook should do
+> - rename ignored bits to tag bits
+> 
+> v10:
+> - rename the flag to SIXFLAG_ADDR_IGNORED_BITS
+> - use an arch hook to specify which bits are ignored, instead
+>   of passing them explicitly
+> - while refactoring for the arch hook, noticed that my previous
+>   patches missed a case involving cache maintenance instructions,
+>   so expose the tag bits for that signal as well
+> 
+> v9:
+> - make the ignored bits fields generic
+> - add some new dependent patches that prepare us to store the
+>   field in such a way that userspace can detect their presence
+> 
+> v8:
+> - rebase onto 5.8rc2
+> 
+> v7:
+> - switch to a new siginfo field instead of using sigcontext
+> - merge the patch back into one since the other patches are now
+>   unnecessary
+> 
+> v6:
+> - move fault address and fault code into the kernel_siginfo data structure
+> - split the patch in three since it was getting large and now has
+>   generic and arch-specific parts
+> 
+> v5:
+> - add padding to fault_addr_top_byte_context in order to ensure the correct
+>   size and preserve sp alignment
+> 
+> v4:
+> - expose only the tag bits in the context instead of the entire FAR_EL1
+> - remove mention of the new context from the sigcontext.__reserved[] note
+> 
+> v3:
+> - add documentation to tagged-pointers.rst
+> - update comments in sigcontext.h
+> 
+> v2:
+> - revert changes to hw_breakpoint.c
+> - rename set_thread_esr to set_thread_far_esr
+> 
+>  Documentation/arm64/tagged-pointers.rst | 21 +++++---
+>  arch/arm64/include/asm/exception.h      |  2 +-
+>  arch/arm64/include/asm/signal.h         | 19 +++++++
+>  arch/arm64/include/asm/system_misc.h    |  2 +-
+>  arch/arm64/include/asm/traps.h          |  6 +--
+>  arch/arm64/kernel/debug-monitors.c      |  5 +-
+>  arch/arm64/kernel/entry-common.c        |  2 -
+>  arch/arm64/kernel/ptrace.c              |  7 +--
+>  arch/arm64/kernel/sys_compat.c          |  5 +-
+>  arch/arm64/kernel/traps.c               | 29 ++++++-----
+>  arch/arm64/mm/fault.c                   | 68 ++++++++++++++-----------
+>  arch/x86/kernel/signal_compat.c         |  9 +++-
+>  include/linux/compat.h                  |  2 +
+>  include/linux/signal.h                  | 16 ++++++
+>  include/uapi/asm-generic/siginfo.h      | 10 ++++
+>  kernel/signal.c                         | 18 ++++++-
+>  16 files changed, 148 insertions(+), 73 deletions(-)
+>  create mode 100644 arch/arm64/include/asm/signal.h
+> 
+> diff --git a/Documentation/arm64/tagged-pointers.rst b/Documentation/arm64/tagged-pointers.rst
+> index eab4323609b9..032c09a876f4 100644
+> --- a/Documentation/arm64/tagged-pointers.rst
+> +++ b/Documentation/arm64/tagged-pointers.rst
+> @@ -53,12 +53,21 @@ visibility.
+>  Preserving tags
+>  ---------------
+>  
+> -Non-zero tags are not preserved when delivering signals. This means that
+> -signal handlers in applications making use of tags cannot rely on the
+> -tag information for user virtual addresses being maintained for fields
+> -inside siginfo_t. One exception to this rule is for signals raised in
+> -response to watchpoint debug exceptions, where the tag information will
+> -be preserved.
+> +Non-zero tags are not preserved in the fault address fields
+> +siginfo.si_addr or sigcontext.fault_address when delivering
+> +signals. This means that signal handlers in applications making use
+> +of tags cannot rely on the tag information for user virtual addresses
+> +being maintained in these fields. One exception to this rule is for
+> +signals raised in response to watchpoint debug exceptions, where the
+> +tag information will be preserved.
+> +
+> +The fault address tag is preserved in the si_addr_tag_bits field
+> +of siginfo, which is set for signals raised in response to data aborts
+> +and instruction aborts. The si_addr_tag_bits_mask field indicates
+> +which bits of the field are valid. The validity of these fields is
+> +indicated by the SIXFLAG_ADDR_TAG_BITS flag in siginfo.si_xflags,
+> +and the validity of si_xflags in turn is indicated by the kernel
+> +indicating support for the sigaction.sa_flags flag SA_XFLAGS.
+>  
+>  The architecture prevents the use of a tagged PC, so the upper byte will
+>  be set to a sign-extension of bit 55 on exception return.
+> diff --git a/arch/arm64/include/asm/exception.h b/arch/arm64/include/asm/exception.h
+> index 99b9383cd036..2a8aa1884d8a 100644
+> --- a/arch/arm64/include/asm/exception.h
+> +++ b/arch/arm64/include/asm/exception.h
+> @@ -32,7 +32,7 @@ static inline u32 disr_to_esr(u64 disr)
+>  }
+>  
+>  asmlinkage void enter_from_user_mode(void);
+> -void do_mem_abort(unsigned long addr, unsigned int esr, struct pt_regs *regs);
+> +void do_mem_abort(unsigned long far, unsigned int esr, struct pt_regs *regs);
+>  void do_undefinstr(struct pt_regs *regs);
+>  void do_bti(struct pt_regs *regs);
+>  asmlinkage void bad_mode(struct pt_regs *regs, int reason, unsigned int esr);
+> diff --git a/arch/arm64/include/asm/signal.h b/arch/arm64/include/asm/signal.h
+> new file mode 100644
+> index 000000000000..46f9b3c61896
+> --- /dev/null
+> +++ b/arch/arm64/include/asm/signal.h
+> @@ -0,0 +1,19 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#ifndef __ARM64_ASM_SIGNAL_H
+> +#define __ARM64_ASM_SIGNAL_H
+> +
+> +#include <uapi/asm/signal.h>
+> +#include <uapi/asm/siginfo.h>
+> +
+> +static inline unsigned long arch_addr_tag_bits_mask(unsigned long sig,
+> +						    unsigned long si_code)
+> +{
+> +	if (sig == SIGTRAP && si_code == TRAP_BRKPT)
+> +		return 0;
+> +	if (sig == SIGSEGV && si_code == SEGV_MTESERR)
+> +		return 0xfUL << 56;
 
-Oh, there is something: That the pages are not movable.
+Should this be 0xffUL << 56?
 
--- 
-Thanks,
+I thought MTE ignored bits 63:60, rather than requiring them to be 0?
 
-David / dhildenb
+The whole tag byte may be relevant for debugging purposes, even if only
+some of the bits are checked in hardware.
 
+
+For consistency, I wonder whether it makes sense to expose the bits as
+tag bits for watchpoint execeptions, even if they are left un-cleared in
+si_addr for historical reasons.
+
+
+> +	return 0xffUL << 56;
+> +}
+> +#define arch_addr_tag_bits_mask arch_addr_tag_bits_mask
+
+[...]
+
+Cheers
+---Dave
