@@ -2,235 +2,266 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CB29D2A373D
-	for <lists+linux-api@lfdr.de>; Tue,  3 Nov 2020 00:39:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B81E72A3B44
+	for <lists+linux-api@lfdr.de>; Tue,  3 Nov 2020 04:59:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725940AbgKBXj0 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Mon, 2 Nov 2020 18:39:26 -0500
-Received: from mga17.intel.com ([192.55.52.151]:28793 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725831AbgKBXj0 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 2 Nov 2020 18:39:26 -0500
-IronPort-SDR: VleSwzEdQUP6Czkv4V8Q6y5moXg7lrD3gH5mvfeGa5N5gNJg8UoQmxdvKFTfYsQagKmHwNbSHR
- f4vtNNw1fblQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9793"; a="148825748"
-X-IronPort-AV: E=Sophos;i="5.77,446,1596524400"; 
-   d="scan'208";a="148825748"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2020 15:39:25 -0800
-IronPort-SDR: V6dSkkgktjKnDH00TCGYsOm+CRknORWWDzuIhJKnyld/or8rgSHThWBHGoGL3B6IZohXN25J+4
- d8zpFfGvYOhA==
-X-IronPort-AV: E=Sophos;i="5.77,446,1596524400"; 
-   d="scan'208";a="336324618"
-Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2020 15:39:25 -0800
-Date:   Mon, 2 Nov 2020 15:41:52 -0800
-From:   Jacob Pan <jacob.jun.pan@linux.intel.com>
-To:     Jean-Philippe Brucker <jean-philippe@linaro.org>
-Cc:     Jacob Pan <jacob.pan.linux@gmail.com>,
-        iommu@lists.linux-foundation.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-api@vger.kernel.org,
-        Jean-Philippe Brucker <jean-philippe@linaro.com>,
-        Eric Auger <eric.auger@redhat.com>,
-        Yi Liu <yi.l.liu@intel.com>,
-        "Tian, Kevin" <kevin.tian@intel.com>,
-        Raj Ashok <ashok.raj@intel.com>, Wu Hao <hao.wu@intel.com>,
-        Yi Sun <yi.y.sun@intel.com>, Dave Jiang <dave.jiang@intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, jacob.jun.pan@linux.intel.com
-Subject: Re: [PATCH v3 01/14] docs: Document IO Address Space ID (IOASID)
- APIs
-Message-ID: <20201102154152.0e95ab98@jacob-builder>
-In-Reply-To: <20201030101827.GB122147@myrica>
-References: <1601329121-36979-1-git-send-email-jacob.jun.pan@linux.intel.com>
-        <1601329121-36979-2-git-send-email-jacob.jun.pan@linux.intel.com>
-        <20201020135809.GA1515830@myrica>
-        <20201026140506.1349dbb5@jacob-builder>
-        <20201030101827.GB122147@myrica>
-Organization: OTC
-X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
+        id S1726792AbgKCD7h (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 2 Nov 2020 22:59:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34022 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726734AbgKCD7h (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 2 Nov 2020 22:59:37 -0500
+Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com [IPv6:2607:f8b0:4864:20::e42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 717DFC0617A6
+        for <linux-api@vger.kernel.org>; Mon,  2 Nov 2020 19:59:37 -0800 (PST)
+Received: by mail-vs1-xe42.google.com with SMTP id b3so8732675vsc.5
+        for <linux-api@vger.kernel.org>; Mon, 02 Nov 2020 19:59:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=fE+r9/whCUBO7TaMDq+qelQ3i/rLhjBQWjpwYWM9JdA=;
+        b=e/KAXPm4hTZDIQgvox0RYNuHPLeKiuofRgakoPZtjSRmqiWH2jW8JtlKTmBvm5jvIh
+         0S3rbm78Nxu6SGgQ/7EHCgQhqhaMZMRG+KmCb5sPrrxzkn0NEJ7vL+puANOleKa85tUV
+         37093j788DFuofAjlskVBm9vbmZfGsV79g1B2ob+p/KM5ssM9/Hq4o2RmVo5pUHt8boO
+         nZ3cH7Cx0PgODhGNo7Auctv6NViY767417wE091S36/fZJUq6YAUmCmnKOoTRE6M03gq
+         Tc+P9YFyEzHoMnM9HzM2QW3CWblQ2Y6jpM5OFBVR0L2REH/rWiPByrO+2DFREpDpsnYU
+         WFWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fE+r9/whCUBO7TaMDq+qelQ3i/rLhjBQWjpwYWM9JdA=;
+        b=c9UgQYH4cL4vF+BmGBHoI/Xm5laKwP+rWk0A+vlupMsR+w3PBUtEx5sq4+JBm5j5Lc
+         amRZEh32MzshrNsyNchxQZT4k0/g8p4GGYbW+SwYqzKHzVhAbRu7fz6x9RvScIBE/xx+
+         cpAypI8ItwEa5NbZ/BEiQlNv8nviqZmCEy+eEFTzKyIvXmVUqeeTScv+xGP8LfBGyF5x
+         NF6EGyPW9bCkghuhAvl515d6jdI/z3NcfENVJt3NKRrELZ0lHN4P1aDRNwtk3PZ7/rxK
+         pIxCLF2DkqQyrxtOeTFvfzG276TxlPYYZ/Ln+ogJLpOYrvF1AYZiPVDCO9xFeUlpX4IK
+         ZjRQ==
+X-Gm-Message-State: AOAM530GKCFL8lPT1RQvLdYsR/Pt/iCUrNKwB7ZLmWXWCxm/Y3CsQAZT
+        3NAZnhNhRftdoMJRpjN6L/4PAiB6RCSeh6U4CIlGqg==
+X-Google-Smtp-Source: ABdhPJyRJ7JhSFZlXaobjmuENIsH3tKEX9ZP3xCJXFASqOxBUQ6xSR7YRax2RksEx2KD0uPgtA53FXFPMqT0Zv5Jg4k=
+X-Received: by 2002:a05:6102:240f:: with SMTP id j15mr7059863vsi.22.1604375976331;
+ Mon, 02 Nov 2020 19:59:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+References: <cover.1602892799.git.pcc@google.com> <2dec46a70da175478932d034ebe74d0b4f5133c4.1602892799.git.pcc@google.com>
+ <20201102175451.GF6882@arm.com>
+In-Reply-To: <20201102175451.GF6882@arm.com>
+From:   Peter Collingbourne <pcc@google.com>
+Date:   Mon, 2 Nov 2020 19:59:25 -0800
+Message-ID: <CAMn1gO7aKYASsKLgp-6NtOxJOPxoKUFGPSasNKkh+RwJUVvGCA@mail.gmail.com>
+Subject: Re: [PATCH v12 8/8] arm64: expose FAR_EL1 tag bits in siginfo
+To:     Dave Martin <Dave.Martin@arm.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Evgenii Stepanov <eugenis@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Helge Deller <deller@gmx.de>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        David Spickett <david.spickett@linaro.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Richard Henderson <rth@twiddle.net>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Jean-Philippe,
+On Mon, Nov 2, 2020 at 9:55 AM Dave Martin <Dave.Martin@arm.com> wrote:
+>
+> On Fri, Oct 16, 2020 at 05:12:33PM -0700, Peter Collingbourne wrote:
+> > The kernel currently clears the tag bits (i.e. bits 56-63) in the fault
+> > address exposed via siginfo.si_addr and sigcontext.fault_address. However,
+> > the tag bits may be needed by tools in order to accurately diagnose
+> > memory errors, such as HWASan [1] or future tools based on the Memory
+> > Tagging Extension (MTE).
+> >
+> > We should not stop clearing these bits in the existing fault address
+> > fields, because there may be existing userspace applications that are
+> > expecting the tag bits to be cleared. Instead, create a new pair of
+> > union fields in siginfo._sigfault, and store the tag bits of FAR_EL1
+> > there, together with a mask specifying which bits are valid.
+> >
+> > A flag is added to si_xflags to allow userspace to determine whether
+> > the values in the fields are valid.
+> >
+> > [1] http://clang.llvm.org/docs/HardwareAssistedAddressSanitizerDesign.html
+> >
+> > Signed-off-by: Peter Collingbourne <pcc@google.com>
+> > Link: https://linux-review.googlesource.com/id/Ia8876bad8c798e0a32df7c2ce1256c4771c81446
+> > ---
+> > v12:
+> > - add new fields to signal_compat.c test cases
+> > - rebased to 5.10-rc1
+> > - mask out bits 63:60 for tag check faults
+> >
+> > v11:
+> > - add a comment explaining what the arch hook should do
+> > - rename ignored bits to tag bits
+> >
+> > v10:
+> > - rename the flag to SIXFLAG_ADDR_IGNORED_BITS
+> > - use an arch hook to specify which bits are ignored, instead
+> >   of passing them explicitly
+> > - while refactoring for the arch hook, noticed that my previous
+> >   patches missed a case involving cache maintenance instructions,
+> >   so expose the tag bits for that signal as well
+> >
+> > v9:
+> > - make the ignored bits fields generic
+> > - add some new dependent patches that prepare us to store the
+> >   field in such a way that userspace can detect their presence
+> >
+> > v8:
+> > - rebase onto 5.8rc2
+> >
+> > v7:
+> > - switch to a new siginfo field instead of using sigcontext
+> > - merge the patch back into one since the other patches are now
+> >   unnecessary
+> >
+> > v6:
+> > - move fault address and fault code into the kernel_siginfo data structure
+> > - split the patch in three since it was getting large and now has
+> >   generic and arch-specific parts
+> >
+> > v5:
+> > - add padding to fault_addr_top_byte_context in order to ensure the correct
+> >   size and preserve sp alignment
+> >
+> > v4:
+> > - expose only the tag bits in the context instead of the entire FAR_EL1
+> > - remove mention of the new context from the sigcontext.__reserved[] note
+> >
+> > v3:
+> > - add documentation to tagged-pointers.rst
+> > - update comments in sigcontext.h
+> >
+> > v2:
+> > - revert changes to hw_breakpoint.c
+> > - rename set_thread_esr to set_thread_far_esr
+> >
+> >  Documentation/arm64/tagged-pointers.rst | 21 +++++---
+> >  arch/arm64/include/asm/exception.h      |  2 +-
+> >  arch/arm64/include/asm/signal.h         | 19 +++++++
+> >  arch/arm64/include/asm/system_misc.h    |  2 +-
+> >  arch/arm64/include/asm/traps.h          |  6 +--
+> >  arch/arm64/kernel/debug-monitors.c      |  5 +-
+> >  arch/arm64/kernel/entry-common.c        |  2 -
+> >  arch/arm64/kernel/ptrace.c              |  7 +--
+> >  arch/arm64/kernel/sys_compat.c          |  5 +-
+> >  arch/arm64/kernel/traps.c               | 29 ++++++-----
+> >  arch/arm64/mm/fault.c                   | 68 ++++++++++++++-----------
+> >  arch/x86/kernel/signal_compat.c         |  9 +++-
+> >  include/linux/compat.h                  |  2 +
+> >  include/linux/signal.h                  | 16 ++++++
+> >  include/uapi/asm-generic/siginfo.h      | 10 ++++
+> >  kernel/signal.c                         | 18 ++++++-
+> >  16 files changed, 148 insertions(+), 73 deletions(-)
+> >  create mode 100644 arch/arm64/include/asm/signal.h
+> >
+> > diff --git a/Documentation/arm64/tagged-pointers.rst b/Documentation/arm64/tagged-pointers.rst
+> > index eab4323609b9..032c09a876f4 100644
+> > --- a/Documentation/arm64/tagged-pointers.rst
+> > +++ b/Documentation/arm64/tagged-pointers.rst
+> > @@ -53,12 +53,21 @@ visibility.
+> >  Preserving tags
+> >  ---------------
+> >
+> > -Non-zero tags are not preserved when delivering signals. This means that
+> > -signal handlers in applications making use of tags cannot rely on the
+> > -tag information for user virtual addresses being maintained for fields
+> > -inside siginfo_t. One exception to this rule is for signals raised in
+> > -response to watchpoint debug exceptions, where the tag information will
+> > -be preserved.
+> > +Non-zero tags are not preserved in the fault address fields
+> > +siginfo.si_addr or sigcontext.fault_address when delivering
+> > +signals. This means that signal handlers in applications making use
+> > +of tags cannot rely on the tag information for user virtual addresses
+> > +being maintained in these fields. One exception to this rule is for
+> > +signals raised in response to watchpoint debug exceptions, where the
+> > +tag information will be preserved.
+> > +
+> > +The fault address tag is preserved in the si_addr_tag_bits field
+> > +of siginfo, which is set for signals raised in response to data aborts
+> > +and instruction aborts. The si_addr_tag_bits_mask field indicates
+> > +which bits of the field are valid. The validity of these fields is
+> > +indicated by the SIXFLAG_ADDR_TAG_BITS flag in siginfo.si_xflags,
+> > +and the validity of si_xflags in turn is indicated by the kernel
+> > +indicating support for the sigaction.sa_flags flag SA_XFLAGS.
+> >
+> >  The architecture prevents the use of a tagged PC, so the upper byte will
+> >  be set to a sign-extension of bit 55 on exception return.
+> > diff --git a/arch/arm64/include/asm/exception.h b/arch/arm64/include/asm/exception.h
+> > index 99b9383cd036..2a8aa1884d8a 100644
+> > --- a/arch/arm64/include/asm/exception.h
+> > +++ b/arch/arm64/include/asm/exception.h
+> > @@ -32,7 +32,7 @@ static inline u32 disr_to_esr(u64 disr)
+> >  }
+> >
+> >  asmlinkage void enter_from_user_mode(void);
+> > -void do_mem_abort(unsigned long addr, unsigned int esr, struct pt_regs *regs);
+> > +void do_mem_abort(unsigned long far, unsigned int esr, struct pt_regs *regs);
+> >  void do_undefinstr(struct pt_regs *regs);
+> >  void do_bti(struct pt_regs *regs);
+> >  asmlinkage void bad_mode(struct pt_regs *regs, int reason, unsigned int esr);
+> > diff --git a/arch/arm64/include/asm/signal.h b/arch/arm64/include/asm/signal.h
+> > new file mode 100644
+> > index 000000000000..46f9b3c61896
+> > --- /dev/null
+> > +++ b/arch/arm64/include/asm/signal.h
+> > @@ -0,0 +1,19 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +#ifndef __ARM64_ASM_SIGNAL_H
+> > +#define __ARM64_ASM_SIGNAL_H
+> > +
+> > +#include <uapi/asm/signal.h>
+> > +#include <uapi/asm/siginfo.h>
+> > +
+> > +static inline unsigned long arch_addr_tag_bits_mask(unsigned long sig,
+> > +                                                 unsigned long si_code)
+> > +{
+> > +     if (sig == SIGTRAP && si_code == TRAP_BRKPT)
+> > +             return 0;
+> > +     if (sig == SIGSEGV && si_code == SEGV_MTESERR)
+> > +             return 0xfUL << 56;
+>
+> Should this be 0xffUL << 56?
+>
+> I thought MTE ignored bits 63:60, rather than requiring them to be 0?
 
-On Fri, 30 Oct 2020 11:18:27 +0100, Jean-Philippe Brucker
-<jean-philippe@linaro.org> wrote:
+Yes, but the architecture defines FAR_EL1[63:60] as UNKNOWN for tag
+check faults. As such the bits are masked out in do_tag_check_fault
+and excluded from the mask here to indicate that they are not present.
 
-> On Mon, Oct 26, 2020 at 02:05:06PM -0700, Jacob Pan wrote:
-> > > This looks good to me, with small comments below.
-> > >   
-> > Can I add your Reviewed-by tag after addressing the comments?  
-> 
-> Yes sure, this took forever to review so I'm happy not to do another
-> pass :)
-> 
-I am afraid I have to ask for another round of reviews since it was
-suggested to keep IOASID allocation interface independent, instead of being
-part of VFIO UAPI. Yi and I are working out the details to come up with a
-PoC. As you might be aware, the need for this independent interface is that
-we may have multiple users of PASID, e.g VDPA, user space drivers, etc.
-The IOASID user interface also has slight impact on the IOASID core code,
-which is why I am slow in response to your code review. Will incorporate
-your review in the next round with support of independent user API.
-Much appreciated!
+> The whole tag byte may be relevant for debugging purposes, even if only
+> some of the bits are checked in hardware.
 
-> 
-> > > > +Each IOASID set is created with a token, which can be one of the
-> > > > +following token types:
-> > > > +
-> > > > + - IOASID_SET_TYPE_NULL (Arbitrary u64 value)    
-> > > 
-> > > Maybe NULL isn't the best name then. NONE?
-> > >   
-> > Agreed, 'NONE' makes more sense.  
-> 
-> Although patch 5 only allows a NULL token for this type. So the name seems
-> fine, you could just fix this description.
-> 
-OK.
+Yes and that's why it's a bit of a shame that the bits were defined as
+UNKNOWN. We had an idea for how to improve error reports by using
+those bits to link tag check faults to previous allocations, which was
+precluded by the missing bits.
 
-> 
-> > > > +IOASID core has the notion of "custom allocator" such that guest
-> > > > can +register virtual command allocator that precedes the default
-> > > > one.    
-> > > 
-> > > "Supersedes", rather than "precedes"?
-> > >   
-> > My understanding is that 'supersede' means replace something but
-> > 'precede' means get in front of something. I do want to emphasis that
-> > the custom allocator takes precedence over the default allocator.  
-> 
-> Right it's ambiguous. The custom allocator does entirely replace the
-> allocation action, but the default one is still used for storage. Anyway,
-> you can leave this.
-> 
-OK
+Hopefully a future revision of the architecture will define these bits
+for tag check faults (at least optionally). If that ever happens and
+support for the architecture extension is detected we could stop
+masking the bits out in do_tag_check_fault and set
+si_addr_tag_bits_mask to 0xffUL << 56, which would let userspace know
+that the bits are now present.
 
-> 
-> > > > +Let's examine the IOASID life cycle again when free happens
-> > > > *before* +unbind. This could be a result of misbehaving guests or
-> > > > crash. Assuming +VFIO cannot enforce unbind->free order. Notice
-> > > > that the setup part up +until step #12 is identical to the normal
-> > > > case, the flow below starts +with step 13.
-> > > > +
-> > > > +::
-> > > > +
-> > > > +     VFIO        IOMMU        KVM        VDCM        IOASID
-> > > > Ref
-> > > > +   ..................................................................
-> > > > +   13 -------- GUEST STARTS DMA --------------------------
-> > > > +   14 -------- *GUEST MISBEHAVES!!!* ----------------
-> > > > +   15 ioasid_free()
-> > > > +   16
-> > > > ioasid_notify(FREE)
-> > > > +   17                                             mark_free_pending
-> > > > (1)    
-> > > 
-> > > Could we use superscript ¹²³⁴ for footnotes? These look like function
-> > > parameters
-> > >   
-> > yes, much better
-> >   
-> > > > +   18                          kvm_nb_handler(FREE)
-> > > > +   19                          vmcs_update_atomic()
-> > > > +   20                          ioasid_put_locked()   ->           3
-> > > > +   21                                   vdcm_nb_handler(FREE)
-> > > > +   22            iomm_nb_handler(FREE)    
-> > > 
-> > > iommu_nb_handler
-> > >   
-> > got it
-> >   
-> > > > +   23 ioasid_free() returns(2)          schedule_work()
-> > > > 2    
-> > > 
-> > > I completely lost track here, couldn't figure out in which direction
-> > > to read the diagram. What work is scheduled?  
-> > The time line goes downward but we only control the notification order
-> > in terms of when the events are received. Some completions are async
-> > thus out of order done by work items. The only in-order completion is
-> > the KVM update of its PASID translation table.
-> > 
-> > After #23, the async works are scheduled to complete clean up work
-> > outside the spinlock(held by the caller of the atomic notifier).
-> > 
-> > Any suggestions to improve the readability of the time line?  
-> 
-> Maybe explain what happens from line 23: ioasid_free() schedules... a FREE
-> notification? Which happens on line 24 (corresponding to the second
-> schedule_work()?) and is handled by (a) VDCM to clear the device context
-> and (b) IOMMU to clear the PASID context, both ending up dropping their
-> ref.
-> 
-Got it, I will add that.
+> For consistency, I wonder whether it makes sense to expose the bits as
+> tag bits for watchpoint execeptions, even if they are left un-cleared in
+> si_addr for historical reasons.
 
-> >   
-> > > Why does the IOMMU driver drop
-> > > its reference to the IOASID before unbdind_gpasid()?
-> > >   
-> > This is the exception case where userspace issues IOASID free before
-> > unbind_gpasid(). The equivalent of unbind is performed in the
-> > IOASID_FREE notification handler. In IOASID_FREE handler, reference is
-> > dropped and private data deleted. After that, if unbind comes to IOMMU
-> > driver, it will not find IOASID private data therefore just return.  
-> 
-> Right ok. As you noted below the damage is caused by and limited to the
-> guest, so I think it's fine.
-> 
-OK.
+I don't have a strong opinion on whether to do this or not, but it
+seems like a nice property that the bits are either defined in si_addr
+or in si_addr_tag_bits. I think we could leave the watchpoint
+exception on arm64 as "weird for historical reasons" and insist that
+any future architectures adopting tagged addresses handle the tag bits
+uniformly.
 
-> >   
-> > > > +   24            schedule_work()        vdev_clear_wk(hpasid)
-> > > > +   25            teardown_pasid_wk()
-> > > > +   26                                   ioasid_put() ->           1
-> > > > +   27            ioasid_put()                                     0
-> > > > +   28                                                 Reclaimed
-> > > > +   29 unbind_gpasid()
-> > > > +   30            iommu_unbind()->ioasid_find() Fails(3)
-> > > > +   -------------- New Life Cycle Begin ----------------------------
-> > > > +
-> > > > +Note:
-> > > > +
-> > > > +1. By marking IOASID FREE_PENDING at step #17, no new references
-> > > > can be
-> > > > +   held. ioasid_get/find() will return -ENOENT;    
-> > > 
-> > > s/held/taken
-> > >   
-> > Got it.
-> >   
-> > > Thanks,
-> > > Jean
-> > >   
-> > > > +2. After step #23, all events can go out of order. Shall not affect
-> > > > +   the outcome.
-> > > > +3. IOMMU driver fails to find private data for unbinding. If
-> > > > unbind is
-> > > > +   called after the same IOASID is allocated for the same guest
-> > > > again,
-> > > > +   this is a programming error. The damage is limited to the guest
-> > > > +   itself since unbind performs permission checking based on the
-> > > > +   IOASID set associated with the guest process.  
-> 
-> "guest process" can be confusing (process run by the guest?), just "guest"
-> might be better.
-> 
-> Thanks,
-> Jean
-
-
-Thanks,
-
-Jacob
+Peter
