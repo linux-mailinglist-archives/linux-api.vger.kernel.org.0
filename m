@@ -2,263 +2,119 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B49A2A448B
-	for <lists+linux-api@lfdr.de>; Tue,  3 Nov 2020 12:50:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FA222A46F9
+	for <lists+linux-api@lfdr.de>; Tue,  3 Nov 2020 14:52:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727988AbgKCLuG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 3 Nov 2020 06:50:06 -0500
-Received: from foss.arm.com ([217.140.110.172]:47546 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727923AbgKCLuG (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 3 Nov 2020 06:50:06 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DA5F21042;
-        Tue,  3 Nov 2020 03:50:04 -0800 (PST)
-Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DEB633F718;
-        Tue,  3 Nov 2020 03:50:02 -0800 (PST)
-Date:   Tue, 3 Nov 2020 11:49:59 +0000
-From:   Dave Martin <Dave.Martin@arm.com>
-To:     Peter Collingbourne <pcc@google.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Will Deacon <will@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Helge Deller <deller@gmx.de>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        David Spickett <david.spickett@linaro.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Richard Henderson <rth@twiddle.net>
-Subject: Re: [PATCH v12 8/8] arm64: expose FAR_EL1 tag bits in siginfo
-Message-ID: <20201103114959.GL6882@arm.com>
-References: <cover.1602892799.git.pcc@google.com>
- <2dec46a70da175478932d034ebe74d0b4f5133c4.1602892799.git.pcc@google.com>
- <20201102175451.GF6882@arm.com>
- <CAMn1gO7aKYASsKLgp-6NtOxJOPxoKUFGPSasNKkh+RwJUVvGCA@mail.gmail.com>
+        id S1729447AbgKCNw2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 3 Nov 2020 08:52:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41396 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729362AbgKCNw0 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Nov 2020 08:52:26 -0500
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [IPv6:2001:67c:2050::465:202])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17C31C0613D1;
+        Tue,  3 Nov 2020 05:52:26 -0800 (PST)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [80.241.60.241])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4CQWS671PfzQkKw;
+        Tue,  3 Nov 2020 14:52:22 +0100 (CET)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from smtp2.mailbox.org ([80.241.60.241])
+        by spamfilter06.heinlein-hosting.de (spamfilter06.heinlein-hosting.de [80.241.56.125]) (amavisd-new, port 10030)
+        with ESMTP id FlqcKCn97r9e; Tue,  3 Nov 2020 14:52:18 +0100 (CET)
+Date:   Tue, 3 Nov 2020 14:52:14 +0100 (CET)
+From:   Hagen Paul Pfeifer <hagen@jauu.net>
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christopher Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Idan Yaniv <idan.yaniv@ibm.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Shuah Khan <shuah@kernel.org>, Tycho Andersen <tycho@tycho.ws>,
+        Will Deacon <will@kernel.org>, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
+        x86@kernel.org
+Message-ID: <1547601988.128687.1604411534845@office.mailbox.org>
+In-Reply-To: <20201102154028.GD4879@kernel.org>
+References: <20200924132904.1391-1-rppt@kernel.org>
+ <20201101110935.GA4105325@laniakea> <20201102154028.GD4879@kernel.org>
+Subject: Re: [PATCH v6 0/6] mm: introduce memfd_secret system call to create
+ "secret" memory areas
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMn1gO7aKYASsKLgp-6NtOxJOPxoKUFGPSasNKkh+RwJUVvGCA@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
+X-MBO-SPAM-Probability: 
+X-Rspamd-Score: -0.65 / 15.00 / 15.00
+X-Rspamd-Queue-Id: D612C1723
+X-Rspamd-UID: 9101f0
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Nov 02, 2020 at 07:59:25PM -0800, Peter Collingbourne wrote:
-> On Mon, Nov 2, 2020 at 9:55 AM Dave Martin <Dave.Martin@arm.com> wrote:
-> >
-> > On Fri, Oct 16, 2020 at 05:12:33PM -0700, Peter Collingbourne wrote:
-> > > The kernel currently clears the tag bits (i.e. bits 56-63) in the fault
-> > > address exposed via siginfo.si_addr and sigcontext.fault_address. However,
-> > > the tag bits may be needed by tools in order to accurately diagnose
-> > > memory errors, such as HWASan [1] or future tools based on the Memory
-> > > Tagging Extension (MTE).
-> > >
-> > > We should not stop clearing these bits in the existing fault address
-> > > fields, because there may be existing userspace applications that are
-> > > expecting the tag bits to be cleared. Instead, create a new pair of
-> > > union fields in siginfo._sigfault, and store the tag bits of FAR_EL1
-> > > there, together with a mask specifying which bits are valid.
-> > >
-> > > A flag is added to si_xflags to allow userspace to determine whether
-> > > the values in the fields are valid.
-> > >
-> > > [1] http://clang.llvm.org/docs/HardwareAssistedAddressSanitizerDesign.html
-> > >
-> > > Signed-off-by: Peter Collingbourne <pcc@google.com>
-> > > Link: https://linux-review.googlesource.com/id/Ia8876bad8c798e0a32df7c2ce1256c4771c81446
-> > > ---
-> > > v12:
-> > > - add new fields to signal_compat.c test cases
-> > > - rebased to 5.10-rc1
-> > > - mask out bits 63:60 for tag check faults
-> > >
-> > > v11:
-> > > - add a comment explaining what the arch hook should do
-> > > - rename ignored bits to tag bits
-> > >
-> > > v10:
-> > > - rename the flag to SIXFLAG_ADDR_IGNORED_BITS
-> > > - use an arch hook to specify which bits are ignored, instead
-> > >   of passing them explicitly
-> > > - while refactoring for the arch hook, noticed that my previous
-> > >   patches missed a case involving cache maintenance instructions,
-> > >   so expose the tag bits for that signal as well
-> > >
-> > > v9:
-> > > - make the ignored bits fields generic
-> > > - add some new dependent patches that prepare us to store the
-> > >   field in such a way that userspace can detect their presence
-> > >
-> > > v8:
-> > > - rebase onto 5.8rc2
-> > >
-> > > v7:
-> > > - switch to a new siginfo field instead of using sigcontext
-> > > - merge the patch back into one since the other patches are now
-> > >   unnecessary
-> > >
-> > > v6:
-> > > - move fault address and fault code into the kernel_siginfo data structure
-> > > - split the patch in three since it was getting large and now has
-> > >   generic and arch-specific parts
-> > >
-> > > v5:
-> > > - add padding to fault_addr_top_byte_context in order to ensure the correct
-> > >   size and preserve sp alignment
-> > >
-> > > v4:
-> > > - expose only the tag bits in the context instead of the entire FAR_EL1
-> > > - remove mention of the new context from the sigcontext.__reserved[] note
-> > >
-> > > v3:
-> > > - add documentation to tagged-pointers.rst
-> > > - update comments in sigcontext.h
-> > >
-> > > v2:
-> > > - revert changes to hw_breakpoint.c
-> > > - rename set_thread_esr to set_thread_far_esr
-> > >
-> > >  Documentation/arm64/tagged-pointers.rst | 21 +++++---
-> > >  arch/arm64/include/asm/exception.h      |  2 +-
-> > >  arch/arm64/include/asm/signal.h         | 19 +++++++
-> > >  arch/arm64/include/asm/system_misc.h    |  2 +-
-> > >  arch/arm64/include/asm/traps.h          |  6 +--
-> > >  arch/arm64/kernel/debug-monitors.c      |  5 +-
-> > >  arch/arm64/kernel/entry-common.c        |  2 -
-> > >  arch/arm64/kernel/ptrace.c              |  7 +--
-> > >  arch/arm64/kernel/sys_compat.c          |  5 +-
-> > >  arch/arm64/kernel/traps.c               | 29 ++++++-----
-> > >  arch/arm64/mm/fault.c                   | 68 ++++++++++++++-----------
-> > >  arch/x86/kernel/signal_compat.c         |  9 +++-
-> > >  include/linux/compat.h                  |  2 +
-> > >  include/linux/signal.h                  | 16 ++++++
-> > >  include/uapi/asm-generic/siginfo.h      | 10 ++++
-> > >  kernel/signal.c                         | 18 ++++++-
-> > >  16 files changed, 148 insertions(+), 73 deletions(-)
-> > >  create mode 100644 arch/arm64/include/asm/signal.h
-> > >
-> > > diff --git a/Documentation/arm64/tagged-pointers.rst b/Documentation/arm64/tagged-pointers.rst
-> > > index eab4323609b9..032c09a876f4 100644
-> > > --- a/Documentation/arm64/tagged-pointers.rst
-> > > +++ b/Documentation/arm64/tagged-pointers.rst
-> > > @@ -53,12 +53,21 @@ visibility.
-> > >  Preserving tags
-> > >  ---------------
-> > >
-> > > -Non-zero tags are not preserved when delivering signals. This means that
-> > > -signal handlers in applications making use of tags cannot rely on the
-> > > -tag information for user virtual addresses being maintained for fields
-> > > -inside siginfo_t. One exception to this rule is for signals raised in
-> > > -response to watchpoint debug exceptions, where the tag information will
-> > > -be preserved.
-> > > +Non-zero tags are not preserved in the fault address fields
-> > > +siginfo.si_addr or sigcontext.fault_address when delivering
-> > > +signals. This means that signal handlers in applications making use
-> > > +of tags cannot rely on the tag information for user virtual addresses
-> > > +being maintained in these fields. One exception to this rule is for
-> > > +signals raised in response to watchpoint debug exceptions, where the
-> > > +tag information will be preserved.
-> > > +
-> > > +The fault address tag is preserved in the si_addr_tag_bits field
-> > > +of siginfo, which is set for signals raised in response to data aborts
-> > > +and instruction aborts. The si_addr_tag_bits_mask field indicates
-> > > +which bits of the field are valid. The validity of these fields is
-> > > +indicated by the SIXFLAG_ADDR_TAG_BITS flag in siginfo.si_xflags,
-> > > +and the validity of si_xflags in turn is indicated by the kernel
-> > > +indicating support for the sigaction.sa_flags flag SA_XFLAGS.
-> > >
-> > >  The architecture prevents the use of a tagged PC, so the upper byte will
-> > >  be set to a sign-extension of bit 55 on exception return.
-> > > diff --git a/arch/arm64/include/asm/exception.h b/arch/arm64/include/asm/exception.h
-> > > index 99b9383cd036..2a8aa1884d8a 100644
-> > > --- a/arch/arm64/include/asm/exception.h
-> > > +++ b/arch/arm64/include/asm/exception.h
-> > > @@ -32,7 +32,7 @@ static inline u32 disr_to_esr(u64 disr)
-> > >  }
-> > >
-> > >  asmlinkage void enter_from_user_mode(void);
-> > > -void do_mem_abort(unsigned long addr, unsigned int esr, struct pt_regs *regs);
-> > > +void do_mem_abort(unsigned long far, unsigned int esr, struct pt_regs *regs);
-> > >  void do_undefinstr(struct pt_regs *regs);
-> > >  void do_bti(struct pt_regs *regs);
-> > >  asmlinkage void bad_mode(struct pt_regs *regs, int reason, unsigned int esr);
-> > > diff --git a/arch/arm64/include/asm/signal.h b/arch/arm64/include/asm/signal.h
-> > > new file mode 100644
-> > > index 000000000000..46f9b3c61896
-> > > --- /dev/null
-> > > +++ b/arch/arm64/include/asm/signal.h
-> > > @@ -0,0 +1,19 @@
-> > > +/* SPDX-License-Identifier: GPL-2.0 */
-> > > +#ifndef __ARM64_ASM_SIGNAL_H
-> > > +#define __ARM64_ASM_SIGNAL_H
-> > > +
-> > > +#include <uapi/asm/signal.h>
-> > > +#include <uapi/asm/siginfo.h>
-> > > +
-> > > +static inline unsigned long arch_addr_tag_bits_mask(unsigned long sig,
-> > > +                                                 unsigned long si_code)
-> > > +{
-> > > +     if (sig == SIGTRAP && si_code == TRAP_BRKPT)
-> > > +             return 0;
-> > > +     if (sig == SIGSEGV && si_code == SEGV_MTESERR)
-> > > +             return 0xfUL << 56;
-> >
-> > Should this be 0xffUL << 56?
-> >
-> > I thought MTE ignored bits 63:60, rather than requiring them to be 0?
+> On 11/02/2020 4:40 PM Mike Rapoport <rppt@kernel.org> wrote:
+
+> > Isn't memfd_secret currently *unnecessarily* designed to be a "one task
+> > feature"? memfd_secret fulfills exactly two (generic) features:
+> > 
+> > - address space isolation from kernel (aka SECRET_EXCLUSIVE, not in kernel's
+> >   direct map) - hide from kernel, great
+> > - disabling processor's memory caches against speculative-execution vulnerabilities
+> >   (spectre and friends, aka SECRET_UNCACHED), also great
+> > 
+> > But, what about the following use-case: implementing a hardened IPC mechanism
+> > where even the kernel is not aware of any data and optionally via SECRET_UNCACHED
+> > even the hardware caches are bypassed! With the patches we are so close to
+> > achieving this.
+> > 
+> > How? Shared, SECRET_EXCLUSIVE and SECRET_UNCACHED mmaped pages for IPC
+> > involved tasks required to know this mapping (and memfd_secret fd). After IPC
+> > is done, tasks can copy sensitive data from IPC pages into memfd_secret()
+> > pages, un-sensitive data can be used/copied everywhere.
 > 
-> Yes, but the architecture defines FAR_EL1[63:60] as UNKNOWN for tag
-> check faults. As such the bits are masked out in do_tag_check_fault
-> and excluded from the mask here to indicate that they are not present.
+> As long as the task share the file descriptor, they can share the
+> secretmem pages, pretty much like normal memfd.
 
-Ah, OK.  I'd forgotten that.
+Including process_vm_readv() and process_vm_writev()? Let's take a hypothetical
+"dbus-daemon-secure" service that receives data from process A and wants to
+copy/distribute it to data areas of N other processes. Much like dbus but without
+SOCK_DGRAM rather direct copy into secretmem/mmap pages (ring-buffer). Should be
+possible, right?
 
-So long as these bits are also zeroed in si_addr, I guess that's fine.
-
+> > One missing piece is still the secure zeroization of the page(s) if the
+> > mapping is closed by last process to guarantee a secure cleanup. This can
+> > probably done as an general mmap feature, not coupled to memfd_secret() and
+> > can be done independently ("reverse" MAP_UNINITIALIZED feature).
 > 
-> > The whole tag byte may be relevant for debugging purposes, even if only
-> > some of the bits are checked in hardware.
-> 
-> Yes and that's why it's a bit of a shame that the bits were defined as
-> UNKNOWN. We had an idea for how to improve error reports by using
-> those bits to link tag check faults to previous allocations, which was
-> precluded by the missing bits.
+> There are "init_on_alloc" and "init_on_free" kernel parameters that
+> enable zeroing of the pages on alloc and on free globally.
+> Anyway, I'll add zeroing of the freed memory to secretmem.
 
-Presumably if some future arch version propagated this information, we
-could add those bits into the tag bits mask when running on new enough
-hardware?
+Great, this allows page-specific (thus runtime-performance-optimized) zeroing
+of secured pages. init_on_free lowers the performance to much and is not precice
+enough.
 
-Either way, I think we could do with a comment here.
-
-> 
-> Hopefully a future revision of the architecture will define these bits
-> for tag check faults (at least optionally). If that ever happens and
-> support for the architecture extension is detected we could stop
-> masking the bits out in do_tag_check_fault and set
-> si_addr_tag_bits_mask to 0xffUL << 56, which would let userspace know
-> that the bits are now present.
-> 
-> > For consistency, I wonder whether it makes sense to expose the bits as
-> > tag bits for watchpoint execeptions, even if they are left un-cleared in
-> > si_addr for historical reasons.
-> 
-> I don't have a strong opinion on whether to do this or not, but it
-> seems like a nice property that the bits are either defined in si_addr
-> or in si_addr_tag_bits. I think we could leave the watchpoint
-> exception on arm64 as "weird for historical reasons" and insist that
-> any future architectures adopting tagged addresses handle the tag bits
-> uniformly.
-
-Ack -- I guess I don't have a strong opinion either.
-
-There's a risk of inventing problems here in order to solve them, so I
-agree we should keep things as simple and follow your current design.
-
-Cheers
----Dave
+Hagen
