@@ -2,146 +2,166 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BFAA2A4154
-	for <lists+linux-api@lfdr.de>; Tue,  3 Nov 2020 11:12:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CF4D2A446F
+	for <lists+linux-api@lfdr.de>; Tue,  3 Nov 2020 12:44:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728042AbgKCKML (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 3 Nov 2020 05:12:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32155 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726211AbgKCKML (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Nov 2020 05:12:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1604398329;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=OyipNVQSi+6EWMMakyEP0aw5V3oxIqNV8RP/zduqoUw=;
-        b=GNa/9Cygvl4mUZcGn7V7OtWZ6w8d4PuD4m+FHGDrOVFBMKqurcOe9YTmT0AQ+yZNSJjHk3
-        Vra/tNN+2dbcnohmTsjObAJiPL40+W45ireLES3gNXRyBu5KSfPCWAdaigxIEP5m5hQSWO
-        lmbviLNsQlNizkBtTFZ/0RqbcYir2mY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-270-LbFmUSJyMSGOd-g7tICDgg-1; Tue, 03 Nov 2020 05:12:05 -0500
-X-MC-Unique: LbFmUSJyMSGOd-g7tICDgg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B23E186840C;
-        Tue,  3 Nov 2020 10:12:00 +0000 (UTC)
-Received: from [10.36.115.7] (ovpn-115-7.ams2.redhat.com [10.36.115.7])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 771815D9CC;
-        Tue,  3 Nov 2020 10:11:52 +0000 (UTC)
-Subject: Re: [PATCH v6 0/6] mm: introduce memfd_secret system call to create
- "secret" memory areas
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Idan Yaniv <idan.yaniv@ibm.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Shuah Khan <shuah@kernel.org>, Tycho Andersen <tycho@tycho.ws>,
-        Will Deacon <will@kernel.org>, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
-        x86@kernel.org
-References: <20200924132904.1391-1-rppt@kernel.org>
- <9c38ac3b-c677-6a87-ce82-ec53b69eaf71@redhat.com>
- <20201102174308.GF4879@kernel.org>
- <d4cb2c87-4744-3929-cedd-2be78625a741@redhat.com>
- <20201103095247.GH4879@kernel.org>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <5709dadf-81c6-5b40-93d4-fbef94d5aad8@redhat.com>
-Date:   Tue, 3 Nov 2020 11:11:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        id S1728598AbgKCLoP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 3 Nov 2020 06:44:15 -0500
+Received: from foss.arm.com ([217.140.110.172]:47464 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727988AbgKCLoO (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 3 Nov 2020 06:44:14 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 98CE1101E;
+        Tue,  3 Nov 2020 03:44:13 -0800 (PST)
+Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9C1B63F66E;
+        Tue,  3 Nov 2020 03:44:11 -0800 (PST)
+Date:   Tue, 3 Nov 2020 11:44:08 +0000
+From:   Dave Martin <Dave.Martin@arm.com>
+To:     Peter Collingbourne <pcc@google.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Evgenii Stepanov <eugenis@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Helge Deller <deller@gmx.de>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        David Spickett <david.spickett@linaro.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Richard Henderson <rth@twiddle.net>
+Subject: Re: [PATCH v12 7/8] signal: define the field siginfo.si_xflags
+Message-ID: <20201103114407.GK6882@arm.com>
+References: <cover.1602892799.git.pcc@google.com>
+ <7cc72abf960871135bc6e7fb11c8fc747401957b.1602892799.git.pcc@google.com>
+ <20201102173751.GE6882@arm.com>
+ <CAMn1gO4TogDpYHvZpZkGN01brcOviGHDDvbe-RRxDfBPV-GSEA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20201103095247.GH4879@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMn1gO4TogDpYHvZpZkGN01brcOviGHDDvbe-RRxDfBPV-GSEA@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 03.11.20 10:52, Mike Rapoport wrote:
-> On Mon, Nov 02, 2020 at 06:51:09PM +0100, David Hildenbrand wrote:
->>>> Assume you have a system with quite some ZONE_MOVABLE memory (esp. in
->>>> virtualized environments), eating up a significant amount of !ZONE_MOVABLE
->>>> memory dynamically at runtime can lead to non-obvious issues. It looks like
->>>> you have plenty of free memory, but the kernel might still OOM when trying
->>>> to do kernel allocations e.g., for pagetables. With CMA we at least know
->>>> what we're dealing with - it behaves like ZONE_MOVABLE except for the owner
->>>> that can place unmovable pages there. We can use it to compute statically
->>>> the amount of ZONE_MOVABLE memory we can have in the system without doing
->>>> harm to the system.
->>>
->>> Why would you say that secretmem allocates from !ZONE_MOVABLE?
->>> If we put boot time reservations aside, the memory allocation for
->>> secretmem follows the same rules as the memory allocations for any file
->>> descriptor. That means we allocate memory with GFP_HIGHUSER_MOVABLE.
->>
->> Oh, okay - I missed that! I had the impression that pages are unmovable and
->> allocating from ZONE_MOVABLE would be a violation of that?
->>
->>> After the allocation the memory indeed becomes unmovable but it's not
->>> like we are eating memory from other zones here.
->>
->> ... and here you have your problem. That's a no-no. We only allow it in very
->> special cases where it can't be avoided - e.g., vfio having to pin guest
->> memory when passing through memory to VMs.
->>
->> Hotplug memory, online it to ZONE_MOVABLE. Allocate secretmem. Try to unplug
->> the memory again -> endless loop in offline_pages().
->>
->> Or have a CMA area that gets used with GFP_HIGHUSER_MOVABLE. Allocate
->> secretmem. The owner of the area tries to allocate memory - always fails.
->> Purpose of CMA destroyed.
->>
->>>
->>>> Ideally, we would want to support page migration/compaction and allow for
->>>> allocation from ZONE_MOVABLE as well. Would involve temporarily mapping,
->>>> copying, unmapping. Sounds feasible, but not sure which roadblocks we would
->>>> find on the way.
->>>
->>> We can support migration/compaction with temporary mapping. The first
->>> roadblock I've hit there was that migration allocates 4K destination
->>> page and if we use it in secret map we are back to scrambling the direct
->>> map into 4K pieces. It still sounds feasible but not as trivial :)
->>
->> That sounds like the proper way for me to do it then.
->   
-> Although migration of secretmem pages sounds feasible now, there maybe
-> other issues I didn't see because I'm not very familiar with
-> migration/compaction code.
+On Mon, Nov 02, 2020 at 08:10:57PM -0800, Peter Collingbourne wrote:
+> On Mon, Nov 2, 2020 at 9:38 AM Dave Martin <Dave.Martin@arm.com> wrote:
+> >
+> > On Fri, Oct 16, 2020 at 05:12:32PM -0700, Peter Collingbourne wrote:
+> > > This field will contain flags that may be used by signal handlers to
+> > > determine whether other fields in the _sigfault portion of siginfo are
+> > > valid. An example use case is the following patch, which introduces
+> > > the si_addr_tag_bits{,_mask} fields.
+> > >
+> > > A new sigcontext flag, SA_XFLAGS, is introduced in order to allow
+> > > a signal handler to require the kernel to set the field (but note
+> > > that the field will be set anyway if the kernel supports the flag,
+> > > regardless of its value). In combination with the previous patches,
+> > > this allows a userspace program to determine whether the kernel will
+> > > set the field.
+> >
+> > Apologies for this coming rather late:
+> >
+> > It occurs to me that we might want a more specific name, since this only
+> > applies to fault signals -- say, SA_FAULTFLAGS.
+> >
+> > If we end up wanting to add flags fields for other signal types, then we
+> > might end up needing a SA_ flag for each, which would be a bit annoying.
+> >
+> > So, alternatively. I wonder whether it's worth preemptively adding an
+> > extra flags to every kind of kernel-generated siginfo.  If so, then
+> > having a single SA_XFLAGS would be fine.
+> >
+> >
+> > If added flags fields all over the place is considered overkill, then I
+> > guess it's sufficient to rename this flag.
+> >
+> > If renaming, the actual flags field in siginfo should also be renamed to
+> > match.
+> 
+> I'd prefer not to add flags fields to every union member at this
+> point. I agree that faultflags is a better name, and I guess it's one
+> more reason not to try and reuse the ia64 field. Renamed in v13.
 
-Migration of PMDs might also be feasible -  and it would be even 
-cleaner. But I agree that that might require more work and starting with 
-something simpler (!movable) is the right way to move forward.
+Ack -- I thought I should make the point, but we've got enough spare
+sa_flags bits for now to make this one SIL_FAULT-specific, providing the
+SA_foo name looks equally specific -- so just renaming that should be OK.
 
--- 
-Thanks,
+If we end up adding a flags field to another siginfo union member in the
+future, it's probably worth adding all the rest at the same time ... but
+it may never happen.
 
-David / dhildenb
+[...]
 
+> > > diff --git a/kernel/ptrace.c b/kernel/ptrace.c
+> > > index 43d6179508d6..85b5b4e38661 100644
+> > > --- a/kernel/ptrace.c
+> > > +++ b/kernel/ptrace.c
+> > > @@ -687,18 +687,32 @@ static int ptrace_getsiginfo(struct task_struct *child, kernel_siginfo_t *info)
+> > >       return error;
+> > >  }
+> > >
+> > > -static int ptrace_setsiginfo(struct task_struct *child, const kernel_siginfo_t *info)
+> > > +static int ptrace_setsiginfo(struct task_struct *child, unsigned long flags,
+> > > +                          kernel_siginfo_t *info)
+> > >  {
+> > > -     unsigned long flags;
+> > > +     unsigned long lock_flags;
+> > >       int error = -ESRCH;
+> > >
+> > > -     if (lock_task_sighand(child, &flags)) {
+> > > +     if (flags & ~PTRACE_SIGINFO_XFLAGS) {
+> > > +             return -EINVAL;
+> > > +     }
+> > > +
+> > > +     /*
+> > > +      * If the caller is unaware of si_xflags and we're using a layout that
+> > > +      * requires it, set it to 0 which means "no fields are available".
+> > > +      */
+> > > +     if (!(flags & PTRACE_SIGINFO_XFLAGS) &&
+> > > +         siginfo_layout_is_fault(
+> > > +                 siginfo_layout(info->si_signo, info->si_code)))
+> > > +             info->si_xflags = 0;
+> > > +
+> > > +     if (lock_task_sighand(child, &lock_flags)) {
+> > >               error = -EINVAL;
+> > >               if (likely(child->last_siginfo != NULL)) {
+> > >                       copy_siginfo(child->last_siginfo, info);
+> > >                       error = 0;
+> > >               }
+> > > -             unlock_task_sighand(child, &flags);
+> > > +             unlock_task_sighand(child, &lock_flags);
+> > >       }
+> > >       return error;
+> > >  }
+> > > @@ -1038,9 +1052,12 @@ int ptrace_request(struct task_struct *child, long request,
+> > >               break;
+> > >
+> > >       case PTRACE_SETSIGINFO:
+> > > +             addr = 0;
+> >
+> > If this is intended to fall through, please add a
+> >
+> >                 /* fall through */
+> >
+> > comment here (newer GCC has warnings to catch this; not sure about
+> > clang, but I'd be surprised if no version warns).
+> 
+> Yes, clang has this warning, but it looks like it is currently
+> disabled in clang due to differences between the compilers [1] so I
+> didn't see it.
+> 
+> It looks like the kernel is moving towards using the fallthrough
+> macro/attribute defined in include/linux/compiler_attributes.h (and to
+> me this personally seems better than relying on parsing comments), so
+> I've used that macro in v13.
+
+Ah, I wasn't aware of that.  Sounds better!
+
+Cheers
+---Dave
