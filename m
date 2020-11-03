@@ -2,56 +2,56 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4054E2A3B4A
-	for <lists+linux-api@lfdr.de>; Tue,  3 Nov 2020 05:10:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AFF8C2A3B4B
+	for <lists+linux-api@lfdr.de>; Tue,  3 Nov 2020 05:10:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725953AbgKCEKF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 2 Nov 2020 23:10:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35610 "EHLO
+        id S1725958AbgKCEKI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 2 Nov 2020 23:10:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725940AbgKCEKF (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 2 Nov 2020 23:10:05 -0500
-Received: from mail-pf1-x44a.google.com (mail-pf1-x44a.google.com [IPv6:2607:f8b0:4864:20::44a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A6D3C0617A6
-        for <linux-api@vger.kernel.org>; Mon,  2 Nov 2020 20:10:04 -0800 (PST)
-Received: by mail-pf1-x44a.google.com with SMTP id a24so4436946pfo.3
-        for <linux-api@vger.kernel.org>; Mon, 02 Nov 2020 20:10:04 -0800 (PST)
+        with ESMTP id S1725940AbgKCEKI (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 2 Nov 2020 23:10:08 -0500
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 021C7C0617A6
+        for <linux-api@vger.kernel.org>; Mon,  2 Nov 2020 20:10:08 -0800 (PST)
+Received: by mail-yb1-xb49.google.com with SMTP id a12so16560185ybc.20
+        for <linux-api@vger.kernel.org>; Mon, 02 Nov 2020 20:10:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=sender:date:in-reply-to:message-id:mime-version:references:subject
          :from:to:cc;
-        bh=C0TIbQB7eewXGq+mkhd2tlN81pQlKE4q4NIfExPeYcU=;
-        b=MdN/swhJbVZmU2L45sgheMs89SJkwKosV9dEveiUjIyhLKzWtBpoVwVKe3Fmw7y014
-         g3net6srkCWA4cL0AZ/La1DYQYetohJR2tu1HvZN7NY65nusfo97AXvaouvHNGzaVIHO
-         uFPIQ/r4kOPhQynf3xGnWFew6z8+hlsrbhe+5fvR/EFrU6eyl4WhwWvpkSXV8L8UFSwS
-         bWkxcMvR8URArlldkISwlzpkzJp98bnLGjAKEc8vVWYvbZwy6cniePQgthRljTX644gj
-         ZgYD9YSKRGKFBqH9qwuoTImd/Py0JDBE9vtx58oxTFTya7FTk4oUuwJfWbJpzldS8oL/
-         CAkw==
+        bh=59sGcNP4h61z0LUyEOMh2LU3GdIsYbG4zMxVp1QCZaQ=;
+        b=nhcnUQV+Byb3ifYqbQkCCg8IY9rPRL0347EucNliC0NqmvFmaiBkmyZp5cIvQ9hlIw
+         IyLzUKkOXBOhAGSHs/09QezCh7ljT2ztGTwV9S3iePR7Z6StEye3HcXwi6x6jS1e7/sR
+         FDhJG2priVeJ9iuszueKBTOm8HosvQJAZBPSwLJWdZKMubyYMdGMLlFsWEKYlq3z1FKR
+         Z6YpdC/L31XgeIySGH/JAOrQ6GoYqTpuGr6Xwn3QEd2LXFgMyIx2QHMvFxl8jVQRk6Ec
+         jHwc0SohuSb5WmIQwbjIdyFk2TAEZyNOBtKh/mP8AL4nuBUG6lXxQcnSNBoU3BJefZGY
+         KRCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=C0TIbQB7eewXGq+mkhd2tlN81pQlKE4q4NIfExPeYcU=;
-        b=qOohL6xAAdcZZy36DWGdFh9Law7yLUnskZxCGxPND/TqQQGYRSwDRghRZH1QrJww93
-         IgvBnQPdneK3Nt1p0Hel7P99dmgRW84FBLgCnXz9VNiDSNhroFDshmYztmU0303OJRCF
-         A35mmqKiAr1mSW63Nd1gZCUk+3YRHy6FlQ4uqUlaG86fmyZaYKNAszLLgTXU23zXuj5i
-         x+M0tPQduQp5WJuoIt1YWCc5ulANkWzuccchZmyG+FPJNAX4UOTArpROl8cHd+L2oUPw
-         GA0KJrWbrWIUpCpBa3P6F2RSmht45gPVEzVCxZ741v4mQZkKQfbp1RjXUqpWKSaUY02q
-         Jnrg==
-X-Gm-Message-State: AOAM530vwo5QY1EjLNSlfm0YkWEz0vOD85sudhXwq+ySyAoFuqpG5Ysc
-        nFZYO/9248fYkJdEbsZRCmckBz8=
-X-Google-Smtp-Source: ABdhPJyGzPg5saVpLYjXlfgiW1QNWjNEIs7vXynV+qWn/lgpC5rG5mAj/PFowByubg5FhkBneJ/f+LY=
+        bh=59sGcNP4h61z0LUyEOMh2LU3GdIsYbG4zMxVp1QCZaQ=;
+        b=VyaCko0nyh4W0jUUiv8sTadFeWCgJRbzPEJayMLFXqfhmRcH42hZYEI8P58rWV9IO0
+         HAhhewqwA25+nyijHIB+hUrbcw9xBUAcYlp3do1pcorFA2Iq3OOktAjy8Kk7kI+Dulbn
+         NuL2IoWtD9IXvpQ5wAJ9hRUROP50Gt86BscScuGK1d4G1pdjZbwQQce9bSWdviogaxsR
+         o1rT9lvGgvMk4kT66UfWDxPL4Cm6DKcVv2oz3PyLxznDZ/wMl2HPyUUzWtkiZfklM6oT
+         0e0dkgteD1kurDWqkcaaDn6B/npfIDpmwvl4fL//kyqzlp6pngC46c2ADnvXrkyEzw5d
+         w9OQ==
+X-Gm-Message-State: AOAM533/fYpGgY2HdVHcZqMXeicTX+HO0VWeuCvOHLl/wpcnepSM3P7X
+        mdOW3j111dFE8E0XiNRhvrOINNg=
+X-Google-Smtp-Source: ABdhPJwV8ieWMf2XUr77nrZx/jVanpdK1gWvrJKo+dNmFv+nBgOFcbPfJhQ5TN8IAM8eLFXXT5N2Z+c=
 Sender: "pcc via sendgmr" <pcc@pcc-desktop.svl.corp.google.com>
 X-Received: from pcc-desktop.svl.corp.google.com ([2620:15c:2ce:0:7220:84ff:fe09:385a])
- (user=pcc job=sendgmr) by 2002:a17:90b:602:: with SMTP id gb2mr1667259pjb.12.1604376603688;
- Mon, 02 Nov 2020 20:10:03 -0800 (PST)
-Date:   Mon,  2 Nov 2020 20:09:37 -0800
+ (user=pcc job=sendgmr) by 2002:a25:9701:: with SMTP id d1mr24145918ybo.409.1604376607226;
+ Mon, 02 Nov 2020 20:10:07 -0800 (PST)
+Date:   Mon,  2 Nov 2020 20:09:38 -0800
 In-Reply-To: <cover.1604376407.git.pcc@google.com>
-Message-Id: <7e26600459cb08c5016611b37fe88c23098b40eb.1604376407.git.pcc@google.com>
+Message-Id: <e67e653cd06c573e932e7d72223dd7d48fcd21d3.1604376407.git.pcc@google.com>
 Mime-Version: 1.0
 References: <cover.1604376407.git.pcc@google.com>
 X-Mailer: git-send-email 2.29.1.341.ge80a0c044ae-goog
-Subject: [PATCH v13 1/8] parisc: Drop parisc special case for __sighandler_t
+Subject: [PATCH v13 2/8] parisc: start using signal-defs.h
 From:   Peter Collingbourne <pcc@google.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Evgenii Stepanov <eugenis@google.com>,
@@ -73,53 +73,48 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Helge Deller <deller@gmx.de>
+We currently include signal-defs.h on all architectures except parisc.
+Make parisc fall in line. This will make maintenance easier once the
+flag bits are moved here.
 
-I believe we can and *should* drop this parisc-specific typedef for
-__sighandler_t when compiling a 64-bit kernel. The reasons:
-
-1. We don't have a 64-bit userspace yet, so nothing (on userspace side)
-can break.
-
-2. Inside the Linux kernel, this is only used in kernel/signal.c, in
-function kernel_sigaction() where the signal handler is compared against
-SIG_IGN.  SIG_IGN is defined as (__sighandler_t)1), so only the pointers
-are compared.
-
-3. Even when a 64-bit userspace gets added at some point, I think
-__sighandler_t should be defined what it is: a function pointer struct.
-
-I compiled kernel/signal.c with and without the patch, and the produced code
-is identical in both cases.
-
-Signed-off-by: Helge Deller <deller@gmx.de>
-Reviewed-by: Peter Collingbourne <pcc@google.com>
-Link: https://linux-review.googlesource.com/id/I21c43f21b264f339e3aa395626af838646f62d97
+Signed-off-by: Peter Collingbourne <pcc@google.com>
+Acked-by: Helge Deller <deller@gmx.de>
+Link: https://linux-review.googlesource.com/id/If03a5135fb514fe96548fb74610e6c3586a04064
 ---
- arch/parisc/include/uapi/asm/signal.h | 8 --------
- 1 file changed, 8 deletions(-)
+ arch/parisc/include/uapi/asm/signal.h | 13 +------------
+ 1 file changed, 1 insertion(+), 12 deletions(-)
 
 diff --git a/arch/parisc/include/uapi/asm/signal.h b/arch/parisc/include/uapi/asm/signal.h
-index e605197b462c..d9c51769851a 100644
+index d9c51769851a..9e6f87bc8a73 100644
 --- a/arch/parisc/include/uapi/asm/signal.h
 +++ b/arch/parisc/include/uapi/asm/signal.h
-@@ -85,16 +85,8 @@
+@@ -68,14 +68,7 @@
+ #define MINSIGSTKSZ	2048
+ #define SIGSTKSZ	8192
+ 
+-
+-#define SIG_BLOCK          0	/* for blocking signals */
+-#define SIG_UNBLOCK        1	/* for unblocking signals */
+-#define SIG_SETMASK        2	/* for setting the signal mask */
+-
+-#define SIG_DFL	((__sighandler_t)0)	/* default signal handling */
+-#define SIG_IGN	((__sighandler_t)1)	/* ignore signal */
+-#define SIG_ERR	((__sighandler_t)-1)	/* error return from signal */
++#include <asm-generic/signal-defs.h>
+ 
+ # ifndef __ASSEMBLY__
+ 
+@@ -84,10 +77,6 @@
+ /* Avoid too many header ordering problems.  */
  struct siginfo;
  
- /* Type of a signal handler.  */
--#if defined(__LP64__)
--/* function pointers on 64-bit parisc are pointers to little structs and the
-- * compiler doesn't support code which changes or tests the address of
-- * the function in the little struct.  This is really ugly -PB
-- */
--typedef char __user *__sighandler_t;
--#else
- typedef void __signalfn_t(int);
- typedef __signalfn_t __user *__sighandler_t;
--#endif
- 
+-/* Type of a signal handler.  */
+-typedef void __signalfn_t(int);
+-typedef __signalfn_t __user *__sighandler_t;
+-
  typedef struct sigaltstack {
  	void __user *ss_sp;
+ 	int ss_flags;
 -- 
 2.29.1.341.ge80a0c044ae-goog
 
