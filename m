@@ -2,119 +2,209 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FA222A46F9
-	for <lists+linux-api@lfdr.de>; Tue,  3 Nov 2020 14:52:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D06D52A476C
+	for <lists+linux-api@lfdr.de>; Tue,  3 Nov 2020 15:11:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729447AbgKCNw2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 3 Nov 2020 08:52:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41396 "EHLO
+        id S1729548AbgKCOKy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 3 Nov 2020 09:10:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729362AbgKCNw0 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Nov 2020 08:52:26 -0500
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [IPv6:2001:67c:2050::465:202])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17C31C0613D1;
-        Tue,  3 Nov 2020 05:52:26 -0800 (PST)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [80.241.60.241])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4CQWS671PfzQkKw;
-        Tue,  3 Nov 2020 14:52:22 +0100 (CET)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp2.mailbox.org ([80.241.60.241])
-        by spamfilter06.heinlein-hosting.de (spamfilter06.heinlein-hosting.de [80.241.56.125]) (amavisd-new, port 10030)
-        with ESMTP id FlqcKCn97r9e; Tue,  3 Nov 2020 14:52:18 +0100 (CET)
-Date:   Tue, 3 Nov 2020 14:52:14 +0100 (CET)
-From:   Hagen Paul Pfeifer <hagen@jauu.net>
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Idan Yaniv <idan.yaniv@ibm.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Shuah Khan <shuah@kernel.org>, Tycho Andersen <tycho@tycho.ws>,
-        Will Deacon <will@kernel.org>, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
-        x86@kernel.org
-Message-ID: <1547601988.128687.1604411534845@office.mailbox.org>
-In-Reply-To: <20201102154028.GD4879@kernel.org>
-References: <20200924132904.1391-1-rppt@kernel.org>
- <20201101110935.GA4105325@laniakea> <20201102154028.GD4879@kernel.org>
-Subject: Re: [PATCH v6 0/6] mm: introduce memfd_secret system call to create
- "secret" memory areas
+        with ESMTP id S1729560AbgKCOKt (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Nov 2020 09:10:49 -0500
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94956C061A49
+        for <linux-api@vger.kernel.org>; Tue,  3 Nov 2020 06:10:48 -0800 (PST)
+Received: by mail-ed1-x542.google.com with SMTP id a15so9577146edy.1
+        for <linux-api@vger.kernel.org>; Tue, 03 Nov 2020 06:10:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kinvolk.io; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=y8WQjpT9rqVrgeh99s8m7L7lW+jgLfIjyGz2M8+krP0=;
+        b=jNSrYWNMri4UzTfQTwvUoeI3d9PbxAntszBtbkOHWPbsmFNLXoekIJ8TcfDFJbJf7v
+         6+eYLKBEUBAXwADA9DJI10J7imuIzSuwLQhtXLJY1nc7fmB3dMavlYA1Xmy9wmU6aG0F
+         m9nefJssTHLgeDNMLEKBtF2hV/CbFCCq5QOzc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=y8WQjpT9rqVrgeh99s8m7L7lW+jgLfIjyGz2M8+krP0=;
+        b=l8L+WzOe7gVnfjmaV6Wg1A+zBsxtQeMCgCY8k3R38jGCDts0ucbhjnn1R55eOmZVQ2
+         iuTmswUBuXyrqLZP8x2ExuWuyzt+IfPgM7Q/1VFC1SsB5cJeUo/P5BIxzakulD5y76Aw
+         SIOGMpg1A83yv4bj8ZzzBmsQLUIe6Zh93L9rqO72NdIIMoLSsPgzLpC3PEwNdiJdVySb
+         529fkJ0J6G/L8oLLlOl3vvL4QwhvDNvzuxsnoG4nyBl3Gy8XesLgnX7zGNAfQilLH8r3
+         RF6JVrRUn9+GKtMvAlvshLyYmhhBKPA+IGOdzIu0hRrfCtJz4BXPCkmV6xPNwtMfnJt1
+         t6RQ==
+X-Gm-Message-State: AOAM531CAg/xqGhHXetJAbMSuWkWBSqNvnS8KlRzhfYlu/uSIpbPN/lS
+        GQCYW12ITQe5QnCd5T2Ml38uc2+6k17c1h+gnbl87w==
+X-Google-Smtp-Source: ABdhPJwp4QL8RwmQmcT2CoPcUplHSU9HiByLsXAEntwM01IPEN+3MiJMYkcJQ6Od81V70aDSuFwsTxILAnA/OMfjXrI=
+X-Received: by 2002:a05:6402:a57:: with SMTP id bt23mr10741907edb.62.1604412647178;
+ Tue, 03 Nov 2020 06:10:47 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
-X-MBO-SPAM-Probability: 
-X-Rspamd-Score: -0.65 / 15.00 / 15.00
-X-Rspamd-Queue-Id: D612C1723
-X-Rspamd-UID: 9101f0
+References: <20201029003252.2128653-1-christian.brauner@ubuntu.com>
+ <87pn51ghju.fsf@x220.int.ebiederm.org> <20201029155148.5odu4j2kt62ahcxq@yavin.dot.cyphar.com>
+ <87361xdm4c.fsf@x220.int.ebiederm.org>
+In-Reply-To: <87361xdm4c.fsf@x220.int.ebiederm.org>
+From:   Alban Crequy <alban@kinvolk.io>
+Date:   Tue, 3 Nov 2020 15:10:35 +0100
+Message-ID: <CADZs7q4abuN6n8HMrpe2R2kRBUDVPoYRNpezKk4cvXRk7CVHng@mail.gmail.com>
+Subject: Re: [PATCH 00/34] fs: idmapped mounts
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     Aleksa Sarai <cyphar@cyphar.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        John Johansen <john.johansen@canonical.com>,
+        James Morris <jmorris@namei.org>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+        Geoffrey Thomas <geofft@ldpreload.com>,
+        Mrunal Patel <mpatel@redhat.com>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Theodore Tso <tytso@mit.edu>, Tycho Andersen <tycho@tycho.ws>,
+        David Howells <dhowells@redhat.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Jann Horn <jannh@google.com>,
+        Seth Forshee <seth.forshee@canonical.com>,
+        =?UTF-8?Q?St=C3=A9phane_Graber?= <stgraber@ubuntu.com>,
+        Lennart Poettering <lennart@poettering.net>,
+        smbarber@chromium.org, Phil Estes <estesp@gmail.com>,
+        Serge Hallyn <serge@hallyn.com>,
+        Kees Cook <keescook@chromium.org>,
+        Todd Kjos <tkjos@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        LSM <linux-security-module@vger.kernel.org>,
+        linux-api@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-unionfs@vger.kernel.org, linux-audit@redhat.com,
+        linux-integrity <linux-integrity@vger.kernel.org>,
+        selinux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-> On 11/02/2020 4:40 PM Mike Rapoport <rppt@kernel.org> wrote:
+On Thu, Oct 29, 2020 at 5:37 PM Eric W. Biederman <ebiederm@xmission.com> w=
+rote:
+>
+> Aleksa Sarai <cyphar@cyphar.com> writes:
+>
+> > On 2020-10-29, Eric W. Biederman <ebiederm@xmission.com> wrote:
+> >> Christian Brauner <christian.brauner@ubuntu.com> writes:
+> >>
+> >> > Hey everyone,
+> >> >
+> >> > I vanished for a little while to focus on this work here so sorry fo=
+r
+> >> > not being available by mail for a while.
+> >> >
+> >> > Since quite a long time we have issues with sharing mounts between
+> >> > multiple unprivileged containers with different id mappings, sharing=
+ a
+> >> > rootfs between multiple containers with different id mappings, and a=
+lso
+> >> > sharing regular directories and filesystems between users with diffe=
+rent
+> >> > uids and gids. The latter use-cases have become even more important =
+with
+> >> > the availability and adoption of systemd-homed (cf. [1]) to implemen=
+t
+> >> > portable home directories.
+> >>
+> >> Can you walk us through the motivating use case?
+> >>
+> >> As of this year's LPC I had the distinct impression that the primary u=
+se
+> >> case for such a feature was due to the RLIMIT_NPROC problem where two
+> >> containers with the same users still wanted different uid mappings to
+> >> the disk because the users were conflicting with each other because of
+> >> the per user rlimits.
+> >>
+> >> Fixing rlimits is straight forward to implement, and easier to manage
+> >> for implementations and administrators.
+> >
+> > This is separate to the question of "isolated user namespaces" and
+> > managing different mappings between containers. This patchset is solvin=
+g
+> > the same problem that shiftfs solved -- sharing a single directory tree
+> > between containers that have different ID mappings. rlimits (nor any of
+> > the other proposals we discussed at LPC) will help with this problem.
+>
+> First and foremost: A uid shift on write to a filesystem is a security
+> bug waiting to happen.  This is especially in the context of facilities
+> like iouring, that play very agressive games with how process context
+> makes it to  system calls.
+>
+> The only reason containers were not immediately exploitable when iouring
+> was introduced is because the mechanisms are built so that even if
+> something escapes containment the security properties still apply.
+> Changes to the uid when writing to the filesystem does not have that
+> property.  The tiniest slip in containment will be a security issue.
+>
+> This is not even the least bit theoretical.  I have seem reports of how
+> shitfs+overlayfs created a situation where anyone could read
+> /etc/shadow.
+>
+> If you are going to write using the same uid to disk from different
+> containers the question becomes why can't those containers configure
+> those users to use the same kuid?
+>
+> What fixing rlimits does is it fixes one of the reasons that different
+> containers could not share the same kuid for users that want to write to
+> disk with the same uid.
+>
+>
+> I humbly suggest that it will be more secure, and easier to maintain for
+> both developers and users if we fix the reasons people want different
+> containers to have the same user running with different kuids.
+>
+> If not what are the reasons we fundamentally need the same on-disk user
+> using multiple kuids in the kernel?
 
-> > Isn't memfd_secret currently *unnecessarily* designed to be a "one task
-> > feature"? memfd_secret fulfills exactly two (generic) features:
-> > 
-> > - address space isolation from kernel (aka SECRET_EXCLUSIVE, not in kernel's
-> >   direct map) - hide from kernel, great
-> > - disabling processor's memory caches against speculative-execution vulnerabilities
-> >   (spectre and friends, aka SECRET_UNCACHED), also great
-> > 
-> > But, what about the following use-case: implementing a hardened IPC mechanism
-> > where even the kernel is not aware of any data and optionally via SECRET_UNCACHED
-> > even the hardware caches are bypassed! With the patches we are so close to
-> > achieving this.
-> > 
-> > How? Shared, SECRET_EXCLUSIVE and SECRET_UNCACHED mmaped pages for IPC
-> > involved tasks required to know this mapping (and memfd_secret fd). After IPC
-> > is done, tasks can copy sensitive data from IPC pages into memfd_secret()
-> > pages, un-sensitive data can be used/copied everywhere.
-> 
-> As long as the task share the file descriptor, they can share the
-> secretmem pages, pretty much like normal memfd.
+I would like to use this patch set in the context of Kubernetes. I
+described my two possible setups in
+https://www.spinics.net/lists/linux-containers/msg36537.html:
 
-Including process_vm_readv() and process_vm_writev()? Let's take a hypothetical
-"dbus-daemon-secure" service that receives data from process A and wants to
-copy/distribute it to data areas of N other processes. Much like dbus but without
-SOCK_DGRAM rather direct copy into secretmem/mmap pages (ring-buffer). Should be
-possible, right?
+1. Each Kubernetes pod has its own userns but with the same user id mapping
+2. Each Kubernetes pod has its own userns with non-overlapping user id
+mapping (providing additional isolation between pods)
 
-> > One missing piece is still the secure zeroization of the page(s) if the
-> > mapping is closed by last process to guarantee a secure cleanup. This can
-> > probably done as an general mmap feature, not coupled to memfd_secret() and
-> > can be done independently ("reverse" MAP_UNINITIALIZED feature).
-> 
-> There are "init_on_alloc" and "init_on_free" kernel parameters that
-> enable zeroing of the pages on alloc and on free globally.
-> Anyway, I'll add zeroing of the freed memory to secretmem.
+But even in the setup where all pods run with the same id mappings,
+this patch set is still useful to me for 2 reasons:
 
-Great, this allows page-specific (thus runtime-performance-optimized) zeroing
-of secured pages. init_on_free lowers the performance to much and is not precice
-enough.
+1. To avoid the expensive recursive chown of the rootfs. We cannot
+necessarily extract the tarball directly with the right uids because
+we might use the same container image for privileged containers (with
+the host userns) and unprivileged containers (with a new userns), so
+we have at least 2 =E2=80=9Cmappings=E2=80=9D (taking more time and resulti=
+ng in more
+storage space). Although the =E2=80=9Cmetacopy=E2=80=9D mount option in ove=
+rlayfs
+helps to make the recursive chown faster, it can still take time with
+large container images with lots of files. I=E2=80=99d like to use this pat=
+ch
+set to set up the root fs in constant time.
 
-Hagen
+2. To manage large external volumes (NFS or other filesystems). Even
+if admins can decide to use the same kuid on all the nodes of the
+Kubernetes cluster, this is impractical for migration. People can have
+existing Kubernetes clusters (currently without using user namespaces)
+and large NFS volumes. If they want to switch to a new version of
+Kubernetes with the user namespace feature enabled, they would need to
+recursively chown all the files on the NFS shares. This could take
+time on large filesystems and realistically, we want to support
+rolling updates where some nodes use the previous version without user
+namespaces and new nodes are progressively migrated to the new userns
+with the new id mapping. If both sets of nodes use the same NFS share,
+that can=E2=80=99t work.
+
+Alban
