@@ -2,819 +2,560 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 058752A6F7B
-	for <lists+linux-api@lfdr.de>; Wed,  4 Nov 2020 22:18:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 126832A7354
+	for <lists+linux-api@lfdr.de>; Thu,  5 Nov 2020 00:58:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731000AbgKDVSg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 4 Nov 2020 16:18:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53502 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726152AbgKDVSg (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 4 Nov 2020 16:18:36 -0500
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0505C0613D3
-        for <linux-api@vger.kernel.org>; Wed,  4 Nov 2020 13:18:34 -0800 (PST)
-Received: by mail-yb1-xb49.google.com with SMTP id b7so129621ybn.3
-        for <linux-api@vger.kernel.org>; Wed, 04 Nov 2020 13:18:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:to:cc;
-        bh=4hj3UOXnuHarPKRaqjh4G64hvoGixgbDduqId6sPxBQ=;
-        b=lAawHqnLbSUtTQ8KoQWBl3WK/UdTFWgTBpK5HjtsvhauUSOHYrQg1GwkYdJ3Hf2NIe
-         F05k3tH3IORIdfFTqvX5tO0FfDQ+IipuzymL3FcTi4nCikMRZHPyQBqIsLl8MV+cVwqs
-         CVrBVlHXqVI1eLtfymH2fJofVKSlAO++BlL6uy6SXVQaaYeCqgOdBO41o4dT/Gj+W8Xn
-         5JQd4VYfKD1GWRKHykG8G4qdkEgowaDgdNFbOTu+rw4Z/z7tjrCzVxdQJczmJhfx6kGT
-         qQdagw1fP7MLBPegyPLo/rrEni7VUy6JwSfuuzM2oJgVDCpTKvVPRugt/UULsfLPDy+f
-         lj1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=4hj3UOXnuHarPKRaqjh4G64hvoGixgbDduqId6sPxBQ=;
-        b=cdyQ6xe4zY1M3HfIJCF0dMUJdHiEI8XIoH1L13Ua+OUa+YaiggApda6YYTEX04qaJf
-         omquIHl5HLKUBiUz3QzNv0gNGs4NZ2XOo3gbN61uxXhPZBtFH9VDdVQ3CKbTQX+uV7a6
-         W49O5syRVHO4KzhulQUpfjsSCoz9MyyDG+VU+ZI4yAk2+pG429xJMMG2p7rzNG2Sn9+d
-         ZtKpVc1017T10zQJikiXKC6IZq1OZup4ytH7xBGZaNpZmawTPwqXFtTZcs0rM+zPIVLM
-         63H61oNzeqTvIJWOk1jeUFcCWpLJKUP1SAgEL+nYkIvm1CZNylX4YWrhwzDFk4+amOe2
-         vSuw==
-X-Gm-Message-State: AOAM530hKpIhfETsdRWT4aHz6yClBXrIJPAk9Zhz2uDGLusMzmdEtOUv
-        IDcnu/xDoBSZYqh2AoHM5UumBG4=
-X-Google-Smtp-Source: ABdhPJw63mGq06X0L7mANfTcxqtuqEpR+zi9ToXYEDo93ZyojtbICQQVTykkTJPjXd5DY0TaSDGYma0=
-Sender: "pcc via sendgmr" <pcc@pcc-desktop.svl.corp.google.com>
-X-Received: from pcc-desktop.svl.corp.google.com ([2620:15c:2ce:0:7220:84ff:fe09:385a])
- (user=pcc job=sendgmr) by 2002:a25:c6d6:: with SMTP id k205mr38308419ybf.206.1604524713988;
- Wed, 04 Nov 2020 13:18:33 -0800 (PST)
-Date:   Wed,  4 Nov 2020 13:18:11 -0800
-In-Reply-To: <cover.1604523707.git.pcc@google.com>
-Message-Id: <0ce3d90b5d6a4457b2fe3b0582f61fab70b17dfc.1604523707.git.pcc@google.com>
-Mime-Version: 1.0
-References: <cover.1604523707.git.pcc@google.com>
-X-Mailer: git-send-email 2.29.1.341.ge80a0c044ae-goog
-Subject: [PATCH v14 8/8] arm64: expose FAR_EL1 tag bits in siginfo
-From:   Peter Collingbourne <pcc@google.com>
-To:     Catalin Marinas <catalin.marinas@arm.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Will Deacon <will@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>
-Cc:     Peter Collingbourne <pcc@google.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Richard Henderson <rth@twiddle.net>, linux-api@vger.kernel.org,
-        Helge Deller <deller@gmx.de>,
-        David Spickett <david.spickett@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S1733267AbgKDX4r (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 4 Nov 2020 18:56:47 -0500
+Received: from sonic313-15.consmr.mail.ne1.yahoo.com ([66.163.185.38]:45228
+        "EHLO sonic313-15.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1733151AbgKDX4A (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 4 Nov 2020 18:56:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1604534159; bh=N6iORuVgdJrnPiBRwx/E1Rjlds9E5M3v9taI9rMKSHk=; h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject; b=AUwLlcAUU4dYbYzjs6ZmxVAC3bnbOkT+qHZQ/8snbXf8nO43a1nIbeYWZhHKNIEvdDcjcvMnNLcSl3E+GrzF/zrDaLoyr5SZq9GI572oVeE+UlEFnqHcxvMdyG9stJvaweo28bVkmRdbRbWusGO1UrSzG4RekOaOuSbiS4wovBkem6UKU8Oj9L8CsdpGn+xx7UX4xGarak1FMxTI5+UlFZZTJCZwN1fiyznlPckOltptKOsz3SqZDzHdTW2blxhBNZY1bNiDnWD3ebdymXpARoj8Z17Pm2qgNSCUdOlrkE+I5WjX5pF0hyMQsId0bCv2762SS5dzB/mQIGk7osbOAg==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1604534159; bh=b1eOB3fuV9PbLUiKiWgjCLkmmpjaBZ/rAJV87FIEy8a=; h=From:To:Subject:Date; b=Dwc0a1bEBBuYOb2zH1cwP+g4Nkw6GYTWUA5locVoQpu9x3kwwPm7LF1QWfYnDLEcuTSYA+gp2bJUdXSrDfNA6jKBlfjNlOiLEbhz6eMWYu9YAX5hwcjBqdfmfTzqqBmaE9z2FFxYntLtNKmtkx+V/OWFvSHoRd32i6kuuqz4sPMnA6qi2OrfbCCoAdQFfvAI5HNtfrhX4di4yZxFRPoTzqWtJrr7/gqdePAx9Rfsi17e2NXLxDtJkBuj4T2ASB/JGj4suAB/j96HFfyNW4+WFYP/6kYI567TYifYUiW+xjGW4k11k6XA7Xk7adwIFx1Dm8Rp7MzpXHjO4AzrTz8QGQ==
+X-YMail-OSG: SSL.yVoVM1njgWDgdrACv2KhMgEk4kdJFFamRTErETTasLWdag2myXk4ZSaqInh
+ whu_0Of3cDrv8lfo81wqRyZ4iaN4OPLCK9TNLtH5HFvuqPodkzcJ_6j_7FVfRozmJr8I0jf0cez9
+ RaqVNfE.dJ0KTk93SdsP5TvtIzJOgj5UQKp9nXnepVjwNxuodW2Tx_V1HLks2by9LwIRGo9KhhHu
+ ijsDbWmlZ1ssPfEjO3aUaXH1m8kWapdBpUNEWRBmr6yK7DkpQ9brG3xrrpaWbjLyUkkPcpHtU7xJ
+ A_M_wI4dwDQe8eO5hvyDs7bhqHQkyNGTqwYxoVbEtxIosRavypSNO132c2C7IPBiTHkr5l5BbpFt
+ zAk0mla9kjbeYZnyB2i5pDWIOr_ncPjgoqsveW5RiIjTEYCduNAUftD7rTSmr.kO4awxd92PCA0f
+ 0.JUKeOLcVWi28a.19PW.q4o3.iAmEWhzWz9dO4YC1tomJ7L3D22igTsXQT7ogxNGA.aBrde.MnL
+ Ul__nYpcJd9NlQp5Vd0egxcrNdVTAIOoODJZVexFl8eIEopw1_9ytbOxQM7ifJ1ScDS5u8msbrOv
+ 7Rv4kLoVMxnFymNcK2PymDm6YwFBQq0hvXpNCfrs4mYDCPSn29ZcLu_04Uxd9DJy1.1TdFefk.9p
+ Vpw06fkgSfM._M4gdCmuwmYhWBg7J8eE3_gqekTkaY2zkl6_Y6P08JQ7Ob0e1NlAOsIph6fEtyEA
+ Zm6GikeVbntXSGcCSMPIcje5DlRDVCoauDt5d.4qoQ5NnAom.o4LjlRkGZi4knrn9JsH0BKtRr92
+ ANwWr97Avuw4_qiSZHC.aa8Ms0o301iB9ji_69Nh79tbHe0voGdsXjFYmzGvL3VVLH6rk4UU7o0j
+ mU8FMR6DrjGIAcqzKnUU.XyiQySS_y8xE6kbF474DJmzJjYlUqmLZFFwMPRloIZUCDP7V_wGDdnS
+ pDc5NcZQWk921jdHpaH0ZpX.6f7sdgvxjqhYh96OrFLdryopF_Lm4_VDrw69s9ihYAnZaudh2LGg
+ NfMVu56V8kTUap2iiM9e5BoyIgACGiRaEMgQ4FhwZglGFD5J9lfU5YMzIVhXrtlyKBwpKfCW8Rtp
+ pPxTIUDbe0gAUMZ.mXMhoE1.1cx.2.s1RccA1e.AOghw2c1e7yCUN5W4JbMX9Pw_wCn8RyiBhLRP
+ ZULMZ3kxr_3oDgugVx.8PmIRvmI6WB0XD_rckMdAbEc6RjkaBPCxNFr.dSpcwpfERjN2mUK0yoTj
+ Y21WFH.2Dvyz258UqQOcOEDXmGcujHjdvx405.wqWPeis6SJYt7LmWnxvATvDoHgOtwAqMuIcebt
+ 7UYcwqGO0rDvEUuS7Eo5Pqz4bLuEkdcuRlZUTPx4j0H83XNJzw4Un.mFyrURe2cfiTHCsCJ93yvG
+ 0KWpJ60dwcFiOR6AwPM8AlgaY91D.2oOOy8qsE9F.VTFlt_pGHBQZ5z37xRl9tBPx_gkDVE1S5wZ
+ TT3nl5I8P4HDtmV6pFcYiJhv0rZQkSalaLCm_1.wmUwbDxhwDOD6GUM5hqouDAW2gpooPkCszuS0
+ xvZObMHHer0S9uBMFRbQYQalqfdJC7cn3nRpDyaNC_H7kYYqH5jYr486veuJIGBwrr_qgV5NRJw6
+ kqXZ6mPBcJWsYvYFndI0pMYZDAmYEXYwZe6wdEkVzigY1c3H3Bjc9NAsc9eEGgVjBx6XpbGGZW.D
+ dvXdmGuNWvf3c69Zv1s_R3QN7LjvJfmLdChoylBUYQkJAPf4q3I04Reutg.7hCPEYmN81Oxn2pWc
+ EpiTWAoVCmKGV5qfJDjmxzhNhG7p.w3iijm2j28jCWXO6vCav5Qpj03KeJtE9iSVTLZYLYL5RpPx
+ 48hDDR8bksclt2unv8UcstSBYCrivdlg5Y9nDdXfo_tfy8r2BaU7uRQDXDmf451Rfc_5yMd.D9Lp
+ ubypx3J60FGRqr0peiAvtJqfdudrotC8E1j9QgFrpdYoAJRYRlPFHDGz2IW8VW8u9CJN3W4LsgvU
+ PQv8FmkSfRjCfUx1l.nMhnICvOa0H0bvYyyN68bfSF3StGEnS2IK9wfL2M5oQSonQw__zBleyZsF
+ WvyBCjsKQKNuJyHz6RhvlVtP5pMI9YGq9Azb3OtfTn9qBEnO7eBccnh2WlGCNMAlaXhGkbPOBs_7
+ nqEd3EVJC.VdzZrOYZLyOow84yoadFXdJqO7lQYIf0efMRAJ4d90rdVXOp9mApw.YeVle_1GK59A
+ QULvWODHkQDrJefAeNV8I6QGE640tK9EuC52SDcqdXqpchWopW2hXpwD4GdgVnvmfk3wMzrl2kWJ
+ VKxbOv3pTIkN7bf9BcO1NwtP9sJjSo6mdl5SabP0F3RVtFifzyt.NIUK0wfBuVmtNlQqdGJyB8UG
+ Lsf3FkVgHlsicKkwg669X84Xnc2M8BpuZTuSVylmB9sf2ezwI28vm.qlihh8q8lwibI.WOQhRtK.
+ 5gu9.t_GQJwf_7GrMyQZD.NkNmJfKXz49oyAtZdst.pL2Is9.oakdjFb9A4I2JkF7ussi5Y_BgYH
+ 1ds_ae_bhEmgvRF5_fPQRR74Fud9rpkTsAjg36k8Bj8FzzuAYDTEcC_kr29Cg.2TLCRTzJvwYdS4
+ gGvzxlmsGEA4fkqK5UK2vScTps4mbk6jnjRaBIeixcWlKJ9gHl2C0gX06FJZq08eoRwSHOB1UVnY
+ KN_71.Nl.A5WiK2TprgHDcX.AJKhqeERrU_aPeULZ9xrlhf6OEm7Z21j1s41Y6JB.Z7lH5zKLNd1
+ 9Pk6aX3nd6sJ_MGL39m8fGocWFE96PuX2NSDR3UtcjT9FlMHKIMbsWPPS5SAMPvq5jso0l8f713M
+ ZbsNyem38WtdyIfrmXWM_aasZGKeKAXZw3wyDOOJzMFSy9cyp000P.UpPCuT7TB58H39l4MBoHx4
+ mluW1U9VnfN9k.pWIOrssuDn4OW6CpGvbp6fZyoj.bWaT51GtRFZdQW6IosIv9QF_xxX5XxxxG82
+ Q5.WVfMvjI.BW3f0IM0N70X2VZvvsXfL9xW7u8icEMLDkv5BbwA6iAXejdoKTgdY9RQPi8DH0FPq
+ _EuXYiQDWIFBsl5OHM_ku5JzvUSalugli_82kFf.kRPE1kzD5n_6uBcvVCcHsuAF12Dpxqb.VYIr
+ .H3sGtB9oUj35qG3Zqok1waWSbx1xVbVpyRYXpCg411h28iF7V9Gr0CTv00d78S_Tr2_UQySMBvx
+ PzSPRREib5Nl4Z9h6Lbn2j4H72x1s4GL_gAj12OqphS6IFNieNONdticxIdoIrCEBy0MzSdppmnT
+ JmXnyRTtdZj51RUqLx2.yY_tU8HxPukSJnFqjKRKKeoOs1S37x32.iIMPRmOENghhQ1l3CfRYl5P
+ WKW73s0QuiBTCmvhsgB4pKT8eJnzeGOKZD4Hs_FoTtUWPI3W3kz0ojmBW7h7WBXONJr4eXoZFaAQ
+ -
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic313.consmr.mail.ne1.yahoo.com with HTTP; Wed, 4 Nov 2020 23:55:59 +0000
+Received: by smtp422.mail.bf1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA ID 4ee3430ab44837f61159983ac4fba4ec;
+          Wed, 04 Nov 2020 23:55:52 +0000 (UTC)
+From:   Casey Schaufler <casey@schaufler-ca.com>
+To:     casey.schaufler@intel.com, jmorris@namei.org,
+        linux-security-module@vger.kernel.org, selinux@vger.kernel.org
+Cc:     casey@schaufler-ca.com, linux-audit@redhat.com,
+        keescook@chromium.org, john.johansen@canonical.com,
+        penguin-kernel@i-love.sakura.ne.jp, paul@paul-moore.com,
+        sds@tycho.nsa.gov, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org
+Subject: [PATCH v22 12/23] LSM: Specify which LSM to display
+Date:   Wed,  4 Nov 2020 15:41:03 -0800
+Message-Id: <20201104234114.11346-13-casey@schaufler-ca.com>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20201104234114.11346-1-casey@schaufler-ca.com>
+References: <20201104234114.11346-1-casey@schaufler-ca.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-The kernel currently clears the tag bits (i.e. bits 56-63) in the fault
-address exposed via siginfo.si_addr and sigcontext.fault_address. However,
-the tag bits may be needed by tools in order to accurately diagnose
-memory errors, such as HWASan [1] or future tools based on the Memory
-Tagging Extension (MTE).
+Create a new entry "display" in the procfs attr directory for
+controlling which LSM security information is displayed for a
+process. A process can only read or write its own display value.
 
-We should not stop clearing these bits in the existing fault address
-fields, because there may be existing userspace applications that are
-expecting the tag bits to be cleared. Instead, create a new pair of
-fields in siginfo._sigfault, and store the tag bits of FAR_EL1 there,
-together with a mask specifying which bits are valid.
+The name of an active LSM that supplies hooks for
+human readable data may be written to "display" to set the
+value. The name of the LSM currently in use can be read from
+"display". At this point there can only be one LSM capable
+of display active. A helper function lsm_task_display() is
+provided to get the display slot for a task_struct.
 
-A flag is added to si_faultflags to allow userspace to determine whether
-the values in the fields are valid.
+Setting the "display" requires that all security modules using
+setprocattr hooks allow the action. Each security module is
+responsible for defining its policy.
 
-[1] http://clang.llvm.org/docs/HardwareAssistedAddressSanitizerDesign.html
+AppArmor hook provided by John Johansen <john.johansen@canonical.com>
+SELinux hook provided by Stephen Smalley <sds@tycho.nsa.gov>
 
-Signed-off-by: Peter Collingbourne <pcc@google.com>
-Link: https://linux-review.googlesource.com/id/Ia8876bad8c798e0a32df7c2ce1256c4771c81446
+Reviewed-by: Kees Cook <keescook@chromium.org>
+Acked-by: Stephen Smalley <sds@tycho.nsa.gov>
+Acked-by: Paul Moore <paul@paul-moore.com>
+Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+Cc: linux-api@vger.kernel.org
 ---
-v14:
-- fix an inaccuracy in the commit message
-- add some comments to arch_addr_tag_bits_mask
+ fs/proc/base.c                       |   1 +
+ include/linux/lsm_hooks.h            |  17 +++
+ security/apparmor/include/apparmor.h |   3 +-
+ security/apparmor/lsm.c              |  32 +++++
+ security/security.c                  | 169 ++++++++++++++++++++++++---
+ security/selinux/hooks.c             |  11 ++
+ security/selinux/include/classmap.h  |   2 +-
+ security/smack/smack_lsm.c           |   7 ++
+ 8 files changed, 223 insertions(+), 19 deletions(-)
 
-v13:
-- renamed si_xflags to si_faultflags
-- rebased to 5.10-rc2
-
-v12:
-- add new fields to signal_compat.c test cases
-- rebased to 5.10-rc1
-- mask out bits 63:60 for tag check faults
-
-v11:
-- add a comment explaining what the arch hook should do
-- rename ignored bits to tag bits
-
-v10:
-- rename the flag to SIFAULTFLAG_ADDR_IGNORED_BITS
-- use an arch hook to specify which bits are ignored, instead
-  of passing them explicitly
-- while refactoring for the arch hook, noticed that my previous
-  patches missed a case involving cache maintenance instructions,
-  so expose the tag bits for that signal as well
-
-v9:
-- make the ignored bits fields generic
-- add some new dependent patches that prepare us to store the
-  field in such a way that userspace can detect their presence
-
-v8:
-- rebase onto 5.8rc2
-
-v7:
-- switch to a new siginfo field instead of using sigcontext
-- merge the patch back into one since the other patches are now
-  unnecessary
-
-v6:
-- move fault address and fault code into the kernel_siginfo data structure
-- split the patch in three since it was getting large and now has
-  generic and arch-specific parts
-
-v5:
-- add padding to fault_addr_top_byte_context in order to ensure the correct
-  size and preserve sp alignment
-
-v4:
-- expose only the tag bits in the context instead of the entire FAR_EL1
-- remove mention of the new context from the sigcontext.__reserved[] note
-
-v3:
-- add documentation to tagged-pointers.rst
-- update comments in sigcontext.h
-
-v2:
-- revert changes to hw_breakpoint.c
-- rename set_thread_esr to set_thread_far_esr
-
- Documentation/arm64/tagged-pointers.rst | 21 +++++---
- arch/arm64/include/asm/exception.h      |  2 +-
- arch/arm64/include/asm/signal.h         | 31 +++++++++++
- arch/arm64/include/asm/system_misc.h    |  2 +-
- arch/arm64/include/asm/traps.h          |  6 +--
- arch/arm64/kernel/debug-monitors.c      |  5 +-
- arch/arm64/kernel/entry-common.c        |  2 -
- arch/arm64/kernel/ptrace.c              |  7 +--
- arch/arm64/kernel/sys_compat.c          |  5 +-
- arch/arm64/kernel/traps.c               | 29 ++++++-----
- arch/arm64/mm/fault.c                   | 68 ++++++++++++++-----------
- arch/x86/kernel/signal_compat.c         |  9 +++-
- include/linux/compat.h                  |  2 +
- include/linux/signal.h                  | 16 ++++++
- include/uapi/asm-generic/siginfo.h      | 10 ++++
- kernel/signal.c                         | 18 ++++++-
- 16 files changed, 160 insertions(+), 73 deletions(-)
- create mode 100644 arch/arm64/include/asm/signal.h
-
-diff --git a/Documentation/arm64/tagged-pointers.rst b/Documentation/arm64/tagged-pointers.rst
-index eab4323609b9..7d07987ad85a 100644
---- a/Documentation/arm64/tagged-pointers.rst
-+++ b/Documentation/arm64/tagged-pointers.rst
-@@ -53,12 +53,21 @@ visibility.
- Preserving tags
- ---------------
+diff --git a/fs/proc/base.c b/fs/proc/base.c
+index 0f707003dda5..7432f24f0132 100644
+--- a/fs/proc/base.c
++++ b/fs/proc/base.c
+@@ -2806,6 +2806,7 @@ static const struct pid_entry attr_dir_stuff[] = {
+ 	ATTR(NULL, "fscreate",		0666),
+ 	ATTR(NULL, "keycreate",		0666),
+ 	ATTR(NULL, "sockcreate",	0666),
++	ATTR(NULL, "display",		0666),
+ #ifdef CONFIG_SECURITY_SMACK
+ 	DIR("smack",			0555,
+ 	    proc_smack_attr_dir_inode_ops, proc_smack_attr_dir_ops),
+diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
+index fe9203f15993..c2f5adef0ad7 100644
+--- a/include/linux/lsm_hooks.h
++++ b/include/linux/lsm_hooks.h
+@@ -1660,4 +1660,21 @@ static inline void security_delete_hooks(struct security_hook_list *hooks,
  
--Non-zero tags are not preserved when delivering signals. This means that
--signal handlers in applications making use of tags cannot rely on the
--tag information for user virtual addresses being maintained for fields
--inside siginfo_t. One exception to this rule is for signals raised in
--response to watchpoint debug exceptions, where the tag information will
--be preserved.
-+Non-zero tags are not preserved in the fault address fields
-+siginfo.si_addr or sigcontext.fault_address when delivering
-+signals. This means that signal handlers in applications making use
-+of tags cannot rely on the tag information for user virtual addresses
-+being maintained in these fields. One exception to this rule is for
-+signals raised in response to watchpoint debug exceptions, where the
-+tag information will be preserved.
-+
-+The fault address tag is preserved in the si_addr_tag_bits field
-+of siginfo, which is set for signals raised in response to data aborts
-+and instruction aborts. The si_addr_tag_bits_mask field indicates
-+which bits of the field are valid. The validity of these fields is
-+indicated by the SIFAULTFLAG_ADDR_TAG_BITS flag in siginfo.si_faultflags,
-+and the validity of si_faultflags in turn is indicated by the kernel
-+indicating support for the sigaction.sa_flags flag SA_FAULTFLAGS.
+ extern int lsm_inode_alloc(struct inode *inode);
  
- The architecture prevents the use of a tagged PC, so the upper byte will
- be set to a sign-extension of bit 55 on exception return.
-diff --git a/arch/arm64/include/asm/exception.h b/arch/arm64/include/asm/exception.h
-index 99b9383cd036..2a8aa1884d8a 100644
---- a/arch/arm64/include/asm/exception.h
-+++ b/arch/arm64/include/asm/exception.h
-@@ -32,7 +32,7 @@ static inline u32 disr_to_esr(u64 disr)
- }
- 
- asmlinkage void enter_from_user_mode(void);
--void do_mem_abort(unsigned long addr, unsigned int esr, struct pt_regs *regs);
-+void do_mem_abort(unsigned long far, unsigned int esr, struct pt_regs *regs);
- void do_undefinstr(struct pt_regs *regs);
- void do_bti(struct pt_regs *regs);
- asmlinkage void bad_mode(struct pt_regs *regs, int reason, unsigned int esr);
-diff --git a/arch/arm64/include/asm/signal.h b/arch/arm64/include/asm/signal.h
-new file mode 100644
-index 000000000000..67d8e0899e9b
---- /dev/null
-+++ b/arch/arm64/include/asm/signal.h
-@@ -0,0 +1,31 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef __ARM64_ASM_SIGNAL_H
-+#define __ARM64_ASM_SIGNAL_H
-+
-+#include <uapi/asm/signal.h>
-+#include <uapi/asm/siginfo.h>
-+
-+static inline unsigned long arch_addr_tag_bits_mask(unsigned long sig,
-+						    unsigned long si_code)
-+{
-+	/*
-+	 * For historical reasons, all bits of the fault address are exposed as
-+	 * address bits for watchpoint exceptions. New architectures should not
-+	 * follow this practice.
-+	 */
-+	if (sig == SIGTRAP && si_code == TRAP_BRKPT)
-+		return 0;
-+
-+	/*
-+	 * FAR_EL1[63:60] are UNKNOWN for tag check faults so reflect that in
-+	 * the tag bits mask. The bits are already being masked out by
-+	 * do_tag_check_fault so userspace won't see them in si_addr.
-+	 */
-+	if (sig == SIGSEGV && si_code == SEGV_MTESERR)
-+		return 0xfUL << 56;
-+
-+	return 0xffUL << 56;
-+}
-+#define arch_addr_tag_bits_mask arch_addr_tag_bits_mask
-+
-+#endif
-diff --git a/arch/arm64/include/asm/system_misc.h b/arch/arm64/include/asm/system_misc.h
-index 1ab63cfbbaf1..673be2d1263c 100644
---- a/arch/arm64/include/asm/system_misc.h
-+++ b/arch/arm64/include/asm/system_misc.h
-@@ -22,7 +22,7 @@ void die(const char *msg, struct pt_regs *regs, int err);
- 
- struct siginfo;
- void arm64_notify_die(const char *str, struct pt_regs *regs,
--		      int signo, int sicode, void __user *addr,
-+		      int signo, int sicode, unsigned long far,
- 		      int err);
- 
- void hook_debug_fault_code(int nr, int (*fn)(unsigned long, unsigned int,
-diff --git a/arch/arm64/include/asm/traps.h b/arch/arm64/include/asm/traps.h
-index d96dc2c7c09d..54f32a0675df 100644
---- a/arch/arm64/include/asm/traps.h
-+++ b/arch/arm64/include/asm/traps.h
-@@ -26,9 +26,9 @@ void register_undef_hook(struct undef_hook *hook);
- void unregister_undef_hook(struct undef_hook *hook);
- void force_signal_inject(int signal, int code, unsigned long address, unsigned int err);
- void arm64_notify_segfault(unsigned long addr);
--void arm64_force_sig_fault(int signo, int code, void __user *addr, const char *str);
--void arm64_force_sig_mceerr(int code, void __user *addr, short lsb, const char *str);
--void arm64_force_sig_ptrace_errno_trap(int errno, void __user *addr, const char *str);
-+void arm64_force_sig_fault(int signo, int code, unsigned long far, const char *str);
-+void arm64_force_sig_mceerr(int code, unsigned long far, short lsb, const char *str);
-+void arm64_force_sig_ptrace_errno_trap(int errno, unsigned long far, const char *str);
- 
- /*
-  * Move regs->pc to next instruction and do necessary setup before it
-diff --git a/arch/arm64/kernel/debug-monitors.c b/arch/arm64/kernel/debug-monitors.c
-index fa76151de6ff..4f3661eeb7ec 100644
---- a/arch/arm64/kernel/debug-monitors.c
-+++ b/arch/arm64/kernel/debug-monitors.c
-@@ -234,9 +234,8 @@ static void send_user_sigtrap(int si_code)
- 	if (interrupts_enabled(regs))
- 		local_irq_enable();
- 
--	arm64_force_sig_fault(SIGTRAP, si_code,
--			     (void __user *)instruction_pointer(regs),
--			     "User debug trap");
-+	arm64_force_sig_fault(SIGTRAP, si_code, instruction_pointer(regs),
-+			      "User debug trap");
- }
- 
- static int single_step_handler(unsigned long unused, unsigned int esr,
-diff --git a/arch/arm64/kernel/entry-common.c b/arch/arm64/kernel/entry-common.c
-index 43d4c329775f..dbbddfbf4a72 100644
---- a/arch/arm64/kernel/entry-common.c
-+++ b/arch/arm64/kernel/entry-common.c
-@@ -22,7 +22,6 @@ static void notrace el1_abort(struct pt_regs *regs, unsigned long esr)
- 	unsigned long far = read_sysreg(far_el1);
- 
- 	local_daif_inherit(regs);
--	far = untagged_addr(far);
- 	do_mem_abort(far, esr, regs);
- }
- NOKPROBE_SYMBOL(el1_abort);
-@@ -114,7 +113,6 @@ static void notrace el0_da(struct pt_regs *regs, unsigned long esr)
- 
- 	user_exit_irqoff();
- 	local_daif_restore(DAIF_PROCCTX);
--	far = untagged_addr(far);
- 	do_mem_abort(far, esr, regs);
- }
- NOKPROBE_SYMBOL(el0_da);
-diff --git a/arch/arm64/kernel/ptrace.c b/arch/arm64/kernel/ptrace.c
-index f49b349e16a3..8ac487c84e37 100644
---- a/arch/arm64/kernel/ptrace.c
-+++ b/arch/arm64/kernel/ptrace.c
-@@ -192,14 +192,11 @@ static void ptrace_hbptriggered(struct perf_event *bp,
- 				break;
- 			}
- 		}
--		arm64_force_sig_ptrace_errno_trap(si_errno,
--						  (void __user *)bkpt->trigger,
-+		arm64_force_sig_ptrace_errno_trap(si_errno, bkpt->trigger,
- 						  desc);
- 	}
- #endif
--	arm64_force_sig_fault(SIGTRAP, TRAP_HWBKPT,
--			      (void __user *)(bkpt->trigger),
--			      desc);
-+	arm64_force_sig_fault(SIGTRAP, TRAP_HWBKPT, bkpt->trigger, desc);
- }
- 
- /*
-diff --git a/arch/arm64/kernel/sys_compat.c b/arch/arm64/kernel/sys_compat.c
-index 3c18c2454089..265fe3eb1069 100644
---- a/arch/arm64/kernel/sys_compat.c
-+++ b/arch/arm64/kernel/sys_compat.c
-@@ -68,7 +68,7 @@ do_compat_cache_op(unsigned long start, unsigned long end, int flags)
-  */
- long compat_arm_syscall(struct pt_regs *regs, int scno)
- {
--	void __user *addr;
-+	unsigned long addr;
- 
- 	switch (scno) {
- 	/*
-@@ -111,8 +111,7 @@ long compat_arm_syscall(struct pt_regs *regs, int scno)
- 		break;
- 	}
- 
--	addr  = (void __user *)instruction_pointer(regs) -
--		(compat_thumb_mode(regs) ? 2 : 4);
-+	addr = instruction_pointer(regs) - (compat_thumb_mode(regs) ? 2 : 4);
- 
- 	arm64_notify_die("Oops - bad compat syscall(2)", regs,
- 			 SIGILL, ILL_ILLTRP, addr, scno);
-diff --git a/arch/arm64/kernel/traps.c b/arch/arm64/kernel/traps.c
-index 8af4e0e85736..f4ddbe9ed3f1 100644
---- a/arch/arm64/kernel/traps.c
-+++ b/arch/arm64/kernel/traps.c
-@@ -170,32 +170,32 @@ static void arm64_show_signal(int signo, const char *str)
- 	__show_regs(regs);
- }
- 
--void arm64_force_sig_fault(int signo, int code, void __user *addr,
-+void arm64_force_sig_fault(int signo, int code, unsigned long far,
- 			   const char *str)
- {
- 	arm64_show_signal(signo, str);
- 	if (signo == SIGKILL)
- 		force_sig(SIGKILL);
- 	else
--		force_sig_fault(signo, code, addr);
-+		force_sig_fault(signo, code, (void __user *)far);
- }
- 
--void arm64_force_sig_mceerr(int code, void __user *addr, short lsb,
-+void arm64_force_sig_mceerr(int code, unsigned long far, short lsb,
- 			    const char *str)
- {
- 	arm64_show_signal(SIGBUS, str);
--	force_sig_mceerr(code, addr, lsb);
-+	force_sig_mceerr(code, (void __user *)far, lsb);
- }
- 
--void arm64_force_sig_ptrace_errno_trap(int errno, void __user *addr,
-+void arm64_force_sig_ptrace_errno_trap(int errno, unsigned long far,
- 				       const char *str)
- {
- 	arm64_show_signal(SIGTRAP, str);
--	force_sig_ptrace_errno_trap(errno, addr);
-+	force_sig_ptrace_errno_trap(errno, (void __user *)far);
- }
- 
- void arm64_notify_die(const char *str, struct pt_regs *regs,
--		      int signo, int sicode, void __user *addr,
-+		      int signo, int sicode, unsigned long far,
- 		      int err)
- {
- 	if (user_mode(regs)) {
-@@ -203,7 +203,7 @@ void arm64_notify_die(const char *str, struct pt_regs *regs,
- 		current->thread.fault_address = 0;
- 		current->thread.fault_code = err;
- 
--		arm64_force_sig_fault(signo, sicode, addr, str);
-+		arm64_force_sig_fault(signo, sicode, far, str);
- 	} else {
- 		die(str, regs, err);
- 	}
-@@ -374,7 +374,7 @@ void force_signal_inject(int signal, int code, unsigned long address, unsigned i
- 		signal = SIGKILL;
- 	}
- 
--	arm64_notify_die(desc, regs, signal, code, (void __user *)address, err);
-+	arm64_notify_die(desc, regs, signal, code, address, err);
- }
- 
- /*
-@@ -385,7 +385,7 @@ void arm64_notify_segfault(unsigned long addr)
- 	int code;
- 
- 	mmap_read_lock(current->mm);
--	if (find_vma(current->mm, addr) == NULL)
-+	if (find_vma(current->mm, untagged_addr(addr)) == NULL)
- 		code = SEGV_MAPERR;
- 	else
- 		code = SEGV_ACCERR;
-@@ -448,12 +448,13 @@ NOKPROBE_SYMBOL(do_ptrauth_fault);
- 
- static void user_cache_maint_handler(unsigned int esr, struct pt_regs *regs)
- {
--	unsigned long address;
-+	unsigned long tagged_address, address;
- 	int rt = ESR_ELx_SYS64_ISS_RT(esr);
- 	int crm = (esr & ESR_ELx_SYS64_ISS_CRM_MASK) >> ESR_ELx_SYS64_ISS_CRM_SHIFT;
- 	int ret = 0;
- 
--	address = untagged_addr(pt_regs_read_reg(regs, rt));
-+	tagged_address = pt_regs_read_reg(regs, rt);
-+	address = untagged_addr(tagged_address);
- 
- 	switch (crm) {
- 	case ESR_ELx_SYS64_ISS_CRM_DC_CVAU:	/* DC CVAU, gets promoted */
-@@ -480,7 +481,7 @@ static void user_cache_maint_handler(unsigned int esr, struct pt_regs *regs)
- 	}
- 
- 	if (ret)
--		arm64_notify_segfault(address);
-+		arm64_notify_segfault(tagged_address);
- 	else
- 		arm64_skip_faulting_instruction(regs, AARCH64_INSN_SIZE);
- }
-@@ -772,7 +773,7 @@ asmlinkage void bad_mode(struct pt_regs *regs, int reason, unsigned int esr)
-  */
- void bad_el0_sync(struct pt_regs *regs, int reason, unsigned int esr)
- {
--	void __user *pc = (void __user *)instruction_pointer(regs);
-+	unsigned long pc = instruction_pointer(regs);
- 
- 	current->thread.fault_address = 0;
- 	current->thread.fault_code = esr;
-diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
-index 1ee94002801f..c5375cb7763d 100644
---- a/arch/arm64/mm/fault.c
-+++ b/arch/arm64/mm/fault.c
-@@ -40,7 +40,7 @@
- #include <asm/traps.h>
- 
- struct fault_info {
--	int	(*fn)(unsigned long addr, unsigned int esr,
-+	int	(*fn)(unsigned long far, unsigned int esr,
- 		      struct pt_regs *regs);
- 	int	sig;
- 	int	code;
-@@ -385,8 +385,11 @@ static void set_thread_esr(unsigned long address, unsigned int esr)
- 	current->thread.fault_code = esr;
- }
- 
--static void do_bad_area(unsigned long addr, unsigned int esr, struct pt_regs *regs)
-+static void do_bad_area(unsigned long far, unsigned int esr,
-+			struct pt_regs *regs)
- {
-+	unsigned long addr = untagged_addr(far);
-+
- 	/*
- 	 * If we are in kernel mode at this point, we have no context to
- 	 * handle this fault with.
-@@ -395,8 +398,7 @@ static void do_bad_area(unsigned long addr, unsigned int esr, struct pt_regs *re
- 		const struct fault_info *inf = esr_to_fault_info(esr);
- 
- 		set_thread_esr(addr, esr);
--		arm64_force_sig_fault(inf->sig, inf->code, (void __user *)addr,
--				      inf->name);
-+		arm64_force_sig_fault(inf->sig, inf->code, far, inf->name);
- 	} else {
- 		__do_kernel_fault(addr, esr, regs);
- 	}
-@@ -448,7 +450,7 @@ static bool is_write_abort(unsigned int esr)
- 	return (esr & ESR_ELx_WNR) && !(esr & ESR_ELx_CM);
- }
- 
--static int __kprobes do_page_fault(unsigned long addr, unsigned int esr,
-+static int __kprobes do_page_fault(unsigned long far, unsigned int esr,
- 				   struct pt_regs *regs)
- {
- 	const struct fault_info *inf;
-@@ -456,6 +458,7 @@ static int __kprobes do_page_fault(unsigned long addr, unsigned int esr,
- 	vm_fault_t fault;
- 	unsigned long vm_flags = VM_ACCESS_FLAGS;
- 	unsigned int mm_flags = FAULT_FLAG_DEFAULT;
-+	unsigned long addr = untagged_addr(far);
- 
- 	if (kprobe_page_fault(regs, esr))
- 		return 0;
-@@ -567,8 +570,7 @@ static int __kprobes do_page_fault(unsigned long addr, unsigned int esr,
- 		 * We had some memory, but were unable to successfully fix up
- 		 * this page fault.
- 		 */
--		arm64_force_sig_fault(SIGBUS, BUS_ADRERR, (void __user *)addr,
--				      inf->name);
-+		arm64_force_sig_fault(SIGBUS, BUS_ADRERR, far, inf->name);
- 	} else if (fault & (VM_FAULT_HWPOISON_LARGE | VM_FAULT_HWPOISON)) {
- 		unsigned int lsb;
- 
-@@ -576,8 +578,7 @@ static int __kprobes do_page_fault(unsigned long addr, unsigned int esr,
- 		if (fault & VM_FAULT_HWPOISON_LARGE)
- 			lsb = hstate_index_to_shift(VM_FAULT_GET_HINDEX(fault));
- 
--		arm64_force_sig_mceerr(BUS_MCEERR_AR, (void __user *)addr, lsb,
--				       inf->name);
-+		arm64_force_sig_mceerr(BUS_MCEERR_AR, far, lsb, inf->name);
- 	} else {
- 		/*
- 		 * Something tried to access memory that isn't in our memory
-@@ -585,8 +586,7 @@ static int __kprobes do_page_fault(unsigned long addr, unsigned int esr,
- 		 */
- 		arm64_force_sig_fault(SIGSEGV,
- 				      fault == VM_FAULT_BADACCESS ? SEGV_ACCERR : SEGV_MAPERR,
--				      (void __user *)addr,
--				      inf->name);
-+				      far, inf->name);
- 	}
- 
- 	return 0;
-@@ -596,33 +596,35 @@ static int __kprobes do_page_fault(unsigned long addr, unsigned int esr,
- 	return 0;
- }
- 
--static int __kprobes do_translation_fault(unsigned long addr,
-+static int __kprobes do_translation_fault(unsigned long far,
- 					  unsigned int esr,
- 					  struct pt_regs *regs)
- {
-+	unsigned long addr = untagged_addr(far);
-+
- 	if (is_ttbr0_addr(addr))
--		return do_page_fault(addr, esr, regs);
-+		return do_page_fault(far, esr, regs);
- 
--	do_bad_area(addr, esr, regs);
-+	do_bad_area(far, esr, regs);
- 	return 0;
- }
- 
--static int do_alignment_fault(unsigned long addr, unsigned int esr,
-+static int do_alignment_fault(unsigned long far, unsigned int esr,
- 			      struct pt_regs *regs)
- {
--	do_bad_area(addr, esr, regs);
-+	do_bad_area(far, esr, regs);
- 	return 0;
- }
- 
--static int do_bad(unsigned long addr, unsigned int esr, struct pt_regs *regs)
-+static int do_bad(unsigned long far, unsigned int esr, struct pt_regs *regs)
- {
- 	return 1; /* "fault" */
- }
- 
--static int do_sea(unsigned long addr, unsigned int esr, struct pt_regs *regs)
-+static int do_sea(unsigned long far, unsigned int esr, struct pt_regs *regs)
- {
- 	const struct fault_info *inf;
--	void __user *siaddr;
-+	unsigned long siaddr;
- 
- 	inf = esr_to_fault_info(esr);
- 
-@@ -635,18 +637,23 @@ static int do_sea(unsigned long addr, unsigned int esr, struct pt_regs *regs)
- 	}
- 
- 	if (esr & ESR_ELx_FnV)
--		siaddr = NULL;
-+		siaddr = 0;
- 	else
--		siaddr  = (void __user *)addr;
-+		siaddr  = untagged_addr(far);
- 	arm64_notify_die(inf->name, regs, inf->sig, inf->code, siaddr, esr);
- 
- 	return 0;
- }
- 
--static int do_tag_check_fault(unsigned long addr, unsigned int esr,
-+static int do_tag_check_fault(unsigned long far, unsigned int esr,
- 			      struct pt_regs *regs)
- {
--	do_bad_area(addr, esr, regs);
-+	/*
-+	 * The architecture specifies that bits 63:60 of FAR_EL1 are UNKNOWN for tag
-+	 * check faults. Mask them out now so that userspace doesn't see them.
-+	 */
-+	far &= (1UL << 60) - 1;
-+	do_bad_area(far, esr, regs);
- 	return 0;
- }
- 
-@@ -717,11 +724,12 @@ static const struct fault_info fault_info[] = {
- 	{ do_bad,		SIGKILL, SI_KERNEL,	"unknown 63"			},
- };
- 
--void do_mem_abort(unsigned long addr, unsigned int esr, struct pt_regs *regs)
-+void do_mem_abort(unsigned long far, unsigned int esr, struct pt_regs *regs)
- {
- 	const struct fault_info *inf = esr_to_fault_info(esr);
-+	unsigned long addr = untagged_addr(far);
- 
--	if (!inf->fn(addr, esr, regs))
-+	if (!inf->fn(far, esr, regs))
- 		return;
- 
- 	if (!user_mode(regs)) {
-@@ -730,8 +738,7 @@ void do_mem_abort(unsigned long addr, unsigned int esr, struct pt_regs *regs)
- 		show_pte(addr);
- 	}
- 
--	arm64_notify_die(inf->name, regs,
--			 inf->sig, inf->code, (void __user *)addr, esr);
-+	arm64_notify_die(inf->name, regs, inf->sig, inf->code, addr, esr);
- }
- NOKPROBE_SYMBOL(do_mem_abort);
- 
-@@ -744,8 +751,8 @@ NOKPROBE_SYMBOL(do_el0_irq_bp_hardening);
- 
- void do_sp_pc_abort(unsigned long addr, unsigned int esr, struct pt_regs *regs)
- {
--	arm64_notify_die("SP/PC alignment exception", regs,
--			 SIGBUS, BUS_ADRALN, (void __user *)addr, esr);
-+	arm64_notify_die("SP/PC alignment exception", regs, SIGBUS, BUS_ADRALN,
-+			 addr, esr);
- }
- NOKPROBE_SYMBOL(do_sp_pc_abort);
- 
-@@ -871,8 +878,7 @@ void do_debug_exception(unsigned long addr_if_watchpoint, unsigned int esr,
- 		arm64_apply_bp_hardening();
- 
- 	if (inf->fn(addr_if_watchpoint, esr, regs)) {
--		arm64_notify_die(inf->name, regs,
--				 inf->sig, inf->code, (void __user *)pc, esr);
-+		arm64_notify_die(inf->name, regs, inf->sig, inf->code, pc, esr);
- 	}
- 
- 	debug_exception_exit(regs);
-diff --git a/arch/x86/kernel/signal_compat.c b/arch/x86/kernel/signal_compat.c
-index 222ff6178571..41cbef515b95 100644
---- a/arch/x86/kernel/signal_compat.c
-+++ b/arch/x86/kernel/signal_compat.c
-@@ -121,8 +121,8 @@ static inline void signal_compat_build_tests(void)
- #endif
- 
- 	CHECK_CSI_OFFSET(_sigfault);
--	CHECK_CSI_SIZE  (_sigfault, 8*sizeof(int));
--	CHECK_SI_SIZE   (_sigfault, 16*sizeof(int));
-+	CHECK_CSI_SIZE  (_sigfault, 10*sizeof(int));
-+	CHECK_SI_SIZE   (_sigfault, 20*sizeof(int));
- 
- 	BUILD_BUG_ON(offsetof(siginfo_t, si_addr) != 0x10);
- 	BUILD_BUG_ON(offsetof(compat_siginfo_t, si_addr) != 0x0C);
-@@ -141,6 +141,11 @@ static inline void signal_compat_build_tests(void)
- 	BUILD_BUG_ON(offsetof(siginfo_t, si_faultflags) != 0x48);
- 	BUILD_BUG_ON(offsetof(compat_siginfo_t, si_faultflags) != 0x28);
- 
-+	BUILD_BUG_ON(offsetof(siginfo_t, si_addr_tag_bits) != 0x50);
-+	BUILD_BUG_ON(offsetof(siginfo_t, si_addr_tag_bits_mask) != 0x58);
-+	BUILD_BUG_ON(offsetof(compat_siginfo_t, si_addr_tag_bits) != 0x2C);
-+	BUILD_BUG_ON(offsetof(compat_siginfo_t, si_addr_tag_bits_mask) != 0x30);
-+
- 	CHECK_CSI_OFFSET(_sigpoll);
- 	CHECK_CSI_SIZE  (_sigpoll, 2*sizeof(int));
- 	CHECK_SI_SIZE   (_sigpoll, 4*sizeof(int));
-diff --git a/include/linux/compat.h b/include/linux/compat.h
-index 84d3b72be701..f3c83a6d6623 100644
---- a/include/linux/compat.h
-+++ b/include/linux/compat.h
-@@ -239,6 +239,8 @@ typedef struct compat_siginfo {
- 				compat_uptr_t _pad[6];
- 			};
- 			u32 _faultflags;
-+			compat_uptr_t _addr_tag_bits;
-+			compat_uptr_t _addr_tag_bits_mask;
- 		} _sigfault;
- 
- 		/* SIGPOLL */
-diff --git a/include/linux/signal.h b/include/linux/signal.h
-index e9fb05041e7a..7fe7ce1d252e 100644
---- a/include/linux/signal.h
-+++ b/include/linux/signal.h
-@@ -482,4 +482,20 @@ struct seq_file;
- extern void render_sigset_t(struct seq_file *, const char *, sigset_t *);
- #endif
- 
-+#ifndef arch_addr_tag_bits_mask
-+/*
-+ * Given a signal and si_code which correspond to the _sigfault union member,
-+ * if tag bits are present in the fault address which must appear in
-+ * si_addr_tag_bits instead of si_addr, this hook must return a bitmask where 1
-+ * corresponds to bits appearing in si_addr_tag_bits and 0 corresponds to bits
-+ * appearing in si_addr. The value returned by this function will also be
-+ * available in si_addr_tag_bits_mask.
++/**
++ * lsm_task_display - the "display" LSM for this task
++ * @task: The task to report on
++ *
++ * Returns the task's display LSM slot.
 + */
-+static inline unsigned long arch_addr_tag_bits_mask(unsigned long sig,
-+						    unsigned long si_code)
++static inline int lsm_task_display(struct task_struct *task)
 +{
++#ifdef CONFIG_SECURITY
++	int *display = task->security;
++
++	if (display)
++		return *display;
++#endif
++	return LSMBLOB_INVALID;
++}
++
+ #endif /* ! __LINUX_LSM_HOOKS_H */
+diff --git a/security/apparmor/include/apparmor.h b/security/apparmor/include/apparmor.h
+index 1fbabdb565a8..b1622fcb4394 100644
+--- a/security/apparmor/include/apparmor.h
++++ b/security/apparmor/include/apparmor.h
+@@ -28,8 +28,9 @@
+ #define AA_CLASS_SIGNAL		10
+ #define AA_CLASS_NET		14
+ #define AA_CLASS_LABEL		16
++#define AA_CLASS_DISPLAY_LSM	17
+ 
+-#define AA_CLASS_LAST		AA_CLASS_LABEL
++#define AA_CLASS_LAST		AA_CLASS_DISPLAY_LSM
+ 
+ /* Control parameters settable through module/boot flags */
+ extern enum audit_mode aa_g_audit;
+diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
+index 432915c1d427..31a6f11890f1 100644
+--- a/security/apparmor/lsm.c
++++ b/security/apparmor/lsm.c
+@@ -612,6 +612,25 @@ static int apparmor_getprocattr(struct task_struct *task, char *name,
+ 	return error;
+ }
+ 
++
++static int profile_display_lsm(struct aa_profile *profile,
++			       struct common_audit_data *sa)
++{
++	struct aa_perms perms = { };
++	unsigned int state;
++
++	state = PROFILE_MEDIATES(profile, AA_CLASS_DISPLAY_LSM);
++	if (state) {
++		aa_compute_perms(profile->policy.dfa, state, &perms);
++		aa_apply_modes_to_perms(profile, &perms);
++		aad(sa)->label = &profile->label;
++
++		return aa_check_perms(profile, &perms, AA_MAY_WRITE, sa, NULL);
++	}
++
 +	return 0;
 +}
-+#endif
 +
- #endif /* _LINUX_SIGNAL_H */
-diff --git a/include/uapi/asm-generic/siginfo.h b/include/uapi/asm-generic/siginfo.h
-index 10a55aed9ede..df196ad74238 100644
---- a/include/uapi/asm-generic/siginfo.h
-+++ b/include/uapi/asm-generic/siginfo.h
-@@ -97,6 +97,8 @@ union __sifields {
- #ifdef __LP64__
- 		__u32 _pad2; /* to be used if we add another 32-bit field */
- #endif
-+		unsigned long _addr_tag_bits;
-+		unsigned long _addr_tag_bits_mask;
- 	} _sigfault;
- 
- 	/* SIGPOLL */
-@@ -159,6 +161,8 @@ typedef struct siginfo {
- #define si_addr_lsb	_sifields._sigfault._addr_lsb
- /* si_faultflags is only valid if 0 < si_code < SI_KERNEL */
- #define si_faultflags	_sifields._sigfault._faultflags
-+#define si_addr_tag_bits	_sifields._sigfault._addr_tag_bits
-+#define si_addr_tag_bits_mask	_sifields._sigfault._addr_tag_bits_mask
- #define si_lower	_sifields._sigfault._addr_bnd._lower
- #define si_upper	_sifields._sigfault._addr_bnd._upper
- #define si_pkey		_sifields._sigfault._addr_pkey._pkey
-@@ -301,6 +305,12 @@ typedef struct siginfo {
- #define EMT_TAGOVF	1	/* tag overflow */
- #define NSIGEMT		1
- 
-+/*
-+ * SIGILL, SIGFPE, SIGSEGV, SIGBUS, SIGTRAP, SIGEMT si_faultflags
-+ */
-+#define SIFAULTFLAG_ADDR_TAG_BITS	1
-+/* si_addr_tag_bits{,_mask} fields valid */
-+
- /*
-  * sigevent definitions
-  * 
-diff --git a/kernel/signal.c b/kernel/signal.c
-index 1fd1f0d12174..aa69dd312bd5 100644
---- a/kernel/signal.c
-+++ b/kernel/signal.c
-@@ -1653,11 +1653,16 @@ void force_sigsegv(int sig)
- static void set_sigfault_common_fields(struct kernel_siginfo *info, int sig,
- 				       int code, void __user *addr)
+ static int apparmor_setprocattr(const char *name, void *value,
+ 				size_t size)
  {
-+	unsigned long addr_long = (unsigned long)addr;
-+	unsigned long tag_bits_mask = arch_addr_tag_bits_mask(sig, code);
+@@ -623,6 +642,19 @@ static int apparmor_setprocattr(const char *name, void *value,
+ 	if (size == 0)
+ 		return -EINVAL;
+ 
++	/* LSM infrastructure does actual setting of display if allowed */
++	if (!strcmp(name, "display")) {
++		struct aa_profile *profile;
++		struct aa_label *label;
 +
- 	info->si_signo = sig;
- 	info->si_errno = 0;
- 	info->si_code = code;
--	info->si_addr = addr;
--	info->si_faultflags = 0;
-+	info->si_addr = (void __user *)(addr_long & ~tag_bits_mask);
-+	info->si_faultflags = SIFAULTFLAG_ADDR_TAG_BITS;
-+	info->si_addr_tag_bits = addr_long & tag_bits_mask;
-+	info->si_addr_tag_bits_mask = tag_bits_mask;
++		aad(&sa)->info = "set display lsm";
++		label = begin_current_label_crit_section();
++		error = fn_for_each_confined(label, profile,
++					     profile_display_lsm(profile, &sa));
++		end_current_label_crit_section(label);
++		return error;
++	}
++
+ 	/* AppArmor requires that the buffer must be null terminated atm */
+ 	if (args[size - 1] != '\0') {
+ 		/* null terminate */
+diff --git a/security/security.c b/security/security.c
+index 78aeb2ae7010..f9d9f68d40cf 100644
+--- a/security/security.c
++++ b/security/security.c
+@@ -76,7 +76,16 @@ static struct kmem_cache *lsm_file_cache;
+ static struct kmem_cache *lsm_inode_cache;
+ 
+ char *lsm_names;
+-static struct lsm_blob_sizes blob_sizes __lsm_ro_after_init;
++
++/*
++ * The task blob includes the "display" slot used for
++ * chosing which module presents contexts.
++ * Using a long to avoid potential alignment issues with
++ * module assigned task blobs.
++ */
++static struct lsm_blob_sizes blob_sizes __lsm_ro_after_init = {
++	.lbs_task = sizeof(long),
++};
+ 
+ /* Boot-time LSM user choice */
+ static __initdata const char *chosen_lsm_order;
+@@ -471,8 +480,10 @@ static int lsm_append(const char *new, char **result)
+ 
+ /*
+  * Current index to use while initializing the lsmblob secid list.
++ * Pointers to the LSM id structures for local use.
+  */
+ static int lsm_slot __lsm_ro_after_init;
++static struct lsm_id *lsm_slotlist[LSMBLOB_ENTRIES];
+ 
+ /**
+  * security_add_hooks - Add a modules hooks to the hook lists.
+@@ -492,6 +503,7 @@ void __init security_add_hooks(struct security_hook_list *hooks, int count,
+ 	if (lsmid->slot == LSMBLOB_NEEDED) {
+ 		if (lsm_slot >= LSMBLOB_ENTRIES)
+ 			panic("%s Too many LSMs registered.\n", __func__);
++		lsm_slotlist[lsm_slot] = lsmid;
+ 		lsmid->slot = lsm_slot++;
+ 		init_debug("%s assigned lsmblob slot %d\n", lsmid->lsm,
+ 			   lsmid->slot);
+@@ -621,6 +633,8 @@ int lsm_inode_alloc(struct inode *inode)
+  */
+ static int lsm_task_alloc(struct task_struct *task)
+ {
++	int *display;
++
+ 	if (blob_sizes.lbs_task == 0) {
+ 		task->security = NULL;
+ 		return 0;
+@@ -629,6 +643,15 @@ static int lsm_task_alloc(struct task_struct *task)
+ 	task->security = kzalloc(blob_sizes.lbs_task, GFP_KERNEL);
+ 	if (task->security == NULL)
+ 		return -ENOMEM;
++
++	/*
++	 * The start of the task blob contains the "display" LSM slot number.
++	 * Start with it set to the invalid slot number, indicating that the
++	 * default first registered LSM be displayed.
++	 */
++	display = task->security;
++	*display = LSMBLOB_INVALID;
++
+ 	return 0;
  }
  
- int force_sig_fault_to_task(int sig, int code, void __user *addr
-@@ -3272,6 +3277,13 @@ void copy_siginfo_to_external32(struct compat_siginfo *to,
- 		to->si_trapno = from->si_trapno;
- #endif
- 		to->si_faultflags = from->si_faultflags;
+@@ -1629,14 +1652,26 @@ int security_file_open(struct file *file)
+ 
+ int security_task_alloc(struct task_struct *task, unsigned long clone_flags)
+ {
++	int *odisplay = current->security;
++	int *ndisplay;
+ 	int rc = lsm_task_alloc(task);
+ 
+-	if (rc)
++	if (unlikely(rc))
+ 		return rc;
++
+ 	rc = call_int_hook(task_alloc, 0, task, clone_flags);
+-	if (unlikely(rc))
++	if (unlikely(rc)) {
+ 		security_task_free(task);
+-	return rc;
++		return rc;
++	}
++
++	if (odisplay) {
++		ndisplay = task->security;
++		if (ndisplay)
++			*ndisplay = *odisplay;
++	}
++
++	return 0;
+ }
+ 
+ void security_task_free(struct task_struct *task)
+@@ -2054,23 +2089,110 @@ int security_getprocattr(struct task_struct *p, const char *lsm, char *name,
+ 				char **value)
+ {
+ 	struct security_hook_list *hp;
++	int display = lsm_task_display(current);
++	int slot = 0;
++
++	if (!strcmp(name, "display")) {
 +		/*
-+		 * These assignments involve a truncation, but as with si_addr
-+		 * they will be derived from a 32-bit fault address so we
-+		 * should not expect any truncation in practice.
++		 * lsm_slot will be 0 if there are no displaying modules.
 +		 */
-+		to->si_addr_tag_bits = from->si_addr_tag_bits;
-+		to->si_addr_tag_bits_mask = from->si_addr_tag_bits_mask;
++		if (lsm_slot == 0)
++			return -EINVAL;
++
++		/*
++		 * Only allow getting the current process' display.
++		 * There are too few reasons to get another process'
++		 * display and too many LSM policy issues.
++		 */
++		if (current != p)
++			return -EINVAL;
++
++		display = lsm_task_display(p);
++		if (display != LSMBLOB_INVALID)
++			slot = display;
++		*value = kstrdup(lsm_slotlist[slot]->lsm, GFP_KERNEL);
++		if (*value)
++			return strlen(*value);
++		return -ENOMEM;
++	}
+ 
+ 	hlist_for_each_entry(hp, &security_hook_heads.getprocattr, list) {
+ 		if (lsm != NULL && strcmp(lsm, hp->lsmid->lsm))
+ 			continue;
++		if (lsm == NULL && display != LSMBLOB_INVALID &&
++		    display != hp->lsmid->slot)
++			continue;
+ 		return hp->hook.getprocattr(p, name, value);
+ 	}
+ 	return LSM_RET_DEFAULT(getprocattr);
+ }
+ 
++/**
++ * security_setprocattr - Set process attributes via /proc
++ * @lsm: name of module involved, or NULL
++ * @name: name of the attribute
++ * @value: value to set the attribute to
++ * @size: size of the value
++ *
++ * Set the process attribute for the specified security module
++ * to the specified value. Note that this can only be used to set
++ * the process attributes for the current, or "self" process.
++ * The /proc code has already done this check.
++ *
++ * Returns 0 on success, an appropriate code otherwise.
++ */
+ int security_setprocattr(const char *lsm, const char *name, void *value,
+ 			 size_t size)
+ {
+ 	struct security_hook_list *hp;
++	char *termed;
++	char *copy;
++	int *display = current->security;
++	int rc = -EINVAL;
++	int slot = 0;
++
++	if (!strcmp(name, "display")) {
++		/*
++		 * Change the "display" value only if all the security
++		 * modules that support setting a procattr allow it.
++		 * It is assumed that all such security modules will be
++		 * cooperative.
++		 */
++		if (size == 0)
++			return -EINVAL;
++
++		hlist_for_each_entry(hp, &security_hook_heads.setprocattr,
++				     list) {
++			rc = hp->hook.setprocattr(name, value, size);
++			if (rc < 0)
++				return rc;
++		}
++
++		rc = -EINVAL;
++
++		copy = kmemdup_nul(value, size, GFP_KERNEL);
++		if (copy == NULL)
++			return -ENOMEM;
++
++		termed = strsep(&copy, " \n");
++
++		for (slot = 0; slot < lsm_slot; slot++)
++			if (!strcmp(termed, lsm_slotlist[slot]->lsm)) {
++				*display = lsm_slotlist[slot]->slot;
++				rc = size;
++				break;
++			}
++
++		kfree(termed);
++		return rc;
++	}
+ 
+ 	hlist_for_each_entry(hp, &security_hook_heads.setprocattr, list) {
+ 		if (lsm != NULL && strcmp(lsm, hp->lsmid->lsm))
+ 			continue;
++		if (lsm == NULL && *display != LSMBLOB_INVALID &&
++		    *display != hp->lsmid->slot)
++			continue;
+ 		return hp->hook.setprocattr(name, value, size);
+ 	}
+ 	return LSM_RET_DEFAULT(setprocattr);
+@@ -2090,15 +2212,15 @@ EXPORT_SYMBOL(security_ismaclabel);
+ int security_secid_to_secctx(struct lsmblob *blob, char **secdata, u32 *seclen)
+ {
+ 	struct security_hook_list *hp;
+-	int rc;
++	int display = lsm_task_display(current);
+ 
+ 	hlist_for_each_entry(hp, &security_hook_heads.secid_to_secctx, list) {
+ 		if (WARN_ON(hp->lsmid->slot < 0 || hp->lsmid->slot >= lsm_slot))
+ 			continue;
+-		rc = hp->hook.secid_to_secctx(blob->secid[hp->lsmid->slot],
+-					      secdata, seclen);
+-		if (rc != LSM_RET_DEFAULT(secid_to_secctx))
+-			return rc;
++		if (display == LSMBLOB_INVALID || display == hp->lsmid->slot)
++			return hp->hook.secid_to_secctx(
++					blob->secid[hp->lsmid->slot],
++					secdata, seclen);
  	}
  
- 	switch (layout) {
-@@ -3348,6 +3360,8 @@ static int post_copy_siginfo_from_user32(kernel_siginfo_t *to,
- 		to->si_trapno = from->si_trapno;
- #endif
- 		to->si_faultflags = from->si_faultflags;
-+		to->si_addr_tag_bits = from->si_addr_tag_bits;
-+		to->si_addr_tag_bits_mask = from->si_addr_tag_bits_mask;
- 	}
+ 	return LSM_RET_DEFAULT(secid_to_secctx);
+@@ -2109,16 +2231,15 @@ int security_secctx_to_secid(const char *secdata, u32 seclen,
+ 			     struct lsmblob *blob)
+ {
+ 	struct security_hook_list *hp;
+-	int rc;
++	int display = lsm_task_display(current);
  
- 	switch (layout) {
+ 	lsmblob_init(blob, 0);
+ 	hlist_for_each_entry(hp, &security_hook_heads.secctx_to_secid, list) {
+ 		if (WARN_ON(hp->lsmid->slot < 0 || hp->lsmid->slot >= lsm_slot))
+ 			continue;
+-		rc = hp->hook.secctx_to_secid(secdata, seclen,
+-					      &blob->secid[hp->lsmid->slot]);
+-		if (rc != 0)
+-			return rc;
++		if (display == LSMBLOB_INVALID || display == hp->lsmid->slot)
++			return hp->hook.secctx_to_secid(secdata, seclen,
++						&blob->secid[hp->lsmid->slot]);
+ 	}
+ 	return 0;
+ }
+@@ -2126,7 +2247,14 @@ EXPORT_SYMBOL(security_secctx_to_secid);
+ 
+ void security_release_secctx(char *secdata, u32 seclen)
+ {
+-	call_void_hook(release_secctx, secdata, seclen);
++	struct security_hook_list *hp;
++	int display = lsm_task_display(current);
++
++	hlist_for_each_entry(hp, &security_hook_heads.release_secctx, list)
++		if (display == LSMBLOB_INVALID || display == hp->lsmid->slot) {
++			hp->hook.release_secctx(secdata, seclen);
++			return;
++		}
+ }
+ EXPORT_SYMBOL(security_release_secctx);
+ 
+@@ -2267,8 +2395,15 @@ EXPORT_SYMBOL(security_sock_rcv_skb);
+ int security_socket_getpeersec_stream(struct socket *sock, char __user *optval,
+ 				      int __user *optlen, unsigned len)
+ {
+-	return call_int_hook(socket_getpeersec_stream, -ENOPROTOOPT, sock,
+-				optval, optlen, len);
++	int display = lsm_task_display(current);
++	struct security_hook_list *hp;
++
++	hlist_for_each_entry(hp, &security_hook_heads.socket_getpeersec_stream,
++			     list)
++		if (display == LSMBLOB_INVALID || display == hp->lsmid->slot)
++			return hp->hook.socket_getpeersec_stream(sock, optval,
++								 optlen, len);
++	return -ENOPROTOOPT;
+ }
+ 
+ int security_socket_getpeersec_dgram(struct socket *sock, struct sk_buff *skb,
+diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
+index 52a50d7ca534..9bfc1eea02de 100644
+--- a/security/selinux/hooks.c
++++ b/security/selinux/hooks.c
+@@ -6334,6 +6334,17 @@ static int selinux_setprocattr(const char *name, void *value, size_t size)
+ 	/*
+ 	 * Basic control over ability to set these attributes at all.
+ 	 */
++
++	/*
++	 * For setting display, we only perform a permission check;
++	 * the actual update to the display value is handled by the
++	 * LSM framework.
++	 */
++	if (!strcmp(name, "display"))
++		return avc_has_perm(&selinux_state,
++				    mysid, mysid, SECCLASS_PROCESS2,
++				    PROCESS2__SETDISPLAY, NULL);
++
+ 	if (!strcmp(name, "exec"))
+ 		error = avc_has_perm(&selinux_state,
+ 				     mysid, mysid, SECCLASS_PROCESS,
+diff --git a/security/selinux/include/classmap.h b/security/selinux/include/classmap.h
+index 40cebde62856..1858aa47b32a 100644
+--- a/security/selinux/include/classmap.h
++++ b/security/selinux/include/classmap.h
+@@ -53,7 +53,7 @@ struct security_class_mapping secclass_map[] = {
+ 	    "execmem", "execstack", "execheap", "setkeycreate",
+ 	    "setsockcreate", "getrlimit", NULL } },
+ 	{ "process2",
+-	  { "nnp_transition", "nosuid_transition", NULL } },
++	  { "nnp_transition", "nosuid_transition", "setdisplay", NULL } },
+ 	{ "system",
+ 	  { "ipc_info", "syslog_read", "syslog_mod",
+ 	    "syslog_console", "module_request", "module_load", NULL } },
+diff --git a/security/smack/smack_lsm.c b/security/smack/smack_lsm.c
+index f96be93d1a75..bd03020b3cad 100644
+--- a/security/smack/smack_lsm.c
++++ b/security/smack/smack_lsm.c
+@@ -3509,6 +3509,13 @@ static int smack_setprocattr(const char *name, void *value, size_t size)
+ 	struct smack_known_list_elem *sklep;
+ 	int rc;
+ 
++	/*
++	 * Allow the /proc/.../attr/current and SO_PEERSEC "display"
++	 * to be reset at will.
++	 */
++	if (strcmp(name, "display") == 0)
++		return 0;
++
+ 	if (!smack_privileged(CAP_MAC_ADMIN) && list_empty(&tsp->smk_relabel))
+ 		return -EPERM;
+ 
 -- 
-2.29.1.341.ge80a0c044ae-goog
+2.24.1
 
