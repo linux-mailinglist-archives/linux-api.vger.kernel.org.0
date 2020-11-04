@@ -2,225 +2,114 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 195F22A6E65
-	for <lists+linux-api@lfdr.de>; Wed,  4 Nov 2020 20:58:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C1FC02A6EFA
+	for <lists+linux-api@lfdr.de>; Wed,  4 Nov 2020 21:40:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728841AbgKDT6H (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 4 Nov 2020 14:58:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40932 "EHLO
+        id S1731051AbgKDUk5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 4 Nov 2020 15:40:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727013AbgKDT6G (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 4 Nov 2020 14:58:06 -0500
-Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com [IPv6:2607:f8b0:4864:20::e43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABF56C0613D3
-        for <linux-api@vger.kernel.org>; Wed,  4 Nov 2020 11:58:06 -0800 (PST)
-Received: by mail-vs1-xe43.google.com with SMTP id b3so12171757vsc.5
-        for <linux-api@vger.kernel.org>; Wed, 04 Nov 2020 11:58:06 -0800 (PST)
+        with ESMTP id S1730407AbgKDUk5 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 4 Nov 2020 15:40:57 -0500
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F11FC0613D3;
+        Wed,  4 Nov 2020 12:40:56 -0800 (PST)
+Received: by mail-pg1-x533.google.com with SMTP id t14so17581436pgg.1;
+        Wed, 04 Nov 2020 12:40:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2FBsWPLqbTzbo9UA1B203neRiutlOU+7x+HRM6NIX4w=;
-        b=Yc/cFhWt7DOsNF0QjLvf3FRkj7jlNUbc/Y0l693ooRZdXYyu0BCKVFlnCkQZ83Zb1P
-         BuLPOorvfFzBSgDA6cNPpjjTcBFHHLC6THcjxhHTP89xD4pNTR5GHOm7Cfa+HcV2YP7T
-         htwVtDeYud5NfI9/mKS0CavHoSqhPw7C1WTs6+iyIiG0Atp1BFahxrBrS0qC6BRt7hKt
-         yQ0BaVKpRQzybbMYu9sSiiAYSQW2R28PiqH8r5nsj8pPr7q/vD4TkqL0/F3Kvct8aouH
-         lMXrM/LCakblEGQp2dXepqIz5agarNdbiggrWCdCwt3PjFmxdLSuUM0Kz5977Hub8vvD
-         ldXg==
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=vKEi14cNRFouABmJsM8FD4P756MUI2SVDsa+n1MVR14=;
+        b=EtrGdebgHFk/4A89uzUGpcfqE27DscZj2SO2F1xgL63Ji+x6NgEPxP5RlyxX9kbI1E
+         zUbq5h22iTFruYNhwjZctYqQ2znC5lWkUUfa/DSJBGBoRcRn/HU3641hahqVcx4zmizX
+         KVn+vKBbH3s2fvTzgkC4gpQIHQZkDpzjvR7vo8hRlBv8ElWDSqbxansPvBSMubiS4FQ1
+         YpTUKiEVZ7ivF9wUyQdmWGkWT7NszMtDsmzV1IjcYznLfubNXjJZkixhwT6EH2u277MD
+         Xk38BgfuNGJIAyoaqSgUMTSTM1r8ItMRPimZWijNohkbZ+qNWgQ48CkIqXx0BJw//Bfq
+         RyTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2FBsWPLqbTzbo9UA1B203neRiutlOU+7x+HRM6NIX4w=;
-        b=MZe3MHbI1JsXcaJnLr8xtE614QV7bv/GwzKucr1PtnZGqQq6QBF4qdipe+5U2mMzB/
-         Xb56dzNfWbydb84B06wxctepgSTUDfLUQJM2X+Vnz/CY3OopT78e1y1mUcYN0sPyG8zm
-         tGGN/xiKBtgqYN96Mj8kFCNPSnwKCTqiuI9ycOsPAt9P0jhomIx/1ms6OmM1I7AYHfnB
-         EEy6uScqDGytN/qKZHWXNsEfugTC8xOxTr4Se7e3XvsEEqgHSyTDF82txYHViV5S6ODv
-         pWHd7LOzKTyxQfVYWAvfGWgiwpjvdEsPNL5Ih2B/Fqza8wyfd1Xy80cWhBQ826DVVSSz
-         MPrg==
-X-Gm-Message-State: AOAM530PX1VWukeK1Q5xnR3QmIkkMfsubauYo3htxSQdIv76ehPh9bYx
-        5RPqWe/H4LDDZ5jwR20JgXSGqav+Yd91MCc2DkQq/w==
-X-Google-Smtp-Source: ABdhPJy0kgqLmm3X3DnyrAFXg8DwgcLAVRY6SrBr7M40gDl88vWctiKBLKfx7A8TRZczmOyELvh872aJ2vd+PSKzYe8=
-X-Received: by 2002:a05:6102:240f:: with SMTP id j15mr13976852vsi.22.1604519885519;
- Wed, 04 Nov 2020 11:58:05 -0800 (PST)
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=vKEi14cNRFouABmJsM8FD4P756MUI2SVDsa+n1MVR14=;
+        b=oxaBE2wccoJpThJ4VeJcWrgJAP8fQ730621eHj/S4+5d0eQwJ/P6c9oPB60jyiPAli
+         eiLnSH7AVihsm/13gSeo3YktZBHJSI+GfWbGG0P9hOEd6xtxOxgr1HLZgcu4RqNn1iX6
+         DYlpULVNYzCkEFMTelmh8a0Z8kg4llK7GHJJb2N6A5pUyzlcIr/DOTKy9J3QQu+k3MZQ
+         FlS+3e9XUTT4x3ZesjJ2qpFEVqt21PpVn4Z0daTn+Xg8BHcQsCywOkopu+Pc49iXxZZ0
+         6xff4DZvbzKPnvEZ3ZGWvyXCoHPS+QPsBkiHzo9R/NW/lPJBfMDVpH/2m52Vo/dDzuXe
+         WHQw==
+X-Gm-Message-State: AOAM532wu2rAXEfogIXo85/E9RevV3n7g2nXRvZ1ja29DDNmLi258Ect
+        O48HRLUIa37do/oB38irGjw=
+X-Google-Smtp-Source: ABdhPJwr8ecu1sp3XOsCzhebLAX6Zfm5DmkXXS5hFKQLJqcIb3MA/SqmiUwhd7ha5GfeEFk0/0LMKA==
+X-Received: by 2002:a17:90a:182:: with SMTP id 2mr5651967pjc.21.1604522455968;
+        Wed, 04 Nov 2020 12:40:55 -0800 (PST)
+Received: from google.com ([2620:15c:211:201:7220:84ff:fe09:5e58])
+        by smtp.gmail.com with ESMTPSA id 16sm3265066pfp.163.2020.11.04.12.40.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Nov 2020 12:40:54 -0800 (PST)
+Sender: Minchan Kim <minchan.kim@gmail.com>
+Date:   Wed, 4 Nov 2020 12:40:51 -0800
+From:   Minchan Kim <minchan@kernel.org>
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Suren Baghdasaryan <surenb@google.com>, linux-api@vger.kernel.org,
+        linux-mm <linux-mm@kvack.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Roman Gushchin <guro@fb.com>, Rik van Riel <riel@surriel.com>,
+        Christian Brauner <christian@brauner.io>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Tim Murray <timmurray@google.com>,
+        kernel-team <kernel-team@android.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Mel Gorman <mgorman@techsingularity.net>
+Subject: Re: [RFC]: userspace memory reaping
+Message-ID: <20201104204051.GA3544305@google.com>
+References: <CAJuCfpGz1kPM3G1gZH+09Z7aoWKg05QSAMMisJ7H5MdmRrRhNQ@mail.gmail.com>
+ <CAJuCfpGjuUz5FPpR5iQ7oURJAhnP1ffBAnERuTUp9uPxQCRhDg@mail.gmail.com>
+ <20201014120937.GC4440@dhcp22.suse.cz>
+ <CAJuCfpEQ_ADYsMrF_zjfAeQ3d-FALSP+CeYsvgH2H1-FSoGGqg@mail.gmail.com>
+ <20201015092030.GB22589@dhcp22.suse.cz>
+ <CAJuCfpHwXcq1PfzHgqyYBR3N53TtV2WMt_Oubz0JZkvJHbFKGw@mail.gmail.com>
+ <CAJuCfpH9iUt0cs1GBQppgdcD8chojCNXk22S+PeSgQ-bA7iitQ@mail.gmail.com>
+ <20201103093550.GE21990@dhcp22.suse.cz>
+ <20201103213228.GB1631979@google.com>
+ <20201104065844.GM21990@dhcp22.suse.cz>
 MIME-Version: 1.0
-References: <cover.1604376407.git.pcc@google.com> <743fef80a8617378027d5d2b0538cfc36ea106a1.1604376407.git.pcc@google.com>
- <20201103175352.GA22573@gaia> <CAMn1gO71zhxp692t6GKCRazNb-cF45OcdUSUjavzHZUki6VpiA@mail.gmail.com>
- <20201104182318.GH28902@gaia>
-In-Reply-To: <20201104182318.GH28902@gaia>
-From:   Peter Collingbourne <pcc@google.com>
-Date:   Wed, 4 Nov 2020 11:57:54 -0800
-Message-ID: <CAMn1gO4VvRWooKyK9cQE6zSxbTQ-RnhMwP7jJ3K+MXnWN6b_RA@mail.gmail.com>
-Subject: Re: [PATCH v13 7/8] signal: define the field siginfo.si_faultflags
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     Evgenii Stepanov <eugenis@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Will Deacon <will@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Linux API <linux-api@vger.kernel.org>,
-        Helge Deller <deller@gmx.de>,
-        David Spickett <david.spickett@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201104065844.GM21990@dhcp22.suse.cz>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Nov 4, 2020 at 10:23 AM Catalin Marinas <catalin.marinas@arm.com> wrote:
->
-> On Tue, Nov 03, 2020 at 10:39:52AM -0800, Peter Collingbourne wrote:
-> > On Tue, Nov 3, 2020 at 9:54 AM Catalin Marinas <catalin.marinas@arm.com> wrote:
-> > > On Mon, Nov 02, 2020 at 08:09:43PM -0800, Peter Collingbourne wrote:
-> > > > This field will contain flags that may be used by signal handlers to
-> > > > determine whether other fields in the _sigfault portion of siginfo are
-> > > > valid. An example use case is the following patch, which introduces
-> > > > the si_addr_tag_bits{,_mask} fields.
-> > > >
-> > > > A new sigcontext flag, SA_FAULTFLAGS, is introduced in order to allow
-> > > > a signal handler to require the kernel to set the field (but note
-> > > > that the field will be set anyway if the kernel supports the flag,
-> > > > regardless of its value). In combination with the previous patches,
-> > > > this allows a userspace program to determine whether the kernel will
-> > > > set the field.
-> > >
-> > > As per patch 5, a user is supposed to call sigaction() twice to figure
-> > > out whether _faultflags is meaningful. That's the part I'm not
-> > > particularly fond of. Are the unused parts of siginfo always zeroed when
-> > > the kernel delivers a signal? If yes, we could simply check the new
-> > > field for non-zero bits.
-> >
-> > The unused parts of siginfo are zeroed in current kernels, but
-> > unfortunately not in older kernels. The zeroing behavior was
-> > introduced in commit c999b933faa5e281e3af2e110eccaf91698b0a81 which
-> > first appeared in kernel version 4.18, and at least in Android land we
-> > do need to support kernel versions older than that.
->
-> I see. I was hoping for an easy way out.
->
-> Now, with always populating the si_faultflags field, you are going back
-> to writing non-zero stuff in siginfo for unaware apps. I don't think
-> that's an issue (the alternative is to only write it of SA_FAULTFLAGS
-> was set).
->
-> Yet another option would be to pass a new AT_ZEROED_SI via AT_FLAGS (we
-> don't use them for anything) so that the user can infer whether
-> si_faultflags has meaningful information without two sigaction() calls.
-
-That's one option, although one benefit of having this involve
-sigaction is that in many cases where sigaction is wrapped or
-interposed we end up with correct behavior. Imagine a wrapper that
-stashes the provided struct sigaction somewhere and provides its own
-struct sigaction with its own handler to the kernel, and that handler
-copies siginfo field by field before calling the user's handler. In
-this scenario the handler would observe an uninitialized faultflags.
-With the SA_UNSUPPORTED/SA_FAULTFLAGS protocol we would detect this
-scenario in the same way as an old kernel and avoid reading
-faultflags.
-
-Of course this isn't a perfect defense but it's probably the best we can do.
-
-> > > > It is possible for an si_faultflags-unaware program to cause a signal
-> > > > handler in an si_faultflags-aware program to be called with a provided
-> > > > siginfo data structure by using one of the following syscalls:
-> > > >
-> > > > - ptrace(PTRACE_SETSIGINFO)
-> > > > - pidfd_send_signal
-> > > > - rt_sigqueueinfo
-> > > > - rt_tgsigqueueinfo
-> > > >
-> > > > So we need to prevent the si_faultflags-unaware program from causing an
-> > > > uninitialized read of si_faultflags in the si_faultflags-aware program when
-> > > > it uses one of these syscalls.
-> > > >
-> > > > The last three cases can be handled by observing that each of these
-> > > > syscalls fails if si_code >= 0. We also observe that kill(2) and
-> > > > tgkill(2) may be used to send a signal where si_code == 0 (SI_USER),
-> > > > so we define si_faultflags to only be valid if si_code > 0.
-> > > >
-> > > > There is no such check on si_code in ptrace(PTRACE_SETSIGINFO), so
-> > > > we make ptrace(PTRACE_SETSIGINFO) clear the si_faultflags field if it
-> > > > detects that the signal would use the _sigfault layout, and introduce
-> > > > a new ptrace request type, PTRACE_SETSIGINFO2, that a si_faultflags-aware
-> > > > program may use to opt out of this behavior.
-> > >
-> > > I find this pretty fragile but maybe I have to read it a few more times
-> > > to fully understand the implications ;).
-> > >
-> > > Could we instead copy all the fields, potentially uninitialised, and
-> > > instead filter them when delivering the signal based on the
-> > > SA_FAULTFLAGS? That means that the kernel only writes si_faultflags if
-> > > the user requested it.
-> >
-> > I don't see how that would help. The goal is to protect new signal
-> > handlers from old signal "injectors" that will have potentially
-> > uninitialized data where the si_faultflags field is. The new signal
-> > handler will have SA_FAULTFLAGS set so that wouldn't prevent the
-> > signal handler from seeing the uninitialized data.
->
-> You are right, it doesn't help if the handler will have set
-> SA_FAULTFLAGS.
->
-> > > > v12:
-> > > > - Change type of si_xflags to u32 to avoid increasing alignment
+On Wed, Nov 04, 2020 at 07:58:44AM +0100, Michal Hocko wrote:
+> On Tue 03-11-20 13:32:28, Minchan Kim wrote:
+> > On Tue, Nov 03, 2020 at 10:35:50AM +0100, Michal Hocko wrote:
+> > > On Mon 02-11-20 12:29:24, Suren Baghdasaryan wrote:
 > > > [...]
-> > > > diff --git a/include/uapi/asm-generic/siginfo.h b/include/uapi/asm-generic/siginfo.h
-> > > > index 7aacf9389010..f43778355b77 100644
-> > > > --- a/include/uapi/asm-generic/siginfo.h
-> > > > +++ b/include/uapi/asm-generic/siginfo.h
-> > > > @@ -91,7 +91,9 @@ union __sifields {
-> > > >                               char _dummy_pkey[__ADDR_BND_PKEY_PAD];
-> > > >                               __u32 _pkey;
-> > > >                       } _addr_pkey;
-> > > > +                     void *_pad[6];
-> > > >               };
-> > > > +             __u32 _faultflags;
-> > > >  } _sigfault;
-> > >
-> > > Sorry, I haven't checked the previous discussion on alignment here but
-> > > don't we already require 64-bit alignment because of other members in
-> > > the _sigfault union? We already have void * throughout this and with the
-> > > next patch we just have a gap (unless I miscalculated the offsets).
-> >
-> > This is about avoiding increasing alignment on 32-bit platforms.
-> > Currently the alignment is 4 but a u64 field would bump it to 8.
-> >
-> > Unfortunately we can't do much about the gap on 64-bit platforms. This
-> > was previously a uintptr_t but that would mean that the upper 32 bits
-> > cannot be used safely on all platforms so we would effectively end up
-> > with a gap anyway.
->
-> We could add a dummy pad on 64-bit.
+> > > > To follow up on this. Should I post an RFC implementing SIGKILL_SYNC
+> > > > which in addition to sending a kill signal would also reap the
+> > > > victim's mm in the context of the caller? Maybe having some code will
+> > > > get the discussion moving forward?
+> > > 
+> > > Yeah, having a code, even preliminary, might help here. This definitely
+> > > needs a good to go from process management people as that proper is land
+> > > full of surprises...
+> > 
+> > Just to remind a idea I suggested to reuse existing concept
+> > 
+> >     fd = pidfd_open(victim process)
+> >     fdatasync(fd);
+> >     close(fd);
+> 
+> I must have missed this proposal. Anyway, are you suggesting fdatasync
+> to act as a destructive operation?
 
-And then later once we add a 32-bit field here we use it like so?
+write(fd) && fdatasync(fd) are already destructive operation if the file
+is shared.
 
-__u32 _faultflags;
-#ifdef __LP64__
-__u32 _newfield;
-#endif
-unsigned long _addr_tag_bits, _addr_tag_bits_mask;
-#ifndef __LP64__
-__u32 _newfield;
-#endif
-
-Okay, I'll go ahead with that for now.
-
-> BTW, the tags only make sense on
-> 64-bit hardware, 32-bit doesn't have enough room.
-
-From an architectural perspective it really depends on which kinds of
-applications you are targeting. For example if you have something like
-a 32-bit microcontroller you might not need all of the address space
-for memory so it may be worthwhile to allow some bits to be used for
-tags. According to the comments on [1] RISC-V is planning to have
-their first implementation only support 64-bit but they haven't ruled
-out 32-bit in the future.
-
-[1] https://docs.google.com/document/d/1RZcEgljHY9ACeKKoLebBNPLqjl6nMMyG/edit#heading=h.1fob9te
-
-Peter
+You don't need to reaping as destruptive operation. Rather than, just
+commit on the asynchrnous status "write file into page cache and commit
+with fsync" and "killing process and commit with fsync".
