@@ -2,57 +2,57 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 147692A6F77
-	for <lists+linux-api@lfdr.de>; Wed,  4 Nov 2020 22:18:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 439DA2A6F78
+	for <lists+linux-api@lfdr.de>; Wed,  4 Nov 2020 22:18:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730741AbgKDVS1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 4 Nov 2020 16:18:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53476 "EHLO
+        id S1730831AbgKDVS3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 4 Nov 2020 16:18:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726152AbgKDVS1 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 4 Nov 2020 16:18:27 -0500
-Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com [IPv6:2607:f8b0:4864:20::f49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B4DCC0613D3
-        for <linux-api@vger.kernel.org>; Wed,  4 Nov 2020 13:18:27 -0800 (PST)
-Received: by mail-qv1-xf49.google.com with SMTP id b13so13710795qvz.2
-        for <linux-api@vger.kernel.org>; Wed, 04 Nov 2020 13:18:27 -0800 (PST)
+        with ESMTP id S1726152AbgKDVS3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 4 Nov 2020 16:18:29 -0500
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3466C0613D3
+        for <linux-api@vger.kernel.org>; Wed,  4 Nov 2020 13:18:28 -0800 (PST)
+Received: by mail-yb1-xb4a.google.com with SMTP id c196so136021ybf.0
+        for <linux-api@vger.kernel.org>; Wed, 04 Nov 2020 13:18:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=sender:date:in-reply-to:message-id:mime-version:references:subject
          :from:to:cc;
-        bh=4jrWyDzAWhEFMjxNl2KItRv0H5CZDDi6igyhXcfTjQM=;
-        b=Z3VA8DQpW4o3zVreJ8zDQuX/0+7spoK3clb77ks0FqUDvWL2RlOFqhkk5DdpCIyZU3
-         qYbfRjx2cV6MtFRaH6m7D/vxXnq71d2Zbn4vCQW68i3aXUBAGCCu6zEPfAIffu2ENg52
-         mfl1B4DwCwKt43u/n65LwkgTeHEhW9y3YqCV3Nuwh/4wjIGMbN6mFVxVPXLWLENfMHXn
-         KdZpXKLTo3z54pU8ZkGlBINPKP5Vf0Hz57TSun8DLxeeyecuATpqiXBcHCeTm3ihnJFi
-         cgrr6vHhUYOPbat5dcCfOv7qUVP237PEp5oTneQYxBnDjba0A8Bq4f00aEHdA8m38Sn2
-         gkRQ==
+        bh=4D7Q2kZ3L7YBvRzuP8i1p6TftH53P5xo5cWP8p2xBcs=;
+        b=Rmav60W+RCIT2LWA2rZ8FJfCiKqCs+BcZaagAHdLyU7ZWJGfDkLcL8cb0d8pdgG60Z
+         Z2JffzIBG6dSLtIZMiuMmzMdJOwM+8H1QmM2KiWAxHsGcK2pZ37irAwkaBH9ebMwd785
+         kgA5sLQ+wgPkXyeaewPpPM/J//nS+YODNqspdh6Ui5Sd/bvAG0GyFEp8Cfy4WmQ+rBgk
+         dweykfNEfOxiGgawsm2cdgk1cw01rob6cov3VHHE1WMPWLeBBtlMMvRMd/+zY9MZEnPz
+         Vr2pqDYoX5CjaCVFT5Q5a2k+UaOyizffKHEEPa/MZmNjwKbjDANXQJdJYstBK75O7m9N
+         cz5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=4jrWyDzAWhEFMjxNl2KItRv0H5CZDDi6igyhXcfTjQM=;
-        b=DJmvP4jG1jGLA50YUIa6uKb8ZEuI7K1acPRGwLDKLPnBosIQRduifNUHOzaBBUWMgS
-         J9iKc0EnTtahuJJpqaQO5z5sC6F5IBWTJThUYZ9yUb47dodU+fDM7i43OltJ4mE6xlyc
-         qEQsDN1F2b67m/zBLO3IBWehpOVWhdq4EPf0hdEvocfasNKYZ58E44fu26PHwIn0bBsV
-         fwJCpUhKucsZvIZKuEQFVKd9Ao2CXq65OgEyTyLOAwIbEgMqpQA8NQpnRSUnkpIjB6dy
-         MEoytAmpar7qzexe4nS9OIKkdaxzwOs0sG7uGUKP3m5gevocpqRlYCnK/4A5rdrvy2PC
-         PJKg==
-X-Gm-Message-State: AOAM530dkb3Uqp9NpyJ6VvMIWHUHvb0t6I0Vjc2q+vy9R5kWqqXcFR02
-        aY0xAE8ct65mll/tJtP5jE1uRQk=
-X-Google-Smtp-Source: ABdhPJzsRXpiZJYoEKebRD9os6+E8lvR6Uq9oXM8YM8a3SXPEK8Yka90WnvhpOXxTj0YLSwcRBlHr4c=
+        bh=4D7Q2kZ3L7YBvRzuP8i1p6TftH53P5xo5cWP8p2xBcs=;
+        b=cNN4CjkZO03xD2yrapu3SLNF0vnvXDxhuPaBVjY72GoMUYA6Qps6KJkFQrLEFkkHpY
+         Q251AgDJ6zgfjvJiblssSC1D256UjLribDumEIqjvTlfhbafhSju04nN3DWn04ix9H/c
+         j5KtweII1QGjx6D3buytCK6Au44ObPn/WOgk+KgJIs/f5hyEoi6yZZziSXEzA71iT3/k
+         FKrTGIPt3Ig4O5aBmGuwSAQ2ilNebG/lA8YN5XvioZxblvfzsuIioXQB/b6oMRlmppiz
+         7q5DJk14z7UDgKx8ZNWxT3SFXT79rZNaQz2N50j/OkRRxf2RcQ0NnrzP8XZys6E9Q1Yi
+         cvlg==
+X-Gm-Message-State: AOAM531k66ZZXIWzDbLUqVm5NQ0xj5Xus5kKni/5ZqO5WEGxQLmZkCKb
+        LL3W6A+Qgr3Hjw8izJoCOMfIZ6k=
+X-Google-Smtp-Source: ABdhPJxCMjn3XEy0/8f51pRz3bV7jkfFqDLqs9/bfY94sEGmhkUmhkE3HKdEBSeU0CZpyiHs8RCZHYQ=
 Sender: "pcc via sendgmr" <pcc@pcc-desktop.svl.corp.google.com>
 X-Received: from pcc-desktop.svl.corp.google.com ([2620:15c:2ce:0:7220:84ff:fe09:385a])
- (user=pcc job=sendgmr) by 2002:ad4:43ca:: with SMTP id o10mr35382582qvs.33.1604524706362;
- Wed, 04 Nov 2020 13:18:26 -0800 (PST)
-Date:   Wed,  4 Nov 2020 13:18:07 -0800
+ (user=pcc job=sendgmr) by 2002:a25:b851:: with SMTP id b17mr7525251ybm.15.1604524708250;
+ Wed, 04 Nov 2020 13:18:28 -0800 (PST)
+Date:   Wed,  4 Nov 2020 13:18:08 -0800
 In-Reply-To: <cover.1604523707.git.pcc@google.com>
-Message-Id: <4d826a62121153d54d7e36fc8a402c97e2106764.1604523707.git.pcc@google.com>
+Message-Id: <039adb228822eb1f0c90cbfc716fc28fa298c58e.1604523707.git.pcc@google.com>
 Mime-Version: 1.0
 References: <cover.1604523707.git.pcc@google.com>
 X-Mailer: git-send-email 2.29.1.341.ge80a0c044ae-goog
-Subject: [PATCH v14 4/8] signal: deduplicate code dealing with common
- _sigfault fields
+Subject: [PATCH v14 5/8] signal: clear non-uapi flag bits when
+ passing/returning sa_flags
 From:   Peter Collingbourne <pcc@google.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Evgenii Stepanov <eugenis@google.com>,
@@ -74,260 +74,138 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-We're about to add more common _sigfault fields, so deduplicate the
-existing code for initializing _sigfault fields in {send,force}_sig_*,
-and for copying _sigfault fields in copy_siginfo_to_external32 and
-post_copy_siginfo_from_user32, to reduce the number of places that
-will need to be updated by upcoming changes.
+Previously we were not clearing non-uapi flag bits in
+sigaction.sa_flags when storing the userspace-provided sa_flags or
+when returning them via oldact. Start doing so.
 
+This allows userspace to detect missing support for flag bits and
+allows the kernel to use non-uapi bits internally, as we are already
+doing in arch/x86 for two flag bits. Now that this change is in
+place, we no longer need the code in arch/x86 that was hiding these
+bits from userspace, so remove it.
+
+This is technically a userspace-visible behavior change for sigaction, as
+the unknown bits returned via oldact.sa_flags are no longer set. However,
+we are free to define the behavior for unknown bits exactly because
+their behavior is currently undefined, so for now we can define the
+meaning of each of them to be "clear the bit in oldact.sa_flags unless
+the bit becomes known in the future". Furthermore, this behavior is
+consistent with OpenBSD [1], illumos [2] and XNU [3] (FreeBSD [4] and
+NetBSD [5] fail the syscall if unknown bits are set). So there is some
+precedent for this behavior in other kernels, and in particular in XNU,
+which is probably the most popular kernel among those that I looked at,
+which means that this change is less likely to be a compatibility issue.
+
+Link: [1] https://github.com/openbsd/src/blob/f634a6a4b5bf832e9c1de77f7894ae2625e74484/sys/kern/kern_sig.c#L278
+Link: [2] https://github.com/illumos/illumos-gate/blob/76f19f5fdc974fe5be5c82a556e43a4df93f1de1/usr/src/uts/common/syscall/sigaction.c#L86
+Link: [3] https://github.com/apple/darwin-xnu/blob/a449c6a3b8014d9406c2ddbdc81795da24aa7443/bsd/kern/kern_sig.c#L480
+Link: [4] https://github.com/freebsd/freebsd/blob/eded70c37057857c6e23fae51f86b8f8f43cd2d0/sys/kern/kern_sig.c#L699
+Link: [5] https://github.com/NetBSD/src/blob/3365779becdcedfca206091a645a0e8e22b2946e/sys/kern/sys_sig.c#L473
 Signed-off-by: Peter Collingbourne <pcc@google.com>
-Link: https://linux-review.googlesource.com/id/I4f56174e1b7b2bf4a3c8139e6879cbfd52750a24
+Reviewed-by: Dave Martin <Dave.Martin@arm.com>
+Link: https://linux-review.googlesource.com/id/I35aab6f5be932505d90f3b3450c083b4db1eca86
 ---
- include/linux/signal.h |  13 ++++++
- kernel/signal.c        | 101 ++++++++++++++++-------------------------
- 2 files changed, 53 insertions(+), 61 deletions(-)
+v10:
+- rename SA_UAPI_FLAGS -> UAPI_SA_FLAGS
+- refactor how we define it to avoid mentioning flags more
+  than once
 
-diff --git a/include/linux/signal.h b/include/linux/signal.h
-index b256f9c65661..e9fb05041e7a 100644
---- a/include/linux/signal.h
-+++ b/include/linux/signal.h
-@@ -50,6 +50,19 @@ enum siginfo_layout {
+ arch/arm/include/asm/signal.h    |  2 ++
+ arch/parisc/include/asm/signal.h |  2 ++
+ arch/x86/kernel/signal_compat.c  |  7 -------
+ include/linux/signal_types.h     | 12 ++++++++++++
+ kernel/signal.c                  | 10 ++++++++++
+ 5 files changed, 26 insertions(+), 7 deletions(-)
+
+diff --git a/arch/arm/include/asm/signal.h b/arch/arm/include/asm/signal.h
+index 65530a042009..430be7774402 100644
+--- a/arch/arm/include/asm/signal.h
++++ b/arch/arm/include/asm/signal.h
+@@ -17,6 +17,8 @@ typedef struct {
+ 	unsigned long sig[_NSIG_WORDS];
+ } sigset_t;
  
- enum siginfo_layout siginfo_layout(unsigned sig, int si_code);
- 
-+static inline bool siginfo_layout_is_fault(enum siginfo_layout layout)
-+{
-+	switch (layout) {
-+	case SIL_FAULT:
-+	case SIL_FAULT_MCEERR:
-+	case SIL_FAULT_BNDERR:
-+	case SIL_FAULT_PKUERR:
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
++#define __ARCH_UAPI_SA_FLAGS	(SA_THIRTYTWO | SA_RESTORER)
 +
- /*
-  * Define some primitives to manipulate sigset_t.
-  */
+ #define __ARCH_HAS_SA_RESTORER
+ 
+ #include <asm/sigcontext.h>
+diff --git a/arch/parisc/include/asm/signal.h b/arch/parisc/include/asm/signal.h
+index 715c96ba2ec8..30dd1e43ef88 100644
+--- a/arch/parisc/include/asm/signal.h
++++ b/arch/parisc/include/asm/signal.h
+@@ -21,6 +21,8 @@ typedef struct {
+ 	unsigned long sig[_NSIG_WORDS];
+ } sigset_t;
+ 
++#define __ARCH_UAPI_SA_FLAGS	_SA_SIGGFAULT
++
+ #include <asm/sigcontext.h>
+ 
+ #endif /* !__ASSEMBLY */
+diff --git a/arch/x86/kernel/signal_compat.c b/arch/x86/kernel/signal_compat.c
+index a7f3e12cfbdb..ddfd919be46c 100644
+--- a/arch/x86/kernel/signal_compat.c
++++ b/arch/x86/kernel/signal_compat.c
+@@ -165,16 +165,9 @@ void sigaction_compat_abi(struct k_sigaction *act, struct k_sigaction *oact)
+ {
+ 	signal_compat_build_tests();
+ 
+-	/* Don't leak in-kernel non-uapi flags to user-space */
+-	if (oact)
+-		oact->sa.sa_flags &= ~(SA_IA32_ABI | SA_X32_ABI);
+-
+ 	if (!act)
+ 		return;
+ 
+-	/* Don't let flags to be set from userspace */
+-	act->sa.sa_flags &= ~(SA_IA32_ABI | SA_X32_ABI);
+-
+ 	if (in_ia32_syscall())
+ 		act->sa.sa_flags |= SA_IA32_ABI;
+ 	if (in_x32_syscall())
+diff --git a/include/linux/signal_types.h b/include/linux/signal_types.h
+index f8a90ae9c6ec..a7887ad84d36 100644
+--- a/include/linux/signal_types.h
++++ b/include/linux/signal_types.h
+@@ -68,4 +68,16 @@ struct ksignal {
+ 	int sig;
+ };
+ 
++#ifndef __ARCH_UAPI_SA_FLAGS
++#ifdef SA_RESTORER
++#define __ARCH_UAPI_SA_FLAGS	SA_RESTORER
++#else
++#define __ARCH_UAPI_SA_FLAGS	0
++#endif
++#endif
++
++#define UAPI_SA_FLAGS                                                          \
++	(SA_NOCLDSTOP | SA_NOCLDWAIT | SA_SIGINFO | SA_ONSTACK | SA_RESTART |  \
++	 SA_NODEFER | SA_RESETHAND | __ARCH_UAPI_SA_FLAGS)
++
+ #endif /* _LINUX_SIGNAL_TYPES_H */
 diff --git a/kernel/signal.c b/kernel/signal.c
-index ef8f2a28d37c..74e7315c24db 100644
+index 74e7315c24db..832b654dee8c 100644
 --- a/kernel/signal.c
 +++ b/kernel/signal.c
-@@ -1650,6 +1650,15 @@ void force_sigsegv(int sig)
- 	force_sig(SIGSEGV);
- }
+@@ -3964,6 +3964,16 @@ int do_sigaction(int sig, struct k_sigaction *act, struct k_sigaction *oact)
+ 	if (oact)
+ 		*oact = *k;
  
-+static void set_sigfault_common_fields(struct kernel_siginfo *info, int sig,
-+				       int code, void __user *addr)
-+{
-+	info->si_signo = sig;
-+	info->si_errno = 0;
-+	info->si_code = code;
-+	info->si_addr = addr;
-+}
++	/*
++	 * Clear unknown flag bits in order to allow userspace to detect missing
++	 * support for flag bits and to allow the kernel to use non-uapi bits
++	 * internally.
++	 */
++	if (act)
++		act->sa.sa_flags &= UAPI_SA_FLAGS;
++	if (oact)
++		oact->sa.sa_flags &= UAPI_SA_FLAGS;
 +
- int force_sig_fault_to_task(int sig, int code, void __user *addr
- 	___ARCH_SI_TRAPNO(int trapno)
- 	___ARCH_SI_IA64(int imm, unsigned int flags, unsigned long isr)
-@@ -1658,10 +1667,7 @@ int force_sig_fault_to_task(int sig, int code, void __user *addr
- 	struct kernel_siginfo info;
+ 	sigaction_compat_abi(act, oact);
  
- 	clear_siginfo(&info);
--	info.si_signo = sig;
--	info.si_errno = 0;
--	info.si_code  = code;
--	info.si_addr  = addr;
-+	set_sigfault_common_fields(&info, sig, code, addr);
- #ifdef __ARCH_SI_TRAPNO
- 	info.si_trapno = trapno;
- #endif
-@@ -1690,10 +1696,7 @@ int send_sig_fault(int sig, int code, void __user *addr
- 	struct kernel_siginfo info;
- 
- 	clear_siginfo(&info);
--	info.si_signo = sig;
--	info.si_errno = 0;
--	info.si_code  = code;
--	info.si_addr  = addr;
-+	set_sigfault_common_fields(&info, sig, code, addr);
- #ifdef __ARCH_SI_TRAPNO
- 	info.si_trapno = trapno;
- #endif
-@@ -1711,10 +1714,7 @@ int force_sig_mceerr(int code, void __user *addr, short lsb)
- 
- 	WARN_ON((code != BUS_MCEERR_AO) && (code != BUS_MCEERR_AR));
- 	clear_siginfo(&info);
--	info.si_signo = SIGBUS;
--	info.si_errno = 0;
--	info.si_code = code;
--	info.si_addr = addr;
-+	set_sigfault_common_fields(&info, SIGBUS, code, addr);
- 	info.si_addr_lsb = lsb;
- 	return force_sig_info(&info);
- }
-@@ -1725,10 +1725,7 @@ int send_sig_mceerr(int code, void __user *addr, short lsb, struct task_struct *
- 
- 	WARN_ON((code != BUS_MCEERR_AO) && (code != BUS_MCEERR_AR));
- 	clear_siginfo(&info);
--	info.si_signo = SIGBUS;
--	info.si_errno = 0;
--	info.si_code = code;
--	info.si_addr = addr;
-+	set_sigfault_common_fields(&info, SIGBUS, code, addr);
- 	info.si_addr_lsb = lsb;
- 	return send_sig_info(info.si_signo, &info, t);
- }
-@@ -1739,10 +1736,7 @@ int force_sig_bnderr(void __user *addr, void __user *lower, void __user *upper)
- 	struct kernel_siginfo info;
- 
- 	clear_siginfo(&info);
--	info.si_signo = SIGSEGV;
--	info.si_errno = 0;
--	info.si_code  = SEGV_BNDERR;
--	info.si_addr  = addr;
-+	set_sigfault_common_fields(&info, SIGSEGV, SEGV_BNDERR, addr);
- 	info.si_lower = lower;
- 	info.si_upper = upper;
- 	return force_sig_info(&info);
-@@ -1754,10 +1748,7 @@ int force_sig_pkuerr(void __user *addr, u32 pkey)
- 	struct kernel_siginfo info;
- 
- 	clear_siginfo(&info);
--	info.si_signo = SIGSEGV;
--	info.si_errno = 0;
--	info.si_code  = SEGV_PKUERR;
--	info.si_addr  = addr;
-+	set_sigfault_common_fields(&info, SIGSEGV, SEGV_PKUERR, addr);
- 	info.si_pkey  = pkey;
- 	return force_sig_info(&info);
- }
-@@ -1771,10 +1762,8 @@ int force_sig_ptrace_errno_trap(int errno, void __user *addr)
- 	struct kernel_siginfo info;
- 
- 	clear_siginfo(&info);
--	info.si_signo = SIGTRAP;
-+	set_sigfault_common_fields(&info, SIGTRAP, TRAP_HWBKPT, addr);
- 	info.si_errno = errno;
--	info.si_code  = TRAP_HWBKPT;
--	info.si_addr  = addr;
- 	return force_sig_info(&info);
- }
- 
-@@ -3267,12 +3256,23 @@ int copy_siginfo_from_user(kernel_siginfo_t *to, const siginfo_t __user *from)
- void copy_siginfo_to_external32(struct compat_siginfo *to,
- 		const struct kernel_siginfo *from)
- {
-+	enum siginfo_layout layout =
-+		siginfo_layout(from->si_signo, from->si_code);
-+
- 	memset(to, 0, sizeof(*to));
- 
- 	to->si_signo = from->si_signo;
- 	to->si_errno = from->si_errno;
- 	to->si_code  = from->si_code;
--	switch(siginfo_layout(from->si_signo, from->si_code)) {
-+
-+	if (siginfo_layout_is_fault(layout)) {
-+		to->si_addr = ptr_to_compat(from->si_addr);
-+#ifdef __ARCH_SI_TRAPNO
-+		to->si_trapno = from->si_trapno;
-+#endif
-+	}
-+
-+	switch (layout) {
- 	case SIL_KILL:
- 		to->si_pid = from->si_pid;
- 		to->si_uid = from->si_uid;
-@@ -3287,31 +3287,15 @@ void copy_siginfo_to_external32(struct compat_siginfo *to,
- 		to->si_fd   = from->si_fd;
- 		break;
- 	case SIL_FAULT:
--		to->si_addr = ptr_to_compat(from->si_addr);
--#ifdef __ARCH_SI_TRAPNO
--		to->si_trapno = from->si_trapno;
--#endif
- 		break;
- 	case SIL_FAULT_MCEERR:
--		to->si_addr = ptr_to_compat(from->si_addr);
--#ifdef __ARCH_SI_TRAPNO
--		to->si_trapno = from->si_trapno;
--#endif
- 		to->si_addr_lsb = from->si_addr_lsb;
- 		break;
- 	case SIL_FAULT_BNDERR:
--		to->si_addr = ptr_to_compat(from->si_addr);
--#ifdef __ARCH_SI_TRAPNO
--		to->si_trapno = from->si_trapno;
--#endif
- 		to->si_lower = ptr_to_compat(from->si_lower);
- 		to->si_upper = ptr_to_compat(from->si_upper);
- 		break;
- 	case SIL_FAULT_PKUERR:
--		to->si_addr = ptr_to_compat(from->si_addr);
--#ifdef __ARCH_SI_TRAPNO
--		to->si_trapno = from->si_trapno;
--#endif
- 		to->si_pkey = from->si_pkey;
- 		break;
- 	case SIL_CHLD:
-@@ -3348,11 +3332,22 @@ int __copy_siginfo_to_user32(struct compat_siginfo __user *to,
- static int post_copy_siginfo_from_user32(kernel_siginfo_t *to,
- 					 const struct compat_siginfo *from)
- {
-+	enum siginfo_layout layout =
-+		siginfo_layout(from->si_signo, from->si_code);
-+
- 	clear_siginfo(to);
- 	to->si_signo = from->si_signo;
- 	to->si_errno = from->si_errno;
- 	to->si_code  = from->si_code;
--	switch(siginfo_layout(from->si_signo, from->si_code)) {
-+
-+	if (siginfo_layout_is_fault(layout)) {
-+		to->si_addr = compat_ptr(from->si_addr);
-+#ifdef __ARCH_SI_TRAPNO
-+		to->si_trapno = from->si_trapno;
-+#endif
-+	}
-+
-+	switch (layout) {
- 	case SIL_KILL:
- 		to->si_pid = from->si_pid;
- 		to->si_uid = from->si_uid;
-@@ -3367,31 +3362,15 @@ static int post_copy_siginfo_from_user32(kernel_siginfo_t *to,
- 		to->si_fd   = from->si_fd;
- 		break;
- 	case SIL_FAULT:
--		to->si_addr = compat_ptr(from->si_addr);
--#ifdef __ARCH_SI_TRAPNO
--		to->si_trapno = from->si_trapno;
--#endif
- 		break;
- 	case SIL_FAULT_MCEERR:
--		to->si_addr = compat_ptr(from->si_addr);
--#ifdef __ARCH_SI_TRAPNO
--		to->si_trapno = from->si_trapno;
--#endif
- 		to->si_addr_lsb = from->si_addr_lsb;
- 		break;
- 	case SIL_FAULT_BNDERR:
--		to->si_addr = compat_ptr(from->si_addr);
--#ifdef __ARCH_SI_TRAPNO
--		to->si_trapno = from->si_trapno;
--#endif
- 		to->si_lower = compat_ptr(from->si_lower);
- 		to->si_upper = compat_ptr(from->si_upper);
- 		break;
- 	case SIL_FAULT_PKUERR:
--		to->si_addr = compat_ptr(from->si_addr);
--#ifdef __ARCH_SI_TRAPNO
--		to->si_trapno = from->si_trapno;
--#endif
- 		to->si_pkey = from->si_pkey;
- 		break;
- 	case SIL_CHLD:
+ 	if (act) {
 -- 
 2.29.1.341.ge80a0c044ae-goog
 
