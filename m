@@ -2,53 +2,56 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0169B2A6F73
+	by mail.lfdr.de (Postfix) with ESMTP id 86C1B2A6F74
 	for <lists+linux-api@lfdr.de>; Wed,  4 Nov 2020 22:18:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730574AbgKDVSU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 4 Nov 2020 16:18:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53442 "EHLO
+        id S1730576AbgKDVSV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 4 Nov 2020 16:18:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
         with ESMTP id S1726152AbgKDVSU (ORCPT
         <rfc822;linux-api@vger.kernel.org>); Wed, 4 Nov 2020 16:18:20 -0500
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFBA7C0613D3
-        for <linux-api@vger.kernel.org>; Wed,  4 Nov 2020 13:18:18 -0800 (PST)
-Received: by mail-yb1-xb4a.google.com with SMTP id p63so118301ybc.7
-        for <linux-api@vger.kernel.org>; Wed, 04 Nov 2020 13:18:18 -0800 (PST)
+Received: from mail-pg1-x54a.google.com (mail-pg1-x54a.google.com [IPv6:2607:f8b0:4864:20::54a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6521C0613D3
+        for <linux-api@vger.kernel.org>; Wed,  4 Nov 2020 13:18:20 -0800 (PST)
+Received: by mail-pg1-x54a.google.com with SMTP id t12so14824945pgv.0
+        for <linux-api@vger.kernel.org>; Wed, 04 Nov 2020 13:18:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=sender:date:message-id:mime-version:subject:from:to:cc;
-        bh=cuLwzoZx7Fk9HE0G2CFWiG+xOnjHMGBrKLR1e4PXIW0=;
-        b=Q3HiY3Ox60/4Sh+YrXrcYC/m4poSKxf4mQC6xIEsFnOv5CTjEN1oBsjnxOQWW5fZQh
-         nKJdrlkAQhoCiqXqYH2mh34g91jxnfvanPfaUCnbjaOON6/RSxA0LGiuUK4dJxmP1jQF
-         G2U8Bh6Jd7ozIw6Wx77/FxkTcAlP9GXQSj3QK7PwIHAS8ssn3HwwY6Wyt2RPTbTmEsig
-         NAUL6p8oQx6ooEoBz0bdiWFE0ryVa2icSlyyF8lI8fAfTkR/WU3K25+57pyap4/WGFaK
-         PE6IYSLp/X9/mPf4EfNWEcv/P0spmgTmfluU/JfbMzzzMCc/xHyj5v4UF+xwOyjNv0y/
-         ESiQ==
+        h=sender:date:in-reply-to:message-id:mime-version:references:subject
+         :from:to:cc;
+        bh=zQ9ZG27PC4T2UhOkIr1ET2llXl/uqON3X+uZtU3Wp9k=;
+        b=YR40EJOnUJ2wZbch+5OoWQK5WENv3OyA699VBIFzxMudtSDk4C38S0eVzjubGmrHu/
+         nqC+u2ZIHiFj38xUWsqYBMWz2t8QDc+6pkaJsRsop0Y2iCvp7weW97xtih2J+kwzY14c
+         F3L9w7ZeUS7FLut89dGMDfYqsPDhs94dMFhQD6AehCea0cyyAoX+J2Gd5z+kRnp4pB85
+         P8Ghb5LaAuuYnUYjuRQ9of6vm0CtihDYtxAF9+pG2dF6G+fvjuW9rR2c1qlV5asctCXz
+         1md4nv3zWKgmZP1W08ZuXXNk1IGUZK1qIKaDD4O10kWUT+Y+RK3Q9Y7TcqnfyzExluBY
+         tB0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
-         :to:cc;
-        bh=cuLwzoZx7Fk9HE0G2CFWiG+xOnjHMGBrKLR1e4PXIW0=;
-        b=rEPxggapGkuwSroM9RqhBec1Zcg6tfKZtxF1a/5dw2olJVpf7aEgOROJIBpxXTjqQt
-         LXYDzQOH1VdaGjKjDNWQ6onsOa92vNGxMFqZHIbNbWjTKFJ/nnFiWQBD/aR16kdTC4Y2
-         Y0eFZNCUudaLWS1GjFjHvH7o7HKqDiUE6P0LW/+8lcjiFxdhdlhRN9FEqsBhPGXKSuml
-         0QHi+otggmKnPcoysJgHVFtt7miQWrT2LXa4Fl9595ROtLYdOuJQLwuo64mL72gaO13r
-         OApoTMk8A5II+WOwfzyn9q+sdGoWe9t93e9426lxn/ShpS2Iqww0IcpgFT51ClEWBN4R
-         COsw==
-X-Gm-Message-State: AOAM531ro+wAudLmyOtCu6z8itH7yfb+VD3KEQZJL09e2PT0IlqXsEmy
-        GMOkq+nFOH+fraIPQTfx0CLME9E=
-X-Google-Smtp-Source: ABdhPJwk7uVrLU5g3VOrgOCTiWTr2GTYc9lpO92ajBOkg27LLvNuEcBtfG8EbDAqgSYd6bcRCrYv4S4=
+        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=zQ9ZG27PC4T2UhOkIr1ET2llXl/uqON3X+uZtU3Wp9k=;
+        b=TYuqvwCs4rKhlhHFDo19B4TgLsfS+e5OcNHPQUZ3cWaEgzZEGs4cpXx/pUHL0NssBz
+         xIdB0vZRfkgNeyUyVBgH+RSbVUZmK+Et+IM7bngJn40FG0LM1xIYJDqbG+MjbvATHw92
+         sFbXcr8+lSsKvFIdD50nS+bvFoDL4FQkPbEmacK/xnYsjHZfjvkpn8n15FOWT2O6H9KM
+         3m4f55Czr5RgujqSXYsmDM2ToYBx+ymd1H5im/J2TGUwD3Pe01v1PHovMCWvnvKnbclT
+         lh/BkXO0ixM73yJ8fEfdNIzSxUU4WWElxWuPfdFWfH3lLaAj1t0T1OaiCZ4GQ8rjbgrP
+         CM6Q==
+X-Gm-Message-State: AOAM531SuhtWiHfvQ/Vz5ZaHOP/HGGYXTK7zQwTYnk83pHki2SYUo5ey
+        QZtB87710SNQu0aVZlc1QUaXFhQ=
+X-Google-Smtp-Source: ABdhPJwr/ZzAL7HuL7q2O5xmm55OgL/Kj2Okdcdj7UkpXExhKiueYv3WmnwMzwDaIEspkn8HEge6Xk8=
 Sender: "pcc via sendgmr" <pcc@pcc-desktop.svl.corp.google.com>
 X-Received: from pcc-desktop.svl.corp.google.com ([2620:15c:2ce:0:7220:84ff:fe09:385a])
- (user=pcc job=sendgmr) by 2002:a25:2fc3:: with SMTP id v186mr36015631ybv.448.1604524697999;
- Wed, 04 Nov 2020 13:18:17 -0800 (PST)
-Date:   Wed,  4 Nov 2020 13:18:03 -0800
-Message-Id: <cover.1604523707.git.pcc@google.com>
+ (user=pcc job=sendgmr) by 2002:a17:90a:1b8a:: with SMTP id
+ w10mr5856017pjc.145.1604524700098; Wed, 04 Nov 2020 13:18:20 -0800 (PST)
+Date:   Wed,  4 Nov 2020 13:18:04 -0800
+In-Reply-To: <cover.1604523707.git.pcc@google.com>
+Message-Id: <8fed1621dcbf4d6de765e76e8bba37e22cc3868a.1604523707.git.pcc@google.com>
 Mime-Version: 1.0
+References: <cover.1604523707.git.pcc@google.com>
 X-Mailer: git-send-email 2.29.1.341.ge80a0c044ae-goog
-Subject: [PATCH v14 0/8] arm64: expose FAR_EL1 tag bits in siginfo
+Subject: [PATCH v14 1/8] parisc: Drop parisc special case for __sighandler_t
 From:   Peter Collingbourne <pcc@google.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Evgenii Stepanov <eugenis@google.com>,
@@ -70,80 +73,55 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-The kernel currently clears the tag bits (i.e. bits 56-63) in the fault
-address exposed via siginfo.si_addr and sigcontext.fault_address. However,
-the tag bits may be needed by tools in order to accurately diagnose
-memory errors, such as HWASan [1] or future tools based on the Memory
-Tagging Extension (MTE).
+From: Helge Deller <deller@gmx.de>
 
-We should not stop clearing these bits in the existing fault address
-fields, because there may be existing userspace applications that are
-expecting the tag bits to be cleared. Instead, create a new pair of
-union fields in siginfo._sigfault, and store the tag bits of FAR_EL1
-there, together with a mask specifying which bits are valid.
+I believe we can and *should* drop this parisc-specific typedef for
+__sighandler_t when compiling a 64-bit kernel. The reasons:
 
-However, one does not simply add fields to siginfo, at least not without
-a mechanism for userspace to detect that they are present and valid.
-Therefore, the first seven patches in this series introduce a mechanism
-for userspace to detect the presence of our new siginfo fields,
-and the last patch uses it to advertise the presence of said fields.
+1. We don't have a 64-bit userspace yet, so nothing (on userspace side)
+can break.
 
-The series can be viewed on Gerrit here:
-https://linux-review.googlesource.com/q/Ia8876bad8c798e0a32df7c2ce1256c4771c81446
+2. Inside the Linux kernel, this is only used in kernel/signal.c, in
+function kernel_sigaction() where the signal handler is compared against
+SIG_IGN.  SIG_IGN is defined as (__sighandler_t)1), so only the pointers
+are compared.
 
-[1] http://clang.llvm.org/docs/HardwareAssistedAddressSanitizerDesign.html
+3. Even when a 64-bit userspace gets added at some point, I think
+__sighandler_t should be defined what it is: a function pointer struct.
 
-Helge Deller (1):
-  parisc: Drop parisc special case for __sighandler_t
+I compiled kernel/signal.c with and without the patch, and the produced code
+is identical in both cases.
 
-Peter Collingbourne (7):
-  parisc: start using signal-defs.h
-  arch: move SA_* definitions to generic headers
-  signal: deduplicate code dealing with common _sigfault fields
-  signal: clear non-uapi flag bits when passing/returning sa_flags
-  signal: define the SA_UNSUPPORTED bit in sa_flags
-  signal: define the field siginfo.si_faultflags
-  arm64: expose FAR_EL1 tag bits in siginfo
+Signed-off-by: Helge Deller <deller@gmx.de>
+Signed-off-by: Peter Collingbourne <pcc@google.com>
+Acked-by: "Eric W. Biederman" <ebiederm@xmission.com>
+Reviewed-by: Peter Collingbourne <pcc@google.com>
+Link: https://linux-review.googlesource.com/id/I21c43f21b264f339e3aa395626af838646f62d97
+---
+ arch/parisc/include/uapi/asm/signal.h | 8 --------
+ 1 file changed, 8 deletions(-)
 
- Documentation/arm64/tagged-pointers.rst    |  21 +++-
- arch/alpha/include/uapi/asm/signal.h       |  14 ---
- arch/arm/include/asm/signal.h              |   2 +
- arch/arm/include/uapi/asm/signal.h         |  27 +----
- arch/arm64/include/asm/exception.h         |   2 +-
- arch/arm64/include/asm/signal.h            |  31 +++++
- arch/arm64/include/asm/system_misc.h       |   2 +-
- arch/arm64/include/asm/traps.h             |   6 +-
- arch/arm64/kernel/debug-monitors.c         |   5 +-
- arch/arm64/kernel/entry-common.c           |   2 -
- arch/arm64/kernel/ptrace.c                 |   7 +-
- arch/arm64/kernel/sys_compat.c             |   5 +-
- arch/arm64/kernel/traps.c                  |  29 ++---
- arch/arm64/mm/fault.c                      |  68 ++++++-----
- arch/h8300/include/uapi/asm/signal.h       |  24 ----
- arch/ia64/include/uapi/asm/signal.h        |  24 ----
- arch/m68k/include/uapi/asm/signal.h        |  24 ----
- arch/mips/include/uapi/asm/signal.h        |  12 --
- arch/parisc/include/asm/signal.h           |   2 +
- arch/parisc/include/uapi/asm/signal.h      |  34 +-----
- arch/powerpc/include/uapi/asm/signal.h     |  24 ----
- arch/powerpc/platforms/powernv/vas-fault.c |   1 +
- arch/s390/include/uapi/asm/signal.h        |  24 ----
- arch/sparc/include/uapi/asm/signal.h       |   4 +-
- arch/x86/include/uapi/asm/signal.h         |  24 ----
- arch/x86/kernel/signal_compat.c            |  19 +--
- arch/xtensa/include/uapi/asm/signal.h      |  24 ----
- include/linux/compat.h                     |   4 +
- include/linux/signal.h                     |  29 +++++
- include/linux/signal_types.h               |  12 ++
- include/uapi/asm-generic/siginfo.h         |  17 +++
- include/uapi/asm-generic/signal-defs.h     |  58 +++++++++
- include/uapi/asm-generic/signal.h          |  29 -----
- include/uapi/linux/ptrace.h                |  12 ++
- kernel/ptrace.c                            |  33 ++++-
- kernel/signal.c                            | 134 +++++++++++----------
- 36 files changed, 361 insertions(+), 428 deletions(-)
- create mode 100644 arch/arm64/include/asm/signal.h
-
+diff --git a/arch/parisc/include/uapi/asm/signal.h b/arch/parisc/include/uapi/asm/signal.h
+index e605197b462c..d9c51769851a 100644
+--- a/arch/parisc/include/uapi/asm/signal.h
++++ b/arch/parisc/include/uapi/asm/signal.h
+@@ -85,16 +85,8 @@
+ struct siginfo;
+ 
+ /* Type of a signal handler.  */
+-#if defined(__LP64__)
+-/* function pointers on 64-bit parisc are pointers to little structs and the
+- * compiler doesn't support code which changes or tests the address of
+- * the function in the little struct.  This is really ugly -PB
+- */
+-typedef char __user *__sighandler_t;
+-#else
+ typedef void __signalfn_t(int);
+ typedef __signalfn_t __user *__sighandler_t;
+-#endif
+ 
+ typedef struct sigaltstack {
+ 	void __user *ss_sp;
 -- 
 2.29.1.341.ge80a0c044ae-goog
 
