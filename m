@@ -2,57 +2,57 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FADA2A6F28
-	for <lists+linux-api@lfdr.de>; Wed,  4 Nov 2020 21:46:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 869682A6F29
+	for <lists+linux-api@lfdr.de>; Wed,  4 Nov 2020 21:48:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730383AbgKDUqv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 4 Nov 2020 15:46:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48570 "EHLO
+        id S1731209AbgKDUsR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 4 Nov 2020 15:48:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728815AbgKDUqv (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 4 Nov 2020 15:46:51 -0500
-Received: from mail-vk1-xa41.google.com (mail-vk1-xa41.google.com [IPv6:2607:f8b0:4864:20::a41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03327C0613D3
-        for <linux-api@vger.kernel.org>; Wed,  4 Nov 2020 12:46:51 -0800 (PST)
-Received: by mail-vk1-xa41.google.com with SMTP id m3so4784102vki.12
-        for <linux-api@vger.kernel.org>; Wed, 04 Nov 2020 12:46:50 -0800 (PST)
+        with ESMTP id S1728815AbgKDUsR (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 4 Nov 2020 15:48:17 -0500
+Received: from mail-ua1-x941.google.com (mail-ua1-x941.google.com [IPv6:2607:f8b0:4864:20::941])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B526C0613D3
+        for <linux-api@vger.kernel.org>; Wed,  4 Nov 2020 12:48:16 -0800 (PST)
+Received: by mail-ua1-x941.google.com with SMTP id t15so6466942ual.6
+        for <linux-api@vger.kernel.org>; Wed, 04 Nov 2020 12:48:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=uLAg6w7+e2pko8BYI4hCD6KQj4t4TWdlHLoWIf2PADs=;
-        b=qbmO/Y+s1b0hA6aznMliYm+lLNzHUxClnoaAxNVDgEOO0cgLBNXqgyN2/XO5muo/uL
-         CWFXirSsbrsXd33oitrG1dTPALHGU7Ek3IREpTMvcv/UixgbYsqPHvYZzoX5GIUNUyEF
-         iiSnNSL2orEOZv0n8oGuBBykqn4egv5OJt9/EgBS2/To00/slLtMNKkznLA+2yFmla0m
-         D1FrP1ULiaqaq38/SJu6A706iMZ/D7IrEOTFronOXuEKMRhNmsJafWFeUySgy3MSVEzt
-         VNpx009i/GSEVt4RfjWnVEFsYd76+MNo7iCrKfTdocIwLAM8ILIE0SZqUiuJVxS8u8eL
-         ug4A==
+        bh=GQFKKJ0jwEvb5HtGVv3T5qfpIvoMpHBjQqBvgTgf7qg=;
+        b=vbqr9wh4U+6JXMawmDaRBryxGNm1CGkOoZ24ybOvPAIBk+Ehtnb214CTEQlnbH97FL
+         c+eGSe1zijzNs1xvOie6qYLjSsiy4dT4spjIVizFJIWBVgWip5ak1RFZGEUJHU7OvZW0
+         D7C6Xt/E0Y0BDTWznIV7a0M12i9Geyc9sDfFqOyUvetR+oVBpc9CHtOUJFU9tBue9VeP
+         043xya3sdI8A4+SB3WX0c64ItgQ9tmLmGHmto92/ScT+aC/+s94WPMpaBpq68x/nkPBQ
+         B+4+RWlo6ekeyNRjmtZyx4PsC6W4dtkAUnGLDFkFfqaWedxrHGIeS4sy5LZtX3mxk7dj
+         7ajw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=uLAg6w7+e2pko8BYI4hCD6KQj4t4TWdlHLoWIf2PADs=;
-        b=aYgLQs9lXwfaPPPT0vlGHONDCemV9Ijsegx8tTpaqZAV4VSlt0A73Cq4rKlxXCSkdX
-         KT56vU3jxrYR8+ZnLdKJdEZnZA2CyAeSkGPV8qezlk3R+HIm2PFvBNaCazIb9t//3mnr
-         cXiMsPjHHAT+P47DYrtBRmLq42T68G4PEnkQA/wRZZWklcVg36a4Uw9KzRcrMhEXrTby
-         azfqRzgmGvHhuXxeTIpTs19MTBfUe2OkQB6UfZR+cGRthSQZ7c3eCQ1e5FtuuM2FoQLb
-         +6VJvfOMxdSLaYapwpm0gsJxXooaI8+7xzxZ7A92WBj8WkOPt8IvCBwnv8uM+2D1Q9Hg
-         ri2g==
-X-Gm-Message-State: AOAM533Th09vbFZxbchquNkwuG5d3pRXBB7pgeQaymxx9CsYd/jDm/aX
-        /ecD/1kuklit2/DAqnLJ6u8VMOhkXw2g/mwSIGosmA==
-X-Google-Smtp-Source: ABdhPJyX9Fxxp5uaHvFJkdnYDOhlG+NcXIFXA5WjVyrTdOU7rGXP2Qwck/tzNquHq4RM/mz1kRy1Bba+WE7qfnrCb6A=
-X-Received: by 2002:a1f:ee08:: with SMTP id m8mr6099745vkh.3.1604522810010;
- Wed, 04 Nov 2020 12:46:50 -0800 (PST)
+        bh=GQFKKJ0jwEvb5HtGVv3T5qfpIvoMpHBjQqBvgTgf7qg=;
+        b=ZZDER8AbdWmk4T+vheqmBJ6n6YxWUyRi1T1AAMZuqn8kA5Ko0k5MnJJpwp0wUWh8wm
+         QhI/6weNwd5c4cA0o93UQekEK8pZKcIyaDtfDq/aMtiNn0yaYz1GdYMDGzoa8ZdchfFS
+         0IOwBA9/82eCVGlc/HcHUvxaGdaAkCKlBsv1WeEk7bumxJTqID3M/d+HOYkk6L8XGuz+
+         /ksUO35QvjfPfTwcpKmrMEr+8nF2CYqZLXkem+St9+91mRg7b9YMF8/Ry+pVle3evp8M
+         RMrvNofDHAG5gxrDvjmMrMKHG7OMTtz4hwf1iTL20Ct0XF6j4siWDU+RpgGReAqbZwXD
+         Un8Q==
+X-Gm-Message-State: AOAM533MXiJWXJRKYvob1QFZe3vHynuAHGv/fMTe9olqD22hLKl7PmhT
+        MHNk5PPvhqyZKWG/PQf6QHBuoAgFZEqlgTpVELmAYQ==
+X-Google-Smtp-Source: ABdhPJzeFxIrN+4FyHYdzHsax2JoF/TeoS8dQHsnw+jFgH9vY8OyslB9vtVsEbQ6/xhDjpi9txcrh8gWlzcOA4KnVGw=
+X-Received: by 2002:a9f:28a7:: with SMTP id d36mr10661610uad.37.1604522895429;
+ Wed, 04 Nov 2020 12:48:15 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1604376407.git.pcc@google.com> <7e26600459cb08c5016611b37fe88c23098b40eb.1604376407.git.pcc@google.com>
- <87a6vx6p11.fsf@x220.int.ebiederm.org> <20201104172447.GF28902@gaia>
-In-Reply-To: <20201104172447.GF28902@gaia>
+References: <cover.1604376407.git.pcc@google.com> <a309f8baa7c342536c17832cf604fad00aac486c.1604376407.git.pcc@google.com>
+ <87h7q55584.fsf@x220.int.ebiederm.org>
+In-Reply-To: <87h7q55584.fsf@x220.int.ebiederm.org>
 From:   Peter Collingbourne <pcc@google.com>
-Date:   Wed, 4 Nov 2020 12:46:39 -0800
-Message-ID: <CAMn1gO7aMPF85uokyMb6PNTSQqTgf3tkMFBpTLrjYhbjvWQs8w@mail.gmail.com>
-Subject: Re: [PATCH v13 1/8] parisc: Drop parisc special case for __sighandler_t
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
+Date:   Wed, 4 Nov 2020 12:48:04 -0800
+Message-ID: <CAMn1gO5gTwhkvSKzSeEGEBuZebfO6ZbhrggwcSBD2-5OobE=qA@mail.gmail.com>
+Subject: Re: [PATCH v13 3/8] arch: move SA_* definitions to generic headers
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
         Evgenii Stepanov <eugenis@google.com>,
         Kostya Serebryany <kcc@google.com>,
         Vincenzo Frascino <vincenzo.frascino@arm.com>,
@@ -65,67 +65,86 @@ Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
         Richard Henderson <rth@twiddle.net>,
         Linux API <linux-api@vger.kernel.org>,
         Helge Deller <deller@gmx.de>,
-        David Spickett <david.spickett@linaro.org>
+        David Spickett <david.spickett@linaro.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Nov 4, 2020 at 9:24 AM Catalin Marinas <catalin.marinas@arm.com> wrote:
+On Wed, Nov 4, 2020 at 10:48 AM Eric W. Biederman <ebiederm@xmission.com> wrote:
 >
-> On Wed, Nov 04, 2020 at 10:54:34AM -0600, Eric W. Biederman wrote:
-> > Peter Collingbourne <pcc@google.com> writes:
-> > > From: Helge Deller <deller@gmx.de>
-> > >
-> > > I believe we can and *should* drop this parisc-specific typedef for
-> > > __sighandler_t when compiling a 64-bit kernel. The reasons:
-> > >
-> > > 1. We don't have a 64-bit userspace yet, so nothing (on userspace side)
-> > > can break.
-> > >
-> > > 2. Inside the Linux kernel, this is only used in kernel/signal.c, in
-> > > function kernel_sigaction() where the signal handler is compared against
-> > > SIG_IGN.  SIG_IGN is defined as (__sighandler_t)1), so only the pointers
-> > > are compared.
-> > >
-> > > 3. Even when a 64-bit userspace gets added at some point, I think
-> > > __sighandler_t should be defined what it is: a function pointer struct.
-> > >
-> > > I compiled kernel/signal.c with and without the patch, and the produced code
-> > > is identical in both cases.
-> > >
-> > > Signed-off-by: Helge Deller <deller@gmx.de>
-> > > Reviewed-by: Peter Collingbourne <pcc@google.com>
-> > > Link:
-> > > https://linux-review.googlesource.com/id/I21c43f21b264f339e3aa395626af838646f62d97
+> Peter Collingbourne <pcc@google.com> writes:
+>
+> > Most architectures with the exception of alpha, mips, parisc and
+> > sparc use the same values for these flags. Move their definitions into
+> > asm-generic/signal-defs.h and allow the architectures with non-standard
+> > values to override them. Also, document the non-standard flag values
+> > in order to make it easier to add new generic flags in the future.
 > >
-> > Peter as you have sent this, this also needs your Signed-off-by.
+> > A consequence of this change is that on powerpc and x86, the constants'
+> > values aside from SA_RESETHAND change signedness from unsigned
+> > to signed. This is not expected to impact realistic use of these
+> > constants. In particular the typical use of the constants where they
+> > are or'ed together and assigned to sa_flags (or another int variable)
+> > would not be affected.
+>
+> Except for the removal of SA_RESTORER on arm (see below).
+> Acked-by: "Eric W. Biederman" <ebiederm@xmission.com>
+
+Thanks for the review.
+
 > >
-> > Otherwise this looks reasonable to me.
-> > Acked-by: "Eric W. Biederman" <ebiederm@xmission.com>
-
-Thanks, likewise for the other patches that you acked.
-
-> > While the final bits look like they are still under discussion it looks
-> > like the preceding cleanups are pretty solid at this point.
->
-> Minor nits, unless you nak the whole approach of SA_FAULTFLAGS and
-> SA_UNSUPPORTED ;) (it looks a bit complicated to me but I don't have a
-> better idea for a generic implementation).
->
-> > Any chance we can get the cleanups into a tree in linux-next so that
-> > the discussion can focus on the core parts of this work?
+> > Signed-off-by: Peter Collingbourne <pcc@google.com>
+> > Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> > Reviewed-by: Dave Martin <Dave.Martin@arm.com>
+> > Link: https://linux-review.googlesource.com/id/Ia3849f18b8009bf41faca374e701cdca36974528
+> > ---
+> > v11:
+> > - tweak the commit message to point out the change from unsigned
+> >   to signed
 > >
-> > Perhaps I should pick up the clenaups?
+> > v10:
+> > - move the comments around and add one for SA_SIGINFO
+> >
 >
-> However you prefer (I usually start queuing patches at -rc3). If you
-> pick them up, please provide a stable branch somewhere so that we can
-> add the others on top.
+> > diff --git a/arch/arm/include/uapi/asm/signal.h b/arch/arm/include/uapi/asm/signal.h
+> > index 9b4185ba4f8a..7727f0984d26 100644
+> > --- a/arch/arm/include/uapi/asm/signal.h
+> > +++ b/arch/arm/include/uapi/asm/signal.h
+> > @@ -60,33 +60,11 @@ typedef unsigned long sigset_t;
+> >  #define SIGSWI               32
+> >
+> >  /*
+> > - * SA_FLAGS values:
+> > - *
+> > - * SA_NOCLDSTOP              flag to turn off SIGCHLD when children stop.
+> > - * SA_NOCLDWAIT              flag on SIGCHLD to inhibit zombies.
+> > - * SA_SIGINFO                deliver the signal with SIGINFO structs
+> > - * SA_THIRTYTWO              delivers the signal in 32-bit mode, even if the task
+> > - *                   is running in 26-bit.
+> > - * SA_ONSTACK                allows alternate signal stacks (see sigaltstack(2)).
+> > - * SA_RESTART                flag to get restarting signals (which were the default long ago)
+> > - * SA_NODEFER                prevents the current signal from being masked in the handler.
+> > - * SA_RESETHAND              clears the handler when the signal is delivered.
+> > - *
+> > - * SA_ONESHOT and SA_NOMASK are the historical Linux names for the Single
+> > - * Unix names RESETHAND and NODEFER respectively.
+> > + * SA_THIRTYTWO historically meant deliver the signal in 32-bit mode, even if
+> > + * the task is running in 26-bit. But since the kernel no longer supports
+> > + * 26-bit mode, the flag has no effect.
+> >   */
+> > -#define SA_NOCLDSTOP 0x00000001
+> > -#define SA_NOCLDWAIT 0x00000002
+> > -#define SA_SIGINFO   0x00000004
+> >  #define SA_THIRTYTWO 0x02000000
+>
+> > -#define SA_RESTORER  0x04000000
+>    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>
+> Was removing SA_RESTOER from arm a typo?
+> If not it is probably better to move the removal into a separate patch.
 
-Picking up the cleanups first sounds good to me and I don't mind which
-tree they go via. To make it easier to pick up just the cleanups I
-will reorder the patches a bit. I will move patch 6 to patch 4 so that
-1-4 are the non-uapi-affecting cleanups and 5-8 implement the
-substantive changes.
+Yes, that was a mistake, thanks for the catch. I'll fix it in v14.
 
 Peter
