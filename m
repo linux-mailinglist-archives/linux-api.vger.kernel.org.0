@@ -2,56 +2,32 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 31BBA2A8524
-	for <lists+linux-api@lfdr.de>; Thu,  5 Nov 2020 18:41:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08A622A8531
+	for <lists+linux-api@lfdr.de>; Thu,  5 Nov 2020 18:44:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730862AbgKERlq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 5 Nov 2020 12:41:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46664 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726777AbgKERlq (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Nov 2020 12:41:46 -0500
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C72EC0613CF;
-        Thu,  5 Nov 2020 09:41:46 -0800 (PST)
-Received: by mail-pg1-x544.google.com with SMTP id r186so1863289pgr.0;
-        Thu, 05 Nov 2020 09:41:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ROPmCHdS0kRg9q+B0Dggx9NnmXUvygn2aJySQRUk1PU=;
-        b=B2tWMFsjw3bi0iB38Tr2F5SWQxJLB3kpG8hw4mLTqOviEibVyWUsPuzWP8Gi3Gulni
-         tBs7hK1LMMzFX00AgmM5RLlzpoF9H1Fn7t/hnj3zX8Dni21u9y6jto/W0kBMKGtKRuEp
-         DulPVDquNepyb/CN3kfZEe+o8f4J+5Phwz5zjlGi+LjEO7eJKT5YHXRa5WJ2IHkaIAN5
-         4mC5Git3culOK0pwzGV/1iGnuh6ojacbjsqiPTbfbhpmwjUE4fnOtLaPQzrNSuzEJLqd
-         k3k56/EmfNvevYeQ/+gO3N4b1gjAIux50/4Y5REK8ZD+WhHEXtAfkVN7NinzRyPtHUxG
-         OhYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=ROPmCHdS0kRg9q+B0Dggx9NnmXUvygn2aJySQRUk1PU=;
-        b=uRtUEARagTxWi5RI6djiR/gaNWcLyvRrxbNP4BpSuqO340jobTBuxkbVM30FB1wkHQ
-         rqE35dik+u/lKEjDKoCqlqAAN1mjVelPwyZ+KD+rg3dOTcMwo69r0yFmL/nFlamFv21Q
-         K/mKprMJDRNNnK9gLVf3Vk9ogSAvwKCN2Jk8bqrIO/Dogx9TPploY0eJ6N8DbF8YIRzu
-         74uePCH1f2OHWVLmbKjpR39S1kEWrdt2WskblboeqV8Z+jbYJW9CVdMabyj7hl/8lZUf
-         8/w9CjFFH+dabmWTK/023q+puZB1fUNOFeBhc8YLC+2Y39Jdvo8pHzLlXnxUEOqUAVgi
-         fAZA==
-X-Gm-Message-State: AOAM530n4xOAjR6+N0kaPAPlnXW0dqynX018CzbqSITc13oXo1+IO+hR
-        U5DPA6HSNwuSBLoTUCMqohFhBNfykbs=
-X-Google-Smtp-Source: ABdhPJwxT1NmWqKn/Ks2DuSG4v+x+CY+eLvgsygQ1M9RxDJ3i9JX8XBa1wf2Dk72/u4YIqGx2LObWg==
-X-Received: by 2002:a63:cb51:: with SMTP id m17mr3369432pgi.337.1604598105490;
-        Thu, 05 Nov 2020 09:41:45 -0800 (PST)
-Received: from google.com ([2620:15c:211:201:7220:84ff:fe09:5e58])
-        by smtp.gmail.com with ESMTPSA id i10sm3162527pfd.60.2020.11.05.09.41.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2020 09:41:44 -0800 (PST)
-Sender: Minchan Kim <minchan.kim@gmail.com>
-Date:   Thu, 5 Nov 2020 09:41:42 -0800
-From:   Minchan Kim <minchan@kernel.org>
+        id S1730805AbgKERoD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 5 Nov 2020 12:44:03 -0500
+Received: from mx2.suse.de ([195.135.220.15]:55146 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727851AbgKERoC (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 5 Nov 2020 12:44:02 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1604598240;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=AcZlukzAUrUKfltZkHVVhS/4oYwzu72oZXjdPppy0mI=;
+        b=rNEDFdeArSD7Zk+8uVrc91aIyD6dM1riXl288Ly2xJnkYu3lp3YpEYfwVH6TrY12kFYhbN
+        S6oRB3tp/6EMLAndx4jPoxxkg8CY7aAJmB6pQFQNRO7WP9/3HeXYcDnPkGpCUDhaxpjVKB
+        omnudf8M+hK03PaByfw8PylLsKVInw8=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 5556DABAE;
+        Thu,  5 Nov 2020 17:44:00 +0000 (UTC)
+Date:   Thu, 5 Nov 2020 18:43:57 +0100
+From:   Michal Hocko <mhocko@suse.com>
 To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     Michal Hocko <mhocko@suse.com>, linux-api@vger.kernel.org,
+Cc:     Minchan Kim <minchan@kernel.org>, linux-api@vger.kernel.org,
         linux-mm <linux-mm@kvack.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         David Rientjes <rientjes@google.com>,
@@ -65,7 +41,7 @@ Cc:     Michal Hocko <mhocko@suse.com>, linux-api@vger.kernel.org,
         LKML <linux-kernel@vger.kernel.org>,
         Mel Gorman <mgorman@techsingularity.net>
 Subject: Re: [RFC]: userspace memory reaping
-Message-ID: <20201105174142.GA395979@google.com>
+Message-ID: <20201105174357.GR21348@dhcp22.suse.cz>
 References: <CAJuCfpHwXcq1PfzHgqyYBR3N53TtV2WMt_Oubz0JZkvJHbFKGw@mail.gmail.com>
  <CAJuCfpH9iUt0cs1GBQppgdcD8chojCNXk22S+PeSgQ-bA7iitQ@mail.gmail.com>
  <20201103093550.GE21990@dhcp22.suse.cz>
@@ -84,7 +60,7 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Nov 05, 2020 at 09:21:13AM -0800, Suren Baghdasaryan wrote:
+On Thu 05-11-20 09:21:13, Suren Baghdasaryan wrote:
 > On Thu, Nov 5, 2020 at 9:16 AM Michal Hocko <mhocko@suse.com> wrote:
 > >
 > > On Thu 05-11-20 08:50:58, Suren Baghdasaryan wrote:
@@ -146,4 +122,10 @@ On Thu, Nov 05, 2020 at 09:21:13AM -0800, Suren Baghdasaryan wrote:
 > the caller. That seems to me like the simplest and most obvious way of
 > expressing what we want to accomplish. WDYT?
 
-I think that's better than introducing a specific synchronous kill.
+Yes that would make sense. Althought it would have to be SIGKILL
+specific flag IMO. But let's see what process management people think
+about that.
+
+-- 
+Michal Hocko
+SUSE Labs
