@@ -2,56 +2,32 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DB1672A846F
-	for <lists+linux-api@lfdr.de>; Thu,  5 Nov 2020 18:07:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E74352A84AC
+	for <lists+linux-api@lfdr.de>; Thu,  5 Nov 2020 18:16:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730805AbgKERHz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 5 Nov 2020 12:07:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41290 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726801AbgKERHy (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Nov 2020 12:07:54 -0500
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A697AC0613CF;
-        Thu,  5 Nov 2020 09:07:54 -0800 (PST)
-Received: by mail-pj1-x1044.google.com with SMTP id g19so294640pji.0;
-        Thu, 05 Nov 2020 09:07:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=a/G37s3/UjwAPE/W5DNIRy/pjvBqWVcyDTzt23Xt9No=;
-        b=mqoyA/2lbsg4coNSgnM4EjAG79SXTnyZlihW2wqmX1PzcvLeeyq0DCjJTLPmaQn19y
-         VGh3W3mRcc4G2HLm0nmQdr6uNQNr3rspKyor8teQLb6KRMM4582aahBULwVQ30UO6Wd5
-         MwJ1fxYX7gqpVWpcQVNnm1W5/y8y9IkeyavBbZqDHaiU8qg8AN4yCV9Zu+xtXdc0+yWh
-         wNfCFVXyIEcgG7MvCqcKz4qVy/Yj9NHEqR+I0PjewUdN3cN4Pshh+gu633MsObX29CRE
-         9wo6/cjJb0gpL/B0aPl81aImbRNCBxvIK1N3ofge6QeMBQmjRoUkKW/kZpjKHiS03JJV
-         oKfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=a/G37s3/UjwAPE/W5DNIRy/pjvBqWVcyDTzt23Xt9No=;
-        b=D3uAhVEMS0rjiyew67uA+dRBC2eUmuN8skCRZNTA+LFWm3jM5Mm4KUzjhlF/xDdKYX
-         KsUZokmJVKfIAtrdOVZxAKyhQUMmDk6oy8LFxXRB5LWZe54JKEFZPk7dwMMKRzYBAfLY
-         jjtcjh1IhROV9IYaFr2jF9mBZeGxfLVV3dwDbnCzPzLK1zAf111o9FibVb09F2F02+r8
-         JnH/dr37aupDqiEXQc85vyJ8kQ0cXTM0CIbzkgZ1orqhQqIK64v5agH4Gdi0SHiCduSo
-         jRw81+i5WMo5Zm59JUS45acY43u7V0LgSiNQ69mKWfIITpeHzvF3eGmofL6SHeUNDxF4
-         trDQ==
-X-Gm-Message-State: AOAM5322j5kFXHFfXvPF9vsGuW+jBEwf0zd/OoZeJnXLcNFKbWz3lZpg
-        rYfNLWiIFCaQVbG32O1vOTM=
-X-Google-Smtp-Source: ABdhPJy8ziNqMeMIAGWHm6Jef5Dh09mbR/hfx8blme5oiPK5YqEWx6aPza7yu3sEL9EBV+kaB69JTQ==
-X-Received: by 2002:a17:90a:540f:: with SMTP id z15mr3346326pjh.111.1604596074184;
-        Thu, 05 Nov 2020 09:07:54 -0800 (PST)
-Received: from google.com ([2620:15c:211:201:7220:84ff:fe09:5e58])
-        by smtp.gmail.com with ESMTPSA id r8sm2913540pgl.57.2020.11.05.09.07.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2020 09:07:53 -0800 (PST)
-Sender: Minchan Kim <minchan.kim@gmail.com>
-Date:   Thu, 5 Nov 2020 09:07:50 -0800
-From:   Minchan Kim <minchan@kernel.org>
+        id S1731573AbgKERQQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 5 Nov 2020 12:16:16 -0500
+Received: from mx2.suse.de ([195.135.220.15]:54598 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728523AbgKERQP (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 5 Nov 2020 12:16:15 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1604596573;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=iSIQtjhr10//VD1ePr+4g1ncowxf9ZrRXex0wWZq72I=;
+        b=GKVrtwDWxpqYR0Co35DPMPeKUWx8jjDTMPfP5GQcq39XUodVa5mb+N93C5ijnaLAOA1hgF
+        hbbzCm7XVqMyUC81jqyRjVxt1/ObnbW4UOc3lA54s9j7K+alvBF01QUrDHyUecnaOKL0lt
+        fXRqzLiviOJN2CjcuNEvHkZnCA/D6LY=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 05CB0ABAE;
+        Thu,  5 Nov 2020 17:16:13 +0000 (UTC)
+Date:   Thu, 5 Nov 2020 18:16:11 +0100
+From:   Michal Hocko <mhocko@suse.com>
 To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     Michal Hocko <mhocko@suse.com>, linux-api@vger.kernel.org,
+Cc:     Minchan Kim <minchan@kernel.org>, linux-api@vger.kernel.org,
         linux-mm <linux-mm@kvack.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         David Rientjes <rientjes@google.com>,
@@ -65,7 +41,7 @@ Cc:     Michal Hocko <mhocko@suse.com>, linux-api@vger.kernel.org,
         LKML <linux-kernel@vger.kernel.org>,
         Mel Gorman <mgorman@techsingularity.net>
 Subject: Re: [RFC]: userspace memory reaping
-Message-ID: <20201105170750.GA387236@google.com>
+Message-ID: <20201105171611.GO21348@dhcp22.suse.cz>
 References: <CAJuCfpEQ_ADYsMrF_zjfAeQ3d-FALSP+CeYsvgH2H1-FSoGGqg@mail.gmail.com>
  <20201015092030.GB22589@dhcp22.suse.cz>
  <CAJuCfpHwXcq1PfzHgqyYBR3N53TtV2WMt_Oubz0JZkvJHbFKGw@mail.gmail.com>
@@ -84,7 +60,7 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Nov 05, 2020 at 08:50:58AM -0800, Suren Baghdasaryan wrote:
+On Thu 05-11-20 08:50:58, Suren Baghdasaryan wrote:
 > On Thu, Nov 5, 2020 at 4:20 AM Michal Hocko <mhocko@suse.com> wrote:
 > >
 > > On Wed 04-11-20 12:40:51, Minchan Kim wrote:
@@ -127,13 +103,16 @@ On Thu, Nov 05, 2020 at 08:50:58AM -0800, Suren Baghdasaryan wrote:
 > > reconstruct the data. This is everything but not resembling what I see
 > > f{data}sync is used for.
 > 
-> I think Minchan considers f{data}sync as a "commit" operation. So
-> write+f{data}sync would mean we write and commit written data,
-> kill+f{data}sync would mean we kill and commit that kill (reclaim the
-> resources).
+> I think Minchan considers f{data}sync as a "commit" operation.
 
-If people doesn't like f{data}sync, ftruncate? My point is let's reuse
-exising API since we have pidfd.
+But there is nothing like commit in that operation. It is simply a
+destroy operation. ftruncate as Minchan mentions in another reply would
+be a closer fit but how do you interpret the length argument? What about
+memory regions which cannot be reaped?
 
-What I don't like about SIGKILL_SYNC is that it might introduce several
-SIGXXX_SYNC later.
+I do understand that reusing an existing mechanism is usually preferable
+but the semantic should be reasonable and easy to reason about.
+
+-- 
+Michal Hocko
+SUSE Labs
