@@ -2,88 +2,147 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 599032A8FCA
-	for <lists+linux-api@lfdr.de>; Fri,  6 Nov 2020 08:01:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F8BB2A9AF4
+	for <lists+linux-api@lfdr.de>; Fri,  6 Nov 2020 18:34:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726293AbgKFHBl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 6 Nov 2020 02:01:41 -0500
-Received: from helcar.hmeau.com ([216.24.177.18]:35026 "EHLO fornost.hmeau.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725828AbgKFHBl (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 6 Nov 2020 02:01:41 -0500
-Received: from gwarestrin.arnor.me.apana.org.au ([192.168.0.7])
-        by fornost.hmeau.com with smtp (Exim 4.92 #5 (Debian))
-        id 1kavkQ-00080h-KI; Fri, 06 Nov 2020 18:01:23 +1100
-Received: by gwarestrin.arnor.me.apana.org.au (sSMTP sendmail emulation); Fri, 06 Nov 2020 18:01:22 +1100
-Date:   Fri, 6 Nov 2020 18:01:22 +1100
-From:   Herbert Xu <herbert@gondor.apana.org.au>
-To:     Eric Biggers <ebiggers@kernel.org>
-Cc:     linux-crypto@vger.kernel.org, syzkaller-bugs@googlegroups.com,
-        linux-hardening@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jann Horn <jannh@google.com>,
+        id S1727812AbgKFReZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 6 Nov 2020 12:34:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45212 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727352AbgKFReZ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Nov 2020 12:34:25 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F23AC0613CF;
+        Fri,  6 Nov 2020 09:34:25 -0800 (PST)
+Received: from zn.tnic (p200300ec2f0d1f00ad832f6a7d59b60b.dip0.t-ipconnect.de [IPv6:2003:ec:2f0d:1f00:ad83:2f6a:7d59:b60b])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id B492A1EC0472;
+        Fri,  6 Nov 2020 18:34:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1604684062;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=sZ9sdfZO0dp3q+XlR5ns+dfmE83j+UNdPPPEebExe5c=;
+        b=d26LGmNknsIHWGQjHbilUlMAKQzgZcL4TLfb795hEAJ3dnrB5du0h8A9kwucaFuvlgIk+m
+        HNk4fbqCpqh+DE3pPXsUHFd+k8vVaOhgRZbcQH0+hVGjl6ntbafz75XBW73Omxfw9585ag
+        WtfzHj5fRCcHMYKBeTGhjrNwJs80T9M=
+Date:   Fri, 6 Nov 2020 18:34:10 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromium.org>,
-        Elena Petrova <lenaptr@google.com>,
-        Vegard Nossum <vegard.nossum@oracle.com>,
-        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
-        stable@vger.kernel.org,
-        syzbot+92ead4eb8e26a26d465e@syzkaller.appspotmail.com
-Subject: Re: [PATCH] crypto: af_alg - avoid undefined behavior accessing
- salg_name
-Message-ID: <20201106070122.GC11620@gondor.apana.org.au>
-References: <CACT4Y+beaHrWisaSsV90xQn+t2Xn-bxvVgmx8ih_h=yJYPjs4A@mail.gmail.com>
- <20201026200715.170261-1-ebiggers@kernel.org>
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Subject: Re: [PATCH v14 01/26] Documentation/x86: Add CET description
+Message-ID: <20201106173410.GG14914@zn.tnic>
+References: <20201012153850.26996-1-yu-cheng.yu@intel.com>
+ <20201012153850.26996-2-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20201026200715.170261-1-ebiggers@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20201012153850.26996-2-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Oct 26, 2020 at 01:07:15PM -0700, Eric Biggers wrote:
-> From: Eric Biggers <ebiggers@google.com>
-> 
-> Commit 3f69cc60768b ("crypto: af_alg - Allow arbitrarily long algorithm
-> names") made the kernel start accepting arbitrarily long algorithm names
-> in sockaddr_alg.  However, the actual length of the salg_name field
-> stayed at the original 64 bytes.
-> 
-> This is broken because the kernel can access indices >= 64 in salg_name,
-> which is undefined behavior -- even though the memory that is accessed
-> is still located within the sockaddr structure.  It would only be
-> defined behavior if the array were properly marked as arbitrary-length
-> (either by making it a flexible array, which is the recommended way
-> these days, or by making it an array of length 0 or 1).
-> 
-> We can't simply change salg_name into a flexible array, since that would
-> break source compatibility with userspace programs that embed
-> sockaddr_alg into another struct, or (more commonly) declare a
-> sockaddr_alg like 'struct sockaddr_alg sa = { .salg_name = "foo" };'.
-> 
-> One solution would be to change salg_name into a flexible array only
-> when '#ifdef __KERNEL__'.  However, that would keep userspace without an
-> easy way to actually use the longer algorithm names.
-> 
-> Instead, add a new structure 'sockaddr_alg_new' that has the flexible
-> array field, and expose it to both userspace and the kernel.
-> Make the kernel use it correctly in alg_bind().
-> 
-> This addresses the syzbot report
-> "UBSAN: array-index-out-of-bounds in alg_bind"
-> (https://syzkaller.appspot.com/bug?extid=92ead4eb8e26a26d465e).
-> 
-> Reported-by: syzbot+92ead4eb8e26a26d465e@syzkaller.appspotmail.com
-> Fixes: 3f69cc60768b ("crypto: af_alg - Allow arbitrarily long algorithm names")
-> Cc: <stable@vger.kernel.org> # v4.12+
-> Signed-off-by: Eric Biggers <ebiggers@google.com>
-> ---
->  crypto/af_alg.c             | 10 +++++++---
->  include/uapi/linux/if_alg.h | 16 ++++++++++++++++
->  2 files changed, 23 insertions(+), 3 deletions(-)
+On Mon, Oct 12, 2020 at 08:38:25AM -0700, Yu-cheng Yu wrote:
+> +[1] Overview
+> +============
+> +
+> +Control-flow Enforcement Technology (CET) is an Intel processor feature
+> +that provides protection against return/jump-oriented programming (ROP)
+> +attacks.  It can be set up to protect both applications and the kernel.
+> +Only user-mode protection is implemented in the 64-bit kernel, including
+> +support for running legacy 32-bit applications.
+> +
+> +CET introduces Shadow Stack and Indirect Branch Tracking.  Shadow stack is
+> +a secondary stack allocated from memory and cannot be directly modified by
+> +applications.  When executing a CALL, the processor pushes the return
+				       ^
+				    . .. instruction ...
 
-Patch applied.  Thanks.
+
+> +address to both the normal stack and the shadow stack.  Upon function
+> +return, the processor pops the shadow stack copy and compares it to the
+> +normal stack copy.  If the two differ, the processor raises a control-
+> +protection fault.  Indirect branch tracking verifies indirect CALL/JMP
+> +targets are intended as marked by the compiler with 'ENDBR' opcodes.
+> +
+> +There are two kernel configuration options:
+> +
+> +    X86_SHADOW_STACK_USER, and
+> +    X86_BRANCH_TRACKING_USER.
+> +
+> +These need to be enabled to build a CET-enabled kernel, and Binutils v2.31
+> +and GCC v8.1 or later are required to build a CET kernel.  To build a CET-
+> +enabled application, GLIBC v2.28 or later is also required.
+> +
+> +There are two command-line options for disabling CET features::
+> +
+> +    no_user_shstk - disables user shadow stack, and
+> +    no_user_ibt   - disables user indirect branch tracking.
+> +
+> +At run time, /proc/cpuinfo shows CET features if the processor supports
+> +CET.
+> +
+> +[2] Application Enabling
+> +========================
+> +
+> +An application's CET capability is marked in its ELF header and can be
+> +verified from the following command output, in the NT_GNU_PROPERTY_TYPE_0
+> +field:
+> +
+> +    readelf -n <application>
+
+Can be verified how? What does it say for a CET-enabled executable? Put
+it here in the doc pls.
+
+> +
+> +If an application supports CET and is statically linked, it will run with
+> +CET protection.  If the application needs any shared libraries, the loader
+> +checks all dependencies and enables CET when all requirements are met.
+> +
+> +[3] Backward Compatibility
+> +==========================
+> +
+> +GLIBC provides a few tunables for backward compatibility.
+> +
+> +GLIBC_TUNABLES=glibc.tune.hwcaps=-SHSTK,-IBT
+> +    Turn off SHSTK/IBT for the current shell.
+
+For the current shell? How?
+
+You mean, you execute the kernel shell with that variable set? So you
+set this variable in any executable's env which links with glibc in
+order to disable CET?
+
+In any case, this needs clarification.
+
 -- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
