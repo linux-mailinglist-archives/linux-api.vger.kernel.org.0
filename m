@@ -2,35 +2,32 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F8BB2A9AF4
-	for <lists+linux-api@lfdr.de>; Fri,  6 Nov 2020 18:34:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D1B72A9BB0
+	for <lists+linux-api@lfdr.de>; Fri,  6 Nov 2020 19:16:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727812AbgKFReZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 6 Nov 2020 12:34:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45212 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727352AbgKFReZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Nov 2020 12:34:25 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F23AC0613CF;
-        Fri,  6 Nov 2020 09:34:25 -0800 (PST)
-Received: from zn.tnic (p200300ec2f0d1f00ad832f6a7d59b60b.dip0.t-ipconnect.de [IPv6:2003:ec:2f0d:1f00:ad83:2f6a:7d59:b60b])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id B492A1EC0472;
-        Fri,  6 Nov 2020 18:34:22 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1604684062;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=sZ9sdfZO0dp3q+XlR5ns+dfmE83j+UNdPPPEebExe5c=;
-        b=d26LGmNknsIHWGQjHbilUlMAKQzgZcL4TLfb795hEAJ3dnrB5du0h8A9kwucaFuvlgIk+m
-        HNk4fbqCpqh+DE3pPXsUHFd+k8vVaOhgRZbcQH0+hVGjl6ntbafz75XBW73Omxfw9585ag
-        WtfzHj5fRCcHMYKBeTGhjrNwJs80T9M=
-Date:   Fri, 6 Nov 2020 18:34:10 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+        id S1727811AbgKFSQu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 6 Nov 2020 13:16:50 -0500
+Received: from mga02.intel.com ([134.134.136.20]:18093 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726320AbgKFSQu (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 6 Nov 2020 13:16:50 -0500
+IronPort-SDR: 0ERUQrx9svYpW7cxDnlGOyBPDgqwabT/Mxpx2119LGxuxRSsDfiMHHcGaPDVn5UNWECalwSQRR
+ /B0psuxu4nCA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9797"; a="156581882"
+X-IronPort-AV: E=Sophos;i="5.77,457,1596524400"; 
+   d="scan'208";a="156581882"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2020 10:16:49 -0800
+IronPort-SDR: Ka0NRVjMOuYPOBeUcJOa8OIqahm5plMd42C7NVz8KqlA/ZUcuqINGfCTJyq5K5JLNcCLYM2dr9
+ XzMj1I1VDiQg==
+X-IronPort-AV: E=Sophos;i="5.77,457,1596524400"; 
+   d="scan'208";a="472149838"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.221.127]) ([10.212.221.127])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2020 10:16:48 -0800
+Subject: Re: [PATCH v14 01/26] Documentation/x86: Add CET description
+To:     Borislav Petkov <bp@alien8.de>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
@@ -56,93 +53,86 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v14 01/26] Documentation/x86: Add CET description
-Message-ID: <20201106173410.GG14914@zn.tnic>
 References: <20201012153850.26996-1-yu-cheng.yu@intel.com>
  <20201012153850.26996-2-yu-cheng.yu@intel.com>
+ <20201106173410.GG14914@zn.tnic>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <ebaff261-f8ad-d184-edd5-8efbd675deeb@intel.com>
+Date:   Fri, 6 Nov 2020 10:16:47 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201012153850.26996-2-yu-cheng.yu@intel.com>
+In-Reply-To: <20201106173410.GG14914@zn.tnic>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Oct 12, 2020 at 08:38:25AM -0700, Yu-cheng Yu wrote:
-> +[1] Overview
-> +============
-> +
-> +Control-flow Enforcement Technology (CET) is an Intel processor feature
-> +that provides protection against return/jump-oriented programming (ROP)
-> +attacks.  It can be set up to protect both applications and the kernel.
-> +Only user-mode protection is implemented in the 64-bit kernel, including
-> +support for running legacy 32-bit applications.
-> +
-> +CET introduces Shadow Stack and Indirect Branch Tracking.  Shadow stack is
-> +a secondary stack allocated from memory and cannot be directly modified by
-> +applications.  When executing a CALL, the processor pushes the return
-				       ^
-				    . .. instruction ...
+On 11/6/2020 9:34 AM, Borislav Petkov wrote:
+> On Mon, Oct 12, 2020 at 08:38:25AM -0700, Yu-cheng Yu wrote:
+>> +[1] Overview
+>> +============
+>> +
+>> +Control-flow Enforcement Technology (CET) is an Intel processor feature
+>> +that provides protection against return/jump-oriented programming (ROP)
+>> +attacks.  It can be set up to protect both applications and the kernel.
+>> +Only user-mode protection is implemented in the 64-bit kernel, including
+>> +support for running legacy 32-bit applications.
+>> +
+>> +CET introduces Shadow Stack and Indirect Branch Tracking.  Shadow stack is
+>> +a secondary stack allocated from memory and cannot be directly modified by
+>> +applications.  When executing a CALL, the processor pushes the return
+> 				       ^
+> 				    . .. instruction ...
+> 
 
+I will update it.
 
-> +address to both the normal stack and the shadow stack.  Upon function
-> +return, the processor pops the shadow stack copy and compares it to the
-> +normal stack copy.  If the two differ, the processor raises a control-
-> +protection fault.  Indirect branch tracking verifies indirect CALL/JMP
-> +targets are intended as marked by the compiler with 'ENDBR' opcodes.
-> +
-> +There are two kernel configuration options:
-> +
-> +    X86_SHADOW_STACK_USER, and
-> +    X86_BRANCH_TRACKING_USER.
-> +
-> +These need to be enabled to build a CET-enabled kernel, and Binutils v2.31
-> +and GCC v8.1 or later are required to build a CET kernel.  To build a CET-
-> +enabled application, GLIBC v2.28 or later is also required.
-> +
-> +There are two command-line options for disabling CET features::
-> +
-> +    no_user_shstk - disables user shadow stack, and
-> +    no_user_ibt   - disables user indirect branch tracking.
-> +
-> +At run time, /proc/cpuinfo shows CET features if the processor supports
-> +CET.
-> +
-> +[2] Application Enabling
-> +========================
-> +
-> +An application's CET capability is marked in its ELF header and can be
-> +verified from the following command output, in the NT_GNU_PROPERTY_TYPE_0
-> +field:
-> +
-> +    readelf -n <application>
+[...]
 
-Can be verified how? What does it say for a CET-enabled executable? Put
-it here in the doc pls.
+>> +
+>> +[2] Application Enabling
+>> +========================
+>> +
+>> +An application's CET capability is marked in its ELF header and can be
+>> +verified from the following command output, in the NT_GNU_PROPERTY_TYPE_0
+>> +field:
+>> +
+>> +    readelf -n <application>
+> 
+> Can be verified how? What does it say for a CET-enabled executable? Put
+> it here in the doc pls.
+> 
 
-> +
-> +If an application supports CET and is statically linked, it will run with
-> +CET protection.  If the application needs any shared libraries, the loader
-> +checks all dependencies and enables CET when all requirements are met.
-> +
-> +[3] Backward Compatibility
-> +==========================
-> +
-> +GLIBC provides a few tunables for backward compatibility.
-> +
-> +GLIBC_TUNABLES=glibc.tune.hwcaps=-SHSTK,-IBT
-> +    Turn off SHSTK/IBT for the current shell.
+readelf -n <application> | grep SHSTK
+	properties: x86 feature: IBT, SHSTK
 
-For the current shell? How?
+I will add this.
 
-You mean, you execute the kernel shell with that variable set? So you
-set this variable in any executable's env which links with glibc in
-order to disable CET?
+[...]
 
-In any case, this needs clarification.
+>> +[3] Backward Compatibility
+>> +==========================
+>> +
+>> +GLIBC provides a few tunables for backward compatibility.
+>> +
+>> +GLIBC_TUNABLES=glibc.tune.hwcaps=-SHSTK,-IBT
+>> +    Turn off SHSTK/IBT for the current shell.
+> 
+> For the current shell? How?
+> 
+> You mean, you execute the kernel shell with that variable set? So you
+> set this variable in any executable's env which links with glibc in
+> order to disable CET?
+> 
+> In any case, this needs clarification.
+> 
 
--- 
-Regards/Gruss,
-    Boris.
+In the current shell, if GLIBC_TUNABLES variable is set as such, 
+applications started will have CET features disabled.  I can put more 
+details here, or maybe a reference to the GLIBC man pages.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+Thanks,
+Yu-cheng
