@@ -2,22 +2,27 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 26E7C2ACFF9
-	for <lists+linux-api@lfdr.de>; Tue, 10 Nov 2020 07:48:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B8712AD115
+	for <lists+linux-api@lfdr.de>; Tue, 10 Nov 2020 09:17:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726849AbgKJGsZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 10 Nov 2020 01:48:25 -0500
-Received: from namei.org ([65.99.196.166]:39838 "EHLO namei.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726006AbgKJGsY (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 10 Nov 2020 01:48:24 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by namei.org (8.14.4/8.14.4) with ESMTP id 0AA6lEtx009182;
-        Tue, 10 Nov 2020 06:47:14 GMT
-Date:   Tue, 10 Nov 2020 17:47:14 +1100 (AEDT)
-From:   James Morris <jmorris@namei.org>
-To:     =?ISO-8859-15?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
-cc:     "Serge E . Hallyn" <serge@hallyn.com>,
+        id S1730397AbgKJIRm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 10 Nov 2020 03:17:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59190 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726825AbgKJIRm (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 10 Nov 2020 03:17:42 -0500
+Received: from smtp-bc0f.mail.infomaniak.ch (smtp-bc0f.mail.infomaniak.ch [IPv6:2001:1600:3:17::bc0f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2886C0613CF
+        for <linux-api@vger.kernel.org>; Tue, 10 Nov 2020 00:17:41 -0800 (PST)
+Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4CVghg2QrmzlhSh0;
+        Tue, 10 Nov 2020 09:17:39 +0100 (CET)
+Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
+        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4CVghd1jfMzlh8Tf;
+        Tue, 10 Nov 2020 09:17:37 +0100 (CET)
+Subject: Re: [PATCH v23 00/12] Landlock LSM
+To:     James Morris <jmorris@namei.org>
+Cc:     "Serge E . Hallyn" <serge@hallyn.com>,
         Al Viro <viro@zeniv.linux.org.uk>,
         Andy Lutomirski <luto@amacapital.net>,
         Anton Ivanov <anton.ivanov@cambridgegreys.com>,
@@ -35,42 +40,36 @@ cc:     "Serge E . Hallyn" <serge@hallyn.com>,
         linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-kselftest@vger.kernel.org,
         linux-security-module@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH v23 00/12] Landlock LSM
-In-Reply-To: <20201103182109.1014179-1-mic@digikod.net>
-Message-ID: <alpine.LRH.2.21.2011101745100.9130@namei.org>
 References: <20201103182109.1014179-1-mic@digikod.net>
-User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
+ <alpine.LRH.2.21.2011101745100.9130@namei.org>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <421e49f4-d3ec-fd17-be42-7c73448b99a1@digikod.net>
+Date:   Tue, 10 Nov 2020 09:16:47 +0100
+User-Agent: 
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="1665246916-1397860341-1604990838=:9130"
+In-Reply-To: <alpine.LRH.2.21.2011101745100.9130@namei.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
 
---1665246916-1397860341-1604990838=:9130
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-
-On Tue, 3 Nov 2020, Mickaël Salaün wrote:
-
-> Hi,
+On 10/11/2020 07:47, James Morris wrote:
+> On Tue, 3 Nov 2020, Mickaël Salaün wrote:
 > 
-> Can you please consider to merge this into the tree?
+>> Hi,
+>>
+>> Can you please consider to merge this into the tree?
+>>
 > 
+> I've added this to my tree:
+> git://git.kernel.org/pub/scm/linux/kernel/git/jmorris/linux-security.git landlock_lsm
+> 
+> and merged into next-testing (which is pulled into linux-next).
+> 
+> 
+> Please make any further changes against the branch in my tree.
 
-I've added this to my tree:
-git://git.kernel.org/pub/scm/linux/kernel/git/jmorris/linux-security.git landlock_lsm
-
-and merged into next-testing (which is pulled into linux-next).
-
-
-Please make any further changes against the branch in my tree.
-
-
--- 
-James Morris
-<jmorris@namei.org>
-
---1665246916-1397860341-1604990838=:9130--
+Great, thanks!
