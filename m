@@ -2,27 +2,57 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 746F42ACACC
-	for <lists+linux-api@lfdr.de>; Tue, 10 Nov 2020 02:57:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C0E22ACAF1
+	for <lists+linux-api@lfdr.de>; Tue, 10 Nov 2020 03:19:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730467AbgKJB5w (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 9 Nov 2020 20:57:52 -0500
-Received: from out03.mta.xmission.com ([166.70.13.233]:34784 "EHLO
-        out03.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728607AbgKJB5w (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Nov 2020 20:57:52 -0500
-Received: from in01.mta.xmission.com ([166.70.13.51])
-        by out03.mta.xmission.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1kcIul-002qP7-5T; Mon, 09 Nov 2020 18:57:43 -0700
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
-        by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.87)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1kcIuk-0003cH-Cn; Mon, 09 Nov 2020 18:57:43 -0700
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     Peter Collingbourne <pcc@google.com>
+        id S1728607AbgKJCTW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 9 Nov 2020 21:19:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60470 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727311AbgKJCTV (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Nov 2020 21:19:21 -0500
+Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com [IPv6:2607:f8b0:4864:20::e43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99B48C0613CF
+        for <linux-api@vger.kernel.org>; Mon,  9 Nov 2020 18:19:21 -0800 (PST)
+Received: by mail-vs1-xe43.google.com with SMTP id h5so6177107vsp.3
+        for <linux-api@vger.kernel.org>; Mon, 09 Nov 2020 18:19:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ejYZsUMVEPBEz1Bf5UylqJkez0rDQPXxmwo7fwvyNj8=;
+        b=JNykQ+TLk/9Cz6btxqhdWDnilzmPwk46N3tb1Ib0zvi9v/+i7L/UBBAzmKWgLNUtrF
+         a0sVsTidJz5ziT5SbetmZCx4JjT/f4qOp9dYXAtqyKagd3o+ZzFI/qWgC9RA8K9OemK/
+         syZQfz7/wFfuldiVQYZKSSzUP9HIbuWQe7jwztlelTTP0p2hkyLKMdiipYRWlqmkVNUP
+         vX/P6uUAMt7JUnggp8zGa5D4vVKmAbvnOQRREEh4POZ0moLhHnPmEqRv109qTOUxvGaJ
+         meCt7Zj4B2Qqe7YWWerAlkmUYWJ0klMKtoiZL4B/ragvYDgwsPADlvQHPZYLh1qQ+xIe
+         AU8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ejYZsUMVEPBEz1Bf5UylqJkez0rDQPXxmwo7fwvyNj8=;
+        b=eIVeJ1A5cP86wTu4M6Q58zRnfmZQXOj0Ywl6BIx4bQkIGQTW+pciCsmA1gsCBg9QUE
+         t7kQIHFzOBeAQuEFWGn9pJm8yTY8ubCKoqcnFsn3ViPa8JYX9zrJ9VhZmeGGQOmAWRDW
+         iO3w7ZNqOnz4qcMljl8nySvvWJwFpav8RQkHAuN1s5dN9v58HvTS3rxr8C7J9uxMzPUK
+         3ZwdOz7QbcqhMDHiwA/phf6opKAv2mbqzm5TfPe7r9Zh104V5S/Ar6j0tsrmbT/I2weu
+         Hc2JEyRvkXoeSSLYI+F8B8qvRjE0s/MlXe23qPwYnjgAoICuc2qMekLV0x6Amofphh0F
+         QtPg==
+X-Gm-Message-State: AOAM533hRxywbLkD9HarJGosoFZemWsNnHuxvfiviF0+tw6ql/4rtneU
+        w+ktpG53smG+5e37CVmaMXpGVH/NndVXspYExSsm6Q==
+X-Google-Smtp-Source: ABdhPJx2kxWl8DJQjgRLd0etePjpBXBJ77Asfsu8E6oETtWPhVnNT3UMQY3yfmMdil+ZtlMk4X3RfxqsxhICx+eJywg=
+X-Received: by 2002:a67:ed4b:: with SMTP id m11mr727963vsp.14.1604974760468;
+ Mon, 09 Nov 2020 18:19:20 -0800 (PST)
+MIME-Version: 1.0
+References: <cover.1604523707.git.pcc@google.com> <039adb228822eb1f0c90cbfc716fc28fa298c58e.1604523707.git.pcc@google.com>
+ <871rh22gml.fsf@x220.int.ebiederm.org>
+In-Reply-To: <871rh22gml.fsf@x220.int.ebiederm.org>
+From:   Peter Collingbourne <pcc@google.com>
+Date:   Mon, 9 Nov 2020 18:19:09 -0800
+Message-ID: <CAMn1gO4wZsR6Byg7AvPTxrji8GDmU3LXWKQPMnv_G2zMkkJwWA@mail.gmail.com>
+Subject: Re: [PATCH v14 5/8] signal: clear non-uapi flag bits when
+ passing/returning sa_flags
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
 Cc:     Catalin Marinas <catalin.marinas@arm.com>,
         Evgenii Stepanov <eugenis@google.com>,
         Kostya Serebryany <kcc@google.com>,
@@ -33,107 +63,212 @@ Cc:     Catalin Marinas <catalin.marinas@arm.com>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
         Kevin Brodsky <kevin.brodsky@arm.com>,
         Andrey Konovalov <andreyknvl@google.com>,
-        Richard Henderson <rth@twiddle.net>, linux-api@vger.kernel.org,
+        Richard Henderson <rth@twiddle.net>,
+        Linux API <linux-api@vger.kernel.org>,
         Helge Deller <deller@gmx.de>,
         David Spickett <david.spickett@linaro.org>
-References: <cover.1604523707.git.pcc@google.com>
-        <0eb601a5d1906fadd7099149eb605181911cfc04.1604523707.git.pcc@google.com>
-Date:   Mon, 09 Nov 2020 19:57:33 -0600
-In-Reply-To: <0eb601a5d1906fadd7099149eb605181911cfc04.1604523707.git.pcc@google.com>
-        (Peter Collingbourne's message of "Wed, 4 Nov 2020 13:18:10 -0800")
-Message-ID: <87zh3qug6q.fsf@x220.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1kcIuk-0003cH-Cn;;;mid=<87zh3qug6q.fsf@x220.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX1+BHOLC6pp4F6dvMCbEBxblvibGsnpJFu8=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa05.xmission.com
-X-Spam-Level: **
-X-Spam-Status: No, score=2.0 required=8.0 tests=ALL_TRUSTED,BAYES_50,
-        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,T_TooManySym_01,
-        T_TooManySym_02,T_XMDrugObfuBody_08,XMSubLong,XM_B_Unsub
-        autolearn=disabled version=3.4.2
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4979]
-        *  0.7 XMSubLong Long Subject
-        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-        *      [sa05 1397; Body=1 Fuz1=1 Fuz2=1]
-        *  0.0 T_TooManySym_01 4+ unique symbols in subject
-        *  0.5 XM_B_Unsub Unsubscribe in body of email but missing unsubscribe
-        *       header
-        *  1.0 T_XMDrugObfuBody_08 obfuscated drug references
-        *  0.0 T_TooManySym_02 5+ unique symbols in subject
-X-Spam-DCC: XMission; sa05 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: **;Peter Collingbourne <pcc@google.com>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 410 ms - load_scoreonly_sql: 0.10 (0.0%),
-        signal_user_changed: 11 (2.8%), b_tie_ro: 9 (2.3%), parse: 1.05 (0.3%),
-         extract_message_metadata: 3.8 (0.9%), get_uri_detail_list: 1.48
-        (0.4%), tests_pri_-1000: 4.8 (1.2%), tests_pri_-950: 1.25 (0.3%),
-        tests_pri_-900: 1.03 (0.3%), tests_pri_-90: 55 (13.5%), check_bayes:
-        53 (12.9%), b_tokenize: 8 (1.9%), b_tok_get_all: 7 (1.8%),
-        b_comp_prob: 2.5 (0.6%), b_tok_touch_all: 32 (7.8%), b_finish: 1.01
-        (0.2%), tests_pri_0: 304 (74.2%), check_dkim_signature: 0.88 (0.2%),
-        check_dkim_adsp: 3.5 (0.9%), poll_dns_idle: 1.07 (0.3%), tests_pri_10:
-        4.4 (1.1%), tests_pri_500: 14 (3.4%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: [PATCH v14 7/8] signal: define the field siginfo.si_faultflags
-X-Spam-Flag: No
-X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
-X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Peter Collingbourne <pcc@google.com> writes:
+On Mon, Nov 9, 2020 at 4:35 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
+>
+> Peter Collingbourne <pcc@google.com> writes:
+>
+> 2> Previously we were not clearing non-uapi flag bits in
+> > sigaction.sa_flags when storing the userspace-provided sa_flags or
+> > when returning them via oldact. Start doing so.
+> >
+> > This allows userspace to detect missing support for flag bits and
+> > allows the kernel to use non-uapi bits internally, as we are already
+> > doing in arch/x86 for two flag bits. Now that this change is in
+> > place, we no longer need the code in arch/x86 that was hiding these
+> > bits from userspace, so remove it.
+> >
+> > This is technically a userspace-visible behavior change for sigaction, as
+> > the unknown bits returned via oldact.sa_flags are no longer set. However,
+> > we are free to define the behavior for unknown bits exactly because
+> > their behavior is currently undefined, so for now we can define the
+> > meaning of each of them to be "clear the bit in oldact.sa_flags unless
+> > the bit becomes known in the future". Furthermore, this behavior is
+> > consistent with OpenBSD [1], illumos [2] and XNU [3] (FreeBSD [4] and
+> > NetBSD [5] fail the syscall if unknown bits are set). So there is some
+> > precedent for this behavior in other kernels, and in particular in XNU,
+> > which is probably the most popular kernel among those that I looked at,
+> > which means that this change is less likely to be a compatibility
+> > issue.
+>
+> Acked-by: "Eric W. Biederman" <ebiederm@xmission.com>
+>
+> Yes.  The x86_64 case and general good sense suggests that this patch
+> will be harmless.
 
-> This field will contain flags that may be used by signal handlers to
-> determine whether other fields in the _sigfault portion of siginfo are
-> valid. An example use case is the following patch, which introduces
-> the si_addr_tag_bits{,_mask} fields.
->
-> A new sigcontext flag, SA_FAULTFLAGS, is introduced in order to allow
-> a signal handler to require the kernel to set the field (but note
-> that the field will be set anyway if the kernel supports the flag,
-> regardless of its value). In combination with the previous patches,
-> this allows a userspace program to determine whether the kernel will
-> set the field.
->
-> It is possible for an si_faultflags-unaware program to cause a signal
-> handler in an si_faultflags-aware program to be called with a provided
-> siginfo data structure by using one of the following syscalls:
->
-> - ptrace(PTRACE_SETSIGINFO)
-> - pidfd_send_signal
-> - rt_sigqueueinfo
-> - rt_tgsigqueueinfo
->
-> So we need to prevent the si_faultflags-unaware program from causing an
-> uninitialized read of si_faultflags in the si_faultflags-aware program when
-> it uses one of these syscalls.
->
-> The last three cases can be handled by observing that each of these
-> syscalls fails if si_code >= 0. We also observe that kill(2) and
-> tgkill(2) may be used to send a signal where si_code == 0 (SI_USER),
-> so we define si_faultflags to only be valid if si_code > 0.
->
-> There is no such check on si_code in ptrace(PTRACE_SETSIGINFO), so
-> we make ptrace(PTRACE_SETSIGINFO) clear the si_faultflags field if it
-> detects that the signal would use the _sigfault layout, and introduce
-> a new ptrace request type, PTRACE_SETSIGINFO2, that a si_faultflags-aware
-> program may use to opt out of this behavior.
+Thanks for the review.
 
-So I think while well intentioned this is misguided.
+> I suspect we should at least try and take this one step farther
+> (with an additional patch) that causes an error if any new flags
+> are passed.  Or do we know of some userspace application that
+> currently passes bogus flags?
 
-gdb and the like may use this but I expect the primary user is CRIU
-which simply reads the signal out of one process saves it on disk
-and then restores the signal as read into the new process (possibly
-on a different machine).
+I'm not aware of any such userspace applications, but that doesn't
+mean that there aren't any of course. Probably the most plausible way
+in which I can see us ending up with userspace applications setting
+bogus flags is if the application leaves sa_flags uninitialized and
+installs a signal handler that doesn't care which flags were set as
+long as the handler ends up being called somehow. I don't think it's
+outside the realm of possibility that there is an application out
+there on Android doing something like this, and if we discovered such
+an application (which may happen long after we make the kernel
+change), that may require us to change the behavior on Android at
+least, which may have implications for flag support detection code
+that is necessarily sensitive to sigaction's precise behavior, and may
+create a divergence between Android and upstream Linux, which is
+something that we really want to avoid. So I would be at least
+slightly concerned about making such a change.
 
-At least for the CRIU usage PTRACE_SETSIGINFO need to remain a raw
-pass through kind of operation.
+Another concern is that it would further complicate the flag support
+detection protocol beyond what would be required if we assume success
+on unknown flags. If we succeed on unknown flags we just need two
+calls to sigaction (one to set the handler, and another to check
+oldact), but if we fail on unknown flags I think we would need three
+(or more, if the userspace code has multiple flags to test for). The
+userspace code would look something like this:
 
-Eric
+// The next call will only succeed on kernels from before we started
+// rejecting unknown flags. Therefore, if it succeeds, it should install the
+// handler for old kernels.
+struct sigaction sa = {};
+sa.sa_flags = SA_SIGINFO | SA_UNSUPPORTED;
+sa.sa_sigaction = old_kernel_handler;
+if (sigaction(SIGSEGV, &sa, 0) < 0) {
+  // Okay, we're on a kernel that rejects unknown flags.
+  // The next call will only succeed if we have SA_FAULTFLAGS support,
+  // so we try to install the handler for new kernels.
+  sa.sa_flags = SA_SIGINFO | SA_FAULTFLAGS;
+  sa.sa_sigaction = new_kernel_handler;
+  if (sigaction(SIGSEGV, &sa, 0) < 0) {
+    // We're on a kernel from between when we started rejecting unknown
+    // flags and when we started supporting SA_FAULTFLAGS. Therefore
+    // we need to install the handler for old kernels.
+    sa.sa_flags = SA_SIGINFO;
+    sa.sa_sigaction = old_kernel_handler;
+    sigaction(SIGSEGV, &sa, 0);
+  }
+}
+
+Peter
+
+>
+>
+>
+> > Link: [1] https://github.com/openbsd/src/blob/f634a6a4b5bf832e9c1de77f7894ae2625e74484/sys/kern/kern_sig.c#L278
+> > Link: [2] https://github.com/illumos/illumos-gate/blob/76f19f5fdc974fe5be5c82a556e43a4df93f1de1/usr/src/uts/common/syscall/sigaction.c#L86
+> > Link: [3] https://github.com/apple/darwin-xnu/blob/a449c6a3b8014d9406c2ddbdc81795da24aa7443/bsd/kern/kern_sig.c#L480
+> > Link: [4] https://github.com/freebsd/freebsd/blob/eded70c37057857c6e23fae51f86b8f8f43cd2d0/sys/kern/kern_sig.c#L699
+> > Link: [5] https://github.com/NetBSD/src/blob/3365779becdcedfca206091a645a0e8e22b2946e/sys/kern/sys_sig.c#L473
+> > Signed-off-by: Peter Collingbourne <pcc@google.com>
+> > Reviewed-by: Dave Martin <Dave.Martin@arm.com>
+> > Link: https://linux-review.googlesource.com/id/I35aab6f5be932505d90f3b3450c083b4db1eca86
+> > ---
+> > v10:
+> > - rename SA_UAPI_FLAGS -> UAPI_SA_FLAGS
+> > - refactor how we define it to avoid mentioning flags more
+> >   than once
+> >
+> >  arch/arm/include/asm/signal.h    |  2 ++
+> >  arch/parisc/include/asm/signal.h |  2 ++
+> >  arch/x86/kernel/signal_compat.c  |  7 -------
+> >  include/linux/signal_types.h     | 12 ++++++++++++
+> >  kernel/signal.c                  | 10 ++++++++++
+> >  5 files changed, 26 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/arch/arm/include/asm/signal.h b/arch/arm/include/asm/signal.h
+> > index 65530a042009..430be7774402 100644
+> > --- a/arch/arm/include/asm/signal.h
+> > +++ b/arch/arm/include/asm/signal.h
+> > @@ -17,6 +17,8 @@ typedef struct {
+> >       unsigned long sig[_NSIG_WORDS];
+> >  } sigset_t;
+> >
+> > +#define __ARCH_UAPI_SA_FLAGS (SA_THIRTYTWO | SA_RESTORER)
+> > +
+> >  #define __ARCH_HAS_SA_RESTORER
+> >
+> >  #include <asm/sigcontext.h>
+> > diff --git a/arch/parisc/include/asm/signal.h b/arch/parisc/include/asm/signal.h
+> > index 715c96ba2ec8..30dd1e43ef88 100644
+> > --- a/arch/parisc/include/asm/signal.h
+> > +++ b/arch/parisc/include/asm/signal.h
+> > @@ -21,6 +21,8 @@ typedef struct {
+> >       unsigned long sig[_NSIG_WORDS];
+> >  } sigset_t;
+> >
+> > +#define __ARCH_UAPI_SA_FLAGS _SA_SIGGFAULT
+> > +
+> >  #include <asm/sigcontext.h>
+> >
+> >  #endif /* !__ASSEMBLY */
+> > diff --git a/arch/x86/kernel/signal_compat.c b/arch/x86/kernel/signal_compat.c
+> > index a7f3e12cfbdb..ddfd919be46c 100644
+> > --- a/arch/x86/kernel/signal_compat.c
+> > +++ b/arch/x86/kernel/signal_compat.c
+> > @@ -165,16 +165,9 @@ void sigaction_compat_abi(struct k_sigaction *act, struct k_sigaction *oact)
+> >  {
+> >       signal_compat_build_tests();
+> >
+> > -     /* Don't leak in-kernel non-uapi flags to user-space */
+> > -     if (oact)
+> > -             oact->sa.sa_flags &= ~(SA_IA32_ABI | SA_X32_ABI);
+> > -
+> >       if (!act)
+> >               return;
+> >
+> > -     /* Don't let flags to be set from userspace */
+> > -     act->sa.sa_flags &= ~(SA_IA32_ABI | SA_X32_ABI);
+> > -
+> >       if (in_ia32_syscall())
+> >               act->sa.sa_flags |= SA_IA32_ABI;
+> >       if (in_x32_syscall())
+> > diff --git a/include/linux/signal_types.h b/include/linux/signal_types.h
+> > index f8a90ae9c6ec..a7887ad84d36 100644
+> > --- a/include/linux/signal_types.h
+> > +++ b/include/linux/signal_types.h
+> > @@ -68,4 +68,16 @@ struct ksignal {
+> >       int sig;
+> >  };
+> >
+> > +#ifndef __ARCH_UAPI_SA_FLAGS
+> > +#ifdef SA_RESTORER
+> > +#define __ARCH_UAPI_SA_FLAGS SA_RESTORER
+> > +#else
+> > +#define __ARCH_UAPI_SA_FLAGS 0
+> > +#endif
+> > +#endif
+> > +
+> > +#define UAPI_SA_FLAGS                                                          \
+> > +     (SA_NOCLDSTOP | SA_NOCLDWAIT | SA_SIGINFO | SA_ONSTACK | SA_RESTART |  \
+> > +      SA_NODEFER | SA_RESETHAND | __ARCH_UAPI_SA_FLAGS)
+> > +
+> >  #endif /* _LINUX_SIGNAL_TYPES_H */
+> > diff --git a/kernel/signal.c b/kernel/signal.c
+> > index 74e7315c24db..832b654dee8c 100644
+> > --- a/kernel/signal.c
+> > +++ b/kernel/signal.c
+> > @@ -3964,6 +3964,16 @@ int do_sigaction(int sig, struct k_sigaction *act, struct k_sigaction *oact)
+> >       if (oact)
+> >               *oact = *k;
+> >
+> > +     /*
+> > +      * Clear unknown flag bits in order to allow userspace to detect missing
+> > +      * support for flag bits and to allow the kernel to use non-uapi bits
+> > +      * internally.
+> > +      */
+> > +     if (act)
+> > +             act->sa.sa_flags &= UAPI_SA_FLAGS;
+> > +     if (oact)
+> > +             oact->sa.sa_flags &= UAPI_SA_FLAGS;
+> > +
+> >       sigaction_compat_abi(act, oact);
+> >
+> >       if (act) {
