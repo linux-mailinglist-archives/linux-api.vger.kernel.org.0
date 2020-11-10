@@ -2,25 +2,25 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DF3072AC9BC
-	for <lists+linux-api@lfdr.de>; Tue, 10 Nov 2020 01:35:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 36DB22AC9D4
+	for <lists+linux-api@lfdr.de>; Tue, 10 Nov 2020 01:41:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729493AbgKJAft (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 9 Nov 2020 19:35:49 -0500
-Received: from out02.mta.xmission.com ([166.70.13.232]:33478 "EHLO
-        out02.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727311AbgKJAft (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Nov 2020 19:35:49 -0500
+        id S1729243AbgKJAll (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 9 Nov 2020 19:41:41 -0500
+Received: from out03.mta.xmission.com ([166.70.13.233]:49946 "EHLO
+        out03.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727311AbgKJAlk (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Nov 2020 19:41:40 -0500
 Received: from in01.mta.xmission.com ([166.70.13.51])
-        by out02.mta.xmission.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        by out03.mta.xmission.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
         (Exim 4.93)
         (envelope-from <ebiederm@xmission.com>)
-        id 1kcHdM-00GYZ3-4Z; Mon, 09 Nov 2020 17:35:40 -0700
+        id 1kcHj5-002kUH-DJ; Mon, 09 Nov 2020 17:41:35 -0700
 Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
         by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.87)
         (envelope-from <ebiederm@xmission.com>)
-        id 1kcHdL-0003E3-0O; Mon, 09 Nov 2020 17:35:39 -0700
+        id 1kcHj3-0003kM-My; Mon, 09 Nov 2020 17:41:34 -0700
 From:   ebiederm@xmission.com (Eric W. Biederman)
 To:     Peter Collingbourne <pcc@google.com>
 Cc:     Catalin Marinas <catalin.marinas@arm.com>,
@@ -37,47 +37,47 @@ Cc:     Catalin Marinas <catalin.marinas@arm.com>,
         Helge Deller <deller@gmx.de>,
         David Spickett <david.spickett@linaro.org>
 References: <cover.1604523707.git.pcc@google.com>
-        <039adb228822eb1f0c90cbfc716fc28fa298c58e.1604523707.git.pcc@google.com>
-Date:   Mon, 09 Nov 2020 18:35:30 -0600
-In-Reply-To: <039adb228822eb1f0c90cbfc716fc28fa298c58e.1604523707.git.pcc@google.com>
-        (Peter Collingbourne's message of "Wed, 4 Nov 2020 13:18:08 -0800")
-Message-ID: <871rh22gml.fsf@x220.int.ebiederm.org>
+        <4d826a62121153d54d7e36fc8a402c97e2106764.1604523707.git.pcc@google.com>
+Date:   Mon, 09 Nov 2020 18:41:25 -0600
+In-Reply-To: <4d826a62121153d54d7e36fc8a402c97e2106764.1604523707.git.pcc@google.com>
+        (Peter Collingbourne's message of "Wed, 4 Nov 2020 13:18:07 -0800")
+Message-ID: <87lffa11sa.fsf@x220.int.ebiederm.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain
-X-XM-SPF: eid=1kcHdL-0003E3-0O;;;mid=<871rh22gml.fsf@x220.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX19IeiFdJHKcCdmfQl9JzeTgiPv7LeNnlxQ=
+X-XM-SPF: eid=1kcHj3-0003kM-My;;;mid=<87lffa11sa.fsf@x220.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX1+wMvcfKZWnmaNzIHKA2RgWQVEIlzcmCbg=
 X-SA-Exim-Connect-IP: 68.227.160.95
 X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa06.xmission.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa01.xmission.com
 X-Spam-Level: *
 X-Spam-Status: No, score=1.7 required=8.0 tests=ALL_TRUSTED,BAYES_50,
         DCC_CHECK_NEGATIVE,LotsOfNums_01,T_TM2_M_HEADER_IN_MSG,T_TooManySym_01,
-        T_TooManySym_02,XMSubLong autolearn=disabled version=3.4.2
+        XMSubLong autolearn=disabled version=3.4.2
+X-Spam-Virus: No
 X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
         *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4999]
+        *      [score: 0.5000]
         *  0.7 XMSubLong Long Subject
         *  1.2 LotsOfNums_01 BODY: Lots of long strings of numbers
         *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
         * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-        *      [sa06 1397; Body=1 Fuz1=1 Fuz2=1]
-        *  0.0 T_TooManySym_02 5+ unique symbols in subject
+        *      [sa01 1397; Body=1 Fuz1=1 Fuz2=1]
         *  0.0 T_TooManySym_01 4+ unique symbols in subject
-X-Spam-DCC: XMission; sa06 1397; Body=1 Fuz1=1 Fuz2=1 
+X-Spam-DCC: XMission; sa01 1397; Body=1 Fuz1=1 Fuz2=1 
 X-Spam-Combo: *;Peter Collingbourne <pcc@google.com>
 X-Spam-Relay-Country: 
-X-Spam-Timing: total 634 ms - load_scoreonly_sql: 0.07 (0.0%),
-        signal_user_changed: 11 (1.7%), b_tie_ro: 9 (1.5%), parse: 1.03 (0.2%),
-         extract_message_metadata: 20 (3.2%), get_uri_detail_list: 4.2 (0.7%),
-        tests_pri_-1000: 25 (3.9%), tests_pri_-950: 1.68 (0.3%),
-        tests_pri_-900: 1.21 (0.2%), tests_pri_-90: 129 (20.3%), check_bayes:
-        119 (18.7%), b_tokenize: 18 (2.8%), b_tok_get_all: 13 (2.0%),
-        b_comp_prob: 3.8 (0.6%), b_tok_touch_all: 80 (12.6%), b_finish: 1.21
-        (0.2%), tests_pri_0: 429 (67.7%), check_dkim_signature: 0.71 (0.1%),
-        check_dkim_adsp: 3.3 (0.5%), poll_dns_idle: 0.41 (0.1%), tests_pri_10:
-        2.0 (0.3%), tests_pri_500: 11 (1.7%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: [PATCH v14 5/8] signal: clear non-uapi flag bits when passing/returning sa_flags
+X-Spam-Timing: total 643 ms - load_scoreonly_sql: 0.03 (0.0%),
+        signal_user_changed: 4.0 (0.6%), b_tie_ro: 2.8 (0.4%), parse: 0.96
+        (0.1%), extract_message_metadata: 14 (2.1%), get_uri_detail_list: 3.9
+        (0.6%), tests_pri_-1000: 12 (1.9%), tests_pri_-950: 1.03 (0.2%),
+        tests_pri_-900: 0.82 (0.1%), tests_pri_-90: 66 (10.3%), check_bayes:
+        65 (10.1%), b_tokenize: 14 (2.2%), b_tok_get_all: 10 (1.6%),
+        b_comp_prob: 1.95 (0.3%), b_tok_touch_all: 36 (5.6%), b_finish: 0.62
+        (0.1%), tests_pri_0: 535 (83.2%), check_dkim_signature: 0.50 (0.1%),
+        check_dkim_adsp: 2.2 (0.3%), poll_dns_idle: 0.94 (0.1%), tests_pri_10:
+        1.69 (0.3%), tests_pri_500: 6 (0.9%), rewrite_mail: 0.00 (0.0%)
+Subject: Re: [PATCH v14 4/8] signal: deduplicate code dealing with common _sigfault fields
 X-Spam-Flag: No
 X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
 X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
@@ -87,148 +87,290 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 Peter Collingbourne <pcc@google.com> writes:
 
-2> Previously we were not clearing non-uapi flag bits in
-> sigaction.sa_flags when storing the userspace-provided sa_flags or
-> when returning them via oldact. Start doing so.
->
-> This allows userspace to detect missing support for flag bits and
-> allows the kernel to use non-uapi bits internally, as we are already
-> doing in arch/x86 for two flag bits. Now that this change is in
-> place, we no longer need the code in arch/x86 that was hiding these
-> bits from userspace, so remove it.
->
-> This is technically a userspace-visible behavior change for sigaction, as
-> the unknown bits returned via oldact.sa_flags are no longer set. However,
-> we are free to define the behavior for unknown bits exactly because
-> their behavior is currently undefined, so for now we can define the
-> meaning of each of them to be "clear the bit in oldact.sa_flags unless
-> the bit becomes known in the future". Furthermore, this behavior is
-> consistent with OpenBSD [1], illumos [2] and XNU [3] (FreeBSD [4] and
-> NetBSD [5] fail the syscall if unknown bits are set). So there is some
-> precedent for this behavior in other kernels, and in particular in XNU,
-> which is probably the most popular kernel among those that I looked at,
-> which means that this change is less likely to be a compatibility
-> issue.
+> We're about to add more common _sigfault fields, so deduplicate the
+> existing code for initializing _sigfault fields in {send,force}_sig_*,
+> and for copying _sigfault fields in copy_siginfo_to_external32 and
+> post_copy_siginfo_from_user32, to reduce the number of places that
+> will need to be updated by upcoming changes.
 
 Acked-by: "Eric W. Biederman" <ebiederm@xmission.com>
 
-Yes.  The x86_64 case and general good sense suggests that this patch
-will be harmless.
 
-I suspect we should at least try and take this one step farther
-(with an additional patch) that causes an error if any new flags
-are passed.  Or do we know of some userspace application that
-currently passes bogus flags?
+No real objection but I am wondering if it might be better to
+introduce two small inline functions for setting common fields
+instead of:
 
+> +	if (siginfo_layout_is_fault(layout)) {
+> +		to->si_addr = ptr_to_compat(from->si_addr);
+> +#ifdef __ARCH_SI_TRAPNO
+> +		to->si_trapno = from->si_trapno;
+> +#endif
+> +	}
 
+and 
 
-> Link: [1] https://github.com/openbsd/src/blob/f634a6a4b5bf832e9c1de77f7894ae2625e74484/sys/kern/kern_sig.c#L278
-> Link: [2] https://github.com/illumos/illumos-gate/blob/76f19f5fdc974fe5be5c82a556e43a4df93f1de1/usr/src/uts/common/syscall/sigaction.c#L86
-> Link: [3] https://github.com/apple/darwin-xnu/blob/a449c6a3b8014d9406c2ddbdc81795da24aa7443/bsd/kern/kern_sig.c#L480
-> Link: [4] https://github.com/freebsd/freebsd/blob/eded70c37057857c6e23fae51f86b8f8f43cd2d0/sys/kern/kern_sig.c#L699
-> Link: [5] https://github.com/NetBSD/src/blob/3365779becdcedfca206091a645a0e8e22b2946e/sys/kern/sys_sig.c#L473
+> +	if (siginfo_layout_is_fault(layout)) {
+> +		to->si_addr = compat_ptr(from->si_addr);
+> +#ifdef __ARCH_SI_TRAPNO
+> +		to->si_trapno = from->si_trapno;
+> +#endif
+> +	}
+
+perhaps called:
+copy_sigfault_common_to_external32
+post_copy_sigfault_common_from_user32
+
+I have not benchmarked or anything but my gut says one less conditional
+branch to worry about makes dealing with spectre easier and probably
+produces faster code as well.  Possibly even smaller code.
+
+Eric
+
 > Signed-off-by: Peter Collingbourne <pcc@google.com>
-> Reviewed-by: Dave Martin <Dave.Martin@arm.com>
-> Link: https://linux-review.googlesource.com/id/I35aab6f5be932505d90f3b3450c083b4db1eca86
+> Link: https://linux-review.googlesource.com/id/I4f56174e1b7b2bf4a3c8139e6879cbfd52750a24
 > ---
-> v10:
-> - rename SA_UAPI_FLAGS -> UAPI_SA_FLAGS
-> - refactor how we define it to avoid mentioning flags more
->   than once
+>  include/linux/signal.h |  13 ++++++
+>  kernel/signal.c        | 101 ++++++++++++++++-------------------------
+>  2 files changed, 53 insertions(+), 61 deletions(-)
 >
->  arch/arm/include/asm/signal.h    |  2 ++
->  arch/parisc/include/asm/signal.h |  2 ++
->  arch/x86/kernel/signal_compat.c  |  7 -------
->  include/linux/signal_types.h     | 12 ++++++++++++
->  kernel/signal.c                  | 10 ++++++++++
->  5 files changed, 26 insertions(+), 7 deletions(-)
->
-> diff --git a/arch/arm/include/asm/signal.h b/arch/arm/include/asm/signal.h
-> index 65530a042009..430be7774402 100644
-> --- a/arch/arm/include/asm/signal.h
-> +++ b/arch/arm/include/asm/signal.h
-> @@ -17,6 +17,8 @@ typedef struct {
->  	unsigned long sig[_NSIG_WORDS];
->  } sigset_t;
+> diff --git a/include/linux/signal.h b/include/linux/signal.h
+> index b256f9c65661..e9fb05041e7a 100644
+> --- a/include/linux/signal.h
+> +++ b/include/linux/signal.h
+> @@ -50,6 +50,19 @@ enum siginfo_layout {
 >  
-> +#define __ARCH_UAPI_SA_FLAGS	(SA_THIRTYTWO | SA_RESTORER)
+>  enum siginfo_layout siginfo_layout(unsigned sig, int si_code);
+>  
+> +static inline bool siginfo_layout_is_fault(enum siginfo_layout layout)
+> +{
+> +	switch (layout) {
+> +	case SIL_FAULT:
+> +	case SIL_FAULT_MCEERR:
+> +	case SIL_FAULT_BNDERR:
+> +	case SIL_FAULT_PKUERR:
+> +		return true;
+> +	default:
+> +		return false;
+> +	}
+> +}
 > +
->  #define __ARCH_HAS_SA_RESTORER
->  
->  #include <asm/sigcontext.h>
-> diff --git a/arch/parisc/include/asm/signal.h b/arch/parisc/include/asm/signal.h
-> index 715c96ba2ec8..30dd1e43ef88 100644
-> --- a/arch/parisc/include/asm/signal.h
-> +++ b/arch/parisc/include/asm/signal.h
-> @@ -21,6 +21,8 @@ typedef struct {
->  	unsigned long sig[_NSIG_WORDS];
->  } sigset_t;
->  
-> +#define __ARCH_UAPI_SA_FLAGS	_SA_SIGGFAULT
-> +
->  #include <asm/sigcontext.h>
->  
->  #endif /* !__ASSEMBLY */
-> diff --git a/arch/x86/kernel/signal_compat.c b/arch/x86/kernel/signal_compat.c
-> index a7f3e12cfbdb..ddfd919be46c 100644
-> --- a/arch/x86/kernel/signal_compat.c
-> +++ b/arch/x86/kernel/signal_compat.c
-> @@ -165,16 +165,9 @@ void sigaction_compat_abi(struct k_sigaction *act, struct k_sigaction *oact)
->  {
->  	signal_compat_build_tests();
->  
-> -	/* Don't leak in-kernel non-uapi flags to user-space */
-> -	if (oact)
-> -		oact->sa.sa_flags &= ~(SA_IA32_ABI | SA_X32_ABI);
-> -
->  	if (!act)
->  		return;
->  
-> -	/* Don't let flags to be set from userspace */
-> -	act->sa.sa_flags &= ~(SA_IA32_ABI | SA_X32_ABI);
-> -
->  	if (in_ia32_syscall())
->  		act->sa.sa_flags |= SA_IA32_ABI;
->  	if (in_x32_syscall())
-> diff --git a/include/linux/signal_types.h b/include/linux/signal_types.h
-> index f8a90ae9c6ec..a7887ad84d36 100644
-> --- a/include/linux/signal_types.h
-> +++ b/include/linux/signal_types.h
-> @@ -68,4 +68,16 @@ struct ksignal {
->  	int sig;
->  };
->  
-> +#ifndef __ARCH_UAPI_SA_FLAGS
-> +#ifdef SA_RESTORER
-> +#define __ARCH_UAPI_SA_FLAGS	SA_RESTORER
-> +#else
-> +#define __ARCH_UAPI_SA_FLAGS	0
-> +#endif
-> +#endif
-> +
-> +#define UAPI_SA_FLAGS                                                          \
-> +	(SA_NOCLDSTOP | SA_NOCLDWAIT | SA_SIGINFO | SA_ONSTACK | SA_RESTART |  \
-> +	 SA_NODEFER | SA_RESETHAND | __ARCH_UAPI_SA_FLAGS)
-> +
->  #endif /* _LINUX_SIGNAL_TYPES_H */
+>  /*
+>   * Define some primitives to manipulate sigset_t.
+>   */
 > diff --git a/kernel/signal.c b/kernel/signal.c
-> index 74e7315c24db..832b654dee8c 100644
+> index ef8f2a28d37c..74e7315c24db 100644
 > --- a/kernel/signal.c
 > +++ b/kernel/signal.c
-> @@ -3964,6 +3964,16 @@ int do_sigaction(int sig, struct k_sigaction *act, struct k_sigaction *oact)
->  	if (oact)
->  		*oact = *k;
+> @@ -1650,6 +1650,15 @@ void force_sigsegv(int sig)
+>  	force_sig(SIGSEGV);
+>  }
 >  
-> +	/*
-> +	 * Clear unknown flag bits in order to allow userspace to detect missing
-> +	 * support for flag bits and to allow the kernel to use non-uapi bits
-> +	 * internally.
-> +	 */
-> +	if (act)
-> +		act->sa.sa_flags &= UAPI_SA_FLAGS;
-> +	if (oact)
-> +		oact->sa.sa_flags &= UAPI_SA_FLAGS;
+> +static void set_sigfault_common_fields(struct kernel_siginfo *info, int sig,
+> +				       int code, void __user *addr)
+> +{
+> +	info->si_signo = sig;
+> +	info->si_errno = 0;
+> +	info->si_code = code;
+> +	info->si_addr = addr;
+> +}
 > +
->  	sigaction_compat_abi(act, oact);
+>  int force_sig_fault_to_task(int sig, int code, void __user *addr
+>  	___ARCH_SI_TRAPNO(int trapno)
+>  	___ARCH_SI_IA64(int imm, unsigned int flags, unsigned long isr)
+> @@ -1658,10 +1667,7 @@ int force_sig_fault_to_task(int sig, int code, void __user *addr
+>  	struct kernel_siginfo info;
 >  
->  	if (act) {
+>  	clear_siginfo(&info);
+> -	info.si_signo = sig;
+> -	info.si_errno = 0;
+> -	info.si_code  = code;
+> -	info.si_addr  = addr;
+> +	set_sigfault_common_fields(&info, sig, code, addr);
+>  #ifdef __ARCH_SI_TRAPNO
+>  	info.si_trapno = trapno;
+>  #endif
+> @@ -1690,10 +1696,7 @@ int send_sig_fault(int sig, int code, void __user *addr
+>  	struct kernel_siginfo info;
+>  
+>  	clear_siginfo(&info);
+> -	info.si_signo = sig;
+> -	info.si_errno = 0;
+> -	info.si_code  = code;
+> -	info.si_addr  = addr;
+> +	set_sigfault_common_fields(&info, sig, code, addr);
+>  #ifdef __ARCH_SI_TRAPNO
+>  	info.si_trapno = trapno;
+>  #endif
+> @@ -1711,10 +1714,7 @@ int force_sig_mceerr(int code, void __user *addr, short lsb)
+>  
+>  	WARN_ON((code != BUS_MCEERR_AO) && (code != BUS_MCEERR_AR));
+>  	clear_siginfo(&info);
+> -	info.si_signo = SIGBUS;
+> -	info.si_errno = 0;
+> -	info.si_code = code;
+> -	info.si_addr = addr;
+> +	set_sigfault_common_fields(&info, SIGBUS, code, addr);
+>  	info.si_addr_lsb = lsb;
+>  	return force_sig_info(&info);
+>  }
+> @@ -1725,10 +1725,7 @@ int send_sig_mceerr(int code, void __user *addr, short lsb, struct task_struct *
+>  
+>  	WARN_ON((code != BUS_MCEERR_AO) && (code != BUS_MCEERR_AR));
+>  	clear_siginfo(&info);
+> -	info.si_signo = SIGBUS;
+> -	info.si_errno = 0;
+> -	info.si_code = code;
+> -	info.si_addr = addr;
+> +	set_sigfault_common_fields(&info, SIGBUS, code, addr);
+>  	info.si_addr_lsb = lsb;
+>  	return send_sig_info(info.si_signo, &info, t);
+>  }
+> @@ -1739,10 +1736,7 @@ int force_sig_bnderr(void __user *addr, void __user *lower, void __user *upper)
+>  	struct kernel_siginfo info;
+>  
+>  	clear_siginfo(&info);
+> -	info.si_signo = SIGSEGV;
+> -	info.si_errno = 0;
+> -	info.si_code  = SEGV_BNDERR;
+> -	info.si_addr  = addr;
+> +	set_sigfault_common_fields(&info, SIGSEGV, SEGV_BNDERR, addr);
+>  	info.si_lower = lower;
+>  	info.si_upper = upper;
+>  	return force_sig_info(&info);
+> @@ -1754,10 +1748,7 @@ int force_sig_pkuerr(void __user *addr, u32 pkey)
+>  	struct kernel_siginfo info;
+>  
+>  	clear_siginfo(&info);
+> -	info.si_signo = SIGSEGV;
+> -	info.si_errno = 0;
+> -	info.si_code  = SEGV_PKUERR;
+> -	info.si_addr  = addr;
+> +	set_sigfault_common_fields(&info, SIGSEGV, SEGV_PKUERR, addr);
+>  	info.si_pkey  = pkey;
+>  	return force_sig_info(&info);
+>  }
+> @@ -1771,10 +1762,8 @@ int force_sig_ptrace_errno_trap(int errno, void __user *addr)
+>  	struct kernel_siginfo info;
+>  
+>  	clear_siginfo(&info);
+> -	info.si_signo = SIGTRAP;
+> +	set_sigfault_common_fields(&info, SIGTRAP, TRAP_HWBKPT, addr);
+>  	info.si_errno = errno;
+> -	info.si_code  = TRAP_HWBKPT;
+> -	info.si_addr  = addr;
+>  	return force_sig_info(&info);
+>  }
+>  
+> @@ -3267,12 +3256,23 @@ int copy_siginfo_from_user(kernel_siginfo_t *to, const siginfo_t __user *from)
+>  void copy_siginfo_to_external32(struct compat_siginfo *to,
+>  		const struct kernel_siginfo *from)
+>  {
+> +	enum siginfo_layout layout =
+> +		siginfo_layout(from->si_signo, from->si_code);
+> +
+>  	memset(to, 0, sizeof(*to));
+>  
+>  	to->si_signo = from->si_signo;
+>  	to->si_errno = from->si_errno;
+>  	to->si_code  = from->si_code;
+> -	switch(siginfo_layout(from->si_signo, from->si_code)) {
+> +
+> +	if (siginfo_layout_is_fault(layout)) {
+> +		to->si_addr = ptr_to_compat(from->si_addr);
+> +#ifdef __ARCH_SI_TRAPNO
+> +		to->si_trapno = from->si_trapno;
+> +#endif
+> +	}
+> +
+> +	switch (layout) {
+>  	case SIL_KILL:
+>  		to->si_pid = from->si_pid;
+>  		to->si_uid = from->si_uid;
+> @@ -3287,31 +3287,15 @@ void copy_siginfo_to_external32(struct compat_siginfo *to,
+>  		to->si_fd   = from->si_fd;
+>  		break;
+>  	case SIL_FAULT:
+> -		to->si_addr = ptr_to_compat(from->si_addr);
+> -#ifdef __ARCH_SI_TRAPNO
+> -		to->si_trapno = from->si_trapno;
+> -#endif
+>  		break;
+>  	case SIL_FAULT_MCEERR:
+> -		to->si_addr = ptr_to_compat(from->si_addr);
+> -#ifdef __ARCH_SI_TRAPNO
+> -		to->si_trapno = from->si_trapno;
+> -#endif
+>  		to->si_addr_lsb = from->si_addr_lsb;
+>  		break;
+>  	case SIL_FAULT_BNDERR:
+> -		to->si_addr = ptr_to_compat(from->si_addr);
+> -#ifdef __ARCH_SI_TRAPNO
+> -		to->si_trapno = from->si_trapno;
+> -#endif
+>  		to->si_lower = ptr_to_compat(from->si_lower);
+>  		to->si_upper = ptr_to_compat(from->si_upper);
+>  		break;
+>  	case SIL_FAULT_PKUERR:
+> -		to->si_addr = ptr_to_compat(from->si_addr);
+> -#ifdef __ARCH_SI_TRAPNO
+> -		to->si_trapno = from->si_trapno;
+> -#endif
+>  		to->si_pkey = from->si_pkey;
+>  		break;
+>  	case SIL_CHLD:
+> @@ -3348,11 +3332,22 @@ int __copy_siginfo_to_user32(struct compat_siginfo __user *to,
+>  static int post_copy_siginfo_from_user32(kernel_siginfo_t *to,
+>  					 const struct compat_siginfo *from)
+>  {
+> +	enum siginfo_layout layout =
+> +		siginfo_layout(from->si_signo, from->si_code);
+> +
+>  	clear_siginfo(to);
+>  	to->si_signo = from->si_signo;
+>  	to->si_errno = from->si_errno;
+>  	to->si_code  = from->si_code;
+> -	switch(siginfo_layout(from->si_signo, from->si_code)) {
+> +
+> +	if (siginfo_layout_is_fault(layout)) {
+> +		to->si_addr = compat_ptr(from->si_addr);
+> +#ifdef __ARCH_SI_TRAPNO
+> +		to->si_trapno = from->si_trapno;
+> +#endif
+> +	}
+> +
+> +	switch (layout) {
+>  	case SIL_KILL:
+>  		to->si_pid = from->si_pid;
+>  		to->si_uid = from->si_uid;
+> @@ -3367,31 +3362,15 @@ static int post_copy_siginfo_from_user32(kernel_siginfo_t *to,
+>  		to->si_fd   = from->si_fd;
+>  		break;
+>  	case SIL_FAULT:
+> -		to->si_addr = compat_ptr(from->si_addr);
+> -#ifdef __ARCH_SI_TRAPNO
+> -		to->si_trapno = from->si_trapno;
+> -#endif
+>  		break;
+>  	case SIL_FAULT_MCEERR:
+> -		to->si_addr = compat_ptr(from->si_addr);
+> -#ifdef __ARCH_SI_TRAPNO
+> -		to->si_trapno = from->si_trapno;
+> -#endif
+>  		to->si_addr_lsb = from->si_addr_lsb;
+>  		break;
+>  	case SIL_FAULT_BNDERR:
+> -		to->si_addr = compat_ptr(from->si_addr);
+> -#ifdef __ARCH_SI_TRAPNO
+> -		to->si_trapno = from->si_trapno;
+> -#endif
+>  		to->si_lower = compat_ptr(from->si_lower);
+>  		to->si_upper = compat_ptr(from->si_upper);
+>  		break;
+>  	case SIL_FAULT_PKUERR:
+> -		to->si_addr = compat_ptr(from->si_addr);
+> -#ifdef __ARCH_SI_TRAPNO
+> -		to->si_trapno = from->si_trapno;
+> -#endif
+>  		to->si_pkey = from->si_pkey;
+>  		break;
+>  	case SIL_CHLD:
