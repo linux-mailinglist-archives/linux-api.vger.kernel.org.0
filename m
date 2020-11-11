@@ -2,25 +2,28 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 15EFD2AF783
-	for <lists+linux-api@lfdr.de>; Wed, 11 Nov 2020 18:46:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E98E2AF99E
+	for <lists+linux-api@lfdr.de>; Wed, 11 Nov 2020 21:15:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726792AbgKKRqL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 11 Nov 2020 12:46:11 -0500
-Received: from foss.arm.com ([217.140.110.172]:58982 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726662AbgKKRqL (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 11 Nov 2020 12:46:11 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 881DE1396;
-        Wed, 11 Nov 2020 09:46:10 -0800 (PST)
-Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8C7923F6CF;
-        Wed, 11 Nov 2020 09:46:08 -0800 (PST)
-Date:   Wed, 11 Nov 2020 17:46:04 +0000
-From:   Dave Martin <Dave.Martin@arm.com>
-To:     Peter Collingbourne <pcc@google.com>
-Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
+        id S1726359AbgKKUPe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 11 Nov 2020 15:15:34 -0500
+Received: from out03.mta.xmission.com ([166.70.13.233]:40584 "EHLO
+        out03.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726203AbgKKUPe (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 11 Nov 2020 15:15:34 -0500
+Received: from in01.mta.xmission.com ([166.70.13.51])
+        by out03.mta.xmission.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1kcwWe-006g7P-Aw; Wed, 11 Nov 2020 13:15:28 -0700
+Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
+        by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.87)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1kcwWc-0000EG-Pi; Wed, 11 Nov 2020 13:15:28 -0700
+From:   ebiederm@xmission.com (Eric W. Biederman)
+To:     Dave Martin <Dave.Martin@arm.com>
+Cc:     Peter Collingbourne <pcc@google.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Evgenii Stepanov <eugenis@google.com>,
         Kostya Serebryany <kcc@google.com>,
@@ -30,234 +33,158 @@ Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
         Kevin Brodsky <kevin.brodsky@arm.com>,
         Andrey Konovalov <andreyknvl@google.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Linux API <linux-api@vger.kernel.org>,
+        Richard Henderson <rth@twiddle.net>, linux-api@vger.kernel.org,
         Helge Deller <deller@gmx.de>,
         David Spickett <david.spickett@linaro.org>
-Subject: Re: [PATCH v14 8/8] arm64: expose FAR_EL1 tag bits in siginfo
-Message-ID: <20201111174604.GQ6882@arm.com>
 References: <cover.1604523707.git.pcc@google.com>
- <0ce3d90b5d6a4457b2fe3b0582f61fab70b17dfc.1604523707.git.pcc@google.com>
- <87eel2ypy3.fsf@x220.int.ebiederm.org>
- <CAMn1gO6HYcLayiO3REvpr2o3FL3CT-7CTQajOjNMcYWn5MO=fw@mail.gmail.com>
- <87blg5tfdt.fsf@x220.int.ebiederm.org>
- <CAMn1gO5mddTr2afkK7EOyfN7+S=AC-ah15nn9mqhJehD-GpWFQ@mail.gmail.com>
+        <0eb601a5d1906fadd7099149eb605181911cfc04.1604523707.git.pcc@google.com>
+        <87zh3qug6q.fsf@x220.int.ebiederm.org> <20201111172703.GP6882@arm.com>
+Date:   Wed, 11 Nov 2020 14:15:15 -0600
+In-Reply-To: <20201111172703.GP6882@arm.com> (Dave Martin's message of "Wed,
+        11 Nov 2020 17:27:04 +0000")
+Message-ID: <87imabr6p8.fsf@x220.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMn1gO5mddTr2afkK7EOyfN7+S=AC-ah15nn9mqhJehD-GpWFQ@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Type: text/plain
+X-XM-SPF: eid=1kcwWc-0000EG-Pi;;;mid=<87imabr6p8.fsf@x220.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX1/7N/eWBv/4p/S3APPKai60j3a29t5pU/E=
+X-SA-Exim-Connect-IP: 68.227.160.95
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa06.xmission.com
+X-Spam-Level: **
+X-Spam-Status: No, score=2.0 required=8.0 tests=ALL_TRUSTED,BAYES_50,
+        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,T_TooManySym_01,
+        T_TooManySym_02,T_XMDrugObfuBody_08,XMSubLong,XM_B_Unsub
+        autolearn=disabled version=3.4.2
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4999]
+        *  0.7 XMSubLong Long Subject
+        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
+        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
+        *      [sa06 1397; Body=1 Fuz1=1 Fuz2=1]
+        *  1.0 T_XMDrugObfuBody_08 obfuscated drug references
+        *  0.0 T_TooManySym_02 5+ unique symbols in subject
+        *  0.5 XM_B_Unsub Unsubscribe in body of email but missing unsubscribe
+        *       header
+        *  0.0 T_TooManySym_01 4+ unique symbols in subject
+X-Spam-DCC: XMission; sa06 1397; Body=1 Fuz1=1 Fuz2=1 
+X-Spam-Combo: **;Dave Martin <Dave.Martin@arm.com>
+X-Spam-Relay-Country: 
+X-Spam-Timing: total 1058 ms - load_scoreonly_sql: 0.04 (0.0%),
+        signal_user_changed: 11 (1.0%), b_tie_ro: 9 (0.9%), parse: 1.14 (0.1%),
+         extract_message_metadata: 15 (1.4%), get_uri_detail_list: 3.3 (0.3%),
+        tests_pri_-1000: 4.2 (0.4%), tests_pri_-950: 1.30 (0.1%),
+        tests_pri_-900: 1.02 (0.1%), tests_pri_-90: 223 (21.1%), check_bayes:
+        217 (20.6%), b_tokenize: 11 (1.0%), b_tok_get_all: 10 (1.0%),
+        b_comp_prob: 3.4 (0.3%), b_tok_touch_all: 188 (17.8%), b_finish: 0.94
+        (0.1%), tests_pri_0: 410 (38.8%), check_dkim_signature: 0.59 (0.1%),
+        check_dkim_adsp: 3.1 (0.3%), poll_dns_idle: 368 (34.8%), tests_pri_10:
+        2.7 (0.3%), tests_pri_500: 385 (36.4%), rewrite_mail: 0.00 (0.0%)
+Subject: Re: [PATCH v14 7/8] signal: define the field siginfo.si_faultflags
+X-Spam-Flag: No
+X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
+X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Nov 10, 2020 at 02:06:21PM -0800, Peter Collingbourne wrote:
-> On Tue, Nov 10, 2020 at 7:12 AM Eric W. Biederman <ebiederm@xmission.com> wrote:
-> >
-> > Peter Collingbourne <pcc@google.com> writes:
-> >
-> > > On Mon, Nov 9, 2020 at 5:13 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
-> > >>
-> > >> Peter Collingbourne <pcc@google.com> writes:
-> > >>
-> > >> > The kernel currently clears the tag bits (i.e. bits 56-63) in the fault
-> > >> > address exposed via siginfo.si_addr and sigcontext.fault_address. However,
-> > >> > the tag bits may be needed by tools in order to accurately diagnose
-> > >> > memory errors, such as HWASan [1] or future tools based on the Memory
-> > >> > Tagging Extension (MTE).
-> > >> >
-> > >> > We should not stop clearing these bits in the existing fault address
-> > >> > fields, because there may be existing userspace applications that are
-> > >> > expecting the tag bits to be cleared. Instead, create a new pair of
-> > >> > fields in siginfo._sigfault, and store the tag bits of FAR_EL1 there,
-> > >> > together with a mask specifying which bits are valid.
-> > >> >
-> > >> > A flag is added to si_faultflags to allow userspace to determine whether
-> > >> > the values in the fields are valid.
-> > >>
-> > >> I think I am missing some things:
-> > >>
-> > >> Today it is documented that the tag bits are cleared, and so we can't
-> > >> use the highbits to hold the tag bits by default.
-> > >>
-> > >> Why do you need to deliver which tag bits are valid?  That feels like an
-> > >> implementation detail that is needed to setup the tag bits.  It feels
-> > >> like it would be constant per process.  So I don't understand why the
-> > >> siginfo needs to report information the process should already have.
-> > >
-> > > It isn't constant as it may vary depending on the specific type of
-> > > fault being delivered. For example on arm64 the architecture only
-> > > provides us with bits 56-59 of the tag for tag check faults, while all
-> > > other data aborts also provide bits 60-63. Now although the user
-> > > program may distinguish the two cases by checking the si_code, we
-> > > would also like to allow future architecture extensions to provide
-> > > bits 60-63 for tag check faults as well and allow distinguishing
-> > > between "bits 60-63 were zero" and "bits 60-63 were unknown" (which is
-> > > important when providing error reports).
-> >
-> > Does that mean that bits 60-63 are effectively unusable as tag bits
-> > if the tag check fault won't report them?
-> 
-> The hardware doesn't support tag checking on bits 60-63, only on bits
-> 56-59, so in terms of hardware enforced memory tag checking they can't
-> be used as tag bits. But they are still subject to address tagging aka
-> top-byte-ignore so they could be used by userspace for other purposes
-> (e.g. if the allocator adds entropy to all 8 bits instead of just bits
-> 56-59 they could in theory be used to allow better diagnostics with
-> more precise matching of an invalid access to a previous allocation).
-> 
-> > If you can use bits 60-63 as tag bits how does that work if they aren't
-> > reported?
-> 
-> It still works but we're limited in how many allocations we can match
-> accesses to (16 vs 256).
+Dave Martin <Dave.Martin@arm.com> writes:
 
-Not matching/reporting all the bits still has some value: if all 8 bits
-are random per allocation, then it is statistically likely that the
-hardware will detect mismatches.  Once you know there's a bug, you can
-turn on software instrumentation to debug the issue further, which may
-check the rest of the bits without relying on the signal mechansism,
-though at a higher runtime cost.
+> On Mon, Nov 09, 2020 at 07:57:33PM -0600, Eric W. Biederman wrote:
+>> Peter Collingbourne <pcc@google.com> writes:
+>> 
+>> > This field will contain flags that may be used by signal handlers to
+>> > determine whether other fields in the _sigfault portion of siginfo are
+>> > valid. An example use case is the following patch, which introduces
+>> > the si_addr_tag_bits{,_mask} fields.
+>> >
+>> > A new sigcontext flag, SA_FAULTFLAGS, is introduced in order to allow
+>> > a signal handler to require the kernel to set the field (but note
+>> > that the field will be set anyway if the kernel supports the flag,
+>> > regardless of its value). In combination with the previous patches,
+>> > this allows a userspace program to determine whether the kernel will
+>> > set the field.
+>> >
+>> > It is possible for an si_faultflags-unaware program to cause a signal
+>> > handler in an si_faultflags-aware program to be called with a provided
+>> > siginfo data structure by using one of the following syscalls:
+>> >
+>> > - ptrace(PTRACE_SETSIGINFO)
+>> > - pidfd_send_signal
+>> > - rt_sigqueueinfo
+>> > - rt_tgsigqueueinfo
+>> >
+>> > So we need to prevent the si_faultflags-unaware program from causing an
+>> > uninitialized read of si_faultflags in the si_faultflags-aware program when
+>> > it uses one of these syscalls.
+>> >
+>> > The last three cases can be handled by observing that each of these
+>> > syscalls fails if si_code >= 0. We also observe that kill(2) and
+>> > tgkill(2) may be used to send a signal where si_code == 0 (SI_USER),
+>> > so we define si_faultflags to only be valid if si_code > 0.
+>> >
+>> > There is no such check on si_code in ptrace(PTRACE_SETSIGINFO), so
+>> > we make ptrace(PTRACE_SETSIGINFO) clear the si_faultflags field if it
+>> > detects that the signal would use the _sigfault layout, and introduce
+>> > a new ptrace request type, PTRACE_SETSIGINFO2, that a si_faultflags-aware
+>> > program may use to opt out of this behavior.
+>> 
+>> So I think while well intentioned this is misguided.
+>> 
+>> gdb and the like may use this but I expect the primary user is CRIU
+>> which simply reads the signal out of one process saves it on disk
+>> and then restores the signal as read into the new process (possibly
+>> on a different machine).
+>> 
+>> At least for the CRIU usage PTRACE_SETSIGINFO need to remain a raw
+>> pass through kind of operation.
+>
+> This is a problem, though.
+>
+> How can we tell the difference between a siginfo that was generated by
+> the kernel and a siginfo that was generated (or altered) by a non-xflags
+> aware userspace?
+>
+> Short of revving the whole API, I don't see a simple solution to this.
 
-(I'm not saying software will definitely do things this way, but it
-seems a reasonable use case.)
+Unlike receiving a signal.  We do know that userspace old and new
+always sends unused fields as zero into PTRACE_SETSIGINFO.
 
+The split into kernel_siginfo verifies this and fails userspace if it
+does something different.  No problems have been reported.
 
-> > > I suppose that you could imagine that, if the "bits 60-63 available"
-> > > extension ever comes to pass, it could be exposed via a bit in
-> > > getauxval(AT_HWCAP2) (or maybe something like AT_HWCAP3 depending on
-> > > how long it takes to arrive) and that would provide a way for
-> > > userspace to know which bits are valid. But it seems like allowing
-> > > this to vary per signal is relatively cheap, allows the information to
-> > > be made available trivially architecture independently and keeps our
-> > > options open for the future (because we don't know if some future
-> > > architecture will actually make this a per-signal attribute).
-> > >
-> > > That being said, maybe we could solve this problem at the point at
-> > > which we do encounter such an architecture though.
-> >
-> > My goal would be to extend things to the minimum extent necessary to
-> > handle today's reality well.  Usually architectures evolve in
-> > unanticipated directions so simple and straight forward usually wins for
-> > handling future evolution.  As there is simply less old baggage to carry
-> > around.
-> >
-> > However I don't understand if reporting the valid bits on a signal by
-> > signal basis has a real advantage today or not.  If it helps today we
-> > will find room for the field.
-> 
-> Okay, that makes sense. With the architecture as specified today I
-> don't think we would need it, since you can write a function that
-> operates on the siginfo and tells you what the si_addr_tag_bits_mask
-> would be without it.
-> 
-> > >> Want prevents adding a sigaction sa_flag SA_EXPOSE_TABITS that when set
-> > >> causes the high bits to be set, and when clear (the default) will have
-> > >> the signal delivery code clear those bits.
-> > >>
-> > >> That should be enough for code that wants the tag bits to ask for them.
-> > >> As userspace would need to be updated to get the new bits
-> > >>
-> > >> Even if you have chained handlers.  The chaining mechanism would need to
-> > >> be updated and it could call the aware handlers first then clear the tag
-> > >> bits and call the rest of the handlers.
-> > >>
-> > >> It feels like always passing the tag bits in the address and then
-> > >> clearing them in the copy to userspace if the signal handler is
-> > >> not ready for them would be easier to maintain.
-> > >
-> > > I think that approach might work. Although it may make life harder for
-> > > callers of ptrace(PTRACE_SETSIGINFO) since they may need to know the
-> > > value of the bit in order to prepare a correct siginfo structure, if
-> > > we can reasonably expect them to always be delivering an exact copy of
-> > > a signal that was received before then maybe that is okay.
-> >
-> > I think we can reasonably expect callers of PTRACE_SETSIGINFO to be able
-> > to either deal the full reality of what is going on, or to only generate
-> > signals that they fully understand.
-> >
-> > Other than the use by CRIU it is a debugging facility and it is not
-> > expected for ordinary usage.  The non-CRIU use case would really seem to
-> > be what happens if I inject arbitrary signal X into process Y.  For that
-> > you need the ability to inject an arbitrary signal.
-> >
-> > My real sense with PTRACE_SETSIGINFO is that if we wind up with a
-> > regression we can deal with it then.
-> 
-> Okay, that works for me.
-> 
-> > > Assuming that this is an alternative to introducing
-> > > si_addr_tag_bits_mask, the userspace code would need to use the flag
-> > > bit support detection protocol for SA_EXPOSE_TAGBITS in order to be
-> > > able to distinguish between "no bits valid" and "some bits valid", and
-> > > then use an architecture-specific mechanism to determine exactly which
-> > > bits are valid. Is that okay for a generic feature?
-> >
-> > Unless I am mistaken setting the bits is already architecture specific
-> > so having some architecture specific code in there should not be a big
-> > problem.
-> >
-> > But I really don't understand the arm case well enough to know if we can
-> > get away without si_addr_tag_bits_mask, and in turn without the flags
-> > field that indicates the si_addr_tag_bits_mask is present.
-> >
-> > So I am asking questions so I can understand just what we get from
-> > si_addr_tag_bits_mask.
-> 
-> If we allow the derivation of the mask to be architecture-specific
-> (which I'd be comfortable with) then I don't think we need it. What we
-> would end up with is:
+So in the case of xflags a non-xflags aware userspace would either pass
+the siginfo from through from somewhere else (such as
+PTRACE_GETSIGINFO), or it would simply generate a signal with all of
+the xflags bits clear.  So everything should work regardless.
 
-Note, the architecture-specificness can always be hidden under
-sysconf(3) or similar, so it's probably not a huge deal if there's no
-generic way of reporting that at the kernel level.
+> Although a bit of a hack, could we include some kind of checksum in the
+> siginfo?  If the checksum matches during PTRACE_SETSIGINFO, we could
+> accept the whole thing; xflags included.  Otherwise, we could silently
+> drop non-self-describing extensions.
+>
+> If we only need to generate the checksum when PTRACE_GETSIGINFO is
+> called then it might be feasible to use a strong hash; otherwise, this
+> mechanism will be far from bulletproof.
+>
+> A hash has the advantage that we don't need any other information
+> to validate it beyond a salt: if the hash matches, it's self-
+> validating.  We could also package other data with it to describe the
+> presence of extensions, but relying on this for regular sigaction()/
+> signal delivery use feels too high-overhead.
+>
+> For debuggers, I suspect that PTRACE_SETSIGINFO2 is still useful:
+> userspace callers that want to write an extension field that they
+> knowingly generated themselves should have a way to express that.
+>
+> Thoughts?
 
+I think there are two cases:
+1) CRIU  -- It is just a passthrough of PTRACE_GETSIGINFO
+2) Creating a signal from nowhere -- Code that does not know about
+   xflags would leave xflags at 0 so no problem.
 
-> - The tag bits mask is constant and architecturally defined (in
-> arm64's case it would be 0xff << 56).
-> - The valid tag bits mask specifies which bits of the tag bits mask in
-> the fault address are propagated to si_addr. It is defined in an
-> architecture-specific way based on the signal handler's
-> SA_EXPOSE_TAGBITS bit, the contents of siginfo and possibly global
-> information such as getauxval(AT_HWCAP*).
->   - on arm64 this would currently be defined as:
->     - if SA_EXPOSE_TAGBITS is not set then the mask is 0xff << 56 for
-> SIGTRAP/TRAP_BRKPT, 0 otherwise
->     - if SA_EXPOSE_TAGBITS is set then the mask is 0xf << 56 for
-> SIGSEGV/SEGV_MTESERR, 0xff << 56 otherwise
+Does anyone see any other cases I am missing?
 
-This feels very obscure, but since the use cases are equally obscure
-this may not be a big problem.  I do sympathise with Eric's view that it
-may be best not to over-abstract this.
-
-An sa_flags based mechanism still won't play nice with interposition
-frameworks where library registers a proxy handler and chains the user's
-handler from it -- the xflags approach is potentially better there.  But
-it would only be one more in a long list of existing issues.  People will
-only be using SA_EXPOSE_TAGBITS if they explicitly need it (i.e.,
-rarely).
-
-> - If SA_EXPOSE_TAGBITS is set then the bits in the tag bits mask that
-> are not also in the valid tag bits mask have an undefined value (this
-> would e.g. allow future expansion of arm64 to expose bits 60-63 on tag
-> check faults).
-> - If the kernel does not support SA_EXPOSE_TAGBITS (as determined
-> using the flag bit support detection protocol) then the behavior is as
-> if SA_EXPOSE_TAGBITS is not set.
-> 
-> So I think I'd be fine with dropping it but let me experiment with the
-> new approach so that I can confirm that it's practical on Android and
-> I'll get back to you.
-
-
-Is the xflags mechanism still required if we follow this model?
-
-If not, that would be a significant simplification.
-
-(@Eric: for context, the xflags mechanism arose before we had worked out
-to make detection of support for new sa_flags work reliably...  If we
-have accidentally made xflags obsolete in the process, I won't
-complain!)
-
-Cheers
----Dave
+Eric
