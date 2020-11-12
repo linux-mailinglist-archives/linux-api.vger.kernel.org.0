@@ -2,201 +2,203 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 47EDA2B0EA7
-	for <lists+linux-api@lfdr.de>; Thu, 12 Nov 2020 21:01:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B28E2B0EE4
+	for <lists+linux-api@lfdr.de>; Thu, 12 Nov 2020 21:15:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726925AbgKLUBe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 12 Nov 2020 15:01:34 -0500
-Received: from out02.mta.xmission.com ([166.70.13.232]:45134 "EHLO
-        out02.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726820AbgKLUBe (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 12 Nov 2020 15:01:34 -0500
-Received: from in02.mta.xmission.com ([166.70.13.52])
-        by out02.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1kdImb-005IBG-TX; Thu, 12 Nov 2020 13:01:25 -0700
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
-        by in02.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1kdIma-000utT-PB; Thu, 12 Nov 2020 13:01:25 -0700
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     Dave Martin <Dave.Martin@arm.com>
-Cc:     Peter Collingbourne <pcc@google.com>,
+        id S1726853AbgKLUP0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 12 Nov 2020 15:15:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44742 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726943AbgKLUP0 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 12 Nov 2020 15:15:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1605212124;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=vHPfrB8xVjlPFSCqejvi+QTUrEERRY3Dc+wUeNVcoBQ=;
+        b=aY3TwjhGpHh9cT2uDNtLuF3ULOqHrRCkeRyE38RQeQeiI1q8xUXyybWGwbjpyZcc0zVHYl
+        G+NY3oa08LJO41Ov2G73RO2LSUFSoO3UNymOhpv8H0elwSLmGrxwrYF+SLvGje8T2Isg4w
+        4tQ8iLxYVaVuKq9VSd9pPGJdQU0A1uk=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-131-ZhauygSnP8eDCSxZoYE62g-1; Thu, 12 Nov 2020 15:15:22 -0500
+X-MC-Unique: ZhauygSnP8eDCSxZoYE62g-1
+Received: by mail-wr1-f71.google.com with SMTP id w17so2449092wrp.11
+        for <linux-api@vger.kernel.org>; Thu, 12 Nov 2020 12:15:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:content-transfer-encoding:from:mime-version
+         :subject:date:message-id:references:cc:in-reply-to:to;
+        bh=vHPfrB8xVjlPFSCqejvi+QTUrEERRY3Dc+wUeNVcoBQ=;
+        b=KbazmWQ+WhKiuMw0Mi4aYAtDtTxbR8rIjkLM0LQiF2BiSCdhy5JgLzL1PrYlXxonH4
+         0sGG5XFdJyD0xnp55NfkM4Vq65pq1+6nPWYGc+i0gWwySYa0gkVCEtgoTYuH/X5Csx9r
+         8Qcb61a13mgQuhLvtf67WcsKyAVSYqbviSXQB5oPlEk3SciogCAPe3flTtH9DmXGHdeS
+         KZt/8/3TJIIYHEciC0v63rY4pyL5USK6ocxLXjgvxn3aFL5dBNLaA1IVTIM7A6C798yZ
+         hhz/yKfEW7bNBawE8Z9DjF4Es0IvmpStDw9puZXKqcL0Cd7NhDy+i+E0hXFegImXcstj
+         KZCw==
+X-Gm-Message-State: AOAM533lZ0NwS+GZoGYep5RsDa18xcvRKS9rfry18+X/mgnCKiMjTHSP
+        h6I/WPSEDW71w7ag0hZQ1ClnDbKI0n49MKsyKw00rFfTk9HFs//NdHVpJcxqr5A1E/zgIzbrblT
+        UNjDkGE8yhZpFgRnish+6
+X-Received: by 2002:adf:e350:: with SMTP id n16mr1455269wrj.419.1605212120811;
+        Thu, 12 Nov 2020 12:15:20 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxji2+rXiblNfD29iXHuiDwrhuPVpa0KNLoEK9tHEW4ondrhf0pVB9gNYs6gWjo3tNv0xhLcA==
+X-Received: by 2002:adf:e350:: with SMTP id n16mr1455211wrj.419.1605212120462;
+        Thu, 12 Nov 2020 12:15:20 -0800 (PST)
+Received: from [192.168.3.114] (p5b0c631d.dip0.t-ipconnect.de. [91.12.99.29])
+        by smtp.gmail.com with ESMTPSA id 35sm8578483wro.71.2020.11.12.12.15.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Nov 2020 12:15:19 -0800 (PST)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From:   David Hildenbrand <david@redhat.com>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH v8 2/9] mmap: make mlock_future_check() global
+Date:   Thu, 12 Nov 2020 21:15:18 +0100
+Message-Id: <7A16CA44-782D-4ABA-8D93-76BDD0A90F94@redhat.com>
+References: <20201112190827.GP4758@kernel.org>
+Cc:     David Hildenbrand <david@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
         Catalin Marinas <catalin.marinas@arm.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Will Deacon <will@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Richard Henderson <rth@twiddle.net>, linux-api@vger.kernel.org,
-        Helge Deller <deller@gmx.de>,
-        David Spickett <david.spickett@linaro.org>
-References: <cover.1604523707.git.pcc@google.com>
-        <0eb601a5d1906fadd7099149eb605181911cfc04.1604523707.git.pcc@google.com>
-        <87zh3qug6q.fsf@x220.int.ebiederm.org> <20201111172703.GP6882@arm.com>
-        <87imabr6p8.fsf@x220.int.ebiederm.org> <20201112172345.GU6882@arm.com>
-Date:   Thu, 12 Nov 2020 14:01:12 -0600
-In-Reply-To: <20201112172345.GU6882@arm.com> (Dave Martin's message of "Thu,
-        12 Nov 2020 17:23:45 +0000")
-Message-ID: <87mtzmny47.fsf@x220.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1kdIma-000utT-PB;;;mid=<87mtzmny47.fsf@x220.int.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX1+ffs7Ll6mCDO23I2NWN7+/b2Ktf5M01G8=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa06.xmission.com
-X-Spam-Level: **
-X-Spam-Status: No, score=2.0 required=8.0 tests=ALL_TRUSTED,BAYES_50,
-        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,T_TooManySym_01,
-        T_TooManySym_02,T_XMDrugObfuBody_08,XMSubLong,XM_B_Unsub
-        autolearn=disabled version=3.4.2
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4997]
-        *  0.7 XMSubLong Long Subject
-        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-        *      [sa06 1397; Body=1 Fuz1=1 Fuz2=1]
-        *  1.0 T_XMDrugObfuBody_08 obfuscated drug references
-        *  0.0 T_TooManySym_02 5+ unique symbols in subject
-        *  0.5 XM_B_Unsub Unsubscribe in body of email but missing unsubscribe
-        *       header
-        *  0.0 T_TooManySym_01 4+ unique symbols in subject
-X-Spam-DCC: XMission; sa06 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: **;Dave Martin <Dave.Martin@arm.com>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 504 ms - load_scoreonly_sql: 0.05 (0.0%),
-        signal_user_changed: 10 (2.0%), b_tie_ro: 8 (1.7%), parse: 1.00 (0.2%),
-         extract_message_metadata: 14 (2.7%), get_uri_detail_list: 3.1 (0.6%),
-        tests_pri_-1000: 5 (1.1%), tests_pri_-950: 1.28 (0.3%),
-        tests_pri_-900: 1.04 (0.2%), tests_pri_-90: 64 (12.8%), check_bayes:
-        63 (12.5%), b_tokenize: 12 (2.3%), b_tok_get_all: 11 (2.3%),
-        b_comp_prob: 3.2 (0.6%), b_tok_touch_all: 33 (6.6%), b_finish: 0.80
-        (0.2%), tests_pri_0: 393 (78.1%), check_dkim_signature: 0.54 (0.1%),
-        check_dkim_adsp: 2.8 (0.6%), poll_dns_idle: 0.21 (0.0%), tests_pri_10:
-        2.0 (0.4%), tests_pri_500: 8 (1.6%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: [PATCH v14 7/8] signal: define the field siginfo.si_faultflags
-X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
-X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
+        Christopher Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
+        x86@kernel.org
+In-Reply-To: <20201112190827.GP4758@kernel.org>
+To:     Mike Rapoport <rppt@kernel.org>
+X-Mailer: iPhone Mail (18A8395)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Dave Martin <Dave.Martin@arm.com> writes:
 
-> On Wed, Nov 11, 2020 at 02:15:15PM -0600, Eric W. Biederman wrote:
->> Dave Martin <Dave.Martin@arm.com> writes:
->> 
->> > On Mon, Nov 09, 2020 at 07:57:33PM -0600, Eric W. Biederman wrote:
->> >> Peter Collingbourne <pcc@google.com> writes:
->> >> 
->> >> > This field will contain flags that may be used by signal handlers to
->> >> > determine whether other fields in the _sigfault portion of siginfo are
->> >> > valid. An example use case is the following patch, which introduces
->> >> > the si_addr_tag_bits{,_mask} fields.
->> >> >
->> >> > A new sigcontext flag, SA_FAULTFLAGS, is introduced in order to allow
->> >> > a signal handler to require the kernel to set the field (but note
->> >> > that the field will be set anyway if the kernel supports the flag,
->> >> > regardless of its value). In combination with the previous patches,
->> >> > this allows a userspace program to determine whether the kernel will
->> >> > set the field.
->> >> >
->> >> > It is possible for an si_faultflags-unaware program to cause a signal
->> >> > handler in an si_faultflags-aware program to be called with a provided
->> >> > siginfo data structure by using one of the following syscalls:
->> >> >
->> >> > - ptrace(PTRACE_SETSIGINFO)
->> >> > - pidfd_send_signal
->> >> > - rt_sigqueueinfo
->> >> > - rt_tgsigqueueinfo
->> >> >
->> >> > So we need to prevent the si_faultflags-unaware program from causing an
->> >> > uninitialized read of si_faultflags in the si_faultflags-aware program when
->> >> > it uses one of these syscalls.
->> >> >
->> >> > The last three cases can be handled by observing that each of these
->> >> > syscalls fails if si_code >= 0. We also observe that kill(2) and
->> >> > tgkill(2) may be used to send a signal where si_code == 0 (SI_USER),
->> >> > so we define si_faultflags to only be valid if si_code > 0.
->> >> >
->> >> > There is no such check on si_code in ptrace(PTRACE_SETSIGINFO), so
->> >> > we make ptrace(PTRACE_SETSIGINFO) clear the si_faultflags field if it
->> >> > detects that the signal would use the _sigfault layout, and introduce
->> >> > a new ptrace request type, PTRACE_SETSIGINFO2, that a si_faultflags-aware
->> >> > program may use to opt out of this behavior.
->> >> 
->> >> So I think while well intentioned this is misguided.
->> >> 
->> >> gdb and the like may use this but I expect the primary user is CRIU
->> >> which simply reads the signal out of one process saves it on disk
->> >> and then restores the signal as read into the new process (possibly
->> >> on a different machine).
->> >> 
->> >> At least for the CRIU usage PTRACE_SETSIGINFO need to remain a raw
->> >> pass through kind of operation.
->> >
->> > This is a problem, though.
->> >
->> > How can we tell the difference between a siginfo that was generated by
->> > the kernel and a siginfo that was generated (or altered) by a non-xflags
->> > aware userspace?
->> >
->> > Short of revving the whole API, I don't see a simple solution to this.
->> 
->> Unlike receiving a signal.  We do know that userspace old and new
->> always sends unused fields as zero into PTRACE_SETSIGINFO.
->> 
->> The split into kernel_siginfo verifies this and fails userspace if it
->> does something different.  No problems have been reported.
->> 
->> So in the case of xflags a non-xflags aware userspace would either pass
->> the siginfo from through from somewhere else (such as
->> PTRACE_GETSIGINFO), or it would simply generate a signal with all of
->> the xflags bits clear.  So everything should work regardless.
->> 
->> > Although a bit of a hack, could we include some kind of checksum in the
->> > siginfo?  If the checksum matches during PTRACE_SETSIGINFO, we could
->> > accept the whole thing; xflags included.  Otherwise, we could silently
->> > drop non-self-describing extensions.
->> >
->> > If we only need to generate the checksum when PTRACE_GETSIGINFO is
->> > called then it might be feasible to use a strong hash; otherwise, this
->> > mechanism will be far from bulletproof.
->> >
->> > A hash has the advantage that we don't need any other information
->> > to validate it beyond a salt: if the hash matches, it's self-
->> > validating.  We could also package other data with it to describe the
->> > presence of extensions, but relying on this for regular sigaction()/
->> > signal delivery use feels too high-overhead.
->> >
->> > For debuggers, I suspect that PTRACE_SETSIGINFO2 is still useful:
->> > userspace callers that want to write an extension field that they
->> > knowingly generated themselves should have a way to express that.
->> >
->> > Thoughts?
->
-> Eric, did you have any view on the hash idea here?
+> Am 12.11.2020 um 20:08 schrieb Mike Rapoport <rppt@kernel.org>:
+>=20
+> =EF=BB=BFOn Thu, Nov 12, 2020 at 05:22:00PM +0100, David Hildenbrand wrote=
+:
+>>> On 10.11.20 19:06, Mike Rapoport wrote:
+>>> On Tue, Nov 10, 2020 at 06:17:26PM +0100, David Hildenbrand wrote:
+>>>> On 10.11.20 16:14, Mike Rapoport wrote:
+>>>>> From: Mike Rapoport <rppt@linux.ibm.com>
+>>>>>=20
+>>>>> It will be used by the upcoming secret memory implementation.
+>>>>>=20
+>>>>> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+>>>>> ---
+>>>>>   mm/internal.h | 3 +++
+>>>>>   mm/mmap.c     | 5 ++---
+>>>>>   2 files changed, 5 insertions(+), 3 deletions(-)
+>>>>>=20
+>>>>> diff --git a/mm/internal.h b/mm/internal.h
+>>>>> index c43ccdddb0f6..ae146a260b14 100644
+>>>>> --- a/mm/internal.h
+>>>>> +++ b/mm/internal.h
+>>>>> @@ -348,6 +348,9 @@ static inline void munlock_vma_pages_all(struct vm=
+_area_struct *vma)
+>>>>>   extern void mlock_vma_page(struct page *page);
+>>>>>   extern unsigned int munlock_vma_page(struct page *page);
+>>>>> +extern int mlock_future_check(struct mm_struct *mm, unsigned long fla=
+gs,
+>>>>> +                  unsigned long len);
+>>>>> +
+>>>>>   /*
+>>>>>    * Clear the page's PageMlocked().  This can be useful in a situatio=
+n where
+>>>>>    * we want to unconditionally remove a page from the pagecache -- e.=
+g.,
+>>>>> diff --git a/mm/mmap.c b/mm/mmap.c
+>>>>> index 61f72b09d990..c481f088bd50 100644
+>>>>> --- a/mm/mmap.c
+>>>>> +++ b/mm/mmap.c
+>>>>> @@ -1348,9 +1348,8 @@ static inline unsigned long round_hint_to_min(un=
+signed long hint)
+>>>>>       return hint;
+>>>>>   }
+>>>>> -static inline int mlock_future_check(struct mm_struct *mm,
+>>>>> -                     unsigned long flags,
+>>>>> -                     unsigned long len)
+>>>>> +int mlock_future_check(struct mm_struct *mm, unsigned long flags,
+>>>>> +               unsigned long len)
+>>>>>   {
+>>>>>       unsigned long locked, lock_limit;
+>>>>>=20
+>>>>=20
+>>>> So, an interesting question is if you actually want to charge secretmem=
 
-I am not quite certain what you meant by salt.  A per kernel instance
-secret I suspect.
+>>>> pages against mlock now, or if you want a dedicated secretmem cgroup
+>>>> controller instead?
+>>>=20
+>>> Well, with the current implementation there are three limits an
+>>> administrator can use to control secretmem limits: mlock, memcg and
+>>> kernel parameter.
+>>>=20
+>>> The kernel parameter puts a global upper limit for secretmem usage,
+>>> memcg accounts all secretmem allocations, including the unused memory in=
 
-Such a secret would break creating siginfo by hand and checkpointing
-and restoring on a different machine.
+>>> large pages caching and mlock allows per task limit for secretmem
+>>> mappings, well, like mlock does.
+>>>=20
+>>> I didn't consider a dedicated cgroup, as it seems we already have enough=
 
-If you don't go with full crypto security it sounds like it would work.
+>>> existing knobs and a new one would be unnecessary.
+>>=20
+>> To me it feels like the mlock() limit is a wrong fit for secretmem. But
+>> maybe there are other cases of using the mlock() limit without actually
+>> doing mlock() that I am not aware of (most probably :) )?
+>=20
+> Secretmem does not explicitly calls to mlock() but it does what mlock()
+> does and a bit more. Citing mlock(2):
+>=20
+>  mlock(),  mlock2(),  and  mlockall()  lock  part  or all of the calling
+>  process's virtual address space into RAM, preventing that  memory  from
+>  being paged to the swap area.
+>=20
+> So, based on that secretmem pages are not swappable, I think that
+> RLIMIT_MEMLOCK is appropriate here.
+>=20
 
-If we really need to deploy xflags I think it bears looking at, but
-right now it feels like one thing too many.
+The page explicitly lists mlock() system calls. E.g., we also don=E2=80=98t a=
+ccount for gigantic pages - which might be allocated from CMA and are not sw=
+appable.
 
 
 
-Eric
+>> I mean, my concern is not earth shattering, this can be reworked later. A=
+s I
+>> said, it just feels wrong.
+>>=20
+>> --=20
+>> Thanks,
+>>=20
+>> David / dhildenb
+>>=20
+>=20
+> --=20
+> Sincerely yours,
+> Mike.
+>=20
 
