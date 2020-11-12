@@ -2,29 +2,28 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 432FA2B0B36
-	for <lists+linux-api@lfdr.de>; Thu, 12 Nov 2020 18:23:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 181E22B0D09
+	for <lists+linux-api@lfdr.de>; Thu, 12 Nov 2020 19:53:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726041AbgKLRXv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 12 Nov 2020 12:23:51 -0500
-Received: from foss.arm.com ([217.140.110.172]:54664 "EHLO foss.arm.com"
+        id S1726295AbgKLSxb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 12 Nov 2020 13:53:31 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39678 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725999AbgKLRXv (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 12 Nov 2020 12:23:51 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EFF3D1691;
-        Thu, 12 Nov 2020 09:23:50 -0800 (PST)
-Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F12363F73C;
-        Thu, 12 Nov 2020 09:23:48 -0800 (PST)
-Date:   Thu, 12 Nov 2020 17:23:45 +0000
-From:   Dave Martin <Dave.Martin@arm.com>
+        id S1726137AbgKLSxb (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 12 Nov 2020 13:53:31 -0500
+Received: from gaia (unknown [2.26.170.190])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1009722228;
+        Thu, 12 Nov 2020 18:53:27 +0000 (UTC)
+Date:   Thu, 12 Nov 2020 18:53:25 +0000
+From:   Catalin Marinas <catalin.marinas@arm.com>
 To:     "Eric W. Biederman" <ebiederm@xmission.com>
 Cc:     Peter Collingbourne <pcc@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
         Evgenii Stepanov <eugenis@google.com>,
         Kostya Serebryany <kcc@google.com>,
         Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Dave Martin <Dave.Martin@arm.com>,
         Will Deacon <will@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
         "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
@@ -33,115 +32,51 @@ Cc:     Peter Collingbourne <pcc@google.com>,
         Richard Henderson <rth@twiddle.net>, linux-api@vger.kernel.org,
         Helge Deller <deller@gmx.de>,
         David Spickett <david.spickett@linaro.org>
-Subject: Re: [PATCH v14 7/8] signal: define the field siginfo.si_faultflags
-Message-ID: <20201112172345.GU6882@arm.com>
+Subject: Re: [PATCH v14 8/8] arm64: expose FAR_EL1 tag bits in siginfo
+Message-ID: <20201112185324.GP29613@gaia>
 References: <cover.1604523707.git.pcc@google.com>
- <0eb601a5d1906fadd7099149eb605181911cfc04.1604523707.git.pcc@google.com>
- <87zh3qug6q.fsf@x220.int.ebiederm.org>
- <20201111172703.GP6882@arm.com>
- <87imabr6p8.fsf@x220.int.ebiederm.org>
+ <0ce3d90b5d6a4457b2fe3b0582f61fab70b17dfc.1604523707.git.pcc@google.com>
+ <87eel2ypy3.fsf@x220.int.ebiederm.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87imabr6p8.fsf@x220.int.ebiederm.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <87eel2ypy3.fsf@x220.int.ebiederm.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Nov 11, 2020 at 02:15:15PM -0600, Eric W. Biederman wrote:
-> Dave Martin <Dave.Martin@arm.com> writes:
-> 
-> > On Mon, Nov 09, 2020 at 07:57:33PM -0600, Eric W. Biederman wrote:
-> >> Peter Collingbourne <pcc@google.com> writes:
-> >> 
-> >> > This field will contain flags that may be used by signal handlers to
-> >> > determine whether other fields in the _sigfault portion of siginfo are
-> >> > valid. An example use case is the following patch, which introduces
-> >> > the si_addr_tag_bits{,_mask} fields.
-> >> >
-> >> > A new sigcontext flag, SA_FAULTFLAGS, is introduced in order to allow
-> >> > a signal handler to require the kernel to set the field (but note
-> >> > that the field will be set anyway if the kernel supports the flag,
-> >> > regardless of its value). In combination with the previous patches,
-> >> > this allows a userspace program to determine whether the kernel will
-> >> > set the field.
-> >> >
-> >> > It is possible for an si_faultflags-unaware program to cause a signal
-> >> > handler in an si_faultflags-aware program to be called with a provided
-> >> > siginfo data structure by using one of the following syscalls:
-> >> >
-> >> > - ptrace(PTRACE_SETSIGINFO)
-> >> > - pidfd_send_signal
-> >> > - rt_sigqueueinfo
-> >> > - rt_tgsigqueueinfo
-> >> >
-> >> > So we need to prevent the si_faultflags-unaware program from causing an
-> >> > uninitialized read of si_faultflags in the si_faultflags-aware program when
-> >> > it uses one of these syscalls.
-> >> >
-> >> > The last three cases can be handled by observing that each of these
-> >> > syscalls fails if si_code >= 0. We also observe that kill(2) and
-> >> > tgkill(2) may be used to send a signal where si_code == 0 (SI_USER),
-> >> > so we define si_faultflags to only be valid if si_code > 0.
-> >> >
-> >> > There is no such check on si_code in ptrace(PTRACE_SETSIGINFO), so
-> >> > we make ptrace(PTRACE_SETSIGINFO) clear the si_faultflags field if it
-> >> > detects that the signal would use the _sigfault layout, and introduce
-> >> > a new ptrace request type, PTRACE_SETSIGINFO2, that a si_faultflags-aware
-> >> > program may use to opt out of this behavior.
-> >> 
-> >> So I think while well intentioned this is misguided.
-> >> 
-> >> gdb and the like may use this but I expect the primary user is CRIU
-> >> which simply reads the signal out of one process saves it on disk
-> >> and then restores the signal as read into the new process (possibly
-> >> on a different machine).
-> >> 
-> >> At least for the CRIU usage PTRACE_SETSIGINFO need to remain a raw
-> >> pass through kind of operation.
+On Mon, Nov 09, 2020 at 07:13:08PM -0600, Eric W. Biederman wrote:
+> Peter Collingbourne <pcc@google.com> writes:
+> > The kernel currently clears the tag bits (i.e. bits 56-63) in the fault
+> > address exposed via siginfo.si_addr and sigcontext.fault_address. However,
+> > the tag bits may be needed by tools in order to accurately diagnose
+> > memory errors, such as HWASan [1] or future tools based on the Memory
+> > Tagging Extension (MTE).
 > >
-> > This is a problem, though.
+> > We should not stop clearing these bits in the existing fault address
+> > fields, because there may be existing userspace applications that are
+> > expecting the tag bits to be cleared. Instead, create a new pair of
+> > fields in siginfo._sigfault, and store the tag bits of FAR_EL1 there,
+> > together with a mask specifying which bits are valid.
 > >
-> > How can we tell the difference between a siginfo that was generated by
-> > the kernel and a siginfo that was generated (or altered) by a non-xflags
-> > aware userspace?
-> >
-> > Short of revving the whole API, I don't see a simple solution to this.
-> 
-> Unlike receiving a signal.  We do know that userspace old and new
-> always sends unused fields as zero into PTRACE_SETSIGINFO.
-> 
-> The split into kernel_siginfo verifies this and fails userspace if it
-> does something different.  No problems have been reported.
-> 
-> So in the case of xflags a non-xflags aware userspace would either pass
-> the siginfo from through from somewhere else (such as
-> PTRACE_GETSIGINFO), or it would simply generate a signal with all of
-> the xflags bits clear.  So everything should work regardless.
-> 
-> > Although a bit of a hack, could we include some kind of checksum in the
-> > siginfo?  If the checksum matches during PTRACE_SETSIGINFO, we could
-> > accept the whole thing; xflags included.  Otherwise, we could silently
-> > drop non-self-describing extensions.
-> >
-> > If we only need to generate the checksum when PTRACE_GETSIGINFO is
-> > called then it might be feasible to use a strong hash; otherwise, this
-> > mechanism will be far from bulletproof.
-> >
-> > A hash has the advantage that we don't need any other information
-> > to validate it beyond a salt: if the hash matches, it's self-
-> > validating.  We could also package other data with it to describe the
-> > presence of extensions, but relying on this for regular sigaction()/
-> > signal delivery use feels too high-overhead.
-> >
-> > For debuggers, I suspect that PTRACE_SETSIGINFO2 is still useful:
-> > userspace callers that want to write an extension field that they
-> > knowingly generated themselves should have a way to express that.
-> >
-> > Thoughts?
+> > A flag is added to si_faultflags to allow userspace to determine whether
+> > the values in the fields are valid.
+[...]
+> What prevents adding a sigaction sa_flag SA_EXPOSE_TABITS that when set
+> causes the high bits to be set, and when clear (the default) will have
+> the signal delivery code clear those bits.
 
-Eric, did you have any view on the hash idea here?
+Thanks for the review so far Eric.
 
-Cheers
----Dave
+If the SA_EXPOSE_TAGBITS idea works, I'd much rather have that than the
+ultra generic xflags approach.
+
+Given that Peter is going to rework this part, could you please pick the
+first clean-up patches via your tree? If there are dependencies with the
+reworked arm64 patches, I'm also happy for them to go via your tree.
+
+Thanks.
+
+-- 
+Catalin
