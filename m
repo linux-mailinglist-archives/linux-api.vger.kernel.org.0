@@ -2,38 +2,47 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D41872B07EC
-	for <lists+linux-api@lfdr.de>; Thu, 12 Nov 2020 15:56:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0939A2B09D6
+	for <lists+linux-api@lfdr.de>; Thu, 12 Nov 2020 17:22:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728258AbgKLO4u (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 12 Nov 2020 09:56:50 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60524 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727035AbgKLO4t (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 12 Nov 2020 09:56:49 -0500
-Received: from kernel.org (unknown [77.125.7.142])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1729026AbgKLQWV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 12 Nov 2020 11:22:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38486 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729077AbgKLQWU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 12 Nov 2020 11:22:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1605198137;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=ZW4Cjdd1Y3wnZ8yyT80IuYNIT2MC5nPP7PSwDghDV1Q=;
+        b=NEZQgmYo85TTjpcF52kzhlxScWrst6z9esMx+i5EwXxrIS3msnsQjVGcL7tFMMqx4sIH3k
+        tGNLm17SZpOM3NkWWalzbEYCG52owE8pc5rYln6ehsO5Js7yh6W78KCOi8zhCRiBlYUG2D
+        CWOO5exy241iIVLe6zU3iz09mfPXtPw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-330-hg3tEq1OPgmdqYl9GCjLuQ-1; Thu, 12 Nov 2020 11:22:13 -0500
+X-MC-Unique: hg3tEq1OPgmdqYl9GCjLuQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 566A022201;
-        Thu, 12 Nov 2020 14:56:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1605193007;
-        bh=QkVICLAO4ozuqf3Bt0mUjabumvXMRV/qPjzZ7U10aJc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=iak4/IvzTZDhTLRXHEmbJYF+IHtHGQSZqe12VKzkSpaDbDqIvEPyBuT8j1ZMZkL7P
-         sxndVf5ZvuLfKKos4xIYzBSsfmBnEEE707F0PBrZqhUFCfrF3XMAMq2Nf2X4t5chOP
-         PKQWsilG0fJ4aSXI1Exn3KDnpPmFrzW2Ouszqhbk=
-Date:   Thu, 12 Nov 2020 16:56:30 +0200
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB783100F7A6;
+        Thu, 12 Nov 2020 16:22:08 +0000 (UTC)
+Received: from [10.36.115.61] (ovpn-115-61.ams2.redhat.com [10.36.115.61])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id B6D5B6EF48;
+        Thu, 12 Nov 2020 16:22:01 +0000 (UTC)
+Subject: Re: [PATCH v8 2/9] mmap: make mlock_future_check() global
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
         Andy Lutomirski <luto@kernel.org>,
         Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Christopher Lameter <cl@linux.com>,
         Dan Williams <dan.j.williams@intel.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>,
         Elena Reshetova <elena.reshetova@intel.com>,
         "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
         James Bottomley <jejb@linux.ibm.com>,
@@ -55,180 +64,93 @@ Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
         linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
         x86@kernel.org
-Subject: Re: [PATCH v8 0/9] mm: introduce memfd_secret system call to create
- "secret" memory areas
-Message-ID: <20201112145630.GN4758@kernel.org>
 References: <20201110151444.20662-1-rppt@kernel.org>
+ <20201110151444.20662-3-rppt@kernel.org>
+ <9e2fafd7-abb0-aa79-fa66-cd8662307446@redhat.com>
+ <20201110180648.GB4758@kernel.org>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <3194b507-a85f-965a-e0eb-512a79ede6a9@redhat.com>
+Date:   Thu, 12 Nov 2020 17:22:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201110151444.20662-1-rppt@kernel.org>
+In-Reply-To: <20201110180648.GB4758@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Andrew,
+On 10.11.20 19:06, Mike Rapoport wrote:
+> On Tue, Nov 10, 2020 at 06:17:26PM +0100, David Hildenbrand wrote:
+>> On 10.11.20 16:14, Mike Rapoport wrote:
+>>> From: Mike Rapoport <rppt@linux.ibm.com>
+>>>
+>>> It will be used by the upcoming secret memory implementation.
+>>>
+>>> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+>>> ---
+>>>    mm/internal.h | 3 +++
+>>>    mm/mmap.c     | 5 ++---
+>>>    2 files changed, 5 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/mm/internal.h b/mm/internal.h
+>>> index c43ccdddb0f6..ae146a260b14 100644
+>>> --- a/mm/internal.h
+>>> +++ b/mm/internal.h
+>>> @@ -348,6 +348,9 @@ static inline void munlock_vma_pages_all(struct vm_area_struct *vma)
+>>>    extern void mlock_vma_page(struct page *page);
+>>>    extern unsigned int munlock_vma_page(struct page *page);
+>>> +extern int mlock_future_check(struct mm_struct *mm, unsigned long flags,
+>>> +			      unsigned long len);
+>>> +
+>>>    /*
+>>>     * Clear the page's PageMlocked().  This can be useful in a situation where
+>>>     * we want to unconditionally remove a page from the pagecache -- e.g.,
+>>> diff --git a/mm/mmap.c b/mm/mmap.c
+>>> index 61f72b09d990..c481f088bd50 100644
+>>> --- a/mm/mmap.c
+>>> +++ b/mm/mmap.c
+>>> @@ -1348,9 +1348,8 @@ static inline unsigned long round_hint_to_min(unsigned long hint)
+>>>    	return hint;
+>>>    }
+>>> -static inline int mlock_future_check(struct mm_struct *mm,
+>>> -				     unsigned long flags,
+>>> -				     unsigned long len)
+>>> +int mlock_future_check(struct mm_struct *mm, unsigned long flags,
+>>> +		       unsigned long len)
+>>>    {
+>>>    	unsigned long locked, lock_limit;
+>>>
+>>
+>> So, an interesting question is if you actually want to charge secretmem
+>> pages against mlock now, or if you want a dedicated secretmem cgroup
+>> controller instead?
+> 
+> Well, with the current implementation there are three limits an
+> administrator can use to control secretmem limits: mlock, memcg and
+> kernel parameter.
+> 
+> The kernel parameter puts a global upper limit for secretmem usage,
+> memcg accounts all secretmem allocations, including the unused memory in
+> large pages caching and mlock allows per task limit for secretmem
+> mappings, well, like mlock does.
+> 
+> I didn't consider a dedicated cgroup, as it seems we already have enough
+> existing knobs and a new one would be unnecessary.
 
-It'll be great if this can be pulled back to mmotm for wider exposure to
-testing and fuzzing.
+To me it feels like the mlock() limit is a wrong fit for secretmem. But 
+maybe there are other cases of using the mlock() limit without actually 
+doing mlock() that I am not aware of (most probably :) )?
 
-On Tue, Nov 10, 2020 at 05:14:35PM +0200, Mike Rapoport wrote:
-> From: Mike Rapoport <rppt@linux.ibm.com>
-> 
-> Hi,
-> 
-> This is an implementation of "secret" mappings backed by a file descriptor.
-> 
-> The file descriptor backing secret memory mappings is created using a
-> dedicated memfd_secret system call The desired protection mode for the
-> memory is configured using flags parameter of the system call. The mmap()
-> of the file descriptor created with memfd_secret() will create a "secret"
-> memory mapping. The pages in that mapping will be marked as not present in
-> the direct map and will have desired protection bits set in the user page
-> table. For instance, current implementation allows uncached mappings.
-> 
-> Although normally Linux userspace mappings are protected from other users,
-> such secret mappings are useful for environments where a hostile tenant is
-> trying to trick the kernel into giving them access to other tenants
-> mappings.
-> 
-> Additionally, in the future the secret mappings may be used as a mean to
-> protect guest memory in a virtual machine host.
-> 
-> For demonstration of secret memory usage we've created a userspace library
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/jejb/secret-memory-preloader.git
-> 
-> that does two things: the first is act as a preloader for openssl to
-> redirect all the OPENSSL_malloc calls to secret memory meaning any secret
-> keys get automatically protected this way and the other thing it does is
-> expose the API to the user who needs it. We anticipate that a lot of the
-> use cases would be like the openssl one: many toolkits that deal with
-> secret keys already have special handling for the memory to try to give
-> them greater protection, so this would simply be pluggable into the
-> toolkits without any need for user application modification.
-> 
-> Hiding secret memory mappings behind an anonymous file allows (ab)use of
-> the page cache for tracking pages allocated for the "secret" mappings as
-> well as using address_space_operations for e.g. page migration callbacks.
-> 
-> The anonymous file may be also used implicitly, like hugetlb files, to
-> implement mmap(MAP_SECRET) and use the secret memory areas with "native" mm
-> ABIs in the future.
-> 
-> To limit fragmentation of the direct map to splitting only PUD-size pages,
-> I've added an amortizing cache of PMD-size pages to each file descriptor
-> that is used as an allocation pool for the secret memory areas.
-> 
-> As the memory allocated by secretmem becomes unmovable, we use CMA to back
-> large page caches so that page allocator won't be surprised by failing attempt
-> to migrate these pages.
-> 
-> v8:
-> * Use CMA for all secretmem allocations as David suggested
-> * Update memcg accounting after transtion to CMA
-> * Prevent hibernation when there are active secretmem users
-> * Add zeroing of the memory before releasing it back to cma/page allocator
-> * Rebase on v5.10-rc2-mmotm-2020-11-07-21-40
-> 
-> v7: https://lore.kernel.org/lkml/20201026083752.13267-1-rppt@kernel.org
-> * Use set_direct_map() instead of __kernel_map_pages() to ensure error
->   handling in case the direct map update fails
-> * Add accounting of large pages used to reduce the direct map fragmentation
-> * Teach get_user_pages() and frieds to refuse get/pin secretmem pages
-> 
-> v6: https://lore.kernel.org/lkml/20200924132904.1391-1-rppt@kernel.org
-> * Silence the warning about missing syscall, thanks to Qian Cai
-> * Replace spaces with tabs in Kconfig additions, per Randy
-> * Add a selftest.
-> 
-> v5: https://lore.kernel.org/lkml/20200916073539.3552-1-rppt@kernel.org
-> * rebase on v5.9-rc5
-> * drop boot time memory reservation patch
-> 
-> v4: https://lore.kernel.org/lkml/20200818141554.13945-1-rppt@kernel.org
-> * rebase on v5.9-rc1
-> * Do not redefine PMD_PAGE_ORDER in fs/dax.c, thanks Kirill
-> * Make secret mappings exclusive by default and only require flags to
->   memfd_secret() system call for uncached mappings, thanks again Kirill :)
-> 
-> v3: https://lore.kernel.org/lkml/20200804095035.18778-1-rppt@kernel.org
-> * Squash kernel-parameters.txt update into the commit that added the
->   command line option.
-> * Make uncached mode explicitly selectable by architectures. For now enable
->   it only on x86.
-> 
-> v2: https://lore.kernel.org/lkml/20200727162935.31714-1-rppt@kernel.org
-> * Follow Michael's suggestion and name the new system call 'memfd_secret'
-> * Add kernel-parameters documentation about the boot option
-> * Fix i386-tinyconfig regression reported by the kbuild bot.
->   CONFIG_SECRETMEM now depends on !EMBEDDED to disable it on small systems
->   from one side and still make it available unconditionally on
->   architectures that support SET_DIRECT_MAP.
-> 
-> v1: https://lore.kernel.org/lkml/20200720092435.17469-1-rppt@kernel.org
-> 
-> Mike Rapoport (9):
->   mm: add definition of PMD_PAGE_ORDER
->   mmap: make mlock_future_check() global
->   set_memory: allow set_direct_map_*_noflush() for multiple pages
->   mm: introduce memfd_secret system call to create "secret" memory areas
->   secretmem: use PMD-size pages to amortize direct map fragmentation
->   secretmem: add memcg accounting
->   PM: hibernate: disable when there are active secretmem users
->   arch, mm: wire up memfd_secret system call were relevant
->   secretmem: test: add basic selftest for memfd_secret(2)
-> 
->  arch/Kconfig                              |   7 +
->  arch/arm64/include/asm/cacheflush.h       |   4 +-
->  arch/arm64/include/asm/unistd.h           |   2 +-
->  arch/arm64/include/asm/unistd32.h         |   2 +
->  arch/arm64/include/uapi/asm/unistd.h      |   1 +
->  arch/arm64/mm/pageattr.c                  |  10 +-
->  arch/riscv/include/asm/set_memory.h       |   4 +-
->  arch/riscv/include/asm/unistd.h           |   1 +
->  arch/riscv/mm/pageattr.c                  |   8 +-
->  arch/x86/Kconfig                          |   1 +
->  arch/x86/entry/syscalls/syscall_32.tbl    |   1 +
->  arch/x86/entry/syscalls/syscall_64.tbl    |   1 +
->  arch/x86/include/asm/set_memory.h         |   4 +-
->  arch/x86/mm/pat/set_memory.c              |   8 +-
->  fs/dax.c                                  |  11 +-
->  include/linux/pgtable.h                   |   3 +
->  include/linux/secretmem.h                 |  30 ++
->  include/linux/set_memory.h                |   4 +-
->  include/linux/syscalls.h                  |   1 +
->  include/uapi/asm-generic/unistd.h         |   6 +-
->  include/uapi/linux/magic.h                |   1 +
->  include/uapi/linux/secretmem.h            |   8 +
->  kernel/power/hibernate.c                  |   5 +-
->  kernel/power/snapshot.c                   |   4 +-
->  kernel/sys_ni.c                           |   2 +
->  mm/Kconfig                                |   5 +
->  mm/Makefile                               |   1 +
->  mm/filemap.c                              |   2 +-
->  mm/gup.c                                  |  10 +
->  mm/internal.h                             |   3 +
->  mm/mmap.c                                 |   5 +-
->  mm/secretmem.c                            | 451 ++++++++++++++++++++++
->  mm/vmalloc.c                              |   5 +-
->  scripts/checksyscalls.sh                  |   4 +
->  tools/testing/selftests/vm/.gitignore     |   1 +
->  tools/testing/selftests/vm/Makefile       |   3 +-
->  tools/testing/selftests/vm/memfd_secret.c | 298 ++++++++++++++
->  tools/testing/selftests/vm/run_vmtests    |  17 +
->  38 files changed, 895 insertions(+), 39 deletions(-)
->  create mode 100644 include/linux/secretmem.h
->  create mode 100644 include/uapi/linux/secretmem.h
->  create mode 100644 mm/secretmem.c
->  create mode 100644 tools/testing/selftests/vm/memfd_secret.c
-> 
-> 
-> base-commit: 9f8ce377d420db12b19d6a4f636fecbd88a725a5
-> -- 
-> 2.28.0
-> 
+I mean, my concern is not earth shattering, this can be reworked later. 
+As I said, it just feels wrong.
 
 -- 
-Sincerely yours,
-Mike.
+Thanks,
+
+David / dhildenb
+
