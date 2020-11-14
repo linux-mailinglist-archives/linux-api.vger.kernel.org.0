@@ -2,202 +2,179 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC7192B3126
-	for <lists+linux-api@lfdr.de>; Sat, 14 Nov 2020 23:22:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 832282B311F
+	for <lists+linux-api@lfdr.de>; Sat, 14 Nov 2020 23:13:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726125AbgKNWWO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 14 Nov 2020 17:22:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43592 "EHLO
+        id S1726136AbgKNWMz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 14 Nov 2020 17:12:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726121AbgKNWWM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 14 Nov 2020 17:22:12 -0500
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A265C0613D1;
-        Sat, 14 Nov 2020 14:22:10 -0800 (PST)
-Received: by mail-wm1-x32b.google.com with SMTP id a3so19938665wmb.5;
-        Sat, 14 Nov 2020 14:22:10 -0800 (PST)
+        with ESMTP id S1726121AbgKNWMz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 14 Nov 2020 17:12:55 -0500
+Received: from mail-ua1-x942.google.com (mail-ua1-x942.google.com [IPv6:2607:f8b0:4864:20::942])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90D26C0613D1
+        for <linux-api@vger.kernel.org>; Sat, 14 Nov 2020 14:12:53 -0800 (PST)
+Received: by mail-ua1-x942.google.com with SMTP id q68so4172132uaq.3
+        for <linux-api@vger.kernel.org>; Sat, 14 Nov 2020 14:12:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=3ssMnzK9+Tf5itgz6j0CoOgfa2ffAC9LTASibshJr7o=;
-        b=hnY5QsMEXhC2aY5D4KCLUqThyzz7f6UwD5tvwgjGjlyXfzwk4khtvneMwXflhb1i/h
-         o+DDeo0ocgQyx/46vED99y/hQxpNZUf+pEZ6McAYDkKk9R/K0cEFQpZNNpPW6Tz3eiVS
-         mVNEAhuOdDS4nZcfwDd5wr+u6KQTF2EIquOb7Ka5ZLB0vKWXBionjLFBmn6fqTzlzzOK
-         QSSRUdpOhZG+si0IXh1R0tOhx7lvONO0xsrvZgg22Del1ZrRh4AOQMPdG9xf/logGRQ+
-         kiUGwz3PcnVt5EzVG1/4e+FUkpLtD8tvu4ohYVHBmqKLCDuBgwz49nsPYF8GpzScF+E5
-         F80g==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8OjP+5cGWBCk9BbSjj8EDVAtK1851f4Lffv0hXOM8z8=;
+        b=irkiHpVxhHRY3MPSDQGfzoZvWp+7NxBjIluu0Dmqr94EmVXOMYupJxP/crA77YdeeT
+         TGBl8NkDunJg+m5KTCrYuhyjwD3PltGKr84BCwjh0pyqyLIiUkhdnoZ8umWpMsMYRixU
+         Xo5swWjIwvwUpYUKG95kFheBQLOZvGYwJqlF7qBcFsBJ9fLyFTy1x1n4/hcGCJE561qH
+         VgpTHYz8OkecLHbSRMOeAcCdsu12KulOoXgAdnXy6EBYUpvMRcT98RpJ5MN0+9b5VefV
+         DP4hgOrdrRCDb8gR7J38sjVfqVxl6JD2exe8u/8/6KLEr4FEPojxD191hQme+Wsfz2bR
+         9NHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=3ssMnzK9+Tf5itgz6j0CoOgfa2ffAC9LTASibshJr7o=;
-        b=GXqOgqACHpFouclCdHrVOZguTZZchgaP6yEjHx5UQpE79j2uT6qNrBfOaDGctJFKzi
-         6bFNobkk7lsgcD/wK9PzzpFAYFqaSJs3jjrzmuuMJ98BnIYavmL98fSx/84aoD8C6s1K
-         0Tv+QafGo21Q1PNFPNo3X74AoQOawGUdcuHxN8TyuqeVtpVyZRGeckjfIJE44K+ZyTDa
-         S1siWf51rC2Dfj81RzGXZiHzXLZdTXUi1dndnqHrBFqJx0O+EFOKDVw8PL8F/Wv/t3qo
-         cut0TRbTMigAxV5O/RFZxGj3ibnKumEFQjspLkI4ZZ+D11D9o2QVDyTa0GEGQEQsRKoQ
-         f6Ww==
-X-Gm-Message-State: AOAM532KcNv6tIn/X64tzm1gIpxcsWRqHuel2a4/ClkVWbOdsVpt9Bci
-        fFqlFWxFiFwMIIzb0g/CN5Q=
-X-Google-Smtp-Source: ABdhPJwUusLonRJPfLhID5eqG5hv9dEooBLirv2Q0V3Al1ERtM61F/Ze8oONhADBQzsOzTKlzXYPtw==
-X-Received: by 2002:a1c:4302:: with SMTP id q2mr8543859wma.182.1605392528005;
-        Sat, 14 Nov 2020 14:22:08 -0800 (PST)
-Received: from localhost.localdomain ([170.253.49.0])
-        by smtp.googlemail.com with ESMTPSA id 89sm16826357wrp.58.2020.11.14.14.22.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Nov 2020 14:22:07 -0800 (PST)
-From:   Alejandro Colomar <alx.manpages@gmail.com>
-X-Google-Original-From: Alejandro Colomar <colomar.6.4.3@gmail.com>
-To:     pcc@google.com, mtk.manpages@gmail.com
-Cc:     Dave.Martin@arm.com, James.Bottomley@hansenpartnership.com,
-        andreyknvl@google.com, catalin.marinas@arm.com,
-        david.spickett@linaro.org, deller@gmx.de, ebiederm@xmission.com,
-        eugenis@google.com, kcc@google.com, kevin.brodsky@arm.com,
-        linux-api@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-man@vger.kernel.org, oleg@redhat.com,
-        vincenzo.frascino@arm.com, will@kernel.org,
-        Alejandro Colomar <alx.manpages@gmail.com>
-Subject: [PATCH] sigaction.2: Document SA_EXPOSE_TAGBITS and the flag support detection protocol
-Date:   Sat, 14 Nov 2020 22:49:15 +0100
-Message-Id: <20201114214914.177815-1-colomar.6.4.3@gmail.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201114014132.2439310-1-pcc@google.com>
-References: <20201114014132.2439310-1-pcc@google.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8OjP+5cGWBCk9BbSjj8EDVAtK1851f4Lffv0hXOM8z8=;
+        b=e3svAtiPDEZ+EalmYc45ezfbeg1CHeG+olGQ3AWX6zZtUz7BNNVV2WRI52YmL9V8wE
+         WInYEzIVZ/kV/3lHoYzIq5otczHdtb9vf1Em/bPY0pUnXhpJu8AhoykE6KtCvFpZr+7M
+         BQoypjicrV0RKG9gY0+f12D71tHatOt/+AqmGly21OJvvRUVcmO6+M6sMXzh3yWAUqtN
+         iGjO1O+2KkbWgmqqmSBtHAjpkW3lxV6eAKFEk+gVf6r2vLlHsONb4J/cZr1Jxdvp2YOE
+         n0dQzT8YtlRXpIXSn+vGH6OEVY6a/lcbeUHuYGE3mwVlS9sANw9zzZ3TvIZsAd1eZLA2
+         0Y4Q==
+X-Gm-Message-State: AOAM530BK6yYRO8wJFtVZFxBy83AcQqpi5mIPSiBOs+ePYXd2jNgX6Nn
+        69d6DG3uLYzov86/ZRXiPkm1y8ma4UN1d41McK1hOQ==
+X-Google-Smtp-Source: ABdhPJy/B9v01IhKdrfHLsHPTm2zHqxHyHu8/Q5oALqHy3KjEXOiRoQZTntUGwJ3l4QL4WR6c4qrMf63B2hiowceTxQ=
+X-Received: by 2002:ab0:6dd1:: with SMTP id r17mr4803203uaf.108.1605391972076;
+ Sat, 14 Nov 2020 14:12:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1605235762.git.pcc@google.com> <3581410892be6851d804bbbb84fccf06073f1262.1605235762.git.pcc@google.com>
+ <878sb4nixz.fsf@x220.int.ebiederm.org>
+In-Reply-To: <878sb4nixz.fsf@x220.int.ebiederm.org>
+From:   Peter Collingbourne <pcc@google.com>
+Date:   Sat, 14 Nov 2020 14:12:41 -0800
+Message-ID: <CAMn1gO52j4fSEn5S2GdrtyCq+iiaMK16DkKiyj=Go91Jy+xR-w@mail.gmail.com>
+Subject: Re: [PATCH v16 5/6] signal: define the SA_UNSUPPORTED bit in sa_flags
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Evgenii Stepanov <eugenis@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Will Deacon <will@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        Helge Deller <deller@gmx.de>,
+        David Spickett <david.spickett@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Peter Collingbourne <pcc@google.com>
+On Sat, Nov 14, 2020 at 5:53 AM Eric W. Biederman <ebiederm@xmission.com> wrote:
+>
+> Peter Collingbourne <pcc@google.com> writes:
+>
+> > Define a sa_flags bit, SA_UNSUPPORTED, which will never be supported
+> > in the uapi. The purpose of this flag bit is to allow userspace to
+> > distinguish an old kernel that does not clear unknown sa_flags bits
+> > from a kernel that supports every flag bit.
+> >
+> > In other words, if userspace does something like:
+> >
+> >   act.sa_flags |= SA_UNSUPPORTED;
+> >   sigaction(SIGSEGV, &act, 0);
+> >   sigaction(SIGSEGV, 0, &oldact);
+> >
+> > and finds that SA_UNSUPPORTED remains set in oldact.sa_flags, it means
+> > that the kernel cannot be trusted to have cleared unknown flag bits
+> > from sa_flags, so no assumptions about flag bit support can be made.
+> >
+> > Signed-off-by: Peter Collingbourne <pcc@google.com>
+> > Reviewed-by: Dave Martin <Dave.Martin@arm.com>
+> > Link: https://linux-review.googlesource.com/id/Ic2501ad150a3a79c1cf27fb8c99be342e9dffbcb
+> > ---
+> > v11:
+> > - clarify the commit message
+> >
+> >  include/uapi/asm-generic/signal-defs.h | 7 +++++++
+> >  kernel/signal.c                        | 6 ++++++
+> >  2 files changed, 13 insertions(+)
+> >
+> > diff --git a/include/uapi/asm-generic/signal-defs.h b/include/uapi/asm-generic/signal-defs.h
+> > index 493953fe319b..0126ebda4d31 100644
+> > --- a/include/uapi/asm-generic/signal-defs.h
+> > +++ b/include/uapi/asm-generic/signal-defs.h
+> > @@ -14,6 +14,12 @@
+> >   * SA_RESTART flag to get restarting signals (which were the default long ago)
+> >   * SA_NODEFER prevents the current signal from being masked in the handler.
+> >   * SA_RESETHAND clears the handler when the signal is delivered.
+> > + * SA_UNSUPPORTED is a flag bit that will never be supported. Kernels from
+> > + * before the introduction of SA_UNSUPPORTED did not clear unknown bits from
+> > + * sa_flags when read using the oldact argument to sigaction and rt_sigaction,
+> > + * so this bit allows flag bit support to be detected from userspace while
+> > + * allowing an old kernel to be distinguished from a kernel that supports every
+> > + * flag bit.
+> >   *
+> >   * SA_ONESHOT and SA_NOMASK are the historical Linux names for the Single
+> >   * Unix names RESETHAND and NODEFER respectively.
+> > @@ -42,6 +48,7 @@
+> >  #ifndef SA_RESETHAND
+> >  #define SA_RESETHAND 0x80000000
+> >  #endif
+> > +#define SA_UNSUPPORTED       0x00000400
+>
+> Why this value and why not in numerical order with the other flags?
+>
+> At the very least not being in order with the other bits makes it
+> a little easier to overlook it and define something at that position.
 
-Signed-off-by: Peter Collingbourne <pcc@google.com>
-[alx: srcfix + ffix]
-Cowritten-by: Alejandro Colomar <alx.manpages@gmail.com>
-Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
----
+The value is because this is the first bit that isn't already taken by
+an architecture-specific flag bit. It seems okay to move it into
+numerical order.
 
-Hi Michael,
+The taken flag bits are listed in the comment that I added in patch 3.
+Do you think there would be a more prominent way to document them?
+Maybe we can replace that comment with inline, in-order comments along
+the lines of:
 
-as Peter noted, this patch is not ready
-(code hasn't been merged into the kernel yet).
+#ifndef SA_NOCLDSTOP
+#define SA_NOCLDSTOP   0x00000001
+#endif
+#ifndef SA_NOCLDWAIT
+#define SA_NOCLDWAIT   0x00000002
+#endif
+#ifndef SA_SIGINFO
+#define SA_SIGINFO     0x00000004
+#endif
+/* 0x00000008 has arch-specific definition */
+/* 0x00000010 has arch-specific definition */
 
-And a spin-off question:
-How would you prefer it?:
-[
-.B SA_*
-] (there are 79 similar cases in the pages [1])
-or
-[
-.BR SA_ *
-] (there are 3 similar cases in the pages [2])
+etc.
 
+And then this patch would add the new bit in the right place.
 
-Hi Peter,
+Peter
 
-I improved a few minor things in your patch:
-
-- Use semantic newlines (see man-pages(7)).
-- Change explicit blank lines to [.PP]
-  (see 'Formatting conventions(general)' in man-pages(7)).
-- Use Oxford comma.
-
-
-Thanks,
-
-Alex
-
-
-[1](grep -r "_\*" man? | wc -l)
-[2](grep -r "_ \*" man? | wc -l)
-
- man2/sigaction.2 | 65 ++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 65 insertions(+)
-
-diff --git a/man2/sigaction.2 b/man2/sigaction.2
-index 22da658d0..91c46f3e3 100644
---- a/man2/sigaction.2
-+++ b/man2/sigaction.2
-@@ -251,6 +251,19 @@ This flag is meaningful only when establishing a signal handler.
- .\" .I sa_sigaction
- .\" field was added in Linux 2.1.86.)
- .\"
-+.TP
-+.BR SA_UNSUPPORTED " (since Linux 5.??)"
-+This flag bit will never be supported by the kernel.
-+It is used as part of the flag support detection protocol described below.
-+.TP
-+.BR SA_EXPOSE_TAGBITS " (since Linux 5.??)"
-+Normally, when delivering a signal,
-+an architecture-specific set of tag bits are cleared from the
-+.I si_addr
-+field of
-+.IR siginfo_t .
-+If this flag is set, the tag bits will be preserved in
-+.IR si_addr .
- .SS The siginfo_t argument to a SA_SIGINFO handler
- When the
- .B SA_SIGINFO
-@@ -834,6 +847,58 @@ Triggered by a
- .BR seccomp (2)
- filter rule.
- .RE
-+.SS Detecting flag support in sa_flags
-+The Linux kernel supports a mechanism for programs to
-+detect kernel support for
-+.B SA_*
-+flags in
-+.IR sa_flags .
-+This mechanism is quite subtle for backwards compatibility reasons
-+related to the historical behavior of the kernel.
-+.PP
-+Starting with Linux 5.??,
-+the kernel will clear any unrecognized bits from the
-+.I sa_flags
-+value returned via
-+.I oldact
-+if those bits were set when the signal handler was originally installed.
-+Therefore, a program that only needs to be compatible with
-+Linux 5.?? and above
-+may test for flag bit support by issuing a second call to
-+.BR sigaction ()
-+and testing whether the bit remains set in
-+.IR oldact.sa_flags .
-+.PP
-+Prior to Linux 5.x, unrecognized flag bits were preserved in
-+.I oldact.sa_flags
-+so this protocol on its own would not be sufficient to allow a
-+userspace program to test for flag bit support
-+if it needs to be compatible with kernel versions older than 5.??.
-+Therefore, the
-+.B SA_UNSUPPORTED
-+flag bit was defined,
-+which the kernel will always consider to be unknown.
-+A userspace program that sets this flag bit in
-+.I act.sa_flags
-+and finds that it has been cleared in
-+.I oldact.sa_flags
-+in a subsequent call to
-+.BR sigaction ()
-+may trust that any other unknown flag bits have been cleared.
-+.PP
-+A reasonably modern program may trust that the flags
-+.BR SA_NOCLDSTOP ,
-+.BR SA_NOCLDWAIT ,
-+.BR SA_SIGINFO ,
-+.BR SA_ONSTACK ,
-+.BR SA_RESTART ,
-+.BR SA_NODEFER ,
-+.BR SA_RESETHAND ,
-+and, if defined by the architecture,
-+.B SA_RESTORER
-+are supported by the kernel,
-+without relying on the flag bit support detection protocol,
-+since these flags have all been supported since Linux 2.6.
- .SH RETURN VALUE
- .BR sigaction ()
- returns 0 on success; on error, \-1 is returned, and
--- 
-2.28.0
-
+>
+> Eric
+>
+>
+> >  #define SA_NOMASK    SA_NODEFER
+> >  #define SA_ONESHOT   SA_RESETHAND
+> > diff --git a/kernel/signal.c b/kernel/signal.c
+> > index 8f5bd12ee41b..8f34819e80de 100644
+> > --- a/kernel/signal.c
+> > +++ b/kernel/signal.c
+> > @@ -3985,6 +3985,12 @@ int do_sigaction(int sig, struct k_sigaction *act, struct k_sigaction *oact)
+> >       if (oact)
+> >               *oact = *k;
+> >
+> > +     /*
+> > +      * Make sure that we never accidentally claim to support SA_UNSUPPORTED,
+> > +      * e.g. by having an architecture use the bit in their uapi.
+> > +      */
+> > +     BUILD_BUG_ON(UAPI_SA_FLAGS & SA_UNSUPPORTED);
+> > +
+> >       /*
+> >        * Clear unknown flag bits in order to allow userspace to detect missing
+> >        * support for flag bits and to allow the kernel to use non-uapi bits
