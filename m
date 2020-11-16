@@ -2,100 +2,78 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E3ADE2B5077
-	for <lists+linux-api@lfdr.de>; Mon, 16 Nov 2020 20:02:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 94E192B5198
+	for <lists+linux-api@lfdr.de>; Mon, 16 Nov 2020 20:51:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727087AbgKPTBY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 16 Nov 2020 14:01:24 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52574 "EHLO mail.kernel.org"
+        id S1728744AbgKPTto (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 16 Nov 2020 14:49:44 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45856 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727023AbgKPTBY (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 16 Nov 2020 14:01:24 -0500
-Received: from trantor (unknown [2.26.170.190])
+        id S1727973AbgKPTtn (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 16 Nov 2020 14:49:43 -0500
+Received: from sol.localdomain (172-10-235-113.lightspeed.sntcca.sbcglobal.net [172.10.235.113])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 69FBA206A1;
-        Mon, 16 Nov 2020 19:01:21 +0000 (UTC)
-Date:   Mon, 16 Nov 2020 19:01:18 +0000
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Peter Collingbourne <pcc@google.com>
-Cc:     Evgenii Stepanov <eugenis@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Will Deacon <will@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        linux-api@vger.kernel.org, Helge Deller <deller@gmx.de>,
-        David Spickett <david.spickett@linaro.org>
-Subject: Re: [PATCH v16 6/6] arm64: expose FAR_EL1 tag bits in siginfo
-Message-ID: <X7LMfrl/vQ8vA+Va@trantor>
-References: <cover.1605235762.git.pcc@google.com>
- <81e1307108ca8ea67aa1060f6f47b34a507410f1.1605235762.git.pcc@google.com>
+        by mail.kernel.org (Postfix) with ESMTPSA id 308162078E;
+        Mon, 16 Nov 2020 19:49:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1605556183;
+        bh=9FE2KtR+IehS1RXA8qU0fhm9wTBUQaq0fSBy9snon8I=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=JcmQKlO38CIgRsATTx3KE6RroMop3zQOVhM4rPdtnUHDBwGEgxEFnc8M9+dDMuzw8
+         Pi1wnOz9rO72SElennxOg+j+8WFOsuWq0FjiC9bUS0+U9kmXYIZgeLb0/e9YpQbBZ8
+         vdhEj1gSxs2KwRi9ELeHzXhKeJdSdxHVEDkvoYPc=
+Date:   Mon, 16 Nov 2020 11:49:41 -0800
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     linux-fscrypt@vger.kernel.org
+Cc:     linux-api@vger.kernel.org
+Subject: Re: [PATCH] fscrypt: remove kernel-internal constants from UAPI
+ header
+Message-ID: <X7LX1RGLo/5NnHKE@sol.localdomain>
+References: <20201024005132.495952-1-ebiggers@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <81e1307108ca8ea67aa1060f6f47b34a507410f1.1605235762.git.pcc@google.com>
+In-Reply-To: <20201024005132.495952-1-ebiggers@kernel.org>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Nov 12, 2020 at 06:53:36PM -0800, Peter Collingbourne wrote:
-> diff --git a/Documentation/arm64/tagged-pointers.rst b/Documentation/arm64/tagged-pointers.rst
-> index eab4323609b9..19d284b70384 100644
-> --- a/Documentation/arm64/tagged-pointers.rst
-> +++ b/Documentation/arm64/tagged-pointers.rst
-> @@ -53,12 +53,25 @@ visibility.
->  Preserving tags
->  ---------------
->  
-> -Non-zero tags are not preserved when delivering signals. This means that
-> -signal handlers in applications making use of tags cannot rely on the
-> -tag information for user virtual addresses being maintained for fields
-> -inside siginfo_t. One exception to this rule is for signals raised in
-> -response to watchpoint debug exceptions, where the tag information will
-> -be preserved.
-> +When delivering signals, non-zero tags are not preserved in
-> +siginfo.si_addr unless the flag SA_EXPOSE_TAGBITS was set in
-> +sigaction.sa_flags when the signal handler was installed. This means
-> +that signal handlers in applications making use of tags cannot rely
-> +on the tag information for user virtual addresses being maintained
-> +in these fields unless the flag was set.
-> +
-> +Due to architecture limitations, bits 63:60 of the fault address
-> +are not preserved in response to synchronous tag check faults
-> +(SEGV_MTESERR) even if SA_EXPOSE_TAGBITS was set. Applications should
-> +treat the values of these bits as undefined in order to accommodate
-> +future architecture revisions which may preserve the bits.
+On Fri, Oct 23, 2020 at 05:51:31PM -0700, Eric Biggers wrote:
+> From: Eric Biggers <ebiggers@google.com>
+> 
+> There isn't really any valid reason to use __FSCRYPT_MODE_MAX or
+> FSCRYPT_POLICY_FLAGS_VALID in a userspace program.  These constants are
+> only meant to be used by the kernel internally, and they are defined in
+> the UAPI header next to the mode numbers and flags only so that kernel
+> developers don't forget to update them when adding new modes or flags.
+> 
+> In https://lkml.kernel.org/r/20201005074133.1958633-2-satyat@google.com
+> there was an example of someone wanting to use __FSCRYPT_MODE_MAX in a
+> user program, and it was wrong because the program would have broken if
+> __FSCRYPT_MODE_MAX were ever increased.  So having this definition
+> available is harmful.  FSCRYPT_POLICY_FLAGS_VALID has the same problem.
+> 
+> So, remove these definitions from the UAPI header.  Replace
+> FSCRYPT_POLICY_FLAGS_VALID with just listing the valid flags explicitly
+> in the one kernel function that needs it.  Move __FSCRYPT_MODE_MAX to
+> fscrypt_private.h, remove the double underscores (which were only
+> present to discourage use by userspace), and add a BUILD_BUG_ON() and
+> comments to (hopefully) ensure it is kept in sync.
+> 
+> Keep the old name FS_POLICY_FLAGS_VALID, since it's been around for
+> longer and there's a greater chance that removing it would break source
+> compatibility with some program.  Indeed, mtd-utils is using it in
+> an #ifdef, and removing it would introduce compiler warnings (about
+> FS_POLICY_FLAGS_PAD_* being redefined) into the mtd-utils build.
+> However, reduce its value to 0x07 so that it only includes the flags
+> with old names (the ones present before Linux 5.4), and try to make it
+> clear that it's now "frozen" and no new flags should be added to it.
+> 
+> Fixes: 2336d0deb2d4 ("fscrypt: use FSCRYPT_ prefix for uapi constants")
+> Cc: <stable@vger.kernel.org> # v5.4+
+> Signed-off-by: Eric Biggers <ebiggers@google.com>
 
-If future architecture versions will preserve these bits, most likely
-we'll add a new HWCAP bit so that the user knows what's going on. But
-the user shouldn't rely on them being 0, just in case.
+Applied to fscrypt.git#master for 5.11.
 
-> +For signals raised in response to watchpoint debug exceptions, the
-> +tag information will be preserved regardless of the SA_EXPOSE_TAGBITS
-> +flag setting.
-> +
-> +Non-zero tags are never preserved in sigcontext.fault_address
-> +regardless of the SA_EXPOSE_TAGBITS flag setting.
-
-We could've done it the other way around (fault_address tagged, si_addr
-untagged) but that would be specific to arm64, so I think we should
-solve it for other architectures that implement (or plan to) tagging.
-The fault_address in the arm64 sigcontext was an oversight, we should
-have removed it but when we realised it was already ABI.
-
-Anyway, I'm fine with the arm64 changes here:
-
-Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
-
-With Eric's ack, I'm happy to take the series through the arm64 tree,
-otherwise Eric's tree is fine as well.
-
-Thanks.
-
--- 
-Catalin
+- Eric
