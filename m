@@ -2,366 +2,261 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EBA52B3F53
-	for <lists+linux-api@lfdr.de>; Mon, 16 Nov 2020 10:04:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 99CDB2B441A
+	for <lists+linux-api@lfdr.de>; Mon, 16 Nov 2020 13:59:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728370AbgKPJCt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 16 Nov 2020 04:02:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50268 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728333AbgKPJCs (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 16 Nov 2020 04:02:48 -0500
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C3A9C0613CF;
-        Mon, 16 Nov 2020 01:02:47 -0800 (PST)
-Received: by mail-wr1-x441.google.com with SMTP id k2so17830819wrx.2;
-        Mon, 16 Nov 2020 01:02:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=eM0XdfsC5L6zcjJ80a9zefiyqEZ2CaVUlGxtnUuJHd4=;
-        b=ikjR6Vm36oHyGlIr/hYjyPbJM20eAlyBbLNsF5q46AbPrQpQAVAwss93zoQYuasBI2
-         993GlGcTNKmuS2QPeXsYF3VSNRF6wD7BS8z0G03M/OjG5D5d0T30y761w6ligjawr+U0
-         RdcjOUNysqlCnmlorku4BJS2VVOXUCjPKKLY3E+cQGEMhYSKi0YYL8GwO6zJaK/cH48/
-         qRWMxSD+oXyZGQsZmZfZlfs4hTc9r5216OuCMtwst6K94MiPrLv2x0fb3cQgfWw19vXV
-         SRUoIOYggM9XJ9qAFY0H6QUHXA6ToM8l5tKObcuDhfwjZXj6OMzFXDnrtETTrnLu5bkU
-         fVQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=eM0XdfsC5L6zcjJ80a9zefiyqEZ2CaVUlGxtnUuJHd4=;
-        b=WWwmjCbCNr87KtcPIlMPw/kAnX1KsrEeVANrf3H870tTPA/OP/oHJHYoD+knAnxg/N
-         dSxTNqnX84aOYJNgV0icCBLuzJdMAd7LvE3NNRMqKa7hlmawQnQq3pIFbHBnGFo3w9dL
-         SxSFzqDQCxn/jf2zB1BfH+XrIu57cU0ztmO7pOmbbeFEgGAmcex+IM9faR0czjAHRArS
-         1IWTBqlgE68XF+rBBKrH40tfXmUxm5LMnGn3iFsY+wa734ouxXYDvnUySa71yGxc8+r2
-         kbDx2lLdo+patirPuK4gezkTULPwOmoOjuGqyytGLAAb1q7eT7pPva8BG/Fw5MxqfgBb
-         2L3Q==
-X-Gm-Message-State: AOAM532l/KOLGMBkkoFenumNQ0V1cDqFJ03v8cRew75HQuHuCMMVSROm
-        NFbPGRhSPorIUvLhTWfs09F72jPrQ7c=
-X-Google-Smtp-Source: ABdhPJw9T2DQtL12MksFtFx9Yb8fbhecjZl/+eMPs033ubJ0ZpEgLyNYj2WHnuZ6qePeYPFHi/5GSg==
-X-Received: by 2002:adf:8304:: with SMTP id 4mr17763156wrd.215.1605517366078;
-        Mon, 16 Nov 2020 01:02:46 -0800 (PST)
-Received: from [192.168.8.114] ([37.167.85.62])
-        by smtp.gmail.com with ESMTPSA id o205sm19060209wma.25.2020.11.16.01.02.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Nov 2020 01:02:45 -0800 (PST)
-Subject: Re: [PATCH v9 3/3] mm/madvise: introduce process_madvise() syscall:
- an external memory hinting API
-To:     Minchan Kim <minchan@kernel.org>,
-        Christoph Hellwig <hch@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
-        oleksandr@redhat.com, Suren Baghdasaryan <surenb@google.com>,
-        Tim Murray <timmurray@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        John Dias <joaodias@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jann Horn <jannh@google.com>,
-        alexander.h.duyck@linux.intel.com, sj38.park@gmail.com,
-        David Rientjes <rientjes@google.com>,
-        Arjun Roy <arjunroy@google.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Christian Brauner <christian@brauner.io>,
-        Daniel Colascione <dancol@google.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        Kirill Tkhai <ktkhai@virtuozzo.com>,
-        SeongJae Park <sjpark@amazon.de>, linux-man@vger.kernel.org
-References: <20200901000633.1920247-1-minchan@kernel.org>
- <20200901000633.1920247-4-minchan@kernel.org>
- <20200921065633.GA8070@infradead.org> <20200921175539.GB387368@google.com>
-From:   Eric Dumazet <eric.dumazet@gmail.com>
-Message-ID: <a376191d-908d-7d3c-a810-8ef51cc45f49@gmail.com>
-Date:   Mon, 16 Nov 2020 10:02:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        id S1728029AbgKPM5S (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 16 Nov 2020 07:57:18 -0500
+Received: from foss.arm.com ([217.140.110.172]:39340 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726455AbgKPM5S (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 16 Nov 2020 07:57:18 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C4239101E;
+        Mon, 16 Nov 2020 04:57:17 -0800 (PST)
+Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8DAF23F70D;
+        Mon, 16 Nov 2020 04:57:15 -0800 (PST)
+Date:   Mon, 16 Nov 2020 12:57:11 +0000
+From:   Dave Martin <Dave.Martin@arm.com>
+To:     Peter Collingbourne <pcc@google.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Evgenii Stepanov <eugenis@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        linux-api@vger.kernel.org, Helge Deller <deller@gmx.de>,
+        David Spickett <david.spickett@linaro.org>,
+        linux-man@vger.kernel.org
+Subject: Re: [PATCH] sigaction.2: Document SA_EXPOSE_TAGBITS and the flag
+ support detection protocol
+Message-ID: <20201116125709.GV6882@arm.com>
+References: <20201114014132.2439310-1-pcc@google.com>
 MIME-Version: 1.0
-In-Reply-To: <20200921175539.GB387368@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201114014132.2439310-1-pcc@google.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-
-
-On 9/21/20 7:55 PM, Minchan Kim wrote:
-> On Mon, Sep 21, 2020 at 07:56:33AM +0100, Christoph Hellwig wrote:
->> On Mon, Aug 31, 2020 at 05:06:33PM -0700, Minchan Kim wrote:
->>> There is usecase that System Management Software(SMS) want to give a
->>> memory hint like MADV_[COLD|PAGEEOUT] to other processes and in the
->>> case of Android, it is the ActivityManagerService.
->>>
->>> The information required to make the reclaim decision is not known to
->>> the app.  Instead, it is known to the centralized userspace
->>> daemon(ActivityManagerService), and that daemon must be able to
->>> initiate reclaim on its own without any app involvement.
->>>
->>> To solve the issue, this patch introduces a new syscall process_madvise(2).
->>> It uses pidfd of an external process to give the hint. It also supports
->>> vector address range because Android app has thousands of vmas due to
->>> zygote so it's totally waste of CPU and power if we should call the
->>> syscall one by one for each vma.(With testing 2000-vma syscall vs
->>> 1-vector syscall, it showed 15% performance improvement.  I think it
->>> would be bigger in real practice because the testing ran very cache
->>> friendly environment).
->>
->> I'm really not sure this syscall is a good idea.  If you want central
->> control you should implement an IPC mechanisms that allows your
->> supervisor daemon to tell the application to perform the madvice
->> instead of forcing the behavior on it.
-> 
-> There was dicussion about the approach. There were several issues.
-> One of them was the target app was already freezed and we wanted
-> to run the syscall in caller's context, not callee.
-> 
->>
->>>  /*
->>>   * The madvise(2) system call.
->>>   *
->>> @@ -1036,6 +1049,11 @@ madvise_behavior_valid(int behavior)
->>>   *  MADV_DONTDUMP - the application wants to prevent pages in the given range
->>>   *		from being included in its core dump.
->>>   *  MADV_DODUMP - cancel MADV_DONTDUMP: no longer exclude from core dump.
->>> + *  MADV_COLD - the application is not expected to use this memory soon,
->>> + *		deactivate pages in this range so that they can be reclaimed
->>> + *		easily if memory pressure hanppens.
->>> + *  MADV_PAGEOUT - the application is not expected to use this memory soon,
->>> + *		page out the pages in this range immediately.
->>
->> This should really go into a separate patch, as it has nothing to do
->> with the new syscall.
-> 
-> Technically, right but I expected it's not worth to have separate patch.
-> 
->>
->>> +static int process_madvise_vec(struct mm_struct *mm, struct iov_iter *iter, int behavior)
->>> +{
->>> +	struct iovec iovec;
->>> +	int ret = 0;
->>> +
->>> +	while (iov_iter_count(iter)) {
->>> +		iovec = iov_iter_iovec(iter);
->>> +		ret = do_madvise(mm, (unsigned long)iovec.iov_base, iovec.iov_len, behavior);
->>> +		if (ret < 0)
->>> +			break;
->>> +		iov_iter_advance(iter, iovec.iov_len);
->>> +	}
->>> +
->>> +	return ret;
->>
->> Please avoid the entirely pointless overly long line.
->>
->>> +static inline int madv_import_iovec(int type, const struct iovec __user *uvec, unsigned int nr_segs,
->>> +		unsigned int fast_segs, struct iovec **iov, struct iov_iter *i)
->>> +{
->>> +#ifdef CONFIG_COMPAT
->>> +	if (in_compat_syscall())
->>> +		return compat_import_iovec(type, (struct compat_iovec __user *)uvec, nr_segs,
->>> +				fast_segs, iov, i);
->>> +#endif
->>
->> More of the same.
->>
->>> +SYSCALL_DEFINE5(process_madvise, int, pidfd, const struct iovec __user *, vec,
->>> +		unsigned long, vlen, int, behavior, unsigned int, flags)
->>> +{
->>> +	ssize_t ret;
->>> +	struct iovec iovstack[UIO_FASTIOV];
->>> +	struct iovec *iov = iovstack;
->>> +	struct iov_iter iter;
->>> +
->>> +	ret = madv_import_iovec(READ, vec, vlen, ARRAY_SIZE(iovstack), &iov, &iter);
->>> +	if (ret < 0)
->>> +		return ret;
->>> +
->>> +	ret = do_process_madvise(pidfd, &iter, behavior, flags);
->>> +	kfree(iov);
->>> +	return ret;
->>
->> Even more here.  But more importantly there seems to be absolutely
->> no reason for the madv_import_iovec and do_process_madvise helpers
->> that both are tiny and have this even smaller function as the only
->> caller.
-> 
-> Fair enough.
-> 
-> 
-> Andrew, could you fold this patch?
-> Thank you.
-> 
-> From 02d63c6b3f61a1085f4eab80f5171bd2627b5ab0 Mon Sep 17 00:00:00 2001
-> From: Minchan Kim <minchan@kernel.org>
-> Date: Mon, 21 Sep 2020 09:31:25 -0700
-> Subject: [PATCH] mm: do not use helper functions for process_madvise
-> 
-> This patch removes helper functions process_madvise_vec,
-> do_process_madvise and madv_import_iovec and use them inline.
-> 
-> Signed-off-by: Minchan Kim <minchan@kernel.org>
+On Fri, Nov 13, 2020 at 05:41:32PM -0800, Peter Collingbourne wrote:
 > ---
->  mm/madvise.c | 97 +++++++++++++++++++++++-----------------------------
->  1 file changed, 43 insertions(+), 54 deletions(-)
+> These features are implemented in this patch series:
+>   https://lore.kernel.org/linux-arm-kernel/cover.1605235762.git.pcc@google.com/
+> which is still under review, so the patch should not be applied
+> yet.
+
+Good to see this -- I was vaguely intending to write something when the
+patch landed, so this saves me a job :)
+
+>  man2/sigaction.2 | 62 ++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 62 insertions(+)
 > 
-> diff --git a/mm/madvise.c b/mm/madvise.c
-> index ae266dfede8a..aa8bc65dbdb6 100644
-> --- a/mm/madvise.c
-> +++ b/mm/madvise.c
-> @@ -1166,37 +1166,40 @@ SYSCALL_DEFINE3(madvise, unsigned long, start, size_t, len_in, int, behavior)
->  	return do_madvise(current->mm, start, len_in, behavior);
->  }
->  
-> -static int process_madvise_vec(struct mm_struct *mm, struct iov_iter *iter, int behavior)
-> -{
-> -	struct iovec iovec;
-> -	int ret = 0;
-> -
-> -	while (iov_iter_count(iter)) {
-> -		iovec = iov_iter_iovec(iter);
-> -		ret = do_madvise(mm, (unsigned long)iovec.iov_base, iovec.iov_len, behavior);
-> -		if (ret < 0)
-> -			break;
-> -		iov_iter_advance(iter, iovec.iov_len);
-> -	}
-> -
-> -	return ret;
-> -}
-> -
-> -static ssize_t do_process_madvise(int pidfd, struct iov_iter *iter,
-> -				int behavior, unsigned int flags)
-> +SYSCALL_DEFINE5(process_madvise, int, pidfd, const struct iovec __user *, vec,
-> +		size_t, vlen, int, behavior, unsigned int, flags)
->  {
->  	ssize_t ret;
-> +	struct iovec iovstack[UIO_FASTIOV], iovec;
-> +	struct iovec *iov = iovstack;
-> +	struct iov_iter iter;
->  	struct pid *pid;
->  	struct task_struct *task;
->  	struct mm_struct *mm;
-> -	size_t total_len = iov_iter_count(iter);
-> +	size_t total_len;
->  
-> -	if (flags != 0)
-> -		return -EINVAL;
-> +	if (flags != 0) {
-> +		ret = -EINVAL;
-> +		goto out;
-> +	}
+> diff --git a/man2/sigaction.2 b/man2/sigaction.2
+> index 6a8142324..82fb69e26 100644
+> --- a/man2/sigaction.2
+> +++ b/man2/sigaction.2
+> @@ -250,6 +250,19 @@ This flag is meaningful only when establishing a signal handler.
+>  .\" .I sa_sigaction
+>  .\" field was added in Linux 2.1.86.)
+>  .\"
+> +.TP
+> +.BR SA_UNSUPPORTED " (since Linux 5.x)"
+> +This flag bit will never be supported by the kernel. It is used as
+> +part of the flag support detection protocol described below.
+
+It is supported, just with a special behaviour that only affects the
+sa_flags field of oact.
+
+It's also a bit wried to say that SA_UNSUPPORTED is supported "since some
+specific version of Linux."  If we define the special behaviour for this
+flag as "being supported", then saying "since Linux 5.x" just works
+naturally.
+
+Can we make a concise statement here about what the flag does and how to
+use it?
+
+It's preferable not to bury specification details in wordy rationale
+sections unless there's really no way to describe the behaviour
+concisely.
+
+Maybe: --8<--
+
+Check for extended sa_flags support.
+
+If the attempt to register a handler with this flag set in
+act->sa_flags succeeds, and an immediately subsequent sigaction() call
+specifying the same signal number n and with non-NULL oact yields
+SA_UNSUPPORTED
+.I clear
+in oact->sa_flags, then extended sa_flags are supported.
+
+If the handler registration attempt fails, or if the subsequent
+sigaction() call yields SA_UNSUPPORTED
+.I set
+in oact->sa_flags, then the caller must not assume that extended
+sa_flags are supported.
+
+-->8--
+
+Also, would it be a good idea to add something like the following?
+
+--8<--
+
+This flag may be specified alongside extended sa_flags whose meaning
+depends on the result of the check.  Since the behaviour of the signal
+handler cannot be guaranteed unless the check passes, it is wise to
+block the affected signal while registering the handler and performing
+the check in this case.
+
+-->8--
+
+
+Also, can we reference the "Detecting flag support in sa_flags" by name?
+It may be hard for people to find otherwise...
+
+
+> +.TP
+> +.BR SA_EXPOSE_TAGBITS " (since Linux 5.x)"
+
+Shouldn't we mention the probe requirement here?
+
+--8<--
+
+Requires extended sa_flags support; otherwise, the effect of this flag
+is unpecified.  See <section> [or SA_UNSUPPORTED if we think that's the
+more concise description to refer to] for details.  
+
+-->8--
+
+> +Normally, when delivering a signal, an architecture-specific
+> +set of tag bits are cleared from the
+
+Maybe "address tag bits", to make it clearer which bits we're talking
+about.  (But you're about to mention si_addr anyway, so perhaps this
+clarification is redundant.)
+
+> +.I si_addr
+> +field of
+> +.IR siginfo_t .
+> +If this flag is set, the tag bits will be preserved in
+
+Should we say "any available tag bits" or "an architecture-specific
+subset of the tag bits" or similar?
+
+This would cover us for the case where some arch can't always provide
+them all (which I think is the case for MTE on arm64? ... but my memory
+is hazy).
+
+> +.IR si_addr .
+>  .SS The siginfo_t argument to a SA_SIGINFO handler
+>  When the
+>  .B SA_SIGINFO
+> @@ -833,6 +846,55 @@ Triggered by a
+>  .BR seccomp (2)
+>  filter rule.
+>  .RE
+> +.SS Detecting flag support in sa_flags
+
+(Could be renamed to "Extended sa_flags support" if we want to be more
+concise.)
+
+> +The Linux kernel supports a mechanism for programs to detect kernel
+> +support for
+> +.B SA_*
+> +flags in
+> +.IR sa_flags .
+> +This mechanism is quite subtle for backwards compatibility reasons
+> +related to the historical behavior of the kernel.
+
+Can we avoid the word "subtle"?  To me, this suggests a euphemism for
+"doesn't work reliably", or "nobody knows whether it works".
+
+Being more explicit about the actual reason for this design might help,
+since the reason is actually fairly simple.  Maybe:
+
+--8<--
+
+Historically, the sigaction(2) call on Linux accepted unknown bits set
+in act->sa_flags without error, and a second sigaction() call would
+typically leave those bits set in oact->sa_flags.
+
+This means that support for new flags cannot be detected simply by
+setting a flag in sa_flags.
+
+-->8--
+
+
 > +
-> +#ifdef CONFIG_COMPAT
-> +	if (in_compat_syscall())
-> +		ret = compat_import_iovec(READ,
-> +				(struct compat_iovec __user *)vec, vlen,
-> +				ARRAY_SIZE(iovstack), &iov, &iter);
-> +	else
-> +#endif
-> +		ret = import_iovec(READ, vec, vlen, ARRAY_SIZE(iovstack),
-> +				&iov, &iter);
-> +	if (ret < 0)
-> +		goto out;
->  
->  	pid = pidfd_get_pid(pidfd);
-> -	if (IS_ERR(pid))
-> -		return PTR_ERR(pid);
-> +	if (IS_ERR(pid)) {
-> +		ret = PTR_ERR(pid);
-> +		goto free_iov;
-> +	}
->  
->  	task = get_pid_task(pid, PIDTYPE_PID);
->  	if (!task) {
-> @@ -1216,43 +1219,29 @@ static ssize_t do_process_madvise(int pidfd, struct iov_iter *iter,
->  		goto release_task;
->  	}
->  
-> -	ret = process_madvise_vec(mm, iter, behavior);
-> -	if (ret >= 0)
-> -		ret = total_len - iov_iter_count(iter);
-> +	total_len = iov_iter_count(&iter);
+> +Starting with Linux 5.x, the kernel will clear any unrecognized bits
+> +from the
+> +.I sa_flags
+> +value returned via
+> +.I oldact
+> +if those bits were set when the signal handler was originally installed.
+> +Therefore, a program that only needs to be compatible with Linux 5.x
+> +and above may test for flag bit support by issuing a second call to
+> +.BR sigaction ()
+> +and testing whether the bit remains set in
+> +.IR oldact.sa_flags .
 > +
-> +	while (iov_iter_count(&iter)) {
-> +		iovec = iov_iter_iovec(&iter);
-> +		ret = do_madvise(mm, (unsigned long)iovec.iov_base,
-> +					iovec.iov_len, behavior);
-> +		if (ret < 0)
-> +			break;
-> +		iov_iter_advance(&iter, iovec.iov_len);
-> +	}
-> +
-> +	if (ret == 0)
-> +		ret = total_len - iov_iter_count(&iter);
->  
->  	mmput(mm);
-> +	return ret;
+> +Prior to Linux 5.x, unrecognized flag bits were preserved in
+> +.I oldact.sa_flags
+> +so this protocol on its own would not be sufficient to allow a
+> +userspace program to test for flag bit support if it needs to be
+> +compatible with kernel versions older than 5.x. Therefore, the
+> +.B SA_UNSUPPORTED
+> +flag bit was defined, which the kernel will always consider to be
+> +unknown. A userspace program that sets this flag bit in
+> +.I act.sa_flags
+> +and finds that it has been cleared in
+> +.I oldact.sa_flags
+> +in a subsequent call to
+> +.BR sigaction ()
+> +may trust that any other unknown flag bits have been cleared.
 
-This "return ret;" seems quite wrong...
+Is this a bit too much rationale?  I don't think we have to justify the
+choice of design here -- describing the design and hinting at the reason
+for it seems enough.
 
-I will send the following :
-
-diff --git a/mm/madvise.c b/mm/madvise.c
-index 416a56b8e757bf3465ab13cea51e0751ade2c745..cc9224a59e9fa07e41f9b4ad2e58b9c97889299b 100644
---- a/mm/madvise.c
-+++ b/mm/madvise.c
-@@ -1231,7 +1231,6 @@ SYSCALL_DEFINE5(process_madvise, int, pidfd, const struct iovec __user *, vec,
-                ret = total_len - iov_iter_count(&iter);
- 
-        mmput(mm);
--       return ret;
- 
- release_task:
-        put_task_struct(task);
-
-
-
+If you go with my suggestions for the SA_UNSUPPORTED section, then we
+can probably thin out some duplicate details here.
 
 > +
->  release_task:
->  	put_task_struct(task);
->  put_pid:
->  	put_pid(pid);
-> -	return ret;
-> -}
-> -
-> -static inline int madv_import_iovec(int type, const struct iovec __user *uvec, size_t nr_segs,
-> -		unsigned int fast_segs, struct iovec **iov, struct iov_iter *i)
-> -{
-> -#ifdef CONFIG_COMPAT
-> -	if (in_compat_syscall())
-> -		return compat_import_iovec(type, (struct compat_iovec __user *)uvec, nr_segs,
-> -				fast_segs, iov, i);
-> -#endif
-> -
-> -	return import_iovec(type, uvec, nr_segs, fast_segs, iov, i);
-> -}
-> -
-> -SYSCALL_DEFINE5(process_madvise, int, pidfd, const struct iovec __user *, vec,
-> -		size_t, vlen, int, behavior, unsigned int, flags)
-> -{
-> -	ssize_t ret;
-> -	struct iovec iovstack[UIO_FASTIOV];
-> -	struct iovec *iov = iovstack;
-> -	struct iov_iter iter;
-> -
-> -	ret = madv_import_iovec(READ, vec, vlen, ARRAY_SIZE(iovstack), &iov, &iter);
-> -	if (ret < 0)
-> -		return ret;
-> -
-> -	ret = do_process_madvise(pidfd, &iter, behavior, flags);
-> +free_iov:
->  	kfree(iov);
-> +out:
->  	return ret;
->  }
-> 
+> +A reasonably modern program may trust that the flags
+
+What does "reasonably modern" mean?
+
+> +.BR SA_NOCLDSTOP ,
+> +.BR SA_NOCLDWAIT ,
+> +.BR SA_SIGINFO ,
+> +.BR SA_ONSTACK ,
+> +.BR SA_RESTART ,
+> +.BR SA_NODEFER ,
+> +.B SA_RESETHAND
+> +and, if defined by the architecture,
+> +.B SA_RESTORER
+> +are supported by the kernel, without relying on the flag bit support
+> +detection protocol, since these flags have all been supported
+> +since Linux 2.6.
+
+I think it's best just to leave these unspecified, as today.  Software
+seems to get on just fine without SA_UNSUPPORTED for these.
+
+
+Also, can we have a code example here?  The description may leave people
+scratching their heads a bit, so I think a basic implementation would
+help.
+
+[...]
+
+Cheers
+---Dave
