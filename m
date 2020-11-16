@@ -2,101 +2,155 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A3BA2B53E7
-	for <lists+linux-api@lfdr.de>; Mon, 16 Nov 2020 22:37:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D14832B53FF
+	for <lists+linux-api@lfdr.de>; Mon, 16 Nov 2020 22:56:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729766AbgKPVgZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 16 Nov 2020 16:36:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55036 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729751AbgKPVgZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 16 Nov 2020 16:36:25 -0500
-Received: from smtp-bc0c.mail.infomaniak.ch (smtp-bc0c.mail.infomaniak.ch [IPv6:2001:1600:4:17::bc0c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33EABC0613CF
-        for <linux-api@vger.kernel.org>; Mon, 16 Nov 2020 13:36:25 -0800 (PST)
-Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4CZj7S2n4nzlhKBs;
-        Mon, 16 Nov 2020 22:36:20 +0100 (CET)
-Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
-        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4CZj7P4XQrzlh8TF;
-        Mon, 16 Nov 2020 22:36:17 +0100 (CET)
-Subject: Re: [PATCH v22 01/12] landlock: Add object management
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     James Morris <jmorris@namei.org>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Jann Horn <jannh@google.com>, Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        linux-security-module@vger.kernel.org, x86@kernel.org,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>
-References: <20201027200358.557003-1-mic@digikod.net>
- <20201027200358.557003-2-mic@digikod.net> <20201116212609.GA13063@amd>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <523d2141-e6f9-354d-d102-ae8345c84686@digikod.net>
-Date:   Mon, 16 Nov 2020 22:36:17 +0100
-User-Agent: 
+        id S1726621AbgKPVzh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 16 Nov 2020 16:55:37 -0500
+Received: from out02.mta.xmission.com ([166.70.13.232]:46636 "EHLO
+        out02.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727130AbgKPVzh (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 16 Nov 2020 16:55:37 -0500
+Received: from in01.mta.xmission.com ([166.70.13.51])
+        by out02.mta.xmission.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1kemT4-00Bu1J-50; Mon, 16 Nov 2020 14:55:22 -0700
+Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
+        by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.87)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1kemT3-0005JW-7s; Mon, 16 Nov 2020 14:55:22 -0700
+From:   ebiederm@xmission.com (Eric W. Biederman)
+To:     Catalin Marinas <catalin.marinas@arm.com>
+Cc:     Peter Collingbourne <pcc@google.com>,
+        Evgenii Stepanov <eugenis@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Will Deacon <will@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        linux-api@vger.kernel.org, Helge Deller <deller@gmx.de>,
+        David Spickett <david.spickett@linaro.org>
+References: <cover.1605235762.git.pcc@google.com>
+        <81e1307108ca8ea67aa1060f6f47b34a507410f1.1605235762.git.pcc@google.com>
+        <X7LMfrl/vQ8vA+Va@trantor>
+Date:   Mon, 16 Nov 2020 15:55:05 -0600
+In-Reply-To: <X7LMfrl/vQ8vA+Va@trantor> (Catalin Marinas's message of "Mon, 16
+        Nov 2020 19:01:18 +0000")
+Message-ID: <87d00dge6e.fsf@x220.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20201116212609.GA13063@amd>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-XM-SPF: eid=1kemT3-0005JW-7s;;;mid=<87d00dge6e.fsf@x220.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX19k++9Pb29rKqviHnrrXVeKG7pYWi03qds=
+X-SA-Exim-Connect-IP: 68.227.160.95
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa07.xmission.com
+X-Spam-Level: 
+X-Spam-Status: No, score=0.7 required=8.0 tests=ALL_TRUSTED,BAYES_50,
+        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,T_TooManySym_01,XMSubLong,
+        XM_B_SpammyWords autolearn=disabled version=3.4.2
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4849]
+        *  0.7 XMSubLong Long Subject
+        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
+        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
+        *      [sa07 1397; Body=1 Fuz1=1 Fuz2=1]
+        *  0.0 T_TooManySym_01 4+ unique symbols in subject
+        *  0.2 XM_B_SpammyWords One or more commonly used spammy words
+X-Spam-DCC: XMission; sa07 1397; Body=1 Fuz1=1 Fuz2=1 
+X-Spam-Combo: ;Catalin Marinas <catalin.marinas@arm.com>
+X-Spam-Relay-Country: 
+X-Spam-Timing: total 571 ms - load_scoreonly_sql: 0.08 (0.0%),
+        signal_user_changed: 10 (1.7%), b_tie_ro: 8 (1.4%), parse: 1.54 (0.3%),
+         extract_message_metadata: 16 (2.8%), get_uri_detail_list: 2.3 (0.4%),
+        tests_pri_-1000: 7 (1.2%), tests_pri_-950: 1.56 (0.3%),
+        tests_pri_-900: 1.23 (0.2%), tests_pri_-90: 122 (21.3%), check_bayes:
+        115 (20.1%), b_tokenize: 11 (2.0%), b_tok_get_all: 11 (2.0%),
+        b_comp_prob: 3.3 (0.6%), b_tok_touch_all: 85 (14.9%), b_finish: 0.93
+        (0.2%), tests_pri_0: 393 (68.8%), check_dkim_signature: 1.52 (0.3%),
+        check_dkim_adsp: 4.1 (0.7%), poll_dns_idle: 0.25 (0.0%), tests_pri_10:
+        2.2 (0.4%), tests_pri_500: 12 (2.2%), rewrite_mail: 0.00 (0.0%)
+Subject: Re: [PATCH v16 6/6] arm64: expose FAR_EL1 tag bits in siginfo
+X-Spam-Flag: No
+X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
+X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+Catalin Marinas <catalin.marinas@arm.com> writes:
 
-On 16/11/2020 22:26, Pavel Machek wrote:
-> Hi!
-> 
->> A Landlock object enables to identify a kernel object (e.g. an inode).
->> A Landlock rule is a set of access rights allowed on an object.  Rules
->> are grouped in rulesets that may be tied to a set of processes (i.e.
->> subjects) to enforce a scoped access-control (i.e. a domain).
->>
->> Because Landlock's goal is to empower any process (especially
->> unprivileged ones) to sandbox themselves, we cannot rely on a
->> system-wide object identification such as file extended attributes.
-> 
-> 
->> +config SECURITY_LANDLOCK
->> +	bool "Landlock support"
->> +	depends on SECURITY
->> +	select SECURITY_PATH
->> +	help
->> +	  Landlock is a safe sandboxing mechanism which enables processes to
->> +	  restrict themselves (and their future children) by gradually
->> +	  enforcing tailored access control policies.  A security policy is a
->> +	  set of access rights (e.g. open a file in read-only, make a
->> +	  directory, etc.) tied to a file hierarchy.  Such policy can be configured
->> +	  and enforced by any processes for themselves thanks to dedicated system
->> +	  calls: landlock_create_ruleset(), landlock_add_rule(), and
->> +	  landlock_enforce_ruleset_current().
-> 
-> How does it interact with setuid binaries? Being able to exec passwd
-> in a sandbox sounds like ... fun way to get root? :-).
+> On Thu, Nov 12, 2020 at 06:53:36PM -0800, Peter Collingbourne wrote:
+>> diff --git a/Documentation/arm64/tagged-pointers.rst b/Documentation/arm64/tagged-pointers.rst
+>> index eab4323609b9..19d284b70384 100644
+>> --- a/Documentation/arm64/tagged-pointers.rst
+>> +++ b/Documentation/arm64/tagged-pointers.rst
+>> @@ -53,12 +53,25 @@ visibility.
+>>  Preserving tags
+>>  ---------------
+>>  
+>> -Non-zero tags are not preserved when delivering signals. This means that
+>> -signal handlers in applications making use of tags cannot rely on the
+>> -tag information for user virtual addresses being maintained for fields
+>> -inside siginfo_t. One exception to this rule is for signals raised in
+>> -response to watchpoint debug exceptions, where the tag information will
+>> -be preserved.
+>> +When delivering signals, non-zero tags are not preserved in
+>> +siginfo.si_addr unless the flag SA_EXPOSE_TAGBITS was set in
+>> +sigaction.sa_flags when the signal handler was installed. This means
+>> +that signal handlers in applications making use of tags cannot rely
+>> +on the tag information for user virtual addresses being maintained
+>> +in these fields unless the flag was set.
+>> +
+>> +Due to architecture limitations, bits 63:60 of the fault address
+>> +are not preserved in response to synchronous tag check faults
+>> +(SEGV_MTESERR) even if SA_EXPOSE_TAGBITS was set. Applications should
+>> +treat the values of these bits as undefined in order to accommodate
+>> +future architecture revisions which may preserve the bits.
+>
+> If future architecture versions will preserve these bits, most likely
+> we'll add a new HWCAP bit so that the user knows what's going on. But
+> the user shouldn't rely on them being 0, just in case.
+>
+>> +For signals raised in response to watchpoint debug exceptions, the
+>> +tag information will be preserved regardless of the SA_EXPOSE_TAGBITS
+>> +flag setting.
+>> +
+>> +Non-zero tags are never preserved in sigcontext.fault_address
+>> +regardless of the SA_EXPOSE_TAGBITS flag setting.
+>
+> We could've done it the other way around (fault_address tagged, si_addr
+> untagged) but that would be specific to arm64, so I think we should
+> solve it for other architectures that implement (or plan to) tagging.
+> The fault_address in the arm64 sigcontext was an oversight, we should
+> have removed it but when we realised it was already ABI.
+>
+> Anyway, I'm fine with the arm64 changes here:
+>
+> Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+>
+> With Eric's ack, I'm happy to take the series through the arm64 tree,
+> otherwise Eric's tree is fine as well.
 
-It works like seccomp: if you run with CAP_SYS_ADMIN in the current
-namespace, then SUID binaries may be allowed, otherwise if you use
-PR_SET_NO_NEW_PRIVS, then executing a SUID binary is denied.
+In general I am fine with the last two patches.
 
-The 24th version is here:
-https://lore.kernel.org/lkml/20201112205141.775752-1-mic@digikod.net/
+I want to understand where the value for SA_UNSUPPORTED comes from, and
+while I have good answers I am still digesting the question of if
+SA_EXPOSE_TAGBITS should be implemented in the arch specific header or
+in a generic header.  I quite agree it should have a generic
+definition/implementation.  I just don't know if it makes sense to make
+the value available to userspace if the architecture does not have
+tagbits.  Mostly my concern is about bit consumption as we only have
+30ish sigaction bits.
 
-> 
-> Best regards,
-> 								Pavel
-> 								
-> 
+I will follow with my acks when I have resolved those issues.
+
+Thank you,
+Eric
+
