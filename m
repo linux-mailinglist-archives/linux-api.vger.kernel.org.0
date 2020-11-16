@@ -2,123 +2,150 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA6142B541E
-	for <lists+linux-api@lfdr.de>; Mon, 16 Nov 2020 23:09:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 632022B54E8
+	for <lists+linux-api@lfdr.de>; Tue, 17 Nov 2020 00:25:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726287AbgKPWIk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 16 Nov 2020 17:08:40 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46870 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726016AbgKPWIk (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 16 Nov 2020 17:08:40 -0500
-Received: from trantor (unknown [2.26.170.190])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 06EEA223BF;
-        Mon, 16 Nov 2020 22:08:36 +0000 (UTC)
-Date:   Mon, 16 Nov 2020 22:08:34 +0000
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Peter Collingbourne <pcc@google.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Will Deacon <will@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        linux-api@vger.kernel.org, Helge Deller <deller@gmx.de>,
-        David Spickett <david.spickett@linaro.org>
-Subject: Re: [PATCH v16 6/6] arm64: expose FAR_EL1 tag bits in siginfo
-Message-ID: <X7L4YroM+tqsvwW0@trantor>
-References: <cover.1605235762.git.pcc@google.com>
- <81e1307108ca8ea67aa1060f6f47b34a507410f1.1605235762.git.pcc@google.com>
- <X7LMfrl/vQ8vA+Va@trantor>
- <87d00dge6e.fsf@x220.int.ebiederm.org>
+        id S1727158AbgKPXYk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 16 Nov 2020 18:24:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43726 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727098AbgKPXYk (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 16 Nov 2020 18:24:40 -0500
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E3C3C0613CF;
+        Mon, 16 Nov 2020 15:24:40 -0800 (PST)
+Received: by mail-pf1-x441.google.com with SMTP id q10so15670976pfn.0;
+        Mon, 16 Nov 2020 15:24:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=9gHW/b2b9IVZCe8TQB/5bFXeA9E/gEGYf6Ex+dE1xsM=;
+        b=Du7zG1zkT8cXy4aIUBIS0820a1I4oY4AepXtnqY9BwQROuLpFqc2G0WXju9pYjEd5o
+         8yLw2EBPiw2bvTHtnEwbiM2asA+S1zbJtbxIRvvSMp3/iHyQfnCFtmRMhcspPTLNF4Iq
+         RN2iFkXw8qfTzsfNCdKjOsHi4ZlCX+Iu2bJEO9BrIaxIbhm6mRPBcva4tamRkKThO+xX
+         ui0VT56lAA/6z3DRpGr6wFOMnzKEUSHdSVWnYQwctuHP9M79dtfavDkO+gXk8r0E5Onb
+         U3l0QD+H/Mgt/6t36gOX5RipWIj5E6CiguISxim27EchNuFD/qDlzP0SRv9KgrHXTk4J
+         l2QQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=9gHW/b2b9IVZCe8TQB/5bFXeA9E/gEGYf6Ex+dE1xsM=;
+        b=AZi6Bfie2AZXJNyiWyZvfirknnQ3EiZLlo27WMyoAuQK47xNyUc/ny4jOY/YcyWu1w
+         zyePAJR3d8ZgVd4eaZiso8IJtnHJio5/BNgEoTTHpCJZwAnElawV6DFlHgyzkmsYXvYU
+         DRTlRy4UIkMJSKVT0AbGiOeg1CsxHu/Lq4nl2iB079ua04j7v8RgK3rdlU2/kcDv0P1W
+         hioh3/27G+RPwhwbNKq3vkBaSte89EhzCuFi677k5vMS6d/ro+7Kpb/2zaL+kUC58cz2
+         /JF541NDf6btx4oqvnqzTm6wqAMmzjWsqXAt5d0ZQiL1q97rtsU9x52Ar8Pjo2J2KtYo
+         wXTw==
+X-Gm-Message-State: AOAM532Np14ZZd3keKAZmDPc2j7SnSHDIewXsgAZXTuUv9wyxPa3Ziwa
+        kFc/SrCQTgFdoRsZDYWr0+0=
+X-Google-Smtp-Source: ABdhPJw+CCN+2GPNi3R5/WE8CzIWOQd5JBJwok6cN7cwCTZI+Jyj+dy07C+eYUEo56lj67iDBxXo0w==
+X-Received: by 2002:a17:90a:d495:: with SMTP id s21mr1413055pju.30.1605569079574;
+        Mon, 16 Nov 2020 15:24:39 -0800 (PST)
+Received: from google.com ([2620:15c:211:201:7220:84ff:fe09:5e58])
+        by smtp.gmail.com with ESMTPSA id mt2sm556195pjb.7.2020.11.16.15.24.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Nov 2020 15:24:38 -0800 (PST)
+Sender: Minchan Kim <minchan.kim@gmail.com>
+Date:   Mon, 16 Nov 2020 15:24:36 -0800
+From:   Minchan Kim <minchan@kernel.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Suren Baghdasaryan <surenb@google.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Roman Gushchin <guro@fb.com>, Rik van Riel <riel@surriel.com>,
+        Christian Brauner <christian@brauner.io>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Tim Murray <timmurray@google.com>, linux-api@vger.kernel.org,
+        linux-mm <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kernel-team <kernel-team@android.com>
+Subject: Re: [PATCH 1/1] RFC: add pidfd_send_signal flag to reclaim mm while
+ killing a process
+Message-ID: <20201116232436.GA3943731@google.com>
+References: <20201113173448.1863419-1-surenb@google.com>
+ <20201113155539.64e0af5b60ad3145b018ab0d@linux-foundation.org>
+ <CAJuCfpGJkEUqUWmo_7ms66ZqwHfy+OGsEhzgph+a4QfOWQ32Yw@mail.gmail.com>
+ <20201113170032.7aa56ea273c900f97e6ccbdc@linux-foundation.org>
+ <CAJuCfpHS3hZi-E=JCp257u0AG+RoMAG4kLa3NQydONGfp9oXQQ@mail.gmail.com>
+ <20201113171810.bebf66608b145cced85bf54c@linux-foundation.org>
+ <CAJuCfpH-Qjm5uqfaUcfk0QV2zC76uL96FQjd88bZGBvCuXE_aA@mail.gmail.com>
+ <20201113181632.6d98489465430a987c96568d@linux-foundation.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87d00dge6e.fsf@x220.int.ebiederm.org>
+In-Reply-To: <20201113181632.6d98489465430a987c96568d@linux-foundation.org>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Nov 16, 2020 at 03:55:05PM -0600, Eric W. Biederman wrote:
-> Catalin Marinas <catalin.marinas@arm.com> writes:
-> > On Thu, Nov 12, 2020 at 06:53:36PM -0800, Peter Collingbourne wrote:
-> >> diff --git a/Documentation/arm64/tagged-pointers.rst b/Documentation/arm64/tagged-pointers.rst
-> >> index eab4323609b9..19d284b70384 100644
-> >> --- a/Documentation/arm64/tagged-pointers.rst
-> >> +++ b/Documentation/arm64/tagged-pointers.rst
-> >> @@ -53,12 +53,25 @@ visibility.
-> >>  Preserving tags
-> >>  ---------------
-> >>  
-> >> -Non-zero tags are not preserved when delivering signals. This means that
-> >> -signal handlers in applications making use of tags cannot rely on the
-> >> -tag information for user virtual addresses being maintained for fields
-> >> -inside siginfo_t. One exception to this rule is for signals raised in
-> >> -response to watchpoint debug exceptions, where the tag information will
-> >> -be preserved.
-> >> +When delivering signals, non-zero tags are not preserved in
-> >> +siginfo.si_addr unless the flag SA_EXPOSE_TAGBITS was set in
-> >> +sigaction.sa_flags when the signal handler was installed. This means
-> >> +that signal handlers in applications making use of tags cannot rely
-> >> +on the tag information for user virtual addresses being maintained
-> >> +in these fields unless the flag was set.
-> >> +
-> >> +Due to architecture limitations, bits 63:60 of the fault address
-> >> +are not preserved in response to synchronous tag check faults
-> >> +(SEGV_MTESERR) even if SA_EXPOSE_TAGBITS was set. Applications should
-> >> +treat the values of these bits as undefined in order to accommodate
-> >> +future architecture revisions which may preserve the bits.
-> >
-> > If future architecture versions will preserve these bits, most likely
-> > we'll add a new HWCAP bit so that the user knows what's going on. But
-> > the user shouldn't rely on them being 0, just in case.
-> >
-> >> +For signals raised in response to watchpoint debug exceptions, the
-> >> +tag information will be preserved regardless of the SA_EXPOSE_TAGBITS
-> >> +flag setting.
-> >> +
-> >> +Non-zero tags are never preserved in sigcontext.fault_address
-> >> +regardless of the SA_EXPOSE_TAGBITS flag setting.
-> >
-> > We could've done it the other way around (fault_address tagged, si_addr
-> > untagged) but that would be specific to arm64, so I think we should
-> > solve it for other architectures that implement (or plan to) tagging.
-> > The fault_address in the arm64 sigcontext was an oversight, we should
-> > have removed it but when we realised it was already ABI.
-> >
-> > Anyway, I'm fine with the arm64 changes here:
-> >
-> > Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
-> >
-> > With Eric's ack, I'm happy to take the series through the arm64 tree,
-> > otherwise Eric's tree is fine as well.
+On Fri, Nov 13, 2020 at 06:16:32PM -0800, Andrew Morton wrote:
+> On Fri, 13 Nov 2020 17:57:02 -0800 Suren Baghdasaryan <surenb@google.com> wrote:
 > 
-> In general I am fine with the last two patches.
+> > On Fri, Nov 13, 2020 at 5:18 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+> > >
+> > > On Fri, 13 Nov 2020 17:09:37 -0800 Suren Baghdasaryan <surenb@google.com> wrote:
+> > >
+> > > > > > > Seems to me that the ability to reap another process's memory is a
+> > > > > > > generally useful one, and that it should not be tied to delivering a
+> > > > > > > signal in this fashion.
+> > > > > > >
+> > > > > > > And we do have the new process_madvise(MADV_PAGEOUT).  It may need a
+> > > > > > > few changes and tweaks, but can't that be used to solve this problem?
+> > > > > >
+> > > > > > Thank you for the feedback, Andrew. process_madvise(MADV_DONTNEED) was
+> > > > > > one of the options recently discussed in
+> > > > > > https://lore.kernel.org/linux-api/CAJuCfpGz1kPM3G1gZH+09Z7aoWKg05QSAMMisJ7H5MdmRrRhNQ@mail.gmail.com
+> > > > > > . The thread describes some of the issues with that approach but if we
+> > > > > > limit it to processes with pending SIGKILL only then I think that
+> > > > > > would be doable.
+> > > > >
+> > > > > Why would it be necessary to read /proc/pid/maps?  I'd have thought
+> > > > > that a starting effort would be
+> > > > >
+> > > > >         madvise((void *)0, (void *)-1, MADV_PAGEOUT)
+> > > > >
+> > > > > (after translation into process_madvise() speak).  Which is equivalent
+> > > > > to the proposed process_madvise(MADV_DONTNEED_MM)?
+> > > >
+> > > > Yep, this is very similar to option #3 in
+> > > > https://lore.kernel.org/linux-api/CAJuCfpGz1kPM3G1gZH+09Z7aoWKg05QSAMMisJ7H5MdmRrRhNQ@mail.gmail.com
+> > > > and I actually have a tested prototype for that.
+> > >
+> > > Why is the `vector=NULL' needed?  Can't `vector' point at a single iovec
+> > > which spans the whole address range?
+> > 
+> > That would be the option #4 from the same discussion and the issues
+> > noted there are "process_madvise return value can't handle such a
+> > large number of bytes and there is MAX_RW_COUNT limit on max number of
+> > bytes one process_madvise call can handle". In my prototype I have a
+> > special handling for such "bulk operation" to work around the
+> > MAX_RW_COUNT limitation.
 > 
-> I want to understand where the value for SA_UNSUPPORTED comes from, and
-> while I have good answers I am still digesting the question of if
-> SA_EXPOSE_TAGBITS should be implemented in the arch specific header or
-> in a generic header.  I quite agree it should have a generic
-> definition/implementation.  I just don't know if it makes sense to make
-> the value available to userspace if the architecture does not have
-> tagbits.  Mostly my concern is about bit consumption as we only have
-> 30ish sigaction bits.
+> Ah, OK, return value.  Maybe process_madvise() shouldn't have done that
+> and should have simply returned 0 on success, like madvise().
+> 
+> I guess a special "nuke whole address space" command is OK.  But, again
+> in the search for generality, the ability to nuke very large amounts of
+> address space (but not the entire address space) would be better. 
+> 
+> The process_madvise() return value issue could be addressed by adding a
+> process_madvise() mode which return 0 on success.
+> 
+> And I guess the MAX_RW_COUNT issue is solvable by adding an
+> import_iovec() arg to say "don't check that".  Along those lines.
+> 
+> It's all sounding a bit painful (but not *too* painful).  But to
+> reiterate, I do think that adding the ability for a process to shoot
+> down a large amount of another process's memory is a lot more generally
+> useful than tying it to SIGKILL, agree?
 
-An alternative would be to make this opt-in per process (or thread)
-based on a prctl() call. We already have one for PR_TAGGED_ADDR_ENABLE
-to allow tagged addresses from user at the syscall ABI level. Another
-bit in there would allow si_addr to be tagged. The disadvantage is that
-this is quite coarse control affecting other signal handlers.
-
-> I will follow with my acks when I have resolved those issues.
-
-Thanks.
-
--- 
-Catalin
+I agree the direction but I think it's the general problem for every
+APIs have supported iovec and not sure process_madvise is special to
+chage it.
+IOW, it wouldn't be a problem to support *entire address space* special
+mode but not sure to support *large amount of address space* at the cost
+of breaking existing iovec scheme.
