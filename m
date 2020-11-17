@@ -2,109 +2,121 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 58B162B6CF3
-	for <lists+linux-api@lfdr.de>; Tue, 17 Nov 2020 19:19:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D9672B6D06
+	for <lists+linux-api@lfdr.de>; Tue, 17 Nov 2020 19:20:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730980AbgKQSRB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 17 Nov 2020 13:17:01 -0500
-Received: from out02.mta.xmission.com ([166.70.13.232]:51778 "EHLO
-        out02.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730979AbgKQSRB (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Nov 2020 13:17:01 -0500
-Received: from in02.mta.xmission.com ([166.70.13.52])
-        by out02.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1kf5XB-00DV8E-St; Tue, 17 Nov 2020 11:16:54 -0700
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
-        by in02.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1kf5XA-004v0U-Rf; Tue, 17 Nov 2020 11:16:53 -0700
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     Peter Collingbourne <pcc@google.com>
+        id S1731172AbgKQSR3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 17 Nov 2020 13:17:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49052 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731153AbgKQSRY (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Nov 2020 13:17:24 -0500
+Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com [IPv6:2607:f8b0:4864:20::d41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 434DAC0617A7
+        for <linux-api@vger.kernel.org>; Tue, 17 Nov 2020 10:17:23 -0800 (PST)
+Received: by mail-io1-xd41.google.com with SMTP id r9so22150282ioo.7
+        for <linux-api@vger.kernel.org>; Tue, 17 Nov 2020 10:17:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ttXeKrhKcMls8e2meNyf1Yp9vx4Qupy+215G4JEYgyE=;
+        b=kFD6q3+HmeywJk3p/3WSefExg0/XQO2Fmy/godmWhmRmj1Pyh/vrHRHpXC8cJvC92Z
+         ZOe6RnmTJ8XzrWAXkCjNiXJ8hmTFZHwgtM+DhquqW47rbhw++lpI9XeMiIwePR4PD1PL
+         dqMMtda/+EuW0o8bHb4CblAuqWis7mXf+egTqGVodWSUVgG5TsFmze3hrwGqeZag0ck9
+         wEmCuHQlbne6XutwFVl7tFfC1SA5sWXBY+2Mft8l+kcIYYsiw0sxmYg7G6Xkak+0b/Hr
+         gt+uMpQj0qsQwZluvg6xiqVa/HMjP+cIoU2OTVeEfLsdueIM6Vj7uCb7jyF/Akj6VDGI
+         nT8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ttXeKrhKcMls8e2meNyf1Yp9vx4Qupy+215G4JEYgyE=;
+        b=eiOmnTjr8GH1kGwmeJujT0G5xrdrGL5CJJpMdfFJFp8FBKY2GdHzTp7Vk/R4HMPuJT
+         CVhspnx1Mmk/8Kq2bcH/CBBcaebKUaJ5JjUUTtqd27s+nTmvF3uCyIIcdWF0XL+vUKe2
+         K8i61+s8NBK/3NkJe7VR/A0mQ3HETI6vjGBuSprv6J3X8yenAk5mRTN/x9U9zNXiSOr6
+         eMEr29aVvHHxb8VZBftEEVk7Sv9b9BYoLRps5hg0tQwp2Z8pNANw/YrCUS+AYU+LHp9a
+         gKbTrpwwYuOwV1VfmxTOx43ZWNS8uRcchS9joyQ47rKj/EDMwWhgdgNxePJFrziK7eSS
+         QkCA==
+X-Gm-Message-State: AOAM5316+ZCSS49X7xS/OOfFDVnKhOzVT3+GUhfU3N+xuqlYK694KVmF
+        yRaFs/3YePBtDqOxVnBi4qvZxLgykx8bwVHXFr3Esg==
+X-Google-Smtp-Source: ABdhPJwJkTaHobAIO358KOOx6EVeXkRqDl2senlYO+76iU8R/dOi/Rm3jLJYK4cqZPNpt+Q/Uz+Yj4G7YWF7pX9dv+Y=
+X-Received: by 2002:a5d:9cc7:: with SMTP id w7mr12383475iow.202.1605637042319;
+ Tue, 17 Nov 2020 10:17:22 -0800 (PST)
+MIME-Version: 1.0
+References: <20201014055106.25164-1-pcc@google.com> <87blfv6fj3.fsf@mid.deneb.enyo.de>
+In-Reply-To: <87blfv6fj3.fsf@mid.deneb.enyo.de>
+From:   Peter Collingbourne <pcc@google.com>
+Date:   Tue, 17 Nov 2020 10:17:11 -0800
+Message-ID: <CAMn1gO7a-uyP93P4KapbsXy1+HRSuJR4r_kyy0_-FCY69qO_nA@mail.gmail.com>
+Subject: Re: [PATCH v2] arm64: Introduce prctl(PR_PAC_{SET,GET}_ENABLED_KEYS)
+To:     Florian Weimer <fw@deneb.enyo.de>
 Cc:     Catalin Marinas <catalin.marinas@arm.com>,
         Evgenii Stepanov <eugenis@google.com>,
         Kostya Serebryany <kcc@google.com>,
         Vincenzo Frascino <vincenzo.frascino@arm.com>,
         Dave Martin <Dave.Martin@arm.com>,
-        Will Deacon <will@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
         Kevin Brodsky <kevin.brodsky@arm.com>,
         Andrey Konovalov <andreyknvl@google.com>,
-        linux-api@vger.kernel.org, Helge Deller <deller@gmx.de>,
-        David Spickett <david.spickett@linaro.org>
-References: <cover.1605582887.git.pcc@google.com>
-Date:   Tue, 17 Nov 2020 12:16:35 -0600
-In-Reply-To: <cover.1605582887.git.pcc@google.com> (Peter Collingbourne's
-        message of "Mon, 16 Nov 2020 19:17:23 -0800")
-Message-ID: <87a6vfdf24.fsf@x220.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1kf5XA-004v0U-Rf;;;mid=<87a6vfdf24.fsf@x220.int.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX198FaP5HgN4dI/5wsAe2ngeLWpuhYSDD6U=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa06.xmission.com
-X-Spam-Level: 
-X-Spam-Status: No, score=-0.3 required=8.0 tests=ALL_TRUSTED,BAYES_40,
-        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,T_TooManySym_01,XMSubLong
-        autolearn=disabled version=3.4.2
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-        * -0.0 BAYES_40 BODY: Bayes spam probability is 20 to 40%
-        *      [score: 0.2207]
-        *  0.7 XMSubLong Long Subject
-        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-        *      [sa06 1397; Body=1 Fuz1=1 Fuz2=1]
-        *  0.0 T_TooManySym_01 4+ unique symbols in subject
-X-Spam-DCC: XMission; sa06 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: ;Peter Collingbourne <pcc@google.com>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 366 ms - load_scoreonly_sql: 0.04 (0.0%),
-        signal_user_changed: 11 (3.1%), b_tie_ro: 10 (2.7%), parse: 0.87
-        (0.2%), extract_message_metadata: 3.2 (0.9%), get_uri_detail_list:
-        1.29 (0.4%), tests_pri_-1000: 4.4 (1.2%), tests_pri_-950: 1.25 (0.3%),
-        tests_pri_-900: 1.07 (0.3%), tests_pri_-90: 117 (32.0%), check_bayes:
-        115 (31.5%), b_tokenize: 8 (2.1%), b_tok_get_all: 9 (2.4%),
-        b_comp_prob: 3.7 (1.0%), b_tok_touch_all: 91 (24.8%), b_finish: 1.02
-        (0.3%), tests_pri_0: 208 (57.0%), check_dkim_signature: 0.49 (0.1%),
-        check_dkim_adsp: 2.2 (0.6%), poll_dns_idle: 0.67 (0.2%), tests_pri_10:
-        2.3 (0.6%), tests_pri_500: 7 (1.9%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: [PATCH v17 0/3] arm64: expose FAR_EL1 tag bits in siginfo
-X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
-X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
+        Will Deacon <will@kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        libc-alpha@sourceware.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Peter Collingbourne <pcc@google.com> writes:
-
-> The kernel currently clears the tag bits (i.e. bits 56-63) in the fault
-> address exposed via siginfo.si_addr and sigcontext.fault_address. However,
-> the tag bits may be needed by tools in order to accurately diagnose
-> memory errors, such as HWASan [1] or future tools based on the Memory
-> Tagging Extension (MTE).
+On Tue, Nov 17, 2020 at 9:48 AM Florian Weimer <fw@deneb.enyo.de> wrote:
 >
-> We should not stop clearing these bits in the existing fault address
-> fields, because there may be existing userspace applications that are
-> expecting the tag bits to be cleared. Instead, introduce a flag in
-> sigaction.sa_flags, SA_EXPOSE_TAGBITS, and only expose the tag bits
-> there if the signal handler has this flag set.
+> * Peter Collingbourne:
 >
-> In order to allow userspace to determine whether SA_EXPOSE_TAGBITS
-> is supported, we first introduce a mechanism for userspace to detect
-> kernel support for SA_* flags.
+> > This prctl allows the user program to control which PAC keys are enabled
+> > in a particular task. The main reason why this is useful is to enable a
+> > userspace ABI that uses PAC to sign and authenticate function pointers
+> > and other pointers exposed outside of the function, while still allowing
+> > binaries conforming to the ABI to interoperate with legacy binaries that
+> > do not sign or authenticate pointers.
+> >
+> > The idea is that a dynamic loader or early startup code would issue
+> > this prctl very early after establishing that a process may load legacy
+> > binaries, but before executing any PAC instructions.
 >
-> These patches need to be applied on top of:
-> https://git.kernel.org/pub/scm/linux/kernel/git/ebiederm/user-namespace.git signal-for-v5.11
+> I thought that the silicon did not support this?
 
-The first two patches look good and I have applied them.
+See e.g. the documentation for SCTLR_EL1.EnIA [1] for details. There
+are also enable bits for the other three keys.
 
-While I was at it I added Link tags to the LKML postings to the entire
-series.  I don't think anyone has merged my branch into another so it
-should still be safe.
+> What exactly does this switch on and off?  The signing itself (so that
+> the bits are zero again), or just the verification?
 
-Eric
+Both the PAC* and AUT* instructions for the specific key become
+no-ops, so the bits will be zero.
+
+> I do not know how easy it will be to adjust the glibc dynamic linker
+> to this because I expect it to use PAC instructions itself.  (It is an
+> interesting target, I suppose, so this makes sense to me.)  The loader
+> code used for initial process setup and later dlopen is the same.
+> Worst case, we could compile the loader twice.
+
+If you can avoid creating function pointers before the loader has
+finished recursively scanning all libraries, and the ABI uses
+different keys for function pointers and return addresses, you may be
+able to get away with making the decision in the loader. The idea is
+that you would disable the function pointer key and leave the return
+address key enabled. This would also have the advantage of at least
+providing return address protection for some libraries if function
+pointer protection can't be enabled.
+
+> There is also an issue with LD_AUDIT, where we run user-supplied code
+> (which might be PAC-compatible) before loading code that is not.  I
+> guess we could disable PAC by default in LD_AUDIT mode (which is
+> unusual, no relation to the kernel audit subsystem).
+
+Yes, LD_AUDIT may be difficult to deal with if it can influence which
+libraries are loaded at startup. I agree that LD_AUDIT should disable
+PAC by default.
+
+Peter
+
+[1] https://developer.arm.com/docs/ddi0601/d/aarch64-system-registers/sctlr_el1#EnIA_31
