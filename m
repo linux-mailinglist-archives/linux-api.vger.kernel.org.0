@@ -2,111 +2,105 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A743B2B6F83
-	for <lists+linux-api@lfdr.de>; Tue, 17 Nov 2020 21:03:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B0A892B6F9A
+	for <lists+linux-api@lfdr.de>; Tue, 17 Nov 2020 21:07:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730322AbgKQUCP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 17 Nov 2020 15:02:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37146 "EHLO
+        id S1731505AbgKQUHM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 17 Nov 2020 15:07:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730247AbgKQUCP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Nov 2020 15:02:15 -0500
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E461C0617A7
-        for <linux-api@vger.kernel.org>; Tue, 17 Nov 2020 12:02:14 -0800 (PST)
-Received: by mail-lj1-x243.google.com with SMTP id v20so25705463ljk.8
-        for <linux-api@vger.kernel.org>; Tue, 17 Nov 2020 12:02:14 -0800 (PST)
+        with ESMTP id S1726851AbgKQUHL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Nov 2020 15:07:11 -0500
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AE8AC0617A6
+        for <linux-api@vger.kernel.org>; Tue, 17 Nov 2020 12:07:10 -0800 (PST)
+Received: by mail-lf1-x142.google.com with SMTP id j205so31900054lfj.6
+        for <linux-api@vger.kernel.org>; Tue, 17 Nov 2020 12:07:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=linux-foundation.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=GSCHMMM0D0q85Saw3BGZ1mrSdRqytsRtsFlwlLFUG1Q=;
-        b=U5ZlwbFbW6wzZ9SjWFK+Je9NtJURJfuA+CBtm8mpTtA3OAFV31Gt7/PVFooFI3hJSJ
-         FPe5GnyQ9vo+K8E4DGvg2CmIfBjU80aj+PwOMi9JxkBrfyCFhmQwE8yG25tVzzpwHM/G
-         +SLjkMHpsWn0eetojTcyUPdUG+YBEUlN6bkAREdia0RwgRe5Az5vSyoEcUpsdqwdqQS2
-         wQsiqbs+NFvyybKCLcEoNJlXX+Q79meG+WhN0TKvoL+R5ZHI5kwQtcSrRMvmI503HpW4
-         iQFfKDV7kGEefpCno1fqlRK8X77oqYAJVuKjI7LR9wx0wgLXu6vuCzgHwKA6G32zuy1F
-         Z/Mg==
+        bh=rJlb0i1VGgaZ+hMXCpkpJ5hlER3U8nvvYW3fvVDgI/k=;
+        b=J/YZ6h/OCZ5I/Llg6f76T474+2t8DYXpf9TaLe/UQTe9U546QNvmBmNEuXh8xRHatn
+         x5dZoH3xvuvcTuHNbgryL58m+LGRM86j8ia2e8WeoVF1kEPl+sOvzsdfSdx3tahqHiRJ
+         vkyAJSPq0gqZEyRGVyCbFka6jZ7H+yF7b4APw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=GSCHMMM0D0q85Saw3BGZ1mrSdRqytsRtsFlwlLFUG1Q=;
-        b=MGJz1XFrncb/zNj4bNZinNUNUMLauMlv8uhy/CzN+Xs9N1GqAymF0leQfOoe6Zvws2
-         tMg4Vi7iYLwlBOIj/lHsk2bPMXCQlArysE0SIPbYF/CUmF6Pv0J7GRB6cEPUvjlu5Qc4
-         XZVLsbqcKyu17DOMMRT9flQ7HFQDGEy+SybONdmLAUbxdVDAVHNPYal5bmMhpVANHQEO
-         EKgJqvmBAJ/52zMsDx+9kOUSrQz/BYhfVAvzmrBH6ci8sArpyosBweeedUeLyCIZfNNI
-         JNrK1OX94Q41SjaAcm/sXXXuVnRtLxGQ8BzZ/BS/NPADT3UYAIOpA13tBMzdOsv8zEpj
-         FSKg==
-X-Gm-Message-State: AOAM533KGhSvFdFAarGj1iT6ZEtwzsMVyCt1W6CKlVcHm7Ja62LpvwCb
-        FKpUcQxiTyp4uFuhe6maC9VWhmyPzTEOf4ul0vVGgg==
-X-Google-Smtp-Source: ABdhPJzrteo1SoLGHTARp2PUs3U3i4VQkUG29Mj40M+A73s5OoqlPLDhJ7M0v+3kzosqo9RIkW4zU8tz5/C7FbMtdpI=
-X-Received: by 2002:a05:651c:204c:: with SMTP id t12mr2581977ljo.347.1605643332643;
- Tue, 17 Nov 2020 12:02:12 -0800 (PST)
+        bh=rJlb0i1VGgaZ+hMXCpkpJ5hlER3U8nvvYW3fvVDgI/k=;
+        b=QDMxFAsjLnFAUenx9lRBB0OdPRowrKlcv1hD9IlvqMykp/P+ewUE+kKi8oDzNsf1jK
+         oeOmztnK5jVya2en5lZ/JgJkSUUfrI8qSp4d2TtUR6qQtOL8BCbhg8hlyypkp6CnRJwx
+         qXWKXoH6yhFCQr6ZvAs7YwWjiVQqqL/LDYk5amtG1vnUcgKtdPXe87cUa03FUyXtB3r6
+         pqZ/ovg58o2UML0MVefDO3GtZKZH2pDzmBWMcENcMgpYBzb3b6mk9YyyiVV9DfJwHO53
+         eyB6xlAX4Am8JN0Qv1POZ4zgtIFwfCZ8FADUswJ2YzJev/2ospu53sUP6tGd4ezgAzv/
+         3dDg==
+X-Gm-Message-State: AOAM532PNwHgSRpxJAMuiQIG9KTqr6v+R1R8ynuVLNGruLDkVix6/lDc
+        qif+UnGIrS67ZDnqdnHNvW0pOcrQvG2w4g==
+X-Google-Smtp-Source: ABdhPJyXtEwLSxtZpQmp2PkgSvYrGJdg64pBNZW4HGnSGKw55JPxKQZ+D28iNdTMuI2e6hqDqY4KGg==
+X-Received: by 2002:ac2:4543:: with SMTP id j3mr2141395lfm.511.1605643627850;
+        Tue, 17 Nov 2020 12:07:07 -0800 (PST)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com. [209.85.167.46])
+        by smtp.gmail.com with ESMTPSA id c6sm2952391ljj.140.2020.11.17.12.07.05
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Nov 2020 12:07:05 -0800 (PST)
+Received: by mail-lf1-f46.google.com with SMTP id l11so19811041lfg.0
+        for <linux-api@vger.kernel.org>; Tue, 17 Nov 2020 12:07:05 -0800 (PST)
+X-Received: by 2002:ac2:598f:: with SMTP id w15mr2196881lfn.148.1605643624696;
+ Tue, 17 Nov 2020 12:07:04 -0800 (PST)
 MIME-Version: 1.0
-References: <20201117162932.13649-1-rppt@kernel.org> <20201117162932.13649-7-rppt@kernel.org>
- <20201117193358.GB109785@carbon.dhcp.thefacebook.com>
-In-Reply-To: <20201117193358.GB109785@carbon.dhcp.thefacebook.com>
-From:   Shakeel Butt <shakeelb@google.com>
-Date:   Tue, 17 Nov 2020 12:02:01 -0800
-Message-ID: <CALvZod5mJnR2DXoYTbp9RX4uR7zVyqAPfD+XKpqXKgxaNyJ1VA@mail.gmail.com>
-Subject: Re: [PATCH v9 6/9] secretmem: add memcg accounting
-To:     Roman Gushchin <guro@fb.com>
-Cc:     Mike Rapoport <rppt@kernel.org>,
+References: <20200901000633.1920247-1-minchan@kernel.org> <20200901000633.1920247-4-minchan@kernel.org>
+ <20200921065633.GA8070@infradead.org> <20200921175539.GB387368@google.com>
+ <a376191d-908d-7d3c-a810-8ef51cc45f49@gmail.com> <20201116155132.GA3805951@google.com>
+In-Reply-To: <20201116155132.GA3805951@google.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Tue, 17 Nov 2020 12:06:48 -0800
+X-Gmail-Original-Message-ID: <CAHk-=whTctybeY7GSc+f--FVLKKUQicTq-jfEmdku+cO_VdiVg@mail.gmail.com>
+Message-ID: <CAHk-=whTctybeY7GSc+f--FVLKKUQicTq-jfEmdku+cO_VdiVg@mail.gmail.com>
+Subject: Re: [PATCH v9 3/3] mm/madvise: introduce process_madvise() syscall:
+ an external memory hinting API
+To:     Minchan Kim <minchan@kernel.org>
+Cc:     Eric Dumazet <eric.dumazet@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>,
+        Christoph Hellwig <hch@infradead.org>,
         LKML <linux-kernel@vger.kernel.org>,
-        linux-kselftest@vger.kernel.org, linux-nvdimm@lists.01.org,
-        linux-riscv@lists.infradead.org, x86@kernel.org
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        linux-mm <linux-mm@kvack.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Oleksandr Natalenko <oleksandr@redhat.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Tim Murray <timmurray@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Dias <joaodias@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jann Horn <jannh@google.com>,
+        Alexander Duyck <alexander.h.duyck@linux.intel.com>,
+        sj38.park@gmail.com, David Rientjes <rientjes@google.com>,
+        Arjun Roy <arjunroy@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Christian Brauner <christian@brauner.io>,
+        Daniel Colascione <dancol@google.com>,
+        Jens Axboe <axboe@kernel.dk>,
+        Kirill Tkhai <ktkhai@virtuozzo.com>,
+        SeongJae Park <sjpark@amazon.de>,
+        linux-man <linux-man@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Nov 17, 2020 at 11:49 AM Roman Gushchin <guro@fb.com> wrote:
+On Mon, Nov 16, 2020 at 7:51 AM Minchan Kim <minchan@kernel.org> wrote:
 >
-> On Tue, Nov 17, 2020 at 06:29:29PM +0200, Mike Rapoport wrote:
-> > From: Mike Rapoport <rppt@linux.ibm.com>
-> >
-> > Account memory consumed by secretmem to memcg. The accounting is updated
-> > when the memory is actually allocated and freed.
-> >
-> > Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
-[snip]
-> >
-> > +static int secretmem_account_pages(struct page *page, gfp_t gfp, int order)
-> > +{
-> > +     int err;
-> > +
-> > +     err = memcg_kmem_charge_page(page, gfp, order);
+> Let me send a patch with your SoB if you don't mind.
 
-I haven't looked at the whole series but it seems like these pages
-will be mapped into the userspace, so this patch has dependency on
-Roman's "mm: allow mapping
-accounted kernel pages to userspace" patch series.
+Eric, can you ack this SoB and I'll apply it to me tree?
+
+Or is it already queued up somewhere else?
+
+             Linus
