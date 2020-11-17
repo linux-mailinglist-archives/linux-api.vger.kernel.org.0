@@ -2,91 +2,186 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 973C32B728B
-	for <lists+linux-api@lfdr.de>; Wed, 18 Nov 2020 00:40:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 51E202B7292
+	for <lists+linux-api@lfdr.de>; Wed, 18 Nov 2020 00:44:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728953AbgKQXi4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 17 Nov 2020 18:38:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42810 "EHLO
+        id S1727785AbgKQXll (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 17 Nov 2020 18:41:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728952AbgKQXiz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Nov 2020 18:38:55 -0500
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 118B1C0617A6
-        for <linux-api@vger.kernel.org>; Tue, 17 Nov 2020 15:38:54 -0800 (PST)
-Received: by mail-lf1-x142.google.com with SMTP id r9so268105lfn.11
-        for <linux-api@vger.kernel.org>; Tue, 17 Nov 2020 15:38:53 -0800 (PST)
+        with ESMTP id S1727736AbgKQXll (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Nov 2020 18:41:41 -0500
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2948FC0613CF
+        for <linux-api@vger.kernel.org>; Tue, 17 Nov 2020 15:41:39 -0800 (PST)
+Received: by mail-lf1-x141.google.com with SMTP id s30so321895lfc.4
+        for <linux-api@vger.kernel.org>; Tue, 17 Nov 2020 15:41:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PgbGhxXCXE3uvLAMGWkjJK4WmB/v6iS8EBQqNl2pLPI=;
-        b=OBJfkgzQBj9kHYb1L6tM3RsVNEtxEjS8ET0Oh9YK0275YFj9QadFCAwWSCozN1QtCo
-         +8Zz4vWkjpcxgMUMVDIsC7IboLPaOi0ADF1TZADraVsZmRwj/NsiImqyAR/KgSYJNR8X
-         ueDXr5NVFB/NX7+PUdIQbuXJ0/Xn1IKQaTgwH0JlwVPOQ4U7BNCy8dygFfyfSFbzvMPj
-         KNBOrDZJk2o+gWAICmNIT3BDdwL6xbmjbK4mnEg0HnMpBfrKjfO9/sARAlJuRLBusV0N
-         +r735iTU1GwDxFrw8cviIxYPtfyPzaG3pqHLpRgNqOVbnYc1FdyiqF3KfAPDV2bJ3VxT
-         v8JA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/VY+nQ2+UO2kcxbgAdKN/xAgZTIoZN8mXsaR1/QilVU=;
+        b=z58pW0BS88wNFYMWYjt0AVNlmSMk43J53u4ImfvAycVmnZdAEpvCNtZumx/+A0xWJU
+         xiQZ09czG0P5tZEHxQJxOXNCbnCHBSzlmebEQcufwk+3R+XToxmNxFkX/rUiw9RdfDHd
+         /wi9mJZ7/55xEX3OL/v1sXoL3vUVjR1+ZWMDbX9m3JtcXd+HNZA2XyYAlbbay7AF/1uF
+         IdBOenz+w60eSdFUmQuLmBIi+EfhKIdh2duixAuTRqZksuWxf75uXuye2FxFl1k/Oqtu
+         FPIvl9Q0bR8yE19fH0H7FopV3rEuu1ZLa+gh6gS7s07uKoh5xGwqRSSSvop3DGd2MNri
+         nQ/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PgbGhxXCXE3uvLAMGWkjJK4WmB/v6iS8EBQqNl2pLPI=;
-        b=b9akuOhHjX0kLVNrz/KUWIzCVNqek+lslZI8qPPHot8fG/FV5pWeZsKQWw6/8BC1o5
-         P04Dl/M8UGQMF0DPhWguufhTImiLSIEJkMuYonH/B9o2HCCN97AzxUsMKxUJcuSYEnrQ
-         w7WrXi6qpdOaPHArGx6YbugZbvDssDMuLpzmJG+hQee019/x4MdTqWzvBXmvnvNpjtDA
-         uSooBkvEyouBLMzXBBZesaEnhc+CF+K1PNqhaIGxYaXr/8C3iK3G2X76X/jeiYgy0gsh
-         W4HBRj3VGYudMZbA+yCAOzg1VIO2WDpFyVjvp11EqR1CYd+7DHEw9q4VPxSfJVBhVL7s
-         rWcA==
-X-Gm-Message-State: AOAM530souZXQqCP53ay5thQaJzyCZfvy1At3uM5OPmiGDBtZxEBTkYV
-        01AGgz+NilikRT3d3M2zgBQvYlMTBRFkY9BTVLrbSQ==
-X-Google-Smtp-Source: ABdhPJyodrlIwxvXj9j6gGI51r9cXRj8xfoOFdh+vq78US7qyWBMu+ApjS1npnI+qftmyyjBQOFSWsXXnoO8nCD8tvg=
-X-Received: by 2002:a19:e08:: with SMTP id 8mr2417659lfo.441.1605656332549;
- Tue, 17 Nov 2020 15:38:52 -0800 (PST)
-MIME-Version: 1.0
-References: <20201012220620.124408-1-linus.walleij@linaro.org> <20201013092240.GI32292@arm.com>
-In-Reply-To: <20201013092240.GI32292@arm.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/VY+nQ2+UO2kcxbgAdKN/xAgZTIoZN8mXsaR1/QilVU=;
+        b=qzEwfNZoKmL9ONDChbtOSBiX/U39CX/6CtaHb5teEJ7DXKpNOJ2tg3lJdbvoecfh6U
+         ZszuNNoiUYerKmBDEmTApmBWr9KQrkHqxtFX3vGC1UQt+MWF+zNkm8Ukb++heUSBtX86
+         1AdFOcpjzsHAed+rhXOfcMnOYFsPm/5HYY3JvXYipkKs//jCb8j2MBoQVhHt5aCFXTcx
+         3ISd4eJBBsdwGJrI/9nSPyS0eP4T0avcsRKgo6lo1cxDC7WJ1VLeACaSv1aSCp7n9pEh
+         827VmsYuKQNZb9jdWq1i6sI1yr3OI2Kj3orMXh90XOka4T4SBGvd4l7MrpVl2Pabq8rr
+         sC7Q==
+X-Gm-Message-State: AOAM532FxXPEUr9+ypB+BE0H6kiZU5TBA6faI8tXZ3fdQ0AGF1ZnZXyF
+        g7hr4nEnfgRc7bwLFQM7q0q0uw==
+X-Google-Smtp-Source: ABdhPJzQu7X3lREJOVWuD7GAs2Xvm8gSDnb/ql5+zreK46MHGQ5FFbfih3+EFYqiS/L5HsrRxhu3Qw==
+X-Received: by 2002:a19:8083:: with SMTP id b125mr2763067lfd.23.1605656497660;
+        Tue, 17 Nov 2020 15:41:37 -0800 (PST)
+Received: from localhost.localdomain (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
+        by smtp.gmail.com with ESMTPSA id n20sm3293035lfl.249.2020.11.17.15.41.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Nov 2020 15:41:36 -0800 (PST)
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Wed, 18 Nov 2020 00:38:41 +0100
-Message-ID: <CACRpkdZoMoUQX+CPd31qwjXSKJvaZ6=jcFvUrK_3hkxaUWJNJg@mail.gmail.com>
-Subject: Re: [PATCH v3 RESEND] fcntl: Add 32bit filesystem mode
-To:     Dave Martin <Dave.Martin@arm.com>
-Cc:     "Theodore Ts'o" <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        QEMU Developers <qemu-devel@nongnu.org>,
+To:     Theodore Ts'o <tytso@mit.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>
+Cc:     linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, qemu-devel@nongnu.org,
+        Linus Walleij <linus.walleij@linaro.org>,
         Florian Weimer <fw@deneb.enyo.de>,
         Peter Maydell <peter.maydell@linaro.org>,
-        Andy Lutomirski <luto@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Andy Lutomirski <luto@kernel.org>,
+        Eric Blake <eblake@redhat.com>,
+        =?UTF-8?q?=E7=BD=97=E5=8B=87=E5=88=9A?= <luoyonggang@gmail.com>
+Subject: [PATCH v4] fcntl: Add 32bit filesystem mode
+Date:   Wed, 18 Nov 2020 00:39:28 +0100
+Message-Id: <20201117233928.255671-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Oct 13, 2020 at 11:22 AM Dave Martin <Dave.Martin@arm.com> wrote:
+It was brought to my attention that this bug from 2018 was
+still unresolved: 32 bit emulators like QEMU were given
+64 bit hashes when running 32 bit emulation on 64 bit systems.
 
-> >       case F_SETFD:
-> >               err = 0;
-> >               set_close_on_exec(fd, arg & FD_CLOEXEC);
-> > +             if (arg & FD_32BIT_MODE)
-> > +                     filp->f_mode |= FMODE_32BITHASH;
-> > +             else
-> > +                     filp->f_mode &= ~FMODE_32BITHASH;
->
-> This seems inconsistent?  F_SETFD is for setting flags on a file
-> descriptor.  Won't setting a flag on filp here instead cause the
-> behaviour to change for all file descriptors across the system that are
-> open on this struct file?  Compare set_close_on_exec().
->
-> I don't see any discussion on whether this should be an F_SETFL or an
-> F_SETFD, though I see F_SETFD was Ted's suggestion originally.
+This adds a flag to the fcntl() F_GETFD and F_SETFD operations
+to set the underlying filesystem into 32bit mode even if the
+file handle was opened using 64bit mode without the compat
+syscalls.
 
-I cannot honestly say I know the semantic difference.
+Programs that need the 32 bit file system behavior need to
+issue a fcntl() system call such as in this example:
 
-I would ask the QEMU people how a user program would expect
-the flag to behave.
+  #define FD_32BIT_MODE 2
 
-Yours,
-Linus Walleij
+  int main(int argc, char** argv) {
+    DIR* dir;
+    int err;
+    int mode;
+    int fd;
+
+    dir = opendir("/boot");
+    fd = dirfd(dir);
+    mode = fcntl(fd, F_GETFD);
+    mode |= FD_32BIT_MODE;
+    err = fcntl(fd, F_SETFD, mode);
+    if (err) {
+      printf("fcntl() failed! err=%d\n", err);
+      return 1;
+    }
+    printf("dir=%p\n", dir);
+    printf("readdir(dir)=%p\n", readdir(dir));
+    printf("errno=%d: %s\n", errno, strerror(errno));
+    return 0;
+  }
+
+This can be pretty hard to test since C libraries and linux
+userspace security extensions aggressively filter the parameters
+that are passed down and allowed to commit into actual system
+calls.
+
+Cc: Florian Weimer <fw@deneb.enyo.de>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Andy Lutomirski <luto@kernel.org>
+Cc: Eric Blake <eblake@redhat.com>
+Reported-by: 罗勇刚(Yonggang Luo) <luoyonggang@gmail.com>
+Suggested-by: Theodore Ts'o <tytso@mit.edu>
+Link: https://bugs.launchpad.net/qemu/+bug/1805913
+Link: https://lore.kernel.org/lkml/87bm56vqg4.fsf@mid.deneb.enyo.de/
+Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=205957
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ChangeLog v3 RESEND 1-> v4:
+- Update the example in the commit message to a read/modify/write
+  version.
+- Notice that Yonggang Luo sees the sema problem on i386 binaries
+  as we see on ARM 32bit binaries.
+ChangeLog v3->v3 RESEND 1:
+- Resending during the v5.10 merge window to get attention.
+ChangeLog v2->v3:
+- Realized that I also have to clear the flag correspondingly
+  if someone ask for !FD_32BIT_MODE after setting it the
+  first time.
+ChangeLog v1->v2:
+- Use a new flag FD_32BIT_MODE to F_GETFD and F_SETFD
+  instead of a new fcntl operation, there is already a fcntl
+  operation to set random flags.
+- Sorry for taking forever to respin this patch :(
+---
+ fs/fcntl.c                       | 7 +++++++
+ include/uapi/asm-generic/fcntl.h | 8 ++++++++
+ 2 files changed, 15 insertions(+)
+
+diff --git a/fs/fcntl.c b/fs/fcntl.c
+index 19ac5baad50f..6c32edc4099a 100644
+--- a/fs/fcntl.c
++++ b/fs/fcntl.c
+@@ -335,10 +335,17 @@ static long do_fcntl(int fd, unsigned int cmd, unsigned long arg,
+ 		break;
+ 	case F_GETFD:
+ 		err = get_close_on_exec(fd) ? FD_CLOEXEC : 0;
++		/* Report 32bit file system mode */
++		if (filp->f_mode & FMODE_32BITHASH)
++			err |= FD_32BIT_MODE;
+ 		break;
+ 	case F_SETFD:
+ 		err = 0;
+ 		set_close_on_exec(fd, arg & FD_CLOEXEC);
++		if (arg & FD_32BIT_MODE)
++			filp->f_mode |= FMODE_32BITHASH;
++		else
++			filp->f_mode &= ~FMODE_32BITHASH;
+ 		break;
+ 	case F_GETFL:
+ 		err = filp->f_flags;
+diff --git a/include/uapi/asm-generic/fcntl.h b/include/uapi/asm-generic/fcntl.h
+index 9dc0bf0c5a6e..edd3573cb7ef 100644
+--- a/include/uapi/asm-generic/fcntl.h
++++ b/include/uapi/asm-generic/fcntl.h
+@@ -160,6 +160,14 @@ struct f_owner_ex {
+ 
+ /* for F_[GET|SET]FL */
+ #define FD_CLOEXEC	1	/* actually anything with low bit set goes */
++/*
++ * This instructs the kernel to provide 32bit semantics (such as hashes) from
++ * the file system layer, when running a userland that depend on 32bit
++ * semantics on a kernel that supports 64bit userland, but does not use the
++ * compat ioctl() for e.g. open(), so that the kernel would otherwise assume
++ * that the userland process is capable of dealing with 64bit semantics.
++ */
++#define FD_32BIT_MODE	2
+ 
+ /* for posix fcntl() and lockf() */
+ #ifndef F_RDLCK
+-- 
+2.26.2
+
