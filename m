@@ -2,60 +2,116 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C25E32B6B0A
-	for <lists+linux-api@lfdr.de>; Tue, 17 Nov 2020 18:05:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C48DC2B6B7D
+	for <lists+linux-api@lfdr.de>; Tue, 17 Nov 2020 18:16:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727032AbgKQRFk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 17 Nov 2020 12:05:40 -0500
-Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:51475 "EHLO
-        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726204AbgKQRFk (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Nov 2020 12:05:40 -0500
-Received: from callcc.thunk.org (pool-72-74-133-215.bstnma.fios.verizon.net [72.74.133.215])
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 0AHH5Ml6021679
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 17 Nov 2020 12:05:23 -0500
-Received: by callcc.thunk.org (Postfix, from userid 15806)
-        id 49E12420107; Tue, 17 Nov 2020 12:05:22 -0500 (EST)
-Date:   Tue, 17 Nov 2020 12:05:22 -0500
-From:   "Theodore Y. Ts'o" <tytso@mit.edu>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Linux API <linux-api@vger.kernel.org>,
-        Peter Oskolkov <posk@google.com>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Peter Zijlstra <peterz@infradead.org>
-Subject: Re: Is adding an argument to an existing syscall okay?
-Message-ID: <20201117170522.GC445084@mit.edu>
-References: <CALCETrXU2KcH0nsH_vd-fmvpZt_yW2+=VnYtN_BQJ6xsSvm+6A@mail.gmail.com>
+        id S1728890AbgKQRPk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 17 Nov 2020 12:15:40 -0500
+Received: from mail.kernel.org ([198.145.29.99]:56414 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726174AbgKQRPj (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 17 Nov 2020 12:15:39 -0500
+Received: from trantor (unknown [2.26.170.190])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2CBC6238E6;
+        Tue, 17 Nov 2020 17:15:33 +0000 (UTC)
+Date:   Tue, 17 Nov 2020 17:15:30 +0000
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Christopher Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Roman Gushchin <guro@fb.com>, Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
+        x86@kernel.org, Palmer Dabbelt <palmerdabbelt@google.com>
+Subject: Re: [PATCH v9 8/9] arch, mm: wire up memfd_secret system call were
+ relevant
+Message-ID: <X7QFMhQlyBMI1wXE@trantor>
+References: <20201117162932.13649-1-rppt@kernel.org>
+ <20201117162932.13649-9-rppt@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CALCETrXU2KcH0nsH_vd-fmvpZt_yW2+=VnYtN_BQJ6xsSvm+6A@mail.gmail.com>
+In-Reply-To: <20201117162932.13649-9-rppt@kernel.org>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Nov 16, 2020 at 03:57:40PM -0800, Andy Lutomirski wrote:
-> Linux 5.10 contains this patch:
+On Tue, Nov 17, 2020 at 06:29:31PM +0200, Mike Rapoport wrote:
+> From: Mike Rapoport <rppt@linux.ibm.com>
 > 
-> commit 2a36ab717e8fe678d98f81c14a0b124712719840
-> Author: Peter Oskolkov <posk@google.com>
-> Date:   Wed Sep 23 16:36:16 2020 -0700
+> Wire up memfd_secret system call on architectures that define
+> ARCH_HAS_SET_DIRECT_MAP, namely arm64, risc-v and x86.
 > 
->     rseq/membarrier: Add MEMBARRIER_CMD_PRIVATE_EXPEDITED_RSEQ
+> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+> Acked-by: Palmer Dabbelt <palmerdabbelt@google.com>
+> Acked-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  arch/arm64/include/asm/unistd.h        | 2 +-
+>  arch/arm64/include/asm/unistd32.h      | 2 ++
+>  arch/arm64/include/uapi/asm/unistd.h   | 1 +
+>  arch/riscv/include/asm/unistd.h        | 1 +
+>  arch/x86/entry/syscalls/syscall_32.tbl | 1 +
+>  arch/x86/entry/syscalls/syscall_64.tbl | 1 +
+>  include/linux/syscalls.h               | 1 +
+>  include/uapi/asm-generic/unistd.h      | 6 +++++-
+>  scripts/checksyscalls.sh               | 4 ++++
+>  9 files changed, 17 insertions(+), 2 deletions(-)
 > 
-> This adds an argument to an existing syscall.  Before the patch,
-> membarrier had 2 parameters; now it has 3.  Is this really okay?  At
-> least the patch is careful and ignores the third parameter unless a
-> previously unused flag bit is set.
+> diff --git a/arch/arm64/include/asm/unistd.h b/arch/arm64/include/asm/unistd.h
+> index 86a9d7b3eabe..949788f5ba40 100644
+> --- a/arch/arm64/include/asm/unistd.h
+> +++ b/arch/arm64/include/asm/unistd.h
+> @@ -38,7 +38,7 @@
+>  #define __ARM_NR_compat_set_tls		(__ARM_NR_COMPAT_BASE + 5)
+>  #define __ARM_NR_COMPAT_END		(__ARM_NR_COMPAT_BASE + 0x800)
+>  
+> -#define __NR_compat_syscalls		442
+> +#define __NR_compat_syscalls		443
+>  #endif
+>  
+>  #define __ARCH_WANT_SYS_CLONE
+> diff --git a/arch/arm64/include/asm/unistd32.h b/arch/arm64/include/asm/unistd32.h
+> index 6c1dcca067e0..5279481ec95b 100644
+> --- a/arch/arm64/include/asm/unistd32.h
+> +++ b/arch/arm64/include/asm/unistd32.h
+> @@ -891,6 +891,8 @@ __SYSCALL(__NR_faccessat2, sys_faccessat2)
+>  __SYSCALL(__NR_process_madvise, sys_process_madvise)
+>  #define __NR_watch_mount 441
+>  __SYSCALL(__NR_watch_mount, sys_watch_mount)
+> +/* 442 is memfd_secret, it is not implemented for 32-bit */
+> +__SYSCALL(442, sys_ni_syscall)
 
-So I can't see a way in which this would be problematic.  I guess it
-might mean that strace might not be able to properly display the extra
-parameter if it doesn't know about the new flag, but that would also
-be true if we used part of a padding field for a new structure element.
+It now behaves correctly for compat but I don't think we need to
+increment __NR_compat_syscalls. The compat syscall handler already calls
+sys_ni_syscall() if out of range.
 
-Flipping around the question, why would this *NOT* be okay?
+So the only arm64 change needed is defining __ARCH_WANT_MEMFD_SECRET
+(well, we don't have a use for it yet ;)).
 
-  	      	   	     	     	   - Ted
+-- 
+Catalin
