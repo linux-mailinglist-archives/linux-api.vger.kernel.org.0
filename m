@@ -2,82 +2,59 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 06E742B7DAB
-	for <lists+linux-api@lfdr.de>; Wed, 18 Nov 2020 13:34:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 58E002B7DB7
+	for <lists+linux-api@lfdr.de>; Wed, 18 Nov 2020 13:41:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726731AbgKRMdm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 18 Nov 2020 07:33:42 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47748 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726181AbgKRMdm (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 18 Nov 2020 07:33:42 -0500
-Received: from trantor (unknown [2.26.170.190])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 09AE6238E6;
-        Wed, 18 Nov 2020 12:33:38 +0000 (UTC)
-Date:   Wed, 18 Nov 2020 12:33:36 +0000
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Szabolcs Nagy <szabolcs.nagy@arm.com>
-Cc:     Peter Collingbourne <pcc@google.com>,
-        Florian Weimer <fw@deneb.enyo.de>, libc-alpha@sourceware.org,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v2] arm64: Introduce prctl(PR_PAC_{SET,GET}_ENABLED_KEYS)
-Message-ID: <X7UUoFcmtuHEhoz9@trantor>
-References: <20201014055106.25164-1-pcc@google.com>
- <87blfv6fj3.fsf@mid.deneb.enyo.de>
- <CAMn1gO7a-uyP93P4KapbsXy1+HRSuJR4r_kyy0_-FCY69qO_nA@mail.gmail.com>
- <20201117183911.GI15033@arm.com>
+        id S1727106AbgKRMjC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 18 Nov 2020 07:39:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50182 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727095AbgKRMjB (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 18 Nov 2020 07:39:01 -0500
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com [IPv6:2607:f8b0:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A529BC0613D4
+        for <linux-api@vger.kernel.org>; Wed, 18 Nov 2020 04:39:01 -0800 (PST)
+Received: by mail-ot1-x330.google.com with SMTP id i18so1595361ots.0
+        for <linux-api@vger.kernel.org>; Wed, 18 Nov 2020 04:39:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=PXxwCBJdTG5sNp7kazVZnDyiOFVScUSybkI34T0iWR8=;
+        b=TwK0ddZQglrW55zYCrXYMshSYRYEtP0SxdiAiKEwE1DDyeUMCBVRo+WOMIzcZixXmp
+         LpFwrdv5RAC/Q+W7bk+JCy8hYbLztY4lvJElDhocbB7dt4g8CaFtYk02WAE+iVt1lNYB
+         v7FEqEwsUEieDshbARJEi7PJIkRRubRL6VlFQk/23vAWlvJDemo9/DGr3+DTqOGPPf6+
+         NMXKlIsSPPXl2K8FJIyi0pXV2IhVuA8UoF4MUTdsZ3oMp3WQVOtv1C4MRa73WrFyS3Qq
+         gDWtv7s2r1IGpHqamU751jBLAKk1XlPXiHLddBV+AwAKb3eHwjMGf8HbZACCKfgEeXsg
+         Fg6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=PXxwCBJdTG5sNp7kazVZnDyiOFVScUSybkI34T0iWR8=;
+        b=TfebbYcU1P0yHeM5EtwGj/0CIYCspCOx8fiCiY7RFx07FVgUl+LH0WFm3WoiNcjxuu
+         +NaoywgpwzuQf0Vc7szBCiQamZFBpcex00uihB4Ja3i148HTX+fnVu0azeVYhE1iWZio
+         3aUIWf0DEkU2LKiDnaLLxp9fqut4Oc/ozYP5PLDKw2yUxVezESq7FVtJf2FGXz7DRA/s
+         JLfZt5UC8rL8gOSpXHcfzrE/RyUjo+6dXP1Dy+sS393nWehyfrpq0lJkwPxSXnhu5aw3
+         GXezcwoP2mXUAysO7W0Ko7pp/zzMiy+mXvcal1T+uyHAGP1vmlxTvwY028dJiXwu8VD+
+         0Yww==
+X-Gm-Message-State: AOAM533216riShj78YtnSmZ4HpqMNuiwq79vzpEd/THJVGV0ryazUZP0
+        NTaPjktoRdr5LxCdhy1ZXBBWvtZku7tb5m1do4g=
+X-Google-Smtp-Source: ABdhPJx4HxLkTPD7vIcmX92FVwMsuAlK+XH8+f85r5uuDM12v+AnbMLbzxnAFrJawmMZ8qD5IYrXeE/WJIVSq6gqhRw=
+X-Received: by 2002:a9d:5904:: with SMTP id t4mr4371848oth.109.1605703141114;
+ Wed, 18 Nov 2020 04:39:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201117183911.GI15033@arm.com>
+Sender: clarawampa@gmail.com
+Received: by 2002:a4a:96ea:0:0:0:0:0 with HTTP; Wed, 18 Nov 2020 04:39:00
+ -0800 (PST)
+From:   emilia hunt <emiliahunt16@gmail.com>
+Date:   Wed, 18 Nov 2020 12:39:00 +0000
+X-Google-Sender-Auth: TS6-TPcTy-R_XTXgKoGKWvzqDg4
+Message-ID: <CAMm_jwcHCr_Bp9=r2f6+_8m=k_xS2uPnLMQjRxmH8GmtEu323Q@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Nov 17, 2020 at 06:39:13PM +0000, Szabolcs Nagy wrote:
-> The 11/17/2020 10:17, Peter Collingbourne via Libc-alpha wrote:
-> > On Tue, Nov 17, 2020 at 9:48 AM Florian Weimer <fw@deneb.enyo.de> wrote:
-> > >
-> > > * Peter Collingbourne:
-> > >
-> > > > This prctl allows the user program to control which PAC keys are enabled
-> > > > in a particular task. The main reason why this is useful is to enable a
-> > > > userspace ABI that uses PAC to sign and authenticate function pointers
-> > > > and other pointers exposed outside of the function, while still allowing
-> > > > binaries conforming to the ABI to interoperate with legacy binaries that
-> > > > do not sign or authenticate pointers.
-> > > >
-> > > > The idea is that a dynamic loader or early startup code would issue
-> > > > this prctl very early after establishing that a process may load legacy
-> > > > binaries, but before executing any PAC instructions.
-> > >
-> > > I thought that the silicon did not support this?
-
-I think the past discussion we had was around enabling PAC for kernel
-while disabling it for user. The hardware doesn't give us separate bits,
-so Peter's patch toggles them on kernel entry/return, with some overhead
-given by the MSR+ISB (to be added).
-
-> > See e.g. the documentation for SCTLR_EL1.EnIA [1] for details. There
-> > are also enable bits for the other three keys.
-> 
-> i think it was insufficiently clear in the architecture
-> spec how that can be context switched. (but it probably
-> changed)
-
-The bits that we can't toggle easily have the comment "This field is
-permitted to be cached in the TLB" in the ARM ARM. Luckily, it's not the
-case for EnI*.
-
--- 
-Catalin
+Hi,I have not hear from you,Do you read my message?
