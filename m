@@ -2,277 +2,212 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 989882B8ACE
-	for <lists+linux-api@lfdr.de>; Thu, 19 Nov 2020 06:22:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AC6712B8BE2
+	for <lists+linux-api@lfdr.de>; Thu, 19 Nov 2020 08:04:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726073AbgKSFVJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 19 Nov 2020 00:21:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35784 "EHLO
+        id S1725936AbgKSHDG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 19 Nov 2020 02:03:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725648AbgKSFVI (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 19 Nov 2020 00:21:08 -0500
-Received: from mail-il1-x143.google.com (mail-il1-x143.google.com [IPv6:2607:f8b0:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C37C8C0613D4
-        for <linux-api@vger.kernel.org>; Wed, 18 Nov 2020 21:21:08 -0800 (PST)
-Received: by mail-il1-x143.google.com with SMTP id q1so4191665ilt.6
-        for <linux-api@vger.kernel.org>; Wed, 18 Nov 2020 21:21:08 -0800 (PST)
+        with ESMTP id S1725857AbgKSHDF (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 19 Nov 2020 02:03:05 -0500
+Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com [IPv6:2607:f8b0:4864:20::d42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85B93C0613CF;
+        Wed, 18 Nov 2020 23:03:05 -0800 (PST)
+Received: by mail-io1-xd42.google.com with SMTP id i9so4865794ioo.2;
+        Wed, 18 Nov 2020 23:03:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Ze6q76ySJczvZTXBsLeWoVDFw3m38wjAvnl1Bi6LPpE=;
-        b=XBm3berXvTpQN63TgxpqPgzPTq1UQh4I/hjAaDsX+JQzKTT5+aIoIeyuZBQdznSWNd
-         fN4QhFz+hiLrFRVCHVHRO1wVk5UmDPUMUdyKiQ6qY10fftMno5WnPw+LHjwW/NHviP7w
-         pVLsy43lqZZ3kLps298ntM1griEM5cMkRmgWmPm18LevIHQqm8KfrEeotdmbMiLHk64s
-         z9JmgAjh7NGQ49mIkzTL1IQFmu2NdQMJvOhit/ph8R24MfOn4QmnrCVQzgcvqek15fGn
-         4QGBTurq9hGrUSKo0oFB+KIxBzV2MaK9o+f9B//BCrqcMSNuAF5IBdRusYdFlzTDwp5i
-         xyXw==
+        bh=eZf0XT6FOpH4UgmSqNaoQWJcJUEUxG030KkkVYX8Ays=;
+        b=Lm5YT6xLwtIktkI6IW71JqU1PBnDOR78a2eROaT+qT1Zlwx4wOkc0IeHckxEYzavXB
+         53zy1iYnizAExLbHuhpOaQh8QcXZT5gYepJdpYd5peRVJmq1DGFc2uXEfzVQbfuvk7so
+         VqizpHDq4DvG6PrSXeeiCE+qtQYt/QFpFbarvjgJ7c+dHjVjRsxp+FGCogCDbJIcv7lU
+         l5X/dxVovVuM+vs30kURinsspudy4GjNCMojDN/KqcHpwhanwywXxDSJkw3d7jWN49AI
+         gCxBVFU6Kw4mTxvCdQvDbdWdpsFCOsE8GDa/jEgbg/6JsYqho9G7i9jEq3psqQsALV4M
+         xhtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Ze6q76ySJczvZTXBsLeWoVDFw3m38wjAvnl1Bi6LPpE=;
-        b=cFv8EVF1XBlQA0SGuDSguKZAHy25YIFGUEXMeSzAhC06aeioUBt9wUBqcpTN8IqjMp
-         KTJRccSiw34UJp5/tyFDgl0wp5fOXRpMeunXYHxCy8VQAvrRHaCrphEh6xggPjsynOZU
-         /UBIIvFpMCZ472350i2xkWXb4nifewjXIdE6wAY8UM9c22QQcV0zKTvWwfIDW07+yNKX
-         0vroeRDmNLqm3yuKVGsIK9+m1OWMGMKIB2BtvJjZRPLyKAj+adx7jeh5iAhLNr3Jz0Re
-         KX7SStAfl9/6ibTu0iMAD2+nVFdz3aFwUCR6Ej02fKEbMFH247ZrLhJxYOPVkPEXzIJw
-         /8sw==
-X-Gm-Message-State: AOAM533MCHY/wGfYhK92WtD0MYKEkT5sem5M5bFYx6Y0Jt1pfiqWot84
-        aZMyY69Dx9+KyeWy0tsYYRxrFHyslTQj3GfatExsYg==
-X-Google-Smtp-Source: ABdhPJzekWUbylZxkPpy7n9nLe+9ww+QoS86IVrY7OxDNV29dgJNWxNer1M2vdBR5LoxGHy/nzh6cXSV6YowxvA1+LE=
-X-Received: by 2002:a92:d18a:: with SMTP id z10mr19148660ilz.61.1605763267883;
- Wed, 18 Nov 2020 21:21:07 -0800 (PST)
+        bh=eZf0XT6FOpH4UgmSqNaoQWJcJUEUxG030KkkVYX8Ays=;
+        b=mYi+DinJSpa6qJ9K5IIncaXC8aRF40Ubeg9cAGFNyPigyt/n/7DzaldIVSh/rNSvZ8
+         JJcxxKPeEmii6g9rnYI9klqf95DDn438FTDg+OIy7fhmddKWzMTQ6J9IkbAlaHUECr6G
+         kOtelz6+ncMuFNfzM2EwyI7GXge+WjDKojzwTdiZtdBDYjrT46XnZtAYixghJVwzM3il
+         KS1M/lmgOLGEq9HWfQ5AGHwUMR30gUx40qgr47CW8y1po3VFR3y8EKMFJ9n/mvVwUMle
+         7nUxSW86Sdr/oxrASHOSHwUcWKfXj4GxhJwLE7Uv34XuIOfB07b+KelbsKSPmkEAYfWC
+         mI9w==
+X-Gm-Message-State: AOAM533IYFitpvv93qcD1QzcVeo6rF5bVPbv/1jTnM58iSTKQq0K7vDX
+        MVTkpLvjGRFgSiGPGYW6qAU56KXdeI58ztdVvEE=
+X-Google-Smtp-Source: ABdhPJw3iXSESWTX903d/nKwuPvu0+X+wTsglA0N1q1VryZJj9NwZpzQdAG7uiq4L6m+cOg5VSJ55vm1FKHDqS6dR0Y=
+X-Received: by 2002:a6b:7841:: with SMTP id h1mr19706750iop.72.1605769384703;
+ Wed, 18 Nov 2020 23:03:04 -0800 (PST)
 MIME-Version: 1.0
-References: <20201014055106.25164-1-pcc@google.com> <X7USqgzzyAWrHoXf@trantor>
-In-Reply-To: <X7USqgzzyAWrHoXf@trantor>
-From:   Peter Collingbourne <pcc@google.com>
-Date:   Wed, 18 Nov 2020 21:20:56 -0800
-Message-ID: <CAMn1gO5L=b3RBrMHJ7ULXAf_hU+aLAe1y3TN8TyObZzs92NBng@mail.gmail.com>
-Subject: Re: [PATCH v2] arm64: Introduce prctl(PR_PAC_{SET,GET}_ENABLED_KEYS)
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     Evgenii Stepanov <eugenis@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Will Deacon <will@kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        libc-alpha@sourceware.org
+References: <cover.1605723568.git.osandov@fb.com> <977fd16687d8b0474fd9c442f79c23f53783e403.1605723568.git.osandov@fb.com>
+In-Reply-To: <977fd16687d8b0474fd9c442f79c23f53783e403.1605723568.git.osandov@fb.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Thu, 19 Nov 2020 09:02:53 +0200
+Message-ID: <CAOQ4uxiaWAT6kOkxgMgeYEcOBMsc=HtmSwssMXg0Nn=rbkZRGA@mail.gmail.com>
+Subject: Re: [PATCH v6 02/11] fs: add O_ALLOW_ENCODED open flag
+To:     Omar Sandoval <osandov@osandov.com>
+Cc:     linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux Btrfs <linux-btrfs@vger.kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dave Chinner <david@fromorbit.com>,
+        Jann Horn <jannh@google.com>, Aleksa Sarai <cyphar@cyphar.com>,
+        Linux API <linux-api@vger.kernel.org>, kernel-team@fb.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Nov 18, 2020 at 4:25 AM Catalin Marinas <catalin.marinas@arm.com> wrote:
+On Wed, Nov 18, 2020 at 9:18 PM Omar Sandoval <osandov@osandov.com> wrote:
 >
-> On Tue, Oct 13, 2020 at 10:51:06PM -0700, Peter Collingbourne wrote:
-> > diff --git a/arch/arm64/kernel/entry.S b/arch/arm64/kernel/entry.S
-> > index ff34461524d4..19d24666b529 100644
-> > --- a/arch/arm64/kernel/entry.S
-> > +++ b/arch/arm64/kernel/entry.S
-> > @@ -214,6 +214,18 @@ alternative_else_nop_endif
-> >
-> >       ptrauth_keys_install_kernel tsk, x20, x22, x23
-> >
-> > +#ifdef CONFIG_ARM64_PTR_AUTH
-> > +alternative_if ARM64_HAS_ADDRESS_AUTH
+> From: Omar Sandoval <osandov@fb.com>
 >
-> If we get too many instructions, we might as well do (same further
-> down):
+> The upcoming RWF_ENCODED operation introduces some security concerns:
 >
-> alternative_if_not ARM64_HAS_ADDRESS_AUTH
->         b       1f
-> alternative_else_nop_endif
+> 1. Compressed writes will pass arbitrary data to decompression
+>    algorithms in the kernel.
+> 2. Compressed reads can leak truncated/hole punched data.
+>
+> Therefore, we need to require privilege for RWF_ENCODED. It's not
+> possible to do the permissions checks at the time of the read or write
+> because, e.g., io_uring submits IO from a worker thread. So, add an open
+> flag which requires CAP_SYS_ADMIN. It can also be set and cleared with
+> fcntl(). The flag is not cleared in any way on fork or exec. It must be
+> combined with O_CLOEXEC when opening to avoid accidental leaks (if
+> needed, it may be set without O_CLOEXEC by using fnctl()).
+>
+> Note that the usual issue that unknown open flags are ignored doesn't
+> really matter for O_ALLOW_ENCODED; if the kernel doesn't support
+> O_ALLOW_ENCODED, then it doesn't support RWF_ENCODED, either.
+>
+> Signed-off-by: Omar Sandoval <osandov@fb.com>
+> ---
+>  arch/alpha/include/uapi/asm/fcntl.h  |  1 +
+>  arch/parisc/include/uapi/asm/fcntl.h |  1 +
+>  arch/sparc/include/uapi/asm/fcntl.h  |  1 +
+>  fs/fcntl.c                           | 10 ++++++++--
+>  fs/namei.c                           |  4 ++++
+>  fs/open.c                            |  7 +++++++
+>  include/linux/fcntl.h                |  2 +-
+>  include/uapi/asm-generic/fcntl.h     |  4 ++++
+>  8 files changed, 27 insertions(+), 3 deletions(-)
+>
+> diff --git a/arch/alpha/include/uapi/asm/fcntl.h b/arch/alpha/include/uapi/asm/fcntl.h
+> index 50bdc8e8a271..391e0d112e41 100644
+> --- a/arch/alpha/include/uapi/asm/fcntl.h
+> +++ b/arch/alpha/include/uapi/asm/fcntl.h
+> @@ -34,6 +34,7 @@
+>
+>  #define O_PATH         040000000
+>  #define __O_TMPFILE    0100000000
+> +#define O_ALLOW_ENCODED        0200000000
+>
+>  #define F_GETLK                7
+>  #define F_SETLK                8
+> diff --git a/arch/parisc/include/uapi/asm/fcntl.h b/arch/parisc/include/uapi/asm/fcntl.h
+> index 03dee816cb13..72ea9bdf5f04 100644
+> --- a/arch/parisc/include/uapi/asm/fcntl.h
+> +++ b/arch/parisc/include/uapi/asm/fcntl.h
+> @@ -19,6 +19,7 @@
+>
+>  #define O_PATH         020000000
+>  #define __O_TMPFILE    040000000
+> +#define O_ALLOW_ENCODED        100000000
+>
+>  #define F_GETLK64      8
+>  #define F_SETLK64      9
+> diff --git a/arch/sparc/include/uapi/asm/fcntl.h b/arch/sparc/include/uapi/asm/fcntl.h
+> index 67dae75e5274..ac3e8c9cb32c 100644
+> --- a/arch/sparc/include/uapi/asm/fcntl.h
+> +++ b/arch/sparc/include/uapi/asm/fcntl.h
+> @@ -37,6 +37,7 @@
+>
+>  #define O_PATH         0x1000000
+>  #define __O_TMPFILE    0x2000000
+> +#define O_ALLOW_ENCODED        0x8000000
+>
+>  #define F_GETOWN       5       /*  for sockets. */
+>  #define F_SETOWN       6       /*  for sockets. */
+> diff --git a/fs/fcntl.c b/fs/fcntl.c
+> index 19ac5baad50f..9302f68fe698 100644
+> --- a/fs/fcntl.c
+> +++ b/fs/fcntl.c
+> @@ -30,7 +30,8 @@
+>  #include <asm/siginfo.h>
+>  #include <linux/uaccess.h>
+>
+> -#define SETFL_MASK (O_APPEND | O_NONBLOCK | O_NDELAY | O_DIRECT | O_NOATIME)
+> +#define SETFL_MASK (O_APPEND | O_NONBLOCK | O_NDELAY | O_DIRECT | O_NOATIME | \
+> +                   O_ALLOW_ENCODED)
+>
+>  static int setfl(int fd, struct file * filp, unsigned long arg)
+>  {
+> @@ -49,6 +50,11 @@ static int setfl(int fd, struct file * filp, unsigned long arg)
+>                 if (!inode_owner_or_capable(inode))
+>                         return -EPERM;
+>
+> +       /* O_ALLOW_ENCODED can only be set by superuser */
+> +       if ((arg & O_ALLOW_ENCODED) && !(filp->f_flags & O_ALLOW_ENCODED) &&
+> +           !capable(CAP_SYS_ADMIN))
+> +               return -EPERM;
+> +
+>         /* required for strict SunOS emulation */
+>         if (O_NONBLOCK != O_NDELAY)
+>                if (arg & O_NDELAY)
+> @@ -1033,7 +1039,7 @@ static int __init fcntl_init(void)
+>          * Exceptions: O_NONBLOCK is a two bit define on parisc; O_NDELAY
+>          * is defined as O_NONBLOCK on some platforms and not on others.
+>          */
+> -       BUILD_BUG_ON(21 - 1 /* for O_RDONLY being 0 */ !=
+> +       BUILD_BUG_ON(22 - 1 /* for O_RDONLY being 0 */ !=
+>                 HWEIGHT32(
+>                         (VALID_OPEN_FLAGS & ~(O_NONBLOCK | O_NDELAY)) |
+>                         __FMODE_EXEC | __FMODE_NONOTIFY));
+> diff --git a/fs/namei.c b/fs/namei.c
+> index d4a6dd772303..fbf64ce61088 100644
+> --- a/fs/namei.c
+> +++ b/fs/namei.c
+> @@ -2890,6 +2890,10 @@ static int may_open(const struct path *path, int acc_mode, int flag)
+>         if (flag & O_NOATIME && !inode_owner_or_capable(inode))
+>                 return -EPERM;
+>
+> +       /* O_ALLOW_ENCODED can only be set by superuser */
+> +       if ((flag & O_ALLOW_ENCODED) && !capable(CAP_SYS_ADMIN))
+> +               return -EPERM;
+> +
+>         return 0;
+>  }
+>
+> diff --git a/fs/open.c b/fs/open.c
+> index 9af548fb841b..f2863aaf78e7 100644
+> --- a/fs/open.c
+> +++ b/fs/open.c
+> @@ -1040,6 +1040,13 @@ inline int build_open_flags(const struct open_how *how, struct open_flags *op)
+>                 acc_mode = 0;
+>         }
+>
+> +       /*
+> +        * O_ALLOW_ENCODED must be combined with O_CLOEXEC to avoid accidentally
+> +        * leaking encoded I/O privileges.
+> +        */
+> +       if ((how->flags & (O_ALLOW_ENCODED | O_CLOEXEC)) == O_ALLOW_ENCODED)
+> +               return -EINVAL;
+> +
 
-I benchmarked this on the DragonBoard 845c and the nops were faster
-(461.4ns vs 463.8ns) so I left it as is.
 
-> > +     /* Enable IA for in-kernel PAC if the task had it disabled. */
-> > +     ldr     x0, [tsk, THREAD_SCTLR]
-> > +     tbnz    x0, SCTLR_ELx_ENIA_SHIFT, 1f
-> > +     mrs     x0, sctlr_el1
-> > +     orr     x0, x0, SCTLR_ELx_ENIA
-> > +     msr     sctlr_el1, x0
->
-> I now realised that this is missing an ISB. Writes to system registers
-> in general are not visible until the context is synchronised. I suggest
-> you change the line above your hunk to
-> ptrauth_keys_install_kernel_nosync followed by an explicit isb here.
->
-> Note that this ISB may affect your benchmark results slightly. I think
-> you only used MSR without ISB.
+dup() can also result in accidental leak.
+We could fail dup() of fd without O_CLOEXEC. Should we?
 
-Okay, so for these benchmarks we need to simulate what's happening
-after we install the kernel keys (that part we can't do on existing
-HW). So we need to compare ISB against conditionally enabling EnIA
-followed by ISB. Again I simulate conditional enabling using
-conditional disabling to make it compatible with existing HW. I also
-measured conditional disabling where the branches are not taken (i.e.
-slow path). On the DragonBoard I get:
+If we should than what error code should it be? We could return EPERM,
+but since we do allow to clear O_CLOEXEC or set O_ALLOW_ENCODED
+after open, EPERM seems a tad harsh.
+EINVAL seems inappropriate because the error has nothing to do with
+input args of dup() and EBADF would also be confusing.
 
-ISB: 488.1ns
-EnIA+ISB (fast path): 493.0ns
-EnIA+ISB (slow path): 531.8ns
-
-So the delta between ISB and fast path turns out to be a little bit
-less than what I measured before.
-
-The exact changes that I tested are here:
-https://github.com/pcc/linux/tree/pac-enabled-keys-bench
-
-> > +1:
-> > +alternative_else_nop_endif
-> > +#endif
-> > +
-> >       scs_load tsk, x20
-> >       .else
-> >       add     x21, sp, #S_FRAME_SIZE
-> > @@ -332,6 +344,21 @@ alternative_else_nop_endif
-> >       /* No kernel C function calls after this as user keys are set. */
-> >       ptrauth_keys_install_user tsk, x0, x1, x2
-> >
-> > +#ifdef CONFIG_ARM64_PTR_AUTH
-> > +alternative_if ARM64_HAS_ADDRESS_AUTH
-> > +     /*
-> > +      * IA was enabled for in-kernel PAC. Disable it now if needed.
-> > +      * All other per-task SCTLR bits were updated on task switch.
-> > +      */
-> > +     ldr     x0, [tsk, THREAD_SCTLR]
-> > +     tbnz    x0, SCTLR_ELx_ENIA_SHIFT, 1f
-> > +     mrs     x0, sctlr_el1
-> > +     bic     x0, x0, SCTLR_ELx_ENIA
-> > +     msr     sctlr_el1, x0
->
-> That's correct, no need for context synchronisation here as we are soon
-> doing an ERET.
-
-Ack.
-
-> > +1:
-> > +alternative_else_nop_endif
-> > +#endif
-> > +
-> >       apply_ssbd 0, x0, x1
-> >       .endif
-> >
-> [...]
-> > diff --git a/arch/arm64/kernel/process.c b/arch/arm64/kernel/process.c
-> > index 05a9cdd0b471..7fb28ccdf862 100644
-> > --- a/arch/arm64/kernel/process.c
-> > +++ b/arch/arm64/kernel/process.c
-> > @@ -552,6 +552,37 @@ static void erratum_1418040_thread_switch(struct task_struct *prev,
-> >       write_sysreg(val, cntkctl_el1);
-> >  }
-> >
-> > +#if defined(CONFIG_ARM64_PTR_AUTH) || defined(CONFIG_ARM64_MTE)
-> > +static void update_sctlr_el1(u64 sctlr)
-> > +{
-> > +     /*
-> > +      * EnIA must not be cleared while in the kernel as this is necessary for
-> > +      * in-kernel PAC. It will be cleared on kernel exit if needed.
-> > +      */
-> > +     sysreg_clear_set(sctlr_el1, SCTLR_TASK_MASK & ~SCTLR_ELx_ENIA, sctlr);
-> > +
-> > +     /* ISB required for the kernel uaccess routines when setting TCF0. */
-> > +     isb();
-> > +}
-> > +
-> > +void set_task_sctlr_el1(u64 sctlr)
-> > +{
-> > +     /*
-> > +      * __switch_to() checks current->thread.sctlr as an
-> > +      * optimisation. Disable preemption so that it does not see
-> > +      * the variable update before the SCTLR_EL1 one.
-> > +      */
-> > +     preempt_disable();
-> > +     current->thread.sctlr = sctlr;
-> > +     update_sctlr_el1(sctlr);
-> > +     preempt_enable();
-> > +}
-> > +#else
-> > +static void update_sctlr_el1(u64 sctlr)
-> > +{
-> > +}
-> > +#endif  /* defined(CONFIG_ARM64_PTR_AUTH) || defined(CONFIG_ARM64_MTE) */
-> > +
-> >  /*
-> >   * Thread switching.
-> >   */
-> > @@ -577,6 +608,10 @@ __notrace_funcgraph struct task_struct *__switch_to(struct task_struct *prev,
-> >        */
-> >       dsb(ish);
-> >
-> > +     /* avoid expensive SCTLR_EL1 accesses if no change */
-> > +     if (prev->thread.sctlr != next->thread.sctlr)
-> > +             update_sctlr_el1(next->thread.sctlr);
-> > +
-> >       /*
-> >        * MTE thread switching must happen after the DSB above to ensure that
-> >        * any asynchronous tag check faults have been logged in the TFSR*_EL1
-> > @@ -631,6 +666,8 @@ unsigned long arch_align_stack(unsigned long sp)
-> >  void arch_setup_new_exec(void)
-> >  {
-> >       current->mm->context.flags = is_compat_task() ? MMCF_AARCH32 : 0;
-> > +     if (current->thread.sctlr != init_sctlr)
-> > +             set_task_sctlr_el1(init_sctlr);
->
-> init_sctlr may not have the full information when initialised in
-> setup_arch(). We probably get away with this for the current features
-> but it may have unexpected behaviour in the long run.
->
-> I think we could start from the existing current->thread.sctlr and just
-> set the PAC enable bits via ptrauth_thread_init_user(). Similarly, we
-> could call a mte_thread_init_user() (just rename flush_mte_state() and
-> move its call place) which sets the current->thread.stclr bits that we
-> need.
->
-> Since we set the bits explicitly within the SCTLR_TASK_MASK, I don't
-> think we need any init_sctlr.
-
-Okay, I've changed the code to work like that and removed init_sctlr in v3.
-
-> > diff --git a/arch/arm64/kernel/setup.c b/arch/arm64/kernel/setup.c
-> > index 77c4c9bad1b8..91932215a6dd 100644
-> > --- a/arch/arm64/kernel/setup.c
-> > +++ b/arch/arm64/kernel/setup.c
-> > @@ -282,6 +282,8 @@ u64 cpu_logical_map(int cpu)
-> >  }
-> >  EXPORT_SYMBOL_GPL(cpu_logical_map);
-> >
-> > +u64 init_sctlr;
-> > +
-> >  void __init __no_sanitize_address setup_arch(char **cmdline_p)
-> >  {
-> >       init_mm.start_code = (unsigned long) _text;
-> > @@ -370,6 +372,14 @@ void __init __no_sanitize_address setup_arch(char **cmdline_p)
-> >       init_task.thread_info.ttbr0 = __pa_symbol(empty_zero_page);
-> >  #endif
-> >
-> > +     /*
-> > +      * Stash a task's initial SCTLR_EL1 per-task bits, which is the same as
-> > +      * the value that it was set to by the early startup code.
-> > +      */
-> > +     asm("mrs %0, sctlr_el1" : "=r"(init_sctlr));
->
-> We have a read_sysreg(sctlr_el1) but I don't think we need it.
->
-> > +     init_sctlr &= SCTLR_TASK_MASK;
-> > +     init_task.thread.sctlr = init_sctlr;
->
-> At this point we have the full SCTLR_EL1. The cpufeature framework may
-> turn on additional bits when SMP is fully operational. Also, a user
-> thread is not interested in bits that are specific to the kernel only.
->
-> As I mentioned above, if we set the bits explicitly when creating a user
-> thread, we can just leave init_task.thread.sctlr to 0.
->
-> Also, I'd rename thread.sctlr to sctlr_user so that it's clearer that it
-> doesn't affect the kernel settings.
-
-Renamed in v3.
-
-Peter
+Thanks,
+Amir.
