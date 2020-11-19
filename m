@@ -2,484 +2,700 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 02EFC2B8C77
-	for <lists+linux-api@lfdr.de>; Thu, 19 Nov 2020 08:39:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 660642B8F3A
+	for <lists+linux-api@lfdr.de>; Thu, 19 Nov 2020 10:48:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726370AbgKSHi3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 19 Nov 2020 02:38:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56890 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726358AbgKSHi3 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 19 Nov 2020 02:38:29 -0500
-Received: from mail-il1-x143.google.com (mail-il1-x143.google.com [IPv6:2607:f8b0:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 311C7C0613CF;
-        Wed, 18 Nov 2020 23:38:29 -0800 (PST)
-Received: by mail-il1-x143.google.com with SMTP id q1so4443498ilt.6;
-        Wed, 18 Nov 2020 23:38:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=VngKa5aOwDypj1f5oaz7Q+Op9jrf4OiDaUUed2CLEuI=;
-        b=L4jc4e5akO277WhsvOol1rDc4M9mkepXYzUmbiAYVZRdoW/dEBfAJEWfOOa1i3looP
-         O1MWaibedqb+Zs4yU0FmwC+gs5tGjp5z0yYHiaBFED8uT/Xf6f7bXKNZ1kIJK2cvAfT9
-         7Foas5s96yybHTqBG+zyAszfBv0CYG0vCJuuA6VRUruDOoYcD15CwDdatuDQz26A98I2
-         u4Xs56Tpq5E33LcIMeEO+Rofn6HDCHFSpfA1o/z7hQmPpzyS/tYleOL22tZbzhKGxbuc
-         tBbOtOz5E8fJucNv97XJxe4qwQCaR+M/XKV/SoDl7sLGOeAGhCNC0ZyQksqAROHgKmPo
-         sJ3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VngKa5aOwDypj1f5oaz7Q+Op9jrf4OiDaUUed2CLEuI=;
-        b=dNSdHtv3r3j4+nSWJQuQBI7coyYmnz44CdEo7TSyCKdeFFv9TQMIg+h6tZS2jrzo77
-         lIzA/GFmDNyhNO4MXQjCGHB9hSvEKZSJ9UOMawIPSYmpbF9fb+ucj8ndCvmfWh5jSfNs
-         PEbHZdUsvtUSYFkkR/u34Pt6xCRUFMCOCLq9KqOpk6kzDwj6EzlAD0AK7I8NfZZkMd9V
-         OEwFBps1rsm6vdNNp1fHSdfsEc++8L2pEQxV5220bLpzeuBO7hP0P0AxnVNl/BlqgQ9L
-         qZT9dcqedo8jMCY+Dj6absTP8lEl+F74dSOnEtWi59PTEaiDIQugDQMJjWhfRaQulpxk
-         iIjg==
-X-Gm-Message-State: AOAM533MO5xHfS6hUlsRr/GBoc+D7KDr2+lwJ3dmbsQQXXG/X8hjfQLs
-        2ysnRSUlYT/jyR6RN4WlsVbIarfqjEJXMUrTiGM=
-X-Google-Smtp-Source: ABdhPJwhPgeod31EwstXmAX0PW4O3EZcB2pk0VaishFSBaNhqyWG11m/ucUXeKUq95W8Ck0rjRvZp9eOVhs00B49Su8=
-X-Received: by 2002:a05:6e02:14c9:: with SMTP id o9mr21556515ilk.137.1605771508320;
- Wed, 18 Nov 2020 23:38:28 -0800 (PST)
+        id S1726407AbgKSJpm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 19 Nov 2020 04:45:42 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46150 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726287AbgKSJpl (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 19 Nov 2020 04:45:41 -0500
+Received: from gaia (unknown [2.26.170.190])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id CB8DA246BB;
+        Thu, 19 Nov 2020 09:45:37 +0000 (UTC)
+Date:   Thu, 19 Nov 2020 09:45:35 +0000
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Peter Collingbourne <pcc@google.com>
+Cc:     Evgenii Stepanov <eugenis@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Will Deacon <will@kernel.org>, linux-api@vger.kernel.org,
+        libc-alpha@sourceware.org
+Subject: Re: [PATCH v3] arm64: Introduce prctl(PR_PAC_{SET,GET}_ENABLED_KEYS)
+Message-ID: <20201119094534.GA4376@gaia>
+References: <20201119052011.3307433-1-pcc@google.com>
 MIME-Version: 1.0
-References: <cover.1605723568.git.osandov@fb.com> <a14f36933f38a80ed1962bd82986fe0e9d92d586.1605723568.git.osandov@fb.com>
-In-Reply-To: <a14f36933f38a80ed1962bd82986fe0e9d92d586.1605723568.git.osandov@fb.com>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Thu, 19 Nov 2020 09:38:17 +0200
-Message-ID: <CAOQ4uxgDYBboKPBH4nnB+Lz+VxAeOXzjgBtdJqVUavNy9rYMug@mail.gmail.com>
-Subject: Re: [PATCH v6 03/11] fs: add RWF_ENCODED for reading/writing
- compressed data
-To:     Omar Sandoval <osandov@osandov.com>
-Cc:     linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux Btrfs <linux-btrfs@vger.kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dave Chinner <david@fromorbit.com>,
-        Jann Horn <jannh@google.com>, Aleksa Sarai <cyphar@cyphar.com>,
-        Linux API <linux-api@vger.kernel.org>, kernel-team@fb.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201119052011.3307433-1-pcc@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Nov 18, 2020 at 9:18 PM Omar Sandoval <osandov@osandov.com> wrote:
->
-> From: Omar Sandoval <osandov@fb.com>
->
-> Btrfs supports transparent compression: data written by the user can be
-> compressed when written to disk and decompressed when read back.
-> However, we'd like to add an interface to write pre-compressed data
-> directly to the filesystem, and the matching interface to read
-> compressed data without decompressing it. This adds support for
-> so-called "encoded I/O" via preadv2() and pwritev2().
->
-> A new RWF_ENCODED flags indicates that a read or write is "encoded". If
-> this flag is set, iov[0].iov_base points to a struct encoded_iov which
-> is used for metadata: namely, the compression algorithm, unencoded
-> (i.e., decompressed) length, and what subrange of the unencoded data
-> should be used (needed for truncated or hole-punched extents and when
-> reading in the middle of an extent). For reads, the filesystem returns
-> this information; for writes, the caller provides it to the filesystem.
-> iov[0].iov_len must be set to sizeof(struct encoded_iov), which can be
-> used to extend the interface in the future a la copy_struct_from_user().
-> The remaining iovecs contain the encoded extent.
->
-> This adds the VFS helpers for supporting encoded I/O and documentation
-> for filesystem support.
->
-> Reviewed-by: Josef Bacik <josef@toxicpanda.com>
-> Signed-off-by: Omar Sandoval <osandov@fb.com>
+Hi Peter,
+
+Please keep libc-alpha in the loop for such ABI proposals (I'll bounce
+this patch separately).
+
+Thanks.
+
+On Wed, Nov 18, 2020 at 09:20:11PM -0800, Peter Collingbourne wrote:
+> This prctl allows the user program to control which PAC keys are enabled
+> in a particular task. The main reason why this is useful is to enable a
+> userspace ABI that uses PAC to sign and authenticate function pointers
+> and other pointers exposed outside of the function, while still allowing
+> binaries conforming to the ABI to interoperate with legacy binaries that
+> do not sign or authenticate pointers.
+> 
+> The idea is that a dynamic loader or early startup code would issue
+> this prctl very early after establishing that a process may load legacy
+> binaries, but before executing any PAC instructions.
+> 
+> Signed-off-by: Peter Collingbourne <pcc@google.com>
+> Link: https://linux-review.googlesource.com/id/Ibc41a5e6a76b275efbaa126b31119dc197b927a5
 > ---
->  Documentation/filesystems/encoded_io.rst |  74 ++++++++++
->  Documentation/filesystems/index.rst      |   1 +
->  fs/read_write.c                          | 167 +++++++++++++++++++++--
->  include/linux/fs.h                       |  11 ++
->  include/uapi/linux/fs.h                  |  41 +++++-
->  5 files changed, 280 insertions(+), 14 deletions(-)
->  create mode 100644 Documentation/filesystems/encoded_io.rst
->
-> diff --git a/Documentation/filesystems/encoded_io.rst b/Documentation/filesystems/encoded_io.rst
-> new file mode 100644
-> index 000000000000..50405276d866
-> --- /dev/null
-> +++ b/Documentation/filesystems/encoded_io.rst
-> @@ -0,0 +1,74 @@
-> +===========
-> +Encoded I/O
-> +===========
+> v3:
+> - fix some style nits
+> - move kernel entry ISB to after setting EnIA
+> - rename sctlr -> sctlr_user
+> - remove init_sctlr
+> 
+> v2:
+> - added prctl(PR_PAC_GET_ENABLED_KEYS)
+> - added ptrace APIs for getting and setting the set of enabled
+>   keys
+> - optimized the instruction sequence for kernel entry/exit
+> - rebased on top of MTE series
+> 
+>  .../arm64/pointer-authentication.rst          | 27 +++++++++
+>  arch/arm64/include/asm/mte.h                  |  4 +-
+>  arch/arm64/include/asm/pointer_auth.h         | 26 ++++++++-
+>  arch/arm64/include/asm/processor.h            | 19 ++++++-
+>  arch/arm64/include/asm/sysreg.h               |  4 +-
+>  arch/arm64/kernel/asm-offsets.c               |  1 +
+>  arch/arm64/kernel/entry.S                     | 30 +++++++++-
+>  arch/arm64/kernel/mte.c                       | 42 ++++----------
+>  arch/arm64/kernel/pointer_auth.c              | 55 +++++++++++++++++++
+>  arch/arm64/kernel/process.c                   | 39 ++++++++++++-
+>  arch/arm64/kernel/ptrace.c                    | 41 ++++++++++++++
+>  include/uapi/linux/elf.h                      |  1 +
+>  include/uapi/linux/prctl.h                    |  4 ++
+>  kernel/sys.c                                  | 16 ++++++
+>  14 files changed, 267 insertions(+), 42 deletions(-)
+> 
+> diff --git a/Documentation/arm64/pointer-authentication.rst b/Documentation/arm64/pointer-authentication.rst
+> index 30b2ab06526b..1f7e064deeb3 100644
+> --- a/Documentation/arm64/pointer-authentication.rst
+> +++ b/Documentation/arm64/pointer-authentication.rst
+> @@ -107,3 +107,30 @@ filter out the Pointer Authentication system key registers from
+>  KVM_GET/SET_REG_* ioctls and mask those features from cpufeature ID
+>  register. Any attempt to use the Pointer Authentication instructions will
+>  result in an UNDEFINED exception being injected into the guest.
 > +
-> +Encoded I/O is a mechanism for reading and writing encoded (e.g., compressed
-> +and/or encrypted) data directly from/to the filesystem. The userspace interface
-> +is thoroughly described in the :manpage:`encoded_io(7)` man page; this document
-> +describes the requirements for filesystem support.
 > +
-> +First of all, a filesystem supporting encoded I/O must indicate this by setting
-> +the ``FMODE_ENCODED_IO`` flag in its ``file_open`` file operation::
+> +Enabling and disabling keys
+> +---------------------------
 > +
-
-Should this be FMODE_ALLOW_ENCODED_IO?
-How come I see no checks for this flag in vfs code?
-You seem to only be checking the O_ flag.
-Do we really want to allow setting the O_ flag after open or should we
-deny that?
-
-> +    static int foo_file_open(struct inode *inode, struct file *filp)
-> +    {
-> +            ...
-> +            filep->f_mode |= FMODE_ENCODED_IO;
-> +            ...
-> +    }
+> +The prctl PR_PAC_SET_ENABLED_KEYS allows the user program to control which
+> +PAC keys are enabled in a particular task. It takes two arguments, the
+> +first being a bitmask of PR_PAC_APIAKEY, PR_PAC_APIBKEY, PR_PAC_APDAKEY
+> +and PR_PAC_APDBKEY specifying which keys shall be affected by this prctl,
+> +and the second being a bitmask of the same bits specifying whether the key
+> +should be enabled or disabled. For example::
 > +
-> +Encoded I/O goes through ``read_iter`` and ``write_iter``, designated by the
-> +``IOCB_ENCODED`` flag in ``kiocb->ki_flags``.
+> +  prctl(PR_PAC_SET_ENABLED_KEYS,
+> +        PR_PAC_APIAKEY | PR_PAC_APIBKEY | PR_PAC_APDAKEY | PR_PAC_APDBKEY,
+> +        PR_PAC_APIBKEY, 0, 0);
 > +
-> +Reads
-> +=====
+> +disables all keys except the IB key.
 > +
-> +Encoded ``read_iter`` should:
+> +The main reason why this is useful is to enable a userspace ABI that uses PAC
+> +instructions to sign and authenticate function pointers and other pointers
+> +exposed outside of the function, while still allowing binaries conforming to
+> +the ABI to interoperate with legacy binaries that do not sign or authenticate
+> +pointers.
 > +
-> +1. Call ``generic_encoded_read_checks()`` to validate the file and buffers
-> +   provided by userspace.
-> +2. Initialize the ``encoded_iov`` appropriately.
-> +3. Copy it to the user with ``copy_encoded_iov_to_iter()``.
-> +4. Copy the encoded data to the user.
-> +5. Advance ``kiocb->ki_pos`` by ``encoded_iov->len``.
-> +6. Return the size of the encoded data read, not including the ``encoded_iov``.
-> +
-> +There are a few details to be aware of:
-> +
-> +* Encoded ``read_iter`` should support reading unencoded data if the extent is
-> +  not encoded.
-> +* If the buffers provided by the user are not large enough to contain an entire
-> +  encoded extent, then ``read_iter`` should return ``-ENOBUFS``. This is to
-> +  avoid confusing userspace with truncated data that cannot be properly
-> +  decoded.
-> +* Reads in the middle of an encoded extent can be returned by setting
-> +  ``encoded_iov->unencoded_offset`` to non-zero.
-> +* Truncated unencoded data (e.g., because the file does not end on a block
-> +  boundary) may be returned by setting ``encoded_iov->len`` to a value smaller
-> +  value than ``encoded_iov->unencoded_len - encoded_iov->unencoded_offset``.
-> +
-> +Writes
-> +======
-> +
-> +Encoded ``write_iter`` should (in addition to the usual accounting/checks done
-> +by ``write_iter``):
-> +
-> +1. Call ``copy_encoded_iov_from_iter()`` to get and validate the
-> +   ``encoded_iov``.
-> +2. Call ``generic_encoded_write_checks()`` instead of
-> +   ``generic_write_checks()``.
-> +3. Check that the provided encoding in ``encoded_iov`` is supported.
-> +4. Advance ``kiocb->ki_pos`` by ``encoded_iov->len``.
-> +5. Return the size of the encoded data written.
-> +
-> +Again, there are a few details:
-> +
-> +* Encoded ``write_iter`` doesn't need to support writing unencoded data.
-> +* ``write_iter`` should either write all of the encoded data or none of it; it
-> +  must not do partial writes.
-> +* ``write_iter`` doesn't need to validate the encoded data; a subsequent read
-> +  may return, e.g., ``-EIO`` if the data is not valid.
-> +* The user may lie about the unencoded size of the data; a subsequent read
-> +  should truncate or zero-extend the unencoded data rather than returning an
-> +  error.
-> +* Be careful of page cache coherency.
-> diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-> index 98f59a864242..6d9e3ff0a455 100644
-> --- a/Documentation/filesystems/index.rst
-> +++ b/Documentation/filesystems/index.rst
-> @@ -53,6 +53,7 @@ filesystem implementations.
->     journalling
->     fscrypt
->     fsverity
-> +   encoded_io
->
->  Filesystems
->  ===========
-> diff --git a/fs/read_write.c b/fs/read_write.c
-> index 75f764b43418..e2ad418d2987 100644
-> --- a/fs/read_write.c
-> +++ b/fs/read_write.c
-> @@ -1625,24 +1625,15 @@ int generic_write_check_limits(struct file *file, loff_t pos, loff_t *count)
->         return 0;
->  }
->
-> -/*
-> - * Performs necessary checks before doing a write
-> - *
-> - * Can adjust writing position or amount of bytes to write.
-> - * Returns appropriate error code that caller should return or
-> - * zero in case that write should be allowed.
-> - */
-> -ssize_t generic_write_checks(struct kiocb *iocb, struct iov_iter *from)
-> +static int generic_write_checks_common(struct kiocb *iocb, loff_t *count)
+> +The idea is that a dynamic loader or early startup code would issue this
+> +prctl very early after establishing that a process may load legacy binaries,
+> +but before executing any PAC instructions.
+> diff --git a/arch/arm64/include/asm/mte.h b/arch/arm64/include/asm/mte.h
+> index 1c99fcadb58c..adbb05ece04c 100644
+> --- a/arch/arm64/include/asm/mte.h
+> +++ b/arch/arm64/include/asm/mte.h
+> @@ -37,7 +37,7 @@ void mte_free_tag_storage(char *storage);
+>  
+>  void mte_sync_tags(pte_t *ptep, pte_t pte);
+>  void mte_copy_page_tags(void *kto, const void *kfrom);
+> -void flush_mte_state(void);
+> +void mte_thread_init_user(void);
+>  void mte_thread_switch(struct task_struct *next);
+>  void mte_suspend_exit(void);
+>  long set_mte_ctrl(struct task_struct *task, unsigned long arg);
+> @@ -56,7 +56,7 @@ static inline void mte_sync_tags(pte_t *ptep, pte_t pte)
+>  static inline void mte_copy_page_tags(void *kto, const void *kfrom)
 >  {
->         struct file *file = iocb->ki_filp;
->         struct inode *inode = file->f_mapping->host;
-> -       loff_t count;
-> -       int ret;
->
->         if (IS_SWAPFILE(inode))
->                 return -ETXTBSY;
->
-> -       if (!iov_iter_count(from))
-> +       if (!*count)
->                 return 0;
->
->         /* FIXME: this is for backwards compatibility with 2.4 */
-> @@ -1652,8 +1643,22 @@ ssize_t generic_write_checks(struct kiocb *iocb, struct iov_iter *from)
->         if ((iocb->ki_flags & IOCB_NOWAIT) && !(iocb->ki_flags & IOCB_DIRECT))
->                 return -EINVAL;
->
-> -       count = iov_iter_count(from);
-> -       ret = generic_write_check_limits(file, iocb->ki_pos, &count);
-> +       return generic_write_check_limits(iocb->ki_filp, iocb->ki_pos, count);
-> +}
+>  }
+> -static inline void flush_mte_state(void)
+> +static inline void mte_thread_init_user(void)
+>  {
+>  }
+>  static inline void mte_thread_switch(struct task_struct *next)
+> diff --git a/arch/arm64/include/asm/pointer_auth.h b/arch/arm64/include/asm/pointer_auth.h
+> index c6b4f0603024..8346f6e60736 100644
+> --- a/arch/arm64/include/asm/pointer_auth.h
+> +++ b/arch/arm64/include/asm/pointer_auth.h
+> @@ -3,6 +3,7 @@
+>  #define __ASM_POINTER_AUTH_H
+>  
+>  #include <linux/bitops.h>
+> +#include <linux/prctl.h>
+>  #include <linux/random.h>
+>  
+>  #include <asm/cpufeature.h>
+> @@ -71,13 +72,27 @@ static __always_inline void ptrauth_keys_switch_kernel(struct ptrauth_keys_kerne
+>  
+>  extern int ptrauth_prctl_reset_keys(struct task_struct *tsk, unsigned long arg);
+>  
+> +extern int ptrauth_prctl_set_enabled_keys(struct task_struct *tsk,
+> +					  unsigned long keys,
+> +					  unsigned long enabled);
+> +extern int ptrauth_prctl_get_enabled_keys(struct task_struct *tsk);
 > +
-> +/*
-> + * Performs necessary checks before doing a write
-> + *
-> + * Can adjust writing position or amount of bytes to write.
-> + * Returns appropriate error code that caller should return or
-> + * zero in case that write should be allowed.
-> + */
-> +ssize_t generic_write_checks(struct kiocb *iocb, struct iov_iter *from)
+>  static inline unsigned long ptrauth_strip_insn_pac(unsigned long ptr)
+>  {
+>  	return ptrauth_clear_pac(ptr);
+>  }
+>  
+> -#define ptrauth_thread_init_user(tsk)					\
+> -	ptrauth_keys_init_user(&(tsk)->thread.keys_user)
+> +#define ptrauth_thread_init_user()                                             \
+> +	do {                                                                   \
+> +		ptrauth_keys_init_user(&current->thread.keys_user);            \
+> +									       \
+> +		/* enable all keys */                                          \
+> +		if (system_supports_address_auth())                            \
+> +			set_task_sctlr_el1(current->thread.sctlr_user |        \
+> +					   SCTLR_ELx_ENIA | SCTLR_ELx_ENIB |   \
+> +					   SCTLR_ELx_ENDA | SCTLR_ELx_ENDB);   \
+> +	} while (0)
+> +
+>  #define ptrauth_thread_init_kernel(tsk)					\
+>  	ptrauth_keys_init_kernel(&(tsk)->thread.keys_kernel)
+>  #define ptrauth_thread_switch_kernel(tsk)				\
+> @@ -85,10 +100,15 @@ static inline unsigned long ptrauth_strip_insn_pac(unsigned long ptr)
+>  
+>  #else /* CONFIG_ARM64_PTR_AUTH */
+>  #define ptrauth_prctl_reset_keys(tsk, arg)	(-EINVAL)
+> +#define ptrauth_prctl_set_enabled_keys(tsk, keys, enabled)	(-EINVAL)
+> +#define ptrauth_prctl_get_enabled_keys(tsk)	(-EINVAL)
+>  #define ptrauth_strip_insn_pac(lr)	(lr)
+> -#define ptrauth_thread_init_user(tsk)
+> +#define ptrauth_thread_init_user()
+>  #define ptrauth_thread_init_kernel(tsk)
+>  #define ptrauth_thread_switch_kernel(tsk)
+>  #endif /* CONFIG_ARM64_PTR_AUTH */
+>  
+> +#define PR_PAC_ENABLED_KEYS_MASK                                               \
+> +	(PR_PAC_APIAKEY | PR_PAC_APIBKEY | PR_PAC_APDAKEY | PR_PAC_APDBKEY)
+> +
+>  #endif /* __ASM_POINTER_AUTH_H */
+> diff --git a/arch/arm64/include/asm/processor.h b/arch/arm64/include/asm/processor.h
+> index fce8cbecd6bc..f430dd2fb61a 100644
+> --- a/arch/arm64/include/asm/processor.h
+> +++ b/arch/arm64/include/asm/processor.h
+> @@ -153,11 +153,15 @@ struct thread_struct {
+>  	struct ptrauth_keys_kernel	keys_kernel;
+>  #endif
+>  #ifdef CONFIG_ARM64_MTE
+> -	u64			sctlr_tcf0;
+>  	u64			gcr_user_incl;
+>  #endif
+> +	u64			sctlr_user;
+>  };
+>  
+> +#define SCTLR_USER_MASK                                                        \
+> +	(SCTLR_ELx_ENIA | SCTLR_ELx_ENIB | SCTLR_ELx_ENDA | SCTLR_ELx_ENDB |   \
+> +	 SCTLR_EL1_TCF0_MASK)
+> +
+>  static inline void arch_thread_struct_whitelist(unsigned long *offset,
+>  						unsigned long *size)
+>  {
+> @@ -249,6 +253,14 @@ extern void release_thread(struct task_struct *);
+>  
+>  unsigned long get_wchan(struct task_struct *p);
+>  
+> +#if defined(CONFIG_ARM64_PTR_AUTH) || defined(CONFIG_ARM64_MTE)
+> +void set_task_sctlr_el1(u64 sctlr);
+> +#else
+> +static inline void set_task_sctlr_el1(u64 sctlr)
 > +{
-> +       loff_t count = iov_iter_count(from);
-> +       int ret;
+> +}
+> +#endif
 > +
-> +       ret = generic_write_checks_common(iocb, &count);
->         if (ret)
->                 return ret;
->
-> @@ -1684,3 +1689,139 @@ int generic_file_rw_checks(struct file *file_in, struct file *file_out)
->
->         return 0;
+>  /* Thread switching */
+>  extern struct task_struct *cpu_switch_to(struct task_struct *prev,
+>  					 struct task_struct *next);
+> @@ -303,6 +315,11 @@ extern void __init minsigstksz_setup(void);
+>  /* PR_PAC_RESET_KEYS prctl */
+>  #define PAC_RESET_KEYS(tsk, arg)	ptrauth_prctl_reset_keys(tsk, arg)
+>  
+> +/* PR_PAC_{SET,GET}_ENABLED_KEYS prctl */
+> +#define PAC_SET_ENABLED_KEYS(tsk, keys, enabled)				\
+> +	ptrauth_prctl_set_enabled_keys(tsk, keys, enabled)
+> +#define PAC_GET_ENABLED_KEYS(tsk) ptrauth_prctl_get_enabled_keys(tsk)
+> +
+>  #ifdef CONFIG_ARM64_TAGGED_ADDR_ABI
+>  /* PR_{SET,GET}_TAGGED_ADDR_CTRL prctl */
+>  long set_tagged_addr_ctrl(struct task_struct *task, unsigned long arg);
+> diff --git a/arch/arm64/include/asm/sysreg.h b/arch/arm64/include/asm/sysreg.h
+> index e2ef4c2edf06..96e3337ca7b3 100644
+> --- a/arch/arm64/include/asm/sysreg.h
+> +++ b/arch/arm64/include/asm/sysreg.h
+> @@ -554,8 +554,10 @@
+>  #define SCTLR_ELx_TCF_ASYNC	(UL(0x2) << SCTLR_ELx_TCF_SHIFT)
+>  #define SCTLR_ELx_TCF_MASK	(UL(0x3) << SCTLR_ELx_TCF_SHIFT)
+>  
+> +#define SCTLR_ELx_ENIA_SHIFT	31
+> +
+>  #define SCTLR_ELx_ITFSB	(BIT(37))
+> -#define SCTLR_ELx_ENIA	(BIT(31))
+> +#define SCTLR_ELx_ENIA	(BIT(SCTLR_ELx_ENIA_SHIFT))
+>  #define SCTLR_ELx_ENIB	(BIT(30))
+>  #define SCTLR_ELx_ENDA	(BIT(27))
+>  #define SCTLR_ELx_EE    (BIT(25))
+> diff --git a/arch/arm64/kernel/asm-offsets.c b/arch/arm64/kernel/asm-offsets.c
+> index 7d32fc959b1a..062d3e37edb5 100644
+> --- a/arch/arm64/kernel/asm-offsets.c
+> +++ b/arch/arm64/kernel/asm-offsets.c
+> @@ -48,6 +48,7 @@ int main(void)
+>    DEFINE(THREAD_KEYS_USER,	offsetof(struct task_struct, thread.keys_user));
+>    DEFINE(THREAD_KEYS_KERNEL,	offsetof(struct task_struct, thread.keys_kernel));
+>  #endif
+> +  DEFINE(THREAD_SCTLR_USER,	offsetof(struct task_struct, thread.sctlr_user));
+>    BLANK();
+>    DEFINE(S_X0,			offsetof(struct pt_regs, regs[0]));
+>    DEFINE(S_X2,			offsetof(struct pt_regs, regs[2]));
+> diff --git a/arch/arm64/kernel/entry.S b/arch/arm64/kernel/entry.S
+> index b295fb912b12..c8c1a284a76a 100644
+> --- a/arch/arm64/kernel/entry.S
+> +++ b/arch/arm64/kernel/entry.S
+> @@ -210,7 +210,20 @@ alternative_else_nop_endif
+>  	check_mte_async_tcf x19, x22
+>  	apply_ssbd 1, x22, x23
+>  
+> -	ptrauth_keys_install_kernel tsk, x20, x22, x23
+> +	ptrauth_keys_install_kernel_nosync tsk, x20, x22, x23
+> +
+> +#ifdef CONFIG_ARM64_PTR_AUTH
+> +alternative_if ARM64_HAS_ADDRESS_AUTH
+> +	/* Enable IA for in-kernel PAC if the task had it disabled. */
+> +	ldr	x0, [tsk, THREAD_SCTLR_USER]
+> +	tbnz	x0, SCTLR_ELx_ENIA_SHIFT, 1f
+> +	mrs	x0, sctlr_el1
+> +	orr	x0, x0, SCTLR_ELx_ENIA
+> +	msr	sctlr_el1, x0
+> +1:
+> +	isb
+> +alternative_else_nop_endif
+> +#endif
+>  
+>  	scs_load tsk, x20
+>  	.else
+> @@ -330,6 +343,21 @@ alternative_else_nop_endif
+>  	/* No kernel C function calls after this as user keys are set. */
+>  	ptrauth_keys_install_user tsk, x0, x1, x2
+>  
+> +#ifdef CONFIG_ARM64_PTR_AUTH
+> +alternative_if ARM64_HAS_ADDRESS_AUTH
+> +	/*
+> +	 * IA was enabled for in-kernel PAC. Disable it now if needed.
+> +	 * All other per-task SCTLR bits were updated on task switch.
+> +	 */
+> +	ldr	x0, [tsk, THREAD_SCTLR_USER]
+> +	tbnz	x0, SCTLR_ELx_ENIA_SHIFT, 1f
+> +	mrs	x0, sctlr_el1
+> +	bic	x0, x0, SCTLR_ELx_ENIA
+> +	msr	sctlr_el1, x0
+> +1:
+> +alternative_else_nop_endif
+> +#endif
+> +
+>  	apply_ssbd 0, x0, x1
+>  	.endif
+>  
+> diff --git a/arch/arm64/kernel/mte.c b/arch/arm64/kernel/mte.c
+> index 52a0638ed967..16040a1e0fd1 100644
+> --- a/arch/arm64/kernel/mte.c
+> +++ b/arch/arm64/kernel/mte.c
+> @@ -72,26 +72,6 @@ int memcmp_pages(struct page *page1, struct page *page2)
+>  	return ret;
+>  }
+>  
+> -static void update_sctlr_el1_tcf0(u64 tcf0)
+> -{
+> -	/* ISB required for the kernel uaccess routines */
+> -	sysreg_clear_set(sctlr_el1, SCTLR_EL1_TCF0_MASK, tcf0);
+> -	isb();
+> -}
+> -
+> -static void set_sctlr_el1_tcf0(u64 tcf0)
+> -{
+> -	/*
+> -	 * mte_thread_switch() checks current->thread.sctlr_tcf0 as an
+> -	 * optimisation. Disable preemption so that it does not see
+> -	 * the variable update before the SCTLR_EL1.TCF0 one.
+> -	 */
+> -	preempt_disable();
+> -	current->thread.sctlr_tcf0 = tcf0;
+> -	update_sctlr_el1_tcf0(tcf0);
+> -	preempt_enable();
+> -}
+> -
+>  static void update_gcr_el1_excl(u64 incl)
+>  {
+>  	u64 excl = ~incl & SYS_GCR_EL1_EXCL_MASK;
+> @@ -111,7 +91,7 @@ static void set_gcr_el1_excl(u64 incl)
+>  	update_gcr_el1_excl(incl);
+>  }
+>  
+> -void flush_mte_state(void)
+> +void mte_thread_init_user(void)
+>  {
+>  	if (!system_supports_mte())
+>  		return;
+> @@ -121,7 +101,8 @@ void flush_mte_state(void)
+>  	write_sysreg_s(0, SYS_TFSRE0_EL1);
+>  	clear_thread_flag(TIF_MTE_ASYNC_FAULT);
+>  	/* disable tag checking */
+> -	set_sctlr_el1_tcf0(SCTLR_EL1_TCF0_NONE);
+> +	set_task_sctlr_el1((current->thread.sctlr_user & ~SCTLR_EL1_TCF0_MASK) |
+> +			   SCTLR_EL1_TCF0_NONE);
+>  	/* reset tag generation mask */
+>  	set_gcr_el1_excl(0);
+>  }
+> @@ -131,9 +112,6 @@ void mte_thread_switch(struct task_struct *next)
+>  	if (!system_supports_mte())
+>  		return;
+>  
+> -	/* avoid expensive SCTLR_EL1 accesses if no change */
+> -	if (current->thread.sctlr_tcf0 != next->thread.sctlr_tcf0)
+> -		update_sctlr_el1_tcf0(next->thread.sctlr_tcf0);
+>  	update_gcr_el1_excl(next->thread.gcr_user_incl);
+>  }
+>  
+> @@ -147,7 +125,7 @@ void mte_suspend_exit(void)
+>  
+>  long set_mte_ctrl(struct task_struct *task, unsigned long arg)
+>  {
+> -	u64 tcf0;
+> +	u64 sctlr = task->thread.sctlr_user & ~SCTLR_EL1_TCF0_MASK;
+>  	u64 gcr_incl = (arg & PR_MTE_TAG_MASK) >> PR_MTE_TAG_SHIFT;
+>  
+>  	if (!system_supports_mte())
+> @@ -155,23 +133,23 @@ long set_mte_ctrl(struct task_struct *task, unsigned long arg)
+>  
+>  	switch (arg & PR_MTE_TCF_MASK) {
+>  	case PR_MTE_TCF_NONE:
+> -		tcf0 = SCTLR_EL1_TCF0_NONE;
+> +		sctlr |= SCTLR_EL1_TCF0_NONE;
+>  		break;
+>  	case PR_MTE_TCF_SYNC:
+> -		tcf0 = SCTLR_EL1_TCF0_SYNC;
+> +		sctlr |= SCTLR_EL1_TCF0_SYNC;
+>  		break;
+>  	case PR_MTE_TCF_ASYNC:
+> -		tcf0 = SCTLR_EL1_TCF0_ASYNC;
+> +		sctlr |= SCTLR_EL1_TCF0_ASYNC;
+>  		break;
+>  	default:
+>  		return -EINVAL;
+>  	}
+>  
+>  	if (task != current) {
+> -		task->thread.sctlr_tcf0 = tcf0;
+> +		task->thread.sctlr_user = sctlr;
+>  		task->thread.gcr_user_incl = gcr_incl;
+>  	} else {
+> -		set_sctlr_el1_tcf0(tcf0);
+> +		set_task_sctlr_el1(sctlr);
+>  		set_gcr_el1_excl(gcr_incl);
+>  	}
+>  
+> @@ -187,7 +165,7 @@ long get_mte_ctrl(struct task_struct *task)
+>  
+>  	ret = task->thread.gcr_user_incl << PR_MTE_TAG_SHIFT;
+>  
+> -	switch (task->thread.sctlr_tcf0) {
+> +	switch (task->thread.sctlr_user & SCTLR_EL1_TCF0_MASK) {
+>  	case SCTLR_EL1_TCF0_NONE:
+>  		return PR_MTE_TCF_NONE;
+>  	case SCTLR_EL1_TCF0_SYNC:
+> diff --git a/arch/arm64/kernel/pointer_auth.c b/arch/arm64/kernel/pointer_auth.c
+> index adb955fd9bdd..025f38dff464 100644
+> --- a/arch/arm64/kernel/pointer_auth.c
+> +++ b/arch/arm64/kernel/pointer_auth.c
+> @@ -46,3 +46,58 @@ int ptrauth_prctl_reset_keys(struct task_struct *tsk, unsigned long arg)
+>  
+>  	return 0;
 >  }
 > +
-> +/**
-> + * generic_encoded_write_checks() - check an encoded write
-> + * @iocb: I/O context.
-> + * @encoded: Encoding metadata.
-> + *
-> + * This should be called by RWF_ENCODED write implementations rather than
-> + * generic_write_checks(). Unlike generic_write_checks(), it returns -EFBIG
-> + * instead of adjusting the size of the write.
-> + *
-> + * Return: 0 on success, -errno on error.
-> + */
-> +int generic_encoded_write_checks(struct kiocb *iocb,
-> +                                const struct encoded_iov *encoded)
+> +static u64 arg_to_enxx_mask(unsigned long arg)
 > +{
-> +       loff_t count = encoded->len;
-> +       int ret;
+> +	u64 sctlr_enxx_mask = 0;
 > +
-> +       if (!(iocb->ki_filp->f_flags & O_ALLOW_ENCODED))
-> +               return -EPERM;
-> +
-> +       ret = generic_write_checks_common(iocb, &count);
-> +       if (ret)
-> +               return ret;
-> +
-> +       if (count != encoded->len) {
-> +               /*
-> +                * The write got truncated by generic_write_checks_common(). We
-> +                * can't do a partial encoded write.
-> +                */
-> +               return -EFBIG;
-> +       }
-> +       return 0;
+> +	if (arg & PR_PAC_APIAKEY)
+> +		sctlr_enxx_mask |= SCTLR_ELx_ENIA;
+> +	if (arg & PR_PAC_APIBKEY)
+> +		sctlr_enxx_mask |= SCTLR_ELx_ENIB;
+> +	if (arg & PR_PAC_APDAKEY)
+> +		sctlr_enxx_mask |= SCTLR_ELx_ENDA;
+> +	if (arg & PR_PAC_APDBKEY)
+> +		sctlr_enxx_mask |= SCTLR_ELx_ENDB;
+> +	return sctlr_enxx_mask;
 > +}
-> +EXPORT_SYMBOL(generic_encoded_write_checks);
 > +
-> +/**
-> + * copy_encoded_iov_from_iter() - copy a &struct encoded_iov from userspace
-> + * @encoded: Returned encoding metadata.
-> + * @from: Source iterator.
-> + *
-> + * This copies in the &struct encoded_iov and does some basic sanity checks.
-> + * This should always be used rather than a plain copy_from_iter(), as it does
-> + * the proper handling for backward- and forward-compatibility.
-> + *
-> + * Return: 0 on success, -EFAULT if access to userspace failed, -E2BIG if the
-> + *         copied structure contained non-zero fields that this kernel doesn't
-> + *         support, -EINVAL if the copied structure was invalid.
-> + */
-> +int copy_encoded_iov_from_iter(struct encoded_iov *encoded,
-> +                              struct iov_iter *from)
+> +int ptrauth_prctl_set_enabled_keys(struct task_struct *tsk, unsigned long keys,
+> +				   unsigned long enabled)
 > +{
-> +       size_t usize;
-> +       int ret;
+> +	u64 sctlr = tsk->thread.sctlr_user;
 > +
-> +       usize = iov_iter_single_seg_count(from);
-> +       if (usize > PAGE_SIZE)
-> +               return -E2BIG;
-> +       if (usize < ENCODED_IOV_SIZE_VER0)
-> +               return -EINVAL;
-> +       ret = copy_struct_from_iter(encoded, sizeof(*encoded), from, usize);
-> +       if (ret)
-> +               return ret;
+> +	if (!system_supports_address_auth() || is_compat_task())
+> +		return -EINVAL;
 > +
-> +       if (encoded->compression == ENCODED_IOV_COMPRESSION_NONE &&
-> +           encoded->encryption == ENCODED_IOV_ENCRYPTION_NONE)
-> +               return -EINVAL;
-> +       if (encoded->compression > ENCODED_IOV_COMPRESSION_TYPES ||
-> +           encoded->encryption > ENCODED_IOV_ENCRYPTION_TYPES)
-> +               return -EINVAL;
-> +       if (encoded->unencoded_offset > encoded->unencoded_len)
-> +               return -EINVAL;
-> +       if (encoded->len > encoded->unencoded_len - encoded->unencoded_offset)
-> +               return -EINVAL;
-> +       return 0;
+> +	if ((keys & ~PR_PAC_ENABLED_KEYS_MASK) || (enabled & ~keys))
+> +		return -EINVAL;
+> +
+> +	sctlr &= ~arg_to_enxx_mask(keys);
+> +	sctlr |= arg_to_enxx_mask(enabled);
+> +	if (tsk == current)
+> +		set_task_sctlr_el1(sctlr);
+> +	else
+> +		tsk->thread.sctlr_user = sctlr;
+> +
+> +	return 0;
 > +}
-> +EXPORT_SYMBOL(copy_encoded_iov_from_iter);
 > +
-> +/**
-> + * generic_encoded_read_checks() - sanity check an RWF_ENCODED read
-> + * @iocb: I/O context.
-> + * @iter: Destination iterator for read.
-> + *
-> + * This should always be called by RWF_ENCODED read implementations before
-> + * returning any data.
-> + *
-> + * Return: Number of bytes available to return encoded data in @iter on success,
-> + *         -EPERM if the file was not opened with O_ALLOW_ENCODED, -EINVAL if
-> + *         the size of the &struct encoded_iov iovec is invalid.
-> + */
-> +ssize_t generic_encoded_read_checks(struct kiocb *iocb, struct iov_iter *iter)
+> +int ptrauth_prctl_get_enabled_keys(struct task_struct *tsk)
 > +{
-> +       size_t usize;
+> +	int retval = 0;
 > +
-> +       if (!(iocb->ki_filp->f_flags & O_ALLOW_ENCODED))
-> +               return -EPERM;
-> +       usize = iov_iter_single_seg_count(iter);
-> +       if (usize > PAGE_SIZE || usize < ENCODED_IOV_SIZE_VER0)
-> +               return -EINVAL;
-> +       return iov_iter_count(iter) - usize;
+> +	if (!system_supports_address_auth() || is_compat_task())
+> +		return -EINVAL;
+> +
+> +	if (tsk->thread.sctlr_user & SCTLR_ELx_ENIA)
+> +		retval |= PR_PAC_APIAKEY;
+> +	if (tsk->thread.sctlr_user & SCTLR_ELx_ENIB)
+> +		retval |= PR_PAC_APIBKEY;
+> +	if (tsk->thread.sctlr_user & SCTLR_ELx_ENDA)
+> +		retval |= PR_PAC_APDAKEY;
+> +	if (tsk->thread.sctlr_user & SCTLR_ELx_ENDB)
+> +		retval |= PR_PAC_APDBKEY;
+> +
+> +	return retval;
 > +}
-> +EXPORT_SYMBOL(generic_encoded_read_checks);
-> +
-> +/**
-> + * copy_encoded_iov_to_iter() - copy a &struct encoded_iov to userspace
-> + * @encoded: Encoding metadata to return.
-> + * @to: Destination iterator.
-> + *
-> + * This should always be used by RWF_ENCODED read implementations rather than a
-> + * plain copy_to_iter(), as it does the proper handling for backward- and
-> + * forward-compatibility. The iterator must be sanity-checked with
-> + * generic_encoded_read_checks() before this is called.
-> + *
-> + * Return: 0 on success, -EFAULT if access to userspace failed, -E2BIG if there
-> + *         were non-zero fields in @encoded that the user buffer could not
-> + *         accommodate.
-> + */
-> +int copy_encoded_iov_to_iter(const struct encoded_iov *encoded,
-> +                            struct iov_iter *to)
+> diff --git a/arch/arm64/kernel/process.c b/arch/arm64/kernel/process.c
+> index a47a40ec6ad9..aa8bf0294c5d 100644
+> --- a/arch/arm64/kernel/process.c
+> +++ b/arch/arm64/kernel/process.c
+> @@ -339,7 +339,6 @@ void flush_thread(void)
+>  	tls_thread_flush();
+>  	flush_ptrace_hw_breakpoint(current);
+>  	flush_tagged_addr_state();
+> -	flush_mte_state();
+>  }
+>  
+>  void release_thread(struct task_struct *dead_task)
+> @@ -541,6 +540,37 @@ static void erratum_1418040_thread_switch(struct task_struct *prev,
+>  	write_sysreg(val, cntkctl_el1);
+>  }
+>  
+> +#if defined(CONFIG_ARM64_PTR_AUTH) || defined(CONFIG_ARM64_MTE)
+> +static void update_sctlr_el1(u64 sctlr)
 > +{
-> +       size_t ksize = sizeof(*encoded);
-> +       size_t usize = iov_iter_single_seg_count(to);
-> +       size_t size = min(ksize, usize);
+> +	/*
+> +	 * EnIA must not be cleared while in the kernel as this is necessary for
+> +	 * in-kernel PAC. It will be cleared on kernel exit if needed.
+> +	 */
+> +	sysreg_clear_set(sctlr_el1, SCTLR_USER_MASK & ~SCTLR_ELx_ENIA, sctlr);
 > +
-> +       /* We already sanity-checked usize in generic_encoded_read_checks(). */
-> +
-> +       if (usize < ksize &&
-> +           memchr_inv((char *)encoded + usize, 0, ksize - usize))
-> +               return -E2BIG;
-> +       if (copy_to_iter(encoded, size, to) != size ||
-> +           (usize > ksize &&
-> +            iov_iter_zero(usize - ksize, to) != usize - ksize))
-> +               return -EFAULT;
-> +       return 0;
+> +	/* ISB required for the kernel uaccess routines when setting TCF0. */
+> +	isb();
 > +}
-> +EXPORT_SYMBOL(copy_encoded_iov_to_iter);
-> diff --git a/include/linux/fs.h b/include/linux/fs.h
-> index 8667d0cdc71e..67810bf6fb1c 100644
-> --- a/include/linux/fs.h
-> +++ b/include/linux/fs.h
-> @@ -178,6 +178,9 @@ typedef int (dio_iodone_t)(struct kiocb *iocb, loff_t offset,
->  /* File supports async buffered reads */
->  #define FMODE_BUF_RASYNC       ((__force fmode_t)0x40000000)
->
-> +/* File supports encoded IO */
-> +#define FMODE_ENCODED_IO       ((__force fmode_t)0x80000000)
+> +
+> +void set_task_sctlr_el1(u64 sctlr)
+> +{
+> +	/*
+> +	 * __switch_to() checks current->thread.sctlr as an
+> +	 * optimisation. Disable preemption so that it does not see
+> +	 * the variable update before the SCTLR_EL1 one.
+> +	 */
+> +	preempt_disable();
+> +	current->thread.sctlr_user = sctlr;
+> +	update_sctlr_el1(sctlr);
+> +	preempt_enable();
+> +}
+> +#else
+> +static void update_sctlr_el1(u64 sctlr)
+> +{
+> +}
+> +#endif  /* defined(CONFIG_ARM64_PTR_AUTH) || defined(CONFIG_ARM64_MTE) */
 > +
 >  /*
->   * Attribute flags.  These should be or-ed together to figure out what
->   * has been changed!
-> @@ -308,6 +311,7 @@ enum rw_hint {
->  #define IOCB_SYNC              (__force int) RWF_SYNC
->  #define IOCB_NOWAIT            (__force int) RWF_NOWAIT
->  #define IOCB_APPEND            (__force int) RWF_APPEND
-> +#define IOCB_ENCODED           (__force int) RWF_ENCODED
->
->  /* non-RWF related bits - start at 16 */
->  #define IOCB_EVENTFD           (1 << 16)
-> @@ -2964,6 +2968,13 @@ extern int generic_file_readonly_mmap(struct file *, struct vm_area_struct *);
->  extern ssize_t generic_write_checks(struct kiocb *, struct iov_iter *);
->  extern int generic_write_check_limits(struct file *file, loff_t pos,
->                 loff_t *count);
-> +struct encoded_iov;
-> +extern int generic_encoded_write_checks(struct kiocb *,
-> +                                       const struct encoded_iov *);
-> +extern int copy_encoded_iov_from_iter(struct encoded_iov *, struct iov_iter *);
-> +extern ssize_t generic_encoded_read_checks(struct kiocb *, struct iov_iter *);
-> +extern int copy_encoded_iov_to_iter(const struct encoded_iov *,
-> +                                   struct iov_iter *);
->  extern int generic_file_rw_checks(struct file *file_in, struct file *file_out);
->  extern ssize_t generic_file_buffered_read(struct kiocb *iocb,
->                 struct iov_iter *to, ssize_t already_read);
-> diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
-> index f44eb0a04afd..95493420117a 100644
-> --- a/include/uapi/linux/fs.h
-> +++ b/include/uapi/linux/fs.h
-> @@ -279,6 +279,42 @@ struct fsxattr {
->                                          SYNC_FILE_RANGE_WAIT_BEFORE | \
->                                          SYNC_FILE_RANGE_WAIT_AFTER)
->
-> +enum {
-> +       ENCODED_IOV_COMPRESSION_NONE,
-> +#define ENCODED_IOV_COMPRESSION_NONE ENCODED_IOV_COMPRESSION_NONE
-> +       ENCODED_IOV_COMPRESSION_BTRFS_ZLIB,
-> +#define ENCODED_IOV_COMPRESSION_BTRFS_ZLIB ENCODED_IOV_COMPRESSION_BTRFS_ZLIB
-> +       ENCODED_IOV_COMPRESSION_BTRFS_ZSTD,
-> +#define ENCODED_IOV_COMPRESSION_BTRFS_ZSTD ENCODED_IOV_COMPRESSION_BTRFS_ZSTD
-> +       ENCODED_IOV_COMPRESSION_BTRFS_LZO_4K,
-> +#define ENCODED_IOV_COMPRESSION_BTRFS_LZO_4K ENCODED_IOV_COMPRESSION_BTRFS_LZO_4K
-> +       ENCODED_IOV_COMPRESSION_BTRFS_LZO_8K,
-> +#define ENCODED_IOV_COMPRESSION_BTRFS_LZO_8K ENCODED_IOV_COMPRESSION_BTRFS_LZO_8K
-> +       ENCODED_IOV_COMPRESSION_BTRFS_LZO_16K,
-> +#define ENCODED_IOV_COMPRESSION_BTRFS_LZO_16K ENCODED_IOV_COMPRESSION_BTRFS_LZO_16K
-> +       ENCODED_IOV_COMPRESSION_BTRFS_LZO_32K,
-> +#define ENCODED_IOV_COMPRESSION_BTRFS_LZO_32K ENCODED_IOV_COMPRESSION_BTRFS_LZO_32K
-> +       ENCODED_IOV_COMPRESSION_BTRFS_LZO_64K,
-> +#define ENCODED_IOV_COMPRESSION_BTRFS_LZO_64K ENCODED_IOV_COMPRESSION_BTRFS_LZO_64K
-> +       ENCODED_IOV_COMPRESSION_TYPES = ENCODED_IOV_COMPRESSION_BTRFS_LZO_64K,
-> +};
+>   * Thread switching.
+>   */
+> @@ -566,6 +596,10 @@ __notrace_funcgraph struct task_struct *__switch_to(struct task_struct *prev,
+>  	 */
+>  	dsb(ish);
+>  
+> +	/* avoid expensive SCTLR_EL1 accesses if no change */
+> +	if (prev->thread.sctlr_user != next->thread.sctlr_user)
+> +		update_sctlr_el1(next->thread.sctlr_user);
 > +
-
-I am not a fan of this trick.
-There is no shortage of enums in uapi headers, but I think that if we want
-to set values in stone, the values should be set explicitly and not
-auto assigned
-by compiler.
-
-If anybody ever adds a line, say ENCODED_IOV_COMPRESSION_BTRFS_ZLIB_V2
-in the middle of the enum list, it won't be obvious that it's a uapi breakage.
-
-In principle, we could have partitioned the encoding types by domains
-(e.g. btrfs),
-and the btrfs specific encodings would have been a part of a btrfs
-header, but it's
-not that important.
-
-However, please move all encoded_io stuff to a new uapi header and do
-not include it
-from fs.h to avoid having to compile most filesystems every time a new
-btrfs private encoding
-type is added.
-
-Thanks,
-Amir.
+>  	/*
+>  	 * MTE thread switching must happen after the DSB above to ensure that
+>  	 * any asynchronous tag check faults have been logged in the TFSR*_EL1
+> @@ -621,7 +655,8 @@ void arch_setup_new_exec(void)
+>  {
+>  	current->mm->context.flags = is_compat_task() ? MMCF_AARCH32 : 0;
+>  
+> -	ptrauth_thread_init_user(current);
+> +	ptrauth_thread_init_user();
+> +	mte_thread_init_user();
+>  
+>  	if (task_spec_ssb_noexec(current)) {
+>  		arch_prctl_spec_ctrl_set(current, PR_SPEC_STORE_BYPASS,
+> diff --git a/arch/arm64/kernel/ptrace.c b/arch/arm64/kernel/ptrace.c
+> index f49b349e16a3..2ed17fb07666 100644
+> --- a/arch/arm64/kernel/ptrace.c
+> +++ b/arch/arm64/kernel/ptrace.c
+> @@ -911,6 +911,38 @@ static int pac_mask_get(struct task_struct *target,
+>  	return membuf_write(&to, &uregs, sizeof(uregs));
+>  }
+>  
+> +static int pac_enabled_keys_get(struct task_struct *target,
+> +				const struct user_regset *regset,
+> +				struct membuf to)
+> +{
+> +	long enabled_keys = ptrauth_prctl_get_enabled_keys(target);
+> +
+> +	if (IS_ERR_VALUE(enabled_keys))
+> +		return enabled_keys;
+> +
+> +	return membuf_write(&to, &enabled_keys, sizeof(enabled_keys));
+> +}
+> +
+> +static int pac_enabled_keys_set(struct task_struct *target,
+> +				const struct user_regset *regset,
+> +				unsigned int pos, unsigned int count,
+> +				const void *kbuf, const void __user *ubuf)
+> +{
+> +	int ret;
+> +	long enabled_keys = ptrauth_prctl_get_enabled_keys(target);
+> +
+> +	if (IS_ERR_VALUE(enabled_keys))
+> +		return enabled_keys;
+> +
+> +	ret = user_regset_copyin(&pos, &count, &kbuf, &ubuf,
+> +				 &enabled_keys, 0, -1);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return ptrauth_prctl_set_enabled_keys(target, PR_PAC_ENABLED_KEYS_MASK,
+> +					      enabled_keys);
+> +}
+> +
+>  #ifdef CONFIG_CHECKPOINT_RESTORE
+>  static __uint128_t pac_key_to_user(const struct ptrauth_key *key)
+>  {
+> @@ -1076,6 +1108,7 @@ enum aarch64_regset {
+>  #endif
+>  #ifdef CONFIG_ARM64_PTR_AUTH
+>  	REGSET_PAC_MASK,
+> +	REGSET_PAC_ENABLED_KEYS,
+>  #ifdef CONFIG_CHECKPOINT_RESTORE
+>  	REGSET_PACA_KEYS,
+>  	REGSET_PACG_KEYS,
+> @@ -1162,6 +1195,14 @@ static const struct user_regset aarch64_regsets[] = {
+>  		.regset_get = pac_mask_get,
+>  		/* this cannot be set dynamically */
+>  	},
+> +	[REGSET_PAC_ENABLED_KEYS] = {
+> +		.core_note_type = NT_ARM_PAC_ENABLED_KEYS,
+> +		.n = 1,
+> +		.size = sizeof(long),
+> +		.align = sizeof(long),
+> +		.regset_get = pac_enabled_keys_get,
+> +		.set = pac_enabled_keys_set,
+> +	},
+>  #ifdef CONFIG_CHECKPOINT_RESTORE
+>  	[REGSET_PACA_KEYS] = {
+>  		.core_note_type = NT_ARM_PACA_KEYS,
+> diff --git a/include/uapi/linux/elf.h b/include/uapi/linux/elf.h
+> index 30f68b42eeb5..61bf4774b8f2 100644
+> --- a/include/uapi/linux/elf.h
+> +++ b/include/uapi/linux/elf.h
+> @@ -426,6 +426,7 @@ typedef struct elf64_shdr {
+>  #define NT_ARM_PACA_KEYS	0x407	/* ARM pointer authentication address keys */
+>  #define NT_ARM_PACG_KEYS	0x408	/* ARM pointer authentication generic key */
+>  #define NT_ARM_TAGGED_ADDR_CTRL	0x409	/* arm64 tagged address control (prctl()) */
+> +#define NT_ARM_PAC_ENABLED_KEYS	0x40a	/* arm64 ptr auth enabled keys (prctl()) */
+>  #define NT_ARC_V2	0x600		/* ARCv2 accumulator/extra registers */
+>  #define NT_VMCOREDD	0x700		/* Vmcore Device Dump Note */
+>  #define NT_MIPS_DSP	0x800		/* MIPS DSP ASE registers */
+> diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
+> index 7f0827705c9a..0d1bb3a2e59a 100644
+> --- a/include/uapi/linux/prctl.h
+> +++ b/include/uapi/linux/prctl.h
+> @@ -247,4 +247,8 @@ struct prctl_mm_map {
+>  #define PR_SET_IO_FLUSHER		57
+>  #define PR_GET_IO_FLUSHER		58
+>  
+> +/* Set/get enabled arm64 pointer authentication keys */
+> +#define PR_PAC_SET_ENABLED_KEYS		59
+> +#define PR_PAC_GET_ENABLED_KEYS		60
+> +
+>  #endif /* _LINUX_PRCTL_H */
+> diff --git a/kernel/sys.c b/kernel/sys.c
+> index a730c03ee607..b7f2878f053b 100644
+> --- a/kernel/sys.c
+> +++ b/kernel/sys.c
+> @@ -119,6 +119,12 @@
+>  #ifndef PAC_RESET_KEYS
+>  # define PAC_RESET_KEYS(a, b)	(-EINVAL)
+>  #endif
+> +#ifndef PAC_SET_ENABLED_KEYS
+> +# define PAC_SET_ENABLED_KEYS(a, b, c)	(-EINVAL)
+> +#endif
+> +#ifndef PAC_GET_ENABLED_KEYS
+> +# define PAC_GET_ENABLED_KEYS(a)	(-EINVAL)
+> +#endif
+>  #ifndef SET_TAGGED_ADDR_CTRL
+>  # define SET_TAGGED_ADDR_CTRL(a)	(-EINVAL)
+>  #endif
+> @@ -2497,6 +2503,16 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
+>  			return -EINVAL;
+>  		error = PAC_RESET_KEYS(me, arg2);
+>  		break;
+> +	case PR_PAC_SET_ENABLED_KEYS:
+> +		if (arg4 || arg5)
+> +			return -EINVAL;
+> +		error = PAC_SET_ENABLED_KEYS(me, arg2, arg3);
+> +		break;
+> +	case PR_PAC_GET_ENABLED_KEYS:
+> +		if (arg2 || arg3 || arg4 || arg5)
+> +			return -EINVAL;
+> +		error = PAC_GET_ENABLED_KEYS(me);
+> +		break;
+>  	case PR_SET_TAGGED_ADDR_CTRL:
+>  		if (arg3 || arg4 || arg5)
+>  			return -EINVAL;
+> -- 
+> 2.29.2.299.gdc1121823c-goog
