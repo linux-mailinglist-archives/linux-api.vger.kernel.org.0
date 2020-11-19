@@ -2,52 +2,144 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 660642B8F3A
-	for <lists+linux-api@lfdr.de>; Thu, 19 Nov 2020 10:48:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B69B2B9046
+	for <lists+linux-api@lfdr.de>; Thu, 19 Nov 2020 11:42:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726407AbgKSJpm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 19 Nov 2020 04:45:42 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46150 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726287AbgKSJpl (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 19 Nov 2020 04:45:41 -0500
-Received: from gaia (unknown [2.26.170.190])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CB8DA246BB;
-        Thu, 19 Nov 2020 09:45:37 +0000 (UTC)
-Date:   Thu, 19 Nov 2020 09:45:35 +0000
-From:   Catalin Marinas <catalin.marinas@arm.com>
+        id S1726486AbgKSKkQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 19 Nov 2020 05:40:16 -0500
+Received: from mail-eopbgr70075.outbound.protection.outlook.com ([40.107.7.75]:64433
+        "EHLO EUR04-HE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726274AbgKSKkQ (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 19 Nov 2020 05:40:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6pyKGstONSSIZ7o5hTvaLgBHLfkZFGfI27IGZ+mAD1E=;
+ b=tcJCJOnKxFpDarK037kwk8qlBDEY0W1zTVssH7rit3+vapbk+IrqKwRg2fRgzsMJXxk9SIspm7oYkIxzsscNEuKbgZAhP2GEi/QTiSchl5wZ+s3EzT40Lnxbg+EK9TyVMSqQbUCffAFZoEjzQjoy9TJT1aL7ZBs7Tjm0SCEeifc=
+Received: from MR2P264CA0039.FRAP264.PROD.OUTLOOK.COM (2603:10a6:500::27) by
+ AM4PR0802MB2356.eurprd08.prod.outlook.com (2603:10a6:200:65::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.21; Thu, 19 Nov
+ 2020 10:40:10 +0000
+Received: from VE1EUR03FT035.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:500:0:cafe::43) by MR2P264CA0039.outlook.office365.com
+ (2603:10a6:500::27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.20 via Frontend
+ Transport; Thu, 19 Nov 2020 10:40:10 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; vger.kernel.org; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;vger.kernel.org; dmarc=pass action=none
+ header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ VE1EUR03FT035.mail.protection.outlook.com (10.152.18.110) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3589.20 via Frontend Transport; Thu, 19 Nov 2020 10:40:10 +0000
+Received: ("Tessian outbound 797fb8e1da56:v71"); Thu, 19 Nov 2020 10:40:09 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: d623d293876f4194
+X-CR-MTA-TID: 64aa7808
+Received: from 7767efde31b4.2
+        by 64aa7808-outbound-1.mta.getcheckrecipient.com id FCFBF53B-C1FA-428F-BD5D-62B75A9B112C.1;
+        Thu, 19 Nov 2020 10:40:03 +0000
+Received: from FRA01-PR2-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 7767efde31b4.2
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Thu, 19 Nov 2020 10:40:03 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=crBkaBFXCkub/FTXpQcSP/XbJ8cfu7v5g9Vt3wkB6IX9z0dWsE/Efmv4LsYtaOpi1VOFIvpNYqt9RH23QFj7yN9bOeXjZv9XV5Amd5LB8wrUr7k7BDE9ReYrj9Ur6qXiVPYQp6zrDqFU7vMhIqUB+Dh1dDMwp186RlUh07/JZTumilPVuy7mCnOngVn/6BZ2K7d7K3MDOxDonnU+ITjRwWi3+L/C8hpqEXifhxVahtRJtbvhQLJ9C4Yh3Fa4Q2WWIckSP3uUgc8vlt0GX8dyG9snwxzyhHIN2zxmbvgtkUSfBcQUV7JZj2i96VoicZv3R7WkjvtPEVF0T3BKWYPH0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6pyKGstONSSIZ7o5hTvaLgBHLfkZFGfI27IGZ+mAD1E=;
+ b=DiJ2vGhp7dEoRJhCAghFhXAb65wFvGgueIODRlMC5KR1KTzW88NgSTCnJkmFk4sbLfjsCpkIIJhKBoy7Jhd3/XF1iCLoq2mbE7A84fEyfxSG2/ugh9UgnzfFUCYVk+f7MfnQH066ZZmEsaWVoMvv4Z5xuHvDmGo1QyOBHNyfEhvT1+bQ95TzwfPHBQNb7OdFc91n0BB/XFq8MGesmqjDLIwi14whcRKePhd/JJTV1pg2PmxoxR65pR5jM4GPTSWkXmuQClGmIjHmiNUkrGsp+m4TLv8CP+b4xJGy6Mfl79lfjVkN5Ehfukr7sl4Spvy3ojylHc2xkR9HC0QuK9vLIw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6pyKGstONSSIZ7o5hTvaLgBHLfkZFGfI27IGZ+mAD1E=;
+ b=tcJCJOnKxFpDarK037kwk8qlBDEY0W1zTVssH7rit3+vapbk+IrqKwRg2fRgzsMJXxk9SIspm7oYkIxzsscNEuKbgZAhP2GEi/QTiSchl5wZ+s3EzT40Lnxbg+EK9TyVMSqQbUCffAFZoEjzQjoy9TJT1aL7ZBs7Tjm0SCEeifc=
+Authentication-Results-Original: google.com; dkim=none (message not signed)
+ header.d=none;google.com; dmarc=none action=none header.from=arm.com;
+Received: from PR3PR08MB5564.eurprd08.prod.outlook.com (2603:10a6:102:87::18)
+ by PR2PR08MB4698.eurprd08.prod.outlook.com (2603:10a6:101:19::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.25; Thu, 19 Nov
+ 2020 10:40:01 +0000
+Received: from PR3PR08MB5564.eurprd08.prod.outlook.com
+ ([fe80::ad91:8ade:4623:e17b]) by PR3PR08MB5564.eurprd08.prod.outlook.com
+ ([fe80::ad91:8ade:4623:e17b%6]) with mapi id 15.20.3541.028; Thu, 19 Nov 2020
+ 10:40:01 +0000
+Date:   Thu, 19 Nov 2020 10:39:59 +0000
+From:   Szabolcs Nagy <szabolcs.nagy@arm.com>
 To:     Peter Collingbourne <pcc@google.com>
-Cc:     Evgenii Stepanov <eugenis@google.com>,
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Evgenii Stepanov <eugenis@google.com>,
         Kostya Serebryany <kcc@google.com>,
         Vincenzo Frascino <vincenzo.frascino@arm.com>,
         Dave Martin <Dave.Martin@arm.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
         Andrey Konovalov <andreyknvl@google.com>,
-        Will Deacon <will@kernel.org>, linux-api@vger.kernel.org,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        linux-api@vger.kernel.org, Will Deacon <will@kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
         libc-alpha@sourceware.org
 Subject: Re: [PATCH v3] arm64: Introduce prctl(PR_PAC_{SET,GET}_ENABLED_KEYS)
-Message-ID: <20201119094534.GA4376@gaia>
+Message-ID: <20201119103959.GB20578@arm.com>
 References: <20201119052011.3307433-1-pcc@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 In-Reply-To: <20201119052011.3307433-1-pcc@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Originating-IP: [217.140.106.54]
+X-ClientProxiedBy: LO3P265CA0003.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:bb::8) To PR3PR08MB5564.eurprd08.prod.outlook.com
+ (2603:10a6:102:87::18)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from arm.com (217.140.106.54) by LO3P265CA0003.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:bb::8) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.20 via Frontend Transport; Thu, 19 Nov 2020 10:40:00 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: bd6fc753-2ed9-46b9-02a6-08d88c777d66
+X-MS-TrafficTypeDiagnostic: PR2PR08MB4698:|AM4PR0802MB2356:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM4PR0802MB23569C0C1A891C83B1AFE607EDE00@AM4PR0802MB2356.eurprd08.prod.outlook.com>
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: m578F5rkF4e43tGhHD96sMTGq2Z6rIMfgLJcyoTTHq7UccmZPwSvRk+CyDIa7GWIo6xKHSbS13XcSki1j6XtCPrL11pe4eKfVmrv173DhVQWUJRj8UzruB0bXSdA5GtFKysXQgyERL0ozGaohvXcJli4xpyNZb0T6RD3nsPQ9yX9FGCoaLtBtF/aiUvffR123Ym3gRkG7F2qSDLt7vhMbb/UY4zYX4hwwd+VSglDDp8N4srNd8XAllQPIAeu5ClCz+3YbWljcrB87ewGBHgu0V+gsuuhBdHdALX4FOCkfLp8GIvQ3ZdKIa0n+BCjZnFqhDejnnZOxAFB31kwdTPWt8v7bxElCDMF6DkyDP3CAqLaWxrt4sr5RYLVjxqiBozIECO8RmPvq6UXcemhCpS1Tw==
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PR3PR08MB5564.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(136003)(376002)(39860400002)(366004)(396003)(16526019)(1076003)(316002)(66946007)(186003)(33656002)(8886007)(55016002)(2906002)(54906003)(956004)(26005)(66556008)(2616005)(8936002)(66476007)(44832011)(86362001)(7696005)(52116002)(8676002)(966005)(36756003)(6916009)(5660300002)(4326008)(83380400001)(478600001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: HrFLLuO2kx6UOVS17IynbWBgFk2AguGwkN+XWsMt3RJKSYUALOMxg2mivCVsgdLmEydztB3agrwcaMS4x4GDWCfJHyF10rlws+ArQBuj+CCMNLC7EgqlBz4BnqrvJ+wbIDiUh9AZ0s1WkBfC2ee19AD6J/vHte1UaRtE/BZTQoRZXpV8O2UMFPhxt5fBxce4O+umIhD8zU3iZaxiJt9jTNm1BKAwlWbgXEGmGn8eFAq0H69h7LRYujIG4iKcX75fgvscopFS5Eivzl/26sJdi4O6FWwlGeNYEDS7LOe+rEORDRBvlKeN+iHF0SZqpkYGoYLHyzacLU6EXeCLjDuLbMwaQumV4xcZ73l64/EuE74rAsjFXu8nRUnV0zYdN7t50WSipoStWM0akOkFgUdeZ4odnfS1aSPHZm9R0k7epBh+zI3bRIW8iPE7/NpR4enGED+CBFhHev5guotrBAB3zInmVGNbGugle3joSBAry9ephRMefATgdwidE4FYpUlCjy4njT+hcrtpWv9VyL3fT6g8qAKDt9RC6FqhrgIBypwF8usawZxPzd7HgcQ6Y87cPgxM8J1PFI6WczEYE6+Jjjhc+YYWsaMeHs5nR07+DUeCh7gFz6DaMZ30JLgRkbnGrNGIg5sQuPrHuSirhjBjM3ExcpqWb7pw6k8LVUCGNn47jZRCetHlxEr1BLW785Md3n+886vZoJ0S69z4JRBZWXQJ9Uav1lcp3NoXRgMPEzTP1OJXHlU/D1pCS6BUddJ+77YgR9QzW0J0K+OtUA7AqDx6ayRWbaEr3NTVIYoylyy7h5YZHsQ7St/jjc3DB03JEaz75c5VmHQsaxcg0oNmA/0sYCBIrv8/g/2DOEQGSLrcJTocYqEdBhT/RsJ2h0xkzq7zQNZSjvI9RrjdrHeQng==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR2PR08MB4698
+Original-Authentication-Results: google.com; dkim=none (message not signed)
+ header.d=none;google.com; dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: VE1EUR03FT035.eop-EUR03.prod.protection.outlook.com
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 3ac7278c-c709-4d7b-a83b-08d88c7777bd
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: m+fwqlyS0QqJUHwV+yOCNq5r7smmUG6uEFpE+4CeYKoMaC39mf6Sv4UfszgpCX6S1WJSKOWL3e/KVvZJmdunf0FWVU1sQ+Royiwem9+V09shPgrNZ8nJsLI9bxl02Ediz44pJQPnxi0FQlHHcO7f3uHre2I/Il6M+Tvfs3lB5MXHxg1KGRIR3W1Sy2iNcidBTP0Q16y+73Y7qTmG9baSK51+Yrx/UwGaGNxYIzBif/YWqSAOCeJt4cyv9e3mF6EfqpAv2Gi0WJ2L8EBTX3bMNeAgIomdxxwnjlr+UGJUu/tagSMjuihHNz79VJhp/nRgif2EFXv4xbLTz8ljNDa09LvVYC9TJ2kANtEbhMnUkHcQRgy+q7TaSlgsOCVFKyvrAinnaYMxmnnG882mH4+brhWTwXuxoa62gHpMM0mQZJg+EE5mfU0USs5qD+1S2mE08yutbyHI5j7KZ+UqtiViCZSaSVVJdiEfrEO/hhh7CGA=
+X-Forefront-Antispam-Report: CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(4636009)(39860400002)(396003)(346002)(376002)(136003)(46966005)(70206006)(8886007)(6862004)(2906002)(5660300002)(55016002)(4326008)(336012)(33656002)(478600001)(47076004)(8676002)(16526019)(186003)(44832011)(70586007)(86362001)(1076003)(7696005)(26005)(956004)(8936002)(316002)(966005)(2616005)(82740400003)(54906003)(36756003)(83380400001)(81166007)(356005)(82310400003)(107886003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2020 10:40:10.4050
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bd6fc753-2ed9-46b9-02a6-08d88c777d66
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: VE1EUR03FT035.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM4PR0802MB2356
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Peter,
-
-Please keep libc-alpha in the loop for such ABI proposals (I'll bounce
-this patch separately).
-
-Thanks.
-
-On Wed, Nov 18, 2020 at 09:20:11PM -0800, Peter Collingbourne wrote:
+The 11/18/2020 21:20, Peter Collingbourne via Libc-alpha wrote:
 > This prctl allows the user program to control which PAC keys are enabled
 > in a particular task. The main reason why this is useful is to enable a
 > userspace ABI that uses PAC to sign and authenticate function pointers
@@ -61,6 +153,10 @@ On Wed, Nov 18, 2020 at 09:20:11PM -0800, Peter Collingbourne wrote:
 > 
 > Signed-off-by: Peter Collingbourne <pcc@google.com>
 > Link: https://linux-review.googlesource.com/id/Ibc41a5e6a76b275efbaa126b31119dc197b927a5
+
+i would mention in the commit that the overhead of the kernel entry
+code change was measured to be small.
+
 > ---
 > v3:
 > - fix some style nits
@@ -74,33 +170,7 @@ On Wed, Nov 18, 2020 at 09:20:11PM -0800, Peter Collingbourne wrote:
 >   keys
 > - optimized the instruction sequence for kernel entry/exit
 > - rebased on top of MTE series
-> 
->  .../arm64/pointer-authentication.rst          | 27 +++++++++
->  arch/arm64/include/asm/mte.h                  |  4 +-
->  arch/arm64/include/asm/pointer_auth.h         | 26 ++++++++-
->  arch/arm64/include/asm/processor.h            | 19 ++++++-
->  arch/arm64/include/asm/sysreg.h               |  4 +-
->  arch/arm64/kernel/asm-offsets.c               |  1 +
->  arch/arm64/kernel/entry.S                     | 30 +++++++++-
->  arch/arm64/kernel/mte.c                       | 42 ++++----------
->  arch/arm64/kernel/pointer_auth.c              | 55 +++++++++++++++++++
->  arch/arm64/kernel/process.c                   | 39 ++++++++++++-
->  arch/arm64/kernel/ptrace.c                    | 41 ++++++++++++++
->  include/uapi/linux/elf.h                      |  1 +
->  include/uapi/linux/prctl.h                    |  4 ++
->  kernel/sys.c                                  | 16 ++++++
->  14 files changed, 267 insertions(+), 42 deletions(-)
-> 
-> diff --git a/Documentation/arm64/pointer-authentication.rst b/Documentation/arm64/pointer-authentication.rst
-> index 30b2ab06526b..1f7e064deeb3 100644
-> --- a/Documentation/arm64/pointer-authentication.rst
-> +++ b/Documentation/arm64/pointer-authentication.rst
-> @@ -107,3 +107,30 @@ filter out the Pointer Authentication system key registers from
->  KVM_GET/SET_REG_* ioctls and mask those features from cpufeature ID
->  register. Any attempt to use the Pointer Authentication instructions will
->  result in an UNDEFINED exception being injected into the guest.
-> +
-> +
+...
 > +Enabling and disabling keys
 > +---------------------------
 > +
@@ -126,576 +196,9 @@ On Wed, Nov 18, 2020 at 09:20:11PM -0800, Peter Collingbourne wrote:
 > +The idea is that a dynamic loader or early startup code would issue this
 > +prctl very early after establishing that a process may load legacy binaries,
 > +but before executing any PAC instructions.
-> diff --git a/arch/arm64/include/asm/mte.h b/arch/arm64/include/asm/mte.h
-> index 1c99fcadb58c..adbb05ece04c 100644
-> --- a/arch/arm64/include/asm/mte.h
-> +++ b/arch/arm64/include/asm/mte.h
-> @@ -37,7 +37,7 @@ void mte_free_tag_storage(char *storage);
->  
->  void mte_sync_tags(pte_t *ptep, pte_t pte);
->  void mte_copy_page_tags(void *kto, const void *kfrom);
-> -void flush_mte_state(void);
-> +void mte_thread_init_user(void);
->  void mte_thread_switch(struct task_struct *next);
->  void mte_suspend_exit(void);
->  long set_mte_ctrl(struct task_struct *task, unsigned long arg);
-> @@ -56,7 +56,7 @@ static inline void mte_sync_tags(pte_t *ptep, pte_t pte)
->  static inline void mte_copy_page_tags(void *kto, const void *kfrom)
->  {
->  }
-> -static inline void flush_mte_state(void)
-> +static inline void mte_thread_init_user(void)
->  {
->  }
->  static inline void mte_thread_switch(struct task_struct *next)
-> diff --git a/arch/arm64/include/asm/pointer_auth.h b/arch/arm64/include/asm/pointer_auth.h
-> index c6b4f0603024..8346f6e60736 100644
-> --- a/arch/arm64/include/asm/pointer_auth.h
-> +++ b/arch/arm64/include/asm/pointer_auth.h
-> @@ -3,6 +3,7 @@
->  #define __ASM_POINTER_AUTH_H
->  
->  #include <linux/bitops.h>
-> +#include <linux/prctl.h>
->  #include <linux/random.h>
->  
->  #include <asm/cpufeature.h>
-> @@ -71,13 +72,27 @@ static __always_inline void ptrauth_keys_switch_kernel(struct ptrauth_keys_kerne
->  
->  extern int ptrauth_prctl_reset_keys(struct task_struct *tsk, unsigned long arg);
->  
-> +extern int ptrauth_prctl_set_enabled_keys(struct task_struct *tsk,
-> +					  unsigned long keys,
-> +					  unsigned long enabled);
-> +extern int ptrauth_prctl_get_enabled_keys(struct task_struct *tsk);
-> +
->  static inline unsigned long ptrauth_strip_insn_pac(unsigned long ptr)
->  {
->  	return ptrauth_clear_pac(ptr);
->  }
->  
-> -#define ptrauth_thread_init_user(tsk)					\
-> -	ptrauth_keys_init_user(&(tsk)->thread.keys_user)
-> +#define ptrauth_thread_init_user()                                             \
-> +	do {                                                                   \
-> +		ptrauth_keys_init_user(&current->thread.keys_user);            \
-> +									       \
-> +		/* enable all keys */                                          \
-> +		if (system_supports_address_auth())                            \
-> +			set_task_sctlr_el1(current->thread.sctlr_user |        \
-> +					   SCTLR_ELx_ENIA | SCTLR_ELx_ENIB |   \
-> +					   SCTLR_ELx_ENDA | SCTLR_ELx_ENDB);   \
-> +	} while (0)
-> +
->  #define ptrauth_thread_init_kernel(tsk)					\
->  	ptrauth_keys_init_kernel(&(tsk)->thread.keys_kernel)
->  #define ptrauth_thread_switch_kernel(tsk)				\
-> @@ -85,10 +100,15 @@ static inline unsigned long ptrauth_strip_insn_pac(unsigned long ptr)
->  
->  #else /* CONFIG_ARM64_PTR_AUTH */
->  #define ptrauth_prctl_reset_keys(tsk, arg)	(-EINVAL)
-> +#define ptrauth_prctl_set_enabled_keys(tsk, keys, enabled)	(-EINVAL)
-> +#define ptrauth_prctl_get_enabled_keys(tsk)	(-EINVAL)
->  #define ptrauth_strip_insn_pac(lr)	(lr)
-> -#define ptrauth_thread_init_user(tsk)
-> +#define ptrauth_thread_init_user()
->  #define ptrauth_thread_init_kernel(tsk)
->  #define ptrauth_thread_switch_kernel(tsk)
->  #endif /* CONFIG_ARM64_PTR_AUTH */
->  
-> +#define PR_PAC_ENABLED_KEYS_MASK                                               \
-> +	(PR_PAC_APIAKEY | PR_PAC_APIBKEY | PR_PAC_APDAKEY | PR_PAC_APDBKEY)
-> +
->  #endif /* __ASM_POINTER_AUTH_H */
-> diff --git a/arch/arm64/include/asm/processor.h b/arch/arm64/include/asm/processor.h
-> index fce8cbecd6bc..f430dd2fb61a 100644
-> --- a/arch/arm64/include/asm/processor.h
-> +++ b/arch/arm64/include/asm/processor.h
-> @@ -153,11 +153,15 @@ struct thread_struct {
->  	struct ptrauth_keys_kernel	keys_kernel;
->  #endif
->  #ifdef CONFIG_ARM64_MTE
-> -	u64			sctlr_tcf0;
->  	u64			gcr_user_incl;
->  #endif
-> +	u64			sctlr_user;
->  };
->  
-> +#define SCTLR_USER_MASK                                                        \
-> +	(SCTLR_ELx_ENIA | SCTLR_ELx_ENIB | SCTLR_ELx_ENDA | SCTLR_ELx_ENDB |   \
-> +	 SCTLR_EL1_TCF0_MASK)
-> +
->  static inline void arch_thread_struct_whitelist(unsigned long *offset,
->  						unsigned long *size)
->  {
-> @@ -249,6 +253,14 @@ extern void release_thread(struct task_struct *);
->  
->  unsigned long get_wchan(struct task_struct *p);
->  
-> +#if defined(CONFIG_ARM64_PTR_AUTH) || defined(CONFIG_ARM64_MTE)
-> +void set_task_sctlr_el1(u64 sctlr);
-> +#else
-> +static inline void set_task_sctlr_el1(u64 sctlr)
-> +{
-> +}
-> +#endif
-> +
->  /* Thread switching */
->  extern struct task_struct *cpu_switch_to(struct task_struct *prev,
->  					 struct task_struct *next);
-> @@ -303,6 +315,11 @@ extern void __init minsigstksz_setup(void);
->  /* PR_PAC_RESET_KEYS prctl */
->  #define PAC_RESET_KEYS(tsk, arg)	ptrauth_prctl_reset_keys(tsk, arg)
->  
-> +/* PR_PAC_{SET,GET}_ENABLED_KEYS prctl */
-> +#define PAC_SET_ENABLED_KEYS(tsk, keys, enabled)				\
-> +	ptrauth_prctl_set_enabled_keys(tsk, keys, enabled)
-> +#define PAC_GET_ENABLED_KEYS(tsk) ptrauth_prctl_get_enabled_keys(tsk)
-> +
->  #ifdef CONFIG_ARM64_TAGGED_ADDR_ABI
->  /* PR_{SET,GET}_TAGGED_ADDR_CTRL prctl */
->  long set_tagged_addr_ctrl(struct task_struct *task, unsigned long arg);
-> diff --git a/arch/arm64/include/asm/sysreg.h b/arch/arm64/include/asm/sysreg.h
-> index e2ef4c2edf06..96e3337ca7b3 100644
-> --- a/arch/arm64/include/asm/sysreg.h
-> +++ b/arch/arm64/include/asm/sysreg.h
-> @@ -554,8 +554,10 @@
->  #define SCTLR_ELx_TCF_ASYNC	(UL(0x2) << SCTLR_ELx_TCF_SHIFT)
->  #define SCTLR_ELx_TCF_MASK	(UL(0x3) << SCTLR_ELx_TCF_SHIFT)
->  
-> +#define SCTLR_ELx_ENIA_SHIFT	31
-> +
->  #define SCTLR_ELx_ITFSB	(BIT(37))
-> -#define SCTLR_ELx_ENIA	(BIT(31))
-> +#define SCTLR_ELx_ENIA	(BIT(SCTLR_ELx_ENIA_SHIFT))
->  #define SCTLR_ELx_ENIB	(BIT(30))
->  #define SCTLR_ELx_ENDA	(BIT(27))
->  #define SCTLR_ELx_EE    (BIT(25))
-> diff --git a/arch/arm64/kernel/asm-offsets.c b/arch/arm64/kernel/asm-offsets.c
-> index 7d32fc959b1a..062d3e37edb5 100644
-> --- a/arch/arm64/kernel/asm-offsets.c
-> +++ b/arch/arm64/kernel/asm-offsets.c
-> @@ -48,6 +48,7 @@ int main(void)
->    DEFINE(THREAD_KEYS_USER,	offsetof(struct task_struct, thread.keys_user));
->    DEFINE(THREAD_KEYS_KERNEL,	offsetof(struct task_struct, thread.keys_kernel));
->  #endif
-> +  DEFINE(THREAD_SCTLR_USER,	offsetof(struct task_struct, thread.sctlr_user));
->    BLANK();
->    DEFINE(S_X0,			offsetof(struct pt_regs, regs[0]));
->    DEFINE(S_X2,			offsetof(struct pt_regs, regs[2]));
-> diff --git a/arch/arm64/kernel/entry.S b/arch/arm64/kernel/entry.S
-> index b295fb912b12..c8c1a284a76a 100644
-> --- a/arch/arm64/kernel/entry.S
-> +++ b/arch/arm64/kernel/entry.S
-> @@ -210,7 +210,20 @@ alternative_else_nop_endif
->  	check_mte_async_tcf x19, x22
->  	apply_ssbd 1, x22, x23
->  
-> -	ptrauth_keys_install_kernel tsk, x20, x22, x23
-> +	ptrauth_keys_install_kernel_nosync tsk, x20, x22, x23
-> +
-> +#ifdef CONFIG_ARM64_PTR_AUTH
-> +alternative_if ARM64_HAS_ADDRESS_AUTH
-> +	/* Enable IA for in-kernel PAC if the task had it disabled. */
-> +	ldr	x0, [tsk, THREAD_SCTLR_USER]
-> +	tbnz	x0, SCTLR_ELx_ENIA_SHIFT, 1f
-> +	mrs	x0, sctlr_el1
-> +	orr	x0, x0, SCTLR_ELx_ENIA
-> +	msr	sctlr_el1, x0
-> +1:
-> +	isb
-> +alternative_else_nop_endif
-> +#endif
->  
->  	scs_load tsk, x20
->  	.else
-> @@ -330,6 +343,21 @@ alternative_else_nop_endif
->  	/* No kernel C function calls after this as user keys are set. */
->  	ptrauth_keys_install_user tsk, x0, x1, x2
->  
-> +#ifdef CONFIG_ARM64_PTR_AUTH
-> +alternative_if ARM64_HAS_ADDRESS_AUTH
-> +	/*
-> +	 * IA was enabled for in-kernel PAC. Disable it now if needed.
-> +	 * All other per-task SCTLR bits were updated on task switch.
-> +	 */
-> +	ldr	x0, [tsk, THREAD_SCTLR_USER]
-> +	tbnz	x0, SCTLR_ELx_ENIA_SHIFT, 1f
-> +	mrs	x0, sctlr_el1
-> +	bic	x0, x0, SCTLR_ELx_ENIA
-> +	msr	sctlr_el1, x0
-> +1:
-> +alternative_else_nop_endif
-> +#endif
-> +
->  	apply_ssbd 0, x0, x1
->  	.endif
->  
-> diff --git a/arch/arm64/kernel/mte.c b/arch/arm64/kernel/mte.c
-> index 52a0638ed967..16040a1e0fd1 100644
-> --- a/arch/arm64/kernel/mte.c
-> +++ b/arch/arm64/kernel/mte.c
-> @@ -72,26 +72,6 @@ int memcmp_pages(struct page *page1, struct page *page2)
->  	return ret;
->  }
->  
-> -static void update_sctlr_el1_tcf0(u64 tcf0)
-> -{
-> -	/* ISB required for the kernel uaccess routines */
-> -	sysreg_clear_set(sctlr_el1, SCTLR_EL1_TCF0_MASK, tcf0);
-> -	isb();
-> -}
-> -
-> -static void set_sctlr_el1_tcf0(u64 tcf0)
-> -{
-> -	/*
-> -	 * mte_thread_switch() checks current->thread.sctlr_tcf0 as an
-> -	 * optimisation. Disable preemption so that it does not see
-> -	 * the variable update before the SCTLR_EL1.TCF0 one.
-> -	 */
-> -	preempt_disable();
-> -	current->thread.sctlr_tcf0 = tcf0;
-> -	update_sctlr_el1_tcf0(tcf0);
-> -	preempt_enable();
-> -}
-> -
->  static void update_gcr_el1_excl(u64 incl)
->  {
->  	u64 excl = ~incl & SYS_GCR_EL1_EXCL_MASK;
-> @@ -111,7 +91,7 @@ static void set_gcr_el1_excl(u64 incl)
->  	update_gcr_el1_excl(incl);
->  }
->  
-> -void flush_mte_state(void)
-> +void mte_thread_init_user(void)
->  {
->  	if (!system_supports_mte())
->  		return;
-> @@ -121,7 +101,8 @@ void flush_mte_state(void)
->  	write_sysreg_s(0, SYS_TFSRE0_EL1);
->  	clear_thread_flag(TIF_MTE_ASYNC_FAULT);
->  	/* disable tag checking */
-> -	set_sctlr_el1_tcf0(SCTLR_EL1_TCF0_NONE);
-> +	set_task_sctlr_el1((current->thread.sctlr_user & ~SCTLR_EL1_TCF0_MASK) |
-> +			   SCTLR_EL1_TCF0_NONE);
->  	/* reset tag generation mask */
->  	set_gcr_el1_excl(0);
->  }
-> @@ -131,9 +112,6 @@ void mte_thread_switch(struct task_struct *next)
->  	if (!system_supports_mte())
->  		return;
->  
-> -	/* avoid expensive SCTLR_EL1 accesses if no change */
-> -	if (current->thread.sctlr_tcf0 != next->thread.sctlr_tcf0)
-> -		update_sctlr_el1_tcf0(next->thread.sctlr_tcf0);
->  	update_gcr_el1_excl(next->thread.gcr_user_incl);
->  }
->  
-> @@ -147,7 +125,7 @@ void mte_suspend_exit(void)
->  
->  long set_mte_ctrl(struct task_struct *task, unsigned long arg)
->  {
-> -	u64 tcf0;
-> +	u64 sctlr = task->thread.sctlr_user & ~SCTLR_EL1_TCF0_MASK;
->  	u64 gcr_incl = (arg & PR_MTE_TAG_MASK) >> PR_MTE_TAG_SHIFT;
->  
->  	if (!system_supports_mte())
-> @@ -155,23 +133,23 @@ long set_mte_ctrl(struct task_struct *task, unsigned long arg)
->  
->  	switch (arg & PR_MTE_TCF_MASK) {
->  	case PR_MTE_TCF_NONE:
-> -		tcf0 = SCTLR_EL1_TCF0_NONE;
-> +		sctlr |= SCTLR_EL1_TCF0_NONE;
->  		break;
->  	case PR_MTE_TCF_SYNC:
-> -		tcf0 = SCTLR_EL1_TCF0_SYNC;
-> +		sctlr |= SCTLR_EL1_TCF0_SYNC;
->  		break;
->  	case PR_MTE_TCF_ASYNC:
-> -		tcf0 = SCTLR_EL1_TCF0_ASYNC;
-> +		sctlr |= SCTLR_EL1_TCF0_ASYNC;
->  		break;
->  	default:
->  		return -EINVAL;
->  	}
->  
->  	if (task != current) {
-> -		task->thread.sctlr_tcf0 = tcf0;
-> +		task->thread.sctlr_user = sctlr;
->  		task->thread.gcr_user_incl = gcr_incl;
->  	} else {
-> -		set_sctlr_el1_tcf0(tcf0);
-> +		set_task_sctlr_el1(sctlr);
->  		set_gcr_el1_excl(gcr_incl);
->  	}
->  
-> @@ -187,7 +165,7 @@ long get_mte_ctrl(struct task_struct *task)
->  
->  	ret = task->thread.gcr_user_incl << PR_MTE_TAG_SHIFT;
->  
-> -	switch (task->thread.sctlr_tcf0) {
-> +	switch (task->thread.sctlr_user & SCTLR_EL1_TCF0_MASK) {
->  	case SCTLR_EL1_TCF0_NONE:
->  		return PR_MTE_TCF_NONE;
->  	case SCTLR_EL1_TCF0_SYNC:
-> diff --git a/arch/arm64/kernel/pointer_auth.c b/arch/arm64/kernel/pointer_auth.c
-> index adb955fd9bdd..025f38dff464 100644
-> --- a/arch/arm64/kernel/pointer_auth.c
-> +++ b/arch/arm64/kernel/pointer_auth.c
-> @@ -46,3 +46,58 @@ int ptrauth_prctl_reset_keys(struct task_struct *tsk, unsigned long arg)
->  
->  	return 0;
->  }
-> +
-> +static u64 arg_to_enxx_mask(unsigned long arg)
-> +{
-> +	u64 sctlr_enxx_mask = 0;
-> +
-> +	if (arg & PR_PAC_APIAKEY)
-> +		sctlr_enxx_mask |= SCTLR_ELx_ENIA;
-> +	if (arg & PR_PAC_APIBKEY)
-> +		sctlr_enxx_mask |= SCTLR_ELx_ENIB;
-> +	if (arg & PR_PAC_APDAKEY)
-> +		sctlr_enxx_mask |= SCTLR_ELx_ENDA;
-> +	if (arg & PR_PAC_APDBKEY)
-> +		sctlr_enxx_mask |= SCTLR_ELx_ENDB;
-> +	return sctlr_enxx_mask;
-> +}
-> +
-> +int ptrauth_prctl_set_enabled_keys(struct task_struct *tsk, unsigned long keys,
-> +				   unsigned long enabled)
-> +{
-> +	u64 sctlr = tsk->thread.sctlr_user;
-> +
-> +	if (!system_supports_address_auth() || is_compat_task())
-> +		return -EINVAL;
-> +
-> +	if ((keys & ~PR_PAC_ENABLED_KEYS_MASK) || (enabled & ~keys))
-> +		return -EINVAL;
-> +
-> +	sctlr &= ~arg_to_enxx_mask(keys);
-> +	sctlr |= arg_to_enxx_mask(enabled);
-> +	if (tsk == current)
-> +		set_task_sctlr_el1(sctlr);
-> +	else
-> +		tsk->thread.sctlr_user = sctlr;
-> +
-> +	return 0;
-> +}
-> +
-> +int ptrauth_prctl_get_enabled_keys(struct task_struct *tsk)
-> +{
-> +	int retval = 0;
-> +
-> +	if (!system_supports_address_auth() || is_compat_task())
-> +		return -EINVAL;
-> +
-> +	if (tsk->thread.sctlr_user & SCTLR_ELx_ENIA)
-> +		retval |= PR_PAC_APIAKEY;
-> +	if (tsk->thread.sctlr_user & SCTLR_ELx_ENIB)
-> +		retval |= PR_PAC_APIBKEY;
-> +	if (tsk->thread.sctlr_user & SCTLR_ELx_ENDA)
-> +		retval |= PR_PAC_APDAKEY;
-> +	if (tsk->thread.sctlr_user & SCTLR_ELx_ENDB)
-> +		retval |= PR_PAC_APDBKEY;
-> +
-> +	return retval;
-> +}
-> diff --git a/arch/arm64/kernel/process.c b/arch/arm64/kernel/process.c
-> index a47a40ec6ad9..aa8bf0294c5d 100644
-> --- a/arch/arm64/kernel/process.c
-> +++ b/arch/arm64/kernel/process.c
-> @@ -339,7 +339,6 @@ void flush_thread(void)
->  	tls_thread_flush();
->  	flush_ptrace_hw_breakpoint(current);
->  	flush_tagged_addr_state();
-> -	flush_mte_state();
->  }
->  
->  void release_thread(struct task_struct *dead_task)
-> @@ -541,6 +540,37 @@ static void erratum_1418040_thread_switch(struct task_struct *prev,
->  	write_sysreg(val, cntkctl_el1);
->  }
->  
-> +#if defined(CONFIG_ARM64_PTR_AUTH) || defined(CONFIG_ARM64_MTE)
-> +static void update_sctlr_el1(u64 sctlr)
-> +{
-> +	/*
-> +	 * EnIA must not be cleared while in the kernel as this is necessary for
-> +	 * in-kernel PAC. It will be cleared on kernel exit if needed.
-> +	 */
-> +	sysreg_clear_set(sctlr_el1, SCTLR_USER_MASK & ~SCTLR_ELx_ENIA, sctlr);
-> +
-> +	/* ISB required for the kernel uaccess routines when setting TCF0. */
-> +	isb();
-> +}
-> +
-> +void set_task_sctlr_el1(u64 sctlr)
-> +{
-> +	/*
-> +	 * __switch_to() checks current->thread.sctlr as an
-> +	 * optimisation. Disable preemption so that it does not see
-> +	 * the variable update before the SCTLR_EL1 one.
-> +	 */
-> +	preempt_disable();
-> +	current->thread.sctlr_user = sctlr;
-> +	update_sctlr_el1(sctlr);
-> +	preempt_enable();
-> +}
-> +#else
-> +static void update_sctlr_el1(u64 sctlr)
-> +{
-> +}
-> +#endif  /* defined(CONFIG_ARM64_PTR_AUTH) || defined(CONFIG_ARM64_MTE) */
-> +
->  /*
->   * Thread switching.
->   */
-> @@ -566,6 +596,10 @@ __notrace_funcgraph struct task_struct *__switch_to(struct task_struct *prev,
->  	 */
->  	dsb(ish);
->  
-> +	/* avoid expensive SCTLR_EL1 accesses if no change */
-> +	if (prev->thread.sctlr_user != next->thread.sctlr_user)
-> +		update_sctlr_el1(next->thread.sctlr_user);
-> +
->  	/*
->  	 * MTE thread switching must happen after the DSB above to ensure that
->  	 * any asynchronous tag check faults have been logged in the TFSR*_EL1
-> @@ -621,7 +655,8 @@ void arch_setup_new_exec(void)
->  {
->  	current->mm->context.flags = is_compat_task() ? MMCF_AARCH32 : 0;
->  
-> -	ptrauth_thread_init_user(current);
-> +	ptrauth_thread_init_user();
-> +	mte_thread_init_user();
->  
->  	if (task_spec_ssb_noexec(current)) {
->  		arch_prctl_spec_ctrl_set(current, PR_SPEC_STORE_BYPASS,
-> diff --git a/arch/arm64/kernel/ptrace.c b/arch/arm64/kernel/ptrace.c
-> index f49b349e16a3..2ed17fb07666 100644
-> --- a/arch/arm64/kernel/ptrace.c
-> +++ b/arch/arm64/kernel/ptrace.c
-> @@ -911,6 +911,38 @@ static int pac_mask_get(struct task_struct *target,
->  	return membuf_write(&to, &uregs, sizeof(uregs));
->  }
->  
-> +static int pac_enabled_keys_get(struct task_struct *target,
-> +				const struct user_regset *regset,
-> +				struct membuf to)
-> +{
-> +	long enabled_keys = ptrauth_prctl_get_enabled_keys(target);
-> +
-> +	if (IS_ERR_VALUE(enabled_keys))
-> +		return enabled_keys;
-> +
-> +	return membuf_write(&to, &enabled_keys, sizeof(enabled_keys));
-> +}
-> +
-> +static int pac_enabled_keys_set(struct task_struct *target,
-> +				const struct user_regset *regset,
-> +				unsigned int pos, unsigned int count,
-> +				const void *kbuf, const void __user *ubuf)
-> +{
-> +	int ret;
-> +	long enabled_keys = ptrauth_prctl_get_enabled_keys(target);
-> +
-> +	if (IS_ERR_VALUE(enabled_keys))
-> +		return enabled_keys;
-> +
-> +	ret = user_regset_copyin(&pos, &count, &kbuf, &ubuf,
-> +				 &enabled_keys, 0, -1);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return ptrauth_prctl_set_enabled_keys(target, PR_PAC_ENABLED_KEYS_MASK,
-> +					      enabled_keys);
-> +}
-> +
->  #ifdef CONFIG_CHECKPOINT_RESTORE
->  static __uint128_t pac_key_to_user(const struct ptrauth_key *key)
->  {
-> @@ -1076,6 +1108,7 @@ enum aarch64_regset {
->  #endif
->  #ifdef CONFIG_ARM64_PTR_AUTH
->  	REGSET_PAC_MASK,
-> +	REGSET_PAC_ENABLED_KEYS,
->  #ifdef CONFIG_CHECKPOINT_RESTORE
->  	REGSET_PACA_KEYS,
->  	REGSET_PACG_KEYS,
-> @@ -1162,6 +1195,14 @@ static const struct user_regset aarch64_regsets[] = {
->  		.regset_get = pac_mask_get,
->  		/* this cannot be set dynamically */
->  	},
-> +	[REGSET_PAC_ENABLED_KEYS] = {
-> +		.core_note_type = NT_ARM_PAC_ENABLED_KEYS,
-> +		.n = 1,
-> +		.size = sizeof(long),
-> +		.align = sizeof(long),
-> +		.regset_get = pac_enabled_keys_get,
-> +		.set = pac_enabled_keys_set,
-> +	},
->  #ifdef CONFIG_CHECKPOINT_RESTORE
->  	[REGSET_PACA_KEYS] = {
->  		.core_note_type = NT_ARM_PACA_KEYS,
-> diff --git a/include/uapi/linux/elf.h b/include/uapi/linux/elf.h
-> index 30f68b42eeb5..61bf4774b8f2 100644
-> --- a/include/uapi/linux/elf.h
-> +++ b/include/uapi/linux/elf.h
-> @@ -426,6 +426,7 @@ typedef struct elf64_shdr {
->  #define NT_ARM_PACA_KEYS	0x407	/* ARM pointer authentication address keys */
->  #define NT_ARM_PACG_KEYS	0x408	/* ARM pointer authentication generic key */
->  #define NT_ARM_TAGGED_ADDR_CTRL	0x409	/* arm64 tagged address control (prctl()) */
-> +#define NT_ARM_PAC_ENABLED_KEYS	0x40a	/* arm64 ptr auth enabled keys (prctl()) */
->  #define NT_ARC_V2	0x600		/* ARCv2 accumulator/extra registers */
->  #define NT_VMCOREDD	0x700		/* Vmcore Device Dump Note */
->  #define NT_MIPS_DSP	0x800		/* MIPS DSP ASE registers */
-> diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
-> index 7f0827705c9a..0d1bb3a2e59a 100644
-> --- a/include/uapi/linux/prctl.h
-> +++ b/include/uapi/linux/prctl.h
-> @@ -247,4 +247,8 @@ struct prctl_mm_map {
->  #define PR_SET_IO_FLUSHER		57
->  #define PR_GET_IO_FLUSHER		58
->  
-> +/* Set/get enabled arm64 pointer authentication keys */
-> +#define PR_PAC_SET_ENABLED_KEYS		59
-> +#define PR_PAC_GET_ENABLED_KEYS		60
-> +
->  #endif /* _LINUX_PRCTL_H */
-> diff --git a/kernel/sys.c b/kernel/sys.c
-> index a730c03ee607..b7f2878f053b 100644
-> --- a/kernel/sys.c
-> +++ b/kernel/sys.c
-> @@ -119,6 +119,12 @@
->  #ifndef PAC_RESET_KEYS
->  # define PAC_RESET_KEYS(a, b)	(-EINVAL)
->  #endif
-> +#ifndef PAC_SET_ENABLED_KEYS
-> +# define PAC_SET_ENABLED_KEYS(a, b, c)	(-EINVAL)
-> +#endif
-> +#ifndef PAC_GET_ENABLED_KEYS
-> +# define PAC_GET_ENABLED_KEYS(a)	(-EINVAL)
-> +#endif
->  #ifndef SET_TAGGED_ADDR_CTRL
->  # define SET_TAGGED_ADDR_CTRL(a)	(-EINVAL)
->  #endif
-> @@ -2497,6 +2503,16 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
->  			return -EINVAL;
->  		error = PAC_RESET_KEYS(me, arg2);
->  		break;
-> +	case PR_PAC_SET_ENABLED_KEYS:
-> +		if (arg4 || arg5)
-> +			return -EINVAL;
-> +		error = PAC_SET_ENABLED_KEYS(me, arg2, arg3);
-> +		break;
-> +	case PR_PAC_GET_ENABLED_KEYS:
-> +		if (arg2 || arg3 || arg4 || arg5)
-> +			return -EINVAL;
-> +		error = PAC_GET_ENABLED_KEYS(me);
-> +		break;
->  	case PR_SET_TAGGED_ADDR_CTRL:
->  		if (arg3 || arg4 || arg5)
->  			return -EINVAL;
-> -- 
-> 2.29.2.299.gdc1121823c-goog
+
+please document how the setting is inherited across clone, fork, exec
+and the setting at process startup (since it wont be inherited across
+exec and not every reader knows what setting is required for bw compat).
+
+thanks.
