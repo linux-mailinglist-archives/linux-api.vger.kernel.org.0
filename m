@@ -2,142 +2,145 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 010A92B9350
-	for <lists+linux-api@lfdr.de>; Thu, 19 Nov 2020 14:13:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C88852B99AA
+	for <lists+linux-api@lfdr.de>; Thu, 19 Nov 2020 18:44:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726691AbgKSNKo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 19 Nov 2020 08:10:44 -0500
-Received: from out03.mta.xmission.com ([166.70.13.233]:34510 "EHLO
-        out03.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726480AbgKSNKn (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 19 Nov 2020 08:10:43 -0500
-Received: from in02.mta.xmission.com ([166.70.13.52])
-        by out03.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1kfjhs-003mfm-46; Thu, 19 Nov 2020 06:10:36 -0700
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
-        by in02.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1kfjhq-00AQiA-Tk; Thu, 19 Nov 2020 06:10:35 -0700
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     Peter Collingbourne <pcc@google.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Will Deacon <will@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        linux-api@vger.kernel.org, Helge Deller <deller@gmx.de>,
-        David Spickett <david.spickett@linaro.org>
-References: <20201118003853.926143-1-pcc@google.com>
-Date:   Thu, 19 Nov 2020 07:10:15 -0600
-In-Reply-To: <20201118003853.926143-1-pcc@google.com> (Peter Collingbourne's
-        message of "Tue, 17 Nov 2020 16:38:53 -0800")
-Message-ID: <87d0095w7c.fsf@x220.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        id S1729729AbgKSRjm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 19 Nov 2020 12:39:42 -0500
+Received: from mail.kernel.org ([198.145.29.99]:43330 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729474AbgKSRiO (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 19 Nov 2020 12:38:14 -0500
+Received: from kernel.org (unknown [77.125.7.142])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 29EAB246CE;
+        Thu, 19 Nov 2020 17:38:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1605807494;
+        bh=j8yoUgNPwUrAH9hWklc4JtHbyJwtdVtZfAXrNV5fMkU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=MWotZzvHI///F7nXbNuhmcE23HQZ5TAHfxi5tuIfW5aKphZWo8XXUCe3ChRSAXaMu
+         wdcf27o/gc8PdtGoPAg1WYJ59h/sNaDRhEECk9lUAzchusO/CfDlzZTbWrUpOojACA
+         jzma0oyE1R2w5WYeSpqXSn/IUhBY8iEJuAZsXlrg=
+Date:   Thu, 19 Nov 2020 19:38:00 +0200
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Alexander Graf <graf@amazon.de>
+Cc:     Christian Borntraeger <borntraeger@de.ibm.com>,
+        "Catangiu, Adrian Costin" <acatan@amazon.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Jann Horn <jannh@google.com>, Willy Tarreau <w@1wt.eu>,
+        "MacCarthaigh, Colm" <colmmacc@amazon.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Eric Biggers <ebiggers@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        "Woodhouse, David" <dwmw@amazon.co.uk>,
+        "bonzini@gnu.org" <bonzini@gnu.org>,
+        "Singh, Balbir" <sblbir@amazon.com>,
+        "Weiss, Radu" <raduweis@amazon.com>,
+        "oridgar@gmail.com" <oridgar@gmail.com>,
+        "ghammer@redhat.com" <ghammer@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Qemu Developers <qemu-devel@nongnu.org>,
+        KVM list <kvm@vger.kernel.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Linux API <linux-api@vger.kernel.org>,
+        "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        "areber@redhat.com" <areber@redhat.com>,
+        Pavel Emelyanov <ovzxemul@gmail.com>,
+        Andrey Vagin <avagin@gmail.com>,
+        Dmitry Safonov <0x7f454c46@gmail.com>,
+        Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
+        "gil@azul.com" <gil@azul.com>,
+        "asmehra@redhat.com" <asmehra@redhat.com>,
+        "dgunigun@redhat.com" <dgunigun@redhat.com>,
+        "vijaysun@ca.ibm.com" <vijaysun@ca.ibm.com>
+Subject: Re: [PATCH v2] drivers/virt: vmgenid: add vm generation id driver
+Message-ID: <20201119173800.GD8537@kernel.org>
+References: <3E05451B-A9CD-4719-99D0-72750A304044@amazon.com>
+ <300d4404-3efe-880e-ef30-692eabbff5f7@de.ibm.com>
+ <da1a1fa7-a1de-d0e6-755b-dd587687765e@amazon.de>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1kfjhq-00AQiA-Tk;;;mid=<87d0095w7c.fsf@x220.int.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX1+WshTqlvQExp62nNunxhMf47paEadUJp4=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa06.xmission.com
-X-Spam-Level: 
-X-Spam-Status: No, score=0.0 required=8.0 tests=ALL_TRUSTED,BAYES_50,
-        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,XM_B_SpammyWords
-        autolearn=disabled version=3.4.2
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-        *      [sa06 1397; Body=1 Fuz1=1 Fuz2=1]
-        *  0.2 XM_B_SpammyWords One or more commonly used spammy words
-X-Spam-DCC: XMission; sa06 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: ;Peter Collingbourne <pcc@google.com>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 414 ms - load_scoreonly_sql: 0.04 (0.0%),
-        signal_user_changed: 10 (2.4%), b_tie_ro: 9 (2.1%), parse: 0.88 (0.2%),
-         extract_message_metadata: 3.2 (0.8%), get_uri_detail_list: 1.26
-        (0.3%), tests_pri_-1000: 4.3 (1.0%), tests_pri_-950: 1.30 (0.3%),
-        tests_pri_-900: 1.09 (0.3%), tests_pri_-90: 102 (24.7%), check_bayes:
-        100 (24.3%), b_tokenize: 8 (1.9%), b_tok_get_all: 7 (1.8%),
-        b_comp_prob: 1.90 (0.5%), b_tok_touch_all: 80 (19.4%), b_finish: 0.92
-        (0.2%), tests_pri_0: 272 (65.7%), check_dkim_signature: 0.53 (0.1%),
-        check_dkim_adsp: 22 (5.4%), poll_dns_idle: 20 (4.9%), tests_pri_10:
-        2.4 (0.6%), tests_pri_500: 8 (2.0%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: [PATCH v19] arm64: expose FAR_EL1 tag bits in siginfo
-X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
-X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <da1a1fa7-a1de-d0e6-755b-dd587687765e@amazon.de>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Peter Collingbourne <pcc@google.com> writes:
+On Thu, Nov 19, 2020 at 01:51:18PM +0100, Alexander Graf wrote:
+> 
+> 
+> On 19.11.20 13:02, Christian Borntraeger wrote:
+> > 
+> > On 16.11.20 16:34, Catangiu, Adrian Costin wrote:
+> > > - Background
+> > > 
+> > > The VM Generation ID is a feature defined by Microsoft (paper:
+> > > http://go.microsoft.com/fwlink/?LinkId=260709) and supported by
+> > > multiple hypervisor vendors.
+> > > 
+> > > The feature is required in virtualized environments by apps that work
+> > > with local copies/caches of world-unique data such as random values,
+> > > uuids, monotonically increasing counters, etc.
+> > > Such apps can be negatively affected by VM snapshotting when the VM
+> > > is either cloned or returned to an earlier point in time.
+> > > 
+> > > The VM Generation ID is a simple concept meant to alleviate the issue
+> > > by providing a unique ID that changes each time the VM is restored
+> > > from a snapshot. The hw provided UUID value can be used to
+> > > differentiate between VMs or different generations of the same VM.
+> > > 
+> > > - Problem
+> > > 
+> > > The VM Generation ID is exposed through an ACPI device by multiple
+> > > hypervisor vendors but neither the vendors or upstream Linux have no
+> > > default driver for it leaving users to fend for themselves.
+> > 
+> > I see that the qemu implementation is still under discussion. What is
+> 
+> Uh, the ACPI Vmgenid device emulation is in QEMU since 2.9.0 :).
+> 
+> > the status of the other existing implementations. Do they already exist?
+> > In other words is ACPI a given?
+> > I think the majority of this driver could be used with just a different
+> > backend for platforms without ACPI so in any case we could factor out
+> > the backend (acpi, virtio, whatever) but if we are open we could maybe
+> > start with something else.
+> 
+> I agree 100%. I don't think we really need a new framework in the kernel for
+> that. We can just have for example an s390x specific driver that also
+> provides the same notification mechanism through a device node that is also
+> named "/dev/vmgenid", no?
+> 
+> Or alternatively we can split the generic part of this driver as soon as a
+> second one comes along and then have both driver include that generic logic.
+> 
+> The only piece where I'm unsure is how this will interact with CRIU.
 
-> diff --git a/kernel/signal.c b/kernel/signal.c
-> index 8f34819e80de..678cdeb235ae 100644
-> --- a/kernel/signal.c
-> +++ b/kernel/signal.c
-> @@ -2524,6 +2524,26 @@ static int ptrace_signal(int signr, kernel_siginfo_t *info)
->  	return signr;
->  }
->  
-> +static void hide_si_addr_tag_bits(struct ksignal *ksig)
-> +{
-> +	switch (siginfo_layout(ksig->sig, ksig->info.si_code)) {
-> +	case SIL_FAULT:
-> +	case SIL_FAULT_MCEERR:
-> +	case SIL_FAULT_BNDERR:
-> +	case SIL_FAULT_PKUERR:
-> +		ksig->info.si_addr = arch_untagged_si_addr(
-> +			ksig->info.si_addr, ksig->sig, ksig->info.si_code);
-> +		break;
-> +	case SIL_KILL:
-> +	case SIL_TIMER:
-> +	case SIL_POLL:
-> +	case SIL_CHLD:
-> +	case SIL_RT:
-> +	case SIL_SYS:
-> +		break;
-> +	}
-> +}
-> +
->  bool get_signal(struct ksignal *ksig)
->  {
->  	struct sighand_struct *sighand = current->sighand;
-> @@ -2761,6 +2781,10 @@ bool get_signal(struct ksignal *ksig)
->  	spin_unlock_irq(&sighand->siglock);
->  
->  	ksig->sig = signr;
-> +
-> +	if (!(sighand->action[signr - 1].sa.sa_flags & SA_EXPOSE_TAGBITS))
-> +		hide_si_addr_tag_bits(ksig);
-> +
->  	return ksig->sig > 0;
->  }
+To C/R applications that use /dev/vmgenid CRIU need to be aware of it.
+Checkpointing and restoring withing the same "VM generation" shouldn't be
+a problem, but IMHO, making restore work after genid bump could be
+challenging.
 
-Ok.  Seeing that this code compiles out I don't have any concerns about
-it's impact on other architectures.  And I like having it always
-present as that makes all of the concerns the code has to deal with
-easier to discover.
+Alex, what scenario involving CRIU did you have in mind?
 
-There is one small issue.  The test should be:
-	if (!(ksig->ka.sa.sa_flags & SA_EXPOSE_TAGBITS))
-		hide_si_addr_tag_bits(ksig);
+> Can containers emulate ioctls and device nodes?
 
-Outside of sighand->siglock it is racy to access sighand->action and we
-already have an atomic snapshot of the values for exactly this reason.
+Containers do not emulate ioctls but they can have /dev/vmgenid inside
+the container, so applications can use it the same way as outside the
+container.
 
-Is there some reason you didn't use ksig->ka?  Am I missing something?
+ 
+> Alex
 
-I agree that our consumption of SA bits is slow enough that my other
-concerns are a non-issue.
-
-Eric
+-- 
+Sincerely yours,
+Mike.
