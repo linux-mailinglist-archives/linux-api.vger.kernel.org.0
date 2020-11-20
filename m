@@ -2,129 +2,186 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 46ADD2BB829
-	for <lists+linux-api@lfdr.de>; Fri, 20 Nov 2020 22:16:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A0EB22BB836
+	for <lists+linux-api@lfdr.de>; Fri, 20 Nov 2020 22:19:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728060AbgKTVQA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 20 Nov 2020 16:16:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39170 "EHLO
+        id S1728578AbgKTVS3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 20 Nov 2020 16:18:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727974AbgKTVQA (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 20 Nov 2020 16:16:00 -0500
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAFB5C061A48
-        for <linux-api@vger.kernel.org>; Fri, 20 Nov 2020 13:15:59 -0800 (PST)
-Received: by mail-pg1-x543.google.com with SMTP id r18so8382017pgu.6
-        for <linux-api@vger.kernel.org>; Fri, 20 Nov 2020 13:15:59 -0800 (PST)
+        with ESMTP id S1727961AbgKTVS3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 20 Nov 2020 16:18:29 -0500
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4281C0613CF;
+        Fri, 20 Nov 2020 13:18:27 -0800 (PST)
+Received: by mail-wm1-x341.google.com with SMTP id 1so11326100wme.3;
+        Fri, 20 Nov 2020 13:18:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=h3PVNgWJ4wv679ueVcfOMGTzPLuWakBRGW5tpcXVwpU=;
-        b=dU4KoiHZzIEflMXxYsdAq02/ZtKHAbVYN3DUKz1jjW6FqozuzDqj1HhoL1AotmA6iH
-         J0FPfOX8vroNiQrqM3+Mg92Tbbg8Ta4YWvs2XOfQEnQO7II6Vndq8Xm0uvHveSP/s0Nq
-         YqotYUJAiv3Sjru2HYlJJBB0l/Fq8aCCvoJwg=
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=gyNq+CXGsH0qwkvX6VyZpOW+xtz/kz2LyOf6/jkzaO0=;
+        b=ehMwCniHhcWcyq6QySNwedlwnXYGa9deIPoyuONBTcSfF1FK8u/PL9bJ6Ivzmw97L7
+         es8dC7wve9Gj4FH7Bku6rHJaJwFj5pfaK8oL0YZbUt6yW7TkLxlnskqzr/0nigNQejej
+         31uUxyrDVHao3tUMNruC8EXD4h5sZxOA1bmnFamo84NFMiTfTUBS7DKt+63TqiE2ZlHH
+         9uVZxffrCFe7ucCXTVHqop+bHNzRtmUXaiS3GhOqM4t5KJYBrFmvQEvr+lzv8Zj1m7H7
+         uy6W36pavFI1h0qtlmGfHjXEfePkfw0IzcewzRmEOfY/nvKRhB0DMfOsN9+Pg2tmBMGt
+         edVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=h3PVNgWJ4wv679ueVcfOMGTzPLuWakBRGW5tpcXVwpU=;
-        b=bVoC/IkelPZrfeJ/ZjyIvBfnWVEQV/3NdFWgMHBkrfnANNdVLKiLvrqv3NMtqZ3Znz
-         d09Ooyvywl/JVY6TfvyI6Vm+MyW3qrrZw7yNDpwoZyJCI5zH4WYoLuE++0MWIchIZyUJ
-         Qyp3LUhLNKuGiljMgcXEE1RzrU8WyQtolBt5kN58cq60Ky2P7NZ1879uydWoDIuBPWX4
-         x3O+ev9T62ruBM1IL1zGAKpVRsR+ZbqTC3kdUauXfV62mimKVS09SLXK3sUFFEIvTsHY
-         LKxOZfPiNyEHX5+hx80rpFc2WpcayIdIiuvvljlsJ0N+0NWJj/i73G1C92kRsrNOKkQN
-         XPgQ==
-X-Gm-Message-State: AOAM530eEigxhz0oURQ6u/B4dPa4BaKUcKrpadwgM4i2ZefzL9oH+kUX
-        kCnxc3MNTTFBzSLDfbKIC1inew==
-X-Google-Smtp-Source: ABdhPJxKoNsqmJfw8FXBuNWzYTFCvMP4QSPsIPE4HroDYde9n5FBnmXaYeQPf9Hkrj1TBoT0dMj64g==
-X-Received: by 2002:aa7:8ac1:0:b029:197:7198:e943 with SMTP id b1-20020aa78ac10000b02901977198e943mr14806170pfd.58.1605906959108;
-        Fri, 20 Nov 2020 13:15:59 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id k9sm4598556pfi.188.2020.11.20.13.15.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2020 13:15:58 -0800 (PST)
-Date:   Fri, 20 Nov 2020 13:15:57 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        linux-fsdevel@vger.kernel.org,
-        John Johansen <john.johansen@canonical.com>,
-        James Morris <jmorris@namei.org>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-        Geoffrey Thomas <geofft@ldpreload.com>,
-        Mrunal Patel <mpatel@redhat.com>,
-        Josh Triplett <josh@joshtriplett.org>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=gyNq+CXGsH0qwkvX6VyZpOW+xtz/kz2LyOf6/jkzaO0=;
+        b=g/cgkig2ofI8NbirkuiHJTiT54vnE64V+2R6lIqEhfPcCrcJ6Nnjz3LMTFLrVQyF8V
+         Z6HlW/z++GaZk6O0z3PTuWpZRBFJ52Zu1c6MfUdEtx7HrCYKgj1m0S3xDyfegOSUWeS5
+         5aszQIC0yloUgkGgLa07dIBpG1Niymc1hqkGM6wn4s5hCXimyXcZOCAMg8DCy/j/Y3De
+         AaF20UyBll3kaMkSmgeKMd+NHn7sC6DsTne4YkMmYhOGQB7TgvdQinZNi8K1hSP3icVX
+         HzFGLeRUJFwsZqUa0ODXuDI6HbcX+8iAUv5fIzh4oy1SVaB9GGBB+XOSUQsuvy3wKjYk
+         2WYQ==
+X-Gm-Message-State: AOAM5336DboXfMm1eN/Rc3o2f3rBDJM2fQVmLWlFaptRL6ocngSl0PAf
+        f0SiyQInMsozvpaGHKgZM6Y=
+X-Google-Smtp-Source: ABdhPJy54UaB/Is5YjbhHOh/4TR/x7nVnHPWkMhJBXmzcWxv+thgpOMjrr4M7YOcmS0x8HNw60Afyw==
+X-Received: by 2002:a05:600c:2158:: with SMTP id v24mr12266035wml.107.1605907106503;
+        Fri, 20 Nov 2020 13:18:26 -0800 (PST)
+Received: from ?IPv6:2a02:8084:e84:2480:228:f8ff:fe6f:83a8? ([2a02:8084:e84:2480:228:f8ff:fe6f:83a8])
+        by smtp.gmail.com with ESMTPSA id o4sm5516370wmh.33.2020.11.20.13.18.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Nov 2020 13:18:25 -0800 (PST)
+Subject: Re: [PATCH v2] drivers/virt: vmgenid: add vm generation id driver
+To:     Alexander Graf <graf@amazon.de>
+Cc:     Mike Rapoport <rppt@kernel.org>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        "Catangiu, Adrian Costin" <acatan@amazon.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Jann Horn <jannh@google.com>, Willy Tarreau <w@1wt.eu>,
+        "MacCarthaigh, Colm" <colmmacc@amazon.com>,
         Andy Lutomirski <luto@kernel.org>,
-        Theodore Tso <tytso@mit.edu>, Alban Crequy <alban@kinvolk.io>,
-        Tycho Andersen <tycho@tycho.ws>,
-        David Howells <dhowells@redhat.com>,
-        James Bottomley <James.Bottomley@hansenpartnership.com>,
-        Jann Horn <jannh@google.com>,
-        Seth Forshee <seth.forshee@canonical.com>,
-        =?iso-8859-1?Q?St=E9phane?= Graber <stgraber@ubuntu.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Lennart Poettering <lennart@poettering.net>,
-        "Eric W. Biederman" <ebiederm@xmission.com>, smbarber@chromium.org,
-        Phil Estes <estesp@gmail.com>, Serge Hallyn <serge@hallyn.com>,
-        Todd Kjos <tkjos@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        containers@lists.linux-foundation.org,
-        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-audit@redhat.com,
-        linux-integrity@vger.kernel.org, selinux@vger.kernel.org,
-        Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v2 39/39] tests: add vfs/idmapped mounts test suite
-Message-ID: <202011201300.B158F1E4B@keescook>
-References: <20201115103718.298186-1-christian.brauner@ubuntu.com>
- <20201115103718.298186-40-christian.brauner@ubuntu.com>
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Eric Biggers <ebiggers@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        "Woodhouse, David" <dwmw@amazon.co.uk>,
+        "bonzini@gnu.org" <bonzini@gnu.org>,
+        "Singh, Balbir" <sblbir@amazon.com>,
+        "Weiss, Radu" <raduweis@amazon.com>,
+        "oridgar@gmail.com" <oridgar@gmail.com>,
+        "ghammer@redhat.com" <ghammer@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Qemu Developers <qemu-devel@nongnu.org>,
+        KVM list <kvm@vger.kernel.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Linux API <linux-api@vger.kernel.org>,
+        "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        "areber@redhat.com" <areber@redhat.com>,
+        Pavel Emelyanov <ovzxemul@gmail.com>,
+        Andrey Vagin <avagin@gmail.com>,
+        Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
+        "gil@azul.com" <gil@azul.com>,
+        "asmehra@redhat.com" <asmehra@redhat.com>,
+        "dgunigun@redhat.com" <dgunigun@redhat.com>,
+        "vijaysun@ca.ibm.com" <vijaysun@ca.ibm.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Adrian Reber <areber@redhat.com>
+References: <3E05451B-A9CD-4719-99D0-72750A304044@amazon.com>
+ <300d4404-3efe-880e-ef30-692eabbff5f7@de.ibm.com>
+ <da1a1fa7-a1de-d0e6-755b-dd587687765e@amazon.de>
+ <20201119173800.GD8537@kernel.org>
+ <1cdb6fac-0d50-3399-74a6-24c119ebbaa5@amazon.de>
+From:   Dmitry Safonov <0x7f454c46@gmail.com>
+Message-ID: <106f56ca-49bc-7cad-480f-4b26656e90ce@gmail.com>
+Date:   Fri, 20 Nov 2020 21:18:23 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201115103718.298186-40-christian.brauner@ubuntu.com>
+In-Reply-To: <1cdb6fac-0d50-3399-74a6-24c119ebbaa5@amazon.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sun, Nov 15, 2020 at 11:37:18AM +0100, Christian Brauner wrote:
-> This adds a whole test suite for idmapped mounts but in order to ensure that
-> there are no regression for the vfs itself it also includes tests for correct
-> functionality on non-idmapped mounts. The following tests are currently
-> available with more to come in the future:
+Hello,
 
-Awesome! :)
++Cc Eric, Adrian
 
-Some glitches in the build, though... something about the ordering or
-the Make rules produces odd results on a failure:
+On 11/19/20 6:36 PM, Alexander Graf wrote:
+> On 19.11.20 18:38, Mike Rapoport wrote:
+>> On Thu, Nov 19, 2020 at 01:51:18PM +0100, Alexander Graf wrote:
+>>> On 19.11.20 13:02, Christian Borntraeger wrote:
+>>>> On 16.11.20 16:34, Catangiu, Adrian Costin wrote:
+>>>>> - Background
+>>>>>
+>>>>> The VM Generation ID is a feature defined by Microsoft (paper:
+>>>>> http://go.microsoft.com/fwlink/?LinkId=260709) and supported by
+>>>>> multiple hypervisor vendors.
+>>>>>
+>>>>> The feature is required in virtualized environments by apps that work
+>>>>> with local copies/caches of world-unique data such as random values,
+>>>>> uuids, monotonically increasing counters, etc.
+>>>>> Such apps can be negatively affected by VM snapshotting when the VM
+>>>>> is either cloned or returned to an earlier point in time.
+>>>>>
+>>>>> The VM Generation ID is a simple concept meant to alleviate the issue
+>>>>> by providing a unique ID that changes each time the VM is restored
+>>>>> from a snapshot. The hw provided UUID value can be used to
+>>>>> differentiate between VMs or different generations of the same VM.
+>>>>>
+>>>>> - Problem
+>>>>>
+>>>>> The VM Generation ID is exposed through an ACPI device by multiple
+>>>>> hypervisor vendors but neither the vendors or upstream Linux have no
+>>>>> default driver for it leaving users to fend for themselves.
+[..]
 
-$ make
-gcc -g -I../../../../usr/include/ -Wall -O2 -pthread    xattr.c internal.h utils.c utils.h -lcap -o /home/kees/src/linux-build/seccomp/tools/testing/selftests/idmap_mounts/xattr
-gcc -g -I../../../../usr/include/ -Wall -O2 -pthread    core.c internal.h utils.c utils.h -lcap -o /home/kees/src/linux-build/seccomp/tools/testing/selftests/idmap_mounts/core
-core.c:19:10: fatal error: sys/acl.h: No such file or directory
-   19 | #include <sys/acl.h>
-      |          ^~~~~~~~~~~
-compilation terminated.
-make: *** [../lib.mk:139: /home/kees/src/linux-build/seccomp/tools/testing/selftests/idmap_mounts/core]
-Error 1
-$ make
-make: Nothing to be done for 'all'.
-$ file xattr core
-xattr: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=7a3c1951e54f20e657b4181c1be77c7183a54f81, for GNU/Linux 3.2.0, with debug_info, not stripped
-core:  GCC precompiled header (version 014) for C
+>>> The only piece where I'm unsure is how this will interact with CRIU.
+>>
+>> To C/R applications that use /dev/vmgenid CRIU need to be aware of it.
+>> Checkpointing and restoring withing the same "VM generation" shouldn't be
+>> a problem, but IMHO, making restore work after genid bump could be
+>> challenging.
+>>
+>> Alex, what scenario involving CRIU did you have in mind?
+> 
+> You can in theory run into the same situation with containers that this
+> patch is solving for virtual machines. You could for example do a
+> snapshot of a prewarmed Java runtime with CRIU to get full JIT speeds
+> starting from the first request.
+> 
+> That however means you run into the problem of predictable randomness
+> again.
+> 
+>>
+>>> Can containers emulate ioctls and device nodes?
+>>
+>> Containers do not emulate ioctls but they can have /dev/vmgenid inside
+>> the container, so applications can use it the same way as outside the
+>> container.
+> 
+> Hm. I suppose we could add a CAP_ADMIN ioctl interface to /dev/vmgenid
+> (when container people get to the point of needing it) that sets the
+> generation to "at least X". That way on restore, you could just call
+> that with "generation at snapshot"+1.
+> 
+> That also means we need to have this interface available without virtual
+> machines then though, right?
 
-Even after I install libacl1-dev, I still get a "core" file output which
-breaks attempts to build again. :)
+Sounds like a good idea.
+I guess, genvmid can be global on host, rather than per-userns or
+per-process for simplicity. Later if somebody will have a bottleneck on
+restore when every process on the machine wakes up from read() it could
+be virtualized, but doing it now sounds too early.
 
+ioctl() probably should go under
+checkpoint_restore_ns_capable(current_user_ns()), rather than
+CAP_SYS_ADMIN (I believe it should be safe from DOS as only CRIU should
+run with this capability, but worth to document this).
 
-Is there any way to have the test suite not depend on
-__NR_mount_setattr? Running this test on older kernels fails everything.
-
-
--- 
-Kees Cook
+Thanks,
+         Dmitry
