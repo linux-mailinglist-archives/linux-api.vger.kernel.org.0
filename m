@@ -2,54 +2,54 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E5D7E2BBDA3
-	for <lists+linux-api@lfdr.de>; Sat, 21 Nov 2020 08:00:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 25B8A2BBDBB
+	for <lists+linux-api@lfdr.de>; Sat, 21 Nov 2020 08:03:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727037AbgKUHAn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 21 Nov 2020 02:00:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44456 "EHLO
+        id S1727185AbgKUHBg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 21 Nov 2020 02:01:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726674AbgKUHAn (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 21 Nov 2020 02:00:43 -0500
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C06F9C0613CF
-        for <linux-api@vger.kernel.org>; Fri, 20 Nov 2020 23:00:42 -0800 (PST)
-Received: by mail-lf1-x141.google.com with SMTP id j205so16618126lfj.6
-        for <linux-api@vger.kernel.org>; Fri, 20 Nov 2020 23:00:42 -0800 (PST)
+        with ESMTP id S1727188AbgKUHBf (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 21 Nov 2020 02:01:35 -0500
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12D53C061A4C
+        for <linux-api@vger.kernel.org>; Fri, 20 Nov 2020 23:01:35 -0800 (PST)
+Received: by mail-lf1-x144.google.com with SMTP id f11so16659765lfs.3
+        for <linux-api@vger.kernel.org>; Fri, 20 Nov 2020 23:01:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=qSt/XnTloXSnWYtWCxId4OBXpP28x7HyJlEM0VTTxfw=;
-        b=SXMdW3IqDbJ6iWw8IZ9Q5CNHq9VhrWbVp/EFAUzmCzAPgt7dcdixohikYsRS8jBWb1
-         kjZbjAisDfdp9lwbGwx8t8ITuW2ZvTjirm7OuW6PzkBN++x9KgW/YZWIVfeW6e6mlx3U
-         /lumB7FQ98t3ujt+mefcDxCxr8UBoHSfT7/x/vIP0AqU4k0hMZAjxoIG9CjXFXs8CFQQ
-         HZdfjKvCNoGFCrGQCY8jcCvrkzlnJsbl7lsY/u+ZRYaynCCRUhJ+Qr2rZkAfpo8ZBl7g
-         IhCZE31GiyxOfhCWdnhAONlyo2d8Cy1QH+CApFXoypZopMLIK39U9YnN+CMIrVgDo1yp
-         gxMA==
+        bh=3f33ZbSviSsNDuxIsWsq/8c0yuXyzvCPrqPtP0RGi80=;
+        b=QTrvEtnWrrcbOEs5U2zsXrELZY0joXKYt35ttFIfE3ljFGqVTsE2HaDPetDIzNV0Z+
+         SNm0nIBKP392yJ/12exSP2lHAsN3IW99XL9OvKJShdVvhx6hWk5FMgqMLPmf5TLsXGFG
+         +iHnXGnR267ovUqsrTD7TknzGTTVMN0JBhDcMHYa6hy9vumiKnlHEoByxwYUqFCeOJcH
+         8ci6aX3IWWZAS35E7ZUq2QiVC5E+16bSvaDHHgcz3hRf5R5Sqdh41qyVdf7c65t3ii9K
+         kE9FBm0MLZ2YAKu0t3JfnrIMbZ8lpvjGGU8/1aoQSH1X5Qz/sPTU1Mx00P4k2W69USLS
+         xiIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=qSt/XnTloXSnWYtWCxId4OBXpP28x7HyJlEM0VTTxfw=;
-        b=BQDTbxTA5CwMr1VDCSUkQ15lUi+Z4WpWAxoOeMUEd0c/9JcjuNHGSyN3s3hppvNRmg
-         tRu3AgOMDP2+/pB9bRcur2onhW3pEt6n8q+xCy6eIL+6r7tgzertbXI/SEcFSfCYiSa0
-         Doy46edBkO+P6xdJBWRl1V7TnTD9cppGnxruhNAMicIOqJf2GnEqseLr0JqFTvd2ZjRn
-         fNzTTkXVhgk8XtDK/7GeVci5ggQxSl4C/B8MRh0xqTKwsNDmJW5qqIHUXRYzHdDwW2Rn
-         FHFGssMyP73d8Kpk/MHJzGIDTaSGXUmuBNawpyMYSEcgo+3Gk4I5yzXXaO1uosrVzJ3o
-         fe1A==
-X-Gm-Message-State: AOAM532ihoZA09Al/eDLXlvYVlkIqnWqZ3834IRizg6K1fz5cTuW9Yl5
-        AEg0IMxi7Vim2kwDmRQ4PcygT10mL+/fvnp4uzY2ew==
-X-Google-Smtp-Source: ABdhPJysESVBpzmb8AIe4IsYMGTwUSB/SEEqglyDLyhegKtUN1uX2v4ambD1WjsgatbnwE0AiCnynPiP1Rb9iZe/YZ0=
-X-Received: by 2002:a05:6512:348e:: with SMTP id v14mr8698488lfr.97.1605942041000;
- Fri, 20 Nov 2020 23:00:41 -0800 (PST)
+        bh=3f33ZbSviSsNDuxIsWsq/8c0yuXyzvCPrqPtP0RGi80=;
+        b=qprFAADKy+w/vkKbWbmjPFIqylVJvkKuSnMehsGmwTfarQ4+61uW5QJTSnQgjJ0Zpg
+         LG+qIy8X1UvUUDDDwcBhxKTHR+U+pIYpTonkZpArFT3eEMXfm5Dl9Nwo/SwfVAZ/L7uu
+         Inq77h4PprU+zNAvHV+seHZjMfvX+sGbDWtEpBXyhTp0Ugh1fPA9+7Zlf4+MGRIk0DEb
+         1P6AejSbfNMs0kn4HlHEivzf9ggELlLI4lUCw8BI8dU3rpNjjbMIxXBxpnUyeSwJBsIF
+         aBhUueOMurlH2uLEk0HU21S5xECIPoKTr8rIZRmfJnNL8yuus0AiKYou+/JfySc80YI2
+         RBPQ==
+X-Gm-Message-State: AOAM530mZpKYjZcJHhLWtrM3bx+Dhs8NQiue771veMx/7ivpMT8qUTiX
+        md8eyoLhiMgZuvjXEJy/SA8j9foEWwu5fIuU8yMGgA==
+X-Google-Smtp-Source: ABdhPJyH6REifnL9YUZNnFhyFBr7a5RSsJd6XuGMTDWn4PlB6riGiZRNf+nR+kcYWzMs0Zs7hbAeG+15z4SfiIciuC8=
+X-Received: by 2002:a19:4b48:: with SMTP id y69mr9985268lfa.576.1605942093292;
+ Fri, 20 Nov 2020 23:01:33 -0800 (PST)
 MIME-Version: 1.0
-References: <20201112205141.775752-1-mic@digikod.net> <20201112205141.775752-13-mic@digikod.net>
-In-Reply-To: <20201112205141.775752-13-mic@digikod.net>
+References: <20201112205141.775752-1-mic@digikod.net> <20201112205141.775752-3-mic@digikod.net>
+In-Reply-To: <20201112205141.775752-3-mic@digikod.net>
 From:   Jann Horn <jannh@google.com>
 Date:   Sat, 21 Nov 2020 08:00:00 +0100
-Message-ID: <CAG48ez0S1_jd0YzXZ9tx94gU0sw-WeXgG336d=3YP7+iZvRgaA@mail.gmail.com>
-Subject: Re: [PATCH v24 12/12] landlock: Add user and kernel documentation
+Message-ID: <CAG48ez2RE6S7jKQY3iyoNRM5vV67W4S7OwJ0gmNGy+MB8F56vg@mail.gmail.com>
+Subject: Re: [PATCH v24 02/12] landlock: Add ruleset and domain management
 To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
 Cc:     James Morris <jmorris@namei.org>,
         "Serge E . Hallyn" <serge@hallyn.com>,
@@ -82,15 +82,51 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Nov 12, 2020 at 9:52 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> =
+On Thu, Nov 12, 2020 at 9:51 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> =
 wrote:
-> This documentation can be built with the Sphinx framework.
+> A Landlock ruleset is mainly a red-black tree with Landlock rules as
+> nodes.  This enables quick update and lookup to match a requested
+> access, e.g. to a file.  A ruleset is usable through a dedicated file
+> descriptor (cf. following commit implementing syscalls) which enables a
+> process to create and populate a ruleset with new rules.
+>
+> A domain is a ruleset tied to a set of processes.  This group of rules
+> defines the security policy enforced on these processes and their future
+> children.  A domain can transition to a new domain which is the
+> intersection of all its constraints and those of a ruleset provided by
+> the current process.  This modification only impact the current process.
+> This means that a process can only gain more constraints (i.e. lose
+> accesses) over time.
 >
 > Cc: James Morris <jmorris@namei.org>
 > Cc: Jann Horn <jannh@google.com>
 > Cc: Kees Cook <keescook@chromium.org>
 > Cc: Serge E. Hallyn <serge@hallyn.com>
 > Signed-off-by: Micka=C3=ABl Sala=C3=BCn <mic@linux.microsoft.com>
-> Reviewed-by: Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>
+> ---
+>
+> Changes since v23:
+> * Always intersect access rights.  Following the filesystem change
+>   logic, make ruleset updates more consistent by always intersecting
+>   access rights (boolean AND) instead of combining them (boolean OR) for
+>   the same layer.
 
-Reviewed-by: Jann Horn <jannh@google.com>
+This seems wrong to me. If some software e.g. builds a policy that
+allows it to execute specific libraries and to open input files
+specified on the command line, and the user then specifies a library
+as an input file, this change will make that fail unless the software
+explicitly deduplicates the rules.
+Userspace will be forced to add extra complexity to work around this.
+
+>   This defensive approach could also help avoid user
+>   space to inadvertently allow multiple access rights for the same
+>   object (e.g.  write and execute access on a path hierarchy) instead of
+>   dealing with such inconsistency.  This can happen when there is no
+>   deduplication of objects (e.g. paths and underlying inodes) whereas
+>   they get different access rights with landlock_add_rule(2).
+
+I don't see why that's an issue. If userspace wants to be able to
+access the same object in different ways for different purposes, it
+should be able to do that, no?
+
+I liked the semantics from the previous version.
