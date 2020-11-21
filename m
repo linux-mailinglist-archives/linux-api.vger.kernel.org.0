@@ -2,80 +2,86 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 054472BBAC5
-	for <lists+linux-api@lfdr.de>; Sat, 21 Nov 2020 01:19:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6769A2BBACD
+	for <lists+linux-api@lfdr.de>; Sat, 21 Nov 2020 01:24:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728054AbgKUAS6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 20 Nov 2020 19:18:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39130 "EHLO
+        id S1728305AbgKUAYG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 20 Nov 2020 19:24:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727163AbgKUAS5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 20 Nov 2020 19:18:57 -0500
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEB3DC061A04
-        for <linux-api@vger.kernel.org>; Fri, 20 Nov 2020 16:18:57 -0800 (PST)
-Received: by mail-pf1-x443.google.com with SMTP id q10so9471830pfn.0
-        for <linux-api@vger.kernel.org>; Fri, 20 Nov 2020 16:18:57 -0800 (PST)
+        with ESMTP id S1726587AbgKUAYG (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 20 Nov 2020 19:24:06 -0500
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D259DC0613CF
+        for <linux-api@vger.kernel.org>; Fri, 20 Nov 2020 16:24:05 -0800 (PST)
+Received: by mail-pl1-x642.google.com with SMTP id x15so5741953pll.2
+        for <linux-api@vger.kernel.org>; Fri, 20 Nov 2020 16:24:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=y0pJ80u9Eh3VfP4FijeIg1t6JgwYwt6NQdfyVaOMVqE=;
-        b=mNRCMhZyQ/r9RL3BPK9hfjr6LmrPY+hxr51iSpROvULOHDBUzO13Rwd6Wet+Jt8YkQ
-         SZ0TaMbRptcV50sXt1vb+wVP9NafY9vzBYVZUNArYXHLE7+A4yLDXUMFSa+074SUw703
-         MVLGoKCigzZWPNfYE4syBih8Ql2Xm14hqF8eg=
+        bh=A7SWgXPCiajknxZfIgmm/Chff6x+olo2cJ70dACeOlI=;
+        b=Ufe7L8IQ5v/I7T8tt4gsPuDnhpRA272mwrcmv9XewlpzYhDUXW2jqTxD1hslQrth5g
+         eDmR9NJxf5+la/wDoV9T4gAXWEe4Q7fIOQHWwX9t1BmbdmwqQejV3fWvEwLhxFduJBYM
+         xKz63gHciuxUu58RjUr5pEfsRqThUo8eAQyEs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=y0pJ80u9Eh3VfP4FijeIg1t6JgwYwt6NQdfyVaOMVqE=;
-        b=fvqSn62QzfJGlo8t/yiJjyA9n/G92w1TITh5vdIsIJ35C1WwtjScrVg97zd9F73kGZ
-         LqULknzhndDGEHs76S+DhDTlcVFW8USpxH6JiqPSBy8+X/BN/qpT3tf23czGa5MyH5+u
-         1CjYeCt+jgZ1egKNIbYRE2JJ3H5oX5AzTOQ6AldW6ClqUODqDcPQXYbD9slIWTFlOSJ1
-         hJgIOslYO5NgMJyDdeZ6ad2Bt1bYEhBSHfZr+RAzMYMtxRdzKZ+8EZ63RUlFnunW2gcg
-         fRpl1A4Lwdra3qET7UCmcyN5u6O3sz/TFnHIv2SQlhdBcoqNHlLfGbStJ0KAoBRlfWri
-         vXow==
-X-Gm-Message-State: AOAM5321ewB8X2ZiZEyPpX2KhLBWXtuBDnDrRUBz5BlcPwTRTuydFuvP
-        UKTBSrrK1V5DVfVvurXk1vNGJw==
-X-Google-Smtp-Source: ABdhPJzP1ocgUqyGygpfPM6J58fbWHahsI32yjgRzdo//NPDt9wt5xzy+MOU6yVXIize6sAPdn+HRA==
-X-Received: by 2002:aa7:86d8:0:b029:18b:585b:3b16 with SMTP id h24-20020aa786d80000b029018b585b3b16mr15538520pfo.72.1605917937114;
-        Fri, 20 Nov 2020 16:18:57 -0800 (PST)
+        bh=A7SWgXPCiajknxZfIgmm/Chff6x+olo2cJ70dACeOlI=;
+        b=nUa9/YRBwUrZk5Xx79ZN5Z4qZpvqDPOXC+2FlvyvMWISoIR0dltNKH4Xu2DiQ8jHpz
+         4Q61qckHuNCOc+iffV5+kSfDSMlmOBSUdy5IFhq4tQPlDhCYX3RysubVyySwGnRkZb7l
+         4/91jUl3chuzuMLzOeLb5AMHAP1w0eWpDiDaQYGcbKnTqlu9l10Gz0ZslYdhC0qhsMg8
+         0/PragAqBggfrOZIQbuRcuOovfCCYW+hlvH0ATShHNAPWWg+X09MmDFPFl6qTFx04M8B
+         catej4IWQTh2e2FKElTznubQWTOV36hOxtQk61kYbpfLgYqelbrBUaRQIEwnvG6wjK9p
+         XUTg==
+X-Gm-Message-State: AOAM530+UWmPEUtA365JWhMXmwvxU0mJ1ECcYddH3aubyAMjiEpgrsfA
+        JbWUiFuTT9baWcfcu6GFXks5IQ==
+X-Google-Smtp-Source: ABdhPJzjpCFLnLrUalvrO32PJt+53p5u2neas7NkD6ncxIwW6NEts5vwrkfDaOU5cA3xZBMV+Vy9Gg==
+X-Received: by 2002:a17:902:8e81:b029:d9:f1a8:54ac with SMTP id bg1-20020a1709028e81b02900d9f1a854acmr2502635plb.69.1605918245442;
+        Fri, 20 Nov 2020 16:24:05 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id c11sm5470547pjn.26.2020.11.20.16.18.56
+        by smtp.gmail.com with ESMTPSA id y5sm5324184pfc.165.2020.11.20.16.24.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2020 16:18:56 -0800 (PST)
-Date:   Fri, 20 Nov 2020 16:18:55 -0800
+        Fri, 20 Nov 2020 16:24:04 -0800 (PST)
+Date:   Fri, 20 Nov 2020 16:24:03 -0800
 From:   Kees Cook <keescook@chromium.org>
-To:     Gabriel Krisman Bertazi <krisman@collabora.com>
-Cc:     luto@kernel.org, Rich Felker <dalias@libc.org>, tglx@linutronix.de,
-        christian.brauner@ubuntu.com, peterz@infradead.org,
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Gabriel Krisman Bertazi <krisman@collabora.com>, luto@kernel.org,
+        tglx@linutronix.de, christian.brauner@ubuntu.com,
         willy@infradead.org, shuah@kernel.org,
         linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
         linux-kselftest@vger.kernel.org, x86@kernel.org, gofmanp@gmail.com,
         kernel@collabora.com
-Subject: Re: [PATCH v7 3/7] kernel: Implement selective syscall userspace
- redirection
-Message-ID: <202011201618.62E507D@keescook>
+Subject: Re: [PATCH v7 0/7] Syscall User Dispatch
+Message-ID: <202011201623.FBFA4471@keescook>
 References: <20201118032840.3429268-1-krisman@collabora.com>
- <20201118032840.3429268-4-krisman@collabora.com>
- <87a6vdmedy.fsf@collabora.com>
+ <20201119123827.GL3121392@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87a6vdmedy.fsf@collabora.com>
+In-Reply-To: <20201119123827.GL3121392@hirez.programming.kicks-ass.net>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Nov 19, 2020 at 12:43:05PM -0500, Gabriel Krisman Bertazi wrote:
-> The existing interface could be extended with a flags field as part of
-> the opcode passed in argument 2, which is currently reserved, and then
-> return a FD, just like seccomp(2) does.  So it is not like the current
-> patches couldn't be extended in the future if needed, unless I'm
-> mistaken.
+On Thu, Nov 19, 2020 at 01:38:27PM +0100, Peter Zijlstra wrote:
+> On Tue, Nov 17, 2020 at 10:28:33PM -0500, Gabriel Krisman Bertazi wrote:
+> > Gabriel Krisman Bertazi (7):
+> >   x86: vdso: Expose sigreturn address on vdso to the kernel
+> >   signal: Expose SYS_USER_DISPATCH si_code type
+> >   kernel: Implement selective syscall userspace redirection
+> >   entry: Support Syscall User Dispatch on common syscall entry
+> >   selftests: Add kselftest for syscall user dispatch
+> >   selftests: Add benchmark for syscall user dispatch
+> >   docs: Document Syscall User Dispatch
+> 
+> Aside from the one little nit this looks good to me.
+> 
+> Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 
-Yes, I'd prefer this series go in as-is, and if there is a need for
-extending the API, arg2 can have more values added.
+Agreed, and thank you Gabriel for the SYSCALL_WORK series too. :) That's
+so nice to have!
 
 -- 
 Kees Cook
