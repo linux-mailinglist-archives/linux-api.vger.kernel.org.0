@@ -2,121 +2,107 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D06FA2BBE3F
-	for <lists+linux-api@lfdr.de>; Sat, 21 Nov 2020 10:45:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A97D22BBE4E
+	for <lists+linux-api@lfdr.de>; Sat, 21 Nov 2020 10:59:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727261AbgKUJpG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 21 Nov 2020 04:45:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41310 "EHLO
+        id S1727369AbgKUJ7R (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 21 Nov 2020 04:59:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727200AbgKUJpF (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 21 Nov 2020 04:45:05 -0500
-Received: from smtp-42ad.mail.infomaniak.ch (smtp-42ad.mail.infomaniak.ch [IPv6:2001:1600:3:17::42ad])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F9D3C0613CF;
-        Sat, 21 Nov 2020 01:45:05 -0800 (PST)
-Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4CdT6R6RqJzlhrhL;
-        Sat, 21 Nov 2020 10:45:03 +0100 (CET)
-Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
-        by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4CdT6P5kbjzlh8TD;
-        Sat, 21 Nov 2020 10:45:01 +0100 (CET)
-Subject: Re: [PATCH v24 02/12] landlock: Add ruleset and domain management
-To:     Jann Horn <jannh@google.com>
-Cc:     James Morris <jmorris@namei.org>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>
-References: <20201112205141.775752-1-mic@digikod.net>
- <20201112205141.775752-3-mic@digikod.net>
- <CAG48ez2RE6S7jKQY3iyoNRM5vV67W4S7OwJ0gmNGy+MB8F56vg@mail.gmail.com>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <28499c4b-d388-7bd1-046e-a775c326e156@digikod.net>
-Date:   Sat, 21 Nov 2020 10:45:01 +0100
-User-Agent: 
-MIME-Version: 1.0
-In-Reply-To: <CAG48ez2RE6S7jKQY3iyoNRM5vV67W4S7OwJ0gmNGy+MB8F56vg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S1727300AbgKUJ7Q (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 21 Nov 2020 04:59:16 -0500
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38E32C0613CF
+        for <linux-api@vger.kernel.org>; Sat, 21 Nov 2020 01:59:15 -0800 (PST)
+Received: by mail-yb1-xb4a.google.com with SMTP id k7so15058933ybm.13
+        for <linux-api@vger.kernel.org>; Sat, 21 Nov 2020 01:59:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=WsUEi0z7Dz1bXAOmQFYUbblVTp6z5WKIjT4H2OhRZ68=;
+        b=s3QDryrbltRJk8zKcIElUF32zdgNc8BkPT6ab64oRstGNPHQ9R/E7+KGLUQKVHM95/
+         tWE8mquVCh87Nvk5zBgvLs9cJx15NLV7ORuiIgrkwYoe96Xuoz3MZjHFiGJ/fZ5sKNWk
+         0doNapBW8uAZoM2pYgyZOqmQGmpbG1ADbuz9Mlkz7x8lZDzCIGHRYpwkYL6Qt8DTAvEC
+         7mEl6uJxpSu+If1fgSLJlA/CTYTB+ioiZ+CJ/Dc5nGG8/aSozMx1sPdkoF+QK9158srZ
+         dfDuzdqlPkvicRzBsWMtTJ7g80uOOEeDjsHVrz5TusTR6t8Tk6WGS7lGMLrcx+3yIB7o
+         PUkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=WsUEi0z7Dz1bXAOmQFYUbblVTp6z5WKIjT4H2OhRZ68=;
+        b=MQJUK1u9a7jLz4IgHbu6KVONvDTKG1sQxKxdnc9mUQdjtBI85rUOXZ7QmjliEHX6sE
+         t/h4SIt2t7gHTsIY/v9aogWUlJkAprOBn2gOykkSN8zgjjinsILeICJIWtdLfKX1HjuK
+         C9+UgbMmQcOcNnlozDhYJH15faTZunGrACV2irnweW5NWwAD5+1dy4awkgbR6AOV0Kqm
+         LWDEcF+RnMZ4hT6OcHanEnLOTQPwKOwHPQSUX9qho2PYLUHtwL9X77Z1cxYg26nD7IFt
+         xG5ShVK+HGqGK+b7Q6gEbfZfN3Z5H0OFe3gbXoW5cFfOJF05KHct7VWHQaz/Nm17ARVS
+         6bEQ==
+X-Gm-Message-State: AOAM530MuGnVHV2sUgg0nAfGWTwnvheAv45ENTBlNycSkerOharboYj8
+        ji7QPak6Jm1cAoQ4ENgK0Sb/yLY=
+X-Google-Smtp-Source: ABdhPJwpMi8YpdlPVDbGMRvK6mmXDOOcxdGseF1dACwdw8lxl7n8LLdTIpImechooRrzXDxVZYzz0kY=
+Sender: "pcc via sendgmr" <pcc@pcc-desktop.svl.corp.google.com>
+X-Received: from pcc-desktop.svl.corp.google.com ([2620:15c:2ce:0:7220:84ff:fe09:385a])
+ (user=pcc job=sendgmr) by 2002:a25:cb55:: with SMTP id b82mr36207818ybg.334.1605952754258;
+ Sat, 21 Nov 2020 01:59:14 -0800 (PST)
+Date:   Sat, 21 Nov 2020 01:59:02 -0800
+Message-Id: <20f64e26fc8a1309caa446fffcb1b4e2fe9e229f.1605952129.git.pcc@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.29.2.454.gaff20da3a2-goog
+Subject: [PATCH 1/2] kasan: arm64: set TCR_EL1.TBID1 when enabled
+From:   Peter Collingbourne <pcc@google.com>
+To:     Catalin Marinas <catalin.marinas@arm.com>,
+        Evgenii Stepanov <eugenis@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Will Deacon <will@kernel.org>
+Cc:     Peter Collingbourne <pcc@google.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        linux-api@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On hardware supporting pointer authentication, we previously ended up
+enabling TBI on instruction accesses when tag-based ASAN was enabled,
+but this was costing us 8 bits of PAC entropy, which was unnecessary
+since tag-based ASAN does not require TBI on instruction accesses. Get
+them back by setting TCR_EL1.TBID1.
 
-On 21/11/2020 08:00, Jann Horn wrote:
-> On Thu, Nov 12, 2020 at 9:51 PM Mickaël Salaün <mic@digikod.net> wrote:
->> A Landlock ruleset is mainly a red-black tree with Landlock rules as
->> nodes.  This enables quick update and lookup to match a requested
->> access, e.g. to a file.  A ruleset is usable through a dedicated file
->> descriptor (cf. following commit implementing syscalls) which enables a
->> process to create and populate a ruleset with new rules.
->>
->> A domain is a ruleset tied to a set of processes.  This group of rules
->> defines the security policy enforced on these processes and their future
->> children.  A domain can transition to a new domain which is the
->> intersection of all its constraints and those of a ruleset provided by
->> the current process.  This modification only impact the current process.
->> This means that a process can only gain more constraints (i.e. lose
->> accesses) over time.
->>
->> Cc: James Morris <jmorris@namei.org>
->> Cc: Jann Horn <jannh@google.com>
->> Cc: Kees Cook <keescook@chromium.org>
->> Cc: Serge E. Hallyn <serge@hallyn.com>
->> Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
->> ---
->>
->> Changes since v23:
->> * Always intersect access rights.  Following the filesystem change
->>   logic, make ruleset updates more consistent by always intersecting
->>   access rights (boolean AND) instead of combining them (boolean OR) for
->>   the same layer.
-> 
-> This seems wrong to me. If some software e.g. builds a policy that
-> allows it to execute specific libraries and to open input files
-> specified on the command line, and the user then specifies a library
-> as an input file, this change will make that fail unless the software
-> explicitly deduplicates the rules.
-> Userspace will be forced to add extra complexity to work around this.
+Signed-off-by: Peter Collingbourne <pcc@google.com>
+Link: https://linux-review.googlesource.com/id/I3dded7824be2e70ea64df0aabab9598d5aebfcc4
+---
+ arch/arm64/include/asm/pgtable-hwdef.h | 1 +
+ arch/arm64/mm/proc.S                   | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-That's a valid use case I didn't think about. Reverting this change is
-not an issue.
+diff --git a/arch/arm64/include/asm/pgtable-hwdef.h b/arch/arm64/include/asm/pgtable-hwdef.h
+index 01a96d07ae74..42442a0ae2ab 100644
+--- a/arch/arm64/include/asm/pgtable-hwdef.h
++++ b/arch/arm64/include/asm/pgtable-hwdef.h
+@@ -260,6 +260,7 @@
+ #define TCR_TBI1		(UL(1) << 38)
+ #define TCR_HA			(UL(1) << 39)
+ #define TCR_HD			(UL(1) << 40)
++#define TCR_TBID1		(UL(1) << 52)
+ #define TCR_NFD0		(UL(1) << 53)
+ #define TCR_NFD1		(UL(1) << 54)
+ #define TCR_E0PD0		(UL(1) << 55)
+diff --git a/arch/arm64/mm/proc.S b/arch/arm64/mm/proc.S
+index 23c326a06b2d..97a97a61a8dc 100644
+--- a/arch/arm64/mm/proc.S
++++ b/arch/arm64/mm/proc.S
+@@ -40,7 +40,7 @@
+ #define TCR_CACHE_FLAGS	TCR_IRGN_WBWA | TCR_ORGN_WBWA
+ 
+ #ifdef CONFIG_KASAN_SW_TAGS
+-#define TCR_KASAN_FLAGS TCR_TBI1
++#define TCR_KASAN_FLAGS TCR_TBI1 | TCR_TBID1
+ #else
+ #define TCR_KASAN_FLAGS 0
+ #endif
+-- 
+2.29.2.454.gaff20da3a2-goog
 
-> 
->>   This defensive approach could also help avoid user
->>   space to inadvertently allow multiple access rights for the same
->>   object (e.g.  write and execute access on a path hierarchy) instead of
->>   dealing with such inconsistency.  This can happen when there is no
->>   deduplication of objects (e.g. paths and underlying inodes) whereas
->>   they get different access rights with landlock_add_rule(2).
-> 
-> I don't see why that's an issue. If userspace wants to be able to
-> access the same object in different ways for different purposes, it
-> should be able to do that, no?
-> 
-> I liked the semantics from the previous version.
-> 
-
-I agree, but the real issue is with the ruleset layers applied to the
-filesystem, cf. patch 7.
