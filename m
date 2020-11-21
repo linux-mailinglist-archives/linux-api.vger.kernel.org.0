@@ -2,271 +2,248 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 587D42BBE4F
-	for <lists+linux-api@lfdr.de>; Sat, 21 Nov 2020 11:00:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D2762BBE56
+	for <lists+linux-api@lfdr.de>; Sat, 21 Nov 2020 11:06:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727300AbgKUJ7S (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 21 Nov 2020 04:59:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43470 "EHLO
+        id S1727425AbgKUKGK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 21 Nov 2020 05:06:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727350AbgKUJ7R (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 21 Nov 2020 04:59:17 -0500
-Received: from mail-pg1-x54a.google.com (mail-pg1-x54a.google.com [IPv6:2607:f8b0:4864:20::54a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 083C1C061A49
-        for <linux-api@vger.kernel.org>; Sat, 21 Nov 2020 01:59:17 -0800 (PST)
-Received: by mail-pg1-x54a.google.com with SMTP id i67so8734212pgc.3
-        for <linux-api@vger.kernel.org>; Sat, 21 Nov 2020 01:59:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:to:cc;
-        bh=meClIThUUCGmqBFGTKtEb888kGSslOj9VbNWIQpUrzM=;
-        b=avqNQpzDHDwm2BZA3GuzxPalcyCOMf69cJWcy+em3kOeqOLZz43EmmRVcguzVJPy+u
-         15PzDkaGXQjiEmIotQHEEOG3jffeLLr2l80D7YJkCkAKTgn7vmvt6l4x7q0lHwn1bicG
-         cbw+26RLSA7qQO/5w1V3qDXwqvE0ScfbesfM1+xglDtNzh6PHw66pS3gJ+GQtFNxPGbp
-         8RITOUB93/NIt96rBkz0zpasCwWRRDl6nsvizhu/Ckpxt8+pzc+NZQXUkqr8JlBS9h1w
-         iS9X4zqV+GOC/3FJ+fH/VvODQvIxhJYyUJZX9qg4r3BFa+H2iECswmMBH7rCw7XsXHqy
-         S3Tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=meClIThUUCGmqBFGTKtEb888kGSslOj9VbNWIQpUrzM=;
-        b=POkzeFNZBum7EzVrfTM4imEOrpNjpdWvLj3yqEFeWBkUe95JFIi62pAYu8hdJuX7PR
-         251kIaiGaRqUg9s00oBHDR2LtvrTRTvZBSgfSvIGG7zx3/zgARiixqV9B/4Awvh2CZbC
-         CW6IbDuoPCS59qxIfGArSZ/nGzAatxTEJif7cWqHUjX653ZArC99l/quPHMIWv7wDZR+
-         21WL71N2YXu1CffnHVp4ADce/odD/4bXlZv3r2VW+EeHj5wknU17wQCs6Cxy8WpVyWyz
-         VHUWsVOvaHjmcxFv6a/SChK/DwOFAaPDHStw/udnBWPXyBD+U1auYanANis/2AlVvHl+
-         pG+A==
-X-Gm-Message-State: AOAM5321W4YznGbU/7TQPBQqCa/baHrpptTSZ/zFzi5o2UJsj1ophc3Q
-        dsLoPoTpZdSCFX7dKOgzbYIY8bY=
-X-Google-Smtp-Source: ABdhPJyspOhT2hOJtPmGesSa9WQR6w7gGjgrk+NwpxIQwaGPzftFL2NSScJ1hg60po0dC4itGDyUdEA=
-Sender: "pcc via sendgmr" <pcc@pcc-desktop.svl.corp.google.com>
-X-Received: from pcc-desktop.svl.corp.google.com ([2620:15c:2ce:0:7220:84ff:fe09:385a])
- (user=pcc job=sendgmr) by 2002:a17:902:ed45:b029:d9:ea8e:cee4 with SMTP id
- y5-20020a170902ed45b02900d9ea8ecee4mr5435709plb.82.1605952756404; Sat, 21 Nov
- 2020 01:59:16 -0800 (PST)
-Date:   Sat, 21 Nov 2020 01:59:03 -0800
-In-Reply-To: <20f64e26fc8a1309caa446fffcb1b4e2fe9e229f.1605952129.git.pcc@google.com>
-Message-Id: <64c0fa360333fd5275582d25019614156a8302bc.1605952129.git.pcc@google.com>
-Mime-Version: 1.0
-References: <20f64e26fc8a1309caa446fffcb1b4e2fe9e229f.1605952129.git.pcc@google.com>
-X-Mailer: git-send-email 2.29.2.454.gaff20da3a2-goog
-Subject: [PATCH 2/2] arm64: allow TCR_EL1.TBID0 to be configured
-From:   Peter Collingbourne <pcc@google.com>
-To:     Catalin Marinas <catalin.marinas@arm.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Will Deacon <will@kernel.org>
-Cc:     Peter Collingbourne <pcc@google.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        linux-api@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S1727382AbgKUKGK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 21 Nov 2020 05:06:10 -0500
+Received: from smtp-190a.mail.infomaniak.ch (smtp-190a.mail.infomaniak.ch [IPv6:2001:1600:4:17::190a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6B57C061A4B
+        for <linux-api@vger.kernel.org>; Sat, 21 Nov 2020 02:06:09 -0800 (PST)
+Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4CdTZl1QJBzlhjF4;
+        Sat, 21 Nov 2020 11:06:07 +0100 (CET)
+Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
+        by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4CdTZj4MLKzlh8TH;
+        Sat, 21 Nov 2020 11:06:05 +0100 (CET)
+Subject: Re: [PATCH v24 07/12] landlock: Support filesystem access-control
+To:     Jann Horn <jannh@google.com>
+Cc:     James Morris <jmorris@namei.org>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>
+References: <20201112205141.775752-1-mic@digikod.net>
+ <20201112205141.775752-8-mic@digikod.net>
+ <CAG48ez3HA63CX852LLDFCcNyzRGwAr3x_cvA1-t8tgDxfF1dOQ@mail.gmail.com>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <1d524ea9-85eb-049c-2156-05cad6d6fcfd@digikod.net>
+Date:   Sat, 21 Nov 2020 11:06:05 +0100
+User-Agent: 
+MIME-Version: 1.0
+In-Reply-To: <CAG48ez3HA63CX852LLDFCcNyzRGwAr3x_cvA1-t8tgDxfF1dOQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Introduce a Kconfig option that controls whether TCR_EL1.TBID0 is
-set at boot time.
 
-Setting TCR_EL1.TBID0 increases the number of signature bits used by
-the pointer authentication instructions for instruction addresses by 8,
-which improves the security of pointer authentication, but it also has
-the consequence of changing the operation of the branch instructions
-so that they no longer ignore the top byte of the target address but
-instead fault if they are non-zero. Since this is a change to the
-userspace ABI the option defaults to off.
+On 21/11/2020 08:00, Jann Horn wrote:
+> On Thu, Nov 12, 2020 at 9:52 PM Mickaël Salaün <mic@digikod.net> wrote:
+>> Thanks to the Landlock objects and ruleset, it is possible to identify
+>> inodes according to a process's domain.  To enable an unprivileged
+>> process to express a file hierarchy, it first needs to open a directory
+>> (or a file) and pass this file descriptor to the kernel through
+>> landlock_add_rule(2).  When checking if a file access request is
+>> allowed, we walk from the requested dentry to the real root, following
+>> the different mount layers.  The access to each "tagged" inodes are
+>> collected according to their rule layer level, and ANDed to create
+>> access to the requested file hierarchy.  This makes possible to identify
+>> a lot of files without tagging every inodes nor modifying the
+>> filesystem, while still following the view and understanding the user
+>> has from the filesystem.
+>>
+>> Add a new ARCH_EPHEMERAL_INODES for UML because it currently does not
+>> keep the same struct inodes for the same inodes whereas these inodes are
+>> in use.
+>>
+>> This commit adds a minimal set of supported filesystem access-control
+>> which doesn't enable to restrict all file-related actions.  This is the
+>> result of multiple discussions to minimize the code of Landlock to ease
+>> review.  Thanks to the Landlock design, extending this access-control
+>> without breaking user space will not be a problem.  Moreover, seccomp
+>> filters can be used to restrict the use of syscall families which may
+>> not be currently handled by Landlock.
+>>
+>> Cc: Al Viro <viro@zeniv.linux.org.uk>
+>> Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
+>> Cc: James Morris <jmorris@namei.org>
+>> Cc: Jann Horn <jannh@google.com>
+>> Cc: Jeff Dike <jdike@addtoit.com>
+>> Cc: Kees Cook <keescook@chromium.org>
+>> Cc: Richard Weinberger <richard@nod.at>
+>> Cc: Serge E. Hallyn <serge@hallyn.com>
+>> Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
+>> ---
+>>
+>> Changes since v23:
+>> * Enforce deterministic interleaved path rules.  To have consistent
+>>   layered rules, granting access to a path implies that all accesses
+>>   tied to inodes, from the requested file to the real root, must be
+>>   checked.  Otherwise, stacked rules may result to overzealous
+>>   restrictions.  By excluding the ability to add exceptions in the same
+>>   layer (e.g. /a allowed, /a/b denied, and /a/b/c allowed), we get
+>>   deterministic interleaved path rules.  This removes an optimization
+> 
+> I don't understand the "deterministic interleaved path rules" part.
 
-Signed-off-by: Peter Collingbourne <pcc@google.com>
-Link: https://linux-review.googlesource.com/id/Ife724ad708142bc475f42e8c1d9609124994bbbd
----
-This is more of an RFC. An open question is how to expose this.
-Having it be a build-time flag is probably the simplest option
-but I guess it could also be a boot flag. Since it involves an
-ABI change we may also want a prctl() so that userspace can
-figure out which mode it is in.
+I explain bellow.
 
-I think we should try to avoid it being a per-task property
-so that we don't need to swap yet another system register on
-task switch.
+> 
+> 
+> What if I have a policy like this?
+> 
+> /home/user READ
+> /home/user/Downloads READ+WRITE
+> 
+> That's a reasonable policy, right?
 
-This goes on top of my FAR_EL1 series because it involves
-a change to how FAR_EL1 is handled on instruction aborts.
+Definitely, I forgot this, thanks for the outside perspective!
 
- arch/arm64/Kconfig                     | 18 ++++++++++++++++++
- arch/arm64/include/asm/compiler.h      | 18 ++++++++++++------
- arch/arm64/include/asm/pgtable-hwdef.h |  1 +
- arch/arm64/include/asm/pointer_auth.h  |  2 +-
- arch/arm64/kernel/ptrace.c             |  8 +++-----
- arch/arm64/mm/fault.c                  | 14 +++++++++++++-
- arch/arm64/mm/proc.S                   |  8 +++++++-
- 7 files changed, 55 insertions(+), 14 deletions(-)
+> 
+> If I then try to open /home/user/Downloads/foo in WRITE mode, the loop
+> will first check against the READ+WRITE rule for /home/user, that
+> check will pass, and then it will check against the READ rule for /,
+> which will deny the access, right? That seems bad.
 
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index 1515f6f153a0..6ea17249f33f 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -1532,6 +1532,24 @@ config ARM64_PTR_AUTH
- 	  This feature works with FUNCTION_GRAPH_TRACER option only if
- 	  DYNAMIC_FTRACE_WITH_REGS is enabled.
- 
-+config ARM64_TBI_DATA
-+	bool "Restrict top-byte ignore to data accesses"
-+	help
-+	  Normally, the kernel will enable top-byte ignore for instruction
-+	  accesses as well as data accesses. With this configuration option
-+	  enabled, on hardware supporting pointer authentication top-byte
-+	  ignore will only be enabled for data accesses.
-+
-+	  The most important consequence of this is that it increases
-+	  the number of signature bits used by the pointer authentication
-+	  instructions for instruction addresses by 8, which improves the
-+	  security of pointer authentication, but it also has the consequence
-+	  of changing the operation of the branch instructions so that they
-+	  no longer ignore the top byte of the target address but instead
-+	  fault if they are non-zero. If your userspace does not depend on
-+	  branch instructions ignoring the top byte it is recommended to
-+	  select this option.
-+
- config CC_HAS_BRANCH_PROT_PAC_RET
- 	# GCC 9 or later, clang 8 or later
- 	def_bool $(cc-option,-mbranch-protection=pac-ret+leaf)
-diff --git a/arch/arm64/include/asm/compiler.h b/arch/arm64/include/asm/compiler.h
-index 6fb2e6bcc392..7332fd35bf6f 100644
---- a/arch/arm64/include/asm/compiler.h
-+++ b/arch/arm64/include/asm/compiler.h
-@@ -12,15 +12,21 @@
-  * The EL0/EL1 pointer bits used by a pointer authentication code.
-  * This is dependent on TBI0/TBI1 being enabled, or bits 63:56 would also apply.
-  */
--#define ptrauth_user_pac_mask()		GENMASK_ULL(54, vabits_actual)
-+#ifdef CONFIG_ARM64_TBI_DATA
-+#define ptrauth_user_insn_pac_mask()	GENMASK_ULL(63, vabits_actual)
-+#else
-+#define ptrauth_user_insn_pac_mask()	GENMASK_ULL(54, vabits_actual)
-+#endif
-+#define ptrauth_user_data_pac_mask()	GENMASK_ULL(54, vabits_actual)
- #define ptrauth_kernel_pac_mask()	GENMASK_ULL(63, vabits_actual)
- 
- /* Valid for EL0 TTBR0 and EL1 TTBR1 instruction pointers */
--#define ptrauth_clear_pac(ptr)						\
--	((ptr & BIT_ULL(55)) ? (ptr | ptrauth_kernel_pac_mask()) :	\
--			       (ptr & ~ptrauth_user_pac_mask()))
-+#define ptrauth_clear_insn_pac(ptr)                                            \
-+	((ptr & BIT_ULL(55)) ? (ptr | ptrauth_kernel_pac_mask()) :             \
-+				     (ptr & ~ptrauth_user_insn_pac_mask()))
- 
--#define __builtin_return_address(val)					\
--	(void *)(ptrauth_clear_pac((unsigned long)__builtin_return_address(val)))
-+#define __builtin_return_address(val)                                          \
-+	((void *)(ptrauth_clear_insn_pac(                                      \
-+		(unsigned long)__builtin_return_address(val))))
- 
- #endif /* __ASM_COMPILER_H */
-diff --git a/arch/arm64/include/asm/pgtable-hwdef.h b/arch/arm64/include/asm/pgtable-hwdef.h
-index 42442a0ae2ab..90e69048442d 100644
---- a/arch/arm64/include/asm/pgtable-hwdef.h
-+++ b/arch/arm64/include/asm/pgtable-hwdef.h
-@@ -260,6 +260,7 @@
- #define TCR_TBI1		(UL(1) << 38)
- #define TCR_HA			(UL(1) << 39)
- #define TCR_HD			(UL(1) << 40)
-+#define TCR_TBID0		(UL(1) << 51)
- #define TCR_TBID1		(UL(1) << 52)
- #define TCR_NFD0		(UL(1) << 53)
- #define TCR_NFD1		(UL(1) << 54)
-diff --git a/arch/arm64/include/asm/pointer_auth.h b/arch/arm64/include/asm/pointer_auth.h
-index c6b4f0603024..a0022867b8ed 100644
---- a/arch/arm64/include/asm/pointer_auth.h
-+++ b/arch/arm64/include/asm/pointer_auth.h
-@@ -73,7 +73,7 @@ extern int ptrauth_prctl_reset_keys(struct task_struct *tsk, unsigned long arg);
- 
- static inline unsigned long ptrauth_strip_insn_pac(unsigned long ptr)
- {
--	return ptrauth_clear_pac(ptr);
-+	return ptrauth_clear_insn_pac(ptr);
- }
- 
- #define ptrauth_thread_init_user(tsk)					\
-diff --git a/arch/arm64/kernel/ptrace.c b/arch/arm64/kernel/ptrace.c
-index 8ac487c84e37..44afc5c3427e 100644
---- a/arch/arm64/kernel/ptrace.c
-+++ b/arch/arm64/kernel/ptrace.c
-@@ -893,13 +893,11 @@ static int pac_mask_get(struct task_struct *target,
- {
- 	/*
- 	 * The PAC bits can differ across data and instruction pointers
--	 * depending on TCR_EL1.TBID*, which we may make use of in future, so
--	 * we expose separate masks.
-+	 * depending on TCR_EL1.TBID0, so we expose separate masks.
- 	 */
--	unsigned long mask = ptrauth_user_pac_mask();
- 	struct user_pac_mask uregs = {
--		.data_mask = mask,
--		.insn_mask = mask,
-+		.data_mask = ptrauth_user_data_pac_mask(),
-+		.insn_mask = ptrauth_user_insn_pac_mask(),
- 	};
- 
- 	if (!system_supports_address_auth())
-diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
-index 29a6b8c9e830..617f9f43f528 100644
---- a/arch/arm64/mm/fault.c
-+++ b/arch/arm64/mm/fault.c
-@@ -458,11 +458,23 @@ static int __kprobes do_page_fault(unsigned long far, unsigned int esr,
- 	vm_fault_t fault;
- 	unsigned long vm_flags = VM_ACCESS_FLAGS;
- 	unsigned int mm_flags = FAULT_FLAG_DEFAULT;
--	unsigned long addr = untagged_addr(far);
-+	unsigned long addr;
- 
- 	if (kprobe_page_fault(regs, esr))
- 		return 0;
- 
-+	/*
-+	 * If TBID0 is set then we may get an IABT with a tagged address here as
-+	 * a result of branching to a tagged address. In this case we want to
-+	 * avoid untagging the address, let the VMA lookup fail and get a
-+	 * SIGSEGV. Leaving the address as is will also work if TBID0 is clear
-+	 * or unsupported because the tag bits of FAR_EL1 will be clear.
-+	 */
-+	if (is_el0_instruction_abort(esr))
-+		addr = far;
-+	else
-+		addr = untagged_addr(far);
-+
- 	/*
- 	 * If we're in an interrupt or have no user context, we must not take
- 	 * the fault.
-diff --git a/arch/arm64/mm/proc.S b/arch/arm64/mm/proc.S
-index 97a97a61a8dc..0e715b9604a1 100644
---- a/arch/arm64/mm/proc.S
-+++ b/arch/arm64/mm/proc.S
-@@ -45,6 +45,12 @@
- #define TCR_KASAN_FLAGS 0
- #endif
- 
-+#ifdef CONFIG_ARM64_TBI_DATA
-+#define TCR_TBI_DATA_FLAGS TCR_TBID0
-+#else
-+#define TCR_TBI_DATA_FLAGS 0
-+#endif
-+
- /*
-  * Default MAIR_EL1. MT_NORMAL_TAGGED is initially mapped as Normal memory and
-  * changed during __cpu_setup to Normal Tagged if the system supports MTE.
-@@ -456,7 +462,7 @@ SYM_FUNC_START(__cpu_setup)
- 	 */
- 	mov_q	x10, TCR_TxSZ(VA_BITS) | TCR_CACHE_FLAGS | TCR_SMP_FLAGS | \
- 			TCR_TG_FLAGS | TCR_KASLR_FLAGS | TCR_ASID16 | \
--			TCR_TBI0 | TCR_A1 | TCR_KASAN_FLAGS
-+			TCR_TBI0 | TCR_TBI_DATA_FLAGS | TCR_A1 | TCR_KASAN_FLAGS
- 	tcr_clear_errata_bits x10, x9, x5
- 
- #ifdef CONFIG_ARM64_VA_BITS_52
--- 
-2.29.2.454.gaff20da3a2-goog
+Yes that was the intent.
 
+> 
+> 
+> The v22 code ensured that for each layer, the most specific rule (the
+> first we encounter on the walk) always wins, right? What's the problem
+> with that?
+
+This can be explained with the interleaved_masked_accesses test:
+https://github.com/landlock-lsm/linux/blob/landlock-v24/tools/testing/selftests/landlock/fs_test.c#L647
+
+In this case there is 4 stacked layers:
+layer 1: allows s1d1/s1d2/s1d3/file1
+layer 2: allows s1d1/s1d2/s1d3
+         denies s1d1/s1d2
+layer 3: allows s1d1
+layer 4: allows s1d1/s1d2
+
+In the v23, access to file1 would be allowed until layer 3, but layer 4
+would merge a new rule for the s1d2 inode. Because we don't record where
+exactly the access come from, we can't tell that layer 2 allowed access
+thanks to s1d3 and that its s1d2 rule was ignored. I think this behavior
+doesn't make sense from the user point of view.
+
+In the v24, access to file1 would only be allowed with layer 1. The
+layer 2, would deny access to file1 because of the s1d2 rule. This makes
+the reasoning consistent and deterministic whatever the layers are,
+while storing the same access and layer bits. But I agree that this may
+not be desirable.
+
+In a perfect v25, file1 should be allowed by all these layers. I didn't
+find a simple solution to this while minimizing the memory allocated by
+rule (cf. struct landlock_rule: mainly 32-bits for access rights and
+64-bits for the layers that contributed to this ANDed accesses). I would
+like to avoid storing 32-bits access rights per stacked layer. Do you
+see another solution?
+
+> 
+>>   which could be replaced by a proper cache mechanism.  This also
+>>   further simplifies and explain check_access_path_continue().
+> 
+>>From the interdiff between v23 and v24 (git range-diff
+> 99ade5d59b23~1..99ade5d59b23 faa8c09be9fd~1..faa8c09be9fd):
+> 
+>     @@ security/landlock/fs.c (new)
+>      +                  rcu_dereference(landlock_inode(inode)->object));
+>      +  rcu_read_unlock();
+>      +
+>     -+  /* Checks for matching layers. */
+>     -+  if (rule && (rule->layers | *layer_mask)) {
+>     -+          if ((rule->access & access_request) == access_request) {
+>     -+                  *layer_mask &= ~rule->layers;
+>     -+                  return true;
+>     -+          } else {
+>     -+                  return false;
+>     -+          }
+>     ++  if (!rule)
+>     ++          /* Continues to walk if there is no rule for this inode. */
+>     ++          return true;
+>     ++  /*
+>     ++   * We must check all layers for each inode because we may encounter
+>     ++   * multiple different accesses from the same layer in a walk.  Each
+>     ++   * layer must at least allow the access request one time (i.e. with one
+>     ++   * inode).  This enables to have a deterministic behavior whatever
+>     ++   * inode is tagged within interleaved layers.
+>     ++   */
+>     ++  if ((rule->access & access_request) == access_request) {
+>     ++          /* Validates layers for which all accesses are allowed. */
+>     ++          *layer_mask &= ~rule->layers;
+>     ++          /* Continues to walk until all layers are validated. */
+>     ++          return true;
+>      +  }
+>     -+  return true;
+>     ++  /* Stops if a rule in the path don't allow all requested access. */
+>     ++  return false;
+>      +}
+>      +
+>      +static int check_access_path(const struct landlock_ruleset *const domain,
+>     @@ security/landlock/fs.c (new)
+>      +                          &layer_mask)) {
+>      +          struct dentry *parent_dentry;
+>      +
+>     -+          /* Stops when a rule from each layer granted access. */
+>     -+          if (layer_mask == 0) {
+>     -+                  allowed = true;
+>     -+                  break;
+>     -+          }
+>     -+
+> 
+> This change also made it so that disconnected paths aren't accessible
+> unless they're internal, right? While previously, the access could be
+> permitted if the walk stops before reaching the disconnected point? I
+> guess that's fine, but it should probably be documented.
+
+Right, I should add a test for this case anyway.
+
+> 
+>      +jump_up:
+>      +          /*
+>      +           * Does not work with orphaned/private mounts like overlayfs
+>     @@ security/landlock/fs.c (new)
+>      +                          goto jump_up;
+>      +                  } else {
+>      +                          /*
+>     -+                           * Stops at the real root.  Denies access
+>     -+                           * because not all layers have granted access.
+>     ++                           * Stops at the real root.  Denies access if
+>     ++                           * not all layers granted access.
+>      +                           */
+>     -+                          allowed = false;
+>     ++                          allowed = (layer_mask == 0);
+>      +                          break;
+>      +                  }
+>      +          }
+> 
