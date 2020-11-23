@@ -2,108 +2,142 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 16E092C101B
-	for <lists+linux-api@lfdr.de>; Mon, 23 Nov 2020 17:28:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BF4EE2C106F
+	for <lists+linux-api@lfdr.de>; Mon, 23 Nov 2020 17:38:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729940AbgKWQXh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 23 Nov 2020 11:23:37 -0500
-Received: from mail.kernel.org ([198.145.29.99]:54404 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729881AbgKWQXg (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 23 Nov 2020 11:23:36 -0500
-Received: from gaia (unknown [95.146.230.165])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 40A342080A;
-        Mon, 23 Nov 2020 16:23:33 +0000 (UTC)
-Date:   Mon, 23 Nov 2020 16:23:30 +0000
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Peter Collingbourne <pcc@google.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Will Deacon <will@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        linux-api@vger.kernel.org, Helge Deller <deller@gmx.de>,
-        David Spickett <david.spickett@linaro.org>
-Subject: Re: [PATCH v21 1/2] signal: define the SA_EXPOSE_TAGBITS bit in
- sa_flags
-Message-ID: <20201123162329.GB2438@gaia>
-References: <13cf24d00ebdd8e1f55caf1821c7c29d54100191.1605904350.git.pcc@google.com>
- <87h7pj1ulp.fsf@x220.int.ebiederm.org>
- <20201123114935.GD17833@gaia>
- <87y2isysra.fsf@x220.int.ebiederm.org>
- <20201123155946.GA2438@gaia>
- <87sg90xd2n.fsf@x220.int.ebiederm.org>
+        id S1729454AbgKWQbe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 23 Nov 2020 11:31:34 -0500
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:48269 "EHLO
+        new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730953AbgKWQZc (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 23 Nov 2020 11:25:32 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 74EC3580370;
+        Mon, 23 Nov 2020 11:24:39 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Mon, 23 Nov 2020 11:24:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tycho.pizza; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm1; bh=dCNTwpbrygdlSzzc2FSEUktQs4G
+        /tw8OZWUghu6D3ME=; b=mvdckROrTihded/w+9kbPJNVEi2oJxpsRMBdE13AueF
+        cwuXhp7Z5s5KniXQa1DndY9EPlaQ/d+ogqLn9NGqNE2FE+kWQsD3euvCwsXoTBpP
+        USZ80C2yJENk16vx6Z8MC7CQCKCEdRubyZ6tEy+777bHg7UrRf0xedXg983fDZ/6
+        MaLCVcqHB+IWEeO+Qsyz0Uh0vGjKXLrSrtxFjX9oZ/xGJyvd19EoeHXG6WRgD+0A
+        G7sHoeCQWvU2b5C3FOsujWiwg+cNqTPduzJqxAmcFfjCLx1tki5qvQlMV+zgsqZQ
+        LGY2MNjuc7pqYwmKhNfumxsz7ybtxtyNBy4d4QHxUPw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=dCNTwp
+        brygdlSzzc2FSEUktQs4G/tw8OZWUghu6D3ME=; b=ApOjkzVhfFeqlzdsO7tG0b
+        x2bQvq7ntcNEhFM0AFLCrw3ZO/EH2RGTygVpMrJ3dAP6MlKHkmTa+uP0MyrFtomH
+        5LAjlgtNQN09OTRea7p7pYONwGQAiVwp9Ax0WCv7exAeYjgFHgcAeCCe86kOOEBw
+        TxHIO8klW2S3Akyz3KykNiHdz1QbGkoVKP3HuUC5FxziM2P5ni1OV5BfU8lV8saq
+        2exDpozvp/Vgs0QTp5yJ7jm0oWt1ATsc/kFQ/EA/1DeayhNK2QO/GADZBALtBfgQ
+        pLJfM2SFh/XPPgSNRfFT5zUu4QQ+7nTbkavi+lKMIQZrLlCIK7q6VOh5Ds2FvUrw
+        ==
+X-ME-Sender: <xms:ROK7XwG4HmiTg6r-VtpaxQ8BUu5C7WtH7yBcDEY0pBc-xjHzCsqNmA>
+    <xme:ROK7X5VaR7V6uDdE9dSztt7S7p_Nppv_Cqmy0ebDwP52dvBRPHRpx0s9-CG7CcIa_
+    Gy7KnQpIy3MT8M_XjQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudegiedgledtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefvhigthhho
+    ucetnhguvghrshgvnhcuoehthigthhhosehthigthhhordhpihiiiigrqeenucggtffrrg
+    htthgvrhhnpeegkeefjeegkedtjefgfeduleekueetjeeghffhuefgffefleehgeeifedv
+    gfethfenucfkphepuddvkedruddtjedrvdeguddrudejgeenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehthigthhhosehthigthhhordhpihii
+    iigr
+X-ME-Proxy: <xmx:ROK7X6LHf_mNExSBh-HxxcJKsQe01xb9FDOEOXarK8KYqYlrbdHcCA>
+    <xmx:ROK7XyH4_tINpnuCxhWINI4B9cIUYfNZv_XFfRLd4ZrRCLzGrQy2sw>
+    <xmx:ROK7X2UQLYJyie5vQRGBHgE4Xffguht8EUxvPlpHJ4ctfCLhIShHNg>
+    <xmx:R-K7Xw33IJLVlu-7Jj36Cl8q_gbpZ3FG0VNLOTRskavmAPFl1i_qcA>
+Received: from cisco (unknown [128.107.241.174])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 652D83280060;
+        Mon, 23 Nov 2020 11:24:30 -0500 (EST)
+Date:   Mon, 23 Nov 2020 11:24:28 -0500
+From:   Tycho Andersen <tycho@tycho.pizza>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Christoph Hellwig <hch@lst.de>,
+        Jonathan Corbet <corbet@lwn.net>, smbarber@chromium.org,
+        Christoph Hellwig <hch@infradead.org>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        linux-ext4@vger.kernel.org, Mrunal Patel <mpatel@redhat.com>,
+        Kees Cook <keescook@chromium.org>,
+        Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>,
+        selinux@vger.kernel.org, Josh Triplett <josh@joshtriplett.org>,
+        Seth Forshee <seth.forshee@canonical.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Lennart Poettering <lennart@poettering.net>,
+        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+        Geoffrey Thomas <geofft@ldpreload.com>,
+        David Howells <dhowells@redhat.com>,
+        John Johansen <john.johansen@canonical.com>,
+        Theodore Tso <tytso@mit.edu>,
+        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+        containers@lists.linux-foundation.org,
+        linux-security-module@vger.kernel.org, linux-audit@redhat.com,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        Alban Crequy <alban@kinvolk.io>,
+        linux-integrity@vger.kernel.org,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
+        Todd Kjos <tkjos@google.com>
+Subject: Re: [PATCH v2 07/39] mount: attach mappings to mounts
+Message-ID: <20201123162428.GA24807@cisco>
+References: <20201115103718.298186-1-christian.brauner@ubuntu.com>
+ <20201115103718.298186-8-christian.brauner@ubuntu.com>
+ <20201123154719.GD4025434@cisco>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87sg90xd2n.fsf@x220.int.ebiederm.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20201123154719.GD4025434@cisco>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Nov 23, 2020 at 10:17:20AM -0600, Eric W. Biederman wrote:
-> Catalin Marinas <catalin.marinas@arm.com> writes:
-> > On Mon, Nov 23, 2020 at 09:53:13AM -0600, Eric W. Biederman wrote:
-> >> Catalin Marinas <catalin.marinas@arm.com> writes:
-> >> > On Fri, Nov 20, 2020 at 05:22:58PM -0600, Eric W. Biederman wrote:
-> >> >> Peter Collingbourne <pcc@google.com> writes:
-> >> >> > Architectures that support address tagging, such as arm64, may want to
-> >> >> > expose fault address tag bits to the signal handler to help diagnose
-> >> >> > memory errors. However, these bits have not been previously set,
-> >> >> > and their presence may confuse unaware user applications. Therefore,
-> >> >> > introduce a SA_EXPOSE_TAGBITS flag bit in sa_flags that a signal
-> >> >> > handler may use to explicitly request that the bits are set.
-> >> >> >
-> >> >> > The generic signal handler APIs expect to receive tagged addresses.
-> >> >> > Architectures may specify how to untag addresses in the case where
-> >> >> > SA_EXPOSE_TAGBITS is clear by defining the arch_untagged_si_addr
-> >> >> > function.
-> >> >> >
-> >> >> > Signed-off-by: Peter Collingbourne <pcc@google.com>
-> >> >> > Acked-by: "Eric W. Biederman" <ebiederm@xmission.com>
-> >> >> > Link: https://linux-review.googlesource.com/id/I16dd0ed2081f091fce97be0190cb8caa874c26cb
-> >> >> > ---
-> >> >> > To be applied on top of:
-> >> >> > https://git.kernel.org/pub/scm/linux/kernel/git/ebiederm/user-namespace.git signal-for-v5.11
-> >> >> 
-> >> >> I have merged this first patch into signal-for-v5.11 and pushed
-> >> >> everything out to linux-next.
-> >> >
-> >> > Thank you Eric. Assuming this branch won't be rebased, I'll apply the
-> >> > arm64 changes on top (well, if you rebase it, just let me know so that
-> >> > we don't end up with duplicate commits in mainline).
-> >> 
-> >> No.  I won't be rebasing it.  Not unless something serious problem shows
-> >> up, and at that point I will be more likely to apply a corrective change
-> >> on top that you can also grab.
-> >
-> > Thanks Eric. During the merging window, I'll probably wait for you to
-> > send the pull request first just to keep the arm64 diffstat simpler.
-> >
-> > BTW, did you mean to base them on v5.10-rc3-391-g9cfd9c45994b or just
-> > v5.10-rc3? It doesn't matter much as I'll generate the diffstat manually
-> > anyway in my pull request as I have different bases in other branches.
+On Mon, Nov 23, 2020 at 10:47:19AM -0500, Tycho Andersen wrote:
+> On Sun, Nov 15, 2020 at 11:36:46AM +0100, Christian Brauner wrote:
+> > +static inline struct user_namespace *mnt_user_ns(const struct vfsmount *mnt)
+> > +{
+> > +	return mnt->mnt_user_ns;
+> > +}
 > 
-> Crap.  How did that happen?  I thought for certain I had based them on
-> v5.10-rc3.  Some random git commit is not a good base.  I think the
-> better part of valor is to just admit I goofed and not rebase even now.
+> I think you might want a READ_ONCE() here. Right now it seems ok, since the
+> mnt_user_ns can't change, but if we ever allow it to change (and I see you have
+> a idmapped_mounts_wip_v2_allow_to_change_idmapping branch on your public tree
+> :D), the pattern of,
 > 
-> It it would make your life easier I will be happy to rebase (onto
-> v5.10-rc3?).  I just wanted to get these into my tree so that we could
-> incremetnally commit to the changes that makes sense and be certain not
-> to loose them.
+>         user_ns = mnt_user_ns(path->mnt);
+>         if (mnt_idmapped(path->mnt)) {
+>                 uid = kuid_from_mnt(user_ns, uid);
+>                 gid = kgid_from_mnt(user_ns, gid);
+>         }
+> 
+> could race.
 
-Please rebase onto -rc3 if there's not much hassle.
+Actually, isn't a race possible now?
 
-Thanks.
+kuid_from_mnt(mnt_user_ns(path->mnt) /* &init_user_ns */);
+WRITE_ONCE(mnt->mnt.mnt_user_ns, user_ns);
+WRITE_ONCE(m->mnt.mnt_flags, flags);
+kgid_from_mnt(mnt_user_ns(path->mnt) /* the right user ns */);
 
--- 
-Catalin
+So maybe it should be:
+
+         if (mnt_idmapped(path->mnt)) {
+                 barrier();
+                 user_ns = mnt_user_ns(path->mnt);
+                 uid = kuid_from_mnt(user_ns, uid);
+                 gid = kgid_from_mnt(user_ns, gid);
+         }
+
+since there's no data dependency between mnt_idmapped() and
+mnt_user_ns()?
+
+Tycho
