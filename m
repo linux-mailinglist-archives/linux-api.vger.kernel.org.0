@@ -2,110 +2,114 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D4D0E2C1306
-	for <lists+linux-api@lfdr.de>; Mon, 23 Nov 2020 19:33:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8978C2C13EA
+	for <lists+linux-api@lfdr.de>; Mon, 23 Nov 2020 20:09:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728474AbgKWSVA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 23 Nov 2020 13:21:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53706 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728171AbgKWSU7 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 23 Nov 2020 13:20:59 -0500
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FE41C0613CF
-        for <linux-api@vger.kernel.org>; Mon, 23 Nov 2020 10:20:59 -0800 (PST)
-Received: by mail-pg1-x544.google.com with SMTP id m9so15019888pgb.4
-        for <linux-api@vger.kernel.org>; Mon, 23 Nov 2020 10:20:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=WXjQw/Ei2ozuIWUZyXPQXVN4Mqw8skdXF2+muz2N79E=;
-        b=s+K6c+/1JMFv5v1GY5Rt4oHFUl3vsl5xKDRka4miXE/3AEPkByXvY2M3x8+WfDrIzJ
-         WCTTmBXMSw0jdFXi4vPbaJjwNZRpK77r5EN2S35021v7Ev+DzPW9Sb2tDw5Nzj7Z0x77
-         N/B7RFCnbe3my9RJxaH3dtnI06yA9386agGRM7nLg02J9QfNI6INmQltHeFkGLXmOxRg
-         2l9me9tjj8fTwpir07h7iLmk/BK0gmX+9TBVqEthYuJOdBdiQh8+0kmQiJXBeaS7fHCp
-         heqnPA/yAYJ5d/IlXFkdiYG6hAJ4JPy0L0c96jjmf8p1m3IAv87RGr8V0Ba/IinMjPzn
-         nNEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=WXjQw/Ei2ozuIWUZyXPQXVN4Mqw8skdXF2+muz2N79E=;
-        b=aVdO4d3y14mTZKy/v3eWIOgZOxTEk+LIcJFA0z1TUz5Y1FcxDmjWIRkdg3l+QDlUs1
-         KiL+ZibSi1GH4vIsBHdpCGk7ShioEfHWJypREDxVJ105dwWXND0UT4ZumM3+C0nzf6Gu
-         CdPP8oCO6IpeO/PIvrk6WMjd13vXx50PhczDBMadyqLTkNR7SuV/a6JkYt4edwfay23z
-         I+L1abyKqYqFt4XmEaDM7U1BqETrSXwldCrblyjk1DV6eTqgnD/9x1fnV6TUkkf+2TEA
-         7bgPYekeYmg0hONZF80Rn0nuEXs1r+1kmN3kRNQDCjiO2Ce6Pfas7QCt0n7YBH3nTPw9
-         TUhw==
-X-Gm-Message-State: AOAM5300ls/OVcjoa9LjpqiQt8OVO8R6aubLx8WkcdHBFw4Lq2Dn/7ph
-        hoA0XDspltg2RVg3ZkSpv1HDEKe4CLd8huIq8aVHag==
-X-Google-Smtp-Source: ABdhPJzRohL9fsaii/K1Xw/nq0y8iaZIigOAp8jNEBB2DO23+xsD1mUl5DscPIvbbiZz6YUhrmKf6/fSi6x+r7YOQXk=
-X-Received: by 2002:a17:90a:db03:: with SMTP id g3mr175751pjv.41.1606155658781;
- Mon, 23 Nov 2020 10:20:58 -0800 (PST)
-MIME-Version: 1.0
-References: <20f64e26fc8a1309caa446fffcb1b4e2fe9e229f.1605952129.git.pcc@google.com>
-In-Reply-To: <20f64e26fc8a1309caa446fffcb1b4e2fe9e229f.1605952129.git.pcc@google.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Mon, 23 Nov 2020 19:20:47 +0100
-Message-ID: <CAAeHK+wvFC+Nx+1==2oidsm=3xFC_0n9jNarnTB2j5eq5CTdkQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] kasan: arm64: set TCR_EL1.TBID1 when enabled
-To:     Peter Collingbourne <pcc@google.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        id S1730928AbgKWSyC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 23 Nov 2020 13:54:02 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47912 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729298AbgKWSyB (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 23 Nov 2020 13:54:01 -0500
+Received: from gaia (unknown [95.146.230.165])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 885B720657;
+        Mon, 23 Nov 2020 18:53:58 +0000 (UTC)
+Date:   Mon, 23 Nov 2020 18:53:55 +0000
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     Peter Collingbourne <pcc@google.com>,
         Evgenii Stepanov <eugenis@google.com>,
         Kostya Serebryany <kcc@google.com>,
         Vincenzo Frascino <vincenzo.frascino@arm.com>,
         Dave Martin <Dave.Martin@arm.com>,
-        Will Deacon <will@kernel.org>,
+        Will Deacon <will@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-api@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        linux-api@vger.kernel.org, Helge Deller <deller@gmx.de>,
+        David Spickett <david.spickett@linaro.org>
+Subject: Re: [PATCH v21 1/2] signal: define the SA_EXPOSE_TAGBITS bit in
+ sa_flags
+Message-ID: <20201123185355.GC2438@gaia>
+References: <13cf24d00ebdd8e1f55caf1821c7c29d54100191.1605904350.git.pcc@google.com>
+ <87h7pj1ulp.fsf@x220.int.ebiederm.org>
+ <20201123114935.GD17833@gaia>
+ <87y2isysra.fsf@x220.int.ebiederm.org>
+ <20201123155946.GA2438@gaia>
+ <87sg90xd2n.fsf@x220.int.ebiederm.org>
+ <20201123162329.GB2438@gaia>
+ <87mtz8x9o5.fsf@x220.int.ebiederm.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87mtz8x9o5.fsf@x220.int.ebiederm.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Nov 21, 2020 at 10:59 AM Peter Collingbourne <pcc@google.com> wrote:
->
-> On hardware supporting pointer authentication, we previously ended up
-> enabling TBI on instruction accesses when tag-based ASAN was enabled,
-> but this was costing us 8 bits of PAC entropy, which was unnecessary
-> since tag-based ASAN does not require TBI on instruction accesses. Get
-> them back by setting TCR_EL1.TBID1.
->
-> Signed-off-by: Peter Collingbourne <pcc@google.com>
-> Link: https://linux-review.googlesource.com/id/I3dded7824be2e70ea64df0aabab9598d5aebfcc4
-> ---
->  arch/arm64/include/asm/pgtable-hwdef.h | 1 +
->  arch/arm64/mm/proc.S                   | 2 +-
->  2 files changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/arch/arm64/include/asm/pgtable-hwdef.h b/arch/arm64/include/asm/pgtable-hwdef.h
-> index 01a96d07ae74..42442a0ae2ab 100644
-> --- a/arch/arm64/include/asm/pgtable-hwdef.h
-> +++ b/arch/arm64/include/asm/pgtable-hwdef.h
-> @@ -260,6 +260,7 @@
->  #define TCR_TBI1               (UL(1) << 38)
->  #define TCR_HA                 (UL(1) << 39)
->  #define TCR_HD                 (UL(1) << 40)
-> +#define TCR_TBID1              (UL(1) << 52)
->  #define TCR_NFD0               (UL(1) << 53)
->  #define TCR_NFD1               (UL(1) << 54)
->  #define TCR_E0PD0              (UL(1) << 55)
-> diff --git a/arch/arm64/mm/proc.S b/arch/arm64/mm/proc.S
-> index 23c326a06b2d..97a97a61a8dc 100644
-> --- a/arch/arm64/mm/proc.S
-> +++ b/arch/arm64/mm/proc.S
-> @@ -40,7 +40,7 @@
->  #define TCR_CACHE_FLAGS        TCR_IRGN_WBWA | TCR_ORGN_WBWA
->
->  #ifdef CONFIG_KASAN_SW_TAGS
-> -#define TCR_KASAN_FLAGS TCR_TBI1
-> +#define TCR_KASAN_FLAGS TCR_TBI1 | TCR_TBID1
->  #else
->  #define TCR_KASAN_FLAGS 0
->  #endif
-> --
-> 2.29.2.454.gaff20da3a2-goog
->
+On Mon, Nov 23, 2020 at 11:30:50AM -0600, Eric W. Biederman wrote:
+> Catalin Marinas <catalin.marinas@arm.com> writes:
+> > On Mon, Nov 23, 2020 at 10:17:20AM -0600, Eric W. Biederman wrote:
+> >> Catalin Marinas <catalin.marinas@arm.com> writes:
+> >> > On Mon, Nov 23, 2020 at 09:53:13AM -0600, Eric W. Biederman wrote:
+> >> >> Catalin Marinas <catalin.marinas@arm.com> writes:
+> >> >> > On Fri, Nov 20, 2020 at 05:22:58PM -0600, Eric W. Biederman wrote:
+> >> >> >> Peter Collingbourne <pcc@google.com> writes:
+> >> >> >> > Architectures that support address tagging, such as arm64, may want to
+> >> >> >> > expose fault address tag bits to the signal handler to help diagnose
+> >> >> >> > memory errors. However, these bits have not been previously set,
+> >> >> >> > and their presence may confuse unaware user applications. Therefore,
+> >> >> >> > introduce a SA_EXPOSE_TAGBITS flag bit in sa_flags that a signal
+> >> >> >> > handler may use to explicitly request that the bits are set.
+> >> >> >> >
+> >> >> >> > The generic signal handler APIs expect to receive tagged addresses.
+> >> >> >> > Architectures may specify how to untag addresses in the case where
+> >> >> >> > SA_EXPOSE_TAGBITS is clear by defining the arch_untagged_si_addr
+> >> >> >> > function.
+> >> >> >> >
+> >> >> >> > Signed-off-by: Peter Collingbourne <pcc@google.com>
+> >> >> >> > Acked-by: "Eric W. Biederman" <ebiederm@xmission.com>
+> >> >> >> > Link: https://linux-review.googlesource.com/id/I16dd0ed2081f091fce97be0190cb8caa874c26cb
+> >> >> >> > ---
+> >> >> >> > To be applied on top of:
+> >> >> >> > https://git.kernel.org/pub/scm/linux/kernel/git/ebiederm/user-namespace.git signal-for-v5.11
+> >> >> >> 
+> >> >> >> I have merged this first patch into signal-for-v5.11 and pushed
+> >> >> >> everything out to linux-next.
+> >> >> >
+> >> >> > Thank you Eric. Assuming this branch won't be rebased, I'll apply the
+> >> >> > arm64 changes on top (well, if you rebase it, just let me know so that
+> >> >> > we don't end up with duplicate commits in mainline).
+> >> >> 
+> >> >> No.  I won't be rebasing it.  Not unless something serious problem shows
+> >> >> up, and at that point I will be more likely to apply a corrective change
+> >> >> on top that you can also grab.
+> >> >
+> >> > Thanks Eric. During the merging window, I'll probably wait for you to
+> >> > send the pull request first just to keep the arm64 diffstat simpler.
+> >> >
+> >> > BTW, did you mean to base them on v5.10-rc3-391-g9cfd9c45994b or just
+> >> > v5.10-rc3? It doesn't matter much as I'll generate the diffstat manually
+> >> > anyway in my pull request as I have different bases in other branches.
+> >> 
+> >> Crap.  How did that happen?  I thought for certain I had based them on
+> >> v5.10-rc3.  Some random git commit is not a good base.  I think the
+> >> better part of valor is to just admit I goofed and not rebase even now.
+> >> 
+> >> It it would make your life easier I will be happy to rebase (onto
+> >> v5.10-rc3?).  I just wanted to get these into my tree so that we could
+> >> incremetnally commit to the changes that makes sense and be certain not
+> >> to loose them.
+> >
+> > Please rebase onto -rc3 if there's not much hassle.
+> 
+> Done.  
 
-Reviewed-by: Andrey Konovalov <andreyknvl@google.com>
+Thanks.
+
+-- 
+Catalin
