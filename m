@@ -2,231 +2,140 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D7E42C0FE0
-	for <lists+linux-api@lfdr.de>; Mon, 23 Nov 2020 17:13:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C63F2C1004
+	for <lists+linux-api@lfdr.de>; Mon, 23 Nov 2020 17:20:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732685AbgKWQNG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 23 Nov 2020 11:13:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33964 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732677AbgKWQNF (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 23 Nov 2020 11:13:05 -0500
-Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com [IPv6:2607:f8b0:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53109C0613CF
-        for <linux-api@vger.kernel.org>; Mon, 23 Nov 2020 08:13:04 -0800 (PST)
-Received: by mail-oi1-x232.google.com with SMTP id d9so20242944oib.3
-        for <linux-api@vger.kernel.org>; Mon, 23 Nov 2020 08:13:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=A8hXlmz4hNGsZsnh5OEUeQs//VTGkhhqLWcewLOxTDU=;
-        b=DOZ/lOlcuiZaZ9qrkQ1EryQIDktsi7b9qhFx2Z5kvUYYOH/aQArhBG0uOAkHefqMvA
-         Pe8milBTYsPbt2wnZ0VGsKtNy/yrYclYq4fJP/qWJfXV412YdAGJGV+1hI8GFQtdUTsP
-         P8QX3JE9nXFNxDqa6VwNzALxeRwygw+Pizq0liNQKZx+9VjfFzkFfBfgSJVHKbRAzVIQ
-         81b3Npx8V5nqHt8ocD/5gLovjQReWrhMd2M4ntNR/wjpHBL4GZKTeeqXXlKqXuo1THmd
-         EdWMpsXTyVpYnuO5TwKFsPVtxs74NjdbkeUViRIq2KsJ/0A3w2fjDQCij4+F9xWKxqLG
-         MccQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=A8hXlmz4hNGsZsnh5OEUeQs//VTGkhhqLWcewLOxTDU=;
-        b=ZgutNys7wRoc95uMlIvekkuDcxfidigQUSoDCY/5wabBn3C7Jsu6L7H9u7QfvEaDJn
-         4vXvxpR5GxAQTRmmqMgUu/D8zZgORf/OQwTwkGKX5fBws1gPXZs94aJJHodPNO4VzP8S
-         ny7KFBpaN6ZaXvlT/X6Eev1h8kq1xlVelfHOTwQ//PMkXtYNLXBr8e2PD0idySmyH33F
-         QwNvsmP7G3SOT7hEhH34Ve2EH7nYbMZJ+ttbiE1Ile1O1pj9wh9e0HW4Fmc2+r9nQQTj
-         Mzz8ISSzYD0SLmFsv8qLLJL1qfUV01P2sgBXZlEV1ekoliMcOfGAqMdGf+G5zUfwKfr8
-         GsiA==
-X-Gm-Message-State: AOAM530WfVnfaAMuaQhWyKYlB1twX7h9S/YbeuWUHKvwJSy6d1ahxepU
-        Lkb8YnBlZgQxF0ELjtco45vApUTman4q2zGt7F0=
-X-Google-Smtp-Source: ABdhPJxhoIUTktyym2QrwteVpEcxTRKECgDJMMseUHOxTloxgifHb+OoZw13v161Ft/q1D6HO22OsWseIW37GTGMJJM=
-X-Received: by 2002:a05:6808:7de:: with SMTP id f30mr14885235oij.148.1606147983516;
- Mon, 23 Nov 2020 08:13:03 -0800 (PST)
+        id S2387415AbgKWQRt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 23 Nov 2020 11:17:49 -0500
+Received: from out01.mta.xmission.com ([166.70.13.231]:59876 "EHLO
+        out01.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732638AbgKWQRt (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 23 Nov 2020 11:17:49 -0500
+Received: from in02.mta.xmission.com ([166.70.13.52])
+        by out01.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1khEXA-00AmYV-1A; Mon, 23 Nov 2020 09:17:44 -0700
+Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
+        by in02.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1khEX9-002ZCM-0A; Mon, 23 Nov 2020 09:17:43 -0700
+From:   ebiederm@xmission.com (Eric W. Biederman)
+To:     Catalin Marinas <catalin.marinas@arm.com>
+Cc:     Peter Collingbourne <pcc@google.com>,
+        Evgenii Stepanov <eugenis@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Will Deacon <will@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        linux-api@vger.kernel.org, Helge Deller <deller@gmx.de>,
+        David Spickett <david.spickett@linaro.org>
+References: <13cf24d00ebdd8e1f55caf1821c7c29d54100191.1605904350.git.pcc@google.com>
+        <87h7pj1ulp.fsf@x220.int.ebiederm.org> <20201123114935.GD17833@gaia>
+        <87y2isysra.fsf@x220.int.ebiederm.org> <20201123155946.GA2438@gaia>
+Date:   Mon, 23 Nov 2020 10:17:20 -0600
+In-Reply-To: <20201123155946.GA2438@gaia> (Catalin Marinas's message of "Mon,
+        23 Nov 2020 15:59:47 +0000")
+Message-ID: <87sg90xd2n.fsf@x220.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-References: <CAKgNAkgxxv2-A81bPV+6GPNXvcw6_FkP-Ajqe-6h83zbcEkmNA@mail.gmail.com>
- <20201121175404.GA25323@mcrowe.com> <e8f58c73-d66e-3586-56cc-af116b750b28@gmail.com>
- <f038123e-ac09-ccad-0d1e-68ed81b00a9c@linaro.org>
-In-Reply-To: <f038123e-ac09-ccad-0d1e-68ed81b00a9c@linaro.org>
-Reply-To: mtk.manpages@gmail.com
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Date:   Mon, 23 Nov 2020 17:12:52 +0100
-Message-ID: <CAKgNAkiQ5e08ooCuAdozfvCByfBeEVZu9mzBBPh+TkKB8HFYKg@mail.gmail.com>
-Subject: Re: Problems with the new pthread clock implementations
-To:     Adhemerval Zanella <adhemerval.zanella@linaro.org>
-Cc:     Mike Crowe <mac@mcrowe.com>,
-        "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-XM-SPF: eid=1khEX9-002ZCM-0A;;;mid=<87sg90xd2n.fsf@x220.int.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX18erZ+UCQJB7rNjNglNN5M3m5mrrnkIt5s=
+X-SA-Exim-Connect-IP: 68.227.160.95
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa07.xmission.com
+X-Spam-Level: *
+X-Spam-Status: No, score=1.5 required=8.0 tests=ALL_TRUSTED,BAYES_50,
+        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,T_TooManySym_01,XMSubLong,
+        XM_B_SpammyWords,XM_B_SpammyWords2 autolearn=disabled version=3.4.2
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4813]
+        *  0.7 XMSubLong Long Subject
+        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
+        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
+        *      [sa07 1397; Body=1 Fuz1=1 Fuz2=1]
+        *  0.2 XM_B_SpammyWords One or more commonly used spammy words
+        *  0.0 T_TooManySym_01 4+ unique symbols in subject
+        *  0.8 XM_B_SpammyWords2 Two or more commony used spammy words
+X-Spam-DCC: XMission; sa07 1397; Body=1 Fuz1=1 Fuz2=1 
+X-Spam-Combo: *;Catalin Marinas <catalin.marinas@arm.com>
+X-Spam-Relay-Country: 
+X-Spam-Timing: total 436 ms - load_scoreonly_sql: 0.04 (0.0%),
+        signal_user_changed: 11 (2.4%), b_tie_ro: 9 (2.1%), parse: 0.81 (0.2%),
+         extract_message_metadata: 18 (4.1%), get_uri_detail_list: 2.3 (0.5%),
+        tests_pri_-1000: 16 (3.7%), tests_pri_-950: 1.21 (0.3%),
+        tests_pri_-900: 1.01 (0.2%), tests_pri_-90: 78 (17.9%), check_bayes:
+        77 (17.6%), b_tokenize: 9 (2.0%), b_tok_get_all: 10 (2.4%),
+        b_comp_prob: 2.9 (0.7%), b_tok_touch_all: 51 (11.6%), b_finish: 0.91
+        (0.2%), tests_pri_0: 299 (68.6%), check_dkim_signature: 0.85 (0.2%),
+        check_dkim_adsp: 15 (3.4%), poll_dns_idle: 0.31 (0.1%), tests_pri_10:
+        1.83 (0.4%), tests_pri_500: 7 (1.5%), rewrite_mail: 0.00 (0.0%)
+Subject: Re: [PATCH v21 1/2] signal: define the SA_EXPOSE_TAGBITS bit in sa_flags
+X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
+X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hello Adhemerval,
+Catalin Marinas <catalin.marinas@arm.com> writes:
 
-On Mon, 23 Nov 2020 at 15:39, Adhemerval Zanella
-<adhemerval.zanella@linaro.org> wrote:
+> On Mon, Nov 23, 2020 at 09:53:13AM -0600, Eric W. Biederman wrote:
+>> Catalin Marinas <catalin.marinas@arm.com> writes:
+>> > On Fri, Nov 20, 2020 at 05:22:58PM -0600, Eric W. Biederman wrote:
+>> >> Peter Collingbourne <pcc@google.com> writes:
+>> >> > Architectures that support address tagging, such as arm64, may want to
+>> >> > expose fault address tag bits to the signal handler to help diagnose
+>> >> > memory errors. However, these bits have not been previously set,
+>> >> > and their presence may confuse unaware user applications. Therefore,
+>> >> > introduce a SA_EXPOSE_TAGBITS flag bit in sa_flags that a signal
+>> >> > handler may use to explicitly request that the bits are set.
+>> >> >
+>> >> > The generic signal handler APIs expect to receive tagged addresses.
+>> >> > Architectures may specify how to untag addresses in the case where
+>> >> > SA_EXPOSE_TAGBITS is clear by defining the arch_untagged_si_addr
+>> >> > function.
+>> >> >
+>> >> > Signed-off-by: Peter Collingbourne <pcc@google.com>
+>> >> > Acked-by: "Eric W. Biederman" <ebiederm@xmission.com>
+>> >> > Link: https://linux-review.googlesource.com/id/I16dd0ed2081f091fce97be0190cb8caa874c26cb
+>> >> > ---
+>> >> > To be applied on top of:
+>> >> > https://git.kernel.org/pub/scm/linux/kernel/git/ebiederm/user-namespace.git signal-for-v5.11
+>> >> 
+>> >> I have merged this first patch into signal-for-v5.11 and pushed
+>> >> everything out to linux-next.
+>> >
+>> > Thank you Eric. Assuming this branch won't be rebased, I'll apply the
+>> > arm64 changes on top (well, if you rebase it, just let me know so that
+>> > we don't end up with duplicate commits in mainline).
+>> 
+>> No.  I won't be rebasing it.  Not unless something serious problem shows
+>> up, and at that point I will be more likely to apply a corrective change
+>> on top that you can also grab.
 >
+> Thanks Eric. During the merging window, I'll probably wait for you to
+> send the pull request first just to keep the arm64 diffstat simpler.
 >
->
-> On 21/11/2020 18:41, Michael Kerrisk (man-pages) wrote:
-> > Hello Mike,
-> >
-> > On 11/21/20 6:54 PM, Mike Crowe wrote:
-> >> Hi Michael,
-> >>
-> >> On Saturday 21 November 2020 at 07:59:04 +0100, Michael Kerrisk (man-pages) wrote:
-> >>> I've been taking a closer look at the the new pthread*clock*() APIs:
-> >>> pthread_clockjoin_np()
-> >>> pthread_cond_clockwait()
-> >>> pthread_mutex_clocklock()
-> >>> pthread_rwlock_clockrdlock()
-> >>> pthread_rwlock_clockwrlock()
-> >>> sem_clockwait()
-> >>>
-> >>> I've noticed some oddities, and at least a couple of bugs.
-> >>>
-> >>> First off, I just note that there's a surprisingly wide variation in
-> >>> the low-level futex calls being used by these APIs when implementing
-> >>> CLOCK_REALTIME support:
-> >>>
-> >>> pthread_rwlock_clockrdlock()
-> >>> pthread_rwlock_clockwrlock()
-> >>> sem_clockwait()
-> >>> pthread_cond_clockwait()
-> >>>     futex(addr,
-> >>>         FUTEX_WAIT_BITSET_PRIVATE|FUTEX_CLOCK_REALTIME, 3,
-> >>>         {abstimespec}, FUTEX_BITSET_MATCH_ANY)
-> >>>     (This implementation seems to be okay)
-> >>>
-> >>> pthread_clockjoin_np()
-> >>>     futex(addr, FUTEX_WAIT, 48711, {reltimespec})
-> >>>     (This is buggy; see below.)
-> >>>
-> >>> pthread_mutex_clocklock()
-> >>>     futex(addr, FUTEX_WAIT_PRIVATE, 2, {reltimespec})
-> >>>     (There's bugs and strangeness here; see below.)
-> >>
-> >> Yes, I found it very confusing when I started adding the new
-> >> pthread*clock*() functions, and it still takes me a while to find the right
-> >> functions when I look now. I believe that Adhemerval was talking about
-> >> simplifying some of this.
-> >>
-> >>> === Bugs ===
-> >>>
-> >>> pthread_clockjoin_np():
-> >>> As already recognized in another mail thread [1], this API accepts any
-> >>> kind of clockid, even though it doesn't support most of them.
-> >>
-> >> Well, it sort of does support them at least as well as many other
-> >> implementations of such functions do - it just calculates a relative
-> >> timeout using the supplied lock and then uses that. But, ...
-> >>
-> >>> A further bug is that even if CLOCK_REALTIME is specified,
-> >>> pthread_clockjoin_np() sleeps against the CLOCK_MONOTONIC clock.
-> >>> (Currently it does this for *all* clockid values.) The problem here is
-> >>> that the FUTEX_WAIT operation sleeps against the CLOCK_MONOTONIC clock
-> >>> by default. At the least, the FUTEX_CLOCK_REALTIME is required for
-> >>> this case. Alternatively, an implementation using
-> >>> FUTEX_WAIT_BITSET_PRIVATE|FUTEX_CLOCK_REALTIME (like the first four
-> >>> functions listed above) might be appropriate.
-> >>
-> >> ...this is one downside of that. That bug was inherited from the
-> >> existing pthread_clock_timedjoin_np implementation.
-> >
->
-> Indeed, I am working on refactoring the futex internal usage to fix
-> this issue.  Thinking twice, I see that using FUTEX_WAIT_BITSET without
-> any additional clock adjustments should be better than calling a
-> clock_gettime plus FUTEX_WAIT.
+> BTW, did you mean to base them on v5.10-rc3-391-g9cfd9c45994b or just
+> v5.10-rc3? It doesn't matter much as I'll generate the diffstat manually
+> anyway in my pull request as I have different bases in other branches.
 
-Yes, that would be my estimate as well/
->
-> > Oh -- that's pretty sad. I hadn't considered the possibility that
-> > the (longstanding) "timed" functions might have the same bug.
-> >
-> >> I was planning to write a patch to just limit the supported clocks, but
-> >> I'll have a go at fixing the bug you describe properly instead first which
-> >> will limit the implementation to CLOCK_REALTIME and CLOCK_MONOTONIC anyway.
->
-> I am working on this as well.
+Crap.  How did that happen?  I thought for certain I had based them on
+v5.10-rc3.  Some random git commit is not a good base.  I think the
+better part of valor is to just admit I goofed and not rebase even now.
 
-Thanks.
+It it would make your life easier I will be happy to rebase (onto
+v5.10-rc3?).  I just wanted to get these into my tree so that we could
+incremetnally commit to the changes that makes sense and be certain not
+to loose them.
 
-> >>> ===
-> >>>
-> >>> pthread_mutex_clocklock():
-> >>> First of all, there's a small oddity. Suppose we specify the clockid
-> >>> as CLOCK_REALTIME, and then while the call is blocked, we set the
-> >>> clock realtime backwards. Then, there will be further futex calls to
-> >>> handle the modification to the clock (and possibly multiple futex
-> >>> calls if the realtime clock is adjusted repeatedly):
-> >>>
-> >>>         futex(addr, FUTEX_WAIT_PRIVATE, 2, {reltimespec1})
-> >>>         futex(addr, FUTEX_WAIT_PRIVATE, 2, {reltimespec2})
-> >>>         ...
-> >>>
-> >>> Then there seems to be a bug. If we specify the clockid as
-> >>> CLOCK_REALTIME, and while the call is blocked we set the realtime
-> >>> clock forwards, then the blocking interval of the call is *not*
-> >>> adjusted (shortened), when of course it should be.
-> >>
-> >> This is because __lll_clocklock_wait ends up doing a relative wait rather
-> >> than an absolute one so it suffers from the same problem as
-> >> pthread_clockjoin_np.
->
-> It is another indication that it would be better to use FUTEX_WAIT_BITSET
-> instead.
+Eric
 
-:-)
 
-> >>> ===
-> >>>
-> >>> I've attached a couple of small test programs at the end of this mail.
-> >>
-> >> Thanks for looking at this in detail.
-> >>
-> >> AFAIK, all of these bugs also affected the corresponding existing
-> >> pthread*timed*() functions. When I added the new pthread*clock*() functions
-> >> I was trying to keep my changes to the existing code as small as possible.
-> >> (I started out trying to "scratch the itch" of libstdc++
-> >> std::condition_variable::wait_for misbehaving[2] when the system clock was
-> >> warped in 2015 and all of this ballooned from that.) Now that the functions
-> >> are in, I think there's definitely scope for improving the implementation
-> >> and I will try to do so as time and confidence allows - the implementation
-> >> of __pthread_mutex_clocklock_common scares me greatly!
-> >
-> > Yeah, a lot of glibc code is not so easy to follow... Thank you for
-> > taking a look.
->
-> The futex code in indeed convoluted, it was initially coded all at
-> lowlevellock.h.  Then it was moved out to lowlevellock-futex.h with the
-> NaCL port (which required an override of the futex call to implement
-> the NaCL libcalls).
->
-> Later, the futex-internal.h was added that duplicated some
-> lowlevellock-futex.h call with inline function plus some error checking
-> (as libstdc++ does).
->
-> So currently we have the nptl pthread code using both interfaces, which is
-> confusing and the duplicate the logic.  The patchset I am working makes the
-> NPTL call to use only futex-internal.h, remove some non required function
-> from it, and simplify the functions required on futex-internal.c.
->
-> The idea is lowlevellock-futex.h would be used only for lowlevellock.h
-> and futex-internal.h.  I am thinking whether it would be useful to
-> keep with lowlevellock-futex.h, it just a thin wrapper over futex syscall
-> with a *lot* of unused macros and without proper y2038 support (as
-> futex-internal.h does).
-
-Thanks, Adhemerval. And more generally, thanks for all of the clean-up
-work you do in the codebase. That's just so valuable!
-
-Cheers,
-
-Michael
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
