@@ -2,106 +2,113 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C49D12C1816
-	for <lists+linux-api@lfdr.de>; Mon, 23 Nov 2020 23:06:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 503EF2C1831
+	for <lists+linux-api@lfdr.de>; Mon, 23 Nov 2020 23:11:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728989AbgKWWBM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 23 Nov 2020 17:01:12 -0500
-Received: from Galois.linutronix.de ([193.142.43.55]:38662 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728161AbgKWWBM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 23 Nov 2020 17:01:12 -0500
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1606168870;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=nOgyExsMmcgulCtYSfwEoyMOFUiwrusrBNm+SSTsII8=;
-        b=G2VzHdD4ucYDyOfYcf2YaTEpSNoyYjuAMLboKB1Mb5h3bbcTX3eEiUBn31rpT38IZ5i5wW
-        kpOTaPoA2M1fFW3D1BuE1XdPQG5I8I7qCEU2WOp1/CBoYNskOMKJbbFkFCUmd0GGRcgJ+Q
-        thb9GR4u1d89dvbxBmsQBXwMCCx9ixZEwEA363ihhqElKWHrB5UQ/Kibm6ZCWBSmDdbOIc
-        FLl5DGp/TATt9sFZboFhPn7YoMTalX0VsvqLV9HxEgIQGJU9lzskJygaqR0ZKzpK506Q03
-        1z+SlvrWuaDTM2eUs+lel1dR4EslM10ZfkC4rOPa+oNu4oxXlfcNKTvYMCfhOA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1606168870;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=nOgyExsMmcgulCtYSfwEoyMOFUiwrusrBNm+SSTsII8=;
-        b=jbjqZF8KCmxT1IFmm88MtvOgo8upRZm4W8+1DkcGTMq1ZlvrJhT6IqlcThSo8L0eKieRW3
-        +Z9+Jv/vrzKd2hCw==
-To:     Alex Belits <abelits@marvell.com>,
-        "nitesh\@redhat.com" <nitesh@redhat.com>,
-        "frederic\@kernel.org" <frederic@kernel.org>
-Cc:     Prasun Kapoor <pkapoor@marvell.com>,
-        "linux-api\@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "davem\@davemloft.net" <davem@davemloft.net>,
-        "trix\@redhat.com" <trix@redhat.com>,
-        "mingo\@kernel.org" <mingo@kernel.org>,
-        "catalin.marinas\@arm.com" <catalin.marinas@arm.com>,
-        "rostedt\@goodmis.org" <rostedt@goodmis.org>,
-        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "peterx\@redhat.com" <peterx@redhat.com>,
-        "linux-arch\@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "mtosatti\@redhat.com" <mtosatti@redhat.com>,
-        "will\@kernel.org" <will@kernel.org>,
-        "peterz\@infradead.org" <peterz@infradead.org>,
-        "leon\@sidebranch.com" <leon@sidebranch.com>,
-        "linux-arm-kernel\@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "pauld\@redhat.com" <pauld@redhat.com>,
-        "netdev\@vger.kernel.org" <netdev@vger.kernel.org>
-Subject: Re: [PATCH v5 3/9] task_isolation: userspace hard isolation from kernel
-In-Reply-To: <5d882681867ed43636e22d265d61afbbac1b5a62.camel@marvell.com>
-References: <8d887e59ca713726f4fcb25a316e1e932b02823e.camel@marvell.com> <5d882681867ed43636e22d265d61afbbac1b5a62.camel@marvell.com>
-Date:   Mon, 23 Nov 2020 23:01:10 +0100
-Message-ID: <878sarn36h.fsf@nanos.tec.linutronix.de>
+        id S1732359AbgKWWHA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 23 Nov 2020 17:07:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60618 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732047AbgKWWG7 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 23 Nov 2020 17:06:59 -0500
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 733C8C061A4D
+        for <linux-api@vger.kernel.org>; Mon, 23 Nov 2020 14:06:59 -0800 (PST)
+Received: by mail-ed1-x541.google.com with SMTP id a15so18755131edy.1
+        for <linux-api@vger.kernel.org>; Mon, 23 Nov 2020 14:06:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ArDHvUzfUiZzh94W960BgkUJZn/5DnacTXHC4Nbv9kI=;
+        b=Ihm9gWe+6m2iCUrCqSrzj2hxvAUOkkHpCGtwhE41f3Rdh8c80xsJegtLMifcQSq7l4
+         MQxmEg8qFYnoifRMupAHJLQd5lYZm+n6GzQdGqoyCuHFxDt3fXMsW4siDYXty7uFQyR+
+         ZiLBHsJEHGtWXoprHv+EbMvUbaSfI62VdYDnQ6kSau+U/tc34IQsesxRL2sYZY1EAFs1
+         LsTOG7yiGz9YGo+XzQObpUnu50coOcAWET1QWObW0HN2FliSyDT2/hew7cMEOL8j6Rt4
+         CkHD0bLpWTrv0L4vHLaw7qmLF7A/4zumynmI5rzULQJ1fukCf4JWCo9n/ipboGbcKUNv
+         ClRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ArDHvUzfUiZzh94W960BgkUJZn/5DnacTXHC4Nbv9kI=;
+        b=aJrEaWiHHT7o34+Hq2O6uNJvw7lNOCEmyaYcH8JAo5t2gP7EaZYkB6YD6aL3n7kEPX
+         aeuc1vnpHZIN/VFBW4K+roFpd7Fn97Q+YCU5YI3bLg6DQ0P7Y6sI8UhWsTHOgVNKKzIY
+         agJ9XfJG+7c8OUsS4alfUrU8u20kRQptdytnqAt+STKlF1EMfiR4waf/9OaV77p1Y3/f
+         HeIVACU3dRrC2mGnuwa8PHUtg1dTBj/my+unkEZ4Ps+avGNs8yIUoZ2nLg/+ceyam/Hf
+         8XhiMSAvvQm/HXPnr+rTx2UYhxBsQZh4Y12A9pFoU+L16bGl6b6R5dAuI17xaMYWly1J
+         cw9g==
+X-Gm-Message-State: AOAM5321wLbLEL2YVr5cefOe9unygK4JFTkrv5+MvWCyynvXDBWgLgSe
+        VTSJR9/P//qJFDrKhVVdRByZqrowUcM9A8WQ38De
+X-Google-Smtp-Source: ABdhPJyCGu6X9xaHoLXWBbQARSvPVPAoR3jFBNgP4UppEnyulyojvZlb/ppHqsSx8lMhDFxNpQsOSthLAo4GmR/YyTM=
+X-Received: by 2002:a50:a6d0:: with SMTP id f16mr1171069edc.135.1606169217904;
+ Mon, 23 Nov 2020 14:06:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20201115103718.298186-1-christian.brauner@ubuntu.com>
+ <20201115103718.298186-32-christian.brauner@ubuntu.com> <CAHC9VhQ5gcOa0+KKDtKEgg_v4SZV2hPdaKUbPGJAQrVB8mn0jA@mail.gmail.com>
+ <20201123074157.fqus6fgtcytydp2c@wittgenstein>
+In-Reply-To: <20201123074157.fqus6fgtcytydp2c@wittgenstein>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Mon, 23 Nov 2020 17:06:46 -0500
+Message-ID: <CAHC9VhTrYDEAkaLbwtF7hQS=8HpM4wx7A_fN4=9pL6EAM-KPGw@mail.gmail.com>
+Subject: Re: [PATCH v2 31/39] audit: handle idmapped mounts
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>,
+        linux-fsdevel@vger.kernel.org,
+        John Johansen <john.johansen@canonical.com>,
+        James Morris <jmorris@namei.org>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+        Geoffrey Thomas <geofft@ldpreload.com>,
+        Mrunal Patel <mpatel@redhat.com>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Theodore Tso <tytso@mit.edu>, Alban Crequy <alban@kinvolk.io>,
+        Tycho Andersen <tycho@tycho.ws>,
+        David Howells <dhowells@redhat.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Jann Horn <jannh@google.com>,
+        Seth Forshee <seth.forshee@canonical.com>,
+        =?UTF-8?Q?St=C3=A9phane_Graber?= <stgraber@ubuntu.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Lennart Poettering <lennart@poettering.net>,
+        "Eric W. Biederman" <ebiederm@xmission.com>, smbarber@chromium.org,
+        Phil Estes <estesp@gmail.com>, Serge Hallyn <serge@hallyn.com>,
+        Kees Cook <keescook@chromium.org>,
+        Todd Kjos <tkjos@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        containers@lists.linux-foundation.org,
+        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-audit@redhat.com,
+        linux-integrity@vger.kernel.org, selinux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Alex,
+On Mon, Nov 23, 2020 at 2:42 AM Christian Brauner
+<christian.brauner@ubuntu.com> wrote:
+> On Sun, Nov 22, 2020 at 05:17:39PM -0500, Paul Moore wrote:
+> > On Sun, Nov 15, 2020 at 5:43 AM Christian Brauner
+> > <christian.brauner@ubuntu.com> wrote:
+> > >
+> > > Audit will sometimes log the inode's i_uid and i_gid. Enable audit to log the
+> > > mapped inode when it is accessed from an idmapped mount.
+> >
+> > I mentioned this in an earlier patch in this patchset, but it is worth
+>
+> I did not receive that message.
 
-On Mon, Nov 23 2020 at 17:56, Alex Belits wrote:
->  .../admin-guide/kernel-parameters.txt         |   6 +
->  drivers/base/cpu.c                            |  23 +
->  include/linux/hrtimer.h                       |   4 +
->  include/linux/isolation.h                     | 326 ++++++++
->  include/linux/sched.h                         |   5 +
->  include/linux/tick.h                          |   3 +
->  include/uapi/linux/prctl.h                    |   6 +
->  init/Kconfig                                  |  27 +
->  kernel/Makefile                               |   2 +
->  kernel/isolation.c                            | 714 ++++++++++++++++++
->  kernel/signal.c                               |   2 +
->  kernel/sys.c                                  |   6 +
->  kernel/time/hrtimer.c                         |  27 +
->  kernel/time/tick-sched.c                      |  18 +
+I'm guessing just a slow mail relay somewhere as you responded to both
+of my emails on this patchset, I think we're all set for now :)
 
-I asked you before to split this up into bits and pieces and argue and
-justify each change. Throwing this wholesale over the fence is going
-nowhere. It's not revieable at all.
+Thanks.
 
-Aside of that ignoring review comments is a sure path to make yourself
-ignored:
-
-> +/*
-> + * Logging
-> + */
-> +int task_isolation_message(int cpu, int level, bool supp, const char *fmt, ...);
-> +
-> +#define pr_task_isol_emerg(cpu, fmt, ...)			\
-> +	task_isolation_message(cpu, LOGLEVEL_EMERG, false, fmt, ##__VA_ARGS__)
-
-The comments various people made about that are not going away and none
-of this is going near anything I'm responsible for unless you provide
-these independent of the rest and with a reasonable justification why
-you can't use any other existing mechanism or extend it for your use
-case.
-
-Thanks,
-
-        tglx
+-- 
+paul moore
+www.paul-moore.com
