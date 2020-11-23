@@ -2,146 +2,199 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BBAF2C11FC
-	for <lists+linux-api@lfdr.de>; Mon, 23 Nov 2020 18:35:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4ED6D2C1243
+	for <lists+linux-api@lfdr.de>; Mon, 23 Nov 2020 18:44:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726844AbgKWRbd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 23 Nov 2020 12:31:33 -0500
-Received: from out03.mta.xmission.com ([166.70.13.233]:47854 "EHLO
-        out03.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726417AbgKWRbc (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 23 Nov 2020 12:31:32 -0500
-Received: from in01.mta.xmission.com ([166.70.13.51])
-        by out03.mta.xmission.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1khFgJ-00AZ7l-43; Mon, 23 Nov 2020 10:31:15 -0700
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
-        by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.87)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1khFgH-0006fW-Ht; Mon, 23 Nov 2020 10:31:14 -0700
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     Peter Collingbourne <pcc@google.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Will Deacon <will@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        linux-api@vger.kernel.org, Helge Deller <deller@gmx.de>,
-        David Spickett <david.spickett@linaro.org>
-References: <13cf24d00ebdd8e1f55caf1821c7c29d54100191.1605904350.git.pcc@google.com>
-        <87h7pj1ulp.fsf@x220.int.ebiederm.org> <20201123114935.GD17833@gaia>
-        <87y2isysra.fsf@x220.int.ebiederm.org> <20201123155946.GA2438@gaia>
-        <87sg90xd2n.fsf@x220.int.ebiederm.org> <20201123162329.GB2438@gaia>
-Date:   Mon, 23 Nov 2020 11:30:50 -0600
-In-Reply-To: <20201123162329.GB2438@gaia> (Catalin Marinas's message of "Mon,
-        23 Nov 2020 16:23:30 +0000")
-Message-ID: <87mtz8x9o5.fsf@x220.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        id S1730287AbgKWRno (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 23 Nov 2020 12:43:44 -0500
+Received: from mx0b-0016f401.pphosted.com ([67.231.156.173]:37664 "EHLO
+        mx0b-0016f401.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729740AbgKWRnn (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 23 Nov 2020 12:43:43 -0500
+Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
+        by mx0b-0016f401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 0ANHecTc028854;
+        Mon, 23 Nov 2020 09:42:50 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
+ subject : date : message-id : content-type : content-id :
+ content-transfer-encoding : mime-version; s=pfpt0220;
+ bh=olHRgCON0wlPyAqv/iv/rojW1dNprj0z/2uquJy5r8U=;
+ b=ZOgTr/8UJlv1HMpdpxJbtK0cDhb1LWGqKozwxhLfWDBhyCNlYDsXIy8nmNrHqnb9tQDj
+ aUaDgCgn5XxNwSBu573rIkfT2IQVVY+eePjsROruFOK2kOhdNAzoNbu/Gfhlm5oAmzwH
+ IgwQqN0ZfRR4rimYCkqmIyKMwRXIqU3dP0N7ItaGF4ZLg+Wo0zQb+F2BJd8pF3g4oPuJ
+ 0SxQ3Ju2Qm7wsZkUNT64DEojeWReQzJbijh0WOX2W3gs9qhij9jntPYgiG0LEENbFUvW
+ 8p302mWRgQv66cj8rTEn1uEErI2Mbxlwq1hXCrNOGu1Xv1nm67RylSBAYuni3jHAUt4T Cw== 
+Received: from sc-exch03.marvell.com ([199.233.58.183])
+        by mx0b-0016f401.pphosted.com with ESMTP id 34y39r6bse-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+        Mon, 23 Nov 2020 09:42:50 -0800
+Received: from SC-EXCH02.marvell.com (10.93.176.82) by SC-EXCH03.marvell.com
+ (10.93.176.83) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 23 Nov
+ 2020 09:42:48 -0800
+Received: from NAM04-SN1-obe.outbound.protection.outlook.com (104.47.44.57) by
+ SC-EXCH02.marvell.com (10.93.176.82) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2 via Frontend Transport; Mon, 23 Nov 2020 09:42:48 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NPY+EORfthD67n12LOh6FYIi6bwEZ49SG8Xznata5J+fD6vdqo1TP1tVxoD8y5h2daWT6Y8HS7IOImiEW8TCqejZzQCdMXrjxXX4tuAZyRW4vYT2oRNGaOgzrMXFKT2epzV0xvoKDJM4EZr7ElD6qZeNW3Mzk1zx3TsCDA0FiwKwhAD0DvCGJ9eVCI4K+5CkfPXubWihchOFYWwnuhZhLe1kXyzdUNj4tyMuw3Ikyjlee2s3nYmO+eOh76z2e6K2U570qHQ0UVHxPFTwuIQASYs8M7UYSIZ4842+pumGxdhhYEtjS0DG8N9zP/8X5U6DWOqK3RYmGE+9Ac1Qapk4MQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=olHRgCON0wlPyAqv/iv/rojW1dNprj0z/2uquJy5r8U=;
+ b=nu7guwKyx4wBYv5ilmVJ4mOhM/YioRJQJPLPPwxUW1MgJtXObukTczkVTub19+qW5ERrtSDiq2EqlHDcmq8BJKg1jsjk8ojL2k109JcsTxk2QpPE0mOraxMxD0D/dvVGOJDS27wVRg7OWCeMjMYxzKutY/cvysJqr1/9Snl2J5kr8WZvaZiwgvgvE1UsSSkOtLUDSjyW0HBvb8p8g4Ws0XEW1Qwp9oSWT8W74xR3jPW+uwNRj4ehaf6UEl/nD6j5dmd7RQEC/BGu8FCJ5jrYTti4ht5TDn18Hz/JNJiFlE/IzFwO8ZS1Uhye25assGeYZZXpHbyG8Op/qQz6TW3J8Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
+ dkim=pass header.d=marvell.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=marvell.onmicrosoft.com; s=selector1-marvell-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=olHRgCON0wlPyAqv/iv/rojW1dNprj0z/2uquJy5r8U=;
+ b=a+/OSC3hM4A5BSMJgAXsifbezlw3P/N8cH1ljgY3UJe0igPgyUjb65kQwCYZqK64kBQ81xcoG5eoU35On5pP6zyaapGz71LSKCT2kkYPdJm7Tpv2vheCP6ThsGA2CenhnDiqH4K4gr0wW8covHhR8BBLK9Y5U13rGxtiZTaL+cY=
+Received: from MW2PR18MB2267.namprd18.prod.outlook.com (2603:10b6:907:3::11)
+ by MWHPR18MB1342.namprd18.prod.outlook.com (2603:10b6:300:ce::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.20; Mon, 23 Nov
+ 2020 17:42:46 +0000
+Received: from MW2PR18MB2267.namprd18.prod.outlook.com
+ ([fe80::e17f:37fb:4eb3:c703]) by MW2PR18MB2267.namprd18.prod.outlook.com
+ ([fe80::e17f:37fb:4eb3:c703%4]) with mapi id 15.20.3564.039; Mon, 23 Nov 2020
+ 17:42:46 +0000
+From:   Alex Belits <abelits@marvell.com>
+To:     "nitesh@redhat.com" <nitesh@redhat.com>,
+        "frederic@kernel.org" <frederic@kernel.org>
+CC:     Prasun Kapoor <pkapoor@marvell.com>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "trix@redhat.com" <trix@redhat.com>,
+        "mingo@kernel.org" <mingo@kernel.org>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "peterx@redhat.com" <peterx@redhat.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "mtosatti@redhat.com" <mtosatti@redhat.com>,
+        "will@kernel.org" <will@kernel.org>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "leon@sidebranch.com" <leon@sidebranch.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "pauld@redhat.com" <pauld@redhat.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
+Subject: [PATCH v5 0/9] "Task_isolation" mode
+Thread-Topic: [PATCH v5 0/9] "Task_isolation" mode
+Thread-Index: AQHWwcAN4HMJq5rZb0WNk0YfmsaUgQ==
+Date:   Mon, 23 Nov 2020 17:42:45 +0000
+Message-ID: <8d887e59ca713726f4fcb25a316e1e932b02823e.camel@marvell.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=marvell.com;
+x-originating-ip: [173.228.7.197]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: a9d35cc7-fd55-4984-568f-08d88fd7302f
+x-ms-traffictypediagnostic: MWHPR18MB1342:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MWHPR18MB134242BC779E6BF2FDFF5355BCFC0@MWHPR18MB1342.namprd18.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: MTJWklmvD0U1E9pA1Pz40pf2/hVDWZamHIgDwfCmSNlSQcL/o/DWR75lA10d+fRXnlblW27NYNS4QvKhDOD+FwWTiQo6583LN5tOnxsuQDbrnymojgAqPBtiFZGHDzmG596tOcgk8/P/RXmuZfO1ud03uJLRv+dbsXudKsuUcAfxzlQF6RgKVKc7ic32mZDa2dR+hniE0pFoT5t8HWVzFZGnhqAcNtq9a+rgNmRVntteeplMaEGkDL26HXagirxX4WbRjuoLenYlBwmWfX2ADGoTJHGqArQjSRaiGmpWxHlo6WE/VuCeaftZvhbB6K0FpMPFW3UQfz4xNVl3qOaLd8fbNIWMpRgb+Oo8lhSbFEjS+rob5Rf3tw2+epErMQzbyxNG/kqOGq4tAxdFWJq5Lw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR18MB2267.namprd18.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(346002)(376002)(136003)(39860400002)(396003)(966005)(6506007)(478600001)(86362001)(8936002)(26005)(36756003)(186003)(2616005)(8676002)(2906002)(6512007)(7416002)(6486002)(4326008)(5660300002)(83380400001)(54906003)(71200400001)(110136005)(316002)(64756008)(66446008)(91956017)(66476007)(66556008)(76116006)(66946007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: Crv+cFLHay9+M3Pg68PhaqvINHX/WL83jq/72lKlVPZS4Jzl00d1yfmFRGpkRIq2hTmFwztHv3bakBJpkiad9z2+ogTnYgwExK1u86NwgoJQOcOBPP3NmmbW8Q26NkzxprFsJl2PFV1EK9MX58Df1uDGTn3KUadKlMpFlCUDcb/48gIyHMwK9iyo8ejWvA60srJuyV2d2RJHIyAcSlcxivRqlAaL/CHUMZ4PS7zPjiAIlLURGqhN/hQmO/K+jiHAD7W1j0d0z8tEz5jc26gkHIUQ84qR8J7chkNDihr9tEubyo9ajAVi9ndSNMKsCxUNNMJdOUj1BA46iN5/DRlD06ahL7K5sJAfNX6t7iC8kAgZ4ij/GxWYM4CQiTubXNA7j17rk/JwDRw7PdPHR1IImkXPwVIiUJzT1UFlk30xVrfjROncOjGv083Y109VwF5fuckRZuYYMuf+xZpUzU3vHTPSsVj0MtiSwSC5QBnBbnmvv+jWuQv/eWrEPRdhFJ+utwROzvAAAwuCbVLxpVcKYprWjvFh4AsCyY/aCdrr8KbsBM6hrmsQkj4JLKhZjzi7iBxllIUJudDyehWGmVxcp177np7dO7qOqwUM+VpaoIUJg+yMb1nV9QfZyWBiPYV8xNFLHC3kqkft96uFB7350zplTlgIH+w+DgezuTimW+VWY+EHPpDxLPeV1fOWwZXT75b7VBxfwobrOi8QHWlC7DkCumW0HS8yEQUQIYcdaYnANBJCG+oUCTU+fHyLXs4aMIgGIg8M5QEG1vr/phStcU8SKuWLSBfNpk/yM7rqzrOLMKfvfWrfj73BoWWttQWAfNadsEVeNQNq6MJBhss6L8xZ+03yGp8tLXtcmy0yufd9ob5vECtHjlRUKqJJTyv0m9AQmNvUa9baeHO2Tr3rNg==
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <93B54AB342F93C4B9C188076FB9F6EC5@namprd18.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1khFgH-0006fW-Ht;;;mid=<87mtz8x9o5.fsf@x220.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX1/YOMR/89dUSXbTTkgvhdSmo7I4onNcxZw=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa07.xmission.com
-X-Spam-Level: *
-X-Spam-Status: No, score=1.5 required=8.0 tests=ALL_TRUSTED,BAYES_50,
-        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,T_TooManySym_01,XMSubLong,
-        XM_B_SpammyWords,XM_B_SpammyWords2 autolearn=disabled version=3.4.2
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4993]
-        *  0.7 XMSubLong Long Subject
-        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-        *      [sa07 1397; Body=1 Fuz1=1 Fuz2=1]
-        *  0.2 XM_B_SpammyWords One or more commonly used spammy words
-        *  0.0 T_TooManySym_01 4+ unique symbols in subject
-        *  0.8 XM_B_SpammyWords2 Two or more commony used spammy words
-X-Spam-DCC: XMission; sa07 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: *;Catalin Marinas <catalin.marinas@arm.com>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 563 ms - load_scoreonly_sql: 0.09 (0.0%),
-        signal_user_changed: 10 (1.8%), b_tie_ro: 9 (1.5%), parse: 1.89 (0.3%),
-         extract_message_metadata: 31 (5.4%), get_uri_detail_list: 4.5 (0.8%),
-        tests_pri_-1000: 17 (3.1%), tests_pri_-950: 1.41 (0.3%),
-        tests_pri_-900: 1.10 (0.2%), tests_pri_-90: 121 (21.5%), check_bayes:
-        102 (18.1%), b_tokenize: 12 (2.2%), b_tok_get_all: 9 (1.5%),
-        b_comp_prob: 5 (1.0%), b_tok_touch_all: 71 (12.6%), b_finish: 1.05
-        (0.2%), tests_pri_0: 351 (62.4%), check_dkim_signature: 0.95 (0.2%),
-        check_dkim_adsp: 6 (1.1%), poll_dns_idle: 0.26 (0.0%), tests_pri_10:
-        2.7 (0.5%), tests_pri_500: 20 (3.5%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: [PATCH v21 1/2] signal: define the SA_EXPOSE_TAGBITS bit in sa_flags
-X-Spam-Flag: No
-X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
-X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR18MB2267.namprd18.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a9d35cc7-fd55-4984-568f-08d88fd7302f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Nov 2020 17:42:45.8256
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: XOC/wgfjt+A22H0eumiI0/kRwya1nTdK/YNklTkp7JmvnWzsjF41XzZ/2QDfDijYMmXpCxG8IgJkFfjOv6bXGA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR18MB1342
+X-OriginatorOrg: marvell.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
+ definitions=2020-11-23_17:2020-11-23,2020-11-23 signatures=0
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Catalin Marinas <catalin.marinas@arm.com> writes:
-
-> On Mon, Nov 23, 2020 at 10:17:20AM -0600, Eric W. Biederman wrote:
->> Catalin Marinas <catalin.marinas@arm.com> writes:
->> > On Mon, Nov 23, 2020 at 09:53:13AM -0600, Eric W. Biederman wrote:
->> >> Catalin Marinas <catalin.marinas@arm.com> writes:
->> >> > On Fri, Nov 20, 2020 at 05:22:58PM -0600, Eric W. Biederman wrote:
->> >> >> Peter Collingbourne <pcc@google.com> writes:
->> >> >> > Architectures that support address tagging, such as arm64, may want to
->> >> >> > expose fault address tag bits to the signal handler to help diagnose
->> >> >> > memory errors. However, these bits have not been previously set,
->> >> >> > and their presence may confuse unaware user applications. Therefore,
->> >> >> > introduce a SA_EXPOSE_TAGBITS flag bit in sa_flags that a signal
->> >> >> > handler may use to explicitly request that the bits are set.
->> >> >> >
->> >> >> > The generic signal handler APIs expect to receive tagged addresses.
->> >> >> > Architectures may specify how to untag addresses in the case where
->> >> >> > SA_EXPOSE_TAGBITS is clear by defining the arch_untagged_si_addr
->> >> >> > function.
->> >> >> >
->> >> >> > Signed-off-by: Peter Collingbourne <pcc@google.com>
->> >> >> > Acked-by: "Eric W. Biederman" <ebiederm@xmission.com>
->> >> >> > Link: https://linux-review.googlesource.com/id/I16dd0ed2081f091fce97be0190cb8caa874c26cb
->> >> >> > ---
->> >> >> > To be applied on top of:
->> >> >> > https://git.kernel.org/pub/scm/linux/kernel/git/ebiederm/user-namespace.git signal-for-v5.11
->> >> >> 
->> >> >> I have merged this first patch into signal-for-v5.11 and pushed
->> >> >> everything out to linux-next.
->> >> >
->> >> > Thank you Eric. Assuming this branch won't be rebased, I'll apply the
->> >> > arm64 changes on top (well, if you rebase it, just let me know so that
->> >> > we don't end up with duplicate commits in mainline).
->> >> 
->> >> No.  I won't be rebasing it.  Not unless something serious problem shows
->> >> up, and at that point I will be more likely to apply a corrective change
->> >> on top that you can also grab.
->> >
->> > Thanks Eric. During the merging window, I'll probably wait for you to
->> > send the pull request first just to keep the arm64 diffstat simpler.
->> >
->> > BTW, did you mean to base them on v5.10-rc3-391-g9cfd9c45994b or just
->> > v5.10-rc3? It doesn't matter much as I'll generate the diffstat manually
->> > anyway in my pull request as I have different bases in other branches.
->> 
->> Crap.  How did that happen?  I thought for certain I had based them on
->> v5.10-rc3.  Some random git commit is not a good base.  I think the
->> better part of valor is to just admit I goofed and not rebase even now.
->> 
->> It it would make your life easier I will be happy to rebase (onto
->> v5.10-rc3?).  I just wanted to get these into my tree so that we could
->> incremetnally commit to the changes that makes sense and be certain not
->> to loose them.
->
-> Please rebase onto -rc3 if there's not much hassle.
-
-Done.  
-
-Eric
+VGhpcyBpcyBhbiB1cGRhdGUgb2YgdGFzayBpc29sYXRpb24gd29yayB0aGF0IHdhcyBvcmlnaW5h
+bGx5IGRvbmUgYnkNCkNocmlzIE1ldGNhbGYgPGNtZXRjYWxmQG1lbGxhbm94LmNvbT4gYW5kIG1h
+aW50YWluZWQgYnkgaGltIHVudGlsDQpOb3ZlbWJlciAyMDE3LiBJdCBpcyBhZGFwdGVkIHRvIHRo
+ZSBjdXJyZW50IGtlcm5lbCBhbmQgY2xlYW5lZCB1cCB0bw0KaW1wbGVtZW50IGl0cyBmdW5jdGlv
+bmFsaXR5IGluIGEgbW9yZSBjb21wbGV0ZSBhbmQgY2xlYW5lciBtYW5uZXIuDQoNClByZXZpb3Vz
+IHZlcnNpb24gaXMgYXQNCmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL25ldGRldi8wNGJlMDQ0YzFi
+Y2Q3NmI3NDM4Yjc1NjNlZGMzNTM4MzQxN2YxMmM4LmNhbWVsQG1hcnZlbGwuY29tLw0KDQpUaGUg
+bGFzdCB2ZXJzaW9uIGJ5IENocmlzIE1ldGNhbGYgKG5vdyBvYnNvbGV0ZSBidXQgbWF5IGJlIHJl
+bGV2YW50DQpmb3IgY29tcGFyaXNvbiBhbmQgdW5kZXJzdGFuZGluZyB0aGUgb3JpZ2luIG9mIHRo
+ZSBjaGFuZ2VzKSBpcyBhdA0KaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGttbC8xNTA5NzI4Njky
+LTEwNDYwLTEtZ2l0LXNlbmQtZW1haWwtY21ldGNhbGZAbWVsbGFub3guY29tDQoNClN1cHBvcnRl
+ZCBhcmNoaXRlY3R1cmVzDQoNClRoaXMgdmVyc2lvbiBpbmNsdWRlcyBvbmx5IGFyY2hpdGVjdHVy
+ZS1pbmRlcGVuZGVudCBjb2RlIGFuZCBhcm02NA0Kc3VwcG9ydC4geDg2IGFuZCBhcm0gc3VwcG9y
+dCwgYW5kIGV2ZXJ5dGhpbmcgcmVsYXRlZCB0byB2aXJ0dWFsaXphdGlvbg0Kd2lsbCBiZSByZS1h
+ZGRlZCBsYXRlciB3aGVuIG5ldyBrZXJuZWwgZW50cnkvZXhpdCBpbXBsZW1lbnRhdGlvbiB3aWxs
+DQpiZSBhY2NvbW1vZGF0ZWQuIFN1cHBvcnQgZm9yIG90aGVyIGFyY2hpdGVjdHVyZXMgY2FuIGJl
+IGFkZGVkIGluIGENCnNvbWV3aGF0IG1vZHVsYXIgbWFubmVyLCBob3dldmVyIGl0IGhlYXZpbHkg
+ZGVwZW5kcyBvbiB0aGUgZGV0YWlscyBvZg0KYSBrZXJuZWwgZW50cnkvZXhpdCBzdXBwb3J0IG9u
+IGFueSBwYXJ0aWN1bGFyIGFyY2hpdGVjdHVyZS4NCkRldmVsb3BtZW50IG9mIGNvbW1vbiBlbnRy
+eS9leGl0IGFuZCBjb252ZXJzaW9uIHRvIGl0IHNob3VsZCBzaW1wbGlmeQ0KdGhhdCB0YXNrLiBG
+b3Igbm93LCB0aGlzIGlzIHRoZSB2ZXJzaW9uIHRoYXQgaXMgY3VycmVudGx5IGJlaW5nDQpkZXZl
+bG9wZWQgb24gYXJtNjQuDQoNCk1ham9yIGNoYW5nZXMgc2luY2UgdjQNCg0KVGhlIGdvYWwgd2Fz
+IHRvIG1ha2UgaXNvbGF0aW9uLWJyZWFraW5nIGRldGVjdGlvbiBhcyBnZW5lcmljIGFzDQpwb3Nz
+aWJsZSwgYW5kIHJlbW92ZSBldmVyeXRoaW5nIHJlbGF0ZWQgdG8gZGV0ZXJtaW5pbmcsIF93aHlf
+DQppc29sYXRpb24gd2FzIGJyb2tlbi4gT3JpZ2luYWxseSByZXBvcnRpbmcgaXNvbGF0aW9uIGJy
+ZWFraW5nIHdhcyBkb25lDQp3aXRoIGEgbGFyZ2UgbnVtYmVyIG9mIG9mIGhvb2tzIGluIHNwZWNp
+ZmljIGNvZGUgKGhhcmR3YXJlIGludGVycnVwdHMsDQpzeXNjYWxscywgSVBJcywgcGFnZSBmYXVs
+dHMsIGV0Yy4pLCBhbmQgaXQgd2FzIG5lY2Vzc2FyeSB0byBjb3ZlciBhbGwNCnBvc3NpYmxlIHN1
+Y2ggZXZlbnRzIHRvIGhhdmUgYSByZWxpYWJsZSBub3RpZmljYXRpb24gb2YgYSB0YXNrIGFib3V0
+DQppdHMgaXNvbGF0aW9uIGJlaW5nIGJyb2tlbi4gVG8gYXZvaWQgc3VjaCBhIGZyYWdpbGUgbWVj
+aGFuaXNtLCB0aGlzDQp2ZXJzaW9uIHJlbGllcyBvbiBtZXJlIGZhY3Qgb2Yga2VybmVsIGJlaW5n
+IGVudGVyZWQgaW4gaXNvbGF0aW9uDQptb2RlLiBBcyBhIHJlc3VsdCwgcmVwb3J0aW5nIGhhcHBl
+bnMgbGF0ZXIgaW4ga2VybmVsIGNvZGUsIGhvd2V2ZXIgaXQNCmNvdmVycyBldmVyeXRoaW5nLg0K
+DQpUaGlzIG1lYW5zIHRoYXQgbm93IHRoZXJlIGlzIG5vIHNwZWNpZmljIHJlcG9ydGluZywgaW4g
+a2VybmVsIGxvZyBvcg0KZWxzZXdoZXJlLCBhYm91dCB0aGUgcmVhc29ucyBmb3IgYnJlYWtpbmcg
+aXNvbGF0aW9uLiBJbmZvcm1hdGlvbiBhYm91dA0KdGhhdCBtYXkgYmUgdmFsdWFibGUgYXQgcnVu
+dGltZSwgc28gYSBzZXBhcmF0ZSBtZWNoYW5pc20gZm9yIGdlbmVyaWMNCnJlcG9ydGluZyAid2h5
+IGRpZCBDUFUgZW50ZXIga2VybmVsIiAod2l0aCBpc29sYXRpb24gb3IgdW5kZXIgb3RoZXINCmNv
+bmRpdGlvbnMpIG1heSBiZSBhIGdvb2QgdGhpbmcuIFRoYXQgY2FuIGJlIGRvbmUgbGF0ZXIsIGhv
+d2V2ZXIgYXQNCnRoaXMgcG9pbnQgaXQncyBpbXBvcnRhbnQgdGhhdCB0YXNrIGlzb2xhdGlvbiBk
+b2VzIG5vdCByZXF1aXJlIGl0LCBhbmQNCnN1Y2ggbWVjaGFuaXNtIHdpbGwgbm90IGJlIGRldmVs
+b3BlZCB3aXRoIHRoZSBsaW1pdGVkIHB1cnBvc2Ugb2YNCnN1cHBvcnRpbmcgaXNvbGF0aW9uIGFs
+b25lLg0KDQpHZW5lcmFsIGRlc2NyaXB0aW9uDQoNClRoaXMgaXMgdGhlIHJlc3VsdCBvZiBkZXZl
+bG9wbWVudCBhbmQgbWFpbnRlbmFuY2Ugb2YgdGFzayBpc29sYXRpb24NCmZ1bmN0aW9uYWxpdHkg
+dGhhdCBvcmlnaW5hbGx5IHN0YXJ0ZWQgYmFzZWQgb24gdGFzayBpc29sYXRpb24gcGF0Y2gNCnYx
+NSBhbmQgd2FzIGxhdGVyIHVwZGF0ZWQgdG8gaW5jbHVkZSB2MTYuIEl0IHByb3ZpZGVkIHByZWRp
+Y3RhYmxlDQplbnZpcm9ubWVudCBmb3IgdXNlcnNwYWNlIHRhc2tzIHJ1bm5pbmcgb24gYXJtNjQg
+cHJvY2Vzc29ycyBhbG9uZ3NpZGUNCndpdGggZnVsbC1mZWF0dXJlZCBMaW51eCBlbnZpcm9ubWVu
+dC4gSXQgaXMgaW50ZW5kZWQgdG8gcHJvdmlkZQ0KcmVsaWFibGUgaW50ZXJydXB0aW9uLWZyZWUg
+ZW52aXJvbm1lbnQgZnJvbSB0aGUgcG9pbnQgd2hlbiBhIHVzZXJzcGFjZQ0KdGFzayBlbnRlcnMg
+aXNvbGF0aW9uIGFuZCB1bnRpbCB0aGUgbW9tZW50IGl0IGxlYXZlcyBpc29sYXRpb24gb3INCnJl
+Y2VpdmVzIGEgc2lnbmFsIGludGVudGlvbmFsbHkgc2VudCB0byBpdCwgYW5kIHdhcyBzdWNjZXNz
+ZnVsbHkgdXNlZA0KZm9yIHRoaXMgcHVycG9zZS4gV2hpbGUgQ1BVIGlzb2xhdGlvbiB3aXRoIG5v
+aHogcHJvdmlkZXMgYW4NCmVudmlyb25tZW50IHRoYXQgaXMgY2xvc2UgdG8gdGhpcyByZXF1aXJl
+bWVudCwgdGhlIHJlbWFpbmluZyBJUElzIGFuZA0Kb3RoZXIgZGlzdHVyYmFuY2VzIGtlZXAgaXQg
+ZnJvbSBiZWluZyB1c2FibGUgZm9yIHRhc2tzIHRoYXQgcmVxdWlyZQ0KY29tcGxldGUgcHJlZGlj
+dGFiaWxpdHkgb2YgQ1BVIHRpbWluZy4NCg0KVGhpcyBzZXQgb2YgcGF0Y2hlcyBvbmx5IGNvdmVy
+cyB0aGUgaW1wbGVtZW50YXRpb24gb2YgdGFzayBpc29sYXRpb24sDQpob3dldmVyIGFkZGl0aW9u
+YWwgZnVuY3Rpb25hbGl0eSwgc3VjaCBhcyBzZWxlY3RpdmUgVExCIGZsdXNoZXMsIG1heQ0KYmUg
+aW1wbGVtZW50ZWQgdG8gYXZvaWQgb3RoZXIga2luZHMgb2YgZGlzdHVyYmFuY2VzIHRoYXQgYWZm
+ZWN0DQpsYXRlbmN5IGFuZCBwZXJmb3JtYW5jZSBvZiBpc29sYXRlZCB0YXNrcy4NCg0KVGhlIHVz
+ZXJzcGFjZSBzdXBwb3J0IGFuZCB0ZXN0IHByb2dyYW0gaXMgbm93IGF0DQpodHRwczovL2dpdGh1
+Yi5jb20vYWJlbGl0cy9saWJ0bWMgLiBJdCB3YXMgb3JpZ2luYWxseSBkZXZlbG9wZWQgZm9yDQpl
+YXJsaWVyIGltcGxlbWVudGF0aW9uLCBzbyBpdCBoYXMgc29tZSBjaGVja3MgdGhhdCBtYXkgYmUg
+cmVkdW5kYW50DQpub3cgYnV0IGtlcHQgZm9yIGNvbXBhdGliaWxpdHkuDQoNCk15IHRoYW5rcyB0
+byBDaHJpcyBNZXRjYWxmIGZvciBkZXNpZ24gYW5kIG1haW50ZW5hbmNlIG9mIHRoZSBvcmlnaW5h
+bA0KdGFzayBpc29sYXRpb24gcGF0Y2gsIEZyYW5jaXMgR2lyYWxkZWF1IDxmcmFuY2lzLmdpcmFs
+ZGVhdUBnbWFpbC5jb20+DQphbmQgWXVyaSBOb3JvdiA8eW5vcm92QG1hcnZlbGwuY29tPiBmb3Ig
+dmFyaW91cyBjb250cmlidXRpb25zIHRvIHRoaXMNCndvcmssIEZyZWRlcmljIFdlaXNiZWNrZXIg
+PGZyZWRlcmljQGtlcm5lbC5vcmc+IGZvciBoaXMgd29yayBvbiBDUFUNCmlzb2xhdGlvbiBhbmQg
+aG91c2VrZWVwaW5nIHRoYXQgbWFkZSBwb3NzaWJsZSB0byByZW1vdmUgc29tZSBsZXNzDQplbGVn
+YW50IHNvbHV0aW9ucyB0aGF0IEkgaGFkIHRvIGRldmlzZSBmb3IgZWFybGllciwgPDQuMTcga2Vy
+bmVscywgYW5kDQpOaXRlc2ggTmFyYXlhbiBMYWwgPG5pdGVzaEByZWRoYXQuY29tPiBmb3IgYWRh
+cHRpbmcgZWFybGllciBwYXRjaGVzDQpyZWxhdGVkIHRvIGludGVycnVwdCBhbmQgd29yayBkaXN0
+cmlidXRpb24gaW4gcHJlc2VuY2Ugb2YgQ1BVDQppc29sYXRpb24uDQoNCi0tIA0KQWxleA0K
