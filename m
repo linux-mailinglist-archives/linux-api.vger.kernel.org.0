@@ -2,121 +2,121 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 381142C0ED6
-	for <lists+linux-api@lfdr.de>; Mon, 23 Nov 2020 16:33:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 100A52C0F6D
+	for <lists+linux-api@lfdr.de>; Mon, 23 Nov 2020 16:56:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732112AbgKWP2k (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 23 Nov 2020 10:28:40 -0500
-Received: from mail.kernel.org ([198.145.29.99]:36732 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729718AbgKWP2k (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 23 Nov 2020 10:28:40 -0500
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BC91420BED
-        for <linux-api@vger.kernel.org>; Mon, 23 Nov 2020 15:28:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1606145319;
-        bh=brIo8Xk+cpg0T6s0IpQa46LwLk4mVPqFLLwG7n90WGU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=NQZmlnHOZiaM7ybcSwWzusNQy1pIzNLZhcrN2FxiI5VI77KySCK6gXqHvbc4GeRrP
-         YSCkK4YhIEwNNqxjz0cYUoQdSP0hpYXSadkkeXAKDctf0PJDujPReGf2go++Ttg8qu
-         rA7cZa4607GuG26Tp3k6RmHtRqCHyFe1H0bZsEVY=
-Received: by mail-wm1-f46.google.com with SMTP id d142so18237874wmd.4
-        for <linux-api@vger.kernel.org>; Mon, 23 Nov 2020 07:28:38 -0800 (PST)
-X-Gm-Message-State: AOAM531ZpZVw0baAAV7YV+6UmQirQoEeUfhaeHqxOUanTXntQc8mzPvn
-        9vFPCrdr5AeY5DfUTmNsxPaQezbq+CoFQSayNg5oUw==
-X-Google-Smtp-Source: ABdhPJzEhjqlImvathm/jOwbcq17IbRsly+UVqGOW3wf5Zw5ZyQfK4pkOn8rE+oX1x7EWd6oQaZF3bxA3Eqxcxk30tI=
-X-Received: by 2002:a1c:e0c3:: with SMTP id x186mr24542133wmg.21.1606145315717;
- Mon, 23 Nov 2020 07:28:35 -0800 (PST)
-MIME-Version: 1.0
-References: <20201123095432.5860-1-rppt@kernel.org>
-In-Reply-To: <20201123095432.5860-1-rppt@kernel.org>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Mon, 23 Nov 2020 07:28:22 -0800
-X-Gmail-Original-Message-ID: <CALCETrXr-9ABs7rzXcCrh1VXn-15AfpwjA6bQA7aU9Ta7DR+bw@mail.gmail.com>
-Message-ID: <CALCETrXr-9ABs7rzXcCrh1VXn-15AfpwjA6bQA7aU9Ta7DR+bw@mail.gmail.com>
-Subject: Re: [PATCH v10 0/9] mm: introduce memfd_secret system call to create
- "secret" memory areas
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
+        id S1732512AbgKWPy2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 23 Nov 2020 10:54:28 -0500
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:57243 "EHLO
+        new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1732217AbgKWPsY (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 23 Nov 2020 10:48:24 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailnew.nyi.internal (Postfix) with ESMTP id D00855803A4;
+        Mon, 23 Nov 2020 10:47:30 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Mon, 23 Nov 2020 10:47:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tycho.pizza; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm1; bh=YCozEjPGEAusuu5kWcPoz4VuSgu
+        BS8YGOeXbic2f3Rk=; b=pvyJJQ7dtuKuZyz5d3i/Y2P3BtpwgiXvwkMU5BeT/T2
+        WF7NIU3puTeGziHc3V8c4P08DDWx0C/mg8YCh+U9Sca9z/JBHq4wxcxz+bm/x/Js
+        ill0yaXVsNoxFGfzUBheTBFxcrVd8m1grxm7s7iqfhMx/pqXZTmktPvPSGUH1K+i
+        VvxsyMeiQnZ801Wg/2mHiLsPZGF/gI01gimS5m/ZBxf0fuByrLF38kRtIG8KpJoC
+        GjM0bMurgM8uw9HPIxfjJfQMxd6piCxFrXhJwKKVnPi4S2MGSK9vrSe50wmN6ozJ
+        wPMGgnj6yqYl5/R8VxfTmCS+UTwBxYo6D54TxCJcS8A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=YCozEj
+        PGEAusuu5kWcPoz4VuSguBS8YGOeXbic2f3Rk=; b=WeTek+Xz2c2hE5akKms3c+
+        JeQuMni5IamwAYJBT/m7URxRjdbl3G1N+579hB8TJU7hVr8i4qroe26PJ3If/+wN
+        Qy/X8fRJQXhvKWoGWjNKkJOYeaW/AZ0EpTpZIyp6yvUY5A3Rrv+LpcWilbxoFfyJ
+        OP2LRptG+oKP0efDk+2PvtUyoy9XYB07mY8m0aI7DiEIgovl7mAXAN3Bf0YNAFRl
+        jxkRqX5pKm7uJ55WMJLJWPae4lZpqOCzd0ZA9zA5cLRvER2UcwplWM5qIoZCOWR5
+        wc6xoAs15KiJGximzPI2SWI4DgpHPxy+EhzRGjAX7GrlMgOFuCnOTi8X3+CgTwPw
+        ==
+X-ME-Sender: <xms:kNm7X-6VybmnIE7HxBF78RbqSph39ZGAjm52Jziqp6YhvS6SutsV3g>
+    <xme:kNm7X37G5hrBHr_ofSXlbfBd7NIArMQy5vyzjbdcfCZMiQhtsghJXDiLqbJDjXPbG
+    4pkUDJOybMd7fnmfxg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudegiedgkedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefvhigthhho
+    ucetnhguvghrshgvnhcuoehthigthhhosehthigthhhordhpihiiiigrqeenucggtffrrg
+    htthgvrhhnpeegkeefjeegkedtjefgfeduleekueetjeeghffhuefgffefleehgeeifedv
+    gfethfenucfkphepuddvkedruddtjedrvdeguddrudejgeenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehthigthhhosehthigthhhordhpihii
+    iigr
+X-ME-Proxy: <xmx:kNm7X9cPIAKRhCP04Kj8q43f_nFo2EYWIGVCCaxjvTW9N8SJ8w8jVQ>
+    <xmx:kNm7X7JU-QaZeelrk4qvOdP93F1LE0ucN_vNnd5Copq4DsgabUHEbQ>
+    <xmx:kNm7XyLAnKZzuImxS6me0molLz2ayvhe0zjr3tUiP9xn0aaEnjdKTw>
+    <xmx:ktm7X-pza5kZuwtkUTGD6q3OiEh8E1SHpU53XCgKODHJj5cEjL4fZA>
+Received: from cisco (unknown [128.107.241.174])
+        by mail.messagingengine.com (Postfix) with ESMTPA id C041D3064ABE;
+        Mon, 23 Nov 2020 10:47:21 -0500 (EST)
+Date:   Mon, 23 Nov 2020 10:47:19 -0500
+From:   Tycho Andersen <tycho@tycho.pizza>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>,
+        linux-fsdevel@vger.kernel.org,
+        Lennart Poettering <lennart@poettering.net>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        containers@lists.linux-foundation.org,
+        Christoph Hellwig <hch@lst.de>,
+        Jonathan Corbet <corbet@lwn.net>, smbarber@chromium.org,
+        linux-ext4@vger.kernel.org, Mrunal Patel <mpatel@redhat.com>,
+        Kees Cook <keescook@chromium.org>,
+        Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>,
+        selinux@vger.kernel.org, Josh Triplett <josh@joshtriplett.org>,
+        Seth Forshee <seth.forshee@canonical.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
         Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Roman Gushchin <guro@fb.com>, Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-riscv@lists.infradead.org, X86 ML <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+        Geoffrey Thomas <geofft@ldpreload.com>,
+        David Howells <dhowells@redhat.com>,
+        John Johansen <john.johansen@canonical.com>,
+        Theodore Tso <tytso@mit.edu>,
+        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
+        linux-security-module@vger.kernel.org, linux-audit@redhat.com,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        linux-api@vger.kernel.org,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Alban Crequy <alban@kinvolk.io>,
+        linux-integrity@vger.kernel.org, Todd Kjos <tkjos@google.com>
+Subject: Re: [PATCH v2 07/39] mount: attach mappings to mounts
+Message-ID: <20201123154719.GD4025434@cisco>
+References: <20201115103718.298186-1-christian.brauner@ubuntu.com>
+ <20201115103718.298186-8-christian.brauner@ubuntu.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201115103718.298186-8-christian.brauner@ubuntu.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Nov 23, 2020 at 1:54 AM Mike Rapoport <rppt@kernel.org> wrote:
->
-> From: Mike Rapoport <rppt@linux.ibm.com>
->
-> Hi,
->
-> This is an implementation of "secret" mappings backed by a file descriptor.
->
-> The file descriptor backing secret memory mappings is created using a
-> dedicated memfd_secret system call The desired protection mode for the
-> memory is configured using flags parameter of the system call. The mmap()
-> of the file descriptor created with memfd_secret() will create a "secret"
-> memory mapping. The pages in that mapping will be marked as not present in
-> the direct map and will have desired protection bits set in the user page
-> table. For instance, current implementation allows uncached mappings.
+On Sun, Nov 15, 2020 at 11:36:46AM +0100, Christian Brauner wrote:
+> +static inline struct user_namespace *mnt_user_ns(const struct vfsmount *mnt)
+> +{
+> +	return mnt->mnt_user_ns;
+> +}
 
-I'm still not ready to ACK uncached mappings on x86.  I'm fine with
-the concept of allowing privileged users to create UC memory on x86
-for testing and experimentation, but it's a big can of worms in
-general.  The issues that immediately come to mind are:
+I think you might want a READ_ONCE() here. Right now it seems ok, since the
+mnt_user_ns can't change, but if we ever allow it to change (and I see you have
+a idmapped_mounts_wip_v2_allow_to_change_idmapping branch on your public tree
+:D), the pattern of,
 
-- Performance and DoS potential.  UC will have bizarre, architecture-
-and platform-dependent performance characteristics.  For all I know,
-even the access semantics might be architecture dependent.  I'm not
-convinced it's possible to write portable code in C using the uncached
-feature.  I'm also concerned that certain operation (unaligned locks,
-for example, and possibly any locked access) will trigger bus locks on
-x86, which, depending on CPU and kernel config will either DoS all
-other CPUs or send signals.  (Or cause the hypervisor to terminate or
-otherwise penalize the the VM, which would be nasty.)
+        user_ns = mnt_user_ns(path->mnt);
+        if (mnt_idmapped(path->mnt)) {
+                uid = kuid_from_mnt(user_ns, uid);
+                gid = kgid_from_mnt(user_ns, gid);
+        }
 
- - Correctness.  I have reports that different x86 hypervisors do
-different things with UC mappings, including treating them as regular
-WB mappings.  So the memory type you get out when you ask for
-"uncached" might not actually be uncached.
+could race.
 
-UC is really an MMIO feature, not a "protect my data" feature.
-Abusing it to protect data is certainly interesting, but I'm far from
-convinced that it's wise.  I'm especially unconvinced that
-monkey-patching a program to use uncached memory when it expects
-regular malloced memory is a reasonable thing to do.
+Tycho
