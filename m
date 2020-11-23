@@ -2,79 +2,77 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E9BD92C04BD
-	for <lists+linux-api@lfdr.de>; Mon, 23 Nov 2020 12:40:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 36E092C04E8
+	for <lists+linux-api@lfdr.de>; Mon, 23 Nov 2020 12:51:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728830AbgKWLjU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 23 Nov 2020 06:39:20 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52226 "EHLO mail.kernel.org"
+        id S1729140AbgKWLtm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 23 Nov 2020 06:49:42 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54550 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726529AbgKWLjU (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 23 Nov 2020 06:39:20 -0500
+        id S1728976AbgKWLtl (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 23 Nov 2020 06:49:41 -0500
 Received: from gaia (unknown [95.146.230.165])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 161B72072C;
-        Mon, 23 Nov 2020 11:39:12 +0000 (UTC)
-Date:   Mon, 23 Nov 2020 11:39:10 +0000
+        by mail.kernel.org (Postfix) with ESMTPSA id D018D20756;
+        Mon, 23 Nov 2020 11:49:38 +0000 (UTC)
+Date:   Mon, 23 Nov 2020 11:49:36 +0000
 From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Roman Gushchin <guro@fb.com>, Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
-        x86@kernel.org, Palmer Dabbelt <palmerdabbelt@google.com>
-Subject: Re: [PATCH v10 8/9] arch, mm: wire up memfd_secret system call were
- relevant
-Message-ID: <20201123113910.GC17833@gaia>
-References: <20201123095432.5860-1-rppt@kernel.org>
- <20201123095432.5860-9-rppt@kernel.org>
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     Peter Collingbourne <pcc@google.com>,
+        Evgenii Stepanov <eugenis@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Will Deacon <will@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        linux-api@vger.kernel.org, Helge Deller <deller@gmx.de>,
+        David Spickett <david.spickett@linaro.org>
+Subject: Re: [PATCH v21 1/2] signal: define the SA_EXPOSE_TAGBITS bit in
+ sa_flags
+Message-ID: <20201123114935.GD17833@gaia>
+References: <13cf24d00ebdd8e1f55caf1821c7c29d54100191.1605904350.git.pcc@google.com>
+ <87h7pj1ulp.fsf@x220.int.ebiederm.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201123095432.5860-9-rppt@kernel.org>
+In-Reply-To: <87h7pj1ulp.fsf@x220.int.ebiederm.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Nov 23, 2020 at 11:54:31AM +0200, Mike Rapoport wrote:
-> diff --git a/arch/arm64/include/uapi/asm/unistd.h b/arch/arm64/include/uapi/asm/unistd.h
-> index f83a70e07df8..ce2ee8f1e361 100644
-> --- a/arch/arm64/include/uapi/asm/unistd.h
-> +++ b/arch/arm64/include/uapi/asm/unistd.h
-> @@ -20,5 +20,6 @@
->  #define __ARCH_WANT_SET_GET_RLIMIT
->  #define __ARCH_WANT_TIME32_SYSCALLS
->  #define __ARCH_WANT_SYS_CLONE3
-> +#define __ARCH_WANT_MEMFD_SECRET
->  
->  #include <asm-generic/unistd.h>
+On Fri, Nov 20, 2020 at 05:22:58PM -0600, Eric W. Biederman wrote:
+> Peter Collingbourne <pcc@google.com> writes:
+> 
+> > Architectures that support address tagging, such as arm64, may want to
+> > expose fault address tag bits to the signal handler to help diagnose
+> > memory errors. However, these bits have not been previously set,
+> > and their presence may confuse unaware user applications. Therefore,
+> > introduce a SA_EXPOSE_TAGBITS flag bit in sa_flags that a signal
+> > handler may use to explicitly request that the bits are set.
+> >
+> > The generic signal handler APIs expect to receive tagged addresses.
+> > Architectures may specify how to untag addresses in the case where
+> > SA_EXPOSE_TAGBITS is clear by defining the arch_untagged_si_addr
+> > function.
+> >
+> > Signed-off-by: Peter Collingbourne <pcc@google.com>
+> > Acked-by: "Eric W. Biederman" <ebiederm@xmission.com>
+> > Link: https://linux-review.googlesource.com/id/I16dd0ed2081f091fce97be0190cb8caa874c26cb
+> > ---
+> > To be applied on top of:
+> > https://git.kernel.org/pub/scm/linux/kernel/git/ebiederm/user-namespace.git signal-for-v5.11
+> 
+> I have merged this first patch into signal-for-v5.11 and pushed
+> everything out to linux-next.
 
-For arm64:
+Thank you Eric. Assuming this branch won't be rebased, I'll apply the
+arm64 changes on top (well, if you rebase it, just let me know so that
+we don't end up with duplicate commits in mainline).
 
-Acked-by: Catalin Marinas <catalin.marinas@arm.com>
+-- 
+Catalin
