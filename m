@@ -2,114 +2,69 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8978C2C13EA
-	for <lists+linux-api@lfdr.de>; Mon, 23 Nov 2020 20:09:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B088D2C1412
+	for <lists+linux-api@lfdr.de>; Mon, 23 Nov 2020 20:10:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730928AbgKWSyC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 23 Nov 2020 13:54:02 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47912 "EHLO mail.kernel.org"
+        id S1732692AbgKWS40 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 23 Nov 2020 13:56:26 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48478 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729298AbgKWSyB (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 23 Nov 2020 13:54:01 -0500
+        id S1728971AbgKWS40 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 23 Nov 2020 13:56:26 -0500
 Received: from gaia (unknown [95.146.230.165])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 885B720657;
-        Mon, 23 Nov 2020 18:53:58 +0000 (UTC)
-Date:   Mon, 23 Nov 2020 18:53:55 +0000
+        by mail.kernel.org (Postfix) with ESMTPSA id 29A7420729;
+        Mon, 23 Nov 2020 18:56:23 +0000 (UTC)
+Date:   Mon, 23 Nov 2020 18:56:20 +0000
 From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Peter Collingbourne <pcc@google.com>,
-        Evgenii Stepanov <eugenis@google.com>,
+To:     Peter Collingbourne <pcc@google.com>
+Cc:     Evgenii Stepanov <eugenis@google.com>,
         Kostya Serebryany <kcc@google.com>,
         Vincenzo Frascino <vincenzo.frascino@arm.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Will Deacon <will@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
         "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
         Kevin Brodsky <kevin.brodsky@arm.com>,
         Andrey Konovalov <andreyknvl@google.com>,
         linux-api@vger.kernel.org, Helge Deller <deller@gmx.de>,
         David Spickett <david.spickett@linaro.org>
-Subject: Re: [PATCH v21 1/2] signal: define the SA_EXPOSE_TAGBITS bit in
- sa_flags
-Message-ID: <20201123185355.GC2438@gaia>
+Subject: Re: [PATCH v21 2/2] arm64: expose FAR_EL1 tag bits in siginfo
+Message-ID: <20201123185620.GD2438@gaia>
 References: <13cf24d00ebdd8e1f55caf1821c7c29d54100191.1605904350.git.pcc@google.com>
- <87h7pj1ulp.fsf@x220.int.ebiederm.org>
- <20201123114935.GD17833@gaia>
- <87y2isysra.fsf@x220.int.ebiederm.org>
- <20201123155946.GA2438@gaia>
- <87sg90xd2n.fsf@x220.int.ebiederm.org>
- <20201123162329.GB2438@gaia>
- <87mtz8x9o5.fsf@x220.int.ebiederm.org>
+ <0010296597784267472fa13b39f8238d87a72cf8.1605904350.git.pcc@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87mtz8x9o5.fsf@x220.int.ebiederm.org>
+In-Reply-To: <0010296597784267472fa13b39f8238d87a72cf8.1605904350.git.pcc@google.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Nov 23, 2020 at 11:30:50AM -0600, Eric W. Biederman wrote:
-> Catalin Marinas <catalin.marinas@arm.com> writes:
-> > On Mon, Nov 23, 2020 at 10:17:20AM -0600, Eric W. Biederman wrote:
-> >> Catalin Marinas <catalin.marinas@arm.com> writes:
-> >> > On Mon, Nov 23, 2020 at 09:53:13AM -0600, Eric W. Biederman wrote:
-> >> >> Catalin Marinas <catalin.marinas@arm.com> writes:
-> >> >> > On Fri, Nov 20, 2020 at 05:22:58PM -0600, Eric W. Biederman wrote:
-> >> >> >> Peter Collingbourne <pcc@google.com> writes:
-> >> >> >> > Architectures that support address tagging, such as arm64, may want to
-> >> >> >> > expose fault address tag bits to the signal handler to help diagnose
-> >> >> >> > memory errors. However, these bits have not been previously set,
-> >> >> >> > and their presence may confuse unaware user applications. Therefore,
-> >> >> >> > introduce a SA_EXPOSE_TAGBITS flag bit in sa_flags that a signal
-> >> >> >> > handler may use to explicitly request that the bits are set.
-> >> >> >> >
-> >> >> >> > The generic signal handler APIs expect to receive tagged addresses.
-> >> >> >> > Architectures may specify how to untag addresses in the case where
-> >> >> >> > SA_EXPOSE_TAGBITS is clear by defining the arch_untagged_si_addr
-> >> >> >> > function.
-> >> >> >> >
-> >> >> >> > Signed-off-by: Peter Collingbourne <pcc@google.com>
-> >> >> >> > Acked-by: "Eric W. Biederman" <ebiederm@xmission.com>
-> >> >> >> > Link: https://linux-review.googlesource.com/id/I16dd0ed2081f091fce97be0190cb8caa874c26cb
-> >> >> >> > ---
-> >> >> >> > To be applied on top of:
-> >> >> >> > https://git.kernel.org/pub/scm/linux/kernel/git/ebiederm/user-namespace.git signal-for-v5.11
-> >> >> >> 
-> >> >> >> I have merged this first patch into signal-for-v5.11 and pushed
-> >> >> >> everything out to linux-next.
-> >> >> >
-> >> >> > Thank you Eric. Assuming this branch won't be rebased, I'll apply the
-> >> >> > arm64 changes on top (well, if you rebase it, just let me know so that
-> >> >> > we don't end up with duplicate commits in mainline).
-> >> >> 
-> >> >> No.  I won't be rebasing it.  Not unless something serious problem shows
-> >> >> up, and at that point I will be more likely to apply a corrective change
-> >> >> on top that you can also grab.
-> >> >
-> >> > Thanks Eric. During the merging window, I'll probably wait for you to
-> >> > send the pull request first just to keep the arm64 diffstat simpler.
-> >> >
-> >> > BTW, did you mean to base them on v5.10-rc3-391-g9cfd9c45994b or just
-> >> > v5.10-rc3? It doesn't matter much as I'll generate the diffstat manually
-> >> > anyway in my pull request as I have different bases in other branches.
-> >> 
-> >> Crap.  How did that happen?  I thought for certain I had based them on
-> >> v5.10-rc3.  Some random git commit is not a good base.  I think the
-> >> better part of valor is to just admit I goofed and not rebase even now.
-> >> 
-> >> It it would make your life easier I will be happy to rebase (onto
-> >> v5.10-rc3?).  I just wanted to get these into my tree so that we could
-> >> incremetnally commit to the changes that makes sense and be certain not
-> >> to loose them.
-> >
-> > Please rebase onto -rc3 if there's not much hassle.
+On Fri, Nov 20, 2020 at 12:33:46PM -0800, Peter Collingbourne wrote:
+> The kernel currently clears the tag bits (i.e. bits 56-63) in the fault
+> address exposed via siginfo.si_addr and sigcontext.fault_address. However,
+> the tag bits may be needed by tools in order to accurately diagnose
+> memory errors, such as HWASan [1] or future tools based on the Memory
+> Tagging Extension (MTE).
 > 
-> Done.  
+> Expose these bits via the arch_untagged_si_addr mechanism, so that
+> they are only exposed to signal handlers with the SA_EXPOSE_TAGBITS
+> flag set.
+> 
+> [1] http://clang.llvm.org/docs/HardwareAssistedAddressSanitizerDesign.html
+> 
+> Signed-off-by: Peter Collingbourne <pcc@google.com>
+> Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+> Link: https://linux-review.googlesource.com/id/Ia8876bad8c798e0a32df7c2ce1256c4771c81446
 
-Thanks.
+Applied to arm64 (for-next/signal-tag-bits), thanks!
+
+[2/2] arm64: expose FAR_EL1 tag bits in siginfo
+      https://git.kernel.org/arm64/c/dceec3ff7807
 
 -- 
 Catalin
