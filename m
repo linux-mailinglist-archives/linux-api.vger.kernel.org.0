@@ -2,68 +2,92 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 304842C2E22
-	for <lists+linux-api@lfdr.de>; Tue, 24 Nov 2020 18:12:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D18A2C2E3B
+	for <lists+linux-api@lfdr.de>; Tue, 24 Nov 2020 18:16:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390255AbgKXRMa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 24 Nov 2020 12:12:30 -0500
-Received: from mx2.suse.de ([195.135.220.15]:60464 "EHLO mx2.suse.de"
+        id S2390398AbgKXRPl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 24 Nov 2020 12:15:41 -0500
+Received: from mail.kernel.org ([198.145.29.99]:49264 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389971AbgKXRMa (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 24 Nov 2020 12:12:30 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id CA717AC90;
-        Tue, 24 Nov 2020 17:12:29 +0000 (UTC)
-Subject: Re: [PATCH] mm: introduce sysctl file to flush per-cpu vmstat
- statistics
-To:     Christopher Lameter <cl@linux.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>
-Cc:     Matthew Wilcox <willy@infradead.org>, linux-mm@kvack.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux API <linux-api@vger.kernel.org>
-References: <20201117162805.GA274911@fuller.cnet>
- <20201117180356.GT29991@casper.infradead.org>
- <alpine.DEB.2.22.394.2011171855500.215602@www.lameter.com>
- <20201117202317.GA282679@fuller.cnet>
- <alpine.DEB.2.22.394.2011201817320.248402@www.lameter.com>
-From:   Vlastimil Babka <vbabka@suse.cz>
-Message-ID: <72f598ea-9fdf-537d-0b3a-aac2251d347c@suse.cz>
-Date:   Tue, 24 Nov 2020 18:12:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.3
+        id S2390308AbgKXRPk (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 24 Nov 2020 12:15:40 -0500
+Received: from localhost (82-217-20-185.cable.dynamic.v4.ziggo.nl [82.217.20.185])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 99F95206E5;
+        Tue, 24 Nov 2020 17:15:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1606238139;
+        bh=J0afl+2LLskLIWwsKBm6ugjEsGEPidJcN2s83PAH1r8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=gKz9tVfElOsxRj4E39Sw9bNOpcDs0K6NqDUiZ26523s5kVYVtCbqgMrYBjJcJ9C8U
+         g8wHYWoFUcp/3MnWIvapgjlc2xkmOghOIjzIiAVFRW0wiDAZt4oDVD9jglryLBR2e/
+         etGuqA4ACTpJq6tc8SL/y6I3eWS1GMMVNydlwpW8=
+Date:   Tue, 24 Nov 2020 18:15:36 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Jann Horn <jannh@google.com>
+Cc:     Christoph Hellwig <hch@infradead.org>,
+        Kees Cook <keescook@chromium.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Will Drewry <wad@chromium.org>, Mark Wielaard <mark@klomp.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        dev@opencontainers.org, Jonathan Corbet <corbet@lwn.net>,
+        Carlos O'Donell <carlos@redhat.com>
+Subject: Re: [PATCH] syscalls: Document OCI seccomp filter interactions &
+ workaround
+Message-ID: <X70/uPNt2BA/vUSo@kroah.com>
+References: <87lfer2c0b.fsf@oldenburg2.str.redhat.com>
+ <20201124122639.x4zqtxwlpnvw7ycx@wittgenstein>
+ <878saq3ofx.fsf@oldenburg2.str.redhat.com>
+ <dcffcbacbc75086582ea3f073c9e6a981a6dd27f.camel@klomp.org>
+ <20201124164546.GA14094@infradead.org>
+ <CAG48ez2ZHPavVU3_2VnRADFQstOM1s+3GwfWsRaEjAA1jYcHDg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.22.394.2011201817320.248402@www.lameter.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAG48ez2ZHPavVU3_2VnRADFQstOM1s+3GwfWsRaEjAA1jYcHDg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 11/20/20 7:20 PM, Christopher Lameter wrote:
-> On Tue, 17 Nov 2020, Marcelo Tosatti wrote:
+On Tue, Nov 24, 2020 at 06:06:38PM +0100, Jann Horn wrote:
+> +seccomp maintainers/reviewers
+> [thread context is at
+> https://lore.kernel.org/linux-api/87lfer2c0b.fsf@oldenburg2.str.redhat.com/
+> ]
 > 
->> > So what we would need would be something like a sysctl that puts the
->> > system into a quiet state by completing all workqueue items. Idle all
->> > subsystems that need it and put the cpu into NOHZ mode.
->>
->> Are you suggesting that instead of a specific file to control vmstat
->> workqueue only, a more generic sysctl could be used?
+> On Tue, Nov 24, 2020 at 5:49 PM Christoph Hellwig <hch@infradead.org> wrote:
+> > On Tue, Nov 24, 2020 at 03:08:05PM +0100, Mark Wielaard wrote:
+> > > For valgrind the issue is statx which we try to use before falling back
+> > > to stat64, fstatat or stat (depending on architecture, not all define
+> > > all of these). The problem with these fallbacks is that under some
+> > > containers (libseccomp versions) they might return EPERM instead of
+> > > ENOSYS. This causes really obscure errors that are really hard to
+> > > diagnose.
+> >
+> > So find a way to detect these completely broken container run times
+> > and refuse to run under them at all.  After all they've decided to
+> > deliberately break the syscall ABI.  (and yes, we gave the the rope
+> > to do that with seccomp :().
 > 
-> Yes. Introduce a sysctl to quiet down the system. Clean caches that will
-> trigger kernel threads and whatever else is pending on that processor.
+> FWIW, if the consensus is that seccomp filters that return -EPERM by
+> default are categorically wrong, I think it should be fairly easy to
+> add a check to the seccomp core that detects whether the installed
+> filter returns EPERM for some fixed unused syscall number and, if so,
+> prints a warning to dmesg or something along those lines...
 
-Please CC linux-api on future postings that introduce stuff like this.
+Why?  seccomp is saying "this syscall is not permitted", so -EPERM seems
+like the correct error to provide here.  It's not -ENOSYS as the syscall
+is present.
 
->> About NOHZ mode: the CPU should enter NOHZ automatically as soon as
->> there is a single thread running, so unclear why that would be needed.
-> 
-> There are typically pending actions that still trigger interruptions.
-> 
-> If you would immediately quiet down the system if there is only one thread
-> runnable then you would compromise system performance through frequent
-> counter folding and cache cleaning etc.
+As everyone knows, there are other ways to have -EPERM be returned from
+a syscall if you don't have the correct permissions to do something.
+Why is seccomp being singled out here?  It's doing the correct thing.
 
-If someone goes through the trouble of setting up NOHZ, these 
-disruptions should be only temporary and happen during the setup, no?
+thanks,
+
+greg k-h
