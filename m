@@ -2,94 +2,68 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 53CFD2C2DC5
-	for <lists+linux-api@lfdr.de>; Tue, 24 Nov 2020 18:07:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 304842C2E22
+	for <lists+linux-api@lfdr.de>; Tue, 24 Nov 2020 18:12:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390273AbgKXRHI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 24 Nov 2020 12:07:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39538 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390255AbgKXRHI (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 24 Nov 2020 12:07:08 -0500
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53F45C0613D6
-        for <linux-api@vger.kernel.org>; Tue, 24 Nov 2020 09:07:07 -0800 (PST)
-Received: by mail-lj1-x242.google.com with SMTP id y16so22895305ljk.1
-        for <linux-api@vger.kernel.org>; Tue, 24 Nov 2020 09:07:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZBvHvzP+9o8/Uf4hbLg51E6jDSRQAkhWemb0Me9MezE=;
-        b=p8NsNIxBBnZy2eUEOISROXe3cZDJXTooL+7OKlBIBBEwerKvASfRv3Z+BalyhTTE0L
-         Nj6QKn3NM+qm7O7APifQO6dVMDhP1/9OH8Tq96BFAmoasRftP0/EkeahBcss/fA3kPVR
-         QtTsWBXLSNLzhcZRk1SypgtNdqpdhqOzwGAWwUrhBn+YL2ibEamP/Y0ezy3RPXPIpvjg
-         grGT3IqlE93NJCnv0vtc5O/8qyrXbPx4552Js/h956h21KJpdvb8nI0+5pPMQXFy6LU7
-         vCooPNZoJB2cEqLC3oZd60t+MzLUDoWirK6Uz1Rl6hBxNmre+p5ngKJqJ2PsqS2NdeLF
-         nrdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZBvHvzP+9o8/Uf4hbLg51E6jDSRQAkhWemb0Me9MezE=;
-        b=B3K3wZy2iXMgujRbKaED8WLhAkGb3+7o4hZwkkSuxyt6UolrOUTAw4K8MPBz3PPlN2
-         /z3Qyuds4TZ/Bv3vnUjBrAPCzb3vhKVkNsCbzJBeWgWzfQG/4uw6njA58MQwVEuORHuz
-         8mIOn/oRk2UvB1FU1SQN6q5SSh4o2FoZc/1zGcXN97PNB8++BRZr6oWV3y5kb+BT7jQU
-         fRJDFjHlmayMTeS9RMS/N3K3763yQ2o023w+Er+EslY50fgKKAC0R2psNKoLEmUXjYh8
-         IVYZnZr6K/eWMEZICeCO67DB6HlM8jcl8wMF3huE/j0crvEOeNq1uFW78G5zqMxxT4VG
-         sM8g==
-X-Gm-Message-State: AOAM531lq6W1QOFImRl7u5Hy2q1ukt51x9Tqi4LkzUoAmwaTx4RTefPM
-        ppT3GikC8NzNoS1rbn6Svmdm/T/4K1esKIHC4eQ8Qg==
-X-Google-Smtp-Source: ABdhPJxIPTrFaAh9lpUZyV93kcGfCqDWjDKDo36A9pWmpafCk5awnNtM+yIUmG0jgOWTMiMoCiFR65TMaMdR8PG2L5o=
-X-Received: by 2002:a2e:9216:: with SMTP id k22mr2160034ljg.138.1606237625645;
- Tue, 24 Nov 2020 09:07:05 -0800 (PST)
+        id S2390255AbgKXRMa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 24 Nov 2020 12:12:30 -0500
+Received: from mx2.suse.de ([195.135.220.15]:60464 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389971AbgKXRMa (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 24 Nov 2020 12:12:30 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id CA717AC90;
+        Tue, 24 Nov 2020 17:12:29 +0000 (UTC)
+Subject: Re: [PATCH] mm: introduce sysctl file to flush per-cpu vmstat
+ statistics
+To:     Christopher Lameter <cl@linux.com>,
+        Marcelo Tosatti <mtosatti@redhat.com>
+Cc:     Matthew Wilcox <willy@infradead.org>, linux-mm@kvack.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux API <linux-api@vger.kernel.org>
+References: <20201117162805.GA274911@fuller.cnet>
+ <20201117180356.GT29991@casper.infradead.org>
+ <alpine.DEB.2.22.394.2011171855500.215602@www.lameter.com>
+ <20201117202317.GA282679@fuller.cnet>
+ <alpine.DEB.2.22.394.2011201817320.248402@www.lameter.com>
+From:   Vlastimil Babka <vbabka@suse.cz>
+Message-ID: <72f598ea-9fdf-537d-0b3a-aac2251d347c@suse.cz>
+Date:   Tue, 24 Nov 2020 18:12:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.3
 MIME-Version: 1.0
-References: <87lfer2c0b.fsf@oldenburg2.str.redhat.com> <20201124122639.x4zqtxwlpnvw7ycx@wittgenstein>
- <878saq3ofx.fsf@oldenburg2.str.redhat.com> <dcffcbacbc75086582ea3f073c9e6a981a6dd27f.camel@klomp.org>
- <20201124164546.GA14094@infradead.org>
-In-Reply-To: <20201124164546.GA14094@infradead.org>
-From:   Jann Horn <jannh@google.com>
-Date:   Tue, 24 Nov 2020 18:06:38 +0100
-Message-ID: <CAG48ez2ZHPavVU3_2VnRADFQstOM1s+3GwfWsRaEjAA1jYcHDg@mail.gmail.com>
-Subject: Re: [PATCH] syscalls: Document OCI seccomp filter interactions & workaround
-To:     Christoph Hellwig <hch@infradead.org>,
-        Kees Cook <keescook@chromium.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Will Drewry <wad@chromium.org>
-Cc:     Mark Wielaard <mark@klomp.org>,
-        Florian Weimer <fweimer@redhat.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        dev@opencontainers.org, Jonathan Corbet <corbet@lwn.net>,
-        "Carlos O'Donell" <carlos@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <alpine.DEB.2.22.394.2011201817320.248402@www.lameter.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-+seccomp maintainers/reviewers
-[thread context is at
-https://lore.kernel.org/linux-api/87lfer2c0b.fsf@oldenburg2.str.redhat.com/
-]
+On 11/20/20 7:20 PM, Christopher Lameter wrote:
+> On Tue, 17 Nov 2020, Marcelo Tosatti wrote:
+> 
+>> > So what we would need would be something like a sysctl that puts the
+>> > system into a quiet state by completing all workqueue items. Idle all
+>> > subsystems that need it and put the cpu into NOHZ mode.
+>>
+>> Are you suggesting that instead of a specific file to control vmstat
+>> workqueue only, a more generic sysctl could be used?
+> 
+> Yes. Introduce a sysctl to quiet down the system. Clean caches that will
+> trigger kernel threads and whatever else is pending on that processor.
 
-On Tue, Nov 24, 2020 at 5:49 PM Christoph Hellwig <hch@infradead.org> wrote:
-> On Tue, Nov 24, 2020 at 03:08:05PM +0100, Mark Wielaard wrote:
-> > For valgrind the issue is statx which we try to use before falling back
-> > to stat64, fstatat or stat (depending on architecture, not all define
-> > all of these). The problem with these fallbacks is that under some
-> > containers (libseccomp versions) they might return EPERM instead of
-> > ENOSYS. This causes really obscure errors that are really hard to
-> > diagnose.
->
-> So find a way to detect these completely broken container run times
-> and refuse to run under them at all.  After all they've decided to
-> deliberately break the syscall ABI.  (and yes, we gave the the rope
-> to do that with seccomp :().
+Please CC linux-api on future postings that introduce stuff like this.
 
-FWIW, if the consensus is that seccomp filters that return -EPERM by
-default are categorically wrong, I think it should be fairly easy to
-add a check to the seccomp core that detects whether the installed
-filter returns EPERM for some fixed unused syscall number and, if so,
-prints a warning to dmesg or something along those lines...
+>> About NOHZ mode: the CPU should enter NOHZ automatically as soon as
+>> there is a single thread running, so unclear why that would be needed.
+> 
+> There are typically pending actions that still trigger interruptions.
+> 
+> If you would immediately quiet down the system if there is only one thread
+> runnable then you would compromise system performance through frequent
+> counter folding and cache cleaning etc.
+
+If someone goes through the trouble of setting up NOHZ, these 
+disruptions should be only temporary and happen during the setup, no?
