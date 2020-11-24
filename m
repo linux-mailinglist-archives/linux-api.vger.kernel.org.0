@@ -2,145 +2,79 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F4512C3018
-	for <lists+linux-api@lfdr.de>; Tue, 24 Nov 2020 19:43:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 847252C302C
+	for <lists+linux-api@lfdr.de>; Tue, 24 Nov 2020 19:48:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387989AbgKXSmV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 24 Nov 2020 13:42:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54274 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390939AbgKXSmU (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 24 Nov 2020 13:42:20 -0500
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BA8BC0613D6
-        for <linux-api@vger.kernel.org>; Tue, 24 Nov 2020 10:42:14 -0800 (PST)
-Received: by mail-lj1-x244.google.com with SMTP id i17so23246323ljd.3
-        for <linux-api@vger.kernel.org>; Tue, 24 Nov 2020 10:42:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=7bYxDHbnmMeqeAaCeZZRsCP/3hYPYLY12AMSLIFZUIg=;
-        b=VKlK3+QLeMWZ1q3zj34Obxbm2JFZ/yNE7EaUqGdyv8+Yu+bCV6Z/PFlAyqKMwkXK8U
-         J79+sAAVRwvpqkxh6lly891xvx0PSQoJ3eyq6/0uoZzOzDmuUZJ+PH/ysn/byJDernYi
-         /19Lq2qs6y22Py0nYJKyE9aw1W+qCTJBHiEJg5u11ljE6vVgJguOFDp6PRiZh8KuInWw
-         4OuUW90DHsKAEaiErfNGx9NGVhLLVB0yyPWFWbHSLwxpqSFuDe41XpqzvdozjnQaL4Cc
-         RckVQWC58sV9mGG1MuHm4eHGG+YEhHqWH/5Uq1ZYweG2RSE+icNSDdwDCqgl1fwINGDn
-         sKSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7bYxDHbnmMeqeAaCeZZRsCP/3hYPYLY12AMSLIFZUIg=;
-        b=gqP6lbtJE1Aqm0XuM5UY5Em25g9Tc2+RLZ5L/UQYdnJq4WERwlAC9QTI5ele5DI5K1
-         LSKCmFPLbNTs9wdU1iQNhNCPmPM9EZDtFhqobnYjAQCSKmM82922Yc7oqTRI1qWsDYAe
-         zmaA3jISUvPGcSZaaIQ32WpR0Wd62zBzDJWYXhome9IV5MaPUkqa8kWyG5nalEbkNDAn
-         Y9sYRoe73ofiaROlZNZs5hWdbgtzTjnwMTS/iLsNXpveWKPwT4KEIx4KP+Ga1Xhd5hUd
-         wWQ7169E14zXO1I/t6h03ZKthd1HhWIHGGspViYOM6Ajgls3lTxuw89LjMeEcwBRlvBb
-         GN2A==
-X-Gm-Message-State: AOAM531m+6YWvuORdzequGlddGWAeLkf415U8Wv/OFMf9QuCtBHlGcWg
-        4ZXQhfByGhLwlrUYOUXcYy51yhsGRSRCdEt9CNF5Pw==
-X-Google-Smtp-Source: ABdhPJxeG/RWLjpouaYjw9/E6VOlHTDg7MXYwTLOec/QiAK98nvPxkCA8eImKbQOu8sM28sUqbLkIsh+P+4Qc2KLZUw=
-X-Received: by 2002:a05:651c:1035:: with SMTP id w21mr209576ljm.326.1606243332802;
- Tue, 24 Nov 2020 10:42:12 -0800 (PST)
+        id S2404275AbgKXSrv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 24 Nov 2020 13:47:51 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45838 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729281AbgKXSru (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 24 Nov 2020 13:47:50 -0500
+Received: from C02TF0J2HF1T.local (unknown [95.146.230.165])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 78D05206E5;
+        Tue, 24 Nov 2020 18:47:46 +0000 (UTC)
+Date:   Tue, 24 Nov 2020 18:47:42 +0000
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Peter Collingbourne <pcc@google.com>
+Cc:     Evgenii Stepanov <eugenis@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        linux-api@vger.kernel.org, Szabolcs Nagy <szabolcs.nagy@arm.com>
+Subject: Re: [PATCH 2/2] arm64: allow TCR_EL1.TBID0 to be configured
+Message-ID: <20201124184742.GC42276@C02TF0J2HF1T.local>
+References: <20f64e26fc8a1309caa446fffcb1b4e2fe9e229f.1605952129.git.pcc@google.com>
+ <64c0fa360333fd5275582d25019614156a8302bc.1605952129.git.pcc@google.com>
 MIME-Version: 1.0
-References: <20201119190237.626-1-chang.seok.bae@intel.com>
- <20201119190237.626-4-chang.seok.bae@intel.com> <CAG48ez1aKtwYMEHfGX6_FuX9fOruwvCqEGYVL8eLdV8bg-wHCQ@mail.gmail.com>
- <B2D7D498-D118-447E-93C6-DB03D42CBA4E@intel.com>
-In-Reply-To: <B2D7D498-D118-447E-93C6-DB03D42CBA4E@intel.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Tue, 24 Nov 2020 19:41:46 +0100
-Message-ID: <CAG48ez1JK6pMT2UD1v0FwiCQq48FbE5Eb0d3tK=kK4Sg0TG7OQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] x86/signal: Prevent an alternate stack overflow
- before a signal delivery
-To:     "Bae, Chang Seok" <chang.seok.bae@intel.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>, Borislav Petkov <bp@suse.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "Brown, Len" <len.brown@intel.com>,
-        "Hansen, Dave" <dave.hansen@intel.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Dave Martin <Dave.Martin@arm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        "Luck, Tony" <tony.luck@intel.com>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        Hiroshi Shimamoto <h-shimamoto@ct.jp.nec.com>,
-        Roland McGrath <roland@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <64c0fa360333fd5275582d25019614156a8302bc.1605952129.git.pcc@google.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Nov 24, 2020 at 7:22 PM Bae, Chang Seok
-<chang.seok.bae@intel.com> wrote:
-> > On Nov 20, 2020, at 15:04, Jann Horn <jannh@google.com> wrote:
-> > On Thu, Nov 19, 2020 at 8:40 PM Chang S. Bae <chang.seok.bae@intel.com> wrote:
-> >>
-> >> diff --git a/arch/x86/kernel/signal.c b/arch/x86/kernel/signal.c
-> >> index ee6f1ceaa7a2..cee41d684dc2 100644
-> >> --- a/arch/x86/kernel/signal.c
-> >> +++ b/arch/x86/kernel/signal.c
-> >> @@ -251,8 +251,13 @@ get_sigframe(struct k_sigaction *ka, struct pt_regs *regs, size_t frame_size,
-> >>
-> >>        /* This is the X/Open sanctioned signal stack switching.  */
-> >>        if (ka->sa.sa_flags & SA_ONSTACK) {
-> >> -               if (sas_ss_flags(sp) == 0)
-> >> +               if (sas_ss_flags(sp) == 0) {
-> >> +                       /* If the altstack might overflow, die with SIGSEGV: */
-> >> +                       if (!altstack_size_ok(current))
-> >> +                               return (void __user *)-1L;
-> >> +
-> >>                        sp = current->sas_ss_sp + current->sas_ss_size;
-> >> +               }
-> >
-> > A couple lines further down, we have this (since commit 14fc9fbc700d):
-> >
-> >        /*
-> >         * If we are on the alternate signal stack and would overflow it, don't.
-> >         * Return an always-bogus address instead so we will die with SIGSEGV.
-> >         */
-> >        if (onsigstack && !likely(on_sig_stack(sp)))
-> >                return (void __user *)-1L;
-> >
-> > Is that not working?
->
-> onsigstack is set at the beginning here. If a signal hits under normal stack,
-> this flag is not set. Then it will miss the overflow.
->
-> The added check allows to detect the sigaltstack overflow (always).
+On Sat, Nov 21, 2020 at 01:59:03AM -0800, Peter Collingbourne wrote:
+> Introduce a Kconfig option that controls whether TCR_EL1.TBID0 is
+> set at boot time.
+> 
+> Setting TCR_EL1.TBID0 increases the number of signature bits used by
+> the pointer authentication instructions for instruction addresses by 8,
+> which improves the security of pointer authentication, but it also has
+> the consequence of changing the operation of the branch instructions
+> so that they no longer ignore the top byte of the target address but
+> instead fault if they are non-zero. Since this is a change to the
+> userspace ABI the option defaults to off.
+> 
+> Signed-off-by: Peter Collingbourne <pcc@google.com>
+> Link: https://linux-review.googlesource.com/id/Ife724ad708142bc475f42e8c1d9609124994bbbd
+> ---
+> This is more of an RFC. An open question is how to expose this.
+> Having it be a build-time flag is probably the simplest option
+> but I guess it could also be a boot flag. Since it involves an
+> ABI change we may also want a prctl() so that userspace can
+> figure out which mode it is in.
+> 
+> I think we should try to avoid it being a per-task property
+> so that we don't need to swap yet another system register on
+> task switch.
 
-Ah, I think I understand what you're trying to do. But wouldn't the
-better approach be to ensure that the existing on_sig_stack() check is
-also used if we just switched to the signal stack? Something like:
+Having it changed per task at run-time is problematic as this bit may be
+cached in the TLB, so it would require a synchronisation across all CPUs
+followed by TLBI. It's not even clear to me from the ARM ARM whether
+this bit is tagged by ASID, which, if not, would make a per-process
+setting impossible.
 
-diff --git a/arch/x86/kernel/signal.c b/arch/x86/kernel/signal.c
-index be0d7d4152ec..2f57842fb4d6 100644
---- a/arch/x86/kernel/signal.c
-+++ b/arch/x86/kernel/signal.c
-@@ -237,7 +237,7 @@ get_sigframe(struct k_sigaction *ka, struct
-pt_regs *regs, size_t frame_size,
-        unsigned long math_size = 0;
-        unsigned long sp = regs->sp;
-        unsigned long buf_fx = 0;
--       int onsigstack = on_sig_stack(sp);
-+       bool onsigstack = on_sig_stack(sp);
-        int ret;
+So this leaves us with a cmdline option. If we are confident that no
+software makes use of tagged instruction pointers, we could have it
+default on.
 
-        /* redzone */
-@@ -246,8 +246,10 @@ get_sigframe(struct k_sigaction *ka, struct
-pt_regs *regs, size_t frame_size,
+Adding Szabolcs on the gcc/glibc side.
 
-        /* This is the X/Open sanctioned signal stack switching.  */
-        if (ka->sa.sa_flags & SA_ONSTACK) {
--               if (sas_ss_flags(sp) == 0)
-+               if (sas_ss_flags(sp) == 0) {
-                        sp = current->sas_ss_sp + current->sas_ss_size;
-+                       onsigstack = true;
-+               }
-        } else if (IS_ENABLED(CONFIG_X86_32) &&
-                   !onsigstack &&
-                   regs->ss != __USER_DS &&
+-- 
+Catalin
