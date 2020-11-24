@@ -2,171 +2,209 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EFEB12C1DB2
-	for <lists+linux-api@lfdr.de>; Tue, 24 Nov 2020 06:45:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 688E92C2125
+	for <lists+linux-api@lfdr.de>; Tue, 24 Nov 2020 10:27:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728862AbgKXFpj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 24 Nov 2020 00:45:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46528 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728338AbgKXFpj (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 24 Nov 2020 00:45:39 -0500
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B435BC0613CF
-        for <linux-api@vger.kernel.org>; Mon, 23 Nov 2020 21:45:38 -0800 (PST)
-Received: by mail-wr1-x443.google.com with SMTP id r17so21075525wrw.1
-        for <linux-api@vger.kernel.org>; Mon, 23 Nov 2020 21:45:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rFs/RObUOd+On4EQgVH9l81JcWrm5Ewwy7I/EnEZpRc=;
-        b=pHVSEjjgKCPj8u1WeC6H1FiX781gs+9vslN4mIY0bI7J2Sx2Op0HBNitySKWudQiEn
-         gPYVmik42GHdvJhKRFEj3WNt+1P2H0t1Npsu7BXIhBR1g6E33S58c+i6bGRW0aSHDZuq
-         HhNaWJDjo7QaJCo+nGCwBZC9luRQ/42c+LbqGBiUWrtqwZ/+29p5nVf1M9s0ZqJX0eXi
-         4RHYmMBLesird3OdOSDKLe2K6ElGTmhooNWSrFcJvOQTHONKSQ0Q24Fcsz49fkhnANlB
-         ted1e00qJnyYjb9Tsq7X3WaXKTpmFDMkxJA8JjW5s4VDdEEqPU8X9jDM3mlbFQwpy+H0
-         d+LA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rFs/RObUOd+On4EQgVH9l81JcWrm5Ewwy7I/EnEZpRc=;
-        b=BdHwohdwLXT0DA4z3Wmw1ThEXqBPzcYE0gZuQnBK8v/6JYQ9ojPW8dxasUNXXN+uh7
-         r2ikqkE52hh1FHRqw+TlzUYBPb6gVQVLxI2NLHvGmqaQYkUvjn8zsC46yc8nkXv7VPMH
-         Hc4kr814rTiS/x3WhGYvZhEUvTi8JVl3rifQNO4gF2YoS221En99mhaAFiCOYDtkyQUp
-         CEZHbKoVfXrhiavaRcSmdZMeft2DemCds8gxZPBLiyNa5WTUvK4kgf9zYZz1VwFOF0Bh
-         eKmXhcGo9XF+daErxpwJsu0ZdT7XupzTZb/xOKE7NcQDKWlbeAkGdtI9kRw5MJYSt64f
-         ULQQ==
-X-Gm-Message-State: AOAM531+FBeGLvtPy6pTJIyFLaI2jKZWRVuicrVNoCNGLpqnxfhkFYwY
-        kPHylAHdcyIEvhDeh9tP4WtW23MFcPgW5wa5JOy/WQ==
-X-Google-Smtp-Source: ABdhPJxODaedfDJcEn/GE5PN1Gls3pL9/CyBaXh1Z/70lssTc6UFzgcH6nyYo0mbPkXC8ZbpEnvWxvwAfV18Muv+sz8=
-X-Received: by 2002:adf:fd47:: with SMTP id h7mr3271659wrs.106.1606196737273;
- Mon, 23 Nov 2020 21:45:37 -0800 (PST)
-MIME-Version: 1.0
-References: <20201113173448.1863419-1-surenb@google.com> <20201113155539.64e0af5b60ad3145b018ab0d@linux-foundation.org>
- <CAJuCfpGJkEUqUWmo_7ms66ZqwHfy+OGsEhzgph+a4QfOWQ32Yw@mail.gmail.com>
- <20201113170032.7aa56ea273c900f97e6ccbdc@linux-foundation.org>
- <CAJuCfpHS3hZi-E=JCp257u0AG+RoMAG4kLa3NQydONGfp9oXQQ@mail.gmail.com>
- <20201113171810.bebf66608b145cced85bf54c@linux-foundation.org>
- <CAJuCfpH-Qjm5uqfaUcfk0QV2zC76uL96FQjd88bZGBvCuXE_aA@mail.gmail.com>
- <20201113181632.6d98489465430a987c96568d@linux-foundation.org>
- <20201118154334.GT12284@dhcp22.suse.cz> <CAJuCfpGC1Kv2rC7oq-TT2dX1soy5J_R+y6DU8xEzVuJgOqHKAw@mail.gmail.com>
- <20201118193233.GV12284@dhcp22.suse.cz> <CAJuCfpGucpqxOzGhteFrtv-0HrSbAmZjLbA2=NCy-5UEx04mJw@mail.gmail.com>
- <CAJuCfpHP0n6Fyi6Lt9dUyYE72S5=iONkvDMkVSmKo6oRPjbMXQ@mail.gmail.com> <CAJuCfpH8nMijL+ADZnEWiceYE0MXEePYspSGyoNxq4CQC-nXgg@mail.gmail.com>
-In-Reply-To: <CAJuCfpH8nMijL+ADZnEWiceYE0MXEePYspSGyoNxq4CQC-nXgg@mail.gmail.com>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Mon, 23 Nov 2020 21:45:26 -0800
-Message-ID: <CAJuCfpG9NPjJ5YnvT8LKLqk1jB71qCac36eGKajusbyKFsg3Jw@mail.gmail.com>
-Subject: Re: [PATCH 1/1] RFC: add pidfd_send_signal flag to reclaim mm while
- killing a process
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        David Rientjes <rientjes@google.com>,
+        id S1731130AbgKXJ0O (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 24 Nov 2020 04:26:14 -0500
+Received: from mail.kernel.org ([198.145.29.99]:35814 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730978AbgKXJ0N (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 24 Nov 2020 04:26:13 -0500
+Received: from aquarius.haifa.ibm.com (nesher1.haifa.il.ibm.com [195.110.40.7])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5B4272073C;
+        Tue, 24 Nov 2020 09:26:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1606209971;
+        bh=Vu/loiJSNRrO77MACnjmjt+n1JsAIxW9sPzEI8Ph9s4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=yArC+oqs8UwMhkE4s7VBNMygmdJaXflqzzY4kzd8LiaNHcOU3eoinTB5Cfatt1YGu
+         ku7ryee1J1HtCFoVbBOueT+EtRc9zRXgf5egSMTHgM+vu/gHMH5yEhWHxoumvG0ktT
+         xirR2t8mG+6ImIcI4MrCjuAeIRpTEQ29ujzMRs68=
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christopher Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
         Matthew Wilcox <willy@infradead.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Roman Gushchin <guro@fb.com>, Rik van Riel <riel@surriel.com>,
-        Christian Brauner <christian@brauner.io>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Tim Murray <timmurray@google.com>, linux-api@vger.kernel.org,
-        linux-mm <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        kernel-team <kernel-team@android.com>,
-        Minchan Kim <minchan@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Mark Rutland <mark.rutland@arm.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Roman Gushchin <guro@fb.com>, Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
+        x86@kernel.org
+Subject: [PATCH v11 0/9] mm: introduce memfd_secret system call to create "secret" memory areas
+Date:   Tue, 24 Nov 2020 11:25:47 +0200
+Message-Id: <20201124092556.12009-1-rppt@kernel.org>
+X-Mailer: git-send-email 2.28.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Nov 18, 2020 at 4:13 PM Suren Baghdasaryan <surenb@google.com> wrote:
->
-> On Wed, Nov 18, 2020 at 11:55 AM Suren Baghdasaryan <surenb@google.com> wrote:
-> >
-> > On Wed, Nov 18, 2020 at 11:51 AM Suren Baghdasaryan <surenb@google.com> wrote:
-> > >
-> > > On Wed, Nov 18, 2020 at 11:32 AM Michal Hocko <mhocko@suse.com> wrote:
-> > > >
-> > > > On Wed 18-11-20 11:22:21, Suren Baghdasaryan wrote:
-> > > > > On Wed, Nov 18, 2020 at 11:10 AM Michal Hocko <mhocko@suse.com> wrote:
-> > > > > >
-> > > > > > On Fri 13-11-20 18:16:32, Andrew Morton wrote:
-> > > > > > [...]
-> > > > > > > It's all sounding a bit painful (but not *too* painful).  But to
-> > > > > > > reiterate, I do think that adding the ability for a process to shoot
-> > > > > > > down a large amount of another process's memory is a lot more generally
-> > > > > > > useful than tying it to SIGKILL, agree?
->
-> I was looking into how to work around the limitation of MAX_RW_COUNT
-> and the conceptual issue there is the "struct iovec" which has its
-> iov_len as size_t that lacks capacity for expressing ranges like
-> "entire process memory". I would like to check your reaction to the
-> following idea which can be implemented without painful surgeries to
-> the import_iovec and its friends.
->
-> process_madvise(pidfd, iovec = [ { range_start_addr, 0 }, {
-> range_end_addr, 0 } ], vlen = 2, behavior=MADV_xxx, flags =
-> PMADV_FLAG_RANGE)
->
-> So, to represent a range we pass a new PMADV_FLAG_RANGE flag and
-> construct a 2-element vector to express range start and range end
-> using iovec.iov_base members. iov_len member of the iovec elements is
-> ignored in this mode. I know it sounds hacky but I think it's the
-> simplest way if we want the ability to express an arbitrarily large
-> range.
-> Another option is to do what Andrew described as "madvise((void *)0,
-> (void *)-1, MADV_PAGEOUT)" which means this mode works only with the
-> entire mm of the process.
-> WDYT?
->
+From: Mike Rapoport <rppt@linux.ibm.com>
 
-To follow up on this discussion, I posted a patchset to implement
-process_madvise(MADV_DONTNEED) supporting the entire mm range at
-https://lkml.org/lkml/2020/11/24/21.
+Hi,
 
-> > > > > >
-> > > > > > I am not sure TBH. Is there any reasonable usecase where uncoordinated
-> > > > > > memory tear down is OK and a target process which is able to see the
-> > > > > > unmapped memory?
-> > > > >
-> > > > > I think uncoordinated memory tear down is a special case which makes
-> > > > > sense only when the target process is being killed (and we can enforce
-> > > > > that by allowing MADV_DONTNEED to be used only if the target process
-> > > > > has pending SIGKILL).
-> > > >
-> > > > That would be safe but then I am wondering whether it makes sense to
-> > > > implement as a madvise call. It is quite strange to expect somebody call
-> > > > a syscall on a killed process. But this is more a detail. I am not a
-> > > > great fan of a more generic MADV_DONTNEED on a remote process. This is
-> > > > just too dangerous IMHO.
-> > >
-> > > Agree 100%
-> >
-> > I assumed here that by "a more generic MADV_DONTNEED on a remote
-> > process" you meant "process_madvise(MADV_DONTNEED) applied to a
-> > process that is not being killed". Re-reading your comment I realized
-> > that you might have meant "process_madvice() with generic support to
-> > large memory areas". I hope I understood you correctly.
-> >
-> > >
-> > > >
-> > > > > However, the ability to apply other flavors of
-> > > > > process_madvise() to large memory areas spanning multiple VMAs can be
-> > > > > useful in more cases.
-> > > >
-> > > > Yes I do agree with that. The error reporting would be more tricky but
-> > > > I am not really sure that the exact reporting is really necessary for
-> > > > advice like interface.
-> > >
-> > > Andrew's suggestion for this special mode to change return semantics
-> > > to the usual "0 or error code" seems to me like the most reasonable
-> > > way to deal with the return value limitation.
-> > >
-> > > >
-> > > > > For example in Android we will use
-> > > > > process_madvise(MADV_PAGEOUT) to "shrink" an inactive background
-> > > > > process.
-> > > >
-> > > > That makes sense to me.
-> > > > --
-> > > > Michal Hocko
-> > > > SUSE Labs
+This is an implementation of "secret" mappings backed by a file descriptor.
+
+The file descriptor backing secret memory mappings is created using a
+dedicated memfd_secret system call The desired protection mode for the
+memory is configured using flags parameter of the system call. The mmap()
+of the file descriptor created with memfd_secret() will create a "secret"
+memory mapping. The pages in that mapping will be marked as not present in
+the direct map and will be present only in the page table of the owning mm.
+
+Although normally Linux userspace mappings are protected from other users,
+such secret mappings are useful for environments where a hostile tenant is
+trying to trick the kernel into giving them access to other tenants
+mappings.
+
+Additionally, in the future the secret mappings may be used as a mean to
+protect guest memory in a virtual machine host.
+
+For demonstration of secret memory usage we've created a userspace library
+
+https://git.kernel.org/pub/scm/linux/kernel/git/jejb/secret-memory-preloader.git
+
+that does two things: the first is act as a preloader for openssl to
+redirect all the OPENSSL_malloc calls to secret memory meaning any secret
+keys get automatically protected this way and the other thing it does is
+expose the API to the user who needs it. We anticipate that a lot of the
+use cases would be like the openssl one: many toolkits that deal with
+secret keys already have special handling for the memory to try to give
+them greater protection, so this would simply be pluggable into the
+toolkits without any need for user application modification.
+
+Hiding secret memory mappings behind an anonymous file allows (ab)use of
+the page cache for tracking pages allocated for the "secret" mappings as
+well as using address_space_operations for e.g. page migration callbacks.
+
+The anonymous file may be also used implicitly, like hugetlb files, to
+implement mmap(MAP_SECRET) and use the secret memory areas with "native" mm
+ABIs in the future.
+
+To limit fragmentation of the direct map to splitting only PUD-size pages,
+I've added an amortizing cache of PMD-size pages to each file descriptor
+that is used as an allocation pool for the secret memory areas.
+
+As the memory allocated by secretmem becomes unmovable, we use CMA to back
+large page caches so that page allocator won't be surprised by failing attempt
+to migrate these pages.
+
+v11:
+* Drop support for uncached mappings
+
+v10: https://lore.kernel.org/lkml/20201123095432.5860-1-rppt@kernel.org
+* Drop changes to arm64 compatibility layer
+* Add Roman's Ack for memcg accounting
+
+v9: https://lore.kernel.org/lkml/20201117162932.13649-1-rppt@kernel.org
+* Fix build with and without CONFIG_MEMCG
+* Update memcg accounting to avoid copying memcg_data, per Roman comments
+* Fix issues in secretmem_fault(), thanks Matthew
+* Do not wire up syscall in arm64 compatibility layer
+
+v8: https://lore.kernel.org/lkml/20201110151444.20662-1-rppt@kernel.org
+* Use CMA for all secretmem allocations as David suggested
+* Update memcg accounting after transtion to CMA
+* Prevent hibernation when there are active secretmem users
+* Add zeroing of the memory before releasing it back to cma/page allocator
+* Rebase on v5.10-rc2-mmotm-2020-11-07-21-40
+
+v7: https://lore.kernel.org/lkml/20201026083752.13267-1-rppt@kernel.org
+* Use set_direct_map() instead of __kernel_map_pages() to ensure error
+  handling in case the direct map update fails
+* Add accounting of large pages used to reduce the direct map fragmentation
+* Teach get_user_pages() and frieds to refuse get/pin secretmem pages
+
+v6: https://lore.kernel.org/lkml/20200924132904.1391-1-rppt@kernel.org
+* Silence the warning about missing syscall, thanks to Qian Cai
+* Replace spaces with tabs in Kconfig additions, per Randy
+* Add a selftest.
+
+Older history:
+v5: https://lore.kernel.org/lkml/20200916073539.3552-1-rppt@kernel.org
+v4: https://lore.kernel.org/lkml/20200818141554.13945-1-rppt@kernel.org
+v3: https://lore.kernel.org/lkml/20200804095035.18778-1-rppt@kernel.org
+v2: https://lore.kernel.org/lkml/20200727162935.31714-1-rppt@kernel.org
+v1: https://lore.kernel.org/lkml/20200720092435.17469-1-rppt@kernel.org
+
+Mike Rapoport (9):
+  mm: add definition of PMD_PAGE_ORDER
+  mmap: make mlock_future_check() global
+  set_memory: allow set_direct_map_*_noflush() for multiple pages
+  mm: introduce memfd_secret system call to create "secret" memory areas
+  secretmem: use PMD-size pages to amortize direct map fragmentation
+  secretmem: add memcg accounting
+  PM: hibernate: disable when there are active secretmem users
+  arch, mm: wire up memfd_secret system call were relevant
+  secretmem: test: add basic selftest for memfd_secret(2)
+
+ arch/arm64/include/asm/cacheflush.h       |   4 +-
+ arch/arm64/include/uapi/asm/unistd.h      |   1 +
+ arch/arm64/mm/pageattr.c                  |  10 +-
+ arch/riscv/include/asm/set_memory.h       |   4 +-
+ arch/riscv/include/asm/unistd.h           |   1 +
+ arch/riscv/mm/pageattr.c                  |   8 +-
+ arch/x86/Kconfig                          |   2 +-
+ arch/x86/entry/syscalls/syscall_32.tbl    |   1 +
+ arch/x86/entry/syscalls/syscall_64.tbl    |   1 +
+ arch/x86/include/asm/set_memory.h         |   4 +-
+ arch/x86/mm/pat/set_memory.c              |   8 +-
+ fs/dax.c                                  |  11 +-
+ include/linux/pgtable.h                   |   3 +
+ include/linux/secretmem.h                 |  30 ++
+ include/linux/set_memory.h                |   4 +-
+ include/linux/syscalls.h                  |   1 +
+ include/uapi/asm-generic/unistd.h         |   6 +-
+ include/uapi/linux/magic.h                |   1 +
+ kernel/power/hibernate.c                  |   5 +-
+ kernel/power/snapshot.c                   |   4 +-
+ kernel/sys_ni.c                           |   2 +
+ mm/Kconfig                                |   5 +
+ mm/Makefile                               |   1 +
+ mm/filemap.c                              |   3 +-
+ mm/gup.c                                  |  10 +
+ mm/internal.h                             |   3 +
+ mm/mmap.c                                 |   5 +-
+ mm/secretmem.c                            | 436 ++++++++++++++++++++++
+ mm/vmalloc.c                              |   5 +-
+ scripts/checksyscalls.sh                  |   4 +
+ tools/testing/selftests/vm/.gitignore     |   1 +
+ tools/testing/selftests/vm/Makefile       |   3 +-
+ tools/testing/selftests/vm/memfd_secret.c | 298 +++++++++++++++
+ tools/testing/selftests/vm/run_vmtests    |  17 +
+ 34 files changed, 863 insertions(+), 39 deletions(-)
+ create mode 100644 include/linux/secretmem.h
+ create mode 100644 mm/secretmem.c
+ create mode 100644 tools/testing/selftests/vm/memfd_secret.c
+
+
+base-commit: 9f8ce377d420db12b19d6a4f636fecbd88a725a5
+-- 
+2.28.0
+
