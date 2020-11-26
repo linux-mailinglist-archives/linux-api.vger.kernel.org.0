@@ -2,46 +2,47 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 986592C4E6C
-	for <lists+linux-api@lfdr.de>; Thu, 26 Nov 2020 06:33:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 34F0A2C4E6F
+	for <lists+linux-api@lfdr.de>; Thu, 26 Nov 2020 06:36:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387790AbgKZFcv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 26 Nov 2020 00:32:51 -0500
-Received: from mga18.intel.com ([134.134.136.126]:40400 "EHLO mga18.intel.com"
+        id S2387801AbgKZFev (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 26 Nov 2020 00:34:51 -0500
+Received: from mga05.intel.com ([192.55.52.43]:10495 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387735AbgKZFcv (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 26 Nov 2020 00:32:51 -0500
-IronPort-SDR: 2g6N4AJYFLF19SGA6cHIlNFyvRVMfbqMqS8aVA+kUiqw3PSXrIYE9OrfMsEfobndC8ykcsxnnx
- /Yap/7wRMnGQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9816"; a="160007894"
+        id S2387800AbgKZFev (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 26 Nov 2020 00:34:51 -0500
+IronPort-SDR: REP/h1Ayt//S1l3ew2lXpYIe4t0ZDSZZeVZdSkgPo6S0npPhR2ogig4Lz91NX4ej+JIBXJQoJg
+ 0UCLhB3uuc+Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9816"; a="256948937"
 X-IronPort-AV: E=Sophos;i="5.78,371,1599548400"; 
-   d="scan'208";a="160007894"
+   d="scan'208";a="256948937"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2020 21:32:50 -0800
-IronPort-SDR: WdVVp3tar9z02pNf6WeUAfDXZxeEG7SMF3js8PI/HLGcxS/K2Bd6QkFJHLz/mYGVFgX+jyFOhX
- sShCuLuEvuTQ==
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2020 21:34:50 -0800
+IronPort-SDR: S4GfgKYmKo2+aFMxzmePsg7rw8zPyM7vvNsKBWuPFBPPwXbzvuVQJrmMRc8UKXI5LQKLwmMWBm
+ 582PwK3W9wEw==
 X-IronPort-AV: E=Sophos;i="5.78,371,1599548400"; 
-   d="scan'208";a="537179264"
+   d="scan'208";a="537180103"
 Received: from yhuang-mobile.sh.intel.com ([10.238.5.184])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2020 21:32:47 -0800
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2020 21:34:47 -0800
 From:   Huang Ying <ying.huang@intel.com>
 To:     Peter Zijlstra <peterz@infradead.org>
 Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        Huang Ying <ying.huang@intel.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Rafael Aquini <aquini@redhat.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Ingo Molnar <mingo@redhat.com>, Mel Gorman <mgorman@suse.de>,
-        Rik van Riel <riel@surriel.com>,
+        Rik van Riel <riel@redhat.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
         Dave Hansen <dave.hansen@intel.com>,
         Andi Kleen <ak@linux.intel.com>,
         Michal Hocko <mhocko@suse.com>,
-        David Rientjes <rientjes@google.com>, linux-api@vger.kernel.org
-Subject: [PATCH -V6 1/3] numa balancing: Migrate on fault among multiple bound nodes
-Date:   Thu, 26 Nov 2020 13:32:17 +0800
-Message-Id: <20201126053219.234793-2-ying.huang@intel.com>
+        David Rientjes <rientjes@google.com>,
+        linux-api@vger.kernel.org, "Huang, Ying" <ying.huang@intel.com>
+Subject: [PATCH -v6 2/3] NOT kernel/man-pages man2/set_mempolicy.2: Add mode flag MPOL_F_NUMA_BALANCING
+Date:   Thu, 26 Nov 2020 13:32:18 +0800
+Message-Id: <20201126053219.234793-3-ying.huang@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201126053219.234793-1-ying.huang@intel.com>
 References: <20201126053219.234793-1-ying.huang@intel.com>
@@ -51,158 +52,39 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Now, NUMA balancing can only optimize the page placement among the
-NUMA nodes if the default memory policy is used.  Because the memory
-policy specified explicitly should take precedence.  But this seems
-too strict in some situations.  For example, on a system with 4 NUMA
-nodes, if the memory of an application is bound to the node 0 and 1,
-NUMA balancing can potentially migrate the pages between the node 0
-and 1 to reduce cross-node accessing without breaking the explicit
-memory binding policy.
-
-So in this patch, we add MPOL_F_NUMA_BALANCING mode flag to
-set_mempolicy().  With the flag specified, NUMA balancing will be
-enabled within the thread to optimize the page placement within the
-constrains of the specified memory binding policy.  With the newly
-added flag, the NUMA balancing control mechanism becomes,
-
-- sysctl knob numa_balancing can enable/disable the NUMA balancing
-  globally.
-
-- even if sysctl numa_balancing is enabled, the NUMA balancing will be
-  disabled for the memory areas or applications with the explicit memory
-  policy by default.
-
-- MPOL_F_NUMA_BALANCING can be used to enable the NUMA balancing for the
-  applications when specifying the explicit memory policy.
-
-Various page placement optimization based on the NUMA balancing can be
-done with these flags.  As the first step, in this patch, if the
-memory of the application is bound to multiple nodes (MPOL_BIND), and
-in the hint page fault handler the accessing node are in the policy
-nodemask, the page will be tried to be migrated to the accessing node
-to reduce the cross-node accessing.
-
-If the newly added MPOL_F_NUMA_BALANCING flag is specified by an
-application on an old kernel version without its support,
-set_mempolicy() will return -1 and errno will be set to EINVAL.  The
-application can use this behavior to run on both old and new kernel
-versions.
-
-In the previous version of the patch, we tried to reuse MPOL_MF_LAZY
-for mbind().  But that flag is tied to MPOL_MF_MOVE.*, so it seems not
-a good API/ABI for the purpose of the patch.
-
-And because it's not clear whether it's necessary to enable NUMA
-balancing for a specific memory area inside an application, so we only
-add the flag at the thread level (set_mempolicy()) instead of the
-memory area level (mbind()).  We can do that when it become necessary.
-
-To test the patch, we run a test case as follows on a 4-node machine
-with 192 GB memory (48 GB per node).
-
-1. Change pmbench memory accessing benchmark to call set_mempolicy()
-   to bind its memory to node 1 and 3 and enable NUMA balancing.  Some
-   related code snippets are as follows,
-
-     #include <numaif.h>
-     #include <numa.h>
-
-	struct bitmask *bmp;
-	int ret;
-
-	bmp = numa_parse_nodestring("1,3");
-	ret = set_mempolicy(MPOL_BIND | MPOL_F_NUMA_BALANCING,
-			    bmp->maskp, bmp->size + 1);
-	/* If MPOL_F_NUMA_BALANCING isn't supported, fall back to MPOL_BIND */
-	if (ret < 0 && errno == EINVAL)
-		ret = set_mempolicy(MPOL_BIND, bmp->maskp, bmp->size + 1);
-	if (ret < 0) {
-		perror("Failed to call set_mempolicy");
-		exit(-1);
-	}
-
-2. Run a memory eater on node 3 to use 40 GB memory before running pmbench.
-
-3. Run pmbench with 64 processes, the working-set size of each process
-   is 640 MB, so the total working-set size is 64 * 640 MB = 40 GB.  The
-   CPU and the memory (as in step 1.) of all pmbench processes is bound
-   to node 1 and 3. So, after CPU usage is balanced, some pmbench
-   processes run on the CPUs of the node 3 will access the memory of
-   the node 1.
-
-4. After the pmbench processes run for 100 seconds, kill the memory
-   eater.  Now it's possible for some pmbench processes to migrate
-   their pages from node 1 to node 3 to reduce cross-node accessing.
-
-Test results show that, with the patch, the pages can be migrated from
-node 1 to node 3 after killing the memory eater, and the pmbench score
-can increase about 17.5%.
+From: Huang Ying <caritas@localhost>
 
 Signed-off-by: "Huang, Ying" <ying.huang@intel.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Mel Gorman <mgorman@suse.de>
-Cc: Rik van Riel <riel@surriel.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: Dave Hansen <dave.hansen@intel.com>
-Cc: Andi Kleen <ak@linux.intel.com>
-Cc: Michal Hocko <mhocko@suse.com>
-Cc: David Rientjes <rientjes@google.com>
-Cc: linux-api@vger.kernel.org
 ---
- include/uapi/linux/mempolicy.h | 4 +++-
- mm/mempolicy.c                 | 9 +++++++++
- 2 files changed, 12 insertions(+), 1 deletion(-)
+ man2/set_mempolicy.2 | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/include/uapi/linux/mempolicy.h b/include/uapi/linux/mempolicy.h
-index 3354774af61e..8948467b3992 100644
---- a/include/uapi/linux/mempolicy.h
-+++ b/include/uapi/linux/mempolicy.h
-@@ -28,12 +28,14 @@ enum {
- /* Flags for set_mempolicy */
- #define MPOL_F_STATIC_NODES	(1 << 15)
- #define MPOL_F_RELATIVE_NODES	(1 << 14)
-+#define MPOL_F_NUMA_BALANCING	(1 << 13) /* Optimize with NUMA balancing if possible */
- 
- /*
-  * MPOL_MODE_FLAGS is the union of all possible optional mode flags passed to
-  * either set_mempolicy() or mbind().
-  */
--#define MPOL_MODE_FLAGS	(MPOL_F_STATIC_NODES | MPOL_F_RELATIVE_NODES)
-+#define MPOL_MODE_FLAGS							\
-+	(MPOL_F_STATIC_NODES | MPOL_F_RELATIVE_NODES | MPOL_F_NUMA_BALANCING)
- 
- /* Flags for get_mempolicy */
- #define MPOL_F_NODE	(1<<0)	/* return next IL mode instead of node mask */
-diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-index 3ca4898f3f24..f74d863a9ad3 100644
---- a/mm/mempolicy.c
-+++ b/mm/mempolicy.c
-@@ -875,6 +875,9 @@ static long do_set_mempolicy(unsigned short mode, unsigned short flags,
- 		goto out;
- 	}
- 
-+	if (new && new->mode == MPOL_BIND && (flags & MPOL_F_NUMA_BALANCING))
-+		new->flags |= (MPOL_F_MOF | MPOL_F_MORON);
-+
- 	ret = mpol_set_nodemask(new, nodes, scratch);
- 	if (ret) {
- 		mpol_put(new);
-@@ -2490,6 +2493,12 @@ int mpol_misplaced(struct page *page, struct vm_area_struct *vma, unsigned long
- 		break;
- 
- 	case MPOL_BIND:
-+		/* Optimize placement among multiple nodes via NUMA balancing */
-+		if (pol->flags & MPOL_F_MORON) {
-+			if (node_isset(thisnid, pol->v.nodes))
-+				break;
-+			goto out;
-+		}
- 
- 		/*
- 		 * allows binding to multiple nodes.
+diff --git a/man2/set_mempolicy.2 b/man2/set_mempolicy.2
+index 68011eecb..fb16bb351 100644
+--- a/man2/set_mempolicy.2
++++ b/man2/set_mempolicy.2
+@@ -113,6 +113,11 @@ A nonempty
+ .I nodemask
+ specifies node IDs that are relative to the set of
+ node IDs allowed by the process's current cpuset.
++.TP
++.BR MPOL_F_NUMA_BALANCING " (since Linux 5.11)"
++Enable the Linux kernel NUMA balancing for the task if it is supported
++by kernel.  If the flag isn't supported by Linux kernel, return -1 and
++errno is set to EINVAL.
+ .PP
+ .I nodemask
+ points to a bit mask of node IDs that contains up to
+@@ -293,6 +298,9 @@ argument specified both
+ .B MPOL_F_STATIC_NODES
+ and
+ .BR MPOL_F_RELATIVE_NODES .
++Or, the
++.B MPOL_F_NUMA_BALANCING
++isn't supported by the Linux kernel.
+ .TP
+ .B ENOMEM
+ Insufficient kernel memory was available.
 -- 
 2.29.2
 
