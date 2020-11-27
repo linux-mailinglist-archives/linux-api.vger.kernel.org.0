@@ -2,176 +2,81 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FFB72C6C8B
-	for <lists+linux-api@lfdr.de>; Fri, 27 Nov 2020 21:29:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4680C2C704D
+	for <lists+linux-api@lfdr.de>; Sat, 28 Nov 2020 19:18:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731155AbgK0U2l (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 27 Nov 2020 15:28:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60976 "EHLO
+        id S1730418AbgK0TtT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 27 Nov 2020 14:49:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731681AbgK0U1S (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 27 Nov 2020 15:27:18 -0500
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95F61C061A47
-        for <linux-api@vger.kernel.org>; Fri, 27 Nov 2020 12:20:48 -0800 (PST)
-Received: by mail-lf1-x142.google.com with SMTP id s30so8637566lfc.4
-        for <linux-api@vger.kernel.org>; Fri, 27 Nov 2020 12:20:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=wq5aPWBOYfgE0ikLgKOb/75PgZgI1EkZa0hkLcr2E6E=;
-        b=LIRHhHFIkM/Wpdo44zJO/nUYNrS+gJ0aecPyjsSYd8yPt5l7XJsEgxH6VluvZ0l2c8
-         SxkO84qW52Zqb3ZiSgF1lDgqzBV+MlcdgFO3ZowglCYgd+BRmFg17FEnlLafGdblK5s/
-         B3QPELYXQKnl2eFyB+OjIbaxgEFtKKGHdr8XwYWm3WPMSSRAPPhdzcrwFHF+Z9+4GLDh
-         qeBz/MGtUfU/PYmoBosJRa8XkQ4ACohZRg7L17a0lN10TaXaWR+qqvoYi1QWNBpX7P4C
-         L+CeuduU0Y40aOHEfYkSzUJUpJHJtMDynlFnqLlaOH1tlUe6LxUwKpbUA3YkNI+Mk5wH
-         CfbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wq5aPWBOYfgE0ikLgKOb/75PgZgI1EkZa0hkLcr2E6E=;
-        b=BgzufEjUqO3fi63EUrGqwWzB/tjVe8WWG2Fc4ShPQnUBA8zGsAvmrR3Me6NwQkTOIe
-         iec4glZcImxWn829j7Qp7Tb+OPcTUIhKlXLhpj9q3Nau6JEPXRP69FidKYsXm4XwcmKg
-         vO0PiPUtn2+JVvNHRCrxUQZusEhkaoSANcZjTqtjLEJJQD0D6vbEv9ol51ts1QifTMnl
-         Dw6RP8cZMrzuOPVgIiQGPNH7PfhggmaSg6priG5+SIK2bX1OHeVCkVjPWlgEC4H7vqij
-         8vBxxHPACc9UDV6Zf3CKD7k7o+EVyt9EbCv4j2U29fuI6iBtCYhiATBGyWpIhNyCckcu
-         9tDw==
-X-Gm-Message-State: AOAM530jjWNeHL7zBxGhDJngnsDZ6GUa/W1Iy5uaiCOiuP4lQkY0Mo4k
-        5wPUl+mD8rhIUaykff3xOpaombu2bkwgRodIBw9ImA==
-X-Google-Smtp-Source: ABdhPJyiw7lwgD7IoK6mA6mBXxN3hEsO6avakTr/7wyhqC2uMw7qd0GXA+MXPFHMDZckGCqsV53ONzvSTrdB21Gj/Ek=
-X-Received: by 2002:a19:8c13:: with SMTP id o19mr4194624lfd.573.1606508446532;
- Fri, 27 Nov 2020 12:20:46 -0800 (PST)
+        with ESMTP id S1729971AbgK0Trl (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 27 Nov 2020 14:47:41 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5347DC061A51;
+        Fri, 27 Nov 2020 11:32:52 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: krisman)
+        with ESMTPSA id 0B81A1F465A0
+From:   Gabriel Krisman Bertazi <krisman@collabora.com>
+To:     luto@kernel.org, tglx@linutronix.de, keescook@chromium.org
+Cc:     gofmanp@gmail.com, christian.brauner@ubuntu.com,
+        peterz@infradead.org, willy@infradead.org, shuah@kernel.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, x86@kernel.org,
+        Gabriel Krisman Bertazi <krisman@collabora.com>,
+        kernel@collabora.com
+Subject: [PATCH v8 2/7] signal: Expose SYS_USER_DISPATCH si_code type
+Date:   Fri, 27 Nov 2020 14:32:33 -0500
+Message-Id: <20201127193238.821364-3-krisman@collabora.com>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201127193238.821364-1-krisman@collabora.com>
+References: <20201127193238.821364-1-krisman@collabora.com>
 MIME-Version: 1.0
-References: <3E05451B-A9CD-4719-99D0-72750A304044@amazon.com>
- <CAG48ez2VAu6oARGVZ+muDK9_6_38KVUTJf7utz5Nn=AsmN17nA@mail.gmail.com>
- <CAG48ez13ZAAOVmA89PRKRqr9UezV2_bj8Q6_6sSPzcqfzbsuQQ@mail.gmail.com> <e4acbcdb-7ee4-5dfb-ffbf-19eb49cef9c6@amazon.com>
-In-Reply-To: <e4acbcdb-7ee4-5dfb-ffbf-19eb49cef9c6@amazon.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Fri, 27 Nov 2020 21:20:19 +0100
-Message-ID: <CAG48ez2akv0pGSt084sNHtESbjJNXpx=Ko86JEsyZM24+5zLqw@mail.gmail.com>
-Subject: Re: [PATCH v2] drivers/virt: vmgenid: add vm generation id driver
-To:     "Catangiu, Adrian Costin" <acatan@amazon.com>
-Cc:     "Graf (AWS), Alexander" <graf@amazon.de>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>, Willy Tarreau <w@1wt.eu>,
-        "MacCarthaigh, Colm" <colmmacc@amazon.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Eric Biggers <ebiggers@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        "Woodhouse, David" <dwmw@amazon.co.uk>,
-        "bonzini@gnu.org" <bonzini@gnu.org>,
-        "Singh, Balbir" <sblbir@amazon.com>,
-        "Weiss, Radu" <raduweis@amazon.com>,
-        "oridgar@gmail.com" <oridgar@gmail.com>,
-        "ghammer@redhat.com" <ghammer@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Qemu Developers <qemu-devel@nongnu.org>,
-        KVM list <kvm@vger.kernel.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Linux API <linux-api@vger.kernel.org>,
-        "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        "areber@redhat.com" <areber@redhat.com>,
-        Pavel Emelyanov <ovzxemul@gmail.com>,
-        Andrey Vagin <avagin@gmail.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Dmitry Safonov <0x7f454c46@gmail.com>,
-        Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
-        "gil@azul.com" <gil@azul.com>,
-        "asmehra@redhat.com" <asmehra@redhat.com>,
-        "dgunigun@redhat.com" <dgunigun@redhat.com>,
-        "vijaysun@ca.ibm.com" <vijaysun@ca.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Nov 27, 2020 at 8:04 PM Catangiu, Adrian Costin
-<acatan@amazon.com> wrote:
-> On 27/11/2020 20:22, Jann Horn wrote:
-> > On Fri, Nov 20, 2020 at 11:29 PM Jann Horn <jannh@google.com> wrote:
-> >> On Mon, Nov 16, 2020 at 4:35 PM Catangiu, Adrian Costin
-> >> <acatan@amazon.com> wrote:
-> >>> This patch is a driver that exposes a monotonic incremental Virtual
-> >>> Machine Generation u32 counter via a char-dev FS interface that
-> >>> provides sync and async VmGen counter updates notifications. It also
-> >>> provides VmGen counter retrieval and confirmation mechanisms.
-> >>>
-> >>> The hw provided UUID is not exposed to userspace, it is internally
-> >>> used by the driver to keep accounting for the exposed VmGen counter.
-> >>> The counter starts from zero when the driver is initialized and
-> >>> monotonically increments every time the hw UUID changes (the VM
-> >>> generation changes).
-> >>>
-> >>> On each hw UUID change, the new hypervisor-provided UUID is also fed
-> >>> to the kernel RNG.
-> >> As for v1:
-> >>
-> >> Is there a reasonable usecase for the "confirmation" mechanism? It
-> >> doesn't seem very useful to me.
->
-> I think it adds value in complex scenarios with multiple users of the
-> mechanism, potentially at varying layers of the stack, different
-> processes and/or runtime libraries.
->
-> The driver offers a natural place to handle minimal orchestration
-> support and offer visibility in system-wide status.
->
-> A high-level service that trusts all system components to properly use
-> the confirmation mechanism can actually block and wait patiently for the
-> system to adjust to the new world. Even if it doesn't trust all
-> components it can still do a best-effort, timeout block.
+SYS_USER_DISPATCH will be triggered when a syscall is sent to userspace
+by the Syscall User Dispatch mechanism.  This adjusts eventual
+BUILD_BUG_ON around the tree.
 
-What concrete action would that high-level service be able to take
-after waiting for such an event?
+Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
+Acked-by: Kees Cook <keescook@chromium.org>
+Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
+Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+---
+ arch/x86/kernel/signal_compat.c    | 2 +-
+ include/uapi/asm-generic/siginfo.h | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-My model of the vmgenid mechanism is that RNGs and cryptographic
-libraries that use it need to be fundamentally written such that it is
-guaranteed that a VM fork can not cause the same random number /
-counter / ... to be reused for two different cryptographic operations
-in a way visible to an attacker. This means that e.g. TLS libraries
-need to, between accepting unencrypted input and sending out encrypted
-data, check whether the vmgenid changed since the connection was set
-up, and if a vmgenid change occurred, kill the connection.
+diff --git a/arch/x86/kernel/signal_compat.c b/arch/x86/kernel/signal_compat.c
+index a7f3e12cfbdb..d7b51870f16b 100644
+--- a/arch/x86/kernel/signal_compat.c
++++ b/arch/x86/kernel/signal_compat.c
+@@ -31,7 +31,7 @@ static inline void signal_compat_build_tests(void)
+ 	BUILD_BUG_ON(NSIGBUS  != 5);
+ 	BUILD_BUG_ON(NSIGTRAP != 5);
+ 	BUILD_BUG_ON(NSIGCHLD != 6);
+-	BUILD_BUG_ON(NSIGSYS  != 1);
++	BUILD_BUG_ON(NSIGSYS  != 2);
+ 
+ 	/* This is part of the ABI and can never change in size: */
+ 	BUILD_BUG_ON(sizeof(compat_siginfo_t) != 128);
+diff --git a/include/uapi/asm-generic/siginfo.h b/include/uapi/asm-generic/siginfo.h
+index 7aacf9389010..d2597000407a 100644
+--- a/include/uapi/asm-generic/siginfo.h
++++ b/include/uapi/asm-generic/siginfo.h
+@@ -286,7 +286,8 @@ typedef struct siginfo {
+  * SIGSYS si_codes
+  */
+ #define SYS_SECCOMP	1	/* seccomp triggered */
+-#define NSIGSYS		1
++#define SYS_USER_DISPATCH 2	/* syscall user dispatch triggered */
++#define NSIGSYS		2
+ 
+ /*
+  * SIGEMT si_codes
+-- 
+2.29.2
 
-Can you give a concrete example of a usecase where the vmgenid
-mechanism is used securely and the confirmation mechanism is necessary
-as part of that?
-
-> >> How do you envision integrating this with libraries that have to work
-> >> in restrictive seccomp sandboxes? If this was in the vDSO, that would
-> >> be much easier.
->
-> Since this mechanism targets all of userspace stack, the usecase greatly
-> vary. I doubt we can have a single silver bullet interface.
->
-> For example, the mmap interface targets user space RNGs, where as fast
-> and as race free as possible is key. But there also higher level
-> applications that don't manage their own memory or don't have access to
-> low-level primitives so they can't use the mmap or even vDSO interfaces.
-> That's what the rest of the logic is there for, the read+poll interface
-> and all of the orchestration logic.
-
-Are you saying that, because people might not want to write proper
-bindings for this interface while also being unwilling to take the
-performance hit of calling read() in every place where they would have
-to do so to be fully correct, you want to build a "best-effort"
-mechanism that is deliberately designed to allow some cryptographic
-state reuse in a limited time window?
-
-> Like you correctly point out, there are also scenarios like tight
-> seccomp jails where even the FS interfaces is inaccessible. For cases
-> like this and others, I believe we will have to work incrementally to
-> build up the interface diversity to cater to all the user scenarios
-> diversity.
-
-It would be much nicer if we could have one simple interface that lets
-everyone correctly do what they need to, though...
