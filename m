@@ -2,118 +2,136 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B19E2C61B8
-	for <lists+linux-api@lfdr.de>; Fri, 27 Nov 2020 10:31:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AF462C6A6B
+	for <lists+linux-api@lfdr.de>; Fri, 27 Nov 2020 18:11:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726562AbgK0Jau (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 27 Nov 2020 04:30:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43584 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725989AbgK0Jat (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 27 Nov 2020 04:30:49 -0500
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C047C0613D1;
-        Fri, 27 Nov 2020 01:30:49 -0800 (PST)
-Received: by mail-wm1-x343.google.com with SMTP id w24so5886187wmi.0;
-        Fri, 27 Nov 2020 01:30:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=nugmvnf9RyCLTrUTV0QpRDumZd95otaQgvkhBHEAu7E=;
-        b=NlBZ/29o2yYLP8MbXhcI0F/PK0kEPTH3DFAdsLeeBcKpyteYi9dRQF9ylidoQVa8mm
-         wDQo91JF0o+zGG+JQfgfK6BkZjX82P8EjLsRWx/5cqEzKRROufYECgf+j0pw6mGYPkUH
-         sR993CVob6DqaGsTSWrdsPcNVJRt4903vj/s1xKyfqcmpI+ndEIR6sAVLvmHTKwojyeS
-         1FmpUy0S5XSL/DisUf+Y50goYPvscoOF0CpFIXeENbqCBbwbUYP8yJGdaXkBr/PSGiuZ
-         bWXkBs0Zb29qWAvBFFe12QRmj0orYSJxdMIl6TUic2Kw6MKlS8ATWm/rFrS8g+sEJLvb
-         xCJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=nugmvnf9RyCLTrUTV0QpRDumZd95otaQgvkhBHEAu7E=;
-        b=QGr3Y1ljEWL8CMjFMbMaoQa/PJKiiZlGdy6YdDPAnKnZ9sfM++T1aiMuNufnVV+y3k
-         8DryLpCibbrQbKKps2O+/lUX5YxmdzLjSa8HQdcRbBwDEEvrsUPw9Fk2zCngFmO2Outa
-         VjyBExtTOIzYxdUB1pkwREvOxvpcFATSAU9mwtfag6RKAAhRadr4VPMFdbtkqOQhSjlU
-         dJ8V2N+s0vbav1BeNWTJ3AhYGMwGr2byIESSeUaaZLkSAtIZYWDIxQNKw5BbaBYrsFcQ
-         pG5Elcvpx3PkFvwbgYfOWYsU/CMXdp59/a/081whZy27YWme5AjMsRnHn9zWApBOKX3b
-         dXdQ==
-X-Gm-Message-State: AOAM533MNR7rrOFmXawy8NpEUf/wpCn/dNbrdXPAyhjaAuXvqTJat8Q5
-        ls3i+OKuWM/uiFZc7ZuZ6GkqiHvPLO32KQ==
-X-Google-Smtp-Source: ABdhPJwBs+sLle0BSQ86bLNV9Pc6YbzoxSFdD/QjRGIfOKtQxVLou0Ml7WPz3t0ZVfryaCsqHyBg0Q==
-X-Received: by 2002:a7b:c34a:: with SMTP id l10mr7798201wmj.125.1606469446708;
-        Fri, 27 Nov 2020 01:30:46 -0800 (PST)
-Received: from ?IPv6:2001:a61:24b3:de01:7310:e730:497d:ea6a? ([2001:a61:24b3:de01:7310:e730:497d:ea6a])
-        by smtp.gmail.com with ESMTPSA id l23sm11535934wmh.40.2020.11.27.01.30.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Nov 2020 01:30:45 -0800 (PST)
-Cc:     mtk.manpages@gmail.com, tglx@linutronix.de, mingo@kernel.org,
-        luto@kernel.org, x86@kernel.org, len.brown@intel.com,
-        dave.hansen@intel.com, hjl.tools@gmail.com, Dave.Martin@arm.com,
-        mpe@ellerman.id.au, tony.luck@intel.com, ravi.v.shankar@intel.com,
-        libc-alpha@sourceware.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Fenghua Yu <fenghua.yu@intel.com>
-Subject: Re: [PATCH v2 2/4] x86/elf: Support a new ELF aux vector
- AT_MINSIGSTKSZ
-To:     Borislav Petkov <bp@suse.de>,
-        "Chang S. Bae" <chang.seok.bae@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>
-References: <20201119190237.626-1-chang.seok.bae@intel.com>
- <20201119190237.626-3-chang.seok.bae@intel.com>
- <20201126174418.GA29770@zn.tnic>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <7b2b1f7f-75e5-01ab-7571-71340825d299@gmail.com>
-Date:   Fri, 27 Nov 2020 10:30:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        id S1731434AbgK0RKV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 27 Nov 2020 12:10:21 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:43272 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731169AbgK0RKU (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 27 Nov 2020 12:10:20 -0500
+Received: from zn.tnic (p200300ec2f0ffb00fa2fd8ad942748bd.dip0.t-ipconnect.de [IPv6:2003:ec:2f0f:fb00:fa2f:d8ad:9427:48bd])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 456451EC042F;
+        Fri, 27 Nov 2020 18:10:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1606497018;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=u6W3Ih82jfxbD+DI9YweOatwjesltCvnSeq3TqSUtnU=;
+        b=Qw32cDom4Nr5D+nAiugyMDt4WopNk82UIfnsTh5TWW1Ae4XcJ39IcPoa+GzKogo5QrQHIx
+        mhiTK2D5SSwXq/kn76nb1bJDepO55LKV+yfJo5RWlQTjDati38TpRWUk7AU1iO/ivRrs2Z
+        jO7gcT+EvHc/iDMLoOBjlIBtqbVpVmA=
+Date:   Fri, 27 Nov 2020 18:10:12 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Subject: Re: [PATCH v15 05/26] x86/cet/shstk: Add Kconfig option for
+ user-mode Shadow Stack
+Message-ID: <20201127171012.GD13163@zn.tnic>
+References: <20201110162211.9207-1-yu-cheng.yu@intel.com>
+ <20201110162211.9207-6-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20201126174418.GA29770@zn.tnic>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20201110162211.9207-6-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hey Dave Marin,
+On Tue, Nov 10, 2020 at 08:21:50AM -0800, Yu-cheng Yu wrote:
+> +config X86_CET
+> +	def_bool n
+> +
+> +config ARCH_HAS_SHADOW_STACK
+> +	def_bool n
+> +
+> +config X86_SHADOW_STACK_USER
 
-On 11/26/20 6:44 PM, Borislav Petkov wrote:
-> On Thu, Nov 19, 2020 at 11:02:35AM -0800, Chang S. Bae wrote:
->> Historically, signal.h defines MINSIGSTKSZ (2KB) and SIGSTKSZ (8KB), for
->> use by all architectures with sigaltstack(2). Over time, the hardware state
->> size grew, but these constants did not evolve. Today, literal use of these
->> constants on several architectures may result in signal stack overflow, and
->> thus user data corruption.
->>
->> A few years ago, the ARM team addressed this issue by establishing
->> getauxval(AT_MINSIGSTKSZ), such that the kernel can supply at runtime value
->> that is an appropriate replacement on the current and future hardware.
->>
->> Add getauxval(AT_MINSIGSTKSZ) support to x86, analogous to the support
->> added for ARM in commit 94b07c1f8c39 ("arm64: signal: Report signal frame
->> size to userspace via auxv").
-> 
-> I don't see it documented here:
-> 
-> https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/tree/man3/getauxval.3
-> 
-> Dunno, now that two architectures will have it, maybe that is good
-> enough reason to document it.
-> 
-> Adding Michael.
+Is X86_SHADOW_STACK_KERNEL coming too?
 
-Commit 94b07c1f8c39 was your, Dave. Might I convince you to write a 
-patch for getauxval(3)?
+Regardless, you can add it when it comes and you can use only X86_CET
+for now and drop this one and simplify this pile of Kconfig symbols.
 
-Thanks,
+> +	prompt "Intel Shadow Stacks for user-mode"
+> +	def_bool n
+> +	depends on CPU_SUP_INTEL && X86_64
+> +	depends on AS_HAS_SHADOW_STACK
+> +	select ARCH_USES_HIGH_VMA_FLAGS
+> +	select X86_CET
+> +	select ARCH_HAS_SHADOW_STACK
+> +	help
+> +	  Shadow Stacks provides protection against program stack
+> +	  corruption.  It's a hardware feature.  This only matters
+> +	  if you have the right hardware.  It's a security hardening
+> +	  feature and apps must be enabled to use it.  You get no
+> +	  protection "for free" on old userspace.  The hardware can
+> +	  support user and kernel, but this option is for user space
+> +	  only.
+> +	  Support for this feature is only known to be present on
+> +	  processors released in 2020 or later.  CET features are also
+> +	  known to increase kernel text size by 3.7 KB.
 
+This help text needs some rewriting. You can find an inspiration about
+more adequate style in that same Kconfig file.
 
-Michael
+> +
+> +	  If unsure, say N.
+> +
+>  config EFI
+>  	bool "EFI runtime service support"
+>  	depends on ACPI
+> diff --git a/scripts/as-x86_64-has-shadow-stack.sh b/scripts/as-x86_64-has-shadow-stack.sh
+> new file mode 100755
+> index 000000000000..fac1d363a1b8
+> --- /dev/null
+> +++ b/scripts/as-x86_64-has-shadow-stack.sh
+> @@ -0,0 +1,4 @@
+> +#!/bin/sh
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +echo "wrussq %rax, (%rbx)" | $* -x assembler -c -
 
+						      2> /dev/null
+
+otherwise you get
+
+{standard input}: Assembler messages:
+{standard input}:1: Error: no such instruction: `wrussq %rax,(%rbx)
+
+on non-enlightened toolchains during build.
+
+Thx.
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
