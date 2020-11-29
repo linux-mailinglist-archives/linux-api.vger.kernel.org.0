@@ -2,84 +2,82 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 40FC02C7684
-	for <lists+linux-api@lfdr.de>; Sat, 28 Nov 2020 23:56:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 20CEB2C775C
+	for <lists+linux-api@lfdr.de>; Sun, 29 Nov 2020 04:07:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732454AbgK1Wzd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 28 Nov 2020 17:55:33 -0500
-Received: from mail.hallyn.com ([178.63.66.53]:60772 "EHLO mail.hallyn.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727070AbgK1Wzd (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Sat, 28 Nov 2020 17:55:33 -0500
-Received: by mail.hallyn.com (Postfix, from userid 1001)
-        id 65BD38AB; Sat, 28 Nov 2020 16:54:50 -0600 (CST)
-Date:   Sat, 28 Nov 2020 16:54:50 -0600
-From:   "Serge E. Hallyn" <serge@hallyn.com>
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        linux-fsdevel@vger.kernel.org,
-        John Johansen <john.johansen@canonical.com>,
-        James Morris <jmorris@namei.org>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-        Geoffrey Thomas <geofft@ldpreload.com>,
-        Mrunal Patel <mpatel@redhat.com>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Theodore Tso <tytso@mit.edu>, Alban Crequy <alban@kinvolk.io>,
-        Tycho Andersen <tycho@tycho.ws>,
-        David Howells <dhowells@redhat.com>,
-        James Bottomley <James.Bottomley@hansenpartnership.com>,
-        Seth Forshee <seth.forshee@canonical.com>,
-        =?iso-8859-1?Q?St=E9phane?= Graber <stgraber@ubuntu.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Lennart Poettering <lennart@poettering.net>,
-        "Eric W. Biederman" <ebiederm@xmission.com>, smbarber@chromium.org,
-        Phil Estes <estesp@gmail.com>, Serge Hallyn <serge@hallyn.com>,
-        Kees Cook <keescook@chromium.org>,
-        Todd Kjos <tkjos@google.com>, Paul Moore <paul@paul-moore.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        containers@lists.linux-foundation.org, fstests@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-integrity@vger.kernel.org,
-        selinux@vger.kernel.org
-Subject: Re: [PATCH v3 00/38] idmapped mounts
-Message-ID: <20201128225450.GC22812@mail.hallyn.com>
-References: <20201128213527.2669807-1-christian.brauner@ubuntu.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201128213527.2669807-1-christian.brauner@ubuntu.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+        id S1725861AbgK2DHi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 28 Nov 2020 22:07:38 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:49452 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725294AbgK2DHi (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 28 Nov 2020 22:07:38 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AT355JO023466;
+        Sun, 29 Nov 2020 03:06:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id; s=corp-2020-01-29;
+ bh=rZ58Ak60K2QKl3g6LaqpMP90c9f8pGQiHZf7qX3ffyk=;
+ b=It5c1HV8sVYopI+eD80hgt6Z4aVnH4wz2jp2R6eEYIQWf38u2vgLylBAMIpQ+QDtFb/1
+ mEpYNSCPqjTwYXfs8uzf3Q4gJHglMTVsIWpiwf59aynCD/yFQBrWhD2Y7EX+Ba5Q9JR3
+ NNArv1CarTYwTWHkfDiQ/mCCrf2topnoiWZq4hmmpPQeiXw1UQXDZjcUXzZLAcbD3AYT
+ lMI2l/PIfYvs/ldfcsmDlj+xCH3xRU4Nvr5ml04FGxDZ7FVgRXD/1CfrC+zm0ePfIr05
+ 55hmfdH3AOIjMunuiqbJL+3EOaVbFF6lO7appr72PygD8xbZCGEnhpBSQsFEqojXNJ20 Kw== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by userp2130.oracle.com with ESMTP id 353dyq9h65-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Sun, 29 Nov 2020 03:06:50 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AT319s0188914;
+        Sun, 29 Nov 2020 03:04:50 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by userp3030.oracle.com with ESMTP id 3540ftbtur-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Sun, 29 Nov 2020 03:04:50 +0000
+Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0AT34igo015002;
+        Sun, 29 Nov 2020 03:04:45 GMT
+Received: from oracle.com (/10.129.135.37)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Sat, 28 Nov 2020 19:04:44 -0800
+From:   rao.shoaib@oracle.com
+To:     hch@lst.de, pabeni@redhat.com, jbi.octave@gmail.com,
+        linux-api@vger.kernel.org
+Cc:     Rao Shoaib <rao.shoaib@oracle.com>
+Subject: [RFC net-next af_unix v1 0/1]  Allow delivery of SIGURG on AF_UNIX streams socket
+Date:   Sat, 28 Nov 2020 18:52:11 -0800
+Message-Id: <1606618332-23345-1-git-send-email-rao.shoaib@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9819 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 suspectscore=0
+ phishscore=0 mlxlogscore=999 adultscore=0 mlxscore=0 bulkscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011290016
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9819 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 bulkscore=0
+ clxscore=1015 mlxscore=0 spamscore=0 priorityscore=1501 mlxlogscore=999
+ suspectscore=0 lowpriorityscore=0 phishscore=0 adultscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011290017
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Nov 28, 2020 at 10:34:49PM +0100, Christian Brauner wrote:
-> Hey everyone,
+From: Rao Shoaib <rao.shoaib@oracle.com>
 
-Hey Christian,
+We have a use case where thousands of processes connect locally to a
+database and issue queries that are serviced by a pool of threads.
+Communication is done over AF_UNIX sockets. Currently, there is no way
+for the submitter to signal the servicing thread about an urgent
+condition such as abandoning the query. This patch addresses that
+requirement by adding support for MSG_OOB flag for AF_UNIX sockets.
+On receipt of such a flag, the kernel sends a SIGURG to the peer.
 
-a general request.  Argue with me if it seems misguided.
+Rao Shoaib (1):
+  af_unix: Allow delivery of SIGURG on AF_UNIX streams socket
 
-When looking at a patch or a small hunk of code, these days, if a variable
-called 'ns' or 'user_ns' is seen passed to a function, it can be easy to
-assume which user_ns it is based on what you think would make sense, but if
-your assumption is wrong, your patch review will be wrong.
+ net/unix/af_unix.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Can we stick to a convention where we have maybe
+-- 
+1.8.3.1
 
-subj_userns - the userns of the task seeking some action
-obj_userns - the userns of the thing being acted on - task, superblock,...
-mnt_userns - the userns of a mountpoint through which an object is seen
-
-You're replacing a lot of such callers and callsites in this patchset, so
-this would be a great time to start doing that.
-
--serge
