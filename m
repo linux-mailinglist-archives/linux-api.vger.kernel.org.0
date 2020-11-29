@@ -2,82 +2,210 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F03592C7778
-	for <lists+linux-api@lfdr.de>; Sun, 29 Nov 2020 05:03:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C41822C79CB
+	for <lists+linux-api@lfdr.de>; Sun, 29 Nov 2020 16:54:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725852AbgK2EDc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 28 Nov 2020 23:03:32 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52266 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725839AbgK2EDc (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Sat, 28 Nov 2020 23:03:32 -0500
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C778E2080C
-        for <linux-api@vger.kernel.org>; Sun, 29 Nov 2020 04:02:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1606622572;
-        bh=fpFkVbYv/EnCNsW2ueDD/AGTwJaapL1qa4U4E15PkAQ=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=u3pgUX9XHbkTi00cZzpD6LdMEYkEpRLtm8bDw1a708Q06OJ/RNYm/E7whgWh2SpvH
-         RqDWihea8B+XV5mLK4MK9rxjtyEXr/Y182FpN1JC5AE3vgAzu3gDz5C8T97Zv6fUG6
-         ZJkZ4s+e1GJXpp3DhBFcIgxRuLCoz3JIIYtIns5Q=
-Received: by mail-wr1-f53.google.com with SMTP id k14so10394905wrn.1
-        for <linux-api@vger.kernel.org>; Sat, 28 Nov 2020 20:02:51 -0800 (PST)
-X-Gm-Message-State: AOAM530OQ6p08Sv7k0+yMW9h5lluOwMcjt95frnhqoN9/00QIOPmbVA4
-        spfrdyV/ejZi8q9X9UNy4vqBmjKJCP8xEtA/k8ZLuA==
-X-Google-Smtp-Source: ABdhPJxNy9eTUpxV3m/NNL2Ntz4eYZ1oMzR+1glTtZBYeawNGeRx1kWDAvX/BxwiuW55WQ25usNdny0jjkBZ24hdG3o=
-X-Received: by 2002:adf:f0c2:: with SMTP id x2mr20029975wro.184.1606622570428;
- Sat, 28 Nov 2020 20:02:50 -0800 (PST)
+        id S1726669AbgK2Pyk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 29 Nov 2020 10:54:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37208 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726961AbgK2Pyj (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 29 Nov 2020 10:54:39 -0500
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACEC5C0613D2
+        for <linux-api@vger.kernel.org>; Sun, 29 Nov 2020 07:53:58 -0800 (PST)
+Received: by mail-lf1-x141.google.com with SMTP id u19so15653023lfr.7
+        for <linux-api@vger.kernel.org>; Sun, 29 Nov 2020 07:53:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3PuJ9ydxTViJxhC8bUeJS1Nnpydv/VEM9Wi1gMrMaBs=;
+        b=isTAhbDaUuUXk1VQ3ndJOQ/CuS5MKUiZU9CQF6PymdXpFUOWrtmdwQbOetQXqfuYcu
+         DN+OBA9qL3A9IiYDok2MOFG354WJgz9qAUvm/bYWWVPi9WyZ1PJ1lNfGjJRLoAZLO2Vg
+         uRTzD4pVG+cV2/ymy6+tsxqoVguJfYNDW/2RvIvgoZeWEzlw11EW3XkkvoYk35tVWwPn
+         HfZCQVeqGtpyFhpd4OUy9FJVmyQdiOL8EaFCqmL+9cNs+NvTNNL4303WZgB9szddFdV8
+         BfgLnmnM0DdbVQ1i8kfeHCJ1NEzilifWALzo17ajgIx/BZAN0Q0Iv6ejITAt4NtpIu5W
+         GSXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3PuJ9ydxTViJxhC8bUeJS1Nnpydv/VEM9Wi1gMrMaBs=;
+        b=qwdLLegTGm0yMUMDAkspQJ9RgXKWBacPCo2ltoXYVz1Fj5yw1Lg5VgzlYz2xjvNAVv
+         qmsQY1v5R02r6wV5OIaRn+nUpHtvGHuRDDUhwyyhbukMM2Wt0hFCZccaouDoxeRpNM6c
+         hwDas/9EIDLh/UEHffoej11RTPnGw7Xu9z26ljAjQ5p0etyA5vWE2Sctxi9zsC0AbOXk
+         d4vzJZmqOsYsmIPX8K0+nLB18KCfkzLA0BXGXDDGcUwNi+rZ/8m6mq691EbJ13Xd4V0N
+         XfoDqBn4/l9ttBIrPpRxJYc2gxzzRjNaBMbynF0CuOBucJIDAJTjtcvgqei+M/NELGPq
+         MVmQ==
+X-Gm-Message-State: AOAM533MEuqjbWrWXEogZJtWVzohnUaFbnH3pteib+k8AdU8Qex4pMFp
+        DH/SMCKFckByXCh/qA4+QxFy3h+gFrIUTvqh9n+avw==
+X-Google-Smtp-Source: ABdhPJzudR+9Ib3gs3Y02i4BAQQW5kNsVm6Yid+szIpP/1AQJ9ils7ZN++n24NpQOPLTFTgkysS30jlcr9Wp5KFuvz0=
+X-Received: by 2002:ac2:43b1:: with SMTP id t17mr7446330lfl.385.1606665236632;
+ Sun, 29 Nov 2020 07:53:56 -0800 (PST)
 MIME-Version: 1.0
-References: <1606618332-23345-1-git-send-email-rao.shoaib@oracle.com>
-In-Reply-To: <1606618332-23345-1-git-send-email-rao.shoaib@oracle.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Sat, 28 Nov 2020 20:02:37 -0800
-X-Gmail-Original-Message-ID: <CALCETrUKuzwU=xiDq8Kk8H-bE1R6K-pN5ZhCFWH9bxR+_Z=NwA@mail.gmail.com>
-Message-ID: <CALCETrUKuzwU=xiDq8Kk8H-bE1R6K-pN5ZhCFWH9bxR+_Z=NwA@mail.gmail.com>
-Subject: Re: [RFC net-next af_unix v1 0/1] Allow delivery of SIGURG on AF_UNIX
- streams socket
-To:     rao.shoaib@oracle.com
-Cc:     Christoph Hellwig <hch@lst.de>, Paolo Abeni <pabeni@redhat.com>,
-        jbi.octave@gmail.com, Linux API <linux-api@vger.kernel.org>
+References: <20201125092208.12544-1-rppt@kernel.org> <20201125092208.12544-8-rppt@kernel.org>
+In-Reply-To: <20201125092208.12544-8-rppt@kernel.org>
+From:   Shakeel Butt <shakeelb@google.com>
+Date:   Sun, 29 Nov 2020 07:53:45 -0800
+Message-ID: <CALvZod4MoXod_YkbO+4k2=PS=xdMVbZa2HWWuUnMZ1G9hSr+Jw@mail.gmail.com>
+Subject: Re: [PATCH v12 07/10] secretmem: add memcg accounting
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christopher Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Roman Gushchin <guro@fb.com>, Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-kselftest@vger.kernel.org, linux-nvdimm@lists.01.org,
+        linux-riscv@lists.infradead.org, x86@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Nov 28, 2020 at 7:07 PM <rao.shoaib@oracle.com> wrote:
+On Wed, Nov 25, 2020 at 1:51 AM Mike Rapoport <rppt@kernel.org> wrote:
 >
-> From: Rao Shoaib <rao.shoaib@oracle.com>
+> From: Mike Rapoport <rppt@linux.ibm.com>
 >
-> We have a use case where thousands of processes connect locally to a
-> database and issue queries that are serviced by a pool of threads.
-> Communication is done over AF_UNIX sockets. Currently, there is no way
-> for the submitter to signal the servicing thread about an urgent
-> condition such as abandoning the query.
+> Account memory consumed by secretmem to memcg. The accounting is updated
+> when the memory is actually allocated and freed.
+>
+> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+> Acked-by: Roman Gushchin <guro@fb.com>
+> ---
+>  mm/filemap.c   |  3 ++-
+>  mm/secretmem.c | 36 +++++++++++++++++++++++++++++++++++-
+>  2 files changed, 37 insertions(+), 2 deletions(-)
+>
+> diff --git a/mm/filemap.c b/mm/filemap.c
+> index 249cf489f5df..cf7f1dc9f4b8 100644
+> --- a/mm/filemap.c
+> +++ b/mm/filemap.c
+> @@ -42,6 +42,7 @@
+>  #include <linux/psi.h>
+>  #include <linux/ramfs.h>
+>  #include <linux/page_idle.h>
+> +#include <linux/secretmem.h>
+>  #include "internal.h"
+>
+>  #define CREATE_TRACE_POINTS
+> @@ -844,7 +845,7 @@ static noinline int __add_to_page_cache_locked(struct page *page,
+>         page->mapping = mapping;
+>         page->index = offset;
+>
+> -       if (!huge) {
+> +       if (!huge && !page_is_secretmem(page)) {
+>                 error = mem_cgroup_charge(page, current->mm, gfp);
+>                 if (error)
+>                         goto error;
+> diff --git a/mm/secretmem.c b/mm/secretmem.c
+> index 52a900a135a5..eb6628390444 100644
+> --- a/mm/secretmem.c
+> +++ b/mm/secretmem.c
+> @@ -18,6 +18,7 @@
+>  #include <linux/memblock.h>
+>  #include <linux/pseudo_fs.h>
+>  #include <linux/secretmem.h>
+> +#include <linux/memcontrol.h>
+>  #include <linux/set_memory.h>
+>  #include <linux/sched/signal.h>
+>
+> @@ -44,6 +45,32 @@ struct secretmem_ctx {
+>
+>  static struct cma *secretmem_cma;
+>
+> +static int secretmem_account_pages(struct page *page, gfp_t gfp, int order)
+> +{
+> +       int err;
+> +
+> +       err = memcg_kmem_charge_page(page, gfp, order);
+> +       if (err)
+> +               return err;
+> +
+> +       /*
+> +        * seceremem caches are unreclaimable kernel allocations, so treat
+> +        * them as unreclaimable slab memory for VM statistics purposes
+> +        */
+> +       mod_node_page_state(page_pgdat(page), NR_SLAB_UNRECLAIMABLE_B,
+> +                           PAGE_SIZE << order);
 
-Sure there is.  You could close() the socket.  You could send() a
-message saying that your query wants to be canceled.  You could use a
-second socket for this if it's somehow inconvenient to do it with a
-single socket.
+Please use mod_lruvec_page_state() instead, so we get the memcg stats too.
 
-> This patch addresses that
-> requirement by adding support for MSG_OOB flag for AF_UNIX sockets.
-> On receipt of such a flag, the kernel sends a SIGURG to the peer.
+BTW I think secretmem deserves a vmstat entry instead of overloading
+NR_SLAB_UNRECLAIMABLE_B.
 
-SIGURG is a horrible interface.  It doesn't scale -- signals are slow,
-and they give no indication of *which* socket has urgent data.  Aside
-from this, the "urgent" interface itself is nuts -- even the TCP RFCs
-and implementations seem unable to agree on exactly how to tell
-*which* data is urgent.  At least epoll might be a scalable way to
-tell which socket has urgent data, but that's not what your patch
-description seems to be talking about.
-
-Oh yeah, SIGURG simply doesn't work across privilege boundaries.
-
-I'm also a bit nervous that there might be some program out there that
-expects SIGIO but not SIGURG on unix sockets, and you're breaking
-them.
-
---Andy
+> +
+> +       return 0;
+> +}
+> +
+> +static void secretmem_unaccount_pages(struct page *page, int order)
+> +{
+> +
+> +       mod_node_page_state(page_pgdat(page), NR_SLAB_UNRECLAIMABLE_B,
+> +                           -PAGE_SIZE << order);
+> +       memcg_kmem_uncharge_page(page, order);
+> +}
+> +
+>  static int secretmem_pool_increase(struct secretmem_ctx *ctx, gfp_t gfp)
+>  {
+>         unsigned long nr_pages = (1 << PMD_PAGE_ORDER);
+> @@ -56,10 +83,14 @@ static int secretmem_pool_increase(struct secretmem_ctx *ctx, gfp_t gfp)
+>         if (!page)
+>                 return -ENOMEM;
+>
+> -       err = set_direct_map_invalid_noflush(page, nr_pages);
+> +       err = secretmem_account_pages(page, gfp, PMD_PAGE_ORDER);
+>         if (err)
+>                 goto err_cma_release;
+>
+> +       err = set_direct_map_invalid_noflush(page, nr_pages);
+> +       if (err)
+> +               goto err_memcg_uncharge;
+> +
+>         addr = (unsigned long)page_address(page);
+>         err = gen_pool_add(pool, addr, PMD_SIZE, NUMA_NO_NODE);
+>         if (err)
+> @@ -76,6 +107,8 @@ static int secretmem_pool_increase(struct secretmem_ctx *ctx, gfp_t gfp)
+>          * won't fail
+>          */
+>         set_direct_map_default_noflush(page, nr_pages);
+> +err_memcg_uncharge:
+> +       secretmem_unaccount_pages(page, PMD_PAGE_ORDER);
+>  err_cma_release:
+>         cma_release(secretmem_cma, page, nr_pages);
+>         return err;
+> @@ -302,6 +335,7 @@ static void secretmem_cleanup_chunk(struct gen_pool *pool,
+>         int i;
+>
+>         set_direct_map_default_noflush(page, nr_pages);
+> +       secretmem_unaccount_pages(page, PMD_PAGE_ORDER);
+>
+>         for (i = 0; i < nr_pages; i++)
+>                 clear_highpage(page + i);
+> --
+> 2.28.0
+>
