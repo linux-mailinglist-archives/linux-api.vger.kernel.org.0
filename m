@@ -2,127 +2,94 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA8B22C8D9A
-	for <lists+linux-api@lfdr.de>; Mon, 30 Nov 2020 20:02:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CD40D2C8DDA
+	for <lists+linux-api@lfdr.de>; Mon, 30 Nov 2020 20:20:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729608AbgK3TCJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 30 Nov 2020 14:02:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33816 "EHLO
+        id S1729857AbgK3TTZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 30 Nov 2020 14:19:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36472 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729595AbgK3TCJ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 30 Nov 2020 14:02:09 -0500
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8AFFC0613D3
-        for <linux-api@vger.kernel.org>; Mon, 30 Nov 2020 11:01:28 -0800 (PST)
-Received: by mail-wm1-x343.google.com with SMTP id f190so515066wme.1
-        for <linux-api@vger.kernel.org>; Mon, 30 Nov 2020 11:01:28 -0800 (PST)
+        with ESMTP id S1729387AbgK3TTO (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 30 Nov 2020 14:19:14 -0500
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA37DC0613D6
+        for <linux-api@vger.kernel.org>; Mon, 30 Nov 2020 11:18:33 -0800 (PST)
+Received: by mail-pj1-x1042.google.com with SMTP id e5so195169pjt.0
+        for <linux-api@vger.kernel.org>; Mon, 30 Nov 2020 11:18:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=jfWeO4tbhTGJrN6AO+wZJR6KFcxbZZ5VZ2sCRkzWaLQ=;
-        b=EABF8k2s1USjU9oYjO5iwqvFMSQ4Yhe8e6PUMCsy7Nv0n6mtBtxWhrl6sFE2b6aG1W
-         oTjB3pd696431yT8mK6dpmQtnWW5tbT/uaKqLRuHdnRBQE+ahwJeRI5c3mJSF+EIM5hB
-         bGjQuA3JayCi8/mY0PRoPsntKsgg1+j9i7RZKC21GT/lj2n6j4dnbUnj7sBzxYaMSU7B
-         YkidQoecd4EC79njWzY+0q8L9wx0ONQiHtVje8VL4/JjQzTYQCZ7UKeYBdxla6zvI/Xz
-         KrOZJGEXwbcJ8VBoQR1UlNPXTfTeDu8+zZfZ2veJqxMkfxUNXmQm60n+BmRAxrgFZe80
-         i5uw==
+        d=osandov-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=J0uaPww9Zo/kwiIz62BRZcQJ75KrUIs2Bl30icME+Dc=;
+        b=TXpn7lbrUrUILSPcmkpNm9ho9lyxtnMhvLUZTDTKTkfhqgufluqLhBWTfWZi9ML+Ul
+         6MLS5fKcBK/W/JorbbRmkIHIrz+5iM7uRTQ1D+FBUX8mSAnu9bXf98kkV7m/+upab/3s
+         NYrJKb9Pv2tRvzoYgskwZ4aDTv2GjtsRz8nBiA7nDZiPK03YMTiOr5QJM4gjdfSEtf/J
+         ZWkAJLvVcd2Afx8D9O9ZFdi4mX76DLvXW6ozrmLdQira//F3CF4O0H+FoyKVe4TbyRab
+         ES0SBeNjt3Gij6gblWH3wFKIPd21mg3ymfFHZ7c6WVSh7AG1vLCVNGvb58ljmDgBTK5J
+         fLTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jfWeO4tbhTGJrN6AO+wZJR6KFcxbZZ5VZ2sCRkzWaLQ=;
-        b=Drpa/ISVfMBqFxMD3z7WsH83uYLPQGjKfr2NBczDh5ERjG2nVz6jB7buVaxJttBgyO
-         rdmqccdTyxh90EK30d+zrW+NHIWrxi3Bm3xAXBI3IZ8kWGm5j53YwqD97EJ6ZNdhGUhc
-         reoiwqGfkrWVrCDTqDtCQ09kqYjAePCtTJvXT1A4FDpuyj6tnf8n8iH6wcyx1CZx+eIO
-         p+kdBe1jHeRtgdO8D85okuH3OWp4geWwZ7oYoNED4Auo4R8nWEGKlqersX5GYJasTRD9
-         AhaNRuvXMdZMFcVNN8T/Rseg/66wpDAzKFZ8E+uO5YHOt+5kLc+oOlGTkV4JhXm+MtZi
-         mrIw==
-X-Gm-Message-State: AOAM530JEK11IS1xaWYZRPnBfIKqcCo2c2s+7KoN4xcZ8ZFKrSWS1dBB
-        sFfhN02zNlNU8elVw6gVO+nBr2Mp40eHji07QbH5rA==
-X-Google-Smtp-Source: ABdhPJz8qDhhOjxPi0TXmRcyG4hBncx7s7GIOpBZbwZSPQFLUYthnHyxlIQIX6g6jhkX8xW22CtzoRZi+0JV6bQFkdk=
-X-Received: by 2002:a1c:4e0a:: with SMTP id g10mr292802wmh.88.1606762886790;
- Mon, 30 Nov 2020 11:01:26 -0800 (PST)
+        h=x-gm-message-state:date:from:to:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=J0uaPww9Zo/kwiIz62BRZcQJ75KrUIs2Bl30icME+Dc=;
+        b=b/z83tiqBnkZoo+LM88Y4y3mMVLm9Te9Yga8I48WgRryORFJxj9cTjVlPlwR5BX/T5
+         GD1bOkJxTh6dJ/vE8cPw3Rvi2QAfoNGc09RdnjQNtbBLLEEne6PYJxmvUf3LaGS6oXwA
+         ozgnl1yBe9FeyaNInqwdAw5oW8yl7KFmaRWClx7/FnTIsmTPkrw5ZDvmUxmQVRQ5FTyk
+         Gb5Mb2JYYZk0wpAoMdwqq2iTYjx5sg6Zrab1Vo6uoMbVjYfUcOCIzHikMKtO0HhnL10m
+         BcsqcvaYFkOW/YjYrqoc0iHh0DVlVn/NhAvDB5+yyDXRJqmLih7cz63IiiErw/aEIx/X
+         Vk+A==
+X-Gm-Message-State: AOAM532OuA3AC0PWXOw7ZrOk21wm1FI0toGkN3TcTq7tZqNapIy/m91/
+        SbV0yGn7mOKfME8Z05cXOx4xAg==
+X-Google-Smtp-Source: ABdhPJxV8so8Tk7xlVbSlSNLCUfIRq2duNU3cGTYClzBLepW/PJI1vbrV4KpO4SQjmioJT/24Su3cg==
+X-Received: by 2002:a17:902:b209:b029:d8:e821:efc6 with SMTP id t9-20020a170902b209b02900d8e821efc6mr19864273plr.5.1606763913184;
+        Mon, 30 Nov 2020 11:18:33 -0800 (PST)
+Received: from relinquished.localdomain ([2601:602:8b80:8e0::b2be])
+        by smtp.gmail.com with ESMTPSA id v23sm17759258pfn.141.2020.11.30.11.18.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Nov 2020 11:18:31 -0800 (PST)
+Date:   Mon, 30 Nov 2020 11:18:30 -0800
+From:   Omar Sandoval <osandov@osandov.com>
+To:     dsterba@suse.cz, linux-fsdevel@vger.kernel.org,
+        linux-btrfs@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dave Chinner <david@fromorbit.com>,
+        Jann Horn <jannh@google.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Aleksa Sarai <cyphar@cyphar.com>, linux-api@vger.kernel.org,
+        kernel-team@fb.com
+Subject: Re: [PATCH v6 04/11] btrfs: fix btrfs_write_check()
+Message-ID: <X8VFhiqOVZKh+i6e@relinquished.localdomain>
+References: <cover.1605723568.git.osandov@fb.com>
+ <b096cecce8277b30e1c7e26efd0450c0bc12ff31.1605723568.git.osandov@fb.com>
+ <20201123170831.GH8669@twin.jikos.cz>
 MIME-Version: 1.0
-References: <20201124053943.1684874-1-surenb@google.com> <20201124053943.1684874-2-surenb@google.com>
- <20201125231322.GF1484898@google.com> <CAJuCfpGCc49g5+T+V3SxZ6eVteLac6xVRx+1z6G2a8P4-Cr7bA@mail.gmail.com>
- <20201125234322.GG1484898@google.com>
-In-Reply-To: <20201125234322.GG1484898@google.com>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Mon, 30 Nov 2020 11:01:15 -0800
-Message-ID: <CAJuCfpFuWqMEXJij_qHhyGpuFXLuJ7-DcHgcc9760NhBHhuLHw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] mm/madvise: allow process_madvise operations on
- entire memory range
-To:     Minchan Kim <minchan@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Michal Hocko <mhocko@suse.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Roman Gushchin <guro@fb.com>, Rik van Riel <riel@surriel.com>,
-        Christian Brauner <christian@brauner.io>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Tim Murray <timmurray@google.com>, linux-api@vger.kernel.org,
-        linux-mm <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        kernel-team <kernel-team@android.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201123170831.GH8669@twin.jikos.cz>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Nov 25, 2020 at 3:43 PM Minchan Kim <minchan@kernel.org> wrote:
->
-> On Wed, Nov 25, 2020 at 03:23:40PM -0800, Suren Baghdasaryan wrote:
-> > On Wed, Nov 25, 2020 at 3:13 PM Minchan Kim <minchan@kernel.org> wrote:
-> > >
-> > > On Mon, Nov 23, 2020 at 09:39:42PM -0800, Suren Baghdasaryan wrote:
-> > > > process_madvise requires a vector of address ranges to be provided for
-> > > > its operations. When an advice should be applied to the entire process,
-> > > > the caller process has to obtain the list of VMAs of the target process
-> > > > by reading the /proc/pid/maps or some other way. The cost of this
-> > > > operation grows linearly with increasing number of VMAs in the target
-> > > > process. Even constructing the input vector can be non-trivial when
-> > > > target process has several thousands of VMAs and the syscall is being
-> > > > issued during high memory pressure period when new allocations for such
-> > > > a vector would only worsen the situation.
-> > > > In the case when advice is being applied to the entire memory space of
-> > > > the target process, this creates an extra overhead.
-> > > > Add PMADV_FLAG_RANGE flag for process_madvise enabling the caller to
-> > > > advise a memory range of the target process. For now, to keep it simple,
-> > > > only the entire process memory range is supported, vec and vlen inputs
-> > > > in this mode are ignored and can be NULL and 0.
-> > > > Instead of returning the number of bytes that advice was successfully
-> > > > applied to, the syscall in this mode returns 0 on success. This is due
-> > > > to the fact that the number of bytes would not be useful for the caller
-> > > > that does not know the amount of memory the call is supposed to affect.
-> > > > Besides, the ssize_t return type can be too small to hold the number of
-> > > > bytes affected when the operation is applied to a large memory range.
-> > >
-> > > Can we just use one element in iovec to indicate entire address rather
-> > > than using up the reserved flags?
-> > >
-> > >         struct iovec {
-> > >                 .iov_base = NULL,
-> > >                 .iov_len = (~(size_t)0),
-> > >         };
-> > >
-> > > Furthermore, it would be applied for other syscalls where have support
-> > > iovec if we agree on it.
-> > >
-> >
-> > The flag also changes the return value semantics. If we follow your
-> > suggestion we should also agree that in this mode the return value
-> > will be 0 on success and negative otherwise instead of the number of
-> > bytes madvise was applied to.
->
-> Well, return value will depends on the each API. If the operation is
-> desruptive, it should return the right size affected by the API but
-> would be okay with 0 or error, otherwise.
+On Mon, Nov 23, 2020 at 06:08:31PM +0100, David Sterba wrote:
+> On Wed, Nov 18, 2020 at 11:18:11AM -0800, Omar Sandoval wrote:
+> > From: Omar Sandoval <osandov@fb.com>
+> > 
+> > btrfs_write_check() has two related bugs:
+> > 
+> > 1. It gets the iov_iter count before calling generic_write_checks(), but
+> >    generic_write_checks() may truncate the iov_iter.
+> > 2. It returns the count or negative errno as a size_t, which the callers
+> >    cast to an int. If the count is greater than INT_MAX, this overflows.
+> > 
+> > To fix both of these, pull the call to generic_write_checks() out of
+> > btrfs_write_check(), use the new iov_iter count returned from
+> > generic_write_checks(), and have btrfs_write_check() return 0 or a
+> > negative errno as an int instead of the count. This rearrangement also
+> > paves the way for RWF_ENCODED write support.
+> > 
+> > Fixes: f945968ff64c ("btrfs: introduce btrfs_write_check()")
+> 
+> This patch is still in misc-next and the commit id is unstable, so this
+> would rather be folded to the patch.
 
-I'm fine with dropping the flag, I just thought with the flag it would
-be more explicit that this is a special mode operating on ranges. This
-way the patch also becomes simpler.
-Andrew, Michal, Christian, what do you think about such API? Should I
-change the API this way / keep the flag / change it in some other way?
+Looks like you folded this in on misc-next, thanks!
