@@ -2,129 +2,184 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A9DE42C87F5
-	for <lists+linux-api@lfdr.de>; Mon, 30 Nov 2020 16:27:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A66C2C8B9C
+	for <lists+linux-api@lfdr.de>; Mon, 30 Nov 2020 18:47:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727981AbgK3P11 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 30 Nov 2020 10:27:27 -0500
-Received: from bedivere.hansenpartnership.com ([96.44.175.130]:40162 "EHLO
-        bedivere.hansenpartnership.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726614AbgK3P10 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 30 Nov 2020 10:27:26 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by bedivere.hansenpartnership.com (Postfix) with ESMTP id AA81C1280A6F;
-        Mon, 30 Nov 2020 07:26:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-        d=hansenpartnership.com; s=20151216; t=1606750004;
-        bh=zumiwSazpK55tNRFGBFzzI3yo5Ly/pV2WfcikY/35C8=;
-        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-        b=Bm6/3oruyIG/x6/IKzHQVm0VJEgsCdQPh10kw3PKHpTDgnVb8ox4T30uKo0egL2Xu
-         lCtuwoZB0ZoVJMjx8C9/4Sqr0UG7gH21lhjVsZdZiwdyPIFSrpVtXeWO7i3iohWlvS
-         7seFQuDh7Cw02fnmAupgAg7BHgnk2sDoo0bZ4T0s=
-Received: from bedivere.hansenpartnership.com ([127.0.0.1])
-        by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id GgQ0vFvIaRmn; Mon, 30 Nov 2020 07:26:44 -0800 (PST)
-Received: from jarvis.int.hansenpartnership.com (unknown [IPv6:2601:600:8280:66d1::527])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 52E551280A62;
-        Mon, 30 Nov 2020 07:26:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-        d=hansenpartnership.com; s=20151216; t=1606750004;
-        bh=zumiwSazpK55tNRFGBFzzI3yo5Ly/pV2WfcikY/35C8=;
-        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-        b=Bm6/3oruyIG/x6/IKzHQVm0VJEgsCdQPh10kw3PKHpTDgnVb8ox4T30uKo0egL2Xu
-         lCtuwoZB0ZoVJMjx8C9/4Sqr0UG7gH21lhjVsZdZiwdyPIFSrpVtXeWO7i3iohWlvS
-         7seFQuDh7Cw02fnmAupgAg7BHgnk2sDoo0bZ4T0s=
-Message-ID: <340647a1c39a0affd994e39f5b0163f60f62b261.camel@HansenPartnership.com>
-Subject: Re: [PATCH RESEND v4 0/1] add sysfs exports for TPM 2 PCR registers
-From:   James Bottomley <James.Bottomley@HansenPartnership.com>
-To:     Greg KH <greg@kroah.com>
-Cc:     linux-integrity@vger.kernel.org, Mimi Zohar <zohar@linux.ibm.com>,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        linux-api@vger.kernel.org
-Date:   Mon, 30 Nov 2020 07:26:43 -0800
-In-Reply-To: <X8Sq6VPMtOxPAi3N@kroah.com>
-References: <20201129223022.5153-1-James.Bottomley@HansenPartnership.com>
-         <X8Sq6VPMtOxPAi3N@kroah.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 
+        id S1728321AbgK3Rqe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 30 Nov 2020 12:46:34 -0500
+Received: from mga04.intel.com ([192.55.52.120]:44919 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725980AbgK3Rqd (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 30 Nov 2020 12:46:33 -0500
+IronPort-SDR: jSgWwYRn4nzKYNabLtDFv9P9L4O9GaMxGIBLgqf0K0/zVBiG561GqvQUzfSBB0hbQHVwAduTan
+ QenZq/lsfdsQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9821"; a="170113575"
+X-IronPort-AV: E=Sophos;i="5.78,382,1599548400"; 
+   d="scan'208";a="170113575"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2020 09:45:53 -0800
+IronPort-SDR: vZRTpDdKdayDzok8vkW+PhjhG1R+BvaAfB+/UnkjqYKMRsUubGWnO7F7C5wLKvng0T5Qyf1IMX
+ EntacmBTDsOQ==
+X-IronPort-AV: E=Sophos;i="5.78,382,1599548400"; 
+   d="scan'208";a="549194444"
+Received: from ggudukba-mobl.amr.corp.intel.com (HELO [10.209.42.187]) ([10.209.42.187])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2020 09:45:51 -0800
+Subject: Re: [NEEDS-REVIEW] [PATCH v15 03/26] x86/fpu/xstate: Introduce CET
+ MSR XSAVES supervisor states
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+References: <20201110162211.9207-1-yu-cheng.yu@intel.com>
+ <20201110162211.9207-4-yu-cheng.yu@intel.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <cfbd90a8-6996-fa7b-a41a-54ff540f419c@intel.com>
+Date:   Mon, 30 Nov 2020 09:45:51 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20201110162211.9207-4-yu-cheng.yu@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, 2020-11-30 at 09:18 +0100, Greg KH wrote:
-> On Sun, Nov 29, 2020 at 02:30:21PM -0800, James Bottomley wrote:
-> > Cc to linux-api to get an opinion on two issues.  First the
-> > background:
-> > 
-> > We've had a fairly extensive discussion over on linux-integrity and
-> > iterated to the conclusion that the kernel does need to export TPM
-> > 2.0 PCR values for use by a variety of userspace integrity
-> > programmes including early boot.  The principle clinching argument
-> > seems to be that these values are required by non-root systems, but
-> > in a default Linux set up the packet marshalled communication
-> > device: /dev/tpmrm0, is by default only usable by
-> > root.  Historically, TPM 1.2 exported these values via sysfs in a
-> > single file containing all 24 values:
-> > 
-> >   /sys/class/tpm/tpm0/pcrs
-> > 
-> > with the format
-> > 
-> >   PCR-00: 7D 29 CB 08 0C 0F C4 16 7A 0E 9A F7 C6 D3 97 CD C1 21 A7
-> > 69 
-> >   PCR-01: 9C B6 79 4C E4 4B 62 97 4C AB 55 13 1A 2F 7E AE 09 B3 30
-> > BE 
-> >   ...
+On 11/10/20 8:21 AM, Yu-cheng Yu wrote:
+> Control-flow Enforcement Technology (CET) adds five MSRs.  Introduce
+> them and their XSAVES supervisor states:
 > 
-> As you know, this breaks the "one value per file" for sysfs, so
-> please, do not add more files that do this.
+>     MSR_IA32_U_CET (user-mode CET settings),
+>     MSR_IA32_PL3_SSP (user-mode Shadow Stack pointer),
+>     MSR_IA32_PL0_SSP (kernel-mode Shadow Stack pointer),
+>     MSR_IA32_PL1_SSP (Privilege Level 1 Shadow Stack pointer),
+>     MSR_IA32_PL2_SSP (Privilege Level 2 Shadow Stack pointer).
 
-I haven't ... if you read the below you'll see it's now one value per
-file.
+This patch goes into a bunch of XSAVE work that this changelog only
+briefly touches on.  I think it needs to be beefed up a bit.
 
-> > TPM 2.0 adds more complexity: because of it's "agile" format, each
-> > TPM 2.0 is required to support a set of hashes (of which at least
-> > sha1 and sha256 are required but quite a few TPM 2.0s have at least
-> > two or three more) and maintain 24 PCR registers for each supported
-> > hash. The current patch exports each PCR bank under the directory
-> > 
-> >   /sys/class/tpm/tpm0/pcr-<hash>/<bank>
-> > 
-> > So the sha256 bank value of PCR 7 can be obtained as
-> > 
-> >   cat /sys/class/tpm/tpm0/pcr-sha256/7
-> >   2ED93F199692DC6788EFA6A1FE74514AB9760B2A6CEEAEF6C808C13E4ABB0D42
-> > 
-> > And the output is a single non-space separated ascii hex value of
-> > the hash.
-> > 
-> > The issues we'd like input on are:
-> > 
-> >  1. Should this be in sysfs or securityfs?
-> 
-> If you want to use sysfs, use one value per file please.
+> @@ -835,8 +843,19 @@ void __init fpu__init_system_xstate(void)
+>  	 * Clear XSAVE features that are disabled in the normal CPUID.
+>  	 */
+>  	for (i = 0; i < ARRAY_SIZE(xsave_cpuid_features); i++) {
+> -		if (!boot_cpu_has(xsave_cpuid_features[i]))
+> -			xfeatures_mask_all &= ~BIT_ULL(i);
+> +		if (xsave_cpuid_features[i] == X86_FEATURE_SHSTK) {
+> +			/*
+> +			 * X86_FEATURE_SHSTK and X86_FEATURE_IBT share
+> +			 * same states, but can be enabled separately.
+> +			 */
+> +			if (!boot_cpu_has(X86_FEATURE_SHSTK) &&
+> +			    !boot_cpu_has(X86_FEATURE_IBT))
+> +				xfeatures_mask_all &= ~BIT_ULL(i);
+> +		} else {
+> +			if ((xsave_cpuid_features[i] == -1) ||
 
-It is ... each PCR gives one hash value per PCR and bank.  That's what
-the file above is showing.  The hash values are 20 bytes for sha1, 32
-bytes for sha256 and so on.
+Where did the -1 come from?  Was that introduced earlier in this series?
+ I don't see any way a xsave_cpuid_features[] can be -1 in the current tree.
 
-> >   2. Should we export the values as one value per file (current
-> > patch)
-> >      or as a binary blob of all 24?
-> 
-> Binary sysfs files are for "pass-through" mode where the kernel is
-> not parsing/manipulating the data at all.  Do these values come
-> straight from the hardware?  If so, sure, use a binary blob.  If not,
-> then no, do not use that in sysfs as sysfs is to be in text format.
+> +			    !boot_cpu_has(xsave_cpuid_features[i]))
+> +				xfeatures_mask_all &= ~BIT_ULL(i);
+> +		}
+>  	}
 
-There was a question over whether the hash should be ascii as above
-(hex representation) so human readable, or the 20/32/whatever binary
-bytes of the hash.  I think we've got that resolved that ascii works.
+Do we have any other spots in the kernel where we care about:
 
-James
+	boot_cpu_has(X86_FEATURE_SHSTK) ||
+	boot_cpu_has(X86_FEATURE_IBT)
 
+?  If so, we could also address this by declaring a software-defined
+X86_FEATURE_CET and then setting it if SHSTK||IBT is supported, then we
+just put that one feature in xsave_cpuid_features[].
 
+I'm also not crazy about the loop as it is.  I'd much rather see this in
+a helper like:
+
+bool cpu_supports_xsave_deps(int xfeature)
+{
+	bool ret;
+
+	ret = boot_cpu_has(xsave_cpuid_features[xfeature])
+
+	/*
+	 * X86_FEATURE_SHSTK is checked in xsave_cpuid_features()
+	 * but the CET states are needed if either SHSTK or IBT are
+	 * available.
+	 */
+	if (xfeature == XFEATURE_CET_USER ||
+	    xfeature == XFEATURE_CET_KERNEL)
+		ret |= boot_cpu_has(X86_FEATURE_IBT)
+		
+	return ret;
+}
+
+See how that's extensible?  You can add as many special cases as you want.
