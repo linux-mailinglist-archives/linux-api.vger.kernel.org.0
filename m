@@ -2,108 +2,122 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EEA852C8E29
-	for <lists+linux-api@lfdr.de>; Mon, 30 Nov 2020 20:36:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 534002C8E3E
+	for <lists+linux-api@lfdr.de>; Mon, 30 Nov 2020 20:40:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729877AbgK3Tfz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 30 Nov 2020 14:35:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39080 "EHLO
+        id S1729963AbgK3TkU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 30 Nov 2020 14:40:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727805AbgK3Tfy (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 30 Nov 2020 14:35:54 -0500
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DBD0C0613D6
-        for <linux-api@vger.kernel.org>; Mon, 30 Nov 2020 11:35:14 -0800 (PST)
-Received: by mail-pg1-x531.google.com with SMTP id w4so10679323pgg.13
-        for <linux-api@vger.kernel.org>; Mon, 30 Nov 2020 11:35:14 -0800 (PST)
+        with ESMTP id S1729962AbgK3TkU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 30 Nov 2020 14:40:20 -0500
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A20DCC061A04
+        for <linux-api@vger.kernel.org>; Mon, 30 Nov 2020 11:39:11 -0800 (PST)
+Received: by mail-lj1-x243.google.com with SMTP id s9so19754422ljo.11
+        for <linux-api@vger.kernel.org>; Mon, 30 Nov 2020 11:39:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=osandov-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=zoIMtVE4+1+o9p0pbm0cQZHtnOHf9cojfw2g8Pzl99w=;
-        b=nFwXZN+9x1uRKlRpb2fisB/ELkMzUI7nBOTDK+3QkUAWIm3IfPiJqiGjivf6F3sSwv
-         RoZyHi7CgxvW3SSOZQ2cU1/KY0Iy+CUvtAsqwt6VbmFNVW6B+eL6V31xyW900NDwZht5
-         N2oHTj6Gh8XEDl0zpxkojlT54hjr847iaIKNqFW9i3ucnsLmDSouyItCamuTeqB2jgEm
-         0AXOJ61q3ZHbh7mqIh6vCm6/n53SmiKHvl5J6WQtgx6lhqPLoAlk4NAHMXWCsP8Sta+x
-         RZJhxhos8lefJMBl3CLwk3ul9mLSpsmV5sZfheVZtdZuZ8VK8F4zN5m0ix/m3QpJBjKp
-         OnMw==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=0+kKX0kuteZmVrkELKmO38aHUCQfmtksSV+RNnpLrBU=;
+        b=J/bqOdKxRj6v313iPonX/IikdbWpTlowHmo/2YfKookREQFK4kMLQ8QiA2iHZ6s6hl
+         1iD9XEmJitK7+FqMZe21RtqW2tbK64eSNxhNMJQC5Nt/DZyxLElOjrWUqcfp7AU1xxl9
+         xPPPszWhrBash8DYZBc4GgMPxNcNzsz9Yn0MdTTqGdJKpEOXkv4+g61plZbdJ7IfXQ3e
+         AtuxK9Ap3PCYyiaf7JVuSka96p0kGVmafDZo4hhLAdFXTIQ7T6sSY6gQZg9dEe/QLoPB
+         VVuXdQsI9RjgoRMIqT31lf35pKiKvRTnZpHOT7SqIOU7yBIuYLjepszfGWRpOfHvJgga
+         hTqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=zoIMtVE4+1+o9p0pbm0cQZHtnOHf9cojfw2g8Pzl99w=;
-        b=jtRS8jOWYKoQKmbR8ChCczLeB43shCPacVH7KBwR8s7Z4hfPsQFyX2VBNmZg9KA1Wt
-         bHu0c2WnqhKpHVPPCIaSc0P9j8uFUoIxHs7W0vC3TOeuYy8U4Lk6epRUd1dEqrA8JDcI
-         PPuVJGaTP2v7DiDJQu1CxA4AfNy+q5K41WvMnrnBrsNeDki5CXv1k9y0ha6Fpxzf7dWn
-         Qyct9FdaSXYdWg6DFjiPMHNU/9SL+yR/UcV1cJy8blZsBPzgzD7vRBUTy6+3jtl6218k
-         mndOcQ8Awkodwc5mkagm2e0co/t9fOFuZtzY4pL8TN6nmOwIEcDBYM9n3BKlTUFVa2Xu
-         drig==
-X-Gm-Message-State: AOAM531ybrD1DjpQ3kxUzscuprTMYkp/pOuwH7JR9K4dfM8JpkuFAXb0
-        KUbjoxjumbk6EhzZA2EL+SEuow==
-X-Google-Smtp-Source: ABdhPJyg/H6c/EHEcuAnEkbxBKhJCsZbEssRrqxYEujREgZsvL9Edhwh0+EkZiCX44t3hNqjg9XPLg==
-X-Received: by 2002:a63:f857:: with SMTP id v23mr19059138pgj.174.1606764913878;
-        Mon, 30 Nov 2020 11:35:13 -0800 (PST)
-Received: from relinquished.localdomain ([2601:602:8b80:8e0::b2be])
-        by smtp.gmail.com with ESMTPSA id s10sm10916857pgg.76.2020.11.30.11.35.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Nov 2020 11:35:12 -0800 (PST)
-Date:   Mon, 30 Nov 2020 11:35:10 -0800
-From:   Omar Sandoval <osandov@osandov.com>
-To:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-Cc:     Michael Kerrisk <mtk.manpages@gmail.com>,
-        linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dave Chinner <david@fromorbit.com>,
-        Jann Horn <jannh@google.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Aleksa Sarai <cyphar@cyphar.com>, linux-api@vger.kernel.org,
-        kernel-team@fb.com, linux-man <linux-man@vger.kernel.org>
-Subject: Re: [PATCH man-pages v6] Document encoded I/O
-Message-ID: <X8VJbqz+XtA5Vmth@relinquished.localdomain>
-References: <cover.1605723568.git.osandov@fb.com>
- <ec1588a618bd313e5a7c05a7f4954cc2b76ddac3.1605724767.git.osandov@osandov.com>
- <4d1430aa-a374-7565-4009-7ec5139bf311@gmail.com>
- <fb4a4270-eb7a-06d5-e703-9ee470b61f8b@gmail.com>
- <05e1f13c-5776-961b-edc4-0d09d02b7829@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=0+kKX0kuteZmVrkELKmO38aHUCQfmtksSV+RNnpLrBU=;
+        b=qI6n5OTBM5jAmPBZqLlj1ylGfCu2d961JaNhXBnVH/C+hXSZjuznIGjY4AG1L0vsLi
+         eFrFJADggYQLos2pBOwFIoSHCmyz+qwyIqms4E5QXD2WpOGKTZUNNiGl0RlmLt9ahGvs
+         dB08oxcgsIDkd9kskCk6Hcy5++IRjNyP9oYaWHJRdwmUVtGtZczbHbvTgUYFbAaWYnfV
+         5ax0P/3wvvh1vp/vU90xEi0vy9fURZj0TANBYc7JjJIf+nWVS2BpQA0i5omN8ToRXoZO
+         hq+6P4Mo6h59eVt1gpIWw9NWAipMxtbeo3xCGbFWlFygMR3XO9bDwxg0lWARQ63jnDWx
+         tKRg==
+X-Gm-Message-State: AOAM533joW0l3Q5D9qddU8DK+oZccHwzOrAzVLYSYexWrKWs/dOQbc7X
+        yTzuy0zxUa04IUW01a973RPlRMahhTj44snvwOoA+g==
+X-Google-Smtp-Source: ABdhPJzl5GtwHh8u58PsVhPmQyulqAyzFwl6ovo793j64B4rhBzRkF7NsGtFUrbp/zwQ0qfPVs4EW+p+yUBEmTmH7QY=
+X-Received: by 2002:a05:651c:1292:: with SMTP id 18mr10179147ljc.334.1606765149900;
+ Mon, 30 Nov 2020 11:39:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <05e1f13c-5776-961b-edc4-0d09d02b7829@gmail.com>
+References: <20201110162211.9207-2-yu-cheng.yu@intel.com> <20201130182641.29812-1-ndesaulniers@google.com>
+ <4fad528b-e467-f96d-b7fb-9484fd975886@intel.com>
+In-Reply-To: <4fad528b-e467-f96d-b7fb-9484fd975886@intel.com>
+From:   =?UTF-8?B?RsSBbmctcnXDrCBTw7JuZw==?= <maskray@google.com>
+Date:   Mon, 30 Nov 2020 11:38:58 -0800
+Message-ID: <CAFP8O3LjdP69_T1Ve-zZjvg7+v8xV1mh9Wk8zm4LpAsE2PG58Q@mail.gmail.com>
+Subject: Re: [PATCH v15 01/26] Documentation/x86: Add CET description
+To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Dave P Martin <Dave.Martin@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        bsingharora@gmail.com, Jonathan Corbet <corbet@lwn.net>,
+        dave.hansen@linux.intel.com, esyr@redhat.com,
+        Florian Weimer <fweimer@redhat.com>, gorcunov@gmail.com,
+        "H.J. Lu" <hjl.tools@gmail.com>, "H. Peter Anvin" <hpa@zytor.com>,
+        jannh@google.com, Kees Cook <keescook@chromium.org>,
+        linux-api@vger.kernel.org, linux-arch <linux-arch@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
+        luto@kernel.org, mike.kravetz@oracle.com,
+        Ingo Molnar <mingo@redhat.com>, nadav.amit@gmail.com,
+        oleg@redhat.com, pavel@ucw.cz, pengfei.xu@intel.com,
+        Peter Zijlstra <peterz@infradead.org>,
+        ravi.v.shankar@intel.com, Randy Dunlap <rdunlap@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        vedvyas.shanbhogue@intel.com, weijiang.yang@intel.com,
+        X86 ML <x86@kernel.org>, Luis Lozano <llozano@google.com>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        erich.keane@intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Nov 20, 2020 at 04:03:44PM +0100, Alejandro Colomar (man-pages) wrote:
-> Hi Omar,
-> 
-> I found a wording of mine to be a bit confusing.
-> Please see below.
-> 
+On Mon, Nov 30, 2020 at 10:34 AM Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote=
+:
+>
+> On 11/30/2020 10:26 AM, Nick Desaulniers wrote:
+> > (In response to https://lore.kernel.org/lkml/20201110162211.9207-2-yu-c=
+heng.yu@intel.com/)
+> >
+> >> These need to be enabled to build a CET-enabled kernel, and Binutils v=
+2.31
+> >> and GCC v8.1 or later are required to build a CET kernel.
+> >
+> > What about LLVM? Surely CrOS might be of interest to ship this on (we s=
+hip the
+> > equivalent for aarch64 on Android).
+> >
+>
+> I have not built with LLVM, but think it probably will work as well.  I
+> will test it.
+>
+> >> An application's CET capability is marked in its ELF header and can be
+> >> verified from the following command output, in the NT_GNU_PROPERTY_TYP=
+E_0
+> >> field:
+> >>
+> >>      readelf -n <application> | grep SHSTK
+> >>          properties: x86 feature: IBT, SHSTK
+> >
+> > Same for llvm-readelf.
+> >
+>
+> I will add that to the document.
+>
 > Thanks,
-> 
-> Alex
-> 
-> On 11/20/20 3:06 PM, Alejandro Colomar (man-pages) wrote:
-> > Hi Omar and Michael,
-> > 
-> > please, see below.
-> > 
-> > Thanks,
-> > 
-> > Alex
-> > 
-> > On 11/20/20 12:29 AM, Alejandro Colomar (mailing lists; readonly) wrote:
-> >> Hi Omar,
-> >>
-> >> Please, see some fixes below:
-> >>
-> >> Michael, I've also some questions for you below
-> >> (you can grep for mtk to find those).
-> >>
-> >> Thanks,
-> >>
-> >> Alex
+> Yu-cheng
 
-Thanks for the suggestions, I'll incorporate those into the next
-submission.
+The baseline LLVM version is 10.0.1, which is good enough for  clang
+-fcf-protection=3Dfull, llvm-readelf -n, LLD's .note.gnu.property
+handling (the LLD option is `-z force-ibt`, though)
+
+
+--=20
+=E5=AE=8B=E6=96=B9=E7=9D=BF
