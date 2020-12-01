@@ -2,135 +2,231 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 595282CAA64
-	for <lists+linux-api@lfdr.de>; Tue,  1 Dec 2020 19:02:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CAFDC2CABEB
+	for <lists+linux-api@lfdr.de>; Tue,  1 Dec 2020 20:26:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404221AbgLASB6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 1 Dec 2020 13:01:58 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:16480 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726104AbgLASB5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 1 Dec 2020 13:01:57 -0500
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B5fc684eb0001>; Tue, 01 Dec 2020 10:01:15 -0800
-Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 1 Dec
- 2020 18:01:15 +0000
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.169)
- by HQMAIL111.nvidia.com (172.20.187.18) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3 via Frontend Transport; Tue, 1 Dec 2020 18:01:14 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eIvv93DOJqTSfVNnS0si2Ol4vNWDftbOG6Y4EYYaTIkEN4zZpfZBPGMoeqRIB6832RsbBHV6H/Jw02SZabqfGyC8ZRKuKcEO+5/f0WvmMoLtajL2EwWEGWUdeLU8mFK5Q6MeN1kTQFLqZZHvNgvyldLYAa6BJUMIyIodDzuSjVj/yMUkp5J7RXSDtbb9ygvactmee0/MVBV5sDoRhcpCu5KmZUCjGvusBWRZQC/+qseeCbPJohhH+WnI09ZnM97Ph4r4HoRvHYleC3vG8pPsP2Z5aWaGWQ/Q+xZZTDYZGm3XybzTyHL6rUOEtcEWUxQAdhgCOKCC+rRCIdakmxmr1A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hafZzjATtu2mX19gY6LAnVioZz1FqT2kyJuaRi9Zo6k=;
- b=LJVydS4qt0r1MY+07ThBZPXju/ZZAN+ccdeUCJmI/hYpbNB9tVtOq+WphKCyyZjNIvLAjejDerzFxQUTxwQZ0JOM9LWBhBHE/vufIdJhY+DGzSCrfH3K71aZ54dZAzhBs6Olq1VlhBDCTlLC+iK7k+g8uDJBGx+LHL/Zk/l1Pp8HueNT+vQAafgxt5o5CO2NFtvaU//qpk1IN5cOaHHsKKEGLuOusvccs2p74FVsbVSND9ZyEHhJscFyb41GHa+pujHuF7FH66xVbcJTVPSZYV1uMY/7JIjW4V+38IMKoDoMjzjcvpHXTKaDHTyFZCAa8Npw4ZvftZ+d/cqUDQmTMQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
- by DM6PR12MB4451.namprd12.prod.outlook.com (2603:10b6:5:2ab::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17; Tue, 1 Dec
- 2020 18:01:13 +0000
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::1ce9:3434:90fe:3433]) by DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::1ce9:3434:90fe:3433%3]) with mapi id 15.20.3611.031; Tue, 1 Dec 2020
- 18:01:13 +0000
-Date:   Tue, 1 Dec 2020 14:01:11 -0400
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Matthew Wilcox <willy@infradead.org>
-CC:     Adalbert =?utf-8?B?TGF6xINy?= <alazar@bitdefender.com>,
-        <linux-mm@kvack.org>, <linux-api@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Graf <graf@amazon.com>,
-        Stefan Hajnoczi <stefanha@redhat.com>,
-        Jerome Glisse <jglisse@redhat.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Mihai =?utf-8?B?RG9uyJt1?= <mdontu@bitdefender.com>,
-        Mircea Cirjaliu <mcirjaliu@bitdefender.com>,
-        Andy Lutomirski <luto@kernel.org>,
+        id S2390579AbgLATYa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 1 Dec 2020 14:24:30 -0500
+Received: from smtp-190a.mail.infomaniak.ch ([185.125.25.10]:46349 "EHLO
+        smtp-190a.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2392382AbgLATYR (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 1 Dec 2020 14:24:17 -0500
+Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4ClsTB523MzlhdR2;
+        Tue,  1 Dec 2020 20:23:26 +0100 (CET)
+Received: from localhost (unknown [23.97.221.149])
+        by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4ClsT92XT8zlh8TC;
+        Tue,  1 Dec 2020 20:23:24 +0100 (CET)
+From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
+To:     James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
+        "Serge E . Hallyn" <serge@hallyn.com>
+Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
         Arnd Bergmann <arnd@arndb.de>,
-        Sargun Dhillon <sargun@sargun.me>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Oleg Nesterov <oleg@redhat.com>, Jann Horn <jannh@google.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromium.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>
-Subject: Re: [RESEND RFC PATCH 0/5] Remote mapping
-Message-ID: <20201201180111.GA1074504@nvidia.com>
-References: <20200904113116.20648-1-alazar@bitdefender.com>
- <20200904121148.GR24045@ziepe.ca>
- <20200904194139.GA5881@casper.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20200904194139.GA5881@casper.infradead.org>
-X-ClientProxiedBy: MN2PR05CA0005.namprd05.prod.outlook.com
- (2603:10b6:208:c0::18) To DM6PR12MB3834.namprd12.prod.outlook.com
- (2603:10b6:5:14a::12)
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        linux-security-module@vger.kernel.org, x86@kernel.org
+Subject: [PATCH v25 00/12] Landlock LSM
+Date:   Tue,  1 Dec 2020 20:23:10 +0100
+Message-Id: <20201201192322.213239-1-mic@digikod.net>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (156.34.48.30) by MN2PR05CA0005.namprd05.prod.outlook.com (2603:10b6:208:c0::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.6 via Frontend Transport; Tue, 1 Dec 2020 18:01:12 +0000
-Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1kk9xf-004ViB-17; Tue, 01 Dec 2020 14:01:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1606845675; bh=kVBl4qffB0PMZzayVp89igSBN2O+SlLrNbvle5/c/EI=;
-        h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:Date:
-         From:To:CC:Subject:Message-ID:References:Content-Type:
-         Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
-         X-ClientProxiedBy:MIME-Version:
-         X-MS-Exchange-MessageSentRepresentingType;
-        b=ONiAAFm5L5uHy5uEIqqdWAWdgRANlXEriWbznx74zFEn3jcYZyEoiboG8zTec7O9A
-         5A6mZE+8PLwLSZ9sgnSjTvScJoTjdn9HnCVJgvcY/J01QZr7kByC78DsKAGcAGy0wg
-         L1aFGMec77PhVvO9rUrMuOmQgciXD0junYEx70e04AX8h4F3jeXd5vXTtfWHbKrSB8
-         6nyCC6fV3eMP/pJnCg5055LuH2cvHZ+IVQOC+dXa9FOoh8iLvf+2GinLVHWzzA3MFr
-         ZLi4tz+igKsxYU7Wy3oP0ctSp35zJsj2oLBazxAraYNUJPhbKS5jSMBbXjkzmi6hCy
-         aEdKU17bRDukA==
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Sep 04, 2020 at 08:41:39PM +0100, Matthew Wilcox wrote:
-> On Fri, Sep 04, 2020 at 09:11:48AM -0300, Jason Gunthorpe wrote:
-> > On Fri, Sep 04, 2020 at 02:31:11PM +0300, Adalbert Laz=C4=83r wrote:
-> > > VMAs obtained by mmap()ing memory access fds mirror the contents of t=
-he remote
-> > > process address space within the specified range. Pages are installed=
- in the
-> > > current process page tables at fault time and removed by the mmu_inte=
-rval_notifier
-> > > invalidate callbck. No further memory management is involved.
-> > > On attempts to access a hole, or if a mapping was removed by PIDFD_ME=
-M_UNMAP,
-> > > or if the remote process address space was reaped by OOM, the remote =
-mapping
-> > > fault handler returns VM_FAULT_SIGBUS.
-> >=20
-> > I still think anything along these lines needs to meet the XPMEM use
-> > cases as well, we have to have more general solutions for such MM
-> > stuff:
-> >=20
-> > https://gitlab.com/hjelmn/xpmem
-> >=20
-> > However, I think this fundamentally falls into some of the same bad
-> > direction as xpmem.
-> >=20
-> > I would much rather see this design copy & clone the VMA's than try to
-> > mirror the PTEs inside the VMAs from the remote into a single giant
-> > VMA and somehow split/mirror the VMA ops.
->=20
-> I'm on holiday for the next few days, but does the mshare() API work for
-> your use case?
->=20
-> Proposal: http://www.wil.cx/~willy/linux/sileby.html
-> Start at implementation:
-> http://git.infradead.org/users/willy/linux.git/shortlog/refs/heads/mshare
+Hi,
 
-I found some interest in this project here, with the detail that
-pin_user_pages() should keep working, ideally on both sides of the
-share, but essentially on the side that calls mshare()
+This patch series mainly extend Landlock rules to store the whole access
+rights stack.  This enables to tie access rights with their respective
+layers to be able to have a sane semantic regardless of the previous
+enforced rulesets.  This also enables to get back the union of access
+rights when building a ruleset.  See layout1.interleaved_masked_accesses
+tests from tools/testing/selftests/landlock/fs_test.c for corner cases.
+Cf.
+https://lore.kernel.org/lkml/CAG48ez2cmsrZbUEmQmzPQugJikkvfs_MWmMizxmoyspCeXAXRQ@mail.gmail.com/
 
-Maybe we can help out, at least cc me if you make progress :)
+The SLOC count is 1260 for security/landlock/ and 1711 for
+tools/testing/selftest/landlock/ .  Test coverage for security/landlock/
+is 94% of lines.  The code not covered only deals with internal kernel
+errors (e.g. memory allocation) and race conditions.
 
-Thanks,
-Jason
+The compiled documentation is available here:
+https://landlock.io/linux-doc/landlock-v25/userspace-api/landlock.html
+
+This series can be applied on top of v5.10-rc6 .  This can be tested
+with CONFIG_SECURITY_LANDLOCK, CONFIG_SAMPLE_LANDLOCK and by prepending
+"landlock," to CONFIG_LSM.  This patch series can be found in a Git
+repository here:
+https://github.com/landlock-lsm/linux/commits/landlock-v25
+I would really appreciate constructive comments on this patch series.
+
+
+# Landlock LSM
+
+The goal of Landlock is to enable to restrict ambient rights (e.g.
+global filesystem access) for a set of processes.  Because Landlock is a
+stackable LSM [1], it makes possible to create safe security sandboxes
+as new security layers in addition to the existing system-wide
+access-controls. This kind of sandbox is expected to help mitigate the
+security impact of bugs or unexpected/malicious behaviors in user-space
+applications. Landlock empowers any process, including unprivileged
+ones, to securely restrict themselves.
+
+Landlock is inspired by seccomp-bpf but instead of filtering syscalls
+and their raw arguments, a Landlock rule can restrict the use of kernel
+objects like file hierarchies, according to the kernel semantic.
+Landlock also takes inspiration from other OS sandbox mechanisms: XNU
+Sandbox, FreeBSD Capsicum or OpenBSD Pledge/Unveil.
+
+In this current form, Landlock misses some access-control features.
+This enables to minimize this patch series and ease review.  This series
+still addresses multiple use cases, especially with the combined use of
+seccomp-bpf: applications with built-in sandboxing, init systems,
+security sandbox tools and security-oriented APIs [2].
+
+Previous version:
+https://lore.kernel.org/lkml/20201112205141.775752-1-mic@digikod.net/
+
+[1] https://lore.kernel.org/lkml/50db058a-7dde-441b-a7f9-f6837fe8b69f@schaufler-ca.com/
+[2] https://lore.kernel.org/lkml/f646e1c7-33cf-333f-070c-0a40ad0468cd@digikod.net/
+
+
+Casey Schaufler (1):
+  LSM: Infrastructure management of the superblock
+
+Mickaël Salaün (11):
+  landlock: Add object management
+  landlock: Add ruleset and domain management
+  landlock: Set up the security framework and manage credentials
+  landlock: Add ptrace restrictions
+  fs,security: Add sb_delete hook
+  landlock: Support filesystem access-control
+  landlock: Add syscall implementations
+  arch: Wire up Landlock syscalls
+  selftests/landlock: Add user space tests
+  samples/landlock: Add a sandbox manager example
+  landlock: Add user and kernel documentation
+
+ Documentation/security/index.rst              |    1 +
+ Documentation/security/landlock.rst           |   79 +
+ Documentation/userspace-api/index.rst         |    1 +
+ Documentation/userspace-api/landlock.rst      |  280 +++
+ MAINTAINERS                                   |   13 +
+ arch/Kconfig                                  |    7 +
+ arch/alpha/kernel/syscalls/syscall.tbl        |    3 +
+ arch/arm/tools/syscall.tbl                    |    3 +
+ arch/arm64/include/asm/unistd.h               |    2 +-
+ arch/arm64/include/asm/unistd32.h             |    6 +
+ arch/ia64/kernel/syscalls/syscall.tbl         |    3 +
+ arch/m68k/kernel/syscalls/syscall.tbl         |    3 +
+ arch/microblaze/kernel/syscalls/syscall.tbl   |    3 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl     |    3 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl     |    3 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl     |    3 +
+ arch/parisc/kernel/syscalls/syscall.tbl       |    3 +
+ arch/powerpc/kernel/syscalls/syscall.tbl      |    3 +
+ arch/s390/kernel/syscalls/syscall.tbl         |    3 +
+ arch/sh/kernel/syscalls/syscall.tbl           |    3 +
+ arch/sparc/kernel/syscalls/syscall.tbl        |    3 +
+ arch/um/Kconfig                               |    1 +
+ arch/x86/entry/syscalls/syscall_32.tbl        |    3 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |    3 +
+ arch/xtensa/kernel/syscalls/syscall.tbl       |    3 +
+ fs/super.c                                    |    1 +
+ include/linux/lsm_hook_defs.h                 |    1 +
+ include/linux/lsm_hooks.h                     |    3 +
+ include/linux/security.h                      |    4 +
+ include/linux/syscalls.h                      |    7 +
+ include/uapi/asm-generic/unistd.h             |    8 +-
+ include/uapi/linux/landlock.h                 |  128 ++
+ kernel/sys_ni.c                               |    5 +
+ samples/Kconfig                               |    7 +
+ samples/Makefile                              |    1 +
+ samples/landlock/.gitignore                   |    1 +
+ samples/landlock/Makefile                     |   15 +
+ samples/landlock/sandboxer.c                  |  236 +++
+ security/Kconfig                              |   11 +-
+ security/Makefile                             |    2 +
+ security/landlock/Kconfig                     |   21 +
+ security/landlock/Makefile                    |    4 +
+ security/landlock/common.h                    |   20 +
+ security/landlock/cred.c                      |   46 +
+ security/landlock/cred.h                      |   58 +
+ security/landlock/fs.c                        |  635 ++++++
+ security/landlock/fs.h                        |   60 +
+ security/landlock/object.c                    |   67 +
+ security/landlock/object.h                    |   91 +
+ security/landlock/ptrace.c                    |  120 ++
+ security/landlock/ptrace.h                    |   14 +
+ security/landlock/ruleset.c                   |  427 ++++
+ security/landlock/ruleset.h                   |  163 ++
+ security/landlock/setup.c                     |   40 +
+ security/landlock/setup.h                     |   18 +
+ security/landlock/syscall.c                   |  426 ++++
+ security/security.c                           |   51 +-
+ security/selinux/hooks.c                      |   58 +-
+ security/selinux/include/objsec.h             |    6 +
+ security/selinux/ss/services.c                |    3 +-
+ security/smack/smack.h                        |    6 +
+ security/smack/smack_lsm.c                    |   35 +-
+ tools/testing/selftests/Makefile              |    1 +
+ tools/testing/selftests/landlock/.gitignore   |    2 +
+ tools/testing/selftests/landlock/Makefile     |   24 +
+ tools/testing/selftests/landlock/base_test.c  |  117 ++
+ tools/testing/selftests/landlock/common.h     |  113 ++
+ tools/testing/selftests/landlock/config       |    5 +
+ tools/testing/selftests/landlock/fs_test.c    | 1798 +++++++++++++++++
+ .../testing/selftests/landlock/ptrace_test.c  |  307 +++
+ tools/testing/selftests/landlock/true.c       |    5 +
+ 71 files changed, 5532 insertions(+), 77 deletions(-)
+ create mode 100644 Documentation/security/landlock.rst
+ create mode 100644 Documentation/userspace-api/landlock.rst
+ create mode 100644 include/uapi/linux/landlock.h
+ create mode 100644 samples/landlock/.gitignore
+ create mode 100644 samples/landlock/Makefile
+ create mode 100644 samples/landlock/sandboxer.c
+ create mode 100644 security/landlock/Kconfig
+ create mode 100644 security/landlock/Makefile
+ create mode 100644 security/landlock/common.h
+ create mode 100644 security/landlock/cred.c
+ create mode 100644 security/landlock/cred.h
+ create mode 100644 security/landlock/fs.c
+ create mode 100644 security/landlock/fs.h
+ create mode 100644 security/landlock/object.c
+ create mode 100644 security/landlock/object.h
+ create mode 100644 security/landlock/ptrace.c
+ create mode 100644 security/landlock/ptrace.h
+ create mode 100644 security/landlock/ruleset.c
+ create mode 100644 security/landlock/ruleset.h
+ create mode 100644 security/landlock/setup.c
+ create mode 100644 security/landlock/setup.h
+ create mode 100644 security/landlock/syscall.c
+ create mode 100644 tools/testing/selftests/landlock/.gitignore
+ create mode 100644 tools/testing/selftests/landlock/Makefile
+ create mode 100644 tools/testing/selftests/landlock/base_test.c
+ create mode 100644 tools/testing/selftests/landlock/common.h
+ create mode 100644 tools/testing/selftests/landlock/config
+ create mode 100644 tools/testing/selftests/landlock/fs_test.c
+ create mode 100644 tools/testing/selftests/landlock/ptrace_test.c
+ create mode 100644 tools/testing/selftests/landlock/true.c
+
+
+base-commit: b65054597872ce3aefbc6a666385eabdf9e288da
+-- 
+2.29.2
+
