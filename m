@@ -2,106 +2,102 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29B322CB03D
-	for <lists+linux-api@lfdr.de>; Tue,  1 Dec 2020 23:39:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A1072CB077
+	for <lists+linux-api@lfdr.de>; Tue,  1 Dec 2020 23:54:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727374AbgLAWhV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 1 Dec 2020 17:37:21 -0500
-Received: from mga01.intel.com ([192.55.52.88]:28888 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727364AbgLAWhU (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 1 Dec 2020 17:37:20 -0500
-IronPort-SDR: NmKS38+hxB13afkY7qpMGkYkb0vuiArue2OrNlKjpweFJ5vS8+YTeMxaKE9Hgvc/QJbQuPtSbv
- c9GTv7defVIw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9822"; a="191126641"
-X-IronPort-AV: E=Sophos;i="5.78,385,1599548400"; 
-   d="scan'208";a="191126641"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2020 14:35:23 -0800
-IronPort-SDR: gGWS34BVjbVpM4Uca8QWpPqLLyH3hOV2FpuAteOqq+yvG+kmvBOlnGPfBBytF1SEuTL/OtAik5
- zNhntxWdRYwQ==
-X-IronPort-AV: E=Sophos;i="5.78,385,1599548400"; 
-   d="scan'208";a="537714613"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.4.202]) ([10.209.4.202])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2020 14:35:20 -0800
-Subject: Re: [PATCH v15 03/26] x86/fpu/xstate: Introduce CET MSR XSAVES
- supervisor states
-To:     Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-References: <20201110162211.9207-1-yu-cheng.yu@intel.com>
- <20201110162211.9207-4-yu-cheng.yu@intel.com>
- <cfbd90a8-6996-fa7b-a41a-54ff540f419c@intel.com>
- <3b83517e-17d6-3b53-6dbf-8ad727707b16@intel.com>
- <705fdfec-25a4-60bc-868e-af515c731273@intel.com>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <87f6309f-d5b4-a66f-99a1-d96a655290b6@intel.com>
-Date:   Tue, 1 Dec 2020 14:35:18 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+        id S1726187AbgLAWxu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 1 Dec 2020 17:53:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39724 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725955AbgLAWxt (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 1 Dec 2020 17:53:49 -0500
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42BC4C0613CF;
+        Tue,  1 Dec 2020 14:53:09 -0800 (PST)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1606863187;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=TgZGODn285I66J8L4GvbT1qQkmKT/v8XbJlr6izRTLE=;
+        b=4ye6Z4KlvJ5qQ5e6FxUs5D46elQxx2dkpqnxyjzngm47Sjliwx+UggMY/SZx6WqtZIgv4E
+        Zln2cp7hsd7soJ0kewekcccXZZ09u89CT6NhBrnvApMfIAoNbZzVkDc96jO1jIFSLnUDZb
+        fsozrv233+0HplMgX0iipn6SPepjckQTzPB9jE/mapByX8FK3WuOMvz24O/l624gKR7QMg
+        42bNa3LW2+FzJA3Hdr5fdKvki3QaX7SN4vmEJdKAb4OB31XEVHe2rIlmDTlRziCdy7oCTJ
+        Q2KOKySWJiM3HEMxwidRTBl5xdEHQAGcgmGDDCKHNsP+G7u9U+UvpLdP61hBwg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1606863187;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=TgZGODn285I66J8L4GvbT1qQkmKT/v8XbJlr6izRTLE=;
+        b=g+ac3s3Ylgc621GOUHtTePBTk73TOW5QZ2fc4BThRNc4K3E+KCtT6bg4NS5w9lfDswsp7h
+        WxsCMOQu5lSltZAQ==
+To:     Gabriel Krisman Bertazi <krisman@collabora.com>, luto@kernel.org,
+        keescook@chromium.org
+Cc:     gofmanp@gmail.com, christian.brauner@ubuntu.com,
+        peterz@infradead.org, willy@infradead.org, shuah@kernel.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, x86@kernel.org,
+        Gabriel Krisman Bertazi <krisman@collabora.com>,
+        kernel@collabora.com
+Subject: Re: [PATCH v8 7/7] docs: Document Syscall User Dispatch
+In-Reply-To: <20201127193238.821364-8-krisman@collabora.com>
+References: <20201127193238.821364-1-krisman@collabora.com> <20201127193238.821364-8-krisman@collabora.com>
+Date:   Tue, 01 Dec 2020 23:53:06 +0100
+Message-ID: <87a6uxf8a5.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <705fdfec-25a4-60bc-868e-af515c731273@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 12/1/2020 2:26 PM, Dave Hansen wrote:
-> On 11/30/20 3:16 PM, Yu, Yu-cheng wrote:
->>>
->>> Do we have any other spots in the kernel where we care about:
->>>
->>>      boot_cpu_has(X86_FEATURE_SHSTK) ||
->>>      boot_cpu_has(X86_FEATURE_IBT)
->>>
->>> ?  If so, we could also address this by declaring a software-defined
->>> X86_FEATURE_CET and then setting it if SHSTK||IBT is supported, then we
->>> just put that one feature in xsave_cpuid_features[].
->>>
->>
->> These features have different CPUIDs but are complementary parts.  I
->> don't know if someday there will be shadow-stack-only CPUs, but an
->> IBT-only CPU is weird.  What if the kernel checks that the CPU has both
->> features and presents only one feature flag (X86_FEATURE_CET), no
->> X86_FEATURE_SHSTK or X86_FEATURE_IBT?
-> 
-> Logically, that's probably fine.  But, X86_FEATURE_IBT/SHSTK are in a
-> non-scattered leaf, so we'll kinda define them whether we like it or
-> not.  We'd have to go out of our way to *not* define them.
-> 
+On Fri, Nov 27 2020 at 14:32, Gabriel Krisman Bertazi wrote:
+> +Compatibility layers like Wine need a way to efficiently emulate system
+> +calls of only a part of their process - the part that has the
+> +incompatible code - while being able to execute native syscalls without
+> +a high performance penalty on the native part of the process.  Seccomp
+> +falls short on this task, since it has limited support to efficiently
+> +filter syscalls based on memory regions, and it doesn't support removing
+> +filters.  Therefore a new mechanism is necessary.
+> +
+> +Syscall User Dispatch brings the filtering of the syscall dispatcher
+> +address back to userspace.  The application is in control of a flip
+> +switch, indicating the current personality of the process.  A
+> +multiple-personality application can then flip the switch without
+> +invoking the kernel, when crossing the compatibility layer API
+> +boundaries, to enable/disable the syscall redirection and execute
+> +syscalls directly (disabled) or send them to be emulated in userspace
+> +through a SIGSYS.
+> +
+> +The goal of this design is to provide very quick compatibility layer
+> +boundary crosses, which is achieved by not executing a syscall to change
+> +personality every time the compatibility layer executes.  Instead, a
+> +userspace memory region exposed to the kernel indicates the current
+> +personality, and the application simply modifies that variable to
+> +configure the mechanism.
+> +
+> +There is a relatively high cost associated with handling signals on most
+> +architectures, like x86, but at least for Wine, syscalls issued by
+> +native Windows code are currently not known to be a performance problem,
+> +since they are quite rare, at least for modern gaming applications.
+> +
+> +Since this mechanism is designed to capture syscalls issued by
+> +non-native applications, it must function on syscalls whose invocation
+> +ABI is completely unexpected to Linux.  Syscall User Dispatch, therefore
+> +doesn't rely on any of the syscall ABI to make the filtering.  It uses
+> +only the syscall dispatcher address and the userspace key.
 
-After more thoughts, I think it is better to just add X86_FEATURE_CET 
-and not more.  We cannot predict what is going to happen later.
-So, like what you suggested, X86_FEATURE_CET means (X86_FEATURE_SHSTK | 
-X86_FEATURE_IBT).
+I think this lacks information about the non-visiblity of these
+syscalls. Something like this:
+
+  As the ABI of these intercepted syscalls is unknown to Linux, these
+  syscalls are not instrumentable via ptrace or the syscall tracepoints.
+
+I'll add that unless someone objects or comes up with better wording
+before I apply the lot tomorrow morning.
 
 Thanks,
-Yu-cheng
+
+        tglx
