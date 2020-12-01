@@ -2,130 +2,68 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D8C9A2CAF3C
-	for <lists+linux-api@lfdr.de>; Tue,  1 Dec 2020 23:02:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E6252CAFE3
+	for <lists+linux-api@lfdr.de>; Tue,  1 Dec 2020 23:23:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729472AbgLAV7D (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 1 Dec 2020 16:59:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59544 "EHLO
+        id S1726284AbgLAWWn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 1 Dec 2020 17:22:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726410AbgLAV7D (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 1 Dec 2020 16:59:03 -0500
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7747C0613CF;
-        Tue,  1 Dec 2020 13:58:22 -0800 (PST)
-Received: by mail-ed1-x541.google.com with SMTP id v22so5750363edt.9;
-        Tue, 01 Dec 2020 13:58:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=EposTtMUZs+gVLdh7FbWQARWbgt/pepc/iVKswV5VXg=;
-        b=czectvghT+DvD0u82I0a5rIOUEyNZn+zUX5SGMK/SVj0uEjfNvsozxOtRUz3Pwh0sL
-         /J6F88vEI/JK7I/B46sW+b3WADEyvQKh6mwdJGvHf0uU9ZOT+bXFxFDX1cfoQfTvDGLH
-         qPn7e/3eXr1N6Pcz6O3L7oilzdYLGl66kp7IVfOXFAfeI13tdH820iy6iFce7lxrJeCn
-         ZbCFYJp6Bcx0PF/PmNQqHEx0tzFFmGYmKetUxseRx3XasyjXjuewVsEaqVk9lR0kk37s
-         vRlc4ajxaeVeTj1EJmxfcYC9PmSDtaojaxrweqlLfX++R2RpJ3XLSvwBeZFApqBIIV0N
-         U/Vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=EposTtMUZs+gVLdh7FbWQARWbgt/pepc/iVKswV5VXg=;
-        b=t6B6B5bWd6lsmkw4n4tGUOzyczZTLY0gMQnxRixQjcl0zD101mxdu7tOV+aWTcMqXE
-         nnsmS7hDl7Y2mxnzwo7FG4+AUHr+RewXTt7258RNZVNAH1fl8SYfOFp+ipHptsWbRA5M
-         2Q0Li31O4Jo6tES0o6vu30WIVXJ4OI7mmtqdFoZNHhRftdymNNQZaoENyUDw6Fu/Fe3I
-         dV5qxcyyfOrEkS8BNJ+8ZJjHkQwT+UbOEpygZ5egd/t+hNYAmcZKGvKGx1c3j23Vy7qh
-         4VabHGUaKzG/NKMi6F6VpYkBdg6dDPfab+ZwWTPYQoRk7eNtHuqLNwjpl5mIDIlihPki
-         TgPw==
-X-Gm-Message-State: AOAM530wzsbAeI1TuMqPd39Y1LVRLsAZlLV/xCMqLXVyv7MlJo6Bd8Ks
-        oUlEHKppGGgVUtqoHCkMT+hYSUWlPcWlLA==
-X-Google-Smtp-Source: ABdhPJxZ9JjKMOhsfMIpiZ7jpLcp8xPPe2HB7YbPwl1v2A7vVpgZjc7rXyWypI7ES0Sh76Zlj7necQ==
-X-Received: by 2002:aa7:cd84:: with SMTP id x4mr5167286edv.192.1606859901120;
-        Tue, 01 Dec 2020 13:58:21 -0800 (PST)
-Received: from ?IPv6:2001:a61:3aad:c501:15d9:d9fb:bc21:cb92? ([2001:a61:3aad:c501:15d9:d9fb:bc21:cb92])
-        by smtp.gmail.com with ESMTPSA id f7sm455575ejd.13.2020.12.01.13.58.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Dec 2020 13:58:20 -0800 (PST)
-Cc:     mtk.manpages@gmail.com,
-        "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>,
-        Omar Sandoval <osandov@osandov.com>,
-        linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dave Chinner <david@fromorbit.com>,
-        Jann Horn <jannh@google.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Aleksa Sarai <cyphar@cyphar.com>, linux-api@vger.kernel.org,
-        kernel-team@fb.com, linux-man <linux-man@vger.kernel.org>
-Subject: Re: [PATCH man-pages v6] Document encoded I/O
-To:     "G. Branden Robinson" <g.branden.robinson@gmail.com>
-References: <cover.1605723568.git.osandov@fb.com>
- <ec1588a618bd313e5a7c05a7f4954cc2b76ddac3.1605724767.git.osandov@osandov.com>
- <4d1430aa-a374-7565-4009-7ec5139bf311@gmail.com>
- <fb4a4270-eb7a-06d5-e703-9ee470b61f8b@gmail.com>
- <05e1f13c-5776-961b-edc4-0d09d02b7829@gmail.com>
- <dcb0679d-3ac5-dd95-5473-3c66ae4132b6@gmail.com>
- <20201201202144.ulbfnawi2ljmm6mn@localhost.localdomain>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <437a22f6-8724-6dfc-ac40-0c947817d7a3@gmail.com>
-Date:   Tue, 1 Dec 2020 22:58:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        with ESMTP id S1725941AbgLAWWm (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 1 Dec 2020 17:22:42 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80B48C0613CF;
+        Tue,  1 Dec 2020 14:22:02 -0800 (PST)
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id CA8BB750;
+        Tue,  1 Dec 2020 22:21:20 +0000 (UTC)
+Date:   Tue, 1 Dec 2020 15:21:19 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Gabriel Krisman Bertazi <krisman@collabora.com>
+Cc:     luto@kernel.org, tglx@linutronix.de, keescook@chromium.org,
+        gofmanp@gmail.com, christian.brauner@ubuntu.com,
+        peterz@infradead.org, willy@infradead.org, shuah@kernel.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, x86@kernel.org,
+        kernel@collabora.com
+Subject: Re: [PATCH v8 7/7] docs: Document Syscall User Dispatch
+Message-ID: <20201201152119.3654ba61@lwn.net>
+In-Reply-To: <20201127193238.821364-8-krisman@collabora.com>
+References: <20201127193238.821364-1-krisman@collabora.com>
+        <20201127193238.821364-8-krisman@collabora.com>
+Organization: LWN.net
 MIME-Version: 1.0
-In-Reply-To: <20201201202144.ulbfnawi2ljmm6mn@localhost.localdomain>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Branden,
+On Fri, 27 Nov 2020 14:32:38 -0500
+Gabriel Krisman Bertazi <krisman@collabora.com> wrote:
 
-On 12/1/20 9:21 PM, G. Branden Robinson wrote:
-> At 2020-12-01T21:12:47+0100, Michael Kerrisk (man-pages) wrote:
->>>>>> +vs.
->>>>>
->>>>> Please, s/vs./vs/
->>>>> See the reasons below:
->>>>>
->>>>> Michael (mtk),
->>>>>
->>>>> Here the renderer outputs a double space
->>>>> (as for separating two sentences).
->>>>>
->>>>> Are you okay with that?
->>
->> Yes, that should probably be avoided. I'm not sure what the
->> correct way is to prevent that in groff though. I mean, one
->> could write
->>
->> .RI "vs.\ " unencoded_len
->>
->> but I think that simply creates a nonbreaking space,
->> which is not exactly what is desired.
+> Explain the interface, provide some background and security notes.
 > 
-> Use the non-printing input break escape sequence, "\&", to suppress
-> end-of-sentence detection.  This is not a groffism, it goes back to
-> 1970s nroff and troff.
+> Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 
-Yes, I spotted it about two minutes before your mail. And before that, I 
-was thinking, "should we really bother Branden with a question like 
-this?" :-)
+Nice to see documentation included...:)  One nit:
+> ---
+> Changes since v7:
+>   - Change process -> thread (Florian Weimer)
+>   - Drop bogus reference to CONFIG_SYSCALL_USER_DISPATCH (me)
+>   - Document the interval as a half-open interval (me)
+> ---
+>  .../admin-guide/syscall-user-dispatch.rst     | 87 +++++++++++++++++++
+>  1 file changed, 87 insertions(+)
+>  create mode 100644 Documentation/admin-guide/syscall-user-dispatch.rst
 
-> I'm attaching a couple of pages from some introductory material I wrote
-> for the groff Texinfo manual in the forthcoming 1.23.0.
+You need to add this file to index.rst in that directory as well so it
+gets included in the docs build.
 
-As ever, thanks for jumping in, Branden.
+Thanks,
 
-Cheers,
-
-Michael
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+jon
