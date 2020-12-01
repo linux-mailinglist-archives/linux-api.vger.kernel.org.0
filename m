@@ -2,450 +2,133 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B67622C98A8
-	for <lists+linux-api@lfdr.de>; Tue,  1 Dec 2020 08:49:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E1BE92C98F4
+	for <lists+linux-api@lfdr.de>; Tue,  1 Dec 2020 09:17:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728661AbgLAHsw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 1 Dec 2020 02:48:52 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41668 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728660AbgLAHsv (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 1 Dec 2020 02:48:51 -0500
-Received: from aquarius.haifa.ibm.com (nesher1.haifa.il.ibm.com [195.110.40.7])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 01796221FF;
-        Tue,  1 Dec 2020 07:47:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1606808889;
-        bh=GcYHmVpON//HgfC+Q9fSTKhraRbGw/gcP2/N7E5anYQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=j2DDqgccT0jZwLRscJlvFl5QvWdyP0mHDT2bXYy/Xk9neO3YeTNauBZVOaggC4Gyl
-         ro/QaTazJ+EKjNwJeJfYvwksJtYpFUjW6YKPCvqfgskXQTXFPr0IjaRVWtIq7zsM6j
-         VKQgRnng4ethePj4KMvLVYuGaDImnh7tBOjqI/OY=
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Roman Gushchin <guro@fb.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
-        x86@kernel.org
-Subject: [PATCH v13 10/10] secretmem: test: add basic selftest for memfd_secret(2)
-Date:   Tue,  1 Dec 2020 09:45:59 +0200
-Message-Id: <20201201074559.27742-11-rppt@kernel.org>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201201074559.27742-1-rppt@kernel.org>
-References: <20201201074559.27742-1-rppt@kernel.org>
+        id S1727023AbgLAIQ4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 1 Dec 2020 03:16:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44038 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726619AbgLAIQ4 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 1 Dec 2020 03:16:56 -0500
+Received: from mail-il1-x142.google.com (mail-il1-x142.google.com [IPv6:2607:f8b0:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DC7DC0613CF;
+        Tue,  1 Dec 2020 00:16:10 -0800 (PST)
+Received: by mail-il1-x142.google.com with SMTP id x15so843364ilq.1;
+        Tue, 01 Dec 2020 00:16:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=JJBEGn1P+Ge8sdELJY1SxC5m5DkXTZqsQEXJ8bthTEg=;
+        b=gPwHnvVsfUtBAw3vqWFxmVqo4kOj/D27DwmALS2zS4PQ/EU2eEkJNQCY6Eu8T7YKCM
+         GCBh9Mk2LM/vQrXkPWuUFxpISu0NzMyyGMgyufTjGsEz7MkciAkJktMv598hYs/vBm/S
+         6jP/sL80/BH5pAloYrfgiBLRFH3mbqOyO7KtC2Efe2VEkF4K+BoqCgVXBy5hjqPjSksC
+         hax2XdK0yklbJ4HK43HKDmBkhqc2KRQjE8ous2U46Tc5Pe5qgJXzBO3OXi2TqzKqQgeG
+         aOXjoXIPkKBOlIUrYv0mh1TV1qqjNWc5CZTA/cxv0K2CIkmkVmmYppR/WDqEZaFWwHH2
+         Nf1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=JJBEGn1P+Ge8sdELJY1SxC5m5DkXTZqsQEXJ8bthTEg=;
+        b=ASxXDjOhTaYKMT4SeXVpzUiGRz6mhR+TCzZc/G4kGJU/zfhZWS+2MRdYyPTq8uWtSB
+         sy+X8nQGf2r/qYd/N6jItC48g3HRGHPo2AMOMS6Bp7EAWXT/XPdL2EzPTJiSClIWzMM5
+         I+NEyOngJqGEqudNKeFvP1ejtScP26UuNDOtUdLQs1FUzaSK1rq2f9jZhoayWSOJJFGJ
+         yY+ET/jUGUYYDmz5BCbvXaNNeiudZInahEJvZKITI8atw/ecEMDGgQbyvz6Ng5lbjI1X
+         yJN50mrjECThqVL44DJ55pl4u4fwylU/fN5FmbmwQS3qPl8vsL1uip80s4T7qhqQn+WY
+         GoQw==
+X-Gm-Message-State: AOAM532N2p68SkcCRs4ir9Xn5fBTj04TwnoXZhv8oBE5FLW1pLT/sI4o
+        M6K6dcjwrpWDIhU05M+eAWF4eT90TFUrRIijUdk1H48wLI8=
+X-Google-Smtp-Source: ABdhPJz5YsFDuVpKwW29Aa42G84aVoTwe57F8tIV09aNiRDbiOddPg0Nk5Dy8STqg8mRF6gL+yGO+Zv04n34WqkWCkQ=
+X-Received: by 2002:a92:5e42:: with SMTP id s63mr1631638ilb.250.1606810569704;
+ Tue, 01 Dec 2020 00:16:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1605723568.git.osandov@fb.com> <977fd16687d8b0474fd9c442f79c23f53783e403.1605723568.git.osandov@fb.com>
+ <CAOQ4uxiaWAT6kOkxgMgeYEcOBMsc=HtmSwssMXg0Nn=rbkZRGA@mail.gmail.com>
+ <CAG48ez3rLFOWpaQcJxEE7BNXvxHvUQnvhhY-xyR2bZfhnmwQrg@mail.gmail.com> <X8VHcZs6paUvQGkk@relinquished.localdomain>
+In-Reply-To: <X8VHcZs6paUvQGkk@relinquished.localdomain>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Tue, 1 Dec 2020 10:15:58 +0200
+Message-ID: <CAOQ4uxhLG1b03nYEgefcAybvMem26mjG=6dcrD5djjYFSa-q1g@mail.gmail.com>
+Subject: Re: [PATCH v6 02/11] fs: add O_ALLOW_ENCODED open flag
+To:     Omar Sandoval <osandov@osandov.com>
+Cc:     Jann Horn <jannh@google.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux Btrfs <linux-btrfs@vger.kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dave Chinner <david@fromorbit.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        Kernel Team <kernel-team@fb.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Mike Rapoport <rppt@linux.ibm.com>
+On Mon, Nov 30, 2020 at 9:26 PM Omar Sandoval <osandov@osandov.com> wrote:
+>
+> On Sat, Nov 21, 2020 at 12:41:23AM +0100, Jann Horn wrote:
+> > On Thu, Nov 19, 2020 at 8:03 AM Amir Goldstein <amir73il@gmail.com> wrote:
+> > > On Wed, Nov 18, 2020 at 9:18 PM Omar Sandoval <osandov@osandov.com> wrote:
+> > > > The upcoming RWF_ENCODED operation introduces some security concerns:
+> > > >
+> > > > 1. Compressed writes will pass arbitrary data to decompression
+> > > >    algorithms in the kernel.
+> > > > 2. Compressed reads can leak truncated/hole punched data.
+> > > >
+> > > > Therefore, we need to require privilege for RWF_ENCODED. It's not
+> > > > possible to do the permissions checks at the time of the read or write
+> > > > because, e.g., io_uring submits IO from a worker thread. So, add an open
+> > > > flag which requires CAP_SYS_ADMIN. It can also be set and cleared with
+> > > > fcntl(). The flag is not cleared in any way on fork or exec. It must be
+> > > > combined with O_CLOEXEC when opening to avoid accidental leaks (if
+> > > > needed, it may be set without O_CLOEXEC by using fnctl()).
+> > > >
+> > > > Note that the usual issue that unknown open flags are ignored doesn't
+> > > > really matter for O_ALLOW_ENCODED; if the kernel doesn't support
+> > > > O_ALLOW_ENCODED, then it doesn't support RWF_ENCODED, either.
+> > [...]
+> > > > diff --git a/fs/open.c b/fs/open.c
+> > > > index 9af548fb841b..f2863aaf78e7 100644
+> > > > --- a/fs/open.c
+> > > > +++ b/fs/open.c
+> > > > @@ -1040,6 +1040,13 @@ inline int build_open_flags(const struct open_how *how, struct open_flags *op)
+> > > >                 acc_mode = 0;
+> > > >         }
+> > > >
+> > > > +       /*
+> > > > +        * O_ALLOW_ENCODED must be combined with O_CLOEXEC to avoid accidentally
+> > > > +        * leaking encoded I/O privileges.
+> > > > +        */
+> > > > +       if ((how->flags & (O_ALLOW_ENCODED | O_CLOEXEC)) == O_ALLOW_ENCODED)
+> > > > +               return -EINVAL;
+> > > > +
+> > >
+> > >
+> > > dup() can also result in accidental leak.
+> > > We could fail dup() of fd without O_CLOEXEC. Should we?
+> > >
+> > > If we should than what error code should it be? We could return EPERM,
+> > > but since we do allow to clear O_CLOEXEC or set O_ALLOW_ENCODED
+> > > after open, EPERM seems a tad harsh.
+> > > EINVAL seems inappropriate because the error has nothing to do with
+> > > input args of dup() and EBADF would also be confusing.
+> >
+> > This seems very arbitrary to me. Sure, leaking these file descriptors
+> > wouldn't be great, but there are plenty of other types of file
+> > descriptors that are probably more sensitive. (Writable file
+> > descriptors to databases, to important configuration files, to
+> > io_uring instances, and so on.) So I don't see why this specific
+> > feature should impose such special rules on it.
+>
+> I agree with Jann. I'm okay with the O_CLOEXEC-on-open requirement if it
+> makes people more comfortable, but I don't think we should be bending
+> over backwards to block it anywhere else.
 
-The test verifies that file descriptor created with memfd_secret does
-not allow read/write operations, that secret memory mappings respect
-RLIMIT_MEMLOCK and that remote accesses with process_vm_read() and
-ptrace() to the secret memory fail.
+I'm fine with or without the O_CLOEXEC-on-open requirement.
+Just pointing out the weirdness.
 
-Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
----
- tools/testing/selftests/vm/.gitignore     |   1 +
- tools/testing/selftests/vm/Makefile       |   3 +-
- tools/testing/selftests/vm/memfd_secret.c | 298 ++++++++++++++++++++++
- tools/testing/selftests/vm/run_vmtests    |  17 ++
- 4 files changed, 318 insertions(+), 1 deletion(-)
- create mode 100644 tools/testing/selftests/vm/memfd_secret.c
-
-diff --git a/tools/testing/selftests/vm/.gitignore b/tools/testing/selftests/vm/.gitignore
-index 9a35c3f6a557..c8deddc81e7a 100644
---- a/tools/testing/selftests/vm/.gitignore
-+++ b/tools/testing/selftests/vm/.gitignore
-@@ -21,4 +21,5 @@ va_128TBswitch
- map_fixed_noreplace
- write_to_hugetlbfs
- hmm-tests
-+memfd_secret
- local_config.*
-diff --git a/tools/testing/selftests/vm/Makefile b/tools/testing/selftests/vm/Makefile
-index 62fb15f286ee..9ab98946fbf2 100644
---- a/tools/testing/selftests/vm/Makefile
-+++ b/tools/testing/selftests/vm/Makefile
-@@ -34,6 +34,7 @@ TEST_GEN_FILES += khugepaged
- TEST_GEN_FILES += map_fixed_noreplace
- TEST_GEN_FILES += map_hugetlb
- TEST_GEN_FILES += map_populate
-+TEST_GEN_FILES += memfd_secret
- TEST_GEN_FILES += mlock-random-test
- TEST_GEN_FILES += mlock2-tests
- TEST_GEN_FILES += mremap_dontunmap
-@@ -129,7 +130,7 @@ warn_32bit_failure:
- endif
- endif
- 
--$(OUTPUT)/mlock-random-test: LDLIBS += -lcap
-+$(OUTPUT)/mlock-random-test $(OUTPUT)/memfd_secret: LDLIBS += -lcap
- 
- $(OUTPUT)/gup_test: ../../../../mm/gup_test.h
- 
-diff --git a/tools/testing/selftests/vm/memfd_secret.c b/tools/testing/selftests/vm/memfd_secret.c
-new file mode 100644
-index 000000000000..79578dfd13e6
---- /dev/null
-+++ b/tools/testing/selftests/vm/memfd_secret.c
-@@ -0,0 +1,298 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright IBM Corporation, 2020
-+ *
-+ * Author: Mike Rapoport <rppt@linux.ibm.com>
-+ */
-+
-+#define _GNU_SOURCE
-+#include <sys/uio.h>
-+#include <sys/mman.h>
-+#include <sys/wait.h>
-+#include <sys/types.h>
-+#include <sys/ptrace.h>
-+#include <sys/syscall.h>
-+#include <sys/resource.h>
-+#include <sys/capability.h>
-+
-+#include <stdlib.h>
-+#include <string.h>
-+#include <unistd.h>
-+#include <errno.h>
-+#include <stdio.h>
-+
-+#include "../kselftest.h"
-+
-+#define fail(fmt, ...) ksft_test_result_fail(fmt, ##__VA_ARGS__)
-+#define pass(fmt, ...) ksft_test_result_pass(fmt, ##__VA_ARGS__)
-+#define skip(fmt, ...) ksft_test_result_skip(fmt, ##__VA_ARGS__)
-+
-+#ifdef __NR_memfd_secret
-+
-+#include <linux/secretmem.h>
-+
-+#define PATTERN	0x55
-+
-+static const int prot = PROT_READ | PROT_WRITE;
-+static const int mode = MAP_SHARED;
-+
-+static unsigned long page_size;
-+static unsigned long mlock_limit_cur;
-+static unsigned long mlock_limit_max;
-+
-+static int memfd_secret(unsigned long flags)
-+{
-+	return syscall(__NR_memfd_secret, flags);
-+}
-+
-+static void test_file_apis(int fd)
-+{
-+	char buf[64];
-+
-+	if ((read(fd, buf, sizeof(buf)) >= 0) ||
-+	    (write(fd, buf, sizeof(buf)) >= 0) ||
-+	    (pread(fd, buf, sizeof(buf), 0) >= 0) ||
-+	    (pwrite(fd, buf, sizeof(buf), 0) >= 0))
-+		fail("unexpected file IO\n");
-+	else
-+		pass("file IO is blocked as expected\n");
-+}
-+
-+static void test_mlock_limit(int fd)
-+{
-+	size_t len;
-+	char *mem;
-+
-+	len = mlock_limit_cur;
-+	mem = mmap(NULL, len, prot, mode, fd, 0);
-+	if (mem == MAP_FAILED) {
-+		fail("unable to mmap secret memory\n");
-+		return;
-+	}
-+	munmap(mem, len);
-+
-+	len = mlock_limit_max * 2;
-+	mem = mmap(NULL, len, prot, mode, fd, 0);
-+	if (mem != MAP_FAILED) {
-+		fail("unexpected mlock limit violation\n");
-+		munmap(mem, len);
-+		return;
-+	}
-+
-+	pass("mlock limit is respected\n");
-+}
-+
-+static void try_process_vm_read(int fd, int pipefd[2])
-+{
-+	struct iovec liov, riov;
-+	char buf[64];
-+	char *mem;
-+
-+	if (read(pipefd[0], &mem, sizeof(mem)) < 0) {
-+		fail("pipe write: %s\n", strerror(errno));
-+		exit(KSFT_FAIL);
-+	}
-+
-+	liov.iov_len = riov.iov_len = sizeof(buf);
-+	liov.iov_base = buf;
-+	riov.iov_base = mem;
-+
-+	if (process_vm_readv(getppid(), &liov, 1, &riov, 1, 0) < 0) {
-+		if (errno == ENOSYS)
-+			exit(KSFT_SKIP);
-+		exit(KSFT_PASS);
-+	}
-+
-+	exit(KSFT_FAIL);
-+}
-+
-+static void try_ptrace(int fd, int pipefd[2])
-+{
-+	pid_t ppid = getppid();
-+	int status;
-+	char *mem;
-+	long ret;
-+
-+	if (read(pipefd[0], &mem, sizeof(mem)) < 0) {
-+		perror("pipe write");
-+		exit(KSFT_FAIL);
-+	}
-+
-+	ret = ptrace(PTRACE_ATTACH, ppid, 0, 0);
-+	if (ret) {
-+		perror("ptrace_attach");
-+		exit(KSFT_FAIL);
-+	}
-+
-+	ret = waitpid(ppid, &status, WUNTRACED);
-+	if ((ret != ppid) || !(WIFSTOPPED(status))) {
-+		fprintf(stderr, "weird waitppid result %ld stat %x\n",
-+			ret, status);
-+		exit(KSFT_FAIL);
-+	}
-+
-+	if (ptrace(PTRACE_PEEKDATA, ppid, mem, 0))
-+		exit(KSFT_PASS);
-+
-+	exit(KSFT_FAIL);
-+}
-+
-+static void check_child_status(pid_t pid, const char *name)
-+{
-+	int status;
-+
-+	waitpid(pid, &status, 0);
-+
-+	if (WIFEXITED(status) && WEXITSTATUS(status) == KSFT_SKIP) {
-+		skip("%s is not supported\n", name);
-+		return;
-+	}
-+
-+	if ((WIFEXITED(status) && WEXITSTATUS(status) == KSFT_PASS) ||
-+	    WIFSIGNALED(status)) {
-+		pass("%s is blocked as expected\n", name);
-+		return;
-+	}
-+
-+	fail("%s: unexpected memory access\n", name);
-+}
-+
-+static void test_remote_access(int fd, const char *name,
-+			       void (*func)(int fd, int pipefd[2]))
-+{
-+	int pipefd[2];
-+	pid_t pid;
-+	char *mem;
-+
-+	if (pipe(pipefd)) {
-+		fail("pipe failed: %s\n", strerror(errno));
-+		return;
-+	}
-+
-+	pid = fork();
-+	if (pid < 0) {
-+		fail("fork failed: %s\n", strerror(errno));
-+		return;
-+	}
-+
-+	if (pid == 0) {
-+		func(fd, pipefd);
-+		return;
-+	}
-+
-+	mem = mmap(NULL, page_size, prot, mode, fd, 0);
-+	if (mem == MAP_FAILED) {
-+		fail("Unable to mmap secret memory\n");
-+		return;
-+	}
-+
-+	ftruncate(fd, page_size);
-+	memset(mem, PATTERN, page_size);
-+
-+	if (write(pipefd[1], &mem, sizeof(mem)) < 0) {
-+		fail("pipe write: %s\n", strerror(errno));
-+		return;
-+	}
-+
-+	check_child_status(pid, name);
-+}
-+
-+static void test_process_vm_read(int fd)
-+{
-+	test_remote_access(fd, "process_vm_read", try_process_vm_read);
-+}
-+
-+static void test_ptrace(int fd)
-+{
-+	test_remote_access(fd, "ptrace", try_ptrace);
-+}
-+
-+static int set_cap_limits(rlim_t max)
-+{
-+	struct rlimit new;
-+	cap_t cap = cap_init();
-+
-+	new.rlim_cur = max;
-+	new.rlim_max = max;
-+	if (setrlimit(RLIMIT_MEMLOCK, &new)) {
-+		perror("setrlimit() returns error");
-+		return -1;
-+	}
-+
-+	/* drop capabilities including CAP_IPC_LOCK */
-+	if (cap_set_proc(cap)) {
-+		perror("cap_set_proc() returns error");
-+		return -2;
-+	}
-+
-+	return 0;
-+}
-+
-+static void prepare(void)
-+{
-+	struct rlimit rlim;
-+
-+	page_size = sysconf(_SC_PAGE_SIZE);
-+	if (!page_size)
-+		ksft_exit_fail_msg("Failed to get page size %s\n",
-+				   strerror(errno));
-+
-+	if (getrlimit(RLIMIT_MEMLOCK, &rlim))
-+		ksft_exit_fail_msg("Unable to detect mlock limit: %s\n",
-+				   strerror(errno));
-+
-+	mlock_limit_cur = rlim.rlim_cur;
-+	mlock_limit_max = rlim.rlim_max;
-+
-+	printf("page_size: %ld, mlock.soft: %ld, mlock.hard: %ld\n",
-+	       page_size, mlock_limit_cur, mlock_limit_max);
-+
-+	if (page_size > mlock_limit_cur)
-+		mlock_limit_cur = page_size;
-+	if (page_size > mlock_limit_max)
-+		mlock_limit_max = page_size;
-+
-+	if (set_cap_limits(mlock_limit_max))
-+		ksft_exit_fail_msg("Unable to set mlock limit: %s\n",
-+				   strerror(errno));
-+}
-+
-+#define NUM_TESTS 4
-+
-+int main(int argc, char *argv[])
-+{
-+	int fd;
-+
-+	prepare();
-+
-+	ksft_print_header();
-+	ksft_set_plan(NUM_TESTS);
-+
-+	fd = memfd_secret(0);
-+	if (fd < 0) {
-+		if (errno == ENOSYS)
-+			ksft_exit_skip("memfd_secret is not supported\n");
-+		else
-+			ksft_exit_fail_msg("memfd_secret failed: %s\n",
-+					   strerror(errno));
-+	}
-+
-+	test_mlock_limit(fd);
-+	test_file_apis(fd);
-+	test_process_vm_read(fd);
-+	test_ptrace(fd);
-+
-+	close(fd);
-+
-+	ksft_exit(!ksft_get_fail_cnt());
-+}
-+
-+#else /* __NR_memfd_secret */
-+
-+int main(int argc, char *argv[])
-+{
-+	printf("skip: skipping memfd_secret test (missing __NR_memfd_secret)\n");
-+	return KSFT_SKIP;
-+}
-+
-+#endif /* __NR_memfd_secret */
-diff --git a/tools/testing/selftests/vm/run_vmtests b/tools/testing/selftests/vm/run_vmtests
-index e953f3cd9664..95a67382f132 100755
---- a/tools/testing/selftests/vm/run_vmtests
-+++ b/tools/testing/selftests/vm/run_vmtests
-@@ -346,4 +346,21 @@ else
- 	exitcode=1
- fi
- 
-+echo "running memfd_secret test"
-+echo "------------------------------------"
-+./memfd_secret
-+ret_val=$?
-+
-+if [ $ret_val -eq 0 ]; then
-+	echo "[PASS]"
-+elif [ $ret_val -eq $ksft_skip ]; then
-+	echo "[SKIP]"
-+	exitcode=$ksft_skip
-+else
-+	echo "[FAIL]"
-+	exitcode=1
-+fi
-+
-+exit $exitcode
-+
- exit $exitcode
--- 
-2.28.0
-
+Thanks,
+Amir.
