@@ -2,133 +2,93 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E1BE92C98F4
-	for <lists+linux-api@lfdr.de>; Tue,  1 Dec 2020 09:17:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 66A8A2C9EFF
+	for <lists+linux-api@lfdr.de>; Tue,  1 Dec 2020 11:20:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727023AbgLAIQ4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 1 Dec 2020 03:16:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44038 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726619AbgLAIQ4 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 1 Dec 2020 03:16:56 -0500
-Received: from mail-il1-x142.google.com (mail-il1-x142.google.com [IPv6:2607:f8b0:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DC7DC0613CF;
-        Tue,  1 Dec 2020 00:16:10 -0800 (PST)
-Received: by mail-il1-x142.google.com with SMTP id x15so843364ilq.1;
-        Tue, 01 Dec 2020 00:16:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JJBEGn1P+Ge8sdELJY1SxC5m5DkXTZqsQEXJ8bthTEg=;
-        b=gPwHnvVsfUtBAw3vqWFxmVqo4kOj/D27DwmALS2zS4PQ/EU2eEkJNQCY6Eu8T7YKCM
-         GCBh9Mk2LM/vQrXkPWuUFxpISu0NzMyyGMgyufTjGsEz7MkciAkJktMv598hYs/vBm/S
-         6jP/sL80/BH5pAloYrfgiBLRFH3mbqOyO7KtC2Efe2VEkF4K+BoqCgVXBy5hjqPjSksC
-         hax2XdK0yklbJ4HK43HKDmBkhqc2KRQjE8ous2U46Tc5Pe5qgJXzBO3OXi2TqzKqQgeG
-         aOXjoXIPkKBOlIUrYv0mh1TV1qqjNWc5CZTA/cxv0K2CIkmkVmmYppR/WDqEZaFWwHH2
-         Nf1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JJBEGn1P+Ge8sdELJY1SxC5m5DkXTZqsQEXJ8bthTEg=;
-        b=ASxXDjOhTaYKMT4SeXVpzUiGRz6mhR+TCzZc/G4kGJU/zfhZWS+2MRdYyPTq8uWtSB
-         sy+X8nQGf2r/qYd/N6jItC48g3HRGHPo2AMOMS6Bp7EAWXT/XPdL2EzPTJiSClIWzMM5
-         I+NEyOngJqGEqudNKeFvP1ejtScP26UuNDOtUdLQs1FUzaSK1rq2f9jZhoayWSOJJFGJ
-         yY+ET/jUGUYYDmz5BCbvXaNNeiudZInahEJvZKITI8atw/ecEMDGgQbyvz6Ng5lbjI1X
-         yJN50mrjECThqVL44DJ55pl4u4fwylU/fN5FmbmwQS3qPl8vsL1uip80s4T7qhqQn+WY
-         GoQw==
-X-Gm-Message-State: AOAM532N2p68SkcCRs4ir9Xn5fBTj04TwnoXZhv8oBE5FLW1pLT/sI4o
-        M6K6dcjwrpWDIhU05M+eAWF4eT90TFUrRIijUdk1H48wLI8=
-X-Google-Smtp-Source: ABdhPJz5YsFDuVpKwW29Aa42G84aVoTwe57F8tIV09aNiRDbiOddPg0Nk5Dy8STqg8mRF6gL+yGO+Zv04n34WqkWCkQ=
-X-Received: by 2002:a92:5e42:: with SMTP id s63mr1631638ilb.250.1606810569704;
- Tue, 01 Dec 2020 00:16:09 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1605723568.git.osandov@fb.com> <977fd16687d8b0474fd9c442f79c23f53783e403.1605723568.git.osandov@fb.com>
- <CAOQ4uxiaWAT6kOkxgMgeYEcOBMsc=HtmSwssMXg0Nn=rbkZRGA@mail.gmail.com>
- <CAG48ez3rLFOWpaQcJxEE7BNXvxHvUQnvhhY-xyR2bZfhnmwQrg@mail.gmail.com> <X8VHcZs6paUvQGkk@relinquished.localdomain>
-In-Reply-To: <X8VHcZs6paUvQGkk@relinquished.localdomain>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Tue, 1 Dec 2020 10:15:58 +0200
-Message-ID: <CAOQ4uxhLG1b03nYEgefcAybvMem26mjG=6dcrD5djjYFSa-q1g@mail.gmail.com>
-Subject: Re: [PATCH v6 02/11] fs: add O_ALLOW_ENCODED open flag
-To:     Omar Sandoval <osandov@osandov.com>
-Cc:     Jann Horn <jannh@google.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux Btrfs <linux-btrfs@vger.kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
+        id S1726688AbgLAKTK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 1 Dec 2020 05:19:10 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:50849 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388603AbgLAKTJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 1 Dec 2020 05:19:09 -0500
+Received: from ip5f5af0a0.dynamic.kabel-deutschland.de ([95.90.240.160] helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1kk2jb-00076u-2S; Tue, 01 Dec 2020 10:18:11 +0000
+Date:   Tue, 1 Dec 2020 11:18:06 +0100
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     "Serge E. Hallyn" <serge@hallyn.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Christoph Hellwig <hch@infradead.org>,
-        Dave Chinner <david@fromorbit.com>,
+        linux-fsdevel@vger.kernel.org,
+        John Johansen <john.johansen@canonical.com>,
+        James Morris <jmorris@namei.org>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+        Geoffrey Thomas <geofft@ldpreload.com>,
+        Mrunal Patel <mpatel@redhat.com>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Theodore Tso <tytso@mit.edu>, Alban Crequy <alban@kinvolk.io>,
+        Tycho Andersen <tycho@tycho.ws>,
+        David Howells <dhowells@redhat.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Seth Forshee <seth.forshee@canonical.com>,
+        =?utf-8?B?U3TDqXBoYW5l?= Graber <stgraber@ubuntu.com>,
         Aleksa Sarai <cyphar@cyphar.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Kernel Team <kernel-team@fb.com>
-Content-Type: text/plain; charset="UTF-8"
+        Lennart Poettering <lennart@poettering.net>,
+        "Eric W. Biederman" <ebiederm@xmission.com>, smbarber@chromium.org,
+        Phil Estes <estesp@gmail.com>,
+        Kees Cook <keescook@chromium.org>,
+        Todd Kjos <tkjos@google.com>, Paul Moore <paul@paul-moore.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        containers@lists.linux-foundation.org, fstests@vger.kernel.org,
+        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-integrity@vger.kernel.org,
+        selinux@vger.kernel.org
+Subject: Re: [PATCH v3 00/38] idmapped mounts
+Message-ID: <20201201101806.3gd4kj36kpg4dif3@wittgenstein>
+References: <20201128213527.2669807-1-christian.brauner@ubuntu.com>
+ <20201128225450.GC22812@mail.hallyn.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20201128225450.GC22812@mail.hallyn.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Nov 30, 2020 at 9:26 PM Omar Sandoval <osandov@osandov.com> wrote:
->
-> On Sat, Nov 21, 2020 at 12:41:23AM +0100, Jann Horn wrote:
-> > On Thu, Nov 19, 2020 at 8:03 AM Amir Goldstein <amir73il@gmail.com> wrote:
-> > > On Wed, Nov 18, 2020 at 9:18 PM Omar Sandoval <osandov@osandov.com> wrote:
-> > > > The upcoming RWF_ENCODED operation introduces some security concerns:
-> > > >
-> > > > 1. Compressed writes will pass arbitrary data to decompression
-> > > >    algorithms in the kernel.
-> > > > 2. Compressed reads can leak truncated/hole punched data.
-> > > >
-> > > > Therefore, we need to require privilege for RWF_ENCODED. It's not
-> > > > possible to do the permissions checks at the time of the read or write
-> > > > because, e.g., io_uring submits IO from a worker thread. So, add an open
-> > > > flag which requires CAP_SYS_ADMIN. It can also be set and cleared with
-> > > > fcntl(). The flag is not cleared in any way on fork or exec. It must be
-> > > > combined with O_CLOEXEC when opening to avoid accidental leaks (if
-> > > > needed, it may be set without O_CLOEXEC by using fnctl()).
-> > > >
-> > > > Note that the usual issue that unknown open flags are ignored doesn't
-> > > > really matter for O_ALLOW_ENCODED; if the kernel doesn't support
-> > > > O_ALLOW_ENCODED, then it doesn't support RWF_ENCODED, either.
-> > [...]
-> > > > diff --git a/fs/open.c b/fs/open.c
-> > > > index 9af548fb841b..f2863aaf78e7 100644
-> > > > --- a/fs/open.c
-> > > > +++ b/fs/open.c
-> > > > @@ -1040,6 +1040,13 @@ inline int build_open_flags(const struct open_how *how, struct open_flags *op)
-> > > >                 acc_mode = 0;
-> > > >         }
-> > > >
-> > > > +       /*
-> > > > +        * O_ALLOW_ENCODED must be combined with O_CLOEXEC to avoid accidentally
-> > > > +        * leaking encoded I/O privileges.
-> > > > +        */
-> > > > +       if ((how->flags & (O_ALLOW_ENCODED | O_CLOEXEC)) == O_ALLOW_ENCODED)
-> > > > +               return -EINVAL;
-> > > > +
-> > >
-> > >
-> > > dup() can also result in accidental leak.
-> > > We could fail dup() of fd without O_CLOEXEC. Should we?
-> > >
-> > > If we should than what error code should it be? We could return EPERM,
-> > > but since we do allow to clear O_CLOEXEC or set O_ALLOW_ENCODED
-> > > after open, EPERM seems a tad harsh.
-> > > EINVAL seems inappropriate because the error has nothing to do with
-> > > input args of dup() and EBADF would also be confusing.
-> >
-> > This seems very arbitrary to me. Sure, leaking these file descriptors
-> > wouldn't be great, but there are plenty of other types of file
-> > descriptors that are probably more sensitive. (Writable file
-> > descriptors to databases, to important configuration files, to
-> > io_uring instances, and so on.) So I don't see why this specific
-> > feature should impose such special rules on it.
->
-> I agree with Jann. I'm okay with the O_CLOEXEC-on-open requirement if it
-> makes people more comfortable, but I don't think we should be bending
-> over backwards to block it anywhere else.
+On Sat, Nov 28, 2020 at 04:54:50PM -0600, Serge Hallyn wrote:
+> On Sat, Nov 28, 2020 at 10:34:49PM +0100, Christian Brauner wrote:
+> > Hey everyone,
+> 
+> Hey Christian,
+> 
+> a general request.  Argue with me if it seems misguided.
+> 
+> When looking at a patch or a small hunk of code, these days, if a variable
+> called 'ns' or 'user_ns' is seen passed to a function, it can be easy to
+> assume which user_ns it is based on what you think would make sense, but if
+> your assumption is wrong, your patch review will be wrong.
+> 
+> Can we stick to a convention where we have maybe
+> 
+> subj_userns - the userns of the task seeking some action
+> obj_userns - the userns of the thing being acted on - task, superblock,...
+> mnt_userns - the userns of a mountpoint through which an object is seen
+> 
+> You're replacing a lot of such callers and callsites in this patchset, so
+> this would be a great time to start doing that.
 
-I'm fine with or without the O_CLOEXEC-on-open requirement.
-Just pointing out the weirdness.
+Hey Serge,
 
-Thanks,
-Amir.
+this makes a lot of sense. I'll convert all accesses to the vfsmount's
+userns we're introducing in this series to to mnt_userns at least.
+
+Christian
