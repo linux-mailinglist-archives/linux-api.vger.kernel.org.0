@@ -2,184 +2,135 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A11D32CAA6B
-	for <lists+linux-api@lfdr.de>; Tue,  1 Dec 2020 19:02:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 595282CAA64
+	for <lists+linux-api@lfdr.de>; Tue,  1 Dec 2020 19:02:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729633AbgLASCW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 1 Dec 2020 13:02:22 -0500
-Received: from out02.mta.xmission.com ([166.70.13.232]:45392 "EHLO
-        out02.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726104AbgLASCW (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 1 Dec 2020 13:02:22 -0500
-Received: from in01.mta.xmission.com ([166.70.13.51])
-        by out02.mta.xmission.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1kk9xz-0034JV-Jl; Tue, 01 Dec 2020 11:01:31 -0700
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
-        by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.87)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1kk9xy-00081x-2R; Tue, 01 Dec 2020 11:01:31 -0700
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     "Catangiu\, Adrian Costin" <acatan@amazon.com>
-Cc:     Dmitry Safonov <0x7f454c46@gmail.com>,
-        Alexander Graf <graf@amazon.de>,
-        Mike Rapoport <rppt@kernel.org>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Jann Horn <jannh@google.com>, Willy Tarreau <w@1wt.eu>,
-        "MacCarthaigh\, Colm" <colmmacc@amazon.com>,
+        id S2404221AbgLASB6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 1 Dec 2020 13:01:58 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:16480 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726104AbgLASB5 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 1 Dec 2020 13:01:57 -0500
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5fc684eb0001>; Tue, 01 Dec 2020 10:01:15 -0800
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 1 Dec
+ 2020 18:01:15 +0000
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.169)
+ by HQMAIL111.nvidia.com (172.20.187.18) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3 via Frontend Transport; Tue, 1 Dec 2020 18:01:14 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eIvv93DOJqTSfVNnS0si2Ol4vNWDftbOG6Y4EYYaTIkEN4zZpfZBPGMoeqRIB6832RsbBHV6H/Jw02SZabqfGyC8ZRKuKcEO+5/f0WvmMoLtajL2EwWEGWUdeLU8mFK5Q6MeN1kTQFLqZZHvNgvyldLYAa6BJUMIyIodDzuSjVj/yMUkp5J7RXSDtbb9ygvactmee0/MVBV5sDoRhcpCu5KmZUCjGvusBWRZQC/+qseeCbPJohhH+WnI09ZnM97Ph4r4HoRvHYleC3vG8pPsP2Z5aWaGWQ/Q+xZZTDYZGm3XybzTyHL6rUOEtcEWUxQAdhgCOKCC+rRCIdakmxmr1A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hafZzjATtu2mX19gY6LAnVioZz1FqT2kyJuaRi9Zo6k=;
+ b=LJVydS4qt0r1MY+07ThBZPXju/ZZAN+ccdeUCJmI/hYpbNB9tVtOq+WphKCyyZjNIvLAjejDerzFxQUTxwQZ0JOM9LWBhBHE/vufIdJhY+DGzSCrfH3K71aZ54dZAzhBs6Olq1VlhBDCTlLC+iK7k+g8uDJBGx+LHL/Zk/l1Pp8HueNT+vQAafgxt5o5CO2NFtvaU//qpk1IN5cOaHHsKKEGLuOusvccs2p74FVsbVSND9ZyEHhJscFyb41GHa+pujHuF7FH66xVbcJTVPSZYV1uMY/7JIjW4V+38IMKoDoMjzjcvpHXTKaDHTyFZCAa8Npw4ZvftZ+d/cqUDQmTMQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
+ by DM6PR12MB4451.namprd12.prod.outlook.com (2603:10b6:5:2ab::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17; Tue, 1 Dec
+ 2020 18:01:13 +0000
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::1ce9:3434:90fe:3433]) by DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::1ce9:3434:90fe:3433%3]) with mapi id 15.20.3611.031; Tue, 1 Dec 2020
+ 18:01:13 +0000
+Date:   Tue, 1 Dec 2020 14:01:11 -0400
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Matthew Wilcox <willy@infradead.org>
+CC:     Adalbert =?utf-8?B?TGF6xINy?= <alazar@bitdefender.com>,
+        <linux-mm@kvack.org>, <linux-api@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Graf <graf@amazon.com>,
+        Stefan Hajnoczi <stefanha@redhat.com>,
+        Jerome Glisse <jglisse@redhat.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Mihai =?utf-8?B?RG9uyJt1?= <mdontu@bitdefender.com>,
+        Mircea Cirjaliu <mcirjaliu@bitdefender.com>,
         Andy Lutomirski <luto@kernel.org>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Eric Biggers <ebiggers@kernel.org>,
-        "open list\:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        "Woodhouse\, David" <dwmw@amazon.co.uk>,
-        "bonzini\@gnu.org" <bonzini@gnu.org>,
-        "Singh\, Balbir" <sblbir@amazon.com>,
-        "Weiss\, Radu" <raduweis@amazon.com>,
-        "oridgar\@gmail.com" <oridgar@gmail.com>,
-        "ghammer\@redhat.com" <ghammer@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Qemu Developers <qemu-devel@nongnu.org>,
-        KVM list <kvm@vger.kernel.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Linux API <linux-api@vger.kernel.org>,
-        "mpe\@ellerman.id.au" <mpe@ellerman.id.au>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        "areber\@redhat.com" <areber@redhat.com>,
-        Pavel Emelyanov <ovzxemul@gmail.com>,
-        Andrey Vagin <avagin@gmail.com>,
-        Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
-        "gil\@azul.com" <gil@azul.com>,
-        "asmehra\@redhat.com" <asmehra@redhat.com>,
-        "dgunigun\@redhat.com" <dgunigun@redhat.com>,
-        "vijaysun\@ca.ibm.com" <vijaysun@ca.ibm.com>
-References: <3E05451B-A9CD-4719-99D0-72750A304044@amazon.com>
-        <300d4404-3efe-880e-ef30-692eabbff5f7@de.ibm.com>
-        <da1a1fa7-a1de-d0e6-755b-dd587687765e@amazon.de>
-        <20201119173800.GD8537@kernel.org>
-        <1cdb6fac-0d50-3399-74a6-24c119ebbaa5@amazon.de>
-        <106f56ca-49bc-7cad-480f-4b26656e90ce@gmail.com>
-        <96625ce2-66c6-34b8-ef81-7c17c05b4c7a@amazon.com>
-Date:   Tue, 01 Dec 2020 12:00:58 -0600
-In-Reply-To: <96625ce2-66c6-34b8-ef81-7c17c05b4c7a@amazon.com> (Adrian Costin
-        Catangiu's message of "Fri, 27 Nov 2020 20:26:02 +0200")
-Message-ID: <87zh2xcso5.fsf@x220.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        Arnd Bergmann <arnd@arndb.de>,
+        Sargun Dhillon <sargun@sargun.me>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Oleg Nesterov <oleg@redhat.com>, Jann Horn <jannh@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>
+Subject: Re: [RESEND RFC PATCH 0/5] Remote mapping
+Message-ID: <20201201180111.GA1074504@nvidia.com>
+References: <20200904113116.20648-1-alazar@bitdefender.com>
+ <20200904121148.GR24045@ziepe.ca>
+ <20200904194139.GA5881@casper.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200904194139.GA5881@casper.infradead.org>
+X-ClientProxiedBy: MN2PR05CA0005.namprd05.prod.outlook.com
+ (2603:10b6:208:c0::18) To DM6PR12MB3834.namprd12.prod.outlook.com
+ (2603:10b6:5:14a::12)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1kk9xy-00081x-2R;;;mid=<87zh2xcso5.fsf@x220.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX1/R0Vga3FxvQqhqZmu6jrIe/AwE1gt5KtU=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa06.xmission.com
-X-Spam-Level: 
-X-Spam-Status: No, score=0.5 required=8.0 tests=ALL_TRUSTED,BAYES_50,
-        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,XMSubLong autolearn=disabled
-        version=3.4.2
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.7 XMSubLong Long Subject
-        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-        *      [sa06 1397; Body=1 Fuz1=1 Fuz2=1]
-X-Spam-DCC: XMission; sa06 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: ;"Catangiu\, Adrian Costin" <acatan@amazon.com>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 986 ms - load_scoreonly_sql: 0.05 (0.0%),
-        signal_user_changed: 26 (2.6%), b_tie_ro: 24 (2.5%), parse: 1.66
-        (0.2%), extract_message_metadata: 19 (1.9%), get_uri_detail_list: 3.6
-        (0.4%), tests_pri_-1000: 24 (2.5%), tests_pri_-950: 3.3 (0.3%),
-        tests_pri_-900: 2.1 (0.2%), tests_pri_-90: 417 (42.3%), check_bayes:
-        385 (39.1%), b_tokenize: 29 (3.0%), b_tok_get_all: 17 (1.7%),
-        b_comp_prob: 6 (0.6%), b_tok_touch_all: 322 (32.7%), b_finish: 1.30
-        (0.1%), tests_pri_0: 438 (44.4%), check_dkim_signature: 0.82 (0.1%),
-        check_dkim_adsp: 2.9 (0.3%), poll_dns_idle: 1.02 (0.1%), tests_pri_10:
-        2.1 (0.2%), tests_pri_500: 48 (4.9%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: [PATCH v3] drivers/virt: vmgenid: add vm generation id driver
-X-Spam-Flag: No
-X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
-X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (156.34.48.30) by MN2PR05CA0005.namprd05.prod.outlook.com (2603:10b6:208:c0::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.6 via Frontend Transport; Tue, 1 Dec 2020 18:01:12 +0000
+Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1kk9xf-004ViB-17; Tue, 01 Dec 2020 14:01:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1606845675; bh=kVBl4qffB0PMZzayVp89igSBN2O+SlLrNbvle5/c/EI=;
+        h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:Date:
+         From:To:CC:Subject:Message-ID:References:Content-Type:
+         Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
+         X-ClientProxiedBy:MIME-Version:
+         X-MS-Exchange-MessageSentRepresentingType;
+        b=ONiAAFm5L5uHy5uEIqqdWAWdgRANlXEriWbznx74zFEn3jcYZyEoiboG8zTec7O9A
+         5A6mZE+8PLwLSZ9sgnSjTvScJoTjdn9HnCVJgvcY/J01QZr7kByC78DsKAGcAGy0wg
+         L1aFGMec77PhVvO9rUrMuOmQgciXD0junYEx70e04AX8h4F3jeXd5vXTtfWHbKrSB8
+         6nyCC6fV3eMP/pJnCg5055LuH2cvHZ+IVQOC+dXa9FOoh8iLvf+2GinLVHWzzA3MFr
+         ZLi4tz+igKsxYU7Wy3oP0ctSp35zJsj2oLBazxAraYNUJPhbKS5jSMBbXjkzmi6hCy
+         aEdKU17bRDukA==
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-"Catangiu, Adrian Costin" <acatan@amazon.com> writes:
+On Fri, Sep 04, 2020 at 08:41:39PM +0100, Matthew Wilcox wrote:
+> On Fri, Sep 04, 2020 at 09:11:48AM -0300, Jason Gunthorpe wrote:
+> > On Fri, Sep 04, 2020 at 02:31:11PM +0300, Adalbert Laz=C4=83r wrote:
+> > > VMAs obtained by mmap()ing memory access fds mirror the contents of t=
+he remote
+> > > process address space within the specified range. Pages are installed=
+ in the
+> > > current process page tables at fault time and removed by the mmu_inte=
+rval_notifier
+> > > invalidate callbck. No further memory management is involved.
+> > > On attempts to access a hole, or if a mapping was removed by PIDFD_ME=
+M_UNMAP,
+> > > or if the remote process address space was reaped by OOM, the remote =
+mapping
+> > > fault handler returns VM_FAULT_SIGBUS.
+> >=20
+> > I still think anything along these lines needs to meet the XPMEM use
+> > cases as well, we have to have more general solutions for such MM
+> > stuff:
+> >=20
+> > https://gitlab.com/hjelmn/xpmem
+> >=20
+> > However, I think this fundamentally falls into some of the same bad
+> > direction as xpmem.
+> >=20
+> > I would much rather see this design copy & clone the VMA's than try to
+> > mirror the PTEs inside the VMAs from the remote into a single giant
+> > VMA and somehow split/mirror the VMA ops.
+>=20
+> I'm on holiday for the next few days, but does the mshare() API work for
+> your use case?
+>=20
+> Proposal: http://www.wil.cx/~willy/linux/sileby.html
+> Start at implementation:
+> http://git.infradead.org/users/willy/linux.git/shortlog/refs/heads/mshare
 
-> - Background
->
-> The VM Generation ID is a feature defined by Microsoft (paper:
-> http://go.microsoft.com/fwlink/?LinkId=260709) and supported by
-> multiple hypervisor vendors.
->
-> The feature is required in virtualized environments by apps that work
-> with local copies/caches of world-unique data such as random values,
-> uuids, monotonically increasing counters, etc.
-> Such apps can be negatively affected by VM snapshotting when the VM
-> is either cloned or returned to an earlier point in time.
+I found some interest in this project here, with the detail that
+pin_user_pages() should keep working, ideally on both sides of the
+share, but essentially on the side that calls mshare()
 
-How does this differ from /proc/sys/kernel/random/boot_id?
+Maybe we can help out, at least cc me if you make progress :)
 
-> The VM Generation ID is a simple concept meant to alleviate the issue
-> by providing a unique ID that changes each time the VM is restored
-> from a snapshot. The hw provided UUID value can be used to
-> differentiate between VMs or different generations of the same VM.
-
-Does the VM generation ID change in a running that effectively things it
-is running?
-
-> - Problem
->
-> The VM Generation ID is exposed through an ACPI device by multiple
-> hypervisor vendors but neither the vendors or upstream Linux have no
-> default driver for it leaving users to fend for themselves.
->
-> Furthermore, simply finding out about a VM generation change is only
-> the starting point of a process to renew internal states of possibly
-> multiple applications across the system. This process could benefit
-> from a driver that provides an interface through which orchestration
-> can be easily done.
->
-> - Solution
->
-> This patch is a driver that exposes a monotonic incremental Virtual
-> Machine Generation u32 counter via a char-dev FS interface.
-
-Earlier it was a UUID now it is 32bit number?
-
-> The FS
-> interface provides sync and async VmGen counter updates notifications.
-> It also provides VmGen counter retrieval and confirmation mechanisms.
->
-> The generation counter and the interface through which it is exposed
-> are available even when there is no acpi device present.
->
-> When the device is present, the hw provided UUID is not exposed to
-> userspace, it is internally used by the driver to keep accounting for
-> the exposed VmGen counter. The counter starts from zero when the
-> driver is initialized and monotonically increments every time the hw
-> UUID changes (the VM generation changes).
-> On each hw UUID change, the new hypervisor-provided UUID is also fed
-> to the kernel RNG.
-
-Should this be a hotplug even rather than a new character device?
-
-Without plugging into udev and the rest of the hotplug infrastructure
-I suspect things will be missed.
-
-> If there is no acpi vmgenid device present, the generation changes are
-> not driven by hw vmgenid events but can be driven by software through
-> a dedicated driver ioctl.
->
-> This patch builds on top of Or Idgar <oridgar@gmail.com>'s proposal
-> https://lkml.org/lkml/2018/3/1/498
-
-
-Eric
+Thanks,
+Jason
