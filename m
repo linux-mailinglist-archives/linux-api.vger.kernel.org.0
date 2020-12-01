@@ -2,104 +2,86 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 56AC22C9257
-	for <lists+linux-api@lfdr.de>; Tue,  1 Dec 2020 00:18:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 735D42C93EB
+	for <lists+linux-api@lfdr.de>; Tue,  1 Dec 2020 01:29:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725933AbgK3XRX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 30 Nov 2020 18:17:23 -0500
-Received: from mga03.intel.com ([134.134.136.65]:14641 "EHLO mga03.intel.com"
+        id S2389126AbgLAA22 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 30 Nov 2020 19:28:28 -0500
+Received: from mga03.intel.com ([134.134.136.65]:20861 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725980AbgK3XRX (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 30 Nov 2020 18:17:23 -0500
-IronPort-SDR: 2M66a1CBDUX2xv1RrxEuV7pYVhO0OMukquy7cf1L3M9fl4zADSbLKV8BAfGdBFGNlBwNUm43EX
- MNPXFz8x/nOA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9821"; a="172827551"
+        id S2388133AbgLAA22 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 30 Nov 2020 19:28:28 -0500
+IronPort-SDR: EGok0JIPBGoXxKI+Qyvggij90dKB/fec+NGHabY8Z6cq1HbDNFlAMvq5sGaT968u7qNzP37ci0
+ CzecyGDtxFtA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9821"; a="172835294"
 X-IronPort-AV: E=Sophos;i="5.78,382,1599548400"; 
-   d="scan'208";a="172827551"
+   d="scan'208";a="172835294"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2020 15:16:42 -0800
-IronPort-SDR: 8zNcFY7NhPl0VCOSeKl8PZxj5MKCbmm2A/J0IdXrJVCPnhKSv9Tcuho0ZMivcKfzjSj1RDIlJG
- /oGpjHi+WO/g==
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2020 16:27:47 -0800
+IronPort-SDR: yj4LV58XLzO268tAWATMfYPQ0jKvINmzRsB/h2Q/p5ZAfNM73gOp5tYLgWAKrXlg8LkmukzX/8
+ Q4mrBZKEgV9A==
+X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.78,382,1599548400"; 
-   d="scan'208";a="480848257"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.122.22]) ([10.212.122.22])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2020 15:16:40 -0800
-Subject: Re: [NEEDS-REVIEW] [PATCH v15 03/26] x86/fpu/xstate: Introduce CET
- MSR XSAVES supervisor states
-To:     Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-References: <20201110162211.9207-1-yu-cheng.yu@intel.com>
- <20201110162211.9207-4-yu-cheng.yu@intel.com>
- <cfbd90a8-6996-fa7b-a41a-54ff540f419c@intel.com>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <3b83517e-17d6-3b53-6dbf-8ad727707b16@intel.com>
-Date:   Mon, 30 Nov 2020 15:16:39 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+   d="scan'208";a="364459780"
+Received: from yhuang-dev.sh.intel.com (HELO yhuang-dev) ([10.239.159.50])
+  by fmsmga004.fm.intel.com with ESMTP; 30 Nov 2020 16:27:44 -0800
+From:   "Huang\, Ying" <ying.huang@intel.com>
+To:     Dave Hansen <dave.hansen@intel.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>, <linux-mm@kvack.org>,
+        <linux-kernel@vger.kernel.org>,
+        "Matthew Wilcox \(Oracle\)" <willy@infradead.org>,
+        Rafael Aquini <aquini@redhat.com>,
+        "Andrew Morton" <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@redhat.com>, "Mel Gorman" <mgorman@suse.de>,
+        Rik van Riel <riel@redhat.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Michal Hocko <mhocko@suse.com>,
+        David Rientjes <rientjes@google.com>,
+        <linux-api@vger.kernel.org>
+Subject: Re: [PATCH -v6 2/3] NOT kernel/man-pages man2/set_mempolicy.2: Add mode flag MPOL_F_NUMA_BALANCING
+References: <20201126053219.234793-1-ying.huang@intel.com>
+        <20201126053219.234793-3-ying.huang@intel.com>
+        <a5d4c16b-74d7-403f-5f1c-8a1e8cbe4efb@intel.com>
+Date:   Tue, 01 Dec 2020 08:27:43 +0800
+In-Reply-To: <a5d4c16b-74d7-403f-5f1c-8a1e8cbe4efb@intel.com> (Dave Hansen's
+        message of "Mon, 30 Nov 2020 09:48:56 -0800")
+Message-ID: <87a6uyqsjk.fsf@yhuang-dev.intel.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <cfbd90a8-6996-fa7b-a41a-54ff540f419c@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=ascii
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 11/30/2020 9:45 AM, Dave Hansen wrote:
-> On 11/10/20 8:21 AM, Yu-cheng Yu wrote:
->> Control-flow Enforcement Technology (CET) adds five MSRs.  Introduce
->> them and their XSAVES supervisor states:
->>
->>      MSR_IA32_U_CET (user-mode CET settings),
->>      MSR_IA32_PL3_SSP (user-mode Shadow Stack pointer),
->>      MSR_IA32_PL0_SSP (kernel-mode Shadow Stack pointer),
->>      MSR_IA32_PL1_SSP (Privilege Level 1 Shadow Stack pointer),
->>      MSR_IA32_PL2_SSP (Privilege Level 2 Shadow Stack pointer).
-> 
-> This patch goes into a bunch of XSAVE work that this changelog only
-> briefly touches on.  I think it needs to be beefed up a bit.
-> 
-[...]
-> 
-> Do we have any other spots in the kernel where we care about:
-> 
-> 	boot_cpu_has(X86_FEATURE_SHSTK) ||
-> 	boot_cpu_has(X86_FEATURE_IBT)
-> 
-> ?  If so, we could also address this by declaring a software-defined
-> X86_FEATURE_CET and then setting it if SHSTK||IBT is supported, then we
-> just put that one feature in xsave_cpuid_features[].
-> 
+Dave Hansen <dave.hansen@intel.com> writes:
 
-These features have different CPUIDs but are complementary parts.  I 
-don't know if someday there will be shadow-stack-only CPUs, but an 
-IBT-only CPU is weird.  What if the kernel checks that the CPU has both 
-features and presents only one feature flag (X86_FEATURE_CET), no 
-X86_FEATURE_SHSTK or X86_FEATURE_IBT?
+> On 11/25/20 9:32 PM, Huang Ying wrote:
+>> --- a/man2/set_mempolicy.2
+>> +++ b/man2/set_mempolicy.2
+>> @@ -113,6 +113,11 @@ A nonempty
+>>  .I nodemask
+>>  specifies node IDs that are relative to the set of
+>>  node IDs allowed by the process's current cpuset.
+>> +.TP
+>> +.BR MPOL_F_NUMA_BALANCING " (since Linux 5.11)"
+>> +Enable the Linux kernel NUMA balancing for the task if it is supported
+>> +by kernel.  If the flag isn't supported by Linux kernel, return -1 and
+>> +errno is set to EINVAL.
+>
+> The one thing I learned about manpage CodingStyle is that new sentences
+> go on new lines.  I think this needs to be:
+>
+> .TP
+> .BR MPOL_F_NUMA_BALANCING " (since Linux 5.11)"
+> Enable the Linux kernel NUMA balancing for the task if it is supported
+> by kernel.
+> If the flag isn't supported by Linux kernel, return -1 and errno is set
+> to EINVAL.
+
+Thanks a lot for your information!  I will revise this in the next version.
+
+Best Regards,
+Huang, Ying
