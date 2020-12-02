@@ -2,77 +2,91 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0252B2CB14D
-	for <lists+linux-api@lfdr.de>; Wed,  2 Dec 2020 01:06:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ACE592CB772
+	for <lists+linux-api@lfdr.de>; Wed,  2 Dec 2020 09:43:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727227AbgLBAFz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 1 Dec 2020 19:05:55 -0500
-Received: from mail.kernel.org ([198.145.29.99]:56568 "EHLO mail.kernel.org"
+        id S1728474AbgLBIn3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 2 Dec 2020 03:43:29 -0500
+Received: from mga09.intel.com ([134.134.136.24]:6200 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726923AbgLBAFz (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 1 Dec 2020 19:05:55 -0500
-X-Gm-Message-State: AOAM531PFfH32GbjdsOwLxE8xwZBc7l6cuhFqBe2Hi/m3YumMeRKDUAC
-        aT4ecdyvsmaTg36ENzMvM+77SMGIKdzRiKzHBUCTng==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1606867514;
-        bh=mMmeqR8hm5LCOImSwkBcFK9EfPV0jMKdTiPbXqm0H9U=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=YXKNYXDqKx7uMuuKII51Blau1OyoYZmaGq2xiWFqRdbh4+0ttupnaaWnGQHRnEM41
-         smeEHSLyi14sV+mrjmryB3SZOUZjPEsdIHqPpW5U11RoLLQn/z9ywK8n8ai3McEYK0
-         A6Kqi9oXU0ufUDniPBUM+Kt+zze/tgSxpQQREg1M=
-X-Google-Smtp-Source: ABdhPJxGs1zQTY53PW9S7f3409gymiEDgGfegriuR8Dl9nvI8iqGiqqobv4k0ao5I32uvxBf3l/glympCI0ntbMurBU=
-X-Received: by 2002:adf:f0c2:: with SMTP id x2mr7014860wro.184.1606867512366;
- Tue, 01 Dec 2020 16:05:12 -0800 (PST)
+        id S1728138AbgLBIn3 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 2 Dec 2020 03:43:29 -0500
+IronPort-SDR: hngSES8WVCAQGSR+myztLaosCtDSqC7fBoeLlALn032Mo8Dpb6W9UF2RSh1r2w2vTycPqy6T3T
+ GQ8j5ML6Ap/A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9822"; a="173139133"
+X-IronPort-AV: E=Sophos;i="5.78,386,1599548400"; 
+   d="scan'208";a="173139133"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2020 00:42:45 -0800
+IronPort-SDR: ck9wfVEYEuqh+5W1FN2nFOOAjksmVctGqCsbS/9+8CATF4FPPl5A8ZqQvXQ1ky2ToM2W/ShC+T
+ uL+WdzkNsC/w==
+X-IronPort-AV: E=Sophos;i="5.78,386,1599548400"; 
+   d="scan'208";a="539590044"
+Received: from yhuang6-mobl1.sh.intel.com (HELO yhuang6-MOBL1.intel.com) ([10.238.5.184])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2020 00:42:41 -0800
+From:   Huang Ying <ying.huang@intel.com>
+To:     Peter Zijlstra <peterz@infradead.org>, Mel Gorman <mgorman@suse.de>
+Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        Huang Ying <ying.huang@intel.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Rafael Aquini <aquini@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Rik van Riel <riel@surriel.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Michal Hocko <mhocko@suse.com>,
+        David Rientjes <rientjes@google.com>, linux-api@vger.kernel.org
+Subject: [PATCH -V6 RESEND 0/3] numa balancing: Migrate on fault among multiple bound nodes
+Date:   Wed,  2 Dec 2020 16:42:31 +0800
+Message-Id: <20201202084234.15797-1-ying.huang@intel.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-References: <20201127193238.821364-1-krisman@collabora.com>
-In-Reply-To: <20201127193238.821364-1-krisman@collabora.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Tue, 1 Dec 2020 16:04:59 -0800
-X-Gmail-Original-Message-ID: <CALCETrUh=+=3tYQQTC+Fsakx5xmzQmN_BfzQ7nwY=1GBwoGDNA@mail.gmail.com>
-Message-ID: <CALCETrUh=+=3tYQQTC+Fsakx5xmzQmN_BfzQ7nwY=1GBwoGDNA@mail.gmail.com>
-Subject: Re: [PATCH v8 0/7] Syscall User Dispatch
-To:     Gabriel Krisman Bertazi <krisman@collabora.com>
-Cc:     Andrew Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Kees Cook <keescook@chromium.org>,
-        Paul Gofman <gofmanp@gmail.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Shuah Khan <shuah@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>, X86 ML <x86@kernel.org>,
-        kernel@collabora.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Nov 27, 2020 at 11:32 AM Gabriel Krisman Bertazi
-<krisman@collabora.com> wrote:
->
-> Hi,
->
-> This is v8 of syscall user dispatch.  Last version got some acks but
-> there was one small documentation fix I wanted to do, as requested by
-> Florian.  This also addresses the commit message fixup Peter requested.
->
-> The only actual code change from v7 is solving a trivial merge conflict
-> I myself created with the entry code fixup I made week and with
-> something else in the TIP tree.
->
-> I also shared this with glibc and there wasn't any complaints other than
-> the matter about user-notif vs. siginfo, which was discussed in v7 and
-> the understanding is that it is not necessary now and can be added
-> later, if needed, on the same infrastructure without a new api.
->
-> I'm not sure about TIP the rules, but is it too late to be queued for
-> the next merge window?  I'd love to have this in 5.11 if possible, since
-> it has been flying for quite a while.
->
+To make it possible to optimize cross-socket memory accessing with
+AutoNUMA even if the memory of the application is bound to multiple
+NUMA nodes.
 
-Other than my little nitpick about on_syscall_dispatch(), the whole series is:
+Patch [2/3] and [3/3] are NOT kernel patches.  Instead, they are
+patches for man-pages and numactl respectively.  They are sent
+together to make it easy to review the newly added kernel API.
 
-Reviewed-by: Andy Lutomirski <luto@kernel.org>
+Changes:
+
+v6:
+
+- Rebased on latest upstream kernel 5.10-rc5
+
+- Added some benchmark data and example in patch description of [1/3]
+
+- Rename AutoNUMA to NUMA Balancing
+
+- Add patches to man-pages [2/3] and numactl [3/3]
+
+v5:
+
+- Remove mbind() support, because it's not clear that it's necessary.
+
+v4:
+
+- Use new flags instead of reuse MPOL_MF_LAZY.
+
+v3:
+
+- Rebased on latest upstream (v5.10-rc3)
+
+- Revised the change log.
+
+v2:
+
+- Rebased on latest upstream (v5.10-rc1)
+
+Best Regards,
+Huang, Ying
