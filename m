@@ -2,70 +2,85 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 35CFD2CDF1A
-	for <lists+linux-api@lfdr.de>; Thu,  3 Dec 2020 20:38:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 41DD72CE281
+	for <lists+linux-api@lfdr.de>; Fri,  4 Dec 2020 00:18:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727017AbgLCThU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 3 Dec 2020 14:37:20 -0500
-Received: from esa4.mentor.iphmx.com ([68.232.137.252]:8404 "EHLO
-        esa4.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726635AbgLCThU (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 3 Dec 2020 14:37:20 -0500
-X-Greylist: delayed 592 seconds by postgrey-1.27 at vger.kernel.org; Thu, 03 Dec 2020 14:37:20 EST
-IronPort-SDR: c5GQu1xkEhn8w8+YDEQYdRbJSxe5an2akUdHTSY1JJn2ByJ3naYEWgw2goiscJtnyRX6ijAXA7
- nF9WF7KT9PWvLDCK7gZqQs6p0U+GiKEiixucaRAiwXslWV1bpYNUwApvFuO9N/g+p4c1VzPNCR
- ihx/cfEkwfsRlyDfR1+uZQoDeQpoJ7iX4yUFg2mc68hnbJU7Tx9MrTypzds7YMT46VZQQ18cnE
- SV2gzU/FBPZCBSifKhsG3U3x2W+OzTFAgSc2Y2lI1G9RhBTu4ojcXd9drpMeTesfWjiLHZeAUK
- t4Q=
-X-IronPort-AV: E=Sophos;i="5.78,390,1599552000"; 
-   d="scan'208";a="55902945"
-Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa4.mentor.iphmx.com with ESMTP; 03 Dec 2020 11:26:32 -0800
-IronPort-SDR: XP3ZEQho3UqMx3BhYt1pQPTeKTRf5W8xIRihDvtCBy7QtU3tUhB7Phh67eaOt39ZLijARoJO73
- cBW5k8t56e6WIOt9w363v7E0h1PB4g96rULSv/vrukcnALazLbg9LMKxWVlqSItIB4K6zGmnTz
- u7XrTyVwuFlmYBhsHPoIow3V9+KfZOiXyj+S61ioyEUkHp2VYVyzHPEoMsmwD+WGYEjTfayuI0
- GzEBbFfSClbc3UwEsqiOgNjJiNBnBtWa04/aokI9hKNeV4uCNJjw9HpC2rb7Qk5jK+xs3yWoiY
- lis=
-Date:   Thu, 3 Dec 2020 19:26:25 +0000
-From:   Joseph Myers <joseph@codesourcery.com>
-X-X-Sender: jsm28@digraph.polyomino.org.uk
-To:     Florian Weimer <fweimer@redhat.com>
-CC:     Andy Lutomirski <luto@amacapital.net>,
-        Topi Miettinen <toiwoton@gmail.com>,
-        <linux-hardening@vger.kernel.org>, <akpm@linux-foundation.org>,
-        <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+        id S1727845AbgLCXRj convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Thu, 3 Dec 2020 18:17:39 -0500
+Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151]:48128 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726721AbgLCXRj (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 3 Dec 2020 18:17:39 -0500
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-74-ZN_hijpIMCiOzkEhiip_Rg-1; Thu, 03 Dec 2020 23:16:00 +0000
+X-MC-Unique: ZN_hijpIMCiOzkEhiip_Rg-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Thu, 3 Dec 2020 23:15:59 +0000
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
+ Thu, 3 Dec 2020 23:15:59 +0000
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Mike Rapoport' <rppt@kernel.org>,
+        Topi Miettinen <toiwoton@gmail.com>
+CC:     "linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Andy Lutomirski <luto@kernel.org>,
         Jann Horn <jannh@google.com>,
         Kees Cook <keescook@chromium.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH v5] mm: Optional full ASLR for mmap(), mremap(), vdso
- and stack
-In-Reply-To: <871rg6yf1i.fsf@oldenburg2.str.redhat.com>
-Message-ID: <alpine.DEB.2.22.394.2012031918220.193081@digraph.polyomino.org.uk>
-References: <e8c458fe-073b-2c4d-4d80-3637041c1485@gmail.com>        <05D72EA3-4862-4D80-82F5-9369834C3461@amacapital.net> <871rg6yf1i.fsf@oldenburg2.str.redhat.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        Linux API <linux-api@vger.kernel.org>,
+        Matthew Wilcox <willy@infradead.org>
+Subject: RE: [PATCH] mm/vmalloc: randomize vmalloc() allocations
+Thread-Topic: [PATCH] mm/vmalloc: randomize vmalloc() allocations
+Thread-Index: AQHWyUIaOaq71c1O10ObeOeJDE6bhanmALEg
+Date:   Thu, 3 Dec 2020 23:15:59 +0000
+Message-ID: <2a672ff3df0c47538ed7d1974c864f0b@AcuMS.aculab.com>
+References: <20201201214547.9721-1-toiwoton@gmail.com>
+ <9d34fb0a-7aba-1e84-6426-006ea7c3d9f5@gmail.com>
+ <20201203065801.GH751215@kernel.org>
+In-Reply-To: <20201203065801.GH751215@kernel.org>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: SVR-IES-MBX-04.mgc.mentorg.com (139.181.222.4) To
- svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1)
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, 3 Dec 2020, Florian Weimer wrote:
+From: Mike Rapoport
+> Sent: 03 December 2020 06:58
+> 
+> On Wed, Dec 02, 2020 at 08:49:06PM +0200, Topi Miettinen wrote:
+> > On 1.12.2020 23.45, Topi Miettinen wrote:
+> > > Memory mappings inside kernel allocated with vmalloc() are in
+> > > predictable order and packed tightly toward the low addresses. With
+> > > new kernel boot parameter 'randomize_vmalloc=1', the entire area is
+> > > used randomly to make the allocations less predictable and harder to
+> > > guess for attackers.
 
-> My knowledge of probability theory is quite limited, so I have to rely
-> on simulations.  But I think you would see a 40 GiB gap somewhere for a
-> 47-bit address space with 32K allocations, most of the time.  Which is
-> not too bad.
+Isn't that going to horribly fragment the available address space
+and make even moderate sized allocation requests fail (or sleep).
 
-This is very close to a Poisson process (if the number of small 
-allocations being distributed independently in the address space is 
-large), so the probability that any given gap is at least x times the mean 
-gap is about exp(-x).
+I'm not even sure that you need to use 'best fit' rather than
+'first fit'.
+'best fit' is certainly a lot better for a simple linked list
+user space malloc.
 
--- 
-Joseph S. Myers
-joseph@codesourcery.com
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
+
