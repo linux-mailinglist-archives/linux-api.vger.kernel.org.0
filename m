@@ -2,99 +2,127 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 25A022CDA7C
-	for <lists+linux-api@lfdr.de>; Thu,  3 Dec 2020 16:59:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 80E722CDBFB
+	for <lists+linux-api@lfdr.de>; Thu,  3 Dec 2020 18:12:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387784AbgLCP5d (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 3 Dec 2020 10:57:33 -0500
-Received: from mga03.intel.com ([134.134.136.65]:37124 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387665AbgLCP5c (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 3 Dec 2020 10:57:32 -0500
-IronPort-SDR: POaqQrNEu1R/xqUCFxYZViCqgp3vAy4i7gAw0+3dTVRe8xMIKqgHBXvsXd17x2jWMEGx949qR8
- 6hihZFcZvR6Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9824"; a="173309989"
-X-IronPort-AV: E=Sophos;i="5.78,389,1599548400"; 
-   d="scan'208";a="173309989"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2020 07:56:52 -0800
-IronPort-SDR: QTXfd0UHBF2xxeJDIPK47vgt29cm5V2RiGcTsfVJv4BzxpNEjVu0qx77u4M0SX02qmWYZpZdGW
- iEBaSxNFZ05g==
-X-IronPort-AV: E=Sophos;i="5.78,389,1599548400"; 
-   d="scan'208";a="550534058"
-Received: from sshellma-mobl.amr.corp.intel.com (HELO [10.212.138.60]) ([10.212.138.60])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2020 07:56:50 -0800
-Subject: Re: [PATCH v15 06/26] x86/mm: Change _PAGE_DIRTY to _PAGE_DIRTY_HW
-To:     Dave Hansen <dave.hansen@intel.com>, Borislav Petkov <bp@alien8.de>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S1731314AbgLCRLP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 3 Dec 2020 12:11:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37008 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727072AbgLCRLP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 3 Dec 2020 12:11:15 -0500
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C19CC061A52
+        for <linux-api@vger.kernel.org>; Thu,  3 Dec 2020 09:10:35 -0800 (PST)
+Received: by mail-pl1-x644.google.com with SMTP id t18so1506497plo.0
+        for <linux-api@vger.kernel.org>; Thu, 03 Dec 2020 09:10:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
+        h=content-transfer-encoding:from:mime-version:subject:date:message-id
+         :references:cc:in-reply-to:to;
+        bh=4wqJAr+3mpm/N6KJzqVQL+ect217rAtwLlAfBe3bNfU=;
+        b=RUpr5VZUHli+Ntwv2HIrEYZtLYBEEv6FNALrE6RP7YH8Rp64IWqY/Vt5nTVO9/Iym8
+         6UXCb8g35dfhhQFS8+DQ2eKMD8FGry9BPw9O3lYqILTj64tncHFMp5EcV8SaG6aFz49l
+         byMvlQXxbusISO7b71ScAE29NClhYK7CA122Q4v/QVVsMt4NR12xG8+4gZ/emDJmzaix
+         kFj4kUN38sJx0N5x4piMmqy3Yonk+pjZRyfppCtCkyz/ikxSHPNQYrE+RYDgsVSvQlaz
+         DtCKsv6LIBK9eiWignxuAGpCEiTdoaRqh3MejdDxZ4Z536dfz3uJIM/ldSdwQsO2RNcd
+         VaWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:content-transfer-encoding:from:mime-version
+         :subject:date:message-id:references:cc:in-reply-to:to;
+        bh=4wqJAr+3mpm/N6KJzqVQL+ect217rAtwLlAfBe3bNfU=;
+        b=bfNpnYrUDtCzyFAh5AKLemsTarHkfq91XsGuk4vFSj1H3ReOd/oxfH76XQtpphq4iY
+         i8UuqV04zanJ4jr806d06oYl9wcedvwdGkbKevD49z6LN+I2Rh54ato+g46J8KUt2+zJ
+         H/jdyyovBcloShlwGbzunMDAHOSpuf0YSgXZoQmlSV10QBGFkK6K0n0RvNuEJVMmU9bW
+         ruoDRbQVduBzOYQi1hGr7Zcq0hCEdihlGV4yxXwmA6NHeyfWZghpNPyr7drdZ4m93xvV
+         8Q8WLZPR/hMYXsYRWWT3a5eHR0A/D0aLIgeWWreGW89koZ2kYD7wIQ6xcmSfis/Wx175
+         Wf1A==
+X-Gm-Message-State: AOAM533rJQfZ0s17RKdqtVHaZjGB/JvPCpve44Luhod9sdeHCnhX1frm
+        iOzrTs1oUL4QVrq72HW/wXbGKQ==
+X-Google-Smtp-Source: ABdhPJzZH2GWI6Hb1FX9L3mqyG6e5XSBr1WrgxKkqVdZE4ZdV1mmD4gMFvPc+9loGtWXO9plcLzfHA==
+X-Received: by 2002:a17:90b:117:: with SMTP id p23mr71511pjz.111.1607015434516;
+        Thu, 03 Dec 2020 09:10:34 -0800 (PST)
+Received: from ?IPv6:2600:1010:b02c:6432:59d6:b4ed:32aa:4315? ([2600:1010:b02c:6432:59d6:b4ed:32aa:4315])
+        by smtp.gmail.com with ESMTPSA id n127sm2369930pfd.143.2020.12.03.09.10.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Dec 2020 09:10:33 -0800 (PST)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From:   Andy Lutomirski <luto@amacapital.net>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH v5] mm: Optional full ASLR for mmap(), mremap(), vdso and stack
+Date:   Thu, 3 Dec 2020 09:10:32 -0800
+Message-Id: <05D72EA3-4862-4D80-82F5-9369834C3461@amacapital.net>
+References: <e8c458fe-073b-2c4d-4d80-3637041c1485@gmail.com>
+Cc:     Florian Weimer <fweimer@redhat.com>,
+        linux-hardening@vger.kernel.org, akpm@linux-foundation.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        Jann Horn <jannh@google.com>,
         Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-References: <20201110162211.9207-1-yu-cheng.yu@intel.com>
- <20201110162211.9207-7-yu-cheng.yu@intel.com> <20201203091910.GE3059@zn.tnic>
- <93eb0255-df5c-5cb3-654f-e74c1af956b2@intel.com>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <585009b4-537e-0fc9-ea4a-79210c96a514@intel.com>
-Date:   Thu, 3 Dec 2020 07:56:49 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
-MIME-Version: 1.0
-In-Reply-To: <93eb0255-df5c-5cb3-654f-e74c1af956b2@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Matthew Wilcox <willy@infradead.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+In-Reply-To: <e8c458fe-073b-2c4d-4d80-3637041c1485@gmail.com>
+To:     Topi Miettinen <toiwoton@gmail.com>
+X-Mailer: iPhone Mail (18B121)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 12/3/2020 7:12 AM, Dave Hansen wrote:
-> On 12/3/20 1:19 AM, Borislav Petkov wrote:
->> On Tue, Nov 10, 2020 at 08:21:51AM -0800, Yu-cheng Yu wrote:
->>> Before introducing _PAGE_COW for non-hardware memory management purposes in
->>> the next patch, rename _PAGE_DIRTY to _PAGE_DIRTY_HW and _PAGE_BIT_DIRTY to
->>> _PAGE_BIT_DIRTY_HW to make meanings more clear.  There are no functional
->>> changes from this patch.
->> There's no guarantee for "next" or "this" patch when a patch gets
->> applied so reword your commit message pls.
->>
->> Also, I fail to understand here what _PAGE_DIRTY_HW makes more clear?
->> The page dirty bit is clear enough to me so why the churn?
-> 
-> Once upon a time in this set, we had:
-> 
-> 	_PAGE_DIRTY	(the old hardware bit)
-> and
-> 	_PAGE_DIRTY_SW	(the new shadow stack necessitated bit)
-> 
-> In *that* case, it made sense to change the name of the hardware one to
-> help differentiate them.  But, over time, we changed _PAGE_DIRTY_SW to
-> _PAGE_COW.
-> 
-> I think you're right.  The renaming is just churn now with the current
-> naming.
-> 
 
-Ok, I will drop this patch.
+> On Dec 3, 2020, at 4:06 AM, Topi Miettinen <toiwoton@gmail.com> wrote:
+>=20
+> =EF=BB=BFOn 3.12.2020 11.47, Florian Weimer wrote:
+>> * Topi Miettinen:
+>>> +3   Additionally enable full randomization of memory mappings created
+>>> +    with mmap(NULL, ...). With 2, the base of the VMA used for such
+>>> +    mappings is random, but the mappings are created in predictable
+>>> +    places within the VMA and in sequential order. With 3, new VMAs
+>>> +    are created to fully randomize the mappings.
+>>> +
+>>> +    Also mremap(..., MREMAP_MAYMOVE) will move the mappings even if
+>>> +    not necessary and the location of stack and vdso are also
+>>> +    randomized.
+>>> +
+>>> +    On 32 bit systems this may cause problems due to increased VM
+>>> +    fragmentation if the address space gets crowded.
+>> Isn't this a bit of an understatement?  I think you'll have to restrict
+>> this randomization to a subregion of the entire address space, otherwise
+>> the reduction in maximum mapping size due to fragmentation will be a
+>> problem on 64-bit architectures as well (which generally do not support
+>> the full 64 bits for user-space addresses).
+>=20
+> Restricting randomization would reduce the address space layout randomizat=
+ion and make this less useful. There's 48 or 56 bits, which translate to 128=
+TB and 64PB of VM for user applications. Is it really possible to build toda=
+y (or in near future) a system, which would contain so much RAM that such fr=
+agmentation could realistically happen? Perhaps also in a special case where=
+ lots of 1GB huge pages are necessary? Maybe in those cases you shouldn't us=
+e randomize_va_space=3D3. Or perhaps there could be randomize_va_space=3D3 w=
+hich does something, and randomize_va_space=3D4 for those who want maximum r=
+andomization.
+
+If you want a 4GB allocation to succeed, you can only divide the address spa=
+ce into 32k fragments.  Or, a little more precisely, if you want a randomly s=
+elected 4GB region to be empty, any other allocation has a 1/32k chance of b=
+eing in the way.  (Rough numbers =E2=80=94 I=E2=80=99m ignoring effects of t=
+he beginning and end of the address space, and I=E2=80=99m ignoring the size=
+ of a potential conflicting allocation.). This sounds good, except that a pr=
+ogram could easily make a whole bunch of tiny allocations that get merged in=
+ current kernels but wouldn=E2=80=99t with your scheme.
+
+So maybe this is okay, but it=E2=80=99s not likely to be a good default.
+
+>=20
+>>> +    On all systems, it will reduce performance and increase memory
+>>> +    usage due to less efficient use of page tables and inability to
+>>> +    merge adjacent VMAs with compatible attributes. In the worst case,
+>>> +    additional page table entries of up to 4 pages are created for
+>>> +    each mapping, so with small mappings there's considerable penalty.
+>> The number 4 is architecture-specific, right?
+>=20
+> Yes, I only know x86_64. Actually it could have 5 level page tables. I'll f=
+ix this in next version.
+>=20
+> -Topi
