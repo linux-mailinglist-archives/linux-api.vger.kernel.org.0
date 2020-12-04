@@ -2,143 +2,96 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 262CC2CEEC1
-	for <lists+linux-api@lfdr.de>; Fri,  4 Dec 2020 14:27:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 169302CEED0
+	for <lists+linux-api@lfdr.de>; Fri,  4 Dec 2020 14:35:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729017AbgLDN0F (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 4 Dec 2020 08:26:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55696 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728113AbgLDN0F (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 4 Dec 2020 08:26:05 -0500
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6BE2C061A4F;
-        Fri,  4 Dec 2020 05:25:24 -0800 (PST)
-Received: by mail-wr1-x442.google.com with SMTP id u12so5341740wrt.0;
-        Fri, 04 Dec 2020 05:25:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=NJ97JT73CBxTHdvfTcI/LSNJGgKg1Av6EnVkFytDfl4=;
-        b=cvAcAoCZk1z11KZq4HnKa0sC7a57HprhKSXOF3h2UcaEOrMgp0zsrJs/cM89daC4xu
-         P9HddpuO8n1a9FLE21PlEO06hxDH1nIDYM+V9pDnVKxqT++C7uRHeSwIxIIGnOi4ZSdU
-         KiOgXPl17BuLdVRgFAqBMWp49KUCWpqe32iu7KSeD6LJPMxyQFvS6oeP2ZLb5b8JqLKo
-         nZxdzr6OZHDxz2VXupPw+UJZTIetzTIjRKUD/6y5wjKtkFxfMlxh5Y8ZtnaFDLzAh5fw
-         DouqpXPR2EE2lJun+Dk4774zvtvI9rrKiB2J6dy5H4t7BInt/g8vcvxBYxroLSLUJXi1
-         oLZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=NJ97JT73CBxTHdvfTcI/LSNJGgKg1Av6EnVkFytDfl4=;
-        b=RsLKpRK1j7E7s1G3thGUd5SgYwevhDORJ8pUKgrSXuD3KmeKWRy1h3y3LMotmoP014
-         TY1cUNYGF+IkMJTWgBYmeOGkBxZe07WPWJRmzfIqjlnZlMrZf0AP1+top46AlD8alBO9
-         zdAlabBfddaMUWasVQpk1sWMX50JRAdwAzCLh3d+LeXUIHpY/jNaxhMYaTq1jL7TGlst
-         7evt/S+Bd7wzy1Amx3Jq04BnkE0JjrSYrHgNwL0Nyna5wViy5Cp177mZzl60yy/WYoPe
-         GFE0uJTbV3s6vxtN8MqzPXovWShvJVkKsj2bE6wT3CM606GUpalxjFUWRUbSXHud/DOJ
-         GJqA==
-X-Gm-Message-State: AOAM530aQWM/TCDHDqqCeAsKeMRG4TY8nJJ7DSD0RwRmoxQL+84FY+KZ
-        eD9uB7v7f0lpiyLe3GsoBuc=
-X-Google-Smtp-Source: ABdhPJyXmFc/9Uyjh3Lv3QX/ycyHZ230E8YZyXQAH8E8GE/Comlg/sWUTKr1hwO9R4/meXE0+s8DWg==
-X-Received: by 2002:a05:6000:c7:: with SMTP id q7mr4960527wrx.137.1607088323645;
-        Fri, 04 Dec 2020 05:25:23 -0800 (PST)
-Received: from [192.168.1.143] ([170.253.51.130])
-        by smtp.gmail.com with ESMTPSA id r1sm3565703wra.97.2020.12.04.05.25.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Dec 2020 05:25:22 -0800 (PST)
-Subject: Re: [PATCH -V7 2/3] NOT kernel/man2/set_mempolicy.2: Add mode flag
- MPOL_F_NUMA_BALANCING
-To:     Huang Ying <ying.huang@intel.com>
-Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Rafael Aquini <aquini@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Rik van Riel <riel@surriel.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Michal Hocko <mhocko@suse.com>,
-        David Rientjes <rientjes@google.com>,
-        linux-api@vger.kernel.org, Mel Gorman <mgorman@suse.de>
-References: <20201204091534.72239-1-ying.huang@intel.com>
- <20201204091534.72239-3-ying.huang@intel.com>
-From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-Message-ID: <4c10125a-cbe6-7dff-3b57-c3480e913c5f@gmail.com>
-Date:   Fri, 4 Dec 2020 14:25:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+        id S1729035AbgLDNf1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 4 Dec 2020 08:35:27 -0500
+Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151]:59958 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728103AbgLDNf1 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 4 Dec 2020 08:35:27 -0500
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-112-IjqBB8ewNq6TE9Oy5nRVtQ-1; Fri, 04 Dec 2020 13:33:48 +0000
+X-MC-Unique: IjqBB8ewNq6TE9Oy5nRVtQ-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Fri, 4 Dec 2020 13:33:47 +0000
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
+ Fri, 4 Dec 2020 13:33:47 +0000
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Topi Miettinen' <toiwoton@gmail.com>,
+        'Mike Rapoport' <rppt@kernel.org>
+CC:     "linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Jann Horn <jannh@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Matthew Wilcox <willy@infradead.org>
+Subject: RE: [PATCH] mm/vmalloc: randomize vmalloc() allocations
+Thread-Topic: [PATCH] mm/vmalloc: randomize vmalloc() allocations
+Thread-Index: AQHWyUIaOaq71c1O10ObeOeJDE6bhanmALEggADFggCAACeloA==
+Date:   Fri, 4 Dec 2020 13:33:47 +0000
+Message-ID: <f2f19b0c0f4148a8aaa64fd7bdc821d1@AcuMS.aculab.com>
+References: <20201201214547.9721-1-toiwoton@gmail.com>
+ <9d34fb0a-7aba-1e84-6426-006ea7c3d9f5@gmail.com>
+ <20201203065801.GH751215@kernel.org>
+ <2a672ff3df0c47538ed7d1974c864f0b@AcuMS.aculab.com>
+ <3d20f41c-6c8e-755b-33b4-964b5cc5ac71@gmail.com>
+In-Reply-To: <3d20f41c-6c8e-755b-33b4-964b5cc5ac71@gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-In-Reply-To: <20201204091534.72239-3-ying.huang@intel.com>
-Content-Type: text/plain; charset=utf-8
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Huang Ying,
+RnJvbTogVG9waSBNaWV0dGluZW4NCj4gU2VudDogMDQgRGVjZW1iZXIgMjAyMCAxMDo1OA0KPiAN
+Cj4gT24gNC4xMi4yMDIwIDEuMTUsIERhdmlkIExhaWdodCB3cm90ZToNCj4gPiBGcm9tOiBNaWtl
+IFJhcG9wb3J0DQo+ID4+IFNlbnQ6IDAzIERlY2VtYmVyIDIwMjAgMDY6NTgNCj4gPj4NCj4gPj4g
+T24gV2VkLCBEZWMgMDIsIDIwMjAgYXQgMDg6NDk6MDZQTSArMDIwMCwgVG9waSBNaWV0dGluZW4g
+d3JvdGU6DQo+ID4+PiBPbiAxLjEyLjIwMjAgMjMuNDUsIFRvcGkgTWlldHRpbmVuIHdyb3RlOg0K
+PiA+Pj4+IE1lbW9yeSBtYXBwaW5ncyBpbnNpZGUga2VybmVsIGFsbG9jYXRlZCB3aXRoIHZtYWxs
+b2MoKSBhcmUgaW4NCj4gPj4+PiBwcmVkaWN0YWJsZSBvcmRlciBhbmQgcGFja2VkIHRpZ2h0bHkg
+dG93YXJkIHRoZSBsb3cgYWRkcmVzc2VzLiBXaXRoDQo+ID4+Pj4gbmV3IGtlcm5lbCBib290IHBh
+cmFtZXRlciAncmFuZG9taXplX3ZtYWxsb2M9MScsIHRoZSBlbnRpcmUgYXJlYSBpcw0KPiA+Pj4+
+IHVzZWQgcmFuZG9tbHkgdG8gbWFrZSB0aGUgYWxsb2NhdGlvbnMgbGVzcyBwcmVkaWN0YWJsZSBh
+bmQgaGFyZGVyIHRvDQo+ID4+Pj4gZ3Vlc3MgZm9yIGF0dGFja2Vycy4NCj4gPg0KPiA+IElzbid0
+IHRoYXQgZ29pbmcgdG8gaG9ycmlibHkgZnJhZ21lbnQgdGhlIGF2YWlsYWJsZSBhZGRyZXNzIHNw
+YWNlDQo+ID4gYW5kIG1ha2UgZXZlbiBtb2RlcmF0ZSBzaXplZCBhbGxvY2F0aW9uIHJlcXVlc3Rz
+IGZhaWwgKG9yIHNsZWVwKS4NCj4gDQo+IEZvciAzMiBiaXQgYXJjaGl0ZWN0dXJlIHRoaXMgaXMg
+YSByZWFsIGlzc3VlLCBidXQgSSBkb24ndCB0aGluayBmb3IgNjQNCj4gYml0cyBpdCB3aWxsIGJl
+IGEgcHJvYmxlbS4gWW91IGNhbid0IGZyYWdtZW50IHRoZSB2aXJ0dWFsIG1lbW9yeSBzcGFjZQ0K
+PiBmb3Igc21hbGwgYWxsb2NhdGlvbnMgYmVjYXVzZSB0aGUgcmVzdWx0aW5nIHBhZ2UgdGFibGVz
+IHdpbGwgbm90IGZpdCBpbg0KPiBSQU0gZm9yIGV4aXN0aW5nIG9yIG5lYXIgZnV0dXJlIHN5c3Rl
+bXMuDQoNCkhtbW0gdHJ1bHkgcmFuZG9tIGFsbG9jYXRpb25zIGFyZSBnb2luZyB0byBuZWVkIDMg
+b3IgNCBleHRyYSBwYWdlIHRhYmxlcw0Kb24gNjRiaXQgc3lzdGVtcy4gQSBiaXQgb3ZlcmhlYWQg
+Zm9yIDRrIGFsbG9jYXRlcy4NCldoaWxlIHlvdSB3b24ndCBydW4gb3V0IG9mIGFkZHJlc3Mgc3Bh
+Y2UsIHlvdSB3aWxsIHJ1biBvdXQgb2YgbWVtb3J5Lg0KDQpSYW5kb21pc2luZyB0aGUgYWxsb2Nh
+dGVkIGFkZHJlc3Mgd2l0aCB0aGUgYXJlYSB0aGF0IGFscmVhZHkNCmhhcyBwYWdlIHRhYmxlcyBh
+bGxvY2F0ZWQgbWlnaHQgbWFrZSBhIGJpdCBvZiBzZW5zZS4NClRoZW4gYWxsb2NhdGUgc2ltaWxh
+cihpc2gpIHNpemVkIGl0ZW1zIGZyb20gdGhlIHNhbWUgJ2xhcmdlJyBwYWdlcy4NCg0KSSB3YXMg
+d29uZGVyaW5nIGlmIGEgZmxhZyBpbmRpY2F0aW5nIHdoZXRoZXIgYW4gYWxsb2NhdGUgd2FzICds
+b25nIHRlcm0nDQpvciAnc2hvcnQgdGVybScgbWlnaHQgaGVscCB0aGUgcGxhY2VtZW50Lg0KU2hv
+cnQgdGVybSBzbWFsbCBpdGVtcyBjb3VsZCBiZSB1c2VkIHRvIGZpbGwgdGhlIHNwYWNlIGluICds
+YXJnZSBwYWdlcycgbGVmdA0KYnkgbm9uLWFsaWduZWQgbGVuZ3RoIGxhcmdlIGl0ZW1zLg0KDQpU
+cm91YmxlIGlzIHlvdSBuZWVkIGEgQ0JVIChDcnlzdGFsIEJhbGwgVW5pdCkgdG8gZ2V0IGl0IHJp
+Z2h0Lg0KDQoJRGF2aWQNCg0KLQ0KUmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5
+IFJvYWQsIE1vdW50IEZhcm0sIE1pbHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRp
+b24gTm86IDEzOTczODYgKFdhbGVzKQ0K
 
-Please, see a few fixes below.
-
-Thanks,
-
-Alex
-
-On 12/4/20 10:15 AM, Huang Ying wrote:
-> Signed-off-by: "Huang, Ying" <ying.huang@intel.com>
-> ---
->  man2/set_mempolicy.2 | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
-> 
-> diff --git a/man2/set_mempolicy.2 b/man2/set_mempolicy.2
-> index 68011eecb..fb2e6fd96 100644
-> --- a/man2/set_mempolicy.2
-> +++ b/man2/set_mempolicy.2
-> @@ -113,6 +113,15 @@ A nonempty
->  .I nodemask
->  specifies node IDs that are relative to the set of
->  node IDs allowed by the process's current cpuset.
-> +.TP
-> +.BR MPOL_F_NUMA_BALANCING " (since Linux 5.11)"
-> +When
-> +.I mode
-> +is MPOL_BIND, enable the Linux kernel NUMA balancing for the task if
-
-.B MPOL_BIND
-
-> +it is supported by kernel.
-> +If the flag isn't supported by Linux kernel, or is used with
-> +.I mode> +other than MPOL_BIND, return -1 and errno is set to EINVAL.
-
-.BR MPOL_BIND ,
-
-A minus sign should be escaped:
-\-1
-See man-pages(7)::STYLE GUIDE::Generating optimal glyphs)
-
-.I errno
-.BR EINVAL .
-
->  .PP
->  .I nodemask
->  points to a bit mask of node IDs that contains up to
-> @@ -293,6 +302,11 @@ argument specified both
->  .B MPOL_F_STATIC_NODES
->  and
->  .BR MPOL_F_RELATIVE_NODES .
-> +Or, the
-> +.B MPOL_F_NUMA_BALANCING
-> +isn't supported by the Linux kernel, or is used with
-> +.I mode
-> +other than MPOL_BIND.
-
-.BR MPOL_BIND .
-
->  .TP
->  .B ENOMEM
->  Insufficient kernel memory was available.
-> 
