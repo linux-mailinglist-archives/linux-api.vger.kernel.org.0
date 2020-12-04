@@ -2,157 +2,143 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 80F432CEC9F
-	for <lists+linux-api@lfdr.de>; Fri,  4 Dec 2020 11:59:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 262CC2CEEC1
+	for <lists+linux-api@lfdr.de>; Fri,  4 Dec 2020 14:27:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387968AbgLDK67 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 4 Dec 2020 05:58:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33096 "EHLO
+        id S1729017AbgLDN0F (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 4 Dec 2020 08:26:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387665AbgLDK66 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 4 Dec 2020 05:58:58 -0500
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E329C0613D1;
-        Fri,  4 Dec 2020 02:58:18 -0800 (PST)
-Received: by mail-lf1-x144.google.com with SMTP id z21so7037931lfe.12;
-        Fri, 04 Dec 2020 02:58:18 -0800 (PST)
+        with ESMTP id S1728113AbgLDN0F (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 4 Dec 2020 08:26:05 -0500
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6BE2C061A4F;
+        Fri,  4 Dec 2020 05:25:24 -0800 (PST)
+Received: by mail-wr1-x442.google.com with SMTP id u12so5341740wrt.0;
+        Fri, 04 Dec 2020 05:25:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=qtIAXOcxRabCMPvEwXMKiWTvZ88Jq+DkCvoV5zCNXL8=;
-        b=JFKq0FEFiPghTMWZ5ZinnRN8lTLvOfbUm7hU92RDXl09NwBQaBOMCk9mjOzbLwS1VG
-         w8rX14z+U4WKujCiPH35D0UhkRWjsqDDkF+HJpKbdMPPw2KqsTkQsF1dyzVciOg3pQ5l
-         0SchU/4U/S8aFHf+i/2UwpYUfhJ0cLgl3R4LkwvqsCQzIP3nfIet9gWYbrhRGv3lcDEj
-         ea57cwolFyAasYaSUW6dojp2m0i8TbLhJt8t3icQwho6/hZC+ApKEcmQfG7PuEI4Qknb
-         a0hYZB9VLZpxkrea3DhouOJU3dEkEk93W8xljJ8FqdfAWuwMwn161yTIuY8CYeu6MPS6
-         L+7A==
+        bh=NJ97JT73CBxTHdvfTcI/LSNJGgKg1Av6EnVkFytDfl4=;
+        b=cvAcAoCZk1z11KZq4HnKa0sC7a57HprhKSXOF3h2UcaEOrMgp0zsrJs/cM89daC4xu
+         P9HddpuO8n1a9FLE21PlEO06hxDH1nIDYM+V9pDnVKxqT++C7uRHeSwIxIIGnOi4ZSdU
+         KiOgXPl17BuLdVRgFAqBMWp49KUCWpqe32iu7KSeD6LJPMxyQFvS6oeP2ZLb5b8JqLKo
+         nZxdzr6OZHDxz2VXupPw+UJZTIetzTIjRKUD/6y5wjKtkFxfMlxh5Y8ZtnaFDLzAh5fw
+         DouqpXPR2EE2lJun+Dk4774zvtvI9rrKiB2J6dy5H4t7BInt/g8vcvxBYxroLSLUJXi1
+         oLZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=qtIAXOcxRabCMPvEwXMKiWTvZ88Jq+DkCvoV5zCNXL8=;
-        b=l1cqUn8bSQpbMOCy0UQjzkZTrGJy7KV1e2jDcDidcsd80twYY527fgMoBg2NOGwekZ
-         UePhD1jNnphMvVOEcXo8wV3/jSd2ZpCBXXqNbRIPYeTZF3DbWczacGdCXYSXSbmfb0zC
-         vzlMqjFwyYrsgKdzzn0geI1dCkJpsm6ePYaEn6aiHuakFPg/gN9vA+++aT/3071RS7Cg
-         6pvoZJsOBeKc5fc03AOoZ21lHsH5POMolwXMachMukS6UmJjrer/ZjK/AX2KVQp3ObfT
-         o3Vq2XeB8IfZCTdjoVrRnvCUnTxsQic6VSbDMaVtyMt9zIioIp3KTe/pZ9HklEuQIGjQ
-         saQw==
-X-Gm-Message-State: AOAM533vKK2r1ZC5aI//GJ62DA4MEEZ7AY8APN0LLEcZ5Gb0CkxnpFt/
-        NwAGYaJcp3vPaVz+5HN4r5s=
-X-Google-Smtp-Source: ABdhPJxlLXhd7wUbkedJWv9Ap4s+cr5UC/8/cWDCTbchAAUojNGs/af2FNxS8xQwagHGwOrF86oDcg==
-X-Received: by 2002:a05:6512:3fc:: with SMTP id n28mr1185605lfq.93.1607079496769;
-        Fri, 04 Dec 2020 02:58:16 -0800 (PST)
-Received: from [192.168.1.40] (88-114-216-158.elisa-laajakaista.fi. [88.114.216.158])
-        by smtp.gmail.com with ESMTPSA id u23sm1579640ljj.83.2020.12.04.02.58.15
+        bh=NJ97JT73CBxTHdvfTcI/LSNJGgKg1Av6EnVkFytDfl4=;
+        b=RsLKpRK1j7E7s1G3thGUd5SgYwevhDORJ8pUKgrSXuD3KmeKWRy1h3y3LMotmoP014
+         TY1cUNYGF+IkMJTWgBYmeOGkBxZe07WPWJRmzfIqjlnZlMrZf0AP1+top46AlD8alBO9
+         zdAlabBfddaMUWasVQpk1sWMX50JRAdwAzCLh3d+LeXUIHpY/jNaxhMYaTq1jL7TGlst
+         7evt/S+Bd7wzy1Amx3Jq04BnkE0JjrSYrHgNwL0Nyna5wViy5Cp177mZzl60yy/WYoPe
+         GFE0uJTbV3s6vxtN8MqzPXovWShvJVkKsj2bE6wT3CM606GUpalxjFUWRUbSXHud/DOJ
+         GJqA==
+X-Gm-Message-State: AOAM530aQWM/TCDHDqqCeAsKeMRG4TY8nJJ7DSD0RwRmoxQL+84FY+KZ
+        eD9uB7v7f0lpiyLe3GsoBuc=
+X-Google-Smtp-Source: ABdhPJyXmFc/9Uyjh3Lv3QX/ycyHZ230E8YZyXQAH8E8GE/Comlg/sWUTKr1hwO9R4/meXE0+s8DWg==
+X-Received: by 2002:a05:6000:c7:: with SMTP id q7mr4960527wrx.137.1607088323645;
+        Fri, 04 Dec 2020 05:25:23 -0800 (PST)
+Received: from [192.168.1.143] ([170.253.51.130])
+        by smtp.gmail.com with ESMTPSA id r1sm3565703wra.97.2020.12.04.05.25.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Dec 2020 02:58:15 -0800 (PST)
-Subject: Re: [PATCH] mm/vmalloc: randomize vmalloc() allocations
-To:     David Laight <David.Laight@ACULAB.COM>,
-        'Mike Rapoport' <rppt@kernel.org>
-Cc:     "linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Jann Horn <jannh@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Matthew Wilcox <willy@infradead.org>
-References: <20201201214547.9721-1-toiwoton@gmail.com>
- <9d34fb0a-7aba-1e84-6426-006ea7c3d9f5@gmail.com>
- <20201203065801.GH751215@kernel.org>
- <2a672ff3df0c47538ed7d1974c864f0b@AcuMS.aculab.com>
-From:   Topi Miettinen <toiwoton@gmail.com>
-Message-ID: <3d20f41c-6c8e-755b-33b4-964b5cc5ac71@gmail.com>
-Date:   Fri, 4 Dec 2020 12:58:12 +0200
+        Fri, 04 Dec 2020 05:25:22 -0800 (PST)
+Subject: Re: [PATCH -V7 2/3] NOT kernel/man2/set_mempolicy.2: Add mode flag
+ MPOL_F_NUMA_BALANCING
+To:     Huang Ying <ying.huang@intel.com>
+Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Rafael Aquini <aquini@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Rik van Riel <riel@surriel.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Michal Hocko <mhocko@suse.com>,
+        David Rientjes <rientjes@google.com>,
+        linux-api@vger.kernel.org, Mel Gorman <mgorman@suse.de>
+References: <20201204091534.72239-1-ying.huang@intel.com>
+ <20201204091534.72239-3-ying.huang@intel.com>
+From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+Message-ID: <4c10125a-cbe6-7dff-3b57-c3480e913c5f@gmail.com>
+Date:   Fri, 4 Dec 2020 14:25:20 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <2a672ff3df0c47538ed7d1974c864f0b@AcuMS.aculab.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20201204091534.72239-3-ying.huang@intel.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 4.12.2020 1.15, David Laight wrote:
-> From: Mike Rapoport
->> Sent: 03 December 2020 06:58
->>
->> On Wed, Dec 02, 2020 at 08:49:06PM +0200, Topi Miettinen wrote:
->>> On 1.12.2020 23.45, Topi Miettinen wrote:
->>>> Memory mappings inside kernel allocated with vmalloc() are in
->>>> predictable order and packed tightly toward the low addresses. With
->>>> new kernel boot parameter 'randomize_vmalloc=1', the entire area is
->>>> used randomly to make the allocations less predictable and harder to
->>>> guess for attackers.
+Hi Huang Ying,
+
+Please, see a few fixes below.
+
+Thanks,
+
+Alex
+
+On 12/4/20 10:15 AM, Huang Ying wrote:
+> Signed-off-by: "Huang, Ying" <ying.huang@intel.com>
+> ---
+>  man2/set_mempolicy.2 | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 > 
-> Isn't that going to horribly fragment the available address space
-> and make even moderate sized allocation requests fail (or sleep).
+> diff --git a/man2/set_mempolicy.2 b/man2/set_mempolicy.2
+> index 68011eecb..fb2e6fd96 100644
+> --- a/man2/set_mempolicy.2
+> +++ b/man2/set_mempolicy.2
+> @@ -113,6 +113,15 @@ A nonempty
+>  .I nodemask
+>  specifies node IDs that are relative to the set of
+>  node IDs allowed by the process's current cpuset.
+> +.TP
+> +.BR MPOL_F_NUMA_BALANCING " (since Linux 5.11)"
+> +When
+> +.I mode
+> +is MPOL_BIND, enable the Linux kernel NUMA balancing for the task if
 
-For 32 bit architecture this is a real issue, but I don't think for 64 
-bits it will be a problem. You can't fragment the virtual memory space 
-for small allocations because the resulting page tables will not fit in 
-RAM for existing or near future systems.
+.B MPOL_BIND
 
-For large allocations (directly mapping entire contents of TB sized NVME 
-drives or a special application which needs 1GB huge pages) this could 
-be a risk. Maybe this could be solved by reserving some space for them, 
-or perhaps in those cases you shouldn't use randomize_vmalloc=1.
+> +it is supported by kernel.
+> +If the flag isn't supported by Linux kernel, or is used with
+> +.I mode> +other than MPOL_BIND, return -1 and errno is set to EINVAL.
 
-The method for reserving the large areas could something like below.
+.BR MPOL_BIND ,
 
-First, consider a simple arrangement of reserving high addresses for 
-large allocations and low addresses for smaller allocations. The 
-allocator would start searching downwards from high addresses for a free 
-large block and upwards from low addresses for small blocks. Also the 
-address space would be semi-rigidly divided to priority areas: area 0 
-with priority for small allocations, area 1 with equal priority for both 
-small and large, and area 2 where small allocations would be placed only 
-as a last resort (which probably would never be the case).
+A minus sign should be escaped:
+\-1
+See man-pages(7)::STYLE GUIDE::Generating optimal glyphs)
 
-The linear way of dividing the allocations would of course be very much 
-non-random, so this could be improved with a pseudo-random scrambling 
-function to distribute the addresses in memory. A simple example would 
-be to randomly choose a value for one bit in the address for large 
-allocations (not necessarily the most significant available but also 
-large enough to align 1GB/TB sized allocations if needed), or a bit 
-pattern across several address bits for non-even distribution.
+.I errno
+.BR EINVAL .
 
-The addresses would be also fully randomized inside each priority area.
+>  .PP
+>  .I nodemask
+>  points to a bit mask of node IDs that contains up to
+> @@ -293,6 +302,11 @@ argument specified both
+>  .B MPOL_F_STATIC_NODES
+>  and
+>  .BR MPOL_F_RELATIVE_NODES .
+> +Or, the
+> +.B MPOL_F_NUMA_BALANCING
+> +isn't supported by the Linux kernel, or is used with
+> +.I mode
+> +other than MPOL_BIND.
 
-The division would mean some loss of randomization. A simple rigid 
-division of 50%/50% for small vs. large allocations would mean a loss of 
-one bit but the above methods could help this. Dividing the address 
-space less evenly would improve one side at the expense of the other. 
-Cracking the scrambling function would reveal the bit(s) used for the 
-division.
+.BR MPOL_BIND .
 
-It would be nice to remove the current rigid division of the kernel 
-address space (Documentation/x86/x86_64/mm.rst) and let the allocations 
-be placed more randomly in the entire 47 bit address space. Would the 
-above priority scheme (perhaps with a rigid priority for certain users) 
-be good enough to allow this?
-
-Even better would be to remove the use of highest bit for selecting 
-kernel/user addresses but I suppose it would be a lot of work for 
-gaining just one extra bit of randomness. There could be other effects 
-though (good or bad).
-
--Topi
-
-> I'm not even sure that you need to use 'best fit' rather than
-> 'first fit'.
-> 'best fit' is certainly a lot better for a simple linked list
-> user space malloc.
+>  .TP
+>  .B ENOMEM
+>  Insufficient kernel memory was available.
 > 
-> 	David
-> 
-> -
-> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-> Registration No: 1397386 (Wales)
-> 
-
