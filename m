@@ -2,54 +2,101 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F5892CF81A
-	for <lists+linux-api@lfdr.de>; Sat,  5 Dec 2020 01:48:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1738B2CFEE2
+	for <lists+linux-api@lfdr.de>; Sat,  5 Dec 2020 21:43:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727810AbgLEAq6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 4 Dec 2020 19:46:58 -0500
-Received: from vsm-gw.hyogo-dai.ac.jp ([202.244.76.12]:49526 "EHLO
-        vsm-gw.hyogo-dai.ac.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726485AbgLEAq5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 4 Dec 2020 19:46:57 -0500
-X-Greylist: delayed 14573 seconds by postgrey-1.27 at vger.kernel.org; Fri, 04 Dec 2020 19:46:41 EST
-Received: from humans-kc.hyogo-dai.ac.jp (humans-kc.hyogo-dai.ac.jp [202.244.77.11])
-        by vsm-gw.hyogo-dai.ac.jp (Postfix) with ESMTP id 274A31A5589;
-        Sat,  5 Dec 2020 04:44:55 +0900 (JST)
-Received: from humans-kc.hyogo-dai.ac.jp (humans-kc.hyogo-dai.ac.jp [127.0.0.1])
-        by postfix.imss71 (Postfix) with ESMTP id E5C39838858;
-        Sat,  5 Dec 2020 04:44:54 +0900 (JST)
-Received: from hyogo-dai.ac.jp (unknown [202.244.77.11])
-        by humans-kc.hyogo-dai.ac.jp (Postfix) with SMTP id B84F6838260;
-        Sat,  5 Dec 2020 04:44:54 +0900 (JST)
+        id S1726890AbgLEUlc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 5 Dec 2020 15:41:32 -0500
+Received: from jabberwock.ucw.cz ([46.255.230.98]:36658 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725601AbgLEUlc (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 5 Dec 2020 15:41:32 -0500
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 506DF1C0B7C; Sat,  5 Dec 2020 21:40:50 +0100 (CET)
+Date:   Sat, 5 Dec 2020 21:40:49 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Alex Belits <abelits@marvell.com>
+Cc:     "nitesh@redhat.com" <nitesh@redhat.com>,
+        "frederic@kernel.org" <frederic@kernel.org>,
+        Prasun Kapoor <pkapoor@marvell.com>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "trix@redhat.com" <trix@redhat.com>,
+        "mingo@kernel.org" <mingo@kernel.org>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "peterx@redhat.com" <peterx@redhat.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "mtosatti@redhat.com" <mtosatti@redhat.com>,
+        "will@kernel.org" <will@kernel.org>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "leon@sidebranch.com" <leon@sidebranch.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "pauld@redhat.com" <pauld@redhat.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
+Subject: Re: [PATCH v5 0/9] "Task_isolation" mode
+Message-ID: <20201205204049.GA8578@amd>
+References: <8d887e59ca713726f4fcb25a316e1e932b02823e.camel@marvell.com>
 MIME-Version: 1.0
-Message-ID: <20201204194454.00002B21.0147@hyogo-dai.ac.jp>
-Date:   Sat, 05 Dec 2020 04:44:54 +0900
-From:   "Dr.Raymond" <tabata@hyogo-dai.ac.jp>
-To:     <infocarferr1@aim.com>
-Reply-To: <infocarfer@aim.com>
-Subject: I am Vice Chairman of Hang Seng Bank, Dr. Raymond Chien
-         Kuo Fung I have Important Matter to Discuss with you concerning
-         my late client. Died without a NEXT OF KIN. Send me your private
-         email for full details information. 
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MAILER: Active! mail
-X-TM-AS-MML: disable
-X-TM-AS-Product-Ver: IMSS-7.1.0.1808-8.2.0.1013-25446.007
-X-TM-AS-Result: No--4.326-5.0-31-10
-X-imss-scan-details: No--4.326-5.0-31-10
-X-TM-AS-User-Approved-Sender: No
-X-TMASE-MatchedRID: +T4Z3mpR0x5ITndh1lLRASsOycAMAhSTkCM77ifYafsBLhz6t76Ce/bj
-        Enpjm61/Gf23dqZJjE4Erxo5p8V1/E1+zyfzlN7y/sToY2qzpx7w5nZ/qYg41XEWw1TkKAjcYff
-        qdBtG2ocgOkCKsW/kbuunGEBqPil++coAzulIP8gMTyJMXCOBhj9BWL7GG0LsKrauXd3MZDUZaR
-        NzIP3XI5u3uLPgwbAMH5RdHnhWfwyq9gpuf+A6coDeeVSgzszVDx5n520Z3eZyT7DDRtYlKaWBy
-        ZE9nSaC/rhfyjvqkZu/pNa4BidtZEMMprcbiest
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="u3/rZRmxL6MmkK24"
+Content-Disposition: inline
+In-Reply-To: <8d887e59ca713726f4fcb25a316e1e932b02823e.camel@marvell.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-infocarfer@aim.com
 
+--u3/rZRmxL6MmkK24
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Hi!
 
+> General description
+>=20
+> This is the result of development and maintenance of task isolation
+> functionality that originally started based on task isolation patch
+> v15 and was later updated to include v16. It provided predictable
+> environment for userspace tasks running on arm64 processors alongside
+> with full-featured Linux environment. It is intended to provide
+> reliable interruption-free environment from the point when a userspace
+> task enters isolation and until the moment it leaves isolation or
+> receives a signal intentionally sent to it, and was successfully used
+> for this purpose. While CPU isolation with nohz provides an
+> environment that is close to this requirement, the remaining IPIs and
+> other disturbances keep it from being usable for tasks that require
+> complete predictability of CPU timing.
+
+So... what kind of guarantees does this aim to provide / what tasks it
+is useful for?
+
+For real time response, we have other approaches.
+
+If you want to guarantee performnace of the "isolated" task... I don't
+see how that works. Other tasks on the system still compete for DRAM
+bandwidth, caches, etc...
+
+So... what is the usecase?
+								Pavel
+--=20
+http://www.livejournal.com/~pavelmachek
+
+--u3/rZRmxL6MmkK24
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAl/L8FEACgkQMOfwapXb+vJE3wCfYs+cxM/a7TO3oAUetWlr1POn
+XBIAn3IURI08m9SC3Yh05MPaBjmvFyYq
+=Y8jH
+-----END PGP SIGNATURE-----
+
+--u3/rZRmxL6MmkK24--
