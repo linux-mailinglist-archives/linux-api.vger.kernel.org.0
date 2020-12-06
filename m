@@ -2,128 +2,156 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 838732CFFBF
-	for <lists+linux-api@lfdr.de>; Sun,  6 Dec 2020 00:27:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 52C412D0361
+	for <lists+linux-api@lfdr.de>; Sun,  6 Dec 2020 12:31:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725933AbgLEX0a (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 5 Dec 2020 18:26:30 -0500
-Received: from Galois.linutronix.de ([193.142.43.55]:55620 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725270AbgLEX03 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 5 Dec 2020 18:26:29 -0500
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1607210746;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=OF/yxcOl24sCZMNn4pFXh470oPoxUajiPWkLNQAbERU=;
-        b=qM/BWflaQxEXLQ8tIgzhYUuf1xoW7bdG4CvFJrmU0VDLsTE391cb0fqh1cULmil6JPkN5H
-        CjM9f71zxVI6Sk6dpZdpMv1/Dmw/Ki6KPTrX209JefSyxBKR9gikRtVtEd2SDYLG5WPI34
-        6CcwxqoVWHvlbSCVv7N6hjn1WunbYGvZ0LdHs9tCkU7kmNqqKPy+2SusNfTxHqzjDH8xHD
-        Y1qThnsAJvud0e+1SToR7En8O3qIzL05tGCeqq6uPq9qkX5Rgy3UCVdCx6Yovo0QV/UY4c
-        vLzoVpeqNJv/og+qJE/8OA0XGq+IVUZNcsbicbnWcoQYUKcC8m2Dk6fgKORH0Q==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1607210746;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=OF/yxcOl24sCZMNn4pFXh470oPoxUajiPWkLNQAbERU=;
-        b=F0Wpl6o+XvAhNAela/BGvtsgKXboiTn2PGy6xEd0AhejBgQ9J5NvG+DtqLBW5WYakJVmng
-        7IXzd1Pi4pU5X8CQ==
-To:     Pavel Machek <pavel@ucw.cz>, Alex Belits <abelits@marvell.com>
-Cc:     "nitesh\@redhat.com" <nitesh@redhat.com>,
-        "frederic\@kernel.org" <frederic@kernel.org>,
-        Prasun Kapoor <pkapoor@marvell.com>,
-        "linux-api\@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "davem\@davemloft.net" <davem@davemloft.net>,
-        "trix\@redhat.com" <trix@redhat.com>,
-        "mingo\@kernel.org" <mingo@kernel.org>,
-        "catalin.marinas\@arm.com" <catalin.marinas@arm.com>,
-        "rostedt\@goodmis.org" <rostedt@goodmis.org>,
-        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "peterx\@redhat.com" <peterx@redhat.com>,
-        "linux-arch\@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "mtosatti\@redhat.com" <mtosatti@redhat.com>,
-        "will\@kernel.org" <will@kernel.org>,
-        "peterz\@infradead.org" <peterz@infradead.org>,
-        "leon\@sidebranch.com" <leon@sidebranch.com>,
-        "linux-arm-kernel\@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "pauld\@redhat.com" <pauld@redhat.com>,
-        "netdev\@vger.kernel.org" <netdev@vger.kernel.org>
-Subject: Re: [PATCH v5 0/9] "Task_isolation" mode
-In-Reply-To: <20201205204049.GA8578@amd>
-References: <8d887e59ca713726f4fcb25a316e1e932b02823e.camel@marvell.com> <20201205204049.GA8578@amd>
-Date:   Sun, 06 Dec 2020 00:25:45 +0100
-Message-ID: <87h7oz96o6.fsf@nanos.tec.linutronix.de>
+        id S1727256AbgLFLbI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 6 Dec 2020 06:31:08 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:30824 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725804AbgLFLbH (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 6 Dec 2020 06:31:07 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0B6B2ZE7100701;
+        Sun, 6 Dec 2020 06:29:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=sTdeJYkg7s4jW58KjlXSO7YK0Uj/BAuS89bh+WjYExs=;
+ b=Rp75CbhEeYCx5VHn/zmMQm/6S+m39d3Usre2min80jBkGcuIUAFLlD1U/x+1W8OWJjzt
+ fIMqDyMisdQYl1mM9UyniGF2F3wozFBhPxC8o45xaq4jdyxerJ/476m3OKpNWyqX75Ot
+ ZzHIhjFleohS0jG/BTw5yXvXzCYd99hKPpieya0mzuihgbkU/MAWYg+oHQUWV/VR679y
+ Kd89sxaBExZT7E3BQljYIuSDAN6L4oWyttmbEubp0O3I6HjC9jWAiHlf70CcFuUqDoNe
+ FV1XlQNsQrd7V/hGnlvfLCY1r7+QZ+WUan1OAetcBZbmpiv0Bnk27tfchh/UmmiiMr/D dw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 358rby5k22-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Sun, 06 Dec 2020 06:29:52 -0500
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0B6BP7Pa153868;
+        Sun, 6 Dec 2020 06:29:52 -0500
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com [149.81.74.107])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 358rby5k1m-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Sun, 06 Dec 2020 06:29:51 -0500
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+        by ppma03fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0B6BRVQk019021;
+        Sun, 6 Dec 2020 11:29:50 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+        by ppma03fra.de.ibm.com with ESMTP id 3581u8hkbt-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Sun, 06 Dec 2020 11:29:49 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 0B6BSWTZ56295740
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Sun, 6 Dec 2020 11:28:32 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 9A4D9A404D;
+        Sun,  6 Dec 2020 11:28:32 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id C1635A4040;
+        Sun,  6 Dec 2020 11:28:28 +0000 (GMT)
+Received: from linux.ibm.com (unknown [9.145.50.18])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Sun,  6 Dec 2020 11:28:28 +0000 (GMT)
+Date:   Sun, 6 Dec 2020 13:28:26 +0200
+From:   Mike Rapoport <rppt@linux.ibm.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Mike Rapoport <rppt@kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christopher Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Roman Gushchin <guro@fb.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
+        x86@kernel.org
+Subject: Re: [PATCH v14 04/10] set_memory: allow querying whether
+ set_direct_map_*() is actually enabled
+Message-ID: <20201206112826.GB123287@linux.ibm.com>
+References: <20201203062949.5484-1-rppt@kernel.org>
+ <20201203062949.5484-5-rppt@kernel.org>
+ <20201203153610.724f40f26ca1620247bc6b09@linux-foundation.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201203153610.724f40f26ca1620247bc6b09@linux-foundation.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
+ definitions=2020-12-06_06:2020-12-04,2020-12-06 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=1
+ impostorscore=0 spamscore=0 priorityscore=1501 lowpriorityscore=0
+ mlxscore=0 malwarescore=0 bulkscore=0 mlxlogscore=999 clxscore=1015
+ phishscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012060066
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Pavel,
+On Thu, Dec 03, 2020 at 03:36:10PM -0800, Andrew Morton wrote:
+> On Thu,  3 Dec 2020 08:29:43 +0200 Mike Rapoport <rppt@kernel.org> wrote:
+> 
+> > From: Mike Rapoport <rppt@linux.ibm.com>
+> > 
+> > On arm64, set_direct_map_*() functions may return 0 without actually
+> > changing the linear map. This behaviour can be controlled using kernel
+> > parameters, so we need a way to determine at runtime whether calls to
+> > set_direct_map_invalid_noflush() and set_direct_map_default_noflush() have
+> > any effect.
+> > 
+> > Extend set_memory API with can_set_direct_map() function that allows
+> > checking if calling set_direct_map_*() will actually change the page table,
+> > replace several occurrences of open coded checks in arm64 with the new
+> > function and provide a generic stub for architectures that always modify
+> > page tables upon calls to set_direct_map APIs.
+> > 
+> > ...
+> >
+> > --- a/arch/arm64/mm/mmu.c
+> > +++ b/arch/arm64/mm/mmu.c
+> > @@ -22,6 +22,7 @@
+> >  #include <linux/io.h>
+> >  #include <linux/mm.h>
+> >  #include <linux/vmalloc.h>
+> > +#include <linux/set_memory.h>
+> >  
+> >  #include <asm/barrier.h>
+> >  #include <asm/cputype.h>
+> > @@ -477,7 +478,7 @@ static void __init map_mem(pgd_t *pgdp)
+> >  	int flags = 0;
+> >  	u64 i;
+> >  
+> > -	if (rodata_full || debug_pagealloc_enabled())
+> > +	if (can_set_direct_map())
+> >  		flags = NO_BLOCK_MAPPINGS | NO_CONT_MAPPINGS;
+> 
+> Changes in -next turned this into
+> 
+> 	if (can_set_direct_map() || crash_mem_map)
 
-On Sat, Dec 05 2020 at 21:40, Pavel Machek wrote:
-> So... what kind of guarantees does this aim to provide / what tasks it
-> is useful for?
->
-> For real time response, we have other approaches.
+Thanks for updating!
 
-Depends on your requirements. Some problems are actually better solved
-with busy polling. See below.
-
-> If you want to guarantee performnace of the "isolated" task... I don't
-> see how that works. Other tasks on the system still compete for DRAM
-> bandwidth, caches, etc...
-
-Applications which want to run as undisturbed as possible. There is
-quite a range of those:
-
-  - Hardware in the loop simulation is today often done with that crude
-    approach of "offlining" a CPU and then instead of playing dead
-    jumping to a preloaded bare metal executable. That's a horrible hack
-    and impossible to debug, but gives them the results they need to
-    achieve. These applications are well optimized vs. cache and memory
-    foot print, so they don't worry about these things too much and they
-    surely don't run on SMI and BIOS value add inflicted machines.
-
-    Don't even think about waiting for an interrupt to achieve what
-    these folks are doing. So no, there are problems which a general
-    purpose realtime OS cannot solve ever.
-
-  - HPC computations on large data sets. While the memory foot print is
-    large the access patterns are cache optimized. 
-
-    The problem there is that any unnecessary IPI, tick interrupt or
-    whatever nuisance is disturbing the carefully optimized cache usage
-    and alone getting rid of the timer interrupt gained them measurable
-    performance. Even very low single digit percentage of runtime saving
-    is valuable for these folks because the compute time on such beasts
-    is expensive.
-
-  - Realtime guests in KVM. With posted interrupts and a fully populated
-    host side page table there is no point in running host side
-    interrupts or IPIs for random accounting or whatever purposes as
-    they affect the latency in the guest. With all the side effects
-    mitigated and a properly set up guest and host it is possible to get
-    to a zero exit situation after the bootup phase which means pretty
-    much matching bare metal behaviour.
-
-    Yes, you can do that with e.g. Jailhouse as well, but you lose lots
-    of the fancy things KVM provides. And people care about these not
-    just because they are fancy. They care because their application
-    scenario needs them.
-
-There are more reasons why people want to be able to get as much
-isolation from the OS as possible but at the same time have a sane
-execution environment, debugging, performance monitoring and the OS
-provided protection mechanisms instead of horrible hacks.
-
-Isolation makes sense for a range of applications and there is no reason
-why Linux should not support them. 
-
-Thanks,
-
-        tglx
+-- 
+Sincerely yours,
+Mike.
