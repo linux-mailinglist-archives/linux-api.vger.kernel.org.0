@@ -2,100 +2,68 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AE522D174C
-	for <lists+linux-api@lfdr.de>; Mon,  7 Dec 2020 18:17:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D5CE2D18C6
+	for <lists+linux-api@lfdr.de>; Mon,  7 Dec 2020 19:55:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726979AbgLGRPm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 7 Dec 2020 12:15:42 -0500
-Received: from verein.lst.de ([213.95.11.211]:42865 "EHLO verein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725814AbgLGRPm (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 7 Dec 2020 12:15:42 -0500
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 7E27C67373; Mon,  7 Dec 2020 18:14:56 +0100 (CET)
-Date:   Mon, 7 Dec 2020 18:14:56 +0100
-From:   Christoph Hellwig <hch@lst.de>
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        linux-fsdevel@vger.kernel.org,
-        John Johansen <john.johansen@canonical.com>,
-        James Morris <jmorris@namei.org>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-        Geoffrey Thomas <geofft@ldpreload.com>,
-        Mrunal Patel <mpatel@redhat.com>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Theodore Tso <tytso@mit.edu>, Alban Crequy <alban@kinvolk.io>,
-        Tycho Andersen <tycho@tycho.ws>,
-        David Howells <dhowells@redhat.com>,
-        James Bottomley <James.Bottomley@hansenpartnership.com>,
-        Seth Forshee <seth.forshee@canonical.com>,
-        =?iso-8859-1?Q?St=E9phane?= Graber <stgraber@ubuntu.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Lennart Poettering <lennart@poettering.net>,
-        "Eric W. Biederman" <ebiederm@xmission.com>, smbarber@chromium.org,
-        Phil Estes <estesp@gmail.com>, Serge Hallyn <serge@hallyn.com>,
-        Kees Cook <keescook@chromium.org>,
-        Todd Kjos <tkjos@google.com>, Paul Moore <paul@paul-moore.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        containers@lists.linux-foundation.org,
-        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-integrity@vger.kernel.org,
-        selinux@vger.kernel.org, Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v4 06/40] fs: add mount_setattr()
-Message-ID: <20201207171456.GC13614@lst.de>
-References: <20201203235736.3528991-1-christian.brauner@ubuntu.com> <20201203235736.3528991-7-christian.brauner@ubuntu.com>
+        id S1726353AbgLGSwh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 7 Dec 2020 13:52:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52832 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726352AbgLGSwh (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 7 Dec 2020 13:52:37 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 099F7C061793
+        for <linux-api@vger.kernel.org>; Mon,  7 Dec 2020 10:51:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+        Sender:Reply-To:Content-ID:Content-Description;
+        bh=lwRy1gpudVVoWmouXuPLhNR7OGbUNao9gVEhieWRiRs=; b=QpRtc/LqTk+DSHwDkHD6PyMWDo
+        N2tiuD9HOKDLGI5iHmPJTX0SK8poNg/ssxDi1dHnd4C6sUx2kU8SOCZb2b+pSQH1osSwNncPtc1bR
+        YeXjdgmntTuPbV59ZY5uxKdL16yu8FbhFJRUo8r7lhHW9lxk2yYVbsDvhs3m8pEHtXG7n0x0SNG79
+        Nju218ww+d+dzpaYaw8NuH/aeBdFuvzWNRkf0FQAQk0+zvf6UaaIPddx9oz9dXkvAXqicZyX7gu8X
+        r/QtNSQst1eJuG/7CdRQm3Qhy0lh3z8E+cHDqtX+Z3nY3ffzArPGMNrDDXXrmgZbcUOIGuzCpXPFj
+        dn9TOT3g==;
+Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kmLby-0002LN-Bj; Mon, 07 Dec 2020 18:51:50 +0000
+Date:   Mon, 7 Dec 2020 18:51:50 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Andy Lutomirski <luto@amacapital.net>
+Cc:     Andy Lutomirski <luto@kernel.org>, rao.shoaib@oracle.com,
+        Christoph Hellwig <hch@lst.de>,
+        Paolo Abeni <pabeni@redhat.com>, jbi.octave@gmail.com,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [RFC net-next af_unix v1 0/1] Allow delivery of SIGURG on
+ AF_UNIX streams socket
+Message-ID: <20201207185150.GA7338@casper.infradead.org>
+References: <20201207163520.GA7494@casper.infradead.org>
+ <8A94EE38-C4F4-4EBE-9737-D331AD34274A@amacapital.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20201203235736.3528991-7-christian.brauner@ubuntu.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8A94EE38-C4F4-4EBE-9737-D331AD34274A@amacapital.net>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-> +	switch (attr->propagation) {
-> +	case 0:
-> +		kattr->propagation = 0;
-> +		break;
-> +	case MS_UNBINDABLE:
-> +		kattr->propagation = MS_UNBINDABLE;
-> +		break;
-> +	case MS_PRIVATE:
-> +		kattr->propagation = MS_PRIVATE;
-> +		break;
-> +	case MS_SLAVE:
-> +		kattr->propagation = MS_SLAVE;
-> +		break;
-> +	case MS_SHARED:
-> +		kattr->propagation = MS_SHARED;
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
+On Mon, Dec 07, 2020 at 09:00:12AM -0800, Andy Lutomirski wrote:
+> >> I'm also a bit nervous that there might be some program out there that
+> >> expects SIGIO but not SIGURG on unix sockets, and you're breaking
+> >> them.
+> > 
+> > The only incompatible scenario I've been able to think of is an
+> > application which has both TCP and Unix sockets will suddenly get its
+> > SIGURG handler called for Unix sockets when it's only expecting to get
+> > it called for TCP sockets.  That feels like a very unlikely scenario.
+> 
+> So maybe this is okay. It does seem like a hack, but maybe it’s a hack that’s not too bad to support in the kernel.
 
-This can be shortened to:
+I see it as extending a (somewhat bogus) TCP socket API to Unix sockets.
+The mechanism is badly named.  If it were called MSG_URG instead of
+MSG_OOB, I think it'd be a lot less objectionable.  Apparently the
+sockets people were enamoured with the idea of having multiple streams
+of data inside a single socket, which is madness.
 
-#define MOUNT_SETATTR_PROPAGATION_FLAGS \
-	(MS_UNBINDABLE | MS_PRIVATE | MS_SLAVE | MS_SHARED)
-
-	if (attr->propagation & ~MOUNT_SETATTR_PROPAGATION_FLAGS)
-		return -EINVAL;
-	if (hweight32(attr->propagation & MOUNT_SETATTR_PROPAGATION_FLAGS) > 1)
-		return -EINVAL;
-	kattr->propagation = attr->propagation;
-
-> +asmlinkage long sys_mount_setattr(int dfd, const char __user *path, unsigned int flags,
-
-Overly long line.
-
-Otherwise looks good:
-
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+I'd really like a way to generate SIGURG on pipes too, but that's harder
+to wire up.
