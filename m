@@ -2,35 +2,30 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 699BE2D317C
-	for <lists+linux-api@lfdr.de>; Tue,  8 Dec 2020 18:51:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 368912D321B
+	for <lists+linux-api@lfdr.de>; Tue,  8 Dec 2020 19:26:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729691AbgLHRvD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 8 Dec 2020 12:51:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40632 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726810AbgLHRvD (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 8 Dec 2020 12:51:03 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED3A3C061749;
-        Tue,  8 Dec 2020 09:50:22 -0800 (PST)
-Received: from zn.tnic (p200300ec2f0f0800de0994b63dbef0e2.dip0.t-ipconnect.de [IPv6:2003:ec:2f0f:800:de09:94b6:3dbe:f0e2])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id EA5661EC053C;
-        Tue,  8 Dec 2020 18:50:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1607449820;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=Wll8a/0W46BCEqmGk8dxucjixTUIbOAnwRfJKIjdQCc=;
-        b=XaFS6azD6t5Xr9XLknktT4H2gC2aKHD100ijn2oQAJPTqPsYb68kxYhjhUTn6bste02pBy
-        v6XpqQK7/HJVLGnAlcfsLC4eIBw2MPYnBz5Sr4KTYV27ZIYues1CiD0CFpBO9LwdogTO1c
-        YBw3l/PmIywECt9wztleEqpoBpFzKVE=
-Date:   Tue, 8 Dec 2020 18:50:14 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+        id S1730915AbgLHS0K (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 8 Dec 2020 13:26:10 -0500
+Received: from mga02.intel.com ([134.134.136.20]:29455 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730894AbgLHS0K (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 8 Dec 2020 13:26:10 -0500
+IronPort-SDR: /yg7CeF3YvlmAQnd/x01t6+NXRWrpogDAn9HQAxozVRZT4CkfnTv3k2FaxfHf7o4iwsfhbAMex
+ r18DfVZEjBDw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9829"; a="160995662"
+X-IronPort-AV: E=Sophos;i="5.78,403,1599548400"; 
+   d="scan'208";a="160995662"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2020 10:25:29 -0800
+IronPort-SDR: MVXY+ufzzjWpRkO/fcrw7djp1AEmJjNq9PnlBlwIbD8V1ZktkEzklCAxWd0oBRp2C8pAxGfKhi
+ xQw8ZyCXIxMA==
+X-IronPort-AV: E=Sophos;i="5.78,403,1599548400"; 
+   d="scan'208";a="317917122"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.139.184]) ([10.209.139.184])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2020 10:25:27 -0800
+Subject: Re: [PATCH v15 08/26] x86/mm: Introduce _PAGE_COW
+To:     Borislav Petkov <bp@alien8.de>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
@@ -56,178 +51,156 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v15 08/26] x86/mm: Introduce _PAGE_COW
-Message-ID: <20201208175014.GD27920@zn.tnic>
 References: <20201110162211.9207-1-yu-cheng.yu@intel.com>
  <20201110162211.9207-9-yu-cheng.yu@intel.com>
+ <20201208175014.GD27920@zn.tnic>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <218503f6-eec1-94b0-8404-6f92c55799e3@intel.com>
+Date:   Tue, 8 Dec 2020 10:25:15 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201110162211.9207-9-yu-cheng.yu@intel.com>
+In-Reply-To: <20201208175014.GD27920@zn.tnic>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Nov 10, 2020 at 08:21:53AM -0800, Yu-cheng Yu wrote:
-> There is essentially no room left in the x86 hardware PTEs on some OSes
-> (not Linux).  That left the hardware architects looking for a way to
-> represent a new memory type (shadow stack) within the existing bits.
-> They chose to repurpose a lightly-used state: Write=0,Dirty=1.
-
-It is not clear to me what the definition and semantics of that bit is.
-
-+#define _PAGE_BIT_COW          _PAGE_BIT_SOFTW5 /* copy-on-write */
-
-Is it set by hw or by sw and hw uses it to know it is a shadow stack
-page, and so on.
-
-I think you should lead with its definition.
-
-> The reason it's lightly used is that Dirty=1 is normally set by hardware
-> and cannot normally be set by hardware on a Write=0 PTE.  Software must
-> normally be involved to create one of these PTEs, so software can simply
-> opt to not create them.
+On 12/8/2020 9:50 AM, Borislav Petkov wrote:
+> On Tue, Nov 10, 2020 at 08:21:53AM -0800, Yu-cheng Yu wrote:
+>> There is essentially no room left in the x86 hardware PTEs on some OSes
+>> (not Linux).  That left the hardware architects looking for a way to
+>> represent a new memory type (shadow stack) within the existing bits.
+>> They chose to repurpose a lightly-used state: Write=0,Dirty=1.
 > 
-> But that leaves us with a Linux problem: we need to ensure we never create
-
-Please use passive voice in your commit message: no "we" or "I", etc.
-
-> Write=0,Dirty=1 PTEs.  In places where we do create them, we need to find
-> an alternative way to represent them _without_ using the same hardware bit
-> combination.  Thus, enter _PAGE_COW.  This results in the following:
+> It is not clear to me what the definition and semantics of that bit is.
 > 
-> (a) A modified, copy-on-write (COW) page: (R/O + _PAGE_COW)
-> (b) A R/O page that has been COW'ed: (R/O + _PAGE_COW)
-
-Both are "R/O + _PAGE_COW". Where's the difference? The dirty bit?
-
->     The user page is in a R/O VMA, and get_user_pages() needs a writable
->     copy.  The page fault handler creates a copy of the page and sets
->     the new copy's PTE as R/O and _PAGE_COW.
-> (c) A shadow stack PTE: (R/O + _PAGE_DIRTY_HW)
-
-So W=0, D=1 ?
-
-> (d) A shared shadow stack PTE: (R/O + _PAGE_COW)
->     When a shadow stack page is being shared among processes (this happens
->     at fork()), its PTE is cleared of _PAGE_DIRTY_HW, so the next shadow
->     stack access causes a fault, and the page is duplicated and
->     _PAGE_DIRTY_HW is set again.  This is the COW equivalent for shadow
->     stack pages, even though it's copy-on-access rather than copy-on-write.
-> (e) A page where the processor observed a Write=1 PTE, started a write, set
->     Dirty=1, but then observed a Write=0 PTE.
-
-How does that happen? Something changed the PTE's W bit to 0 in-between?
-
-> That's possible today, but
->     will not happen on processors that support shadow stack.
+> +#define _PAGE_BIT_COW          _PAGE_BIT_SOFTW5 /* copy-on-write */
 > 
-> Use _PAGE_COW in pte_wrprotect() and _PAGE_DIRTY_HW in pte_mkwrite().
-> Apply the same changes to pmd and pud.
+> Is it set by hw or by sw and hw uses it to know it is a shadow stack
+> page, and so on.
 > 
-> When this patch is applied, there are six free bits left in the 64-bit PTE.
+> I think you should lead with its definition.
 
-s/When this patch is applied/After this/
+Ok.
 
-Avoid having "This patch" or "This commit" in the commit message. It is
-tautologically useless.
+...
 
-Also, do
-
-$ git grep 'This patch' Documentation/process
-
-for more details.
-
-> There are no more free bits in the 32-bit PTE (except for PAE) and shadow
-> stack is not implemented for the 32-bit kernel.
+>> Write=0,Dirty=1 PTEs.  In places where we do create them, we need to find
+>> an alternative way to represent them _without_ using the same hardware bit
+>> combination.  Thus, enter _PAGE_COW.  This results in the following:
+>>
+>> (a) A modified, copy-on-write (COW) page: (R/O + _PAGE_COW)
+>> (b) A R/O page that has been COW'ed: (R/O + _PAGE_COW)
 > 
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> ---
->  arch/x86/include/asm/pgtable.h       | 120 ++++++++++++++++++++++++---
->  arch/x86/include/asm/pgtable_types.h |  41 ++++++++-
->  2 files changed, 150 insertions(+), 11 deletions(-)
+> Both are "R/O + _PAGE_COW". Where's the difference? The dirty bit?
+
+The PTEs are the same for both (a) and (b), but come from different routes.
+
+>>      The user page is in a R/O VMA, and get_user_pages() needs a writable
+>>      copy.  The page fault handler creates a copy of the page and sets
+>>      the new copy's PTE as R/O and _PAGE_COW.
+>> (c) A shadow stack PTE: (R/O + _PAGE_DIRTY_HW)
 > 
-> diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
-> index b23697658b28..c88c7ccf0318 100644
-> --- a/arch/x86/include/asm/pgtable.h
-> +++ b/arch/x86/include/asm/pgtable.h
-> @@ -121,9 +121,9 @@ extern pmdval_t early_pmd_flags;
->   * The following only work if pte_present() is true.
->   * Undefined behaviour if not..
->   */
-> -static inline int pte_dirty(pte_t pte)
-> +static inline bool pte_dirty(pte_t pte)
->  {
-> -	return pte_flags(pte) & _PAGE_DIRTY_HW;
-> +	return pte_flags(pte) & _PAGE_DIRTY_BITS;
+> So W=0, D=1 ?
 
-Why?
+Yes.
 
-Does _PAGE_COW mean dirty too?
+>> (d) A shared shadow stack PTE: (R/O + _PAGE_COW)
+>>      When a shadow stack page is being shared among processes (this happens
+>>      at fork()), its PTE is cleared of _PAGE_DIRTY_HW, so the next shadow
+>>      stack access causes a fault, and the page is duplicated and
+>>      _PAGE_DIRTY_HW is set again.  This is the COW equivalent for shadow
+>>      stack pages, even though it's copy-on-access rather than copy-on-write.
+>> (e) A page where the processor observed a Write=1 PTE, started a write, set
+>>      Dirty=1, but then observed a Write=0 PTE.
+> 
+> How does that happen? Something changed the PTE's W bit to 0 in-between?
 
-> @@ -343,6 +349,17 @@ static inline pte_t pte_mkold(pte_t pte)
->  
->  static inline pte_t pte_wrprotect(pte_t pte)
->  {
-> +	/*
-> +	 * Blindly clearing _PAGE_RW might accidentally create
-> +	 * a shadow stack PTE (RW=0,Dirty=1).  Move the hardware
-> +	 * dirty value to the software bit.
-> +	 */
-> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
-> +		pte.pte |= (pte.pte & _PAGE_DIRTY_HW) >>
-> +			   _PAGE_BIT_DIRTY_HW << _PAGE_BIT_COW;
+Yes.
 
-Let that line stick out. And that shifting is not grokkable at a quick
-glance, at least not to me. Simplify?
+...
 
->  static inline pmd_t pmd_wrprotect(pmd_t pmd)
->  {
-> +	/*
-> +	 * Blindly clearing _PAGE_RW might accidentally create
-> +	 * a shadow stack PMD (RW=0,Dirty=1).  Move the hardware
-> +	 * dirty value to the software bit.
+>> diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
+>> index b23697658b28..c88c7ccf0318 100644
+>> --- a/arch/x86/include/asm/pgtable.h
+>> +++ b/arch/x86/include/asm/pgtable.h
+>> @@ -121,9 +121,9 @@ extern pmdval_t early_pmd_flags;
+>>    * The following only work if pte_present() is true.
+>>    * Undefined behaviour if not..
+>>    */
+>> -static inline int pte_dirty(pte_t pte)
+>> +static inline bool pte_dirty(pte_t pte)
+>>   {
+>> -	return pte_flags(pte) & _PAGE_DIRTY_HW;
+>> +	return pte_flags(pte) & _PAGE_DIRTY_BITS;
+> 
+> Why?
+> 
+> Does _PAGE_COW mean dirty too?
 
-This whole carefully sidestepping the possiblity of creating a shadow
-stack pXd is kinda sucky...
+Yes.  Basically [read-only & dirty] is created by software.  Now the 
+software uses a different bit.
 
-> diff --git a/arch/x86/include/asm/pgtable_types.h b/arch/x86/include/asm/pgtable_types.h
-> index 7462a574fc93..5f764d8d9bae 100644
-> --- a/arch/x86/include/asm/pgtable_types.h
-> +++ b/arch/x86/include/asm/pgtable_types.h
-> @@ -23,7 +23,8 @@
->  #define _PAGE_BIT_SOFTW2	10	/* " */
->  #define _PAGE_BIT_SOFTW3	11	/* " */
->  #define _PAGE_BIT_PAT_LARGE	12	/* On 2MB or 1GB pages */
-> -#define _PAGE_BIT_SOFTW4	58	/* available for programmer */
-> +#define _PAGE_BIT_SOFTW4	57	/* available for programmer */
-> +#define _PAGE_BIT_SOFTW5	58	/* available for programmer */
->  #define _PAGE_BIT_PKEY_BIT0	59	/* Protection Keys, bit 1/4 */
->  #define _PAGE_BIT_PKEY_BIT1	60	/* Protection Keys, bit 2/4 */
->  #define _PAGE_BIT_PKEY_BIT2	61	/* Protection Keys, bit 3/4 */
-> @@ -36,6 +37,16 @@
->  #define _PAGE_BIT_SOFT_DIRTY	_PAGE_BIT_SOFTW3 /* software dirty tracking */
->  #define _PAGE_BIT_DEVMAP	_PAGE_BIT_SOFTW4
->  
-> +/*
-> + * This bit indicates a copy-on-write page, and is different from
-> + * _PAGE_BIT_SOFT_DIRTY, which tracks which pages a task writes to.
-> + */
-> +#ifdef CONFIG_X86_64
+>> @@ -343,6 +349,17 @@ static inline pte_t pte_mkold(pte_t pte)
+>>   
+>>   static inline pte_t pte_wrprotect(pte_t pte)
+>>   {
+>> +	/*
+>> +	 * Blindly clearing _PAGE_RW might accidentally create
+>> +	 * a shadow stack PTE (RW=0,Dirty=1).  Move the hardware
+>> +	 * dirty value to the software bit.
+>> +	 */
+>> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
+>> +		pte.pte |= (pte.pte & _PAGE_DIRTY_HW) >>
+>> +			   _PAGE_BIT_DIRTY_HW << _PAGE_BIT_COW;
+> 
+> Let that line stick out. And that shifting is not grokkable at a quick
+> glance, at least not to me. Simplify?
 
-CONFIG_X86_64 ? Do all x86 machines out there support CET?
+Ok.
 
-If anything, CONFIG_X86_CET...
+>>   static inline pmd_t pmd_wrprotect(pmd_t pmd)
+>>   {
+>> +	/*
+>> +	 * Blindly clearing _PAGE_RW might accidentally create
+>> +	 * a shadow stack PMD (RW=0,Dirty=1).  Move the hardware
+>> +	 * dirty value to the software bit.
+> 
+> This whole carefully sidestepping the possiblity of creating a shadow
+> stack pXd is kinda sucky...
+> 
+>> diff --git a/arch/x86/include/asm/pgtable_types.h b/arch/x86/include/asm/pgtable_types.h
+>> index 7462a574fc93..5f764d8d9bae 100644
+>> --- a/arch/x86/include/asm/pgtable_types.h
+>> +++ b/arch/x86/include/asm/pgtable_types.h
+>> @@ -23,7 +23,8 @@
+>>   #define _PAGE_BIT_SOFTW2	10	/* " */
+>>   #define _PAGE_BIT_SOFTW3	11	/* " */
+>>   #define _PAGE_BIT_PAT_LARGE	12	/* On 2MB or 1GB pages */
+>> -#define _PAGE_BIT_SOFTW4	58	/* available for programmer */
+>> +#define _PAGE_BIT_SOFTW4	57	/* available for programmer */
+>> +#define _PAGE_BIT_SOFTW5	58	/* available for programmer */
+>>   #define _PAGE_BIT_PKEY_BIT0	59	/* Protection Keys, bit 1/4 */
+>>   #define _PAGE_BIT_PKEY_BIT1	60	/* Protection Keys, bit 2/4 */
+>>   #define _PAGE_BIT_PKEY_BIT2	61	/* Protection Keys, bit 3/4 */
+>> @@ -36,6 +37,16 @@
+>>   #define _PAGE_BIT_SOFT_DIRTY	_PAGE_BIT_SOFTW3 /* software dirty tracking */
+>>   #define _PAGE_BIT_DEVMAP	_PAGE_BIT_SOFTW4
+>>   
+>> +/*
+>> + * This bit indicates a copy-on-write page, and is different from
+>> + * _PAGE_BIT_SOFT_DIRTY, which tracks which pages a task writes to.
+>> + */
+>> +#ifdef CONFIG_X86_64
+> 
+> CONFIG_X86_64 ? Do all x86 machines out there support CET?
+> 
+> If anything, CONFIG_X86_CET...
 
-> +#define _PAGE_BIT_COW		_PAGE_BIT_SOFTW5 /* copy-on-write */
-> +#else
-> +#define _PAGE_BIT_COW		0
-> +#endif
-> +
->  /* If _PAGE_BIT_PRESENT is clear, we use these: */
->  /* - if the user mapped it with PROT_NONE; pte_present gives true */
--- 
-Regards/Gruss,
-    Boris.
+Ok.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+--
+Yu-cheng
