@@ -2,24 +2,22 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CD992D290B
-	for <lists+linux-api@lfdr.de>; Tue,  8 Dec 2020 11:38:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E9C912D2DD6
+	for <lists+linux-api@lfdr.de>; Tue,  8 Dec 2020 16:06:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727463AbgLHKh7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 8 Dec 2020 05:37:59 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:38573 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726138AbgLHKh6 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 8 Dec 2020 05:37:58 -0500
-Received: from ip5f5af0a0.dynamic.kabel-deutschland.de ([95.90.240.160] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1kmaMp-0003ta-EI; Tue, 08 Dec 2020 10:37:11 +0000
-Date:   Tue, 8 Dec 2020 11:37:07 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        id S1729966AbgLHPGJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 8 Dec 2020 10:06:09 -0500
+Received: from verein.lst.de ([213.95.11.211]:46580 "EHLO verein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729471AbgLHPGJ (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 8 Dec 2020 10:06:09 -0500
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 64C856736F; Tue,  8 Dec 2020 16:05:21 +0100 (CET)
+Date:   Tue, 8 Dec 2020 16:05:20 +0100
+From:   Christoph Hellwig <hch@lst.de>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
         Christoph Hellwig <hch@infradead.org>,
         linux-fsdevel@vger.kernel.org,
         John Johansen <john.johansen@canonical.com>,
@@ -40,7 +38,7 @@ Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         David Howells <dhowells@redhat.com>,
         James Bottomley <James.Bottomley@hansenpartnership.com>,
         Seth Forshee <seth.forshee@canonical.com>,
-        =?utf-8?B?U3TDqXBoYW5l?= Graber <stgraber@ubuntu.com>,
+        =?iso-8859-1?Q?St=E9phane?= Graber <stgraber@ubuntu.com>,
         Aleksa Sarai <cyphar@cyphar.com>,
         Lennart Poettering <lennart@poettering.net>,
         "Eric W. Biederman" <ebiederm@xmission.com>, smbarber@chromium.org,
@@ -53,71 +51,23 @@ Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         linux-ext4@vger.kernel.org, linux-integrity@vger.kernel.org,
         selinux@vger.kernel.org
 Subject: Re: [PATCH v4 06/40] fs: add mount_setattr()
-Message-ID: <20201208103707.px6buexwuusn6d3f@wittgenstein>
-References: <20201203235736.3528991-1-christian.brauner@ubuntu.com>
- <20201203235736.3528991-7-christian.brauner@ubuntu.com>
- <20201207171456.GC13614@lst.de>
+Message-ID: <20201208150520.GA8252@lst.de>
+References: <20201203235736.3528991-1-christian.brauner@ubuntu.com> <20201203235736.3528991-7-christian.brauner@ubuntu.com> <20201207171456.GC13614@lst.de> <20201208103707.px6buexwuusn6d3f@wittgenstein>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201207171456.GC13614@lst.de>
+In-Reply-To: <20201208103707.px6buexwuusn6d3f@wittgenstein>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Dec 07, 2020 at 06:14:56PM +0100, Christoph Hellwig wrote:
-> > +	switch (attr->propagation) {
-> > +	case 0:
-> > +		kattr->propagation = 0;
-> > +		break;
-> > +	case MS_UNBINDABLE:
-> > +		kattr->propagation = MS_UNBINDABLE;
-> > +		break;
-> > +	case MS_PRIVATE:
-> > +		kattr->propagation = MS_PRIVATE;
-> > +		break;
-> > +	case MS_SLAVE:
-> > +		kattr->propagation = MS_SLAVE;
-> > +		break;
-> > +	case MS_SHARED:
-> > +		kattr->propagation = MS_SHARED;
-> > +		break;
-> > +	default:
-> > +		return -EINVAL;
-> > +	}
-> 
-> This can be shortened to:
-> 
-> #define MOUNT_SETATTR_PROPAGATION_FLAGS \
-> 	(MS_UNBINDABLE | MS_PRIVATE | MS_SLAVE | MS_SHARED)
-> 
-> 	if (attr->propagation & ~MOUNT_SETATTR_PROPAGATION_FLAGS)
-> 		return -EINVAL;
-> 	if (hweight32(attr->propagation & MOUNT_SETATTR_PROPAGATION_FLAGS) > 1)
-> 		return -EINVAL;
-> 	kattr->propagation = attr->propagation;
+On Tue, Dec 08, 2020 at 11:37:07AM +0100, Christian Brauner wrote:
+> You want a v5 with the changes you requested before you continue
+> reviewing? Otherwise I'll just let you go through v4.
 
-Looks good! I've applied that.
+I don't think it is worth resending so quickly.  We're not going to
+make 5.11 for this series anyway.
 
-> 
-> > +asmlinkage long sys_mount_setattr(int dfd, const char __user *path, unsigned int flags,
-> 
-> Overly long line.
-
-Folded after @path now.
-
-> 
-> Otherwise looks good:
-> 
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-
-Thanks, I've pushed out the changes to:
-https://git.kernel.org/brauner/h/idmapped_mounts
-the original v4 can now be found at:
-https://git.kernel.org/brauner/h/idmapped_mounts_v4
-
-You want a v5 with the changes you requested before you continue
-reviewing? Otherwise I'll just let you go through v4.
-
-Thanks!
-Christian
+I plan to add XFS support as a learning exercise, but I'll probably need
+a little more time to get to that.
