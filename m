@@ -2,26 +2,26 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6505B2D4D99
-	for <lists+linux-api@lfdr.de>; Wed,  9 Dec 2020 23:27:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 18D5E2D4DA0
+	for <lists+linux-api@lfdr.de>; Wed,  9 Dec 2020 23:27:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388754AbgLIWZq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 9 Dec 2020 17:25:46 -0500
-Received: from mga18.intel.com ([134.134.136.126]:14575 "EHLO mga18.intel.com"
+        id S2388788AbgLIW0H (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 9 Dec 2020 17:26:07 -0500
+Received: from mga18.intel.com ([134.134.136.126]:14593 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388749AbgLIWZp (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 9 Dec 2020 17:25:45 -0500
-IronPort-SDR: fB9mZ9Z8a2EhSbVGnBEZ2jlC0fLZFphOFJeFRRaQ9CYkvEyF0y0aZABmVAOSLk3hpyLpUZ0NgY
- ZGlQSop7+zxA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9830"; a="161918121"
+        id S2388258AbgLIWZu (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 9 Dec 2020 17:25:50 -0500
+IronPort-SDR: I49YF6J0salycPXKOVjS/Vqg3wU4sMAzuPq34PRzopz+RDmQlZnDNVzB1muduVxAz082j5tons
+ kDAiE1qoW7Uw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9830"; a="161918130"
 X-IronPort-AV: E=Sophos;i="5.78,407,1599548400"; 
-   d="scan'208";a="161918121"
+   d="scan'208";a="161918130"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
   by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2020 14:23:52 -0800
-IronPort-SDR: E6X+PJx5M9WG91KmDjr+bK1OWFTThgqyMJyA1PrYDsK0zQNgFVZOa5Clc1htRMy1tLKSOkuRDx
- BXlcFaYEh+2A==
+IronPort-SDR: yIbqGrNbje/WS53Ay2vrHrTkO68SFpbsu50OlZMLO+hHp9GQMEpA6LlqP/kdtouW6+n73ftboN
+ ssVI6a2HPBTg==
 X-IronPort-AV: E=Sophos;i="5.78,407,1599548400"; 
-   d="scan'208";a="318543586"
+   d="scan'208";a="318543594"
 Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
   by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2020 14:23:52 -0800
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
@@ -52,9 +52,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v16 22/26] binfmt_elf: Define GNU_PROPERTY_X86_FEATURE_1_AND properties
-Date:   Wed,  9 Dec 2020 14:23:16 -0800
-Message-Id: <20201209222320.1724-23-yu-cheng.yu@intel.com>
+Subject: [PATCH v16 24/26] x86/cet/shstk: Handle thread shadow stack
+Date:   Wed,  9 Dec 2020 14:23:18 -0800
+Message-Id: <20201209222320.1724-25-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20201209222320.1724-1-yu-cheng.yu@intel.com>
 References: <20201209222320.1724-1-yu-cheng.yu@intel.com>
@@ -64,33 +64,157 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-An ELF file's .note.gnu.property indicates architecture features of the
-file.  Introduce feature definitions for Shadow Stack and Indirect Branch
-Tracking.
+The kernel allocates (and frees on thread exit) a new shadow stack for a
+pthread child.
+
+    It is possible for the kernel to complete the clone syscall and set the
+    child's shadow stack pointer to NULL and let the child thread allocate
+    a shadow stack for itself.  There are two issues in this approach: It
+    is not compatible with existing code that does inline syscall and it
+    cannot handle signals before the child can successfully allocate a
+    shadow stack.
+
+A 64-bit shadow stack has a size of min(RLIMIT_STACK, 4 GB).  A compat-mode
+thread shadow stack has a size of 1/4 min(RLIMIT_STACK, 4 GB).  This allows
+more threads to run in a 32-bit address space.
 
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 ---
- include/uapi/linux/elf.h | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ arch/x86/include/asm/cet.h         |  3 ++
+ arch/x86/include/asm/mmu_context.h |  3 ++
+ arch/x86/kernel/cet.c              | 44 ++++++++++++++++++++++++++++++
+ arch/x86/kernel/process.c          |  8 ++++++
+ 4 files changed, 58 insertions(+)
 
-diff --git a/include/uapi/linux/elf.h b/include/uapi/linux/elf.h
-index 30f68b42eeb5..7f0e46780a35 100644
---- a/include/uapi/linux/elf.h
-+++ b/include/uapi/linux/elf.h
-@@ -455,4 +455,13 @@ typedef struct elf64_note {
- /* Bits for GNU_PROPERTY_AARCH64_FEATURE_1_BTI */
- #define GNU_PROPERTY_AARCH64_FEATURE_1_BTI	(1U << 0)
+diff --git a/arch/x86/include/asm/cet.h b/arch/x86/include/asm/cet.h
+index 9576550c1f2c..4b222aa1e18e 100644
+--- a/arch/x86/include/asm/cet.h
++++ b/arch/x86/include/asm/cet.h
+@@ -18,12 +18,15 @@ struct cet_status {
  
-+/* .note.gnu.property types for x86: */
-+#define GNU_PROPERTY_X86_FEATURE_1_AND		0xc0000002
+ #ifdef CONFIG_X86_CET_USER
+ int cet_setup_shstk(void);
++int cet_setup_thread_shstk(struct task_struct *p, unsigned long clone_flags);
+ void cet_disable_shstk(void);
+ void cet_free_shstk(struct task_struct *p);
+ int cet_verify_rstor_token(bool ia32, unsigned long ssp, unsigned long *new_ssp);
+ void cet_restore_signal(struct sc_ext *sc);
+ int cet_setup_signal(bool ia32, unsigned long rstor, struct sc_ext *sc);
+ #else
++static inline int cet_setup_thread_shstk(struct task_struct *p,
++					 unsigned long clone_flags) { return 0; }
+ static inline void cet_disable_shstk(void) {}
+ static inline void cet_free_shstk(struct task_struct *p) {}
+ static inline void cet_restore_signal(struct sc_ext *sc) { return; }
+diff --git a/arch/x86/include/asm/mmu_context.h b/arch/x86/include/asm/mmu_context.h
+index d98016b83755..ceb593e405e1 100644
+--- a/arch/x86/include/asm/mmu_context.h
++++ b/arch/x86/include/asm/mmu_context.h
+@@ -11,6 +11,7 @@
+ 
+ #include <asm/tlbflush.h>
+ #include <asm/paravirt.h>
++#include <asm/cet.h>
+ #include <asm/debugreg.h>
+ 
+ extern atomic64_t last_mm_ctx_id;
+@@ -142,6 +143,8 @@ do {						\
+ #else
+ #define deactivate_mm(tsk, mm)			\
+ do {						\
++	if (!tsk->vfork_done)			\
++		cet_free_shstk(tsk);		\
+ 	load_gs_index(0);			\
+ 	loadsegment(fs, 0);			\
+ } while (0)
+diff --git a/arch/x86/kernel/cet.c b/arch/x86/kernel/cet.c
+index c3da4f59bd17..038419f06fc9 100644
+--- a/arch/x86/kernel/cet.c
++++ b/arch/x86/kernel/cet.c
+@@ -172,6 +172,50 @@ int cet_setup_shstk(void)
+ 	return 0;
+ }
+ 
++int cet_setup_thread_shstk(struct task_struct *tsk, unsigned long clone_flags)
++{
++	unsigned long addr, size;
++	struct cet_user_state *state;
++	struct cet_status *cet = &tsk->thread.cet;
 +
-+/* Bits for GNU_PROPERTY_X86_FEATURE_1_AND */
-+#define GNU_PROPERTY_X86_FEATURE_1_IBT		0x00000001
-+#define GNU_PROPERTY_X86_FEATURE_1_SHSTK	0x00000002
-+#define GNU_PROPERTY_X86_FEATURE_1_INVAL ~(GNU_PROPERTY_X86_FEATURE_1_IBT | \
-+					    GNU_PROPERTY_X86_FEATURE_1_SHSTK)
++	if (!cet->shstk_size)
++		return 0;
 +
- #endif /* _UAPI_LINUX_ELF_H */
++	if ((clone_flags & (CLONE_VFORK | CLONE_VM)) != CLONE_VM)
++		return 0;
++
++	state = get_xsave_addr(&tsk->thread.fpu.state.xsave,
++			       XFEATURE_CET_USER);
++
++	if (!state)
++		return -EINVAL;
++
++	/* Cap shadow stack size to 4 GB */
++	size = min(rlimit(RLIMIT_STACK), 1UL << 32);
++
++	/*
++	 * Compat-mode pthreads share a limited address space.
++	 * If each function call takes an average of four slots
++	 * stack space, allocate 1/4 of stack size for shadow stack.
++	 */
++	if (in_compat_syscall())
++		size /= 4;
++	size = round_up(size, PAGE_SIZE);
++	addr = alloc_shstk(size, 0);
++
++	if (IS_ERR_VALUE(addr)) {
++		cet->shstk_base = 0;
++		cet->shstk_size = 0;
++		return PTR_ERR((void *)addr);
++	}
++
++	fpu__prepare_write(&tsk->thread.fpu);
++	state->user_ssp = (u64)(addr + size);
++	cet->shstk_base = addr;
++	cet->shstk_size = size;
++	return 0;
++}
++
+ void cet_disable_shstk(void)
+ {
+ 	struct cet_status *cet = &current->thread.cet;
+diff --git a/arch/x86/kernel/process.c b/arch/x86/kernel/process.c
+index 145a7ac0c19a..3af6b36e1a5c 100644
+--- a/arch/x86/kernel/process.c
++++ b/arch/x86/kernel/process.c
+@@ -43,6 +43,7 @@
+ #include <asm/io_bitmap.h>
+ #include <asm/proto.h>
+ #include <asm/frame.h>
++#include <asm/cet.h>
+ 
+ #include "process.h"
+ 
+@@ -109,6 +110,7 @@ void exit_thread(struct task_struct *tsk)
+ 
+ 	free_vm86(t);
+ 
++	cet_free_shstk(tsk);
+ 	fpu__drop(fpu);
+ }
+ 
+@@ -181,6 +183,12 @@ int copy_thread(unsigned long clone_flags, unsigned long sp, unsigned long arg,
+ 	if (clone_flags & CLONE_SETTLS)
+ 		ret = set_new_tls(p, tls);
+ 
++#ifdef CONFIG_X86_64
++	/* Allocate a new shadow stack for pthread */
++	if (!ret)
++		ret = cet_setup_thread_shstk(p, clone_flags);
++#endif
++
+ 	if (!ret && unlikely(test_tsk_thread_flag(current, TIF_IO_BITMAP)))
+ 		io_bitmap_share(p);
+ 
 -- 
 2.21.0
 
