@@ -2,93 +2,98 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D512E2D4DD1
-	for <lists+linux-api@lfdr.de>; Wed,  9 Dec 2020 23:32:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BBCF52D5543
+	for <lists+linux-api@lfdr.de>; Thu, 10 Dec 2020 09:23:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388429AbgLIWbO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 9 Dec 2020 17:31:14 -0500
-Received: from mga01.intel.com ([192.55.52.88]:7847 "EHLO mga01.intel.com"
+        id S2387873AbgLJIWa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 10 Dec 2020 03:22:30 -0500
+Received: from mga02.intel.com ([134.134.136.20]:14941 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388921AbgLIWaA (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 9 Dec 2020 17:30:00 -0500
-IronPort-SDR: /aF/LUo+5kuD5NoFFtr9z5zxxHynnReWcb72jaW3gelgumqI17sQUXlcE3tS8Uc2ZYrSR61OIQ
- P9VzwFmtyC6A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9830"; a="192468374"
+        id S1730907AbgLJIWY (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 10 Dec 2020 03:22:24 -0500
+IronPort-SDR: JeOT8PPNqpHaHrRWhDKtscXriLud/+FPhXfo4udLor52ppxnh1y+Po8mf6XcDDfIORd8rGdTYq
+ GuVj+3i110Pw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9830"; a="161267805"
 X-IronPort-AV: E=Sophos;i="5.78,407,1599548400"; 
-   d="scan'208";a="192468374"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2020 14:28:14 -0800
-IronPort-SDR: +yLKon261aIKdvlbli8Wg7+Dy5bUEJEO4nSnX9Lnc8AeDDki3LeUZFaAcZQQ4z0TfKvSjK67ZC
- RC+D2FftXdew==
+   d="scan'208";a="161267805"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2020 00:21:29 -0800
+IronPort-SDR: 1R5N6Yw/ROt9D4NEyhUAZTnLuF6700tb8Fo61weRzdRGNyQh0RkUg4k/6/nWQtoSiqJMT+SHJZ
+ husbGZWbep/A==
+X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.78,407,1599548400"; 
-   d="scan'208";a="364333635"
-Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2020 14:28:13 -0800
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v16 6/7] x86/vdso/32: Add ENDBR32 to __kernel_vsyscall entry point
-Date:   Wed,  9 Dec 2020 14:27:51 -0800
-Message-Id: <20201209222752.2911-7-yu-cheng.yu@intel.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20201209222752.2911-1-yu-cheng.yu@intel.com>
-References: <20201209222752.2911-1-yu-cheng.yu@intel.com>
+   d="scan'208";a="438251654"
+Received: from yhuang-dev.sh.intel.com (HELO yhuang-dev) ([10.239.159.50])
+  by fmsmga001.fm.intel.com with ESMTP; 10 Dec 2020 00:21:26 -0800
+From:   "Huang\, Ying" <ying.huang@intel.com>
+To:     Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     Mel Gorman <mgorman@suse.de>, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
+        Rik van Riel <riel@surriel.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        "Matthew Wilcox \(Oracle\)" <willy@infradead.org>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Michal Hocko <mhocko@suse.com>,
+        David Rientjes <rientjes@google.com>, linux-api@vger.kernel.org
+Subject: Re: [PATCH -V6 RESEND 1/3] numa balancing: Migrate on fault among multiple bound nodes
+References: <20201202084234.15797-1-ying.huang@intel.com>
+        <20201202084234.15797-2-ying.huang@intel.com>
+        <20201202114054.GV3306@suse.de>
+        <20201203102550.GK2414@hirez.programming.kicks-ass.net>
+        <87zh2ulyhc.fsf@yhuang-dev.intel.com>
+Date:   Thu, 10 Dec 2020 16:21:25 +0800
+In-Reply-To: <87zh2ulyhc.fsf@yhuang-dev.intel.com> (Ying Huang's message of
+        "Fri, 04 Dec 2020 17:19:43 +0800")
+Message-ID: <87a6umjcl6.fsf@yhuang-dev.intel.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=ascii
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: "H.J. Lu" <hjl.tools@gmail.com>
+"Huang, Ying" <ying.huang@intel.com> writes:
 
-Add ENDBR32 to __kernel_vsyscall entry point.
+> Peter Zijlstra <peterz@infradead.org> writes:
+>
+>> On Wed, Dec 02, 2020 at 11:40:54AM +0000, Mel Gorman wrote:
+>>> On Wed, Dec 02, 2020 at 04:42:32PM +0800, Huang Ying wrote:
+>>> > Now, NUMA balancing can only optimize the page placement among the
+>>> > NUMA nodes if the default memory policy is used.  Because the memory
+>>> > policy specified explicitly should take precedence.  But this seems
+>>> > too strict in some situations.  For example, on a system with 4 NUMA
+>>> > nodes, if the memory of an application is bound to the node 0 and 1,
+>>> > NUMA balancing can potentially migrate the pages between the node 0
+>>> > and 1 to reduce cross-node accessing without breaking the explicit
+>>> > memory binding policy.
+>>> > 
+>>> 
+>>> Ok, I think this part is ok and while the test case is somewhat
+>>> superficial, it at least demonstrated that the NUMA balancing overhead
+>>> did not offset any potential benefit
+>>> 
+>>> Acked-by: Mel Gorman <mgorman@suse.de>
+>>
+>> Who do we expect to merge this, me through tip/sched/core or akpm ?
+>
+> Hi, Peter,
+>
+> Per my understanding, this is NUMA balancing related, so could go
+> through your tree.
+>
+> BTW: I have just sent -V7 with some small changes per Mel's latest
+> comments.
+>
+> Hi, Andrew,
+>
+> Do you agree?
 
-Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
-Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-Acked-by: Andy Lutomirski <luto@kernel.org>
----
- arch/x86/entry/vdso/vdso32/system_call.S | 3 +++
- 1 file changed, 3 insertions(+)
+So, what's the conclusion here?  Both path works for me.  I will update
+2/3 per Alejandro Colomar's comments.  But that's for man-pages only,
+not for kernel.  So, we can merge this one into kernel if you think it's
+appropriate.
 
-diff --git a/arch/x86/entry/vdso/vdso32/system_call.S b/arch/x86/entry/vdso/vdso32/system_call.S
-index de1fff7188aa..d28d20d8d4ce 100644
---- a/arch/x86/entry/vdso/vdso32/system_call.S
-+++ b/arch/x86/entry/vdso/vdso32/system_call.S
-@@ -14,6 +14,9 @@
- 	ALIGN
- __kernel_vsyscall:
- 	CFI_STARTPROC
-+#ifdef CONFIG_X86_CET_USER
-+	endbr32
-+#endif
- 	/*
- 	 * Reshuffle regs so that all of any of the entry instructions
- 	 * will preserve enough state.
--- 
-2.21.0
-
+Best Regards,
+Huang, Ying
