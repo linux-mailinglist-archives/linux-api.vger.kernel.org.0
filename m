@@ -2,110 +2,116 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E86482D6492
-	for <lists+linux-api@lfdr.de>; Thu, 10 Dec 2020 19:12:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B3D732D67D1
+	for <lists+linux-api@lfdr.de>; Thu, 10 Dec 2020 20:59:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403782AbgLJSLn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 10 Dec 2020 13:11:43 -0500
-Received: from mga04.intel.com ([192.55.52.120]:54660 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391482AbgLJSLm (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 10 Dec 2020 13:11:42 -0500
-IronPort-SDR: CkDiKM29bTZAQn/YnA0b7lONVEUzHv5JbGuT2csil7BtcirkcUmwOppGmYdQ6VECsgOEvtB7ll
- 2VIgqKLpuDzw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9831"; a="171737410"
-X-IronPort-AV: E=Sophos;i="5.78,409,1599548400"; 
-   d="scan'208";a="171737410"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2020 10:11:00 -0800
-IronPort-SDR: Di/9GtzhnlMyvHk9Tbj4VdG3pvc+2+9r5Kol8VEIrCJbCHfuinQBHCqC6rUIi0EFWr2uGFAbgY
- PRCKHV9MbYzw==
-X-IronPort-AV: E=Sophos;i="5.78,409,1599548400"; 
-   d="scan'208";a="364822613"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.137.62]) ([10.212.137.62])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2020 10:10:58 -0800
-Subject: Re: [PATCH v15 08/26] x86/mm: Introduce _PAGE_COW
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
+        id S2390492AbgLJT7b (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 10 Dec 2020 14:59:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55738 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390146AbgLJT7T (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 10 Dec 2020 14:59:19 -0500
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48804C0613D6;
+        Thu, 10 Dec 2020 11:58:38 -0800 (PST)
+Received: by mail-lf1-x144.google.com with SMTP id o17so7094735lfg.4;
+        Thu, 10 Dec 2020 11:58:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=GC/XblOlRvC+qjSKhqvPWSHVmyf1S0klyHzoOlN2iQc=;
+        b=B5RF+oI/aEJk5oFliIENmOnUpk914JFiTNv0xNVgQe+zFhST94+JU5cbGP7hvBpD9v
+         grxe8oo1mX5tiYCWySi3nscdMci1ElaO8JweSiONVZk+k+nFZ+Kil9YPERX7lJIBwAp8
+         iy82acrzkeA+z40q3fstbj9Na9DxCUJBIJO4V8acsMMpNsuHaaCjX/6RpStSTLkStSlp
+         +wdaFCm1yjv/7n6d1uFK+yR9yzHEX3YPRZ3gE15T5vJKAoG0OHqFg4VUTXpMMDBpPYFN
+         litjpTzzUYBMug4zvP+YywyKEC/jnyuvyath1r6HNbRBTF3VG3syPj8iBwdgEZbiHgk+
+         rlpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=GC/XblOlRvC+qjSKhqvPWSHVmyf1S0klyHzoOlN2iQc=;
+        b=t57opLBFFhpW9+EIFUOhjeCTe51ke4emR+JSWaNOSXjdhIZaIThjAkXoSbC6niEuls
+         9XSCbTnehFx9igE06uSvzd1tdl8FIjFLRc0AnUJ5+MDltH8u1/qcEy+DS3t3kk76zDR4
+         ostvuH1++0gZfi7bYo5VzUWAzejo3CAsbFIKJuvqdrQBvzw/9dhDwXKHcle1Kt7oW54A
+         viNJapX6Z+TmpsJPi3f9uH4D5a29hD7oLVs5cEiNbYhIROU7Jq5deqixa/9iSaWNj1+9
+         4S1q5IkvAaZIECwc7HvaaPXGhzqNNe/rA/rd6RN7auDYrb0es/uFOTxHVkvKrE+Jt98I
+         7YpA==
+X-Gm-Message-State: AOAM532oiAvAjCtuPw06mvXdv2NSdtmszajK2TsNe0N0oTzgAFmJGCCh
+        4n+vhXHKLAf059DGiBQpjv0=
+X-Google-Smtp-Source: ABdhPJxhUF+Yv2avD1Pj5n+dOKXAWNePLfrPOFYOF7WHhPIbi9+WEBCX4vmjJXJECzcEC8KHTOt0Jw==
+X-Received: by 2002:a19:8b55:: with SMTP id n82mr3398587lfd.485.1607630316854;
+        Thu, 10 Dec 2020 11:58:36 -0800 (PST)
+Received: from [192.168.1.33] (88-114-222-21.elisa-laajakaista.fi. [88.114.222.21])
+        by smtp.gmail.com with ESMTPSA id r16sm712488ljj.52.2020.12.10.11.58.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Dec 2020 11:58:36 -0800 (PST)
+Subject: Re: [PATCH] mm/vmalloc: randomize vmalloc() allocations
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     linux-hardening@vger.kernel.org, akpm@linux-foundation.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
         Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        Jann Horn <jannh@google.com>,
         Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-References: <20201110162211.9207-1-yu-cheng.yu@intel.com>
- <20201110162211.9207-9-yu-cheng.yu@intel.com>
- <20201208175014.GD27920@zn.tnic>
- <218503f6-eec1-94b0-8404-6f92c55799e3@intel.com>
- <20201208184727.GF27920@zn.tnic>
- <cddc2cc5-a04e-ce9c-6fdf-2e7a29346cf7@intel.com>
- <20201210174155.GD26529@zn.tnic>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <2f9a0203-63eb-c808-d67f-11ad0c105531@intel.com>
-Date:   Thu, 10 Dec 2020 10:10:58 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+        Linux API <linux-api@vger.kernel.org>,
+        Matthew Wilcox <willy@infradead.org>
+References: <20201201214547.9721-1-toiwoton@gmail.com>
+ <9d34fb0a-7aba-1e84-6426-006ea7c3d9f5@gmail.com>
+ <20201203065801.GH751215@kernel.org>
+From:   Topi Miettinen <toiwoton@gmail.com>
+Message-ID: <37787c16-e188-89ae-a5fb-583fd97e6661@gmail.com>
+Date:   Thu, 10 Dec 2020 21:58:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.1
 MIME-Version: 1.0
-In-Reply-To: <20201210174155.GD26529@zn.tnic>
+In-Reply-To: <20201203065801.GH751215@kernel.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 12/10/2020 9:41 AM, Borislav Petkov wrote:
-> On Tue, Dec 08, 2020 at 11:24:16AM -0800, Yu, Yu-cheng wrote:
->> Case (a) is a normal writable data page that has gone through fork(). So it
+On 3.12.2020 8.58, Mike Rapoport wrote:
+> On Wed, Dec 02, 2020 at 08:49:06PM +0200, Topi Miettinen wrote:
+>> On 1.12.2020 23.45, Topi Miettinen wrote:
+>>> Memory mappings inside kernel allocated with vmalloc() are in
+>>> predictable order and packed tightly toward the low addresses. With
+>>> new kernel boot parameter 'randomize_vmalloc=1', the entire area is
+>>> used randomly to make the allocations less predictable and harder to
+>>> guess for attackers.
+>>>
+>>
+>> This also seems to randomize module addresses. I was going to check that
+>> next, so nice surprise!
 > 
-> Writable >
->> has W=0, D=1.  But here, the software chooses not to use the D bit, and
-> 
-> But it has W=0. So not writable?
+> Heh, that's because module_alloc() uses vmalloc() in that way or another :)
 
-Maybe I will change to: A page in a writable vma, has been modified and 
-gone through fork().
+I got a bit further with really using vmalloc with 
+[VMALLOC_START..VMALLOC_END] for modules, but then inserting a module 
+fails because of the relocations:
+[    9.202856] module: overflow in relocation type 11 val ffffe1950e27f080
 
->> instead, W=0, COW=1.
-> 
-> So the "new" way of denoting that the page is modified is COW=1
-> *when* on CET hw. The D=1 bit is still used on the rest thus the two
-> _PAGE_DIRTY_BITS.
-> 
-> Am I close?
+Type 11 is R_X86_64_32S expecting a 32 bits signed offset, so the loader 
+obviously can't fit the relocation from the highest 2GB to somewhere 32 
+TB lower.
 
-COW=1 is only used in copy-on-write situation (when CET is enabled).  If 
-W=1, D bit is used.
+The problem seems to be that the modules aren't really built as 
+position-independent shared objects with -fPIE/-fPIC, but instead 
+there's explicit -fno-PIE. I guess the modules also shouldn't use 
+-mcmodel=kernel. Though tweaking the flags shows that some combinations 
+aren't well supported (like ’-mindirect-branch=thunk-extern’ and 
+‘-mcmodel=large’ are not compatible) and the handwritten assembly code 
+also assumes 32 bit offsets.
 
->> Case (b) is a normal read-only data page.  Since it is read-only, fork()
->> won't affect it.  In __get_user_pages(), a copy of the read-only page is
->> needed, and the page is duplicated.  The software sets COW=1 for the new
->> copy.
-> 
-> That makes more sense.
-> 
->> Thread-A is writing to a writable page, and the page's PTE is becoming W=1,
->> D=1.  In the middle of it, Thread-B is changing the PTE to W=0.
-> 
-> Yah, add that to the explanation pls.
-> 
+A different approach could be to make the entire kernel relocatable to 
+lower addresses and then the modules could stay close nearby. I guess 
+the asm files aren't written with position independence in mind either.
 
-Sure.
+But it seems that I'm finding and breaking lots of assumptions built in 
+to the system. What's the experts' opinion, is full module/kernel 
+randomization ever going to fly?
+
+-Topi
