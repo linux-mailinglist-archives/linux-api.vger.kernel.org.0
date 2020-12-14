@@ -2,64 +2,62 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F5DC2D88D4
-	for <lists+linux-api@lfdr.de>; Sat, 12 Dec 2020 18:58:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E710E2D9433
+	for <lists+linux-api@lfdr.de>; Mon, 14 Dec 2020 09:39:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2439618AbgLLR51 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 12 Dec 2020 12:57:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59374 "EHLO
+        id S2439350AbgLNIho (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 14 Dec 2020 03:37:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2436464AbgLLR51 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 12 Dec 2020 12:57:27 -0500
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AA2EC0613CF;
-        Sat, 12 Dec 2020 09:56:46 -0800 (PST)
-Received: by mail-lf1-x142.google.com with SMTP id m25so19700927lfc.11;
-        Sat, 12 Dec 2020 09:56:46 -0800 (PST)
+        with ESMTP id S2439348AbgLNIho (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 14 Dec 2020 03:37:44 -0500
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EBF8C0613CF;
+        Mon, 14 Dec 2020 00:37:03 -0800 (PST)
+Received: by mail-lf1-x143.google.com with SMTP id x20so8503990lfe.12;
+        Mon, 14 Dec 2020 00:37:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=pK/TauEwOQxjwMKh9S4vhOg5BDCl+TEdAralgbPgXms=;
-        b=aukVNiw0MKku0nqBpuYaenetr6qzqZ2SZk7xS+AVbbG0DdWO6e9O7GAESr+p0RrhPW
-         Py6ZQYc6Ifj47A3Z1giRxjGfEqI1AI8dR5xkBzrVc908UOKrGN2YE66MH3lynSc5+5Bo
-         LL01huvcKfRfndHEi3xX9dK+0Em5+2m7Di0CyIbXVoTqzDfLrXFOuRG8dlH2H3VgCSgs
-         MaqqVnwf8+aMzO2b61SgjThqBsA8phFJE81uqp53cqe/IPcv9+UsgTxzqoLUVV40k+5a
-         OdTzUYORTvlld7Tj2+x1gQ+aKPUcZCI5G5slYVFACzx9Mve8JC0iaDR7N41Q62enF9gz
-         Cmrg==
+        bh=OUfgcG7h1thmxUdnYgrv0mWJmL+gacFNlfdossaJ4OU=;
+        b=MD30TTQBGvctPZEooNHaRgGHFvet9gcJUaB92SABFa923K6RN75W+eCmxDZO/GmqUS
+         Hw7UDzvdVqueNwm6peHKjXM39OBsp881ezLaCjprFB+RUZBynh3sylzNNfRHES0ioLBw
+         t+QwDkLVC23PAU4KmWa2xSVhB7tTpjZWNatiPP96HoCzCMnOoaxHlCRh8vWQNy/GqVWe
+         ye5ZLnn5LHriN4zcr+cFJ268SBXawlrbTLzAcGUFAjfDSoT0rQaVyxwmPQKK/LTY4mHv
+         v+v6rCWUyG9u/XCO0CHtGrSNPDcp/FNf3StUDUc1gT4cyfJutxB668d/ys3cHvGPv9HZ
+         a6kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=pK/TauEwOQxjwMKh9S4vhOg5BDCl+TEdAralgbPgXms=;
-        b=neXCKPR2uMp7e6juoocghuJN6vUS0lufuGOCKYI5hZmcYqDixYp0sSgo9qbtX5/lDj
-         fTmtSYPVk5fdGymxG51Od0SqVBF8r9JLpF74oAJll+P0ZNDad5+QabT0j9GhsloPYls3
-         Nhp2cGMAnfcDVtMblFeDY0AZ+FVQWMACn1EpGFQVCqIhJ8i7DStUD0XK+uXNrJR7QnQv
-         iRNrbS/tGplwWu8iRXpKxY2mst4Y6kGPayJq/PXpOe/bv47wsZtuATRUz5PbZXKAfmr6
-         XgidD2jNvU4wjgNQktuwTP4Xo2rj9aLExQu30jO4ZZjV1eqM9FGUVaVugMboZygfgVnb
-         VoSA==
-X-Gm-Message-State: AOAM532zyQw+B7XfQtM20HSQvuYNzFzZmLBwQtiKCPN/pQ9y2da40HMa
-        W27blTQTl+IMI78ToQuaaJR9rYYUWa8=
-X-Google-Smtp-Source: ABdhPJyE+QJMmowLy3ikdGLmYMZmOGXu61IyfrtCPMiyLL18flvhK4t1ZPDRNRSbRqobFtId5YSVZA==
-X-Received: by 2002:a19:cb05:: with SMTP id b5mr6258564lfg.61.1607795804802;
-        Sat, 12 Dec 2020 09:56:44 -0800 (PST)
+        bh=OUfgcG7h1thmxUdnYgrv0mWJmL+gacFNlfdossaJ4OU=;
+        b=cBDJJB+t8/rlKWB6pv5tCVJd7zZ4eNa4erPOcRuPwjpMzB+lj/oJCkY2D908dp7reP
+         17Ex3LJ4pV0k056oLxPAaQ2xhfC5XzHeO7F8R+Qhg45tamf9Uq6Ed27bv3KZeOYFMVFr
+         Vtww6JrqDc4la3NtRDf/cneJtbeNYHrRjCeoNTebotj75MWkyPdk6TeFvS7kcgZDugLX
+         Ram1SkwbWiIIKtD48FJq4JZfIoUQjjoZ4qkCQmiOGX8PEKHkiDnYAMiktEZAguZd2tdH
+         YFDYGazYWb1HDUZMFhEaRUTIu8F/DJB1pXvoYGf2wZgf4ESHsY1BYnCtEHC6NtFGWKNL
+         NfpQ==
+X-Gm-Message-State: AOAM531uJm6W1pQdHWYKY4Ip8fhtKiIQEN4PA5c3bSskrkgejUmxNsg7
+        MqbAZAHJdOwl1WZ0NF5/zWQVkfhuBn8=
+X-Google-Smtp-Source: ABdhPJw1cjJyWXw2zGSCKqNA07xMm97t0YZB3xA9/2Wwemp1LRmMDmmRULzZZ0znHm/vetmxe5qXJg==
+X-Received: by 2002:a19:f11e:: with SMTP id p30mr8817484lfh.395.1607935021432;
+        Mon, 14 Dec 2020 00:37:01 -0800 (PST)
 Received: from localhost.localdomain (88-114-222-21.elisa-laajakaista.fi. [88.114.222.21])
-        by smtp.gmail.com with ESMTPSA id w12sm1325418lff.181.2020.12.12.09.56.43
+        by smtp.gmail.com with ESMTPSA id 11sm438540ljw.27.2020.12.14.00.36.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Dec 2020 09:56:44 -0800 (PST)
+        Mon, 14 Dec 2020 00:37:00 -0800 (PST)
 From:   Topi Miettinen <toiwoton@gmail.com>
 To:     linux-hardening@vger.kernel.org, akpm@linux-foundation.org,
         linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Cc:     Topi Miettinen <toiwoton@gmail.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Jann Horn <jannh@google.com>,
+Cc:     Topi Miettinen <toiwoton@gmail.com>, Jann Horn <jannh@google.com>,
         Kees Cook <keescook@chromium.org>,
-        Linux API <linux-api@vger.kernel.org>,
         Matthew Wilcox <willy@infradead.org>,
-        Mike Rapoport <rppt@kernel.org>
-Subject: [PATCH v2] mm/vmalloc: randomize vmalloc() allocations
-Date:   Sat, 12 Dec 2020 19:56:35 +0200
-Message-Id: <20201212175635.4217-1-toiwoton@gmail.com>
+        Mike Rapoport <rppt@kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: [RFC PATCH v6] mm: Optional full ASLR for mmap(), mremap(), vdso, stack and heap
+Date:   Mon, 14 Dec 2020 10:36:52 +0200
+Message-Id: <20201214083652.2997-1-toiwoton@gmail.com>
 X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -67,13 +65,16 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Memory mappings inside kernel allocated with vmalloc() are in
-predictable order and packed tightly toward the low addresses. With
-new kernel boot parameter 'randomize_vmalloc=1', the entire area is
-used randomly to make the allocations less predictable and harder to
-guess for attackers. Also module and BPF code locations get randomized
-(within their dedicated and rather small area though) and if
-CONFIG_VMAP_STACK is enabled, also kernel thread stack locations.
+Writing a new value of 3 to /proc/sys/kernel/randomize_va_space
+enables full randomization of memory mappings. With 2, the base of the
+VMA used for such mappings is random, but the mappings are created in
+predictable places within the VMA and in sequential order. With 3, new
+VMAs are created to fully randomize the mappings.
+
+Mappings created with mmap(NULL, ...) are randomized and mremap(...,
+MREMAP_MAYMOVE) will move the mappings even if not necessary. The
+locations of heap (memory allocated with brk()), stack and vdso are
+also randomized.
 
 On 32 bit systems this may cause problems due to increased VM
 fragmentation if the address space gets crowded.
@@ -85,165 +86,374 @@ page tables, in the worst case, additional page table entries of up to
 4 pages are created for each mapping, so with small mappings there's
 considerable penalty.
 
-Without randomize_vmalloc=1:
-$ cat /proc/vmallocinfo
-0xffffc90000000000-0xffffc90000002000    8192 acpi_os_map_iomem+0x29e/0x2c0 phys=0x000000003ffe1000 ioremap
-0xffffc90000002000-0xffffc90000005000   12288 acpi_os_map_iomem+0x29e/0x2c0 phys=0x000000003ffe0000 ioremap
-0xffffc90000005000-0xffffc90000007000    8192 hpet_enable+0x36/0x4a9 phys=0x00000000fed00000 ioremap
-0xffffc90000007000-0xffffc90000009000    8192 gen_pool_add_owner+0x49/0x130 pages=1 vmalloc
-0xffffc90000009000-0xffffc9000000b000    8192 gen_pool_add_owner+0x49/0x130 pages=1 vmalloc
-0xffffc9000000b000-0xffffc9000000d000    8192 gen_pool_add_owner+0x49/0x130 pages=1 vmalloc
-0xffffc9000000d000-0xffffc9000000f000    8192 gen_pool_add_owner+0x49/0x130 pages=1 vmalloc
-0xffffc90000011000-0xffffc90000015000   16384 n_tty_open+0x16/0xe0 pages=3 vmalloc
-0xffffc900003de000-0xffffc900003e0000    8192 acpi_os_map_iomem+0x29e/0x2c0 phys=0x00000000fed00000 ioremap
-0xffffc900003e0000-0xffffc900003e2000    8192 memremap+0x1a1/0x280 phys=0x00000000000f5000 ioremap
-0xffffc900003e2000-0xffffc900003f3000   69632 pcpu_create_chunk+0x80/0x2c0 pages=16 vmalloc
-0xffffc900003f3000-0xffffc90000405000   73728 pcpu_create_chunk+0xb7/0x2c0 pages=17 vmalloc
-0xffffc90000405000-0xffffc9000040a000   20480 pcpu_create_chunk+0xed/0x2c0 pages=4 vmalloc
-0xffffe8ffffc00000-0xffffe8ffffe00000 2097152 pcpu_get_vm_areas+0x0/0x1a40 vmalloc
+By lowering the lowest address for mapping the main executable from
+2/3 of the address space to sysctl.vm.mmap_min_addr, it's possible to
+use the full 35 bits available on x86_64 for ASLR.
 
-With randomize_vmalloc=1, the allocations are randomized:
-$ cat /proc/vmallocinfo
-0xffffca3a36442000-0xffffca3a36447000   20480 pcpu_create_chunk+0xed/0x2c0 pages=4 vmalloc
-0xffffca63034d6000-0xffffca63034d9000   12288 acpi_os_map_iomem+0x29e/0x2c0 phys=0x000000003ffe0000 ioremap
-0xffffcce23d32e000-0xffffcce23d330000    8192 memremap+0x1a1/0x280 phys=0x00000000000f5000 ioremap
-0xffffcfb9f0e22000-0xffffcfb9f0e24000    8192 hpet_enable+0x36/0x4a9 phys=0x00000000fed00000 ioremap
-0xffffd1df23e9e000-0xffffd1df23eb0000   73728 pcpu_create_chunk+0xb7/0x2c0 pages=17 vmalloc
-0xffffd690c2990000-0xffffd690c2992000    8192 acpi_os_map_iomem+0x29e/0x2c0 phys=0x000000003ffe1000 ioremap
-0xffffd8460c718000-0xffffd8460c71c000   16384 n_tty_open+0x16/0xe0 pages=3 vmalloc
-0xffffd89aba709000-0xffffd89aba70b000    8192 gen_pool_add_owner+0x49/0x130 pages=1 vmalloc
-0xffffe0ca3f2ed000-0xffffe0ca3f2ef000    8192 acpi_os_map_iomem+0x29e/0x2c0 phys=0x00000000fed00000 ioremap
-0xffffe3ba44802000-0xffffe3ba44804000    8192 gen_pool_add_owner+0x49/0x130 pages=1 vmalloc
-0xffffe4524b2a2000-0xffffe4524b2a4000    8192 gen_pool_add_owner+0x49/0x130 pages=1 vmalloc
-0xffffe61372b2e000-0xffffe61372b30000    8192 gen_pool_add_owner+0x49/0x130 pages=1 vmalloc
-0xffffe704d2f7c000-0xffffe704d2f8d000   69632 pcpu_create_chunk+0x80/0x2c0 pages=16 vmalloc
-0xffffe8ffffc00000-0xffffe8ffffe00000 2097152 pcpu_get_vm_areas+0x0/0x1a40 vmalloc
+The method is to randomize the new address without considering
+VMAs. If the address fails checks because of overlap with the stack
+area (or in case of mremap(), overlap with the old mapping), the
+operation is retried a few times before falling back to old method.
 
-With CONFIG_VMAP_STACK, also kernel thread stacks are placed in
-vmalloc area and therefore they also get randomized (only one example
-line from /proc/vmallocinfo shown for brevity):
+In this example with sysctl.kernel.randomize_va_space = 2, main
+executable, heap allocated with brk(), locale-archive, libc, dynamic
+loader, some anonymous memory reserved with mmap(), stack and vdso
+are located in three groups and inside each group the mappings are
+close to each other:
 
-unrandomized:
-0xffffc90000018000-0xffffc90000021000   36864 kernel_clone+0xf9/0x560 pages=8 vmalloc
+$ cat /proc/self/maps (only first line for each object shown for brevity)
+55d61f2ac000-55d61f2ae000 r--p 00000000 fe:0c 1868624                    /usr/bin/cat
+7f9124f40000-7f91254a2000 r--p 00000000 fe:0c 2474005                    /usr/lib/locale/locale-archive
+7f91254a2000-7f91255a2000 rw-p 00000000 00:00 0
+7f91255a2000-7f91255c7000 r--p 00000000 fe:0c 2402332                    /usr/lib/x86_64-linux-gnu/libc-2.31.so
+7f9125763000-7f9125769000 rw-p 00000000 00:00 0
+7f9125795000-7f9125796000 r--p 00000000 fe:0c 2400754                    /usr/lib/x86_64-linux-gnu/ld-2.31.so
+7f91257c1000-7f91257c2000 rw-p 00000000 00:00 0
+7ffdf983d000-7ffdf985e000 rw-p 00000000 00:00 0                          [stack]
+7ffdf9897000-7ffdf989b000 r--p 00000000 00:00 0                          [vvar]
+7ffdf989b000-7ffdf989d000 r-xp 00000000 00:00 0                          [vdso]
 
-randomized:
-0xffffcb57611a8000-0xffffcb57611b1000   36864 kernel_clone+0xf9/0x560 pages=8 vmalloc
+With sysctl.kernel.randomize_va_space = 3, they are located at
+unrelated addresses and the order is random:
+
+$ echo 3 > /proc/sys/kernel/randomize_va_space
+$ cat /proc/self/maps (only first line for each object shown for brevity)
+bc5ed961000-bc5eda61000 rw-p 00000000 00:00 0
+2968e14a4000-2968e14c5000 rw-p 00000000 00:00 0                          [stack]
+30f80fb63000-30f80fb65000 r--p 00000000 fe:0c 1868624                    /usr/bin/cat
+381de5bfa000-381de5bfe000 r--p 00000000 00:00 0                          [vvar]
+381de5bfe000-381de5c00000 r-xp 00000000 00:00 0                          [vdso]
+42cd1060d000-42cd10632000 r--p 00000000 fe:0c 2402332                    /usr/lib/x86_64-linux-gnu/libc-2.31.so
+42cd107ce000-42cd107d2000 rw-p 00000000 00:00 0
+547f9c21b000-547f9c21c000 r--p 00000000 fe:0c 2400754                    /usr/lib/x86_64-linux-gnu/ld-2.31.so
+547f9c247000-547f9c248000 rw-p 00000000 00:00 0
+743548368000-7435488ca000 r--p 00000000 fe:0c 2474005                    /usr/lib/locale/locale-archive
+7dd3a185f000-7dd3a1861000 rw-p 00000000 00:00 0
 
 CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Andy Lutomirski <luto@kernel.org>
 CC: Jann Horn <jannh@google.com>
 CC: Kees Cook <keescook@chromium.org>
-CC: Linux API <linux-api@vger.kernel.org>
 CC: Matthew Wilcox <willy@infradead.org>
 CC: Mike Rapoport <rppt@kernel.org>
+CC: Linux API <linux-api@vger.kernel.org>
 Signed-off-by: Topi Miettinen <toiwoton@gmail.com>
 ---
-v2: retry allocation from other end of vmalloc space in case of
-failure (Matthew Wilcox), improve commit message and documentation
+v2: also randomize mremap(..., MREMAP_MAYMOVE)
+v3: avoid stack area and retry in case of bad random address (Jann
+Horn), improve description in kernel.rst (Matthew Wilcox)
+v4:
+- use /proc/$pid/maps in the example (Mike Rapaport)
+- CCs (Andrew Morton)
+- only check randomize_va_space == 3
+v5: randomize also vdso and stack
+v6:
+- randomize also heap
+- use 35 bits for ASLR on x86_64
+- RFC due to temporarily disabling mremap() randomization
 ---
- .../admin-guide/kernel-parameters.txt         | 23 +++++++++++++++
- mm/vmalloc.c                                  | 29 +++++++++++++++++--
- 2 files changed, 50 insertions(+), 2 deletions(-)
+ Documentation/admin-guide/hw-vuln/spectre.rst |  6 ++---
+ Documentation/admin-guide/sysctl/kernel.rst   | 22 +++++++++++++++++
+ arch/x86/Kconfig                              |  2 +-
+ arch/x86/entry/vdso/vma.c                     |  7 +++++-
+ arch/x86/kernel/process.c                     |  5 +++-
+ arch/x86/mm/mmap.c                            |  3 +++
+ fs/binfmt_elf.c                               |  7 +++++-
+ init/Kconfig                                  |  2 +-
+ mm/mmap.c                                     | 24 ++++++++++++++++++-
+ mm/mremap.c                                   | 10 ++++++++
+ mm/util.c                                     | 14 ++++++++++-
+ 11 files changed, 92 insertions(+), 10 deletions(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 44fde25bb221..9386b1b40a27 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -4017,6 +4017,29 @@
+diff --git a/Documentation/admin-guide/hw-vuln/spectre.rst b/Documentation/admin-guide/hw-vuln/spectre.rst
+index e05e581af5cf..9ea250522077 100644
+--- a/Documentation/admin-guide/hw-vuln/spectre.rst
++++ b/Documentation/admin-guide/hw-vuln/spectre.rst
+@@ -254,7 +254,7 @@ Spectre variant 2
+    left by the previous process will also be cleared.
  
- 	ramdisk_start=	[RAM] RAM disk image start address
+    User programs should use address space randomization to make attacks
+-   more difficult (Set /proc/sys/kernel/randomize_va_space = 1 or 2).
++   more difficult (Set /proc/sys/kernel/randomize_va_space = 1, 2 or 3).
  
-+	randomize_vmalloc= [KNL] Randomize vmalloc() allocations. With 1,
-+			the entire vmalloc() area is used randomly to
-+			make the allocations less predictable and
-+			harder to guess for attackers. Also module and
-+			BPF code locations get randomized (within
-+			their dedicated and rather small area though)
-+			and if CONFIG_VMAP_STACK is enabled, also
-+			kernel thread stack locations.
-+
-+			On 32 bit systems this may cause problems due
-+			to increased VM fragmentation if the address
-+			space gets crowded.
-+
-+			On all systems, it will reduce performance and
-+			increase memory and cache usage due to less
-+			efficient use of page tables and inability to
-+			merge adjacent VMAs with compatible
-+			attributes. On x86_64 with 5 level page
-+			tables, in the worst case, additional page
-+			table entries of up to 4 pages are created for
-+			each mapping, so with small mappings there's
-+			considerable penalty.
-+
- 	random.trust_cpu={on,off}
- 			[KNL] Enable or disable trusting the use of the
- 			CPU's random number generator (if available) to
-diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-index 6ae491a8b210..d78528af6316 100644
---- a/mm/vmalloc.c
-+++ b/mm/vmalloc.c
-@@ -34,6 +34,7 @@
- #include <linux/bitops.h>
- #include <linux/rbtree_augmented.h>
- #include <linux/overflow.h>
-+#include <linux/random.h>
+ 3. A virtualized guest attacking the host
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+@@ -499,8 +499,8 @@ Spectre variant 2
+    more overhead and run slower.
  
- #include <linux/uaccess.h>
- #include <asm/tlbflush.h>
-@@ -1079,6 +1080,17 @@ adjust_va_to_fit_type(struct vmap_area *va,
- 	return 0;
+    User programs should use address space randomization
+-   (/proc/sys/kernel/randomize_va_space = 1 or 2) to make attacks more
+-   difficult.
++   (/proc/sys/kernel/randomize_va_space = 1, 2 or 3) to make attacks
++   more difficult.
+ 
+ 3. VM mitigation
+ ^^^^^^^^^^^^^^^^
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index d4b32cc32bb7..131cf7cea9a2 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -1060,6 +1060,28 @@ that support this feature.
+     Systems with ancient and/or broken binaries should be configured
+     with ``CONFIG_COMPAT_BRK`` enabled, which excludes the heap from process
+     address space randomization.
++
++3   Additionally enable full randomization of memory mappings. With 2,
++    the base of the VMA used for such mappings may be random, but the
++    mappings are created in predictable places within the VMA and in
++    sequential order. With 3, new VMAs are created to fully randomize
++    the mappings.
++
++    Mappings created with mmap(NULL, ...) are randomized and
++    mremap(..., MREMAP_MAYMOVE) will move the mappings even if not
++    necessary. The locations of heap (memory allocated with brk()),
++    stack and vdso are also randomized.
++
++    On 32 bit systems this may cause problems due to increased VM
++    fragmentation if the address space gets crowded.
++
++    On all systems, it will reduce performance and increase memory and
++    cache usage due to less efficient use of page tables and inability
++    to merge adjacent VMAs with compatible attributes. On x86_64 with
++    5 level page tables, in the worst case, additional page table
++    entries of up to 4 pages are created for each mapping, so with
++    small mappings there's considerable penalty.
++
+ ==  ===========================================================================
+ 
+ 
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index fbf26e0f7a6a..d95a8f1e101c 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -266,7 +266,7 @@ config ARCH_MMAP_RND_BITS_MIN
+ 	default 8
+ 
+ config ARCH_MMAP_RND_BITS_MAX
+-	default 32 if 64BIT
++	default 35 if 64BIT
+ 	default 16
+ 
+ config ARCH_MMAP_RND_COMPAT_BITS_MIN
+diff --git a/arch/x86/entry/vdso/vma.c b/arch/x86/entry/vdso/vma.c
+index 9185cb1d13b9..2505af6c1e67 100644
+--- a/arch/x86/entry/vdso/vma.c
++++ b/arch/x86/entry/vdso/vma.c
+@@ -361,7 +361,12 @@ static unsigned long vdso_addr(unsigned long start, unsigned len)
+ 
+ static int map_vdso_randomized(const struct vdso_image *image)
+ {
+-	unsigned long addr = vdso_addr(current->mm->start_stack, image->size-image->sym_vvar_start);
++	unsigned long addr;
++
++	if (randomize_va_space == 3)
++		addr = 0; /* let get_unmapped_area() pick the address */
++	else
++		addr = vdso_addr(current->mm->start_stack, image->size-image->sym_vvar_start);
+ 
+ 	return map_vdso(image, addr);
+ }
+diff --git a/arch/x86/kernel/process.c b/arch/x86/kernel/process.c
+index 145a7ac0c19a..760bdfae78b7 100644
+--- a/arch/x86/kernel/process.c
++++ b/arch/x86/kernel/process.c
+@@ -905,7 +905,10 @@ unsigned long arch_align_stack(unsigned long sp)
+ 
+ unsigned long arch_randomize_brk(struct mm_struct *mm)
+ {
+-	return randomize_page(mm->brk, 0x02000000);
++	if (randomize_va_space == 3)
++		return arch_mmap_rnd();
++	else
++		return randomize_page(mm->brk, 0x02000000);
  }
  
-+static int randomize_vmalloc = 0;
-+
-+static int __init set_randomize_vmalloc(char *str)
-+{
-+	if (!str)
-+		return 0;
-+	randomize_vmalloc = simple_strtoul(str, &str, 0);
-+	return 1;
-+}
-+__setup("randomize_vmalloc=", set_randomize_vmalloc);
-+
  /*
-  * Returns a start address of the newly allocated area, if success.
-  * Otherwise a vend is returned that indicates failure.
-@@ -1152,7 +1164,7 @@ static struct vmap_area *alloc_vmap_area(unsigned long size,
- 				int node, gfp_t gfp_mask)
- {
- 	struct vmap_area *va, *pva;
--	unsigned long addr;
-+	unsigned long addr, voffset;
- 	int purged = 0;
- 	int ret;
+diff --git a/arch/x86/mm/mmap.c b/arch/x86/mm/mmap.c
+index c90c20904a60..941b0aa5cf2d 100644
+--- a/arch/x86/mm/mmap.c
++++ b/arch/x86/mm/mmap.c
+@@ -21,6 +21,7 @@
+ #include <linux/elf-randomize.h>
+ #include <asm/elf.h>
+ #include <asm/io.h>
++#include <linux/security.h>
  
-@@ -1207,11 +1219,24 @@ static struct vmap_area *alloc_vmap_area(unsigned long size,
- 	if (pva && __this_cpu_cmpxchg(ne_fit_preload_node, NULL, pva))
- 		kmem_cache_free(vmap_area_cachep, pva);
+ #include "physaddr.h"
  
-+	/* Randomize allocation */
-+	if (randomize_vmalloc) {
-+		voffset = get_random_long() & (roundup_pow_of_two(vend - vstart) - 1);
-+		voffset = PAGE_ALIGN(voffset);
-+		if (voffset + size > vend - vstart)
-+			voffset = vend - vstart - size;
-+	} else
-+		voffset = 0;
+@@ -122,6 +123,8 @@ static void arch_pick_mmap_base(unsigned long *base, unsigned long *legacy_base,
+ 	*legacy_base = mmap_legacy_base(random_factor, task_size);
+ 	if (mmap_is_legacy())
+ 		*base = *legacy_base;
++	else if (randomize_va_space == 3)
++		*base = mmap_min_addr;
+ 	else
+ 		*base = mmap_base(random_factor, task_size, rlim_stack);
+ }
+diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
+index fa50e8936f5f..c5cdf5e35c49 100644
+--- a/fs/binfmt_elf.c
++++ b/fs/binfmt_elf.c
+@@ -1108,7 +1108,12 @@ static int load_elf_binary(struct linux_binprm *bprm)
+ 			 * without MAP_FIXED).
+ 			 */
+ 			if (interpreter) {
+-				load_bias = ELF_ET_DYN_BASE;
++				if (randomize_va_space == 3)
++					/* more space for randomization */
++					load_bias = mmap_min_addr;
++				else
++					load_bias = ELF_ET_DYN_BASE;
 +
+ 				if (current->flags & PF_RANDOMIZE)
+ 					load_bias += arch_mmap_rnd();
+ 				alignment = maximum_alignment(elf_phdata, elf_ex->e_phnum);
+diff --git a/init/Kconfig b/init/Kconfig
+index 0872a5a2e759..3b8982262b06 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -1873,7 +1873,7 @@ config COMPAT_BRK
+ 	  also breaks ancient binaries (including anything libc5 based).
+ 	  This option changes the bootup default to heap randomization
+ 	  disabled, and can be overridden at runtime by setting
+-	  /proc/sys/kernel/randomize_va_space to 2.
++	  /proc/sys/kernel/randomize_va_space to 2 or 3.
+ 
+ 	  On non-ancient distros (post-2000 ones) N is usually a safe choice.
+ 
+diff --git a/mm/mmap.c b/mm/mmap.c
+index 5c8b4485860d..3ed972663ef9 100644
+--- a/mm/mmap.c
++++ b/mm/mmap.c
+@@ -47,6 +47,7 @@
+ #include <linux/pkeys.h>
+ #include <linux/oom.h>
+ #include <linux/sched/mm.h>
++#include <linux/elf-randomize.h>
+ 
+ #include <linux/uaccess.h>
+ #include <asm/cacheflush.h>
+@@ -73,6 +74,8 @@ const int mmap_rnd_compat_bits_max = CONFIG_ARCH_MMAP_RND_COMPAT_BITS_MAX;
+ int mmap_rnd_compat_bits __read_mostly = CONFIG_ARCH_MMAP_RND_COMPAT_BITS;
+ #endif
+ 
++#define MAX_RANDOM_MMAP_RETRIES			5
++
+ static bool ignore_rlimit_data;
+ core_param(ignore_rlimit_data, ignore_rlimit_data, bool, 0644);
+ 
+@@ -206,7 +209,7 @@ SYSCALL_DEFINE1(brk, unsigned long, brk)
+ #ifdef CONFIG_COMPAT_BRK
  	/*
- 	 * If an allocation fails, the "vend" address is
- 	 * returned. Therefore trigger the overflow path.
+ 	 * CONFIG_COMPAT_BRK can still be overridden by setting
+-	 * randomize_va_space to 2, which will still cause mm->start_brk
++	 * randomize_va_space to >= 2, which will still cause mm->start_brk
+ 	 * to be arbitrarily shifted
  	 */
--	addr = __alloc_vmap_area(size, align, vstart, vend);
-+	addr = __alloc_vmap_area(size, align, vstart + voffset, vend);
-+
-+	if (unlikely(addr == vend) && voffset)
-+		/* Retry randomization from other end */
-+		addr = __alloc_vmap_area(size, align, vstart, vstart + voffset + size);
- 	spin_unlock(&free_vmap_area_lock);
+ 	if (current->brk_randomized)
+@@ -2281,10 +2284,29 @@ get_unmapped_area(struct file *file, unsigned long addr, unsigned long len,
+ 		get_area = shmem_get_unmapped_area;
+ 	}
  
- 	if (unlikely(addr == vend))
++	/* Pick a random address even outside current VMAs? */
++	if (!addr && randomize_va_space == 3) {
++		int i;
++		unsigned long new_addr;
++
++		/* Try a few times to find a free area */
++		for (i = 0; i < MAX_RANDOM_MMAP_RETRIES; i++) {
++			new_addr = arch_mmap_rnd();
++
++			new_addr = get_area(file, new_addr, len, pgoff, flags | MAP_FIXED);
++			if (!IS_ERR_VALUE(new_addr)) {
++				addr = new_addr;
++				goto found;
++			}
++		}
++		/* failed, retry with original addr */
++	}
++
+ 	addr = get_area(file, addr, len, pgoff, flags);
+ 	if (IS_ERR_VALUE(addr))
+ 		return addr;
+ 
++ found:
+ 	if (addr > TASK_SIZE - len)
+ 		return -ENOMEM;
+ 	if (offset_in_page(addr))
+diff --git a/mm/mremap.c b/mm/mremap.c
+index 138abbae4f75..8c4eb42b5008 100644
+--- a/mm/mremap.c
++++ b/mm/mremap.c
+@@ -738,6 +738,10 @@ SYSCALL_DEFINE5(mremap, unsigned long, addr, unsigned long, old_len,
+ 		} else if (retval == 1)
+ 			downgraded = true;
+ 		ret = addr;
++
++		//if (randomize_va_space == 3)
++		//	goto maybe_also_move;
++
+ 		goto out;
+ 	}
+ 
+@@ -770,6 +774,10 @@ SYSCALL_DEFINE5(mremap, unsigned long, addr, unsigned long, old_len,
+ 				new_addr = addr;
+ 			}
+ 			ret = addr;
++
++			//if (randomize_va_space == 3)
++			//	goto maybe_also_move;
++
+ 			goto out;
+ 		}
+ 	}
+@@ -779,6 +787,8 @@ SYSCALL_DEFINE5(mremap, unsigned long, addr, unsigned long, old_len,
+ 	 * we need to create a new one and move it..
+ 	 */
+ 	ret = -ENOMEM;
++
++//maybe_also_move:
+ 	if (flags & MREMAP_MAYMOVE) {
+ 		unsigned long map_flags = 0;
+ 		if (vma->vm_flags & VM_MAYSHARE)
+diff --git a/mm/util.c b/mm/util.c
+index 4ddb6e186dd5..a5f00e025046 100644
+--- a/mm/util.c
++++ b/mm/util.c
+@@ -319,6 +319,12 @@ unsigned long randomize_stack_top(unsigned long stack_top)
+ {
+ 	unsigned long random_variable = 0;
+ 
++	/*
++	 * Randomize stack address.
++	 */
++	if (randomize_va_space == 3)
++		return arch_mmap_rnd();
++
+ 	if (current->flags & PF_RANDOMIZE) {
+ 		random_variable = get_random_long();
+ 		random_variable &= STACK_RND_MASK;
+@@ -334,6 +340,9 @@ unsigned long randomize_stack_top(unsigned long stack_top)
+ #ifdef CONFIG_ARCH_WANT_DEFAULT_TOPDOWN_MMAP_LAYOUT
+ unsigned long arch_randomize_brk(struct mm_struct *mm)
+ {
++	if (randomize_va_space == 3)
++		return arch_mmap_rnd();
++
+ 	/* Is the current task 32bit ? */
+ 	if (!IS_ENABLED(CONFIG_64BIT) || is_compat_task())
+ 		return randomize_page(mm->brk, SZ_32M);
+@@ -412,7 +421,10 @@ void arch_pick_mmap_layout(struct mm_struct *mm, struct rlimit *rlim_stack)
+ #elif defined(CONFIG_MMU) && !defined(HAVE_ARCH_PICK_MMAP_LAYOUT)
+ void arch_pick_mmap_layout(struct mm_struct *mm, struct rlimit *rlim_stack)
+ {
+-	mm->mmap_base = TASK_UNMAPPED_BASE;
++	if (randomize_va_space == 3)
++		mm->mmap_base = mmap_min_addr;
++	else
++		mm->mmap_base = TASK_UNMAPPED_BASE;
+ 	mm->get_unmapped_area = arch_get_unmapped_area;
+ }
+ #endif
 
 base-commit: 7f376f1917d7461e05b648983e8d2aea9d0712b2
 -- 
