@@ -2,102 +2,117 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 037E62E1F0C
-	for <lists+linux-api@lfdr.de>; Wed, 23 Dec 2020 17:00:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A6AEA2E2000
+	for <lists+linux-api@lfdr.de>; Wed, 23 Dec 2020 18:33:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727293AbgLWP7o (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 23 Dec 2020 10:59:44 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:13168 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726390AbgLWP7o (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Dec 2020 10:59:44 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0BNFYIXJ164382;
-        Wed, 23 Dec 2020 10:59:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=l5X8xjAD1dP6zpYhqiITFqXrFCYkdR6RvNjSajXqmto=;
- b=RcNKM70XW4uaMsN9+WSEEIVN1L+fTGd1wJGDbnZgSng+9UAkDQGzyDHtjGKH/fQSNqRG
- jR7X/f4P1fcqe81bhMDxuLXlLFu/LXbDypQN+wQuKCC3vpDuTSu4tmEXJ/syjzR8oqQ/
- v8Plu/U/4sVtq2bgqGaz3YNPlfG1/rb1VVUQSZq9dTUqKEt3x/Gh+IJZTxZIM5HEzJTY
- YI/pg7EDWfDIyvRdG4KPJIsiE6c/6sBmwR1hx0HxbTA0JPzGNRIhdvWAZRkOVdo3UobM
- FghOWJabooY10dBZtljdQkikb/Gw3MgOPxZnXBIh4Ag7DOCRZpT2KBp4ik/IhB/S0Ey1 hg== 
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com [169.53.41.122])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 35m7xx9p0y-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 23 Dec 2020 10:58:59 -0500
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
-        by ppma04dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0BNFvjfS003618;
-        Wed, 23 Dec 2020 15:58:59 GMT
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com [9.57.198.24])
-        by ppma04dal.us.ibm.com with ESMTP id 35m62n195c-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 23 Dec 2020 15:58:59 +0000
-Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com [9.57.199.107])
-        by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 0BNFwwZr35324350
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 23 Dec 2020 15:58:58 GMT
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 585D3124052;
-        Wed, 23 Dec 2020 15:58:58 +0000 (GMT)
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 159B112405A;
-        Wed, 23 Dec 2020 15:58:58 +0000 (GMT)
-Received: from [9.80.231.19] (unknown [9.80.231.19])
-        by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
-        Wed, 23 Dec 2020 15:58:57 +0000 (GMT)
-Subject: Re: [PATCH RESEND v4 1/1] tpm: add sysfs exports for all banks of PCR
- registers
-To:     "Elliott, Robert (Servers)" <elliott@hpe.com>,
-        James Bottomley <James.Bottomley@HansenPartnership.com>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>
-Cc:     Mimi Zohar <zohar@linux.ibm.com>,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-References: <20201129223022.5153-1-James.Bottomley@HansenPartnership.com>
- <20201129223022.5153-2-James.Bottomley@HansenPartnership.com>
- <TU4PR8401MB105585A7FD1E1EB317FD13F7ABF50@TU4PR8401MB1055.NAMPRD84.PROD.OUTLOOK.COM>
- <d1775d709b3b88b494e95fff6dbdbda72e1e3b61.camel@HansenPartnership.com>
- <TU4PR8401MB10556D3CE22216CC6B15B57EABF50@TU4PR8401MB1055.NAMPRD84.PROD.OUTLOOK.COM>
-From:   Ken Goldman <kgold@linux.ibm.com>
-Message-ID: <ca2df3f0-a662-e09f-1a4c-687d44180bfb@linux.ibm.com>
-Date:   Wed, 23 Dec 2020 10:58:58 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        id S1726012AbgLWRdJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 23 Dec 2020 12:33:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34812 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725907AbgLWRdJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Dec 2020 12:33:09 -0500
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B21BEC06179C
+        for <linux-api@vger.kernel.org>; Wed, 23 Dec 2020 09:32:28 -0800 (PST)
+Received: by mail-wr1-x434.google.com with SMTP id t16so19364267wra.3
+        for <linux-api@vger.kernel.org>; Wed, 23 Dec 2020 09:32:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+u4HaQZ1cdgjeiGaZ8lzaVDKyHykee/RjOPEPv24mOI=;
+        b=U4BfHPe+CwSjOhbhz0tlQtUuD4sLyUmYOyw3DR+Z8s9RwnSDQK8osHUb4PPSsCErx6
+         uM8gfuTZ3LMhL0IWTUFZMQ+SZFKDaNs8woYxEk0yxSM9azY3+UQcDNa5o2RBV/rtABcO
+         v0L8TdXlWzc5hqcIsDiw5FbvECLAWsQyiToLpxguB7KkwGybzYgPleGhcB8y9+UPsCET
+         v51Xv0W83LauUvH8J8Wg1xstijP4wylDk9BJKz/w+NKz27B84uNsG0Y40A8S/VhoOck/
+         8XsKTwFgxBOCjrYrHTOi3BCgCaYB6GUQLrm0IBxnUo5cFSJw324NGTiqfdFpS5LpjUJB
+         QIhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+u4HaQZ1cdgjeiGaZ8lzaVDKyHykee/RjOPEPv24mOI=;
+        b=CMFzvlQgBsTgQi7mijuyJJMypJvLy0kvV5JClBbLu8qz/Wx+Sw8BhlXvgkuEBtTIl6
+         pg13Qy9t4qW/Xuf+HDhIyD1k1yRl/YkoH8HJPm+lbLPnSkj8VjcYxojdeaumTKhm2Wj9
+         grotnu0Sph8GJwaGsuWMr6/1YKaK6Jsl6Nqq73lkOgIE5joJMA4vimHA1a6JKzgZiA9o
+         KCKM0FDLsacmUxfDILpVF1pBjV0ClPIVfiJoAlvkZPqaO05JOEWEQ2oSWj9erzmfBwkp
+         ydvmMpGHSGx6qEL65XzS4AuE+AKSRqhyOtEMVrIeiRdsVwBdsXcvQwRntBbPw8IyX138
+         BuEA==
+X-Gm-Message-State: AOAM532Ls03cnDwSLRIkSQ50btAiP0T44BDrU/i0hZMomHt3ejN1avyC
+        Pd0gpiAcra5Kl90UN5YOvRk3rDx9B+8W+vby00O67Q==
+X-Google-Smtp-Source: ABdhPJzUAsAuBD2dVSthDXzQ7IV73X0J7foD8oXS9oA18h84oUxm1ab4Ym5dVSyuFZBgVcIqjONvx6V9YQowI2xv8JE=
+X-Received: by 2002:adf:f0d0:: with SMTP id x16mr31048930wro.162.1608744747266;
+ Wed, 23 Dec 2020 09:32:27 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <TU4PR8401MB10556D3CE22216CC6B15B57EABF50@TU4PR8401MB1055.NAMPRD84.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343,18.0.737
- definitions=2020-12-23_07:2020-12-23,2020-12-23 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 impostorscore=0
- suspectscore=0 adultscore=0 mlxlogscore=999 mlxscore=0 lowpriorityscore=0
- clxscore=1011 priorityscore=1501 bulkscore=0 spamscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2012230115
+References: <20201124053943.1684874-1-surenb@google.com> <20201124053943.1684874-2-surenb@google.com>
+ <20201125231322.GF1484898@google.com> <CAG48ez0UKYCdgyW91SmOcT52vbLFz9RjLpaucWpj6bTrgQCwnA@mail.gmail.com>
+ <20201222134438.GA7170@infradead.org> <CAJuCfpGiVS69kznSrAdosxnRd-zgXPJd8MXou=gd8K8j7xLMjA@mail.gmail.com>
+ <20201223075712.GA4719@lst.de>
+In-Reply-To: <20201223075712.GA4719@lst.de>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Wed, 23 Dec 2020 09:32:16 -0800
+Message-ID: <CAJuCfpGQQN-FEoRUymeGSs86Du5DmziNbbr7uXqSTd2xsqMn3g@mail.gmail.com>
+Subject: Re: [PATCH 1/2] mm/madvise: allow process_madvise operations on
+ entire memory range
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Christoph Hellwig <hch@infradead.org>,
+        Jann Horn <jannh@google.com>, Minchan Kim <minchan@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Michal Hocko <mhocko@suse.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Roman Gushchin <guro@fb.com>, Rik van Riel <riel@surriel.com>,
+        Christian Brauner <christian@brauner.io>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Tim Murray <timmurray@google.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        kernel-team <kernel-team@android.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 11/30/2020 5:50 PM, Elliott, Robert (Servers) wrote:
-> Yes, they are in
-> * TCG PC Client Platform TPM Profile Specification for TPM 2.0
->    Version 1.05, Revision 14, 4 September 2020
-> * Trusted Platform Module Library Part 2: Structures
->    Family 2.0, Level 00 Revision 1.59, 8 November 2019
-> 
-> I don't know if anyone has started implementing SHA-3 for PCRs.
+On Tue, Dec 22, 2020 at 11:57 PM Christoph Hellwig <hch@lst.de> wrote:
+>
+> On Tue, Dec 22, 2020 at 09:48:43AM -0800, Suren Baghdasaryan wrote:
+> > Thanks for the feedback! The use case is userspace memory reaping
+> > similar to oom-reaper. Detailed justification is here:
+> > https://lore.kernel.org/linux-mm/20201124053943.1684874-1-surenb@google.com
+>
+> Given that this new variant of process_madvise
+>
+>   a) does not work on an address range
 
-AFIAK, no for SHA-3
+True, however I can see other madvise flavors that could be used on
+the entire process. For example process_madvise(MADV_PAGEOUT) could be
+used to "shrink" an entire inactive background process.
 
-Generally, TPM vendors do not implement optional features.  Since
-applications cannot use them if they want interoperability, it
-increases the TPM cost with no perceived benefit.
+>   b) is destructive
 
-SHA-384, ECC NIST-P384, and RSA-3072 recently became mandatory.
+I agree that memory reaping might be the only case when a destructive
+process_madvise() makes sense. Unless the target process is dying, a
+destructive process_madvise() would need coordination with the target
+process, and if it's coordinated then the target might as well call
+normal madvise() itself.
 
+>   c) doesn't share much code at all with the rest of process_madvise
 
+It actually does reuse a considerable part of the code, but the same
+code can be refactored and reused either way.
 
+>
+> Why not add a proper separate syscall?
+
+I think my answer to (a) is one justification for allowing
+process_madvise() to operate on the entire process. Also MADV_DONTNEED
+seems quite suitable for this operation.
+Considering the above answers, are you still leaning towards a separate syscall?
+
+>
+> --
+> To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
+>
