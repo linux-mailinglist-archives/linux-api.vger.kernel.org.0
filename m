@@ -2,115 +2,106 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 114F22E0DFD
-	for <lists+linux-api@lfdr.de>; Tue, 22 Dec 2020 18:49:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E316F2E1178
+	for <lists+linux-api@lfdr.de>; Wed, 23 Dec 2020 02:58:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728098AbgLVRtg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 22 Dec 2020 12:49:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42282 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727988AbgLVRtg (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 22 Dec 2020 12:49:36 -0500
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60ACDC0613D3
-        for <linux-api@vger.kernel.org>; Tue, 22 Dec 2020 09:48:55 -0800 (PST)
-Received: by mail-wm1-x329.google.com with SMTP id 190so2549103wmz.0
-        for <linux-api@vger.kernel.org>; Tue, 22 Dec 2020 09:48:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gZ3Mpnz+y+y40eMwZF/PF9p0ykrXNof+TnqSLHPYMc4=;
-        b=fJurTTnF+Va0FHUdyTWNlS1cGpvh5djyhWHIz8cfeXiEfOyaHauqRQAM7CWWF/HB4r
-         XIFtvR6qpYy5MgmX/TledRqo+t3vH2fcKr7e38xsmzAyKFWgAU8vhI2ZUIFIAYsEkZ8p
-         a1YloLSV7hKc5+Gwt6KP7k500IbltONvgsDcSeGi9zSpQg8zA7YgsqoHX5zOYwp5BF/e
-         iW/jP7UOFR0ATiu/JRaMsx7mEMPFpD1OoYVYpfMH/SAtbBGfvYXc6oIG88gZL0BbXR1o
-         FAp5U+WxGka2LA/evqmWwrzWueuV0cQwOyeE9XZRiQIJnFQm1w0/OvkqpZyWL+tQoCmU
-         sZBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gZ3Mpnz+y+y40eMwZF/PF9p0ykrXNof+TnqSLHPYMc4=;
-        b=BuzdlBnsngYr8FBQwwm9LwuJYJ51Dzq72OSvHd4avrendY7MhZFtYGAKbHlSgrFNsU
-         VP4O06xbzDhXbnnroZXYs/o3HQOEMxwzXOrEjh8x7YorU8wwqqvf+0DwURqa0nZJVXzh
-         8nG6FA6GKXzgKQS6Ds+FIt/C5Ee8ZMfk2Kx+k3gk+T9punNJdYrSYLuv4ZPHqpe3HDX8
-         RacJrCwvkHYkIBPKw7NsG62+1xBAj0uNeF+JZ32v4E7irz/LInMNbqNDBCRQfHzwqWZK
-         yNpZBItlee7zHiDveBiRsia5w5573GNc2VZwCn9un436tdtm/8HIsiZlnCSi8BWeqCpC
-         meWQ==
-X-Gm-Message-State: AOAM532Ckw6/3bIC6J/WQ4F+IIScP5OCw83iyoiEw8NrJqdcES22/zKb
-        iTmdsyj7NgMJjxKog2MsrH3y+x5kTW7FogZUkEyJbA==
-X-Google-Smtp-Source: ABdhPJx8xdo+vZEMkO7jQEED2nsivqCj2PRiduHKYZoEitQJoXN17y7RtUWzBp4kXUmTBuo5w4edqoIkhNfbujhKVnY=
-X-Received: by 2002:a1c:4e0a:: with SMTP id g10mr22732565wmh.88.1608659333913;
- Tue, 22 Dec 2020 09:48:53 -0800 (PST)
-MIME-Version: 1.0
-References: <20201124053943.1684874-1-surenb@google.com> <20201124053943.1684874-2-surenb@google.com>
- <20201125231322.GF1484898@google.com> <CAG48ez0UKYCdgyW91SmOcT52vbLFz9RjLpaucWpj6bTrgQCwnA@mail.gmail.com>
- <20201222134438.GA7170@infradead.org>
-In-Reply-To: <20201222134438.GA7170@infradead.org>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Tue, 22 Dec 2020 09:48:43 -0800
-Message-ID: <CAJuCfpGiVS69kznSrAdosxnRd-zgXPJd8MXou=gd8K8j7xLMjA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] mm/madvise: allow process_madvise operations on
- entire memory range
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     Jann Horn <jannh@google.com>, Minchan Kim <minchan@kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Michal Hocko <mhocko@suse.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Roman Gushchin <guro@fb.com>, Rik van Riel <riel@surriel.com>,
-        Christian Brauner <christian@brauner.io>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Tim Murray <timmurray@google.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        kernel-team <kernel-team@android.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726413AbgLWB6Q (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 22 Dec 2020 20:58:16 -0500
+Received: from mga06.intel.com ([134.134.136.31]:49021 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726361AbgLWB6Q (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 22 Dec 2020 20:58:16 -0500
+IronPort-SDR: 6/5/hEI65WYj41wI9AjeK0K8Sw31TSmCAF0vpOJQa/wmDTtp2dTW2gDU5BAbvCW11Wku9+ytCj
+ 0ZI9gVN0ikSA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9843"; a="237508790"
+X-IronPort-AV: E=Sophos;i="5.78,440,1599548400"; 
+   d="scan'208";a="237508790"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2020 17:57:34 -0800
+IronPort-SDR: yKGf3adYatD3eoY0tuXwgz1+NJhRrMtTFTzMfHezOqij4PZBXBtISpD1hyJUM8IP5GEQlaQXYY
+ CdJHd91uQlVQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,440,1599548400"; 
+   d="scan'208";a="457755715"
+Received: from chang-linux-3.sc.intel.com ([172.25.66.175])
+  by fmsmga001.fm.intel.com with ESMTP; 22 Dec 2020 17:57:33 -0800
+From:   "Chang S. Bae" <chang.seok.bae@intel.com>
+To:     bp@suse.de, tglx@linutronix.de, mingo@kernel.org, luto@kernel.org,
+        x86@kernel.org
+Cc:     len.brown@intel.com, dave.hansen@intel.com, hjl.tools@gmail.com,
+        Dave.Martin@arm.com, jannh@google.com, mpe@ellerman.id.au,
+        tony.luck@intel.com, ravi.v.shankar@intel.com,
+        libc-alpha@sourceware.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        chang.seok.bae@intel.com
+Subject: [PATCH v3 0/4] x86: Improve Minimum Alternate Stack Size
+Date:   Tue, 22 Dec 2020 17:53:08 -0800
+Message-Id: <20201223015312.4882-1-chang.seok.bae@intel.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Dec 22, 2020 at 5:44 AM Christoph Hellwig <hch@infradead.org> wrote:
->
-> On Fri, Dec 11, 2020 at 09:27:46PM +0100, Jann Horn wrote:
-> > > Can we just use one element in iovec to indicate entire address rather
-> > > than using up the reserved flags?
-> > >
-> > >         struct iovec {
-> > >                 .iov_base = NULL,
-> > >                 .iov_len = (~(size_t)0),
-> > >         };
-> >
-> > In addition to Suren's objections, I think it's also worth considering
-> > how this looks in terms of compat API. If a compat process does
-> > process_madvise() on another compat process, it would be specifying
-> > the maximum 32-bit number, rather than the maximum 64-bit number, so
-> > you'd need special code to catch that case, which would be ugly.
-> >
-> > And when a compat process uses this API on a non-compat process, it
-> > semantically gets really weird: The actual address range covered would
-> > be larger than the address range specified.
-> >
-> > And if we want different access checks for the two flavors in the
-> > future, gating that different behavior on special values in the iovec
-> > would feel too magical to me.
-> >
-> > And the length value SIZE_MAX doesn't really make sense anyway because
-> > the length of the whole address space would be SIZE_MAX+1, which you
-> > can't express.
-> >
-> > So I'm in favor of a new flag, and strongly against using SIZE_MAX as
-> > a magic number here.
->
-> Yes, using SIZE_MAX is a horrible interface in this case.  I'm not
-> a huge fan of a flag either.  What is the use case for the madvise
-> to all of a processes address space anyway?
+During signal entry, the kernel pushes data onto the normal userspace
+stack. On x86, the data pushed onto the user stack includes XSAVE state,
+which has grown over time as new features and larger registers have been
+added to the architecture.
 
-Thanks for the feedback! The use case is userspace memory reaping
-similar to oom-reaper. Detailed justification is here:
-https://lore.kernel.org/linux-mm/20201124053943.1684874-1-surenb@google.com
+MINSIGSTKSZ is a constant provided in the kernel signal.h headers and
+typically distributed in lib-dev(el) packages, e.g. [1]. Its value is
+compiled into programs and is part of the user/kernel ABI. The MINSIGSTKSZ
+constant indicates to userspace how much data the kernel expects to push on
+the user stack, [2][3].
+
+However, this constant is much too small and does not reflect recent
+additions to the architecture. For instance, when AVX-512 states are in
+use, the signal frame size can be 3.5KB while MINSIGSTKSZ remains 2KB.
+
+The bug report [4] explains this as an ABI issue. The small MINSIGSTKSZ can
+cause user stack overflow when delivering a signal.
+
+In this series, we suggest a couple of things:
+1. Provide a variable minimum stack size to userspace, as a similar
+   approach to [5]
+2. Avoid using a too-small alternate stack
+
+Changes from v2 [7]:
+* Simplified the sigaltstack overflow prevention (Jann Horn)
+* Renamed fpstate size helper with cleanup (Borislav Petkov)
+* Cleaned up the signframe struct size defines (Borislav Petkov)
+* Revised the selftest messages (Borislav Petkov)
+* Revised a changelog (Borislav Petkov)
+
+Changes from v1 [6]:
+* Took stack alignment into account for sigframe size (Dave Martin)
+
+[1]: https://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/unix/sysv/linux/bits/sigstack.h;h=b9dca794da093dc4d41d39db9851d444e1b54d9b;hb=HEAD
+[2]: https://www.gnu.org/software/libc/manual/html_node/Signal-Stack.html
+[3]: https://man7.org/linux/man-pages/man2/sigaltstack.2.html
+[4]: https://bugzilla.kernel.org/show_bug.cgi?id=153531
+[5]: https://blog.linuxplumbersconf.org/2017/ocw/system/presentations/4671/original/plumbers-dm-2017.pdf
+[6]: https://lore.kernel.org/lkml/20200929205746.6763-1-chang.seok.bae@intel.com/
+[7]: https://lore.kernel.org/lkml/20201119190237.626-1-chang.seok.bae@intel.com/
+
+Chang S. Bae (4):
+  x86/signal: Introduce helpers to get the maximum signal frame size
+  x86/elf: Support a new ELF aux vector AT_MINSIGSTKSZ
+  x86/signal: Prevent an alternate stack overflow before a signal
+    delivery
+  selftest/x86/signal: Include test cases for validating sigaltstack
+
+ arch/x86/include/asm/elf.h                |   4 +
+ arch/x86/include/asm/fpu/signal.h         |   2 +
+ arch/x86/include/asm/sigframe.h           |   2 +
+ arch/x86/include/uapi/asm/auxvec.h        |   6 +-
+ arch/x86/kernel/cpu/common.c              |   3 +
+ arch/x86/kernel/fpu/signal.c              |  19 ++++
+ arch/x86/kernel/signal.c                  |  69 +++++++++++-
+ tools/testing/selftests/x86/Makefile      |   2 +-
+ tools/testing/selftests/x86/sigaltstack.c | 128 ++++++++++++++++++++++
+ 9 files changed, 228 insertions(+), 7 deletions(-)
+ create mode 100644 tools/testing/selftests/x86/sigaltstack.c
+
+-- 
+2.17.1
+
