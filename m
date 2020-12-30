@@ -2,340 +2,364 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B5CEE2E76B7
-	for <lists+linux-api@lfdr.de>; Wed, 30 Dec 2020 08:00:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 146BB2E7C33
+	for <lists+linux-api@lfdr.de>; Wed, 30 Dec 2020 20:52:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726196AbgL3HAG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 30 Dec 2020 02:00:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40794 "EHLO
+        id S1726221AbgL3Tvl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 30 Dec 2020 14:51:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726189AbgL3HAG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 30 Dec 2020 02:00:06 -0500
-Received: from mail-pj1-x1049.google.com (mail-pj1-x1049.google.com [IPv6:2607:f8b0:4864:20::1049])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17311C06179C
-        for <linux-api@vger.kernel.org>; Tue, 29 Dec 2020 22:59:26 -0800 (PST)
-Received: by mail-pj1-x1049.google.com with SMTP id mz17so3740760pjb.5
-        for <linux-api@vger.kernel.org>; Tue, 29 Dec 2020 22:59:26 -0800 (PST)
+        with ESMTP id S1726197AbgL3Tvl (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 30 Dec 2020 14:51:41 -0500
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94127C061573;
+        Wed, 30 Dec 2020 11:51:00 -0800 (PST)
+Received: by mail-ej1-x62b.google.com with SMTP id jx16so23090566ejb.10;
+        Wed, 30 Dec 2020 11:51:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:to:cc;
-        bh=xB32DEN/0QeCmmDh19DzQHWnGyjSTbwqfqhmA+VJNfQ=;
-        b=Xjb4Z57NEW6i1TDgBG9aaoKcSnc6i6kl7JB7oZw/VseXnMKMcItKAcHGNni9v38buI
-         g+QAVEUqLLqgk8o4Nla2/9VW6HGO6JSm8AIW6wNL1lV5VxyI5Kq/6tn3sWFS5MEXpOkx
-         U/kEtSnx0nkOZ2OOFeCHJVlEcie74NuKqUOUPvHojknzgucGWesLgRDsZxpEYafNEoD2
-         uzMMUWJFKkTkKp7RyHk8h+UPKzLwx7DIaC2TN3oZflC1MF/xN8HStQuTk7wgtoLTRUxw
-         n3hQRwG1OCTZn1MIG3S7KZEfv9GguOP/1u/G88deyf7OaZx8JmsmeQFPNbuyVIqEViLc
-         MrcA==
+        d=gmail.com; s=20161025;
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=mKxK7c/i9edMW2MkDUdzuhwXiBdPDjRFgTh0pB6nplY=;
+        b=DICzUnxEGmUqq5BUt3Dn44W4zx+bNXZavMLQF1Tq/SwYxm8vpgW2Bzdu09KIVr4ldl
+         Q8d8DjKePACY1ZvuxOi1hKCuLtfydLn0sYIBbY56ICd2voAvlQLLhLX2wxpwA+mWR3HD
+         K2VvtlLeFYEeRMhGQsDeXWHazJPZf+j5CT3tazh74VjnsBOHfyzjYvTCkPwNo2c4NcGJ
+         /TWWGa3emUfJ5wgXvbFn0vXjO00dU2pcW8LzdVAVKD3hblLYR9krdFAUj7ibRMrZBT2B
+         EfJd4pqwmz3OZ+qO44YlXoXR2GJmUtnZ45lnmYbM5sMPL3BUQkbPub0iI4QBJCm/cb/+
+         BEnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=xB32DEN/0QeCmmDh19DzQHWnGyjSTbwqfqhmA+VJNfQ=;
-        b=gOoXiloa84AuIknYnhkN4hM4vWtaYbJFnDRsUVJfPeE1yE4INJf568jiol2JJIFHIN
-         qAlDxckTYtoMH6EdkhoLdXHA2yS/nWBoh8T5bwmwok3AmR0bwfMIodjR+QGUlUw/eQ8F
-         UTy+jDnsyoXM3wcE+qEPip8vD6iiQnV0pvZnmWK8MX1Qtztkfjr4r7ro1pW6e1zSLNdD
-         lTLLKH1gOaqfFMUBtvdqM0S3yZlJMkDq654CygZ2XjArfK+OEE3ltuKSQaIPIbBdJB4s
-         ENon2hCwkYsU/1wbZCyupiLFkXEyWldFXZkwsBw6/30C08o1PQnG94MvxCT2TIE4NJ6f
-         DtAw==
-X-Gm-Message-State: AOAM530j7DdfqnaFwJ+AZBlgnsxLm0L2oww/RpRGxWwc9Hpz2C5ZgFWN
-        bcmQgdzn1VpiFq4rm5M228+OdYc=
-X-Google-Smtp-Source: ABdhPJxy39WUZFqte2XILaI9+t/5pcfwQ+IiKOyLF1khioH9ka/NekuehqblZ6Bd3lG/rE9VEJJR0TU=
-Sender: "pcc via sendgmr" <pcc@pcc-desktop.svl.corp.google.com>
-X-Received: from pcc-desktop.svl.corp.google.com ([2620:15c:2ce:0:7220:84ff:fe09:385a])
- (user=pcc job=sendgmr) by 2002:a17:902:d202:b029:dc:3b92:f4e0 with SMTP id
- t2-20020a170902d202b02900dc3b92f4e0mr42674599ply.69.1609311565648; Tue, 29
- Dec 2020 22:59:25 -0800 (PST)
-Date:   Tue, 29 Dec 2020 22:59:15 -0800
-In-Reply-To: <c57a23199fce831c86d830717555623942f16f6e.1609311499.git.pcc@google.com>
-Message-Id: <e3977b3e1b548be1d9554ccfad6c83ac87802583.1609311499.git.pcc@google.com>
-Mime-Version: 1.0
-References: <c57a23199fce831c86d830717555623942f16f6e.1609311499.git.pcc@google.com>
-X-Mailer: git-send-email 2.29.2.729.g45daf8777d-goog
-Subject: [PATCH v6 3/3] arm64: pac: Optimize kernel entry/exit key
- installation code paths
-From:   Peter Collingbourne <pcc@google.com>
-To:     Catalin Marinas <catalin.marinas@arm.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        Florian Weimer <fw@deneb.enyo.de>
-Cc:     Peter Collingbourne <pcc@google.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Will Deacon <will@kernel.org>, linux-api@vger.kernel.org,
-        libc-alpha@sourceware.org
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=mKxK7c/i9edMW2MkDUdzuhwXiBdPDjRFgTh0pB6nplY=;
+        b=jXJhUPKgLqSAaFoPrunTtR9V2IFAYQXq7kRybWe03pm/amZOG5mBAD2z/WBBrvDLrT
+         825IAgxjPXJkYiC6ZUD7lXZ/Tp1OYXu4rLTrl31+/QBhP1bgfbHm9z6SzaOI/qS+SEy7
+         UXFpZvZToISQK5x48xSb98m1/ZSPDs3v7jpxOraDrwzTV7iINjFNfs9K3EgN/Iv/b/EZ
+         UILCci1Jj+mfMc7E06pY7gQaum3s+XmCwXHpySiXjflpyIDHplWn7qJYru0OVo4WdIDa
+         iTxXUWpyTudiH9/jVNTDRu+zq4qDzn91vFu61VRR049yScY8ZNwnNJEQMbMI11GSF+Wo
+         PUVA==
+X-Gm-Message-State: AOAM533IeX+mUWuCAIeyPPyOFkyzuHIFKblxBjUykAI/sX5++ED6oCrf
+        cbhTKfgKEmYNNtkDepIyif/yB3my7jk=
+X-Google-Smtp-Source: ABdhPJxgjnpv3aZLEziOblUKIaU/V5SyHkNTA12+kYzv1Sn1T7pb2q9kvFnEIb0LGqqvP/vIEshVLQ==
+X-Received: by 2002:a17:906:8617:: with SMTP id o23mr50669718ejx.274.1609357858877;
+        Wed, 30 Dec 2020 11:50:58 -0800 (PST)
+Received: from ?IPv6:2001:a61:2467:2f01:faca:3d43:5e40:30d1? ([2001:a61:2467:2f01:faca:3d43:5e40:30d1])
+        by smtp.gmail.com with ESMTPSA id v18sm38390214edx.30.2020.12.30.11.50.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Dec 2020 11:50:57 -0800 (PST)
+Cc:     mtk.manpages@gmail.com, alx.manpages@gmail.com,
+        linux-man@vger.kernel.org, kernel@collabora.com,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [PATCH v6] prctl.2: Document Syscall User Dispatch
+To:     Gabriel Krisman Bertazi <krisman@collabora.com>
+References: <20201228173832.347794-1-krisman@collabora.com>
+ <5da9a8bc-e034-1ab4-3f87-328108c1b27d@gmail.com>
+ <87wnwz5jae.fsf@collabora.com>
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Message-ID: <c9ebe73d-b75e-b3a6-a435-577bfd4a92e1@gmail.com>
+Date:   Wed, 30 Dec 2020 20:50:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
+MIME-Version: 1.0
+In-Reply-To: <87wnwz5jae.fsf@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-The kernel does not use any keys besides IA so we don't need to
-install IB/DA/DB/GA on kernel exit if we arrange to install them
-on task switch instead, which we can expect to happen an order of
-magnitude less often.
+[CC += linux-api]
 
-Furthermore we can avoid installing the user IA in the case where the
-user task has IA disabled and just leave the kernel IA installed. This
-also lets us avoid needing to install IA on kernel entry.
+Hi Gabriel,
 
-On an Apple M1 under a hypervisor, the overhead of kernel entry/exit
-has been measured to be reduced by 15.6ns in the case where IA is
-enabled, and 31.9ns in the case where IA is disabled.
+On 12/30/20 5:51 PM, Gabriel Krisman Bertazi wrote:
+> "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com> writes:
+> 
+>> Hello Gabriel
+>>
+>> This is looking much better. Thank you! I have a few more
+>> comments still.
+>>
+>> On 12/28/20 6:38 PM, Gabriel Krisman Bertazi wrote:
+>>> Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
+>>>
+>>> ---
+>>> Changes since v5:
+>>> (suggested by Michael Kerrisk)
+>>>   - Change () punctuation
+>>>   - fix grammar
+>>>   - Add information about interception, return and return value
+>>>
+>>> Changes since v4:
+>>> (suggested by Michael Kerrisk)
+>>>   - Modify explanation of what dispatch to user space means.
+>>>   - Drop references to emulation.
+>>>   - Document suggestion about placing libc in allowed-region.
+>>>   - Comment about avoiding syscall cost.
+>>> Changes since v3:
+>>> (suggested by Michael Kerrisk)
+>>>   - Explain what dispatch to user space means.
+>>>   - Document the fact that the memory region is a single consecutive
+>>>   range.
+>>>   - Explain failure if *arg5 is set to a bad value.
+>>>   - fix english typo.
+>>>   - Define what 'invalid memory region' means.
+>>>
+>>> Changes since v2:
+>>> (suggested by Alejandro Colomar)
+>>>   - selective -> selectively
+>>>   - Add missing oxford comma.
+>>>
+>>> Changes since v1:
+>>> (suggested by Alejandro Colomar)
+>>>   - Use semantic lines
+>>>   - Fix usage of .{B|I}R and .{B|I}
+>>>   - Don't format literals
+>>>   - Fix preferred spelling of userspace
+>>>   - Fix case of word
+>>> ---
+>>>  man2/prctl.2 | 159 +++++++++++++++++++++++++++++++++++++++++++++++++++
+>>>  1 file changed, 159 insertions(+)
+>>>
+>>> diff --git a/man2/prctl.2 b/man2/prctl.2
+>>> index f25f05fdb593..0a0abfb78055 100644
+>>> --- a/man2/prctl.2
+>>> +++ b/man2/prctl.2
+>>> @@ -1533,6 +1533,135 @@ For more information, see the kernel source file
+>>>  (or
+>>>  .I Documentation/arm64/sve.txt
+>>>  before Linux 5.3).
+>>> +.TP
+>>> +.\" prctl PR_SET_SYSCALL_USER_DISPATCH
+>>> +.\" commit 1446e1df9eb183fdf81c3f0715402f1d7595d4
+>>> +.BR PR_SET_SYSCALL_USER_DISPATCH " (since Linux 5.11, x86 only)"
+>>> +.IP
+>>> +Configure the Syscall User Dispatch mechanism
+>>> +for the calling thread.
+>>> +This mechanism allows an application
+>>> +to selectively intercept system calls
+>>> +so that they can be handled within the application itself.
+>>> +Interception takes the form of a thread-directed
+>>> +.B SIGSYS
+>>> +signal that is delivered to the thread
+>>> +when it makes a system call.
+>>> +If intercepted,
+>>> +the system call is not executed by the kernel.
+>>> +.IP
+>>> +The current Syscall User Dispatch mode is selected via
+>>> +.IR arg2 ,
+>>> +which can either be set to
+>>> +.B PR_SYS_DISPATCH_ON
+>>> +to enable the feature,
+>>> +or to
+>>> +.B PR_SYS_DISPATCH_OFF
+>>> +to turn it off.
+>>
+>> So, I realize now that I'm slightly confused.
+>>
+>> The value of arg2 can be either PR_SYS_DISPATCH_ON or
+>> PR_SYS_DISPATCH_OFF. The value of the selector pointed to by
+>> arg5 can likewise be R_SYS_DISPATCH_ON or PR_SYS_DISPATCH_OFF.
+>> What is the relationship between these two attributes? For example,
+>> what does it mean if arg2 isP R_SYS_DISPATCH_ON and, at the time of
+>> the prctl() call, the selector has the value PR_SYS_DISPATCH_OFF?
+> 
+> Hi Michael,
+> 
+> arg2 turns SUD on and off, thread-wide.  arg5 is what is used to filter
+> syscalls when SUD is on.  Based on the value of arg5, syscalls will be
+> intercepted, iff SUD is enabled for that thread.
 
-Signed-off-by: Peter Collingbourne <pcc@google.com>
-Link: https://linux-review.googlesource.com/id/Ieddf6b580d23c9e0bed45a822dabe72d2ffc9a8e
----
- arch/arm64/include/asm/asm_pointer_auth.h | 20 +------------
- arch/arm64/include/asm/pointer_auth.h     | 36 ++++++++++++++++++-----
- arch/arm64/kernel/asm-offsets.c           |  4 ---
- arch/arm64/kernel/entry.S                 | 33 ++++++++++++---------
- arch/arm64/kernel/pointer_auth.c          |  1 +
- arch/arm64/kernel/process.c               |  1 +
- arch/arm64/kernel/suspend.c               |  3 +-
- 7 files changed, 53 insertions(+), 45 deletions(-)
+Okay -- I suspected as much, but I wanted to confirm.
 
-diff --git a/arch/arm64/include/asm/asm_pointer_auth.h b/arch/arm64/include/asm/asm_pointer_auth.h
-index 52dead2a8640..8ca2dc0661ee 100644
---- a/arch/arm64/include/asm/asm_pointer_auth.h
-+++ b/arch/arm64/include/asm/asm_pointer_auth.h
-@@ -13,30 +13,12 @@
-  * so use the base value of ldp as thread.keys_user and offset as
-  * thread.keys_user.ap*.
-  */
--	.macro ptrauth_keys_install_user tsk, tmp1, tmp2, tmp3
-+	.macro __ptrauth_keys_install_user tsk, tmp1, tmp2, tmp3
- 	mov	\tmp1, #THREAD_KEYS_USER
- 	add	\tmp1, \tsk, \tmp1
--alternative_if_not ARM64_HAS_ADDRESS_AUTH
--	b	.Laddr_auth_skip_\@
--alternative_else_nop_endif
- 	ldp	\tmp2, \tmp3, [\tmp1, #PTRAUTH_USER_KEY_APIA]
- 	msr_s	SYS_APIAKEYLO_EL1, \tmp2
- 	msr_s	SYS_APIAKEYHI_EL1, \tmp3
--	ldp	\tmp2, \tmp3, [\tmp1, #PTRAUTH_USER_KEY_APIB]
--	msr_s	SYS_APIBKEYLO_EL1, \tmp2
--	msr_s	SYS_APIBKEYHI_EL1, \tmp3
--	ldp	\tmp2, \tmp3, [\tmp1, #PTRAUTH_USER_KEY_APDA]
--	msr_s	SYS_APDAKEYLO_EL1, \tmp2
--	msr_s	SYS_APDAKEYHI_EL1, \tmp3
--	ldp	\tmp2, \tmp3, [\tmp1, #PTRAUTH_USER_KEY_APDB]
--	msr_s	SYS_APDBKEYLO_EL1, \tmp2
--	msr_s	SYS_APDBKEYHI_EL1, \tmp3
--.Laddr_auth_skip_\@:
--alternative_if ARM64_HAS_GENERIC_AUTH
--	ldp	\tmp2, \tmp3, [\tmp1, #PTRAUTH_USER_KEY_APGA]
--	msr_s	SYS_APGAKEYLO_EL1, \tmp2
--	msr_s	SYS_APGAKEYHI_EL1, \tmp3
--alternative_else_nop_endif
- 	.endm
- 
- 	.macro __ptrauth_keys_install_kernel_nosync tsk, tmp1, tmp2, tmp3
-diff --git a/arch/arm64/include/asm/pointer_auth.h b/arch/arm64/include/asm/pointer_auth.h
-index 1a85e25d98ba..3e40fc776ea3 100644
---- a/arch/arm64/include/asm/pointer_auth.h
-+++ b/arch/arm64/include/asm/pointer_auth.h
-@@ -35,6 +35,25 @@ struct ptrauth_keys_kernel {
- 	struct ptrauth_key apia;
- };
- 
-+#define __ptrauth_key_install_nosync(k, v)			\
-+do {								\
-+	struct ptrauth_key __pki_v = (v);			\
-+	write_sysreg_s(__pki_v.lo, SYS_ ## k ## KEYLO_EL1);	\
-+	write_sysreg_s(__pki_v.hi, SYS_ ## k ## KEYHI_EL1);	\
-+} while (0)
-+
-+static inline void ptrauth_keys_install_user(struct ptrauth_keys_user *keys)
-+{
-+	if (system_supports_address_auth()) {
-+		__ptrauth_key_install_nosync(APIB, keys->apib);
-+		__ptrauth_key_install_nosync(APDA, keys->apda);
-+		__ptrauth_key_install_nosync(APDB, keys->apdb);
-+	}
-+
-+	if (system_supports_generic_auth())
-+		__ptrauth_key_install_nosync(APGA, keys->apga);
-+}
-+
- static inline void ptrauth_keys_init_user(struct ptrauth_keys_user *keys)
- {
- 	if (system_supports_address_auth()) {
-@@ -46,14 +65,9 @@ static inline void ptrauth_keys_init_user(struct ptrauth_keys_user *keys)
- 
- 	if (system_supports_generic_auth())
- 		get_random_bytes(&keys->apga, sizeof(keys->apga));
--}
- 
--#define __ptrauth_key_install_nosync(k, v)			\
--do {								\
--	struct ptrauth_key __pki_v = (v);			\
--	write_sysreg_s(__pki_v.lo, SYS_ ## k ## KEYLO_EL1);	\
--	write_sysreg_s(__pki_v.hi, SYS_ ## k ## KEYHI_EL1);	\
--} while (0)
-+	ptrauth_keys_install_user(keys);
-+}
- 
- static __always_inline void ptrauth_keys_init_kernel(struct ptrauth_keys_kernel *keys)
- {
-@@ -81,6 +95,9 @@ static inline unsigned long ptrauth_strip_insn_pac(unsigned long ptr)
- 	return ptrauth_clear_pac(ptr);
- }
- 
-+#define ptrauth_suspend_exit()                                                 \
-+	ptrauth_keys_install_user(&current->thread.keys_user)
-+
- #define ptrauth_thread_init_user()                                             \
- 	do {                                                                   \
- 		ptrauth_keys_init_user(&current->thread.keys_user);            \
-@@ -92,6 +109,9 @@ static inline unsigned long ptrauth_strip_insn_pac(unsigned long ptr)
- 					   SCTLR_ELx_ENDA | SCTLR_ELx_ENDB);   \
- 	} while (0)
- 
-+#define ptrauth_thread_switch_user(tsk)                                        \
-+	ptrauth_keys_install_user(&(tsk)->thread.keys_user)
-+
- #define ptrauth_thread_init_kernel(tsk)					\
- 	ptrauth_keys_init_kernel(&(tsk)->thread.keys_kernel)
- #define ptrauth_thread_switch_kernel(tsk)				\
-@@ -102,8 +122,10 @@ static inline unsigned long ptrauth_strip_insn_pac(unsigned long ptr)
- #define ptrauth_set_enabled_keys(tsk, keys, enabled)	(-EINVAL)
- #define ptrauth_get_enabled_keys(tsk)	(-EINVAL)
- #define ptrauth_strip_insn_pac(lr)	(lr)
-+#define ptrauth_suspend_exit()
- #define ptrauth_thread_init_user()
- #define ptrauth_thread_init_kernel(tsk)
-+#define ptrauth_thread_switch_user(tsk)
- #define ptrauth_thread_switch_kernel(tsk)
- #endif /* CONFIG_ARM64_PTR_AUTH */
- 
-diff --git a/arch/arm64/kernel/asm-offsets.c b/arch/arm64/kernel/asm-offsets.c
-index dc0907a0240c..2bc21a71abcf 100644
---- a/arch/arm64/kernel/asm-offsets.c
-+++ b/arch/arm64/kernel/asm-offsets.c
-@@ -147,10 +147,6 @@ int main(void)
- #endif
- #ifdef CONFIG_ARM64_PTR_AUTH
-   DEFINE(PTRAUTH_USER_KEY_APIA,		offsetof(struct ptrauth_keys_user, apia));
--  DEFINE(PTRAUTH_USER_KEY_APIB,		offsetof(struct ptrauth_keys_user, apib));
--  DEFINE(PTRAUTH_USER_KEY_APDA,		offsetof(struct ptrauth_keys_user, apda));
--  DEFINE(PTRAUTH_USER_KEY_APDB,		offsetof(struct ptrauth_keys_user, apdb));
--  DEFINE(PTRAUTH_USER_KEY_APGA,		offsetof(struct ptrauth_keys_user, apga));
-   DEFINE(PTRAUTH_KERNEL_KEY_APIA,	offsetof(struct ptrauth_keys_kernel, apia));
-   BLANK();
- #endif
-diff --git a/arch/arm64/kernel/entry.S b/arch/arm64/kernel/entry.S
-index 33037121fd0d..933db3f30f7a 100644
---- a/arch/arm64/kernel/entry.S
-+++ b/arch/arm64/kernel/entry.S
-@@ -247,21 +247,26 @@ alternative_else_nop_endif
- 	check_mte_async_tcf x19, x22
- 	apply_ssbd 1, x22, x23
- 
--	ptrauth_keys_install_kernel_nosync tsk, x20, x22, x23
--
- #ifdef CONFIG_ARM64_PTR_AUTH
- alternative_if ARM64_HAS_ADDRESS_AUTH
- 	/*
- 	 * Enable IA for in-kernel PAC if the task had it disabled. Although
- 	 * this could be implemented with an unconditional MRS which would avoid
- 	 * a load, this was measured to be slower on Cortex-A75 and Cortex-A76.
-+	 *
-+	 * Install the kernel IA key only if IA was enabled in the task. If IA
-+	 * was disabled on kernel exit then we would have left the kernel IA
-+	 * installed so there is no need to install it again.
- 	 */
- 	ldr	x0, [tsk, THREAD_SCTLR_USER]
--	tbnz	x0, SCTLR_ELx_ENIA_SHIFT, 1f
-+	tbz	x0, SCTLR_ELx_ENIA_SHIFT, 1f
-+	__ptrauth_keys_install_kernel_nosync tsk, x20, x22, x23
-+	b	2f
-+1:
- 	mrs	x0, sctlr_el1
- 	orr	x0, x0, SCTLR_ELx_ENIA
- 	msr	sctlr_el1, x0
--1:
-+2:
- 	isb
- alternative_else_nop_endif
- #endif
-@@ -368,24 +373,24 @@ alternative_else_nop_endif
- 3:
- 	scs_save tsk, x0
- 
--	/*
--	 * No kernel C function calls after this as user keys are set and IA may
--	 * be disabled.
--	 */
--	ptrauth_keys_install_user tsk, x0, x1, x2
--
- #ifdef CONFIG_ARM64_PTR_AUTH
- alternative_if ARM64_HAS_ADDRESS_AUTH
- 	/*
--	 * IA was enabled for in-kernel PAC. Disable it now if needed.
--	 * All other per-task SCTLR bits were updated on task switch.
-+	 * IA was enabled for in-kernel PAC. Disable it now if needed, or
-+	 * alternatively install the user's IA. All other per-task keys and
-+	 * SCTLR bits were updated on task switch.
-+	 *
-+	 * No kernel C function calls after this.
- 	 */
- 	ldr	x0, [tsk, THREAD_SCTLR_USER]
--	tbnz	x0, SCTLR_ELx_ENIA_SHIFT, 1f
-+	tbz	x0, SCTLR_ELx_ENIA_SHIFT, 1f
-+	__ptrauth_keys_install_user tsk, x0, x1, x2
-+	b	2f
-+1:
- 	mrs	x0, sctlr_el1
- 	bic	x0, x0, SCTLR_ELx_ENIA
- 	msr	sctlr_el1, x0
--1:
-+2:
- alternative_else_nop_endif
- #endif
- 
-diff --git a/arch/arm64/kernel/pointer_auth.c b/arch/arm64/kernel/pointer_auth.c
-index f03e5bfe4490..60901ab0a7fe 100644
---- a/arch/arm64/kernel/pointer_auth.c
-+++ b/arch/arm64/kernel/pointer_auth.c
-@@ -43,6 +43,7 @@ int ptrauth_prctl_reset_keys(struct task_struct *tsk, unsigned long arg)
- 		get_random_bytes(&keys->apdb, sizeof(keys->apdb));
- 	if (arg & PR_PAC_APGAKEY)
- 		get_random_bytes(&keys->apga, sizeof(keys->apga));
-+	ptrauth_keys_install_user(keys);
- 
- 	return 0;
- }
-diff --git a/arch/arm64/kernel/process.c b/arch/arm64/kernel/process.c
-index a6b0edc67e41..c978876ce07f 100644
---- a/arch/arm64/kernel/process.c
-+++ b/arch/arm64/kernel/process.c
-@@ -570,6 +570,7 @@ __notrace_funcgraph struct task_struct *__switch_to(struct task_struct *prev,
- 	entry_task_switch(next);
- 	ssbs_thread_switch(next);
- 	erratum_1418040_thread_switch(prev, next);
-+	ptrauth_thread_switch_user(next);
- 
- 	/*
- 	 * Complete any pending TLB or cache maintenance on this CPU in case
-diff --git a/arch/arm64/kernel/suspend.c b/arch/arm64/kernel/suspend.c
-index a67b37a7a47e..c5a6614a41f9 100644
---- a/arch/arm64/kernel/suspend.c
-+++ b/arch/arm64/kernel/suspend.c
-@@ -74,8 +74,9 @@ void notrace __cpu_suspend_exit(void)
- 	 */
- 	spectre_v4_enable_mitigation(NULL);
- 
--	/* Restore additional MTE-specific configuration */
-+	/* Restore additional feature-specific configuration */
- 	mte_suspend_exit();
-+	ptrauth_suspend_exit();
- }
- 
- /*
+So, I want to say that in API design terms this feels wrong. You 
+are using the same name(s) to mean two different things:
+1. Define/clear SUD/the non-SUD memory region
+2. Enable/disable SUD filtering in the SUD memory region (i.e., the 
+part of the virtual address space outside the region defined in 1).
+
+My terms here may not be the best, but I guess the distinction that
+I make is clear.
+
+My point is that these are different things, and I think they 
+really should have different names (though of course the numbers
+could stay the same). Otherwise, people fall into the confusion
+that I ran into. Given that this feature is not yet released, and
+that the numbers don't need to change, I'd like to suggest that
+the names should change before 5.11 is released
+
+For arg2, maybe:
+    PR_SYS_DISPATCH_SET_REGION / PR_SYS_DISPATCH_CLEAR_REGION
+or
+    PR_SYS_DISPATCH_SET / PR_SYS_DISPATCH_CLEAR
+or
+    PR_SYS_DISPATCH_ON / PR_SYS_DISPATCH_OFF
+
+For the selector (pointed to by arg5), maybe stay with what you
+have:
+
+    PR_SYS_DISPATCH_ON / PR_SYS_DISPATCH_OFF
+
+or (maybe better, and would also fit well with keeping
+arg2 as PR_SYS_DISPATCH_ON / PR_SYS_DISPATCH_OFF):
+
+    PR_SYS_DISPATCH_FILTER_ON / PR_SYS_DISPATCH_FILTER_OFF
+
+Do you see what I mean? We live with APIs for a long time, and I
+think it serves us to make them as clear as possible.
+
+Thanks,
+
+Michael
+
+
+
+> 
+> arg5 is checked only upon syscall entry, so it doesn't have any effect
+> on the prctl itself, SUD was off at that time.
+> 
+> I'm not sure how to add this information to the man page, but I will try
+> to clarify it further.
+> 
+>>> +.IP
+>>> +When
+>>> +.I arg2
+>>> +is set to
+>>> +.BR PR_SYS_DISPATCH_ON ,
+>>> +.I arg3
+>>> +and
+>>> +.I arg4
+>>> +respectively identify the
+>>> +.I offset
+>>> +and
+>>> +.I length
+>>> +of a single contiguous memory region in the process map
+>>
+>> Better: s/map/address space/ ?
+>>
+>>> +from where system calls are always allowed to be executed,
+>>> +regardless of the switch variable
+>>
+>> s/variable/variable./
+>>
+>>> +(Typically, this area would include the area of memory
+>>> +containing the C library.)
+>>
+>> I think just to ease readability (smaller paragraphs), insert
+>> .IP
+>> here.
+>>
+>>> +.I arg5
+>>> +points to a char-sized variable
+>>> +that is a fast switch to enable/disable the mechanism
+>>> +without the overhead of doing a system call.
+>>> +The variable pointed by
+>>> +.I arg5
+>>> +can either be set to
+>>> +.B PR_SYS_DISPATCH_ON
+>>> +to enable the mechanism
+>>> +or to
+>>> +.B PR_SYS_DISPATCH_OFF
+>>> +to temporarily disable it.
+>>> +This value is checked by the kernel
+>>> +on every system call entry,
+>>> +and any unexpected value will raise
+>>> +an uncatchable
+>>> +.B SIGSYS
+>>> +at that time,
+>>> +killing the application.
+>>> +.IP
+>>> +When a system call is intercepted,
+>>> +the kernel sends a thread-directed
+>>> +.B SIGSYS
+>>> +signal to the triggering thread.
+>>> +Various fields will be set in the
+>>> +.I siginfo_t
+>>> +structure (see
+>>> +.BR sigaction (2))
+>>> +associated with the signal:
+>>> +.RS
+>>> +.IP * 3
+>>> +.I si_signo
+>>> +will contain
+>>> +.BR SIGSYS .
+>>> +.IP *
+>>> +.IR si_call_addr
+>>> +will show the address of the system call instruction.
+>>> +.IP *
+>>> +.IR si_syscall
+>>> +and
+>>> +.IR si_arch
+>>> +will indicate which system call was attempted.
+>>> +.IP *
+>>> +.I si_code
+>>> +will contain
+>>> +.BR SYS_USER_DISPATCH .
+>>> +.IP *
+>>> +.I si_errno
+>>> +will be set to 0.
+>>> +.RE
+>>> +.IP
+>>> +The program counter will be as though the system call happened
+>>> +(i.e., the program counter will not point to the system call instruction).
+>>> +.IP
+>>> +When the signal handler returns to the kernel,
+>>> +the system call completes immediately
+>>> +and returns to the calling thread,
+>>> +without actually being executed.
+>>> +If necessary
+>>> +(i.e., when emulating the system call on user space.),
+>>> +the signal handler should set the system call return value
+>>> +to a sane value,
+>>> +by modifying the register context stored in the
+>>> +.I ucontext
+>>> +argument of the signal handler.
+>>
+>> Just for my own education, do you have any example code somewhere
+>> that demonstrates setting the syscall return value?
+> 
+> I though I had this exemplified in the kselftests, but I just saw that
+> is not the case.  Something to fix there...
+> 
+> In the following signal handler code (untested, adapted from an old test
+> case of mine), SUD is used as a poor-man strace (x86 specific):
+> 
+> static void handle_sigsys(int sig, siginfo_t *info, void *ucontext)
+> {
+> 	struct ucontext_t *ctx = ucontext;
+> 	mcontext_t *mctx = &ctx->uc_mcontext;
+> 	char buf[1024];
+> 	unsigned long long r;
+>        	int len;
+> 
+>         *arg5 = PR_SYS_DISPATCH_OFF;
+> 
+> 	len = snprintf(buf, 1024, "sys_%d(%d,%d,%d,%d,%d,%d)\n",
+> 		       mctx->gregs[REG_RAX], mctx->gregs[REG_RDI],
+> 		       mctx->gregs[REG_RSI], mctx->gregs[REG_RDX],
+> 		       mctx->gregs[REG_R10], mctx->gregs[REG_R8],
+> 		       mctx->gregs[REG_R9]);
+> 
+> 	write(2, buf, len);
+> 
+> 	r = syscall(mctx->gregs[REG_RAX], mctx->gregs[REG_RDI],
+> 		    mctx->gregs[REG_RSI], mctx->gregs[REG_RDX],
+> 		    mctx->gregs[REG_R10], mctx->gregs[REG_R8],
+> 		    mctx->gregs[REG_R9]);
+> 
+> 	/* Set the return value. */
+> 	mctx->gregs[REG_RAX] = r;
+> 
+>         *arg5 = PR_SYS_DISPATCH_ON;
+> 
+>         /* Assumes the return trampoline is in the allowed region */
+> }
+> 
+
+
 -- 
-2.29.2.729.g45daf8777d-goog
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
