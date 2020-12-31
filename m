@@ -2,364 +2,189 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 146BB2E7C33
-	for <lists+linux-api@lfdr.de>; Wed, 30 Dec 2020 20:52:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DA7C2E8262
+	for <lists+linux-api@lfdr.de>; Thu, 31 Dec 2020 23:47:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726221AbgL3Tvl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 30 Dec 2020 14:51:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46286 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726197AbgL3Tvl (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 30 Dec 2020 14:51:41 -0500
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94127C061573;
-        Wed, 30 Dec 2020 11:51:00 -0800 (PST)
-Received: by mail-ej1-x62b.google.com with SMTP id jx16so23090566ejb.10;
-        Wed, 30 Dec 2020 11:51:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=mKxK7c/i9edMW2MkDUdzuhwXiBdPDjRFgTh0pB6nplY=;
-        b=DICzUnxEGmUqq5BUt3Dn44W4zx+bNXZavMLQF1Tq/SwYxm8vpgW2Bzdu09KIVr4ldl
-         Q8d8DjKePACY1ZvuxOi1hKCuLtfydLn0sYIBbY56ICd2voAvlQLLhLX2wxpwA+mWR3HD
-         K2VvtlLeFYEeRMhGQsDeXWHazJPZf+j5CT3tazh74VjnsBOHfyzjYvTCkPwNo2c4NcGJ
-         /TWWGa3emUfJ5wgXvbFn0vXjO00dU2pcW8LzdVAVKD3hblLYR9krdFAUj7ibRMrZBT2B
-         EfJd4pqwmz3OZ+qO44YlXoXR2GJmUtnZ45lnmYbM5sMPL3BUQkbPub0iI4QBJCm/cb/+
-         BEnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=mKxK7c/i9edMW2MkDUdzuhwXiBdPDjRFgTh0pB6nplY=;
-        b=jXJhUPKgLqSAaFoPrunTtR9V2IFAYQXq7kRybWe03pm/amZOG5mBAD2z/WBBrvDLrT
-         825IAgxjPXJkYiC6ZUD7lXZ/Tp1OYXu4rLTrl31+/QBhP1bgfbHm9z6SzaOI/qS+SEy7
-         UXFpZvZToISQK5x48xSb98m1/ZSPDs3v7jpxOraDrwzTV7iINjFNfs9K3EgN/Iv/b/EZ
-         UILCci1Jj+mfMc7E06pY7gQaum3s+XmCwXHpySiXjflpyIDHplWn7qJYru0OVo4WdIDa
-         iTxXUWpyTudiH9/jVNTDRu+zq4qDzn91vFu61VRR049yScY8ZNwnNJEQMbMI11GSF+Wo
-         PUVA==
-X-Gm-Message-State: AOAM533IeX+mUWuCAIeyPPyOFkyzuHIFKblxBjUykAI/sX5++ED6oCrf
-        cbhTKfgKEmYNNtkDepIyif/yB3my7jk=
-X-Google-Smtp-Source: ABdhPJxgjnpv3aZLEziOblUKIaU/V5SyHkNTA12+kYzv1Sn1T7pb2q9kvFnEIb0LGqqvP/vIEshVLQ==
-X-Received: by 2002:a17:906:8617:: with SMTP id o23mr50669718ejx.274.1609357858877;
-        Wed, 30 Dec 2020 11:50:58 -0800 (PST)
-Received: from ?IPv6:2001:a61:2467:2f01:faca:3d43:5e40:30d1? ([2001:a61:2467:2f01:faca:3d43:5e40:30d1])
-        by smtp.gmail.com with ESMTPSA id v18sm38390214edx.30.2020.12.30.11.50.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Dec 2020 11:50:57 -0800 (PST)
-Cc:     mtk.manpages@gmail.com, alx.manpages@gmail.com,
-        linux-man@vger.kernel.org, kernel@collabora.com,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH v6] prctl.2: Document Syscall User Dispatch
-To:     Gabriel Krisman Bertazi <krisman@collabora.com>
-References: <20201228173832.347794-1-krisman@collabora.com>
- <5da9a8bc-e034-1ab4-3f87-328108c1b27d@gmail.com>
- <87wnwz5jae.fsf@collabora.com>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <c9ebe73d-b75e-b3a6-a435-577bfd4a92e1@gmail.com>
-Date:   Wed, 30 Dec 2020 20:50:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+        id S1727135AbgLaWrQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 31 Dec 2020 17:47:16 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:56728 "EHLO
+        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726795AbgLaWrP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 31 Dec 2020 17:47:15 -0500
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BVMkYAn155738;
+        Thu, 31 Dec 2020 22:46:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : from : to :
+ cc : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=JZ8Z+sm8Eudng8cVlf0zvfSiZVA50AxrbzPmNsHsRPE=;
+ b=aXPkwbatFpAWxsTIYnvP4xi/OLiVsH+8smRt1f0fAxQn1bGU14hCgAKhTxbz7tdzQfr0
+ 21PPdrkqRULZEfht9mSB6AmQGm2BIBVelKa49HTRQASGy8EJFckHNZjh6lSOMEUbK27y
+ U7flZMQfx+LnmDnx6U6O5gdeigXfEPANPchG96fbe1FnhVjteTrMw3a2F2lMDFPAJ4Jt
+ W+EqpDikdtes6rgYOYZFbIXgyOoF+YC8kTjR0mphOE05gYBR/X4AN2Wf0xpS2SM5ocrS
+ X8S797qfKvMA6CBr1cM32PDa4b25OHM2YJRd0u0qYjmoYPtjHUZACZEpowGsEqLrDuJ9 +Q== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by aserp2130.oracle.com with ESMTP id 35rk3bv3q4-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 31 Dec 2020 22:46:34 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BVMeUWf083414;
+        Thu, 31 Dec 2020 22:44:34 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserp3020.oracle.com with ESMTP id 35pf307m0w-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 31 Dec 2020 22:44:33 +0000
+Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0BVMiXNY024956;
+        Thu, 31 Dec 2020 22:44:33 GMT
+Received: from localhost (/67.169.218.210)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Thu, 31 Dec 2020 14:44:33 -0800
+Subject: [PATCHSET RFC v2 00/17] xfs: atomic file updates
+From:   "Darrick J. Wong" <darrick.wong@oracle.com>
+To:     darrick.wong@oracle.com
+Cc:     linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org
+Date:   Thu, 31 Dec 2020 14:44:32 -0800
+Message-ID: <160945467182.2830865.6578267403605057347.stgit@magnolia>
+In-Reply-To: <20201231223847.GI6918@magnolia>
+References: <20201231223847.GI6918@magnolia>
+User-Agent: StGit/0.19
 MIME-Version: 1.0
-In-Reply-To: <87wnwz5jae.fsf@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9851 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 mlxlogscore=999 mlxscore=0
+ bulkscore=0 malwarescore=0 suspectscore=0 spamscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2012310134
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9851 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 clxscore=1015
+ impostorscore=0 mlxlogscore=999 adultscore=0 spamscore=0 mlxscore=0
+ bulkscore=0 priorityscore=1501 lowpriorityscore=0 phishscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012310135
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-[CC += linux-api]
+Hi all,
 
-Hi Gabriel,
+This series creates a new log incompat feature and log intent items to
+track high level progress of swapping ranges of two files and finish
+interrupted work if the system goes down.  It then adds a new
+FISWAPRANGE ioctl so that userspace can access the atomic extent
+swapping feature.  With this feature, user programs will be able to
+update files atomically by opening an O_TMPFILE, reflinking the source
+file to it, making whatever updates they want to make, and then
+atomically swap the changed bits back to the source file.  It even has
+an optional ability to detect a changed source file and reject the
+update.
 
-On 12/30/20 5:51 PM, Gabriel Krisman Bertazi wrote:
-> "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com> writes:
-> 
->> Hello Gabriel
->>
->> This is looking much better. Thank you! I have a few more
->> comments still.
->>
->> On 12/28/20 6:38 PM, Gabriel Krisman Bertazi wrote:
->>> Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
->>>
->>> ---
->>> Changes since v5:
->>> (suggested by Michael Kerrisk)
->>>   - Change () punctuation
->>>   - fix grammar
->>>   - Add information about interception, return and return value
->>>
->>> Changes since v4:
->>> (suggested by Michael Kerrisk)
->>>   - Modify explanation of what dispatch to user space means.
->>>   - Drop references to emulation.
->>>   - Document suggestion about placing libc in allowed-region.
->>>   - Comment about avoiding syscall cost.
->>> Changes since v3:
->>> (suggested by Michael Kerrisk)
->>>   - Explain what dispatch to user space means.
->>>   - Document the fact that the memory region is a single consecutive
->>>   range.
->>>   - Explain failure if *arg5 is set to a bad value.
->>>   - fix english typo.
->>>   - Define what 'invalid memory region' means.
->>>
->>> Changes since v2:
->>> (suggested by Alejandro Colomar)
->>>   - selective -> selectively
->>>   - Add missing oxford comma.
->>>
->>> Changes since v1:
->>> (suggested by Alejandro Colomar)
->>>   - Use semantic lines
->>>   - Fix usage of .{B|I}R and .{B|I}
->>>   - Don't format literals
->>>   - Fix preferred spelling of userspace
->>>   - Fix case of word
->>> ---
->>>  man2/prctl.2 | 159 +++++++++++++++++++++++++++++++++++++++++++++++++++
->>>  1 file changed, 159 insertions(+)
->>>
->>> diff --git a/man2/prctl.2 b/man2/prctl.2
->>> index f25f05fdb593..0a0abfb78055 100644
->>> --- a/man2/prctl.2
->>> +++ b/man2/prctl.2
->>> @@ -1533,6 +1533,135 @@ For more information, see the kernel source file
->>>  (or
->>>  .I Documentation/arm64/sve.txt
->>>  before Linux 5.3).
->>> +.TP
->>> +.\" prctl PR_SET_SYSCALL_USER_DISPATCH
->>> +.\" commit 1446e1df9eb183fdf81c3f0715402f1d7595d4
->>> +.BR PR_SET_SYSCALL_USER_DISPATCH " (since Linux 5.11, x86 only)"
->>> +.IP
->>> +Configure the Syscall User Dispatch mechanism
->>> +for the calling thread.
->>> +This mechanism allows an application
->>> +to selectively intercept system calls
->>> +so that they can be handled within the application itself.
->>> +Interception takes the form of a thread-directed
->>> +.B SIGSYS
->>> +signal that is delivered to the thread
->>> +when it makes a system call.
->>> +If intercepted,
->>> +the system call is not executed by the kernel.
->>> +.IP
->>> +The current Syscall User Dispatch mode is selected via
->>> +.IR arg2 ,
->>> +which can either be set to
->>> +.B PR_SYS_DISPATCH_ON
->>> +to enable the feature,
->>> +or to
->>> +.B PR_SYS_DISPATCH_OFF
->>> +to turn it off.
->>
->> So, I realize now that I'm slightly confused.
->>
->> The value of arg2 can be either PR_SYS_DISPATCH_ON or
->> PR_SYS_DISPATCH_OFF. The value of the selector pointed to by
->> arg5 can likewise be R_SYS_DISPATCH_ON or PR_SYS_DISPATCH_OFF.
->> What is the relationship between these two attributes? For example,
->> what does it mean if arg2 isP R_SYS_DISPATCH_ON and, at the time of
->> the prctl() call, the selector has the value PR_SYS_DISPATCH_OFF?
-> 
-> Hi Michael,
-> 
-> arg2 turns SUD on and off, thread-wide.  arg5 is what is used to filter
-> syscalls when SUD is on.  Based on the value of arg5, syscalls will be
-> intercepted, iff SUD is enabled for that thread.
+The intent behind this new userspace functionality is to enable atomic
+rewrites of arbitrary parts of individual files.  For years, application
+programmers wanting to ensure the atomicity of a file update had to
+write the changes to a new file in the same directory, fsync the new
+file, rename the new file on top of the old filename, and then fsync the
+directory.  People get it wrong all the time, and $fs hacks abound.
 
-Okay -- I suspected as much, but I wanted to confirm.
+With atomic file updates, this is no longer necessary.  Programmers
+create an O_TMPFILE, optionally FICLONE the file contents into the
+temporary file, make whatever changes they want to the tempfile, and
+FISWAPRANGE the contents from the tempfile into the regular file.  The
+interface can optionally check the original file's [cm]time to reject
+the swap operation if the file has been modified by.  There are no
+fsyncs to take care of; no directory operations at all; and the fs will
+take care of finishing the swap operation if the system goes down in the
+middle of the swap.  Sample code can be found in the corresponding
+changes to xfs_io to exercise the use case mentioned above.
 
-So, I want to say that in API design terms this feels wrong. You 
-are using the same name(s) to mean two different things:
-1. Define/clear SUD/the non-SUD memory region
-2. Enable/disable SUD filtering in the SUD memory region (i.e., the 
-part of the virtual address space outside the region defined in 1).
+Note that this function is /not/ the O_DIRECT atomic file writes concept
+that has been floating around for years.  This is constructed entirely
+in software, which means that there are no limitations other than the
+regular filesystem limits.
 
-My terms here may not be the best, but I guess the distinction that
-I make is clear.
+As a side note, there's an extra motivation behind the kernel
+functionality: online repair of file-based metadata.  The atomic file
+swap is implemented as an atomic inode fork swap, which means that we
+can implement online reconstruction of extended attributes and
+directories by building a new one in another inode and atomically
+swap the contents.
 
-My point is that these are different things, and I think they 
-really should have different names (though of course the numbers
-could stay the same). Otherwise, people fall into the confusion
-that I ran into. Given that this feature is not yet released, and
-that the numbers don't need to change, I'd like to suggest that
-the names should change before 5.11 is released
+Next, we adapt the online filesystem repair code to use atomic extent
+swapping.  This enables repair functions to construct a clean copy of a
+directory, xattr information, realtime bitmaps, and realtime summary
+information in a temporary inode.  If this completes successfully, the
+new contents can be swapped atomically into the inode being repaired.
+This is essential to avoid making corruption problems worse if the
+system goes down in the middle of running repair.
 
-For arg2, maybe:
-    PR_SYS_DISPATCH_SET_REGION / PR_SYS_DISPATCH_CLEAR_REGION
-or
-    PR_SYS_DISPATCH_SET / PR_SYS_DISPATCH_CLEAR
-or
-    PR_SYS_DISPATCH_ON / PR_SYS_DISPATCH_OFF
+If you're going to start using this mess, you probably ought to just
+pull from my git trees, which are linked below.
 
-For the selector (pointed to by arg5), maybe stay with what you
-have:
+This is an extraordinary way to destroy everything.  Enjoy!
+Comments and questions are, as always, welcome.
 
-    PR_SYS_DISPATCH_ON / PR_SYS_DISPATCH_OFF
+--D
 
-or (maybe better, and would also fit well with keeping
-arg2 as PR_SYS_DISPATCH_ON / PR_SYS_DISPATCH_OFF):
+kernel git tree:
+https://git.kernel.org/cgit/linux/kernel/git/djwong/xfs-linux.git/log/?h=atomic-file-updates
 
-    PR_SYS_DISPATCH_FILTER_ON / PR_SYS_DISPATCH_FILTER_OFF
+xfsprogs git tree:
+https://git.kernel.org/cgit/linux/kernel/git/djwong/xfsprogs-dev.git/log/?h=atomic-file-updates
 
-Do you see what I mean? We live with APIs for a long time, and I
-think it serves us to make them as clear as possible.
+fstests git tree:
+https://git.kernel.org/cgit/linux/kernel/git/djwong/xfstests-dev.git/log/?h=atomic-file-updates
 
-Thanks,
+xfsdocs git tree:
+https://git.kernel.org/cgit/linux/kernel/git/djwong/xfs-documentation.git/log/?h=atomic-file-updates
+---
+ Documentation/filesystems/vfs.rst |   16 +
+ fs/ioctl.c                        |   42 ++
+ fs/remap_range.c                  |  283 +++++++++++++
+ fs/xfs/Makefile                   |    3 
+ fs/xfs/libxfs/xfs_defer.c         |   49 ++
+ fs/xfs/libxfs/xfs_defer.h         |   11 -
+ fs/xfs/libxfs/xfs_errortag.h      |    4 
+ fs/xfs/libxfs/xfs_format.h        |   38 ++
+ fs/xfs/libxfs/xfs_fs.h            |    2 
+ fs/xfs/libxfs/xfs_log_format.h    |   63 +++
+ fs/xfs/libxfs/xfs_log_recover.h   |    4 
+ fs/xfs/libxfs/xfs_sb.c            |    2 
+ fs/xfs/libxfs/xfs_swapext.c       |  793 +++++++++++++++++++++++++++++++++++++
+ fs/xfs/libxfs/xfs_swapext.h       |   89 ++++
+ fs/xfs/xfs_bmap_item.c            |   13 -
+ fs/xfs/xfs_bmap_util.c            |  595 ----------------------------
+ fs/xfs/xfs_bmap_util.h            |    3 
+ fs/xfs/xfs_error.c                |    3 
+ fs/xfs/xfs_extfree_item.c         |    2 
+ fs/xfs/xfs_file.c                 |   49 ++
+ fs/xfs/xfs_inode.c                |   13 +
+ fs/xfs/xfs_inode.h                |    1 
+ fs/xfs/xfs_ioctl.c                |  102 +----
+ fs/xfs/xfs_ioctl.h                |    4 
+ fs/xfs/xfs_ioctl32.c              |    8 
+ fs/xfs/xfs_log.c                  |   10 
+ fs/xfs/xfs_log_recover.c          |   41 ++
+ fs/xfs/xfs_mount.c                |  119 ++++++
+ fs/xfs/xfs_mount.h                |    2 
+ fs/xfs/xfs_refcount_item.c        |    2 
+ fs/xfs/xfs_rmap_item.c            |    2 
+ fs/xfs/xfs_super.c                |   26 +
+ fs/xfs/xfs_swapext_item.c         |  649 ++++++++++++++++++++++++++++++
+ fs/xfs/xfs_swapext_item.h         |   61 +++
+ fs/xfs/xfs_trace.c                |    1 
+ fs/xfs/xfs_trace.h                |  116 +++++
+ fs/xfs/xfs_xchgrange.c            |  721 ++++++++++++++++++++++++++++++++++
+ fs/xfs/xfs_xchgrange.h            |   30 +
+ include/linux/fs.h                |   14 +
+ include/uapi/linux/fiexchange.h   |  101 +++++
+ 40 files changed, 3363 insertions(+), 724 deletions(-)
+ create mode 100644 fs/xfs/libxfs/xfs_swapext.c
+ create mode 100644 fs/xfs/libxfs/xfs_swapext.h
+ create mode 100644 fs/xfs/xfs_swapext_item.c
+ create mode 100644 fs/xfs/xfs_swapext_item.h
+ create mode 100644 fs/xfs/xfs_xchgrange.c
+ create mode 100644 fs/xfs/xfs_xchgrange.h
+ create mode 100644 include/uapi/linux/fiexchange.h
 
-Michael
-
-
-
-> 
-> arg5 is checked only upon syscall entry, so it doesn't have any effect
-> on the prctl itself, SUD was off at that time.
-> 
-> I'm not sure how to add this information to the man page, but I will try
-> to clarify it further.
-> 
->>> +.IP
->>> +When
->>> +.I arg2
->>> +is set to
->>> +.BR PR_SYS_DISPATCH_ON ,
->>> +.I arg3
->>> +and
->>> +.I arg4
->>> +respectively identify the
->>> +.I offset
->>> +and
->>> +.I length
->>> +of a single contiguous memory region in the process map
->>
->> Better: s/map/address space/ ?
->>
->>> +from where system calls are always allowed to be executed,
->>> +regardless of the switch variable
->>
->> s/variable/variable./
->>
->>> +(Typically, this area would include the area of memory
->>> +containing the C library.)
->>
->> I think just to ease readability (smaller paragraphs), insert
->> .IP
->> here.
->>
->>> +.I arg5
->>> +points to a char-sized variable
->>> +that is a fast switch to enable/disable the mechanism
->>> +without the overhead of doing a system call.
->>> +The variable pointed by
->>> +.I arg5
->>> +can either be set to
->>> +.B PR_SYS_DISPATCH_ON
->>> +to enable the mechanism
->>> +or to
->>> +.B PR_SYS_DISPATCH_OFF
->>> +to temporarily disable it.
->>> +This value is checked by the kernel
->>> +on every system call entry,
->>> +and any unexpected value will raise
->>> +an uncatchable
->>> +.B SIGSYS
->>> +at that time,
->>> +killing the application.
->>> +.IP
->>> +When a system call is intercepted,
->>> +the kernel sends a thread-directed
->>> +.B SIGSYS
->>> +signal to the triggering thread.
->>> +Various fields will be set in the
->>> +.I siginfo_t
->>> +structure (see
->>> +.BR sigaction (2))
->>> +associated with the signal:
->>> +.RS
->>> +.IP * 3
->>> +.I si_signo
->>> +will contain
->>> +.BR SIGSYS .
->>> +.IP *
->>> +.IR si_call_addr
->>> +will show the address of the system call instruction.
->>> +.IP *
->>> +.IR si_syscall
->>> +and
->>> +.IR si_arch
->>> +will indicate which system call was attempted.
->>> +.IP *
->>> +.I si_code
->>> +will contain
->>> +.BR SYS_USER_DISPATCH .
->>> +.IP *
->>> +.I si_errno
->>> +will be set to 0.
->>> +.RE
->>> +.IP
->>> +The program counter will be as though the system call happened
->>> +(i.e., the program counter will not point to the system call instruction).
->>> +.IP
->>> +When the signal handler returns to the kernel,
->>> +the system call completes immediately
->>> +and returns to the calling thread,
->>> +without actually being executed.
->>> +If necessary
->>> +(i.e., when emulating the system call on user space.),
->>> +the signal handler should set the system call return value
->>> +to a sane value,
->>> +by modifying the register context stored in the
->>> +.I ucontext
->>> +argument of the signal handler.
->>
->> Just for my own education, do you have any example code somewhere
->> that demonstrates setting the syscall return value?
-> 
-> I though I had this exemplified in the kselftests, but I just saw that
-> is not the case.  Something to fix there...
-> 
-> In the following signal handler code (untested, adapted from an old test
-> case of mine), SUD is used as a poor-man strace (x86 specific):
-> 
-> static void handle_sigsys(int sig, siginfo_t *info, void *ucontext)
-> {
-> 	struct ucontext_t *ctx = ucontext;
-> 	mcontext_t *mctx = &ctx->uc_mcontext;
-> 	char buf[1024];
-> 	unsigned long long r;
->        	int len;
-> 
->         *arg5 = PR_SYS_DISPATCH_OFF;
-> 
-> 	len = snprintf(buf, 1024, "sys_%d(%d,%d,%d,%d,%d,%d)\n",
-> 		       mctx->gregs[REG_RAX], mctx->gregs[REG_RDI],
-> 		       mctx->gregs[REG_RSI], mctx->gregs[REG_RDX],
-> 		       mctx->gregs[REG_R10], mctx->gregs[REG_R8],
-> 		       mctx->gregs[REG_R9]);
-> 
-> 	write(2, buf, len);
-> 
-> 	r = syscall(mctx->gregs[REG_RAX], mctx->gregs[REG_RDI],
-> 		    mctx->gregs[REG_RSI], mctx->gregs[REG_RDX],
-> 		    mctx->gregs[REG_R10], mctx->gregs[REG_R8],
-> 		    mctx->gregs[REG_R9]);
-> 
-> 	/* Set the return value. */
-> 	mctx->gregs[REG_RAX] = r;
-> 
->         *arg5 = PR_SYS_DISPATCH_ON;
-> 
->         /* Assumes the return trampoline is in the allowed region */
-> }
-> 
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
