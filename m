@@ -2,189 +2,195 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DA7C2E8262
-	for <lists+linux-api@lfdr.de>; Thu, 31 Dec 2020 23:47:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 915EE2E85EF
+	for <lists+linux-api@lfdr.de>; Sat,  2 Jan 2021 00:57:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727135AbgLaWrQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 31 Dec 2020 17:47:16 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:56728 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726795AbgLaWrP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 31 Dec 2020 17:47:15 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BVMkYAn155738;
-        Thu, 31 Dec 2020 22:46:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : from : to :
- cc : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=JZ8Z+sm8Eudng8cVlf0zvfSiZVA50AxrbzPmNsHsRPE=;
- b=aXPkwbatFpAWxsTIYnvP4xi/OLiVsH+8smRt1f0fAxQn1bGU14hCgAKhTxbz7tdzQfr0
- 21PPdrkqRULZEfht9mSB6AmQGm2BIBVelKa49HTRQASGy8EJFckHNZjh6lSOMEUbK27y
- U7flZMQfx+LnmDnx6U6O5gdeigXfEPANPchG96fbe1FnhVjteTrMw3a2F2lMDFPAJ4Jt
- W+EqpDikdtes6rgYOYZFbIXgyOoF+YC8kTjR0mphOE05gYBR/X4AN2Wf0xpS2SM5ocrS
- X8S797qfKvMA6CBr1cM32PDa4b25OHM2YJRd0u0qYjmoYPtjHUZACZEpowGsEqLrDuJ9 +Q== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by aserp2130.oracle.com with ESMTP id 35rk3bv3q4-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 31 Dec 2020 22:46:34 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BVMeUWf083414;
-        Thu, 31 Dec 2020 22:44:34 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by aserp3020.oracle.com with ESMTP id 35pf307m0w-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 31 Dec 2020 22:44:33 +0000
-Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0BVMiXNY024956;
-        Thu, 31 Dec 2020 22:44:33 GMT
-Received: from localhost (/67.169.218.210)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Thu, 31 Dec 2020 14:44:33 -0800
-Subject: [PATCHSET RFC v2 00/17] xfs: atomic file updates
-From:   "Darrick J. Wong" <darrick.wong@oracle.com>
-To:     darrick.wong@oracle.com
-Cc:     linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org
-Date:   Thu, 31 Dec 2020 14:44:32 -0800
-Message-ID: <160945467182.2830865.6578267403605057347.stgit@magnolia>
-In-Reply-To: <20201231223847.GI6918@magnolia>
-References: <20201231223847.GI6918@magnolia>
-User-Agent: StGit/0.19
+        id S1726345AbhAAX4X (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 1 Jan 2021 18:56:23 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:40914 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726344AbhAAX4X (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 1 Jan 2021 18:56:23 -0500
+Received: from localhost (unknown [IPv6:2804:431:c7f4:46f8:ae05:b936:9029:cd4b])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: krisman)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 90E4B1F411B3;
+        Fri,  1 Jan 2021 23:55:40 +0000 (GMT)
+From:   Gabriel Krisman Bertazi <krisman@collabora.com>
+To:     tglx@linutronix.de
+Cc:     linux-kernel@vger.kernel.org,
+        Gabriel Krisman Bertazi <krisman@collabora.com>,
+        kernel@collabora.com, Linux API <linux-api@vger.kernel.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>
+Subject: [PATCH] entry: Use different define for selector variable in SUD
+Date:   Fri,  1 Jan 2021 20:55:29 -0300
+Message-Id: <20210101235529.1563262-1-krisman@collabora.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9851 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 mlxlogscore=999 mlxscore=0
- bulkscore=0 malwarescore=0 suspectscore=0 spamscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2012310134
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9851 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 clxscore=1015
- impostorscore=0 mlxlogscore=999 adultscore=0 spamscore=0 mlxscore=0
- bulkscore=0 priorityscore=1501 lowpriorityscore=0 phishscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012310135
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi all,
+Michael Kerrisk suggested that, from an API perspective, it is a bad
+idea to share the PR_SYS_DISPATCH_ defines between the prctl operation
+and the selector variable.  Therefore, define two new constants to be
+used by SUD's selector variable, and the corresponding documentation.
 
-This series creates a new log incompat feature and log intent items to
-track high level progress of swapping ranges of two files and finish
-interrupted work if the system goes down.  It then adds a new
-FISWAPRANGE ioctl so that userspace can access the atomic extent
-swapping feature.  With this feature, user programs will be able to
-update files atomically by opening an O_TMPFILE, reflinking the source
-file to it, making whatever updates they want to make, and then
-atomically swap the changed bits back to the source file.  It even has
-an optional ability to detect a changed source file and reject the
-update.
+While this changes the API, it is backward compatible, as the values
+remained the same and the old defines are still in place.  In addition,
+SUD has never been part of a Linux release, it will show up for the
+first time in 5.11.
 
-The intent behind this new userspace functionality is to enable atomic
-rewrites of arbitrary parts of individual files.  For years, application
-programmers wanting to ensure the atomicity of a file update had to
-write the changes to a new file in the same directory, fsync the new
-file, rename the new file on top of the old filename, and then fsync the
-directory.  People get it wrong all the time, and $fs hacks abound.
-
-With atomic file updates, this is no longer necessary.  Programmers
-create an O_TMPFILE, optionally FICLONE the file contents into the
-temporary file, make whatever changes they want to the tempfile, and
-FISWAPRANGE the contents from the tempfile into the regular file.  The
-interface can optionally check the original file's [cm]time to reject
-the swap operation if the file has been modified by.  There are no
-fsyncs to take care of; no directory operations at all; and the fs will
-take care of finishing the swap operation if the system goes down in the
-middle of the swap.  Sample code can be found in the corresponding
-changes to xfs_io to exercise the use case mentioned above.
-
-Note that this function is /not/ the O_DIRECT atomic file writes concept
-that has been floating around for years.  This is constructed entirely
-in software, which means that there are no limitations other than the
-regular filesystem limits.
-
-As a side note, there's an extra motivation behind the kernel
-functionality: online repair of file-based metadata.  The atomic file
-swap is implemented as an atomic inode fork swap, which means that we
-can implement online reconstruction of extended attributes and
-directories by building a new one in another inode and atomically
-swap the contents.
-
-Next, we adapt the online filesystem repair code to use atomic extent
-swapping.  This enables repair functions to construct a clean copy of a
-directory, xattr information, realtime bitmaps, and realtime summary
-information in a temporary inode.  If this completes successfully, the
-new contents can be swapped atomically into the inode being repaired.
-This is essential to avoid making corruption problems worse if the
-system goes down in the middle of running repair.
-
-If you're going to start using this mess, you probably ought to just
-pull from my git trees, which are linked below.
-
-This is an extraordinary way to destroy everything.  Enjoy!
-Comments and questions are, as always, welcome.
-
---D
-
-kernel git tree:
-https://git.kernel.org/cgit/linux/kernel/git/djwong/xfs-linux.git/log/?h=atomic-file-updates
-
-xfsprogs git tree:
-https://git.kernel.org/cgit/linux/kernel/git/djwong/xfsprogs-dev.git/log/?h=atomic-file-updates
-
-fstests git tree:
-https://git.kernel.org/cgit/linux/kernel/git/djwong/xfstests-dev.git/log/?h=atomic-file-updates
-
-xfsdocs git tree:
-https://git.kernel.org/cgit/linux/kernel/git/djwong/xfs-documentation.git/log/?h=atomic-file-updates
+Cc: Linux API <linux-api@vger.kernel.org>
+Suggested-by: Michael Kerrisk (man-pages) <mtk.manpages@gmail.com>
+Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
 ---
- Documentation/filesystems/vfs.rst |   16 +
- fs/ioctl.c                        |   42 ++
- fs/remap_range.c                  |  283 +++++++++++++
- fs/xfs/Makefile                   |    3 
- fs/xfs/libxfs/xfs_defer.c         |   49 ++
- fs/xfs/libxfs/xfs_defer.h         |   11 -
- fs/xfs/libxfs/xfs_errortag.h      |    4 
- fs/xfs/libxfs/xfs_format.h        |   38 ++
- fs/xfs/libxfs/xfs_fs.h            |    2 
- fs/xfs/libxfs/xfs_log_format.h    |   63 +++
- fs/xfs/libxfs/xfs_log_recover.h   |    4 
- fs/xfs/libxfs/xfs_sb.c            |    2 
- fs/xfs/libxfs/xfs_swapext.c       |  793 +++++++++++++++++++++++++++++++++++++
- fs/xfs/libxfs/xfs_swapext.h       |   89 ++++
- fs/xfs/xfs_bmap_item.c            |   13 -
- fs/xfs/xfs_bmap_util.c            |  595 ----------------------------
- fs/xfs/xfs_bmap_util.h            |    3 
- fs/xfs/xfs_error.c                |    3 
- fs/xfs/xfs_extfree_item.c         |    2 
- fs/xfs/xfs_file.c                 |   49 ++
- fs/xfs/xfs_inode.c                |   13 +
- fs/xfs/xfs_inode.h                |    1 
- fs/xfs/xfs_ioctl.c                |  102 +----
- fs/xfs/xfs_ioctl.h                |    4 
- fs/xfs/xfs_ioctl32.c              |    8 
- fs/xfs/xfs_log.c                  |   10 
- fs/xfs/xfs_log_recover.c          |   41 ++
- fs/xfs/xfs_mount.c                |  119 ++++++
- fs/xfs/xfs_mount.h                |    2 
- fs/xfs/xfs_refcount_item.c        |    2 
- fs/xfs/xfs_rmap_item.c            |    2 
- fs/xfs/xfs_super.c                |   26 +
- fs/xfs/xfs_swapext_item.c         |  649 ++++++++++++++++++++++++++++++
- fs/xfs/xfs_swapext_item.h         |   61 +++
- fs/xfs/xfs_trace.c                |    1 
- fs/xfs/xfs_trace.h                |  116 +++++
- fs/xfs/xfs_xchgrange.c            |  721 ++++++++++++++++++++++++++++++++++
- fs/xfs/xfs_xchgrange.h            |   30 +
- include/linux/fs.h                |   14 +
- include/uapi/linux/fiexchange.h   |  101 +++++
- 40 files changed, 3363 insertions(+), 724 deletions(-)
- create mode 100644 fs/xfs/libxfs/xfs_swapext.c
- create mode 100644 fs/xfs/libxfs/xfs_swapext.h
- create mode 100644 fs/xfs/xfs_swapext_item.c
- create mode 100644 fs/xfs/xfs_swapext_item.h
- create mode 100644 fs/xfs/xfs_xchgrange.c
- create mode 100644 fs/xfs/xfs_xchgrange.h
- create mode 100644 include/uapi/linux/fiexchange.h
+ .../admin-guide/syscall-user-dispatch.rst          |  4 ++--
+ include/uapi/linux/prctl.h                         |  2 ++
+ kernel/entry/syscall_user_dispatch.c               |  4 ++--
+ .../syscall_user_dispatch/sud_benchmark.c          |  8 +++++---
+ .../selftests/syscall_user_dispatch/sud_test.c     | 14 ++++++++------
+ 5 files changed, 19 insertions(+), 13 deletions(-)
+
+diff --git a/Documentation/admin-guide/syscall-user-dispatch.rst b/Documentation/admin-guide/syscall-user-dispatch.rst
+index a380d6515774..fc13112e36e3 100644
+--- a/Documentation/admin-guide/syscall-user-dispatch.rst
++++ b/Documentation/admin-guide/syscall-user-dispatch.rst
+@@ -70,8 +70,8 @@ trampoline code on the vDSO, that trampoline is never intercepted.
+ [selector] is a pointer to a char-sized region in the process memory
+ region, that provides a quick way to enable disable syscall redirection
+ thread-wide, without the need to invoke the kernel directly.  selector
+-can be set to PR_SYS_DISPATCH_ON or PR_SYS_DISPATCH_OFF.  Any other
+-value should terminate the program with a SIGSYS.
++can be set to PR_SYS_DISPATCH_FILTER_ALLOW or PR_SYS_DISPATCH_FILTER_BLOCK.
++Any other value should terminate the program with a SIGSYS.
+ 
+ Security Notes
+ --------------
+diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
+index 90deb41c8a34..a66c9fe41249 100644
+--- a/include/uapi/linux/prctl.h
++++ b/include/uapi/linux/prctl.h
+@@ -251,5 +251,7 @@ struct prctl_mm_map {
+ #define PR_SET_SYSCALL_USER_DISPATCH	59
+ # define PR_SYS_DISPATCH_OFF		0
+ # define PR_SYS_DISPATCH_ON		1
++# define PR_SYS_DISPATCH_FILTER_ALLOW	0
++# define PR_SYS_DISPATCH_FILTER_BLOCK	1
+ 
+ #endif /* _LINUX_PRCTL_H */
+diff --git a/kernel/entry/syscall_user_dispatch.c b/kernel/entry/syscall_user_dispatch.c
+index b0338a5625d9..265c33b26dcf 100644
+--- a/kernel/entry/syscall_user_dispatch.c
++++ b/kernel/entry/syscall_user_dispatch.c
+@@ -50,10 +50,10 @@ bool syscall_user_dispatch(struct pt_regs *regs)
+ 		if (unlikely(__get_user(state, sd->selector)))
+ 			do_exit(SIGSEGV);
+ 
+-		if (likely(state == PR_SYS_DISPATCH_OFF))
++		if (likely(state == PR_SYS_DISPATCH_FILTER_ALLOW))
+ 			return false;
+ 
+-		if (state != PR_SYS_DISPATCH_ON)
++		if (state != PR_SYS_DISPATCH_FILTER_BLOCK)
+ 			do_exit(SIGSYS);
+ 	}
+ 
+diff --git a/tools/testing/selftests/syscall_user_dispatch/sud_benchmark.c b/tools/testing/selftests/syscall_user_dispatch/sud_benchmark.c
+index 6689f1183dbf..7617bd9ba6e1 100644
+--- a/tools/testing/selftests/syscall_user_dispatch/sud_benchmark.c
++++ b/tools/testing/selftests/syscall_user_dispatch/sud_benchmark.c
+@@ -22,6 +22,8 @@
+ # define PR_SET_SYSCALL_USER_DISPATCH	59
+ # define PR_SYS_DISPATCH_OFF	0
+ # define PR_SYS_DISPATCH_ON	1
++# define PR_SYS_DISPATCH_FILTER_ALLOW	0
++# define PR_SYS_DISPATCH_FILTER_BLOCK	1
+ #endif
+ 
+ #ifdef __NR_syscalls
+@@ -55,8 +57,8 @@ unsigned long trapped_call_count = 0;
+ unsigned long native_call_count = 0;
+ 
+ char selector;
+-#define SYSCALL_BLOCK   (selector = PR_SYS_DISPATCH_ON)
+-#define SYSCALL_UNBLOCK (selector = PR_SYS_DISPATCH_OFF)
++#define SYSCALL_BLOCK   (selector = PR_SYS_DISPATCH_FILTER_BLOCK)
++#define SYSCALL_UNBLOCK (selector = PR_SYS_DISPATCH_FILTER_ALLOW)
+ 
+ #define CALIBRATION_STEP 100000
+ #define CALIBRATE_TO_SECS 5
+@@ -170,7 +172,7 @@ int main(void)
+ 	syscall(MAGIC_SYSCALL_1);
+ 
+ #ifdef TEST_BLOCKED_RETURN
+-	if (selector == PR_SYS_DISPATCH_OFF) {
++	if (selector == PR_SYS_DISPATCH_FILTER_ALLOW) {
+ 		fprintf(stderr, "Failed to return with selector blocked.\n");
+ 		exit(-1);
+ 	}
+diff --git a/tools/testing/selftests/syscall_user_dispatch/sud_test.c b/tools/testing/selftests/syscall_user_dispatch/sud_test.c
+index 6498b050ef89..21e1550db118 100644
+--- a/tools/testing/selftests/syscall_user_dispatch/sud_test.c
++++ b/tools/testing/selftests/syscall_user_dispatch/sud_test.c
+@@ -18,6 +18,8 @@
+ # define PR_SET_SYSCALL_USER_DISPATCH	59
+ # define PR_SYS_DISPATCH_OFF	0
+ # define PR_SYS_DISPATCH_ON	1
++# define PR_SYS_DISPATCH_FILTER_ALLOW	0
++# define PR_SYS_DISPATCH_FILTER_BLOCK	1
+ #endif
+ 
+ #ifndef SYS_USER_DISPATCH
+@@ -30,8 +32,8 @@
+ # define MAGIC_SYSCALL_1 (0xff00)  /* Bad Linux syscall number */
+ #endif
+ 
+-#define SYSCALL_DISPATCH_ON(x) ((x) = 1)
+-#define SYSCALL_DISPATCH_OFF(x) ((x) = 0)
++#define SYSCALL_DISPATCH_ON(x) ((x) = PR_SYS_DISPATCH_FILTER_BLOCK)
++#define SYSCALL_DISPATCH_OFF(x) ((x) = PR_SYS_DISPATCH_FILTER_ALLOW)
+ 
+ /* Test Summary:
+  *
+@@ -56,7 +58,7 @@
+ 
+ TEST_SIGNAL(dispatch_trigger_sigsys, SIGSYS)
+ {
+-	char sel = 0;
++	char sel = PR_SYS_DISPATCH_FILTER_ALLOW;
+ 	struct sysinfo info;
+ 	int ret;
+ 
+@@ -79,7 +81,7 @@ TEST_SIGNAL(dispatch_trigger_sigsys, SIGSYS)
+ 
+ TEST(bad_prctl_param)
+ {
+-	char sel = 0;
++	char sel = PR_SYS_DISPATCH_FILTER_ALLOW;
+ 	int op;
+ 
+ 	/* Invalid op */
+@@ -220,7 +222,7 @@ TEST_SIGNAL(bad_selector, SIGSYS)
+ 	sigset_t mask;
+ 	struct sysinfo info;
+ 
+-	glob_sel = 0;
++	glob_sel = PR_SYS_DISPATCH_FILTER_ALLOW;
+ 	nr_syscalls_emulated = 0;
+ 	si_code = 0;
+ 	si_errno = 0;
+@@ -288,7 +290,7 @@ TEST(direct_dispatch_range)
+ {
+ 	int ret = 0;
+ 	struct sysinfo info;
+-	char sel = 0;
++	char sel = PR_SYS_DISPATCH_FILTER_ALLOW;
+ 
+ 	/*
+ 	 * Instead of calculating libc addresses; allow the entire
+-- 
+2.29.2
 
