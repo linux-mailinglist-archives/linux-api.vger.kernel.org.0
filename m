@@ -2,99 +2,110 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8AB112E9E9B
-	for <lists+linux-api@lfdr.de>; Mon,  4 Jan 2021 21:10:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 640C52E9F42
+	for <lists+linux-api@lfdr.de>; Mon,  4 Jan 2021 22:04:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727764AbhADUJK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 4 Jan 2021 15:09:10 -0500
-Received: from mga11.intel.com ([192.55.52.93]:35243 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725840AbhADUJK (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 4 Jan 2021 15:09:10 -0500
-IronPort-SDR: s5K+C27vyajcSgtzMVnYrTLDOOpnV7CQ717Anbodlk4hEBc58Jr90+l/mVWCNKMVWVq+xu0vZ2
- i68jNCNbwLcw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9854"; a="173494318"
-X-IronPort-AV: E=Sophos;i="5.78,474,1599548400"; 
-   d="scan'208";a="173494318"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2021 12:08:29 -0800
-IronPort-SDR: urpI8d5B4JN9RjNmAOAUe5lL7HXhD3ElEk+4b7L539xEbw5mo/rkDiYv+M0N4sNtH00csg4QQ/
- mzFVpqGchYdw==
-X-IronPort-AV: E=Sophos;i="5.78,474,1599548400"; 
-   d="scan'208";a="360892786"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.103.116]) ([10.209.103.116])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2021 12:08:28 -0800
-Subject: Re: [PATCH v17 00/26] Control-flow Enforcement: Shadow Stack
-To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>, x86-patch-review@intel.com,
-        "Schlobohm, Bruce" <bruce.schlobohm@intel.com>
-References: <20201229213053.16395-1-yu-cheng.yu@intel.com>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <0a475c4c-58b0-0da7-8889-a0dbbc7d0fdc@intel.com>
-Date:   Mon, 4 Jan 2021 12:08:27 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        id S1726567AbhADVD2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 4 Jan 2021 16:03:28 -0500
+Received: from zeniv.linux.org.uk ([195.92.253.2]:38816 "EHLO
+        ZenIV.linux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725921AbhADVD2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 4 Jan 2021 16:03:28 -0500
+X-Greylist: delayed 1415 seconds by postgrey-1.27 at vger.kernel.org; Mon, 04 Jan 2021 16:03:28 EST
+Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kwWYB-006sAQ-KF; Mon, 04 Jan 2021 20:33:59 +0000
+Date:   Mon, 4 Jan 2021 20:33:59 +0000
+From:   Al Viro <viro@zeniv.linux.org.uk>
+To:     Sargun Dhillon <sargun@sargun.me>
+Cc:     Christoph Hellwig <hch@lst.de>, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, Kyle Anderson <kylea@netflix.com>,
+        Manas Alekar <malekar@netflix.com>
+Subject: Re: [PATCH] fs: Validate flags and capabilities before looking up
+ path in ksys_umount
+Message-ID: <20210104203359.GO3579531@ZenIV.linux.org.uk>
+References: <20201223102604.2078-1-sargun@sargun.me>
+ <20210104195127.GN3579531@ZenIV.linux.org.uk>
 MIME-Version: 1.0
-In-Reply-To: <20201229213053.16395-1-yu-cheng.yu@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210104195127.GN3579531@ZenIV.linux.org.uk>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 12/29/2020 1:30 PM, Yu-cheng Yu wrote:
-> Control-flow Enforcement (CET) is a new Intel processor feature that blocks
-> return/jump-oriented programming attacks.  Details are in "Intel 64 and
-> IA-32 Architectures Software Developer's Manual" [1].
+On Mon, Jan 04, 2021 at 07:51:27PM +0000, Al Viro wrote:
+> On Wed, Dec 23, 2020 at 02:26:04AM -0800, Sargun Dhillon wrote:
+> > ksys_umount was refactored to into split into another function
+> > (path_umount) to enable sharing code. This changed the order that flags and
+> > permissions are validated in, and made it so that user_path_at was called
+> > before validating flags and capabilities.
+> > 
+> > Unfortunately, libfuse2[1] and libmount[2] rely on the old flag validation
+> > behaviour to determine whether or not the kernel supports UMOUNT_NOFOLLOW.
+> > The other path that this validation is being checked on is
+> > init_umount->path_umount->can_umount. That's all internal to the kernel.
+> > 
+> > [1]: https://github.com/libfuse/libfuse/blob/9bfbeb576c5901b62a171d35510f0d1a922020b7/util/fusermount.c#L403
+> > [2]: https://github.com/karelzak/util-linux/blob/7ed579523b556b1270f28dbdb7ee07dee310f157/libmount/src/context_umount.c#L813
 > 
-> CET can protect applications and the kernel.  This series enables only
-> application-level protection, and has three parts:
+> Sorry, I don't like that solution.  If nothing else, it turns path_umount() into
+> a landmine for the future.  Yes, we have a regression, yes, we need to do something
+> about it, but that's not a good way to do that.
 > 
->    - Shadow stack [2],
->    - Indirect branch tracking [3], and
->    - Selftests [4].
-> 
-> I have run tests on these patches for quite some time, and they have been
-> very stable.  Linux distributions with CET are available now, and Intel
-> processors with CET are already on the market.  It would be nice if CET
-> support can be accepted into the kernel.  I will be working to address any
-> issues should they come up.
-> 
-> Changes in v17:
-> - Rebase to v5.11-rc1.
+> FWIW, I would rather separate the check of flags validity from can_umount()
+> and lift _that_ into ksys_umount(), with "path_umount() relies upon the
+> flags being minimally sane" comment slapped at path_umount() definition.
+> The rest of can_umount() really shouldn't be taken out of there.
 
-Hi Reviewers,
+I mean something like the following; unlike your variant, may_mount() is left
+where it is.
 
-After a few revisions/re-bases, I have dropped some Reviewed-by tags. 
-This revision is only a re-base to the latest Linus tree.  Please kindly 
-comment if there are anything still not resolved, and I appreciate very 
-much Reviewed-by/Acked-by tags to satisfactory patches.
+commit a0a6df9afcaf439a6b4c88a3b522e3d05fdef46f
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Date:   Mon Jan 4 15:25:34 2021 -0500
 
---
-Thanks,
-Yu-cheng
+    umount(2): move the flag validity checks first
+    
+    Unfortunately, there's userland code that used to rely upon these
+    checks being done before anything else to check for UMOUNT_NOFOLLOW
+    support.  That broke in 41525f56e256 ("fs: refactor ksys_umount").
+    Separate those from the rest of checks and move them to ksys_umount();
+    unlike everything else in there, this can be sanely done there.
+    
+    Reported-by: Sargun Dhillon <sargun@sargun.me>
+    Fixes: 41525f56e256 ("fs: refactor ksys_umount")
+    Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+diff --git a/fs/namespace.c b/fs/namespace.c
+index d2db7dfe232b..9d33909d0f9e 100644
+--- a/fs/namespace.c
++++ b/fs/namespace.c
+@@ -1713,8 +1713,6 @@ static int can_umount(const struct path *path, int flags)
+ {
+ 	struct mount *mnt = real_mount(path->mnt);
+ 
+-	if (flags & ~(MNT_FORCE | MNT_DETACH | MNT_EXPIRE | UMOUNT_NOFOLLOW))
+-		return -EINVAL;
+ 	if (!may_mount())
+ 		return -EPERM;
+ 	if (path->dentry != path->mnt->mnt_root)
+@@ -1728,6 +1726,7 @@ static int can_umount(const struct path *path, int flags)
+ 	return 0;
+ }
+ 
++// caller is responsible for flags being sane
+ int path_umount(struct path *path, int flags)
+ {
+ 	struct mount *mnt = real_mount(path->mnt);
+@@ -1749,6 +1748,10 @@ static int ksys_umount(char __user *name, int flags)
+ 	struct path path;
+ 	int ret;
+ 
++	// basic validity checks done first
++	if (flags & ~(MNT_FORCE | MNT_DETACH | MNT_EXPIRE | UMOUNT_NOFOLLOW))
++		return -EINVAL;
++
+ 	if (!(flags & UMOUNT_NOFOLLOW))
+ 		lookup_flags |= LOOKUP_FOLLOW;
+ 	ret = user_path_at(AT_FDCWD, name, lookup_flags, &path);
