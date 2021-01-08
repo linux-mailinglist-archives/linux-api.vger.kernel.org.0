@@ -2,372 +2,452 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CC10B2EC671
-	for <lists+linux-api@lfdr.de>; Wed,  6 Jan 2021 23:59:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 730712EEEB6
+	for <lists+linux-api@lfdr.de>; Fri,  8 Jan 2021 09:42:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727022AbhAFW7b (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 6 Jan 2021 17:59:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52022 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726371AbhAFW73 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 6 Jan 2021 17:59:29 -0500
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19298C061575;
-        Wed,  6 Jan 2021 14:58:49 -0800 (PST)
-Received: by mail-ed1-x530.google.com with SMTP id h16so5911185edt.7;
-        Wed, 06 Jan 2021 14:58:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=P/h7ESGLb4D7WfSXd+8OiPoJik1yGFtSHZPadWzBn8U=;
-        b=b/oT6v2Ox6aZiiZ6ka3EQp73pVMnDeXlipXatem5/JFw8071LrknjNnP1ATmYyl1Dn
-         M1H4cvjhv/9POysZqlK1yQO79rZhoO/4G8fbEGCovEg97EovtwdxfuJRnhYPH2Tky1At
-         8xWrj3LaVV8rgWx2ci2oQHVXme1ILjM28SwVwqa8bn31v/ODDdo/1O0ZT2yj86//yPp4
-         rZwHf1nEtKPm4v3w1NT0GEs2bzKkuSee1nMzUf3rF66cv5wfEu2vWrxm3hKBQCPseCrR
-         S0Wfct5a2dYP5P60x7stksjNp1YD5FwPy4glMne8OVD6zjG2oRzpbJ/WOAoGNn2rrcSh
-         vLpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=P/h7ESGLb4D7WfSXd+8OiPoJik1yGFtSHZPadWzBn8U=;
-        b=b5+EqWKg+VkJv1VDsE8RXXBNBrA5W5JvZG5QQ2+UKjsa605ioXGpdRQJZb1jLuwZRR
-         DaoXqDPEWf33yC1dFk+NEo9HbVoIIny3HRIsbOgtEL8GjMJbSdToSMdF+DZRDoLY7pvB
-         DT3cnYHHu6aJvpeBQGZ2p+FgfL2iwWix+069YqxyCcEOjyAQTDJtHwMc5/jH/U8uAqIV
-         Gfgi+qzlkweHnBCjsqloLvxCcXj+vkV3bxHrV1NbCGZ0BzOPRzWCjPn8geByT9Kt6YbU
-         bLo2K8Dm33frB/fx6UA/b3sL5j+XVx2+xFK5efgT2sK2jabyhlDZ45DzGBLg280KX/KN
-         PPnA==
-X-Gm-Message-State: AOAM5300Z97AVs1aA1vNyexnN2i4ShRfKhmKBZsbXgMnFgWzKFeqVQyk
-        9MAmHiXq6GOPJRcVflEXH9Ghlg9/5Zxfnt0Ffho=
-X-Google-Smtp-Source: ABdhPJyLuJykJ6bCPC+1DbTnj5XBrlsofJjH1CcycAYK037p+8DmvShCPDmdMsKetnN0iZIr+OpqA5nqebXXhRdJWco=
-X-Received: by 2002:a50:d80c:: with SMTP id o12mr5259810edj.338.1609973927678;
- Wed, 06 Jan 2021 14:58:47 -0800 (PST)
-MIME-Version: 1.0
-References: <20210106064807.253112-1-Sonicadvance1@gmail.com>
-In-Reply-To: <20210106064807.253112-1-Sonicadvance1@gmail.com>
-From:   "Amanieu d'Antras" <amanieu@gmail.com>
-Date:   Wed, 6 Jan 2021 22:57:08 +0000
-Message-ID: <CA+y5pbSO8P+kA8wziNTHArjYgbPek5uKXeyALyRoeP2+74qZ+A@mail.gmail.com>
-Subject: Re: [PATCH] Adds a new ioctl32 syscall for backwards compatibility layers
-To:     sonicadvance1@gmail.com
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Arnd Bergmann <arnd@arndb.de>,
+        id S1727722AbhAHImL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 8 Jan 2021 03:42:11 -0500
+Received: from david.siemens.de ([192.35.17.14]:58002 "EHLO david.siemens.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725816AbhAHImL (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 8 Jan 2021 03:42:11 -0500
+X-Greylist: delayed 1099 seconds by postgrey-1.27 at vger.kernel.org; Fri, 08 Jan 2021 03:42:08 EST
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+        by david.siemens.de (8.15.2/8.15.2) with ESMTPS id 1088McHL004359
+        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 8 Jan 2021 09:22:49 +0100
+Received: from [167.87.32.120] ([167.87.32.120])
+        by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id 1088MZZK003752;
+        Fri, 8 Jan 2021 09:22:35 +0100
+Subject: Re: [PATCH v8 1/1] ns: add binfmt_misc to the user namespace
+To:     Laurent Vivier <laurent@vivier.eu>, linux-kernel@vger.kernel.org
+Cc:     Greg Kurz <groug@kaod.org>, Jann Horn <jannh@google.com>,
+        Andrei Vagin <avagin@gmail.com>, linux-api@vger.kernel.org,
+        Dmitry Safonov <dima@arista.com>,
+        James Bottomley <James.Bottomley@HansenPartnership.com>,
         Christian Brauner <christian.brauner@ubuntu.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Minchan Kim <minchan@kernel.org>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Sargun Dhillon <sargun@sargun.me>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Willem de Bruijn <willemb@google.com>,
-        YueHaibing <yuehaibing@huawei.com>,
-        Xiaoming Ni <nixiaoming@huawei.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Joe Perches <joe@perches.com>, Jan Kara <jack@suse.cz>,
-        David Rientjes <rientjes@google.com>,
-        Arnaldo Carvalho de Melo <acme@redhat.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        linux-fsdevel@vger.kernel.org,
+        containers@lists.linux-foundation.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Henning Schild <henning.schild@siemens.com>,
+        =?UTF-8?Q?C=c3=a9dric_Le_Goate?= =?UTF-8?Q?r?= <clg@kaod.org>
+References: <20191216091220.465626-1-laurent@vivier.eu>
+ <20191216091220.465626-2-laurent@vivier.eu>
+From:   Jan Kiszka <jan.kiszka@siemens.com>
+Message-ID: <4fabc6a4-0e8d-11ad-5757-467f15dc96ee@siemens.com>
+Date:   Fri, 8 Jan 2021 09:22:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
+MIME-Version: 1.0
+In-Reply-To: <20191216091220.465626-2-laurent@vivier.eu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-I encountered a similar problem when writing the Tango binary
-translator (https://www.amanieusystems.com/). Tango allows AArch32
-programs to run on AArch64 CPUs that don't support AArch32 (e.g.
-ThunderX). The technology has been licensed to several customers who
-are primarily using it to run Android instances on cloud servers.
-
-Doing compat system call translation entirely in user doesn't work out
-for several reasons:
-- As Ryan stated, it is impractical and error-prone to manually
-translate all ioctls in user space. It would be much better to reuse
-the existing compat layer in the kernel. This is even worse if you
-take out-of-tree drivers (which have their own ioctls) into account.
-- There are quite a few system calls which create VM mappings: the
-usual suspects (mmap, etc) but also io_setup and some ioctls (e.g. in
-the out-of-tree Mali GPU drivers).
-- Seccomp filters simply don't work. They could be emulated in user
-space but this is insecure since the translator is not designed to be
-a secure sandbox. They also don't propagate across execve.
-- Some syscalls rely on information that is only known to the kernel.
-For example, a hugetlbfs fd can only be mapped at a huge page
-boundary, but the translator cannot know this when selecting a virtual
-address in the low 4GB for the mapping.
-
-The solution that we ended up with was to allow AArch64 processes to
-issue AArch32 syscalls by using a special system call number. This has
-several effects for the duration of the syscall:
-- The compat syscall table is used instead of the primary one.
-- is_compat_task/in_compat_syscall return true.
-- get_unmapped_area returns addresses below 4G and uses a separate
-mmap_base. The separate mmap_base is needed to allow 32-bit
-applications to benefit from address space randomization. Tango still
-uses normal mmap syscalls for private memory allocations that are not
-visible to the translated 32-bit process.
-- KSTK_EIP and KSTK_ESP return the values of x13/x15 instead of pc/sp.
-This is necessary for correct functioning seccomp filters and SELinux
-checks respectively. Tango will set x13 and x15 to the correct values
-when issuing a 32-bit syscall.
-- System call restart after a signal sets things up so that
-restart_syscall is executed as a 32-bit syscall after the signal.
-
-I feel that a solution along these lines would also solve Ryan's
-problem since the vast majority of the syscall translation work is
-from the difference between 32-bit and 64-bit data structures in
-memory. The remaining few differences in the syscall ABI between
-AArch32 and x86-32 can be handled in user mode by the translator
-program.
-
-The kernel patch (based on the v5.4 LTS kernel) can be found at
-https://github.com/Amanieu/linux/tree/tango-v5.4.
-
-
-
-
-
-On Wed, Jan 6, 2021 at 6:49 AM <sonicadvance1@gmail.com> wrote:
->
-> From: Ryan Houdek <Sonicadvance1@gmail.com>
->
-> Problem presented:
-> A backwards compatibility layer that allows running x86-64 and x86
-> processes inside of an AArch64 process.
->   - CPU is emulated
->   - Syscall interface is mostly passthrough
->   - Some syscalls require patching or emulation depending on behaviour
->   - Not viable from the emulator design to use an AArch32 host process
->
-> x86-64 and x86 userspace emulator source:
-> https://github.com/FEX-Emu/FEX
-> Usage of ioctl32 is currently in a downstream fork. This will be the
-> first user of the syscall.
->
-> Cross documentation:
-> https://github.com/FEX-Emu/FEX/wiki/32Bit-x86-Woes#ioctl---54
->
-> ioctls are opaque from the emulator perspective and the data wants to be
-> passed through a syscall as unimpeded as possible.
-> Sadly due to ioctl struct differences between x86 and x86-64, we need a
-> syscall that exposes the compatibility ioctl handler to userspace in a
-> 64bit process.
->
-> This is necessary behaves of the behaviour differences that occur
-> between an x86 process doing an ioctl and an x86-64 process doing an
-> ioctl.
->
-> Both of which are captured and passed through the AArch64 ioctl space.
-> This is implementing a new ioctl32 syscall that allows us to pass 32bit
-> x86 ioctls through to the kernel with zero or minimal manipulation.
->
-> The only supported hosts where we care about this currently is AArch64
-> and x86-64 (For testing purposes).
-> PPC64LE, MIPS64LE, and RISC-V64 might be interesting to support in the
-> future; But I don't have any platforms that get anywhere near Cortex-A77
-> performance in those architectures. Nor do I have the time to bring up
-> the emulator on them.
-> x86-64 can get to the compatibility ioctl through the int $0x80 handler.
->
-> This does not solve the following problems:
-> 1) compat_alloc_user_space inside ioctl
-> 2) ioctls that check task mode instead of entry point for behaviour
-> 3) ioctls allocating memory
-> 4) struct packing problems between architectures
->
-> Workarounds for the problems presented:
-> 1a) Do a stack pivot to the lower 32bits from userspace
->   - Forces host 64bit process to have its thread stacks to live in 32bit
->   space. Not ideal.
->   - Only do a stack pivot on ioctl to save previous 32bit VA space
-> 1b) Teach kernel that compat_alloc_userspace can return a 64bit pointer
->   - x86-64 truncates stack from this function
->   - AArch64 returns the full stack pointer
->   - Only ~29 users. Validating all of them support a 64bit stack is
->   trivial?
->
-> 2a) Any application using these can be checked for compatibility in
-> userspace and put on a block list.
-> 2b) Fix any ioctls doing broken behaviour based on task mode rather than
-> ioctl entry point
->
-> 3a) Userspace consumes all VA space above 32bit. Forcing allocations to
-> occur in lower 32bits
->   - This is the current implementation
-> 3b) Ensure any allocation in the ioctl handles ioctl entrypoint rather
-> than just allow generic memory allocations in full VA space
->   - This is hard to guarantee
->
-> 4a) Blocklist any application using ioctls that have different struct
-> packing across the boundary
->   - Can happen when struct packing of 32bit x86 application goes down
->   the aarch64 compat_ioctl path
->   - Userspace is a AArch64 process passing 32bit x86 ioctl structures
->   through the compat_ioctl path which is typically for AArch32 processes
->   - None currently identified
-> 4b) Work with upstream kernel and userspace projects to evaluate and fix
->   - Identify the problem ioctls
->   - Implement a new ioctl with more sane struct packing that matches
->   cross-arch
->   - Implement new ioctl while maintaining backwards compatibility with
->   previous ioctl handler
->   - Change upstream project to use the new compatibility ioctl
->   - ioctl deprecation will be case by case per device and project
-> 4b) Userspace implements a full ioctl emulation layer
->   - Parses the full ioctl tree
->   - Either passes through ioctls that it doesn't understand or
->   transforms ioctls that it knows are trouble
->   - Has the downside that it can still run in to edge cases that will
->   fail
->   - Performance of additional tracking is a concern
->   - Prone to failure keeping the kernel ioctl and userspace ioctl
->   handling in sync
->   - Really want to have it in the kernel space as much as possible
->
-> Signed-off-by: Ryan Houdek <Sonicadvance1@gmail.com>
+On 16.12.19 10:12, Laurent Vivier wrote:
+> This patch allows to have a different binfmt_misc configuration
+> for each new user namespace. By default, the binfmt_misc configuration
+> is the one of the previous level, but if the binfmt_misc filesystem is
+> mounted in the new namespace a new empty binfmt instance is created and
+> used in this namespace.
+> 
+> For instance, using "unshare" we can start a chroot of another
+> architecture and configure the binfmt_misc interpreter without being root
+> to run the binaries in this chroot.
+> 
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+> Acked-by: Andrei Vagin <avagin@gmail.com>
+> Tested-by: Henning Schild <henning.schild@siemens.com>
 > ---
->  arch/arm64/include/asm/unistd.h         |  2 +-
->  arch/arm64/include/asm/unistd32.h       |  2 ++
->  fs/ioctl.c                              | 16 ++++++++++++++--
->  include/linux/syscalls.h                |  2 ++
->  include/uapi/asm-generic/unistd.h       |  9 ++++++++-
->  kernel/sys_ni.c                         |  3 +++
->  tools/include/uapi/asm-generic/unistd.h |  9 ++++++++-
->  7 files changed, 38 insertions(+), 5 deletions(-)
->
-> diff --git a/arch/arm64/include/asm/unistd.h b/arch/arm64/include/asm/unistd.h
-> index 86a9d7b3eabe..949788f5ba40 100644
-> --- a/arch/arm64/include/asm/unistd.h
-> +++ b/arch/arm64/include/asm/unistd.h
-> @@ -38,7 +38,7 @@
->  #define __ARM_NR_compat_set_tls                (__ARM_NR_COMPAT_BASE + 5)
->  #define __ARM_NR_COMPAT_END            (__ARM_NR_COMPAT_BASE + 0x800)
->
-> -#define __NR_compat_syscalls           442
-> +#define __NR_compat_syscalls           443
->  #endif
->
->  #define __ARCH_WANT_SYS_CLONE
-> diff --git a/arch/arm64/include/asm/unistd32.h b/arch/arm64/include/asm/unistd32.h
-> index cccfbbefbf95..35e3bc83dbdc 100644
-> --- a/arch/arm64/include/asm/unistd32.h
-> +++ b/arch/arm64/include/asm/unistd32.h
-> @@ -891,6 +891,8 @@ __SYSCALL(__NR_faccessat2, sys_faccessat2)
->  __SYSCALL(__NR_process_madvise, sys_process_madvise)
->  #define __NR_epoll_pwait2 441
->  __SYSCALL(__NR_epoll_pwait2, compat_sys_epoll_pwait2)
-> +#define __NR_ioctl32 442
-> +__SYSCALL(__NR_ioctl32, compat_sys_ioctl)
->
+>  fs/binfmt_misc.c               | 115 +++++++++++++++++++++++++--------
+>  include/linux/user_namespace.h |  15 +++++
+>  kernel/user.c                  |  14 ++++
+>  kernel/user_namespace.c        |   3 +
+>  4 files changed, 119 insertions(+), 28 deletions(-)
+> 
+> diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
+> index cdb45829354d..17fa1f56ca2e 100644
+> --- a/fs/binfmt_misc.c
+> +++ b/fs/binfmt_misc.c
+> @@ -40,9 +40,6 @@ enum {
+>  	VERBOSE_STATUS = 1 /* make it zero to save 400 bytes kernel memory */
+>  };
+>  
+> -static LIST_HEAD(entries);
+> -static int enabled = 1;
+> -
+>  enum {Enabled, Magic};
+>  #define MISC_FMT_PRESERVE_ARGV0 (1 << 31)
+>  #define MISC_FMT_OPEN_BINARY (1 << 30)
+> @@ -62,10 +59,7 @@ typedef struct {
+>  	struct file *interp_file;
+>  } Node;
+>  
+> -static DEFINE_RWLOCK(entries_lock);
+>  static struct file_system_type bm_fs_type;
+> -static struct vfsmount *bm_mnt;
+> -static int entry_count;
+>  
 >  /*
->   * Please add new compat syscalls above this comment and update
-> diff --git a/fs/ioctl.c b/fs/ioctl.c
-> index 4e6cc0a7d69c..116b9bca8c07 100644
-> --- a/fs/ioctl.c
-> +++ b/fs/ioctl.c
-> @@ -790,8 +790,8 @@ long compat_ptr_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
->  }
->  EXPORT_SYMBOL(compat_ptr_ioctl);
->
-> -COMPAT_SYSCALL_DEFINE3(ioctl, unsigned int, fd, unsigned int, cmd,
-> -                      compat_ulong_t, arg)
-> +long do_ioctl32(unsigned int fd, unsigned int cmd,
-> +                       compat_ulong_t arg)
->  {
->         struct fd f = fdget(fd);
->         int error;
-> @@ -850,4 +850,16 @@ COMPAT_SYSCALL_DEFINE3(ioctl, unsigned int, fd, unsigned int, cmd,
->
->         return error;
->  }
-> +
-> +COMPAT_SYSCALL_DEFINE3(ioctl, unsigned int, fd, unsigned int, cmd,
-> +                       compat_ulong_t, arg)
-> +{
-> +       return do_ioctl32(fd, cmd, arg);
-> +}
-> +
-> +SYSCALL_DEFINE3(ioctl32, unsigned int, fd, unsigned int, cmd,
-> +                       compat_ulong_t, arg)
-> +{
-> +       return do_ioctl32(fd, cmd, arg);
-> +}
->  #endif
-> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-> index f3929aff39cf..470f928831eb 100644
-> --- a/include/linux/syscalls.h
-> +++ b/include/linux/syscalls.h
-> @@ -386,6 +386,8 @@ asmlinkage long sys_inotify_rm_watch(int fd, __s32 wd);
->  /* fs/ioctl.c */
->  asmlinkage long sys_ioctl(unsigned int fd, unsigned int cmd,
->                                 unsigned long arg);
-> +asmlinkage long sys_ioctl32(unsigned int fd, unsigned int cmd,
-> +                               compat_ulong_t arg);
->
->  /* fs/ioprio.c */
->  asmlinkage long sys_ioprio_set(int which, int who, int ioprio);
-> diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
-> index 728752917785..18279e5b7b4f 100644
-> --- a/include/uapi/asm-generic/unistd.h
-> +++ b/include/uapi/asm-generic/unistd.h
-> @@ -862,8 +862,15 @@ __SYSCALL(__NR_process_madvise, sys_process_madvise)
->  #define __NR_epoll_pwait2 441
->  __SC_COMP(__NR_epoll_pwait2, sys_epoll_pwait2, compat_sys_epoll_pwait2)
->
-> +#define __NR_ioctl32 442
-> +#ifdef CONFIG_COMPAT
-> +__SC_COMP(__NR_ioctl32, sys_ioctl32, compat_sys_ioctl)
-> +#else
-> +__SC_COMP(__NR_ioctl32, sys_ni_syscall, sys_ni_syscall)
-> +#endif
-> +
->  #undef __NR_syscalls
-> -#define __NR_syscalls 442
-> +#define __NR_syscalls 443
->
->  /*
->   * 32 bit systems traditionally used different
-> diff --git a/kernel/sys_ni.c b/kernel/sys_ni.c
-> index 19aa806890d5..5a2f25eb341c 100644
-> --- a/kernel/sys_ni.c
-> +++ b/kernel/sys_ni.c
-> @@ -302,6 +302,9 @@ COND_SYSCALL(recvmmsg_time32);
->  COND_SYSCALL_COMPAT(recvmmsg_time32);
->  COND_SYSCALL_COMPAT(recvmmsg_time64);
->
-> +COND_SYSCALL(ioctl32);
-> +COND_SYSCALL_COMPAT(ioctl32);
-> +
->  /*
->   * Architecture specific syscalls: see further below
+>   * Max length of the register string.  Determined by:
+> @@ -82,18 +76,37 @@ static int entry_count;
 >   */
-> diff --git a/tools/include/uapi/asm-generic/unistd.h b/tools/include/uapi/asm-generic/unistd.h
-> index 728752917785..18279e5b7b4f 100644
-> --- a/tools/include/uapi/asm-generic/unistd.h
-> +++ b/tools/include/uapi/asm-generic/unistd.h
-> @@ -862,8 +862,15 @@ __SYSCALL(__NR_process_madvise, sys_process_madvise)
->  #define __NR_epoll_pwait2 441
->  __SC_COMP(__NR_epoll_pwait2, sys_epoll_pwait2, compat_sys_epoll_pwait2)
->
-> +#define __NR_ioctl32 442
-> +#ifdef CONFIG_COMPAT
-> +__SC_COMP(__NR_ioctl32, sys_ioctl32, compat_sys_ioctl)
-> +#else
-> +__SC_COMP(__NR_ioctl32, sys_ni_syscall, sys_ni_syscall)
+>  #define MAX_REGISTER_LENGTH 1920
+>  
+> +static struct binfmt_namespace *binfmt_ns(struct user_namespace *ns)
+> +{
+> +	struct binfmt_namespace *b_ns;
+> +
+> +	while (ns) {
+> +		b_ns = READ_ONCE(ns->binfmt_ns);
+> +		if (b_ns)
+> +			return b_ns;
+> +		ns = ns->parent;
+> +	}
+> +	/* as the first user namespace is initialized with
+> +	 * &init_binfmt_ns we should never come here
+> +	 * but we try to stay safe by logging a warning
+> +	 * and returning a sane value
+> +	 */
+> +	WARN_ON_ONCE(1);
+> +	return &init_binfmt_ns;
+> +}
+> +
+>  /*
+>   * Check if we support the binfmt
+>   * if we do, return the node, else NULL
+>   * locking is done in load_misc_binary
+>   */
+> -static Node *check_file(struct linux_binprm *bprm)
+> +static Node *check_file(struct binfmt_namespace *ns, struct linux_binprm *bprm)
+>  {
+>  	char *p = strrchr(bprm->interp, '.');
+>  	struct list_head *l;
+>  
+>  	/* Walk all the registered handlers. */
+> -	list_for_each(l, &entries) {
+> +	list_for_each(l, &ns->entries) {
+>  		Node *e = list_entry(l, Node, list);
+>  		char *s;
+>  		int j;
+> @@ -135,17 +148,18 @@ static int load_misc_binary(struct linux_binprm *bprm)
+>  	struct file *interp_file = NULL;
+>  	int retval;
+>  	int fd_binary = -1;
+> +	struct binfmt_namespace *ns = binfmt_ns(current_user_ns());
+>  
+>  	retval = -ENOEXEC;
+> -	if (!enabled)
+> +	if (!ns->enabled)
+>  		return retval;
+>  
+>  	/* to keep locking time low, we copy the interpreter string */
+> -	read_lock(&entries_lock);
+> -	fmt = check_file(bprm);
+> +	read_lock(&ns->entries_lock);
+> +	fmt = check_file(ns, bprm);
+>  	if (fmt)
+>  		dget(fmt->dentry);
+> -	read_unlock(&entries_lock);
+> +	read_unlock(&ns->entries_lock);
+>  	if (!fmt)
+>  		return retval;
+>  
+> @@ -611,19 +625,19 @@ static void bm_evict_inode(struct inode *inode)
+>  	kfree(e);
+>  }
+>  
+> -static void kill_node(Node *e)
+> +static void kill_node(struct binfmt_namespace *ns, Node *e)
+>  {
+>  	struct dentry *dentry;
+>  
+> -	write_lock(&entries_lock);
+> +	write_lock(&ns->entries_lock);
+>  	list_del_init(&e->list);
+> -	write_unlock(&entries_lock);
+> +	write_unlock(&ns->entries_lock);
+>  
+>  	dentry = e->dentry;
+>  	drop_nlink(d_inode(dentry));
+>  	d_drop(dentry);
+>  	dput(dentry);
+> -	simple_release_fs(&bm_mnt, &entry_count);
+> +	simple_release_fs(&ns->bm_mnt, &ns->entry_count);
+>  }
+>  
+>  /* /<entry> */
+> @@ -653,6 +667,9 @@ static ssize_t bm_entry_write(struct file *file, const char __user *buffer,
+>  	struct dentry *root;
+>  	Node *e = file_inode(file)->i_private;
+>  	int res = parse_command(buffer, count);
+> +	struct binfmt_namespace *ns;
+> +
+> +	ns = binfmt_ns(file_dentry(file)->d_sb->s_user_ns);
+>  
+>  	switch (res) {
+>  	case 1:
+> @@ -669,7 +686,7 @@ static ssize_t bm_entry_write(struct file *file, const char __user *buffer,
+>  		inode_lock(d_inode(root));
+>  
+>  		if (!list_empty(&e->list))
+> -			kill_node(e);
+> +			kill_node(ns, e);
+>  
+>  		inode_unlock(d_inode(root));
+>  		break;
+> @@ -695,6 +712,7 @@ static ssize_t bm_register_write(struct file *file, const char __user *buffer,
+>  	struct inode *inode;
+>  	struct super_block *sb = file_inode(file)->i_sb;
+>  	struct dentry *root = sb->s_root, *dentry;
+> +	struct binfmt_namespace *ns;
+>  	int err = 0;
+>  
+>  	e = create_entry(buffer, count);
+> @@ -718,7 +736,9 @@ static ssize_t bm_register_write(struct file *file, const char __user *buffer,
+>  	if (!inode)
+>  		goto out2;
+>  
+> -	err = simple_pin_fs(&bm_fs_type, &bm_mnt, &entry_count);
+> +	ns = binfmt_ns(file_dentry(file)->d_sb->s_user_ns);
+> +	err = simple_pin_fs(&bm_fs_type, &ns->bm_mnt,
+> +			    &ns->entry_count);
+>  	if (err) {
+>  		iput(inode);
+>  		inode = NULL;
+> @@ -727,12 +747,16 @@ static ssize_t bm_register_write(struct file *file, const char __user *buffer,
+>  
+>  	if (e->flags & MISC_FMT_OPEN_FILE) {
+>  		struct file *f;
+> +		const struct cred *old_cred;
+>  
+> +		old_cred = override_creds(file->f_cred);
+>  		f = open_exec(e->interpreter);
+> +		revert_creds(old_cred);
+>  		if (IS_ERR(f)) {
+>  			err = PTR_ERR(f);
+>  			pr_notice("register: failed to install interpreter file %s\n", e->interpreter);
+> -			simple_release_fs(&bm_mnt, &entry_count);
+> +			simple_release_fs(&ns->bm_mnt,
+> +					  &ns->entry_count);
+>  			iput(inode);
+>  			inode = NULL;
+>  			goto out2;
+> @@ -745,9 +769,9 @@ static ssize_t bm_register_write(struct file *file, const char __user *buffer,
+>  	inode->i_fop = &bm_entry_operations;
+>  
+>  	d_instantiate(dentry, inode);
+> -	write_lock(&entries_lock);
+> -	list_add(&e->list, &entries);
+> -	write_unlock(&entries_lock);
+> +	write_lock(&ns->entries_lock);
+> +	list_add(&e->list, &ns->entries);
+> +	write_unlock(&ns->entries_lock);
+>  
+>  	err = 0;
+>  out2:
+> @@ -772,7 +796,9 @@ static const struct file_operations bm_register_operations = {
+>  static ssize_t
+>  bm_status_read(struct file *file, char __user *buf, size_t nbytes, loff_t *ppos)
+>  {
+> -	char *s = enabled ? "enabled\n" : "disabled\n";
+> +	struct binfmt_namespace *ns =
+> +				binfmt_ns(file_dentry(file)->d_sb->s_user_ns);
+> +	char *s = ns->enabled ? "enabled\n" : "disabled\n";
+>  
+>  	return simple_read_from_buffer(buf, nbytes, ppos, s, strlen(s));
+>  }
+> @@ -780,25 +806,28 @@ bm_status_read(struct file *file, char __user *buf, size_t nbytes, loff_t *ppos)
+>  static ssize_t bm_status_write(struct file *file, const char __user *buffer,
+>  		size_t count, loff_t *ppos)
+>  {
+> +	struct binfmt_namespace *ns;
+>  	int res = parse_command(buffer, count);
+>  	struct dentry *root;
+>  
+> +	ns = binfmt_ns(file_dentry(file)->d_sb->s_user_ns);
+>  	switch (res) {
+>  	case 1:
+>  		/* Disable all handlers. */
+> -		enabled = 0;
+> +		ns->enabled = 0;
+>  		break;
+>  	case 2:
+>  		/* Enable all handlers. */
+> -		enabled = 1;
+> +		ns->enabled = 1;
+>  		break;
+>  	case 3:
+>  		/* Delete all handlers. */
+>  		root = file_inode(file)->i_sb->s_root;
+>  		inode_lock(d_inode(root));
+>  
+> -		while (!list_empty(&entries))
+> -			kill_node(list_first_entry(&entries, Node, list));
+> +		while (!list_empty(&ns->entries))
+> +			kill_node(ns, list_first_entry(&ns->entries,
+> +						       Node, list));
+>  
+>  		inode_unlock(d_inode(root));
+>  		break;
+> @@ -825,24 +854,53 @@ static const struct super_operations s_ops = {
+>  static int bm_fill_super(struct super_block *sb, struct fs_context *fc)
+>  {
+>  	int err;
+> +	struct user_namespace *ns = sb->s_user_ns;
+>  	static const struct tree_descr bm_files[] = {
+>  		[2] = {"status", &bm_status_operations, S_IWUSR|S_IRUGO},
+>  		[3] = {"register", &bm_register_operations, S_IWUSR},
+>  		/* last one */ {""}
+>  	};
+>  
+> +	/* create a new binfmt namespace
+> +	 * if we are not in the first user namespace
+> +	 * but the binfmt namespace is the first one
+> +	 */
+> +	if (READ_ONCE(ns->binfmt_ns) == NULL) {
+> +		struct binfmt_namespace *new_ns;
+> +
+> +		new_ns = kmalloc(sizeof(struct binfmt_namespace),
+> +				 GFP_KERNEL);
+> +		if (new_ns == NULL)
+> +			return -ENOMEM;
+> +		INIT_LIST_HEAD(&new_ns->entries);
+> +		new_ns->enabled = 1;
+> +		rwlock_init(&new_ns->entries_lock);
+> +		new_ns->bm_mnt = NULL;
+> +		new_ns->entry_count = 0;
+> +		/* ensure new_ns is completely initialized before sharing it */
+> +		smp_wmb();
+> +		WRITE_ONCE(ns->binfmt_ns, new_ns);
+> +	}
+> +
+>  	err = simple_fill_super(sb, BINFMTFS_MAGIC, bm_files);
+>  	if (!err)
+>  		sb->s_op = &s_ops;
+>  	return err;
+>  }
+>  
+> +static void bm_free(struct fs_context *fc)
+> +{
+> +	if (fc->s_fs_info)
+> +		put_user_ns(fc->s_fs_info);
+> +}
+> +
+>  static int bm_get_tree(struct fs_context *fc)
+>  {
+> -	return get_tree_single(fc, bm_fill_super);
+> +	return get_tree_keyed(fc, bm_fill_super, get_user_ns(fc->user_ns));
+>  }
+>  
+>  static const struct fs_context_operations bm_context_ops = {
+> +	.free		= bm_free,
+>  	.get_tree	= bm_get_tree,
+>  };
+>  
+> @@ -861,6 +919,7 @@ static struct file_system_type bm_fs_type = {
+>  	.owner		= THIS_MODULE,
+>  	.name		= "binfmt_misc",
+>  	.init_fs_context = bm_init_fs_context,
+> +	.fs_flags	= FS_USERNS_MOUNT,
+>  	.kill_sb	= kill_litter_super,
+>  };
+>  MODULE_ALIAS_FS("binfmt_misc");
+> diff --git a/include/linux/user_namespace.h b/include/linux/user_namespace.h
+> index fb9f4f799554..16e6f3a97a01 100644
+> --- a/include/linux/user_namespace.h
+> +++ b/include/linux/user_namespace.h
+> @@ -52,6 +52,18 @@ enum ucount_type {
+>  	UCOUNT_COUNTS,
+>  };
+>  
+> +#if IS_ENABLED(CONFIG_BINFMT_MISC)
+> +struct binfmt_namespace {
+> +	struct list_head entries;
+> +	rwlock_t entries_lock;
+> +	int enabled;
+> +	struct vfsmount *bm_mnt;
+> +	int entry_count;
+> +} __randomize_layout;
+> +
+> +extern struct binfmt_namespace init_binfmt_ns;
 > +#endif
 > +
->  #undef __NR_syscalls
-> -#define __NR_syscalls 442
-> +#define __NR_syscalls 443
->
+>  struct user_namespace {
+>  	struct uid_gid_map	uid_map;
+>  	struct uid_gid_map	gid_map;
+> @@ -86,6 +98,9 @@ struct user_namespace {
+>  #endif
+>  	struct ucounts		*ucounts;
+>  	int ucount_max[UCOUNT_COUNTS];
+> +#if IS_ENABLED(CONFIG_BINFMT_MISC)
+> +	struct binfmt_namespace *binfmt_ns;
+> +#endif
+>  } __randomize_layout;
+>  
+>  struct ucounts {
+> diff --git a/kernel/user.c b/kernel/user.c
+> index 5235d7f49982..092b2b4d47a6 100644
+> --- a/kernel/user.c
+> +++ b/kernel/user.c
+> @@ -20,6 +20,17 @@
+>  #include <linux/user_namespace.h>
+>  #include <linux/proc_ns.h>
+>  
+> +#if IS_ENABLED(CONFIG_BINFMT_MISC)
+> +struct binfmt_namespace init_binfmt_ns = {
+> +	.entries = LIST_HEAD_INIT(init_binfmt_ns.entries),
+> +	.enabled = 1,
+> +	.entries_lock = __RW_LOCK_UNLOCKED(init_binfmt_ns.entries_lock),
+> +	.bm_mnt = NULL,
+> +	.entry_count = 0,
+> +};
+> +EXPORT_SYMBOL_GPL(init_binfmt_ns);
+> +#endif
+> +
 >  /*
->   * 32 bit systems traditionally used different
-> --
-> 2.27.0
->
+>   * userns count is 1 for root user, 1 for init_uts_ns,
+>   * and 1 for... ?
+> @@ -67,6 +78,9 @@ struct user_namespace init_user_ns = {
+>  	.keyring_name_list = LIST_HEAD_INIT(init_user_ns.keyring_name_list),
+>  	.keyring_sem = __RWSEM_INITIALIZER(init_user_ns.keyring_sem),
+>  #endif
+> +#if IS_ENABLED(CONFIG_BINFMT_MISC)
+> +	.binfmt_ns = &init_binfmt_ns,
+> +#endif
+>  };
+>  EXPORT_SYMBOL_GPL(init_user_ns);
+>  
+> diff --git a/kernel/user_namespace.c b/kernel/user_namespace.c
+> index 8eadadc478f9..f42c32269e20 100644
+> --- a/kernel/user_namespace.c
+> +++ b/kernel/user_namespace.c
+> @@ -191,6 +191,9 @@ static void free_user_ns(struct work_struct *work)
+>  			kfree(ns->projid_map.forward);
+>  			kfree(ns->projid_map.reverse);
+>  		}
+> +#if IS_ENABLED(CONFIG_BINFMT_MISC)
+> +		kfree(ns->binfmt_ns);
+> +#endif
+>  		retire_userns_sysctls(ns);
+>  		key_free_user_ns(ns);
+>  		ns_free_inum(&ns->ns);
+> 
+
+What happened with this proposal since then?
+
+As there is quite some delay between the feature finally hitting
+upstream and a random distro-based containter host providing it to
+unprivileged users, the longer we wait, the longer the pain persists
+(e.g. when building cross-arch containers or when dealing with different
+qemu-user-static versions...). Is there anything we can do to help with it?
+
+Jan
+
+-- 
+Siemens AG, T RDA IOT
+Corporate Competence Center Embedded Linux
