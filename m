@@ -2,128 +2,89 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6373B2F1D3A
-	for <lists+linux-api@lfdr.de>; Mon, 11 Jan 2021 18:57:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 83D852F1E1D
+	for <lists+linux-api@lfdr.de>; Mon, 11 Jan 2021 19:34:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389074AbhAKR5i (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 11 Jan 2021 12:57:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54194 "EHLO
+        id S2390109AbhAKSeU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 11 Jan 2021 13:34:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389680AbhAKR5h (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 11 Jan 2021 12:57:37 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38C25C0617A4;
-        Mon, 11 Jan 2021 09:56:52 -0800 (PST)
-Received: from zn.tnic (p200300ec2f088f00ad31e6206ee73146.dip0.t-ipconnect.de [IPv6:2003:ec:2f08:8f00:ad31:e620:6ee7:3146])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D700E1EC04DD;
-        Mon, 11 Jan 2021 18:56:47 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1610387808;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=/5CtVo/UwrBSJWcpm5LHTVgzx79jnr7sh5lj/gNN1EE=;
-        b=r1dRCcuAAzNinHRwv70Jc/k2NLJRF6q7sDui9/+Zn1f8PG48sZQFwQ07YaMmLil58/Jk3e
-        8Ix8pm+/1koZXCLgJ5Pd/KygG1l+XQOydfsHuyx1X7+DolK4jzI04VBxJp9VDGVeqQI3xa
-        0TVfTxuAUigDYWZxsnFfYFG320gE/So=
-Date:   Mon, 11 Jan 2021 18:56:43 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v17 04/26] x86/cpufeatures: Introduce X86_FEATURE_CET and
- setup functions
-Message-ID: <20210111175643.GD25645@zn.tnic>
-References: <20201229213053.16395-1-yu-cheng.yu@intel.com>
- <20201229213053.16395-5-yu-cheng.yu@intel.com>
+        with ESMTP id S1730937AbhAKSeU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 11 Jan 2021 13:34:20 -0500
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58BBFC061794
+        for <linux-api@vger.kernel.org>; Mon, 11 Jan 2021 10:33:40 -0800 (PST)
+Received: by mail-pg1-x52f.google.com with SMTP id i7so211680pgc.8
+        for <linux-api@vger.kernel.org>; Mon, 11 Jan 2021 10:33:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=4GdBSUrpm58ToHKTls9IOMw+i4c1oYKehuTuyvH6rXI=;
+        b=bpYEjWwAhYDf6NfLaHwrtedqGAyLGuBu3WdELiQ1qCHr74NrZzUqZLmSkttMy+B3+n
+         M/QpiKzcciLYrNQsryiRWzORjy+5YkIaF1CGoSzWqv3VlZXeTbXJg4ayVyuOj43VhfnY
+         W2Iw2hu4K6DrZwgLEcDWCmh5b34LnhLNP5kaQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=4GdBSUrpm58ToHKTls9IOMw+i4c1oYKehuTuyvH6rXI=;
+        b=N3kbMqnY+FIa81WeMsl01DrG2uA/lobzk+7CGuhUByFCGv6BfkMIoXlNamCCKfTHAZ
+         gWkIKeVmH79HSIRtxo00au4lFUzV53mm7TFf0jXKNv4iX+74ARzCrMAXwjGYrNr1M4p7
+         B4SmbeIsnrwTKpEy2D804Kd9xhD6j9pxmfrF9IzrQtyppUzhPZFZRwDRAhd3ulZ9GIGr
+         iwpTQ42Hzr3Jf52rGPGsVdwnPH6qOSuvbL00zB+4v67qApaSnDexyJjkbnkxIbRy44f/
+         N8ZxEZ9szKXGvjs9fFyqhs0+6gvmyz8MfMWkje3RXGqBI3y/N3KUik5NyzBO4vOkInRl
+         rL2g==
+X-Gm-Message-State: AOAM5330+DWoo0JY9pkKASwng9ecVOsaCm6d3AxJFMQbFOTTQAng7g0N
+        Yc3gh6TAnH1c4sskwxgaYWyDYg==
+X-Google-Smtp-Source: ABdhPJxBUI2A5mx/iY8L145Q0BSNqSwTzgAZ5iooolMHwOeCXonZx+LVUJVTzVLH1G2jzvrr6+kk5Q==
+X-Received: by 2002:a63:5942:: with SMTP id j2mr810948pgm.33.1610390019873;
+        Mon, 11 Jan 2021 10:33:39 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id fs12sm77488pjb.49.2021.01.11.10.33.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Jan 2021 10:33:39 -0800 (PST)
+Date:   Mon, 11 Jan 2021 10:33:38 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     akpm@linux-foundation.org, jannh@google.com, jeffv@google.com,
+        minchan@kernel.org, mhocko@suse.com, shakeelb@google.com,
+        rientjes@google.com, edgararriaga@google.com, timmurray@google.com,
+        linux-mm@kvack.org, selinux@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-team@android.com
+Subject: Re: [PATCH v2 1/1] mm/madvise: replace ptrace attach requirement for
+ process_madvise
+Message-ID: <202101111033.2D03EA97@keescook>
+References: <20210111170622.2613577-1-surenb@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201229213053.16395-5-yu-cheng.yu@intel.com>
+In-Reply-To: <20210111170622.2613577-1-surenb@google.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Dec 29, 2020 at 01:30:31PM -0800, Yu-cheng Yu wrote:
-> @@ -895,6 +903,12 @@ static void init_speculation_control(struct cpuinfo_x86 *c)
->  	}
->  }
->  
-> +static void init_cet_features(struct cpuinfo_x86 *c)
-> +{
-> +	if (cpu_has(c, X86_FEATURE_SHSTK) || cpu_has(c, X86_FEATURE_IBT))
-> +		set_cpu_cap(c, X86_FEATURE_CET);
-> +}
+On Mon, Jan 11, 2021 at 09:06:22AM -0800, Suren Baghdasaryan wrote:
+> process_madvise currently requires ptrace attach capability.
+> PTRACE_MODE_ATTACH gives one process complete control over another
+> process. It effectively removes the security boundary between the
+> two processes (in one direction). Granting ptrace attach capability
+> even to a system process is considered dangerous since it creates an
+> attack surface. This severely limits the usage of this API.
+> The operations process_madvise can perform do not affect the correctness
+> of the operation of the target process; they only affect where the data
+> is physically located (and therefore, how fast it can be accessed).
+> What we want is the ability for one process to influence another process
+> in order to optimize performance across the entire system while leaving
+> the security boundary intact.
+> Replace PTRACE_MODE_ATTACH with a combination of PTRACE_MODE_READ
+> and CAP_SYS_NICE. PTRACE_MODE_READ to prevent leaking ASLR metadata
+> and CAP_SYS_NICE for influencing process performance.
+> 
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 
-No need for that function - just add this two-liner to bsp_init_intel()
-and not in get_cpu_cap().
-
-> +static void adjust_combined_cpu_features(void)
-> +{
-> +#ifdef CONFIG_X86_CET_USER
-> +	if (test_bit(X86_FEATURE_SHSTK, (unsigned long *)cpu_caps_cleared) &&
-> +	    test_bit(X86_FEATURE_IBT, (unsigned long *)cpu_caps_cleared))
-> +		setup_clear_cpu_cap(X86_FEATURE_CET);
-> +#endif
-
-There's no need for this function...
-
-> +}
-> +
->  /*
->   * We parse cpu parameters early because fpu__init_system() is executed
->   * before parse_early_param().
-> @@ -1252,9 +1276,19 @@ static void __init cpu_parse_early_param(void)
->  	if (cmdline_find_option_bool(boot_command_line, "noxsaves"))
->  		setup_clear_cpu_cap(X86_FEATURE_XSAVES);
->  
-> +	/*
-> +	 * CET states are XSAVES states and options must be parsed early.
-> +	 */
-> +#ifdef CONFIG_X86_CET_USER
-> +	if (cmdline_find_option_bool(boot_command_line, "no_user_shstk"))
-> +		setup_clear_cpu_cap(X86_FEATURE_SHSTK);
-
-... when you can do
-
-	setup_clear_cpu_cap(X86_FEATURE_CET);
-
-here and...
-
-> +	if (cmdline_find_option_bool(boot_command_line, "no_user_ibt"))
-> +		setup_clear_cpu_cap(X86_FEATURE_IBT);
-
-... here.
-
-Thx.
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Kees Cook
