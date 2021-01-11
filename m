@@ -2,125 +2,120 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B8A5E2F1BCE
-	for <lists+linux-api@lfdr.de>; Mon, 11 Jan 2021 18:07:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D4502F1BE7
+	for <lists+linux-api@lfdr.de>; Mon, 11 Jan 2021 18:10:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730150AbhAKRHQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 11 Jan 2021 12:07:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43242 "EHLO
+        id S2389219AbhAKRKI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 11 Jan 2021 12:10:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388294AbhAKRHK (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 11 Jan 2021 12:07:10 -0500
-Received: from mail-qt1-x849.google.com (mail-qt1-x849.google.com [IPv6:2607:f8b0:4864:20::849])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C05B4C0617A3
-        for <linux-api@vger.kernel.org>; Mon, 11 Jan 2021 09:06:29 -0800 (PST)
-Received: by mail-qt1-x849.google.com with SMTP id b11so198438qtj.11
-        for <linux-api@vger.kernel.org>; Mon, 11 Jan 2021 09:06:29 -0800 (PST)
+        with ESMTP id S2389037AbhAKRKH (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 11 Jan 2021 12:10:07 -0500
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B04AC0617A9
+        for <linux-api@vger.kernel.org>; Mon, 11 Jan 2021 09:09:25 -0800 (PST)
+Received: by mail-wr1-x42e.google.com with SMTP id m5so508092wrx.9
+        for <linux-api@vger.kernel.org>; Mon, 11 Jan 2021 09:09:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=sender:date:message-id:mime-version:subject:from:to:cc;
-        bh=TXgIiPGiAVYYkmWDjbujM9saKwN+69Dn3gHiic8vtkI=;
-        b=Hh3KmXusdsWf3wOKiqMpN2ZvjtT1zhfgbc8mOIqOlfXaK+rz3Lj2iHAkKJ8bQKB1Mc
-         QLerZWDf+pZFuolShf5tDjCPoQBvPEQIDL0Rmri9m6hpbkutx3VD0oKTzwG8xPOhi28x
-         ablVvg1ISJmA/9YtTL/T1yVKw79riORs3MSqLf9vTD0XQ63U/6uzW6mgFooId144FiN2
-         6Q0lfAnrIL4dUrD7LhKfXZkUOkFEiKhsNn1kt3XZjgDT9QkTr1iFsCnT5qIAUUPbnRsx
-         C4IjdRAIgt0NFfcj3Q9Bt1g7dk+B9Sm/gXbsbAdN/F0TE47Ammma0ZBPjkv+NwxUwT5e
-         /tcA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=LBhiCRQ/hU8nUHPJqyu8ucV/q20tb78qZ9F6AUF5dl0=;
+        b=vdETX3AzAhGWS4XOn4U/L5M8mWyOcAW598aRM+jUl5TPCH8XLNK0r4mVzlinVSegPT
+         0Bshyv5uEO/Ch6Nc/L2gE6yb/0cG4+1+4rLpSaMTsw8S88w6HqPfjfYYoHJeaXU0dtFB
+         LSwEnYt0jq7sZi2yLNO4AMRS68Asn+Xp/feHXG1C9xN8lbjUrxRxRqvmjq7rIm7Nlt5s
+         9eRuDUQcO76Ft46QvLZFpa8HqfhLIX5QUq1plsc+YbjGz5yX5iBust3IW1tRRDs9o5DC
+         +2lG7OHbMB2mH26JeyxgT8EHYaJK/m38/CFtAQqDku9jlRIEJASEJbMMbpoXDvXm+cZh
+         q6kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
-         :to:cc;
-        bh=TXgIiPGiAVYYkmWDjbujM9saKwN+69Dn3gHiic8vtkI=;
-        b=i1zozk0fTC4BLc0RYJyCxyLCkwyB4pS3Noo4lzaKTvFQ4oyCLLva/qf3oyrduPqb/t
-         8bU0CwhP6dGScsa7vC2B03CwM9fdKNn0G4fYGMwOpTcY5k9oUZU/sdhfnOjuh80abHfo
-         bzQG/A5L7G+dN2hVFA/kqtOcDREvKdLypRZY4zC688pbGIk7t7YUWcDmwm6x20eAWA5c
-         xb8/CZkGNDRFb6Qqi75jsFWPzz5gigDukBObFzjHrCq6SPUTHP9gCKE8LG0lG/29SM85
-         p5aGzypvNYOcuexldkSQ2+vhkF0TcJ8hEKLsWsFTBSMNwQ53q8Kp+FFPaICPo/KcqwB/
-         R4VQ==
-X-Gm-Message-State: AOAM530VZ3ZY9EQ5rblWFYgbJB1e1GxJL1gls33Q6PvyO6b1rFaYz8oQ
-        ZLz0GXFjud+qL4VMbfDdauL5kcUqeaE=
-X-Google-Smtp-Source: ABdhPJxAmFQ24dsyjs2pojqIymYe0/RXgBNqT71U833fC/fpSdZYlD7He0/vi1wGmwzD1P0BK1wByqDxTpk=
-Sender: "surenb via sendgmr" <surenb@surenb1.mtv.corp.google.com>
-X-Received: from surenb1.mtv.corp.google.com ([100.98.240.136]) (user=surenb
- job=sendgmr) by 2002:ad4:452f:: with SMTP id l15mr209256qvu.49.1610384788888;
- Mon, 11 Jan 2021 09:06:28 -0800 (PST)
-Date:   Mon, 11 Jan 2021 09:06:22 -0800
-Message-Id: <20210111170622.2613577-1-surenb@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.30.0.284.gd98b1dd5eaa7-goog
-Subject: [PATCH v2 1/1] mm/madvise: replace ptrace attach requirement for process_madvise
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=LBhiCRQ/hU8nUHPJqyu8ucV/q20tb78qZ9F6AUF5dl0=;
+        b=o7uc+i/kz/0KhqDDqbwTJ984yQ5aWD5u6/GyvH7bRdzRi2rU546ktRKkOTfBPMIxUD
+         g9bYyah29Bu/EhlVcGPIpRh61Pik6rnjH16Oafh5FElQxwR2k+m8vzIc2kkNkpDFXo/i
+         kz3Jwg+356nIJXIDiwAU8NzlURMrScHXlyV1DcSadbzCjrU95RHBJjnzsT/uHohS1d2g
+         kfmget0UVf6ZEnk4H9U+fcZX/0YnedbD4735X+sDVv+sittCvPH/QF7e/p2Lra9X0eLl
+         bw/vVk1cH0xPmFPBYV1g03Ed3ABMr7fLSLB0ivoxr4ERyZTAumGw0xkldvorLydkYubN
+         rb2Q==
+X-Gm-Message-State: AOAM530lhoM4mRT69uvUlztBYP61364ww92naz8UB+ZEUQC7aPWSpG/o
+        Y2CN2fVUnM30xy9SoPXltH6Bha6WQaC0ygCshUcW3A==
+X-Google-Smtp-Source: ABdhPJzkl/cTS0Y7f8oJDdXN6UMVH3mhUzOEeI3OG0cAZXbZU+ICVO+NCTcEQu9zCnNUV1pPl+AUmWRG5sI6Ed4lbf4=
+X-Received: by 2002:a5d:4704:: with SMTP id y4mr120140wrq.358.1610384964099;
+ Mon, 11 Jan 2021 09:09:24 -0800 (PST)
+MIME-Version: 1.0
+References: <20210108205857.1471269-1-surenb@google.com> <875z43rd0u.fsf@oldenburg2.str.redhat.com>
+ <CAJuCfpGwer93uKRE3nqtmLwsUnK_Cn-Zz1bXuFGX94mmVxqQZg@mail.gmail.com>
+In-Reply-To: <CAJuCfpGwer93uKRE3nqtmLwsUnK_Cn-Zz1bXuFGX94mmVxqQZg@mail.gmail.com>
 From:   Suren Baghdasaryan <surenb@google.com>
-To:     akpm@linux-foundation.org
-Cc:     jannh@google.com, keescook@chromium.org, jeffv@google.com,
-        minchan@kernel.org, mhocko@suse.com, shakeelb@google.com,
-        rientjes@google.com, edgararriaga@google.com, timmurray@google.com,
-        linux-mm@kvack.org, selinux@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-team@android.com, surenb@google.com
+Date:   Mon, 11 Jan 2021 09:09:13 -0800
+Message-ID: <CAJuCfpHw8RKPPJFXt6sCmxDHKFvgKTJd_gJ4HV68BTWdTsvkeg@mail.gmail.com>
+Subject: Re: [PATCH 1/1] mm/madvise: replace ptrace attach requirement for process_madvise
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Jann Horn <jannh@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Jeffrey Vander Stoep <jeffv@google.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        David Rientjes <rientjes@google.com>,
+        =?UTF-8?Q?Edgar_Arriaga_Garc=C3=ADa?= <edgararriaga@google.com>,
+        Tim Murray <timmurray@google.com>,
+        linux-mm <linux-mm@kvack.org>, selinux@vger.kernel.org,
+        Linux API <linux-api@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kernel-team <kernel-team@android.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-process_madvise currently requires ptrace attach capability.
-PTRACE_MODE_ATTACH gives one process complete control over another
-process. It effectively removes the security boundary between the
-two processes (in one direction). Granting ptrace attach capability
-even to a system process is considered dangerous since it creates an
-attack surface. This severely limits the usage of this API.
-The operations process_madvise can perform do not affect the correctness
-of the operation of the target process; they only affect where the data
-is physically located (and therefore, how fast it can be accessed).
-What we want is the ability for one process to influence another process
-in order to optimize performance across the entire system while leaving
-the security boundary intact.
-Replace PTRACE_MODE_ATTACH with a combination of PTRACE_MODE_READ
-and CAP_SYS_NICE. PTRACE_MODE_READ to prevent leaking ASLR metadata
-and CAP_SYS_NICE for influencing process performance.
+On Mon, Jan 11, 2021 at 9:05 AM Suren Baghdasaryan <surenb@google.com> wrote:
+>
+> On Mon, Jan 11, 2021 at 2:20 AM Florian Weimer <fweimer@redhat.com> wrote:
+> >
+> > * Suren Baghdasaryan:
+> >
+> > > diff --git a/mm/madvise.c b/mm/madvise.c
+> > > index 6a660858784b..c2d600386902 100644
+> > > --- a/mm/madvise.c
+> > > +++ b/mm/madvise.c
+> > > @@ -1197,12 +1197,22 @@ SYSCALL_DEFINE5(process_madvise, int, pidfd, const struct iovec __user *, vec,
+> > >               goto release_task;
+> > >       }
+> > >
+> > > -     mm = mm_access(task, PTRACE_MODE_ATTACH_FSCREDS);
+> > > +     /* Require PTRACE_MODE_READ to avoid leaking ASLR metadata. */
+> > > +     mm = mm_access(task, PTRACE_MODE_READ_FSCREDS);
+> > >       if (IS_ERR_OR_NULL(mm)) {
+> > >               ret = IS_ERR(mm) ? PTR_ERR(mm) : -ESRCH;
+> > >               goto release_task;
+> > >       }
+> >
+> > Shouldn't this depend on the requested behavior?  Several operations
+> > directly result in observable changes, and go beyond performance tuning.
+>
+> Thanks for the comment Florian.
+> process_madvise supports only MADV_COLD and MADV_PAGEOUT hints which
+> are both non-destructive (see process_madvise_behavior_valid()
+> function). Maybe you meant something else by "observable changes", if
+> so please clarify.
+> Thanks,
+> Suren.
+>
 
-Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-Acked-by: Minchan Kim <minchan@kernel.org>
-Acked-by: David Rientjes <rientjes@google.com>
----
- mm/madvise.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+V2 with Minchan's fix is posted at:
+https://lore.kernel.org/lkml/20210111170622.2613577-1-surenb@google.com/T/#u
 
-diff --git a/mm/madvise.c b/mm/madvise.c
-index 6a660858784b..a9bcd16b5d95 100644
---- a/mm/madvise.c
-+++ b/mm/madvise.c
-@@ -1197,12 +1197,22 @@ SYSCALL_DEFINE5(process_madvise, int, pidfd, const struct iovec __user *, vec,
- 		goto release_task;
- 	}
- 
--	mm = mm_access(task, PTRACE_MODE_ATTACH_FSCREDS);
-+	/* Require PTRACE_MODE_READ to avoid leaking ASLR metadata. */
-+	mm = mm_access(task, PTRACE_MODE_READ_FSCREDS);
- 	if (IS_ERR_OR_NULL(mm)) {
- 		ret = IS_ERR(mm) ? PTR_ERR(mm) : -ESRCH;
- 		goto release_task;
- 	}
- 
-+	/*
-+	 * Require CAP_SYS_NICE for influencing process performance. Note that
-+	 * only non-destructive hints are currently supported.
-+	 */
-+	if (!capable(CAP_SYS_NICE)) {
-+		ret = -EPERM;
-+		goto release_mm;
-+	}
-+
- 	total_len = iov_iter_count(&iter);
- 
- 	while (iov_iter_count(&iter)) {
-@@ -1217,6 +1227,7 @@ SYSCALL_DEFINE5(process_madvise, int, pidfd, const struct iovec __user *, vec,
- 	if (ret == 0)
- 		ret = total_len - iov_iter_count(&iter);
- 
-+release_mm:
- 	mmput(mm);
- release_task:
- 	put_task_struct(task);
--- 
-2.30.0.284.gd98b1dd5eaa7-goog
-
+> >
+> > Thanks,
+> > Florian
+> > --
+> > Red Hat GmbH, https://de.redhat.com/ , Registered seat: Grasbrunn,
+> > Commercial register: Amtsgericht Muenchen, HRB 153243,
+> > Managing Directors: Charles Cachera, Brian Klemm, Laurie Krebs, Michael O'Neill
+> >
+> > --
+> > To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
+> >
