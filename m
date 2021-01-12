@@ -2,97 +2,72 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 811522F254F
-	for <lists+linux-api@lfdr.de>; Tue, 12 Jan 2021 02:18:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D8832F2574
+	for <lists+linux-api@lfdr.de>; Tue, 12 Jan 2021 02:48:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731447AbhALBNe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 11 Jan 2021 20:13:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35326 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728175AbhALBNd (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 11 Jan 2021 20:13:33 -0500
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CFBCC061786
-        for <linux-api@vger.kernel.org>; Mon, 11 Jan 2021 17:12:53 -0800 (PST)
-Received: by mail-pj1-x1030.google.com with SMTP id j13so622602pjz.3
-        for <linux-api@vger.kernel.org>; Mon, 11 Jan 2021 17:12:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=osandov-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=HeroSUVjjmC+Oi1TznGuZqpsMLfJSMPO+vq+1KmDVOY=;
-        b=eh3zl5GxXEYsEZi6yuaetcvNkJbsOPeSlI99r6w6+7dicC5rvtqC81rRI/VOQFtIVC
-         8RDAFZbcqMf72vNe80Ux6BOjdoCVwQEfACLjtQBWn8W02nAUK4QiR5WpPxLZy4FQXNSG
-         bTwU6ywKdhHi3J/GglPA+iyXCvAEk2QagSGKXk4Woz0M/A0+WybRt9hp9NVK1cX1RQIU
-         qeQpheXPopxYcL9OZ5gqX22NdJPSw1gAESQkovLj1Q7UJR+4yZix50BIcwqZftgllBVC
-         X5NCmW6DUy6srOhc6rTOK7zYFJHIqvKDtQOuTnZCwryddZ/17xuF0JTmskybdyoo8lSF
-         OxzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=HeroSUVjjmC+Oi1TznGuZqpsMLfJSMPO+vq+1KmDVOY=;
-        b=ulwN8kVtuaUcC5Ss+pvqbjF4Se2hO58AJbdO0eJeoXXxuJZVUCqnBdyDj7gvQn7W/t
-         f556tm+4Bs82gEJeczk2zn1uNLQ8kkyceSrKLDTJmGTe2+G/MSRtAdbu2Yu+6XB2mfl3
-         skRklVfg0F9wkRhqJCAhdEIckhByJvBdDwjpMM/GgJIx2lcUzQdb9f+kvOOdRml1NC6d
-         OvWlsRpWhhs9kNEIE2PHSdZsw1w0202IxV4zGtM1+BlZ3sdxK7r8wZFB8mRN093c5JiH
-         rsl+A9MaSRTTwZv68HiJF//D1krZZuFtNJ+NZaVn6KlA8QjYnyKuPgsOmN93fqZN1Mvl
-         j4xg==
-X-Gm-Message-State: AOAM533Yb2QrsxwefXPGWB5hmCZvy44bQYt9bS04qjVZLIO2enG1nvtN
-        +/Zk/8yScqknRCVzpG+5vKBOjw==
-X-Google-Smtp-Source: ABdhPJxRF0FNun799Re6m0Dlhn3msDTubi+Ca34uUaYeDXhd5YM/gQp4x/Eq+sUbStMDe7j70fv8hA==
-X-Received: by 2002:a17:902:7c04:b029:dc:99f2:eea4 with SMTP id x4-20020a1709027c04b02900dc99f2eea4mr2508598pll.43.1610413972364;
-        Mon, 11 Jan 2021 17:12:52 -0800 (PST)
-Received: from relinquished.localdomain ([2620:10d:c090:400::5:675])
-        by smtp.gmail.com with ESMTPSA id o7sm921465pfp.144.2021.01.11.17.12.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Jan 2021 17:12:50 -0800 (PST)
-Date:   Mon, 11 Jan 2021 17:12:47 -0800
-From:   Omar Sandoval <osandov@osandov.com>
-To:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-Cc:     linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dave Chinner <david@fromorbit.com>,
-        Jann Horn <jannh@google.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Aleksa Sarai <cyphar@cyphar.com>, linux-api@vger.kernel.org,
-        kernel-team@fb.com, linux-man <linux-man@vger.kernel.org>
-Subject: Re: Ping: [PATCH man-pages v6] Document encoded I/O
-Message-ID: <X/z3j7dtRrAMc8wC@relinquished.localdomain>
-References: <cover.1605723568.git.osandov@fb.com>
- <ec1588a618bd313e5a7c05a7f4954cc2b76ddac3.1605724767.git.osandov@osandov.com>
- <4d1430aa-a374-7565-4009-7ec5139bf311@gmail.com>
- <fb4a4270-eb7a-06d5-e703-9ee470b61f8b@gmail.com>
- <05e1f13c-5776-961b-edc4-0d09d02b7829@gmail.com>
- <dcb0679d-3ac5-dd95-5473-3c66ae4132b6@gmail.com>
- <559edb86-4223-71e9-9ebf-c917ae71a13d@gmail.com>
- <2aca4914-d247-28d1-22e0-102ea5ff826e@gmail.com>
- <7e2e061d-fd4b-1243-6b91-cc3168146bba@gmail.com>
- <48cc36d0-5e18-2429-9503-729ce01ac1c8@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <48cc36d0-5e18-2429-9503-729ce01ac1c8@gmail.com>
+        id S1729159AbhALBWz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 11 Jan 2021 20:22:55 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52842 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729129AbhALBWy (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 11 Jan 2021 20:22:54 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D4FD122E02;
+        Tue, 12 Jan 2021 01:22:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1610414534;
+        bh=fLNQgllo3ZCC89DtTE5b6OoK2bTVUyylbTOPyId0eV4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=obUs4N4o5mwnHVY9rYZZwXnXS8Rn/+2bqeLExSBNmLFsy9ruDGHnQziwu81t3OtpB
+         PCgTuMFGUgwQ4wliyDaARt6hTTmnxw/q/pER+IErGNWBm56XeOCFS8usUIIULFFbFS
+         agjczPAoQHs0WnCYRFSNbfsIqDiUY4VZ6Mq3u99c=
+Date:   Mon, 11 Jan 2021 17:22:13 -0800
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     jannh@google.com, keescook@chromium.org, jeffv@google.com,
+        minchan@kernel.org, mhocko@suse.com, shakeelb@google.com,
+        rientjes@google.com, edgararriaga@google.com, timmurray@google.com,
+        linux-mm@kvack.org, selinux@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-team@android.com
+Subject: Re: [PATCH v2 1/1] mm/madvise: replace ptrace attach requirement
+ for process_madvise
+Message-Id: <20210111172213.ab4185a1de916c35f3245021@linux-foundation.org>
+In-Reply-To: <20210111170622.2613577-1-surenb@google.com>
+References: <20210111170622.2613577-1-surenb@google.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Dec 18, 2020 at 11:32:17AM +0100, Alejandro Colomar (man-pages) wrote:
-> Hi Omar,
-> 
-> Linux 5.10 has been recently released.
-> Do you have any updates for this patch?
-> 
-> Thanks,
-> 
-> Alex
+On Mon, 11 Jan 2021 09:06:22 -0800 Suren Baghdasaryan <surenb@google.com> wrote:
 
-Hi, Alex,
+> process_madvise currently requires ptrace attach capability.
+> PTRACE_MODE_ATTACH gives one process complete control over another
+> process. It effectively removes the security boundary between the
+> two processes (in one direction). Granting ptrace attach capability
+> even to a system process is considered dangerous since it creates an
+> attack surface. This severely limits the usage of this API.
+> The operations process_madvise can perform do not affect the correctness
+> of the operation of the target process; they only affect where the data
+> is physically located (and therefore, how fast it can be accessed).
+> What we want is the ability for one process to influence another process
+> in order to optimize performance across the entire system while leaving
+> the security boundary intact.
+> Replace PTRACE_MODE_ATTACH with a combination of PTRACE_MODE_READ
+> and CAP_SYS_NICE. PTRACE_MODE_READ to prevent leaking ASLR metadata
+> and CAP_SYS_NICE for influencing process performance.
 
-Now that the holidays are over I'm revisiting this series and plan to
-send a new version this week or next.
+It would be useful to see the proposed manpage update.
 
-Thanks,
-Omar
+process_madvise() was released in 5.10, so this is a
+non-backward-compatible change to a released kernel.
+
+I think it would be OK at this stage to feed this into 5.10.x with a
+cc:stable and suitable words in the changelog explaining why we're
+doing this.
+
+Alternatively we could retain PTRACE_MODE_ATTACH's behaviour and add
+PTRACE_MODE_READ&CAP_SYS_NICE alongside that.
