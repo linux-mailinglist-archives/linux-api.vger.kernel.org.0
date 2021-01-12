@@ -2,169 +2,127 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DEE3D2F283D
-	for <lists+linux-api@lfdr.de>; Tue, 12 Jan 2021 07:14:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A45FE2F2922
+	for <lists+linux-api@lfdr.de>; Tue, 12 Jan 2021 08:47:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731197AbhALGOX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 12 Jan 2021 01:14:23 -0500
-Received: from mga05.intel.com ([192.55.52.43]:61892 "EHLO mga05.intel.com"
+        id S2392043AbhALHrR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 12 Jan 2021 02:47:17 -0500
+Received: from mx2.suse.de ([195.135.220.15]:37624 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726478AbhALGOW (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 12 Jan 2021 01:14:22 -0500
-IronPort-SDR: +No4ylfoY8M1VBncxLbQEe/pM0SRpWEPvqcn+KrUtP0ilUvZknNGessteydIovOxmOq+vHJudv
- QwQowmL7QkEg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9861"; a="262774006"
-X-IronPort-AV: E=Sophos;i="5.79,340,1602572400"; 
-   d="scan'208";a="262774006"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2021 22:13:41 -0800
-IronPort-SDR: kADjeAZA0f7of4Obo7NUehXhDCw//EV19kjeVAAmshn4tAdXlwFmIYvkuGxFIEXqBjGGuA2OQ3
- ReKkCNAw6wpA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,340,1602572400"; 
-   d="scan'208";a="424046706"
-Received: from yhuang-dev.sh.intel.com (HELO yhuang-dev) ([10.239.159.50])
-  by orsmga001.jf.intel.com with ESMTP; 11 Jan 2021 22:13:37 -0800
-From:   "Huang\, Ying" <ying.huang@intel.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Mel Gorman <mgorman@suse.de>, <linux-mm@kvack.org>,
-        <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Ingo Molnar" <mingo@redhat.com>, Rik van Riel <riel@surriel.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        "Matthew Wilcox \(Oracle\)" <willy@infradead.org>,
-        "Dave Hansen" <dave.hansen@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        "Michal Hocko" <mhocko@suse.com>,
-        David Rientjes <rientjes@google.com>,
-        <linux-api@vger.kernel.org>
-Subject: Re: [PATCH -V8 1/3] numa balancing: Migrate on fault among multiple bound nodes
-References: <20210106065754.17955-1-ying.huang@intel.com>
-        <20210106065754.17955-2-ying.huang@intel.com>
-Date:   Tue, 12 Jan 2021 14:13:36 +0800
-In-Reply-To: <20210106065754.17955-2-ying.huang@intel.com> (Huang Ying's
-        message of "Wed, 6 Jan 2021 14:57:52 +0800")
-Message-ID: <87bldud6nj.fsf@yhuang-dev.intel.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+        id S1728301AbhALHrR (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 12 Jan 2021 02:47:17 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1610437590; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=yBGTtO60lRhzhjBUzaj4i2s5sW7EfXTuKGnmunlohWE=;
+        b=hwvbKiO/E+NP9QqEauVNDAoXqNTjumZS4MLitpiS9HlpLmF/1Yfxx5GZBSvryW5wwOIx5i
+        aPe3gN854YKDgcGGxg7pMMKmlKDwomzFnegh8MQ78X/ZT2s+vLlhl5UtDI+d1i66gmCFHd
+        zDf6PbuIUWr9KLvxPrgtSHGkeBnbUv0=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 87EF3AB92;
+        Tue, 12 Jan 2021 07:46:30 +0000 (UTC)
+Date:   Tue, 12 Jan 2021 08:46:29 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     akpm@linux-foundation.org, jannh@google.com, keescook@chromium.org,
+        jeffv@google.com, minchan@kernel.org, shakeelb@google.com,
+        rientjes@google.com, edgararriaga@google.com, timmurray@google.com,
+        linux-mm@kvack.org, selinux@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-team@android.com, Oleg Nesterov <oleg@redhat.com>
+Subject: Re: [PATCH v2 1/1] mm/madvise: replace ptrace attach requirement for
+ process_madvise
+Message-ID: <20210112074629.GG22493@dhcp22.suse.cz>
+References: <20210111170622.2613577-1-surenb@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ascii
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210111170622.2613577-1-surenb@google.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi, Peter,
+On Mon 11-01-21 09:06:22, Suren Baghdasaryan wrote:
+> process_madvise currently requires ptrace attach capability.
+> PTRACE_MODE_ATTACH gives one process complete control over another
+> process. It effectively removes the security boundary between the
+> two processes (in one direction). Granting ptrace attach capability
+> even to a system process is considered dangerous since it creates an
+> attack surface. This severely limits the usage of this API.
+> The operations process_madvise can perform do not affect the correctness
+> of the operation of the target process; they only affect where the data
+> is physically located (and therefore, how fast it can be accessed).
 
-Huang Ying <ying.huang@intel.com> writes:
+Yes it doesn't influence the correctness but it is still a very
+sensitive operation because it can allow a targeted side channel timing
+attacks so we should be really careful.
 
-> Now, NUMA balancing can only optimize the page placement among the
-> NUMA nodes if the default memory policy is used.  Because the memory
-> policy specified explicitly should take precedence.  But this seems
-> too strict in some situations.  For example, on a system with 4 NUMA
-> nodes, if the memory of an application is bound to the node 0 and 1,
-> NUMA balancing can potentially migrate the pages between the node 0
-> and 1 to reduce cross-node accessing without breaking the explicit
-> memory binding policy.
->
-> So in this patch, we add MPOL_F_NUMA_BALANCING mode flag to
-> set_mempolicy() when mode is MPOL_BIND.  With the flag specified, NUMA
-> balancing will be enabled within the thread to optimize the page
-> placement within the constrains of the specified memory binding
-> policy.  With the newly added flag, the NUMA balancing control
-> mechanism becomes,
->
-> - sysctl knob numa_balancing can enable/disable the NUMA balancing
->   globally.
->
-> - even if sysctl numa_balancing is enabled, the NUMA balancing will be
->   disabled for the memory areas or applications with the explicit memory
->   policy by default.
->
-> - MPOL_F_NUMA_BALANCING can be used to enable the NUMA balancing for the
->   applications when specifying the explicit memory policy (MPOL_BIND).
->
-> Various page placement optimization based on the NUMA balancing can be
-> done with these flags.  As the first step, in this patch, if the
-> memory of the application is bound to multiple nodes (MPOL_BIND), and
-> in the hint page fault handler the accessing node are in the policy
-> nodemask, the page will be tried to be migrated to the accessing node
-> to reduce the cross-node accessing.
->
-> If the newly added MPOL_F_NUMA_BALANCING flag is specified by an
-> application on an old kernel version without its support,
-> set_mempolicy() will return -1 and errno will be set to EINVAL.  The
-> application can use this behavior to run on both old and new kernel
-> versions.
->
-> And if the MPOL_F_NUMA_BALANCING flag is specified for the mode other
-> than MPOL_BIND, set_mempolicy() will return -1 and errno will be set
-> to EINVAL as before.  Because we don't support optimization based on
-> the NUMA balancing for these modes.
->
-> In the previous version of the patch, we tried to reuse MPOL_MF_LAZY
-> for mbind().  But that flag is tied to MPOL_MF_MOVE.*, so it seems not
-> a good API/ABI for the purpose of the patch.
->
-> And because it's not clear whether it's necessary to enable NUMA
-> balancing for a specific memory area inside an application, so we only
-> add the flag at the thread level (set_mempolicy()) instead of the
-> memory area level (mbind()).  We can do that when it become necessary.
->
-> To test the patch, we run a test case as follows on a 4-node machine
-> with 192 GB memory (48 GB per node).
->
-> 1. Change pmbench memory accessing benchmark to call set_mempolicy()
->    to bind its memory to node 1 and 3 and enable NUMA balancing.  Some
->    related code snippets are as follows,
->
->      #include <numaif.h>
->      #include <numa.h>
->
-> 	struct bitmask *bmp;
-> 	int ret;
->
-> 	bmp = numa_parse_nodestring("1,3");
-> 	ret = set_mempolicy(MPOL_BIND | MPOL_F_NUMA_BALANCING,
-> 			    bmp->maskp, bmp->size + 1);
-> 	/* If MPOL_F_NUMA_BALANCING isn't supported, fall back to MPOL_BIND */
-> 	if (ret < 0 && errno == EINVAL)
-> 		ret = set_mempolicy(MPOL_BIND, bmp->maskp, bmp->size + 1);
-> 	if (ret < 0) {
-> 		perror("Failed to call set_mempolicy");
-> 		exit(-1);
-> 	}
->
-> 2. Run a memory eater on node 3 to use 40 GB memory before running pmbench.
->
-> 3. Run pmbench with 64 processes, the working-set size of each process
->    is 640 MB, so the total working-set size is 64 * 640 MB = 40 GB.  The
->    CPU and the memory (as in step 1.) of all pmbench processes is bound
->    to node 1 and 3. So, after CPU usage is balanced, some pmbench
->    processes run on the CPUs of the node 3 will access the memory of
->    the node 1.
->
-> 4. After the pmbench processes run for 100 seconds, kill the memory
->    eater.  Now it's possible for some pmbench processes to migrate
->    their pages from node 1 to node 3 to reduce cross-node accessing.
->
-> Test results show that, with the patch, the pages can be migrated from
-> node 1 to node 3 after killing the memory eater, and the pmbench score
-> can increase about 17.5%.
->
-> Signed-off-by: "Huang, Ying" <ying.huang@intel.com>
-> Acked-by: Mel Gorman <mgorman@suse.de>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Rik van Riel <riel@surriel.com>
-> Cc: Johannes Weiner <hannes@cmpxchg.org>
-> Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-> Cc: Dave Hansen <dave.hansen@intel.com>
-> Cc: Andi Kleen <ak@linux.intel.com>
-> Cc: Michal Hocko <mhocko@suse.com>
-> Cc: David Rientjes <rientjes@google.com>
-> Cc: linux-api@vger.kernel.org
+> What we want is the ability for one process to influence another process
+> in order to optimize performance across the entire system while leaving
+> the security boundary intact.
+> Replace PTRACE_MODE_ATTACH with a combination of PTRACE_MODE_READ
+> and CAP_SYS_NICE. PTRACE_MODE_READ to prevent leaking ASLR metadata
+> and CAP_SYS_NICE for influencing process performance.
 
-It seems that Andrew has no objection to this patch.  Is it possible for
-you to merge it through your tree?
+I have to say that ptrace modes are rather obscure to me. So I cannot
+really judge whether MODE_READ is sufficient. My understanding has
+always been that this is requred to RO access to the address space. But
+this operation clearly has a visible side effect. Do we have any actual
+documentation for the existing modes?
 
-Best Regards,
-Huang, Ying
+I would be really curious to hear from Jann and Oleg (now Cced).
+
+Is CAP_SYS_NICE requirement really necessary?
+
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> Acked-by: Minchan Kim <minchan@kernel.org>
+> Acked-by: David Rientjes <rientjes@google.com>
+> ---
+>  mm/madvise.c | 13 ++++++++++++-
+>  1 file changed, 12 insertions(+), 1 deletion(-)
+> 
+> diff --git a/mm/madvise.c b/mm/madvise.c
+> index 6a660858784b..a9bcd16b5d95 100644
+> --- a/mm/madvise.c
+> +++ b/mm/madvise.c
+> @@ -1197,12 +1197,22 @@ SYSCALL_DEFINE5(process_madvise, int, pidfd, const struct iovec __user *, vec,
+>  		goto release_task;
+>  	}
+>  
+> -	mm = mm_access(task, PTRACE_MODE_ATTACH_FSCREDS);
+> +	/* Require PTRACE_MODE_READ to avoid leaking ASLR metadata. */
+> +	mm = mm_access(task, PTRACE_MODE_READ_FSCREDS);
+>  	if (IS_ERR_OR_NULL(mm)) {
+>  		ret = IS_ERR(mm) ? PTR_ERR(mm) : -ESRCH;
+>  		goto release_task;
+>  	}
+>  
+> +	/*
+> +	 * Require CAP_SYS_NICE for influencing process performance. Note that
+> +	 * only non-destructive hints are currently supported.
+> +	 */
+> +	if (!capable(CAP_SYS_NICE)) {
+> +		ret = -EPERM;
+> +		goto release_mm;
+> +	}
+> +
+>  	total_len = iov_iter_count(&iter);
+>  
+>  	while (iov_iter_count(&iter)) {
+> @@ -1217,6 +1227,7 @@ SYSCALL_DEFINE5(process_madvise, int, pidfd, const struct iovec __user *, vec,
+>  	if (ret == 0)
+>  		ret = total_len - iov_iter_count(&iter);
+>  
+> +release_mm:
+>  	mmput(mm);
+>  release_task:
+>  	put_task_struct(task);
+> -- 
+> 2.30.0.284.gd98b1dd5eaa7-goog
+> 
+
+-- 
+Michal Hocko
+SUSE Labs
