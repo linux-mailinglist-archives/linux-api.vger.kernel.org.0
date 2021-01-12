@@ -2,75 +2,97 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 479A32F23D1
-	for <lists+linux-api@lfdr.de>; Tue, 12 Jan 2021 01:33:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 811522F254F
+	for <lists+linux-api@lfdr.de>; Tue, 12 Jan 2021 02:18:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391793AbhALA0B (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 11 Jan 2021 19:26:01 -0500
-Received: from mga14.intel.com ([192.55.52.115]:29965 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2404238AbhALAK0 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 11 Jan 2021 19:10:26 -0500
-IronPort-SDR: 4WkjVdCVtSs4tpYTIl+Oru/a85CxppNMem/874N/QAWKFowtW91gsdxpnkxHf6q9HiJ2x3jM9/
- wWCRfLfdI+Jg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9861"; a="177183523"
-X-IronPort-AV: E=Sophos;i="5.79,339,1602572400"; 
-   d="scan'208";a="177183523"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2021 16:09:46 -0800
-IronPort-SDR: MZ6o279zdJ2hukSqNJAelzE0N3EoPSuST80JVMJ0lG7cLsw+cOmSn4be9Fxg2PwEjeSvp7bcPZ
- 612cCvl1Cu1Q==
-X-IronPort-AV: E=Sophos;i="5.79,339,1602572400"; 
-   d="scan'208";a="352799931"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.197.241]) ([10.212.197.241])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2021 16:09:43 -0800
-Subject: Re: [PATCH v17 04/26] x86/cpufeatures: Introduce X86_FEATURE_CET and
- setup functions
-To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-References: <20201229213053.16395-5-yu-cheng.yu@intel.com>
- <20210111230900.5916-1-yu-cheng.yu@intel.com>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <f88d2211-d314-5d9c-9471-a54c412525e0@intel.com>
-Date:   Mon, 11 Jan 2021 16:09:42 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        id S1731447AbhALBNe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 11 Jan 2021 20:13:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35326 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728175AbhALBNd (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 11 Jan 2021 20:13:33 -0500
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CFBCC061786
+        for <linux-api@vger.kernel.org>; Mon, 11 Jan 2021 17:12:53 -0800 (PST)
+Received: by mail-pj1-x1030.google.com with SMTP id j13so622602pjz.3
+        for <linux-api@vger.kernel.org>; Mon, 11 Jan 2021 17:12:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=osandov-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=HeroSUVjjmC+Oi1TznGuZqpsMLfJSMPO+vq+1KmDVOY=;
+        b=eh3zl5GxXEYsEZi6yuaetcvNkJbsOPeSlI99r6w6+7dicC5rvtqC81rRI/VOQFtIVC
+         8RDAFZbcqMf72vNe80Ux6BOjdoCVwQEfACLjtQBWn8W02nAUK4QiR5WpPxLZy4FQXNSG
+         bTwU6ywKdhHi3J/GglPA+iyXCvAEk2QagSGKXk4Woz0M/A0+WybRt9hp9NVK1cX1RQIU
+         qeQpheXPopxYcL9OZ5gqX22NdJPSw1gAESQkovLj1Q7UJR+4yZix50BIcwqZftgllBVC
+         X5NCmW6DUy6srOhc6rTOK7zYFJHIqvKDtQOuTnZCwryddZ/17xuF0JTmskybdyoo8lSF
+         OxzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=HeroSUVjjmC+Oi1TznGuZqpsMLfJSMPO+vq+1KmDVOY=;
+        b=ulwN8kVtuaUcC5Ss+pvqbjF4Se2hO58AJbdO0eJeoXXxuJZVUCqnBdyDj7gvQn7W/t
+         f556tm+4Bs82gEJeczk2zn1uNLQ8kkyceSrKLDTJmGTe2+G/MSRtAdbu2Yu+6XB2mfl3
+         skRklVfg0F9wkRhqJCAhdEIckhByJvBdDwjpMM/GgJIx2lcUzQdb9f+kvOOdRml1NC6d
+         OvWlsRpWhhs9kNEIE2PHSdZsw1w0202IxV4zGtM1+BlZ3sdxK7r8wZFB8mRN093c5JiH
+         rsl+A9MaSRTTwZv68HiJF//D1krZZuFtNJ+NZaVn6KlA8QjYnyKuPgsOmN93fqZN1Mvl
+         j4xg==
+X-Gm-Message-State: AOAM533Yb2QrsxwefXPGWB5hmCZvy44bQYt9bS04qjVZLIO2enG1nvtN
+        +/Zk/8yScqknRCVzpG+5vKBOjw==
+X-Google-Smtp-Source: ABdhPJxRF0FNun799Re6m0Dlhn3msDTubi+Ca34uUaYeDXhd5YM/gQp4x/Eq+sUbStMDe7j70fv8hA==
+X-Received: by 2002:a17:902:7c04:b029:dc:99f2:eea4 with SMTP id x4-20020a1709027c04b02900dc99f2eea4mr2508598pll.43.1610413972364;
+        Mon, 11 Jan 2021 17:12:52 -0800 (PST)
+Received: from relinquished.localdomain ([2620:10d:c090:400::5:675])
+        by smtp.gmail.com with ESMTPSA id o7sm921465pfp.144.2021.01.11.17.12.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Jan 2021 17:12:50 -0800 (PST)
+Date:   Mon, 11 Jan 2021 17:12:47 -0800
+From:   Omar Sandoval <osandov@osandov.com>
+To:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+Cc:     linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dave Chinner <david@fromorbit.com>,
+        Jann Horn <jannh@google.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Aleksa Sarai <cyphar@cyphar.com>, linux-api@vger.kernel.org,
+        kernel-team@fb.com, linux-man <linux-man@vger.kernel.org>
+Subject: Re: Ping: [PATCH man-pages v6] Document encoded I/O
+Message-ID: <X/z3j7dtRrAMc8wC@relinquished.localdomain>
+References: <cover.1605723568.git.osandov@fb.com>
+ <ec1588a618bd313e5a7c05a7f4954cc2b76ddac3.1605724767.git.osandov@osandov.com>
+ <4d1430aa-a374-7565-4009-7ec5139bf311@gmail.com>
+ <fb4a4270-eb7a-06d5-e703-9ee470b61f8b@gmail.com>
+ <05e1f13c-5776-961b-edc4-0d09d02b7829@gmail.com>
+ <dcb0679d-3ac5-dd95-5473-3c66ae4132b6@gmail.com>
+ <559edb86-4223-71e9-9ebf-c917ae71a13d@gmail.com>
+ <2aca4914-d247-28d1-22e0-102ea5ff826e@gmail.com>
+ <7e2e061d-fd4b-1243-6b91-cc3168146bba@gmail.com>
+ <48cc36d0-5e18-2429-9503-729ce01ac1c8@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210111230900.5916-1-yu-cheng.yu@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <48cc36d0-5e18-2429-9503-729ce01ac1c8@gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This is a minor revision of the original [PATCH v17 04/26] patch.  The 
-purpose of the revision is to address Boris' comment earlier by doing 
-setup_force_cpu_cap(X86_FEATURE_CET) in bsp_init_intel().
+On Fri, Dec 18, 2020 at 11:32:17AM +0100, Alejandro Colomar (man-pages) wrote:
+> Hi Omar,
+> 
+> Linux 5.10 has been recently released.
+> Do you have any updates for this patch?
+> 
+> Thanks,
+> 
+> Alex
 
---
-Yu-cheng
+Hi, Alex,
+
+Now that the holidays are over I'm revisiting this series and plan to
+send a new version this week or next.
+
+Thanks,
+Omar
