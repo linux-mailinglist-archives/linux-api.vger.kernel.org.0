@@ -2,336 +2,106 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 641582F33EC
-	for <lists+linux-api@lfdr.de>; Tue, 12 Jan 2021 16:14:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E4C92F3756
+	for <lists+linux-api@lfdr.de>; Tue, 12 Jan 2021 18:39:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405127AbhALPNj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 12 Jan 2021 10:13:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57854 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2405080AbhALPNf (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 12 Jan 2021 10:13:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1610464328;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:in-reply-to:in-reply-to:references:references;
-        bh=eYAwFL1bjtKuxrU7qTxXl+J5KIWZcpoUKayCM4CfTx4=;
-        b=Pjd2fVMOZL7sYeEWxIHjT8EXtfa37Ljandr1UgNAufKm9nk28sGSh6c7EcL4XVxXjj6vbm
-        wwtj+dFTq3cmOVAzXujySwD3H3frUollXKs/ghKRE6JXlpHqzM0Z6Z8YFAFQgjZNqk0EWv
-        /f/92v9qCOqPc56h+XOF55kEDf4fIQ8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-585-iK-nb-EHMbicuqqU05FD5Q-1; Tue, 12 Jan 2021 10:12:04 -0500
-X-MC-Unique: iK-nb-EHMbicuqqU05FD5Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CEE4C100C601;
-        Tue, 12 Jan 2021 15:12:01 +0000 (UTC)
-Received: from madcap2.tricolour.ca (unknown [10.10.110.8])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id BB2325D9CD;
-        Tue, 12 Jan 2021 15:11:55 +0000 (UTC)
-From:   Richard Guy Briggs <rgb@redhat.com>
-To:     Linux Containers List <containers@lists.linux-foundation.org>,
+        id S2389112AbhALRhV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 12 Jan 2021 12:37:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49246 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389426AbhALRhP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 12 Jan 2021 12:37:15 -0500
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89708C0617A2
+        for <linux-api@vger.kernel.org>; Tue, 12 Jan 2021 09:36:31 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id d13so3346294wrc.13
+        for <linux-api@vger.kernel.org>; Tue, 12 Jan 2021 09:36:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=wfBdHlbPhe9JJVFJ53u2WB3aTeFtdCK9M9opKH7jl0E=;
+        b=r+hFbctf7X7hHlEJB3cUCjzH8j2xrYepKGUGArG/haPmHg3VEsQqEoP+bjyfE+JUV4
+         7fNlBjtiSaVAjnlZ8OaToJ9zft6m1wHPMAvTu/fKvVnerheKqOs0WRIVdNMN12Jw7COZ
+         FVQMfPoZ0h5x0cFG0Z9WY0uT5Hp0zqIxpVoCNdwBTExy689NFmyPnNG3yNlT+FuggQJY
+         PcUzwOPS1IslA3+lNcHct75qRyTW9ivKIgWwcPwxQoEltGGD4o6tV3kE9jPcvQfhuuXA
+         O6Owucb4wqQ+RuictebWz50p1Hg4HXq7M3petBX90hlXHPZpAra0SIB2ZVih0uotmjgi
+         REWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=wfBdHlbPhe9JJVFJ53u2WB3aTeFtdCK9M9opKH7jl0E=;
+        b=Fsl7R27mpBds2QR1Ha/7W8KqwOsg0/yA7L89uMP4FkZt/XbxTA0kUhO8UETNjzTrux
+         oERy+8HEJlpjgNM+KGZ2V/9iMN5h5IvNNXlDj3Z//bGIE9vuD4KH3X+gm1ec3xcAt6Gm
+         3ZfhQRB6fhHz9C0J+II8Dm8wqODLzrX8AGqW4ExXz23WAWMwSrMNNOy3yZ49OuLfcyHu
+         28DmmckYc+QKuWjBHtk4RgCYDgMKCfm4akLJcKZEE/N1gLUmQzwfJYGrLkn318CnGxG0
+         NVGLG4GOKYYwxDs/Hj02z8WFdNRpw8Lms0/R8Dft42AwrxxP8apxShu2s32EEp1SDqv/
+         nd3Q==
+X-Gm-Message-State: AOAM533mifoIeMgypmAQi+PseFzYYQVPnceiK+LYnXtA0qlZNnyrNnc0
+        kdDYrHWZhppreO8REjYR1XxAch3KKn3C2YG9UQL3TQ==
+X-Google-Smtp-Source: ABdhPJw1Jgdy43yhmaRwTd0pdcF+MsZsBqxx4SqJd+UJxoXstrUpJMKOObpVqUZhNvBXniG6D6ajQpMGbSb4nXVH30o=
+X-Received: by 2002:adf:f0d0:: with SMTP id x16mr5603702wro.162.1610472990153;
+ Tue, 12 Jan 2021 09:36:30 -0800 (PST)
+MIME-Version: 1.0
+References: <20210111170622.2613577-1-surenb@google.com> <20210111172213.ab4185a1de916c35f3245021@linux-foundation.org>
+In-Reply-To: <20210111172213.ab4185a1de916c35f3245021@linux-foundation.org>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Tue, 12 Jan 2021 09:36:18 -0800
+Message-ID: <CAJuCfpFdSNTp+PhJ1ztyfbzdVWVHy=qJJPVizXPGizgBQqTKYw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] mm/madvise: replace ptrace attach requirement for process_madvise
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Jann Horn <jannh@google.com>, Kees Cook <keescook@chromium.org>,
+        Jeffrey Vander Stoep <jeffv@google.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        David Rientjes <rientjes@google.com>,
+        =?UTF-8?Q?Edgar_Arriaga_Garc=C3=ADa?= <edgararriaga@google.com>,
+        Tim Murray <timmurray@google.com>,
+        linux-mm <linux-mm@kvack.org>, selinux@vger.kernel.org,
         Linux API <linux-api@vger.kernel.org>,
-        Linux-Audit Mailing List <linux-audit@redhat.com>,
-        Linux FSdevel <linux-fsdevel@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>,
-        Linux NetDev Upstream Mailing List <netdev@vger.kernel.org>,
-        Netfilter Devel List <netfilter-devel@vger.kernel.org>
-Cc:     Neil Horman <nhorman@tuxdriver.com>,
-        David Howells <dhowells@redhat.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Simo Sorce <simo@redhat.com>,
-        Eric Paris <eparis@parisplace.org>, mpatel@redhat.com,
-        Serge Hallyn <serge@hallyn.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jens Axboe <axboe@kernel.dk>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Richard Guy Briggs <rgb@redhat.com>
-Subject: [PATCH ghak90 v11 11/11] audit: add capcontid to set contid outside init_user_ns
-Date:   Tue, 12 Jan 2021 10:09:39 -0500
-Message-Id: <f535d3945bf0fccb3fd6278ec6bb2f0f01317fd3.1610399347.git.rgb@redhat.com>
-In-Reply-To: <cover.1610399347.git.rgb@redhat.com>
-References: <cover.1610399347.git.rgb@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+        kernel-team <kernel-team@android.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Provide a mechanism similar to CAP_AUDIT_CONTROL to explicitly give a
-process in a non-init user namespace the capability to set audit
-container identifiers of individual children.
+On Mon, Jan 11, 2021 at 5:22 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+>
+> On Mon, 11 Jan 2021 09:06:22 -0800 Suren Baghdasaryan <surenb@google.com> wrote:
+>
+> > process_madvise currently requires ptrace attach capability.
+> > PTRACE_MODE_ATTACH gives one process complete control over another
+> > process. It effectively removes the security boundary between the
+> > two processes (in one direction). Granting ptrace attach capability
+> > even to a system process is considered dangerous since it creates an
+> > attack surface. This severely limits the usage of this API.
+> > The operations process_madvise can perform do not affect the correctness
+> > of the operation of the target process; they only affect where the data
+> > is physically located (and therefore, how fast it can be accessed).
+> > What we want is the ability for one process to influence another process
+> > in order to optimize performance across the entire system while leaving
+> > the security boundary intact.
+> > Replace PTRACE_MODE_ATTACH with a combination of PTRACE_MODE_READ
+> > and CAP_SYS_NICE. PTRACE_MODE_READ to prevent leaking ASLR metadata
+> > and CAP_SYS_NICE for influencing process performance.
+>
+> It would be useful to see the proposed manpage update.
+>
+> process_madvise() was released in 5.10, so this is a
+> non-backward-compatible change to a released kernel.
+>
+> I think it would be OK at this stage to feed this into 5.10.x with a
+> cc:stable and suitable words in the changelog explaining why we're
+> doing this.
 
-Provide the /proc/$PID/audit_capcontid interface to capcontid.
-Valid values are: 1==enabled, 0==disabled
+Sure, I will post another patchset that will include manpage update
+and will CC:stable. That's of course after Michal's concerns are
+addressed.
+Thanks!
 
-Writing a "1" to this special file for the target process $PID will
-enable the target process to set audit container identifiers of its
-descendants.
-
-A process must already have CAP_AUDIT_CONTROL in the initial user
-namespace or have had audit_capcontid enabled by a previous use of this
-feature by its parent on this process in order to be able to enable it
-for another process.  The target process must be a descendant of the
-calling process.
-
-Report this action in new message type AUDIT_SET_CAPCONTID 1022 with
-fields opid= capcontid= old-capcontid=
-
-Add an entry to Documentation/ABI.
-
-Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
----
- .../ABI/testing/procfs-audit_containerid      | 16 +++++
- fs/proc/base.c                                | 54 +++++++++++++++
- include/linux/audit.h                         |  4 +-
- include/uapi/linux/audit.h                    |  1 +
- kernel/audit.c                                | 65 ++++++++++++++++++-
- 5 files changed, 137 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/ABI/testing/procfs-audit_containerid b/Documentation/ABI/testing/procfs-audit_containerid
-index 30ea64790473..c697d7da0ad1 100644
---- a/Documentation/ABI/testing/procfs-audit_containerid
-+++ b/Documentation/ABI/testing/procfs-audit_containerid
-@@ -11,3 +11,19 @@ Description:
- 		or have its own /proc/$pid/capcontainerid set to write
- 		or read.
- 
-+
-+What:		Capability to set or get the Audit Container Identifier
-+Date:		2020-??
-+KernelVersion:	5.10?
-+Contact:	linux-audit@redhat.com
-+Format:		u32
-+Users:		auditd, libaudit, audit-testsuite, podman(?), container orchestrators
-+Description:
-+		The /proc/$pid/audit_capcontainerid pseudofile is
-+		written to set and is read to get the capability of
-+		process $pid to write or to read the /proc/$pid/containerid
-+		audit container identifier of any of its descendants.
-+		"1" allows and "0" denies that capability.  This
-+		property is an extension to CAP_AUDIT_CONTROL outside of
-+		the initial user namespace.
-+
-diff --git a/fs/proc/base.c b/fs/proc/base.c
-index bf447e7932d2..7495eec1c73b 100644
---- a/fs/proc/base.c
-+++ b/fs/proc/base.c
-@@ -1383,6 +1383,58 @@ static const struct file_operations proc_contid_operations = {
- 	.write		= proc_contid_write,
- 	.llseek		= generic_file_llseek,
- };
-+
-+static ssize_t proc_capcontid_read(struct file *file, char __user *buf,
-+				  size_t count, loff_t *ppos)
-+{
-+	struct inode *inode = file_inode(file);
-+	struct task_struct *task = get_proc_task(inode);
-+	ssize_t length;
-+	char tmpbuf[TMPBUFLEN];
-+
-+	if (!task)
-+		return -ESRCH;
-+	length = audit_get_capcontid_proc(tmpbuf, TMPBUFLEN, task);
-+	put_task_struct(task);
-+	if (length < 0)
-+		return length;
-+	return simple_read_from_buffer(buf, count, ppos, tmpbuf, length);
-+}
-+
-+static ssize_t proc_capcontid_write(struct file *file, const char __user *buf,
-+				   size_t count, loff_t *ppos)
-+{
-+	struct inode *inode = file_inode(file);
-+	u32 capcontid;
-+	int rv;
-+	struct task_struct *task = get_proc_task(inode);
-+
-+	if (!task)
-+		return -ESRCH;
-+	if (*ppos != 0) {
-+		/* No partial writes. */
-+		put_task_struct(task);
-+		return -EINVAL;
-+	}
-+
-+	rv = kstrtou32_from_user(buf, count, 10, &capcontid);
-+	if (rv < 0) {
-+		put_task_struct(task);
-+		return rv;
-+	}
-+
-+	rv = audit_set_capcontid(task, capcontid);
-+	put_task_struct(task);
-+	if (rv < 0)
-+		return rv;
-+	return count;
-+}
-+
-+static const struct file_operations proc_capcontid_operations = {
-+	.read		= proc_capcontid_read,
-+	.write		= proc_capcontid_write,
-+	.llseek		= generic_file_llseek,
-+};
- #endif
- 
- #ifdef CONFIG_FAULT_INJECTION
-@@ -3286,6 +3338,7 @@ static const struct pid_entry tgid_base_stuff[] = {
- 	REG("loginuid",   S_IWUSR|S_IRUGO, proc_loginuid_operations),
- 	REG("sessionid",  S_IRUGO, proc_sessionid_operations),
- 	REG("audit_containerid", S_IWUSR|S_IRUSR, proc_contid_operations),
-+	REG("audit_capcontainerid", S_IWUSR|S_IRUSR, proc_capcontid_operations),
- #endif
- #ifdef CONFIG_FAULT_INJECTION
- 	REG("make-it-fail", S_IRUGO|S_IWUSR, proc_fault_inject_operations),
-@@ -3629,6 +3682,7 @@ static const struct pid_entry tid_base_stuff[] = {
- 	REG("loginuid",  S_IWUSR|S_IRUGO, proc_loginuid_operations),
- 	REG("sessionid",  S_IRUGO, proc_sessionid_operations),
- 	REG("audit_containerid", S_IWUSR|S_IRUSR, proc_contid_operations),
-+	REG("audit_capcontainerid", S_IWUSR|S_IRUSR, proc_capcontid_operations),
- #endif
- #ifdef CONFIG_FAULT_INJECTION
- 	REG("make-it-fail", S_IRUGO|S_IWUSR, proc_fault_inject_operations),
-diff --git a/include/linux/audit.h b/include/linux/audit.h
-index 014f73296fec..3f5444393618 100644
---- a/include/linux/audit.h
-+++ b/include/linux/audit.h
-@@ -214,8 +214,10 @@ extern void audit_set_sessionid_iouring(unsigned int sessionid);
- 
- extern int audit_get_contid_proc(char *tmpbuf, int TMPBUFLEN,
- 				 struct task_struct *task);
--
-+extern int audit_get_capcontid_proc(char *tmpbuf, int TMPBUFLEN,
-+				 struct task_struct *task);
- extern int audit_set_contid(struct task_struct *tsk, u64 contid);
-+extern int audit_set_capcontid(struct task_struct *tsk, u32 enable);
- 
- extern void audit_copy_namespaces(struct net *net, struct task_struct *tsk);
- extern void audit_switch_task_namespaces(struct nsproxy *ns,
-diff --git a/include/uapi/linux/audit.h b/include/uapi/linux/audit.h
-index 66350e572e41..b7c7ab2e6a1d 100644
---- a/include/uapi/linux/audit.h
-+++ b/include/uapi/linux/audit.h
-@@ -73,6 +73,7 @@
- #define AUDIT_GET_FEATURE	1019	/* Get which features are enabled */
- #define AUDIT_CONTAINER_OP	1020	/* Define the container id and info */
- #define AUDIT_SIGNAL_INFO2	1021	/* Get info auditd signal sender */
-+#define AUDIT_SET_CAPCONTID	1022	/* Set cap_contid of a task */
- 
- #define AUDIT_FIRST_USER_MSG	1100	/* Userspace messages mostly uninteresting to kernel */
- #define AUDIT_USER_AVC		1107	/* We filter this differently */
-diff --git a/kernel/audit.c b/kernel/audit.c
-index d2e9d803e5fd..7e825305b3c2 100644
---- a/kernel/audit.c
-+++ b/kernel/audit.c
-@@ -238,6 +238,7 @@ struct audit_task_info {
- 	kuid_t			loginuid;
- 	unsigned int		sessionid;
- 	struct audit_contobj	*cont;
-+	u32			capcontid;
- #ifdef CONFIG_AUDITSYSCALL
- 	struct audit_context	*ctx;
- #endif
-@@ -308,6 +309,15 @@ static inline u64 audit_get_contid(struct task_struct *tsk)
- 	return info->cont->id;
- }
- 
-+static inline u32 audit_get_capcontid(struct task_struct *tsk)
-+{
-+	struct audit_task_info *info = tsk->audit;
-+
-+	if (!info)
-+		return 0;
-+	return info->capcontid;
-+}
-+
- inline struct audit_context *_audit_context(struct task_struct *tsk)
- {
- 	struct audit_task_info *info = tsk->audit;
-@@ -420,6 +430,7 @@ static void audit_alloc_task(struct task_struct *tsk)
- 	rcu_read_lock();
- 	info->cont = _audit_contobj_get_bytask(current);
- 	rcu_read_unlock();
-+	info->capcontid = 0;
- 	tsk->audit = info;
- }
- 
-@@ -2988,6 +2999,56 @@ static bool audit_contid_isnesting(struct task_struct *tsk)
- 	return !isowner && ownerisparent;
- }
- 
-+int audit_set_capcontid(struct task_struct *tsk, u32 enable)
-+{
-+	u32 oldcapcontid;
-+	int rc = 0;
-+	struct audit_buffer *ab;
-+	struct audit_task_info *info = tsk->audit;
-+
-+	if (!info)
-+		return -ENOPROTOOPT;
-+	oldcapcontid = audit_get_capcontid(tsk);
-+	/* if task is not descendant, block */
-+	if (tsk == current || !task_is_descendant(current, tsk))
-+		rc = -EXDEV;
-+	else if (current_user_ns() == &init_user_ns) {
-+		if (!capable(CAP_AUDIT_CONTROL) &&
-+		    !audit_get_capcontid(current))
-+			rc = -EPERM;
-+	}
-+	if (!rc)
-+		info->capcontid = enable;
-+
-+	if (!audit_enabled)
-+		return rc;
-+
-+	ab = audit_log_start(audit_context(), GFP_KERNEL, AUDIT_SET_CAPCONTID);
-+	if (!ab)
-+		return rc;
-+
-+	audit_log_format(ab,
-+			 "opid=%d capcontid=%u old-capcontid=%u",
-+			 task_tgid_nr(tsk), enable, oldcapcontid);
-+	audit_log_end(ab);
-+	return rc;
-+}
-+
-+int audit_get_capcontid_proc(char *tmpbuf, int TMPBUFLEN,
-+			  struct task_struct *tsk)
-+{
-+	int length;
-+
-+	/* if we don't have caps, reject */
-+	if (!capable(CAP_AUDIT_CONTROL) && !audit_get_capcontid(current)) {
-+		length = -EPERM;
-+		goto out;
-+	}
-+	length = scnprintf(tmpbuf, TMPBUFLEN, "%u", audit_get_capcontid(tsk));
-+out:
-+	return length;
-+}
-+
- /*
-  * audit_set_contid - set current task's audit contid
-  * @tsk: target task
-@@ -3021,7 +3082,7 @@ int audit_set_contid(struct task_struct *tsk, u64 contid)
- 	if (contid == AUDIT_CID_UNSET) {
- 		/* Don't allow the contid to be unset */
- 		rc = -EINVAL;
--	} else if (!capable(CAP_AUDIT_CONTROL)) {
-+	} else if (!capable(CAP_AUDIT_CONTROL) && !audit_get_capcontid(current)) {
- 		/* if we don't have caps, reject */
- 		rc = -EPERM;
- 	} else if (!list_empty(&tsk->children) ||
-@@ -3111,7 +3172,7 @@ int audit_get_contid_proc(char *tmpbuf, int TMPBUFLEN,
- 	int length;
- 
- 	/* if we don't have caps, reject */
--	if (!capable(CAP_AUDIT_CONTROL)) {
-+	if (!capable(CAP_AUDIT_CONTROL) && !audit_get_capcontid(current)) {
- 		length = -EPERM;
- 		goto out;
- 	}
--- 
-2.18.4
-
+>
+> Alternatively we could retain PTRACE_MODE_ATTACH's behaviour and add
+> PTRACE_MODE_READ&CAP_SYS_NICE alongside that.
