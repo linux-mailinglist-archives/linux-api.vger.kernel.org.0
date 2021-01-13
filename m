@@ -2,84 +2,97 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 90EAB2F5767
-	for <lists+linux-api@lfdr.de>; Thu, 14 Jan 2021 04:00:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 882B92F57EF
+	for <lists+linux-api@lfdr.de>; Thu, 14 Jan 2021 04:01:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728947AbhANB64 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 13 Jan 2021 20:58:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43116 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729522AbhAMXj5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 13 Jan 2021 18:39:57 -0500
-Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [IPv6:2607:fcd0:100:8a00::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D2EAC0617BA;
-        Wed, 13 Jan 2021 15:29:18 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-        by bedivere.hansenpartnership.com (Postfix) with ESMTP id D4E851280507;
-        Wed, 13 Jan 2021 15:26:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-        d=hansenpartnership.com; s=20151216; t=1610580397;
-        bh=s0c634nlcedkZkA291f6sVLCwg/uFDmds8y8Ez+P97Y=;
-        h=From:To:Subject:Date:Message-Id:In-Reply-To:References:From;
-        b=XkgCvVwcbmaeezzLFoGXHQYqYRWvXOaJafk4hPDESwLQDtb3C4E6GHkKwhUg/ZKgx
-         26FQf9ohoYhKUb0CbeZB+xYiCGCwRPEQj8DI4GPXR3uOves5MA/JhQtF3APGRERj1m
-         LxVSsIwlp2pxI016wbZnYGH1wroOnZgVvO5cUKmM=
-Received: from bedivere.hansenpartnership.com ([127.0.0.1])
-        by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id S6AadztpZrLS; Wed, 13 Jan 2021 15:26:37 -0800 (PST)
-Received: from jarvis.int.hansenpartnership.com (jarvis.ext.hansenpartnership.com [153.66.160.226])
-        by bedivere.hansenpartnership.com (Postfix) with ESMTP id 75B5412804FC;
-        Wed, 13 Jan 2021 15:26:37 -0800 (PST)
-From:   James Bottomley <James.Bottomley@HansenPartnership.com>
-To:     linux-integrity@vger.kernel.org
-Cc:     Mimi Zohar <zohar@linux.ibm.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>, linux-api@vger.kernel.org
-Subject: [PATCH v5 2/2] ABI: add sysfs description for tpm exports of PCR registers
-Date:   Wed, 13 Jan 2021 15:26:34 -0800
-Message-Id: <20210113232634.23242-3-James.Bottomley@HansenPartnership.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210113232634.23242-1-James.Bottomley@HansenPartnership.com>
-References: <20210113232634.23242-1-James.Bottomley@HansenPartnership.com>
+        id S1729272AbhANCLi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 13 Jan 2021 21:11:38 -0500
+Received: from mail.kernel.org ([198.145.29.99]:43216 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729251AbhAMWPS (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 13 Jan 2021 17:15:18 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DC5B823339;
+        Wed, 13 Jan 2021 22:14:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1610576069;
+        bh=YPaA0+QkNX7/eq1Wwg82C84x12V1KgYhdxKCWybAf+s=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=TPbBI+c5z5j8US2/+SnQvl6ws1oIjV/+5WO9kPgqQIB3iIqL0W4Fet3M7Wr79vg0o
+         HSrhF8H9OHK5Cx1wjuL4xisOUrfrbuMaMrTMl0qy+FmHI8sYkkiP59LbTWV23KH3HQ
+         4VOh4gizvB5yYUDLYwxQ/V92bNIZu8f94t5mARZxE1UJG9gQi6akxhvU0KdwvZCDXa
+         UPoiJhCjrnpBuWjV8d8B/YhKOwixKMs8vdai/30sHpjuURYIHYFqu5wka7eQzHiOko
+         sOom5LmkoFSrg61hPZDvksKoLJvKtxfrVOoZqmVVJaOAFq7capIIWJjzKd/KGFgAex
+         BaZ8v50WQkgzw==
+Date:   Thu, 14 Jan 2021 00:14:24 +0200
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     James Bottomley <James.Bottomley@hansenpartnership.com>
+Cc:     Greg KH <greg@kroah.com>, linux-integrity@vger.kernel.org,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH v5 1/1] tpm: add sysfs exports for all banks of PCR
+ registers
+Message-ID: <X/9wwEr477zSttED@kernel.org>
+References: <20210113015958.6685-1-James.Bottomley@HansenPartnership.com>
+ <20210113015958.6685-2-James.Bottomley@HansenPartnership.com>
+ <X/6lyuhqQ8TSXOSa@kroah.com>
+ <a6bdeef73f9271cca99585d3e855681cf6b6f589.camel@HansenPartnership.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a6bdeef73f9271cca99585d3e855681cf6b6f589.camel@HansenPartnership.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Adds the ABI entries for the new
+On Wed, Jan 13, 2021 at 09:31:44AM -0800, James Bottomley wrote:
+> On Wed, 2021-01-13 at 08:48 +0100, Greg KH wrote:
+> > On Tue, Jan 12, 2021 at 05:59:58PM -0800, James Bottomley wrote:
+> > > Create sysfs per hash groups with 24 PCR files in them one group,
+> > > named pcr-<hash>, for each agile hash of the TPM.  The files are
+> > > plugged in to a PCR read function which is TPM version agnostic, so
+> > > this works also for TPM 1.2 but the hash is only sha1 in that case.
+> > > 
+> > > Note: the macros used to create the hashes emit spurious checkpatch
+> > > warnings.  Do not try to "fix" them as checkpatch recommends,
+> > > otherwise
+> > > they'll break.
+> > > 
+> > > Signed-off-by: James Bottomley <
+> > > James.Bottomley@HansenPartnership.com>
+> > > Reviewed-by: Jerry Snitselaar <jsnitsel@redhat.com>
+> > > Tested-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+> > > 
+> > > ---
+> > > 
+> > > v2: fix TPM 1.2 legacy links failure
+> > > v3: fix warn on and add note to tpm_algorithms
+> > > v4: reword commit and add tested-by
+> > > v5: algorithm spelling fix WARN->dev_err
+> > > ---
+> > >  drivers/char/tpm/tpm-sysfs.c | 179
+> > > +++++++++++++++++++++++++++++++++++
+> > >  include/linux/tpm.h          |   9 +-
+> > >  2 files changed, 187 insertions(+), 1 deletion(-)
+> > 
+> > You add new sysfs files, but do not add Documentation/ABI/ entries
+> > showing how they are used and what they contain :(
+> > 
+> > Please do that for the next version of this patch.
+> 
+> It's a bit of a chicken and egg problem since I've no idea when this
+> will go upstream and the entries require that information making the
+> ABI more of a post accept type thing.  I can make a guess about the
+> values if Jarkko is going to but this in for the next merge window.
+> 
+> James
 
-/sys/class/tpm/tpm<n>/pcr-<hash>/<m>
+I agree with the ABI side, so you can safely include this to the patch set. 
+And yes, this looks like something I can include to the 5.12 PR.
 
-files which are added to export the PCR hash values on a one value per
-file basis.
+Did you address Greg's remarks about warns?
 
-Signed-off-by: James Bottomley <James.Bottomley@HansenPartnership.com>
----
- Documentation/ABI/stable/sysfs-class-tpm | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+Other than that, please send a version with ABI entries  so that
+we can move forward with this.
 
-diff --git a/Documentation/ABI/stable/sysfs-class-tpm b/Documentation/ABI/stable/sysfs-class-tpm
-index 91ca63ec7581..d897ecb9615f 100644
---- a/Documentation/ABI/stable/sysfs-class-tpm
-+++ b/Documentation/ABI/stable/sysfs-class-tpm
-@@ -194,3 +194,17 @@ Description:	The "tpm_version_major" property shows the TCG spec major version
- 		Example output::
- 
- 		  2
-+
-+What:		/sys/class/tpm/tpmX/pcr-H/N
-+Date:		March 2021
-+KernelVersion:	5.12
-+Contact:	linux-integrity@vger.kernel.org
-+Description:	produces output in compact hex representation for PCR
-+		number N from hash bank H.  N is the numeric value of
-+		the PCR number and H is the crypto string
-+		representation of the hash
-+
-+		Example output::
-+
-+		  cat /sys/class/tpm/tpm0/pcr-sha256/7
-+		  2ED93F199692DC6788EFA6A1FE74514AB9760B2A6CEEAEF6C808C13E4ABB0D42
--- 
-2.26.2
-
+/Jarkko
