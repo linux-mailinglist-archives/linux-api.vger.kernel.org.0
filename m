@@ -2,83 +2,139 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C5D22F6A76
-	for <lists+linux-api@lfdr.de>; Thu, 14 Jan 2021 20:05:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F2B42F6C9B
+	for <lists+linux-api@lfdr.de>; Thu, 14 Jan 2021 21:52:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729679AbhANTEs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 14 Jan 2021 14:04:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39754 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727453AbhANTEr (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 14 Jan 2021 14:04:47 -0500
-Received: from smtp-42ae.mail.infomaniak.ch (smtp-42ae.mail.infomaniak.ch [IPv6:2001:1600:4:17::42ae])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93325C061575
-        for <linux-api@vger.kernel.org>; Thu, 14 Jan 2021 11:04:27 -0800 (PST)
-Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4DGty40K9jzMq8Xg;
-        Thu, 14 Jan 2021 20:03:40 +0100 (CET)
-Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
-        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4DGty16Bhkzlh8T2;
-        Thu, 14 Jan 2021 20:03:37 +0100 (CET)
-Subject: Re: [PATCH v26 00/12] Landlock LSM
-To:     Jann Horn <jannh@google.com>
-Cc:     James Morris <jmorris@namei.org>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
+        id S1728511AbhANUwn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 14 Jan 2021 15:52:43 -0500
+Received: from mail110.syd.optusnet.com.au ([211.29.132.97]:43884 "EHLO
+        mail110.syd.optusnet.com.au" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726578AbhANUwn (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 14 Jan 2021 15:52:43 -0500
+X-Greylist: delayed 489 seconds by postgrey-1.27 at vger.kernel.org; Thu, 14 Jan 2021 15:52:40 EST
+Received: from dread.disaster.area (pa49-179-167-107.pa.nsw.optusnet.com.au [49.179.167.107])
+        by mail110.syd.optusnet.com.au (Postfix) with ESMTPS id 03E40105E38;
+        Fri, 15 Jan 2021 07:51:54 +1100 (AEDT)
+Received: from dave by dread.disaster.area with local (Exim 4.92.3)
+        (envelope-from <david@fromorbit.com>)
+        id 1l09b0-006Uat-5I; Fri, 15 Jan 2021 07:51:54 +1100
+Date:   Fri, 15 Jan 2021 07:51:54 +1100
+From:   Dave Chinner <david@fromorbit.com>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>,
+        linux-fsdevel@vger.kernel.org,
+        John Johansen <john.johansen@canonical.com>,
+        James Morris <jmorris@namei.org>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
         Casey Schaufler <casey@schaufler-ca.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+        Geoffrey Thomas <geofft@ldpreload.com>,
+        Mrunal Patel <mpatel@redhat.com>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Theodore Tso <tytso@mit.edu>, Alban Crequy <alban@kinvolk.io>,
+        Tycho Andersen <tycho@tycho.ws>,
+        David Howells <dhowells@redhat.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Seth Forshee <seth.forshee@canonical.com>,
+        =?iso-8859-1?Q?St=E9phane?= Graber <stgraber@ubuntu.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Lennart Poettering <lennart@poettering.net>,
+        "Eric W. Biederman" <ebiederm@xmission.com>, smbarber@chromium.org,
+        Phil Estes <estesp@gmail.com>, Serge Hallyn <serge@hallyn.com>,
         Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        the arch/x86 maintainers <x86@kernel.org>
-References: <20201209192839.1396820-1-mic@digikod.net>
- <CAG48ez3DE8xgr_etVGV5eNjH2CXXo9MR7jTcu+_LCkJUchLXcQ@mail.gmail.com>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <92df89c9-3442-0761-224a-ab53bb917850@digikod.net>
-Date:   Thu, 14 Jan 2021 20:03:47 +0100
-User-Agent: 
+        Todd Kjos <tkjos@google.com>, Paul Moore <paul@paul-moore.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        containers@lists.linux-foundation.org,
+        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
+        linux-integrity@vger.kernel.org, selinux@vger.kernel.org,
+        Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v5 37/42] xfs: support idmapped mounts
+Message-ID: <20210114205154.GL331610@dread.disaster.area>
+References: <20210112220124.837960-1-christian.brauner@ubuntu.com>
+ <20210112220124.837960-38-christian.brauner@ubuntu.com>
 MIME-Version: 1.0
-In-Reply-To: <CAG48ez3DE8xgr_etVGV5eNjH2CXXo9MR7jTcu+_LCkJUchLXcQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210112220124.837960-38-christian.brauner@ubuntu.com>
+X-Optus-CM-Score: 0
+X-Optus-CM-Analysis: v=2.3 cv=Ubgvt5aN c=1 sm=1 tr=0 cx=a_idp_d
+        a=+wqVUQIkAh0lLYI+QRsciw==:117 a=+wqVUQIkAh0lLYI+QRsciw==:17
+        a=kj9zAlcOel0A:10 a=EmqxpYm9HcoA:10 a=7-415B0cAAAA:8
+        a=44ec6t6cGFOkeLdKtF4A:9 a=CjuIK1q_8ugA:10 a=biEYGPWJfzWAr4FL6Ov7:22
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Tue, Jan 12, 2021 at 11:01:19PM +0100, Christian Brauner wrote:
+> From: Christoph Hellwig <hch@lst.de>
+> 
+> Enable idmapped mounts for xfs. This basically just means passing down
+> the user_namespace argument from the VFS methods down to where it is
+> passed to helper.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+....
+> @@ -654,6 +658,7 @@ xfs_vn_change_ok(
+>   */
+>  static int
+>  xfs_setattr_nonsize(
+> +	struct user_namespace	*mnt_userns,
+>  	struct xfs_inode	*ip,
+>  	struct iattr		*iattr)
+>  {
+> @@ -813,7 +818,7 @@ xfs_setattr_nonsize(
+>  	 * 	     Posix ACL code seems to care about this issue either.
+>  	 */
+>  	if (mask & ATTR_MODE) {
+> -		error = posix_acl_chmod(&init_user_ns, inode, inode->i_mode);
+> +		error = posix_acl_chmod(mnt_userns, inode, inode->i_mode);
+>  		if (error)
+>  			return error;
+>  	}
+> @@ -868,7 +873,7 @@ xfs_setattr_size(
+>  		 * Use the regular setattr path to update the timestamps.
+>  		 */
+>  		iattr->ia_valid &= ~ATTR_SIZE;
+> -		return xfs_setattr_nonsize(ip, iattr);
+> +		return xfs_setattr_nonsize(&init_user_ns, ip, iattr);
 
-On 14/01/2021 04:22, Jann Horn wrote:
-> On Wed, Dec 9, 2020 at 8:28 PM Mickaël Salaün <mic@digikod.net> wrote:
->> This patch series adds new built-time checks, a new test, renames some
->> variables and functions to improve readability, and shift syscall
->> numbers to align with -next.
-> 
-> Sorry, I've finally gotten around to looking at v26 - I hadn't
-> actually looked at v25 either yet. I think there's still one remaining
-> small issue in the filesystem access logic, but I think that's very
-> simple to fix, as long as we agree on what the expected semantics are.
-> Otherwise it basically looks good, apart from some typos.
-> 
-> I think v27 will be the final version of this series. :) (And I'll try
-> to actually look at that version much faster - I realize that waiting
-> for code reviews this long sucks.)
-> 
+Shouldn't that be passing mnt_userns?
 
-I'm improving the tests, especially with bind mounts and overlayfs
-tests. The v27 will also contains a better documentation to clarify the
-semantic and explain how these mounts are handled. Thanks!
+>  	}
+>  
+>  	/*
+> @@ -1037,6 +1042,7 @@ xfs_setattr_size(
+>  
+>  int
+>  xfs_vn_setattr_size(
+> +	struct user_namespace	*mnt_userns,
+>  	struct dentry		*dentry,
+>  	struct iattr		*iattr)
+>  {
+> @@ -1045,7 +1051,7 @@ xfs_vn_setattr_size(
+>  
+>  	trace_xfs_setattr(ip);
+>  
+> -	error = xfs_vn_change_ok(dentry, iattr);
+> +	error = xfs_vn_change_ok(mnt_userns, dentry, iattr);
+>  	if (error)
+>  		return error;
+>  	return xfs_setattr_size(ip, iattr);
+
+And this passing mnt_userns down into xfs_setattr_size()?  Seems
+like a bit of a landmine...
+
+Cheers,
+
+Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
