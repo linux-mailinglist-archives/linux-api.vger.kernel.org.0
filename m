@@ -2,101 +2,110 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C1F4B2F872A
-	for <lists+linux-api@lfdr.de>; Fri, 15 Jan 2021 22:07:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C96652F875A
+	for <lists+linux-api@lfdr.de>; Fri, 15 Jan 2021 22:16:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728049AbhAOVHA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 15 Jan 2021 16:07:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37254 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728003AbhAOVG7 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 15 Jan 2021 16:06:59 -0500
-Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [IPv6:2607:fcd0:100:8a00::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F34FC061757;
-        Fri, 15 Jan 2021 13:06:19 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-        by bedivere.hansenpartnership.com (Postfix) with ESMTP id ED2F112808A8;
-        Fri, 15 Jan 2021 13:06:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-        d=hansenpartnership.com; s=20151216; t=1610744778;
-        bh=v4pOuNxd7XaulOW1xCJ7p0Cq+YoWHHqbQrU3e3ssInQ=;
-        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-        b=vxaZn98AD1AecZoTxW9Jf66NN7lZEHv52EDXe8sYZKRBZ9XpJtVaj6/td6/VuNgNM
-         1jiv2eZ+uaSUg/f/mqm9sn+UvJYuOLVGmTdi3doEMMlVamHRsjr71Hpz1BaFJm5eTh
-         UWaDdzkYcyhR+Pe32j6yWiuBAav8monlp2WFqrXw=
-Received: from bedivere.hansenpartnership.com ([127.0.0.1])
-        by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id tcEx5im2ctlW; Fri, 15 Jan 2021 13:06:18 -0800 (PST)
-Received: from jarvis.int.hansenpartnership.com (unknown [IPv6:2601:600:8280:66d1::c447])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 71D9F128089B;
-        Fri, 15 Jan 2021 13:06:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-        d=hansenpartnership.com; s=20151216; t=1610744778;
-        bh=v4pOuNxd7XaulOW1xCJ7p0Cq+YoWHHqbQrU3e3ssInQ=;
-        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-        b=vxaZn98AD1AecZoTxW9Jf66NN7lZEHv52EDXe8sYZKRBZ9XpJtVaj6/td6/VuNgNM
-         1jiv2eZ+uaSUg/f/mqm9sn+UvJYuOLVGmTdi3doEMMlVamHRsjr71Hpz1BaFJm5eTh
-         UWaDdzkYcyhR+Pe32j6yWiuBAav8monlp2WFqrXw=
-Message-ID: <f29d24f5170ad12cd40ef2352755ddff399983f8.camel@HansenPartnership.com>
-Subject: Re: [PATCH v5 1/2] tpm: add sysfs exports for all banks of PCR
- registers
-From:   James Bottomley <James.Bottomley@HansenPartnership.com>
-To:     Joe Perches <joe@perches.com>, Greg KH <greg@kroah.com>
-Cc:     linux-integrity@vger.kernel.org, Mimi Zohar <zohar@linux.ibm.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>, linux-api@vger.kernel.org
-Date:   Fri, 15 Jan 2021 13:06:17 -0800
-In-Reply-To: <23f4bef1fa549f6576aab4f115576601e9f58eaf.camel@perches.com>
-References: <20210113232634.23242-1-James.Bottomley@HansenPartnership.com>
-         <20210113232634.23242-2-James.Bottomley@HansenPartnership.com>
-         <X//55I26mxVQKKOE@kroah.com>
-         <ce0ce0c5b3b66e2b1506ab9c4f10ffbbcfa648d8.camel@HansenPartnership.com>
-         <YAGeez8OZWDXugTW@kroah.com>
-         <eb2acffef1368c48b3ca2d85105ef73b31797fe7.camel@HansenPartnership.com>
-         <7a245c854925c8619eeb02aab6ff32bbccc92ed9.camel@HansenPartnership.com>
-         <23f4bef1fa549f6576aab4f115576601e9f58eaf.camel@perches.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1726236AbhAOVQQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 15 Jan 2021 16:16:16 -0500
+Received: from mga18.intel.com ([134.134.136.126]:45764 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725772AbhAOVQO (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 15 Jan 2021 16:16:14 -0500
+IronPort-SDR: RI4Kcaqo+gk+gcivpGA0f19Br7mLt6DZpO1sjsHuyEIvu+n7CMDwU6JC60q+tIjneak7U4bh3H
+ ffEleScTPl9w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9865"; a="166277105"
+X-IronPort-AV: E=Sophos;i="5.79,350,1602572400"; 
+   d="scan'208";a="166277105"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2021 13:15:15 -0800
+IronPort-SDR: 1M9GAuDspsCvPRQeL54zCIkrCO/CE9pz+yzb+uIZgY7SGHnGEyFzv9KH02kHfmSz33rsLU2WsC
+ ciQVcXt9ZPmw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,350,1602572400"; 
+   d="scan'208";a="401418959"
+Received: from chang-linux-3.sc.intel.com ([172.25.66.175])
+  by fmsmga002.fm.intel.com with ESMTP; 15 Jan 2021 13:15:15 -0800
+From:   "Chang S. Bae" <chang.seok.bae@intel.com>
+To:     bp@suse.de, tglx@linutronix.de, mingo@kernel.org, luto@kernel.org,
+        x86@kernel.org
+Cc:     len.brown@intel.com, dave.hansen@intel.com, hjl.tools@gmail.com,
+        Dave.Martin@arm.com, jannh@google.com, mpe@ellerman.id.au,
+        tony.luck@intel.com, ravi.v.shankar@intel.com,
+        libc-alpha@sourceware.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        chang.seok.bae@intel.com
+Subject: [PATCH v4 0/4] x86: Improve Minimum Alternate Stack Size
+Date:   Fri, 15 Jan 2021 13:10:34 -0800
+Message-Id: <20210115211038.2072-1-chang.seok.bae@intel.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, 2021-01-15 at 12:48 -0800, Joe Perches wrote:
-> On Fri, 2021-01-15 at 10:07 -0800, James Bottomley wrote:
-> > On Fri, 2021-01-15 at 09:26 -0800, James Bottomley wrote:
-> > > On Fri, 2021-01-15 at 14:54 +0100, Greg KH wrote:
-> > > > On Thu, Jan 14, 2021 at 04:21:08PM -0800, James Bottomley
-> > > > wrote:
-> > > [...]
-> > > > > It looks like we already have a couple of bugs in the kernel
-> > > > > introduced by this confusion ...  return sysfs_emit() vs
-> > > > > return
-> > > > > sysfs_emit_at() being the most tricky ...
-> > > > 
-> > > > Hm, Joe, you did the conversion to these functions (and wrote
-> > > > the
-> > > > api), care to review this?
-> > > 
-> > > A cursory glance tells me that summary_show in 
-> > > drivers/infiniband/hw/usnic/usnic_ib_sysfs.c has a problem, I
-> > > think the last = should be +=
-> 
-> No, it's correct and overwriting what would otherwise be a trailing
-> space.
+During signal entry, the kernel pushes data onto the normal userspace
+stack. On x86, the data pushed onto the user stack includes XSAVE state,
+which has grown over time as new features and larger registers have been
+added to the architecture.
 
-The last two lines of summary_show() are
+MINSIGSTKSZ is a constant provided in the kernel signal.h headers and
+typically distributed in lib-dev(el) packages, e.g. [1]. Its value is
+compiled into programs and is part of the user/kernel ABI. The MINSIGSTKSZ
+constant indicates to userspace how much data the kernel expects to push on
+the user stack, [2][3].
 
-   len = sysfs_emit_at(buf, len, "\n");
+However, this constant is much too small and does not reflect recent
+additions to the architecture. For instance, when AVX-512 states are in
+use, the signal frame size can be 3.5KB while MINSIGSTKSZ remains 2KB.
 
-   return len;
+The bug report [4] explains this as an ABI issue. The small MINSIGSTKSZ can
+cause user stack overflow when delivering a signal.
 
-So that always returns 2: the length of "\n", rather than the length of
-everything you just put into buf, which is what sysfs attributes are
-supposed to return.
+In this series, we suggest a couple of things:
+1. Provide a variable minimum stack size to userspace, as a similar
+   approach to [5]
+2. Avoid using a too-small alternate stack
 
-James
+Changes from v3 [8]:
+* Updated the changelog (Borislav Petkov)
+* Revised the test messages again (Borislav Petkov)
 
+Changes from v2 [7]:
+* Simplified the sigaltstack overflow prevention (Jann Horn)
+* Renamed fpstate size helper with cleanup (Borislav Petkov)
+* Cleaned up the signframe struct size defines (Borislav Petkov)
+* Revised the selftest messages (Borislav Petkov)
+* Revised a changelog (Borislav Petkov)
+
+Changes from v1 [6]:
+* Took stack alignment into account for sigframe size (Dave Martin)
+
+[1]: https://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/unix/sysv/linux/bits/sigstack.h;h=b9dca794da093dc4d41d39db9851d444e1b54d9b;hb=HEAD
+[2]: https://www.gnu.org/software/libc/manual/html_node/Signal-Stack.html
+[3]: https://man7.org/linux/man-pages/man2/sigaltstack.2.html
+[4]: https://bugzilla.kernel.org/show_bug.cgi?id=153531
+[5]: https://blog.linuxplumbersconf.org/2017/ocw/system/presentations/4671/original/plumbers-dm-2017.pdf
+[6]: https://lore.kernel.org/lkml/20200929205746.6763-1-chang.seok.bae@intel.com/
+[7]: https://lore.kernel.org/lkml/20201119190237.626-1-chang.seok.bae@intel.com/
+[8]: https://lore.kernel.org/lkml/20201223015312.4882-1-chang.seok.bae@intel.com/
+
+Chang S. Bae (4):
+  x86/signal: Introduce helpers to get the maximum signal frame size
+  x86/elf: Support a new ELF aux vector AT_MINSIGSTKSZ
+  x86/signal: Detect and prevent an alternate signal stack overflow
+  selftest/x86/signal: Include test cases for validating sigaltstack
+
+ arch/x86/include/asm/elf.h                |   4 +
+ arch/x86/include/asm/fpu/signal.h         |   2 +
+ arch/x86/include/asm/sigframe.h           |   2 +
+ arch/x86/include/uapi/asm/auxvec.h        |   6 +-
+ arch/x86/kernel/cpu/common.c              |   3 +
+ arch/x86/kernel/fpu/signal.c              |  19 ++++
+ arch/x86/kernel/signal.c                  |  69 +++++++++++-
+ tools/testing/selftests/x86/Makefile      |   2 +-
+ tools/testing/selftests/x86/sigaltstack.c | 128 ++++++++++++++++++++++
+ 9 files changed, 228 insertions(+), 7 deletions(-)
+ create mode 100644 tools/testing/selftests/x86/sigaltstack.c
+
+-- 
+2.17.1
 
