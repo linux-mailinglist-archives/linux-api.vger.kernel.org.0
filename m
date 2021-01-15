@@ -2,151 +2,64 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A20272F8600
-	for <lists+linux-api@lfdr.de>; Fri, 15 Jan 2021 21:03:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 991522F86DD
+	for <lists+linux-api@lfdr.de>; Fri, 15 Jan 2021 21:41:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388678AbhAOUDI convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Fri, 15 Jan 2021 15:03:08 -0500
-Received: from eu-smtp-delivery-151.mimecast.com ([185.58.86.151]:27398 "EHLO
-        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2388667AbhAOUDD (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 15 Jan 2021 15:03:03 -0500
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-79-PS3OFpBZPgGXINPuMHjjeQ-1; Fri, 15 Jan 2021 20:01:22 +0000
-X-MC-Unique: PS3OFpBZPgGXINPuMHjjeQ-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Fri, 15 Jan 2021 20:01:15 +0000
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
- Fri, 15 Jan 2021 20:01:15 +0000
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     "'sonicadvance1@gmail.com'" <sonicadvance1@gmail.com>
-CC:     Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Will Deacon" <will@kernel.org>, Tony Luck <tony.luck@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        "Michal Simek" <monstr@monstr.eu>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        "Benjamin Herrenschmidt" <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Andy Lutomirski <luto@kernel.org>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "Borislav Petkov" <bp@alien8.de>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Chris Zankel <chris@zankel.net>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Xiaoming Ni <nixiaoming@huawei.com>,
-        David Rientjes <rientjes@google.com>,
-        Willem de Bruijn <willemb@google.com>,
-        "Christian Brauner" <christian.brauner@ubuntu.com>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Minchan Kim <minchan@kernel.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        "Vincenzo Frascino" <vincenzo.frascino@arm.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Oleg Nesterov <oleg@redhat.com>,
-        YueHaibing <yuehaibing@huawei.com>,
-        "Suren Baghdasaryan" <surenb@google.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Brian Gerst <brgerst@gmail.com>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Jan Kara <jack@suse.cz>,
-        "Arnaldo Carvalho de Melo" <acme@redhat.com>,
-        "linux-alpha@vger.kernel.org" <linux-alpha@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
-        "linux-m68k@lists.linux-m68k.org" <linux-m68k@lists.linux-m68k.org>,
-        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
-        "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-        "linux-sh@vger.kernel.org" <linux-sh@vger.kernel.org>,
-        "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
-        "linux-xtensa@linux-xtensa.org" <linux-xtensa@linux-xtensa.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>
-Subject: RE: [PATCH] Adds a new ioctl32 syscall for backwards compatibility
- layers
-Thread-Topic: [PATCH] Adds a new ioctl32 syscall for backwards compatibility
- layers
-Thread-Index: AQHW6wzXd1V6Thk8U0iiUgMFo8hTJqopEBwA
-Date:   Fri, 15 Jan 2021 20:01:15 +0000
-Message-ID: <b15672b1caec4cf980f2753d06b03596@AcuMS.aculab.com>
-References: <20210106064807.253112-1-Sonicadvance1@gmail.com>
- <20210115070326.294332-1-Sonicadvance1@gmail.com>
-In-Reply-To: <20210115070326.294332-1-Sonicadvance1@gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        id S1727204AbhAOUlh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 15 Jan 2021 15:41:37 -0500
+Received: from smtprelay0138.hostedemail.com ([216.40.44.138]:57824 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726467AbhAOUlg (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 15 Jan 2021 15:41:36 -0500
+X-Greylist: delayed 501 seconds by postgrey-1.27 at vger.kernel.org; Fri, 15 Jan 2021 15:41:35 EST
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
+        by smtpgrave04.hostedemail.com (Postfix) with ESMTP id 8DB8C18272D6F;
+        Fri, 15 Jan 2021 20:33:15 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay02.hostedemail.com (Postfix) with ESMTP id 1334C2703D;
+        Fri, 15 Jan 2021 20:32:34 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:599:988:989:1260:1261:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1538:1593:1594:1711:1714:1730:1747:1777:1792:2393:2553:2559:2562:2828:2911:3138:3139:3140:3141:3142:3350:3622:3865:3866:3867:3868:3870:3872:3873:4250:4321:4425:5007:6120:7652:7901:7903:10004:10400:10848:11026:11232:11658:11914:12297:12740:12760:12895:13069:13311:13357:13439:14659:14721:21080:21433:21627:21990:30054:30090:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:2,LUA_SUMMARY:none
+X-HE-Tag: sound31_4217a7027532
+X-Filterd-Recvd-Size: 1605
+Received: from [192.168.1.159] (unknown [47.151.137.21])
+        (Authenticated sender: joe@perches.com)
+        by omf17.hostedemail.com (Postfix) with ESMTPA;
+        Fri, 15 Jan 2021 20:32:32 +0000 (UTC)
+Message-ID: <8a5ae5f553d3775380f705a05b738c4630721486.camel@perches.com>
+Subject: Re: [PATCH v5 1/2] tpm: add sysfs exports for all banks of PCR
+ registers
+From:   Joe Perches <joe@perches.com>
+To:     Greg KH <greg@kroah.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>
+Cc:     linux-integrity@vger.kernel.org, Mimi Zohar <zohar@linux.ibm.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>, linux-api@vger.kernel.org
+Date:   Fri, 15 Jan 2021 12:32:31 -0800
+In-Reply-To: <YAGeez8OZWDXugTW@kroah.com>
+References: <20210113232634.23242-1-James.Bottomley@HansenPartnership.com>
+         <20210113232634.23242-2-James.Bottomley@HansenPartnership.com>
+         <X//55I26mxVQKKOE@kroah.com>
+         <ce0ce0c5b3b66e2b1506ab9c4f10ffbbcfa648d8.camel@HansenPartnership.com>
+         <YAGeez8OZWDXugTW@kroah.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: sonicadvance1@gmail.com
-> Sent: 15 January 2021 07:03
-> Problem presented:
-> A backwards compatibility layer that allows running x86-64 and x86
-> processes inside of an AArch64 process.
->   - CPU is emulated
->   - Syscall interface is mostly passthrough
->   - Some syscalls require patching or emulation depending on behaviour
->   - Not viable from the emulator design to use an AArch32 host process
+On Fri, 2021-01-15 at 14:54 +0100, Greg KH wrote:
+> On Thu, Jan 14, 2021 at 04:21:08PM -0800, James Bottomley wrote:
+[]
+> > It looks like we already have a couple of bugs in the kernel introduced
+> > by this confusion ...  return sysfs_emit() vs return sysfs_emit_at()
+> > being the most tricky ...
 > 
+> Hm, Joe, you did the conversion to these functions (and wrote the api),
+> care to review this?
 
-You are going to need to add all the x86 compatibility code into
-your arm64 kernel.
-This is likely to be different from the 32bit arm compatibility
-because 64bit items are only aligned on 32bit boundaries.
-The x86 x32 compatibility will be more like the 32bit arm 'compat'
-code - I'm pretty sure arm32 64bit aligned 64bit data.
+Can you point me at the original submission?
+I don't see it on lore/linux-api
 
-You'll then need to remember how the process entered the kernel
-to work out which compatibility code to invoke.
-This is what x86 does.
-It allows a single process to do all three types of system call.
-
-Trying to 'patch up' structures outside the kernel, or in the
-syscall interface code will always cause grief somewhere.
-The only sane place is in the code that uses the structures.
-Which, for ioctls, means inside the driver that parses them.
-
-	David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
 
