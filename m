@@ -2,122 +2,71 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 736422F89E8
-	for <lists+linux-api@lfdr.de>; Sat, 16 Jan 2021 01:28:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6472B2F8C71
+	for <lists+linux-api@lfdr.de>; Sat, 16 Jan 2021 10:08:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726755AbhAPA2N (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 15 Jan 2021 19:28:13 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:60998 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726176AbhAPA2N (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 15 Jan 2021 19:28:13 -0500
-Received: from ip5f5af0a0.dynamic.kabel-deutschland.de ([95.90.240.160] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1l0ZR2-0002Mr-95; Sat, 16 Jan 2021 00:27:20 +0000
-Date:   Sat, 16 Jan 2021 01:27:18 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Theodore Ts'o <tytso@mit.edu>
-Cc:     Christoph Hellwig <hch@infradead.org>,
-        Dave Chinner <david@fromorbit.com>,
-        "Darrick J. Wong" <djwong@kernel.org>,
+        id S1727110AbhAPJIP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 16 Jan 2021 04:08:15 -0500
+Received: from verein.lst.de ([213.95.11.211]:43015 "EHLO verein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726533AbhAPJIG (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Sat, 16 Jan 2021 04:08:06 -0500
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 2912A6736F; Sat, 16 Jan 2021 10:07:22 +0100 (CET)
+Date:   Sat, 16 Jan 2021 10:07:21 +0100
+From:   Christoph Hellwig <hch@lst.de>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     Arnd Bergmann <arnd@kernel.org>, Christoph Hellwig <hch@lst.de>,
+        Ryan Houdek <sonicadvance1@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
-        linux-fsdevel@vger.kernel.org,
-        John Johansen <john.johansen@canonical.com>,
-        James Morris <jmorris@namei.org>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
         Arnd Bergmann <arnd@arndb.de>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-        Geoffrey Thomas <geofft@ldpreload.com>,
-        Mrunal Patel <mpatel@redhat.com>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Alban Crequy <alban@kinvolk.io>,
-        Tycho Andersen <tycho@tycho.ws>,
-        David Howells <dhowells@redhat.com>,
-        James Bottomley <James.Bottomley@hansenpartnership.com>,
-        Seth Forshee <seth.forshee@canonical.com>,
-        St?phane Graber <stgraber@ubuntu.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Minchan Kim <minchan@kernel.org>,
         Aleksa Sarai <cyphar@cyphar.com>,
-        Lennart Poettering <lennart@poettering.net>,
-        "Eric W. Biederman" <ebiederm@xmission.com>, smbarber@chromium.org,
-        Phil Estes <estesp@gmail.com>, Serge Hallyn <serge@hallyn.com>,
-        Kees Cook <keescook@chromium.org>,
-        Todd Kjos <tkjos@google.com>, Paul Moore <paul@paul-moore.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        containers@lists.linux-foundation.org,
-        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
-        linux-integrity@vger.kernel.org, selinux@vger.kernel.org
-Subject: Re: [PATCH v5 00/42] idmapped mounts
-Message-ID: <20210116002718.jjs6eov65cvwrata@wittgenstein>
-References: <20210112220124.837960-1-christian.brauner@ubuntu.com>
- <20210114171241.GA1164240@magnolia>
- <20210114204334.GK331610@dread.disaster.area>
- <20210115162423.GB2179337@infradead.org>
- <YAHWGMb9rTehRsRz@mit.edu>
+        Sargun Dhillon <sargun@sargun.me>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Amanieu d'Antras <amanieu@gmail.com>,
+        Willem de Bruijn <willemb@google.com>,
+        YueHaibing <yuehaibing@huawei.com>,
+        Xiaoming Ni <nixiaoming@huawei.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Joe Perches <joe@perches.com>, Jan Kara <jack@suse.cz>,
+        David Rientjes <rientjes@google.com>,
+        Arnaldo Carvalho de Melo <acme@redhat.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>
+Subject: Re: [PATCH] Adds a new ioctl32 syscall for backwards compatibility
+ layers
+Message-ID: <20210116090721.GA30277@lst.de>
+References: <20210106064807.253112-1-Sonicadvance1@gmail.com> <CAK8P3a2tV3HzPpbCR7mAeutx38_D2d-vfpEgpXv+GW_98w3VSQ@mail.gmail.com> <CABnRqDfQ5Qfa2ybut0qXcKuYnsMcG7+9gqjL-e7nZF1bkvhPRw@mail.gmail.com> <CAK8P3a2vfVfEWTk1ig349LGqt8bkK8YQWjE6PRyx+xvgYx7-gA@mail.gmail.com> <CALCETrUtyVaGSE9fcFAkhrGCpkyYcYnZb6tj8227o2EH5hgOfg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YAHWGMb9rTehRsRz@mit.edu>
+In-Reply-To: <CALCETrUtyVaGSE9fcFAkhrGCpkyYcYnZb6tj8227o2EH5hgOfg@mail.gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jan 15, 2021 at 12:51:20PM -0500, Theodore Ts'o wrote:
-> On Fri, Jan 15, 2021 at 04:24:23PM +0000, Christoph Hellwig wrote:
-> > 
-> > That is what the capabilities are designed for and we already check
-> > for them.
-> 
-> So perhaps I'm confused, but my understanding is that in the
-> containers world, capabilities are a lot more complicated.  There is:
-> 
-> 1) The initial namespace capability set
-> 
-> 2) The container's user-namespace capability set
-> 
-> 3) The namespace in which the file system is mounted --- which is
->       "usually, but not necessarily the initial namespace" and
->       presumably could potentially not necessarily be the current
->       container's user name space, is namespaces can be hierarchically
->       arranged.
-> 
-> Is that correct?  If so, how does this patch set change things (if
-> any), and and how does this interact with quota administration
-> operations?
+On Fri, Jan 15, 2021 at 04:07:46PM -0800, Andy Lutomirski wrote:
+> Finally, I'm not convinced that this patch works correctly.  We have
+> in_compat_syscall(), and code that uses it may well be reachable from
+> ioctl.
 
-The cases you listed are correct. The patchset doesn't change them.
-Simply put, the patchset doesn't alter capability checking in any way.
+ioctls are the prime user of in_compat_syscall().
 
-> 
-> On a related note, ext4 specifies a "reserved user" or "reserved
-> group" which can access the reserved blocks.  If we have a file system
-> which is mounted in a namespace running a container which is running
-> RHEL or SLES, and in that container, we have a file system mounted (so
-> it was not mounted in the initial namespace), with id-mapping --- and
-> then there is a further sub-container created with its own user
-> sub-namespace further mapping uids/gids --- will the right thing
-> happen?  For that matter, how *is* the "right thing" defined?
+> I personally would like to see in_compat_syscall() go away,
+> but some other people (Hi, Christoph!) disagree, and usage seems to be
+> increasing, not decreasing.
 
-In short, nothing changes. Whatever happened before happens now.
-
-Specifically s_resuid/s_resgid are superblock mount options and so never
-change on a per-mount basis and thus also aren't affected by idmapped
-mounts.
-
-> 
-> Sorry if this is a potentially stupid question, but I find user
-> namespaces and id and capability mapping to be hopefully confusing for
-> my tiny brain.  :-)
-
-No, I really appreciate the questions. :) My brain can most likely
-handle less. :)
-
-Christian
+I'm absolutely against it going away.  in_compat_syscall helped to
+remove so much crap compared to the explicit compat syscalls.
