@@ -2,109 +2,134 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CA0792F94A2
-	for <lists+linux-api@lfdr.de>; Sun, 17 Jan 2021 19:33:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA8092F955D
+	for <lists+linux-api@lfdr.de>; Sun, 17 Jan 2021 22:09:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729947AbhAQSdS convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Sun, 17 Jan 2021 13:33:18 -0500
-Received: from eu-smtp-delivery-151.mimecast.com ([185.58.86.151]:59302 "EHLO
-        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729874AbhAQSdR (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 17 Jan 2021 13:33:17 -0500
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-165-qzM2FzfaOG6j69VeZBrcNw-1; Sun, 17 Jan 2021 18:31:37 +0000
-X-MC-Unique: qzM2FzfaOG6j69VeZBrcNw-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Sun, 17 Jan 2021 18:31:36 +0000
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
- Sun, 17 Jan 2021 18:31:36 +0000
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Christoph Hellwig' <hch@lst.de>, Andy Lutomirski <luto@kernel.org>
-CC:     Arnd Bergmann <arnd@kernel.org>,
-        Ryan Houdek <sonicadvance1@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
+        id S1730340AbhAQVHX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 17 Jan 2021 16:07:23 -0500
+Received: from mail107.syd.optusnet.com.au ([211.29.132.53]:44711 "EHLO
+        mail107.syd.optusnet.com.au" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726785AbhAQVHW (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 17 Jan 2021 16:07:22 -0500
+Received: from dread.disaster.area (pa49-181-54-82.pa.nsw.optusnet.com.au [49.181.54.82])
+        by mail107.syd.optusnet.com.au (Postfix) with ESMTPS id AB1B4D5ED06;
+        Mon, 18 Jan 2021 08:06:22 +1100 (AEDT)
+Received: from dave by dread.disaster.area with local (Exim 4.92.3)
+        (envelope-from <david@fromorbit.com>)
+        id 1l1FFd-0011Hk-2N; Mon, 18 Jan 2021 08:06:21 +1100
+Date:   Mon, 18 Jan 2021 08:06:21 +1100
+From:   Dave Chinner <david@fromorbit.com>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>,
+        linux-fsdevel@vger.kernel.org,
+        John Johansen <john.johansen@canonical.com>,
+        James Morris <jmorris@namei.org>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
         Arnd Bergmann <arnd@arndb.de>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Minchan Kim <minchan@kernel.org>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+        Geoffrey Thomas <geofft@ldpreload.com>,
+        Mrunal Patel <mpatel@redhat.com>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Theodore Tso <tytso@mit.edu>, Alban Crequy <alban@kinvolk.io>,
+        Tycho Andersen <tycho@tycho.ws>,
+        David Howells <dhowells@redhat.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Seth Forshee <seth.forshee@canonical.com>,
+        =?iso-8859-1?Q?St=E9phane?= Graber <stgraber@ubuntu.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         Aleksa Sarai <cyphar@cyphar.com>,
-        Sargun Dhillon <sargun@sargun.me>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Amanieu d'Antras <amanieu@gmail.com>,
-        Willem de Bruijn <willemb@google.com>,
-        YueHaibing <yuehaibing@huawei.com>,
-        Xiaoming Ni <nixiaoming@huawei.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Joe Perches <joe@perches.com>, Jan Kara <jack@suse.cz>,
-        David Rientjes <rientjes@google.com>,
-        "Arnaldo Carvalho de Melo" <acme@redhat.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>
-Subject: RE: [PATCH] Adds a new ioctl32 syscall for backwards compatibility
- layers
-Thread-Topic: [PATCH] Adds a new ioctl32 syscall for backwards compatibility
- layers
-Thread-Index: AQHW6+b/d1V6Thk8U0iiUgMFo8hTJqosJEIw
-Date:   Sun, 17 Jan 2021 18:31:36 +0000
-Message-ID: <cc3ce5e484f041948cb008f7508c968b@AcuMS.aculab.com>
-References: <20210106064807.253112-1-Sonicadvance1@gmail.com>
- <CAK8P3a2tV3HzPpbCR7mAeutx38_D2d-vfpEgpXv+GW_98w3VSQ@mail.gmail.com>
- <CABnRqDfQ5Qfa2ybut0qXcKuYnsMcG7+9gqjL-e7nZF1bkvhPRw@mail.gmail.com>
- <CAK8P3a2vfVfEWTk1ig349LGqt8bkK8YQWjE6PRyx+xvgYx7-gA@mail.gmail.com>
- <CALCETrUtyVaGSE9fcFAkhrGCpkyYcYnZb6tj8227o2EH5hgOfg@mail.gmail.com>
- <20210116090721.GA30277@lst.de>
-In-Reply-To: <20210116090721.GA30277@lst.de>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        Lennart Poettering <lennart@poettering.net>,
+        "Eric W. Biederman" <ebiederm@xmission.com>, smbarber@chromium.org,
+        Phil Estes <estesp@gmail.com>, Serge Hallyn <serge@hallyn.com>,
+        Kees Cook <keescook@chromium.org>,
+        Todd Kjos <tkjos@google.com>, Paul Moore <paul@paul-moore.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        containers@lists.linux-foundation.org,
+        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
+        linux-integrity@vger.kernel.org, selinux@vger.kernel.org,
+        Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v5 37/42] xfs: support idmapped mounts
+Message-ID: <20210117210621.GA78941@dread.disaster.area>
+References: <20210112220124.837960-1-christian.brauner@ubuntu.com>
+ <20210112220124.837960-38-christian.brauner@ubuntu.com>
+ <20210114205154.GL331610@dread.disaster.area>
+ <20210114221048.ppf2pfuxrjak4kvm@wittgenstein>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210114221048.ppf2pfuxrjak4kvm@wittgenstein>
+X-Optus-CM-Score: 0
+X-Optus-CM-Analysis: v=2.3 cv=F8MpiZpN c=1 sm=1 tr=0 cx=a_idp_d
+        a=NAd5MxazP4FGoF8nXO8esw==:117 a=NAd5MxazP4FGoF8nXO8esw==:17
+        a=kj9zAlcOel0A:10 a=EmqxpYm9HcoA:10 a=7-415B0cAAAA:8
+        a=QsOiS33c3F2EFrvaDEcA:9 a=CjuIK1q_8ugA:10 a=biEYGPWJfzWAr4FL6Ov7:22
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Christoph Hellwig
-> Sent: 16 January 2021 09:07
-...
-> > I personally would like to see in_compat_syscall() go away,
-> > but some other people (Hi, Christoph!) disagree, and usage seems to be
-> > increasing, not decreasing.
+On Thu, Jan 14, 2021 at 11:10:48PM +0100, Christian Brauner wrote:
+> On Fri, Jan 15, 2021 at 07:51:54AM +1100, Dave Chinner wrote:
+> > On Tue, Jan 12, 2021 at 11:01:19PM +0100, Christian Brauner wrote:
+> > > From: Christoph Hellwig <hch@lst.de>
+> > > 
+> > > Enable idmapped mounts for xfs. This basically just means passing down
+> > > the user_namespace argument from the VFS methods down to where it is
+> > > passed to helper.
+> > > 
+> > > Signed-off-by: Christoph Hellwig <hch@lst.de>
+> > ....
+> > > @@ -654,6 +658,7 @@ xfs_vn_change_ok(
+> > >   */
+> > >  static int
+> > >  xfs_setattr_nonsize(
+> > > +	struct user_namespace	*mnt_userns,
+> > >  	struct xfs_inode	*ip,
+> > >  	struct iattr		*iattr)
+> > >  {
+> > > @@ -813,7 +818,7 @@ xfs_setattr_nonsize(
+> > >  	 * 	     Posix ACL code seems to care about this issue either.
+> > >  	 */
+> > >  	if (mask & ATTR_MODE) {
+> > > -		error = posix_acl_chmod(&init_user_ns, inode, inode->i_mode);
+> > > +		error = posix_acl_chmod(mnt_userns, inode, inode->i_mode);
+> > >  		if (error)
+> > >  			return error;
+> > >  	}
+> > > @@ -868,7 +873,7 @@ xfs_setattr_size(
+> > >  		 * Use the regular setattr path to update the timestamps.
+> > >  		 */
+> > >  		iattr->ia_valid &= ~ATTR_SIZE;
+> > > -		return xfs_setattr_nonsize(ip, iattr);
+> > > +		return xfs_setattr_nonsize(&init_user_ns, ip, iattr);
+> > 
+> > Shouldn't that be passing mnt_userns?
 > 
-> I'm absolutely against it going away.  in_compat_syscall helped to
-> remove so much crap compared to the explicit compat syscalls.
+> Hey Dave,
+> 
+> Thanks for taking a look.
+> 
+> This is the time updating codepath.
 
-The only other real option is to pass the 'syscall type' explicitly
-through all the layers into every piece of code that might need it.
+Yes, I understand the code path, that's why I asked the question and
+commented that it's a landmine. That is, if in future we ever need
+to do anything that is is in any way namespace related in the
+truncate path, the wrong thing will happen because we are passing
+the wrong namespace into that function.
 
-So passing it as a 'parameter' that is (probably) current->syscall_type
-does make sense.
+Please just pass down the correct namespace for the operation even
+though we don't currently require it for the operations being
+performed in that path.
 
-It might even make sense have separate bits for the required emulations.
-So you'd have separate bits for '32bit pointers' and '64bit items 32bit
-aligned' (etc).
+Cheers,
 
-	David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
-
+Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
