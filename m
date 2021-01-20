@@ -2,135 +2,211 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0056B2FD4EA
-	for <lists+linux-api@lfdr.de>; Wed, 20 Jan 2021 17:09:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A6C8F2FD541
+	for <lists+linux-api@lfdr.de>; Wed, 20 Jan 2021 17:18:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391234AbhATQFX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 20 Jan 2021 11:05:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45408 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391205AbhATQFL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 20 Jan 2021 11:05:11 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12124C061793;
-        Wed, 20 Jan 2021 08:04:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=saaFHJth3qz3xI0Dro7UHa0PgnHwAKKwZMU5+56dtJE=; b=ZACVPHDnW8nMnHToaApes5g3Rw
-        YvejBi+ndU51oeSrxqqcYYLAwliMBGBXghPXPYc7XG0lsgIcf+/IvR9eJvgtCr1Y5bxBLOsNZcLBQ
-        vxSb7WDqPTplOeChJJO0bdqf2couRLArJqCqj+JJHVlMqYUasnii5Ahu8a9pr17qMCP5jWMHxkGSS
-        q6aEdJuVPlms8bTXRO0qZ2BUkaKlzq/5TxYAwU0Ad6+fh/jU8PXLs9HsRV6qDt9A/EPq+R0dOuJcM
-        Lpx6Y1tpfz20HDKCh6YfbGEj7XSx+aNMkVsZzAS1FtW9RnCqIaJmYKn7ticVopJumXn3gPadcnzNH
-        uNwqFTFw==;
-Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1l2Fvu-00Fsqd-9M; Wed, 20 Jan 2021 16:02:37 +0000
-Date:   Wed, 20 Jan 2021 16:02:10 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Roman Gushchin <guro@fb.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
-        x86@kernel.org, Hagen Paul Pfeifer <hagen@jauu.net>
-Subject: Re: [PATCH v14 05/10] mm: introduce memfd_secret system call to
- create "secret" memory areas
-Message-ID: <20210120160210.GK2260413@casper.infradead.org>
-References: <20201203062949.5484-1-rppt@kernel.org>
- <20201203062949.5484-6-rppt@kernel.org>
- <20210119202213.GI2260413@casper.infradead.org>
- <20210120150510.GO1106298@kernel.org>
+        id S2391502AbhATQQD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 20 Jan 2021 11:16:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35257 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2391451AbhATQP6 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 20 Jan 2021 11:15:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1611159270;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Lad1uHPnItt2h30i45RNcf50RD7bS69aVQ4eDKRX1L0=;
+        b=DKK0LcTUuG0oTpouMCMj76Mmj7/nYlKdalEwmnbze5I/p0mR1qZwWi5NT6PmbQseRIopFx
+        IA88Rs7+VaXlwMTICHbOOscrFkQNiQNDk5K+5g2en+bu/X3th7SLz5rO2QLuE2VBW+mh0M
+        GkxEBXjTksZXaubDqMcgnAav9JjrRto=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-501-n-GSEwQ2MmqH_VhJwL3O-w-1; Wed, 20 Jan 2021 11:14:28 -0500
+X-MC-Unique: n-GSEwQ2MmqH_VhJwL3O-w-1
+Received: by mail-qk1-f200.google.com with SMTP id 188so24183508qkh.7
+        for <linux-api@vger.kernel.org>; Wed, 20 Jan 2021 08:14:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=Lad1uHPnItt2h30i45RNcf50RD7bS69aVQ4eDKRX1L0=;
+        b=TZaMQKOpYouI1Yx0wavSjOvSEi5Om3ecQ26rft2XpiAwfEks+k41oZBXBvyAGgUY/O
+         O8GvzaJOwV05SaV4z2yPwrS+jA+Jamm7eFLnYibKBGhA0NUr4zeETii1yWSHGFcHBJoB
+         0hMhQyiosoP6D73Bs15UckQapTPi1dGS5k8YK8IVtQqEzk0ekq1dgHS/6f+UaHiOtTSB
+         RAATyBy+gWjzgbpWMhXkxVnn+90YnfTPzHlgwLj7Bd0JVfd8nUBFltkSITZADZ1i0Ph1
+         xvKJDsKTnq1opiJ/hjldtB8rFnGfBb5sKHxp9mms3XUTUXeOYIFp0lt31cDaPo1scm4+
+         mBRQ==
+X-Gm-Message-State: AOAM532xUK1p9e+Eav3JPPPaTHHcn3Pdi3SSM9OwSGYQJv2BaTqkxkK7
+        9Gp3NG5uhNO5xWARGQdt/WgPsQX0EKtbzodxTapYGdg2MMg4BjZkTof3zFozIZ6e+D+1MJBXD3w
+        CpuQl+iCCKI8XMQTpm6Hz
+X-Received: by 2002:a05:620a:16d5:: with SMTP id a21mr10366400qkn.188.1611159268329;
+        Wed, 20 Jan 2021 08:14:28 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwa1sWajSI1FTyvSZwFHP82ogRLpD8pcZQV6w7EVxGoRn+kZbogXRcXHCwbvc+otqYOVRd6Zg==
+X-Received: by 2002:a05:620a:16d5:: with SMTP id a21mr10366381qkn.188.1611159268128;
+        Wed, 20 Jan 2021 08:14:28 -0800 (PST)
+Received: from [192.168.1.16] (198-84-214-74.cpe.teksavvy.com. [198.84.214.74])
+        by smtp.gmail.com with ESMTPSA id h1sm1436705qtr.1.2021.01.20.08.14.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Jan 2021 08:14:27 -0800 (PST)
+Subject: Re: [PATCH v4 2/4] x86/elf: Support a new ELF aux vector
+ AT_MINSIGSTKSZ
+To:     "Chang S. Bae" <chang.seok.bae@intel.com>, bp@suse.de,
+        tglx@linutronix.de, mingo@kernel.org, luto@kernel.org,
+        x86@kernel.org
+Cc:     linux-arch@vger.kernel.org, len.brown@intel.com,
+        tony.luck@intel.com, libc-alpha@sourceware.org,
+        ravi.v.shankar@intel.com, jannh@google.com,
+        linux-kernel@vger.kernel.org, Fenghua Yu <fenghua.yu@intel.com>,
+        dave.hansen@intel.com, linux-api@vger.kernel.org,
+        Dave.Martin@arm.com
+References: <20210115211038.2072-1-chang.seok.bae@intel.com>
+ <20210115211038.2072-3-chang.seok.bae@intel.com>
+From:   Carlos O'Donell <carlos@redhat.com>
+Organization: Red Hat
+Message-ID: <46031a4a-3e4e-3a1d-1188-ed9af2cf95d1@redhat.com>
+Date:   Wed, 20 Jan 2021 11:14:25 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210120150510.GO1106298@kernel.org>
+In-Reply-To: <20210115211038.2072-3-chang.seok.bae@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jan 20, 2021 at 05:05:10PM +0200, Mike Rapoport wrote:
-> On Tue, Jan 19, 2021 at 08:22:13PM +0000, Matthew Wilcox wrote:
-> > On Thu, Dec 03, 2020 at 08:29:44AM +0200, Mike Rapoport wrote:
-> > > +static vm_fault_t secretmem_fault(struct vm_fault *vmf)
-> > > +{
-> > > +	struct address_space *mapping = vmf->vma->vm_file->f_mapping;
-> > > +	struct inode *inode = file_inode(vmf->vma->vm_file);
-> > > +	pgoff_t offset = vmf->pgoff;
-> > > +	vm_fault_t ret = 0;
-> > > +	unsigned long addr;
-> > > +	struct page *page;
-> > > +	int err;
-> > > +
-> > > +	if (((loff_t)vmf->pgoff << PAGE_SHIFT) >= i_size_read(inode))
-> > > +		return vmf_error(-EINVAL);
-> > > +
-> > > +	page = find_get_page(mapping, offset);
-> > > +	if (!page) {
-> > > +
-> > > +		page = secretmem_alloc_page(vmf->gfp_mask);
-> > > +		if (!page)
-> > > +			return vmf_error(-ENOMEM);
-> > 
-> > Just use VM_FAULT_OOM directly.
+On 1/15/21 4:10 PM, Chang S. Bae via Libc-alpha wrote:
+> Historically, signal.h defines MINSIGSTKSZ (2KB) and SIGSTKSZ (8KB), for
+> use by all architectures with sigaltstack(2). Over time, the hardware state
+> size grew, but these constants did not evolve. Today, literal use of these
+> constants on several architectures may result in signal stack overflow, and
+> thus user data corruption.
+> 
+> A few years ago, the ARM team addressed this issue by establishing
+> getauxval(AT_MINSIGSTKSZ), such that the kernel can supply at runtime value
+> that is an appropriate replacement on the current and future hardware.
+> 
+> Add getauxval(AT_MINSIGSTKSZ) support to x86, analogous to the support
+> added for ARM in commit 94b07c1f8c39 ("arm64: signal: Report signal frame
+> size to userspace via auxv").
+
+The value of AT_MINSIGSTKSZ has been generic ABI for all architectures since
+2018 when it was added to glibc's generic elf.h because of arm64.
+
+Rather than define this just for x86 may we please put this into the generic
+headers, since it has been there since 2018?
+
+Any userspace code that might be inspecting for AT_MINSIGSTKSZ is going to
+expect a value of 51.
+
+No other architecture has a define for value 51. This way we avoid any accidents
+with the value being different for architectures.
+ 
+> Reported-by: Florian Weimer <fweimer@redhat.com>
+> Fixes: c2bc11f10a39 ("x86, AVX-512: Enable AVX-512 States Context Switch")
+> Signed-off-by: Chang S. Bae <chang.seok.bae@intel.com>
+> Reviewed-by: Len Brown <len.brown@intel.com>
+> Cc: H.J. Lu <hjl.tools@gmail.com>
+> Cc: Fenghua Yu <fenghua.yu@intel.com>
+> Cc: Dave Martin <Dave.Martin@arm.com>
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: x86@kernel.org
+> Cc: libc-alpha@sourceware.org
+> Cc: linux-arch@vger.kernel.org
+> Cc: linux-api@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=153531
+> ---
+>  arch/x86/include/asm/elf.h         | 4 ++++
+>  arch/x86/include/uapi/asm/auxvec.h | 6 ++++--
+>  arch/x86/kernel/signal.c           | 5 +++++
+>  3 files changed, 13 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/x86/include/asm/elf.h b/arch/x86/include/asm/elf.h
+> index b9a5d488f1a5..044b024abea1 100644
+> --- a/arch/x86/include/asm/elf.h
+> +++ b/arch/x86/include/asm/elf.h
+> @@ -311,6 +311,7 @@ do {									\
+>  		NEW_AUX_ENT(AT_SYSINFO,	VDSO_ENTRY);			\
+>  		NEW_AUX_ENT(AT_SYSINFO_EHDR, VDSO_CURRENT_BASE);	\
+>  	}								\
+> +	NEW_AUX_ENT(AT_MINSIGSTKSZ, get_sigframe_size());			\
+>  } while (0)
 >  
-> Ok.
-> 
-> > > +		err = add_to_page_cache(page, mapping, offset, vmf->gfp_mask);
-> > > +		if (unlikely(err))
-> > > +			goto err_put_page;
-> > 
-> > What if the error is EEXIST because somebody else raced with you to add
-> > a new page to the page cache?
-> 
-> Right, for -EEXIST I need a retry here, thanks.
-> 
-> > > +		err = set_direct_map_invalid_noflush(page, 1);
-> > > +		if (err)
-> > > +			goto err_del_page_cache;
-> > 
-> > Does this work correctly if somebody else has a reference to the page
-> > in the meantime?
-> 
-> Yes, it does. If somebody else won the race that page was dropped from the
-> direct map and this call would be essentially a nop. And anyway, the very
-> next patch changes the way pages are removed from the direct map ;-)
+>  /*
+> @@ -327,6 +328,7 @@ extern unsigned long task_size_32bit(void);
+>  extern unsigned long task_size_64bit(int full_addr_space);
+>  extern unsigned long get_mmap_base(int is_legacy);
+>  extern bool mmap_address_hint_valid(unsigned long addr, unsigned long len);
+> +extern unsigned long get_sigframe_size(void);
+>  
+>  #ifdef CONFIG_X86_32
+>  
+> @@ -348,6 +350,7 @@ do {									\
+>  	if (vdso64_enabled)						\
+>  		NEW_AUX_ENT(AT_SYSINFO_EHDR,				\
+>  			    (unsigned long __force)current->mm->context.vdso); \
+> +	NEW_AUX_ENT(AT_MINSIGSTKSZ, get_sigframe_size());			\
+>  } while (0)
+>  
+>  /* As a historical oddity, the x32 and x86_64 vDSOs are controlled together. */
+> @@ -356,6 +359,7 @@ do {									\
+>  	if (vdso64_enabled)						\
+>  		NEW_AUX_ENT(AT_SYSINFO_EHDR,				\
+>  			    (unsigned long __force)current->mm->context.vdso); \
+> +	NEW_AUX_ENT(AT_MINSIGSTKSZ, get_sigframe_size());			\
+>  } while (0)
+>  
+>  #define AT_SYSINFO		32
+> diff --git a/arch/x86/include/uapi/asm/auxvec.h b/arch/x86/include/uapi/asm/auxvec.h
+> index 580e3c567046..edd7808060e6 100644
+> --- a/arch/x86/include/uapi/asm/auxvec.h
+> +++ b/arch/x86/include/uapi/asm/auxvec.h
+> @@ -10,11 +10,13 @@
+>  #endif
+>  #define AT_SYSINFO_EHDR		33
+>  
+> +#define AT_MINSIGSTKSZ		51
 
-What I'm thinking is:
+This definition should go into the generic auxvec.h.
 
-thread A page faults
-doesn't find page
-allocates page
-adds page to page cache
-				thread B page faults
-				does find page in page cache
-set direct map invalid fails
-deletes from page cache
-				... ?
+We could also remove the arm64 define, but that is orthogonal arch cleanup.
+
+> +
+>  /* entries in ARCH_DLINFO: */
+>  #if defined(CONFIG_IA32_EMULATION) || !defined(CONFIG_X86_64)
+> -# define AT_VECTOR_SIZE_ARCH 2
+> +# define AT_VECTOR_SIZE_ARCH 3
+>  #else /* else it's non-compat x86-64 */
+> -# define AT_VECTOR_SIZE_ARCH 1
+> +# define AT_VECTOR_SIZE_ARCH 2
+>  #endif
+>  
+>  #endif /* _ASM_X86_AUXVEC_H */
+> diff --git a/arch/x86/kernel/signal.c b/arch/x86/kernel/signal.c
+> index 138a9f5b78d8..761d856f8ef7 100644
+> --- a/arch/x86/kernel/signal.c
+> +++ b/arch/x86/kernel/signal.c
+> @@ -716,6 +716,11 @@ void __init init_sigframe_size(void)
+>  	max_frame_size = round_up(max_frame_size, FRAME_ALIGNMENT);
+>  }
+>  
+> +unsigned long get_sigframe_size(void)
+> +{
+> +	return max_frame_size;
+> +}
+> +
+>  static inline int is_ia32_compat_frame(struct ksignal *ksig)
+>  {
+>  	return IS_ENABLED(CONFIG_IA32_EMULATION) &&
+> 
+
+
+-- 
+Cheers,
+Carlos.
 
