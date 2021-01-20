@@ -2,134 +2,155 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B19D72FD1B4
-	for <lists+linux-api@lfdr.de>; Wed, 20 Jan 2021 14:55:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BFE22FD39A
+	for <lists+linux-api@lfdr.de>; Wed, 20 Jan 2021 16:14:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728913AbhATNXz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 20 Jan 2021 08:23:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37704 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388422AbhATNSs (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 20 Jan 2021 08:18:48 -0500
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9321BC0613CF
-        for <linux-api@vger.kernel.org>; Wed, 20 Jan 2021 05:18:07 -0800 (PST)
-Received: by mail-lf1-x12b.google.com with SMTP id b26so34080010lff.9
-        for <linux-api@vger.kernel.org>; Wed, 20 Jan 2021 05:18:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=KEq8tBsSJotuDC8emCL/6gnLfDlNS7DjovwJhhjL6ms=;
-        b=ULlMSelK9Ah0BMaovUHmsACU3A8+D692YYxmt2OYno3eGXN24zqnixuDonvFpZ2434
-         yGSCIJLnb9rvtjhVV8XPX2nCR1tR5/W56AKUtGD1OkiGVo7IeB4jiaFQf7E/SPuBZCPk
-         d4Lus8TY9Pvv6JwfYfacYCpF4wqkl22vCHCQTbwiluzAHo44vfyw87aw1bj7GxrJh8cR
-         nZV9kGNYb8OxcaZ9Ql7C/WeH9v4zws6ASGW2+LqT3AtKKoJHzqc0nxsas+X7WZpY7KVr
-         OAUDEHg2PDM3TgJfR2sQZHreqITp3VHs1U9nSDMrPkcdRevPf/w7OuV8CjENhYu9SBn6
-         VcWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KEq8tBsSJotuDC8emCL/6gnLfDlNS7DjovwJhhjL6ms=;
-        b=iqQ1lONGwfGMBFZEW/3iaNlEeDq822fEeECkTECnybhaXLdrTIp7HLCMWHiI/4+mB0
-         RjKAihqAtE8ac1FCLkGQsysAsV+H24R1KgLvQ2FigngSukSh/bxIS4jzGEaJY/I0mHcP
-         NdFMbOfUoCwDhvSrezCOIv3IMfBSKZ9skI42Cv5vdEYJf/IEhagb/psDo9ApPOAYEQw4
-         eF2G98mhpSue/gXm54xVTd4pA+6UIQfIl9j0LZbdQ037NW/s6tKRcqI3ITsee5E0BwRy
-         kcRtUtxxrMgFDzz+2b69z7LXagYDUoyrBYuAzRlRj8RIKubzXc8lsotMSP+h+pYL62ww
-         CVOw==
-X-Gm-Message-State: AOAM5336VZxQKN4bAx8M6zPfcWGKUChJDMUXPqAjxaBNZL2yZOTvBJLX
-        I2TDNXS/3hQkaWXZsSyxchhRzB2jeDgq+DNYVp/wpQ==
-X-Google-Smtp-Source: ABdhPJzqDqJvZXUcfXv4xFpgmlCE0aHWXWLar3aIIwchg7i4ldiK53CzSQfu3T1ZKIGVaiUK6Qge3/wJtkCQkY/hjps=
-X-Received: by 2002:a19:8cb:: with SMTP id 194mr4180105lfi.463.1611148685415;
- Wed, 20 Jan 2021 05:18:05 -0800 (PST)
-MIME-Version: 1.0
-References: <20210111170622.2613577-1-surenb@google.com> <20210112074629.GG22493@dhcp22.suse.cz>
- <20210112174507.GA23780@redhat.com> <CAJuCfpFQz=x-LvONO3c4iqjKP4NKJMgUuiYc8HACKHAv1Omu0w@mail.gmail.com>
- <20210113142202.GC22493@dhcp22.suse.cz>
-In-Reply-To: <20210113142202.GC22493@dhcp22.suse.cz>
-From:   Jann Horn <jannh@google.com>
-Date:   Wed, 20 Jan 2021 14:17:39 +0100
-Message-ID: <CAG48ez0=QSzuj96+5oVQ2qWqfjedv3oKtfEFzw--C8bzfvj7EQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] mm/madvise: replace ptrace attach requirement for process_madvise
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Suren Baghdasaryan <surenb@google.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Jeffrey Vander Stoep <jeffv@google.com>,
-        Minchan Kim <minchan@kernel.org>,
+        id S2390061AbhATPLi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 20 Jan 2021 10:11:38 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48730 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2390990AbhATPGO (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 20 Jan 2021 10:06:14 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7A01A23356;
+        Wed, 20 Jan 2021 15:05:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1611155125;
+        bh=9874V4EQF8pGhQeRtiLlHuHTZWGypK1q+CZx02TXhZM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=uVer5+wzd/VviGPx62NgeNadLX736EMkLOQOVHuy+k8sx0BcR+ivCEkKsnZIoxtnT
+         GpWkXKSHUVrX3tMi+iQiZNVYUchhp0zB4TrjPy0CuHAyWgurs4kWeeuPwxfawgBGve
+         xWg9JGEgJG54bZgaB141RZ4cuaX9zxlmp5uYxxVFC9vITcsuqfvwAakLkytsiWOGfL
+         pNtcU5EE62T/qNQ15LxVmcJccjD7XRVg6hOvj3C8536te+4LBKab+YM8J44PRYhLZX
+         NgPhXfCDCBlcUFMljfwDktrV1a/D2LNFJaqimj3Xi9rVUzUTR1HHM4iQVtrs0WE0Q2
+         /+v3XgxNylKfQ==
+Date:   Wed, 20 Jan 2021 17:05:10 +0200
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christopher Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Roman Gushchin <guro@fb.com>,
         Shakeel Butt <shakeelb@google.com>,
-        David Rientjes <rientjes@google.com>,
-        =?UTF-8?Q?Edgar_Arriaga_Garc=C3=ADa?= <edgararriaga@google.com>,
-        Tim Murray <timmurray@google.com>,
-        linux-mm <linux-mm@kvack.org>,
-        SElinux list <selinux@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        kernel-team <kernel-team@android.com>,
-        linux-security-module <linux-security-module@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
+        x86@kernel.org, Hagen Paul Pfeifer <hagen@jauu.net>
+Subject: Re: [PATCH v14 05/10] mm: introduce memfd_secret system call to
+ create "secret" memory areas
+Message-ID: <20210120150510.GO1106298@kernel.org>
+References: <20201203062949.5484-1-rppt@kernel.org>
+ <20201203062949.5484-6-rppt@kernel.org>
+ <20210119202213.GI2260413@casper.infradead.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210119202213.GI2260413@casper.infradead.org>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jan 13, 2021 at 3:22 PM Michal Hocko <mhocko@suse.com> wrote:
-> On Tue 12-01-21 09:51:24, Suren Baghdasaryan wrote:
-> > On Tue, Jan 12, 2021 at 9:45 AM Oleg Nesterov <oleg@redhat.com> wrote:
-> > >
-> > > On 01/12, Michal Hocko wrote:
-> > > >
-> > > > On Mon 11-01-21 09:06:22, Suren Baghdasaryan wrote:
-> > > >
-> > > > > What we want is the ability for one process to influence another process
-> > > > > in order to optimize performance across the entire system while leaving
-> > > > > the security boundary intact.
-> > > > > Replace PTRACE_MODE_ATTACH with a combination of PTRACE_MODE_READ
-> > > > > and CAP_SYS_NICE. PTRACE_MODE_READ to prevent leaking ASLR metadata
-> > > > > and CAP_SYS_NICE for influencing process performance.
-> > > >
-> > > > I have to say that ptrace modes are rather obscure to me. So I cannot
-> > > > really judge whether MODE_READ is sufficient. My understanding has
-> > > > always been that this is requred to RO access to the address space. But
-> > > > this operation clearly has a visible side effect. Do we have any actual
-> > > > documentation for the existing modes?
-> > > >
-> > > > I would be really curious to hear from Jann and Oleg (now Cced).
-> > >
-> > > Can't comment, sorry. I never understood these security checks and never tried.
-> > > IIUC only selinux/etc can treat ATTACH/READ differently and I have no idea what
-> > > is the difference.
+On Tue, Jan 19, 2021 at 08:22:13PM +0000, Matthew Wilcox wrote:
+> On Thu, Dec 03, 2020 at 08:29:44AM +0200, Mike Rapoport wrote:
+> > +static vm_fault_t secretmem_fault(struct vm_fault *vmf)
+> > +{
+> > +	struct address_space *mapping = vmf->vma->vm_file->f_mapping;
+> > +	struct inode *inode = file_inode(vmf->vma->vm_file);
+> > +	pgoff_t offset = vmf->pgoff;
+> > +	vm_fault_t ret = 0;
+> > +	unsigned long addr;
+> > +	struct page *page;
+> > +	int err;
+> > +
+> > +	if (((loff_t)vmf->pgoff << PAGE_SHIFT) >= i_size_read(inode))
+> > +		return vmf_error(-EINVAL);
+> > +
+> > +	page = find_get_page(mapping, offset);
+> > +	if (!page) {
+> > +
+> > +		page = secretmem_alloc_page(vmf->gfp_mask);
+> > +		if (!page)
+> > +			return vmf_error(-ENOMEM);
+> 
+> Just use VM_FAULT_OOM directly.
+ 
+Ok.
 
-Yama in particular only does its checks on ATTACH and ignores READ,
-that's the difference you're probably most likely to encounter on a
-normal desktop system, since some distros turn Yama on by default.
-Basically the idea there is that running "gdb -p $pid" or "strace -p
-$pid" as a normal user will usually fail, but reading /proc/$pid/maps
-still works; so you can see things like detailed memory usage
-information and such, but you're not supposed to be able to directly
-peek into a running SSH client and inject data into the existing SSH
-connection, or steal the cryptographic keys for the current
-connection, or something like that.
+> > +		err = add_to_page_cache(page, mapping, offset, vmf->gfp_mask);
+> > +		if (unlikely(err))
+> > +			goto err_put_page;
+> 
+> What if the error is EEXIST because somebody else raced with you to add
+> a new page to the page cache?
 
-> > I haven't seen a written explanation on ptrace modes but when I
-> > consulted Jann his explanation was:
-> >
-> > PTRACE_MODE_READ means you can inspect metadata about processes with
-> > the specified domain, across UID boundaries.
-> > PTRACE_MODE_ATTACH means you can fully impersonate processes with the
-> > specified domain, across UID boundaries.
->
-> Maybe this would be a good start to document expectations. Some more
-> practical examples where the difference is visible would be great as
-> well.
+Right, for -EEXIST I need a retry here, thanks.
 
-Before documenting the behavior, it would be a good idea to figure out
-what to do with perf_event_open(). That one's weird in that it only
-requires PTRACE_MODE_READ, but actually allows you to sample stuff
-like userspace stack and register contents (if perf_event_paranoid is
-1 or 2). Maybe for SELinux things (and maybe also for Yama), there
-should be a level in between that allows fully inspecting the process
-(for purposes like profiling) but without the ability to corrupt its
-memory or registers or things like that. Or maybe perf_event_open()
-should just use the ATTACH mode.
+> > +		err = set_direct_map_invalid_noflush(page, 1);
+> > +		if (err)
+> > +			goto err_del_page_cache;
+> 
+> Does this work correctly if somebody else has a reference to the page
+> in the meantime?
+
+Yes, it does. If somebody else won the race that page was dropped from the
+direct map and this call would be essentially a nop. And anyway, the very
+next patch changes the way pages are removed from the direct map ;-)
+
+> > +		addr = (unsigned long)page_address(page);
+> > +		flush_tlb_kernel_range(addr, addr + PAGE_SIZE);
+> > +
+> > +		__SetPageUptodate(page);
+> 
+> Once you've added it to the cache, somebody else can come along and try
+> to lock it.  They will set PageWaiter.  Now you call __SetPageUptodate
+> and wipe out their PageWaiter bit.  So you won't wake them up when you
+> unlock.
+> 
+> You can call __SetPageUptodate before adding it to the page cache,
+> but once it's visible to another thread, you can't do that.
+
+Will fix.
+
+> > +		ret = VM_FAULT_LOCKED;
+> > +	}
+> > +
+> > +	vmf->page = page;
+> 
+> You're supposed to return the page locked, so use find_lock_page() instead
+> of find_get_page().
+
+Ok/
+ 
+> > +	return ret;
+> > +
+> > +err_del_page_cache:
+> > +	delete_from_page_cache(page);
+> > +err_put_page:
+> > +	put_page(page);
+> > +	return vmf_error(err);
+> > +}
+
+-- 
+Sincerely yours,
+Mike.
