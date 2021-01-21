@@ -2,30 +2,33 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E0ED02FDDD6
-	for <lists+linux-api@lfdr.de>; Thu, 21 Jan 2021 01:26:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3548D2FDE64
+	for <lists+linux-api@lfdr.de>; Thu, 21 Jan 2021 02:03:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729396AbhAUAZu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 20 Jan 2021 19:25:50 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55732 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732098AbhATVnk (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 20 Jan 2021 16:43:40 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1E57F23600;
-        Wed, 20 Jan 2021 21:42:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611178974;
-        bh=ZemV/+dUIhWWETHuwU5pHRPb6MkbPLkRamXfzO/LwBk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uzb7oUqqqTl6faKktid0R1cfCdzOhvge6hefHpP1hVsOrRWHUIRjtRR24feMvviBV
-         qSPgQ0BpNLkdq1Dh3XK99XOPci+LskNVcWHz5989GtZRhQv44Gf357HRSoLSYk494t
-         IKjF5/HIb64hJBLOgZxf/YfAPKv47GTkUJBbd7DJcJTd2tSyzQVNhz0mzFh7G7vSAC
-         QsPumwQssV3QVC+8stgE0LaJa76huTme80dU3hSp8RBkxnlwydBxS3gUzVaX1cLjEk
-         zdGWVnOXpFdtYn/+WUm8E0F8/cTMAueXosEUkqwcn7jAPBJAPaxvqXgAzRBJ8CwIBD
-         wQMKvnyLvI9vA==
-Date:   Wed, 20 Jan 2021 23:42:39 +0200
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Matthew Wilcox <willy@infradead.org>
+        id S2390261AbhAUBBs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 20 Jan 2021 20:01:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38114 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2392874AbhAUAPt (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 20 Jan 2021 19:15:49 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2187CC061575;
+        Wed, 20 Jan 2021 16:15:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=cwu2zXGrhPIC6ERSbgMr9vODEIjubNUIY3egpnasEkM=; b=Titc2oh6mm6H8HrBnURdMCnuAy
+        B7tmu7WO5lk/dTol8pnvJFj1ALNIg2a0ayyvvXkEw9Hp66wKGgQ/BlGHZARXS97TlLGZY8EiZPMmA
+        ut30VcvnrKuPicxn8sbUQh1rQkfX6UOTVdhCPtU2awociCaRbIMPQ6MoLPRkjOOtwQ9FsIa0xGjnZ
+        /CSZq9i88CQi3WQl2rKH0j35vKzcRO3qR1A3h4r5WrMR6t4JOLRaCJ41q5mPTRUZf67Q1bFGxlKNx
+        5TkXSuCjJgxzJqjcJLYOACHaEtsrrVT7zqfOOOSI8cncXQ7oKbdLlZuACe9kpbaLDbLfrC+jRu/zm
+        xaT3mp2g==;
+Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
+        id 1l2Nah-00GNk2-9O; Thu, 21 Jan 2021 00:12:57 +0000
+Date:   Thu, 21 Jan 2021 00:12:47 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Mike Rapoport <rppt@kernel.org>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
         Andy Lutomirski <luto@kernel.org>,
@@ -58,73 +61,32 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
         x86@kernel.org, Hagen Paul Pfeifer <hagen@jauu.net>,
         Palmer Dabbelt <palmerdabbelt@google.com>
-Subject: Re: [PATCH v15 06/11] mm: introduce memfd_secret system call to
- create "secret" memory areas
-Message-ID: <20210120214239.GR1106298@kernel.org>
+Subject: Re: [PATCH v15 07/11] secretmem: use PMD-size pages to amortize
+ direct map fragmentation
+Message-ID: <20210121001247.GN2260413@casper.infradead.org>
 References: <20210120180612.1058-1-rppt@kernel.org>
- <20210120180612.1058-7-rppt@kernel.org>
- <20210120203504.GM2260413@casper.infradead.org>
+ <20210120180612.1058-8-rppt@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210120203504.GM2260413@casper.infradead.org>
+In-Reply-To: <20210120180612.1058-8-rppt@kernel.org>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jan 20, 2021 at 08:35:04PM +0000, Matthew Wilcox wrote:
-> On Wed, Jan 20, 2021 at 08:06:07PM +0200, Mike Rapoport wrote:
-> > +static struct page *secretmem_alloc_page(gfp_t gfp)
-> > +{
-> > +	/*
-> > +	 * FIXME: use a cache of large pages to reduce the direct map
-> > +	 * fragmentation
-> > +	 */
-> > +	return alloc_page(gfp);
-> > +}
-> > +
-> > +static vm_fault_t secretmem_fault(struct vm_fault *vmf)
-> > +{
-> > +	struct address_space *mapping = vmf->vma->vm_file->f_mapping;
-> > +	struct inode *inode = file_inode(vmf->vma->vm_file);
-> > +	pgoff_t offset = vmf->pgoff;
-> > +	unsigned long addr;
-> > +	struct page *page;
-> > +	int err;
-> > +
-> > +	if (((loff_t)vmf->pgoff << PAGE_SHIFT) >= i_size_read(inode))
-> > +		return vmf_error(-EINVAL);
-> > +
-> > +retry:
-> > +	page = find_lock_page(mapping, offset);
-> > +	if (!page) {
-> > +		page = secretmem_alloc_page(vmf->gfp_mask);
-> > +		if (!page)
-> > +			return VM_FAULT_OOM;
-> > +
-> > +		err = set_direct_map_invalid_noflush(page, 1);
-> > +		if (err)
-> > +			return vmf_error(err);
-> 
-> Haven't we leaked the page at this point?
+On Wed, Jan 20, 2021 at 08:06:08PM +0200, Mike Rapoport wrote:
+> +static int secretmem_pool_increase(struct secretmem_ctx *ctx, gfp_t gfp)
+>  {
+> +	unsigned long nr_pages = (1 << PMD_PAGE_ORDER);
+> +	struct gen_pool *pool = ctx->pool;
+> +	unsigned long addr;
+> +	struct page *page;
+> +	int err;
+> +
+> +	page = cma_alloc(secretmem_cma, nr_pages, PMD_SIZE, gfp & __GFP_NOWARN);
+> +	if (!page)
+> +		return -ENOMEM;
 
-Well, yes. :(
+Does cma_alloc() zero the pages it allocates?  If not, where do we avoid
+leaking kernel memory to userspace?
 
-But this code is anyway changed in the next patch. Is this really so
-important to fix this in the middle of the series?
- 
-> > +		__SetPageUptodate(page);
-> > +		err = add_to_page_cache(page, mapping, offset, vmf->gfp_mask);
-> 
-> At this point, doesn't the page contain data from the last person to use
-> the page?  ie we've leaked data to this process?  I don't see anywhere
-> that we write data to the page.
-
-The data is visible for all processes that share the file descriptor. So
-no, we don't leak anything unless the file descriptor itself is leaked.
-
-Did you have a particular scenario in mind?
-
--- 
-Sincerely yours,
-Mike.
