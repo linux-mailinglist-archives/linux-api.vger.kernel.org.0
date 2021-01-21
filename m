@@ -2,229 +2,184 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 846912FF2BB
-	for <lists+linux-api@lfdr.de>; Thu, 21 Jan 2021 19:03:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E0D72FF490
+	for <lists+linux-api@lfdr.de>; Thu, 21 Jan 2021 20:33:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733249AbhAUPnn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 21 Jan 2021 10:43:43 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:53776 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731806AbhAUNVZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 21 Jan 2021 08:21:25 -0500
-Received: from ip5f5af0a0.dynamic.kabel-deutschland.de ([95.90.240.160] helo=wittgenstein.fritz.box)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1l2Zsu-0005g7-3f; Thu, 21 Jan 2021 13:20:24 +0000
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@lst.de>, linux-fsdevel@vger.kernel.org
-Cc:     John Johansen <john.johansen@canonical.com>,
-        James Morris <jmorris@namei.org>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
+        id S1726806AbhAUSwA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 21 Jan 2021 13:52:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51322 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725283AbhAUSoy (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 21 Jan 2021 13:44:54 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6AD2C0613D6;
+        Thu, 21 Jan 2021 10:44:13 -0800 (PST)
+Received: from zn.tnic (p200300ec2f1575000bca919cfb20ab7c.dip0.t-ipconnect.de [IPv6:2003:ec:2f15:7500:bca:919c:fb20:ab7c])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 5826E1EC01E0;
+        Thu, 21 Jan 2021 19:44:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1611254650;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=FD6FQ6tukOCLwD6fNln6IY5OGb/JtEuN8OVZbhIeo5o=;
+        b=C+ixRZOWUtm8yEAwwAKy0C/ygFqQvTETyMjJ0OwfhMpBAgwFydfj7120JKzkaTwVrFxde/
+        Oj8iKaH8j7vf/WYo85cHloFwNwzslaLwe7lW0Nb9cPQ9wdOsllCoE4u9d94EJv6HuV13HT
+        arxbhF7qcqokTpmq1wXUDgm9Cf8k2SQ=
+Date:   Thu, 21 Jan 2021 19:44:05 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
         Arnd Bergmann <arnd@arndb.de>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-        Geoffrey Thomas <geofft@ldpreload.com>,
-        Mrunal Patel <mpatel@redhat.com>,
-        Josh Triplett <josh@joshtriplett.org>,
         Andy Lutomirski <luto@kernel.org>,
-        Theodore Tso <tytso@mit.edu>, Alban Crequy <alban@kinvolk.io>,
-        Tycho Andersen <tycho@tycho.ws>,
-        David Howells <dhowells@redhat.com>,
-        James Bottomley <James.Bottomley@hansenpartnership.com>,
-        Seth Forshee <seth.forshee@canonical.com>,
-        =?UTF-8?q?St=C3=A9phane=20Graber?= <stgraber@ubuntu.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Lennart Poettering <lennart@poettering.net>,
-        "Eric W. Biederman" <ebiederm@xmission.com>, smbarber@chromium.org,
-        Phil Estes <estesp@gmail.com>, Serge Hallyn <serge@hallyn.com>,
-        Kees Cook <keescook@chromium.org>,
-        Todd Kjos <tkjos@google.com>, Paul Moore <paul@paul-moore.com>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        containers@lists.linux-foundation.org,
-        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
-        linux-integrity@vger.kernel.org, selinux@vger.kernel.org,
-        Christian Brauner <christian.brauner@ubuntu.com>
-Subject: [PATCH v6 01/40] mount: attach mappings to mounts
-Date:   Thu, 21 Jan 2021 14:19:20 +0100
-Message-Id: <20210121131959.646623-2-christian.brauner@ubuntu.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210121131959.646623-1-christian.brauner@ubuntu.com>
-References: <20210121131959.646623-1-christian.brauner@ubuntu.com>
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Subject: Re: [PATCH v17 08/26] x86/mm: Introduce _PAGE_COW
+Message-ID: <20210121184405.GE32060@zn.tnic>
+References: <20201229213053.16395-1-yu-cheng.yu@intel.com>
+ <20201229213053.16395-9-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-X-Patch-Hashes: v=1; h=sha256; i=RNdtgoKaLGCMkof4zQAU3N/xXjoHA/9IvgBRCO94lyQ=; m=v4JeDPlKw7+HRf6GkILParxKrCZxHiToEIxl1JpzBMc=; p=n8aTDgNwQFcuOq2vzScaJKTjpeZYHL89d0mK14Ql03I=; g=10886b981fa37e8daf7d1a3ab0dff6047323eaad
-X-Patch-Sig: m=pgp; i=christian.brauner@ubuntu.com; s=0x0x91C61BC06578DCA2; b=iHUEABYKAB0WIQRAhzRXHqcMeLMyaSiRxhvAZXjcogUCYAl9owAKCRCRxhvAZXjcoqEbAPwK333 ZnYjG/GuxGlrHWLqoKgSkX3uNx9F5O46VJfzTkAEAnmq+k+saVqcfu1A7GYLfR7gJVnb+J+yKtVd1 w115xwQ=
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20201229213053.16395-9-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-In order to support per-mount idmappings vfsmounts are marked with user
-namespaces. The idmapping of the user namespace will be used to map the
-ids of vfs objects when they are accessed through that mount. By default
-all vfsmounts are marked with the initial user namespace. The initial
-user namespace is used to indicate that a mount is not idmapped. All
-operations behave as before.
+On Tue, Dec 29, 2020 at 01:30:35PM -0800, Yu-cheng Yu wrote:
+> @@ -182,6 +182,12 @@ static inline int pud_young(pud_t pud)
+>  
+>  static inline int pte_write(pte_t pte)
+>  {
+> +	/*
+> +	 * If _PAGE_DIRTY is set, the PTE must either have _PAGE_RW or be
+> +	 * a shadow stack PTE, which is logically writable.
+> +	 */
+> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK))
+> +		return pte_flags(pte) & (_PAGE_RW | _PAGE_DIRTY);
+>  	return pte_flags(pte) & _PAGE_RW;
 
-Based on prior discussions we want to attach the whole user namespace
-and not just a dedicated idmapping struct. This allows us to reuse all
-the helpers that already exist for dealing with idmappings instead of
-introducing a whole new range of helpers. In addition, if we decide in
-the future that we are confident enough to enable unprivileged users to
-setup idmapped mounts the permission checking can take into account
-whether the caller is privileged in the user namespace the mount is
-currently marked with.
-Later patches enforce that once a mount has been idmapped it can't be
-remapped. This keeps permission checking and life-cycle management
-simple. Users wanting to change the idmapped can always create a new
-detached mount with a different idmapping.
+        if (cpu_feature_enabled(X86_FEATURE_SHSTK))
+                return pte_flags(pte) & (_PAGE_RW | _PAGE_DIRTY);
+        else
+                return pte_flags(pte) & _PAGE_RW;
 
-Add a new mnt_userns member to vfsmount and two simple helpers to
-retrieve the mnt_userns from vfsmounts and files.
+The else makes it ballanced and easier to read.
 
-The idea to attach user namespaces to vfsmounts has been floated around
-in various forms at Linux Plumbers in ~2018 with the original idea
-tracing back to a discussion in 2017 at a conference in St. Petersburg
-between Christoph, Tycho, and myself.
 
-Link: https://lore.kernel.org/r/20210112220124.837960-10-christian.brauner@ubuntu.com
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: David Howells <dhowells@redhat.com>
-Cc: Al Viro <viro@zeniv.linux.org.uk>
-Cc: linux-fsdevel@vger.kernel.org
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
----
-/* v2 */
-patch introduced
-- Christoph Hellwig <hch@lst.de>:
-  - Split internal implementation into separate patch and move syscall
-    implementation later.
+> @@ -333,7 +339,7 @@ static inline pte_t pte_clear_uffd_wp(pte_t pte)
+>  
+>  static inline pte_t pte_mkclean(pte_t pte)
+>  {
+> -	return pte_clear_flags(pte, _PAGE_DIRTY);
+> +	return pte_clear_flags(pte, _PAGE_DIRTY_BITS);
+>  }
+>  
+>  static inline pte_t pte_mkold(pte_t pte)
+> @@ -343,6 +349,16 @@ static inline pte_t pte_mkold(pte_t pte)
+>  
+>  static inline pte_t pte_wrprotect(pte_t pte)
+>  {
+> +	/*
+> +	 * Blindly clearing _PAGE_RW might accidentally create
+> +	 * a shadow stack PTE (RW=0, Dirty=1).  Move the hardware
+> +	 * dirty value to the software bit.
+> +	 */
+> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
+> +		pte.pte |= (pte.pte & _PAGE_DIRTY) >> _PAGE_BIT_DIRTY << _PAGE_BIT_COW;
 
-/* v3 */
-- David Howells <dhowells@redhat.com>:
-  - Remove MNT_IDMAPPED flag. We can simply check the pointer and use
-    smp_load_acquire() in later patches.
+Why the unreadable shifting when you can simply do:
 
-- Tycho Andersen <tycho@tycho.pizza>:
-  - Use READ_ONCE() in mnt_user_ns().
+                if (pte.pte & _PAGE_DIRTY)
+                        pte.pte |= _PAGE_COW;
 
-/* v4 */
-- Serge Hallyn <serge@hallyn.com>:
-  - Use "mnt_userns" to refer to a vfsmount's userns everywhere to make
-    terminology consistent.
+?
 
-- Christoph Hellwig <hch@lst.de>:
-  - Drop the READ_ONCE() from this patch. At this point in the series we
-    don't allowing changing the vfsmount's userns. The infra to do that
-    is only introduced as almost the last patch in the series and there
-    we immediately use smp_load_acquire() and smp_store_release().
+> @@ -434,16 +469,40 @@ static inline pmd_t pmd_mkold(pmd_t pmd)
+>  
+>  static inline pmd_t pmd_mkclean(pmd_t pmd)
+>  {
+> -	return pmd_clear_flags(pmd, _PAGE_DIRTY);
+> +	return pmd_clear_flags(pmd, _PAGE_DIRTY_BITS);
+>  }
+>  
+>  static inline pmd_t pmd_wrprotect(pmd_t pmd)
+>  {
+> +	/*
+> +	 * Blindly clearing _PAGE_RW might accidentally create
+> +	 * a shadow stack PMD (RW=0, Dirty=1).  Move the hardware
+> +	 * dirty value to the software bit.
+> +	 */
+> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
+> +		pmdval_t v = native_pmd_val(pmd);
+> +
+> +		v |= (v & _PAGE_DIRTY) >> _PAGE_BIT_DIRTY << _PAGE_BIT_COW;
 
-/* v5 */
-unchanged
-base-commit: 7c53f6b671f4aba70ff15e1b05148b10d58c2837
+As above.
 
-/* v6 */
-base-commit: 19c329f6808995b142b3966301f217c831e7cf31
+> @@ -488,17 +554,35 @@ static inline pud_t pud_mkold(pud_t pud)
+>  
+>  static inline pud_t pud_mkclean(pud_t pud)
+>  {
+> -	return pud_clear_flags(pud, _PAGE_DIRTY);
+> +	return pud_clear_flags(pud, _PAGE_DIRTY_BITS);
+>  }
+>  
+>  static inline pud_t pud_wrprotect(pud_t pud)
+>  {
+> +	/*
+> +	 * Blindly clearing _PAGE_RW might accidentally create
+> +	 * a shadow stack PUD (RW=0, Dirty=1).  Move the hardware
+> +	 * dirty value to the software bit.
+> +	 */
+> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
+> +		pudval_t v = native_pud_val(pud);
+> +
+> +		v |= (v & _PAGE_DIRTY) >> _PAGE_BIT_DIRTY << _PAGE_BIT_COW;
 
-- Christoph Hellwig <hch@lst.de>:
-  - Move file_mnt_user_ns() helper into this patch.
----
- fs/namespace.c        | 9 +++++++++
- include/linux/fs.h    | 6 ++++++
- include/linux/mount.h | 6 ++++++
- 3 files changed, 21 insertions(+)
+Ditto.
 
-diff --git a/fs/namespace.c b/fs/namespace.c
-index 9d33909d0f9e..ecdc63ef881c 100644
---- a/fs/namespace.c
-+++ b/fs/namespace.c
-@@ -210,6 +210,7 @@ static struct mount *alloc_vfsmnt(const char *name)
- 		INIT_HLIST_NODE(&mnt->mnt_mp_list);
- 		INIT_LIST_HEAD(&mnt->mnt_umounting);
- 		INIT_HLIST_HEAD(&mnt->mnt_stuck_children);
-+		mnt->mnt.mnt_userns = &init_user_ns;
- 	}
- 	return mnt;
- 
-@@ -547,6 +548,11 @@ int sb_prepare_remount_readonly(struct super_block *sb)
- 
- static void free_vfsmnt(struct mount *mnt)
- {
-+	struct user_namespace *mnt_userns;
-+
-+	mnt_userns = mnt_user_ns(&mnt->mnt);
-+	if (mnt_userns != &init_user_ns)
-+		put_user_ns(mnt_userns);
- 	kfree_const(mnt->mnt_devname);
- #ifdef CONFIG_SMP
- 	free_percpu(mnt->mnt_pcp);
-@@ -1055,6 +1061,9 @@ static struct mount *clone_mnt(struct mount *old, struct dentry *root,
- 	mnt->mnt.mnt_flags &= ~(MNT_WRITE_HOLD|MNT_MARKED|MNT_INTERNAL);
- 
- 	atomic_inc(&sb->s_active);
-+	mnt->mnt.mnt_userns = mnt_user_ns(&old->mnt);
-+	if (mnt->mnt.mnt_userns != &init_user_ns)
-+		mnt->mnt.mnt_userns = get_user_ns(mnt->mnt.mnt_userns);
- 	mnt->mnt.mnt_sb = sb;
- 	mnt->mnt.mnt_root = dget(root);
- 	mnt->mnt_mountpoint = mnt->mnt.mnt_root;
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index fd47deea7c17..fd0b80e6361d 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -39,6 +39,7 @@
- #include <linux/fs_types.h>
- #include <linux/build_bug.h>
- #include <linux/stddef.h>
-+#include <linux/mount.h>
- 
- #include <asm/byteorder.h>
- #include <uapi/linux/fs.h>
-@@ -2231,6 +2232,7 @@ struct file_system_type {
- #define FS_HAS_SUBTYPE		4
- #define FS_USERNS_MOUNT		8	/* Can be mounted by userns root */
- #define FS_DISALLOW_NOTIFY_PERM	16	/* Disable fanotify permission events */
-+#define FS_ALLOW_IDMAP         32      /* FS has been updated to handle vfs idmappings. */
- #define FS_THP_SUPPORT		8192	/* Remove once all fs converted */
- #define FS_RENAME_DOES_D_MOVE	32768	/* FS will handle d_move() during rename() internally. */
- 	int (*init_fs_context)(struct fs_context *);
-@@ -2517,6 +2519,10 @@ struct filename {
- };
- static_assert(offsetof(struct filename, iname) % sizeof(long) == 0);
- 
-+static inline struct user_namespace *file_mnt_user_ns(struct file *file)
-+{
-+	return mnt_user_ns(file->f_path.mnt);
-+}
- extern long vfs_truncate(const struct path *, loff_t);
- extern int do_truncate(struct dentry *, loff_t start, unsigned int time_attrs,
- 		       struct file *filp);
-diff --git a/include/linux/mount.h b/include/linux/mount.h
-index aaf343b38671..52de25e08319 100644
---- a/include/linux/mount.h
-+++ b/include/linux/mount.h
-@@ -72,8 +72,14 @@ struct vfsmount {
- 	struct dentry *mnt_root;	/* root of the mounted tree */
- 	struct super_block *mnt_sb;	/* pointer to superblock */
- 	int mnt_flags;
-+	struct user_namespace *mnt_userns;
- } __randomize_layout;
- 
-+static inline struct user_namespace *mnt_user_ns(const struct vfsmount *mnt)
-+{
-+	return mnt->mnt_userns;
-+}
-+
- struct file; /* forward dec */
- struct path;
- 
+> @@ -1131,6 +1222,12 @@ extern int pmdp_clear_flush_young(struct vm_area_struct *vma,
+>  #define pmd_write pmd_write
+>  static inline int pmd_write(pmd_t pmd)
+>  {
+> +	/*
+> +	 * If _PAGE_DIRTY is set, then the PMD must either have _PAGE_RW or
+> +	 * be a shadow stack PMD, which is logically writable.
+> +	 */
+> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK))
+> +		return pmd_flags(pmd) & (_PAGE_RW | _PAGE_DIRTY);
+
+	else
+
+
+>  	return pmd_flags(pmd) & _PAGE_RW;
+>  }
+>  
 -- 
-2.30.0
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
