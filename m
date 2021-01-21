@@ -2,91 +2,121 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3548D2FDE64
-	for <lists+linux-api@lfdr.de>; Thu, 21 Jan 2021 02:03:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B241B2FE634
+	for <lists+linux-api@lfdr.de>; Thu, 21 Jan 2021 10:21:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390261AbhAUBBs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 20 Jan 2021 20:01:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38114 "EHLO
+        id S1728615AbhAUJUh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 21 Jan 2021 04:20:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392874AbhAUAPt (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 20 Jan 2021 19:15:49 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2187CC061575;
-        Wed, 20 Jan 2021 16:15:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=cwu2zXGrhPIC6ERSbgMr9vODEIjubNUIY3egpnasEkM=; b=Titc2oh6mm6H8HrBnURdMCnuAy
-        B7tmu7WO5lk/dTol8pnvJFj1ALNIg2a0ayyvvXkEw9Hp66wKGgQ/BlGHZARXS97TlLGZY8EiZPMmA
-        ut30VcvnrKuPicxn8sbUQh1rQkfX6UOTVdhCPtU2awociCaRbIMPQ6MoLPRkjOOtwQ9FsIa0xGjnZ
-        /CSZq9i88CQi3WQl2rKH0j35vKzcRO3qR1A3h4r5WrMR6t4JOLRaCJ41q5mPTRUZf67Q1bFGxlKNx
-        5TkXSuCjJgxzJqjcJLYOACHaEtsrrVT7zqfOOOSI8cncXQ7oKbdLlZuACe9kpbaLDbLfrC+jRu/zm
-        xaT3mp2g==;
-Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1l2Nah-00GNk2-9O; Thu, 21 Jan 2021 00:12:57 +0000
-Date:   Thu, 21 Jan 2021 00:12:47 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Roman Gushchin <guro@fb.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
-        x86@kernel.org, Hagen Paul Pfeifer <hagen@jauu.net>,
-        Palmer Dabbelt <palmerdabbelt@google.com>
-Subject: Re: [PATCH v15 07/11] secretmem: use PMD-size pages to amortize
- direct map fragmentation
-Message-ID: <20210121001247.GN2260413@casper.infradead.org>
-References: <20210120180612.1058-1-rppt@kernel.org>
- <20210120180612.1058-8-rppt@kernel.org>
+        with ESMTP id S1728468AbhAUJUf (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 21 Jan 2021 04:20:35 -0500
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E89E4C061757
+        for <linux-api@vger.kernel.org>; Thu, 21 Jan 2021 01:19:54 -0800 (PST)
+Received: by mail-pl1-x644.google.com with SMTP id be12so953438plb.4
+        for <linux-api@vger.kernel.org>; Thu, 21 Jan 2021 01:19:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=9/WkdH8I7SISzvTO/uk8FQH2z0Yov9Zen7PU8kYoFrw=;
+        b=WdPm1RgocWu92BJw8+p+MCxHgs/VanTuJundxjIahniGFt04qcQOJ0PkBd9AGPZgVz
+         S1VvS9k/yH4ZxRrWiBvAEhMOmfLDvxRlbwOQRS8z8aYqMldLS6P5lAucJglCG8K4Axmu
+         w2kYeKv30PW8v1l7WYDhKTRy3sWy0pAYBHPjkRX00GkGwjcqWrfodoSmPvz2CJ83QG9A
+         nxpptH1PanjKwUXNM2HxSvfCGrXEeGZItKz6MgIyA+qQ0pscTkU7WrOG5kL2dTNGAz60
+         8nkpEgvYO3uPkoRmUHPTrfRnFoKNc8e1xt6iQBGCBm6sVYCdahbV3ok+nSHnCDsrR84Y
+         e6/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=9/WkdH8I7SISzvTO/uk8FQH2z0Yov9Zen7PU8kYoFrw=;
+        b=bh7iXQRfS49zwFs99jBY+Wt/kWyFJ74/VgTp9bPtTP0zzHc9zMl3vuskhX3MUJVIbu
+         Ht+KNwu6gFLpQY8BQ88PKBNYITXhATIQyskGBAn53z0kjOTKdtnICf+Q74gfqTs9+byY
+         ij9Iyp3yiNsUVL9G7n0XbqrROLvOjeZQyTbMDuydI1mVR4vg6Q7ZDweylesnb8NDKZ9N
+         Hf+T0fGxJuLnOEOob3rbZxFrR7ViV6MLssxFuBiyYOqkJ1Y4VJbw3w9xnOgqxzqQEjp+
+         f3K6HfSIJg55XDFp3BgifvlZ4Rhsg18IGQ8KdZIaBWktvizFsgkQIR2qp9c0yp1aqdnb
+         XzVA==
+X-Gm-Message-State: AOAM532xTj807ZkZa5qg6C+uLWkwiZuyzbWH1Er4D7jLt21LYwEUFhmN
+        JHBr6lIqVbtqIhdR1gBJynjpYMcZX5S4LPDgYhE=
+X-Google-Smtp-Source: ABdhPJx/5zS1XbaB4gV2gCjsiJpGoy2dtJbB+0/e8YkxZVgjC0yCk0fN1W1U6d98EfRYBx2Yi/QMqeLDBc/omonfiJk=
+X-Received: by 2002:a17:902:e551:b029:de:8dba:84a3 with SMTP id
+ n17-20020a170902e551b02900de8dba84a3mr14188345plf.8.1611220794356; Thu, 21
+ Jan 2021 01:19:54 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210120180612.1058-8-rppt@kernel.org>
+Received: by 2002:a05:6a10:bb25:0:0:0:0 with HTTP; Thu, 21 Jan 2021 01:19:54
+ -0800 (PST)
+Reply-To: mussaomra2017@gmail.com
+From:   Mr Omra Musa <adams.sule01@gmail.com>
+Date:   Thu, 21 Jan 2021 02:19:54 -0700
+Message-ID: <CAHqdtFkpHAs859qf81L-Zto5R=8z3V3_8qEg=pV5QjrJp-HTGA@mail.gmail.com>
+Subject: TREAT AS URGENT AND GET BACK TO ME.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jan 20, 2021 at 08:06:08PM +0200, Mike Rapoport wrote:
-> +static int secretmem_pool_increase(struct secretmem_ctx *ctx, gfp_t gfp)
->  {
-> +	unsigned long nr_pages = (1 << PMD_PAGE_ORDER);
-> +	struct gen_pool *pool = ctx->pool;
-> +	unsigned long addr;
-> +	struct page *page;
-> +	int err;
-> +
-> +	page = cma_alloc(secretmem_cma, nr_pages, PMD_SIZE, gfp & __GFP_NOWARN);
-> +	if (!page)
-> +		return -ENOMEM;
+From Mr Omra Musa
+Bank Of Africa (B.O.A)
+Burkina Faso Ouagadougou
 
-Does cma_alloc() zero the pages it allocates?  If not, where do we avoid
-leaking kernel memory to userspace?
+My Dear Friend,
 
+Please I want you to read this letter very carefully and I must
+apologize for barging this message into your mail box without any
+formal introduction due to the urgency and confidential of this issue
+and I know that this message will come to you as a surprise. Please
+this is not a joke and I will not like you to joke with it.
+
+I am Mr Omra Musa Manager in Bank Of Africa (B.O.A) Ouagadougou,
+Burkina Faso. I Hoped that you will not expose or betray this trust
+and confident that I am about to establish with you for the mutual
+benefit of you and I. This fund was deposited in our bank by Mr.
+Kattan Azmal from Jordan who died in a plane crash in 2000 Tbm 700
+aircraft on 31st July with his wife and the whole crew on board.
+
+I need your urgent assistance in transferring the sum of ($15) million
+USD into your account within 14 working banking days. This money has
+been deposited for years in our Bank without claim due to the owner of
+this fund died along with his entire family in an air crash since July
+31st 2000.
+
+The reason why i contacted you is that after the bank audit in 24th of
+November, we found out that this fund has remained unclaimed since the
+death of the deceased costumer.
+
+I want our bank to release this fund to you as the nearest person to
+our deceased customer while i come over to your country to share this
+fund with you as soon as you confirm this fund into your account and
+ask me to come over. I don't want the money to go into our Bank
+treasure as an abandoned fund. So this is the reason why i contacted
+you so that our bank will release this money to you as the next of kin
+to the deceased customer. Please I would like you to keep this
+proposal as a top secret and delete it if you are not interesting.
+
+Upon the receipt of your reply and indication of your capability, i
+will give you full details on how the business will be executed and
+also note that you will have 50% of the above mentioned sum if you
+agree to handle this business with me while 50% be for me, Because i
+don't want anyone here in our bank to know my involvement until you
+confirm this fund into your account and ask me to come over for the
+sharing as I indicated.
+
+I am looking forward to hear from you immediately for further information
+
+THE REQUESTED INFORMATIONS BELOW
+==================================
+1. FULL NAME..............
+2. TELEPHONE NUMBERS/MOBILE/FAX.......
+3. YOUR AGE......
+4. YOUR SEX.........
+5. YOUR OCCUPATION........
+6. YOUR COUNTRY AND CITY......
+7. YOUR HOME ADDRESS........
+8. MARITAL STATUS............
+
+Sincerely,
+Mr Omra Musa
+
+You can reply to my private email address at mussaomra2017@gmail.com
