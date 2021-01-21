@@ -2,20 +2,20 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9619D2FED76
-	for <lists+linux-api@lfdr.de>; Thu, 21 Jan 2021 15:51:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CF5E52FED61
+	for <lists+linux-api@lfdr.de>; Thu, 21 Jan 2021 15:51:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732426AbhAUNet (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 21 Jan 2021 08:34:49 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:55327 "EHLO
+        id S1730314AbhAUOkU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 21 Jan 2021 09:40:20 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:55452 "EHLO
         youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732321AbhAUNds (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 21 Jan 2021 08:33:48 -0500
+        with ESMTP id S1732418AbhAUNey (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 21 Jan 2021 08:34:54 -0500
 Received: from ip5f5af0a0.dynamic.kabel-deutschland.de ([95.90.240.160] helo=wittgenstein.fritz.box)
         by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
         (Exim 4.86_2)
         (envelope-from <christian.brauner@ubuntu.com>)
-        id 1l2ZvA-0005g7-2O; Thu, 21 Jan 2021 13:22:44 +0000
+        id 1l2ZvY-0005g7-26; Thu, 21 Jan 2021 13:23:08 +0000
 From:   Christian Brauner <christian.brauner@ubuntu.com>
 To:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Christoph Hellwig <hch@lst.de>, linux-fsdevel@vger.kernel.org
@@ -51,699 +51,784 @@ Cc:     John Johansen <john.johansen@canonical.com>,
         linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
         linux-integrity@vger.kernel.org, selinux@vger.kernel.org,
         Christian Brauner <christian.brauner@ubuntu.com>
-Subject: [PATCH v6 34/40] fs: add mount_setattr()
-Date:   Thu, 21 Jan 2021 14:19:53 +0100
-Message-Id: <20210121131959.646623-35-christian.brauner@ubuntu.com>
+Subject: [PATCH v6 39/40] xfs: support idmapped mounts
+Date:   Thu, 21 Jan 2021 14:19:58 +0100
+Message-Id: <20210121131959.646623-40-christian.brauner@ubuntu.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210121131959.646623-1-christian.brauner@ubuntu.com>
 References: <20210121131959.646623-1-christian.brauner@ubuntu.com>
 MIME-Version: 1.0
-X-Patch-Hashes: v=1; h=sha256; i=W+eEJHNrlkV/b8gMOjwmCnJaxH/2Jd0g2RrCW3G+aTQ=; m=U71svJN7r/b7LHpE1HwvRJDwbna6nsrLs5YIYe412Ic=; p=zWmthK3AD0xkaks/A0cg6bqEKrvlf66UClWc3tdrakc=; g=910d34e2f2b0669ccec8e26298612b0e999f506b
-X-Patch-Sig: m=pgp; i=christian.brauner@ubuntu.com; s=0x0x91C61BC06578DCA2; b=iHUEABYKAB0WIQRAhzRXHqcMeLMyaSiRxhvAZXjcogUCYAl9pgAKCRCRxhvAZXjcos37AQDPSn+ g6LmrzbfmZ2mqCVEVxS/SAFGurkxMGK66UmsgywD8C2j9Uh98e5ttMQih8f3ribI7EjzzccfJ9CAC WsOLuwE=
+X-Patch-Hashes: v=1; h=sha256; i=d7ldZtaFSwLMbVFbt4m1mmWsaSb85RxEpfrHiOUpdc0=; m=QwSbW4sL84srtFIqwxJ/4EoBPbQH8EcV1XEmIc9k0es=; p=asmXEq1/0ldV3uydC+jwuPD/ZSgCIRiczcJb1mEQDsk=; g=400b191755559fb8ee4e3aa205a43c76e3098a0b
+X-Patch-Sig: m=pgp; i=christian.brauner@ubuntu.com; s=0x0x91C61BC06578DCA2; b=iHUEABYKAB0WIQRAhzRXHqcMeLMyaSiRxhvAZXjcogUCYAl9pwAKCRCRxhvAZXjcomxaAP4yxxS tPsdAtkjrKM4SCM8IFnt5bGfurNhOvF4WMErD2QD7B6tkHKZ2CI46sczpdW4excm26SfW2bqsMk4l vWwtiwc=
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This implements the missing mount_setattr() syscall. While the new mount
-api allows to change the properties of a superblock there is currently
-no way to change the properties of a mount or a mount tree using file
-descriptors which the new mount api is based on. In addition the old
-mount api has the restriction that mount options cannot be applied
-recursively. This hasn't changed since changing mount options on a
-per-mount basis was implemented in [1] and has been a frequent request
-not just for convenience but also for security reasons. The legacy
-mount syscall is unable to accommodate this behavior without introducing
-a whole new set of flags because MS_REC | MS_REMOUNT | MS_BIND |
-MS_RDONLY | MS_NOEXEC | [...] only apply the mount option to the topmost
-mount. Changing MS_REC to apply to the whole mount tree would mean
-introducing a significant uapi change and would likely cause significant
-regressions.
+From: Christoph Hellwig <hch@lst.de>
 
-The new mount_setattr() syscall allows to recursively clear and set
-mount options in one shot. Multiple calls to change mount options
-requesting the same changes are idempotent:
+Enable idmapped mounts for xfs. This basically just means passing down
+the user_namespace argument from the VFS methods down to where it is
+passed to the relevant helpers.
 
-int mount_setattr(int dfd, const char *path, unsigned flags,
-                  struct mount_attr *uattr, size_t usize);
+Note that full-filesystem bulkstat is not supported from inside idmapped
+mounts as it is an administrative operation that acts on the whole file
+system. The limitation is not applied to the bulkstat single operation
+that just operates on a single inode.
 
-Flags to modify path resolution behavior are specified in the @flags
-argument. Currently, AT_EMPTY_PATH, AT_RECURSIVE, AT_SYMLINK_NOFOLLOW,
-and AT_NO_AUTOMOUNT are supported. If useful, additional lookup flags to
-restrict path resolution as introduced with openat2() might be supported
-in the future.
-
-The mount_setattr() syscall can be expected to grow over time and is
-designed with extensibility in mind. It follows the extensible syscall
-pattern we have used with other syscalls such as openat2(), clone3(),
-sched_{set,get}attr(), and others.
-The set of mount options is passed in the uapi struct mount_attr which
-currently has the following layout:
-
-struct mount_attr {
-	__u64 attr_set;
-	__u64 attr_clr;
-	__u64 propagation;
-};
-
-The @attr_set and @attr_clr members are used to clear and set mount
-options. This way a user can e.g. request that a set of flags is to be
-raised such as turning mounts readonly by raising MOUNT_ATTR_RDONLY in
-@attr_set while at the same time requesting that another set of flags is
-to be lowered such as removing noexec from a mount tree by specifying
-MOUNT_ATTR_NOEXEC in @attr_clr.
-
-Note, since the MOUNT_ATTR_<atime> values are an enum starting from 0,
-not a bitmap, users wanting to transition to a different atime setting
-cannot simply specify the atime setting in @attr_set, but must also
-specify MOUNT_ATTR__ATIME in the @attr_clr field. So we ensure that
-MOUNT_ATTR__ATIME can't be partially set in @attr_clr and that @attr_set
-can't have any atime bits set if MOUNT_ATTR__ATIME isn't set in
-@attr_clr.
-
-The @propagation field lets callers specify the propagation type of a
-mount tree. Propagation is a single property that has four different
-settings and as such is not really a flag argument but an enum.
-Specifically, it would be unclear what setting and clearing propagation
-settings in combination would amount to. The legacy mount() syscall thus
-forbids the combination of multiple propagation settings too. The goal
-is to keep the semantics of mount propagation somewhat simple as they
-are overly complex as it is.
-
-[1]: commit 2e4b7fcd9260 ("[PATCH] r/o bind mounts: honor mount writer counts at remount")
-
-Link: https://lore.kernel.org/r/20210112220124.837960-7-christian.brauner@ubuntu.com
-Cc: David Howells <dhowells@redhat.com>
-Cc: Aleksa Sarai <cyphar@cyphar.com>
-Cc: Al Viro <viro@zeniv.linux.org.uk>
-Cc: linux-fsdevel@vger.kernel.org
-Cc: linux-api@vger.kernel.org
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
 ---
 /* v2 */
-- Christoph Hellwig <hch@lst.de>:
-  - Split into multiple helpers.
 
 /* v3 */
-- kernel test robot <lkp@intel.com>:
-  - Fix unknown __u64 type by including linux/types.h in linux/mount.h.
 
 /* v4 */
-- Christoph Hellwig <hch@lst.de>:
-  - Make sure lines wrap at 80 chars.
-  - Move struct mount_kattr out of the internal.h header and completely
-    into fs/namespace.c as it's not used outside of that file.
-  - Add missing space between ( and { when initializing mount_kattr.
-  - Split flag validation and calculation into separate preparatory
-    patch.
-  - Simplify flag validation in build_mount_kattr() to avoid
-    upper_32_bits() and lower_32_bits() calls. This will also lead to
-    better code generation.
-  - Remove new propagation enums and simply use the old flags.
-  - Strictly adhere to 80 char limit.
-  - Restructure the time setting code in build_mount_kattr().
 
 /* v5 */
 base-commit: 7c53f6b671f4aba70ff15e1b05148b10d58c2837
-
-- Christoph Hellwig <hch@lst.de>:
-  - Simplify mount propagation flag checking.
-  - Wrap overly long line.
 
 /* v6 */
 unchanged
 base-commit: 19c329f6808995b142b3966301f217c831e7cf31
 ---
- arch/alpha/kernel/syscalls/syscall.tbl      |   1 +
- arch/arm/tools/syscall.tbl                  |   1 +
- arch/arm64/include/asm/unistd.h             |   2 +-
- arch/arm64/include/asm/unistd32.h           |   2 +
- arch/ia64/kernel/syscalls/syscall.tbl       |   1 +
- arch/m68k/kernel/syscalls/syscall.tbl       |   1 +
- arch/microblaze/kernel/syscalls/syscall.tbl |   1 +
- arch/mips/kernel/syscalls/syscall_n32.tbl   |   1 +
- arch/mips/kernel/syscalls/syscall_n64.tbl   |   1 +
- arch/mips/kernel/syscalls/syscall_o32.tbl   |   1 +
- arch/parisc/kernel/syscalls/syscall.tbl     |   1 +
- arch/powerpc/kernel/syscalls/syscall.tbl    |   1 +
- arch/s390/kernel/syscalls/syscall.tbl       |   1 +
- arch/sh/kernel/syscalls/syscall.tbl         |   1 +
- arch/sparc/kernel/syscalls/syscall.tbl      |   1 +
- arch/x86/entry/syscalls/syscall_32.tbl      |   1 +
- arch/x86/entry/syscalls/syscall_64.tbl      |   1 +
- arch/xtensa/kernel/syscalls/syscall.tbl     |   1 +
- fs/namespace.c                              | 260 ++++++++++++++++++++
- include/linux/syscalls.h                    |   4 +
- include/uapi/asm-generic/unistd.h           |   4 +-
- include/uapi/linux/mount.h                  |  14 ++
- tools/include/uapi/asm-generic/unistd.h     |   4 +-
- 23 files changed, 303 insertions(+), 3 deletions(-)
+ fs/xfs/xfs_acl.c     |  3 +--
+ fs/xfs/xfs_file.c    |  4 +++-
+ fs/xfs/xfs_inode.c   | 26 +++++++++++++++--------
+ fs/xfs/xfs_inode.h   | 16 +++++++++------
+ fs/xfs/xfs_ioctl.c   | 35 ++++++++++++++++++-------------
+ fs/xfs/xfs_ioctl32.c |  6 ++++--
+ fs/xfs/xfs_iops.c    | 49 +++++++++++++++++++++++++-------------------
+ fs/xfs/xfs_iops.h    |  3 ++-
+ fs/xfs/xfs_itable.c  | 17 +++++++++++----
+ fs/xfs/xfs_itable.h  |  1 +
+ fs/xfs/xfs_qm.c      |  3 ++-
+ fs/xfs/xfs_super.c   |  2 +-
+ fs/xfs/xfs_symlink.c |  5 +++--
+ fs/xfs/xfs_symlink.h |  5 +++--
+ 14 files changed, 110 insertions(+), 65 deletions(-)
 
-diff --git a/arch/alpha/kernel/syscalls/syscall.tbl b/arch/alpha/kernel/syscalls/syscall.tbl
-index a6617067dbe6..02f0244e005c 100644
---- a/arch/alpha/kernel/syscalls/syscall.tbl
-+++ b/arch/alpha/kernel/syscalls/syscall.tbl
-@@ -481,3 +481,4 @@
- 549	common	faccessat2			sys_faccessat2
- 550	common	process_madvise			sys_process_madvise
- 551	common	epoll_pwait2			sys_epoll_pwait2
-+552	common	mount_setattr			sys_mount_setattr
-diff --git a/arch/arm/tools/syscall.tbl b/arch/arm/tools/syscall.tbl
-index 20e1170e2e0a..dcc1191291a2 100644
---- a/arch/arm/tools/syscall.tbl
-+++ b/arch/arm/tools/syscall.tbl
-@@ -455,3 +455,4 @@
- 439	common	faccessat2			sys_faccessat2
- 440	common	process_madvise			sys_process_madvise
- 441	common	epoll_pwait2			sys_epoll_pwait2
-+442	common	mount_setattr			sys_mount_setattr
-diff --git a/arch/arm64/include/asm/unistd.h b/arch/arm64/include/asm/unistd.h
-index 86a9d7b3eabe..949788f5ba40 100644
---- a/arch/arm64/include/asm/unistd.h
-+++ b/arch/arm64/include/asm/unistd.h
-@@ -38,7 +38,7 @@
- #define __ARM_NR_compat_set_tls		(__ARM_NR_COMPAT_BASE + 5)
- #define __ARM_NR_COMPAT_END		(__ARM_NR_COMPAT_BASE + 0x800)
+diff --git a/fs/xfs/xfs_acl.c b/fs/xfs/xfs_acl.c
+index 332e87153c6c..d02bef24b32b 100644
+--- a/fs/xfs/xfs_acl.c
++++ b/fs/xfs/xfs_acl.c
+@@ -253,8 +253,7 @@ xfs_set_acl(struct user_namespace *mnt_userns, struct inode *inode,
+ 		return error;
  
--#define __NR_compat_syscalls		442
-+#define __NR_compat_syscalls		443
- #endif
+ 	if (type == ACL_TYPE_ACCESS) {
+-		error = posix_acl_update_mode(&init_user_ns, inode, &mode,
+-					      &acl);
++		error = posix_acl_update_mode(mnt_userns, inode, &mode, &acl);
+ 		if (error)
+ 			return error;
+ 		set_mode = true;
+diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
+index 5b0f93f73837..1bdc3560aed9 100644
+--- a/fs/xfs/xfs_file.c
++++ b/fs/xfs/xfs_file.c
+@@ -29,6 +29,7 @@
+ #include <linux/backing-dev.h>
+ #include <linux/mman.h>
+ #include <linux/fadvise.h>
++#include <linux/mount.h>
  
- #define __ARCH_WANT_SYS_CLONE
-diff --git a/arch/arm64/include/asm/unistd32.h b/arch/arm64/include/asm/unistd32.h
-index cccfbbefbf95..3d874f624056 100644
---- a/arch/arm64/include/asm/unistd32.h
-+++ b/arch/arm64/include/asm/unistd32.h
-@@ -891,6 +891,8 @@ __SYSCALL(__NR_faccessat2, sys_faccessat2)
- __SYSCALL(__NR_process_madvise, sys_process_madvise)
- #define __NR_epoll_pwait2 441
- __SYSCALL(__NR_epoll_pwait2, compat_sys_epoll_pwait2)
-+#define __NR_mount_setattr 442
-+__SYSCALL(__NR_mount_setattr, sys_mount_setattr)
+ static const struct vm_operations_struct xfs_file_vm_ops;
  
- /*
-  * Please add new compat syscalls above this comment and update
-diff --git a/arch/ia64/kernel/syscalls/syscall.tbl b/arch/ia64/kernel/syscalls/syscall.tbl
-index bfc00f2bd437..d89231166e19 100644
---- a/arch/ia64/kernel/syscalls/syscall.tbl
-+++ b/arch/ia64/kernel/syscalls/syscall.tbl
-@@ -362,3 +362,4 @@
- 439	common	faccessat2			sys_faccessat2
- 440	common	process_madvise			sys_process_madvise
- 441	common	epoll_pwait2			sys_epoll_pwait2
-+442	common	mount_setattr			sys_mount_setattr
-diff --git a/arch/m68k/kernel/syscalls/syscall.tbl b/arch/m68k/kernel/syscalls/syscall.tbl
-index 7fe4e45c864c..72bde6707dd3 100644
---- a/arch/m68k/kernel/syscalls/syscall.tbl
-+++ b/arch/m68k/kernel/syscalls/syscall.tbl
-@@ -441,3 +441,4 @@
- 439	common	faccessat2			sys_faccessat2
- 440	common	process_madvise			sys_process_madvise
- 441	common	epoll_pwait2			sys_epoll_pwait2
-+442	common	mount_setattr			sys_mount_setattr
-diff --git a/arch/microblaze/kernel/syscalls/syscall.tbl b/arch/microblaze/kernel/syscalls/syscall.tbl
-index a522adf194ab..d603a5ec9338 100644
---- a/arch/microblaze/kernel/syscalls/syscall.tbl
-+++ b/arch/microblaze/kernel/syscalls/syscall.tbl
-@@ -447,3 +447,4 @@
- 439	common	faccessat2			sys_faccessat2
- 440	common	process_madvise			sys_process_madvise
- 441	common	epoll_pwait2			sys_epoll_pwait2
-+442	common	mount_setattr			sys_mount_setattr
-diff --git a/arch/mips/kernel/syscalls/syscall_n32.tbl b/arch/mips/kernel/syscalls/syscall_n32.tbl
-index 0f03ad223f33..8fd8c1790941 100644
---- a/arch/mips/kernel/syscalls/syscall_n32.tbl
-+++ b/arch/mips/kernel/syscalls/syscall_n32.tbl
-@@ -380,3 +380,4 @@
- 439	n32	faccessat2			sys_faccessat2
- 440	n32	process_madvise			sys_process_madvise
- 441	n32	epoll_pwait2			compat_sys_epoll_pwait2
-+442	n32	mount_setattr			sys_mount_setattr
-diff --git a/arch/mips/kernel/syscalls/syscall_n64.tbl b/arch/mips/kernel/syscalls/syscall_n64.tbl
-index 91649690b52f..169f21438065 100644
---- a/arch/mips/kernel/syscalls/syscall_n64.tbl
-+++ b/arch/mips/kernel/syscalls/syscall_n64.tbl
-@@ -356,3 +356,4 @@
- 439	n64	faccessat2			sys_faccessat2
- 440	n64	process_madvise			sys_process_madvise
- 441	n64	epoll_pwait2			sys_epoll_pwait2
-+442	n64	mount_setattr			sys_mount_setattr
-diff --git a/arch/mips/kernel/syscalls/syscall_o32.tbl b/arch/mips/kernel/syscalls/syscall_o32.tbl
-index 4bad0c40aed6..090d29ca80ff 100644
---- a/arch/mips/kernel/syscalls/syscall_o32.tbl
-+++ b/arch/mips/kernel/syscalls/syscall_o32.tbl
-@@ -429,3 +429,4 @@
- 439	o32	faccessat2			sys_faccessat2
- 440	o32	process_madvise			sys_process_madvise
- 441	o32	epoll_pwait2			sys_epoll_pwait2		compat_sys_epoll_pwait2
-+442	o32	mount_setattr			sys_mount_setattr
-diff --git a/arch/parisc/kernel/syscalls/syscall.tbl b/arch/parisc/kernel/syscalls/syscall.tbl
-index 6bcc31966b44..271a92519683 100644
---- a/arch/parisc/kernel/syscalls/syscall.tbl
-+++ b/arch/parisc/kernel/syscalls/syscall.tbl
-@@ -439,3 +439,4 @@
- 439	common	faccessat2			sys_faccessat2
- 440	common	process_madvise			sys_process_madvise
- 441	common	epoll_pwait2			sys_epoll_pwait2		compat_sys_epoll_pwait2
-+442	common	mount_setattr			sys_mount_setattr
-diff --git a/arch/powerpc/kernel/syscalls/syscall.tbl b/arch/powerpc/kernel/syscalls/syscall.tbl
-index f744eb5cba88..72e5aa67ab8a 100644
---- a/arch/powerpc/kernel/syscalls/syscall.tbl
-+++ b/arch/powerpc/kernel/syscalls/syscall.tbl
-@@ -531,3 +531,4 @@
- 439	common	faccessat2			sys_faccessat2
- 440	common	process_madvise			sys_process_madvise
- 441	common	epoll_pwait2			sys_epoll_pwait2		compat_sys_epoll_pwait2
-+442	common	mount_setattr			sys_mount_setattr
-diff --git a/arch/s390/kernel/syscalls/syscall.tbl b/arch/s390/kernel/syscalls/syscall.tbl
-index d443423495e5..3abef2144dac 100644
---- a/arch/s390/kernel/syscalls/syscall.tbl
-+++ b/arch/s390/kernel/syscalls/syscall.tbl
-@@ -444,3 +444,4 @@
- 439  common	faccessat2		sys_faccessat2			sys_faccessat2
- 440  common	process_madvise		sys_process_madvise		sys_process_madvise
- 441  common	epoll_pwait2		sys_epoll_pwait2		compat_sys_epoll_pwait2
-+442  common	mount_setattr		sys_mount_setattr		sys_mount_setattr
-diff --git a/arch/sh/kernel/syscalls/syscall.tbl b/arch/sh/kernel/syscalls/syscall.tbl
-index 9df40ac0ebc0..d08eebad6b7f 100644
---- a/arch/sh/kernel/syscalls/syscall.tbl
-+++ b/arch/sh/kernel/syscalls/syscall.tbl
-@@ -444,3 +444,4 @@
- 439	common	faccessat2			sys_faccessat2
- 440	common	process_madvise			sys_process_madvise
- 441	common	epoll_pwait2			sys_epoll_pwait2
-+442	common	mount_setattr			sys_mount_setattr
-diff --git a/arch/sparc/kernel/syscalls/syscall.tbl b/arch/sparc/kernel/syscalls/syscall.tbl
-index 40d8c7cd8298..84403a99039c 100644
---- a/arch/sparc/kernel/syscalls/syscall.tbl
-+++ b/arch/sparc/kernel/syscalls/syscall.tbl
-@@ -487,3 +487,4 @@
- 439	common	faccessat2			sys_faccessat2
- 440	common	process_madvise			sys_process_madvise
- 441	common	epoll_pwait2			sys_epoll_pwait2		compat_sys_epoll_pwait2
-+442	common	mount_setattr			sys_mount_setattr
-diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
-index 874aeacde2dd..a1c9f496fca6 100644
---- a/arch/x86/entry/syscalls/syscall_32.tbl
-+++ b/arch/x86/entry/syscalls/syscall_32.tbl
-@@ -446,3 +446,4 @@
- 439	i386	faccessat2		sys_faccessat2
- 440	i386	process_madvise		sys_process_madvise
- 441	i386	epoll_pwait2		sys_epoll_pwait2		compat_sys_epoll_pwait2
-+442	i386	mount_setattr		sys_mount_setattr
-diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
-index 78672124d28b..7bf01cbe582f 100644
---- a/arch/x86/entry/syscalls/syscall_64.tbl
-+++ b/arch/x86/entry/syscalls/syscall_64.tbl
-@@ -363,6 +363,7 @@
- 439	common	faccessat2		sys_faccessat2
- 440	common	process_madvise		sys_process_madvise
- 441	common	epoll_pwait2		sys_epoll_pwait2
-+442	common	mount_setattr		sys_mount_setattr
+@@ -994,7 +995,8 @@ xfs_file_fallocate(
  
- #
- # Due to a historical design error, certain syscalls are numbered differently
-diff --git a/arch/xtensa/kernel/syscalls/syscall.tbl b/arch/xtensa/kernel/syscalls/syscall.tbl
-index 46116a28eeed..365a9b849224 100644
---- a/arch/xtensa/kernel/syscalls/syscall.tbl
-+++ b/arch/xtensa/kernel/syscalls/syscall.tbl
-@@ -412,3 +412,4 @@
- 439	common	faccessat2			sys_faccessat2
- 440	common	process_madvise			sys_process_madvise
- 441	common	epoll_pwait2			sys_epoll_pwait2
-+442	common	mount_setattr			sys_mount_setattr
-diff --git a/fs/namespace.c b/fs/namespace.c
-index 00ed0d6cb2ee..dda1aac8bf5b 100644
---- a/fs/namespace.c
-+++ b/fs/namespace.c
-@@ -73,6 +73,14 @@ static DECLARE_RWSEM(namespace_sem);
- static HLIST_HEAD(unmounted);	/* protected by namespace_sem */
- static LIST_HEAD(ex_mountpoints); /* protected by namespace_sem */
+ 		iattr.ia_valid = ATTR_SIZE;
+ 		iattr.ia_size = new_size;
+-		error = xfs_vn_setattr_size(file_dentry(file), &iattr);
++		error = xfs_vn_setattr_size(file_mnt_user_ns(file),
++					    file_dentry(file), &iattr);
+ 		if (error)
+ 			goto out_unlock;
+ 	}
+diff --git a/fs/xfs/xfs_inode.c b/fs/xfs/xfs_inode.c
+index b7352bc4c815..95b7f2ba4e06 100644
+--- a/fs/xfs/xfs_inode.c
++++ b/fs/xfs/xfs_inode.c
+@@ -766,6 +766,7 @@ xfs_inode_inherit_flags2(
+  */
+ static int
+ xfs_init_new_inode(
++	struct user_namespace	*mnt_userns,
+ 	struct xfs_trans	*tp,
+ 	struct xfs_inode	*pip,
+ 	xfs_ino_t		ino,
+@@ -806,7 +807,7 @@ xfs_init_new_inode(
+ 	inode = VFS_I(ip);
+ 	inode->i_mode = mode;
+ 	set_nlink(inode, nlink);
+-	inode->i_uid = current_fsuid();
++	inode->i_uid = fsuid_into_mnt(mnt_userns);
+ 	inode->i_rdev = rdev;
+ 	ip->i_d.di_projid = prid;
  
-+struct mount_kattr {
-+	unsigned int attr_set;
-+	unsigned int attr_clr;
-+	unsigned int propagation;
-+	unsigned int lookup_flags;
-+	bool recurse;
-+};
-+
- /* /sys/fs */
- struct kobject *fs_kobj;
- EXPORT_SYMBOL_GPL(fs_kobj);
-@@ -3469,6 +3477,11 @@ SYSCALL_DEFINE5(mount, char __user *, dev_name, char __user *, dir_name,
- 	(MOUNT_ATTR_RDONLY | MOUNT_ATTR_NOSUID | MOUNT_ATTR_NODEV | \
- 	 MOUNT_ATTR_NOEXEC | MOUNT_ATTR__ATIME | MOUNT_ATTR_NODIRATIME)
+@@ -815,7 +816,7 @@ xfs_init_new_inode(
+ 		if ((VFS_I(pip)->i_mode & S_ISGID) && S_ISDIR(mode))
+ 			inode->i_mode |= S_ISGID;
+ 	} else {
+-		inode->i_gid = current_fsgid();
++		inode->i_gid = fsgid_into_mnt(mnt_userns);
+ 	}
  
-+#define MOUNT_SETATTR_VALID_FLAGS FSMOUNT_VALID_FLAGS
-+
-+#define MOUNT_SETATTR_PROPAGATION_FLAGS \
-+	(MS_UNBINDABLE | MS_PRIVATE | MS_SLAVE | MS_SHARED)
-+
- static unsigned int attr_flags_to_mnt_flags(u64 attr_flags)
- {
- 	unsigned int mnt_flags = 0;
-@@ -3820,6 +3833,253 @@ SYSCALL_DEFINE2(pivot_root, const char __user *, new_root,
- 	return error;
+ 	/*
+@@ -824,7 +825,8 @@ xfs_init_new_inode(
+ 	 * (and only if the irix_sgid_inherit compatibility variable is set).
+ 	 */
+ 	if (irix_sgid_inherit &&
+-	    (inode->i_mode & S_ISGID) && !in_group_p(inode->i_gid))
++	    (inode->i_mode & S_ISGID) &&
++	    !in_group_p(i_gid_into_mnt(mnt_userns, inode)))
+ 		inode->i_mode &= ~S_ISGID;
+ 
+ 	ip->i_d.di_size = 0;
+@@ -901,6 +903,7 @@ xfs_init_new_inode(
+  */
+ int
+ xfs_dir_ialloc(
++	struct user_namespace	*mnt_userns,
+ 	struct xfs_trans	**tpp,
+ 	struct xfs_inode	*dp,
+ 	umode_t			mode,
+@@ -933,7 +936,8 @@ xfs_dir_ialloc(
+ 		return error;
+ 	ASSERT(ino != NULLFSINO);
+ 
+-	return xfs_init_new_inode(*tpp, dp, ino, mode, nlink, rdev, prid, ipp);
++	return xfs_init_new_inode(mnt_userns, *tpp, dp, ino, mode, nlink, rdev,
++				  prid, ipp);
  }
  
-+static unsigned int recalc_flags(struct mount_kattr *kattr, struct mount *mnt)
-+{
-+	unsigned int flags = mnt->mnt.mnt_flags;
-+
-+	/*  flags to clear */
-+	flags &= ~kattr->attr_clr;
-+	/* flags to raise */
-+	flags |= kattr->attr_set;
-+
-+	return flags;
-+}
-+
-+static struct mount *mount_setattr_prepare(struct mount_kattr *kattr,
-+					   struct mount *mnt, int *err)
-+{
-+	struct mount *m = mnt, *last = NULL;
-+
-+	if (!is_mounted(&m->mnt)) {
-+		*err = -EINVAL;
-+		goto out;
-+	}
-+
-+	if (!(mnt_has_parent(m) ? check_mnt(m) : is_anon_ns(m->mnt_ns))) {
-+		*err = -EINVAL;
-+		goto out;
-+	}
-+
-+	do {
-+		unsigned int flags;
-+
-+		flags = recalc_flags(kattr, m);
-+		if (!can_change_locked_flags(m, flags)) {
-+			*err = -EPERM;
-+			goto out;
-+		}
-+
-+		last = m;
-+
-+		if ((kattr->attr_set & MNT_READONLY) &&
-+		    !(m->mnt.mnt_flags & MNT_READONLY)) {
-+			*err = mnt_hold_writers(m);
-+			if (*err)
-+				goto out;
-+		}
-+	} while (kattr->recurse && (m = next_mnt(m, mnt)));
-+
-+out:
-+	return last;
-+}
-+
-+static void mount_setattr_commit(struct mount_kattr *kattr,
-+				 struct mount *mnt, struct mount *last,
-+				 int err)
-+{
-+	struct mount *m = mnt;
-+
-+	do {
-+		if (!err) {
-+			unsigned int flags;
-+
-+			flags = recalc_flags(kattr, m);
-+			WRITE_ONCE(m->mnt.mnt_flags, flags);
-+		}
-+
-+		/*
-+		 * We either set MNT_READONLY above so make it visible
-+		 * before ~MNT_WRITE_HOLD or we failed to recursively
-+		 * apply mount options.
-+		 */
-+		if ((kattr->attr_set & MNT_READONLY) &&
-+		    (m->mnt.mnt_flags & MNT_WRITE_HOLD))
-+			mnt_unhold_writers(m);
-+
-+		if (!err && kattr->propagation)
-+			change_mnt_propagation(m, kattr->propagation);
-+
-+		/*
-+		 * On failure, only cleanup until we found the first mount
-+		 * we failed to handle.
-+		 */
-+		if (err && m == last)
-+			break;
-+	} while (kattr->recurse && (m = next_mnt(m, mnt)));
-+
-+	if (!err)
-+		touch_mnt_namespace(mnt->mnt_ns);
-+}
-+
-+static int do_mount_setattr(struct path *path, struct mount_kattr *kattr)
-+{
-+	struct mount *mnt = real_mount(path->mnt), *last = NULL;
-+	int err = 0;
-+
-+	if (path->dentry != mnt->mnt.mnt_root)
-+		return -EINVAL;
-+
-+	if (kattr->propagation) {
-+		/*
-+		 * Only take namespace_lock() if we're actually changing
-+		 * propagation.
-+		 */
-+		namespace_lock();
-+		if (kattr->propagation == MS_SHARED) {
-+			err = invent_group_ids(mnt, kattr->recurse);
-+			if (err) {
-+				namespace_unlock();
-+				return err;
-+			}
-+		}
-+	}
-+
-+	lock_mount_hash();
-+
-+	/*
-+	 * Get the mount tree in a shape where we can change mount
-+	 * properties without failure.
-+	 */
-+	last = mount_setattr_prepare(kattr, mnt, &err);
-+	if (last) /* Commit all changes or revert to the old state. */
-+		mount_setattr_commit(kattr, mnt, last, err);
-+
-+	unlock_mount_hash();
-+
-+	if (kattr->propagation) {
-+		namespace_unlock();
-+		if (err)
-+			cleanup_group_ids(mnt, NULL);
-+	}
-+
-+	return err;
-+}
-+
-+static int build_mount_kattr(const struct mount_attr *attr,
-+			     struct mount_kattr *kattr, unsigned int flags)
-+{
-+	unsigned int lookup_flags = LOOKUP_AUTOMOUNT | LOOKUP_FOLLOW;
-+
-+	if (flags & AT_NO_AUTOMOUNT)
-+		lookup_flags &= ~LOOKUP_AUTOMOUNT;
-+	if (flags & AT_SYMLINK_NOFOLLOW)
-+		lookup_flags &= ~LOOKUP_FOLLOW;
-+	if (flags & AT_EMPTY_PATH)
-+		lookup_flags |= LOOKUP_EMPTY;
-+
-+	*kattr = (struct mount_kattr) {
-+		.lookup_flags	= lookup_flags,
-+		.recurse	= !!(flags & AT_RECURSIVE),
-+	};
-+
-+	if (attr->propagation & ~MOUNT_SETATTR_PROPAGATION_FLAGS)
-+		return -EINVAL;
-+	if (hweight32(attr->propagation & MOUNT_SETATTR_PROPAGATION_FLAGS) > 1)
-+		return -EINVAL;
-+	kattr->propagation = attr->propagation;
-+
-+	if ((attr->attr_set | attr->attr_clr) & ~MOUNT_SETATTR_VALID_FLAGS)
-+		return -EINVAL;
-+
-+	kattr->attr_set = attr_flags_to_mnt_flags(attr->attr_set);
-+	kattr->attr_clr = attr_flags_to_mnt_flags(attr->attr_clr);
-+
-+	/*
-+	 * Since the MOUNT_ATTR_<atime> values are an enum, not a bitmap,
-+	 * users wanting to transition to a different atime setting cannot
-+	 * simply specify the atime setting in @attr_set, but must also
-+	 * specify MOUNT_ATTR__ATIME in the @attr_clr field.
-+	 * So ensure that MOUNT_ATTR__ATIME can't be partially set in
-+	 * @attr_clr and that @attr_set can't have any atime bits set if
-+	 * MOUNT_ATTR__ATIME isn't set in @attr_clr.
-+	 */
-+	if (attr->attr_clr & MOUNT_ATTR__ATIME) {
-+		if ((attr->attr_clr & MOUNT_ATTR__ATIME) != MOUNT_ATTR__ATIME)
-+			return -EINVAL;
-+
-+		/*
-+		 * Clear all previous time settings as they are mutually
-+		 * exclusive.
-+		 */
-+		kattr->attr_clr |= MNT_RELATIME | MNT_NOATIME;
-+		switch (attr->attr_set & MOUNT_ATTR__ATIME) {
-+		case MOUNT_ATTR_RELATIME:
-+			kattr->attr_set |= MNT_RELATIME;
-+			break;
-+		case MOUNT_ATTR_NOATIME:
-+			kattr->attr_set |= MNT_NOATIME;
-+			break;
-+		case MOUNT_ATTR_STRICTATIME:
-+			break;
-+		default:
-+			return -EINVAL;
-+		}
-+	} else {
-+		if (attr->attr_set & MOUNT_ATTR__ATIME)
-+			return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+SYSCALL_DEFINE5(mount_setattr, int, dfd, const char __user *, path,
-+		unsigned int, flags, struct mount_attr __user *, uattr,
-+		size_t, usize)
-+{
-+	int err;
-+	struct path target;
-+	struct mount_attr attr;
-+	struct mount_kattr kattr;
-+
-+	BUILD_BUG_ON(sizeof(struct mount_attr) != MOUNT_ATTR_SIZE_VER0);
-+
-+	if (flags & ~(AT_EMPTY_PATH |
-+		      AT_RECURSIVE |
-+		      AT_SYMLINK_NOFOLLOW |
-+		      AT_NO_AUTOMOUNT))
-+		return -EINVAL;
-+
-+	if (unlikely(usize > PAGE_SIZE))
-+		return -E2BIG;
-+	if (unlikely(usize < MOUNT_ATTR_SIZE_VER0))
-+		return -EINVAL;
-+
-+	if (!may_mount())
-+		return -EPERM;
-+
-+	err = copy_struct_from_user(&attr, sizeof(attr), uattr, usize);
-+	if (err)
-+		return err;
-+
-+	/* Don't bother walking through the mounts if this is a nop. */
-+	if (attr.attr_set == 0 &&
-+	    attr.attr_clr == 0 &&
-+	    attr.propagation == 0)
-+		return 0;
-+
-+	err = build_mount_kattr(&attr, &kattr, flags);
-+	if (err)
-+		return err;
-+
-+	err = user_path_at(dfd, path, kattr.lookup_flags, &target);
-+	if (err)
-+		return err;
-+
-+	err = do_mount_setattr(&target, &kattr);
-+	path_put(&target);
-+	return err;
-+}
-+
- static void __init init_mount_tree(void)
+ /*
+@@ -973,6 +977,7 @@ xfs_bumplink(
+ 
+ int
+ xfs_create(
++	struct user_namespace	*mnt_userns,
+ 	xfs_inode_t		*dp,
+ 	struct xfs_name		*name,
+ 	umode_t			mode,
+@@ -1047,7 +1052,8 @@ xfs_create(
+ 	 * entry pointing to them, but a directory also the "." entry
+ 	 * pointing to itself.
+ 	 */
+-	error = xfs_dir_ialloc(&tp, dp, mode, is_dir ? 2 : 1, rdev, prid, &ip);
++	error = xfs_dir_ialloc(mnt_userns, &tp, dp, mode, is_dir ? 2 : 1, rdev,
++			       prid, &ip);
+ 	if (error)
+ 		goto out_trans_cancel;
+ 
+@@ -1128,6 +1134,7 @@ xfs_create(
+ 
+ int
+ xfs_create_tmpfile(
++	struct user_namespace	*mnt_userns,
+ 	struct xfs_inode	*dp,
+ 	umode_t			mode,
+ 	struct xfs_inode	**ipp)
+@@ -1169,7 +1176,7 @@ xfs_create_tmpfile(
+ 	if (error)
+ 		goto out_trans_cancel;
+ 
+-	error = xfs_dir_ialloc(&tp, dp, mode, 0, 0, prid, &ip);
++	error = xfs_dir_ialloc(mnt_userns, &tp, dp, mode, 0, 0, prid, &ip);
+ 	if (error)
+ 		goto out_trans_cancel;
+ 
+@@ -2977,13 +2984,15 @@ xfs_cross_rename(
+  */
+ static int
+ xfs_rename_alloc_whiteout(
++	struct user_namespace	*mnt_userns,
+ 	struct xfs_inode	*dp,
+ 	struct xfs_inode	**wip)
  {
- 	struct vfsmount *mnt;
-diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-index 7688bc983de5..cd7b5c817ba2 100644
---- a/include/linux/syscalls.h
-+++ b/include/linux/syscalls.h
-@@ -68,6 +68,7 @@ union bpf_attr;
- struct io_uring_params;
- struct clone_args;
- struct open_how;
-+struct mount_attr;
+ 	struct xfs_inode	*tmpfile;
+ 	int			error;
  
- #include <linux/types.h>
- #include <linux/aio_abi.h>
-@@ -1028,6 +1029,9 @@ asmlinkage long sys_open_tree(int dfd, const char __user *path, unsigned flags);
- asmlinkage long sys_move_mount(int from_dfd, const char __user *from_path,
- 			       int to_dfd, const char __user *to_path,
- 			       unsigned int ms_flags);
-+asmlinkage long sys_mount_setattr(int dfd, const char __user *path,
-+				  unsigned int flags,
-+				  struct mount_attr __user *uattr, size_t usize);
- asmlinkage long sys_fsopen(const char __user *fs_name, unsigned int flags);
- asmlinkage long sys_fsconfig(int fs_fd, unsigned int cmd, const char __user *key,
- 			     const void __user *value, int aux);
-diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
-index 728752917785..ce58cff99b66 100644
---- a/include/uapi/asm-generic/unistd.h
-+++ b/include/uapi/asm-generic/unistd.h
-@@ -861,9 +861,11 @@ __SYSCALL(__NR_faccessat2, sys_faccessat2)
- __SYSCALL(__NR_process_madvise, sys_process_madvise)
- #define __NR_epoll_pwait2 441
- __SC_COMP(__NR_epoll_pwait2, sys_epoll_pwait2, compat_sys_epoll_pwait2)
-+#define __NR_mount_setattr 442
-+__SYSCALL(__NR_mount_setattr, sys_mount_setattr)
+-	error = xfs_create_tmpfile(dp, S_IFCHR | WHITEOUT_MODE, &tmpfile);
++	error = xfs_create_tmpfile(mnt_userns, dp, S_IFCHR | WHITEOUT_MODE,
++				   &tmpfile);
+ 	if (error)
+ 		return error;
  
- #undef __NR_syscalls
--#define __NR_syscalls 442
-+#define __NR_syscalls 443
+@@ -3005,6 +3014,7 @@ xfs_rename_alloc_whiteout(
+  */
+ int
+ xfs_rename(
++	struct user_namespace	*mnt_userns,
+ 	struct xfs_inode	*src_dp,
+ 	struct xfs_name		*src_name,
+ 	struct xfs_inode	*src_ip,
+@@ -3036,7 +3046,7 @@ xfs_rename(
+ 	 */
+ 	if (flags & RENAME_WHITEOUT) {
+ 		ASSERT(!(flags & (RENAME_NOREPLACE | RENAME_EXCHANGE)));
+-		error = xfs_rename_alloc_whiteout(target_dp, &wip);
++		error = xfs_rename_alloc_whiteout(mnt_userns, target_dp, &wip);
+ 		if (error)
+ 			return error;
+ 
+diff --git a/fs/xfs/xfs_inode.h b/fs/xfs/xfs_inode.h
+index eca333f5f715..88ee4c3930ae 100644
+--- a/fs/xfs/xfs_inode.h
++++ b/fs/xfs/xfs_inode.h
+@@ -369,15 +369,18 @@ int		xfs_release(struct xfs_inode *ip);
+ void		xfs_inactive(struct xfs_inode *ip);
+ int		xfs_lookup(struct xfs_inode *dp, struct xfs_name *name,
+ 			   struct xfs_inode **ipp, struct xfs_name *ci_name);
+-int		xfs_create(struct xfs_inode *dp, struct xfs_name *name,
++int		xfs_create(struct user_namespace *mnt_userns,
++			   struct xfs_inode *dp, struct xfs_name *name,
+ 			   umode_t mode, dev_t rdev, struct xfs_inode **ipp);
+-int		xfs_create_tmpfile(struct xfs_inode *dp, umode_t mode,
++int		xfs_create_tmpfile(struct user_namespace *mnt_userns,
++			   struct xfs_inode *dp, umode_t mode,
+ 			   struct xfs_inode **ipp);
+ int		xfs_remove(struct xfs_inode *dp, struct xfs_name *name,
+ 			   struct xfs_inode *ip);
+ int		xfs_link(struct xfs_inode *tdp, struct xfs_inode *sip,
+ 			 struct xfs_name *target_name);
+-int		xfs_rename(struct xfs_inode *src_dp, struct xfs_name *src_name,
++int		xfs_rename(struct user_namespace *mnt_userns,
++			   struct xfs_inode *src_dp, struct xfs_name *src_name,
+ 			   struct xfs_inode *src_ip, struct xfs_inode *target_dp,
+ 			   struct xfs_name *target_name,
+ 			   struct xfs_inode *target_ip, unsigned int flags);
+@@ -407,9 +410,10 @@ void		xfs_lock_two_inodes(struct xfs_inode *ip0, uint ip0_mode,
+ xfs_extlen_t	xfs_get_extsz_hint(struct xfs_inode *ip);
+ xfs_extlen_t	xfs_get_cowextsz_hint(struct xfs_inode *ip);
+ 
+-int xfs_dir_ialloc(struct xfs_trans **tpp, struct xfs_inode *dp, umode_t mode,
+-		   xfs_nlink_t nlink, dev_t dev, prid_t prid,
+-		   struct xfs_inode **ipp);
++int		xfs_dir_ialloc(struct user_namespace *mnt_userns,
++			       struct xfs_trans **tpp, struct xfs_inode *dp,
++			       umode_t mode, xfs_nlink_t nlink, dev_t dev,
++			       prid_t prid, struct xfs_inode **ipp);
+ 
+ static inline int
+ xfs_itruncate_extents(
+diff --git a/fs/xfs/xfs_ioctl.c b/fs/xfs/xfs_ioctl.c
+index 218e80afc859..3d4c7ca080fb 100644
+--- a/fs/xfs/xfs_ioctl.c
++++ b/fs/xfs/xfs_ioctl.c
+@@ -693,7 +693,8 @@ xfs_ioc_space(
+ 
+ 	iattr.ia_valid = ATTR_SIZE;
+ 	iattr.ia_size = bf->l_start;
+-	error = xfs_vn_setattr_size(file_dentry(filp), &iattr);
++	error = xfs_vn_setattr_size(file_mnt_user_ns(filp), file_dentry(filp),
++				    &iattr);
+ 	if (error)
+ 		goto out_unlock;
+ 
+@@ -734,13 +735,15 @@ xfs_fsinumbers_fmt(
+ 
+ STATIC int
+ xfs_ioc_fsbulkstat(
+-	xfs_mount_t		*mp,
++	struct file		*file,
+ 	unsigned int		cmd,
+ 	void			__user *arg)
+ {
++	struct xfs_mount	*mp = XFS_I(file_inode(file))->i_mount;
+ 	struct xfs_fsop_bulkreq	bulkreq;
+ 	struct xfs_ibulk	breq = {
+ 		.mp		= mp,
++		.mnt_userns	= file_mnt_user_ns(file),
+ 		.ocount		= 0,
+ 	};
+ 	xfs_ino_t		lastino;
+@@ -908,13 +911,15 @@ xfs_bulk_ireq_teardown(
+ /* Handle the v5 bulkstat ioctl. */
+ STATIC int
+ xfs_ioc_bulkstat(
+-	struct xfs_mount		*mp,
++	struct file			*file,
+ 	unsigned int			cmd,
+ 	struct xfs_bulkstat_req __user	*arg)
+ {
++	struct xfs_mount		*mp = XFS_I(file_inode(file))->i_mount;
+ 	struct xfs_bulk_ireq		hdr;
+ 	struct xfs_ibulk		breq = {
+ 		.mp			= mp,
++		.mnt_userns		= file_mnt_user_ns(file),
+ 	};
+ 	int				error;
+ 
+@@ -1275,8 +1280,9 @@ xfs_ioctl_setattr_prepare_dax(
+  */
+ static struct xfs_trans *
+ xfs_ioctl_setattr_get_trans(
+-	struct xfs_inode	*ip)
++	struct file		*file)
+ {
++	struct xfs_inode	*ip = XFS_I(file_inode(file));
+ 	struct xfs_mount	*mp = ip->i_mount;
+ 	struct xfs_trans	*tp;
+ 	int			error = -EROFS;
+@@ -1300,7 +1306,7 @@ xfs_ioctl_setattr_get_trans(
+ 	 * The user ID of the calling process must be equal to the file owner
+ 	 * ID, except in cases where the CAP_FSETID capability is applicable.
+ 	 */
+-	if (!inode_owner_or_capable(&init_user_ns, VFS_I(ip))) {
++	if (!inode_owner_or_capable(file_mnt_user_ns(file), VFS_I(ip))) {
+ 		error = -EPERM;
+ 		goto out_cancel;
+ 	}
+@@ -1428,9 +1434,11 @@ xfs_ioctl_setattr_check_projid(
+ 
+ STATIC int
+ xfs_ioctl_setattr(
+-	xfs_inode_t		*ip,
++	struct file		*file,
+ 	struct fsxattr		*fa)
+ {
++	struct user_namespace	*mnt_userns = file_mnt_user_ns(file);
++	struct xfs_inode	*ip = XFS_I(file_inode(file));
+ 	struct fsxattr		old_fa;
+ 	struct xfs_mount	*mp = ip->i_mount;
+ 	struct xfs_trans	*tp;
+@@ -1462,7 +1470,7 @@ xfs_ioctl_setattr(
+ 
+ 	xfs_ioctl_setattr_prepare_dax(ip, fa);
+ 
+-	tp = xfs_ioctl_setattr_get_trans(ip);
++	tp = xfs_ioctl_setattr_get_trans(file);
+ 	if (IS_ERR(tp)) {
+ 		code = PTR_ERR(tp);
+ 		goto error_free_dquots;
+@@ -1502,7 +1510,7 @@ xfs_ioctl_setattr(
+ 	 */
+ 
+ 	if ((VFS_I(ip)->i_mode & (S_ISUID|S_ISGID)) &&
+-	    !capable_wrt_inode_uidgid(&init_user_ns, VFS_I(ip), CAP_FSETID))
++	    !capable_wrt_inode_uidgid(mnt_userns, VFS_I(ip), CAP_FSETID))
+ 		VFS_I(ip)->i_mode &= ~(S_ISUID|S_ISGID);
+ 
+ 	/* Change the ownerships and register project quota modifications */
+@@ -1549,7 +1557,6 @@ xfs_ioctl_setattr(
+ 
+ STATIC int
+ xfs_ioc_fssetxattr(
+-	xfs_inode_t		*ip,
+ 	struct file		*filp,
+ 	void			__user *arg)
+ {
+@@ -1562,7 +1569,7 @@ xfs_ioc_fssetxattr(
+ 	error = mnt_want_write_file(filp);
+ 	if (error)
+ 		return error;
+-	error = xfs_ioctl_setattr(ip, &fa);
++	error = xfs_ioctl_setattr(filp, &fa);
+ 	mnt_drop_write_file(filp);
+ 	return error;
+ }
+@@ -1608,7 +1615,7 @@ xfs_ioc_setxflags(
+ 
+ 	xfs_ioctl_setattr_prepare_dax(ip, &fa);
+ 
+-	tp = xfs_ioctl_setattr_get_trans(ip);
++	tp = xfs_ioctl_setattr_get_trans(filp);
+ 	if (IS_ERR(tp)) {
+ 		error = PTR_ERR(tp);
+ 		goto out_drop_write;
+@@ -2119,10 +2126,10 @@ xfs_file_ioctl(
+ 	case XFS_IOC_FSBULKSTAT_SINGLE:
+ 	case XFS_IOC_FSBULKSTAT:
+ 	case XFS_IOC_FSINUMBERS:
+-		return xfs_ioc_fsbulkstat(mp, cmd, arg);
++		return xfs_ioc_fsbulkstat(filp, cmd, arg);
+ 
+ 	case XFS_IOC_BULKSTAT:
+-		return xfs_ioc_bulkstat(mp, cmd, arg);
++		return xfs_ioc_bulkstat(filp, cmd, arg);
+ 	case XFS_IOC_INUMBERS:
+ 		return xfs_ioc_inumbers(mp, cmd, arg);
+ 
+@@ -2144,7 +2151,7 @@ xfs_file_ioctl(
+ 	case XFS_IOC_FSGETXATTRA:
+ 		return xfs_ioc_fsgetxattr(ip, 1, arg);
+ 	case XFS_IOC_FSSETXATTR:
+-		return xfs_ioc_fssetxattr(ip, filp, arg);
++		return xfs_ioc_fssetxattr(filp, arg);
+ 	case XFS_IOC_GETXFLAGS:
+ 		return xfs_ioc_getxflags(ip, arg);
+ 	case XFS_IOC_SETXFLAGS:
+diff --git a/fs/xfs/xfs_ioctl32.c b/fs/xfs/xfs_ioctl32.c
+index c1771e728117..926427b19573 100644
+--- a/fs/xfs/xfs_ioctl32.c
++++ b/fs/xfs/xfs_ioctl32.c
+@@ -209,14 +209,16 @@ xfs_fsbulkstat_one_fmt_compat(
+ /* copied from xfs_ioctl.c */
+ STATIC int
+ xfs_compat_ioc_fsbulkstat(
+-	xfs_mount_t		  *mp,
++	struct file		*file,
+ 	unsigned int		  cmd,
+ 	struct compat_xfs_fsop_bulkreq __user *p32)
+ {
++	struct xfs_mount	*mp = XFS_I(file_inode(file))->i_mount;
+ 	u32			addr;
+ 	struct xfs_fsop_bulkreq	bulkreq;
+ 	struct xfs_ibulk	breq = {
+ 		.mp		= mp,
++		.mnt_userns	= file_mnt_user_ns(file),
+ 		.ocount		= 0,
+ 	};
+ 	xfs_ino_t		lastino;
+@@ -507,7 +509,7 @@ xfs_file_compat_ioctl(
+ 	case XFS_IOC_FSBULKSTAT_32:
+ 	case XFS_IOC_FSBULKSTAT_SINGLE_32:
+ 	case XFS_IOC_FSINUMBERS_32:
+-		return xfs_compat_ioc_fsbulkstat(mp, cmd, arg);
++		return xfs_compat_ioc_fsbulkstat(filp, cmd, arg);
+ 	case XFS_IOC_FD_TO_HANDLE_32:
+ 	case XFS_IOC_PATH_TO_HANDLE_32:
+ 	case XFS_IOC_PATH_TO_FSHANDLE_32: {
+diff --git a/fs/xfs/xfs_iops.c b/fs/xfs/xfs_iops.c
+index f5dfa128af64..816a0f77a39f 100644
+--- a/fs/xfs/xfs_iops.c
++++ b/fs/xfs/xfs_iops.c
+@@ -128,6 +128,7 @@ xfs_cleanup_inode(
+ 
+ STATIC int
+ xfs_generic_create(
++	struct user_namespace	*mnt_userns,
+ 	struct inode	*dir,
+ 	struct dentry	*dentry,
+ 	umode_t		mode,
+@@ -161,9 +162,10 @@ xfs_generic_create(
+ 		goto out_free_acl;
+ 
+ 	if (!tmpfile) {
+-		error = xfs_create(XFS_I(dir), &name, mode, rdev, &ip);
++		error = xfs_create(mnt_userns, XFS_I(dir), &name, mode, rdev,
++				   &ip);
+ 	} else {
+-		error = xfs_create_tmpfile(XFS_I(dir), mode, &ip);
++		error = xfs_create_tmpfile(mnt_userns, XFS_I(dir), mode, &ip);
+ 	}
+ 	if (unlikely(error))
+ 		goto out_free_acl;
+@@ -226,7 +228,7 @@ xfs_vn_mknod(
+ 	umode_t			mode,
+ 	dev_t			rdev)
+ {
+-	return xfs_generic_create(dir, dentry, mode, rdev, false);
++	return xfs_generic_create(mnt_userns, dir, dentry, mode, rdev, false);
+ }
+ 
+ STATIC int
+@@ -237,7 +239,7 @@ xfs_vn_create(
+ 	umode_t			mode,
+ 	bool			flags)
+ {
+-	return xfs_generic_create(dir, dentry, mode, 0, false);
++	return xfs_generic_create(mnt_userns, dir, dentry, mode, 0, false);
+ }
+ 
+ STATIC int
+@@ -247,7 +249,8 @@ xfs_vn_mkdir(
+ 	struct dentry		*dentry,
+ 	umode_t			mode)
+ {
+-	return xfs_generic_create(dir, dentry, mode | S_IFDIR, 0, false);
++	return xfs_generic_create(mnt_userns, dir, dentry, mode | S_IFDIR, 0,
++				  false);
+ }
+ 
+ STATIC struct dentry *
+@@ -381,7 +384,7 @@ xfs_vn_symlink(
+ 	if (unlikely(error))
+ 		goto out;
+ 
+-	error = xfs_symlink(XFS_I(dir), &name, symname, mode, &cip);
++	error = xfs_symlink(mnt_userns, XFS_I(dir), &name, symname, mode, &cip);
+ 	if (unlikely(error))
+ 		goto out;
+ 
+@@ -436,8 +439,8 @@ xfs_vn_rename(
+ 	if (unlikely(error))
+ 		return error;
+ 
+-	return xfs_rename(XFS_I(odir), &oname, XFS_I(d_inode(odentry)),
+-			  XFS_I(ndir), &nname,
++	return xfs_rename(mnt_userns, XFS_I(odir), &oname,
++			  XFS_I(d_inode(odentry)), XFS_I(ndir), &nname,
+ 			  new_inode ? XFS_I(new_inode) : NULL, flags);
+ }
+ 
+@@ -553,8 +556,8 @@ xfs_vn_getattr(
+ 	stat->dev = inode->i_sb->s_dev;
+ 	stat->mode = inode->i_mode;
+ 	stat->nlink = inode->i_nlink;
+-	stat->uid = inode->i_uid;
+-	stat->gid = inode->i_gid;
++	stat->uid = i_uid_into_mnt(mnt_userns, inode);
++	stat->gid = i_gid_into_mnt(mnt_userns, inode);
+ 	stat->ino = ip->i_ino;
+ 	stat->atime = inode->i_atime;
+ 	stat->mtime = inode->i_mtime;
+@@ -632,8 +635,9 @@ xfs_setattr_time(
+ 
+ static int
+ xfs_vn_change_ok(
+-	struct dentry	*dentry,
+-	struct iattr	*iattr)
++	struct user_namespace	*mnt_userns,
++	struct dentry		*dentry,
++	struct iattr		*iattr)
+ {
+ 	struct xfs_mount	*mp = XFS_I(d_inode(dentry))->i_mount;
+ 
+@@ -643,7 +647,7 @@ xfs_vn_change_ok(
+ 	if (XFS_FORCED_SHUTDOWN(mp))
+ 		return -EIO;
+ 
+-	return setattr_prepare(&init_user_ns, dentry, iattr);
++	return setattr_prepare(mnt_userns, dentry, iattr);
+ }
  
  /*
-  * 32 bit systems traditionally used different
-diff --git a/include/uapi/linux/mount.h b/include/uapi/linux/mount.h
-index dd8306ea336c..2255624e91c8 100644
---- a/include/uapi/linux/mount.h
-+++ b/include/uapi/linux/mount.h
-@@ -1,6 +1,8 @@
- #ifndef _UAPI_LINUX_MOUNT_H
- #define _UAPI_LINUX_MOUNT_H
+@@ -654,6 +658,7 @@ xfs_vn_change_ok(
+  */
+ static int
+ xfs_setattr_nonsize(
++	struct user_namespace	*mnt_userns,
+ 	struct xfs_inode	*ip,
+ 	struct iattr		*iattr)
+ {
+@@ -813,7 +818,7 @@ xfs_setattr_nonsize(
+ 	 * 	     Posix ACL code seems to care about this issue either.
+ 	 */
+ 	if (mask & ATTR_MODE) {
+-		error = posix_acl_chmod(&init_user_ns, inode, inode->i_mode);
++		error = posix_acl_chmod(mnt_userns, inode, inode->i_mode);
+ 		if (error)
+ 			return error;
+ 	}
+@@ -837,6 +842,7 @@ xfs_setattr_nonsize(
+  */
+ STATIC int
+ xfs_setattr_size(
++	struct user_namespace	*mnt_userns,
+ 	struct xfs_inode	*ip,
+ 	struct iattr		*iattr)
+ {
+@@ -868,7 +874,7 @@ xfs_setattr_size(
+ 		 * Use the regular setattr path to update the timestamps.
+ 		 */
+ 		iattr->ia_valid &= ~ATTR_SIZE;
+-		return xfs_setattr_nonsize(ip, iattr);
++		return xfs_setattr_nonsize(mnt_userns, ip, iattr);
+ 	}
  
-+#include <linux/types.h>
-+
- /*
-  * These are the fs-independent mount-flags: up to 32 flags are supported
-  *
-@@ -118,4 +120,16 @@ enum fsconfig_command {
- #define MOUNT_ATTR_STRICTATIME	0x00000020 /* - Always perform atime updates */
- #define MOUNT_ATTR_NODIRATIME	0x00000080 /* Do not update directory access times */
+ 	/*
+@@ -1037,6 +1043,7 @@ xfs_setattr_size(
  
-+/*
-+ * mount_setattr()
-+ */
-+struct mount_attr {
-+	__u64 attr_set;
-+	__u64 attr_clr;
-+	__u64 propagation;
-+};
-+
-+/* List of all mount_attr versions. */
-+#define MOUNT_ATTR_SIZE_VER0	24 /* sizeof first published struct */
-+
- #endif /* _UAPI_LINUX_MOUNT_H */
-diff --git a/tools/include/uapi/asm-generic/unistd.h b/tools/include/uapi/asm-generic/unistd.h
-index 728752917785..ce58cff99b66 100644
---- a/tools/include/uapi/asm-generic/unistd.h
-+++ b/tools/include/uapi/asm-generic/unistd.h
-@@ -861,9 +861,11 @@ __SYSCALL(__NR_faccessat2, sys_faccessat2)
- __SYSCALL(__NR_process_madvise, sys_process_madvise)
- #define __NR_epoll_pwait2 441
- __SC_COMP(__NR_epoll_pwait2, sys_epoll_pwait2, compat_sys_epoll_pwait2)
-+#define __NR_mount_setattr 442
-+__SYSCALL(__NR_mount_setattr, sys_mount_setattr)
+ int
+ xfs_vn_setattr_size(
++	struct user_namespace	*mnt_userns,
+ 	struct dentry		*dentry,
+ 	struct iattr		*iattr)
+ {
+@@ -1045,10 +1052,10 @@ xfs_vn_setattr_size(
  
- #undef __NR_syscalls
--#define __NR_syscalls 442
-+#define __NR_syscalls 443
+ 	trace_xfs_setattr(ip);
  
- /*
-  * 32 bit systems traditionally used different
+-	error = xfs_vn_change_ok(dentry, iattr);
++	error = xfs_vn_change_ok(mnt_userns, dentry, iattr);
+ 	if (error)
+ 		return error;
+-	return xfs_setattr_size(ip, iattr);
++	return xfs_setattr_size(mnt_userns, ip, iattr);
+ }
+ 
+ STATIC int
+@@ -1073,14 +1080,14 @@ xfs_vn_setattr(
+ 			return error;
+ 		}
+ 
+-		error = xfs_vn_setattr_size(dentry, iattr);
++		error = xfs_vn_setattr_size(mnt_userns, dentry, iattr);
+ 		xfs_iunlock(ip, XFS_MMAPLOCK_EXCL);
+ 	} else {
+ 		trace_xfs_setattr(ip);
+ 
+-		error = xfs_vn_change_ok(dentry, iattr);
++		error = xfs_vn_change_ok(mnt_userns, dentry, iattr);
+ 		if (!error)
+-			error = xfs_setattr_nonsize(ip, iattr);
++			error = xfs_setattr_nonsize(mnt_userns, ip, iattr);
+ 	}
+ 
+ 	return error;
+@@ -1156,7 +1163,7 @@ xfs_vn_tmpfile(
+ 	struct dentry		*dentry,
+ 	umode_t			mode)
+ {
+-	return xfs_generic_create(dir, dentry, mode, 0, true);
++	return xfs_generic_create(mnt_userns, dir, dentry, mode, 0, true);
+ }
+ 
+ static const struct inode_operations xfs_inode_operations = {
+diff --git a/fs/xfs/xfs_iops.h b/fs/xfs/xfs_iops.h
+index 99ca745c1071..278949056048 100644
+--- a/fs/xfs/xfs_iops.h
++++ b/fs/xfs/xfs_iops.h
+@@ -14,6 +14,7 @@ extern const struct file_operations xfs_dir_file_operations;
+ extern ssize_t xfs_vn_listxattr(struct dentry *, char *data, size_t size);
+ 
+ extern void xfs_setattr_time(struct xfs_inode *ip, struct iattr *iattr);
+-extern int xfs_vn_setattr_size(struct dentry *dentry, struct iattr *vap);
++int xfs_vn_setattr_size(struct user_namespace *mnt_userns,
++		struct dentry *dentry, struct iattr *vap);
+ 
+ #endif /* __XFS_IOPS_H__ */
+diff --git a/fs/xfs/xfs_itable.c b/fs/xfs/xfs_itable.c
+index 16ca97a7ff00..ca310a125d1e 100644
+--- a/fs/xfs/xfs_itable.c
++++ b/fs/xfs/xfs_itable.c
+@@ -54,10 +54,12 @@ struct xfs_bstat_chunk {
+ STATIC int
+ xfs_bulkstat_one_int(
+ 	struct xfs_mount	*mp,
++	struct user_namespace	*mnt_userns,
+ 	struct xfs_trans	*tp,
+ 	xfs_ino_t		ino,
+ 	struct xfs_bstat_chunk	*bc)
+ {
++	struct user_namespace	*sb_userns = mp->m_super->s_user_ns;
+ 	struct xfs_icdinode	*dic;		/* dinode core info pointer */
+ 	struct xfs_inode	*ip;		/* incore inode pointer */
+ 	struct inode		*inode;
+@@ -86,8 +88,8 @@ xfs_bulkstat_one_int(
+ 	 */
+ 	buf->bs_projectid = ip->i_d.di_projid;
+ 	buf->bs_ino = ino;
+-	buf->bs_uid = i_uid_read(inode);
+-	buf->bs_gid = i_gid_read(inode);
++	buf->bs_uid = from_kuid(sb_userns, i_uid_into_mnt(mnt_userns, inode));
++	buf->bs_gid = from_kgid(sb_userns, i_gid_into_mnt(mnt_userns, inode));
+ 	buf->bs_size = dic->di_size;
+ 
+ 	buf->bs_nlink = inode->i_nlink;
+@@ -173,7 +175,8 @@ xfs_bulkstat_one(
+ 	if (!bc.buf)
+ 		return -ENOMEM;
+ 
+-	error = xfs_bulkstat_one_int(breq->mp, NULL, breq->startino, &bc);
++	error = xfs_bulkstat_one_int(breq->mp, breq->mnt_userns, NULL,
++				     breq->startino, &bc);
+ 
+ 	kmem_free(bc.buf);
+ 
+@@ -194,9 +197,10 @@ xfs_bulkstat_iwalk(
+ 	xfs_ino_t		ino,
+ 	void			*data)
+ {
++	struct xfs_bstat_chunk	*bc = data;
+ 	int			error;
+ 
+-	error = xfs_bulkstat_one_int(mp, tp, ino, data);
++	error = xfs_bulkstat_one_int(mp, bc->breq->mnt_userns, tp, ino, data);
+ 	/* bulkstat just skips over missing inodes */
+ 	if (error == -ENOENT || error == -EINVAL)
+ 		return 0;
+@@ -239,6 +243,11 @@ xfs_bulkstat(
+ 	};
+ 	int			error;
+ 
++	if (breq->mnt_userns != &init_user_ns) {
++		xfs_warn_ratelimited(breq->mp,
++			"bulkstat not supported inside of idmapped mounts.");
++		return -EINVAL;
++	}
+ 	if (xfs_bulkstat_already_done(breq->mp, breq->startino))
+ 		return 0;
+ 
+diff --git a/fs/xfs/xfs_itable.h b/fs/xfs/xfs_itable.h
+index 96a1e2a9be3f..7078d10c9b12 100644
+--- a/fs/xfs/xfs_itable.h
++++ b/fs/xfs/xfs_itable.h
+@@ -8,6 +8,7 @@
+ /* In-memory representation of a userspace request for batch inode data. */
+ struct xfs_ibulk {
+ 	struct xfs_mount	*mp;
++	struct user_namespace   *mnt_userns;
+ 	void __user		*ubuffer; /* user output buffer */
+ 	xfs_ino_t		startino; /* start with this inode */
+ 	unsigned int		icount;   /* number of elements in ubuffer */
+diff --git a/fs/xfs/xfs_qm.c b/fs/xfs/xfs_qm.c
+index c134eb4aeaa8..1b7b1393cab2 100644
+--- a/fs/xfs/xfs_qm.c
++++ b/fs/xfs/xfs_qm.c
+@@ -787,7 +787,8 @@ xfs_qm_qino_alloc(
+ 		return error;
+ 
+ 	if (need_alloc) {
+-		error = xfs_dir_ialloc(&tp, NULL, S_IFREG, 1, 0, 0, ipp);
++		error = xfs_dir_ialloc(&init_user_ns, &tp, NULL, S_IFREG, 1, 0,
++				       0, ipp);
+ 		if (error) {
+ 			xfs_trans_cancel(tp);
+ 			return error;
+diff --git a/fs/xfs/xfs_super.c b/fs/xfs/xfs_super.c
+index 813be879a5e5..e95c1eff95e0 100644
+--- a/fs/xfs/xfs_super.c
++++ b/fs/xfs/xfs_super.c
+@@ -1912,7 +1912,7 @@ static struct file_system_type xfs_fs_type = {
+ 	.init_fs_context	= xfs_init_fs_context,
+ 	.parameters		= xfs_fs_parameters,
+ 	.kill_sb		= kill_block_super,
+-	.fs_flags		= FS_REQUIRES_DEV,
++	.fs_flags		= FS_REQUIRES_DEV | FS_ALLOW_IDMAP,
+ };
+ MODULE_ALIAS_FS("xfs");
+ 
+diff --git a/fs/xfs/xfs_symlink.c b/fs/xfs/xfs_symlink.c
+index 1f43fd7f3209..77c8ea3229f1 100644
+--- a/fs/xfs/xfs_symlink.c
++++ b/fs/xfs/xfs_symlink.c
+@@ -134,6 +134,7 @@ xfs_readlink(
+ 
+ int
+ xfs_symlink(
++	struct user_namespace	*mnt_userns,
+ 	struct xfs_inode	*dp,
+ 	struct xfs_name		*link_name,
+ 	const char		*target_path,
+@@ -223,8 +224,8 @@ xfs_symlink(
+ 	/*
+ 	 * Allocate an inode for the symlink.
+ 	 */
+-	error = xfs_dir_ialloc(&tp, dp, S_IFLNK | (mode & ~S_IFMT), 1, 0,
+-			       prid, &ip);
++	error = xfs_dir_ialloc(mnt_userns, &tp, dp, S_IFLNK | (mode & ~S_IFMT),
++			       1, 0, prid, &ip);
+ 	if (error)
+ 		goto out_trans_cancel;
+ 
+diff --git a/fs/xfs/xfs_symlink.h b/fs/xfs/xfs_symlink.h
+index b1fa091427e6..2586b7e393f3 100644
+--- a/fs/xfs/xfs_symlink.h
++++ b/fs/xfs/xfs_symlink.h
+@@ -7,8 +7,9 @@
+ 
+ /* Kernel only symlink definitions */
+ 
+-int xfs_symlink(struct xfs_inode *dp, struct xfs_name *link_name,
+-		const char *target_path, umode_t mode, struct xfs_inode **ipp);
++int xfs_symlink(struct user_namespace *mnt_userns, struct xfs_inode *dp,
++		struct xfs_name *link_name, const char *target_path,
++		umode_t mode, struct xfs_inode **ipp);
+ int xfs_readlink_bmap_ilocked(struct xfs_inode *ip, char *link);
+ int xfs_readlink(struct xfs_inode *ip, char *link);
+ int xfs_inactive_symlink(struct xfs_inode *ip);
 -- 
 2.30.0
 
