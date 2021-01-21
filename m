@@ -2,170 +2,155 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AEA2B2FF833
-	for <lists+linux-api@lfdr.de>; Thu, 21 Jan 2021 23:50:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E16F2FF8B0
+	for <lists+linux-api@lfdr.de>; Fri, 22 Jan 2021 00:24:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726149AbhAUWty (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 21 Jan 2021 17:49:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47460 "EHLO
+        id S1725988AbhAUXXe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 21 Jan 2021 18:23:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726063AbhAUWtx (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 21 Jan 2021 17:49:53 -0500
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C36CC06174A
-        for <linux-api@vger.kernel.org>; Thu, 21 Jan 2021 14:49:13 -0800 (PST)
-Received: by mail-wm1-x329.google.com with SMTP id e15so2839427wme.0
-        for <linux-api@vger.kernel.org>; Thu, 21 Jan 2021 14:49:13 -0800 (PST)
+        with ESMTP id S1726502AbhAUXXN (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 21 Jan 2021 18:23:13 -0500
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10F3AC061788
+        for <linux-api@vger.kernel.org>; Thu, 21 Jan 2021 15:22:33 -0800 (PST)
+Received: by mail-wr1-x433.google.com with SMTP id a1so3368506wrq.6
+        for <linux-api@vger.kernel.org>; Thu, 21 Jan 2021 15:22:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=4njFdIv1JViGQi9hUl+dzmIy48TwN3Ut30e6qZPlxrI=;
-        b=NvAkVpUjHeM3fm0uBBe1rPkYe7U25Mh6q9McQAPeVLoJ2D+a6S7utQz+Ds42aPO05Z
-         ALALqUw/vtzSirFFCqItNmns+C5trIerrdwQRa7uFhJ5zy5MVvR4ANPRjclMydbjWnDC
-         5PJ7pOU71qEl8un6PWRNJ9uyEd184Xiuyq6Dguo69iYRYPFhMT+cEoF6zBqZrwlSgELH
-         6BDZ44UoVpwLGZzggay1Loyv0xNYoMglFmcUhmzgSN1MfWqDIy329heN1GunsyVZ72bk
-         B4lFJbDNcCje9P1KReuEVAeTESb7W61JtH7rGEcTz8P4/7KKSH9dyaiVk1Vz6a5EMuWi
-         DUWw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=B9FDY2AsftqpnWiw70OlOmAdNNuO2TtWc7rPYaOD/c8=;
+        b=mSiM13M6wR18Hv+ZD8azvoVTQlTt3ftyjoBf9IyCywWv6DDhFLWZR4UMXFclwaZFs7
+         wRTRjipAq9Z4QVVtHpxnUr3pgZH3jIvAD6MbptqKh8+G/ElXYiT2SjgkE3RSfSnXO1KE
+         qgTUP8f19DRS4KA2BTOoyJKYWFdS276qBUw1xbVkbslma2YykAOeaocHmOvAh383b/p6
+         q9cbga1j9whjrT5mTiToiCvsSYkVYRxqCk1OK1iSGKp5IBxuxqgyPKMa7ntI20vPBmaU
+         Q+6mwJ2DjXgpzLCK+wae2vUTWY/7Cma1YtZn/G4ZD9FPzCOAsVoKZ3MXTK/96o3vj3Q6
+         6xQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=4njFdIv1JViGQi9hUl+dzmIy48TwN3Ut30e6qZPlxrI=;
-        b=iLLnF587QuQerc0huG0owPlw/QsAOyo4NWHDQhxqOM0WOUNPBLcv13OsPG7mnR5fE2
-         a4cO/I0K/33oy1L6x11N08iYzxtRRhKPzPOtuyq/O2eBGQrh48BkMerbnlJvqwojCWum
-         CubY7JzkDeOrJUHbceMWIiwwDSE9XEyzfTeQDIihPWCl20pFI1voSKSNLr50TgQ3C/ff
-         wxJOWrrsFh2t6xs7CVjY1yQ6Ho01gfGcJ3jzNkp2FgBewhj/8EyOKqOM7l8oXxjAypBv
-         hQ35nODmD+GUmRRho+7qBR4FdmA36skjgXQAiOMe2FRip5eg80uMM6sPsyl5VF2CqvQQ
-         f4Ig==
-X-Gm-Message-State: AOAM530igafEKpzvQik2rCSJGII1sWXsvBVjix2zkqckAPUrrUHcklHb
-        itiscFcJDN8wHPzKRHqUgf1xF/07x4c=
-X-Google-Smtp-Source: ABdhPJwIhG0f6zJ3ZqgJAdkt6mcyyHeL5sbyX/m7MM1lYAyo+R3gjKbxHp5MYD9bm1FJnI3c9cldMA==
-X-Received: by 2002:a05:600c:201:: with SMTP id 1mr1286789wmi.104.1611269351915;
-        Thu, 21 Jan 2021 14:49:11 -0800 (PST)
-Received: from [192.168.0.160] ([170.253.49.0])
-        by smtp.gmail.com with ESMTPSA id c6sm10396315wrh.7.2021.01.21.14.49.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Jan 2021 14:49:11 -0800 (PST)
-Subject: Re: [PATCH] tee: Add -q, --quiet option to not write to stdout
-From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=B9FDY2AsftqpnWiw70OlOmAdNNuO2TtWc7rPYaOD/c8=;
+        b=s0HiFGrr5FUs4qzYgvq1/x09Up7FT0Fxizf7VKWW3QfXGEpb+XklcYZ1Lo5x50mp1I
+         /ozatDZKgT/11sYO9y961vjWirHbgfu5vHhyLIhYElRZXi7VJdj6nDAg38a9+y1+UbOo
+         EiqH5YenYbDRaFH2DQnybFPuJR9HCU1DnWALWYxGtFwkLd1Wns4vDE1xwO0gEHCBavYY
+         gbTCfsjgMpZ+sHc6e9Er5AX/rsvAJIn2bb03sG+OKnKMsJ69rB9+p+POz+xKbePLSoDi
+         ttge0J5QiDkHXoGq4yAcQcZtJtD2ONYibEZoLsbg0j3xcXaF8ncjjk0QcfEih4FrPgvT
+         27kg==
+X-Gm-Message-State: AOAM5313DDYPRdpeR9wCXy2akSkzsDVjhjeOBjWiNROnbyQUuZPJbRlU
+        /RWwHl7O0yD5Yrwa+oaRNw4=
+X-Google-Smtp-Source: ABdhPJyh6DbEyMPC9TmLy6HnUsCOg+0Shqryp4BlWjtTdUhuaMkb7gMQRSHRzGJRm7Ng9rSBvNHT1w==
+X-Received: by 2002:adf:ee90:: with SMTP id b16mr1613910wro.221.1611271351875;
+        Thu, 21 Jan 2021 15:22:31 -0800 (PST)
+Received: from localhost.localdomain ([170.253.49.0])
+        by smtp.googlemail.com with ESMTPSA id o17sm3799418wrp.34.2021.01.21.15.22.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Jan 2021 15:22:31 -0800 (PST)
+From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     Bernhard Voelker <mail@bernhard-voelker.de>,
         Alex Henrie <alexhenrie24@gmail.com>,
         Christian Groessler <chris@groessler.org>,
-        =?UTF-8?Q?P=c3=a1draig_Brady?= <P@draigbrady.com>,
-        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc:     noloader@gmail.com, Fabrice BAUZAC <noon@mykolab.com>,
-        Coreutils <coreutils@gnu.org>, freebsd-hackers@freebsd.org,
-        tech@openbsd.org, linux-api@vger.kernel.org
-References: <20210121131735.317701-1-alx.manpages@gmail.com>
- <8aa1d0b4-d2ec-7d18-120b-cae59708767c@draigBrady.com>
- <424b9fb9-c740-1a2f-bd79-0b4035104698@gmail.com>
- <e1a3b389-b808-92db-258d-85b60748b4dc@bernhard-voelker.de>
- <06fb3df3-a956-3ec1-eadb-82fd89ec62d5@gmail.com>
- <af2fb24a-a03a-35ef-c86e-545844b61a8d@groessler.org>
- <CAMMLpeRSh5HKi=sJV7y=pav26EzzP-yEe0+Dgp_=mtBUhtFvaQ@mail.gmail.com>
- <3bb6a134-c477-116c-182d-d6e24dc342e0@bernhard-voelker.de>
- <f78ec1a9-f07f-de20-26cc-4be254e3e921@gmail.com>
-Message-ID: <1f8ce444-35e2-56a7-dbd1-34e885372b11@gmail.com>
-Date:   Thu, 21 Jan 2021 23:49:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+        =?UTF-8?q?P=C3=A1draig=20Brady?= <P@draigbrady.com>,
+        Coreutils <coreutils@gnu.org>
+Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>, noloader@gmail.com,
+        Fabrice BAUZAC <noon@mykolab.com>, tech@openbsd.org,
+        freebsd-hackers@freebsd.org, linux-api@vger.kernel.org
+Subject: [PATCH v2] tee: Add -q, --quiet, --silent option to not write to stdout
+Date:   Fri, 22 Jan 2021 00:12:58 +0100
+Message-Id: <20210121231255.2673075-1-alx.manpages@gmail.com>
+X-Mailer: git-send-email 2.30.0
+In-Reply-To: <1f8ce444-35e2-56a7-dbd1-34e885372b11@gmail.com>
+References: <1f8ce444-35e2-56a7-dbd1-34e885372b11@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <f78ec1a9-f07f-de20-26cc-4be254e3e921@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-[CC += mtk, linux-api, freebsd, openbsd]
+This is useful for using tee to just write to a file,
+at the end of a pipeline,
+without having to redirect to /dev/null.
 
-On 1/21/21 10:26 PM, Alejandro Colomar (man-pages) wrote:
-> Hi Berny,
-> 
-> On 1/21/21 10:01 PM, Bernhard Voelker wrote:
->> On 1/21/21 7:39 PM, Alex Henrie wrote:
->>> That said, I would love to see `tee -q` added to a future revision of
->>> POSIX and adopted everywhere.
->>
->> I like the idea.
->> We have been living for decades without a terminating "pipe end piece",
->> so why hurrying a new option into an implementation of 'tee'?
->> Instead, this could be discussed thoroughly and specified by the OpenGroup
->> and nailed down in a new POSIX issue, and then all implementations
->> could adopt it consistently.
->> Are you willing to start the discussion there?
+Example:
+	echo 'foo' | sudo tee -q /etc/foo;
+is equivalent to the old (and ugly)
+	echo 'foo' | sudo tee /etc/foo >/dev/null;
 
-Hi Berny,
+Tools with a similar interface: grep
 
-Please don't feel like I'm hurrying with this.
-I'm strongly defending my patch to try to
-convince you that it's a Good Thing :-)
-But if it has to undergo a long discussion
-with POSIX, BSD, and whoever, that's fine by me.
+Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
+---
 
-I'll send a v2 with --silent in a moment.
+v2: Add --silent synonym to --quiet, per GNU guidelines.
+    I tested tee --silent with success.
 
+ src/tee.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
-Hi Michael,
-
-Talking about designing new APIs,
-you might have something to say here,
-even if it's not for the kernel.
-
-
-I also CCd a few lists that might be interested.
-Please comment.
-
-
-Cheers,
-
-Alex
-
-> 
-> I am.  However, the Austing Group is a nightmare in terms of login,
-> and doing things requiring an account; at least for me.
-> 
-> I'd prefer that someone else opens a bug there and links to the
-> discussion on an open mailing list like this one.
-> 
-> Do they have an open mailing list?
-> 
-> Is anyone hepling me report the bug to them?  I should learn at this
-> point...
-> 
->>
->> BTW: --quiet is usually used to avoid outputting of informational
->> messages (e.g. wget, head, tail, md5sum), while 'tee' would change
->> its functional behavior.
->> Maybe --drain, --drain-stdout, --discard-stdout (-d), --no-stdout (-n),
->> --elide-stdout (-e) or something similar would be more appropriate?
-> 
-> I stand by -q, --quiet.  Conforming to: grep. Maybe there's some other.
-> 
-> $ man grep 2>/dev/null | sed -n '/-q, --quiet, --silent/,/^$/p'
->        -q, --quiet, --silent
->               Quiet;  do  not  write  anything to standard output.
->               Exit immediately with zero status if  any  match  is
->               found,  even if an error was detected.  Also see the
->               -s or --no-messages option.
-> 
-> 
-> 
->>
->> Have a nice day,
->> Berny
->>
-> 
-> Kind regards,
-> 
-> Alex
-> 
-
-
+diff --git a/src/tee.c b/src/tee.c
+index c81faea91..68ace983a 100644
+--- a/src/tee.c
++++ b/src/tee.c
+@@ -45,6 +45,9 @@ static bool append;
+ /* If true, ignore interrupts. */
+ static bool ignore_interrupts;
+ 
++/* Don't write to stdout */
++static bool quiet;
++
+ enum output_error
+   {
+     output_error_sigpipe,      /* traditional behavior, sigpipe enabled.  */
+@@ -61,6 +64,8 @@ static struct option const long_options[] =
+   {"append", no_argument, NULL, 'a'},
+   {"ignore-interrupts", no_argument, NULL, 'i'},
+   {"output-error", optional_argument, NULL, 'p'},
++  {"quiet", no_argument, NULL, 'q'},
++  {"silent", no_argument, NULL, 'q'},
+   {GETOPT_HELP_OPTION_DECL},
+   {GETOPT_VERSION_OPTION_DECL},
+   {NULL, 0, NULL, 0}
+@@ -93,6 +98,7 @@ Copy standard input to each FILE, and also to standard output.\n\
+ "), stdout);
+       fputs (_("\
+   -p                        diagnose errors writing to non pipes\n\
++  -q, --quiet, --silent     don't write to standard output\n\
+       --output-error[=MODE]   set behavior on write error.  See MODE below\n\
+ "), stdout);
+       fputs (HELP_OPTION_DESCRIPTION, stdout);
+@@ -130,6 +136,7 @@ main (int argc, char **argv)
+ 
+   append = false;
+   ignore_interrupts = false;
++  quiet = false;
+ 
+   while ((optc = getopt_long (argc, argv, "aip", long_options, NULL)) != -1)
+     {
+@@ -151,6 +158,10 @@ main (int argc, char **argv)
+             output_error = output_error_warn_nopipe;
+           break;
+ 
++        case 'q':
++          quiet = true;
++          break;
++
+         case_GETOPT_HELP_CHAR;
+ 
+         case_GETOPT_VERSION_CHAR (PROGRAM_NAME, AUTHORS);
+@@ -235,8 +246,9 @@ tee_files (int nfiles, char **files)
+         break;
+ 
+       /* Write to all NFILES + 1 descriptors.
+-         Standard output is the first one.  */
+-      for (i = 0; i <= nfiles; i++)
++         Standard output is the first one.
++         If 'quiet' is true, write to descriptors 1 and above (omit stdout)  */
++      for (i = quiet; i <= nfiles; i++)
+         if (descriptors[i]
+             && fwrite (buffer, bytes_read, 1, descriptors[i]) != 1)
+           {
 -- 
-Alejandro Colomar
-Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
-http://www.alejandro-colomar.es/
+2.30.0
+
