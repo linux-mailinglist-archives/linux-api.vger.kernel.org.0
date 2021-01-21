@@ -2,20 +2,20 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FB2A2FEDE7
-	for <lists+linux-api@lfdr.de>; Thu, 21 Jan 2021 16:03:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BB8842FEE87
+	for <lists+linux-api@lfdr.de>; Thu, 21 Jan 2021 16:26:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730613AbhAUN2E (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 21 Jan 2021 08:28:04 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:54757 "EHLO
+        id S1731071AbhAUPZ7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 21 Jan 2021 10:25:59 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:54575 "EHLO
         youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730332AbhAUN1u (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 21 Jan 2021 08:27:50 -0500
+        with ESMTP id S1731852AbhAUNYt (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 21 Jan 2021 08:24:49 -0500
 Received: from ip5f5af0a0.dynamic.kabel-deutschland.de ([95.90.240.160] helo=wittgenstein.fritz.box)
         by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
         (Exim 4.86_2)
         (envelope-from <christian.brauner@ubuntu.com>)
-        id 1l2Zuf-0005g7-IE; Thu, 21 Jan 2021 13:22:13 +0000
+        id 1l2Zuu-0005g7-0W; Thu, 21 Jan 2021 13:22:28 +0000
 From:   Christian Brauner <christian.brauner@ubuntu.com>
 To:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Christoph Hellwig <hch@lst.de>, linux-fsdevel@vger.kernel.org
@@ -51,37 +51,39 @@ Cc:     John Johansen <john.johansen@canonical.com>,
         linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
         linux-integrity@vger.kernel.org, selinux@vger.kernel.org,
         Christian Brauner <christian.brauner@ubuntu.com>
-Subject: [PATCH v6 27/40] ecryptfs: do not mount on top of idmapped mounts
-Date:   Thu, 21 Jan 2021 14:19:46 +0100
-Message-Id: <20210121131959.646623-28-christian.brauner@ubuntu.com>
+Subject: [PATCH v6 30/40] mount: make {lock,unlock}_mount_hash() static
+Date:   Thu, 21 Jan 2021 14:19:49 +0100
+Message-Id: <20210121131959.646623-31-christian.brauner@ubuntu.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210121131959.646623-1-christian.brauner@ubuntu.com>
 References: <20210121131959.646623-1-christian.brauner@ubuntu.com>
 MIME-Version: 1.0
-X-Patch-Hashes: v=1; h=sha256; i=ghv/kMxBjWVz72L+xFuQBh/xSmPaVl07FCNHzoGv4Rk=; m=NFmehRD0KNcILFBxE6aGR1OjIupR+5WFeLoiP5ShJC4=; p=y+aaA7asfnKesPwKpXtBf+Gzv/rdSr5LpwUc8kyT8VY=; g=c814c6483a8755fc91bca27ebabaa2b2beaaec75
-X-Patch-Sig: m=pgp; i=christian.brauner@ubuntu.com; s=0x0x91C61BC06578DCA2; b=iHUEABYKAB0WIQRAhzRXHqcMeLMyaSiRxhvAZXjcogUCYAl9pgAKCRCRxhvAZXjcosHXAQC9eu2 YlnUeZViKQgWoqQtKdNJ5+dgu/eVlDpuwEWnwqwD9Eh8WEYpaxdL1+PELrTM+92+OxqtiAKKXSCAU ul1tOw4=
+X-Patch-Hashes: v=1; h=sha256; i=vO6mqD1pvztvOW1otxIX/33XHCNZr+llU/zGWpmgRcU=; m=KhvaMUT1cjYCcf89U9v9dgojtWEDCI7+j8N/vrPJ2d8=; p=m+f5GyiYf302pJENuNE7M1OLXAwtO2DVQ+DZIMIfwu0=; g=a01f7f9b00b67a1698d6ed6ffbed46e285973451
+X-Patch-Sig: m=pgp; i=christian.brauner@ubuntu.com; s=0x0x91C61BC06578DCA2; b=iHUEABYKAB0WIQRAhzRXHqcMeLMyaSiRxhvAZXjcogUCYAl9pgAKCRCRxhvAZXjcov5nAP417zG 11bQQEUJ0ysdrJok04PLyXR+Mhb6D2/2E4h91CgEAijXaDc6Gi6RigHFF4y2Xjov9EzuvRHTYz5It xL3Ybgw=
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Prevent ecryptfs from being mounted on top of idmapped mounts.
-Stacking filesystems need to be prevented from being mounted on top of
-idmapped mounts until they have have been converted to handle this.
+The lock_mount_hash() and unlock_mount_hash() helpers are never called
+outside a single file. Remove them from the header and make them static
+to reflect this fact. There's no need to have them callable from other
+places right now, as Christoph observed.
 
-Link: https://lore.kernel.org/r/20210112220124.837960-39-christian.brauner@ubuntu.com
-Cc: Christoph Hellwig <hch@lst.de>
+Link: https://lore.kernel.org/r/20210112220124.837960-3-christian.brauner@ubuntu.com
 Cc: David Howells <dhowells@redhat.com>
 Cc: Al Viro <viro@zeniv.linux.org.uk>
 Cc: linux-fsdevel@vger.kernel.org
+Suggested-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
 ---
 /* v2 */
-patch introduced
+- Christoph Hellwig <hch@lst.de>:
+  - Add a patch to make {lock,unlock)_mount_hash() static.
 
 /* v3 */
-- David Howells <dhowells@redhat.com>:
-  - Adapt check after removing mnt_idmapped() helper.
+unchanged
 
 /* v4 */
 unchanged
@@ -94,26 +96,52 @@ base-commit: 7c53f6b671f4aba70ff15e1b05148b10d58c2837
 unchanged
 base-commit: 19c329f6808995b142b3966301f217c831e7cf31
 ---
- fs/ecryptfs/main.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ fs/mount.h     | 10 ----------
+ fs/namespace.c | 10 ++++++++++
+ 2 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/fs/ecryptfs/main.c b/fs/ecryptfs/main.c
-index e63259fdef28..cdf40a54a35d 100644
---- a/fs/ecryptfs/main.c
-+++ b/fs/ecryptfs/main.c
-@@ -531,6 +531,12 @@ static struct dentry *ecryptfs_mount(struct file_system_type *fs_type, int flags
- 		goto out_free;
- 	}
+diff --git a/fs/mount.h b/fs/mount.h
+index ce6c376e0bc2..0b6e08cf8afb 100644
+--- a/fs/mount.h
++++ b/fs/mount.h
+@@ -124,16 +124,6 @@ static inline void get_mnt_ns(struct mnt_namespace *ns)
  
-+	if (mnt_user_ns(path.mnt) != &init_user_ns) {
-+		rc = -EINVAL;
-+		printk(KERN_ERR "Mounting on idmapped mounts currently disallowed\n");
-+		goto out_free;
-+	}
+ extern seqlock_t mount_lock;
+ 
+-static inline void lock_mount_hash(void)
+-{
+-	write_seqlock(&mount_lock);
+-}
+-
+-static inline void unlock_mount_hash(void)
+-{
+-	write_sequnlock(&mount_lock);
+-}
+-
+ struct proc_mounts {
+ 	struct mnt_namespace *ns;
+ 	struct path root;
+diff --git a/fs/namespace.c b/fs/namespace.c
+index bdfb130f2c3c..5fceb2854395 100644
+--- a/fs/namespace.c
++++ b/fs/namespace.c
+@@ -87,6 +87,16 @@ EXPORT_SYMBOL_GPL(fs_kobj);
+  */
+ __cacheline_aligned_in_smp DEFINE_SEQLOCK(mount_lock);
+ 
++static inline void lock_mount_hash(void)
++{
++	write_seqlock(&mount_lock);
++}
 +
- 	if (check_ruid && !uid_eq(d_inode(path.dentry)->i_uid, current_uid())) {
- 		rc = -EPERM;
- 		printk(KERN_ERR "Mount of device (uid: %d) not owned by "
++static inline void unlock_mount_hash(void)
++{
++	write_sequnlock(&mount_lock);
++}
++
+ static inline struct hlist_head *m_hash(struct vfsmount *mnt, struct dentry *dentry)
+ {
+ 	unsigned long tmp = ((unsigned long)mnt / L1_CACHE_BYTES);
 -- 
 2.30.0
 
