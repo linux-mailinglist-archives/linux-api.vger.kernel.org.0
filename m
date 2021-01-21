@@ -2,80 +2,96 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A4172FEAD3
-	for <lists+linux-api@lfdr.de>; Thu, 21 Jan 2021 13:57:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 284F12FEB7F
+	for <lists+linux-api@lfdr.de>; Thu, 21 Jan 2021 14:22:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729531AbhAUM52 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 21 Jan 2021 07:57:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60560 "EHLO
+        id S1731840AbhAUNVj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 21 Jan 2021 08:21:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729492AbhAUM5V (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 21 Jan 2021 07:57:21 -0500
-Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com [IPv6:2607:f8b0:4864:20::72d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F74BC061575
-        for <linux-api@vger.kernel.org>; Thu, 21 Jan 2021 04:56:40 -0800 (PST)
-Received: by mail-qk1-x72d.google.com with SMTP id f26so1479839qka.0
-        for <linux-api@vger.kernel.org>; Thu, 21 Jan 2021 04:56:40 -0800 (PST)
+        with ESMTP id S1731878AbhAUNUE (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 21 Jan 2021 08:20:04 -0500
+Received: from mail-qt1-x849.google.com (mail-qt1-x849.google.com [IPv6:2607:f8b0:4864:20::849])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60960C061575
+        for <linux-api@vger.kernel.org>; Thu, 21 Jan 2021 05:19:20 -0800 (PST)
+Received: by mail-qt1-x849.google.com with SMTP id n22so1406835qtv.10
+        for <linux-api@vger.kernel.org>; Thu, 21 Jan 2021 05:19:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=MGllKdkQl1dzjQF+oEV0/buZzhLSlwj6awai/2y06Rc=;
-        b=DvSaFGXIpYcHINOe1ssUXXKHBrUabYUPLap8GErwGt22sWOaNAKDMoqWg6/gUj2aWl
-         S6fLqbd9bo8btemdsvTfVNsEOAVJOXE1dy969kgJeKRkzItmtWwCQfq5wInJ3IhQzqwH
-         9hTVEEv81BvQIYf31Pl9N6FMSxCiARL+7YaZREbNc7wMN/hbB20yR3aHMi7Ilrg9HpnF
-         bXLpIi/kYOQrtmub9tRR7KfgDskxjgqWl+0FnNjiYVMB0vvZL5m5JFdAfVnIsiKNsuor
-         iefUQJgvR0zZkpLUUjdaQVv2J+k6+v14cnyJHzhbCoWC5K3keZGzHVCE5CZmcNV4WIfJ
-         4VoA==
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=zruIQedjwNcDhDYNEYrrXFR6YFTuvFQowbaXONNBZzQ=;
+        b=auEArelE69t+FGAy3A0cQlrQNM8iE4wySncCyMEzHElhKgOjhVQN/ZW2PeVmojNZgA
+         uC2vhrlm5XJp5UDg9ky+/Xndsf7D8V2HO0zuIQBwazFcPBwhaRNDbdHGy4miwBHsY/jz
+         R3bLryjDG5pSgjVRpkNBoWI4PxyiLPjXj7Vy7H+RcO0mz3OO5xdti0J8DBXQDwlYMl2X
+         2kXd4Dg3+Yf4CG+VpM8KKgRInbiqAljQwZv/6O44r3uWBhjaA7cB1rEDB/PSue8fYqRl
+         4dO6ZmVm0Yg/EvzmkAQQlMIsp29cw2KpfkHZ10Dd66KUZaK6BW2h7zSRN1dQGFfStiYL
+         qczw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MGllKdkQl1dzjQF+oEV0/buZzhLSlwj6awai/2y06Rc=;
-        b=fE3+eNr6miMyfSqH3qg2kI4GKDsKM6KbC7G0OGYttzLVthxclqcjx7bSn/igmy5FFU
-         T2PVGieVXDnyZz3XXTb3NEuCY+WYppsjI9OTVjxGWO2P2lF1zsgQYD03Yfl/UqU/Eqar
-         aE0uaVNFiZQl+/MARF5r2G4yYKJfZo4HFfAXioq9yrQg6v3MPQhXBeZyDFsbOjE3OOji
-         gQfYByz408qQYgQF0B5cNj8TNZVscRCH/ZJuux4cp2URcRgzu3RKRuqSMdXQL+8HlnHQ
-         SU5PzDYIjMtpnX7I5Bc3Y3Mboq7WOTjUnXr9Bwl/PMX39//9XHhyPgU+gkalZNsUxnqm
-         2PTA==
-X-Gm-Message-State: AOAM533fOoraLx5nya2+wSbTI+synmWcS6pUMnWset1zr2ko18S+AY2q
-        oRNLH5PYrYYjjoENpaBZU02RWceK/pIc0zauC+nFkQ==
-X-Google-Smtp-Source: ABdhPJw2zLh8J0ro26s+uFnrBswVGONEgQBNiYaAzPv60CCJl2SOdDc3zUKdweWzJKy8oLKgAiX12G63RJIpm9O51Nk=
-X-Received: by 2002:a05:620a:5fb:: with SMTP id z27mr427204qkg.326.1611233799509;
- Thu, 21 Jan 2021 04:56:39 -0800 (PST)
-MIME-Version: 1.0
-References: <20210115130336.2520663-1-glider@google.com> <5ae22590-752e-7ea2-5341-a49a99e7507d@suse.cz>
- <CAG_fn=Vp0b3GX78azCiNsqAVs2Pj3bDikSUsf2kBZh7XiX+hzA@mail.gmail.com>
-In-Reply-To: <CAG_fn=Vp0b3GX78azCiNsqAVs2Pj3bDikSUsf2kBZh7XiX+hzA@mail.gmail.com>
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=zruIQedjwNcDhDYNEYrrXFR6YFTuvFQowbaXONNBZzQ=;
+        b=NeQJA6+e6VPmfd30EzyhUbqJuJ+WQnPxdNUVvXPy/Rr/FQEgIvlXTKaAf6zCinENbq
+         ZcavgZKH4Ylj5JM/Oz+vKSmYg5790hijgVgxpIea6tA4Ecjym6HbbOpQc8qWqVkHFnGJ
+         Ot6HsrTh7VFrnv/kt0nEQkqzCgOG3pe+PlW3la1ydXH0dk6mYbz9e8sJ5f7ed72nOpas
+         I6Im06meBw38OpJIX75p5GLF/JQueo4DsK2VZr8iS9GM12adGfJcPXdaT3FKzKldl/zf
+         jOUYC8Y1lxHf5zoqus9MfIEal6SvH9/qxLyDZ+19ym+2+LRnnUi/a5vRrUpJtUhwvS/X
+         Pnyg==
+X-Gm-Message-State: AOAM530cSU6q/VxLCnVtPY06rtZWeQxsDhnHggAovjgNTeIYhIGl/6R0
+        2H5SQYTvDePh5WC6K5SMjkNh01ajB3Q=
+X-Google-Smtp-Source: ABdhPJzFoRrCNu6UqrEYfSA9a/pnawzMv2aw7MtKk+jQYTz8jXHoLSFgsHYsaeUML4+BBYgjYB7eJpdq+8I=
+Sender: "glider via sendgmr" <glider@glider.muc.corp.google.com>
+X-Received: from glider.muc.corp.google.com ([2a00:79e0:15:13:f693:9fff:fef4:9ff])
+ (user=glider job=sendgmr) by 2002:a05:6214:14ae:: with SMTP id
+ bo14mr14422919qvb.16.1611235159490; Thu, 21 Jan 2021 05:19:19 -0800 (PST)
+Date:   Thu, 21 Jan 2021 14:19:12 +0100
+Message-Id: <20210121131915.1331302-1-glider@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.30.0.296.g2bfb1c46d8-goog
+Subject: [PATCH v3 0/3] Add error_report_end tracepoint to KFENCE and KASAN
 From:   Alexander Potapenko <glider@google.com>
-Date:   Thu, 21 Jan 2021 13:56:28 +0100
-Message-ID: <CAG_fn=XXYUAFfB91AyDM0MzuKG9_DDP8uDb15S497upu-MWiEg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] Add sysfs interface to collect reports from
- debugging tools
-To:     Vlastimil Babka <vbabka@suse.cz>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Dmitriy Vyukov <dvyukov@google.com>,
-        Ingo Molnar <mingo@redhat.com>, Marco Elver <elver@google.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Linux Memory Management List <linux-mm@kvack.org>
+To:     akpm@linux-foundation.org, glider@google.com
+Cc:     elver@google.com, andreyknvl@google.com, dvyukov@google.com,
+        mingo@redhat.com, pmladek@suse.com, rostedt@goodmis.org,
+        sergey.senozhatsky@gmail.com, linux-mm@kvack.org,
+        linux-api@vger.kernel.org, vbabka@suse.cz,
+        gregkh@linuxfoundation.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jan 15, 2021 at 2:09 PM Alexander Potapenko <glider@google.com> wrote:
->
-> On Fri, Jan 15, 2021 at 2:06 PM Vlastimil Babka <vbabka@suse.cz> wrote:
-> >
-> > Should have CCd linux-api@, please do next time
-> Thanks, will do!
-> Shall I also CC the v2 ABI patch explicitly?
+This patchset adds a tracepoint, error_repor_end, that is to be used by
+KFENCE, KASAN, and potentially other bug detection tools, when they
+print an error report.
+One of the possible use cases is userspace collection of kernel error
+reports: interested parties can subscribe to the tracing event via
+tracefs, and get notified when an error report occurs.
 
-I'll be dropping the sysfs changes from this patchset, but assume it
-still makes sense to CC linux-api@ since v3 will be introducing
-tracepoints.
+v3:
+ - dropped the sysfs interface for log collection
+ - dropped error_report_start tracepoint
+
+v2:
+ - added ABI documentation for /sys/kernel/error_report/
+ - changed error_report_start and error_report end tracepoints to take
+   a fixed set of values for the error detector
+
+
+Alexander Potapenko (3):
+  tracing: add error_report_end trace point
+  kfence: use error_report_end tracepoint
+  kasan: use error_report_end tracepoint
+
+ include/trace/events/error_report.h | 74 +++++++++++++++++++++++++++++
+ kernel/trace/Makefile               |  1 +
+ kernel/trace/error_report-traces.c  | 12 +++++
+ mm/kasan/report.c                   |  8 ++--
+ mm/kfence/report.c                  |  2 +
+ 5 files changed, 94 insertions(+), 3 deletions(-)
+ create mode 100644 include/trace/events/error_report.h
+ create mode 100644 kernel/trace/error_report-traces.c
+
+-- 
+2.30.0.296.g2bfb1c46d8-goog
+
