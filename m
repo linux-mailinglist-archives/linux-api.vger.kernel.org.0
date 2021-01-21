@@ -2,56 +2,56 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2ABF02FEB7C
-	for <lists+linux-api@lfdr.de>; Thu, 21 Jan 2021 14:21:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B0A872FEB7B
+	for <lists+linux-api@lfdr.de>; Thu, 21 Jan 2021 14:21:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731670AbhAUNUq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 21 Jan 2021 08:20:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37228 "EHLO
+        id S1731513AbhAUNUo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 21 Jan 2021 08:20:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731880AbhAUNUF (ORCPT
+        with ESMTP id S1731670AbhAUNUF (ORCPT
         <rfc822;linux-api@vger.kernel.org>); Thu, 21 Jan 2021 08:20:05 -0500
-Received: from mail-qt1-x84a.google.com (mail-qt1-x84a.google.com [IPv6:2607:f8b0:4864:20::84a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFD9DC061757
-        for <linux-api@vger.kernel.org>; Thu, 21 Jan 2021 05:19:22 -0800 (PST)
-Received: by mail-qt1-x84a.google.com with SMTP id b8so1397171qtr.18
-        for <linux-api@vger.kernel.org>; Thu, 21 Jan 2021 05:19:22 -0800 (PST)
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E844CC0613C1
+        for <linux-api@vger.kernel.org>; Thu, 21 Jan 2021 05:19:24 -0800 (PST)
+Received: by mail-yb1-xb4a.google.com with SMTP id b3so2146526yba.20
+        for <linux-api@vger.kernel.org>; Thu, 21 Jan 2021 05:19:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=sender:date:in-reply-to:message-id:mime-version:references:subject
          :from:to:cc;
-        bh=i4YH3yLeIclRhhtAEf9273ZCA7Cxi6HCBtpgwrGQcZU=;
-        b=sibTmKiLS9ajF4FE1rUs6hEKWQLhtFXelqmUugPjx/BwXAb19nRZuH5azNdMExPV8j
-         2bVfJ8ahp97a3Sf+oNrY6vrPivAv2ANLtKGPx8GEGoeCsqx/aDG9DNOfM7WsfczQzxdv
-         45VVZa9Li/fI2aLoMb2vPlCIiEw7CsMDRMlYACkZSVVZT292TOlGys0PdNDyL8/NkIkG
-         YNYES0RZmp0BS71aOT0S23OLsNFfq23VTQL5eaAf1P/cGfztvVQSun1wDrbUMZDLuRHC
-         elMCG1c1vNU/0rstvHTiWcFBYb1fYJiPs0r1lXdOP0odQ0H0IhvcixBrHEf7ThaCvMUw
-         QMcw==
+        bh=EZM8uwys0tIYTV5rV7IMpiN4Wky1Ucyd+XglcRPDA0k=;
+        b=WFun/2AwoihyT9AoddjjkcKTUjc9aI3jv7IFGHwz+lYgIMz5b4WPNxXTiyzbrd+LJk
+         WO3FxCB1Z/havwsDuvKosLXatsLCtqTnsMN3N5jAgG74u80nWFXEmQ+mBgYjdUB//JjX
+         Q6kAQ+pAl8XYDz2Ei2+nblI2fGGTv+uKtJHtRqlXQfEDBJAQS+jkFBswpyKA8etRcnUH
+         OOs71Y+Fd5/i9qecUzQiepvITmFqkejQn7UN/r27rnGMC+BNYBM5HmdI/y7s1YXWGRBt
+         lfvhUY4CVirmJMHsy+tYXnPwttmMKEyvF9fWE1SPqi/BxiZHoPg/x/SPCfVGkwMJnOka
+         xM9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=i4YH3yLeIclRhhtAEf9273ZCA7Cxi6HCBtpgwrGQcZU=;
-        b=ukANUqdI6gocDPlIPySn70RdaTl5JtpXzXcjZqahbKRk+30QMoN0DxFfqQGmRlSEq4
-         2zaHWzHZipGPss8E1bbDBqr1jwemVj9U6Q1+j8RhD/SLXVfB5HFQYO++fWuOt1R+qEza
-         LjqxlO4TW1HWOd4AKG8O7TNiAF0iAB80CB4W9rR3Cdfs4YBAIhMf0gi+ToWInUl6WKry
-         RsgUFQuyD3TxTfDXQlKB6muxBMWrwl14CRBXe4nAVgOAJ9L8q60f9h8tu21hVCsBReSc
-         XR8+79Iy3crGb+cZ8p7MwmqkCMOpkYsA2etH9TLH5dGvy4s9IpU816+QMCP/lQjOW2YZ
-         HW7A==
-X-Gm-Message-State: AOAM530SUVfD4Sf/17Xh9UGY7Ed4M6+V8WBRCqndJUSUSfN3nQ47ZBId
-        KrFE3z6IyrPu+UBttoTQtHIhRK8cWdk=
-X-Google-Smtp-Source: ABdhPJx7bFVBrO2SM5sg340Yp6559cJ8hXAbFop3C0sgAI2F2N9pzXbIGGX0yzZRy/LBdKjyMwx+2xX017k=
+        bh=EZM8uwys0tIYTV5rV7IMpiN4Wky1Ucyd+XglcRPDA0k=;
+        b=cbzWnDJExCSZmZmmECpx7z37sJ+mtMbK26zcYMjZkVGsEKQZeKoQ0rPQia7U9Vl3Ei
+         qQf4whGgnM+oZf64N0ltEHC23beu0pZ97VdfY5MEtb0En6sanuMfvDpurQLfo928ZgMN
+         QDmkaeb+hN23ot2bDbdMOnXR4fpmUCv1vPbiX12D7gl6wTogBZS4LCKkcHa0aH164Zuj
+         x7PpQQ8jzc8bIWMbPzKuJ9kxrzzX1kSbh9Z0Daj4KA+sWs8wD8Xdkox8tTeqHa5ZD/hX
+         IcsIr/LrqvNuLmwLeR5QAXU8GDow8WbsD7B/0ftw6UEofiElO9ccP6NNe+55y5AD6OXp
+         5UWQ==
+X-Gm-Message-State: AOAM533QpEYNzuZgbcLqiZrA5PfjHIqYgCcY1PSBYPnX1zffvjA1rkhp
+        73FI99z6On9U2K6D5PxE9JE7pqynThk=
+X-Google-Smtp-Source: ABdhPJwtDkTgRZRk3yc/3yCU/TR+GnrcNDSCBz+LT6IxxpACRB4tZzjHkAxKgNiuzuLPqOyxu2xUmBX1mnc=
 Sender: "glider via sendgmr" <glider@glider.muc.corp.google.com>
 X-Received: from glider.muc.corp.google.com ([2a00:79e0:15:13:f693:9fff:fef4:9ff])
- (user=glider job=sendgmr) by 2002:a0c:8601:: with SMTP id p1mr14110664qva.22.1611235161865;
- Thu, 21 Jan 2021 05:19:21 -0800 (PST)
-Date:   Thu, 21 Jan 2021 14:19:13 +0100
+ (user=glider job=sendgmr) by 2002:a25:3bc5:: with SMTP id i188mr20415374yba.332.1611235164118;
+ Thu, 21 Jan 2021 05:19:24 -0800 (PST)
+Date:   Thu, 21 Jan 2021 14:19:14 +0100
 In-Reply-To: <20210121131915.1331302-1-glider@google.com>
-Message-Id: <20210121131915.1331302-2-glider@google.com>
+Message-Id: <20210121131915.1331302-3-glider@google.com>
 Mime-Version: 1.0
 References: <20210121131915.1331302-1-glider@google.com>
 X-Mailer: git-send-email 2.30.0.296.g2bfb1c46d8-goog
-Subject: [PATCH v3 1/3] tracing: add error_report_end trace point
+Subject: [PATCH 2/3] kfence: use error_report_end tracepoint
 From:   Alexander Potapenko <glider@google.com>
 To:     akpm@linux-foundation.org, glider@google.com
 Cc:     elver@google.com, andreyknvl@google.com, dvyukov@google.com,
@@ -64,15 +64,9 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Introduce error_report_end tracepoint. It can be used in debugging tools
-like KASAN, KFENCE, etc. to provide extensions to the error reporting
-mechanisms (e.g. allow tests hook into error reporting, ease error report
-collection from production kernels).
-Another benefit would be making use of ftrace for debugging or
-benchmarking the tools themselves.
-
-Should we need it, the tracepoint name leaves us with the possibility to
-introduce a complementary error_report_start tracepoint in the future.
+Make it possible to trace KFENCE error reporting. A good usecase is
+watching for trace events from the userspace to detect and process
+memory corruption reports from the kernel.
 
 Suggested-by: Marco Elver <elver@google.com>
 Cc: Andrew Morton <akpm@linux-foundation.org>
@@ -84,135 +78,40 @@ Cc: Petr Mladek <pmladek@suse.com>
 Cc: Steven Rostedt <rostedt@goodmis.org>
 Cc: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
 Cc: linux-mm@kvack.org
-Cc: linux-api@vger.kernel.org
 Signed-off-by: Alexander Potapenko <glider@google.com>
 
 ---
-v3: - delete error_report_start that is unlikely to be unused in
-      the nearest future
-    - add missing copyright headers
+v3:
+ - dropped error_report_start
 
-v2: - change error_report_start and error_report_end prototypes
-      to accept enum error_detector instead of char*
-      (as suggested by Steven Rostedt)
+v2:
+ - change error_report_start and error_report_end prototypes
+   to accept enum error_detector instead of char*
+   (as suggested by Steven Rostedt)
 ---
- include/trace/events/error_report.h | 74 +++++++++++++++++++++++++++++
- kernel/trace/Makefile               |  1 +
- kernel/trace/error_report-traces.c  | 12 +++++
- 3 files changed, 87 insertions(+)
- create mode 100644 include/trace/events/error_report.h
- create mode 100644 kernel/trace/error_report-traces.c
+ mm/kfence/report.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/include/trace/events/error_report.h b/include/trace/events/error_report.h
-new file mode 100644
-index 000000000000..96f64bf218b2
---- /dev/null
-+++ b/include/trace/events/error_report.h
-@@ -0,0 +1,74 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Declarations for error reporting tracepoints.
-+ *
-+ * Copyright (C) 2021, Google LLC.
-+ */
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM error_report
-+
-+#if !defined(_TRACE_ERROR_REPORT_H) || defined(TRACE_HEADER_MULTI_READ)
-+#define _TRACE_ERROR_REPORT_H
-+
-+#include <linux/tracepoint.h>
-+
-+#ifndef __ERROR_REPORT_DECLARE_TRACE_ENUMS_ONCE_ONLY
-+#define __ERROR_REPORT_DECLARE_TRACE_ENUMS_ONCE_ONLY
-+
-+enum error_detector {
-+	ERROR_DETECTOR_KFENCE,
-+	ERROR_DETECTOR_KASAN
-+};
-+
-+#endif /* __ERROR_REPORT_DECLARE_TRACE_ENUMS_ONCE_ONLY */
-+
-+#define error_detector_list	\
-+	EM(ERROR_DETECTOR_KFENCE, "kfence")	\
-+	EMe(ERROR_DETECTOR_KASAN, "kasan")
-+/* Always end the list with an EMe. */
-+
-+#undef EM
-+#undef EMe
-+
-+#define EM(a, b)	TRACE_DEFINE_ENUM(a);
-+#define EMe(a, b)	TRACE_DEFINE_ENUM(a);
-+
-+error_detector_list
-+
-+#undef EM
-+#undef EMe
-+
-+#define EM(a, b) { a, b },
-+#define EMe(a, b) { a, b }
-+
-+#define show_error_detector_list(val) \
-+	__print_symbolic(val, error_detector_list)
-+
-+DECLARE_EVENT_CLASS(error_report_template,
-+		    TP_PROTO(enum error_detector error_detector, unsigned long id),
-+		    TP_ARGS(error_detector, id),
-+		    TP_STRUCT__entry(__field(enum error_detector, error_detector)
-+					     __field(unsigned long, id)),
-+		    TP_fast_assign(__entry->error_detector = error_detector;
-+				   __entry->id = id;),
-+		    TP_printk("[%s] %lx",
-+			      show_error_detector_list(__entry->error_detector),
-+			      __entry->id));
-+
-+/**
-+ * error_report_end - called after printing the error report
-+ * @error_detector:	short string describing the error detection tool
-+ * @id:			pseudo-unique descriptor identifying the report
-+ *			(e.g. the memory access address)
-+ *
-+ * This event occurs right after a debugging tool finishes printing the error
-+ * report.
-+ */
-+DEFINE_EVENT(error_report_template, error_report_end,
-+	     TP_PROTO(enum error_detector error_detector, unsigned long id),
-+	     TP_ARGS(error_detector, id));
-+
-+#endif /* _TRACE_ERROR_REPORT_H */
-+
-+/* This part must be outside protection */
-+#include <trace/define_trace.h>
-diff --git a/kernel/trace/Makefile b/kernel/trace/Makefile
-index 7e44cea89fdc..b28d3e5013cd 100644
---- a/kernel/trace/Makefile
-+++ b/kernel/trace/Makefile
-@@ -81,6 +81,7 @@ obj-$(CONFIG_SYNTH_EVENTS) += trace_events_synth.o
- obj-$(CONFIG_HIST_TRIGGERS) += trace_events_hist.o
- obj-$(CONFIG_BPF_EVENTS) += bpf_trace.o
- obj-$(CONFIG_KPROBE_EVENTS) += trace_kprobe.o
-+obj-$(CONFIG_TRACEPOINTS) += error_report-traces.o
- obj-$(CONFIG_TRACEPOINTS) += power-traces.o
- ifeq ($(CONFIG_PM),y)
- obj-$(CONFIG_TRACEPOINTS) += rpm-traces.o
-diff --git a/kernel/trace/error_report-traces.c b/kernel/trace/error_report-traces.c
-new file mode 100644
-index 000000000000..632c8c7ff079
---- /dev/null
-+++ b/kernel/trace/error_report-traces.c
-@@ -0,0 +1,12 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Error reporting trace points.
-+ *
-+ * Copyright (C) 2021, Google LLC.
-+ */
-+
-+#define CREATE_TRACE_POINTS
+diff --git a/mm/kfence/report.c b/mm/kfence/report.c
+index 901bd7ee83d8..f9fc93b2fe2e 100644
+--- a/mm/kfence/report.c
++++ b/mm/kfence/report.c
+@@ -14,6 +14,7 @@
+ #include <linux/seq_file.h>
+ #include <linux/stacktrace.h>
+ #include <linux/string.h>
 +#include <trace/events/error_report.h>
-+
-+EXPORT_TRACEPOINT_SYMBOL_GPL(error_report_end);
-+
+ 
+ #include <asm/kfence.h>
+ 
+@@ -246,6 +247,7 @@ void kfence_report_error(unsigned long address, bool is_write, struct pt_regs *r
+ 		show_regs(regs);
+ 	else
+ 		dump_stack_print_info(KERN_ERR);
++	trace_error_report_end(ERROR_DETECTOR_KFENCE, address);
+ 	pr_err("==================================================================\n");
+ 
+ 	lockdep_on();
 -- 
 2.30.0.296.g2bfb1c46d8-goog
 
