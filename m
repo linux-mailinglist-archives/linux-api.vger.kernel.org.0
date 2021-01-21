@@ -2,20 +2,20 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A6DF62FEB9D
-	for <lists+linux-api@lfdr.de>; Thu, 21 Jan 2021 14:25:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B24992FEBD8
+	for <lists+linux-api@lfdr.de>; Thu, 21 Jan 2021 14:30:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731794AbhAUNYl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 21 Jan 2021 08:24:41 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:54213 "EHLO
+        id S1731268AbhAUN3w (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 21 Jan 2021 08:29:52 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:54813 "EHLO
         youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731979AbhAUNWX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 21 Jan 2021 08:22:23 -0500
+        with ESMTP id S1731290AbhAUN2s (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 21 Jan 2021 08:28:48 -0500
 Received: from ip5f5af0a0.dynamic.kabel-deutschland.de ([95.90.240.160] helo=wittgenstein.fritz.box)
         by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
         (Exim 4.86_2)
         (envelope-from <christian.brauner@ubuntu.com>)
-        id 1l2Zu5-0005g7-AG; Thu, 21 Jan 2021 13:21:37 +0000
+        id 1l2Zuk-0005g7-A7; Thu, 21 Jan 2021 13:22:18 +0000
 From:   Christian Brauner <christian.brauner@ubuntu.com>
 To:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Christoph Hellwig <hch@lst.de>, linux-fsdevel@vger.kernel.org
@@ -51,37 +51,39 @@ Cc:     John Johansen <john.johansen@canonical.com>,
         linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
         linux-integrity@vger.kernel.org, selinux@vger.kernel.org,
         Christian Brauner <christian.brauner@ubuntu.com>
-Subject: [PATCH v6 19/40] fcntl: handle idmapped mounts
-Date:   Thu, 21 Jan 2021 14:19:38 +0100
-Message-Id: <20210121131959.646623-20-christian.brauner@ubuntu.com>
+Subject: [PATCH v6 28/40] overlayfs: do not mount on top of idmapped mounts
+Date:   Thu, 21 Jan 2021 14:19:47 +0100
+Message-Id: <20210121131959.646623-29-christian.brauner@ubuntu.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210121131959.646623-1-christian.brauner@ubuntu.com>
 References: <20210121131959.646623-1-christian.brauner@ubuntu.com>
 MIME-Version: 1.0
-X-Patch-Hashes: v=1; h=sha256; i=79BfejdDgH1ldNWwCcl2HPMsbZ+QshNiYeRA/Vyc6bM=; m=detKBSkDkzsCnCPoymMn+7vpAMD0Y3cG0/3eXgQ49io=; p=Dq6/8kTkd489yO0TmXMobUvBDadTtEuojyAYcAIPKb4=; g=fca6e0371a145d55bbbad1474e2a9c625a75a05f
-X-Patch-Sig: m=pgp; i=christian.brauner@ubuntu.com; s=0x0x91C61BC06578DCA2; b=iHUEABYKAB0WIQRAhzRXHqcMeLMyaSiRxhvAZXjcogUCYAl9pQAKCRCRxhvAZXjcontYAP0T3jU 0qn4qmNVbFmqmqVvV+R2Yrdgzzgl83+2rLYGKQQD/QtLiTUddbVANLyE9giR/dq+mNVN4OT3ULUE+ aL0ypAM=
+X-Patch-Hashes: v=1; h=sha256; i=NKxYXgYXk9li+XoJbSjFMyv4GqDFR/v23AHTzF/JMUU=; m=ypgpaladR0B+T529H8++Mq9zCwr5KRu9f1XcKEdCto8=; p=zW+2p8lkcLUR7GoIjNSpvniO3IeSXEpL+zsJSI4ISsA=; g=020ad20f9fcdeb9417e00e21c4b4fe526c9f39ef
+X-Patch-Sig: m=pgp; i=christian.brauner@ubuntu.com; s=0x0x91C61BC06578DCA2; b=iHUEABYKAB0WIQRAhzRXHqcMeLMyaSiRxhvAZXjcogUCYAl9pgAKCRCRxhvAZXjcotk/AP93/cy xQTf8sN9k+skVh5513VCqiuPVYRe+4d52LVJKewEAiwgcDIygERxios0PkXXmd8u0IhgfSRGUtmAg fJQ4+AI=
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Enable the setfl() helper to handle idmapped mounts by passing down the
-mount's user namespace. If the initial user namespace is passed nothing
-changes so non-idmapped mounts will see identical behavior as before.
+Prevent overlayfs from being mounted on top of idmapped mounts.
+Stacking filesystems need to be prevented from being mounted on top of
+idmapped mounts until they have have been converted to handle this.
 
-Link: https://lore.kernel.org/r/20210112220124.837960-27-christian.brauner@ubuntu.com
+Link: https://lore.kernel.org/r/20210112220124.837960-40-christian.brauner@ubuntu.com
 Cc: Christoph Hellwig <hch@lst.de>
 Cc: David Howells <dhowells@redhat.com>
 Cc: Al Viro <viro@zeniv.linux.org.uk>
 Cc: linux-fsdevel@vger.kernel.org
-Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
 ---
 /* v2 */
 patch introduced
 
 /* v3 */
-unchanged
+- Amir Goldstein <amir73il@gmail.com>:
+  - Move check for idmapped lower layers into ovl_mount_dir_noesc().
+- David Howells <dhowells@redhat.com>:
+  - Adapt check after removing mnt_idmapped() helper.
 
 /* v4 */
 unchanged
@@ -91,35 +93,27 @@ unchanged
 base-commit: 7c53f6b671f4aba70ff15e1b05148b10d58c2837
 
 /* v6 */
+unchanged
 base-commit: 19c329f6808995b142b3966301f217c831e7cf31
-
-- Christoph Hellwig <hch@lst.de>:
-  - Use file_mnt_user_ns() helper.
 ---
- fs/fcntl.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ fs/overlayfs/super.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/fs/fcntl.c b/fs/fcntl.c
-index 74d99731fd43..f6ac5285060d 100644
---- a/fs/fcntl.c
-+++ b/fs/fcntl.c
-@@ -25,6 +25,7 @@
- #include <linux/user_namespace.h>
- #include <linux/memfd.h>
- #include <linux/compat.h>
-+#include <linux/mount.h>
- 
- #include <linux/poll.h>
- #include <asm/siginfo.h>
-@@ -46,7 +47,7 @@ static int setfl(int fd, struct file * filp, unsigned long arg)
- 
- 	/* O_NOATIME can only be set by the owner or superuser */
- 	if ((arg & O_NOATIME) && !(filp->f_flags & O_NOATIME))
--		if (!inode_owner_or_capable(&init_user_ns, inode))
-+		if (!inode_owner_or_capable(file_mnt_user_ns(filp), inode))
- 			return -EPERM;
- 
- 	/* required for strict SunOS emulation */
+diff --git a/fs/overlayfs/super.c b/fs/overlayfs/super.c
+index c04612b19054..b702c576e783 100644
+--- a/fs/overlayfs/super.c
++++ b/fs/overlayfs/super.c
+@@ -858,6 +858,10 @@ static int ovl_mount_dir_noesc(const char *name, struct path *path)
+ 		pr_err("filesystem on '%s' not supported\n", name);
+ 		goto out_put;
+ 	}
++	if (mnt_user_ns(path->mnt) != &init_user_ns) {
++		pr_err("idmapped layers are currently not supported\n");
++		goto out_put;
++	}
+ 	if (!d_is_dir(path->dentry)) {
+ 		pr_err("'%s' not a directory\n", name);
+ 		goto out_put;
 -- 
 2.30.0
 
