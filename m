@@ -2,51 +2,51 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 72B68300E22
-	for <lists+linux-api@lfdr.de>; Fri, 22 Jan 2021 21:51:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DC903300E2A
+	for <lists+linux-api@lfdr.de>; Fri, 22 Jan 2021 21:54:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730806AbhAVUvX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 22 Jan 2021 15:51:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49350 "EHLO
+        id S1728165AbhAVUwA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 22 Jan 2021 15:52:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730658AbhAVUu5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 22 Jan 2021 15:50:57 -0500
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2548EC0611BC
-        for <linux-api@vger.kernel.org>; Fri, 22 Jan 2021 12:47:39 -0800 (PST)
-Received: by mail-pg1-x52e.google.com with SMTP id 15so4605312pgx.7
-        for <linux-api@vger.kernel.org>; Fri, 22 Jan 2021 12:47:39 -0800 (PST)
+        with ESMTP id S1730776AbhAVUvO (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 22 Jan 2021 15:51:14 -0500
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1D24C061A2B
+        for <linux-api@vger.kernel.org>; Fri, 22 Jan 2021 12:47:46 -0800 (PST)
+Received: by mail-pg1-x531.google.com with SMTP id p18so4594659pgm.11
+        for <linux-api@vger.kernel.org>; Fri, 22 Jan 2021 12:47:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=osandov-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=CKZzF4yC72/mGdDfVW+0y5Y0vRVlRm12hctIRk+n9zk=;
-        b=CnlU8cDk7vOZvo3jtxN1dw2hD8lI7Ua6iLh6t0aSwS43O3v7C/Y/j2boamRNwsC8az
-         wQ0INuOVo666YQ6MuTsOb3wP/KWe4GQT0CAt++l7kQar/lQpw2STvIV/zVvQOJE/+1nB
-         506mpMpRLcfieZQ5tKj9Lyk591+bRnaKSccUzwnw7AWbALUlnkBe5BB5MGNjBG8tn6O2
-         1n9SCUtYpbwIF2DK5SOS4TcmEbTi6BXK8wrXwBz8OUAqx6m2nvIXB3eTWcNtJYxk1iO6
-         XYouyPozrQgy3eEJD7iP7pIIRNPo6IUYM31TC6L/BcEtwkVgdemjVWj5N+pYItuu4+o7
-         GCMg==
+        bh=jsZgIcSUOs4ZF+x9oZeNSohaDc9IzmjXBuR8mId+lVo=;
+        b=Uj7VyxfrqBaR6EfVwAVle4XnvXB/BzhgIYK7thaYm3kgYXqFPLvt9QZ2CMSlz8h634
+         iF2qabPlAsDPzvgT/uZ+8xJS6ejB/hjnglGwHzbQffNtyHuHlW0Zqhr3IqfEfpLmUoih
+         nDZVn23jV5f6uSf4hah6CqfvT6pnPAgb5IzNMJNzAh3H9r8NX+oV9Y04xxch18LvOHGM
+         N73y/Doum+kGlBNlnqH7JbXLhP6ZhyEQsX5uHtHrHL8elPlBF4JKPkaulh5TFK6GKwi0
+         jDmOdkpqr2sMLptGgVJAjDXVNmilgfoxDCqeKGCjuEQSWtOS7GbvSzO0LMczannWc0+R
+         9NOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=CKZzF4yC72/mGdDfVW+0y5Y0vRVlRm12hctIRk+n9zk=;
-        b=fWnlL5SZqVk4cPU3JE1xwk1tYm50qqfAmsQ4h1GJZr9PXwuwr6wOTmDiR3FNZh62fK
-         HvLwdr46VwqRbzarR5bhxKc282qjwYfjsBf4TGb0BqxQVSKwWkoJl35YzttrWpF2B3Wg
-         biI8Oe5TXsbLxhLk6Ed9GOwz09D4ighs3r0JAMCaJQsCWm1liU6yBsVYtYcSzXzLa28m
-         GKrwVYEk9Cpqw0VM+aZuwyd83Y/O2kTiRqn9u7z+S60BNV0mDumd62HaZ35VUXJ7q1XW
-         xMczMlE94QfGPMC6rIGxuWAyl292T1aL42SxFluuO7EHqMCBl85XThGvgtFaC+RLyAW0
-         Jo6Q==
-X-Gm-Message-State: AOAM530SIehxgYXpUn6Olr3CHFrwiGF+39cdhsyyzuY0gEXfBOCF2Zh5
-        d2PAdDxWLGffRQWrQDoCL6zN8A==
-X-Google-Smtp-Source: ABdhPJxMUyhebHxm+DW5OavGApjzSj618wIFbO3LWFjQBbFUHW1AgYfEZe5aZ/7W4bmcf7UMFqj3XQ==
-X-Received: by 2002:a62:5547:0:b029:1a4:cb2a:2833 with SMTP id j68-20020a6255470000b02901a4cb2a2833mr6536895pfb.35.1611348458605;
-        Fri, 22 Jan 2021 12:47:38 -0800 (PST)
+        bh=jsZgIcSUOs4ZF+x9oZeNSohaDc9IzmjXBuR8mId+lVo=;
+        b=lL5YCTYOo/PQh6U4JcSoSIpNGFPkx6xo338VH21GTbPTEfjboPOU+e1luWZkWnpZYn
+         t62z5qUrWnCrj0e+i6CIVDW0xWtiFDbLIkIE7WlbWaWiNeeUhxhSfFg0fbt66Lc6+ulC
+         kBNgK2EAGSLGv42Qb5ENz6LnvN6iJiOzXu03LOSUbXxk906Qun9FV3PX0Jtlee3cFCAW
+         E0v1lj7ePUHcp+FcNhjFKqr0IDOJjbngEZtLcxoViyk+CA6gImikJ7AjjJpjRT93nwsi
+         8VmPoEWolDRv1I/8whaAhJH6MahXkzIvWH4TU0wi3NHdBiFWzOOF/QcFtkfla99/9iqb
+         CXZw==
+X-Gm-Message-State: AOAM5325y2Pfgo/oq66CyZyYyvz7HBI68PLRgwRHdw24DtD7kzdV3aHr
+        V8TxM5OUQ2cxX1mfB37hEgPdAw==
+X-Google-Smtp-Source: ABdhPJxanmXvXDv6AucgzHFRVoxE//s5+VubgqFvbkDMSK4HlwyegUAlajrb1bKcLf4Avm7bzbCN6w==
+X-Received: by 2002:aa7:8bce:0:b029:1b8:f395:87a with SMTP id s14-20020aa78bce0000b02901b8f395087amr6789477pfd.36.1611348466357;
+        Fri, 22 Jan 2021 12:47:46 -0800 (PST)
 Received: from relinquished.tfbnw.net ([2620:10d:c090:400::5:ea88])
-        by smtp.gmail.com with ESMTPSA id j18sm4092900pfc.99.2021.01.22.12.47.36
+        by smtp.gmail.com with ESMTPSA id j18sm4092900pfc.99.2021.01.22.12.47.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Jan 2021 12:47:37 -0800 (PST)
+        Fri, 22 Jan 2021 12:47:45 -0800 (PST)
 From:   Omar Sandoval <osandov@osandov.com>
 To:     linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
         Al Viro <viro@zeniv.linux.org.uk>,
@@ -55,12 +55,12 @@ Cc:     Dave Chinner <david@fromorbit.com>, Jann Horn <jannh@google.com>,
         Amir Goldstein <amir73il@gmail.com>,
         Aleksa Sarai <cyphar@cyphar.com>, linux-api@vger.kernel.org,
         kernel-team@fb.com
-Subject: [PATCH v7 08/10] btrfs: optionally extend i_size in cow_file_range_inline()
-Date:   Fri, 22 Jan 2021 12:46:55 -0800
-Message-Id: <99661081363ab004c73361aaca4a418a11fc10fc.1611346706.git.osandov@fb.com>
+Subject: [PATCH v7 11/15] btrfs: add send stream v2 definitions
+Date:   Fri, 22 Jan 2021 12:46:58 -0800
+Message-Id: <ca550f6e2d6d1e7d79dee6c811638d4da02a56cc.1611346574.git.osandov@fb.com>
 X-Mailer: git-send-email 2.30.0
-In-Reply-To: <cover.1611346706.git.osandov@fb.com>
-References: <cover.1611346706.git.osandov@fb.com>
+In-Reply-To: <cover.1611346574.git.osandov@fb.com>
+References: <cover.1611346574.git.osandov@fb.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -69,230 +69,121 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 From: Omar Sandoval <osandov@fb.com>
 
-Currently, an inline extent is always created after i_size is extended
-from btrfs_dirty_pages(). However, for encoded writes, we only want to
-update i_size after we successfully created the inline extent. Add an
-update_i_size parameter to cow_file_range_inline() and
-insert_inline_extent() and pass in the size of the extent rather than
-determining it from i_size. Since the start parameter is always passed
-as 0, get rid of it and simplify the logic in these two functions. While
-we're here, let's document the requirements for creating an inline
-extent.
+This adds the definitions of the new commands for send stream version 2
+and their respective attributes: fallocate, FS_IOC_SETFLAGS (a.k.a.
+chattr), and encoded writes. It also documents two changes to the send
+stream format in v2: the receiver shouldn't assume a maximum command
+size, and the DATA attribute is encoded differently to allow for writes
+larger than 64k. These will be implemented in subsequent changes, and
+then the ioctl will accept the new flags.
 
 Reviewed-by: Josef Bacik <josef@toxicpanda.com>
 Signed-off-by: Omar Sandoval <osandov@fb.com>
 ---
- fs/btrfs/inode.c | 100 +++++++++++++++++++++++------------------------
- 1 file changed, 48 insertions(+), 52 deletions(-)
+ fs/btrfs/send.c            |  2 +-
+ fs/btrfs/send.h            | 30 +++++++++++++++++++++++++++++-
+ include/uapi/linux/btrfs.h | 13 +++++++++++++
+ 3 files changed, 43 insertions(+), 2 deletions(-)
 
-diff --git a/fs/btrfs/inode.c b/fs/btrfs/inode.c
-index 3c1f1297c9d9..b362e73af840 100644
---- a/fs/btrfs/inode.c
-+++ b/fs/btrfs/inode.c
-@@ -203,9 +203,10 @@ static int btrfs_init_inode_security(struct btrfs_trans_handle *trans,
- static int insert_inline_extent(struct btrfs_trans_handle *trans,
- 				struct btrfs_path *path, bool extent_inserted,
- 				struct btrfs_root *root, struct inode *inode,
--				u64 start, size_t size, size_t compressed_size,
-+				size_t size, size_t compressed_size,
- 				int compress_type,
--				struct page **compressed_pages)
-+				struct page **compressed_pages,
-+				bool update_i_size)
- {
- 	struct extent_buffer *leaf;
- 	struct page *page = NULL;
-@@ -214,7 +215,7 @@ static int insert_inline_extent(struct btrfs_trans_handle *trans,
- 	struct btrfs_file_extent_item *ei;
- 	int ret;
- 	size_t cur_size = size;
--	unsigned long offset;
-+	u64 i_size;
+diff --git a/fs/btrfs/send.c b/fs/btrfs/send.c
+index 3bcbf2bcb869..d07570588a16 100644
+--- a/fs/btrfs/send.c
++++ b/fs/btrfs/send.c
+@@ -7267,7 +7267,7 @@ long btrfs_ioctl_send(struct file *mnt_file, struct btrfs_ioctl_send_args *arg)
  
- 	ASSERT((compressed_size > 0 && compressed_pages) ||
- 	       (compressed_size == 0 && !compressed_pages));
-@@ -227,7 +228,7 @@ static int insert_inline_extent(struct btrfs_trans_handle *trans,
- 		size_t datasize;
+ 	sctx->clone_roots_cnt = arg->clone_sources_count;
  
- 		key.objectid = btrfs_ino(BTRFS_I(inode));
--		key.offset = start;
-+		key.offset = 0;
- 		key.type = BTRFS_EXTENT_DATA_KEY;
+-	sctx->send_max_size = BTRFS_SEND_BUF_SIZE;
++	sctx->send_max_size = BTRFS_SEND_BUF_SIZE_V1;
+ 	sctx->send_buf = kvmalloc(sctx->send_max_size, GFP_KERNEL);
+ 	if (!sctx->send_buf) {
+ 		ret = -ENOMEM;
+diff --git a/fs/btrfs/send.h b/fs/btrfs/send.h
+index de91488b7cd0..9f4f7b96b1eb 100644
+--- a/fs/btrfs/send.h
++++ b/fs/btrfs/send.h
+@@ -12,7 +12,11 @@
+ #define BTRFS_SEND_STREAM_MAGIC "btrfs-stream"
+ #define BTRFS_SEND_STREAM_VERSION 1
  
- 		datasize = btrfs_file_extent_calc_inline_size(cur_size);
-@@ -265,12 +266,10 @@ static int insert_inline_extent(struct btrfs_trans_handle *trans,
- 		btrfs_set_file_extent_compression(leaf, ei,
- 						  compress_type);
- 	} else {
--		page = find_get_page(inode->i_mapping,
--				     start >> PAGE_SHIFT);
-+		page = find_get_page(inode->i_mapping, 0);
- 		btrfs_set_file_extent_compression(leaf, ei, 0);
- 		kaddr = kmap_atomic(page);
--		offset = offset_in_page(start);
--		write_extent_buffer(leaf, kaddr + offset, ptr, size);
-+		write_extent_buffer(leaf, kaddr, ptr, size);
- 		kunmap_atomic(kaddr);
- 		put_page(page);
- 	}
-@@ -281,8 +280,8 @@ static int insert_inline_extent(struct btrfs_trans_handle *trans,
- 	 * We align size to sectorsize for inline extents just for simplicity
- 	 * sake.
- 	 */
--	size = ALIGN(size, root->fs_info->sectorsize);
--	ret = btrfs_inode_set_file_extent_range(BTRFS_I(inode), start, size);
-+	ret = btrfs_inode_set_file_extent_range(BTRFS_I(inode), 0,
-+					ALIGN(size, root->fs_info->sectorsize));
- 	if (ret)
- 		goto fail;
+-#define BTRFS_SEND_BUF_SIZE SZ_64K
++/*
++ * In send stream v1, no command is larger than 64k. In send stream v2, no limit
++ * should be assumed.
++ */
++#define BTRFS_SEND_BUF_SIZE_V1 SZ_64K
  
-@@ -295,7 +294,13 @@ static int insert_inline_extent(struct btrfs_trans_handle *trans,
- 	 * before we unlock the pages.  Otherwise we
- 	 * could end up racing with unlink.
- 	 */
--	BTRFS_I(inode)->disk_i_size = inode->i_size;
-+	i_size = i_size_read(inode);
-+	if (update_i_size && size > i_size) {
-+		i_size_write(inode, size);
-+		i_size = size;
-+	}
-+	BTRFS_I(inode)->disk_i_size = i_size;
+ enum btrfs_tlv_type {
+ 	BTRFS_TLV_U8,
+@@ -76,6 +80,13 @@ enum btrfs_send_cmd {
+ 
+ 	BTRFS_SEND_C_END,
+ 	BTRFS_SEND_C_UPDATE_EXTENT,
 +
- fail:
- 	return ret;
- }
-@@ -306,35 +311,31 @@ static int insert_inline_extent(struct btrfs_trans_handle *trans,
-  * does the checks required to make sure the data is small enough
-  * to fit as an inline extent.
-  */
--static noinline int cow_file_range_inline(struct btrfs_inode *inode, u64 start,
--					  u64 end, size_t compressed_size,
-+static noinline int cow_file_range_inline(struct btrfs_inode *inode, u64 size,
-+					  size_t compressed_size,
- 					  int compress_type,
--					  struct page **compressed_pages)
-+					  struct page **compressed_pages,
-+					  bool update_i_size)
- {
- 	struct btrfs_drop_extents_args drop_args = { 0 };
- 	struct btrfs_root *root = inode->root;
- 	struct btrfs_fs_info *fs_info = root->fs_info;
- 	struct btrfs_trans_handle *trans;
--	u64 isize = i_size_read(&inode->vfs_inode);
--	u64 actual_end = min(end + 1, isize);
--	u64 inline_len = actual_end - start;
--	u64 aligned_end = ALIGN(end, fs_info->sectorsize);
--	u64 data_len = inline_len;
-+	u64 data_len = compressed_size ? compressed_size : size;
- 	int ret;
- 	struct btrfs_path *path;
++	/* The following commands were added in send stream v2. */
++
++	BTRFS_SEND_C_FALLOCATE,
++	BTRFS_SEND_C_SETFLAGS,
++	BTRFS_SEND_C_ENCODED_WRITE,
++
+ 	__BTRFS_SEND_C_MAX,
+ };
+ #define BTRFS_SEND_C_MAX (__BTRFS_SEND_C_MAX - 1)
+@@ -106,6 +117,11 @@ enum {
+ 	BTRFS_SEND_A_PATH_LINK,
  
--	if (compressed_size)
--		data_len = compressed_size;
--
--	if (start > 0 ||
--	    actual_end > fs_info->sectorsize ||
+ 	BTRFS_SEND_A_FILE_OFFSET,
 +	/*
-+	 * We can create an inline extent if it ends at or beyond the current
-+	 * i_size, is no larger than a sector (decompressed), and the (possibly
-+	 * compressed) data fits in a leaf and the configured maximum inline
-+	 * size.
++	 * In send stream v2, this attribute is special: it must be the last
++	 * attribute in a command, its header contains only the type, and its
++	 * length is implicitly the remaining length of the command.
 +	 */
-+	if (size < i_size_read(&inode->vfs_inode) ||
-+	    size > fs_info->sectorsize ||
- 	    data_len > BTRFS_MAX_INLINE_DATA_SIZE(fs_info) ||
--	    (!compressed_size &&
--	    (actual_end & (fs_info->sectorsize - 1)) == 0) ||
--	    end + 1 < isize ||
--	    data_len > fs_info->max_inline) {
-+	    data_len > fs_info->max_inline)
- 		return 1;
--	}
+ 	BTRFS_SEND_A_DATA,
  
- 	path = btrfs_alloc_path();
- 	if (!path)
-@@ -348,30 +349,21 @@ static noinline int cow_file_range_inline(struct btrfs_inode *inode, u64 start,
- 	trans->block_rsv = &inode->block_rsv;
+ 	BTRFS_SEND_A_CLONE_UUID,
+@@ -114,6 +130,18 @@ enum {
+ 	BTRFS_SEND_A_CLONE_OFFSET,
+ 	BTRFS_SEND_A_CLONE_LEN,
  
- 	drop_args.path = path;
--	drop_args.start = start;
--	drop_args.end = aligned_end;
-+	drop_args.start = 0;
-+	drop_args.end = fs_info->sectorsize;
- 	drop_args.drop_cache = true;
- 	drop_args.replace_extent = true;
--
--	if (compressed_size && compressed_pages)
--		drop_args.extent_item_size = btrfs_file_extent_calc_inline_size(
--		   compressed_size);
--	else
--		drop_args.extent_item_size = btrfs_file_extent_calc_inline_size(
--		    inline_len);
--
-+	drop_args.extent_item_size = btrfs_file_extent_calc_inline_size(data_len);
- 	ret = btrfs_drop_extents(trans, root, inode, &drop_args);
- 	if (ret) {
- 		btrfs_abort_transaction(trans, ret);
- 		goto out;
- 	}
- 
--	if (isize > actual_end)
--		inline_len = min_t(u64, isize, actual_end);
--	ret = insert_inline_extent(trans, path, drop_args.extent_inserted,
--				   root, &inode->vfs_inode, start,
--				   inline_len, compressed_size,
--				   compress_type, compressed_pages);
-+	ret = insert_inline_extent(trans, path, drop_args.extent_inserted, root,
-+				   &inode->vfs_inode, size, compressed_size,
-+				   compress_type, compressed_pages,
-+				   update_i_size);
- 	if (ret && ret != -ENOSPC) {
- 		btrfs_abort_transaction(trans, ret);
- 		goto out;
-@@ -380,7 +372,7 @@ static noinline int cow_file_range_inline(struct btrfs_inode *inode, u64 start,
- 		goto out;
- 	}
- 
--	btrfs_update_inode_bytes(inode, inline_len, drop_args.bytes_found);
-+	btrfs_update_inode_bytes(inode, size, drop_args.bytes_found);
- 	ret = btrfs_update_inode(trans, root, inode);
- 	if (ret && ret != -ENOSPC) {
- 		btrfs_abort_transaction(trans, ret);
-@@ -661,14 +653,15 @@ static noinline int compress_file_range(struct async_chunk *async_chunk)
- 			/* we didn't compress the entire range, try
- 			 * to make an uncompressed inline extent.
- 			 */
--			ret = cow_file_range_inline(BTRFS_I(inode), start, end,
-+			ret = cow_file_range_inline(BTRFS_I(inode), actual_end,
- 						    0, BTRFS_COMPRESS_NONE,
--						    NULL);
-+						    NULL, false);
- 		} else {
- 			/* try making a compressed inline extent */
--			ret = cow_file_range_inline(BTRFS_I(inode), start, end,
-+			ret = cow_file_range_inline(BTRFS_I(inode), actual_end,
- 						    total_compressed,
--						    compress_type, pages);
-+						    compress_type, pages,
-+						    false);
- 		}
- 		if (ret <= 0) {
- 			unsigned long clear_flags = EXTENT_DELALLOC |
-@@ -1056,9 +1049,12 @@ static noinline int cow_file_range(struct btrfs_inode *inode,
- 	inode_should_defrag(inode, start, end, num_bytes, SZ_64K);
- 
- 	if (start == 0) {
-+		u64 actual_end = min_t(u64, i_size_read(&inode->vfs_inode),
-+				       end + 1);
++	/* The following attributes were added in send stream v2. */
 +
- 		/* lets try to make an inline extent */
--		ret = cow_file_range_inline(inode, start, end, 0,
--					    BTRFS_COMPRESS_NONE, NULL);
-+		ret = cow_file_range_inline(inode, actual_end, 0,
-+					    BTRFS_COMPRESS_NONE, NULL, false);
- 		if (ret == 0) {
- 			/*
- 			 * We use DO_ACCOUNTING here because we need the
++	BTRFS_SEND_A_FALLOCATE_MODE,
++
++	BTRFS_SEND_A_SETFLAGS_FLAGS,
++
++	BTRFS_SEND_A_UNENCODED_FILE_LEN,
++	BTRFS_SEND_A_UNENCODED_LEN,
++	BTRFS_SEND_A_UNENCODED_OFFSET,
++	BTRFS_SEND_A_COMPRESSION,
++	BTRFS_SEND_A_ENCRYPTION,
++
+ 	__BTRFS_SEND_A_MAX,
+ };
+ #define BTRFS_SEND_A_MAX (__BTRFS_SEND_A_MAX - 1)
+diff --git a/include/uapi/linux/btrfs.h b/include/uapi/linux/btrfs.h
+index 5df73001aad4..93aa0932234e 100644
+--- a/include/uapi/linux/btrfs.h
++++ b/include/uapi/linux/btrfs.h
+@@ -770,6 +770,19 @@ struct btrfs_ioctl_received_subvol_args {
+  */
+ #define BTRFS_SEND_FLAG_OMIT_END_CMD		0x4
+ 
++/*
++ * Use version 2 of the send stream, which adds new commands and supports larger
++ * writes.
++ */
++#define BTRFS_SEND_FLAG_STREAM_V2		0x8
++
++/*
++ * Send compressed data using the ENCODED_WRITE command instead of decompressing
++ * the data and sending it with the WRITE command. This requires
++ * BTRFS_SEND_FLAG_STREAM_V2.
++ */
++#define BTRFS_SEND_FLAG_COMPRESSED		0x10
++
+ #define BTRFS_SEND_FLAG_MASK \
+ 	(BTRFS_SEND_FLAG_NO_FILE_DATA | \
+ 	 BTRFS_SEND_FLAG_OMIT_STREAM_HEADER | \
 -- 
 2.30.0
 
