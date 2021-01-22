@@ -2,113 +2,65 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 71CE13008F5
-	for <lists+linux-api@lfdr.de>; Fri, 22 Jan 2021 17:47:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B71723009F0
+	for <lists+linux-api@lfdr.de>; Fri, 22 Jan 2021 18:42:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729346AbhAVQS7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 22 Jan 2021 11:18:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47961 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729598AbhAVQPY (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 22 Jan 2021 11:15:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1611332034;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=dTzvcxscKtq/tV27tCHh9sa+whh6ERFxBikE1EVctD4=;
-        b=XWBZfWOwnuko/1aWC+EkSrViVK7FfzmfIiJMfZ8/KkPo4EWjQrwiRWgxdRjbsGyOeift8V
-        JgGt0d+aokIGF8imlKgrtUXBhZ4HZVz2+5Uy8QyxanS9EJyAPUmxS90EQ1Mw2Eo6AN20Jb
-        srVjnlQJgSe580xLke+jzZwpZiRjbos=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-329-psFA18dgOHywEF7_WcmkKg-1; Fri, 22 Jan 2021 11:13:52 -0500
-X-MC-Unique: psFA18dgOHywEF7_WcmkKg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6956190A7AD;
-        Fri, 22 Jan 2021 16:13:49 +0000 (UTC)
-Received: from ovpn-113-245.ams2.redhat.com (ovpn-113-245.ams2.redhat.com [10.36.113.245])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id EC47519813;
-        Fri, 22 Jan 2021 16:13:45 +0000 (UTC)
-Message-ID: <4c9229e0e2d7ffabba1a8372d5335ddb28486b6e.camel@redhat.com>
-Subject: Re: [PATCH v4 11/13] task_isolation: net: don't flush backlog on
- CPUs running isolated tasks
-From:   Paolo Abeni <pabeni@redhat.com>
-To:     Marcelo Tosatti <mtosatti@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>
-Cc:     Alex Belits <abelits@marvell.com>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        Prasun Kapoor <pkapoor@marvell.com>,
-        "mingo@kernel.org" <mingo@kernel.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "will@kernel.org" <will@kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
-Date:   Fri, 22 Jan 2021 17:13:44 +0100
-In-Reply-To: <20210122141320.GA66969@fuller.cnet>
-References: <04be044c1bcd76b7438b7563edc35383417f12c8.camel@marvell.com>
-         <01470cf1f1a2e79e46a87bb5a8a4780a1c3cc740.camel@marvell.com>
-         <20201001144731.GC6595@lothringen> <20210122141320.GA66969@fuller.cnet>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
+        id S1728588AbhAVRbZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 22 Jan 2021 12:31:25 -0500
+Received: from verein.lst.de ([213.95.11.211]:37413 "EHLO verein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729850AbhAVRVO (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 22 Jan 2021 12:21:14 -0500
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 573FD68B05; Fri, 22 Jan 2021 18:20:27 +0100 (CET)
+Date:   Fri, 22 Jan 2021 18:20:27 +0100
+From:   Christoph Hellwig <hch@lst.de>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@lst.de>, linux-fsdevel@vger.kernel.org,
+        John Johansen <john.johansen@canonical.com>,
+        James Morris <jmorris@namei.org>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+        Geoffrey Thomas <geofft@ldpreload.com>,
+        Mrunal Patel <mpatel@redhat.com>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Theodore Tso <tytso@mit.edu>, Alban Crequy <alban@kinvolk.io>,
+        Tycho Andersen <tycho@tycho.ws>,
+        David Howells <dhowells@redhat.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Seth Forshee <seth.forshee@canonical.com>,
+        =?iso-8859-1?Q?St=E9phane?= Graber <stgraber@ubuntu.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Lennart Poettering <lennart@poettering.net>,
+        "Eric W. Biederman" <ebiederm@xmission.com>, smbarber@chromium.org,
+        Phil Estes <estesp@gmail.com>, Serge Hallyn <serge@hallyn.com>,
+        Kees Cook <keescook@chromium.org>,
+        Todd Kjos <tkjos@google.com>, Paul Moore <paul@paul-moore.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        containers@lists.linux-foundation.org,
+        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
+        linux-integrity@vger.kernel.org, selinux@vger.kernel.org
+Subject: Re: [PATCH v6 15/40] open: handle idmapped mounts in do_truncate()
+Message-ID: <20210122172027.GA20347@lst.de>
+References: <20210121131959.646623-1-christian.brauner@ubuntu.com> <20210121131959.646623-16-christian.brauner@ubuntu.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210121131959.646623-16-christian.brauner@ubuntu.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, 2021-01-22 at 11:13 -0300, Marcelo Tosatti wrote:
-> On Thu, Oct 01, 2020 at 04:47:31PM +0200, Frederic Weisbecker wrote:
-> > On Wed, Jul 22, 2020 at 02:58:24PM +0000, Alex Belits wrote:
-> > > From: Yuri Norov <ynorov@marvell.com>
-> > > 
-> > > so we don't need to flush it.
-> > 
-> > What guarantees that we have no backlog on it?
-> 
-> From Paolo's work to use lockless reading of 
-> per-CPU skb lists
-> 
-> https://www.spinics.net/lists/netdev/msg682693.html
-> 
-> It also exposed skb queue length to userspace
-> 
-> https://www.spinics.net/lists/netdev/msg684939.html
-> 
-> But if i remember correctly waiting for a RCU grace
-> period was also necessary to ensure no backlog !?! 
-> 
-> Paolo would you please remind us what was the sequence of steps?
-> (and then also, for the userspace isolation interface, where 
-> the application informs the kernel that its entering isolated
-> mode, is just confirming the queues have zero length is
-> sufficient?).
+Looks good,
 
-After commit 2de79ee27fdb52626ac4ac48ec6d8d52ba6f9047, for CONFIG_RPS
-enabled build, with no RFS in place to ensure backlog will be empty on
-CPU X, the user must:
-- configure the RPS map on each device before the device goes up to
-explicitly exclude CPU X.
-
-If CPU X is isolated after some network device already went up, to
-ensure that the backlog will be empty on CPU X the user must:
-- configure RPS on all the network device to exclude CPU X (as in the
-previous scenario)
-- wait a RCU grace period
-- wait untill the backlog len on CPU X reported by procfs is 0
-
-Cheers,
-
-Paolo
-
+Reviewed-by: Christoph Hellwig <hch@lst.de>
