@@ -2,159 +2,99 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 21A6A300F71
-	for <lists+linux-api@lfdr.de>; Fri, 22 Jan 2021 22:59:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 52553300FF3
+	for <lists+linux-api@lfdr.de>; Fri, 22 Jan 2021 23:29:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730382AbhAVV4N (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 22 Jan 2021 16:56:13 -0500
-Received: from mga01.intel.com ([192.55.52.88]:50183 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730000AbhAVVzl (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 22 Jan 2021 16:55:41 -0500
-IronPort-SDR: 9q3S4emmk4xclOw/YXm/yZII8Ovg/ah2F38SDUKp0EqM6nryCd3wUb4PA09QOpFP4aklCGwW0H
- duX7C1HTlQhA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9872"; a="198274442"
-X-IronPort-AV: E=Sophos;i="5.79,367,1602572400"; 
-   d="scan'208";a="198274442"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2021 13:54:55 -0800
-IronPort-SDR: QgzfLeU+SScNpiuZ2ShHor3Mk1anNcKXZI/IncTCR7ogj4sTRd8kBKfwZPHV0PQyfLDml4sqvL
- fM8zo+rax78Q==
-X-IronPort-AV: E=Sophos;i="5.79,367,1602572400"; 
-   d="scan'208";a="400976899"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.79.184]) ([10.212.79.184])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2021 13:54:54 -0800
-Subject: Re: [PATCH v17 08/26] x86/mm: Introduce _PAGE_COW
-To:     David Laight <David.Laight@ACULAB.COM>,
-        'Randy Dunlap' <rdunlap@infradead.org>,
-        Borislav Petkov <bp@alien8.de>
-Cc:     "x86@kernel.org" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        id S1728765AbhAVW2C (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 22 Jan 2021 17:28:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42278 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728339AbhAVW1P (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 22 Jan 2021 17:27:15 -0500
+Received: from fieldses.org (fieldses.org [IPv6:2600:3c00:e000:2f7::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F28C6C0613D6;
+        Fri, 22 Jan 2021 14:26:33 -0800 (PST)
+Received: by fieldses.org (Postfix, from userid 2815)
+        id 7A21F6E97; Fri, 22 Jan 2021 17:26:32 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 fieldses.org 7A21F6E97
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fieldses.org;
+        s=default; t=1611354392;
+        bh=tn+w8soQQzYWtoSEcV96aJkWCYx83kxrSGAkTTiabXA=;
+        h=Date:To:Cc:Subject:References:In-Reply-To:From:From;
+        b=X95z07vjZOjjzvjgzPtwDISRZ7bvRExOKROMoiBfzTUzhunQZq5I6fG0Ld2Gva7Mh
+         uhaRbZ9MkPgDEawpF8wGyueWVNQbXPl+6a+P6MAo2vQtm02J9ggMsib5nOD7Na/V0s
+         n9s4jAoDv+n/KWmXQQLflLSFjjV3dqCb/wYkVXv0=
+Date:   Fri, 22 Jan 2021 17:26:32 -0500
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@lst.de>, linux-fsdevel@vger.kernel.org,
+        John Johansen <john.johansen@canonical.com>,
+        James Morris <jmorris@namei.org>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
         Arnd Bergmann <arnd@arndb.de>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+        Geoffrey Thomas <geofft@ldpreload.com>,
+        Mrunal Patel <mpatel@redhat.com>,
+        Josh Triplett <josh@joshtriplett.org>,
         Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        Theodore Tso <tytso@mit.edu>, Alban Crequy <alban@kinvolk.io>,
+        Tycho Andersen <tycho@tycho.ws>,
+        David Howells <dhowells@redhat.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Seth Forshee <seth.forshee@canonical.com>,
+        =?utf-8?B?U3TDqXBoYW5l?= Graber <stgraber@ubuntu.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Lennart Poettering <lennart@poettering.net>,
+        "Eric W. Biederman" <ebiederm@xmission.com>, smbarber@chromium.org,
+        Phil Estes <estesp@gmail.com>, Serge Hallyn <serge@hallyn.com>,
         Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-References: <20201229213053.16395-1-yu-cheng.yu@intel.com>
- <20201229213053.16395-9-yu-cheng.yu@intel.com>
- <20210121184405.GE32060@zn.tnic>
- <b4d4bec7-504e-2443-4cf3-0801b179000f@intel.com>
- <cd9d04ab66d144b7942b5030d9813115@AcuMS.aculab.com>
- <9344cd90-1818-a716-91d2-2b85df01347b@infradead.org>
- <b6eda0f414f34634b4e1aca80c4b5d5d@AcuMS.aculab.com>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <1b9cd39a-fe66-d237-b847-2b62ff1477e7@intel.com>
-Date:   Fri, 22 Jan 2021 13:54:53 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+        Todd Kjos <tkjos@google.com>, Paul Moore <paul@paul-moore.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        containers@lists.linux-foundation.org,
+        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
+        linux-integrity@vger.kernel.org, selinux@vger.kernel.org
+Subject: Re: [PATCH v6 05/39] namei: make permission helpers idmapped mount
+ aware
+Message-ID: <20210122222632.GB25405@fieldses.org>
+References: <20210121131959.646623-1-christian.brauner@ubuntu.com>
+ <20210121131959.646623-6-christian.brauner@ubuntu.com>
 MIME-Version: 1.0
-In-Reply-To: <b6eda0f414f34634b4e1aca80c4b5d5d@AcuMS.aculab.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210121131959.646623-6-christian.brauner@ubuntu.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+From:   bfields@fieldses.org (J. Bruce Fields)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 1/21/2021 2:32 PM, David Laight wrote:
-> From: Randy Dunlap
->> Sent: 21 January 2021 22:19
->>
->> On 1/21/21 2:16 PM, David Laight wrote:
->>> From: Yu, Yu-cheng
->>>>
->>>> On 1/21/2021 10:44 AM, Borislav Petkov wrote:
->>>>> On Tue, Dec 29, 2020 at 01:30:35PM -0800, Yu-cheng Yu wrote:
->>>> [...]
->>>>>> @@ -343,6 +349,16 @@ static inline pte_t pte_mkold(pte_t pte)
->>>>>>
->>>>>>    static inline pte_t pte_wrprotect(pte_t pte)
->>>>>>    {
->>>>>> +	/*
->>>>>> +	 * Blindly clearing _PAGE_RW might accidentally create
->>>>>> +	 * a shadow stack PTE (RW=0, Dirty=1).  Move the hardware
->>>>>> +	 * dirty value to the software bit.
->>>>>> +	 */
->>>>>> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
->>>>>> +		pte.pte |= (pte.pte & _PAGE_DIRTY) >> _PAGE_BIT_DIRTY << _PAGE_BIT_COW;
->>>>>
->>>>> Why the unreadable shifting when you can simply do:
->>>>>
->>>>>                   if (pte.pte & _PAGE_DIRTY)
->>>>>                           pte.pte |= _PAGE_COW;
->>>>>
->>>
->>>>> ?
->>>>
->>>> It clears _PAGE_DIRTY and sets _PAGE_COW.  That is,
->>>>
->>>> if (pte.pte & _PAGE_DIRTY) {
->>>> 	pte.pte &= ~_PAGE_DIRTY;
->>>> 	pte.pte |= _PAGE_COW;
->>>> }
->>>>
->>>> So, shifting makes resulting code more efficient.
->>>
->>> Does the compiler manage to do one shift?
->>>
->>> How can it clear anything?
->>
->> It could shift it off either end since there are both << and >>.
-> 
-> It is still:
-> 	pte.pte |= xxxxxxx;
-> 
->>> There is only an |= against the target.
->>>
->>> Something horrid with ^= might set and clear.
-> 
-> It could be 4 instructions:
-> 	is_dirty = pte.pte & PAGE_DIRTY;
-> 	pte.pte &= ~PAGE_DIRTY; // or pte.pte ^= is_dirty
-> 	is_cow = is_dirty << (BIT_COW - BIT_DIRTY); // or equivalent >>
-> 	pte.pte |= is_cow;
-> provided you've a three operand form for one of the first two instructions.
-> Something like ARM might manage to merge the last two as well.
-> But the register dependency chain length may matter more than
-> the number of instructions.
-> The above is likely to be three long.
+If I NFS-exported an idmapped mount, I think I'd expect idmapped clients
+to see the mapped IDs.
 
-I see what you are saying.  The patch is like...
+Looks like that means taking the user namespace from the struct
+svc_export everwhere, for example:
 
-	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
-		pte.pte |= (pte.pte & _PAGE_DIRTY) >> _PAGE_BIT_DIRTY << _PAGE_BIT_COW;
-		pte = pte_clear_flags(pte, _PAGE_DIRTY);
-	}
+On Thu, Jan 21, 2021 at 02:19:24PM +0100, Christian Brauner wrote:
+> index 66f2ef67792a..8d90796e236a 100644
+> --- a/fs/nfsd/nfsfh.c
+> +++ b/fs/nfsd/nfsfh.c
+> @@ -40,7 +40,8 @@ static int nfsd_acceptable(void *expv, struct dentry *dentry)
+>  		/* make sure parents give x permission to user */
+>  		int err;
+>  		parent = dget_parent(tdentry);
+> -		err = inode_permission(d_inode(parent), MAY_EXEC);
+> +		err = inode_permission(&init_user_ns,
+> +				       d_inode(parent), MAY_EXEC);
 
-It is not necessary to do the shifting.  I will make it, simply,
+		err = inode_permission(exp->ex_path.mnt->mnt_userns,
+				      d_inode(parent, MAY_EXEC);
 
-if (pte.pte & _PAGE_DIRTY) {
-	pte.pte &= ~PAGE_DIRTY;
-	pte.pte |= _PAGE_COW;
-}
+?
 
-Thanks for your comments.
-
---
-Yu-cheng
+--b.
