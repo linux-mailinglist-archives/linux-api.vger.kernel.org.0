@@ -2,71 +2,159 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D0E95300E7C
-	for <lists+linux-api@lfdr.de>; Fri, 22 Jan 2021 22:07:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 21A6A300F71
+	for <lists+linux-api@lfdr.de>; Fri, 22 Jan 2021 22:59:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729600AbhAVU7H (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 22 Jan 2021 15:59:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51302 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730961AbhAVU6X (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 22 Jan 2021 15:58:23 -0500
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51C07C06178B
-        for <linux-api@vger.kernel.org>; Fri, 22 Jan 2021 12:57:43 -0800 (PST)
-Received: by mail-pl1-x62d.google.com with SMTP id b8so3962203plh.12
-        for <linux-api@vger.kernel.org>; Fri, 22 Jan 2021 12:57:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=osandov-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Ra2bY9IB522xV23Eugk7PmgYePrcblUWlzmySd0Cyyc=;
-        b=nPIrv/PxJkej0AaX/G67VsiC44S4PoFpYmZ/4uEkewsvCiOYAua/TiA226LS94agfK
-         Pbubmlpj3q0BjWgTNCio+/SxWMCp1bLh5C4/J0cHl4poaHYklPUc9ovXet95wQ6Z0YKw
-         JloNhdrHmlj0Bu2Ny69x0X80jfW98Cj3lYgaHengqVNE2ZdQITyxAZQjX6NA9H+V0erZ
-         pi7NaH8b4Ft70WCezcASCHF+zcnvzJPNkjiZPDroL5b54enb7WepuC8SZpVP3XoBTbqF
-         W3vGDMFrGkw01vPlnESvnu7HoajqESdTPn1U0j4JYPinYT4C8kcibuGGI5J5X/k2+j9Z
-         qseQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Ra2bY9IB522xV23Eugk7PmgYePrcblUWlzmySd0Cyyc=;
-        b=WUAM0gU5or3xrill+zk4LIbiDrh+IRaderqY9XRIEWuKC5I6s7fuZjGl+h0m7WgrP2
-         7sFYFwDoZBwbvd/FAKbfhhmqlH9xZcdRN2QAOWpTPonxffvC8NZeOI7QbLlDK99MEHZe
-         g7VNL13GisC8zVhFVax0cgxZmsfIFDVI37wRvS445qjTwfK3grghCzGFYvMCzVNUwIfG
-         tBpfLfLRPbmGGJXe5aEjglJSOJk5libxnOnHxnpODkcLRoJfJ1gcjuEfXRbol0B5hzYy
-         wRbxKlZeGHfGs3HV9wocQ7t35k364KpciAGSoq54bZED/T965pYwCsUewf6HkV4SAkRW
-         AeuQ==
-X-Gm-Message-State: AOAM5305/w9GWfecxaaef4qXB60czRyB3ozPSxkkiegZ7GF+6qPdUpwJ
-        HK2aqKMjPcxbR+93Izpy1bn7CA==
-X-Google-Smtp-Source: ABdhPJykGHqNXYwdYpOh5VuPtfXAMvcdM+WsEFAIkshYbFLTPUVz0m6ITIn/WzY5/X3TGd6tiHcG1Q==
-X-Received: by 2002:a17:902:d4c3:b029:de:84a5:aaf2 with SMTP id o3-20020a170902d4c3b02900de84a5aaf2mr132118plg.80.1611349062803;
-        Fri, 22 Jan 2021 12:57:42 -0800 (PST)
-Received: from relinquished.localdomain ([2601:602:8b80:8e0::703])
-        by smtp.gmail.com with ESMTPSA id s187sm9546419pfb.161.2021.01.22.12.57.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Jan 2021 12:57:41 -0800 (PST)
-Date:   Fri, 22 Jan 2021 12:57:40 -0800
-From:   Omar Sandoval <osandov@osandov.com>
-To:     linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>
-Cc:     Dave Chinner <david@fromorbit.com>, Jann Horn <jannh@google.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Aleksa Sarai <cyphar@cyphar.com>, linux-api@vger.kernel.org,
-        kernel-team@fb.com
-Subject: Re: [PATCH v7 11/15] btrfs: add send stream v2 definitions
-Message-ID: <YAs8RIWG708aKJnB@relinquished.localdomain>
-References: <cover.1611346574.git.osandov@fb.com>
- <ca550f6e2d6d1e7d79dee6c811638d4da02a56cc.1611346574.git.osandov@fb.com>
+        id S1730382AbhAVV4N (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 22 Jan 2021 16:56:13 -0500
+Received: from mga01.intel.com ([192.55.52.88]:50183 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730000AbhAVVzl (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 22 Jan 2021 16:55:41 -0500
+IronPort-SDR: 9q3S4emmk4xclOw/YXm/yZII8Ovg/ah2F38SDUKp0EqM6nryCd3wUb4PA09QOpFP4aklCGwW0H
+ duX7C1HTlQhA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9872"; a="198274442"
+X-IronPort-AV: E=Sophos;i="5.79,367,1602572400"; 
+   d="scan'208";a="198274442"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2021 13:54:55 -0800
+IronPort-SDR: QgzfLeU+SScNpiuZ2ShHor3Mk1anNcKXZI/IncTCR7ogj4sTRd8kBKfwZPHV0PQyfLDml4sqvL
+ fM8zo+rax78Q==
+X-IronPort-AV: E=Sophos;i="5.79,367,1602572400"; 
+   d="scan'208";a="400976899"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.79.184]) ([10.212.79.184])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2021 13:54:54 -0800
+Subject: Re: [PATCH v17 08/26] x86/mm: Introduce _PAGE_COW
+To:     David Laight <David.Laight@ACULAB.COM>,
+        'Randy Dunlap' <rdunlap@infradead.org>,
+        Borislav Petkov <bp@alien8.de>
+Cc:     "x86@kernel.org" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+References: <20201229213053.16395-1-yu-cheng.yu@intel.com>
+ <20201229213053.16395-9-yu-cheng.yu@intel.com>
+ <20210121184405.GE32060@zn.tnic>
+ <b4d4bec7-504e-2443-4cf3-0801b179000f@intel.com>
+ <cd9d04ab66d144b7942b5030d9813115@AcuMS.aculab.com>
+ <9344cd90-1818-a716-91d2-2b85df01347b@infradead.org>
+ <b6eda0f414f34634b4e1aca80c4b5d5d@AcuMS.aculab.com>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <1b9cd39a-fe66-d237-b847-2b62ff1477e7@intel.com>
+Date:   Fri, 22 Jan 2021 13:54:53 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ca550f6e2d6d1e7d79dee6c811638d4da02a56cc.1611346574.git.osandov@fb.com>
+In-Reply-To: <b6eda0f414f34634b4e1aca80c4b5d5d@AcuMS.aculab.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Please ignore 11-15. I fat fingered format-patch, these are part of the
-other series.
+On 1/21/2021 2:32 PM, David Laight wrote:
+> From: Randy Dunlap
+>> Sent: 21 January 2021 22:19
+>>
+>> On 1/21/21 2:16 PM, David Laight wrote:
+>>> From: Yu, Yu-cheng
+>>>>
+>>>> On 1/21/2021 10:44 AM, Borislav Petkov wrote:
+>>>>> On Tue, Dec 29, 2020 at 01:30:35PM -0800, Yu-cheng Yu wrote:
+>>>> [...]
+>>>>>> @@ -343,6 +349,16 @@ static inline pte_t pte_mkold(pte_t pte)
+>>>>>>
+>>>>>>    static inline pte_t pte_wrprotect(pte_t pte)
+>>>>>>    {
+>>>>>> +	/*
+>>>>>> +	 * Blindly clearing _PAGE_RW might accidentally create
+>>>>>> +	 * a shadow stack PTE (RW=0, Dirty=1).  Move the hardware
+>>>>>> +	 * dirty value to the software bit.
+>>>>>> +	 */
+>>>>>> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
+>>>>>> +		pte.pte |= (pte.pte & _PAGE_DIRTY) >> _PAGE_BIT_DIRTY << _PAGE_BIT_COW;
+>>>>>
+>>>>> Why the unreadable shifting when you can simply do:
+>>>>>
+>>>>>                   if (pte.pte & _PAGE_DIRTY)
+>>>>>                           pte.pte |= _PAGE_COW;
+>>>>>
+>>>
+>>>>> ?
+>>>>
+>>>> It clears _PAGE_DIRTY and sets _PAGE_COW.  That is,
+>>>>
+>>>> if (pte.pte & _PAGE_DIRTY) {
+>>>> 	pte.pte &= ~_PAGE_DIRTY;
+>>>> 	pte.pte |= _PAGE_COW;
+>>>> }
+>>>>
+>>>> So, shifting makes resulting code more efficient.
+>>>
+>>> Does the compiler manage to do one shift?
+>>>
+>>> How can it clear anything?
+>>
+>> It could shift it off either end since there are both << and >>.
+> 
+> It is still:
+> 	pte.pte |= xxxxxxx;
+> 
+>>> There is only an |= against the target.
+>>>
+>>> Something horrid with ^= might set and clear.
+> 
+> It could be 4 instructions:
+> 	is_dirty = pte.pte & PAGE_DIRTY;
+> 	pte.pte &= ~PAGE_DIRTY; // or pte.pte ^= is_dirty
+> 	is_cow = is_dirty << (BIT_COW - BIT_DIRTY); // or equivalent >>
+> 	pte.pte |= is_cow;
+> provided you've a three operand form for one of the first two instructions.
+> Something like ARM might manage to merge the last two as well.
+> But the register dependency chain length may matter more than
+> the number of instructions.
+> The above is likely to be three long.
+
+I see what you are saying.  The patch is like...
+
+	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
+		pte.pte |= (pte.pte & _PAGE_DIRTY) >> _PAGE_BIT_DIRTY << _PAGE_BIT_COW;
+		pte = pte_clear_flags(pte, _PAGE_DIRTY);
+	}
+
+It is not necessary to do the shifting.  I will make it, simply,
+
+if (pte.pte & _PAGE_DIRTY) {
+	pte.pte &= ~PAGE_DIRTY;
+	pte.pte |= _PAGE_COW;
+}
+
+Thanks for your comments.
+
+--
+Yu-cheng
