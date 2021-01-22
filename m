@@ -2,142 +2,111 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 27BD72FFE6B
-	for <lists+linux-api@lfdr.de>; Fri, 22 Jan 2021 09:43:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DCF072FFEDA
+	for <lists+linux-api@lfdr.de>; Fri, 22 Jan 2021 09:59:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727165AbhAVIm3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 22 Jan 2021 03:42:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33570 "EHLO
+        id S1727224AbhAVI6G (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 22 Jan 2021 03:58:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727155AbhAVImI (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 22 Jan 2021 03:42:08 -0500
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com [IPv6:2607:f8b0:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0FF2C06178B;
-        Fri, 22 Jan 2021 00:41:25 -0800 (PST)
-Received: by mail-ot1-x32b.google.com with SMTP id 36so4406749otp.2;
-        Fri, 22 Jan 2021 00:41:25 -0800 (PST)
+        with ESMTP id S1727173AbhAVInA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 22 Jan 2021 03:43:00 -0500
+Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1B13C06174A
+        for <linux-api@vger.kernel.org>; Fri, 22 Jan 2021 00:42:06 -0800 (PST)
+Received: by mail-qt1-x829.google.com with SMTP id o18so3550251qtp.10
+        for <linux-api@vger.kernel.org>; Fri, 22 Jan 2021 00:42:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=QH7Qc5EQ7iifT7PzYgbghVIv9P26i6FsrQ+fd6jlx2w=;
-        b=r0BzrOD/8aKlJe4I292/JfGk8q+SEssSkkTBjumXnHMUhfyk5+ElKGazW+Tf4a66Hc
-         rofMyEvAyKln95BGEZ31pSk03oLXw10PASDJ+VIsYqG43y/ZehZp7no4u5RJO30DA0CK
-         5PgmEh0q8cImXoISKljnAjHjh27u/T4hoBGDQW2qZp4repP04uAUnchAYQ+yyycq1Qi+
-         9DswLI66Rk7AMSqeQ6qGqElV3gzjUytCHKwmtuHiMAOar9yt+ERF0Rg+t0DosYf2NH64
-         HLO0bsppV/w1W/G0aQc19l0Z/tnE2Ovusaof49jm54X2FMiXHOj3CC7wAj5BJKL3RXwW
-         MXLg==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=IwufWQ/zvEgRChsZ+HKILdbN9V3aUSKcwTaTDvvOms8=;
+        b=MdaiekH8+YWtYVJ8wdxCP2MhKco1BL/M2GSfJG3wqtKGTp9Ytszw282P+VJemlJR/I
+         32ZFRGuj09mkf+Kc4c+DMAtVtsQCRw9P3STL0Ml9qZ/+FGcOC7m6k+7ff3z9c9+yz4lY
+         xnat8CnLxHr+UeSrFH5Vst9nSJ6RzZ02yYd8ohDExJjPJ7M7gSIdrxW5+g9POXJq7INg
+         PJM3R40ds7WtePNuEeWTo1pzwF5qOkIDYqjD6OwC1nGdfnVn1pxEViSJdFOULLJGpdPX
+         uQEES2lAaHi1iXGbYqm3O8bMAsBvDvyBipOQRvgTFJG+bnN2vlvUoG4nV//9kwYAyMXV
+         lgJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=QH7Qc5EQ7iifT7PzYgbghVIv9P26i6FsrQ+fd6jlx2w=;
-        b=qADU/nnCd54XHLLFl17lc/TByJ4wh14/ECnHwuHBls9ACaHxl/AbidquHHKMDRUsNn
-         gkRZm1giYau3AG2CtDOfJj2BOzP7gLo42NIjaW013Ho4e5NVDVjvR9SNOhhfk14rTSSK
-         dWkvjLF5ruV+DSIWJ9G+EeNCrrnwQ84tMce+ViXCyRtrZhUrgtF3JoqtF+errivqyeid
-         aQEf9MGQKFlkvYVbTKdun8SU87ipZRz47rISjEAWsBgcLSvMdBuOeKMf+iBJF3Pz9mNz
-         YaWo9fpnKgHWkcIbbuSD0dUU7SRwSzyPLNIz5duB13LYjh00NV3/pwDZBG3B1teMnDVL
-         MeuQ==
-X-Gm-Message-State: AOAM533EMrEL0uvsawEoDjE7hE8w2OxVQAhNDo7bD3TGjMmf9BqzMQoN
-        /j0jJVdJeAlTYMa9C8YJ6PqWPDk1rLowG5Jo3jtCRYJlGJ0=
-X-Google-Smtp-Source: ABdhPJxDgUWr1yNvwGw8O1L6XDuuZb4Ue2CL9xlpxJHgUOwefeqwKx21mVzvCC65O1WSjAwp6M2ZPcLK4p7JVNMp6CQ=
-X-Received: by 2002:a9d:5e0f:: with SMTP id d15mr2540660oti.308.1611304885285;
- Fri, 22 Jan 2021 00:41:25 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=IwufWQ/zvEgRChsZ+HKILdbN9V3aUSKcwTaTDvvOms8=;
+        b=NudOpKIgTIe2lNL4jaRP5dGzick+k9eZAvA9ABylmVrHDu+8xdbbK4LjAlYaFMUUyT
+         ACfyFWm9Orqsz4nlLnO7AH+AB7a+vwH7GuiqEZnsOCvfSu8zOtz25WM/hcqTQIov7Ho3
+         +bL+aVSSQG8r+C/2p6ISxebM4WiBxyGwB5yshWuJIQdTuc/nAxKfV3JeUkUKQ7tkda+T
+         /C4SjB2G3kIZ4lvM1LJJABXQL7MvZGAc60v1y8Vjn4msg+Y/V2cTAXQAVoxmg7jjFcke
+         r4zFR0Sb5UqtNTiOOkSnKK1a5ImF6CEi2r8R8VazEQHXajsvhtzd96WnQpMhBTE9EPLc
+         CQ9w==
+X-Gm-Message-State: AOAM532OphU6vxLKx1diMg7Fn5dReCVFO/FxBDd9Tz/COwl3Awe/IlPt
+        LxQKRcUFDnGru3tAcTEI/RLJ7DaThymfnZW97DAyIg==
+X-Google-Smtp-Source: ABdhPJxapOVrvoj1KQompPgQdxxvfcXyxQBZIVC5e8ONa1BRE4MJqWv0ZyxmRs0lkc5ni4Ja3WVGNzlxjB9BJJhYTJ0=
+X-Received: by 2002:ac8:6cf:: with SMTP id j15mr3284560qth.180.1611304925724;
+ Fri, 22 Jan 2021 00:42:05 -0800 (PST)
 MIME-Version: 1.0
-References: <159827188271.306468.16962617119460123110.stgit@warthog.procyon.org.uk>
- <159827190508.306468.12755090833140558156.stgit@warthog.procyon.org.uk>
- <CAKgNAkho1WSOsxvCYQOs7vDxpfyeJ9JGdTL-Y0UEZtO3jVfmKw@mail.gmail.com>
- <667616.1599063270@warthog.procyon.org.uk> <CAKgNAkhjDB9bvQ0h5b13fkbhuP9tYrkBQe7w1cbeOH8gM--D0g@mail.gmail.com>
- <CAKgNAkh9h3aA1hiYownT2O=xg5JmZwmJUCvQ1Z4f85MTq-26Fw@mail.gmail.com> <CAKgNAkju-65h1bKBUJQf-k=TCZeFmD9Nf4ZgZ9Mm_TQ1rQA6MA@mail.gmail.com>
-In-Reply-To: <CAKgNAkju-65h1bKBUJQf-k=TCZeFmD9Nf4ZgZ9Mm_TQ1rQA6MA@mail.gmail.com>
-Reply-To: mtk.manpages@gmail.com
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Date:   Fri, 22 Jan 2021 09:41:14 +0100
-Message-ID: <CAKgNAkg78pHD90CuUaDtAhnwGqOwMU0SrZFny_fYXpDNSzovNA@mail.gmail.com>
-Subject: Re: [PATCH 4/5] Add manpage for fsopen(2) and fsmount(2)
-To:     David Howells <dhowells@redhat.com>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        linux-man <linux-man@vger.kernel.org>,
+References: <20210121131915.1331302-1-glider@google.com> <YAqNoTWfp7HQ9c5m@alley>
+In-Reply-To: <YAqNoTWfp7HQ9c5m@alley>
+From:   Alexander Potapenko <glider@google.com>
+Date:   Fri, 22 Jan 2021 09:41:54 +0100
+Message-ID: <CAG_fn=WJ7QwBF67H2ND3-3n0XSZ26Xmk=Lvfwn_bpecXqq=NGQ@mail.gmail.com>
+Subject: Re: [PATCH v3 0/3] Add error_report_end tracepoint to KFENCE and KASAN
+To:     Petr Mladek <pmladek@suse.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Marco Elver <elver@google.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Dmitriy Vyukov <dvyukov@google.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Linux Memory Management List <linux-mm@kvack.org>,
         Linux API <linux-api@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
+        Vlastimil Babka <vbabka@suse.cz>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hello David,
+On Fri, Jan 22, 2021 at 9:32 AM Petr Mladek <pmladek@suse.com> wrote:
+>
+> On Thu 2021-01-21 14:19:12, Alexander Potapenko wrote:
+> > This patchset adds a tracepoint, error_repor_end, that is to be used by
+> > KFENCE, KASAN, and potentially other bug detection tools, when they
+> > print an error report.
+> > One of the possible use cases is userspace collection of kernel error
+> > reports: interested parties can subscribe to the tracing event via
+> > tracefs, and get notified when an error report occurs.
+> >
+> > v3:
+> >  - dropped the sysfs interface for log collection
+> >  - dropped error_report_start tracepoint
+>
+> Just for record. This approach looks reasonable to me.
+> Thanks for removing the sysfs interface. It would have been
+> a potential can of worms.
 
-Ping!
+Thanks for the input!
+At least it was premature to touch prink just for the sake of
+collecting some particular crashes.
+Perhaps we can revisit this topic when stronger arguments arise :)
 
-Thanks,
-
-Michael
-
-On Fri, 16 Oct 2020 at 08:50, Michael Kerrisk (man-pages)
-<mtk.manpages@gmail.com> wrote:
+> I do not feel eligible to add any tag. I am neither familiar
+> with the tracepoint nor the KFENCE or KASAN code.
 >
-> Hi David,
->
-> Another ping for these five patches please!
->
-> Cheers,
->
-> Michael
->
-> On Fri, 11 Sep 2020 at 14:44, Michael Kerrisk (man-pages)
-> <mtk.manpages@gmail.com> wrote:
-> >
-> > Hi David,
-> >
-> > A ping for these five patches please!
-> >
-> > Cheers,
-> >
-> > Michael
-> >
-> > On Wed, 2 Sep 2020 at 22:14, Michael Kerrisk (man-pages)
-> > <mtk.manpages@gmail.com> wrote:
-> > >
-> > > On Wed, 2 Sep 2020 at 18:14, David Howells <dhowells@redhat.com> wrote:
-> > > >
-> > > > Michael Kerrisk (man-pages) <mtk.manpages@gmail.com> wrote:
-> > > >
-> > > > > The term "filesystem configuration context" is introduced, but never
-> > > > > really explained. I think it would be very helpful to have a sentence
-> > > > > or three that explains this concept at the start of the page.
-> > > >
-> > > > Does that need a .7 manpage?
-> > >
-> > > I was hoping a sentence or a paragraph in this page might suffice. Do
-> > > you think more is required?
-> > >
-> > > Cheers,
-> > >
-> > > Michael
-> > >
-> > > --
-> > > Michael Kerrisk
-> > > Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-> > > Linux/UNIX System Programming Training: http://man7.org/training/
-> >
-> >
-> >
-> > --
-> > Michael Kerrisk
-> > Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-> > Linux/UNIX System Programming Training: http://man7.org/training/
->
->
->
-> --
-> Michael Kerrisk
-> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-> Linux/UNIX System Programming Training: http://man7.org/training/
+> Best Regards,
+> Petr
 
 
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+--=20
+Alexander Potapenko
+Software Engineer
+
+Google Germany GmbH
+Erika-Mann-Stra=C3=9Fe, 33
+80636 M=C3=BCnchen
+
+Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
+Registergericht und -nummer: Hamburg, HRB 86891
+Sitz der Gesellschaft: Hamburg
