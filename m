@@ -2,18 +2,18 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 10435300A00
-	for <lists+linux-api@lfdr.de>; Fri, 22 Jan 2021 18:42:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E62D5300AF0
+	for <lists+linux-api@lfdr.de>; Fri, 22 Jan 2021 19:19:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728978AbhAVRlu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 22 Jan 2021 12:41:50 -0500
-Received: from verein.lst.de ([213.95.11.211]:37560 "EHLO verein.lst.de"
+        id S1729206AbhAVSRJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 22 Jan 2021 13:17:09 -0500
+Received: from verein.lst.de ([213.95.11.211]:37482 "EHLO verein.lst.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729413AbhAVRfY (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 22 Jan 2021 12:35:24 -0500
+        id S1729312AbhAVRYB (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 22 Jan 2021 12:24:01 -0500
 Received: by verein.lst.de (Postfix, from userid 2407)
-        id 4C3BC68BFE; Fri, 22 Jan 2021 18:34:40 +0100 (CET)
-Date:   Fri, 22 Jan 2021 18:34:40 +0100
+        id ADBE468C4E; Fri, 22 Jan 2021 18:23:08 +0100 (CET)
+Date:   Fri, 22 Jan 2021 18:23:08 +0100
 From:   Christoph Hellwig <hch@lst.de>
 To:     Christian Brauner <christian.brauner@ubuntu.com>
 Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
@@ -48,37 +48,21 @@ Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         containers@lists.linux-foundation.org,
         linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
         linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
-        linux-integrity@vger.kernel.org, selinux@vger.kernel.org,
-        Mauricio =?iso-8859-1?Q?V=E1squez?= Bernal 
-        <mauricio@kinvolk.io>
-Subject: Re: [PATCH v6 35/40] fs: introduce MOUNT_ATTR_IDMAP
-Message-ID: <20210122173440.GA20821@lst.de>
-References: <20210121131959.646623-1-christian.brauner@ubuntu.com> <20210121131959.646623-36-christian.brauner@ubuntu.com> <20210122173340.GA20658@lst.de>
+        linux-integrity@vger.kernel.org, selinux@vger.kernel.org
+Subject: Re: [PATCH v6 20/40] init: handle idmapped mounts
+Message-ID: <20210122172308.GC20347@lst.de>
+References: <20210121131959.646623-1-christian.brauner@ubuntu.com> <20210121131959.646623-21-christian.brauner@ubuntu.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210122173340.GA20658@lst.de>
+In-Reply-To: <20210121131959.646623-21-christian.brauner@ubuntu.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jan 22, 2021 at 06:33:40PM +0100, Christoph Hellwig wrote:
-> >  /*
-> >   * mount_setattr()
-> > @@ -127,9 +128,10 @@ struct mount_attr {
-> >  	__u64 attr_set;
-> >  	__u64 attr_clr;
-> >  	__u64 propagation;
-> > +	__u64 userns_fd;
-> >  };
-> >  
-> >  /* List of all mount_attr versions. */
-> > -#define MOUNT_ATTR_SIZE_VER0	24 /* sizeof first published struct */
-> > +#define MOUNT_ATTR_SIZE_VER0	32 /* sizeof first published struct */
-> 
-> I think this hunk needs to go into the patch adding the structure.
-
-But except for that the patch looks fine:
+Note that in the early init code the user namespace must be init_user_ns
+by definition.  But passing on the information from the file/path seem
+ok just in case someone copy and pastes this code..
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
