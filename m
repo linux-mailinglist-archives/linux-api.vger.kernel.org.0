@@ -2,99 +2,144 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 52553300FF3
-	for <lists+linux-api@lfdr.de>; Fri, 22 Jan 2021 23:29:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B3E143010FB
+	for <lists+linux-api@lfdr.de>; Sat, 23 Jan 2021 00:28:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728765AbhAVW2C (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 22 Jan 2021 17:28:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42278 "EHLO
+        id S1728281AbhAVX1x (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 22 Jan 2021 18:27:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728339AbhAVW1P (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 22 Jan 2021 17:27:15 -0500
-Received: from fieldses.org (fieldses.org [IPv6:2600:3c00:e000:2f7::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F28C6C0613D6;
-        Fri, 22 Jan 2021 14:26:33 -0800 (PST)
-Received: by fieldses.org (Postfix, from userid 2815)
-        id 7A21F6E97; Fri, 22 Jan 2021 17:26:32 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 fieldses.org 7A21F6E97
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fieldses.org;
-        s=default; t=1611354392;
-        bh=tn+w8soQQzYWtoSEcV96aJkWCYx83kxrSGAkTTiabXA=;
-        h=Date:To:Cc:Subject:References:In-Reply-To:From:From;
-        b=X95z07vjZOjjzvjgzPtwDISRZ7bvRExOKROMoiBfzTUzhunQZq5I6fG0Ld2Gva7Mh
-         uhaRbZ9MkPgDEawpF8wGyueWVNQbXPl+6a+P6MAo2vQtm02J9ggMsib5nOD7Na/V0s
-         n9s4jAoDv+n/KWmXQQLflLSFjjV3dqCb/wYkVXv0=
-Date:   Fri, 22 Jan 2021 17:26:32 -0500
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@lst.de>, linux-fsdevel@vger.kernel.org,
-        John Johansen <john.johansen@canonical.com>,
-        James Morris <jmorris@namei.org>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-        Geoffrey Thomas <geofft@ldpreload.com>,
-        Mrunal Patel <mpatel@redhat.com>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Theodore Tso <tytso@mit.edu>, Alban Crequy <alban@kinvolk.io>,
-        Tycho Andersen <tycho@tycho.ws>,
-        David Howells <dhowells@redhat.com>,
-        James Bottomley <James.Bottomley@hansenpartnership.com>,
-        Seth Forshee <seth.forshee@canonical.com>,
-        =?utf-8?B?U3TDqXBoYW5l?= Graber <stgraber@ubuntu.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Lennart Poettering <lennart@poettering.net>,
-        "Eric W. Biederman" <ebiederm@xmission.com>, smbarber@chromium.org,
-        Phil Estes <estesp@gmail.com>, Serge Hallyn <serge@hallyn.com>,
-        Kees Cook <keescook@chromium.org>,
-        Todd Kjos <tkjos@google.com>, Paul Moore <paul@paul-moore.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        containers@lists.linux-foundation.org,
-        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
-        linux-integrity@vger.kernel.org, selinux@vger.kernel.org
-Subject: Re: [PATCH v6 05/39] namei: make permission helpers idmapped mount
- aware
-Message-ID: <20210122222632.GB25405@fieldses.org>
-References: <20210121131959.646623-1-christian.brauner@ubuntu.com>
- <20210121131959.646623-6-christian.brauner@ubuntu.com>
+        with ESMTP id S1728140AbhAVX1p (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 22 Jan 2021 18:27:45 -0500
+Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27F4CC06174A
+        for <linux-api@vger.kernel.org>; Fri, 22 Jan 2021 15:27:03 -0800 (PST)
+Received: by mail-io1-xd2d.google.com with SMTP id q129so14694595iod.0
+        for <linux-api@vger.kernel.org>; Fri, 22 Jan 2021 15:27:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=WuooQLj08FTndW6GG4FNdPUFeSvF4QeyXpQNaZQvMQU=;
+        b=YZ6nQ6FOxluHSewTFEdRxogFELFzJ61SLsAvjLFQZbuTGGMmwsF7JRUaxP7S0eEf3O
+         zi4YxhJ311FM5HaM9OKi926md/9trhVY4f8oQ2L69cHtC8SiOc/RvEONC0Brp8EzYXLW
+         lv6khpaUQGj21NLNM2haXeFieuHFHlPe5MsuHoJAAixyciIG/WrLFSbzGXn8urZA33tw
+         GkWrMip0Wro8nMmVc+kl4jfg0hBCevvC6rr682OGhXTOkMjl301uDZC7QbGb7Yz/vxMK
+         LBlL4RWfi61+hAnVPZfXrIwr9DYcO/sReuxxZfpkbORXS6rvMYifp7nAEYX563UTR1UV
+         Vw2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=WuooQLj08FTndW6GG4FNdPUFeSvF4QeyXpQNaZQvMQU=;
+        b=eWwNkBp8MUWKoSQdD7N30CXdJjoOawu/WEMrkkJTSSksK6S2c/JzaLf2hiXUPjNVpz
+         YfTA91z3gtNleEdXW0TG2VecIIDQEOAiU71by0T6XBM1ecaOrDtswY3fmnoA7uO1rVn6
+         Q8SzIOsScpOGi5wQb7dKwWk3aweDMnW/cCRRjSwe4YovuXGCs1P4bZmcMMgAnhltx0s6
+         U6uSdhHHpSXmjhz2fKbiBZ28XPdrAo/ZAKgvqMbtXX8lDoU/DBPDtnD4ZgNvEEMOMIqZ
+         Bdq4zsSic11Qy7sG9U0iTGBjPKIELXTo4EdR36ZTaGzsAzbuTibkUVbrBehW8oLi+MiY
+         WSrg==
+X-Gm-Message-State: AOAM532oPsYQIKt4lF4byQHFS16uLE59D0HAd237bHgZzNv2vlnYgJO4
+        IQ2wn4Oi/CLKweOzIe5MtcUADztClinhQpYVQlaZ2Q==
+X-Google-Smtp-Source: ABdhPJx2/n88EpZhF9H0QRhbuIUDjLNzHy/G5ah/y4Nn1FpXH6Y4ko0ibuQnyPTD5D1W2NrSUOQ62tixsem0o23bO4I=
+X-Received: by 2002:a92:4101:: with SMTP id o1mr174997ila.82.1611358022134;
+ Fri, 22 Jan 2021 15:27:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210121131959.646623-6-christian.brauner@ubuntu.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-From:   bfields@fieldses.org (J. Bruce Fields)
+References: <20210115181819.34732-1-ebiggers@kernel.org>
+In-Reply-To: <20210115181819.34732-1-ebiggers@kernel.org>
+From:   Victor Hsieh <victorhsieh@google.com>
+Date:   Fri, 22 Jan 2021 15:26:48 -0800
+Message-ID: <CAFCauYN12bWRn2N+uP455KuRmz7CQkCBXnz0B2sr5kCQtpJo4A@mail.gmail.com>
+Subject: Re: [PATCH 0/6] fs-verity: add an ioctl to read verity metadata
+To:     Eric Biggers <ebiggers@kernel.org>
+Cc:     linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+        linux-api@vger.kernel.org, "Theodore Ts'o" <tytso@mit.edu>,
+        Jaegeuk Kim <jaegeuk@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-If I NFS-exported an idmapped mount, I think I'd expect idmapped clients
-to see the mapped IDs.
+LGTM. Thanks!
 
-Looks like that means taking the user namespace from the struct
-svc_export everwhere, for example:
+Reviewed-by: Victor Hsieh <victorhsieh@google.com>
 
-On Thu, Jan 21, 2021 at 02:19:24PM +0100, Christian Brauner wrote:
-> index 66f2ef67792a..8d90796e236a 100644
-> --- a/fs/nfsd/nfsfh.c
-> +++ b/fs/nfsd/nfsfh.c
-> @@ -40,7 +40,8 @@ static int nfsd_acceptable(void *expv, struct dentry *dentry)
->  		/* make sure parents give x permission to user */
->  		int err;
->  		parent = dget_parent(tdentry);
-> -		err = inode_permission(d_inode(parent), MAY_EXEC);
-> +		err = inode_permission(&init_user_ns,
-> +				       d_inode(parent), MAY_EXEC);
-
-		err = inode_permission(exp->ex_path.mnt->mnt_userns,
-				      d_inode(parent, MAY_EXEC);
-
-?
-
---b.
+On Fri, Jan 15, 2021 at 10:19 AM Eric Biggers <ebiggers@kernel.org> wrote:
+>
+> [This patchset applies to v5.11-rc3]
+>
+> Add an ioctl FS_IOC_READ_VERITY_METADATA which allows reading verity
+> metadata from a file that has fs-verity enabled, including:
+>
+> - The Merkle tree
+> - The fsverity_descriptor (not including the signature if present)
+> - The built-in signature, if present
+>
+> This ioctl has similar semantics to pread().  It is passed the type of
+> metadata to read (one of the above three), and a buffer, offset, and
+> size.  It returns the number of bytes read or an error.
+>
+> This ioctl doesn't make any assumption about where the metadata is
+> stored on-disk.  It does assume the metadata is in a stable format, but
+> that's basically already the case:
+>
+> - The Merkle tree and fsverity_descriptor are defined by how fs-verity
+>   file digests are computed; see the "File digest computation" section
+>   of Documentation/filesystems/fsverity.rst.  Technically, the way in
+>   which the levels of the tree are ordered relative to each other wasn't
+>   previously specified, but it's logical to put the root level first.
+>
+> - The built-in signature is the value passed to FS_IOC_ENABLE_VERITY.
+>
+> This ioctl is useful because it allows writing a server program that
+> takes a verity file and serves it to a client program, such that the
+> client can do its own fs-verity compatible verification of the file.
+> This only makes sense if the client doesn't trust the server and if the
+> server needs to provide the storage for the client.
+>
+> More concretely, there is interest in using this ability in Android to
+> export APK files (which are protected by fs-verity) to "protected VMs".
+> This would use Protected KVM (https://lwn.net/Articles/836693), which
+> provides an isolated execution environment without having to trust the
+> traditional "host".  A "guest" VM can boot from a signed image and
+> perform specific tasks in a minimum trusted environment using files that
+> have fs-verity enabled on the host, without trusting the host or
+> requiring that the guest has its own trusted storage.
+>
+> Technically, it would be possible to duplicate the metadata and store it
+> in separate files for serving.  However, that would be less efficient
+> and would require extra care in userspace to maintain file consistency.
+>
+> In addition to the above, the ability to read the built-in signatures is
+> useful because it allows a system that is using the in-kernel signature
+> verification to migrate to userspace signature verification.
+>
+> This patchset has been tested by new xfstests which call this new ioctl
+> via a new subcommand for the 'fsverity' program from fsverity-utils.
+>
+> Eric Biggers (6):
+>   fs-verity: factor out fsverity_get_descriptor()
+>   fs-verity: don't pass whole descriptor to fsverity_verify_signature()
+>   fs-verity: add FS_IOC_READ_VERITY_METADATA ioctl
+>   fs-verity: support reading Merkle tree with ioctl
+>   fs-verity: support reading descriptor with ioctl
+>   fs-verity: support reading signature with ioctl
+>
+>  Documentation/filesystems/fsverity.rst |  76 ++++++++++
+>  fs/ext4/ioctl.c                        |   7 +
+>  fs/f2fs/file.c                         |  11 ++
+>  fs/verity/Makefile                     |   1 +
+>  fs/verity/fsverity_private.h           |  13 +-
+>  fs/verity/open.c                       | 133 +++++++++++------
+>  fs/verity/read_metadata.c              | 195 +++++++++++++++++++++++++
+>  fs/verity/signature.c                  |  20 +--
+>  include/linux/fsverity.h               |  12 ++
+>  include/uapi/linux/fsverity.h          |  14 ++
+>  10 files changed, 417 insertions(+), 65 deletions(-)
+>  create mode 100644 fs/verity/read_metadata.c
+>
+>
+> base-commit: 7c53f6b671f4aba70ff15e1b05148b10d58c2837
+> --
+> 2.30.0
+>
