@@ -2,144 +2,117 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B3E143010FB
-	for <lists+linux-api@lfdr.de>; Sat, 23 Jan 2021 00:28:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 68C9E3012F4
+	for <lists+linux-api@lfdr.de>; Sat, 23 Jan 2021 05:13:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728281AbhAVX1x (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 22 Jan 2021 18:27:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55380 "EHLO
+        id S1726598AbhAWENP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 22 Jan 2021 23:13:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728140AbhAVX1p (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 22 Jan 2021 18:27:45 -0500
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27F4CC06174A
-        for <linux-api@vger.kernel.org>; Fri, 22 Jan 2021 15:27:03 -0800 (PST)
-Received: by mail-io1-xd2d.google.com with SMTP id q129so14694595iod.0
-        for <linux-api@vger.kernel.org>; Fri, 22 Jan 2021 15:27:03 -0800 (PST)
+        with ESMTP id S1726590AbhAWENM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 22 Jan 2021 23:13:12 -0500
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DF8BC061788
+        for <linux-api@vger.kernel.org>; Fri, 22 Jan 2021 20:12:32 -0800 (PST)
+Received: by mail-pf1-x42f.google.com with SMTP id q20so5120429pfu.8
+        for <linux-api@vger.kernel.org>; Fri, 22 Jan 2021 20:12:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=WuooQLj08FTndW6GG4FNdPUFeSvF4QeyXpQNaZQvMQU=;
-        b=YZ6nQ6FOxluHSewTFEdRxogFELFzJ61SLsAvjLFQZbuTGGMmwsF7JRUaxP7S0eEf3O
-         zi4YxhJ311FM5HaM9OKi926md/9trhVY4f8oQ2L69cHtC8SiOc/RvEONC0Brp8EzYXLW
-         lv6khpaUQGj21NLNM2haXeFieuHFHlPe5MsuHoJAAixyciIG/WrLFSbzGXn8urZA33tw
-         GkWrMip0Wro8nMmVc+kl4jfg0hBCevvC6rr682OGhXTOkMjl301uDZC7QbGb7Yz/vxMK
-         LBlL4RWfi61+hAnVPZfXrIwr9DYcO/sReuxxZfpkbORXS6rvMYifp7nAEYX563UTR1UV
-         Vw2w==
+        d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
+        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rfxqzONqLpenH9bMcTSEoRtSy4r+OTMclT611uQQPw0=;
+        b=VYOj8q7y3B1Ci/zXV0TKKQdP+Hr4DW7yRsr1E+oiVJMPmFipjS5UZ8xLl2xoHoz/6B
+         jkpCwgPiLIZPoGfOi1wN88wt16jBRvoyvro7VvrIPcH4RTJznQoHQmoB2t8HyrxAaJdZ
+         HBhFM+SE5uT3rPuNDZ63XGBOHfrbXdGCrMh+WmJzIou1s39XhI+QRXq2zuC7lcQ0WAEq
+         +J2EBBfVHpHbKs6R2YJuQHl6VFRabnTwOH35OE4IYc02CQ9CIGb17Ob6QmJQaoizK2CX
+         qmyOJqbeCl8AsonG5sk05tyhobY+J8YKqRp8zWdSTNaaYU7FnZoryWgNkEnc2zVWMeFD
+         MIhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=WuooQLj08FTndW6GG4FNdPUFeSvF4QeyXpQNaZQvMQU=;
-        b=eWwNkBp8MUWKoSQdD7N30CXdJjoOawu/WEMrkkJTSSksK6S2c/JzaLf2hiXUPjNVpz
-         YfTA91z3gtNleEdXW0TG2VecIIDQEOAiU71by0T6XBM1ecaOrDtswY3fmnoA7uO1rVn6
-         Q8SzIOsScpOGi5wQb7dKwWk3aweDMnW/cCRRjSwe4YovuXGCs1P4bZmcMMgAnhltx0s6
-         U6uSdhHHpSXmjhz2fKbiBZ28XPdrAo/ZAKgvqMbtXX8lDoU/DBPDtnD4ZgNvEEMOMIqZ
-         Bdq4zsSic11Qy7sG9U0iTGBjPKIELXTo4EdR36ZTaGzsAzbuTibkUVbrBehW8oLi+MiY
-         WSrg==
-X-Gm-Message-State: AOAM532oPsYQIKt4lF4byQHFS16uLE59D0HAd237bHgZzNv2vlnYgJO4
-        IQ2wn4Oi/CLKweOzIe5MtcUADztClinhQpYVQlaZ2Q==
-X-Google-Smtp-Source: ABdhPJx2/n88EpZhF9H0QRhbuIUDjLNzHy/G5ah/y4Nn1FpXH6Y4ko0ibuQnyPTD5D1W2NrSUOQ62tixsem0o23bO4I=
-X-Received: by 2002:a92:4101:: with SMTP id o1mr174997ila.82.1611358022134;
- Fri, 22 Jan 2021 15:27:02 -0800 (PST)
-MIME-Version: 1.0
-References: <20210115181819.34732-1-ebiggers@kernel.org>
-In-Reply-To: <20210115181819.34732-1-ebiggers@kernel.org>
-From:   Victor Hsieh <victorhsieh@google.com>
-Date:   Fri, 22 Jan 2021 15:26:48 -0800
-Message-ID: <CAFCauYN12bWRn2N+uP455KuRmz7CQkCBXnz0B2sr5kCQtpJo4A@mail.gmail.com>
-Subject: Re: [PATCH 0/6] fs-verity: add an ioctl to read verity metadata
-To:     Eric Biggers <ebiggers@kernel.org>
-Cc:     linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-api@vger.kernel.org, "Theodore Ts'o" <tytso@mit.edu>,
-        Jaegeuk Kim <jaegeuk@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+         :mime-version:content-transfer-encoding;
+        bh=rfxqzONqLpenH9bMcTSEoRtSy4r+OTMclT611uQQPw0=;
+        b=R5unGELxXc8VpS7ZKcQms76l9MlDS/1ntJc0X6yJWi+MpzADSNfY77i45na4ZryO7V
+         ZiS7I1RLM5uWJ+PWm6R5hcWi1X9sysfnUX2rS873W/K270bZwkXWTZu/6p/a57xit2NR
+         4z4kb54Yl++jo5mzPM/a2Ozq5aAIzi6FgmoRNaF4W5Hrh9v79tqhQjufQCR914BAy86T
+         kVI2ZxVenvA9HgOSe80BcN5JcKGfiB6SJZJgTNHX3LtOmdGPrVFdL7AIpCVVdkNcQsQL
+         G9y5jzR4feXQvpJPXTIgJGbeoA1UjccNEAzpxl6RXyBE5mZkDRQQCcUwwc6VVjS03jni
+         0pvw==
+X-Gm-Message-State: AOAM532azBlQc5wkFOW2ZSw+DS/XiU12nVz0BYwympKpiWERvEw+e/m5
+        QlFzpboEzF0vi4RigWIcTeghTA==
+X-Google-Smtp-Source: ABdhPJz23uPwWexptJVrp5X0oeJBb+aQPxkhO88fX4JWNnDnVCTuobkNxuBQWZrcK1ekbZ/uQmCkcQ==
+X-Received: by 2002:a62:2aca:0:b029:1bb:4349:f889 with SMTP id q193-20020a622aca0000b02901bb4349f889mr8177532pfq.26.1611375151785;
+        Fri, 22 Jan 2021 20:12:31 -0800 (PST)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
+        by smtp.gmail.com with ESMTPSA id f15sm10628173pja.24.2021.01.22.20.12.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Jan 2021 20:12:30 -0800 (PST)
+Date:   Fri, 22 Jan 2021 20:12:30 -0800 (PST)
+X-Google-Original-Date: Fri, 22 Jan 2021 20:12:28 PST (-0800)
+Subject:     Re: [PATCH v15 03/11] riscv/Kconfig: make direct map manipulation options depend on MMU
+In-Reply-To: <20210120180612.1058-4-rppt@kernel.org>
+CC:     akpm@linux-foundation.org, viro@zeniv.linux.org.uk,
+        luto@kernel.org, Arnd Bergmann <arnd@arndb.de>, bp@alien8.de,
+        catalin.marinas@arm.com, cl@linux.com, dan.j.williams@intel.com,
+        dave.hansen@linux.intel.com, david@redhat.com,
+        elena.reshetova@intel.com, hpa@zytor.com, mingo@redhat.com,
+        jejb@linux.ibm.com, kirill@shutemov.name, willy@infradead.org,
+        mark.rutland@arm.com, rppt@linux.ibm.com, rppt@kernel.org,
+        mtk.manpages@gmail.com, Paul Walmsley <paul.walmsley@sifive.com>,
+        peterz@infradead.org, rick.p.edgecombe@intel.com, guro@fb.com,
+        shakeelb@google.com, shuah@kernel.org, tglx@linutronix.de,
+        tycho@tycho.ws, will@kernel.org, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
+        x86@kernel.org, lkp@intel.com
+From:   Palmer Dabbelt <palmer@dabbelt.com>
+To:     rppt@kernel.org
+Message-ID: <mhng-5cbc9b30-ac9a-4748-bf12-8f0de4c89f79@palmerdabbelt-glaptop>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-LGTM. Thanks!
+On Wed, 20 Jan 2021 10:06:04 PST (-0800), rppt@kernel.org wrote:
+> From: Mike Rapoport <rppt@linux.ibm.com>
+>
+> ARCH_HAS_SET_DIRECT_MAP and ARCH_HAS_SET_MEMORY configuration options have
+> no meaning when CONFIG_MMU is disabled and there is no point to enable them
+> for the nommu case.
+>
+> Add an explicit dependency on MMU for these options.
+>
+> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+> Reported-by: kernel test robot <lkp@intel.com>
+> ---
+>  arch/riscv/Kconfig | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> index d82303dcc6b6..d35ce19ab1fa 100644
+> --- a/arch/riscv/Kconfig
+> +++ b/arch/riscv/Kconfig
+> @@ -25,8 +25,8 @@ config RISCV
+>  	select ARCH_HAS_KCOV
+>  	select ARCH_HAS_MMIOWB
+>  	select ARCH_HAS_PTE_SPECIAL
+> -	select ARCH_HAS_SET_DIRECT_MAP
+> -	select ARCH_HAS_SET_MEMORY
+> +	select ARCH_HAS_SET_DIRECT_MAP if MMU
+> +	select ARCH_HAS_SET_MEMORY if MMU
+>  	select ARCH_HAS_STRICT_KERNEL_RWX if MMU
+>  	select ARCH_OPTIONAL_KERNEL_RWX if ARCH_HAS_STRICT_KERNEL_RWX
+>  	select ARCH_OPTIONAL_KERNEL_RWX_DEFAULT
 
-Reviewed-by: Victor Hsieh <victorhsieh@google.com>
+Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
+Acked-by: Palmer Dabbelt <palmerdabbelt@google.com>
 
-On Fri, Jan 15, 2021 at 10:19 AM Eric Biggers <ebiggers@kernel.org> wrote:
->
-> [This patchset applies to v5.11-rc3]
->
-> Add an ioctl FS_IOC_READ_VERITY_METADATA which allows reading verity
-> metadata from a file that has fs-verity enabled, including:
->
-> - The Merkle tree
-> - The fsverity_descriptor (not including the signature if present)
-> - The built-in signature, if present
->
-> This ioctl has similar semantics to pread().  It is passed the type of
-> metadata to read (one of the above three), and a buffer, offset, and
-> size.  It returns the number of bytes read or an error.
->
-> This ioctl doesn't make any assumption about where the metadata is
-> stored on-disk.  It does assume the metadata is in a stable format, but
-> that's basically already the case:
->
-> - The Merkle tree and fsverity_descriptor are defined by how fs-verity
->   file digests are computed; see the "File digest computation" section
->   of Documentation/filesystems/fsverity.rst.  Technically, the way in
->   which the levels of the tree are ordered relative to each other wasn't
->   previously specified, but it's logical to put the root level first.
->
-> - The built-in signature is the value passed to FS_IOC_ENABLE_VERITY.
->
-> This ioctl is useful because it allows writing a server program that
-> takes a verity file and serves it to a client program, such that the
-> client can do its own fs-verity compatible verification of the file.
-> This only makes sense if the client doesn't trust the server and if the
-> server needs to provide the storage for the client.
->
-> More concretely, there is interest in using this ability in Android to
-> export APK files (which are protected by fs-verity) to "protected VMs".
-> This would use Protected KVM (https://lwn.net/Articles/836693), which
-> provides an isolated execution environment without having to trust the
-> traditional "host".  A "guest" VM can boot from a signed image and
-> perform specific tasks in a minimum trusted environment using files that
-> have fs-verity enabled on the host, without trusting the host or
-> requiring that the guest has its own trusted storage.
->
-> Technically, it would be possible to duplicate the metadata and store it
-> in separate files for serving.  However, that would be less efficient
-> and would require extra care in userspace to maintain file consistency.
->
-> In addition to the above, the ability to read the built-in signatures is
-> useful because it allows a system that is using the in-kernel signature
-> verification to migrate to userspace signature verification.
->
-> This patchset has been tested by new xfstests which call this new ioctl
-> via a new subcommand for the 'fsverity' program from fsverity-utils.
->
-> Eric Biggers (6):
->   fs-verity: factor out fsverity_get_descriptor()
->   fs-verity: don't pass whole descriptor to fsverity_verify_signature()
->   fs-verity: add FS_IOC_READ_VERITY_METADATA ioctl
->   fs-verity: support reading Merkle tree with ioctl
->   fs-verity: support reading descriptor with ioctl
->   fs-verity: support reading signature with ioctl
->
->  Documentation/filesystems/fsverity.rst |  76 ++++++++++
->  fs/ext4/ioctl.c                        |   7 +
->  fs/f2fs/file.c                         |  11 ++
->  fs/verity/Makefile                     |   1 +
->  fs/verity/fsverity_private.h           |  13 +-
->  fs/verity/open.c                       | 133 +++++++++++------
->  fs/verity/read_metadata.c              | 195 +++++++++++++++++++++++++
->  fs/verity/signature.c                  |  20 +--
->  include/linux/fsverity.h               |  12 ++
->  include/uapi/linux/fsverity.h          |  14 ++
->  10 files changed, 417 insertions(+), 65 deletions(-)
->  create mode 100644 fs/verity/read_metadata.c
->
->
-> base-commit: 7c53f6b671f4aba70ff15e1b05148b10d58c2837
-> --
-> 2.30.0
->
+LMK if you want this to go in via the RISC-V tree, otherwise I'm going to
+assume it's going in along with the rest of these.  FWIW I see these in other
+architectures without the MMU guard.
+
+Thanks!
