@@ -2,59 +2,38 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 508C2301D79
-	for <lists+linux-api@lfdr.de>; Sun, 24 Jan 2021 17:24:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 82E70301E05
+	for <lists+linux-api@lfdr.de>; Sun, 24 Jan 2021 18:59:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726477AbhAXQW7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 24 Jan 2021 11:22:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43308 "EHLO
+        id S1726164AbhAXR7T (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 24 Jan 2021 12:59:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726515AbhAXQW5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 24 Jan 2021 11:22:57 -0500
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A42BDC061574
-        for <linux-api@vger.kernel.org>; Sun, 24 Jan 2021 08:22:16 -0800 (PST)
-Received: by mail-wr1-x430.google.com with SMTP id c12so9860233wrc.7
-        for <linux-api@vger.kernel.org>; Sun, 24 Jan 2021 08:22:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Tge0WSYAniqWcuAqFQnVZg2cTSD1QDk4FhLRTYjLR/s=;
-        b=Hw1B4e8N4Fe0pkBG5w5A00v/NQXUIeI5wICQUupXjU9s/3kwC+Pv5gXEam5e32vHW6
-         RLBEAe4jtzdzkOFlxfuYteJKaUKFx9CI0mK6Ml8akTeGMn8N4jfVdMUt3kOAOccXhkq8
-         ZDNYIrP6CAMN8Z7Dd8k2f3Z7oWA1YxvbaW/UlDlhMZZ/MOttbHETOMY4e18Hg4hmt8aN
-         Ka/g94XafB6BnRJsMrOHIaWEMz/Uv+9JHFxCJoIMmaBJ841cG/uQyguir6pPlzZ1VfQe
-         FpjM/vhpzicQmcN/2NPlEZj4yZ95k3JVhOZh0+vG0xU7fhI3A88zMmMIq7QN9eGacVKg
-         s3HA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Tge0WSYAniqWcuAqFQnVZg2cTSD1QDk4FhLRTYjLR/s=;
-        b=mu790C5OCz35bjeYbmce76n2cXbp45OMUXPsTu2/n85bsyJ2yTK7q61mlHvON45u17
-         38r2sk+WOiY5Y8Cdzl+gxavzwqVgHZEpMc8x6ktiBh3u8uqoJjfBbTK1oHfrDddi6Lwp
-         Sj9h6rYbpzVDTPO4VXMJUH9XOarECE+4GjOWThjbV/AEOX+ifgncWzRkIuC/28o/6xjf
-         umn8U5Db8WhtfkzP8M2PfXrPGgi/QzSXx3Ub+imxiRFsppaQ9vNW9ohn1NIh09KFSKEv
-         dyj8KveDc8WdgKFXzceTTVtvW2FsFYNbPCCKnlWE6V3SvXtvvr7sHzE65HpsXgtcUnKi
-         YFYw==
-X-Gm-Message-State: AOAM5316SIfQV1/KyXY6SJRw1pkCaJYV7i+pYQtE7Zz8CtJ2GwXUVS2e
-        +4o+gf67G4gfAudX9uhuI0U=
-X-Google-Smtp-Source: ABdhPJzah+Qs57CJ90w5Xcthn9uI2Ga35mInii4uiYXL7Lh/wrq5xV+wEAkXzh1Uo+K4kvxPo1y74g==
-X-Received: by 2002:adf:ef49:: with SMTP id c9mr13294309wrp.172.1611505335449;
-        Sun, 24 Jan 2021 08:22:15 -0800 (PST)
-Received: from [192.168.1.143] ([170.253.51.130])
-        by smtp.gmail.com with UTF8SMTPSA id s24sm18380903wmh.22.2021.01.24.08.22.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 24 Jan 2021 08:22:12 -0800 (PST)
-Subject: Re: [PATCH v3 (resend)] tee: Add -q, --quiet, --silent option to not
- write to stdout
-To:     Teran McKinney <sega01@go-beyond.org>
+        with ESMTP id S1726103AbhAXR7R (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 24 Jan 2021 12:59:17 -0500
+X-Greylist: delayed 397 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 24 Jan 2021 09:58:36 PST
+Received: from clue.drijf.net (clue.drijf.net [IPv6:2a02:898::216:1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DEC6C061573
+        for <linux-api@vger.kernel.org>; Sun, 24 Jan 2021 09:58:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=drijf.net; s=default;
+        t=1611510710;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=6R9cxIIPJyVqbiYIwH3/tA/8c+6DhQciQFD9pBBqCaw=;
+        b=dbWXWjPLe6u3ZvDorGvYtUhIlXOFmBV019x+6pShnH8uaVO1hK0XStDOnaXRQGDfMYb//m
+        7l4NV5JrDuD04Ih/HKSxhVZ+EAlMmse+MCtI+AQ2L6Kuq0tAuVB8GZfipy82zQzWPFJN5G
+        h56U6zHDVb0LCPd4JbJn+wIQaKHo9y4=
+Received: from clue.drijf.net (clue.drijf.net [94.142.244.34])
+        by mx1.drijf.net (OpenSMTPD) with ESMTPSA id 30a2f150 (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO);
+        Sun, 24 Jan 2021 18:51:50 +0100 (CET)
+Date:   Sun, 24 Jan 2021 18:51:48 +0100
+From:   Otto Moerbeek <otto@drijf.net>
+To:     Alejandro Colomar <alx.manpages@gmail.com>
 Cc:     Bernhard Voelker <mail@bernhard-voelker.de>,
         Alex Henrie <alexhenrie24@gmail.com>,
         Christian Groessler <chris@groessler.org>,
-        P??draig Brady <P@draigbrady.com>,
+        =?iso-8859-1?Q?P=E1draig?= Brady <P@draigbrady.com>,
         Coreutils <coreutils@gnu.org>,
         William Ahern <william@25thandclement.com>,
         Erik Auerswald <auerswal@unix-ag.uni-kl.de>,
@@ -64,79 +43,118 @@ Cc:     Bernhard Voelker <mail@bernhard-voelker.de>,
         Fabrice BAUZAC <noon@mykolab.com>, tech@openbsd.org,
         freebsd-hackers@freebsd.org, linux-api@vger.kernel.org,
         juli@clockworksquid.com, ed@nuxi.nl, oshogbo@freebsd.org
+Subject: Re: [PATCH v3 (resend)] tee: Add -q, --quiet, --silent option to not
+ write to stdout
+Message-ID: <YA2ztHUATu1gOxoV@clue.drijf.net>
 References: <1f8ce444-35e2-56a7-dbd1-34e885372b11@gmail.com>
- <20210124121845.38293-1-alx.manpages@gmail.com> <YA2cNr/BQw1fAhwn@daemon>
-From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-Message-ID: <c2bd6b56-1ff6-9893-962f-501334ef8694@gmail.com>
-Date:   Sun, 24 Jan 2021 17:22:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:84.0) Gecko/20100101
- Thunderbird/84.0
+ <20210124121845.38293-1-alx.manpages@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <YA2cNr/BQw1fAhwn@daemon>
-Content-Type: text/plain; charset=UTF-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210124121845.38293-1-alx.manpages@gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 1/24/21 5:11 PM, Teran McKinney wrote:
-> On 2021-01-24 13-18-46    , Alejandro Colomar wrote:
->> This is useful for using tee to just write to a file,
->> at the end of a pipeline,
->> without having to redirect to /dev/null
->>
->> Example:
->>
->> echo 'foo' | sudo tee -q /etc/foo;
->>
->> is equivalent to the old (and ugly)
->>
->> echo 'foo' | sudo tee /etc/foo >/dev/null;
->>
->> Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
->> ---
-[...]
-> 
-> Hi,
-> 
-> Why is this a thing?
-> 
-> The point of tee is to write a file *and* to stdout. If you don't want use that, use:
-> 
-> `> file`
-> 
-> To overwrite.
-> 
-> Or
-> 
-> `>> file`
-> 
-> To append.
-> 
-> I guess the only reason this would be used is if you wanted to write
-> multiple files at the same time, which tee supports.
-> 
-> -Teran
-> 
+On Sun, Jan 24, 2021 at 01:18:46PM +0100, Alejandro Colomar wrote:
 
+> This is useful for using tee to just write to a file,
+> at the end of a pipeline,
+> without having to redirect to /dev/null
+> 
+> Example:
+> 
+> echo 'foo' | sudo tee -q /etc/foo;
+> 
+> is equivalent to the old (and ugly)
 
-Hi Teran,
+You keep repeating "ugly" as the reason you are wanting this.
 
-The rationale is that protected files can't be modified with '>', unless
-you give superuser rights to the whole shell.  If you want fine-grained
-control over the rights of the tools in the pipeline, you'll come to
-times where you want the write step to be the only one to have those,
-and you can't [sudo >] nor [sudo >>], which by the way I would consider
-an even better solution, but which would require much more work, and
-designing a completely new idiom for it, which would face much more
-objection too.
+I consider adding special options to command to solve an imagined
+issue that can be solved with a general concept like redirection ugly.
+Please stop pushing your diff to this list. So far nobody showed any
+interest.
 
-Regards,
+	-Otto
 
-Alex
-
--- 
-Alejandro Colomar
-Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
-http://www.alejandro-colomar.es/
+> 
+> echo 'foo' | sudo tee /etc/foo >/dev/null;
+> 
+> Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
+> ---
+> 
+> Resend as v3. I forgot to change the subject line.
+> Everything else is the same as in
+> <20210123145356.53962-1-alx.manpages@gmail.com>.
+> 
+>  src/tee.c | 18 +++++++++++++++---
+>  1 file changed, 15 insertions(+), 3 deletions(-)
+> 
+> diff --git a/src/tee.c b/src/tee.c
+> index c81faea91..1dfa92cf2 100644
+> --- a/src/tee.c
+> +++ b/src/tee.c
+> @@ -45,6 +45,9 @@ static bool append;
+>  /* If true, ignore interrupts. */
+>  static bool ignore_interrupts;
+>  
+> +/* Don't write to stdout */
+> +static bool quiet;
+> +
+>  enum output_error
+>    {
+>      output_error_sigpipe,      /* traditional behavior, sigpipe enabled.  */
+> @@ -61,6 +64,8 @@ static struct option const long_options[] =
+>    {"append", no_argument, NULL, 'a'},
+>    {"ignore-interrupts", no_argument, NULL, 'i'},
+>    {"output-error", optional_argument, NULL, 'p'},
+> +  {"quiet", no_argument, NULL, 'q'},
+> +  {"silent", no_argument, NULL, 'q'},
+>    {GETOPT_HELP_OPTION_DECL},
+>    {GETOPT_VERSION_OPTION_DECL},
+>    {NULL, 0, NULL, 0}
+> @@ -93,6 +98,7 @@ Copy standard input to each FILE, and also to standard output.\n\
+>  "), stdout);
+>        fputs (_("\
+>    -p                        diagnose errors writing to non pipes\n\
+> +  -q, --quiet, --silent     don't write to standard output\n\
+>        --output-error[=MODE]   set behavior on write error.  See MODE below\n\
+>  "), stdout);
+>        fputs (HELP_OPTION_DESCRIPTION, stdout);
+> @@ -130,8 +136,9 @@ main (int argc, char **argv)
+>  
+>    append = false;
+>    ignore_interrupts = false;
+> +  quiet = false;
+>  
+> -  while ((optc = getopt_long (argc, argv, "aip", long_options, NULL)) != -1)
+> +  while ((optc = getopt_long (argc, argv, "aipq", long_options, NULL)) != -1)
+>      {
+>        switch (optc)
+>          {
+> @@ -151,6 +158,10 @@ main (int argc, char **argv)
+>              output_error = output_error_warn_nopipe;
+>            break;
+>  
+> +        case 'q':
+> +          quiet = true;
+> +          break;
+> +
+>          case_GETOPT_HELP_CHAR;
+>  
+>          case_GETOPT_VERSION_CHAR (PROGRAM_NAME, AUTHORS);
+> @@ -235,8 +246,9 @@ tee_files (int nfiles, char **files)
+>          break;
+>  
+>        /* Write to all NFILES + 1 descriptors.
+> -         Standard output is the first one.  */
+> -      for (i = 0; i <= nfiles; i++)
+> +         Standard output is the first one.
+> +         If 'quiet' is true, write to descriptors 1 and above (omit stdout)  */
+> +      for (i = quiet; i <= nfiles; i++)
+>          if (descriptors[i]
+>              && fwrite (buffer, bytes_read, 1, descriptors[i]) != 1)
+>            {
+> -- 
+> 2.30.0
+> 
