@@ -2,51 +2,51 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E65BD301618
-	for <lists+linux-api@lfdr.de>; Sat, 23 Jan 2021 15:55:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DDD6301BCB
+	for <lists+linux-api@lfdr.de>; Sun, 24 Jan 2021 13:22:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725274AbhAWOzM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 23 Jan 2021 09:55:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56290 "EHLO
+        id S1726614AbhAXMUW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 24 Jan 2021 07:20:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725268AbhAWOzM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 23 Jan 2021 09:55:12 -0500
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A12DC06174A
-        for <linux-api@vger.kernel.org>; Sat, 23 Jan 2021 06:54:31 -0800 (PST)
-Received: by mail-wr1-x432.google.com with SMTP id v15so7866155wrx.4
-        for <linux-api@vger.kernel.org>; Sat, 23 Jan 2021 06:54:31 -0800 (PST)
+        with ESMTP id S1726583AbhAXMUV (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 24 Jan 2021 07:20:21 -0500
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BED97C061573
+        for <linux-api@vger.kernel.org>; Sun, 24 Jan 2021 04:19:40 -0800 (PST)
+Received: by mail-wm1-x332.google.com with SMTP id c127so8318104wmf.5
+        for <linux-api@vger.kernel.org>; Sun, 24 Jan 2021 04:19:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=pNuCFY4s8WBH3encyCheLFmzRuVTMKtmvRgUzDaFPpo=;
-        b=a6gZ2wGLMPbIJE0rmpRwrgNfpcXvRjZMghw7CjcrqyWYrQ6C3vG0kYX+18FJ0LLi3+
-         toyI17Lz2ODLy1DKZ7hDXAS76Ty/5o1eTd9IYDx36GHGwvLwqvYryEML322+n/7TfgC+
-         vjrn2oPAUC2QLKb/eutt298zLpGH9ol93xABchzTpVtdf2Tlplpq0GA/02iNd+RH4PrU
-         JyHW4X4J+5MztLSgKXaovsOsqcng4hzs/N8KFtpmu1EQs0JXClZiQaMPEA/IGvyiC9jC
-         j8IBLKQcl29Zha9Ja6hoR4Qy/eMCyFzbGHnMy5Ww0D/CIC5X1jFdRWr0zg7WE6mCjYYU
-         OUnQ==
+        bh=vxB7sFIhkdFfNASyegI8j5fZfgIskJRC51MEpIRmbBA=;
+        b=dacZbrzlGb4FT8BBTvRaDqhJvckM60roK7MwqkJOCW99h2S6ouYuHFiT32/Kue5cyW
+         zeT2wuVwW/U25GFILMXUlo7uEDvA04wVIBWfhSws2vfKi1i22tcKWuyE2VQZrmWhzKe5
+         KaGXJUlyQ4psiIzODB1Lp/G3PhVl8IUDFzKsmhuLL9s5F/NYoXe9XDusMRzx+pwI5TrW
+         oQ3viZZ8/S3oeotjZqiPAFiNCRLcxOIQmZErY9+Gt2tZWDLtYR9l6+BoN0Y1Cm0Xt9qH
+         vp6jALRBE6v3oNQHUH88n3nRInfoh0jH2+u6OCiJ+uF3qvSfpQNSQxJcOC4tZOSW8lWL
+         AM2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=pNuCFY4s8WBH3encyCheLFmzRuVTMKtmvRgUzDaFPpo=;
-        b=BFiUbmnxWiXDOnd4CEcrmYM43Qtd27m6JlT0PFUmda8y7BWfHptbaDh+W27yYG0ge4
-         EWauwYolk630vB6Qlsb7FhvPpE+97gSsy66+zmjlNCVIdrwfnKEm232CnSDrZ10CFP0i
-         naJcBljL8d0KRXE9zHMSHIXV67cDfFY7DmbJIBI1vyx+GsSIZyOwmFAuBh0UKszowYlw
-         3gvCSaO5A/2+RIfu7oAdoBrTsbhADnHRoizOTV2T8Y6MiheUNGd05XXQR5kabgflhrsR
-         hLZFt1ZohxkwM3j+f+AKjf43BUTrjRVqAPrewmdh7+UsT8CejbEtKNT1xh+mnNuNUl5o
-         /X/g==
-X-Gm-Message-State: AOAM533wVQgzUe2w4bbjo0OFZmWn+HRfkfM8UHlpp/ZEErv9/OgX1ZO1
-        f8QeLsPMkA3AXTNzb38cQ7c=
-X-Google-Smtp-Source: ABdhPJw2wxxMuPsRc24xpJeFLqYTfUEF68PmYzA36/s6M0K8DBszwv/JsqohUEMop5Vv6m970riOqQ==
-X-Received: by 2002:adf:e384:: with SMTP id e4mr543159wrm.13.1611413670335;
-        Sat, 23 Jan 2021 06:54:30 -0800 (PST)
-Received: from localhost.localdomain ([170.253.49.0])
-        by smtp.googlemail.com with ESMTPSA id w126sm5305792wma.43.2021.01.23.06.54.28
+        bh=vxB7sFIhkdFfNASyegI8j5fZfgIskJRC51MEpIRmbBA=;
+        b=DmpMu3Oti8CzfzeY8kmr+Bt5ReBuxYiqzGyKAuXsjFTU4Y0hjshbYRntyfySfnyFb+
+         p3eCOCBkcVrvc8eCxCzOFqcYq7el3MgwOxsPoeOvbDAwK8rKQToDqLtKwb/pDLtK8ceB
+         1zFSnD5E1TswMKCJxS8pg2n+OqCdkRckXpWWLoQUVRmym/odm7f4ZzeXW2k0GxHVD0Y+
+         vL3WisGr+Jx03RDUcB8W+PfTkW3dVwiXMv09LrbcSzff1Sx3LUu3IO7d+RfRubbxHfit
+         SZE2IqUg9Sm3t/bqsZEZah+Yi5Vty4K883trka2tKTG62e6ECKSUSg/6T3asErAu4QPE
+         iPqA==
+X-Gm-Message-State: AOAM531HQje6QEXOBiHvQ0H9ra9Vvuw4RRxH0/sXkHJllAet7v87OnO1
+        RTUa0SafzjRQkXIZd8lFmcMnSR09ii0=
+X-Google-Smtp-Source: ABdhPJz5Z5GPSB9eGxsrOUhA1AgtLGKGLG0h4QMnBuo5WBtxvT4ResoOf2VKlRavQFLJikqXsiz/+Q==
+X-Received: by 2002:a05:600c:230e:: with SMTP id 14mr2173459wmo.161.1611490779526;
+        Sun, 24 Jan 2021 04:19:39 -0800 (PST)
+Received: from debian.vlc ([170.253.51.130])
+        by smtp.gmail.com with ESMTPSA id n16sm18680871wrj.26.2021.01.24.04.19.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Jan 2021 06:54:29 -0800 (PST)
+        Sun, 24 Jan 2021 04:19:38 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     Bernhard Voelker <mail@bernhard-voelker.de>,
         Alex Henrie <alexhenrie24@gmail.com>,
@@ -62,9 +62,9 @@ Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         Fabrice BAUZAC <noon@mykolab.com>, tech@openbsd.org,
         freebsd-hackers@freebsd.org, linux-api@vger.kernel.org,
         juli@clockworksquid.com, ed@nuxi.nl, oshogbo@freebsd.org
-Subject: [PATCH] tee: Add -q, --quiet, --silent option to not write to stdout
-Date:   Sat, 23 Jan 2021 15:53:57 +0100
-Message-Id: <20210123145356.53962-1-alx.manpages@gmail.com>
+Subject: [PATCH v3 (resend)] tee: Add -q, --quiet, --silent option to not write to stdout
+Date:   Sun, 24 Jan 2021 13:18:46 +0100
+Message-Id: <20210124121845.38293-1-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <1f8ce444-35e2-56a7-dbd1-34e885372b11@gmail.com>
 References: <1f8ce444-35e2-56a7-dbd1-34e885372b11@gmail.com>
@@ -85,14 +85,13 @@ echo 'foo' | sudo tee -q /etc/foo;
 is equivalent to the old (and ugly)
 
 echo 'foo' | sudo tee /etc/foo >/dev/null;
+
+Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
 
-v2: Add --silent synonym to --quiet, per GNU guidelines.
-    I tested --silent with success.
-
-v3: Added -q to opstring, which I removed by accident in v2.
-    I tested all -q, --quiet and --silent this time.
-
+Resend as v3. I forgot to change the subject line.
+Everything else is the same as in
+<20210123145356.53962-1-alx.manpages@gmail.com>.
 
  src/tee.c | 18 +++++++++++++++---
  1 file changed, 15 insertions(+), 3 deletions(-)
