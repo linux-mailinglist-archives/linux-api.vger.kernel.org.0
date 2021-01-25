@@ -2,229 +2,181 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A8FA13027AC
-	for <lists+linux-api@lfdr.de>; Mon, 25 Jan 2021 17:22:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BB4DF302819
+	for <lists+linux-api@lfdr.de>; Mon, 25 Jan 2021 17:44:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730134AbhAYQVh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 25 Jan 2021 11:21:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40876 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730628AbhAYQVe (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 25 Jan 2021 11:21:34 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 266FCC06178C;
-        Mon, 25 Jan 2021 08:20:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=IJWSMxQ0cSD59sZdRy00Q/p6Rk88W9Y0AQrU4XxStZg=; b=PuPaQ600mHPoHQdKyO6XI5TBrm
-        CnXgjHw3HKWzCm5rtjfhkN6pBiyt2h/9yeDanzks13gq46MuMu5ie6WAiuNN2m/RkKR/rpK0Ta+ng
-        fHJqJV/J5ZL7Mm56BAbERsDJQvtiznZxtFYP1h0WIVW4cRUSWOgeXte9ZAwEUfG7Limi/SljDPwHf
-        3LMXYk3STX6IxUUL3ZYWCYEFfmPendGeUlO+ZrAdcgyCMSmB3rEIdQrHxVOnGrHC53/rZBPfRUW94
-        buoqllvpB2FvdrEAlQBBWi7qPaBsXDmTgOiFPH1Y4lZIdk+po0IBNUEGXYPVncthQFPVdxLrQWtZK
-        FRfe61ig==;
-Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1l44Y6-004OSf-8C; Mon, 25 Jan 2021 16:17:11 +0000
-Date:   Mon, 25 Jan 2021 16:17:06 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
+        id S1730829AbhAYQlj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 25 Jan 2021 11:41:39 -0500
+Received: from out03.mta.xmission.com ([166.70.13.233]:55430 "EHLO
+        out03.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730830AbhAYQld (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 25 Jan 2021 11:41:33 -0500
+Received: from in02.mta.xmission.com ([166.70.13.52])
+        by out03.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1l44ua-000JK6-HB; Mon, 25 Jan 2021 09:40:20 -0700
+Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
+        by in02.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1l44uY-005na2-OS; Mon, 25 Jan 2021 09:40:20 -0700
+From:   ebiederm@xmission.com (Eric W. Biederman)
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@lst.de>, linux-fsdevel@vger.kernel.org,
+        John Johansen <john.johansen@canonical.com>,
+        James Morris <jmorris@namei.org>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+        Geoffrey Thomas <geofft@ldpreload.com>,
+        Mrunal Patel <mpatel@redhat.com>,
+        Josh Triplett <josh@joshtriplett.org>,
         Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Roman Gushchin <guro@fb.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
-        x86@kernel.org, Hagen Paul Pfeifer <hagen@jauu.net>,
-        Palmer Dabbelt <palmerdabbelt@google.com>
-Subject: Re: [PATCH v16 08/11] secretmem: add memcg accounting
-Message-ID: <20210125161706.GE308988@casper.infradead.org>
-References: <20210121122723.3446-1-rppt@kernel.org>
- <20210121122723.3446-9-rppt@kernel.org>
+        Theodore Tso <tytso@mit.edu>, Alban Crequy <alban@kinvolk.io>,
+        Tycho Andersen <tycho@tycho.ws>,
+        David Howells <dhowells@redhat.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Seth Forshee <seth.forshee@canonical.com>,
+        =?utf-8?Q?St=C3=A9phane?= Graber <stgraber@ubuntu.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Lennart Poettering <lennart@poettering.net>,
+        smbarber@chromium.org, Phil Estes <estesp@gmail.com>,
+        Serge Hallyn <serge@hallyn.com>,
+        Kees Cook <keescook@chromium.org>,
+        Todd Kjos <tkjos@google.com>, Paul Moore <paul@paul-moore.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        containers@lists.linux-foundation.org,
+        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
+        linux-integrity@vger.kernel.org, selinux@vger.kernel.org
+References: <20210121131959.646623-1-christian.brauner@ubuntu.com>
+        <20210121131959.646623-24-christian.brauner@ubuntu.com>
+Date:   Mon, 25 Jan 2021 10:39:01 -0600
+In-Reply-To: <20210121131959.646623-24-christian.brauner@ubuntu.com>
+        (Christian Brauner's message of "Thu, 21 Jan 2021 14:19:42 +0100")
+Message-ID: <875z3l0y56.fsf@x220.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210121122723.3446-9-rppt@kernel.org>
+Content-Type: text/plain
+X-XM-SPF: eid=1l44uY-005na2-OS;;;mid=<875z3l0y56.fsf@x220.int.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX1/xzi6ZD1Y1LahVVXJQCa6ijNXolO+AIc8=
+X-SA-Exim-Connect-IP: 68.227.160.95
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa07.xmission.com
+X-Spam-Level: **
+X-Spam-Status: No, score=2.2 required=8.0 tests=ALL_TRUSTED,BAYES_50,
+        DCC_CHECK_NEGATIVE,LotsOfNums_01,T_TM2_M_HEADER_IN_MSG,
+        XM_Multi_Part_URI autolearn=disabled version=3.4.2
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
+        *  1.2 LotsOfNums_01 BODY: Lots of long strings of numbers
+        *  1.2 XM_Multi_Part_URI URI: Long-Multi-Part URIs
+        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
+        *      [sa07 1397; Body=1 Fuz1=1 Fuz2=1]
+X-Spam-DCC: XMission; sa07 1397; Body=1 Fuz1=1 Fuz2=1 
+X-Spam-Combo: **;Christian Brauner <christian.brauner@ubuntu.com>
+X-Spam-Relay-Country: 
+X-Spam-Timing: total 1103 ms - load_scoreonly_sql: 0.03 (0.0%),
+        signal_user_changed: 11 (1.0%), b_tie_ro: 9 (0.8%), parse: 1.03 (0.1%),
+         extract_message_metadata: 24 (2.2%), get_uri_detail_list: 2.3 (0.2%),
+        tests_pri_-1000: 13 (1.2%), tests_pri_-950: 1.30 (0.1%),
+        tests_pri_-900: 1.09 (0.1%), tests_pri_-90: 76 (6.9%), check_bayes: 74
+        (6.7%), b_tokenize: 15 (1.3%), b_tok_get_all: 11 (1.0%), b_comp_prob:
+        3.0 (0.3%), b_tok_touch_all: 42 (3.8%), b_finish: 0.85 (0.1%),
+        tests_pri_0: 662 (60.0%), check_dkim_signature: 0.57 (0.1%),
+        check_dkim_adsp: 19 (1.8%), poll_dns_idle: 292 (26.4%), tests_pri_10:
+        2.0 (0.2%), tests_pri_500: 308 (27.9%), rewrite_mail: 0.00 (0.0%)
+Subject: Re: [PATCH v6 23/40] exec: handle idmapped mounts
+X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
+X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jan 21, 2021 at 02:27:20PM +0200, Mike Rapoport wrote:
-> From: Mike Rapoport <rppt@linux.ibm.com>
-> 
-> Account memory consumed by secretmem to memcg. The accounting is updated
-> when the memory is actually allocated and freed.
+Christian Brauner <christian.brauner@ubuntu.com> writes:
 
-I think this is wrong.  It fails to account subsequent allocators from
-the same PMD.  If you want to track like this, you need separate pools
-per memcg.
+> When executing a setuid binary the kernel will verify in bprm_fill_uid()
+> that the inode has a mapping in the caller's user namespace before
+> setting the callers uid and gid. Let bprm_fill_uid() handle idmapped
+> mounts. If the inode is accessed through an idmapped mount it is mapped
+> according to the mount's user namespace. Afterwards the checks are
+> identical to non-idmapped mounts. If the initial user namespace is
+> passed nothing changes so non-idmapped mounts will see identical
+> behavior as before.
 
-I think you shouldn't try to track like this; better to just track on
-a per-page basis.  After all, the page allocator doesn't track order-10
-pages to the memcg that initially caused them to be split.
+This does not handle the v3 capabilites xattr with embeds a uid.
+So at least at that level you are missing some critical conversions.
 
-> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
-> Acked-by: Roman Gushchin <guro@fb.com>
-> Reviewed-by: Shakeel Butt <shakeelb@google.com>
-> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-> Cc: Andy Lutomirski <luto@kernel.org>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Borislav Petkov <bp@alien8.de>
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Christopher Lameter <cl@linux.com>
-> Cc: Dan Williams <dan.j.williams@intel.com>
-> Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: Elena Reshetova <elena.reshetova@intel.com>
-> Cc: Hagen Paul Pfeifer <hagen@jauu.net>
-> Cc: "H. Peter Anvin" <hpa@zytor.com>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: James Bottomley <jejb@linux.ibm.com>
-> Cc: "Kirill A. Shutemov" <kirill@shutemov.name>
-> Cc: Mark Rutland <mark.rutland@arm.com>
-> Cc: Matthew Wilcox <willy@infradead.org>
-> Cc: Michael Kerrisk <mtk.manpages@gmail.com>
-> Cc: Palmer Dabbelt <palmer@dabbelt.com>
-> Cc: Palmer Dabbelt <palmerdabbelt@google.com>
-> Cc: Paul Walmsley <paul.walmsley@sifive.com>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: Rick Edgecombe <rick.p.edgecombe@intel.com>
-> Cc: Shuah Khan <shuah@kernel.org>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Tycho Andersen <tycho@tycho.ws>
-> Cc: Will Deacon <will@kernel.org>
+Eric
+
+> Link: https://lore.kernel.org/r/20210112220124.837960-32-christian.brauner@ubuntu.com
+> Cc: Christoph Hellwig <hch@lst.de>
+> Cc: David Howells <dhowells@redhat.com>
+> Cc: Al Viro <viro@zeniv.linux.org.uk>
+> Cc: linux-fsdevel@vger.kernel.org
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
 > ---
->  mm/filemap.c   |  3 ++-
->  mm/secretmem.c | 36 +++++++++++++++++++++++++++++++++++-
->  2 files changed, 37 insertions(+), 2 deletions(-)
-> 
-> diff --git a/mm/filemap.c b/mm/filemap.c
-> index 2d0c6721879d..bb28dd6d9e22 100644
-> --- a/mm/filemap.c
-> +++ b/mm/filemap.c
-> @@ -42,6 +42,7 @@
->  #include <linux/psi.h>
->  #include <linux/ramfs.h>
->  #include <linux/page_idle.h>
-> +#include <linux/secretmem.h>
->  #include "internal.h"
->  
->  #define CREATE_TRACE_POINTS
-> @@ -839,7 +840,7 @@ noinline int __add_to_page_cache_locked(struct page *page,
->  	page->mapping = mapping;
->  	page->index = offset;
->  
-> -	if (!huge) {
-> +	if (!huge && !page_is_secretmem(page)) {
->  		error = mem_cgroup_charge(page, current->mm, gfp);
->  		if (error)
->  			goto error;
-> diff --git a/mm/secretmem.c b/mm/secretmem.c
-> index 469211c7cc3a..05026460e2ee 100644
-> --- a/mm/secretmem.c
-> +++ b/mm/secretmem.c
-> @@ -18,6 +18,7 @@
->  #include <linux/memblock.h>
->  #include <linux/pseudo_fs.h>
->  #include <linux/secretmem.h>
-> +#include <linux/memcontrol.h>
->  #include <linux/set_memory.h>
->  #include <linux/sched/signal.h>
->  
-> @@ -44,6 +45,32 @@ struct secretmem_ctx {
->  
->  static struct cma *secretmem_cma;
->  
-> +static int secretmem_account_pages(struct page *page, gfp_t gfp, int order)
-> +{
-> +	int err;
-> +
-> +	err = memcg_kmem_charge_page(page, gfp, order);
-> +	if (err)
-> +		return err;
-> +
-> +	/*
-> +	 * seceremem caches are unreclaimable kernel allocations, so treat
-> +	 * them as unreclaimable slab memory for VM statistics purposes
-> +	 */
-> +	mod_lruvec_page_state(page, NR_SLAB_UNRECLAIMABLE_B,
-> +			      PAGE_SIZE << order);
-> +
-> +	return 0;
-> +}
-> +
-> +static void secretmem_unaccount_pages(struct page *page, int order)
-> +{
-> +
-> +	mod_lruvec_page_state(page, NR_SLAB_UNRECLAIMABLE_B,
-> +			      -PAGE_SIZE << order);
-> +	memcg_kmem_uncharge_page(page, order);
-> +}
-> +
->  static int secretmem_pool_increase(struct secretmem_ctx *ctx, gfp_t gfp)
+> /* v2 */
+> unchanged
+>
+> /* v3 */
+> unchanged
+>
+> /* v4 */
+> - Serge Hallyn <serge@hallyn.com>:
+>   - Use "mnt_userns" to refer to a vfsmount's userns everywhere to make
+>     terminology consistent.
+>
+> /* v5 */
+> unchanged
+> base-commit: 7c53f6b671f4aba70ff15e1b05148b10d58c2837
+>
+> /* v6 */
+> base-commit: 19c329f6808995b142b3966301f217c831e7cf31
+>
+> - Christoph Hellwig <hch@lst.de>:
+>   - Use new file_mnt_user_ns() helper.
+> ---
+>  fs/exec.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+>
+> diff --git a/fs/exec.c b/fs/exec.c
+> index d803227805f6..48d1e8b1610b 100644
+> --- a/fs/exec.c
+> +++ b/fs/exec.c
+> @@ -1580,6 +1580,7 @@ static void check_unsafe_exec(struct linux_binprm *bprm)
+>  static void bprm_fill_uid(struct linux_binprm *bprm, struct file *file)
 >  {
->  	unsigned long nr_pages = (1 << PMD_PAGE_ORDER);
-> @@ -56,6 +83,10 @@ static int secretmem_pool_increase(struct secretmem_ctx *ctx, gfp_t gfp)
->  	if (!page)
->  		return -ENOMEM;
+>  	/* Handle suid and sgid on files */
+> +	struct user_namespace *mnt_userns;
+>  	struct inode *inode;
+>  	unsigned int mode;
+>  	kuid_t uid;
+> @@ -1596,13 +1597,15 @@ static void bprm_fill_uid(struct linux_binprm *bprm, struct file *file)
+>  	if (!(mode & (S_ISUID|S_ISGID)))
+>  		return;
 >  
-> +	err = secretmem_account_pages(page, gfp, PMD_PAGE_ORDER);
-> +	if (err)
-> +		goto err_cma_release;
+> +	mnt_userns = file_mnt_user_ns(file);
 > +
->  	/*
->  	 * clear the data left from the prevoius user before dropping the
->  	 * pages from the direct map
-> @@ -65,7 +96,7 @@ static int secretmem_pool_increase(struct secretmem_ctx *ctx, gfp_t gfp)
+>  	/* Be careful if suid/sgid is set */
+>  	inode_lock(inode);
 >  
->  	err = set_direct_map_invalid_noflush(page, nr_pages);
->  	if (err)
-> -		goto err_cma_release;
-> +		goto err_memcg_uncharge;
+>  	/* reload atomically mode/uid/gid now that lock held */
+>  	mode = inode->i_mode;
+> -	uid = inode->i_uid;
+> -	gid = inode->i_gid;
+> +	uid = i_uid_into_mnt(mnt_userns, inode);
+> +	gid = i_gid_into_mnt(mnt_userns, inode);
+>  	inode_unlock(inode);
 >  
->  	addr = (unsigned long)page_address(page);
->  	err = gen_pool_add(pool, addr, PMD_SIZE, NUMA_NO_NODE);
-> @@ -83,6 +114,8 @@ static int secretmem_pool_increase(struct secretmem_ctx *ctx, gfp_t gfp)
->  	 * won't fail
->  	 */
->  	set_direct_map_default_noflush(page, nr_pages);
-> +err_memcg_uncharge:
-> +	secretmem_unaccount_pages(page, PMD_PAGE_ORDER);
->  err_cma_release:
->  	cma_release(secretmem_cma, page, nr_pages);
->  	return err;
-> @@ -314,6 +347,7 @@ static void secretmem_cleanup_chunk(struct gen_pool *pool,
->  	int i;
->  
->  	set_direct_map_default_noflush(page, nr_pages);
-> +	secretmem_unaccount_pages(page, PMD_PAGE_ORDER);
->  
->  	for (i = 0; i < nr_pages; i++)
->  		clear_highpage(page + i);
-> -- 
-> 2.28.0
-> 
+>  	/* We ignore suid/sgid if there are no mappings for them in the ns */
