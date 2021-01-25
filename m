@@ -2,65 +2,86 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F7C7304808
-	for <lists+linux-api@lfdr.de>; Tue, 26 Jan 2021 20:17:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 77863304809
+	for <lists+linux-api@lfdr.de>; Tue, 26 Jan 2021 20:17:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727966AbhAZFwd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 26 Jan 2021 00:52:33 -0500
-Received: from mx2.suse.de ([195.135.220.15]:48444 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728757AbhAYNVT (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 25 Jan 2021 08:21:19 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1611580783; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=hvyCg1tArEMURZiCaw0o7rfIdGticTsjrcjPx+/JdNc=;
-        b=A4Vm72+PELLClS/Iy715Uik0vACGATsRtA2iQMVkLUk7pB1NNEp+sD+oPc2YAwpCTCYFWo
-        S6cgCM5W61YrqU3UsTpXfJsNEmMTLpZ92x7E+4u1Hve30Vlh8wUkj93JfsZaBNc0InUmqa
-        E/9B6Y8rEAQXzzf6L5pfNetYN4lnJf8=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id D4325AAC6;
-        Mon, 25 Jan 2021 13:19:42 +0000 (UTC)
-Date:   Mon, 25 Jan 2021 14:19:35 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     linux-man@vger.kernel.org, akpm@linux-foundation.org,
-        jannh@google.com, keescook@chromium.org, jeffv@google.com,
-        minchan@kernel.org, shakeelb@google.com, rientjes@google.com,
-        edgararriaga@google.com, timmurray@google.com, linux-mm@kvack.org,
-        selinux@vger.kernel.org, linux-security-module@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-team@android.com
-Subject: Re: [PATCH 1/1] process_madvise.2: Add process_madvise man page
-Message-ID: <20210125131935.GI827@dhcp22.suse.cz>
-References: <20210120202337.1481402-1-surenb@google.com>
+        id S1728983AbhAZFwk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 26 Jan 2021 00:52:40 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:51410 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730672AbhAYQpn (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 25 Jan 2021 11:45:43 -0500
+Received: from ip5f5af0a0.dynamic.kabel-deutschland.de ([95.90.240.160] helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1l44yF-00055J-1o; Mon, 25 Jan 2021 16:44:07 +0000
+Date:   Mon, 25 Jan 2021 17:44:04 +0100
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@lst.de>, linux-fsdevel@vger.kernel.org,
+        John Johansen <john.johansen@canonical.com>,
+        James Morris <jmorris@namei.org>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+        Geoffrey Thomas <geofft@ldpreload.com>,
+        Mrunal Patel <mpatel@redhat.com>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Theodore Tso <tytso@mit.edu>, Alban Crequy <alban@kinvolk.io>,
+        Tycho Andersen <tycho@tycho.ws>,
+        David Howells <dhowells@redhat.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Seth Forshee <seth.forshee@canonical.com>,
+        =?utf-8?B?U3TDqXBoYW5l?= Graber <stgraber@ubuntu.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Lennart Poettering <lennart@poettering.net>,
+        smbarber@chromium.org, Phil Estes <estesp@gmail.com>,
+        Serge Hallyn <serge@hallyn.com>,
+        Kees Cook <keescook@chromium.org>,
+        Todd Kjos <tkjos@google.com>, Paul Moore <paul@paul-moore.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        containers@lists.linux-foundation.org,
+        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
+        linux-integrity@vger.kernel.org, selinux@vger.kernel.org
+Subject: Re: [PATCH v6 23/40] exec: handle idmapped mounts
+Message-ID: <20210125164404.aullgl3vlajgkef3@wittgenstein>
+References: <20210121131959.646623-1-christian.brauner@ubuntu.com>
+ <20210121131959.646623-24-christian.brauner@ubuntu.com>
+ <875z3l0y56.fsf@x220.int.ebiederm.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210120202337.1481402-1-surenb@google.com>
+In-Reply-To: <875z3l0y56.fsf@x220.int.ebiederm.org>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed 20-01-21 12:23:37, Suren Baghdasaryan wrote:
-[...]
->     MADV_COLD (since Linux 5.4.1)
->         Deactivate a given range of pages by moving them from active to
->         inactive LRU list. This is done to accelerate the reclaim of these
->         pages. The advice might be ignored for some pages in the range when it
->         is not applicable.
+On Mon, Jan 25, 2021 at 10:39:01AM -0600, Eric W. Biederman wrote:
+> Christian Brauner <christian.brauner@ubuntu.com> writes:
+> 
+> > When executing a setuid binary the kernel will verify in bprm_fill_uid()
+> > that the inode has a mapping in the caller's user namespace before
+> > setting the callers uid and gid. Let bprm_fill_uid() handle idmapped
+> > mounts. If the inode is accessed through an idmapped mount it is mapped
+> > according to the mount's user namespace. Afterwards the checks are
+> > identical to non-idmapped mounts. If the initial user namespace is
+> > passed nothing changes so non-idmapped mounts will see identical
+> > behavior as before.
+> 
+> This does not handle the v3 capabilites xattr with embeds a uid.
+> So at least at that level you are missing some critical conversions.
 
-I do not think we want to talk about active/inactive LRU lists here.
-Wouldn't it be sufficient to say
-Deactive a given range of pages which will make them a more probable
-reclaim target should there be a memory pressure. This is a
-non-destructive operation.
+Thanks for looking. Vfs v3 caps are handled earlier in the series. I'm
+not sure what you're referring to here. There are tests in xfstests that
+verify vfs3 capability behavior.
 
-Other than that, looks good to me from the content POV.
-
-Thanks!
--- 
-Michal Hocko
-SUSE Labs
+Christian
