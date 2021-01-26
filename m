@@ -2,93 +2,109 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 90CD33035BC
-	for <lists+linux-api@lfdr.de>; Tue, 26 Jan 2021 06:53:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A8B85303955
+	for <lists+linux-api@lfdr.de>; Tue, 26 Jan 2021 10:47:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388833AbhAZFwo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 26 Jan 2021 00:52:44 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:52059 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728867AbhAYRHd (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 25 Jan 2021 12:07:33 -0500
-Received: from ip5f5af0a0.dynamic.kabel-deutschland.de ([95.90.240.160] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1l45K7-0006lj-0h; Mon, 25 Jan 2021 17:06:43 +0000
-Date:   Mon, 25 Jan 2021 18:06:40 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     "Serge E. Hallyn" <serge@hallyn.com>
-Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@lst.de>, linux-fsdevel@vger.kernel.org,
-        John Johansen <john.johansen@canonical.com>,
-        James Morris <jmorris@namei.org>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
+        id S2390475AbhAZJqs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 26 Jan 2021 04:46:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40048 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731164AbhAZJqB (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 26 Jan 2021 04:46:01 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAB13C06174A;
+        Tue, 26 Jan 2021 01:45:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=1CPjkpcybqu4UmrIlyT7CxahkHobB8NLRUbQkEtv9gU=; b=OepRa5e8f56TtZHozt6NKrD7SL
+        7NAzZdheLyCJJIT2t2Otw19/WTxOE2bbb5RBIxNNUYL+zRG/pNHRno6mX+rkJvNO+5Yfl+od1ZH1o
+        3rtGWLm8NGasKwlRHdpeezA4HOMoDdHUVBSWew6rjO8PcY92SL2J2eMftsMpOjTDBCJQCdqValhdr
+        AeFKcKWSzj40c2vTUCF4YaGOvldQpTO50q23BNz4zDOWcSz013OsCF6owkBOSq9xRDB1cv3Mej/HJ
+        Gyy1ToJDQEi70A8gQZw19NxIxi1aE5bMFjUNAYQSV8d2xd+oCk7UIetGWvGwjarlIS2tjnoQ4lhqc
+        TPsD0BSA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1l4Kpx-005NSo-Qp; Tue, 26 Jan 2021 09:40:58 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 50941300DB4;
+        Tue, 26 Jan 2021 10:40:36 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 2A0E420297EDB; Tue, 26 Jan 2021 10:40:36 +0100 (CET)
+Date:   Tue, 26 Jan 2021 10:40:36 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
         Arnd Bergmann <arnd@arndb.de>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-        Geoffrey Thomas <geofft@ldpreload.com>,
-        Mrunal Patel <mpatel@redhat.com>,
-        Josh Triplett <josh@joshtriplett.org>,
         Andy Lutomirski <luto@kernel.org>,
-        Theodore Tso <tytso@mit.edu>, Alban Crequy <alban@kinvolk.io>,
-        Tycho Andersen <tycho@tycho.ws>,
-        David Howells <dhowells@redhat.com>,
-        James Bottomley <James.Bottomley@hansenpartnership.com>,
-        Seth Forshee <seth.forshee@canonical.com>,
-        =?utf-8?B?U3TDqXBoYW5l?= Graber <stgraber@ubuntu.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Lennart Poettering <lennart@poettering.net>,
-        smbarber@chromium.org, Phil Estes <estesp@gmail.com>,
-        Kees Cook <keescook@chromium.org>,
-        Todd Kjos <tkjos@google.com>, Paul Moore <paul@paul-moore.com>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        containers@lists.linux-foundation.org,
-        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
-        linux-integrity@vger.kernel.org, selinux@vger.kernel.org
-Subject: Re: [PATCH v6 23/40] exec: handle idmapped mounts
-Message-ID: <20210125170640.6ycsyod2ftxnzjzy@wittgenstein>
-References: <20210121131959.646623-1-christian.brauner@ubuntu.com>
- <20210121131959.646623-24-christian.brauner@ubuntu.com>
- <875z3l0y56.fsf@x220.int.ebiederm.org>
- <20210125164404.aullgl3vlajgkef3@wittgenstein>
- <20210125170316.GA8345@mail.hallyn.com>
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Subject: Re: [PATCH v17 11/26] x86/mm: Update ptep_set_wrprotect() and
+ pmdp_set_wrprotect() for transition from _PAGE_DIRTY to _PAGE_COW
+Message-ID: <YA/jlOuNpcPPNHA1@hirez.programming.kicks-ass.net>
+References: <20201229213053.16395-1-yu-cheng.yu@intel.com>
+ <20201229213053.16395-12-yu-cheng.yu@intel.com>
+ <20210125182709.GC23290@zn.tnic>
+ <YA/W63sob0keoD+i@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210125170316.GA8345@mail.hallyn.com>
+In-Reply-To: <YA/W63sob0keoD+i@hirez.programming.kicks-ass.net>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jan 25, 2021 at 11:03:16AM -0600, Serge Hallyn wrote:
-> On Mon, Jan 25, 2021 at 05:44:04PM +0100, Christian Brauner wrote:
-> > On Mon, Jan 25, 2021 at 10:39:01AM -0600, Eric W. Biederman wrote:
-> > > Christian Brauner <christian.brauner@ubuntu.com> writes:
-> > > 
-> > > > When executing a setuid binary the kernel will verify in bprm_fill_uid()
-> > > > that the inode has a mapping in the caller's user namespace before
-> > > > setting the callers uid and gid. Let bprm_fill_uid() handle idmapped
-> > > > mounts. If the inode is accessed through an idmapped mount it is mapped
-> > > > according to the mount's user namespace. Afterwards the checks are
-> > > > identical to non-idmapped mounts. If the initial user namespace is
-> > > > passed nothing changes so non-idmapped mounts will see identical
-> > > > behavior as before.
-> > > 
-> > > This does not handle the v3 capabilites xattr with embeds a uid.
-> > > So at least at that level you are missing some critical conversions.
-> > 
-> > Thanks for looking. Vfs v3 caps are handled earlier in the series. I'm
-> > not sure what you're referring to here. There are tests in xfstests that
-> > verify vfs3 capability behavior.
+On Tue, Jan 26, 2021 at 09:46:36AM +0100, Peter Zijlstra wrote:
+> On Mon, Jan 25, 2021 at 07:27:09PM +0100, Borislav Petkov wrote:
 > 
-> *just* to make sure i'm not misunderstanding - s/vfs3/v3/ right?
+> > > +		pte_t old_pte, new_pte;
+> > > +
+> > > +		do {
+> > > +			old_pte = READ_ONCE(*ptep);
+> > > +			new_pte = pte_wrprotect(old_pte);
+> > 
+> > Maybe I'm missing something but those two can happen outside of the
+> > loop, no? Or is *ptep somehow changing concurrently while the loop is
+> > doing the CMPXCHG and you need to recreate it each time?
+> > 
+> > IOW, you can generate upfront and do the empty loop...
+> > 
+> > > +
+> > > +		} while (!try_cmpxchg(&ptep->pte, &old_pte.pte, new_pte.pte));
+> > > +
+> > > +		return;
+> > > +	}
+> 
+> Empty loop would be wrong, but that wants to be written like:
+> 
+> 	old_pte = READ_ONCE(*ptep);
+> 	do {
+> 		new_pte = pte_wrprotect(old_pte);
+> 	} while (try_cmpxchg(&ptep->pte, &old_pte.pte, new_pte.pte));
 
-Yes, in my mind it's always as "vfs v3 caps -> vfs3 caps". Sorry for the
-confusion.
+! went missing, too early, moar wake-up juice.
+
+> Since try_cmpxchg() will update old_pte on failure.
