@@ -2,58 +2,106 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A458304807
-	for <lists+linux-api@lfdr.de>; Tue, 26 Jan 2021 20:17:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 21068304804
+	for <lists+linux-api@lfdr.de>; Tue, 26 Jan 2021 20:17:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388838AbhAZFwy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 26 Jan 2021 00:52:54 -0500
-Received: from mail.kernel.org ([198.145.29.99]:58350 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727610AbhAYSms (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 25 Jan 2021 13:42:48 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 07A5A230FF;
-        Mon, 25 Jan 2021 18:41:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611600113;
-        bh=BcQjpfINfveQmERew10h4a0n6dN8EsCa5I5lsAkb6Uo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Qisl3plDrCd6OrPM4RX01TZ3EzRVZhIIPqBvHsMU53MkaYfxvUrLMMHNJjTnFHqBT
-         tjxUPpYruIOFMXnbKbEymBeQIUOepUclZLvugJfkFZvVa/A3ngMw7W5V4eBOAF/RDV
-         siJKR4b4zuOFcB+BSX7G4VbVlna5M+qfEwOoSkYEb3V7I7AjHuVC8Yz5iVshQ6H850
-         XQXewvlYPcHUIYFplER/X1iD3GkzAK89IibAPUjuUDLP4H9IbLKlbA13f/OGkTJNkq
-         qBqFGHMZozKrQY/hicThNo7ZOqu7H651159DR5T626+ks2I4/+SyZFE8CXknWOHxGo
-         S0AP3otBlibjw==
-Date:   Mon, 25 Jan 2021 10:41:45 -0800
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Victor Hsieh <victorhsieh@google.com>
-Cc:     linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-api@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
-        Jaegeuk Kim <jaegeuk@kernel.org>
-Subject: Re: [PATCH 0/6] fs-verity: add an ioctl to read verity metadata
-Message-ID: <YA8Q6XLrLaaeMQeJ@sol.localdomain>
-References: <20210115181819.34732-1-ebiggers@kernel.org>
- <CAFCauYN12bWRn2N+uP455KuRmz7CQkCBXnz0B2sr5kCQtpJo4A@mail.gmail.com>
+        id S2388849AbhAZFw7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 26 Jan 2021 00:52:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53992 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731545AbhAZCDc (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 25 Jan 2021 21:03:32 -0500
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC51BC0613ED
+        for <linux-api@vger.kernel.org>; Mon, 25 Jan 2021 16:14:12 -0800 (PST)
+Received: by mail-wm1-x333.google.com with SMTP id y187so1156554wmd.3
+        for <linux-api@vger.kernel.org>; Mon, 25 Jan 2021 16:14:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Vz7Wx3SXxaN+HsWZGzhnHFVDxGZAroM2JwH4bW0nEhM=;
+        b=WulKks/yUSJwwUol1tm6wB9TJkukXvTYKvdB2ceQgXomgHQMSU12Q0ukxoGukdPNr8
+         HGAjlTfWtd5HvJzNWyfyy0crd2HH+/syiXerMgHWpnjKX2vL/MjmxngjAkb9Ff2XGB5O
+         2/Kvk7D9kj7xdMH5EBWmOi+BQjBDhtTEW1Gfpa+yh52P9hNpbK7Lr+NmN28rhnuHGel+
+         dO62MQLsOV4fBk09tq1r4tc2zrJUdUMA+jCyQbkJYdTVuaGSVsKAM9Ytr4Ozzu8qwh3t
+         JdPEfNF7P53HhUk4Nx0zB6G5G3rIGu1xvUCi6Vt61QOVMpU8sH7py/rv4XF0bp+yCvWD
+         rXZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Vz7Wx3SXxaN+HsWZGzhnHFVDxGZAroM2JwH4bW0nEhM=;
+        b=pl6xWw8rpN1XZfzZuO9CdDfnnfmrP2CAnhFvChc+CFvNASYwbJ6FwgEERYJHgEh5s2
+         /CfbF2S2MCGUTjtdKPMK6LmhXPnRrDX/m5yYcwFlgpBWLYMHJFMjbqB+4FpZsUptD+A/
+         PxbXvUnt/CcMwsYbqPlSvbWm9CW632W5wX3txhdX09UYbQ+y2EuIMEudL4carHtbwnKg
+         sivN2ABnXxVZHrSUfyNqfdCcuW8xcUxjipZI9nKpGcwRypd/PybGndxYwUBEw5RcSe7/
+         sfIgt4xs42eIk0XmoPpxZXoVYSifZjojcwcXZWGnJDySdu1MgXQYhHh70VkckyYd8ItS
+         zcyw==
+X-Gm-Message-State: AOAM530G9/7rY4uOdN6BRjsPgLD9GQ8zIsguwsYK3ZykifYGe3eygU2E
+        zSYkazMMnju+FyLhAi3SRTns27B/exv2cr1EMPb7wg==
+X-Google-Smtp-Source: ABdhPJytUOFxylJO9GQfWCZxkgmC08Bcn5+HCLBHOxR+Vvj6poU2sA/tL72vkNkKpaNCAmBDljbV4s4UOoZM8sJO7UI=
+X-Received: by 2002:a1c:7906:: with SMTP id l6mr2247505wme.22.1611620051415;
+ Mon, 25 Jan 2021 16:14:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFCauYN12bWRn2N+uP455KuRmz7CQkCBXnz0B2sr5kCQtpJo4A@mail.gmail.com>
+References: <20210120202337.1481402-1-surenb@google.com> <20210125131935.GI827@dhcp22.suse.cz>
+In-Reply-To: <20210125131935.GI827@dhcp22.suse.cz>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Mon, 25 Jan 2021 16:14:00 -0800
+Message-ID: <CAJuCfpGu_x4vxXejTUfD4Mjun=qJOsdoRs42gQhiv30EnED=nA@mail.gmail.com>
+Subject: Re: [PATCH 1/1] process_madvise.2: Add process_madvise man page
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     linux-man@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jann Horn <jannh@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Jeffrey Vander Stoep <jeffv@google.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        David Rientjes <rientjes@google.com>,
+        =?UTF-8?Q?Edgar_Arriaga_Garc=C3=ADa?= <edgararriaga@google.com>,
+        Tim Murray <timmurray@google.com>,
+        linux-mm <linux-mm@kvack.org>,
+        SElinux list <selinux@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kernel-team <kernel-team@android.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jan 22, 2021 at 03:26:48PM -0800, Victor Hsieh wrote:
-> LGTM. Thanks!
-> 
-> Reviewed-by: Victor Hsieh <victorhsieh@google.com>
-> 
-> On Fri, Jan 15, 2021 at 10:19 AM Eric Biggers <ebiggers@kernel.org> wrote:
-> >
-> > [This patchset applies to v5.11-rc3]
-> >
-> > Add an ioctl FS_IOC_READ_VERITY_METADATA which allows reading verity
-> > metadata from a file that has fs-verity enabled, including:
+On Mon, Jan 25, 2021 at 5:19 AM 'Michal Hocko' via kernel-team
+<kernel-team@android.com> wrote:
+>
+> On Wed 20-01-21 12:23:37, Suren Baghdasaryan wrote:
+> [...]
+> >     MADV_COLD (since Linux 5.4.1)
+> >         Deactivate a given range of pages by moving them from active to
+> >         inactive LRU list. This is done to accelerate the reclaim of these
+> >         pages. The advice might be ignored for some pages in the range when it
+> >         is not applicable.
+>
+> I do not think we want to talk about active/inactive LRU lists here.
+> Wouldn't it be sufficient to say
+> Deactive a given range of pages which will make them a more probable
+> reclaim target should there be a memory pressure. This is a
+> non-destructive operation.
 
-Thanks Victor.  Does anyone else have comments on this patchset?
+That sounds better. Will update in the next version.
 
-- Eric
+>
+> Other than that, looks good to me from the content POV.
+>
+> Thanks!
+
+Thanks for the review Michal!
+
+> --
+> Michal Hocko
+> SUSE Labs
+>
+> --
+> To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
+>
