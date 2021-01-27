@@ -2,74 +2,192 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F18A3060FA
-	for <lists+linux-api@lfdr.de>; Wed, 27 Jan 2021 17:27:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C01FD3061C8
+	for <lists+linux-api@lfdr.de>; Wed, 27 Jan 2021 18:20:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236699AbhA0Q1C (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 27 Jan 2021 11:27:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41600 "EHLO
+        id S235671AbhA0RTn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 27 Jan 2021 12:19:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235122AbhA0Q1A (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 27 Jan 2021 11:27:00 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54C78C061574;
-        Wed, 27 Jan 2021 08:26:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=XeayQu8Z7eVgXskFL8EGTZVPJCUNtquB2mc3XL06JbM=; b=Qw9sgKIECO6GIPDIPG6CIQTiA9
-        4fIDaVX2zjwK56xMBXxpb0Zh+vV210bcNgERKA7qc5xiNec8aMhzm2BA922Mkrxh7BdPLHiUD05Vd
-        PL0BUHM9SksSjCfj38UwYk5xcrxQOdwsGCaxivj8l0RpP1q3bphG0DeQWGGKCef9xrjDas8PQk1N5
-        +XuDEbz5a7AjC2iNcjv4vlXoQL1QMpedmt0NJIyzXCusO/ziVTbWnrmMeOl9/Fhp4h7OntcP7dmNA
-        8qnkj6DPLwcJzNjz8XKaYuKGPv73/fGA3ZR43greZSL0KUe+lUuLPxFXPhIzDAkOBNOlLhR/0faSq
-        9JiAiw0Q==;
-Received: from hch by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1l4ndk-007ES0-SR; Wed, 27 Jan 2021 16:25:58 +0000
-Date:   Wed, 27 Jan 2021 16:25:56 +0000
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Jan Kara <jack@suse.cz>
-Cc:     Sascha Hauer <s.hauer@pengutronix.de>,
-        Christoph Hellwig <hch@infradead.org>,
-        linux-fsdevel@vger.kernel.org, Richard Weinberger <richard@nod.at>,
-        linux-mtd@lists.infradead.org, kernel@pengutronix.de,
-        Jan Kara <jack@suse.com>, linux-api@vger.kernel.org
-Subject: Re: [PATCH 1/8] quota: Allow to pass mount path to quotactl
-Message-ID: <20210127162556.GA1721964@infradead.org>
-References: <20210122151536.7982-1-s.hauer@pengutronix.de>
- <20210122151536.7982-2-s.hauer@pengutronix.de>
- <20210122171658.GA237653@infradead.org>
- <20210125083854.GB31738@pengutronix.de>
- <20210125154507.GH1175@quack2.suse.cz>
- <20210126104557.GB28722@pengutronix.de>
- <20210127144646.GB13717@quack2.suse.cz>
+        with ESMTP id S235621AbhA0RRP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 27 Jan 2021 12:17:15 -0500
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86C27C061793
+        for <linux-api@vger.kernel.org>; Wed, 27 Jan 2021 09:16:35 -0800 (PST)
+Received: by mail-pf1-x42c.google.com with SMTP id t29so1593392pfg.11
+        for <linux-api@vger.kernel.org>; Wed, 27 Jan 2021 09:16:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=eZkRAFReyCaCfsUebKjqhppx54eZqZXUA8gRquKcsPU=;
+        b=dimGUWBu88dX8OdBPtqV1K4RlZBNMOe3qLaj2DFeriW0zXGvfLXQdvpDQW90G+pq8w
+         p6xdN0AtXLBzz2oPtDzXqxZIr8psZaQU+lB+nDni6Zl/WIpcblkhLxycbxPAvV8te05i
+         KsVIp+ePdyQmOMOK1htw20UOkkjeFnjUvviVoIEY2ofKY9lhBjfLrheC8MM/6mQmKGDo
+         lgZrbx94cvm3t6pqu1kCexYTDa1cFG519/QRDEJtzXaZ7GklAYFE3S3JdLgmQXJO7Olf
+         5tbc9e9YBFuaJlg9N990aaa1pAzjhautowBMkQc84YuILgD85YeIKeYhHvbjucdynQoo
+         2yeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=eZkRAFReyCaCfsUebKjqhppx54eZqZXUA8gRquKcsPU=;
+        b=mDimIfkvq5ksEGsXmQ4Y6neI+J83RW1sMmY3lYXFlpHQ4hVw24NVM+g4JkwzT4SEPr
+         W2hwDqL4OZaWdflK8y0rt5yei+GzKqmfhYvu1bPbXfk5IMepsxB3vNo7zyJ02IWJBUeA
+         B6O4JxmbSs5VkUtubQlVjVt7s8XdWYIKSXGUPruO85TrMsyEn8RNOtFAQg6eheOMCxc8
+         CJMnHvMHFi9yGtCtUJ2bdKdRKzX1B3cMQR698FCjHsiwykoyyIvV356KQWlBaUkZqcOF
+         TYyGcxY7dSJ52P4dIl5S7Fcx10ynPUQiNMchR06nQ6Qonq53lyofxAUnBVdTA+C9rG+L
+         DHoA==
+X-Gm-Message-State: AOAM532LymNIR1BQvOHfkkA3kHj5lXWHcyqacX6/loXW2tQJ5qjP/CSL
+        m9HJBkYP+naJy9vWXtKEK+SiSL9RRZchUrJfNayOVQ==
+X-Google-Smtp-Source: ABdhPJxKQ8+LIsyyI6CfO9fy/6S4KtVkebVD7Kd1qkb+yv7kQN6fPglxpJCY+HhjUK+MV4uOLoP/VTT9u1mKmJvI5fg=
+X-Received: by 2002:a63:724a:: with SMTP id c10mr10790208pgn.124.1611767794770;
+ Wed, 27 Jan 2021 09:16:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210127144646.GB13717@quack2.suse.cz>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+References: <20210126225138.1823266-1-kaleshsingh@google.com> <CAG48ez2tc_GSPYdgGqTRotUp6NqFoUKdoN_p978+BOLoD_Fdjw@mail.gmail.com>
+In-Reply-To: <CAG48ez2tc_GSPYdgGqTRotUp6NqFoUKdoN_p978+BOLoD_Fdjw@mail.gmail.com>
+From:   Kalesh Singh <kaleshsingh@google.com>
+Date:   Wed, 27 Jan 2021 12:16:23 -0500
+Message-ID: <CAC_TJvfuFiDSWD+ud_rJJ6zFQjYhcK1Rfqyrne4OBB4ZfJ0oMQ@mail.gmail.com>
+Subject: Re: [PATCH] procfs/dmabuf: Add /proc/<pid>/task/<tid>/dmabuf_fds
+To:     Jann Horn <jannh@google.com>
+Cc:     Suren Baghdasaryan <surenb@google.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        kernel-team <kernel-team@android.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Kees Cook <keescook@chromium.org>,
+        Alexey Gladkov <gladkov.alexey@gmail.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        Michel Lespinasse <walken@google.com>,
+        Bernd Edlinger <bernd.edlinger@hotmail.de>,
+        Andrei Vagin <avagin@gmail.com>,
+        Yafang Shao <laoar.shao@gmail.com>, Hui Su <sh_def@163.com>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        DRI mailing list <dri-devel@lists.freedesktop.org>,
+        linaro-mm-sig@lists.linaro.org,
+        Jeffrey Vander Stoep <jeffv@google.com>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jan 27, 2021 at 03:46:46PM +0100, Jan Kara wrote:
-> In a puristic world they'd be 9 different syscalls ... or somewhat less
-> because Q_GETNEXTQUOTA is a superset of Q_GETQUOTA, we could drop Q_SYNC
-> and Q_GETFMT because they have dubious value these days so we'd be left
-> with 6. I don't have a strong opinion whether 6 syscalls are worth the
-> cleanliness or whether we should go with just one new quotactl_path()
-> syscall. I've CCed linux-api in case other people have opinion.
-> 
-> Anyway, even if we go with single quotactl_path() syscall we should remove
-> the duplication between VFS and XFS quotactls when we are creating a new
-> syscall. Thoughts?
+On Wed, Jan 27, 2021 at 5:47 AM Jann Horn <jannh@google.com> wrote:
+>
+> +jeffv from Android
+>
+> On Tue, Jan 26, 2021 at 11:51 PM Kalesh Singh <kaleshsingh@google.com> wr=
+ote:
+> > In order to measure how much memory a process actually consumes, it is
+> > necessary to include the DMA buffer sizes for that process in the memor=
+y
+> > accounting. Since the handle to DMA buffers are raw FDs, it is importan=
+t
+> > to be able to identify which processes have FD references to a DMA buff=
+er.
+>
+> Or you could try to let the DMA buffer take a reference on the
+> mm_struct and account its size into the mm_struct? That would probably
+> be nicer to work with than having to poke around in procfs separately
+> for DMA buffers.
+>
+> > Currently, DMA buffer FDs can be accounted using /proc/<pid>/fd/* and
+> > /proc/<pid>/fdinfo -- both of which are only root readable, as follows:
+>
+> That's not quite right. They can both also be accessed by the user
+> owning the process. Also, fdinfo is a standard interface for
+> inspecting process state that doesn't permit reading process memory or
+> manipulating process state - so I think it would be fine to permit
+> access to fdinfo under a PTRACE_MODE_READ_FSCRED check, just like the
+> interface you're suggesting.
 
-I thunk the multiplexer is just fine.  We don't really need Q_SYNC
-for a new syscall.  For XFS vs classic VFS quota we probably don't
-need to duplicate the two data structure, but we need to make sure we
-catch the superset of the information if we want to disable the old
-ones.
 
-So I suspect just supporting evrything excpt for the global Q_SYNC
-and reusing do_quotactl as-is is the most maintainable and easiest
-to understand way forward.
+Hi everyone. Thank you for the feedback.
+
+I understand there is a deeper problem of accounting shared memory in
+the kernel, that=E2=80=99s not only specific to the DMA buffers. In this ca=
+se
+DMA buffers, I think Jann=E2=80=99s proposal is the cleanest way to attribu=
+te
+the shared buffers to processes. I can respin a patch modifying fdinfo
+as suggested, if this is not an issue from a security perspective.
+
+Thanks,
+Kalesh
+
+>
+>
+> >   1. Do a readlink on each FD.
+> >   2. If the target path begins with "/dmabuf", then the FD is a dmabuf =
+FD.
+> >   3. stat the file to get the dmabuf inode number.
+> >   4. Read/ proc/<pid>/fdinfo/<fd>, to get the DMA buffer size.
+> >
+> > Android captures per-process system memory state when certain low memor=
+y
+> > events (e.g a foreground app kill) occur, to identify potential memory
+> > hoggers. To include a process=E2=80=99s dmabuf usage as part of its mem=
+ory state,
+> > the data collection needs to be fast enough to reflect the memory state=
+ at
+> > the time of such events.
+> >
+> > Since reading /proc/<pid>/fd/ and /proc/<pid>/fdinfo/ requires root
+> > privileges, this approach is not suitable for production builds.
+>
+> It should be easy to add enough information to /proc/<pid>/fdinfo/ so
+> that you don't need to look at /proc/<pid>/fd/ anymore.
+>
+> > Granting
+> > root privileges even to a system process increases the attack surface a=
+nd
+> > is highly undesirable. Additionally this is slow as it requires many
+> > context switches for searching and getting the dma-buf info.
+>
+> What do you mean by "context switches"? Task switches or kernel/user
+> transitions (e.g. via syscall)?
+>
+> > With the addition of per-buffer dmabuf stats in sysfs [1], the DMA buff=
+er
+> > details can be queried using their unique inode numbers.
+> >
+> > This patch proposes adding a /proc/<pid>/task/<tid>/dmabuf_fds interfac=
+e.
+> >
+> > /proc/<pid>/task/<tid>/dmabuf_fds contains a list of inode numbers for
+> > every DMA buffer FD that the task has. Entries with the same inode
+> > number can appear more than once, indicating the total FD references
+> > for the associated DMA buffer.
+> >
+> > If a thread shares the same files as the group leader then its
+> > dmabuf_fds file will be empty, as these dmabufs are reported by the
+> > group leader.
+> >
+> > The interface requires PTRACE_MODE_READ_FSCRED (same as /proc/<pid>/map=
+s)
+> > and allows the efficient accounting of per-process DMA buffer usage wit=
+hout
+> > requiring root privileges. (See data below)
+>
+> I'm not convinced that introducing a new procfs file for this is the
+> right way to go. And the idea of having to poke into multiple
+> different files in procfs and in sysfs just to be able to compute a
+> proper memory usage score for a process seems weird to me. "How much
+> memory is this process using" seems like the kind of question the
+> kernel ought to be able to answer (and the kernel needs to be able to
+> answer somewhat accurately so that its own OOM killer can do its job
+> properly)?
