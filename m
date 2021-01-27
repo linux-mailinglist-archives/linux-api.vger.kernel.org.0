@@ -2,92 +2,97 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E80DA304ECC
-	for <lists+linux-api@lfdr.de>; Wed, 27 Jan 2021 02:35:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C8249305197
+	for <lists+linux-api@lfdr.de>; Wed, 27 Jan 2021 05:59:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731519AbhA0BAS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 26 Jan 2021 20:00:18 -0500
-Received: from mga04.intel.com ([192.55.52.120]:32786 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390022AbhAZRHz (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 26 Jan 2021 12:07:55 -0500
-IronPort-SDR: isjOqGRmE+Gj09JWKuSW4ysyj2galbHoL0hDTd34/M77BOaU+ELtAd8P7qWk1Fa1dWy/AyOnfJ
- Ai5edlTS6KOg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9876"; a="177361862"
-X-IronPort-AV: E=Sophos;i="5.79,375,1602572400"; 
-   d="scan'208";a="177361862"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2021 08:45:08 -0800
-IronPort-SDR: 1lnn6dLSjZsvUzYC004Zq7WqDUJ9wbWzfZnjJqc+oti7kBC5bOxEJBmTc6AjJx2iQxG+v3AvmN
- 6R/gTSu1RsbQ==
-X-IronPort-AV: E=Sophos;i="5.79,375,1602572400"; 
-   d="scan'208";a="504586158"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.153.84]) ([10.212.153.84])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2021 08:45:07 -0800
-Subject: Re: [PATCH v17 11/26] x86/mm: Update ptep_set_wrprotect() and
- pmdp_set_wrprotect() for transition from _PAGE_DIRTY to _PAGE_COW
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-References: <20201229213053.16395-1-yu-cheng.yu@intel.com>
- <20201229213053.16395-12-yu-cheng.yu@intel.com>
- <20210125182709.GC23290@zn.tnic>
- <8084836b-4990-90e8-5c9a-97a920f0239e@intel.com>
- <20210125215558.GK23070@zn.tnic>
- <c000e1fa-5da8-9316-ef9e-565d79308296@intel.com>
- <20210126102404.GA6514@zn.tnic>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <5f8da4cc-9c5c-73f9-7426-924c77797995@intel.com>
-Date:   Tue, 26 Jan 2021 08:45:06 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+        id S233456AbhA0E7f (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 26 Jan 2021 23:59:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49934 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2392323AbhA0Bli (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 26 Jan 2021 20:41:38 -0500
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BE3FC061786
+        for <linux-api@vger.kernel.org>; Tue, 26 Jan 2021 17:40:58 -0800 (PST)
+Received: by mail-ej1-x635.google.com with SMTP id a10so376489ejg.10
+        for <linux-api@vger.kernel.org>; Tue, 26 Jan 2021 17:40:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=kmG6RY7BcaGv1lUjf2k1d39NdU3p9zWFX78N7nxH8OY=;
+        b=kxgKmFLoRAg8u7ZqzFVVRXWa+eYvi7tyiJnRbD+V3vbf7C11Ixv7YaG27sw70Rmm9Z
+         eiqxUpYPYrKFaxhiD/P9m+mNcl6qNhfNB1NZBryr3pVnPp+XXPDdVpzm04J9evyZKCnT
+         SmgxrBmVFGDM0wUkGtxwtq2IGGg7rUijXbrQtotudZLfM3xBFY3tT8fM7kb8v+3MMbaP
+         qjA9wCTvI2+8/dl/gozUdOmwA3zkYwLf0al/LKr6TCuQqYg0zsrhGejEZIuk9HqUy6MJ
+         kxNIUHnIASv9wObEtBOUIQgQCO4BaSQBarlWcWGu6JIrkw7c6M7cNyRuQdTiMwyCoNPs
+         frPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kmG6RY7BcaGv1lUjf2k1d39NdU3p9zWFX78N7nxH8OY=;
+        b=iIPJhqn96UnCyWcb+T67RL6/ea3AFrMsfJr+5QjFvRKSoOixjWh6qUSIWES0L00GuF
+         bUCuqlMZvAC7D+kqNm8p4lTIO6Mc66KxXKjKIgHDroPSCWzWDHj20smvLUaSvytliCTk
+         rdF0xxKqM4k0BfgHhrLUPfoeoSr098diJ0bfFfcdi5DJ8cjggOrH7BNR/j5pGEdzpevw
+         yLRLBed1cF5isNugYjZr6vu4cw/UUutpRvz7lAI//TvplioG0CG0qbziI770kFUmLrsU
+         EfPYAo5B5H7NXm6BPJLv3Pm2QV9Xng8+dpnoWReIZodPS6TEsp0PSrLrzguHqHO0z8Mj
+         J7DQ==
+X-Gm-Message-State: AOAM530CJnaCLqkCqB3GkpPGhv83M/uUbSVvT5VhbGPzlGOxXdWNLbpj
+        BRe6qV2rw2r2gYmTNvr/JDIyDqHsY1YOeziRZMs=
+X-Google-Smtp-Source: ABdhPJwQp8zDSp8NHgkR/bu+tt/PuRRt99Gok7ZNnvDmSqlKILvGi5L0SmBS3QDtMLL532yqO8qbN6pPFigzw15lCf8=
+X-Received: by 2002:a17:906:1719:: with SMTP id c25mr5362886eje.251.1611711657094;
+ Tue, 26 Jan 2021 17:40:57 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210126102404.GA6514@zn.tnic>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <1f8ce444-35e2-56a7-dbd1-34e885372b11@gmail.com>
+ <20210124121845.38293-1-alx.manpages@gmail.com> <YA2ztHUATu1gOxoV@clue.drijf.net>
+ <CAMMLpeSLbWtRrrzOjB6DJgZCem8KWpy7_pWmr6ecuGrSmg4Eng@mail.gmail.com> <d0f93c40-c471-7ef7-fa9a-2f467d775d3e@bernhard-voelker.de>
+In-Reply-To: <d0f93c40-c471-7ef7-fa9a-2f467d775d3e@bernhard-voelker.de>
+From:   Alex Henrie <alexhenrie24@gmail.com>
+Date:   Tue, 26 Jan 2021 18:40:45 -0700
+Message-ID: <CAMMLpeRsvi+Gjdn2ypikNrc0uW6K_dqOChasqYJ7Fv+_TMuC4g@mail.gmail.com>
+Subject: Re: [PATCH v3 (resend)] tee: Add -q, --quiet, --silent option to not
+ write to stdout
+To:     Bernhard Voelker <mail@bernhard-voelker.de>
+Cc:     Otto Moerbeek <otto@drijf.net>, Coreutils <coreutils@gnu.org>,
+        Alejandro Colomar <alx.manpages@gmail.com>,
+        Fabrice BAUZAC <noon@mykolab.com>,
+        Juli Mallett <juli@clockworksquid.com>,
+        Jeffrey Walton <noloader@gmail.com>,
+        freebsd-hackers@freebsd.org,
+        William Ahern <william@25thandclement.com>,
+        Roman Czyborra <roman@czyborra.com>, oshogbo@freebsd.org,
+        tech@openbsd.org, Christian Groessler <chris@groessler.org>,
+        linux-api@vger.kernel.org,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Ed Schouten <ed@nuxi.nl>, Eric Pruitt <eric.pruitt@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 1/26/2021 2:24 AM, Borislav Petkov wrote:
-> On Mon, Jan 25, 2021 at 02:18:37PM -0800, Yu, Yu-cheng wrote:
->> For example, when a thread reads a W=1, D=0 PTE and before changing it to
->> W=0,D=0, another thread could have written to the page and the PTE is W=1,
->> D=1 now.  When try_cmpxchg() detects the difference, old_pte is read again.
-> 
-> None of that is mentioned in the comment above it and if anything,
-> *that* is what should be explained there - not some guarantee about some
-> processors which doesn't even apply here.
-> 
-> Also, add the fact that try_cmpxchg() will update old_pte with any
-> modified bits - D=1 for example - when it fails. As Peter just explained
-> to me on IRC.
-> 
-> Thx.
-> 
+On Sun, Jan 24, 2021 at 9:04 PM Bernhard Voelker
+<mail@bernhard-voelker.de> wrote:
+>
+> An off-tech argument: ask a local plumber if he'd would ever use
+> a tee piece instead of a pipe end piece.  I guess he would only
+> if he wouldn't have anything else at hand.
 
-Yes, I will fix it.  Thanks!
+According to POSIX, tee writes to "zero or more files."[1] So the
+"local plumber" analogy already doesn't hold, because a plumber would
+never put in a tee and then immediately cap it off so that the flow
+can only go to one place, but commands like `echo foo | tee | tee |
+tee` are already explicitly allowed.
+
+> A word to the proposed patch: what should happen, if the user does
+> not give a file?
+>   A | B | tee -q
+> The patch just silently ignored that situation which feels wrong.
+
+Personally, I like the idea of only having to type `echo foo | tee -q`
+instead of `echo foo > /dev/null`, so I think the patch indeed does
+the right thing in that case.
+
+-Alex
+
+[1] https://pubs.opengroup.org/onlinepubs/9699919799/utilities/tee.html
