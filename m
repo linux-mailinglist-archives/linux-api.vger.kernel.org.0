@@ -2,418 +2,436 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A4393053CD
-	for <lists+linux-api@lfdr.de>; Wed, 27 Jan 2021 08:01:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CB41F305683
+	for <lists+linux-api@lfdr.de>; Wed, 27 Jan 2021 10:09:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S316729AbhA0BBO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 26 Jan 2021 20:01:14 -0500
-Received: from sonic302-28.consmr.mail.ne1.yahoo.com ([66.163.186.154]:33162
-        "EHLO sonic302-28.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728248AbhAZRWL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 26 Jan 2021 12:22:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1611681675; bh=nJCAs0BPXA4cnnZxBHu1T/lun2t0PzuXUvUDYXsxOrI=; h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To; b=HqGQra11Nmw6Mau+3wazsndvlLln/n2Ph36YSogE+CeaBSSiGfSlh803Jl68ORV0ZnklO2Y4uotHqw/CkTrgPxRtPxVm/v43GIFn6Ph8bm7JWNWuj2ariPWMwE6ziyNdpBUo8qd5DPXuDsNqdhHH8grWA4la036SMKaPCTjjfNFHGSyN4+9bJNLtxFLhZMsj6mdJyGdYuteBBYUPnekHZU80s+kBkaqeUK4oE3gPl5F+EBBO14sKGKRLegSI/H3NKbILFTUYtw5k1/kU2ZVJ7Fk3K05xjJkHbQZ7cBFTfCJPiUVduzqDim3aT3qsMaJyGHgqve+73i7euL4Zt/6oQA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1611681675; bh=Nx5jcfVbuGTA88qEpZrzgcSQSVOIjrGtygtEIlEPG9v=; h=From:To:Subject:Date:From:Subject:Reply-To; b=dRtV2+1HfgpbBiONhYYBYQdxzX3PKrvNPO725ixNF7J1bVlYzHvtzo/vQIoajOLpKEiA5FNAE+xwJOb2usBsnMwafi3ohPxZa0s8SFtF0n8stUm11U89aEY5UXuMsDPSAUNHgAVOBI63WY18GofgqCGd7shX/dQzWQkQUqcCk3jmi/PYjcM5GjdNMufzOuP/01vLhd0R1rvcD8WkSLq1oEItAKP+9zMmW2ooO0rFMu3IS5QvdqXokltBgje4mc8pehdwbmOEd04HkaXgpTW1j3dYwmuKqO6toMAdJUA/Ay605yPiDkwaVFx66CMzwyoEqMvXp7SocLa0ZPVqljrfAA==
-X-YMail-OSG: mb7CpHAVM1mZAuLufEAKKFykBLBgQA5uIBjHwZlsAZAspXe67WaO92TZxurtdKt
- FUBb6yZ8Hksx8DRRuyGrJsz9QLpqzpl6jQGtLwxj11fYU.oh.ZY7TONXtiqJv6vBxKRUDReAFkSw
- AllZU_ZzAYByPUHdbgO6xw2olVOLGVWv5H.jbr852Cw.ZGfOxLRwUWYMjc5DMVtAdMWhAfUHT3sP
- 6py9es64ZvAsYTNvixKOiOYe71iVHP1X.P6s3Q6XxHoEsvaQYaVf1a9y1t2OSqlCIIumD5g43RF1
- KW.4VmmIbHyZJ4GduHn3qBNXOZAcaQ0HtsYqvKtN3a8OdQftWOH.ALBd0DE9WhOUWBAaCjQdMdjH
- kU3BC0eA5Oz.P.uJZTd4pGVBb5.vYVgIc0RUdYJ2TRVuXGWYZXBX4C8C7knoUGsgPp8MpWa5Va0g
- CamZQ8bR74lLfZDfXg0vvf2ZqNFG.ibQX2ALpHzH7QSHSWae.P7M_m3Xr7q5rquKPxjWtNKoL.bw
- 884OAg8yol9._GXjcY6MBL8Wqmxdj2mqpUsUx5JjzBnzmTP_Tw6iJBZe6cCpzC.cV2DBEdr5hkhC
- STd403A4gEB5hCx4h9NRl.i_JEEyCHQBz.LHDxHPhn0Gfj.d0heVUUgTm46XBpRD2Tih5OnVnXcT
- 9PzTPRj0N2d.lkv.llWUw5WAbYxJOD6FBz3dpW0dZHkx51DBYoPQIwUrQfqYtI97H.az0WXYI4lZ
- dTKiJF9bJHBU6rsgaoUOGy6BVhSU7BO0UJgFpeqJ_rwv4AcPf8auRCIRvu8_fYx7qtPDxiORZo.F
- n0OgT0ZdLMIDbiNm5zwg1cdZ008DuM7k0tZfgrvvZUlSnYUjaDhap3WLNg.VG.XeqmxL3HGDb2l3
- SXH1a92dSsKoBPpnyQFzFvVEL7vsLfhtDOWMZZu.KfIgQf_XYK6qCnNztD7XF0FvNFU6YQsHGMQt
- ZmNIP8ISRPlKpiCKFSxLXy7NAQZ4EDdfUPVt9JhyasEAcIv3pHc0atcuhiPu5jTrW.wCiP2P_W6l
- G_USvH12L_T_aIBuDhn2uUFpzzzY4S3PtSvhati2v2rgzlo8c_.bbXo0IGjpMtFRsCLbbeUNmIJN
- TA00YJy57a9uHRCmNvkr4XVCdgCXSQfUuA94mOfwhYLNW7Fzig83PUqEvGxoS32k1I2PpaNVUcB_
- JumE0OmjGjCfsq7NFuHexJTP_M1U_weaDPhdasVLNqSS4P9RamI15uHbZ3sXtXAsn9M1hrCv0kch
- IFxPdy_mRdSH0P47lP0fjYVY5EdYbuHALEaOi4MB2aw5dQ48WVtDbL1fPlBbCSejnmnv9ut28y2Z
- pqHuoHRkq1d_Uv6bMOVk_TnsFzfYYqcKbIFQER7be7uSf652L23IQX1NzZuwRIJ40mN2C7t72TKk
- L.3oRStKX8vPTdwD.oQoa82w0CXx0la9gm8HugUIOoI6GZslyPcbqxLK02HxemLRbUQsH8iMDELO
- 3i.pGO_ixxkT8S0LduRaGpMWNaExP_sJliY_yOLmJSPnS553nwl65A44Cs_KF4oyPeCf3.akjCL2
- DrWw62y8cT0nNlvDep_4sUZsYKeywb8UrB3XJxVggfVhqQVXvm.nhrCdCcpPY0HgEK2COhkAD.MD
- HFnjJ2Uu_pZGfT3j7Au0kt.UGO1sNi2TQUJGbxMVryrfurO1MkJxdJkeBhUpWtT4vfBTx1tJMx0r
- ynu8cSHMhl1b4zQWd98EeJxSsJixqtlwBh7p4_6yGbzA.jlWe_r3SqGvsMyHsighWeWM.Z8gzjtx
- FJpPujAe6LpHsdcof_E8yzmYwlxk6WBgO0o7pdc32rPbq9oFQmoUBmNZX_D0IwO0RE5b4hjbkxLD
- fTNmm.DABkuaCtdhXdrFJStdJQ6xK02pMS9xKvgs6wV3Ca.yBQbay4DKS5.Wp7IgUCDMjrMNEXDU
- 7lwEkIA7BmnVTLYN_WzC_jdJRGfX0lSs9r3HDBxkUqUA6u6icvgtoJIa0iWSqgwlmwqI1xLl0W3c
- Pqd2ay8pN.ew9iyPuVBhTMfSXCJUxdTpSXzUVm3y_yPK3q5b6d8q3x5nZmavwX50jKlwIsr5N8Cc
- zH0xQNeTQrQh1kD204273M4fuRHSjQ0lcpCZYf0RPrSfe4MDX75Y4RsXhY.WQ60me17K0gWl_p7m
- cZ8wWlTOqIHPfWK6.o7stRptPm1y3zBBAHiutn.9kBoOZkMXsOid55MeHlGW7ji.6JSEts_dDUaR
- ttqMlYqPBJUxVBUZcokqb3ULMm8foDyd8K_hlNYmDdS7hnc_RbnEeJbzlbdqN5YIYWzkhaQMYiLG
- Nyh5xjClxB7IaW3ux6etDWecKNy8khGSkV6_KQchxjuS3WwnhSjhouZo4rn6TRPyikcaEU6nEW3d
- cYibDiFEC9v.YBKpZY8QXI51JRDUpU2OkMd8debaq9MlDdAESlqTxiOG55uMq.g9f60aQH5JSMF4
- 8BeKPJXvNLpMVnLCDGKEd8TDZciOBCEkT16gukD1dqwvyqrr0ZDmDOF_zyoLNj3pHzH_6em4jowY
- PJh0xIxDuj6OlXgwjdOIANuQ9Cv6.ZnPw__XcSakTIzDE.ICl5231H7W9rlq2p1tNDkT.kj4xuMu
- GtpJJEY9CnwckMmQ0vtC6x674hDfPj8I_3QDJM2OzR6GqUAdG1Wa6m4TI7EnThgMRgtY..xFY1HD
- GO04F6_yHE9Tr2YsTWLuITF75lHnI7Ki_bjLttT_IZW8CNb2MGKPGxK5S1aROhyyVYFdUlzzRQOx
- qOFBW7.QbX9HukJby8rBoChmCE4egY9pbwHrISNY_qgXFkeMTpE.kl5IH_q8NXWBE_AbCFIJ2KRT
- CoNkBj0RunCN.hL0GVUsN7ZX4Dm3DFu5Jr4ULF2H9qxUsy61a9w8Mg5OOWUZja7qf__lJ9t5ZEfz
- dB90bxTS2KT8_Gw1oc3R7z0UkQD9C7x0VOniwRDZ0k4PvExeRxY.fAYXB7ovaCSVMCz9mXR0plIG
- XeEn6sl.f.nEXatjjQKUgzk7vcVnmLPfOrWxSDjqR2j..X9DQIGx9T4DX6nNFuxgHQTpKzYsubjZ
- HHJBJ7kFjw_C5BJ2WI2k5pLlrWpfxaa4nSFKlUJ2UxJXKRhw_D7NIiLs2HdPWQPdV5ntK72rqa_0
- 54ADNOaA94jpnpDCNQ5iyrN6a0xx.iVdouVv7DfwsizptueMWV3KpB_aTNT6lg7aQd1_8Ra_uS6I
- .bPAP6jOJp8Rzd3M_F4vbn0bnEQ--
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic302.consmr.mail.ne1.yahoo.com with HTTP; Tue, 26 Jan 2021 17:21:15 +0000
-Received: by smtp416.mail.ne1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA ID 22de447dea88977b0d341466450f4ca5;
-          Tue, 26 Jan 2021 17:08:09 +0000 (UTC)
-From:   Casey Schaufler <casey@schaufler-ca.com>
-To:     casey.schaufler@intel.com, jmorris@namei.org,
-        linux-security-module@vger.kernel.org, selinux@vger.kernel.org
-Cc:     casey@schaufler-ca.com, linux-audit@redhat.com,
-        keescook@chromium.org, john.johansen@canonical.com,
-        penguin-kernel@i-love.sakura.ne.jp, paul@paul-moore.com,
-        sds@tycho.nsa.gov, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH v24 24/25] LSM: Add /proc attr entry for full LSM context
-Date:   Tue, 26 Jan 2021 08:41:07 -0800
-Message-Id: <20210126164108.1958-25-casey@schaufler-ca.com>
-X-Mailer: git-send-email 2.25.4
-In-Reply-To: <20210126164108.1958-1-casey@schaufler-ca.com>
-References: <20210126164108.1958-1-casey@schaufler-ca.com>
+        id S234946AbhA0JJS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 27 Jan 2021 04:09:18 -0500
+Received: from mx2.suse.de ([195.135.220.15]:47384 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234367AbhA0JGS (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 27 Jan 2021 04:06:18 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1611738329; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Frtjky50lhuCvhdjT76CPWeRZ4wg+efgdrWBbOOrsRo=;
+        b=HEdTRyd7SvJg/XAQxhbRI7kwZArGDUP8Bfa5ruY6Zz9Lh5KvanjsFGFvcYG6e9Yk0sX6/n
+        g42Pxw2b/GcalFfAglpeh+HvgT/22fH/pleNNTn0H5tDOKQNrO70p+2tBQ/+gqeupvnPut
+        W9oZam+8xUskfiC8LH/7tPEML5Q4Acc=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 0FEBFAD57;
+        Wed, 27 Jan 2021 09:05:29 +0000 (UTC)
+Date:   Wed, 27 Jan 2021 10:05:26 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     Kalesh Singh <kaleshsingh@google.com>
+Cc:     surenb@google.com, minchan@kernel.org, gregkh@linuxfoundation.org,
+        hridya@google.com, jannh@google.com, kernel-team@android.com,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Alexey Gladkov <gladkov.alexey@gmail.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        Michel Lespinasse <walken@google.com>,
+        Bernd Edlinger <bernd.edlinger@hotmail.de>,
+        Andrei Vagin <avagin@gmail.com>,
+        Yafang Shao <laoar.shao@gmail.com>, Hui Su <sh_def@163.com>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH] procfs/dmabuf: Add /proc/<pid>/task/<tid>/dmabuf_fds
+Message-ID: <20210127090526.GB827@dhcp22.suse.cz>
+References: <20210126225138.1823266-1-kaleshsingh@google.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210126225138.1823266-1-kaleshsingh@google.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Add an entry /proc/.../attr/context which displays the full
-process security "context" in compound format:
-        lsm1\0value\0lsm2\0value\0...
-This entry is not writable.
+[Cc linux-api as this is a new user interface]
 
-A security module may decide that its policy does not allow
-this information to be displayed. In this case none of the
-information will be displayed.
+On Tue 26-01-21 22:51:28, Kalesh Singh wrote:
+> In order to measure how much memory a process actually consumes, it is
+> necessary to include the DMA buffer sizes for that process in the memory
+> accounting. Since the handle to DMA buffers are raw FDs, it is important
+> to be able to identify which processes have FD references to a DMA buffer.
+> 
+> Currently, DMA buffer FDs can be accounted using /proc/<pid>/fd/* and
+> /proc/<pid>/fdinfo -- both of which are only root readable, as follows:
+>   1. Do a readlink on each FD.
+>   2. If the target path begins with "/dmabuf", then the FD is a dmabuf FD.
+>   3. stat the file to get the dmabuf inode number.
+>   4. Read/ proc/<pid>/fdinfo/<fd>, to get the DMA buffer size.
+> 
+> Android captures per-process system memory state when certain low memory
+> events (e.g a foreground app kill) occur, to identify potential memory
+> hoggers. To include a process’s dmabuf usage as part of its memory state,
+> the data collection needs to be fast enough to reflect the memory state at
+> the time of such events.
+> 
+> Since reading /proc/<pid>/fd/ and /proc/<pid>/fdinfo/ requires root
+> privileges, this approach is not suitable for production builds. Granting
+> root privileges even to a system process increases the attack surface and
+> is highly undesirable. Additionally this is slow as it requires many
+> context switches for searching and getting the dma-buf info.
+> 
+> With the addition of per-buffer dmabuf stats in sysfs [1], the DMA buffer
+> details can be queried using their unique inode numbers.
+> 
+> This patch proposes adding a /proc/<pid>/task/<tid>/dmabuf_fds interface.
+> 
+> /proc/<pid>/task/<tid>/dmabuf_fds contains a list of inode numbers for
+> every DMA buffer FD that the task has. Entries with the same inode
+> number can appear more than once, indicating the total FD references
+> for the associated DMA buffer.
+> 
+> If a thread shares the same files as the group leader then its
+> dmabuf_fds file will be empty, as these dmabufs are reported by the
+> group leader.
+> 
+> The interface requires PTRACE_MODE_READ_FSCRED (same as /proc/<pid>/maps)
+> and allows the efficient accounting of per-process DMA buffer usage without
+> requiring root privileges. (See data below)
+> 
+> Performance Comparison:
+> -----------------------
+> 
+> The following data compares the time to capture the sizes of all DMA
+> buffers referenced by FDs for all processes on an arm64 android device.
+> 
+> -------------------------------------------------------
+>                    |  Core 0 (Little)  |  Core 7 (Big) |
+> -------------------------------------------------------
+> >From <pid>/fdinfo  |      318 ms       |     145 ms    |
+> -------------------------------------------------------
+> Inodes from        |      114 ms       |      27 ms    |
+> dmabuf_fds;        |    (2.8x  ^)      |   (5.4x  ^)   |
+> data from sysfs    |                   |               |
+> -------------------------------------------------------
+> 
+> It can be inferred that in the worst case there is a 2.8x speedup for
+> determining per-process DMA buffer FD sizes, when using the proposed
+> interfaces.
+> 
+> [1] https://lore.kernel.org/dri-devel/20210119225723.388883-1-hridya@google.com/
+> 
+> Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
+> ---
+>  Documentation/filesystems/proc.rst |  30 ++++++
+>  drivers/dma-buf/dma-buf.c          |   7 +-
+>  fs/proc/Makefile                   |   1 +
+>  fs/proc/base.c                     |   1 +
+>  fs/proc/dma_bufs.c                 | 159 +++++++++++++++++++++++++++++
+>  fs/proc/internal.h                 |   1 +
+>  include/linux/dma-buf.h            |   5 +
+>  7 files changed, 198 insertions(+), 6 deletions(-)
+>  create mode 100644 fs/proc/dma_bufs.c
+> 
+> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+> index 2fa69f710e2a..757dd47ab679 100644
+> --- a/Documentation/filesystems/proc.rst
+> +++ b/Documentation/filesystems/proc.rst
+> @@ -47,6 +47,7 @@ fixes/update part 1.1  Stefani Seibold <stefani@seibold.net>    June 9 2009
+>    3.10  /proc/<pid>/timerslack_ns - Task timerslack value
+>    3.11	/proc/<pid>/patch_state - Livepatch patch operation state
+>    3.12	/proc/<pid>/arch_status - Task architecture specific information
+> +  3.13	/proc/<pid>/task/<tid>/dmabuf_fds - DMA buffers referenced by an FD
+>  
+>    4	Configuring procfs
+>    4.1	Mount options
+> @@ -2131,6 +2132,35 @@ AVX512_elapsed_ms
+>    the task is unlikely an AVX512 user, but depends on the workload and the
+>    scheduling scenario, it also could be a false negative mentioned above.
+>  
+> +3.13 /proc/<pid>/task/<tid>/dmabuf_fds - DMA buffers referenced by an FD
+> +-------------------------------------------------------------------------
+> +This file  exposes a list of the inode numbers for every DMA buffer
+> +FD that the task has.
+> +
+> +The same inode number can appear more than once, indicating the total
+> +FD references for the associated DMA buffer.
+> +
+> +The inode number can be used to lookup the DMA buffer information in
+> +the sysfs interface /sys/kernel/dmabuf/buffers/<inode-no>/.
+> +
+> +Example Output
+> +~~~~~~~~~~~~~~
+> +$ cat /proc/612/task/612/dmabuf_fds
+> +30972 30973 45678 49326
+> +
+> +Permission to access this file is governed by a ptrace access mode
+> +PTRACE_MODE_READ_FSCREDS.
+> +
+> +Threads can have different files when created without specifying
+> +the CLONE_FILES flag. For this reason the interface is presented as
+> +/proc/<pid>/task/<tid>/dmabuf_fds and not /proc/<pid>/dmabuf_fds.
+> +This simplifies kernel code and aggregation can be handled in
+> +userspace.
+> +
+> +If a thread has the same files as its group leader, then its dmabuf_fds
+> +file will be empty as these dmabufs are already reported by the
+> +group leader.
+> +
+>  Chapter 4: Configuring procfs
+>  =============================
+>  
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 9ad6397aaa97..0660c06be4c6 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -29,8 +29,6 @@
+>  #include <uapi/linux/dma-buf.h>
+>  #include <uapi/linux/magic.h>
+>  
+> -static inline int is_dma_buf_file(struct file *);
+> -
+>  struct dma_buf_list {
+>  	struct list_head head;
+>  	struct mutex lock;
+> @@ -434,10 +432,7 @@ static const struct file_operations dma_buf_fops = {
+>  	.show_fdinfo	= dma_buf_show_fdinfo,
+>  };
+>  
+> -/*
+> - * is_dma_buf_file - Check if struct file* is associated with dma_buf
+> - */
+> -static inline int is_dma_buf_file(struct file *file)
+> +int is_dma_buf_file(struct file *file)
+>  {
+>  	return file->f_op == &dma_buf_fops;
+>  }
+> diff --git a/fs/proc/Makefile b/fs/proc/Makefile
+> index bd08616ed8ba..91a67f43ddf4 100644
+> --- a/fs/proc/Makefile
+> +++ b/fs/proc/Makefile
+> @@ -16,6 +16,7 @@ proc-y	+= cmdline.o
+>  proc-y	+= consoles.o
+>  proc-y	+= cpuinfo.o
+>  proc-y	+= devices.o
+> +proc-y	+= dma_bufs.o
+>  proc-y	+= interrupts.o
+>  proc-y	+= loadavg.o
+>  proc-y	+= meminfo.o
+> diff --git a/fs/proc/base.c b/fs/proc/base.c
+> index b3422cda2a91..af15a60b9831 100644
+> --- a/fs/proc/base.c
+> +++ b/fs/proc/base.c
+> @@ -3598,6 +3598,7 @@ static const struct pid_entry tid_base_stuff[] = {
+>  #ifdef CONFIG_SECCOMP_CACHE_DEBUG
+>  	ONE("seccomp_cache", S_IRUSR, proc_pid_seccomp_cache),
+>  #endif
+> +	REG("dmabuf_fds", 0444, proc_tid_dmabuf_fds_operations),
+>  };
+>  
+>  static int proc_tid_base_readdir(struct file *file, struct dir_context *ctx)
+> diff --git a/fs/proc/dma_bufs.c b/fs/proc/dma_bufs.c
+> new file mode 100644
+> index 000000000000..46ea9cf968ed
+> --- /dev/null
+> +++ b/fs/proc/dma_bufs.c
+> @@ -0,0 +1,159 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Per-process DMA-BUF Stats
+> + *
+> + * Copyright (C) 2021 Google LLC.
+> + */
+> +
+> +#include <linux/dma-buf.h>
+> +#include <linux/fdtable.h>
+> +#include <linux/ptrace.h>
+> +#include <linux/seq_file.h>
+> +
+> +#include "internal.h"
+> +
+> +struct dmabuf_fds_private {
+> +	struct inode *inode;
+> +	struct task_struct *task;
+> +	struct file *dmabuf_file;
+> +};
+> +
+> +static loff_t *next_dmabuf(struct dmabuf_fds_private *priv,
+> +		loff_t *pos)
+> +{
+> +	struct fdtable *fdt;
+> +	struct file *file;
+> +
+> +	rcu_read_lock();
+> +	fdt = files_fdtable(priv->task->files);
+> +	for (; *pos < fdt->max_fds; ++*pos) {
+> +		file = files_lookup_fd_rcu(priv->task->files, (unsigned int) *pos);
+> +		if (file && is_dma_buf_file(file) && get_file_rcu(file)) {
+> +			priv->dmabuf_file = file;
+> +			break;
+> +		}
+> +	}
+> +	if (*pos >= fdt->max_fds)
+> +		pos = NULL;
+> +	rcu_read_unlock();
+> +
+> +	return pos;
+> +}
+> +
+> +static void *dmabuf_fds_seq_start(struct seq_file *s, loff_t *pos)
+> +{
+> +	struct dmabuf_fds_private *priv = s->private;
+> +	struct files_struct *group_leader_files;
+> +
+> +	priv->task = get_proc_task(priv->inode);
+> +
+> +	if (!priv->task)
+> +		return ERR_PTR(-ESRCH);
+> +
+> +	/* Hold task lock for duration that files need to be stable */
+> +	task_lock(priv->task);
+> +
+> +	/*
+> +	 * If this task is not the group leader but shares the same files, leave file empty.
+> +	 * These dmabufs are already reported in the group leader's dmabuf_fds.
+> +	 */
+> +	group_leader_files = priv->task->group_leader->files;
+> +	if (priv->task != priv->task->group_leader && priv->task->files == group_leader_files) {
+> +		task_unlock(priv->task);
+> +		put_task_struct(priv->task);
+> +		priv->task = NULL;
+> +		return NULL;
+> +	}
+> +
+> +	return next_dmabuf(priv, pos);
+> +}
+> +
+> +static void *dmabuf_fds_seq_next(struct seq_file *s, void *v, loff_t *pos)
+> +{
+> +	++*pos;
+> +	return next_dmabuf(s->private, pos);
+> +}
+> +
+> +static void dmabuf_fds_seq_stop(struct seq_file *s, void *v)
+> +{
+> +	struct dmabuf_fds_private *priv = s->private;
+> +
+> +	if (priv->task) {
+> +		task_unlock(priv->task);
+> +		put_task_struct(priv->task);
+> +
+> +	}
+> +	if (priv->dmabuf_file)
+> +		fput(priv->dmabuf_file);
+> +}
+> +
+> +static int dmabuf_fds_seq_show(struct seq_file *s, void *v)
+> +{
+> +	struct dmabuf_fds_private *priv = s->private;
+> +	struct file *file = priv->dmabuf_file;
+> +	struct dma_buf *dmabuf = file->private_data;
+> +
+> +	if (!dmabuf)
+> +		return -ESRCH;
+> +
+> +	seq_printf(s, "%8lu ", file_inode(file)->i_ino);
+> +
+> +	fput(priv->dmabuf_file);
+> +	priv->dmabuf_file = NULL;
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct seq_operations proc_tid_dmabuf_fds_seq_ops = {
+> +	.start = dmabuf_fds_seq_start,
+> +	.next  = dmabuf_fds_seq_next,
+> +	.stop  = dmabuf_fds_seq_stop,
+> +	.show  = dmabuf_fds_seq_show
+> +};
+> +
+> +static int proc_dmabuf_fds_open(struct inode *inode, struct file *file,
+> +		     const struct seq_operations *ops)
+> +{
+> +	struct dmabuf_fds_private *priv;
+> +	struct task_struct *task;
+> +	bool allowed = false;
+> +
+> +	task = get_proc_task(inode);
+> +	if (!task)
+> +		return -ESRCH;
+> +
+> +	allowed = ptrace_may_access(task, PTRACE_MODE_READ_FSCREDS);
+> +	put_task_struct(task);
+> +
+> +	if (!allowed)
+> +		return -EACCES;
+> +
+> +	priv = __seq_open_private(file, ops, sizeof(*priv));
+> +	if (!priv)
+> +		return -ENOMEM;
+> +
+> +	priv->inode = inode;
+> +	priv->task = NULL;
+> +	priv->dmabuf_file = NULL;
+> +
+> +	return 0;
+> +}
+> +
+> +static int proc_dmabuf_fds_release(struct inode *inode, struct file *file)
+> +{
+> +	return seq_release_private(inode, file);
+> +}
+> +
+> +static int tid_dmabuf_fds_open(struct inode *inode, struct file *file)
+> +{
+> +	return proc_dmabuf_fds_open(inode, file,
+> +			&proc_tid_dmabuf_fds_seq_ops);
+> +}
+> +
+> +const struct file_operations proc_tid_dmabuf_fds_operations = {
+> +	.open		= tid_dmabuf_fds_open,
+> +	.read		= seq_read,
+> +	.llseek		= seq_lseek,
+> +	.release	= proc_dmabuf_fds_release,
+> +};
+> +
+> diff --git a/fs/proc/internal.h b/fs/proc/internal.h
+> index f60b379dcdc7..4ca74220db9c 100644
+> --- a/fs/proc/internal.h
+> +++ b/fs/proc/internal.h
+> @@ -303,6 +303,7 @@ extern const struct file_operations proc_pid_smaps_operations;
+>  extern const struct file_operations proc_pid_smaps_rollup_operations;
+>  extern const struct file_operations proc_clear_refs_operations;
+>  extern const struct file_operations proc_pagemap_operations;
+> +extern const struct file_operations proc_tid_dmabuf_fds_operations;
+>  
+>  extern unsigned long task_vsize(struct mm_struct *);
+>  extern unsigned long task_statm(struct mm_struct *,
+> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> index cf72699cb2bc..087e11f7f193 100644
+> --- a/include/linux/dma-buf.h
+> +++ b/include/linux/dma-buf.h
+> @@ -27,6 +27,11 @@ struct device;
+>  struct dma_buf;
+>  struct dma_buf_attachment;
+>  
+> +/**
+> + * Check if struct file* is associated with dma_buf.
+> + */
+> +int is_dma_buf_file(struct file *file);
+> +
+>  /**
+>   * struct dma_buf_ops - operations possible on struct dma_buf
+>   * @vmap: [optional] creates a virtual mapping for the buffer into kernel
+> -- 
+> 2.30.0.280.ga3ce27912f-goog
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
-Cc: linux-api@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
----
- Documentation/ABI/testing/procfs-attr-context | 14 ++++
- Documentation/security/lsm.rst                | 14 ++++
- fs/proc/base.c                                |  1 +
- include/linux/lsm_hooks.h                     |  6 ++
- security/apparmor/include/procattr.h          |  2 +-
- security/apparmor/lsm.c                       |  8 +-
- security/apparmor/procattr.c                  | 22 +++---
- security/security.c                           | 79 +++++++++++++++++++
- security/selinux/hooks.c                      |  2 +-
- security/smack/smack_lsm.c                    |  2 +-
- 10 files changed, 135 insertions(+), 15 deletions(-)
- create mode 100644 Documentation/ABI/testing/procfs-attr-context
-
-diff --git a/Documentation/ABI/testing/procfs-attr-context b/Documentation/ABI/testing/procfs-attr-context
-new file mode 100644
-index 000000000000..40da1c397c30
---- /dev/null
-+++ b/Documentation/ABI/testing/procfs-attr-context
-@@ -0,0 +1,14 @@
-+What:		/proc/*/attr/context
-+Contact:	linux-security-module@vger.kernel.org,
-+Description:	The current security information used by all Linux
-+		security module (LSMs) that are active on the system.
-+		The details of permissions required to read from
-+		this interface and hence obtain the security state
-+		of the task identified is dependent on the LSMs that
-+		are active on the system.
-+		A process cannot write to this interface.
-+		The data provided by this interface will have the form:
-+			lsm_name\0lsm_data\0[lsm_name\0lsm_data\0]...
-+		where lsm_name is the name of the LSM and the following
-+		lsm_data is the process data for that LSM.
-+Users:		LSM user-space
-diff --git a/Documentation/security/lsm.rst b/Documentation/security/lsm.rst
-index b77b4a540391..070225ae6ceb 100644
---- a/Documentation/security/lsm.rst
-+++ b/Documentation/security/lsm.rst
-@@ -143,3 +143,17 @@ separated list of the active security modules.
- The file ``/proc/pid/attr/interface_lsm`` contains the name of the security
- module for which the ``/proc/pid/attr/current`` interface will
- apply. This interface can be written to.
-+
-+The infrastructure does provide an interface for the special
-+case where multiple security modules provide a process context.
-+This is provided in compound context format.
-+
-+-  `lsm\0value\0lsm\0value\0`
-+
-+The `lsm` and `value` fields are NUL-terminated bytestrings.
-+Each field may contain whitespace or non-printable characters.
-+The NUL bytes are included in the size of a compound context.
-+The context ``Bell\0Secret\0Biba\0Loose\0`` has a size of 23.
-+
-+The file ``/proc/pid/attr/context`` provides the security
-+context of the identified process.
-diff --git a/fs/proc/base.c b/fs/proc/base.c
-index 158771f87e94..bf23e2bb240a 100644
---- a/fs/proc/base.c
-+++ b/fs/proc/base.c
-@@ -2809,6 +2809,7 @@ static const struct pid_entry attr_dir_stuff[] = {
- 	ATTR(NULL, "keycreate",		0666),
- 	ATTR(NULL, "sockcreate",	0666),
- 	ATTR(NULL, "interface_lsm",	0666),
-+	ATTR(NULL, "context",		0444),
- #ifdef CONFIG_SECURITY_SMACK
- 	DIR("smack",			0555,
- 	    proc_smack_attr_dir_inode_ops, proc_smack_attr_dir_ops),
-diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
-index 28a036374834..5e7b2c3ab133 100644
---- a/include/linux/lsm_hooks.h
-+++ b/include/linux/lsm_hooks.h
-@@ -1372,6 +1372,12 @@
-  *	@pages contains the number of pages.
-  *	Return 0 if permission is granted.
-  *
-+ * @getprocattr:
-+ *	Provide the named process attribute for display in special files in
-+ *	the /proc/.../attr directory.  Attribute naming and the data displayed
-+ *	is at the discretion of the security modules.  The exception is the
-+ *	"context" attribute, which will contain the security context of the
-+ *	task as a nul terminated text string without trailing whitespace.
-  * @ismaclabel:
-  *	Check if the extended attribute specified by @name
-  *	represents a MAC label. Returns 1 if name is a MAC
-diff --git a/security/apparmor/include/procattr.h b/security/apparmor/include/procattr.h
-index 31689437e0e1..03dbfdb2f2c0 100644
---- a/security/apparmor/include/procattr.h
-+++ b/security/apparmor/include/procattr.h
-@@ -11,7 +11,7 @@
- #ifndef __AA_PROCATTR_H
- #define __AA_PROCATTR_H
- 
--int aa_getprocattr(struct aa_label *label, char **string);
-+int aa_getprocattr(struct aa_label *label, char **string, bool newline);
- int aa_setprocattr_changehat(char *args, size_t size, int flags);
- 
- #endif /* __AA_PROCATTR_H */
-diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
-index bfcb78149e9c..4af0518b55d6 100644
---- a/security/apparmor/lsm.c
-+++ b/security/apparmor/lsm.c
-@@ -593,6 +593,7 @@ static int apparmor_getprocattr(struct task_struct *task, char *name,
- 	const struct cred *cred = get_task_cred(task);
- 	struct aa_task_ctx *ctx = task_ctx(current);
- 	struct aa_label *label = NULL;
-+	bool newline = true;
- 
- 	if (strcmp(name, "current") == 0)
- 		label = aa_get_newest_label(cred_label(cred));
-@@ -600,11 +601,14 @@ static int apparmor_getprocattr(struct task_struct *task, char *name,
- 		label = aa_get_newest_label(ctx->previous);
- 	else if (strcmp(name, "exec") == 0 && ctx->onexec)
- 		label = aa_get_newest_label(ctx->onexec);
--	else
-+	else if (strcmp(name, "context") == 0) {
-+		label = aa_get_newest_label(cred_label(cred));
-+		newline = false;
-+	} else
- 		error = -EINVAL;
- 
- 	if (label)
--		error = aa_getprocattr(label, value);
-+		error = aa_getprocattr(label, value, newline);
- 
- 	aa_put_label(label);
- 	put_cred(cred);
-diff --git a/security/apparmor/procattr.c b/security/apparmor/procattr.c
-index c929bf4a3df1..be3b083d9b74 100644
---- a/security/apparmor/procattr.c
-+++ b/security/apparmor/procattr.c
-@@ -20,6 +20,7 @@
-  * aa_getprocattr - Return the profile information for @profile
-  * @profile: the profile to print profile info about  (NOT NULL)
-  * @string: Returns - string containing the profile info (NOT NULL)
-+ * @newline: Should a newline be added to @string.
-  *
-  * Returns: length of @string on success else error on failure
-  *
-@@ -30,20 +31,21 @@
-  *
-  * Returns: size of string placed in @string else error code on failure
-  */
--int aa_getprocattr(struct aa_label *label, char **string)
-+int aa_getprocattr(struct aa_label *label, char **string, bool newline)
- {
- 	struct aa_ns *ns = labels_ns(label);
- 	struct aa_ns *current_ns = aa_get_current_ns();
-+	int flags = FLAG_VIEW_SUBNS | FLAG_HIDDEN_UNCONFINED;
- 	int len;
- 
- 	if (!aa_ns_visible(current_ns, ns, true)) {
- 		aa_put_ns(current_ns);
- 		return -EACCES;
- 	}
-+	if (newline)
-+		flags |= FLAG_SHOW_MODE;
- 
--	len = aa_label_snxprint(NULL, 0, current_ns, label,
--				FLAG_SHOW_MODE | FLAG_VIEW_SUBNS |
--				FLAG_HIDDEN_UNCONFINED);
-+	len = aa_label_snxprint(NULL, 0, current_ns, label, flags);
- 	AA_BUG(len < 0);
- 
- 	*string = kmalloc(len + 2, GFP_KERNEL);
-@@ -52,19 +54,19 @@ int aa_getprocattr(struct aa_label *label, char **string)
- 		return -ENOMEM;
- 	}
- 
--	len = aa_label_snxprint(*string, len + 2, current_ns, label,
--				FLAG_SHOW_MODE | FLAG_VIEW_SUBNS |
--				FLAG_HIDDEN_UNCONFINED);
-+	len = aa_label_snxprint(*string, len + 2, current_ns, label, flags);
- 	if (len < 0) {
- 		aa_put_ns(current_ns);
- 		return len;
- 	}
- 
--	(*string)[len] = '\n';
--	(*string)[len + 1] = 0;
-+	if (newline) {
-+		(*string)[len] = '\n';
-+		(*string)[++len] = 0;
-+	}
- 
- 	aa_put_ns(current_ns);
--	return len + 1;
-+	return len;
- }
- 
- /**
-diff --git a/security/security.c b/security/security.c
-index 9bb1fe69d310..50cf7c58fbbf 100644
---- a/security/security.c
-+++ b/security/security.c
-@@ -776,6 +776,57 @@ static void __init lsm_early_task(struct task_struct *task)
- 		panic("%s: Early task alloc failed.\n", __func__);
- }
- 
-+/**
-+ * append_ctx - append a lsm/context pair to a compound context
-+ * @ctx: the existing compound context
-+ * @ctxlen: size of the old context, including terminating nul byte
-+ * @lsm: new lsm name, nul terminated
-+ * @new: new context, possibly nul terminated
-+ * @newlen: maximum size of @new
-+ *
-+ * replace @ctx with a new compound context, appending @newlsm and @new
-+ * to @ctx. On exit the new data replaces the old, which is freed.
-+ * @ctxlen is set to the new size, which includes a trailing nul byte.
-+ *
-+ * Returns 0 on success, -ENOMEM if no memory is available.
-+ */
-+static int append_ctx(char **ctx, int *ctxlen, const char *lsm, char *new,
-+		      int newlen)
-+{
-+	char *final;
-+	size_t llen;
-+	size_t nlen;
-+	size_t flen;
-+
-+	llen = strlen(lsm) + 1;
-+	/*
-+	 * A security module may or may not provide a trailing nul on
-+	 * when returning a security context. There is no definition
-+	 * of which it should be, and there are modules that do it
-+	 * each way.
-+	 */
-+	nlen = strnlen(new, newlen);
-+
-+	flen = *ctxlen + llen + nlen + 1;
-+	final = kzalloc(flen, GFP_KERNEL);
-+
-+	if (final == NULL)
-+		return -ENOMEM;
-+
-+	if (*ctxlen)
-+		memcpy(final, *ctx, *ctxlen);
-+
-+	memcpy(final + *ctxlen, lsm, llen);
-+	memcpy(final + *ctxlen + llen, new, nlen);
-+
-+	kfree(*ctx);
-+
-+	*ctx = final;
-+	*ctxlen = flen;
-+
-+	return 0;
-+}
-+
- /*
-  * The default value of the LSM hook is defined in linux/lsm_hook_defs.h and
-  * can be accessed with:
-@@ -2161,6 +2212,10 @@ int security_getprocattr(struct task_struct *p, const char *lsm, char *name,
- 				char **value)
- {
- 	struct security_hook_list *hp;
-+	char *final = NULL;
-+	char *cp;
-+	int rc = 0;
-+	int finallen = 0;
- 	int ilsm = lsm_task_ilsm(current);
- 	int slot = 0;
- 
-@@ -2188,6 +2243,30 @@ int security_getprocattr(struct task_struct *p, const char *lsm, char *name,
- 		return -ENOMEM;
- 	}
- 
-+	if (!strcmp(name, "context")) {
-+		hlist_for_each_entry(hp, &security_hook_heads.getprocattr,
-+				     list) {
-+			rc = hp->hook.getprocattr(p, "context", &cp);
-+			if (rc == -EINVAL)
-+				continue;
-+			if (rc < 0) {
-+				kfree(final);
-+				return rc;
-+			}
-+			rc = append_ctx(&final, &finallen, hp->lsmid->lsm,
-+					cp, rc);
-+			kfree(cp);
-+			if (rc < 0) {
-+				kfree(final);
-+				return rc;
-+			}
-+		}
-+		if (final == NULL)
-+			return -EINVAL;
-+		*value = final;
-+		return finallen;
-+	}
-+
- 	hlist_for_each_entry(hp, &security_hook_heads.getprocattr, list) {
- 		if (lsm != NULL && strcmp(lsm, hp->lsmid->lsm))
- 			continue;
-diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-index 60e35d31cc4c..05a98dcf377c 100644
---- a/security/selinux/hooks.c
-+++ b/security/selinux/hooks.c
-@@ -6300,7 +6300,7 @@ static int selinux_getprocattr(struct task_struct *p,
- 			goto bad;
- 	}
- 
--	if (!strcmp(name, "current"))
-+	if (!strcmp(name, "current") || !strcmp(name, "context"))
- 		sid = __tsec->sid;
- 	else if (!strcmp(name, "prev"))
- 		sid = __tsec->osid;
-diff --git a/security/smack/smack_lsm.c b/security/smack/smack_lsm.c
-index 03a1c40174d7..363c2cb76936 100644
---- a/security/smack/smack_lsm.c
-+++ b/security/smack/smack_lsm.c
-@@ -3478,7 +3478,7 @@ static int smack_getprocattr(struct task_struct *p, char *name, char **value)
- 	char *cp;
- 	int slen;
- 
--	if (strcmp(name, "current") != 0)
-+	if (strcmp(name, "current") != 0 && strcmp(name, "context") != 0)
- 		return -EINVAL;
- 
- 	cp = kstrdup(skp->smk_known, GFP_KERNEL);
 -- 
-2.25.4
-
+Michal Hocko
+SUSE Labs
