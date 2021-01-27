@@ -2,34 +2,38 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 76FB63059A4
-	for <lists+linux-api@lfdr.de>; Wed, 27 Jan 2021 12:27:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B25A73059B1
+	for <lists+linux-api@lfdr.de>; Wed, 27 Jan 2021 12:29:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236529AbhA0L1H (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 27 Jan 2021 06:27:07 -0500
-Received: from mx2.suse.de ([195.135.220.15]:42604 "EHLO mx2.suse.de"
+        id S236759AbhA0L26 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 27 Jan 2021 06:28:58 -0500
+Received: from mx2.suse.de ([195.135.220.15]:44916 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236642AbhA0LYh (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 27 Jan 2021 06:24:37 -0500
+        id S236567AbhA0L1y (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 27 Jan 2021 06:27:54 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1611746630; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1611746827; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=PqpTmCh3ho+cnaTSVLoFW4UVAwVWXacgRQ8K11OQqug=;
-        b=A0Wcko1cqX604secuwtbyeQ8wWpszYFQnnwp2qTxgLmHN1G5M16dx+DyGbUJIGpvKkZoaG
-        CM6tKnCe31ck37wl5r0KOLE6uoY/GT7xRtl8MI0+v/+kqt+G9dsvqNPXncHv5fSxgC5w28
-        TY5IjZy1AyF6cB5rdaDKLAzZq0G1F+0=
+        bh=99b/OdLEJ9KjwcEyxGPTzdQW144ByhF4k4uosoq51RU=;
+        b=diYSQP3S6Y8kEMtpEhcN88lTl4rBuzcA+btJgHGJDVBXzl72W3kHlLkTjxKO+qVGumgP8Z
+        2M0wNjlEMq0IvjdTNK97lM2TffBqN1kVD/ly9x52X8I2b8F6AKHJLN41TUiidqhl9j+fHw
+        rIMQHVxH352Xlqa6vEh93MvXViYxRz8=
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id C03E4AC9B;
-        Wed, 27 Jan 2021 11:23:49 +0000 (UTC)
-Date:   Wed, 27 Jan 2021 12:23:47 +0100
+        by mx2.suse.de (Postfix) with ESMTP id 5B698AC9B;
+        Wed, 27 Jan 2021 11:27:07 +0000 (UTC)
+Date:   Wed, 27 Jan 2021 12:27:03 +0100
 From:   Michal Hocko <mhocko@suse.com>
 To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc:     Kalesh Singh <kaleshsingh@google.com>, surenb@google.com,
-        minchan@kernel.org, gregkh@linuxfoundation.org, hridya@google.com,
-        jannh@google.com, kernel-team@android.com,
+Cc:     Jann Horn <jannh@google.com>,
+        Kalesh Singh <kaleshsingh@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        kernel-team <kernel-team@android.com>,
         Alexey Dobriyan <adobriyan@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Sumit Semwal <sumit.semwal@linaro.org>,
@@ -44,58 +48,45 @@ Cc:     Kalesh Singh <kaleshsingh@google.com>, surenb@google.com,
         Bernd Edlinger <bernd.edlinger@hotmail.de>,
         Andrei Vagin <avagin@gmail.com>,
         Yafang Shao <laoar.shao@gmail.com>, Hui Su <sh_def@163.com>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
+        kernel list <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
         dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-api@vger.kernel.org
+        Jeffrey Vander Stoep <jeffv@google.com>,
+        Linux API <linux-api@vger.kernel.org>
 Subject: Re: [PATCH] procfs/dmabuf: Add /proc/<pid>/task/<tid>/dmabuf_fds
-Message-ID: <YBFNQ0Mxauknw68b@dhcp22.suse.cz>
+Message-ID: <YBFOB9YJkWk0jK+f@dhcp22.suse.cz>
 References: <20210126225138.1823266-1-kaleshsingh@google.com>
- <20210127090526.GB827@dhcp22.suse.cz>
- <6b314cf2-99f0-8e63-acc7-edebe2ca97d7@amd.com>
- <YBFIMIR2FXoYDd+0@dhcp22.suse.cz>
- <7dd33165-4fb9-a424-9b5e-08c69583c979@amd.com>
+ <CAG48ez2tc_GSPYdgGqTRotUp6NqFoUKdoN_p978+BOLoD_Fdjw@mail.gmail.com>
+ <YBFG/zBxgnapqLAK@dhcp22.suse.cz>
+ <ea04b552-7345-b7d5-60fe-7a22515ea63a@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <7dd33165-4fb9-a424-9b5e-08c69583c979@amd.com>
+In-Reply-To: <ea04b552-7345-b7d5-60fe-7a22515ea63a@amd.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed 27-01-21 12:08:50, Christian König wrote:
-> Am 27.01.21 um 12:02 schrieb Michal Hocko:
-> > On Wed 27-01-21 11:53:55, Christian König wrote:
-> > [...]
-> > > In general processes are currently not held accountable for memory they
-> > > reference through their file descriptors. DMA-buf is just one special case.
-> > True
-> > 
-> > > In other words you can currently do something like this
-> > > 
-> > > fd = memfd_create("test", 0);
-> > > while (1)
-> > >      write(fd, buf, 1024);
-> > > 
-> > > and the OOM killer will terminate random processes, but never the one
-> > > holding the memfd reference.
-> > memfd is just shmem under cover, no? And that means that the memory gets
-> > accounted to MM_SHMEMPAGES. But you are right that this in its own
-> > doesn't help much if the fd is shared and the memory stays behind a
-> > killed victim.
+On Wed 27-01-21 12:01:55, Christian König wrote:
+[...]
+> Some years ago I've proposed an change to improve the OOM killer to take
+> into account how much memory is reference through special file descriptors
+> like device drivers or DMA-buf.
 > 
-> I think so, yes. But I just tested this and it doesn't seem to work
-> correctly.
-> 
-> When I run the few lines above the OOM killer starts to terminate processes,
-> but since my small test program uses very very little memory basically
-> everything else gets terminated (including X, desktop, sshd etc..) before it
-> is terminated as well.
+> But that never want anywhere because of concerns that this would add to much
+> overhead to the OOM killer.
 
-Something worth looking into. Maybe those pages are not really accounted
-properly after all. Can you send a separate email about details with oom
-reports please?
+I have to admit I do not remember such a discussion. There were many on
+the related topic, concerns were mostly about a proper accounting of
+shared resources or locking required to gain the information. I do not
+remember overhead as being the main concern as oom is a real cold path.
+
+Anyway, if you want to revamp those patches then feel free to CC me and
+we can discuss further. I do not want to hijack this thread by an
+unrelated topic.
 -- 
 Michal Hocko
 SUSE Labs
