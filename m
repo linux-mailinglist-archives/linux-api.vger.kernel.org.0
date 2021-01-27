@@ -2,148 +2,111 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F281305E11
-	for <lists+linux-api@lfdr.de>; Wed, 27 Jan 2021 15:20:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 54209305E96
+	for <lists+linux-api@lfdr.de>; Wed, 27 Jan 2021 15:47:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229732AbhA0OUZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 27 Jan 2021 09:20:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48788 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233278AbhA0OS5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 27 Jan 2021 09:18:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1611757049;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=VsZNc1B4nakIPnI1xAuLfFHKosTfI1vVpMK0rv+pxEo=;
-        b=a+QR/sXRBkstBtucRjEr6DpuUXm2jMhhp58IApfBdGu8lvPWNC1DtNe/qozmklrW4d3gQN
-        Ymn5xqeVBmmGYc1xkyczK9MCOUfX9uQ4bMQecP33eeTN+gOANRYnM9/bKp9obzyDHu3Z7w
-        LeBqbOwp0oj5sxlR6z96alOXzs04eDY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-59-ixX6X7loMQOpAE3pZKoF5A-1; Wed, 27 Jan 2021 09:17:26 -0500
-X-MC-Unique: ixX6X7loMQOpAE3pZKoF5A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29D99107ACF9;
-        Wed, 27 Jan 2021 14:17:20 +0000 (UTC)
-Received: from [10.40.192.126] (unknown [10.40.192.126])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id F14AA5D9CA;
-        Wed, 27 Jan 2021 14:17:07 +0000 (UTC)
-Subject: Re: [Patch v4 1/3] lib: Restrict cpumask_local_spread to houskeeping
- CPUs
-To:     Marcelo Tosatti <mtosatti@redhat.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "frederic@kernel.org" <frederic@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        juri.lelli@redhat.com, abelits@marvell.com, bhelgaas@google.com,
-        linux-pci@vger.kernel.org, rostedt@goodmis.org, mingo@kernel.org,
-        peterz@infradead.org, davem@davemloft.net,
-        akpm@linux-foundation.org, sfr@canb.auug.org.au,
-        stephen@networkplumber.org, rppt@linux.vnet.ibm.com,
-        jinyuqi@huawei.com, zhangshaokun@hisilicon.com
-References: <20200625223443.2684-1-nitesh@redhat.com>
- <20200625223443.2684-2-nitesh@redhat.com>
- <3e9ce666-c9cd-391b-52b6-3471fe2be2e6@arm.com>
- <20210127121939.GA54725@fuller.cnet>
- <c5cba5f3-287a-d087-c329-6e6613634370@arm.com>
- <20210127130925.GA64740@fuller.cnet>
-From:   Nitesh Narayan Lal <nitesh@redhat.com>
-Organization: Red Hat Inc,
-Message-ID: <7b810c5a-c732-4df3-1034-c2959ae86e65@redhat.com>
-Date:   Wed, 27 Jan 2021 09:16:37 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+        id S234480AbhA0Ore (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 27 Jan 2021 09:47:34 -0500
+Received: from mx2.suse.de ([195.135.220.15]:38204 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234335AbhA0Ora (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 27 Jan 2021 09:47:30 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id AABA8ABDA;
+        Wed, 27 Jan 2021 14:46:46 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id 6151B1E14D0; Wed, 27 Jan 2021 15:46:46 +0100 (CET)
+Date:   Wed, 27 Jan 2021 15:46:46 +0100
+From:   Jan Kara <jack@suse.cz>
+To:     Sascha Hauer <s.hauer@pengutronix.de>
+Cc:     Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@infradead.org>,
+        linux-fsdevel@vger.kernel.org, Richard Weinberger <richard@nod.at>,
+        linux-mtd@lists.infradead.org, kernel@pengutronix.de,
+        Jan Kara <jack@suse.com>, linux-api@vger.kernel.org
+Subject: Re: [PATCH 1/8] quota: Allow to pass mount path to quotactl
+Message-ID: <20210127144646.GB13717@quack2.suse.cz>
+References: <20210122151536.7982-1-s.hauer@pengutronix.de>
+ <20210122151536.7982-2-s.hauer@pengutronix.de>
+ <20210122171658.GA237653@infradead.org>
+ <20210125083854.GB31738@pengutronix.de>
+ <20210125154507.GH1175@quack2.suse.cz>
+ <20210126104557.GB28722@pengutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <20210127130925.GA64740@fuller.cnet>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210126104557.GB28722@pengutronix.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Tue 26-01-21 11:45:57, Sascha Hauer wrote:
+> On Mon, Jan 25, 2021 at 04:45:07PM +0100, Jan Kara wrote:
+> > On Mon 25-01-21 09:38:54, Sascha Hauer wrote:
+> > > On Fri, Jan 22, 2021 at 05:16:58PM +0000, Christoph Hellwig wrote:
+> > > > On Fri, Jan 22, 2021 at 04:15:29PM +0100, Sascha Hauer wrote:
+> > > > > This patch introduces the Q_PATH flag to the quotactl cmd argument.
+> > > > > When given, the path given in the special argument to quotactl will
+> > > > > be the mount path where the filesystem is mounted, instead of a path
+> > > > > to the block device.
+> > > > > This is necessary for filesystems which do not have a block device as
+> > > > > backing store. Particularly this is done for upcoming UBIFS support.
+> > > > > 
+> > > > > Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> > > > 
+> > > > I hate overloading quotactl even more.  Why not add a new quotactl_path
+> > > > syscall instead?
+> > > 
+> > > We can probably do that. Honza, what do you think?
+> > 
+> > Hum, yes, probably it would be cleaner to add a new syscall for this so
+> > that we don't overload quotactl(2). I just didn't think of this.
+> 
+> How should the semantics of that new syscall look like?
+> 
+> The easiest and most obvious way would be to do it like the quotactl(2)
+> and just replace the special argument with a path:
+> 
+> int quotactl_path(int cmd, const char *path, int id, caddr_t addr);
 
-On 1/27/21 8:09 AM, Marcelo Tosatti wrote:
-> On Wed, Jan 27, 2021 at 12:36:30PM +0000, Robin Murphy wrote:
->> On 2021-01-27 12:19, Marcelo Tosatti wrote:
->>> On Wed, Jan 27, 2021 at 11:57:16AM +0000, Robin Murphy wrote:
->>>> Hi,
->>>>
->>>> On 2020-06-25 23:34, Nitesh Narayan Lal wrote:
->>>>> From: Alex Belits <abelits@marvell.com>
->>>>>
->>>>> The current implementation of cpumask_local_spread() does not respect the
->>>>> isolated CPUs, i.e., even if a CPU has been isolated for Real-Time task,
->>>>> it will return it to the caller for pinning of its IRQ threads. Having
->>>>> these unwanted IRQ threads on an isolated CPU adds up to a latency
->>>>> overhead.
->>>>>
->>>>> Restrict the CPUs that are returned for spreading IRQs only to the
->>>>> available housekeeping CPUs.
->>>>>
->>>>> Signed-off-by: Alex Belits <abelits@marvell.com>
->>>>> Signed-off-by: Nitesh Narayan Lal <nitesh@redhat.com>
->>>>> ---
->>>>>    lib/cpumask.c | 16 +++++++++++-----
->>>>>    1 file changed, 11 insertions(+), 5 deletions(-)
->>>>>
->>>>> diff --git a/lib/cpumask.c b/lib/cpumask.c
->>>>> index fb22fb266f93..85da6ab4fbb5 100644
->>>>> --- a/lib/cpumask.c
->>>>> +++ b/lib/cpumask.c
->>>>> @@ -6,6 +6,7 @@
->>>>>    #include <linux/export.h>
->>>>>    #include <linux/memblock.h>
->>>>>    #include <linux/numa.h>
->>>>> +#include <linux/sched/isolation.h>
->>>>>    /**
->>>>>     * cpumask_next - get the next cpu in a cpumask
->>>>> @@ -205,22 +206,27 @@ void __init free_bootmem_cpumask_var(cpumask_var_t mask)
->>>>>     */
->>>>>    unsigned int cpumask_local_spread(unsigned int i, int node)
->>>>>    {
->>>>> -	int cpu;
->>>>> +	int cpu, hk_flags;
->>>>> +	const struct cpumask *mask;
->>>>> +	hk_flags = HK_FLAG_DOMAIN | HK_FLAG_MANAGED_IRQ;
->>>>> +	mask = housekeeping_cpumask(hk_flags);
->>>> AFAICS, this generally resolves to something based on cpu_possible_mask
->>>> rather than cpu_online_mask as before, so could now potentially return an
->>>> offline CPU. Was that an intentional change?
->>> Robin,
->>>
->>> AFAICS online CPUs should be filtered.
->> Apologies if I'm being thick, but can you explain how? In the case of
->> isolation being disabled or compiled out, housekeeping_cpumask() is
->> literally just "return cpu_possible_mask;". If we then iterate over that
->> with for_each_cpu() and just return the i'th possible CPU (e.g. in the
->> NUMA_NO_NODE case), what guarantees that CPU is actually online?
->>
->> Robin.
-> Nothing, but that was the situation before 1abdfe706a579a702799fce465bceb9fb01d407c
-> as well.
+Yes, that's what I meant.
 
-Marcelo, before the commit cpumask_local_spread, was in fact, relying on
-cpu_online_mask as Robin mentioned.
-The problem here is with housekeeping_cpumask which always relied on the
-cpu_possible_mask.
+> If we try adding a new syscall then we could completely redefine the API
+> and avoid the shortcomings of the original quotactl(2) if there are any.
+> Can you foresee the discussions we end up in? I am afraid I am opening a
+> can of worms here.
+> OTOH there might be value in keeping the new syscall compatible to the
+> existing one, but I don't know how much this argument counts.
 
->
-> cpumask_local_spread() should probably be disabling CPU hotplug.
+That's a good question but also a can of worms as you write :). One obvious
+problem with quotactl() is that's it's ioctl-like interface. So we have
+several different operations mixed into a single syscall. Currently there
+are these operations:
 
+#define Q_SYNC     0x800001     /* sync disk copy of a filesystems quotas */
+#define Q_QUOTAON  0x800002     /* turn quotas on */
+#define Q_QUOTAOFF 0x800003     /* turn quotas off */
+#define Q_GETFMT   0x800004     /* get quota format used on given filesystem */
+#define Q_GETINFO  0x800005     /* get information about quota files */
+#define Q_SETINFO  0x800006     /* set information about quota files */
+#define Q_GETQUOTA 0x800007     /* get user quota structure */
+#define Q_SETQUOTA 0x800008     /* set user quota structure */
+#define Q_GETNEXTQUOTA 0x800009 /* get disk limits and usage >= ID */
+<plus their XFS variants>
 
-Yes and this should also be done at several other places in the drivers
-which don't take CPU hotplug into account eg. at the time of vector
-allocation.
+In a puristic world they'd be 9 different syscalls ... or somewhat less
+because Q_GETNEXTQUOTA is a superset of Q_GETQUOTA, we could drop Q_SYNC
+and Q_GETFMT because they have dubious value these days so we'd be left
+with 6. I don't have a strong opinion whether 6 syscalls are worth the
+cleanliness or whether we should go with just one new quotactl_path()
+syscall. I've CCed linux-api in case other people have opinion.
 
+Anyway, even if we go with single quotactl_path() syscall we should remove
+the duplication between VFS and XFS quotactls when we are creating a new
+syscall. Thoughts?
 
+								Honza
 -- 
-Thanks
-Nitesh
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
