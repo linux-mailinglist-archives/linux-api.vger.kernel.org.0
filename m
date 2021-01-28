@@ -2,504 +2,208 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BF72307624
-	for <lists+linux-api@lfdr.de>; Thu, 28 Jan 2021 13:30:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E6B53076A0
+	for <lists+linux-api@lfdr.de>; Thu, 28 Jan 2021 14:03:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231880AbhA1M0x (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 28 Jan 2021 07:26:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44464 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231462AbhA1MZF (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 28 Jan 2021 07:25:05 -0500
-Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com [IPv6:2607:f8b0:4864:20::c33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0778C061756;
-        Thu, 28 Jan 2021 04:24:24 -0800 (PST)
-Received: by mail-oo1-xc33.google.com with SMTP id y72so1361400ooa.5;
-        Thu, 28 Jan 2021 04:24:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=35ssVsxn75Z2ZkJPsI1hORY4xDk+LjLwz4eQia5uiHM=;
-        b=LAZMIhF5ZAWEv3DaEm8JDIlxNOaBPeYsqDxhX3jTgbRppxh1m0JL4luK69+2TJEyen
-         bc8LmYuy7IUbsya+yozYp8o/3Xsqa8WDZuUAUsBFi3+NCm95JNsDZkHAYi59WOCI06Qd
-         wmFILxhpqYB2Dkxr7DSDpPiwHuVjUY1f6G+YZvbJ0jP0tbvZ0aDWTbQtIEdrDfODeyGk
-         Yd96MsrHnvDLdhEhKivC5+D86JKxi+yPwZ2b1B8VWcHbBH3wEgWW2oXS9v2phbD5NRfh
-         vNkwMHVY3GFcli0Q+R1ZZS7POA5DpGnHXduuBgX7R2nUMsieKDxnndjMKMmZQRnfYGY7
-         LNXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=35ssVsxn75Z2ZkJPsI1hORY4xDk+LjLwz4eQia5uiHM=;
-        b=SbPRQ/aLw+tX8542JO+AlalE971XVST8E9pVl795XdkStcv5atGJkfGu5oTJrQzVRu
-         JdAI7Zx6aVQTaWJEHQpviMThMLiVkly8ZBMPuz+dxPTEeWZ2tl6H5T0R6VLxAP8ptZCL
-         x3exgKPc+nRTwKuRpd894KwaofTnwyVrDtzpGgf86S38yc9efRuV5kZDSOSQg+3g7dmR
-         r1P7UTOgXE8rywhvzDN8VUQ34IpmhVRhvyYcSWzz3hrJxLX7/IiI6NPfg3HkraMAxHWT
-         2n+tG6OsNI9L5630U1xWAwAJ414UYGjoqLB+RzQWhiy4kN3df43F/cj5XFCvhYwe4j7Y
-         O2fQ==
-X-Gm-Message-State: AOAM532I8MyktGOVMEzn/p1p9ylAi6Jj0dePoAF9aECvkTF1DJxxFiRl
-        JFgPFEbnDL3ObAMdch3zE28fGegWuTliyo/ANH0=
-X-Google-Smtp-Source: ABdhPJyJezCXdgF8esgy/OD9XuWc18dKvS72elOWT2P4HtELfDMnO3qyRrbvcxsh2zz6D1mVRt1DUMsQkD0mB2lm+iM=
-X-Received: by 2002:a4a:d384:: with SMTP id i4mr11218423oos.14.1611836664065;
- Thu, 28 Jan 2021 04:24:24 -0800 (PST)
-MIME-Version: 1.0
-References: <20210120202337.1481402-1-surenb@google.com>
-In-Reply-To: <20210120202337.1481402-1-surenb@google.com>
-Reply-To: mtk.manpages@gmail.com
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Date:   Thu, 28 Jan 2021 13:24:12 +0100
-Message-ID: <CAKgNAkgsQWL3QAyF6CQU=yifzA1tfp_E5kBBNKuAq_+sB4Amyw@mail.gmail.com>
-Subject: Re: [PATCH 1/1] process_madvise.2: Add process_madvise man page
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     linux-man <linux-man@vger.kernel.org>,
+        id S231284AbhA1NCD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 28 Jan 2021 08:02:03 -0500
+Received: from mx2.suse.de ([195.135.220.15]:56842 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232004AbhA1NBz (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 28 Jan 2021 08:01:55 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1611838867; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=vJt24NNAalCKv4rVDS2NDaUKT5dH4I+q/BbkjyVKFas=;
+        b=rIpkGAScsHGELAFRulv4V5GPLX8Fe3xWhurZF6bgCmSiVv4UgjaRPQqEv2RCkHxJlrAsoN
+        Lz5A7u3DqPIrgoJhJlC5dpcIL9LlLQGEGCmT7XeNDqmogifq0K6BdZXNTT0uXoQHYRUWbZ
+        KvYFdrDmwtb1rJfxtMH3Yh/efBvnMhg=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id A6D68AE47;
+        Thu, 28 Jan 2021 13:01:07 +0000 (UTC)
+Date:   Thu, 28 Jan 2021 14:01:06 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     David Hildenbrand <david@redhat.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Jann Horn <jannh@google.com>,
-        Kees Cook <keescook@chromium.org>, jeffv@google.com,
-        Minchan Kim <minchan@kernel.org>,
-        Michal Hocko <mhocko@suse.com>, shakeelb@google.com,
-        David Rientjes <rientjes@google.com>, edgararriaga@google.com,
-        Tim Murray <timmurray@google.com>,
-        Linux-MM <linux-mm@kvack.org>, selinux@vger.kernel.org,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Android Kernel Team <kernel-team@android.com>
-Content-Type: text/plain; charset="UTF-8"
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christopher Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Roman Gushchin <guro@fb.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
+        x86@kernel.org, Hagen Paul Pfeifer <hagen@jauu.net>,
+        Palmer Dabbelt <palmerdabbelt@google.com>
+Subject: Re: [PATCH v16 07/11] secretmem: use PMD-size pages to amortize
+ direct map fragmentation
+Message-ID: <YBK1kqL7JA7NePBQ@dhcp22.suse.cz>
+References: <20210121122723.3446-1-rppt@kernel.org>
+ <20210121122723.3446-8-rppt@kernel.org>
+ <20210126114657.GL827@dhcp22.suse.cz>
+ <303f348d-e494-e386-d1f5-14505b5da254@redhat.com>
+ <20210126120823.GM827@dhcp22.suse.cz>
+ <20210128092259.GB242749@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210128092259.GB242749@kernel.org>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hello Suren,
+On Thu 28-01-21 11:22:59, Mike Rapoport wrote:
+> On Tue, Jan 26, 2021 at 01:08:23PM +0100, Michal Hocko wrote:
+> > On Tue 26-01-21 12:56:48, David Hildenbrand wrote:
+> > > On 26.01.21 12:46, Michal Hocko wrote:
+> > > > On Thu 21-01-21 14:27:19, Mike Rapoport wrote:
+> > > > > From: Mike Rapoport <rppt@linux.ibm.com>
+> > > > > 
+> > > > > Removing a PAGE_SIZE page from the direct map every time such page is
+> > > > > allocated for a secret memory mapping will cause severe fragmentation of
+> > > > > the direct map. This fragmentation can be reduced by using PMD-size pages
+> > > > > as a pool for small pages for secret memory mappings.
+> > > > > 
+> > > > > Add a gen_pool per secretmem inode and lazily populate this pool with
+> > > > > PMD-size pages.
+> > > > > 
+> > > > > As pages allocated by secretmem become unmovable, use CMA to back large
+> > > > > page caches so that page allocator won't be surprised by failing attempt to
+> > > > > migrate these pages.
+> > > > > 
+> > > > > The CMA area used by secretmem is controlled by the "secretmem=" kernel
+> > > > > parameter. This allows explicit control over the memory available for
+> > > > > secretmem and provides upper hard limit for secretmem consumption.
+> > > > 
+> > > > OK, so I have finally had a look at this closer and this is really not
+> > > > acceptable. I have already mentioned that in a response to other patch
+> > > > but any task is able to deprive access to secret memory to other tasks
+> > > > and cause OOM killer which wouldn't really recover ever and potentially
+> > > > panic the system. Now you could be less drastic and only make SIGBUS on
+> > > > fault but that would be still quite terrible. There is a very good
+> > > > reason why hugetlb implements is non-trivial reservation system to avoid
+> > > > exactly these problems.
+> 
+> So, if I understand your concerns correct this implementation has two
+> issues:
+> 1) allocation failure at page fault that causes unrecoverable OOM and
+> 2) a possibility for an unprivileged user to deplete secretmem pool and
+> cause (1) to others
+> 
+> I'm not really familiar with OOM internals, but when I simulated an
+> allocation failure in my testing only the allocating process and it's
+> parent were OOM-killed and then the system continued normally. 
 
-Thank you for writing this page! Some comments below.
+If you kill the allocating process then yes, it would work, but your
+process might be the very last to be selected.
 
-On Wed, 20 Jan 2021 at 21:36, Suren Baghdasaryan <surenb@google.com> wrote:
->
-> Initial version of process_madvise(2) manual page. Initial text was
-> extracted from [1], amended after fix [2] and more details added using
-> man pages of madvise(2) and process_vm_read(2) as examples. It also
-> includes the changes to required permission proposed in [3].
->
-> [1] https://lore.kernel.org/patchwork/patch/1297933/
-> [2] https://lkml.org/lkml/2020/12/8/1282
-> [3] https://patchwork.kernel.org/project/selinux/patch/20210111170622.2613577-1-surenb@google.com/#23888311
->
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> Signed-off-by: Minchan Kim <minchan@kernel.org>
-> ---
->
-> Adding the plane text version for ease of review:
+> You are right, it would be better if we SIGBUS instead of OOM but I don't
+> agree SIGBUS is terrible. As we started to draw parallels with hugetlbfs
+> even despite it's complex reservation system, hugetlb_fault() may fail to
+> allocate pages from CMA and this still will cause SIGBUS.
 
-Thanks for adding the rendered version. I will make my comments
-against the source, below.
+This is an unexpected runtime error. Unless you make it an integral part
+of the API design.
 
-> NAME
->     process_madvise - give advice about use of memory to a process
->
-> SYNOPSIS
->     #include <sys/uio.h>
->
->     ssize_t process_madvise(int pidfd,
->                            const struct iovec *iovec,
->                            unsigned long vlen,
->                            int advice,
->                            unsigned int flags);
->
-> DESCRIPTION
->     The process_madvise() system call is used to give advice or directions to
->     the kernel about the address ranges from external process as well as local
->     process. It provides the advice to address ranges of process described by
->     iovec and vlen. The goal of such advice is to improve system or application
->     performance.
->
->     The pidfd selects the process referred to by the PID file descriptor
->     specified in pidfd. (see pidofd_open(2) for further information).
->
->     The pointer iovec points to an array of iovec structures, defined in
->     <sys/uio.h> as:
->
->     struct iovec {
->         void  *iov_base;    /* Starting address */
->         size_t iov_len;     /* Number of bytes to transfer */
->     };
->
->     The iovec describes address ranges beginning at iov_base address and with
->     the size of iov_len bytes.
->
->     The vlen represents the number of elements in iovec.
->
->     The advice can be one of the values listed below.
->
->   Linux-specific advice values
->     The following Linux-specific advice values have no counterparts in the
->     POSIX-specified posix_madvise(3), and may or may not have counterparts in
->     the madvise() interface available on other implementations.
->
->     MADV_COLD (since Linux 5.4.1)
->         Deactivate a given range of pages by moving them from active to
->         inactive LRU list. This is done to accelerate the reclaim of these
->         pages. The advice might be ignored for some pages in the range when it
->         is not applicable.
->     MADV_PAGEOUT (since Linux 5.4.1)
->         Reclaim a given range of pages. This is done to free up memory occupied
->         by these pages. If a page is anonymous it will be swapped out. If a
->         page is file-backed and dirty it will be written back into the backing
->         storage. The advice might be ignored for some pages in the range when
->         it is not applicable.
->
->     The flags argument is reserved for future use; currently, this argument must
->     be specified as 0.
->
->     The value specified in the vlen argument must be less than or equal to
->     IOV_MAX (defined in <limits.h> or accessible via the call
->     sysconf(_SC_IOV_MAX)).
->
->     The vlen and iovec arguments are checked before applying any hints. If the
->     vlen is too big, or iovec is invalid, an error will be returned
->     immediately.
->
->     Hint might be applied to a part of iovec if one of its elements points to
->     an invalid memory region in the remote process. No further elements will be
->     processed beyond that point.
->
->     Permission to provide a hint to external process is governed by a ptrace
->     access mode PTRACE_MODE_READ_REALCREDS check; see ptrace(2) and
->     CAP_SYS_ADMIN capability that caller should have in order to affect
->     performance of an external process.
->
-> RETURN VALUE
->     On success, process_madvise() returns the number of bytes advised. This
->     return value may be less than the total number of requested bytes, if an
->     error occurred. The caller should check return value to determine whether
->     a partial advice occurred.
+> And hugetlb pools may be also depleted by anybody by calling
+> mmap(MAP_HUGETLB) and there is no any limiting knob for this, while
+> secretmem has RLIMIT_MEMLOCK.
 
-So there are three return values possible,
-> ERRORS
->     EFAULT The memory described by iovec is outside the accessible address
->            space of the process pid.
+Yes it can fail. But it would fail at the mmap time when the reservation
+fails. Not during the #PF time which can be at any time.
 
-s/pid/
-of the process referred to by
-.IR pidfd .
+> That said, simply replacing VM_FAULT_OOM with VM_FAULT_SIGBUS makes
+> secretmem at least as controllable and robust than hugeltbfs even without
+> complex reservation at mmap() time.
 
->     EINVAL flags is not 0.
->     EINVAL The sum of the iov_len values of iovec overflows a ssize_t value.
->     EINVAL vlen is too large.
->     ENOMEM Could not allocate memory for internal copies of the iovec
->            structures.
->     EPERM The caller does not have permission to access the address space of
->           the process pidfd.
->     ESRCH No process with ID pidfd exists.
->
-> VERSIONS
->     Since Linux 5.10, support for this system call is optional, depending on
->     the setting of the CONFIG_ADVISE_SYSCALLS configuration option.
->
-> SEE ALSO
->     madvise(2), pidofd_open(2), process_vm_readv(2), process_vm_write(2)
->
->  man2/process_madvise.2 | 208 +++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 208 insertions(+)
->  create mode 100644 man2/process_madvise.2
->
-> diff --git a/man2/process_madvise.2 b/man2/process_madvise.2
-> new file mode 100644
-> index 000000000..9bb5cb5ed
-> --- /dev/null
-> +++ b/man2/process_madvise.2
-> @@ -0,0 +1,208 @@
-> +.\" Copyright (C) 2021 Suren Baghdasaryan <surenb@google.com>
-> +.\" and Copyright (C) 2021 Minchan Kim <minchan@kernel.org>
-> +.\"
-> +.\" %%%LICENSE_START(VERBATIM)
-> +.\" Permission is granted to make and distribute verbatim copies of this
-> +.\" manual provided the copyright notice and this permission notice are
-> +.\" preserved on all copies.
-> +.\"
-> +.\" Permission is granted to copy and distribute modified versions of this
-> +.\" manual under the conditions for verbatim copying, provided that the
-> +.\" entire resulting derived work is distributed under the terms of a
-> +.\" permission notice identical to this one.
-> +.\"
-> +.\" Since the Linux kernel and libraries are constantly changing, this
-> +.\" manual page may be incorrect or out-of-date.  The author(s) assume no
-> +.\" responsibility for errors or omissions, or for damages resulting from
-> +.\" the use of the information contained herein.  The author(s) may not
-> +.\" have taken the same level of care in the production of this manual,
-> +.\" which is licensed free of charge, as they might when working
-> +.\" professionally.
-> +.\"
-> +.\" Formatted or processed versions of this manual, if unaccompanied by
-> +.\" the source, must acknowledge the copyright and authors of this work.
-> +.\" %%%LICENSE_END
-> +.\"
-> +.\" Commit ecb8ac8b1f146915aa6b96449b66dd48984caacc
-> +.\"
-> +.TH PROCESS_MADVISE 2 2021-01-12 "Linux" "Linux Programmer's Manual"
-> +.SH NAME
-> +process_madvise \- give advice about use of memory to a process
-> +.SH SYNOPSIS
-> +.nf
-> +.B #include <sys/uio.h>
-> +.PP
-> +.BI "ssize_t process_madvise(int " pidfd ,
-> +.BI "                       const struct iovec *" iovec ,
-> +.BI "                       unsigned long " vlen ,
-> +.BI "                       int " advice ,
-> +.BI "                       unsigned int " flags ");"
-> +.fi
-> +.SH DESCRIPTION
-> +The
-> +.BR process_madvise()
-> +system call is used to give advice or directions
-> +to the kernel about the address ranges from external process as well as
+Still sucks huge!
 
-s/from external/of other/
+> > > > So unless I am really misreading the code
+> > > > Nacked-by: Michal Hocko <mhocko@suse.com>
+> > > > 
+> > > > That doesn't mean I reject the whole idea. There are some details to
+> > > > sort out as mentioned elsewhere but you cannot really depend on
+> > > > pre-allocated pool which can fail at a fault time like that.
+> > > 
+> > > So, to do it similar to hugetlbfs (e.g., with CMA), there would have to be a
+> > > mechanism to actually try pre-reserving (e.g., from the CMA area), at which
+> > > point in time the pages would get moved to the secretmem pool, and a
+> > > mechanism for mmap() etc. to "reserve" from these secretmem pool, such that
+> > > there are guarantees at fault time?
+> > 
+> > yes, reserve at mmap time and use during the fault. But this all sounds
+> > like a self inflicted problem to me. Sure you can have a pre-allocated
+> > or more dynamic pool to reduce the direct mapping fragmentation but you
+> > can always fall back to regular allocatios. In other ways have the pool
+> > as an optimization rather than a hard requirement. With a careful access
+> > control this sounds like a manageable solution to me.
+> 
+> I'd really wish we had this discussion for earlier spins of this series,
+> but since this didn't happen let's refresh the history a bit.
 
-> +local process. It provides the advice to address ranges of process
+I am sorry but I am really fighting to find time to watch for all the
+moving targets...
 
-s/local/of the calling/
+> One of the major pushbacks on the first RFC [1] of the concept was about
+> the direct map fragmentation. I tried really hard to find data that shows
+> what is the performance difference with different page sizes in the direct
+> map and I didn't find anything.
+> 
+> So presuming that large pages do provide advantage the first implementation
+> of secretmem used PMD_ORDER allocations to amortise the effect of the
+> direct map fragmentation and then handed out 4k pages at each fault. In
+> addition there was an option to reserve a finite pool at boot time and
+> limit secretmem allocations only to that pool.
+> 
+> At some point David suggested to use CMA to improve overall flexibility
+> [3], so I switched secretmem to use CMA.
+> 
+> Now, with the data we have at hand (my benchmarks and Intel's report David
+> mentioned) I'm even not sure this whole pooling even required.
 
-Please start new sentence on new lines. (See the discussion of
-semantic newlines in man-pages(7).)
+I would still like to understand whether that data is actually
+representative. With some underlying reasoning rather than I have run
+these XYZ benchmarks and numbers do not look terrible.
 
-> +described by
-> +.I iovec
-> +and
-> +.I vlen\.
-> +The goal of such advice is to improve system or application performance.
-> +.PP
-> +The
-> +.I pidfd
-> +selects the process referred to by the PID file descriptor
-> +specified in pidfd. (see
-> +.BR pidofd_open(2)
-> +for further information).
+> I like the idea to have a pool as an optimization rather than a hard
+> requirement but I don't see why would it need a careful access control. As
+> the direct map fragmentation is not necessarily degrades the performance
+> (and even sometimes it actually improves it) and even then the degradation
+> is small, trying a PMD_ORDER allocation for a pool and then falling back to
+> 4K page may be just fine.
 
-Rewrite the previous as:
+Well, as soon as this is a scarce resource then an access control seems
+like a first thing to think of. Maybe it is not really necessary but
+then this should be really justified.
 
-[[
-The
-.I pidfd
-argument is a PID file descriptor (see
-.BR pidofd_open (2))
-that specifies the process to which the advice is to be applied.
-
-> +.PP
-> +The pointer
-> +.I iovec
-> +points to an array of iovec structures, defined in
-
-"iovec" should be formatted as
-
-.I iovec
-
-> +.IR <sys/uio.h>
-> +as:
-> +.PP
-> +.in +4n
-> +.EX
-> +struct iovec {
-> +    void  *iov_base;    /* Starting address */
-> +    size_t iov_len;     /* Number of bytes to transfer */
-> +};
-> +.EE
-> +.in
-> +.PP
-> +The
-> +.I iovec
-> +describes address ranges beginning at
-
-s/describes/structure describes/
-
-> +.I iov_base
-> +address and with the size of
-> +.I iov_len
-> +bytes.
-> +.PP
-> +The
-> +.I vlen
-> +represents the number of elements in
-> +.I iovec\.
-
-==>
-the
-.IR iovec
-structure.
-> +.PP
-> +The
-> +.I advice
-> +can be one of the values listed below.
-
-s/can be/argument is/
-
-> +.\"
-> +.\" ======================================================================
-> +.\"
-> +.SS Linux-specific advice values
-> +The following Linux-specific
-> +.I advice
-> +values have no counterparts in the POSIX-specified
-> +.BR posix_madvise (3),
-> +and may or may not have counterparts in the
-> +.BR madvise ()
-> +interface available on other implementations.
-> +.TP
-> +.BR MADV_COLD " (since Linux 5.4.1)"
-> +.\" commit 9c276cc65a58faf98be8e56962745ec99ab87636
-> +Deactivate a given range of pages by moving them from active to inactive
-> +LRU list. This is done to accelerate the reclaim of these pages. The advice
-
-New sentences on new lines.
-
-> +might be ignored for some pages in the range when it is not applicable.
-> +.TP
-> +.BR MADV_PAGEOUT " (since Linux 5.4.1)"
-> +.\" commit 1a4e58cce84ee88129d5d49c064bd2852b481357
-> +Reclaim a given range of pages. This is done to free up memory occupied by
-> +these pages. If a page is anonymous it will be swapped out. If a page is
-> +file-backed and dirty it will be written back into the backing storage.
-
-s/into/to/
-
-> +The advice might be ignored for some pages in the range when it is not
-> +applicable.
-> +.PP
-> +The
-> +.I flags
-> +argument is reserved for future use; currently, this argument must be
-> +specified as 0.
-> +.PP
-> +The value specified in the
-> +.I vlen
-> +argument must be less than or equal to
-> +.BR IOV_MAX
-> +(defined in
-> +.I <limits.h>
-> +or accessible via the call
-> +.IR sysconf(_SC_IOV_MAX) ).
-> +.PP
-> +The
-> +.I vlen
-> +and
-> +.I iovec
-> +arguments are checked before applying any hints.
-> +If the
-> +.I vlen
-> +is too big, or
-> +.I iovec
-> +is invalid, an error will be returned immediately.
-> +.PP
-> +Hint might be applied to a part of
-
-s/Hint/The hint/
-
-> +.I iovec
-> +if one of its elements points to an invalid memory
-> +region in the remote process. No further elements will be
-> +processed beyond that point.
-> +.PP
-> +Permission to provide a hint to external process is governed by a
-> +ptrace access mode
-> +.B PTRACE_MODE_READ_REALCREDS
-> +check; see
-> +.BR ptrace (2)
-> +and
-> +.B CAP_SYS_ADMIN
-> +capability that caller should have in order to affect performance
-> +of an external process.
-
-The preceding sentence is garbled. Missing words?
-
-> +.SH RETURN VALUE
-> +On success, process_madvise() returns the number of bytes advised.
-> +This return value may be less than the total number of requested
-> +bytes, if an error occurred. The caller should check return value
-> +to determine whether a partial advice occurred.
-> +.SH ERRORS
-> +.TP
-> +.B EFAULT
-> +The memory described by
-> +.I iovec
-> +is outside the accessible address space of the process pid.
-
-s/process pid./
-the process referred to by
-.IR pidfd .
-/
-
-> +.TP
-> +.B EINVAL
-> +.I flags
-> +is not 0.
-> +.TP
-> +.B EINVAL
-> +The sum of the
-> +.I iov_len
-> +values of
-> +.I iovec
-> +overflows a ssize_t value.
-
-.I ssize_t
-
-> +.TP
-> +.B EINVAL
-> +.I vlen
-> +is too large.
-> +.TP
-> +.B ENOMEM
-> +Could not allocate memory for internal copies of the
-> +.I iovec
-> +structures.
-> +.TP
-> +.B EPERM
-> +The caller does not have permission to access the address space of the process
-> +.I pidfd.
-
-.IR pidfd .
-
-> +.TP
-> +.B ESRCH
-> +No process with ID
-> +.I pidfd
-> +exists.
-
-Should this maybe be:
-[[
-The target process does not exist (i.e., it has terminated and
-been waited on).
-]]
-
-See pidfd_send_signal(2).
-
-Also, is an EBADF error possible? Again, see pidfd_send_signal(2).
-
-> +.SH VERSIONS
-> +Since Linux 5.10,
-
-Better: This system call first appeared in Linux 5.10.
-
-> +.\" commit ecb8ac8b1f146915aa6b96449b66dd48984caacc
-> +support for this system call is optional,
-
-s/support/Support/
-
-> +depending on the setting of the
-> +.B CONFIG_ADVISE_SYSCALLS
-> +configuration option.
-> +.SH SEE ALSO
-> +.BR madvise (2),
-> +.BR pidofd_open(2),
-> +.BR process_vm_readv (2),
-> +.BR process_vm_write (2)
-
-Thanks,
-
-Michael
-
-
+I am also still not sure why this whole thing is not just a
+ramdisk/ramfs which happens to unmap its pages from the direct
+map. Wouldn't that be a much more easier model to work with? You would
+get an access control for free as well.
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Michal Hocko
+SUSE Labs
