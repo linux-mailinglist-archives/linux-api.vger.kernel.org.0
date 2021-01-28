@@ -2,116 +2,165 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 14B0C307AA6
-	for <lists+linux-api@lfdr.de>; Thu, 28 Jan 2021 17:25:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 95508307B47
+	for <lists+linux-api@lfdr.de>; Thu, 28 Jan 2021 17:49:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231649AbhA1QYr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 28 Jan 2021 11:24:47 -0500
-Received: from mx2.suse.de ([195.135.220.15]:53964 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231634AbhA1QYq (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 28 Jan 2021 11:24:46 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1611851039; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
+        id S232651AbhA1Qrz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 28 Jan 2021 11:47:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38849 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232705AbhA1QrL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 28 Jan 2021 11:47:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1611852344;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=WWmcYeElb62qutT0Kcoo6xDCdrj66eelF83EHgFDfB4=;
-        b=ZJlUD8pQK2nIX/Cnj1UyvowYIjPxyyZKq5kI8NYKzxJt5tEqE9314CXd37wDkUTpPEa6Vf
-        YEZQtVEmaZg8j88rldXEzhTt3tU4zmyFht8LR4yeM3dwIAsKI4509bn1BlnRgtEZNO+G8l
-        DXrH4A5dU/j38+v0Vo5e/8cwta9YIu0=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id A6C7DAC41;
-        Thu, 28 Jan 2021 16:23:59 +0000 (UTC)
-Date:   Thu, 28 Jan 2021 17:23:58 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     Christoph Lameter <cl@linux.com>
-Cc:     Mike Rapoport <rppt@kernel.org>,
-        David Hildenbrand <david@redhat.com>,
+        bh=LrbBbrZjgAv/B1wjq2Km74Xb+2VP5Qkal75C1Cc+NeE=;
+        b=Hy7eBveUQJWbfNOLEtZp2SBaBgJ62/8wdZOAhgOHKKgroeN17uud4D7pVftgyooYJD9wZa
+        ua1wx/drWy+ZqNFtGsIs7oFaI3Jvfn0iWSRUUXry5AT+wMoByd7TEnqMWijuDatgqyIbTY
+        VtX/5uBGfWX6E45+v3Ee/orJa4qJoHg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-405-Sc0k_4bSOiuTVbO9hkQWLQ-1; Thu, 28 Jan 2021 11:45:42 -0500
+X-MC-Unique: Sc0k_4bSOiuTVbO9hkQWLQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5FAC459;
+        Thu, 28 Jan 2021 16:45:40 +0000 (UTC)
+Received: from t480s.redhat.com (ovpn-113-207.ams2.redhat.com [10.36.113.207])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 3E5C910027A5;
+        Thu, 28 Jan 2021 16:45:34 +0000 (UTC)
+From:   David Hildenbrand <david@redhat.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-mm@kvack.org, David Hildenbrand <david@redhat.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Roman Gushchin <guro@fb.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Shuah Khan <shuah@kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
-        x86@kernel.org, Hagen Paul Pfeifer <hagen@jauu.net>,
-        Palmer Dabbelt <palmerdabbelt@google.com>
-Subject: Re: [PATCH v16 07/11] secretmem: use PMD-size pages to amortize
- direct map fragmentation
-Message-ID: <YBLlHpJj0sjzrxFv@dhcp22.suse.cz>
-References: <20210121122723.3446-1-rppt@kernel.org>
- <20210121122723.3446-8-rppt@kernel.org>
- <20210126114657.GL827@dhcp22.suse.cz>
- <303f348d-e494-e386-d1f5-14505b5da254@redhat.com>
- <20210126120823.GM827@dhcp22.suse.cz>
- <20210128092259.GB242749@kernel.org>
- <YBK1kqL7JA7NePBQ@dhcp22.suse.cz>
- <alpine.DEB.2.22.394.2101281326360.10563@www.lameter.com>
- <YBLA7sEKn01HXd/U@dhcp22.suse.cz>
- <alpine.DEB.2.22.394.2101281549390.11861@www.lameter.com>
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        Michal Hocko <mhocko@kernel.org>,
+        Wei Yang <richard.weiyang@linux.alibaba.com>,
+        linux-api@vger.kernel.org
+Subject: [PATCH v2] mm/page_alloc: count CMA pages per zone and print them in /proc/zoneinfo
+Date:   Thu, 28 Jan 2021 17:45:33 +0100
+Message-Id: <20210128164533.18566-1-david@redhat.com>
+In-Reply-To: <20210127101813.6370-3-david@redhat.com>
+References: <20210127101813.6370-3-david@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.22.394.2101281549390.11861@www.lameter.com>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu 28-01-21 15:56:36, Cristopher Lameter wrote:
-> On Thu, 28 Jan 2021, Michal Hocko wrote:
-> 
-> > > > If you kill the allocating process then yes, it would work, but your
-> > > > process might be the very last to be selected.
-> > >
-> > > OOMs are different if you have a "constrained allocation". In that case it
-> > > is the fault of the process who wanted memory with certain conditions.
-> > > That memory is not available. General memory is available though. In that
-> > > case the allocating process is killed.
-> >
-> > I do not see this implementation would do anything like that. Neither
-> > anything like that implemented in the oom killer. Constrained
-> > allocations (cpusets/memcg/mempolicy) only do restrict their selection
-> > to processes which belong to the same domain. So I am not really sure
-> > what you are referring to. The is only a global knob to _always_ kill
-> > the allocating process on OOM.
-> 
-> Constrained allocations refer to allocations where the NUMA nodes are
-> restricted or something else does not allow the use of arbitrary memory.
-> The OOM killer changes its behavior.
+Let's count the number of CMA pages per zone and print them in
+/proc/zoneinfo.
 
-Yes as described in the above paragraph.
+Having access to the total number of CMA pages per zone is helpful for
+debugging purposes to know where exactly the CMA pages ended up, and to
+figure out how many pages of a zone might behave differently, even after
+some of these pages might already have been allocated.
 
-> In the past we fell back to killing the calling process.
+As one example, CMA pages part of a kernel zone cannot be used for
+ordinary kernel allocations but instead behave more like ZONE_MOVABLE.
 
-Yeah, but this is no longer the case since 6f48d0ebd907a (more than 10
-years ago.
+For now, we are only able to get the global nr+free cma pages from
+/proc/meminfo and the free cma pages per zone from /proc/zoneinfo.
 
-Anyway this is not really important because if you want to kill the
-allocating task because there is no chance the fault can succed then
-there is a SIGBUS as already mentioned.
+Example after this patch when booting a 6 GiB QEMU VM with
+"hugetlb_cma=2G":
+  # cat /proc/zoneinfo | grep cma
+          cma      0
+        nr_free_cma  0
+          cma      0
+        nr_free_cma  0
+          cma      524288
+        nr_free_cma  493016
+          cma      0
+          cma      0
+  # cat /proc/meminfo | grep Cma
+  CmaTotal:        2097152 kB
+  CmaFree:         1972064 kB
+
+Note: We track/print only with CONFIG_CMA; "nr_free_cma" in /proc/zoneinfo
+is currently also printed without CONFIG_CMA.
+
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: "Peter Zijlstra (Intel)" <peterz@infradead.org>
+Cc: Mike Rapoport <rppt@kernel.org>
+Cc: Oscar Salvador <osalvador@suse.de>
+Cc: Michal Hocko <mhocko@kernel.org>
+Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
+Cc: linux-api@vger.kernel.org
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+
+v1 -> v2:
+- Print/track only with CONFIG_CMA
+- Extend patch description
+
+---
+ include/linux/mmzone.h | 6 ++++++
+ mm/page_alloc.c        | 1 +
+ mm/vmstat.c            | 5 +++++
+ 3 files changed, 12 insertions(+)
+
+diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+index ae588b2f87ef..27d22fb22e05 100644
+--- a/include/linux/mmzone.h
++++ b/include/linux/mmzone.h
+@@ -503,6 +503,9 @@ struct zone {
+ 	 * bootmem allocator):
+ 	 *	managed_pages = present_pages - reserved_pages;
+ 	 *
++	 * cma pages is present pages that are assigned for CMA use
++	 * (MIGRATE_CMA).
++	 *
+ 	 * So present_pages may be used by memory hotplug or memory power
+ 	 * management logic to figure out unmanaged pages by checking
+ 	 * (present_pages - managed_pages). And managed_pages should be used
+@@ -527,6 +530,9 @@ struct zone {
+ 	atomic_long_t		managed_pages;
+ 	unsigned long		spanned_pages;
+ 	unsigned long		present_pages;
++#ifdef CONFIG_CMA
++	unsigned long		cma_pages;
++#endif
+ 
+ 	const char		*name;
+ 
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index b031a5ae0bd5..9a82375bbcb2 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -2168,6 +2168,7 @@ void __init init_cma_reserved_pageblock(struct page *page)
+ 	}
+ 
+ 	adjust_managed_page_count(page, pageblock_nr_pages);
++	page_zone(page)->cma_pages += pageblock_nr_pages;
+ }
+ #endif
+ 
+diff --git a/mm/vmstat.c b/mm/vmstat.c
+index 7758486097f9..957680db41fa 100644
+--- a/mm/vmstat.c
++++ b/mm/vmstat.c
+@@ -1650,6 +1650,11 @@ static void zoneinfo_show_print(struct seq_file *m, pg_data_t *pgdat,
+ 		   zone->spanned_pages,
+ 		   zone->present_pages,
+ 		   zone_managed_pages(zone));
++#ifdef CONFIG_CMA
++	seq_printf(m,
++		   "\n        cma      %lu",
++		   zone->cma_pages);
++#endif
+ 
+ 	seq_printf(m,
+ 		   "\n        protection: (%ld",
 -- 
-Michal Hocko
-SUSE Labs
+2.29.2
+
