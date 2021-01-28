@@ -2,165 +2,115 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 95508307B47
-	for <lists+linux-api@lfdr.de>; Thu, 28 Jan 2021 17:49:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 933AD307BB9
+	for <lists+linux-api@lfdr.de>; Thu, 28 Jan 2021 18:06:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232651AbhA1Qrz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 28 Jan 2021 11:47:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38849 "EHLO
+        id S232888AbhA1REG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 28 Jan 2021 12:04:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56835 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232705AbhA1QrL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 28 Jan 2021 11:47:11 -0500
+        by vger.kernel.org with ESMTP id S232834AbhA1RBH (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 28 Jan 2021 12:01:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1611852344;
+        s=mimecast20190719; t=1611853181;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=LrbBbrZjgAv/B1wjq2Km74Xb+2VP5Qkal75C1Cc+NeE=;
-        b=Hy7eBveUQJWbfNOLEtZp2SBaBgJ62/8wdZOAhgOHKKgroeN17uud4D7pVftgyooYJD9wZa
-        ua1wx/drWy+ZqNFtGsIs7oFaI3Jvfn0iWSRUUXry5AT+wMoByd7TEnqMWijuDatgqyIbTY
-        VtX/5uBGfWX6E45+v3Ee/orJa4qJoHg=
+        bh=wTELoI+QrGDN20yA6IDTMLz1Sp4P4GWFu2WQqjSfVlw=;
+        b=Z92Ph6dSQSdIuQo9cARE0OxcmhTnQE7AxkQgUYeCXHqKPXiqa7/whIfhIZhXdAovXfGOLJ
+        ycPDExW8y00P5wU/0++De53Tx33c1mDPW0I/L+xet5SpDGW8nT5NXI27wRMf2Gu8W/ysAK
+        5h+A9ulzfI0s+7zH6gF0miMbzxfHTFI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-405-Sc0k_4bSOiuTVbO9hkQWLQ-1; Thu, 28 Jan 2021 11:45:42 -0500
-X-MC-Unique: Sc0k_4bSOiuTVbO9hkQWLQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+ us-mta-268-yVqbzrkBO6u43q4oeO7o4Q-1; Thu, 28 Jan 2021 11:59:39 -0500
+X-MC-Unique: yVqbzrkBO6u43q4oeO7o4Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5FAC459;
-        Thu, 28 Jan 2021 16:45:40 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-113-207.ams2.redhat.com [10.36.113.207])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 3E5C910027A5;
-        Thu, 28 Jan 2021 16:45:34 +0000 (UTC)
-From:   David Hildenbrand <david@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-mm@kvack.org, David Hildenbrand <david@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        Michal Hocko <mhocko@kernel.org>,
-        Wei Yang <richard.weiyang@linux.alibaba.com>,
-        linux-api@vger.kernel.org
-Subject: [PATCH v2] mm/page_alloc: count CMA pages per zone and print them in /proc/zoneinfo
-Date:   Thu, 28 Jan 2021 17:45:33 +0100
-Message-Id: <20210128164533.18566-1-david@redhat.com>
-In-Reply-To: <20210127101813.6370-3-david@redhat.com>
-References: <20210127101813.6370-3-david@redhat.com>
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4375B180A09D;
+        Thu, 28 Jan 2021 16:59:36 +0000 (UTC)
+Received: from fuller.cnet (ovpn-112-2.gru2.redhat.com [10.97.112.2])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 8842F62464;
+        Thu, 28 Jan 2021 16:59:29 +0000 (UTC)
+Received: by fuller.cnet (Postfix, from userid 1000)
+        id 2C988416D87F; Thu, 28 Jan 2021 13:33:33 -0300 (-03)
+Date:   Thu, 28 Jan 2021 13:33:33 -0300
+From:   Marcelo Tosatti <mtosatti@redhat.com>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Robin Murphy <robin.murphy@arm.com>,
+        Nitesh Narayan Lal <nitesh@redhat.com>,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        frederic@kernel.org, juri.lelli@redhat.com, abelits@marvell.com,
+        bhelgaas@google.com, linux-pci@vger.kernel.org,
+        rostedt@goodmis.org, mingo@kernel.org, peterz@infradead.org,
+        davem@davemloft.net, akpm@linux-foundation.org,
+        sfr@canb.auug.org.au, stephen@networkplumber.org,
+        rppt@linux.vnet.ibm.com, jinyuqi@huawei.com,
+        zhangshaokun@hisilicon.com
+Subject: Re: [Patch v4 1/3] lib: Restrict cpumask_local_spread to houskeeping
+ CPUs
+Message-ID: <20210128163333.GA38339@fuller.cnet>
+References: <20200625223443.2684-1-nitesh@redhat.com>
+ <20200625223443.2684-2-nitesh@redhat.com>
+ <3e9ce666-c9cd-391b-52b6-3471fe2be2e6@arm.com>
+ <20210127121939.GA54725@fuller.cnet>
+ <c5cba5f3-287a-d087-c329-6e6613634370@arm.com>
+ <20210127130925.GA64740@fuller.cnet>
+ <87tur1cay0.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87tur1cay0.fsf@nanos.tec.linutronix.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Let's count the number of CMA pages per zone and print them in
-/proc/zoneinfo.
+On Thu, Jan 28, 2021 at 04:56:07PM +0100, Thomas Gleixner wrote:
+> On Wed, Jan 27 2021 at 10:09, Marcelo Tosatti wrote:
+> > On Wed, Jan 27, 2021 at 12:36:30PM +0000, Robin Murphy wrote:
+> >> > > >    /**
+> >> > > >     * cpumask_next - get the next cpu in a cpumask
+> >> > > > @@ -205,22 +206,27 @@ void __init free_bootmem_cpumask_var(cpumask_var_t mask)
+> >> > > >     */
+> >> > > >    unsigned int cpumask_local_spread(unsigned int i, int node)
+> >> > > >    {
+> >> > > > -	int cpu;
+> >> > > > +	int cpu, hk_flags;
+> >> > > > +	const struct cpumask *mask;
+> >> > > > +	hk_flags = HK_FLAG_DOMAIN | HK_FLAG_MANAGED_IRQ;
+> >> > > > +	mask = housekeeping_cpumask(hk_flags);
+> >> > > 
+> >> > > AFAICS, this generally resolves to something based on cpu_possible_mask
+> >> > > rather than cpu_online_mask as before, so could now potentially return an
+> >> > > offline CPU. Was that an intentional change?
+> >> > 
+> >> > Robin,
+> >> > 
+> >> > AFAICS online CPUs should be filtered.
+> >> 
+> >> Apologies if I'm being thick, but can you explain how? In the case of
+> >> isolation being disabled or compiled out, housekeeping_cpumask() is
+> >> literally just "return cpu_possible_mask;". If we then iterate over that
+> >> with for_each_cpu() and just return the i'th possible CPU (e.g. in the
+> >> NUMA_NO_NODE case), what guarantees that CPU is actually online?
+> >> 
+> >> Robin.
+> >
+> > Nothing, but that was the situation before 1abdfe706a579a702799fce465bceb9fb01d407c
+> > as well.
+> >
+> > cpumask_local_spread() should probably be disabling CPU hotplug.
+> 
+> It can't unless all callers are from preemtible code.
+> 
+> Aside of that this whole frenzy to sprinkle housekeeping_cpumask() all
+> over the kernel is just wrong, really.
+> 
+> As I explained several times before there are very valid reasons for
+> having queues and interrupts on isolated CPUs. Just optimizing for the
+> usecases some people care about is not making anything better.
 
-Having access to the total number of CMA pages per zone is helpful for
-debugging purposes to know where exactly the CMA pages ended up, and to
-figure out how many pages of a zone might behave differently, even after
-some of these pages might already have been allocated.
-
-As one example, CMA pages part of a kernel zone cannot be used for
-ordinary kernel allocations but instead behave more like ZONE_MOVABLE.
-
-For now, we are only able to get the global nr+free cma pages from
-/proc/meminfo and the free cma pages per zone from /proc/zoneinfo.
-
-Example after this patch when booting a 6 GiB QEMU VM with
-"hugetlb_cma=2G":
-  # cat /proc/zoneinfo | grep cma
-          cma      0
-        nr_free_cma  0
-          cma      0
-        nr_free_cma  0
-          cma      524288
-        nr_free_cma  493016
-          cma      0
-          cma      0
-  # cat /proc/meminfo | grep Cma
-  CmaTotal:        2097152 kB
-  CmaFree:         1972064 kB
-
-Note: We track/print only with CONFIG_CMA; "nr_free_cma" in /proc/zoneinfo
-is currently also printed without CONFIG_CMA.
-
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: "Peter Zijlstra (Intel)" <peterz@infradead.org>
-Cc: Mike Rapoport <rppt@kernel.org>
-Cc: Oscar Salvador <osalvador@suse.de>
-Cc: Michal Hocko <mhocko@kernel.org>
-Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
-Cc: linux-api@vger.kernel.org
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
-
-v1 -> v2:
-- Print/track only with CONFIG_CMA
-- Extend patch description
-
----
- include/linux/mmzone.h | 6 ++++++
- mm/page_alloc.c        | 1 +
- mm/vmstat.c            | 5 +++++
- 3 files changed, 12 insertions(+)
-
-diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-index ae588b2f87ef..27d22fb22e05 100644
---- a/include/linux/mmzone.h
-+++ b/include/linux/mmzone.h
-@@ -503,6 +503,9 @@ struct zone {
- 	 * bootmem allocator):
- 	 *	managed_pages = present_pages - reserved_pages;
- 	 *
-+	 * cma pages is present pages that are assigned for CMA use
-+	 * (MIGRATE_CMA).
-+	 *
- 	 * So present_pages may be used by memory hotplug or memory power
- 	 * management logic to figure out unmanaged pages by checking
- 	 * (present_pages - managed_pages). And managed_pages should be used
-@@ -527,6 +530,9 @@ struct zone {
- 	atomic_long_t		managed_pages;
- 	unsigned long		spanned_pages;
- 	unsigned long		present_pages;
-+#ifdef CONFIG_CMA
-+	unsigned long		cma_pages;
-+#endif
- 
- 	const char		*name;
- 
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index b031a5ae0bd5..9a82375bbcb2 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -2168,6 +2168,7 @@ void __init init_cma_reserved_pageblock(struct page *page)
- 	}
- 
- 	adjust_managed_page_count(page, pageblock_nr_pages);
-+	page_zone(page)->cma_pages += pageblock_nr_pages;
- }
- #endif
- 
-diff --git a/mm/vmstat.c b/mm/vmstat.c
-index 7758486097f9..957680db41fa 100644
---- a/mm/vmstat.c
-+++ b/mm/vmstat.c
-@@ -1650,6 +1650,11 @@ static void zoneinfo_show_print(struct seq_file *m, pg_data_t *pgdat,
- 		   zone->spanned_pages,
- 		   zone->present_pages,
- 		   zone_managed_pages(zone));
-+#ifdef CONFIG_CMA
-+	seq_printf(m,
-+		   "\n        cma      %lu",
-+		   zone->cma_pages);
-+#endif
- 
- 	seq_printf(m,
- 		   "\n        protection: (%ld",
--- 
-2.29.2
+And that is right.
 
