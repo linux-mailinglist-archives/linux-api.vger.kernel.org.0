@@ -2,104 +2,75 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CCE20307A28
-	for <lists+linux-api@lfdr.de>; Thu, 28 Jan 2021 16:57:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 10113307A40
+	for <lists+linux-api@lfdr.de>; Thu, 28 Jan 2021 17:05:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231349AbhA1P5a (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 28 Jan 2021 10:57:30 -0500
-Received: from gentwo.org ([3.19.106.255]:44642 "EHLO gentwo.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229885AbhA1P53 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 28 Jan 2021 10:57:29 -0500
-Received: by gentwo.org (Postfix, from userid 1002)
-        id 70A813F4C1; Thu, 28 Jan 2021 15:56:36 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-        by gentwo.org (Postfix) with ESMTP id 6DA583F461;
-        Thu, 28 Jan 2021 15:56:36 +0000 (UTC)
-Date:   Thu, 28 Jan 2021 15:56:36 +0000 (UTC)
-From:   Christoph Lameter <cl@linux.com>
-X-X-Sender: cl@www.lameter.com
-To:     Michal Hocko <mhocko@suse.com>
-cc:     Mike Rapoport <rppt@kernel.org>,
-        David Hildenbrand <david@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Roman Gushchin <guro@fb.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
-        x86@kernel.org, Hagen Paul Pfeifer <hagen@jauu.net>,
-        Palmer Dabbelt <palmerdabbelt@google.com>
-Subject: Re: [PATCH v16 07/11] secretmem: use PMD-size pages to amortize
- direct map fragmentation
-In-Reply-To: <YBLA7sEKn01HXd/U@dhcp22.suse.cz>
-Message-ID: <alpine.DEB.2.22.394.2101281549390.11861@www.lameter.com>
-References: <20210121122723.3446-1-rppt@kernel.org> <20210121122723.3446-8-rppt@kernel.org> <20210126114657.GL827@dhcp22.suse.cz> <303f348d-e494-e386-d1f5-14505b5da254@redhat.com> <20210126120823.GM827@dhcp22.suse.cz> <20210128092259.GB242749@kernel.org>
- <YBK1kqL7JA7NePBQ@dhcp22.suse.cz> <alpine.DEB.2.22.394.2101281326360.10563@www.lameter.com> <YBLA7sEKn01HXd/U@dhcp22.suse.cz>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        id S231276AbhA1QDZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 28 Jan 2021 11:03:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34898 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229551AbhA1QDX (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 28 Jan 2021 11:03:23 -0500
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08207C061573;
+        Thu, 28 Jan 2021 08:02:43 -0800 (PST)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1611849761;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=opwOYFvkdEM7XYU2EhAoDAkPWSc3olWO0Af++hxj9mU=;
+        b=KnJPsfvvLNXw+V12/m2lcBaRfcQWAJKlVkXATHownTUMWvoMhf2Bw3vNXzzrc0clrXpR3W
+        Zm+0xv+sQBluYgdSDqtOZGzCIzRC+emmEAIERDRABeAwLhDLF/QB2RcFq1aH/vYGolPl3S
+        gQGQiRDfwcmA963lV0HU2KyW9e0OsYBsK3TAMM4fQXYSdW3MTfruNS1m1fK9SqUOYuXw8E
+        ud/4KXWnh07kbcip812caDzgCBHD19LaM+Q2OokYlInd+Z+YsQGpb5TNvNh+XFxKSzICuA
+        sZH9u07WpSGeD8jAVWT2VQQJuHeu0nYOAkdgiLALBqk0WQOEhYpIdI5Hm4C3sQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1611849761;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=opwOYFvkdEM7XYU2EhAoDAkPWSc3olWO0Af++hxj9mU=;
+        b=lkf7myXefu6y6dhRY7jH1/YyUT7WrmfSbQcT+GqksICp5QmAuav2CcSIfs7OJwlxhZ5wka
+        eEWw1peY/X9JUdAg==
+To:     Marcelo Tosatti <mtosatti@redhat.com>,
+        Robin Murphy <robin.murphy@arm.com>
+Cc:     Nitesh Narayan Lal <nitesh@redhat.com>,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        frederic@kernel.org, juri.lelli@redhat.com, abelits@marvell.com,
+        bhelgaas@google.com, linux-pci@vger.kernel.org,
+        rostedt@goodmis.org, mingo@kernel.org, peterz@infradead.org,
+        davem@davemloft.net, akpm@linux-foundation.org,
+        sfr@canb.auug.org.au, stephen@networkplumber.org,
+        rppt@linux.vnet.ibm.com, jinyuqi@huawei.com,
+        zhangshaokun@hisilicon.com
+Subject: Re: [Patch v4 1/3] lib: Restrict cpumask_local_spread to houskeeping CPUs
+In-Reply-To: <20210127121939.GA54725@fuller.cnet>
+References: <20200625223443.2684-1-nitesh@redhat.com> <20200625223443.2684-2-nitesh@redhat.com> <3e9ce666-c9cd-391b-52b6-3471fe2be2e6@arm.com> <20210127121939.GA54725@fuller.cnet>
+Date:   Thu, 28 Jan 2021 17:02:41 +0100
+Message-ID: <87r1m5can2.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, 28 Jan 2021, Michal Hocko wrote:
-
-> > > If you kill the allocating process then yes, it would work, but your
-> > > process might be the very last to be selected.
-> >
-> > OOMs are different if you have a "constrained allocation". In that case it
-> > is the fault of the process who wanted memory with certain conditions.
-> > That memory is not available. General memory is available though. In that
-> > case the allocating process is killed.
+On Wed, Jan 27 2021 at 09:19, Marcelo Tosatti wrote:
+> On Wed, Jan 27, 2021 at 11:57:16AM +0000, Robin Murphy wrote:
+>> > +	hk_flags = HK_FLAG_DOMAIN | HK_FLAG_MANAGED_IRQ;
+>> > +	mask = housekeeping_cpumask(hk_flags);
+>> 
+>> AFAICS, this generally resolves to something based on cpu_possible_mask
+>> rather than cpu_online_mask as before, so could now potentially return an
+>> offline CPU. Was that an intentional change?
 >
-> I do not see this implementation would do anything like that. Neither
-> anything like that implemented in the oom killer. Constrained
-> allocations (cpusets/memcg/mempolicy) only do restrict their selection
-> to processes which belong to the same domain. So I am not really sure
-> what you are referring to. The is only a global knob to _always_ kill
-> the allocating process on OOM.
+> Robin,
+>
+> AFAICS online CPUs should be filtered.
 
-Constrained allocations refer to allocations where the NUMA nodes are
-restricted or something else does not allow the use of arbitrary memory.
-The OOM killer changes its behavior. In the past we fell back to killing
-the calling process.
+The whole pile wants to be reverted. It's simply broken in several ways.
 
-See constrained_alloc() in mm/oom_kill.c
+Thanks,
 
-static const char * const oom_constraint_text[] = {
-        [CONSTRAINT_NONE] = "CONSTRAINT_NONE",
-        [CONSTRAINT_CPUSET] = "CONSTRAINT_CPUSET",
-        [CONSTRAINT_MEMORY_POLICY] = "CONSTRAINT_MEMORY_POLICY",
-        [CONSTRAINT_MEMCG] = "CONSTRAINT_MEMCG",
-};
-
-/*
- * Determine the type of allocation constraint.
- */
-static enum oom_constraint constrained_alloc(struct oom_control *oc)
-{
-
+        tglx
