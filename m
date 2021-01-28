@@ -2,220 +2,164 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 94A2E30729B
-	for <lists+linux-api@lfdr.de>; Thu, 28 Jan 2021 10:29:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DBF830735A
+	for <lists+linux-api@lfdr.de>; Thu, 28 Jan 2021 11:05:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232040AbhA1J0F (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 28 Jan 2021 04:26:05 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52198 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232046AbhA1JYA (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 28 Jan 2021 04:24:00 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BDB2664DBD;
-        Thu, 28 Jan 2021 09:23:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611825798;
-        bh=wFG5EhdlVFCwH+afpQDALNPmvIOm44hDKteic5pytDI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rxsJaJjU3sN48PyjZmsBwjDAMzpV1mSDumbq6Vyhy1ylEqh17Y4BWGasGmEKM8wGb
-         FFiXgqi9YKa2UW585N4J/UJUUiMSsvRqdthQ8lWnluP+x5F7LzK94JTif6Q9PlN4Qp
-         0vTd4DdZTyxQs/VSO/swnV8HFYZgo19Bwx/Pip182+f3Fb3AxlbTFLjCdj8TdrjWSX
-         h/qZFSgYAfnmiXoEsb6t5X8uFqRtKIMlLzCTMEcmb/dlZipJDPSJ67u+u2XAzNKw+U
-         FwH99yq1Pt4VruScF6VwyzEABEVF5UHEXyz20348tQsQVXLyUoh3LOrNAXJp3tqz74
-         76PCZTZpxL6Hg==
-Date:   Thu, 28 Jan 2021 11:22:59 +0200
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     David Hildenbrand <david@redhat.com>,
+        id S232342AbhA1KCh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 28 Jan 2021 05:02:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42070 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231267AbhA1KCS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 28 Jan 2021 05:02:18 -0500
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E641AC061573;
+        Thu, 28 Jan 2021 02:01:36 -0800 (PST)
+Received: by mail-lf1-x133.google.com with SMTP id a8so6798090lfi.8;
+        Thu, 28 Jan 2021 02:01:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version;
+        bh=w7zs4vtlCOUzPk4JPVodMGjOwCX7vvMr8Eyh0CtBlKY=;
+        b=aBdiFZ6Y4Kp+nOhlgpCK6Z6WTIvAH7uPf6Dw5GNH8lHwqAWrTPwgv7vL2KYjq02Vzf
+         shdsv89u8LsaAAr4C9B70PX49KyEWjk11sBOUQy5cKQC7sAnotKMqxOnFd5pwGXnuYyy
+         l4f3pSmC2a8RsLkHnRek405USQ2daHF00hHJonK1HWU4GiqNMZaAeTUGMoThii0wUOzP
+         NDy6YjY8kZgEdVBQIdn4njsH+p0ACV44wG9Nd5DeSV8KqfTab60BZgHhtRoUq+xmcC5v
+         I+zA3q+ohcTZQbquqDT8HBeN8YzAWKtplRBAFKkGxorn+I+YQQvbBqrzdDKBAsHw2dtU
+         037A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version;
+        bh=w7zs4vtlCOUzPk4JPVodMGjOwCX7vvMr8Eyh0CtBlKY=;
+        b=oQ8AleDfmz1mLGLP5QEKKcjP/PUKYwB+aS7fH3FwnANGjxJFk7GvskSnTPfULf4l6G
+         ckKJ7Mnh0jaD/gwNb+CTdSUR5v/Cs3yfzNVTCfRdG8HbpyVAn13ImK/J2cmSCu8Tqdpm
+         gD5PxQvVwLS5plNfehibC80jKLpAkPNsUGnjVKMnUJwolZVhlQxNtqjmv4csky1H+o5k
+         qj9ZVP3niZKz/dvjz3+CK8AcdU/qPB4tHRz0M6vhNK+IiSXxg84PfQfIkv+1z08DqtQO
+         GdlLd0NmJGDUDgl6mDfhOau77PJav3tMhP7bIOG6gzP8GuERcpIS5OdI+ZtlESzo0pZQ
+         g+5A==
+X-Gm-Message-State: AOAM532suIXNBBI2/3FAc6Z+AeTGtDhMDdeT/CaiQSSmcLpYu6P25wRr
+        oBSb/FOBW/dHJs1kJzJnpvA=
+X-Google-Smtp-Source: ABdhPJzKkeFNRZJelT7Yxb3Qx2K7wJW+lwf6EmPqVdUlg7UlihZ29bW2xvQP6sUABgj7ntHv7PIcuQ==
+X-Received: by 2002:a19:7507:: with SMTP id y7mr6874145lfe.334.1611828094763;
+        Thu, 28 Jan 2021 02:01:34 -0800 (PST)
+Received: from eldfell ([194.136.85.206])
+        by smtp.gmail.com with ESMTPSA id y20sm1830647ljh.124.2021.01.28.02.01.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Jan 2021 02:01:34 -0800 (PST)
+Date:   Thu, 28 Jan 2021 12:01:30 +0200
+From:   Pekka Paalanen <ppaalanen@gmail.com>
+To:     Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc:     Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        dri-devel@lists.freedesktop.org, Andrei Vagin <avagin@gmail.com>,
+        Kalesh Singh <kaleshsingh@google.com>, Hui Su <sh_def@163.com>,
+        Michel Lespinasse <walken@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Jeffrey Vander Stoep <jeffv@google.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        kernel-team <kernel-team@android.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        linaro-mm-sig@lists.linaro.org,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Bernd Edlinger <bernd.edlinger@hotmail.de>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Alexey Gladkov <gladkov.alexey@gmail.com>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        Minchan Kim <minchan@kernel.org>,
+        Yafang Shao <laoar.shao@gmail.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hridya Valsaraju <hridya@google.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Roman Gushchin <guro@fb.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
-        x86@kernel.org, Hagen Paul Pfeifer <hagen@jauu.net>,
-        Palmer Dabbelt <palmerdabbelt@google.com>
-Subject: Re: [PATCH v16 07/11] secretmem: use PMD-size pages to amortize
- direct map fragmentation
-Message-ID: <20210128092259.GB242749@kernel.org>
-References: <20210121122723.3446-1-rppt@kernel.org>
- <20210121122723.3446-8-rppt@kernel.org>
- <20210126114657.GL827@dhcp22.suse.cz>
- <303f348d-e494-e386-d1f5-14505b5da254@redhat.com>
- <20210126120823.GM827@dhcp22.suse.cz>
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [PATCH] procfs/dmabuf: Add /proc/<pid>/task/<tid>/dmabuf_fds
+Message-ID: <20210128120130.50aa9a74@eldfell>
+In-Reply-To: <ea04b552-7345-b7d5-60fe-7a22515ea63a@amd.com>
+References: <20210126225138.1823266-1-kaleshsingh@google.com>
+        <CAG48ez2tc_GSPYdgGqTRotUp6NqFoUKdoN_p978+BOLoD_Fdjw@mail.gmail.com>
+        <YBFG/zBxgnapqLAK@dhcp22.suse.cz>
+        <ea04b552-7345-b7d5-60fe-7a22515ea63a@amd.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210126120823.GM827@dhcp22.suse.cz>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/EjrvI7yGo=jgR=BTk/_==YI"; protocol="application/pgp-signature"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jan 26, 2021 at 01:08:23PM +0100, Michal Hocko wrote:
-> On Tue 26-01-21 12:56:48, David Hildenbrand wrote:
-> > On 26.01.21 12:46, Michal Hocko wrote:
-> > > On Thu 21-01-21 14:27:19, Mike Rapoport wrote:
-> > > > From: Mike Rapoport <rppt@linux.ibm.com>
-> > > > 
-> > > > Removing a PAGE_SIZE page from the direct map every time such page is
-> > > > allocated for a secret memory mapping will cause severe fragmentation of
-> > > > the direct map. This fragmentation can be reduced by using PMD-size pages
-> > > > as a pool for small pages for secret memory mappings.
-> > > > 
-> > > > Add a gen_pool per secretmem inode and lazily populate this pool with
-> > > > PMD-size pages.
-> > > > 
-> > > > As pages allocated by secretmem become unmovable, use CMA to back large
-> > > > page caches so that page allocator won't be surprised by failing attempt to
-> > > > migrate these pages.
-> > > > 
-> > > > The CMA area used by secretmem is controlled by the "secretmem=" kernel
-> > > > parameter. This allows explicit control over the memory available for
-> > > > secretmem and provides upper hard limit for secretmem consumption.
-> > > 
-> > > OK, so I have finally had a look at this closer and this is really not
-> > > acceptable. I have already mentioned that in a response to other patch
-> > > but any task is able to deprive access to secret memory to other tasks
-> > > and cause OOM killer which wouldn't really recover ever and potentially
-> > > panic the system. Now you could be less drastic and only make SIGBUS on
-> > > fault but that would be still quite terrible. There is a very good
-> > > reason why hugetlb implements is non-trivial reservation system to avoid
-> > > exactly these problems.
+--Sig_/EjrvI7yGo=jgR=BTk/_==YI
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-So, if I understand your concerns correct this implementation has two
-issues:
-1) allocation failure at page fault that causes unrecoverable OOM and
-2) a possibility for an unprivileged user to deplete secretmem pool and
-cause (1) to others
+On Wed, 27 Jan 2021 12:01:55 +0100
+Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
 
-I'm not really familiar with OOM internals, but when I simulated an
-allocation failure in my testing only the allocating process and it's
-parent were OOM-killed and then the system continued normally. 
+> Somewhat correct. This interface here really doesn't make sense since=20
+> the file descriptor representation of DMA-buf is only meant to be used=20
+> for short term usage.
+>=20
+> E.g. the idea is that you can export a DMA-buf fd from your device=20
+> driver, transfer that to another process and then import it again into a=
+=20
+> device driver.
+>=20
+> Keeping a long term reference to a DMA-buf fd sounds like a design bug=20
+> in userspace to me.
 
-You are right, it would be better if we SIGBUS instead of OOM but I don't
-agree SIGBUS is terrible. As we started to draw parallels with hugetlbfs
-even despite it's complex reservation system, hugetlb_fault() may fail to
-allocate pages from CMA and this still will cause SIGBUS.
+Except keeping the fd is exactly what userspace must do if it wishes to
+re-use the buffer without passing a new fd over IPC again. Particularly
+Wayland compositors need to keep the client buffer dmabuf fd open after
+receiving it, so that they can re-import it to EGL to ensure updated
+contents are correctly flushed as EGL has no other API for it.
 
-And hugetlb pools may be also depleted by anybody by calling
-mmap(MAP_HUGETLB) and there is no any limiting knob for this, while
-secretmem has RLIMIT_MEMLOCK.
+That is my vague understanding, and what Weston implements. You can say
+it's a bad userspace API design in EGL, but what else can we do?
 
-That said, simply replacing VM_FAULT_OOM with VM_FAULT_SIGBUS makes
-secretmem at least as controllable and robust than hugeltbfs even without
-complex reservation at mmap() time.
+However, in the particular case of Wayland, the shared dmabufs should
+be accounted to the Wayland client process. OOM-killing the client
+process will eventually free the dmabuf, also the Wayland server
+references to it. Killing the Wayland server (compositor, display
+server) OTOH is something that should not be done as long as there are
+e.g. Wayland clients to be killed.
 
-> > > So unless I am really misreading the code
-> > > Nacked-by: Michal Hocko <mhocko@suse.com>
-> > > 
-> > > That doesn't mean I reject the whole idea. There are some details to
-> > > sort out as mentioned elsewhere but you cannot really depend on
-> > > pre-allocated pool which can fail at a fault time like that.
-> > 
-> > So, to do it similar to hugetlbfs (e.g., with CMA), there would have to be a
-> > mechanism to actually try pre-reserving (e.g., from the CMA area), at which
-> > point in time the pages would get moved to the secretmem pool, and a
-> > mechanism for mmap() etc. to "reserve" from these secretmem pool, such that
-> > there are guarantees at fault time?
-> 
-> yes, reserve at mmap time and use during the fault. But this all sounds
-> like a self inflicted problem to me. Sure you can have a pre-allocated
-> or more dynamic pool to reduce the direct mapping fragmentation but you
-> can always fall back to regular allocatios. In other ways have the pool
-> as an optimization rather than a hard requirement. With a careful access
-> control this sounds like a manageable solution to me.
+Unfortunately(?), Wayland clients do not have a reason to keep the
+dmabuf fd open themselves, so they probably close it as soon as it has
+been sent to a display server. So the process that should be OOM-killed
+does not have an open fd for the dmabuf (but probably has something
+else, but not an mmap for CPU). Buffer re-use in Wayland does not
+require re-sending the dmabuf fd over IPC.
 
-I'd really wish we had this discussion for earlier spins of this series,
-but since this didn't happen let's refresh the history a bit.
+(In general, dmabufs are never mmapped for CPU. They are accessed by
+devices.)
 
-One of the major pushbacks on the first RFC [1] of the concept was about
-the direct map fragmentation. I tried really hard to find data that shows
-what is the performance difference with different page sizes in the direct
-map and I didn't find anything.
 
-So presuming that large pages do provide advantage the first implementation
-of secretmem used PMD_ORDER allocations to amortise the effect of the
-direct map fragmentation and then handed out 4k pages at each fault. In
-addition there was an option to reserve a finite pool at boot time and
-limit secretmem allocations only to that pool.
+Thanks,
+pq
 
-At some point David suggested to use CMA to improve overall flexibility
-[3], so I switched secretmem to use CMA.
+--Sig_/EjrvI7yGo=jgR=BTk/_==YI
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-Now, with the data we have at hand (my benchmarks and Intel's report David
-mentioned) I'm even not sure this whole pooling even required.
+-----BEGIN PGP SIGNATURE-----
 
-I like the idea to have a pool as an optimization rather than a hard
-requirement but I don't see why would it need a careful access control. As
-the direct map fragmentation is not necessarily degrades the performance
-(and even sometimes it actually improves it) and even then the degradation
-is small, trying a PMD_ORDER allocation for a pool and then falling back to
-4K page may be just fine.
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmASi3oACgkQI1/ltBGq
+qqdcrA//X9uN75QyHDm8jqei3p8rmD/duy0jDCn6W2DbNy+6VM79pp8ZjqqdpeEp
+ZLe9ivqRVUOCUclKfiG2d0/vdgYwU2xnkWYSz0KUNP5pVE+4nZY3O/SA+SQcefkg
+KwfFhyM0XXm8eTVLVl5h+1dMMQ8tWkXpEwXqed4l0/478wepY8srMWoH3YRBxpiE
+q/PSkaWrRegUA8nYHp65kLVAAgP2kOeylAO/DmmtGye12AGMlNESNJHYuHPyc/wT
+Aos56muFTYYGhkICx+eqTsJBCr8mk32rFyIj/dinUcXUyvbj+sUt9eTZVAazsjjx
+NLC3zr3OSnKjQz2+kkXeGIHqTBCEWXFw3VHsPQLv7pf6XPqxJVoWtgHvzvTVduzo
+3Oxff1eYaBN54Evn1xLWLdEGhqc7wqH6RFYDnKhbOxWmBujXHpdF8Ge5xNfPauBP
+gFAtgtHJIyyu/j+CCCo1z25ToKsGTuiJnbXalIrlmWNeIq8m7XKZ3JjhR3WYZOJU
+MEOXDkeVcodCfo0ZueGvTj5meY6eJ1LIBdWBmT0h1/xA/fBocbRADBFgez42NN5s
+ro5soi7B49KRuSygUPsaSMnjpr32NwCIrQIzGtZQzgJVfRPSdke9ZD1wNle9jAXY
+B7ZbDZmlD1St8rxL+usyhRjZdUoKXjfG8d72ss37EHIhch+3CEQ=
+=oEE0
+-----END PGP SIGNATURE-----
 
-I think we could have something like this (error handling is mostly
-omitted):
-
-static int secretmem_pool_increase(struct secretmem_ctx *ctx, gfp_t gfp)
-{
-	struct page *page = alloc_pages(gfp, PMD_PAGE_ORDER);
-
-	if (!page)
-		return -ENOMEM;
-
-	/* add large page to pool */
-	
-	return 0;
-}
-
-static struct page *secretmem_alloc_page(struct secretmem_ctx *ctx,
-					 gfp_t gfp)
-{
-	struct page *page;
-	...
-
-	if (gen_pool_avail(pool) < PAGE_SIZE) {
-		err = secretmem_pool_increase(ctx, gfp);
-		if (!err) {
-			addr = gen_pool_alloc(pool, PAGE_SIZE);
-			if (addr)
-				page = virt_to_page(addr);
-		}
-	}
-
-	if (!page)
-		page = alloc_page(gfp);
-
-	return page;	
-}
-
-[1] https://lore.kernel.org/lkml/1572171452-7958-1-git-send-email-rppt@kernel.org/
-[2] https://lore.kernel.org/lkml/20200720092435.17469-1-rppt@kernel.org/
-[3] https://lore.kernel.org/lkml/03ec586d-c00c-c57e-3118-7186acb7b823@redhat.com/#t
-
--- 
-Sincerely yours,
-Mike.
+--Sig_/EjrvI7yGo=jgR=BTk/_==YI--
