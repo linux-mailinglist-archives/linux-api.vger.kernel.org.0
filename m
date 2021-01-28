@@ -2,244 +2,153 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E437307FC0
-	for <lists+linux-api@lfdr.de>; Thu, 28 Jan 2021 21:39:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 02A7C308038
+	for <lists+linux-api@lfdr.de>; Thu, 28 Jan 2021 22:08:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229825AbhA1Uio (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 28 Jan 2021 15:38:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37616 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229830AbhA1Uim (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 28 Jan 2021 15:38:42 -0500
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35DD8C06174A
-        for <linux-api@vger.kernel.org>; Thu, 28 Jan 2021 12:38:02 -0800 (PST)
-Received: by mail-wr1-x42a.google.com with SMTP id m13so6740404wro.12
-        for <linux-api@vger.kernel.org>; Thu, 28 Jan 2021 12:38:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1UVTyfisZAnJyUTGj4E05jEDNc8Dha7tB5MVBOZTxgI=;
-        b=ThxQPnFlQS2JusYTiQxFRP3+0zCf67Lx1mZmUowPWQxOSXDGBf95O4lG5NKH0KvxFB
-         Njg81kGWKAhCSjVrUAT5rwS36+YsMq93vtkglgZDRf9+97oM5WB/yHVObYB6bh878ytQ
-         LI3TljWwYHbhh9xVUucfC3iUGmatqLJI0PvLxitJOoIwtWHV+iIU5A0Opi8hXMTNpipK
-         M7sCdDcKFeXICxGPa4UxsZSjQdeWH/cT3hFXNuP/KbYlwsFrLc3vbKX9ByhKaeRH8idL
-         5ExA6IFOiCNtWzF1wU8tB6vVMTG/rTOHlXqIlVkwIx8rD36WcPaduWxDPtr6Kmt5APXY
-         WcVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1UVTyfisZAnJyUTGj4E05jEDNc8Dha7tB5MVBOZTxgI=;
-        b=IHjdOfmluvX6cJv+JCHiIiuB8BErtUYiIn0hZHvU5/6zCtY6xjWkDRejYtyB9Esbtt
-         ppd4qzCwUCube5xF8v1Sim1hHgZkR3Keckq/v4lkVbCLRmtfRFdKw9cHgCxdzYCaQYBO
-         NSmgqymGgiScaxt4TcATC+gT3qYEqqER2675IolL99nUkT2mS9qeq7ESm6kHyPqzS9R/
-         9Ol0u0T35ta86RtxNP9YdWG6XuzsxuiQgxB/i0J7DTNJIrhhDikMC65YYGtOCufuVRLN
-         3i1st4uuyKSdTmnIt9Hy+2b5Kb4oiIrj8iUuehd1xuZNxK9xHNM3fwAdMYEtQXx+OPeV
-         0jOQ==
-X-Gm-Message-State: AOAM5331+fEIEbVtrmDMl8LJ2dgISiXVLALyfnbqTT2C0NshuPns/ZrR
-        YWbVu2YiYkHYRrFLo25DMgr++0/0lCBe+gXONUh5PA==
-X-Google-Smtp-Source: ABdhPJx+4T/pO4+VmwEvjZVx1CDiwbKYgrpPlUmq9ilFyshra0xthpiM/f5kvNBGGgKzNC8NOCSNdGRi87R0LyUm7L8=
-X-Received: by 2002:a5d:6884:: with SMTP id h4mr999072wru.106.1611866280568;
- Thu, 28 Jan 2021 12:38:00 -0800 (PST)
-MIME-Version: 1.0
-References: <20210120202337.1481402-1-surenb@google.com> <CAKgNAkgsQWL3QAyF6CQU=yifzA1tfp_E5kBBNKuAq_+sB4Amyw@mail.gmail.com>
- <CAJuCfpEfMgA6z5S5gmHwJB_3KWwmKKp434GeHheUGF3yC7r01w@mail.gmail.com> <6cd84701-fb65-7aa0-38db-b69fe5748754@gmail.com>
-In-Reply-To: <6cd84701-fb65-7aa0-38db-b69fe5748754@gmail.com>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Thu, 28 Jan 2021 12:37:49 -0800
-Message-ID: <CAJuCfpGsi_973t=c0TXCQE4JPSN+APJW-insxFuRUwbWh4Pk-Q@mail.gmail.com>
-Subject: Re: [PATCH 1/1] process_madvise.2: Add process_madvise man page
-To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc:     linux-man <linux-man@vger.kernel.org>,
+        id S229866AbhA1VGy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 28 Jan 2021 16:06:54 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:60816 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231392AbhA1VGo (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 28 Jan 2021 16:06:44 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 10SL1dJf127066;
+        Thu, 28 Jan 2021 16:05:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : reply-to : to : cc : date : in-reply-to : references : content-type
+ : mime-version : content-transfer-encoding; s=pp1;
+ bh=bpUTcXPeXWH0uCpR0CReuSqLBN7qKOd8RBfv7PAKG14=;
+ b=cgL4eeLInzOWENu3PUE8gW1uebW9ootUk9Cacy40GwqzTQAH7KOmGHlmRcO+gPDUjj8U
+ Ng8GA3Fi25GHsaCyIq8H+HQGpXWxvdbZgbr0KJOaaYsL0PUK876/2Puau7XeJTQCl4ZF
+ HqSzSURQMQLdj5pTQMeGVFnsNPLlCu4ZTsK/E4Df1N2bRndbeu6D7oid4Wmpf4UhhFKC
+ 5ohg2Jqb3Vz3a6ntiK5SjP38X1Gjkba8HCL8MVWE7N8kOEdjSKlWLU1BxfjjO05lS+Mv
+ Mdr+jdbupdB+frROL90k0GdYDEwzmPr0b6BmHf0aO51cF/o6+s5+hm+XhdWCvQkxwU7T ag== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 36c3d3aa6m-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 28 Jan 2021 16:05:15 -0500
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10SL2rJ7131704;
+        Thu, 28 Jan 2021 16:05:14 -0500
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.11])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 36c3d3aa5d-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 28 Jan 2021 16:05:14 -0500
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+        by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10SKqhG1019569;
+        Thu, 28 Jan 2021 21:05:12 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+        by ppma03dal.us.ibm.com with ESMTP id 368be9t6w1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 28 Jan 2021 21:05:12 +0000
+Received: from b03ledav004.gho.boulder.ibm.com (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+        by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 10SL5B3Y11862404
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 28 Jan 2021 21:05:11 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 2882F7805C;
+        Thu, 28 Jan 2021 21:05:11 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 2EFAE78068;
+        Thu, 28 Jan 2021 21:05:04 +0000 (GMT)
+Received: from jarvis.int.hansenpartnership.com (unknown [9.85.133.159])
+        by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+        Thu, 28 Jan 2021 21:05:03 +0000 (GMT)
+Message-ID: <73738cda43236b5ac2714e228af362b67a712f5d.camel@linux.ibm.com>
+Subject: Re: [PATCH v16 07/11] secretmem: use PMD-size pages to amortize
+ direct map fragmentation
+From:   James Bottomley <jejb@linux.ibm.com>
+Reply-To: jejb@linux.ibm.com
+To:     Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>
+Cc:     David Hildenbrand <david@redhat.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Jann Horn <jannh@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jeffrey Vander Stoep <jeffv@google.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Michal Hocko <mhocko@suse.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christopher Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Roman Gushchin <guro@fb.com>,
         Shakeel Butt <shakeelb@google.com>,
-        David Rientjes <rientjes@google.com>,
-        =?UTF-8?Q?Edgar_Arriaga_Garc=C3=ADa?= <edgararriaga@google.com>,
-        Tim Murray <timmurray@google.com>,
-        Linux-MM <linux-mm@kvack.org>,
-        SElinux list <selinux@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Android Kernel Team <kernel-team@android.com>
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
+        x86@kernel.org, Hagen Paul Pfeifer <hagen@jauu.net>,
+        Palmer Dabbelt <palmerdabbelt@google.com>
+Date:   Thu, 28 Jan 2021 13:05:02 -0800
+In-Reply-To: <YBK1kqL7JA7NePBQ@dhcp22.suse.cz>
+References: <20210121122723.3446-1-rppt@kernel.org>
+         <20210121122723.3446-8-rppt@kernel.org>
+         <20210126114657.GL827@dhcp22.suse.cz>
+         <303f348d-e494-e386-d1f5-14505b5da254@redhat.com>
+         <20210126120823.GM827@dhcp22.suse.cz> <20210128092259.GB242749@kernel.org>
+         <YBK1kqL7JA7NePBQ@dhcp22.suse.cz>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.4 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343,18.0.737
+ definitions=2021-01-28_12:2021-01-28,2021-01-28 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 bulkscore=0
+ lowpriorityscore=0 spamscore=0 suspectscore=0 mlxlogscore=911
+ impostorscore=0 priorityscore=1501 adultscore=0 phishscore=0 clxscore=1015
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101280099
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jan 28, 2021 at 12:31 PM Michael Kerrisk (man-pages)
-<mtk.manpages@gmail.com> wrote:
->
-> Hello Suren,
->
-> On 1/28/21 7:40 PM, Suren Baghdasaryan wrote:
-> > On Thu, Jan 28, 2021 at 4:24 AM Michael Kerrisk (man-pages)
-> > <mtk.manpages@gmail.com> wrote:
-> >>
-> >> Hello Suren,
-> >>
-> >> Thank you for writing this page! Some comments below.
-> >
-> > Thanks for the review!
-> > Couple questions below and I'll respin the new version once they are clarified.
->
-> Okay. See below.
->
-> >> On Wed, 20 Jan 2021 at 21:36, Suren Baghdasaryan <surenb@google.com> wrote:
-> >>>
->
-> [...]
->
-> Thanks for all the acks. That let's me know that you saw what I said.
->
-> >>> RETURN VALUE
-> >>>     On success, process_madvise() returns the number of bytes advised. This
-> >>>     return value may be less than the total number of requested bytes, if an
-> >>>     error occurred. The caller should check return value to determine whether
-> >>>     a partial advice occurred.
-> >>
-> >> So there are three return values possible,
-> >
-> > Ok, I think I see your point. How about this instead:
->
-> Well, I'm glad you saw it, because I forgot to finish it. But yes,
-> you understood what I forgot to say.
->
-> > RETURN VALUE
-> >      On success, process_madvise() returns the number of bytes advised. This
-> >      return value may be less than the total number of requested bytes, if an
-> >      error occurred after some iovec elements were already processed. The caller
-> >      should check the return value to determine whether a partial
-> > advice occurred.
-> >
-> >     On error, -1 is returned and errno is set appropriately.
->
-> We recently standardized some wording here:
-> s/appropriately/to indicate the error/.
+On Thu, 2021-01-28 at 14:01 +0100, Michal Hocko wrote:
+> On Thu 28-01-21 11:22:59, Mike Rapoport wrote:
+[...]
+> > I like the idea to have a pool as an optimization rather than a
+> > hard requirement but I don't see why would it need a careful access
+> > control. As the direct map fragmentation is not necessarily
+> > degrades the performance (and even sometimes it actually improves
+> > it) and even then the degradation is small, trying a PMD_ORDER
+> > allocation for a pool and then falling back to 4K page may be just
+> > fine.
+> 
+> Well, as soon as this is a scarce resource then an access control
+> seems like a first thing to think of. Maybe it is not really
+> necessary but then this should be really justified.
 
-ack
+The control for the resource is effectively the rlimit today.  I don't
+think dividing the world into people who can and can't use secret
+memory would be useful since the design is to be usable for anyone who
+might have a secret to keep; it would become like the kvm group
+permissions: something which is theoretically an access control but
+which in practise is given to everyone on the system.
 
->
->
-> >>> +.PP
-> >>> +The pointer
-> >>> +.I iovec
-> >>> +points to an array of iovec structures, defined in
-> >>
-> >> "iovec" should be formatted as
-> >>
-> >> .I iovec
-> >
-> > I think it is formatted that way above. What am I missing?
->
-> But also in "an array of iovec structures"...
+> I am also still not sure why this whole thing is not just a
+> ramdisk/ramfs which happens to unmap its pages from the direct
+> map. Wouldn't that be a much more easier model to work with? You
+> would get an access control for free as well.
 
-ack
+The original API was a memfd which does have this access control as
+well.  However, the decision was made after much discussion to go with
+a new system call instead.  Obviously the API choice could be revisited
+but do you have anything to add over the previous discussion, or is
+this just to get your access control?
 
->
-> > BTW, where should I be using .I vs .IR? I was looking for an answer
-> > but could not find it.
->
-> .B / .I == bold/italic this line
-> .BR / .IR == alternate bold/italic with normal (Roman) font.
->
-> So:
-> .I iovec
-> .I iovec ,       # so that comma is not italic
-> .BR process_madvise ()
-> etc.
+James
 
-Aha! Got it now. It's clear after your example. Thanks!
 
->
-> [...]
->
-> >>> +.I iovec
-> >>> +if one of its elements points to an invalid memory
-> >>> +region in the remote process. No further elements will be
-> >>> +processed beyond that point.
-> >>> +.PP
-> >>> +Permission to provide a hint to external process is governed by a
-> >>> +ptrace access mode
-> >>> +.B PTRACE_MODE_READ_REALCREDS
-> >>> +check; see
-> >>> +.BR ptrace (2)
-> >>> +and
-> >>> +.B CAP_SYS_ADMIN
-> >>> +capability that caller should have in order to affect performance
-> >>> +of an external process.
-> >>
-> >> The preceding sentence is garbled. Missing words?
-> >
-> > Maybe I worded it incorrectly. What I need to say here is that the
-> > caller should have both PTRACE_MODE_READ_REALCREDS credentials and
-> > CAP_SYS_ADMIN capability. The first part I shamelessly copy/pasted
-> > from https://man7.org/linux/man-pages/man2/process_vm_readv.2.html and
-> > tried adding the second one to it, obviously unsuccessfully. Any
-> > advice on how to fix that?
->
-> I think you already got pretty close. How about:
->
-> [[
-> Permission to provide a hint to another process is governed by a
-> ptrace access mode
-> .B PTRACE_MODE_READ_REALCREDS
-> check (see
-> BR ptrace (2));
-> in addition, the caller must have the
-> .B CAP_SYS_ADMIN
-> capability.
-> ]]
-
-Perfect! I'll use that.
-
->
-> [...]
->
-> >>> +.TP
-> >>> +.B ESRCH
-> >>> +No process with ID
-> >>> +.I pidfd
-> >>> +exists.
-> >>
-> >> Should this maybe be:
-> >> [[
-> >> The target process does not exist (i.e., it has terminated and
-> >> been waited on).
-> >> ]]
-> >>
-> >> See pidfd_send_signal(2).
-> >
-> > I "borrowed" mine from
-> > https://man7.org/linux/man-pages/man2/process_vm_readv.2.html but
-> > either one sounds good to me. Maybe for pidfd_send_signal the wording
-> > about termination is more important. Anyway, it's up to you. Just let
-> > me know which one to use.
->
-> I think the pidfd_send_signal(2) wording fits better.
-
-ack, will use pidfd_send_signal(2) version.
-
->
-> [...]
->
-> Thanks,
->
-> Michael
-
-I'll include your and Michal's suggestions and will post the next
-version later today or tomorrow morning.
-Thanks for the guidance!
-
->
-> --
-> Michael Kerrisk
-> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-> Linux/UNIX System Programming Training: http://man7.org/training/
