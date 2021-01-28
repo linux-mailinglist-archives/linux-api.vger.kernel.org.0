@@ -2,138 +2,76 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E59C63080AE
-	for <lists+linux-api@lfdr.de>; Thu, 28 Jan 2021 22:44:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 66B9D3080D8
+	for <lists+linux-api@lfdr.de>; Thu, 28 Jan 2021 22:57:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231545AbhA1Vno (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 28 Jan 2021 16:43:44 -0500
-Received: from mx2.suse.de ([195.135.220.15]:60692 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231403AbhA1VnK (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 28 Jan 2021 16:43:10 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id D4CFAAC55;
-        Thu, 28 Jan 2021 21:42:21 +0000 (UTC)
-Date:   Thu, 28 Jan 2021 22:42:19 +0100
-From:   Oscar Salvador <osalvador@suse.de>
+        id S231481AbhA1Vyx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 28 Jan 2021 16:54:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53896 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229819AbhA1Vyr (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 28 Jan 2021 16:54:47 -0500
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45FD1C061573
+        for <linux-api@vger.kernel.org>; Thu, 28 Jan 2021 13:54:07 -0800 (PST)
+Received: by mail-pg1-x534.google.com with SMTP id z21so5208089pgj.4
+        for <linux-api@vger.kernel.org>; Thu, 28 Jan 2021 13:54:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:in-reply-to:message-id:references
+         :mime-version;
+        bh=X1vR6sPVHZZP/RCik6RDJlfYQaETQSuHl+h6yADrBnw=;
+        b=b0Y9Kc1qXUXvSiRiywiKCjG36pUN3ouchYWcb/hFVZnDSaC7c1jfrHLvZIrOu9UzVa
+         OE0zUnJK2niGAxf2iSxaww/y3xDpi5eR9Bot32O5SrOgcyJNzH9UUei20XhaUwRu4UuD
+         k0WCc8URRjw9ANPN7eojDISeLjU6K2eRFKVRxwWkuYvIDaL1U4pMkTdWm2LRKmGQKrLx
+         Nd4vgIHKdCLRxEXrHBIFvkuGmo/o+aPEztcdNN0X7k+L74LwWtN1+MuZtuZk/7UHgTic
+         fF4SzAWn2OxvOhxDzJDC52mWfbJYbFAsfcrqLLYxZf9uFA48Q50w9xH+bGbFqURndgN2
+         bUSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
+         :references:mime-version;
+        bh=X1vR6sPVHZZP/RCik6RDJlfYQaETQSuHl+h6yADrBnw=;
+        b=TiqHVULsULU874e5M+g+EDOGoijobQoYPQf+PjIXIrhBjwtUSs+igvlU1lQ4gzvMQC
+         TBRf3ZGxxyws0B5Voqc5PpN9q6xaMNWjwjV3PQ3ewpKcuslU7L4u3aLbeUftq9zSNbO1
+         XU6dcGsngiLfuNi3OOQcaco0bIGrFxYKOnJFeP9Zi3X6E2eS6XWWFjFX7dsxRwE39Xkv
+         Yid/aoX1l9PIwExFJjNpI8oecBW/VdiH/iEw1ZTjQ8EqYVOAY5NviFoo/zghw1RRWHGj
+         GGOgS5uaaWwDTa7g+WG3Qbh6cmeZkyy9zhErccLFReyNpKo6FFoU3CJfNABYajzYo7BU
+         TWEg==
+X-Gm-Message-State: AOAM531RwqMs5EdotCfzi0QZ5nJL/M9VNpzmvJvFnrB+s/hD0BySvQfk
+        PjTtRv4gAGSwbp/Ul/3o87dafw==
+X-Google-Smtp-Source: ABdhPJzBiyzBNyaKg7m5XC3keVye6UEAm20bIioNQ6zcvtLVmWkNeD2Tagw6ANgHPsm64NxMbCbJAQ==
+X-Received: by 2002:a62:5344:0:b029:1c7:eeea:8bad with SMTP id h65-20020a6253440000b02901c7eeea8badmr1341831pfb.1.1611870846509;
+        Thu, 28 Jan 2021 13:54:06 -0800 (PST)
+Received: from [2620:15c:17:3:4a0f:cfff:fe51:6667] ([2620:15c:17:3:4a0f:cfff:fe51:6667])
+        by smtp.gmail.com with ESMTPSA id gg6sm9020424pjb.2.2021.01.28.13.54.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Jan 2021 13:54:05 -0800 (PST)
+Date:   Thu, 28 Jan 2021 13:54:04 -0800 (PST)
+From:   David Rientjes <rientjes@google.com>
 To:     David Hildenbrand <david@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         Andrew Morton <akpm@linux-foundation.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         "Peter Zijlstra (Intel)" <peterz@infradead.org>,
         Mike Rapoport <rppt@kernel.org>,
+        Oscar Salvador <osalvador@suse.de>,
         Michal Hocko <mhocko@kernel.org>,
         Wei Yang <richard.weiyang@linux.alibaba.com>,
         linux-api@vger.kernel.org
 Subject: Re: [PATCH v2] mm/page_alloc: count CMA pages per zone and print
  them in /proc/zoneinfo
-Message-ID: <20210128214219.GA3113@localhost.localdomain>
-References: <20210127101813.6370-3-david@redhat.com>
- <20210128164533.18566-1-david@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 In-Reply-To: <20210128164533.18566-1-david@redhat.com>
+Message-ID: <6d9cff33-39c1-ef8e-a18e-c865b95240b6@google.com>
+References: <20210127101813.6370-3-david@redhat.com> <20210128164533.18566-1-david@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jan 28, 2021 at 05:45:33PM +0100, David Hildenbrand wrote:
-> Let's count the number of CMA pages per zone and print them in
-> /proc/zoneinfo.
-> 
-> Having access to the total number of CMA pages per zone is helpful for
-> debugging purposes to know where exactly the CMA pages ended up, and to
-> figure out how many pages of a zone might behave differently, even after
-> some of these pages might already have been allocated.
-> 
-> As one example, CMA pages part of a kernel zone cannot be used for
-> ordinary kernel allocations but instead behave more like ZONE_MOVABLE.
-> 
-> For now, we are only able to get the global nr+free cma pages from
-> /proc/meminfo and the free cma pages per zone from /proc/zoneinfo.
-> 
-> Example after this patch when booting a 6 GiB QEMU VM with
-> "hugetlb_cma=2G":
->   # cat /proc/zoneinfo | grep cma
->           cma      0
->         nr_free_cma  0
->           cma      0
->         nr_free_cma  0
->           cma      524288
->         nr_free_cma  493016
->           cma      0
->           cma      0
->   # cat /proc/meminfo | grep Cma
->   CmaTotal:        2097152 kB
->   CmaFree:         1972064 kB
-> 
-> Note: We track/print only with CONFIG_CMA; "nr_free_cma" in /proc/zoneinfo
-> is currently also printed without CONFIG_CMA.
-> 
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: "Peter Zijlstra (Intel)" <peterz@infradead.org>
-> Cc: Mike Rapoport <rppt@kernel.org>
-> Cc: Oscar Salvador <osalvador@suse.de>
-> Cc: Michal Hocko <mhocko@kernel.org>
-> Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
-> Cc: linux-api@vger.kernel.org
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+On Thu, 28 Jan 2021, David Hildenbrand wrote:
 
-IMHO looks better to me, thanks:
-
-Reviewed-by: Oscar Salvador <osalvador@suse.de>
-
-> ---
-> 
-> v1 -> v2:
-> - Print/track only with CONFIG_CMA
-> - Extend patch description
-> 
-> ---
->  include/linux/mmzone.h | 6 ++++++
->  mm/page_alloc.c        | 1 +
->  mm/vmstat.c            | 5 +++++
->  3 files changed, 12 insertions(+)
-> 
-> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-> index ae588b2f87ef..27d22fb22e05 100644
-> --- a/include/linux/mmzone.h
-> +++ b/include/linux/mmzone.h
-> @@ -503,6 +503,9 @@ struct zone {
->  	 * bootmem allocator):
->  	 *	managed_pages = present_pages - reserved_pages;
->  	 *
-> +	 * cma pages is present pages that are assigned for CMA use
-> +	 * (MIGRATE_CMA).
-> +	 *
->  	 * So present_pages may be used by memory hotplug or memory power
->  	 * management logic to figure out unmanaged pages by checking
->  	 * (present_pages - managed_pages). And managed_pages should be used
-> @@ -527,6 +530,9 @@ struct zone {
->  	atomic_long_t		managed_pages;
->  	unsigned long		spanned_pages;
->  	unsigned long		present_pages;
-> +#ifdef CONFIG_CMA
-> +	unsigned long		cma_pages;
-> +#endif
->  
->  	const char		*name;
->  
-> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> index b031a5ae0bd5..9a82375bbcb2 100644
-> --- a/mm/page_alloc.c
-> +++ b/mm/page_alloc.c
-> @@ -2168,6 +2168,7 @@ void __init init_cma_reserved_pageblock(struct page *page)
->  	}
->  
->  	adjust_managed_page_count(page, pageblock_nr_pages);
-> +	page_zone(page)->cma_pages += pageblock_nr_pages;
->  }
->  #endif
->  
 > diff --git a/mm/vmstat.c b/mm/vmstat.c
 > index 7758486097f9..957680db41fa 100644
 > --- a/mm/vmstat.c
@@ -150,10 +88,15 @@ Reviewed-by: Oscar Salvador <osalvador@suse.de>
 >  
 >  	seq_printf(m,
 >  		   "\n        protection: (%ld",
-> -- 
-> 2.29.2
-> 
 
--- 
-Oscar Salvador
-SUSE L3
+Hmm, not sure about this.  If cma is only printed for CONFIG_CMA, we can't 
+distinguish between (1) a kernel without your patch without including some 
+version checking and (2) a kernel without CONFIG_CMA enabled.  IOW, 
+"cma 0" carries value: we know immediately that we do not have any CMA 
+pages on this zone, period.
+
+/proc/zoneinfo is also not known for its conciseness so I think printing 
+"cma 0" even for !CONFIG_CMA is helpful :)
+
+I think this #ifdef should be removed and it should call into a 
+zone_cma_pages(struct zone *zone) which returns 0UL if disabled.
