@@ -2,195 +2,104 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BFD113088E0
-	for <lists+linux-api@lfdr.de>; Fri, 29 Jan 2021 13:08:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 41371308A4E
+	for <lists+linux-api@lfdr.de>; Fri, 29 Jan 2021 17:36:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232688AbhA2MHu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 29 Jan 2021 07:07:50 -0500
-Received: from mx2.suse.de ([195.135.220.15]:48926 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232622AbhA2MFl (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 29 Jan 2021 07:05:41 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id CEDE6AD7F;
-        Fri, 29 Jan 2021 11:47:01 +0000 (UTC)
-Date:   Fri, 29 Jan 2021 12:46:58 +0100
-From:   Oscar Salvador <osalvador@suse.de>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Wei Yang <richard.weiyang@linux.alibaba.com>,
-        David Rientjes <rientjes@google.com>, linux-api@vger.kernel.org
-Subject: Re: [PATCH v3] mm/page_alloc: count CMA pages per zone and print
- them in /proc/zoneinfo
-Message-ID: <20210129114624.GA25391@linux>
-References: <20210127101813.6370-3-david@redhat.com>
- <20210129113451.22085-1-david@redhat.com>
+        id S231246AbhA2Qe4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 29 Jan 2021 11:34:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39046 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231567AbhA2Qcx (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 29 Jan 2021 11:32:53 -0500
+Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DB96C061786
+        for <linux-api@vger.kernel.org>; Fri, 29 Jan 2021 08:32:09 -0800 (PST)
+Received: by mail-qk1-x729.google.com with SMTP id r77so9226181qka.12
+        for <linux-api@vger.kernel.org>; Fri, 29 Jan 2021 08:32:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=toxicpanda-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Wt3zfwFtK4ZMSonnnRvfKKN1zlAJQeYgctUFWfn9Mfk=;
+        b=A/UXH2yXOdP8b/SbxcMUlYpvB+r/WAfPH1T21c/x83U67foofmvq03tSskVTrTn7XH
+         oQlfYZQJhbDPPh64W4UxnXBZlCIru0L0YKVOKN/AiXs7FmVyUEVhYnGNDIt/YWbp2Gjo
+         fMY5xygrxYWsWUKAl2o3nSLCMgo/Y/ka78WHA+yIyy+ftT+G5+7Fix8TyjOiwf7fgysl
+         4DLgOUrI4vnLvrNgyLrZNStooaPw7Xu7xKXX7t+yAnlG8szCGFcxYzJKZbLYy2rJN5m+
+         BzzV40ouekWrugh2NHg6gS1SBSgEK92kTi4m2Q1zX93I8mqAQ/slGDfaFQ/ic6sgOFd9
+         tLdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Wt3zfwFtK4ZMSonnnRvfKKN1zlAJQeYgctUFWfn9Mfk=;
+        b=UEL+t+nzaWgSpb2CWcVjO8/7+/jikdjmeU0bCiG88n54V39pUdykrfK6pgGG9af8YY
+         WUOjywzOEL8Ztz5VDQfdFiidey8x8X50zodruQLiG5mDpfn+ZZMjUlLMBk5wMzAr9NfD
+         D/oN55YNQVVAPE1Bgb4uqN+VxJQJiGM2uzI2qOVjhEmb5bo7QkY/Juu9qGRN+obCe8yT
+         8sgBYDnLbL9qXFazcmdk4qeYgNjPpPP0TANA0fIkAaH7LEW9fwPBQU93sKgng4AcEzTL
+         6JIJVkEOfpHr9BaU6gk7akBhXhLYT6GuuRXkrw4cpQ86FFf1gpFbDDqrt79u0+M3ZQqg
+         vQag==
+X-Gm-Message-State: AOAM530m8XXyV+qoQspS/F8NIBWpk95TDAwV9t0Cm7LuoA+06WZ4r7M7
+        fnkJgv0g9oqo+zXIPhUqVvu4uA==
+X-Google-Smtp-Source: ABdhPJymNK9/Js6oc/ngm1HbudDzZyHxvSDxVzXW3vZ3nhWV0oyybefD/TBD2eaQBvckQTSrdfc1Xw==
+X-Received: by 2002:a05:620a:149b:: with SMTP id w27mr5048980qkj.64.1611937928334;
+        Fri, 29 Jan 2021 08:32:08 -0800 (PST)
+Received: from [192.168.1.45] (cpe-174-109-172-136.nc.res.rr.com. [174.109.172.136])
+        by smtp.gmail.com with ESMTPSA id c14sm6337738qkl.18.2021.01.29.08.32.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 29 Jan 2021 08:32:07 -0800 (PST)
+Subject: Re: [PATCH v7 00/10] fs: interface for directly reading/writing
+ compressed data
+To:     Omar Sandoval <osandov@osandov.com>, linux-fsdevel@vger.kernel.org,
+        linux-btrfs@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>
+Cc:     Dave Chinner <david@fromorbit.com>, Jann Horn <jannh@google.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Aleksa Sarai <cyphar@cyphar.com>, linux-api@vger.kernel.org,
+        kernel-team@fb.com
+References: <cover.1611346706.git.osandov@fb.com>
+From:   Josef Bacik <josef@toxicpanda.com>
+Message-ID: <7ce164cd-e849-80d8-3d9e-8a9987dc3ad9@toxicpanda.com>
+Date:   Fri, 29 Jan 2021 11:32:06 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210129113451.22085-1-david@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <cover.1611346706.git.osandov@fb.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jan 29, 2021 at 12:34:51PM +0100, David Hildenbrand wrote:
-> Let's count the number of CMA pages per zone and print them in
-> /proc/zoneinfo.
+On 1/22/21 3:46 PM, Omar Sandoval wrote:
+> From: Omar Sandoval <osandov@fb.com>
 > 
-> Having access to the total number of CMA pages per zone is helpful for
-> debugging purposes to know where exactly the CMA pages ended up, and to
-> figure out how many pages of a zone might behave differently, even after
-> some of these pages might already have been allocated.
+> This series adds an API for reading compressed data on a filesystem
+> without decompressing it as well as support for writing compressed data
+> directly to the filesystem. As with the previous submissions, I've
+> included a man page patch describing the API. I have test cases
+> (including fsstress support) and example programs which I'll send up
+> [1].
 > 
-> As one example, CMA pages part of a kernel zone cannot be used for
-> ordinary kernel allocations but instead behave more like ZONE_MOVABLE.
+> The main use-case is Btrfs send/receive: currently, when sending data
+> from one compressed filesystem to another, the sending side decompresses
+> the data and the receiving side recompresses it before writing it out.
+> This is wasteful and can be avoided if we can just send and write
+> compressed extents. The patches implementing the send/receive support
+> will be sent shortly.
 > 
-> For now, we are only able to get the global nr+free cma pages from
-> /proc/meminfo and the free cma pages per zone from /proc/zoneinfo.
+> Patches 1-3 add the VFS support and UAPI. Patch 4 is a fix that this
+> series depends on; it can be merged independently. Patches 5-8 are Btrfs
+> prep patches. Patch 9 adds Btrfs encoded read support and patch 10 adds
+> Btrfs encoded write support.
 > 
-> Example after this patch when booting a 6 GiB QEMU VM with
-> "hugetlb_cma=2G":
->   # cat /proc/zoneinfo | grep cma
->           cma      0
->         nr_free_cma  0
->           cma      0
->         nr_free_cma  0
->           cma      524288
->         nr_free_cma  493016
->           cma      0
->           cma      0
->   # cat /proc/meminfo | grep Cma
->   CmaTotal:        2097152 kB
->   CmaFree:         1972064 kB
-> 
-> Note: We print even without CONFIG_CMA, just like "nr_free_cma"; this way,
->       one can be sure when spotting "cma 0", that there are definetly no
->       CMA pages located in a zone.
-> 
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: "Peter Zijlstra (Intel)" <peterz@infradead.org>
-> Cc: Mike Rapoport <rppt@kernel.org>
-> Cc: Oscar Salvador <osalvador@suse.de>
-> Cc: Michal Hocko <mhocko@kernel.org>
-> Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
-> Cc: David Rientjes <rientjes@google.com>
-> Cc: linux-api@vger.kernel.org
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-
-Looks good to me, I guess it is better to print it unconditionally
-so the layout does not change.
-
-Reviewed-by: Oscar Salvador <osalvador@suse.de>
-
-thanks
-
-> ---
-> 
-> The third time is the charm.
-> 
-> v2 -> v3:
-> - Print even without CONFIG_CMA. Use zone_cma_pages().
-> - Adjust patch description
-> - Dropped Oscar's RB due to the changes
-> 
-> v1 -> v2:
-> - Print/track only with CONFIG_CMA
-> - Extend patch description
-> 
-> ---
->  include/linux/mmzone.h | 15 +++++++++++++++
->  mm/page_alloc.c        |  1 +
->  mm/vmstat.c            |  6 ++++--
->  3 files changed, 20 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-> index ae588b2f87ef..caafd5e37080 100644
-> --- a/include/linux/mmzone.h
-> +++ b/include/linux/mmzone.h
-> @@ -503,6 +503,9 @@ struct zone {
->  	 * bootmem allocator):
->  	 *	managed_pages = present_pages - reserved_pages;
->  	 *
-> +	 * cma pages is present pages that are assigned for CMA use
-> +	 * (MIGRATE_CMA).
-> +	 *
->  	 * So present_pages may be used by memory hotplug or memory power
->  	 * management logic to figure out unmanaged pages by checking
->  	 * (present_pages - managed_pages). And managed_pages should be used
-> @@ -527,6 +530,9 @@ struct zone {
->  	atomic_long_t		managed_pages;
->  	unsigned long		spanned_pages;
->  	unsigned long		present_pages;
-> +#ifdef CONFIG_CMA
-> +	unsigned long		cma_pages;
-> +#endif
->  
->  	const char		*name;
->  
-> @@ -624,6 +630,15 @@ static inline unsigned long zone_managed_pages(struct zone *zone)
->  	return (unsigned long)atomic_long_read(&zone->managed_pages);
->  }
->  
-> +static inline unsigned long zone_cma_pages(struct zone *zone)
-> +{
-> +#ifdef CONFIG_CMA
-> +	return zone->cma_pages;
-> +#else
-> +	return 0;
-> +#endif
-> +}
-> +
->  static inline unsigned long zone_end_pfn(const struct zone *zone)
->  {
->  	return zone->zone_start_pfn + zone->spanned_pages;
-> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> index b031a5ae0bd5..9a82375bbcb2 100644
-> --- a/mm/page_alloc.c
-> +++ b/mm/page_alloc.c
-> @@ -2168,6 +2168,7 @@ void __init init_cma_reserved_pageblock(struct page *page)
->  	}
->  
->  	adjust_managed_page_count(page, pageblock_nr_pages);
-> +	page_zone(page)->cma_pages += pageblock_nr_pages;
->  }
->  #endif
->  
-> diff --git a/mm/vmstat.c b/mm/vmstat.c
-> index 7758486097f9..b2537852d498 100644
-> --- a/mm/vmstat.c
-> +++ b/mm/vmstat.c
-> @@ -1642,14 +1642,16 @@ static void zoneinfo_show_print(struct seq_file *m, pg_data_t *pgdat,
->  		   "\n        high     %lu"
->  		   "\n        spanned  %lu"
->  		   "\n        present  %lu"
-> -		   "\n        managed  %lu",
-> +		   "\n        managed  %lu"
-> +		   "\n        cma      %lu",
->  		   zone_page_state(zone, NR_FREE_PAGES),
->  		   min_wmark_pages(zone),
->  		   low_wmark_pages(zone),
->  		   high_wmark_pages(zone),
->  		   zone->spanned_pages,
->  		   zone->present_pages,
-> -		   zone_managed_pages(zone));
-> +		   zone_managed_pages(zone),
-> +		   zone_cma_pages(zone));
->  
->  	seq_printf(m,
->  		   "\n        protection: (%ld",
-> -- 
-> 2.29.2
-> 
+> These patches are based on Dave Sterba's Btrfs misc-next branch [2],
+> which is in turn currently based on v5.11-rc4.
 > 
 
--- 
-Oscar Salvador
-SUSE L3
+Is everybody OK with this?  Al?  I would like to go ahead and get this merged 
+for the next merge window as long as everybody is OK with it, as it's blocking a 
+fair bit of BTRFS work.  Thanks,
+
+Josef
