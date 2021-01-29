@@ -2,187 +2,122 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 07ACE30865B
-	for <lists+linux-api@lfdr.de>; Fri, 29 Jan 2021 08:24:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AC5B3088B7
+	for <lists+linux-api@lfdr.de>; Fri, 29 Jan 2021 12:59:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232010AbhA2HWa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 29 Jan 2021 02:22:30 -0500
-Received: from mail.kernel.org ([198.145.29.99]:40624 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229656AbhA2HW2 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 29 Jan 2021 02:22:28 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AFF4764DFF;
-        Fri, 29 Jan 2021 07:21:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611904906;
-        bh=NGPVE0T2yDfzE3jsleZ51uyBOURj43/DKZo4DEUYgL4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=a64cCYp6LVDN9rc75p+01u8IW5fw/bN2EdsNx+IABYTwj1i4JOBtzJvRknWyJc/J7
-         T52AuZy7pyjPKZ7QZu+wKtBfqCmigfwc/Dvz3QN7mz43ePh5UhCDDbWOD1E5YGhGzV
-         wPbtwiDgaLzyUeLcdUi+JOYIp31MvzVMMRWuhINnli/F66n9915eRLn0EOIFyB4ZO8
-         wlmLxu9iLOV8KiftxFouX4rgVx232aCXqGGzNxLKwDd9wpXTDoFGFkXI0knbjgu+Ij
-         uSrdbgHPpUkaQkJEWC9FddlNhYIa66q3F5imgc1LAIfa+9f41PojeHOXz2yia5DWYQ
-         0OIfdJEzC+XGA==
-Date:   Fri, 29 Jan 2021 09:21:28 +0200
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     David Hildenbrand <david@redhat.com>,
+        id S232349AbhA2L7H (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 29 Jan 2021 06:59:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49202 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232937AbhA2L5M (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 29 Jan 2021 06:57:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1611921117;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=FUEN6UTfn53/wX/SEJGh22PWSC8cNFCZ2DPJVW+i4jI=;
+        b=ZrFUrmaZe+5+2+HY2Ln4cEJ6W4M5NE7MXsxNX5CBmcGgiGwc7dbWwTm9M+YK6Mvg4PzsP8
+        QJek2ukVaP8OT6FzTRU6f5SkZVMPDpCOEp7ncOeyda7SmlM3MLdPCb8ArtE5qmtegWs2vt
+        kr2fxRwYAu+2xVabHLtaQCilWZojdDo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-271-OKAhZr8FNw2cV8zOqtPwZg-1; Fri, 29 Jan 2021 06:51:55 -0500
+X-MC-Unique: OKAhZr8FNw2cV8zOqtPwZg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EFB14814417;
+        Fri, 29 Jan 2021 11:51:53 +0000 (UTC)
+Received: from [10.36.113.219] (ovpn-113-219.ams2.redhat.com [10.36.113.219])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 76A2E5D9C0;
+        Fri, 29 Jan 2021 11:51:51 +0000 (UTC)
+Subject: Re: [PATCH v3] mm/page_alloc: count CMA pages per zone and print them
+ in /proc/zoneinfo
+To:     Oscar Salvador <osalvador@suse.de>
+Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Roman Gushchin <guro@fb.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Shuah Khan <shuah@kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
-        x86@kernel.org, Hagen Paul Pfeifer <hagen@jauu.net>,
-        Palmer Dabbelt <palmerdabbelt@google.com>
-Subject: Re: [PATCH v16 07/11] secretmem: use PMD-size pages to amortize
- direct map fragmentation
-Message-ID: <20210129072128.GD242749@kernel.org>
-References: <20210121122723.3446-1-rppt@kernel.org>
- <20210121122723.3446-8-rppt@kernel.org>
- <20210126114657.GL827@dhcp22.suse.cz>
- <303f348d-e494-e386-d1f5-14505b5da254@redhat.com>
- <20210126120823.GM827@dhcp22.suse.cz>
- <20210128092259.GB242749@kernel.org>
- <YBK1kqL7JA7NePBQ@dhcp22.suse.cz>
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Wei Yang <richard.weiyang@linux.alibaba.com>,
+        David Rientjes <rientjes@google.com>, linux-api@vger.kernel.org
+References: <20210127101813.6370-3-david@redhat.com>
+ <20210129113451.22085-1-david@redhat.com> <20210129114624.GA25391@linux>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <8d7fc7f5-58b0-301a-1055-beb0df86b536@redhat.com>
+Date:   Fri, 29 Jan 2021 12:51:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YBK1kqL7JA7NePBQ@dhcp22.suse.cz>
+In-Reply-To: <20210129114624.GA25391@linux>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jan 28, 2021 at 02:01:06PM +0100, Michal Hocko wrote:
-> On Thu 28-01-21 11:22:59, Mike Rapoport wrote:
+On 29.01.21 12:46, Oscar Salvador wrote:
+> On Fri, Jan 29, 2021 at 12:34:51PM +0100, David Hildenbrand wrote:
+>> Let's count the number of CMA pages per zone and print them in
+>> /proc/zoneinfo.
+>>
+>> Having access to the total number of CMA pages per zone is helpful for
+>> debugging purposes to know where exactly the CMA pages ended up, and to
+>> figure out how many pages of a zone might behave differently, even after
+>> some of these pages might already have been allocated.
+>>
+>> As one example, CMA pages part of a kernel zone cannot be used for
+>> ordinary kernel allocations but instead behave more like ZONE_MOVABLE.
+>>
+>> For now, we are only able to get the global nr+free cma pages from
+>> /proc/meminfo and the free cma pages per zone from /proc/zoneinfo.
+>>
+>> Example after this patch when booting a 6 GiB QEMU VM with
+>> "hugetlb_cma=2G":
+>>    # cat /proc/zoneinfo | grep cma
+>>            cma      0
+>>          nr_free_cma  0
+>>            cma      0
+>>          nr_free_cma  0
+>>            cma      524288
+>>          nr_free_cma  493016
+>>            cma      0
+>>            cma      0
+>>    # cat /proc/meminfo | grep Cma
+>>    CmaTotal:        2097152 kB
+>>    CmaFree:         1972064 kB
+>>
+>> Note: We print even without CONFIG_CMA, just like "nr_free_cma"; this way,
+>>        one can be sure when spotting "cma 0", that there are definetly no
+>>        CMA pages located in a zone.
+>>
+>> Cc: Andrew Morton <akpm@linux-foundation.org>
+>> Cc: Thomas Gleixner <tglx@linutronix.de>
+>> Cc: "Peter Zijlstra (Intel)" <peterz@infradead.org>
+>> Cc: Mike Rapoport <rppt@kernel.org>
+>> Cc: Oscar Salvador <osalvador@suse.de>
+>> Cc: Michal Hocko <mhocko@kernel.org>
+>> Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
+>> Cc: David Rientjes <rientjes@google.com>
+>> Cc: linux-api@vger.kernel.org
+>> Signed-off-by: David Hildenbrand <david@redhat.com>
 > 
-> > And hugetlb pools may be also depleted by anybody by calling
-> > mmap(MAP_HUGETLB) and there is no any limiting knob for this, while
-> > secretmem has RLIMIT_MEMLOCK.
+> Looks good to me, I guess it is better to print it unconditionally
+> so the layout does not change.
 > 
-> Yes it can fail. But it would fail at the mmap time when the reservation
-> fails. Not during the #PF time which can be at any time.
+> Reviewed-by: Oscar Salvador <osalvador@suse.de>
 
-It may fail at $PF time as well:
+Thanks for the fast review!
 
-hugetlb_fault()
-        hugeltb_no_page()
-                ...
-                alloc_huge_page()
-                        alloc_gigantic_page()
-                                cma_alloc()
-                                        -ENOMEM; 
-
- 
-> > That said, simply replacing VM_FAULT_OOM with VM_FAULT_SIGBUS makes
-> > secretmem at least as controllable and robust than hugeltbfs even without
-> > complex reservation at mmap() time.
-> 
-> Still sucks huge!
- 
-Any #PF can get -ENOMEM for whatever reason. Sucks huge indeed.
-
-> > > > > So unless I am really misreading the code
-> > > > > Nacked-by: Michal Hocko <mhocko@suse.com>
-> > > > > 
-> > > > > That doesn't mean I reject the whole idea. There are some details to
-> > > > > sort out as mentioned elsewhere but you cannot really depend on
-> > > > > pre-allocated pool which can fail at a fault time like that.
-> > > > 
-> > > > So, to do it similar to hugetlbfs (e.g., with CMA), there would have to be a
-> > > > mechanism to actually try pre-reserving (e.g., from the CMA area), at which
-> > > > point in time the pages would get moved to the secretmem pool, and a
-> > > > mechanism for mmap() etc. to "reserve" from these secretmem pool, such that
-> > > > there are guarantees at fault time?
-> > > 
-> > > yes, reserve at mmap time and use during the fault. But this all sounds
-> > > like a self inflicted problem to me. Sure you can have a pre-allocated
-> > > or more dynamic pool to reduce the direct mapping fragmentation but you
-> > > can always fall back to regular allocatios. In other ways have the pool
-> > > as an optimization rather than a hard requirement. With a careful access
-> > > control this sounds like a manageable solution to me.
-> > 
-> > I'd really wish we had this discussion for earlier spins of this series,
-> > but since this didn't happen let's refresh the history a bit.
-> 
-> I am sorry but I am really fighting to find time to watch for all the
-> moving targets...
-> 
-> > One of the major pushbacks on the first RFC [1] of the concept was about
-> > the direct map fragmentation. I tried really hard to find data that shows
-> > what is the performance difference with different page sizes in the direct
-> > map and I didn't find anything.
-> > 
-> > So presuming that large pages do provide advantage the first implementation
-> > of secretmem used PMD_ORDER allocations to amortise the effect of the
-> > direct map fragmentation and then handed out 4k pages at each fault. In
-> > addition there was an option to reserve a finite pool at boot time and
-> > limit secretmem allocations only to that pool.
-> > 
-> > At some point David suggested to use CMA to improve overall flexibility
-> > [3], so I switched secretmem to use CMA.
-> > 
-> > Now, with the data we have at hand (my benchmarks and Intel's report David
-> > mentioned) I'm even not sure this whole pooling even required.
-> 
-> I would still like to understand whether that data is actually
-> representative. With some underlying reasoning rather than I have run
-> these XYZ benchmarks and numbers do not look terrible.
-
-I would also very much like to see, for example, reasoning to enabling 1GB
-pages in the direct map beyond "because we can" (commits 00d1c5e05736
-("x86: add gbpages switches") and ef9257668e31 ("x86: do kernel direct
-mapping at boot using GB pages")).
-
-The original Kconfig text for CONFIG_DIRECT_GBPAGES said
-
-          Enable gigabyte pages support (if the CPU supports it). This can
-          improve the kernel's performance a tiny bit by reducing TLB
-          pressure.
-
-So it is very interesting how tiny that bit was.
- 
-> > I like the idea to have a pool as an optimization rather than a hard
-> > requirement but I don't see why would it need a careful access control. As
-> > the direct map fragmentation is not necessarily degrades the performance
-> > (and even sometimes it actually improves it) and even then the degradation
-> > is small, trying a PMD_ORDER allocation for a pool and then falling back to
-> > 4K page may be just fine.
-> 
-> Well, as soon as this is a scarce resource then an access control seems
-> like a first thing to think of. Maybe it is not really necessary but
-> then this should be really justified.
-
-And what being a scarce resource here? If we consider lack of the direct
-map fragmentation as this resource, there enough measures secretmem
-implements to limit user ability to fragment the direct map, as was already
-discussed several times. Global limit, memcg and rlimit provide enough
-access control already.
 
 -- 
-Sincerely yours,
-Mike.
+Thanks,
+
+David / dhildenb
+
