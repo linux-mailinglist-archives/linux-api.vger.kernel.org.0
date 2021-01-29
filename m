@@ -2,218 +2,210 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F104B308AF4
-	for <lists+linux-api@lfdr.de>; Fri, 29 Jan 2021 18:09:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 773E1308BC1
+	for <lists+linux-api@lfdr.de>; Fri, 29 Jan 2021 18:43:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231567AbhA2RH5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 29 Jan 2021 12:07:57 -0500
-Received: from mga07.intel.com ([134.134.136.100]:22339 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229661AbhA2RHq (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 29 Jan 2021 12:07:46 -0500
-IronPort-SDR: p8Wk3Hi2WuNznyoMrufDgJFn7F9VOXeBmA4l4QoM+/O1YkE4hafl3i0YrK5VktZ0X0WnCGBb98
- eum5jgSYygUw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9879"; a="244539471"
-X-IronPort-AV: E=Sophos;i="5.79,386,1602572400"; 
-   d="scan'208";a="244539471"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2021 09:07:04 -0800
-IronPort-SDR: C/Gip6dt70g3XPeD/k4QNm3XwpXa4g6YixqTOPTrUIQe2OCJdT+eg0GeWv9j/C1xQYmir9cCxf
- nxlk7ED7pvqw==
-X-IronPort-AV: E=Sophos;i="5.79,386,1602572400"; 
-   d="scan'208";a="576531508"
-Received: from bkmossma-mobl.amr.corp.intel.com (HELO [10.209.175.74]) ([10.209.175.74])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2021 09:07:02 -0800
-Subject: Re: [PATCH v18 24/25] x86/cet/shstk: Add arch_prctl functions for
- shadow stack
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-References: <20210127212524.10188-1-yu-cheng.yu@intel.com>
- <20210127212524.10188-25-yu-cheng.yu@intel.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- xsFNBE6HMP0BEADIMA3XYkQfF3dwHlj58Yjsc4E5y5G67cfbt8dvaUq2fx1lR0K9h1bOI6fC
- oAiUXvGAOxPDsB/P6UEOISPpLl5IuYsSwAeZGkdQ5g6m1xq7AlDJQZddhr/1DC/nMVa/2BoY
- 2UnKuZuSBu7lgOE193+7Uks3416N2hTkyKUSNkduyoZ9F5twiBhxPJwPtn/wnch6n5RsoXsb
- ygOEDxLEsSk/7eyFycjE+btUtAWZtx+HseyaGfqkZK0Z9bT1lsaHecmB203xShwCPT49Blxz
- VOab8668QpaEOdLGhtvrVYVK7x4skyT3nGWcgDCl5/Vp3TWA4K+IofwvXzX2ON/Mj7aQwf5W
- iC+3nWC7q0uxKwwsddJ0Nu+dpA/UORQWa1NiAftEoSpk5+nUUi0WE+5DRm0H+TXKBWMGNCFn
- c6+EKg5zQaa8KqymHcOrSXNPmzJuXvDQ8uj2J8XuzCZfK4uy1+YdIr0yyEMI7mdh4KX50LO1
- pmowEqDh7dLShTOif/7UtQYrzYq9cPnjU2ZW4qd5Qz2joSGTG9eCXLz5PRe5SqHxv6ljk8mb
- ApNuY7bOXO/A7T2j5RwXIlcmssqIjBcxsRRoIbpCwWWGjkYjzYCjgsNFL6rt4OL11OUF37wL
- QcTl7fbCGv53KfKPdYD5hcbguLKi/aCccJK18ZwNjFhqr4MliQARAQABzShEYXZpZCBDaHJp
- c3RvcGhlciBIYW5zZW4gPGRhdmVAc3I3MS5uZXQ+wsF7BBMBAgAlAhsDBgsJCAcDAgYVCAIJ
- CgsEFgIDAQIeAQIXgAUCTo3k0QIZAQAKCRBoNZUwcMmSsMO2D/421Xg8pimb9mPzM5N7khT0
- 2MCnaGssU1T59YPE25kYdx2HntwdO0JA27Wn9xx5zYijOe6B21ufrvsyv42auCO85+oFJWfE
- K2R/IpLle09GDx5tcEmMAHX6KSxpHmGuJmUPibHVbfep2aCh9lKaDqQR07gXXWK5/yU1Dx0r
- VVFRaHTasp9fZ9AmY4K9/BSA3VkQ8v3OrxNty3OdsrmTTzO91YszpdbjjEFZK53zXy6tUD2d
- e1i0kBBS6NLAAsqEtneplz88T/v7MpLmpY30N9gQU3QyRC50jJ7LU9RazMjUQY1WohVsR56d
- ORqFxS8ChhyJs7BI34vQusYHDTp6PnZHUppb9WIzjeWlC7Jc8lSBDlEWodmqQQgp5+6AfhTD
- kDv1a+W5+ncq+Uo63WHRiCPuyt4di4/0zo28RVcjtzlGBZtmz2EIC3vUfmoZbO/Gn6EKbYAn
- rzz3iU/JWV8DwQ+sZSGu0HmvYMt6t5SmqWQo/hyHtA7uF5Wxtu1lCgolSQw4t49ZuOyOnQi5
- f8R3nE7lpVCSF1TT+h8kMvFPv3VG7KunyjHr3sEptYxQs4VRxqeirSuyBv1TyxT+LdTm6j4a
- mulOWf+YtFRAgIYyyN5YOepDEBv4LUM8Tz98lZiNMlFyRMNrsLV6Pv6SxhrMxbT6TNVS5D+6
- UorTLotDZKp5+M7BTQRUY85qARAAsgMW71BIXRgxjYNCYQ3Xs8k3TfAvQRbHccky50h99TUY
- sqdULbsb3KhmY29raw1bgmyM0a4DGS1YKN7qazCDsdQlxIJp9t2YYdBKXVRzPCCsfWe1dK/q
- 66UVhRPP8EGZ4CmFYuPTxqGY+dGRInxCeap/xzbKdvmPm01Iw3YFjAE4PQ4hTMr/H76KoDbD
- cq62U50oKC83ca/PRRh2QqEqACvIH4BR7jueAZSPEDnzwxvVgzyeuhwqHY05QRK/wsKuhq7s
- UuYtmN92Fasbxbw2tbVLZfoidklikvZAmotg0dwcFTjSRGEg0Gr3p/xBzJWNavFZZ95Rj7Et
- db0lCt0HDSY5q4GMR+SrFbH+jzUY/ZqfGdZCBqo0cdPPp58krVgtIGR+ja2Mkva6ah94/oQN
- lnCOw3udS+Eb/aRcM6detZr7XOngvxsWolBrhwTQFT9D2NH6ryAuvKd6yyAFt3/e7r+HHtkU
- kOy27D7IpjngqP+b4EumELI/NxPgIqT69PQmo9IZaI/oRaKorYnDaZrMXViqDrFdD37XELwQ
- gmLoSm2VfbOYY7fap/AhPOgOYOSqg3/Nxcapv71yoBzRRxOc4FxmZ65mn+q3rEM27yRztBW9
- AnCKIc66T2i92HqXCw6AgoBJRjBkI3QnEkPgohQkZdAb8o9WGVKpfmZKbYBo4pEAEQEAAcLB
- XwQYAQIACQUCVGPOagIbDAAKCRBoNZUwcMmSsJeCEACCh7P/aaOLKWQxcnw47p4phIVR6pVL
- e4IEdR7Jf7ZL00s3vKSNT+nRqdl1ugJx9Ymsp8kXKMk9GSfmZpuMQB9c6io1qZc6nW/3TtvK
- pNGz7KPPtaDzvKA4S5tfrWPnDr7n15AU5vsIZvgMjU42gkbemkjJwP0B1RkifIK60yQqAAlT
- YZ14P0dIPdIPIlfEPiAWcg5BtLQU4Wg3cNQdpWrCJ1E3m/RIlXy/2Y3YOVVohfSy+4kvvYU3
- lXUdPb04UPw4VWwjcVZPg7cgR7Izion61bGHqVqURgSALt2yvHl7cr68NYoFkzbNsGsye9ft
- M9ozM23JSgMkRylPSXTeh5JIK9pz2+etco3AfLCKtaRVysjvpysukmWMTrx8QnI5Nn5MOlJj
- 1Ov4/50JY9pXzgIDVSrgy6LYSMc4vKZ3QfCY7ipLRORyalFDF3j5AGCMRENJjHPD6O7bl3Xo
- 4DzMID+8eucbXxKiNEbs21IqBZbbKdY1GkcEGTE7AnkA3Y6YB7I/j9mQ3hCgm5muJuhM/2Fr
- OPsw5tV/LmQ5GXH0JQ/TZXWygyRFyyI2FqNTx4WHqUn3yFj8rwTAU1tluRUYyeLy0ayUlKBH
- ybj0N71vWO936MqP6haFERzuPAIpxj2ezwu0xb1GjTk4ynna6h5GjnKgdfOWoRtoWndMZxbA
- z5cecg==
-Message-ID: <ba39586d-25b6-6ea5-19c3-adf17b59f910@intel.com>
-Date:   Fri, 29 Jan 2021 09:07:01 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20210127212524.10188-25-yu-cheng.yu@intel.com>
-Content-Type: text/plain; charset=utf-8
+        id S232331AbhA2Rky (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 29 Jan 2021 12:40:54 -0500
+Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]:29470 "EHLO
+        mx0b-0016f401.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S232526AbhA2RhC (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 29 Jan 2021 12:37:02 -0500
+Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
+        by mx0a-0016f401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 10THPxF7018958;
+        Fri, 29 Jan 2021 09:34:50 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=message-id : date :
+ from : subject : to : cc : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pfpt0220;
+ bh=4/NeKmGbJOW/BGD4OhZXARIRhurU50TGKfUfwZUcsP0=;
+ b=E+vSMPKpPWCFP/VPCC3GQNt5SD2HEXxsX1Ep9+UdONUcEnKJxgaDqZv0yoZQ82YhRojP
+ TOWFy0xAb0Puxaxsn2vMRfA3m4qTRkFmQt+e6Thdv7zZwG/HmFDTp6O89ayrzn3VYnLq
+ mPqxTLxwIZ9pmevNQSgJdfubEnXh1kUKC9r4EFLZmHFRWesXhheARS2B4Kt6VVId+lmL
+ ksg+SpwRXxIllqEvWWd5fY76dyUJ1+JzDm84zyPSrHwp5TkgNviyud9QFVHfEtCxS0EZ
+ 6NHKgCNo+HDM/NZXJFG0tp8VezWLDxXgj7H4eXhf7SmhQh9PhuMXsPPWeNZAXlNZ5VxJ Hg== 
+Received: from dc5-exch01.marvell.com ([199.233.59.181])
+        by mx0a-0016f401.pphosted.com with ESMTP id 36cdyn9e57-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+        Fri, 29 Jan 2021 09:34:49 -0800
+Received: from SC-EXCH01.marvell.com (10.93.176.81) by DC5-EXCH01.marvell.com
+ (10.69.176.38) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 29 Jan
+ 2021 09:34:48 -0800
+Received: from DC5-EXCH01.marvell.com (10.69.176.38) by SC-EXCH01.marvell.com
+ (10.93.176.81) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 29 Jan
+ 2021 09:34:47 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.169)
+ by DC5-EXCH01.marvell.com (10.69.176.38) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2 via Frontend Transport; Fri, 29 Jan 2021 09:34:47 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=G+9fJSftVOjtnFrXAX/gmDGRuE9kF6Wo6HSXSWV5AkRpaYXZYmzI5FdnmFCnjqLvSe1+oYtU/PyQ7EfCJfkvc4l4ku8CDRNcT0ro4JH+ff5HzE7z/gpdp3lSwCHveCRO3Piv4AWVyItJQA7kywqPlyVNuG04D8jYMq2WzCNb3cIvKldjhdeqMSVXLBEmwhwMbRY6FCsCqyKR8wkiMx0SNa/ugQJfO20VZ8JEP7Slz7xyncBtZu1kp7WZyJNF3V7UfBxHqMIFHPYTqxtmtTrqiIA/fcdpcivP5jaDqgrDftWrgnSBVhSovsz4SUDf+vEMSg5KxkqhAi9+bvgQi2XETw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4/NeKmGbJOW/BGD4OhZXARIRhurU50TGKfUfwZUcsP0=;
+ b=Dd7ITRQvvqF8KXdHx/ZHNObz2tWOxaWZJ5be58UjSMci7TZr1eBP/Lukn7Kw4OAUOucn1eG4o14r92hbfCRQ11KenjnanVbbUoAjH9/gtFnEijjTdPd7Zq6XnWW9fMCbrU5bdLV3Ej5jRqvfUwDneV4yYJWJLQR/LiVafqd9G1gcXOZuSBkM2AIz87+sXVYDmShYYjstGhZlxA2N/HQQf35z+ZhAU3C5Kpe2WgTmS1VzrhpwyNlHgfS8pVNJHN7FHFb9/hyTNXDBfr4zxJrKzSbImIaBnERua7Xs7gxXZmhIBh/Qvib1zV115U8RGIKLKnU3bvwZUdmLZTL8jrWYQA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
+ dkim=pass header.d=marvell.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=marvell.onmicrosoft.com; s=selector1-marvell-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4/NeKmGbJOW/BGD4OhZXARIRhurU50TGKfUfwZUcsP0=;
+ b=t4fvg4yAzUJT45hde4qTSqZRvXiOdNmQgclQdzQiEW92g8getR119H4ytX9wTZoIMbuZ/7ZVa3Cg4nNCnpAS+QAO9VLafLA7PIidmluiCQcqs0SpjGQuDmbaQS98c+zuD9paPDsVZHFVp6pWju+LMhBl3yGGWTLzr2qQoKiasAk=
+Authentication-Results: hisilicon.com; dkim=none (message not signed)
+ header.d=none;hisilicon.com; dmarc=none action=none header.from=marvell.com;
+Received: from MW2PR18MB2267.namprd18.prod.outlook.com (2603:10b6:907:3::11)
+ by MW2PR18MB2218.namprd18.prod.outlook.com (2603:10b6:907:5::27) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.19; Fri, 29 Jan
+ 2021 17:34:46 +0000
+Received: from MW2PR18MB2267.namprd18.prod.outlook.com
+ ([fe80::24e2:8566:bf62:b363]) by MW2PR18MB2267.namprd18.prod.outlook.com
+ ([fe80::24e2:8566:bf62:b363%6]) with mapi id 15.20.3784.015; Fri, 29 Jan 2021
+ 17:34:45 +0000
+Message-ID: <a5132281-53e8-c75e-8085-7a44fa805625@marvell.com>
+Date:   Fri, 29 Jan 2021 09:34:42 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:87.0) Gecko/20100101
+ Thunderbird/87.0a1
+From:   Alex Belits <abelits@marvell.com>
+Subject: Re: [EXT] Re: [Patch v4 1/3] lib: Restrict cpumask_local_spread to
+ houskeeping CPUs
+To:     Marcelo Tosatti <mtosatti@redhat.com>,
+        Nitesh Narayan Lal <nitesh@redhat.com>
+CC:     Thomas Gleixner <tglx@linutronix.de>,
+        Robin Murphy <robin.murphy@arm.com>,
+        <linux-kernel@vger.kernel.org>, <linux-api@vger.kernel.org>,
+        <frederic@kernel.org>, <juri.lelli@redhat.com>,
+        <bhelgaas@google.com>, <linux-pci@vger.kernel.org>,
+        <rostedt@goodmis.org>, <mingo@kernel.org>, <peterz@infradead.org>,
+        <davem@davemloft.net>, <akpm@linux-foundation.org>,
+        <sfr@canb.auug.org.au>, <stephen@networkplumber.org>,
+        <rppt@linux.vnet.ibm.com>, <jinyuqi@huawei.com>,
+        <zhangshaokun@hisilicon.com>
+References: <20200625223443.2684-1-nitesh@redhat.com>
+ <20200625223443.2684-2-nitesh@redhat.com>
+ <3e9ce666-c9cd-391b-52b6-3471fe2be2e6@arm.com>
+ <20210127121939.GA54725@fuller.cnet> <87r1m5can2.fsf@nanos.tec.linutronix.de>
+ <20210128165903.GB38339@fuller.cnet> <87h7n0de5a.fsf@nanos.tec.linutronix.de>
+ <d2a4dc97-a9ed-e0e7-3b9c-c56ae46f6608@redhat.com>
+ <20210129142356.GB40876@fuller.cnet>
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210129142356.GB40876@fuller.cnet>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [173.228.7.197]
+X-ClientProxiedBy: SJ0PR13CA0010.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c0::15) To MW2PR18MB2267.namprd18.prod.outlook.com
+ (2603:10b6:907:3::11)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.9.3] (173.228.7.197) by SJ0PR13CA0010.namprd13.prod.outlook.com (2603:10b6:a03:2c0::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.8 via Frontend Transport; Fri, 29 Jan 2021 17:34:43 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3f0feb1e-261a-46b0-4fd9-08d8c47c2b2f
+X-MS-TrafficTypeDiagnostic: MW2PR18MB2218:
+X-Microsoft-Antispam-PRVS: <MW2PR18MB22189961B70F7436D441337EBCB99@MW2PR18MB2218.namprd18.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: N/X2b0QYkQKdB0yHIlUp/yeqdxjpNX6oyIm/lKmdRMzpGT7B64v8fFLmx6sKGB8NC7BguxQdTf0vcghI7fmitbZ2lbf18/MukA2nUvVGF++UrBkhU4GCK80uLJC4VOh1F6QQlF/gH3tJ9r7QxugVs9CdLHaiTcC5VxktWLt97hRaBdDm6jSqzQvFxAM+yQfJlb8W44xAkxnf8fn6vek2qbeieruVVELChQIjaIj4RPGB+Nq2go3OtVObKn3S8OJefk0qy5mXsMCRVFLXUWip/rrDKBWlKhmOHVcN9EMZDrepThSDdVkVJbOkgAXKo2d9eYXU3Im6z6/u7aImwywno51uipMExV9sGj7BMfz2/qcTUQvZrUmXeQG2dlHLkqvBsU1TGBkhpCtGWXIUo25crSfHctw+YvvaH8VGjfJYTgvjNeivRh7HnvXm9V9JNt1Ry2WMFgJmOY36gkVBwBR2bP8WjRPcmocMxT0kkoHG4jdoqA+himupE6XL9EImx/GVnLAoGErbc/kX29x0z1oSExQssmX061n5uu0UhRbcNmfGUzCSKdSXQv7tynPKjQj2YVHUCPlhGE+mPC9Mxauuz/BbbQevijD6BgKyJqUqVkRqG6ymYK3/sLidZYzIamZsoQZyFNTIoaL+dbUX2uE2lGWdrQv5sjGdepHUFpKjbqE2QiYyO5se+vTFfD/bh+P7
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR18MB2267.namprd18.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(396003)(136003)(376002)(346002)(366004)(7416002)(54906003)(5660300002)(52116002)(2906002)(110136005)(966005)(478600001)(36756003)(6486002)(53546011)(186003)(16526019)(2616005)(956004)(26005)(4326008)(66556008)(8936002)(31686004)(86362001)(66946007)(66476007)(83380400001)(16576012)(31696002)(8676002)(316002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?c2w2a3BJZW1pSy9tWVJZWHk5ZVhsWDl2Q3EyWC83V24rSE9tL0ZiT2RNZmxl?=
+ =?utf-8?B?WE82VVdpTlNpVXFUT1kyOVhkb3BjNlhueDJZYXZYV292NEJZVUR4S3J3N0la?=
+ =?utf-8?B?V0RYRFkxekZSRThhS1dtNjBKYlFPenorbjlkRkhQRTVKNmoyd3dKblYycndI?=
+ =?utf-8?B?eStNem92QWMyd1Y3RzNBZ3NGdlFTVnpod3pFdzU2Sml2UE1RU0dNMVR5YUdI?=
+ =?utf-8?B?WXBLbG5tUVhvVGRkZGhOdkpCeFNwd0RnZEl5b3lhYmJ2OVI4dkJoekNhbGlG?=
+ =?utf-8?B?UVZtR2EvOVhVQmNJdFMyUTI2L0FyU0hTcXVTa2Q3anF3UDVuQlFLR056SEJy?=
+ =?utf-8?B?N1AxT3Ayd1BHVmRYK2hBSG1GTERIRVk0VXpsVHQ3TTJHMVU2RC9MN2hNM3ln?=
+ =?utf-8?B?L0EvZDdhNW5oZEg1MWNnc3BBTU01dm9LNk1CSXVGS2Jjay9MdFZXMkVNV1pj?=
+ =?utf-8?B?VU5zeWlkYzhXSkplNWRkcFZsbkl6b2JuczhJeGZEMWZXa2xIdFMwQWxhMmk3?=
+ =?utf-8?B?WkhmNURxM0tTYVFYdDFmTHEweXUrbjlpcm11aE84UGhIOU4wT0ZSbzhsMEsr?=
+ =?utf-8?B?bkYxdWpUcGNjbFYxaDBJYVJZRENwMVhUWDRCaHZ3Y3htL0lpaEJ6VUZVWkVJ?=
+ =?utf-8?B?UThzSXBzd3N3RjFOcUVLdGRwTkhPUmZkOHVCS0VNVThRRTlkY1hIVFgvU3lu?=
+ =?utf-8?B?dFpJc3orVjZLQjgxR2dLa29PRzVvRnYrSEtxZFdTSUhSSllPYitHakFFajJR?=
+ =?utf-8?B?OUxVUWt3blJ5cFUyUUd4SXdDVzl0YW43MDJ5M1JyMzRnQndSMmtxenNnTUlm?=
+ =?utf-8?B?ekpqVTl4bk9yZVVFdG1kdkg0dDcwa25tSjhRZjdyOU00blZzQTlvRFNsS2ls?=
+ =?utf-8?B?NDFJZDl4NTY1bUk4QkRoK2RpbkJaZ2FWOSs0dHRnNDQxRzhSZjl1QWZMN2RL?=
+ =?utf-8?B?N1pwRE1YK1M4ZkR2b1hMTnpqbkJrRHJjMDZQRFBEZGcrRjZQb2xKQ3pSYjVs?=
+ =?utf-8?B?Zkl2WVlQVTdqUE9sY20zRU1BQlUzbzRZTG5TbzNZQTF4dHY2eHJIbUVmZ01m?=
+ =?utf-8?B?SFdVNmdjOFdmbU95bEsxTm5NVTJVOElXRjVsRTNpaEk2ck9ZNGFERmFlTVZ1?=
+ =?utf-8?B?YjVHSGVnUER0MXVwUUlCS2s2T0Uxdnp4UG93bU5QeHg0b1hITzFUVXduVEF4?=
+ =?utf-8?B?SkhURjhYc25kQkZHNVpnYlMxTWNYTTQ4MmdtUmNZa1grb0I3eTRwYzgrMzRh?=
+ =?utf-8?B?Z2kvcXNCdWdHakwvTGNEVFBXZEdjVjlpTk9QNlhlYTlNRUk3OUVsT1JWcVZD?=
+ =?utf-8?B?cVk0SzBPK2JxcitRdzZ1S3dyWUowOWNRcENyQkh4V0hETXNHekZYUDNaL1RV?=
+ =?utf-8?B?WTV4QXVnQ2ZIQzhDOHAreHpwaEw4aGxSRm11YUlDaDVsYmFkOUZsMTQ1SUlG?=
+ =?utf-8?Q?0NoYDIIe?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3f0feb1e-261a-46b0-4fd9-08d8c47c2b2f
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR18MB2267.namprd18.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2021 17:34:45.6222
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: eLbCZr68SrI/lYWEZTM0KrwjsJJvD8C5xwuP6u7i/RtXynD7OEcuWkgFswzlDUI0hVE687kylu0IldRg+ArSBA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR18MB2218
+X-OriginatorOrg: marvell.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.737
+ definitions=2021-01-29_06:2021-01-29,2021-01-29 signatures=0
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 1/27/21 1:25 PM, Yu-cheng Yu wrote:
-> arch_prctl(ARCH_X86_CET_STATUS, u64 *args)
->     Get CET feature status.
+On 1/29/21 06:23, Marcelo Tosatti wrote:
+> External Email
 > 
->     The parameter 'args' is a pointer to a user buffer.  The kernel returns
->     the following information:
+> ----------------------------------------------------------------------
+> On Fri, Jan 29, 2021 at 08:55:20AM -0500, Nitesh Narayan Lal wrote:
+>>
+>> On 1/28/21 3:01 PM, Thomas Gleixner wrote:
+>>> On Thu, Jan 28 2021 at 13:59, Marcelo Tosatti wrote:
+>>>>> The whole pile wants to be reverted. It's simply broken in several ways.
+>>>> I was asking for your comments on interaction with CPU hotplug :-)
+>>> Which I answered in an seperate mail :)
+>>>
+>>>> So housekeeping_cpumask has multiple meanings. In this case:
+>>> ...
+>>>
+>>>> So as long as the meaning of the flags are respected, seems
+>>>> alright.
+>>> Yes. Stuff like the managed interrupts preference for housekeeping CPUs
+>>> when a affinity mask spawns housekeeping and isolated is perfectly
+>>> fine. It's well thought out and has no limitations.
+>>>
+>>>> Nitesh, is there anything preventing this from being fixed
+>>>> in userspace ? (as Thomas suggested previously).
+>>> Everything with is not managed can be steered by user space.
+>>>
+>>> Thanks,
+>>>
+>>>          tglx
+>>>
+>>
+>> So, I think the conclusion here would be to revert the change made in
+>> cpumask_local_spread via the patch:
+>>   - lib: Restrict cpumask_local_spread to housekeeping CPUs
+>>
+>> Also, a similar case can be made for the rps patch that went in with
+>> this:
+>>  - net: Restrict receive packets queuing to housekeeping CPUs
 > 
->     *args = shadow stack/IBT status
->     *(args + 1) = shadow stack base address
->     *(args + 2) = shadow stack size
+> Yes, this is the userspace solution:
+> 
+> https://lkml.org/lkml/2021/1/22/815
+> 
+> Should have a kernel document with this info and examples
+> (the network queue configuration as well). Will
+> send something.
+> 
+>>  + net: accept an empty mask in /sys/class/net/*/queues/rx-*/rps_cpus
+>>
+>> I am not sure about the PCI patch as I don't think we can control that from
+>> the userspace or maybe I am wrong?
+> 
+> You mean "lib: Restrict cpumask_local_spread to housekeeping CPUs" ?
+> 
 
-What's the deal for 32-bit binaries?  The in-kernel code looks 64-bit
-only, but I don't see anything restricting the interface to 64-bit.
+If we want to do it from userspace, we should have something that 
+triggers it in userspace. Should we use udev for this purpose?
 
-> +static int copy_status_to_user(struct cet_status *cet, u64 arg2)
-
-This has static scope, but it's still awfully generically named.  A cet_
-prefix would be nice.
-
-> +{
-> +	u64 buf[3] = {0, 0, 0};
-> +
-> +	if (cet->shstk_size) {
-> +		buf[0] |= GNU_PROPERTY_X86_FEATURE_1_SHSTK;
-> +		buf[1] = (u64)cet->shstk_base;
-> +		buf[2] = (u64)cet->shstk_size;
-
-What's the casting for?
-
-> +	}
-> +
-> +	return copy_to_user((u64 __user *)arg2, buf, sizeof(buf));
-> +}
-> +
-> +int prctl_cet(int option, u64 arg2)
-> +{
-> +	struct cet_status *cet;
-> +	unsigned int features;
-> +
-> +	/*
-> +	 * GLIBC's ENOTSUPP == EOPNOTSUPP == 95, and it does not recognize
-> +	 * the kernel's ENOTSUPP (524).  So return EOPNOTSUPP here.
-> +	 */
-> +	if (!IS_ENABLED(CONFIG_X86_CET))
-> +		return -EOPNOTSUPP;
-
-Let's ignore glibc for a moment.  What error code *should* the kernel be
-returning here?  errno(3) says:
-
-       EOPNOTSUPP      Operation not supported on socket (POSIX.1)
-...
-       ENOTSUP         Operation not supported (POSIX.1)
-
-
-> +	cet = &current->thread.cet;
-> +
-> +	if (option == ARCH_X86_CET_STATUS)
-> +		return copy_status_to_user(cet, arg2);
-
-What's the point of doing copy_status_to_user() if the processor doesn't
-support CET?  In other words, shouldn't this be below the CPU feature check?
-
-Also, please cast arg2 *here*.  It becomes a user pointer here, not at
-the copy_to_user().
-
-> +	if (!static_cpu_has(X86_FEATURE_CET))
-> +		return -EOPNOTSUPP;
-
-So, you went to the trouble of adding a disabled-features.h entry for
-this.  Why not just do:
-
-	if (cpu_feature_enabled(X86_FEATURE_CET))
-		...
-
-instead of the IS_ENABLED() check above?  That should get rid of one of
-these if's.
-
-> +	switch (option) {
-> +	case ARCH_X86_CET_DISABLE:
-> +		if (cet->locked)
-> +			return -EPERM;
-> +
-> +		features = (unsigned int)arg2;
-
-What's the purpose of this cast?
-
-> +		if (features & ~GNU_PROPERTY_X86_FEATURE_1_VALID)
-> +			return -EINVAL;
-> +		if (features & GNU_PROPERTY_X86_FEATURE_1_SHSTK)
-> +			cet_disable_shstk();
-> +		return 0;
-
-This doesn't enforce that the high bits of arg2 be 0.  Shouldn't we call
-them reserved and enforce that they be 0?
-
-> +	case ARCH_X86_CET_LOCK:
-> +		cet->locked = 1;
-> +		return 0;
-
-This needs to check for and enforce that arg2==0.
-
-> +	default:
-> +		return -ENOSYS;
-> +	}
-> +}
+-- 
+Alex
