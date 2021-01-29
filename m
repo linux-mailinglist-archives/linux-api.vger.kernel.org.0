@@ -2,111 +2,88 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C5E5730902C
-	for <lists+linux-api@lfdr.de>; Fri, 29 Jan 2021 23:39:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D5303090BC
+	for <lists+linux-api@lfdr.de>; Sat, 30 Jan 2021 00:50:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232812AbhA2Wfp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 29 Jan 2021 17:35:45 -0500
-Received: from mga06.intel.com ([134.134.136.31]:14537 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229683AbhA2Wfo (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 29 Jan 2021 17:35:44 -0500
-IronPort-SDR: dHlICr/bBKjj/s6kKxzyPrmxQjDfeizy2EwZPRU2RWp7BtfsrcY6f4BI5H226Rcuxe9TwN/VY4
- yuLIUPGw77rg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9879"; a="242012800"
-X-IronPort-AV: E=Sophos;i="5.79,386,1602572400"; 
-   d="scan'208";a="242012800"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2021 14:35:02 -0800
-IronPort-SDR: 8bq6hIfAMNgX92hbK4qH5hwd3yObjl/bcMQWw41W0LvWjm/TbPqtXNvZDJ35ASTSZm5aUQZoW5
- 0tDrkCEfMImg==
-X-IronPort-AV: E=Sophos;i="5.79,386,1602572400"; 
-   d="scan'208";a="411753322"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.73.214]) ([10.212.73.214])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2021 14:35:01 -0800
-Subject: Re: [NEEDS-REVIEW] [PATCH v18 05/25] x86/fpu/xstate: Introduce CET
- MSR and XSAVES supervisor states
-To:     Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Andrew Cooper <andrew.cooper3@citrix.com>
-References: <20210127212524.10188-1-yu-cheng.yu@intel.com>
- <20210127212524.10188-6-yu-cheng.yu@intel.com>
- <7793b36e-6386-3f2e-36ca-b7ca988a88c9@intel.com>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <43f264df-2f3a-ea4c-c737-85cdc6714bd8@intel.com>
-Date:   Fri, 29 Jan 2021 14:35:01 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        id S231202AbhA2Xsx convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Fri, 29 Jan 2021 18:48:53 -0500
+Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151]:51799 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230009AbhA2Xsx (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 29 Jan 2021 18:48:53 -0500
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-174-N513bYxuPoqZK1qa1Axm_A-1; Fri, 29 Jan 2021 23:47:13 +0000
+X-MC-Unique: N513bYxuPoqZK1qa1Axm_A-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Fri, 29 Jan 2021 23:47:14 +0000
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
+ Fri, 29 Jan 2021 23:47:14 +0000
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Matthew Wilcox' <willy@infradead.org>,
+        Jakub Kicinski <kuba@kernel.org>
+CC:     Shoaib Rao <rao.shoaib@oracle.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        "andy.rudoff@intel.com" <andy.rudoff@intel.com>
+Subject: RE: [PATCH] af_unix: Allow Unix sockets to raise SIGURG
+Thread-Topic: [PATCH] af_unix: Allow Unix sockets to raise SIGURG
+Thread-Index: AQHW9oaDqv48RJCczk2sHQ3JiT7IG6o/Q1OQ
+Date:   Fri, 29 Jan 2021 23:47:14 +0000
+Message-ID: <ee13e83b22b7411c97a2a961015343d1@AcuMS.aculab.com>
+References: <20210122150638.210444-1-willy@infradead.org>
+ <20210125153650.18c84b1a@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <23fc3de2-7541-04c9-a56f-4006a7dc773f@oracle.com>
+ <20210129110605.54df8409@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <a21dc26a-87dc-18c8-b8bd-24f9797afbad@oracle.com>
+ <20210129120250.269c366d@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <cef52fb0-43cb-9038-7e48-906b58b356b6@oracle.com>
+ <20210129121837.467280fb@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <e1047be3-2d53-49d3-67b4-a2a99e0c0f0f@oracle.com>
+ <20210129131820.4b97fdeb@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <20210129213217.GD308988@casper.infradead.org>
+In-Reply-To: <20210129213217.GD308988@casper.infradead.org>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-In-Reply-To: <7793b36e-6386-3f2e-36ca-b7ca988a88c9@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 1/29/2021 1:00 PM, Dave Hansen wrote:
-> On 1/27/21 1:25 PM, Yu-cheng Yu wrote:
->> @@ -135,6 +135,8 @@ enum xfeature {
->>   #define XFEATURE_MASK_PT		(1 << XFEATURE_PT_UNIMPLEMENTED_SO_FAR)
->>   #define XFEATURE_MASK_PKRU		(1 << XFEATURE_PKRU)
->>   #define XFEATURE_MASK_PASID		(1 << XFEATURE_PASID)
->> +#define XFEATURE_MASK_CET_USER		(1 << XFEATURE_CET_USER)
->> +#define XFEATURE_MASK_CET_KERNEL	(1 << XFEATURE_CET_KERNEL)
->>   #define XFEATURE_MASK_LBR		(1 << XFEATURE_LBR)
->>   
->>   #define XFEATURE_MASK_FPSSE		(XFEATURE_MASK_FP | XFEATURE_MASK_SSE)
->> @@ -237,6 +239,23 @@ struct pkru_state {
->>   	u32				pad;
->>   } __packed;
->>   
->> +/*
->> + * State component 11 is Control-flow Enforcement user states
->> + */
->> +struct cet_user_state {
->> +	u64 user_cet;			/* user control-flow settings */
->> +	u64 user_ssp;			/* user shadow stack pointer */
->> +};
-> 
-> Andy Cooper just mentioned on IRC about this nugget in the spec:
-> 
-> 	XRSTORS on CET state will do reserved bit and canonicality
-> 	checks on the state in similar manner as done by the WRMSR to
-> 	these state elements.
-> 
-> We're using copy_kernel_to_xregs_err(), so the #GP *should* be OK.
-> Could we prove this out in practice, please?
-> 
+> I'd encourage anyone thinking about "using OOB" to read
+> https://tools.ietf.org/html/rfc6093 first.  Basically, TCP does not
+> actually provide an OOB mechanism, and frankly Unix sockets shouldn't
+> try either.
 
-Do we want to verify that setting reserved bits in CET XSAVES states 
-triggers GP?  Then, yes, I just verified it again.  Thanks for 
-reminding.  Do we have any particular case relating to this?
+OOB data maps much better onto ISO transport 'expedited data'
+than anything in a bytestream protocol like TCP.
+There you can send a message (it is message oriented) that isn't
+subject to normal data flow control.
+The length is limited (IIRC 32 bytes) and expedited data has
+its own credit of one, but can overtake (and is expected to
+overtake) flow control blocked normal data.
 
---
-Yu-cheng
+All TCP provides is a byte sequence number for OOB data.
+This is just a marker in the bytestream.
+It really doesn't map onto the socket OOB data data all.
+
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
+
