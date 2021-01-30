@@ -2,88 +2,118 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D5303090BC
-	for <lists+linux-api@lfdr.de>; Sat, 30 Jan 2021 00:50:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 10CB6309346
+	for <lists+linux-api@lfdr.de>; Sat, 30 Jan 2021 10:25:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231202AbhA2Xsx convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Fri, 29 Jan 2021 18:48:53 -0500
-Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151]:51799 "EHLO
-        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230009AbhA2Xsx (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 29 Jan 2021 18:48:53 -0500
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-174-N513bYxuPoqZK1qa1Axm_A-1; Fri, 29 Jan 2021 23:47:13 +0000
-X-MC-Unique: N513bYxuPoqZK1qa1Axm_A-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Fri, 29 Jan 2021 23:47:14 +0000
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
- Fri, 29 Jan 2021 23:47:14 +0000
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Matthew Wilcox' <willy@infradead.org>,
-        Jakub Kicinski <kuba@kernel.org>
-CC:     Shoaib Rao <rao.shoaib@oracle.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        "andy.rudoff@intel.com" <andy.rudoff@intel.com>
-Subject: RE: [PATCH] af_unix: Allow Unix sockets to raise SIGURG
-Thread-Topic: [PATCH] af_unix: Allow Unix sockets to raise SIGURG
-Thread-Index: AQHW9oaDqv48RJCczk2sHQ3JiT7IG6o/Q1OQ
-Date:   Fri, 29 Jan 2021 23:47:14 +0000
-Message-ID: <ee13e83b22b7411c97a2a961015343d1@AcuMS.aculab.com>
-References: <20210122150638.210444-1-willy@infradead.org>
- <20210125153650.18c84b1a@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <23fc3de2-7541-04c9-a56f-4006a7dc773f@oracle.com>
- <20210129110605.54df8409@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <a21dc26a-87dc-18c8-b8bd-24f9797afbad@oracle.com>
- <20210129120250.269c366d@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <cef52fb0-43cb-9038-7e48-906b58b356b6@oracle.com>
- <20210129121837.467280fb@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <e1047be3-2d53-49d3-67b4-a2a99e0c0f0f@oracle.com>
- <20210129131820.4b97fdeb@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <20210129213217.GD308988@casper.infradead.org>
-In-Reply-To: <20210129213217.GD308988@casper.infradead.org>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        id S230085AbhA3JYK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 30 Jan 2021 04:24:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56880 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231387AbhA3JVp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 30 Jan 2021 04:21:45 -0500
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F87CC061356
+        for <linux-api@vger.kernel.org>; Sat, 30 Jan 2021 00:49:02 -0800 (PST)
+Received: by mail-pg1-x52b.google.com with SMTP id v19so8217395pgj.12
+        for <linux-api@vger.kernel.org>; Sat, 30 Jan 2021 00:49:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:in-reply-to:message-id:references
+         :mime-version;
+        bh=VPPQK3MYARFNPka0GW0BKWI8SGFdjK1DBHoMEVMkIm4=;
+        b=Qsey4FGl9nvu2x/jd6bpXS3rKOqLJXy9LdnmzyuLg7dsH4D+8c2CNWzJRbJonj43xp
+         HfrIZGFojh2ynt8QDw5pcamIGbuHWVLVFCXjvRUVqXXFpkJEwwbUHsd21nEcWbwsw/oi
+         piwkVpbCOb2pg/enEafEo+HVTV96UfBecfC2l1lKJxeVBAclkpg4AvMpoxEYXSOQI0gk
+         2wj2nS5ulquxkpqA/zaj1BRfxG5s6jPQ1hWy3Sy9+BhJRSojJx7w+x1FuA2jiVzhAPHb
+         mMutHNQbcJQSi7klFYeKolkGTR0SkOU3plbrRYnCfBIkdVE0PjifvhPBetl/uIa0IQww
+         j59Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
+         :references:mime-version;
+        bh=VPPQK3MYARFNPka0GW0BKWI8SGFdjK1DBHoMEVMkIm4=;
+        b=s0WLrlcdfQkFn0bHxCQjEoTz7EbfpCuH9Usky3KcnBBgx4Dz4gqYfS71StRamLvaPc
+         zJs8lmYgqaV0ac0IY4ro0sEFhT5IAtyla3LsLTaOSM6rCF7x+Gn+5yyGOQaB4cby7YyP
+         6Y0Y+v1GOGcVEnrufYP3a0yVVp2g+FBQOvvuqX/1N8xMP980VQHlExm8cL0KOKVLwBSn
+         Xm/eAnpzDvxPUGvcT1WyF9tNGR+VYvP7dhSv9b/IodqBzyhYQ7hllVuV70jJIlGijir4
+         2Nws2lwJ+kOY2zokwSO1ssY0bVXfwlNgvxfSWgrQCtJJZPBsa2tuARnC1qkG6ZMLde+5
+         L/VA==
+X-Gm-Message-State: AOAM531DfwYFGA49Jg9O+E8Ekz+ZA0iiX0+IWTdhbkgGxfKkOMFwxYhg
+        FiRBdFY0tjlyAGP+lZqRlboECl4pXrZWXQ==
+X-Google-Smtp-Source: ABdhPJzpYIOdqiFPbQlzZUqRBC8ZCwu6SwcWVnHq3VTBCRyWFiNZQGTzv7ubm6hfTHvk8Mxu1WMgBA==
+X-Received: by 2002:a63:e54f:: with SMTP id z15mr8201841pgj.247.1611996541042;
+        Sat, 30 Jan 2021 00:49:01 -0800 (PST)
+Received: from [2620:15c:17:3:4a0f:cfff:fe51:6667] ([2620:15c:17:3:4a0f:cfff:fe51:6667])
+        by smtp.gmail.com with ESMTPSA id p7sm10888408pfn.52.2021.01.30.00.48.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 30 Jan 2021 00:49:00 -0800 (PST)
+Date:   Sat, 30 Jan 2021 00:48:59 -0800 (PST)
+From:   David Rientjes <rientjes@google.com>
+To:     David Hildenbrand <david@redhat.com>
+cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        Michal Hocko <mhocko@kernel.org>,
+        Wei Yang <richard.weiyang@linux.alibaba.com>,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH v3] mm/page_alloc: count CMA pages per zone and print
+ them in /proc/zoneinfo
+In-Reply-To: <20210129113451.22085-1-david@redhat.com>
+Message-ID: <cadaa7ed-27e9-587d-5cc3-6d3f5c3b2e69@google.com>
+References: <20210127101813.6370-3-david@redhat.com> <20210129113451.22085-1-david@redhat.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-> I'd encourage anyone thinking about "using OOB" to read
-> https://tools.ietf.org/html/rfc6093 first.  Basically, TCP does not
-> actually provide an OOB mechanism, and frankly Unix sockets shouldn't
-> try either.
+On Fri, 29 Jan 2021, David Hildenbrand wrote:
 
-OOB data maps much better onto ISO transport 'expedited data'
-than anything in a bytestream protocol like TCP.
-There you can send a message (it is message oriented) that isn't
-subject to normal data flow control.
-The length is limited (IIRC 32 bytes) and expedited data has
-its own credit of one, but can overtake (and is expected to
-overtake) flow control blocked normal data.
+> Let's count the number of CMA pages per zone and print them in
+> /proc/zoneinfo.
+> 
+> Having access to the total number of CMA pages per zone is helpful for
+> debugging purposes to know where exactly the CMA pages ended up, and to
+> figure out how many pages of a zone might behave differently, even after
+> some of these pages might already have been allocated.
+> 
+> As one example, CMA pages part of a kernel zone cannot be used for
+> ordinary kernel allocations but instead behave more like ZONE_MOVABLE.
+> 
+> For now, we are only able to get the global nr+free cma pages from
+> /proc/meminfo and the free cma pages per zone from /proc/zoneinfo.
+> 
+> Example after this patch when booting a 6 GiB QEMU VM with
+> "hugetlb_cma=2G":
+>   # cat /proc/zoneinfo | grep cma
+>           cma      0
+>         nr_free_cma  0
+>           cma      0
+>         nr_free_cma  0
+>           cma      524288
+>         nr_free_cma  493016
+>           cma      0
+>           cma      0
+>   # cat /proc/meminfo | grep Cma
+>   CmaTotal:        2097152 kB
+>   CmaFree:         1972064 kB
+> 
+> Note: We print even without CONFIG_CMA, just like "nr_free_cma"; this way,
+>       one can be sure when spotting "cma 0", that there are definetly no
+>       CMA pages located in a zone.
+> 
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: "Peter Zijlstra (Intel)" <peterz@infradead.org>
+> Cc: Mike Rapoport <rppt@kernel.org>
+> Cc: Oscar Salvador <osalvador@suse.de>
+> Cc: Michal Hocko <mhocko@kernel.org>
+> Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
+> Cc: David Rientjes <rientjes@google.com>
+> Cc: linux-api@vger.kernel.org
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-All TCP provides is a byte sequence number for OOB data.
-This is just a marker in the bytestream.
-It really doesn't map onto the socket OOB data data all.
-
-	David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
-
+Acked-by: David Rientjes <rientjes@google.com>
