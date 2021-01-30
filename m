@@ -2,91 +2,484 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DB7730973B
-	for <lists+linux-api@lfdr.de>; Sat, 30 Jan 2021 18:29:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E973D309880
+	for <lists+linux-api@lfdr.de>; Sat, 30 Jan 2021 22:35:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231308AbhA3R2n (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 30 Jan 2021 12:28:43 -0500
-Received: from sonic311-49.consmr.mail.bf2.yahoo.com ([74.6.131.223]:34508
-        "EHLO sonic311-49.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230358AbhA3R2m (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 30 Jan 2021 12:28:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1612027676; bh=swjFzKWryy3sOX8AFtSHoDzy7h2wolCnmw3X8FGxf9o=; h=Date:From:Reply-To:Subject:References:From:Subject:Reply-To; b=SN6R6vToDBl7Yfd8Og72Gn4Tgs0aYMABGVLzmvDoMNkOXhDuva073rtxYj+wDpe7F3HZU9O/mzt4QmAaE0E0zWKVTnKvFyVcsACVqXqpi2/cchosI5yM1lY5nC6eRBU0htGEvevSZbCjOfpGCxN185MCXvNVS2YVEKFc0H4QhGO0KGfhqvH3L8orFifvrxiQaXg++ZK70vtIBvRmkBPHgUU3piESphIv1oKSWnsUj6L03UAM7KBv8kh1au04T6grQzOMMQ5naL/3R+yEA6+m194YHOSAiauLXZRu/zhAFGbD+tyP9CV+5/XA+H9LFFGzZ/vNyMd2hkhjYxQLOkq2Nw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1612027676; bh=DcWVkQoLavCCwH8ygCeMLKLPl96zPEv6TcBAdz1G7fQ=; h=Date:From:Subject:From:Subject:Reply-To; b=sOUiThYtCQibD6sbKnBQhpog0/j93gBq32gt+hB/M6h5bdDuvjYxRtEkm82XR5ufueUwk5V2kTFd4Sgm0WV634G9ihSV9eDpN65924C+0sUdhEkkMzGLzR3ab+KvSU2lJgtRsF9YwnlH8Vb9rt8bzckpK1P5x8XCGWtHBUlogB2BIppbDdlsK5BjrpooPEo5VoEzerya1h30Z7v2AMDEEC2/PMZ3U28i/9OvnCk/+w/JTKJj4SygCeplMUn11bdvyIvJ2W9W4bfrYzXTXn7bL6E80G74NpEGLWqkuazceE9JRwOjouWz92wAtta5S9g/V8NcjKOLUUSYpBafO9O7ug==
-X-YMail-OSG: hiwT2m4VM1mP.rhuAY6.TqzhBkYJASeNJzx83eTFg1zOFOUuPJiIlPbBRaVIP2U
- YST1Qo_6KNyDpCYZr2VWVNLmgm0Dn.Nkz6Hu_Zeb2g_H9d.fSiZp3E3VWNdZr9VzfIpmTUfEYCYL
- 5qL4_7.Tkg1H6Te1.vijfjantnRdLqBcLlApCIdXCryhQZfMAR48PjKrFWN85PJxkAwgGOpLZ5O7
- uE8k00Qw8twEUY2IwQGzPAq9YbmXo9m7MZyi_Agdr.wdB7x82uGKZaDxUTyNBQCDITJ9C2SJnEuN
- mi38cwpFJ1GVepanOO9lI_qHzSh2ZsPyxNDSCeYnRrSsRwMWBo2qOABOOKmc64PXvaoIpf6ysvx6
- .ZoNH4LiQJr21A6FUPxgfAZFUS6_9oZFNkhsVJUIBpwOyd9hKYqFYGnCA_03E6a4.Std6WS1egsJ
- hheEIAR.hJxkhaaUdf0xLQE8XuX6Ia3n1XyUR5xPj_h.0HrZGrS4QWuSVAgmJUZy.yM3W5eGVvEG
- b54KdJ7UVRIO2ihKdFINQWXcHqFkvObpExsnVhKVDhjzstImi9VcKDFZ4DKdIALbplX9OZMowYca
- lohVTT6VGStw9fWvl.i09aoTgZg0ri.Bw.WNced8zCNG0tsBpPrl0Rp.Cj3BJBdXeNzXqCUZ2xRk
- hi.RjNaCF9uBWNF.g5qqsR0ltAbeoPm3vbkeSdNeZqsLR0smgJJafCQD1hw.44BR6.uZS7TQgcGX
- ijhBeqjGidP4i6LmLEtqheVWd6A4TFIy8tewxM6Fl75KHKDx2BnUJcKxPABiI9YGJwIAk5cQIPdP
- C1mqWJu9DUQiGxe_i9pDKJYCSIgKe_u6fLfj.0tPH85auFqEz3LD7DW09FXakvYA8DJJQJ55Nq88
- IhhjSi6IQZnytbFyESYu9dNQV4ozS39i83c50Kqlm61wJlIENZxlLKKbId98Ix4u21unskI2.irk
- rZKfyX8LbEHqkH5LVFAcwLYNiNYwBvmoKm_ZtGJKu0_D3vOCOy1dwIAp.ydSLoy_7Mvh9Jb.OYK3
- O5pgbrNXMwLuQwBhc59VtAyxw_cV.VODgMD8Kxo8zWxZXSk05OSTE_8MlsQ1CcXyyd7HZFdmLdYP
- WWUkpNlxbRqwBj3_tCruJbJLoKsD.k.sUYbnxWOSoBmers_Izhckm3sGmyO6dc8PCtJ_J9hqGHuN
- IEVuKYrCMTSC7541wSjIoFuGQr8AW9Eq2U3A79AdG8qQf_pYodJ3Yf0KqAsrUBSOIcEJywgfXBbP
- nCushOQCzMl3h678ZVQhdi.Kc.VWh.ehFM1dcKqMneRUyfLz1Cd7bGyn1JI4oGyk3C_7.7SZhvI0
- 97OYR724WZVTUdhzhmHQfQgLfVva67sj86T8vmjYO0nlFwQoqVbBzWWBnzF9yEtP6GYt4DxBeJ7n
- NDIm_fsUc3YCkxOP9ZeRZNSrl4uFkVgW507ZtSKk.wMu8.e0riTtmmK6IBZv26T3giizBtPfvxsJ
- 9kpCCXJv3vsuGN4xxkzksEwBdkb0Ftg5tcOYDM8kkIJye97EaKC6igMc7A6DCBYcB4OrzvYeq0vC
- su2.RDmmgwMc6rvo9NpnkCbFrX3z41mxIR9cdTBLKq8DvHWDia_iqw3tEkeIHhZtlENXoA9oeIQC
- 20VBrQdLdaLLkJ84JtMIegdniNwGyD1rG4NlqVCyS5mONcSu6q65z14zGomCkDA3lZwb7mGYJ5Ul
- XaFcIte5fwCmWO9G6n8_ezpuiYHD6v9JSm.a5CkIL2hxEu_XBnF.FvPiIfNHEZg9JVhqHF6c5KAf
- tIaHP9sED9cz9DVFDv9yJx2joybO2bkMUHRQ9UeKdpt2RrOQJfC7qYycgrxOMJhGWy.zhNgj2vpM
- IK9.7kBxTkrfQoElVyfbsC.WBtbJF.bnggPNhxBl0DdNdwWHW0xsqo99oLd702VdduIRGwkV7Bvc
- A308IxcPfvSzb7MZiHNNNWMil3TxXuj7mneXDiaoXutWPPTGAEzWbim4MuYatekCuXYi0X2Oopt0
- 01v0X9IdVZRPxiOJMXed4qgOz0T0NvX0uHJYjmF0uWZg.wtOBxXKRaOM6q1ENYz2lgbYkJnysVv2
- xjAFWGz1ZiH_g0CzchzueLYKCMN.KaAWVZUpzG5Y0ANHRnEqlrlxDff3c7X738BDexm4B3kAgniE
- zuN5mPBWE.twOuPJBk1QDN.mdYFWE7YoIE3tgj4Ty.O3_9q05_OZ8UBrSotvvGFJFAXqNZoC_XAo
- NajSJvkPklhOMGsrubRZ237GDKR1mnuw05Ri98udZDBvDMELiCuPM.rjbMBh0td9wbfG42dYLcMK
- ANzLq.fFaHL6JDYYre78uNEyg3BSR55odgHC5cZHjYjBmrMieqATuEX1w63tqKcA.e386eayKcRZ
- lXEt4HafATOZdMQogxWZ6TNmUBVImGX57JocV9p8oxgV2eK6hOE79_6yCI0U4FF9dgbGEPQIWSRO
- CHg2JNmJCd8nNwOFvRmdruh0phHCjF71F2ZHnCy.VNoNpV8XWRjeIWaulcR3m4PxDr9WQMn9.IfV
- jlSJKFWYMORuvdfFOe7d6DrWmvQKRMgQjPhtkIFAcOy.xzfDJL196A4SBlR8Z4IADG9I3lVRjQ6t
- b9.klInc4SdMjCv7kFJyecVZNEUuwiu7h63CHqDlx2x6aIyGjvNeOlzKF622_rUrYwR0EVIhDtAH
- hwD9LqRkxicHKJEbsJ7v7__GeWNNIUqh016HvdBzbm85K2SgHRh8.pcbdinMPp3NU8X358gss22U
- llGQsfSGwEx6XdrkS9BMmnDacdDeWl4.M49wT9SxKotsL623jMgBwk8tHygZcBVtY91lyQDaEW0h
- wUn4re1OUL7ovuFdrG7yivjElik.acTwgxU.LADnKUAu.dGESOKK7tBFWNt0aVo5jms4a9rtLJb.
- 3rVrUBvvgtbqaS.I7oKehMHolLo.wPmdfhIJTmSrpm_Fb4H1HUyGVioiyo9csy_opRdLgoa8dYPd
- _of8xJmqw73PACelgTMLgjIEGR.i_sVeHV1UxB8qoR17oZQeZikSiZXHDDNm1q3xAXJYEiYaSPX7
- GnYrrCilZqu2tedO8S7XFuo5ySbIXNrV9bJvlYeKbL8qWM.paF4YxGS1kYrVoqCGxvXnFyaaXcFi
- .K.r2vX7Tkonll58z9mFdZIwattYyReiGbVFWDinTVRtIkBpjEq1I_CXiEaLi8HX6YlbVEPIswYq
- 4TjSIUFB_sYNowGZRmK1ZAP2e3gDJw5cRZb.hHnp1Z8PsvouCB4g3DHXwFihmu1tFGC7CW_6h55b
- o7x2O52F4r5NRPIZGUfZecfLs.2xbPCdmM8CL6e4w3ktkv.mUgsdlD8ZYAQu_iC9a5Ua7zH2Gymn
- DQW65lhqwkqGLodJPebjJI7oNfFdru7ibOl3KfrqbFxv3V2kK8dIpS66mw6POmFvs50Di71A40VC
- 0uULsr117fwynZOwhXLP92yJnTXJqjLZHU3EaQVIG_GHc.iRJeEe13Jl4QDEI6spAZ7BErBZmGjs
- emmmA.BcDw5pVMrkxWj5sG.YCANN4SOA3Ew4sy1HhM41R4DiyVcaTf6ldgIvbGs9JJ5hcwKGqv6d
- d6L0nyoly2MVCM4kXflc7ZDiXaYGo3eQ0xAmuLxXxUFHfrQ2y4R0srErIOSFAIzW9hEl.xt33Zcb
- kY2b1GldoSYscaaxd4kLz4K_aHHJ_y2lSPI30d4E2jpNXYxZdGSe5ZGF0_JJrpRqnlWBs.ikO8FZ
- rBoaoeXU442Ryk0qrHocJ8q.2_3kizioEWfXD3JaJBmBq4B4dGlyVMSMee3UDY6dnRjsj3itz0QR
- QpJK8VuFDXnsB.H0LHLA2pBsdop.Q_29aKS0E
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic311.consmr.mail.bf2.yahoo.com with HTTP; Sat, 30 Jan 2021 17:27:56 +0000
-Date:   Sat, 30 Jan 2021 17:25:55 +0000 (UTC)
-From:   "Mrs. Maureen Hinckley" <mau32@cgjzo.in>
-Reply-To: maurhinck4@gmail.com
-Message-ID: <1885069889.397995.1612027555601@mail.yahoo.com>
-Subject: RE
+        id S230360AbhA3Vf2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 30 Jan 2021 16:35:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43784 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230168AbhA3Vf1 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 30 Jan 2021 16:35:27 -0500
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27CC5C061573;
+        Sat, 30 Jan 2021 13:34:47 -0800 (PST)
+Received: by mail-wm1-x334.google.com with SMTP id e15so9928985wme.0;
+        Sat, 30 Jan 2021 13:34:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=SW/mV66sPAE2qiydRxCrklKjnZmi3JBx4cGjcnPkhe4=;
+        b=olVQCvzmjA4m4XNKpRZwERWL0GnpHPphK5fqWxu3cvxv3wNetDUjQhAWItz0+VFBPU
+         rR6J8AB++/FDiLvUk9qmFqWfX6c1YM9MKj7Pxp4jwPBCcniniGJo5BTSkc4ITzP06ak5
+         hmkTCBHfQPaQRMbI9E4HAUqJZHdW5MeTocXysO1Qswj/7eRzK0KzGKDnd80Y46GnI0yu
+         /ogJDL1phruZGmhYCUJioSQbCMVdVesoXv1e+ubffpN7U2g1pzNnCie8CtEKflhI5wJV
+         FsKTIy/858f8gNuhrxm34VinFhinwQWq0i8hsGqgb86WHkDaNbiUBK/d4PKM12yJdJK1
+         fNfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=SW/mV66sPAE2qiydRxCrklKjnZmi3JBx4cGjcnPkhe4=;
+        b=Mjo5Awv8Cw/ceIY3mufxfF9jI/O2fB/NaC5U78DmXA6SPDVbpG102cFRVPolz9rJ2t
+         HnpCWl47HkCvixpN1WIM59lAebwitt5+qoKM7GMLMMDsVorx5wA0ZumVvdUI3Kt5qCER
+         ASone8j83miLAejHR8lrEd2I0S+swKEAfPe7V7cOLcYp4Xp2VKf3ZQdmPIm8I6nnbrYt
+         czzPCSqT7NJFAcEYIXeSSgU53lGGfSdXF/KfSCzVdP33iMiqIcqfsXo6PM6aaqUbDxJj
+         aPIkmv4xdUBfmL5iE5Ri5RDnDADy/c03jQWmGLWOzsCDIcgk6di0Qrvqv0eR2nQv+EFg
+         jt+A==
+X-Gm-Message-State: AOAM531rOmucbTn587V/+eOk0oIdRZgubDnW3fwPCR2PUK/ELdzjXfBu
+        EMCt5zOLc//NDzMAlqdY8uM=
+X-Google-Smtp-Source: ABdhPJz0AMrfUOpmQyar+wUfUiDUc8va0CIYbMmX6640GcB7hyr4bP6/+JU6cBtEx5EJ4J1xb7IwAg==
+X-Received: by 2002:a7b:c3d6:: with SMTP id t22mr8945866wmj.1.1612042485574;
+        Sat, 30 Jan 2021 13:34:45 -0800 (PST)
+Received: from ?IPv6:2001:a61:24b6:8501:2c15:7f0b:b48e:84e3? ([2001:a61:24b6:8501:2c15:7f0b:b48e:84e3])
+        by smtp.gmail.com with ESMTPSA id f18sm14957659wmj.28.2021.01.30.13.34.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 30 Jan 2021 13:34:44 -0800 (PST)
+Cc:     mtk.manpages@gmail.com, akpm@linux-foundation.org,
+        jannh@google.com, keescook@chromium.org, jeffv@google.com,
+        minchan@kernel.org, mhocko@suse.com, shakeelb@google.com,
+        rientjes@google.com, edgararriaga@google.com, timmurray@google.com,
+        linux-mm@kvack.org, selinux@vger.kernel.org,
+        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel-team@android.com
+Subject: Re: [PATCH v2 1/1] process_madvise.2: Add process_madvise man page
+To:     Suren Baghdasaryan <surenb@google.com>, linux-man@vger.kernel.org
+References: <20210129070340.566340-1-surenb@google.com>
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Message-ID: <09477683-6752-ebac-2a04-53c53e079acd@gmail.com>
+Date:   Sat, 30 Jan 2021 22:34:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-References: <1885069889.397995.1612027555601.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.17648 YMailNodin Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36
-To:     unlisted-recipients:; (no To-header on input)
+In-Reply-To: <20210129070340.566340-1-surenb@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+Hello Suren,
+
+Thank you for the revisions! Just a few more comments: all pretty small
+stuff (many points that I overlooked the first time rround), since the
+page already looks pretty good by now.
+
+Again, thanks for the rendered version. As before, I've added my
+comments to the page source.
+
+On 1/29/21 8:03 AM, Suren Baghdasaryan wrote:
+> Initial version of process_madvise(2) manual page. Initial text was
+> extracted from [1], amended after fix [2] and more details added using
+> man pages of madvise(2) and process_vm_read(2) as examples. It also
+> includes the changes to required permission proposed in [3].
+> 
+> [1] https://lore.kernel.org/patchwork/patch/1297933/
+> [2] https://lkml.org/lkml/2020/12/8/1282
+> [3] https://patchwork.kernel.org/project/selinux/patch/20210111170622.2613577-1-surenb@google.com/#23888311
+> 
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> ---
+> changes in v2:
+> - Changed description of MADV_COLD per Michal Hocko's suggestion
+> - Appled fixes suggested by Michael Kerrisk
+> 
+> NAME
+>     process_madvise - give advice about use of memory to a process
+
+s/-/\-/
+
+> 
+> SYNOPSIS
+>     #include <sys/uio.h>
+> 
+>     ssize_t process_madvise(int pidfd,
+>                            const struct iovec *iovec,
+>                            unsigned long vlen,
+>                            int advice,
+>                            unsigned int flags);
+> 
+> DESCRIPTION
+>     The process_madvise() system call is used to give advice or directions
+>     to the kernel about the address ranges of other process as well as of
+>     the calling process. It provides the advice to address ranges of process
+>     described by iovec and vlen. The goal of such advice is to improve system
+>     or application performance.
+> 
+>     The pidfd argument is a PID file descriptor (see pidofd_open(2)) that
+>     specifies the process to which the advice is to be applied.
+> 
+>     The pointer iovec points to an array of iovec structures, defined in
+>     <sys/uio.h> as:
+> 
+>     struct iovec {
+>         void  *iov_base;    /* Starting address */
+>         size_t iov_len;     /* Number of bytes to transfer */
+>     };
+> 
+>     The iovec structure describes address ranges beginning at iov_base address
+>     and with the size of iov_len bytes.
+> 
+>     The vlen represents the number of elements in the iovec structure.
+> 
+>     The advice argument is one of the values listed below.
+> 
+>   Linux-specific advice values
+>     The following Linux-specific advice values have no counterparts in the
+>     POSIX-specified posix_madvise(3), and may or may not have counterparts
+>     in the madvise(2) interface available on other implementations.
+> 
+>     MADV_COLD (since Linux 5.4.1)
+>         Deactive a given range of pages which will make them a more probable
+>         reclaim target should there be a memory pressure. This is a non-
+>         destructive operation. The advice might be ignored for some pages in
+>         the range when it is not applicable.
+> 
+>     MADV_PAGEOUT (since Linux 5.4.1)
+>         Reclaim a given range of pages. This is done to free up memory occupied
+>         by these pages. If a page is anonymous it will be swapped out. If a
+>         page is file-backed and dirty it will be written back to the backing
+>         storage. The advice might be ignored for some pages in the range when
+>         it is not applicable.
+> 
+>     The flags argument is reserved for future use; currently, this argument
+>     must be specified as 0.
+> 
+>     The value specified in the vlen argument must be less than or equal to
+>     IOV_MAX (defined in <limits.h> or accessible via the call
+>     sysconf(_SC_IOV_MAX)).
+> 
+>     The vlen and iovec arguments are checked before applying any hints. If
+>     the vlen is too big, or iovec is invalid, an error will be returned
+>     immediately.
+> 
+>     The hint might be applied to a part of iovec if one of its elements points
+>     to an invalid memory region in the remote process. No further elements will
+>     be processed beyond that point.
+> 
+>     Permission to provide a hint to another process is governed by a ptrace
+>     access mode PTRACE_MODE_READ_REALCREDS check (see ptrace(2)); in addition,
+>     the caller must have the CAP_SYS_ADMIN capability due to performance
+>     implications of applying the hint.
+> 
+> RETURN VALUE
+>     On success, process_madvise() returns the number of bytes advised. This
+>     return value may be less than the total number of requested bytes, if an
+>     error occurred after some iovec elements were already processed. The caller
+>     should check the return value to determine whether a partial advice
+>     occurred.
+> 
+>     On error, -1 is returned and errno is set to indicate the error.
+> 
+> ERRORS
+>     EFAULT The memory described by iovec is outside the accessible address
+>            space of the process referred to by pidfd.
+>     EINVAL flags is not 0.
+>     EINVAL The sum of the iov_len values of iovec overflows a ssize_t value.
+>     EINVAL vlen is too large.
+>     ENOMEM Could not allocate memory for internal copies of the iovec
+>            structures.
+>     EPERM The caller does not have permission to access the address space of
+>           the process pidfd.
+>     ESRCH The target process does not exist (i.e., it has terminated and been
+>           waited on).
+>     EBADF pidfd is not a valid PID file descriptor.
+> 
+> VERSIONS
+>     This system call first appeared in Linux 5.10, Support for this system
+>     call is optional, depending on the setting of the CONFIG_ADVISE_SYSCALLS
+>     configuration option.
+> 
+> SEE ALSO
+>     madvise(2), pidofd_open(2), process_vm_readv(2), process_vm_write(2)
+> 
+>  man2/process_madvise.2 | 222 +++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 222 insertions(+)
+>  create mode 100644 man2/process_madvise.2
+> 
+> diff --git a/man2/process_madvise.2 b/man2/process_madvise.2
+> new file mode 100644
+> index 000000000..07553289f
+> --- /dev/null
+> +++ b/man2/process_madvise.2
+> @@ -0,0 +1,222 @@
+> +.\" Copyright (C) 2021 Suren Baghdasaryan <surenb@google.com>
+> +.\" and Copyright (C) 2021 Minchan Kim <minchan@kernel.org>
+> +.\"
+> +.\" %%%LICENSE_START(VERBATIM)
+> +.\" Permission is granted to make and distribute verbatim copies of this
+> +.\" manual provided the copyright notice and this permission notice are
+> +.\" preserved on all copies.
+> +.\"
+> +.\" Permission is granted to copy and distribute modified versions of this
+> +.\" manual under the conditions for verbatim copying, provided that the
+> +.\" entire resulting derived work is distributed under the terms of a
+> +.\" permission notice identical to this one.
+> +.\"
+> +.\" Since the Linux kernel and libraries are constantly changing, this
+> +.\" manual page may be incorrect or out-of-date.  The author(s) assume no
+> +.\" responsibility for errors or omissions, or for damages resulting from
+> +.\" the use of the information contained herein.  The author(s) may not
+> +.\" have taken the same level of care in the production of this manual,
+> +.\" which is licensed free of charge, as they might when working
+> +.\" professionally.
+> +.\"
+> +.\" Formatted or processed versions of this manual, if unaccompanied by
+> +.\" the source, must acknowledge the copyright and authors of this work.
+> +.\" %%%LICENSE_END
+> +.\"
+> +.\" Commit ecb8ac8b1f146915aa6b96449b66dd48984caacc
+> +.\"
+> +.TH PROCESS_MADVISE 2 2021-01-12 "Linux" "Linux Programmer's Manual"
+> +.SH NAME
+> +process_madvise \- give advice about use of memory to a process
+> +.SH SYNOPSIS
+> +.nf
+> +.B #include <sys/uio.h>
+> +.PP
+> +.BI "ssize_t process_madvise(int " pidfd ,
+> +.BI "                       const struct iovec *" iovec ,
+> +.BI "                       unsigned long " vlen ,
+> +.BI "                       int " advice ,
+> +.BI "                       unsigned int " flags ");"
+> +.fi
+> +.SH DESCRIPTION
+> +The
+> +.BR process_madvise()
+> +system call is used to give advice or directions to the kernel about the
+> +address ranges of other process as well as of the calling process.
+
+s/other/another/
+s/as well as of/or/
+
+> +It provides the advice to address ranges of process described by
+
+s/address ranges of process/the address ranges/
+
+> +.I iovec
+> +and
+> +.IR vlen .
+> +The goal of such advice is to improve system or application performance.
+> +.PP
+> +The
+> +.I pidfd
+> +argument is a PID file descriptor (see
+> +.BR pidofd_open (2))
+
+s/pidofd_open/pidfd_open/
+(I overlooked this last time.)
+
+> +that specifies the process to which the advice is to be applied.
+> +.PP
+> +The pointer
+> +.I iovec
+> +points to an array of
+> +.I iovec
+> +structures, defined in
+> +.IR <sys/uio.h>
+> +as:
+> +.PP
+> +.in +4n
+> +.EX
+> +struct iovec {
+> +    void  *iov_base;    /* Starting address */
+> +    size_t iov_len;     /* Number of bytes to transfer */
+> +};
+> +.EE
+> +.in
+> +.PP
+> +The
+> +.I iovec
+> +structure describes address ranges beginning at
+> +.I iov_base
+> +address and with the size of
+> +.I iov_len
+> +bytes.
+> +.PP
+> +The
+> +.I vlen
+> +represents the number of elements in the
+> +.I iovec
+> +structure.
+> +.PP
+> +The
+> +.I advice
+> +argument is one of the values listed below.
+> +.\"
+> +.\" ======================================================================
+> +.\"
+> +.SS Linux-specific advice values
+> +The following Linux-specific
+> +.I advice
+> +values have no counterparts in the POSIX-specified
+> +.BR posix_madvise (3),
+> +and may or may not have counterparts in the
+> +.BR madvise (2)
+> +interface available on other implementations.
+> +.TP
+> +.BR MADV_COLD " (since Linux 5.4.1)"
+> +.\" commit 9c276cc65a58faf98be8e56962745ec99ab87636
+> +Deactive a given range of pages which will make them a more probable
+> +reclaim target should there be a memory pressure.
+> +This is a non-destructive operation.
+
+s/non-destructive/nondestructive/
+
+> +The advice might be ignored for some pages in the range when it is not
+> +applicable.
+> +.TP
+> +.BR MADV_PAGEOUT " (since Linux 5.4.1)"
+> +.\" commit 1a4e58cce84ee88129d5d49c064bd2852b481357
+> +Reclaim a given range of pages.
+> +This is done to free up memory occupied by these pages.
+> +If a page is anonymous it will be swapped out.
+> +If a page is file-backed and dirty it will be written back to the backing
+> +storage.
+> +The advice might be ignored for some pages in the range when it is not
+> +applicable.
+> +.PP
+> +The
+> +.I flags
+> +argument is reserved for future use; currently, this argument must be
+> +specified as 0.
+> +.PP
+> +The value specified in the
+> +.I vlen
+> +argument must be less than or equal to
+> +.BR IOV_MAX
+> +(defined in
+> +.I <limits.h>
+> +or accessible via the call
+> +.IR sysconf(_SC_IOV_MAX) ).
+> +.PP
+> +The
+> +.I vlen
+> +and
+> +.I iovec
+> +arguments are checked before applying any hints.
+> +If the
+> +.I vlen
+> +is too big, or
+> +.I iovec
+> +is invalid, an error will be returned immediately.
+
+s/immediately/immediately and no advice will be applied/ ?
+
+That's just a guess on my part. Is it correct?
+
+> +.PP
+> +The hint might be applied to a part of
+> +.I iovec
+> +if one of its elements points to an invalid memory region in the
+> +remote process.
+> +No further elements will be processed beyond that point.
+> +.PP
+> +Permission to provide a hint to another process is governed by a
+> +ptrace access mode
+> +.B PTRACE_MODE_READ_REALCREDS
+> +check (see
+> +.BR ptrace (2));
+> +in addition, the caller must have the
+> +.B CAP_SYS_ADMIN
+> +capability due to performance implications of applying the hint.
+
+Great addition. Thanks.
+
+> +.SH RETURN VALUE
+> +On success, process_madvise() returns the number of bytes advised.
+> +This return value may be less than the total number of requested bytes,
+> +if an error occurred after some iovec elements were already processed.
+> +The caller should check the return value to determine whether a partial
+> +advice occurred.
+> +.PP
+> +On error, \-1 is returned and
+> +.I errno
+> +is set to indicate the error.
+
+Thanks. That's better!
+
+> +.SH ERRORS
+
+I should have mentioned this last time: could you place the errors 
+in alphabetical order please.
+
+> +.TP
+> +.B EFAULT
+> +The memory described by
+> +.I iovec
+> +is outside the accessible address space of the process referred to by
+> +.IR pidfd .
+> +.TP
+> +.B EINVAL
+> +.I flags
+> +is not 0.
+> +.TP
+> +.B EINVAL
+> +The sum of the
+> +.I iov_len
+> +values of
+> +.I iovec
+> +overflows a
+> +.I ssize_t
+> +value.
+> +.TP
+> +.B EINVAL
+> +.I vlen
+> +is too large.
+> +.TP
+> +.B ENOMEM
+> +Could not allocate memory for internal copies of the
+> +.I iovec
+> +structures.
+> +.TP
+> +.B EPERM
+> +The caller does not have permission to access the address space of the process
+> +.IR pidfd .
+> +.TP
+> +.B ESRCH
+> +The target process does not exist (i.e., it has terminated and been waited on).
+> +.TP
+> +.B EBADF
+> +.I pidfd
+> +is not a valid PID file descriptor.
+> +.SH VERSIONS
+> +This system call first appeared in Linux 5.10,
+
+s/,/./
+
+> +.\" commit ecb8ac8b1f146915aa6b96449b66dd48984caacc
+> +Support for this system call is optional,
+> +depending on the setting of the
+> +.B CONFIG_ADVISE_SYSCALLS
+> +configuration option.
+> +.SH SEE ALSO
+> +.BR madvise (2),
+> +.BR pidofd_open(2),
+
+s/pidofd_open/pidfd_open/
+
+> +.BR process_vm_readv (2),
+> +.BR process_vm_write (2)
+
+Cheers,
+
+Michael
 
 
-I am Maureen Hinckley and my foundation is donating (Five hundred and fifty=
- thousand USD) to you. Contact us via my email at (maurhinck4@gmail.com) fo=
-r further details.
-
-Best Regards,
-Mrs. Maureen Hinckley,
-Copyright =C2=A92021 The Maureen Hinckley Foundation All Rights Reserved.
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
