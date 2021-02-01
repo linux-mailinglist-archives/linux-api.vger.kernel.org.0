@@ -2,118 +2,316 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 77D2330AE30
-	for <lists+linux-api@lfdr.de>; Mon,  1 Feb 2021 18:42:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DCE8D30AE76
+	for <lists+linux-api@lfdr.de>; Mon,  1 Feb 2021 18:52:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231873AbhBARmJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 1 Feb 2021 12:42:09 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49708 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232221AbhBARl6 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 1 Feb 2021 12:41:58 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 73B0A64E8F;
-        Mon,  1 Feb 2021 17:41:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1612201270;
-        bh=ncqmDsFhj7U/pfLjxTxIC0UUwvGuJWuBwAK+JB++wOQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=H9Bsi5wgOZQMFGgRJhKLUHxOb0pcAzQ7s9jnZXuL345ZMS8cniSig7Lauh3LCV0cF
-         O2I3HtgIEhWb56LrTRFfRodPDh2lMCLHih8Z5QO16zD3Z37ypa3SOR3oS/gfNRTmPr
-         zo0e6UupdR28dgJmse+3H9lUsn7EdsmCzp7OGujNQkBr+m+FBCoao5czgRfIeH09yZ
-         ZK92JoAyAoGgWcVPHR2wXrVPK65JYJ/Kt08gEoN3zROuSQJsY96GJ8kxnJXYoPq6gS
-         Hi70v2fF3PkL63hXeWs0/8KRlUhJ5QkcJKbTS6GMBAK7e2W6dPuXHKhOIbuB5rKePd
-         Wpidxc/Uip2IQ==
-Date:   Mon, 1 Feb 2021 09:41:08 -0800
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     linux-fscrypt@vger.kernel.org
-Cc:     Theodore Ts'o <tytso@mit.edu>, linux-api@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net,
-        linux-fsdevel@vger.kernel.org, Jaegeuk Kim <jaegeuk@kernel.org>,
-        linux-ext4@vger.kernel.org, Victor Hsieh <victorhsieh@google.com>
-Subject: Re: [PATCH 0/6] fs-verity: add an ioctl to read verity metadata
-Message-ID: <YBg9ND4pXqmFDE0s@sol.localdomain>
-References: <20210115181819.34732-1-ebiggers@kernel.org>
+        id S232623AbhBARwT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 1 Feb 2021 12:52:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40409 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232620AbhBARwM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 1 Feb 2021 12:52:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1612201845;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=UFisRaZ0xO1HdQ49kCdB0yl96ksAM6/3yFLOwHvoRz4=;
+        b=B3JCcIV/ZZ9i+/rQbQGs/UYX4Q239sm4YwxxqtPAcSkNW7wQykc9NPmbBzxuV6S8AcS+Li
+        39D8dAlpbQNpTYzdl0pVKK6PETfiP/zOLtye0tzXHFGh87r1GhEuQhnxy0CyDYRMBGYjZs
+        Gmv282k3jVvwLDSaCG0OcEB2Z+4TWpc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-260-0IydLlIZNRKGGK9PZjogDA-1; Mon, 01 Feb 2021 12:50:41 -0500
+X-MC-Unique: 0IydLlIZNRKGGK9PZjogDA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A40331015940;
+        Mon,  1 Feb 2021 17:50:38 +0000 (UTC)
+Received: from fuller.cnet (ovpn-112-5.gru2.redhat.com [10.97.112.5])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 3CCC410016DB;
+        Mon,  1 Feb 2021 17:50:31 +0000 (UTC)
+Received: by fuller.cnet (Postfix, from userid 1000)
+        id D67294178902; Mon,  1 Feb 2021 14:50:03 -0300 (-03)
+Date:   Mon, 1 Feb 2021 14:50:02 -0300
+From:   Marcelo Tosatti <mtosatti@redhat.com>
+To:     Alex Belits <abelits@marvell.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Nitesh Narayan Lal <nitesh@redhat.com>,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        frederic@kernel.org, juri.lelli@redhat.com, bhelgaas@google.com,
+        linux-pci@vger.kernel.org, rostedt@goodmis.org, mingo@kernel.org,
+        peterz@infradead.org, davem@davemloft.net,
+        akpm@linux-foundation.org, sfr@canb.auug.org.au,
+        stephen@networkplumber.org, rppt@linux.vnet.ibm.com,
+        jinyuqi@huawei.com, zhangshaokun@hisilicon.com
+Subject: Re: [EXT] Re: [Patch v4 1/3] lib: Restrict cpumask_local_spread to
+ houskeeping CPUs
+Message-ID: <20210201175002.GA27318@fuller.cnet>
+References: <20200625223443.2684-1-nitesh@redhat.com>
+ <20200625223443.2684-2-nitesh@redhat.com>
+ <3e9ce666-c9cd-391b-52b6-3471fe2be2e6@arm.com>
+ <20210127121939.GA54725@fuller.cnet>
+ <c5cba5f3-287a-d087-c329-6e6613634370@arm.com>
+ <20210127130925.GA64740@fuller.cnet>
+ <87tur1cay0.fsf@nanos.tec.linutronix.de>
+ <02ac9d85-7ddd-96da-1252-4663feea7c9f@marvell.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210115181819.34732-1-ebiggers@kernel.org>
+In-Reply-To: <02ac9d85-7ddd-96da-1252-4663feea7c9f@marvell.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jan 15, 2021 at 10:18:13AM -0800, Eric Biggers wrote:
-> [This patchset applies to v5.11-rc3]
+On Fri, Jan 29, 2021 at 07:41:27AM -0800, Alex Belits wrote:
+> On 1/28/21 07:56, Thomas Gleixner wrote:
+> > External Email
+> > 
+> > ----------------------------------------------------------------------
+> > On Wed, Jan 27 2021 at 10:09, Marcelo Tosatti wrote:
+> > > On Wed, Jan 27, 2021 at 12:36:30PM +0000, Robin Murphy wrote:
+> > > > > > >     /**
+> > > > > > >      * cpumask_next - get the next cpu in a cpumask
+> > > > > > > @@ -205,22 +206,27 @@ void __init free_bootmem_cpumask_var(cpumask_var_t mask)
+> > > > > > >      */
+> > > > > > >     unsigned int cpumask_local_spread(unsigned int i, int node)
+> > > > > > >     {
+> > > > > > > -	int cpu;
+> > > > > > > +	int cpu, hk_flags;
+> > > > > > > +	const struct cpumask *mask;
+> > > > > > > +	hk_flags = HK_FLAG_DOMAIN | HK_FLAG_MANAGED_IRQ;
+> > > > > > > +	mask = housekeeping_cpumask(hk_flags);
+> > > > > > 
+> > > > > > AFAICS, this generally resolves to something based on cpu_possible_mask
+> > > > > > rather than cpu_online_mask as before, so could now potentially return an
+> > > > > > offline CPU. Was that an intentional change?
+> > > > > 
+> > > > > Robin,
+> > > > > 
+> > > > > AFAICS online CPUs should be filtered.
+> > > > 
+> > > > Apologies if I'm being thick, but can you explain how? In the case of
+> > > > isolation being disabled or compiled out, housekeeping_cpumask() is
+> > > > literally just "return cpu_possible_mask;". If we then iterate over that
+> > > > with for_each_cpu() and just return the i'th possible CPU (e.g. in the
+> > > > NUMA_NO_NODE case), what guarantees that CPU is actually online?
+> > > > 
+> > > > Robin.
+> > > 
+> > > Nothing, but that was the situation before 1abdfe706a579a702799fce465bceb9fb01d407c
+> > > as well.
+> > > 
+> > > cpumask_local_spread() should probably be disabling CPU hotplug.
+> > 
+> > It can't unless all callers are from preemtible code.
+> > 
+> > Aside of that this whole frenzy to sprinkle housekeeping_cpumask() all
+> > over the kernel is just wrong, really.
+> > 
+> > As I explained several times before there are very valid reasons for
+> > having queues and interrupts on isolated CPUs. Just optimizing for the
+> > usecases some people care about is not making anything better.
 > 
-> Add an ioctl FS_IOC_READ_VERITY_METADATA which allows reading verity
-> metadata from a file that has fs-verity enabled, including:
+> However making it mandatory for isolated CPUs to allow interrupts is not a
+> good idea, either. Providing an environment free of disturbances is a valid
+> goal, so we can't do something that will make it impossible to achieve. We
+> know that both there is a great amount of demand for this feature and
+> implementing it is doable, so cutting off the possibility of development in
+> this direction would be bad.
 > 
-> - The Merkle tree
-> - The fsverity_descriptor (not including the signature if present)
-> - The built-in signature, if present
+> Before there was housekeeping mask, I had to implement another, more
+> cumbersome model that ended up being more intrusive than I wanted. That was
+> one of the reasons why I have spent some time working on it in, please
+> forgive me the pun, isolation.
 > 
-> This ioctl has similar semantics to pread().  It is passed the type of
-> metadata to read (one of the above three), and a buffer, offset, and
-> size.  It returns the number of bytes read or an error.
+> I was relieved when housekeeping mask appeared, and I was able to remove a
+> large chunk of code that distinguished between CPUs that "are there" and
+> CPUs "available to run work". Housekeeping is supposed to define the set of
+> CPUs that are intended to run work that is not specifically triggered by
+> anything running on those CPUs. "CPUs that are there" are CPUs that are
+> being maintained as a part of the system, so they are usable for running
+> things on them.
 > 
-> This ioctl doesn't make any assumption about where the metadata is
-> stored on-disk.  It does assume the metadata is in a stable format, but
-> that's basically already the case:
+> My idea at the time was that we can separate this into two directions of
+> development:
 > 
-> - The Merkle tree and fsverity_descriptor are defined by how fs-verity
->   file digests are computed; see the "File digest computation" section
->   of Documentation/filesystems/fsverity.rst.  Technically, the way in
->   which the levels of the tree are ordered relative to each other wasn't
->   previously specified, but it's logical to put the root level first.
-> 
-> - The built-in signature is the value passed to FS_IOC_ENABLE_VERITY.
-> 
-> This ioctl is useful because it allows writing a server program that
-> takes a verity file and serves it to a client program, such that the
-> client can do its own fs-verity compatible verification of the file.
-> This only makes sense if the client doesn't trust the server and if the
-> server needs to provide the storage for the client.
-> 
-> More concretely, there is interest in using this ability in Android to
-> export APK files (which are protected by fs-verity) to "protected VMs".
-> This would use Protected KVM (https://lwn.net/Articles/836693), which
-> provides an isolated execution environment without having to trust the
-> traditional "host".  A "guest" VM can boot from a signed image and
-> perform specific tasks in a minimum trusted environment using files that
-> have fs-verity enabled on the host, without trusting the host or
-> requiring that the guest has its own trusted storage.
-> 
-> Technically, it would be possible to duplicate the metadata and store it
-> in separate files for serving.  However, that would be less efficient
-> and would require extra care in userspace to maintain file consistency.
-> 
-> In addition to the above, the ability to read the built-in signatures is
-> useful because it allows a system that is using the in-kernel signature
-> verification to migrate to userspace signature verification.
-> 
-> This patchset has been tested by new xfstests which call this new ioctl
-> via a new subcommand for the 'fsverity' program from fsverity-utils.
-> 
-> Eric Biggers (6):
->   fs-verity: factor out fsverity_get_descriptor()
->   fs-verity: don't pass whole descriptor to fsverity_verify_signature()
->   fs-verity: add FS_IOC_READ_VERITY_METADATA ioctl
->   fs-verity: support reading Merkle tree with ioctl
->   fs-verity: support reading descriptor with ioctl
->   fs-verity: support reading signature with ioctl
-> 
->  Documentation/filesystems/fsverity.rst |  76 ++++++++++
->  fs/ext4/ioctl.c                        |   7 +
->  fs/f2fs/file.c                         |  11 ++
->  fs/verity/Makefile                     |   1 +
->  fs/verity/fsverity_private.h           |  13 +-
->  fs/verity/open.c                       | 133 +++++++++++------
->  fs/verity/read_metadata.c              | 195 +++++++++++++++++++++++++
->  fs/verity/signature.c                  |  20 +--
->  include/linux/fsverity.h               |  12 ++
->  include/uapi/linux/fsverity.h          |  14 ++
->  10 files changed, 417 insertions(+), 65 deletions(-)
->  create mode 100644 fs/verity/read_metadata.c
+> 1. Make sure that housekeeping mask applies to all kinds of work that
+> appears on CPUs, so nothing random will end up running there. Because this
+> is very much in line of what it does.
 
-All applied to fscrypt.git#fsverity for 5.12.
+Its easier to specify "all members of set" rather than having to specify each
+individual member. Thinking of set as a description of types of
+activities that should not have a given CPU as a target.
 
-- Eric
+> 2. Rely on housekeeping mask to exclude anything not specifically intended
+> to run on isolated CPUs, and concentrate efforts on making sure that things
+> that are intended to [eventually] happen on those CPUs are handled properly
+> -- in case of my recent proposals, delayed until synchronization event at
+> the next kernel entry.
+
+Your point makes sense, but the "isolated CPU + one interrupt to this CPU"
+use-case is a valid one.
+
+"target CPU" is the CPU we are interested in executing the application
+(and handling the interrupt). So isolation happens today in the
+following components:
+
+        1)  setup kernel boot parameters for isolation (suppose
+            the goal is to move these to happen dynamically in
+            userspace, so they would move to step 2 in the future).
+
+        2)  disable certain activities from happening at target CPU: "exclude ALL
+            activities for target CPU which can be performed by
+            housekeeping CPUs" (which might involve a
+            number of steps in userspace such as
+            the RPS mask configuration, network queue configuration
+            to avoid vector exhaustion, removal of other activities
+            on target CPU).
+
+        3) userspace informs status of execution of isolated
+           application (via the prctl interface, the QUIESCE step).
+           From this point on interruptions (not as in IRQs but as in
+	   "isolation breaking events") should be either ignored
+           or logged.
+
+> If we want to have some kind of greater flexibility of CPU hotplug
+> management, more runtime control of isolation and housekeeping masks, or
+
+Well i think any activity which can possibly cause an interruption
+should be blocked from happening in the kernel. Which can be done as
+soon as the
+
+        "if (cpu_is_isolated(cpu))"
+
+Logic can be integrated.
+
+> more specific definition of what housekeeping mask does, we still have to
+> implement the intended functionality. Something still has to determine,
+> where we should not place delayed work, interrupts, etc. for the purpose of
+> distributing this kind of work.
+
+Yes, and today the isolation is being performed:
+
+1) At boot time.
+2) At isolation configuration (userspace). We have been trying to
+centralize this in tuned profiles:
+
+* With isolcpus=domain,: https://github.com/redhat-performance/tuned/blob/master/profiles/realtime-virtual-host/realtime-virtual-host-variables.conf
+* With cgroups sets / systemd affinity masks: https://github.com/redhat-performance/tuned/blob/master/profiles/cpu-partitioning/tuned.conf
+
+> As far as I can tell, the real underlying problem is that if anything
+> changes (hotplug happens, CPUs are added or removed from hotplug mask,
+> etc.), for absolutely correct solution in the most general case we would
+> have to modify all those masks that we have determined for various purposes
+> in various pieces of code and re-apply them. So, say, RPS implemented in a
+> running driver will be reconfigured to remove CPUs that are no longer there,
+> or CPUs that we now no longer want in "housekeeping" or "available for RPS,
+> delayed work, or something similar" mask.
+
+We discussed separating housekeeping_mask in per feature masks here:
+
+https://lkml.org/lkml/2020/9/3/1067
+
+So that userspace could control each feature individually.
+
+> To do that (and for full and complete support of hotplug we will have to do
+> that), we would have to reconfigure all users of CPU masks on hotplug and on
+> whatever other events that reassign CPUs purpose. 
+
+Good point.
+
+-> Isolate CPU event: steps 1 and 2 above.
+-> Unisolate CPU event: undo steps 1 and 2 above (considering the
+boot-time limitation of 1).
+
+-> Network device creation: Currently the proposed solution seems to be 
+https://lkml.org/lkml/2021/1/22/815, which requires userspace
+code modification (still missing this case).
+
+-> CPU hotplug/hotunplug: unclear. 
+
+> This may be eventually
+> done, however I don't know if it's a good idea to implement it at once, the
+> task of "adjusting all consumers of feature X" usually takes a while, and
+> even proposing such thing imposes a great amount of work on many people.
+
+Agree. CPU hotplug for example is not a feature which is very common 
+on this type of deployments. Having an initial implementation 
+which is suitable for the use cases in production seems OK.
+
+> However we can make a decision, if we really want to go into that direction,
+> and provide a way of handling a general event "CPUs are being repurposed,
+> now adjust whatever is being sent to them". It's my opinion that it would be
+> a good idea, we just can't expect it to be adopted overnight, so we can't
+> make it mandatory.
+> 
+> However if we don't want to block development of "full isolation" for a very
+> long time over this, we can have some minimal implementation available
+> before there will be a decision and implementation of completely dynamic
+> handling of "what can be done on what CPU".
+
+Agree: the dynamic handling can be done as a later step.
+
+> So maybe we have to implement something much more simple. For CPU hotplug it
+> may be something like, "CPU coming online should not be added to
+> housekeeping mask unless full isolation is disabled". 
+
+Not sure i get this. 
+
+> Then we can add a
+> procedure for adding a non-housekeeping CPU to housekeeping mask. And that
+> procedure will fail if CPU is isolated. 
+>
+> If we will have dynamic
+> configuration of isolated CPUs we can make it necessary to remove CPU from
+> isolated mask and add it to housekeeping after that. That will never produce
+> any problems. The worst that will happen, some users of CPU masks will miss
+> an opportunity to add more CPUs to whatever they use.
+
+The usecase here seems to be hardware with a single OS running both
+isolated and non-isolated workloads (say a latency sensitive
+application, using multiple cores, and it can scale up/down on 
+the number of cores depending on load). On the remaining CPUs 
+one can use non-latency sensitive workloads.
+
+Does that make sense?
+
+> Then there will be a problem, what to do when we want to remove CPU from
+> housekeeping or maybe this new category "CPUs that are available for various
+> things". Initially we can just allow it only on hotplug.
+
+Fail to parse sentence. Can you expand on "CPUs that are available for
+various things?" 
+
+> If we will want to implement removing a CPU from housekeeping and adding it
+> to become available for isolation in general, we will have to do something
+> new. It will probably look like a different kind of hotplug.
+
+Hum, not sure why, have you read the discussion mentioned above, about 
+the sysfs interface to control housekeeping?
+
+> Maybe it's a bad idea to have only one kind of "housekeeping". 
+
+Yes! That seems to be the same conclusion on the thread.
+
+Forgot to CC you here:
+https://www.spinics.net/lists/kernel/msg3814616.html
+
+Can probably drop patch 7/9 from your series once this is
+integrated.
+
+> As I said
+> above, we may choose to implement "CPUs available for work intended to be
+> spread over multiple CPUs". Or maybe there should be "CPUs available for
+> long-term running kernel tasks that are not considered housekeeping". And we
+> can have separate "CPUs that are allowed to handle timers". There may be
+> reasons for supporting this, other than isolation -- for example, big.LITTLE
+> or new kinds of power management policies. But then, of course, we will have
+> to consider more possible uses for those features, and adjust them for those
+> purposes.
+
