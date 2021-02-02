@@ -2,153 +2,215 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 51CC330CB1E
-	for <lists+linux-api@lfdr.de>; Tue,  2 Feb 2021 20:14:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 90EF730CE96
+	for <lists+linux-api@lfdr.de>; Tue,  2 Feb 2021 23:15:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239318AbhBBTN5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 2 Feb 2021 14:13:57 -0500
-Received: from mail.kernel.org ([198.145.29.99]:45758 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231862AbhBBTLw (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 2 Feb 2021 14:11:52 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 47C6D64D87;
-        Tue,  2 Feb 2021 19:10:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1612293066;
-        bh=Pzyl+wYYgvPCwgJ+GvBahmfBmshzS1gdeGZydw56C1k=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=urlxNYufSkfJp0SH0EEfwFzSeIYwXDdueMnyILwXIullWx4SbMoEerX80f5OQqyLU
-         Bg+fxp5cMzP5FzVAMlOPfjBauj+B1/aEKphaIK3R5lVLYCvCQesqrDIQmZvMjDXmNR
-         wmsGMRNi9ZfDbI6vAJ5p7VMbSsLj4nb8l1NhazBIB10phtLBckQ1cOU2nN3vTXLilS
-         uJtQ4CoJagfCIkQnsWqgtg/k3AnTkwWKwrvb5ozbBGjBggCHGi2zD+24ANJ5uL76kr
-         bEh+jPfAk+q1UtVeseCuM6MVzwqCxfVLsegGHFyjAVr0PWSO8yZEm61pbzlwU5cRc5
-         HnguLQxiFymVg==
-Date:   Tue, 2 Feb 2021 21:10:40 +0200
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     James Bottomley <jejb@linux.ibm.com>,
-        David Hildenbrand <david@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Roman Gushchin <guro@fb.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
-        x86@kernel.org, Hagen Paul Pfeifer <hagen@jauu.net>,
-        Palmer Dabbelt <palmerdabbelt@google.com>
-Subject: Re: [PATCH v16 07/11] secretmem: use PMD-size pages to amortize
- direct map fragmentation
-Message-ID: <20210202191040.GP242749@kernel.org>
-References: <303f348d-e494-e386-d1f5-14505b5da254@redhat.com>
- <20210126120823.GM827@dhcp22.suse.cz>
- <20210128092259.GB242749@kernel.org>
- <YBK1kqL7JA7NePBQ@dhcp22.suse.cz>
- <73738cda43236b5ac2714e228af362b67a712f5d.camel@linux.ibm.com>
- <YBPF8ETGBHUzxaZR@dhcp22.suse.cz>
- <6de6b9f9c2d28eecc494e7db6ffbedc262317e11.camel@linux.ibm.com>
- <YBkcyQsky2scjEcP@dhcp22.suse.cz>
- <20210202124857.GN242749@kernel.org>
- <YBlTMqjB06aqyGbT@dhcp22.suse.cz>
+        id S232882AbhBBWNq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 2 Feb 2021 17:13:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42952 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234212AbhBBWNj (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 2 Feb 2021 17:13:39 -0500
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B724C0613ED
+        for <linux-api@vger.kernel.org>; Tue,  2 Feb 2021 14:12:58 -0800 (PST)
+Received: by mail-wr1-x430.google.com with SMTP id 7so22101226wrz.0
+        for <linux-api@vger.kernel.org>; Tue, 02 Feb 2021 14:12:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=xqP0a66Os6f9sXyF+kMsv13PEbv0LhzI8V6aeWIM0Ok=;
+        b=TPz3NwZfJQX2n8XN2IcK3GG1+YdjmSwEfCGkkfB/R3l9sej3bWUpfbAM6RCQCZ7zSg
+         wtMWuG93czJxsPaqc/vxVW5m5aofw7Xucq73fsummtWKzVU1OcRLPV1d4bpHrkbnQvc4
+         IGVMEw8sSzmZ9C62tJnk3nveiCu7uLVYsZYtvwViU06V6jZ65gHNw7E+q3Wxw3dk6eXe
+         z5op6gObDb+ORYEdWZ3w4BYU3o2SvM5AHHBAGBxccLb/WJ/Qhq7WY8qKqMIPltmMJ5MP
+         z66weUVMT+YCRplS4JltaxL/GEcdZbNO5Nz0syi3n8gD39XWVSSc8FUArjYvPDInNAiR
+         z2yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xqP0a66Os6f9sXyF+kMsv13PEbv0LhzI8V6aeWIM0Ok=;
+        b=mNqopaS9fpuSKRw16cG/a2acLFvJhNNrenWrUdoQS9JHmDUWRHAOif3g7olWbpcrEn
+         Ul47yzQbAgUMdk0ygJ5r6vAQ6DPc2lWQKkqq2f5NJqpHmirxUaRmWrKXtsbXxtTqtkzp
+         Tr/cGqb+i6bNdrGmpV7jNCF5TtLFzr6y/duVRkFEyl00W+2TAlLyYSyiICcFa2+B421c
+         NUWCszNKjzUOhnu6n36JU0SHmRlUnIQoOtxUuBpkMBPoKZyD7u1dy0nMKUFBhVTVOghS
+         yrWUu4cVQLrcAHdhjaGsf9DKrbXcMZPfP5k+9n6HNeshANm36M1jYU8OTY72oXJ+hZAc
+         rAXQ==
+X-Gm-Message-State: AOAM533njExQRU3IjFw52Ye6/vdwTz1tfQ8cjXqoAb5gjRGFXpEAmaqP
+        cc6mxYrXeQluhJfSdqrQffU06TUw+GM/+s4HpA40Fg==
+X-Google-Smtp-Source: ABdhPJzXdtevgSVe8n6EmjpNVas/jAjd+jbkaq+OR2OyjZFVqFMgbuoQU4zl5BsooeiKMks3pFo2re/Jz6z7ZkZVsLc=
+X-Received: by 2002:a5d:6884:: with SMTP id h4mr218812wru.106.1612303976784;
+ Tue, 02 Feb 2021 14:12:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YBlTMqjB06aqyGbT@dhcp22.suse.cz>
+References: <20210202053046.1653012-1-surenb@google.com> <079db245-a08c-0dbd-01d4-8065f533652e@gmail.com>
+In-Reply-To: <079db245-a08c-0dbd-01d4-8065f533652e@gmail.com>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Tue, 2 Feb 2021 14:12:45 -0800
+Message-ID: <CAJuCfpGotx_04Stn5Nw6Au+TVG9LuAJ=CB_s7uxjMLOLerw-GA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/1] process_madvise.2: Add process_madvise man page
+To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc:     linux-man <linux-man@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jann Horn <jannh@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Jeffrey Vander Stoep <jeffv@google.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        David Rientjes <rientjes@google.com>,
+        =?UTF-8?Q?Edgar_Arriaga_Garc=C3=ADa?= <edgararriaga@google.com>,
+        Tim Murray <timmurray@google.com>,
+        linux-mm <linux-mm@kvack.org>,
+        SElinux list <selinux@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kernel-team <kernel-team@android.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Feb 02, 2021 at 02:27:14PM +0100, Michal Hocko wrote:
-> On Tue 02-02-21 14:48:57, Mike Rapoport wrote:
-> > On Tue, Feb 02, 2021 at 10:35:05AM +0100, Michal Hocko wrote:
-> > > On Mon 01-02-21 08:56:19, James Bottomley wrote:
-> > > 
-> > > I have also proposed potential ways out of this. Either the pool is not
-> > > fixed sized and you make it a regular unevictable memory (if direct map
-> > > fragmentation is not considered a major problem)
-> > 
-> > I think that the direct map fragmentation is not a major problem, and the
-> > data we have confirms it, so I'd be more than happy to entirely drop the
-> > pool, allocate memory page by page and remove each page from the direct
-> > map. 
-> > 
-> > Still, we cannot prove negative and it could happen that there is a
-> > workload that would suffer a lot from the direct map fragmentation, so
-> > having a pool of large pages upfront is better than trying to fix it
-> > afterwards. As we get more confidence that the direct map fragmentation is
-> > not an issue as it is common to believe we may remove the pool altogether.
-> 
-> I would drop the pool altogether and instantiate pages to the
-> unevictable LRU list and internally treat it as ramdisk/mlock so you
-> will get an accounting correctly. The feature should be still opt-in
-> (e.g. a kernel command line parameter) for now. The recent report by
-> Intel (http://lkml.kernel.org/r/213b4567-46ce-f116-9cdf-bbd0c884eb3c@linux.intel.com)
-> there is no clear win to have huge mappings in _general_ but there are
-> still workloads which benefit. 
->  
-> > I think that using PMD_ORDER allocations for the pool with a fallback to
-> > order 0 will do the job, but unfortunately I doubt we'll reach a consensus
-> > about this because dogmatic beliefs are hard to shake...
-> 
-> If this is opt-in then those beliefs can be relaxed somehow. Long term
-> it makes a lot of sense to optimize for a better direct map management
-> but I do not think this is a hard requirement for an initial
-> implementation if it is not imposed to everybody by default.
+Hi Michael,
+
+On Tue, Feb 2, 2021 at 2:45 AM Michael Kerrisk (man-pages)
+<mtk.manpages@gmail.com> wrote:
 >
-> > A more restrictive possibility is to still use plain PMD_ORDER allocations
-> > to fill the pool, without relying on CMA. In this case there will be no
-> > global secretmem specific pool to exhaust, but then it's possible to drain
-> > high order free blocks in a system, so CMA has an advantage of limiting
-> > secretmem pools to certain amount of memory with somewhat higher
-> > probability for high order allocation to succeed. 
-> > 
-> > > or you need a careful access control 
-> > 
-> > Do you mind elaborating what do you mean by "careful access control"?
-> 
-> As already mentioned, a mechanism to control who can use this feature -
-> e.g. make it a special device which you can access control by
-> permissions or higher level security policies. But that is really needed
-> only if the pool is fixed sized.
-  
-Let me reiterate to make sure I don't misread your suggestion.
+> Hello Suren (and Minchan and Michal)
+>
+> Thank you for the revisions!
+>
+> I've applied this patch, and done a few light edits.
 
-If we make secretmem an opt-in feature with, e.g. kernel parameter, the
-pooling of large pages is unnecessary. In this case there is no limited
-resource we need to protect because secretmem will allocate page by page.
+Thanks!
 
-Since there is no limited resource, we don't need special permissions
-to access secretmem so we can move forward with a system call that creates
-a mmapable file descriptor and save the hassle of a chardev.
+>
+> However, I have a questions about undocumented pieces in *madvise(2)*,
+> as well as one other question. See below.
+>
+> On 2/2/21 6:30 AM, Suren Baghdasaryan wrote:
+> > Initial version of process_madvise(2) manual page. Initial text was
+> > extracted from [1], amended after fix [2] and more details added using
+> > man pages of madvise(2) and process_vm_read(2) as examples. It also
+> > includes the changes to required permission proposed in [3].
+> >
+> > [1] https://lore.kernel.org/patchwork/patch/1297933/
+> > [2] https://lkml.org/lkml/2020/12/8/1282
+> > [3] https://patchwork.kernel.org/project/selinux/patch/20210111170622.2613577-1-surenb@google.com/#23888311
+> >
+> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> > Reviewed-by: Michal Hocko <mhocko@suse.com>
+> > ---
+> > changes in v2:
+> > - Changed description of MADV_COLD per Michal Hocko's suggestion
+> > - Applied fixes suggested by Michael Kerrisk
+> > changes in v3:
+> > - Added Michal's Reviewed-by
+> > - Applied additional fixes suggested by Michael Kerrisk
+> >
+> > NAME
+> >     process_madvise - give advice about use of memory to a process
+> >
+> > SYNOPSIS
+> >     #include <sys/uio.h>
+> >
+> >     ssize_t process_madvise(int pidfd,
+> >                            const struct iovec *iovec,
+> >                            unsigned long vlen,
+> >                            int advice,
+> >                            unsigned int flags);
+> >
+> > DESCRIPTION
+> >     The process_madvise() system call is used to give advice or directions
+> >     to the kernel about the address ranges of another process or the calling
+> >     process. It provides the advice to the address ranges described by iovec
+> >     and vlen. The goal of such advice is to improve system or application
+> >     performance.
+> >
+> >     The pidfd argument is a PID file descriptor (see pidfd_open(2)) that
+> >     specifies the process to which the advice is to be applied.
+> >
+> >     The pointer iovec points to an array of iovec structures, defined in
+> >     <sys/uio.h> as:
+> >
+> >     struct iovec {
+> >         void  *iov_base;    /* Starting address */
+> >         size_t iov_len;     /* Number of bytes to transfer */
+> >     };
+> >
+> >     The iovec structure describes address ranges beginning at iov_base address
+> >     and with the size of iov_len bytes.
+> >
+> >     The vlen represents the number of elements in the iovec structure.
+> >
+> >     The advice argument is one of the values listed below.
+> >
+> >   Linux-specific advice values
+> >     The following Linux-specific advice values have no counterparts in the
+> >     POSIX-specified posix_madvise(3), and may or may not have counterparts
+> >     in the madvise(2) interface available on other implementations.
+> >
+> >     MADV_COLD (since Linux 5.4.1)
+>
+> I just noticed these version numbers now, and thought: they can't be
+> right (because the system call appeared only in v5.11). So I removed
+> them. But, of course in another sense the version numbers are (nearly)
+> right, since these advice values were added for madvise(2) in Linux 5.4.
+> However, they are not documented in the madvise(2) manual page. Is it
+> correct to assume that MADV_COLD and MADV_PAGEOUT have exactly the same
+> meaning in madvise(2) (but just for the calling process, of course)?
 
-I cannot say I don't like this as it cuts roughly half of mm/secretmem.c :)
+Correct. They should be added in the madvise(2) man page as well IMHO.
 
-But I must say I am still a bit concerned about that we have no provisions
-here for dealing with the direct map fragmentation even with the set goal
-to improve the direct map management in the long run...
+>
+> >         Deactive a given range of pages which will make them a more probable
+>
+> I changed: s/Deactive/Deactivate/
 
--- 
-Sincerely yours,
-Mike.
+thanks!
+
+>
+> >         reclaim target should there be a memory pressure. This is a
+> >         nondestructive operation. The advice might be ignored for some pages
+> >         in the range when it is not applicable.
+> >
+> >     MADV_PAGEOUT (since Linux 5.4.1)
+> >         Reclaim a given range of pages. This is done to free up memory occupied
+> >         by these pages. If a page is anonymous it will be swapped out. If a
+> >         page is file-backed and dirty it will be written back to the backing
+> >         storage. The advice might be ignored for some pages in the range when
+> >         it is not applicable.
+>
+> [...]
+>
+> >     The hint might be applied to a part of iovec if one of its elements points
+> >     to an invalid memory region in the remote process. No further elements will
+> >     be processed beyond that point.
+>
+> Is the above scenario the one that leads to the partial advice case described in
+> RETURN VALUE? If yes, perhaps I should add some words to make that clearer.
+
+Correct. This describes the case when partial advice happens.
+
+>
+> You can see the light edits that I made in
+> https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/commit/?id=e3ce016472a1b3ec5dffdeb23c98b9fef618a97b
+> and following that I restructured DESCRIPTION a little in
+> https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/commit/?id=3aac0708a9acee5283e091461de6a8410bc921a6
+
+The edits LGTM.
+Thanks,
+Suren.
+
+>
+> Thanks,
+>
+> Michael
+>
+>
+> --
+> Michael Kerrisk
+> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+> Linux/UNIX System Programming Training: http://man7.org/training/
