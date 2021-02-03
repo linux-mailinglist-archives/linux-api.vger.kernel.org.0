@@ -2,163 +2,152 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E01D030D765
-	for <lists+linux-api@lfdr.de>; Wed,  3 Feb 2021 11:25:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A0C3F30D988
+	for <lists+linux-api@lfdr.de>; Wed,  3 Feb 2021 13:10:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233731AbhBCKY3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 3 Feb 2021 05:24:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58624 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233554AbhBCKYZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 3 Feb 2021 05:24:25 -0500
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81A30C061786
-        for <linux-api@vger.kernel.org>; Wed,  3 Feb 2021 02:23:44 -0800 (PST)
-Received: by mail-wm1-x330.google.com with SMTP id i9so4651167wmq.1
-        for <linux-api@vger.kernel.org>; Wed, 03 Feb 2021 02:23:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=YVcGpKd8+eC2YQ5xYyo7fYllHOO2iPEn0qmRLD8c4tk=;
-        b=XcTmJyWd74nvKmKqGb0lHYbm4BberuwObLIrEVZVDU5MFPGSgRvwBVl691DtsVL32v
-         PoxSztsiW9kqnY7fWODTxJQ24Xut19EQmALlq/oOlmCC/lE28uXGaC0MT/lTB3vpqnHz
-         OO6YtZ53iIHcnPn/3H7K8/Ji389pkKLCfJXYw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to;
-        bh=YVcGpKd8+eC2YQ5xYyo7fYllHOO2iPEn0qmRLD8c4tk=;
-        b=DXVe4gioF/nYt+AhicYQlwqty63nx/yUVhi6LQo45uo25GEkxwS/327fu1X9/8kfma
-         XXkNyxhtS/lSWzhcKDn1mjaBRQELEvQEy9r3uEYvK83KiwDX+VnGKsM6+SEvL8mEWR/E
-         FFuxWSjpTlesdqVvBuq7Fo4swj/i21cBYjnWCc1qIOIq90cUmztOtBPNWfJ88JXRez3H
-         1JavYNez/T05CEc5hv19Dmh7X9oiG9CiqK+0R3HPbY4EvXrphJAFhJT0POiMQ+sus2J2
-         dFZEErU4xGV7pShtmGazr08Imiq5TqssV29HujUFUjzGPRk44OIRlNkOYZdy6Wf/HT1w
-         V/ow==
-X-Gm-Message-State: AOAM533nZMZ21tao+JLxipqC+O4ghKXp8gHljbdpvg6Ryyv8FXpLYMka
-        15FCdZv6gvyxwElOc1rq0UOVKQ==
-X-Google-Smtp-Source: ABdhPJwiI5aD5dqY1ckorWBWkPtWhv80Z2HTWzG7jeWjpVya/U1sTYHLj7xvi3ENjtXKYY1O+EVTCA==
-X-Received: by 2002:a7b:c3ca:: with SMTP id t10mr1325153wmj.138.1612347823070;
-        Wed, 03 Feb 2021 02:23:43 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id b3sm2351907wme.32.2021.02.03.02.23.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Feb 2021 02:23:42 -0800 (PST)
-Date:   Wed, 3 Feb 2021 11:23:39 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc:     Simon Ser <contact@emersion.fr>,
-        Pekka Paalanen <ppaalanen@gmail.com>,
-        Michal Hocko <mhocko@suse.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        dri-devel@lists.freedesktop.org, Andrei Vagin <avagin@gmail.com>,
-        Kalesh Singh <kaleshsingh@google.com>, Hui Su <sh_def@163.com>,
-        Michel Lespinasse <walken@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jeffrey Vander Stoep <jeffv@google.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        kernel-team <kernel-team@android.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, linaro-mm-sig@lists.linaro.org,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Bernd Edlinger <bernd.edlinger@hotmail.de>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Alexey Gladkov <gladkov.alexey@gmail.com>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        Minchan Kim <minchan@kernel.org>,
-        Yafang Shao <laoar.shao@gmail.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hridya Valsaraju <hridya@google.com>,
+        id S234381AbhBCMKV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 3 Feb 2021 07:10:21 -0500
+Received: from mx2.suse.de ([195.135.220.15]:36988 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234141AbhBCMKT (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 3 Feb 2021 07:10:19 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1612354172; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=gKqIUoUlL8R76kxwkZS//+2tVOQRZKxuwAdDoVgDGVc=;
+        b=mxvYYdsWkKnOLbAAY2Xq93W86QtxGZG9WZBc2Cc9sS5vqXt3wUWDhs4DwbnmfVD6tvAGG0
+        lS5OJmRviEMD44E4iBuZm462q2JlcFLn8YYCSpZ5+zJQC2fMRyJYklkp59wywSxIFouSEb
+        IneXY25y0nuwemPLYik6lohSpv88DtM=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id DB6EEAD26;
+        Wed,  3 Feb 2021 12:09:31 +0000 (UTC)
+Date:   Wed, 3 Feb 2021 13:09:30 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     James Bottomley <jejb@linux.ibm.com>
+Cc:     Mike Rapoport <rppt@kernel.org>,
+        David Hildenbrand <david@redhat.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH] procfs/dmabuf: Add /proc/<pid>/task/<tid>/dmabuf_fds
-Message-ID: <YBp5qzLBBMJE0Yhn@phenom.ffwll.local>
-Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Simon Ser <contact@emersion.fr>,
-        Pekka Paalanen <ppaalanen@gmail.com>,
-        Michal Hocko <mhocko@suse.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        dri-devel@lists.freedesktop.org, Andrei Vagin <avagin@gmail.com>,
-        Kalesh Singh <kaleshsingh@google.com>, Hui Su <sh_def@163.com>,
-        Michel Lespinasse <walken@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jeffrey Vander Stoep <jeffv@google.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        kernel-team <kernel-team@android.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>,
-        linaro-mm-sig@lists.linaro.org,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Bernd Edlinger <bernd.edlinger@hotmail.de>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Alexey Gladkov <gladkov.alexey@gmail.com>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        Minchan Kim <minchan@kernel.org>,
-        Yafang Shao <laoar.shao@gmail.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux API <linux-api@vger.kernel.org>
-References: <20210126225138.1823266-1-kaleshsingh@google.com>
- <CAG48ez2tc_GSPYdgGqTRotUp6NqFoUKdoN_p978+BOLoD_Fdjw@mail.gmail.com>
- <YBFG/zBxgnapqLAK@dhcp22.suse.cz>
- <ea04b552-7345-b7d5-60fe-7a22515ea63a@amd.com>
- <20210128120130.50aa9a74@eldfell>
- <c95af15d-8ff4-aea0-fa1b-3157845deae1@amd.com>
- <20210129161334.788b8fd0@eldfell>
- <wgUb8smQArgjbRFYMPYVDmukBT-_BrqG2M6XIOkWdBcW_x-m4ORnl3VOvH3J4wrsNGMoOXqMAro0UmkdVXFNso9PEiNCFGEeruibhWsmU34=@emersion.fr>
- <f680ced7-3402-4a1e-4565-35ad7cd0c46d@amd.com>
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christopher Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Roman Gushchin <guro@fb.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
+        x86@kernel.org, Hagen Paul Pfeifer <hagen@jauu.net>,
+        Palmer Dabbelt <palmerdabbelt@google.com>
+Subject: Re: [PATCH v16 07/11] secretmem: use PMD-size pages to amortize
+ direct map fragmentation
+Message-ID: <YBqSejZ3XbUKFudR@dhcp22.suse.cz>
+References: <20210202124857.GN242749@kernel.org>
+ <6653288a-dd02-f9de-ef6a-e8d567d71d53@redhat.com>
+ <YBlUXdwV93xMIff6@dhcp22.suse.cz>
+ <211f0214-1868-a5be-9428-7acfc3b73993@redhat.com>
+ <YBlgCl8MQuuII22w@dhcp22.suse.cz>
+ <d4fe580a-ef0e-e13f-9ee4-16fb8b6d65dd@redhat.com>
+ <YBlicIupOyPF9f3D@dhcp22.suse.cz>
+ <95625b83-f7e2-b27a-2b99-d231338047fb@redhat.com>
+ <20210202181546.GO242749@kernel.org>
+ <f26a17366194880d58e67d10cb5d7d7fdf2f3c19.camel@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f680ced7-3402-4a1e-4565-35ad7cd0c46d@amd.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <f26a17366194880d58e67d10cb5d7d7fdf2f3c19.camel@linux.ibm.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jan 29, 2021 at 03:22:06PM +0100, Christian König wrote:
-> Am 29.01.21 um 15:17 schrieb Simon Ser:
-> > On Friday, January 29th, 2021 at 3:13 PM, Pekka Paalanen <ppaalanen@gmail.com> wrote:
-> > 
-> > > > Re-importing it adds quite a huge CPU overhead to both userspace as well
-> > > > as the kernel.
-> > > Perhaps, but so far it seems no-one has noticed the overhead, with Mesa
-> > > at least.
+On Tue 02-02-21 10:55:40, James Bottomley wrote:
+> On Tue, 2021-02-02 at 20:15 +0200, Mike Rapoport wrote:
+> > On Tue, Feb 02, 2021 at 03:34:29PM +0100, David Hildenbrand wrote:
+> > > On 02.02.21 15:32, Michal Hocko wrote:
+> > > > On Tue 02-02-21 15:26:20, David Hildenbrand wrote:
+> > > > > On 02.02.21 15:22, Michal Hocko wrote:
+> > > > > > On Tue 02-02-21 15:12:21, David Hildenbrand wrote:
+> > > > > > [...]
+> > > > > > > I think secretmem behaves much more like longterm GUP right
+> > > > > > > now
+> > > > > > > ("unmigratable", "lifetime controlled by user space",
+> > > > > > > "cannot go on
+> > > > > > > CMA/ZONE_MOVABLE"). I'd either want to reasonably well
+> > > > > > > control/limit it or
+> > > > > > > make it behave more like mlocked pages.
+> > > > > > 
+> > > > > > I thought I have already asked but I must have forgotten. Is
+> > > > > > there any
+> > > > > > actual reason why the memory is not movable? Timing attacks?
+> > > > > 
+> > > > > I think the reason is simple: no direct map, no copying of
+> > > > > memory.
+> > > > 
+> > > > This is an implementation detail though and not something
+> > > > terribly hard
+> > > > to add on top later on. I was more worried there would be really
+> > > > fundamental reason why this is not possible. E.g. security
+> > > > implications.
 > > > 
-> > > I happily stand corrected.
-> > Note, all of this doesn't mean that compositors will stop keeping
-> > DMA-BUF FDs around. They may want to keep them open for other purposes
-> > like importing them into KMS or other EGL displays as needed.
+> > > I don't remember all the details. Let's see what Mike thinks
+> > > regarding
+> > > migration (e.g., security concerns).
+> > 
+> > Thanks for considering me a security expert :-)
+> > 
+> > Yet, I cannot estimate how dangerous is the temporal exposure of
+> > this data to the kernel via the direct map in the simple
+> > map/copy/unmap
+> > sequence.
 > 
-> Correct and that's a perfectly valid use case. Just re-importing it on every
-> frame is something we should really try to avoid.
-> 
-> At least with debugging enabled it's massive overhead and maybe even
-> performance penalty when we have to re-create device page tables all the
-> time.
-> 
-> But thinking more about that it is possible that we short-cut this step as
-> long as the original import was still referenced. Otherwise we probably
-> would have noticed this much earlier.
+> Well the safest security statement is that we never expose the data to
+> the kernel because it's a very clean security statement and easy to
+> enforce. It's also the easiest threat model to analyse.   Once we do
+> start exposing the secret to the kernel it alters the threat profile
+> and the analysis and obviously potentially provides the ROP gadget to
+> an attacker to do the same. Instinct tells me that the loss of
+> security doesn't really make up for the ability to swap or migrate but
+> if there were a case for doing the latter, it would have to be a
+> security policy of the user (i.e. a user should be able to decide their
+> data is too sensitive to expose to the kernel).
 
-Yeah kernel keeps lots of caches around and just gives you back the
-previous buffer if it's still around. Still probably not the smartest
-idea.
--Daniel
+The security/threat model should be documented in the changelog as
+well. I am not a security expert but I would tend to agree that not
+allowing even temporal mapping for data copying (in the kernel) is the
+most robust approach. Whether that is generally necessary for users I do
+not know.
+
+From the API POV I think it makes sense to have two
+modes. NEVER_MAP_IN_KERNEL which would imply no migrateability, no
+copy_{from,to}_user, no gup or any other way for the kernel to access
+content of the memory. Maybe even zero the content on the last unmap to
+never allow any data leak. ALLOW_TEMPORARY would unmap the page from
+the direct mapping but it would still allow temporary mappings for
+data copying inside the kernel (thus allow CoW, copy*user, migration).
+Which one should be default and which an opt-in I do not know. A less
+restrictive mode to be default and the more restrictive an opt-in via
+flags makes a lot of sense to me though.
+
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Michal Hocko
+SUSE Labs
