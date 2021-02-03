@@ -2,217 +2,122 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D3D530E10C
-	for <lists+linux-api@lfdr.de>; Wed,  3 Feb 2021 18:29:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E90130E539
+	for <lists+linux-api@lfdr.de>; Wed,  3 Feb 2021 22:55:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232515AbhBCR26 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 3 Feb 2021 12:28:58 -0500
-Received: from mga06.intel.com ([134.134.136.31]:4061 "EHLO mga06.intel.com"
+        id S232024AbhBCVzZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 3 Feb 2021 16:55:25 -0500
+Received: from mga12.intel.com ([192.55.52.136]:31742 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232100AbhBCR2W (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 3 Feb 2021 12:28:22 -0500
-IronPort-SDR: +mWdKhSBZ0syVFWUSNPLG1zIwlOD/6M2d7aQxIggnszvI4q2we80lGbMd/GCWlQomkf6wIv86g
- h141FEKBVrbw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9884"; a="242592398"
+        id S229959AbhBCVzY (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 3 Feb 2021 16:55:24 -0500
+IronPort-SDR: dki/tcFY5jf6CsHBIUnCVpY1HYgNYNp7jLC4VREjng0wiB6+y/PkPMlAN8Aoue6jLUExiL9HMm
+ Py7zDnXbcHRg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9884"; a="160290204"
 X-IronPort-AV: E=Sophos;i="5.79,399,1602572400"; 
-   d="scan'208";a="242592398"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2021 09:27:25 -0800
-IronPort-SDR: j3K4wtu89Nl2hvGQaYaWQWRke/PwVv9R2+HghHNEav9sN6DmYsFOI74EFHVKii4LrUk8B73u25
- 2jfRz+6hRxCg==
-X-ExtLoop1: 1
+   d="scan'208";a="160290204"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2021 13:54:43 -0800
+IronPort-SDR: cbNFcluLVt0agMFYdYPy9R/OKBGP7PxtHIJxAE2sR0GRhutjiRbmm0lsH8LRWO3x3Iolq9fwYN
+ AW0O5oc+YcIA==
 X-IronPort-AV: E=Sophos;i="5.79,399,1602572400"; 
-   d="scan'208";a="406723692"
-Received: from chang-linux-3.sc.intel.com ([172.25.66.175])
-  by fmsmga004.fm.intel.com with ESMTP; 03 Feb 2021 09:27:25 -0800
-From:   "Chang S. Bae" <chang.seok.bae@intel.com>
-To:     bp@suse.de, tglx@linutronix.de, mingo@kernel.org, luto@kernel.org,
-        x86@kernel.org
-Cc:     len.brown@intel.com, dave.hansen@intel.com, hjl.tools@gmail.com,
-        Dave.Martin@arm.com, jannh@google.com, mpe@ellerman.id.au,
-        carlos@redhat.com, tony.luck@intel.com, ravi.v.shankar@intel.com,
-        libc-alpha@sourceware.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        chang.seok.bae@intel.com, Borislav Petkov <bp@alien8.de>,
-        linux-kselftest@vger.kernel.org
-Subject: [PATCH v5 5/5] selftest/x86/signal: Include test cases for validating sigaltstack
-Date:   Wed,  3 Feb 2021 09:22:42 -0800
-Message-Id: <20210203172242.29644-6-chang.seok.bae@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210203172242.29644-1-chang.seok.bae@intel.com>
-References: <20210203172242.29644-1-chang.seok.bae@intel.com>
+   d="scan'208";a="433627376"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.43.162]) ([10.212.43.162])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2021 13:54:41 -0800
+Subject: Re: [PATCH v18 24/25] x86/cet/shstk: Add arch_prctl functions for
+ shadow stack
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+To:     Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+References: <20210127212524.10188-1-yu-cheng.yu@intel.com>
+ <20210127212524.10188-25-yu-cheng.yu@intel.com>
+ <ba39586d-25b6-6ea5-19c3-adf17b59f910@intel.com>
+ <761ae8ce-0560-24cc-e6f7-684475cb3708@intel.com>
+Message-ID: <6720b1a9-f785-dbbd-1f0e-8c9090be2069@intel.com>
+Date:   Wed, 3 Feb 2021 13:54:40 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
+MIME-Version: 1.0
+In-Reply-To: <761ae8ce-0560-24cc-e6f7-684475cb3708@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-The test measures the kernel's signal delivery with different (enough vs.
-insufficient) stack sizes.
+On 1/29/2021 10:56 AM, Yu, Yu-cheng wrote:
+> On 1/29/2021 9:07 AM, Dave Hansen wrote:
+>> On 1/27/21 1:25 PM, Yu-cheng Yu wrote:
+>>> arch_prctl(ARCH_X86_CET_STATUS, u64 *args)
+>>>      Get CET feature status.
+>>>
+>>>      The parameter 'args' is a pointer to a user buffer.  The kernel 
+>>> returns
+>>>      the following information:
+>>>
+>>>      *args = shadow stack/IBT status
+>>>      *(args + 1) = shadow stack base address
+>>>      *(args + 2) = shadow stack size
 
-Signed-off-by: Chang S. Bae <chang.seok.bae@intel.com>
-Reviewed-by: Len Brown <len.brown@intel.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: x86@kernel.org
-Cc: linux-kselftest@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
----
-Changes from v3:
-* Revised test messages again (Borislav Petkov)
+[...]
 
-Changes from v2:
-* Revised test messages (Borislav Petkov)
----
- tools/testing/selftests/x86/Makefile      |   2 +-
- tools/testing/selftests/x86/sigaltstack.c | 128 ++++++++++++++++++++++
- 2 files changed, 129 insertions(+), 1 deletion(-)
- create mode 100644 tools/testing/selftests/x86/sigaltstack.c
+>>> +int prctl_cet(int option, u64 arg2)
+>>> +{
+>>> +    struct cet_status *cet;
+>>> +    unsigned int features;
+>>> +
+>>> +    /*
+>>> +     * GLIBC's ENOTSUPP == EOPNOTSUPP == 95, and it does not recognize
+>>> +     * the kernel's ENOTSUPP (524).  So return EOPNOTSUPP here.
+>>> +     */
+>>> +    if (!IS_ENABLED(CONFIG_X86_CET))
+>>> +        return -EOPNOTSUPP;
+>>
+>> Let's ignore glibc for a moment.  What error code *should* the kernel be
+>> returning here?  errno(3) says:
+>>
+>>         EOPNOTSUPP      Operation not supported on socket (POSIX.1)
+>> ...
+>>         ENOTSUP         Operation not supported (POSIX.1)
+>>
+> 
+> Yeah, other places in kernel use ENOTSUPP.  This seems to be out of 
+> line.  And since the issue is long-existing, applications already know 
+> how to deal with it.  I should have made that argument.  Change it to 
+> ENOTSUPP.
 
-diff --git a/tools/testing/selftests/x86/Makefile b/tools/testing/selftests/x86/Makefile
-index 333980375bc7..65bba2ae86ee 100644
---- a/tools/testing/selftests/x86/Makefile
-+++ b/tools/testing/selftests/x86/Makefile
-@@ -13,7 +13,7 @@ CAN_BUILD_WITH_NOPIE := $(shell ./check_cc.sh $(CC) trivial_program.c -no-pie)
- TARGETS_C_BOTHBITS := single_step_syscall sysret_ss_attrs syscall_nt test_mremap_vdso \
- 			check_initial_reg_state sigreturn iopl ioperm \
- 			test_vsyscall mov_ss_trap \
--			syscall_arg_fault fsgsbase_restore
-+			syscall_arg_fault fsgsbase_restore sigaltstack
- TARGETS_C_32BIT_ONLY := entry_from_vm86 test_syscall_vdso unwind_vdso \
- 			test_FCMOV test_FCOMI test_FISTTP \
- 			vdso_restorer
-diff --git a/tools/testing/selftests/x86/sigaltstack.c b/tools/testing/selftests/x86/sigaltstack.c
-new file mode 100644
-index 000000000000..f689af75e979
---- /dev/null
-+++ b/tools/testing/selftests/x86/sigaltstack.c
-@@ -0,0 +1,128 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#define _GNU_SOURCE
-+#include <signal.h>
-+#include <stdio.h>
-+#include <stdbool.h>
-+#include <string.h>
-+#include <err.h>
-+#include <errno.h>
-+#include <limits.h>
-+#include <sys/mman.h>
-+#include <sys/auxv.h>
-+#include <sys/prctl.h>
-+#include <sys/resource.h>
-+#include <setjmp.h>
-+
-+/* sigaltstack()-enforced minimum stack */
-+#define ENFORCED_MINSIGSTKSZ	2048
-+
-+#ifndef AT_MINSIGSTKSZ
-+#  define AT_MINSIGSTKSZ	51
-+#endif
-+
-+static int nerrs;
-+
-+static bool sigalrm_expected;
-+
-+static unsigned long at_minstack_size;
-+
-+static void sethandler(int sig, void (*handler)(int, siginfo_t *, void *),
-+		       int flags)
-+{
-+	struct sigaction sa;
-+
-+	memset(&sa, 0, sizeof(sa));
-+	sa.sa_sigaction = handler;
-+	sa.sa_flags = SA_SIGINFO | flags;
-+	sigemptyset(&sa.sa_mask);
-+	if (sigaction(sig, &sa, 0))
-+		err(1, "sigaction");
-+}
-+
-+static void clearhandler(int sig)
-+{
-+	struct sigaction sa;
-+
-+	memset(&sa, 0, sizeof(sa));
-+	sa.sa_handler = SIG_DFL;
-+	sigemptyset(&sa.sa_mask);
-+	if (sigaction(sig, &sa, 0))
-+		err(1, "sigaction");
-+}
-+
-+static int setup_altstack(void *start, unsigned long size)
-+{
-+	stack_t ss;
-+
-+	memset(&ss, 0, sizeof(ss));
-+	ss.ss_size = size;
-+	ss.ss_sp = start;
-+
-+	return sigaltstack(&ss, NULL);
-+}
-+
-+static jmp_buf jmpbuf;
-+
-+static void sigsegv(int sig, siginfo_t *info, void *ctx_void)
-+{
-+	if (sigalrm_expected) {
-+		printf("[FAIL]\tWrong signal delivered: SIGSEGV (expected SIGALRM).");
-+		nerrs++;
-+	} else {
-+		printf("[OK]\tSIGSEGV signal delivered.\n");
-+	}
-+
-+	siglongjmp(jmpbuf, 1);
-+}
-+
-+static void sigalrm(int sig, siginfo_t *info, void *ctx_void)
-+{
-+	if (!sigalrm_expected) {
-+		printf("[FAIL]\tWrong signal delivered: SIGALRM (expected SIGSEGV).");
-+		nerrs++;
-+	} else {
-+		printf("[OK]\tSIGALRM signal delivered.\n");
-+	}
-+}
-+
-+static void test_sigaltstack(void *altstack, unsigned long size)
-+{
-+	if (setup_altstack(altstack, size))
-+		err(1, "sigaltstack()");
-+
-+	sigalrm_expected = (size > at_minstack_size) ? true : false;
-+
-+	sethandler(SIGSEGV, sigsegv, 0);
-+	sethandler(SIGALRM, sigalrm, SA_ONSTACK);
-+
-+	if (!sigsetjmp(jmpbuf, 1)) {
-+		printf("[RUN]\tTest an alternate signal stack of %ssufficient size.\n",
-+		       sigalrm_expected ? "" : "in");
-+		printf("\tRaise SIGALRM. %s is expected to be delivered.\n",
-+		       sigalrm_expected ? "It" : "SIGSEGV");
-+		raise(SIGALRM);
-+	}
-+
-+	clearhandler(SIGALRM);
-+	clearhandler(SIGSEGV);
-+}
-+
-+int main(void)
-+{
-+	void *altstack;
-+
-+	at_minstack_size = getauxval(AT_MINSIGSTKSZ);
-+
-+	altstack = mmap(NULL, at_minstack_size + SIGSTKSZ, PROT_READ | PROT_WRITE,
-+			MAP_PRIVATE | MAP_ANONYMOUS | MAP_STACK, -1, 0);
-+	if (altstack == MAP_FAILED)
-+		err(1, "mmap()");
-+
-+	if ((ENFORCED_MINSIGSTKSZ + 1) < at_minstack_size)
-+		test_sigaltstack(altstack, ENFORCED_MINSIGSTKSZ + 1);
-+
-+	test_sigaltstack(altstack, at_minstack_size + SIGSTKSZ);
-+
-+	return nerrs == 0 ? 0 : 1;
-+}
--- 
-2.17.1
+When I make the change, checkpatch says...
 
+WARNING: ENOTSUPP is not a SUSV4 error code, prefer EOPNOTSUPP
+#128: FILE: arch/x86/kernel/cet_prctl.c:33:
++		return -ENOTSUPP;
+
+Do we want to reconsider?
+
+[...]
