@@ -2,118 +2,156 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A46ED30F6F6
-	for <lists+linux-api@lfdr.de>; Thu,  4 Feb 2021 17:00:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A6FC30F8D7
+	for <lists+linux-api@lfdr.de>; Thu,  4 Feb 2021 17:59:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237666AbhBDP5A (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 4 Feb 2021 10:57:00 -0500
-Received: from foss.arm.com ([217.140.110.172]:60878 "EHLO foss.arm.com"
+        id S238213AbhBDQ6m (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 4 Feb 2021 11:58:42 -0500
+Received: from foss.arm.com ([217.140.110.172]:33412 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237654AbhBDP4q (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 4 Feb 2021 10:56:46 -0500
+        id S237943AbhBDQm4 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 4 Feb 2021 11:42:56 -0500
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0559C11D4;
-        Thu,  4 Feb 2021 07:55:59 -0800 (PST)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 12BE411D4;
+        Thu,  4 Feb 2021 08:42:08 -0800 (PST)
 Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A96C83F718;
-        Thu,  4 Feb 2021 07:55:56 -0800 (PST)
-Date:   Thu, 4 Feb 2021 15:55:30 +0000
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CFDA33F718;
+        Thu,  4 Feb 2021 08:42:06 -0800 (PST)
+Date:   Thu, 4 Feb 2021 16:41:46 +0000
 From:   Dave Martin <Dave.Martin@arm.com>
-To:     "Chang S. Bae" <chang.seok.bae@intel.com>
-Cc:     bp@suse.de, tglx@linutronix.de, mingo@kernel.org, luto@kernel.org,
-        x86@kernel.org, linux-arch@vger.kernel.org, len.brown@intel.com,
-        tony.luck@intel.com, libc-alpha@sourceware.org,
-        ravi.v.shankar@intel.com, hjl.tools@gmail.com, carlos@redhat.com,
-        mpe@ellerman.id.au, jannh@google.com, linux-kernel@vger.kernel.org,
-        dave.hansen@intel.com, linux-api@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v5 1/5] uapi: Move the aux vector AT_MINSIGSTKSZ define
- to uapi
-Message-ID: <20210204155519.GA21837@arm.com>
-References: <20210203172242.29644-1-chang.seok.bae@intel.com>
- <20210203172242.29644-2-chang.seok.bae@intel.com>
+To:     Will Deacon <will@kernel.org>
+Cc:     Andrei Vagin <avagin@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org,
+        Anthony Steinhauser <asteinhauser@google.com>,
+        Keno Fischer <keno@juliacomputing.com>
+Subject: Re: [PATCH 1/3] arm64/ptrace: don't clobber task registers on
+ syscall entry/exit traps
+Message-ID: <20210204164145.GB21837@arm.com>
+References: <20210201194012.524831-1-avagin@gmail.com>
+ <20210201194012.524831-2-avagin@gmail.com>
+ <20210204152334.GA21058@willie-the-truck>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210203172242.29644-2-chang.seok.bae@intel.com>
+In-Reply-To: <20210204152334.GA21058@willie-the-truck>
 User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Feb 03, 2021 at 09:22:38AM -0800, Chang S. Bae wrote:
-> Move the AT_MINSIGSTKSZ definition to generic Linux from arm64. It is
-> already used as generic ABI in glibc's generic elf.h, and this move will
-> prevent future namespace conflicts. In particular, x86 will re-use this
-> generic definition.
+On Thu, Feb 04, 2021 at 03:23:34PM +0000, Will Deacon wrote:
+> On Mon, Feb 01, 2021 at 11:40:10AM -0800, Andrei Vagin wrote:
+> > ip/r12 for AArch32 and x7 for AArch64 is used to indicate whether or not
+> > the stop has been signalled from syscall entry or syscall exit. This
+> > means that:
+> > 
+> > - Any writes by the tracer to this register during the stop are
+> >   ignored/discarded.
+> > 
+> > - The actual value of the register is not available during the stop,
+> >   so the tracer cannot save it and restore it later.
+> > 
+> > Right now, these registers are clobbered in tracehook_report_syscall.
+> > This change moves the logic to gpr_get and compat_gpr_get where
+> > registers are copied into a user-space buffer.
+> > 
+> > This will allow to change these registers and to introduce a new
+> > ptrace option to get the full set of registers.
+> > 
+> > Signed-off-by: Andrei Vagin <avagin@gmail.com>
+> > ---
+> >  arch/arm64/include/asm/ptrace.h |   5 ++
+> >  arch/arm64/kernel/ptrace.c      | 104 ++++++++++++++++++++------------
+> >  2 files changed, 69 insertions(+), 40 deletions(-)
+> > 
+> > diff --git a/arch/arm64/include/asm/ptrace.h b/arch/arm64/include/asm/ptrace.h
+> > index e58bca832dff..0a9552b4f61e 100644
+> > --- a/arch/arm64/include/asm/ptrace.h
+> > +++ b/arch/arm64/include/asm/ptrace.h
+> > @@ -170,6 +170,11 @@ static inline unsigned long pstate_to_compat_psr(const unsigned long pstate)
+> >  	return psr;
+> >  }
+> >  
+> > +enum ptrace_syscall_dir {
+> > +	PTRACE_SYSCALL_ENTER = 0,
+> > +	PTRACE_SYSCALL_EXIT,
+> > +};
+> > +
+> >  /*
+> >   * This struct defines the way the registers are stored on the stack during an
+> >   * exception. Note that sizeof(struct pt_regs) has to be a multiple of 16 (for
+> > diff --git a/arch/arm64/kernel/ptrace.c b/arch/arm64/kernel/ptrace.c
+> > index 8ac487c84e37..39da03104528 100644
+> > --- a/arch/arm64/kernel/ptrace.c
+> > +++ b/arch/arm64/kernel/ptrace.c
+> > @@ -40,6 +40,7 @@
+> >  #include <asm/syscall.h>
+> >  #include <asm/traps.h>
+> >  #include <asm/system_misc.h>
+> > +#include <asm/ptrace.h>
+> >  
+> >  #define CREATE_TRACE_POINTS
+> >  #include <trace/events/syscalls.h>
+> > @@ -561,7 +562,31 @@ static int gpr_get(struct task_struct *target,
+> >  		   struct membuf to)
+> >  {
+> >  	struct user_pt_regs *uregs = &task_pt_regs(target)->user_regs;
+> > -	return membuf_write(&to, uregs, sizeof(*uregs));
+> > +	unsigned long saved_reg;
+> > +	int ret;
+> > +
+> > +	/*
+> > +	 * We have some ABI weirdness here in the way that we handle syscall
+> > +	 * exit stops because we indicate whether or not the stop has been
+> > +	 * signalled from syscall entry or syscall exit by clobbering the general
+> > +	 * purpose register x7.
+> > +	 */
 > 
-> Signed-off-by: Chang S. Bae <chang.seok.bae@intel.com>
-> Reviewed-by: Len Brown <len.brown@intel.com>
-> Cc: Carlos O'Donell <carlos@redhat.com>
-> Cc: Dave Martin <Dave.Martin@arm.com>
-> Cc: libc-alpha@sourceware.org
-> Cc: linux-arch@vger.kernel.org
-> Cc: linux-api@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-kernel@vger.kernel.org
-> ---
-> Change from v4:
-> * Added as a new patch (Carlos O'Donell)
-> ---
->  arch/arm64/include/uapi/asm/auxvec.h | 1 -
->  include/uapi/linux/auxvec.h          | 1 +
->  2 files changed, 1 insertion(+), 1 deletion(-)
+> When you move a comment, please don't truncate it!
 > 
-> diff --git a/arch/arm64/include/uapi/asm/auxvec.h b/arch/arm64/include/uapi/asm/auxvec.h
-> index 743c0b84fd30..767d710c92aa 100644
-> --- a/arch/arm64/include/uapi/asm/auxvec.h
-> +++ b/arch/arm64/include/uapi/asm/auxvec.h
-> @@ -19,7 +19,6 @@
->  
->  /* vDSO location */
->  #define AT_SYSINFO_EHDR	33
-> -#define AT_MINSIGSTKSZ	51	/* stack needed for signal delivery */
+> > +	saved_reg = uregs->regs[7];
+> > +
+> > +	switch (target->ptrace_message) {
+> > +	case PTRACE_EVENTMSG_SYSCALL_ENTRY:
+> > +		uregs->regs[7] = PTRACE_SYSCALL_ENTER;
+> > +		break;
+> > +	case PTRACE_EVENTMSG_SYSCALL_EXIT:
+> > +		uregs->regs[7] = PTRACE_SYSCALL_EXIT;
+> > +		break;
+> > +	}
+> 
+> I'm wary of checking target->ptrace_message here, as I seem to recall the
+> regset code also being used for coredumps. What guarantees we don't break
+> things there?
 
-Since this is UAPI, I'm wondering whether we should try to preserve this
-definition for users of <asm/auxvec.h>.  (Indeed, it is not uncommon to
-include <asm/> headers in userspace hackery, since the <linux/> headers
-tend to interact badly with the the libc headers.)
+For a coredump, is there any way to know whether a given thread was
+inside a traced syscall when the coredump was generated?  If so, x7 in
+the dump may already unreliable and we only need to make best efforts to
+get it "right".
 
-In C11 at least, duplicate #defines are not an error if the definitions
-are the same.  I don't know about the history, but I suspect this was
-true for older standards too.  So maybe we can just keep this definition
-with a duplicate definition in the common header.
+Since triggering of the coredump and death of other threads all require
+dequeueing of some signal, I think all threads must always outside the
+syscall-enter...syscall-exit path before any of the coredump runs anyway,
+in which case the above should never matter...  Though somone else ought
+to eyeball the coredump code before we agree on that.
 
-Otherwise, we could have
+ptrace_message doesn't seem absolutely the wrong thing to check, but
+we'd need to be sure that it can't be stale (say, left over from some
+previous trap).
 
-#ifndef AT_MINSIGSTKSZ
-#define AT_MINSIGSTKSZ 51
-#endif
 
-in include/linux/uapi/auxvec.h, and keep the arm64 header unchanged.
+Out of interest, where did this arm64 ptrace feature come from?  Was it
+just pasted from 32-bit and thinly adapted?  It looks like an
+arch-specific attempt to do what PTRACE_O_TRACESYSGOOD does, in which
+case it may have been obsolete even before it was upstreamed.  I wonder
+whether anyone is actually relying on it at all...  
 
->  
->  #define AT_VECTOR_SIZE_ARCH 2 /* entries in ARCH_DLINFO */
->  
-> diff --git a/include/uapi/linux/auxvec.h b/include/uapi/linux/auxvec.h
-> index abe5f2b6581b..cc4fa77bd2a7 100644
-> --- a/include/uapi/linux/auxvec.h
-> +++ b/include/uapi/linux/auxvec.h
-> @@ -33,5 +33,6 @@
->  
->  #define AT_EXECFN  31	/* filename of program */
->  
-> +#define AT_MINSIGSTKSZ	51	/* stack needed for signal delivery  */
->  
->  #endif /* _UAPI_LINUX_AUXVEC_H */
+Doesn't mean we can definitely fix it safely, but it's annoying.
 
-Otherwise, this looks fine as a concept.
-
-AFAICT, no other arch is already using the value 51.
-
-If nobody else objects to the loss of the definition from arm64's
-<asm/auxvec.h> then I guess I can put up with that -- but I will wait to
-see if anyone gives a view first.
+[...]
 
 Cheers
 ---Dave
