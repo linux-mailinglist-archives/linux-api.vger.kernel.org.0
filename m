@@ -2,49 +2,49 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D51830FD5C
-	for <lists+linux-api@lfdr.de>; Thu,  4 Feb 2021 20:56:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B58130FD5E
+	for <lists+linux-api@lfdr.de>; Thu,  4 Feb 2021 20:56:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238249AbhBDTyE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 4 Feb 2021 14:54:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38926 "EHLO
+        id S239229AbhBDTyQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 4 Feb 2021 14:54:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239418AbhBDTvj (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 4 Feb 2021 14:51:39 -0500
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E34E9C061356
-        for <linux-api@vger.kernel.org>; Thu,  4 Feb 2021 11:50:17 -0800 (PST)
-Received: by mail-pg1-x531.google.com with SMTP id o63so2857180pgo.6
-        for <linux-api@vger.kernel.org>; Thu, 04 Feb 2021 11:50:17 -0800 (PST)
+        with ESMTP id S237957AbhBDTv7 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 4 Feb 2021 14:51:59 -0500
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6005EC06121F
+        for <linux-api@vger.kernel.org>; Thu,  4 Feb 2021 11:50:23 -0800 (PST)
+Received: by mail-pf1-x430.google.com with SMTP id o20so2793394pfu.0
+        for <linux-api@vger.kernel.org>; Thu, 04 Feb 2021 11:50:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=xVfkuBJxoMHahNTAuzjMVwQ5V275LoCHtWLRN4+qRmA=;
-        b=SMhMJ0y1hFFkybLoK6RuX6W/uHtQZL/bYx1Vgct5XlRDHsQX7hEStJhU3muUb4fbEv
-         hiUTrOqPhcz1pfUb97munHXmjX0c8gXGZ3hYDWbcMqclDY0sjxLOb8ku8yWr5/G0SoNh
-         WUrWnsUWQvaHO1lagOpKt+BD5lQaiuCJGoC+s=
+        bh=OCBNpOzMc8CAOBfAgX/jLAhp/SQecCvHp/iShWPRCZQ=;
+        b=UzKHJoHstJUn1+EShPvxaJaqClm9LA26kdmfw9zDnAdyzrAY6CqEgnlW45I0CJthX4
+         DDUOM1Ntq+iwMd+/8nEiBF24eu4IJc41zF9EcSwZWNb05Nf6D9yLHf7Eb2Pyi63otlod
+         3RwHieM8ryVd+jiq/SMM936MFgxNwHfq3RlWc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=xVfkuBJxoMHahNTAuzjMVwQ5V275LoCHtWLRN4+qRmA=;
-        b=NxcVaFmOuuSyFYCUBBen6pOR0FqkhARYSHbZ9SldVCJKhoAD9NiCEB16UX97nEbbho
-         O4mn8doyGYntUdAjlg3Oj2A3FIl1diA0LLRqKvmFeFhdDt7IIbDFSA9XWw4y+TqMXJMm
-         /8YdBP1FVC50CoENrRmc1TPufxE4dJTargzIy063F09FoQScEI7u4CJblvhD7DqRmVcR
-         kge/zas1CyNGb0GgcuUEeTkunMYZWoovcXLFUWGWyH0/IPvzF1p5FiF6UnewExu+z1Kd
-         lr9KCo/a7dmQxjQ3qR2/PODOMmG0Mt9CbjyUmyPV/N/31bdtvPZntTH8pkondNu0tHwM
-         v+eA==
-X-Gm-Message-State: AOAM533i/EV7OIzjxxVOtqxkl1P1YivCoWxdwlZfbiYA+pM3Qc1s73Uq
-        yFbu8L9e9QRw87Y4Zw0L+PiUhQ==
-X-Google-Smtp-Source: ABdhPJzOajMVaIDiSuI0Zs6A72FQUA7Xr4U1otuUXAtASSA9xiRUczq+mdvc5mt1TaWo3NxHiyLjQw==
-X-Received: by 2002:a62:7d03:0:b029:1bb:5919:6dec with SMTP id y3-20020a627d030000b02901bb59196decmr766097pfc.76.1612468217541;
-        Thu, 04 Feb 2021 11:50:17 -0800 (PST)
+        bh=OCBNpOzMc8CAOBfAgX/jLAhp/SQecCvHp/iShWPRCZQ=;
+        b=HKH3dl7XGXB4FNDbZbq++/eVQ1y1TNCgd57KuRqhYwZkg5fJ5WndiAmKBXd4XiBApF
+         Lkju1ESg88KzYozqr3/GOBR2Vcg16+gW+hfTNt+9GBCamAUPRaYwHzIzHJm+ECCtD8sQ
+         VleRewZfKKuaDzc53LJwxInFRF2schYHfojP2QN2n4guqZ121boN2lqvBgWgKQZWhudL
+         N5epp62HJWa+R6lwsdP7Ad8n3q8q6NxkzSKy5Ewn1vffSReLjWH00cjjMHEkXdyKWP1E
+         k9rNsJp0u0fpV9sTyM6YypogjtXCaVprqmMf/rmVDrepRnRWO/2XM+0zABrMDPowRRD+
+         httw==
+X-Gm-Message-State: AOAM532zIv5fPnDcHagugXkoa/aWFPXqVQ23PTMnCfkdY0+Alnd5bS95
+        WCdHxD8QH9gTu/lWZkX9/XLVtg==
+X-Google-Smtp-Source: ABdhPJwi3qGotMQdzbjuJor6PdBiBP52TZP1QRJ9SqH5R+oUXMnOHkiFLvDUNqFp4od9u/7BXFE1Fw==
+X-Received: by 2002:a63:794a:: with SMTP id u71mr592348pgc.91.1612468222994;
+        Thu, 04 Feb 2021 11:50:22 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id y16sm7231723pfb.83.2021.02.04.11.50.16
+        by smtp.gmail.com with ESMTPSA id r7sm6299408pfc.26.2021.02.04.11.50.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Feb 2021 11:50:16 -0800 (PST)
-Date:   Thu, 4 Feb 2021 11:50:15 -0800
+        Thu, 04 Feb 2021 11:50:22 -0800 (PST)
+Date:   Thu, 4 Feb 2021 11:50:21 -0800
 From:   Kees Cook <keescook@chromium.org>
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
@@ -72,25 +72,26 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v19 4/7] x86/cet/ibt: Update ELF header parsing for
+Subject: Re: [PATCH v19 5/7] x86/cet/ibt: Update arch_prctl functions for
  Indirect Branch Tracking
-Message-ID: <202102041150.191C2FC@keescook>
+Message-ID: <202102041150.6186296C3@keescook>
 References: <20210203225902.479-1-yu-cheng.yu@intel.com>
- <20210203225902.479-5-yu-cheng.yu@intel.com>
+ <20210203225902.479-6-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210203225902.479-5-yu-cheng.yu@intel.com>
+In-Reply-To: <20210203225902.479-6-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Feb 03, 2021 at 02:58:59PM -0800, Yu-cheng Yu wrote:
-> An ELF file's .note.gnu.property indicates features the file supports.
-> The property is parsed at loading time and passed to arch_setup_elf_
-> property().  Update it for Indirect Branch Tracking.
+On Wed, Feb 03, 2021 at 02:59:00PM -0800, Yu-cheng Yu wrote:
+> From: "H.J. Lu" <hjl.tools@gmail.com>
 > 
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> Update ARCH_X86_CET_STATUS and ARCH_X86_CET_DISABLE for Indirect Branch
+> Tracking.
+> 
+> Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
 
