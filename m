@@ -2,30 +2,31 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C9C2C30FFA4
-	for <lists+linux-api@lfdr.de>; Thu,  4 Feb 2021 22:51:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DCA93100DE
+	for <lists+linux-api@lfdr.de>; Fri,  5 Feb 2021 00:44:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230419AbhBDVtx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 4 Feb 2021 16:49:53 -0500
-Received: from mga14.intel.com ([192.55.52.115]:4838 "EHLO mga14.intel.com"
+        id S231208AbhBDXnz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 4 Feb 2021 18:43:55 -0500
+Received: from mga11.intel.com ([192.55.52.93]:19290 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229613AbhBDVti (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 4 Feb 2021 16:49:38 -0500
-IronPort-SDR: pY+Nr6jAgIxyBSpAvvvsgXOwo2hNItuw9siAkK7SOvOxAnkVR0xZ2PX5iO24yXStyRd4G6C3S7
- yUGldeJTw3/w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9885"; a="180557971"
+        id S231186AbhBDXnu (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 4 Feb 2021 18:43:50 -0500
+IronPort-SDR: paq73y+XUm9y5jV86oLfy3XQCor3hz9emY1clRXp4YE1QIUTnIPuLVOPe+lVU567RoH/pK/xE5
+ QkOPp/xRXpbQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9885"; a="177841889"
 X-IronPort-AV: E=Sophos;i="5.81,153,1610438400"; 
-   d="scan'208";a="180557971"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2021 13:48:49 -0800
-IronPort-SDR: myV1KE9j7kkbr5D5pXV2bGsPNu9vv8X5WxtJ9c2sz4znxzOvH794zrs0zwYjGwOu0gcq//xvG6
- PNYTZBCr3OEg==
+   d="scan'208";a="177841889"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2021 15:42:03 -0800
+IronPort-SDR: 6wbv918hvG4kwN5PthBfgEyPKVZYOVgV2Zh9AsIF6FZ0wwxkwPSieawgpnXjfujFsc4GNhN/d5
+ xzDq58RPrx2A==
 X-IronPort-AV: E=Sophos;i="5.81,153,1610438400"; 
-   d="scan'208";a="393459920"
+   d="scan'208";a="483749298"
 Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.100.6]) ([10.209.100.6])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2021 13:48:34 -0800
-Subject: Re: [PATCH v19 12/25] mm: Introduce VM_SHSTK for shadow stack memory
-To:     Cyrill Gorcunov <gorcunov@gmail.com>
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2021 15:42:00 -0800
+Subject: Re: [PATCH v19 24/25] x86/cet/shstk: Add arch_prctl functions for
+ shadow stack
+To:     Kees Cook <keescook@chromium.org>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
@@ -35,12 +36,12 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Andy Lutomirski <luto@kernel.org>,
         Balbir Singh <bsingharora@gmail.com>,
         Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         Eugene Syromiatnikov <esyr@redhat.com>,
         Florian Weimer <fweimer@redhat.com>,
         "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
         Mike Kravetz <mike.kravetz@oracle.com>,
         Nadav Amit <nadav.amit@gmail.com>,
         Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
@@ -52,14 +53,15 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>
 References: <20210203225547.32221-1-yu-cheng.yu@intel.com>
- <20210203225547.32221-13-yu-cheng.yu@intel.com> <20210204204636.GH2172@grain>
+ <20210203225547.32221-25-yu-cheng.yu@intel.com>
+ <202102041235.BA6C4982F@keescook>
 From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <44f18779-efdb-e3f9-55d4-b46fb35d60cd@intel.com>
-Date:   Thu, 4 Feb 2021 13:48:34 -0800
+Message-ID: <6d7dd90f-dc03-06ce-57a2-57e4c2f803f3@intel.com>
+Date:   Thu, 4 Feb 2021 15:41:59 -0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210204204636.GH2172@grain>
+In-Reply-To: <202102041235.BA6C4982F@keescook>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -67,25 +69,29 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2/4/2021 12:46 PM, Cyrill Gorcunov wrote:
-> On Wed, Feb 03, 2021 at 02:55:34PM -0800, Yu-cheng Yu wrote:
->>   
->> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
->> index 602e3a52884d..59623dcd92bb 100644
->> --- a/fs/proc/task_mmu.c
->> +++ b/fs/proc/task_mmu.c
->> @@ -661,6 +661,9 @@ static void show_smap_vma_flags(struct seq_file *m, struct vm_area_struct *vma)
->>   		[ilog2(VM_PKEY_BIT4)]	= "",
->>   #endif
->>   #endif /* CONFIG_ARCH_HAS_PKEYS */
->> +#ifdef CONFIG_X86_CET
->> +		[ilog2(VM_SHSTK)]	= "ss",
->> +#endif
->>   	};
+On 2/4/2021 12:35 PM, Kees Cook wrote:
+> On Wed, Feb 03, 2021 at 02:55:46PM -0800, Yu-cheng Yu wrote:
+>> arch_prctl(ARCH_X86_CET_STATUS, u64 *args)
+>>      Get CET feature status.
+>>
+>>      The parameter 'args' is a pointer to a user buffer.  The kernel returns
+>>      the following information:
+>>
+>>      *args = shadow stack/IBT status
+>>      *(args + 1) = shadow stack base address
+>>      *(args + 2) = shadow stack size
 > 
-> IIRC we've these abbreviations explained in documentaion
-> (proc.rst file). Could you please update it once time
-> permit? I think it can be done on top of the series.
+> What happens if this needs to grow in the future? Should the first u64
+> contain the array size?
+> 
+> Otherwise, looks sensible.
+> 
+> -Kees
 > 
 
-I will add that.  Thanks!
+The first item is a bitmap, and there are two possible bits.  Should 
+there be a need, we can then do things about it.  My thought at the 
+moment is, we may not meet the situation.  Can we keep this for now?
+
+--
+Yu-cheng
