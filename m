@@ -2,195 +2,117 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A272330FC16
-	for <lists+linux-api@lfdr.de>; Thu,  4 Feb 2021 20:00:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 37FB630FBF3
+	for <lists+linux-api@lfdr.de>; Thu,  4 Feb 2021 19:53:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239222AbhBDS5t (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 4 Feb 2021 13:57:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51966 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239240AbhBDSlX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 4 Feb 2021 13:41:23 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D448C0613D6;
-        Thu,  4 Feb 2021 10:40:40 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: krisman)
-        with ESMTPSA id 7D7F81F46467
-From:   Gabriel Krisman Bertazi <krisman@collabora.com>
-To:     tglx@linutronix.de
-Cc:     linux-kernel@vger.kernel.org,
-        Gabriel Krisman Bertazi <krisman@collabora.com>,
-        kernel@collabora.com, Linux API <linux-api@vger.kernel.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>
-Subject: [PATCH RESEND] entry: Use different define for selector variable in SUD
-Date:   Thu,  4 Feb 2021 13:40:28 -0500
-Message-Id: <20210204184028.1516328-1-krisman@collabora.com>
-X-Mailer: git-send-email 2.30.0
+        id S239403AbhBDSts (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 4 Feb 2021 13:49:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53480 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S239381AbhBDStd (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 4 Feb 2021 13:49:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1612464473;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=lsNoUMCO1nEXOP2imOs5qf2e3v8YT9CdaCiUbwmZSYQ=;
+        b=I/IVpxeW8WvtSWEn9Es1s42f/QozTB97zoIWAW30h/nR79PYvgiNYtR918ENXPr04+XsTG
+        bw8Q3pTnR8aNkCkI9nR7leI4/vzxD32E9WcUo2oXUn5ncDXzzqCECpMxqxVcnxsrXTbHF6
+        oZYWHux7M5tm885qiInCoXyy2OM7P5w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-229-4YY6d1skPqyXhYA2hOoK-w-1; Thu, 04 Feb 2021 13:47:50 -0500
+X-MC-Unique: 4YY6d1skPqyXhYA2hOoK-w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BDA26801968;
+        Thu,  4 Feb 2021 18:47:47 +0000 (UTC)
+Received: from [10.10.116.135] (ovpn-116-135.rdu2.redhat.com [10.10.116.135])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 87DF960CCF;
+        Thu,  4 Feb 2021 18:47:40 +0000 (UTC)
+Subject: Re: [Patch v4 1/3] lib: Restrict cpumask_local_spread to houskeeping
+ CPUs
+To:     Marcelo Tosatti <mtosatti@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>
+Cc:     Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, frederic@kernel.org,
+        juri.lelli@redhat.com, abelits@marvell.com, bhelgaas@google.com,
+        linux-pci@vger.kernel.org, rostedt@goodmis.org, mingo@kernel.org,
+        peterz@infradead.org, davem@davemloft.net,
+        akpm@linux-foundation.org, sfr@canb.auug.org.au,
+        stephen@networkplumber.org, rppt@linux.vnet.ibm.com,
+        jinyuqi@huawei.com, zhangshaokun@hisilicon.com
+References: <20200625223443.2684-1-nitesh@redhat.com>
+ <20200625223443.2684-2-nitesh@redhat.com>
+ <3e9ce666-c9cd-391b-52b6-3471fe2be2e6@arm.com>
+ <20210127121939.GA54725@fuller.cnet> <87r1m5can2.fsf@nanos.tec.linutronix.de>
+ <20210128165903.GB38339@fuller.cnet> <87h7n0de5a.fsf@nanos.tec.linutronix.de>
+ <20210204181546.GA30113@fuller.cnet>
+From:   Nitesh Narayan Lal <nitesh@redhat.com>
+Organization: Red Hat Inc,
+Message-ID: <cfa138e9-38e3-e566-8903-1d64024c917b@redhat.com>
+Date:   Thu, 4 Feb 2021 13:47:38 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210204181546.GA30113@fuller.cnet>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Michael Kerrisk suggested that, from an API perspective, it is a bad
-idea to share the PR_SYS_DISPATCH_ defines between the prctl operation
-and the selector variable.  Therefore, define two new constants to be
-used by SUD's selector variable, and the corresponding documentation.
 
-While this changes the API, it is backward compatible, as the values
-remained the same and the old defines are still in place.  In addition,
-SUD has never been part of a Linux release, it will show up for the
-first time in 5.11.
+On 2/4/21 1:15 PM, Marcelo Tosatti wrote:
+> On Thu, Jan 28, 2021 at 09:01:37PM +0100, Thomas Gleixner wrote:
+>> On Thu, Jan 28 2021 at 13:59, Marcelo Tosatti wrote:
+>>>> The whole pile wants to be reverted. It's simply broken in several ways.
+>>> I was asking for your comments on interaction with CPU hotplug :-)
+>> Which I answered in an seperate mail :)
+>>
+>>> So housekeeping_cpumask has multiple meanings. In this case:
+>> ...
+>>
+>>> So as long as the meaning of the flags are respected, seems
+>>> alright.
+>> Yes. Stuff like the managed interrupts preference for housekeeping CPUs
+>> when a affinity mask spawns housekeeping and isolated is perfectly
+>> fine. It's well thought out and has no limitations.
+>>
+>>> Nitesh, is there anything preventing this from being fixed
+>>> in userspace ? (as Thomas suggested previously).
+>> Everything with is not managed can be steered by user space.
+> Yes, but it seems to be racy (that is, there is a window where the 
+> interrupt can be delivered to an isolated CPU).
+>
+> ethtool ->
+> xgbe_set_channels ->
+> xgbe_full_restart_dev ->
+> xgbe_alloc_memory ->
+> xgbe_alloc_channels ->
+> cpumask_local_spread
+>
+> Also ifconfig eth0 down / ifconfig eth0 up leads
+> to cpumask_spread_local.
 
-Cc: Linux API <linux-api@vger.kernel.org>
-Suggested-by: Michael Kerrisk (man-pages) <mtk.manpages@gmail.com>
-Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
----
- .../admin-guide/syscall-user-dispatch.rst          |  4 ++--
- include/uapi/linux/prctl.h                         |  2 ++
- kernel/entry/syscall_user_dispatch.c               |  4 ++--
- .../syscall_user_dispatch/sud_benchmark.c          |  8 +++++---
- .../selftests/syscall_user_dispatch/sud_test.c     | 14 ++++++++------
- 5 files changed, 19 insertions(+), 13 deletions(-)
+There's always that possibility.
 
-diff --git a/Documentation/admin-guide/syscall-user-dispatch.rst b/Documentation/admin-guide/syscall-user-dispatch.rst
-index a380d6515774..fc13112e36e3 100644
---- a/Documentation/admin-guide/syscall-user-dispatch.rst
-+++ b/Documentation/admin-guide/syscall-user-dispatch.rst
-@@ -70,8 +70,8 @@ trampoline code on the vDSO, that trampoline is never intercepted.
- [selector] is a pointer to a char-sized region in the process memory
- region, that provides a quick way to enable disable syscall redirection
- thread-wide, without the need to invoke the kernel directly.  selector
--can be set to PR_SYS_DISPATCH_ON or PR_SYS_DISPATCH_OFF.  Any other
--value should terminate the program with a SIGSYS.
-+can be set to PR_SYS_DISPATCH_FILTER_ALLOW or PR_SYS_DISPATCH_FILTER_BLOCK.
-+Any other value should terminate the program with a SIGSYS.
- 
- Security Notes
- --------------
-diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
-index 90deb41c8a34..a66c9fe41249 100644
---- a/include/uapi/linux/prctl.h
-+++ b/include/uapi/linux/prctl.h
-@@ -251,5 +251,7 @@ struct prctl_mm_map {
- #define PR_SET_SYSCALL_USER_DISPATCH	59
- # define PR_SYS_DISPATCH_OFF		0
- # define PR_SYS_DISPATCH_ON		1
-+# define PR_SYS_DISPATCH_FILTER_ALLOW	0
-+# define PR_SYS_DISPATCH_FILTER_BLOCK	1
- 
- #endif /* _LINUX_PRCTL_H */
-diff --git a/kernel/entry/syscall_user_dispatch.c b/kernel/entry/syscall_user_dispatch.c
-index b0338a5625d9..265c33b26dcf 100644
---- a/kernel/entry/syscall_user_dispatch.c
-+++ b/kernel/entry/syscall_user_dispatch.c
-@@ -50,10 +50,10 @@ bool syscall_user_dispatch(struct pt_regs *regs)
- 		if (unlikely(__get_user(state, sd->selector)))
- 			do_exit(SIGSEGV);
- 
--		if (likely(state == PR_SYS_DISPATCH_OFF))
-+		if (likely(state == PR_SYS_DISPATCH_FILTER_ALLOW))
- 			return false;
- 
--		if (state != PR_SYS_DISPATCH_ON)
-+		if (state != PR_SYS_DISPATCH_FILTER_BLOCK)
- 			do_exit(SIGSYS);
- 	}
- 
-diff --git a/tools/testing/selftests/syscall_user_dispatch/sud_benchmark.c b/tools/testing/selftests/syscall_user_dispatch/sud_benchmark.c
-index 6689f1183dbf..7617bd9ba6e1 100644
---- a/tools/testing/selftests/syscall_user_dispatch/sud_benchmark.c
-+++ b/tools/testing/selftests/syscall_user_dispatch/sud_benchmark.c
-@@ -22,6 +22,8 @@
- # define PR_SET_SYSCALL_USER_DISPATCH	59
- # define PR_SYS_DISPATCH_OFF	0
- # define PR_SYS_DISPATCH_ON	1
-+# define PR_SYS_DISPATCH_FILTER_ALLOW	0
-+# define PR_SYS_DISPATCH_FILTER_BLOCK	1
- #endif
- 
- #ifdef __NR_syscalls
-@@ -55,8 +57,8 @@ unsigned long trapped_call_count = 0;
- unsigned long native_call_count = 0;
- 
- char selector;
--#define SYSCALL_BLOCK   (selector = PR_SYS_DISPATCH_ON)
--#define SYSCALL_UNBLOCK (selector = PR_SYS_DISPATCH_OFF)
-+#define SYSCALL_BLOCK   (selector = PR_SYS_DISPATCH_FILTER_BLOCK)
-+#define SYSCALL_UNBLOCK (selector = PR_SYS_DISPATCH_FILTER_ALLOW)
- 
- #define CALIBRATION_STEP 100000
- #define CALIBRATE_TO_SECS 5
-@@ -170,7 +172,7 @@ int main(void)
- 	syscall(MAGIC_SYSCALL_1);
- 
- #ifdef TEST_BLOCKED_RETURN
--	if (selector == PR_SYS_DISPATCH_OFF) {
-+	if (selector == PR_SYS_DISPATCH_FILTER_ALLOW) {
- 		fprintf(stderr, "Failed to return with selector blocked.\n");
- 		exit(-1);
- 	}
-diff --git a/tools/testing/selftests/syscall_user_dispatch/sud_test.c b/tools/testing/selftests/syscall_user_dispatch/sud_test.c
-index 6498b050ef89..21e1550db118 100644
---- a/tools/testing/selftests/syscall_user_dispatch/sud_test.c
-+++ b/tools/testing/selftests/syscall_user_dispatch/sud_test.c
-@@ -18,6 +18,8 @@
- # define PR_SET_SYSCALL_USER_DISPATCH	59
- # define PR_SYS_DISPATCH_OFF	0
- # define PR_SYS_DISPATCH_ON	1
-+# define PR_SYS_DISPATCH_FILTER_ALLOW	0
-+# define PR_SYS_DISPATCH_FILTER_BLOCK	1
- #endif
- 
- #ifndef SYS_USER_DISPATCH
-@@ -30,8 +32,8 @@
- # define MAGIC_SYSCALL_1 (0xff00)  /* Bad Linux syscall number */
- #endif
- 
--#define SYSCALL_DISPATCH_ON(x) ((x) = 1)
--#define SYSCALL_DISPATCH_OFF(x) ((x) = 0)
-+#define SYSCALL_DISPATCH_ON(x) ((x) = PR_SYS_DISPATCH_FILTER_BLOCK)
-+#define SYSCALL_DISPATCH_OFF(x) ((x) = PR_SYS_DISPATCH_FILTER_ALLOW)
- 
- /* Test Summary:
-  *
-@@ -56,7 +58,7 @@
- 
- TEST_SIGNAL(dispatch_trigger_sigsys, SIGSYS)
- {
--	char sel = 0;
-+	char sel = PR_SYS_DISPATCH_FILTER_ALLOW;
- 	struct sysinfo info;
- 	int ret;
- 
-@@ -79,7 +81,7 @@ TEST_SIGNAL(dispatch_trigger_sigsys, SIGSYS)
- 
- TEST(bad_prctl_param)
- {
--	char sel = 0;
-+	char sel = PR_SYS_DISPATCH_FILTER_ALLOW;
- 	int op;
- 
- 	/* Invalid op */
-@@ -220,7 +222,7 @@ TEST_SIGNAL(bad_selector, SIGSYS)
- 	sigset_t mask;
- 	struct sysinfo info;
- 
--	glob_sel = 0;
-+	glob_sel = PR_SYS_DISPATCH_FILTER_ALLOW;
- 	nr_syscalls_emulated = 0;
- 	si_code = 0;
- 	si_errno = 0;
-@@ -288,7 +290,7 @@ TEST(direct_dispatch_range)
- {
- 	int ret = 0;
- 	struct sysinfo info;
--	char sel = 0;
-+	char sel = PR_SYS_DISPATCH_FILTER_ALLOW;
- 
- 	/*
- 	 * Instead of calculating libc addresses; allow the entire
+We have to ensure that we move the IRQs by a tuned daemon or some other
+userspace script every time there is a net-dev change (eg. device comes up,
+creates VFs, etc).
+
+> How about adding a new flag for isolcpus instead?
+>
+
+Do you mean a flag based on which we can switch the affinity mask to
+housekeeping for all the devices at the time of IRQ distribution?
+
 -- 
-2.30.0
+Thanks
+Nitesh
 
