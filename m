@@ -2,119 +2,100 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EE3130FC79
-	for <lists+linux-api@lfdr.de>; Thu,  4 Feb 2021 20:23:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E82530FD55
+	for <lists+linux-api@lfdr.de>; Thu,  4 Feb 2021 20:54:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239580AbhBDTTg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 4 Feb 2021 14:19:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26288 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S239741AbhBDTSz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 4 Feb 2021 14:18:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1612466249;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=KuIGPrkquiyKP7NWTe6w6zn2YZQsyebCmH47vP2wk2I=;
-        b=R8FH49FRD4j/x0dBuB2VJnZQ79hwBqNC0jjo0An8nIVuYAfQffEf2aaDb5HaN/n+Taq6yN
-        lygSO3FUpGjcyrGXSSUxiXobmDGZeQ8tj1KGPLHvu9DK22Z6qf5T8Jgvn7qew/TtsjJcTl
-        t8VRYU0GRcPszb+R9eAP62wZNTz6rHk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-204-k-GaTCxMN7GdZNtj9zi2jg-1; Thu, 04 Feb 2021 14:17:25 -0500
-X-MC-Unique: k-GaTCxMN7GdZNtj9zi2jg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C64921800D41;
-        Thu,  4 Feb 2021 19:17:22 +0000 (UTC)
-Received: from [10.10.116.135] (ovpn-116-135.rdu2.redhat.com [10.10.116.135])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 929F760C16;
-        Thu,  4 Feb 2021 19:17:17 +0000 (UTC)
-Subject: Re: [Patch v4 1/3] lib: Restrict cpumask_local_spread to houskeeping
- CPUs
-To:     Marcelo Tosatti <mtosatti@redhat.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Robin Murphy <robin.murphy@arm.com>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        frederic@kernel.org, juri.lelli@redhat.com, abelits@marvell.com,
-        bhelgaas@google.com, linux-pci@vger.kernel.org,
-        rostedt@goodmis.org, mingo@kernel.org, peterz@infradead.org,
-        davem@davemloft.net, akpm@linux-foundation.org,
-        sfr@canb.auug.org.au, stephen@networkplumber.org,
-        rppt@linux.vnet.ibm.com, jinyuqi@huawei.com,
-        zhangshaokun@hisilicon.com
-References: <20200625223443.2684-1-nitesh@redhat.com>
- <20200625223443.2684-2-nitesh@redhat.com>
- <3e9ce666-c9cd-391b-52b6-3471fe2be2e6@arm.com>
- <20210127121939.GA54725@fuller.cnet> <87r1m5can2.fsf@nanos.tec.linutronix.de>
- <20210128165903.GB38339@fuller.cnet> <87h7n0de5a.fsf@nanos.tec.linutronix.de>
- <20210204181546.GA30113@fuller.cnet>
- <cfa138e9-38e3-e566-8903-1d64024c917b@redhat.com>
- <20210204190647.GA32868@fuller.cnet>
-From:   Nitesh Narayan Lal <nitesh@redhat.com>
-Organization: Red Hat Inc,
-Message-ID: <d8884413-84b4-b204-85c5-810342807d21@redhat.com>
-Date:   Thu, 4 Feb 2021 14:17:16 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+        id S239268AbhBDTvD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 4 Feb 2021 14:51:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38702 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239142AbhBDTul (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 4 Feb 2021 14:50:41 -0500
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 971C7C06178A
+        for <linux-api@vger.kernel.org>; Thu,  4 Feb 2021 11:50:01 -0800 (PST)
+Received: by mail-pf1-x433.google.com with SMTP id i63so2767007pfg.7
+        for <linux-api@vger.kernel.org>; Thu, 04 Feb 2021 11:50:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=YGpFXYKJAyY687eckGJmRvP0PWeimiXLgNP+xU7/nqo=;
+        b=jNNn3+1W3q2GnDkbDg5t75Hoqqb6seGdjr7W6ch2OjxIYQ+lEj9RXyDW8vL2LnL17O
+         7p4KUfwWEJhn1xLRJXFWJ4/XLv358OAS0rDOQxTuyiD+CqW3xrLuas3TWxdLSS2H7Xb5
+         ku1U3RHyZzcqD1+7uVRUTDF5v4lSLOACpHUeo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=YGpFXYKJAyY687eckGJmRvP0PWeimiXLgNP+xU7/nqo=;
+        b=hRgYtwhGkwRR/SVqwvoyybtMdMPPU/bLntq55ztKXGzdxDjnHYbHUIDihwSDfuS+wU
+         nHHQNa0Bd9pHa53eilzvDQ2Rr6h7AGNgPy9eS43Mu8vRXfZERHgz6XCc7vXS/Z4AIlO2
+         ojm0mf3Fab2YFvEBdS0rrwJx+uLYoy35/Z02IOQrfPVuDKVpOjIt2fPuExOh7zDG2y1s
+         sHkocuy9aH2+woXjDoRzS2xi3BJHkHIIG5roJpYKCLSvnJU1hx5kWx4wnKj4FRQlL95V
+         OOvMpDp9JaOWs6CeRh3fAx9uB2JZaDC4+tbMFU+7dnvY7am0Kaike0uemgUsnllmWepI
+         3EgQ==
+X-Gm-Message-State: AOAM533/naoh6PcQE0/CYireZAx1O3r5VF0w8pOml4+ZwoKSNmBHZVyQ
+        6BaVuhPG3jNtlYhnRebkIm3IzA==
+X-Google-Smtp-Source: ABdhPJy5N6yshiiKOkoPYx0cJNX+OaE9hEUPv9SEHAC+Nz8m2HAkwuR8P/TY+xrcUega9fpe8DszDQ==
+X-Received: by 2002:a65:6886:: with SMTP id e6mr588022pgt.73.1612468201098;
+        Thu, 04 Feb 2021 11:50:01 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id j5sm6035843pjf.47.2021.02.04.11.49.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Feb 2021 11:49:59 -0800 (PST)
+Date:   Thu, 4 Feb 2021 11:49:58 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Subject: Re: [PATCH v19 1/7] x86/cet/ibt: Update Kconfig for user-mode
+ Indirect Branch Tracking
+Message-ID: <202102041149.8B30B1E@keescook>
+References: <20210203225902.479-1-yu-cheng.yu@intel.com>
+ <20210203225902.479-2-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210204190647.GA32868@fuller.cnet>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210203225902.479-2-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Wed, Feb 03, 2021 at 02:58:56PM -0800, Yu-cheng Yu wrote:
+> Indirect branch tracking is a hardware security feature that verifies near
+> indirect call/jump instructions arrive at intended targets, which are
+> labeled by the compiler with ENDBR opcodes.  If such instructions reach
+> unlabeled locations, the processor raises control-protection faults.
+> 
+> Check the compiler is up-to-date at config time.
+> 
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 
-On 2/4/21 2:06 PM, Marcelo Tosatti wrote:
-> On Thu, Feb 04, 2021 at 01:47:38PM -0500, Nitesh Narayan Lal wrote:
-
-[...]
-
->>>>> Nitesh, is there anything preventing this from being fixed
->>>>> in userspace ? (as Thomas suggested previously).
->>>> Everything with is not managed can be steered by user space.
->>> Yes, but it seems to be racy (that is, there is a window where the 
->>> interrupt can be delivered to an isolated CPU).
->>>
->>> ethtool ->
->>> xgbe_set_channels ->
->>> xgbe_full_restart_dev ->
->>> xgbe_alloc_memory ->
->>> xgbe_alloc_channels ->
->>> cpumask_local_spread
->>>
->>> Also ifconfig eth0 down / ifconfig eth0 up leads
->>> to cpumask_spread_local.
->> There's always that possibility.
-> Then there is a window where isolation can be broken.
->
->> We have to ensure that we move the IRQs by a tuned daemon or some other
->> userspace script every time there is a net-dev change (eg. device comes up,
->> creates VFs, etc).
-> Again, race window open can result in interrupt to isolated CPU.
-
-
-Yes, and if I am not mistaken then that always has been a problem with
-these userspace solutions.
-
->
->>> How about adding a new flag for isolcpus instead?
->>>
->> Do you mean a flag based on which we can switch the affinity mask to
->> housekeeping for all the devices at the time of IRQ distribution?
-> Yes a new flag for isolcpus. HK_FLAG_IRQ_SPREAD or some better name.
->
->
-
-Does sounds like a nice idea to explore, lets see what Thomas thinks about it.
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
 -- 
-Thanks
-Nitesh
-
+Kees Cook
