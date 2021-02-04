@@ -2,156 +2,126 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A6FC30F8D7
-	for <lists+linux-api@lfdr.de>; Thu,  4 Feb 2021 17:59:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B7CE30FA2D
+	for <lists+linux-api@lfdr.de>; Thu,  4 Feb 2021 18:50:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238213AbhBDQ6m (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 4 Feb 2021 11:58:42 -0500
-Received: from foss.arm.com ([217.140.110.172]:33412 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237943AbhBDQm4 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 4 Feb 2021 11:42:56 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 12BE411D4;
-        Thu,  4 Feb 2021 08:42:08 -0800 (PST)
-Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CFDA33F718;
-        Thu,  4 Feb 2021 08:42:06 -0800 (PST)
-Date:   Thu, 4 Feb 2021 16:41:46 +0000
-From:   Dave Martin <Dave.Martin@arm.com>
-To:     Will Deacon <will@kernel.org>
-Cc:     Andrei Vagin <avagin@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org,
-        Anthony Steinhauser <asteinhauser@google.com>,
-        Keno Fischer <keno@juliacomputing.com>
-Subject: Re: [PATCH 1/3] arm64/ptrace: don't clobber task registers on
- syscall entry/exit traps
-Message-ID: <20210204164145.GB21837@arm.com>
-References: <20210201194012.524831-1-avagin@gmail.com>
- <20210201194012.524831-2-avagin@gmail.com>
- <20210204152334.GA21058@willie-the-truck>
+        id S238757AbhBDRtU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 4 Feb 2021 12:49:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58140 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S238302AbhBDRtG (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 4 Feb 2021 12:49:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1612460859;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=WoCQGzrOsnk55IaG+1UEwkLjcE8h9OKWofQDyL0qDdM=;
+        b=WNcds/5J8A2CRnfAbZp51mb8VPvU3obyD1e+aAqeo/+WtUI4wFYirG3PAXank6pPoyOyr2
+        HLnpqn0HhRXDjaw5JtdZHWUY3x4bupPuUAl5JtnUoYBY/yI2ysbrKyvpdC8c/Fl8Ru4LTb
+        pisRBeROEcV5IxCnqt1bSq+WZ4yE5po=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-195-lEo22RTJPJKzB2hJMUlSNw-1; Thu, 04 Feb 2021 12:47:36 -0500
+X-MC-Unique: lEo22RTJPJKzB2hJMUlSNw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D5A8107ACE3;
+        Thu,  4 Feb 2021 17:47:34 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-115-23.rdu2.redhat.com [10.10.115.23])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 81C4062679;
+        Thu,  4 Feb 2021 17:47:32 +0000 (UTC)
+Subject: [RFC][PATCH 0/2] keys: request_key() interception in containers
+From:   David Howells <dhowells@redhat.com>
+To:     sprabhu@redhat.com
+Cc:     dhowells@redhat.com, Jarkko Sakkinen <jarkko@kernel.org>,
+        christian@brauner.io, selinux@vger.kernel.org,
+        keyrings@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-kernel@vger.kernel.org, containers@lists.linux-foundation.org
+Date:   Thu, 04 Feb 2021 17:47:31 +0000
+Message-ID: <161246085160.1990927.13137391845549674518.stgit@warthog.procyon.org.uk>
+User-Agent: StGit/0.23
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210204152334.GA21058@willie-the-truck>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Feb 04, 2021 at 03:23:34PM +0000, Will Deacon wrote:
-> On Mon, Feb 01, 2021 at 11:40:10AM -0800, Andrei Vagin wrote:
-> > ip/r12 for AArch32 and x7 for AArch64 is used to indicate whether or not
-> > the stop has been signalled from syscall entry or syscall exit. This
-> > means that:
-> > 
-> > - Any writes by the tracer to this register during the stop are
-> >   ignored/discarded.
-> > 
-> > - The actual value of the register is not available during the stop,
-> >   so the tracer cannot save it and restore it later.
-> > 
-> > Right now, these registers are clobbered in tracehook_report_syscall.
-> > This change moves the logic to gpr_get and compat_gpr_get where
-> > registers are copied into a user-space buffer.
-> > 
-> > This will allow to change these registers and to introduce a new
-> > ptrace option to get the full set of registers.
-> > 
-> > Signed-off-by: Andrei Vagin <avagin@gmail.com>
-> > ---
-> >  arch/arm64/include/asm/ptrace.h |   5 ++
-> >  arch/arm64/kernel/ptrace.c      | 104 ++++++++++++++++++++------------
-> >  2 files changed, 69 insertions(+), 40 deletions(-)
-> > 
-> > diff --git a/arch/arm64/include/asm/ptrace.h b/arch/arm64/include/asm/ptrace.h
-> > index e58bca832dff..0a9552b4f61e 100644
-> > --- a/arch/arm64/include/asm/ptrace.h
-> > +++ b/arch/arm64/include/asm/ptrace.h
-> > @@ -170,6 +170,11 @@ static inline unsigned long pstate_to_compat_psr(const unsigned long pstate)
-> >  	return psr;
-> >  }
-> >  
-> > +enum ptrace_syscall_dir {
-> > +	PTRACE_SYSCALL_ENTER = 0,
-> > +	PTRACE_SYSCALL_EXIT,
-> > +};
-> > +
-> >  /*
-> >   * This struct defines the way the registers are stored on the stack during an
-> >   * exception. Note that sizeof(struct pt_regs) has to be a multiple of 16 (for
-> > diff --git a/arch/arm64/kernel/ptrace.c b/arch/arm64/kernel/ptrace.c
-> > index 8ac487c84e37..39da03104528 100644
-> > --- a/arch/arm64/kernel/ptrace.c
-> > +++ b/arch/arm64/kernel/ptrace.c
-> > @@ -40,6 +40,7 @@
-> >  #include <asm/syscall.h>
-> >  #include <asm/traps.h>
-> >  #include <asm/system_misc.h>
-> > +#include <asm/ptrace.h>
-> >  
-> >  #define CREATE_TRACE_POINTS
-> >  #include <trace/events/syscalls.h>
-> > @@ -561,7 +562,31 @@ static int gpr_get(struct task_struct *target,
-> >  		   struct membuf to)
-> >  {
-> >  	struct user_pt_regs *uregs = &task_pt_regs(target)->user_regs;
-> > -	return membuf_write(&to, uregs, sizeof(*uregs));
-> > +	unsigned long saved_reg;
-> > +	int ret;
-> > +
-> > +	/*
-> > +	 * We have some ABI weirdness here in the way that we handle syscall
-> > +	 * exit stops because we indicate whether or not the stop has been
-> > +	 * signalled from syscall entry or syscall exit by clobbering the general
-> > +	 * purpose register x7.
-> > +	 */
-> 
-> When you move a comment, please don't truncate it!
-> 
-> > +	saved_reg = uregs->regs[7];
-> > +
-> > +	switch (target->ptrace_message) {
-> > +	case PTRACE_EVENTMSG_SYSCALL_ENTRY:
-> > +		uregs->regs[7] = PTRACE_SYSCALL_ENTER;
-> > +		break;
-> > +	case PTRACE_EVENTMSG_SYSCALL_EXIT:
-> > +		uregs->regs[7] = PTRACE_SYSCALL_EXIT;
-> > +		break;
-> > +	}
-> 
-> I'm wary of checking target->ptrace_message here, as I seem to recall the
-> regset code also being used for coredumps. What guarantees we don't break
-> things there?
 
-For a coredump, is there any way to know whether a given thread was
-inside a traced syscall when the coredump was generated?  If so, x7 in
-the dump may already unreliable and we only need to make best efforts to
-get it "right".
+Here's a rough draft of a facility by which keys can be intercepted.
 
-Since triggering of the coredump and death of other threads all require
-dequeueing of some signal, I think all threads must always outside the
-syscall-enter...syscall-exit path before any of the coredump runs anyway,
-in which case the above should never matter...  Though somone else ought
-to eyeball the coredump code before we agree on that.
+There are two patches:
 
-ptrace_message doesn't seem absolutely the wrong thing to check, but
-we'd need to be sure that it can't be stale (say, left over from some
-previous trap).
+ (1) Add tags to namespaces that can be used to find out, when we're
+     looking for an intercept, if a namespace that an intercept is
+     filtering on is the same as namespace of the caller of request_key()
+     without the need for the intercept record to pin the namespaces that
+     it's using as filters (which would also cause a dependency cycle).
+
+     Tags contain only a refcount and are compared by address.
+
+ (2) Add a new keyctl:
+
+            keyctl(KEYCTL_SERVICE_INTERCEPT,
+                   int queue_keyring, int userns_fd,
+                   const char *type_name, unsigned int ns_mask);
+
+     that allows a request_key() intercept to be added to the specified
+     user namespace.  The authorisation key for an intercepted request is
+     placed in the queue_keyring, which can be watched to gain a
+     notification of this happening.  The watcher can then examine the auth
+     key to determine what key is to be instantiated.
+
+     A simple sample is provided that can be used to try this.
+
+Some things that need to be worked out:
+
+ (*) Intercepts are linked to the lifetime of the user_namespace on which
+     they're placed, but not the daemon or the queue keyring.  Probably
+     they should be removed when the queue keyring is removed, but they
+     currently pin it.
+
+ (*) Setting userns_fd to other than -1 is not yet supported (-1 indicates
+     the current user namespace).
+
+ (*) Multiple threads can monitor a queue keyring, but they will all get
+     woken.  They can use keyctl_move() to decide who gets to process it.
 
 
-Out of interest, where did this arm64 ptrace feature come from?  Was it
-just pasted from 32-bit and thinly adapted?  It looks like an
-arch-specific attempt to do what PTRACE_O_TRACESYSGOOD does, in which
-case it may have been obsolete even before it was upstreamed.  I wonder
-whether anyone is actually relying on it at all...  
+The patches can be found on the following branch:
 
-Doesn't mean we can definitely fix it safely, but it's annoying.
+	https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/log/?h=keys-intercept
 
-[...]
+David
+---
+David Howells (2):
+      Add namespace tags that can be used for matching without pinning a ns
+      keys: Allow request_key upcalls from a container to be intercepted
 
-Cheers
----Dave
+
+ include/linux/key-type.h                |   4 +-
+ include/linux/user_namespace.h          |   2 +
+ include/uapi/linux/keyctl.h             |  13 +
+ kernel/user.c                           |   3 +
+ kernel/user_namespace.c                 |   2 +
+ samples/watch_queue/Makefile            |   2 +
+ samples/watch_queue/key_req_intercept.c | 271 +++++++++++++++++++
+ security/keys/Makefile                  |   2 +
+ security/keys/compat.c                  |   3 +
+ security/keys/internal.h                |   5 +
+ security/keys/keyctl.c                  |   6 +
+ security/keys/keyring.c                 |   1 +
+ security/keys/process_keys.c            |   2 +-
+ security/keys/request_key.c             |  16 +-
+ security/keys/request_key_auth.c        |   3 +
+ security/keys/service.c                 | 337 ++++++++++++++++++++++++
+ 16 files changed, 663 insertions(+), 9 deletions(-)
+ create mode 100644 samples/watch_queue/key_req_intercept.c
+ create mode 100644 security/keys/service.c
+
+
