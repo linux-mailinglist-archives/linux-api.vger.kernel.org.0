@@ -2,97 +2,86 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A975730F39B
-	for <lists+linux-api@lfdr.de>; Thu,  4 Feb 2021 14:03:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BC72030F57B
+	for <lists+linux-api@lfdr.de>; Thu,  4 Feb 2021 15:57:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236166AbhBDNDT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 4 Feb 2021 08:03:19 -0500
-Received: from mx2.suse.de ([195.135.220.15]:60492 "EHLO mx2.suse.de"
+        id S236803AbhBDOzX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 4 Feb 2021 09:55:23 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45354 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235605AbhBDNDS (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 4 Feb 2021 08:03:18 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1612443751; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=wV8EqN+aFKtqheOmivykKqrk3VRFPc84lBWqlqC5mhU=;
-        b=S7Xu1febLmS5kX17RFiu9leCmCOiW9bK6FTrsMR2Jq0CsMxFWmSj/7op1/f5ZRchTgMx+j
-        uSPvUPPXzRr5VU/1T1ZLM4jeXWSC2IFbCMDFHTmNpt6au1H3cEF5IIgqfbC1nYh3XxULs8
-        p/mDOwECvwFm5KBo63/LgBI2SMBdvnU=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 9EA16AC97;
-        Thu,  4 Feb 2021 13:02:31 +0000 (UTC)
-Date:   Thu, 4 Feb 2021 14:02:22 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     James Bottomley <jejb@linux.ibm.com>,
-        David Hildenbrand <david@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Roman Gushchin <guro@fb.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
-        x86@kernel.org, Hagen Paul Pfeifer <hagen@jauu.net>,
-        Palmer Dabbelt <palmerdabbelt@google.com>
-Subject: Re: [PATCH v16 07/11] secretmem: use PMD-size pages to amortize
- direct map fragmentation
-Message-ID: <YBvwXmYt7vJ4tvuv@dhcp22.suse.cz>
-References: <YBK1kqL7JA7NePBQ@dhcp22.suse.cz>
- <73738cda43236b5ac2714e228af362b67a712f5d.camel@linux.ibm.com>
- <YBPF8ETGBHUzxaZR@dhcp22.suse.cz>
- <6de6b9f9c2d28eecc494e7db6ffbedc262317e11.camel@linux.ibm.com>
- <YBkcyQsky2scjEcP@dhcp22.suse.cz>
- <20210202124857.GN242749@kernel.org>
- <YBlTMqjB06aqyGbT@dhcp22.suse.cz>
- <20210202191040.GP242749@kernel.org>
- <YBpo9mC5feVQ0mpG@dhcp22.suse.cz>
- <20210204095855.GQ242749@kernel.org>
+        id S236891AbhBDOyc (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 4 Feb 2021 09:54:32 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4BCBD64E42;
+        Thu,  4 Feb 2021 14:53:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1612450430;
+        bh=scY1EUctLlHyJdhffM1YO119Qq4RStdexWZRn3yOoC8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Cl6/II/pP7hXlx/qGhE2nU/ur3bHmP4FoN8FWznMJEbivL2vDzrR/1+dJbe9yPtjy
+         JoaJKEVaeldLKq340MjgGU1Qn7wkPMsCEgSy+zTTfF+xuiU3VqOUZlJtxWTZhjoll9
+         s4A6p807Ze/iZ/SyyXwJatQaokMvwhZFyYEOqO420FWUqI8jr+AZIwIvy2hShuSXjk
+         e5FgjFedltdirbM4T0Y5ZChNuKMCijX/zdks/7zHls3ALivZV8t1EVU2cvfDY1co38
+         ygLm14xZi/neW7Wd++s/HJPWuXtPWYgMqbBc7cGKpELEPHp5GrILOk5YOmssdEdYYn
+         JH1+37gXVp/1Q==
+Date:   Thu, 4 Feb 2021 14:53:46 +0000
+From:   Will Deacon <will@kernel.org>
+To:     Andrei Vagin <avagin@gmail.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org,
+        Anthony Steinhauser <asteinhauser@google.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Keno Fischer <keno@juliacomputing.com>
+Subject: Re: [PATCH 0/3 v2] arm64/ptrace: allow to get all registers on
+ syscall traps
+Message-ID: <20210204145345.GC20815@willie-the-truck>
+References: <20210201194012.524831-1-avagin@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210204095855.GQ242749@kernel.org>
+In-Reply-To: <20210201194012.524831-1-avagin@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu 04-02-21 11:58:55, Mike Rapoport wrote:
-> On Wed, Feb 03, 2021 at 10:12:22AM +0100, Michal Hocko wrote:
-[...]
-> > Wrt to the specific syscall, please document why existing interfaces are
-> > not a good fit as well. It would be also great to describe interaction
-> > with mlock itself (I assume the two to be incompatible - mlock will fail
-> > on and mlockall will ignore it).
-> 
-> The interaction with mlock() belongs more to the man page, but I don't mind
-> adding this to changelog as well.
+Hi Andrei,
 
-I would expect this to be explicitly handled in the patch - thus the
-changelog rationale.
--- 
-Michal Hocko
-SUSE Labs
+On Mon, Feb 01, 2021 at 11:40:09AM -0800, Andrei Vagin wrote:
+> Right now, ip/r12 for AArch32 and x7 for AArch64 is used to indicate
+> whether or not the stop has been signalled from syscall entry or syscall
+> exit. This means that:
+> 
+> - Any writes by the tracer to this register during the stop are
+>   ignored/discarded.
+> 
+> - The actual value of the register is not available during the stop,
+>   so the tracer cannot save it and restore it later.
+> 
+> For applications like the user-mode Linux or gVisor, it is critical to
+> have access to the full set of registers in any moment. For example,
+> they need to change values of all registers to emulate rt_sigreturn or
+> execve and they need to have the full set of registers to build a signal
+> frame.
+> 
+> This series introduces the PTRACE_O_ARM64_RAW_REGS option. If it is set,
+> PTRACE_GETREGSET returns values of all registers, and PTRACE_SETREGSET
+> allows to change any of them.
+
+I haven't had a chance to go through this properly yet, but I spotted a
+couple of things worth mentioning off the bat:
+
+  - Please drop all of the compat changes here. The compat layer is intended
+    to be compatible with arch/arm/, so if you want to introduce new ptrace
+    behaviours for 32-bit applications, you need to make the changes there
+    and then update our compat layer accordingly.
+
+  - When Keno mentioned this before [1,2], he also talked about making
+    orig_x0 available. Since extending the ABI is a giant pain, I think
+    this should be seriously considered.
+
+[1] https://lore.kernel.org/r/CABV8kRzkLiVuqxT3+8c1o8m_OuROtXgfowQcrMVnrxu=CiGB=w@mail.gmail.com
+[2] https://lore.kernel.org/r/CABV8kRzg1BaKdAhqXU3hONhfPAHj6Nbw0wLBC1Lo7PN1UA0CoA@mail.gmail.com
+
+Will
