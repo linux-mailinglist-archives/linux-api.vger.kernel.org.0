@@ -2,49 +2,49 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ECA0A30FE34
-	for <lists+linux-api@lfdr.de>; Thu,  4 Feb 2021 21:28:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B6BA130FE4C
+	for <lists+linux-api@lfdr.de>; Thu,  4 Feb 2021 21:32:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240102AbhBDUZn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 4 Feb 2021 15:25:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46338 "EHLO
+        id S240129AbhBDU2a (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 4 Feb 2021 15:28:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240031AbhBDUZ0 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 4 Feb 2021 15:25:26 -0500
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A569AC0613D6
-        for <linux-api@vger.kernel.org>; Thu,  4 Feb 2021 12:24:45 -0800 (PST)
-Received: by mail-pg1-x532.google.com with SMTP id o63so2918661pgo.6
-        for <linux-api@vger.kernel.org>; Thu, 04 Feb 2021 12:24:45 -0800 (PST)
+        with ESMTP id S240110AbhBDU2Q (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 4 Feb 2021 15:28:16 -0500
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9901C061788
+        for <linux-api@vger.kernel.org>; Thu,  4 Feb 2021 12:27:36 -0800 (PST)
+Received: by mail-pl1-x62a.google.com with SMTP id u15so2391730plf.1
+        for <linux-api@vger.kernel.org>; Thu, 04 Feb 2021 12:27:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=v8ghTr9pbY/sls4eNB3Cpe47CdWbhMFVnLsnjhJ6vZc=;
-        b=NfWYk55j/9pHR6ZwBz1BiHiQ0zm0oSAiebaqx41lmY8ATDui9uD4zOpvr1aLyvQ1N3
-         cxj4/Lz8KdrMEVhUcrOSC+gPXJol6Oyi1FF2l+7sSp8oIhLsLo4n/2IIXR/XGMyByy9/
-         f5USnJaT8vnRTsACtxnaMEBT0DQnYr74i4M/A=
+        bh=/KkzilzXEisJddaLgkjR4cjm+2gZx2aIAgczeuG3frI=;
+        b=SQnBGiEH7SyjfxJqdii1BqfZaqzWi1I4ROQ+T9GW6ajXhOT3uDA3RK4TvfKWUbUWhy
+         MIj0IL32FR9WV3RHADy1VD4Q77Q6mNKUCLqwwws+lNkcfFqSMvCOp0kEeObfoGsW907m
+         zujxwsHELU1cNG7gpww149IJuWidCm5N4ZGL8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=v8ghTr9pbY/sls4eNB3Cpe47CdWbhMFVnLsnjhJ6vZc=;
-        b=ciJvivM+Ux6c+62Mb68NOQz1L/nCrk2xEFDHCJfTiHD7NHFH7ouYFDW2q1cHdIXED9
-         NQRqtuxArRXHln01m/05zhx/BW7FWnVLEFAFrB1DHVaKwX/ybuAmmnS05CaBz/4dTtOs
-         K4q+XZbZ9H1ZpG+GIRX97amRXnEwy/u2RhviW1z5l+7FL5aK/1/z5it9AH+xha3u+rDy
-         MmA2oijcbGTbWsIIUsMWSKpoM3+Wt/DB+9OTvW4CR1AC0WvC6nCAk3l5horBIdxAXT10
-         lhDYIFgLb2XCM2oqoWv7BSq7Da9T9iok0NOLDIRwmLNdhmug2JWYh7ISKL/DkYCqLchB
-         J+jA==
-X-Gm-Message-State: AOAM530fI2TFTor/0yEfweeh2u7O44tGKTLYhYZPsoEtAtoCQk59Tl8b
-        fPKEkAgPr3SBxT3i9mtykCOd7Q==
-X-Google-Smtp-Source: ABdhPJwx/qC+502sdYByWHnbj542w1LMu6piAa6mgivDXuOnGvWTdAo7oGxK4C8n+Ttq1teH4i0atA==
-X-Received: by 2002:a62:1c47:0:b029:1c8:81d2:b413 with SMTP id c68-20020a621c470000b02901c881d2b413mr889462pfc.56.1612470285277;
-        Thu, 04 Feb 2021 12:24:45 -0800 (PST)
+        bh=/KkzilzXEisJddaLgkjR4cjm+2gZx2aIAgczeuG3frI=;
+        b=WcZbiOhW+eI14XsEfK5WSCO4Acyq1suvopSPYvQAfKFx3RNMZgIWW4tXDKZgYS8WhP
+         v3u6FKx4cTtrPeIhp4z/VV3NvitX49Gb/aW4fOBwce1pTyzJEWNPzT6+mFhSlDTYPcFV
+         WHF6zmp/qjrZE0yZVRYXfR8JCoIhh3mTLYgL8M90C/Tx46n4wDGSZ1efs8BMQAk2KdA7
+         x7QJnasMCk7P0mJOdy1LJQYubplWjbl0cbk3n15c9IsGQUa4M+vxGkpAURRsxTFSTFra
+         lToGfvi5jjYV4S0MC3lXUZ0D7b/l8EVTPmf9fGyisfflHUexTYgpOdYsMGikOvAncenq
+         Bu4w==
+X-Gm-Message-State: AOAM532m5s2BURxWHFZlGmRJXWuy2/9TV4gCDo+T6UM7GNynX92ZWP+I
+        l0YpFWjLQ09FTGpJUzzfcdVwCw==
+X-Google-Smtp-Source: ABdhPJyj8hnNU5LEzeZQ1jHOEtqoFt0d6CyhuA9vknTPXqFjOzzNcOwB9CQKOQdvjeVU2Ogq22aWeA==
+X-Received: by 2002:a17:90a:c902:: with SMTP id v2mr720901pjt.144.1612470456119;
+        Thu, 04 Feb 2021 12:27:36 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id p17sm3624550pgn.38.2021.02.04.12.24.44
+        by smtp.gmail.com with ESMTPSA id q2sm6995012pfg.190.2021.02.04.12.27.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Feb 2021 12:24:44 -0800 (PST)
-Date:   Thu, 4 Feb 2021 12:24:43 -0800
+        Thu, 04 Feb 2021 12:27:34 -0800 (PST)
+Date:   Thu, 4 Feb 2021 12:27:34 -0800
 From:   Kees Cook <keescook@chromium.org>
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
@@ -72,25 +72,103 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v19 17/25] mm/mmap: Add shadow stack pages to memory
- accounting
-Message-ID: <202102041224.14CB1AA@keescook>
+Subject: Re: [PATCH v19 18/25] mm: Update can_follow_write_pte() for shadow
+ stack
+Message-ID: <202102041226.D3E2B437@keescook>
 References: <20210203225547.32221-1-yu-cheng.yu@intel.com>
- <20210203225547.32221-18-yu-cheng.yu@intel.com>
+ <20210203225547.32221-19-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210203225547.32221-18-yu-cheng.yu@intel.com>
+In-Reply-To: <20210203225547.32221-19-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Feb 03, 2021 at 02:55:39PM -0800, Yu-cheng Yu wrote:
-> Account shadow stack pages to stack memory.
+On Wed, Feb 03, 2021 at 02:55:40PM -0800, Yu-cheng Yu wrote:
+> Can_follow_write_pte() ensures a read-only page is COWed by checking the
+> FOLL_COW flag, and uses pte_dirty() to validate the flag is still valid.
 > 
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> Like a writable data page, a shadow stack page is writable, and becomes
+> read-only during copy-on-write, but it is always dirty.  Thus, in the
+> can_follow_write_pte() check, it belongs to the writable page case and
+> should be excluded from the read-only page pte_dirty() check.  Apply
+> the same changes to can_follow_write_pmd().
+
+Does this need the vma passed down? Should it just pass vm_flags? I
+suppose it doesn't really matter, though.
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
+
+-Kees
+
+> 
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> ---
+>  mm/gup.c         | 8 +++++---
+>  mm/huge_memory.c | 8 +++++---
+>  2 files changed, 10 insertions(+), 6 deletions(-)
+> 
+> diff --git a/mm/gup.c b/mm/gup.c
+> index e4c224cd9661..66ab67626f57 100644
+> --- a/mm/gup.c
+> +++ b/mm/gup.c
+> @@ -357,10 +357,12 @@ static int follow_pfn_pte(struct vm_area_struct *vma, unsigned long address,
+>   * FOLL_FORCE can write to even unwritable pte's, but only
+>   * after we've gone through a COW cycle and they are dirty.
+>   */
+> -static inline bool can_follow_write_pte(pte_t pte, unsigned int flags)
+> +static inline bool can_follow_write_pte(pte_t pte, unsigned int flags,
+> +					struct vm_area_struct *vma)
+>  {
+>  	return pte_write(pte) ||
+> -		((flags & FOLL_FORCE) && (flags & FOLL_COW) && pte_dirty(pte));
+> +		((flags & FOLL_FORCE) && (flags & FOLL_COW) && pte_dirty(pte) &&
+> +				  !arch_shadow_stack_mapping(vma->vm_flags));
+>  }
+>  
+>  static struct page *follow_page_pte(struct vm_area_struct *vma,
+> @@ -403,7 +405,7 @@ static struct page *follow_page_pte(struct vm_area_struct *vma,
+>  	}
+>  	if ((flags & FOLL_NUMA) && pte_protnone(pte))
+>  		goto no_page;
+> -	if ((flags & FOLL_WRITE) && !can_follow_write_pte(pte, flags)) {
+> +	if ((flags & FOLL_WRITE) && !can_follow_write_pte(pte, flags, vma)) {
+>  		pte_unmap_unlock(ptep, ptl);
+>  		return NULL;
+>  	}
+> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> index bfec65c9308b..eb64e2b56bc9 100644
+> --- a/mm/huge_memory.c
+> +++ b/mm/huge_memory.c
+> @@ -1337,10 +1337,12 @@ vm_fault_t do_huge_pmd_wp_page(struct vm_fault *vmf, pmd_t orig_pmd)
+>   * FOLL_FORCE can write to even unwritable pmd's, but only
+>   * after we've gone through a COW cycle and they are dirty.
+>   */
+> -static inline bool can_follow_write_pmd(pmd_t pmd, unsigned int flags)
+> +static inline bool can_follow_write_pmd(pmd_t pmd, unsigned int flags,
+> +					struct vm_area_struct *vma)
+>  {
+>  	return pmd_write(pmd) ||
+> -	       ((flags & FOLL_FORCE) && (flags & FOLL_COW) && pmd_dirty(pmd));
+> +	       ((flags & FOLL_FORCE) && (flags & FOLL_COW) && pmd_dirty(pmd) &&
+> +				  !arch_shadow_stack_mapping(vma->vm_flags));
+>  }
+>  
+>  struct page *follow_trans_huge_pmd(struct vm_area_struct *vma,
+> @@ -1353,7 +1355,7 @@ struct page *follow_trans_huge_pmd(struct vm_area_struct *vma,
+>  
+>  	assert_spin_locked(pmd_lockptr(mm, pmd));
+>  
+> -	if (flags & FOLL_WRITE && !can_follow_write_pmd(*pmd, flags))
+> +	if (flags & FOLL_WRITE && !can_follow_write_pmd(*pmd, flags, vma))
+>  		goto out;
+>  
+>  	/* Avoid dumping huge zero page */
+> -- 
+> 2.21.0
+> 
+> 
 
 -- 
 Kees Cook
