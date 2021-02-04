@@ -2,49 +2,49 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF65530FDB2
-	for <lists+linux-api@lfdr.de>; Thu,  4 Feb 2021 21:06:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D1C3030FDB0
+	for <lists+linux-api@lfdr.de>; Thu,  4 Feb 2021 21:06:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239371AbhBDUE3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 4 Feb 2021 15:04:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40324 "EHLO
+        id S239824AbhBDUDm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 4 Feb 2021 15:03:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239887AbhBDT5z (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 4 Feb 2021 14:57:55 -0500
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A09E1C06178A
-        for <linux-api@vger.kernel.org>; Thu,  4 Feb 2021 11:57:14 -0800 (PST)
-Received: by mail-pj1-x1034.google.com with SMTP id gx20so2449139pjb.1
-        for <linux-api@vger.kernel.org>; Thu, 04 Feb 2021 11:57:14 -0800 (PST)
+        with ESMTP id S239920AbhBDT6u (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 4 Feb 2021 14:58:50 -0500
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E451C061794
+        for <linux-api@vger.kernel.org>; Thu,  4 Feb 2021 11:58:10 -0800 (PST)
+Received: by mail-pj1-x102a.google.com with SMTP id l18so2443656pji.3
+        for <linux-api@vger.kernel.org>; Thu, 04 Feb 2021 11:58:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=1mc7koCFdBCM4QqjJSOU9cMj9Z1hXBQ4lmWyrTn3L0c=;
-        b=EnD8y5C9tnrx7mX24x0SzpWobewSUEg1SAdrluNCKUh12ljNCsVkirYqiShSKNlsKa
-         xsRi+eb+jTferbjeWUAFTZcgQYeDzubETPjwMBp58Msk92q3Hys/Nc4CJaACBm3/rjRC
-         GvNCjLeIsVfLb9UgxqgnuVtL8xuHQDzZ4nhmM=
+        bh=WHZcK8QVoi2vD+8PmR3PN87wlH3ll61Of0Qx4MDMC64=;
+        b=molOl3IaFUBpm5yvQ+A9OSIeN/orT8NNAi7aoCp/sWRTGk9g8W86tnSPVFkc6HCXf9
+         hsJE5R/PsP/yXgKBnMfhV0KWTTuF8GznA2Hes0318EUCdxwVk1O/ne9RKEddHsRO0MXM
+         Pm1woq1H8TFsGBL88AcxlJjWoS26XDCKZu0Zg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=1mc7koCFdBCM4QqjJSOU9cMj9Z1hXBQ4lmWyrTn3L0c=;
-        b=BzJJWh3z1umCblnD0/2JkOucuH9wih/l/4i42J+F74GSv2mJ81/7UGztDc6hKESPvN
-         z757ad18QsOH6XPG95Jhb6uYkIgBfHt872qyamll9SmjUqJCJ76/JiATAZyBURvnKTz4
-         NZa5x6IF47vsIN8K+asq1ANbdWekQpuOoY2S/NriN6Bw4ItfLnbuX5V+Wy4wmpqBd5f0
-         2rW7gkQBInqEfFWmOrlVuUjbCwzDoQUwa/VdYNlRvAlSVu4IDfhJh6jwo25aqvzz/Wov
-         fE2TtZnqoRPXt4EdQdyOnq87qNjjftpL5NwQ/qrMuYoXZvj+1ICAstCpebOvU23qXh72
-         yV5w==
-X-Gm-Message-State: AOAM533fcQ3reJWVq22SO3rqZyVvAcBsAnAApFX2o4Nk4uIC4BAQtZEy
-        tHTBJ2NcmYVON6Had1PJDuMS9Q==
-X-Google-Smtp-Source: ABdhPJwtXiBuI/xhNFZbYjzoCMZ7QTIDZ72P2hHtcVx/bckk4z+4MIhXEnynF9XH7xe8pNQlO3pu3g==
-X-Received: by 2002:a17:902:82cb:b029:e1:2b0f:da57 with SMTP id u11-20020a17090282cbb02900e12b0fda57mr748892plz.33.1612468634241;
-        Thu, 04 Feb 2021 11:57:14 -0800 (PST)
+        bh=WHZcK8QVoi2vD+8PmR3PN87wlH3ll61Of0Qx4MDMC64=;
+        b=SFC37sGoRRYqDhDvebtpbjEN4X97BM5XBbJ+oAnvyDpOPnj2dEPZoNxF+5XpTrl8+L
+         zNZKexegEdJcf85KvALHxk0g1WExbMhJuZXKLXEakrRMrLGfF77eUvmAsepq0mqGkgPH
+         q6hnfjKVZXSDP/o42gDgtUB23YGFbPAKjtZgVB0UA0nKDuyRWekNQyQoL01k+CRs/8lf
+         i7+s2w192FPbvXyXcGyXHxB9EQxUSuOnjueVOi2iJi2mUdUAbkw5+ykntwAiHDP4Sw0F
+         3f5HuE7vVGX3v+5mbyCIp82YTG6nfczr9KU3jbA4qmbTX+EaP7RNIAJnG+yco6HbgByW
+         7+Gg==
+X-Gm-Message-State: AOAM530UBhGXc7tp1oK+UCCGu5/nhW4bnTx0P95XOUOGKx8C1zcqlwXy
+        Qg+C/oOWmCLK0HXYVjMtAtn7nA==
+X-Google-Smtp-Source: ABdhPJxtMvQzzAKeafYu89Dua1ck4lx/YDvotcfb9toALK3g6OzDBl4EIMTFJTA/ZhIrZDHFEQPLzA==
+X-Received: by 2002:a17:902:bb8c:b029:dc:2e5e:2b2 with SMTP id m12-20020a170902bb8cb02900dc2e5e02b2mr702471pls.10.1612468689661;
+        Thu, 04 Feb 2021 11:58:09 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id o1sm7150366pgq.1.2021.02.04.11.57.13
+        by smtp.gmail.com with ESMTPSA id y124sm4219551pfg.166.2021.02.04.11.58.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Feb 2021 11:57:13 -0800 (PST)
-Date:   Thu, 4 Feb 2021 11:57:12 -0800
+        Thu, 04 Feb 2021 11:58:08 -0800 (PST)
+Date:   Thu, 4 Feb 2021 11:58:08 -0800
 From:   Kees Cook <keescook@chromium.org>
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
@@ -72,24 +72,23 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v19 03/25] x86/cpufeatures: Add CET CPU feature flags for
- Control-flow Enforcement Technology (CET)
-Message-ID: <202102041157.05BDDAE1@keescook>
+Subject: Re: [PATCH v19 04/25] x86/cpufeatures: Introduce X86_FEATURE_CET and
+ setup functions
+Message-ID: <202102041158.9EBAD9392@keescook>
 References: <20210203225547.32221-1-yu-cheng.yu@intel.com>
- <20210203225547.32221-4-yu-cheng.yu@intel.com>
+ <20210203225547.32221-5-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210203225547.32221-4-yu-cheng.yu@intel.com>
+In-Reply-To: <20210203225547.32221-5-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Feb 03, 2021 at 02:55:25PM -0800, Yu-cheng Yu wrote:
-> Add CPU feature flags for Control-flow Enforcement Technology (CET).
-> 
-> CPUID.(EAX=7,ECX=0):ECX[bit 7] Shadow stack
-> CPUID.(EAX=7,ECX=0):EDX[bit 20] Indirect Branch Tracking
+On Wed, Feb 03, 2021 at 02:55:26PM -0800, Yu-cheng Yu wrote:
+> Introduce a software-defined X86_FEATURE_CET, which indicates either Shadow
+> Stack or Indirect Branch Tracking (or both) is present.  Also introduce
+> related cpu init/setup functions.
 > 
 > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 
