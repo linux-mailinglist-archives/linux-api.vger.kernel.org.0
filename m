@@ -2,117 +2,123 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 37FB630FBF3
-	for <lists+linux-api@lfdr.de>; Thu,  4 Feb 2021 19:53:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08A6B30FC42
+	for <lists+linux-api@lfdr.de>; Thu,  4 Feb 2021 20:10:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239403AbhBDSts (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 4 Feb 2021 13:49:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53480 "EHLO
+        id S239662AbhBDTJn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 4 Feb 2021 14:09:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32496 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S239381AbhBDStd (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 4 Feb 2021 13:49:33 -0500
+        by vger.kernel.org with ESMTP id S239580AbhBDTIq (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 4 Feb 2021 14:08:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1612464473;
+        s=mimecast20190719; t=1612465639;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=lsNoUMCO1nEXOP2imOs5qf2e3v8YT9CdaCiUbwmZSYQ=;
-        b=I/IVpxeW8WvtSWEn9Es1s42f/QozTB97zoIWAW30h/nR79PYvgiNYtR918ENXPr04+XsTG
-        bw8Q3pTnR8aNkCkI9nR7leI4/vzxD32E9WcUo2oXUn5ncDXzzqCECpMxqxVcnxsrXTbHF6
-        oZYWHux7M5tm885qiInCoXyy2OM7P5w=
+        bh=I0h1TRSnNoeb31j50N9xUAbiVlfi+y4PqU4sAwNXXQg=;
+        b=atKD1eBdWn76/zCgCQDXCh4lT69MwBzNHZEArCnqRr34+ND8XKuxWygtJmgqTwwwDa3kre
+        NmilfoCfu/X6wAsMLtUYKifOAaW1FBPG0Gid43cEfKJ3gRYopnnyRGR43VcHiPsu0VYxw7
+        TN9g14qgnckTFryVlc8O2pTOb/EwQdM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-229-4YY6d1skPqyXhYA2hOoK-w-1; Thu, 04 Feb 2021 13:47:50 -0500
-X-MC-Unique: 4YY6d1skPqyXhYA2hOoK-w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+ us-mta-200-MX5dYmLtO7qIUFiQcs3ULw-1; Thu, 04 Feb 2021 14:07:18 -0500
+X-MC-Unique: MX5dYmLtO7qIUFiQcs3ULw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BDA26801968;
-        Thu,  4 Feb 2021 18:47:47 +0000 (UTC)
-Received: from [10.10.116.135] (ovpn-116-135.rdu2.redhat.com [10.10.116.135])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 87DF960CCF;
-        Thu,  4 Feb 2021 18:47:40 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6C08CE777;
+        Thu,  4 Feb 2021 19:07:15 +0000 (UTC)
+Received: from fuller.cnet (ovpn-112-6.gru2.redhat.com [10.97.112.6])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 2B2305C257;
+        Thu,  4 Feb 2021 19:07:08 +0000 (UTC)
+Received: by fuller.cnet (Postfix, from userid 1000)
+        id 404CE416D87F; Thu,  4 Feb 2021 16:06:47 -0300 (-03)
+Date:   Thu, 4 Feb 2021 16:06:47 -0300
+From:   Marcelo Tosatti <mtosatti@redhat.com>
+To:     Nitesh Narayan Lal <nitesh@redhat.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Robin Murphy <robin.murphy@arm.com>,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        frederic@kernel.org, juri.lelli@redhat.com, abelits@marvell.com,
+        bhelgaas@google.com, linux-pci@vger.kernel.org,
+        rostedt@goodmis.org, mingo@kernel.org, peterz@infradead.org,
+        davem@davemloft.net, akpm@linux-foundation.org,
+        sfr@canb.auug.org.au, stephen@networkplumber.org,
+        rppt@linux.vnet.ibm.com, jinyuqi@huawei.com,
+        zhangshaokun@hisilicon.com
 Subject: Re: [Patch v4 1/3] lib: Restrict cpumask_local_spread to houskeeping
  CPUs
-To:     Marcelo Tosatti <mtosatti@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>
-Cc:     Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, frederic@kernel.org,
-        juri.lelli@redhat.com, abelits@marvell.com, bhelgaas@google.com,
-        linux-pci@vger.kernel.org, rostedt@goodmis.org, mingo@kernel.org,
-        peterz@infradead.org, davem@davemloft.net,
-        akpm@linux-foundation.org, sfr@canb.auug.org.au,
-        stephen@networkplumber.org, rppt@linux.vnet.ibm.com,
-        jinyuqi@huawei.com, zhangshaokun@hisilicon.com
+Message-ID: <20210204190647.GA32868@fuller.cnet>
 References: <20200625223443.2684-1-nitesh@redhat.com>
  <20200625223443.2684-2-nitesh@redhat.com>
  <3e9ce666-c9cd-391b-52b6-3471fe2be2e6@arm.com>
- <20210127121939.GA54725@fuller.cnet> <87r1m5can2.fsf@nanos.tec.linutronix.de>
- <20210128165903.GB38339@fuller.cnet> <87h7n0de5a.fsf@nanos.tec.linutronix.de>
+ <20210127121939.GA54725@fuller.cnet>
+ <87r1m5can2.fsf@nanos.tec.linutronix.de>
+ <20210128165903.GB38339@fuller.cnet>
+ <87h7n0de5a.fsf@nanos.tec.linutronix.de>
  <20210204181546.GA30113@fuller.cnet>
-From:   Nitesh Narayan Lal <nitesh@redhat.com>
-Organization: Red Hat Inc,
-Message-ID: <cfa138e9-38e3-e566-8903-1d64024c917b@redhat.com>
-Date:   Thu, 4 Feb 2021 13:47:38 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ <cfa138e9-38e3-e566-8903-1d64024c917b@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210204181546.GA30113@fuller.cnet>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cfa138e9-38e3-e566-8903-1d64024c917b@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Thu, Feb 04, 2021 at 01:47:38PM -0500, Nitesh Narayan Lal wrote:
+> 
+> On 2/4/21 1:15 PM, Marcelo Tosatti wrote:
+> > On Thu, Jan 28, 2021 at 09:01:37PM +0100, Thomas Gleixner wrote:
+> >> On Thu, Jan 28 2021 at 13:59, Marcelo Tosatti wrote:
+> >>>> The whole pile wants to be reverted. It's simply broken in several ways.
+> >>> I was asking for your comments on interaction with CPU hotplug :-)
+> >> Which I answered in an seperate mail :)
+> >>
+> >>> So housekeeping_cpumask has multiple meanings. In this case:
+> >> ...
+> >>
+> >>> So as long as the meaning of the flags are respected, seems
+> >>> alright.
+> >> Yes. Stuff like the managed interrupts preference for housekeeping CPUs
+> >> when a affinity mask spawns housekeeping and isolated is perfectly
+> >> fine. It's well thought out and has no limitations.
+> >>
+> >>> Nitesh, is there anything preventing this from being fixed
+> >>> in userspace ? (as Thomas suggested previously).
+> >> Everything with is not managed can be steered by user space.
+> > Yes, but it seems to be racy (that is, there is a window where the 
+> > interrupt can be delivered to an isolated CPU).
+> >
+> > ethtool ->
+> > xgbe_set_channels ->
+> > xgbe_full_restart_dev ->
+> > xgbe_alloc_memory ->
+> > xgbe_alloc_channels ->
+> > cpumask_local_spread
+> >
+> > Also ifconfig eth0 down / ifconfig eth0 up leads
+> > to cpumask_spread_local.
+> 
+> There's always that possibility.
 
-On 2/4/21 1:15 PM, Marcelo Tosatti wrote:
-> On Thu, Jan 28, 2021 at 09:01:37PM +0100, Thomas Gleixner wrote:
->> On Thu, Jan 28 2021 at 13:59, Marcelo Tosatti wrote:
->>>> The whole pile wants to be reverted. It's simply broken in several ways.
->>> I was asking for your comments on interaction with CPU hotplug :-)
->> Which I answered in an seperate mail :)
->>
->>> So housekeeping_cpumask has multiple meanings. In this case:
->> ...
->>
->>> So as long as the meaning of the flags are respected, seems
->>> alright.
->> Yes. Stuff like the managed interrupts preference for housekeeping CPUs
->> when a affinity mask spawns housekeeping and isolated is perfectly
->> fine. It's well thought out and has no limitations.
->>
->>> Nitesh, is there anything preventing this from being fixed
->>> in userspace ? (as Thomas suggested previously).
->> Everything with is not managed can be steered by user space.
-> Yes, but it seems to be racy (that is, there is a window where the 
-> interrupt can be delivered to an isolated CPU).
->
-> ethtool ->
-> xgbe_set_channels ->
-> xgbe_full_restart_dev ->
-> xgbe_alloc_memory ->
-> xgbe_alloc_channels ->
-> cpumask_local_spread
->
-> Also ifconfig eth0 down / ifconfig eth0 up leads
-> to cpumask_spread_local.
+Then there is a window where isolation can be broken.
 
-There's always that possibility.
+> We have to ensure that we move the IRQs by a tuned daemon or some other
+> userspace script every time there is a net-dev change (eg. device comes up,
+> creates VFs, etc).
 
-We have to ensure that we move the IRQs by a tuned daemon or some other
-userspace script every time there is a net-dev change (eg. device comes up,
-creates VFs, etc).
+Again, race window open can result in interrupt to isolated CPU.
 
-> How about adding a new flag for isolcpus instead?
->
+> > How about adding a new flag for isolcpus instead?
+> >
+> 
+> Do you mean a flag based on which we can switch the affinity mask to
+> housekeeping for all the devices at the time of IRQ distribution?
 
-Do you mean a flag based on which we can switch the affinity mask to
-housekeeping for all the devices at the time of IRQ distribution?
+Yes a new flag for isolcpus. HK_FLAG_IRQ_SPREAD or some better name.
 
--- 
-Thanks
-Nitesh
 
