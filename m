@@ -2,28 +2,28 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E5A0F30F685
-	for <lists+linux-api@lfdr.de>; Thu,  4 Feb 2021 16:41:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EAAB630F6B0
+	for <lists+linux-api@lfdr.de>; Thu,  4 Feb 2021 16:48:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237454AbhBDPiC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 4 Feb 2021 10:38:02 -0500
-Received: from mail.kernel.org ([198.145.29.99]:59230 "EHLO mail.kernel.org"
+        id S237404AbhBDPp4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 4 Feb 2021 10:45:56 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60780 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237167AbhBDPhH (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 4 Feb 2021 10:37:07 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CAE2064F3C;
-        Thu,  4 Feb 2021 15:36:18 +0000 (UTC)
+        id S237388AbhBDPlY (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 4 Feb 2021 10:41:24 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3AE3F64F47;
+        Thu,  4 Feb 2021 15:40:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1612452980;
-        bh=V2+LJ8z1KQnNgpVRjLeJbDwIcI5psNklwq0UR+e71Wo=;
+        s=k20201202; t=1612453243;
+        bh=94cY1u+hNd+/OdEI6Ip/ZV8/7uanpQEYhbCY1QFgwsQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jlhYQNe7yZFHun18Iv/OtdC4lYOA60k12RugBYQGdC4Tj78W9V84V84pyZZmTGs12
-         9ZjhJIaW4p1uqsuoNshWx4ZtTcrNi8EXT/XDAbcDXA/2yavrKD47ZSFItuKSnU+9o9
-         G1NN7Rbex/GdwzlhEXOjnUTxXtGKSXFEmd/4g/iSUbVQPfm3c+SaxlaFKfzysmFNo2
-         Of3a527jfeyY0PVkAHafTs69zccRXsa4rMaRcxnXkVLLtQkJ++yhy44bmvw8EHAG6q
-         Q0w7yrU9JyeRlids1I3QvQkUxAti3EcHLWtEtg0jZdkjZ3Fmcf6Wf2L0aeh3AW/4pl
-         JqVavM4fpD1Mw==
-Date:   Thu, 4 Feb 2021 15:36:15 +0000
+        b=SYOlSKMDU3k85Bue6/Kvbv8YYlR208G4wR+IqGqoxGeeBEl5q7f7hDS75PAk08Vay
+         0XfgTWIDrneQbfWOBqCMx/JOzMNaodgiE4PMwkXYG2b4/Am53ph/Q4LleNVwdt2kq4
+         lIUxJ7Qwfvlc3487jtpk9nS502ZxurDAG8f5h6DxREEcatMAfTg0h58i1xpgz2hrQv
+         bQhiaVpSx9zLEpXcHtORU+KIU1zA+4B3WQWbcGR8f1oXm8d2AzfS3viZVrHU562E2N
+         I16MbaV8JSF7ayzoil5coP0I94DuC1YjXJT/tI4jXWRO6hZE0w0kD73MRcBtIr5PAK
+         SNu6WIVqxBdMQ==
+Date:   Thu, 4 Feb 2021 15:40:39 +0000
 From:   Will Deacon <will@kernel.org>
 To:     Andrei Vagin <avagin@gmail.com>
 Cc:     Catalin Marinas <catalin.marinas@arm.com>,
@@ -32,79 +32,56 @@ Cc:     Catalin Marinas <catalin.marinas@arm.com>,
         linux-api@vger.kernel.org,
         Anthony Steinhauser <asteinhauser@google.com>,
         Dave Martin <Dave.Martin@arm.com>,
-        Keno Fischer <keno@juliacomputing.com>
-Subject: Re: [PATCH 2/3] arm64/ptrace: introduce PTRACE_O_ARM64_RAW_REGS
-Message-ID: <20210204153615.GB21058@willie-the-truck>
+        Keno Fischer <keno@juliacomputing.com>, keescook@chromium.org
+Subject: Re: [PATCH 3/3] selftest/arm64/ptrace: add tests for
+ PTRACE_O_ARM64_RAW_REGS
+Message-ID: <20210204154038.GC21058@willie-the-truck>
 References: <20210201194012.524831-1-avagin@gmail.com>
- <20210201194012.524831-3-avagin@gmail.com>
+ <20210201194012.524831-4-avagin@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210201194012.524831-3-avagin@gmail.com>
+In-Reply-To: <20210201194012.524831-4-avagin@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Feb 01, 2021 at 11:40:11AM -0800, Andrei Vagin wrote:
-> We have some ABI weirdness in the way that we handle syscall
-> exit stops because we indicate whether or not the stop has been
-> signalled from syscall entry or syscall exit by clobbering a general
-> purpose register (ip/r12 for AArch32, x7 for AArch64) in the tracee
-> and restoring its old value after the stop.
-> 
-> This behavior was inherited from ARM and it isn't common for other
-> architectures. Now, we have PTRACE_GET_SYSCALL_INFO that gives all
-> required information about system calls, so the hack with clobbering
-> registers isn't needed anymore.
-> 
-> This change adds the new ptrace option PTRACE_O_ARM64_RAW_REGS.  If it
-> is set, PTRACE_GETREGSET returns values of all registers without
-> clobbering r12 or x7 and PTRACE_SETREGSE sets all registers even if a
-> process has been stopped in syscall-enter or syscall-exit.
+[+Kees]
+
+On Mon, Feb 01, 2021 at 11:40:12AM -0800, Andrei Vagin wrote:
+> Test output:
+>  TAP version 13
+>  1..2
+>  # selftests: arm64/ptrace: ptrace_syscall_raw_regs_test
+>  # 1..2
+>  # ok 1 x7: 686920776f726c64
+>  # ok 2 The child exited with code 0.
+>  # # Totals: pass:2 fail:0 xfail:0 xpass:0 skip:0 error:0
+>  ok 1 selftests: arm64/ptrace: ptrace_syscall_raw_regs_test
+>  # selftests: arm64/ptrace: ptrace_syscall_regs_test
+>  # 1..3
+>  # ok 1 x7: 0
+>  # ok 2 x7: 1
+>  # ok 3 The child exited with code 0.
+>  # # Totals: pass:3 fail:0 xfail:0 xpass:0 skip:0 error:0
+>  ok 2 selftests: arm64/ptrace: ptrace_syscall_regs_test
 > 
 > Signed-off-by: Andrei Vagin <avagin@gmail.com>
 > ---
->  arch/arm64/include/uapi/asm/ptrace.h |  4 ++
->  arch/arm64/kernel/ptrace.c           | 70 ++++++++++++++++------------
->  include/linux/ptrace.h               |  1 +
->  include/uapi/linux/ptrace.h          |  9 +++-
->  4 files changed, 52 insertions(+), 32 deletions(-)
+>  tools/testing/selftests/arm64/Makefile        |   2 +-
+>  tools/testing/selftests/arm64/ptrace/Makefile |   6 +
+>  .../ptrace/ptrace_syscall_raw_regs_test.c     | 142 +++++++++++++++++
+>  .../arm64/ptrace/ptrace_syscall_regs_test.c   | 150 ++++++++++++++++++
+>  4 files changed, 299 insertions(+), 1 deletion(-)
+>  create mode 100644 tools/testing/selftests/arm64/ptrace/Makefile
+>  create mode 100644 tools/testing/selftests/arm64/ptrace/ptrace_syscall_raw_regs_test.c
+>  create mode 100644 tools/testing/selftests/arm64/ptrace/ptrace_syscall_regs_test.c
 
-Please split this up so that the arm64-specific changes are separate to
-the core changes.
+Thanks for the tests!
 
-> diff --git a/include/uapi/linux/ptrace.h b/include/uapi/linux/ptrace.h
-> index 83ee45fa634b..bcc8c362ddd9 100644
-> --- a/include/uapi/linux/ptrace.h
-> +++ b/include/uapi/linux/ptrace.h
-> @@ -7,6 +7,7 @@
->  /* has the defines to get at the registers. */
->  
->  #include <linux/types.h>
-> +#include <asm/ptrace.h>
->  
->  #define PTRACE_TRACEME		   0
->  #define PTRACE_PEEKTEXT		   1
-> @@ -137,8 +138,14 @@ struct ptrace_syscall_info {
->  #define PTRACE_O_EXITKILL		(1 << 20)
->  #define PTRACE_O_SUSPEND_SECCOMP	(1 << 21)
->  
-> +/* (1<<28) is reserved for arch specific options. */
-> +#ifndef _PTRACE_O_ARCH_OPTIONS
-> +#define _PTRACE_O_ARCH_OPTIONS 0
-> +#endif
-
-It seems a bit fragile to rely on a comment here to define the user ABI;
-why not define _PTRACE_O_ARCH_OPTIONS to the right value unconditionally?
-
-Also, it seems as though we immediately burn this bit on arm64, so if we
-ever wanted another option we'd have to come back here and allocate another
-bit. Could we do better, e.g. by calling into an arch hook
-(arch_ptrace_setoptions()) and passing the 'addr' parameter?
-
-How do other architectures manage this sort of thing? I'm wondering whether
-a separate regset containing just "real x7" and orig_x0 would be preferable
-after all...
+We already have a pretty extensive set of syscall entry tests in
+tools/testing/selftests/seccomp, so perhaps this would be better off as part
+of that? Maybe worth a look.
 
 Will
