@@ -2,49 +2,49 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 67C6430FE65
-	for <lists+linux-api@lfdr.de>; Thu,  4 Feb 2021 21:32:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2956A30FE77
+	for <lists+linux-api@lfdr.de>; Thu,  4 Feb 2021 21:36:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240152AbhBDUbN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 4 Feb 2021 15:31:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47480 "EHLO
+        id S240207AbhBDUd4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 4 Feb 2021 15:33:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240194AbhBDUaj (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 4 Feb 2021 15:30:39 -0500
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DC88C061797
-        for <linux-api@vger.kernel.org>; Thu,  4 Feb 2021 12:29:58 -0800 (PST)
-Received: by mail-pj1-x102e.google.com with SMTP id z9so2485867pjl.5
-        for <linux-api@vger.kernel.org>; Thu, 04 Feb 2021 12:29:58 -0800 (PST)
+        with ESMTP id S240235AbhBDUdv (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 4 Feb 2021 15:33:51 -0500
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75D04C061788
+        for <linux-api@vger.kernel.org>; Thu,  4 Feb 2021 12:33:11 -0800 (PST)
+Received: by mail-pg1-x536.google.com with SMTP id i7so2927824pgc.8
+        for <linux-api@vger.kernel.org>; Thu, 04 Feb 2021 12:33:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=MzlCpCkLmxVsznheZI3EKTdR1f5kwqDGSaj2tE3igtU=;
-        b=Gvshsbpw/2T8JIx2xC/Yj1b2gosWPoRbQqc9xnkQx6kZGmYOkUDhIB27gDkHZnhhkP
-         YdNd6b0Qa3SsOJVZqFNbXe8+62GV0NeDEla1b6JqwqrIG28L1AlU7jaybevMTho6JcaU
-         mRQIoa+gy6PKrbFD08moLs/Jau2larhRyAN+o=
+        bh=NeprK6JinSqU49dQ1nFPWFvDyk0tPt3L+sHTBjkAdOQ=;
+        b=D8TSY/I574CxB1blhR9D6u6bOcOmqMCyck3xJ5THhC5s9Yd8CgpIT8NoEAaCVNnzIF
+         hqt9PagwwXSj48djg6joitbyoM/L0tatsbpJDqfEOWr6yEJgz3sBN1eQVR4sg21XZUPY
+         mkH0vkZw4SIIvp4oxgImT0qojz0l3OFPib5Uw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=MzlCpCkLmxVsznheZI3EKTdR1f5kwqDGSaj2tE3igtU=;
-        b=Wxg/JLJsxHhDAUt2vqHt0P0gkskSL3JMYXQrIpz+9Un2CX/uXYHpf7fpPEI/SycHY2
-         rEyaWNS74j9RITtydGvAzJXkOZ63jpKIhLYqxGVA/tibhsXT3ZbqLqLsLrQmY3xs5Gj1
-         HeYozpEGht15EvkQKzIOp8Esr8QNebSCDK6BLtySlddQz6vSAFcSh/Oti5BaaIZ3zpSw
-         37z7H0yH6rQvnS5igqkId/UmQckS1GKAw8uJYy8mSwmrUp/lCSGLKdY4FyQ91XWmjbLV
-         fXKjnGF8OtYR8VOQ5z1OVgeLBQQKSbMEE2Ha5ht4wW3czSXtyNWwFg0rJX7S0nzb9Yv5
-         eKlA==
-X-Gm-Message-State: AOAM5319kU2kFh7KXC1l9j44qvR8K6uIBEYk4uZgetKNmOPYyeB1BXoB
-        aUOIFXcv/whQU87lYuxCPfddqA==
-X-Google-Smtp-Source: ABdhPJwZQMO8NMtHz9UcwGY1H2/3ntfrSkqcPsM14xB1bASd6IqHz3hxpya84TyWYDZMuPiE8WFqIA==
-X-Received: by 2002:a17:90b:949:: with SMTP id dw9mr788298pjb.20.1612470598230;
-        Thu, 04 Feb 2021 12:29:58 -0800 (PST)
+        bh=NeprK6JinSqU49dQ1nFPWFvDyk0tPt3L+sHTBjkAdOQ=;
+        b=HoXHE6Npf6gekjCozdnX7om3mdHl0TtIAguuBF1EZHrz0VAUSoMpHWoPDQVkh9u+Po
+         igheE6KIy0Xezq6Fau4Sd9FUpjhnXMH9MFFcsweTCHt4S7i2SskzY2TImVJIfyz0nz18
+         wcpP35lmuRTEu4eoI+Z82KK+H8n5UlZrLZA9cd//FuOllnCNa1GwRpbxvFI546SV6CDI
+         bIVJvRKWbzlTMwaV/Q/fxnYz+Q9xqHixxLeW68ulAMkmIb3899I0Oh/Z2Rb7hl8kQWDM
+         C8mFITLNCZDkGeUnlrX+ymNt+BOvi48kMn+0I1WuOdQArGizRyNWiOgkXNvcA9nfg76V
+         6l6g==
+X-Gm-Message-State: AOAM530Ho9lKi2+Ua0ikb1nBCdCofqkcD0UzOj6C++OPtBVs5ZbIHFPK
+        NzdeSNYLEgIC3YVT+r5qVIj04w==
+X-Google-Smtp-Source: ABdhPJwJ8tkFZ1GvM2rS6EIJq9lw8kHUx/wvUF88J40CKTwNhAGVZNsM8/4iFq1PZVwRDJJhoNR3nQ==
+X-Received: by 2002:a65:6246:: with SMTP id q6mr807193pgv.6.1612470791075;
+        Thu, 04 Feb 2021 12:33:11 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id j1sm6846456pfr.78.2021.02.04.12.29.57
+        by smtp.gmail.com with ESMTPSA id r14sm7806546pgi.27.2021.02.04.12.33.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Feb 2021 12:29:57 -0800 (PST)
-Date:   Thu, 4 Feb 2021 12:29:56 -0800
+        Thu, 04 Feb 2021 12:33:10 -0800 (PST)
+Date:   Thu, 4 Feb 2021 12:33:09 -0800
 From:   Kees Cook <keescook@chromium.org>
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
@@ -71,23 +71,32 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v19 20/25] x86/cet/shstk: User-mode shadow stack support
-Message-ID: <202102041229.237544D@keescook>
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Mark Brown <broonie@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>
+Subject: Re: [PATCH v19 22/25] ELF: Introduce arch_setup_elf_property()
+Message-ID: <202102041233.2FCCEABF1C@keescook>
 References: <20210203225547.32221-1-yu-cheng.yu@intel.com>
- <20210203225547.32221-21-yu-cheng.yu@intel.com>
+ <20210203225547.32221-23-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210203225547.32221-21-yu-cheng.yu@intel.com>
+In-Reply-To: <20210203225547.32221-23-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Feb 03, 2021 at 02:55:42PM -0800, Yu-cheng Yu wrote:
-> Introduce basic shadow stack enabling/disabling/allocation routines.
-> A task's shadow stack is allocated from memory with VM_SHSTK flag and has
-> a fixed size of min(RLIMIT_STACK, 4GB).
+On Wed, Feb 03, 2021 at 02:55:44PM -0800, Yu-cheng Yu wrote:
+> An ELF file's .note.gnu.property indicates arch features supported by the
+> file.  These features are extracted by arch_parse_elf_property() and stored
+> in 'arch_elf_state'.
+> 
+> Introduce x86 feature definitions and arch_setup_elf_property(), which
+> enables such features.  The first use-case of this function is Shadow
+> Stack.
+> 
+> ARM64 is the other arch that has ARCH_USE_GNU_PROPERTY and arch_parse_elf_
+> property().  Add arch_setup_elf_property() for it.
 > 
 > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 
