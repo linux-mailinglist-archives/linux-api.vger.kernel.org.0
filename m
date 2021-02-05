@@ -2,150 +2,216 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A1E73310160
-	for <lists+linux-api@lfdr.de>; Fri,  5 Feb 2021 01:11:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C9F1F3102F2
+	for <lists+linux-api@lfdr.de>; Fri,  5 Feb 2021 03:48:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231618AbhBEALA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 4 Feb 2021 19:11:00 -0500
-Received: from mga07.intel.com ([134.134.136.100]:33647 "EHLO mga07.intel.com"
+        id S229777AbhBECrb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 4 Feb 2021 21:47:31 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47554 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231567AbhBEAK6 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 4 Feb 2021 19:10:58 -0500
-IronPort-SDR: dcLHhzwVxGlhA6eizk0mzgYgWHL+jGH4p6IPB6bUnlIVtrBr4+bx13YGCPN5JE42rVzSM8BOWL
- J7JQ2BqAmDkQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9885"; a="245422593"
-X-IronPort-AV: E=Sophos;i="5.81,153,1610438400"; 
-   d="scan'208";a="245422593"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2021 16:10:16 -0800
-IronPort-SDR: FyGhBUUZHeP4fcvvfhWFvX9OftF/q5PlQTD0LPuXDJkP8OJ1TrRk/5I7SgFZh+TPiGSD+cMsTm
- 9ZdEZg3R6jTw==
-X-IronPort-AV: E=Sophos;i="5.81,153,1610438400"; 
-   d="scan'208";a="434168522"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.100.6]) ([10.209.100.6])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2021 16:10:14 -0800
-Subject: Re: [PATCH v19 06/25] x86/cet: Add control-protection fault handler
-To:     Kees Cook <keescook@chromium.org>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>
-References: <20210203225547.32221-1-yu-cheng.yu@intel.com>
- <20210203225547.32221-7-yu-cheng.yu@intel.com>
- <202102041201.C2B93F8D8A@keescook>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <518c6ce4-1e6e-ef8d-ba55-fb35a828b874@intel.com>
-Date:   Thu, 4 Feb 2021 16:10:13 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        id S229705AbhBECr3 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 4 Feb 2021 21:47:29 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 38AF464FA7;
+        Fri,  5 Feb 2021 02:46:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1612493208;
+        bh=u7fCLAhX1pOwBx9BOcb331n4nXXbCELnac9pfuMdw40=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=aKqP2NtJwTWkkRvAXb7ogJw+spwaPwbSFR6MdVHrrbndME/wehMGYfotFjvjy44rN
+         EdnmJvO8unOg33HhXcSolWitHCL+LnXtd/2PDVjdeMUpItQyGKMMp0VBQYQTHSrIqb
+         zLsSTv7Xlht5g1dcjBN4b59L57IfHiVHyB5JQe0ULO5D4icYj+qHxFrhvo2iTR1ZBl
+         CdLEX8Od2/oABQQtdkcHad7hv4GhSaGt6UWHQMeWAigWU0tyrEnoqV/nnqY7ti2V5F
+         g3tD5v2wmksqiD/Bg3SxiISs6hagCAqXIDn8hDPKaoMHfNQ6L4fFxY+1g3oDePZK4W
+         JCnl0mclkQrbg==
+Date:   Fri, 5 Feb 2021 04:46:40 +0200
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     David Howells <dhowells@redhat.com>
+Cc:     sprabhu@redhat.com, christian@brauner.io, selinux@vger.kernel.org,
+        keyrings@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-kernel@vger.kernel.org, containers@lists.linux-foundation.org
+Subject: Re: [PATCH 1/2] Add namespace tags that can be used for matching
+ without pinning a ns
+Message-ID: <YByxkDi0Ruhb0AA8@kernel.org>
+References: <161246085160.1990927.13137391845549674518.stgit@warthog.procyon.org.uk>
+ <161246085966.1990927.2555272056564793056.stgit@warthog.procyon.org.uk>
 MIME-Version: 1.0
-In-Reply-To: <202102041201.C2B93F8D8A@keescook>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <161246085966.1990927.2555272056564793056.stgit@warthog.procyon.org.uk>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2/4/2021 12:09 PM, Kees Cook wrote:
-> On Wed, Feb 03, 2021 at 02:55:28PM -0800, Yu-cheng Yu wrote:
+On Thu, Feb 04, 2021 at 05:47:39PM +0000, David Howells wrote:
+> Add a ns tag struct that consists of just a refcount.  It's address can be
+> used to compare namespaces without the need to pin a namespace.  Just the
+> tag needs pinning.
+> 
+> Signed-off-by: David Howells <dhowells@redhat.com>
+> ---
+> 
+>  fs/namespace.c            |   18 ++++++++----------
+>  include/linux/ns_common.h |   23 +++++++++++++++++++++++
+>  include/linux/proc_ns.h   |   38 +++++++++++++++++++++++++++++++++++---
+>  init/version.c            |    9 ++++++++-
+>  ipc/msgutil.c             |    7 ++++++-
+>  ipc/namespace.c           |    8 +++-----
+>  kernel/cgroup/cgroup.c    |    5 +++++
+>  kernel/cgroup/namespace.c |    6 +++---
+>  kernel/pid.c              |    5 +++++
+>  kernel/pid_namespace.c    |   18 +++++++++---------
+>  kernel/time/namespace.c   |   13 +++++--------
+>  kernel/user.c             |    5 +++++
+>  kernel/user_namespace.c   |    7 +++----
+>  kernel/utsname.c          |   24 +++++++++++++-----------
+>  net/core/net_namespace.c  |   38 +++++++++++++++-----------------------
+>  15 files changed, 146 insertions(+), 78 deletions(-)
+> 
+> diff --git a/fs/namespace.c b/fs/namespace.c
+> index 9d33909d0f9e..f8da9be8c6f7 100644
+> --- a/fs/namespace.c
+> +++ b/fs/namespace.c
+> @@ -3238,10 +3238,9 @@ static void dec_mnt_namespaces(struct ucounts *ucounts)
+>  
+>  static void free_mnt_ns(struct mnt_namespace *ns)
+>  {
+> -	if (!is_anon_ns(ns))
+> -		ns_free_inum(&ns->ns);
+>  	dec_mnt_namespaces(ns->ucounts);
+>  	put_user_ns(ns->user_ns);
+> +	destroy_ns_common(&ns->ns);
+>  	kfree(ns);
+>  }
+>  
+> @@ -3269,18 +3268,17 @@ static struct mnt_namespace *alloc_mnt_ns(struct user_namespace *user_ns, bool a
+>  		dec_mnt_namespaces(ucounts);
+>  		return ERR_PTR(-ENOMEM);
+>  	}
+> -	if (!anon) {
+> -		ret = ns_alloc_inum(&new_ns->ns);
+> -		if (ret) {
+> -			kfree(new_ns);
+> -			dec_mnt_namespaces(ucounts);
+> -			return ERR_PTR(ret);
+> -		}
+> +
+> +	ret = init_ns_common(&new_ns->ns, anon);
+> +	if (ret) {
+> +		destroy_ns_common(&new_ns->ns);
+> +		kfree(new_ns);
+> +		dec_mnt_namespaces(ucounts);
+> +		return ERR_PTR(ret);
+>  	}
+>  	new_ns->ns.ops = &mntns_operations;
+>  	if (!anon)
+>  		new_ns->seq = atomic64_add_return(1, &mnt_ns_seq);
+> -	refcount_set(&new_ns->ns.count, 1);
+>  	INIT_LIST_HEAD(&new_ns->list);
+>  	init_waitqueue_head(&new_ns->poll);
+>  	spin_lock_init(&new_ns->ns_lock);
+> diff --git a/include/linux/ns_common.h b/include/linux/ns_common.h
+> index 0f1d024bd958..45174ad8a435 100644
+> --- a/include/linux/ns_common.h
+> +++ b/include/linux/ns_common.h
+> @@ -3,14 +3,37 @@
+>  #define _LINUX_NS_COMMON_H
+>  
+>  #include <linux/refcount.h>
+> +#include <linux/slab.h>
+>  
+>  struct proc_ns_operations;
+>  
+> +/*
+> + * Comparable tag for namespaces so that namespaces don't have to be pinned by
+> + * something that wishes to detect if a namespace matches a criterion.
+> + */
+> +struct ns_tag {
+> +	refcount_t	usage;
 
-[...]
+Is that indentation necessary? I'd put just a space.
 
->> diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
->> index 7f5aec758f0e..f5354c35df32 100644
->> --- a/arch/x86/kernel/traps.c
->> +++ b/arch/x86/kernel/traps.c
->> @@ -606,6 +606,66 @@ DEFINE_IDTENTRY_ERRORCODE(exc_general_protection)
->>   	cond_local_irq_disable(regs);
->>   }
->>   
->> +#ifdef CONFIG_X86_CET
->> +static const char * const control_protection_err[] = {
->> +	"unknown",
->> +	"near-ret",
->> +	"far-ret/iret",
->> +	"endbranch",
->> +	"rstorssp",
->> +	"setssbsy",
->> +};
->> +
->> +/*
->> + * When a control protection exception occurs, send a signal to the responsible
->> + * application.  Currently, control protection is only enabled for user mode.
->> + * This exception should not come from kernel mode.
->> + */
->> +DEFINE_IDTENTRY_ERRORCODE(exc_control_protection)
->> +{
->> +	static DEFINE_RATELIMIT_STATE(rs, DEFAULT_RATELIMIT_INTERVAL,
->> +				      DEFAULT_RATELIMIT_BURST);
->> +	struct task_struct *tsk;
->> +
->> +	if (!user_mode(regs)) {
->> +		pr_emerg("PANIC: unexpected kernel control protection fault\n");
->> +		die("kernel control protection fault", regs, error_code);
->> +		panic("Machine halted.");
->> +	}
->> +
->> +	cond_local_irq_enable(regs);
->> +
->> +	if (!boot_cpu_has(X86_FEATURE_CET))
->> +		WARN_ONCE(1, "Control protection fault with CET support disabled\n");
->> +
->> +	tsk = current;
->> +	tsk->thread.error_code = error_code;
->> +	tsk->thread.trap_nr = X86_TRAP_CP;
->> +
->> +	if (show_unhandled_signals && unhandled_signal(tsk, SIGSEGV) &&
->> +	    __ratelimit(&rs)) {
->> +		unsigned int max_err;
->> +		unsigned long ssp;
->> +
->> +		max_err = ARRAY_SIZE(control_protection_err) - 1;
->> +		if (error_code < 0 || error_code > max_err)
->> +			error_code = 0;
-> 
-> Do you want to mask the error_code here before printing its value?
-> 
->> +
->> +		rdmsrl(MSR_IA32_PL3_SSP, ssp);
->> +		pr_emerg("%s[%d] control protection ip:%lx sp:%lx ssp:%lx error:%lx(%s)",
->> +			 tsk->comm, task_pid_nr(tsk),
->> +			 regs->ip, regs->sp, ssp, error_code,
->> +			 control_protection_err[error_code]);
-> 
-> Instead, you could clamp error_code to ARRAY_SIZE(control_protection_err),
-> and add another "unknown" to the end of the strings:
-> 
-> 	control_protection_err[
-> 		array_index_nospec(error_code,
-> 				   ARRAY_SIZE(control_protection_err))]
-> 
-> Everything else looks good.
-> 
+> +};
+> +
+>  struct ns_common {
+>  	atomic_long_t stashed;
+>  	const struct proc_ns_operations *ops;
+> +	struct ns_tag *tag;
+>  	unsigned int inum;
+>  	refcount_t count;
+>  };
+>  
+> +static inline struct ns_tag *get_ns_tag(struct ns_tag *tag)
+> +{
+> +	if (tag)
+> +		refcount_inc(&tag->usage);
+> +	return tag;
+> +}
+> +
+> +static inline void put_ns_tag(struct ns_tag *tag)
+> +{
+> +	if (tag && refcount_dec_and_test(&tag->usage))
+> +		kfree(tag);
+> +}
+> +
+>  #endif
+> diff --git a/include/linux/proc_ns.h b/include/linux/proc_ns.h
+> index 75807ecef880..9fb7eb403923 100644
+> --- a/include/linux/proc_ns.h
+> +++ b/include/linux/proc_ns.h
+> @@ -64,13 +64,45 @@ static inline void proc_free_inum(unsigned int inum) {}
+>  
+>  #endif /* CONFIG_PROC_FS */
+>  
+> -static inline int ns_alloc_inum(struct ns_common *ns)
+> +/**
+> + * init_ns_common - Initialise the common part of a namespace
 
-I will update it.  Thanks!
+Nit: init_ns_common()
 
-[...]
+> + * @ns: The namespace to initialise
+> + * @anon: The namespace will be anonymous
+> + *
+> + * Set up the common part of a namespace, assigning an inode number and
+> + * creating a tag.  Returns 0 on success and a negative error code on failure.
+> + * On failure, the caller must call destroy_ns_common().
+
+I've used lately (e.g. arch/x86/kernel/cpu/sgx/ioctl.c) along the lines:
+
+* Return:
+* - 0:          Initialization was successful.
+* - -ENOMEM:    Out of memory.
+
+Looking at the implementation, I guess this is a complete representation of
+what it can return?
+
+The driving point here is that this nicely lines up when rendered with
+"make htmldocs".
+
+> + */
+> +static inline int init_ns_common(struct ns_common *ns, bool anon)
+>  {
+> +	struct ns_tag *tag;
+> +
+> +	tag = kzalloc(sizeof(*tag), GFP_KERNEL);
+> +	if (!tag)
+> +		return -ENOMEM;
+> +
+> +	refcount_set(&tag->usage, 1);
+> +	ns->tag = tag;
+> +	ns->inum = 0;
+>  	atomic_long_set(&ns->stashed, 0);
+> -	return proc_alloc_inum(&ns->inum);
+> +	refcount_set(&ns->count, 1);
+> +
+> +	return anon ? 0 : proc_alloc_inum(&ns->inum);
+>  }
+>  
+> -#define ns_free_inum(ns) proc_free_inum((ns)->inum)
+> +/**
+> + * destroy_ns_common - Clean up the common part of a namespace
+
+Nit: destroy_ns_common()
+
+/Jarkko
