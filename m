@@ -2,92 +2,94 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 53FCB31069E
-	for <lists+linux-api@lfdr.de>; Fri,  5 Feb 2021 09:28:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B187F310753
+	for <lists+linux-api@lfdr.de>; Fri,  5 Feb 2021 10:10:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229711AbhBEI1L (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 5 Feb 2021 03:27:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54046 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229702AbhBEI1K (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 5 Feb 2021 03:27:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1612513544;
+        id S230043AbhBEJIc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 5 Feb 2021 04:08:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39382 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229766AbhBEJDp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 5 Feb 2021 04:03:45 -0500
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8951C0613D6;
+        Fri,  5 Feb 2021 01:02:22 -0800 (PST)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1612515741;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=LxANOstSwBXrn0OC3M8r/TM5reax6AnMqz1DHOK0g18=;
-        b=PT6BreKnjyE1jcyTvL5BJVY77rJ7Vd035fYUJQ6x6FZSrsZN+rlnW26ltB7jjehP0AYgrK
-        69QWeOpf7hONb4CRLmaVJ01YbdhSICbxtX/JpN6qeKRVWegRP9rG1+jpDOC7MBeiI15cYP
-        bn6YNtn5ser0xdUJmlNP5Kz0TkI1tww=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-98-Aund-JwENnm_luJEaMImoA-1; Fri, 05 Feb 2021 03:25:40 -0500
-X-MC-Unique: Aund-JwENnm_luJEaMImoA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AAAB81800D50;
-        Fri,  5 Feb 2021 08:25:38 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-115-23.rdu2.redhat.com [10.10.115.23])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id B582D1970A;
-        Fri,  5 Feb 2021 08:25:36 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <YByxkDi0Ruhb0AA8@kernel.org>
-References: <YByxkDi0Ruhb0AA8@kernel.org> <161246085160.1990927.13137391845549674518.stgit@warthog.procyon.org.uk> <161246085966.1990927.2555272056564793056.stgit@warthog.procyon.org.uk>
-To:     Jarkko Sakkinen <jarkko@kernel.org>
-Cc:     dhowells@redhat.com, sprabhu@redhat.com, christian@brauner.io,
-        selinux@vger.kernel.org, keyrings@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kernel@vger.kernel.org, containers@lists.linux-foundation.org
-Subject: Re: [PATCH 1/2] Add namespace tags that can be used for matching without pinning a ns
+        bh=PI2qDxyliIROzaHP65iJZdDI7TEweADPsyK8kuQaxNk=;
+        b=zBi0MQhP9nKeni7mdwBHlfEkPnsq6w7qX5hPJLpE8k2GAAOTU5T5MzuiWaVAO6QpZ9R2uh
+        39j5VzTSW9apNTGLzvkf5dJYsR+GdYFWssTQGgxJYeRv2UNNBlFukr+t0uzWIJxYXqGigG
+        if1LapcEXuOo3ME3NDKpg9VvSL4wt5V/8yN4GYUUI33k3E4oOD8g3jClfnSZJZrXACfWFI
+        DWqRpILF+fVG/UUtGMYKZ/Md/buLbltRmmMiT56GxRWSDvew1Vfjmo3W+f2kK7htGogQca
+        zreluAt0uUGEv307Hk4bSyI9nKFprANnz0gd83c0bLc9Uuegvuqx06BBXw2E+Q==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1612515741;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=PI2qDxyliIROzaHP65iJZdDI7TEweADPsyK8kuQaxNk=;
+        b=fmLm5xAkfO4+HxyVQpfy9TXnBr0fqZxm3WoGHV88cd2O4DXF4UKTXWLHVnerMd+XTHCfH5
+        ayCGPpFngheKIWCw==
+To:     Gabriel Krisman Bertazi <krisman@collabora.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Gabriel Krisman Bertazi <krisman@collabora.com>,
+        kernel@collabora.com, Linux API <linux-api@vger.kernel.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>
+Subject: Re: [PATCH RESEND] entry: Use different define for selector variable in SUD
+In-Reply-To: <20210204184028.1516328-1-krisman@collabora.com>
+References: <20210204184028.1516328-1-krisman@collabora.com>
+Date:   Fri, 05 Feb 2021 10:02:20 +0100
+Message-ID: <87ft2aanvn.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <2094923.1612513535.1@warthog.procyon.org.uk>
-Date:   Fri, 05 Feb 2021 08:25:35 +0000
-Message-ID: <2094924.1612513535@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Jarkko Sakkinen <jarkko@kernel.org> wrote:
+Gabriel,
 
-> > + * init_ns_common - Initialise the common part of a namespace
-> 
-> Nit: init_ns_common()
+On Thu, Feb 04 2021 at 13:40, Gabriel Krisman Bertazi wrote:
+> Michael Kerrisk suggested that, from an API perspective, it is a bad
+> idea to share the PR_SYS_DISPATCH_ defines between the prctl operation
+> and the selector variable.  Therefore, define two new constants to be
+> used by SUD's selector variable, and the corresponding documentation.
+>
+> While this changes the API, it is backward compatible, as the values
+> remained the same and the old defines are still in place.  In addition,
+> SUD has never been part of a Linux release, it will show up for the
+> first time in 5.11.
 
-Interesting.  The majority of code doesn't put the brackets in.
+> --- a/include/uapi/linux/prctl.h
+> +++ b/include/uapi/linux/prctl.h
+> @@ -251,5 +251,7 @@ struct prctl_mm_map {
+>  #define PR_SET_SYSCALL_USER_DISPATCH	59
+>  # define PR_SYS_DISPATCH_OFF		0
+>  # define PR_SYS_DISPATCH_ON		1
+> +# define PR_SYS_DISPATCH_FILTER_ALLOW	0
+> +# define PR_SYS_DISPATCH_FILTER_BLOCK	1
 
-> I've used lately (e.g. arch/x86/kernel/cpu/sgx/ioctl.c) along the lines:
-> 
-> * Return:
-> * - 0:          Initialization was successful.
-> * - -ENOMEM:    Out of memory.
+This is still confusing because the defines are kinda associated to the
+prctl(). But ALLOW/BLOCK are the values which for the user space
+selector which allows to runtime filter the dispatching without the
+overhead of prctl().
 
-Actually, looking at kernel-doc.rst, this isn't necessarily the recommended
-approach as it will much everything into one line, complete with dashes, and
-can't handle splitting over lines.  You probably meant:
+So they want to be visualy seperated and not part of the PR_
+namespace. Something like the below.
 
-      * Return:
-      * * 0		- OK to runtime suspend the device
-      * * -EBUSY	- Device should not be runtime suspended
+#define PR_SET_SYSCALL_USER_DISPATCH	59
+# define PR_SYS_DISPATCH_OFF		0
+# define PR_SYS_DISPATCH_ON		1
 
-> * Return:
-> * - 0:          Initialization was successful.
-> * - -ENOMEM:    Out of memory.
-> 
-> Looking at the implementation, I guess this is a complete representation of
-> what it can return?
+/* Control values for the syscall dispatch runtime selector (filter) */
+# define SYSCALL_DISPATCH_FILTER_ALLOW	0
+# define SYSCALL_DISPATCH_FILTER_BLOCK	1
 
-It isn't.  It can return at least -ENOSPC as well, but it's awkward detailing
-the errors from functions it calls since they can change and then the
-description here is wrong.  I'm not sure there's a perfect answer to that.
+Hmm?
 
-David
+Thanks,
 
+        tglx
