@@ -2,30 +2,30 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DCA93100DE
-	for <lists+linux-api@lfdr.de>; Fri,  5 Feb 2021 00:44:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 222EE31014D
+	for <lists+linux-api@lfdr.de>; Fri,  5 Feb 2021 01:05:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231208AbhBDXnz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 4 Feb 2021 18:43:55 -0500
-Received: from mga11.intel.com ([192.55.52.93]:19290 "EHLO mga11.intel.com"
+        id S231490AbhBEAFw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 4 Feb 2021 19:05:52 -0500
+Received: from mga14.intel.com ([192.55.52.115]:14579 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231186AbhBDXnu (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 4 Feb 2021 18:43:50 -0500
-IronPort-SDR: paq73y+XUm9y5jV86oLfy3XQCor3hz9emY1clRXp4YE1QIUTnIPuLVOPe+lVU567RoH/pK/xE5
- QkOPp/xRXpbQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9885"; a="177841889"
+        id S231489AbhBEAFv (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 4 Feb 2021 19:05:51 -0500
+IronPort-SDR: 0UeHc/R3/uT49vGMWZ8rnrv7pbuQ8WtV4pCTDDHpcs2Cp6Jq0qOens5Pul97L/MmV9Y/W/HfpV
+ o2rYvhH6bs1Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9885"; a="180574593"
 X-IronPort-AV: E=Sophos;i="5.81,153,1610438400"; 
-   d="scan'208";a="177841889"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2021 15:42:03 -0800
-IronPort-SDR: 6wbv918hvG4kwN5PthBfgEyPKVZYOVgV2Zh9AsIF6FZ0wwxkwPSieawgpnXjfujFsc4GNhN/d5
- xzDq58RPrx2A==
+   d="scan'208";a="180574593"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2021 16:05:07 -0800
+IronPort-SDR: 9A2nuYpdchNnFhxQ1CGsl6qyFnW7iy5YcAe2d5gQVNVNpooWZO9qu480lEdh9kTYpwCl6v+xI5
+ XWocliCxxHWw==
 X-IronPort-AV: E=Sophos;i="5.81,153,1610438400"; 
-   d="scan'208";a="483749298"
+   d="scan'208";a="434165916"
 Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.100.6]) ([10.209.100.6])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2021 15:42:00 -0800
-Subject: Re: [PATCH v19 24/25] x86/cet/shstk: Add arch_prctl functions for
- shadow stack
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2021 16:05:05 -0800
+Subject: Re: [PATCH v19 02/25] x86/cet/shstk: Add Kconfig option for user-mode
+ control-flow protection
 To:     Kees Cook <keescook@chromium.org>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -53,15 +53,15 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>
 References: <20210203225547.32221-1-yu-cheng.yu@intel.com>
- <20210203225547.32221-25-yu-cheng.yu@intel.com>
- <202102041235.BA6C4982F@keescook>
+ <20210203225547.32221-3-yu-cheng.yu@intel.com>
+ <202102041154.F0264AC33@keescook>
 From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <6d7dd90f-dc03-06ce-57a2-57e4c2f803f3@intel.com>
-Date:   Thu, 4 Feb 2021 15:41:59 -0800
+Message-ID: <19793d76-6793-20a0-059c-cd153cf36a8b@intel.com>
+Date:   Thu, 4 Feb 2021 16:05:04 -0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <202102041235.BA6C4982F@keescook>
+In-Reply-To: <202102041154.F0264AC33@keescook>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -69,29 +69,44 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2/4/2021 12:35 PM, Kees Cook wrote:
-> On Wed, Feb 03, 2021 at 02:55:46PM -0800, Yu-cheng Yu wrote:
->> arch_prctl(ARCH_X86_CET_STATUS, u64 *args)
->>      Get CET feature status.
+On 2/4/2021 11:56 AM, Kees Cook wrote:
+> On Wed, Feb 03, 2021 at 02:55:24PM -0800, Yu-cheng Yu wrote:
+>> Shadow Stack provides protection against function return address
+>> corruption.  It is active when the processor supports it, the kernel has
+>> CONFIG_X86_CET enabled, and the application is built for the feature.
+>> This is only implemented for the 64-bit kernel.  When it is enabled, legacy
+>> non-Shadow Stack applications continue to work, but without protection.
 >>
->>      The parameter 'args' is a pointer to a user buffer.  The kernel returns
->>      the following information:
+>> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+>> ---
+>>   arch/x86/Kconfig           | 22 ++++++++++++++++++++++
+>>   arch/x86/Kconfig.assembler |  5 +++++
+>>   2 files changed, 27 insertions(+)
 >>
->>      *args = shadow stack/IBT status
->>      *(args + 1) = shadow stack base address
->>      *(args + 2) = shadow stack size
+>> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+>> index 21f851179ff0..074b3c0e6bf6 100644
+>> --- a/arch/x86/Kconfig
+>> +++ b/arch/x86/Kconfig
+>> @@ -1951,6 +1951,28 @@ config X86_SGX
+>>   
+>>   	  If unsure, say N.
+>>   
+>> +config ARCH_HAS_SHADOW_STACK
+>> +	def_bool n
+>> +
+>> +config X86_CET
+>> +	prompt "Intel Control-flow protection for user-mode"
+>> +	def_bool n
+>> +	depends on X86_64
+>> +	depends on AS_WRUSS
+>> +	select ARCH_USES_HIGH_VMA_FLAGS
+>> +	select ARCH_HAS_SHADOW_STACK
 > 
-> What happens if this needs to grow in the future? Should the first u64
-> contain the array size?
-> 
-> Otherwise, looks sensible.
-> 
-> -Kees
-> 
+> This seems backwards to me? Shouldn't 'config X86_64' do the 'select
+> ARCH_HAS_SHADOW_STACK' and 'config X86_CET' do a 'depends on
+> ARCH_HAS_SHADOW_STACK' instead?
 
-The first item is a bitmap, and there are two possible bits.  Should 
-there be a need, we can then do things about it.  My thought at the 
-moment is, we may not meet the situation.  Can we keep this for now?
+I will change it.  Thanks!
 
 --
 Yu-cheng
