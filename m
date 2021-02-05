@@ -2,77 +2,115 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29ECB31192E
-	for <lists+linux-api@lfdr.de>; Sat,  6 Feb 2021 03:58:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C5EAC311A0A
+	for <lists+linux-api@lfdr.de>; Sat,  6 Feb 2021 04:29:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229972AbhBFC5L (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 5 Feb 2021 21:57:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41578 "EHLO
+        id S231260AbhBFD2y (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 5 Feb 2021 22:28:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230525AbhBFCx2 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 5 Feb 2021 21:53:28 -0500
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAD08C03BFFC;
-        Fri,  5 Feb 2021 14:27:01 -0800 (PST)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1612564020;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=VadslTTd+2N1rTvdy4wdiu4OS+/fi59Fn5i0loWcZCI=;
-        b=cvaRnSQfaldfyTZrh9hwF4XpLuxM42vLwC92tAfeOnixBjonYDcx61OsV9PTWWQ1ZHB26y
-        aGbDu6J4PkF0/+xJwYytkbbisJwoJowJeNEsoRhDo1wBvWYNL5ENg8ydDZ9NN//SiSw3z/
-        iWGpSWN4IJtBn1u7/EQhn8Ql9Bd7TpVYeo1dgESYtrgV0bO8yhpCGha4pwktRNCNt1aS6l
-        kujYc9is12XLVgHf+LhdQeASkxkF5vJPqb88MBlNd8dvfYb27HQ82/lt+Jz0kxGhNn5C12
-        M6x+8u/bF7t5E18DsC/v+iXeDiOUbaj0sQpiCc9b5RCt/6tbOnevYngEvUzN0Q==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1612564020;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=VadslTTd+2N1rTvdy4wdiu4OS+/fi59Fn5i0loWcZCI=;
-        b=Vu8aiJ5kKikjvjrDFS2pX1/kUhU60dKVlhHqMlfKorK2VmvnQ6tvI+jqLJICrsVeVgxZ24
-        JU7asqv0T7JfaMBA==
-To:     Nitesh Narayan Lal <nitesh@redhat.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>
-Cc:     Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, frederic@kernel.org,
-        juri.lelli@redhat.com, abelits@marvell.com, bhelgaas@google.com,
-        linux-pci@vger.kernel.org, rostedt@goodmis.org, mingo@kernel.org,
-        peterz@infradead.org, davem@davemloft.net,
-        akpm@linux-foundation.org, sfr@canb.auug.org.au,
-        stephen@networkplumber.org, rppt@linux.vnet.ibm.com,
-        jinyuqi@huawei.com, zhangshaokun@hisilicon.com
-Subject: Re: [Patch v4 1/3] lib: Restrict cpumask_local_spread to houskeeping CPUs
-In-Reply-To: <87y2g26tnt.fsf@nanos.tec.linutronix.de>
-References: <20200625223443.2684-1-nitesh@redhat.com> <20200625223443.2684-2-nitesh@redhat.com> <3e9ce666-c9cd-391b-52b6-3471fe2be2e6@arm.com> <20210127121939.GA54725@fuller.cnet> <87r1m5can2.fsf@nanos.tec.linutronix.de> <20210128165903.GB38339@fuller.cnet> <87h7n0de5a.fsf@nanos.tec.linutronix.de> <20210204181546.GA30113@fuller.cnet> <cfa138e9-38e3-e566-8903-1d64024c917b@redhat.com> <20210204190647.GA32868@fuller.cnet> <d8884413-84b4-b204-85c5-810342807d21@redhat.com> <87y2g26tnt.fsf@nanos.tec.linutronix.de>
-Date:   Fri, 05 Feb 2021 23:26:59 +0100
-Message-ID: <87v9b66tho.fsf@nanos.tec.linutronix.de>
+        with ESMTP id S229684AbhBFCbc (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 5 Feb 2021 21:31:32 -0500
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D103C08ECAC
+        for <linux-api@vger.kernel.org>; Fri,  5 Feb 2021 14:45:21 -0800 (PST)
+Received: by mail-ed1-x52b.google.com with SMTP id s5so10797232edw.8
+        for <linux-api@vger.kernel.org>; Fri, 05 Feb 2021 14:45:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chrisdown.name; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=tI1f4i4ziW/Ximd5HKHu71YFTC8v8qUtKb681+ALp0o=;
+        b=YZdenX0Q9zk0V+QGiih7o/6iLs3mnbotXB87u469aXGFh8TPPwu5nPQD6MAlrqDm9b
+         V8qg2QBHm1+ncL5H95h1Kz8bFfws38DJF9HtFKz5WAyAs2VmQRN0wUJiKHKyS6giqYI5
+         MklliWJw3bOuhQLEIorHi0QMOpnHWKi0gTFk0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=tI1f4i4ziW/Ximd5HKHu71YFTC8v8qUtKb681+ALp0o=;
+        b=NFzSc2o8f4DDK+yTgTWsH+9jW1jGBRZg4fFRVQusVXMs8G0gypsKxs300S9MNE/hTK
+         ix8mphvr7s95Uka+O2Vyqtla3ki4XyAqK+XXMQ1DlwmVavhRkzSyvVuDRUzsvE0lfN/e
+         B4F/vfcNQb1hjbQk2JL+k5MiXbRFLERnsrjwWUqjYqCtNyVu/30DveO+YhOhGlAOCk8s
+         aqUCSF+2g5ApInSec8XaUMmItwxMh7UcZhLpIw8VE/ojXJ9ab31OY4m3mtzvOIpFReEi
+         QS+hczsQMjhlznKKbdW8fc+uJC8CbIAKSyidVOall6kDxJHs4uzA+8+0LKPyuAj7wtL7
+         Bp1A==
+X-Gm-Message-State: AOAM531VC9IyKT7ysJay9KMQGlPsPSjnglsS1VAfBLqB9g8OqLJsrwH/
+        6fSNLwW4EKR7L4FZl8iF34GxjQ==
+X-Google-Smtp-Source: ABdhPJyt3LLWpY62x1OjCahx1+I3sSaPyiQWpqmMIWHpa/OcR+efeRyrMqnBFf//oHc04KqZBHpyNg==
+X-Received: by 2002:aa7:d6c2:: with SMTP id x2mr5765469edr.225.1612565120194;
+        Fri, 05 Feb 2021 14:45:20 -0800 (PST)
+Received: from localhost ([2620:10d:c093:400::4:66bb])
+        by smtp.gmail.com with ESMTPSA id o4sm4656387edw.78.2021.02.05.14.45.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Feb 2021 14:45:19 -0800 (PST)
+Date:   Fri, 5 Feb 2021 22:45:19 +0000
+From:   Chris Down <chris@chrisdown.name>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Petr Mladek <pmladek@suse.com>, linux-kernel@vger.kernel.org,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        John Ogness <john.ogness@linutronix.de>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Andrew Morton <akpm@linux-foundation.org>, kernel-team@fb.com,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jason Baron <jbaron@akamai.com>,
+        Kees Cook <keescook@chromium.org>, linux-api@vger.kernel.org
+Subject: Re: [PATCH] printk: Userspace format enumeration support
+Message-ID: <YB3Kf896Zt9O+/Yh@chrisdown.name>
+References: <YBwU0G+P0vb9wTwm@chrisdown.name>
+ <YB11jybvFCb95S9e@alley>
+ <20210205124748.4af2d406@gandalf.local.home>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20210205124748.4af2d406@gandalf.local.home>
+User-Agent: Mutt/2.0.5 (da5e3282) (2021-01-21)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Feb 05 2021 at 23:23, Thomas Gleixner wrote:
-> On Thu, Feb 04 2021 at 14:17, Nitesh Narayan Lal wrote:
->> On 2/4/21 2:06 PM, Marcelo Tosatti wrote:
->>>>> How about adding a new flag for isolcpus instead?
->>>>>
->>>> Do you mean a flag based on which we can switch the affinity mask to
->>>> housekeeping for all the devices at the time of IRQ distribution?
->>> Yes a new flag for isolcpus. HK_FLAG_IRQ_SPREAD or some better name.
+Hi Steven,
+
+Steven Rostedt writes:
+>Interesting, because when I was looking at the original patch (looked at
+>the lore link before reading your reply), I thought to myself "this looks
+>exactly like what I did for trace_printk formats", which the above file is
+>where it is shown. I'm curious if this work was inspired by that?
+
+The double __builtin_constant_p() trick was suggested by Johannes based on 
+prior art in trace_puts() just prior to patch submission. Other than that, it 
+seems we came up with basically the same solution independently. :-)
+
+>> Anyway, there is something wrong at the moment. The output looks fine
+>> with cat. But "less" says that it is a binary format and the output
+>> is a bit messy:
+>
+>Hmm, that's usually the case when lseek gets messed up. Not sure how that
+>happened.
+
+It looks as intended to me -- none of the newlines, nulls, or other control 
+sequences are escaped currently, since I didn't immediately see a reason to do 
+that. If that's a blocker though, I'm happy to change it.
+
+>> $> less /proc/printk_formats
+>> "/proc/printk_formats" may be a binary file.  See it anyway?
+>> vmlinux,^A3Warning: unable to open an initial console.
+>> ^@vmlinux,^A3Failed to execute %s (error %d)
+>> ^@vmlinux,^A6Kernel memory protection disabled.
+>> ^@vmlinux,^A3Starting init: %s exists but couldn't execute it (error %d)
 >>
->> Does sounds like a nice idea to explore, lets see what Thomas thinks about it.
+>>
+>> That is for now. I still have to think about it. And I am also curious
+>> about what others thing about this idea.
+>>
+>
+>I'm not against the idea. I don't think it belongs in /proc. Perhaps
+>debugfs is a better place to put it.
 
-<.SNIP.>
-
-> So I'm going to revert this commit because it _IS_ broken _AND_ useless
-> and does not solve anything it claims to solve.
-
-And no. HK_FLAG_IRQ_SPREAD is not going to solve anything either.
+Any location is fine with me, as long as it gets to userspace. How does 
+<debugfs>/printk/formats or <debugfs>/printk/formats/<module> sound to you?
 
 Thanks,
 
-        tglx
+Chris
