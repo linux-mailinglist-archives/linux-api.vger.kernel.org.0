@@ -2,27 +2,51 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC7EA311BDD
-	for <lists+linux-api@lfdr.de>; Sat,  6 Feb 2021 08:16:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F3075311D28
+	for <lists+linux-api@lfdr.de>; Sat,  6 Feb 2021 13:45:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229711AbhBFHOl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 6 Feb 2021 02:14:41 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50242 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229539AbhBFHOj (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Sat, 6 Feb 2021 02:14:39 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C94FB64F9B;
-        Sat,  6 Feb 2021 07:13:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1612595638;
-        bh=nuSHRF9OudOjXsyAgzF1fbrlfgZwD78OhCatWB6lMhg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=bfdy8GGAvV1JvU8U8TipoZKPpm+FV/xETSJFvJVGOnp9jQ04zVIPC7tfY4/0Dtpx5
-         rr0Wdc6jhXyMWnS95gt4Wc0D3QTOXQ6LA+4tD0Jc5KvcELwoYJLlEJc70W4iduGJG2
-         pyiOCZFOJJcBGG2jUQ+axSw270/h4fj4jq62kGiM=
-Date:   Sat, 6 Feb 2021 08:13:55 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Chris Down <chris@chrisdown.name>
+        id S229742AbhBFMpZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 6 Feb 2021 07:45:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55894 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229506AbhBFMpY (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 6 Feb 2021 07:45:24 -0500
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72486C06174A
+        for <linux-api@vger.kernel.org>; Sat,  6 Feb 2021 04:44:43 -0800 (PST)
+Received: by mail-wr1-x435.google.com with SMTP id g10so10953401wrx.1
+        for <linux-api@vger.kernel.org>; Sat, 06 Feb 2021 04:44:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chrisdown.name; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=FdxkSResqQzkMQudO+mFnTtwity6/Y5j5OUXY7bW1CY=;
+        b=Aa1oif6wIeCk38mTPALdE/pM3IoRCp1VTkKq6cVjr/teo80g5ZDn9wwJKv68yBwVKt
+         qurR6BM7I9gYh/8T8nz/jyNfDIXvovtr5O5PMbcbd7AAO4Q1wxK6vvSoTcT3F6rtpmAI
+         v+vj0/V+uu8aKJSvTLcpBIB/Wg7LBmRayxQHQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=FdxkSResqQzkMQudO+mFnTtwity6/Y5j5OUXY7bW1CY=;
+        b=JtbzZkfscaNPSKx0O7uGzpiGxgkcIqfQqG4KFwtA45cVIbrwGLHrka3ePrenFYA6ce
+         CrJFs7634lSBorPopC8nRRfHhdMxt8lCYM7aeZgFBKZI/7MJcjNh7fbIUKfhFk5uTqQl
+         sDCsDNdXS5BFAMUeOWZZrNQkpWacaoTP55XylW2Zcqq745fV6l/k5pOf8ARyfB8lgauJ
+         PJdcjQ3eJ0mR8ZWTrs50gRU2Ltatur0Z5QqRWLfipfLtRBVRzAOT3UgWYjsNKNX20SMD
+         qtbc8P1ozWsaJr9V2npLsbiDNPPIegSN5k9A72hUYlT/R/PMSdfs7mEYVGBdQ9KfDp5Q
+         bpJw==
+X-Gm-Message-State: AOAM533DIQ8SpUvkC5tpYwwwcJm59UvlHSrPHbPWvfpgOr9PBcrM2kdO
+        LS33zBZHJNY1j1VARxCzcQbiLA==
+X-Google-Smtp-Source: ABdhPJyU0DSUD06+MJYK5IN96/TSbHWfYrAodvWTr13jCnWBAwHvl1W0Y0XNV8ZPPivdRQOVLvIyZw==
+X-Received: by 2002:adf:fb0c:: with SMTP id c12mr10268601wrr.6.1612615482067;
+        Sat, 06 Feb 2021 04:44:42 -0800 (PST)
+Received: from localhost ([85.255.234.177])
+        by smtp.gmail.com with ESMTPSA id r17sm15877486wro.46.2021.02.06.04.44.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 06 Feb 2021 04:44:41 -0800 (PST)
+Date:   Sat, 6 Feb 2021 12:44:39 +0000
+From:   Chris Down <chris@chrisdown.name>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Steven Rostedt <rostedt@goodmis.org>,
         Petr Mladek <pmladek@suse.com>, linux-kernel@vger.kernel.org,
         Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
@@ -33,64 +57,30 @@ Cc:     Steven Rostedt <rostedt@goodmis.org>,
         Jason Baron <jbaron@akamai.com>,
         Kees Cook <keescook@chromium.org>, linux-api@vger.kernel.org
 Subject: Re: [PATCH] printk: Userspace format enumeration support
-Message-ID: <YB5Bsyk4o3Mqr6Li@kroah.com>
+Message-ID: <YB6PN8VsVo4pNxCb@chrisdown.name>
 References: <YBwU0G+P0vb9wTwm@chrisdown.name>
  <YB11jybvFCb95S9e@alley>
  <20210205124748.4af2d406@gandalf.local.home>
  <YB3Kf896Zt9O+/Yh@chrisdown.name>
+ <YB5Bsyk4o3Mqr6Li@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <YB3Kf896Zt9O+/Yh@chrisdown.name>
+In-Reply-To: <YB5Bsyk4o3Mqr6Li@kroah.com>
+User-Agent: Mutt/2.0.5 (da5e3282) (2021-01-21)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Feb 05, 2021 at 10:45:19PM +0000, Chris Down wrote:
-> Hi Steven,
-> 
-> Steven Rostedt writes:
-> > Interesting, because when I was looking at the original patch (looked at
-> > the lore link before reading your reply), I thought to myself "this looks
-> > exactly like what I did for trace_printk formats", which the above file is
-> > where it is shown. I'm curious if this work was inspired by that?
-> 
-> The double __builtin_constant_p() trick was suggested by Johannes based on
-> prior art in trace_puts() just prior to patch submission. Other than that,
-> it seems we came up with basically the same solution independently. :-)
-> 
-> > > Anyway, there is something wrong at the moment. The output looks fine
-> > > with cat. But "less" says that it is a binary format and the output
-> > > is a bit messy:
-> > 
-> > Hmm, that's usually the case when lseek gets messed up. Not sure how that
-> > happened.
-> 
-> It looks as intended to me -- none of the newlines, nulls, or other control
-> sequences are escaped currently, since I didn't immediately see a reason to
-> do that. If that's a blocker though, I'm happy to change it.
-> 
-> > > $> less /proc/printk_formats
-> > > "/proc/printk_formats" may be a binary file.  See it anyway?
-> > > vmlinux,^A3Warning: unable to open an initial console.
-> > > ^@vmlinux,^A3Failed to execute %s (error %d)
-> > > ^@vmlinux,^A6Kernel memory protection disabled.
-> > > ^@vmlinux,^A3Starting init: %s exists but couldn't execute it (error %d)
-> > > 
-> > > 
-> > > That is for now. I still have to think about it. And I am also curious
-> > > about what others thing about this idea.
-> > > 
-> > 
-> > I'm not against the idea. I don't think it belongs in /proc. Perhaps
-> > debugfs is a better place to put it.
-> 
-> Any location is fine with me, as long as it gets to userspace. How does
-> <debugfs>/printk/formats or <debugfs>/printk/formats/<module> sound to you?
+Greg Kroah-Hartman writes:
+>> > I'm not against the idea. I don't think it belongs in /proc. Perhaps
+>> > debugfs is a better place to put it.
+>>
+>> Any location is fine with me, as long as it gets to userspace. How does
+>> <debugfs>/printk/formats or <debugfs>/printk/formats/<module> sound to you?
+>
+>That's fine with me, but I'd like to see the patch with this in it first
+>before approving it :)
 
-That's fine with me, but I'd like to see the patch with this in it first
-before approving it :)
-
-thanks,
-
-greg k-h
+Thanks! I'll send v2 soon then with the aforementioned changes, and a move to 
+debugfs.
