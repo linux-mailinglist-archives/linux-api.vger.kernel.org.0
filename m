@@ -2,69 +2,120 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 94B47311DAF
-	for <lists+linux-api@lfdr.de>; Sat,  6 Feb 2021 15:33:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 705DC311F3A
+	for <lists+linux-api@lfdr.de>; Sat,  6 Feb 2021 18:58:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230124AbhBFOcl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 6 Feb 2021 09:32:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50418 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229608AbhBFOck (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 6 Feb 2021 09:32:40 -0500
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C781EC06174A
-        for <linux-api@vger.kernel.org>; Sat,  6 Feb 2021 06:31:59 -0800 (PST)
-Received: by mail-lf1-x129.google.com with SMTP id m22so14813443lfg.5
-        for <linux-api@vger.kernel.org>; Sat, 06 Feb 2021 06:31:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=sY4fgq/DSyThalwU7QX+pWYKs/8sGH7ZznMUn5qQ1EY=;
-        b=P+EbzUxdx8Az24BWHCUzBCq89EkLjC5oSGofDPlxlO9n7Eb+SUvbaAryU4fUL45MfX
-         VUq3hx54zYoKChVzcsV/oJylI8Tsm0alpSeVSxU+5DYqyF5aLE8K0u8Hu8D8s7nWSkiT
-         mOsHi9SaIpwNga7W0T9BrtsuQe9/GqSkICKX7xnW59GiUglMoovblHrkcIsgBi+pId9A
-         bU2kGbJI3XiV+tZgEZrrRi8sH5n27Wxo1OwtjB0pwKVcF298w0PzPfMGf8tljt32zEMN
-         8Y+nk4z+WCe/UltWSNc64Op6/lpdnVFh6OG9MbAyD3jqESJFB5IHpyNP8hi9ZJJ1hzr6
-         B+mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=sY4fgq/DSyThalwU7QX+pWYKs/8sGH7ZznMUn5qQ1EY=;
-        b=Z6sO6jXuviE3cEJk7ImblOhZ3rgX1K6Zof8/iCUnP0IN2oIpJIlFM8pTY5/hT439dm
-         7MUBdVGduR2IXvvLqJU5748gJAnajwNTPkA387wKWol1VjSUclo6lmlIaivm4jhQMr8i
-         9TPkF/sW2WiJoydPKYYNVNeR8DDQKInyKclB8+vrbeDbV5BtWwOVfLR8rjA6hIKdC8AJ
-         qjANMSoTCw0RRx0SHSVQLp/aXOheY0U1i75l8MzNW8vZ6jvewnEIta7TJXiqA5tcl7TH
-         wqisEQNSBFqgYkJWctbuj61bdIUpq3DoOY8HKon78YNfddPUgDwU5tgeJsf7KVZ+rW1O
-         Wqnw==
-X-Gm-Message-State: AOAM531KZVXA0ozlsPPJOIEiUvcYaDTH0fbIAR/cGW1WY0ooj4aRAzDH
-        cg3MoN46hc3uDY5plmilLEYmZDWUOhG8ZMxzFkg=
-X-Google-Smtp-Source: ABdhPJwz6B0pw9l2oZqQygvzYkalmqJ4cippAhCePFoethiNcHO/HMQMttBRCoZkh2iYcJYV8T/CWfSuoqiTamdAVYw=
-X-Received: by 2002:a19:592:: with SMTP id 140mr5222688lff.411.1612621918284;
- Sat, 06 Feb 2021 06:31:58 -0800 (PST)
+        id S230366AbhBFR5s (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 6 Feb 2021 12:57:48 -0500
+Received: from smtprelay0010.hostedemail.com ([216.40.44.10]:47152 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S230251AbhBFR5r (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 6 Feb 2021 12:57:47 -0500
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay03.hostedemail.com (Postfix) with ESMTP id 225168384365;
+        Sat,  6 Feb 2021 17:57:04 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:69:355:379:599:960:988:989:1260:1261:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1542:1593:1594:1711:1730:1747:1777:1792:2393:2559:2562:2692:2828:3138:3139:3140:3141:3142:3354:3622:3865:3866:3867:3868:3870:3871:3872:3874:3890:4250:4321:4605:5007:6119:6691:6742:7652:7903:7974:10004:10400:10848:11026:11232:11473:11658:11783:11914:12043:12295:12296:12297:12438:12555:12683:12740:12895:13439:13894:14093:14097:14181:14659:14721:21080:21325:21451:21611:21627:21939:21990:30054:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:17,LUA_SUMMARY:none
+X-HE-Tag: power55_5f041ec275ef
+X-Filterd-Recvd-Size: 3908
+Received: from [192.168.1.159] (unknown [47.151.137.21])
+        (Authenticated sender: joe@perches.com)
+        by omf11.hostedemail.com (Postfix) with ESMTPA;
+        Sat,  6 Feb 2021 17:57:01 +0000 (UTC)
+Message-ID: <49124db60cdc88c4e9fcca1bbc9767432ad5a93b.camel@perches.com>
+Subject: Re: [PATCH] printk: Userspace format enumeration support
+From:   Joe Perches <joe@perches.com>
+To:     Chris Down <chris@chrisdown.name>, Petr Mladek <pmladek@suse.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        John Ogness <john.ogness@linutronix.de>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Andrew Morton <akpm@linux-foundation.org>, kernel-team@fb.com,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jason Baron <jbaron@akamai.com>,
+        Kees Cook <keescook@chromium.org>, linux-api@vger.kernel.org
+Date:   Sat, 06 Feb 2021 09:57:00 -0800
+In-Reply-To: <YB3Fwh827m0F+y3n@chrisdown.name>
+References: <YBwU0G+P0vb9wTwm@chrisdown.name> <YB11jybvFCb95S9e@alley>
+         <YB3Fwh827m0F+y3n@chrisdown.name>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-Received: by 2002:a9a:7141:0:b029:ba:5f50:b629 with HTTP; Sat, 6 Feb 2021
- 06:31:57 -0800 (PST)
-Reply-To: lawyer.nba@gmail.com
-From:   Barrister Daven Bango <law.nbada@gmail.com>
-Date:   Sat, 6 Feb 2021 15:31:57 +0100
-Message-ID: <CAPVGHJmTPvx1kH26i4TJ3JLKzwin8DZZJYE4+VB08ux_x=Qdfg@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
---=20
-Korisnik fonda =C4=8Destitanja, Va=C5=A1a sredstva za naknadu od 850.000,00
-ameri=C4=8Dkih dolara odobrila je Me=C4=91unarodna monetarna organizacija (=
-MMF)
-u suradnji s (FBI) nakon mnogo istraga. =C4=8Cekamo da se obratimo za
-dodatne informacije
+On Fri, 2021-02-05 at 22:25 +0000, Chris Down wrote:
+> Petr Mladek writes:
+> >   + <module> is already optinaly added by pr_fmt() to the printed strings
+> >     as:  pr_fmt(): ...
+> 
+> pr_fmts are not consistently used across the kernel, and sometimes differ from 
+> the module itself. Many modules don't use it at all, and we also don't have it 
+> for pr_cont. Just picking some random examples:
+> 
+>      % grep -av vmlinux /proc/printk_formats | shuf -n 10
+>      mac80211,6%s: mesh STA %pM switches to channel requiring DFS (%d MHz, width:%d, CF1/2: %d/%d MHz), aborting
+>      thinkpad_acpi,c N/Athinkpad_acpi,c %dthinkpad_acpi,5thinkpad_acpi: temperatures (Celsius):thinkpad_acpi,3thinkpad_acpi: Out of memory for LED data
 
-Advokat: Daven Bango
-Telefon: +22891667276
-(URED MMF-a LOME TOGO)
+I don't understand this format.
+
+"Out of memory for LED data" is a single printk ending with a '\n' newline 
+I expected this to be broken up into multiple lines, one for each printk
+that endsd in a newline.
+
+And what would happen if the function was refactored removing the pr_cont
+uses like the below: (basically, any output that uses a mechanism that
+aggregates a buffer then emits it, and there are a _lot_ of those)
+
+	printk("%s\n", buffer);
+
+And there is already a relatively trivial way to do this using a modified
+version of strings that looks for KERN_SOH[0-6], and if dynamic_debug is
+enabled, look in the dynamic_debug section, either __verbose or __dyndbg
+depending on the kernel version.
+
+---
+ drivers/platform/x86/thinkpad_acpi.c | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
+index 18b390153e7f..ff1c09c600f8 100644
+--- a/drivers/platform/x86/thinkpad_acpi.c
++++ b/drivers/platform/x86/thinkpad_acpi.c
+@@ -6353,21 +6353,26 @@ static void thermal_dump_all_sensors(void)
+ {
+ 	int n, i;
+ 	struct ibm_thermal_sensors_struct t;
++	char output[256];
++	int len = 0;
+ 
+ 	n = thermal_get_sensors(&t);
+ 	if (n <= 0)
+ 		return;
+ 
+-	pr_notice("temperatures (Celsius):");
++	len += scnprintf(output + len, sizeof(output) - len,
++		       "temperatures (Celsius):");
+ 
+ 	for (i = 0; i < n; i++) {
+-		if (t.temp[i] != TPACPI_THERMAL_SENSOR_NA)
+-			pr_cont(" %d", (int)(t.temp[i] / 1000));
++		if (t.temp[i] == TPACPI_THERMAL_SENSOR_NA)
++			len += scnprintf(output + len, sizeof(output) - len,
++					 " N/A");
+ 		else
+-			pr_cont(" N/A");
++			len += scnprintf(output + len, sizeof(output) - len,
++					 " %d", t.temp[i] / 1000);
+ 	}
+ 
+-	pr_cont("\n");
++	pr_notice("%s\n", output);
+ }
+ 
+ /* sysfs temp##_input -------------------------------------------------- */
+
