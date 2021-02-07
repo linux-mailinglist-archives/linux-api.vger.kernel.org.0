@@ -2,70 +2,84 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C94031225A
-	for <lists+linux-api@lfdr.de>; Sun,  7 Feb 2021 09:02:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 561A93122AE
+	for <lists+linux-api@lfdr.de>; Sun,  7 Feb 2021 09:29:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229564AbhBGIC2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 7 Feb 2021 03:02:28 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55398 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229537AbhBGIC2 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Sun, 7 Feb 2021 03:02:28 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5BA2C64E02;
-        Sun,  7 Feb 2021 08:01:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1612684907;
-        bh=JQzrq1MRRknUQVbsQI9IjA///ymlH5drgaU78MxNp4I=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=kGxAEFMHm4BZoeFf1tOFxeRr7r09QtjCoBTxFRDdxsUEvSYRG+itkNzvROaEzHlzq
-         cAGv8CwZ+x5cIMwK0vR9H5kWd+IMJUXKT8K/wSNQu/lM/K7zLZnJWhTl3OKMiHPFd0
-         dEJ6nsD0RbRS9DwGVcPXikGC45FoEfDIlSPAlVbRzGQowU8XZawCB/Sii2XAEkQJSs
-         g2EgBCSVOL5aT/jTa48oVBOLuYj4kyEF+zfsQlVQiUp+h/qB3dSXYy1RALtMB/V305
-         x/g5ovIJy3IaLvVsU0ZBaKW9LCdhPZMX7DzhVmX+Wbte7vomS6KRc4shYZp6bn3c/g
-         gcGo6QU6Vhk7g==
-Date:   Sun, 7 Feb 2021 00:01:45 -0800
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Chao Yu <yuchao0@huawei.com>
-Cc:     linux-fscrypt@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
-        linux-api@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-fsdevel@vger.kernel.org, Jaegeuk Kim <jaegeuk@kernel.org>,
-        linux-ext4@vger.kernel.org, Victor Hsieh <victorhsieh@google.com>
-Subject: Re: [PATCH 3/6] fs-verity: add FS_IOC_READ_VERITY_METADATA ioctl
-Message-ID: <YB+ead3SvsQy5ULH@sol.localdomain>
-References: <20210115181819.34732-1-ebiggers@kernel.org>
- <20210115181819.34732-4-ebiggers@kernel.org>
- <107cf2f2-a6fe-57c2-d17d-57679d7c612d@huawei.com>
+        id S229727AbhBGI3T (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 7 Feb 2021 03:29:19 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:12474 "EHLO
+        szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229839AbhBGI1H (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 7 Feb 2021 03:27:07 -0500
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
+        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DYMf66cr2zjKdl;
+        Sun,  7 Feb 2021 16:25:02 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.58) by
+ DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
+ 14.3.498.0; Sun, 7 Feb 2021 16:26:15 +0800
+From:   Zhou Wang <wangzhou1@hisilicon.com>
+To:     <linux-kernel@vger.kernel.org>, <iommu@lists.linux-foundation.org>,
+        <linux-mm@kvack.org>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-api@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>
+CC:     <gregkh@linuxfoundation.org>, <song.bao.hua@hisilicon.com>,
+        <jgg@ziepe.ca>, <kevin.tian@intel.com>, <jean-philippe@linaro.org>,
+        <eric.auger@redhat.com>, <liguozhu@hisilicon.com>,
+        <zhangfei.gao@linaro.org>, Zhou Wang <wangzhou1@hisilicon.com>
+Subject: [RFC PATCH v3 0/2] mempinfd: Add new syscall to provide memory pin
+Date:   Sun, 7 Feb 2021 16:18:02 +0800
+Message-ID: <1612685884-19514-1-git-send-email-wangzhou1@hisilicon.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <107cf2f2-a6fe-57c2-d17d-57679d7c612d@huawei.com>
+Content-Type: text/plain
+X-Originating-IP: [10.69.192.58]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sun, Feb 07, 2021 at 03:46:43PM +0800, Chao Yu wrote:
-> Hi Eric,
-> 
-> On 2021/1/16 2:18, Eric Biggers wrote:
-> > +static int f2fs_ioc_read_verity_metadata(struct file *filp, unsigned long arg)
-> > +{
-> > +	if (!f2fs_sb_has_verity(F2FS_I_SB(file_inode(filp))))
-> > +		return -EOPNOTSUPP;
-> 
-> One case is after we update kernel image, f2fs module may no longer support
-> compress algorithm which current file was compressed with, to avoid triggering
-> IO with empty compress engine (struct f2fs_compress_ops pointer):
-> 
-> It needs to add f2fs_is_compress_backend_ready() check condition here?
-> 
-> Thanks,
-> 
-> > +
-> > +	return fsverity_ioctl_read_metadata(filp, (const void __user *)arg);
-> > +}
+This series adds a new mempinfd syscall to offer a common way to pin/unpin
+memory.
 
-In that case it wouldn't have been possible to open the file, because
-f2fs_file_open() checks for it.  So it's not necessary to repeat the same check
-in every operation on the file descriptor.
+Patch 1/2 is about mempinfd codes.
+Patch 2/2 adds a simple test tool about mempinfd.
 
-- Eric
+Change logs:
+------------
+v2 -> v3:
+ - Follow suggestions from Greg and Kevin, add a new syscall.
+ - Add input check.
+ - Use xa_insert to replace xa_store.
+ - Add lock to pretect pin and xa_insert.
+v1 -> v2:
+ - Some tiny fixes.
+ - Follow Greg's suggestion to get mm-list and iommu-list involved.
+
+Links:
+------
+ - v2: https://www.spinics.net/lists/kernel/msg3808926.html
+ - v1: https://www.spinics.net/lists/kernel/msg3805205.html
+
+Zhou Wang (2):
+  mempinfd: Add new syscall to provide memory pin
+  selftests/vm: add mempinfd test
+
+ arch/arm64/include/asm/unistd.h       |   2 +-
+ arch/arm64/include/asm/unistd32.h     |   2 +
+ fs/Makefile                           |   1 +
+ fs/mempinfd.c                         | 199 ++++++++++++++++++++++++++++++++++
+ include/linux/syscalls.h              |   1 +
+ include/uapi/asm-generic/unistd.h     |   4 +-
+ include/uapi/linux/mempinfd.h         |  23 ++++
+ init/Kconfig                          |   6 +
+ tools/testing/selftests/vm/Makefile   |   1 +
+ tools/testing/selftests/vm/mempinfd.c | 131 ++++++++++++++++++++++
+ 10 files changed, 368 insertions(+), 2 deletions(-)
+ create mode 100644 fs/mempinfd.c
+ create mode 100644 include/uapi/linux/mempinfd.h
+ create mode 100644 tools/testing/selftests/vm/mempinfd.c
+
+-- 
+2.8.1
+
