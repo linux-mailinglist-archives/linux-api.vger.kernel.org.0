@@ -2,124 +2,86 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 69341313396
-	for <lists+linux-api@lfdr.de>; Mon,  8 Feb 2021 14:44:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 44F24313D43
+	for <lists+linux-api@lfdr.de>; Mon,  8 Feb 2021 19:24:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231175AbhBHNoS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 8 Feb 2021 08:44:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28458 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231388AbhBHNm1 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 8 Feb 2021 08:42:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1612791660;
+        id S235608AbhBHSWK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 8 Feb 2021 13:22:10 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:42148 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233251AbhBHSVA (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 8 Feb 2021 13:21:00 -0500
+Received: from zn.tnic (p200300ec2f073f0023a6d1f14b392727.dip0.t-ipconnect.de [IPv6:2003:ec:2f07:3f00:23a6:d1f1:4b39:2727])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 7CAD61EC04D1;
+        Mon,  8 Feb 2021 19:20:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1612808412;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=nIUUbNNEsbNY0qQ2TGTcojBdZ5jjYwt4zGR/YnTj+ow=;
-        b=KjIR+1bFrSfGCuc4MjpjrVFYPVg6asVqPBW7yGJKosn77Zf5F3MwQDAt3lkIyCl52MDEwr
-        D1ZRt3+ftfMEaFrV/6Vc+/MSGvjcQZnyMyOM6cgoyDR6B+z4H/pvTodEOKeuQ9eG9LPJMX
-        83DfaqI0wJ8Ou94/Abc4knappknl6OM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-144-Ransb7rrNHyz0DdVU9VPKA-1; Mon, 08 Feb 2021 08:40:56 -0500
-X-MC-Unique: Ransb7rrNHyz0DdVU9VPKA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA297107ACC7;
-        Mon,  8 Feb 2021 13:40:51 +0000 (UTC)
-Received: from [10.36.113.240] (ovpn-113-240.ams2.redhat.com [10.36.113.240])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id A34BC60C5B;
-        Mon,  8 Feb 2021 13:40:43 +0000 (UTC)
-Subject: Re: [PATCH v17 08/10] PM: hibernate: disable when there are active
- secretmem users
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Mike Rapoport <rppt@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Roman Gushchin <guro@fb.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Shuah Khan <shuah@kernel.org>,
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=qeF+mQeeKnzlVS28rZchr2a9Z1+kGh/ZuRWejrk4LHk=;
+        b=RyHFSrVqG/V+VmsocywmZDdM4WcsK//kIh7Oaaiji5e3Gs2wJIJKSn8xv1kgJANIL1D8N1
+        ShAAXcxGx5SBiCN96gwGM5AFDdhXJJVn/0/Jgmv2e0kDuGVm9DLVbGfgiK4fA2MNrngX7Z
+        aB9OHNbXk/TJCLE6MbJLJELNmqpiNHw=
+Date:   Mon, 8 Feb 2021 19:20:09 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
-        x86@kernel.org, Hagen Paul Pfeifer <hagen@jauu.net>,
-        Palmer Dabbelt <palmerdabbelt@google.com>
-References: <20210208084920.2884-1-rppt@kernel.org>
- <20210208084920.2884-9-rppt@kernel.org> <YCEP/bmqm0DsvCYN@dhcp22.suse.cz>
- <38c0cad4-ac55-28e4-81c6-4e0414f0620a@redhat.com>
- <YCEXwUYepeQvEWTf@dhcp22.suse.cz>
- <a488a0bb-def5-0249-99e2-4643787cef69@redhat.com>
- <YCEZAWOv63KYglJZ@dhcp22.suse.cz>
- <770690dc-634a-78dd-0772-3aba1a3beba8@redhat.com>
- <21f4e742-1aab-f8ba-f0e7-40faa6d6c0bb@redhat.com>
- <5db6ac46-d4e1-3c68-22a0-94f2ecde8801@redhat.com>
- <YCEr1JS8k/nDbcVR@dhcp22.suse.cz>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <f822a203-f7ec-8b97-b88d-1bf6bffa93d8@redhat.com>
-Date:   Mon, 8 Feb 2021 14:40:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>
+Subject: Re: [PATCH v19 06/25] x86/cet: Add control-protection fault handler
+Message-ID: <20210208182009.GE18227@zn.tnic>
+References: <20210203225547.32221-1-yu-cheng.yu@intel.com>
+ <20210203225547.32221-7-yu-cheng.yu@intel.com>
+ <20210205135927.GH17488@zn.tnic>
+ <2d829cba-784e-635a-e0c5-a7b334fa9b40@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <YCEr1JS8k/nDbcVR@dhcp22.suse.cz>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <2d829cba-784e-635a-e0c5-a7b334fa9b40@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 08.02.21 13:17, Michal Hocko wrote:
-> On Mon 08-02-21 12:26:31, David Hildenbrand wrote:
-> [...]
->> My F33 system happily hibernates to disk, even with an application that
->> succeeded in din doing an mlockall().
->>
->> And it somewhat makes sense. Even my freshly-booted, idle F33 has
->>
->> $ cat /proc/meminfo  | grep lock
->> Mlocked:            4860 kB
->>
->> So, stopping to hibernate with mlocked memory would essentially prohibit any
->> modern Linux distro to hibernate ever.
-> 
-> My system seems to be completely fine without mlocked memory. It would
-> be interesting to see who mlocks memory on your system and check whether
-> the expectated mlock semantic really works for those. This should be
-> documented at least.
+On Fri, Feb 05, 2021 at 10:00:21AM -0800, Yu, Yu-cheng wrote:
+> The ratelimit here is only for #CP, and its rate is not counted together
+> with other types of faults.  If a task gets here, it will exit.  The only
+> condition the ratelimit will trigger is when multiple tasks hit #CP at once,
+> which is unlikely.  Are you suggesting that we do not need the ratelimit
+> here?
 
-I checked some other installations (Ubuntu, RHEL), and they also show no 
-sign of Mlock. My notebook (F33) and desktop (F33) both have mlocked 
-memory. Either related to F33 or due to some software (e.g., kerberos).
+I'm trying to first find out why is it there.
+
+Is this something you've hit during testing and thought, oh well, this
+needs a ratelimit or was it added just because?
 
 -- 
-Thanks,
+Regards/Gruss,
+    Boris.
 
-David / dhildenb
-
+https://people.kernel.org/tglx/notes-about-netiquette
