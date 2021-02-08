@@ -2,86 +2,165 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44F24313D43
-	for <lists+linux-api@lfdr.de>; Mon,  8 Feb 2021 19:24:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B2CA313D9F
+	for <lists+linux-api@lfdr.de>; Mon,  8 Feb 2021 19:35:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235608AbhBHSWK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 8 Feb 2021 13:22:10 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:42148 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233251AbhBHSVA (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 8 Feb 2021 13:21:00 -0500
-Received: from zn.tnic (p200300ec2f073f0023a6d1f14b392727.dip0.t-ipconnect.de [IPv6:2003:ec:2f07:3f00:23a6:d1f1:4b39:2727])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 7CAD61EC04D1;
-        Mon,  8 Feb 2021 19:20:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1612808412;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=qeF+mQeeKnzlVS28rZchr2a9Z1+kGh/ZuRWejrk4LHk=;
-        b=RyHFSrVqG/V+VmsocywmZDdM4WcsK//kIh7Oaaiji5e3Gs2wJIJKSn8xv1kgJANIL1D8N1
-        ShAAXcxGx5SBiCN96gwGM5AFDdhXJJVn/0/Jgmv2e0kDuGVm9DLVbGfgiK4fA2MNrngX7Z
-        aB9OHNbXk/TJCLE6MbJLJELNmqpiNHw=
-Date:   Mon, 8 Feb 2021 19:20:09 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>
-Subject: Re: [PATCH v19 06/25] x86/cet: Add control-protection fault handler
-Message-ID: <20210208182009.GE18227@zn.tnic>
-References: <20210203225547.32221-1-yu-cheng.yu@intel.com>
- <20210203225547.32221-7-yu-cheng.yu@intel.com>
- <20210205135927.GH17488@zn.tnic>
- <2d829cba-784e-635a-e0c5-a7b334fa9b40@intel.com>
+        id S232967AbhBHSfX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 8 Feb 2021 13:35:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39006 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235732AbhBHSeD (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 8 Feb 2021 13:34:03 -0500
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A256C061788;
+        Mon,  8 Feb 2021 10:33:23 -0800 (PST)
+Received: by mail-pj1-x1030.google.com with SMTP id fa16so62087pjb.1;
+        Mon, 08 Feb 2021 10:33:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=mEJZ0ZpLe5V+Hwesxu2Q7j9S4ixMQFc1RZqNUqFzFw0=;
+        b=fzTC5UF811/9wmC0owcaUofLPqmABFbU2HydH3c5dfuWew7zwmzX4zc0EYdNyZnO5L
+         vbEB1n4XNqx7cUrlUR+p4DDrYTYp4rorJL5m9DFH34aMBQC9IiXzcPskcySSBpkYn5o2
+         BPV9J7cm+O3flSeBj+pnYEGVkbCzzWN5iye/mof0BtJ7yHYHpVU7Rd648IYeJsEKffeF
+         zpCYn2c6M0vIxLfLkIaLlAIGVUKUm4ejUZgFybMVkHqiJsqgmDRvHNSgNROrhzyKc/gh
+         ik760cUSzTlZP8Mj7ek9IHdtjpR3Zeq9a+wPAXxq14mcQQ4hT2w3sHOFs7xHhRH/mCvO
+         w7KA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=mEJZ0ZpLe5V+Hwesxu2Q7j9S4ixMQFc1RZqNUqFzFw0=;
+        b=NWlUa4KdpAaNliX5iladw+L44p+of8/WDDGIVJIMM08gaS5xTlJhRnofPhMafms5OL
+         p+HqDABuB9cHiyA16LCpvSe/CCLun0iPVHt4y7N1ihInlgsd/VKmUuoDGNNFTr/nLEI4
+         6SKP7tljsb7UOlYYLuZgeksNp0x6ut7zgOHWT8U8ZxewU4sMOpitqjFqQCX2HavhrWco
+         4B5OaZAa3bnGZS6r3kHNf2T8WAFup+QgqBgXM7hxj8cLfemJEvVKXn+oLWsXvw3hQyfm
+         CwPDN2fE1QGaQ3JFuMGtpNlVBZGMS0WFi63TA+F+SHMtjrNasqlnDRHZsLvSTBv7T/aG
+         OaUw==
+X-Gm-Message-State: AOAM531zWr/jbuFtRgU2/TAmG9Q9NvKiJk7XU+gGfmL1SeRrOELoKXi+
+        AYnltBztIULumE1a9ob6A+I=
+X-Google-Smtp-Source: ABdhPJy8N84AH5SAi2pdUHvIMNYnC4ZAFk5GTjflBAq30S3MPfq2xZRFfBZOKxED1jVC0D473VSkdg==
+X-Received: by 2002:a17:90b:1649:: with SMTP id il9mr130289pjb.62.1612809202930;
+        Mon, 08 Feb 2021 10:33:22 -0800 (PST)
+Received: from gmail.com ([2601:600:9b7f:872e:a655:30fb:7373:c762])
+        by smtp.gmail.com with ESMTPSA id np7sm29272pjb.10.2021.02.08.10.33.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Feb 2021 10:33:22 -0800 (PST)
+Date:   Mon, 8 Feb 2021 10:31:35 -0800
+From:   Andrei Vagin <avagin@gmail.com>
+To:     Will Deacon <will@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
+        Keno Fischer <keno@juliacomputing.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org,
+        Anthony Steinhauser <asteinhauser@google.com>
+Subject: Re: [PATCH 2/3] arm64/ptrace: introduce PTRACE_O_ARM64_RAW_REGS
+Message-ID: <20210208183135.GA559391@gmail.com>
+References: <20210201194012.524831-1-avagin@gmail.com>
+ <20210201194012.524831-3-avagin@gmail.com>
+ <20210204153615.GB21058@willie-the-truck>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=koi8-r
 Content-Disposition: inline
-In-Reply-To: <2d829cba-784e-635a-e0c5-a7b334fa9b40@intel.com>
+In-Reply-To: <20210204153615.GB21058@willie-the-truck>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Feb 05, 2021 at 10:00:21AM -0800, Yu, Yu-cheng wrote:
-> The ratelimit here is only for #CP, and its rate is not counted together
-> with other types of faults.  If a task gets here, it will exit.  The only
-> condition the ratelimit will trigger is when multiple tasks hit #CP at once,
-> which is unlikely.  Are you suggesting that we do not need the ratelimit
-> here?
+On Thu, Feb 04, 2021 at 03:36:15PM +0000, Will Deacon wrote:
+> On Mon, Feb 01, 2021 at 11:40:11AM -0800, Andrei Vagin wrote:
+> > We have some ABI weirdness in the way that we handle syscall
+> > exit stops because we indicate whether or not the stop has been
+> > signalled from syscall entry or syscall exit by clobbering a general
+> > purpose register (ip/r12 for AArch32, x7 for AArch64) in the tracee
+> > and restoring its old value after the stop.
+> > 
+> > This behavior was inherited from ARM and it isn't common for other
+> > architectures. Now, we have PTRACE_GET_SYSCALL_INFO that gives all
+> > required information about system calls, so the hack with clobbering
+> > registers isn't needed anymore.
+> > 
+> > This change adds the new ptrace option PTRACE_O_ARM64_RAW_REGS.  If it
+> > is set, PTRACE_GETREGSET returns values of all registers without
+> > clobbering r12 or x7 and PTRACE_SETREGSE sets all registers even if a
+> > process has been stopped in syscall-enter or syscall-exit.
+> > 
+> > Signed-off-by: Andrei Vagin <avagin@gmail.com>
+> > ---
+> >  arch/arm64/include/uapi/asm/ptrace.h |  4 ++
+> >  arch/arm64/kernel/ptrace.c           | 70 ++++++++++++++++------------
+> >  include/linux/ptrace.h               |  1 +
+> >  include/uapi/linux/ptrace.h          |  9 +++-
+> >  4 files changed, 52 insertions(+), 32 deletions(-)
+> 
+> Please split this up so that the arm64-specific changes are separate to
+> the core changes.
 
-I'm trying to first find out why is it there.
+ok
 
-Is this something you've hit during testing and thought, oh well, this
-needs a ratelimit or was it added just because?
+> 
+> > diff --git a/include/uapi/linux/ptrace.h b/include/uapi/linux/ptrace.h
+> > index 83ee45fa634b..bcc8c362ddd9 100644
+> > --- a/include/uapi/linux/ptrace.h
+> > +++ b/include/uapi/linux/ptrace.h
+> > @@ -7,6 +7,7 @@
+> >  /* has the defines to get at the registers. */
+> >  
+> >  #include <linux/types.h>
+> > +#include <asm/ptrace.h>
+> >  
+> >  #define PTRACE_TRACEME		   0
+> >  #define PTRACE_PEEKTEXT		   1
+> > @@ -137,8 +138,14 @@ struct ptrace_syscall_info {
+> >  #define PTRACE_O_EXITKILL		(1 << 20)
+> >  #define PTRACE_O_SUSPEND_SECCOMP	(1 << 21)
+> >  
+> > +/* (1<<28) is reserved for arch specific options. */
+> > +#ifndef _PTRACE_O_ARCH_OPTIONS
+> > +#define _PTRACE_O_ARCH_OPTIONS 0
+> > +#endif
+> 
+> It seems a bit fragile to rely on a comment here to define the user ABI;
+> why not define _PTRACE_O_ARCH_OPTIONS to the right value unconditionally?
 
--- 
-Regards/Gruss,
-    Boris.
+We don't want to allow setting options that are not supported.
+_PTRACE_O_ARCH_OPTIONS is added to PTRACE_O_MASK and then
+ptrace_setoptions checks whether all specified options is supported or
+not.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+> 
+> Also, it seems as though we immediately burn this bit on arm64, so if we
+> ever wanted another option we'd have to come back here and allocate another
+> bit. Could we do better, e.g. by calling into an arch hook
+> (arch_ptrace_setoptions()) and passing the 'addr' parameter?
+
+I am not sure that I understand the idea. Do you suggest to have
+PTRACE_O_ARCH_OPTION and pass arch-specific options in addr? In this
+case, I think it could be more cleaner to introduce a new ptrace
+command. If this is the idea, I think it worth doing this only if we
+expect to have more than one,two,three options.
+
+As for my solution, we need to come back to allocate a new bit
+to be sure that we don't intersect with non-arch specific options.
+And those who add a non-arch option should see that they don't use bits
+of arch-specific options.
+
+Let's decide what interface we want to use to solve the problem and then
+if we will stop on a ptrace option I will figure out how to improve
+this code.
+
+> 
+> How do other architectures manage this sort of thing? I'm wondering whether
+> a separate regset containing just "real x7" and orig_x0 would be preferable
+> after all...
+
+Yeah, it might be a good idea. We will need to do one extra ptrace
+system call, but in comparison with ptrace context-switches, this is
+nothing.
+
+Dave, Keno, what do you think about this?
+
+> 
+> Will
