@@ -2,148 +2,130 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BC883141DA
-	for <lists+linux-api@lfdr.de>; Mon,  8 Feb 2021 22:33:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 06F34314211
+	for <lists+linux-api@lfdr.de>; Mon,  8 Feb 2021 22:42:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233773AbhBHVdI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 8 Feb 2021 16:33:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48840 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235308AbhBHVbF (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 8 Feb 2021 16:31:05 -0500
-Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com [IPv6:2607:f8b0:4864:20::732])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D5B3C06178A
-        for <linux-api@vger.kernel.org>; Mon,  8 Feb 2021 13:30:25 -0800 (PST)
-Received: by mail-qk1-x732.google.com with SMTP id l27so15986630qki.9
-        for <linux-api@vger.kernel.org>; Mon, 08 Feb 2021 13:30:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=9qkflY5nbnrf1GydCZmzRH2mO9Zc9djQTfZafbwHa/g=;
-        b=n+Mx8XiSpZIp2bzSh2g6O0jcWjTGzzEPa5DiVzraCS1z3aCBR7wlO4ojyvJXShXJqo
-         dErGhsLjKKXGxEO4udDchIYBWbjDTcQIGFEXN/foR//8dLWzKZFOSVsJPe9ZU60Gz3ku
-         ALAVbytloLtwAOoVkuyDyiODB5zBwwa/R5CnRGsiJbwztjwgeQ0miNWzM368nevWNycx
-         Z0eWTWRLO+N+Oz19f9i7ogGrDu3DLRq3e08oV4K7/TmaG0lH5CTxMMzdEtlcX8Jgplyz
-         K6PyW8JX+anGM6F7IruuNGlOi7PcrSYVM9d2Cfb6AG3AzVpw85b7UgE0KO478IIrv4L7
-         2t9A==
+        id S236927AbhBHVlt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 8 Feb 2021 16:41:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43364 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236616AbhBHVkm (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 8 Feb 2021 16:40:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1612820355;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=4aepynJlknVRj6NFbhX2n2ebQXb/zj5Dsa2tNMP+Ofs=;
+        b=B8vz1R8Gm8Yjsye53fAi2bzaOA2FZcyGqasY4yVCwElkCKMYlRWsKmC6qpkrWdo5O495AG
+        fpFKkLEpweAdSzQ2ahf6X9T/oUeEfU94BZ7+bvFtRMRj7XKX5NX+/EbM+52E5PXp2DhoaX
+        RUUi8gGYDr80ab5MmOfbxGV5B0bt9pQ=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-399-EJmgYVwJNqmn7sWQYOwiEA-1; Mon, 08 Feb 2021 16:39:14 -0500
+X-MC-Unique: EJmgYVwJNqmn7sWQYOwiEA-1
+Received: by mail-wm1-f70.google.com with SMTP id u15so256533wmj.2
+        for <linux-api@vger.kernel.org>; Mon, 08 Feb 2021 13:39:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=9qkflY5nbnrf1GydCZmzRH2mO9Zc9djQTfZafbwHa/g=;
-        b=bdF0eir69seMqh2TFOUrbc1w17hDtQ5xyfCdUUiwbBA1PG5rSvxUwp6x9s+Wr6ox6S
-         SKhsUx4Ng9yfksAVzOQA30dDGYOzQn+F0bdOX72rQWoyq68l1+YCOktxy8KrQkCYzaU5
-         SvhgW31e/+SDL3Bm4o51eAeAT3c+WEQtBpwrMVhAeBBpNVEFc2cwxKy8IaQI294b80j/
-         KyS47nHZSfroTfeJgMh5OoHS8hu5yuzhZY84EUsqp2ZxT0wdWkxKSy9N64mtA1V9Rrjk
-         d3Gzs4MawlWHtvgzLrRa2nIYERnalyZU0ZZiCwL2MjnRB6FspOWk1/kU2BowuxBLj7m/
-         thJg==
-X-Gm-Message-State: AOAM5317+ZOlN/PWIIQ+NhX6t7Z4cH9tp61XTxGJ+z3MhfBBPR9ZJfOa
-        +0SPJj2kGIZEl4erv3lqWg4a0A==
-X-Google-Smtp-Source: ABdhPJzFdGa04wz/eyZ4j9hhnXsbH3wCkpiuKEtnZzgfxA85nq9G/2jkn8TOldhN5jopR+fvtidBWA==
-X-Received: by 2002:a37:bc45:: with SMTP id m66mr4594058qkf.86.1612819824350;
-        Mon, 08 Feb 2021 13:30:24 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-162-115-133.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.115.133])
-        by smtp.gmail.com with ESMTPSA id c63sm14340966qkf.8.2021.02.08.13.30.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Feb 2021 13:30:23 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1l9E6x-00560h-7w; Mon, 08 Feb 2021 17:30:23 -0400
-Date:   Mon, 8 Feb 2021 17:30:23 -0400
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>
+        h=x-gm-message-state:content-transfer-encoding:from:mime-version
+         :subject:date:message-id:references:cc:in-reply-to:to;
+        bh=4aepynJlknVRj6NFbhX2n2ebQXb/zj5Dsa2tNMP+Ofs=;
+        b=qC5N1+KWi/YCBKPsP4mF2OZygUXMQznWOIf6cMClBdlFynuGrdx0vB+IJV9+TZwaJi
+         ThmEPeKDt7DeoaKVhPTxvis9apQ4yAyfobTYikUjtp/0FDXjKuZnc253q0ZOkXtO/lko
+         zPBrvwqOIQk/IvBWOolmIkco5mh3eKQf8UMiGeQdectz4cY0OA2a0YEPWwABnpZiBq/l
+         GUCCRcsyI7TfMO539W/ebAWz8jFkPfs/lq0CQ2lhKqKdqE6rIVAJ0qnNxKBxH58lc5sb
+         BrbZmJx2vhx4wgL8Jz3D4iw6CyI/Zqhfffc95ysedgx31vOuuYSkz0oIPWp2KuLy7BDy
+         GqvQ==
+X-Gm-Message-State: AOAM530H7doehqP2DhextshUHdRz5/1vUZ5mZqj1iJS8b4AefyHSsj9f
+        CY8GlcOsBKLJffsT1UOwOyJSHJB9Cjwxdbnez94KJzjZG22/VOVK56E0+x8x25h+v5M+3RHNtJz
+        LGD3CevZXNFC/6QM0vo/b
+X-Received: by 2002:a5d:4ac5:: with SMTP id y5mr590739wrs.345.1612820303386;
+        Mon, 08 Feb 2021 13:38:23 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwYU+ahfuGJ3mGlPDTjZ5sBTd5prIK5bha/7jxkj2wK46UMNjmdy8O20OWQnrZzKp7lrPlvQQ==
+X-Received: by 2002:a5d:4ac5:: with SMTP id y5mr589823wrs.345.1612820285413;
+        Mon, 08 Feb 2021 13:38:05 -0800 (PST)
+Received: from [192.168.3.108] (p5b0c696d.dip0.t-ipconnect.de. [91.12.105.109])
+        by smtp.gmail.com with ESMTPSA id w15sm30039179wrp.15.2021.02.08.13.38.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Feb 2021 13:38:04 -0800 (PST)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From:   David Hildenbrand <david@redhat.com>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH v17 00/10] mm: introduce memfd_secret system call to create "secret" memory areas
+Date:   Mon, 8 Feb 2021 22:38:03 +0100
+Message-Id: <1F6A73CF-158A-4261-AA6C-1F5C77F4F326@redhat.com>
+References: <20210208211326.GV242749@kernel.org>
 Cc:     David Hildenbrand <david@redhat.com>,
-        "Wangzhou (B)" <wangzhou1@hisilicon.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "kevin.tian@intel.com" <kevin.tian@intel.com>,
-        "jean-philippe@linaro.org" <jean-philippe@linaro.org>,
-        "eric.auger@redhat.com" <eric.auger@redhat.com>,
-        "Liguozhu (Kenneth)" <liguozhu@hisilicon.com>,
-        "zhangfei.gao@linaro.org" <zhangfei.gao@linaro.org>,
-        "chensihang (A)" <chensihang1@hisilicon.com>
-Subject: Re: [RFC PATCH v3 1/2] mempinfd: Add new syscall to provide memory
- pin
-Message-ID: <20210208213023.GZ4718@ziepe.ca>
-References: <1612685884-19514-1-git-send-email-wangzhou1@hisilicon.com>
- <1612685884-19514-2-git-send-email-wangzhou1@hisilicon.com>
- <a587bd61-9194-4b46-c122-8b4da7b941a8@redhat.com>
- <20210208183348.GV4718@ziepe.ca>
- <0dca000a6cd34d8183062466ba7d6eaf@hisilicon.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0dca000a6cd34d8183062466ba7d6eaf@hisilicon.com>
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christopher Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Roman Gushchin <guro@fb.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
+        x86@kernel.org
+In-Reply-To: <20210208211326.GV242749@kernel.org>
+To:     Mike Rapoport <rppt@kernel.org>
+X-Mailer: iPhone Mail (18D52)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Feb 08, 2021 at 08:35:31PM +0000, Song Bao Hua (Barry Song) wrote:
-> 
-> 
-> > From: Jason Gunthorpe [mailto:jgg@ziepe.ca]
-> > Sent: Tuesday, February 9, 2021 7:34 AM
-> > To: David Hildenbrand <david@redhat.com>
-> > Cc: Wangzhou (B) <wangzhou1@hisilicon.com>; linux-kernel@vger.kernel.org;
-> > iommu@lists.linux-foundation.org; linux-mm@kvack.org;
-> > linux-arm-kernel@lists.infradead.org; linux-api@vger.kernel.org; Andrew
-> > Morton <akpm@linux-foundation.org>; Alexander Viro <viro@zeniv.linux.org.uk>;
-> > gregkh@linuxfoundation.org; Song Bao Hua (Barry Song)
-> > <song.bao.hua@hisilicon.com>; kevin.tian@intel.com;
-> > jean-philippe@linaro.org; eric.auger@redhat.com; Liguozhu (Kenneth)
-> > <liguozhu@hisilicon.com>; zhangfei.gao@linaro.org; chensihang (A)
-> > <chensihang1@hisilicon.com>
-> > Subject: Re: [RFC PATCH v3 1/2] mempinfd: Add new syscall to provide memory
-> > pin
-> > 
-> > On Mon, Feb 08, 2021 at 09:14:28AM +0100, David Hildenbrand wrote:
-> > 
-> > > People are constantly struggling with the effects of long term pinnings
-> > > under user space control, like we already have with vfio and RDMA.
-> > >
-> > > And here we are, adding yet another, easier way to mess with core MM in the
-> > > same way. This feels like a step backwards to me.
-> > 
-> > Yes, this seems like a very poor candidate to be a system call in this
-> > format. Much too narrow, poorly specified, and possibly security
-> > implications to allow any process whatsoever to pin memory.
-> > 
-> > I keep encouraging people to explore a standard shared SVA interface
-> > that can cover all these topics (and no, uaccel is not that
-> > interface), that seems much more natural.
-> > 
-> > I still haven't seen an explanation why DMA is so special here,
-> > migration and so forth jitter the CPU too, environments that care
-> > about jitter have to turn this stuff off.
-> 
-> This paper has a good explanation:
-> https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=7482091
-> 
-> mainly because page fault can go directly to the CPU and we have
-> many CPUs. But IO Page Faults go a different way, thus mean much
-> higher latency 3-80x slower than page fault:
-> events in hardware queue -> Interrupts -> cpu processing page fault
-> -> return events to iommu/device -> continue I/O.
 
-The justifications for this was migration scenarios and migration is
-short. If you take a fault on what you are migrating only then does it
-slow down the CPU.
+> Am 08.02.2021 um 22:13 schrieb Mike Rapoport <rppt@kernel.org>:
+>=20
+> =EF=BB=BFOn Mon, Feb 08, 2021 at 10:27:18AM +0100, David Hildenbrand wrote=
+:
+>> On 08.02.21 09:49, Mike Rapoport wrote:
+>>=20
+>> Some questions (and request to document the answers) as we now allow to h=
+ave
+>> unmovable allocations all over the place and I don't see a single comment=
 
-Are you also working with HW where the IOMMU becomes invalidated after
-a migration and doesn't reload?
+>> regarding that in the cover letter:
+>>=20
+>> 1. How will the issue of plenty of unmovable allocations for user space b=
+e
+>> tackled in the future?
+>>=20
+>> 2. How has this issue been documented? E.g., interaction with ZONE_MOVABL=
+E
+>> and CMA, alloc_conig_range()/alloc_contig_pages?.
+>=20
+> Secretmem sets the mappings gfp mask to GFP_HIGHUSER, so it does not
+> allocate movable pages at the first place.
 
-ie not true SVA but the sort of emulated SVA we see in a lot of
-places?
+That is not the point. Secretmem cannot go on CMA / ZONE_MOVABLE memory and b=
+ehaves like long-term pinnings in that sense. This is a real issue when usin=
+g a lot of sectremem.
 
-It would be much better to work improve that to have closer sync with the
-CPU page table than to use pinning.
+Please have a look at what Pavel documents regarding long term pinnings and Z=
+ONE_MOVABLE in his patches currently on the list.=
 
-Jason
