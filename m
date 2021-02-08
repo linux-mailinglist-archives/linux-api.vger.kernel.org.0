@@ -2,165 +2,98 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B2CA313D9F
-	for <lists+linux-api@lfdr.de>; Mon,  8 Feb 2021 19:35:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A61D313DA7
+	for <lists+linux-api@lfdr.de>; Mon,  8 Feb 2021 19:37:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232967AbhBHSfX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 8 Feb 2021 13:35:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39006 "EHLO
+        id S235655AbhBHSgd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 8 Feb 2021 13:36:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235732AbhBHSeD (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 8 Feb 2021 13:34:03 -0500
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A256C061788;
-        Mon,  8 Feb 2021 10:33:23 -0800 (PST)
-Received: by mail-pj1-x1030.google.com with SMTP id fa16so62087pjb.1;
-        Mon, 08 Feb 2021 10:33:23 -0800 (PST)
+        with ESMTP id S233381AbhBHSeb (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 8 Feb 2021 13:34:31 -0500
+Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com [IPv6:2607:f8b0:4864:20::82e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AB62C06178A
+        for <linux-api@vger.kernel.org>; Mon,  8 Feb 2021 10:33:51 -0800 (PST)
+Received: by mail-qt1-x82e.google.com with SMTP id v3so11055560qtw.4
+        for <linux-api@vger.kernel.org>; Mon, 08 Feb 2021 10:33:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=ziepe.ca; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=mEJZ0ZpLe5V+Hwesxu2Q7j9S4ixMQFc1RZqNUqFzFw0=;
-        b=fzTC5UF811/9wmC0owcaUofLPqmABFbU2HydH3c5dfuWew7zwmzX4zc0EYdNyZnO5L
-         vbEB1n4XNqx7cUrlUR+p4DDrYTYp4rorJL5m9DFH34aMBQC9IiXzcPskcySSBpkYn5o2
-         BPV9J7cm+O3flSeBj+pnYEGVkbCzzWN5iye/mof0BtJ7yHYHpVU7Rd648IYeJsEKffeF
-         zpCYn2c6M0vIxLfLkIaLlAIGVUKUm4ejUZgFybMVkHqiJsqgmDRvHNSgNROrhzyKc/gh
-         ik760cUSzTlZP8Mj7ek9IHdtjpR3Zeq9a+wPAXxq14mcQQ4hT2w3sHOFs7xHhRH/mCvO
-         w7KA==
+        bh=zsGQUeCVE+9P7aNp54v7uYNj84EfUFjIYL1mjfYFnhM=;
+        b=FVZOhOlO1m/ZSXYxWqQ3/Ohq3Wp/tvRDC8GTvP+9bSnDEiozixF3Jhu580CVCPRbPm
+         HJk4/2MMunffgKDn9bqK046yfyDvCxzIoA7T9EVtyNZfNB349GjItsMZSxgoMAhgi9KK
+         nGadbvWT0KrcPvYiuq0YMFcdBLGx2QWttauttC9CmU/yQLFXG/FJzLeOF3qlZ6ifMM/6
+         cG0R8kzOetckivQvI1vkoOdcGpp0+q8eD+xtEdsggBY1OP0qQ8kRpli+JjTQL4jj+cJE
+         pYd3v7VG89h1Pnv0+WhajdC+jmuARDnJ7f5CKBccsE/96SEKVSqegmKaKZUt1ONCwfOI
+         3mqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=mEJZ0ZpLe5V+Hwesxu2Q7j9S4ixMQFc1RZqNUqFzFw0=;
-        b=NWlUa4KdpAaNliX5iladw+L44p+of8/WDDGIVJIMM08gaS5xTlJhRnofPhMafms5OL
-         p+HqDABuB9cHiyA16LCpvSe/CCLun0iPVHt4y7N1ihInlgsd/VKmUuoDGNNFTr/nLEI4
-         6SKP7tljsb7UOlYYLuZgeksNp0x6ut7zgOHWT8U8ZxewU4sMOpitqjFqQCX2HavhrWco
-         4B5OaZAa3bnGZS6r3kHNf2T8WAFup+QgqBgXM7hxj8cLfemJEvVKXn+oLWsXvw3hQyfm
-         CwPDN2fE1QGaQ3JFuMGtpNlVBZGMS0WFi63TA+F+SHMtjrNasqlnDRHZsLvSTBv7T/aG
-         OaUw==
-X-Gm-Message-State: AOAM531zWr/jbuFtRgU2/TAmG9Q9NvKiJk7XU+gGfmL1SeRrOELoKXi+
-        AYnltBztIULumE1a9ob6A+I=
-X-Google-Smtp-Source: ABdhPJy8N84AH5SAi2pdUHvIMNYnC4ZAFk5GTjflBAq30S3MPfq2xZRFfBZOKxED1jVC0D473VSkdg==
-X-Received: by 2002:a17:90b:1649:: with SMTP id il9mr130289pjb.62.1612809202930;
-        Mon, 08 Feb 2021 10:33:22 -0800 (PST)
-Received: from gmail.com ([2601:600:9b7f:872e:a655:30fb:7373:c762])
-        by smtp.gmail.com with ESMTPSA id np7sm29272pjb.10.2021.02.08.10.33.21
+        bh=zsGQUeCVE+9P7aNp54v7uYNj84EfUFjIYL1mjfYFnhM=;
+        b=DlJ1mciLU6GIzxBaAsJTzDzqqlPdf0PCOgaJ+bcP2e/VHGPNwzZkiWAK6mTBUuk/Ni
+         6WtqTWzhhjoKCoBjh0aaDp6AVKHsYiA25U169ZS+SmbYFq2OyeqX02uGDAZ2DmMyORm5
+         yQlkj63nei9oMFPbBxMA0JC/pwHptnnK25zOPg8oFmm4ineHzQY4eTkqisYKY8+FAQjz
+         O3EJN0AkXwyJ9u/pXofoVD4cFQb5cQIJPkm+10bFxg0hJzT9941Dd/+i60V1Hobpnmey
+         hdN0U2bBBjRs6EHLnI0al7qg2GYMcnfUn5YXKKTdxS8HCMGXwykFgxapmTAwmFTHpjd7
+         X0Pg==
+X-Gm-Message-State: AOAM531pI+PdHPN0+vhQB46lJ4wiVpBMJgZIvP0pZAFq+P5dhmJtzGZb
+        b5KQOy/NXOb4mTy5mw3Pb26FQA==
+X-Google-Smtp-Source: ABdhPJw9LB1ZweabsqrMBku5FA6d/KFYbPv37y2NqRoUt6oYBe0PrhVhU9GHDLJJPMyumQU59KaDBQ==
+X-Received: by 2002:aed:38e3:: with SMTP id k90mr16286292qte.119.1612809230040;
+        Mon, 08 Feb 2021 10:33:50 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-162-115-133.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.115.133])
+        by smtp.gmail.com with ESMTPSA id p18sm16809839qkj.130.2021.02.08.10.33.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Feb 2021 10:33:22 -0800 (PST)
-Date:   Mon, 8 Feb 2021 10:31:35 -0800
-From:   Andrei Vagin <avagin@gmail.com>
-To:     Will Deacon <will@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
-        Keno Fischer <keno@juliacomputing.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org,
-        Anthony Steinhauser <asteinhauser@google.com>
-Subject: Re: [PATCH 2/3] arm64/ptrace: introduce PTRACE_O_ARM64_RAW_REGS
-Message-ID: <20210208183135.GA559391@gmail.com>
-References: <20210201194012.524831-1-avagin@gmail.com>
- <20210201194012.524831-3-avagin@gmail.com>
- <20210204153615.GB21058@willie-the-truck>
+        Mon, 08 Feb 2021 10:33:49 -0800 (PST)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1l9BM4-005254-G1; Mon, 08 Feb 2021 14:33:48 -0400
+Date:   Mon, 8 Feb 2021 14:33:48 -0400
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Zhou Wang <wangzhou1@hisilicon.com>, linux-kernel@vger.kernel.org,
+        iommu@lists.linux-foundation.org, linux-mm@kvack.org,
+        linux-arm-kernel@lists.infradead.org, linux-api@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        gregkh@linuxfoundation.org, song.bao.hua@hisilicon.com,
+        kevin.tian@intel.com, jean-philippe@linaro.org,
+        eric.auger@redhat.com, liguozhu@hisilicon.com,
+        zhangfei.gao@linaro.org, Sihang Chen <chensihang1@hisilicon.com>
+Subject: Re: [RFC PATCH v3 1/2] mempinfd: Add new syscall to provide memory
+ pin
+Message-ID: <20210208183348.GV4718@ziepe.ca>
+References: <1612685884-19514-1-git-send-email-wangzhou1@hisilicon.com>
+ <1612685884-19514-2-git-send-email-wangzhou1@hisilicon.com>
+ <a587bd61-9194-4b46-c122-8b4da7b941a8@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=koi8-r
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210204153615.GB21058@willie-the-truck>
+In-Reply-To: <a587bd61-9194-4b46-c122-8b4da7b941a8@redhat.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Feb 04, 2021 at 03:36:15PM +0000, Will Deacon wrote:
-> On Mon, Feb 01, 2021 at 11:40:11AM -0800, Andrei Vagin wrote:
-> > We have some ABI weirdness in the way that we handle syscall
-> > exit stops because we indicate whether or not the stop has been
-> > signalled from syscall entry or syscall exit by clobbering a general
-> > purpose register (ip/r12 for AArch32, x7 for AArch64) in the tracee
-> > and restoring its old value after the stop.
-> > 
-> > This behavior was inherited from ARM and it isn't common for other
-> > architectures. Now, we have PTRACE_GET_SYSCALL_INFO that gives all
-> > required information about system calls, so the hack with clobbering
-> > registers isn't needed anymore.
-> > 
-> > This change adds the new ptrace option PTRACE_O_ARM64_RAW_REGS.  If it
-> > is set, PTRACE_GETREGSET returns values of all registers without
-> > clobbering r12 or x7 and PTRACE_SETREGSE sets all registers even if a
-> > process has been stopped in syscall-enter or syscall-exit.
-> > 
-> > Signed-off-by: Andrei Vagin <avagin@gmail.com>
-> > ---
-> >  arch/arm64/include/uapi/asm/ptrace.h |  4 ++
-> >  arch/arm64/kernel/ptrace.c           | 70 ++++++++++++++++------------
-> >  include/linux/ptrace.h               |  1 +
-> >  include/uapi/linux/ptrace.h          |  9 +++-
-> >  4 files changed, 52 insertions(+), 32 deletions(-)
+On Mon, Feb 08, 2021 at 09:14:28AM +0100, David Hildenbrand wrote:
+
+> People are constantly struggling with the effects of long term pinnings
+> under user space control, like we already have with vfio and RDMA.
 > 
-> Please split this up so that the arm64-specific changes are separate to
-> the core changes.
+> And here we are, adding yet another, easier way to mess with core MM in the
+> same way. This feels like a step backwards to me.
 
-ok
+Yes, this seems like a very poor candidate to be a system call in this
+format. Much too narrow, poorly specified, and possibly security
+implications to allow any process whatsoever to pin memory.
 
-> 
-> > diff --git a/include/uapi/linux/ptrace.h b/include/uapi/linux/ptrace.h
-> > index 83ee45fa634b..bcc8c362ddd9 100644
-> > --- a/include/uapi/linux/ptrace.h
-> > +++ b/include/uapi/linux/ptrace.h
-> > @@ -7,6 +7,7 @@
-> >  /* has the defines to get at the registers. */
-> >  
-> >  #include <linux/types.h>
-> > +#include <asm/ptrace.h>
-> >  
-> >  #define PTRACE_TRACEME		   0
-> >  #define PTRACE_PEEKTEXT		   1
-> > @@ -137,8 +138,14 @@ struct ptrace_syscall_info {
-> >  #define PTRACE_O_EXITKILL		(1 << 20)
-> >  #define PTRACE_O_SUSPEND_SECCOMP	(1 << 21)
-> >  
-> > +/* (1<<28) is reserved for arch specific options. */
-> > +#ifndef _PTRACE_O_ARCH_OPTIONS
-> > +#define _PTRACE_O_ARCH_OPTIONS 0
-> > +#endif
-> 
-> It seems a bit fragile to rely on a comment here to define the user ABI;
-> why not define _PTRACE_O_ARCH_OPTIONS to the right value unconditionally?
+I keep encouraging people to explore a standard shared SVA interface
+that can cover all these topics (and no, uaccel is not that
+interface), that seems much more natural.
 
-We don't want to allow setting options that are not supported.
-_PTRACE_O_ARCH_OPTIONS is added to PTRACE_O_MASK and then
-ptrace_setoptions checks whether all specified options is supported or
-not.
+I still haven't seen an explanation why DMA is so special here,
+migration and so forth jitter the CPU too, environments that care
+about jitter have to turn this stuff off.
 
-> 
-> Also, it seems as though we immediately burn this bit on arm64, so if we
-> ever wanted another option we'd have to come back here and allocate another
-> bit. Could we do better, e.g. by calling into an arch hook
-> (arch_ptrace_setoptions()) and passing the 'addr' parameter?
-
-I am not sure that I understand the idea. Do you suggest to have
-PTRACE_O_ARCH_OPTION and pass arch-specific options in addr? In this
-case, I think it could be more cleaner to introduce a new ptrace
-command. If this is the idea, I think it worth doing this only if we
-expect to have more than one,two,three options.
-
-As for my solution, we need to come back to allocate a new bit
-to be sure that we don't intersect with non-arch specific options.
-And those who add a non-arch option should see that they don't use bits
-of arch-specific options.
-
-Let's decide what interface we want to use to solve the problem and then
-if we will stop on a ptrace option I will figure out how to improve
-this code.
-
-> 
-> How do other architectures manage this sort of thing? I'm wondering whether
-> a separate regset containing just "real x7" and orig_x0 would be preferable
-> after all...
-
-Yeah, it might be a good idea. We will need to do one extra ptrace
-system call, but in comparison with ptrace context-switches, this is
-nothing.
-
-Dave, Keno, what do you think about this?
-
-> 
-> Will
+Jason 
