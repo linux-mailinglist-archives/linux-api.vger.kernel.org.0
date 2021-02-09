@@ -2,99 +2,105 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EE2A3315021
-	for <lists+linux-api@lfdr.de>; Tue,  9 Feb 2021 14:27:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 158243150FB
+	for <lists+linux-api@lfdr.de>; Tue,  9 Feb 2021 14:56:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230489AbhBINZz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 9 Feb 2021 08:25:55 -0500
-Received: from mx2.suse.de ([195.135.220.15]:45102 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230335AbhBINZy (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 9 Feb 2021 08:25:54 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1612877107; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=ZVdQYAWpX2uS4c8GuGsp90KbxvIcZCLSEozx0GHShkA=;
-        b=AMu2gqbj/4bFKubqIvA00x5aKR/RM0bxKuI5rFq/VIF9xzAE5jv4eYLmgTbusqtjFAY5Df
-        Aox1zELPhI/1rzb/LrFIULNqnHdWSAlWT1TNgH3OziiDEXT769CiOawfnAmhijx6/V4k/9
-        8MT4wMa2DixXuIxBTpeQxrZHRPB3LL4=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 0E7E2AD6A;
-        Tue,  9 Feb 2021 13:25:07 +0000 (UTC)
-Date:   Tue, 9 Feb 2021 14:25:06 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Mike Rapoport <rppt@kernel.org>,
+        id S230299AbhBINzF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 9 Feb 2021 08:55:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33830 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232054AbhBINyc (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 9 Feb 2021 08:54:32 -0500
+Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com [IPv6:2607:f8b0:4864:20::72d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 678F8C061794
+        for <linux-api@vger.kernel.org>; Tue,  9 Feb 2021 05:53:33 -0800 (PST)
+Received: by mail-qk1-x72d.google.com with SMTP id q85so5625933qke.8
+        for <linux-api@vger.kernel.org>; Tue, 09 Feb 2021 05:53:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=T8f8DDfwXSd9VRLmEP8P3umzAghI6Kqw6/qy/jeS5Qo=;
+        b=gh04iuWWyfXXLlaV1RWSVt6ZQHHbXgL+7SqTdgohcZssGB7SFCglc2Da1zz58QYygR
+         9tVoLF0GKpMU5fAKOJUQeZbKmiZNBpriOh6NJ88Z8/8Oiy+02484H0DfDsD9oLpEdCJB
+         iqbllGJHAulzwrFuz8zaWKtRoDWR91pkLeY3goABlW/bNnl7a7ucWFWFLWHoTWeFdCfi
+         E81odK7NiX2mIG23/RyV6fotvVvwHXBJ3/Y6NQ+7HvCiAyAGmRSY3kUdW52i458n5RX4
+         NyglMvima/h3o9mIMHNuMfUszee7pZjUtNzI0o4O78Zz7zTTtKPysaZeIPpMxYD972RH
+         nQ7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=T8f8DDfwXSd9VRLmEP8P3umzAghI6Kqw6/qy/jeS5Qo=;
+        b=U0y4Dd/vXbUVq0kxG2pjGIEVHnFfziD4Jk4aMiAgfJzujfjej6KX7d3PCYD88pP6SR
+         l4Pue4PJpmpbZWcfHsvJkcT0PduY+u/+ZRIWH/iCK7MhmkOompLraQT2Fnu5SXcEUrXI
+         TFfJ+/uxXgSuh4TqtTRak4w0V9VjW5W4BEoW0rnNqGgphGul7ueecp3lOcawnBnLPM4T
+         vC33+Oe/iWEoqJ3o3dbB+3IijAHnQXwCjt5monnE6/SG2/FBw84vUWpLNOCKmEM5kIKn
+         SxuXK3JsFzIpCxkLQO4ErWHYTXX6/lRNYC44a6D0NHIavXyNTJl7VjP0+eaCH5PCMAKU
+         utvw==
+X-Gm-Message-State: AOAM532zR+zbgy67Pj66mvLHkfAJcUwlzm+gp0dQi7bhtcQJRWwt9IEo
+        GDLeipY8cruX7gDbfiIb69pNOw==
+X-Google-Smtp-Source: ABdhPJx3et279cgNvk+uqR894IQLoOIQFoSZDGEjQvDKhVHg09126LSd7Y8VSphbQdCDRlOdHVR86w==
+X-Received: by 2002:ae9:e80e:: with SMTP id a14mr11633708qkg.103.1612878812715;
+        Tue, 09 Feb 2021 05:53:32 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-162-115-133.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.115.133])
+        by smtp.gmail.com with ESMTPSA id d16sm17820271qka.44.2021.02.09.05.53.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Feb 2021 05:53:32 -0800 (PST)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1l9TSN-005RZu-ON; Tue, 09 Feb 2021 09:53:31 -0400
+Date:   Tue, 9 Feb 2021 09:53:31 -0400
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>
+Cc:     David Hildenbrand <david@redhat.com>,
+        "Wangzhou (B)" <wangzhou1@hisilicon.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Roman Gushchin <guro@fb.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
-        x86@kernel.org
-Subject: Re: [PATCH v17 00/10] mm: introduce memfd_secret system call to
- create "secret" memory areas
-Message-ID: <YCKNMqu8/g0OofqU@dhcp22.suse.cz>
-References: <20210208211326.GV242749@kernel.org>
- <1F6A73CF-158A-4261-AA6C-1F5C77F4F326@redhat.com>
- <YCJO8zLq8YkXGy8B@dhcp22.suse.cz>
- <662b5871-b461-0896-697f-5e903c23d7b9@redhat.com>
- <YCJbmR11ikrWKaU8@dhcp22.suse.cz>
- <c1e5e7b6-3360-ddc4-2ff5-0e79515ee23a@redhat.com>
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "kevin.tian@intel.com" <kevin.tian@intel.com>,
+        "jean-philippe@linaro.org" <jean-philippe@linaro.org>,
+        "eric.auger@redhat.com" <eric.auger@redhat.com>,
+        "Liguozhu (Kenneth)" <liguozhu@hisilicon.com>,
+        "zhangfei.gao@linaro.org" <zhangfei.gao@linaro.org>,
+        "chensihang (A)" <chensihang1@hisilicon.com>
+Subject: Re: [RFC PATCH v3 1/2] mempinfd: Add new syscall to provide memory
+ pin
+Message-ID: <20210209135331.GF4718@ziepe.ca>
+References: <1612685884-19514-1-git-send-email-wangzhou1@hisilicon.com>
+ <1612685884-19514-2-git-send-email-wangzhou1@hisilicon.com>
+ <a587bd61-9194-4b46-c122-8b4da7b941a8@redhat.com>
+ <20210208183348.GV4718@ziepe.ca>
+ <0dca000a6cd34d8183062466ba7d6eaf@hisilicon.com>
+ <20210208213023.GZ4718@ziepe.ca>
+ <0868d209d7424942a46d1238674cf75d@hisilicon.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c1e5e7b6-3360-ddc4-2ff5-0e79515ee23a@redhat.com>
+In-Reply-To: <0868d209d7424942a46d1238674cf75d@hisilicon.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue 09-02-21 11:23:35, David Hildenbrand wrote:
-[...]
-> I am constantly trying to fight for making more stuff MOVABLE instead of
-> going into the other direction (e.g., because it's easier to implement,
-> which feels like the wrong direction).
-> 
-> Maybe I am the only person that really cares about ZONE_MOVABLE these days
-> :) I can't stop such new stuff from popping up, so at least I want it to be
-> documented.
+On Tue, Feb 09, 2021 at 03:01:42AM +0000, Song Bao Hua (Barry Song) wrote:
 
-MOVABLE zone is certainly an important thing to keep working. And there
-is still quite a lot of work on the way. But as I've said this is more
-of a outlier than a norm. On the other hand movable zone is kinda hard
-requirement for a lot of application and it is to be expected that
-many features will be less than 100% compatible.  Some usecases even
-impossible. That's why I am arguing that we should have a central
-document where the movable zone is documented with all the potential
-problems we have encountered over time and explicitly state which
-features are fully/partially incompatible.
+> On the other hand, wouldn't it be the benefit of hardware accelerators
+> to have a lower and more stable latency zip/encryption than CPU?
 
--- 
-Michal Hocko
-SUSE Labs
+No, I don't think so.
+
+If this is an important problem then it should apply equally to CPU
+and IO jitter.
+
+Honestly I find the idea that occasional migration jitters CPU and DMA
+to not be very compelling. Such specialized applications should
+allocate special pages to avoid this, not adding an API to be able to
+lock down any page
+ 
+Jason
