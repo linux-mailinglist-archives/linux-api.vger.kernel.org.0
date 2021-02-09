@@ -2,105 +2,141 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 158243150FB
-	for <lists+linux-api@lfdr.de>; Tue,  9 Feb 2021 14:56:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AF27F3153AF
+	for <lists+linux-api@lfdr.de>; Tue,  9 Feb 2021 17:20:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230299AbhBINzF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 9 Feb 2021 08:55:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33830 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232054AbhBINyc (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 9 Feb 2021 08:54:32 -0500
-Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com [IPv6:2607:f8b0:4864:20::72d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 678F8C061794
-        for <linux-api@vger.kernel.org>; Tue,  9 Feb 2021 05:53:33 -0800 (PST)
-Received: by mail-qk1-x72d.google.com with SMTP id q85so5625933qke.8
-        for <linux-api@vger.kernel.org>; Tue, 09 Feb 2021 05:53:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=T8f8DDfwXSd9VRLmEP8P3umzAghI6Kqw6/qy/jeS5Qo=;
-        b=gh04iuWWyfXXLlaV1RWSVt6ZQHHbXgL+7SqTdgohcZssGB7SFCglc2Da1zz58QYygR
-         9tVoLF0GKpMU5fAKOJUQeZbKmiZNBpriOh6NJ88Z8/8Oiy+02484H0DfDsD9oLpEdCJB
-         iqbllGJHAulzwrFuz8zaWKtRoDWR91pkLeY3goABlW/bNnl7a7ucWFWFLWHoTWeFdCfi
-         E81odK7NiX2mIG23/RyV6fotvVvwHXBJ3/Y6NQ+7HvCiAyAGmRSY3kUdW52i458n5RX4
-         NyglMvima/h3o9mIMHNuMfUszee7pZjUtNzI0o4O78Zz7zTTtKPysaZeIPpMxYD972RH
-         nQ7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=T8f8DDfwXSd9VRLmEP8P3umzAghI6Kqw6/qy/jeS5Qo=;
-        b=U0y4Dd/vXbUVq0kxG2pjGIEVHnFfziD4Jk4aMiAgfJzujfjej6KX7d3PCYD88pP6SR
-         l4Pue4PJpmpbZWcfHsvJkcT0PduY+u/+ZRIWH/iCK7MhmkOompLraQT2Fnu5SXcEUrXI
-         TFfJ+/uxXgSuh4TqtTRak4w0V9VjW5W4BEoW0rnNqGgphGul7ueecp3lOcawnBnLPM4T
-         vC33+Oe/iWEoqJ3o3dbB+3IijAHnQXwCjt5monnE6/SG2/FBw84vUWpLNOCKmEM5kIKn
-         SxuXK3JsFzIpCxkLQO4ErWHYTXX6/lRNYC44a6D0NHIavXyNTJl7VjP0+eaCH5PCMAKU
-         utvw==
-X-Gm-Message-State: AOAM532zR+zbgy67Pj66mvLHkfAJcUwlzm+gp0dQi7bhtcQJRWwt9IEo
-        GDLeipY8cruX7gDbfiIb69pNOw==
-X-Google-Smtp-Source: ABdhPJx3et279cgNvk+uqR894IQLoOIQFoSZDGEjQvDKhVHg09126LSd7Y8VSphbQdCDRlOdHVR86w==
-X-Received: by 2002:ae9:e80e:: with SMTP id a14mr11633708qkg.103.1612878812715;
-        Tue, 09 Feb 2021 05:53:32 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-162-115-133.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.115.133])
-        by smtp.gmail.com with ESMTPSA id d16sm17820271qka.44.2021.02.09.05.53.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Feb 2021 05:53:32 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1l9TSN-005RZu-ON; Tue, 09 Feb 2021 09:53:31 -0400
-Date:   Tue, 9 Feb 2021 09:53:31 -0400
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>
-Cc:     David Hildenbrand <david@redhat.com>,
-        "Wangzhou (B)" <wangzhou1@hisilicon.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        id S232781AbhBIQTQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 9 Feb 2021 11:19:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54150 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232731AbhBIQTI (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 9 Feb 2021 11:19:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1612887462;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=rPEBUfuoE8xnXkHqh37MN3V58bCQtUE2J2aM+0+7Hhg=;
+        b=Nf6OwzPQL9E+BCpfO/5dlFw2eKFDLEAZn4GqsRBaMmn6Or2fz3CZQYKrOOw4a/UIxzZHd8
+        bUa5Ue6nbIdfWSGcbzu1fxs3iL3ABVjFMZbigtveAW38TUT0HSXH0oY4NmsDRYzxc/MsiZ
+        StUK7VW+LDzBFNFN6OF85wBFajVIkB0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-279-uL8BkgqBNoSU9TSinWcnBQ-1; Tue, 09 Feb 2021 11:17:37 -0500
+X-MC-Unique: uL8BkgqBNoSU9TSinWcnBQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9332C801979;
+        Tue,  9 Feb 2021 16:17:31 +0000 (UTC)
+Received: from [10.36.113.141] (ovpn-113-141.ams2.redhat.com [10.36.113.141])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id D16AE60BD9;
+        Tue,  9 Feb 2021 16:17:23 +0000 (UTC)
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Mike Rapoport <rppt@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "kevin.tian@intel.com" <kevin.tian@intel.com>,
-        "jean-philippe@linaro.org" <jean-philippe@linaro.org>,
-        "eric.auger@redhat.com" <eric.auger@redhat.com>,
-        "Liguozhu (Kenneth)" <liguozhu@hisilicon.com>,
-        "zhangfei.gao@linaro.org" <zhangfei.gao@linaro.org>,
-        "chensihang (A)" <chensihang1@hisilicon.com>
-Subject: Re: [RFC PATCH v3 1/2] mempinfd: Add new syscall to provide memory
- pin
-Message-ID: <20210209135331.GF4718@ziepe.ca>
-References: <1612685884-19514-1-git-send-email-wangzhou1@hisilicon.com>
- <1612685884-19514-2-git-send-email-wangzhou1@hisilicon.com>
- <a587bd61-9194-4b46-c122-8b4da7b941a8@redhat.com>
- <20210208183348.GV4718@ziepe.ca>
- <0dca000a6cd34d8183062466ba7d6eaf@hisilicon.com>
- <20210208213023.GZ4718@ziepe.ca>
- <0868d209d7424942a46d1238674cf75d@hisilicon.com>
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christopher Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Roman Gushchin <guro@fb.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
+        x86@kernel.org
+References: <20210208211326.GV242749@kernel.org>
+ <1F6A73CF-158A-4261-AA6C-1F5C77F4F326@redhat.com>
+ <YCJO8zLq8YkXGy8B@dhcp22.suse.cz>
+ <662b5871-b461-0896-697f-5e903c23d7b9@redhat.com>
+ <YCJbmR11ikrWKaU8@dhcp22.suse.cz>
+ <c1e5e7b6-3360-ddc4-2ff5-0e79515ee23a@redhat.com>
+ <YCKNMqu8/g0OofqU@dhcp22.suse.cz>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Subject: Re: [PATCH v17 00/10] mm: introduce memfd_secret system call to
+ create "secret" memory areas
+Message-ID: <8cbfe2c3-cfc6-72e0-bab1-852f80e20684@redhat.com>
+Date:   Tue, 9 Feb 2021 17:17:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0868d209d7424942a46d1238674cf75d@hisilicon.com>
+In-Reply-To: <YCKNMqu8/g0OofqU@dhcp22.suse.cz>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Feb 09, 2021 at 03:01:42AM +0000, Song Bao Hua (Barry Song) wrote:
+On 09.02.21 14:25, Michal Hocko wrote:
+> On Tue 09-02-21 11:23:35, David Hildenbrand wrote:
+> [...]
+>> I am constantly trying to fight for making more stuff MOVABLE instead of
+>> going into the other direction (e.g., because it's easier to implement,
+>> which feels like the wrong direction).
+>>
+>> Maybe I am the only person that really cares about ZONE_MOVABLE these days
+>> :) I can't stop such new stuff from popping up, so at least I want it to be
+>> documented.
+> 
+> MOVABLE zone is certainly an important thing to keep working. And there
+> is still quite a lot of work on the way. But as I've said this is more
+> of a outlier than a norm. On the other hand movable zone is kinda hard
+> requirement for a lot of application and it is to be expected that
+> many features will be less than 100% compatible.  Some usecases even
+> impossible. That's why I am arguing that we should have a central
+> document where the movable zone is documented with all the potential
+> problems we have encountered over time and explicitly state which
+> features are fully/partially incompatible.
+> 
 
-> On the other hand, wouldn't it be the benefit of hardware accelerators
-> to have a lower and more stable latency zip/encryption than CPU?
+I'll send a mail during the next weeks to gather current restrictions to 
+document them (and include my brain dump). We might see more excessive 
+use of ZONE_MOVABLE in the future and as history told us, of CMA as 
+well. We really should start documenting/caring.
 
-No, I don't think so.
+@Mike, it would be sufficient for me if one of your patches at least 
+mention the situation in the description like
 
-If this is an important problem then it should apply equally to CPU
-and IO jitter.
+"Please note that secretmem currently behaves much more like long-term 
+GUP instead of mlocked memory; secretmem is unmovable memory directly 
+consumed/controlled by user space. secretmem cannot be placed onto 
+ZONE_MOVABLE/CMA.
 
-Honestly I find the idea that occasional migration jitters CPU and DMA
-to not be very compelling. Such specialized applications should
-allocate special pages to avoid this, not adding an API to be able to
-lock down any page
- 
-Jason
+As long as there is no excessive use of secretmem (e.g., maximum of 16 
+MiB for selected processes) in combination with ZONE_MOVABLE/CMA, this 
+is barely a real issue. However, it is something to keep in mind when a 
+significant amount of system RAM might be used for secretmem. In the 
+future, we might support migration of secretmem and make it look much 
+more like mlocked memory instead."
+
+Just a suggestion.
+
+-- 
+Thanks,
+
+David / dhildenb
+
