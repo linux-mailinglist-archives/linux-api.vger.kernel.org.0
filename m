@@ -2,68 +2,78 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E89EE316F43
-	for <lists+linux-api@lfdr.de>; Wed, 10 Feb 2021 19:54:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CB764316F81
+	for <lists+linux-api@lfdr.de>; Wed, 10 Feb 2021 20:04:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232091AbhBJSxq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 10 Feb 2021 13:53:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41564 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234329AbhBJSvw (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 10 Feb 2021 13:51:52 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BAEAC061788;
-        Wed, 10 Feb 2021 10:51:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=EjxwxHUNaOq23km6417evCVsqogE3nHC3sVFoKbPKg8=; b=cbatPENJ45p15QeKsGBV3IHWYB
-        MYY+XRAjvFdyEP+iDEN7xkSzpBF8JaSpuGwjfgDQQEVoM/xpsvi3INdXoOuJZl4r0QQlnvHCCAciJ
-        K/i0cA3Pwgde9FWWOLhdkA6YYagUEcEIMGbqk7+KZOOQ+qxq6cOSsGyLEBBVqyg8IR/EhcXGSzAi5
-        DrmHQ7abaKogcEgwxl2IxF8lApwCsy2ypMG647U37oOag2em5SznPVPpv05MjbAzva3gYU3woa/oH
-        +xIIvR6HMXdLr+peIu0bMCI/atrUkCcGpsugia1PXfoSpgp6DYOk2ID3l6Da2Zgsc8BsE+tykWGjN
-        kz8+SQ8Q==;
-Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1l9uZg-009FhE-Fm; Wed, 10 Feb 2021 18:50:53 +0000
-Date:   Wed, 10 Feb 2021 18:50:52 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Zhou Wang <wangzhou1@hisilicon.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
-        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
-        linux-api@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        song.bao.hua@hisilicon.com, jgg@ziepe.ca, kevin.tian@intel.com,
-        jean-philippe@linaro.org, eric.auger@redhat.com,
-        liguozhu@hisilicon.com, zhangfei.gao@linaro.org,
-        Sihang Chen <chensihang1@hisilicon.com>
-Subject: Re: [RFC PATCH v3 1/2] mempinfd: Add new syscall to provide memory
- pin
-Message-ID: <20210210185052.GE308988@casper.infradead.org>
-References: <1612685884-19514-2-git-send-email-wangzhou1@hisilicon.com>
- <ED58431F-5972-47D1-BF50-93A20AD86C46@amacapital.net>
- <2e6cf99f-beb6-9bef-1316-5e58fb0aa86e@hisilicon.com>
- <YCJX6QFQ4hsNRrFj@kroah.com>
- <f73951ba-84be-b7f8-8c79-db84bc9081f3@hisilicon.com>
- <YCJ5k/Bxxkg3BNNj@kroah.com>
- <2237506a-0c98-7ba6-5d5f-b60b637174c5@hisilicon.com>
+        id S234413AbhBJTDk convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Wed, 10 Feb 2021 14:03:40 -0500
+Received: from spam.auroraoh.com ([24.56.89.101]:49152 "EHLO
+        barracuda.auroraoh.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S232904AbhBJTDh (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 10 Feb 2021 14:03:37 -0500
+X-ASG-Debug-ID: 1612983751-112c0d6a799edf0001-wjuz9g
+Received: from COASRV-MAIL2.auroraoh.loc (coasrv-mail2.auroraoh.loc [10.3.1.15]) by barracuda.auroraoh.com with ESMTP id 5uUbz3ZeGsqrpfdl; Wed, 10 Feb 2021 14:02:31 -0500 (EST)
+X-Barracuda-Envelope-From: JanuskaD@auroraoh.com
+X-Barracuda-RBL-Trusted-Forwarder: 10.3.1.15
+Received: from [172.20.10.5] (197.210.29.8) by COASRV-MAIL2.auroraoh.loc
+ (10.3.1.15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Tue, 9 Feb 2021
+ 02:41:04 -0500
+Content-Type: text/plain; charset="iso-8859-1"
+X-Barracuda-RBL-Trusted-Forwarder: 172.20.10.5
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2237506a-0c98-7ba6-5d5f-b60b637174c5@hisilicon.com>
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: We are a registered Private Loan Investment Company in the United Kingdom,
+ we also registered with the Turkish British Chamber of Commerce and Industry
+ (TBCCI) we have operations in Europe and Asia.
+To:     Recipients <januskad@auroraoh.com>
+X-ASG-Orig-Subj: We are a registered Private Loan Investment Company in the United Kingdom,
+ we also registered with the Turkish British Chamber of Commerce and Industry
+ (TBCCI) we have operations in Europe and Asia.
+From:   <januskad@auroraoh.com>
+Date:   Tue, 9 Feb 2021 15:40:17 +0800
+Reply-To: <cfolimiited@gmail.com>
+X-Priority: 1 (High)
+X-Antivirus: Avast (VPS 210207-2, 02/07/2021), Outbound message
+X-Antivirus-Status: Clean
+Message-ID: <d46ecc4f-b603-47c1-83c7-0caec3f47064@COASRV-MAIL2.auroraoh.loc>
+X-Originating-IP: [197.210.29.8]
+X-ClientProxiedBy: COASRV-MAIL3.auroraoh.loc (10.3.1.13) To
+ COASRV-MAIL2.auroraoh.loc (10.3.1.15)
+X-Barracuda-Connect: coasrv-mail2.auroraoh.loc[10.3.1.15]
+X-Barracuda-Start-Time: 1612983751
+X-Barracuda-URL: https://10.3.1.12:443/cgi-mod/mark.cgi
+X-Virus-Scanned: by bsmtpd at auroraoh.com
+X-Barracuda-Scan-Msg-Size: 755
+X-Barracuda-BRTS-Status: 1
+X-Barracuda-Spam-Score: 1.61
+X-Barracuda-Spam-Status: No, SCORE=1.61 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=5.0 tests=BSF_SC0_SA609_NRN, BSF_SC0_SA912_RP_FR, BSF_SC0_SA_TO_FROM_ADDR_MATCH, NO_REAL_NAME
+X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.87891
+        Rule breakdown below
+         pts rule name              description
+        ---- ---------------------- --------------------------------------------------
+        0.00 NO_REAL_NAME           From: does not include a real name
+        0.01 BSF_SC0_SA912_RP_FR    Custom Rule BSF_SC0_SA912_RP_FR
+        0.50 BSF_SC0_SA_TO_FROM_ADDR_MATCH Sender Address Matches Recipient
+                                   Address
+        1.10 BSF_SC0_SA609_NRN      Custom Rule SA609_NRN
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Feb 09, 2021 at 08:20:18PM +0800, Zhou Wang wrote:
-> Agree, will add it in next version.
+We are seeking for beneficiaries who source for fund to expand/relocating their business interest abroad. We are ready to fund projects outside Turkey and United Kingdom in the form of Soft Loan. We grant loans to both corporate and private entities at a low interest rate of 2% R.O.I per annul.
 
-No, don't do another version.  Jason is right, this approach is wrong.
-The point of SVA is that it doesn't require the application to do
-anything special.  If jitter from too-frequent page migration is actually
-a problem, then fix the frequency of page migration.  Don't pretend that
-this particular application is so important that it prevents the kernel
-from doing its housekeeping.
+We like to grant loan in the following sectors: oil/Gas, banking, real estate, stock speculation and mining, transportation, health sector and tobacco, Communication Services, Agriculture Forestry & Fishing, thus any sector. The terms are very flexible and interesting.
+
+Please contact us for more details;
+
+
+Kind regards,
+
+Paul McCann
+
+-- 
+This email has been checked for viruses by Avast antivirus software.
+https://www.avast.com/antivirus
+
