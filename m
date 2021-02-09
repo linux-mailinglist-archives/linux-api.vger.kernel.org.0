@@ -2,86 +2,95 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CDDF7314BA9
-	for <lists+linux-api@lfdr.de>; Tue,  9 Feb 2021 10:35:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CDFE0314BEA
+	for <lists+linux-api@lfdr.de>; Tue,  9 Feb 2021 10:43:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229692AbhBIJaY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 9 Feb 2021 04:30:24 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:12881 "EHLO
-        szxga07-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230090AbhBIJ2W (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 9 Feb 2021 04:28:22 -0500
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
-        by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4DZcvp1gvBz7jFf;
-        Tue,  9 Feb 2021 17:26:14 +0800 (CST)
-Received: from [127.0.0.1] (10.40.188.87) by DGGEMS405-HUB.china.huawei.com
- (10.3.19.205) with Microsoft SMTP Server id 14.3.498.0; Tue, 9 Feb 2021
- 17:27:31 +0800
-Subject: Re: [RFC PATCH v3 1/2] mempinfd: Add new syscall to provide memory
- pin
-To:     Arnd Bergmann <arnd@kernel.org>
-References: <1612685884-19514-1-git-send-email-wangzhou1@hisilicon.com>
- <1612685884-19514-2-git-send-email-wangzhou1@hisilicon.com>
- <CAK8P3a13aGbqvTxL+5OQxu-wPa6RDHQJkJ_n8O6YeOibbJQ2yg@mail.gmail.com>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "Linux API" <linux-api@vger.kernel.org>,
+        id S229752AbhBIJlX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 9 Feb 2021 04:41:23 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54336 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229799AbhBIJi3 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 9 Feb 2021 04:38:29 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E804D64E27;
+        Tue,  9 Feb 2021 09:37:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1612863468;
+        bh=3uhgNxvkQ3DE4szNXNrRNOmM42w+TvFbEvvc39Kp9o8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=dnM8UoIu7vjUquwOGgLNI/nFIs7c5cxhJzUlDrEgEcxaM71P1VbXUNr75slYvIvip
+         JxniosSVimGPVVpFt1UW4dNP6DywhSeOr4E8K+/y/jp/U1BlN9NKoE4b81YZyYVsS4
+         TOZQ8fJ6UIH5YGUd0osrd5uxargdhmbZrAwT4234=
+Date:   Tue, 9 Feb 2021 10:37:45 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Zhou Wang <wangzhou1@hisilicon.com>
+Cc:     Andy Lutomirski <luto@amacapital.net>,
+        linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
+        linux-api@vger.kernel.org,
         Andrew Morton <akpm@linux-foundation.org>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
-        gregkh <gregkh@linuxfoundation.org>,
-        Barry Song <song.bao.hua@hisilicon.com>,
-        "Jason Gunthorpe" <jgg@ziepe.ca>, <kevin.tian@intel.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        Eric Auger <eric.auger@redhat.com>,
-        "Liguozhu (Kenneth)" <liguozhu@hisilicon.com>,
-        Zhangfei Gao <zhangfei.gao@linaro.org>,
+        song.bao.hua@hisilicon.com, jgg@ziepe.ca, kevin.tian@intel.com,
+        jean-philippe@linaro.org, eric.auger@redhat.com,
+        liguozhu@hisilicon.com, zhangfei.gao@linaro.org,
         Sihang Chen <chensihang1@hisilicon.com>
-From:   Zhou Wang <wangzhou1@hisilicon.com>
-Message-ID: <753db746-292c-4f1d-c79f-9a7282a19ba2@hisilicon.com>
-Date:   Tue, 9 Feb 2021 17:27:30 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+Subject: Re: [RFC PATCH v3 1/2] mempinfd: Add new syscall to provide memory
+ pin
+Message-ID: <YCJX6QFQ4hsNRrFj@kroah.com>
+References: <1612685884-19514-2-git-send-email-wangzhou1@hisilicon.com>
+ <ED58431F-5972-47D1-BF50-93A20AD86C46@amacapital.net>
+ <2e6cf99f-beb6-9bef-1316-5e58fb0aa86e@hisilicon.com>
 MIME-Version: 1.0
-In-Reply-To: <CAK8P3a13aGbqvTxL+5OQxu-wPa6RDHQJkJ_n8O6YeOibbJQ2yg@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.40.188.87]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2e6cf99f-beb6-9bef-1316-5e58fb0aa86e@hisilicon.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2021/2/8 5:51, Arnd Bergmann wrote:
-> On Sun, Feb 7, 2021 at 9:18 AM Zhou Wang <wangzhou1@hisilicon.com> wrote:
+On Tue, Feb 09, 2021 at 05:17:46PM +0800, Zhou Wang wrote:
+> On 2021/2/8 6:02, Andy Lutomirski wrote:
+> > 
+> > 
+> >> On Feb 7, 2021, at 12:31 AM, Zhou Wang <wangzhou1@hisilicon.com> wrote:
+> >>
+> >> ﻿SVA(share virtual address) offers a way for device to share process virtual
+> >> address space safely, which makes more convenient for user space device
+> >> driver coding. However, IO page faults may happen when doing DMA
+> >> operations. As the latency of IO page fault is relatively big, DMA
+> >> performance will be affected severely when there are IO page faults.
+> >> From a long term view, DMA performance will be not stable.
+> >>
+> >> In high-performance I/O cases, accelerators might want to perform
+> >> I/O on a memory without IO page faults which can result in dramatically
+> >> increased latency. Current memory related APIs could not achieve this
+> >> requirement, e.g. mlock can only avoid memory to swap to backup device,
+> >> page migration can still trigger IO page fault.
+> >>
+> >> Various drivers working under traditional non-SVA mode are using
+> >> their own specific ioctl to do pin. Such ioctl can be seen in v4l2,
+> >> gpu, infiniband, media, vfio, etc. Drivers are usually doing dma
+> >> mapping while doing pin.
+> >>
+> >> But, in SVA mode, pin could be a common need which isn't necessarily
+> >> bound with any drivers, and neither is dma mapping needed by drivers
+> >> since devices are using the virtual address of CPU. Thus, It is better
+> >> to introduce a new common syscall for it.
+> >>
+> >> This patch leverages the design of userfaultfd and adds mempinfd for pin
+> >> to avoid messing up mm_struct. A fd will be got by mempinfd, then user
+> >> space can do pin/unpin pages by ioctls of this fd, all pinned pages under
+> >> one file will be unpinned in file release process. Like pin page cases in
+> >> other places, can_do_mlock is used to check permission and input
+> >> parameters.
+> > 
+> > 
+> > Can you document what the syscall does?
 > 
->> diff --git a/arch/arm64/include/asm/unistd32.h b/arch/arm64/include/asm/unistd32.h
->> index cccfbbe..3f49529 100644
->> --- a/arch/arm64/include/asm/unistd32.h
->> +++ b/arch/arm64/include/asm/unistd32.h
->> @@ -891,6 +891,8 @@ __SYSCALL(__NR_faccessat2, sys_faccessat2)
->>  __SYSCALL(__NR_process_madvise, sys_process_madvise)
->>  #define __NR_epoll_pwait2 441
->>  __SYSCALL(__NR_epoll_pwait2, compat_sys_epoll_pwait2)
->> +#define __NR_mempinfd 442
->> +__SYSCALL(__NR_mempinfd, sys_mempinfd)
-> 
-> This adds a compat syscall for 32-bit tasks running on arm64 without adding
-> the same for the native arch/arm syscall table. Those two need to always
-> stay synchronized. In fact, new system call should ideally get assigned
-> on all architectures at the same time, with the same number (or +110
-> on arch/alpha).
+> Will add related document in Documentation/vm.
 
-Thank for pointing out this. I use an ARM64 machine to test, so
-currently only add it for ARM64 :)
+A manpage is always good, and will be required eventually :)
 
-Best,
-Zhou
+thanks,
 
-> 
->          Arnd
-> 
-> .
-> 
-
+greg k-h
