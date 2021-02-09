@@ -2,170 +2,108 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 566D5314D28
-	for <lists+linux-api@lfdr.de>; Tue,  9 Feb 2021 11:35:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 49025314E88
+	for <lists+linux-api@lfdr.de>; Tue,  9 Feb 2021 12:59:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231792AbhBIKez (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 9 Feb 2021 05:34:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57419 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231886AbhBIKcg (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 9 Feb 2021 05:32:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1612866669;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=l9NmyWsJuFC0/5JNGWNXSCR8ksDc6+RfyJhTiUXWtF4=;
-        b=OZiBee4/hx+0WzQCZMLlGJRIFCiAD9X3KouUn1rReCunutViiArKTZnU/OexnZuFy204c/
-        LYzC+rWAwbXUxsPTNOAI49XW3mGoED+KCRwulMrjPNhrcCRxrehQrJ+7vIdt/eBaDEf9et
-        AgkqIvHPCXaP23isZybVF6BdD42+aWk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-105-IIfTrpvSPlC2PvPZbsJlDQ-1; Tue, 09 Feb 2021 05:31:06 -0500
-X-MC-Unique: IIfTrpvSPlC2PvPZbsJlDQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C379C107ACE4;
-        Tue,  9 Feb 2021 10:31:01 +0000 (UTC)
-Received: from [10.36.113.141] (ovpn-113-141.ams2.redhat.com [10.36.113.141])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 3559C17AE2;
-        Tue,  9 Feb 2021 10:30:54 +0000 (UTC)
-Subject: Re: [PATCH v17 00/10] mm: introduce memfd_secret system call to
- create "secret" memory areas
-From:   David Hildenbrand <david@redhat.com>
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Mike Rapoport <rppt@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        id S230173AbhBIL7P (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 9 Feb 2021 06:59:15 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:12884 "EHLO
+        szxga07-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229993AbhBIL7G (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 9 Feb 2021 06:59:06 -0500
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.60])
+        by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4DZhFm2lTgz7hpn;
+        Tue,  9 Feb 2021 19:57:00 +0800 (CST)
+Received: from [127.0.0.1] (10.40.188.87) by DGGEMS411-HUB.china.huawei.com
+ (10.3.19.211) with Microsoft SMTP Server id 14.3.498.0; Tue, 9 Feb 2021
+ 19:58:15 +0800
+Subject: Re: [RFC PATCH v3 1/2] mempinfd: Add new syscall to provide memory
+ pin
+To:     Greg KH <gregkh@linuxfoundation.org>
+References: <1612685884-19514-2-git-send-email-wangzhou1@hisilicon.com>
+ <ED58431F-5972-47D1-BF50-93A20AD86C46@amacapital.net>
+ <2e6cf99f-beb6-9bef-1316-5e58fb0aa86e@hisilicon.com>
+ <YCJX6QFQ4hsNRrFj@kroah.com>
+CC:     Andy Lutomirski <luto@amacapital.net>,
+        <linux-kernel@vger.kernel.org>, <iommu@lists.linux-foundation.org>,
+        <linux-mm@kvack.org>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-api@vger.kernel.org>,
+        "Andrew Morton" <akpm@linux-foundation.org>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Roman Gushchin <guro@fb.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
-        x86@kernel.org
-References: <20210208211326.GV242749@kernel.org>
- <1F6A73CF-158A-4261-AA6C-1F5C77F4F326@redhat.com>
- <YCJO8zLq8YkXGy8B@dhcp22.suse.cz>
- <662b5871-b461-0896-697f-5e903c23d7b9@redhat.com>
- <YCJbmR11ikrWKaU8@dhcp22.suse.cz>
- <c1e5e7b6-3360-ddc4-2ff5-0e79515ee23a@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <d733d2b5-bb9c-179d-82c2-3c07d7d97a9f@redhat.com>
-Date:   Tue, 9 Feb 2021 11:30:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+        <song.bao.hua@hisilicon.com>, <jgg@ziepe.ca>,
+        <kevin.tian@intel.com>, <jean-philippe@linaro.org>,
+        <eric.auger@redhat.com>, <liguozhu@hisilicon.com>,
+        <zhangfei.gao@linaro.org>, Sihang Chen <chensihang1@hisilicon.com>
+From:   Zhou Wang <wangzhou1@hisilicon.com>
+Message-ID: <f73951ba-84be-b7f8-8c79-db84bc9081f3@hisilicon.com>
+Date:   Tue, 9 Feb 2021 19:58:15 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-In-Reply-To: <c1e5e7b6-3360-ddc4-2ff5-0e79515ee23a@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <YCJX6QFQ4hsNRrFj@kroah.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.40.188.87]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 09.02.21 11:23, David Hildenbrand wrote:
->>>> A lot of unevictable memory is a concern regardless of CMA/ZONE_MOVABLE.
->>>> As I've said it is quite easy to land at the similar situation even with
->>>> tmpfs/MAP_ANON|MAP_SHARED on swapless system. Neither of the two is
->>>> really uncommon. It would be even worse that those would be allowed to
->>>> consume both CMA/ZONE_MOVABLE.
+On 2021/2/9 17:37, Greg KH wrote:
+> On Tue, Feb 09, 2021 at 05:17:46PM +0800, Zhou Wang wrote:
+>> On 2021/2/8 6:02, Andy Lutomirski wrote:
 >>>
->>> IIRC, tmpfs/MAP_ANON|MAP_SHARED memory
->>> a) Is movable, can land in ZONE_MOVABLE/CMA
->>> b) Can be limited by sizing tmpfs appropriately
 >>>
->>> AFAIK, what you describe is a problem with memory overcommit, not with zone
->>> imbalances (below). Or what am I missing?
+>>>> On Feb 7, 2021, at 12:31 AM, Zhou Wang <wangzhou1@hisilicon.com> wrote:
+>>>>
+>>>> ﻿SVA(share virtual address) offers a way for device to share process virtual
+>>>> address space safely, which makes more convenient for user space device
+>>>> driver coding. However, IO page faults may happen when doing DMA
+>>>> operations. As the latency of IO page fault is relatively big, DMA
+>>>> performance will be affected severely when there are IO page faults.
+>>>> From a long term view, DMA performance will be not stable.
+>>>>
+>>>> In high-performance I/O cases, accelerators might want to perform
+>>>> I/O on a memory without IO page faults which can result in dramatically
+>>>> increased latency. Current memory related APIs could not achieve this
+>>>> requirement, e.g. mlock can only avoid memory to swap to backup device,
+>>>> page migration can still trigger IO page fault.
+>>>>
+>>>> Various drivers working under traditional non-SVA mode are using
+>>>> their own specific ioctl to do pin. Such ioctl can be seen in v4l2,
+>>>> gpu, infiniband, media, vfio, etc. Drivers are usually doing dma
+>>>> mapping while doing pin.
+>>>>
+>>>> But, in SVA mode, pin could be a common need which isn't necessarily
+>>>> bound with any drivers, and neither is dma mapping needed by drivers
+>>>> since devices are using the virtual address of CPU. Thus, It is better
+>>>> to introduce a new common syscall for it.
+>>>>
+>>>> This patch leverages the design of userfaultfd and adds mempinfd for pin
+>>>> to avoid messing up mm_struct. A fd will be got by mempinfd, then user
+>>>> space can do pin/unpin pages by ioctls of this fd, all pinned pages under
+>>>> one file will be unpinned in file release process. Like pin page cases in
+>>>> other places, can_do_mlock is used to check permission and input
+>>>> parameters.
+>>>
+>>>
+>>> Can you document what the syscall does?
 >>
->> It can be problem for both. If you have just too much of shm (do not
->> forget about MAP_SHARED|MAP_ANON which is much harder to size from an
->> admin POV) then migrateability doesn't really help because you need a
->> free memory to migrate. Without reclaimability this can easily become a
->> problem. That is why I am saying this is not really a new problem.
->> Swapless systems are not all that uncommon.
+>> Will add related document in Documentation/vm.
 > 
-> I get your point, it's similar but still different. "no memory in the
-> system" vs. "plenty of unusable free memory available in the system".
-> 
-> In many setups, memory for user space applications can go to
-> ZONE_MOVABLE just fine. ZONE_NORMAL etc. can be used for supporting user
-> space memory (e.g., page tables) and other kernel stuff.
-> 
-> Like, have 4GB of ZONE_MOVABLE with 2GB of ZONE_NORMAL. Have an
-> application (database) that allocates 4GB of memory. Works just fine.
-> The zone ratio ends up being a problem for example with many processes
-> (-> many page tables).
-> 
-> Not being able to put user space memory into the movable zone is a
-> special case. And we are introducing yet another special case here
-> (besides vfio, rdma, unmigratable huge pages like gigantic pages).
-> 
-> With plenty of secretmem, looking at /proc/meminfo Total vs. Free can be
-> a big lie of how your system behaves.
-> 
->>    
->>>> One has to be very careful when relying on CMA or movable zones. This is
->>>> definitely worth a comment in the kernel command line parameter
->>>> documentation. But this is not a new problem.
->>>
->>> I see the following thing worth documenting:
->>>
->>> Assume you have a system with 2GB of ZONE_NORMAL/ZONE_DMA and 4GB of
->>> ZONE_MOVABLE/CMA.
->>>
->>> Assume you make use of 1.5GB of secretmem. Your system might run into OOM
->>> any time although you still have plenty of memory on ZONE_MOVAVLE (and even
->>> swap!), simply because you are making excessive use of unmovable allocations
->>> (for user space!) in an environment where you should not make excessive use
->>> of unmovable allocations (e.g., where should page tables go?).
->>
->> yes, you are right of course and I am not really disputing this. But I
->> would argue that 2:1 Movable/Normal is something to expect problems
->> already. "Lowmem" allocations can easily trigger OOM even without secret
->> mem in the picture. It all just takes to allocate a lot of GFP_KERNEL or
->> even GFP_{HIGH}USER. Really, it is CMA/MOVABLE that are elephant in the
->> room and one has to be really careful when relying on them.
-> 
-> Right, it's all about what the setup actually needs. Sure, there are
-> cases where you need significantly more GFP_KERNEL/GFP_{HIGH}USER such
-> that a 2:1 ratio is not feasible. But I claim that these are corner cases.
-> 
-> Secretmem gives user space the option to allocate a lot of
-> GFP_{HIGH}USER memory. If I am not wrong, "ulimit -a" tells me that each
-> application on F33 can allocate 16 GiB (!) of secretmem.
+> A manpage is always good, and will be required eventually :)
 
-Got to learn to do my math. It's 16 MiB - so as a default it's less 
-dangerous than I thought!
+manpage is maintained in another repo. Do you mean add a manpage
+patch in this series?
 
--- 
-Thanks,
+Best,
+Zhou
 
-David / dhildenb
+> 
+> thanks,
+> 
+> greg k-h
+> 
+> .
+> 
 
