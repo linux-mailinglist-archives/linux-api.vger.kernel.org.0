@@ -2,95 +2,176 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CDFE0314BEA
-	for <lists+linux-api@lfdr.de>; Tue,  9 Feb 2021 10:43:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FA5B314C3D
+	for <lists+linux-api@lfdr.de>; Tue,  9 Feb 2021 10:56:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229752AbhBIJlX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 9 Feb 2021 04:41:23 -0500
-Received: from mail.kernel.org ([198.145.29.99]:54336 "EHLO mail.kernel.org"
+        id S230520AbhBIJ4k (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 9 Feb 2021 04:56:40 -0500
+Received: from mx2.suse.de ([195.135.220.15]:54506 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229799AbhBIJi3 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 9 Feb 2021 04:38:29 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E804D64E27;
-        Tue,  9 Feb 2021 09:37:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1612863468;
-        bh=3uhgNxvkQ3DE4szNXNrRNOmM42w+TvFbEvvc39Kp9o8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=dnM8UoIu7vjUquwOGgLNI/nFIs7c5cxhJzUlDrEgEcxaM71P1VbXUNr75slYvIvip
-         JxniosSVimGPVVpFt1UW4dNP6DywhSeOr4E8K+/y/jp/U1BlN9NKoE4b81YZyYVsS4
-         TOZQ8fJ6UIH5YGUd0osrd5uxargdhmbZrAwT4234=
-Date:   Tue, 9 Feb 2021 10:37:45 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Zhou Wang <wangzhou1@hisilicon.com>
-Cc:     Andy Lutomirski <luto@amacapital.net>,
-        linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
-        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
-        linux-api@vger.kernel.org,
+        id S230302AbhBIJyf (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 9 Feb 2021 04:54:35 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1612864426; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Ys4lZa12PW2rFBR9uYb+XrRjecZKizZLu20iG5KOoeU=;
+        b=qMkZ7XbqI1d8hRSD4sQuj8GloCeGKTkheB3rXPURIdHzln4FFQIx0n7YjCba0Bw7Yo+suG
+        YVH6OFVka1kiTncyA9TPZgvqak3KFQTe+UD6eD7U0V5Q5FCqYqLZFu60NAxFSbvHXVFlM8
+        PKcchFgHt4dmUy7k0ra5KqJyGsnIQ0A=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 4727BAC43;
+        Tue,  9 Feb 2021 09:53:46 +0000 (UTC)
+Date:   Tue, 9 Feb 2021 10:53:29 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Mike Rapoport <rppt@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
-        song.bao.hua@hisilicon.com, jgg@ziepe.ca, kevin.tian@intel.com,
-        jean-philippe@linaro.org, eric.auger@redhat.com,
-        liguozhu@hisilicon.com, zhangfei.gao@linaro.org,
-        Sihang Chen <chensihang1@hisilicon.com>
-Subject: Re: [RFC PATCH v3 1/2] mempinfd: Add new syscall to provide memory
- pin
-Message-ID: <YCJX6QFQ4hsNRrFj@kroah.com>
-References: <1612685884-19514-2-git-send-email-wangzhou1@hisilicon.com>
- <ED58431F-5972-47D1-BF50-93A20AD86C46@amacapital.net>
- <2e6cf99f-beb6-9bef-1316-5e58fb0aa86e@hisilicon.com>
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christopher Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Roman Gushchin <guro@fb.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
+        x86@kernel.org
+Subject: Re: [PATCH v17 00/10] mm: introduce memfd_secret system call to
+ create "secret" memory areas
+Message-ID: <YCJbmR11ikrWKaU8@dhcp22.suse.cz>
+References: <20210208211326.GV242749@kernel.org>
+ <1F6A73CF-158A-4261-AA6C-1F5C77F4F326@redhat.com>
+ <YCJO8zLq8YkXGy8B@dhcp22.suse.cz>
+ <662b5871-b461-0896-697f-5e903c23d7b9@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <2e6cf99f-beb6-9bef-1316-5e58fb0aa86e@hisilicon.com>
+In-Reply-To: <662b5871-b461-0896-697f-5e903c23d7b9@redhat.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Feb 09, 2021 at 05:17:46PM +0800, Zhou Wang wrote:
-> On 2021/2/8 6:02, Andy Lutomirski wrote:
+On Tue 09-02-21 10:15:17, David Hildenbrand wrote:
+> On 09.02.21 09:59, Michal Hocko wrote:
+> > On Mon 08-02-21 22:38:03, David Hildenbrand wrote:
+> > > 
+> > > > Am 08.02.2021 um 22:13 schrieb Mike Rapoport <rppt@kernel.org>:
+> > > > 
+> > > > ﻿On Mon, Feb 08, 2021 at 10:27:18AM +0100, David Hildenbrand wrote:
+> > > > > On 08.02.21 09:49, Mike Rapoport wrote:
+> > > > > 
+> > > > > Some questions (and request to document the answers) as we now allow to have
+> > > > > unmovable allocations all over the place and I don't see a single comment
+> > > > > regarding that in the cover letter:
+> > > > > 
+> > > > > 1. How will the issue of plenty of unmovable allocations for user space be
+> > > > > tackled in the future?
+> > > > > 
+> > > > > 2. How has this issue been documented? E.g., interaction with ZONE_MOVABLE
+> > > > > and CMA, alloc_conig_range()/alloc_contig_pages?.
+> > > > 
+> > > > Secretmem sets the mappings gfp mask to GFP_HIGHUSER, so it does not
+> > > > allocate movable pages at the first place.
+> > > 
+> > > That is not the point. Secretmem cannot go on CMA / ZONE_MOVABLE
+> > > memory and behaves like long-term pinnings in that sense. This is a
+> > > real issue when using a lot of sectremem.
 > > 
-> > 
-> >> On Feb 7, 2021, at 12:31 AM, Zhou Wang <wangzhou1@hisilicon.com> wrote:
-> >>
-> >> ﻿SVA(share virtual address) offers a way for device to share process virtual
-> >> address space safely, which makes more convenient for user space device
-> >> driver coding. However, IO page faults may happen when doing DMA
-> >> operations. As the latency of IO page fault is relatively big, DMA
-> >> performance will be affected severely when there are IO page faults.
-> >> From a long term view, DMA performance will be not stable.
-> >>
-> >> In high-performance I/O cases, accelerators might want to perform
-> >> I/O on a memory without IO page faults which can result in dramatically
-> >> increased latency. Current memory related APIs could not achieve this
-> >> requirement, e.g. mlock can only avoid memory to swap to backup device,
-> >> page migration can still trigger IO page fault.
-> >>
-> >> Various drivers working under traditional non-SVA mode are using
-> >> their own specific ioctl to do pin. Such ioctl can be seen in v4l2,
-> >> gpu, infiniband, media, vfio, etc. Drivers are usually doing dma
-> >> mapping while doing pin.
-> >>
-> >> But, in SVA mode, pin could be a common need which isn't necessarily
-> >> bound with any drivers, and neither is dma mapping needed by drivers
-> >> since devices are using the virtual address of CPU. Thus, It is better
-> >> to introduce a new common syscall for it.
-> >>
-> >> This patch leverages the design of userfaultfd and adds mempinfd for pin
-> >> to avoid messing up mm_struct. A fd will be got by mempinfd, then user
-> >> space can do pin/unpin pages by ioctls of this fd, all pinned pages under
-> >> one file will be unpinned in file release process. Like pin page cases in
-> >> other places, can_do_mlock is used to check permission and input
-> >> parameters.
-> > 
-> > 
-> > Can you document what the syscall does?
+> > A lot of unevictable memory is a concern regardless of CMA/ZONE_MOVABLE.
+> > As I've said it is quite easy to land at the similar situation even with
+> > tmpfs/MAP_ANON|MAP_SHARED on swapless system. Neither of the two is
+> > really uncommon. It would be even worse that those would be allowed to
+> > consume both CMA/ZONE_MOVABLE.
 > 
-> Will add related document in Documentation/vm.
+> IIRC, tmpfs/MAP_ANON|MAP_SHARED memory
+> a) Is movable, can land in ZONE_MOVABLE/CMA
+> b) Can be limited by sizing tmpfs appropriately
+> 
+> AFAIK, what you describe is a problem with memory overcommit, not with zone
+> imbalances (below). Or what am I missing?
 
-A manpage is always good, and will be required eventually :)
+It can be problem for both. If you have just too much of shm (do not
+forget about MAP_SHARED|MAP_ANON which is much harder to size from an
+admin POV) then migrateability doesn't really help because you need a
+free memory to migrate. Without reclaimability this can easily become a
+problem. That is why I am saying this is not really a new problem.
+Swapless systems are not all that uncommon.
+ 
+> > One has to be very careful when relying on CMA or movable zones. This is
+> > definitely worth a comment in the kernel command line parameter
+> > documentation. But this is not a new problem.
+> 
+> I see the following thing worth documenting:
+> 
+> Assume you have a system with 2GB of ZONE_NORMAL/ZONE_DMA and 4GB of
+> ZONE_MOVABLE/CMA.
+> 
+> Assume you make use of 1.5GB of secretmem. Your system might run into OOM
+> any time although you still have plenty of memory on ZONE_MOVAVLE (and even
+> swap!), simply because you are making excessive use of unmovable allocations
+> (for user space!) in an environment where you should not make excessive use
+> of unmovable allocations (e.g., where should page tables go?).
 
-thanks,
+yes, you are right of course and I am not really disputing this. But I
+would argue that 2:1 Movable/Normal is something to expect problems
+already. "Lowmem" allocations can easily trigger OOM even without secret
+mem in the picture. It all just takes to allocate a lot of GFP_KERNEL or
+even GFP_{HIGH}USER. Really, it is CMA/MOVABLE that are elephant in the
+room and one has to be really careful when relying on them.
+ 
+> The existing controls (mlock limit) don't really match the current semantics
+> of that memory. I repeat it once again: secretmem *currently* resembles
+> long-term pinned memory, not mlocked memory.
 
-greg k-h
+Well, if we had a proper user space pinning accounting then I would
+agree that there is a better model to use. But we don't. And previous
+attempts to achieve that have failed. So I am afraid that we do not have
+much choice left than using mlock as a model.
+
+> Things will change when
+> implementing migration support for secretmem pages. Until then, the
+> semantics are different and this should be spelled out.
+> 
+> For long-term pinnings this is kind of obvious, still we're now documenting
+> it because it's dangerous to not be aware of. Secretmem behaves exactly the
+> same and I think this is worth spelling out: secretmem has the potential of
+> being used much more often than fairly special vfio/rdma/ ...
+
+yeah I do agree that pinning is a problem for movable/CMA but most
+people simply do not care about those. Movable is the thing for hoptlug
+and a really weird fragmentation avoidance IIRC and CMA is mostly to
+handle crap HW. If those are to be used along with secret mem or
+longterm GUP then they will constantly bump into corner cases. Do not
+take me wrong, we should be looking at those problems, we should even
+document them but I do not see this as anything new. We should probably
+have a central place in Documentation explaining all those problems. I
+would be even happy to see an explicit note in the tunables - e.g.
+configuring movable/normal in 2:1 will get you back to 32b times wrt.
+low mem problems.
+-- 
+Michal Hocko
+SUSE Labs
