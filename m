@@ -2,140 +2,114 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 796D6317161
-	for <lists+linux-api@lfdr.de>; Wed, 10 Feb 2021 21:29:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C8943171C2
+	for <lists+linux-api@lfdr.de>; Wed, 10 Feb 2021 21:56:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232466AbhBJU30 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 10 Feb 2021 15:29:26 -0500
-Received: from mga09.intel.com ([134.134.136.24]:38341 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231948AbhBJU3Z (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 10 Feb 2021 15:29:25 -0500
-IronPort-SDR: qH/w83vVi8Z8ZlMSvlEXRBknftDqaDEsjYy44oQyWURJ9jQMWM+MkGsdMUy0WY1hVZod7NU/IY
- aK7puWpyAc0g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9891"; a="182283593"
-X-IronPort-AV: E=Sophos;i="5.81,169,1610438400"; 
-   d="scan'208";a="182283593"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2021 12:28:42 -0800
-IronPort-SDR: C2gtxQF37nYHRLTyTbO97ptYfjx/bOJpnwR80Eqectr+d5v2RSeD7yjf1Uve6yLfo+U+QTX09R
- 11FIsNyOKKfg==
-X-IronPort-AV: E=Sophos;i="5.81,169,1610438400"; 
-   d="scan'208";a="421193546"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.188.167]) ([10.212.188.167])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2021 12:28:40 -0800
-Subject: Re: [PATCH v20 08/25] x86/mm: Introduce _PAGE_COW
-To:     Kees Cook <keescook@chromium.org>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        id S232477AbhBJUzu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 10 Feb 2021 15:55:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40074 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233224AbhBJUzj (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 10 Feb 2021 15:55:39 -0500
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEF81C06174A
+        for <linux-api@vger.kernel.org>; Wed, 10 Feb 2021 12:54:58 -0800 (PST)
+Received: by mail-pg1-x52d.google.com with SMTP id o38so2029141pgm.9
+        for <linux-api@vger.kernel.org>; Wed, 10 Feb 2021 12:54:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=XK6hpz+PCOsL7W55wJU4s9nIbpn+lmg5rsc0pPcV4bs=;
+        b=DlkD+c2Ccf9no7hwfEx3lqTSksvhp1VVOdzKfCVsqGzVhqLgaFygvQUy7o3VV04mnL
+         fZkDQKqcNswW6+OtqTryQA4lo2GKWgMzeURDgKOBtt4mxHoClQUWVzGw20KEzWg4uiyf
+         XCNzAHV31atpRmRYe10BxajqVS3cJOa3Ep8TI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=XK6hpz+PCOsL7W55wJU4s9nIbpn+lmg5rsc0pPcV4bs=;
+        b=YDEoA/3PQ7oYN5c28o4Toi3fuYtjMLET4YUYtrmDnlf/lmFfFPah5pMizcSDkDAA9A
+         ylq2HPzFW+sCUJBVMAM29jAx8VHhANM7OmRFdb8M+GYP6EyjrtYMwwpd6yVPRdZIR7a9
+         06nFz15wdCCDPYYj7frh3EqTn+NYwN/RJTYK/Tnk6g0bcqs5+66b8C20WRPoOHyVEFrF
+         Uy5VB+BRKVmq1QHom1vfytb8bKQVCGAl40bwVBANtCzcQLotw0tDB6rIJ9kvyLRG13xZ
+         Y1t4fH1Z8kQLjdBxh4I+b97QdS3BQ0tFc6ehp2BeDBPu8i16+0fmCknzOEWJW8ffQeaZ
+         ZZzg==
+X-Gm-Message-State: AOAM531bnyGQWBwVj2o1sHEGGgG3yKmj/wznmc39+0LNLFe4jmQnetPP
+        m3zoTC6iGpTM3gE/DuAv7vTW+Q==
+X-Google-Smtp-Source: ABdhPJzaxDgY6uHenP6VKy3Z+OUoo1YD/3D6dOTKAoKYExeojilYLpdTH5T0TraQLPoS4LEtG0K5xQ==
+X-Received: by 2002:a63:a312:: with SMTP id s18mr4698497pge.229.1612990498607;
+        Wed, 10 Feb 2021 12:54:58 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id 17sm3167706pgy.53.2021.02.10.12.54.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Feb 2021 12:54:58 -0800 (PST)
+Date:   Wed, 10 Feb 2021 12:54:57 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Will Deacon <will@kernel.org>
+Cc:     Andrei Vagin <avagin@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org,
+        Anthony Steinhauser <asteinhauser@google.com>,
         Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>, haitao.huang@intel.com
-References: <20210210175703.12492-1-yu-cheng.yu@intel.com>
- <20210210175703.12492-9-yu-cheng.yu@intel.com>
- <202102101137.E109C9FE6@keescook>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <819b6d6a-64ea-d908-76ad-0a6366ed0d53@intel.com>
-Date:   Wed, 10 Feb 2021 12:28:39 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        Keno Fischer <keno@juliacomputing.com>
+Subject: Re: [PATCH 3/3] selftest/arm64/ptrace: add tests for
+ PTRACE_O_ARM64_RAW_REGS
+Message-ID: <202102101253.300A11108@keescook>
+References: <20210201194012.524831-1-avagin@gmail.com>
+ <20210201194012.524831-4-avagin@gmail.com>
+ <20210204154038.GC21058@willie-the-truck>
 MIME-Version: 1.0
-In-Reply-To: <202102101137.E109C9FE6@keescook>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210204154038.GC21058@willie-the-truck>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2/10/2021 11:42 AM, Kees Cook wrote:
-> On Wed, Feb 10, 2021 at 09:56:46AM -0800, Yu-cheng Yu wrote:
->> There is essentially no room left in the x86 hardware PTEs on some OSes
->> (not Linux).  That left the hardware architects looking for a way to
->> represent a new memory type (shadow stack) within the existing bits.
->> They chose to repurpose a lightly-used state: Write=0, Dirty=1.
->>
->> The reason it's lightly used is that Dirty=1 is normally set by hardware
->> and cannot normally be set by hardware on a Write=0 PTE.  Software must
->> normally be involved to create one of these PTEs, so software can simply
->> opt to not create them.
->>
->> In places where Linux normally creates Write=0, Dirty=1, it can use the
->> software-defined _PAGE_COW in place of the hardware _PAGE_DIRTY.  In other
->> words, whenever Linux needs to create Write=0, Dirty=1, it instead creates
->> Write=0, Cow=1, except for shadow stack, which is Write=0, Dirty=1.  This
->> clearly separates shadow stack from other data, and results in the
->> following:
->>
->> (a) A modified, copy-on-write (COW) page: (Write=0, Cow=1)
->> (b) A R/O page that has been COW'ed: (Write=0, Cow=1)
->>      The user page is in a R/O VMA, and get_user_pages() needs a writable
->>      copy.  The page fault handler creates a copy of the page and sets
->>      the new copy's PTE as Write=0 and Cow=1.
->> (c) A shadow stack PTE: (Write=0, Dirty=1)
->> (d) A shared shadow stack PTE: (Write=0, Cow=1)
->>      When a shadow stack page is being shared among processes (this happens
->>      at fork()), its PTE is made Dirty=0, so the next shadow stack access
->>      causes a fault, and the page is duplicated and Dirty=1 is set again.
->>      This is the COW equivalent for shadow stack pages, even though it's
->>      copy-on-access rather than copy-on-write.
->> (e) A page where the processor observed a Write=1 PTE, started a write, set
->>      Dirty=1, but then observed a Write=0 PTE.  That's possible today, but
->>      will not happen on processors that support shadow stack.
->>
->> Define _PAGE_COW and update pte_*() helpers and apply the same changes to
->> pmd and pud.
+On Thu, Feb 04, 2021 at 03:40:39PM +0000, Will Deacon wrote:
+> [+Kees]
 > 
-> I still find this commit confusing mostly due to _PAGE_COW being 0
-> without CET enabled. Shouldn't this just get changed universally? Why
-> should this change depend on CET?
+> On Mon, Feb 01, 2021 at 11:40:12AM -0800, Andrei Vagin wrote:
+> > Test output:
+> >  TAP version 13
+> >  1..2
+> >  # selftests: arm64/ptrace: ptrace_syscall_raw_regs_test
+> >  # 1..2
+> >  # ok 1 x7: 686920776f726c64
+> >  # ok 2 The child exited with code 0.
+> >  # # Totals: pass:2 fail:0 xfail:0 xpass:0 skip:0 error:0
+> >  ok 1 selftests: arm64/ptrace: ptrace_syscall_raw_regs_test
+> >  # selftests: arm64/ptrace: ptrace_syscall_regs_test
+> >  # 1..3
+> >  # ok 1 x7: 0
+> >  # ok 2 x7: 1
+> >  # ok 3 The child exited with code 0.
+> >  # # Totals: pass:3 fail:0 xfail:0 xpass:0 skip:0 error:0
+> >  ok 2 selftests: arm64/ptrace: ptrace_syscall_regs_test
+> > 
+> > Signed-off-by: Andrei Vagin <avagin@gmail.com>
+> > ---
+> >  tools/testing/selftests/arm64/Makefile        |   2 +-
+> >  tools/testing/selftests/arm64/ptrace/Makefile |   6 +
+> >  .../ptrace/ptrace_syscall_raw_regs_test.c     | 142 +++++++++++++++++
+> >  .../arm64/ptrace/ptrace_syscall_regs_test.c   | 150 ++++++++++++++++++
+> >  4 files changed, 299 insertions(+), 1 deletion(-)
+> >  create mode 100644 tools/testing/selftests/arm64/ptrace/Makefile
+> >  create mode 100644 tools/testing/selftests/arm64/ptrace/ptrace_syscall_raw_regs_test.c
+> >  create mode 100644 tools/testing/selftests/arm64/ptrace/ptrace_syscall_regs_test.c
 > 
+> Thanks for the tests!
+> 
+> We already have a pretty extensive set of syscall entry tests in
+> tools/testing/selftests/seccomp, so perhaps this would be better off as part
+> of that? Maybe worth a look.
 
-For example, in...
+I'm happy with this living in either place -- I can make an argument
+either way. If it's arm64-specific, maybe better to live outside of
+seccomp?
 
-static inline int pte_write(pte_t pte)
-{
-	if (cpu_feature_enabled(X86_FEATURE_SHSTK))
-		return pte_flags(pte) & (_PAGE_RW | _PAGE_DIRTY);
-	else
-		return pte_flags(pte) & _PAGE_RW;
-}
-
-There are four cases:
-
-(a) RW=1, Dirty=1 -> writable
-(b) RW=1, Dirty=0 -> writable
-(c) RW=0, Dirty=0 -> not writable
-(d) RW=0, Dirty=1 -> shadow stack, or not-writable if !X86_FEATURE_SHSTK
-
-Case (d) is ture only when shadow stack is enabled, otherwise it is not 
-writable.  With shadow stack feature, the usual dirty, copy-on-write PTE 
-becomes RW=0, Cow=1.
-
-We can get this changed universally, but all usual dirty, copy-on-write 
-PTEs need the Dirty/Cow swapping, always.  Is that desirable?
-
---
-Yu-cheng
-
-[...]
+-- 
+Kees Cook
