@@ -2,153 +2,138 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EDF343159A7
-	for <lists+linux-api@lfdr.de>; Tue,  9 Feb 2021 23:50:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 03B6A316622
+	for <lists+linux-api@lfdr.de>; Wed, 10 Feb 2021 13:11:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234328AbhBIWqd convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Tue, 9 Feb 2021 17:46:33 -0500
-Received: from szxga03-in.huawei.com ([45.249.212.189]:2895 "EHLO
-        szxga03-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234352AbhBIWXs (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 9 Feb 2021 17:23:48 -0500
-Received: from DGGEMM401-HUB.china.huawei.com (unknown [172.30.72.54])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4DZy5p3j1qz5KDt;
-        Wed, 10 Feb 2021 06:21:02 +0800 (CST)
-Received: from dggpemm500011.china.huawei.com (7.185.36.110) by
- DGGEMM401-HUB.china.huawei.com (10.3.20.209) with Microsoft SMTP Server (TLS)
- id 14.3.498.0; Wed, 10 Feb 2021 06:22:48 +0800
-Received: from dggemi761-chm.china.huawei.com (10.1.198.147) by
- dggpemm500011.china.huawei.com (7.185.36.110) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2106.2; Wed, 10 Feb 2021 06:22:47 +0800
-Received: from dggemi761-chm.china.huawei.com ([10.9.49.202]) by
- dggemi761-chm.china.huawei.com ([10.9.49.202]) with mapi id 15.01.2106.006;
- Wed, 10 Feb 2021 06:22:47 +0800
-From:   "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>
-To:     Jason Gunthorpe <jgg@ziepe.ca>
-CC:     David Hildenbrand <david@redhat.com>,
-        "Wangzhou (B)" <wangzhou1@hisilicon.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "kevin.tian@intel.com" <kevin.tian@intel.com>,
-        "jean-philippe@linaro.org" <jean-philippe@linaro.org>,
-        "eric.auger@redhat.com" <eric.auger@redhat.com>,
-        "Liguozhu (Kenneth)" <liguozhu@hisilicon.com>,
-        "zhangfei.gao@linaro.org" <zhangfei.gao@linaro.org>,
-        "chensihang (A)" <chensihang1@hisilicon.com>
-Subject: RE: [RFC PATCH v3 1/2] mempinfd: Add new syscall to provide memory
- pin
-Thread-Topic: [RFC PATCH v3 1/2] mempinfd: Add new syscall to provide memory
- pin
-Thread-Index: AQHW/SrsWWMRpilf2UC1Pz29QqsBVqpNZGQAgACtCgCAAKKukP//jqmAgADcIzCAADaMgIABCrxA
-Date:   Tue, 9 Feb 2021 22:22:47 +0000
-Message-ID: <2527b4ac8df14fa1b427bef65dace719@hisilicon.com>
-References: <1612685884-19514-1-git-send-email-wangzhou1@hisilicon.com>
- <1612685884-19514-2-git-send-email-wangzhou1@hisilicon.com>
- <a587bd61-9194-4b46-c122-8b4da7b941a8@redhat.com>
- <20210208183348.GV4718@ziepe.ca>
- <0dca000a6cd34d8183062466ba7d6eaf@hisilicon.com>
- <20210208213023.GZ4718@ziepe.ca>
- <0868d209d7424942a46d1238674cf75d@hisilicon.com>
- <20210209135331.GF4718@ziepe.ca>
-In-Reply-To: <20210209135331.GF4718@ziepe.ca>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.126.202.77]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        id S231428AbhBJMKb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 10 Feb 2021 07:10:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38888 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231438AbhBJMI3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 10 Feb 2021 07:08:29 -0500
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ACE3C06121F
+        for <linux-api@vger.kernel.org>; Wed, 10 Feb 2021 04:04:37 -0800 (PST)
+Received: by mail-wm1-x32f.google.com with SMTP id j11so1612956wmi.3
+        for <linux-api@vger.kernel.org>; Wed, 10 Feb 2021 04:04:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cloudflare.com; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+9PeUG6v1r8aFGi6ORK3pCJUjeurz7TuWVSE9CMni0c=;
+        b=vefKpoHHE9JY7wsXqdCVcvzKivbYRTXzF+0dgJaRh4tzwGHJlFAPcT6iyCPjtVk/QO
+         2nbSc5689PqMRWiH0mYBu5uUXuBmmxhvZbfVsxAu4AYbT9KkUXLQ8GUARAWnmp4QnaYC
+         qrzOL4EoDzuwTZWyGC0rpjwwcObKmnDgs1a7A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+9PeUG6v1r8aFGi6ORK3pCJUjeurz7TuWVSE9CMni0c=;
+        b=kfy5hHqHTIEEcxUG4a7HKLeGNLRmzqOVZdLr8kS5qISRPh48LDIrxqLH9Y7fPnpcsT
+         UzjTshG1y+AP9sBD7LSu9Ig62fagJtBABouhyVMBh43PdwaUkzzgnkrBEfS2y0VWI7D3
+         n6CuEuDC38J3Ajcc3vsV7sKNMBAfLxtQmKKZHIgLUb7IeuHNUWgEi4z3glEPs/KIRt1X
+         djXU9eIdy0ELgGGMNa5RRwKMqPdWBaCNEkt3Zaj55iJ9tXuKClsW4k/Mtr9Fmhg+dm8X
+         IMfbEi0DXMGRGs7OkZynPe1GIcWwi3OzUSNQgbSthFXmq03IdyhVuJ2bTQQeTci64DYd
+         6zcA==
+X-Gm-Message-State: AOAM531C2PN0qCUMtjNJIB5fhuMj+bznEo00dTqhjsoopcvMyIrDadRX
+        Nq8r/B/SbSd1HrpJW2kMxEcSAw==
+X-Google-Smtp-Source: ABdhPJwpmZw+y59+QzJHB79z4KhJzeSBdFZ5h0S1sHnxAqBTLAPp1GIONJS8JzIW2wEz2gPnFzl8PA==
+X-Received: by 2002:a1c:9851:: with SMTP id a78mr2600203wme.66.1612958676276;
+        Wed, 10 Feb 2021 04:04:36 -0800 (PST)
+Received: from antares.lan (c.3.c.9.d.d.c.e.0.a.6.8.a.9.e.c.f.f.6.2.a.5.a.7.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:7a5a:26ff:ce9a:86a0:ecdd:9c3c])
+        by smtp.gmail.com with ESMTPSA id j7sm2837854wrp.72.2021.02.10.04.04.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Feb 2021 04:04:35 -0800 (PST)
+From:   Lorenz Bauer <lmb@cloudflare.com>
+To:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>
+Cc:     kernel-team@cloudflare.com, Lorenz Bauer <lmb@cloudflare.com>,
+        bpf@vger.kernel.org, linux-alpha@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, netdev@vger.kernel.org,
+        sparclinux@vger.kernel.org
+Subject: [PATCH bpf 0/4] Expose network namespace cookies to user space
+Date:   Wed, 10 Feb 2021 12:04:21 +0000
+Message-Id: <20210210120425.53438-1-lmb@cloudflare.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+We're working on a user space control plane for the BPF sk_lookup
+hook [1]. The hook attaches to a network namespace and allows
+control over which socket receives a new connection / packet.
 
+Roughly, applications can give a socket to our user space component
+to participate in custom bind semantics. This creates an edge case
+where  an application can provide us with a socket that lives in
+a different network namespace than our BPF sk_lookup program.
+We'd like to return an error in this case.
 
-> -----Original Message-----
-> From: Jason Gunthorpe [mailto:jgg@ziepe.ca]
-> Sent: Wednesday, February 10, 2021 2:54 AM
-> To: Song Bao Hua (Barry Song) <song.bao.hua@hisilicon.com>
-> Cc: David Hildenbrand <david@redhat.com>; Wangzhou (B)
-> <wangzhou1@hisilicon.com>; linux-kernel@vger.kernel.org;
-> iommu@lists.linux-foundation.org; linux-mm@kvack.org;
-> linux-arm-kernel@lists.infradead.org; linux-api@vger.kernel.org; Andrew
-> Morton <akpm@linux-foundation.org>; Alexander Viro <viro@zeniv.linux.org.uk>;
-> gregkh@linuxfoundation.org; kevin.tian@intel.com; jean-philippe@linaro.org;
-> eric.auger@redhat.com; Liguozhu (Kenneth) <liguozhu@hisilicon.com>;
-> zhangfei.gao@linaro.org; chensihang (A) <chensihang1@hisilicon.com>
-> Subject: Re: [RFC PATCH v3 1/2] mempinfd: Add new syscall to provide memory
-> pin
-> 
-> On Tue, Feb 09, 2021 at 03:01:42AM +0000, Song Bao Hua (Barry Song) wrote:
-> 
-> > On the other hand, wouldn't it be the benefit of hardware accelerators
-> > to have a lower and more stable latency zip/encryption than CPU?
-> 
-> No, I don't think so.
+Additionally, we have some user space state that is tied to the
+network namespace. We currently use the inode of the nsfs entry
+in a directory name, but this is suffers from inode reuse.
 
-Fortunately or unfortunately, I think my people have this target to have
-a lower-latency and more stable zip/encryption by using accelerators,
-otherwise, they are going to use CPU directly if there is no advantage
-of accelerators.
+I'm proposing to fix both of these issues by adding a new
+SO_NETNS_COOKIE socket option as well as a NS_GET_COOKIE ioctl.
+Using these we get a stable, unique identifier for a network
+namespace and check whether a socket belongs to the "correct"
+namespace.
 
-> 
-> If this is an important problem then it should apply equally to CPU
-> and IO jitter.
-> 
-> Honestly I find the idea that occasional migration jitters CPU and DMA
-> to not be very compelling. Such specialized applications should
-> allocate special pages to avoid this, not adding an API to be able to
-> lock down any page
+NS_GET_COOKIE could be renamed to NS_GET_NET_COOKIE. I kept the
+name generic because it seems like other namespace types could
+benefit from a cookie as well.
 
-That is exactly what we have done to provide a hugeTLB pool so that
-applications can allocate memory from this pool.
+I'm trying to land this via the bpf tree since this is where the
+netns cookie originated, please let me know if this isn't
+appropriate.
 
-+-------------------------------------------+
- |                                           |
- |applications using accelerators            |
- +-------------------------------------------+
+1: https://www.kernel.org/doc/html/latest/bpf/prog_sk_lookup.html
 
+Cc: bpf@vger.kernel.org
+Cc: linux-alpha@vger.kernel.org
+Cc: linux-api@vger.kernel.org
+Cc: linux-arch@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-kselftest@vger.kernel.org
+Cc: linux-mips@vger.kernel.org
+Cc: linux-parisc@vger.kernel.org
+Cc: netdev@vger.kernel.org
+Cc: sparclinux@vger.kernel.org
 
-     alloc from pool             free to pool
-           +                      ++
-           |                       |
-           |                       |
-           |                       |
-           |                       |
-           |                       |
-           |                       |
-           |                       |
-+----------+-----------------------+---------+
-|                                            |
-|                                            |
-|      HugeTLB memory pool                   |
-|                                            |
-|                                            |
-+--------------------------------------------+
+Lorenz Bauer (4):
+  net: add SO_NETNS_COOKIE socket option
+  nsfs: add an ioctl to discover the network namespace cookie
+  tools/testing: add test for NS_GET_COOKIE
+  tools/testing: add a selftest for SO_NETNS_COOKIE
 
-The problem is that SVA declares we can use any memory of a process
-to do I/O. And in real scenarios, we are unable to customize most
-applications to make them use the pool. So we are looking for some
-extension generically for applications such as Nginx, Ceph.
+ arch/alpha/include/uapi/asm/socket.h          |  2 +
+ arch/mips/include/uapi/asm/socket.h           |  2 +
+ arch/parisc/include/uapi/asm/socket.h         |  2 +
+ arch/sparc/include/uapi/asm/socket.h          |  2 +
+ fs/nsfs.c                                     |  9 +++
+ include/linux/sock_diag.h                     | 20 ++++++
+ include/net/net_namespace.h                   | 11 ++++
+ include/uapi/asm-generic/socket.h             |  2 +
+ include/uapi/linux/nsfs.h                     |  2 +
+ net/core/filter.c                             |  9 ++-
+ net/core/sock.c                               |  7 +++
+ tools/testing/selftests/net/.gitignore        |  1 +
+ tools/testing/selftests/net/Makefile          |  2 +-
+ tools/testing/selftests/net/so_netns_cookie.c | 61 +++++++++++++++++++
+ tools/testing/selftests/nsfs/.gitignore       |  1 +
+ tools/testing/selftests/nsfs/Makefile         |  2 +-
+ tools/testing/selftests/nsfs/netns.c          | 57 +++++++++++++++++
+ 17 files changed, 185 insertions(+), 7 deletions(-)
+ create mode 100644 tools/testing/selftests/net/so_netns_cookie.c
+ create mode 100644 tools/testing/selftests/nsfs/netns.c
 
-I am also thinking about leveraging vm.compact_unevictable_allowed
-which David suggested and making an extension on it, for example,
-permit users to disable compaction and numa balancing on unevictable
-pages of SVA process,  which might be a smaller deal.
-
-> 
-> Jason
-
-Thanks
-Barry
+-- 
+2.27.0
 
