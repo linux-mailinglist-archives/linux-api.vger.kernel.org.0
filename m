@@ -2,98 +2,109 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 691E3316E0D
-	for <lists+linux-api@lfdr.de>; Wed, 10 Feb 2021 19:09:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6527D316DF2
+	for <lists+linux-api@lfdr.de>; Wed, 10 Feb 2021 19:07:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233540AbhBJSIt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 10 Feb 2021 13:08:49 -0500
-Received: from mga18.intel.com ([134.134.136.126]:40699 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233719AbhBJSGH (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 10 Feb 2021 13:06:07 -0500
-IronPort-SDR: YYJ39vG+fosjEu9THSAs0bnSkCKbqN+Ouj95ql2+SsAhcGTbHqy9+xQA+Vji8jjdzR/LQxwpJ8
- JVH/wqcQwDug==
-X-IronPort-AV: E=McAfee;i="6000,8403,9891"; a="169798861"
-X-IronPort-AV: E=Sophos;i="5.81,168,1610438400"; 
-   d="scan'208";a="169798861"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2021 10:02:58 -0800
-IronPort-SDR: zqPL/7Ub8mmt1mujrAViDw5yh30rjmwkn4uihYbYOmCQgmqxGlm25lpRstYBEKUU6ND/7gHyuJ
- RNWQaVBcIxZw==
-X-IronPort-AV: E=Sophos;i="5.81,168,1610438400"; 
-   d="scan'208";a="380239231"
-Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2021 10:02:58 -0800
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>, <haitao.huang@intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v20 7/7] x86/vdso: Insert endbr32/endbr64 to vDSO
-Date:   Wed, 10 Feb 2021 10:02:45 -0800
-Message-Id: <20210210180245.13770-8-yu-cheng.yu@intel.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20210210180245.13770-1-yu-cheng.yu@intel.com>
-References: <20210210180245.13770-1-yu-cheng.yu@intel.com>
+        id S233832AbhBJSHY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 10 Feb 2021 13:07:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59702 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233672AbhBJSEt (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 10 Feb 2021 13:04:49 -0500
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC82AC0613D6
+        for <linux-api@vger.kernel.org>; Wed, 10 Feb 2021 10:04:08 -0800 (PST)
+Received: by mail-qk1-x730.google.com with SMTP id d85so2556842qkg.5
+        for <linux-api@vger.kernel.org>; Wed, 10 Feb 2021 10:04:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=fn4OROpwcMvlPuFG0mr8IX6FA+jFG3+mu5LheKqkXo0=;
+        b=iPiobhPwf6KAYITESCCZiytaCFr72WzGFqO5Krxg583eeHZJJswee2IVlHJuHVFk51
+         hUWKXhD6qUJQZ9akF+hoJ0SBMSynl89auCrmXzGqpwVR8TTrOwLCakALhhncmc/31KKO
+         w5cpzUSnU3cZ2kGIXac5w3JXTOg1uG5uRsLrYjb0siJVoMpiahMmcfRtKm3eynVnB77A
+         qq+aY8bUIaIHuFg9y9XapEOc7TwpMRqaDXdJ3B4ZZnVPlh2aFbugjNjlrCgAvTvQbuiv
+         8rQnonVEPXVhg74c+0AallmP+gLOo6xaV7ay5dZwzBUgW+9vToCfuh+GOlDUSGRfOBpQ
+         oKbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=fn4OROpwcMvlPuFG0mr8IX6FA+jFG3+mu5LheKqkXo0=;
+        b=GEXNKPV724fezjfWeJ4wikQ5k7qP91xxE1+oG9UZ1yEgcmpSKZCEzGSzP0N/98tD1i
+         BB1sToWj0vVPsRdKRQZX9c5pLrzTYQtu997umB5T4lS8BCdjEb95iizjW/Nbnm4EvbR5
+         9/U1IuxGaESbBxb4V0phwpDldwxc5UVPffJRZRnOxD0SA6TzaYrecAvErjwTOX4R1lcz
+         tc0UNSIosQyOtwMmAU6a7670MHwiL1En05vYyNu3+R4+PGn+nLmVT8r8OX7QiscoaBXM
+         6JJpCG8F/Jzp7myRljeeKDoVg/0JDOaGoRtt9cvmFImZMry00XC0eulh/zm8uuwJoCZv
+         O6fg==
+X-Gm-Message-State: AOAM531lUR49xirobWerViDfmr2ct3tKdVNsFuEWz2qry6B5mIQsEx0w
+        t6x00TNO/AXrrVJM223AZ5mnQQ==
+X-Google-Smtp-Source: ABdhPJyf3nDN5LDKdSKYE48IyBU6XZ6U0kgAEb02GCT83X4HerFr5BHXcsaa/epIdRev4YLuR0GG8A==
+X-Received: by 2002:a37:6f01:: with SMTP id k1mr4613354qkc.252.1612980247944;
+        Wed, 10 Feb 2021 10:04:07 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-162-115-133.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.115.133])
+        by smtp.gmail.com with ESMTPSA id j46sm1828038qtk.1.2021.02.10.10.04.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Feb 2021 10:04:06 -0800 (PST)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1l9tqP-0068Ck-JW; Wed, 10 Feb 2021 14:04:05 -0400
+Date:   Wed, 10 Feb 2021 14:04:05 -0400
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>
+Cc:     David Hildenbrand <david@redhat.com>,
+        "Wangzhou (B)" <wangzhou1@hisilicon.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "kevin.tian@intel.com" <kevin.tian@intel.com>,
+        "jean-philippe@linaro.org" <jean-philippe@linaro.org>,
+        "eric.auger@redhat.com" <eric.auger@redhat.com>,
+        "Liguozhu (Kenneth)" <liguozhu@hisilicon.com>,
+        "zhangfei.gao@linaro.org" <zhangfei.gao@linaro.org>,
+        "chensihang (A)" <chensihang1@hisilicon.com>
+Subject: Re: [RFC PATCH v3 1/2] mempinfd: Add new syscall to provide memory
+ pin
+Message-ID: <20210210180405.GP4718@ziepe.ca>
+References: <1612685884-19514-1-git-send-email-wangzhou1@hisilicon.com>
+ <1612685884-19514-2-git-send-email-wangzhou1@hisilicon.com>
+ <a587bd61-9194-4b46-c122-8b4da7b941a8@redhat.com>
+ <20210208183348.GV4718@ziepe.ca>
+ <0dca000a6cd34d8183062466ba7d6eaf@hisilicon.com>
+ <20210208213023.GZ4718@ziepe.ca>
+ <0868d209d7424942a46d1238674cf75d@hisilicon.com>
+ <20210209135331.GF4718@ziepe.ca>
+ <2527b4ac8df14fa1b427bef65dace719@hisilicon.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2527b4ac8df14fa1b427bef65dace719@hisilicon.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: "H.J. Lu" <hjl.tools@gmail.com>
+On Tue, Feb 09, 2021 at 10:22:47PM +0000, Song Bao Hua (Barry Song) wrote:
 
-When Indirect Branch Tracking (IBT) is enabled, vDSO functions may be
-called indirectly, and must have ENDBR32 or ENDBR64 as the first
-instruction.  The compiler must support -fcf-protection=branch so that it
-can be used to compile vDSO.
+> The problem is that SVA declares we can use any memory of a process
+> to do I/O. And in real scenarios, we are unable to customize most
+> applications to make them use the pool. So we are looking for some
+> extension generically for applications such as Nginx, Ceph.
 
-Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
-Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-Acked-by: Andy Lutomirski <luto@kernel.org>
-Reviewed-by: Kees Cook <keescook@chromium.org>
----
- arch/x86/entry/vdso/Makefile | 4 ++++
- 1 file changed, 4 insertions(+)
+But those applications will suffer jitter even if their are using CPU
+to do the same work. I fail to see why adding an accelerator suddenly
+means the application owner will care about jitter introduced by
+migration/etc.
 
-diff --git a/arch/x86/entry/vdso/Makefile b/arch/x86/entry/vdso/Makefile
-index 02e3e42f380b..ff7b56feb5c3 100644
---- a/arch/x86/entry/vdso/Makefile
-+++ b/arch/x86/entry/vdso/Makefile
-@@ -93,6 +93,10 @@ endif
- 
- $(vobjs): KBUILD_CFLAGS := $(filter-out $(GCC_PLUGINS_CFLAGS) $(RETPOLINE_CFLAGS),$(KBUILD_CFLAGS)) $(CFL)
- 
-+ifdef CONFIG_X86_CET
-+$(vobjs) $(vobjs32): KBUILD_CFLAGS += -fcf-protection=branch
-+endif
-+
- #
- # vDSO code runs in userspace and -pg doesn't help with profiling anyway.
- #
--- 
-2.21.0
+Again in proper SVA it should be quite unlikely to take a fault caused
+by something like migration, on the same likelyhood as the CPU. If
+things are faulting so much this is a problem then I think it is a
+system level problem with doing too much page motion.
 
+Jason
