@@ -2,125 +2,131 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 858A0318B63
-	for <lists+linux-api@lfdr.de>; Thu, 11 Feb 2021 14:04:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 624B8318F49
+	for <lists+linux-api@lfdr.de>; Thu, 11 Feb 2021 17:01:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230314AbhBKNB3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 11 Feb 2021 08:01:29 -0500
-Received: from mail.kernel.org ([198.145.29.99]:58118 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229803AbhBKM7V (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 11 Feb 2021 07:59:21 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D2D4264E23;
-        Thu, 11 Feb 2021 12:58:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1613048319;
-        bh=Rp2mERnaPj4kuH9Jsjd7wSt+VHabC+3TVaeZun1SIo8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=2jKDCosxbVtGR5RnkscJGQyE6WMSAzMcYTzMXqHuFaCghAFDKCVvuQ3vNGiRKEwpY
-         4pXGVMNYTI6LSLRaBZOdtnRcpGI/03jExmf7QShncJinGtgLliw+4hK4sOhdOrffyY
-         OxwT9U+1Rn0YqH95qzSB1emccWUFH4mDGOp58QW8=
-Date:   Thu, 11 Feb 2021 13:58:37 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
-        torvalds@linux-foundation.org, stable@vger.kernel.org, lwn@lwn.net,
-        jslaby@suse.cz, libc-alpha@sourceware.org,
-        linux-api@vger.kernel.org
-Subject: Re: LINUX_VERSION_CODE overflow (was: Re: Linux 4.9.256)
-Message-ID: <YCUp/ZEl0r+BdtGN@kroah.com>
-References: <1612535085125226@kroah.com>
- <87o8gqriba.fsf@oldenburg.str.redhat.com>
+        id S231602AbhBKP73 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 11 Feb 2021 10:59:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48617 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230285AbhBKP5a (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 11 Feb 2021 10:57:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1613058963;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=FgID+L3tcWjGCzMJOEFzOMkSnQKXBsghqlTv8BLKjOs=;
+        b=aROCnmZQsyEAp2b9qB7rD+8XQDsYmT28n9bGMDWXVrTNYHe6tno1g74ewcGPPoQ2uNRj/u
+        hTAvfOxs5DBDcWJAmQRHFamipyrXWZsShrd6neZoI0Gy+YJJo2qFBBtWvs6E05LtZ2ia4Z
+        tbJY4LssFlWmGWt4ROqTBSbI2wJzkZk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-472-GDVA0jVsMKSpXZsXWaO46Q-1; Thu, 11 Feb 2021 10:56:01 -0500
+X-MC-Unique: GDVA0jVsMKSpXZsXWaO46Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3117F8049C6;
+        Thu, 11 Feb 2021 15:55:26 +0000 (UTC)
+Received: from [10.10.117.219] (ovpn-117-219.rdu2.redhat.com [10.10.117.219])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 9FFC210013D7;
+        Thu, 11 Feb 2021 15:55:19 +0000 (UTC)
+Subject: Re: [Patch v4 1/3] lib: Restrict cpumask_local_spread to houskeeping
+ CPUs
+From:   Nitesh Narayan Lal <nitesh@redhat.com>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Marcelo Tosatti <mtosatti@redhat.com>
+Cc:     Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, frederic@kernel.org,
+        juri.lelli@redhat.com, abelits@marvell.com, bhelgaas@google.com,
+        linux-pci@vger.kernel.org, rostedt@goodmis.org, mingo@kernel.org,
+        peterz@infradead.org, davem@davemloft.net,
+        akpm@linux-foundation.org, sfr@canb.auug.org.au,
+        stephen@networkplumber.org, rppt@linux.vnet.ibm.com,
+        jinyuqi@huawei.com, zhangshaokun@hisilicon.com
+References: <20200625223443.2684-1-nitesh@redhat.com>
+ <20200625223443.2684-2-nitesh@redhat.com>
+ <3e9ce666-c9cd-391b-52b6-3471fe2be2e6@arm.com>
+ <20210127121939.GA54725@fuller.cnet> <87r1m5can2.fsf@nanos.tec.linutronix.de>
+ <20210128165903.GB38339@fuller.cnet> <87h7n0de5a.fsf@nanos.tec.linutronix.de>
+ <20210204181546.GA30113@fuller.cnet>
+ <cfa138e9-38e3-e566-8903-1d64024c917b@redhat.com>
+ <20210204190647.GA32868@fuller.cnet>
+ <d8884413-84b4-b204-85c5-810342807d21@redhat.com>
+ <87y2g26tnt.fsf@nanos.tec.linutronix.de>
+ <d0aed683-87ae-91a2-d093-de3f5d8a8251@redhat.com>
+Organization: Red Hat Inc,
+Message-ID: <7780ae60-efbd-2902-caaa-0249a1f277d9@redhat.com>
+Date:   Thu, 11 Feb 2021 10:55:17 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
+In-Reply-To: <d0aed683-87ae-91a2-d093-de3f5d8a8251@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <87o8gqriba.fsf@oldenburg.str.redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Feb 11, 2021 at 11:48:41AM +0100, Florian Weimer wrote:
-> * Greg Kroah-Hartman:
-> 
-> > I'm announcing the release of the 4.9.256 kernel.
-> >
-> > This, and the 4.4.256 release are a little bit "different" than normal.
-> >
-> > This contains only 1 patch, just the version bump from .255 to .256
-> > which ends up causing the userspace-visable LINUX_VERSION_CODE to
-> > behave a bit differently than normal due to the "overflow".
-> >
-> > With this release, KERNEL_VERSION(4, 9, 256) is the same as KERNEL_VERSION(4, 10, 0).
-> >
-> > Nothing in the kernel build itself breaks with this change, but given
-> > that this is a userspace visible change, and some crazy tools (like
-> > glibc and gcc) have logic that checks the kernel version for different
-> > reasons, I wanted to do this release as an "empty" release to ensure
-> > that everything still works properly.
-> 
-> As promised, I looked at this from the glibc perspective.
-> 
-> A dynamically linked glibc reads the LINUX_VERSION_CODE in the ELF note
-> in the vDSO.
-> 
-> Statically linked binaries use the uname system call and parse the
-> release field in struct utsname.  If the uname system call fails, there
-> is also /proc fallback, but I believe that path is unused.
-> 
-> The glibc dynamic linker falls back to uname if the vDSO cannot be
-> located.
-> 
-> The LINUX_VERSION_CODE format is also used in /etc/ld.so.cache.  This is
-> difficult to change because a newer ldconfig is supposed to build a
-> cache that is compatible with older glibc versions (two-way
-> compatibility).  The information in /etc/ld.so.cache is copied from the
-> ELF_NOTE_ABI/NT_GNU_ABI_TAG ELF note in the DSOs; the note format is not
-> subject to overflows because it uses 32-bit values for the component
-> versions.
-> 
-> glibc uses the current kernel's LINUX_VERSION_CODE for two purposes: for
-> its own “kernel too old” check (glibc refuses to start in this case),
-> and to skip loading DSOs which have an ELF_NOTE_ABI/NT_GNU_ABI_TAG that
-> indicates a higher kernel version than the current kernel.  glibc does
-> not use LINUX_VERSION_CODE to detect features or activate workarounds
-> for kernel bugs.
-> 
-> The overflow from 4.9.256 to 4.10.0 means that we might get spurious
-> passes on these checks.  Worst case, it can happen that if the system
-> has a DSO in two versions on the library search path, one for kernel
-> 4.10 and one for kernel 4.9 or earlier (in that order), we now load the
-> 4.10 version on a 4.9 kernel.  Previously, loading the 4.10 DSO failed,
-> and the fallback version for earlier kernels was used.  That would be
-> real breakage.
-> 
-> Our options in userspace are limited because whatever changes we make to
-> glibc today are unlikely to reach people running 4.4 or 4.9 kernels
-> anytime soon, if ever.  Clamping the sublevel field of
-> LINUX_VERSION_CODE in the vDSO to 255 only benefits dynamically linked
-> binaries, but it could be that this is sufficient to paper over this
-> issue.
-> 
-> There's also the question whether these glibc checks are valuable at
-> all.  It encourages kernel patching to lie about kernel versions, making
-> diagnostics harder (e.g., reporting 3.10 if it's really a 2.6.32 with
-> lots of system call backports).  The ELF_NOTE_ABI/NT_GNU_ABI_TAG DSO
-> selection is known to cause endless problems with Qt, basically the only
-> large-scale user of this feature.  Perhaps we should remove it, but it
-> would also break the fallback DSO approach mentioned above.
 
-Thank you for looking into this.  Based on the above, I think we are
-safe by keeping the LINUX_VERSION_CODE maxed out at 255, and still
-increasing the kernel version number itself (which will be returned by
-uname(2).)
+On 2/6/21 7:43 PM, Nitesh Narayan Lal wrote:
+> On 2/5/21 5:23 PM, Thomas Gleixner wrote:
+>> On Thu, Feb 04 2021 at 14:17, Nitesh Narayan Lal wrote:
+>>> On 2/4/21 2:06 PM, Marcelo Tosatti wrote:
+>>>>>> How about adding a new flag for isolcpus instead?
+>>>>>>
+>>>>> Do you mean a flag based on which we can switch the affinity mask to
+>>>>> housekeeping for all the devices at the time of IRQ distribution?
+>>>> Yes a new flag for isolcpus. HK_FLAG_IRQ_SPREAD or some better name.
+>>> Does sounds like a nice idea to explore, lets see what Thomas thinks about it.
 
-I have a report of Android systems parsing the uname(2) string output,
-and treating the minor number as an 8bit number, but luckily the
-decision based on that will not overflow until 5*256 so we are ok for a
-few more years on older Android systems :)
+<snip>
 
-If you run into any reports of problems, please let us know.
+>>> When the affinity mask of the interrupt at the time when it is actually
+>>> requested contains an isolated CPU then nothing prevents the kernel from
+>>> steering it at an isolated CPU. But that has absolutely nothing to do
+>>> with that spreading thingy.
+>>>
+>>> The only difference which this change makes is the fact that the
+>>> affinity hint changes. Nothing else.
+>>>
+> Thanks for the detailed explanation.
+>
+> Before I posted this patch, I was doing some debugging on a setup where I
+> was observing some latency issues due to the iavf IRQs that were pinned on
+> the isolated CPUs.
+>
+> Based on some initial traces I had this impression that the affinity hint
+> or cpumask_local_spread was somehow playing a role in deciding the affinity
+> mask of these IRQs. Although, that does look incorrect after going through
+> your explanation.
+> For some reason, with a kernel that had this patch when I tried creating
+> VFs iavf IRQs always ended up on the HK CPUs.
+>
+> The reasoning for the above is still not very clear to me. I will investigate
+> this further to properly understand this behavior.
+>
+>
 
-thanks again,
+After a little more digging, I found out why cpumask_local_spread change
+affects the general/initial smp_affinity for certain device IRQs.
 
-greg k-h
+After the introduction of the commit:
+
+    e2e64a932 genirq: Set initial affinity in irq_set_affinity_hint()
+
+For all the drivers that set hint, initial affinity is set based on the
+CPU retrieved from cpumask_local_spread. So in an environment where
+irqbalance is disabled, these device IRQs remain on the CPUs that are
+picked from cpumask_local_spread even though they are isolated. I think
+the commit message of the reverted patch should have covered this as
+well.
+
+-- 
+Thanks
+Nitesh
+
