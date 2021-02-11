@@ -2,101 +2,145 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D7445318FA3
-	for <lists+linux-api@lfdr.de>; Thu, 11 Feb 2021 17:14:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E832319636
+	for <lists+linux-api@lfdr.de>; Fri, 12 Feb 2021 00:01:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231682AbhBKQN3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 11 Feb 2021 11:13:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33610 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230429AbhBKQLZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 11 Feb 2021 11:11:25 -0500
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34701C061756
-        for <linux-api@vger.kernel.org>; Thu, 11 Feb 2021 08:10:45 -0800 (PST)
-Received: by mail-pj1-x102d.google.com with SMTP id gb24so3653709pjb.4
-        for <linux-api@vger.kernel.org>; Thu, 11 Feb 2021 08:10:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=content-transfer-encoding:from:mime-version:subject:date:message-id
-         :references:cc:in-reply-to:to;
-        bh=s8VcXJZ0nXd+5HiJ0KBL3oqJGDIkbb8WLLcD0RM+IXY=;
-        b=GGRGCGp2LJnH4P4u+hfLsG4OyM6r0Zok2JwTQllDKuYK79fd2ymvsYWpZWXCKk/t/D
-         47s4KlAApn4b4gYQTlXb9Ltoyzi+lvva0wQGJEL2cHFTbp6txEEDchk4dNZNFaI6Akr3
-         apTdkQDke5bgG8+WekGZtr+F0oqZ4DvswuNwnIL0DuXUHJc9mn8x3EH46mF1ioqAb1wJ
-         J2oZ0avJ8Oo329WG1fNel7DkVa+WHyNpz5lNHJsGySr0nKN9sv6YSYTYR7bkv7s2zMJ2
-         +nepmxBNZ4iLIedOCaSjEpDl8OQkPVqFiBKs4kGL+K6DsiMnyljwKGj5UNjOZxMyMxqy
-         CpSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:content-transfer-encoding:from:mime-version
-         :subject:date:message-id:references:cc:in-reply-to:to;
-        bh=s8VcXJZ0nXd+5HiJ0KBL3oqJGDIkbb8WLLcD0RM+IXY=;
-        b=E1pegRmx7MxcBUjPPimZpADjBMoHLxbiqPPrfcqA3CnDUAWWWQ5hb5y0diGYX1Alo/
-         65jGKKyAhHMKlAn4wDF7AnzQZZ7OoAqRu8Tpt4VwXa9y/CsqnyUf3pEB6Z13FCMmBn5W
-         oS1aVcccYk7QtdBLirP7wafnG+2QeZN811rrjOnEEntAibJrBu6yBHpW4QXgafyGlvHP
-         uHV+RpOpIVqweKvbeUhChPDwR5caZCIqMRDjukwrYzB7/TXEMmR79r+JAOHTF7+PFlIk
-         LacmlvbNUmMXDsgPYI45zllbwVcK40//re2wszFbgSP7tOSTtdSD1up+l2GiJZ3kfGsl
-         vsMQ==
-X-Gm-Message-State: AOAM532Cl9McC1B6HM1fjtGmnIDjrQuHEB2/6Ac4qkzvmHTpRAQEiHYA
-        1ShRnw8dKTQqQc888dbItAjSTygiMqbP2YZo
-X-Google-Smtp-Source: ABdhPJzj8fUqmXpElF1L8hTI2g1o0UhBoKLnzLQTBKnguOoEW+f/1L5ndwLQKr0pdNV99npweb0q+A==
-X-Received: by 2002:a17:902:d4c3:b029:e2:bd29:7e6e with SMTP id o3-20020a170902d4c3b02900e2bd297e6emr8185825plg.66.1613059844568;
-        Thu, 11 Feb 2021 08:10:44 -0800 (PST)
-Received: from ?IPv6:2601:646:c200:1ef2:b847:ef6e:681b:6624? ([2601:646:c200:1ef2:b847:ef6e:681b:6624])
-        by smtp.gmail.com with ESMTPSA id 17sm6316073pgy.53.2021.02.11.08.10.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Feb 2021 08:10:43 -0800 (PST)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From:   Andy Lutomirski <luto@amacapital.net>
-Mime-Version: 1.0 (1.0)
-Subject: Re: Are vDSO addresses special?
-Date:   Thu, 11 Feb 2021 08:10:42 -0800
-Message-Id: <442A16C0-AE5A-4A44-B261-FE6F817EAF3C@amacapital.net>
-References: <87zh0bq62r.fsf@oldenburg.str.redhat.com>
-Cc:     linux-mm@kvack.org, linux-api@vger.kernel.org,
-        libc-alpha@sourceware.org
-In-Reply-To: <87zh0bq62r.fsf@oldenburg.str.redhat.com>
-To:     Florian Weimer <fweimer@redhat.com>
-X-Mailer: iPhone Mail (18D52)
+        id S230030AbhBKXAd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 11 Feb 2021 18:00:33 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46170 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229960AbhBKXAa (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 11 Feb 2021 18:00:30 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9786060201;
+        Thu, 11 Feb 2021 22:59:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1613084387;
+        bh=nwfYRIB3XPlsF/osjlzU/dWbZib+rLZZQ1WRBOk4t7A=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=JdTTKx4aSQ8hkEPYzAOR1T3elAMsY1CYPCHGk93b9t2QtZeB+UpZbCQ03b67p01io
+         0CPfT25fR779DcxgF9uIUTbjBbmoENZYCKOgteFMgvosv7pjW8MGdn6LH4gBSFgHUj
+         C+GlOtsFxDaZddY+gooLTQRqYN+gXU6P63ZLyimnf5sV79XHXrhf3OPikJO5K+WqVz
+         aFti4o9fRlC17Dt/5lLws2NpSmnDTkBYt8SfmbE5H+3Z3VRlSLutY3g5cUNrQHCicG
+         r70nCETUN3ChfKxxOHlvQhMKLRsiVdYThDq3/QJpacz+OX3DjQCWEhTrnn+5V3ktfc
+         vVYfnIhIRPWBw==
+Date:   Fri, 12 Feb 2021 00:59:29 +0200
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Mike Rapoport <rppt@linux.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christopher Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Roman Gushchin <guro@fb.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
+        x86@kernel.org, Hagen Paul Pfeifer <hagen@jauu.net>,
+        Palmer Dabbelt <palmerdabbelt@google.com>
+Subject: Re: [PATCH v17 07/10] mm: introduce memfd_secret system call to
+ create "secret" memory areas
+Message-ID: <20210211225929.GK242749@kernel.org>
+References: <20210208084920.2884-8-rppt@kernel.org>
+ <YCEXMgXItY7xMbIS@dhcp22.suse.cz>
+ <20210208212605.GX242749@kernel.org>
+ <YCJMDBss8Qhha7g9@dhcp22.suse.cz>
+ <20210209090938.GP299309@linux.ibm.com>
+ <YCKLVzBR62+NtvyF@dhcp22.suse.cz>
+ <20210211071319.GF242749@kernel.org>
+ <YCTtSrCEvuBug2ap@dhcp22.suse.cz>
+ <20210211112008.GH242749@kernel.org>
+ <YCUjck0I8qgjB24i@dhcp22.suse.cz>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YCUjck0I8qgjB24i@dhcp22.suse.cz>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Thu, Feb 11, 2021 at 01:30:42PM +0100, Michal Hocko wrote:
+> On Thu 11-02-21 13:20:08, Mike Rapoport wrote:
+> [...]
+> > Sealing is anyway controlled via fcntl() and I don't think
+> > MFD_ALLOW_SEALING makes much sense for the secretmem because it is there to
+> > prevent rogue file sealing in tmpfs/hugetlbfs.
+> 
+> This doesn't really match my understanding. The primary usecase for the
+> sealing is to safely and predictably coordinate over shared memory. I
+> absolutely do not see why this would be incompatible with an additional
+> requirement to unmap the memory from the kernel to prevent additional
+> interference from the kernel side. Quite contrary it looks like a very
+> nice extension to this model.
 
-> On Feb 11, 2021, at 2:05 AM, Florian Weimer <fweimer@redhat.com> wrote:
->=20
-> =EF=BB=BFIn glibc, we have some code that copies the DT_SONAME string of t=
-he
-> kernel vDSO into the heap, commented this way:
->=20
->             /* Work around a kernel problem.  The kernel cannot handle
->                addresses in the vsyscall DSO pages in writev() calls.  */
->=20
-> Is this really a problem anymore?  vDSO addresses are ordinary userspace
-> addresses, I think.  (The vsyscall stuff is very different, of course,
-> and maybe the vDSO started out the same way.)
+I didn't mean that secretmem should not support sealing. I meant that
+MFD_ALLOW_SEALING flag does not make sense. Unlike tmpfs, the secretmem fd
+does not need protection from somebody unexpectedly sealing it.
 
-I don=E2=80=99t think it was ever a problem, and it certainly haven=E2=80=99=
-t been a problem for a long, long time. vDSO addresses are regular user addr=
-esses.  The *vsyscall* addresses are not, and most syscalls will not accept t=
-hem, but that shouldn=E2=80=99t matter especially since modern kernels, by d=
-efault, won=E2=80=99t let you read those addresses from user code either.
+> > As for the huge pages, I'm not sure at all that supporting huge pages in
+> > secretmem will involve hugetlbfs.
+> 
+> Have a look how hugetlb proliferates through our MM APIs. I strongly
+> suspect this is strong signal that this won't be any different.
+> 
+> > And even if yes, adding SECRETMEM_HUGE
+> > flag seems to me less confusing than saying "from kernel x.y you can use
+> > MFD_CREATE | MFD_SECRET | MFD_HUGE" etc for all possible combinations.
+> 
+> I really fail to see your point. This is a standard model we have. It is
+> quite natural that flags are added. Moreover adding a new syscall will
+> not make it any less of a problem.
 
-Saying =E2=80=9Cvsyscall DSO=E2=80=9D is odd. There=E2=80=99s no such thing.=
+Nowadays adding a new syscall is not as costly as it used to be. And I
+think it'll provide better extensibility when new features would be added
+to secretmem. 
+
+For instance, for creating a secretmem fd backed with sealing we'd have
+
+	memfd_secretm(SECRETMEM_HUGE);
+
+rather than
+
+	memfd_create(MFD_ALLOW_SEALING | MFD_HUGETLB | MFD_SECRET);
 
 
-=E2=80=94Andy=20
+Besides, if we overload memfd_secret we add complexity to flags validation
+of allowable flag combinations even with the simplest initial
+implementation.
+And what it will become when more features are added to secretmem?
+ 
+> > > I by no means do not insist one way or the other but from what I have
+> > > seen so far I have a feeling that the interface hasn't been thought
+> > > through enough.
+> > 
+> > It has been, but we have different thoughts about it ;-)
+> 
+> Then you must be carrying a lot of implicit knowledge which I want you
+> to document.
 
->=20
-> We only care about Linux 3.2 or later in glibc.
->=20
-> Thanks,
-> Florian
-> --=20
-> Red Hat GmbH, https://de.redhat.com/ , Registered seat: Grasbrunn,
-> Commercial register: Amtsgericht Muenchen, HRB 153243,
-> Managing Directors: Charles Cachera, Brian Klemm, Laurie Krebs, Michael O'=
-Neill
->=20
+I don't have any implicit knowledge, we just have a different perspective.
+
+-- 
+Sincerely yours,
+Mike.
