@@ -2,133 +2,159 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 635983188A4
-	for <lists+linux-api@lfdr.de>; Thu, 11 Feb 2021 11:53:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 30114318953
+	for <lists+linux-api@lfdr.de>; Thu, 11 Feb 2021 12:25:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231175AbhBKKv5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 11 Feb 2021 05:51:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53216 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230349AbhBKKty (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 11 Feb 2021 05:49:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1613040508;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=R0teWV0bmw9KGc7LQPs2FazYpPfP/2lb4xoFRMFqLtg=;
-        b=Yf/cnzxL/mi1KcY38T1a/9U2qMfYZxpHxGgvfD+vrF8PmJhduofOZTOCedg7/6Ji50BmIi
-        sMyR2kUzebbcA/sMcsJZe+8ZIdU3Sa7LYufSu9Cv73Pw/euv6aelNf4CFY4tC1j3whWynt
-        mBNCfctAUczv0u+X72lqK4YINdHNva0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-482-L4d7n19gMJe6KjiTGdmv4A-1; Thu, 11 Feb 2021 05:48:26 -0500
-X-MC-Unique: L4d7n19gMJe6KjiTGdmv4A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BB1A6427C3;
-        Thu, 11 Feb 2021 10:48:24 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (ovpn-113-131.ams2.redhat.com [10.36.113.131])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 6CD151F442;
-        Thu, 11 Feb 2021 10:48:22 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
-        torvalds@linux-foundation.org, stable@vger.kernel.org, lwn@lwn.net,
-        jslaby@suse.cz, libc-alpha@sourceware.org,
-        linux-api@vger.kernel.org
-Subject: LINUX_VERSION_CODE overflow (was: Re: Linux 4.9.256)
-References: <1612535085125226@kroah.com>
-Date:   Thu, 11 Feb 2021 11:48:41 +0100
-In-Reply-To: <1612535085125226@kroah.com> (Greg Kroah-Hartman's message of
-        "Fri, 5 Feb 2021 15:26:18 +0100")
-Message-ID: <87o8gqriba.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+        id S230209AbhBKLX5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 11 Feb 2021 06:23:57 -0500
+Received: from mail.kernel.org ([198.145.29.99]:40392 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231294AbhBKLVJ (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 11 Feb 2021 06:21:09 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 14FAC64DCF;
+        Thu, 11 Feb 2021 11:20:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1613042428;
+        bh=rXRK0H6A/K2Wb0tbxmc7ZILxeVB76yptr2cmsMFQE74=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=t3VWHvs0bXUxcCXOc97N7vSXyLqVUcEV92kaL6OdVxecAKxAQ7ns6LLG+vegpOVde
+         U9dBh6sezDjn5D92Ll5noX1Vr+yCYEIk5R0rIUlhKrjSS7aOZ0i+PaR/+DQIweUHh6
+         8FzOzWyaxJsUOVv2GFc6tXB0iA4Kh3UCZBlISlSmmeVmiew2dh6clqSD3WkV3s59X7
+         15MQmJD2s7JLI/6iNb4Cojk2vx4RU0Y7gohP8KiCudLNjAvDZFFfG0p33iCbt4dNcP
+         wEYFcHPp1StbE/lV4MGjTaz8WVMajl7z6z/1pA+KZbglGlxEBvUgFNkTEZP1OvrqS8
+         dLaGA+Ls37rug==
+Date:   Thu, 11 Feb 2021 13:20:08 +0200
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Mike Rapoport <rppt@linux.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christopher Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Roman Gushchin <guro@fb.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
+        x86@kernel.org, Hagen Paul Pfeifer <hagen@jauu.net>,
+        Palmer Dabbelt <palmerdabbelt@google.com>
+Subject: Re: [PATCH v17 07/10] mm: introduce memfd_secret system call to
+ create "secret" memory areas
+Message-ID: <20210211112008.GH242749@kernel.org>
+References: <20210208084920.2884-1-rppt@kernel.org>
+ <20210208084920.2884-8-rppt@kernel.org>
+ <YCEXMgXItY7xMbIS@dhcp22.suse.cz>
+ <20210208212605.GX242749@kernel.org>
+ <YCJMDBss8Qhha7g9@dhcp22.suse.cz>
+ <20210209090938.GP299309@linux.ibm.com>
+ <YCKLVzBR62+NtvyF@dhcp22.suse.cz>
+ <20210211071319.GF242749@kernel.org>
+ <YCTtSrCEvuBug2ap@dhcp22.suse.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YCTtSrCEvuBug2ap@dhcp22.suse.cz>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Greg Kroah-Hartman:
+On Thu, Feb 11, 2021 at 09:39:38AM +0100, Michal Hocko wrote:
+> On Thu 11-02-21 09:13:19, Mike Rapoport wrote:
+> > On Tue, Feb 09, 2021 at 02:17:11PM +0100, Michal Hocko wrote:
+> > > On Tue 09-02-21 11:09:38, Mike Rapoport wrote:
+> [...]
+> > > > Citing my older email:
+> > > > 
+> > > >     I've hesitated whether to continue to use new flags to memfd_create() or to
+> > > >     add a new system call and I've decided to use a new system call after I've
+> > > >     started to look into man pages update. There would have been two completely
+> > > >     independent descriptions and I think it would have been very confusing.
+> > > 
+> > > Could you elaborate? Unmapping from the kernel address space can work
+> > > both for sealed or hugetlb memfds, no? Those features are completely
+> > > orthogonal AFAICS. With a dedicated syscall you will need to introduce
+> > > this functionality on top if that is required. Have you considered that?
+> > > I mean hugetlb pages are used to back guest memory very often. Is this
+> > > something that will be a secret memory usecase?
+> > > 
+> > > Please be really specific when giving arguments to back a new syscall
+> > > decision.
+> > 
+> > Isn't "syscalls have completely independent description" specific enough?
+> 
+> No, it's not as you can see from questions I've had above. More on that
+> below.
+> 
+> > We are talking about API here, not the implementation details whether
+> > secretmem supports large pages or not.
+> > 
+> > The purpose of memfd_create() is to create a file-like access to memory.
+> > The purpose of memfd_secret() is to create a way to access memory hidden
+> > from the kernel.
+> > 
+> > I don't think overloading memfd_create() with the secretmem flags because
+> > they happen to return a file descriptor will be better for users, but
+> > rather will be more confusing.
+> 
+> This is quite a subjective conclusion. I could very well argue that it
+> would be much better to have a single syscall to get a fd backed memory
+> with spedific requirements (sealing, unmapping from the kernel address
+> space). 
 
-> I'm announcing the release of the 4.9.256 kernel.
->
-> This, and the 4.4.256 release are a little bit "different" than normal.
->
-> This contains only 1 patch, just the version bump from .255 to .256
-> which ends up causing the userspace-visable LINUX_VERSION_CODE to
-> behave a bit differently than normal due to the "overflow".
->
-> With this release, KERNEL_VERSION(4, 9, 256) is the same as KERNEL_VERSIO=
-N(4, 10, 0).
->
-> Nothing in the kernel build itself breaks with this change, but given
-> that this is a userspace visible change, and some crazy tools (like
-> glibc and gcc) have logic that checks the kernel version for different
-> reasons, I wanted to do this release as an "empty" release to ensure
-> that everything still works properly.
+> Neither of us would be clearly right or wrong.
 
-As promised, I looked at this from the glibc perspective.
+100% agree :)
 
-A dynamically linked glibc reads the LINUX_VERSION_CODE in the ELF note
-in the vDSO.
+> A more important point is a future extensibility and usability, though.
+> So let's just think of few usecases I have outlined above. Is it
+> unrealistic to expect that secret memory should be sealable? What about
+> hugetlb? Because if the answer is no then a new API is a clear win as the
+> combination of flags would never work and then we would just suffer from
+> the syscall multiplexing without much gain. On the other hand if
+> combination of the functionality is to be expected then you will have to
+> jam it into memfd_create and copy the interface likely causing more
+> confusion. See what I mean?
 
-Statically linked binaries use the uname system call and parse the
-release field in struct utsname.  If the uname system call fails, there
-is also /proc fallback, but I believe that path is unused.
+I see your point, but I think that overloading memfd_create definitely gets
+us into syscall multiplexing from day one and support for seals and huge
+pages in the secretmem will not make it less of a multiplexer.
 
-The glibc dynamic linker falls back to uname if the vDSO cannot be
-located.
+Sealing is anyway controlled via fcntl() and I don't think
+MFD_ALLOW_SEALING makes much sense for the secretmem because it is there to
+prevent rogue file sealing in tmpfs/hugetlbfs.
 
-The LINUX_VERSION_CODE format is also used in /etc/ld.so.cache.  This is
-difficult to change because a newer ldconfig is supposed to build a
-cache that is compatible with older glibc versions (two-way
-compatibility).  The information in /etc/ld.so.cache is copied from the
-ELF_NOTE_ABI/NT_GNU_ABI_TAG ELF note in the DSOs; the note format is not
-subject to overflows because it uses 32-bit values for the component
-versions.
+As for the huge pages, I'm not sure at all that supporting huge pages in
+secretmem will involve hugetlbfs. And even if yes, adding SECRETMEM_HUGE
+flag seems to me less confusing than saying "from kernel x.y you can use
+MFD_CREATE | MFD_SECRET | MFD_HUGE" etc for all possible combinations.
+ 
+> I by no means do not insist one way or the other but from what I have
+> seen so far I have a feeling that the interface hasn't been thought
+> through enough.
 
-glibc uses the current kernel's LINUX_VERSION_CODE for two purposes: for
-its own =E2=80=9Ckernel too old=E2=80=9D check (glibc refuses to start in t=
-his case),
-and to skip loading DSOs which have an ELF_NOTE_ABI/NT_GNU_ABI_TAG that
-indicates a higher kernel version than the current kernel.  glibc does
-not use LINUX_VERSION_CODE to detect features or activate workarounds
-for kernel bugs.
+It has been, but we have different thoughts about it ;-)
 
-The overflow from 4.9.256 to 4.10.0 means that we might get spurious
-passes on these checks.  Worst case, it can happen that if the system
-has a DSO in two versions on the library search path, one for kernel
-4.10 and one for kernel 4.9 or earlier (in that order), we now load the
-4.10 version on a 4.9 kernel.  Previously, loading the 4.10 DSO failed,
-and the fallback version for earlier kernels was used.  That would be
-real breakage.
-
-Our options in userspace are limited because whatever changes we make to
-glibc today are unlikely to reach people running 4.4 or 4.9 kernels
-anytime soon, if ever.  Clamping the sublevel field of
-LINUX_VERSION_CODE in the vDSO to 255 only benefits dynamically linked
-binaries, but it could be that this is sufficient to paper over this
-issue.
-
-There's also the question whether these glibc checks are valuable at
-all.  It encourages kernel patching to lie about kernel versions, making
-diagnostics harder (e.g., reporting 3.10 if it's really a 2.6.32 with
-lots of system call backports).  The ELF_NOTE_ABI/NT_GNU_ABI_TAG DSO
-selection is known to cause endless problems with Qt, basically the only
-large-scale user of this feature.  Perhaps we should remove it, but it
-would also break the fallback DSO approach mentioned above.
-
-Thanks,
-Florian
---=20
-Red Hat GmbH, https://de.redhat.com/ , Registered seat: Grasbrunn,
-Commercial register: Amtsgericht Muenchen, HRB 153243,
-Managing Directors: Charles Cachera, Brian Klemm, Laurie Krebs, Michael O'N=
-eill
-
+-- 
+Sincerely yours,
+Mike.
