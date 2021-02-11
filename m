@@ -2,131 +2,101 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 624B8318F49
-	for <lists+linux-api@lfdr.de>; Thu, 11 Feb 2021 17:01:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D7445318FA3
+	for <lists+linux-api@lfdr.de>; Thu, 11 Feb 2021 17:14:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231602AbhBKP73 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 11 Feb 2021 10:59:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48617 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230285AbhBKP5a (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 11 Feb 2021 10:57:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1613058963;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=FgID+L3tcWjGCzMJOEFzOMkSnQKXBsghqlTv8BLKjOs=;
-        b=aROCnmZQsyEAp2b9qB7rD+8XQDsYmT28n9bGMDWXVrTNYHe6tno1g74ewcGPPoQ2uNRj/u
-        hTAvfOxs5DBDcWJAmQRHFamipyrXWZsShrd6neZoI0Gy+YJJo2qFBBtWvs6E05LtZ2ia4Z
-        tbJY4LssFlWmGWt4ROqTBSbI2wJzkZk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-472-GDVA0jVsMKSpXZsXWaO46Q-1; Thu, 11 Feb 2021 10:56:01 -0500
-X-MC-Unique: GDVA0jVsMKSpXZsXWaO46Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3117F8049C6;
-        Thu, 11 Feb 2021 15:55:26 +0000 (UTC)
-Received: from [10.10.117.219] (ovpn-117-219.rdu2.redhat.com [10.10.117.219])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 9FFC210013D7;
-        Thu, 11 Feb 2021 15:55:19 +0000 (UTC)
-Subject: Re: [Patch v4 1/3] lib: Restrict cpumask_local_spread to houskeeping
- CPUs
-From:   Nitesh Narayan Lal <nitesh@redhat.com>
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Marcelo Tosatti <mtosatti@redhat.com>
-Cc:     Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, frederic@kernel.org,
-        juri.lelli@redhat.com, abelits@marvell.com, bhelgaas@google.com,
-        linux-pci@vger.kernel.org, rostedt@goodmis.org, mingo@kernel.org,
-        peterz@infradead.org, davem@davemloft.net,
-        akpm@linux-foundation.org, sfr@canb.auug.org.au,
-        stephen@networkplumber.org, rppt@linux.vnet.ibm.com,
-        jinyuqi@huawei.com, zhangshaokun@hisilicon.com
-References: <20200625223443.2684-1-nitesh@redhat.com>
- <20200625223443.2684-2-nitesh@redhat.com>
- <3e9ce666-c9cd-391b-52b6-3471fe2be2e6@arm.com>
- <20210127121939.GA54725@fuller.cnet> <87r1m5can2.fsf@nanos.tec.linutronix.de>
- <20210128165903.GB38339@fuller.cnet> <87h7n0de5a.fsf@nanos.tec.linutronix.de>
- <20210204181546.GA30113@fuller.cnet>
- <cfa138e9-38e3-e566-8903-1d64024c917b@redhat.com>
- <20210204190647.GA32868@fuller.cnet>
- <d8884413-84b4-b204-85c5-810342807d21@redhat.com>
- <87y2g26tnt.fsf@nanos.tec.linutronix.de>
- <d0aed683-87ae-91a2-d093-de3f5d8a8251@redhat.com>
-Organization: Red Hat Inc,
-Message-ID: <7780ae60-efbd-2902-caaa-0249a1f277d9@redhat.com>
-Date:   Thu, 11 Feb 2021 10:55:17 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
-MIME-Version: 1.0
-In-Reply-To: <d0aed683-87ae-91a2-d093-de3f5d8a8251@redhat.com>
+        id S231682AbhBKQN3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 11 Feb 2021 11:13:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33610 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230429AbhBKQLZ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 11 Feb 2021 11:11:25 -0500
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34701C061756
+        for <linux-api@vger.kernel.org>; Thu, 11 Feb 2021 08:10:45 -0800 (PST)
+Received: by mail-pj1-x102d.google.com with SMTP id gb24so3653709pjb.4
+        for <linux-api@vger.kernel.org>; Thu, 11 Feb 2021 08:10:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
+        h=content-transfer-encoding:from:mime-version:subject:date:message-id
+         :references:cc:in-reply-to:to;
+        bh=s8VcXJZ0nXd+5HiJ0KBL3oqJGDIkbb8WLLcD0RM+IXY=;
+        b=GGRGCGp2LJnH4P4u+hfLsG4OyM6r0Zok2JwTQllDKuYK79fd2ymvsYWpZWXCKk/t/D
+         47s4KlAApn4b4gYQTlXb9Ltoyzi+lvva0wQGJEL2cHFTbp6txEEDchk4dNZNFaI6Akr3
+         apTdkQDke5bgG8+WekGZtr+F0oqZ4DvswuNwnIL0DuXUHJc9mn8x3EH46mF1ioqAb1wJ
+         J2oZ0avJ8Oo329WG1fNel7DkVa+WHyNpz5lNHJsGySr0nKN9sv6YSYTYR7bkv7s2zMJ2
+         +nepmxBNZ4iLIedOCaSjEpDl8OQkPVqFiBKs4kGL+K6DsiMnyljwKGj5UNjOZxMyMxqy
+         CpSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:content-transfer-encoding:from:mime-version
+         :subject:date:message-id:references:cc:in-reply-to:to;
+        bh=s8VcXJZ0nXd+5HiJ0KBL3oqJGDIkbb8WLLcD0RM+IXY=;
+        b=E1pegRmx7MxcBUjPPimZpADjBMoHLxbiqPPrfcqA3CnDUAWWWQ5hb5y0diGYX1Alo/
+         65jGKKyAhHMKlAn4wDF7AnzQZZ7OoAqRu8Tpt4VwXa9y/CsqnyUf3pEB6Z13FCMmBn5W
+         oS1aVcccYk7QtdBLirP7wafnG+2QeZN811rrjOnEEntAibJrBu6yBHpW4QXgafyGlvHP
+         uHV+RpOpIVqweKvbeUhChPDwR5caZCIqMRDjukwrYzB7/TXEMmR79r+JAOHTF7+PFlIk
+         LacmlvbNUmMXDsgPYI45zllbwVcK40//re2wszFbgSP7tOSTtdSD1up+l2GiJZ3kfGsl
+         vsMQ==
+X-Gm-Message-State: AOAM532Cl9McC1B6HM1fjtGmnIDjrQuHEB2/6Ac4qkzvmHTpRAQEiHYA
+        1ShRnw8dKTQqQc888dbItAjSTygiMqbP2YZo
+X-Google-Smtp-Source: ABdhPJzj8fUqmXpElF1L8hTI2g1o0UhBoKLnzLQTBKnguOoEW+f/1L5ndwLQKr0pdNV99npweb0q+A==
+X-Received: by 2002:a17:902:d4c3:b029:e2:bd29:7e6e with SMTP id o3-20020a170902d4c3b02900e2bd297e6emr8185825plg.66.1613059844568;
+        Thu, 11 Feb 2021 08:10:44 -0800 (PST)
+Received: from ?IPv6:2601:646:c200:1ef2:b847:ef6e:681b:6624? ([2601:646:c200:1ef2:b847:ef6e:681b:6624])
+        by smtp.gmail.com with ESMTPSA id 17sm6316073pgy.53.2021.02.11.08.10.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Feb 2021 08:10:43 -0800 (PST)
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Transfer-Encoding: quoted-printable
+From:   Andy Lutomirski <luto@amacapital.net>
+Mime-Version: 1.0 (1.0)
+Subject: Re: Are vDSO addresses special?
+Date:   Thu, 11 Feb 2021 08:10:42 -0800
+Message-Id: <442A16C0-AE5A-4A44-B261-FE6F817EAF3C@amacapital.net>
+References: <87zh0bq62r.fsf@oldenburg.str.redhat.com>
+Cc:     linux-mm@kvack.org, linux-api@vger.kernel.org,
+        libc-alpha@sourceware.org
+In-Reply-To: <87zh0bq62r.fsf@oldenburg.str.redhat.com>
+To:     Florian Weimer <fweimer@redhat.com>
+X-Mailer: iPhone Mail (18D52)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 
-On 2/6/21 7:43 PM, Nitesh Narayan Lal wrote:
-> On 2/5/21 5:23 PM, Thomas Gleixner wrote:
->> On Thu, Feb 04 2021 at 14:17, Nitesh Narayan Lal wrote:
->>> On 2/4/21 2:06 PM, Marcelo Tosatti wrote:
->>>>>> How about adding a new flag for isolcpus instead?
->>>>>>
->>>>> Do you mean a flag based on which we can switch the affinity mask to
->>>>> housekeeping for all the devices at the time of IRQ distribution?
->>>> Yes a new flag for isolcpus. HK_FLAG_IRQ_SPREAD or some better name.
->>> Does sounds like a nice idea to explore, lets see what Thomas thinks about it.
+> On Feb 11, 2021, at 2:05 AM, Florian Weimer <fweimer@redhat.com> wrote:
+>=20
+> =EF=BB=BFIn glibc, we have some code that copies the DT_SONAME string of t=
+he
+> kernel vDSO into the heap, commented this way:
+>=20
+>             /* Work around a kernel problem.  The kernel cannot handle
+>                addresses in the vsyscall DSO pages in writev() calls.  */
+>=20
+> Is this really a problem anymore?  vDSO addresses are ordinary userspace
+> addresses, I think.  (The vsyscall stuff is very different, of course,
+> and maybe the vDSO started out the same way.)
 
-<snip>
+I don=E2=80=99t think it was ever a problem, and it certainly haven=E2=80=99=
+t been a problem for a long, long time. vDSO addresses are regular user addr=
+esses.  The *vsyscall* addresses are not, and most syscalls will not accept t=
+hem, but that shouldn=E2=80=99t matter especially since modern kernels, by d=
+efault, won=E2=80=99t let you read those addresses from user code either.
 
->>> When the affinity mask of the interrupt at the time when it is actually
->>> requested contains an isolated CPU then nothing prevents the kernel from
->>> steering it at an isolated CPU. But that has absolutely nothing to do
->>> with that spreading thingy.
->>>
->>> The only difference which this change makes is the fact that the
->>> affinity hint changes. Nothing else.
->>>
-> Thanks for the detailed explanation.
->
-> Before I posted this patch, I was doing some debugging on a setup where I
-> was observing some latency issues due to the iavf IRQs that were pinned on
-> the isolated CPUs.
->
-> Based on some initial traces I had this impression that the affinity hint
-> or cpumask_local_spread was somehow playing a role in deciding the affinity
-> mask of these IRQs. Although, that does look incorrect after going through
-> your explanation.
-> For some reason, with a kernel that had this patch when I tried creating
-> VFs iavf IRQs always ended up on the HK CPUs.
->
-> The reasoning for the above is still not very clear to me. I will investigate
-> this further to properly understand this behavior.
->
->
+Saying =E2=80=9Cvsyscall DSO=E2=80=9D is odd. There=E2=80=99s no such thing.=
 
-After a little more digging, I found out why cpumask_local_spread change
-affects the general/initial smp_affinity for certain device IRQs.
 
-After the introduction of the commit:
+=E2=80=94Andy=20
 
-    e2e64a932 genirq: Set initial affinity in irq_set_affinity_hint()
-
-For all the drivers that set hint, initial affinity is set based on the
-CPU retrieved from cpumask_local_spread. So in an environment where
-irqbalance is disabled, these device IRQs remain on the CPUs that are
-picked from cpumask_local_spread even though they are isolated. I think
-the commit message of the reverted patch should have covered this as
-well.
-
--- 
-Thanks
-Nitesh
-
+>=20
+> We only care about Linux 3.2 or later in glibc.
+>=20
+> Thanks,
+> Florian
+> --=20
+> Red Hat GmbH, https://de.redhat.com/ , Registered seat: Grasbrunn,
+> Commercial register: Amtsgericht Muenchen, HRB 153243,
+> Managing Directors: Charles Cachera, Brian Klemm, Laurie Krebs, Michael O'=
+Neill
+>=20
