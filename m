@@ -2,119 +2,125 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 91AA1318ACA
-	for <lists+linux-api@lfdr.de>; Thu, 11 Feb 2021 13:35:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 858A0318B63
+	for <lists+linux-api@lfdr.de>; Thu, 11 Feb 2021 14:04:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230314AbhBKMf3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 11 Feb 2021 07:35:29 -0500
-Received: from mx2.suse.de ([195.135.220.15]:55912 "EHLO mx2.suse.de"
+        id S230314AbhBKNB3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 11 Feb 2021 08:01:29 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58118 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231278AbhBKMbc (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 11 Feb 2021 07:31:32 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1613046645; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=osI3lOxyWNnCWMwYvgacjyYRqS8PdApBu7r+l9GS1F8=;
-        b=FGCfa/BPAaNMnKzWYBfMoLB55bV/2nWROmax5NShmeaFHcKLO/NerKPjx1ctr7FJZ/MDlK
-        j39ZM2jnxpVR1DSUloBxejptFaGKNBgYEvf5Z1x0XO+JtJwHMbCmw7POQPPk2NJN9eW5Lk
-        zmKurgl8D3XiuDQywu6d2sTB6/qoOf8=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id A9902ACD4;
-        Thu, 11 Feb 2021 12:30:45 +0000 (UTC)
-Date:   Thu, 11 Feb 2021 13:30:42 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Mike Rapoport <rppt@linux.ibm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Roman Gushchin <guro@fb.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
-        x86@kernel.org, Hagen Paul Pfeifer <hagen@jauu.net>,
-        Palmer Dabbelt <palmerdabbelt@google.com>
-Subject: Re: [PATCH v17 07/10] mm: introduce memfd_secret system call to
- create "secret" memory areas
-Message-ID: <YCUjck0I8qgjB24i@dhcp22.suse.cz>
-References: <20210208084920.2884-1-rppt@kernel.org>
- <20210208084920.2884-8-rppt@kernel.org>
- <YCEXMgXItY7xMbIS@dhcp22.suse.cz>
- <20210208212605.GX242749@kernel.org>
- <YCJMDBss8Qhha7g9@dhcp22.suse.cz>
- <20210209090938.GP299309@linux.ibm.com>
- <YCKLVzBR62+NtvyF@dhcp22.suse.cz>
- <20210211071319.GF242749@kernel.org>
- <YCTtSrCEvuBug2ap@dhcp22.suse.cz>
- <20210211112008.GH242749@kernel.org>
+        id S229803AbhBKM7V (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 11 Feb 2021 07:59:21 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D2D4264E23;
+        Thu, 11 Feb 2021 12:58:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1613048319;
+        bh=Rp2mERnaPj4kuH9Jsjd7wSt+VHabC+3TVaeZun1SIo8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=2jKDCosxbVtGR5RnkscJGQyE6WMSAzMcYTzMXqHuFaCghAFDKCVvuQ3vNGiRKEwpY
+         4pXGVMNYTI6LSLRaBZOdtnRcpGI/03jExmf7QShncJinGtgLliw+4hK4sOhdOrffyY
+         OxwT9U+1Rn0YqH95qzSB1emccWUFH4mDGOp58QW8=
+Date:   Thu, 11 Feb 2021 13:58:37 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
+        torvalds@linux-foundation.org, stable@vger.kernel.org, lwn@lwn.net,
+        jslaby@suse.cz, libc-alpha@sourceware.org,
+        linux-api@vger.kernel.org
+Subject: Re: LINUX_VERSION_CODE overflow (was: Re: Linux 4.9.256)
+Message-ID: <YCUp/ZEl0r+BdtGN@kroah.com>
+References: <1612535085125226@kroah.com>
+ <87o8gqriba.fsf@oldenburg.str.redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210211112008.GH242749@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87o8gqriba.fsf@oldenburg.str.redhat.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu 11-02-21 13:20:08, Mike Rapoport wrote:
-[...]
-> Sealing is anyway controlled via fcntl() and I don't think
-> MFD_ALLOW_SEALING makes much sense for the secretmem because it is there to
-> prevent rogue file sealing in tmpfs/hugetlbfs.
-
-This doesn't really match my understanding. The primary usecase for the
-sealing is to safely and predictably coordinate over shared memory. I
-absolutely do not see why this would be incompatible with an additional
-requirement to unmap the memory from the kernel to prevent additional
-interference from the kernel side. Quite contrary it looks like a very
-nice extension to this model.
- 
-> As for the huge pages, I'm not sure at all that supporting huge pages in
-> secretmem will involve hugetlbfs.
-
-Have a look how hugetlb proliferates through our MM APIs. I strongly
-suspect this is strong signal that this won't be any different.
-
-> And even if yes, adding SECRETMEM_HUGE
-> flag seems to me less confusing than saying "from kernel x.y you can use
-> MFD_CREATE | MFD_SECRET | MFD_HUGE" etc for all possible combinations.
-
-I really fail to see your point. This is a standard model we have. It is
-quite natural that flags are added. Moreover adding a new syscall will
-not make it any less of a problem.
-
-> > I by no means do not insist one way or the other but from what I have
-> > seen so far I have a feeling that the interface hasn't been thought
-> > through enough.
+On Thu, Feb 11, 2021 at 11:48:41AM +0100, Florian Weimer wrote:
+> * Greg Kroah-Hartman:
 > 
-> It has been, but we have different thoughts about it ;-)
+> > I'm announcing the release of the 4.9.256 kernel.
+> >
+> > This, and the 4.4.256 release are a little bit "different" than normal.
+> >
+> > This contains only 1 patch, just the version bump from .255 to .256
+> > which ends up causing the userspace-visable LINUX_VERSION_CODE to
+> > behave a bit differently than normal due to the "overflow".
+> >
+> > With this release, KERNEL_VERSION(4, 9, 256) is the same as KERNEL_VERSION(4, 10, 0).
+> >
+> > Nothing in the kernel build itself breaks with this change, but given
+> > that this is a userspace visible change, and some crazy tools (like
+> > glibc and gcc) have logic that checks the kernel version for different
+> > reasons, I wanted to do this release as an "empty" release to ensure
+> > that everything still works properly.
+> 
+> As promised, I looked at this from the glibc perspective.
+> 
+> A dynamically linked glibc reads the LINUX_VERSION_CODE in the ELF note
+> in the vDSO.
+> 
+> Statically linked binaries use the uname system call and parse the
+> release field in struct utsname.  If the uname system call fails, there
+> is also /proc fallback, but I believe that path is unused.
+> 
+> The glibc dynamic linker falls back to uname if the vDSO cannot be
+> located.
+> 
+> The LINUX_VERSION_CODE format is also used in /etc/ld.so.cache.  This is
+> difficult to change because a newer ldconfig is supposed to build a
+> cache that is compatible with older glibc versions (two-way
+> compatibility).  The information in /etc/ld.so.cache is copied from the
+> ELF_NOTE_ABI/NT_GNU_ABI_TAG ELF note in the DSOs; the note format is not
+> subject to overflows because it uses 32-bit values for the component
+> versions.
+> 
+> glibc uses the current kernel's LINUX_VERSION_CODE for two purposes: for
+> its own “kernel too old” check (glibc refuses to start in this case),
+> and to skip loading DSOs which have an ELF_NOTE_ABI/NT_GNU_ABI_TAG that
+> indicates a higher kernel version than the current kernel.  glibc does
+> not use LINUX_VERSION_CODE to detect features or activate workarounds
+> for kernel bugs.
+> 
+> The overflow from 4.9.256 to 4.10.0 means that we might get spurious
+> passes on these checks.  Worst case, it can happen that if the system
+> has a DSO in two versions on the library search path, one for kernel
+> 4.10 and one for kernel 4.9 or earlier (in that order), we now load the
+> 4.10 version on a 4.9 kernel.  Previously, loading the 4.10 DSO failed,
+> and the fallback version for earlier kernels was used.  That would be
+> real breakage.
+> 
+> Our options in userspace are limited because whatever changes we make to
+> glibc today are unlikely to reach people running 4.4 or 4.9 kernels
+> anytime soon, if ever.  Clamping the sublevel field of
+> LINUX_VERSION_CODE in the vDSO to 255 only benefits dynamically linked
+> binaries, but it could be that this is sufficient to paper over this
+> issue.
+> 
+> There's also the question whether these glibc checks are valuable at
+> all.  It encourages kernel patching to lie about kernel versions, making
+> diagnostics harder (e.g., reporting 3.10 if it's really a 2.6.32 with
+> lots of system call backports).  The ELF_NOTE_ABI/NT_GNU_ABI_TAG DSO
+> selection is known to cause endless problems with Qt, basically the only
+> large-scale user of this feature.  Perhaps we should remove it, but it
+> would also break the fallback DSO approach mentioned above.
 
-Then you must be carrying a lot of implicit knowledge which I want you
-to document.
--- 
-Michal Hocko
-SUSE Labs
+Thank you for looking into this.  Based on the above, I think we are
+safe by keeping the LINUX_VERSION_CODE maxed out at 255, and still
+increasing the kernel version number itself (which will be returned by
+uname(2).)
+
+I have a report of Android systems parsing the uname(2) string output,
+and treating the minor number as an 8bit number, but luckily the
+decision based on that will not overflow until 5*256 so we are ok for a
+few more years on older Android systems :)
+
+If you run into any reports of problems, please let us know.
+
+thanks again,
+
+greg k-h
