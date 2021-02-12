@@ -2,95 +2,134 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A3D4B31A3AD
-	for <lists+linux-api@lfdr.de>; Fri, 12 Feb 2021 18:33:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 30BC531A479
+	for <lists+linux-api@lfdr.de>; Fri, 12 Feb 2021 19:22:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229797AbhBLRaw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 12 Feb 2021 12:30:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35332 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231686AbhBLRar (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 12 Feb 2021 12:30:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1613150961;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=7Ue6UWZYwyAvO9YFZKl3E6wcYmOcTl43h7n8qAVY1TQ=;
-        b=aPn2B7Ld+OSgBZgGYgJcNuAbYEAxRbRmIlacIOUhIhu1cxPrHEj8w9WIuVDWiA53GRZ6Da
-        eqbFAWU31ox9LU3AAljaqLMprV3OHHm7ygp3FMhjkkfq5losH4y0qDlE5uioAlNCXEZRBe
-        3hQxPnz3zKzyfDMRQeialkCSmIOSThs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-108-COOHzF2sOya4tpx2NozfKw-1; Fri, 12 Feb 2021 12:29:18 -0500
-X-MC-Unique: COOHzF2sOya4tpx2NozfKw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47527BBEE2;
-        Fri, 12 Feb 2021 17:29:17 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (ovpn-113-131.ams2.redhat.com [10.36.113.131])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 23D4E5D9FC;
-        Fri, 12 Feb 2021 17:29:15 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Andy Lutomirski <luto@amacapital.net>
-Cc:     linux-mm@kvack.org, linux-api@vger.kernel.org,
-        libc-alpha@sourceware.org
-Subject: Re: Are vDSO addresses special?
-References: <87zh0bq62r.fsf@oldenburg.str.redhat.com>
-        <442A16C0-AE5A-4A44-B261-FE6F817EAF3C@amacapital.net>
-Date:   Fri, 12 Feb 2021 18:29:37 +0100
-In-Reply-To: <442A16C0-AE5A-4A44-B261-FE6F817EAF3C@amacapital.net> (Andy
-        Lutomirski's message of "Thu, 11 Feb 2021 08:10:42 -0800")
-Message-ID: <87wnvdgpoe.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+        id S229980AbhBLSVF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 12 Feb 2021 13:21:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59252 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230090AbhBLSVE (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 12 Feb 2021 13:21:04 -0500
+Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 088CFC061574
+        for <linux-api@vger.kernel.org>; Fri, 12 Feb 2021 10:20:25 -0800 (PST)
+Received: by mail-il1-x12a.google.com with SMTP id g9so53747ilc.3
+        for <linux-api@vger.kernel.org>; Fri, 12 Feb 2021 10:20:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=JxSJSmRLq1aFDkk7sXLF73Mw0WDfSPOa/cBn9MZ26PU=;
+        b=viwhcZp12Cg1IJsi0b3tmh9ciF+hxbmsfq6nWmrFn9JqEOjwIgoNE77Yl+MMCrpr+K
+         LZfElCxAgofItYSUtJGQfowazsiTxNYNqqUQThhkalPUrZy6d0/D/k4o1BkR4XlkTxHh
+         zcTNuyPJm9GectFyVUJF09w5J0+dRaP/kZyf3WSsJhyhCLznMVuozZ6EY4cwl7QbfDan
+         +cZ3MaNiLr5GP3Pz4xXtzVnIZG+cobaius5w/RN/74wKY98Q7ML4yka+OAdyuntMggQe
+         RwaBHY0w1u3reZI2Af3CmcUikZJ2NDlJk2cfLAwWFhcKv7ysgeqSdQVdr0H9P8ZdMaKU
+         YBVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=JxSJSmRLq1aFDkk7sXLF73Mw0WDfSPOa/cBn9MZ26PU=;
+        b=O1Fk5dQHULhuVzuyqUJE1J4HkAQj0pSSIzvTtbmiWg1E68xzuULqakKIauRQEQXKUr
+         3F3s+qE783Q58NdN7aUa/o8exQRTS/mAn1qhmoaSaBMgVN7THt6j/bFL+L5TBvbB80Sn
+         Vv4XwSTz+Tl5GUB0GcMwpZolgDnaNQG88ZtTLCdkJL6Igz8ukriYb7j9apTc+Qu+xi3s
+         VSueBZ1cXveFxIE1d0PAkL8KAwG17A5t8mlRDjL96Z1uQP8kPpjWPxTvo/KmBCUjomT6
+         QsFOkEtIltPBYDTR7r5ZprPoA7SMXKKdBeeHL8uSLK89GA0YUCSni+MKBvcmkCPL4rgt
+         ZtsQ==
+X-Gm-Message-State: AOAM533ykyuMkdsyIU6pgrgDv3S/qhvpN4+gT0c6QJ+NX8eEnGJMqSQR
+        +dlYZqdOLl59QGlNM7wBi7EJ/a6TPU344sprQEvBgw==
+X-Google-Smtp-Source: ABdhPJxdaQK1Pebo+XgNYailbCbPTpXKGqyxsbSXwv2oCpD7A8EUK1aaNXqHcW0PKQr7Xn/jkj2HJdYRZTVgAg/zauw=
+X-Received: by 2002:a05:6e02:1be6:: with SMTP id y6mr3211839ilv.145.1613154024344;
+ Fri, 12 Feb 2021 10:20:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+References: <c57a23199fce831c86d830717555623942f16f6e.1609311499.git.pcc@google.com>
+ <e3977b3e1b548be1d9554ccfad6c83ac87802583.1609311499.git.pcc@google.com>
+ <20210126130947.GD29702@willie-the-truck> <CAMn1gO4OGsYYXBAWk=OiauZoyHoPFR9znSeLfXV0rLoZ+H7j1A@mail.gmail.com>
+ <c314e144-26d7-d80c-ce83-5fd597a8f772@arm.com>
+In-Reply-To: <c314e144-26d7-d80c-ce83-5fd597a8f772@arm.com>
+From:   Peter Collingbourne <pcc@google.com>
+Date:   Fri, 12 Feb 2021 10:20:13 -0800
+Message-ID: <CAMn1gO5DZ2qW1u9mMhqsC49xndb8WJFmwKX_Ua-5t-yj5jcDMg@mail.gmail.com>
+Subject: Re: [PATCH v6 3/3] arm64: pac: Optimize kernel entry/exit key
+ installation code paths
+To:     James Morse <james.morse@arm.com>
+Cc:     Will Deacon <will@kernel.org>, libc-alpha@sourceware.org,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        Kostya Serebryany <kcc@google.com>,
+        Florian Weimer <fw@deneb.enyo.de>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Evgenii Stepanov <eugenis@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Andy Lutomirski:
-
->> On Feb 11, 2021, at 2:05 AM, Florian Weimer <fweimer@redhat.com> wrote:
->>=20
->> =EF=BB=BFIn glibc, we have some code that copies the DT_SONAME string of=
- the
->> kernel vDSO into the heap, commented this way:
->>=20
->>             /* Work around a kernel problem.  The kernel cannot handle
->>                addresses in the vsyscall DSO pages in writev() calls.  */
->>=20
->> Is this really a problem anymore?  vDSO addresses are ordinary userspace
->> addresses, I think.  (The vsyscall stuff is very different, of course,
->> and maybe the vDSO started out the same way.)
+On Fri, Feb 12, 2021 at 3:01 AM James Morse <james.morse@arm.com> wrote:
 >
-> I don=E2=80=99t think it was ever a problem, and it certainly haven=E2=80=
-=99t been a
-> problem for a long, long time. vDSO addresses are regular user
-> addresses.  The *vsyscall* addresses are not, and most syscalls will
-> not accept them, but that shouldn=E2=80=99t matter especially since modern
-> kernels, by default, won=E2=80=99t let you read those addresses from user=
- code
-> either.
+> Hi Peter,
+>
+> On 12/02/2021 05:01, Peter Collingbourne wrote:
+> > On Tue, Jan 26, 2021 at 5:09 AM Will Deacon <will@kernel.org> wrote:
+> >>
+> >> On Tue, Dec 29, 2020 at 10:59:15PM -0800, Peter Collingbourne wrote:
+> >>> The kernel does not use any keys besides IA so we don't need to
+> >>> install IB/DA/DB/GA on kernel exit if we arrange to install them
+> >>> on task switch instead, which we can expect to happen an order of
+> >>> magnitude less often.
+> >>>
+> >>> Furthermore we can avoid installing the user IA in the case where the
+> >>> user task has IA disabled and just leave the kernel IA installed. This
+> >>> also lets us avoid needing to install IA on kernel entry.
+> >>
+> >> I've got to be honest, this makes me nervous in case there is a way for
+> >> userspace to recover the kernel key even though EnIA is clear. Currently,
+> >> EnIA doesn't affect XPAC* and PACGA instructions, and the architecture
+>
+> > For GA I would expect it to be controlled by a hypothetical EnGA, not
+> > by EnIA (and I'm a bit surprised that there isn't an EnGA;
+>
+> PACGA is undefined if the CPU doesn't implement PAC, whereas PACIASP is a NOP if the CPU
+> doesn't implement PAC.
+>
+> I think the reason from the SCTLR_ELx controls is to make unaware systems transform the
+> instructions that were hints back into hints. (e.g. the AddPACIA psuedo code). This is
+> needed on mismatched big-little systems, otherwise processes can't be migrated between them.
 
-Thanks.  Patch posted:
+It's needed for more than that, see the history of my
+PR_PAC_SET_ENABLED_KEYS patch, in particular [1].
 
-<https://sourceware.org/pipermail/libc-alpha/2021-February/122603.html>
+> For the non-hint instructions, user-space needs to test the hwcap/id-register-emulation to
+> know it can use these instructions, and the compiler shouldn't output them unconditionally.
 
-> Saying =E2=80=9Cvsyscall DSO=E2=80=9D is odd. There=E2=80=99s no such thi=
-ng.
+Right, unless the target is known to support them.
 
-In the glibc context, it sometimes means =E2=80=9Csystem-call-like function
-implemented in the vDSO=E2=80=9D.  But that's not the case here.
+> > doesn't it
+> > mean that a userspace program running under an unaware kernel or
+> > hypervisor may sign things using the GA from potentially another
+> > hypervisor guest?)
+>
+> The hypervisor controls all this with HCR_EL2.API, which also traps PACGA et al.
+> For the hypervisor its all or nothing.
+> If the hypervisor is emulating a machine without PAC, it can emulate an undefined
+> exception regardless of whether the CPU supports PAC or not.
+>
+> Does this match your reading?
 
-Florian
---=20
-Red Hat GmbH, https://de.redhat.com/ , Registered seat: Grasbrunn,
-Commercial register: Amtsgericht Muenchen, HRB 153243,
-Managing Directors: Charles Cachera, Brian Klemm, Laurie Krebs, Michael O'N=
-eill
+I think that's right. So an unaware hypervisor would set API to 0 and
+none of the guests would be able to use the authentication
+instructions. Since it looks like API=0 would make the hint-space
+instructions trap as well, I would imagine that a hypervisor would
+need to emulate them as no-ops if it's emulating a machine without
+PAC.
 
+Peter
+
+[1] https://www.spinics.net/lists/arm-kernel/msg830889.html
