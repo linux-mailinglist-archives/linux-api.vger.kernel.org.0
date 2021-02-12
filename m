@@ -2,134 +2,107 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 30BC531A479
-	for <lists+linux-api@lfdr.de>; Fri, 12 Feb 2021 19:22:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2672031A4B0
+	for <lists+linux-api@lfdr.de>; Fri, 12 Feb 2021 19:47:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229980AbhBLSVF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 12 Feb 2021 13:21:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59252 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230090AbhBLSVE (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 12 Feb 2021 13:21:04 -0500
-Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 088CFC061574
-        for <linux-api@vger.kernel.org>; Fri, 12 Feb 2021 10:20:25 -0800 (PST)
-Received: by mail-il1-x12a.google.com with SMTP id g9so53747ilc.3
-        for <linux-api@vger.kernel.org>; Fri, 12 Feb 2021 10:20:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JxSJSmRLq1aFDkk7sXLF73Mw0WDfSPOa/cBn9MZ26PU=;
-        b=viwhcZp12Cg1IJsi0b3tmh9ciF+hxbmsfq6nWmrFn9JqEOjwIgoNE77Yl+MMCrpr+K
-         LZfElCxAgofItYSUtJGQfowazsiTxNYNqqUQThhkalPUrZy6d0/D/k4o1BkR4XlkTxHh
-         zcTNuyPJm9GectFyVUJF09w5J0+dRaP/kZyf3WSsJhyhCLznMVuozZ6EY4cwl7QbfDan
-         +cZ3MaNiLr5GP3Pz4xXtzVnIZG+cobaius5w/RN/74wKY98Q7ML4yka+OAdyuntMggQe
-         RwaBHY0w1u3reZI2Af3CmcUikZJ2NDlJk2cfLAwWFhcKv7ysgeqSdQVdr0H9P8ZdMaKU
-         YBVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JxSJSmRLq1aFDkk7sXLF73Mw0WDfSPOa/cBn9MZ26PU=;
-        b=O1Fk5dQHULhuVzuyqUJE1J4HkAQj0pSSIzvTtbmiWg1E68xzuULqakKIauRQEQXKUr
-         3F3s+qE783Q58NdN7aUa/o8exQRTS/mAn1qhmoaSaBMgVN7THt6j/bFL+L5TBvbB80Sn
-         Vv4XwSTz+Tl5GUB0GcMwpZolgDnaNQG88ZtTLCdkJL6Igz8ukriYb7j9apTc+Qu+xi3s
-         VSueBZ1cXveFxIE1d0PAkL8KAwG17A5t8mlRDjL96Z1uQP8kPpjWPxTvo/KmBCUjomT6
-         QsFOkEtIltPBYDTR7r5ZprPoA7SMXKKdBeeHL8uSLK89GA0YUCSni+MKBvcmkCPL4rgt
-         ZtsQ==
-X-Gm-Message-State: AOAM533ykyuMkdsyIU6pgrgDv3S/qhvpN4+gT0c6QJ+NX8eEnGJMqSQR
-        +dlYZqdOLl59QGlNM7wBi7EJ/a6TPU344sprQEvBgw==
-X-Google-Smtp-Source: ABdhPJxdaQK1Pebo+XgNYailbCbPTpXKGqyxsbSXwv2oCpD7A8EUK1aaNXqHcW0PKQr7Xn/jkj2HJdYRZTVgAg/zauw=
-X-Received: by 2002:a05:6e02:1be6:: with SMTP id y6mr3211839ilv.145.1613154024344;
- Fri, 12 Feb 2021 10:20:24 -0800 (PST)
+        id S231317AbhBLSq7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 12 Feb 2021 13:46:59 -0500
+Received: from mail.kernel.org ([198.145.29.99]:56004 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230090AbhBLSq6 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 12 Feb 2021 13:46:58 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 50D0764E8E;
+        Fri, 12 Feb 2021 18:46:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1613155577;
+        bh=zP8CXtfdzYg8GZduBGIiauSpipKWLXxVJL/muVPE1oY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=YMPmC+4a31rklT/0aspd1UMMidJsHkzvQWxJOZNO+9VeYpGk6TI0OWBUMlp/cqzo+
+         OodtCewrShT6A7CFaatlVG5WujuJ5ZCclK/VwG368gP4NT+njMIR0Xsr3IKShQcFwS
+         Ze4kmcW7EN0YxhwFt88Q7a+kMTFn7KaY0sEo92+M+LB2fqwWoqxgZhin+cbZuZl1PG
+         D/ZC7QeNtfFm67yE7DoEOEddORTT55YNEtD8XSqkv67RqctccRG6dyIGRxYBAP4f8G
+         9Ir/hWqtmbUATnekpsub1HtlM5zKYVrOl7/tguXwpS5oJmlqxX+xkuL2F3hfG9Az09
+         lc+MsFIpYEFMw==
+Date:   Fri, 12 Feb 2021 18:46:11 +0000
+From:   Will Deacon <will@kernel.org>
+To:     Dave Martin <Dave.Martin@arm.com>
+Cc:     "Chang S. Bae" <chang.seok.bae@intel.com>,
+        linux-arch@vger.kernel.org, len.brown@intel.com,
+        tony.luck@intel.com, libc-alpha@sourceware.org, jannh@google.com,
+        ravi.v.shankar@intel.com, carlos@redhat.com, mpe@ellerman.id.au,
+        hjl.tools@gmail.com, x86@kernel.org, linux-kernel@vger.kernel.org,
+        dave.hansen@intel.com, luto@kernel.org, linux-api@vger.kernel.org,
+        tglx@linutronix.de, bp@suse.de, mingo@kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v5 1/5] uapi: Move the aux vector AT_MINSIGSTKSZ define
+ to uapi
+Message-ID: <20210212184610.GA31608@willie-the-truck>
+References: <20210203172242.29644-1-chang.seok.bae@intel.com>
+ <20210203172242.29644-2-chang.seok.bae@intel.com>
+ <20210204155519.GA21837@arm.com>
 MIME-Version: 1.0
-References: <c57a23199fce831c86d830717555623942f16f6e.1609311499.git.pcc@google.com>
- <e3977b3e1b548be1d9554ccfad6c83ac87802583.1609311499.git.pcc@google.com>
- <20210126130947.GD29702@willie-the-truck> <CAMn1gO4OGsYYXBAWk=OiauZoyHoPFR9znSeLfXV0rLoZ+H7j1A@mail.gmail.com>
- <c314e144-26d7-d80c-ce83-5fd597a8f772@arm.com>
-In-Reply-To: <c314e144-26d7-d80c-ce83-5fd597a8f772@arm.com>
-From:   Peter Collingbourne <pcc@google.com>
-Date:   Fri, 12 Feb 2021 10:20:13 -0800
-Message-ID: <CAMn1gO5DZ2qW1u9mMhqsC49xndb8WJFmwKX_Ua-5t-yj5jcDMg@mail.gmail.com>
-Subject: Re: [PATCH v6 3/3] arm64: pac: Optimize kernel entry/exit key
- installation code paths
-To:     James Morse <james.morse@arm.com>
-Cc:     Will Deacon <will@kernel.org>, libc-alpha@sourceware.org,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Kostya Serebryany <kcc@google.com>,
-        Florian Weimer <fw@deneb.enyo.de>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Evgenii Stepanov <eugenis@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210204155519.GA21837@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Feb 12, 2021 at 3:01 AM James Morse <james.morse@arm.com> wrote:
->
-> Hi Peter,
->
-> On 12/02/2021 05:01, Peter Collingbourne wrote:
-> > On Tue, Jan 26, 2021 at 5:09 AM Will Deacon <will@kernel.org> wrote:
-> >>
-> >> On Tue, Dec 29, 2020 at 10:59:15PM -0800, Peter Collingbourne wrote:
-> >>> The kernel does not use any keys besides IA so we don't need to
-> >>> install IB/DA/DB/GA on kernel exit if we arrange to install them
-> >>> on task switch instead, which we can expect to happen an order of
-> >>> magnitude less often.
-> >>>
-> >>> Furthermore we can avoid installing the user IA in the case where the
-> >>> user task has IA disabled and just leave the kernel IA installed. This
-> >>> also lets us avoid needing to install IA on kernel entry.
-> >>
-> >> I've got to be honest, this makes me nervous in case there is a way for
-> >> userspace to recover the kernel key even though EnIA is clear. Currently,
-> >> EnIA doesn't affect XPAC* and PACGA instructions, and the architecture
->
-> > For GA I would expect it to be controlled by a hypothetical EnGA, not
-> > by EnIA (and I'm a bit surprised that there isn't an EnGA;
->
-> PACGA is undefined if the CPU doesn't implement PAC, whereas PACIASP is a NOP if the CPU
-> doesn't implement PAC.
->
-> I think the reason from the SCTLR_ELx controls is to make unaware systems transform the
-> instructions that were hints back into hints. (e.g. the AddPACIA psuedo code). This is
-> needed on mismatched big-little systems, otherwise processes can't be migrated between them.
+On Thu, Feb 04, 2021 at 03:55:30PM +0000, Dave Martin wrote:
+> On Wed, Feb 03, 2021 at 09:22:38AM -0800, Chang S. Bae wrote:
+> > Move the AT_MINSIGSTKSZ definition to generic Linux from arm64. It is
+> > already used as generic ABI in glibc's generic elf.h, and this move will
+> > prevent future namespace conflicts. In particular, x86 will re-use this
+> > generic definition.
+> > 
+> > Signed-off-by: Chang S. Bae <chang.seok.bae@intel.com>
+> > Reviewed-by: Len Brown <len.brown@intel.com>
+> > Cc: Carlos O'Donell <carlos@redhat.com>
+> > Cc: Dave Martin <Dave.Martin@arm.com>
+> > Cc: libc-alpha@sourceware.org
+> > Cc: linux-arch@vger.kernel.org
+> > Cc: linux-api@vger.kernel.org
+> > Cc: linux-arm-kernel@lists.infradead.org
+> > Cc: linux-kernel@vger.kernel.org
+> > ---
+> > Change from v4:
+> > * Added as a new patch (Carlos O'Donell)
+> > ---
+> >  arch/arm64/include/uapi/asm/auxvec.h | 1 -
+> >  include/uapi/linux/auxvec.h          | 1 +
+> >  2 files changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/arch/arm64/include/uapi/asm/auxvec.h b/arch/arm64/include/uapi/asm/auxvec.h
+> > index 743c0b84fd30..767d710c92aa 100644
+> > --- a/arch/arm64/include/uapi/asm/auxvec.h
+> > +++ b/arch/arm64/include/uapi/asm/auxvec.h
+> > @@ -19,7 +19,6 @@
+> >  
+> >  /* vDSO location */
+> >  #define AT_SYSINFO_EHDR	33
+> > -#define AT_MINSIGSTKSZ	51	/* stack needed for signal delivery */
+> 
+> Since this is UAPI, I'm wondering whether we should try to preserve this
+> definition for users of <asm/auxvec.h>.  (Indeed, it is not uncommon to
+> include <asm/> headers in userspace hackery, since the <linux/> headers
+> tend to interact badly with the the libc headers.)
+> 
+> In C11 at least, duplicate #defines are not an error if the definitions
+> are the same.  I don't know about the history, but I suspect this was
+> true for older standards too.  So maybe we can just keep this definition
+> with a duplicate definition in the common header.
+> 
+> Otherwise, we could have
+> 
+> #ifndef AT_MINSIGSTKSZ
+> #define AT_MINSIGSTKSZ 51
+> #endif
+> 
+> in include/linux/uapi/auxvec.h, and keep the arm64 header unchanged.
 
-It's needed for more than that, see the history of my
-PR_PAC_SET_ENABLED_KEYS patch, in particular [1].
+I think it just boils down to whether or not anything breaks. If it does,
+then we'll have to revert the patch, so anything we can do now to minimise
+that possibility would be good.
 
-> For the non-hint instructions, user-space needs to test the hwcap/id-register-emulation to
-> know it can use these instructions, and the compiler shouldn't output them unconditionally.
-
-Right, unless the target is known to support them.
-
-> > doesn't it
-> > mean that a userspace program running under an unaware kernel or
-> > hypervisor may sign things using the GA from potentially another
-> > hypervisor guest?)
->
-> The hypervisor controls all this with HCR_EL2.API, which also traps PACGA et al.
-> For the hypervisor its all or nothing.
-> If the hypervisor is emulating a machine without PAC, it can emulate an undefined
-> exception regardless of whether the CPU supports PAC or not.
->
-> Does this match your reading?
-
-I think that's right. So an unaware hypervisor would set API to 0 and
-none of the guests would be able to use the authentication
-instructions. Since it looks like API=0 would make the hint-space
-instructions trap as well, I would imagine that a hypervisor would
-need to emulate them as no-ops if it's emulating a machine without
-PAC.
-
-Peter
-
-[1] https://www.spinics.net/lists/arm-kernel/msg830889.html
+Will
