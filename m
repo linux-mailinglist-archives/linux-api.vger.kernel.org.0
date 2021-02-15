@@ -2,498 +2,194 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AE1931BFC8
-	for <lists+linux-api@lfdr.de>; Mon, 15 Feb 2021 17:54:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D2DF731C136
+	for <lists+linux-api@lfdr.de>; Mon, 15 Feb 2021 19:13:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231135AbhBOQwR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 15 Feb 2021 11:52:17 -0500
-Received: from mga11.intel.com ([192.55.52.93]:28435 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231567AbhBOQuK (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 15 Feb 2021 11:50:10 -0500
-IronPort-SDR: ivtVOqrPC8gPzaTHaN3JyqJ443xBcw0FbfM8hwkKlBI/yMGtXFaBY7DPq70b50MUx1ZP5LdrF/
- 9CgJ4evlA2LA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9896"; a="179218670"
-X-IronPort-AV: E=Sophos;i="5.81,181,1610438400"; 
-   d="scan'208";a="179218670"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2021 08:49:15 -0800
-IronPort-SDR: qrnNDKcuiVv1NLGj4QSyRfIFTrNz7/dFpMkynYX/nWO0kmiebauSV2ScArn+9Pz1AwPGn7XHeo
- P83p4ANuFnSw==
-X-IronPort-AV: E=Sophos;i="5.81,181,1610438400"; 
-   d="scan'208";a="383439501"
-Received: from gbravo-mobl.amr.corp.intel.com (HELO [10.212.239.42]) ([10.212.239.42])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2021 08:49:06 -0800
-Subject: Re: [PATCH v20 08/25] x86/mm: Introduce _PAGE_COW
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
+        id S230384AbhBOSND (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 15 Feb 2021 13:13:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45252 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229981AbhBOSNC (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 15 Feb 2021 13:13:02 -0500
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 077E4C061574;
+        Mon, 15 Feb 2021 10:12:22 -0800 (PST)
+Received: by mail-lf1-x133.google.com with SMTP id h26so11909470lfm.1;
+        Mon, 15 Feb 2021 10:12:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=0c98g3eufcJurfy0Y/YTjQsVsPETkx4NO8zQfg5IgbA=;
+        b=dbDOr6gsxDIzYBObdb47g92Fw0I8kZmiQZF5SxLFATwX7qHRR0Gneisep+6XbjU41p
+         K0PWrmNL9h28tGzOGBJuwy0ILkFUKXxKTFtOdiZfo8ECticWgoYdaiThIbv3CQY/Iz8L
+         sO9TNG/0kGx9W9PH83eQt+7FkOOOe+F/wplCb+03lowdKs9jDLRvOg2dm0ltoYHnmw8A
+         Nn86uRpxOLX+/Z2ou1YZU9oTTinSc8/vxQSOwulkXlttkMQQmJ/4Zy5HRZE0gkC/aAZd
+         uqdHJSr/E/BfGpdvnulpE0V8/sm+fcA99kJTARYaAuczENQZ9koCIAIJAFMKGOaCeZUj
+         xmhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=0c98g3eufcJurfy0Y/YTjQsVsPETkx4NO8zQfg5IgbA=;
+        b=PHjvDUad+gsU3iJbDs2k2oOhBToK6FWE5Hs9KWkOFRyPXq8to0VSk2F63zIBtJ8rvu
+         Y4lqX/yk6ElG7GbguYaKDdqJjg+I6Dc9/m0mI6cMWo+TMX6WZvrAEOLLfOl1OpaQDxCH
+         JBfDok7b55r6AwpzNzaXDFfDZjqvD7Vw2SCpk/JCKjz9vzt2C6Aw7R6LnOh0Se2hcv52
+         pvi2WayTCuuzpkWKKHBSF9oM+xyDkt7kq0rh7zeTM9T+I1skhW5ZgH5Euj/BtuA5kdAq
+         4VRUpK7DlQhdZAaj9a0iYrauNU9ppHJmq7pBgC/eqSrIsUT65GoOOx/PmMkWp+Zg2ZXy
+         6XCA==
+X-Gm-Message-State: AOAM530UXXFpRcEjPr0OVT5KtEMz5kyQo3m76pGNYSHkVQvJ0c9QknOQ
+        XDI+/lbGWdeW2xPWsYHdxUA=
+X-Google-Smtp-Source: ABdhPJy8vOz1vhoROPpR1yZSbnTTkBTTB69R0qN0ld5f+xVn9u3aFZeRUYioGb9a53KYbiJLQtHvdg==
+X-Received: by 2002:a19:8006:: with SMTP id b6mr9029866lfd.625.1613412740471;
+        Mon, 15 Feb 2021 10:12:20 -0800 (PST)
+Received: from [192.168.1.39] (88-114-223-25.elisa-laajakaista.fi. [88.114.223.25])
+        by smtp.gmail.com with ESMTPSA id s4sm2841338lfp.281.2021.02.15.10.12.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Feb 2021 10:12:19 -0800 (PST)
+Subject: Re: [PATCH v2] mm/vmalloc: randomize vmalloc() allocations
+To:     Uladzislau Rezki <urezki@gmail.com>
+Cc:     linux-hardening@vger.kernel.org, akpm@linux-foundation.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
         Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>, haitao.huang@intel.com
-References: <20210210175703.12492-1-yu-cheng.yu@intel.com>
- <20210210175703.12492-9-yu-cheng.yu@intel.com>
- <202102101137.E109C9FE6@keescook>
- <819b6d6a-64ea-d908-76ad-0a6366ed0d53@intel.com>
-Message-ID: <66b7f5ef-2554-0b2d-13d3-a3f3467d968c@intel.com>
-Date:   Mon, 15 Feb 2021 08:49:05 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+        Jann Horn <jannh@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mike Rapoport <rppt@kernel.org>
+References: <20201212175635.4217-1-toiwoton@gmail.com>
+ <795016db-93fa-72ea-f5dd-16b9c56a62e9@gmail.com>
+ <20210213115521.GA1907@pc638.lan>
+ <8d60ba59-1d16-bb76-f3d3-f1b0c5a5b306@gmail.com>
+ <20210215125154.GA2259@pc638.lan>
+From:   Topi Miettinen <toiwoton@gmail.com>
+Message-ID: <325de13f-887f-4a13-df04-7db1ad6f9084@gmail.com>
+Date:   Mon, 15 Feb 2021 20:12:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <819b6d6a-64ea-d908-76ad-0a6366ed0d53@intel.com>
+In-Reply-To: <20210215125154.GA2259@pc638.lan>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2/10/2021 12:28 PM, Yu, Yu-cheng wrote:
-> On 2/10/2021 11:42 AM, Kees Cook wrote:
->> On Wed, Feb 10, 2021 at 09:56:46AM -0800, Yu-cheng Yu wrote:
->>> There is essentially no room left in the x86 hardware PTEs on some OSes
->>> (not Linux).  That left the hardware architects looking for a way to
->>> represent a new memory type (shadow stack) within the existing bits.
->>> They chose to repurpose a lightly-used state: Write=0, Dirty=1.
->>>
->>> The reason it's lightly used is that Dirty=1 is normally set by hardware
->>> and cannot normally be set by hardware on a Write=0 PTE.  Software must
->>> normally be involved to create one of these PTEs, so software can simply
->>> opt to not create them.
->>>
->>> In places where Linux normally creates Write=0, Dirty=1, it can use the
->>> software-defined _PAGE_COW in place of the hardware _PAGE_DIRTY.  In 
->>> other
->>> words, whenever Linux needs to create Write=0, Dirty=1, it instead 
->>> creates
->>> Write=0, Cow=1, except for shadow stack, which is Write=0, Dirty=1.  
->>> This
->>> clearly separates shadow stack from other data, and results in the
->>> following:
->>>
->>> (a) A modified, copy-on-write (COW) page: (Write=0, Cow=1)
->>> (b) A R/O page that has been COW'ed: (Write=0, Cow=1)
->>>      The user page is in a R/O VMA, and get_user_pages() needs a 
->>> writable
->>>      copy.  The page fault handler creates a copy of the page and sets
->>>      the new copy's PTE as Write=0 and Cow=1.
->>> (c) A shadow stack PTE: (Write=0, Dirty=1)
->>> (d) A shared shadow stack PTE: (Write=0, Cow=1)
->>>      When a shadow stack page is being shared among processes (this 
->>> happens
->>>      at fork()), its PTE is made Dirty=0, so the next shadow stack 
->>> access
->>>      causes a fault, and the page is duplicated and Dirty=1 is set 
->>> again.
->>>      This is the COW equivalent for shadow stack pages, even though it's
->>>      copy-on-access rather than copy-on-write.
->>> (e) A page where the processor observed a Write=1 PTE, started a 
->>> write, set
->>>      Dirty=1, but then observed a Write=0 PTE.  That's possible 
->>> today, but
->>>      will not happen on processors that support shadow stack.
->>>
->>> Define _PAGE_COW and update pte_*() helpers and apply the same 
->>> changes to
->>> pmd and pud.
+On 15.2.2021 14.51, Uladzislau Rezki wrote:
+> On Sat, Feb 13, 2021 at 03:43:39PM +0200, Topi Miettinen wrote:
+>> On 13.2.2021 13.55, Uladzislau Rezki wrote:
+>>>> Hello,
+>>>>
+>>>> Is there a chance of getting this reviewed and maybe even merged, please?
+>>>>
+>>>> -Topi
+>>>>
+>>> I can review it and help with it. But before that i would like to
+>>> clarify if such "randomization" is something that you can not leave?
 >>
->> I still find this commit confusing mostly due to _PAGE_COW being 0
->> without CET enabled. Shouldn't this just get changed universally? Why
->> should this change depend on CET?
+>> This happens to interest me and I don't mind the performance loss since I
+>> think there's also an improvement in security. I suppose (perhaps wrongly)
+>> that others may also be interested in such features. For example, also
+>> `nosmt` can take away a big part of CPU processing capability.
+>>
+> OK. I was thinking about if it is done for some production systems or
+> some specific projects where this is highly demanded.
+> 
+>>
+>> Does this
+>> answer your question, I'm not sure what you mean with leaving? I hope you
+>> would not want me to go away and leave?
+>>
+> No-no, that was a type :) Sorry for that. I just wanted to figure out
+> who really needs it.
+
+It's not needed. The goal is just to increase address space layout 
+randomization, to harden the system against attacks which depend on 
+predictable kernel memory layout. This should not be used when 
+performance is more important than hardening.
+
+>>> For example on 32bit system vmalloc space is limited, such randomization
+>>> can slow down it, also it will lead to failing of allocations much more,
+>>> thus it will require repeating with different offset.
+>>
+>> I would not use `randomize_vmalloc=1` on a 32 bit systems, because in
+>> addition to slow down, the address space could become so fragmented that
+>> large allocations may not fit anymore. Perhaps the documentation should warn
+>> about this more clearly. I haven't tried this on a 32 bit system though and
+>> there the VM layout is very different.
+>>
+> For 32-bit systems that would introduce many issues not limited to fragmentations.
+> 
+>> __alloc_vm_area() scans the vmalloc space starting from a random address up
+>> to end of the area. If this fails, the scan is restarted from the bottom of
+>> the area up to this random address. Thus the entire area is scanned.
+>>
+>>> Second. There is a space or region for modules. Using various offsets
+>>> can waste of that memory, thus can lead to failing of module loading.
+>>
+>> The allocations for modules (or BPF code) are also randomized within their
+>> dedicated space. I don't think other allocations should affect module space.
+>> Within this module space, fragmentation may also be possible because there's
+>> only 1,5GB available. The largest allocation on my system seems to be 11M at
+>> the moment, others are 1M or below and most are 8k. The possibility of an
+>> allocation failing probably depends on the fill ratio. In practice haven't
+>> seen problems with this.
+>>
+> I think it depends on how many modules your system loads. If it is a big
+> system it might be that such fragmentation and wasting of module space
+> may lead to modules loading.
+
+# echo 1 > /proc/sys/kernel/kptr_restrict
+# grep 0xffffffff /proc/vmallocinfo | awk '{s=s+$2;c++} END {print 
+"total\tcount\tavg\tof 1536MB";print s,c,s/c,s/1536/1024/1024}'
+total   count   avg     of 1536MB
+34201600 1022 33465.4 0.0212351
+
+I think that on my system fragmentation shouldn't be a danger since only 
+2% (34MB) of the 1536MB available is used for the 1022 module/BPF blocks.
+
+>> It would be possible to have finer control, for example
+>> `randomize_vmalloc=3` (1 = general vmalloc, 2 = modules, bitwise ORed) or
+>> `randomize_vmalloc=general,modules`.
+>>
+>> I experimented by trying to change how the modules are compiled
+>> (-mcmodel=medium or -mcmodel=large) so that they could be located in the
+>> normal vmalloc space, but instead I found a bug in the compiler (-mfentry
+>> produces incorrect code for -mcmodel=large, now fixed).
+>>
+>>> On the other side there is a per-cpu allocator. Interfering with it
+>>> also will increase a rate of failing.
+>>
+>> I didn't notice the per-cpu allocator before. I'm probably missing
+>> something, but it seems to be used for a different purpose (for allocating
+>> the vmap_area structure objects instead of the address space range), so
+>> where do you see interference?
 >>
 > 
-> For example, in...
 > 
-> static inline int pte_write(pte_t pte)
-> {
->      if (cpu_feature_enabled(X86_FEATURE_SHSTK))
->          return pte_flags(pte) & (_PAGE_RW | _PAGE_DIRTY);
->      else
->          return pte_flags(pte) & _PAGE_RW;
-> }
+>     A                       B
+>   ---->                   <----
+> <---------------------------><--------->
+> |   vmalloc address space    |
+> |<--------------------------->
 > 
-> There are four cases:
 > 
-> (a) RW=1, Dirty=1 -> writable
-> (b) RW=1, Dirty=0 -> writable
-> (c) RW=0, Dirty=0 -> not writable
-> (d) RW=0, Dirty=1 -> shadow stack, or not-writable if !X86_FEATURE_SHSTK
+> A - is a vmalloc allocations;
+> B - is a percpu-allocator.
+
+OK, now I get it, thanks. These can be seen in /proc/vmallocinfo as 
+allocations done by pcpu_get_vm_areas(). The way of allocating very 
+predictably downwards of a fixed address is bad for ASLR, so I'll try to 
+randomize the location of these too. Other allocations by 
+pcpu_populate_chunk() and
+pcpu_create_chunk() seem to be randomized already.
+
+-Topi
+
 > 
-> Case (d) is ture only when shadow stack is enabled, otherwise it is not 
-> writable.  With shadow stack feature, the usual dirty, copy-on-write PTE 
-> becomes RW=0, Cow=1.
-> 
-> We can get this changed universally, but all usual dirty, copy-on-write 
-> PTEs need the Dirty/Cow swapping, always.  Is that desirable?
+> --
+> Vlad Rezki
 > 
 
-Instead of working on _PAGE_COW directly, create three helpers: 
-pte_make_cow(), pte_clear_cow(), pte_shstk().  The decision of swapping 
-_PAGE_DIRTY/_PAGE_COW is now in the helpers.  For example, 
-pte_wrprotect() is now:
-
-static inline pte_t pte_wrprotect(pte_t pte)
-{
-	pte = pte_clear_flags(pte, _PAGE_RW);
-
-	if (pte_dirty(pte))
-		pte = pte_make_cow(pte);
-	return pte;
-}
-
-How is that?  The revise patch is the following.
-
-Yu-cheng
-
-
-
-
-diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
-index a02c67291cfc..1a6c0784af0a 100644
---- a/arch/x86/include/asm/pgtable.h
-+++ b/arch/x86/include/asm/pgtable.h
-@@ -121,11 +121,21 @@ extern pmdval_t early_pmd_flags;
-   * The following only work if pte_present() is true.
-   * Undefined behaviour if not..
-   */
--static inline int pte_dirty(pte_t pte)
-+static inline bool pte_dirty(pte_t pte)
-  {
--	return pte_flags(pte) & _PAGE_DIRTY;
-+	/*
-+	 * A dirty PTE has Dirty=1 or Cow=1.
-+	 */
-+	return pte_flags(pte) & _PAGE_DIRTY_BITS;
-  }
-
-+static inline bool pte_shstk(pte_t pte)
-+{
-+	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
-+		return false;
-+
-+	return (pte_flags(pte) & (_PAGE_RW | _PAGE_DIRTY)) == _PAGE_DIRTY;
-+}
-
-  static inline u32 read_pkru(void)
-  {
-@@ -160,9 +170,20 @@ static inline int pte_young(pte_t pte)
-  	return pte_flags(pte) & _PAGE_ACCESSED;
-  }
-
--static inline int pmd_dirty(pmd_t pmd)
-+static inline bool pmd_dirty(pmd_t pmd)
-  {
--	return pmd_flags(pmd) & _PAGE_DIRTY;
-+	/*
-+	 * A dirty PMD has Dirty=1 or Cow=1.
-+	 */
-+	return pmd_flags(pmd) & _PAGE_DIRTY_BITS;
-+}
-+
-+static inline bool pmd_shstk(pmd_t pmd)
-+{
-+	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
-+		return false;
-+
-+	return (pmd_flags(pmd) & (_PAGE_RW | _PAGE_DIRTY)) == _PAGE_DIRTY;
-  }
-
-  static inline int pmd_young(pmd_t pmd)
-@@ -170,9 +191,12 @@ static inline int pmd_young(pmd_t pmd)
-  	return pmd_flags(pmd) & _PAGE_ACCESSED;
-  }
-
--static inline int pud_dirty(pud_t pud)
-+static inline bool pud_dirty(pud_t pud)
-  {
--	return pud_flags(pud) & _PAGE_DIRTY;
-+	/*
-+	 * A dirty PUD has Dirty=1 or Cow=1.
-+	 */
-+	return pud_flags(pud) & _PAGE_DIRTY_BITS;
-  }
-
-  static inline int pud_young(pud_t pud)
-@@ -182,7 +206,7 @@ static inline int pud_young(pud_t pud)
-
-  static inline int pte_write(pte_t pte)
-  {
--	return pte_flags(pte) & _PAGE_RW;
-+	return (pte_flags(pte) & _PAGE_RW) || pte_shstk(pte);
-  }
-
-  static inline int pte_huge(pte_t pte)
-@@ -314,6 +338,24 @@ static inline pte_t pte_clear_flags(pte_t pte, 
-pteval_t clear)
-  	return native_make_pte(v & ~clear);
-  }
-
-+static inline pte_t pte_make_cow(pte_t pte)
-+{
-+	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
-+		return pte;
-+
-+	pte = pte_clear_flags(pte, _PAGE_DIRTY);
-+	return pte_set_flags(pte, _PAGE_COW);
-+}
-+
-+static inline pte_t pte_clear_cow(pte_t pte)
-+{
-+	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
-+		return pte;
-+
-+	pte = pte_set_flags(pte, _PAGE_DIRTY);
-+	return pte_clear_flags(pte, _PAGE_COW);
-+}
-+
-  #ifdef CONFIG_HAVE_ARCH_USERFAULTFD_WP
-  static inline int pte_uffd_wp(pte_t pte)
-  {
-@@ -333,7 +375,7 @@ static inline pte_t pte_clear_uffd_wp(pte_t pte)
-
-  static inline pte_t pte_mkclean(pte_t pte)
-  {
--	return pte_clear_flags(pte, _PAGE_DIRTY);
-+	return pte_clear_flags(pte, _PAGE_DIRTY_BITS);
-  }
-
-  static inline pte_t pte_mkold(pte_t pte)
-@@ -343,7 +385,16 @@ static inline pte_t pte_mkold(pte_t pte)
-
-  static inline pte_t pte_wrprotect(pte_t pte)
-  {
--	return pte_clear_flags(pte, _PAGE_RW);
-+	pte = pte_clear_flags(pte, _PAGE_RW);
-+
-+	/*
-+	 * Blindly clearing _PAGE_RW might accidentally create
-+	 * a shadow stack PTE (RW=0, Dirty=1).  Move the hardware
-+	 * dirty value to the software bit.
-+	 */
-+	if (pte_dirty(pte))
-+		pte = pte_make_cow(pte);
-+	return pte;
-  }
-
-  static inline pte_t pte_mkexec(pte_t pte)
-@@ -353,7 +404,18 @@ static inline pte_t pte_mkexec(pte_t pte)
-
-  static inline pte_t pte_mkdirty(pte_t pte)
-  {
--	return pte_set_flags(pte, _PAGE_DIRTY | _PAGE_SOFT_DIRTY);
-+	pteval_t dirty = _PAGE_DIRTY;
-+
-+	/* Avoid creating (HW)Dirty=1, Write=0 PTEs */
-+	if (cpu_feature_enabled(X86_FEATURE_SHSTK) && !pte_write(pte))
-+		dirty = _PAGE_COW;
-+
-+	return pte_set_flags(pte, dirty | _PAGE_SOFT_DIRTY);
-+}
-+
-+static inline pte_t pte_mkwrite_shstk(pte_t pte)
-+{
-+	return pte_clear_cow(pte);
-  }
-
-  static inline pte_t pte_mkyoung(pte_t pte)
-@@ -363,7 +425,12 @@ static inline pte_t pte_mkyoung(pte_t pte)
-
-  static inline pte_t pte_mkwrite(pte_t pte)
-  {
--	return pte_set_flags(pte, _PAGE_RW);
-+	pte = pte_set_flags(pte, _PAGE_RW);
-+
-+	if (pte_dirty(pte))
-+		pte = pte_clear_cow(pte);
-+
-+	return pte;
-  }
-
-  static inline pte_t pte_mkhuge(pte_t pte)
-@@ -410,6 +477,24 @@ static inline pmd_t pmd_clear_flags(pmd_t pmd, 
-pmdval_t clear)
-  	return native_make_pmd(v & ~clear);
-  }
-
-+static inline pmd_t pmd_make_cow(pmd_t pmd)
-+{
-+	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
-+		return pmd;
-+
-+	pmd = pmd_clear_flags(pmd, _PAGE_DIRTY);
-+	return pmd_set_flags(pmd, _PAGE_COW);
-+}
-+
-+static inline pmd_t pmd_clear_cow(pmd_t pmd)
-+{
-+	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
-+		return pmd;
-+
-+	pmd = pmd_set_flags(pmd, _PAGE_DIRTY);
-+	return pmd_clear_flags(pmd, _PAGE_COW);
-+}
-+
-  #ifdef CONFIG_HAVE_ARCH_USERFAULTFD_WP
-  static inline int pmd_uffd_wp(pmd_t pmd)
-  {
-@@ -434,17 +519,36 @@ static inline pmd_t pmd_mkold(pmd_t pmd)
-
-  static inline pmd_t pmd_mkclean(pmd_t pmd)
-  {
--	return pmd_clear_flags(pmd, _PAGE_DIRTY);
-+	return pmd_clear_flags(pmd, _PAGE_DIRTY_BITS);
-  }
-
-  static inline pmd_t pmd_wrprotect(pmd_t pmd)
-  {
--	return pmd_clear_flags(pmd, _PAGE_RW);
-+	pmd = pmd_clear_flags(pmd, _PAGE_RW);
-+	/*
-+	 * Blindly clearing _PAGE_RW might accidentally create
-+	 * a shadow stack PMD (RW=0, Dirty=1).  Move the hardware
-+	 * dirty value to the software bit.
-+	 */
-+	if (pmd_dirty(pmd))
-+		pmd = pmd_make_cow(pmd);
-+	return pmd;
-  }
-
-  static inline pmd_t pmd_mkdirty(pmd_t pmd)
-  {
--	return pmd_set_flags(pmd, _PAGE_DIRTY | _PAGE_SOFT_DIRTY);
-+	pmdval_t dirty = _PAGE_DIRTY;
-+
-+	/* Avoid creating (HW)Dirty=1, Write=0 PMDs */
-+	if (cpu_feature_enabled(X86_FEATURE_SHSTK) && !(pmd_flags(pmd) & 
-_PAGE_RW))
-+		dirty = _PAGE_COW;
-+
-+	return pmd_set_flags(pmd, dirty | _PAGE_SOFT_DIRTY);
-+}
-+
-+static inline pmd_t pmd_mkwrite_shstk(pmd_t pmd)
-+{
-+	return pmd_clear_cow(pmd);
-  }
-
-  static inline pmd_t pmd_mkdevmap(pmd_t pmd)
-@@ -464,7 +568,11 @@ static inline pmd_t pmd_mkyoung(pmd_t pmd)
-
-  static inline pmd_t pmd_mkwrite(pmd_t pmd)
-  {
--	return pmd_set_flags(pmd, _PAGE_RW);
-+	pmd = pmd_set_flags(pmd, _PAGE_RW);
-+
-+	if (pmd_dirty(pmd))
-+		pmd = pmd_clear_cow(pmd);
-+	return pmd;
-  }
-
-  static inline pud_t pud_set_flags(pud_t pud, pudval_t set)
-@@ -481,6 +589,24 @@ static inline pud_t pud_clear_flags(pud_t pud, 
-pudval_t clear)
-  	return native_make_pud(v & ~clear);
-  }
-
-+static inline pud_t pud_make_cow(pud_t pud)
-+{
-+	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
-+		return pud;
-+
-+	pud = pud_clear_flags(pud, _PAGE_DIRTY);
-+	return pud_set_flags(pud, _PAGE_COW);
-+}
-+
-+static inline pud_t pud_clear_cow(pud_t pud)
-+{
-+	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
-+		return pud;
-+
-+	pud = pud_set_flags(pud, _PAGE_DIRTY);
-+	return pud_clear_flags(pud, _PAGE_COW);
-+}
-+
-  static inline pud_t pud_mkold(pud_t pud)
-  {
-  	return pud_clear_flags(pud, _PAGE_ACCESSED);
-@@ -488,17 +614,32 @@ static inline pud_t pud_mkold(pud_t pud)
-
-  static inline pud_t pud_mkclean(pud_t pud)
-  {
--	return pud_clear_flags(pud, _PAGE_DIRTY);
-+	return pud_clear_flags(pud, _PAGE_DIRTY_BITS);
-  }
-
-  static inline pud_t pud_wrprotect(pud_t pud)
-  {
--	return pud_clear_flags(pud, _PAGE_RW);
-+	pud = pud_clear_flags(pud, _PAGE_RW);
-+
-+	/*
-+	 * Blindly clearing _PAGE_RW might accidentally create
-+	 * a shadow stack PUD (RW=0, Dirty=1).  Move the hardware
-+	 * dirty value to the software bit.
-+	 */
-+	if (pud_dirty(pud))
-+		pud = pud_make_cow(pud);
-+	return pud;
-  }
-
-  static inline pud_t pud_mkdirty(pud_t pud)
-  {
--	return pud_set_flags(pud, _PAGE_DIRTY | _PAGE_SOFT_DIRTY);
-+	pudval_t dirty = _PAGE_DIRTY;
-+
-+	/* Avoid creating (HW)Dirty=1, Write=0 PUDs */
-+	if (cpu_feature_enabled(X86_FEATURE_SHSTK) && !(pud_flags(pud) & 
-_PAGE_RW))
-+		dirty = _PAGE_COW;
-+
-+	return pud_set_flags(pud, dirty | _PAGE_SOFT_DIRTY);
-  }
-
-  static inline pud_t pud_mkdevmap(pud_t pud)
-@@ -518,7 +659,11 @@ static inline pud_t pud_mkyoung(pud_t pud)
-
-  static inline pud_t pud_mkwrite(pud_t pud)
-  {
--	return pud_set_flags(pud, _PAGE_RW);
-+	pud = pud_set_flags(pud, _PAGE_RW);
-+
-+	if (pud_dirty(pud))
-+		pud = pud_clear_cow(pud);
-+	return pud;
-  }
-
-  #ifdef CONFIG_HAVE_ARCH_SOFT_DIRTY
-@@ -1131,7 +1276,7 @@ extern int pmdp_clear_flush_young(struct 
-vm_area_struct *vma,
-  #define pmd_write pmd_write
-  static inline int pmd_write(pmd_t pmd)
-  {
--	return pmd_flags(pmd) & _PAGE_RW;
-+	return (pmd_flags(pmd) & _PAGE_RW) || pmd_shstk(pmd);
-  }
-
-  #define __HAVE_ARCH_PMDP_HUGE_GET_AND_CLEAR
