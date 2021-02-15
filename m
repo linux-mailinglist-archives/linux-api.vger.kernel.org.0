@@ -2,165 +2,306 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 68F7531B9D1
-	for <lists+linux-api@lfdr.de>; Mon, 15 Feb 2021 13:53:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 76F8831BC43
+	for <lists+linux-api@lfdr.de>; Mon, 15 Feb 2021 16:26:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229936AbhBOMxF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 15 Feb 2021 07:53:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32946 "EHLO
+        id S230235AbhBOPZP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 15 Feb 2021 10:25:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229805AbhBOMwk (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 15 Feb 2021 07:52:40 -0500
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D32CC061574;
-        Mon, 15 Feb 2021 04:51:58 -0800 (PST)
-Received: by mail-lf1-x132.google.com with SMTP id p21so9872066lfu.11;
-        Mon, 15 Feb 2021 04:51:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=KAcKBIEJHkiFFEg+eBhYyKF6mpgLJGuodnHv7wBP55o=;
-        b=do8GwdAHdZ4S6gFJ4luZv+iMpePUpfnAaldCHt2ph5JudPQ4FoDLvOtvthd1dvQlN4
-         4WcX+AXXP5LLNaj+G85Y/ec07i1YH9Dj5sSotprlFsqHUGAxqF6n+T0St31xrK/7A6cf
-         GZGWXzaJyB34RvotsoYwJZKpoTO60NfI7nSE8/HCgm3mNSl9nGw/DsP7MpsoGbM7tFJd
-         N+HScTMO9OhH2Lnj9qoBHnFa7HVwmV6aJjivRT7RKnY40y2HPc9G6pamH01yaUi96w6+
-         TEX5D0KSIBcZsZ2MInNeXBYA020G/dQA47cKxsAkqArPLC45UCuiWHEYRbE2Op+EbNBB
-         ZqNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=KAcKBIEJHkiFFEg+eBhYyKF6mpgLJGuodnHv7wBP55o=;
-        b=Chocy+DG23btjU8vtwBhfmX0BYW2J0QyKKacAg+T4UK/f7jXqs0KmWQ1y81a9Hex4d
-         N95BmY51LGXXbQw+khA8fsuripKdvwX1MeYEM2dJ04eM+GTsMUrJkQ6uh6pxkjKLARKi
-         6o0YdHEALThU+0g1+N6wfoZnqfOz1OcCRosDgMl7s9Y8SN1ZVtDjPohdCA+seXv+xDFn
-         uZFtUro5kdEGRILlZjePgzT7QNVxmWBbDxoIPbjZCm0dtSozwVwQ4tOdUMM2M7uXs3Rq
-         PEvM9+RHtbIHB/MV+Raz96McNagt8H1CBkzPqrnMuZ3H35ntu4voHJzkEkjQRZXghkhk
-         37cg==
-X-Gm-Message-State: AOAM533SyT5ARDcXkqn6OBbVbuonUrObnldL9U+DTc01qKXE23+gTcQ+
-        mO+OKi6ntBCCTJSrdMYU4hY=
-X-Google-Smtp-Source: ABdhPJxb3XiSBHop552bmK0mmybiubbDu9iubQJIgWo7X4Jme7oT6lUPuupRhc2C+deFXoNDbW7glQ==
-X-Received: by 2002:a19:f814:: with SMTP id a20mr8229576lff.212.1613393517119;
-        Mon, 15 Feb 2021 04:51:57 -0800 (PST)
-Received: from pc638.lan (h5ef52e3d.seluork.dyn.perspektivbredband.net. [94.245.46.61])
-        by smtp.gmail.com with ESMTPSA id 3sm1891173lfr.105.2021.02.15.04.51.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Feb 2021 04:51:56 -0800 (PST)
-From:   Uladzislau Rezki <urezki@gmail.com>
-X-Google-Original-From: Uladzislau Rezki <urezki@pc638.lan>
-Date:   Mon, 15 Feb 2021 13:51:54 +0100
-To:     Topi Miettinen <toiwoton@gmail.com>
-Cc:     Uladzislau Rezki <urezki@gmail.com>,
-        linux-hardening@vger.kernel.org, akpm@linux-foundation.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        Andy Lutomirski <luto@kernel.org>,
-        Jann Horn <jannh@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mike Rapoport <rppt@kernel.org>
-Subject: Re: [PATCH v2] mm/vmalloc: randomize vmalloc() allocations
-Message-ID: <20210215125154.GA2259@pc638.lan>
-References: <20201212175635.4217-1-toiwoton@gmail.com>
- <795016db-93fa-72ea-f5dd-16b9c56a62e9@gmail.com>
- <20210213115521.GA1907@pc638.lan>
- <8d60ba59-1d16-bb76-f3d3-f1b0c5a5b306@gmail.com>
+        with ESMTP id S230015AbhBOPZJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 15 Feb 2021 10:25:09 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FAE7C061756;
+        Mon, 15 Feb 2021 07:24:29 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: tonyk)
+        with ESMTPSA id 3BD3A1F44DC7
+From:   =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Darren Hart <dvhart@infradead.org>,
+        linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc:     kernel@collabora.com, krisman@collabora.com,
+        pgriffais@valvesoftware.com, z.figura12@gmail.com,
+        joel@joelfernandes.org, malteskarupke@fastmail.fm,
+        linux-api@vger.kernel.org, fweimer@redhat.com,
+        libc-alpha@sourceware.org, linux-kselftest@vger.kernel.org,
+        shuah@kernel.org, acme@kernel.org, corbet@lwn.net,
+        =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>
+Subject: [RFC PATCH 00/13] Add futex2 syscalls
+Date:   Mon, 15 Feb 2021 12:23:51 -0300
+Message-Id: <20210215152404.250281-1-andrealmeid@collabora.com>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8d60ba59-1d16-bb76-f3d3-f1b0c5a5b306@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Feb 13, 2021 at 03:43:39PM +0200, Topi Miettinen wrote:
-> On 13.2.2021 13.55, Uladzislau Rezki wrote:
-> > > Hello,
-> > > 
-> > > Is there a chance of getting this reviewed and maybe even merged, please?
-> > > 
-> > > -Topi
-> > > 
-> > I can review it and help with it. But before that i would like to
-> > clarify if such "randomization" is something that you can not leave?
-> 
-> This happens to interest me and I don't mind the performance loss since I
-> think there's also an improvement in security. I suppose (perhaps wrongly)
-> that others may also be interested in such features. For example, also
-> `nosmt` can take away a big part of CPU processing capability.
->
-OK. I was thinking about if it is done for some production systems or
-some specific projects where this is highly demanded.
+Hi,
 
->
-> Does this
-> answer your question, I'm not sure what you mean with leaving? I hope you
-> would not want me to go away and leave?
->
-No-no, that was a type :) Sorry for that. I just wanted to figure out
-who really needs it.
+This patch series introduces the futex2 syscalls.
 
-> > For example on 32bit system vmalloc space is limited, such randomization
-> > can slow down it, also it will lead to failing of allocations much more,
-> > thus it will require repeating with different offset.
-> 
-> I would not use `randomize_vmalloc=1` on a 32 bit systems, because in
-> addition to slow down, the address space could become so fragmented that
-> large allocations may not fit anymore. Perhaps the documentation should warn
-> about this more clearly. I haven't tried this on a 32 bit system though and
-> there the VM layout is very different.
-> 
-For 32-bit systems that would introduce many issues not limited to fragmentations.
+* What happened to the current futex()?
 
-> __alloc_vm_area() scans the vmalloc space starting from a random address up
-> to end of the area. If this fails, the scan is restarted from the bottom of
-> the area up to this random address. Thus the entire area is scanned.
-> 
-> > Second. There is a space or region for modules. Using various offsets
-> > can waste of that memory, thus can lead to failing of module loading.
-> 
-> The allocations for modules (or BPF code) are also randomized within their
-> dedicated space. I don't think other allocations should affect module space.
-> Within this module space, fragmentation may also be possible because there's
-> only 1,5GB available. The largest allocation on my system seems to be 11M at
-> the moment, others are 1M or below and most are 8k. The possibility of an
-> allocation failing probably depends on the fill ratio. In practice haven't
-> seen problems with this.
-> 
-I think it depends on how many modules your system loads. If it is a big
-system it might be that such fragmentation and wasting of module space
-may lead to modules loading.
+For some years now, developers have been trying to add new features to
+futex, but maintainers have been reluctant to accept then, given the
+multiplexed interface full of legacy features and tricky to do big
+changes. Some problems that people tried to address with patchsets are:
+NUMA-awareness[0], smaller sized futexes[1], wait on multiple futexes[2].
+NUMA, for instance, just doesn't fit the current API in a reasonable
+way. Considering that, it's not possible to merge new features into the
+current futex.
 
-> It would be possible to have finer control, for example
-> `randomize_vmalloc=3` (1 = general vmalloc, 2 = modules, bitwise ORed) or
-> `randomize_vmalloc=general,modules`.
-> 
-> I experimented by trying to change how the modules are compiled
-> (-mcmodel=medium or -mcmodel=large) so that they could be located in the
-> normal vmalloc space, but instead I found a bug in the compiler (-mfentry
-> produces incorrect code for -mcmodel=large, now fixed).
-> 
-> > On the other side there is a per-cpu allocator. Interfering with it
-> > also will increase a rate of failing.
-> 
-> I didn't notice the per-cpu allocator before. I'm probably missing
-> something, but it seems to be used for a different purpose (for allocating
-> the vmap_area structure objects instead of the address space range), so
-> where do you see interference?
-> 
+ ** The NUMA problem
 
+ At the current implementation, all futex kernel side infrastructure is
+ stored on a single node. Given that, all futex() calls issued by
+ processors that aren't located on that node will have a memory access
+ penalty when doing it.
 
-   A                       B
- ---->                   <----
-<---------------------------><--------->
-|   vmalloc address space    |
-|<--------------------------->
+ ** The 32bit sized futex problem
 
+ Embedded systems or anything with memory constrains would benefit of
+ using smaller sizes for the futex userspace integer. Also, a mutex
+ implementation can be done using just three values, so 8 bits is enough
+ for various scenarios.
 
-A - is a vmalloc allocations;
-B - is a percpu-allocator.
+ ** The wait on multiple problem
 
---
-Vlad Rezki
+ The use case lies in the Wine implementation of the Windows NT interface
+ WaitMultipleObjects. This Windows API function allows a thread to sleep
+ waiting on the first of a set of event sources (mutexes, timers, signal,
+ console input, etc) to signal.  Considering this is a primitive
+ synchronization operation for Windows applications, being able to quickly
+ signal events on the producer side, and quickly go to sleep on the
+ consumer side is essential for good performance of those running
+ over Wine.
+
+[0] https://lore.kernel.org/lkml/20160505204230.932454245@linutronix.de/
+[1] https://lore.kernel.org/lkml/20191221155659.3159-2-malteskarupke@web.de/
+[2] https://lore.kernel.org/lkml/20200213214525.183689-1-andrealmeid@collabora.com/
+
+* The solution
+
+As proposed by Peter Zijlstra and Florian Weimer[3], a new interface
+is required to solve this, which must be designed with those features in
+mind. futex2() is that interface. As opposed to the current multiplexed
+interface, the new one should have one syscall per operation. This will
+allow the maintainability of the API if it gets extended, and will help
+users with type checking of arguments.
+
+In particular, the new interface is extended to support the ability to
+wait on any of a list of futexes at a time, which could be seen as a
+vectored extension of the FUTEX_WAIT semantics.
+
+[3] https://lore.kernel.org/lkml/20200303120050.GC2596@hirez.programming.kicks-ass.net/
+
+* The interface
+
+The new interface can be seen in details in the following patches, but
+this is a high level summary of what the interface can do:
+
+ - Supports wake/wait semantics, as in futex()
+ - Supports requeue operations, similarly as FUTEX_CMP_REQUEUE, but with
+   individual flags for each address
+ - Supports waiting for a vector of futexes, using a new syscall named
+   futex_waitv()
+ - Supports variable sized futexes (8bits, 16bits and 32bits)
+ - Supports NUMA-awareness operations, where the user can specify on
+   which memory node would like to operate
+
+* Implementation
+
+The internal implementation follows a similar design to the original futex.
+Given that we want to replicate the same external behavior of current
+futex, this should be somewhat expected. For some functions, like the
+init and the code to get a shared key, I literally copied code and
+comments from kernel/futex.c. I decided to do so instead of exposing the
+original function as a public function since in that way we can freely
+modify our implementation if required, without any impact on old futex.
+Also, the comments precisely describes the details and corner cases of
+the implementation.
+
+Each patch contains a brief description of implementation, but patch 6
+"docs: locking: futex2: Add documentation" adds a more complete document
+about it.
+
+* The patchset
+
+This patchset can be also found at my git tree:
+
+https://gitlab.collabora.com/tonyk/linux/-/tree/futex2
+
+  - Patch 1: Implements wait/wake, and the basics foundations of futex2
+
+  - Patches 2-4: Implement the remaining features (shared, waitv, requeue).
+
+  - Patch 5:  Adds the x86_x32 ABI handling. I kept it in a separated
+    patch since I'm not sure if x86_x32 is still a thing, or if it should
+    return -ENOSYS.
+
+  - Patch 6: Add a documentation file which details the interface and
+    the internal implementation.
+
+  - Patches 7-13: Selftests for all operations along with perf
+    support for futex2.
+
+  - Patch 14: While working on porting glibc for futex2, I found out
+    that there's a futex_wake() call at the user thread exit path, if
+    that thread was created with clone(..., CLONE_CHILD_SETTID, ...). In
+    order to make pthreads work with futex2, it was required to add
+    this patch. Note that this is more a proof-of-concept of what we
+    will need to do in future, rather than part of the interface and
+    shouldn't be merged as it is.
+
+* Testing:
+
+This patchset provides selftests for each operation and their flags.
+Along with that, the following work was done:
+
+ ** Stability
+
+ To stress the interface in "real world scenarios":
+
+ - glibc[4]: nptl's low level locking was modified to use futex2 API
+   (except for robust and PI things). All relevant nptl/ tests passed.
+
+ - Wine[5]: Proton/Wine was modified in order to use futex2() for the
+   emulation of Windows NT sync mechanisms based on futex, called "fsync".
+   Triple-A games with huge CPU's loads and tons of parallel jobs worked
+   as expected when compared with the previous FUTEX_WAIT_MULTIPLE
+   implementation at futex(). Some games issue 42k futex2() calls
+   per second.
+
+ - Full GNU/Linux distro: I installed the modified glibc in my host
+   machine, so all pthread's programs would use futex2(). After tweaking
+   systemd[6] to allow futex2() calls at seccomp, everything worked as
+   expected (web browsers do some syscall sandboxing and need some
+   configuration as well).
+
+ - perf: The perf benchmarks tests can also be used to stress the
+   interface, and they can be found in this patchset.
+
+ ** Performance
+
+ - For comparing futex() and futex2() performance, I used the artificial
+   benchmarks implemented at perf (wake, wake-parallel, hash and
+   requeue). The setup was 200 runs for each test and using 8, 80, 800,
+   8000 for the number of threads, Note that for this test, I'm not using
+   patch 14 ("kernel: Enable waitpid() for futex2") , for reasons explained
+   at "The patchset" section.
+
+ - For the first three ones, I measured an average of 4% gain in
+   performance. This is not a big step, but it shows that the new
+   interface is at least comparable in performance with the current one.
+
+ - For requeue, I measured an average of 21% decrease in performance
+   compared to the original futex implementation. This is expected given
+   the new design with individual flags. The performance trade-offs are
+   explained at patch 4 ("futex2: Implement requeue operation").
+
+[4] https://gitlab.collabora.com/tonyk/glibc/-/tree/futex2
+[5] https://gitlab.collabora.com/tonyk/wine/-/tree/proton_5.13
+[6] https://gitlab.collabora.com/tonyk/systemd
+
+* FAQ
+
+ ** "Where's the code for NUMA and FUTEX_8/16?"
+
+ The current code is already complex enough to take some time for
+ review, so I believe it's better to split that work out to a future
+ iteration of this patchset. Besides that, this RFC is the core part of the
+ infrastructure, and the following features will not pose big design
+ changes to it, the work will be more about wiring up the flags and
+ modifying some functions.
+
+ ** "And what's about FUTEX_64?"
+
+ By supporting 64 bit futexes, the kernel structure for futex would
+ need to have a 64 bit field for the value, and that could defeat one of
+ the purposes of having different sized futexes in the first place:
+ supporting smaller ones to decrease memory usage. This might be
+ something that could be disabled for 32bit archs (and even for
+ CONFIG_BASE_SMALL).
+
+ Which use case would benefit for FUTEX_64? Does it worth the trade-offs?
+
+ ** "Where's the PI/robust stuff?"
+
+ As said by Peter Zijlstra at [3], all those new features are related to
+ the "simple" futex interface, that doesn't use PI or robust. Do we want
+ to have this complexity at futex2() and if so, should it be part of
+ this patchset or can it be future work?
+
+Thanks,
+	André
+
+André Almeida (13):
+  futex2: Implement wait and wake functions
+  futex2: Add support for shared futexes
+  futex2: Implement vectorized wait
+  futex2: Implement requeue operation
+  futex2: Add compatibility entry point for x86_x32 ABI
+  docs: locking: futex2: Add documentation
+  selftests: futex2: Add wake/wait test
+  selftests: futex2: Add timeout test
+  selftests: futex2: Add wouldblock test
+  selftests: futex2: Add waitv test
+  selftests: futex2: Add requeue test
+  perf bench: Add futex2 benchmark tests
+  kernel: Enable waitpid() for futex2
+
+ Documentation/locking/futex2.rst              |  198 +++
+ Documentation/locking/index.rst               |    1 +
+ MAINTAINERS                                   |    2 +-
+ arch/arm/tools/syscall.tbl                    |    4 +
+ arch/arm64/include/asm/unistd.h               |    2 +-
+ arch/arm64/include/asm/unistd32.h             |    4 +
+ arch/x86/entry/syscalls/syscall_32.tbl        |    4 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |    4 +
+ fs/inode.c                                    |    1 +
+ include/linux/compat.h                        |   23 +
+ include/linux/fs.h                            |    1 +
+ include/linux/syscalls.h                      |   18 +
+ include/uapi/asm-generic/unistd.h             |   14 +-
+ include/uapi/linux/futex.h                    |   56 +
+ init/Kconfig                                  |    7 +
+ kernel/Makefile                               |    1 +
+ kernel/fork.c                                 |    2 +
+ kernel/futex2.c                               | 1255 +++++++++++++++++
+ kernel/sys_ni.c                               |    6 +
+ tools/arch/x86/include/asm/unistd_64.h        |   12 +
+ tools/include/uapi/asm-generic/unistd.h       |   11 +-
+ .../arch/x86/entry/syscalls/syscall_64.tbl    |    3 +
+ tools/perf/bench/bench.h                      |    4 +
+ tools/perf/bench/futex-hash.c                 |   24 +-
+ tools/perf/bench/futex-requeue.c              |   57 +-
+ tools/perf/bench/futex-wake-parallel.c        |   41 +-
+ tools/perf/bench/futex-wake.c                 |   37 +-
+ tools/perf/bench/futex.h                      |   47 +
+ tools/perf/builtin-bench.c                    |   18 +-
+ .../selftests/futex/functional/.gitignore     |    3 +
+ .../selftests/futex/functional/Makefile       |    8 +-
+ .../futex/functional/futex2_requeue.c         |  164 +++
+ .../selftests/futex/functional/futex2_wait.c  |  209 +++
+ .../selftests/futex/functional/futex2_waitv.c |  157 +++
+ .../futex/functional/futex_wait_timeout.c     |   58 +-
+ .../futex/functional/futex_wait_wouldblock.c  |   33 +-
+ .../testing/selftests/futex/functional/run.sh |    6 +
+ .../selftests/futex/include/futex2test.h      |  121 ++
+ 38 files changed, 2563 insertions(+), 53 deletions(-)
+ create mode 100644 Documentation/locking/futex2.rst
+ create mode 100644 kernel/futex2.c
+ create mode 100644 tools/testing/selftests/futex/functional/futex2_requeue.c
+ create mode 100644 tools/testing/selftests/futex/functional/futex2_wait.c
+ create mode 100644 tools/testing/selftests/futex/functional/futex2_waitv.c
+ create mode 100644 tools/testing/selftests/futex/include/futex2test.h
+
+-- 
+2.30.1
+
