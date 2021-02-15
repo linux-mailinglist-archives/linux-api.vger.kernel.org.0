@@ -2,194 +2,194 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D2DF731C136
-	for <lists+linux-api@lfdr.de>; Mon, 15 Feb 2021 19:13:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D43E31C151
+	for <lists+linux-api@lfdr.de>; Mon, 15 Feb 2021 19:17:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230384AbhBOSND (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 15 Feb 2021 13:13:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45252 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229981AbhBOSNC (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 15 Feb 2021 13:13:02 -0500
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 077E4C061574;
-        Mon, 15 Feb 2021 10:12:22 -0800 (PST)
-Received: by mail-lf1-x133.google.com with SMTP id h26so11909470lfm.1;
-        Mon, 15 Feb 2021 10:12:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=0c98g3eufcJurfy0Y/YTjQsVsPETkx4NO8zQfg5IgbA=;
-        b=dbDOr6gsxDIzYBObdb47g92Fw0I8kZmiQZF5SxLFATwX7qHRR0Gneisep+6XbjU41p
-         K0PWrmNL9h28tGzOGBJuwy0ILkFUKXxKTFtOdiZfo8ECticWgoYdaiThIbv3CQY/Iz8L
-         sO9TNG/0kGx9W9PH83eQt+7FkOOOe+F/wplCb+03lowdKs9jDLRvOg2dm0ltoYHnmw8A
-         Nn86uRpxOLX+/Z2ou1YZU9oTTinSc8/vxQSOwulkXlttkMQQmJ/4Zy5HRZE0gkC/aAZd
-         uqdHJSr/E/BfGpdvnulpE0V8/sm+fcA99kJTARYaAuczENQZ9koCIAIJAFMKGOaCeZUj
-         xmhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=0c98g3eufcJurfy0Y/YTjQsVsPETkx4NO8zQfg5IgbA=;
-        b=PHjvDUad+gsU3iJbDs2k2oOhBToK6FWE5Hs9KWkOFRyPXq8to0VSk2F63zIBtJ8rvu
-         Y4lqX/yk6ElG7GbguYaKDdqJjg+I6Dc9/m0mI6cMWo+TMX6WZvrAEOLLfOl1OpaQDxCH
-         JBfDok7b55r6AwpzNzaXDFfDZjqvD7Vw2SCpk/JCKjz9vzt2C6Aw7R6LnOh0Se2hcv52
-         pvi2WayTCuuzpkWKKHBSF9oM+xyDkt7kq0rh7zeTM9T+I1skhW5ZgH5Euj/BtuA5kdAq
-         4VRUpK7DlQhdZAaj9a0iYrauNU9ppHJmq7pBgC/eqSrIsUT65GoOOx/PmMkWp+Zg2ZXy
-         6XCA==
-X-Gm-Message-State: AOAM530UXXFpRcEjPr0OVT5KtEMz5kyQo3m76pGNYSHkVQvJ0c9QknOQ
-        XDI+/lbGWdeW2xPWsYHdxUA=
-X-Google-Smtp-Source: ABdhPJy8vOz1vhoROPpR1yZSbnTTkBTTB69R0qN0ld5f+xVn9u3aFZeRUYioGb9a53KYbiJLQtHvdg==
-X-Received: by 2002:a19:8006:: with SMTP id b6mr9029866lfd.625.1613412740471;
-        Mon, 15 Feb 2021 10:12:20 -0800 (PST)
-Received: from [192.168.1.39] (88-114-223-25.elisa-laajakaista.fi. [88.114.223.25])
-        by smtp.gmail.com with ESMTPSA id s4sm2841338lfp.281.2021.02.15.10.12.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Feb 2021 10:12:19 -0800 (PST)
-Subject: Re: [PATCH v2] mm/vmalloc: randomize vmalloc() allocations
-To:     Uladzislau Rezki <urezki@gmail.com>
-Cc:     linux-hardening@vger.kernel.org, akpm@linux-foundation.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        id S230521AbhBOSQh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 15 Feb 2021 13:16:37 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:41900 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S230462AbhBOSQP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 15 Feb 2021 13:16:15 -0500
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 11FI3keQ089147;
+        Mon, 15 Feb 2021 13:14:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : reply-to : to : cc : date : in-reply-to : references : content-type
+ : mime-version : content-transfer-encoding; s=pp1;
+ bh=oGpfBMoJflzNtTxXhAAqknfbJZwwOWhWibJHXOD15mY=;
+ b=B/bnia+10Cs1nS5Q/upnquv2ZqXghmk3a6oXvIJu1bYAT9fq48cugx6TbeiTQlsj7qZM
+ r9narncQVfykPHEyJHuo45qRrCnDhJP4fLWXNTzh+wRkWX5CekXlUGk5CLJznaZt6huP
+ QS1lVTZ4HiwSm6Zccy5axTKKb4qK9kdk4mVKgXfsgW4HArxGrxT1EA/Pn6mTps4Vjfvm
+ m0YOQFc0aWwzXwNK3mVbIys228lxpSUTYg08cJcpzpHT4PcHyChXHf6by4iByZs77BV9
+ yKmIzsatDpKh4JWGLHQGoDjjCqXOeQXIJU15C840vpqciQ/nRrzDNGV2nbGbjXU11G1r lA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 36qww5gb83-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 15 Feb 2021 13:14:55 -0500
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 11FI4Lrj090689;
+        Mon, 15 Feb 2021 13:14:54 -0500
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.10])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 36qww5gb7m-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 15 Feb 2021 13:14:54 -0500
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+        by ppma02dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 11FICq9U024338;
+        Mon, 15 Feb 2021 18:14:53 GMT
+Received: from b03cxnp07028.gho.boulder.ibm.com (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
+        by ppma02dal.us.ibm.com with ESMTP id 36p6d9d37g-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 15 Feb 2021 18:14:53 +0000
+Received: from b03ledav004.gho.boulder.ibm.com (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+        by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 11FIEph216515450
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 15 Feb 2021 18:14:51 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id C21B67806A;
+        Mon, 15 Feb 2021 18:14:51 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id CA8027805E;
+        Mon, 15 Feb 2021 18:14:44 +0000 (GMT)
+Received: from jarvis.int.hansenpartnership.com (unknown [9.85.199.127])
+        by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+        Mon, 15 Feb 2021 18:14:44 +0000 (GMT)
+Message-ID: <be1d821d3f0aec24ad13ca7126b4359822212eb0.camel@linux.ibm.com>
+Subject: Re: [PATCH v17 07/10] mm: introduce memfd_secret system call to
+ create "secret" memory areas
+From:   James Bottomley <jejb@linux.ibm.com>
+Reply-To: jejb@linux.ibm.com
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     David Hildenbrand <david@redhat.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
         Andy Lutomirski <luto@kernel.org>,
-        Jann Horn <jannh@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christopher Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
         Matthew Wilcox <willy@infradead.org>,
-        Mike Rapoport <rppt@kernel.org>
-References: <20201212175635.4217-1-toiwoton@gmail.com>
- <795016db-93fa-72ea-f5dd-16b9c56a62e9@gmail.com>
- <20210213115521.GA1907@pc638.lan>
- <8d60ba59-1d16-bb76-f3d3-f1b0c5a5b306@gmail.com>
- <20210215125154.GA2259@pc638.lan>
-From:   Topi Miettinen <toiwoton@gmail.com>
-Message-ID: <325de13f-887f-4a13-df04-7db1ad6f9084@gmail.com>
-Date:   Mon, 15 Feb 2021 20:12:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        Mark Rutland <mark.rutland@arm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Roman Gushchin <guro@fb.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
+        x86@kernel.org, Hagen Paul Pfeifer <hagen@jauu.net>,
+        Palmer Dabbelt <palmerdabbelt@google.com>
+Date:   Mon, 15 Feb 2021 10:14:43 -0800
+In-Reply-To: <YCo7TqUnBdgJGkwN@dhcp22.suse.cz>
+References: <20210214091954.GM242749@kernel.org>
+         <052DACE9-986B-424C-AF8E-D6A4277DE635@redhat.com>
+         <244f86cba227fa49ca30cd595c4e5538fe2f7c2b.camel@linux.ibm.com>
+         <YCo7TqUnBdgJGkwN@dhcp22.suse.cz>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.4 
 MIME-Version: 1.0
-In-Reply-To: <20210215125154.GA2259@pc638.lan>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
+ definitions=2021-02-15_14:2021-02-12,2021-02-15 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
+ malwarescore=0 suspectscore=0 clxscore=1015 adultscore=0 phishscore=0
+ priorityscore=1501 bulkscore=0 impostorscore=0 spamscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2102150137
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 15.2.2021 14.51, Uladzislau Rezki wrote:
-> On Sat, Feb 13, 2021 at 03:43:39PM +0200, Topi Miettinen wrote:
->> On 13.2.2021 13.55, Uladzislau Rezki wrote:
->>>> Hello,
->>>>
->>>> Is there a chance of getting this reviewed and maybe even merged, please?
->>>>
->>>> -Topi
->>>>
->>> I can review it and help with it. But before that i would like to
->>> clarify if such "randomization" is something that you can not leave?
->>
->> This happens to interest me and I don't mind the performance loss since I
->> think there's also an improvement in security. I suppose (perhaps wrongly)
->> that others may also be interested in such features. For example, also
->> `nosmt` can take away a big part of CPU processing capability.
->>
-> OK. I was thinking about if it is done for some production systems or
-> some specific projects where this is highly demanded.
+On Mon, 2021-02-15 at 10:13 +0100, Michal Hocko wrote:
+> On Sun 14-02-21 11:21:02, James Bottomley wrote:
+> > On Sun, 2021-02-14 at 10:58 +0100, David Hildenbrand wrote:
+> > [...]
+> > > > And here we come to the question "what are the differences that
+> > > > justify a new system call?" and the answer to this is very
+> > > > subjective. And as such we can continue bikeshedding forever.
+> > > 
+> > > I think this fits into the existing memfd_create() syscall just
+> > > fine, and I heard no compelling argument why it shouldn‘t. That‘s
+> > > all I can say.
+> > 
+> > OK, so let's review history.  In the first two incarnations of the
+> > patch, it was an extension of memfd_create().  The specific
+> > objection by Kirill Shutemov was that it doesn't share any code in
+> > common with memfd and so should be a separate system call:
+> > 
+> > https://lore.kernel.org/linux-api/20200713105812.dnwtdhsuyj3xbh4f@box/
 > 
->>
->> Does this
->> answer your question, I'm not sure what you mean with leaving? I hope you
->> would not want me to go away and leave?
->>
-> No-no, that was a type :) Sorry for that. I just wanted to figure out
-> who really needs it.
+> Thanks for the pointer. But this argument hasn't been challenged at
+> all. It hasn't been brought up that the overlap would be considerable
+> higher by the hugetlb/sealing support. And so far nobody has claimed
+> those combinations as unviable.
 
-It's not needed. The goal is just to increase address space layout 
-randomization, to harden the system against attacks which depend on 
-predictable kernel memory layout. This should not be used when 
-performance is more important than hardening.
+Kirill is actually interested in the sealing path for his KVM code so
+we took a look.  There might be a two line overlap in memfd_create for
+the seal case, but there's no real overlap in memfd_add_seals which is
+the bulk of the code.  So the best way would seem to lift the inode ...
+-> seals helpers to be non-static so they can be reused and roll our
+own add_seals.
 
->>> For example on 32bit system vmalloc space is limited, such randomization
->>> can slow down it, also it will lead to failing of allocations much more,
->>> thus it will require repeating with different offset.
->>
->> I would not use `randomize_vmalloc=1` on a 32 bit systems, because in
->> addition to slow down, the address space could become so fragmented that
->> large allocations may not fit anymore. Perhaps the documentation should warn
->> about this more clearly. I haven't tried this on a 32 bit system though and
->> there the VM layout is very different.
->>
-> For 32-bit systems that would introduce many issues not limited to fragmentations.
+I can't see a use case at all for hugetlb support, so it seems to be a
+bit of an angels on pin head discussion.  However, if one were to come
+along handling it in the same way seems reasonable.
+
+> > The other objection raised offlist is that if we do use
+> > memfd_create, then we have to add all the secret memory flags as an
+> > additional ioctl, whereas they can be specified on open if we do a
+> > separate system call.  The container people violently objected to
+> > the ioctl because it can't be properly analysed by seccomp and much
+> > preferred the syscall version.
+> > 
+> > Since we're dumping the uncached variant, the ioctl problem
+> > disappears but so does the possibility of ever adding it back if we
+> > take on the container peoples' objection.  This argues for a
+> > separate syscall because we can add additional features and extend
+> > the API with flags without causing anti-ioctl riots.
 > 
->> __alloc_vm_area() scans the vmalloc space starting from a random address up
->> to end of the area. If this fails, the scan is restarted from the bottom of
->> the area up to this random address. Thus the entire area is scanned.
->>
->>> Second. There is a space or region for modules. Using various offsets
->>> can waste of that memory, thus can lead to failing of module loading.
->>
->> The allocations for modules (or BPF code) are also randomized within their
->> dedicated space. I don't think other allocations should affect module space.
->> Within this module space, fragmentation may also be possible because there's
->> only 1,5GB available. The largest allocation on my system seems to be 11M at
->> the moment, others are 1M or below and most are 8k. The possibility of an
->> allocation failing probably depends on the fill ratio. In practice haven't
->> seen problems with this.
->>
-> I think it depends on how many modules your system loads. If it is a big
-> system it might be that such fragmentation and wasting of module space
-> may lead to modules loading.
+> I am sorry but I do not understand this argument.
 
-# echo 1 > /proc/sys/kernel/kptr_restrict
-# grep 0xffffffff /proc/vmallocinfo | awk '{s=s+$2;c++} END {print 
-"total\tcount\tavg\tof 1536MB";print s,c,s/c,s/1536/1024/1024}'
-total   count   avg     of 1536MB
-34201600 1022 33465.4 0.0212351
+You don't understand why container guarding technology doesn't like
+ioctls?  The problem is each ioctl is the multiplexor is specific to
+the particular fd implementation, so unlike fcntl you don't have global
+ioctl numbers (although we do try to separate the space somewhat with
+the _IO macros).  This makes analysis and blocking a hard problem for
+container seccomp.
 
-I think that on my system fragmentation shouldn't be a danger since only 
-2% (34MB) of the 1536MB available is used for the 1022 module/BPF blocks.
+>  What kind of flags are we talking about and why would that be a
+> problem with memfd_create interface? Could you be more specific
+> please?
 
->> It would be possible to have finer control, for example
->> `randomize_vmalloc=3` (1 = general vmalloc, 2 = modules, bitwise ORed) or
->> `randomize_vmalloc=general,modules`.
->>
->> I experimented by trying to change how the modules are compiled
->> (-mcmodel=medium or -mcmodel=large) so that they could be located in the
->> normal vmalloc space, but instead I found a bug in the compiler (-mfentry
->> produces incorrect code for -mcmodel=large, now fixed).
->>
->>> On the other side there is a per-cpu allocator. Interfering with it
->>> also will increase a rate of failing.
->>
->> I didn't notice the per-cpu allocator before. I'm probably missing
->> something, but it seems to be used for a different purpose (for allocating
->> the vmap_area structure objects instead of the address space range), so
->> where do you see interference?
->>
-> 
-> 
->     A                       B
->   ---->                   <----
-> <---------------------------><--------->
-> |   vmalloc address space    |
-> |<--------------------------->
-> 
-> 
-> A - is a vmalloc allocations;
-> B - is a percpu-allocator.
+You mean what were the ioctl flags in the patch series linked above? 
+They were SECRETMEM_EXCLUSIVE and SECRETMEM_UNCACHED in patch 3/5. 
+They were eventually dropped after v10, because of problems with
+architectural semantics, with the idea that it could be added back
+again if a compelling need arose:
 
-OK, now I get it, thanks. These can be seen in /proc/vmallocinfo as 
-allocations done by pcpu_get_vm_areas(). The way of allocating very 
-predictably downwards of a fixed address is bad for ASLR, so I'll try to 
-randomize the location of these too. Other allocations by 
-pcpu_populate_chunk() and
-pcpu_create_chunk() seem to be randomized already.
+https://lore.kernel.org/linux-api/20201123095432.5860-1-rppt@kernel.org/
 
--Topi
+In theory the extra flags could be multiplexed into the memfd_create
+flags like hugetlbfs is but with 32 flags and a lot already taken it
+gets messy for expansion.  When we run out of flags the first question
+people will ask is "why didn't you do separate system calls?".
 
-> 
-> --
-> Vlad Rezki
-> 
+James
+
+
 
