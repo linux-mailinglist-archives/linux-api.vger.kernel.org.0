@@ -2,143 +2,242 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C4DD31CED9
-	for <lists+linux-api@lfdr.de>; Tue, 16 Feb 2021 18:18:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B76EE31CF72
+	for <lists+linux-api@lfdr.de>; Tue, 16 Feb 2021 18:46:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230186AbhBPRSc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 16 Feb 2021 12:18:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21205 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229913AbhBPRS1 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Feb 2021 12:18:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1613495820;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=IbwyoqWTddMQQM4e/pb2Tn5NqnOPDp0+cC8mDVS66VE=;
-        b=GHo9tkX1SbVo+1OOHOI1jCap6OUfB4bCMxW4oxuD76Er6F/ojThTD9WEJhFPj/LLOeWxh5
-        rSf81Za2VtpvsR2+eMKnxChzNeT/KJwyy7RWzdfAu44wYqjcSZo4J8dA2tESKfBcpfItMc
-        bWFb/MJKriWt99QEJM9NEz4rxujy5z0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-581-KxZdhhyXMpKDSHckankMMw-1; Tue, 16 Feb 2021 12:16:50 -0500
-X-MC-Unique: KxZdhhyXMpKDSHckankMMw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 465FB80402E;
-        Tue, 16 Feb 2021 17:16:45 +0000 (UTC)
-Received: from [10.36.114.70] (ovpn-114-70.ams2.redhat.com [10.36.114.70])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 615F35D9CC;
-        Tue, 16 Feb 2021 17:16:37 +0000 (UTC)
-To:     jejb@linux.ibm.com, Michal Hocko <mhocko@suse.com>
-Cc:     Mike Rapoport <rppt@kernel.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Roman Gushchin <guro@fb.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
-        x86@kernel.org, Hagen Paul Pfeifer <hagen@jauu.net>,
-        Palmer Dabbelt <palmerdabbelt@google.com>
-References: <20210214091954.GM242749@kernel.org>
- <052DACE9-986B-424C-AF8E-D6A4277DE635@redhat.com>
- <244f86cba227fa49ca30cd595c4e5538fe2f7c2b.camel@linux.ibm.com>
- <YCo7TqUnBdgJGkwN@dhcp22.suse.cz>
- <be1d821d3f0aec24ad13ca7126b4359822212eb0.camel@linux.ibm.com>
- <YCrJjYmr7A2nO6lA@dhcp22.suse.cz>
- <12c3890b233c8ec8e3967352001a7b72a8e0bfd0.camel@linux.ibm.com>
- <dfd7db5c-a8c7-0676-59f8-70aa6bcaabe7@redhat.com>
- <000cfaa0a9a09f07c5e50e573393cda301d650c9.camel@linux.ibm.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Subject: Re: [PATCH v17 07/10] mm: introduce memfd_secret system call to
- create "secret" memory areas
-Message-ID: <5a8567a9-6940-c23f-0927-e4b5c5db0d5e@redhat.com>
-Date:   Tue, 16 Feb 2021 18:16:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        id S231351AbhBPRpQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 16 Feb 2021 12:45:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37062 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231337AbhBPRpH (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Feb 2021 12:45:07 -0500
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A8B0C061788
+        for <linux-api@vger.kernel.org>; Tue, 16 Feb 2021 09:44:26 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id 7so14272817wrz.0
+        for <linux-api@vger.kernel.org>; Tue, 16 Feb 2021 09:44:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SG1PJqmUONPMltLHj/NtbdnqP3QjXhIMpbTG2ubKayU=;
+        b=gJMg/HYjzxEkTtYwbl77f/5BHHhcOZMC+zF37X8B/qKaJjS1EDDbB5E9DQoW43x9Ek
+         76E252nanT1F78TvtOW336XdQ5XI2pgkFLuk8lV+8PGCPWvURVZ3vJclriyK4uwRFMuu
+         xGfUjWRAT6bcrntxVeoXoOGx7MwnEXdAtpUU8ZO3L7o9N0UG9lCq4KjQ3HjAgCWQTSqh
+         YN5i1/QKN0WwriXEcU452g8V07c3Z2gHHT9F0sAU9nYWOKC2FS6rNeX02IvXgCzbVWrr
+         gpKWN5c2DYV9aBbrvqsHZss6UZMTz1bFiM1aDIiH1mOpVXo0SQte+allBrV+Wk/LWmiP
+         42VQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SG1PJqmUONPMltLHj/NtbdnqP3QjXhIMpbTG2ubKayU=;
+        b=tBRsIk9/qgZNCu3KUD/86ADFDjAFDvgT6wLzAZGiadsheaznaADSgAFEAXJ33a8geJ
+         Xd9yXPEVfDpVaPR1RjvtiYta100oe2jJ6VY9nuRGgSY/alAE1XPFtbvqId/vCaq7aw+P
+         nxCZsRpD69X9V3hPS0KxBPR12e8Znxo///Cs/ZEWAZAX3SJEOu75V1lNr6n4PLl9ZLPo
+         zkksfiWGqJO+He0dFy4uVrEfDS2uVLrLlCuBAweO8vGIYVx329K+ZvnfMmVBHpM9zU2Z
+         sG9+G4d9EEsLLEBqP0Uhfrpl3dmSCfujIPR4Cnw5Hg82O2ZWm/8qC1KtUPXQNOvJANB0
+         Eh5Q==
+X-Gm-Message-State: AOAM530XflQFwuBYvOlhBF+K3TqicA56L+aNsBGm/u4eGQD56KvSJKPF
+        PqFUmWPLZ+JpNXx47QdPcoSpZJn/37ApAFNp7kjWGg==
+X-Google-Smtp-Source: ABdhPJzWe51dgFo8YdFDbYkdUYcmO1d7+1mZzYOUd19gMk/Ayscx0kbxSccgEjton406EyAShOmFNYX5kVOyIBhDYao=
+X-Received: by 2002:a5d:610a:: with SMTP id v10mr19205290wrt.334.1613497465050;
+ Tue, 16 Feb 2021 09:44:25 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <000cfaa0a9a09f07c5e50e573393cda301d650c9.camel@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+References: <20210202053046.1653012-1-surenb@google.com> <079db245-a08c-0dbd-01d4-8065f533652e@gmail.com>
+ <CAJuCfpGotx_04Stn5Nw6Au+TVG9LuAJ=CB_s7uxjMLOLerw-GA@mail.gmail.com> <2d303517-cdcd-9ec8-e57d-3d065edb573c@gmail.com>
+In-Reply-To: <2d303517-cdcd-9ec8-e57d-3d065edb573c@gmail.com>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Tue, 16 Feb 2021 09:44:13 -0800
+Message-ID: <CAJuCfpFC0B=jXFEuPYYBZAjgx1B6S8vG-i7_0iBc_RHeWynyzw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/1] process_madvise.2: Add process_madvise man page
+To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc:     linux-man <linux-man@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jann Horn <jannh@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Jeffrey Vander Stoep <jeffv@google.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        David Rientjes <rientjes@google.com>,
+        =?UTF-8?Q?Edgar_Arriaga_Garc=C3=ADa?= <edgararriaga@google.com>,
+        Tim Murray <timmurray@google.com>,
+        linux-mm <linux-mm@kvack.org>,
+        SElinux list <selinux@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kernel-team <kernel-team@android.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
->>   For the other parts, the question is what we actually want to let
->> user space configure.
->>
->> Being able to specify "Very secure" "maximum secure" "average
->> secure"  all doesn't really make sense to me.
-> 
-> Well, it doesn't to me either unless the user feels a cost/benefit, so
-> if max cost $100 per invocation and average cost nothing, most people
-> would chose average unless they had a very good reason not to.  In your
-> migratable model, if we had separate limits for non-migratable and
-> migratable, with non-migratable being set low to prevent exhaustion,
-> max secure becomes a highly scarce resource, whereas average secure is
-> abundant then having the choice might make sense.
+Hi Michael,
 
-I hope that we can find a way to handle the migration part internally. 
-Especially, because Mike wants the default to be "as secure as 
-possible", so if there is a flag, it would have to be an opt-out flag.
+On Sat, Feb 13, 2021 at 2:04 PM Michael Kerrisk (man-pages)
+<mtk.manpages@gmail.com> wrote:
+>
+> Hello Suren,
+>
+> On 2/2/21 11:12 PM, Suren Baghdasaryan wrote:
+> > Hi Michael,
+> >
+> > On Tue, Feb 2, 2021 at 2:45 AM Michael Kerrisk (man-pages)
+> > <mtk.manpages@gmail.com> wrote:
+> >>
+> >> Hello Suren (and Minchan and Michal)
+> >>
+> >> Thank you for the revisions!
+> >>
+> >> I've applied this patch, and done a few light edits.
+> >
+> > Thanks!
+> >
+> >>
+> >> However, I have a questions about undocumented pieces in *madvise(2)*,
+> >> as well as one other question. See below.
+> >>
+> >> On 2/2/21 6:30 AM, Suren Baghdasaryan wrote:
+> >>> Initial version of process_madvise(2) manual page. Initial text was
+> >>> extracted from [1], amended after fix [2] and more details added using
+> >>> man pages of madvise(2) and process_vm_read(2) as examples. It also
+> >>> includes the changes to required permission proposed in [3].
+> >>>
+> >>> [1] https://lore.kernel.org/patchwork/patch/1297933/
+> >>> [2] https://lkml.org/lkml/2020/12/8/1282
+> >>> [3] https://patchwork.kernel.org/project/selinux/patch/20210111170622.2613577-1-surenb@google.com/#23888311
+> >>>
+> >>> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> >>> Reviewed-by: Michal Hocko <mhocko@suse.com>
+> >>> ---
+> >>> changes in v2:
+> >>> - Changed description of MADV_COLD per Michal Hocko's suggestion
+> >>> - Applied fixes suggested by Michael Kerrisk
+> >>> changes in v3:
+> >>> - Added Michal's Reviewed-by
+> >>> - Applied additional fixes suggested by Michael Kerrisk
+> >>>
+> >>> NAME
+> >>>     process_madvise - give advice about use of memory to a process
+> >>>
+> >>> SYNOPSIS
+> >>>     #include <sys/uio.h>
+> >>>
+> >>>     ssize_t process_madvise(int pidfd,
+> >>>                            const struct iovec *iovec,
+> >>>                            unsigned long vlen,
+> >>>                            int advice,
+> >>>                            unsigned int flags);
+> >>>
+> >>> DESCRIPTION
+> >>>     The process_madvise() system call is used to give advice or directions
+> >>>     to the kernel about the address ranges of another process or the calling
+> >>>     process. It provides the advice to the address ranges described by iovec
+> >>>     and vlen. The goal of such advice is to improve system or application
+> >>>     performance.
+> >>>
+> >>>     The pidfd argument is a PID file descriptor (see pidfd_open(2)) that
+> >>>     specifies the process to which the advice is to be applied.
+> >>>
+> >>>     The pointer iovec points to an array of iovec structures, defined in
+> >>>     <sys/uio.h> as:
+> >>>
+> >>>     struct iovec {
+> >>>         void  *iov_base;    /* Starting address */
+> >>>         size_t iov_len;     /* Number of bytes to transfer */
+> >>>     };
+> >>>
+> >>>     The iovec structure describes address ranges beginning at iov_base address
+> >>>     and with the size of iov_len bytes.
+> >>>
+> >>>     The vlen represents the number of elements in the iovec structure.
+> >>>
+> >>>     The advice argument is one of the values listed below.
+> >>>
+> >>>   Linux-specific advice values
+> >>>     The following Linux-specific advice values have no counterparts in the
+> >>>     POSIX-specified posix_madvise(3), and may or may not have counterparts
+> >>>     in the madvise(2) interface available on other implementations.
+> >>>
+> >>>     MADV_COLD (since Linux 5.4.1)
+> >>
+> >> I just noticed these version numbers now, and thought: they can't be
+> >> right (because the system call appeared only in v5.11). So I removed
+> >> them. But, of course in another sense the version numbers are (nearly)
+> >> right, since these advice values were added for madvise(2) in Linux 5.4.
+> >> However, they are not documented in the madvise(2) manual page. Is it
+> >> correct to assume that MADV_COLD and MADV_PAGEOUT have exactly the same
+> >> meaning in madvise(2) (but just for the calling process, of course)?
+> >
+> > Correct. They should be added in the madvise(2) man page as well IMHO.
+>
+> So, I decided to move the description of MADV_COLD and MADV_PAGEOUT
+> to madvise(2) and refer to that page from the process_madvise(2)
+> page. This avoids repeating the same information in two places.
 
-I guess as long as we don't temporarily map it into the "owned" location 
-in the direct map shared by all VCPUs we are in a good positon. But this 
-needs more thought, of course.
+Sounds good.
 
-> 
->>   The discussion regarding migratability only really popped up because
->> this is a user-visible thing and not being able to migrate can be a
->> real problem (fragmentation, ZONE_MOVABLE, ...).
-> 
-> I think the biggest use will potentially come from hardware
-> acceleration.  If it becomes simple to add say encryption to a secret
-> page with no cost, then no flag needed.  However, if we only have a
-> limited number of keys so once we run out no more encrypted memory then
-> it becomes a costly resource and users might want a choice of being
-> backed by encryption or not.
+>
+> >>>         Deactive a given range of pages which will make them a more probable
+> >>
+> >> I changed: s/Deactive/Deactivate/
+> >
+> > thanks!
+> >
+> >>
+> >>>         reclaim target should there be a memory pressure. This is a
+> >>>         nondestructive operation. The advice might be ignored for some pages
+> >>>         in the range when it is not applicable.
+> >>>
+> >>>     MADV_PAGEOUT (since Linux 5.4.1)
+> >>>         Reclaim a given range of pages. This is done to free up memory occupied
+> >>>         by these pages. If a page is anonymous it will be swapped out. If a
+> >>>         page is file-backed and dirty it will be written back to the backing
+> >>>         storage. The advice might be ignored for some pages in the range when
+> >>>         it is not applicable.
+> >>
+> >> [...]
+> >>
+> >>>     The hint might be applied to a part of iovec if one of its elements points
+> >>>     to an invalid memory region in the remote process. No further elements will
+> >>>     be processed beyond that point.
+> >>
+> >> Is the above scenario the one that leads to the partial advice case described in
+> >> RETURN VALUE? If yes, perhaps I should add some words to make that clearer.
+> >
+> > Correct. This describes the case when partial advice happens.
+>
+> Thanks. I added a few words to clarify this.
 
-Right. But wouldn't HW support with configurable keys etc. need more 
-syscall parameters (meaning, even memefd_secret() as it is would not be 
-sufficient?). I suspect the simplistic flag approach might not be 
-sufficient. I might be wrong because I have no clue about MKTME and friends.
+Any link where I can see the final version?
 
-Anyhow, I still think extending memfd_create() might just be good enough 
-- at least for now. Things like HW support might have requirements we 
-don't even know yet and that we cannot even model in memfd_secret() 
-right now.
+>
+>
+> >> You can see the light edits that I made in
+> >> https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/commit/?id=e3ce016472a1b3ec5dffdeb23c98b9fef618a97b
+> >> and following that I restructured DESCRIPTION a little in
+> >> https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/commit/?id=3aac0708a9acee5283e091461de6a8410bc921a6
+> >
+> > The edits LGTM.
+>
+> Thanks for checking them.
+>
+> Cheers,
+>
+> Michael
+>
 
--- 
 Thanks,
+Suren.
 
-David / dhildenb
-
+>
+> --
+> Michael Kerrisk
+> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+> Linux/UNIX System Programming Training: http://man7.org/training/
+>
+> --
+> To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
+>
