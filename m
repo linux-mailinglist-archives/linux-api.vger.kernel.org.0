@@ -2,89 +2,70 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DE98931D680
-	for <lists+linux-api@lfdr.de>; Wed, 17 Feb 2021 09:22:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 29F2131D785
+	for <lists+linux-api@lfdr.de>; Wed, 17 Feb 2021 11:28:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231562AbhBQIWW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 17 Feb 2021 03:22:22 -0500
-Received: from mx2.suse.de ([195.135.220.15]:44654 "EHLO mx2.suse.de"
+        id S232355AbhBQK01 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 17 Feb 2021 05:26:27 -0500
+Received: from mx2.suse.de ([195.135.220.15]:34684 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231616AbhBQIWV (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 17 Feb 2021 03:22:21 -0500
+        id S232297AbhBQK0O (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 17 Feb 2021 05:26:14 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1613550094; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=+AtVtNBB4nXDoZsK/9xd9pLXgJM8teFm4x1vJhLij10=;
-        b=Y9Ln5+k1Q/qEgc6nUUNieToU3pSXz895sM6C41AVkL2IpyIhrw17TYfKQhwtwe88DXVfp0
-        8tgvNzgb4hdKaodkjJ3RE+dwMAKzsGtoYXObPBvqJq17B9pqu5tnZ1mXpLBoE7OTVVHpjg
-        3IxoF5uDcnqBWKHiZS2BTcwfVNkSQyM=
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 4AD89B923;
-        Wed, 17 Feb 2021 08:21:34 +0000 (UTC)
-Date:   Wed, 17 Feb 2021 09:21:32 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     David Rientjes <rientjes@google.com>
-Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
-        Hugh Dickins <hughd@google.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Song Liu <songliubraving@fb.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Minchan Kim <minchan@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Chris Kennelly <ckennelly@google.com>, linux-mm@kvack.org,
-        linux-api@vger.kernel.org
-Subject: Re: [RFC] Hugepage collapse in process context
-Message-ID: <YCzSDPbBsksCX5zP@dhcp22.suse.cz>
-References: <d098c392-273a-36a4-1a29-59731cdf5d3d@google.com>
+        by mx2.suse.de (Postfix) with ESMTP id B358FB154;
+        Wed, 17 Feb 2021 10:25:31 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id 26EC11E0871; Wed, 17 Feb 2021 11:25:31 +0100 (CET)
+Date:   Wed, 17 Feb 2021 11:25:31 +0100
+From:   Jan Kara <jack@suse.cz>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Jan Kara <jack@suse.cz>,
+        Matthew Bobrowski <mbobrowski@mbobrowski.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [RFC][PATCH 1/2] fanotify: configurable limits via sysfs
+Message-ID: <20210217102531.GB14758@quack2.suse.cz>
+References: <20210124184204.899729-1-amir73il@gmail.com>
+ <20210124184204.899729-2-amir73il@gmail.com>
+ <20210216162754.GF21108@quack2.suse.cz>
+ <CAOQ4uxh8S-sdqtYjJ1naLwokA8M-dVcZJ1Xf4eUCv21Ug2e-BA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d098c392-273a-36a4-1a29-59731cdf5d3d@google.com>
+In-Reply-To: <CAOQ4uxh8S-sdqtYjJ1naLwokA8M-dVcZJ1Xf4eUCv21Ug2e-BA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-[Cc linux-api]
-
-On Tue 16-02-21 20:24:16, David Rientjes wrote:
-> Hi everybody,
+On Tue 16-02-21 20:02:49, Amir Goldstein wrote:
+> On Tue, Feb 16, 2021 at 6:27 PM Jan Kara <jack@suse.cz> wrote:
+> > Also as a small style nit, please try to stay within 80 columns. Otherwise
+> > the patch looks OK to me.
+> >
 > 
-> Khugepaged is slow by default, it scans at most 4096 pages every 10s.  
-> That's normally fine as a system-wide setting, but some applications would 
-> benefit from a more aggressive approach (as long as they are willing to 
-> pay for it).
-> 
-> Instead of adding priorities for eligible ranges of memory to khugepaged, 
-> temporarily speeding khugepaged up for the whole system, or sharding its 
-> work for memory belonging to a certain process, one approach would be to 
-> allow userspace to induce hugepage collapse.
-> 
-> The benefit to this approach would be that this is done in process context 
-> so its cpu is charged to the process that is inducing the collapse.  
-> Khugepaged is not involved.
+> Ever since discussions that led to:
+> bdc48fa11e46 checkpatch/coding-style: deprecate 80-column warning
 
-Yes, this makes a lot of sense to me.
+Yes, I know.
 
-> Idea was to allow userspace to induce hugepage collapse through the new 
-> process_madvise() call.  This allows us to collapse hugepages on behalf of 
-> current or another process for a vectored set of ranges.
+> I've tuned my editor to warn on 100 columns.
+> I still try to refrain from long lines, but breaking a ~82 columns line
+> in an ugly way is something that I try to avoid.
 
-Yes, madvise sounds like a good fit for the purpose.
+Well it depends what is in those two columns. I have my terminals exactly
+80 columns wide so that I can fit as many of them on the screen as possible
+;). So I don't see whatever is beyond column 80. Sometimes it is obvious
+enough but sometimes not and if I have to scroll, it isn't ideal.
+ 
+> I'll try harder to stay below 80 when it does not create ugly code,
+> unless you absolutely want the patches to fit in 80 columns.
 
-> This could be done through a new process_madvise() mode *or* it could be a 
-> flag to MADV_HUGEPAGE since process_madvise() allows for a flag parameter 
-> to be passed.  For example, MADV_F_SYNC.
+No, I'm not religious about 80 columns. It is really about readability.
+E.g. for strings, few characters beyond 80 columns does not really matter.
 
-Would this MADV_F_SYNC be applicable to other madvise modes? Most
-existing madvise modes do not seem to make much sense. We can argue that
-MADV_PAGEOUT would guarantee the range was indeed reclaimed but I am not
-sure we want to provide such a strong semantic because it can limit
-future reclaim optimizations.
-
-To me MADV_HUGEPAGE_COLLAPSE sounds like the easiest way forward.
+								Honza
 -- 
-Michal Hocko
-SUSE Labs
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
