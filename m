@@ -2,118 +2,89 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BFE7B31D283
-	for <lists+linux-api@lfdr.de>; Tue, 16 Feb 2021 23:13:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DE98931D680
+	for <lists+linux-api@lfdr.de>; Wed, 17 Feb 2021 09:22:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230383AbhBPWNl convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Tue, 16 Feb 2021 17:13:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38154 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229985AbhBPWNg (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Feb 2021 17:13:36 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95F40C06174A;
-        Tue, 16 Feb 2021 14:12:56 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: krisman)
-        with ESMTPSA id 93B4E1F4491A
-From:   Gabriel Krisman Bertazi <krisman@collabora.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     =?utf-8?Q?Andr=C3=A9?= Almeida <andrealmeid@collabora.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Darren Hart <dvhart@infradead.org>,
-        linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        kernel@collabora.com, pgriffais@valvesoftware.com,
-        z.figura12@gmail.com, joel@joelfernandes.org,
-        malteskarupke@fastmail.fm, linux-api@vger.kernel.org,
-        fweimer@redhat.com, libc-alpha@sourceware.org,
-        linux-kselftest@vger.kernel.org, shuah@kernel.org, acme@kernel.org,
-        corbet@lwn.net
-Subject: Re: [RFC PATCH 01/13] futex2: Implement wait and wake functions
-Organization: Collabora
-References: <20210215152404.250281-1-andrealmeid@collabora.com>
-        <20210215152404.250281-2-andrealmeid@collabora.com>
-        <YCuWvlKRXAygNQZP@hirez.programming.kicks-ass.net>
-Date:   Tue, 16 Feb 2021 17:12:51 -0500
-In-Reply-To: <YCuWvlKRXAygNQZP@hirez.programming.kicks-ass.net> (Peter
-        Zijlstra's message of "Tue, 16 Feb 2021 10:56:14 +0100")
-Message-ID: <87h7mb64rg.fsf@collabora.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+        id S231562AbhBQIWW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 17 Feb 2021 03:22:22 -0500
+Received: from mx2.suse.de ([195.135.220.15]:44654 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231616AbhBQIWV (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 17 Feb 2021 03:22:21 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1613550094; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=+AtVtNBB4nXDoZsK/9xd9pLXgJM8teFm4x1vJhLij10=;
+        b=Y9Ln5+k1Q/qEgc6nUUNieToU3pSXz895sM6C41AVkL2IpyIhrw17TYfKQhwtwe88DXVfp0
+        8tgvNzgb4hdKaodkjJ3RE+dwMAKzsGtoYXObPBvqJq17B9pqu5tnZ1mXpLBoE7OTVVHpjg
+        3IxoF5uDcnqBWKHiZS2BTcwfVNkSQyM=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 4AD89B923;
+        Wed, 17 Feb 2021 08:21:34 +0000 (UTC)
+Date:   Wed, 17 Feb 2021 09:21:32 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     David Rientjes <rientjes@google.com>
+Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
+        Hugh Dickins <hughd@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Song Liu <songliubraving@fb.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Minchan Kim <minchan@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Chris Kennelly <ckennelly@google.com>, linux-mm@kvack.org,
+        linux-api@vger.kernel.org
+Subject: Re: [RFC] Hugepage collapse in process context
+Message-ID: <YCzSDPbBsksCX5zP@dhcp22.suse.cz>
+References: <d098c392-273a-36a4-1a29-59731cdf5d3d@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d098c392-273a-36a4-1a29-59731cdf5d3d@google.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Peter Zijlstra <peterz@infradead.org> writes:
+[Cc linux-api]
 
-> On Mon, Feb 15, 2021 at 12:23:52PM -0300, André Almeida wrote:
->> Create a new set of futex syscalls known as futex2. This new interface
->> is aimed to implement a more maintainable code, while removing obsolete
->> features and expanding it with new functionalities.
->> 
->> Implements wait and wake semantics for futexes, along with the base
->> infrastructure for future operations.
->
->> +	futex_table = alloc_large_system_hash("futex2", sizeof(struct futex_bucket),
->> +					      futex2_hashsize, 0,
->> +					      futex2_hashsize < 256 ? HASH_SMALL : 0,
->> +					      &futex_shift, NULL,
->> +					      futex2_hashsize, futex2_hashsize);
->
-> So why are we implementing a whole second infrastrure and doubling the
-> memory footprint of all this?
->
-> Sure, futex.c is a pain in the ass, but most of that is not because of
-> the interface, most of it is having to deal with sharing state with
-> userspace and that being fundamentally unreliable.
->
-> Once you want to add {,UN}LOCK{,_PI} and robust futex support, you're
-> back to it being a giant rats nest of corner cases. Thinking a new
-> interface can solve any of that is naive.
->
-> So while I'm in favour of adding a new interface, I'm not sure I see
-> benefit of reimplementing the basics, sure it seems simpler now, but
-> that's because you've not implemented all the 'fun' stuff.
+On Tue 16-02-21 20:24:16, David Rientjes wrote:
+> Hi everybody,
+> 
+> Khugepaged is slow by default, it scans at most 4096 pages every 10s.  
+> That's normally fine as a system-wide setting, but some applications would 
+> benefit from a more aggressive approach (as long as they are willing to 
+> pay for it).
+> 
+> Instead of adding priorities for eligible ranges of memory to khugepaged, 
+> temporarily speeding khugepaged up for the whole system, or sharding its 
+> work for memory belonging to a certain process, one approach would be to 
+> allow userspace to induce hugepage collapse.
+> 
+> The benefit to this approach would be that this is done in process context 
+> so its cpu is charged to the process that is inducing the collapse.  
+> Khugepaged is not involved.
 
-Peter,
+Yes, this makes a lot of sense to me.
 
-I think there was a question of how we'd introduce this new interface,
-since the community is wary of introducing new features in the original
-futex code.  The approach we discussed in the last LPC was writing a new
-code from scratch that could even sit on the RT tree while it get
-stabilized.
+> Idea was to allow userspace to induce hugepage collapse through the new 
+> process_madvise() call.  This allows us to collapse hugepages on behalf of 
+> current or another process for a vectored set of ranges.
 
-The code base duplication, and - perhaps more importantly - the double
-memory footprint is bad, for sure.  But considering this implementation
-modifies what is enqueued to separate the waiter structure from its
-(potentially multiple) keys, we'd be looking at large changes in the
-original futex code, which doesn't seem (as it should be) welcome by the
-community. At least this feedback was the reason we started working on
-futex2.
+Yes, madvise sounds like a good fit for the purpose.
 
-So, my question is, how else should we present this interface, if not in
-a new code base?  If it is just a matter of integrating it into the
-original code, I'd go back and ask why this new interface was made a
-prerequisite for the futex wait multiple patches André originally wanted
-to merge?  For sure, the multiplexing interface is not the sole reason
-that stopped that work from being accepted.  The bigger goal was not
-increasing the mess and not causing new bugs in the existing overcomplex
-futex implementation.
+> This could be done through a new process_madvise() mode *or* it could be a 
+> flag to MADV_HUGEPAGE since process_madvise() allows for a flag parameter 
+> to be passed.  For example, MADV_F_SYNC.
 
-Regarding NUMA support, I wouldn't expect André to implement all other
-features before getting something upstreamable in the list.  His
-interest in futex is directed at solving the multiple wait problem, but
-consider he has already gone way beyond that by re-implementing the
-basics of a new interface.  Collabora is willing to do the heavy lifting
-necessary (within reason) on this patchset to get something the
-community accepts, including NUMA support, provided we also get
-semantics to fix the problem we are trying to solve.  But for that, we
-gonna need more directioning on what the community is willing to accept
-not only regarding the interface, but on internals too.
+Would this MADV_F_SYNC be applicable to other madvise modes? Most
+existing madvise modes do not seem to make much sense. We can argue that
+MADV_PAGEOUT would guarantee the range was indeed reclaimed but I am not
+sure we want to provide such a strong semantic because it can limit
+future reclaim optimizations.
 
+To me MADV_HUGEPAGE_COLLAPSE sounds like the easiest way forward.
 -- 
-Gabriel Krisman Bertazi
+Michal Hocko
+SUSE Labs
