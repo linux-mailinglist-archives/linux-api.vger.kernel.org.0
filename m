@@ -2,207 +2,94 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D1A431EC59
-	for <lists+linux-api@lfdr.de>; Thu, 18 Feb 2021 17:39:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 824E231EC5B
+	for <lists+linux-api@lfdr.de>; Thu, 18 Feb 2021 17:39:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232721AbhBRQfN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 18 Feb 2021 11:35:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33428 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230187AbhBRNbu (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 18 Feb 2021 08:31:50 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B85BC06178C;
-        Thu, 18 Feb 2021 05:30:00 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: tonyk)
-        with ESMTPSA id 2EC3D1F45BCB
-From:   =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>
-Subject: Re: [RFC PATCH 01/13] futex2: Implement wait and wake functions
-To:     Gabriel Krisman Bertazi <krisman@collabora.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        kernel@collabora.com, pgriffais@valvesoftware.com,
-        z.figura12@gmail.com, joel@joelfernandes.org,
-        malteskarupke@fastmail.fm, linux-api@vger.kernel.org,
-        fweimer@redhat.com, libc-alpha@sourceware.org,
-        linux-kselftest@vger.kernel.org, shuah@kernel.org, acme@kernel.org,
-        corbet@lwn.net
-References: <20210215152404.250281-1-andrealmeid@collabora.com>
- <20210215152404.250281-2-andrealmeid@collabora.com>
- <87k0r9w19l.fsf@collabora.com>
-Message-ID: <74e321d5-2cf5-f3a6-6a7a-49e1ed2fda07@collabora.com>
-Date:   Thu, 18 Feb 2021 10:29:46 -0300
+        id S233061AbhBRQfU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 18 Feb 2021 11:35:20 -0500
+Received: from mx2.suse.de ([195.135.220.15]:37656 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231380AbhBRNpC (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 18 Feb 2021 08:45:02 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id AD3F3AF31;
+        Thu, 18 Feb 2021 13:43:57 +0000 (UTC)
+To:     Michal Hocko <mhocko@suse.com>,
+        David Rientjes <rientjes@google.com>
+Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
+        Hugh Dickins <hughd@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Song Liu <songliubraving@fb.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Minchan Kim <minchan@kernel.org>,
+        Chris Kennelly <ckennelly@google.com>, linux-mm@kvack.org,
+        linux-api@vger.kernel.org, David Hildenbrand <david@redhat.com>
+References: <d098c392-273a-36a4-1a29-59731cdf5d3d@google.com>
+ <YCzSDPbBsksCX5zP@dhcp22.suse.cz>
+From:   Vlastimil Babka <vbabka@suse.cz>
+Subject: Re: [RFC] Hugepage collapse in process context
+Message-ID: <0b51a213-650e-7801-b6ed-9545466c15db@suse.cz>
+Date:   Thu, 18 Feb 2021 14:43:57 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <87k0r9w19l.fsf@collabora.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <YCzSDPbBsksCX5zP@dhcp22.suse.cz>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Gabriel,
-
-Às 16:59 de 15/02/21, Gabriel Krisman Bertazi escreveu:
-> André Almeida <andrealmeid@collabora.com> writes:
+On 2/17/21 9:21 AM, Michal Hocko wrote:
+> [Cc linux-api]
 > 
->> +/**
->> + * struct futexv_head - List of futexes to be waited
->> + * @task:    Task to be awaken
->> + * @hint:    Was someone on this list awakened?
->> + * @objects: List of futexes
->> + */
->> +struct futexv_head {
->> +	struct task_struct *task;
->> +	bool hint;
->> +	struct futex_waiter objects[0];
->> +};
+> On Tue 16-02-21 20:24:16, David Rientjes wrote:
+>> Hi everybody,
+>> 
+>> Khugepaged is slow by default, it scans at most 4096 pages every 10s.  
+>> That's normally fine as a system-wide setting, but some applications would 
+>> benefit from a more aggressive approach (as long as they are willing to 
+>> pay for it).
+>> 
+>> Instead of adding priorities for eligible ranges of memory to khugepaged, 
+>> temporarily speeding khugepaged up for the whole system, or sharding its 
+>> work for memory belonging to a certain process, one approach would be to 
+>> allow userspace to induce hugepage collapse.
+>> 
+>> The benefit to this approach would be that this is done in process context 
+>> so its cpu is charged to the process that is inducing the collapse.  
+>> Khugepaged is not involved.
 > 
-> this structure is also used for a single futex.  maybe struct futex_waiter_head?
-
-One could argue that a single futex is a futexv of one element, but I 
-can see that futex_waiter_head makes more sense. Fixed.
-
->> +/**
->> + * struct futex_single_waiter - Wrapper for a futexv_head of one element
->> + * @futexv: Single futexv element
->> + * @waiter: Single waiter element
->> + */
->> +struct futex_single_waiter {
->> +	struct futexv_head futexv;
->> +	struct futex_waiter waiter;
->> +} __packed;
+> Yes, this makes a lot of sense to me.
 > 
-> Is this struct necessary?  can't you just allocate the necessary space,
-> i.e. a struct futexv_head with 1 futexv_head->object?
-
-I don't feel that makes sense to use dynamic allocation for a fixed 
-sized memory. Given that, using this struct was the way I found to have 
-a futexv_head of a single element in a static allocation fashion.
-
->> +
->> +	key->offset = address % PAGE_SIZE;
->> +	address -= key->offset;
->> +	key->pointer = (u64)address;
->> +	key->index = (unsigned long)current->mm;
+>> Idea was to allow userspace to induce hugepage collapse through the new 
+>> process_madvise() call.  This allows us to collapse hugepages on behalf of 
+>> current or another process for a vectored set of ranges.
 > 
-> Why split the key in offset and pointer and waste 1/3 more space to
-> store each key?
-> 
+> Yes, madvise sounds like a good fit for the purpose.
 
-We need three fields for storing the shared key in the current design, 
-and given that the futex key currently lives inside struct futex_waiter, 
-private and shared keys need to use the same amount of space. Even if I 
-don't use offset for now, the next patch would expand the memory anyway. 
-I see that the way I organized the patches made this confusing.
+Agreed on both points.
 
-To avoid that we could allocate the key space in futex_wait and make 
-futex key point there.
+>> This could be done through a new process_madvise() mode *or* it could be a 
+>> flag to MADV_HUGEPAGE since process_madvise() allows for a flag parameter 
+>> to be passed.  For example, MADV_F_SYNC.
+> 
+> Would this MADV_F_SYNC be applicable to other madvise modes? Most
+> existing madvise modes do not seem to make much sense. We can argue that
+> MADV_PAGEOUT would guarantee the range was indeed reclaimed but I am not
+> sure we want to provide such a strong semantic because it can limit
+> future reclaim optimizations.
+> 
+> To me MADV_HUGEPAGE_COLLAPSE sounds like the easiest way forward.
 
->> +
->> +	/* Generate hash key for this futex using uaddr and current->mm */
->> +	hash_key = jhash2((u32 *)key, sizeof(*key) / sizeof(u32), 0);
->> +
->> +	/* Since HASH_SIZE is 2^n, subtracting 1 makes a perfect bit mask */
->> +	return &futex_table[hash_key & (futex2_hashsize - 1)];
-> 
-> If someone inadvertely changes futex2_hashsize to something not 2^n this
-> will silently break.  futex2_hashsize should be constant and you need
-> a BUILD_BUG_ON().
-
-Given that futex2_hashsize is calcutated at boot time, not sure what we 
-could to about this, maybe BUG_ON()?
-
-> 
->> +static int futex_enqueue(struct futexv_head *futexv, unsigned int nr_futexes,
->> +			 int *awakened)
->> +{
->> +	int i, ret;
->> +	u32 uval, *uaddr, val;
->> +	struct futex_bucket *bucket;
->> +
->> +retry:
->> +	set_current_state(TASK_INTERRUPTIBLE);
->> +
->> +	for (i = 0; i < nr_futexes; i++) {
->> +		uaddr = (u32 * __user)futexv->objects[i].uaddr;
->> +		val = (u32)futexv->objects[i].val;
->> +
->> +		bucket = futexv->objects[i].bucket;
->> +
->> +		bucket_inc_waiters(bucket);
->> +		spin_lock(&bucket->lock);
->> +
->> +		ret = futex_get_user(&uval, uaddr);
->> +
->> +		if (unlikely(ret)) {
->> +			spin_unlock(&bucket->lock);
->> +
->> +			bucket_dec_waiters(bucket);
->> +			__set_current_state(TASK_RUNNING);
->> +			*awakened = futex_dequeue_multiple(futexv, i);
->> +
->> +			if (__get_user(uval, uaddr))
->> +				return -EFAULT;
->> +
->> +			if (*awakened >= 0)
->> +				return 1;
-> 
-> If you are awakened, you don't need to waste time with trying to get the
-> next key.
-> 
-
-Yes, and this is what this return is supposed to do. What I'm missing?
-
-> 
->> +/**
->> + * futex_wait - Setup the timer (if there's one) and wait on a list of futexes
->> + * @futexv:     List of futexes
->> + * @nr_futexes: Length of futexv
->> + * @timo:	Timeout
->> + * @flags:	Timeout flags
->> + *
->> + * Return:
->> + * * 0 >= - Hint of which futex woke us
->> + * * 0 <  - Error code
->> + */
->> +static int futex_set_timer_and_wait(struct futexv_head *futexv,
->> +				    unsigned int nr_futexes,
->> +				    struct __kernel_timespec __user *timo,
->> +				    unsigned int flags)
->> +{
->> +	struct hrtimer_sleeper timeout;
->> +	int ret;
->> +
->> +	if (timo) {
->> +		ret = futex_setup_time(timo, &timeout, flags);
->> +		if (ret)
->> +			return ret;
->> +	}
->> +
->> +	ret = __futex_wait(futexv, nr_futexes, timo ? &timeout : NULL);
->> +
->> +	if (timo)
->> +		hrtimer_cancel(&timeout.timer);
->> +
->> +	return ret;
->> +}
-> 
-> I'm having a hard time understanding why this function exists.  part of
-> the futex is set up outside of it, part inside.  Not sure if this isn't
-> just part of sys_futex_wait.
-> 
-
-I wrote this function since setting the timer, waiting and canceling the 
-timer is common for both wait and waitv, so this would avoid some code 
-duplication. But I probably can just do the timer stuff inside __futex_wait.
-
-> Thanks,
-> 
+I guess in the old madvise(2) we could create a new combo of MADV_HUGEPAGE |
+MADV_WILLNEED with this semantic? But you are probably more interested in
+process_madvise() anyway. There the new flag would make more sense. But there's
+also David H.'s proposal for MADV_POPULATE and there might be benefit in
+considering both at the same time? Should e.g. MADV_POPULATE with MADV_HUGEPAGE
+have the collapse semantics? But would MADV_POPULATE be added to
+process_madvise() as well? Just thinking out loud so we don't end up with more
+flags than necessary, it's already confusing enough as it is.
