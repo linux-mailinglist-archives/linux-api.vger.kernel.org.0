@@ -2,216 +2,219 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 03EF531E729
-	for <lists+linux-api@lfdr.de>; Thu, 18 Feb 2021 09:00:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F32331E757
+	for <lists+linux-api@lfdr.de>; Thu, 18 Feb 2021 09:18:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231208AbhBRH6L (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 18 Feb 2021 02:58:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46616 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230321AbhBRH4R (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 18 Feb 2021 02:56:17 -0500
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20656C061574;
-        Wed, 17 Feb 2021 23:55:37 -0800 (PST)
-Received: by mail-wm1-x32f.google.com with SMTP id m1so2109288wml.2;
-        Wed, 17 Feb 2021 23:55:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=8VuOr5IRYyD3SOn+5chtalvwQdWPMiTxF9JpEV7axuU=;
-        b=DiTZz/4gmJZPeTC5pv54B/6ep6c4fIy5ngNCoDUIRkkmLho2VvinhJ1mkzcRljbaKw
-         4CJD0yTXHFFSnmhiyBYE4ydfNjhRNJHQ7mYNnqhSS4DeCt4/9PaUd6u48IsL5Qz6nf6p
-         oMrgW9xB+Beq4LiN/xmy0zmV9bThfFonj9oyYnhz1l3I6zmyitlpj6ICdRhN45uMJceG
-         ZvyAVZh9LRLDdbBcH3Bxtk0I3pVm76joUGkkd+A/fglhVxxMtSX5FgisfOVSdQEfXn3Z
-         KOySjv69SsVPdtmtkvy1STkomL3q3xgkqmu9JXTlujoSfZLAH7l9BUcwEH7mjpWdIHVS
-         LN5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=8VuOr5IRYyD3SOn+5chtalvwQdWPMiTxF9JpEV7axuU=;
-        b=UarYHgzkbK38jENeWSluZ3kIAxrrobOl+LDH24zCUg3bVhAqrUnFIduMI0AExeik2j
-         46b8X0nXkC+RBFpbGIlf0YJaI1yu9EcJzVWpLlSo1S0qzTeDWmqk7T9ljgCJSmnGjPMe
-         CzoIVVoB8rkbqx0oi4IOgHbA62VIhIDDq/RKNjOtb1LucO1Q3OaNPuK3+wiUdSwZ3jd4
-         R0+HIzsQnZgXdW2rXwcuMJQJ1OWn9ytHSvjgbHU8H2dPMIc1cV5bmlElAoVzoSP2ZE1V
-         PEoQxOy9HT9wolB2g4eX2rgQLvHGFm6XBboCEE3n7gzNMfCZP0Yl4M8EyCGIROPAID9y
-         OrDA==
-X-Gm-Message-State: AOAM533VdgLyAZINtcNTJJcIougqIGnWf/Gbiesh9zOxObpsqZKgHJt6
-        /Xa0XC+Z6Unt6dDDYXK1epY=
-X-Google-Smtp-Source: ABdhPJzB2TIsvhv0bBBak6Op7cXkJ1RH2wz0nb5/aO3RSIANbztDN+kcjVRGxzqpkXPSK0o0IJh9YA==
-X-Received: by 2002:a7b:c2a9:: with SMTP id c9mr2443813wmk.116.1613634935639;
-        Wed, 17 Feb 2021 23:55:35 -0800 (PST)
-Received: from ?IPv6:2001:a61:3a2d:1d01:99ab:4f20:ed7f:402b? ([2001:a61:3a2d:1d01:99ab:4f20:ed7f:402b])
-        by smtp.gmail.com with ESMTPSA id t9sm7401393wrw.76.2021.02.17.23.55.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Feb 2021 23:55:35 -0800 (PST)
-Cc:     mtk.manpages@gmail.com, linux-man <linux-man@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jann Horn <jannh@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jeffrey Vander Stoep <jeffv@google.com>,
-        Minchan Kim <minchan@kernel.org>,
+        id S230464AbhBRIPU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 18 Feb 2021 03:15:20 -0500
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:29482 "EHLO
+        mx0a-00082601.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S230429AbhBRIMr (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 18 Feb 2021 03:12:47 -0500
+Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
+        by m0001303.ppops.net (8.16.0.43/8.16.0.43) with SMTP id 11I88krU020779;
+        Thu, 18 Feb 2021 00:11:16 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type : content-id
+ : content-transfer-encoding : mime-version; s=facebook;
+ bh=oVuKizUnS0Qj+lLh289CLBbbJ7kCzBmOwkp3EEcujKU=;
+ b=jpnsv9pYxTl5ZDiBzrTk0Vsz0jSDc0swedfaCnRQo0uXgC1gBMeDCkBKam1al9XRaqI8
+ zuFhluYBjaYbk9qIz0mMBxS7LiSACE/BSTATWrXmmT2Jdt8sCo1jcGgFvZBLIBLqjY4U
+ Fgi/HlbNjQic6B/HtdLWjzkRVDBH/0R18yY= 
+Received: from mail.thefacebook.com ([163.114.132.120])
+        by m0001303.ppops.net with ESMTP id 36qvcn9cxx-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+        Thu, 18 Feb 2021 00:11:16 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (100.104.98.9) by
+ o365-in.thefacebook.com (100.104.94.198) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1979.3; Thu, 18 Feb 2021 00:11:15 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=D3abRIRt3IRtOxHTRnD2Z5iUeHjOooaCYMDtaODJI1YnD4a7kpByNuJENU7dqgxdXY9749bAT9EKSBh+UMhIpiH6ETWCAf8RNvl+dnhmSIeOW7bvbvrp/xFQ9S6XSGtvrVbK8nLTn0pcBLVUZHIu8EQYKJgCPWLcu+IFwFrOgRG4fsuagcGomo9wbS4RBGaNr1xTt57CcBk6eRhSjQL1cQg+0IBfQfLVA8YR7bkYTol+H40YaV5wyQPFI0MyE1dCXKtqaozAmn0TxzJlDxniccZSI9WOU9V9KJTFOmnLfmlkXoXkJLQ/g71VcHi/p0X5tolj5/dRVi5G1JkY2dAfaw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oVuKizUnS0Qj+lLh289CLBbbJ7kCzBmOwkp3EEcujKU=;
+ b=TggWfCnAlOz5+128thYV11z6OS0G5RXZbgWxM4Sa4X/v+WAZd7FGJ2gZI1FmNJf362bHia0owUoK4mTETwxHs4M91n68j408Wh737VbJ0OmAfKfCyUgLznC1Nj6t+aJ3eBXImpkGaYUWXLLa7ewW+LY1nk+pI/hJ/awCN4btAXKvIZceSyxpuvGOc3giYEiuYqxytV1e4r6u0yGDmp/R0AW7/VEHlLT0Jw+f0Q+YZaAE4Ft9gz5dbEUML23hQmBek7oay+rHkKysQgMgWTC6UYC78KL9lh3iJiSi95jXhoeUsUAsbqI1lQvxxAG4kHXQutXjsqxon2TnXBvSzqbFMA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
+ header.d=fb.com; arc=none
+Received: from BYAPR15MB2999.namprd15.prod.outlook.com (2603:10b6:a03:fa::12)
+ by SJ0PR15MB4710.namprd15.prod.outlook.com (2603:10b6:a03:37b::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.27; Thu, 18 Feb
+ 2021 08:11:14 +0000
+Received: from BYAPR15MB2999.namprd15.prod.outlook.com
+ ([fe80::8cd0:7956:3c0b:7910]) by BYAPR15MB2999.namprd15.prod.outlook.com
+ ([fe80::8cd0:7956:3c0b:7910%6]) with mapi id 15.20.3846.042; Thu, 18 Feb 2021
+ 08:11:14 +0000
+From:   Song Liu <songliubraving@fb.com>
+To:     David Rientjes <rientjes@google.com>
+CC:     Alex Shi <alex.shi@linux.alibaba.com>,
+        Hugh Dickins <hughd@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
         Michal Hocko <mhocko@suse.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        David Rientjes <rientjes@google.com>,
-        =?UTF-8?Q?Edgar_Arriaga_Garc=c3=ada?= <edgararriaga@google.com>,
-        Tim Murray <timmurray@google.com>,
-        linux-mm <linux-mm@kvack.org>,
-        SElinux list <selinux@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        kernel-team <kernel-team@android.com>
-Subject: Re: [PATCH v3 1/1] process_madvise.2: Add process_madvise man page
-To:     Suren Baghdasaryan <surenb@google.com>
-References: <20210202053046.1653012-1-surenb@google.com>
- <079db245-a08c-0dbd-01d4-8065f533652e@gmail.com>
- <CAJuCfpGotx_04Stn5Nw6Au+TVG9LuAJ=CB_s7uxjMLOLerw-GA@mail.gmail.com>
- <2d303517-cdcd-9ec8-e57d-3d065edb573c@gmail.com>
- <CAJuCfpFC0B=jXFEuPYYBZAjgx1B6S8vG-i7_0iBc_RHeWynyzw@mail.gmail.com>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <7fb20d93-92d0-14b3-f7f9-8b9af4ebb584@gmail.com>
-Date:   Thu, 18 Feb 2021 08:55:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
-MIME-Version: 1.0
-In-Reply-To: <CAJuCfpFC0B=jXFEuPYYBZAjgx1B6S8vG-i7_0iBc_RHeWynyzw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
+        "Matthew Wilcox" <willy@infradead.org>,
+        Minchan Kim <minchan@kernel.org>,
+        "Vlastimil Babka" <vbabka@suse.cz>,
+        Chris Kennelly <ckennelly@google.com>,
+        Linux MM <linux-mm@kvack.org>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [RFC] Hugepage collapse in process context
+Thread-Topic: [RFC] Hugepage collapse in process context
+Thread-Index: AQHXBOTGyS5qDuITxk+obyTeBp1b4KpdkXWA
+Date:   Thu, 18 Feb 2021 08:11:13 +0000
+Message-ID: <9B5BFA9A-E945-4665-B335-A0B8E36D4463@fb.com>
+References: <d098c392-273a-36a4-1a29-59731cdf5d3d@google.com>
+In-Reply-To: <d098c392-273a-36a4-1a29-59731cdf5d3d@google.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3654.60.0.2.21)
+authentication-results: google.com; dkim=none (message not signed)
+ header.d=none;google.com; dmarc=none action=none header.from=fb.com;
+x-originating-ip: [24.6.81.164]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: e7f18446-82ca-4456-b363-08d8d3e4c26e
+x-ms-traffictypediagnostic: SJ0PR15MB4710:
+x-microsoft-antispam-prvs: <SJ0PR15MB47104BB793AB6C62EE85F2FBB3859@SJ0PR15MB4710.namprd15.prod.outlook.com>
+x-fb-source: Internal
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: w0wFDxPt5zfvMNmtEa/4bbH2A8v0GNjBBz6pc/cx248HZphmfsfsRwXQJkulvFN2HD15Rr8prlslTmMkH63BTjhU6MRqeeowZFNYTNk7IHmOXWMAL3sCY4fmUaVl/+Sp/o+pLfJ6c5Mn+uJzrx3lUnOMCbBCveV/O7Z4wzOTKI8DLuRU3343S/RY6hqFIamiWG7FoJpCHyMQZL2MBMlRRcvTD8nsEO+cUVnXqQBKJr3OGV6DywO2LLUjcf6f67jSRe4+vqEdamYkOQRV9Tfvo+0qZyVwlOa15gfXhpwlzm9HrXn/Hq58hNixRbt5TPx7PebWt+0mj3nWVvkqfkO4k+xp1CKG266ty0/GIZtRQHQLlV8DXp6ScAAIRMMG5myoREhF4U4sNYDFqumc/GzddSgFnfiYkPyavQbpGeRl3AS3JveToIksgSfDug+O/JozNJyYWXrOGdX4tG1vowZEiwnQt9Ex6UC+uIWJpcfkDhSkSP2dW9IbRkYVPJ4NoFbXC9uOZdxlH7kMI1rjqr6R8e1hmGWi0QSDUBimkZKuMNNcErRvE46/o3zc0em6jpYRyuOYTyj5PFvGu6pRsPBiNw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR15MB2999.namprd15.prod.outlook.com;PTR:;CAT:NONE;SFS:(136003)(39860400002)(366004)(376002)(396003)(346002)(33656002)(8676002)(6512007)(8936002)(83380400001)(66946007)(6506007)(478600001)(5660300002)(4326008)(66476007)(66556008)(2906002)(316002)(7416002)(186003)(53546011)(54906003)(2616005)(6916009)(64756008)(26005)(6486002)(66446008)(86362001)(76116006)(36756003)(71200400001)(45980500001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?wRYELqV+CnL5S5VK8V/BDULzWLRmZDGDQqt0q0KmoXyDESdXR+/+fxcJc9dR?=
+ =?us-ascii?Q?FdnbdgYpjUl7+z4nsg6CUZMx9RRSQjfwkO6P1iMfjKzoFWTfGggSpWy8kuR+?=
+ =?us-ascii?Q?OjdWHbJUgOXQOGE/9DJcAnz2J1H+pVpeFG9rCsNROdNEeJXiDiVdIJmaJo1D?=
+ =?us-ascii?Q?LxodE5lhGMvYqlFgVhRQiUFF7fcGpsh4lXo7gXoKIMvBdt8rHzFJ0tQB8D5+?=
+ =?us-ascii?Q?pxrh0U32jdiwL8gy/bJH2ad+bIe0eUOgkBCF0/ydIbNyfMa0cE7Bh1vTXu3W?=
+ =?us-ascii?Q?yBlMQJcMUH7Gi//ujUpTUSluSKVnYpCMOE6PzF/qg17KxHFVVHtqA7JYNI5J?=
+ =?us-ascii?Q?JbmbEByGjn0O6t9blxf35LY2EY6GfkQI1WdG9/wK7WggWbBRVj6C2ntQXn6k?=
+ =?us-ascii?Q?Vd++VV/nfO91X3Tk5XW365R5djhkngzbLW7Zjdae0gTpApRSD9JQyRj/R1FF?=
+ =?us-ascii?Q?Rmyb2NymKTICK2dobF2F2HSEcV93t/McjkRKiWtJAGWrKigStqFyW4NH7et/?=
+ =?us-ascii?Q?QX3Pd20LKaPRx/1cu/fpn7QSmpmBcXGiqbkg8L2L3xz0hsCbO/ubqfdCPAAF?=
+ =?us-ascii?Q?RjOa/GxjGMMGyZZr73PwpeYc+n7rgXrDr8hYpbjuvOMKaZOvPivvdSrz12CD?=
+ =?us-ascii?Q?yH6PC/DxJRf7wbuQTZgWAItRXVvX7tlrVv5BhzgAt3ftA9SW6Q+BGYIjZ4R3?=
+ =?us-ascii?Q?Q1hrUIMk7lmzH0AtkZMOcJDvSbEP7O/R9hiw7YlUsnJCJBV9sey9AMZXMh2g?=
+ =?us-ascii?Q?xRNuWfhOyPM00tVO9aGaZZ53mU6P/JskQnRk9AnKfyGakxylGyjUm3avPWAG?=
+ =?us-ascii?Q?xd7NwedAIAOSsetIAc8hrl9Q4f0G+/YFiw7VM+KU3sPOcfrd4K/J33H5S6lc?=
+ =?us-ascii?Q?Pj5uQtENKjzspWPF+jiKAkjb3DVH0ugjHW9tGiXqq2HsjAWZ1t7h4slwPink?=
+ =?us-ascii?Q?WAuFwhYeA2+8iDGEhWABYNXuFP+eY2i35aNSQD4g5o+N6E7cVRMfoctimAML?=
+ =?us-ascii?Q?MOrk2dTOeO4Hyp/vqrxnKwWq46W+ZeNpIGIYp03qgHphzw/tv90n9Ya9Ws22?=
+ =?us-ascii?Q?KQzhT5uzPOplJkTm/n69JORl3B+5PH7Ah6bUqYPavHMjAe/XKBAJFKAY6Rit?=
+ =?us-ascii?Q?FlT0vh4d/cp3XAerpKB9VRm5I3Y+F8mQnFVjLiC7FBkm0M1XpOQPxHQALWEg?=
+ =?us-ascii?Q?ZgWbINi6OkQ0bnnCH+InSwDkPh8TZv5bE6KbxGdjqgmPlLBWh+8lotnlQCmR?=
+ =?us-ascii?Q?jAIfCOSDtlzy/5brevS0iirb+WsxWhChe4xjZ3vTy5Ay4z3m/8/OM9wjXnha?=
+ =?us-ascii?Q?/Hvge4IGUPnO5POxJJzJ0zXv?=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <5335E776C975DA4FB02DFDCA65E3546D@namprd15.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR15MB2999.namprd15.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e7f18446-82ca-4456-b363-08d8d3e4c26e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Feb 2021 08:11:14.0004
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: lpS6PCN2wIMwqtNGSdRFB0fWkQPefqoliaknuqMtrOoDeSENmxg9/H3OJ7JxVVwH4HIxReq65RN+Z7hiz91RgQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR15MB4710
+X-OriginatorOrg: fb.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
+ definitions=2021-02-18_03:2021-02-18,2021-02-18 signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0 bulkscore=0 adultscore=0
+ lowpriorityscore=0 mlxlogscore=999 clxscore=1011 malwarescore=0
+ spamscore=0 priorityscore=1501 suspectscore=0 phishscore=0 mlxscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2102180067
+X-FB-Internal: deliver
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hello Suren,
 
->> Thanks. I added a few words to clarify this.>
-> Any link where I can see the final version?
 
-Sure:
-https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/tree/man2/process_madvise.2
+> On Feb 16, 2021, at 8:24 PM, David Rientjes <rientjes@google.com> wrote:
+>=20
+> Hi everybody,
+>=20
+> Khugepaged is slow by default, it scans at most 4096 pages every 10s. =20
+> That's normally fine as a system-wide setting, but some applications woul=
+d=20
+> benefit from a more aggressive approach (as long as they are willing to=20
+> pay for it).
+>=20
+> Instead of adding priorities for eligible ranges of memory to khugepaged,=
+=20
+> temporarily speeding khugepaged up for the whole system, or sharding its=
+=20
+> work for memory belonging to a certain process, one approach would be to=
+=20
+> allow userspace to induce hugepage collapse.
+>=20
+> The benefit to this approach would be that this is done in process contex=
+t=20
+> so its cpu is charged to the process that is inducing the collapse. =20
+> Khugepaged is not involved.
+>=20
+> Idea was to allow userspace to induce hugepage collapse through the new=20
+> process_madvise() call.  This allows us to collapse hugepages on behalf o=
+f=20
+> current or another process for a vectored set of ranges.
+>=20
+> This could be done through a new process_madvise() mode *or* it could be =
+a=20
+> flag to MADV_HUGEPAGE since process_madvise() allows for a flag parameter=
+=20
+> to be passed.  For example, MADV_F_SYNC.
+>=20
+> When done, this madvise call would allocate a hugepage on the right node=
+=20
+> and attempt to do the collapse in process context just as khugepaged woul=
+d=20
+> otherwise do.
 
-Also rendered below.
+This is very interesting idea. One question, IIUC, the user process will=20
+block until all small pages in given ranges are collapsed into THPs. What=20
+would happen if the memory is so fragmented that we cannot allocate that=20
+many huge pages? Do we need some fail over mechanisms?=20
+
+>=20
+> This would immediately be useful for a malloc implementation, for example=
+,=20
+> that has released its memory back to the system using MADV_DONTNEED and=20
+> will subsequently refault the memory.  Rather than wait for khugepaged to=
+=20
+> come along 30m later, for example, and collapse this memory into a=20
+> hugepage (which could take a much longer time on a very large system), an=
+=20
+> alternative would be to use this process_madvise() mode to induce the=20
+> action up front.  In other words, say "I'm returning this memory to the=20
+> application and it's going to be hot, so back it by a hugepage now rather=
+=20
+> than waiting until later."
+>=20
+> It would also be useful for read-only file-backed mappings for text=20
+> segments.  Khugepaged should be happy, it's just less work done by generi=
+c=20
+> kthreads that gets charged as an overall tax to everybody.
+
+Mixing sync-THP with async-THP (khugepaged) could be useful when there are=
+=20
+different priorities of THPs. In one of the use cases, we use THP for both=
+=20
+text and data. The ratio may look like 5x THPs for text, and 2000x THPs for=
+=20
+data. If the system has fewer than 2005 THPs, we wouldn't wait, but we woul=
+d=20
+prioritize THPs for text. With this new mechanism, we can use sync-THP for=
+=20
+the text, and async-THP for the data.=20
 
 Thanks,
-
-Michael
-
-NAME
-       process_madvise - give advice about use of memory to a process
-
-SYNOPSIS
-       #include <sys/uio.h>
-
-       ssize_t process_madvise(int pidfd, const struct iovec *iovec,
-                               size_t vlen, int advice,
-                               unsigned int flags);
-
-       Note: There is no glibc wrapper for this system call; see NOTES.
-
-DESCRIPTION
-       The process_madvise() system call is used to give advice or direc‐
-       tions to the kernel about the address ranges of another process or
-       of  the  calling  process.  It provides the advice for the address
-       ranges described by iovec and vlen.  The goal of such advice is to
-       improve system or application performance.
-
-       The  pidfd  argument  is a PID file descriptor (see pidfd_open(2))
-       that specifies the process to which the advice is to be applied.
-
-       The pointer iovec points to an array of iovec structures,  defined
-       in <sys/uio.h> as:
-
-           struct iovec {
-               void  *iov_base;    /* Starting address */
-               size_t iov_len;     /* Length of region */
-           };
-
-       The iovec structure describes address ranges beginning at iov_base
-       address and with the size of iov_len bytes.
-
-       The vlen specifies the number of elements in the iovec  structure.
-       This value must be less than or equal to IOV_MAX (defined in <lim‐
-       its.h> or accessible via the call sysconf(_SC_IOV_MAX)).
-
-       The advice argument is one of the following values:
-
-       MADV_COLD
-              See madvise(2).
-
-       MADV_PAGEOUT
-              See madvise(2).
-
-       The flags argument is reserved for future use; currently, this ar‐
-       gument must be specified as 0.
-
-       The  vlen  and iovec arguments are checked before applying any ad‐
-       vice.  If vlen is too big, or iovec is invalid, then an error will
-       be returned immediately and no advice will be applied.
-
-       The  advice might be applied to only a part of iovec if one of its
-       elements points to an invalid memory region in the remote process.
-       No further elements will be processed beyond that point.  (See the
-       discussion regarding partial advice in RETURN VALUE.)
-
-       Permission to apply advice to another process  is  governed  by  a
-       ptrace   access   mode   PTRACE_MODE_READ_REALCREDS   check   (see
-       ptrace(2)); in addition, because of the  performance  implications
-       of applying the advice, the caller must have the CAP_SYS_ADMIN ca‐
-       pability.
-
-RETURN VALUE
-       On success, process_madvise() returns the number of bytes advised.
-       This  return  value may be less than the total number of requested
-       bytes, if an error occurred after some iovec elements were already
-       processed.   The caller should check the return value to determine
-       whether a partial advice occurred.
-
-       On error, -1 is returned and errno is set to indicate the error.
-
-ERRORS
-       EBADF  pidfd is not a valid PID file descriptor.
-
-       EFAULT The memory described by iovec is outside the accessible ad‐
-              dress space of the process referred to by pidfd.
-
-       EINVAL flags is not 0.
-
-       EINVAL The  sum of the iov_len values of iovec overflows a ssize_t
-              value.
-
-       EINVAL vlen is too large.
-
-       ENOMEM Could not allocate memory for internal copies of the  iovec
-              structures.
-
-       EPERM  The  caller  does not have permission to access the address
-              space of the process pidfd.
-
-       ESRCH  The target process does not exist (i.e., it has  terminated
-              and been waited on).
-
-VERSIONS
-       This  system  call first appeared in Linux 5.10.  Support for this
-       system call is optional, depending on  the  setting  of  the  CON‐
-       FIG_ADVISE_SYSCALLS configuration option.
-
-CONFORMING TO
-       The process_madvise() system call is Linux-specific.
-
-NOTES
-       Glibc does not provide a wrapper for this system call; call it us‐
-       ing syscall(2).
-
-SEE ALSO
-       madvise(2),          pidfd_open(2),           process_vm_readv(2),
-       process_vm_write(2)
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Song
