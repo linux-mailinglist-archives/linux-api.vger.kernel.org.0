@@ -2,120 +2,83 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A4C9431E9B9
-	for <lists+linux-api@lfdr.de>; Thu, 18 Feb 2021 13:26:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D25531E9C0
+	for <lists+linux-api@lfdr.de>; Thu, 18 Feb 2021 13:31:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230100AbhBRMZN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 18 Feb 2021 07:25:13 -0500
-Received: from mx2.suse.de ([195.135.220.15]:52820 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229944AbhBRKZZ (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 18 Feb 2021 05:25:25 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1613642491; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=4yHdRd/hxWaiH12nTXuW5kLIB588HE7uAVphy/I3/zs=;
-        b=li4tdSAr9XOarrgJVgwIH7v+hf4PF6ifZU/lSDeW2Nj2b7c8Y2zoaBkAzMXDax465ArmjC
-        /YNWCCKwM+edMaPdJ3ppGXtbbBp5rPzn5Pfjo17pVnUGEWLS13+ZevY60x7/5McTlO6f9b
-        e7/B4wjet7hrQVdEhjYgd39yyxgFebQ=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 8A044ADDC;
-        Thu, 18 Feb 2021 10:01:31 +0000 (UTC)
-Date:   Thu, 18 Feb 2021 11:01:30 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     Song Liu <songliubraving@fb.com>
-Cc:     David Rientjes <rientjes@google.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Hugh Dickins <hughd@google.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Minchan Kim <minchan@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Chris Kennelly <ckennelly@google.com>,
-        Linux MM <linux-mm@kvack.org>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: [RFC] Hugepage collapse in process context
-Message-ID: <YC46+maSFBiWqU0o@dhcp22.suse.cz>
-References: <d098c392-273a-36a4-1a29-59731cdf5d3d@google.com>
- <9B5BFA9A-E945-4665-B335-A0B8E36D4463@fb.com>
- <YC4nx/qChwNdfLmB@dhcp22.suse.cz>
- <97A31D94-671B-4400-8114-9039B28E54A7@fb.com>
+        id S229944AbhBRMZ1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 18 Feb 2021 07:25:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32806 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232904AbhBRLPk (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 18 Feb 2021 06:15:40 -0500
+X-Greylist: delayed 399 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 18 Feb 2021 03:14:59 PST
+Received: from mail.sf-mail.de (mail.sf-mail.de [IPv6:2a01:4f8:1c17:6fae:616d:6c69:616d:6c69])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FAABC06178A
+        for <linux-api@vger.kernel.org>; Thu, 18 Feb 2021 03:14:59 -0800 (PST)
+Received: (qmail 5856 invoked from network); 18 Feb 2021 11:07:49 -0000
+Received: from mail.sf-mail.de ([2a01:4f8:1c17:6fae:616d:6c69:616d:6c69]:42702 HELO webmail.sf-mail.de) (auth=eike@sf-mail.de)
+        by mail.sf-mail.de (Qsmtpd 0.37dev) with (TLS_AES_256_GCM_SHA384 encrypted) ESMTPSA
+        for <vbabka@suse.cz>; Thu, 18 Feb 2021 12:07:49 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <97A31D94-671B-4400-8114-9039B28E54A7@fb.com>
+Date:   Thu, 18 Feb 2021 12:07:26 +0100
+From:   Rolf Eike Beer <eike-kernel@sf-tec.de>
+To:     Vlastimil Babka <vbabka@suse.cz>
+Cc:     David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>, Michal Hocko <mhocko@suse.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Matthew Wilcox <willy@infradead.org>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Minchan Kim <minchan@kernel.org>, Jann Horn <jannh@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Hugh Dickins <hughd@google.com>,
+        Rik van Riel <riel@surriel.com>,
+        "Michael S . Tsirkin" <mst@redhat.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>, Chris Zankel <chris@zankel.net>,
+        Max Filippov <jcmvbkbc@gmail.com>, linux-alpha@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-xtensa@linux-xtensa.org, linux-arch@vger.kernel.org,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [PATCH RFC] mm/madvise: introduce MADV_POPULATE to
+ prefault/prealloc memory
+In-Reply-To: <7859a7a0-96e2-72ff-be92-c0af5d642564@suse.cz>
+References: <20210217154844.12392-1-david@redhat.com>
+ <7859a7a0-96e2-72ff-be92-c0af5d642564@suse.cz>
+User-Agent: Roundcube Webmail/1.4.11
+Message-ID: <50f73055950ff7382f2194134ef0f439@sf-tec.de>
+X-Sender: eike-kernel@sf-tec.de
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu 18-02-21 09:53:25, Song Liu wrote:
-> 
-> 
-> > On Feb 18, 2021, at 12:39 AM, Michal Hocko <mhocko@suse.com> wrote:
-> > 
-> > On Thu 18-02-21 08:11:13, Song Liu wrote:
-> >> 
-> >> 
-> >>> On Feb 16, 2021, at 8:24 PM, David Rientjes <rientjes@google.com> wrote:
-> >>> 
-> >>> Hi everybody,
-> >>> 
-> >>> Khugepaged is slow by default, it scans at most 4096 pages every 10s.  
-> >>> That's normally fine as a system-wide setting, but some applications would 
-> >>> benefit from a more aggressive approach (as long as they are willing to 
-> >>> pay for it).
-> >>> 
-> >>> Instead of adding priorities for eligible ranges of memory to khugepaged, 
-> >>> temporarily speeding khugepaged up for the whole system, or sharding its 
-> >>> work for memory belonging to a certain process, one approach would be to 
-> >>> allow userspace to induce hugepage collapse.
-> >>> 
-> >>> The benefit to this approach would be that this is done in process context 
-> >>> so its cpu is charged to the process that is inducing the collapse.  
-> >>> Khugepaged is not involved.
-> >>> 
-> >>> Idea was to allow userspace to induce hugepage collapse through the new 
-> >>> process_madvise() call.  This allows us to collapse hugepages on behalf of 
-> >>> current or another process for a vectored set of ranges.
-> >>> 
-> >>> This could be done through a new process_madvise() mode *or* it could be a 
-> >>> flag to MADV_HUGEPAGE since process_madvise() allows for a flag parameter 
-> >>> to be passed.  For example, MADV_F_SYNC.
-> >>> 
-> >>> When done, this madvise call would allocate a hugepage on the right node 
-> >>> and attempt to do the collapse in process context just as khugepaged would 
-> >>> otherwise do.
-> >> 
-> >> This is very interesting idea. One question, IIUC, the user process will 
-> >> block until all small pages in given ranges are collapsed into THPs.
-> > 
-> > Do you mean that PF would be blocked due to exclusive mmap_sem? Or is
-> > there anything else oyu have in mind?
-> 
-> I was thinking about memory defragmentation when the application asks for
-> many THPs. Say the application looks like
-> 
-> main()
-> {
-> 	malloc();
-> 	madvise(HUGE);
-> 	process_madvise();
-> 	
-> 	/* start doing work */
-> }
-> 
-> IIUC, when process_madvise() finishes, the THPs should be ready. However, 
-> if defragmentation takes a long time, the process will wait in process_madvise().
+>> Let's introduce MADV_POPULATE with the following semantics
+>> 1. MADV_POPULATED does not work on PROT_NONE and special VMAs. It 
+>> works
+>>    on everything else.
+>> 2. Errors during MADV_POPULATED (especially OOM) are reported. If we 
+>> hit
+>>    hardware errors on pages, ignore them - nothing we really can or
+>>    should do.
+>> 3. On errors during MADV_POPULATED, some memory might have been
+>>    populated. Callers have to clean up if they care.
+>> 4. Concurrent changes to the virtual memory layour are tolerated - we
+                                                     ^t
+>>    process each and every PFN only once, though.
+>> 5. If MADV_POPULATE succeeds, all memory in the range can be accessed
+>>    without SIGBUS. (of course, not if user space changed mappings in 
+>> the
+>>    meantime or KSM kicked in on anonymous memory).
 
-OK, I see. The operation is definitely free which is to be expected. You
-can do the same from a thread which can spend time collapsing THPs.
-There are still internal resources that might block others - e.g. the
-above mentioned mmap_sem. We can try hard to reduce the lock time but
-this is unlikely to be completely free of any interruption of the
-workload.
--- 
-Michal Hocko
-SUSE Labs
+You are talking both about MADV_POPULATE and MADV_POPULATED here.
+
+Eike
