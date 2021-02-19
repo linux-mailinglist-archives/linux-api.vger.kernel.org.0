@@ -2,242 +2,146 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 74ED131FCF9
-	for <lists+linux-api@lfdr.de>; Fri, 19 Feb 2021 17:17:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 77DB231FCFA
+	for <lists+linux-api@lfdr.de>; Fri, 19 Feb 2021 17:17:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229806AbhBSQRA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 19 Feb 2021 11:17:00 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:11656 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230125AbhBSQQv (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 19 Feb 2021 11:16:51 -0500
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B602fe4480001>; Fri, 19 Feb 2021 08:16:08 -0800
-Received: from [10.2.58.214] (172.20.145.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 19 Feb
- 2021 16:16:04 +0000
-From:   Zi Yan <ziy@nvidia.com>
-To:     David Rientjes <rientjes@google.com>
-CC:     David Hildenbrand <david@redhat.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Michal Hocko <mhocko@suse.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        "Hugh Dickins" <hughd@google.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Song Liu <songliubraving@fb.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Minchan Kim <minchan@kernel.org>,
-        Chris Kennelly <ckennelly@google.com>, <linux-mm@kvack.org>,
-        <linux-api@vger.kernel.org>
-Subject: Re: [RFC] Hugepage collapse in process context
-Date:   Fri, 19 Feb 2021 11:16:01 -0500
-X-Mailer: MailMate (1.14r5757)
-Message-ID: <DD01C0D8-AA9A-470F-A0C0-6F361A7C0F2D@nvidia.com>
-In-Reply-To: <5127b9c-a147-8ef5-c942-ae8c755413d0@google.com>
-References: <d098c392-273a-36a4-1a29-59731cdf5d3d@google.com>
- <YCzSDPbBsksCX5zP@dhcp22.suse.cz>
- <0b51a213-650e-7801-b6ed-9545466c15db@suse.cz>
- <600ee57f-d839-d402-fb0f-e9f350114dce@redhat.com>
- <5127b9c-a147-8ef5-c942-ae8c755413d0@google.com>
+        id S229700AbhBSQRe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 19 Feb 2021 11:17:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38272 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229914AbhBSQR2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 19 Feb 2021 11:17:28 -0500
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 345A6C061574;
+        Fri, 19 Feb 2021 08:16:47 -0800 (PST)
+Received: by mail-io1-xd29.google.com with SMTP id u20so6138224iot.9;
+        Fri, 19 Feb 2021 08:16:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=RVC1lUy6yBX+RjfN1vbz03Jol154WSsJeAHa1xpGG1w=;
+        b=R6nCxjX0R5E+fjHijcUZSbger7NLM8AdWaadFqNsy1CBNXIxSorZp0S1rrPklPs2id
+         gfrjqUWgsnJ/TyM8NdBqr+8pTIZVHc7Kc6xRzTIOWOkMVH2De8QjBi2j42/V+z1Sy3kV
+         O6tBsZ2caRB7i/Sm04RVMh9dJj2mSJNP58rhfKUnju+EdFzWcQnlyNd0LMHNa9cBrd1D
+         orOnL2/MDl6CvXZkJNU360gr0a5IOeuUHARh209CEVJMRQtABwqAPZn6DieT6eD05r+i
+         LFXafQPDTnRmssvpzupQZNneJZmAIHQTtAgYSjtkEYns7X6P4gerZsZr0MPxAY3OkAeu
+         J0eQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RVC1lUy6yBX+RjfN1vbz03Jol154WSsJeAHa1xpGG1w=;
+        b=dx3DXB34liLLqh1pDDbbVhJ5oq3IB568wDqDDtCrvSuacfOnTHhGkrsbADEQ0VoZe3
+         NTNRRK4VXTW+RzpDfVFaC+R5r1Fik4iMm3r74L+E+MYiqqkXUqSwUwDipLpSEWj2m60Q
+         bsdaElI93fpzUVpg7wdXtUrEFQVKyE6ZV5zxrsbWoJ/PxAKVyv6LKl0sRsmYF/GSxpqU
+         eV8OwxMHqDn3dKzpQ9mEBKCuUxesyvvP1YqyzPm6c4ciTYI3Gb1sCVz7cMNEsUpDx5bt
+         HJOH/U1CNP9Fn6d7om8fW+2JFQ3FNSdFD5HhjQ8EltSI0L5+QCVbZ5IPISkpEnfLS+5W
+         27xQ==
+X-Gm-Message-State: AOAM532AWDJbxY3dum0cvGuBDbO4nOb4ynReRaQ2myzz6wnVD0UexqZN
+        +h3gI4RVPk8iBToxYDF1hbKBwR5lM51i4hgg3nFdnkJ2aAs=
+X-Google-Smtp-Source: ABdhPJxtBUaqTrg6LmDS+m5jzyvXa27KEtmVVSV4PB1kq11JS8lAnnIV4VUVixNpxoU4a9Gc1lleoxDGwYJJ6r78GVM=
+X-Received: by 2002:a02:bb16:: with SMTP id y22mr10482944jan.123.1613751406497;
+ Fri, 19 Feb 2021 08:16:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed;
-        boundary="=_MailMate_82CCED33-B877-4432-B350-0259CD25D678_=";
-        micalg=pgp-sha512; protocol="application/pgp-signature"
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1613751368; bh=OLN1OsirW5UBXp7ykh74ftGBlidVbzKmB1bSd287tl8=;
-        h=From:To:CC:Subject:Date:X-Mailer:Message-ID:In-Reply-To:
-         References:MIME-Version:Content-Type:X-Originating-IP:
-         X-ClientProxiedBy;
-        b=kmJj2baFP6WTq5uoLGZ1xG6n2BpoI0OvmuvvIFoVDW183FwvN4rAkcEpleErChsIh
-         8UyUv+E8MeYSALzM08Wgc5dhUjffrjGq3/bgpVsevF3+8uprYnaEEeYaMXfZb7xUNR
-         ViPOEzaGkFlzHVKKWHm7l34lQ+NPX3QuWrEP7E78c4UU0h4U/j4JmVnG9FtqvoA6O1
-         49VvhG9ipRiajzAqeO+lYwpiIohXpTkiaWIauccusfLFJhtTfi+n9dHYTPTCd2gc1e
-         1h+X8iGG86Dd8SikOAfbUcaDhKbWtfzNmDnkfubcON0n+Es+k5GQX2et9S8uctHOwl
-         h7BcPZcxl08Ng==
+References: <20210124184204.899729-1-amir73il@gmail.com> <20210124184204.899729-3-amir73il@gmail.com>
+ <20210216170154.GG21108@quack2.suse.cz> <CAOQ4uxhwZG=aC+ZpB90Gn_5aNmQrwsJUnniWVhFXoq454vuyHA@mail.gmail.com>
+In-Reply-To: <CAOQ4uxhwZG=aC+ZpB90Gn_5aNmQrwsJUnniWVhFXoq454vuyHA@mail.gmail.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Fri, 19 Feb 2021 18:16:35 +0200
+Message-ID: <CAOQ4uxhnrZu0phZniiBEqPJJZwWfs3UbCJt0atkHirdHQVCWgw@mail.gmail.com>
+Subject: Re: [RFC][PATCH 2/2] fanotify: support limited functionality for
+ unprivileged users
+To:     Jan Kara <jack@suse.cz>
+Cc:     Matthew Bobrowski <mbobrowski@mbobrowski.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
---=_MailMate_82CCED33-B877-4432-B350-0259CD25D678_=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On 18 Feb 2021, at 17:34, David Rientjes wrote:
-
-> On Thu, 18 Feb 2021, David Hildenbrand wrote:
+On Tue, Feb 16, 2021 at 8:12 PM Amir Goldstein <amir73il@gmail.com> wrote:
 >
->>>>> Hi everybody,
->>>>>
->>>>> Khugepaged is slow by default, it scans at most 4096 pages every 10=
-s.
->>>>> That's normally fine as a system-wide setting, but some application=
-s
->>>>> would
->>>>> benefit from a more aggressive approach (as long as they are willin=
-g to
->>>>> pay for it).
->>>>>
->>>>> Instead of adding priorities for eligible ranges of memory to
->>>>> khugepaged,
->>>>> temporarily speeding khugepaged up for the whole system, or shardin=
-g its
->>>>> work for memory belonging to a certain process, one approach would =
-be to
->>>>> allow userspace to induce hugepage collapse.
->>>>>
->>>>> The benefit to this approach would be that this is done in process
->>>>> context
->>>>> so its cpu is charged to the process that is inducing the collapse.=
-
->>>>> Khugepaged is not involved.
->>>>
->>>> Yes, this makes a lot of sense to me.
->>>>
->>>>> Idea was to allow userspace to induce hugepage collapse through the=
- new
->>>>> process_madvise() call.  This allows us to collapse hugepages on be=
-half
->>>>> of
->>>>> current or another process for a vectored set of ranges.
->>>>
->>>> Yes, madvise sounds like a good fit for the purpose.
->>>
->>> Agreed on both points.
->>>
->>>>> This could be done through a new process_madvise() mode *or* it cou=
-ld be
->>>>> a
->>>>> flag to MADV_HUGEPAGE since process_madvise() allows for a flag
->>>>> parameter
->>>>> to be passed.  For example, MADV_F_SYNC.
->>>>
->>>> Would this MADV_F_SYNC be applicable to other madvise modes? Most
->>>> existing madvise modes do not seem to make much sense. We can argue =
-that
->>>> MADV_PAGEOUT would guarantee the range was indeed reclaimed but I am=
- not
->>>> sure we want to provide such a strong semantic because it can limit
->>>> future reclaim optimizations.
->>>>
->>>> To me MADV_HUGEPAGE_COLLAPSE sounds like the easiest way forward.
->>>
->>> I guess in the old madvise(2) we could create a new combo of MADV_HUG=
-EPAGE |
->>> MADV_WILLNEED with this semantic? But you are probably more intereste=
-d in
->>> process_madvise() anyway. There the new flag would make more sense. B=
-ut
->>> there's
->>> also David H.'s proposal for MADV_POPULATE and there might be benefit=
- in
->>> considering both at the same time? Should e.g. MADV_POPULATE with
->>> MADV_HUGEPAGE
->>> have the collapse semantics? But would MADV_POPULATE be added to
->>> process_madvise() as well? Just thinking out loud so we don't end up =
-with
->>> more
->>> flags than necessary, it's already confusing enough as it is.
->>>
->>
->> Note that madvise() eats only a single value, not flags. Combinations =
-as you
->> describe are not possible.
->>
->> Something MADV_HUGEPAGE_COLLAPSE make sense to me that does not need t=
-he mmap
->> lock in write and does not modify the actual VMA, only a mapping.
->>
+> On Tue, Feb 16, 2021 at 7:01 PM Jan Kara <jack@suse.cz> wrote:
+> >
+> > On Sun 24-01-21 20:42:04, Amir Goldstein wrote:
+> > > Add limited support for unprivileged fanotify event listener.
+> > > An unprivileged event listener does not get an open file descriptor in
+> > > the event nor the process pid of another process.  An unprivileged event
+> > > listener cannot request permission events, cannot set mount/filesystem
+> > > marks and cannot request unlimited queue/marks.
+> > >
+> > > This enables the limited functionality similar to inotify when watching a
+> > > set of files and directories for OPEN/ACCESS/MODIFY/CLOSE events, without
+> > > requiring SYS_CAP_ADMIN privileges.
+> > >
+> > > The FAN_REPORT_DFID_NAME init flag, provide a method for an unprivileged
+> > > event listener watching a set of directories (with FAN_EVENT_ON_CHILD)
+> > > to monitor all changes inside those directories.
+> > >
+> > > This typically requires that the listener keeps a map of watched directory
+> > > fid to dirfd (O_PATH), where fid is obtained with name_to_handle_at()
+> > > before starting to watch for changes.
+> > >
+> > > When getting an event, the reported fid of the parent should be resolved
+> > > to dirfd and fstatsat(2) with dirfd and name should be used to query the
+> > > state of the filesystem entry.
+> > >
+> > > Note that even though events do not report the event creator pid,
+> > > fanotify does not merge similar events on the same object that were
+> > > generated by different processes. This is aligned with exiting behavior
+> > > when generating processes are outside of the listener pidns (which
+> > > results in reporting 0 pid to listener).
+> > >
+> > > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+> >
+> > The patch looks mostly good to me. Just two questions:
+> >
+> > a) Remind me please, why did we decide pid isn't safe to report to
+> > unpriviledged listeners?
 >
-> Agreed, and happy to see that there's a general consensus for the
-> direction.  Benefit of a new madvise mode is that it can be used for
-> madvise() as well if you are interested in only a single range of your =
-own
-> memory and then it doesn't need to reconcile with any of the already
-> overloaded semantics of MADV_HUGEPAGE.
+> Just because the information that process X modified file Y is not an
+> information that user can generally obtain without extra capabilities(?)
+> I can add a flag FAN_REPORT_OWN_PID to make that behavior
+> explicit and then we can relax reporting pids later.
 >
-> Otherwise, process_madvise() can be used for other processes and/or
-> vectored ranges.
+
+FYI a patch for flag FAN_REPORT_SELF_PID is pushed to branch
+fanotify_unpriv.
+
+The UAPI feels a bit awkward with this flag, but that is the easiest way
+to start without worrying about disclosing pids.
+
+I guess we can require that unprivileged listener has pid 1 in its own
+pid ns. The outcome is similar to FAN_REPORT_SELF_PID, except
+it can also get pids of its children which is probably fine.
+
+I am not sure if this is a reasonable option from users POV.
+
+> >
+> > b) Why did we decide returning open file descriptors isn't safe for
+> > unpriviledged listeners? Is it about FMODE_NONOTIFY?
+> >
 >
-> Song's use case for this to prioritize thp usage is very important for =
-us
-> as well.  I hadn't thought of the madvise(MADV_HUGEPAGE) +
-> madvise(MADV_HUGEPAGE_COLLAPSE) use case: I was anticipating the latter=
-
-> would allocate the hugepage with khugepaged's gfp mask so it would alwa=
-ys
-> compact.  But it seems like this would actually be better to use the gf=
-p
-> mask that would be used at fault for the vma and left to userspace to
-> determine whether that's MADV_HUGEPAGE or not.  Makes sense.
+> Don't remember something in particular. I feels risky.
 >
-> (Userspace could even do madvise(MADV_NOHUGEPAGE) +
-> madvise(MADV_HUGEPAGE_COLLAPSE) to do the synchronous collapse but
-> otherwise exclude it from khugepaged's consideration if it were incline=
-d.)
+> > I'm not opposed to either but I'm wondering. Also with b) old style
+> > fanotify events are not very useful so maybe we could just disallow all
+> > notification groups without FID/DFID reporting? In the future if we ever
+> > decide returning open fds is safe or how to do it, we can enable that group
+> > type for unpriviledged users. However just starting to return open fds
+> > later won't fly because listener has to close these fds when receiving
+> > events.
+> >
 >
-> Two other minor points:
+> I like this option better.
 >
->  - Currently, process_madvise() doesn't use the flags parameter at all =
-so
->    there's the question of whether we need generalized flags that apply=
- to
->    most madvise modes or whether the flags can be specific to the mode
->    being used.  For example, a natural extension of this new mode would=
- be
->    to determine the hugepage size if we were ever to support synchronou=
-s
->    collapse into a 1GB gigantic page on x86 (MADV_F_1GB? :)
 
-I am very interested in adding support for sync collapse into 1GB THPs.
-Here is my recent patches to support 1GB THP on x86: https://lwn.net/Arti=
-cles/832881/.
-Doing sync collapse might be the best way of getting 1GB THPs, when
-bumping MAX_ORDER is not good for memory hotplug and getting 1GB pages
-from CMA regions, which I proposed in my patchset, seems not to ideal.
+This is also pushed to branch fanotify_unpriv.
+With all the behavior specified explicitly in fanotify_init() and
+fanotify_mark() flags, there is no need for the internal
+FANOTIFY_UNPRIV group flag, which looks better IMO.
 
->
->  - We haven't discussed the future of khugepaged with this new mode: it=
-
->    seems like we could simply implement khugepaged fully in userspace a=
-nd
->    remove it from the kernel? :)
-
-I guess the page collapse code from khugepaged can be preserved and reuse=
-d
-for this madvise hugepage collapse, just that we might not need to launch=
-
-a kernel daemon to do the work.
-
-
-=E2=80=94
-Best Regards,
-Yan Zi
-
---=_MailMate_82CCED33-B877-4432-B350-0259CD25D678_=
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQJDBAEBCgAtFiEEh7yFAW3gwjwQ4C9anbJR82th+ooFAmAv5EIPHHppeUBudmlk
-aWEuY29tAAoJEJ2yUfNrYfqK0HgP/jRnWXyYsJJY5d0VMRDrS7/xXnfrres/qTPr
-hM5M9JJDXaqND7YgvQA12sn793b3Gm2cQ9HvO+XwfcSNU1ybdoH4sq9u8tBDXqvq
-+cxpkr0BGydHiPjfikP29JqpZpZ5E1NPccDQzzZdTbJR0cRSWwgs3W2lV9SkzgeA
-5K8mOjZc61HwNRPiSYg0FYYOWcqXS/knKF36QY8lAya9ly7ZrRfLZ+CsIfdFnFvD
-5XbbuXLXifqXio+kFruMP7aNiz79phYPo0O0jAgcsUeYPHwWVgn9/86cfg/aAxPy
-D4XUtl+MjnlRpHD10y8AuXrVu6w3wcydgi9M1lo1rKIlOtGzGtlH86EYxUAJb4Cj
-I1DFK6pzoBafymcATMb6vGgCx11x81wKVzmSdR6BZffpbqS2i9lPS8dAtvk5tXXS
-H4Qn5NN5efojTJWXzDQsyvd2FKSjkeOfWuiGvPfwWg1FGmDyh3wnFVwonmZI0NR/
-P7hHmncbL+fbnHQhhwXI8Pn78drElut9lq1Riwyfmt42pNMKjH7eDpDnwBC2lo+s
-5Uxd7aGfU2KO6ns9CAZrrzLFSyDfFz5PTNXEgE5sIGhIlADeNA2p+z6t0kzNjjZh
-BaXjWeuKs1kF9+5EC+Ia3U8pQE4C94fZK3Hg7+Ve0cdttb6oeBHeyzr4hfSuH6gk
-Az48KFaB
-=Xj+3
------END PGP SIGNATURE-----
-
---=_MailMate_82CCED33-B877-4432-B350-0259CD25D678_=--
+Thanks,
+Amir.
