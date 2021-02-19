@@ -2,129 +2,139 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A04231F39A
-	for <lists+linux-api@lfdr.de>; Fri, 19 Feb 2021 02:26:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 58A3831F62F
+	for <lists+linux-api@lfdr.de>; Fri, 19 Feb 2021 10:03:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229468AbhBSB0w (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 18 Feb 2021 20:26:52 -0500
-Received: from mail.kernel.org ([198.145.29.99]:43728 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229649AbhBSB0w (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 18 Feb 2021 20:26:52 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0773A64EE2
-        for <linux-api@vger.kernel.org>; Fri, 19 Feb 2021 01:26:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1613697971;
-        bh=fJwtJB/HDR3ilN4vGWzecz9MdjUktr8sE8/8Lj+agnk=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=NuoPwIT6jPCvq7CVpE/RtirLulnNpdzGlK68XaOpM3R2YKEuoOh4eUnIJ144K9FeD
-         6mIwP/zrONWtPFo6OHrcsNp1aXfjgcNLWNwFLsX3H5Scj914pyJNKvFBWOWApvATtw
-         7h6NlWL1eYUnrkN9HRAyHFOdSPrb+CXmf0yr8Sp5OFGWvade7pZLgsqt0ht7KqatCl
-         CiqO6oW2LnJtN0PrpEbJXPdv8Zp4RFmd17DwZFZfaXQFJu3ESBjCDyEhmhcY+0jUQ/
-         4uGPniGZBe40KP38/d4NEbZM3D1QtWNuvnMzHnZu3f71z+GXGjUUcC3uYpTQQdwWQ0
-         xFTMhRK9xtSIQ==
-Received: by mail-ed1-f45.google.com with SMTP id z22so6674184edb.9
-        for <linux-api@vger.kernel.org>; Thu, 18 Feb 2021 17:26:10 -0800 (PST)
-X-Gm-Message-State: AOAM531ZTX/wvCPWdvGcDmdkMX6qpSJ2WVQ+9Vna8Dl2tG2tu7JJW2J2
-        eNhIKf7xwUp7mKfM2tuCgu+2fbT9DDrhC6LukelmgQ==
-X-Google-Smtp-Source: ABdhPJz9RKmMCDP9wSoKObG17qi1NUro62wHOW6LLChZ1Op/hEl2UrY5iiGTy+gNcjBpcwId0RTiDEISDMvJE8ODtTI=
-X-Received: by 2002:a05:6402:1bc7:: with SMTP id ch7mr6925128edb.84.1613697969219;
- Thu, 18 Feb 2021 17:26:09 -0800 (PST)
+        id S229994AbhBSJDW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 19 Feb 2021 04:03:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57894 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229546AbhBSJCf (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 19 Feb 2021 04:02:35 -0500
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE222C061574;
+        Fri, 19 Feb 2021 01:01:54 -0800 (PST)
+Received: by mail-io1-xd2f.google.com with SMTP id a7so4861100iok.12;
+        Fri, 19 Feb 2021 01:01:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=LrVrPsV7tr9EvKvZpN0nYI8GXhwIJc8v9gJNiFZ3B+w=;
+        b=eSTRGY6KAtn6aP9eLT8fNhP3TKTgRSTsufJsUHlNdCFHTMXgE1pYPixEmVOoRG1Lbx
+         JecbP5hiOKV+TmkUNOniYk5BZdvS+Vlk0XOtWurBooOCKNUvGRqZwC6RPUGO3GdncKq/
+         FIblZsv2lFU02HR098RhlMx5sUJDT91sncnQTS3aUvJQ1xzynXdThoDIcViZwkFBvEyX
+         jpuyu5q/7CmZoua0Rg0DhCO4RI+BTHDofkm3KeTW2ueXoRPu7tDZDYgR2GADdYwTaekE
+         aa6L3S04MHVgiS+DlNBvmxnuUcitOT8IBGeERYWx0uPGnVJTAjcouOHRfiunEU/nKzjv
+         vrTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=LrVrPsV7tr9EvKvZpN0nYI8GXhwIJc8v9gJNiFZ3B+w=;
+        b=a90bMp+83Aw2zj8cQaBtF+cTNTIo0J7w9nSjYJEdvQQkhpld4VqDOyDAAmuFBHSfta
+         5RiYdyvxJ/9mwMvyz9/xru3dlNt8jq7hkQI4Jnoo7eGQDfXrzJjhYd3RovDOphT4uBpk
+         oymIq0XuqpXoprR7mV7rrc84awi7tYL/LvDkdNgHoybbfdiHLJVrwPwrOHws8x9dyzrh
+         8Cs3mRgjYVVikEMU7pCfxD6auC2/QFhIgcSEBYat8XnWPAp9n1z+bihkF8QEnSjWMD12
+         QAxSuSv+ZSprmzYIxIY4cRAyBrV3OhzRKIcQYA6a6JOH/UT91RnSyBvpe7p2dpFmrzhf
+         YBjg==
+X-Gm-Message-State: AOAM530XHL0gpzm3J2PeY49b5EMqAhUBYdol06eSiPgUws1b/DkN/qeT
+        GnP0pqKwpFl8wWgQrgh6MUZKoX9Vlyy3/IVTuSI9WgH2Kqk=
+X-Google-Smtp-Source: ABdhPJyXLlIWyTs6HxfKT7+GetFPUKlFSD2epOUaG1Tk9ve2+QS5AbPoJAElCkSNtZO9B+WKvnnbgHg/6A4vOMDuFnM=
+X-Received: by 2002:a02:660b:: with SMTP id k11mr8882026jac.120.1613725314122;
+ Fri, 19 Feb 2021 01:01:54 -0800 (PST)
 MIME-Version: 1.0
-References: <20210203172242.29644-1-chang.seok.bae@intel.com> <20210203172242.29644-5-chang.seok.bae@intel.com>
-In-Reply-To: <20210203172242.29644-5-chang.seok.bae@intel.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Thu, 18 Feb 2021 17:25:58 -0800
-X-Gmail-Original-Message-ID: <CALCETrXuFrHUU-L=HMofTgEDZk9muPnVtK=EjsTHqQ01XhbRYg@mail.gmail.com>
-Message-ID: <CALCETrXuFrHUU-L=HMofTgEDZk9muPnVtK=EjsTHqQ01XhbRYg@mail.gmail.com>
-Subject: Re: [PATCH v5 4/5] x86/signal: Detect and prevent an alternate signal
- stack overflow
-To:     "Chang S. Bae" <chang.seok.bae@intel.com>
-Cc:     Borislav Petkov <bp@suse.de>, Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>,
-        Andrew Lutomirski <luto@kernel.org>, X86 ML <x86@kernel.org>,
-        Len Brown <len.brown@intel.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        "H. J. Lu" <hjl.tools@gmail.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Jann Horn <jannh@google.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        "Carlos O'Donell" <carlos@redhat.com>,
-        Tony Luck <tony.luck@intel.com>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        libc-alpha <libc-alpha@sourceware.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Borislav Petkov <bp@alien8.de>
+References: <20210124184204.899729-1-amir73il@gmail.com> <20210124184204.899729-2-amir73il@gmail.com>
+ <20210216162754.GF21108@quack2.suse.cz> <CAOQ4uxj8BbAnDQ9RyEM3fUtw7SPd38d1JsgfB2vN2Zni1UndQg@mail.gmail.com>
+In-Reply-To: <CAOQ4uxj8BbAnDQ9RyEM3fUtw7SPd38d1JsgfB2vN2Zni1UndQg@mail.gmail.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Fri, 19 Feb 2021 11:01:42 +0200
+Message-ID: <CAOQ4uxjabma+BkLC07VXCDF6R9c4o+SMDzFcoEFXPPzgd0Dj9Q@mail.gmail.com>
+Subject: Re: [RFC][PATCH 1/2] fanotify: configurable limits via sysfs
+To:     Jan Kara <jack@suse.cz>
+Cc:     Matthew Bobrowski <mbobrowski@mbobrowski.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Feb 3, 2021 at 9:27 AM Chang S. Bae <chang.seok.bae@intel.com> wrote:
+On Thu, Feb 18, 2021 at 8:57 PM Amir Goldstein <amir73il@gmail.com> wrote:
 >
-> The kernel pushes context on to the userspace stack to prepare for the
-> user's signal handler. When the user has supplied an alternate signal
-> stack, via sigaltstack(2), it is easy for the kernel to verify that the
-> stack size is sufficient for the current hardware context.
+> On Tue, Feb 16, 2021 at 6:27 PM Jan Kara <jack@suse.cz> wrote:
+> >
+> > Hi Amir!
+> >
+> >
+> > I'm sorry that I've got to this only now.
+> >
+> > On Sun 24-01-21 20:42:03, Amir Goldstein wrote:
+> > > fanotify has some hardcoded limits. The only APIs to escape those limits
+> > > are FAN_UNLIMITED_QUEUE and FAN_UNLIMITED_MARKS.
+> > >
+> > > Allow finer grained tuning of the system limits via sysfs tunables under
+> > > /proc/sys/fs/fanotify/, similar to tunables under /proc/sys/fs/inotify,
+> > > with some minor differences.
+> > >
+> > > - max_queued_events - global system tunable for group queue size limit.
+> > >   Like the inotify tunable with the same name, it defaults to 16384 and
+> > >   applies on initialization of a new group.
+> > >
+> > > - max_listener_marks - global system tunable of marks limit per group.
+> > >   Defaults to 8192. inotify has no per group marks limit.
+> > >
+> > > - max_user_marks - user ns tunable for marks limit per user.
+> > >   Like the inotify tunable named max_user_watches, it defaults to 1048576
+> > >   and is accounted for every containing user ns.
+> > >
+> > > - max_user_listeners - user ns tunable for number of listeners per user.
+> > >   Like the inotify tunable named max_user_instances, it defaults to 128
+> > >   and is accounted for every containing user ns.
+> >
+> > I think term 'group' is used in the manpages even more and in the code as
+> > well. 'listener' more generally tends to refer to the application listening
+> > to the events. So I'd rather call the limits 'max_group_marks' and
+> > 'max_user_groups'.
+> >
+> > > The slightly different tunable names are derived from the "listener" and
+> > > "mark" terminology used in the fanotify man pages.
+> > >
+> > > max_listener_marks was kept for compatibility with legacy fanotify
+> > > behavior. Given that inotify max_user_instances was increased from 8192
+> > > to 1048576 in kernel v5.10, we may want to consider changing also the
+> > > default for max_listener_marks or remove it completely, leaving only the
+> > > per user marks limit.
+> >
+> > Yes, probably I'd just drop 'max_group_marks' completely and leave just
+> > per-user marks limit. You can always tune it in init_user_ns if you wish.
+> > Can't you?
+> >
 >
-> Check if writing the hardware context to the alternate stack will exceed
-> it's size. If yes, then instead of corrupting user-data and proceeding with
-> the original signal handler, an immediate SIGSEGV signal is delivered.
+> So I am fine with making this change but what about
+> FAN_UNLIMITED_MARKS?
 >
-> While previous patches in this series allow new source code to discover and
-> use a sufficient alternate signal stack size, this check is still necessary
-> to protect binaries with insufficient alternate signal stack size from data
-> corruption.
+> What will it mean?
+> Should the group be able to escape ucount limits?
 >
-> Suggested-by: Jann Horn <jannh@google.com>
-> Signed-off-by: Chang S. Bae <chang.seok.bae@intel.com>
-> Reviewed-by: Len Brown <len.brown@intel.com>
-> Reviewed-by: Jann Horn <jannh@google.com>
-> Cc: Borislav Petkov <bp@alien8.de>
-> Cc: Jann Horn <jannh@google.com>
-> Cc: x86@kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> ---
-> Changes from v3:
-> * Updated the changelog (Borislav Petkov)
->
-> Changes from v2:
-> * Simplified the implementation (Jann Horn)
-> ---
->  arch/x86/kernel/signal.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
->
-> diff --git a/arch/x86/kernel/signal.c b/arch/x86/kernel/signal.c
-> index 0d24f64d0145..8e2df070dbfd 100644
-> --- a/arch/x86/kernel/signal.c
-> +++ b/arch/x86/kernel/signal.c
-> @@ -242,7 +242,7 @@ get_sigframe(struct k_sigaction *ka, struct pt_regs *regs, size_t frame_size,
->         unsigned long math_size = 0;
->         unsigned long sp = regs->sp;
->         unsigned long buf_fx = 0;
-> -       int onsigstack = on_sig_stack(sp);
-> +       bool onsigstack = on_sig_stack(sp);
->         int ret;
->
->         /* redzone */
-> @@ -251,8 +251,11 @@ get_sigframe(struct k_sigaction *ka, struct pt_regs *regs, size_t frame_size,
->
->         /* This is the X/Open sanctioned signal stack switching.  */
->         if (ka->sa.sa_flags & SA_ONSTACK) {
-> -               if (sas_ss_flags(sp) == 0)
-> +               if (sas_ss_flags(sp) == 0) {
->                         sp = current->sas_ss_sp + current->sas_ss_size;
-> +                       /* On the alternate signal stack */
-> +                       onsigstack = true;
 
-This is buggy.  The old code had a dubious special case for
-SS_AUTODISARM, and this interacts poorly with it.  I think you could
-fix it by separating the case in which you are already on the altstack
-from the case in which you're switching to the altstack, or you could
-fix it by changing the check at the end of the function to literally
-check whether the sp value is in bounds instead of calling
-on_sig_stack.
+Nevermind, I figured it out on my own:
 
-Arguably the generic helpers could be adjusted to make this less annoying.
+ "Note that when a group is initialized with FAN_UNLIMITED_MARKS, its own
+  marks are not accounted in the per user marks account, so in effect the
+  limit of max_user_marks is only for the collection of groups that are
+  not initialized with FAN_UNLIMITED_MARKS."
+
+I've pushed the result to branch fanotify_limits.
+I won't post during the merge window unless you tell me to.
+
+Do you think we should go ahead with merging this change before
+the unprivileged fanotify change?
+
+IMO, this interface is useful even for privileged groups - I have been carrying
+a private patch for max_queued_events for a long time as the default limit is
+too low and I wanted to avoid unlimited memory usage without the hassle
+of setting up a memcg.
+
+Thanks,
+Amir.
