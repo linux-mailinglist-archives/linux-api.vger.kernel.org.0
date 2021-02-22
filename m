@@ -2,167 +2,92 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C9DD83213CB
-	for <lists+linux-api@lfdr.de>; Mon, 22 Feb 2021 11:09:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C7BA5321419
+	for <lists+linux-api@lfdr.de>; Mon, 22 Feb 2021 11:26:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230312AbhBVKJl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 22 Feb 2021 05:09:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59058 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230430AbhBVKHJ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 22 Feb 2021 05:07:09 -0500
-Received: from mail-lj1-x249.google.com (mail-lj1-x249.google.com [IPv6:2a00:1450:4864:20::249])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4032EC0617AA
-        for <linux-api@vger.kernel.org>; Mon, 22 Feb 2021 02:05:18 -0800 (PST)
-Received: by mail-lj1-x249.google.com with SMTP id h28so5290900lji.20
-        for <linux-api@vger.kernel.org>; Mon, 22 Feb 2021 02:05:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:message-id:mime-version:subject:from:to:cc;
-        bh=HAlNXozqX9ktnkUu4jC8ShsKasBf/lGNx2LEBgLBBTs=;
-        b=nmjk8ojRochjyOzQEglhDpzJdpBBsPPhrjob//aOe9JkCotAcObhJdJCd/ia6o7xYw
-         hY+Nwu0I3X4NMc/6cykncCNkyesyGbnmnKlKLcIe35SbeQNbWPNTTtDpk47XVVdHin4j
-         iWqQblXj/Wtk8vSXLpyl3aFTUf1qV5hjbyriK4Q7dY0M9l3zrPkJjl2JLDtSsw1ua3bi
-         JgHqfTzlR4pFX+jljVfkZuknvN9nYarZ7o1aGrygpmpyPcq4S4E1QQjD/s2hNm0qQakX
-         9FjVuYloD6Imgv6XwfYyKh5QDkypbG+cKLhDNPNJ+KKCj3O5N1CdsO188F8I2nQ3V7zU
-         GRQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
-         :to:cc;
-        bh=HAlNXozqX9ktnkUu4jC8ShsKasBf/lGNx2LEBgLBBTs=;
-        b=E+KW08mToxOe4yduAHHucloWOie3CmdRnLMCpfZG5MhcF3olj9ZhiixV27XOs/Jmtc
-         QhnwSr50GM0COUf59tp8UPIO6XRsSAEU2jXarLg7YJm2aUvVYa11tH9+7MxYklGwXY2w
-         uvvx2vfX+qP59NOFkg5tBNCTH+cv5cWxvbz31or6ebbv2ZLZDYnorBU9T7eN1ncZXFAE
-         qWrcABl6KIgNp3tatU7BxTyZ1078o4EVARp6SNHncinV2Igt6s9PXXAU0mju2L03tEiv
-         Y9RfaHUTbm7K9E9HWrRdtTaH1XQl1mW09DDgDL3WX5TUIryxBN6a9MrrqLJViowS4uyp
-         tXhw==
-X-Gm-Message-State: AOAM531k4pzFR5u0w0jz9ZPNSONkkVAh1Hc4UVTPXxB9wtIQwVmQk2Hj
-        JPOCzmnCytxeZTZVCnIw5yoxuk7HKlU=
-X-Google-Smtp-Source: ABdhPJw/fbF4KyyczueUKrx8WTf1vLbXQzsQll7nbv32NTG0y8vwcMQq/G8gehT6GoSeKnRlLnvUOC5HIO4=
-Sender: "figiel via sendgmr" <figiel@odra.waw.corp.google.com>
-X-Received: from odra.waw.corp.google.com ([2a00:79e0:2:11:6904:20e5:9b8e:70ff])
- (user=figiel job=sendgmr) by 2002:a2e:6a11:: with SMTP id f17mr14482103ljc.14.1613988316410;
- Mon, 22 Feb 2021 02:05:16 -0800 (PST)
-Date:   Mon, 22 Feb 2021 11:04:43 +0100
-Message-Id: <20210222100443.4155938-1-figiel@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.30.0.617.g56c4b15f3c-goog
-Subject: [PATCH] ptrace: add PTRACE_GET_RSEQ_CONFIGURATION request
-From:   Piotr Figiel <figiel@google.com>
-To:     Andrew Morton <akpm@linux-foundation.org>,
-        mathieu.desnoyers@efficios.com, peterz@infradead.org,
-        paulmck@kernel.org, boqun.feng@gmail.com, oleg@redhat.com
-Cc:     Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrei Vagin <avagin@gmail.com>, linux-kernel@vger.kernel.org,
-        posk@google.com, kyurtsever@google.com, ckennelly@google.com,
-        pjt@google.com, emmir@google.com, linux-man@vger.kernel.org,
-        linux-api@vger.kernel.org, Piotr Figiel <figiel@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S230379AbhBVKZB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 22 Feb 2021 05:25:01 -0500
+Received: from mail.kernel.org ([198.145.29.99]:56816 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230063AbhBVKY6 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 22 Feb 2021 05:24:58 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 09BB564E2F;
+        Mon, 22 Feb 2021 10:24:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1613989457;
+        bh=hPfUfFtTmjkrQbsktsKt6yfqMzt3/NRJ4jjF/NEBc8g=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=b3V9NfUxwhwIYN04tZ4xVJ3p5sqw8LDNui76vseSDtV/Re6690BnkfF+nR9DcxpOG
+         pUgE90vqEFMU/X/MPAhMaZnhkphLp2hZD3Ly/S74TC7UD+nyJ2MxvQgUFzQn0n4cWr
+         O38zmX3c++0vqSgjip+sme4YMMtTL5UAgX7/Dvrcr8EOMRxrQU75JWaHMRk39qP/AW
+         lgAw/KQkfggAeoHx3YM+5n3m6vnlhaY/3Jp3VStjpjmNap+nGK6+o3g9qwoOyHxtFy
+         vWZY83MCClCfU5xmCjWJ66fOJT92kzAT9sZgszmOAF/eGW/eyThqm6caGmwW8QA7LL
+         32a3PdFZcp9HQ==
+Date:   Mon, 22 Feb 2021 12:23:59 +0200
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Matthew Garrett <mjg59@srcf.ucam.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christopher Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Roman Gushchin <guro@fb.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
+        x86@kernel.org, Hagen Paul Pfeifer <hagen@jauu.net>,
+        Palmer Dabbelt <palmerdabbelt@google.com>
+Subject: Re: [PATCH v17 08/10] PM: hibernate: disable when there are active
+ secretmem users
+Message-ID: <20210222102359.GE1447004@kernel.org>
+References: <20210208084920.2884-1-rppt@kernel.org>
+ <20210208084920.2884-9-rppt@kernel.org>
+ <20210222073452.GA30403@codon.org.uk>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210222073452.GA30403@codon.org.uk>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-For userspace checkpoint and restore (C/R) a way of getting process state
-containing RSEQ configuration is needed.
+On Mon, Feb 22, 2021 at 07:34:52AM +0000, Matthew Garrett wrote:
+> On Mon, Feb 08, 2021 at 10:49:18AM +0200, Mike Rapoport wrote:
+> 
+> > It is unsafe to allow saving of secretmem areas to the hibernation
+> > snapshot as they would be visible after the resume and this essentially
+> > will defeat the purpose of secret memory mappings.
+> 
+> Sorry for being a bit late to this - from the point of view of running
+> processes (and even the kernel once resume is complete), hibernation is
+> effectively equivalent to suspend to RAM. Why do they need to be handled
+> differently here?
 
-There are two ways this information is going to be used:
- - to re-enable RSEQ for threads which had it enabled before C/R
- - to detect if a thread was in a critical section during C/R
+Hibernation leaves a copy of the data on the disk which we want to prevent.
 
-Since C/R preserves TLS memory and addresses RSEQ ABI will be restored
-using the address registered before C/R.
-
-Detection whether the thread is in a critical section during C/R is needed
-to enforce behavior of RSEQ abort during C/R. Attaching with ptrace()
-before registers are dumped itself doesn't cause RSEQ abort.
-Restoring the instruction pointer within the critical section is
-problematic because rseq_cs may get cleared before the control is passed
-to the migrated application code leading to RSEQ invariants not being
-preserved. C/R code will use RSEQ ABI address to find the abort handler
-to which the instruction pointer needs to be set.
-
-To achieve above goals expose the RSEQ ABI address and the signature value
-with the new ptrace request PTRACE_GET_RSEQ_CONFIGURATION.
-
-This new ptrace request can also be used by debuggers so they are aware
-of stops within restartable sequences in progress.
-
-Signed-off-by: Piotr Figiel <figiel@google.com>
-Reviewed-by: Michal Miroslaw <emmir@google.com>
-
----
- include/uapi/linux/ptrace.h |  8 ++++++++
- kernel/ptrace.c             | 23 +++++++++++++++++++++++
- 2 files changed, 31 insertions(+)
-
-diff --git a/include/uapi/linux/ptrace.h b/include/uapi/linux/ptrace.h
-index 83ee45fa634b..d54cf6b6ce7c 100644
---- a/include/uapi/linux/ptrace.h
-+++ b/include/uapi/linux/ptrace.h
-@@ -102,6 +102,14 @@ struct ptrace_syscall_info {
- 	};
- };
- 
-+#define PTRACE_GET_RSEQ_CONFIGURATION	0x420f
-+
-+struct ptrace_rseq_configuration {
-+	__u64 rseq_abi_pointer;
-+	__u32 signature;
-+	__u32 pad;
-+};
-+
- /*
-  * These values are stored in task->ptrace_message
-  * by tracehook_report_syscall_* to describe the current syscall-stop.
-diff --git a/kernel/ptrace.c b/kernel/ptrace.c
-index 61db50f7ca86..a936af66cf6f 100644
---- a/kernel/ptrace.c
-+++ b/kernel/ptrace.c
-@@ -31,6 +31,7 @@
- #include <linux/cn_proc.h>
- #include <linux/compat.h>
- #include <linux/sched/signal.h>
-+#include <linux/minmax.h>
- 
- #include <asm/syscall.h>	/* for syscall_get_* */
- 
-@@ -779,6 +780,22 @@ static int ptrace_peek_siginfo(struct task_struct *child,
- 	return ret;
- }
- 
-+#ifdef CONFIG_RSEQ
-+static long ptrace_get_rseq_configuration(struct task_struct *task,
-+					  unsigned long size, void __user *data)
-+{
-+	struct ptrace_rseq_configuration conf = {
-+		.rseq_abi_pointer = (u64)(uintptr_t)task->rseq,
-+		.signature = task->rseq_sig,
-+	};
-+
-+	size = min_t(unsigned long, size, sizeof(conf));
-+	if (copy_to_user(data, &conf, size))
-+		return -EFAULT;
-+	return size;
-+}
-+#endif
-+
- #ifdef PTRACE_SINGLESTEP
- #define is_singlestep(request)		((request) == PTRACE_SINGLESTEP)
- #else
-@@ -1222,6 +1239,12 @@ int ptrace_request(struct task_struct *child, long request,
- 		ret = seccomp_get_metadata(child, addr, datavp);
- 		break;
- 
-+#ifdef CONFIG_RSEQ
-+	case PTRACE_GET_RSEQ_CONFIGURATION:
-+		ret = ptrace_get_rseq_configuration(child, addr, datavp);
-+		break;
-+#endif
-+
- 	default:
- 		break;
- 	}
 -- 
-2.30.0.617.g56c4b15f3c-goog
-
+Sincerely yours,
+Mike.
