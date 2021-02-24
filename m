@@ -2,158 +2,150 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 128913239CF
-	for <lists+linux-api@lfdr.de>; Wed, 24 Feb 2021 10:47:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CB74323AD3
+	for <lists+linux-api@lfdr.de>; Wed, 24 Feb 2021 11:53:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234708AbhBXJrA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 24 Feb 2021 04:47:00 -0500
-Received: from out30-43.freemail.mail.aliyun.com ([115.124.30.43]:52684 "EHLO
-        out30-43.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234728AbhBXJpp (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 24 Feb 2021 04:45:45 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04423;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=13;SR=0;TI=SMTPD_---0UPRGkQZ_1614159898;
-Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UPRGkQZ_1614159898)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 24 Feb 2021 17:44:59 +0800
-Subject: Re: [RFC] Hugepage collapse in process context
-To:     David Rientjes <rientjes@google.com>,
-        David Hildenbrand <david@redhat.com>
-Cc:     Vlastimil Babka <vbabka@suse.cz>, Michal Hocko <mhocko@suse.com>,
-        Hugh Dickins <hughd@google.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Song Liu <songliubraving@fb.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Minchan Kim <minchan@kernel.org>,
-        Chris Kennelly <ckennelly@google.com>, linux-mm@kvack.org,
-        linux-api@vger.kernel.org
-References: <d098c392-273a-36a4-1a29-59731cdf5d3d@google.com>
- <YCzSDPbBsksCX5zP@dhcp22.suse.cz>
- <0b51a213-650e-7801-b6ed-9545466c15db@suse.cz>
- <600ee57f-d839-d402-fb0f-e9f350114dce@redhat.com>
- <5127b9c-a147-8ef5-c942-ae8c755413d0@google.com>
-From:   Alex Shi <alex.shi@linux.alibaba.com>
-Message-ID: <25d9347b-9359-efab-e1e3-f98bd0012af9@linux.alibaba.com>
-Date:   Wed, 24 Feb 2021 17:44:58 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.0; rv:68.0)
- Gecko/20100101 Thunderbird/68.12.0
+        id S234934AbhBXKxD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 24 Feb 2021 05:53:03 -0500
+Received: from mx2.suse.de ([195.135.220.15]:45044 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233794AbhBXKws (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 24 Feb 2021 05:52:48 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id C5CEEAF19;
+        Wed, 24 Feb 2021 10:52:05 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id BF5321E14EF; Wed, 24 Feb 2021 11:52:04 +0100 (CET)
+Date:   Wed, 24 Feb 2021 11:52:04 +0100
+From:   Jan Kara <jack@suse.cz>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Jan Kara <jack@suse.cz>,
+        Matthew Bobrowski <mbobrowski@mbobrowski.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>
+Subject: Re: [RFC][PATCH 2/2] fanotify: support limited functionality for
+ unprivileged users
+Message-ID: <20210224105204.GC20583@quack2.suse.cz>
+References: <20210124184204.899729-1-amir73il@gmail.com>
+ <20210124184204.899729-3-amir73il@gmail.com>
+ <20210216170154.GG21108@quack2.suse.cz>
+ <CAOQ4uxhwZG=aC+ZpB90Gn_5aNmQrwsJUnniWVhFXoq454vuyHA@mail.gmail.com>
+ <CAOQ4uxhnrZu0phZniiBEqPJJZwWfs3UbCJt0atkHirdHQVCWgw@mail.gmail.com>
+ <CAOQ4uxgS5G2ajTfUWUPB5DsjjP0ji-Vu_9RjEzLJGfkNFz0P4w@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <5127b9c-a147-8ef5-c942-ae8c755413d0@google.com>
-Content-Type: text/plain; charset=gbk
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOQ4uxgS5G2ajTfUWUPB5DsjjP0ji-Vu_9RjEzLJGfkNFz0P4w@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Tue 23-02-21 19:16:40, Amir Goldstein wrote:
+> On Fri, Feb 19, 2021 at 6:16 PM Amir Goldstein <amir73il@gmail.com> wrote:
+> >
+> > On Tue, Feb 16, 2021 at 8:12 PM Amir Goldstein <amir73il@gmail.com> wrote:
+> > >
+> > > On Tue, Feb 16, 2021 at 7:01 PM Jan Kara <jack@suse.cz> wrote:
+> > > >
+> > > > On Sun 24-01-21 20:42:04, Amir Goldstein wrote:
+> > > > > Add limited support for unprivileged fanotify event listener.
+> > > > > An unprivileged event listener does not get an open file descriptor in
+> > > > > the event nor the process pid of another process.  An unprivileged event
+> > > > > listener cannot request permission events, cannot set mount/filesystem
+> > > > > marks and cannot request unlimited queue/marks.
+> > > > >
+> > > > > This enables the limited functionality similar to inotify when watching a
+> > > > > set of files and directories for OPEN/ACCESS/MODIFY/CLOSE events, without
+> > > > > requiring SYS_CAP_ADMIN privileges.
+> > > > >
+> > > > > The FAN_REPORT_DFID_NAME init flag, provide a method for an unprivileged
+> > > > > event listener watching a set of directories (with FAN_EVENT_ON_CHILD)
+> > > > > to monitor all changes inside those directories.
+> > > > >
+> > > > > This typically requires that the listener keeps a map of watched directory
+> > > > > fid to dirfd (O_PATH), where fid is obtained with name_to_handle_at()
+> > > > > before starting to watch for changes.
+> > > > >
+> > > > > When getting an event, the reported fid of the parent should be resolved
+> > > > > to dirfd and fstatsat(2) with dirfd and name should be used to query the
+> > > > > state of the filesystem entry.
+> > > > >
+> > > > > Note that even though events do not report the event creator pid,
+> > > > > fanotify does not merge similar events on the same object that were
+> > > > > generated by different processes. This is aligned with exiting behavior
+> > > > > when generating processes are outside of the listener pidns (which
+> > > > > results in reporting 0 pid to listener).
+> > > > >
+> > > > > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+> > > >
+> > > > The patch looks mostly good to me. Just two questions:
+> > > >
+> > > > a) Remind me please, why did we decide pid isn't safe to report to
+> > > > unpriviledged listeners?
+> > >
+> > > Just because the information that process X modified file Y is not an
+> > > information that user can generally obtain without extra capabilities(?)
+> > > I can add a flag FAN_REPORT_OWN_PID to make that behavior
+> > > explicit and then we can relax reporting pids later.
+> > >
+> >
+> > FYI a patch for flag FAN_REPORT_SELF_PID is pushed to branch
+> > fanotify_unpriv.
+> >
+> > The UAPI feels a bit awkward with this flag, but that is the easiest way
+> > to start without worrying about disclosing pids.
+> >
+> > I guess we can require that unprivileged listener has pid 1 in its own
+> > pid ns. The outcome is similar to FAN_REPORT_SELF_PID, except
+> > it can also get pids of its children which is probably fine.
+> >
+> 
+> Jan,
+> 
+> WRT your comment in github:
+> "So maybe we can just require that this flag is already set by userspace
+> instead of silently setting it? Like:
+> 
+> if (!(flags & FAN_REPORT_SELF_PID)) return -EPERM;
+> 
+> I'd say that variant is more futureproof and the difference for user
+> is minimal."
+> 
+> I started with this approach and then I wrote the tests and imagined
+> the man page
+> requiring this flag would be a bit awkward, so I changed it to auto-enable.
+> 
+> I am not strongly against the more implicit flag requirement, but in
+> favor of the
+> auto-enable approach I would like to argue that with current fanotify you CAN
+> get zero pid in event, so think about it this way:
+> If a listener is started in (or moved into) its own pid ns, it will
+> get zero pid in all
+> events (other than those generated by itself and its own children).
+> 
+> With the proposed change, the same applies also if the listener is started
+> without CAP_SYS_ADMIN.
+> 
+> As a matter of fact, we do not need the flag at all, we can determine whether
+> or not to report pid according to capabilities of the event reader at
+> event read time.
+> And we can check for one of:
+> - CAP_SYS_ADMIN
+> - CAP_SYS_PACCT
+> - CAP_SYS_PTRACE
+> 
+> Do you prefer this flag-less approach?
 
+Well, I don't have strong opinion what we should do internally either. The
+flag seems OK to me. The biggest question is whether we should expose the
+FAN_REPORT_SELF_PID flag to userspace or not. If we would not require
+explicit flag for unpriv users, I see little reason to expose that flag at
+all.
 
-ÔÚ 2021/2/19 ÉÏÎç6:34, David Rientjes Ð´µÀ:
-> On Thu, 18 Feb 2021, David Hildenbrand wrote:
-> 
->>>>> Hi everybody,
->>>>>
->>>>> Khugepaged is slow by default, it scans at most 4096 pages every 10s.
->>>>> That's normally fine as a system-wide setting, but some applications
->>>>> would
->>>>> benefit from a more aggressive approach (as long as they are willing to
->>>>> pay for it).
->>>>>
->>>>> Instead of adding priorities for eligible ranges of memory to
->>>>> khugepaged,
->>>>> temporarily speeding khugepaged up for the whole system, or sharding its
->>>>> work for memory belonging to a certain process, one approach would be to
->>>>> allow userspace to induce hugepage collapse.
->>>>>
->>>>> The benefit to this approach would be that this is done in process
->>>>> context
->>>>> so its cpu is charged to the process that is inducing the collapse.
->>>>> Khugepaged is not involved.
->>>>
->>>> Yes, this makes a lot of sense to me.
->>>>
->>>>> Idea was to allow userspace to induce hugepage collapse through the new
->>>>> process_madvise() call.  This allows us to collapse hugepages on behalf
->>>>> of
->>>>> current or another process for a vectored set of ranges.
->>>>
->>>> Yes, madvise sounds like a good fit for the purpose.
->>>
->>> Agreed on both points.
->>>
->>>>> This could be done through a new process_madvise() mode *or* it could be
->>>>> a
->>>>> flag to MADV_HUGEPAGE since process_madvise() allows for a flag
->>>>> parameter
->>>>> to be passed.  For example, MADV_F_SYNC.
->>>>
->>>> Would this MADV_F_SYNC be applicable to other madvise modes? Most
->>>> existing madvise modes do not seem to make much sense. We can argue that
->>>> MADV_PAGEOUT would guarantee the range was indeed reclaimed but I am not
->>>> sure we want to provide such a strong semantic because it can limit
->>>> future reclaim optimizations.
->>>>
->>>> To me MADV_HUGEPAGE_COLLAPSE sounds like the easiest way forward.
->>>
->>> I guess in the old madvise(2) we could create a new combo of MADV_HUGEPAGE |
->>> MADV_WILLNEED with this semantic? But you are probably more interested in
->>> process_madvise() anyway. There the new flag would make more sense. But
->>> there's
->>> also David H.'s proposal for MADV_POPULATE and there might be benefit in
->>> considering both at the same time? Should e.g. MADV_POPULATE with
->>> MADV_HUGEPAGE
->>> have the collapse semantics? But would MADV_POPULATE be added to
->>> process_madvise() as well? Just thinking out loud so we don't end up with
->>> more
->>> flags than necessary, it's already confusing enough as it is.
->>>
->>
->> Note that madvise() eats only a single value, not flags. Combinations as you
->> describe are not possible.
->>
->> Something MADV_HUGEPAGE_COLLAPSE make sense to me that does not need the mmap
->> lock in write and does not modify the actual VMA, only a mapping.
->>
-> 
-> Agreed, and happy to see that there's a general consensus for the 
-> direction.  Benefit of a new madvise mode is that it can be used for 
-> madvise() as well if you are interested in only a single range of your own 
-> memory and then it doesn't need to reconcile with any of the already 
-> overloaded semantics of MADV_HUGEPAGE.
-
-It's a good idea to let process deal with its own THP policy.
-but current applications will miss the benefit w/o changes, and change is
-expensive for end users. So except this work, may a per memcg collapse benefit
-apps and free for them, we often deploy apps in cgroups on server now.
-
-Thanks
-Alex
-
-> 
-> Otherwise, process_madvise() can be used for other processes and/or 
-> vectored ranges.
-> 
-> Song's use case for this to prioritize thp usage is very important for us 
-> as well.  I hadn't thought of the madvise(MADV_HUGEPAGE) + 
-> madvise(MADV_HUGEPAGE_COLLAPSE) use case: I was anticipating the latter 
-> would allocate the hugepage with khugepaged's gfp mask so it would always 
-> compact.  But it seems like this would actually be better to use the gfp 
-> mask that would be used at fault for the vma and left to userspace to 
-> determine whether that's MADV_HUGEPAGE or not.  Makes sense.
-> 
-> (Userspace could even do madvise(MADV_NOHUGEPAGE) + 
-> madvise(MADV_HUGEPAGE_COLLAPSE) to do the synchronous collapse but 
-> otherwise exclude it from khugepaged's consideration if it were inclined.)
-> 
-> Two other minor points:
-> 
->  - Currently, process_madvise() doesn't use the flags parameter at all so 
->    there's the question of whether we need generalized flags that apply to 
->    most madvise modes or whether the flags can be specific to the mode 
->    being used.  For example, a natural extension of this new mode would be 
->    to determine the hugepage size if we were ever to support synchronous 
->    collapse into a 1GB gigantic page on x86 (MADV_F_1GB? :)
-> 
->  - We haven't discussed the future of khugepaged with this new mode: it 
->    seems like we could simply implement khugepaged fully in userspace and 
->    remove it from the kernel? :)
-> 
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
