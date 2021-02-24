@@ -2,94 +2,199 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6720A32429E
-	for <lists+linux-api@lfdr.de>; Wed, 24 Feb 2021 17:58:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B00E432432C
+	for <lists+linux-api@lfdr.de>; Wed, 24 Feb 2021 18:30:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235781AbhBXQy4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 24 Feb 2021 11:54:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58500 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235756AbhBXQyU (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 24 Feb 2021 11:54:20 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FEDFC061786;
-        Wed, 24 Feb 2021 08:53:36 -0800 (PST)
-Received: from zn.tnic (p200300ec2f0d1800cad8e5da06da911c.dip0.t-ipconnect.de [IPv6:2003:ec:2f0d:1800:cad8:e5da:6da:911c])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 82A2A1EC0531;
-        Wed, 24 Feb 2021 17:53:34 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1614185614;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=zOeBFbmurGj2suyzyPT2GMRd0IroJnET77mPeR4/Ncg=;
-        b=R/2WRrCIWmVthrB+I78FYN+IY8shvdqh1yeCIanSd6GjieZDGa7W8lvI+ympdG3Ja0UF2A
-        xPsNbQBqjQFjga7jTK0n6EaKzu3m1PlQVEhaRIy1HPClbAW0ezM8ccMdS/PQO4sYnz2KUH
-        cWr4wWCrMTA+2xkZOOsF3BO7bGmbS9M=
-Date:   Wed, 24 Feb 2021 17:53:32 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>
-Subject: Re: [PATCH v21 06/26] x86/cet: Add control-protection fault handler
-Message-ID: <20210224165332.GF20344@zn.tnic>
-References: <20210217222730.15819-1-yu-cheng.yu@intel.com>
- <20210217222730.15819-7-yu-cheng.yu@intel.com>
- <20210224161343.GE20344@zn.tnic>
- <32ac05ef-b50b-c947-095d-bc31a42947a3@intel.com>
+        id S232181AbhBXRaO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 24 Feb 2021 12:30:14 -0500
+Received: from mx2.suse.de ([195.135.220.15]:53014 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229534AbhBXRaL (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 24 Feb 2021 12:30:11 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 7A6E2AE47;
+        Wed, 24 Feb 2021 17:29:29 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id C3DFC1E14EE; Wed, 24 Feb 2021 18:29:28 +0100 (CET)
+Date:   Wed, 24 Feb 2021 18:29:28 +0100
+From:   Jan Kara <jack@suse.cz>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Jan Kara <jack@suse.cz>,
+        Matthew Bobrowski <mbobrowski@mbobrowski.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>
+Subject: Re: [RFC][PATCH 2/2] fanotify: support limited functionality for
+ unprivileged users
+Message-ID: <20210224172928.GG849@quack2.suse.cz>
+References: <20210124184204.899729-1-amir73il@gmail.com>
+ <20210124184204.899729-3-amir73il@gmail.com>
+ <20210216170154.GG21108@quack2.suse.cz>
+ <CAOQ4uxhwZG=aC+ZpB90Gn_5aNmQrwsJUnniWVhFXoq454vuyHA@mail.gmail.com>
+ <CAOQ4uxhnrZu0phZniiBEqPJJZwWfs3UbCJt0atkHirdHQVCWgw@mail.gmail.com>
+ <CAOQ4uxgS5G2ajTfUWUPB5DsjjP0ji-Vu_9RjEzLJGfkNFz0P4w@mail.gmail.com>
+ <20210224105204.GC20583@quack2.suse.cz>
+ <CAOQ4uxjCB14RxJTSUfcfn39+N0BUN8LO_QmkpLT7S1-Ssm3DFg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <32ac05ef-b50b-c947-095d-bc31a42947a3@intel.com>
+In-Reply-To: <CAOQ4uxjCB14RxJTSUfcfn39+N0BUN8LO_QmkpLT7S1-Ssm3DFg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Feb 24, 2021 at 08:44:45AM -0800, Yu, Yu-cheng wrote:
-> > > +	force_sig_fault(SIGSEGV, SEGV_CPERR,
-> > > +			(void __user *)uprobe_get_trap_addr(regs));
-> > 
-> > Why is this calling an uprobes function?
-> > 
+On Wed 24-02-21 14:58:31, Amir Goldstein wrote:
+> On Wed, Feb 24, 2021 at 12:52 PM Jan Kara <jack@suse.cz> wrote:
+> >
+> > On Tue 23-02-21 19:16:40, Amir Goldstein wrote:
+> > > On Fri, Feb 19, 2021 at 6:16 PM Amir Goldstein <amir73il@gmail.com> wrote:
+> > > >
+> > > > On Tue, Feb 16, 2021 at 8:12 PM Amir Goldstein <amir73il@gmail.com> wrote:
+> > > > >
+> > > > > On Tue, Feb 16, 2021 at 7:01 PM Jan Kara <jack@suse.cz> wrote:
+> > > > > >
+> > > > > > On Sun 24-01-21 20:42:04, Amir Goldstein wrote:
+> > > > > > > Add limited support for unprivileged fanotify event listener.
+> > > > > > > An unprivileged event listener does not get an open file descriptor in
+> > > > > > > the event nor the process pid of another process.  An unprivileged event
+> > > > > > > listener cannot request permission events, cannot set mount/filesystem
+> > > > > > > marks and cannot request unlimited queue/marks.
+> > > > > > >
+> > > > > > > This enables the limited functionality similar to inotify when watching a
+> > > > > > > set of files and directories for OPEN/ACCESS/MODIFY/CLOSE events, without
+> > > > > > > requiring SYS_CAP_ADMIN privileges.
+> > > > > > >
+> > > > > > > The FAN_REPORT_DFID_NAME init flag, provide a method for an unprivileged
+> > > > > > > event listener watching a set of directories (with FAN_EVENT_ON_CHILD)
+> > > > > > > to monitor all changes inside those directories.
+> > > > > > >
+> > > > > > > This typically requires that the listener keeps a map of watched directory
+> > > > > > > fid to dirfd (O_PATH), where fid is obtained with name_to_handle_at()
+> > > > > > > before starting to watch for changes.
+> > > > > > >
+> > > > > > > When getting an event, the reported fid of the parent should be resolved
+> > > > > > > to dirfd and fstatsat(2) with dirfd and name should be used to query the
+> > > > > > > state of the filesystem entry.
+> > > > > > >
+> > > > > > > Note that even though events do not report the event creator pid,
+> > > > > > > fanotify does not merge similar events on the same object that were
+> > > > > > > generated by different processes. This is aligned with exiting behavior
+> > > > > > > when generating processes are outside of the listener pidns (which
+> > > > > > > results in reporting 0 pid to listener).
+> > > > > > >
+> > > > > > > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+> > > > > >
+> > > > > > The patch looks mostly good to me. Just two questions:
+> > > > > >
+> > > > > > a) Remind me please, why did we decide pid isn't safe to report to
+> > > > > > unpriviledged listeners?
+> > > > >
+> > > > > Just because the information that process X modified file Y is not an
+> > > > > information that user can generally obtain without extra capabilities(?)
+> > > > > I can add a flag FAN_REPORT_OWN_PID to make that behavior
+> > > > > explicit and then we can relax reporting pids later.
+> > > > >
+> > > >
+> > > > FYI a patch for flag FAN_REPORT_SELF_PID is pushed to branch
+> > > > fanotify_unpriv.
+> > > >
+> > > > The UAPI feels a bit awkward with this flag, but that is the easiest way
+> > > > to start without worrying about disclosing pids.
+> > > >
+> > > > I guess we can require that unprivileged listener has pid 1 in its own
+> > > > pid ns. The outcome is similar to FAN_REPORT_SELF_PID, except
+> > > > it can also get pids of its children which is probably fine.
+> > > >
+> > >
+> > > Jan,
+> > >
+> > > WRT your comment in github:
+> > > "So maybe we can just require that this flag is already set by userspace
+> > > instead of silently setting it? Like:
+> > >
+> > > if (!(flags & FAN_REPORT_SELF_PID)) return -EPERM;
+> > >
+> > > I'd say that variant is more futureproof and the difference for user
+> > > is minimal."
+> > >
+> > > I started with this approach and then I wrote the tests and imagined
+> > > the man page
+> > > requiring this flag would be a bit awkward, so I changed it to auto-enable.
+> > >
+> > > I am not strongly against the more implicit flag requirement, but in
+> > > favor of the
+> > > auto-enable approach I would like to argue that with current fanotify you CAN
+> > > get zero pid in event, so think about it this way:
+> > > If a listener is started in (or moved into) its own pid ns, it will
+> > > get zero pid in all
+> > > events (other than those generated by itself and its own children).
+> > >
+> > > With the proposed change, the same applies also if the listener is started
+> > > without CAP_SYS_ADMIN.
+> > >
+> > > As a matter of fact, we do not need the flag at all, we can determine whether
+> > > or not to report pid according to capabilities of the event reader at
+> > > event read time.
+> > > And we can check for one of:
+> > > - CAP_SYS_ADMIN
+> > > - CAP_SYS_PACCT
+> > > - CAP_SYS_PTRACE
+> > >
+> > > Do you prefer this flag-less approach?
+> >
+> > Well, I don't have strong opinion what we should do internally either. The
+> > flag seems OK to me. The biggest question is whether we should expose the
+> > FAN_REPORT_SELF_PID flag to userspace or not. If we would not require
+> > explicit flag for unpriv users, I see little reason to expose that flag at
+> > all.
+> >
 > 
-> I will change it to error_get_trap_addr().
+> IMO the only listeners that actually care about event->pid are permission
+> event listeners. I think that FAN_CLASS_NOTIF listeners do not care
+> about it. The only thing that *I* ever used event->pid for is to ignore events
+> from self pid.
+> 
+> My question is, do you mind if we start with this code:
+> 
+> @@ -419,6 +419,14 @@ static ssize_t copy_event_to_user(struct
+> fsnotify_group *group,
+>         metadata.reserved = 0;
+>         metadata.mask = event->mask & FANOTIFY_OUTGOING_EVENTS;
+>         metadata.pid = pid_vnr(event->pid);
+> +
+> +        /*
+> +         * For an unprivileged listener, event->pid can be used to identify the
+> +         * events generated by the listener process itself, without disclosing
+> +         * the pids of other processes.
+> +         */
+> +        if (!capable(CAP_SYS_ADMIN) &&
+> +            task_tgid(current) != event->pid)
+> +                metadata.pid = 0;
+> 
+> No need for any visible or invisible user flags.
 
-"/*
-  * Posix requires to provide the address of the faulting instruction for
-  * SIGILL (#UD) and SIGFPE (#DE) in the si_addr member of siginfo_t.
-  ..."
+OK, I think this is fine.
 
-Is yours SIGILL or SIGFPE?
+> If users ask for event->pid of other processes later (I don't think they will)
+> and we decide that it is safe to disclose them, we will require another flag
+> and then the test will become:
+> 
+> +        if (!capable(CAP_SYS_ADMIN) ||
+> +            FAN_GROUP_FLAG(group, FAN_REPORT_PID))
+> 
+> and *if* that ever happens, we will document the FAN_REPORT_PID
+> flag and say that it is enabled by default for CAP_SYS_ADMIN instead of
+> requiring and documenting FAN_REPORT_SELF_PID now.
+> 
+> The way I see it, the only disadvantage with this negated approach is
+> that CAP_SYS_ADMIN listeners cannot turn off event->pid reporting,
+> but why would anybody need to do that?
 
+Yeah, let's leave complications for later when someone asks for it :)
+
+								Honza
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
