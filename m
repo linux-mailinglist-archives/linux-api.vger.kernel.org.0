@@ -2,117 +2,308 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 531E03244C8
-	for <lists+linux-api@lfdr.de>; Wed, 24 Feb 2021 20:53:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 089233252F8
+	for <lists+linux-api@lfdr.de>; Thu, 25 Feb 2021 17:03:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234340AbhBXTxR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 24 Feb 2021 14:53:17 -0500
-Received: from mga11.intel.com ([192.55.52.93]:56215 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232392AbhBXTxQ (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 24 Feb 2021 14:53:16 -0500
-IronPort-SDR: DT67NmJxOc44P4KRo695ALANGfG2/Bi+mPFp3Ienf2hc5iGT7zgL6V0kfqZDgABtxDoT5zYWrP
- +fBQKfoyMjaA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9905"; a="181865671"
-X-IronPort-AV: E=Sophos;i="5.81,203,1610438400"; 
-   d="scan'208";a="181865671"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2021 11:52:34 -0800
-IronPort-SDR: yXEcVzW98djE749wmWJeznbw7y/eWDKIg2JFChUy2uVPACaW3lKFTSPh+w1NRB+Semm7HIGoQg
- 1PmH0DR7BcFQ==
-X-IronPort-AV: E=Sophos;i="5.81,203,1610438400"; 
-   d="scan'208";a="431800681"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.35.50]) ([10.212.35.50])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2021 11:52:33 -0800
-Subject: Re: [PATCH v21 06/26] x86/cet: Add control-protection fault handler
-To:     Borislav Petkov <bp@alien8.de>, Andy Lutomirski <luto@kernel.org>
-Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        id S233403AbhBYQCv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 25 Feb 2021 11:02:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45286 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233293AbhBYQCp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 25 Feb 2021 11:02:45 -0500
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1435DC061574;
+        Thu, 25 Feb 2021 08:02:03 -0800 (PST)
+Received: by mail-pg1-x530.google.com with SMTP id b21so4061385pgk.7;
+        Thu, 25 Feb 2021 08:02:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=rh70PJnNYV7nfofat8yzOdjViZ8QnrWCFQn2EVPf0I4=;
+        b=EISs5PJBbzZzeZhkVAgUfkJymYUOUmVHjgD7VUa6ls+wTz4cdA3EACcpUDm0UrHaLv
+         uaLyVDwHU5JqPSjoQHzRrqwwJqQXMZiX0HbFLq6sutCH+mFfykPkL008dzXIC4u60vbF
+         BfxML9V4r3IKTAM4KxnMIRc9JL1i5GmFY/VWxz84pt3aBJeXHIycaUqDek/D7DacmRwY
+         ey33QID0SX3OYArTOpvs6pSd3a3/9aRc4JjLQH/G3oW3JKvF3yMcZkd12UDD0+C5zmIL
+         pvzveEAEb5kO48zCDoyL5S9tWxb7lH53XrV9GMjRBWFYTUCapyBJ2+MEFjRus0R5LS3V
+         QbLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=rh70PJnNYV7nfofat8yzOdjViZ8QnrWCFQn2EVPf0I4=;
+        b=mdnZKI6i3G0ebQRrGXQ2AfkGg7F/wIbI3YhfPUEjrj9qssrfZYh3a2730zoz8sbiDZ
+         U1lKbLKJEvdPcEEw8Q/K4xc7RO3xakyY9jjesZk5PsNCgKl9hz/J/ngqTphnkaV+hCUJ
+         SMQvRf4HO0u4dZtZXnn9QwwmjnCw6Yxu+hUJ2qDD/tdDXdoRwh6PHjynHhF26gTY6PIE
+         qz8U3gx+6tJb/yBZmhFjfg5mggxpUTpjfd4tatLVfSu6LebyuWw82MbL8UELvUUESaN0
+         BRoCnRZmQwGHabqpjc5TSQBwMa+/MoPkffyyPwxBvI+OHK7F9O2s7qnF0yGIZtd2b7kq
+         kT1g==
+X-Gm-Message-State: AOAM530DQwaaGE3OVQ1DeGN0GXAy+eEXeyYl8DsUZOm9SPJgbwBQxUeM
+        qwX5QXlLbptdUk6LxRUD9CE=
+X-Google-Smtp-Source: ABdhPJyXBfl5mSKlZyvnP5mCCf/s2atGOL3XQ9+qd6c9OYR9APNWwSuNzXZ3VSeth6Qe/zMX/RpI3g==
+X-Received: by 2002:a63:6606:: with SMTP id a6mr3564650pgc.310.1614268922364;
+        Thu, 25 Feb 2021 08:02:02 -0800 (PST)
+Received: from gmail.com ([2601:600:9b7f:872e:a655:30fb:7373:c762])
+        by smtp.gmail.com with ESMTPSA id k7sm6297659pjf.34.2021.02.25.08.02.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Feb 2021 08:02:01 -0800 (PST)
+Date:   Thu, 25 Feb 2021 08:00:02 -0800
+From:   Andrei Vagin <avagin@gmail.com>
+To:     Will Deacon <will@kernel.org>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org,
+        Anthony Steinhauser <asteinhauser@google.com>,
         Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>
-References: <20210217222730.15819-1-yu-cheng.yu@intel.com>
- <20210217222730.15819-7-yu-cheng.yu@intel.com>
- <20210224161343.GE20344@zn.tnic>
- <32ac05ef-b50b-c947-095d-bc31a42947a3@intel.com>
- <20210224165332.GF20344@zn.tnic>
- <db493c76-2a67-5f53-29a0-8333facac0f5@intel.com>
- <20210224192044.GH20344@zn.tnic>
- <CALCETrXKteS9K=OOgsCvBU4in_3zcYccqF9hh2=OdCJPknvB8Q@mail.gmail.com>
- <20210224194204.GI20344@zn.tnic>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <c8077be0-f61f-d84d-fcd1-13c5ba482a38@intel.com>
-Date:   Wed, 24 Feb 2021 11:52:33 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        Keno Fischer <keno@juliacomputing.com>
+Subject: Re: [PATCH 1/3] arm64/ptrace: don't clobber task registers on
+ syscall entry/exit traps
+Message-ID: <20210225160002.GA143918@gmail.com>
+References: <20210201194012.524831-1-avagin@gmail.com>
+ <20210201194012.524831-2-avagin@gmail.com>
+ <20210204152334.GA21058@willie-the-truck>
 MIME-Version: 1.0
-In-Reply-To: <20210224194204.GI20344@zn.tnic>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=koi8-r
+Content-Disposition: inline
+In-Reply-To: <20210204152334.GA21058@willie-the-truck>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2/24/2021 11:42 AM, Borislav Petkov wrote:
-> On Wed, Feb 24, 2021 at 11:30:34AM -0800, Andy Lutomirski wrote:
->> On Wed, Feb 24, 2021 at 11:20 AM Borislav Petkov <bp@alien8.de> wrote:
->>>
->>> On Wed, Feb 24, 2021 at 09:56:13AM -0800, Yu, Yu-cheng wrote:
->>>> No.  Maybe I am doing too much.  The GP fault sets si_addr to zero, for
->>>> example.  So maybe do the same here?
->>>
->>> No, you're looking at this from the wrong angle. This is going to be
->>> user-visible and the moment it gets upstream, it is cast in stone.
->>>
->>> So the whole use case of what luserspace needs to do or is going to do
->>> or wants to do on a SEGV_CPERR, needs to be described, agreed upon by
->>> people etc before it goes out. And thus clarified whether the address
->>> gets copied out or not.
->>
->> I vote 0.  The address is in ucontext->gregs[REG_RIP] [0] regardless.
->> Why do we need to stick a copy somewhere else?
->>
->> [0] or however it's spelled.  i can never remember.
+On Thu, Feb 04, 2021 at 03:23:34PM +0000, Will Deacon wrote:
+> On Mon, Feb 01, 2021 at 11:40:10AM -0800, Andrei Vagin wrote:
+> > ip/r12 for AArch32 and x7 for AArch64 is used to indicate whether or not
+> > the stop has been signalled from syscall entry or syscall exit. This
+> > means that:
+> > 
+> > - Any writes by the tracer to this register during the stop are
+> >   ignored/discarded.
+> > 
+> > - The actual value of the register is not available during the stop,
+> >   so the tracer cannot save it and restore it later.
+> > 
+> > Right now, these registers are clobbered in tracehook_report_syscall.
+> > This change moves the logic to gpr_get and compat_gpr_get where
+> > registers are copied into a user-space buffer.
+> > 
+> > This will allow to change these registers and to introduce a new
+> > ptrace option to get the full set of registers.
+> > 
+> > Signed-off-by: Andrei Vagin <avagin@gmail.com>
+> > ---
+> >  arch/arm64/include/asm/ptrace.h |   5 ++
+> >  arch/arm64/kernel/ptrace.c      | 104 ++++++++++++++++++++------------
+> >  2 files changed, 69 insertions(+), 40 deletions(-)
+> > 
+> > diff --git a/arch/arm64/include/asm/ptrace.h b/arch/arm64/include/asm/ptrace.h
+> > index e58bca832dff..0a9552b4f61e 100644
+> > --- a/arch/arm64/include/asm/ptrace.h
+> > +++ b/arch/arm64/include/asm/ptrace.h
+> > @@ -170,6 +170,11 @@ static inline unsigned long pstate_to_compat_psr(const unsigned long pstate)
+> >  	return psr;
+> >  }
+> >  
+> > +enum ptrace_syscall_dir {
+> > +	PTRACE_SYSCALL_ENTER = 0,
+> > +	PTRACE_SYSCALL_EXIT,
+> > +};
+> > +
+> >  /*
+> >   * This struct defines the way the registers are stored on the stack during an
+> >   * exception. Note that sizeof(struct pt_regs) has to be a multiple of 16 (for
+> > diff --git a/arch/arm64/kernel/ptrace.c b/arch/arm64/kernel/ptrace.c
+> > index 8ac487c84e37..39da03104528 100644
+> > --- a/arch/arm64/kernel/ptrace.c
+> > +++ b/arch/arm64/kernel/ptrace.c
+> > @@ -40,6 +40,7 @@
+> >  #include <asm/syscall.h>
+> >  #include <asm/traps.h>
+> >  #include <asm/system_misc.h>
+> > +#include <asm/ptrace.h>
+> >  
+> >  #define CREATE_TRACE_POINTS
+> >  #include <trace/events/syscalls.h>
+> > @@ -561,7 +562,31 @@ static int gpr_get(struct task_struct *target,
+> >  		   struct membuf to)
+> >  {
+> >  	struct user_pt_regs *uregs = &task_pt_regs(target)->user_regs;
+> > -	return membuf_write(&to, uregs, sizeof(*uregs));
+> > +	unsigned long saved_reg;
+> > +	int ret;
+> > +
+> > +	/*
+> > +	 * We have some ABI weirdness here in the way that we handle syscall
+> > +	 * exit stops because we indicate whether or not the stop has been
+> > +	 * signalled from syscall entry or syscall exit by clobbering the general
+> > +	 * purpose register x7.
+> > +	 */
 > 
-> Fine with me. Let's have this documented in the manpage and then we can
-> move forward with this.
+> When you move a comment, please don't truncate it!
+
+This is my fault. In the previous version, the other part of this
+comment was irelevant, because I always allowed to change clobbered
+registers, but then I realized that we can't do that.
+
 > 
-> Thx.
+> > +	saved_reg = uregs->regs[7];
+> > +
+> > +	switch (target->ptrace_message) {
+> > +	case PTRACE_EVENTMSG_SYSCALL_ENTRY:
+> > +		uregs->regs[7] = PTRACE_SYSCALL_ENTER;
+> > +		break;
+> > +	case PTRACE_EVENTMSG_SYSCALL_EXIT:
+> > +		uregs->regs[7] = PTRACE_SYSCALL_EXIT;
+> > +		break;
+> > +	}
 > 
+> I'm wary of checking target->ptrace_message here, as I seem to recall the
+> regset code also being used for coredumps. What guarantees we don't break
+> things there?
 
-The man page at https://man7.org/linux/man-pages/man2/sigaction.2.html says,
+Registers were clobbered in tracehook_report_syscall,
+task->ptrace_message is set in ptrace_report_syscall.
 
-SIGILL, SIGFPE, SIGSEGV, SIGBUS, and SIGTRAP fill in si_addr with the 
-address of the fault.
+do_coredump() is called from get_signal and secure_computing, so we
+always see actuall registers in core dumps with and without these
+changes.
 
-But it is not entirely true.
+> 
+> > +
+> > +	ret =  membuf_write(&to, uregs, sizeof(*uregs));
+> > +
+> > +	uregs->regs[7] = saved_reg;
+> > +
+> > +	return ret;
+> >  }
+> >  
+> >  static int gpr_set(struct task_struct *target, const struct user_regset *regset,
+> > @@ -575,6 +600,17 @@ static int gpr_set(struct task_struct *target, const struct user_regset *regset,
+> >  	if (ret)
+> >  		return ret;
+> >  
+> > +	/*
+> > +	 * Historically, x7 can't be changed if the stop has been signalled
+> > +	 * from syscall-enter of syscall-exit.
+> > +	 */
+> > +	switch (target->ptrace_message) {
+> > +	case PTRACE_EVENTMSG_SYSCALL_ENTRY:
+> > +	case PTRACE_EVENTMSG_SYSCALL_EXIT:
+> > +		newregs.regs[7] = task_pt_regs(target)->regs[7];
+> > +		break;
+> > +	}
+> > +
+> >  	if (!valid_user_regs(&newregs, target))
+> >  		return -EINVAL;
+> >  
+> > @@ -1206,6 +1242,20 @@ static inline compat_ulong_t compat_get_user_reg(struct task_struct *task, int i
+> >  	struct pt_regs *regs = task_pt_regs(task);
+> >  
+> >  	switch (idx) {
+> > +	case 12:
+> > +		/*
+> > +		 * We have some ABI weirdness here in the way that we handle
+> > +		 * syscall exit stops because we indicate whether or not the
+> > +		 * stop has been signalled from syscall entry or syscall exit
+> > +		 * by clobbering the general purpose register r12.
+> > +		 */
+> > +		switch (task->ptrace_message) {
+> > +		case PTRACE_EVENTMSG_SYSCALL_ENTRY:
+> > +			return PTRACE_SYSCALL_ENTER;
+> > +		case PTRACE_EVENTMSG_SYSCALL_EXIT:
+> > +			return PTRACE_SYSCALL_EXIT;
+> > +		}
+> > +		return regs->regs[idx];
+> >  	case 15:
+> >  		return regs->pc;
+> >  	case 16:
+> > @@ -1282,6 +1332,17 @@ static int compat_gpr_set(struct task_struct *target,
+> >  
+> >  	}
+> >  
+> > +	/*
+> > +	 * Historically, x12 can't be changed if the stop has been signalled
+> > +	 * from syscall-enter of syscall-exit.
+> > +	 */
+> > +	switch (target->ptrace_message) {
+> > +	case PTRACE_EVENTMSG_SYSCALL_ENTRY:
+> > +	case PTRACE_EVENTMSG_SYSCALL_EXIT:
+> > +		newregs.regs[12] = task_pt_regs(target)->regs[12];
+> > +		break;
+> > +	}
+> > +
+> >  	if (valid_user_regs(&newregs.user_regs, target))
+> >  		*task_pt_regs(target) = newregs;
+> >  	else
+> > @@ -1740,53 +1801,16 @@ long arch_ptrace(struct task_struct *child, long request,
+> >  	return ptrace_request(child, request, addr, data);
+> >  }
+> >  
+> > -enum ptrace_syscall_dir {
+> > -	PTRACE_SYSCALL_ENTER = 0,
+> > -	PTRACE_SYSCALL_EXIT,
+> > -};
+> > -
+> >  static void tracehook_report_syscall(struct pt_regs *regs,
+> >  				     enum ptrace_syscall_dir dir)
+> >  {
+> > -	int regno;
+> > -	unsigned long saved_reg;
+> > -
+> > -	/*
+> > -	 * We have some ABI weirdness here in the way that we handle syscall
+> > -	 * exit stops because we indicate whether or not the stop has been
+> > -	 * signalled from syscall entry or syscall exit by clobbering a general
+> > -	 * purpose register (ip/r12 for AArch32, x7 for AArch64) in the tracee
+> > -	 * and restoring its old value after the stop. This means that:
+> > -	 *
+> > -	 * - Any writes by the tracer to this register during the stop are
+> > -	 *   ignored/discarded.
+> > -	 *
+> > -	 * - The actual value of the register is not available during the stop,
+> > -	 *   so the tracer cannot save it and restore it later.
+> > -	 *
+> > -	 * - Syscall stops behave differently to seccomp and pseudo-step traps
+> > -	 *   (the latter do not nobble any registers).
+> > -	 */
+> > -	regno = (is_compat_task() ? 12 : 7);
+> > -	saved_reg = regs->regs[regno];
+> > -	regs->regs[regno] = dir;
+> > -
+> >  	if (dir == PTRACE_SYSCALL_ENTER) {
+> >  		if (tracehook_report_syscall_entry(regs))
+> >  			forget_syscall(regs);
+> > -		regs->regs[regno] = saved_reg;
+> > -	} else if (!test_thread_flag(TIF_SINGLESTEP)) {
+> > -		tracehook_report_syscall_exit(regs, 0);
+> > -		regs->regs[regno] = saved_reg;
+> >  	} else {
+> > -		regs->regs[regno] = saved_reg;
+> > +		int singlestep = test_thread_flag(TIF_SINGLESTEP);
+> >  
+> > -		/*
+> > -		 * Signal a pseudo-step exception since we are stepping but
+> > -		 * tracer modifications to the registers may have rewound the
+> > -		 * state machine.
+> > -		 */
+> > -		tracehook_report_syscall_exit(regs, 1);
+> > +		tracehook_report_syscall_exit(regs, singlestep);
+> 
+> Again, please preserve the comment in some form (maybe "... if we are
+> stepping since tracer ...").
 
-I will send a patch to update it, and another patch for the si_code.
+ok
 
---
-Yu-cheng
+> 
+> That said, doesn't your change above break the pseudo-step trap? Currently,
+> we report the real x7 for those.
+
+No, it doesn't.
+
+In case of singlestep, tracehook_report_syscall_exit calls
+user_single_step_report instead of ptrace_report_syscall, so
+current->ptace_message will not be set PTRACE_EVENTMSG_SYSCALL_EXIT.
+
+
+> 
+> Will
