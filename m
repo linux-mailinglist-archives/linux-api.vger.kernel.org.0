@@ -2,44 +2,43 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CD29E325F4A
-	for <lists+linux-api@lfdr.de>; Fri, 26 Feb 2021 09:42:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4485F325F65
+	for <lists+linux-api@lfdr.de>; Fri, 26 Feb 2021 09:47:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230299AbhBZImC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 26 Feb 2021 03:42:02 -0500
-Received: from mail-oi1-f175.google.com ([209.85.167.175]:40973 "EHLO
-        mail-oi1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230264AbhBZImA (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 26 Feb 2021 03:42:00 -0500
-Received: by mail-oi1-f175.google.com with SMTP id o3so8993518oic.8;
-        Fri, 26 Feb 2021 00:41:44 -0800 (PST)
+        id S230153AbhBZIqQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 26 Feb 2021 03:46:16 -0500
+Received: from mail-ot1-f52.google.com ([209.85.210.52]:36144 "EHLO
+        mail-ot1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230135AbhBZIqM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 26 Feb 2021 03:46:12 -0500
+Received: by mail-ot1-f52.google.com with SMTP id 105so8438128otd.3;
+        Fri, 26 Feb 2021 00:45:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=pVIlOjFdfdlIAo37nsDj9r1mNIwZgWtxa0P3cDr2L2s=;
-        b=IPZ+4PTh+/kRFCrE7OgfyGes0FcJ72kAxJ9hq1ZcZ4IAsrGK/g7YQogYNH80na8jem
-         Vue6luxUZNe9MwCFi3SbXGB1+fC4LgDnSLEvsWwI/idr1Nxfz4WR4xinq+X0Ff6rS3Dt
-         NkBEr3YxMr71Ex/c0hTCJ54O/DQMeHskO/Lmq6QHz1oNKst3b5sqVDP5ECg8euH1ybCZ
-         5aRkZt/X3gKeuqoO/I77xhSy4o7jWxqiQx0jLk0jJ/XeJnck7TW51cq2gANYRlBmJFfX
-         4HRhl4RvLb+Q0CWFesjLTiAGLe5RclOaY4BSSClv8z3GfpOMQhi+35PANavqrTmMSFVR
-         6r4g==
-X-Gm-Message-State: AOAM530Ex0oUVZs53TT/0FqcDfUZuKVftWQ0kYmImTRgaASx/pzQ6VQE
-        9FsErB6/kFjqojaA5urEZADviGW+v/SyyC4w1jI=
-X-Google-Smtp-Source: ABdhPJziogIh89bFNrujKWMKLHuJQD4M+ywP+1FTr1A/W6sEvCmcYXfVIoEbpR4cmvwqyP/MQN+7EY7y2LGsN8I1124=
-X-Received: by 2002:aca:d908:: with SMTP id q8mr1282749oig.148.1614328879281;
- Fri, 26 Feb 2021 00:41:19 -0800 (PST)
+        bh=F36M/9eYWxF4USYUtVvAtqyb6eg9gU0Qrr2Aewe/K8c=;
+        b=YVUiFF7jdvtOuBeL3MgUX0c4xUB2ffiH1DKlXFBBoLDb+lFkpwcrOGh80iuA5VMkZc
+         Pv6RoGYAOIwb4oOXgAkl5qII28uJh1RdDlopohwusGpb82clWDIlxufXtTr7JfOXCuY5
+         maE7YH/ST28D5eQqLutbf6qMV+7sMixVWUwxizx9XZYrGt7axWOiehJXw5UOGvFsH+Va
+         vHF4rjOva7O1UTgK53+Oj8JE/g/ajZv7DurB+MafURVOATVU1i+FTHQJ+DjWSyaHM/ii
+         GNlju1tekblm/VliruJkOwYfZ4re3T6zW/NcIp1WrY9VcO02Fett2ahmTe3avYA1hZ4h
+         xfsQ==
+X-Gm-Message-State: AOAM532MCLliazzm0YMnNaJG8JIv+JzKcJ7tueF0fw6ikYV0C5chKMFV
+        WB4AiFCdtK10+WLc91tig39APx7OnVvj5iXkHZEiqjHf
+X-Google-Smtp-Source: ABdhPJyJJvroqSxowcJeL+lDs0oTjerURyQSh7F2XxCJmPc9nJ/uCEBaytxjFFYzbnkPYsyT2pMjSoxwiSaomGGpP+w=
+X-Received: by 2002:a9d:328:: with SMTP id 37mr1462410otv.250.1614329131806;
+ Fri, 26 Feb 2021 00:45:31 -0800 (PST)
 MIME-Version: 1.0
-References: <20210225225147.29920-1-fabrizio.castro.jz@renesas.com> <20210225225147.29920-4-fabrizio.castro.jz@renesas.com>
-In-Reply-To: <20210225225147.29920-4-fabrizio.castro.jz@renesas.com>
+References: <20210225225147.29920-1-fabrizio.castro.jz@renesas.com> <20210225225147.29920-3-fabrizio.castro.jz@renesas.com>
+In-Reply-To: <20210225225147.29920-3-fabrizio.castro.jz@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 26 Feb 2021 09:41:07 +0100
-Message-ID: <CAMuHMdURsd5bvHNTOqJGbVQBc4FFo=jLr=Xf2GZntO-Crh1R-A@mail.gmail.com>
-Subject: Re: [PATCH 3/7] dt-bindings: misc: Add binding for R-Car DAB
+Date:   Fri, 26 Feb 2021 09:45:20 +0100
+Message-ID: <CAMuHMdXNBeVK0ze8HSA=t5TTfhyuRz=+yLHMBioUbsuBxUoWyA@mail.gmail.com>
+Subject: Re: [PATCH 2/7] clk: renesas: r8a77965: Add DAB clock
 To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
@@ -63,50 +62,39 @@ Hi Fabrizio,
 
 On Thu, Feb 25, 2021 at 11:53 PM Fabrizio Castro
 <fabrizio.castro.jz@renesas.com> wrote:
-> Document bindings for R-Car DAB hardware accelerator, currently
-> found on the r8a77990 SoC (a.k.a. R-Car E3) and on the r8a77965
-> SoC (a.k.a. R-Car M3-N).
+> This patch adds the DAB clock to the R8A77965 SoC.
 >
 > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 
 Thanks for your patch!
 
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/misc/renesas,dab.yaml
+> --- a/drivers/clk/renesas/r8a77965-cpg-mssr.c
+> +++ b/drivers/clk/renesas/r8a77965-cpg-mssr.c
+> @@ -250,6 +250,7 @@ static const struct mssr_mod_clk r8a77965_mod_clks[] __initconst = {
+>         DEF_MOD("ssi2",                 1013,   MOD_CLK_ID(1005)),
+>         DEF_MOD("ssi1",                 1014,   MOD_CLK_ID(1005)),
+>         DEF_MOD("ssi0",                 1015,   MOD_CLK_ID(1005)),
+> +       DEF_MOD("dab",                  1016,   R8A77965_CLK_S0D6),
 
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - renesas,dab-r8a77965     # R-Car M3-N
-> +          - renesas,dab-r8a77990     # R-Car E3
+Unfortunately this bit is not documented in the R-Car Gen3 Hardware
+User's Manual, so I have to trust you on this.
 
-Please use the recommended order for new bindings:
+While it's not unusual that the same module on R-Car E3 and M3-N
+has different parent clocks, it does strike me as odd that S0D6 on M3-N
+runs at 133 MHz, while S3D1 on E3 runs at 266 MHz.
+Probably it doesn't matter that much, as your driver doesn't care
+about the actual clock rate.
 
-    renesas,r8a77965-dab
-    renesas,r8a77990-dab
-
-> +      - const: renesas,rcar-gen3-dab # Generic fallback for R-Car Gen3 devices
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    const: dab
-
-fck?
+>         DEF_MOD("scu-all",              1017,   R8A77965_CLK_S3D4),
+>         DEF_MOD("scu-dvc1",             1018,   MOD_CLK_ID(1017)),
+>         DEF_MOD("scu-dvc0",             1019,   MOD_CLK_ID(1017)),
 
 Gr{oetje,eeting}s,
 
                         Geert
 
--- 
+
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
