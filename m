@@ -2,43 +2,44 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 43B90326039
-	for <lists+linux-api@lfdr.de>; Fri, 26 Feb 2021 10:40:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A9D732603D
+	for <lists+linux-api@lfdr.de>; Fri, 26 Feb 2021 10:40:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230199AbhBZJia (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 26 Feb 2021 04:38:30 -0500
-Received: from mail-ot1-f54.google.com ([209.85.210.54]:34030 "EHLO
-        mail-ot1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229550AbhBZJi0 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 26 Feb 2021 04:38:26 -0500
-Received: by mail-ot1-f54.google.com with SMTP id b16so8571327otq.1;
-        Fri, 26 Feb 2021 01:38:10 -0800 (PST)
+        id S230390AbhBZJiu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 26 Feb 2021 04:38:50 -0500
+Received: from mail-oi1-f176.google.com ([209.85.167.176]:39486 "EHLO
+        mail-oi1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230227AbhBZJir (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 26 Feb 2021 04:38:47 -0500
+Received: by mail-oi1-f176.google.com with SMTP id z126so9134695oiz.6;
+        Fri, 26 Feb 2021 01:38:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=1oXl8ORRvWkZn3Q+NSTU0JhocFy4MrasRQfZ9lV0v1w=;
-        b=OojPfXgKKRXC2SAbmSozTH2EkYAsa8V+wS7lFMj0ajWiWwlhqcefsip2nXMqOfbjUe
-         6IKrK8SzMCfTZjgLFTMEIFgtXRrxUyOnJ6rTPOIusvAIN21TPZ83HycouAjnWvmBbxFm
-         alY7pRertPzCgmaVr6oh9tfwAmYuiCpu920yWpknBZ7kGgS65kUXdw8BPprVrC4CGLbu
-         dpmvWFYJCaJAdBOKZt0uR13D7i1MxtYiK8/mFyfEQCQyIatF1Qhw4c3eryR3vlu5nX4O
-         G/zvwwNL6Wz11CSESTvsBozT5ugbTe57qgR30QwGPxKEK9LgjlZ+IbMZfZ9mvsmUdDno
-         dNfw==
-X-Gm-Message-State: AOAM531twhw55c+a9WNX7W5zfYcYL2UM6Khz44haahTo+o2OjyulOyo4
-        Vxjm2rdnZEhueBs/x9KAZE+hjjYWTHJaH392btcxH7PO
-X-Google-Smtp-Source: ABdhPJx3ZV0e1g8mRwwnnPs6tUQkBIvym+xQhYnauXPYD/rkw5Y4oUKpyPzY9dH9Ez60j8qK6s7xUIKqoSHIycEyYvg=
-X-Received: by 2002:a9d:328:: with SMTP id 37mr1589640otv.250.1614332253635;
- Fri, 26 Feb 2021 01:37:33 -0800 (PST)
+        bh=DkuhY/EUxoDeVMzsFcTd26eNVSql+rMcTBUd/NT1nv4=;
+        b=jhe5F7j891aJYZXWpPzR8qFadxOyQ+ykGBqDi336Txu3l48jg4o35xY2u0evGT0B3n
+         N/vrnR5lttuqQv8azgvr5f0k9Gu9OeJWc7IaAcI+cTzNjuGXjXk6ykATYIZQZM96jzLa
+         F9mgySpPTmCl/os8tQOa1ir7q7SSUc14zd6lKZOzPs1Maa7h1fHCx5WNHcdkH5Gca2lS
+         VUOqwgBpDp5ZmBdg3p6ipnZTapt5528wkon4d5xDL5ikSY8zbPeq9P/ipuw78UT7z+w6
+         5A97ssH0ZtLTNw+7LiMvyR96M2UNeS4O1ikLyVm75jdLsZFIMRLWSeuPrFp4tPmiFlyd
+         FHLw==
+X-Gm-Message-State: AOAM533OaHyVLxnNbNjXYTbG+u5khldQ72tgUQTsxO8BA0TYCsCsdGwO
+        pUrLxAgRLH4VJNO0K4zAnGkXUU+fIZkpVvLpQF8=
+X-Google-Smtp-Source: ABdhPJy+JyA1kvEoQU+0VvVPRZFnnnWRxQWKrSAqIPkqqvAzcS50e5p3t16qlS2f0gKqo05KgYgx6MIhs5OytiS81g8=
+X-Received: by 2002:aca:d908:: with SMTP id q8mr1394693oig.148.1614332286142;
+ Fri, 26 Feb 2021 01:38:06 -0800 (PST)
 MIME-Version: 1.0
-References: <20210225225147.29920-1-fabrizio.castro.jz@renesas.com> <20210225225147.29920-7-fabrizio.castro.jz@renesas.com>
-In-Reply-To: <20210225225147.29920-7-fabrizio.castro.jz@renesas.com>
+References: <20210225225147.29920-1-fabrizio.castro.jz@renesas.com> <20210225225147.29920-6-fabrizio.castro.jz@renesas.com>
+In-Reply-To: <20210225225147.29920-6-fabrizio.castro.jz@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 26 Feb 2021 10:37:22 +0100
-Message-ID: <CAMuHMdUN49Tee2_50037jPvXGh-55bZG03guC1vxkU1TnAaLZQ@mail.gmail.com>
-Subject: Re: [PATCH 6/7] arm64: dts: renesas: r8a77965: Add DAB support
+Date:   Fri, 26 Feb 2021 10:37:54 +0100
+Message-ID: <CAMuHMdVg-BwAxBZ3ts4BpMMWPc88BG8TkD5JOosRg7O57EB33Q@mail.gmail.com>
+Subject: Re: [PATCH 5/7] arm64: dts: renesas: r8a77990: Add DAB support
 To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
@@ -58,38 +59,14 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Fabrizio,
-
 On Thu, Feb 25, 2021 at 11:53 PM Fabrizio Castro
 <fabrizio.castro.jz@renesas.com> wrote:
-> R-Car M3-N (a.k.a. r8a77965) comes with the DAB hardware accelerator.
+> R-Car E3 (a.k.a. r8a77990) comes with the DAB hardware accelerator.
 > This patch adds SoC specific support.
 >
 > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 
 LGTM (ignoring clock-names bikeshedding)
-
-> --- a/arch/arm64/boot/dts/renesas/r8a77965.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
-> @@ -1013,6 +1013,18 @@ ipmmu_vp0: iommu@fe990000 {
->                         #iommu-cells = <1>;
->                 };
->
-> +               dab: dab@e6730000 {
-> +                       compatible = "renesas,dab-r8a77965",
-> +                                    "renesas,rcar-gen3-dab";
-> +                       reg = <0x00 0xe6730000 0x00 0x120>;
-> +                       interrupts = <GIC_SPI 160 IRQ_TYPE_LEVEL_HIGH>;
-> +                       clocks = <&cpg CPG_MOD 1016>;
-> +                       clock-names = "dab";
-> +                       power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
-> +                       resets = <&cpg 1016>;
-> +                       status = "disabled";
-> +               };
-> +
->                 avb: ethernet@e6800000 {
->                         compatible = "renesas,etheravb-r8a77965",
->                                      "renesas,etheravb-rcar-gen3";
 
 Gr{oetje,eeting}s,
 
