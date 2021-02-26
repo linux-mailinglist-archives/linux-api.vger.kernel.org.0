@@ -2,92 +2,183 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 18BE7326319
-	for <lists+linux-api@lfdr.de>; Fri, 26 Feb 2021 14:06:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BA1E4326391
+	for <lists+linux-api@lfdr.de>; Fri, 26 Feb 2021 14:53:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230014AbhBZNGr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 26 Feb 2021 08:06:47 -0500
-Received: from mail-oi1-f180.google.com ([209.85.167.180]:39314 "EHLO
-        mail-oi1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229550AbhBZNGo (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 26 Feb 2021 08:06:44 -0500
-Received: by mail-oi1-f180.google.com with SMTP id z126so9629126oiz.6;
-        Fri, 26 Feb 2021 05:06:29 -0800 (PST)
+        id S229618AbhBZNw4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 26 Feb 2021 08:52:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43748 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229863AbhBZNwy (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 26 Feb 2021 08:52:54 -0500
+Received: from mail-lf1-x14a.google.com (mail-lf1-x14a.google.com [IPv6:2a00:1450:4864:20::14a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CED8C061756
+        for <linux-api@vger.kernel.org>; Fri, 26 Feb 2021 05:52:14 -0800 (PST)
+Received: by mail-lf1-x14a.google.com with SMTP id q17so3253999lfa.19
+        for <linux-api@vger.kernel.org>; Fri, 26 Feb 2021 05:52:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=9qgVEn+iuJg8wdtukO05ayWCkn1AJaTpvSfAyCSllIk=;
+        b=HtSsy1yf3vmcRFkPL7M3Kn0r6XVJJodJsLUVEPppb/TJZP4o9vifrZIRCZd/P+s4Fi
+         2Os1gHsaabEjSIWgHjw0mQtef0dxqQ4gHCuVHmHqmgnOE4NrXf9hYWpjc8WhHYV1WJhE
+         I1YrLUI/W9MSroszS76dMxsd3CfCILt0aeo4+6Wd3bCWI4K1pyk+e/HQK1NHfyCenr4v
+         uR5mhagXWnCYYtxKzq3XK6Z1R3SQ9oPNy6KsYCuVefQUjLQZbbgh0L4DaFV79+YjOHfX
+         dhxVkeAZF2QCOvhXn3nZ3vH2H4JTS5JBEZQ0W3BEjNmOtw124YHs7enW1JWgv3lP9JLX
+         tyQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=GZK9juosIuq3XEEjS85Gkc10UOB2AvIHrhQ9IE5cwX4=;
-        b=b7xV/cemgn/YUGx9rtfu1Yo7W4tpf53tKvUv/9ParhHQZhP5f9giTCwIWCCnDVa/xC
-         iBEnFLIsq1ko3jYHZ5rN+qatlC8y1qEvpZiwE2R4dMjeAv24tgFbB7WO4Bvr2N/GJQF4
-         ugmCF6201MQ74tvZ+ccjC1AHpaigkt8LNQjRYQHhvb4ldxXmN665L1PSna4hAl8xPDbE
-         BVHzVt5KL3ACHH/86w3KXFBIpWEESWIMw4nTvwcGniWf4ZzoWFiO4b82APDvO9RAEUEU
-         av7z07nNLNEH7GnZYLdLyIDaBOExcD+XSRA64vlXvGyo9aP0Kpftz22DuwALXa6A/QSh
-         wfJA==
-X-Gm-Message-State: AOAM5322gK8SkfQgSKYlN0M1ZcjzJ0ndrZM7j2XP21l+4q/FM5T3pKTX
-        44TzI0I6lVPO/GRIrrphpmzO0+6iIZa7t/BjlJI=
-X-Google-Smtp-Source: ABdhPJyUwiO27BDEHitYM2O30SRD5q0CzttvCGUI3vKaFoD39PpB1Glpe7FDQQDtFvJYn9dTvVd1W2TRL3Fy7kULf50=
-X-Received: by 2002:aca:d908:: with SMTP id q8mr1878070oig.148.1614344763783;
- Fri, 26 Feb 2021 05:06:03 -0800 (PST)
-MIME-Version: 1.0
-References: <20210225225147.29920-1-fabrizio.castro.jz@renesas.com>
- <20210225225147.29920-8-fabrizio.castro.jz@renesas.com> <YDjvI6DTcBfWdA3G@pendragon.ideasonboard.com>
-In-Reply-To: <YDjvI6DTcBfWdA3G@pendragon.ideasonboard.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 26 Feb 2021 14:05:52 +0100
-Message-ID: <CAMuHMdXWv2FdJ84XoQQiVFuSoLhdzdAdHwT5Zg-n8cSWBVVdFQ@mail.gmail.com>
-Subject: Re: [PATCH 7/7] arm64: configs: Add R-Car DAB support
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Dirk Behme <Dirk.Behme@de.bosch.com>,
-        Peter Erben <Peter.Erben@de.bosch.com>
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=9qgVEn+iuJg8wdtukO05ayWCkn1AJaTpvSfAyCSllIk=;
+        b=bkg/xB4zouC6a+Cx4ka156GZeWHWCEsmJhA3IaqGII2dHGOBgEMvSWDFw8VzPfdbET
+         zdx+Ja4w1VVqGRfiCtQ316t9eUNYPCBqnPIVIFIFU+//KeVBVowbmQf5zzuSsnV7p5CV
+         Q2HV/qYzZG/UBlI/5qEJ7bdCb7ebzshiXztse7LsurWu+7ZGBlgxKfsaKs8Rn+7Ct3Gg
+         ilba3CzjTRyg2PHE29HyOAjTX2uWqIZJL3UL6GDAR97ZRiFXu3P8yc3JOOEnr6DkfPOW
+         2Yx3xwLWkpsVjGkXshLq14UL1PFnhlQgiNWSr7T0YHY3JOxH92By1OUq/FY+NV5dxW5M
+         t3mw==
+X-Gm-Message-State: AOAM532fxSEJKo5d039ucDTCfQAb/18nBMwx3ddEi3TFg96m4e4vVtNu
+        zf7h3XHiO7cn6wU0VUpi79zI+Ym+Ot4=
+X-Google-Smtp-Source: ABdhPJz3/+OqvGIFhb4PV/A+NiHi7yd7YOibJoENoi1KJMKVh6pVYhIN9S3OkVzQzYE25rcrBd/A8QHOzrs=
+Sender: "figiel via sendgmr" <figiel@odra.waw.corp.google.com>
+X-Received: from odra.waw.corp.google.com ([2a00:79e0:2:11:8026:754f:d3fb:e1d8])
+ (user=figiel job=sendgmr) by 2002:a2e:589:: with SMTP id 131mr1764653ljf.336.1614347532062;
+ Fri, 26 Feb 2021 05:52:12 -0800 (PST)
+Date:   Fri, 26 Feb 2021 14:51:56 +0100
+Message-Id: <20210226135156.1081606-1-figiel@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.30.1.766.gb4fecdf3b7-goog
+Subject: [PATCH v2] ptrace: add PTRACE_GET_RSEQ_CONFIGURATION request
+From:   Piotr Figiel <figiel@google.com>
+To:     Andrew Morton <akpm@linux-foundation.org>,
+        mathieu.desnoyers@efficios.com, peterz@infradead.org,
+        paulmck@kernel.org, boqun.feng@gmail.com, oleg@redhat.com,
+        ldv@altlinux.org, fweimer@redhat.com
+Cc:     Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrei Vagin <avagin@gmail.com>, linux-kernel@vger.kernel.org,
+        posk@google.com, kyurtsever@google.com, ckennelly@google.com,
+        pjt@google.com, emmir@google.com, linux-man@vger.kernel.org,
+        linux-api@vger.kernel.org, Piotr Figiel <figiel@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Laurent,
+For userspace checkpoint and restore (C/R) a way of getting process state
+containing RSEQ configuration is needed.
 
-On Fri, Feb 26, 2021 at 1:53 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Thu, Feb 25, 2021 at 10:51:47PM +0000, Fabrizio Castro wrote:
-> > Make sure that the R-Car DAB device driver gets compiled as a
-> > module since R-Car E3 and R-Car M3-N come with the DAB IP.
-> >
-> > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
->
-> Do we need this in the defconfig ? It's not required to have a bootable
-> E3 or M3-N with the set of standard features, and would result in all
+There are two ways this information is going to be used:
+ - to re-enable RSEQ for threads which had it enabled before C/R
+ - to detect if a thread was in a critical section during C/R
 
-That's why it's modular.
+Since C/R preserves TLS memory and addresses RSEQ ABI will be restored
+using the address registered before C/R.
 
-> ARM64 platforms having one module they don't care about.
+Detection whether the thread is in a critical section during C/R is needed
+to enforce behavior of RSEQ abort during C/R. Attaching with ptrace()
+before registers are dumped itself doesn't cause RSEQ abort.
+Restoring the instruction pointer within the critical section is
+problematic because rseq_cs may get cleared before the control is passed
+to the migrated application code leading to RSEQ invariants not being
+preserved. C/R code will use RSEQ ABI address to find the abort handler
+to which the instruction pointer needs to be set.
 
-We typically add all drivers used by all supported platforms, to
-increase build coverage.
+To achieve above goals expose the RSEQ ABI address and the signature value
+with the new ptrace request PTRACE_GET_RSEQ_CONFIGURATION.
 
-Gr{oetje,eeting}s,
+This new ptrace request can also be used by debuggers so they are aware
+of stops within restartable sequences in progress.
 
-                        Geert
+Signed-off-by: Piotr Figiel <figiel@google.com>
+Reviewed-by: Michal Miroslaw <emmir@google.com>
 
+---
+v2:
+Applied review comments:
+ - changed return value from the ptrace request to the size of the
+   configuration structure
+ - expanded configuration structure with the flags field and
+   the rseq abi structure size
+
+v1:
+ https://lore.kernel.org/lkml/20210222100443.4155938-1-figiel@google.com/
+
+---
+ include/uapi/linux/ptrace.h | 10 ++++++++++
+ kernel/ptrace.c             | 25 +++++++++++++++++++++++++
+ 2 files changed, 35 insertions(+)
+
+diff --git a/include/uapi/linux/ptrace.h b/include/uapi/linux/ptrace.h
+index 83ee45fa634b..3747bf816f9a 100644
+--- a/include/uapi/linux/ptrace.h
++++ b/include/uapi/linux/ptrace.h
+@@ -102,6 +102,16 @@ struct ptrace_syscall_info {
+ 	};
+ };
+ 
++#define PTRACE_GET_RSEQ_CONFIGURATION	0x420f
++
++struct ptrace_rseq_configuration {
++	__u64 rseq_abi_pointer;
++	__u32 rseq_abi_size;
++	__u32 signature;
++	__u32 flags;
++	__u32 pad;
++};
++
+ /*
+  * These values are stored in task->ptrace_message
+  * by tracehook_report_syscall_* to describe the current syscall-stop.
+diff --git a/kernel/ptrace.c b/kernel/ptrace.c
+index 61db50f7ca86..76f09456ec4b 100644
+--- a/kernel/ptrace.c
++++ b/kernel/ptrace.c
+@@ -31,6 +31,7 @@
+ #include <linux/cn_proc.h>
+ #include <linux/compat.h>
+ #include <linux/sched/signal.h>
++#include <linux/minmax.h>
+ 
+ #include <asm/syscall.h>	/* for syscall_get_* */
+ 
+@@ -779,6 +780,24 @@ static int ptrace_peek_siginfo(struct task_struct *child,
+ 	return ret;
+ }
+ 
++#ifdef CONFIG_RSEQ
++static long ptrace_get_rseq_configuration(struct task_struct *task,
++					  unsigned long size, void __user *data)
++{
++	struct ptrace_rseq_configuration conf = {
++		.rseq_abi_pointer = (u64)(uintptr_t)task->rseq,
++		.rseq_abi_size = sizeof(*task->rseq),
++		.signature = task->rseq_sig,
++		.flags = 0,
++	};
++
++	size = min_t(unsigned long, size, sizeof(conf));
++	if (copy_to_user(data, &conf, size))
++		return -EFAULT;
++	return sizeof(conf);
++}
++#endif
++
+ #ifdef PTRACE_SINGLESTEP
+ #define is_singlestep(request)		((request) == PTRACE_SINGLESTEP)
+ #else
+@@ -1222,6 +1241,12 @@ int ptrace_request(struct task_struct *child, long request,
+ 		ret = seccomp_get_metadata(child, addr, datavp);
+ 		break;
+ 
++#ifdef CONFIG_RSEQ
++	case PTRACE_GET_RSEQ_CONFIGURATION:
++		ret = ptrace_get_rseq_configuration(child, addr, datavp);
++		break;
++#endif
++
+ 	default:
+ 		break;
+ 	}
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.30.1.766.gb4fecdf3b7-goog
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
