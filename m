@@ -2,41 +2,34 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 16AFB3262F0
-	for <lists+linux-api@lfdr.de>; Fri, 26 Feb 2021 13:50:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C8823262F7
+	for <lists+linux-api@lfdr.de>; Fri, 26 Feb 2021 13:54:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229835AbhBZMuC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 26 Feb 2021 07:50:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58414 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229545AbhBZMt6 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 26 Feb 2021 07:49:58 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F752C061574;
-        Fri, 26 Feb 2021 04:49:18 -0800 (PST)
+        id S229996AbhBZMyC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 26 Feb 2021 07:54:02 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:49182 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229550AbhBZMyB (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 26 Feb 2021 07:54:01 -0500
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DD370580;
-        Fri, 26 Feb 2021 13:49:16 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EF4EF580;
+        Fri, 26 Feb 2021 13:53:18 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1614343757;
-        bh=x5nZBQVf0wlRzwxr5wF1qzN/XY/UC6gmCNzOn6eKkyg=;
+        s=mail; t=1614343999;
+        bh=LYN1xxISJasdZzU6yYhtZjYnXw5AND9OFkY4FM/4VC8=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=eugQ5CXUG/1ciTyosRm7hWzCJsd7tzZ178f+djJByvIgxhyY2EdKTvBOivgrse29M
-         uRYT6b2uwtmrP3RiQ7VdqUhDLkd20KVTjhheJ0HligW+KOgKqj2hRa6oXKK9E+exLn
-         tbEIxBiLELWhg5mCw2YhhFvvkzWpa5C2vZWB43I4=
-Date:   Fri, 26 Feb 2021 14:48:49 +0200
+        b=Czdu4Nuo1+9gO0LaVVNAzm6YfbFoe1kadIF2+jliSAM/7PLZ2j9zD1WCKdM6jukhg
+         mEBB5Rc+q/ZcK7HhZsEE/UFx/yHQixVij4kD57AZ6w5kwQ45VeSiHBMYmcS2VO6Spq
+         dGHr7tdIUY2uAsErcsqXDysN//tf6Px/bVxdLCWs=
+Date:   Fri, 26 Feb 2021 14:52:51 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
+Cc:     Rob Herring <robh+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
         Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will@kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
@@ -44,15 +37,14 @@ Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
         Phil Edworthy <phil.edworthy@renesas.com>,
         Dirk Behme <Dirk.Behme@de.bosch.com>,
         Peter Erben <Peter.Erben@de.bosch.com>
-Subject: Re: [PATCH 2/7] clk: renesas: r8a77965: Add DAB clock
-Message-ID: <YDjuMRkU+g52I1gm@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 7/7] arm64: configs: Add R-Car DAB support
+Message-ID: <YDjvI6DTcBfWdA3G@pendragon.ideasonboard.com>
 References: <20210225225147.29920-1-fabrizio.castro.jz@renesas.com>
- <20210225225147.29920-3-fabrizio.castro.jz@renesas.com>
- <CAMuHMdXNBeVK0ze8HSA=t5TTfhyuRz=+yLHMBioUbsuBxUoWyA@mail.gmail.com>
+ <20210225225147.29920-8-fabrizio.castro.jz@renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdXNBeVK0ze8HSA=t5TTfhyuRz=+yLHMBioUbsuBxUoWyA@mail.gmail.com>
+In-Reply-To: <20210225225147.29920-8-fabrizio.castro.jz@renesas.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
@@ -61,36 +53,32 @@ Hi Fabrizio,
 
 Thank you for the patch.
 
-On Fri, Feb 26, 2021 at 09:45:20AM +0100, Geert Uytterhoeven wrote:
-> On Thu, Feb 25, 2021 at 11:53 PM Fabrizio Castro wrote:
-> > This patch adds the DAB clock to the R8A77965 SoC.
-> >
-> > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+On Thu, Feb 25, 2021 at 10:51:47PM +0000, Fabrizio Castro wrote:
+> Make sure that the R-Car DAB device driver gets compiled as a
+> module since R-Car E3 and R-Car M3-N come with the DAB IP.
 > 
-> Thanks for your patch!
-> 
-> > --- a/drivers/clk/renesas/r8a77965-cpg-mssr.c
-> > +++ b/drivers/clk/renesas/r8a77965-cpg-mssr.c
-> > @@ -250,6 +250,7 @@ static const struct mssr_mod_clk r8a77965_mod_clks[] __initconst = {
-> >         DEF_MOD("ssi2",                 1013,   MOD_CLK_ID(1005)),
-> >         DEF_MOD("ssi1",                 1014,   MOD_CLK_ID(1005)),
-> >         DEF_MOD("ssi0",                 1015,   MOD_CLK_ID(1005)),
-> > +       DEF_MOD("dab",                  1016,   R8A77965_CLK_S0D6),
-> 
-> Unfortunately this bit is not documented in the R-Car Gen3 Hardware
-> User's Manual, so I have to trust you on this.
-> 
-> While it's not unusual that the same module on R-Car E3 and M3-N
-> has different parent clocks, it does strike me as odd that S0D6 on M3-N
-> runs at 133 MHz, while S3D1 on E3 runs at 266 MHz.
-> Probably it doesn't matter that much, as your driver doesn't care
-> about the actual clock rate.
+> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 
-I have the exact same concerns, here and for 1/7.
+Do we need this in the defconfig ? It's not required to have a bootable
+E3 or M3-N with the set of standard features, and would result in all
+ARM64 platforms having one module they don't care about.
 
-> >         DEF_MOD("scu-all",              1017,   R8A77965_CLK_S3D4),
-> >         DEF_MOD("scu-dvc1",             1018,   MOD_CLK_ID(1017)),
-> >         DEF_MOD("scu-dvc0",             1019,   MOD_CLK_ID(1017)),
+> ---
+>  arch/arm64/configs/defconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+> index d612f633b771..3b9996c7f1fc 100644
+> --- a/arch/arm64/configs/defconfig
+> +++ b/arch/arm64/configs/defconfig
+> @@ -274,6 +274,7 @@ CONFIG_PCI_ENDPOINT_TEST=m
+>  CONFIG_EEPROM_AT24=m
+>  CONFIG_EEPROM_AT25=m
+>  CONFIG_UACCE=m
+> +CONFIG_RCAR_DAB=m
+>  # CONFIG_SCSI_PROC_FS is not set
+>  CONFIG_BLK_DEV_SD=y
+>  CONFIG_SCSI_SAS_ATA=y
 
 -- 
 Regards,
