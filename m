@@ -2,63 +2,97 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A4A3327036
-	for <lists+linux-api@lfdr.de>; Sun, 28 Feb 2021 05:04:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E0BE327283
+	for <lists+linux-api@lfdr.de>; Sun, 28 Feb 2021 14:57:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230063AbhB1EEg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 27 Feb 2021 23:04:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51292 "EHLO
+        id S230163AbhB1N5c (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 28 Feb 2021 08:57:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230040AbhB1EEg (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 27 Feb 2021 23:04:36 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20E2FC06174A;
-        Sat, 27 Feb 2021 20:03:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=xLsb6hdOgPTvXqan9PgPfwKwlmUcrC3pL+IiN4sGEIM=; b=JHjHdp9O+7+SeQD9p/qzxmpQWI
-        VwzjAoKHPshNtpXfhFosvLUlUxQ4W8t9ahcXcRAfRud0vZVByY6f50VvRcKp2h8BX+sJCXCWrEVxH
-        bV7ojnRS22hUpIq/sw86JUfstaoppRBZG19RSIgDANbIAPqIahbO/BA11EmB5t3Dbp/GsE6HuKUNq
-        tLxO6culfJ1B/LbAp7U/xkjOKhdlysey6eCYatBCGCVSw/atjkL1MxPTTkZnCNYM25Rgk6Y4SdKV4
-        1gkII5t653TX+sc93wpHtl+9nGGo0B/3P11k9wR/yVuF0Nyuq8nDD3hr2OM7eY8/2u76v+bmc8DgB
-        B2+hxI0A==;
-Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1lGDJ3-00E6Mv-Bb; Sun, 28 Feb 2021 04:03:49 +0000
-Date:   Sun, 28 Feb 2021 04:03:45 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Drew DeVault <sir@cmpwn.com>
-Cc:     linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        Aleksa Sarai <cyphar@cyphar.com>
-Subject: Re: [RFC PATCH] fs: introduce mkdirat2 syscall for atomic mkdir
-Message-ID: <20210228040345.GO2723601@casper.infradead.org>
-References: <20210228002500.11483-1-sir@cmpwn.com>
- <20210228022440.GN2723601@casper.infradead.org>
- <C9KT3SWXRPPA.257SY2N4MVBZD@taiga>
+        with ESMTP id S229715AbhB1N5c (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 28 Feb 2021 08:57:32 -0500
+Received: from out1.migadu.com (out1.migadu.com [IPv6:2001:41d0:2:863f::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA62CC06174A
+        for <linux-api@vger.kernel.org>; Sun, 28 Feb 2021 05:56:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <C9KT3SWXRPPA.257SY2N4MVBZD@taiga>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cmpwn.com; s=key1;
+        t=1614520565;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=sPRqwLQ7R3UvrMGac2JNlWUrHipXXOdI+lOTDeAQJ+E=;
+        b=JHOqju67Xe+ESrvtRJttVcpD4RJaxgHsK710BZGlWyTv0kbwMj8svBhH/C+RbsRUyba7O+
+        1hf5xvVHqGlfdX2pHLMjaD4U7cujFKWtGY0OZ003ESz/mE2nJtT6gkr723vAYVpbtoiMi0
+        cJaXyr72BAb2ba/GcTgUlEVt+4zb64uKKkMpVGy1gVnfAAq4OHAgsizQ6K6Ypi6kaEESWD
+        EIbfylHdKArJk2ojETImzGQjGDfcLwpkQH7fFbmiGxXvg2Ix1ZwFAnVcv5mp5sxSToGgfU
+        3Qc27jadQMcXD9bfcOV8Kt0gmVR1OcztR2IIivrq9jiZcOzSiZ+qubBqE1gDEw==
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date:   Sun, 28 Feb 2021 08:56:04 -0500
+Message-Id: <C9L7RW0S7YU0.16I8160PKEP0K@taiga>
+Cc:     <linux-fsdevel@vger.kernel.org>, <linux-api@vger.kernel.org>,
+        "Aleksa Sarai" <cyphar@cyphar.com>
+Subject: Re: [RFC PATCH] fs: introduce mkdirat2 syscall for atomic mkdir
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   "Drew DeVault" <sir@cmpwn.com>
+To:     "Al Viro" <viro@zeniv.linux.org.uk>
+References: <20210228002500.11483-1-sir@cmpwn.com>
+ <YDr8UihFQ3M469x8@zeniv-ca.linux.org.uk> <C9KSZTRJ2CL6.DWD539LYTVZX@taiga>
+ <YDsGzhBzLzSp6nPj@zeniv-ca.linux.org.uk>
+In-Reply-To: <YDsGzhBzLzSp6nPj@zeniv-ca.linux.org.uk>
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: sir@cmpwn.com
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Feb 27, 2021 at 09:26:21PM -0500, Drew DeVault wrote:
-> On Sat Feb 27, 2021 at 9:24 PM EST, Matthew Wilcox wrote:
-> > Where's the problem? If mkdir succeeds in a sticky directory, others
-> > can't remove or rename it. So how can an app be tricked into doing
-> > something wrong?
-> 
-> It's not a security concern, it's just about about making the software
-> more robust.
-> 
-> 1. Program A creates a directory
-> 2. Program A is pre-empted
-> 3. Program B deletes the directory
-> 4. Program A creates a file in that directory
-> 5. RIP
+On Sat Feb 27, 2021 at 9:58 PM EST, Al Viro wrote:
+> open() *always* returns descriptor or an error, for one thing.
+> And quite a few of open() flags are completely wrong for mkdir,
+> starting with symlink following and truncation.
 
-umm ... program B deletes the directory.  program A opens it in order to
-use openat().  program A gets ENOENT and exits, confused.  that's the
-race you're removing here -- and it seems fairly insignificant to me.
+So does mkdirat2. Are you referring to the do_mkdirat2 function? I
+merged mkdir/mkdirat/mkdirat2 into one function with a flag to enable
+the mkdirat2 behavior, to avoid copying and pasting much of the
+functionality. However, the syscalls themselves don't overload their
+return value as you expect. mkdir & mkdirat both still return 0 or an
+error, and mkdirat2 always returns an fd or an error. If you prefer, I
+can leave their implementations separate so that this is more clear.
+
+I supposed the flags might be wrong - should I just introduce a new set
+of flags, with the specific ones which are useful (which I think is just
+O_CLOEXEC)?
+
+> What's more, your implementation is both racy and deadlock-prone -
+> it repeats the entire pathwalk with no warranty that it'll
+> arrive to the object you've created *AND* if you have
+> something like /foo/bar/baz/../../splat and dentry of bar
+> gets evicted on memory pressure, that pathwalk will end up
+> trying to look bar up. In the already locked /foo, aka
+> /foo/bar/baz/../..
+
+This is down to unfamiliarity with this code, I think. I'll try to give
+it a closer look.
+
+> TBH, I don't understand what are you trying to achieve -
+> what will that mkdir+open combination buy you, especially
+> since that atomicity goes straight out of window if you try
+> to use that on e.g. NFS. How is the userland supposed to make
+> use of that thing?
+
+I'm trying to close what appears to be an oversight in the API. See the
+previous threads:
+
+https://lore.kernel.org/linux-fsdevel/C9KKYZ4T5O53.338Y48UIQ9W3H@taiga/T/#t
+https://lore.kernel.org/linux-fsdevel/20200316142057.xo24zea3k5zwswra@yavin=
+/
+
+Userland uses it the same way they use mkdir+open, but in one call, so
+that they can use the directory they make as soon as it's created. The
+atomicity goal, if possible, would also add a reference to the new
+directory via the open fd, so they can use it even if it's removed by
+another process. It makes such applications less error-prone, albiet in
+a minor edge case.
+
+I'm not sure what's involved with the NFS case, but I can look into it.
