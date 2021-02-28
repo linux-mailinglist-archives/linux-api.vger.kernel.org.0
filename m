@@ -2,64 +2,63 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E805327020
-	for <lists+linux-api@lfdr.de>; Sun, 28 Feb 2021 03:59:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A4A3327036
+	for <lists+linux-api@lfdr.de>; Sun, 28 Feb 2021 05:04:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230040AbhB1C7R (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 27 Feb 2021 21:59:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37436 "EHLO
+        id S230063AbhB1EEg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 27 Feb 2021 23:04:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51292 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230008AbhB1C7R (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 27 Feb 2021 21:59:17 -0500
-Received: from zeniv-ca.linux.org.uk (zeniv-ca.linux.org.uk [IPv6:2607:5300:60:148a::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FC27C06174A;
-        Sat, 27 Feb 2021 18:58:37 -0800 (PST)
-Received: from viro by zeniv-ca.linux.org.uk with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1lGCHm-001YgY-OA; Sun, 28 Feb 2021 02:58:22 +0000
-Date:   Sun, 28 Feb 2021 02:58:22 +0000
-From:   Al Viro <viro@zeniv.linux.org.uk>
+        with ESMTP id S230040AbhB1EEg (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 27 Feb 2021 23:04:36 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20E2FC06174A;
+        Sat, 27 Feb 2021 20:03:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=xLsb6hdOgPTvXqan9PgPfwKwlmUcrC3pL+IiN4sGEIM=; b=JHjHdp9O+7+SeQD9p/qzxmpQWI
+        VwzjAoKHPshNtpXfhFosvLUlUxQ4W8t9ahcXcRAfRud0vZVByY6f50VvRcKp2h8BX+sJCXCWrEVxH
+        bV7ojnRS22hUpIq/sw86JUfstaoppRBZG19RSIgDANbIAPqIahbO/BA11EmB5t3Dbp/GsE6HuKUNq
+        tLxO6culfJ1B/LbAp7U/xkjOKhdlysey6eCYatBCGCVSw/atjkL1MxPTTkZnCNYM25Rgk6Y4SdKV4
+        1gkII5t653TX+sc93wpHtl+9nGGo0B/3P11k9wR/yVuF0Nyuq8nDD3hr2OM7eY8/2u76v+bmc8DgB
+        B2+hxI0A==;
+Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
+        id 1lGDJ3-00E6Mv-Bb; Sun, 28 Feb 2021 04:03:49 +0000
+Date:   Sun, 28 Feb 2021 04:03:45 +0000
+From:   Matthew Wilcox <willy@infradead.org>
 To:     Drew DeVault <sir@cmpwn.com>
 Cc:     linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
         Aleksa Sarai <cyphar@cyphar.com>
 Subject: Re: [RFC PATCH] fs: introduce mkdirat2 syscall for atomic mkdir
-Message-ID: <YDsGzhBzLzSp6nPj@zeniv-ca.linux.org.uk>
+Message-ID: <20210228040345.GO2723601@casper.infradead.org>
 References: <20210228002500.11483-1-sir@cmpwn.com>
- <YDr8UihFQ3M469x8@zeniv-ca.linux.org.uk>
- <C9KSZTRJ2CL6.DWD539LYTVZX@taiga>
+ <20210228022440.GN2723601@casper.infradead.org>
+ <C9KT3SWXRPPA.257SY2N4MVBZD@taiga>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <C9KSZTRJ2CL6.DWD539LYTVZX@taiga>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+In-Reply-To: <C9KT3SWXRPPA.257SY2N4MVBZD@taiga>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Feb 27, 2021 at 09:21:09PM -0500, Drew DeVault wrote:
-> On Sat Feb 27, 2021 at 9:13 PM EST, Al Viro wrote:
-> > No to the ABI part; "on error it returns -E..., on success - 0 or a
-> > non-negative number representing a file descriptor (zero also
-> > possible, but unlikely)" is bloody awful as calling conventions go,
-> > especially since the case when 0 happens to be a descriptor is not
-> > going to get a lot of testing on the userland side.
+On Sat, Feb 27, 2021 at 09:26:21PM -0500, Drew DeVault wrote:
+> On Sat Feb 27, 2021 at 9:24 PM EST, Matthew Wilcox wrote:
+> > Where's the problem? If mkdir succeeds in a sticky directory, others
+> > can't remove or rename it. So how can an app be tricked into doing
+> > something wrong?
 > 
-> Hm, I was just trying to mimic the behavior of open(2). Do you have a
-> better suggestion?
+> It's not a security concern, it's just about about making the software
+> more robust.
+> 
+> 1. Program A creates a directory
+> 2. Program A is pre-empted
+> 3. Program B deletes the directory
+> 4. Program A creates a file in that directory
+> 5. RIP
 
-open() *always* returns descriptor or an error, for one thing.
-And quite a few of open() flags are completely wrong for mkdir,
-starting with symlink following and truncation.
-
-What's more, your implementation is both racy and deadlock-prone -
-it repeats the entire pathwalk with no warranty that it'll
-arrive to the object you've created *AND* if you have
-something like /foo/bar/baz/../../splat and dentry of bar
-gets evicted on memory pressure, that pathwalk will end up
-trying to look bar up.  In the already locked /foo, aka
-/foo/bar/baz/../..
-
-TBH, I don't understand what are you trying to achieve -
-what will that mkdir+open combination buy you, especially
-since that atomicity goes straight out of window if you try
-to use that on e.g. NFS.  How is the userland supposed to make
-use of that thing?
+umm ... program B deletes the directory.  program A opens it in order to
+use openat().  program A gets ENOENT and exits, confused.  that's the
+race you're removing here -- and it seems fairly insignificant to me.
