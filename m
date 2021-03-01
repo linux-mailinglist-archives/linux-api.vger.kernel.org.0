@@ -2,32 +2,30 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 357D23280DC
-	for <lists+linux-api@lfdr.de>; Mon,  1 Mar 2021 15:30:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D68083280E7
+	for <lists+linux-api@lfdr.de>; Mon,  1 Mar 2021 15:32:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236348AbhCAOaX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 1 Mar 2021 09:30:23 -0500
-Received: from condef-02.nifty.com ([202.248.20.67]:28843 "EHLO
-        condef-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234688AbhCAOaQ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 1 Mar 2021 09:30:16 -0500
-X-Greylist: delayed 435 seconds by postgrey-1.27 at vger.kernel.org; Mon, 01 Mar 2021 09:30:13 EST
-Received: from conuserg-07.nifty.com ([10.126.8.70])by condef-02.nifty.com with ESMTP id 121EHi7v017534
-        for <linux-api@vger.kernel.org>; Mon, 1 Mar 2021 23:18:37 +0900
+        id S236370AbhCAObW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 1 Mar 2021 09:31:22 -0500
+Received: from conuserg-10.nifty.com ([210.131.2.77]:56123 "EHLO
+        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236367AbhCAObS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 1 Mar 2021 09:31:18 -0500
+X-Greylist: delayed 754 seconds by postgrey-1.27 at vger.kernel.org; Mon, 01 Mar 2021 09:31:14 EST
 Received: from oscar.flets-west.jp (softbank126026090165.bbtec.net [126.26.90.165]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id 121EGTih018081;
-        Mon, 1 Mar 2021 23:16:30 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 121EGTih018081
+        by conuserg-10.nifty.com with ESMTP id 121ET4aL009547;
+        Mon, 1 Mar 2021 23:29:05 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 121ET4aL009547
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1614608190;
-        bh=HRRTgCVyecLcmD9jfAl7QtntVmTpZmoZbzcASzKbhH0=;
+        s=dec2015msa; t=1614608945;
+        bh=56y6q7JbwT+YjWbSDS/+lUJzjy4Z/yzQHSNKlUgAILk=;
         h=From:To:Cc:Subject:Date:From;
-        b=c7xEdx7MKM56ptneWNCXdcXAWcIqHT2Y0EVyoyoNNygojt/ZyQkMICrsXxsFKyOuc
-         7fUegyDIHhMRH1iBFy+WfzXlAQnYTNTlzH2YC3lnSIiZdXBLel98/ks1F28CHO63Zz
-         xffmeC3q0ewJRXzVocV9Jy6g8TU4iceiKBvB3+r2s9vqihBx1Ig75mQZfjhRY3L5wj
-         nlubfwN/7sfh/hgyFzsNtI/9xYU09etPgo5nJdwGBDNBIglPLek7j4a0/mWOrXbfcB
-         vtjX/AAQS4Bgq9wBe1ceB1ysW5RzOy+0/jnB/suTqvpKy9Ot24x87Fv1Ojpj7++HNL
-         PuF6I7Oxilrbw==
+        b=Vdbgmp06WlqfbpbcfsJ12iB3jy++RMvt+VjaWs4bId7wqyjmlRXiDonJvALBEo5iU
+         rJV6iyZk1oy1XUZi4rDUX7+VXVPKejzlMUXl2O+fKZWkmorQlrzdo1Fr+o/YkeIoXr
+         Md/drKcYRM1HT2HATpgA6LqRJhqV81btQATsYelftXlNajy38ck2G+oP++Hbs00c3r
+         zBs7SKeGJmC51gmsBXcf9AMYA323JWMIcMWgizraxCLWx0kkxMz5VfYhtQxHF0yOfN
+         SyaG4EZZrsZE/O9j5NQw2YE/sWsQYQNAxk5KdTbEv8DkN725ztObj+lPndHO8z8CS7
+         jZEveIyW7rTNw==
 X-Nifty-SrcIP: [126.26.90.165]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     patches@arm.linux.org.uk
@@ -36,8 +34,8 @@ Cc:     linux-kernel@vger.kernel.org,
         Russell King <linux@armlinux.org.uk>,
         linux-api@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Subject: [PATCH] ARM: syscalls: switch to generic syscallhdr.sh
-Date:   Mon,  1 Mar 2021 23:16:26 +0900
-Message-Id: <20210301141626.341847-1-masahiroy@kernel.org>
+Date:   Mon,  1 Mar 2021 23:29:03 +0900
+Message-Id: <20210301142903.345278-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -53,6 +51,8 @@ removing unistd-common.h.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
+
+KernelVersion: v5.12-rc1
 
  arch/arm/include/uapi/asm/Kbuild   |  1 -
  arch/arm/include/uapi/asm/unistd.h |  1 -
