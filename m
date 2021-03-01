@@ -2,136 +2,58 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C180328D14
-	for <lists+linux-api@lfdr.de>; Mon,  1 Mar 2021 20:06:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3083C328D28
+	for <lists+linux-api@lfdr.de>; Mon,  1 Mar 2021 20:10:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235166AbhCATFT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 1 Mar 2021 14:05:19 -0500
-Received: from mga06.intel.com ([134.134.136.31]:49056 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240917AbhCATCw (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 1 Mar 2021 14:02:52 -0500
-IronPort-SDR: axrsqrwfkdrYjsEv1idMQ0CmWiThvor90tKf8zDA4+WyhyFJPDtMdSyUUG9ym0iRo/9cQGxnu5
- qK327PXb+tdw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9910"; a="247977008"
-X-IronPort-AV: E=Sophos;i="5.81,215,1610438400"; 
-   d="scan'208";a="247977008"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2021 10:59:59 -0800
-IronPort-SDR: 9AtqZ+/g/XE8E5dnue//mblk5Mu7epGgq4velIrovp2wXLot6ybGW9lDf86j8bdDia0L/yp4JC
- sAgAshYwQz/w==
-X-IronPort-AV: E=Sophos;i="5.81,215,1610438400"; 
-   d="scan'208";a="444403546"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.116.218]) ([10.212.116.218])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2021 10:59:56 -0800
-Subject: Re: [PATCH v21 08/26] x86/mm: Introduce _PAGE_COW
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-References: <20210217222730.15819-1-yu-cheng.yu@intel.com>
- <20210217222730.15819-9-yu-cheng.yu@intel.com>
- <20210301155234.GF6699@zn.tnic>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <5d98a4f7-5882-2e6e-7b76-295b73c17152@intel.com>
-Date:   Mon, 1 Mar 2021 10:59:44 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        id S240993AbhCATGr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 1 Mar 2021 14:06:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41744 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236001AbhCATEO (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 1 Mar 2021 14:04:14 -0500
+Received: from fieldses.org (fieldses.org [IPv6:2600:3c00:e000:2f7::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 146F6C061756;
+        Mon,  1 Mar 2021 11:03:00 -0800 (PST)
+Received: by fieldses.org (Postfix, from userid 2815)
+        id 1177725FE; Mon,  1 Mar 2021 14:02:59 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 fieldses.org 1177725FE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fieldses.org;
+        s=default; t=1614625379;
+        bh=mxaTekYNEqDdiYO9bMH3o6RRL26uXiJHF5SOuD+r1Sc=;
+        h=Date:To:Cc:Subject:References:In-Reply-To:From:From;
+        b=fWmjUM4x73v2iYzV6qOdYURZOkzE7G3TZ5AsCJrbp49BX7PtAKjVHoknZLjDHApgr
+         lmIGmjISuJGcvyJsNAVtcGj/jwYrriVsJfinvv/u6DFiTgPnhHl2CidBkMx5DGUkxO
+         xtbRF3uSxFKFU2yI0EwnZHjydFlEI6gaxHZNK770=
+Date:   Mon, 1 Mar 2021 14:02:59 -0500
+To:     Al Viro <viro@zeniv.linux.org.uk>
+Cc:     Drew DeVault <sir@cmpwn.com>, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>
+Subject: Re: [RFC PATCH] fs: introduce mkdirat2 syscall for atomic mkdir
+Message-ID: <20210301190259.GC14881@fieldses.org>
+References: <20210228002500.11483-1-sir@cmpwn.com>
+ <YDr8UihFQ3M469x8@zeniv-ca.linux.org.uk>
+ <C9KSZTRJ2CL6.DWD539LYTVZX@taiga>
+ <YDsGzhBzLzSp6nPj@zeniv-ca.linux.org.uk>
 MIME-Version: 1.0
-In-Reply-To: <20210301155234.GF6699@zn.tnic>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YDsGzhBzLzSp6nPj@zeniv-ca.linux.org.uk>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+From:   bfields@fieldses.org (J. Bruce Fields)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 3/1/2021 7:52 AM, Borislav Petkov wrote:
-> On Wed, Feb 17, 2021 at 02:27:12PM -0800, Yu-cheng Yu wrote:
->> @@ -182,7 +206,7 @@ static inline int pud_young(pud_t pud)
->>   
->>   static inline int pte_write(pte_t pte)
->>   {
->> -	return pte_flags(pte) & _PAGE_RW;
-> 
-> Put here a comment along the lines of:
-> 
-> 	/*
-> 	 * Shadow stack pages are always writable - but not by normal
-> 	 * instructions but only by shadow stack operations. Therefore, the
-> 	 * W=0, D=1 test.
-> 	 */
-> 
-> to make it clear what this means.
-> 
->> +	return (pte_flags(pte) & _PAGE_RW) || pte_shstk(pte);
->>   }
->>   
->>   static inline int pte_huge(pte_t pte)
->> @@ -314,6 +338,24 @@ static inline pte_t pte_clear_flags(pte_t pte, pteval_t clear)
->>   	return native_make_pte(v & ~clear);
->>   }
->>   
->> +static inline pte_t pte_make_cow(pte_t pte)
-> 
-> pte_mkcow like the rest of the "pte_mkX" functions.
-> 
-> And below too, for the other newly added pXd_make_* helpers.
-> 
-> 
->>   static inline pmd_t pmd_mkdirty(pmd_t pmd)
->>   {
->> -	return pmd_set_flags(pmd, _PAGE_DIRTY | _PAGE_SOFT_DIRTY);
->> +	pmdval_t dirty = _PAGE_DIRTY;
->> +
->> +	/* Avoid creating (HW)Dirty=1, Write=0 PMDs */
->> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK) && !(pmd_flags(pmd) & _PAGE_RW))
-> 
-> 						      !(pmd_write(pmd))
-> 
->> +		dirty = _PAGE_COW;
->> +
->> +	return pmd_set_flags(pmd, dirty | _PAGE_SOFT_DIRTY);
->> +}
-> 
-> ...
-> 
->>   static inline pud_t pud_mkdirty(pud_t pud)
->>   {
->> -	return pud_set_flags(pud, _PAGE_DIRTY | _PAGE_SOFT_DIRTY);
->> +	pudval_t dirty = _PAGE_DIRTY;
->> +
->> +	/* Avoid creating (HW)Dirty=1, Write=0 PUDs */
->> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK) && !(pud_flags(pud) & _PAGE_RW))
-> 
-> 						      !(pud_write(pud))
-> 
-> 
+On Sun, Feb 28, 2021 at 02:58:22AM +0000, Al Viro wrote:
+> TBH, I don't understand what are you trying to achieve -
+> what will that mkdir+open combination buy you, especially
+> since that atomicity goes straight out of window if you try
+> to use that on e.g. NFS.  How is the userland supposed to make
+> use of that thing?
 
-I will update.  Thanks!
+For what it's worth, the RPC that creates a directory can also get a
+filehandle of the new directory, so I don't think there's anything in
+the NFS protocol that would *prevent* implementing this.  (Whether
+that's useful, I don't know.)
 
---
-Yu-cheng
+--b.
