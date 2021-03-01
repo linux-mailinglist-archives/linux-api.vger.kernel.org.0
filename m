@@ -2,95 +2,177 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B2773327B8B
-	for <lists+linux-api@lfdr.de>; Mon,  1 Mar 2021 11:08:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 357D23280DC
+	for <lists+linux-api@lfdr.de>; Mon,  1 Mar 2021 15:30:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231959AbhCAKGn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 1 Mar 2021 05:06:43 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:36907 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232038AbhCAKGK (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 1 Mar 2021 05:06:10 -0500
-Received: from ip5f5af0a0.dynamic.kabel-deutschland.de ([95.90.240.160] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1lGfPZ-0003lu-Cu; Mon, 01 Mar 2021 10:04:21 +0000
-Date:   Mon, 1 Mar 2021 11:04:20 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Lorenz Bauer <lmb@cloudflare.com>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        kernel-team@cloudflare.com, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org
-Subject: Re: [PATCH bpf 2/4] nsfs: add an ioctl to discover the network
- namespace cookie
-Message-ID: <20210301100420.slnjvzql6el4jlfj@wittgenstein>
-References: <20210210120425.53438-1-lmb@cloudflare.com>
- <20210210120425.53438-3-lmb@cloudflare.com>
+        id S236348AbhCAOaX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 1 Mar 2021 09:30:23 -0500
+Received: from condef-02.nifty.com ([202.248.20.67]:28843 "EHLO
+        condef-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234688AbhCAOaQ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 1 Mar 2021 09:30:16 -0500
+X-Greylist: delayed 435 seconds by postgrey-1.27 at vger.kernel.org; Mon, 01 Mar 2021 09:30:13 EST
+Received: from conuserg-07.nifty.com ([10.126.8.70])by condef-02.nifty.com with ESMTP id 121EHi7v017534
+        for <linux-api@vger.kernel.org>; Mon, 1 Mar 2021 23:18:37 +0900
+Received: from oscar.flets-west.jp (softbank126026090165.bbtec.net [126.26.90.165]) (authenticated)
+        by conuserg-07.nifty.com with ESMTP id 121EGTih018081;
+        Mon, 1 Mar 2021 23:16:30 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 121EGTih018081
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1614608190;
+        bh=HRRTgCVyecLcmD9jfAl7QtntVmTpZmoZbzcASzKbhH0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=c7xEdx7MKM56ptneWNCXdcXAWcIqHT2Y0EVyoyoNNygojt/ZyQkMICrsXxsFKyOuc
+         7fUegyDIHhMRH1iBFy+WfzXlAQnYTNTlzH2YC3lnSIiZdXBLel98/ks1F28CHO63Zz
+         xffmeC3q0ewJRXzVocV9Jy6g8TU4iceiKBvB3+r2s9vqihBx1Ig75mQZfjhRY3L5wj
+         nlubfwN/7sfh/hgyFzsNtI/9xYU09etPgo5nJdwGBDNBIglPLek7j4a0/mWOrXbfcB
+         vtjX/AAQS4Bgq9wBe1ceB1ysW5RzOy+0/jnB/suTqvpKy9Ot24x87Fv1Ojpj7++HNL
+         PuF6I7Oxilrbw==
+X-Nifty-SrcIP: [126.26.90.165]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     patches@arm.linux.org.uk
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        linux-api@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] ARM: syscalls: switch to generic syscallhdr.sh
+Date:   Mon,  1 Mar 2021 23:16:26 +0900
+Message-Id: <20210301141626.341847-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210210120425.53438-3-lmb@cloudflare.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Feb 10, 2021 at 12:04:23PM +0000, Lorenz Bauer wrote:
-> Network namespaces have a globally unique non-zero identifier aka a
-> cookie, in line with socket cookies. Add an ioctl to retrieve the
-> cookie from user space without going via BPF.
-> 
-> Cc: linux-api@vger.kernel.org
-> Signed-off-by: Lorenz Bauer <lmb@cloudflare.com>
-> ---
->  fs/nsfs.c                   |  9 +++++++++
->  include/net/net_namespace.h | 11 +++++++++++
->  include/uapi/linux/nsfs.h   |  2 ++
->  3 files changed, 22 insertions(+)
-> 
-> diff --git a/fs/nsfs.c b/fs/nsfs.c
-> index 800c1d0eb0d0..d7865e39c049 100644
-> --- a/fs/nsfs.c
-> +++ b/fs/nsfs.c
-> @@ -11,6 +11,7 @@
->  #include <linux/user_namespace.h>
->  #include <linux/nsfs.h>
->  #include <linux/uaccess.h>
-> +#include <net/net_namespace.h>
->  
->  #include "internal.h"
->  
-> @@ -191,6 +192,8 @@ static long ns_ioctl(struct file *filp, unsigned int ioctl,
->  	struct user_namespace *user_ns;
->  	struct ns_common *ns = get_proc_ns(file_inode(filp));
->  	uid_t __user *argp;
-> +	struct net *net_ns;
-> +	u64 cookie;
->  	uid_t uid;
->  
->  	switch (ioctl) {
-> @@ -209,6 +212,12 @@ static long ns_ioctl(struct file *filp, unsigned int ioctl,
->  		argp = (uid_t __user *) arg;
->  		uid = from_kuid_munged(current_user_ns(), user_ns->owner);
->  		return put_user(uid, argp);
-> +	case NS_GET_COOKIE:
-> +		if (ns->ops->type != CLONE_NEWNET)
-> +			return -EINVAL;
-> +		net_ns = container_of(ns, struct net, ns);
-> +		cookie = net_gen_cookie(net_ns);
-> +		return put_user(cookie, (u64 __user *)arg);
+Many architectures duplicate similar shell scripts.
 
-Hey Lorenz,
+This commit converts ARM to use scripts/syscallhdr.sh, and also
+collects OABI/OEBI syscalls into unistd-eabi.h/unistd-oabi.h,
+removing unistd-common.h.
 
-Just to make sure: is it intentional that any user can retrieve the
-cookie associated with any network namespace, i.e. you don't require any
-form of permission checking in the owning user namespace of the network
-namespace?
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-Christian
+ arch/arm/include/uapi/asm/Kbuild   |  1 -
+ arch/arm/include/uapi/asm/unistd.h |  1 -
+ arch/arm/tools/Makefile            | 17 +++++-----------
+ arch/arm/tools/syscallhdr.sh       | 31 ------------------------------
+ 4 files changed, 5 insertions(+), 45 deletions(-)
+ delete mode 100644 arch/arm/tools/syscallhdr.sh
+
+diff --git a/arch/arm/include/uapi/asm/Kbuild b/arch/arm/include/uapi/asm/Kbuild
+index ce8573157774..63748af8bc9d 100644
+--- a/arch/arm/include/uapi/asm/Kbuild
++++ b/arch/arm/include/uapi/asm/Kbuild
+@@ -1,6 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0
+ 
+-generated-y += unistd-common.h
+ generated-y += unistd-oabi.h
+ generated-y += unistd-eabi.h
+ generic-y += kvm_para.h
+diff --git a/arch/arm/include/uapi/asm/unistd.h b/arch/arm/include/uapi/asm/unistd.h
+index 93ecf8aa4fe5..ae7749e15726 100644
+--- a/arch/arm/include/uapi/asm/unistd.h
++++ b/arch/arm/include/uapi/asm/unistd.h
+@@ -24,7 +24,6 @@
+ #include <asm/unistd-oabi.h>
+ #endif
+ 
+-#include <asm/unistd-common.h>
+ #define __NR_sync_file_range2		__NR_arm_sync_file_range
+ 
+ /*
+diff --git a/arch/arm/tools/Makefile b/arch/arm/tools/Makefile
+index d8be90f2bb41..87de1f63f649 100644
+--- a/arch/arm/tools/Makefile
++++ b/arch/arm/tools/Makefile
+@@ -8,7 +8,7 @@
+ gen := arch/$(ARCH)/include/generated
+ kapi := $(gen)/asm
+ uapi := $(gen)/uapi/asm
+-syshdr := $(srctree)/$(src)/syscallhdr.sh
++syshdr := $(srctree)/scripts/syscallhdr.sh
+ sysnr := $(srctree)/$(src)/syscallnr.sh
+ systbl := $(srctree)/scripts/syscalltbl.sh
+ syscall := $(src)/syscall.tbl
+@@ -17,7 +17,6 @@ gen-y := $(gen)/calls-oabi.S
+ gen-y += $(gen)/calls-eabi.S
+ kapi-hdrs-y := $(kapi)/unistd-nr.h
+ kapi-hdrs-y += $(kapi)/mach-types.h
+-uapi-hdrs-y := $(uapi)/unistd-common.h
+ uapi-hdrs-y += $(uapi)/unistd-oabi.h
+ uapi-hdrs-y += $(uapi)/unistd-eabi.h
+ 
+@@ -41,10 +40,8 @@ $(kapi)/mach-types.h: $(src)/gen-mach-types $(src)/mach-types FORCE
+ 	$(call if_changed,gen_mach)
+ 
+ quiet_cmd_syshdr = SYSHDR  $@
+-      cmd_syshdr = $(CONFIG_SHELL) '$(syshdr)' '$<' '$@' \
+-		   '$(syshdr_abi_$(basetarget))' \
+-		   '$(syshdr_pfx_$(basetarget))' \
+-		   '__NR_SYSCALL_BASE'
++      cmd_syshdr = $(CONFIG_SHELL) $(syshdr) --abis $(abis) \
++		   --offset __NR_SYSCALL_BASE $< $@
+ 
+ quiet_cmd_systbl = SYSTBL  $@
+       cmd_systbl = $(CONFIG_SHELL) $(systbl) --abis $(abis) $< $@
+@@ -53,15 +50,11 @@ quiet_cmd_sysnr  = SYSNR   $@
+       cmd_sysnr  = $(CONFIG_SHELL) '$(sysnr)' '$<' '$@' \
+ 		   '$(syshdr_abi_$(basetarget))'
+ 
+-syshdr_abi_unistd-common := common
+-$(uapi)/unistd-common.h: $(syscall) $(syshdr) FORCE
+-	$(call if_changed,syshdr)
+-
+-syshdr_abi_unistd-oabi := oabi
++$(uapi)/unistd-oabi.h: abis := common,oabi
+ $(uapi)/unistd-oabi.h: $(syscall) $(syshdr) FORCE
+ 	$(call if_changed,syshdr)
+ 
+-syshdr_abi_unistd-eabi := eabi
++$(uapi)/unistd-eabi.h: abis := common,eabi
+ $(uapi)/unistd-eabi.h: $(syscall) $(syshdr) FORCE
+ 	$(call if_changed,syshdr)
+ 
+diff --git a/arch/arm/tools/syscallhdr.sh b/arch/arm/tools/syscallhdr.sh
+deleted file mode 100644
+index 6b2f25cdd721..000000000000
+--- a/arch/arm/tools/syscallhdr.sh
++++ /dev/null
+@@ -1,31 +0,0 @@
+-#!/bin/sh
+-# SPDX-License-Identifier: GPL-2.0
+-
+-in="$1"
+-out="$2"
+-my_abis=`echo "($3)" | tr ',' '|'`
+-prefix="$4"
+-offset="$5"
+-
+-fileguard=_ASM_ARM_`basename "$out" | sed \
+-    -e 'y/abcdefghijklmnopqrstuvwxyz/ABCDEFGHIJKLMNOPQRSTUVWXYZ/' \
+-    -e 's/[^A-Z0-9_]/_/g' -e 's/__/_/g'`
+-if echo $out | grep -q uapi; then
+-    fileguard="_UAPI$fileguard"
+-fi
+-grep -E "^[0-9A-Fa-fXx]+[[:space:]]+${my_abis}" "$in" | sort -n | (
+-    echo "#ifndef ${fileguard}"
+-    echo "#define ${fileguard} 1"
+-    echo ""
+-
+-    while read nr abi name entry ; do
+-	if [ -z "$offset" ]; then
+-	    echo "#define __NR_${prefix}${name} $nr"
+-	else
+-	    echo "#define __NR_${prefix}${name} ($offset + $nr)"
+-        fi
+-    done
+-
+-    echo ""
+-    echo "#endif /* ${fileguard} */"
+-) > "$out"
+-- 
+2.27.0
+
