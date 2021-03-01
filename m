@@ -2,52 +2,54 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B98123281E9
-	for <lists+linux-api@lfdr.de>; Mon,  1 Mar 2021 16:13:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8ED7C3281EF
+	for <lists+linux-api@lfdr.de>; Mon,  1 Mar 2021 16:13:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236953AbhCAPMW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 1 Mar 2021 10:12:22 -0500
+        id S236991AbhCAPMk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 1 Mar 2021 10:12:40 -0500
 Received: from mail-eopbgr1410137.outbound.protection.outlook.com ([40.107.141.137]:64040
         "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S236915AbhCAPLd (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 1 Mar 2021 10:11:33 -0500
+        id S236982AbhCAPMg (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 1 Mar 2021 10:12:36 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EuXxpRYYPOLPfoNhNXdGzMnkfMJ/0Fm624YdvbKTBCLuHqyZKqhnmuOez8EnxUB0SCOsyomkjnaT1Wb0lOieqkI6PO4p32JfqR2etVHLISIpuNiuk0ptdbCMehsMUCN621HLK9Cadw4uLmyv8OhsYsskiGsKfirHzZHiK09s7cKKdK71U5PX8GQK1AYjH3CJR5li2o6EO7ktxK2oNifmk5yWaH9U91RrhcsEdfK7cwsV/ZOnBL6zkx8JTbKTZlGdHTnoOoJSHjazJGIsbUg/pTeNFL1SakiPLo61gfdsfiz+B8pXRrR+K6FMeFgiE/yH2iO1k2ZeHk9TPwuO1RnZqQ==
+ b=BynSICFO6qBZ6H8A/fjrbxv6A96O9ye+gQCoqFQZYZI6hJvWPMaHrwR2T79TgTqavrCNlRvIvNaJVtqD0m4WF0s6qJVrUJr3Uwl5xsMEgAGzRtl16+2jZ/4Rj947t+1dMfzTScC8phLnLfR6zETHpvqMtsFIPw6L7v4Pv8CacfP22amYmDOE2zCar3b8VnVqRXF8mY/O2WfrcrUkQfrmOy/i8cPHzDfuKcnuT8ESAFsoqWrT9mGc0Hr8mE0m+O0QfCy7MMOrl98LzjSXC1+bOWouospBpfeQjyCzxdUxirTKaBqwlouaPNXoa5tX9yFh5fFhcFdiLShb39XnC/TYcg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qlFX7PRYp+ci0Bv2tI1ZYqH5H13/wXwgFYNozdzy+Jo=;
- b=PUvVBS+ykxKspahqps1uyo3WF0TqQypR7h66kibtmwiFT1Kiizx+dxYX6GCbOvI6vnkN1CaLbfsZzxrsIRH1hc+1vQQZli5cPaJnGMDwJ1DBoa9AHG52l0IamvZEDQnM8eI6egmAF3EQ8rH1HQEeCpF/bqKuw1v+/hIOLO3BkT8aei/n6/a+IZmUBWnNao3K1eEEgBPSUVhZkheYqk+EoejusLigFkq2CEnew9yL/18A+QHQLTr8oIbqzG25uMGLXkaAxKjOGrRtfUIDErBZKqu1OmdneKdFE+vaPspcsME5pEZOX3KrSlD/KCynOB1E1ykkqwI/U4w5fraZEYSVfQ==
+ bh=rijtsB6ljTnf7dCCZMk1+gTejEdBJsCZYc6o9dJr+ic=;
+ b=FPnbvWUeVoHhvHqQ4kGqFfxzZT7aOV/ll0TPltuPBp+YyZ8gJ+qv3djcXBEJ0rCkdqcgasc56Duklt/NKVbXazhr7Bzp4qqr8mvPPlncgHr1aPNd4cylzmLHXHPL9TT6MVbwWNWV/R3w+F0yaZFeUVakWl32mRNpsOwgyeZHeROg2joVTLhapAjHffEVfYaFw+3y2VSnxHFeZx9cqBumKOLYzpuRV8CRr/hB5KFYDVWPBYQaeYai9tc7be77YsYPoJ4oI4F2Uw7jikRVt8TqFI14jA+UeW29HwcakzJjxMZJOe1rYl2qVdl8/BIzpEJu55BvG9AjyL/bnn1c/CpxVQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qlFX7PRYp+ci0Bv2tI1ZYqH5H13/wXwgFYNozdzy+Jo=;
- b=RhNABit/4oNWeKx/9HFfWbfF/qYbk6eOBXDhTDHVZHUNctSSnq2ZUCYRxkKE/7wwWOLH4RhnK5/Rd8EHG4q1UVj/+Bc2X29rnPmtXJbvH0F2HA3TwHRLeMJ0gWbA4hT+DMe5eorRe88Tcei8OhcnVZkNsagksUtK1V9gNNSUiM0=
+ bh=rijtsB6ljTnf7dCCZMk1+gTejEdBJsCZYc6o9dJr+ic=;
+ b=Wmc+RaHcQ5i98NG5suq5RuTjSjOwKw7ru0SCi4hIlLWBjfqlZ9AHxEj+UCBbgoPi8+g+M9YHBlXQl15aA2j3BtgHELrjqxMaalayfRsMVUY5Ot8FbZjXJ66akEwefX0+ItuytXuAWordy6LEU7vEbovH1DGt6TP686khyWVOVhc=
 Received: from OSAPR01MB2737.jpnprd01.prod.outlook.com (2603:1096:603:38::21)
  by OSBPR01MB5270.jpnprd01.prod.outlook.com (2603:1096:604:4c::15) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.23; Mon, 1 Mar
- 2021 15:10:44 +0000
+ 2021 15:11:42 +0000
 Received: from OSAPR01MB2737.jpnprd01.prod.outlook.com
  ([fe80::4d2d:3155:768e:50e0]) by OSAPR01MB2737.jpnprd01.prod.outlook.com
  ([fe80::4d2d:3155:768e:50e0%7]) with mapi id 15.20.3890.028; Mon, 1 Mar 2021
- 15:10:43 +0000
+ 15:11:42 +0000
 From:   Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     Rob Herring <robh+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+To:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will@kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
@@ -57,108 +59,172 @@ CC:     Rob Herring <robh+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
         Peter Erben <Peter.Erben@de.bosch.com>
 Subject: RE: [PATCH 3/7] dt-bindings: misc: Add binding for R-Car DAB
 Thread-Topic: [PATCH 3/7] dt-bindings: misc: Add binding for R-Car DAB
-Thread-Index: AQHXC8j9uaI63SAiyE2WHTRNCWQ/bapqHq2AgAUhZ0A=
-Date:   Mon, 1 Mar 2021 15:10:43 +0000
-Message-ID: <OSAPR01MB273701818D9BA7E5F9CCED24C29A9@OSAPR01MB2737.jpnprd01.prod.outlook.com>
+Thread-Index: AQHXC8j9uaI63SAiyE2WHTRNCWQ/bapqJcUAgAUc04A=
+Date:   Mon, 1 Mar 2021 15:11:42 +0000
+Message-ID: <OSAPR01MB27379DB2150F87B1EFB34BEEC29A9@OSAPR01MB2737.jpnprd01.prod.outlook.com>
 References: <20210225225147.29920-1-fabrizio.castro.jz@renesas.com>
  <20210225225147.29920-4-fabrizio.castro.jz@renesas.com>
- <CAMuHMdURsd5bvHNTOqJGbVQBc4FFo=jLr=Xf2GZntO-Crh1R-A@mail.gmail.com>
-In-Reply-To: <CAMuHMdURsd5bvHNTOqJGbVQBc4FFo=jLr=Xf2GZntO-Crh1R-A@mail.gmail.com>
+ <c907737b-dffd-e5f3-6e4f-2e8a7781bc95@gmail.com>
+In-Reply-To: <c907737b-dffd-e5f3-6e4f-2e8a7781bc95@gmail.com>
 Accept-Language: en-GB, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-authentication-results: linux-m68k.org; dkim=none (message not signed)
- header.d=none;linux-m68k.org; dmarc=none action=none header.from=renesas.com;
+authentication-results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=renesas.com;
 x-originating-ip: [2.28.163.123]
 x-ms-publictraffictype: Email
 x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 2c3f8771-f9bf-4f43-0d68-08d8dcc42f50
+x-ms-office365-filtering-correlation-id: 48325aca-0a15-414c-3332-08d8dcc45229
 x-ms-traffictypediagnostic: OSBPR01MB5270:
+x-ms-exchange-minimumurldomainage: outlook.com#9692
 x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <OSBPR01MB52700C3487EBB464CAFB0162C29A9@OSBPR01MB5270.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:5516;
+x-microsoft-antispam-prvs: <OSBPR01MB527035E64335D53D34BEA8AAC29A9@OSBPR01MB5270.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: wn9V/3Vrb9FzLPVQrw+qkuFKPOLhhXfnL5u994OXRuyIGO37l9G/D1iDo3MRVxKPxI8KKZtPMpnhJwkrfJy6d4Q6uLqzGXvhFlHXT3Ta3SeMVKNCPmaBM0ZSqZop3PAKCSHyMcXeTrUPicnrYzBGCxh8PnNxbD5hOSMu5CGafrImZErbcmGJl7HTaXKIobWHWxO5+SmUEiCG+bzBbSRetogL1OsN5qNk+80tpKAGlVeEat3mo3U45f1GSQgCt4uPZ5ZSvOngY1rMfvikBjxdOmphJKbOUpjREQFPs8dQqne0Icnwuv3U8FzScBb095EGFeanTDXPjHUBnVXO6ZHdj4XFdQUqTgKAQ301SZ+KIkZN069uXg9tyRPF3RTyv/sC6WIpEJQROnMQw36Hb01vJOiA2RUmpDIdI3G0uaU4/Zy5T+ZPZj72lh3sM7zG57FP+ng/dFU7D4TltyxgvhBiKar+xCgl3NU7zumyYrQrqKLFujLlsMjeCW+lrerOFSVuDAidzFNb0QlBVhc5LrAXGA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSAPR01MB2737.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(376002)(396003)(346002)(136003)(366004)(83380400001)(86362001)(5660300002)(8676002)(478600001)(8936002)(71200400001)(33656002)(53546011)(6506007)(2906002)(26005)(66556008)(6916009)(7696005)(186003)(52536014)(316002)(76116006)(66476007)(64756008)(7416002)(55016002)(66946007)(54906003)(4326008)(9686003)(107886003)(66446008);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: =?utf-8?B?cDFPZ3JBTkdpNlBaNEFjaGZkL2xTR0FSWFA0VnFMRTZVaVpKemxsdkF6QTFs?=
- =?utf-8?B?UWUxeHE4YkdMeE5OWWZuOFFJMUtic0VKQ3V1czJEeGFEQlJKVlBmUFV1Qkl4?=
- =?utf-8?B?a3h1R0pVWXZzb0wzcFg0ZVRFOVNQV015L3JFaStmYk1rRkxTejhOdFl3Q3p4?=
- =?utf-8?B?YUxWbXRCN0xGcmdYcEU0WWhpWE9MTGNCdWRQSERsT3VXTXhkL3FxS3VxVkRF?=
- =?utf-8?B?am1LQ1BieitPalRnd2tHS1p2cFJpNndFZUFGZGg1YVZWRHZhYWdaTnBzby8y?=
- =?utf-8?B?TDBTdE4wYXZsY3N5NzNDZ1lnRHhuVTVYMU15SnAyUGJGeHRoUlRPbTkrMHhk?=
- =?utf-8?B?aW4rSnZscHRzaks5T2JKbktuZnpFS05TdU56Um93ODVpeUp0UnZBS1g2MXV3?=
- =?utf-8?B?RGJlS2RJMXUxb24zbno0WmlIc2RadXJ6RzNoQkNFUkJIMzEwZmwwampRdVU3?=
- =?utf-8?B?UzNpT3lzcGZOMGEwRm9tSlA3MlhxblV1UFRmNUJZZ0JaSHoxeWFYS3FWeW9z?=
- =?utf-8?B?bkozQktZYlIyNWxObGVrV1pXYzZRb1NrU3o1bnZPcUZvZWNkQ2dLU2N1MmpU?=
- =?utf-8?B?dTVCVEhnTXpEMmJibkZ3cEJYOEFPS1BsakwxRzVEbmp2N0pmNWRtemFGM2Fs?=
- =?utf-8?B?aGFlbGVrQmx2ZGEvaVdBKytWdCtkeWlXME5rbU0wMWN3RmxmbnlISldVT1VW?=
- =?utf-8?B?NTBYTkYweGhuK1NPQTdXVmhCc0QyVXJObm5FeVZtL3NrS1JjTFEvYXoyQWlD?=
- =?utf-8?B?VzNzSXYwQXNnM2FuZTE3NFloWWNBMDh2VnVMU1dIck5CN0g4L0RZMVBJcERi?=
- =?utf-8?B?M0N1WkNvNXhkRmJVWUV6ditpVnlNak8zdUtNMDVhTGRZbllHS05kUGc1Z05Y?=
- =?utf-8?B?WjAxOXA4ellnVVc5bVhkSmNNNm82dUgwaFRjMnJwaHBxdURZTFl4bXpHQVpj?=
- =?utf-8?B?ck9SWFVzdnloZk11ZW1BUWdmTHpNT1N1YXVvOTZYVUhLQ1d1VUZmRGJ5cEdq?=
- =?utf-8?B?RkJqRzg3a28rSWVkNHNqNmxtZEk3NnNmcndjWjNwS0owdnJCY3ZyUEw5UUdJ?=
- =?utf-8?B?OFlDWnYvMUs2aURBTi9PMTJTOFJVNGxONlVPdUVzSkJINlZmWGRHR2lTWUlj?=
- =?utf-8?B?MVFKenBQRmhSSVZXM3Y4MnpocldzanpXcVRVRDU3VGlNRCtnZkg1T3Exc2pr?=
- =?utf-8?B?MXAyYzB4Zlc0Z2NObFdCcFllUG5KbjdPM3czVm0vZ01EN2cwSDArd2U5WEpS?=
- =?utf-8?B?MENGM3EvaUVoUlZIRUJNY2k0QVBVdTVib0dPNEFXSitLUFFwTlN6T2NaWGRD?=
- =?utf-8?B?QzlhU2JBWktwMW5LYWp4WTVFbmp3OEI1VkV5SDgwanRwZ1dNVm13bHRla3Na?=
- =?utf-8?B?cDMyVERkd0tRbEZGNVhVVXRJODd0eDM4M2I1dnFKTFlBeS80eXBDSHBXdHMy?=
- =?utf-8?B?T25lUDY3QWxEaFNhWnh6QmE0N3JyK2tzQ3RNTmZpblJUQzM3L1lLYWRpSTF4?=
- =?utf-8?B?WUVIVmtMOFl5a0pJc2pUWHk2VXhTcXdDQSs2ajJ6VmRSVlloN2tBekp0V2lS?=
- =?utf-8?B?RGpjS2ExYVhPTjlaSlFjZDRyT052Y0o3ZU9hR09KN0kvSGU3c0tlaytYTHBy?=
- =?utf-8?B?UUV0bm5oY2JKME1lckpWYi8zUURUZEdiUnhDVzB6WDk3QjlsQVJmNmZSYVlq?=
- =?utf-8?B?T0NpRlZ5bU9ob1hIY3A5NExqMDduYXIwTkJKMnJYVDI0NGh6NVhXdnROVkZE?=
- =?utf-8?Q?hkaHyREa2xa/cT8hpCOTIEpa5GW3wbTj5I1cquQ?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+x-microsoft-antispam-message-info: ZYslu6+3CM8WJJ9urrHRLJe/Hi4SvieBDzlfOW0mFq6hIMrveI+2emSN0UUqHc/ooaLizLRol9bYsQzcbOId3D2aQ3gXM1pyJanBhKyCeEm3Ke5R35xa/18eDGoGCNSMdibIZHHC9Q3Nab2hiwQJWxrlwlaovJmEwCz9cNC+WZ2fpGMNiDLvK8CsXpbDtWqE/YAbBfRP5nSF747oMGKBuqGpr6a7K07eLJq5tH+1huKufhAds+TqZFUUkmAlXDisQ8F6BB5IgYmwJOZ4G1jywZc1ytX9PtUANuMQEBnYVnIjQSEvVwTQvQgcrVMY35EVs/n+mMZy25ekm67FTONhK1q2x8WiA3QDaV/ujI/0cMYlVajHkQpC2w1UStc5IoP2EVQ3ZjguFjKCI+t4iwZ8zfm0rDkQxkI7GTu7eOJf5kUh0YnlosxzOwR8RtVWi8xCYrm9Kl7TaOt6ucGh0zwRY+Eu/q4L4KYpyoahbKwpvmdYCrorP+TR2zpavvSVB8MqMtRX1mjiywh+qhlnn/WqPjosZ0Eh2/R/TCGKRiFl9CLv/Qi8pIQpoN8TLnih9dj04swhmnn84iicA3iN7ccJJrAlgWePb9jUpLYsEqgw+C4=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSAPR01MB2737.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(376002)(396003)(346002)(136003)(366004)(45080400002)(86362001)(5660300002)(8676002)(478600001)(8936002)(71200400001)(966005)(33656002)(53546011)(6506007)(2906002)(26005)(66556008)(7696005)(186003)(52536014)(316002)(76116006)(66476007)(64756008)(7416002)(55016002)(66946007)(54906003)(4326008)(9686003)(107886003)(66446008)(110136005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?AJ2EPzSKPtkneJjM51U7A8ezmpuV3rPxC7p52GnwtkCGWbuFxJbWbdMXgGnL?=
+ =?us-ascii?Q?wisPdi4R12u2+eOWtdj0/tCScSvU9/1E2lkheuvaukVhzYa2jFC+nTd9QI7h?=
+ =?us-ascii?Q?/X3mRqEt0iL82j/FUZYUl+DR59RvWybbFPbYsiBw5JM0jJ7cWQ6aKo1CHcJo?=
+ =?us-ascii?Q?67gtpCJBWLi4uJLmr2bm82LZDHoXxx55kN79rCJ8QJAFuBYmh42t84nK4u+4?=
+ =?us-ascii?Q?7atu8z49wkr+7mNtgett+O5imKwnjuU5F2lDzeGUwPTxP4h2YZlnppwO2b15?=
+ =?us-ascii?Q?fwFRbTx32FI9zDAsURntMVlfy/MjvXjKFtFk5w79xyAv0k2gGa/RQ07QzQNe?=
+ =?us-ascii?Q?Y1quTQZVt1h4cjkrrp9879MpUDEJhExVwDRydXCnK5fSD2pH0dcbZDRZzNbx?=
+ =?us-ascii?Q?jAl/CDm8QpGoJgqibVzvj/hJqIuVEUQ79X5wiKKYHXDB0i+jVtXRIq4JrHBP?=
+ =?us-ascii?Q?Th8WAzHcBZNTlGdHXQmtlfXp+JeqqCXY4ez+b++3JNduESVSpfDz+7+8uR02?=
+ =?us-ascii?Q?8m5WwUiNXQNi2pa2uFuFowD2/yoUqZ/jWX1zKMYtX+8kISJalmWXd0Y9xvUq?=
+ =?us-ascii?Q?xmB0uZeLKdakqCEaOGtKPl0YVuTtXw0UJm4+1k89fxiAw/z6aB9rH3wHkawk?=
+ =?us-ascii?Q?kImp1OwNyG6D0hX7hIlB6IwXksMbAdnvY8LDMk8KEYJoKGsa90TLr16l1hGH?=
+ =?us-ascii?Q?s6SWpUDFlzs2FVPnt66C8onW+IcoF4cImPmoicmI3kcC7gXNXjXGzHTRS0aI?=
+ =?us-ascii?Q?3FKtFltO13fFFocJauLvyOHNo1fLEsaxB1iXcRusVJMfSv8sQGXwfmB+q6JH?=
+ =?us-ascii?Q?GCp78NaNmPQAdcN7uayOFjhkcfCn9vpyULJEB6KN5Yu7a2bkXLJTaKr7TLov?=
+ =?us-ascii?Q?oLbXYi6Dy6EuFkgDW5N5PtO8M1rs4cCqmC567csXTb4OZzINZmlY/kf11rMc?=
+ =?us-ascii?Q?io5c/3heIXjoB7NKouWCaLb7DlmCvvWT+wVKRqkI61/rX0930ek/SjBAiVjj?=
+ =?us-ascii?Q?Qu0Nfzb3+p7ty052beR1Y4JaM37ULX84i2WyHEIWgxTQsLiowBGmV6/gruzH?=
+ =?us-ascii?Q?zDniSG2AD3evYJkzT80Bwlp+0YFVqoT+M0ahQOw3QpnxU+h57yI7VQCx/A9l?=
+ =?us-ascii?Q?yJqN/pMVeV5cFvdBZYF1EzkjMYz551Xyjrwm/xtKCDlPeSRKLLNA223KAdZv?=
+ =?us-ascii?Q?IWfdCnW2N+dRtaM56mm0J/xEUiKdI2HmExBJnt79igU4qGwF6WcoeafPsWom?=
+ =?us-ascii?Q?11wAul5rnT7Zg5k44gUewzt2MZU6Xos9cuWFPYPzL6B07Fh2l6jApD7u9jCL?=
+ =?us-ascii?Q?/k26dp+4vxjVie+OoW3qGzW0?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: OSAPR01MB2737.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2c3f8771-f9bf-4f43-0d68-08d8dcc42f50
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Mar 2021 15:10:43.6872
+X-MS-Exchange-CrossTenant-Network-Message-Id: 48325aca-0a15-414c-3332-08d8dcc45229
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Mar 2021 15:11:42.1598
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: gj0iaYxAqB44giGsrdh5vyIunitNwThnRUHwkZrEqEgejfFvbhDb9I1kCh4VJ/JUmmgu8/mltqTuVfsA8MVgxXF3jdQqUjkKfqq5XbOeV7Y=
+X-MS-Exchange-CrossTenant-userprincipalname: 9VtOUBU1BN4lL4ZYTtrR9gxh08ZcfC1rZ5uIaqAvoExUUuxgxvR8ryd4ExvunvatHzCyEEkTlUfn+/qAxMN8UL8cmu8qN6vCVjxyBotLzu0=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB5270
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-SGkgR2VlcnQsDQoNClRoYW5rcyBmb3IgeW91ciBmZWVkYmFjayENCg0KPiBGcm9tOiBHZWVydCBV
-eXR0ZXJob2V2ZW4gPGdlZXJ0QGxpbnV4LW02OGsub3JnPg0KPiBTZW50OiAyNiBGZWJydWFyeSAy
-MDIxIDA4OjQxDQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggMy83XSBkdC1iaW5kaW5nczogbWlzYzog
-QWRkIGJpbmRpbmcgZm9yIFItQ2FyIERBQg0KPiANCj4gSGkgRmFicml6aW8sDQo+IA0KPiBPbiBU
-aHUsIEZlYiAyNSwgMjAyMSBhdCAxMTo1MyBQTSBGYWJyaXppbyBDYXN0cm8NCj4gPGZhYnJpemlv
-LmNhc3Ryby5qekByZW5lc2FzLmNvbT4gd3JvdGU6DQo+ID4gRG9jdW1lbnQgYmluZGluZ3MgZm9y
-IFItQ2FyIERBQiBoYXJkd2FyZSBhY2NlbGVyYXRvciwgY3VycmVudGx5DQo+ID4gZm91bmQgb24g
-dGhlIHI4YTc3OTkwIFNvQyAoYS5rLmEuIFItQ2FyIEUzKSBhbmQgb24gdGhlIHI4YTc3OTY1DQo+
-ID4gU29DIChhLmsuYS4gUi1DYXIgTTMtTikuDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBGYWJy
-aXppbyBDYXN0cm8gPGZhYnJpemlvLmNhc3Ryby5qekByZW5lc2FzLmNvbT4NCj4gDQo+IFRoYW5r
-cyBmb3IgeW91ciBwYXRjaCENCj4gDQo+ID4gLS0tIC9kZXYvbnVsbA0KPiA+ICsrKyBiL0RvY3Vt
-ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9taXNjL3JlbmVzYXMsZGFiLnlhbWwNCj4gDQo+
-ID4gK3Byb3BlcnRpZXM6DQo+ID4gKyAgY29tcGF0aWJsZToNCj4gPiArICAgIGl0ZW1zOg0KPiA+
-ICsgICAgICAtIGVudW06DQo+ID4gKyAgICAgICAgICAtIHJlbmVzYXMsZGFiLXI4YTc3OTY1ICAg
-ICAjIFItQ2FyIE0zLU4NCj4gPiArICAgICAgICAgIC0gcmVuZXNhcyxkYWItcjhhNzc5OTAgICAg
-ICMgUi1DYXIgRTMNCj4gDQo+IFBsZWFzZSB1c2UgdGhlIHJlY29tbWVuZGVkIG9yZGVyIGZvciBu
-ZXcgYmluZGluZ3M6DQo+IA0KPiAgICAgcmVuZXNhcyxyOGE3Nzk2NS1kYWINCj4gICAgIHJlbmVz
-YXMscjhhNzc5OTAtZGFiDQoNClNvcnJ5IGFib3V0IHRoaXMsIHdpbGwgY2hhbmdlLg0KDQo+IA0K
-PiA+ICsgICAgICAtIGNvbnN0OiByZW5lc2FzLHJjYXItZ2VuMy1kYWIgIyBHZW5lcmljIGZhbGxi
-YWNrIGZvciBSLUNhciBHZW4zDQo+IGRldmljZXMNCj4gPiArDQo+ID4gKyAgcmVnOg0KPiA+ICsg
-ICAgbWF4SXRlbXM6IDENCj4gPiArDQo+ID4gKyAgaW50ZXJydXB0czoNCj4gPiArICAgIG1heEl0
-ZW1zOiAxDQo+ID4gKw0KPiA+ICsgIGNsb2NrczoNCj4gPiArICAgIG1heEl0ZW1zOiAxDQo+ID4g
-Kw0KPiA+ICsgIGNsb2NrLW5hbWVzOg0KPiA+ICsgICAgY29uc3Q6IGRhYg0KPiANCj4gZmNrPw0K
-DQpBZ3JlZWQuDQoNClRoYW5rcywNCkZhYg0KDQo+IA0KPiBHcntvZXRqZSxlZXRpbmd9cywNCj4g
-DQo+ICAgICAgICAgICAgICAgICAgICAgICAgIEdlZXJ0DQo+IA0KPiAtLQ0KPiBHZWVydCBVeXR0
-ZXJob2V2ZW4gLS0gVGhlcmUncyBsb3RzIG9mIExpbnV4IGJleW9uZCBpYTMyIC0tIGdlZXJ0QGxp
-bnV4LQ0KPiBtNjhrLm9yZw0KPiANCj4gSW4gcGVyc29uYWwgY29udmVyc2F0aW9ucyB3aXRoIHRl
-Y2huaWNhbCBwZW9wbGUsIEkgY2FsbCBteXNlbGYgYSBoYWNrZXIuDQo+IEJ1dA0KPiB3aGVuIEkn
-bSB0YWxraW5nIHRvIGpvdXJuYWxpc3RzIEkganVzdCBzYXkgInByb2dyYW1tZXIiIG9yIHNvbWV0
-aGluZyBsaWtlDQo+IHRoYXQuDQo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLS0g
-TGludXMgVG9ydmFsZHMNCg==
+Hello Sergei,
+
+Thanks for your feedback!
+
+> From: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+> Sent: 26 February 2021 09:07
+> Subject: Re: [PATCH 3/7] dt-bindings: misc: Add binding for R-Car DAB
+>=20
+> Hello!
+>=20
+> On 26.02.2021 1:51, Fabrizio Castro wrote:
+>=20
+> > Document bindings for R-Car DAB hardware accelerator, currently
+> > found on the r8a77990 SoC (a.k.a. R-Car E3) and on the r8a77965
+> > SoC (a.k.a. R-Car M3-N).
+> >
+> > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > ---
+> >   .../devicetree/bindings/misc/renesas,dab.yaml | 75 ++++++++++++++++++=
++
+> >   1 file changed, 75 insertions(+)
+> >   create mode 100644
+> Documentation/devicetree/bindings/misc/renesas,dab.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/misc/renesas,dab.yaml
+> b/Documentation/devicetree/bindings/misc/renesas,dab.yaml
+> > new file mode 100644
+> > index 000000000000..e9494add13d7
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/misc/renesas,dab.yaml
+> > @@ -0,0 +1,75 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +# Copyright (C) 2021 Renesas Electronics Corporation
+> > +%YAML 1.2
+> > +---
+> > +$id:
+> https://jpn01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fdevice=
+tre
+> e.org%2Fschemas%2Fmisc%2Frenesas%2Cdab.yaml%23&amp;data=3D04%7C01%7Cfabri=
+zio
+> .castro.jz%40renesas.com%7C4ea11a8f46fc4f4642ad08d8da35d682%7C53d82571da1=
+9
+> 47e49cb4625a166a4a2a%7C0%7C0%7C637499272091083125%7CUnknown%7CTWFpbGZsb3d=
+8
+> eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000=
+&
+> amp;sdata=3Dp5MNncCLOIMaYLyBtmOl%2Br%2BIKe9ByUqxv1k05FbYj94%3D&amp;reserv=
+ed=3D
+> 0
+> > +$schema:
+> https://jpn01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fdevice=
+tre
+> e.org%2Fmeta-
+> schemas%2Fcore.yaml%23&amp;data=3D04%7C01%7Cfabrizio.castro.jz%40renesas.=
+com
+> %7C4ea11a8f46fc4f4642ad08d8da35d682%7C53d82571da1947e49cb4625a166a4a2a%7C=
+0
+> %7C0%7C637499272091083125%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJ=
+Q
+> IjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3DdBI8WMPjxAE=
+vhY
+> 3cj7WKJW4FjCrfN5JpAoqC9XSPNaY%3D&amp;reserved=3D0
+> > +
+> > +title: Renesas R-Car DAB Hardware Accelerator
+> > +
+> > +maintainers:
+> > +  - Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > +
+> > +description:
+> > +  The DAB hardware accelerator found on some R-Car devices is a
+> hardware
+> > +  accelerator for software DAB demodulators.
+> > +  It consists of one FFT (Fast Fourier Transform) module and one
+> decoder module,
+> > +  compatible with DAB specification (ETSI EN 300 401 and ETSI TS 102
+> 563).
+> > +  The decoder module can perform FIC decoding and MSC decoding
+> processing from
+> > +  de-puncture to final decoded result.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    items:
+> > +      - enum:
+> > +          - renesas,dab-r8a77965     # R-Car M3-N
+> > +          - renesas,dab-r8a77990     # R-Car E3
+>=20
+>     Why not renesas,<soc>-dab?
+
+Will change.
+
+
+Thanks,
+Fab
+
+>=20
+> > +      - const: renesas,rcar-gen3-dab # Generic fallback for R-Car Gen3
+> devices
+> [...]
+>=20
+> MBR, Sergei
