@@ -2,97 +2,104 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 240C0329314
-	for <lists+linux-api@lfdr.de>; Mon,  1 Mar 2021 22:01:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9753832B276
+	for <lists+linux-api@lfdr.de>; Wed,  3 Mar 2021 04:48:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239643AbhCAU7O (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 1 Mar 2021 15:59:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37778 "EHLO
+        id S232246AbhCCCse (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 2 Mar 2021 21:48:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243735AbhCAU4w (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 1 Mar 2021 15:56:52 -0500
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 576CCC0617A7
-        for <linux-api@vger.kernel.org>; Mon,  1 Mar 2021 12:56:12 -0800 (PST)
-Received: by mail-pf1-x433.google.com with SMTP id o188so5681537pfg.2
-        for <linux-api@vger.kernel.org>; Mon, 01 Mar 2021 12:56:12 -0800 (PST)
+        with ESMTP id S237683AbhCBH0S (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 2 Mar 2021 02:26:18 -0500
+Received: from mail-il1-x129.google.com (mail-il1-x129.google.com [IPv6:2607:f8b0:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF787C06178B;
+        Mon,  1 Mar 2021 23:13:39 -0800 (PST)
+Received: by mail-il1-x129.google.com with SMTP id p10so4983015ils.9;
+        Mon, 01 Mar 2021 23:13:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:in-reply-to:message-id:references
-         :mime-version;
-        bh=aKfF3alorFUH2Sfxr377YFS/FLDvTTuPGkr1txbpzfE=;
-        b=fmlnWl+F1L7aHevhdvuJMOrhIkIsAB4LL2iKlq/YY1BFe1i6oxbYOFPgw7nFhKWQuh
-         2yVsyCAUoGGZKNGqWHm+QuZvEYn2GpNvbUkeIK5dezJ8d2LV+EwLRtsRM/c9ULADzcp1
-         TDujFfPdsyZ7Xt5ou5On45h61UBaJEg1FUzgroubl8Gse0jxsUpgZuTeMW69yrFAIsXL
-         JIIQOGCoBmJIfVq5/Cr/wHSngsnhTy+kh9u0hyTUxadEDbVhUDjWfAVyQ+2nNcaLNNYj
-         TSZFQ7ZUvsOnkux0QZxF9B6aeDfJuv6vVJHPiEHqhAPCB6+vojVkyW+UZigIt2MTtc0P
-         CLNg==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=FuLAMcz1+lviLyTE92nA9aBXQm55vMuIO4Bg9pZZ2+Q=;
+        b=MZW199tfAJwlKH4nXcgOeOo+BuUF+n6iMcMOBfkGAEATvqbRb+FWErsbMvWJuRWSRd
+         tMyzgh7iZBwH4u5mEhOg4VsHMAg1pqv5SDNrOF2h0zU2eJuUVo3LB6UMGE9cutemOd0a
+         CTrqOsro+Kvi9KkB3t7EUucMqhBw+WuHDFJWsZ8lDSj8i7zgabhV6rvlBKpj+FDgy175
+         jwhjOOgMPuvFqogW1X15L9l9lJ3RHJMEadnu5rs3+8/fSYO3SjU5oUzo3oFcHCyOOhI4
+         8b8QOiMLll/BgqC0TfndC3ifag9ay3EbnsfAssldxJ5nJA0bhDnXvzEJ8gpX6JLxPhaK
+         7PyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
-         :references:mime-version;
-        bh=aKfF3alorFUH2Sfxr377YFS/FLDvTTuPGkr1txbpzfE=;
-        b=t8aLPGmWgXi6pWTTlwYJdf0Tn+PTrlq/Gy73wK3394KkPj+s5kSS37bJYsTd52N8D2
-         eLN4zz8/VbfNM2/vcQs9X1nhzz2bPJch3hnsj0NwWgbhWgC5A4c08jZMOtR5KuYnje9v
-         5hlIdkfCiLoxP00+T56fKM4G2vmNe5QDprZyCPQTp9nnoWYg6Qkx3J8dYweVBi82H/4E
-         yysIEqJsZVfyOrqTmNwfDqSc6QaeD6XP4dP4g8xjZY5k12BWb+/aQTHdPaXLV6nmA53M
-         UZUKDtz37m8tioleWTuEwdXKHc68Sguy2QusDLYpEFaFyILjenT4piVIA5OXG9borFG/
-         APog==
-X-Gm-Message-State: AOAM531epWrW85mPfiZla+pivAFz4lFEp1GKVprcZr/5MK3ca6uMXb9j
-        p2jyQPngqoyWe3EP1eimE8ReCw==
-X-Google-Smtp-Source: ABdhPJxu5zQwkM2bTrndEGxVnNeG6KkNKVB0vEkmSnhtwG0S4ImL+bKVlU6rrZD33WtiittGVRTTqQ==
-X-Received: by 2002:a62:2e83:0:b029:1db:8bd9:b8ad with SMTP id u125-20020a622e830000b02901db8bd9b8admr197900pfu.74.1614632171597;
-        Mon, 01 Mar 2021 12:56:11 -0800 (PST)
-Received: from [2620:15c:17:3:91e9:d3d2:53fd:5d0f] ([2620:15c:17:3:91e9:d3d2:53fd:5d0f])
-        by smtp.gmail.com with ESMTPSA id 186sm15017391pfx.132.2021.03.01.12.56.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Mar 2021 12:56:10 -0800 (PST)
-Date:   Mon, 1 Mar 2021 12:56:10 -0800 (PST)
-From:   David Rientjes <rientjes@google.com>
-To:     Alex Shi <alex.shi@linux.alibaba.com>
-cc:     David Hildenbrand <david@redhat.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Michal Hocko <mhocko@suse.com>,
-        Hugh Dickins <hughd@google.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Song Liu <songliubraving@fb.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Minchan Kim <minchan@kernel.org>,
-        Chris Kennelly <ckennelly@google.com>, linux-mm@kvack.org,
-        linux-api@vger.kernel.org
-Subject: Re: [RFC] Hugepage collapse in process context
-In-Reply-To: <25d9347b-9359-efab-e1e3-f98bd0012af9@linux.alibaba.com>
-Message-ID: <544df052-f9f3-f068-f69e-343cc69d994b@google.com>
-References: <d098c392-273a-36a4-1a29-59731cdf5d3d@google.com> <YCzSDPbBsksCX5zP@dhcp22.suse.cz> <0b51a213-650e-7801-b6ed-9545466c15db@suse.cz> <600ee57f-d839-d402-fb0f-e9f350114dce@redhat.com> <5127b9c-a147-8ef5-c942-ae8c755413d0@google.com>
- <25d9347b-9359-efab-e1e3-f98bd0012af9@linux.alibaba.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=FuLAMcz1+lviLyTE92nA9aBXQm55vMuIO4Bg9pZZ2+Q=;
+        b=rcQLe2i61FuK0VBEqn3qW+ZMx4ftoU0lxXJaOpyL0XLA+6V+m4l4y7+bghHO2Y0iZi
+         9kxkYqTsGZgGFmC9qk6D9dparG3VduVHdQI24hozU58ekEZphHCFOmGLsG6y79k9/gNd
+         Nq4ZfLGBNy/VJ9d8Eov5oKBnWyFrQcN4+nDx8vJDa+DFLUcdwWUUV2Cf5aElevB0sO/N
+         o9eKcLVfO+yFu6tVaQb0WJsp/h2LMR0nJ69F3vbKITfctTIsgwOQ7IvmuKvRklqsxgcp
+         mlCM4wFlJNoqEZ6v7nBjYEGhCk54gUFjihDfdoBTWVEO9hLsYF2U5SOXZskPV9p0fzmB
+         SkZQ==
+X-Gm-Message-State: AOAM532w7ZeuZuuCP9lkDIALSGvF3PFWNFfYjEpk84Lr5YfzdwWM93nL
+        iwJR66Xjl3hF0dm8dLJW7aIiP0BG1gEO89BgPDc=
+X-Google-Smtp-Source: ABdhPJzLc6m0BkMuRGfiWTndOApB/IZJ3pFhctHvoj/A/T8ur+VIsGl2hrfGsJYfdxisA/DjoFbY59qgXA4GyJF4jqg=
+X-Received: by 2002:a05:6e02:8ab:: with SMTP id a11mr15981590ilt.137.1614669219319;
+ Mon, 01 Mar 2021 23:13:39 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <20210228002500.11483-1-sir@cmpwn.com> <20210228022440.GN2723601@casper.infradead.org>
+ <C9KT3SWXRPPA.257SY2N4MVBZD@taiga> <20210228040345.GO2723601@casper.infradead.org>
+ <C9L7SV0Z2GZR.K2C3O186WDJ7@taiga>
+In-Reply-To: <C9L7SV0Z2GZR.K2C3O186WDJ7@taiga>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Tue, 2 Mar 2021 09:13:28 +0200
+Message-ID: <CAOQ4uxgbt5fdx=5_QKJZm1y7hZn5-84NkBzcLWjHL3eAzdML0Q@mail.gmail.com>
+Subject: Re: [RFC PATCH] fs: introduce mkdirat2 syscall for atomic mkdir
+To:     Drew DeVault <sir@cmpwn.com>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "J. Bruce Fields" <bfields@fieldses.org>,
+        Steve French <smfrench@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, 24 Feb 2021, Alex Shi wrote:
+On Sun, Feb 28, 2021 at 4:02 PM Drew DeVault <sir@cmpwn.com> wrote:
+>
+> On Sat Feb 27, 2021 at 11:03 PM EST, Matthew Wilcox wrote:
+> > > 1. Program A creates a directory
+> > > 2. Program A is pre-empted
+> > > 3. Program B deletes the directory
+> > > 4. Program A creates a file in that directory
+> > > 5. RIP
+> >
+> > umm ... program B deletes the directory. program A opens it in order to
+> > use openat(). program A gets ENOENT and exits, confused. that's the
+> > race you're removing here -- and it seems fairly insignificant to me.
+>
+> Yes, that is the race being eliminated here. Instead of this, program A
+> has an fd which holds a reference to the directory, so it just works. A
+> race is a race. It's an oversight in the API.
 
-> > Agreed, and happy to see that there's a general consensus for the 
-> > direction.  Benefit of a new madvise mode is that it can be used for 
-> > madvise() as well if you are interested in only a single range of your own 
-> > memory and then it doesn't need to reconcile with any of the already 
-> > overloaded semantics of MADV_HUGEPAGE.
-> 
-> It's a good idea to let process deal with its own THP policy.
-> but current applications will miss the benefit w/o changes, and change is
-> expensive for end users. So except this work, may a per memcg collapse benefit
-> apps and free for them, we often deploy apps in cgroups on server now.
-> 
+I think you mixed in confusion with "program B deletes the directory".
+That will result, as Matthew wrote in ENOENT because that dir is now
+IS_DEADDIR().
 
-Hi Alex,
+I think I understand what you mean with the oversight in the API, but
+the use case should involve mkdtemp(3) - make it more like tmpfile(3).
+Not that *I* can think of the races this can solve, but I am pretty sure
+that people with security background will be able to rationalize this.
 
-I'm not sure that I understand: this MADV_COLLAPSE would be possible for 
-process_madvise() as well and by passing a vectored set of ranges so a 
-process can do this on behalf of other processes (it's the only way that 
-we could theoretically move khugepaged to userspace, although that's not 
-an explicit end goal).
+You start your pitch by ruling out the option of openat2() with
+O_CREAT | O_DIRECTORY, because you have strong emotions
+against it (loathe).
+I personally do not share this feeling with you, because:
+1. The syscall is already used to open directories as well as files
+2. The whole idea of openat2() is that you can add new behaviors
+    with new open_how flags, so no existing app will be surprised from
+    behavior change of  O_CREAT | O_DIRECTORY combination.
 
-How would you see this working with memcg involved?  I had thought this 
-was entirely orthogonal to any cgroup.
+For your consideration.
+
+Thanks,
+Amir.
