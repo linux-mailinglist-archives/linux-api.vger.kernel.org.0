@@ -2,172 +2,166 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EC6EF32B2E2
-	for <lists+linux-api@lfdr.de>; Wed,  3 Mar 2021 04:49:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 91B0532B2F1
+	for <lists+linux-api@lfdr.de>; Wed,  3 Mar 2021 04:49:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233470AbhCCDAv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 2 Mar 2021 22:00:51 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:35760 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1444086AbhCBMdi (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 2 Mar 2021 07:33:38 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C1ED545D;
-        Tue,  2 Mar 2021 13:32:53 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1614688374;
-        bh=e/Y0M8qv9vPeCW6Q3y5Ln2XAzlf3D5bfRcvSEsOp8cs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZAmf/VxgFHsvT8vo5KLK5ZX+6pnTiQGE15b3PWyqR/lt9H5u+7BfsujtgZQCWuu2G
-         HMqOAL1DCcZJHDO3oClsWWjtw53u88Srm+2ohD9QghK4rc427HD9riXYtNMJxG98mW
-         XdGKPmQU613uCCrEy+eTuVPg3teyv2XYVoxdq8kU=
-Date:   Tue, 2 Mar 2021 14:32:25 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Arnd Bergmann <arnd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        DTML <devicetree@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        "REE dirk.behme@de.bosch.com" <dirk.behme@de.bosch.com>,
-        Peter Erben <Peter.Erben@de.bosch.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [PATCH 4/7] misc: Add driver for DAB IP found on Renesas R-Car
- devices
-Message-ID: <YD4wWYc7/pDucm3s@pendragon.ideasonboard.com>
-References: <20210225225147.29920-1-fabrizio.castro.jz@renesas.com>
- <20210225225147.29920-5-fabrizio.castro.jz@renesas.com>
- <CAK8P3a1+CZTAcR5T=gN565Q8=CdZnu5KYsAijKXLY8taofEpGg@mail.gmail.com>
- <OSAPR01MB2737666F47174B68A8EC8DD8C29A9@OSAPR01MB2737.jpnprd01.prod.outlook.com>
- <CAAEAJfDDhN4btecUzu=3ZYxP=amnOD=vq0bhhetx7voKdeMZ9Q@mail.gmail.com>
- <OSAPR01MB2737169C686080958657D65AC2999@OSAPR01MB2737.jpnprd01.prod.outlook.com>
+        id S243060AbhCCDCM convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Tue, 2 Mar 2021 22:02:12 -0500
+Received: from mslow2.mail.gandi.net ([217.70.178.242]:48615 "EHLO
+        mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1444947AbhCBMvB (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 2 Mar 2021 07:51:01 -0500
+Received: from relay10.mail.gandi.net (unknown [217.70.178.230])
+        by mslow2.mail.gandi.net (Postfix) with ESMTP id CE2FE3A6AA8;
+        Tue,  2 Mar 2021 12:50:05 +0000 (UTC)
+Received: from xps13 (lfbn-tou-1-491-148.w86-206.abo.wanadoo.fr [86.206.8.148])
+        (Authenticated sender: miquel.raynal@bootlin.com)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 537E9240002;
+        Tue,  2 Mar 2021 12:46:19 +0000 (UTC)
+Date:   Tue, 2 Mar 2021 13:46:17 +0100
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Michael Walle <michael@walle.cc>
+Cc:     linux-mtd@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Tudor.Ambarus@microchip.com
+Subject: Re: [RFC PATCH] mtd: add OTP (one-time-programmable) erase ioctl
+Message-ID: <20210302134617.5aa78cc4@xps13>
+In-Reply-To: <20210302110927.6520-1-michael@walle.cc>
+References: <20210302110927.6520-1-michael@walle.cc>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <OSAPR01MB2737169C686080958657D65AC2999@OSAPR01MB2737.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Fabrizio,
+Hi Michael,
 
-On Tue, Mar 02, 2021 at 12:20:17PM +0000, Fabrizio Castro wrote:
-> On 02 March 2021 11:17, Ezequiel Garcia wrote:
-> > On Mon, 1 Mar 2021 at 14:36, Fabrizio Castro wrote:
-> > > On 26 February 2021 10:38, Arnd Bergmann wrote:
-> > > > On Thu, Feb 25, 2021 at 11:51 PM Fabrizio Castro wrote:
-> > > > >
-> > > > > The DAB hardware accelerator found on R-Car E3 and R-Car M3-N devices is
-> > > > > a hardware accelerator for software DAB demodulators.
-> > > > > It consists of one FFT (Fast Fourier Transform) module and one decoder
-> > > > > module, compatible with DAB specification (ETSI EN 300 401 and
-> > > > > ETSI TS 102 563).
-> > > > > The decoder module can perform FIC decoding and MSC decoding processing
-> > > > > from de-puncture to final decoded result.
-> > > > >
-> > > > > This patch adds a device driver to support the FFT module only.
-> > > > >
-> > > > > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> > > > > ---
-> > > > >  MAINTAINERS                      |   7 ++
-> > > > >  drivers/misc/Kconfig             |   1 +
-> > > > >  drivers/misc/Makefile            |   1 +
-> > > > >  drivers/misc/rcar_dab/Kconfig    |  11 ++
-> > > > >  drivers/misc/rcar_dab/Makefile   |   8 ++
-> > > > >  drivers/misc/rcar_dab/rcar_dev.c | 176 +++++++++++++++++++++++++++++++
-> > > > >  drivers/misc/rcar_dab/rcar_dev.h | 116 ++++++++++++++++++++
-> > > > >  drivers/misc/rcar_dab/rcar_fft.c | 160 ++++++++++++++++++++++++++++
-> > > > >  include/uapi/linux/rcar_dab.h    |  35 ++++++
-> > > >
-> > > > Can you explain why this is not in drivers/media/?
-> > >
-> > > I wasn't entirely sure were to put it to be honest as I couldn't find
-> > > anything similar, that's why "misc" for v1, to mainly get a feedback
-> > > and advice.
-> > >
-> > > > I don't think we want a custom ioctl interface for a device that
-> > > > implements
-> > > > a generic specification. My first feeling would be that this should not
-> > > > have a user-level API but instead get called by the DAB radio driver.
-> > >
-> > > I hear you, the trouble is that the modules of this IP should be seen
-> > > as part of a SW and HW processing pipeline.
-> > > Some of the SW components of the pipeline can be proprietary, and
-> > > unfortunately we don't have access (yet) to a framework that allows us to
-> > > test and demonstrate the whole pipeline, for the moment we can only test
-> > > things in isolation. It'll take us a while to come up with a full solution
-> > > (or to have access to one), and in the meantime our SoCs come with an IP
-> > > that can't be used because there is no driver for it (yet).
-> > >
-> > > After discussing things further with Geert and Laurent, I think they
-> > > are right in saying that the best path for this is probably to add this
-> > > driver under "drivers/staging" as an interim solution, so that the IP will
-> > > be accessible by developers, and when we have everything we need (a fully
-> > > fledged processing framework), we will able to integrate it better with
-> > > the other components (if possible).
-> > >
-> > > > What is the intended usage model here? I assume the idea is to
-> > > > use it in an application that receives audio or metadata from DAB.
-> > > > What driver do you use for that?
-> > >
-> > > This IP is similar to a DMA to some extent, in the sense that it takes
-> > > input data from a buffer in memory and it writes output data onto a buffer
-> > > in memory, and of course it does some processing in between.
-> > 
-> > That sounds like something that can fit V4L2 MEM2MEM driver.
-> > You queue two buffers and an operation, and then run a job.
-> 
-> V4L2 MEM2MEM seems good for this in general, however the DAB IP is going
-> to be shared by multiple processing pipelines (as usually we have several
-> DRIF interfaces, and only 1 DAB IP), and for what concerns FFT specifically
-> there is only 1 FFT module inside the DAB IP.
-> My understanding is that the capabilities of V4L2 MEM2MEM devices are
-> configured for the specific pipeline, but in the this context user space
-> would have to continuously switch the capabilities of the DAB IP (at the
-> right moment) to allow processing for data streams requiring different
-> capabilities.
-> 
-> Am I wrong?
+Michael Walle <michael@walle.cc> wrote on Tue,  2 Mar 2021 12:09:27
++0100:
 
-V4L2 M2M devices can be opened multiple times, but different processes,
-which can configure the device in different ways, and submit jobs that
-are then scheduled by the V4L2 M2M framework.
-
-> > > It's not directly connected to any other Radio related IP.
-> > > The user space application can read DAB IQ samples from the R-Car DRIF
-> > > interface (via driver drivers/media/platform/rcar_drif.c, or from other
-> > > sources since this IP is decoupled from DRIF), and then when it's time
-> > > to accelerate FFT, FIC, or MSC, it can request services to the DAB IP, so
-> > > that the app can go on and use the processor to do some work, while the DAB
-> > > IP processes things.
-> > > A framework to connect and exchange processing blocks (either SW or HW) and
-> > > interfaces is therefore vital to properly place a kernel implementation
-> > > in the great scheme of things, in its absence a simple driver can help
-> > 
-> > I'm not entirely sure we are missing a framework. What's missing in
-> > V4L2 MEM2MEM?
+> This may sound like a contradiction but some SPI-NOR flashes really
+> support erasing their OTP region until it is finally locked. Having the
+> possibility to erase an OTP region might come in handy during
+> development.
 > 
-> I was referring to a user space framework (I should have been more specific
-> with my previous email).
+> The ioctl argument follows the OTPLOCK style.
 > 
-> > Before considering drivers/staging, it would be interesting to figure
-> > out if V4L2 can do it as-is, and if not, discuss what's missing.
+> Signed-off-by: Michael Walle <michael@walle.cc>
+> ---
+> OTP support for SPI-NOR flashes may be merged soon:
+> https://lore.kernel.org/linux-mtd/20210216162807.13509-1-michael@walle.cc/
 > 
-> I think an interim solution would allow us and users to evaluate things a
-> little bit better, so that we can integrate this IP with V4L2 later on.
+> Tudor suggested to add support for the OTP erase operation most SPI-NOR
+> flashes have:
+> https://lore.kernel.org/linux-mtd/d4f74b1b-fa1b-97ec-858c-d807fe1f9e57@microchip.com/
+> 
+> Therefore, this is an RFC to get some feedback on the MTD side, once this
+> is finished, I can post a patch for mtd-utils. Then we'll have a foundation
+> to add the support to SPI-NOR.
+> 
+>  drivers/mtd/mtdchar.c      |  7 ++++++-
+>  drivers/mtd/mtdcore.c      | 12 ++++++++++++
+>  include/linux/mtd/mtd.h    |  3 +++
+>  include/uapi/mtd/mtd-abi.h |  2 ++
+>  4 files changed, 23 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/mtd/mtdchar.c b/drivers/mtd/mtdchar.c
+> index 323035d4f2d0..da423dd031ae 100644
+> --- a/drivers/mtd/mtdchar.c
+> +++ b/drivers/mtd/mtdchar.c
+> @@ -661,6 +661,7 @@ static int mtdchar_ioctl(struct file *file, u_int cmd, u_long arg)
+>  	case OTPGETREGIONCOUNT:
+>  	case OTPGETREGIONINFO:
+>  	case OTPLOCK:
+> +	case OTPERASE:
+>  	case ECCGETLAYOUT:
+>  	case ECCGETSTATS:
+>  	case MTDFILEMODE:
+> @@ -938,6 +939,7 @@ static int mtdchar_ioctl(struct file *file, u_int cmd, u_long arg)
+>  	}
+>  
+>  	case OTPLOCK:
+> +	case OTPERASE:
+>  	{
+>  		struct otp_info oinfo;
+>  
+> @@ -945,7 +947,10 @@ static int mtdchar_ioctl(struct file *file, u_int cmd, u_long arg)
+>  			return -EINVAL;
+>  		if (copy_from_user(&oinfo, argp, sizeof(oinfo)))
+>  			return -EFAULT;
+> -		ret = mtd_lock_user_prot_reg(mtd, oinfo.start, oinfo.length);
+> +		if (cmd == OTPLOCK)
+> +			ret = mtd_lock_user_prot_reg(mtd, oinfo.start, oinfo.length);
+> +		else
+> +			ret = mtd_erase_user_prot_reg(mtd, oinfo.start, oinfo.length);
+>  		break;
+>  	}
+>  
+> diff --git a/drivers/mtd/mtdcore.c b/drivers/mtd/mtdcore.c
+> index 2d6423d89a17..d844d718ef77 100644
+> --- a/drivers/mtd/mtdcore.c
+> +++ b/drivers/mtd/mtdcore.c
+> @@ -1918,6 +1918,18 @@ int mtd_lock_user_prot_reg(struct mtd_info *mtd, loff_t from, size_t len)
+>  }
+>  EXPORT_SYMBOL_GPL(mtd_lock_user_prot_reg);
+>  
+> +int mtd_erase_user_prot_reg(struct mtd_info *mtd, loff_t from, size_t len)
+> +{
+> +	struct mtd_info *master = mtd_get_master(mtd);
+> +
+> +	if (!master->_erase_user_prot_reg)
+> +		return -EOPNOTSUPP;
+> +	if (!len)
+> +		return 0;
 
--- 
-Regards,
+Should we add a sanity check enforcing that we don't try to access
+beyond the end of the OTP area?
 
-Laurent Pinchart
+> +	return master->_erase_user_prot_reg(master, from, len);
+> +}
+> +EXPORT_SYMBOL_GPL(mtd_erase_user_prot_reg);
+> +
+>  /* Chip-supported device locking */
+>  int mtd_lock(struct mtd_info *mtd, loff_t ofs, uint64_t len)
+>  {
+> diff --git a/include/linux/mtd/mtd.h b/include/linux/mtd/mtd.h
+> index 157357ec1441..734ad7a8c353 100644
+> --- a/include/linux/mtd/mtd.h
+> +++ b/include/linux/mtd/mtd.h
+> @@ -336,6 +336,8 @@ struct mtd_info {
+>  				     size_t len, size_t *retlen, u_char *buf);
+>  	int (*_lock_user_prot_reg) (struct mtd_info *mtd, loff_t from,
+>  				    size_t len);
+> +	int (*_erase_user_prot_reg) (struct mtd_info *mtd, loff_t from,
+> +				     size_t len);
+>  	int (*_writev) (struct mtd_info *mtd, const struct kvec *vecs,
+>  			unsigned long count, loff_t to, size_t *retlen);
+>  	void (*_sync) (struct mtd_info *mtd);
+> @@ -517,6 +519,7 @@ int mtd_read_user_prot_reg(struct mtd_info *mtd, loff_t from, size_t len,
+>  int mtd_write_user_prot_reg(struct mtd_info *mtd, loff_t to, size_t len,
+>  			    size_t *retlen, u_char *buf);
+>  int mtd_lock_user_prot_reg(struct mtd_info *mtd, loff_t from, size_t len);
+> +int mtd_erase_user_prot_reg(struct mtd_info *mtd, loff_t from, size_t len);
+>  
+>  int mtd_writev(struct mtd_info *mtd, const struct kvec *vecs,
+>  	       unsigned long count, loff_t to, size_t *retlen);
+> diff --git a/include/uapi/mtd/mtd-abi.h b/include/uapi/mtd/mtd-abi.h
+> index 65b9db936557..242015f60d10 100644
+> --- a/include/uapi/mtd/mtd-abi.h
+> +++ b/include/uapi/mtd/mtd-abi.h
+> @@ -205,6 +205,8 @@ struct otp_info {
+>   * without OOB, e.g., NOR flash.
+>   */
+>  #define MEMWRITE		_IOWR('M', 24, struct mtd_write_req)
+> +/* Erase a given range of user data (must be in mode %MTD_FILE_MODE_OTP_USER) */
+> +#define OTPERASE		_IOR('M', 25, struct otp_info)
+>  
+>  /*
+>   * Obsolete legacy interface. Keep it in order not to break userspace
+
+Thanks,
+Miquèl
