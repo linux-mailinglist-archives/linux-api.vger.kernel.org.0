@@ -2,27 +2,27 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F13432B2E4
-	for <lists+linux-api@lfdr.de>; Wed,  3 Mar 2021 04:49:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C6CE232B2DC
+	for <lists+linux-api@lfdr.de>; Wed,  3 Mar 2021 04:49:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234071AbhCCDBL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 2 Mar 2021 22:01:11 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51322 "EHLO mail.kernel.org"
+        id S233008AbhCCC7w (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 2 Mar 2021 21:59:52 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46394 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1343602AbhCBMk3 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 2 Mar 2021 07:40:29 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0F5B064F46;
-        Tue,  2 Mar 2021 11:56:35 +0000 (UTC)
+        id S1350242AbhCBMOh (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 2 Mar 2021 07:14:37 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CB81A64F7A;
+        Tue,  2 Mar 2021 11:57:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1614686198;
-        bh=+yoAy2R3ZxyrmAqDMryXY9mqNz7Nx3HeyJyNVgJ5hkY=;
+        s=k20201202; t=1614686261;
+        bh=skQU9bsYZucJ+Hrr6tdbO8KfNjYUgophIxGkK6ZAbho=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=DyJ8kG9YLBkQpRdvNJeDTdbyoHwKu2TmbtVlmR2hf7RzewSpbd500KpMLm9+9gimW
-         al9yVjtY6yrpmx/fqLz5e+lZmDeVK3op5EScAJuZE2ziTI5YS4fqvBFwg7K20OMTlO
-         ZHNou69vuT+8v9258PsDMflHKOdJoD1ip4N7WkcfNkxZjTpAVggyF2znCEtbO6e821
-         x6QvxgR19V3isLBaV6pRgNnJMauZObrmlHEvGczW38Qqx3vOgWikmNKPqut3RXkLQK
-         SyCYoJ92BVDhzirnFTgz2m1xyATrhC/mJYKnsEoFM1sSQwcbzenJcmNcJxvnsrvuyM
-         IvN5/GKeifZIg==
+        b=vNqdpcWgTd3hxkOuiL3/iIDdltwgqW32wSmv4ks1aX1527DutvxJ/TUfbcbV9wm51
+         TYGD61aGvu9sKuOsLKE5/SPDUhKxPwo0soGuG7jgx9o5DdAMJhzTC6ctX8QYWjcuae
+         DHe3syrv/0vZDAwLXxwTnGj079tF8aI/xiQIHFCV6XS88iylc0ENhV0taATZPTdntP
+         Bab5Nnb9umv5a1CI4dkRDbqSFzHEtI8v3GOXKjkXMgDyBz+OmdF/VrDM1POFi0zu1Y
+         wzjH0bPgTi+rvX7bTgxGeiF1nyH4dEPDs2LqiT6dHmr6H0fB+gkvY+xP/+/hYiLykq
+         eihCjePvecmSQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     David Hildenbrand <david@redhat.com>,
@@ -42,12 +42,12 @@ Cc:     David Hildenbrand <david@redhat.com>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-api@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.11 47/52] drivers/base/memory: don't store phys_device in memory blocks
-Date:   Tue,  2 Mar 2021 06:55:28 -0500
-Message-Id: <20210302115534.61800-47-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 42/47] drivers/base/memory: don't store phys_device in memory blocks
+Date:   Tue,  2 Mar 2021 06:56:41 -0500
+Message-Id: <20210302115646.62291-42-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210302115534.61800-1-sashal@kernel.org>
-References: <20210302115534.61800-1-sashal@kernel.org>
+In-Reply-To: <20210302115646.62291-1-sashal@kernel.org>
+References: <20210302115646.62291-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -123,7 +123,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  4 files changed, 15 insertions(+), 22 deletions(-)
 
 diff --git a/Documentation/ABI/testing/sysfs-devices-memory b/Documentation/ABI/testing/sysfs-devices-memory
-index 246a45b96d22..58dbc592bc57 100644
+index 2da2b1fba2c1..16a727a611b1 100644
 --- a/Documentation/ABI/testing/sysfs-devices-memory
 +++ b/Documentation/ABI/testing/sysfs-devices-memory
 @@ -26,8 +26,9 @@ Date:		September 2008
