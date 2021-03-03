@@ -2,135 +2,135 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FD5632C68A
-	for <lists+linux-api@lfdr.de>; Thu,  4 Mar 2021 02:03:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EAAD32C687
+	for <lists+linux-api@lfdr.de>; Thu,  4 Mar 2021 02:03:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234325AbhCDA3L (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 3 Mar 2021 19:29:11 -0500
-Received: from mail.efficios.com ([167.114.26.124]:41054 "EHLO
-        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349563AbhCCTE6 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 3 Mar 2021 14:04:58 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 64221322273;
-        Wed,  3 Mar 2021 13:55:39 -0500 (EST)
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id nzmyisAEtpyn; Wed,  3 Mar 2021 13:55:39 -0500 (EST)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 21F7D3224BB;
-        Wed,  3 Mar 2021 13:55:39 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 21F7D3224BB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1614797739;
-        bh=/+Cqqku+yj2v49ObRIAAYZyDmnbTz9LGncxn1fI29Ps=;
-        h=Date:From:To:Message-ID:MIME-Version;
-        b=GbxlIVqm7efnQ45RtVCzOCfqdFevWnV4Wyzn7JHHpWE+0kW93ElqMjI6yq7dxzt8l
-         2WSXEedfphWhw6AYPFWyvpLK3G4CgbjsKgPvcbVMxE+hZr9w/SRnut1hmufF0EqRPn
-         KEWcysdPcD3O3rqaWGuheyIyrdjF8s8WjULftPOz7JT9Ecerk/QvFsEbHCPrjxiLIX
-         bQyl7wpB14EYEWRAGflHweOC9547veDzzjHeKTMYkR0LFbUn61awhCuCK5Jp2QtLZm
-         vxWNO+i6I/PWSt/4u0hde3c1CSJsbgHjBvJzG/Zpaep3cex7+psgOkSGqQ7Da80P9G
-         wDXxuw/fAZsLg==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id RSvuoPlpXd8c; Wed,  3 Mar 2021 13:55:39 -0500 (EST)
-Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
-        by mail.efficios.com (Postfix) with ESMTP id 11C6A3226AB;
-        Wed,  3 Mar 2021 13:55:39 -0500 (EST)
-Date:   Wed, 3 Mar 2021 13:55:39 -0500 (EST)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Piotr Figiel <figiel@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        paulmck <paulmck@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        Florian Weimer <fweimer@redhat.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrei Vagin <avagin@gmail.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Peter Oskolkov <posk@google.com>,
-        Kamil Yurtsever <kyurtsever@google.com>,
-        Chris Kennelly <ckennelly@google.com>,
-        Paul Turner <pjt@google.com>, emmir <emmir@google.com>,
-        linux-man <linux-man@vger.kernel.org>,
-        linux-api <linux-api@vger.kernel.org>
-Message-ID: <1647666880.9529.1614797739047.JavaMail.zimbra@efficios.com>
-In-Reply-To: <YDkchUnCe5ctDwYB@google.com>
-References: <20210226135156.1081606-1-figiel@google.com> <192824546.8190.1614353555831.JavaMail.zimbra@efficios.com> <YDkchUnCe5ctDwYB@google.com>
-Subject: Re: [PATCH v2] ptrace: add PTRACE_GET_RSEQ_CONFIGURATION request
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [167.114.26.124]
-X-Mailer: Zimbra 8.8.15_GA_3996 (ZimbraWebClient - FF86 (Linux)/8.8.15_GA_4007)
-Thread-Topic: ptrace: add PTRACE_GET_RSEQ_CONFIGURATION request
-Thread-Index: +gCa2M7/7eePF4mAiSVH9mBBgTSE+w==
+        id S1355492AbhCDA3J (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 3 Mar 2021 19:29:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36136 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1837848AbhCCS67 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 3 Mar 2021 13:58:59 -0500
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 089FAC0613DA
+        for <linux-api@vger.kernel.org>; Wed,  3 Mar 2021 10:58:18 -0800 (PST)
+Received: by mail-yb1-xb49.google.com with SMTP id g17so27922141ybh.4
+        for <linux-api@vger.kernel.org>; Wed, 03 Mar 2021 10:58:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=8A+Vn1cjgQFOcnDW+QJHWNfY0Snfwko60G1y42Y3xgQ=;
+        b=EpO/7HH81xcIMjmISnM93Lf1cTCniUoMKyu7mC95M0PrCQYm7LXCrQJFJxnhZLebYL
+         7pgo4FkTt/mXEQZGUDVK60yhEbDk+l70ihk7fVZRA7q4x00fCo4K0ZLzvUGDVBUCJ/Ip
+         XMq1817dtkxXcudmkwE9YXFa5LjA/esowmInvI2pZ8JnNxJ4EKkvy5wviOMspFd3DJJE
+         WO7EY93hE9dI9+/koHkwJLl1Bja54aqa7WzriMyAQE1AIbkNDaRz1Gy29w6vUOJQSNRX
+         Ov3RIk4m9opjmKSFTrlLQYe7ndJ/OAJuKsGAHDXeZtV2/2JBNiFf7obXAg8Vb1Pdkhkz
+         ILqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=8A+Vn1cjgQFOcnDW+QJHWNfY0Snfwko60G1y42Y3xgQ=;
+        b=q3qgGzeO7u0lwETCpkVsd2omfCcTKnm1AYIaPh3FJpyKrzkpuLBQMVX+t4DRQNA3cb
+         evcBu/cw5YrQYdU6enI4tFEgTG4Fhlh0NtGUol0WpVmASIA9Ptw6YyATGbdEHO+YJ76/
+         IeBm18htbWhnlJbnizBKlrtECoXwRZBpHreqAvGQ0tvrvJ8nHoYTgdVnI8Zd7ErVTsHK
+         e8I7ZR+Ts/0lPMO4vr6qRS1G0NLsUohVc4RONbqoqF1fAg6XgeM/RQ9wOLDawxUJ/ICt
+         kLp5UT6NkJarAHNERrfWySEwae8srDR5AAHX0FVzIoedSlmdRmkG83dziQ9FkZEVrlwg
+         K03A==
+X-Gm-Message-State: AOAM531Pdrxe8v5Pa10bWctEk5fk+Ks/bUtkS3qDhKin2Zsb5EZLReJ0
+        8l4kecjnR2g1AWLGeWtbUh3yyvX/twg=
+X-Google-Smtp-Source: ABdhPJw5vqMC1rNuxjPhDpEuhkpA8XxV6s45QZbFWYlu/dQ45hxGXNv7dGL1NqqF16Ah3hvn7L52qLtxWkQ=
+Sender: "surenb via sendgmr" <surenb@surenb1.mtv.corp.google.com>
+X-Received: from surenb1.mtv.corp.google.com ([2620:15c:211:200:f028:1b0b:1705:8ebb])
+ (user=surenb job=sendgmr) by 2002:a25:f40e:: with SMTP id q14mr1113934ybd.230.1614797898171;
+ Wed, 03 Mar 2021 10:58:18 -0800 (PST)
+Date:   Wed,  3 Mar 2021 10:58:07 -0800
+Message-Id: <20210303185807.2160264-1-surenb@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.30.1.766.gb4fecdf3b7-goog
+Subject: [PATCH v3 1/1] mm/madvise: replace ptrace attach requirement for process_madvise
+From:   Suren Baghdasaryan <surenb@google.com>
+To:     akpm@linux-foundation.org
+Cc:     jannh@google.com, keescook@chromium.org, jeffv@google.com,
+        minchan@kernel.org, mhocko@suse.com, shakeelb@google.com,
+        rientjes@google.com, edgararriaga@google.com, timmurray@google.com,
+        fweimer@redhat.com, oleg@redhat.com, jmorris@namei.org,
+        linux-mm@kvack.org, selinux@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-security-module@vger.kernel.org,
+        stable@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-team@android.com, surenb@google.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
------ On Feb 26, 2021, at 11:06 AM, Piotr Figiel figiel@google.com wrote:
+process_madvise currently requires ptrace attach capability.
+PTRACE_MODE_ATTACH gives one process complete control over another
+process. It effectively removes the security boundary between the
+two processes (in one direction). Granting ptrace attach capability
+even to a system process is considered dangerous since it creates an
+attack surface. This severely limits the usage of this API.
+The operations process_madvise can perform do not affect the correctness
+of the operation of the target process; they only affect where the data
+is physically located (and therefore, how fast it can be accessed).
+What we want is the ability for one process to influence another process
+in order to optimize performance across the entire system while leaving
+the security boundary intact.
+Replace PTRACE_MODE_ATTACH with a combination of PTRACE_MODE_READ
+and CAP_SYS_NICE. PTRACE_MODE_READ to prevent leaking ASLR metadata
+and CAP_SYS_NICE for influencing process performance.
 
-> Hi,
-> 
-> On Fri, Feb 26, 2021 at 10:32:35AM -0500, Mathieu Desnoyers wrote:
->> > +static long ptrace_get_rseq_configuration(struct task_struct *task,
->> > +					  unsigned long size, void __user *data)
->> > +{
->> > +	struct ptrace_rseq_configuration conf = {
->> > +		.rseq_abi_pointer = (u64)(uintptr_t)task->rseq,
->> > +		.rseq_abi_size = sizeof(*task->rseq),
->> > +		.signature = task->rseq_sig,
->> > +		.flags = 0,
->> > +	};
->> > +
->> > +	size = min_t(unsigned long, size, sizeof(conf));
->> > +	if (copy_to_user(data, &conf, size))
->> > +		return -EFAULT;
->> > +	return sizeof(conf);
->> > +}
->> 
->> I think what Florian was after would be:
->> 
->> struct ptrace_rseq_configuration {
->> 	__u32 size;  /* size of struct ptrace_rseq_configuration */
->> 	__u32 flags;
->> 	__u64 rseq_abi_pointer;
->> 	__u32 signature;
->> 	__u32 pad;
->> };
->> 
->> where:
->> 
->>     .size = sizeof(struct ptrace_rseq_configuration),
->> 
->> This way, the configuration structure can be expanded in the future. The
->> rseq ABI structure is by definition fixed-size, so there is no point in
->> having its size here.
-> 
-> Still rseq syscall accepts the rseq ABI structure size as a paremeter.
-> I think this way the information returned from ptrace is consistent with
-> the userspace view of the rseq state and allows expansion in case the
-> ABI structure would have to be extended (in spite of it's current
-> definition).
-> 
-> The configuration structure still can be expanded as its size is
-> reported to userspace as return value from the request (in line with
-> Dmitry's comments).
+Cc: stable@vger.kernel.org # 5.10+
+Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+Reviewed-by: Kees Cook <keescook@chromium.org>
+Acked-by: Minchan Kim <minchan@kernel.org>
+Acked-by: David Rientjes <rientjes@google.com>
+---
+changes in v3
+- Added Reviewed-by: Kees Cook <keescook@chromium.org>
+- Created man page for process_madvise per Andrew's request: https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/commit/?id=a144f458bad476a3358e3a45023789cb7bb9f993
+- cc'ed stable@vger.kernel.org # 5.10+ per Andrew's request
+- cc'ed linux-security-module@vger.kernel.org per James Morris's request
 
-Fair enough. And now with the reply from Florian I see that I misunderstood his
-point.
+ mm/madvise.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-Thanks,
-
-Mathieu
-
-> 
-> Best regards, Piotr.
-
+diff --git a/mm/madvise.c b/mm/madvise.c
+index df692d2e35d4..01fef79ac761 100644
+--- a/mm/madvise.c
++++ b/mm/madvise.c
+@@ -1198,12 +1198,22 @@ SYSCALL_DEFINE5(process_madvise, int, pidfd, const struct iovec __user *, vec,
+ 		goto release_task;
+ 	}
+ 
+-	mm = mm_access(task, PTRACE_MODE_ATTACH_FSCREDS);
++	/* Require PTRACE_MODE_READ to avoid leaking ASLR metadata. */
++	mm = mm_access(task, PTRACE_MODE_READ_FSCREDS);
+ 	if (IS_ERR_OR_NULL(mm)) {
+ 		ret = IS_ERR(mm) ? PTR_ERR(mm) : -ESRCH;
+ 		goto release_task;
+ 	}
+ 
++	/*
++	 * Require CAP_SYS_NICE for influencing process performance. Note that
++	 * only non-destructive hints are currently supported.
++	 */
++	if (!capable(CAP_SYS_NICE)) {
++		ret = -EPERM;
++		goto release_mm;
++	}
++
+ 	total_len = iov_iter_count(&iter);
+ 
+ 	while (iov_iter_count(&iter)) {
+@@ -1218,6 +1228,7 @@ SYSCALL_DEFINE5(process_madvise, int, pidfd, const struct iovec __user *, vec,
+ 	if (ret == 0)
+ 		ret = total_len - iov_iter_count(&iter);
+ 
++release_mm:
+ 	mmput(mm);
+ release_task:
+ 	put_task_struct(task);
 -- 
-Mathieu Desnoyers
-EfficiOS Inc.
-http://www.efficios.com
+2.30.1.766.gb4fecdf3b7-goog
+
