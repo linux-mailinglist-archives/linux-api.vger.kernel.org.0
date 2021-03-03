@@ -2,86 +2,155 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A030F32C685
-	for <lists+linux-api@lfdr.de>; Thu,  4 Mar 2021 02:03:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 21F0532C686
+	for <lists+linux-api@lfdr.de>; Thu,  4 Mar 2021 02:03:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355447AbhCDA3I (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 3 Mar 2021 19:29:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55792 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237360AbhCCRMW (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 3 Mar 2021 12:12:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1614791437;
+        id S235608AbhCDA3J (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 3 Mar 2021 19:29:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46710 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1376989AbhCCRgZ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 3 Mar 2021 12:36:25 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84C8FC061764;
+        Wed,  3 Mar 2021 09:27:00 -0800 (PST)
+Received: from zn.tnic (p200300ec2f086d000d273eec19a1f357.dip0.t-ipconnect.de [IPv6:2003:ec:2f08:6d00:d27:3eec:19a1:f357])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D6C9B1EC0300;
+        Wed,  3 Mar 2021 18:26:57 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1614792418;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=72AvldDshkpAm4vjL1rTWERNo04lTYkEaJw4N5Ow1KY=;
-        b=KwaJjgMdoaO8EQJrjzNTcoUAq2SmwZuMpfzkcmoENN+gTQbSIndpHRrumSXbNuAKFdXf/j
-        4RqPuwFWe1utVlap0X7OXuSDX5do5RsqlBYCqzDAd1WHDhjSH01m46Bcqa1EhhF4DpABW+
-        TK316qlKshl3JK+F+PKkS5zubAp8xW8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-391-Vzp06uWgMW-4lLCQSKAZmA-1; Wed, 03 Mar 2021 12:10:33 -0500
-X-MC-Unique: Vzp06uWgMW-4lLCQSKAZmA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ACB2E100A61D;
-        Wed,  3 Mar 2021 17:10:29 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (ovpn-112-51.ams2.redhat.com [10.36.112.51])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 006F45C5DF;
-        Wed,  3 Mar 2021 17:10:21 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc:     Piotr Figiel <figiel@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=4ibLcnOd4K0tYTtc82E0TWwQeSANPgQebYcD/0eumSw=;
+        b=fZN/EdJwGpouJQ1EYJJuFKYMPR3wGDQgjNMM/pTBNKL59wEOirstsgN7mKM8OyeoyKou1i
+        HGktvIYgCwElZrpEtMPzSViQ6wOytsMrrX738nFT6eAj1GoSTfQHGXvVd8SHtaowHM5TAR
+        eEiSsLKgC1unJF+Xny+UH7GSFR/ThdA=
+Date:   Wed, 3 Mar 2021 18:26:52 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
         Peter Zijlstra <peterz@infradead.org>,
-        paulmck <paulmck@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrei Vagin <avagin@gmail.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Peter Oskolkov <posk@google.com>,
-        Kamil Yurtsever <kyurtsever@google.com>,
-        Chris Kennelly <ckennelly@google.com>,
-        Paul Turner <pjt@google.com>, emmir <emmir@google.com>,
-        linux-man <linux-man@vger.kernel.org>,
-        linux-api <linux-api@vger.kernel.org>
-Subject: Re: [PATCH v2] ptrace: add PTRACE_GET_RSEQ_CONFIGURATION request
-References: <20210226135156.1081606-1-figiel@google.com>
-        <192824546.8190.1614353555831.JavaMail.zimbra@efficios.com>
-Date:   Wed, 03 Mar 2021 18:10:27 +0100
-In-Reply-To: <192824546.8190.1614353555831.JavaMail.zimbra@efficios.com>
-        (Mathieu Desnoyers's message of "Fri, 26 Feb 2021 10:32:35 -0500
-        (EST)")
-Message-ID: <87h7lsuprw.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Subject: Re: [PATCH v21 08/26] x86/mm: Introduce _PAGE_COW
+Message-ID: <20210303172652.GF22305@zn.tnic>
+References: <20210217222730.15819-1-yu-cheng.yu@intel.com>
+ <20210217222730.15819-9-yu-cheng.yu@intel.com>
+ <20210301155234.GF6699@zn.tnic>
+ <167f58a3-20ef-7210-1d66-cf25f4a9bbef@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <167f58a3-20ef-7210-1d66-cf25f4a9bbef@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Mathieu Desnoyers:
+On Tue, Mar 02, 2021 at 03:46:31PM -0800, Yu, Yu-cheng wrote:
+> There is a problem of doing that: pmd_write() is defined after this
+> function.  Maybe we can declare it first, or leave this as-is?
 
-> This way, the configuration structure can be expanded in the future. The
-> rseq ABI structure is by definition fixed-size, so there is no point in
-> having its size here.
->
-> Florian, did I understand your request correctly, or am I missing your
-> point ?
+Or a third option: you lift those two functions in a prepatch and then
+in this patch use them directly.
 
-No, the idea was that if the kernel ever supports different rseq ABI
-sizes on registration (it could as there's a size argument to the rseq
-system call), that needs to be communicated to CRIU, so that it restores
-with the right size.
+Combined diff ontop:
 
-I haven't thought about whether it makes sense to make the ptrace
-argument struct extensible.
+---
+diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
+index 1a6c0784af0a..b7e4d031ce22 100644
+--- a/arch/x86/include/asm/pgtable.h
++++ b/arch/x86/include/asm/pgtable.h
+@@ -209,6 +209,18 @@ static inline int pte_write(pte_t pte)
+ 	return (pte_flags(pte) & _PAGE_RW) || pte_shstk(pte);
+ }
+ 
++#define pmd_write pmd_write
++static inline int pmd_write(pmd_t pmd)
++{
++	return (pmd_flags(pmd) & _PAGE_RW) || pmd_shstk(pmd);
++}
++
++#define pud_write pud_write
++static inline int pud_write(pud_t pud)
++{
++	return pud_flags(pud) & _PAGE_RW;
++}
++
+ static inline int pte_huge(pte_t pte)
+ {
+ 	return pte_flags(pte) & _PAGE_PSE;
+@@ -540,7 +552,7 @@ static inline pmd_t pmd_mkdirty(pmd_t pmd)
+ 	pmdval_t dirty = _PAGE_DIRTY;
+ 
+ 	/* Avoid creating (HW)Dirty=1, Write=0 PMDs */
+-	if (cpu_feature_enabled(X86_FEATURE_SHSTK) && !(pmd_flags(pmd) & _PAGE_RW))
++	if (cpu_feature_enabled(X86_FEATURE_SHSTK) && !pmd_write(pmd))
+ 		dirty = _PAGE_COW;
+ 
+ 	return pmd_set_flags(pmd, dirty | _PAGE_SOFT_DIRTY);
+@@ -636,7 +648,7 @@ static inline pud_t pud_mkdirty(pud_t pud)
+ 	pudval_t dirty = _PAGE_DIRTY;
+ 
+ 	/* Avoid creating (HW)Dirty=1, Write=0 PUDs */
+-	if (cpu_feature_enabled(X86_FEATURE_SHSTK) && !(pud_flags(pud) & _PAGE_RW))
++	if (cpu_feature_enabled(X86_FEATURE_SHSTK) && !pud_write(pud))
+ 		dirty = _PAGE_COW;
+ 
+ 	return pud_set_flags(pud, dirty | _PAGE_SOFT_DIRTY);
+@@ -1273,12 +1285,6 @@ extern int pmdp_clear_flush_young(struct vm_area_struct *vma,
+ 				  unsigned long address, pmd_t *pmdp);
+ 
+ 
+-#define pmd_write pmd_write
+-static inline int pmd_write(pmd_t pmd)
+-{
+-	return (pmd_flags(pmd) & _PAGE_RW) || pmd_shstk(pmd);
+-}
+-
+ #define __HAVE_ARCH_PMDP_HUGE_GET_AND_CLEAR
+ static inline pmd_t pmdp_huge_get_and_clear(struct mm_struct *mm, unsigned long addr,
+ 				       pmd_t *pmdp)
+@@ -1300,12 +1306,6 @@ static inline void pmdp_set_wrprotect(struct mm_struct *mm,
+ 	clear_bit(_PAGE_BIT_RW, (unsigned long *)pmdp);
+ }
+ 
+-#define pud_write pud_write
+-static inline int pud_write(pud_t pud)
+-{
+-	return pud_flags(pud) & _PAGE_RW;
+-}
+-
+ #ifndef pmdp_establish
+ #define pmdp_establish pmdp_establish
+ static inline pmd_t pmdp_establish(struct vm_area_struct *vma,
 
-Thanks,
-Florian
+-- 
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
