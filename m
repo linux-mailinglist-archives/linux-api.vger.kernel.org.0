@@ -2,141 +2,85 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6019532B04D
-	for <lists+linux-api@lfdr.de>; Wed,  3 Mar 2021 04:43:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D6DC232C660
+	for <lists+linux-api@lfdr.de>; Thu,  4 Mar 2021 02:02:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244497AbhCCDFv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 2 Mar 2021 22:05:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54190 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233459AbhCCCks (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 2 Mar 2021 21:40:48 -0500
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [IPv6:2001:67c:2050::465:101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23F52C0617A7;
-        Tue,  2 Mar 2021 18:39:59 -0800 (PST)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [80.241.60.240])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4Dqyrp44dBzQl8j;
-        Wed,  3 Mar 2021 03:39:54 +0100 (CET)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp1.mailbox.org ([80.241.60.240])
-        by spamfilter03.heinlein-hosting.de (spamfilter03.heinlein-hosting.de [80.241.56.117]) (amavisd-new, port 10030)
-        with ESMTP id fFKjKRbta97Q; Wed,  3 Mar 2021 03:39:50 +0100 (CET)
-Date:   Wed, 3 Mar 2021 13:39:41 +1100
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     Drew DeVault <sir@cmpwn.com>, Matthew Wilcox <willy@infradead.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        "J. Bruce Fields" <bfields@fieldses.org>,
-        Steve French <smfrench@gmail.com>
-Subject: Re: [RFC PATCH] fs: introduce mkdirat2 syscall for atomic mkdir
-Message-ID: <20210303023941.j2x6crqoiris73xx@yavin.dot.cyphar.com>
-References: <20210228002500.11483-1-sir@cmpwn.com>
- <20210228022440.GN2723601@casper.infradead.org>
- <C9KT3SWXRPPA.257SY2N4MVBZD@taiga>
- <20210228040345.GO2723601@casper.infradead.org>
- <C9L7SV0Z2GZR.K2C3O186WDJ7@taiga>
- <CAOQ4uxgbt5fdx=5_QKJZm1y7hZn5-84NkBzcLWjHL3eAzdML0Q@mail.gmail.com>
+        id S238935AbhCDA2n (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 3 Mar 2021 19:28:43 -0500
+Received: from verein.lst.de ([213.95.11.211]:35428 "EHLO verein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1355863AbhCCHCF (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 3 Mar 2021 02:02:05 -0500
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 16AAD68CFC; Wed,  3 Mar 2021 08:01:06 +0100 (CET)
+Date:   Wed, 3 Mar 2021 08:01:03 +0100
+From:   Christoph Hellwig <hch@lst.de>
+To:     "Darrick J. Wong" <djwong@kernel.org>
+Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@lst.de>, linux-fsdevel@vger.kernel.org,
+        John Johansen <john.johansen@canonical.com>,
+        James Morris <jmorris@namei.org>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+        Geoffrey Thomas <geofft@ldpreload.com>,
+        Mrunal Patel <mpatel@redhat.com>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Theodore Tso <tytso@mit.edu>, Alban Crequy <alban@kinvolk.io>,
+        Tycho Andersen <tycho@tycho.ws>,
+        David Howells <dhowells@redhat.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Seth Forshee <seth.forshee@canonical.com>,
+        =?iso-8859-1?Q?St=E9phane?= Graber <stgraber@ubuntu.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Lennart Poettering <lennart@poettering.net>,
+        "Eric W. Biederman" <ebiederm@xmission.com>, smbarber@chromium.org,
+        Phil Estes <estesp@gmail.com>, Serge Hallyn <serge@hallyn.com>,
+        Kees Cook <keescook@chromium.org>,
+        Todd Kjos <tkjos@google.com>, Paul Moore <paul@paul-moore.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        containers@lists.linux-foundation.org,
+        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
+        linux-integrity@vger.kernel.org, selinux@vger.kernel.org
+Subject: Re: [PATCH v6 39/40] xfs: support idmapped mounts
+Message-ID: <20210303070103.GA7866@lst.de>
+References: <20210121131959.646623-1-christian.brauner@ubuntu.com> <20210121131959.646623-40-christian.brauner@ubuntu.com> <20210301200520.GK7272@magnolia>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="3lj6aomxgfnwchmd"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAOQ4uxgbt5fdx=5_QKJZm1y7hZn5-84NkBzcLWjHL3eAzdML0Q@mail.gmail.com>
-X-MBO-SPAM-Probability: 
-X-Rspamd-Score: -2.09 / 15.00 / 15.00
-X-Rspamd-Queue-Id: 27D31183D
-X-Rspamd-UID: 21333c
+In-Reply-To: <20210301200520.GK7272@magnolia>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Mon, Mar 01, 2021 at 12:05:20PM -0800, Darrick J. Wong wrote:
+> > +	if (breq->mnt_userns != &init_user_ns) {
+> > +		xfs_warn_ratelimited(breq->mp,
+> > +			"bulkstat not supported inside of idmapped mounts.");
+> > +		return -EINVAL;
+> 
+> Shouldn't this be -EPERM?
+> 
+> Or -EOPNOTSUPP?
 
---3lj6aomxgfnwchmd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+-EINVAL is what we return for all our nor suppored ioctls, so I think it
+is the right choice here, and should generally trigger the right
+fallbacks.
 
-On 2021-03-02, Amir Goldstein <amir73il@gmail.com> wrote:
-> On Sun, Feb 28, 2021 at 4:02 PM Drew DeVault <sir@cmpwn.com> wrote:
-> >
-> > On Sat Feb 27, 2021 at 11:03 PM EST, Matthew Wilcox wrote:
-> > > > 1. Program A creates a directory
-> > > > 2. Program A is pre-empted
-> > > > 3. Program B deletes the directory
-> > > > 4. Program A creates a file in that directory
-> > > > 5. RIP
-> > >
-> > > umm ... program B deletes the directory. program A opens it in order =
-to
-> > > use openat(). program A gets ENOENT and exits, confused. that's the
-> > > race you're removing here -- and it seems fairly insignificant to me.
-> >
-> > Yes, that is the race being eliminated here. Instead of this, program A
-> > has an fd which holds a reference to the directory, so it just works. A
-> > race is a race. It's an oversight in the API.
->=20
-> I think you mixed in confusion with "program B deletes the directory".
-> That will result, as Matthew wrote in ENOENT because that dir is now
-> IS_DEADDIR().
->=20
-> I think I understand what you mean with the oversight in the API, but
-> the use case should involve mkdtemp(3) - make it more like tmpfile(3).
-> Not that *I* can think of the races this can solve, but I am pretty sure
-> that people with security background will be able to rationalize this.
->=20
-> You start your pitch by ruling out the option of openat2() with
-> O_CREAT | O_DIRECTORY, because you have strong emotions
-> against it (loathe).
-> I personally do not share this feeling with you, because:
-> 1. The syscall is already used to open directories as well as files
+> Also, I'm not sure why bulkstat won't work in an idmapped mount but
+> bulkstat_single does?  You can use the singleton version to stat inodes
+> that aren't inside the submount.
 
-Al NACKed doing it as part of open[1]. My understanding is that the main
-two reasons for that were:
-
- 1. open() and mkdir() have different semantics for resolving paths. For
-	instance, open(O_CREAT) will create a file at the target of dangling
-	symlink but mkdir() will not allow that. I believe there's also some
-	funky trailing-"/" handling with mkdirat() as well.
-
- 2. Adding more multiplexers is bad. openat2(2)
-
-I think (1) alone is a strong enough justification, since I don't think
-there's precedent for having two different path lookup semantics in the
-same VFS syscall.
-
-> 2. The whole idea of openat2() is that you can add new behaviors
->     with new open_how flags, so no existing app will be surprised from
->     behavior change of  O_CREAT | O_DIRECTORY combination.
-
-While it is true that you *could* do this with openat2(), the intention
-of openat2() was to allow us to add new arguments openat() if those
-arguments make sense within the context of an "open" operation.
-
-(An example would be the opath_mask stuff which I included in the
-original series, and am working on re-sending -- that is an additional
-argument for O_PATH, and is still clearly linked to opening something.)
-
-[1]: https://lore.kernel.org/linux-fsdevel/20200313182844.GO23230@ZenIV.lin=
-ux.org.uk/
-
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
-
---3lj6aomxgfnwchmd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCYD726QAKCRCdlLljIbnQ
-EpcPAQDcjJcO8so/I9gE2av0gVFRECVeqWFkqgav7lCOhCHqGgD/XiCbuv/4+Cwc
-Q3kcUk6qnmb7l/bLr/QWxzR6VdCVJQg=
-=XW6T
------END PGP SIGNATURE-----
-
---3lj6aomxgfnwchmd--
+Looking at it again I think we should fail BULKSTAT_SINGLE as well.
+I had somehow assumed BULKSTAT_SINGLE would operate on the inode of
+the open file, in which case it would be fine.  But it doesn't so that
+argument doesn't count.
