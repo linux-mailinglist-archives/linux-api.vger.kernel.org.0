@@ -2,49 +2,51 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D3FF532C68E
-	for <lists+linux-api@lfdr.de>; Thu,  4 Mar 2021 02:03:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FD5632C68A
+	for <lists+linux-api@lfdr.de>; Thu,  4 Mar 2021 02:03:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346632AbhCDA3M (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 3 Mar 2021 19:29:12 -0500
-Received: from mail.efficios.com ([167.114.26.124]:41052 "EHLO
+        id S234325AbhCDA3L (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 3 Mar 2021 19:29:11 -0500
+Received: from mail.efficios.com ([167.114.26.124]:41054 "EHLO
         mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349597AbhCCTFJ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 3 Mar 2021 14:05:09 -0500
+        with ESMTP id S1349563AbhCCTE6 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 3 Mar 2021 14:04:58 -0500
 Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id D15D43220FC;
-        Wed,  3 Mar 2021 13:55:00 -0500 (EST)
+        by mail.efficios.com (Postfix) with ESMTP id 64221322273;
+        Wed,  3 Mar 2021 13:55:39 -0500 (EST)
 Received: from mail.efficios.com ([127.0.0.1])
         by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id aAXDIHMqpOpt; Wed,  3 Mar 2021 13:55:00 -0500 (EST)
+        with ESMTP id nzmyisAEtpyn; Wed,  3 Mar 2021 13:55:39 -0500 (EST)
 Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 6A56B3220FB;
-        Wed,  3 Mar 2021 13:55:00 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 6A56B3220FB
+        by mail.efficios.com (Postfix) with ESMTP id 21F7D3224BB;
+        Wed,  3 Mar 2021 13:55:39 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 21F7D3224BB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1614797700;
-        bh=rCq90Cemnj8uIDnzvWa7FZTmINWyPkoJYeBmJ7lHhLM=;
+        s=default; t=1614797739;
+        bh=/+Cqqku+yj2v49ObRIAAYZyDmnbTz9LGncxn1fI29Ps=;
         h=Date:From:To:Message-ID:MIME-Version;
-        b=GTVjsfF3WiOHC2+vY+c6TYY9cvcQDkrU+9bfM2NO0e0kcGRUbJPZ0w9WB4tmtup/O
-         /LgQNvgx5blMss5mLTbGC9t8q4ylQ16nXq7t1NqOuSDMIkpVJNKhkDhZTLiytPfJSw
-         MRhu+8V5EYuKKUx76PvITOIXlmpXwlhmi0HxnUZD8Uwp3x4PFWgi0ciJxLXAWirSOL
-         ooJYN9AFHuC1x9a/aVWn5SAfeEHXL/ZH/hbwr8bZKq2wQu8X1Aepe5ZPVag69T3yK2
-         wNgkYVqjbqXR69ZZ5TlGr/Fhhts25RH9eLhlk55OZ1icgBvm/5YTBHk+GeFxjls+Ga
-         T+VjiPIxCa9pQ==
+        b=GbxlIVqm7efnQ45RtVCzOCfqdFevWnV4Wyzn7JHHpWE+0kW93ElqMjI6yq7dxzt8l
+         2WSXEedfphWhw6AYPFWyvpLK3G4CgbjsKgPvcbVMxE+hZr9w/SRnut1hmufF0EqRPn
+         KEWcysdPcD3O3rqaWGuheyIyrdjF8s8WjULftPOz7JT9Ecerk/QvFsEbHCPrjxiLIX
+         bQyl7wpB14EYEWRAGflHweOC9547veDzzjHeKTMYkR0LFbUn61awhCuCK5Jp2QtLZm
+         vxWNO+i6I/PWSt/4u0hde3c1CSJsbgHjBvJzG/Zpaep3cex7+psgOkSGqQ7Da80P9G
+         wDXxuw/fAZsLg==
 X-Virus-Scanned: amavisd-new at efficios.com
 Received: from mail.efficios.com ([127.0.0.1])
         by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id z7lHbMmAUfH0; Wed,  3 Mar 2021 13:55:00 -0500 (EST)
+        with ESMTP id RSvuoPlpXd8c; Wed,  3 Mar 2021 13:55:39 -0500 (EST)
 Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
-        by mail.efficios.com (Postfix) with ESMTP id 562F43224B8;
-        Wed,  3 Mar 2021 13:55:00 -0500 (EST)
-Date:   Wed, 3 Mar 2021 13:55:00 -0500 (EST)
+        by mail.efficios.com (Postfix) with ESMTP id 11C6A3226AB;
+        Wed,  3 Mar 2021 13:55:39 -0500 (EST)
+Date:   Wed, 3 Mar 2021 13:55:39 -0500 (EST)
 From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To:     Piotr Figiel <figiel@google.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Peter Zijlstra <peterz@infradead.org>,
         paulmck <paulmck@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
         Oleg Nesterov <oleg@redhat.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        Florian Weimer <fweimer@redhat.com>,
         Alexey Dobriyan <adobriyan@gmail.com>,
         Andrei Vagin <avagin@gmail.com>,
         linux-kernel <linux-kernel@vger.kernel.org>,
@@ -54,68 +56,79 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Paul Turner <pjt@google.com>, emmir <emmir@google.com>,
         linux-man <linux-man@vger.kernel.org>,
         linux-api <linux-api@vger.kernel.org>
-Message-ID: <1698111952.9528.1614797700222.JavaMail.zimbra@efficios.com>
-In-Reply-To: <YDkBlYp76PGsgUZs@google.com>
-References: <20210222100443.4155938-1-figiel@google.com> <1521573573.29432.1614005597395.JavaMail.zimbra@efficios.com> <YDkBlYp76PGsgUZs@google.com>
-Subject: Re: [PATCH] ptrace: add PTRACE_GET_RSEQ_CONFIGURATION request
+Message-ID: <1647666880.9529.1614797739047.JavaMail.zimbra@efficios.com>
+In-Reply-To: <YDkchUnCe5ctDwYB@google.com>
+References: <20210226135156.1081606-1-figiel@google.com> <192824546.8190.1614353555831.JavaMail.zimbra@efficios.com> <YDkchUnCe5ctDwYB@google.com>
+Subject: Re: [PATCH v2] ptrace: add PTRACE_GET_RSEQ_CONFIGURATION request
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [167.114.26.124]
 X-Mailer: Zimbra 8.8.15_GA_3996 (ZimbraWebClient - FF86 (Linux)/8.8.15_GA_4007)
 Thread-Topic: ptrace: add PTRACE_GET_RSEQ_CONFIGURATION request
-Thread-Index: cQoLUNh7wF6cm+pfSb0FxCqp8YWzpA==
+Thread-Index: +gCa2M7/7eePF4mAiSVH9mBBgTSE+w==
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
------ On Feb 26, 2021, at 9:11 AM, Piotr Figiel figiel@google.com wrote:
+----- On Feb 26, 2021, at 11:06 AM, Piotr Figiel figiel@google.com wrote:
 
 > Hi,
 > 
-> On Mon, Feb 22, 2021 at 09:53:17AM -0500, Mathieu Desnoyers wrote:
+> On Fri, Feb 26, 2021 at 10:32:35AM -0500, Mathieu Desnoyers wrote:
+>> > +static long ptrace_get_rseq_configuration(struct task_struct *task,
+>> > +					  unsigned long size, void __user *data)
+>> > +{
+>> > +	struct ptrace_rseq_configuration conf = {
+>> > +		.rseq_abi_pointer = (u64)(uintptr_t)task->rseq,
+>> > +		.rseq_abi_size = sizeof(*task->rseq),
+>> > +		.signature = task->rseq_sig,
+>> > +		.flags = 0,
+>> > +	};
+>> > +
+>> > +	size = min_t(unsigned long, size, sizeof(conf));
+>> > +	if (copy_to_user(data, &conf, size))
+>> > +		return -EFAULT;
+>> > +	return sizeof(conf);
+>> > +}
+>> 
+>> I think what Florian was after would be:
+>> 
+>> struct ptrace_rseq_configuration {
+>> 	__u32 size;  /* size of struct ptrace_rseq_configuration */
+>> 	__u32 flags;
+>> 	__u64 rseq_abi_pointer;
+>> 	__u32 signature;
+>> 	__u32 pad;
+>> };
+>> 
+>> where:
+>> 
+>>     .size = sizeof(struct ptrace_rseq_configuration),
+>> 
+>> This way, the configuration structure can be expanded in the future. The
+>> rseq ABI structure is by definition fixed-size, so there is no point in
+>> having its size here.
 > 
->> I notice that other structures defined in this UAPI header are not
->> packed as well.  Should we add an attribute packed on new structures ?
->> It seems like it is generally a safer course of action, even though
->> each field is naturally aligned here (there is no padding/hole in the
->> structure).
+> Still rseq syscall accepts the rseq ABI structure size as a paremeter.
+> I think this way the information returned from ptrace is consistent with
+> the userspace view of the rseq state and allows expansion in case the
+> ABI structure would have to be extended (in spite of it's current
+> definition).
 > 
-> I considered this for quite a while. There are some gains for this
-> approach, i.e. it's safer towards the ISO C, as theoretically compiler
-> can generate arbitrary offsets as long as struct elements have correct
-> order in memory.
-> Also with packed attribute it would be harder to make it incorrect in
-> future modifications.
-> User code also could theoretically put the structure on any misaligned
-> address.
-> 
-> But the drawback is that all accesses to the structure contents are
-> inefficient and some compilers may generate large chunks of code
-> whenever the structure elements are accessed (I recall at least one ARM
-> compiler which generates series of single-byte accesses for those). For
-> kernel it doesn't matter much because the structure type is used in one
-> place, but it may be different for the application code.
-> 
-> The change would be also inconsistent with the rest of the file and IMO
-> the gains are only theoretical.
-> 
-> If there are more opinions on this or you have some argument I'm missing
-> please let me know I can send v3 with packed and explicit padding
-> removed. I think this is rather borderline trade off.
+> The configuration structure still can be expanded as its size is
+> reported to userspace as return value from the request (in line with
+> Dmitry's comments).
 
-I personally don't have a strong opinion on this and completely agree with
-your analysis. Maybe for pre-existing system calls adding more non-packed
-structures might be kind-of OK if some were already exposed, even though
-it seems rather fragile wrt ISO C.
+Fair enough. And now with the reply from Florian I see that I misunderstood his
+point.
 
 Thanks,
 
 Mathieu
 
 > 
-> Best regards and thanks for looking at this,
-> Piotr.
+> Best regards, Piotr.
 
 -- 
 Mathieu Desnoyers
