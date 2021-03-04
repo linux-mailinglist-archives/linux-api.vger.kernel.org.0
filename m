@@ -2,143 +2,153 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8A5532C9CC
-	for <lists+linux-api@lfdr.de>; Thu,  4 Mar 2021 02:20:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A62E332C9F7
+	for <lists+linux-api@lfdr.de>; Thu,  4 Mar 2021 02:20:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244222AbhCDBMQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 3 Mar 2021 20:12:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53932 "EHLO
+        id S234054AbhCDBTx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 3 Mar 2021 20:19:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1453082AbhCDAou (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 3 Mar 2021 19:44:50 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC3A1C061761;
-        Wed,  3 Mar 2021 16:44:09 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: tonyk)
-        with ESMTPSA id E35B41F46046
-From:   =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc:     kernel@collabora.com, krisman@collabora.com,
-        pgriffais@valvesoftware.com, z.figura12@gmail.com,
-        joel@joelfernandes.org, malteskarupke@fastmail.fm,
-        linux-api@vger.kernel.org, fweimer@redhat.com,
-        libc-alpha@sourceware.org, linux-kselftest@vger.kernel.org,
-        shuah@kernel.org, acme@kernel.org, corbet@lwn.net,
-        =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>
-Subject: [RFC PATCH v2 13/13] kernel: Enable waitpid() for futex2
-Date:   Wed,  3 Mar 2021 21:42:19 -0300
-Message-Id: <20210304004219.134051-14-andrealmeid@collabora.com>
-X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210304004219.134051-1-andrealmeid@collabora.com>
-References: <20210304004219.134051-1-andrealmeid@collabora.com>
+        with ESMTP id S238366AbhCDBTG (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 3 Mar 2021 20:19:06 -0500
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49AD4C061764
+        for <linux-api@vger.kernel.org>; Wed,  3 Mar 2021 17:17:56 -0800 (PST)
+Received: by mail-yb1-xb2c.google.com with SMTP id p186so26692908ybg.2
+        for <linux-api@vger.kernel.org>; Wed, 03 Mar 2021 17:17:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cDGMmdlKM20UbxSk1D5HECStpUJywJgGf1k2Ph58Sv4=;
+        b=Biwa5C9LBzhQgtedUPAK6nj6XvZwKukqS173MEMYHs8EnBOalCdRzddBpT28z/s4M1
+         C8jiWaLWV/QeBcbnLZuTVpheAwE2sHqBop6iq/q/mBXyF34ewhHxWbtn+X0gHy3oR7U9
+         upFl7iFJXW9cxs22jmCAvu5tsd8n2xCN4g7YTATbMYcezrCQ5pwIF8GgMsOfhUHej2M9
+         NvjUIMacn8ixwWQreNum7fI/cxxMiNbKqyDmZ4BiA2UNW9f61p6vQqOKHOtVPqzoyfo5
+         C32W6Q8M4FOHGBaX5TSrasEPYyOGQLtl8k2JNOOYsoBsLWPWoGB9e1hMX/uuTzqrC7pF
+         TuAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cDGMmdlKM20UbxSk1D5HECStpUJywJgGf1k2Ph58Sv4=;
+        b=WGqDab6/7Dy1UrjtL903D4NPRtDA9QWyiXPeEG5XgdRtPAbYPUYjDkO/SdmhaV6Zqm
+         e5naVzBJkyerxUQnAvkW9V3ZoHb+oBogfwwnTsKcYyg0k0DMhCx35MrgNm7mDyVTtOtE
+         L2AmWWs/hn/wqCJoGSINdecPe3fQGSnydaLa0Ty8p1xqSu2kIrE6gUtdvjzf9mcmol+2
+         Bxuqzu5GtjAnH9AZH4C/qe8N+2euJxcPx7lwYik5dEXItvfpkZxcTR/5joP3s8pN2RnC
+         VH4kfyrfnTn/FT7erbqDDgXrk8CiXaIkRFRre5VRF9QBK2J6gNsKwxVtbeq1K61luGLJ
+         qk+A==
+X-Gm-Message-State: AOAM530UL30mNX1Nj/mbVzFGcl8m2yCb0PHDO5dvyk5dEQnMU/f2HQA1
+        LfMbxa/MjgWh7xgCOe/ke/WZW77vO7opv0zE9zWAPg==
+X-Google-Smtp-Source: ABdhPJyfPshyKfeDIOoqAVg5Fwk8zLy1gznd2y9ophif2UxaiMhTBt3pbqxOJ6plYf+5MPVAog6sGYQXCN5R/Gnxis0=
+X-Received: by 2002:a5b:751:: with SMTP id s17mr3016364ybq.111.1614820675298;
+ Wed, 03 Mar 2021 17:17:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20210303185807.2160264-1-surenb@google.com> <CALvZod73Uem8jzP3QQdQ6waXbx80UUOTJQS7WBwnmaCdq++8xw@mail.gmail.com>
+ <CAJuCfpFgDRezmQMjCajXzBp86UbMLMJbqEaeo0_J+pneZ5XOgg@mail.gmail.com> <CALvZod4nZ6W05N-4ostUEz5EbCuEvuBpc4LRYfAFgwQU-wb9dQ@mail.gmail.com>
+In-Reply-To: <CALvZod4nZ6W05N-4ostUEz5EbCuEvuBpc4LRYfAFgwQU-wb9dQ@mail.gmail.com>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Wed, 3 Mar 2021 17:17:44 -0800
+Message-ID: <CAJuCfpFGoG0KaBKqpCzdPP+yXbY=jR24o+TvUkYDiw3uXJJfAw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/1] mm/madvise: replace ptrace attach requirement for process_madvise
+To:     Shakeel Butt <shakeelb@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Jann Horn <jannh@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Jeffrey Vander Stoep <jeffv@google.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Michal Hocko <mhocko@suse.com>,
+        David Rientjes <rientjes@google.com>,
+        =?UTF-8?Q?Edgar_Arriaga_Garc=C3=ADa?= <edgararriaga@google.com>,
+        Tim Murray <timmurray@google.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        James Morris <jmorris@namei.org>,
+        Linux MM <linux-mm@kvack.org>,
+        SElinux list <selinux@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        stable <stable@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kernel-team <kernel-team@android.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-To make pthreads works as expected if they are using futex2, wake
-clear_child_tid with futex2 as well. This is make applications that uses
-waitpid() (and clone(CLONE_CHILD_SETTID)) wake while waiting for the
-child to terminate. Given that apps should not mix futex() and futex2(),
-any correct app will trigger a harmless noop wakeup on the interface
-that it isn't using.
+On Wed, Mar 3, 2021 at 4:04 PM Shakeel Butt <shakeelb@google.com> wrote:
+>
+> On Wed, Mar 3, 2021 at 3:34 PM Suren Baghdasaryan <surenb@google.com> wrote:
+> >
+> > On Wed, Mar 3, 2021 at 3:17 PM Shakeel Butt <shakeelb@google.com> wrote:
+> > >
+> > > On Wed, Mar 3, 2021 at 10:58 AM Suren Baghdasaryan <surenb@google.com> wrote:
+> > > >
+> > > > process_madvise currently requires ptrace attach capability.
+> > > > PTRACE_MODE_ATTACH gives one process complete control over another
+> > > > process. It effectively removes the security boundary between the
+> > > > two processes (in one direction). Granting ptrace attach capability
+> > > > even to a system process is considered dangerous since it creates an
+> > > > attack surface. This severely limits the usage of this API.
+> > > > The operations process_madvise can perform do not affect the correctness
+> > > > of the operation of the target process; they only affect where the data
+> > > > is physically located (and therefore, how fast it can be accessed).
+> > > > What we want is the ability for one process to influence another process
+> > > > in order to optimize performance across the entire system while leaving
+> > > > the security boundary intact.
+> > > > Replace PTRACE_MODE_ATTACH with a combination of PTRACE_MODE_READ
+> > > > and CAP_SYS_NICE. PTRACE_MODE_READ to prevent leaking ASLR metadata
+> > > > and CAP_SYS_NICE for influencing process performance.
+> > > >
+> > > > Cc: stable@vger.kernel.org # 5.10+
+> > > > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> > > > Reviewed-by: Kees Cook <keescook@chromium.org>
+> > > > Acked-by: Minchan Kim <minchan@kernel.org>
+> > > > Acked-by: David Rientjes <rientjes@google.com>
+> > > > ---
+> > > > changes in v3
+> > > > - Added Reviewed-by: Kees Cook <keescook@chromium.org>
+> > > > - Created man page for process_madvise per Andrew's request: https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/commit/?id=a144f458bad476a3358e3a45023789cb7bb9f993
+> > > > - cc'ed stable@vger.kernel.org # 5.10+ per Andrew's request
+> > > > - cc'ed linux-security-module@vger.kernel.org per James Morris's request
+> > > >
+> > > >  mm/madvise.c | 13 ++++++++++++-
+> > > >  1 file changed, 12 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/mm/madvise.c b/mm/madvise.c
+> > > > index df692d2e35d4..01fef79ac761 100644
+> > > > --- a/mm/madvise.c
+> > > > +++ b/mm/madvise.c
+> > > > @@ -1198,12 +1198,22 @@ SYSCALL_DEFINE5(process_madvise, int, pidfd, const struct iovec __user *, vec,
+> > > >                 goto release_task;
+> > > >         }
+> > > >
+> > > > -       mm = mm_access(task, PTRACE_MODE_ATTACH_FSCREDS);
+> > > > +       /* Require PTRACE_MODE_READ to avoid leaking ASLR metadata. */
+> > > > +       mm = mm_access(task, PTRACE_MODE_READ_FSCREDS);
+> > > >         if (IS_ERR_OR_NULL(mm)) {
+> > > >                 ret = IS_ERR(mm) ? PTR_ERR(mm) : -ESRCH;
+> > > >                 goto release_task;
+> > > >         }
+> > > >
+> > > > +       /*
+> > > > +        * Require CAP_SYS_NICE for influencing process performance. Note that
+> > > > +        * only non-destructive hints are currently supported.
+> > >
+> > > How is non-destructive defined? Is MADV_DONTNEED non-destructive?
+> >
+> > Non-destructive in this context means the data is not lost and can be
+> > recovered. I follow the logic described in
+> > https://lwn.net/Articles/794704/ where Minchan was introducing
+> > MADV_COLD and MADV_PAGEOUT as non-destructive versions of MADV_FREE
+> > and MADV_DONTNEED. Following that logic, MADV_FREE and MADV_DONTNEED
+> > would be considered destructive hints.
+> > Note that process_madvise_behavior_valid() allows only MADV_COLD and
+> > MADV_PAGEOUT at the moment, which are both non-destructive.
+> >
+>
+> There is a plan to support MADV_DONTNEED for this syscall. Do we need
+> to change these access checks again with that support?
 
-Signed-off-by: André Almeida <andrealmeid@collabora.com>
----
-
-This commit is here for the intend to show what we need to do in order
-to get a full NPTL working on top of futex2. It should be merged after
-we talk to glibc folks on the details around the futex_wait() side. For
-instance, we could use this as an opportunity to use private futexes or
-8bit sized futexes, but both sides need to use the exactly same flags.
----
- include/linux/syscalls.h |  2 ++
- kernel/fork.c            |  2 ++
- kernel/futex2.c          | 30 ++++++++++++++++++------------
- 3 files changed, 22 insertions(+), 12 deletions(-)
-
-diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-index b0675f236066..b07b7d4334a6 100644
---- a/include/linux/syscalls.h
-+++ b/include/linux/syscalls.h
-@@ -1316,6 +1316,8 @@ int ksys_ipc(unsigned int call, int first, unsigned long second,
- 	unsigned long third, void __user * ptr, long fifth);
- int compat_ksys_ipc(u32 call, int first, int second,
- 	u32 third, u32 ptr, u32 fifth);
-+long ksys_futex_wake(void __user *uaddr, unsigned long nr_wake,
-+		     unsigned int flags);
- 
- /*
-  * The following kernel syscall equivalents are just wrappers to fs-internal
-diff --git a/kernel/fork.c b/kernel/fork.c
-index d66cd1014211..e39846a73a43 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -1308,6 +1308,8 @@ static void mm_release(struct task_struct *tsk, struct mm_struct *mm)
- 			put_user(0, tsk->clear_child_tid);
- 			do_futex(tsk->clear_child_tid, FUTEX_WAKE,
- 					1, NULL, NULL, 0, 0);
-+			ksys_futex_wake(tsk->clear_child_tid, 1,
-+					FUTEX_32 | FUTEX_SHARED_FLAG);
- 		}
- 		tsk->clear_child_tid = NULL;
- 	}
-diff --git a/kernel/futex2.c b/kernel/futex2.c
-index 92b560206666..dd6f54ae0220 100644
---- a/kernel/futex2.c
-+++ b/kernel/futex2.c
-@@ -924,18 +924,8 @@ static inline bool futex_match(struct futex_key key1, struct futex_key key2)
- 		key1.offset == key2.offset);
- }
- 
--/**
-- * sys_futex_wake - Wake a number of futexes waiting on an address
-- * @uaddr:   Address of futex to be woken up
-- * @nr_wake: Number of futexes waiting in uaddr to be woken up
-- * @flags:   Flags for size and shared
-- *
-- * Wake `nr_wake` threads waiting at uaddr.
-- *
-- * Returns the number of woken threads on success, error code otherwise.
-- */
--SYSCALL_DEFINE3(futex_wake, void __user *, uaddr, unsigned int, nr_wake,
--		unsigned int, flags)
-+long ksys_futex_wake(void __user *uaddr, unsigned long nr_wake,
-+		     unsigned int flags)
- {
- 	bool shared = (flags & FUTEX_SHARED_FLAG) ? true : false;
- 	unsigned int size = flags & FUTEX_SIZE_MASK;
-@@ -972,6 +962,22 @@ SYSCALL_DEFINE3(futex_wake, void __user *, uaddr, unsigned int, nr_wake,
- 	return ret;
- }
- 
-+/**
-+ * sys_futex_wake - Wake a number of futexes waiting on an address
-+ * @uaddr:   Address of futex to be woken up
-+ * @nr_wake: Number of futexes waiting in uaddr to be woken up
-+ * @flags:   Flags for size and shared
-+ *
-+ * Wake `nr_wake` threads waiting at uaddr.
-+ *
-+ * Returns the number of woken threads on success, error code otherwise.
-+ */
-+SYSCALL_DEFINE3(futex_wake, void __user *, uaddr, unsigned int, nr_wake,
-+		unsigned int, flags)
-+{
-+	return ksys_futex_wake(uaddr, nr_wake, flags);
-+}
-+
- static void futex_double_unlock(struct futex_bucket *b1, struct futex_bucket *b2)
- {
- 	spin_unlock(&b1->lock);
--- 
-2.30.1
-
+I think so. Destructive hints affect the data, so we will probably
+need stricter checks for those hints.
