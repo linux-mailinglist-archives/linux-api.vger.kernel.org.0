@@ -2,141 +2,99 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9011F32D957
-	for <lists+linux-api@lfdr.de>; Thu,  4 Mar 2021 19:18:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7528E32D9D8
+	for <lists+linux-api@lfdr.de>; Thu,  4 Mar 2021 20:00:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232441AbhCDSRs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 4 Mar 2021 13:17:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37488 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233664AbhCDSRd (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 4 Mar 2021 13:17:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1614881768;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=wCLLVeuQSYKDdbpI1wltydL0veeTCSBx9VV/dM1Mezo=;
-        b=bd8QSH91FalzgtBOs9rsqhRq3V8PRJwDp9qD/tAr+OKMxFNKqlhLjrD++ZPPh7Lk2U/MN6
-        6XQbeP8va3E7KwViV4gayA5vwJffuJ+S29xS1cQ69z2Sld7aP2WTNTOLWG2iRdDC5VcjLy
-        q5sEahzK4LxIwwta6ttpbaI5jMrzJ44=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-308-HrI0Mh4EPT21OQD9tTiQ3A-1; Thu, 04 Mar 2021 13:16:03 -0500
-X-MC-Unique: HrI0Mh4EPT21OQD9tTiQ3A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E8211084D6B;
-        Thu,  4 Mar 2021 18:16:00 +0000 (UTC)
-Received: from [10.10.112.189] (ovpn-112-189.rdu2.redhat.com [10.10.112.189])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id DE17E5C8A8;
-        Thu,  4 Mar 2021 18:15:32 +0000 (UTC)
-Subject: Re: [Patch v4 1/3] lib: Restrict cpumask_local_spread to houskeeping
- CPUs
-From:   Nitesh Narayan Lal <nitesh@redhat.com>
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>
-Cc:     Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, frederic@kernel.org,
-        juri.lelli@redhat.com, abelits@marvell.com, bhelgaas@google.com,
-        linux-pci@vger.kernel.org, rostedt@goodmis.org, mingo@kernel.org,
-        peterz@infradead.org, davem@davemloft.net,
-        akpm@linux-foundation.org, sfr@canb.auug.org.au,
-        stephen@networkplumber.org, rppt@linux.vnet.ibm.com,
-        jinyuqi@huawei.com, zhangshaokun@hisilicon.com
-References: <20200625223443.2684-1-nitesh@redhat.com>
- <20200625223443.2684-2-nitesh@redhat.com>
- <3e9ce666-c9cd-391b-52b6-3471fe2be2e6@arm.com>
- <20210127121939.GA54725@fuller.cnet> <87r1m5can2.fsf@nanos.tec.linutronix.de>
- <20210128165903.GB38339@fuller.cnet> <87h7n0de5a.fsf@nanos.tec.linutronix.de>
- <20210204181546.GA30113@fuller.cnet>
- <cfa138e9-38e3-e566-8903-1d64024c917b@redhat.com>
- <20210204190647.GA32868@fuller.cnet>
- <d8884413-84b4-b204-85c5-810342807d21@redhat.com>
- <87y2g26tnt.fsf@nanos.tec.linutronix.de>
- <d0aed683-87ae-91a2-d093-de3f5d8a8251@redhat.com>
- <7780ae60-efbd-2902-caaa-0249a1f277d9@redhat.com>
-Organization: Red Hat Inc,
-Message-ID: <07c04bc7-27f0-9c07-9f9e-2d1a450714ef@redhat.com>
-Date:   Thu, 4 Mar 2021 13:15:31 -0500
+        id S236098AbhCDS67 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 4 Mar 2021 13:58:59 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:54832 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236077AbhCDS65 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 4 Mar 2021 13:58:57 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: tonyk)
+        with ESMTPSA id 481E91F46675
+Subject: Re: [RFC PATCH v2 00/13] Add futex2 syscall
+To:     Peter Oskolkov <posk@posk.io>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        kernel@collabora.com, krisman@collabora.com,
+        pgriffais@valvesoftware.com, z.figura12@gmail.com,
+        joel@joelfernandes.org, malteskarupke@fastmail.fm,
+        linux-api@vger.kernel.org, fweimer@redhat.com,
+        libc-alpha@sourceware.org, linux-kselftest@vger.kernel.org,
+        shuah@kernel.org, acme@kernel.org, Jonathan Corbet <corbet@lwn.net>
+References: <20210304004219.134051-1-andrealmeid@collabora.com>
+ <CAFTs51XAr2b3DmcSM4=qeU5cNuh0mTxUbhG66U6bc63YYzkzYA@mail.gmail.com>
+From:   =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>
+Message-ID: <bc54423b-753f-44be-4e4f-4535e27ad35c@collabora.com>
+Date:   Thu, 4 Mar 2021 15:58:07 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <7780ae60-efbd-2902-caaa-0249a1f277d9@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFTs51XAr2b3DmcSM4=qeU5cNuh0mTxUbhG66U6bc63YYzkzYA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+Hi Peter,
 
-On 2/11/21 10:55 AM, Nitesh Narayan Lal wrote:
-> On 2/6/21 7:43 PM, Nitesh Narayan Lal wrote:
->> On 2/5/21 5:23 PM, Thomas Gleixner wrote:
->>> On Thu, Feb 04 2021 at 14:17, Nitesh Narayan Lal wrote:
->>>> On 2/4/21 2:06 PM, Marcelo Tosatti wrote:
->>>>>>> How about adding a new flag for isolcpus instead?
->>>>>>>
->>>>>> Do you mean a flag based on which we can switch the affinity mask to
->>>>>> housekeeping for all the devices at the time of IRQ distribution?
->>>>> Yes a new flag for isolcpus. HK_FLAG_IRQ_SPREAD or some better name.
->>>> Does sounds like a nice idea to explore, lets see what Thomas thinks about it.
-> <snip>
->
->>>> When the affinity mask of the interrupt at the time when it is actually
->>>> requested contains an isolated CPU then nothing prevents the kernel from
->>>> steering it at an isolated CPU. But that has absolutely nothing to do
->>>> with that spreading thingy.
->>>>
->>>> The only difference which this change makes is the fact that the
->>>> affinity hint changes. Nothing else.
->>>>
->> Thanks for the detailed explanation.
+Às 02:44 de 04/03/21, Peter Oskolkov escreveu:
+> On Wed, Mar 3, 2021 at 5:22 PM André Almeida <andrealmeid@collabora.com> wrote:
 >>
->> Before I posted this patch, I was doing some debugging on a setup where I
->> was observing some latency issues due to the iavf IRQs that were pinned on
->> the isolated CPUs.
+>> Hi,
 >>
->> Based on some initial traces I had this impression that the affinity hint
->> or cpumask_local_spread was somehow playing a role in deciding the affinity
->> mask of these IRQs. Although, that does look incorrect after going through
->> your explanation.
->> For some reason, with a kernel that had this patch when I tried creating
->> VFs iavf IRQs always ended up on the HK CPUs.
+>> This patch series introduces the futex2 syscalls.
 >>
->> The reasoning for the above is still not very clear to me. I will investigate
->> this further to properly understand this behavior.
+>> * FAQ
 >>
+>>   ** "And what's about FUTEX_64?"
 >>
-> After a little more digging, I found out why cpumask_local_spread change
-> affects the general/initial smp_affinity for certain device IRQs.
->
-> After the introduction of the commit:
->
->     e2e64a932 genirq: Set initial affinity in irq_set_affinity_hint()
->
+>>   By supporting 64 bit futexes, the kernel structure for futex would
+>>   need to have a 64 bit field for the value, and that could defeat one of
+>>   the purposes of having different sized futexes in the first place:
+>>   supporting smaller ones to decrease memory usage. This might be
+>>   something that could be disabled for 32bit archs (and even for
+>>   CONFIG_BASE_SMALL).
+>>
+>>   Which use case would benefit for FUTEX_64? Does it worth the trade-offs?
+> 
+> The ability to store a pointer value on 64bit platforms is an
+> important use case.
+> Imagine a simple producer/consumer scenario, with the producer updating
+> some shared memory data and waking the consumer. Storing the pointer
+> in the futex makes it so that only one shared memory location needs to be
+> accessed "atomically", etc. With two atomics synchronization becomes
+> more involved (= slower).
+> 
 
-Continuing the conversation about the above commit and adding Jesse.
-I was trying to understand the problem that the commit message explains
-"The default behavior of the kernel is somewhat undesirable as all
-requested interrupts end up on CPU0 after registration.", I have also been
-trying to reproduce this behavior without the patch but I failed in doing
-so, maybe because I am missing something here.
+So the idea is to, instead of doing this:
 
-@Jesse Can you please explain? FWIU IRQ affinity should be decided based on
-the default affinity mask.
+T1:
+atomic_set(&shm_addr, buffer_addr);
+atomic_set(&futex, 0);
+futex_wake(&futex, 1);
 
-The problem with the commit is that when we overwrite the affinity mask
-based on the hinting mask we completely ignore the default SMP affinity
-mask. If we do want to overwrite the affinity based on the hint mask we
-should atleast consider the default SMP affinity.
+T2:
+consume(shm_addr);
 
--- 
-Thanks
-Nitesh
+To do that:
 
+T1:
+atomic_set(&futex, buffer_addr);
+futex_wake(&futex, 1);
+
+T2:
+consume(futex);
+
+Right?
+
+I'll try to write a small test to see how the perf numbers looks like.
