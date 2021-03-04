@@ -2,131 +2,70 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DAD7032D357
-	for <lists+linux-api@lfdr.de>; Thu,  4 Mar 2021 13:38:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D44832D5D2
+	for <lists+linux-api@lfdr.de>; Thu,  4 Mar 2021 16:03:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232547AbhCDMhh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 4 Mar 2021 07:37:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38490 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240908AbhCDMhJ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 4 Mar 2021 07:37:09 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B31AC061764
-        for <linux-api@vger.kernel.org>; Thu,  4 Mar 2021 04:36:06 -0800 (PST)
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <sha@pengutronix.de>)
-        id 1lHnD1-0006w2-1Q; Thu, 04 Mar 2021 13:36:03 +0100
-Received: from sha by dude02.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <sha@pengutronix.de>)
-        id 1lHnD0-00044V-2W; Thu, 04 Mar 2021 13:36:02 +0100
-From:   Sascha Hauer <s.hauer@pengutronix.de>
-To:     linux-fsdevel@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        Christoph Hellwig <hch@infradead.org>, kernel@pengutronix.de,
-        Jan Kara <jack@suse.com>, Richard Weinberger <richard@nod.at>,
-        Sascha Hauer <s.hauer@pengutronix.de>
-Subject: [PATCH] quotactl.2: Add documentation for quotactl_path()
-Date:   Thu,  4 Mar 2021 13:35:41 +0100
-Message-Id: <20210304123541.30749-4-s.hauer@pengutronix.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210304123541.30749-1-s.hauer@pengutronix.de>
-References: <20210304123541.30749-1-s.hauer@pengutronix.de>
+        id S232958AbhCDPDQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 4 Mar 2021 10:03:16 -0500
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:51200 "EHLO
+        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S232988AbhCDPDF (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 4 Mar 2021 10:03:05 -0500
+Received: from cwcc.thunk.org (pool-72-74-133-215.bstnma.fios.verizon.net [72.74.133.215])
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 124F1E6c002357
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 4 Mar 2021 10:01:15 -0500
+Received: by cwcc.thunk.org (Postfix, from userid 15806)
+        id A243015C3A88; Thu,  4 Mar 2021 10:01:14 -0500 (EST)
+Date:   Thu, 4 Mar 2021 10:01:14 -0500
+From:   "Theodore Ts'o" <tytso@mit.edu>
+To:     =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@collabora.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Darren Hart <dvhart@infradead.org>,
+        linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        kernel@collabora.com, krisman@collabora.com,
+        pgriffais@valvesoftware.com, z.figura12@gmail.com,
+        joel@joelfernandes.org, malteskarupke@fastmail.fm,
+        linux-api@vger.kernel.org, fweimer@redhat.com,
+        libc-alpha@sourceware.org, linux-kselftest@vger.kernel.org,
+        shuah@kernel.org, acme@kernel.org, corbet@lwn.net
+Subject: Re: [RFC PATCH v2 00/13] Add futex2 syscall
+Message-ID: <YED2OrBdsiYWMqpp@mit.edu>
+References: <20210304004219.134051-1-andrealmeid@collabora.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-api@vger.kernel.org
+In-Reply-To: <20210304004219.134051-1-andrealmeid@collabora.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Expand the quotactl.2 manpage with a description for quotactl_path()
-that takes a mountpoint path instead of a path to a block device.
+On Wed, Mar 03, 2021 at 09:42:06PM -0300, André Almeida wrote:
+>  ** Performance
+> 
+>  - For comparing futex() and futex2() performance, I used the artificial
+>    benchmarks implemented at perf (wake, wake-parallel, hash and
+>    requeue). The setup was 200 runs for each test and using 8, 80, 800,
+>    8000 for the number of threads, Note that for this test, I'm not using
+>    patch 14 ("kernel: Enable waitpid() for futex2") , for reasons explained
+>    at "The patchset" section.
 
-Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
----
- man2/quotactl.2      | 31 ++++++++++++++++++++++++++++---
- man2/quotactl_path.2 |  1 +
- 2 files changed, 29 insertions(+), 3 deletions(-)
- create mode 100644 man2/quotactl_path.2
+How heavily contended where the benchmarks?  One of the benefits of
+the original futex was that no system call was necessary in the happy
+path when the lock is uncontended.  Especially on a non-NUMA system
+(which are the far more common case), since that's where relying on a
+single memory access was a huge win for the original futex.  I would
+expect that futex2 will fare worse in this particular case, since it
+requires a system call entry for all operations --- the question is
+how large is the delta in this worst case (for futex2) and best case
+(for futex) scenario.
 
-diff --git a/man2/quotactl.2 b/man2/quotactl.2
-index 7869c64ea..76505c668 100644
---- a/man2/quotactl.2
-+++ b/man2/quotactl.2
-@@ -34,6 +34,8 @@ quotactl \- manipulate disk quotas
- .PP
- .BI "int quotactl(int " cmd ", const char *" special ", int " id \
- ", caddr_t " addr );
-+.BI "int quotactl_path(int " cmd ", const char *" mountpoint ", int " id \
-+", caddr_t " addr );
- .fi
- .SH DESCRIPTION
- The quota system can be used to set per-user, per-group, and per-project limits
-@@ -48,7 +50,11 @@ after this, the soft limit counts as a hard limit.
- .PP
- The
- .BR quotactl ()
--call manipulates disk quotas.
-+and
-+.BR quotactl_path ()
-+calls manipulate disk quotas. The difference between both functions is the way
-+how the filesystem being manipulated is specified, see description of the arguments
-+below.
- The
- .I cmd
- argument indicates a command to be applied to the user or
-@@ -75,10 +81,19 @@ value is described below.
- .PP
- The
- .I special
--argument is a pointer to a null-terminated string containing the pathname
-+argument to
-+.BR quotactl ()
-+is a pointer to a null-terminated string containing the pathname
- of the (mounted) block special device for the filesystem being manipulated.
- .PP
- The
-+.I mountpoint
-+argument to
-+.BR quotactl_path ()
-+is a pointer to a null-terminated string containing the pathname
-+of the mountpoint for the filesystem being manipulated.
-+.PP
-+The
- .I addr
- argument is the address of an optional, command-specific, data structure
- that is copied in or out of the system.
-@@ -133,7 +148,17 @@ flag in the
- .I dqi_flags
- field returned by the
- .B Q_GETINFO
--operation.
-+operation. The
-+.BR quotactl_path ()
-+variant of this syscall generally ignores the
-+.IR addr
-+and
-+.IR id
-+arguments, so the
-+.B Q_QUOTAON
-+operation of
-+.BR quotactl_path ()
-+is only suitable for work with hidden system inodes.
- .IP
- This operation requires privilege
- .RB ( CAP_SYS_ADMIN ).
-diff --git a/man2/quotactl_path.2 b/man2/quotactl_path.2
-new file mode 100644
-index 000000000..5f63187c6
---- /dev/null
-+++ b/man2/quotactl_path.2
-@@ -0,0 +1 @@
-+.so man2/quotactl.2
--- 
-2.20.1
+Cheers,
 
+						- Ted
