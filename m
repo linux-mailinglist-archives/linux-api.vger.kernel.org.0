@@ -2,94 +2,161 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8079232ED24
-	for <lists+linux-api@lfdr.de>; Fri,  5 Mar 2021 15:30:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CB5932F164
+	for <lists+linux-api@lfdr.de>; Fri,  5 Mar 2021 18:38:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231253AbhCEO34 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 5 Mar 2021 09:29:56 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:49364 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230415AbhCEO3s (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 5 Mar 2021 09:29:48 -0500
-Received: from zn.tnic (p200300ec2f0b9500a5847b5a228c2b11.dip0.t-ipconnect.de [IPv6:2003:ec:2f0b:9500:a584:7b5a:228c:2b11])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 378C51EC0521;
-        Fri,  5 Mar 2021 15:29:46 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1614954586;
+        id S229729AbhCERi0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 5 Mar 2021 12:38:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25865 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229486AbhCERhz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 5 Mar 2021 12:37:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1614965874;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=756DJLydScKg6OQ7shRw8IU5LHdGM90c3wF/c6DK94s=;
-        b=hB7qolct0HXVDkhC+NG1uce7LdVUT17tmjPoMVViUOt2acE0eZclGgP6iTc6kLwqmWh5zz
-        WXVbm2MGRnH4V8aBErUPvI2qeTMbqEQUFgpMTGb/KqMEER4gscnxIleMXQj/axZ83IpEqn
-        6P/a5HbB25LXW8wJeDLnwpqgIgh3j4k=
-Date:   Fri, 5 Mar 2021 15:29:40 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=1pstCskjGQYab2elD3CQ/iN4ZZd067qESB40Q5CZz10=;
+        b=jVm0kN0JFfhjsH/rglUwZL9unkF0e1dWxF2h3gI8t12Ny0RRot7Vo4siBAtY513iU1bj4X
+        Fwg2abVdZxi/GkO1Tj1wFwBnInBl1WYPx4lpfS7d1quorA+2UYCH1sFp7tro10nWHVYseJ
+        3GurQoMVuADONoQ49RVIKrYUZ3B4Azs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-506-radlGuQOOnS2d24bRP3Fgw-1; Fri, 05 Mar 2021 12:37:50 -0500
+X-MC-Unique: radlGuQOOnS2d24bRP3Fgw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C5AE6881276;
+        Fri,  5 Mar 2021 17:37:47 +0000 (UTC)
+Received: from [10.36.112.194] (ovpn-112-194.ams2.redhat.com [10.36.112.194])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 613526B8DC;
+        Fri,  5 Mar 2021 17:37:40 +0000 (UTC)
+Subject: Re: [PATCH v3 1/1] mm/madvise: replace ptrace attach requirement for
+ process_madvise
+To:     Shakeel Butt <shakeelb@google.com>,
+        Suren Baghdasaryan <surenb@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Jann Horn <jannh@google.com>,
         Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-Subject: Re: [PATCH v21 10/26] x86/mm: Update pte_modify for _PAGE_COW
-Message-ID: <20210305142940.GC2685@zn.tnic>
-References: <20210217222730.15819-1-yu-cheng.yu@intel.com>
- <20210217222730.15819-11-yu-cheng.yu@intel.com>
+        Jeffrey Vander Stoep <jeffv@google.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Michal Hocko <mhocko@suse.com>,
+        David Rientjes <rientjes@google.com>,
+        =?UTF-8?Q?Edgar_Arriaga_Garc=c3=ada?= <edgararriaga@google.com>,
+        Tim Murray <timmurray@google.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        James Morris <jmorris@namei.org>,
+        Linux MM <linux-mm@kvack.org>,
+        SElinux list <selinux@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        stable <stable@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kernel-team <kernel-team@android.com>
+References: <20210303185807.2160264-1-surenb@google.com>
+ <CALvZod73Uem8jzP3QQdQ6waXbx80UUOTJQS7WBwnmaCdq++8xw@mail.gmail.com>
+ <CAJuCfpFgDRezmQMjCajXzBp86UbMLMJbqEaeo0_J+pneZ5XOgg@mail.gmail.com>
+ <CALvZod4nZ6W05N-4ostUEz5EbCuEvuBpc4LRYfAFgwQU-wb9dQ@mail.gmail.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <b45d9599-b917-10c3-6b86-6ecd8db16d43@redhat.com>
+Date:   Fri, 5 Mar 2021 18:37:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210217222730.15819-11-yu-cheng.yu@intel.com>
+In-Reply-To: <CALvZod4nZ6W05N-4ostUEz5EbCuEvuBpc4LRYfAFgwQU-wb9dQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Feb 17, 2021 at 02:27:14PM -0800, Yu-cheng Yu wrote:
-> @@ -787,16 +802,34 @@ static inline pte_t pte_modify(pte_t pte, pgprot_t newprot)
->  	 */
->  	val &= _PAGE_CHG_MASK;
->  	val |= check_pgprot(newprot) & ~_PAGE_CHG_MASK;
-> +	val = fixup_dirty_pte(val);
+On 04.03.21 01:03, Shakeel Butt wrote:
+> On Wed, Mar 3, 2021 at 3:34 PM Suren Baghdasaryan <surenb@google.com> wrote:
+>>
+>> On Wed, Mar 3, 2021 at 3:17 PM Shakeel Butt <shakeelb@google.com> wrote:
+>>>
+>>> On Wed, Mar 3, 2021 at 10:58 AM Suren Baghdasaryan <surenb@google.com> wrote:
+>>>>
+>>>> process_madvise currently requires ptrace attach capability.
+>>>> PTRACE_MODE_ATTACH gives one process complete control over another
+>>>> process. It effectively removes the security boundary between the
+>>>> two processes (in one direction). Granting ptrace attach capability
+>>>> even to a system process is considered dangerous since it creates an
+>>>> attack surface. This severely limits the usage of this API.
+>>>> The operations process_madvise can perform do not affect the correctness
+>>>> of the operation of the target process; they only affect where the data
+>>>> is physically located (and therefore, how fast it can be accessed).
+>>>> What we want is the ability for one process to influence another process
+>>>> in order to optimize performance across the entire system while leaving
+>>>> the security boundary intact.
+>>>> Replace PTRACE_MODE_ATTACH with a combination of PTRACE_MODE_READ
+>>>> and CAP_SYS_NICE. PTRACE_MODE_READ to prevent leaking ASLR metadata
+>>>> and CAP_SYS_NICE for influencing process performance.
+>>>>
+>>>> Cc: stable@vger.kernel.org # 5.10+
+>>>> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+>>>> Reviewed-by: Kees Cook <keescook@chromium.org>
+>>>> Acked-by: Minchan Kim <minchan@kernel.org>
+>>>> Acked-by: David Rientjes <rientjes@google.com>
+>>>> ---
+>>>> changes in v3
+>>>> - Added Reviewed-by: Kees Cook <keescook@chromium.org>
+>>>> - Created man page for process_madvise per Andrew's request: https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/commit/?id=a144f458bad476a3358e3a45023789cb7bb9f993
+>>>> - cc'ed stable@vger.kernel.org # 5.10+ per Andrew's request
+>>>> - cc'ed linux-security-module@vger.kernel.org per James Morris's request
+>>>>
+>>>>   mm/madvise.c | 13 ++++++++++++-
+>>>>   1 file changed, 12 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/mm/madvise.c b/mm/madvise.c
+>>>> index df692d2e35d4..01fef79ac761 100644
+>>>> --- a/mm/madvise.c
+>>>> +++ b/mm/madvise.c
+>>>> @@ -1198,12 +1198,22 @@ SYSCALL_DEFINE5(process_madvise, int, pidfd, const struct iovec __user *, vec,
+>>>>                  goto release_task;
+>>>>          }
+>>>>
+>>>> -       mm = mm_access(task, PTRACE_MODE_ATTACH_FSCREDS);
+>>>> +       /* Require PTRACE_MODE_READ to avoid leaking ASLR metadata. */
+>>>> +       mm = mm_access(task, PTRACE_MODE_READ_FSCREDS);
+>>>>          if (IS_ERR_OR_NULL(mm)) {
+>>>>                  ret = IS_ERR(mm) ? PTR_ERR(mm) : -ESRCH;
+>>>>                  goto release_task;
+>>>>          }
+>>>>
+>>>> +       /*
+>>>> +        * Require CAP_SYS_NICE for influencing process performance. Note that
+>>>> +        * only non-destructive hints are currently supported.
+>>>
+>>> How is non-destructive defined? Is MADV_DONTNEED non-destructive?
+>>
+>> Non-destructive in this context means the data is not lost and can be
+>> recovered. I follow the logic described in
+>> https://lwn.net/Articles/794704/ where Minchan was introducing
+>> MADV_COLD and MADV_PAGEOUT as non-destructive versions of MADV_FREE
+>> and MADV_DONTNEED. Following that logic, MADV_FREE and MADV_DONTNEED
+>> would be considered destructive hints.
+>> Note that process_madvise_behavior_valid() allows only MADV_COLD and
+>> MADV_PAGEOUT at the moment, which are both non-destructive.
+>>
+> 
+> There is a plan to support MADV_DONTNEED for this syscall. Do we need
+> to change these access checks again with that support?
 
-Do I see it correctly that you can do here and below:
+Eh, I absolutely don't think letting another process discard memory in 
+another process' address space is a good idea. The target process can 
+observe that easily and might even run into real issues.
 
-	/*
-	 * Fix up potential shadow stack page flags because the RO, Dirty PTE is
-	 * special.
-	 */
-	if (pte_dirty()) {
-		pte_mkclean();
-		pte_mkdirty();
-	}
-
-?
-
-That fixup thing looks grafted and not like a normal flow to me.
+What's the use case?
 
 -- 
-Regards/Gruss,
-    Boris.
+Thanks,
 
-https://people.kernel.org/tglx/notes-about-netiquette
+David / dhildenb
+
