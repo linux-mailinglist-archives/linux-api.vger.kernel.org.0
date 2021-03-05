@@ -2,201 +2,215 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9631332DDD4
-	for <lists+linux-api@lfdr.de>; Fri,  5 Mar 2021 00:23:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D314632E695
+	for <lists+linux-api@lfdr.de>; Fri,  5 Mar 2021 11:44:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233003AbhCDXXU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 4 Mar 2021 18:23:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57037 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232741AbhCDXXT (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 4 Mar 2021 18:23:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1614900199;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=MnytmvR9EgRDtqBYT2OPErFkvJpnrPLeu+T2bLeBpMQ=;
-        b=C4M5+nrAR7JC3ILOsYdgAzOZOuEuASI81BGZX4er98vgDf2i+n2T3F3lAoFeegwA+WNYp3
-        oZ/j3qektwMYRgMICd8dDNYi6IOQwuMzI722EfOPaZHxvggCC6LaIdH1AxcDNdpNGjA9mp
-        BqQhbRZOXhbRfK9eKWPMxXoHk+uG5MM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-264-MogDKMT5MLqdHFaevOLoVQ-1; Thu, 04 Mar 2021 18:23:17 -0500
-X-MC-Unique: MogDKMT5MLqdHFaevOLoVQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 333A61842146;
-        Thu,  4 Mar 2021 23:23:14 +0000 (UTC)
-Received: from [10.10.112.189] (ovpn-112-189.rdu2.redhat.com [10.10.112.189])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D0C639A71;
-        Thu,  4 Mar 2021 23:23:04 +0000 (UTC)
-Subject: Re: [EXT] Re: [Patch v4 1/3] lib: Restrict cpumask_local_spread to
- houskeeping CPUs
-To:     Alex Belits <abelits@marvell.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>
-Cc:     Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, frederic@kernel.org,
-        juri.lelli@redhat.com, bhelgaas@google.com,
-        linux-pci@vger.kernel.org, rostedt@goodmis.org, mingo@kernel.org,
-        peterz@infradead.org, davem@davemloft.net,
-        akpm@linux-foundation.org, sfr@canb.auug.org.au,
-        stephen@networkplumber.org, rppt@linux.vnet.ibm.com,
-        jinyuqi@huawei.com, zhangshaokun@hisilicon.com
-References: <20200625223443.2684-1-nitesh@redhat.com>
- <20200625223443.2684-2-nitesh@redhat.com>
- <3e9ce666-c9cd-391b-52b6-3471fe2be2e6@arm.com>
- <20210127121939.GA54725@fuller.cnet> <87r1m5can2.fsf@nanos.tec.linutronix.de>
- <20210128165903.GB38339@fuller.cnet> <87h7n0de5a.fsf@nanos.tec.linutronix.de>
- <20210204181546.GA30113@fuller.cnet>
- <cfa138e9-38e3-e566-8903-1d64024c917b@redhat.com>
- <20210204190647.GA32868@fuller.cnet>
- <d8884413-84b4-b204-85c5-810342807d21@redhat.com>
- <87y2g26tnt.fsf@nanos.tec.linutronix.de>
- <d0aed683-87ae-91a2-d093-de3f5d8a8251@redhat.com>
- <7780ae60-efbd-2902-caaa-0249a1f277d9@redhat.com>
- <07c04bc7-27f0-9c07-9f9e-2d1a450714ef@redhat.com>
- <faa8d84e-db67-7fbe-891e-f4987f106b20@marvell.com>
-From:   Nitesh Narayan Lal <nitesh@redhat.com>
-Organization: Red Hat Inc,
-Message-ID: <250eedca-e594-e8d4-358b-4472aa9e3588@redhat.com>
-Date:   Thu, 4 Mar 2021 18:23:03 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+        id S229582AbhCEKoJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 5 Mar 2021 05:44:09 -0500
+Received: from mx2.suse.de ([195.135.220.15]:53584 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229493AbhCEKnj (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 5 Mar 2021 05:43:39 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id EDAD5AF24;
+        Fri,  5 Mar 2021 10:43:37 +0000 (UTC)
+Date:   Fri, 5 Mar 2021 11:43:25 +0100
+From:   Borislav Petkov <bp@suse.de>
+To:     "Chang S. Bae" <chang.seok.bae@intel.com>
+Cc:     tglx@linutronix.de, mingo@kernel.org, luto@kernel.org,
+        x86@kernel.org, len.brown@intel.com, dave.hansen@intel.com,
+        hjl.tools@gmail.com, Dave.Martin@arm.com, jannh@google.com,
+        mpe@ellerman.id.au, carlos@redhat.com, tony.luck@intel.com,
+        ravi.v.shankar@intel.com, libc-alpha@sourceware.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Fenghua Yu <fenghua.yu@intel.com>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 3/6] x86/elf: Support a new ELF aux vector
+ AT_MINSIGSTKSZ
+Message-ID: <20210305104325.GA2896@zn.tnic>
+References: <20210227165911.32757-1-chang.seok.bae@intel.com>
+ <20210227165911.32757-4-chang.seok.bae@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <faa8d84e-db67-7fbe-891e-f4987f106b20@marvell.com>
 Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210227165911.32757-4-chang.seok.bae@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Sat, Feb 27, 2021 at 08:59:08AM -0800, Chang S. Bae wrote:
+> Historically, signal.h defines MINSIGSTKSZ (2KB) and SIGSTKSZ (8KB), for
+> use by all architectures with sigaltstack(2). Over time, the hardware state
+> size grew, but these constants did not evolve. Today, literal use of these
+> constants on several architectures may result in signal stack overflow, and
+> thus user data corruption.
+> 
+> A few years ago, the ARM team addressed this issue by establishing
+> getauxval(AT_MINSIGSTKSZ). This enables the kernel to supply at runtime
+> value that is an appropriate replacement on the current and future
+> hardware.
+> 
+> Add getauxval(AT_MINSIGSTKSZ) support to x86, analogous to the support
+> added for ARM in commit 94b07c1f8c39 ("arm64: signal: Report signal frame
+> size to userspace via auxv").
+> 
+> Also, include a documentation to describe x86-specific auxiliary vectors.
+> 
+> Reported-by: Florian Weimer <fweimer@redhat.com>
+> Fixes: c2bc11f10a39 ("x86, AVX-512: Enable AVX-512 States Context Switch")
 
-On 3/4/21 4:13 PM, Alex Belits wrote:
-> On 3/4/21 10:15, Nitesh Narayan Lal wrote:
->> External Email
->>
->> ----------------------------------------------------------------------
->>
->> On 2/11/21 10:55 AM, Nitesh Narayan Lal wrote:
->>> On 2/6/21 7:43 PM, Nitesh Narayan Lal wrote:
->>>> On 2/5/21 5:23 PM, Thomas Gleixner wrote:
->>>>> On Thu, Feb 04 2021 at 14:17, Nitesh Narayan Lal wrote:
->>>>>> On 2/4/21 2:06 PM, Marcelo Tosatti wrote:
->>>>>>>>> How about adding a new flag for isolcpus instead?
->>>>>>>>>
->>>>>>>> Do you mean a flag based on which we can switch the affinity mask to
->>>>>>>> housekeeping for all the devices at the time of IRQ distribution?
->>>>>>> Yes a new flag for isolcpus. HK_FLAG_IRQ_SPREAD or some better name.
->>>>>> Does sounds like a nice idea to explore, lets see what Thomas thinks
->>>>>> about it.
->>> <snip>
->>>
->>>>>> When the affinity mask of the interrupt at the time when it is actually
->>>>>> requested contains an isolated CPU then nothing prevents the kernel from
->>>>>> steering it at an isolated CPU. But that has absolutely nothing to do
->>>>>> with that spreading thingy.
->>>>>>
->>>>>> The only difference which this change makes is the fact that the
->>>>>> affinity hint changes. Nothing else.
->>>>>>
->>>> Thanks for the detailed explanation.
->>>>
->>>> Before I posted this patch, I was doing some debugging on a setup where I
->>>> was observing some latency issues due to the iavf IRQs that were pinned on
->>>> the isolated CPUs.
->>>>
->>>> Based on some initial traces I had this impression that the affinity hint
->>>> or cpumask_local_spread was somehow playing a role in deciding the affinity
->>>> mask of these IRQs. Although, that does look incorrect after going through
->>>> your explanation.
->>>> For some reason, with a kernel that had this patch when I tried creating
->>>> VFs iavf IRQs always ended up on the HK CPUs.
->>>>
->>>> The reasoning for the above is still not very clear to me. I will
->>>> investigate
->>>> this further to properly understand this behavior.
->>>>
->>>>
->>> After a little more digging, I found out why cpumask_local_spread change
->>> affects the general/initial smp_affinity for certain device IRQs.
->>>
->>> After the introduction of the commit:
->>>
->>>      e2e64a932 genirq: Set initial affinity in irq_set_affinity_hint()
->>>
->>
->> Continuing the conversation about the above commit and adding Jesse.
->> I was trying to understand the problem that the commit message explains
->> "The default behavior of the kernel is somewhat undesirable as all
->> requested interrupts end up on CPU0 after registration.", I have also been
->> trying to reproduce this behavior without the patch but I failed in doing
->> so, maybe because I am missing something here.
->>
->> @Jesse Can you please explain? FWIU IRQ affinity should be decided based on
->> the default affinity mask.
->>
->> The problem with the commit is that when we overwrite the affinity mask
->> based on the hinting mask we completely ignore the default SMP affinity
->> mask. If we do want to overwrite the affinity based on the hint mask we
->> should atleast consider the default SMP affinity.
->>
->
-> cpumask_local_spread() is used by a small number of drivers, mostly for
-> Ethernet and cryptographic devices, however it includes Cavium and Marvell
-> devices that were included in every piece of hardware that I and Yury Norov
-> worked on. Without my patch (or previous, later replaced, Yury's patch that
-> was developed before there were housekeeping CPUs), driver would completely
-> break any attempts to configure task isolation, because it would distribute
-> processing over CPUs regardless of any masks related to isolation (and later
-> housekeeping). This is why it was created, and it just happens that it also
-> makes sense for CPU isolation in general. Of course, none of it would be
-> experienced on hardware that does not include those devices, possibly
-> creating some wrong impression about its effect and purpose.
->
-> It may be that my patch can be criticized for not accommodating CPU hotplug
-> and other runtime changes of masks. Or drivers can be criticized for their
-> behavior that relies on calling cpumask_local_spread() once on
-> initialization and then assuming that all CPUs are configured forever.
-> However as far as I can tell, currently we have no other means of
-> controlling the behavior of drivers that manage their own interrupt or
-> thread to CPU mapping, and no way to communicate any of those changes to
-> them while they are running. Drivers may have legitimate reasons for
-> maintaining permanent or semi-permanent CPU core to interrupt mapping,
-> especially on devices with very large numbers of CPU cores and built-in
-> support for parallel processing of network packets.
->
-> If we want it to be done in some manner that accommodates current demands,
-> we should simply replace cpumask_local_spread() with something else, or,
-> maybe, add some means that will allow dynamic changes. Thankfully, there are
-> very few (IIRC, 19) places where cpumask_local_spread() is used, so it may
-> be accommodated with relatively small amount of code to write and test. Then
-> everything else will be able to switch to the same mechanism whenever
-> necessary.
->
+Right, so this has a Fixes: tag and points to bugzilla entry which talks
+about signal stack corruption with AVX-512F.
 
-So there are two different issues, the first issue is how the mask
-retrieved based on the cpumask_local_spread is used to set IRQ affinity.
-Ideally when a device is initialized its IRQs are distributed based on the
-default SMP affinity mask (considering irqbalance is disabled). However, it
-is not the case right now as some drivers that set their hint affinity
-using cpumask_local_spread overwrites the previously set affinity mask for
-the IRQs. So even if you configure the default_smp_affinity from the
-userspace it will not affect these device IRQs. This is precisely why your
-fix for cpumask_local_spread helped in improving the isolation.
+But if this is going to be backported to stable, then the patch(es)
+should be minimal and not contain documentation. And if so, one will
+need all three to be backported, which means, a cc:stable should contain
+a comment explaining that.
 
-The second issue that you brought up is to balance the IRQ-specific load
-between CPUs efficiently. FWIU if you have irqbalance enabled it should
-already be doing that based on the policy that you define in the userspace.
-Is that not the case or maybe I am missing something?
+Or am I misreading and they should not need to be backported to stable
+because some <non-obvious reason>?
+
+Also, I'm not sure backporting a patch to stable which changes ABI is
+ok. It probably is but I don't know.
+
+So what's the deal here?
+
+> Signed-off-by: Chang S. Bae <chang.seok.bae@intel.com>
+> Reviewed-by: Len Brown <len.brown@intel.com>
+> Cc: H.J. Lu <hjl.tools@gmail.com>
+> Cc: Fenghua Yu <fenghua.yu@intel.com>
+> Cc: Dave Martin <Dave.Martin@arm.com>
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: x86@kernel.org
+> Cc: libc-alpha@sourceware.org
+> Cc: linux-arch@vger.kernel.org
+> Cc: linux-api@vger.kernel.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=153531
+> ---
+> Changes from v5:
+> * Added a documentation.
+> ---
+>  Documentation/x86/elf_auxvec.rst   | 56 ++++++++++++++++++++++++++++++
+>  arch/x86/include/asm/elf.h         |  4 +++
+>  arch/x86/include/uapi/asm/auxvec.h |  4 +--
+>  arch/x86/kernel/signal.c           |  5 +++
+>  4 files changed, 67 insertions(+), 2 deletions(-)
+
+You also need:
+
+diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
+index 4693e192b447..d58614d5cde6 100644
+--- a/Documentation/x86/index.rst
++++ b/Documentation/x86/index.rst
+@@ -35,3 +35,4 @@ x86-specific Documentation
+    sva
+    sgx
+    features
++   elf_auxvec
+
+to add this to the TOC.
+
+>  create mode 100644 Documentation/x86/elf_auxvec.rst
+> 
+> diff --git a/Documentation/x86/elf_auxvec.rst b/Documentation/x86/elf_auxvec.rst
+> new file mode 100644
+> index 000000000000..751c552c4048
+> --- /dev/null
+> +++ b/Documentation/x86/elf_auxvec.rst
+> @@ -0,0 +1,56 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +==================================
+> +x86-specific ELF Auxiliary Vectors
+> +==================================
+> +
+> +This document describes the semantics of the x86 auxiliary vectors.
+> +
+> +1. Introduction
+> +---------------
+> +
+> +ELF Auxiliary vectors enable the kernel to efficiently provide
+> +configuration specific parameters to userspace. In this example, a program
+> +allocates an alternate stack based on the kernel-provided size.
+> +
+> +   #include <sys/auxv.h>
+> +   #include <elf.h>
+> +
+> +   #ifndef AT_MINSIGSTKSZ
+> +   #define AT_MINSIGSTKSZ	51
+> +   #endif
+> +
+> +   stack_t ss;
+> +   int err;
+> +
+> +   ss.ss_size = getauxval(AT_MINSIGSTKSZ) + SIGSTKSZ;
+> +   ss.ss_sp = malloc(ss.ss_size);
+> +   ...
+> +
+> +   err = sigaltstack(&ss, NULL);
+> +   ...
+
+That source code needs some special markup to look like source code -
+currently, the result looks bad.
+
+> +
+> +
+> +2. The exposed auxiliary vectors
+> +---------------------------------
+> +
+> +AT_SYSINFO
+> +    The entry point to the system call function the virtual Dynamic Shared
+> +    Object (vDSO), not exported on 64-bit.
+
+I can't parse that sentence.
+
+> +
+> +AT_SYSINFO_EHDR
+> +    The start address of the page containing vDSO.
+						^
+						the
+
+
+> +
+> +AT_MINSIGSTKSZ
+> +    The minimum stack size required to deliver a signal. It is a calculated
+> +    sigframe size based on the largest possible user context. When programs
+> +    use sigaltstack() to provide alternate signal stack, that stack must be
+> +    at least the size to function properly on this hardware. Note that this
+> +    is a minimum of the kernel to correctly get to the signal handler.
+
+I get what this is trying to say but it reads weird. Simplify pls.
+
+> +    Additional space must be added to handle objects pushed onto the stack
+> +    by the signal handlers, as well as for nested signal delivery.
+> +
+> +    The purpose of this parameter is to accommodate the different stack
+> +    sizes required by different hardware configuration. E.g., the x86
+> +    system supporting the Advanced Vector Extension needs at least 8KB more
+> +    than the one without it.
+
+That could be simplified too.
+
+> diff --git a/arch/x86/include/asm/elf.h b/arch/x86/include/asm/elf.h
+> index 66bdfe838d61..cd10795c178e 100644
+> --- a/arch/x86/include/asm/elf.h
+> +++ b/arch/x86/include/asm/elf.h
+> @@ -312,6 +312,7 @@ do {									\
+>  		NEW_AUX_ENT(AT_SYSINFO,	VDSO_ENTRY);			\
+>  		NEW_AUX_ENT(AT_SYSINFO_EHDR, VDSO_CURRENT_BASE);	\
+>  	}								\
+> +	NEW_AUX_ENT(AT_MINSIGSTKSZ, get_sigframe_size());			\
+
+Check vertical alignment of the '\'
+
+Thx.
 
 -- 
-Thanks
-Nitesh
+Regards/Gruss,
+    Boris.
 
+SUSE Software Solutions Germany GmbH, GF: Felix Imendörffer, HRB 36809, AG Nürnberg
