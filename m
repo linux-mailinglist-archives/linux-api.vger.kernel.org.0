@@ -2,89 +2,80 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 26D91330C06
-	for <lists+linux-api@lfdr.de>; Mon,  8 Mar 2021 12:13:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 52F5F330C4F
+	for <lists+linux-api@lfdr.de>; Mon,  8 Mar 2021 12:28:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231313AbhCHLM2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 8 Mar 2021 06:12:28 -0500
-Received: from eu-smtp-delivery-151.mimecast.com ([185.58.86.151]:43836 "EHLO
-        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231506AbhCHLMW (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 8 Mar 2021 06:12:22 -0500
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-112-KNB_LER4Oqm6bhVHwCpAlw-1; Mon, 08 Mar 2021 11:11:13 +0000
-X-MC-Unique: KNB_LER4Oqm6bhVHwCpAlw-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Mon, 8 Mar 2021 11:11:13 +0000
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
- Mon, 8 Mar 2021 11:11:13 +0000
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Stefan Metzmacher' <metze@samba.org>,
-        =?utf-8?B?QW5kcsOpIEFsbWVpZGE=?= <andrealmeid@collabora.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Ingo Molnar" <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Darren Hart" <dvhart@infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-CC:     "kernel@collabora.com" <kernel@collabora.com>,
-        "krisman@collabora.com" <krisman@collabora.com>,
-        "pgriffais@valvesoftware.com" <pgriffais@valvesoftware.com>,
-        "z.figura12@gmail.com" <z.figura12@gmail.com>,
-        "joel@joelfernandes.org" <joel@joelfernandes.org>,
-        "malteskarupke@fastmail.fm" <malteskarupke@fastmail.fm>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "shuah@kernel.org" <shuah@kernel.org>,
-        "acme@kernel.org" <acme@kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        io-uring <io-uring@vger.kernel.org>
-Subject: RE: [RFC PATCH v2 00/13] Add futex2 syscall
-Thread-Topic: [RFC PATCH v2 00/13] Add futex2 syscall
-Thread-Index: AQHXE0YJHACUUxYyXUab2jknvqbfD6p571Lw
-Date:   Mon, 8 Mar 2021 11:11:13 +0000
-Message-ID: <f594f043f5c7440d8e3534e9a14c97c4@AcuMS.aculab.com>
-References: <20210304004219.134051-1-andrealmeid@collabora.com>
- <ecbed98e-882a-0c0e-d4e1-bd33960f3674@samba.org>
-In-Reply-To: <ecbed98e-882a-0c0e-d4e1-bd33960f3674@samba.org>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        id S230116AbhCHL2R (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 8 Mar 2021 06:28:17 -0500
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:36404 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229965AbhCHL2O (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 8 Mar 2021 06:28:14 -0500
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 128BS1M1090144;
+        Mon, 8 Mar 2021 05:28:01 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1615202881;
+        bh=q0Z0r2uMokg2qUPUFmiAW5LN8g55+RfYbTn+m396kSA=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=uCgk7gvtOGggg8kk38QXHDyThtcIikyMFrTSOvrwrqNzxe9kQf3chRR/spzJW1Iee
+         tG5cqN09fQa/4vMRxYKKIyZCKevWfmZ4Kn++IyrSVsay7ZpXvDE0JPBefS/cVwkGTF
+         vgxnViTbwvyoG7yMhMbzgWsRd3DvjVljNgOJnSLk=
+Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 128BS1Yk093808
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 8 Mar 2021 05:28:01 -0600
+Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 8 Mar
+ 2021 05:28:01 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE106.ent.ti.com
+ (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Mon, 8 Mar 2021 05:28:01 -0600
+Received: from [10.250.234.120] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 128BRwbB109813;
+        Mon, 8 Mar 2021 05:27:59 -0600
+Subject: Re: [PATCH] mtd: add OTP (one-time-programmable) erase ioctl
+To:     Michael Walle <michael@walle.cc>, <linux-mtd@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-api@vger.kernel.org>
+CC:     Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        <Tudor.Ambarus@microchip.com>
+References: <20210303201819.2752-1-michael@walle.cc>
+From:   Vignesh Raghavendra <vigneshr@ti.com>
+Message-ID: <d3187aaf-e1cd-5778-eca7-9dc41f3827b0@ti.com>
+Date:   Mon, 8 Mar 2021 16:57:57 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
+In-Reply-To: <20210303201819.2752-1-michael@walle.cc>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-RnJvbTogU3RlZmFuIE1ldHptYWNoZXINCj4gU2VudDogMDcgTWFyY2ggMjAyMSAxMTozNQ0KPiAN
-Cj4gSGkgQW5kcsOpLA0KPiA+ICAqKiBUaGUgd2FpdCBvbiBtdWx0aXBsZSBwcm9ibGVtDQo+ID4N
-Cj4gPiAgVGhlIHVzZSBjYXNlIGxpZXMgaW4gdGhlIFdpbmUgaW1wbGVtZW50YXRpb24gb2YgdGhl
-IFdpbmRvd3MgTlQgaW50ZXJmYWNlDQo+ID4gIFdhaXRNdWx0aXBsZU9iamVjdHMuIFRoaXMgV2lu
-ZG93cyBBUEkgZnVuY3Rpb24gYWxsb3dzIGEgdGhyZWFkIHRvIHNsZWVwDQo+ID4gIHdhaXRpbmcg
-b24gdGhlIGZpcnN0IG9mIGEgc2V0IG9mIGV2ZW50IHNvdXJjZXMgKG11dGV4ZXMsIHRpbWVycywg
-c2lnbmFsLA0KPiA+ICBjb25zb2xlIGlucHV0LCBldGMpIHRvIHNpZ25hbC4NCg0KVGhleSBhcmUg
-YWxsIGV2ZW50cy4NCllvdSBjYW4gb25seSB3YWl0IG9uIGVpdGhlciBldmVudHMgb3Igc29ja2V0
-cyAodXNpbmcgc2VsZWN0KS4NClRoZXJlIGlzIGEgc29ja2V0IGFwaSB0byBzaWduYWwgYW4gZXZl
-bnQgd2hlbiBkYXRhIGFycml2ZXMgKGV0YykuDQpUaGVyZSBpcyBhbHNvIHRoZSBpbnNhbmUgKHRo
-ZXNlIGRheXMpIHJlc3RyaWN0aW9uIG9mIDY0IGV2ZW50cy4NCg0KPiBXaXRoIHRoYXQgaW4gbWlu
-ZCB3b3VsZCBpdCBiZSBnb29kIHRvIGhhdmUgc29tZSBpbnRlcmFjdGlvbiB3aXRoIGVwb2xsIChh
-bmQgc2ltaWxhciBjYWxscyk/DQoNCk9yIGhvb2sgc29tZXRoaW5nIHVwIHNvIHRoYXQgcG9sbHdh
-a2V1cCBjYW4ga2ljayBhIGZ1dGV4IGFzIHdlbGwNCmFzIHdha2luZyB1cCBwb2xsKCkgYW5kIGFk
-ZGluZyBhbiBldmVudCB0byBlcG9sbCgpLg0KDQoJRGF2aWQNCg0KLQ0KUmVnaXN0ZXJlZCBBZGRy
-ZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZhcm0sIE1pbHRvbiBLZXluZXMsIE1L
-MSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEzOTczODYgKFdhbGVzKQ0K
+
+
+On 3/4/21 1:48 AM, Michael Walle wrote:
+> This may sound like a contradiction but some SPI-NOR flashes really
+> support erasing their OTP region until it is finally locked. Having the
+> possibility to erase an OTP region might come in handy during
+> development.
+> 
+> The ioctl argument follows the OTPLOCK style.
+> 
+> Signed-off-by: Michael Walle <michael@walle.cc>
+> ---
+
+Acked-by: Vignesh Raghavendra <vigneshr@ti.com>
+
+
+[...]
+
+Regards
+Vignesh
 
