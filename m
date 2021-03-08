@@ -2,97 +2,113 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F40FA3313D7
-	for <lists+linux-api@lfdr.de>; Mon,  8 Mar 2021 17:52:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C5AA3314EF
+	for <lists+linux-api@lfdr.de>; Mon,  8 Mar 2021 18:34:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229904AbhCHQwE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 8 Mar 2021 11:52:04 -0500
-Received: from mga06.intel.com ([134.134.136.31]:18037 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229818AbhCHQv6 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 8 Mar 2021 11:51:58 -0500
-IronPort-SDR: RWbEuP4Jjbm1SJ/0pYMC8GqkKQB2hEImRPRu7UHuXYV57wiEDu/mKH0XmdtnV5Sf9HpL19TIhD
- EcBN+EeyLsEw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9917"; a="249443244"
-X-IronPort-AV: E=Sophos;i="5.81,232,1610438400"; 
-   d="scan'208";a="249443244"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2021 08:51:58 -0800
-IronPort-SDR: Ra6tLTStpq8dq36RZhKli0M2oVxfITFaaO3HQz+7ILvFtrtpvijqoqpCk6bbPegkcGxyt+LxRG
- 15Q2Lh7fpluQ==
-X-IronPort-AV: E=Sophos;i="5.81,232,1610438400"; 
-   d="scan'208";a="385909914"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.186.31]) ([10.209.186.31])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2021 08:51:56 -0800
-Subject: Re: [PATCH v21 10/26] x86/mm: Update pte_modify for _PAGE_COW
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        id S230250AbhCHRdd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 8 Mar 2021 12:33:33 -0500
+Received: from eu-smtp-delivery-151.mimecast.com ([185.58.85.151]:40729 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229775AbhCHRdV (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 8 Mar 2021 12:33:21 -0500
+X-Greylist: delayed 22923 seconds by postgrey-1.27 at vger.kernel.org; Mon, 08 Mar 2021 12:33:20 EST
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-114-VZLpIMkBOySF_toWHzBKNQ-1; Mon, 08 Mar 2021 17:33:17 +0000
+X-MC-Unique: VZLpIMkBOySF_toWHzBKNQ-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Mon, 8 Mar 2021 17:33:17 +0000
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
+ Mon, 8 Mar 2021 17:33:17 +0000
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Zebediah Figura' <zfigura@codeweavers.com>,
+        =?utf-8?B?QW5kcsOpIEFsbWVpZGE=?= <andrealmeid@collabora.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Ingo Molnar <mingo@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-References: <20210217222730.15819-1-yu-cheng.yu@intel.com>
- <20210217222730.15819-11-yu-cheng.yu@intel.com>
- <20210305142940.GC2685@zn.tnic>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <b7105be2-d2de-c318-f6e2-2706e35dd7ce@intel.com>
-Date:   Mon, 8 Mar 2021 08:51:55 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        Darren Hart <dvhart@infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+CC:     "kernel@collabora.com" <kernel@collabora.com>,
+        "krisman@collabora.com" <krisman@collabora.com>,
+        "pgriffais@valvesoftware.com" <pgriffais@valvesoftware.com>,
+        "joel@joelfernandes.org" <joel@joelfernandes.org>,
+        "malteskarupke@fastmail.fm" <malteskarupke@fastmail.fm>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "acme@kernel.org" <acme@kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>
+Subject: RE: [RFC PATCH v2 00/13] Add futex2 syscall
+Thread-Topic: [RFC PATCH v2 00/13] Add futex2 syscall
+Thread-Index: AQHXFDasHACUUxYyXUab2jknvqbfD6p6VuaA
+Date:   Mon, 8 Mar 2021 17:33:17 +0000
+Message-ID: <27f3db94ae674d69889301f515ddf483@AcuMS.aculab.com>
+References: <20210304004219.134051-1-andrealmeid@collabora.com>
+ <2421ca75-5688-61c6-c0ac-02e55e7272a3@codeweavers.com>
+In-Reply-To: <2421ca75-5688-61c6-c0ac-02e55e7272a3@codeweavers.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-In-Reply-To: <20210305142940.GC2685@zn.tnic>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 3/5/2021 6:29 AM, Borislav Petkov wrote:
-> On Wed, Feb 17, 2021 at 02:27:14PM -0800, Yu-cheng Yu wrote:
->> @@ -787,16 +802,34 @@ static inline pte_t pte_modify(pte_t pte, pgprot_t newprot)
->>   	 */
->>   	val &= _PAGE_CHG_MASK;
->>   	val |= check_pgprot(newprot) & ~_PAGE_CHG_MASK;
->> +	val = fixup_dirty_pte(val);
-> 
-> Do I see it correctly that you can do here and below:
-> 
-> 	/*
-> 	 * Fix up potential shadow stack page flags because the RO, Dirty PTE is
-> 	 * special.
-> 	 */
-> 	if (pte_dirty()) {
-> 		pte_mkclean();
-> 		pte_mkdirty();
-> 	}
-> 
-> ?
-
-Yes, this looks better.  Thanks!
-
-> 
-> That fixup thing looks grafted and not like a normal flow to me.
-> 
+DQoNCkZyb206IFplYmVkaWFoIEZpZ3VyYQ0KPiBTZW50OiAwOCBNYXJjaCAyMDIxIDE2OjE4DQo+
+IA0KPiBPbiAzLzMvMjEgNjo0MiBQTSwgQW5kcsOpIEFsbWVpZGEgd3JvdGU6DQo+ID4gICAqKiBU
+aGUgd2FpdCBvbiBtdWx0aXBsZSBwcm9ibGVtDQo+ID4NCj4gPiAgIFRoZSB1c2UgY2FzZSBsaWVz
+IGluIHRoZSBXaW5lIGltcGxlbWVudGF0aW9uIG9mIHRoZSBXaW5kb3dzIE5UIGludGVyZmFjZQ0K
+PiA+ICAgV2FpdE11bHRpcGxlT2JqZWN0cy4gVGhpcyBXaW5kb3dzIEFQSSBmdW5jdGlvbiBhbGxv
+d3MgYSB0aHJlYWQgdG8gc2xlZXANCj4gPiAgIHdhaXRpbmcgb24gdGhlIGZpcnN0IG9mIGEgc2V0
+IG9mIGV2ZW50IHNvdXJjZXMgKG11dGV4ZXMsIHRpbWVycywgc2lnbmFsLA0KPiA+ICAgY29uc29s
+ZSBpbnB1dCwgZXRjKSB0byBzaWduYWwuICBDb25zaWRlcmluZyB0aGlzIGlzIGEgcHJpbWl0aXZl
+DQo+ID4gICBzeW5jaHJvbml6YXRpb24gb3BlcmF0aW9uIGZvciBXaW5kb3dzIGFwcGxpY2F0aW9u
+cywgYmVpbmcgYWJsZSB0byBxdWlja2x5DQo+ID4gICBzaWduYWwgZXZlbnRzIG9uIHRoZSBwcm9k
+dWNlciBzaWRlLCBhbmQgcXVpY2tseSBnbyB0byBzbGVlcCBvbiB0aGUNCj4gPiAgIGNvbnN1bWVy
+IHNpZGUgaXMgZXNzZW50aWFsIGZvciBnb29kIHBlcmZvcm1hbmNlIG9mIHRob3NlIHJ1bm5pbmcg
+b3ZlciBXaW5lLg0KPiANCj4gSXQncyBwcm9iYWJseSB3b3J0aCBwb2ludGluZyBvdXQsIGZvciBi
+ZXR0ZXIgb3IgZm9yIHdvcnNlLCB3aGlsZSB0aGlzIGlzDQo+ICphKiB1c2UgY2FzZSwgaXQncyBh
+bHNvIGxpbWl0ZWQgdG8gYW4gb3V0LW9mLXRyZWUgcGF0Y2ggc2V0L2ZvcmtlZA0KPiB2ZXJzaW9u
+cyBvZiBXaW5lLiBJJ20gY3VycmVudGx5IHdvcmtpbmcgb24gYSBkaWZmZXJlbnQgYXBwcm9hY2gg
+dGhhdA0KPiBzaG91bGQgYmUgdXBzdHJlYW1hYmxlIHRvIFdpbmUgcHJvcGVyLCBhcyBkZXRhaWxl
+ZCBpbiBbMV0uDQo+IA0KPiBbMV0NCj4gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGttbC9mNGNj
+MWEzOC0xNDQxLTYyZjgtNDdlNC0wYzY3ZjVhZDFkNDNAY29kZXdlYXZlcnMuY29tLw0KDQoqIE50
+UHVsc2VFdmVudCBjYW4ndCB3b3JrIHJpZ2h0LiBXZSBiYWRseSBlbXVsYXRlIGl0IGJ5IHNldHRp
+bmcgYW5kIHRoZW4NCmltbWVkaWF0ZWx5IHJlc2V0dGluZyB0aGUgZXZlbnQsIGJ1dCBkdWUgdG8g
+dGhlIGFib3ZlIGdhcCBiZXR3ZWVuIHBvbGwoKQ0KYW5kIHJlYWQoKSwgbW9zdCB0aHJlYWRzIGVu
+ZCB1cCBtaXNzaW5nIHRoZSB3YWtldXAgYW55d2F5Lg0KDQpBcyB5b3Ugc3RhdGVkIGxhdGVyIFB1
+bHNlRXZlbnQoKSBpcyBjb21wbGV0ZWx5IGJyb2tlbiBhbnl3YXkuDQpBdCBsZWFzdCBvbmUgb2Yg
+dGhlIHByb2JsZW1zIGlzIHRoYXQgaW4gb3JkZXIgdG8gY29tcGxldGUgYW4gYXN5bmMgaW8NCihh
+bmQgYWxsIGlvIGlzIGFzeW5jKSB0byBmaW5hbCAnY29weV90b191c2VyJyBtdXN0IGJlIGRvbmUg
+aW4gdGhlDQpjb250ZXh0IG9mIHRoZSBpbml0aWF0aW5nIHRocmVhZC4NClNvIGlmIHRoZSB0aHJl
+YWQgaXMgaW4gV2FpdE11bHRpcGxlT2JqZWN0cyAoaXQgdXN1YWxseSBpcykgYW5kIGFuIGFzeW5j
+IGlvDQpjb21wbGV0ZXMgKGVnIHJlY2VpdmUgZGF0YSBvbiBhIFRDUCBjb25uZWN0aW9uKSB0aGUg
+dGhyZWFkIHN0b3BzIHdhaXRpbmcNCndoaWxlIHRoZSBpbyBjb21wbGV0aW9uIGNhbGxiYWNrIGlz
+IGRvbmUuDQpJZiBhIHB1bHNlRXZlbnQgaGFwcGVucyBkdXJpbmcgdGhhdCB3aW5kb3cgdGhlbiBp
+dCBpcyBsb3N0Lg0KDQpNaW5kIHlvdSB0aGVyZSB3YXMgKG1heWJlIGlzIHN0aWxsKSBhIGJ1ZyBp
+biBXTU8gb24gNjRiaXQgd2luZG93cw0KdGhhdCBtZWFucyB0aGUgcHJvY2VzcyBjb21wbGV0ZWx5
+IG1pc3NlcyBpbyBjb21wbGV0aW9uIGNhbGxiYWNrcw0KaWYgKEkgdGhpbmspIHRoZXkgaGFwcGVu
+IHdoaWxlIHRoZSBwcm9jZXNzIGlzIGJlaW5nIHNjaGVkdWxlZC4NClRoZXJlIGlzIGEgbG9vcCBp
+biBXTU8gLSB0aGF0IGZhaWxzIHRvIHJlY292ZXIgYmVjYXVzZSBpbnRlcnJ1cHRzDQphcmUgZGlz
+YWJsZWQgYW5kIGEgMzAgc2Vjb25kIHRpbWVyIHRoYXQgdW5ibG9ja3MgdGhpbmdzLg0KSSBoYWQg
+dG8gYWRkIGNvZGUgdG8gd3JpdGUgdG8gdGhlIGlvYXBpYyB0byByZXF1ZXN0IHRoZSBoYXJkd2Fy
+ZQ0KaW50ZXJydXB0IHRvIHVuYmxvY2sgZXZlcnl0aGluZyA6LSkNCg0KCURhdmlkDQoNCi0NClJl
+Z2lzdGVyZWQgQWRkcmVzcyBMYWtlc2lkZSwgQnJhbWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0
+b24gS2V5bmVzLCBNSzEgMVBULCBVSw0KUmVnaXN0cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykN
+Cg==
 
