@@ -2,119 +2,73 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 77658330FF2
-	for <lists+linux-api@lfdr.de>; Mon,  8 Mar 2021 14:50:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5294833133A
+	for <lists+linux-api@lfdr.de>; Mon,  8 Mar 2021 17:19:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229753AbhCHNuJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 8 Mar 2021 08:50:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48394 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229497AbhCHNuI (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 8 Mar 2021 08:50:08 -0500
-Received: from hr2.samba.org (hr2.samba.org [IPv6:2a01:4f8:192:486::2:0])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE426C06174A;
-        Mon,  8 Mar 2021 05:50:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=samba.org;
-         s=42; h=Date:Message-ID:From:Cc:To;
-        bh=QCUm7tpkFt2tWdJXz3H3pQyPN4ZzgogYKci/Ic620Ls=; b=P5UH8T8J5PugEckjE/lSnBdNGk
-        ZIp4GSiZ2EYkNSsKECvEpdYgOGch+LHL0G9L/vTOlZ9re1EpTFPPpEl9ZUPHmc6uzzL1SJT5PlFTc
-        uxLsqJ+0mMQPFFhCfFMDn4ux8qxNmDNL26sFRTMKegt1/yZP8l4/JBnqn70kIg/RTj1a6jTQSIdI2
-        qg0905Roi4J1pWtj4O+20ZP7+shw6ET2raBxV6QEOJpYBa6a8zSd9mZWHsn9H5JrrqAmXuwugLWWA
-        AlIwWmClCalxrOZwXo3f7SQ1I4uxyO6RaL+axiK9vYQelk+z3Bsl/x2Fo+asOo5htPkLp7bnPljT7
-        EAi4cAtwTxoR36E1iOsgaK44DA4paL2b3NseJGbZH/mRdJTXeT6kdXH8p/RouWFTZRLvMOgwSwEd0
-        pO55YTy0uox1cwuiSQxFbbA1VZOrNMd7YZUj6mPa69qeAjHW2j6F+J/pUXE/BkeWpR5VIZbgnAGnh
-        O+9Q4NgrOJCwqhWMz50K3M5N;
-Received: from [127.0.0.2] (localhost [127.0.0.1])
-        by hr2.samba.org with esmtpsa (TLS1.3:ECDHE_RSA_CHACHA20_POLY1305:256)
-        (Exim)
-        id 1lJGGr-0001cI-5Z; Mon, 08 Mar 2021 13:50:05 +0000
-To:     "J. Bruce Fields" <bfields@fieldses.org>,
-        Al Viro <viro@zeniv.linux.org.uk>
-Cc:     Drew DeVault <sir@cmpwn.com>, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>
-References: <20210228002500.11483-1-sir@cmpwn.com>
- <YDr8UihFQ3M469x8@zeniv-ca.linux.org.uk> <C9KSZTRJ2CL6.DWD539LYTVZX@taiga>
- <YDsGzhBzLzSp6nPj@zeniv-ca.linux.org.uk>
- <20210301190259.GC14881@fieldses.org>
-From:   Stefan Metzmacher <metze@samba.org>
-Subject: Re: [RFC PATCH] fs: introduce mkdirat2 syscall for atomic mkdir
-Message-ID: <ce717080-fe7f-06cf-c5ff-93f276496070@samba.org>
-Date:   Mon, 8 Mar 2021 14:50:04 +0100
+        id S230143AbhCHQSq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 8 Mar 2021 11:18:46 -0500
+Received: from mail.codeweavers.com ([50.203.203.244]:50380 "EHLO
+        mail.codeweavers.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230440AbhCHQSe (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 8 Mar 2021 11:18:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=codeweavers.com; s=6377696661; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=RmNhH5XRUuG3UKqdqRAk2ui+eZgYvhYalUYwnX71Zk0=; b=kS52GJXBfoLqcsm0bQi3+gnsis
+        E1MCGH5z67nXrZMNX0E2lDQ3VK9yevVudpCJpLA90DM1/rPQq6fbBcJAumwhff+rR+gW/2bm+aJ3I
+        yfnYJwLObFRwvIkuKgJRHUwi3FDXQq85J1UOd1kkseYu/4J/p/XMUsEJI8wbHjg2ybPY=;
+Received: from [10.69.139.34]
+        by mail.codeweavers.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.92)
+        (envelope-from <zfigura@codeweavers.com>)
+        id 1lJIaU-0003bZ-9h; Mon, 08 Mar 2021 10:18:30 -0600
+Subject: Re: [RFC PATCH v2 00/13] Add futex2 syscall
+To:     =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Darren Hart <dvhart@infradead.org>,
+        linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc:     kernel@collabora.com, krisman@collabora.com,
+        pgriffais@valvesoftware.com, joel@joelfernandes.org,
+        malteskarupke@fastmail.fm, linux-api@vger.kernel.org,
+        fweimer@redhat.com, libc-alpha@sourceware.org,
+        linux-kselftest@vger.kernel.org, shuah@kernel.org, acme@kernel.org,
+        corbet@lwn.net
+References: <20210304004219.134051-1-andrealmeid@collabora.com>
+From:   Zebediah Figura <zfigura@codeweavers.com>
+Message-ID: <2421ca75-5688-61c6-c0ac-02e55e7272a3@codeweavers.com>
+Date:   Mon, 8 Mar 2021 10:18:29 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210301190259.GC14881@fieldses.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210304004219.134051-1-andrealmeid@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-
-Am 01.03.21 um 20:02 schrieb J. Bruce Fields:
-> On Sun, Feb 28, 2021 at 02:58:22AM +0000, Al Viro wrote:
->> TBH, I don't understand what are you trying to achieve -
->> what will that mkdir+open combination buy you, especially
->> since that atomicity goes straight out of window if you try
->> to use that on e.g. NFS.  How is the userland supposed to make
->> use of that thing?
+On 3/3/21 6:42 PM, André Almeida wrote:
+>   ** The wait on multiple problem
 > 
-> For what it's worth, the RPC that creates a directory can also get a
-> filehandle of the new directory, so I don't think there's anything in
-> the NFS protocol that would *prevent* implementing this.  (Whether
-> that's useful, I don't know.)
+>   The use case lies in the Wine implementation of the Windows NT interface
+>   WaitMultipleObjects. This Windows API function allows a thread to sleep
+>   waiting on the first of a set of event sources (mutexes, timers, signal,
+>   console input, etc) to signal.  Considering this is a primitive
+>   synchronization operation for Windows applications, being able to quickly
+>   signal events on the producer side, and quickly go to sleep on the
+>   consumer side is essential for good performance of those running over Wine.
 
-The same applies to SMB, there's only a single SMB2/3 Create call,
-which is able to create/open files or directories and returns
-an open file handle for it.
+It's probably worth pointing out, for better or for worse, while this is 
+*a* use case, it's also limited to an out-of-tree patch set/forked 
+versions of Wine. I'm currently working on a different approach that 
+should be upstreamable to Wine proper, as detailed in [1].
 
-With an atomic mkdir+open it would be possible have a single round trip
-between client and server. It would help on the client, but also for Samba
-as a server, as we would be able to skip additional syscalls.
-
-And it would be great to have a way to specify flags similar to O_CREAT
-and O_EXCL in order to create a new directory or open an existing one.
-
-It should also be possible to pass in RESOLVE_* flags, so a similar call like openat2()
-would be great.
-
-For me openat2() with O_CREAT | O_EXCL | O_DIRECTORY, would be the natural thing to
-support, because it's natural in the SMB protocol. But Al seems to hate that and I'm fine
-with his arguments against that.
-
-Plus we can't use that anyway as it's currently not rejected with EINVAL,
-instead a regular file is created on disk, but -1 ENOTDIR
-is returned to userspace.
-
-Currently userspace needs to do something like this in order to be safe for
-a given untrusted directory path string (userdirpath) being to be opened
-(and created if it doesn't exist):
-
-1. make a copy of userdirpath and call dirname() => dirnameresult
-2. make a copy of userdirpath and call basename() => basenameresult
-3. call dirfd = openat2(basedirfd, dirnameresult, how = {.flags = O_PATH | O_CLOEXEC, .resolve = RESOLVE_BENEATH});
-4. call mkdirat(dirfd, basenameresult, 0755)
-5. call close(dirfd)
-6. ignore possible EEXIST from mkdirat
-7. call fd = openat2(basedirfd, userdirpath, how = { .flags = O_DIRECTORY | O_CLOEXEC, .resolve = RESOLVE_BENEATH});
-
-This requires memory allocations and 4 syscall round trips.
-
-It would be wonderful to just have a single syscall for this.
-I'm not sure about the exact details of the API or a possible name
-for such a syscall (mkdirat2 seems wrong), but it could look like this:
-
-struct somenewdirsyscall_how {
-	__u64 flags; / only O_CLOEXEC, O_CREAT, O_EXCL */
-        __u64 mode;
-        __u64 resolve;
-};
-
-Instead of reusing O_* flags, new defines could also be used.
-
-fd = somenewdirsyscall(basedirfd, userdirpath, how = { .flags = O_CLOEXEC | O_CREAT, .mask = 0755, .resolve = RESOLVE_BENEATH});
-
-What would be a good way forward here?
-
-metze
+[1] 
+https://lore.kernel.org/lkml/f4cc1a38-1441-62f8-47e4-0c67f5ad1d43@codeweavers.com/
