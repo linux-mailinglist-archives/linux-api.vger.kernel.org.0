@@ -2,94 +2,59 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B7723329F0
-	for <lists+linux-api@lfdr.de>; Tue,  9 Mar 2021 16:15:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08711332D1D
+	for <lists+linux-api@lfdr.de>; Tue,  9 Mar 2021 18:21:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231819AbhCIPOf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 9 Mar 2021 10:14:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40130 "EHLO
+        id S231472AbhCIRUc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 9 Mar 2021 12:20:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231897AbhCIPOM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 9 Mar 2021 10:14:12 -0500
-Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com [IPv6:2607:f8b0:4864:20::e42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4ED64C06175F
-        for <linux-api@vger.kernel.org>; Tue,  9 Mar 2021 07:14:12 -0800 (PST)
-Received: by mail-vs1-xe42.google.com with SMTP id a12so6963567vsd.3
-        for <linux-api@vger.kernel.org>; Tue, 09 Mar 2021 07:14:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=7Vrbe4gpVhb7cfcmpNanXi5E+OCzidx3VGMrGNR2bC4=;
-        b=JP7yFW0PtrXLFYt2STP8QuV3Lirt4goFOnALozd3Ov+MiIFTxwX1JvDMszbOhQaTJX
-         AcJMWv8YdvC67p8bn5PpO11ywZYiDxazle5+k1t2A7UsH2KxexggpJX2K2xrzXy+cie+
-         yQ5jpXl+mgfl7FX8I29BrKgfAwmW7NpmOLMOnd/rjlRO57E2Zfvntq3sT4pYOkga6qNw
-         ABuhZwYnpLkl+8hiLISsWNPuig2KYJl3gqfRUNUMO2XiG2WyirBy+s3Eb0W+UrjHP3DD
-         qtQJNlGQKXKdrl4gXi2nPB+b0RnHOi/k8fevBpKu5+h15SfHFxIlBW6nU1uvAxK6pWvC
-         /8zA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=7Vrbe4gpVhb7cfcmpNanXi5E+OCzidx3VGMrGNR2bC4=;
-        b=l8rSsBvyr7GpYroB3npmJqGeI7rg3TBl4UZqKQw3sBU6Ci7TlUETNaEL4T8g/H95RO
-         0hKSbvuknk4AAmIY0PPq7CTWtFyuaBUtp+NFiaIgDaIxV3npyLzVxvzck+YNh8H4gijT
-         Aa+QYy1IK5Vzuz43902XR4ZJndgPiEypbk/CcyK1x2Ojl/OFkeQa3H3LoOPFY4paG2sl
-         LeP5y3NQUjULjxjzFWvT6qxRnInyBcqGvI5eSwCCgAg8ns7NEMAF3HptmVc5jSC25DH6
-         OmIG2e6Hic9fpjycUDhs0nhhNtMhNNOYj4/wDFXEKJw8iolpXoD/oxeEtstjn3qOT+R8
-         pflw==
-X-Gm-Message-State: AOAM533rQRaCuVK2TNubBR0tYm59ZVRMlwAngCHlJNxhv0eviBLHZ8t7
-        g3hzxnuPF629OVPKl7/CeP4NVz8eBEhOKxP0jAU=
-X-Google-Smtp-Source: ABdhPJyIE8ilpajD1I5I3KYhwudVCladJ5MIXq7lBadcUEx0Lr02jVuOAj2cJIVRW3uqTo+jzg7dSHkMUPyFkyMtC6A=
-X-Received: by 2002:a05:6102:208:: with SMTP id z8mr17132745vsp.2.1615302851379;
- Tue, 09 Mar 2021 07:14:11 -0800 (PST)
+        with ESMTP id S231278AbhCIRUV (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 9 Mar 2021 12:20:21 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0C27C06174A;
+        Tue,  9 Mar 2021 09:20:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=hKqQl5whCBmaWHSVBpXAHPsHwOMZKD0Kuuvea7IZx9c=; b=ZOVa5yLAv+xDhi3GToUKObjegn
+        RCruCVhHBNy0GLlE5OzxBZPZii/m399pItn9FOhuHsElrHUlTkzG0dpMGP1NB4ECaHEmM3Yqj1jTB
+        WZoywTHK8egpU9tF/yvLL8PD8phZjIJwvY1pdILweD013a6pzFY0uo1WmwbXHoReTOvPGwd8Mpt10
+        UgoDOs2YL4DCNB+CW2IugCVine+qtpIlmUp4RmtLhYbeLMSEfPwsEytnpbP0xD51OqrmntQsnTMNC
+        mNqlDP3uHYDIDsJUsjKfUG1n34H/CHKnqflsG8xxDygJNJrmLJKJG61M6VsnpaJRxOIxO3V1xBuxU
+        0KhlVQUw==;
+Received: from hch by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
+        id 1lJg15-000qT0-AJ; Tue, 09 Mar 2021 17:19:39 +0000
+Date:   Tue, 9 Mar 2021 17:19:31 +0000
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Sergei Shtepa <sergei.shtepa@veeam.com>
+Cc:     snitzer@redhat.com, agk@redhat.com, hare@suse.de, song@kernel.org,
+        axboe@kernel.dk, dm-devel@redhat.com, linux-block@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org,
+        linux-api@vger.kernel.org, pavel.tide@veeam.com
+Subject: Re: [PATCH v6 1/4] block: add blk_mq_is_queue_frozen()
+Message-ID: <20210309171931.GA201344@infradead.org>
+References: <1614774618-22410-1-git-send-email-sergei.shtepa@veeam.com>
+ <1614774618-22410-2-git-send-email-sergei.shtepa@veeam.com>
 MIME-Version: 1.0
-Received: by 2002:ab0:2e8f:0:0:0:0:0 with HTTP; Tue, 9 Mar 2021 07:14:11 -0800 (PST)
-Reply-To: ezbtg22@gmail.com
-From:   "Mrs.E.Glenn" <mrganuserge654@gmail.com>
-Date:   Tue, 9 Mar 2021 07:14:11 -0800
-Message-ID: <CAH16wSM5tnAjmJxs44_Ag-5XBSTcOOJ-bT5srPr-xLNaw4-tCg@mail.gmail.com>
-Subject: From Mrs.E.Glenn
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1614774618-22410-2-git-send-email-sergei.shtepa@veeam.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
--- 
-Dear Beloved,
+On Wed, Mar 03, 2021 at 03:30:15PM +0300, Sergei Shtepa wrote:
+> +bool blk_mq_is_queue_frozen(struct request_queue *q)
+> +{
+> +	bool ret;
+> +
+> +	mutex_lock(&q->mq_freeze_lock);
+> +	ret = percpu_ref_is_dying(&q->q_usage_counter) && percpu_ref_is_zero(&q->q_usage_counter);
 
-I am Mrs Elizabet Glenn from Israel. I am a missionary but right now
-in a hospital bed in Israel. I am 59 years and childless; my husband
-is dead. I was diagnosed with terminal cancer. And my doctor just
-predicted that I have but very limited time to live due to damages in
-my system and as a result of that I decided to dispose my 10.5 million
-US dollars to a God-fearing one for the continuation of charitable
-work. This is why I located you.
+Please avoid the overly long line.
 
-My guess about you may not be accurate because I came across your
-contact at the humanitarian calendar event of the year but I believe
-in God who divinely directed me to you for this solemn proposal of
-charitable work.
-
-Therefore I wholeheartedly wish to bequeath my fortune to you as a
-God-fearing person for the continuation of charitable work anywhere
-around the world.
-
-I shall be going in for a surgery operations soonest and desire this
-money to be transferred to you as I do not wish to leave this money in
-the bank because bankers might misuse it for their own interest after
-my death.
-
-As soon as I receive your quick reply assuring me that you will
-utilize the money as I instructed you for the benefit of the less
-privilege, I shall give you more details and also instruct my bank to
-release the money to you for the charity project. I hope you receive
-this mail in good health.
-
-Please contact me on this E-mail (ezbtg22@gmail.com) because I don t
-know what will be my situation in next minute,
-
-I am waiting for your reply.
-
-Yours sincerely,
-Mrs Elizabet Glenn.
+Also maybe frozen is a better name for the variable currently called
+ret?
