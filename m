@@ -2,187 +2,338 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F2CAB332D60
-	for <lists+linux-api@lfdr.de>; Tue,  9 Mar 2021 18:37:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D140933330B
+	for <lists+linux-api@lfdr.de>; Wed, 10 Mar 2021 03:19:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231261AbhCIRgu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 9 Mar 2021 12:36:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43018 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230173AbhCIRgf (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 9 Mar 2021 12:36:35 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1167DC06174A;
-        Tue,  9 Mar 2021 09:36:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=aNwUo/LtHmQGqRnI1vgEqwPKSe5SPBhW6I6/Yb0wI8I=; b=qYc4qsbKTDNENjLXPk8gvcLhtM
-        SnnONfH1FbECsnGYc3qSefRGw/xG/g2aMXyRO8rCZMbiRrNvqZFT39C2jhz2K6nRvbqx7tcDlihPE
-        tLf1nnazVbDMyu+Ek0Ewb5Q7NNGvuqrTLREr3nzigLBlgozbHK2pj8ytFPHs+0IO74UGlxkrZDVD6
-        02NTvp4VQAV7wCPHSgXBoajeakKgih10589Ax148QYEx/PISsuRCs3FK7yYyu+2F7hDnli9U1v2tA
-        rkn5ugF3eNcG7tTBkBxGtNih6ocgga3qekhgO/7BSll1ZX7BM8CjOX92zNExcPgnWk3Ydu91J9WGS
-        UwG+EE6g==;
-Received: from hch by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1lJgGx-000rxw-Fk; Tue, 09 Mar 2021 17:35:58 +0000
-Date:   Tue, 9 Mar 2021 17:35:55 +0000
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Sergei Shtepa <sergei.shtepa@veeam.com>
-Cc:     snitzer@redhat.com, agk@redhat.com, hare@suse.de, song@kernel.org,
-        axboe@kernel.dk, dm-devel@redhat.com, linux-block@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org,
-        linux-api@vger.kernel.org, pavel.tide@veeam.com
-Subject: Re: [PATCH v6 4/4] dm: add DM_INTERPOSED_FLAG
-Message-ID: <20210309173555.GC201344@infradead.org>
-References: <1614774618-22410-1-git-send-email-sergei.shtepa@veeam.com>
- <1614774618-22410-5-git-send-email-sergei.shtepa@veeam.com>
+        id S231645AbhCJCSi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 9 Mar 2021 21:18:38 -0500
+Received: from mga07.intel.com ([134.134.136.100]:40888 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231235AbhCJCSO (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 9 Mar 2021 21:18:14 -0500
+IronPort-SDR: 9uv+l8/zA4Hk8lVV5cQHlbc1fkbe4zpeOlry9gaiTYJMnTAlpV0maoPpzkDvwN8cdhPYbUfSA6
+ ELY3jZz6vHMg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9917"; a="252385792"
+X-IronPort-AV: E=Sophos;i="5.81,236,1610438400"; 
+   d="scan'208";a="252385792"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2021 18:18:12 -0800
+IronPort-SDR: f2H1dAHId6ZzjekGB9nU3EQDwn7my+pMOHWESAMYYD6+bRRj5APTIRjezBQukEPYv6FH7+6L+d
+ b2suply+bSpw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,236,1610438400"; 
+   d="scan'208";a="431008885"
+Received: from allen-box.sh.intel.com (HELO [10.239.159.128]) ([10.239.159.128])
+  by fmsmga004.fm.intel.com with ESMTP; 09 Mar 2021 18:18:07 -0800
+Cc:     baolu.lu@linux.intel.com, Kevin Tian <kevin.tian@intel.com>,
+        yi.l.liu@intel.com, Christoph Hellwig <hch@infradead.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Barry Song <song.bao.hua@hisilicon.com>,
+        wanghaibin.wang@huawei.com, yuzenghui@huawei.com,
+        zhukeqian1@huawei.com
+Subject: Re: [RFC PATCH v2 1/6] iommu: Evolve to support more scenarios of
+ using IOPF
+To:     Shenming Lu <lushenming@huawei.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Will Deacon <will@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        Eric Auger <eric.auger@redhat.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        iommu@lists.linux-foundation.org, linux-api@vger.kernel.org
+References: <20210309062207.505-1-lushenming@huawei.com>
+ <20210309062207.505-2-lushenming@huawei.com>
+From:   Lu Baolu <baolu.lu@linux.intel.com>
+Message-ID: <7f8daef9-36db-f67c-a3e2-b96b5fa70291@linux.intel.com>
+Date:   Wed, 10 Mar 2021 10:09:04 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1614774618-22410-5-git-send-email-sergei.shtepa@veeam.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20210309062207.505-2-lushenming@huawei.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Mar 03, 2021 at 03:30:18PM +0300, Sergei Shtepa wrote:
-> DM_INTERPOSED_FLAG allow to create dm targets on "the fly".
-> Underlying block device opens without a flag FMODE_EXCL.
-> Dm target receives bio from the original device via
-> blk_interposer.
+Hi Shenming,
+
+On 3/9/21 2:22 PM, Shenming Lu wrote:
+> This patch follows the discussion here:
 > 
-> Signed-off-by: Sergei Shtepa <sergei.shtepa@veeam.com>
+> https://lore.kernel.org/linux-acpi/YAaxjmJW+ZMvrhac@myrica/
+> 
+> In order to support more scenarios of using IOPF (mainly consider
+> the nested extension), besides keeping IOMMU_DEV_FEAT_IOPF as a
+> general capability for whether delivering faults through the IOMMU,
+> we extend iommu_register_fault_handler() with flags and introduce
+> IOPF_REPORT_FLAT and IOPF_REPORT_NESTED to describe the page fault
+> reporting capability under a specific configuration.
+> IOPF_REPORT_NESTED needs additional info to indicate which level/stage
+> is concerned since the fault client may be interested in only one
+> level.
+> 
+> Signed-off-by: Shenming Lu <lushenming@huawei.com>
 > ---
->  drivers/md/dm-core.h          |   6 ++
->  drivers/md/dm-ioctl.c         |   9 +++
->  drivers/md/dm-table.c         | 115 +++++++++++++++++++++++++++++++---
->  drivers/md/dm.c               |  38 +++++++----
->  include/linux/device-mapper.h |   1 +
->  include/uapi/linux/dm-ioctl.h |   6 ++
->  6 files changed, 154 insertions(+), 21 deletions(-)
+>   .../iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c   |  3 +-
+>   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   | 11 ++--
+>   drivers/iommu/io-pgfault.c                    |  4 --
+>   drivers/iommu/iommu.c                         | 56 ++++++++++++++++++-
+>   include/linux/iommu.h                         | 21 ++++++-
+>   include/uapi/linux/iommu.h                    |  3 +
+>   6 files changed, 85 insertions(+), 13 deletions(-)
 > 
-> diff --git a/drivers/md/dm-core.h b/drivers/md/dm-core.h
-> index 5953ff2bd260..e5c845f9b1df 100644
-> --- a/drivers/md/dm-core.h
-> +++ b/drivers/md/dm-core.h
-> @@ -21,6 +21,8 @@
->  
->  #define DM_RESERVED_MAX_IOS		1024
->  
-> +struct dm_interposed_dev;
+> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c
+> index ee66d1f4cb81..5de9432349d4 100644
+> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c
+> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c
+> @@ -482,7 +482,8 @@ static int arm_smmu_master_sva_enable_iopf(struct arm_smmu_master *master)
+>   	if (ret)
+>   		return ret;
+>   
+> -	ret = iommu_register_device_fault_handler(dev, iommu_queue_iopf, dev);
+> +	ret = iommu_register_device_fault_handler(dev, iommu_queue_iopf,
+> +						  IOPF_REPORT_FLAT, dev);
+>   	if (ret) {
+>   		iopf_queue_remove_device(master->smmu->evtq.iopf, dev);
+>   		return ret;
+> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> index 363744df8d51..f40529d0075d 100644
+> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> @@ -1447,10 +1447,6 @@ static int arm_smmu_handle_evt(struct arm_smmu_device *smmu, u64 *evt)
+>   		return -EOPNOTSUPP;
+>   	}
+>   
+> -	/* Stage-2 is always pinned at the moment */
+> -	if (evt[1] & EVTQ_1_S2)
+> -		return -EFAULT;
+> -
+>   	if (evt[1] & EVTQ_1_RnW)
+>   		perm |= IOMMU_FAULT_PERM_READ;
+>   	else
+> @@ -1468,13 +1464,18 @@ static int arm_smmu_handle_evt(struct arm_smmu_device *smmu, u64 *evt)
+>   			.flags = IOMMU_FAULT_PAGE_REQUEST_LAST_PAGE,
+>   			.grpid = FIELD_GET(EVTQ_1_STAG, evt[1]),
+>   			.perm = perm,
+> -			.addr = FIELD_GET(EVTQ_2_ADDR, evt[2]),
+>   		};
+>   
+>   		if (ssid_valid) {
+>   			flt->prm.flags |= IOMMU_FAULT_PAGE_REQUEST_PASID_VALID;
+>   			flt->prm.pasid = FIELD_GET(EVTQ_0_SSID, evt[0]);
+>   		}
 > +
->  struct dm_kobject_holder {
->  	struct kobject kobj;
->  	struct completion completion;
-> @@ -114,6 +116,10 @@ struct mapped_device {
->  	bool init_tio_pdu:1;
->  
->  	struct srcu_struct io_barrier;
-> +
-> +	/* for interposers logic */
-> +	bool is_interposed;
-> +	struct dm_interposed_dev *ip_dev;
->  };
->  
->  void disable_discard(struct mapped_device *md);
-> diff --git a/drivers/md/dm-ioctl.c b/drivers/md/dm-ioctl.c
-> index 5e306bba4375..2bcb316144a1 100644
-> --- a/drivers/md/dm-ioctl.c
-> +++ b/drivers/md/dm-ioctl.c
-> @@ -1267,6 +1267,11 @@ static inline fmode_t get_mode(struct dm_ioctl *param)
->  	return mode;
->  }
->  
-> +static inline bool get_interposer_flag(struct dm_ioctl *param)
+> +		if (evt[1] & EVTQ_1_S2) {
+> +			flt->prm.flags |= IOMMU_FAULT_PAGE_REQUEST_L2;
+> +			flt->prm.addr = FIELD_GET(EVTQ_3_IPA, evt[3]);
+> +		} else
+> +			flt->prm.addr = FIELD_GET(EVTQ_2_ADDR, evt[2]);
+>   	} else {
+>   		flt->type = IOMMU_FAULT_DMA_UNRECOV;
+>   		flt->event = (struct iommu_fault_unrecoverable) {
+> diff --git a/drivers/iommu/io-pgfault.c b/drivers/iommu/io-pgfault.c
+> index 1df8c1dcae77..abf16e06bcf5 100644
+> --- a/drivers/iommu/io-pgfault.c
+> +++ b/drivers/iommu/io-pgfault.c
+> @@ -195,10 +195,6 @@ int iommu_queue_iopf(struct iommu_fault *fault, void *cookie)
+>   
+>   	lockdep_assert_held(&param->lock);
+>   
+> -	if (fault->type != IOMMU_FAULT_PAGE_REQ)
+> -		/* Not a recoverable page fault */
+> -		return -EOPNOTSUPP;
+> -
+
+Any reasons why do you want to remove this check?
+
+>   	/*
+>   	 * As long as we're holding param->lock, the queue can't be unlinked
+>   	 * from the device and therefore cannot disappear.
+> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+> index d0b0a15dba84..cb1d93b00f7d 100644
+> --- a/drivers/iommu/iommu.c
+> +++ b/drivers/iommu/iommu.c
+> @@ -1056,6 +1056,40 @@ int iommu_group_unregister_notifier(struct iommu_group *group,
+>   }
+>   EXPORT_SYMBOL_GPL(iommu_group_unregister_notifier);
+>   
+> +/*
+> + * iommu_update_device_fault_handler - Update the device fault handler via flags
+> + * @dev: the device
+> + * @mask: bits(not set) to clear
+> + * @set: bits to set
+> + *
+> + * Update the device fault handler installed by
+> + * iommu_register_device_fault_handler().
+> + *
+> + * Return 0 on success, or an error.
+> + */
+> +int iommu_update_device_fault_handler(struct device *dev, u32 mask, u32 set)
 > +{
-> +	return (param->flags & DM_INTERPOSED_FLAG);
+> +	struct dev_iommu *param = dev->iommu;
+> +	int ret = 0;
+> +
+> +	if (!param)
+> +		return -EINVAL;
+> +
+> +	mutex_lock(&param->lock);
+> +
+> +	if (param->fault_param) {
+> +		ret = -EINVAL;
+> +		goto out_unlock;
+> +	}
+> +
+> +	param->fault_param->flags = (param->fault_param->flags & mask) | set;
+> +
+> +out_unlock:
+> +	mutex_unlock(&param->lock);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(iommu_update_device_fault_handler);
+
+When and why will this API be used? Why not registering the fault
+handling capabilities of a device driver only once during probe()?
+
+> +
+>   /**
+>    * iommu_register_device_fault_handler() - Register a device fault handler
+>    * @dev: the device
+> @@ -1076,11 +1110,14 @@ EXPORT_SYMBOL_GPL(iommu_group_unregister_notifier);
+>    */
+>   int iommu_register_device_fault_handler(struct device *dev,
+>   					iommu_dev_fault_handler_t handler,
+> -					void *data)
+> +					u32 flags, void *data)
+>   {
+>   	struct dev_iommu *param = dev->iommu;
+>   	int ret = 0;
+>   
+> +	if (flags & IOPF_REPORT_FLAT && flags & IOPF_REPORT_NESTED)
+> +		return -EINVAL;
+> +
+>   	if (!param)
+>   		return -EINVAL;
+>   
+> @@ -1099,6 +1136,7 @@ int iommu_register_device_fault_handler(struct device *dev,
+>   		goto done_unlock;
+>   	}
+>   	param->fault_param->handler = handler;
+> +	param->fault_param->flags = flags;
+>   	param->fault_param->data = data;
+>   	mutex_init(&param->fault_param->lock);
+>   	INIT_LIST_HEAD(&param->fault_param->faults);
+> @@ -1177,6 +1215,22 @@ int iommu_report_device_fault(struct device *dev, struct iommu_fault_event *evt)
+>   		goto done_unlock;
+>   	}
+>   
+> +	/* The unrecoverable fault reporting is not supported at the moment. */
+> +	if (evt->fault.type != IOMMU_FAULT_PAGE_REQ)
+> +		return -EOPNOTSUPP;
+
+Any reasons why do you want to disable reporting an unrecoverable fault?
+
+> +
+> +	if (evt->fault.type == IOMMU_FAULT_PAGE_REQ) {
+> +		if (fparam->flags & IOPF_REPORT_NESTED) {
+> +			if (evt->fault.prm.flags & IOMMU_FAULT_PAGE_REQUEST_L2 &&
+> +			    !(fparam->flags & IOPF_REPORT_NESTED_L2_CONCERNED))
+> +				return -EOPNOTSUPP;
+> +			if (!(evt->fault.prm.flags & IOMMU_FAULT_PAGE_REQUEST_L2) &&
+> +			    !(fparam->flags & IOPF_REPORT_NESTED_L1_CONCERNED))
+> +				return -EOPNOTSUPP;
+> +		} else if (!(fparam->flags & IOPF_REPORT_FLAT))
+> +			return -EOPNOTSUPP;
+> +	}
+> +
+>   	if (evt->fault.type == IOMMU_FAULT_PAGE_REQ &&
+>   	    (evt->fault.prm.flags & IOMMU_FAULT_PAGE_REQUEST_LAST_PAGE)) {
+>   		evt_pending = kmemdup(evt, sizeof(struct iommu_fault_event),
+> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+> index 86d688c4418f..f03d761e8310 100644
+> --- a/include/linux/iommu.h
+> +++ b/include/linux/iommu.h
+> @@ -352,12 +352,21 @@ struct iommu_fault_event {
+>   /**
+>    * struct iommu_fault_param - per-device IOMMU fault data
+>    * @handler: Callback function to handle IOMMU faults at device level
+> + * @flags: Indicates whether the fault reporting is available under a
+> + *	   specific configuration (1st/2nd-level-only(FLAT), or nested).
+> + *	   IOPF_REPORT_NESTED needs to additionally know which level/stage
+> + *	   is concerned.
+
+If IOPF_REPORT_NESTED only is not valid why do you want to define it?
+
+>    * @data: handler private data
+>    * @faults: holds the pending faults which needs response
+>    * @lock: protect pending faults list
+>    */
+>   struct iommu_fault_param {
+>   	iommu_dev_fault_handler_t handler;
+> +#define IOPF_REPORT_FLAT			(1 << 0)
+> +#define IOPF_REPORT_NESTED			(1 << 1)
+> +#define IOPF_REPORT_NESTED_L1_CONCERNED		(1 << 2)
+> +#define IOPF_REPORT_NESTED_L2_CONCERNED		(1 << 3)
+> +	u32 flags;
+>   	void *data;
+>   	struct list_head faults;
+>   	struct mutex lock;
+> @@ -509,9 +518,11 @@ extern int iommu_group_register_notifier(struct iommu_group *group,
+>   					 struct notifier_block *nb);
+>   extern int iommu_group_unregister_notifier(struct iommu_group *group,
+>   					   struct notifier_block *nb);
+> +extern int iommu_update_device_fault_handler(struct device *dev,
+> +					     u32 mask, u32 set);
+>   extern int iommu_register_device_fault_handler(struct device *dev,
+>   					iommu_dev_fault_handler_t handler,
+> -					void *data);
+> +					u32 flags, void *data);
+>   
+>   extern int iommu_unregister_device_fault_handler(struct device *dev);
+>   
+> @@ -873,10 +884,16 @@ static inline int iommu_group_unregister_notifier(struct iommu_group *group,
+>   	return 0;
+>   }
+>   
+> +static inline int iommu_update_device_fault_handler(struct device *dev,
+> +						    u32 mask, u32 set)
+> +{
+> +	return -ENODEV;
 > +}
 > +
->  static int next_target(struct dm_target_spec *last, uint32_t next, void *end,
->  		       struct dm_target_spec **spec, char **target_params)
->  {
-> @@ -1338,6 +1343,8 @@ static int table_load(struct file *filp, struct dm_ioctl *param, size_t param_si
->  	if (!md)
->  		return -ENXIO;
->  
-> +	md->is_interposed = get_interposer_flag(param);
-> +
->  	r = dm_table_create(&t, get_mode(param), param->target_count, md);
->  	if (r)
->  		goto err;
-> @@ -2098,6 +2105,8 @@ int __init dm_early_create(struct dm_ioctl *dmi,
->  	if (r)
->  		goto err_hash_remove;
->  
-> +	md->is_interposed = get_interposer_flag(dmi);
-> +
->  	/* add targets */
->  	for (i = 0; i < dmi->target_count; i++) {
->  		r = dm_table_add_target(t, spec_array[i]->target_type,
-> diff --git a/drivers/md/dm-table.c b/drivers/md/dm-table.c
-> index 95391f78b8d5..0b2f9b66ade5 100644
-> --- a/drivers/md/dm-table.c
-> +++ b/drivers/md/dm-table.c
-> @@ -6,6 +6,7 @@
->   */
->  
->  #include "dm-core.h"
-> +#include "dm-interposer.h"
->  
->  #include <linux/module.h>
->  #include <linux/vmalloc.h>
-> @@ -225,12 +226,13 @@ void dm_table_destroy(struct dm_table *t)
->  /*
->   * See if we've already got a device in the list.
->   */
-> -static struct dm_dev_internal *find_device(struct list_head *l, dev_t dev)
-> +static struct dm_dev_internal *find_device(struct list_head *l, dev_t dev, bool is_interposed)
->  {
->  	struct dm_dev_internal *dd;
->  
->  	list_for_each_entry (dd, l, list)
-> -		if (dd->dm_dev->bdev->bd_dev == dev)
-> +		if ((dd->dm_dev->bdev->bd_dev == dev) &&
-> +		    (dd->dm_dev->is_interposed == is_interposed))
->  			return dd;
->  
->  	return NULL;
-> @@ -358,6 +360,90 @@ dev_t dm_get_dev_t(const char *path)
->  }
->  EXPORT_SYMBOL_GPL(dm_get_dev_t);
->  
-> +/*
-> + * Redirect bio from interposed device to dm device
-> + */
-> +static void dm_interpose_fn(struct dm_interposed_dev *ip_dev, struct bio *bio)
-> +{
-> +	struct mapped_device *md = ip_dev->private;
-> +
-> +	if (bio_flagged(bio, BIO_REMAPPED)) {
-> +		/*
-> +		 * Since bio has already been remapped, we need to subtract
-> +		 * the block device offset from the beginning of the disk.
-> +		 */
-> +		bio->bi_iter.bi_sector -= get_start_sect(bio->bi_bdev);
-> +
-> +		bio_clear_flag(bio, BIO_REMAPPED);
-> +	}
+>   static inline
+>   int iommu_register_device_fault_handler(struct device *dev,
+>   					iommu_dev_fault_handler_t handler,
+> -					void *data)
+> +					u32 flags, void *data)
+>   {
+>   	return -ENODEV;
+>   }
+> diff --git a/include/uapi/linux/iommu.h b/include/uapi/linux/iommu.h
+> index e1d9e75f2c94..0ce0dfb7713e 100644
+> --- a/include/uapi/linux/iommu.h
+> +++ b/include/uapi/linux/iommu.h
+> @@ -85,6 +85,8 @@ struct iommu_fault_unrecoverable {
+>    *         When IOMMU_FAULT_PAGE_RESPONSE_NEEDS_PASID is set, the page response
+>    *         must have the same PASID value as the page request. When it is clear,
+>    *         the page response should not have a PASID.
+> + *         If IOMMU_FAULT_PAGE_REQUEST_L2 is set, the fault occurred at the
+> + *         second level/stage, otherwise, occurred at the first level.
+>    * @pasid: Process Address Space ID
+>    * @grpid: Page Request Group Index
+>    * @perm: requested page permissions (IOMMU_FAULT_PERM_* values)
+> @@ -96,6 +98,7 @@ struct iommu_fault_page_request {
+>   #define IOMMU_FAULT_PAGE_REQUEST_LAST_PAGE	(1 << 1)
+>   #define IOMMU_FAULT_PAGE_REQUEST_PRIV_DATA	(1 << 2)
+>   #define IOMMU_FAULT_PAGE_RESPONSE_NEEDS_PASID	(1 << 3)
+> +#define IOMMU_FAULT_PAGE_REQUEST_L2		(1 << 4)
+>   	__u32	flags;
+>   	__u32	pasid;
+>   	__u32	grpid;
+> 
 
-So instead of doing this shoudn't the imposer just always submit to the
-whole device?  But if we keep it, the logic in this funtion should go
-into a block layer helper, passing a block device instead of the
-dm_interposed_dev.  This avoids having such fragile logic in drivers.
-
-> +	if ((ofs + len) > bdev_nr_sectors(bdev)) {
-> +		DMERR("The specified range of sectors exceeds of the size of the block device.");
-> +		return -ERANGE;
-> +	}
-> +
-> +	md->ip_dev = kzalloc(sizeof(struct dm_interposed_dev), GFP_KERNEL);
-> +	if (!md->ip_dev)
-> +		return -ENOMEM;
-> +
-> +	if ((ofs == 0) && (len == 0))
-
-Lots of superflous inner braces.
+Best regards,
+baolu
