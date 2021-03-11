@@ -2,31 +2,43 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2021E336AC9
-	for <lists+linux-api@lfdr.de>; Thu, 11 Mar 2021 04:37:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E3420336E12
+	for <lists+linux-api@lfdr.de>; Thu, 11 Mar 2021 09:42:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230319AbhCKDgj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 10 Mar 2021 22:36:39 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51254 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229818AbhCKDgb (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 10 Mar 2021 22:36:31 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8D85C64E22;
-        Thu, 11 Mar 2021 03:36:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1615433791;
-        bh=VU36+Oy9eNMQX1av5VV5rT/wzZmLW57dBFB+sUkXF4w=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=e7M11Ykz/wwfbgjKNn5uhle8DDoJiLEl5wtNAzrhBK5zeTMiiIe70zX3rO1f+tMpn
-         EV8wPp3kqY/+Epphh1oW1a5Wg8muWy6V92Lc0VJ47G57DvHYoMIwrbmJC82GJh7K2K
-         xT3sFovM1zbQxp17qxWMUtcMUruA7l6KLd9nF5BCTc7IfAN0XDhrteiGRvWvEOECEo
-         GdnDEiGZfSEgrEWvKdvoj8OFJFrrbOLoTkSFI+bRru2BEB5IIeLYrjnJ4n4t0YTywG
-         EbYs1bSm7vsUntt8XSuaTBZJnaAe/AIFepL4WoJO8P7vVTqj3xFoBZZpl7lAUf19fm
-         z301GU9DwHQVw==
-Date:   Thu, 11 Mar 2021 05:36:06 +0200
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        id S231627AbhCKImw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 11 Mar 2021 03:42:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41324 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231309AbhCKIml (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 11 Mar 2021 03:42:41 -0500
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4976EC061574;
+        Thu, 11 Mar 2021 00:42:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=iNur3LddLbqOxPZObj0ioFPvfinKVBSW9anyjtwfwJM=; b=WanEzgwFy9TFzNVXe3OsRG/IHe
+        +z77vFr5wAdeiwyeKU9/63vQ/AtB1LaHCbqMYn3iPc97V5JHDGCASbLctR3UyHWhTnuwKn5na5HUR
+        Z9dT+KOA47twNFbGCz71zvp8Cj6gGNJe2KKNKC6+zav92iIQuRujY2TNxTk2Syh2TYFau62sdkXb+
+        pk3BCo7z1N92aWL1Hl1qE1HtNE2PldWZYFdC6gLxu0LD15aklrkDWepqleY4zoMDzl32450+mUSfu
+        mqdu2B6R4AeSq5zUGU0gUy7y2gkjJCizQ21sbnDHpLBYjlnPckdtNBUofSO09gALBBqkpgJGGIFqG
+        KXKLP1xw==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1lKGtU-008ghN-MZ; Thu, 11 Mar 2021 08:42:08 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id DF4D83010CF;
+        Thu, 11 Mar 2021 09:42:05 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id D31EF299E3D08; Thu, 11 Mar 2021 09:42:05 +0100 (CET)
+Date:   Thu, 11 Mar 2021 09:42:05 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Jarkko Sakkinen <jarkko@kernel.org>
+Cc:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-mm@kvack.org,
@@ -45,7 +57,6 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Mike Kravetz <mike.kravetz@oracle.com>,
         Nadav Amit <nadav.amit@gmail.com>,
         Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
         Randy Dunlap <rdunlap@infradead.org>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
@@ -54,76 +65,25 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Pengfei Xu <pengfei.xu@intel.com>,
         Haitao Huang <haitao.huang@intel.com>
 Subject: Re: [PATCH v22 8/8] x86/vdso: Add ENDBR64 to __vdso_sgx_enter_enclave
-Message-ID: <YEmQJjwjs8UCEO2F@kernel.org>
+Message-ID: <YEnX3Zn0FXPt7pcM@hirez.programming.kicks-ass.net>
 References: <20210310220519.16811-1-yu-cheng.yu@intel.com>
  <20210310220519.16811-9-yu-cheng.yu@intel.com>
  <YElKjT2v628tidE/@kernel.org>
  <8b8efe44-b79f-ce29-ee28-066f88c93840@intel.com>
+ <YEmQJjwjs8UCEO2F@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8b8efe44-b79f-ce29-ee28-066f88c93840@intel.com>
+In-Reply-To: <YEmQJjwjs8UCEO2F@kernel.org>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Mar 10, 2021 at 02:55:55PM -0800, Yu, Yu-cheng wrote:
-> On 3/10/2021 2:39 PM, Jarkko Sakkinen wrote:
-> > On Wed, Mar 10, 2021 at 02:05:19PM -0800, Yu-cheng Yu wrote:
-> > > When CET is enabled, __vdso_sgx_enter_enclave() needs an endbr64
-> > > in the beginning of the function.
-> > 
-> > OK.
-> > 
-> > What you should do is to explain what it does and why it's needed.
-> > 
-> 
-> The endbr marks a branch target.  Without the "no-track" prefix, if an
-> indirect call/jmp reaches a non-endbr opcode, a control-protection fault is
-> raised.  Usually endbr's are inserted by the compiler.  For assembly, these
-> have to be put in manually.  I will add this in the commit log if there is
-> another revision.  Thanks!
+On Thu, Mar 11, 2021 at 05:36:06AM +0200, Jarkko Sakkinen wrote:
+> Does it do any harm to put it there unconditionally?
 
-Thanks for the explanation. There is another revision, because this is
-lacking from the commit message.
+Blows up your text footprint and I$ pressure. These instructions are 4
+bytes each.
 
-Does it do any harm to put it there unconditionally?
-
-> 
-> --
-> Yu-cheng
-> 
-> > > 
-> > > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> > > Cc: Andy Lutomirski <luto@kernel.org>
-> > > Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> > > Cc: Jarkko Sakkinen <jarkko@kernel.org>
-> > > ---
-> > >   arch/x86/entry/vdso/vsgx.S | 3 +++
-> > >   1 file changed, 3 insertions(+)
-> > > 
-> > > diff --git a/arch/x86/entry/vdso/vsgx.S b/arch/x86/entry/vdso/vsgx.S
-> > > index 86a0e94f68df..a70d4d09f713 100644
-> > > --- a/arch/x86/entry/vdso/vsgx.S
-> > > +++ b/arch/x86/entry/vdso/vsgx.S
-> > > @@ -27,6 +27,9 @@
-> > >   SYM_FUNC_START(__vdso_sgx_enter_enclave)
-> > >   	/* Prolog */
-> > >   	.cfi_startproc
-> > > +#ifdef CONFIG_X86_CET
-> > > +	endbr64
-> > > +#endif
-> > >   	push	%rbp
-> > >   	.cfi_adjust_cfa_offset	8
-> > >   	.cfi_rel_offset		%rbp, 0
-> > > -- 
-> > > 2.21.0
-> > > 
-> > > 
-> > 
-> > /Jarkko
-> > 
-> 
-> 
-
-/Jarkko
+Aside from that, they're a NOP, so only consume front-end resources
+(hopefully) on older CPUs and when IBT is disabled.
