@@ -2,102 +2,86 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EEE97337A0F
+	by mail.lfdr.de (Postfix) with ESMTP id E12C0337A0E
 	for <lists+linux-api@lfdr.de>; Thu, 11 Mar 2021 17:53:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229637AbhCKQwa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        id S229868AbhCKQwa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
         Thu, 11 Mar 2021 11:52:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33858 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229735AbhCKQw0 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 11 Mar 2021 11:52:26 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29F30C061574;
-        Thu, 11 Mar 2021 08:52:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=jojXJ42UMX7xPogeR/Mx0xX5P7m6PdT89qs91n08TWo=; b=QtzkLjJCe42eAwZ5cWDdaH3YGv
-        Z1LcAP8aoAk5vnC910BVd4LtywBRSTrl9hlFggmzXruMJCyyBoMTBIYvjQhgir0HgupnuL8PUNVXf
-        lHl3yD/h+0nPv8WLTpdJuaBELGVsYAil6MImW+dkHkfd/NXn0qs4epBtUPwIVFsH6nIvw+Q8mOp8m
-        gfBePz0ulbeUoJICMI2OqLbmdFSrN5bDqaAUBWN6zCQfdhnMEeDniH5/CtT//D9Y32QD2NLtfPQk7
-        yQSUs6aZLVZ6cUpwxZ+/O6T5MnqhwLBcXrppHBJXaGwJ8uTzHDVY7CCKnZzSooboClxHgAZJE1KzY
-        nbMMotLA==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lKOXK-007qGS-Fc; Thu, 11 Mar 2021 16:51:54 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 59AE2301959;
-        Thu, 11 Mar 2021 17:51:45 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 464BD2BF461C2; Thu, 11 Mar 2021 17:51:45 +0100 (CET)
-Date:   Thu, 11 Mar 2021 17:51:45 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc:     Piotr Figiel <figiel@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        paulmck <paulmck@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        Florian Weimer <fweimer@redhat.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrei Vagin <avagin@gmail.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Peter Oskolkov <posk@google.com>,
-        Kamil Yurtsever <kyurtsever@google.com>,
-        Chris Kennelly <ckennelly@google.com>,
-        Paul Turner <pjt@google.com>, emmir <emmir@google.com>,
-        linux-man <linux-man@vger.kernel.org>,
-        linux-api <linux-api@vger.kernel.org>
-Subject: Re: [PATCH v2] ptrace: add PTRACE_GET_RSEQ_CONFIGURATION request
-Message-ID: <YEpKoa9PgjffO7Q5@hirez.programming.kicks-ass.net>
-References: <20210226135156.1081606-1-figiel@google.com>
- <1173189328.5477.1615474316906.JavaMail.zimbra@efficios.com>
+Received: from mga01.intel.com ([192.55.52.88]:23860 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229705AbhCKQwW (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 11 Mar 2021 11:52:22 -0500
+IronPort-SDR: YAdINEIgmbH/hQVcIK1v9V1MPj7M6ZP7BEzzK0lVX/pS4MtkjYC1k04fkX/fyRWdO0SVRRTCJH
+ Zo/gr2Wrm5wQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9920"; a="208524935"
+X-IronPort-AV: E=Sophos;i="5.81,241,1610438400"; 
+   d="scan'208";a="208524935"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2021 08:52:16 -0800
+IronPort-SDR: pLYlvNMkjbGeEf4DGOz05C1/jN6MKQ7sSXym97DOI81RuiFg9om+rbzMSFdenQWzFhhjJnrQPp
+ Zt1HnO3fx8QA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,241,1610438400"; 
+   d="scan'208";a="409545876"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orsmga007.jf.intel.com with ESMTP; 11 Mar 2021 08:52:11 -0800
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Thu, 11 Mar 2021 08:52:11 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Thu, 11 Mar 2021 08:52:10 -0800
+Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
+ fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.2106.013;
+ Thu, 11 Mar 2021 08:52:10 -0800
+From:   "Luck, Tony" <tony.luck@intel.com>
+To:     Andy Lutomirski <luto@amacapital.net>,
+        Aili Yao <yaoaili@kingsoft.com>
+CC:     Oleg Nesterov <oleg@redhat.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        HORIGUCHI NAOYA <naoya.horiguchi@nec.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, X86 ML <x86@kernel.org>,
+        "yangfeng1@kingsoft.com" <yangfeng1@kingsoft.com>,
+        Linux-MM <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "sunhao2@kingsoft.com" <sunhao2@kingsoft.com>
+Subject: RE: [PATCH v3] x86/fault: Send a SIGBUS to user process always for
+ hwpoison page access.
+Thread-Topic: [PATCH v3] x86/fault: Send a SIGBUS to user process always for
+ hwpoison page access.
+Thread-Index: AQHW+52QL4Na2ZzwuU6zOFVHHVSkcqpmUikAgAAvRAD//40+AIAC4sSAgAMSD4CAA5534IAAicMAgAKzWQCAAAergIAGtN8AgADz2wCAAI0/AP//fEfggACQgACAA46dgIAAAmIAgAB7hlA=
+Date:   Thu, 11 Mar 2021 16:52:10 +0000
+Message-ID: <0a0909a9005842fa9e49ba9917580e79@intel.com>
+References: <4fc1b4e8f1fb4c8c81f280db09178797@intel.com>
+ <047D5B49-FDBB-494C-81E9-DA811476747D@amacapital.net>
+ <20210311091941.45790fcf@alex-virtual-machine>
+ <CALCETrVqkK29n=6wtVhd7qgTWf83x3SUk6+bkD30asHyWSqppw@mail.gmail.com>
+In-Reply-To: <CALCETrVqkK29n=6wtVhd7qgTWf83x3SUk6+bkD30asHyWSqppw@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+x-originating-ip: [10.1.200.100]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1173189328.5477.1615474316906.JavaMail.zimbra@efficios.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Mar 11, 2021 at 09:51:56AM -0500, Mathieu Desnoyers wrote:
-> 
-> 
-> ----- On Feb 26, 2021, at 8:51 AM, Piotr Figiel figiel@google.com wrote:
-> 
-> > For userspace checkpoint and restore (C/R) a way of getting process state
-> > containing RSEQ configuration is needed.
-> > 
-> > There are two ways this information is going to be used:
-> > - to re-enable RSEQ for threads which had it enabled before C/R
-> > - to detect if a thread was in a critical section during C/R
-> > 
-> > Since C/R preserves TLS memory and addresses RSEQ ABI will be restored
-> > using the address registered before C/R.
-> > 
-> > Detection whether the thread is in a critical section during C/R is needed
-> > to enforce behavior of RSEQ abort during C/R. Attaching with ptrace()
-> > before registers are dumped itself doesn't cause RSEQ abort.
-> > Restoring the instruction pointer within the critical section is
-> > problematic because rseq_cs may get cleared before the control is passed
-> > to the migrated application code leading to RSEQ invariants not being
-> > preserved. C/R code will use RSEQ ABI address to find the abort handler
-> > to which the instruction pointer needs to be set.
-> > 
-> > To achieve above goals expose the RSEQ ABI address and the signature value
-> > with the new ptrace request PTRACE_GET_RSEQ_CONFIGURATION.
-> > 
-> > This new ptrace request can also be used by debuggers so they are aware
-> > of stops within restartable sequences in progress.
-> > 
-> > Signed-off-by: Piotr Figiel <figiel@google.com>
-> > Reviewed-by: Michal Miroslaw <emmir@google.com>
-> 
-> Reviewed-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-
-How do we route this? Do I stick this in tip/sched/core as being an rseq
-patch?
+PiBJIHRoaW5rIHdlIG5lZWQgdG8gYXQgbGVhc3QgZml4IHRoZSBleGlzdGluZyBidWcgYmVmb3Jl
+IHdlIGFkZCBtb3JlDQo+IHNpZ25hbHMuICBBRkFJQ1MgdGhlIE1DRV9JTl9LRVJORUxfQ09QWUlO
+IGNvZGUgaXMgYnVzdGVkIGZvciBrZXJuZWwNCj4gdGhyZWFkcy4NCg0KQ2FuIGEga2VybmVsIHRo
+cmVhZCBkbyBnZXRfdXNlcigpIG9yIGNvcHlfZnJvbV91c2VyKCk/ICBEbyB3ZSBoYXZlIGtlcm5l
+bCB0aHJlYWRzDQp0aGF0IGhhdmUgYW4gYXNzb2NpYXRlZCB1c2VyIGFkZHJlc3Mgc3BhY2UgdG8g
+Y29weSBmcm9tPw0KDQotVG9ueQ0K
