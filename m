@@ -2,127 +2,128 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E918D3369FE
-	for <lists+linux-api@lfdr.de>; Thu, 11 Mar 2021 03:02:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2021E336AC9
+	for <lists+linux-api@lfdr.de>; Thu, 11 Mar 2021 04:37:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229696AbhCKCCX convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Wed, 10 Mar 2021 21:02:23 -0500
-Received: from mail.kingsoft.com ([114.255.44.146]:47467 "EHLO
-        mail.kingsoft.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S229714AbhCKCB5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 10 Mar 2021 21:01:57 -0500
-X-AuditID: 0a580155-1f5ff7000005482e-22-6049728f68b2
-Received: from mail.kingsoft.com (localhost [10.88.1.32])
-        (using TLS with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (Client did not present a certificate)
-        by mail.kingsoft.com (SMG-2-NODE-85) with SMTP id 89.95.18478.F8279406; Thu, 11 Mar 2021 09:29:51 +0800 (HKT)
-Received: from alex-virtual-machine (172.16.253.254) by KSBJMAIL2.kingsoft.cn
- (10.88.1.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Thu, 11 Mar
- 2021 10:01:54 +0800
-Date:   Thu, 11 Mar 2021 10:01:54 +0800
-From:   Aili Yao <yaoaili@kingsoft.com>
-To:     Andy Lutomirski <luto@amacapital.net>
-CC:     "Luck, Tony" <tony.luck@intel.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        HORIGUCHI NAOYA <naoya.horiguchi@nec.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Peter Zijlstra <peterz@infradead.org>,
+        id S230319AbhCKDgj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 10 Mar 2021 22:36:39 -0500
+Received: from mail.kernel.org ([198.145.29.99]:51254 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229818AbhCKDgb (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 10 Mar 2021 22:36:31 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8D85C64E22;
+        Thu, 11 Mar 2021 03:36:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1615433791;
+        bh=VU36+Oy9eNMQX1av5VV5rT/wzZmLW57dBFB+sUkXF4w=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=e7M11Ykz/wwfbgjKNn5uhle8DDoJiLEl5wtNAzrhBK5zeTMiiIe70zX3rO1f+tMpn
+         EV8wPp3kqY/+Epphh1oW1a5Wg8muWy6V92Lc0VJ47G57DvHYoMIwrbmJC82GJh7K2K
+         xT3sFovM1zbQxp17qxWMUtcMUruA7l6KLd9nF5BCTc7IfAN0XDhrteiGRvWvEOECEo
+         GdnDEiGZfSEgrEWvKdvoj8OFJFrrbOLoTkSFI+bRru2BEB5IIeLYrjnJ4n4t0YTywG
+         EbYs1bSm7vsUntt8XSuaTBZJnaAe/AIFepL4WoJO8P7vVTqj3xFoBZZpl7lAUf19fm
+         z301GU9DwHQVw==
+Date:   Thu, 11 Mar 2021 05:36:06 +0200
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, X86 ML <x86@kernel.org>,
-        <yangfeng1@kingsoft.com>, Linux-MM <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>, <sunhao2@kingsoft.com>,
-        <yaoaili@kingsoft.com>, <suhua1@kingsoft.com>
-Subject: Re: [PATCH v3] x86/fault: Send a SIGBUS to user process always for
- hwpoison page access.
-Message-ID: <20210311100154.5a75c62e@alex-virtual-machine>
-In-Reply-To: <CALCETrVqkK29n=6wtVhd7qgTWf83x3SUk6+bkD30asHyWSqppw@mail.gmail.com>
-References: <4fc1b4e8f1fb4c8c81f280db09178797@intel.com>
-        <047D5B49-FDBB-494C-81E9-DA811476747D@amacapital.net>
-        <20210311091941.45790fcf@alex-virtual-machine>
-        <CALCETrVqkK29n=6wtVhd7qgTWf83x3SUk6+bkD30asHyWSqppw@mail.gmail.com>
-Organization: kingsoft
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Subject: Re: [PATCH v22 8/8] x86/vdso: Add ENDBR64 to __vdso_sgx_enter_enclave
+Message-ID: <YEmQJjwjs8UCEO2F@kernel.org>
+References: <20210310220519.16811-1-yu-cheng.yu@intel.com>
+ <20210310220519.16811-9-yu-cheng.yu@intel.com>
+ <YElKjT2v628tidE/@kernel.org>
+ <8b8efe44-b79f-ce29-ee28-066f88c93840@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Originating-IP: [172.16.253.254]
-X-ClientProxiedBy: KSBJMAIL1.kingsoft.cn (10.88.1.31) To KSBJMAIL2.kingsoft.cn
- (10.88.1.32)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrJIsWRmVeSWpSXmKPExsXCFcGooNtf5Jlg8PUUs8XnDf/YLF5saGe0
-        mLZR3GLz9w42i8u75rBZ3Fvzn9Vi9doGVovzu9ayWlw6sIDJ4mLjAUaLrftbGS2O9x5gsti8
-        aSqzxZsL91gsfmx4zOrA7/G9tY/F4/6bvywem1doeSze85LJY9OqTjaPTZ8msXu8O3eO3WPe
-        yUCPF1c3sni833eVzePzJjmPEy1fWAN4orhsUlJzMstSi/TtErgyrm5fyljQKlKxa+p91gbG
-        A/xdjOwcEgImEntsuhi5OIQEpjNJHDu0lAnCecUosfH1cSCHk4NFQFXiZ8tWMJsNyN51bxYr
-        iC0ioCnxcsp8FpAGZoFHLBINsxezgySEBZIlzkx6wAhi8wpYSWz4Mh+omYODUyBQ4sFBGYgF
-        LxglOju3s4HU8AuISfRe+Q+2QELAXqJtyyKoXkGJkzOfsIDYzEDLWrf/ZoewtSWWLXzNDGIL
-        CShKHF7yix2iV0niSPcMNgg7VmLZvFesExiFZyEZNQvJqFlIRi1gZF7FyFKcm260iRESm6E7
-        GGc0fdQ7xMjEwXiIUYKDWUmE1++4W4IQb0piZVVqUX58UWlOavEhRmkOFiVx3r3HXBOEBNIT
-        S1KzU1MLUotgskwcnFINTAdWnODNFdlnd+0k64q9+yQ6157PmrlAMSnlz4YY9RsHn3lfexrT
-        x9nftDLhu/nVi4F5tfKHOqr7fC76mSyO3CFkf7Ro2ZvEyhk2xte2+jrYJy1kNlnyzqs+5kGs
-        yx+TpeeUzwarLhBSYWrYtXvig3nLDwicMj0TaBKdOenu1arXTF6lv5MnGxb/YHQqORmxeZ+E
-        tPdeTjfZT/IS7EnecWUpgg6dhx5dCmW7krL0zv+DbXZ3HqbfcOE4FDWxPn6nk/7cu21yElXH
-        HcNN93N8UpNPCSrmmNC+6vvcrYu+cn3ZkW3566bNzMg/G49qhCvEbL4Ye+sgQ2OGzAGTg3/W
-        O2zeVnk2a+W93NMPtaxi/iixFGckGmoxFxUnAgBRSXrGPAMAAA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8b8efe44-b79f-ce29-ee28-066f88c93840@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, 10 Mar 2021 17:28:12 -0800
-Andy Lutomirski <luto@amacapital.net> wrote:
-
-> On Wed, Mar 10, 2021 at 5:19 PM Aili Yao <yaoaili@kingsoft.com> wrote:
-> >
-> > On Mon, 8 Mar 2021 11:00:28 -0800
-> > Andy Lutomirski <luto@amacapital.net> wrote:
-> >  
-> > > > On Mar 8, 2021, at 10:31 AM, Luck, Tony <tony.luck@intel.com> wrote:
-> > > >
-> > > > ﻿  
-> > > >>
-> > > >> Can you point me at that SIGBUS code in a current kernel?  
-> > > >
-> > > > It is in kill_me_maybe().  mce_vaddr is setup when we disassemble whatever get_user()
-> > > > or copy from user variant was in use in the kernel when the poison memory was consumed.
-> > > >
-> > > >        if (p->mce_vaddr != (void __user *)-1l) {
-> > > >                force_sig_mceerr(BUS_MCEERR_AR, p->mce_vaddr, PAGE_SHIFT);  
-> > >
-> > > Hmm. On the one hand, no one has complained yet. On the other hand, hardware that supports this isn’t exactly common.
-> > >
-> > > We may need some actual ABI design here. We also need to make sure that things like io_uring accesses or, more generally, anything using the use_mm / use_temporary_mm ends up either sending no signal or sending a signal to the right target.
-> > >  
-> > > >
-> > > > Would it be any better if we used the BUS_MCEERR_AO code that goes into siginfo?  
-> > >
-> > > Dunno.  
-> >
-> > I have one thought here but don't know if it's proper:
-> >
-> > Previous patch use force_sig_mceerr to the user process for such a scenario; with this method
-> > The SIGBUS can't be ignored as force_sig_mceerr() was designed to.
-> >
-> > If the user process don't want this signal, will it set signal config to ignore?
-> > Maybe we can use a send_sig_mceerr() instead of force_sig_mceerr(), if process want to
-> > ignore the SIGBUS, then it will ignore that, or it can also process the SIGBUS?  
+On Wed, Mar 10, 2021 at 02:55:55PM -0800, Yu, Yu-cheng wrote:
+> On 3/10/2021 2:39 PM, Jarkko Sakkinen wrote:
+> > On Wed, Mar 10, 2021 at 02:05:19PM -0800, Yu-cheng Yu wrote:
+> > > When CET is enabled, __vdso_sgx_enter_enclave() needs an endbr64
+> > > in the beginning of the function.
+> > 
+> > OK.
+> > 
+> > What you should do is to explain what it does and why it's needed.
+> > 
 > 
-> I don't think the signal blocking mechanism makes sense for this.
-> Blocking a signal is for saying that, if another process sends the
-> signal (or an async event like ctrl-C), then the process doesn't want
-> it.  Blocking doesn't block synchronous things like faults.
+> The endbr marks a branch target.  Without the "no-track" prefix, if an
+> indirect call/jmp reaches a non-endbr opcode, a control-protection fault is
+> raised.  Usually endbr's are inserted by the compiler.  For assembly, these
+> have to be put in manually.  I will add this in the commit log if there is
+> another revision.  Thanks!
+
+Thanks for the explanation. There is another revision, because this is
+lacking from the commit message.
+
+Does it do any harm to put it there unconditionally?
+
 > 
-> I think we need to at least fix the existing bug before we add more
-> signals.  AFAICS the MCE_IN_KERNEL_COPYIN code is busted for kernel
-> threads.
+> --
+> Yu-cheng
+> 
+> > > 
+> > > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> > > Cc: Andy Lutomirski <luto@kernel.org>
+> > > Cc: Dave Hansen <dave.hansen@linux.intel.com>
+> > > Cc: Jarkko Sakkinen <jarkko@kernel.org>
+> > > ---
+> > >   arch/x86/entry/vdso/vsgx.S | 3 +++
+> > >   1 file changed, 3 insertions(+)
+> > > 
+> > > diff --git a/arch/x86/entry/vdso/vsgx.S b/arch/x86/entry/vdso/vsgx.S
+> > > index 86a0e94f68df..a70d4d09f713 100644
+> > > --- a/arch/x86/entry/vdso/vsgx.S
+> > > +++ b/arch/x86/entry/vdso/vsgx.S
+> > > @@ -27,6 +27,9 @@
+> > >   SYM_FUNC_START(__vdso_sgx_enter_enclave)
+> > >   	/* Prolog */
+> > >   	.cfi_startproc
+> > > +#ifdef CONFIG_X86_CET
+> > > +	endbr64
+> > > +#endif
+> > >   	push	%rbp
+> > >   	.cfi_adjust_cfa_offset	8
+> > >   	.cfi_rel_offset		%rbp, 0
+> > > -- 
+> > > 2.21.0
+> > > 
+> > > 
+> > 
+> > /Jarkko
+> > 
+> 
+> 
 
-Got this, Thanks!
-
-I read https://man7.org/linux/man-pages/man2/write.2.html, and it seems the write syscall is not expecting
-an signal, maybe a specific error code for this scenario is enough.
-
--- 
-Thanks!
-Aili Yao
+/Jarkko
