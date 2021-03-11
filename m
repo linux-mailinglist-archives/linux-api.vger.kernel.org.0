@@ -2,49 +2,48 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E12C0337A0E
-	for <lists+linux-api@lfdr.de>; Thu, 11 Mar 2021 17:53:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 90C8E337A2A
+	for <lists+linux-api@lfdr.de>; Thu, 11 Mar 2021 17:58:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229868AbhCKQwa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 11 Mar 2021 11:52:30 -0500
-Received: from mga01.intel.com ([192.55.52.88]:23860 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229705AbhCKQwW (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 11 Mar 2021 11:52:22 -0500
-IronPort-SDR: YAdINEIgmbH/hQVcIK1v9V1MPj7M6ZP7BEzzK0lVX/pS4MtkjYC1k04fkX/fyRWdO0SVRRTCJH
- Zo/gr2Wrm5wQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9920"; a="208524935"
-X-IronPort-AV: E=Sophos;i="5.81,241,1610438400"; 
-   d="scan'208";a="208524935"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2021 08:52:16 -0800
-IronPort-SDR: pLYlvNMkjbGeEf4DGOz05C1/jN6MKQ7sSXym97DOI81RuiFg9om+rbzMSFdenQWzFhhjJnrQPp
- Zt1HnO3fx8QA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,241,1610438400"; 
-   d="scan'208";a="409545876"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by orsmga007.jf.intel.com with ESMTP; 11 Mar 2021 08:52:11 -0800
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Thu, 11 Mar 2021 08:52:11 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Thu, 11 Mar 2021 08:52:10 -0800
-Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
- fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.2106.013;
- Thu, 11 Mar 2021 08:52:10 -0800
-From:   "Luck, Tony" <tony.luck@intel.com>
-To:     Andy Lutomirski <luto@amacapital.net>,
-        Aili Yao <yaoaili@kingsoft.com>
-CC:     Oleg Nesterov <oleg@redhat.com>,
+        id S229469AbhCKQ5w (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 11 Mar 2021 11:57:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34950 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229606AbhCKQ50 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 11 Mar 2021 11:57:26 -0500
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B69C0C061574;
+        Thu, 11 Mar 2021 08:57:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=ppV5eKP+GTwT8841mn3VqiRD2uTN7WT0z5PGxeKiaTU=; b=JvvWPkglVPY+62xqjH6sjY7+AH
+        dnyYZA6+nBL5WOheOekWnlbQ6GnYvi0waEZ5t4aWCLVN2/uv4qFZ9OrhBNIwQrDxYDa48BDiqtKrL
+        wAkN3RM1PxUTUqOQmW6PXrPB2cHM+bd5wAY56tC6WuekmNVUg7OEF1uYueDAaen3N2TFxZgRCcACb
+        Gy0nfntxV/1oJVsdUGiS1Av+z5v6RBKcIFfTrzPoy/i0uaTqdWIzU6cST62MYG4AXAwSkdp31Bb5T
+        ecWniiVWBTJ6jpgZkDQVrSGGngxUk7BvkGWXIBNwMSfTWmIivDWsN5q1kiFUH8dEHxh9F2Vt8mAg/
+        sbW9346Q==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1lKOcQ-009cwK-R4; Thu, 11 Mar 2021 16:57:03 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 55DE63013E5;
+        Thu, 11 Mar 2021 17:56:58 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 4110F29E5D623; Thu, 11 Mar 2021 17:56:58 +0100 (CET)
+Date:   Thu, 11 Mar 2021 17:56:58 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     "Luck, Tony" <tony.luck@intel.com>
+Cc:     Andy Lutomirski <luto@amacapital.net>,
+        Aili Yao <yaoaili@kingsoft.com>,
+        Oleg Nesterov <oleg@redhat.com>,
         Linux API <linux-api@vger.kernel.org>,
         Andy Lutomirski <luto@kernel.org>,
         HORIGUCHI NAOYA <naoya.horiguchi@nec.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
-        Peter Zijlstra <peterz@infradead.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         "H. Peter Anvin" <hpa@zytor.com>, X86 ML <x86@kernel.org>,
@@ -52,36 +51,28 @@ CC:     Oleg Nesterov <oleg@redhat.com>,
         Linux-MM <linux-mm@kvack.org>,
         LKML <linux-kernel@vger.kernel.org>,
         "sunhao2@kingsoft.com" <sunhao2@kingsoft.com>
-Subject: RE: [PATCH v3] x86/fault: Send a SIGBUS to user process always for
+Subject: Re: [PATCH v3] x86/fault: Send a SIGBUS to user process always for
  hwpoison page access.
-Thread-Topic: [PATCH v3] x86/fault: Send a SIGBUS to user process always for
- hwpoison page access.
-Thread-Index: AQHW+52QL4Na2ZzwuU6zOFVHHVSkcqpmUikAgAAvRAD//40+AIAC4sSAgAMSD4CAA5534IAAicMAgAKzWQCAAAergIAGtN8AgADz2wCAAI0/AP//fEfggACQgACAA46dgIAAAmIAgAB7hlA=
-Date:   Thu, 11 Mar 2021 16:52:10 +0000
-Message-ID: <0a0909a9005842fa9e49ba9917580e79@intel.com>
+Message-ID: <YEpL2im5KCoEeXlS@hirez.programming.kicks-ass.net>
 References: <4fc1b4e8f1fb4c8c81f280db09178797@intel.com>
  <047D5B49-FDBB-494C-81E9-DA811476747D@amacapital.net>
  <20210311091941.45790fcf@alex-virtual-machine>
  <CALCETrVqkK29n=6wtVhd7qgTWf83x3SUk6+bkD30asHyWSqppw@mail.gmail.com>
-In-Reply-To: <CALCETrVqkK29n=6wtVhd7qgTWf83x3SUk6+bkD30asHyWSqppw@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ <0a0909a9005842fa9e49ba9917580e79@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0a0909a9005842fa9e49ba9917580e79@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-PiBJIHRoaW5rIHdlIG5lZWQgdG8gYXQgbGVhc3QgZml4IHRoZSBleGlzdGluZyBidWcgYmVmb3Jl
-IHdlIGFkZCBtb3JlDQo+IHNpZ25hbHMuICBBRkFJQ1MgdGhlIE1DRV9JTl9LRVJORUxfQ09QWUlO
-IGNvZGUgaXMgYnVzdGVkIGZvciBrZXJuZWwNCj4gdGhyZWFkcy4NCg0KQ2FuIGEga2VybmVsIHRo
-cmVhZCBkbyBnZXRfdXNlcigpIG9yIGNvcHlfZnJvbV91c2VyKCk/ICBEbyB3ZSBoYXZlIGtlcm5l
-bCB0aHJlYWRzDQp0aGF0IGhhdmUgYW4gYXNzb2NpYXRlZCB1c2VyIGFkZHJlc3Mgc3BhY2UgdG8g
-Y29weSBmcm9tPw0KDQotVG9ueQ0K
+On Thu, Mar 11, 2021 at 04:52:10PM +0000, Luck, Tony wrote:
+> > I think we need to at least fix the existing bug before we add more
+> > signals.  AFAICS the MCE_IN_KERNEL_COPYIN code is busted for kernel
+> > threads.
+> 
+> Can a kernel thread do get_user() or copy_from_user()?  Do we have kernel threads
+> that have an associated user address space to copy from?
+
+kthread_use_mm()
