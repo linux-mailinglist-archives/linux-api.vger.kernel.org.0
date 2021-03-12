@@ -2,141 +2,164 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FE26338DE5
-	for <lists+linux-api@lfdr.de>; Fri, 12 Mar 2021 13:56:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 48D6F339218
+	for <lists+linux-api@lfdr.de>; Fri, 12 Mar 2021 16:47:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230497AbhCLM4B (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 12 Mar 2021 07:56:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38938 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231538AbhCLMz4 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 12 Mar 2021 07:55:56 -0500
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7E2DC061574;
-        Fri, 12 Mar 2021 04:55:56 -0800 (PST)
-Received: by mail-pj1-x102f.google.com with SMTP id q6-20020a17090a4306b02900c42a012202so11027042pjg.5;
-        Fri, 12 Mar 2021 04:55:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=wKJ2USCqob2dPGSJ2s/55BxqmSQ03/ILkHfh+eqP1nw=;
-        b=A+5YNZBSJatoaEvBF9DiCeQsl7H8nsFWBxl1ufbwCHHQ6WSp2N8W/PckhkDAh+7oQD
-         nZFvlhrqUjbCDV+pt4xXjaaPjlaO4hYRWJhrEBqwqSoHtqsuoDGyvmzFi3PYou2qWuEd
-         uY2N3QBSndxDFTPWOcd397M9v9Fu/m3/+zY0D4VY7djOuARzd0ED/os1iPrfxaWQC7ZQ
-         e8vtOniiXG13cbOSKnU5DQfIXDdq535WwVA/R/PMhn85x5fze06PMFX2G0pKBTK9z+7r
-         XlAVMhPB6FvWQELixO8hJ5H07tZbiUA0ba99tbVmgiZ84P9hCkRItu3PIG4RzYv6rOze
-         /sIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=wKJ2USCqob2dPGSJ2s/55BxqmSQ03/ILkHfh+eqP1nw=;
-        b=rFSvATsYxqXtKeS1yMvSmJMeuyB3z9FNJr2FapDM79+yyeU/S2KPyWZ5Td4RmBlnEx
-         9NdxLWEtNOqERfCXgpFTjpaEVeK7bsGDzD7/YWcP9fDP7vEpK6loUYnGNV2GKTQ9ke5s
-         hNb+mrbUaGoF1/vivzX30JI1+Vxtp/xkwv3JNrCSG2x01sSABU8hYtE7bIGV1VHI/giv
-         XYjJ+WWy6Vx82qodOdku8RyZx5M7DFuKxIS4lue1tEpnoucSf0MX4tYOrOu1R8G5HyyE
-         RNGCSyjOpIrY1jm2gx6Rx8WVcYxDSz+2sS+qpwpYf5azLHG5a61DEvQGai6ThaTV5Ave
-         Ln9A==
-X-Gm-Message-State: AOAM532lJqW+UnWcg1ZNVBzdjxgceS2g+2uWGBbvIT+gOZKtXbm0zU4J
-        wc4wzB3QBtSsrp9kYExZrMPprmtShPEffh/sbuE=
-X-Google-Smtp-Source: ABdhPJxeovDEBL+2f/HKvqKuIlEoXeagjVFgcRnFFft+vW4V+kfxKrL57CmOKiv/4FBYv3bQpgwdba/VbcGOcSYSRFc=
-X-Received: by 2002:a17:90a:cca:: with SMTP id 10mr13911532pjt.103.1615553756156;
- Fri, 12 Mar 2021 04:55:56 -0800 (PST)
+        id S232105AbhCLPpk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 12 Mar 2021 10:45:40 -0500
+Received: from mx4.veeam.com ([104.41.138.86]:49884 "EHLO mx4.veeam.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231789AbhCLPpT (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 12 Mar 2021 10:45:19 -0500
+Received: from mail.veeam.com (prgmbx01.amust.local [172.24.0.171])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mx4.veeam.com (Postfix) with ESMTPS id BB4E1114A84;
+        Fri, 12 Mar 2021 18:45:13 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=veeam.com; s=mx4;
+        t=1615563913; bh=ay5rQDiZzTT+utrO+8oIcBlw6h3n728bJRSViccZ2nw=;
+        h=From:To:CC:Subject:Date:From;
+        b=miu7nl73pYbNAwOnTFVd1AAqr9VBxGeSW9ETKlmzb6i0Dxgpi5B/t7J/tTJ9vFzfc
+         zPZmDoWbfnyfYnjeKj+RDcRLWoF5DW1K6w23phFtpke15oFbZVHPCxe89CbdGqYM4/
+         b+NvT21p4tk40WgRS8jprPUICz+ebalgOQytu6+U=
+Received: from prgdevlinuxpatch01.amust.local (172.24.14.5) by
+ prgmbx01.amust.local (172.24.0.171) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.721.2;
+ Fri, 12 Mar 2021 16:45:12 +0100
+From:   Sergei Shtepa <sergei.shtepa@veeam.com>
+To:     Christoph Hellwig <hch@infradead.org>,
+        Mike Snitzer <snitzer@redhat.com>,
+        Alasdair Kergon <agk@redhat.com>,
+        Hannes Reinecke <hare@suse.de>, Jens Axboe <axboe@kernel.dk>,
+        <dm-devel@redhat.com>, <linux-block@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-api@vger.kernel.org>
+CC:     <sergei.shtepa@veeam.com>, <pavel.tide@veeam.com>
+Subject: [PATCH v7 0/3] block device interposer
+Date:   Fri, 12 Mar 2021 18:44:52 +0300
+Message-ID: <1615563895-28565-1-git-send-email-sergei.shtepa@veeam.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-References: <20210226172634.26905-1-yu-cheng.yu@intel.com> <20210226172634.26905-3-yu-cheng.yu@intel.com>
- <20210308212936.GD12548@zn.tnic> <40c3c4cc-e135-1355-51ee-4d0f16e47e71@intel.com>
- <20210309143141.GD699@zn.tnic> <CACKs7VBLnQTc_RgnXk8X-XgVRvR5_uXY0wL0snW7P5iDjpb8fA@mail.gmail.com>
- <92fa4a4b-3100-cbd3-47cb-11072e4c6844@intel.com>
-In-Reply-To: <92fa4a4b-3100-cbd3-47cb-11072e4c6844@intel.com>
-From:   Stefan Puiu <stefan.puiu@gmail.com>
-Date:   Fri, 12 Mar 2021 14:55:45 +0200
-Message-ID: <CACKs7VAFa5LCYLfhg7U3SfpUrMWcP-GMOU6nMfOd3xzUXDyrRw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] sigaction.2: wfix - Clarify si_addr description.
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Cc:     Borislav Petkov <bp@alien8.de>,
-        lnx-man <linux-man@vger.kernel.org>,
-        Alejandro Colomar <alx.manpages@gmail.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Originating-IP: [172.24.14.5]
+X-ClientProxiedBy: prgmbx02.amust.local (172.24.0.172) To prgmbx01.amust.local
+ (172.24.0.171)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A29D2A50B58627366
+X-Veeam-MMEX: True
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Mar 11, 2021 at 7:33 PM Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
->
-> On 3/11/2021 9:17 AM, Stefan Puiu wrote:
-> > Hi,
-> >
-> > My 2 cents below.
-> >
-> > On Tue, Mar 9, 2021, 16:33 Borislav Petkov <bp@alien8.de
-> > <mailto:bp@alien8.de>> wrote:
-> >
-> >     On Mon, Mar 08, 2021 at 01:46:07PM -0800, Yu, Yu-cheng wrote:
-> >      > I think the sentence above is vague, but probably for the reason
-> >     that each
-> >      > arch is different.  Maybe this patch is unnecessary and can be
-> >     dropped?
-> >
-> >     Maybe.
-> >
-> >     If you want to clarify it, you should audit every arch. But what
-> >     would that bring? IOW, is it that important to specify when si_addr
-> >     is populated and when not...? I don't know of an example but I'm
-> >     no userspace programmer anyway, to know when this info would be
-> >     beneficial...
-> >
-> >
-> > I've worked on projects where the SIGSEGV sig handler would also print
-> > si_addr. When diagnosing a crash, the address that triggered the fault
-> > is useful to know. If you can't reproduce the crash in a debugger, or
-> > there's no core dump, at least you have an idea if it's a NULL pointer
-> > dereference or some naked pointer dereferencing. So I think it's useful
-> > to know when si_addr can be used to infer such information and when not=
-.
->
-> At least for x86, the faulting ip is already in ucontext, and si_addr is
-> mostly the memory address being accessed if that was the reason of the
-> fault (i.e. the memory is not supposed to be accessed).  That way, the
-> signal handler has both the instruction pointer and the memory address.
+Hi all.
 
-Interesting that you mention ucontext. I think the ability to fetch
-the IP from it is not that well documented. See for example the
-sigaction man page
-(https://man7.org/linux/man-pages/man2/sigaction.2.html):
+I'm joyful to suggest the block device interposer (bdev_interposer) v7.
+bdev_interposer allows to redirect bio requests to other block devices.
 
-              Further information about the ucontext_t structure can be
-              found in getcontext(3) and signal(7).  Commonly, the
-              handler function doesn't make any use of the third
-              argument.
+In this series of patches I suggest a different implementation of the bio
+interception mechanism. Now the interposer is a different block device.
+Instead of an additional hook, the function fops->submit_bio() of
+the interposer device is used.
+This implementation greatly simplifies the application of this
+bdev_interposer in device-mapper. But there is one limitation - the size
+of the interposer device must be greater than or equal to the size of
+the original device.
 
-Michael's book ("The Linux Programming Interface") has similar text on
-ucontext ("This information is rarely used in signal handlers, so we
-don=E2=80=99t go into further details"). I could find one example on google
-for fetching the IP at
-https://www.oracle.com/technical-resources/articles/it-infrastructure/dev-s=
-ignal-handlers-studio.html,
-but it pertains to SPARC. Also I've found one older of our projects
-that uses this, and it seems each architecture has its own layout (the
-code handles ppc, mips and x86-64). Is this documented somewhere?
-Outside of the arch-specific kernel definition of the uc_mcontext
-member in the code, I mean :).
+The first patch adds the function blk_mq_is_queue_frozen(). It allows to
+check a queue state.
+
+The second patch is dedicated to bdev_interposer itself, which provides
+the ability to redirect bio to the interposer device.
+
+The third one adds the DM_INTERPOSED_FLAG flag. When this flag is
+applied with the ioctl DM_TABLE_LOAD_CMD, the underlying devices are
+opened without the FMODE_EXCL flag and connected via bdev_interposer.
+
+Changes in this patchset v7:
+  * the request interception mechanism. Now the interposer is
+    a block device that receives requests instead of the original device;
+  * code design fixes.
+
+History:
+v6 - https://patchwork.kernel.org/project/linux-block/cover/1614774618-22410-1-git-send-email-sergei.shtepa@veeam.com/
+  * designed for 5.12;
+  * thanks to the new design of the bio structure in v5.12, it is
+    possible to perform interception not for the entire disk, but
+    for each block device;
+  * instead of the new ioctl DM_DEV_REMAP_CMD and the 'noexcl' option,
+    the DM_INTERPOSED_FLAG flag for the ioctl DM_TABLE_LOAD_CMD is
+    applied.
+
+v5 - https://patchwork.kernel.org/project/linux-block/cover/1612881028-7878-1-git-send-email-sergei.shtepa@veeam.com/
+ * rebase for v5.11-rc7;
+ * patch set organization;
+ * fix defects in documentation;
+ * add some comments;
+ * change mutex names for better code readability;
+ * remove calling bd_unlink_disk_holder() for targets with non-exclusive
+   flag;
+ * change type for struct dm_remap_param from uint8_t to __u8.
+
+v4 - https://patchwork.kernel.org/project/linux-block/cover/1612367638-3794-1-git-send-email-sergei.shtepa@veeam.com/
+Mostly changes were made, due to Damien's comments:
+ * on the design of the code;
+ * by the patch set organization;
+ * bug with passing a wrong parameter to dm_get_device();
+ * description of the 'noexcl' parameter in the linear.rst.
+Also added remap_and_filter.rst.
+
+v3 - https://patchwork.kernel.org/project/linux-block/cover/1611853955-32167-1-git-send-email-sergei.shtepa@veeam.com/
+In this version, I already suggested blk_interposer to apply to dm-linear.
+Problems were solved:
+ * Interception of bio requests from a specific device on the disk, not
+   from the entire disk. To do this, we added the dm_interposed_dev
+   structure and an interval tree to store these structures.
+ * Implemented ioctl DM_DEV_REMAP_CMD. A patch with changes in the lvm2
+   project was sent to the team lvm-devel@redhat.com.
+ * Added the 'noexcl' option for dm-linear, which allows you to open
+   the underlying block-device without FMODE_EXCL mode.
+
+v2 - https://patchwork.kernel.org/project/linux-block/cover/1607518911-30692-1-git-send-email-sergei.shtepa@veeam.com/
+I tried to suggest blk_interposer without using it in device mapper,
+but with the addition of a sample of its use. It was then that I learned
+about the maintainers' attitudes towards the samples directory :).
+
+v1 - https://lwn.net/ml/linux-block/20201119164924.74401-1-hare@suse.de/
+This Hannes's patch can be considered as a starting point, since this is
+where the interception mechanism and the term blk_interposer itself
+appeared. It became clear that blk_interposer can be useful for
+device mapper.
+
+before v1 - https://patchwork.kernel.org/project/linux-block/cover/1603271049-20681-1-git-send-email-sergei.shtepa@veeam.com/
+I tried to offer a rather cumbersome blk-filter and a monster-like
+blk-snap module for creating snapshots.
+
+Thank you to everyone who was able to take the time to review
+the previous versions.
+I hope that this time I achieved the required quality.
 
 Thanks,
-Stefan.
+Sergei.
 
->
-> For shadow stack violation, for example, it is not because the memory
-> being accessed; it is the instruction itself causing the violation.  It
-> is unnecessary to duplicate the ip in si_addr.  Setting si_addr to zero
-> also indicates this is not a memory type fault.
->
-> --
-> Yu-cheng
+Sergei Shtepa (3):
+  block: add blk_mq_is_queue_frozen()
+  block: add bdev_interposer
+  dm: add DM_INTERPOSED_FLAG
+
+ block/bio.c                   |  2 ++
+ block/blk-core.c              | 57 ++++++++++++++++++++++++++++++++
+ block/blk-mq.c                | 13 ++++++++
+ block/genhd.c                 | 54 +++++++++++++++++++++++++++++++
+ drivers/md/dm-core.h          |  3 ++
+ drivers/md/dm-ioctl.c         | 13 ++++++++
+ drivers/md/dm-table.c         | 61 +++++++++++++++++++++++++++++------
+ drivers/md/dm.c               | 38 +++++++++++++++-------
+ include/linux/blk-mq.h        |  1 +
+ include/linux/blk_types.h     |  3 ++
+ include/linux/blkdev.h        |  9 ++++++
+ include/linux/device-mapper.h |  1 +
+ include/uapi/linux/dm-ioctl.h |  6 ++++
+ 13 files changed, 240 insertions(+), 21 deletions(-)
+
+-- 
+2.20.1
+
