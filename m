@@ -2,217 +2,89 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A4970339A4A
-	for <lists+linux-api@lfdr.de>; Sat, 13 Mar 2021 01:06:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8998A339DBE
+	for <lists+linux-api@lfdr.de>; Sat, 13 Mar 2021 12:23:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235923AbhCMAF6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 12 Mar 2021 19:05:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42238 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235917AbhCMAFm (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 12 Mar 2021 19:05:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1615593941;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=mVXvmcYP1sSR9GWfD7PGzVWbpYUCA5Ac+5UF3mw/8Ks=;
-        b=en25UQwrJkeJku5zlYHghg+cRQDUgKlT1EQkPYv59oW0lRnGkTBYPO1lZ3gRyLAzfLRi+Y
-        TEVLWuy5mZh/vAgjSD8xBHPycXYa1eN/2EFxKpUmEXOazpYI8Gu0V/T+uOJfw3LVcsEEiB
-        dbsTJ7+c2MT61fH/gnBqBNHNeUtxGfQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-488-GopGBo6-M_m5rNeEHuJOdg-1; Fri, 12 Mar 2021 19:05:39 -0500
-X-MC-Unique: GopGBo6-M_m5rNeEHuJOdg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1783939382;
-        Sat, 13 Mar 2021 00:05:34 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-114-2.rdu2.redhat.com [10.10.114.2])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id B94811F065;
-        Sat, 13 Mar 2021 00:05:29 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
-        id 49B3622054F; Fri, 12 Mar 2021 19:05:29 -0500 (EST)
-Date:   Fri, 12 Mar 2021 19:05:29 -0500
-From:   Vivek Goyal <vgoyal@redhat.com>
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@lst.de>, linux-fsdevel@vger.kernel.org,
-        John Johansen <john.johansen@canonical.com>,
-        James Morris <jmorris@namei.org>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-        Geoffrey Thomas <geofft@ldpreload.com>,
-        Mrunal Patel <mpatel@redhat.com>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Theodore Tso <tytso@mit.edu>, Alban Crequy <alban@kinvolk.io>,
-        Tycho Andersen <tycho@tycho.ws>,
-        David Howells <dhowells@redhat.com>,
-        James Bottomley <James.Bottomley@hansenpartnership.com>,
-        Seth Forshee <seth.forshee@canonical.com>,
-        =?iso-8859-1?Q?St=E9phane?= Graber <stgraber@ubuntu.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Lennart Poettering <lennart@poettering.net>,
-        "Eric W. Biederman" <ebiederm@xmission.com>, smbarber@chromium.org,
-        Phil Estes <estesp@gmail.com>, Serge Hallyn <serge@hallyn.com>,
-        Kees Cook <keescook@chromium.org>,
-        Todd Kjos <tkjos@google.com>, Paul Moore <paul@paul-moore.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        containers@lists.linux-foundation.org,
-        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
-        linux-integrity@vger.kernel.org, selinux@vger.kernel.org
-Subject: Re: [PATCH v6 02/40] fs: add id translation helpers
-Message-ID: <20210313000529.GA181317@redhat.com>
-References: <20210121131959.646623-1-christian.brauner@ubuntu.com>
- <20210121131959.646623-3-christian.brauner@ubuntu.com>
+        id S232999AbhCMLWy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 13 Mar 2021 06:22:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46268 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231392AbhCMLWr (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 13 Mar 2021 06:22:47 -0500
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF45DC061574;
+        Sat, 13 Mar 2021 03:22:47 -0800 (PST)
+Received: by mail-pf1-x444.google.com with SMTP id t85so3594477pfc.13;
+        Sat, 13 Mar 2021 03:22:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ipwZXAeOkj4x/w6D+qXjWim/b+Oj74nRcEbuiSOjy2A=;
+        b=X+/KGn/n4GB+i9z/vQ0kSa6ozRfBkh3x20YHoMt+pm+fF3WOyyFkQQpXJFOp6Ja35z
+         buRy3Cx0mQvlNp31+en/oHTHdyBESn5GCiVGkSnyQqzrH8JA0EUb0aphY9W8TKCmrrWF
+         AvgD6rHuRxOHoTiVfSHABN3NQdJQ0Tq+h/7hBxHcosCZrt/zPVeIgk2v++k9HvgpsAjM
+         uN8Na6VAljva7gEL6/zX6uQXZYTskyyY4tBxac/7tpnFABpnBaa4fVfvu7rb3JMBBgfZ
+         S7V7CDhxKALJsBJR0xRRR5snvuasi8pBsGTkmxOGCoZhC5zPYV5HbIVwHLC+pU9GYHzT
+         abbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ipwZXAeOkj4x/w6D+qXjWim/b+Oj74nRcEbuiSOjy2A=;
+        b=Tmlskbfn3AKH503NMzgxjBuNsLtpU0w+FNwEDNr+UtGV+oQQUHPWY454LlmtBadFb5
+         kP+T4WWEYdRHAYH9io7k+1yA8gZb4/erEg0rmMc69N7jeu8FOAXNt3hjj8omWKfPKUC2
+         TVBpTu66h3+tpNroS4r3A0jZZmAwpPIeXQrKmSVOuXE3B9q92y17G8T5v+ZpZB5C61ql
+         5pkMSJj4+hGia3uWLs3M497yaru6BTO9PuhhpGZvhJRzUu6xOOn9vV3p24SDVtvISBgX
+         x9P7B0GGou55v8OaS2zbB6/iCn29m/J67Fjiy3j7OJud24C897tvIymeHZiQjqhkT8nu
+         wR2g==
+X-Gm-Message-State: AOAM530Va2keaPEa8QL/wbBuKTweV6/e5HRfEcyo2C2jUgXrJcGwIBJo
+        yTcvAkMfn/AJgn81PwePn3+fKNQnBys=
+X-Google-Smtp-Source: ABdhPJxfLUj00FSS3KjGuLTUWUTs4zKTPAhm4qM/Uws9lD43riAS9VQI8ne9jOjWH3kFdv7EeYvq9w==
+X-Received: by 2002:aa7:9614:0:b029:1fa:e77b:722 with SMTP id q20-20020aa796140000b02901fae77b0722mr2640647pfg.2.1615634567304;
+        Sat, 13 Mar 2021 03:22:47 -0800 (PST)
+Received: from localhost.localdomain ([178.236.46.205])
+        by smtp.gmail.com with ESMTPSA id gw20sm4877763pjb.3.2021.03.13.03.22.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 Mar 2021 03:22:46 -0800 (PST)
+From:   menglong8.dong@gmail.com
+X-Google-Original-From: zhang.yunkai@zte.com.cn
+To:     mb@lightnvm.io
+Cc:     linux-block@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Zhang Yunkai <zhang.yunkai@zte.com.cn>
+Subject: [PATCH] lightnvm: remove duplicate include in lightnvm.h
+Date:   Sat, 13 Mar 2021 03:22:41 -0800
+Message-Id: <20210313112241.366786-1-zhang.yunkai@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210121131959.646623-3-christian.brauner@ubuntu.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jan 21, 2021 at 02:19:21PM +0100, Christian Brauner wrote:
-> Add simple helpers to make it easy to map kuids into and from idmapped
-> mounts. We provide simple wrappers that filesystems can use to e.g.
-> initialize inodes similar to i_{uid,gid}_read() and i_{uid,gid}_write().
-> Accessing an inode through an idmapped mount maps the i_uid and i_gid of
-> the inode to the mount's user namespace. If the fsids are used to
-> initialize inodes they are unmapped according to the mount's user
-> namespace. Passing the initial user namespace to these helpers makes
-> them a nop and so any non-idmapped paths will not be impacted.
-> 
-> Link: https://lore.kernel.org/r/20210112220124.837960-9-christian.brauner@ubuntu.com
-> Cc: David Howells <dhowells@redhat.com>
-> Cc: Al Viro <viro@zeniv.linux.org.uk>
-> Cc: linux-fsdevel@vger.kernel.org
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
-> ---
-> /* v2 */
-> - Christoph Hellwig <hch@lst.de>:
->   - Get rid of the ifdefs and the config option that hid idmapped mounts.
-> 
-> /* v3 */
-> unchanged
-> 
-> /* v4 */
-> - Serge Hallyn <serge@hallyn.com>:
->   - Use "mnt_userns" to refer to a vfsmount's userns everywhere to make
->     terminology consistent.
-> 
-> /* v5 */
-> unchanged
-> base-commit: 7c53f6b671f4aba70ff15e1b05148b10d58c2837
-> 
-> /* v6 */
-> unchanged
-> base-commit: 19c329f6808995b142b3966301f217c831e7cf31
-> ---
->  include/linux/fs.h | 47 ++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 47 insertions(+)
-> 
-> diff --git a/include/linux/fs.h b/include/linux/fs.h
-> index fd0b80e6361d..3165998e2294 100644
-> --- a/include/linux/fs.h
-> +++ b/include/linux/fs.h
-> @@ -40,6 +40,7 @@
->  #include <linux/build_bug.h>
->  #include <linux/stddef.h>
->  #include <linux/mount.h>
-> +#include <linux/cred.h>
->  
->  #include <asm/byteorder.h>
->  #include <uapi/linux/fs.h>
-> @@ -1573,6 +1574,52 @@ static inline void i_gid_write(struct inode *inode, gid_t gid)
->  	inode->i_gid = make_kgid(inode->i_sb->s_user_ns, gid);
->  }
->  
-> +static inline kuid_t kuid_into_mnt(struct user_namespace *mnt_userns,
-> +				   kuid_t kuid)
-> +{
-> +	return make_kuid(mnt_userns, __kuid_val(kuid));
-> +}
-> +
+From: Zhang Yunkai <zhang.yunkai@zte.com.cn>
 
-Hi Christian,
+'linux/ioctl.h' included in 'lightnvm.h' is duplicated.
+It is also included in the 33th line.
 
-I am having little trouble w.r.t function names and trying to figure
-out whether they are mapping id down or up.
+Signed-off-by: Zhang Yunkai <zhang.yunkai@zte.com.cn>
+---
+ include/uapi/linux/lightnvm.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-For example, kuid_into_mnt() ultimately calls map_id_down(). That is,
-id visible inside user namespace is mapped to host
-(if observer is in init_user_ns, IIUC).
-
-But fsuid_into_mnt() ultimately calls map_id_up(). That's take a kuid
-and map it into the user_namespace.
-
-So both the helpers end with into_mnt() but one maps id down and
-other maps id up. I found this confusing and was wondering how
-should I visualize it. So thought of asking you.
-
-Is this intentional or can naming be improved so that *_into_mnt()
-means one thing (Either map_id_up() or map_id_down()). And vice-a-versa
-for *_from_mnt().
-
-Thanks
-Vivek
-
-> +static inline kgid_t kgid_into_mnt(struct user_namespace *mnt_userns,
-> +				   kgid_t kgid)
-> +{
-> +	return make_kgid(mnt_userns, __kgid_val(kgid));
-> +}
-> +
-> +static inline kuid_t i_uid_into_mnt(struct user_namespace *mnt_userns,
-> +				    const struct inode *inode)
-> +{
-> +	return kuid_into_mnt(mnt_userns, inode->i_uid);
-> +}
-> +
-> +static inline kgid_t i_gid_into_mnt(struct user_namespace *mnt_userns,
-> +				    const struct inode *inode)
-> +{
-> +	return kgid_into_mnt(mnt_userns, inode->i_gid);
-> +}
-> +
-> +static inline kuid_t kuid_from_mnt(struct user_namespace *mnt_userns,
-> +				   kuid_t kuid)
-> +{
-> +	return KUIDT_INIT(from_kuid(mnt_userns, kuid));
-> +}
-> +
-> +static inline kgid_t kgid_from_mnt(struct user_namespace *mnt_userns,
-> +				   kgid_t kgid)
-> +{
-> +	return KGIDT_INIT(from_kgid(mnt_userns, kgid));
-> +}
-> +
-> +static inline kuid_t fsuid_into_mnt(struct user_namespace *mnt_userns)
-> +{
-> +	return kuid_from_mnt(mnt_userns, current_fsuid());
-> +}
-> +
-> +static inline kgid_t fsgid_into_mnt(struct user_namespace *mnt_userns)
-> +{
-> +	return kgid_from_mnt(mnt_userns, current_fsgid());
-> +}
-> +
->  extern struct timespec64 current_time(struct inode *inode);
->  
->  /*
-> -- 
-> 2.30.0
-> 
+diff --git a/include/uapi/linux/lightnvm.h b/include/uapi/linux/lightnvm.h
+index ead2e72e5c88..2745afd9b8fa 100644
+--- a/include/uapi/linux/lightnvm.h
++++ b/include/uapi/linux/lightnvm.h
+@@ -22,7 +22,6 @@
+ 
+ #ifdef __KERNEL__
+ #include <linux/const.h>
+-#include <linux/ioctl.h>
+ #else /* __KERNEL__ */
+ #include <stdio.h>
+ #include <sys/ioctl.h>
+-- 
+2.25.1
 
