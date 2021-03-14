@@ -2,105 +2,88 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BFE8333A25A
-	for <lists+linux-api@lfdr.de>; Sun, 14 Mar 2021 03:20:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 56A4633A265
+	for <lists+linux-api@lfdr.de>; Sun, 14 Mar 2021 03:31:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232974AbhCNCTg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 13 Mar 2021 21:19:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39406 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231497AbhCNCTL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 13 Mar 2021 21:19:11 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 063ACC061574;
-        Sat, 13 Mar 2021 18:19:11 -0800 (PST)
+        id S233791AbhCNCaz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 13 Mar 2021 21:30:55 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:45256 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233441AbhCNCan (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 13 Mar 2021 21:30:43 -0500
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2390555C;
-        Sun, 14 Mar 2021 03:19:08 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 02C1A55C;
+        Sun, 14 Mar 2021 03:30:41 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1615688348;
-        bh=4I7l6MsBdcrlbIfCr+pyxXnIMce/5m/JVSnDkBpBzRA=;
+        s=mail; t=1615689042;
+        bh=ibheVfpzm+JE73D5nVjhfA/XFmhnMvmRbtXmyfTRNJk=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=m4IAs1sTM+B9tCbUOzd1PJ5NxfYmRBrTgA+ewOYiXBgLCA+HPG/E1Gc13DmPqUL3g
-         8LdNZ4gAsN82SLOtWXDAFaY5xWkJ3DtlJ2gAzNmb2DeU7oHYH3M2Hc/2SnxAboucTg
-         wU9zo73tPE1zVvgzQWmnJrA/kfdw/dEBkD3XvR0g=
-Date:   Sun, 14 Mar 2021 04:18:32 +0200
+        b=iDKnyLByxnc+cu3aOpqUV3Jdvti1BSI1I7mvH/zau/rooHUY+NeSQLF+SQYgElm9p
+         yOeWXK3alybNmqHy3DipT033C5gL9yy13SovOnpdbzDK/035eSvAWF7QWVet+UvUO0
+         TBB0rfZOD7YXure8ouUFaAuHrjhZ78xBLzpuZbUQ=
+Date:   Sun, 14 Mar 2021 04:30:06 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Pawel Laszczak <pawell@cadence.com>
-Cc:     Peter Chen <peter.chen@kernel.org>, balbi@kernel.org,
-        gregkh@linuxfoundation.org, linux-api@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+Cc:     balbi@kernel.org, gregkh@linuxfoundation.org,
+        linux-api@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, peter.chen@kernel.org,
         kurahul@cadence.com
-Subject: Re: [PATCH 1/2] usb: gadget: uvc: Updating bcdUVC field to 0x0110
-Message-ID: <YE1yeEPwHoMgML0s@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 2/2] usb: webcam: Invalid size of Processing Unit
+ Descriptor
+Message-ID: <YE11Lk3XXbB1B+aD@pendragon.ideasonboard.com>
 References: <20210308102735.9251-1-pawell@gli-login.cadence.com>
- <20210314015846.GB17526@b29397-desktop>
+ <20210308102735.9251-2-pawell@gli-login.cadence.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210314015846.GB17526@b29397-desktop>
+In-Reply-To: <20210308102735.9251-2-pawell@gli-login.cadence.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hello Pawel,
+Hi Pawel,
 
 Thank you for the patch.
 
-On Sun, Mar 14, 2021 at 09:58:46AM +0800, Peter Chen wrote:
-> On 21-03-08 11:27:34, Pawel Laszczak wrote:
-> > From: Pawel Laszczak <pawell@cadence.com>
-> > 
-> > Command Verifier during UVC Descriptor Tests (Class Video Control
-> > Interface Descriptor Test Video) compleins about:
+On Mon, Mar 08, 2021 at 11:27:35AM +0100, Pawel Laszczak wrote:
+> From: Pawel Laszczak <pawell@cadence.com>
 > 
-> %s/compleins/complains
+> According with USB Device Class Definition for Video Device the
+> Processing Unit Descriptor bLength should be 12 (10 + bmControlSize),
+> but it has 11.
 > 
-> > Video Control Interface Header bcdUVC is 0x0100. USB Video Class
-> > specification 1.0 has been replaced by 1.1 specification
-> > (UVC: 6.2.26) Class Video Control Interface Descriptor bcdUVC is not 1.1
-> 
-> What does this (UVC: 6.2.26) mean? There are only 4 chapters for this
-> spec, Am I something wrong?
+> Invalid length caused that Processing Unit Descriptor Test Video form
+> CV tool failed. To fix this issue patch adds bmVideoStandards into
+> uvc_processing_unit_descriptor structure.
 
-I assume this is a reference to a test case in the test suite.
+The bmVideoStandards field was added in UVC 1.1, it wasn't part of UVC
+1.0a. The commit message should explain this.
 
-> > Signed-off-by: Pawel Laszczak <pawell@cadence.com>
-> > ---
-> >  drivers/usb/gadget/function/uvc_configfs.c | 2 +-
-> >  drivers/usb/gadget/legacy/webcam.c         | 2 +-
-> >  2 files changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
-> > index 00fb58e50a15..cd28dec837dd 100644
-> > --- a/drivers/usb/gadget/function/uvc_configfs.c
-> > +++ b/drivers/usb/gadget/function/uvc_configfs.c
-> > @@ -231,7 +231,7 @@ static struct config_item *uvcg_control_header_make(struct config_group *group,
-> >  	h->desc.bLength			= UVC_DT_HEADER_SIZE(1);
-> >  	h->desc.bDescriptorType		= USB_DT_CS_INTERFACE;
-> >  	h->desc.bDescriptorSubType	= UVC_VC_HEADER;
-> > -	h->desc.bcdUVC			= cpu_to_le16(0x0100);
-> > +	h->desc.bcdUVC			= cpu_to_le16(0x0110);
-> >  	h->desc.dwClockFrequency	= cpu_to_le32(48000000);
-> >  
-> >  	config_item_init_type_name(&h->item, name, &uvcg_control_header_type);
-> > diff --git a/drivers/usb/gadget/legacy/webcam.c b/drivers/usb/gadget/legacy/webcam.c
-> > index a9f8eb8e1c76..3a61de4bb2b1 100644
-> > --- a/drivers/usb/gadget/legacy/webcam.c
-> > +++ b/drivers/usb/gadget/legacy/webcam.c
-> > @@ -90,7 +90,7 @@ static const struct UVC_HEADER_DESCRIPTOR(1) uvc_control_header = {
-> >  	.bLength		= UVC_DT_HEADER_SIZE(1),
-> >  	.bDescriptorType	= USB_DT_CS_INTERFACE,
-> >  	.bDescriptorSubType	= UVC_VC_HEADER,
-> > -	.bcdUVC			= cpu_to_le16(0x0100),
-> > +	.bcdUVC			= cpu_to_le16(0x0110),
-> >  	.wTotalLength		= 0, /* dynamic */
-> >  	.dwClockFrequency	= cpu_to_le32(48000000),
-> >  	.bInCollection		= 0, /* dynamic */
+This change looks good to me, but could you also update
+drivers/usb/gadget/legacy/webcam.c and
+drivers/usb/gadget/function/f_uvc.c to explicitly set this field to 0 ?
 
-The change looks good to me. With the typo in the commit message fixed,
+With that,
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> Signed-off-by: Pawel Laszczak <pawell@cadence.com>
+> ---
+>  include/uapi/linux/usb/video.h | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/include/uapi/linux/usb/video.h b/include/uapi/linux/usb/video.h
+> index d854cb19c42c..2a54e8fdd341 100644
+> --- a/include/uapi/linux/usb/video.h
+> +++ b/include/uapi/linux/usb/video.h
+> @@ -302,6 +302,7 @@ struct uvc_processing_unit_descriptor {
+>  	__u8   bControlSize;
+>  	__u8   bmControls[2];
+>  	__u8   iProcessing;
+> +	__u8   bmVideoStandards;
+>  } __attribute__((__packed__));
+>  
+>  #define UVC_DT_PROCESSING_UNIT_SIZE(n)			(9+(n))
 
 -- 
 Regards,
