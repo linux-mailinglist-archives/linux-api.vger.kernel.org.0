@@ -2,123 +2,125 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D19D933ABDF
-	for <lists+linux-api@lfdr.de>; Mon, 15 Mar 2021 08:01:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C6D533ABE0
+	for <lists+linux-api@lfdr.de>; Mon, 15 Mar 2021 08:01:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229958AbhCOHAm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        id S229985AbhCOHAm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
         Mon, 15 Mar 2021 03:00:42 -0400
-Received: from mx0a-0014ca01.pphosted.com ([208.84.65.235]:62558 "EHLO
+Received: from mx0a-0014ca01.pphosted.com ([208.84.65.235]:51630 "EHLO
         mx0a-0014ca01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229807AbhCOHAW (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 15 Mar 2021 03:00:22 -0400
+        by vger.kernel.org with ESMTP id S229951AbhCOHA2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 15 Mar 2021 03:00:28 -0400
 Received: from pps.filterd (m0042385.ppops.net [127.0.0.1])
-        by mx0a-0014ca01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 12F6wSQY013210;
-        Mon, 15 Mar 2021 00:00:17 -0700
+        by mx0a-0014ca01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 12F6xDMY013494;
+        Mon, 15 Mar 2021 00:00:25 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=proofpoint;
- bh=MV5ouADjwoaoJMEFIVm7nYVKyknhi2cn/2l02gBFhY4=;
- b=a7OBFUJIyHQZEuVDS4vY6xrbSoNYWpXXsIgxV+F09oGrWwudgF2+P2y43yprlc8BIQtN
- jYVNKwE0x1ZQ0Ppft6cSIJc3ACOsjioAwtru1YCw/XJvZ8lgeMSpDmKHBpwaiYBDwBxO
- mtZYVfy5wbCZETo/R0gXMrSYvHdUqtj3Nq/YgsDBDfQ+CLnjFgBzGKBPq7jkoO2Yt/A/
- aG/C24jIsUvDiiw/VJfCwW7uwU8urHEvPXMwyVCQFTzAojWTc4GMZXFQ705wHI2u//hj
- ZLDXxAJUZ6bwaYO/OunzNQ9HUlGdUH5kSq61c2U0vW1GRo/ynQhle5/0S1cc6FmeG0Hl VA== 
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2102.outbound.protection.outlook.com [104.47.55.102])
-        by mx0a-0014ca01.pphosted.com with ESMTP id 378tu1vk35-1
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=proofpoint;
+ bh=F6ebSNeKQjYEKTADs5ZY9rLutL91LV87vmOmK8EP48c=;
+ b=BHdEZycdS7Km1Z8LHvYYoHzGq9FdjsQ1OzyAwr8h295g4SuBtUK7r2vWoC07cFM5jRq/
+ UJAwvXIMaDZyY5gzxnf0EL4YJZbWjSFo8OtpiOHl/dsW2CT2YhU7k0DwEZzYS2NGvr+R
+ WgBU8u5LyQKIOy8/tvcf63iG2Fi9oryeG3tJQcBHjf+QxYmoxtgQ9nNKLdEcYfsoQAZQ
+ JQ+d/RR/nWXs16hBMIeCuL8DGPWhbjs81Cq35MbBCHleUEAGTNfEDBWRP76dkuDxg8h6
+ PmisOol6CtnYvvtMm0iXs+3j+QRNu1Zpp7nXi+9jF77tSwRzwjibcgwxNGoEx/P8hP07 XQ== 
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2168.outbound.protection.outlook.com [104.47.59.168])
+        by mx0a-0014ca01.pphosted.com with ESMTP id 378tu1vk3e-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 15 Mar 2021 00:00:16 -0700
+        Mon, 15 Mar 2021 00:00:25 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CNDcpG5AJZWqai6GeC6yr5Ky/1FBRUotyEKC2N6ehCm+vaj6kdds0a+5KCyx3Z/BHlhHkHKZxEyaJ/LUFztp6/DqWuj0nFeeZLdnIoUVHV14BxjS/JJ8ds/p/qelLR2F1NDdhtGdhiTh1OmZzSmMam1U7kjKwQyBPGciDYcZ2RPMCVmPnZ6AADCp0O9qt0+wjBEOCHZZ0Uu3rXvN669z4JOWTHqS/vIcWexo/nx5YitaEGep9mNHhhEmMVO1kcQWjCR+9/jzLr/Jr71h87+6lasoJamJ4Cwl+WysD7skBPGArL/mmjCepj5H9NZc1EOBE0K4Z7OD2AwPx7wBPVS97A==
+ b=dvCj/zIBrv+SSplFjEB4KjGcgyUMTVvzI5fJlhPsnHRsR7zW5bdLwa5dti1eAIACwuiD51V7D/XBBquXF9sXjFo4Je2YSrF4pJ7ok9TFP6aBWcg1MZAvw4fUtwA+43jiu77HpBq5q2Siln/YCgEn2EVGnwFcbPBLAEWkb2mwA3zNW6oDBfxFE0bYZdxmS+qQq5W40qHMlr7NXCWB+hQjs4fT4sipfuFX6MuJf3HJ0JfJV07Hwu6C5g9lY/DZAjLofmOpie1ZTaMhIFVm0maVjo2ngvQOeQ1B8ocsysASXBb3p7EGsqI0lSCnIEZlCC5HzKpAayuB3eK6/QInqtWCQA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MV5ouADjwoaoJMEFIVm7nYVKyknhi2cn/2l02gBFhY4=;
- b=QJ+Nv5RFVTEGdtsLvIAkUmcBuaYnyISq5Wzglw7VE0hU+cQPYPRrT1c2fAe2yP6sCXyUzaXDww1V3qFDZkqdIsnT3dOAHPktbIRnhDbZFD8sUZUVfv7PmZngWOhmTYJtXy6aZIWmrgSJO3qHFw63zdT0pjNK+ztYNiaHj73iztHsiYVCYTYWU6BxC++ZKDVkpdFcJwCTH2smFnTeJEi/qdg/04mgtrvkIN9JJchlEXwxXdAn0Rb5SCnPDATCvNNjAeN4/Gcp/o3HzAeoWsdv9Mx2Tx2FVZWnEIUy4XgiuPHdp7Rz5GqNJjtWSj6zE47xcWcqQOe5L9nE96vnFVljDw==
+ bh=F6ebSNeKQjYEKTADs5ZY9rLutL91LV87vmOmK8EP48c=;
+ b=G0BviDG5MFaO/98LdEblKPzHQfYMWQMruUehYjPxN65KiIajZRKGPoUtaHHj56U9A6a8eX27n8gmQslG75PFkczQE1fZ5CxsK+UK2SCIIIAJgOpyXXfOlTjG8feHB6I4gtq1Z/qNUjlcZr5Ps0Uxg7ksuuJAkqXsTPuXpJn0w5QLWqii9TVK6aj7XO6kpudcbKRpFIkHKezdpeSW4S7Ew/bYfHt36HC6hJOfHxyEstGBEu8fZ1HEzZ3DQ7FJ4O9H8e2+9zcu+ZTfxz+x+6Aau3S0ZRYZ+JeQUy+KMkspgafqy4Yy69wdizEsO56psAWfd1wOwQ0hKm4aLYwgacwydg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 158.140.1.147) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=cadence.com;
+ 158.140.1.148) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=cadence.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=cadence.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MV5ouADjwoaoJMEFIVm7nYVKyknhi2cn/2l02gBFhY4=;
- b=epV9AB6w/kpGa1dCB4ThlwtwD7oHGG9ThRWZKTu/bHVk/ciw65VSm4CpnStaawOgdUdW3BA+URNnD+NEjK0ppyY1jkDefqi4Th7iyA+RQQbgYiu/qH4BAOeaYLwbkTT2StxK3a/bCpyAUc58fbbVVKCCqTw1no6pEVe/Wkp3c+8=
-Received: from CO2PR18CA0061.namprd18.prod.outlook.com (2603:10b6:104:2::29)
- by SN6PR07MB5230.namprd07.prod.outlook.com (2603:10b6:805:a9::28) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17; Mon, 15 Mar
- 2021 07:00:14 +0000
-Received: from MW2NAM12FT030.eop-nam12.prod.protection.outlook.com
- (2603:10b6:104:2:cafe::be) by CO2PR18CA0061.outlook.office365.com
- (2603:10b6:104:2::29) with Microsoft SMTP Server (version=TLS1_2,
+ bh=F6ebSNeKQjYEKTADs5ZY9rLutL91LV87vmOmK8EP48c=;
+ b=Qsa+bAAUis1+f6hOC+vo2LqdI7QL3nylvbbe8wCUhHYg0lIRIqks1WzTMC+ND4DLyx8II79JX7+0Nugj/GxxgHulJFQiigxKSwYl5Q6l/ity5IkjWPke66G3iR49ZbROY6CwYs0WfbZdPQA1ENKMrr/y+WKNMIKrePlFHPLlLik=
+Received: from DM5PR07CA0059.namprd07.prod.outlook.com (2603:10b6:4:ad::24) by
+ DS7PR07MB8333.namprd07.prod.outlook.com (2603:10b6:5:3a5::15) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3933.32; Mon, 15 Mar 2021 07:00:23 +0000
+Received: from DM6NAM12FT014.eop-nam12.prod.protection.outlook.com
+ (2603:10b6:4:ad:cafe::30) by DM5PR07CA0059.outlook.office365.com
+ (2603:10b6:4:ad::24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.31 via Frontend
- Transport; Mon, 15 Mar 2021 07:00:14 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 158.140.1.147)
+ Transport; Mon, 15 Mar 2021 07:00:23 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 158.140.1.148)
  smtp.mailfrom=cadence.com; vger.kernel.org; dkim=none (message not signed)
  header.d=none;vger.kernel.org; dmarc=pass action=none
  header.from=cadence.com;
 Received-SPF: Pass (protection.outlook.com: domain of cadence.com designates
- 158.140.1.147 as permitted sender) receiver=protection.outlook.com;
- client-ip=158.140.1.147; helo=sjmaillnx1.cadence.com;
-Received: from sjmaillnx1.cadence.com (158.140.1.147) by
- MW2NAM12FT030.mail.protection.outlook.com (10.13.181.22) with Microsoft SMTP
+ 158.140.1.148 as permitted sender) receiver=protection.outlook.com;
+ client-ip=158.140.1.148; helo=sjmaillnx2.cadence.com;
+Received: from sjmaillnx2.cadence.com (158.140.1.148) by
+ DM6NAM12FT014.mail.protection.outlook.com (10.13.178.128) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3955.9 via Frontend Transport; Mon, 15 Mar 2021 07:00:13 +0000
+ 15.20.3955.9 via Frontend Transport; Mon, 15 Mar 2021 07:00:22 +0000
 Received: from maileu3.global.cadence.com (maileu3.cadence.com [10.160.88.99])
-        by sjmaillnx1.cadence.com (8.14.4/8.14.4) with ESMTP id 12F70B4T030261
+        by sjmaillnx2.cadence.com (8.14.4/8.14.4) with ESMTP id 12F70KBp021550
         (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 15 Mar 2021 00:00:12 -0700
+        Mon, 15 Mar 2021 00:00:21 -0700
 X-CrossPremisesHeadersFilteredBySendConnector: maileu3.global.cadence.com
 Received: from maileu3.global.cadence.com (10.160.88.99) by
  maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 15 Mar 2021 08:00:11 +0100
+ 15.0.1497.2; Mon, 15 Mar 2021 08:00:19 +0100
 Received: from gli-login.cadence.com (10.187.128.100) by
  maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2 via Frontend Transport; Mon, 15 Mar 2021 08:00:10 +0100
+ 15.0.1497.2 via Frontend Transport; Mon, 15 Mar 2021 08:00:19 +0100
 Received: from gli-login.cadence.com (localhost [127.0.0.1])
-        by gli-login.cadence.com (8.14.4/8.14.4) with ESMTP id 12F70A1p032479;
-        Mon, 15 Mar 2021 08:00:10 +0100
+        by gli-login.cadence.com (8.14.4/8.14.4) with ESMTP id 12F70JLL033228;
+        Mon, 15 Mar 2021 08:00:19 +0100
 Received: (from pawell@localhost)
-        by gli-login.cadence.com (8.14.4/8.14.4/Submit) id 12F70A7U032455;
-        Mon, 15 Mar 2021 08:00:10 +0100
+        by gli-login.cadence.com (8.14.4/8.14.4/Submit) id 12F70Jm9033215;
+        Mon, 15 Mar 2021 08:00:19 +0100
 From:   Pawel Laszczak <pawell@cadence.com>
 To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>
 CC:     <linux-api@vger.kernel.org>, <laurent.pinchart@ideasonboard.com>,
         <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <peter.chen@kernel.org>, <kurahul@cadence.com>,
         Pawel Laszczak <pawell@cadence.com>
-Subject: [PATCH v2 1/2] usb: gadget: uvc: Updating bcdUVC field to 0x0110
-Date:   Mon, 15 Mar 2021 07:59:25 +0100
-Message-ID: <20210315065926.30152-1-pawell@gli-login.cadence.com>
+Subject: [PATCH v3 2/2] usb: webcam: Invalid size of Processing Unit Descriptor
+Date:   Mon, 15 Mar 2021 07:59:26 +0100
+Message-ID: <20210315065926.30152-2-pawell@gli-login.cadence.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20210315065926.30152-1-pawell@gli-login.cadence.com>
+References: <20210315065926.30152-1-pawell@gli-login.cadence.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-OrganizationHeadersPreserved: maileu3.global.cadence.com
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f3c9ed4f-a532-4f92-17db-08d8e77ffb90
-X-MS-TrafficTypeDiagnostic: SN6PR07MB5230:
-X-Microsoft-Antispam-PRVS: <SN6PR07MB5230E3C66277FB43951CCD9BDD6C9@SN6PR07MB5230.namprd07.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:330;
+X-MS-Office365-Filtering-Correlation-Id: 7268dcc1-5ec1-4b2b-185d-08d8e78000c2
+X-MS-TrafficTypeDiagnostic: DS7PR07MB8333:
+X-Microsoft-Antispam-PRVS: <DS7PR07MB8333AE71317A3AE5C2B8E21BDD6C9@DS7PR07MB8333.namprd07.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1060;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FIwbShHf7F0H/LHJgLzntroD8YKIyxzArjWxDTznQXK3uo7IJLA+n4OXBqMjjHfHqQBKgmeXaZvr18XLH/VbwDCRsUGLMn3wpb0bea12n6dj4TZiDUda/9YjOJ2B9f+B55fQu0JSajCKV15jSBDNNHWdFcfBPqKHoa7/IuFPZEnM23Vy4mACUK8Pdv5KU8i0iQ+tH+0fFP6p5UWuZ3eIrFfyE31r/mUWqa57IQXWZb9Xux6guIrMUydYxAw8UOCfGhEVaUup0IDxXv0XG+smpSDdk6gkH/HFfuKd7GrOd25iyWIRhqWUnq8/XZSL+GSlbftbqUUoFYWvmq/15lU0KgOltcFq/8GT9gVfmhk4i61mhFCL/k6kmGOJUJRXeTonEok0rYgqoRieTs+WNYO8KFbDK5doNpZJ7o2Qt7oRNNzTuImBWEoUDdvI9DYPlwDKAxfS2FGH1cuI14gIbd+6bvV4bMgVqrap4ceEMTx2F6Qby8dpR/Q2OT9yC13lJx0FJwiKJNGVkCaBYi4/MBfCdVy8m/2gQ2+4dgYAPUUcqBzoOlth2LmBwulYzoygBSq/8lFBYgN7McSqvEvjr4En4devK9cs+/GmTNfcPr9SKHL4eGDvAOwHHoSb9HotBssuUdpDJOYYqPHE4aQN6mH3csS/e5Paa5spWoG00+CXSWfS5qAbbeDtcFHyZFYvni8f
-X-Forefront-Antispam-Report: CIP:158.140.1.147;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:sjmaillnx1.cadence.com;PTR:unknown.Cadence.COM;CAT:NONE;SFS:(4636009)(346002)(136003)(376002)(396003)(39860400002)(36092001)(46966006)(36840700001)(316002)(107886003)(83380400001)(82310400003)(82740400003)(7636003)(8936002)(1076003)(426003)(336012)(356005)(86362001)(36860700001)(66574015)(6666004)(47076005)(2906002)(5660300002)(70586007)(4326008)(36906005)(70206006)(110136005)(42186006)(478600001)(186003)(26005)(8676002)(54906003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: R+9e0GJ/kFPUBP0SW9FVIXG64ZMB2pNCDDd5LXieBtB/J84Vyt8tsiSlk+x6zBswG7HYa4Zc0LDZOpSoyDZWKAAA3uiPsgZ1uU3gr0ASPCSm4TAs8E40XcuPZtCXxJwiw9pzLAis+vdaS3cK+8oeUvEQePcTg8my0P4oON4G532bqPKHq0f+7DKoxtn5h6YVgXg3ou2fUDzYRJbEZ01eckPnIZM2TGlRhdtunv5dX7wNRWs4sVGhVPLB0Dg/Zzn0oksvapHMGfUzzJn2IVYen3My7ETcw3GobS5fheDJzZwJHCKbdmFqb1mq7+Z3AJNDg0dw2aulHU09gcPfASQgszxeT5BJiw0JKZyIen32u/VKVu//4ETdLkx5dMburYZc4ngKmIEhNsOh9xX5S7J2iJGdTTZ7fd+QrdRLFL+4pnELwgQrlf2ag/DioEENljHcnmAbvQ5EAZibcWWkz4zvgLQpiGW2eVgjuPNZ4Co4Xe242KhpB5nyQycOC5bML/NfnrjS+Xpg2XEykckmLnE25J5KKDLSJAHGiIDyPihGILhbKpkTgvsQ0B8p4hMehM4q+gB4fBxKCdeMxXZLDEpjNzr5YWNLX+eVB61TD4xDhT6gKgnFWJDa9FKHalk68H781lBTJWgM89k4bSh4PgNjkkr12GghTNhP6KPno+38KFfMU2oNDxqtsdEMkPzjvEv6
+X-Forefront-Antispam-Report: CIP:158.140.1.148;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:sjmaillnx2.cadence.com;PTR:unknown.Cadence.COM;CAT:NONE;SFS:(4636009)(136003)(396003)(376002)(39860400002)(346002)(36092001)(36840700001)(46966006)(42186006)(316002)(36906005)(26005)(5660300002)(1076003)(36860700001)(66574015)(6666004)(83380400001)(82310400003)(82740400003)(7636003)(8676002)(70586007)(186003)(107886003)(86362001)(54906003)(70206006)(2906002)(110136005)(4326008)(8936002)(426003)(47076005)(478600001)(336012)(356005);DIR:OUT;SFP:1101;
 X-OriginatorOrg: cadence.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Mar 2021 07:00:13.9682
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Mar 2021 07:00:22.6416
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f3c9ed4f-a532-4f92-17db-08d8e77ffb90
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7268dcc1-5ec1-4b2b-185d-08d8e78000c2
 X-MS-Exchange-CrossTenant-Id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d36035c5-6ce6-4662-a3dc-e762e61ae4c9;Ip=[158.140.1.147];Helo=[sjmaillnx1.cadence.com]
-X-MS-Exchange-CrossTenant-AuthSource: MW2NAM12FT030.eop-nam12.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d36035c5-6ce6-4662-a3dc-e762e61ae4c9;Ip=[158.140.1.148];Helo=[sjmaillnx2.cadence.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM12FT014.eop-nam12.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR07MB5230
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR07MB8333
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
  definitions=2021-03-15_01:2021-03-15,2021-03-15 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check score=0 adultscore=0
+X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check score=0 adultscore=15
  priorityscore=1501 bulkscore=0 phishscore=0 clxscore=1015
  lowpriorityscore=0 malwarescore=0 spamscore=0 suspectscore=0
- impostorscore=0 mlxscore=0 mlxlogscore=709 classifier=spam adjust=0
+ impostorscore=0 mlxscore=0 mlxlogscore=999 classifier=spam adjust=0
  reason=mlx scancount=1 engine=8.12.0-2009150000
  definitions=main-2103150047
 Precedence: bulk
@@ -127,51 +129,73 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 From: Pawel Laszczak <pawell@cadence.com>
 
-Command Verifier during UVC Descriptor Tests (Class Video Control
-Interface Descriptor Test Video) complains about:
+According with USB Device Class Definition for Video Device the
+Processing Unit Descriptor bLength should be 12 (10 + bmControlSize),
+but it has 11.
 
-Video Control Interface Header bcdUVC is 0x0100. USB Video Class
-specification 1.0 has been replaced by 1.1 specification
-(UVC: 6.2.26) Class Video Control Interface Descriptor bcdUVC is not 1.1
+Invalid length caused that Processing Unit Descriptor Test Video form
+CV tool failed. To fix this issue patch adds bmVideoStandards into
+uvc_processing_unit_descriptor structure.
+
+The bmVideoStandards field was added in UVC 1.1 and it wasn't part of
+UVC 1.0a.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Pawel Laszczak <pawell@cadence.com>
 
 ---
-Changlog:
+Changelog:
+v3:
+- updated the commit message
+- added bmVideoStandard field to UVC gadget driver
 v2:
-- fixed typo in commit message
+- updated UVC_DT_PROCESSING_UNIT_SIZE macro
 
- drivers/usb/gadget/function/uvc_configfs.c | 2 +-
- drivers/usb/gadget/legacy/webcam.c         | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/usb/gadget/function/f_uvc.c | 1 +
+ drivers/usb/gadget/legacy/webcam.c  | 1 +
+ include/uapi/linux/usb/video.h      | 3 ++-
+ 3 files changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
-index 00fb58e50a15..cd28dec837dd 100644
---- a/drivers/usb/gadget/function/uvc_configfs.c
-+++ b/drivers/usb/gadget/function/uvc_configfs.c
-@@ -231,7 +231,7 @@ static struct config_item *uvcg_control_header_make(struct config_group *group,
- 	h->desc.bLength			= UVC_DT_HEADER_SIZE(1);
- 	h->desc.bDescriptorType		= USB_DT_CS_INTERFACE;
- 	h->desc.bDescriptorSubType	= UVC_VC_HEADER;
--	h->desc.bcdUVC			= cpu_to_le16(0x0100);
-+	h->desc.bcdUVC			= cpu_to_le16(0x0110);
- 	h->desc.dwClockFrequency	= cpu_to_le32(48000000);
+diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
+index 5d62720bb9e1..e3b0a79c8f01 100644
+--- a/drivers/usb/gadget/function/f_uvc.c
++++ b/drivers/usb/gadget/function/f_uvc.c
+@@ -823,6 +823,7 @@ static struct usb_function_instance *uvc_alloc_inst(void)
+ 	pd->bmControls[0]		= 1;
+ 	pd->bmControls[1]		= 0;
+ 	pd->iProcessing			= 0;
++	pd->bmVideoStandards		= 0;
  
- 	config_item_init_type_name(&h->item, name, &uvcg_control_header_type);
+ 	od = &opts->uvc_output_terminal;
+ 	od->bLength			= UVC_DT_OUTPUT_TERMINAL_SIZE;
 diff --git a/drivers/usb/gadget/legacy/webcam.c b/drivers/usb/gadget/legacy/webcam.c
-index a9f8eb8e1c76..3a61de4bb2b1 100644
+index 3a61de4bb2b1..accb4dacf715 100644
 --- a/drivers/usb/gadget/legacy/webcam.c
 +++ b/drivers/usb/gadget/legacy/webcam.c
-@@ -90,7 +90,7 @@ static const struct UVC_HEADER_DESCRIPTOR(1) uvc_control_header = {
- 	.bLength		= UVC_DT_HEADER_SIZE(1),
- 	.bDescriptorType	= USB_DT_CS_INTERFACE,
- 	.bDescriptorSubType	= UVC_VC_HEADER,
--	.bcdUVC			= cpu_to_le16(0x0100),
-+	.bcdUVC			= cpu_to_le16(0x0110),
- 	.wTotalLength		= 0, /* dynamic */
- 	.dwClockFrequency	= cpu_to_le32(48000000),
- 	.bInCollection		= 0, /* dynamic */
+@@ -125,6 +125,7 @@ static const struct uvc_processing_unit_descriptor uvc_processing = {
+ 	.bmControls[0]		= 1,
+ 	.bmControls[1]		= 0,
+ 	.iProcessing		= 0,
++	.bmVideoStandrads	= 0,
+ };
+ 
+ static const struct uvc_output_terminal_descriptor uvc_output_terminal = {
+diff --git a/include/uapi/linux/usb/video.h b/include/uapi/linux/usb/video.h
+index d854cb19c42c..bfdae12cdacf 100644
+--- a/include/uapi/linux/usb/video.h
++++ b/include/uapi/linux/usb/video.h
+@@ -302,9 +302,10 @@ struct uvc_processing_unit_descriptor {
+ 	__u8   bControlSize;
+ 	__u8   bmControls[2];
+ 	__u8   iProcessing;
++	__u8   bmVideoStandards;
+ } __attribute__((__packed__));
+ 
+-#define UVC_DT_PROCESSING_UNIT_SIZE(n)			(9+(n))
++#define UVC_DT_PROCESSING_UNIT_SIZE(n)			(10+(n))
+ 
+ /* 3.7.2.6. Extension Unit Descriptor */
+ struct uvc_extension_unit_descriptor {
 -- 
 2.25.1
 
