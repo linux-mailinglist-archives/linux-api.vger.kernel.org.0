@@ -2,111 +2,194 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BDE0D33B33A
-	for <lists+linux-api@lfdr.de>; Mon, 15 Mar 2021 14:04:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 89B8533B346
+	for <lists+linux-api@lfdr.de>; Mon, 15 Mar 2021 14:07:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229681AbhCONEB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 15 Mar 2021 09:04:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60774 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229821AbhCONDx (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 15 Mar 2021 09:03:53 -0400
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A8CBC061764
-        for <linux-api@vger.kernel.org>; Mon, 15 Mar 2021 06:03:53 -0700 (PDT)
-Received: by mail-lj1-x230.google.com with SMTP id r20so16117340ljk.4
-        for <linux-api@vger.kernel.org>; Mon, 15 Mar 2021 06:03:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=/qOUfo30PmDfy59I8NSJRneNR2Umpzy9YtVUdna4m5M=;
-        b=qIqESwX8UcVPz/tRxKsCHl4esn02ZSSAlHCPzPZLxv99wXfXzlp6VFAza1Vy0JT2/L
-         Wt138+S5W3UxXpRTA7+owK6XaBvAnSHZGkNuqj8v+ZQQ8/RPH+hOTMGuZTDqWwwssYVM
-         mx5UQuIqmmb5Cbf8/Ne/bE11VLMvw65g4YajJvAq4NytDSWbYPoQASv7w/tSsieTjPfQ
-         g2PHlQjquIIbXarHbYwFIxvM9rQ6X0eC7E1GT3Y6OafGhvguqHdT/tcj01G/Wu7EKjiX
-         ChIrinG5Dt3i2OU8UpS6sID56lC72dTJdnz0V+6y/2j7PL4/T+6W4so0usK7fVpYnlhu
-         JWjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=/qOUfo30PmDfy59I8NSJRneNR2Umpzy9YtVUdna4m5M=;
-        b=fKvsxKO66xZWDkQCaASjGe5eSNjxoCJGfHFs8k5D3rvm7nUNWefS+PhjUTWYikzwN8
-         JvW3IWOxLEKdHuIZOent/jbUPvMhvhu/YDZ3UfG2CwdGi/v/zlq1xJSMuNoEG4nnRs9Q
-         REdO6tQ1sebuA0PLbZGPuW17eYjM4IvxdLVT7wWw/e9LzEkqTxJcaqL0BNmK5BsKhmlI
-         DXJ683pB/3eOdhdbUY7v2LZOCpqJr4b+KmaWEWzt8tKoffUnwZh/fSOEetfwqeAXfJis
-         RlF0CzfactjidJylnf9picid2nlaN34CwLq9AsRcl0KTmnwhJsWKBAivk5WMhTQlU4t/
-         arpw==
-X-Gm-Message-State: AOAM5329kmQXIYiP0X2QQsYcTcBOpNUiZm0GzXPlesEqtfkm4tc/8Fdc
-        J5ynFCF31v7FSyQjldyGZ/nUpw==
-X-Google-Smtp-Source: ABdhPJxEDfiWnL0bsJmjqgGw1L2I1bSYjlSd5sFV7BIVlK0Jo8Vgmws3GfPCG9Ng9wnj9nKM4zVG/Q==
-X-Received: by 2002:a2e:9a97:: with SMTP id p23mr10233046lji.375.1615813431310;
-        Mon, 15 Mar 2021 06:03:51 -0700 (PDT)
-Received: from box.localdomain ([86.57.175.117])
-        by smtp.gmail.com with ESMTPSA id v23sm2674810lfd.259.2021.03.15.06.03.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Mar 2021 06:03:49 -0700 (PDT)
-Received: by box.localdomain (Postfix, from userid 1000)
-        id 7CCE710246E; Mon, 15 Mar 2021 16:03:53 +0300 (+03)
-Date:   Mon, 15 Mar 2021 16:03:53 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>, Michal Hocko <mhocko@suse.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Matthew Wilcox <willy@infradead.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Minchan Kim <minchan@kernel.org>, Jann Horn <jannh@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Hugh Dickins <hughd@google.com>,
-        Rik van Riel <riel@surriel.com>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>, Chris Zankel <chris@zankel.net>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Peter Xu <peterx@redhat.com>,
-        Rolf Eike Beer <eike-kernel@sf-tec.de>,
-        linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-        linux-arch@vger.kernel.org, Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH RFCv2] mm/madvise: introduce MADV_POPULATE_(READ|WRITE)
- to prefault/prealloc memory
-Message-ID: <20210315130353.iqnwsnp2c2wpt4y2@box>
-References: <20210308164520.18323-1-david@redhat.com>
- <20210315122213.k52wtlbbhsw42pks@box>
- <7d607d1c-efd5-3888-39bb-9e5f8bc08185@redhat.com>
+        id S229702AbhCONGq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 15 Mar 2021 09:06:46 -0400
+Received: from mx2.veeam.com ([64.129.123.6]:48806 "EHLO mx2.veeam.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229844AbhCONG1 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 15 Mar 2021 09:06:27 -0400
+Received: from mail.veeam.com (prgmbx01.amust.local [172.24.0.171])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mx2.veeam.com (Postfix) with ESMTPS id D9844418B2;
+        Mon, 15 Mar 2021 09:06:17 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=veeam.com; s=mx2;
+        t=1615813578; bh=HBLmTesna8PK59lBt7HhhjezdROcGjFkg/1fCkD4cE8=;
+        h=Date:From:To:CC:Subject:References:In-Reply-To:From;
+        b=ZbTpU0itlRmXRiEgLx9BekdUfve16VeoQM4eeCK90AVP/oNmIOiWil7GAgLJoxSlQ
+         jk7D2iUUgerjhC/FOCDVrGEiUHaceB+OzWDlN44wEDrcEcB1aqSQf+GClGh8Nk7Z9g
+         TSdk5iUT2LTbOdLTXLHKkpEmWMcuJoRL1FpqJWoQ=
+Received: from veeam.com (172.24.14.5) by prgmbx01.amust.local (172.24.0.171)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.721.2; Mon, 15 Mar 2021
+ 14:06:15 +0100
+Date:   Mon, 15 Mar 2021 16:06:13 +0300
+From:   Sergei Shtepa <sergei.shtepa@veeam.com>
+To:     Christoph Hellwig <hch@infradead.org>
+CC:     Mike Snitzer <snitzer@redhat.com>,
+        Alasdair Kergon <agk@redhat.com>,
+        Hannes Reinecke <hare@suse.de>, Jens Axboe <axboe@kernel.dk>,
+        "dm-devel@redhat.com" <dm-devel@redhat.com>,
+        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        Pavel Tide <Pavel.TIde@veeam.com>
+Subject: Re: [PATCH v7 2/3] block: add bdev_interposer
+Message-ID: <20210315130613.GC30489@veeam.com>
+References: <1615563895-28565-1-git-send-email-sergei.shtepa@veeam.com>
+ <1615563895-28565-3-git-send-email-sergei.shtepa@veeam.com>
+ <20210314092823.GB3773360@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
-In-Reply-To: <7d607d1c-efd5-3888-39bb-9e5f8bc08185@redhat.com>
+In-Reply-To: <20210314092823.GB3773360@infradead.org>
+X-Originating-IP: [172.24.14.5]
+X-ClientProxiedBy: prgmbx01.amust.local (172.24.0.171) To prgmbx01.amust.local
+ (172.24.0.171)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A29D2A50B58627C62
+X-Veeam-MMEX: True
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Mar 15, 2021 at 01:25:40PM +0100, David Hildenbrand wrote:
-> On 15.03.21 13:22, Kirill A. Shutemov wrote:
-> > On Mon, Mar 08, 2021 at 05:45:20PM +0100, David Hildenbrand wrote:
-> > > +			case -EHWPOISON: /* Skip over any poisoned pages. */
-> > > +				start += PAGE_SIZE;
-> > > +				continue;
-> > 
-> > Why is it good approach? It's not abvious to me.
+The 03/14/2021 12:28, Christoph Hellwig wrote:
+> On Fri, Mar 12, 2021 at 06:44:54PM +0300, Sergei Shtepa wrote:
+> > bdev_interposer allows to redirect bio requests to another devices.
 > 
-> My main motivation was to simplify return code handling. I don't want to
-> return -EHWPOISON to user space
+> I think this warrants a somewhat more detailed description.
+> 
+> The code itself looks pretty good to me now, a bunch of nitpicks and
+> a question below:
+> 
+> > +static noinline blk_qc_t submit_bio_interposed(struct bio *bio)
+> > +{
+> > +	blk_qc_t ret = BLK_QC_T_NONE;
+> > +	struct bio_list bio_list[2] = { };
+> > +	struct gendisk *orig_disk;
+> > +
+> > +	if (current->bio_list) {
+> > +		bio_list_add(&current->bio_list[0], bio);
+> > +		return BLK_QC_T_NONE;
+> > +	}
+> 
+> I don't think this case can ever happen:
+> 
+>  - current->bio_list != NULL means a ->submit_bio or blk_mq_submit_bio
+>    is active.  But if this device is being interposed this means the
+>    interposer recurses into itself, which should never happen.  So
+>    I think we'll want a WARN_ON_ONCE here as a debug check instead.
 
-Why? Hiding the problem under the rug doesn't help anybody. SIGBUS later
-is not better than an error upfront.
+Yes, it is.
+Completely remove this check or add "BUG_ON(current->bio_list);" for
+an emergency?
+
+> 
+> > +
+> > +	orig_disk = bio->bi_bdev->bd_disk;
+> > +	if (unlikely(bio_queue_enter(bio)))
+> > +		return BLK_QC_T_NONE;
+> > +
+> > +	current->bio_list = bio_list;
+> > +
+> > +	do {
+> > +		struct block_device *interposer = bio->bi_bdev->bd_interposer;
+> > +
+> > +		if (unlikely(!interposer)) {
+> > +			/* interposer was removed */
+> > +			bio_list_add(&current->bio_list[0], bio);
+> > +			break;
+> > +		}
+> > +		/* assign bio to interposer device */
+> > +		bio_set_dev(bio, interposer);
+> > +		bio_set_flag(bio, BIO_INTERPOSED);
+> 
+> Reassigning the bi_bdev here means the original source is lost by the
+> time we reach the interposer.  This initially seemed a little limiting,
+> but I guess the interposer driver can just record that information
+> locally, so we should be fine.  The big upside of this is that no
+> extra argument to submit_bio_checks, which means less changes to the
+> normal fast path, so if this works for everyone that is a nice
+> improvement over my draft.
+> 
+> > +
+> > +		if (!submit_bio_checks(bio))
+> > +			break;
+> > +		/*
+> > +		 * Because the current->bio_list is initialized,
+> > +		 * the submit_bio callback will always return BLK_QC_T_NONE.
+> > +		 */
+> > +		interposer->bd_disk->fops->submit_bio(bio);
+> > +	} while (false);
+> 
+> I find the do { ... } while (false) idiom here a little strange.  Normal
+> kernel style would be a goto done instead of the breaks.
+> 
+
+Ok. I'll use the normal kernel style.
+
+> > +int bdev_interposer_attach(struct block_device *original,
+> > +			   struct block_device *interposer)
+> 
+> A kerneldoc comment for bdev_interposer_attach (and
+> bdev_interposer_detach) would be nice to explain the API a little more.
+> 
+
+Yes, I should add kerneldoc comments.
+
+> > +{
+> > +	int ret = 0;
+> > +
+> > +	if (WARN_ON(((!original) || (!interposer))))
+> > +		return -EINVAL;
+> 
+> No need for the inner two levels of braces.
+
+Ok.
+
+> 
+> > +	 * interposer should be simple, no a multi-queue device
+> > +	 */
+> > +	if (!interposer->bd_disk->fops->submit_bio)
+> 
+> Please use queue_is_mq() instead.
+
+Ok.
+
+> 
+> > +	if (bdev_has_interposer(original))
+> > +		ret = -EBUSY;
+> > +	else {
+> > +		original->bd_interposer = bdgrab(interposer);
+> 
+> Just thinking out a loud:  what happens if the interposed device
+> goes away?  Shouldn't we at very least also make sure this
+> gabs another refererence on bdev as well?
+
+If the original device is removed from the system, the interposer device
+will be permanently occupied. I need to add an interposer release when
+deleting a block device.
+
+> 
+> > +struct bdev_interposer;
+> 
+> Not needed any more.
+
+Yes.
+
+> 
+> > +static inline bool bdev_has_interposer(struct block_device *bdev)
+> > +{
+> > +	return (bdev->bd_interposer != NULL);
+> > +};
+> 
+> No need for the braces.
+
+Ok.
 
 -- 
- Kirill A. Shutemov
+Sergei Shtepa
+Veeam Software developer.
