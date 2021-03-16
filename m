@@ -2,103 +2,135 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 31DC633CA65
-	for <lists+linux-api@lfdr.de>; Tue, 16 Mar 2021 01:36:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E72F233CE2C
+	for <lists+linux-api@lfdr.de>; Tue, 16 Mar 2021 07:57:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229725AbhCPAf7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 15 Mar 2021 20:35:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56706 "EHLO mail.kernel.org"
+        id S233931AbhCPG5N (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 16 Mar 2021 02:57:13 -0400
+Received: from mga07.intel.com ([134.134.136.100]:44607 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231482AbhCPAfv (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 15 Mar 2021 20:35:51 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D6DBF64EE2;
-        Tue, 16 Mar 2021 00:35:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1615854950;
-        bh=OlgHNp9jm/EH6kf+3kGJKCQXgOVwBtcBmr5ej4m/h88=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lpbG3tXBmVG0SK4DzL14WLha/peGHTAGXryO9fzxzvMlibA0YcaLCZj0Aehdo2nva
-         tpQbqB9Zcns6CNX/l9qkHwntyoRpW9NuvCPjEvBRll2rTxU63YBJJhUkgPBCSjB28i
-         qg2Nuvl3XHItGjvDVPM/ZbMsfoywoTLX6PPYaQyJOWWkD3IZkrUsFKr5uRTW6F94aH
-         2gYtRm8MGmxBfBJBDl0a2eAI73humNHOK87EIcGuzsXhVyRpdG1GDrELypn7EKjv22
-         qRn0o4/uJZS7O7qB5a5Q28KX1OpZBbg2wYfftC3mhU6EtERmuWzeWhuEJMeFAgCOxP
-         UWKdGoVJYawlg==
-Date:   Tue, 16 Mar 2021 08:35:46 +0800
-From:   Peter Chen <peter.chen@kernel.org>
-To:     Pawel Laszczak <pawell@cadence.com>
-Cc:     balbi@kernel.org, gregkh@linuxfoundation.org,
-        linux-api@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kurahul@cadence.com
-Subject: Re: [PATCH v2 1/2] usb: gadget: uvc: Updating bcdUVC field to 0x0110
-Message-ID: <20210316003545.GD15335@b29397-desktop>
-References: <20210315065926.30152-1-pawell@gli-login.cadence.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210315065926.30152-1-pawell@gli-login.cadence.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+        id S235766AbhCPG5M (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 16 Mar 2021 02:57:12 -0400
+IronPort-SDR: gK2TuscX5yf2Xi4jEYj3BpxvHx/QsOuUwiciImASBPFImq4RiZoLf8Y+nQjGs+Ycw7jBoa5gDr
+ XoNHpkrNl5XQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9924"; a="253227830"
+X-IronPort-AV: E=Sophos;i="5.81,251,1610438400"; 
+   d="scan'208";a="253227830"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2021 23:57:11 -0700
+IronPort-SDR: qnpBGRE2wppZL6tplYqEm0jVKNV60UXK9XAj1XjenkDdKKw1lubXGnQNqiT9J9tG8UKh7kQiNc
+ euuofBv8/mqA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,251,1610438400"; 
+   d="scan'208";a="511296069"
+Received: from chang-linux-3.sc.intel.com ([172.25.66.175])
+  by fmsmga001.fm.intel.com with ESMTP; 15 Mar 2021 23:57:11 -0700
+From:   "Chang S. Bae" <chang.seok.bae@intel.com>
+To:     bp@suse.de, tglx@linutronix.de, mingo@kernel.org, luto@kernel.org,
+        x86@kernel.org
+Cc:     len.brown@intel.com, dave.hansen@intel.com, hjl.tools@gmail.com,
+        Dave.Martin@arm.com, jannh@google.com, mpe@ellerman.id.au,
+        carlos@redhat.com, tony.luck@intel.com, ravi.v.shankar@intel.com,
+        libc-alpha@sourceware.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        chang.seok.bae@intel.com
+Subject: [PATCH v7 0/6] x86: Improve Minimum Alternate Stack Size
+Date:   Mon, 15 Mar 2021 23:52:09 -0700
+Message-Id: <20210316065215.23768-1-chang.seok.bae@intel.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 21-03-15 07:59:25, Pawel Laszczak wrote:
-> From: Pawel Laszczak <pawell@cadence.com>
-> 
-> Command Verifier during UVC Descriptor Tests (Class Video Control
-> Interface Descriptor Test Video) complains about:
-> 
-> Video Control Interface Header bcdUVC is 0x0100. USB Video Class
-> specification 1.0 has been replaced by 1.1 specification
-> (UVC: 6.2.26) Class Video Control Interface Descriptor bcdUVC is not 1.1
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Pawel Laszczak <pawell@cadence.com>
+During signal entry, the kernel pushes data onto the normal userspace
+stack. On x86, the data pushed onto the user stack includes XSAVE state,
+which has grown over time as new features and larger registers have been
+added to the architecture.
 
-Reviewed-by: Peter Chen <peter.chen@kernel.org>
+MINSIGSTKSZ is a constant provided in the kernel signal.h headers and
+typically distributed in lib-dev(el) packages, e.g. [1]. Its value is
+compiled into programs and is part of the user/kernel ABI. The MINSIGSTKSZ
+constant indicates to userspace how much data the kernel expects to push on
+the user stack, [2][3].
 
-> 
-> ---
-> Changlog:
-> v2:
-> - fixed typo in commit message
-> 
->  drivers/usb/gadget/function/uvc_configfs.c | 2 +-
->  drivers/usb/gadget/legacy/webcam.c         | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
-> index 00fb58e50a15..cd28dec837dd 100644
-> --- a/drivers/usb/gadget/function/uvc_configfs.c
-> +++ b/drivers/usb/gadget/function/uvc_configfs.c
-> @@ -231,7 +231,7 @@ static struct config_item *uvcg_control_header_make(struct config_group *group,
->  	h->desc.bLength			= UVC_DT_HEADER_SIZE(1);
->  	h->desc.bDescriptorType		= USB_DT_CS_INTERFACE;
->  	h->desc.bDescriptorSubType	= UVC_VC_HEADER;
-> -	h->desc.bcdUVC			= cpu_to_le16(0x0100);
-> +	h->desc.bcdUVC			= cpu_to_le16(0x0110);
->  	h->desc.dwClockFrequency	= cpu_to_le32(48000000);
->  
->  	config_item_init_type_name(&h->item, name, &uvcg_control_header_type);
-> diff --git a/drivers/usb/gadget/legacy/webcam.c b/drivers/usb/gadget/legacy/webcam.c
-> index a9f8eb8e1c76..3a61de4bb2b1 100644
-> --- a/drivers/usb/gadget/legacy/webcam.c
-> +++ b/drivers/usb/gadget/legacy/webcam.c
-> @@ -90,7 +90,7 @@ static const struct UVC_HEADER_DESCRIPTOR(1) uvc_control_header = {
->  	.bLength		= UVC_DT_HEADER_SIZE(1),
->  	.bDescriptorType	= USB_DT_CS_INTERFACE,
->  	.bDescriptorSubType	= UVC_VC_HEADER,
-> -	.bcdUVC			= cpu_to_le16(0x0100),
-> +	.bcdUVC			= cpu_to_le16(0x0110),
->  	.wTotalLength		= 0, /* dynamic */
->  	.dwClockFrequency	= cpu_to_le32(48000000),
->  	.bInCollection		= 0, /* dynamic */
-> -- 
-> 2.25.1
-> 
+However, this constant is much too small and does not reflect recent
+additions to the architecture. For instance, when AVX-512 states are in
+use, the signal frame size can be 3.5KB while MINSIGSTKSZ remains 2KB.
 
+The bug report [4] explains this as an ABI issue. The small MINSIGSTKSZ can
+cause user stack overflow when delivering a signal.
+
+In this series, we suggest a couple of things:
+1. Provide a variable minimum stack size to userspace, as a similar
+   approach to [5].
+2. Avoid using a too-small alternate stack.
+
+Changes from v6 [11]:
+* Updated and fixed the documentation. (Borislav Petkov)
+* Revised the AT_MINSIGSTKSZ comment. (Borislav Petkov)
+
+Changes form v5 [10]:
+* Fixed the overflow detection. (Andy Lutomirski)
+* Reverted the AT_MINSIGSTKSZ removal on arm64. (Dave Martin)
+* Added a documentation about the x86 AT_MINSIGSTKSZ.
+* Supported the existing sigaltstack test to use the new aux vector.
+
+Changes from v4 [9]:
+* Moved the aux vector define to the generic header. (Carlos O'Donell)
+
+Changes from v3 [8]:
+* Updated the changelog. (Borislav Petkov)
+* Revised the test messages again. (Borislav Petkov)
+
+Changes from v2 [7]:
+* Simplified the sigaltstack overflow prevention. (Jann Horn)
+* Renamed fpstate size helper with cleanup. (Borislav Petkov)
+* Cleaned up the signframe struct size defines. (Borislav Petkov)
+* Revised the selftest messages. (Borislav Petkov)
+* Revised a changelog. (Borislav Petkov)
+
+Changes from v1 [6]:
+* Took stack alignment into account for sigframe size. (Dave Martin)
+
+[1]: https://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/unix/sysv/linux/bits/sigstack.h;h=b9dca794da093dc4d41d39db9851d444e1b54d9b;hb=HEAD
+[2]: https://www.gnu.org/software/libc/manual/html_node/Signal-Stack.html
+[3]: https://man7.org/linux/man-pages/man2/sigaltstack.2.html
+[4]: https://bugzilla.kernel.org/show_bug.cgi?id=153531
+[5]: https://blog.linuxplumbersconf.org/2017/ocw/system/presentations/4671/original/plumbers-dm-2017.pdf
+[6]: https://lore.kernel.org/lkml/20200929205746.6763-1-chang.seok.bae@intel.com/
+[7]: https://lore.kernel.org/lkml/20201119190237.626-1-chang.seok.bae@intel.com/
+[8]: https://lore.kernel.org/lkml/20201223015312.4882-1-chang.seok.bae@intel.com/
+[9]: https://lore.kernel.org/lkml/20210115211038.2072-1-chang.seok.bae@intel.com/
+[10]: https://lore.kernel.org/lkml/20210203172242.29644-1-chang.seok.bae@intel.com/
+[11]: https://lore.kernel.org/lkml/20210227165911.32757-1-chang.seok.bae@intel.com/
+
+Chang S. Bae (6):
+  uapi: Define the aux vector AT_MINSIGSTKSZ
+  x86/signal: Introduce helpers to get the maximum signal frame size
+  x86/elf: Support a new ELF aux vector AT_MINSIGSTKSZ
+  selftest/sigaltstack: Use the AT_MINSIGSTKSZ aux vector if available
+  x86/signal: Detect and prevent an alternate signal stack overflow
+  selftest/x86/signal: Include test cases for validating sigaltstack
+
+ Documentation/x86/elf_auxvec.rst          |  53 +++++++++
+ Documentation/x86/index.rst               |   1 +
+ arch/x86/include/asm/elf.h                |   4 +
+ arch/x86/include/asm/fpu/signal.h         |   2 +
+ arch/x86/include/asm/sigframe.h           |   2 +
+ arch/x86/include/uapi/asm/auxvec.h        |   4 +-
+ arch/x86/kernel/cpu/common.c              |   3 +
+ arch/x86/kernel/fpu/signal.c              |  19 ++++
+ arch/x86/kernel/signal.c                  |  72 +++++++++++-
+ include/uapi/linux/auxvec.h               |   3 +
+ tools/testing/selftests/sigaltstack/sas.c |  20 +++-
+ tools/testing/selftests/x86/Makefile      |   2 +-
+ tools/testing/selftests/x86/sigaltstack.c | 128 ++++++++++++++++++++++
+ 13 files changed, 300 insertions(+), 13 deletions(-)
+ create mode 100644 Documentation/x86/elf_auxvec.rst
+ create mode 100644 tools/testing/selftests/x86/sigaltstack.c
+
+
+base-commit: 1e28eed17697bcf343c6743f0028cc3b5dd88bf0
 -- 
-
-Thanks,
-Peter Chen
+2.17.1
 
