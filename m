@@ -2,41 +2,30 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E1E733DE4E
-	for <lists+linux-api@lfdr.de>; Tue, 16 Mar 2021 20:59:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D5A3433DE62
+	for <lists+linux-api@lfdr.de>; Tue, 16 Mar 2021 21:06:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233799AbhCPT6d (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 16 Mar 2021 15:58:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38682 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233506AbhCPT6U (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Mar 2021 15:58:20 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC298C06174A;
-        Tue, 16 Mar 2021 12:58:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=KkZwEPUQCMwOivHO6m7Z9239lBaUNqbxUKZ6UDSVFWY=; b=X5oOAwBnqFKCT2F+1ptWGWXzlC
-        J+05EeH3R5PZAymU4r1zQjaCX27P1TpJ9FYvTkoKe9oj+5GENdr+vSSmcjL4h43qamaTIZ9/50wYs
-        ET+iGhFylz8fZ4gMAsgPpRcpq0GPuU8OX/iKVvD1RyVxSUUDhR3t1ZF/P1rD6n41PwsYl36O7EZum
-        bXFkTsm661rBnfNSEVGrL0mZAlnrgJC2YveF95TKG0PTZa6p+ClYVHwr6I4nDcS+rlwG0y+VzLcAY
-        koOnNTC1PdRjnrgCBnHxEMIC5naZSQ7l61PyM5LSKc7vTEmOz40Oahjx4PiPLbs/KWPOmdkB2IiOj
-        FFlgk68w==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lMFpA-001lEm-11; Tue, 16 Mar 2021 19:57:52 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 48299301124;
-        Tue, 16 Mar 2021 20:57:50 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 3752520B05D79; Tue, 16 Mar 2021 20:57:50 +0100 (CET)
-Date:   Tue, 16 Mar 2021 20:57:50 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+        id S230009AbhCPUGB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 16 Mar 2021 16:06:01 -0400
+Received: from mga04.intel.com ([192.55.52.120]:65418 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229529AbhCPUFf (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 16 Mar 2021 16:05:35 -0400
+IronPort-SDR: 4nFwkHvubkgrKg3A1Q3m3Y7LXdF4dAcJ2S4PWXlt3CeZYRYAzi8p+lrHo1sOC+nUjEeesgupoP
+ JMpjs8go4kYQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9925"; a="186949277"
+X-IronPort-AV: E=Sophos;i="5.81,254,1610438400"; 
+   d="scan'208";a="186949277"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2021 13:05:32 -0700
+IronPort-SDR: m87m/iHLU9EGKxPObdn8zkRbbHBN/x4XyXUxDoK7CHfHQ6aT6A+9dSBc2gLhbCMWwCeQhSvuLA
+ tT0wbHj/S9dA==
+X-IronPort-AV: E=Sophos;i="5.81,254,1610438400"; 
+   d="scan'208";a="372095298"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.191.248]) ([10.212.191.248])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2021 13:05:31 -0700
+Subject: Re: [PATCH v23 6/9] x86/entry: Introduce ENDBR macro
+To:     Peter Zijlstra <peterz@infradead.org>
 Cc:     Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
         "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -65,34 +54,47 @@ Cc:     Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
         Pengfei Xu <pengfei.xu@intel.com>,
         Haitao Huang <haitao.huang@intel.com>,
         Jarkko Sakkinen <jarkko@kernel.org>
-Subject: Re: [PATCH v23 6/9] x86/entry: Introduce ENDBR macro
-Message-ID: <YFENvgrR8JSYq1ae@hirez.programming.kicks-ass.net>
 References: <20210316151320.6123-1-yu-cheng.yu@intel.com>
  <20210316151320.6123-7-yu-cheng.yu@intel.com>
  <f98c600a-80e4-62f0-9c97-eeed708d998d@intel.com>
  <15966857-9be7-3029-7e93-e40596b4649a@intel.com>
+ <YFENvgrR8JSYq1ae@hirez.programming.kicks-ass.net>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <65845773-6cf0-1bdc-1ecf-168de74cc283@intel.com>
+Date:   Tue, 16 Mar 2021 13:05:30 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <15966857-9be7-3029-7e93-e40596b4649a@intel.com>
+In-Reply-To: <YFENvgrR8JSYq1ae@hirez.programming.kicks-ass.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Mar 16, 2021 at 10:12:39AM -0700, Yu, Yu-cheng wrote:
-> Alternatively, there is another compiler-defined macro _CET_ENDBR that can
-> be used.  We can put the following in calling.h:
+On 3/16/2021 12:57 PM, Peter Zijlstra wrote:
+> On Tue, Mar 16, 2021 at 10:12:39AM -0700, Yu, Yu-cheng wrote:
+>> Alternatively, there is another compiler-defined macro _CET_ENDBR that can
+>> be used.  We can put the following in calling.h:
+>>
+>> #ifdef __CET__
+>> #include <cet.h>
+>> #else
+>> #define _CET_ENDBR
+>> #endif
+>>
+>> and then use _CET_ENDBR in other files.  How is that?
+>>
+>> In the future, in case we have kernel-mode IBT, ENDBR macros are also needed
+>> for other assembly files.
 > 
-> #ifdef __CET__
-> #include <cet.h>
-> #else
-> #define _CET_ENDBR
-> #endif
+> Can we please call it IBT_ENDBR or just ENDBR. CET is a horrible name,
+> seeing how it is not specific.
 > 
-> and then use _CET_ENDBR in other files.  How is that?
-> 
-> In the future, in case we have kernel-mode IBT, ENDBR macros are also needed
-> for other assembly files.
 
-Can we please call it IBT_ENDBR or just ENDBR. CET is a horrible name,
-seeing how it is not specific.
+_CET_ENDBR is from the compiler and we cannot change it.  We can do:
+
+#define ENDBR _CET_ENDBR
+
+How is that?
