@@ -2,120 +2,232 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D7B3533CF32
-	for <lists+linux-api@lfdr.de>; Tue, 16 Mar 2021 09:02:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0719033CF59
+	for <lists+linux-api@lfdr.de>; Tue, 16 Mar 2021 09:10:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232051AbhCPICR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 16 Mar 2021 04:02:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52570 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234159AbhCPIBw (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Mar 2021 04:01:52 -0400
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE1AEC06174A;
-        Tue, 16 Mar 2021 01:01:51 -0700 (PDT)
-Received: by mail-lf1-x131.google.com with SMTP id p21so60895317lfu.11;
-        Tue, 16 Mar 2021 01:01:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=nhPJC9wzAEpJ+jE+VGfpIliqBXvwzpfxSi1AqRybceE=;
-        b=d5cCDtFG4kTdcsmxqRALSq4WBRWUBYtKaYREhuAdZvZgJ2Kp91SFlGjcoJKJ+critV
-         JUfXmDt6qmdEsYACsQ4YyQdcpSddCdLQE0l8P0ndEEp6/WPv+xlVFH8eG8lk8t9a7QsF
-         1yRGgjS1BJcQgaqqsohpXkLJkWl7htXi9sI5Jw6V7hGVvAtWzxzymly281iO2h27Hu9b
-         X5TwhbrLpu/pOmZWEd3WUXiM/odwODUQHHTqYHvpnuqMVJZTzV611WkDOeplEGyYDLNN
-         82cGVPUjuDJpViav/ltjWvn9pl2BvLqWKFE37YlEB611X0ICwEeETFy++5Mk2/V5kwqr
-         KPYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=nhPJC9wzAEpJ+jE+VGfpIliqBXvwzpfxSi1AqRybceE=;
-        b=TwHyVuQyyMNtR6ssgawPL1453LcC4H/Cbiwrq/9q4PjHITNQGrIMTlkHR9Ljd5nmFe
-         MoQHKnaEQ19lUnkKQaMMf9ybXlKBIxz7iOObwcdLWLQg4Nx6WMekBCrtmCgTUIkXH9Lt
-         1M4yOhSQfLCdcY6Lx84vHPtnqVD+4thGEd6fStinmPPH00NLyroIYqPveXuUhYSt9FCf
-         tPo92Lw3kzD9CAxEtxTPn/yaOdfuQaV//rGoS7OiWTup/xMQiZSLxaxH4i9xvStlSVaH
-         P5sV6SVZG2VjITigdmX1kUepn/h/16p8HbAIURZ5VJR4O9/zJnKcfC7RJ8s5lONevmkm
-         LqEA==
-X-Gm-Message-State: AOAM533zCGzEGsKuY1sH2kl8fVVENxTIWXxNPel5HDRTTiC0EsZfEs+f
-        DK3zp6+ciE+Kd/3nTHlWei8=
-X-Google-Smtp-Source: ABdhPJxbHKpOtwcSZgEDd4Sb73ytAiD+HkMe1ubr8slYwelIN437r1j1b4kFmaIQnAURidQFkDTWBw==
-X-Received: by 2002:a05:6512:3042:: with SMTP id b2mr9693809lfb.480.1615881710506;
-        Tue, 16 Mar 2021 01:01:50 -0700 (PDT)
-Received: from [192.168.1.39] (88-114-223-25.elisa-laajakaista.fi. [88.114.223.25])
-        by smtp.gmail.com with ESMTPSA id v22sm2963626lfr.277.2021.03.16.01.01.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Mar 2021 01:01:49 -0700 (PDT)
-Subject: Re: [PATCH v4] mm/vmalloc: randomize vmalloc() allocations
-To:     Uladzislau Rezki <urezki@gmail.com>,
-        Kees Cook <keescook@chromium.org>
-Cc:     linux-hardening@vger.kernel.org, akpm@linux-foundation.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        Andy Lutomirski <luto@kernel.org>,
-        Jann Horn <jannh@google.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mike Rapoport <rppt@kernel.org>
-References: <20210309135757.5406-1-toiwoton@gmail.com>
- <20210314172312.GA2085@pc638.lan>
- <f2d6965b-1801-ce91-0c7c-2cdc92493393@gmail.com>
- <20210315122410.GA26784@pc636> <202103150914.4172D96@keescook>
- <20210315174742.GA2038@pc638.lan>
-From:   Topi Miettinen <toiwoton@gmail.com>
-Message-ID: <85515ea8-744e-acec-76ba-034b38d0f9fa@gmail.com>
-Date:   Tue, 16 Mar 2021 10:01:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        id S231484AbhCPIKX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 16 Mar 2021 04:10:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37916 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234137AbhCPIKR (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Mar 2021 04:10:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1615882216;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=sHROXA+CQMQiClGXMoA926mIGShsZigtdFiw3Oqg6pI=;
+        b=UKj1t2E2zADyAFO2w7uAeJeXOo/+yYzDVmxO/jWvyCDUnP1fl7vxg1RgtNhLFGyZgXty6+
+        K+F5OkQ7vHzPwnbjuu+JrBOkDMShuxru9FTviOynr84RK3eeSPhgcYiM6OXtDPKPZJjo3Z
+        2t3PNXJCnkGAJpJJKwSNuwyDjDsVIFo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-250-0eejHMe6OYCq_dHeuffm7g-1; Tue, 16 Mar 2021 04:10:11 -0400
+X-MC-Unique: 0eejHMe6OYCq_dHeuffm7g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D0FB107ACCD;
+        Tue, 16 Mar 2021 08:10:10 +0000 (UTC)
+Received: from T590 (ovpn-13-0.pek2.redhat.com [10.72.13.0])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 006DA6A045;
+        Tue, 16 Mar 2021 08:09:51 +0000 (UTC)
+Date:   Tue, 16 Mar 2021 16:09:46 +0800
+From:   Ming Lei <ming.lei@redhat.com>
+To:     Sergei Shtepa <sergei.shtepa@veeam.com>
+Cc:     Christoph Hellwig <hch@infradead.org>,
+        Mike Snitzer <snitzer@redhat.com>,
+        Alasdair Kergon <agk@redhat.com>,
+        Hannes Reinecke <hare@suse.de>, Jens Axboe <axboe@kernel.dk>,
+        dm-devel@redhat.com, linux-block@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        pavel.tide@veeam.com
+Subject: Re: [PATCH v7 2/3] block: add bdev_interposer
+Message-ID: <YFBnypYemiR08A/c@T590>
+References: <1615563895-28565-1-git-send-email-sergei.shtepa@veeam.com>
+ <1615563895-28565-3-git-send-email-sergei.shtepa@veeam.com>
 MIME-Version: 1.0
-In-Reply-To: <20210315174742.GA2038@pc638.lan>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1615563895-28565-3-git-send-email-sergei.shtepa@veeam.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 15.3.2021 19.47, Uladzislau Rezki wrote:
-> On Mon, Mar 15, 2021 at 09:16:26AM -0700, Kees Cook wrote:
->> On Mon, Mar 15, 2021 at 01:24:10PM +0100, Uladzislau Rezki wrote:
->>> On Mon, Mar 15, 2021 at 11:04:42AM +0200, Topi Miettinen wrote:
->>>> What's the problem with that? It seems to me that nothing relies on specific
->>>> addresses of the chunks, so it should be possible to randomize these too.
->>>> Also the alignment is honored.
->>>>
->>> My concern are:
->>>
->>> - it is not a vmalloc allocator;
->>> - per-cpu allocator allocates chunks, thus it might be it happens only once. It does not allocate it often;
->>
->> That's actually the reason to randomize it: if it always ends up in the
->> same place at every boot, it becomes a stable target for attackers.
->>
-> Probably we can randomize a base address only once when pcpu-allocator
-> allocates a fist chunk during the boot.
+On Fri, Mar 12, 2021 at 06:44:54PM +0300, Sergei Shtepa wrote:
+> bdev_interposer allows to redirect bio requests to another devices.
 > 
->>> - changing it will likely introduce issues you are not aware of;
->>> - it is not supposed to be interacting with vmalloc allocator. Read the
->>>    comment under pcpu_get_vm_areas();
->>>
->>> Therefore i propose just not touch it.
->>
->> How about splitting it from this patch instead? Then it can get separate
->> testing, etc.
->>
-> It should be split as well as tested.
-
-Would you prefer another kernel option `randomize_percpu_allocator=1`, 
-or would it be OK to make it a flag in `randomize_vmalloc`, like 
-`randomize_vmalloc=3`? Maybe the latter would not be compatible with 
-static branches.
-
--Topi
-
+> Signed-off-by: Sergei Shtepa <sergei.shtepa@veeam.com>
+> ---
+>  block/bio.c               |  2 ++
+>  block/blk-core.c          | 57 +++++++++++++++++++++++++++++++++++++++
+>  block/genhd.c             | 54 +++++++++++++++++++++++++++++++++++++
+>  include/linux/blk_types.h |  3 +++
+>  include/linux/blkdev.h    |  9 +++++++
+>  5 files changed, 125 insertions(+)
 > 
-> --
-> Vlad Rezki
-> 
+> diff --git a/block/bio.c b/block/bio.c
+> index a1c4d2900c7a..0bfbf06475ee 100644
+> --- a/block/bio.c
+> +++ b/block/bio.c
+> @@ -640,6 +640,8 @@ void __bio_clone_fast(struct bio *bio, struct bio *bio_src)
+>  		bio_set_flag(bio, BIO_THROTTLED);
+>  	if (bio_flagged(bio_src, BIO_REMAPPED))
+>  		bio_set_flag(bio, BIO_REMAPPED);
+> +	if (bio_flagged(bio_src, BIO_INTERPOSED))
+> +		bio_set_flag(bio, BIO_INTERPOSED);
+>  	bio->bi_opf = bio_src->bi_opf;
+>  	bio->bi_ioprio = bio_src->bi_ioprio;
+>  	bio->bi_write_hint = bio_src->bi_write_hint;
+> diff --git a/block/blk-core.c b/block/blk-core.c
+> index fc60ff208497..da1abc4c27a9 100644
+> --- a/block/blk-core.c
+> +++ b/block/blk-core.c
+> @@ -1018,6 +1018,55 @@ static blk_qc_t __submit_bio_noacct_mq(struct bio *bio)
+>  	return ret;
+>  }
+>  
+> +static noinline blk_qc_t submit_bio_interposed(struct bio *bio)
+> +{
+> +	blk_qc_t ret = BLK_QC_T_NONE;
+> +	struct bio_list bio_list[2] = { };
+> +	struct gendisk *orig_disk;
+> +
+> +	if (current->bio_list) {
+> +		bio_list_add(&current->bio_list[0], bio);
+> +		return BLK_QC_T_NONE;
+> +	}
+> +
+> +	orig_disk = bio->bi_bdev->bd_disk;
+> +	if (unlikely(bio_queue_enter(bio)))
+> +		return BLK_QC_T_NONE;
+> +
+> +	current->bio_list = bio_list;
+> +
+> +	do {
+> +		struct block_device *interposer = bio->bi_bdev->bd_interposer;
+> +
+> +		if (unlikely(!interposer)) {
+> +			/* interposer was removed */
+> +			bio_list_add(&current->bio_list[0], bio);
+> +			break;
+> +		}
+> +		/* assign bio to interposer device */
+> +		bio_set_dev(bio, interposer);
+> +		bio_set_flag(bio, BIO_INTERPOSED);
+> +
+> +		if (!submit_bio_checks(bio))
+> +			break;
+> +		/*
+> +		 * Because the current->bio_list is initialized,
+> +		 * the submit_bio callback will always return BLK_QC_T_NONE.
+> +		 */
+> +		interposer->bd_disk->fops->submit_bio(bio);
+
+Given original request queue may become live when calling attach() and
+detach(), see below comment. bdev_interposer_detach() may be run
+when running ->submit_bio(), meantime the interposer device is
+gone during the period, then kernel oops.
+
+> +	} while (false);
+> +
+> +	current->bio_list = NULL;
+> +
+> +	blk_queue_exit(orig_disk->queue);
+> +
+> +	/* Resubmit remaining bios */
+> +	while ((bio = bio_list_pop(&bio_list[0])))
+> +		ret = submit_bio_noacct(bio);
+> +
+> +	return ret;
+> +}
+> +
+>  /**
+>   * submit_bio_noacct - re-submit a bio to the block device layer for I/O
+>   * @bio:  The bio describing the location in memory and on the device.
+> @@ -1029,6 +1078,14 @@ static blk_qc_t __submit_bio_noacct_mq(struct bio *bio)
+>   */
+>  blk_qc_t submit_bio_noacct(struct bio *bio)
+>  {
+> +	/*
+> +	 * Checking the BIO_INTERPOSED flag is necessary so that the bio
+> +	 * created by the bdev_interposer do not get to it for processing.
+> +	 */
+> +	if (bdev_has_interposer(bio->bi_bdev) &&
+> +	    !bio_flagged(bio, BIO_INTERPOSED))
+> +		return submit_bio_interposed(bio);
+> +
+>  	if (!submit_bio_checks(bio))
+>  		return BLK_QC_T_NONE;
+>  
+> diff --git a/block/genhd.c b/block/genhd.c
+> index c55e8f0fced1..c840ecffea68 100644
+> --- a/block/genhd.c
+> +++ b/block/genhd.c
+> @@ -30,6 +30,11 @@
+>  static struct kobject *block_depr;
+>  
+>  DECLARE_RWSEM(bdev_lookup_sem);
+> +/*
+> + * Prevents different block-layer interposers from attaching or detaching
+> + * to the block device at the same time.
+> + */
+> +static DEFINE_MUTEX(bdev_interposer_attach_lock);
+>  
+>  /* for extended dynamic devt allocation, currently only one major is used */
+>  #define NR_EXT_DEVT		(1 << MINORBITS)
+> @@ -1940,3 +1945,52 @@ static void disk_release_events(struct gendisk *disk)
+>  	WARN_ON_ONCE(disk->ev && disk->ev->block != 1);
+>  	kfree(disk->ev);
+>  }
+> +
+> +int bdev_interposer_attach(struct block_device *original,
+> +			   struct block_device *interposer)
+> +{
+> +	int ret = 0;
+> +
+> +	if (WARN_ON(((!original) || (!interposer))))
+> +		return -EINVAL;
+> +	/*
+> +	 * interposer should be simple, no a multi-queue device
+> +	 */
+> +	if (!interposer->bd_disk->fops->submit_bio)
+> +		return -EINVAL;
+> +
+> +	if (WARN_ON(!blk_mq_is_queue_frozen(original->bd_disk->queue)))
+> +		return -EPERM;
+
+The original request queue may become live now...
+
+> +
+> +	mutex_lock(&bdev_interposer_attach_lock);
+> +
+> +	if (bdev_has_interposer(original))
+> +		ret = -EBUSY;
+> +	else {
+> +		original->bd_interposer = bdgrab(interposer);
+> +		if (!original->bd_interposer)
+> +			ret = -ENODEV;
+> +	}
+> +
+> +	mutex_unlock(&bdev_interposer_attach_lock);
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(bdev_interposer_attach);
+> +
+> +void bdev_interposer_detach(struct block_device *original)
+> +{
+> +	if (WARN_ON(!original))
+> +		return;
+> +
+> +	if (WARN_ON(!blk_mq_is_queue_frozen(original->bd_disk->queue)))
+> +		return;
+
+The original request queue may become live now...
+
+
+-- 
+Ming
 
