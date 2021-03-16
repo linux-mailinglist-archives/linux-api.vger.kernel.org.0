@@ -2,232 +2,105 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0719033CF59
-	for <lists+linux-api@lfdr.de>; Tue, 16 Mar 2021 09:10:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 161CB33D308
+	for <lists+linux-api@lfdr.de>; Tue, 16 Mar 2021 12:29:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231484AbhCPIKX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 16 Mar 2021 04:10:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37916 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234137AbhCPIKR (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Mar 2021 04:10:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1615882216;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=sHROXA+CQMQiClGXMoA926mIGShsZigtdFiw3Oqg6pI=;
-        b=UKj1t2E2zADyAFO2w7uAeJeXOo/+yYzDVmxO/jWvyCDUnP1fl7vxg1RgtNhLFGyZgXty6+
-        K+F5OkQ7vHzPwnbjuu+JrBOkDMShuxru9FTviOynr84RK3eeSPhgcYiM6OXtDPKPZJjo3Z
-        2t3PNXJCnkGAJpJJKwSNuwyDjDsVIFo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-250-0eejHMe6OYCq_dHeuffm7g-1; Tue, 16 Mar 2021 04:10:11 -0400
-X-MC-Unique: 0eejHMe6OYCq_dHeuffm7g-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D0FB107ACCD;
-        Tue, 16 Mar 2021 08:10:10 +0000 (UTC)
-Received: from T590 (ovpn-13-0.pek2.redhat.com [10.72.13.0])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 006DA6A045;
-        Tue, 16 Mar 2021 08:09:51 +0000 (UTC)
-Date:   Tue, 16 Mar 2021 16:09:46 +0800
-From:   Ming Lei <ming.lei@redhat.com>
-To:     Sergei Shtepa <sergei.shtepa@veeam.com>
-Cc:     Christoph Hellwig <hch@infradead.org>,
-        Mike Snitzer <snitzer@redhat.com>,
-        Alasdair Kergon <agk@redhat.com>,
-        Hannes Reinecke <hare@suse.de>, Jens Axboe <axboe@kernel.dk>,
-        dm-devel@redhat.com, linux-block@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        pavel.tide@veeam.com
-Subject: Re: [PATCH v7 2/3] block: add bdev_interposer
-Message-ID: <YFBnypYemiR08A/c@T590>
-References: <1615563895-28565-1-git-send-email-sergei.shtepa@veeam.com>
- <1615563895-28565-3-git-send-email-sergei.shtepa@veeam.com>
+        id S229901AbhCPL3Z (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 16 Mar 2021 07:29:25 -0400
+Received: from mx2.suse.de ([195.135.220.15]:40414 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233069AbhCPL3S (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 16 Mar 2021 07:29:18 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id C5112AC1D;
+        Tue, 16 Mar 2021 11:29:16 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id 5799B1F2C4C; Tue, 16 Mar 2021 12:29:16 +0100 (CET)
+Date:   Tue, 16 Mar 2021 12:29:16 +0100
+From:   Jan Kara <jack@suse.cz>
+To:     Sascha Hauer <s.hauer@pengutronix.de>
+Cc:     linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, Christoph Hellwig <hch@infradead.org>,
+        kernel@pengutronix.de, Jan Kara <jack@suse.com>,
+        Richard Weinberger <richard@nod.at>
+Subject: Re: [PATCH v3 0/2] quota: Add mountpath based quota support
+Message-ID: <20210316112916.GA23532@quack2.suse.cz>
+References: <20210304123541.30749-1-s.hauer@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1615563895-28565-3-git-send-email-sergei.shtepa@veeam.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20210304123541.30749-1-s.hauer@pengutronix.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Mar 12, 2021 at 06:44:54PM +0300, Sergei Shtepa wrote:
-> bdev_interposer allows to redirect bio requests to another devices.
+On Thu 04-03-21 13:35:38, Sascha Hauer wrote:
+> Current quotactl syscall uses a path to a block device to specify the
+> filesystem to work on which makes it unsuitable for filesystems that
+> do not have a block device. This series adds a new syscall quotactl_path()
+> which replaces the path to the block device with a mountpath, but otherwise
+> behaves like original quotactl.
 > 
-> Signed-off-by: Sergei Shtepa <sergei.shtepa@veeam.com>
-> ---
->  block/bio.c               |  2 ++
->  block/blk-core.c          | 57 +++++++++++++++++++++++++++++++++++++++
->  block/genhd.c             | 54 +++++++++++++++++++++++++++++++++++++
->  include/linux/blk_types.h |  3 +++
->  include/linux/blkdev.h    |  9 +++++++
->  5 files changed, 125 insertions(+)
+> This is done to add quota support to UBIFS. UBIFS quota support has been
+> posted several times with different approaches to put the mountpath into
+> the existing quotactl() syscall until it has been suggested to make it a
+> new syscall instead, so here it is.
 > 
-> diff --git a/block/bio.c b/block/bio.c
-> index a1c4d2900c7a..0bfbf06475ee 100644
-> --- a/block/bio.c
-> +++ b/block/bio.c
-> @@ -640,6 +640,8 @@ void __bio_clone_fast(struct bio *bio, struct bio *bio_src)
->  		bio_set_flag(bio, BIO_THROTTLED);
->  	if (bio_flagged(bio_src, BIO_REMAPPED))
->  		bio_set_flag(bio, BIO_REMAPPED);
-> +	if (bio_flagged(bio_src, BIO_INTERPOSED))
-> +		bio_set_flag(bio, BIO_INTERPOSED);
->  	bio->bi_opf = bio_src->bi_opf;
->  	bio->bi_ioprio = bio_src->bi_ioprio;
->  	bio->bi_write_hint = bio_src->bi_write_hint;
-> diff --git a/block/blk-core.c b/block/blk-core.c
-> index fc60ff208497..da1abc4c27a9 100644
-> --- a/block/blk-core.c
-> +++ b/block/blk-core.c
-> @@ -1018,6 +1018,55 @@ static blk_qc_t __submit_bio_noacct_mq(struct bio *bio)
->  	return ret;
->  }
->  
-> +static noinline blk_qc_t submit_bio_interposed(struct bio *bio)
-> +{
-> +	blk_qc_t ret = BLK_QC_T_NONE;
-> +	struct bio_list bio_list[2] = { };
-> +	struct gendisk *orig_disk;
-> +
-> +	if (current->bio_list) {
-> +		bio_list_add(&current->bio_list[0], bio);
-> +		return BLK_QC_T_NONE;
-> +	}
-> +
-> +	orig_disk = bio->bi_bdev->bd_disk;
-> +	if (unlikely(bio_queue_enter(bio)))
-> +		return BLK_QC_T_NONE;
-> +
-> +	current->bio_list = bio_list;
-> +
-> +	do {
-> +		struct block_device *interposer = bio->bi_bdev->bd_interposer;
-> +
-> +		if (unlikely(!interposer)) {
-> +			/* interposer was removed */
-> +			bio_list_add(&current->bio_list[0], bio);
-> +			break;
-> +		}
-> +		/* assign bio to interposer device */
-> +		bio_set_dev(bio, interposer);
-> +		bio_set_flag(bio, BIO_INTERPOSED);
-> +
-> +		if (!submit_bio_checks(bio))
-> +			break;
-> +		/*
-> +		 * Because the current->bio_list is initialized,
-> +		 * the submit_bio callback will always return BLK_QC_T_NONE.
-> +		 */
-> +		interposer->bd_disk->fops->submit_bio(bio);
+> I'm not posting the full UBIFS quota series here as it remains unchanged
+> and I'd like to get feedback to the new syscall first. For those interested
+> the most recent series can be found here: https://lwn.net/Articles/810463/
 
-Given original request queue may become live when calling attach() and
-detach(), see below comment. bdev_interposer_detach() may be run
-when running ->submit_bio(), meantime the interposer device is
-gone during the period, then kernel oops.
+Thanks. I've merged the two patches into my tree and will push them to
+Linus for the next merge window.
 
-> +	} while (false);
-> +
-> +	current->bio_list = NULL;
-> +
-> +	blk_queue_exit(orig_disk->queue);
-> +
-> +	/* Resubmit remaining bios */
-> +	while ((bio = bio_list_pop(&bio_list[0])))
-> +		ret = submit_bio_noacct(bio);
-> +
-> +	return ret;
-> +}
-> +
->  /**
->   * submit_bio_noacct - re-submit a bio to the block device layer for I/O
->   * @bio:  The bio describing the location in memory and on the device.
-> @@ -1029,6 +1078,14 @@ static blk_qc_t __submit_bio_noacct_mq(struct bio *bio)
->   */
->  blk_qc_t submit_bio_noacct(struct bio *bio)
->  {
-> +	/*
-> +	 * Checking the BIO_INTERPOSED flag is necessary so that the bio
-> +	 * created by the bdev_interposer do not get to it for processing.
-> +	 */
-> +	if (bdev_has_interposer(bio->bi_bdev) &&
-> +	    !bio_flagged(bio, BIO_INTERPOSED))
-> +		return submit_bio_interposed(bio);
-> +
->  	if (!submit_bio_checks(bio))
->  		return BLK_QC_T_NONE;
->  
-> diff --git a/block/genhd.c b/block/genhd.c
-> index c55e8f0fced1..c840ecffea68 100644
-> --- a/block/genhd.c
-> +++ b/block/genhd.c
-> @@ -30,6 +30,11 @@
->  static struct kobject *block_depr;
->  
->  DECLARE_RWSEM(bdev_lookup_sem);
-> +/*
-> + * Prevents different block-layer interposers from attaching or detaching
-> + * to the block device at the same time.
-> + */
-> +static DEFINE_MUTEX(bdev_interposer_attach_lock);
->  
->  /* for extended dynamic devt allocation, currently only one major is used */
->  #define NR_EXT_DEVT		(1 << MINORBITS)
-> @@ -1940,3 +1945,52 @@ static void disk_release_events(struct gendisk *disk)
->  	WARN_ON_ONCE(disk->ev && disk->ev->block != 1);
->  	kfree(disk->ev);
->  }
-> +
-> +int bdev_interposer_attach(struct block_device *original,
-> +			   struct block_device *interposer)
-> +{
-> +	int ret = 0;
-> +
-> +	if (WARN_ON(((!original) || (!interposer))))
-> +		return -EINVAL;
-> +	/*
-> +	 * interposer should be simple, no a multi-queue device
-> +	 */
-> +	if (!interposer->bd_disk->fops->submit_bio)
-> +		return -EINVAL;
-> +
-> +	if (WARN_ON(!blk_mq_is_queue_frozen(original->bd_disk->queue)))
-> +		return -EPERM;
+								Honza
 
-The original request queue may become live now...
-
-> +
-> +	mutex_lock(&bdev_interposer_attach_lock);
-> +
-> +	if (bdev_has_interposer(original))
-> +		ret = -EBUSY;
-> +	else {
-> +		original->bd_interposer = bdgrab(interposer);
-> +		if (!original->bd_interposer)
-> +			ret = -ENODEV;
-> +	}
-> +
-> +	mutex_unlock(&bdev_interposer_attach_lock);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(bdev_interposer_attach);
-> +
-> +void bdev_interposer_detach(struct block_device *original)
-> +{
-> +	if (WARN_ON(!original))
-> +		return;
-> +
-> +	if (WARN_ON(!blk_mq_is_queue_frozen(original->bd_disk->queue)))
-> +		return;
-
-The original request queue may become live now...
-
-
+> 
+> Changes since v2:
+> - Rebase on v5.12-rc1
+> - replace mountpath.dentry->d_inode->i_sb with mountpath.mnt->mnt_sb
+> - fix wrong macro usage in arch/x86/entry/syscalls/syscall_32.tbl
+> - +Cc linux-api@vger.kernel.org
+> 
+> Changes since (implicit) v1:
+> - Ignore second path argument to Q_QUOTAON. With this quotactl_path() can
+>   only do the Q_QUOTAON operation on filesystems which use hidden inodes
+>   for quota metadata storage
+> - Drop unnecessary quotactl_cmd_onoff() check
+> 
+> Sascha Hauer (2):
+>   quota: Add mountpath based quota support
+>   quota: wire up quotactl_path
+> 
+>  arch/alpha/kernel/syscalls/syscall.tbl      |  1 +
+>  arch/arm/tools/syscall.tbl                  |  1 +
+>  arch/arm64/include/asm/unistd.h             |  2 +-
+>  arch/arm64/include/asm/unistd32.h           |  2 +
+>  arch/ia64/kernel/syscalls/syscall.tbl       |  1 +
+>  arch/m68k/kernel/syscalls/syscall.tbl       |  1 +
+>  arch/microblaze/kernel/syscalls/syscall.tbl |  1 +
+>  arch/mips/kernel/syscalls/syscall_n32.tbl   |  1 +
+>  arch/mips/kernel/syscalls/syscall_n64.tbl   |  1 +
+>  arch/mips/kernel/syscalls/syscall_o32.tbl   |  1 +
+>  arch/parisc/kernel/syscalls/syscall.tbl     |  1 +
+>  arch/powerpc/kernel/syscalls/syscall.tbl    |  1 +
+>  arch/s390/kernel/syscalls/syscall.tbl       |  1 +
+>  arch/sh/kernel/syscalls/syscall.tbl         |  1 +
+>  arch/sparc/kernel/syscalls/syscall.tbl      |  1 +
+>  arch/x86/entry/syscalls/syscall_32.tbl      |  1 +
+>  arch/x86/entry/syscalls/syscall_64.tbl      |  1 +
+>  arch/xtensa/kernel/syscalls/syscall.tbl     |  1 +
+>  fs/quota/quota.c                            | 49 +++++++++++++++++++--
+>  include/linux/syscalls.h                    |  2 +
+>  include/uapi/asm-generic/unistd.h           |  4 +-
+>  kernel/sys_ni.c                             |  1 +
+>  22 files changed, 71 insertions(+), 5 deletions(-)
+> 
+> -- 
+> 2.29.2
+> 
 -- 
-Ming
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
