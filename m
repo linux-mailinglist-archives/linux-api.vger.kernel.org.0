@@ -2,122 +2,97 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1341733CA50
-	for <lists+linux-api@lfdr.de>; Tue, 16 Mar 2021 01:26:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 31DC633CA65
+	for <lists+linux-api@lfdr.de>; Tue, 16 Mar 2021 01:36:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230045AbhCPA0X (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 15 Mar 2021 20:26:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55954 "EHLO mail.kernel.org"
+        id S229725AbhCPAf7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 15 Mar 2021 20:35:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56706 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229956AbhCPAZy (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 15 Mar 2021 20:25:54 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F218F64DD7;
-        Tue, 16 Mar 2021 00:25:52 +0000 (UTC)
+        id S231482AbhCPAfv (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 15 Mar 2021 20:35:51 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D6DBF64EE2;
+        Tue, 16 Mar 2021 00:35:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1615854354;
-        bh=kzru3q3N00y7gWO/p3TyE79suM7+knKvfVLoD0wZ2vc=;
+        s=k20201202; t=1615854950;
+        bh=OlgHNp9jm/EH6kf+3kGJKCQXgOVwBtcBmr5ej4m/h88=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TeW551lnhnuOC5NGOjdlWCJpP18eO5gNiLy9tGd3Wm2FIURLWImz6IGjeT//sOcsz
-         B0dlJ/7soHVmmhekMWI5CGNbpHDQ6hkbmZSprWkFQ4n1eT8vXqwzBKu7cD872ls0zA
-         f6+0eVSxFUK//JUQw5RLdDLoaXmnXDbx0JwPv21TKbAA45b5eJI97menENmYoxxcEg
-         CRzZW/seIl8sMHYn4OCsXWrUxGbeiJuRo0PcrAnBsOTwwakTqgXSZ1CcEiaqZbrINt
-         19IN/+jaB9OQE4oRzUzVJGufj8UvbDSPPnbuiqgf2yQgYLfdydZt/YaRhphhJ2Oiau
-         893DMQfFpSK9g==
-Date:   Tue, 16 Mar 2021 08:25:49 +0800
+        b=lpbG3tXBmVG0SK4DzL14WLha/peGHTAGXryO9fzxzvMlibA0YcaLCZj0Aehdo2nva
+         tpQbqB9Zcns6CNX/l9qkHwntyoRpW9NuvCPjEvBRll2rTxU63YBJJhUkgPBCSjB28i
+         qg2Nuvl3XHItGjvDVPM/ZbMsfoywoTLX6PPYaQyJOWWkD3IZkrUsFKr5uRTW6F94aH
+         2gYtRm8MGmxBfBJBDl0a2eAI73humNHOK87EIcGuzsXhVyRpdG1GDrELypn7EKjv22
+         qRn0o4/uJZS7O7qB5a5Q28KX1OpZBbg2wYfftC3mhU6EtERmuWzeWhuEJMeFAgCOxP
+         UWKdGoVJYawlg==
+Date:   Tue, 16 Mar 2021 08:35:46 +0800
 From:   Peter Chen <peter.chen@kernel.org>
 To:     Pawel Laszczak <pawell@cadence.com>
 Cc:     balbi@kernel.org, gregkh@linuxfoundation.org,
         linux-api@vger.kernel.org, laurent.pinchart@ideasonboard.com,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         kurahul@cadence.com
-Subject: Re: [PATCH v4 2/2] usb: webcam: Invalid size of Processing Unit
- Descriptor
-Message-ID: <20210316002549.GB15335@b29397-desktop>
-References: <20210315071748.29706-1-pawell@gli-login.cadence.com>
+Subject: Re: [PATCH v2 1/2] usb: gadget: uvc: Updating bcdUVC field to 0x0110
+Message-ID: <20210316003545.GD15335@b29397-desktop>
+References: <20210315065926.30152-1-pawell@gli-login.cadence.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210315071748.29706-1-pawell@gli-login.cadence.com>
+In-Reply-To: <20210315065926.30152-1-pawell@gli-login.cadence.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 21-03-15 08:17:48, Pawel Laszczak wrote:
+On 21-03-15 07:59:25, Pawel Laszczak wrote:
 > From: Pawel Laszczak <pawell@cadence.com>
 > 
-> According with USB Device Class Definition for Video Device the
-> Processing Unit Descriptor bLength should be 12 (10 + bmControlSize),
-> but it has 11.
+> Command Verifier during UVC Descriptor Tests (Class Video Control
+> Interface Descriptor Test Video) complains about:
 > 
-> Invalid length caused that Processing Unit Descriptor Test Video form
-> CV tool failed. To fix this issue patch adds bmVideoStandards into
-> uvc_processing_unit_descriptor structure.
-> 
-> The bmVideoStandards field was added in UVC 1.1 and it wasn't part of
-> UVC 1.0a.
+> Video Control Interface Header bcdUVC is 0x0100. USB Video Class
+> specification 1.0 has been replaced by 1.1 specification
+> (UVC: 6.2.26) Class Video Control Interface Descriptor bcdUVC is not 1.1
 > 
 > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > Signed-off-by: Pawel Laszczak <pawell@cadence.com>
-> 
 
 Reviewed-by: Peter Chen <peter.chen@kernel.org>
 
+> 
 > ---
-> Changelog:
-> v4:
-> - fixed compilation error caused by v2
-> v3:
-> - updated the commit message
-> - added bmVideoStandard field to UVC gadget driver
+> Changlog:
 > v2:
-> - updated UVC_DT_PROCESSING_UNIT_SIZE macro
+> - fixed typo in commit message
 > 
->  drivers/usb/gadget/function/f_uvc.c | 1 +
->  drivers/usb/gadget/legacy/webcam.c  | 1 +
->  include/uapi/linux/usb/video.h      | 3 ++-
->  3 files changed, 4 insertions(+), 1 deletion(-)
+>  drivers/usb/gadget/function/uvc_configfs.c | 2 +-
+>  drivers/usb/gadget/legacy/webcam.c         | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-> index 5d62720bb9e1..e3b0a79c8f01 100644
-> --- a/drivers/usb/gadget/function/f_uvc.c
-> +++ b/drivers/usb/gadget/function/f_uvc.c
-> @@ -823,6 +823,7 @@ static struct usb_function_instance *uvc_alloc_inst(void)
->  	pd->bmControls[0]		= 1;
->  	pd->bmControls[1]		= 0;
->  	pd->iProcessing			= 0;
-> +	pd->bmVideoStandards		= 0;
+> diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
+> index 00fb58e50a15..cd28dec837dd 100644
+> --- a/drivers/usb/gadget/function/uvc_configfs.c
+> +++ b/drivers/usb/gadget/function/uvc_configfs.c
+> @@ -231,7 +231,7 @@ static struct config_item *uvcg_control_header_make(struct config_group *group,
+>  	h->desc.bLength			= UVC_DT_HEADER_SIZE(1);
+>  	h->desc.bDescriptorType		= USB_DT_CS_INTERFACE;
+>  	h->desc.bDescriptorSubType	= UVC_VC_HEADER;
+> -	h->desc.bcdUVC			= cpu_to_le16(0x0100);
+> +	h->desc.bcdUVC			= cpu_to_le16(0x0110);
+>  	h->desc.dwClockFrequency	= cpu_to_le32(48000000);
 >  
->  	od = &opts->uvc_output_terminal;
->  	od->bLength			= UVC_DT_OUTPUT_TERMINAL_SIZE;
+>  	config_item_init_type_name(&h->item, name, &uvcg_control_header_type);
 > diff --git a/drivers/usb/gadget/legacy/webcam.c b/drivers/usb/gadget/legacy/webcam.c
-> index 3a61de4bb2b1..accb4dacf715 100644
+> index a9f8eb8e1c76..3a61de4bb2b1 100644
 > --- a/drivers/usb/gadget/legacy/webcam.c
 > +++ b/drivers/usb/gadget/legacy/webcam.c
-> @@ -125,6 +125,7 @@ static const struct uvc_processing_unit_descriptor uvc_processing = {
->  	.bmControls[0]		= 1,
->  	.bmControls[1]		= 0,
->  	.iProcessing		= 0,
-> +	.bmVideoStandards	= 0,
->  };
->  
->  static const struct uvc_output_terminal_descriptor uvc_output_terminal = {
-> diff --git a/include/uapi/linux/usb/video.h b/include/uapi/linux/usb/video.h
-> index d854cb19c42c..bfdae12cdacf 100644
-> --- a/include/uapi/linux/usb/video.h
-> +++ b/include/uapi/linux/usb/video.h
-> @@ -302,9 +302,10 @@ struct uvc_processing_unit_descriptor {
->  	__u8   bControlSize;
->  	__u8   bmControls[2];
->  	__u8   iProcessing;
-> +	__u8   bmVideoStandards;
->  } __attribute__((__packed__));
->  
-> -#define UVC_DT_PROCESSING_UNIT_SIZE(n)			(9+(n))
-> +#define UVC_DT_PROCESSING_UNIT_SIZE(n)			(10+(n))
->  
->  /* 3.7.2.6. Extension Unit Descriptor */
->  struct uvc_extension_unit_descriptor {
+> @@ -90,7 +90,7 @@ static const struct UVC_HEADER_DESCRIPTOR(1) uvc_control_header = {
+>  	.bLength		= UVC_DT_HEADER_SIZE(1),
+>  	.bDescriptorType	= USB_DT_CS_INTERFACE,
+>  	.bDescriptorSubType	= UVC_VC_HEADER,
+> -	.bcdUVC			= cpu_to_le16(0x0100),
+> +	.bcdUVC			= cpu_to_le16(0x0110),
+>  	.wTotalLength		= 0, /* dynamic */
+>  	.dwClockFrequency	= cpu_to_le32(48000000),
+>  	.bInCollection		= 0, /* dynamic */
 > -- 
 > 2.25.1
 > 
