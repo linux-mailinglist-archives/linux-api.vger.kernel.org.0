@@ -2,105 +2,120 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 161CB33D308
-	for <lists+linux-api@lfdr.de>; Tue, 16 Mar 2021 12:29:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F0D7F33D31F
+	for <lists+linux-api@lfdr.de>; Tue, 16 Mar 2021 12:35:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229901AbhCPL3Z (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 16 Mar 2021 07:29:25 -0400
-Received: from mx2.suse.de ([195.135.220.15]:40414 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233069AbhCPL3S (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 16 Mar 2021 07:29:18 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id C5112AC1D;
-        Tue, 16 Mar 2021 11:29:16 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id 5799B1F2C4C; Tue, 16 Mar 2021 12:29:16 +0100 (CET)
-Date:   Tue, 16 Mar 2021 12:29:16 +0100
-From:   Jan Kara <jack@suse.cz>
-To:     Sascha Hauer <s.hauer@pengutronix.de>
-Cc:     linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, Christoph Hellwig <hch@infradead.org>,
-        kernel@pengutronix.de, Jan Kara <jack@suse.com>,
-        Richard Weinberger <richard@nod.at>
-Subject: Re: [PATCH v3 0/2] quota: Add mountpath based quota support
-Message-ID: <20210316112916.GA23532@quack2.suse.cz>
-References: <20210304123541.30749-1-s.hauer@pengutronix.de>
+        id S237240AbhCPLf3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 16 Mar 2021 07:35:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42168 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237265AbhCPLfC (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Mar 2021 07:35:02 -0400
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2953EC06174A;
+        Tue, 16 Mar 2021 04:35:00 -0700 (PDT)
+Received: by mail-lf1-x129.google.com with SMTP id v9so61903403lfa.1;
+        Tue, 16 Mar 2021 04:35:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=IKq4ek8vxtJozQIHUfJnIO9yQXnXv6nYePXQr5PXTrs=;
+        b=V4ATfEzNMGqq47uJKyufRl7ICYR2UJ7rBgNH1p5kST43w8cwJ+040tD45YpPXyTx7d
+         JXEUlfA9LXu05xR+F9b73OjxsGZLENz7+ycb9j6vosNd8I/9BuM4qe94+quenCm7LJ/O
+         f2AI6IAtfpU6tgiwVjBhuEdOsY3s94O8q0sdj1MaBgdVoz5HTqK9u8RJN7nw8mFYEFiz
+         RZOAnx/ajMy2d53sf9Bg0bnEYxFsvlPNABbUF3sPUDO5vKLsRqjfJuvzBPV3lZjWTEv7
+         PPSUFV0XvbH2iOBCE8Zq6rj5oT5tMrKESG1lxq+WhqG95qIuFt/ktI3ADrPkAuiLkcZp
+         INcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=IKq4ek8vxtJozQIHUfJnIO9yQXnXv6nYePXQr5PXTrs=;
+        b=VmG3MNLHDnwCv41iLI/f4J6h1KziosFOZYE+3Rgi7lJ937XUypxAHpkja5oYGM/Xn3
+         J4ph7j5+1ldXeEdTdfi9kuXQyqVPChDWpMPfWQU/Tqz/d9IvZCiAECVGPDHEnixxuqi0
+         7hjrK2AM+xIbZEFe137qBzkSMJpmQjh6m8hd0IZ2v30Hjpun+jBq4h1kw0YkexDIcaO6
+         FjE0RbkviFUAuxN3MHBE9lzyQkkjyj+AnLT9oK2YxgnvcjaLLpg09899AJf38xw1gv8K
+         fxUiggsdFEc4k5Cpuxkswc/pbi+nwfTwAEmqaV1ZLepgpo093MKYT5Ee3uADGsR9hoih
+         3Gsg==
+X-Gm-Message-State: AOAM530UcvIIWu8abJ6XAcC27mDmkvQXQbk1qcA6pVg7Sw1SLPaTHFEn
+        So/a8qHLQw7k9i1CxdBvvFw=
+X-Google-Smtp-Source: ABdhPJzeTEzowewtj7H/UZHzJr2g65mMPWNwh/mTrCpjuyWHHP8pMMIJwYiVk4gsOPUmOsa0tJ5DYA==
+X-Received: by 2002:a05:6512:21cb:: with SMTP id d11mr10527323lft.177.1615894498617;
+        Tue, 16 Mar 2021 04:34:58 -0700 (PDT)
+Received: from pc636 (h5ef52e3d.seluork.dyn.perspektivbredband.net. [94.245.46.61])
+        by smtp.gmail.com with ESMTPSA id y11sm3200770ljc.18.2021.03.16.04.34.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Mar 2021 04:34:58 -0700 (PDT)
+From:   Uladzislau Rezki <urezki@gmail.com>
+X-Google-Original-From: Uladzislau Rezki <urezki@pc636>
+Date:   Tue, 16 Mar 2021 12:34:56 +0100
+To:     Topi Miettinen <toiwoton@gmail.com>
+Cc:     Uladzislau Rezki <urezki@gmail.com>,
+        Kees Cook <keescook@chromium.org>,
+        linux-hardening@vger.kernel.org, akpm@linux-foundation.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        Andy Lutomirski <luto@kernel.org>,
+        Jann Horn <jannh@google.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mike Rapoport <rppt@kernel.org>
+Subject: Re: [PATCH v4] mm/vmalloc: randomize vmalloc() allocations
+Message-ID: <20210316113456.GA31764@pc636>
+References: <20210309135757.5406-1-toiwoton@gmail.com>
+ <20210314172312.GA2085@pc638.lan>
+ <f2d6965b-1801-ce91-0c7c-2cdc92493393@gmail.com>
+ <20210315122410.GA26784@pc636>
+ <202103150914.4172D96@keescook>
+ <20210315174742.GA2038@pc638.lan>
+ <85515ea8-744e-acec-76ba-034b38d0f9fa@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210304123541.30749-1-s.hauer@pengutronix.de>
+In-Reply-To: <85515ea8-744e-acec-76ba-034b38d0f9fa@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu 04-03-21 13:35:38, Sascha Hauer wrote:
-> Current quotactl syscall uses a path to a block device to specify the
-> filesystem to work on which makes it unsuitable for filesystems that
-> do not have a block device. This series adds a new syscall quotactl_path()
-> which replaces the path to the block device with a mountpath, but otherwise
-> behaves like original quotactl.
+On Tue, Mar 16, 2021 at 10:01:46AM +0200, Topi Miettinen wrote:
+> On 15.3.2021 19.47, Uladzislau Rezki wrote:
+> > On Mon, Mar 15, 2021 at 09:16:26AM -0700, Kees Cook wrote:
+> > > On Mon, Mar 15, 2021 at 01:24:10PM +0100, Uladzislau Rezki wrote:
+> > > > On Mon, Mar 15, 2021 at 11:04:42AM +0200, Topi Miettinen wrote:
+> > > > > What's the problem with that? It seems to me that nothing relies on specific
+> > > > > addresses of the chunks, so it should be possible to randomize these too.
+> > > > > Also the alignment is honored.
+> > > > > 
+> > > > My concern are:
+> > > > 
+> > > > - it is not a vmalloc allocator;
+> > > > - per-cpu allocator allocates chunks, thus it might be it happens only once. It does not allocate it often;
+> > > 
+> > > That's actually the reason to randomize it: if it always ends up in the
+> > > same place at every boot, it becomes a stable target for attackers.
+> > > 
+> > Probably we can randomize a base address only once when pcpu-allocator
+> > allocates a fist chunk during the boot.
+> > 
+> > > > - changing it will likely introduce issues you are not aware of;
+> > > > - it is not supposed to be interacting with vmalloc allocator. Read the
+> > > >    comment under pcpu_get_vm_areas();
+> > > > 
+> > > > Therefore i propose just not touch it.
+> > > 
+> > > How about splitting it from this patch instead? Then it can get separate
+> > > testing, etc.
+> > > 
+> > It should be split as well as tested.
 > 
-> This is done to add quota support to UBIFS. UBIFS quota support has been
-> posted several times with different approaches to put the mountpath into
-> the existing quotactl() syscall until it has been suggested to make it a
-> new syscall instead, so here it is.
+> Would you prefer another kernel option `randomize_percpu_allocator=1`, or
+> would it be OK to make it a flag in `randomize_vmalloc`, like
+> `randomize_vmalloc=3`? Maybe the latter would not be compatible with static
+> branches.
 > 
-> I'm not posting the full UBIFS quota series here as it remains unchanged
-> and I'd like to get feedback to the new syscall first. For those interested
-> the most recent series can be found here: https://lwn.net/Articles/810463/
+I think it is better to have a separate option, because there are two
+different allocators.
 
-Thanks. I've merged the two patches into my tree and will push them to
-Linus for the next merge window.
-
-								Honza
-
-> 
-> Changes since v2:
-> - Rebase on v5.12-rc1
-> - replace mountpath.dentry->d_inode->i_sb with mountpath.mnt->mnt_sb
-> - fix wrong macro usage in arch/x86/entry/syscalls/syscall_32.tbl
-> - +Cc linux-api@vger.kernel.org
-> 
-> Changes since (implicit) v1:
-> - Ignore second path argument to Q_QUOTAON. With this quotactl_path() can
->   only do the Q_QUOTAON operation on filesystems which use hidden inodes
->   for quota metadata storage
-> - Drop unnecessary quotactl_cmd_onoff() check
-> 
-> Sascha Hauer (2):
->   quota: Add mountpath based quota support
->   quota: wire up quotactl_path
-> 
->  arch/alpha/kernel/syscalls/syscall.tbl      |  1 +
->  arch/arm/tools/syscall.tbl                  |  1 +
->  arch/arm64/include/asm/unistd.h             |  2 +-
->  arch/arm64/include/asm/unistd32.h           |  2 +
->  arch/ia64/kernel/syscalls/syscall.tbl       |  1 +
->  arch/m68k/kernel/syscalls/syscall.tbl       |  1 +
->  arch/microblaze/kernel/syscalls/syscall.tbl |  1 +
->  arch/mips/kernel/syscalls/syscall_n32.tbl   |  1 +
->  arch/mips/kernel/syscalls/syscall_n64.tbl   |  1 +
->  arch/mips/kernel/syscalls/syscall_o32.tbl   |  1 +
->  arch/parisc/kernel/syscalls/syscall.tbl     |  1 +
->  arch/powerpc/kernel/syscalls/syscall.tbl    |  1 +
->  arch/s390/kernel/syscalls/syscall.tbl       |  1 +
->  arch/sh/kernel/syscalls/syscall.tbl         |  1 +
->  arch/sparc/kernel/syscalls/syscall.tbl      |  1 +
->  arch/x86/entry/syscalls/syscall_32.tbl      |  1 +
->  arch/x86/entry/syscalls/syscall_64.tbl      |  1 +
->  arch/xtensa/kernel/syscalls/syscall.tbl     |  1 +
->  fs/quota/quota.c                            | 49 +++++++++++++++++++--
->  include/linux/syscalls.h                    |  2 +
->  include/uapi/asm-generic/unistd.h           |  4 +-
->  kernel/sys_ni.c                             |  1 +
->  22 files changed, 71 insertions(+), 5 deletions(-)
-> 
-> -- 
-> 2.29.2
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+--
+Vlad Rezki
