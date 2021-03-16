@@ -2,251 +2,126 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B624233D987
-	for <lists+linux-api@lfdr.de>; Tue, 16 Mar 2021 17:36:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CEEDE33DA5E
+	for <lists+linux-api@lfdr.de>; Tue, 16 Mar 2021 18:13:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238727AbhCPQgH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 16 Mar 2021 12:36:07 -0400
-Received: from mx4.veeam.com ([104.41.138.86]:59098 "EHLO mx4.veeam.com"
+        id S238515AbhCPRMz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 16 Mar 2021 13:12:55 -0400
+Received: from mga01.intel.com ([192.55.52.88]:50270 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237871AbhCPQf6 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 16 Mar 2021 12:35:58 -0400
-Received: from mail.veeam.com (prgmbx01.amust.local [172.24.0.171])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mx4.veeam.com (Postfix) with ESMTPS id 3FCF38A77C;
-        Tue, 16 Mar 2021 19:35:53 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=veeam.com; s=mx4;
-        t=1615912553; bh=F1gKLL7wk3iE1vLbPnTkUW3slRzh6GWWwMLJyS5YH1U=;
-        h=Date:From:To:CC:Subject:References:In-Reply-To:From;
-        b=LgzU5IuRT4MU2/aszmA5F9lbIBFZyR0JP9db5s+sCQFZiTjb45y6KnOJxlsOfzgGF
-         2TgpDyaufoHsv+9icTxQL+xZ6vLqIKVJ3pB4tYjq5umA9JBEcWgrbih71QTueezVpN
-         YP/fey343S+4gT4Xc9pWcLfTWJlQBacMoU6aItoE=
-Received: from veeam.com (172.24.14.5) by prgmbx01.amust.local (172.24.0.171)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.721.2; Tue, 16 Mar 2021
- 17:35:50 +0100
-Date:   Tue, 16 Mar 2021 19:35:44 +0300
-From:   Sergei Shtepa <sergei.shtepa@veeam.com>
-To:     Ming Lei <ming.lei@redhat.com>
-CC:     Christoph Hellwig <hch@infradead.org>,
-        Mike Snitzer <snitzer@redhat.com>,
-        Alasdair Kergon <agk@redhat.com>,
-        Hannes Reinecke <hare@suse.de>, Jens Axboe <axboe@kernel.dk>,
-        "dm-devel@redhat.com" <dm-devel@redhat.com>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        Pavel Tide <Pavel.TIde@veeam.com>
-Subject: Re: [PATCH v7 2/3] block: add bdev_interposer
-Message-ID: <20210316163544.GA31272@veeam.com>
-References: <1615563895-28565-1-git-send-email-sergei.shtepa@veeam.com>
- <1615563895-28565-3-git-send-email-sergei.shtepa@veeam.com>
- <YFBnypYemiR08A/c@T590>
+        id S239171AbhCPRMm (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 16 Mar 2021 13:12:42 -0400
+IronPort-SDR: kupFXEQzqOy4Ngh47OGo92WpruiIVhmacxnCEOG1MjyDormoq4u0xhDWADEvSJZtVmuLTBiWND
+ lEzyeKzwkFIQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9925"; a="209242689"
+X-IronPort-AV: E=Sophos;i="5.81,254,1610438400"; 
+   d="scan'208";a="209242689"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2021 10:12:41 -0700
+IronPort-SDR: WAufUYiv2hINDLV1Fsm7MR1NscNe9fmWhCNAMYlonQgBJzkCN1Jk6hMv0wjROGIZvRym4QvWLT
+ XQwO7GxNWjGg==
+X-IronPort-AV: E=Sophos;i="5.81,254,1610438400"; 
+   d="scan'208";a="412295708"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.191.248]) ([10.212.191.248])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2021 10:12:40 -0700
+Subject: Re: [PATCH v23 6/9] x86/entry: Introduce ENDBR macro
+To:     Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Cc:     Jarkko Sakkinen <jarkko@kernel.org>
+References: <20210316151320.6123-1-yu-cheng.yu@intel.com>
+ <20210316151320.6123-7-yu-cheng.yu@intel.com>
+ <f98c600a-80e4-62f0-9c97-eeed708d998d@intel.com>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <15966857-9be7-3029-7e93-e40596b4649a@intel.com>
+Date:   Tue, 16 Mar 2021 10:12:39 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-In-Reply-To: <YFBnypYemiR08A/c@T590>
-X-Originating-IP: [172.24.14.5]
-X-ClientProxiedBy: prgmbx02.amust.local (172.24.0.172) To prgmbx01.amust.local
- (172.24.0.171)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A29D2A50B586D756B
-X-Veeam-MMEX: True
+In-Reply-To: <f98c600a-80e4-62f0-9c97-eeed708d998d@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-The 03/16/2021 11:09, Ming Lei wrote:
-> On Fri, Mar 12, 2021 at 06:44:54PM +0300, Sergei Shtepa wrote:
-> > bdev_interposer allows to redirect bio requests to another devices.
-> > 
-> > Signed-off-by: Sergei Shtepa <sergei.shtepa@veeam.com>
-> > ---
-> >  block/bio.c               |  2 ++
-> >  block/blk-core.c          | 57 +++++++++++++++++++++++++++++++++++++++
-> >  block/genhd.c             | 54 +++++++++++++++++++++++++++++++++++++
-> >  include/linux/blk_types.h |  3 +++
-> >  include/linux/blkdev.h    |  9 +++++++
-> >  5 files changed, 125 insertions(+)
-> > 
-> > diff --git a/block/bio.c b/block/bio.c
-> > index a1c4d2900c7a..0bfbf06475ee 100644
-> > --- a/block/bio.c
-> > +++ b/block/bio.c
-> > @@ -640,6 +640,8 @@ void __bio_clone_fast(struct bio *bio, struct bio *bio_src)
-> >  		bio_set_flag(bio, BIO_THROTTLED);
-> >  	if (bio_flagged(bio_src, BIO_REMAPPED))
-> >  		bio_set_flag(bio, BIO_REMAPPED);
-> > +	if (bio_flagged(bio_src, BIO_INTERPOSED))
-> > +		bio_set_flag(bio, BIO_INTERPOSED);
-> >  	bio->bi_opf = bio_src->bi_opf;
-> >  	bio->bi_ioprio = bio_src->bi_ioprio;
-> >  	bio->bi_write_hint = bio_src->bi_write_hint;
-> > diff --git a/block/blk-core.c b/block/blk-core.c
-> > index fc60ff208497..da1abc4c27a9 100644
-> > --- a/block/blk-core.c
-> > +++ b/block/blk-core.c
-> > @@ -1018,6 +1018,55 @@ static blk_qc_t __submit_bio_noacct_mq(struct bio *bio)
-> >  	return ret;
-> >  }
-> >  
-> > +static noinline blk_qc_t submit_bio_interposed(struct bio *bio)
-> > +{
-> > +	blk_qc_t ret = BLK_QC_T_NONE;
-> > +	struct bio_list bio_list[2] = { };
-> > +	struct gendisk *orig_disk;
-> > +
-> > +	if (current->bio_list) {
-> > +		bio_list_add(&current->bio_list[0], bio);
-> > +		return BLK_QC_T_NONE;
-> > +	}
-> > +
-> > +	orig_disk = bio->bi_bdev->bd_disk;
-> > +	if (unlikely(bio_queue_enter(bio)))
-> > +		return BLK_QC_T_NONE;
-> > +
-> > +	current->bio_list = bio_list;
-> > +
-> > +	do {
-> > +		struct block_device *interposer = bio->bi_bdev->bd_interposer;
-> > +
-> > +		if (unlikely(!interposer)) {
-> > +			/* interposer was removed */
-> > +			bio_list_add(&current->bio_list[0], bio);
-> > +			break;
-> > +		}
-> > +		/* assign bio to interposer device */
-> > +		bio_set_dev(bio, interposer);
-> > +		bio_set_flag(bio, BIO_INTERPOSED);
-> > +
-> > +		if (!submit_bio_checks(bio))
-> > +			break;
-> > +		/*
-> > +		 * Because the current->bio_list is initialized,
-> > +		 * the submit_bio callback will always return BLK_QC_T_NONE.
-> > +		 */
-> > +		interposer->bd_disk->fops->submit_bio(bio);
+On 3/16/2021 8:49 AM, Dave Hansen wrote:
+> On 3/16/21 8:13 AM, Yu-cheng Yu wrote:
+>> --- a/arch/x86/entry/calling.h
+>> +++ b/arch/x86/entry/calling.h
+>> @@ -392,3 +392,21 @@ For 32-bit we have the following conventions - kernel is built with
+>>   .endm
+>>   
+>>   #endif /* CONFIG_SMP */
+>> +/*
+>> + * ENDBR is an instruction for the Indirect Branch Tracking (IBT) component
+>> + * of CET.  IBT prevents attacks by ensuring that (most) indirect branches
+>> + * function calls may only land at ENDBR instructions.  Branches that don't
+>> + * follow the rules will result in control flow (#CF) exceptions.
+>> + * ENDBR is a noop when IBT is unsupported or disabled.  Most ENDBR
+>> + * instructions are inserted automatically by the compiler, but branch
+>> + * targets written in assembly must have ENDBR added manually.
+>> + */
+>> +.macro ENDBR
+>> +#ifdef CONFIG_X86_CET
+>> +#ifdef __i386__
+>> +	endbr32
+>> +#else
+>> +	endbr64
+>> +#endif
+>> +#endif
+>> +.endm
 > 
-> Given original request queue may become live when calling attach() and
-> detach(), see below comment. bdev_interposer_detach() may be run
-> when running ->submit_bio(), meantime the interposer device is
-> gone during the period, then kernel oops.
-
-I think that since the bio_queue_enter() function was called,
-q->q_usage_counter will not allow the critical code in the attach/detach
-functions to be executed, which is located between the blk_freeze_queue
-and blk_unfreeze_queue calls.
-Please correct me if I'm wrong.
-
+> Is "#ifdef __i386__" the right thing to use here?  I guess ENDBR only
+> ends up getting used in the VDSO, but there's a lot of
+> non-userspace-exposed stuff in calling.h.  It seems a bit weird to have
+> the normally userspace-only __i386__ in there.
 > 
-> > +	} while (false);
-> > +
-> > +	current->bio_list = NULL;
-> > +
-> > +	blk_queue_exit(orig_disk->queue);
-> > +
-> > +	/* Resubmit remaining bios */
-> > +	while ((bio = bio_list_pop(&bio_list[0])))
-> > +		ret = submit_bio_noacct(bio);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> >  /**
-> >   * submit_bio_noacct - re-submit a bio to the block device layer for I/O
-> >   * @bio:  The bio describing the location in memory and on the device.
-> > @@ -1029,6 +1078,14 @@ static blk_qc_t __submit_bio_noacct_mq(struct bio *bio)
-> >   */
-> >  blk_qc_t submit_bio_noacct(struct bio *bio)
-> >  {
-> > +	/*
-> > +	 * Checking the BIO_INTERPOSED flag is necessary so that the bio
-> > +	 * created by the bdev_interposer do not get to it for processing.
-> > +	 */
-> > +	if (bdev_has_interposer(bio->bi_bdev) &&
-> > +	    !bio_flagged(bio, BIO_INTERPOSED))
-> > +		return submit_bio_interposed(bio);
-> > +
-> >  	if (!submit_bio_checks(bio))
-> >  		return BLK_QC_T_NONE;
-> >  
-> > diff --git a/block/genhd.c b/block/genhd.c
-> > index c55e8f0fced1..c840ecffea68 100644
-> > --- a/block/genhd.c
-> > +++ b/block/genhd.c
-> > @@ -30,6 +30,11 @@
-> >  static struct kobject *block_depr;
-> >  
-> >  DECLARE_RWSEM(bdev_lookup_sem);
-> > +/*
-> > + * Prevents different block-layer interposers from attaching or detaching
-> > + * to the block device at the same time.
-> > + */
-> > +static DEFINE_MUTEX(bdev_interposer_attach_lock);
-> >  
-> >  /* for extended dynamic devt allocation, currently only one major is used */
-> >  #define NR_EXT_DEVT		(1 << MINORBITS)
-> > @@ -1940,3 +1945,52 @@ static void disk_release_events(struct gendisk *disk)
-> >  	WARN_ON_ONCE(disk->ev && disk->ev->block != 1);
-> >  	kfree(disk->ev);
-> >  }
-> > +
-> > +int bdev_interposer_attach(struct block_device *original,
-> > +			   struct block_device *interposer)
-> > +{
-> > +	int ret = 0;
-> > +
-> > +	if (WARN_ON(((!original) || (!interposer))))
-> > +		return -EINVAL;
-> > +	/*
-> > +	 * interposer should be simple, no a multi-queue device
-> > +	 */
-> > +	if (!interposer->bd_disk->fops->submit_bio)
-> > +		return -EINVAL;
-> > +
-> > +	if (WARN_ON(!blk_mq_is_queue_frozen(original->bd_disk->queue)))
-> > +		return -EPERM;
-> 
-> The original request queue may become live now...
-
-Yes.
-I will remove the blk_mq_is_queue_frozen() function and use a different
-approach.
-
-> 
-> > +
-> > +	mutex_lock(&bdev_interposer_attach_lock);
-> > +
-> > +	if (bdev_has_interposer(original))
-> > +		ret = -EBUSY;
-> > +	else {
-> > +		original->bd_interposer = bdgrab(interposer);
-> > +		if (!original->bd_interposer)
-> > +			ret = -ENODEV;
-> > +	}
-> > +
-> > +	mutex_unlock(&bdev_interposer_attach_lock);
-> > +
-> > +	return ret;
-> > +}
-> > +EXPORT_SYMBOL_GPL(bdev_interposer_attach);
-> > +
-> > +void bdev_interposer_detach(struct block_device *original)
-> > +{
-> > +	if (WARN_ON(!original))
-> > +		return;
-> > +
-> > +	if (WARN_ON(!blk_mq_is_queue_frozen(original->bd_disk->queue)))
-> > +		return;
-> 
-> The original request queue may become live now...
-> 
-> 
-> -- 
-> Ming
+> I don't see any existing direct use of __i386__ in arch/x86/entry/vdso.
 > 
 
--- 
-Sergei Shtepa
-Veeam Software developer.
+Good point.  My thought was, __i386__ comes from the compiler having the 
+-m32 command-line option, and it is not dependent on anything else.
+
+Alternatively, there is another compiler-defined macro _CET_ENDBR that 
+can be used.  We can put the following in calling.h:
+
+#ifdef __CET__
+#include <cet.h>
+#else
+#define _CET_ENDBR
+#endif
+
+and then use _CET_ENDBR in other files.  How is that?
+
+In the future, in case we have kernel-mode IBT, ENDBR macros are also 
+needed for other assembly files.
+
+Thanks,
+Yu-cheng
