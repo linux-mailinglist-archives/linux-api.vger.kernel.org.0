@@ -2,904 +2,355 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EB5A633F8DD
+	by mail.lfdr.de (Postfix) with ESMTP id 15AB133F8DB
 	for <lists+linux-api@lfdr.de>; Wed, 17 Mar 2021 20:14:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232207AbhCQTNh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        id S232996AbhCQTNh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
         Wed, 17 Mar 2021 15:13:37 -0400
-Received: from pbmsgap02.intersil.com ([192.157.179.202]:43334 "EHLO
-        pbmsgap02.intersil.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232963AbhCQTNM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 17 Mar 2021 15:13:12 -0400
-Received: from pps.filterd (pbmsgap02.intersil.com [127.0.0.1])
-        by pbmsgap02.intersil.com (8.16.0.42/8.16.0.42) with SMTP id 12HJD7V9011633;
-        Wed, 17 Mar 2021 15:13:07 -0400
-Received: from pbmxdp02.intersil.corp (pbmxdp02.pb.intersil.com [132.158.200.223])
-        by pbmsgap02.intersil.com with ESMTP id 378ren1tw2-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Wed, 17 Mar 2021 15:13:07 -0400
-Received: from pbmxdp02.intersil.corp (132.158.200.223) by
- pbmxdp02.intersil.corp (132.158.200.223) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
- 15.1.2176.2; Wed, 17 Mar 2021 15:13:05 -0400
-Received: from localhost (132.158.202.108) by pbmxdp02.intersil.corp
- (132.158.200.223) with Microsoft SMTP Server id 15.1.2176.2 via Frontend
- Transport; Wed, 17 Mar 2021 15:13:04 -0400
-From:   <min.li.xe@renesas.com>
-To:     <derek.kiernan@xilinx.com>, <dragan.cvetic@xilinx.com>,
-        <arnd@arndb.de>, <gregkh@linuxfoundation.org>
-CC:     <linux-kernel@vger.kernel.org>, <linux-api@vger.kernel.org>,
-        Min Li <min.li.xe@renesas.com>
-Subject: [PATCH net-next v1] misc: Add Renesas Synchronization Management Unit (SMU) support
-Date:   Wed, 17 Mar 2021 14:59:56 -0400
-Message-ID: <1616007596-2402-1-git-send-email-min.li.xe@renesas.com>
-X-Mailer: git-send-email 2.7.4
-X-TM-AS-MML: disable
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36111 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233028AbhCQTNc (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 17 Mar 2021 15:13:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1616008411;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=AY++CPbrnpNGT6ojKxSeyv89tPlCa2W+td1oinEyr1A=;
+        b=G6zm3sPy2DLs8/+YijZFy+UyQBkHFSJJlT//i2MfB5qRlNd8EaXnAmhIpaVqa8HovLXlM4
+        iJhxSi/gLrviN3VpF+bi4QS7Bdawq+rruSwWHXwpTG4j5B1owm37CcWe+ioNFnZ2d2bKt/
+        /NGi6Ct4I1Ks3d3kQA8QcLVuM7Wf4s4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-501-f_6uI9oHP5WU1GXkUw-NPw-1; Wed, 17 Mar 2021 15:13:28 -0400
+X-MC-Unique: f_6uI9oHP5WU1GXkUw-NPw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 148A9180FCA2;
+        Wed, 17 Mar 2021 19:13:27 +0000 (UTC)
+Received: from localhost (unknown [10.18.25.174])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 796A71007625;
+        Wed, 17 Mar 2021 19:13:20 +0000 (UTC)
+Date:   Wed, 17 Mar 2021 15:13:19 -0400
+From:   Mike Snitzer <snitzer@redhat.com>
+To:     Sergei Shtepa <sergei.shtepa@veeam.com>
+Cc:     Ming Lei <ming.lei@redhat.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Alasdair Kergon <agk@redhat.com>,
+        Hannes Reinecke <hare@suse.de>, Jens Axboe <axboe@kernel.dk>,
+        "dm-devel@redhat.com" <dm-devel@redhat.com>,
+        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        Pavel Tide <Pavel.TIde@veeam.com>,
+        Mikulas Patocka <mpatocka@redhat.com>
+Subject: Re: [PATCH v7 2/3] block: add bdev_interposer
+Message-ID: <20210317191319.GA30376@redhat.com>
+References: <1615563895-28565-1-git-send-email-sergei.shtepa@veeam.com>
+ <1615563895-28565-3-git-send-email-sergei.shtepa@veeam.com>
+ <YFBnypYemiR08A/c@T590>
+ <20210316163544.GA31272@veeam.com>
+ <YFFxdz84esfiTvNk@T590>
+ <20210317122217.GA31781@veeam.com>
+ <20210317150441.GB29481@redhat.com>
+ <20210317181413.GB31781@veeam.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
- definitions=2021-03-17_11:2021-03-17,2021-03-17 signatures=0
-X-Proofpoint-Spam-Details: rule=junk_notspam policy=junk score=0 mlxlogscore=999 malwarescore=0
- spamscore=0 adultscore=0 phishscore=0 mlxscore=0 suspectscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2103170130
-X-Proofpoint-Spam-Reason: mlx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210317181413.GB31781@veeam.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Min Li <min.li.xe@renesas.com>
+On Wed, Mar 17 2021 at  2:14pm -0400,
+Sergei Shtepa <sergei.shtepa@veeam.com> wrote:
 
-This driver is developed for the IDT ClockMatrix(TM) and 82P33xxx families
-of timing and synchronization devices.It will be used by Renesas PTP Clock
-Manager for Linux (pcm4l) software to provide support to GNSS assisted
-partial timing support (APTS) and other networking timing functions.
+> The 03/17/2021 18:04, Mike Snitzer wrote:
+> > On Wed, Mar 17 2021 at  8:22am -0400,
+> > Sergei Shtepa <sergei.shtepa@veeam.com> wrote:
+> > 
+> > > The 03/17/2021 06:03, Ming Lei wrote:
+> > > > On Tue, Mar 16, 2021 at 07:35:44PM +0300, Sergei Shtepa wrote:
+> > > > > The 03/16/2021 11:09, Ming Lei wrote:
+> > > > > > On Fri, Mar 12, 2021 at 06:44:54PM +0300, Sergei Shtepa wrote:
+> > > > > > > bdev_interposer allows to redirect bio requests to another devices.
+> > > > > > > 
+> > > > > > > Signed-off-by: Sergei Shtepa <sergei.shtepa@veeam.com>
+> > > > > > > ---
+> > > > > > >  block/bio.c               |  2 ++
+> > > > > > >  block/blk-core.c          | 57 +++++++++++++++++++++++++++++++++++++++
+> > > > > > >  block/genhd.c             | 54 +++++++++++++++++++++++++++++++++++++
+> > > > > > >  include/linux/blk_types.h |  3 +++
+> > > > > > >  include/linux/blkdev.h    |  9 +++++++
+> > > > > > >  5 files changed, 125 insertions(+)
+> > > > > > > 
+> > > > > > > diff --git a/block/bio.c b/block/bio.c
+> > > > > > > index a1c4d2900c7a..0bfbf06475ee 100644
+> > > > > > > --- a/block/bio.c
+> > > > > > > +++ b/block/bio.c
+> > > > > > > @@ -640,6 +640,8 @@ void __bio_clone_fast(struct bio *bio, struct bio *bio_src)
+> > > > > > >  		bio_set_flag(bio, BIO_THROTTLED);
+> > > > > > >  	if (bio_flagged(bio_src, BIO_REMAPPED))
+> > > > > > >  		bio_set_flag(bio, BIO_REMAPPED);
+> > > > > > > +	if (bio_flagged(bio_src, BIO_INTERPOSED))
+> > > > > > > +		bio_set_flag(bio, BIO_INTERPOSED);
+> > > > > > >  	bio->bi_opf = bio_src->bi_opf;
+> > > > > > >  	bio->bi_ioprio = bio_src->bi_ioprio;
+> > > > > > >  	bio->bi_write_hint = bio_src->bi_write_hint;
+> > > > > > > diff --git a/block/blk-core.c b/block/blk-core.c
+> > > > > > > index fc60ff208497..da1abc4c27a9 100644
+> > > > > > > --- a/block/blk-core.c
+> > > > > > > +++ b/block/blk-core.c
+> > > > > > > @@ -1018,6 +1018,55 @@ static blk_qc_t __submit_bio_noacct_mq(struct bio *bio)
+> > > > > > >  	return ret;
+> > > > > > >  }
+> > > > > > >  
+> > > > > > > +static noinline blk_qc_t submit_bio_interposed(struct bio *bio)
+> > > > > > > +{
+> > > > > > > +	blk_qc_t ret = BLK_QC_T_NONE;
+> > > > > > > +	struct bio_list bio_list[2] = { };
+> > > > > > > +	struct gendisk *orig_disk;
+> > > > > > > +
+> > > > > > > +	if (current->bio_list) {
+> > > > > > > +		bio_list_add(&current->bio_list[0], bio);
+> > > > > > > +		return BLK_QC_T_NONE;
+> > > > > > > +	}
+> > > > > > > +
+> > > > > > > +	orig_disk = bio->bi_bdev->bd_disk;
+> > > > > > > +	if (unlikely(bio_queue_enter(bio)))
+> > > > > > > +		return BLK_QC_T_NONE;
+> > > > > > > +
+> > > > > > > +	current->bio_list = bio_list;
+> > > > > > > +
+> > > > > > > +	do {
+> > > > > > > +		struct block_device *interposer = bio->bi_bdev->bd_interposer;
+> > > > > > > +
+> > > > > > > +		if (unlikely(!interposer)) {
+> > > > > > > +			/* interposer was removed */
+> > > > > > > +			bio_list_add(&current->bio_list[0], bio);
+> > > > > > > +			break;
+> > > > > > > +		}
+> > > > > > > +		/* assign bio to interposer device */
+> > > > > > > +		bio_set_dev(bio, interposer);
+> > > > > > > +		bio_set_flag(bio, BIO_INTERPOSED);
+> > > > > > > +
+> > > > > > > +		if (!submit_bio_checks(bio))
+> > > > > > > +			break;
+> > > > > > > +		/*
+> > > > > > > +		 * Because the current->bio_list is initialized,
+> > > > > > > +		 * the submit_bio callback will always return BLK_QC_T_NONE.
+> > > > > > > +		 */
+> > > > > > > +		interposer->bd_disk->fops->submit_bio(bio);
+> > > > > > 
+> > > > > > Given original request queue may become live when calling attach() and
+> > > > > > detach(), see below comment. bdev_interposer_detach() may be run
+> > > > > > when running ->submit_bio(), meantime the interposer device is
+> > > > > > gone during the period, then kernel oops.
+> > > > > 
+> > > > > I think that since the bio_queue_enter() function was called,
+> > > > > q->q_usage_counter will not allow the critical code in the attach/detach
+> > > > > functions to be executed, which is located between the blk_freeze_queue
+> > > > > and blk_unfreeze_queue calls.
+> > > > > Please correct me if I'm wrong.
+> > > > > 
+> > > > > > 
+> > > > > > > +	} while (false);
+> > > > > > > +
+> > > > > > > +	current->bio_list = NULL;
+> > > > > > > +
+> > > > > > > +	blk_queue_exit(orig_disk->queue);
+> > > > > > > +
+> > > > > > > +	/* Resubmit remaining bios */
+> > > > > > > +	while ((bio = bio_list_pop(&bio_list[0])))
+> > > > > > > +		ret = submit_bio_noacct(bio);
+> > > > > > > +
+> > > > > > > +	return ret;
+> > > > > > > +}
+> > > > > > > +
+> > > > > > >  /**
+> > > > > > >   * submit_bio_noacct - re-submit a bio to the block device layer for I/O
+> > > > > > >   * @bio:  The bio describing the location in memory and on the device.
+> > > > > > > @@ -1029,6 +1078,14 @@ static blk_qc_t __submit_bio_noacct_mq(struct bio *bio)
+> > > > > > >   */
+> > > > > > >  blk_qc_t submit_bio_noacct(struct bio *bio)
+> > > > > > >  {
+> > > > > > > +	/*
+> > > > > > > +	 * Checking the BIO_INTERPOSED flag is necessary so that the bio
+> > > > > > > +	 * created by the bdev_interposer do not get to it for processing.
+> > > > > > > +	 */
+> > > > > > > +	if (bdev_has_interposer(bio->bi_bdev) &&
+> > > > > > > +	    !bio_flagged(bio, BIO_INTERPOSED))
+> > > > > > > +		return submit_bio_interposed(bio);
+> > > > > > > +
+> > > > > > >  	if (!submit_bio_checks(bio))
+> > > > > > >  		return BLK_QC_T_NONE;
+> > > > > > >  
+> > > > > > > diff --git a/block/genhd.c b/block/genhd.c
+> > > > > > > index c55e8f0fced1..c840ecffea68 100644
+> > > > > > > --- a/block/genhd.c
+> > > > > > > +++ b/block/genhd.c
+> > > > > > > @@ -30,6 +30,11 @@
+> > > > > > >  static struct kobject *block_depr;
+> > > > > > >  
+> > > > > > >  DECLARE_RWSEM(bdev_lookup_sem);
+> > > > > > > +/*
+> > > > > > > + * Prevents different block-layer interposers from attaching or detaching
+> > > > > > > + * to the block device at the same time.
+> > > > > > > + */
+> > > > > > > +static DEFINE_MUTEX(bdev_interposer_attach_lock);
+> > > > > > >  
+> > > > > > >  /* for extended dynamic devt allocation, currently only one major is used */
+> > > > > > >  #define NR_EXT_DEVT		(1 << MINORBITS)
+> > > > > > > @@ -1940,3 +1945,52 @@ static void disk_release_events(struct gendisk *disk)
+> > > > > > >  	WARN_ON_ONCE(disk->ev && disk->ev->block != 1);
+> > > > > > >  	kfree(disk->ev);
+> > > > > > >  }
+> > > > > > > +
+> > > > > > > +int bdev_interposer_attach(struct block_device *original,
+> > > > > > > +			   struct block_device *interposer)
+> > > > > > > +{
+> > > > > > > +	int ret = 0;
+> > > > > > > +
+> > > > > > > +	if (WARN_ON(((!original) || (!interposer))))
+> > > > > > > +		return -EINVAL;
+> > > > > > > +	/*
+> > > > > > > +	 * interposer should be simple, no a multi-queue device
+> > > > > > > +	 */
+> > > > > > > +	if (!interposer->bd_disk->fops->submit_bio)
+> > > > > > > +		return -EINVAL;
+> > > > > > > +
+> > > > > > > +	if (WARN_ON(!blk_mq_is_queue_frozen(original->bd_disk->queue)))
+> > > > > > > +		return -EPERM;
+> > > > > > 
+> > > > > > The original request queue may become live now...
+> > > > > 
+> > > > > Yes.
+> > > > > I will remove the blk_mq_is_queue_frozen() function and use a different
+> > > > > approach.
+> > > > 
+> > > > Looks what attach and detach needs is that queue is kept as frozen state
+> > > > instead of being froze simply at the beginning of the two functions, so
+> > > > you can simply call freeze/unfreeze inside the two functions.
+> > > > 
+> > > > But what if 'original' isn't a MQ queue?  queue usage counter is just
+> > > > grabed when calling ->submit_bio(), and queue freeze doesn't guarantee there
+> > > > isn't any io activity, is that a problem for bdev_interposer use case?
+> > > > 
+> > > > -- 
+> > > > Ming
+> > > > 
+> > > 
+> > > It makes sense to add freeze_bdev/thaw_bdev. This will be useful.
+> > > For the main file systems, the freeze functions are defined 
+> > > sb->s_op->freeze_super() or sb - >s_op->freeze_fs()
+> > > (btrfs, ext2, ext4, f2fs, jfs, nilfs2, reiserfs, xfs).
+> > > If the file system is frozen, then no new requests should be received.
+> > > 
+> > > But if the file system does not support freeze or the disk is used without
+> > > a file system, as for some databases, freeze_bdev seems useless to me.
+> > > In this case, we will need to stop working with the disk from user-space,
+> > > for example, to freeze the database itself.
+> > > 
+> > > I can add dm_suspend() before bdev_interposer_detach(). This will ensure that
+> > > all intercepted requests have been processed. Applying dm_suspend() before
+> > > bdev_interposer_attach() is pointless. The attachment is made when the target
+> > > is created, and at this time the target is not ready to work yet.
+> > > There shouldn't be any bio requests, I suppose. In addition,
+> > > sb->s_op->freeze_fs() for the interposer will not be called, because the file
+> > > system is not mounted for the interposer device. It should not be able to
+> > > be mounted. To do this, I will add an exclusive opening of the interposer
+> > > device.
+> > > 
+> > > I'll add freeze_bdev() for the original device and dm_suspend() for the
+> > > interposer to the DM code. For normal operation of bdev_interposer,
+> > > it is enough to transfer blk_mq_freeze_queue and blk_mq_quiesce_queue to
+> > > bdev_interposer_attach/bdev_interposer_detach.
+> > > The lock on the counter q->q_usage_counter is enough to not catch NULL in
+> > > bd_interposer.
+> > > 
+> > > Do you think this is enough?
+> > > I think there are no other ways to stop the block device queue.
+> > 
+> > Either you're pretty confused, or I am... regardless.. I think we need
+> > to cover the basics of how interposer is expected to be paired with
+> > an "original" device.
+> 
+> Thank you Mike for your patience. I really appreciate it.
+> I really may not understand something. Let me get this straight.
+> 
+> > 
+> > Those "original" device are already active and potentially in use
+> > right?  They may be either request-based blk-mq _or_ bio-based.
+> 
+> Yes. Exactly.
+> 
+> > 
+> > So what confuses me is that you're making assertions about how actively
+> > used bio-based DM devices aren't in use until the interposed device
+> > create happens... this is all getting very muddled.
+> 
+> The original device is indeed already actively used and already mounted.
+> This is most likely not a DM device.
+> If it is a request-based blk-mq, then it is enough to stop its queue by
+> blk_mq_freeze_queue(). 
+> If it is a bio-based device, then we can try to stop it by freeze_bdev.
+> But in both cases, if the blk_mq_freeze_bdev() function was called, bio cannot
+> get into the critical section between bio_queue_enter() and blk_queue_exit().
+> This allows to safely change the value of original->bd_interposer.
 
-Current version provides kernel API's to support the following functions
--set combomode to enable SYNCE clock support
--read dpll's state to determine if the dpll is locked to the GNSS channel
--read dpll's ffo (fractional frequency offset)
+Even though bios cannot get into underlying blk-mq they are already
+inflight on behalf of the upper-layer bio-based device. I'll look closer
+at the code but it seems like there is potential for the original
+device's bios to still be queued to original, past the ->submit_bio
+entry, and waiting for blk-mq to unfreeze.  Meaning upon return from
+what I _think_ you're saying will be sufficient: DM bio-based device
+will carry on submitting IO to the blk-mq device that has since been
+interposed.. that IO will _not_ complete in terms of the interposed
+device.. so you'll have a split-brain dual completion of IO from the
+original bio-based DM device _and_ the interposed device (for any new io
+that hits ->submit_bio after the interposed device is in place).
 
-Signed-off-by: Min Li <min.li.xe@renesas.com>
----
- drivers/misc/Kconfig      |  10 ++
- drivers/misc/Makefile     |   2 +
- drivers/misc/rsmu_cdev.c  | 336 ++++++++++++++++++++++++++++++++++++++++++++++
- drivers/misc/rsmu_cdev.h  |  72 ++++++++++
- drivers/misc/rsmu_cm.c    | 166 +++++++++++++++++++++++
- drivers/misc/rsmu_sabre.c | 128 ++++++++++++++++++
- include/uapi/linux/rsmu.h |  61 +++++++++
- 7 files changed, 775 insertions(+)
- create mode 100644 drivers/misc/rsmu_cdev.c
- create mode 100644 drivers/misc/rsmu_cdev.h
- create mode 100644 drivers/misc/rsmu_cm.c
- create mode 100644 drivers/misc/rsmu_sabre.c
- create mode 100644 include/uapi/linux/rsmu.h
+I think you need to have original bio-based DM suspend, interpose
+device, and then resume the original.  Anything entering original's
+->submit_bio from that point will all get sent to interposed
+device. Right?
 
-diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
-index f532c59..7c280a2 100644
---- a/drivers/misc/Kconfig
-+++ b/drivers/misc/Kconfig
-@@ -445,6 +445,16 @@ config HISI_HIKEY_USB
- 	  switching between the dual-role USB-C port and the USB-A host ports
- 	  using only one USB controller.
- 
-+config RSMU
-+	tristate "Renesas Synchronization Management Unit (SMU)"
-+	depends on MFD_RSMU_I2C || MFD_RSMU_SPI
-+	help
-+	  This option enables support for the IDT ClockMatrix(TM) and 82P33xxx
-+	  families of timing and synchronization devices. It will be used by
-+	  Renesas PTP Clock Manager for Linux (pcm4l) software to provide support
-+	  for GNSS assisted partial timing support (APTS) and other networking
-+	  timing functions.
-+
- source "drivers/misc/c2port/Kconfig"
- source "drivers/misc/eeprom/Kconfig"
- source "drivers/misc/cb710/Kconfig"
-diff --git a/drivers/misc/Makefile b/drivers/misc/Makefile
-index 99b6f15..21b8ed4 100644
---- a/drivers/misc/Makefile
-+++ b/drivers/misc/Makefile
-@@ -56,3 +56,5 @@ obj-$(CONFIG_HABANA_AI)		+= habanalabs/
- obj-$(CONFIG_UACCE)		+= uacce/
- obj-$(CONFIG_XILINX_SDFEC)	+= xilinx_sdfec.o
- obj-$(CONFIG_HISI_HIKEY_USB)	+= hisi_hikey_usb.o
-+rsmu-objs			:= rsmu_cdev.o rsmu_cm.o rsmu_sabre.o
-+obj-$(CONFIG_RSMU)		+= rsmu.o
-diff --git a/drivers/misc/rsmu_cdev.c b/drivers/misc/rsmu_cdev.c
-new file mode 100644
-index 0000000..d80de4d
---- /dev/null
-+++ b/drivers/misc/rsmu_cdev.c
-@@ -0,0 +1,336 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * This driver is developed for the IDT ClockMatrix(TM) and 82P33xxx families
-+ * of timing and synchronization devices.It will be used by Renesas PTP Clock
-+ * Manager for Linux (pcm4l) software to provide support to GNSS assisted
-+ * partial timing support (APTS) and other networking timing functions.
-+ *
-+ * Please note it must work with Renesas MFD driver to access device through
-+ * I2C/SPI.
-+ *
-+ * Copyright (C) 2019 Integrated Device Technology, Inc., a Renesas Company.
-+ */
-+
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-+
-+#include <linux/cdev.h>
-+#include <linux/device.h>
-+#include <linux/fs.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+#include <linux/slab.h>
-+#include <linux/uaccess.h>
-+#include <linux/mfd/rsmu.h>
-+#include <uapi/linux/rsmu.h>
-+
-+#include "rsmu_cdev.h"
-+
-+#define DRIVER_NAME	"rsmu"
-+#define DRIVER_MAX_DEV	BIT(MINORBITS)
-+
-+static struct class *rsmu_class;
-+static dev_t rsmu_cdevt;
-+static struct rsmu_ops *ops_array[] = {
-+	[RSMU_CM] = &cm_ops,
-+	[RSMU_SABRE] = &sabre_ops,
-+};
-+
-+static int
-+rsmu_set_combomode(struct rsmu_cdev *rsmu, void __user *arg)
-+{
-+	struct rsmu_ops *ops = rsmu->ops;
-+	struct rsmu_combomode mode;
-+	int err;
-+
-+	if (copy_from_user(&mode, arg, sizeof(mode)))
-+		return -EFAULT;
-+
-+	if (ops->set_combomode == NULL)
-+		return -ENOTSUPP;
-+
-+	mutex_lock(rsmu->lock);
-+	err = ops->set_combomode(rsmu, mode.dpll, mode.mode);
-+	mutex_unlock(rsmu->lock);
-+
-+	return err;
-+}
-+
-+static int
-+rsmu_get_dpll_state(struct rsmu_cdev *rsmu, void __user *arg)
-+{
-+	struct rsmu_ops *ops = rsmu->ops;
-+	struct rsmu_get_state state_request;
-+	u8 state;
-+	int err;
-+
-+	if (copy_from_user(&state_request, arg, sizeof(state_request)))
-+		return -EFAULT;
-+
-+	if (ops->get_dpll_state == NULL)
-+		return -ENOTSUPP;
-+
-+	mutex_lock(rsmu->lock);
-+	err = ops->get_dpll_state(rsmu, state_request.dpll, &state);
-+	mutex_unlock(rsmu->lock);
-+
-+	state_request.state = state;
-+	if (copy_to_user(arg, &state_request, sizeof(state_request)))
-+		return -EFAULT;
-+
-+	return err;
-+}
-+
-+static int
-+rsmu_get_dpll_ffo(struct rsmu_cdev *rsmu, void __user *arg)
-+{
-+	struct rsmu_ops *ops = rsmu->ops;
-+	struct rsmu_get_ffo ffo_request;
-+	int err;
-+
-+	if (copy_from_user(&ffo_request, arg, sizeof(ffo_request)))
-+		return -EFAULT;
-+
-+	if (ops->get_dpll_ffo == NULL)
-+		return -ENOTSUPP;
-+
-+	mutex_lock(rsmu->lock);
-+	err = ops->get_dpll_ffo(rsmu, ffo_request.dpll, &ffo_request);
-+	mutex_unlock(rsmu->lock);
-+
-+	if (copy_to_user(arg, &ffo_request, sizeof(ffo_request)))
-+		return -EFAULT;
-+
-+	return err;
-+}
-+
-+static int
-+rsmu_open(struct inode *iptr, struct file *fptr)
-+{
-+	struct rsmu_cdev *rsmu;
-+
-+	rsmu = container_of(iptr->i_cdev, struct rsmu_cdev, rsmu_cdev);
-+	if (!rsmu)
-+		return -EAGAIN;
-+
-+	fptr->private_data = rsmu;
-+	return 0;
-+}
-+
-+static int
-+rsmu_release(struct inode *iptr, struct file *fptr)
-+{
-+	struct rsmu_cdev *rsmu;
-+
-+	rsmu = container_of(iptr->i_cdev, struct rsmu_cdev, rsmu_cdev);
-+	if (!rsmu)
-+		return -EAGAIN;
-+
-+	return 0;
-+}
-+
-+static long
-+rsmu_ioctl(struct file *fptr, unsigned int cmd, unsigned long data)
-+{
-+	struct rsmu_cdev *rsmu = fptr->private_data;
-+	void __user *arg = (void __user *)data;
-+	int err = 0;
-+
-+	if (!rsmu)
-+		return -EINVAL;
-+
-+	switch (cmd) {
-+	case RSMU_SET_COMBOMODE:
-+		err = rsmu_set_combomode(rsmu, arg);
-+		break;
-+	case RSMU_GET_STATE:
-+		err = rsmu_get_dpll_state(rsmu, arg);
-+		break;
-+	case RSMU_GET_FFO:
-+		err = rsmu_get_dpll_ffo(rsmu, arg);
-+		break;
-+	default:
-+		/* Should not get here */
-+		dev_err(rsmu->dev, "Undefined RSMU IOCTL");
-+		err = -EINVAL;
-+		break;
-+	}
-+
-+	return err;
-+}
-+
-+static long rsmu_compat_ioctl(struct file *fptr, unsigned int cmd,
-+			      unsigned long data)
-+{
-+	return rsmu_ioctl(fptr, cmd, data);
-+}
-+
-+static const struct file_operations rsmu_fops = {
-+	.owner = THIS_MODULE,
-+	.open = rsmu_open,
-+	.release = rsmu_release,
-+	.unlocked_ioctl = rsmu_ioctl,
-+	.compat_ioctl =	rsmu_compat_ioctl,
-+};
-+
-+static int rsmu_init_ops(struct rsmu_cdev *rsmu)
-+{
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(ops_array); i++)
-+		if (ops_array[i]->type == rsmu->type)
-+			break;
-+
-+	if (i == ARRAY_SIZE(ops_array))
-+		return -EINVAL;
-+
-+	rsmu->ops = ops_array[i];
-+	return 0;
-+}
-+
-+static int
-+rsmu_probe(struct platform_device *pdev)
-+{
-+	struct rsmu_pdata *pdata = dev_get_platdata(&pdev->dev);
-+	struct rsmu_cdev *rsmu;
-+	struct device *rsmu_cdev;
-+	int err;
-+
-+	rsmu = devm_kzalloc(&pdev->dev, sizeof(*rsmu), GFP_KERNEL);
-+	if (!rsmu)
-+		return -ENOMEM;
-+
-+	rsmu->dev = &pdev->dev;
-+	rsmu->mfd = pdev->dev.parent;
-+	rsmu->type = pdata->type;
-+	rsmu->lock = pdata->lock;
-+	rsmu->index = pdata->index;
-+
-+	/* Save driver private data */
-+	platform_set_drvdata(pdev, rsmu);
-+
-+	cdev_init(&rsmu->rsmu_cdev, &rsmu_fops);
-+	rsmu->rsmu_cdev.owner = THIS_MODULE;
-+	err = cdev_add(&rsmu->rsmu_cdev,
-+		       MKDEV(MAJOR(rsmu_cdevt), 0), 1);
-+	if (err < 0) {
-+		dev_err(rsmu->dev, "cdev_add failed");
-+		err = -EIO;
-+		goto err_rsmu_dev;
-+	}
-+
-+	if (!rsmu_class) {
-+		err = -EIO;
-+		dev_err(rsmu->dev, "rsmu class not created correctly");
-+		goto err_rsmu_cdev;
-+	}
-+
-+	rsmu_cdev = device_create(rsmu_class, rsmu->dev,
-+				  MKDEV(MAJOR(rsmu_cdevt), 0),
-+				  rsmu, "rsmu%d", rsmu->index);
-+	if (IS_ERR(rsmu_cdev)) {
-+		dev_err(rsmu->dev, "Unable to create char device");
-+		err = PTR_ERR(rsmu_cdev);
-+		goto err_rsmu_cdev;
-+	}
-+
-+	err = rsmu_init_ops(rsmu);
-+	if (err) {
-+		dev_err(rsmu->dev, "Unable to match type %d", rsmu->type);
-+		goto err_rsmu_cdev;
-+	}
-+
-+	dev_info(rsmu->dev, "Probe SMU type %d successful\n", rsmu->type);
-+	return 0;
-+
-+	/* Failure cleanup */
-+err_rsmu_cdev:
-+	cdev_del(&rsmu->rsmu_cdev);
-+err_rsmu_dev:
-+	return err;
-+}
-+
-+static int
-+rsmu_remove(struct platform_device *pdev)
-+{
-+	struct rsmu_cdev *rsmu = platform_get_drvdata(pdev);
-+	struct device *dev = &pdev->dev;
-+
-+	if (!rsmu)
-+		return -ENODEV;
-+
-+	if (!rsmu_class) {
-+		dev_err(dev, "rsmu_class is NULL");
-+		return -EIO;
-+	}
-+
-+	device_destroy(rsmu_class, MKDEV(MAJOR(rsmu_cdevt), 0));
-+	cdev_del(&rsmu->rsmu_cdev);
-+
-+	return 0;
-+}
-+
-+static const struct platform_device_id rsmu_id_table[] = {
-+	{ "rsmu-cdev0", },
-+	{ "rsmu-cdev1", },
-+	{ "rsmu-cdev2", },
-+	{ "rsmu-cdev3", },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(platform, rsmu_id_table);
-+
-+static struct platform_driver rsmu_driver = {
-+	.driver = {
-+		.name = DRIVER_NAME,
-+	},
-+	.probe = rsmu_probe,
-+	.remove =  rsmu_remove,
-+	.id_table = rsmu_id_table,
-+};
-+
-+static int __init rsmu_init(void)
-+{
-+	int err;
-+
-+	rsmu_class = class_create(THIS_MODULE, DRIVER_NAME);
-+	if (IS_ERR(rsmu_class)) {
-+		err = PTR_ERR(rsmu_class);
-+		pr_err("Unable to register rsmu class");
-+		return err;
-+	}
-+
-+	err = alloc_chrdev_region(&rsmu_cdevt, 0, DRIVER_MAX_DEV, DRIVER_NAME);
-+	if (err < 0) {
-+		pr_err("Unable to get major number");
-+		goto err_rsmu_class;
-+	}
-+
-+	err = platform_driver_register(&rsmu_driver);
-+	if (err < 0) {
-+		pr_err("Unabled to register %s driver", DRIVER_NAME);
-+		goto err_rsmu_drv;
-+	}
-+	return 0;
-+
-+	/* Error Path */
-+err_rsmu_drv:
-+	unregister_chrdev_region(rsmu_cdevt, DRIVER_MAX_DEV);
-+err_rsmu_class:
-+	class_destroy(rsmu_class);
-+	return err;
-+}
-+
-+static void __exit rsmu_exit(void)
-+{
-+	platform_driver_unregister(&rsmu_driver);
-+	unregister_chrdev_region(rsmu_cdevt, DRIVER_MAX_DEV);
-+	class_destroy(rsmu_class);
-+	rsmu_class = NULL;
-+}
-+
-+module_init(rsmu_init);
-+module_exit(rsmu_exit);
-+
-+MODULE_DESCRIPTION("Renesas SMU character device driver");
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/misc/rsmu_cdev.h b/drivers/misc/rsmu_cdev.h
-new file mode 100644
-index 0000000..3ced817
---- /dev/null
-+++ b/drivers/misc/rsmu_cdev.h
-@@ -0,0 +1,72 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+/*
-+ * This driver is developed for the IDT ClockMatrix(TM) of
-+ * timing and synchronization devices.
-+ *
-+ * Copyright (C) 2019 Integrated Device Technology, Inc., a Renesas Company.
-+ */
-+#ifndef __LINUX_RSMU_CDEV_H
-+#define __LINUX_RSMU_CDEV_H
-+
-+#include <linux/cdev.h>
-+
-+struct rsmu_ops;
-+
-+/**
-+ * struct rsmu_cdev - Driver data for RSMU character device
-+ * @dev: pointer to platform device
-+ * @mfd: pointer to MFD device
-+ * @rsmu_cdev: character device handle
-+ * @lock: mutex to protect operations from being interrupted
-+ * @type: rsmu device type
-+ * @ops: rsmu device methods
-+ * @index: rsmu device index
-+ */
-+struct rsmu_cdev {
-+	struct device *dev;
-+	struct device *mfd;
-+	struct cdev rsmu_cdev;
-+	struct mutex *lock;
-+	enum rsmu_type type;
-+	struct rsmu_ops *ops;
-+	u8 index;
-+};
-+
-+extern struct rsmu_ops cm_ops;
-+extern struct rsmu_ops sabre_ops;
-+
-+struct rsmu_ops {
-+	enum rsmu_type type;
-+	int (*set_combomode)(struct rsmu_cdev *rsmu, u8 dpll, u8 mode);
-+	int (*get_dpll_state)(struct rsmu_cdev *rsmu, u8 dpll, u8 *state);
-+	int (*get_dpll_ffo)(struct rsmu_cdev *rsmu, u8 dpll,
-+			    struct rsmu_get_ffo *ffo);
-+};
-+
-+/**
-+ * Enumerated type listing DPLL combination modes
-+ */
-+enum rsmu_dpll_combomode {
-+	E_COMBOMODE_CURRENT = 0,
-+	E_COMBOMODE_FASTAVG,
-+	E_COMBOMODE_SLOWAVG,
-+	E_COMBOMODE_HOLDOVER,
-+	E_COMBOMODE_MAX
-+};
-+
-+/**
-+ * An id used to identify the respective child class states.
-+ */
-+enum rsmu_class_state {
-+	E_SRVLOINITIALSTATE = 0,
-+	E_SRVLOUNQUALIFIEDSTATE = 1,
-+	E_SRVLOLOCKACQSTATE = 2,
-+	E_SRVLOFREQUENCYLOCKEDSTATE = 3,
-+	E_SRVLOTIMELOCKEDSTATE = 4,
-+	E_SRVLOHOLDOVERINSPECSTATE = 5,
-+	E_SRVLOHOLDOVEROUTOFSPECSTATE = 6,
-+	E_SRVLOFREERUNSTATE = 7,
-+	E_SRVNUMBERLOSTATES = 8,
-+	E_SRVLOSTATEINVALID = 9,
-+};
-+#endif
-diff --git a/drivers/misc/rsmu_cm.c b/drivers/misc/rsmu_cm.c
-new file mode 100644
-index 0000000..d5af624
---- /dev/null
-+++ b/drivers/misc/rsmu_cm.c
-@@ -0,0 +1,166 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * This driver is developed for the IDT ClockMatrix(TM) of
-+ * timing and synchronization devices.
-+ *
-+ * Copyright (C) 2019 Integrated Device Technology, Inc., a Renesas Company.
-+ */
-+#include <linux/kernel.h>
-+#include <linux/errno.h>
-+#include <linux/device.h>
-+#include <linux/mfd/idt8a340_reg.h>
-+#include <linux/mfd/rsmu.h>
-+#include <uapi/linux/rsmu.h>
-+#include <asm/unaligned.h>
-+
-+#include "rsmu_cdev.h"
-+
-+static int rsmu_cm_set_combomode(struct rsmu_cdev *rsmu, u8 dpll, u8 mode)
-+{
-+	u16 dpll_ctrl_n;
-+	u8 cfg;
-+	int err;
-+
-+	switch (dpll) {
-+	case 0:
-+		dpll_ctrl_n = DPLL_CTRL_0;
-+		break;
-+	case 1:
-+		dpll_ctrl_n = DPLL_CTRL_1;
-+		break;
-+	case 2:
-+		dpll_ctrl_n = DPLL_CTRL_2;
-+		break;
-+	case 3:
-+		dpll_ctrl_n = DPLL_CTRL_3;
-+		break;
-+	case 4:
-+		dpll_ctrl_n = DPLL_CTRL_4;
-+		break;
-+	case 5:
-+		dpll_ctrl_n = DPLL_CTRL_5;
-+		break;
-+	case 6:
-+		dpll_ctrl_n = DPLL_CTRL_6;
-+		break;
-+	case 7:
-+		dpll_ctrl_n = DPLL_CTRL_7;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	if (mode >= E_COMBOMODE_MAX)
-+		return -EINVAL;
-+
-+	err = rsmu_read(rsmu->mfd, dpll_ctrl_n + DPLL_CTRL_COMBO_MASTER_CFG,
-+			&cfg, sizeof(cfg));
-+	if (err)
-+		return err;
-+
-+	/* Only need to enable/disable COMBO_MODE_HOLD. */
-+	if (mode)
-+		cfg |= COMBO_MASTER_HOLD;
-+	else
-+		cfg &= ~COMBO_MASTER_HOLD;
-+
-+	return rsmu_write(rsmu->mfd, dpll_ctrl_n + DPLL_CTRL_COMBO_MASTER_CFG,
-+			  &cfg, sizeof(cfg));
-+}
-+
-+static int rsmu_cm_get_dpll_state(struct rsmu_cdev *rsmu, u8 dpll, u8 *state)
-+{
-+	u8 cfg;
-+	int err;
-+
-+	/* 8 is sys dpll */
-+	if (dpll > 8)
-+		return -EINVAL;
-+
-+	err = rsmu_read(rsmu->mfd,
-+			  STATUS + DPLL0_STATUS + dpll,
-+			  &cfg, sizeof(cfg));
-+	if (err)
-+		return err;
-+
-+	switch (cfg & DPLL_STATE_MASK) {
-+	case DPLL_STATE_FREERUN:
-+		*state = E_SRVLOUNQUALIFIEDSTATE;
-+		break;
-+	case DPLL_STATE_LOCKACQ:
-+	case DPLL_STATE_LOCKREC:
-+		*state = E_SRVLOLOCKACQSTATE;
-+		break;
-+	case DPLL_STATE_LOCKED:
-+		*state = E_SRVLOTIMELOCKEDSTATE;
-+		break;
-+	case DPLL_STATE_HOLDOVER:
-+		*state = E_SRVLOHOLDOVERINSPECSTATE;
-+		break;
-+	default:
-+		*state = E_SRVLOSTATEINVALID;
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
-+static int rsmu_cm_get_dpll_ffo(struct rsmu_cdev *rsmu, u8 dpll,
-+				struct rsmu_get_ffo *ffo)
-+{
-+	u8 buf[8] = {0};
-+	s64 fcw = 0;
-+	u16 dpll_filter_status;
-+	int err;
-+
-+	switch (dpll) {
-+	case 0:
-+		dpll_filter_status = DPLL0_FILTER_STATUS;
-+		break;
-+	case 1:
-+		dpll_filter_status = DPLL1_FILTER_STATUS;
-+		break;
-+	case 2:
-+		dpll_filter_status = DPLL2_FILTER_STATUS;
-+		break;
-+	case 3:
-+		dpll_filter_status = DPLL3_FILTER_STATUS;
-+		break;
-+	case 4:
-+		dpll_filter_status = DPLL4_FILTER_STATUS;
-+		break;
-+	case 5:
-+		dpll_filter_status = DPLL5_FILTER_STATUS;
-+		break;
-+	case 6:
-+		dpll_filter_status = DPLL6_FILTER_STATUS;
-+		break;
-+	case 7:
-+		dpll_filter_status = DPLL7_FILTER_STATUS;
-+		break;
-+	case 8:
-+		dpll_filter_status = DPLLSYS_FILTER_STATUS;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	err = rsmu_read(rsmu->mfd, STATUS + dpll_filter_status, buf, 6);
-+	if (err)
-+		return err;
-+
-+	/* Convert to frequency control word */
-+	fcw = sign_extend64(get_unaligned_le64(buf), 47);
-+
-+	/* FCW unit is 2 ^ -53 = 1.1102230246251565404236316680908e-16 */
-+	ffo->ffo = fcw * 111;
-+
-+	return 0;
-+}
-+
-+struct rsmu_ops cm_ops = {
-+	.type = RSMU_CM,
-+	.set_combomode = rsmu_cm_set_combomode,
-+	.get_dpll_state = rsmu_cm_get_dpll_state,
-+	.get_dpll_ffo = rsmu_cm_get_dpll_ffo,
-+};
-diff --git a/drivers/misc/rsmu_sabre.c b/drivers/misc/rsmu_sabre.c
-new file mode 100644
-index 0000000..a60086f
---- /dev/null
-+++ b/drivers/misc/rsmu_sabre.c
-@@ -0,0 +1,128 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * This driver is developed for the IDT 82P33XXX series of
-+ * timing and synchronization devices.
-+ *
-+ * Copyright (C) 2019 Integrated Device Technology, Inc., a Renesas Company.
-+ */
-+#include <linux/kernel.h>
-+#include <linux/errno.h>
-+#include <linux/device.h>
-+#include <linux/mfd/idt82p33_reg.h>
-+#include <linux/mfd/rsmu.h>
-+#include <uapi/linux/rsmu.h>
-+#include <asm/unaligned.h>
-+
-+#include "rsmu_cdev.h"
-+
-+static int rsmu_sabre_set_combomode(struct rsmu_cdev *rsmu, u8 dpll, u8 mode)
-+{
-+	u16 dpll_ctrl_n;
-+	u8 cfg;
-+	int err;
-+
-+	switch (dpll) {
-+	case 0:
-+		dpll_ctrl_n = DPLL1_OPERATING_MODE_CNFG;
-+		break;
-+	case 1:
-+		dpll_ctrl_n = DPLL2_OPERATING_MODE_CNFG;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	if (mode >= E_COMBOMODE_MAX)
-+		return -EINVAL;
-+
-+	err = rsmu_read(rsmu->mfd, dpll_ctrl_n, &cfg, sizeof(cfg));
-+	if (err)
-+		return err;
-+
-+	cfg &= ~(COMBO_MODE_MASK << COMBO_MODE_SHIFT);
-+	cfg |= mode << COMBO_MODE_SHIFT;
-+
-+	return rsmu_write(rsmu->mfd, dpll_ctrl_n, &cfg, sizeof(cfg));
-+}
-+
-+static int rsmu_sabre_get_dpll_state(struct rsmu_cdev *rsmu, u8 dpll, u8 *state)
-+{
-+	u16 dpll_sts_n;
-+	u8 cfg;
-+	int err;
-+
-+	switch (dpll) {
-+	case 0:
-+		dpll_sts_n = DPLL1_OPERATING_STS;
-+		break;
-+	case 1:
-+		dpll_sts_n = DPLL2_OPERATING_STS;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	err = rsmu_read(rsmu->mfd, dpll_sts_n, &cfg, sizeof(cfg));
-+	if (err)
-+		return err;
-+
-+	switch (cfg & OPERATING_STS_MASK) {
-+	case DPLL_STATE_FREERUN:
-+		*state = E_SRVLOUNQUALIFIEDSTATE;
-+		break;
-+	case DPLL_STATE_PRELOCKED2:
-+	case DPLL_STATE_PRELOCKED:
-+		*state = E_SRVLOLOCKACQSTATE;
-+		break;
-+	case DPLL_STATE_LOCKED:
-+		*state = E_SRVLOTIMELOCKEDSTATE;
-+		break;
-+	case DPLL_STATE_HOLDOVER:
-+		*state = E_SRVLOHOLDOVERINSPECSTATE;
-+		break;
-+	default:
-+		*state = E_SRVLOSTATEINVALID;
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
-+static int rsmu_sabre_get_dpll_ffo(struct rsmu_cdev *rsmu, u8 dpll,
-+				   struct rsmu_get_ffo *ffo)
-+{
-+	u8 buf[8] = {0};
-+	s64 fcw = 0;
-+	u16 dpll_freq_n;
-+	int err;
-+
-+	switch (dpll) {
-+	case 0:
-+		dpll_freq_n = DPLL1_HOLDOVER_FREQ_CNFG;
-+		break;
-+	case 1:
-+		dpll_freq_n = DPLL2_HOLDOVER_FREQ_CNFG;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	err = rsmu_read(rsmu->mfd, dpll_freq_n, buf, 5);
-+	if (err)
-+		return err;
-+
-+	/* Convert to frequency control word */
-+	fcw = sign_extend64(get_unaligned_le64(buf), 39);
-+
-+	/* FCW unit is 77760 / ( 1638400 * 2^48) = 1.68615121864946 * 10^-16 */
-+	ffo->ffo = div_s64(fcw * 168615, 1000);
-+
-+	return 0;
-+}
-+
-+struct rsmu_ops sabre_ops = {
-+	.type = RSMU_SABRE,
-+	.set_combomode = rsmu_sabre_set_combomode,
-+	.get_dpll_state = rsmu_sabre_get_dpll_state,
-+	.get_dpll_ffo = rsmu_sabre_get_dpll_ffo,
-+};
-diff --git a/include/uapi/linux/rsmu.h b/include/uapi/linux/rsmu.h
-new file mode 100644
-index 0000000..28b9d94
---- /dev/null
-+++ b/include/uapi/linux/rsmu.h
-@@ -0,0 +1,61 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+/*
-+ * Driver for the IDT ClockMatrix(TM) and 82p33xxx families of
-+ * timing and synchronization devices.
-+ *
-+ * Copyright (C) 2019 Integrated Device Technology, Inc., a Renesas Company.
-+ */
-+
-+#ifndef __UAPI_LINUX_RSMU_CDEV_H
-+#define __UAPI_LINUX_RSMU_CDEV_H
-+
-+/* Set dpll combomode */
-+struct rsmu_combomode {
-+	__u8 dpll;
-+	__u8 mode;
-+};
-+
-+/* Get dpll state */
-+struct rsmu_get_state {
-+	__u8 dpll;
-+	__u8 state;
-+};
-+
-+/* Get dpll ffo (fractional frequency offset) in ppqt*/
-+struct rsmu_get_ffo {
-+	__u8 dpll;
-+	__s64 ffo;
-+};
-+
-+/*
-+ * RSMU IOCTL List
-+ */
-+#define RSMU_MAGIC '?'
-+
-+/**
-+ * @Description
-+ * ioctl to set SMU combo mode.
-+ *
-+ * @Parameters
-+ * pointer to struct rsmu_combomode that contains dpll combomode setting
-+ */
-+#define RSMU_SET_COMBOMODE  _IOW(RSMU_MAGIC, 1, struct rsmu_combomode)
-+
-+/**
-+ * @Description
-+ * ioctl to get SMU dpll state.
-+ *
-+ * @Parameters
-+ * pointer to struct rsmu_get_state that contains dpll state
-+ */
-+#define RSMU_GET_STATE  _IOR(RSMU_MAGIC, 2, struct rsmu_get_state)
-+
-+/**
-+ * @Description
-+ * ioctl to get SMU dpll ffo.
-+ *
-+ * @Parameters
-+ * pointer to struct rsmu_get_ffo that contains dpll ffo in ppqt
-+ */
-+#define RSMU_GET_FFO  _IOR(RSMU_MAGIC, 3, struct rsmu_get_ffo)
-+#endif /* __UAPI_LINUX_RSMU_CDEV_H */
--- 
-2.7.4
+> To intercept requests to the original device, we create a new md with
+> the DM_INTERPOSE_FLAG flag. It is this interposer device that has not
+> yet been initialized by this time. It just runs DM_TABLE_LOAD_CMD.
+> That is why I think that the queue of this device should not be stopped,
+> since this device has not yet been initialized.
+> 
+> > 
+> > And your lack of understanding of these various IO flushing methods
+> > (freeze/thaw, suspend/resume, etc) is showing.  Please slow down and
+> > approach this more systematically.
+> 
+> For any block device, we can call the freeze_bdev() function. It will 
+> allow to wait until the processing of previously sent requests is 
+> completed and block the sending of new ones. blk_mq_freeze_queue() 
+> allows to change the bd_interposer variable. This allow to attach/detach 
+> the interposer to original device.
+
+freeze_bdev/thaw_bdev are only relevant if a filesystem is layered
+ontop.  A bio-based DM device can be used directly (by a database or
+whatever).
+
+> dm_suspend() is used to stop mapped device. This is what I plan to use
+> before detaching the interposer. It will allow to wait for the
+> completion of all the bios that were sent for the interposer.
+
+Yes, but you need to suspend before attaching the interposer too, to
+flush any in-flight bios that might be in-flight within the various DM
+target code.
+
+DM should be able to internalize all this when handling the
+DM_INTERPOSE_FLAG during the new table load.  It'd call into
+dm_internal_suspend_fast and then dm_internal_resume_fast for the
+original md device.
+
+Mike
 
