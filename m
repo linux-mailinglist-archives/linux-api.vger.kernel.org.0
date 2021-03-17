@@ -2,113 +2,151 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ECE4333F54B
-	for <lists+linux-api@lfdr.de>; Wed, 17 Mar 2021 17:17:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BC20F33F760
+	for <lists+linux-api@lfdr.de>; Wed, 17 Mar 2021 18:46:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232537AbhCQQRV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 17 Mar 2021 12:17:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30450 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232559AbhCQQRI (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 17 Mar 2021 12:17:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1615997827;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=ELfQVFAUQ4JQADtBeiTRn2ychDmW2jmEhNf66mea9PA=;
-        b=NIfuzLxyCmm0qE+6IjSiqH0en3A3G0yl2H/e8dV03DhiB0o+xODrwGe/weTw77b2PizihS
-        AIhSE6i4Jt1rxnfW1sX/waQ7eQOWlagO8PdUATj6gPohuPELKeLV4VFYKwPIGpI7SP4uqi
-        DCw27YA73ZwdcwBUgenC4DiSCSNhlJQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-543-eaSNbJBEPKuT39uC2itS5Q-1; Wed, 17 Mar 2021 10:58:31 -0400
-X-MC-Unique: eaSNbJBEPKuT39uC2itS5Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 97D481926DA1;
-        Wed, 17 Mar 2021 14:58:29 +0000 (UTC)
-Received: from localhost (unknown [10.18.25.174])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 5371737DD;
-        Wed, 17 Mar 2021 14:58:23 +0000 (UTC)
-Date:   Wed, 17 Mar 2021 10:58:22 -0400
-From:   Mike Snitzer <snitzer@redhat.com>
-To:     Ming Lei <ming.lei@redhat.com>
-Cc:     Sergei Shtepa <sergei.shtepa@veeam.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Alasdair Kergon <agk@redhat.com>,
-        Hannes Reinecke <hare@suse.de>, Jens Axboe <axboe@kernel.dk>,
-        "dm-devel@redhat.com" <dm-devel@redhat.com>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        Pavel Tide <Pavel.TIde@veeam.com>
-Subject: Re: [PATCH v7 2/3] block: add bdev_interposer
-Message-ID: <20210317145822.GA29481@redhat.com>
-References: <1615563895-28565-1-git-send-email-sergei.shtepa@veeam.com>
- <1615563895-28565-3-git-send-email-sergei.shtepa@veeam.com>
- <YFBnypYemiR08A/c@T590>
- <20210316163544.GA31272@veeam.com>
- <YFFxdz84esfiTvNk@T590>
+        id S231710AbhCQRqF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 17 Mar 2021 13:46:05 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:37487 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232716AbhCQRpi (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 17 Mar 2021 13:45:38 -0400
+Received: from ip5f5af0a0.dynamic.kabel-deutschland.de ([95.90.240.160] helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1lMaEf-00009w-6B; Wed, 17 Mar 2021 17:45:33 +0000
+Date:   Wed, 17 Mar 2021 18:45:32 +0100
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Jan Kara <jack@suse.cz>,
+        Matthew Bobrowski <mbobrowski@mbobrowski.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [PATCH v2 0/2] unprivileged fanotify listener
+Message-ID: <20210317174532.cllfsiagoudoz42m@wittgenstein>
+References: <20210304112921.3996419-1-amir73il@gmail.com>
+ <20210316155524.GD23532@quack2.suse.cz>
+ <CAOQ4uxgCv42_xkKpRH-ApMOeFCWfQGGc11CKxUkHJq-Xf=HnYg@mail.gmail.com>
+ <20210317114207.GB2541@quack2.suse.cz>
+ <CAOQ4uxi7ZXJW3_6SN=vw_XJC+wy4eMTayN6X5yRy_HOV6323MA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YFFxdz84esfiTvNk@T590>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <CAOQ4uxi7ZXJW3_6SN=vw_XJC+wy4eMTayN6X5yRy_HOV6323MA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Mar 16 2021 at 11:03pm -0400,
-Ming Lei <ming.lei@redhat.com> wrote:
-
-> On Tue, Mar 16, 2021 at 07:35:44PM +0300, Sergei Shtepa wrote:
-> > The 03/16/2021 11:09, Ming Lei wrote:
-> > > On Fri, Mar 12, 2021 at 06:44:54PM +0300, Sergei Shtepa wrote:
-> > > > bdev_interposer allows to redirect bio requests to another devices.
-> > > > 
-> > > > Signed-off-by: Sergei Shtepa <sergei.shtepa@veeam.com>
-
-...
-
-> > > > +
-> > > > +int bdev_interposer_attach(struct block_device *original,
-> > > > +			   struct block_device *interposer)
-> > > > +{
-> > > > +	int ret = 0;
-> > > > +
-> > > > +	if (WARN_ON(((!original) || (!interposer))))
-> > > > +		return -EINVAL;
-> > > > +	/*
-> > > > +	 * interposer should be simple, no a multi-queue device
-> > > > +	 */
-> > > > +	if (!interposer->bd_disk->fops->submit_bio)
-> > > > +		return -EINVAL;
-> > > > +
-> > > > +	if (WARN_ON(!blk_mq_is_queue_frozen(original->bd_disk->queue)))
-> > > > +		return -EPERM;
-> > > 
-> > > The original request queue may become live now...
-> > 
-> > Yes.
-> > I will remove the blk_mq_is_queue_frozen() function and use a different
-> > approach.
+On Wed, Mar 17, 2021 at 02:19:57PM +0200, Amir Goldstein wrote:
+> On Wed, Mar 17, 2021 at 1:42 PM Jan Kara <jack@suse.cz> wrote:
+> >
+> > On Wed 17-03-21 13:01:35, Amir Goldstein wrote:
+> > > On Tue, Mar 16, 2021 at 5:55 PM Jan Kara <jack@suse.cz> wrote:
+> > > >
+> > > > On Thu 04-03-21 13:29:19, Amir Goldstein wrote:
+> > > > > Jan,
+> > > > >
+> > > > > These patches try to implement a minimal set and least controversial
+> > > > > functionality that we can allow for unprivileged users as a starting
+> > > > > point.
+> > > > >
+> > > > > The patches were tested on top of v5.12-rc1 and the fanotify_merge
+> > > > > patches using the unprivileged listener LTP tests written by Matthew
+> > > > > and another LTP tests I wrote to test the sysfs tunable limits [1].
+> > > >
+> > > > Thanks. I've added both patches to my tree.
+> > >
+> > > Great!
+> > > I'll go post the LTP tests and work on the man page updates.
+> > >
+> > > BTW, I noticed that you pushed the aggregating for_next branch,
+> > > but not the fsnotify topic branch.
+> > >
+> > > Is this intentional?
+> >
+> > Not really, pushed now. Thanks for reminder.
+> >
+> > > I am asking because I am usually basing my development branches
+> > > off of your fsnotify branch, but I can base them on the unpushed branch.
+> > >
+> > > Heads up. I am playing with extra privileges we may be able to
+> > > allow an ns_capable user.
+> > > For example, watching a FS_USERNS_MOUNT filesystem that the user
+> > > itself has mounted inside userns.
+> > >
+> > > Another feature I am investigating is how to utilize the new idmapped
+> > > mounts to get a subtree watch functionality. This requires attaching a
+> > > userns to the group on fanotify_init().
+> > >
+> > > <hand waving>
+> > > If the group's userns are the same or below the idmapped mount userns,
+> > > then all the objects accessed via that idmapped mount are accessible
+> > > to the group's userns admin. We can use that fact to filter events very
+> > > early based on their mnt_userns and the group's userns, which should be
+> > > cheaper than any subtree permission checks.
+> > > <\hand waving>
+> >
+> > Yeah, I agree this should work. Just it seems to me the userbase for this
+> > functionality will be (at least currently) rather limited. While full
 > 
-> Looks what attach and detach needs is that queue is kept as frozen state
-> instead of being froze simply at the beginning of the two functions, so
-> you can simply call freeze/unfreeze inside the two functions.
+> That may change when systemd home dirs feature starts to use
+> idmapped mounts.
+> Being able to watch the user's entire home directory is a big win
+> already.
+
+Hey Amir,
+Hey Jan,
+
+I think so too.
+
 > 
-> But what if 'original' isn't a MQ queue?  queue usage counter is just
-> grabed when calling ->submit_bio(), and queue freeze doesn't guarantee there
-> isn't any io activity, is that a problem for bdev_interposer use case?
+> > subtree watches would be IMO interesting to much more users.
+> 
+> Agreed.
 
-Right, I raised the same concern here:
-https://listman.redhat.com/archives/dm-devel/2021-March/msg00135.html
-(toward bottom inlined after dm_disk_{freeze,unfreeze}
+We have a use-case for subtree watches: One feature for containers we
+have is that users can e.g. tell us that they want the container manager
+to hotplug an arbitrary unix or block device into the container whenever
+the relevant device shows up on the system. For example they could
+instruct the container manager to plugin some new driver device when it
+shows up in /dev. That works nicely because of uevents. But users quite
+often also instruct us to plugin a path once it shows up in some
+directory in the filesystem hierarchy and unplug it once it is removed.
+Right now we're mainting an inotify-based hand-rolled recursive watch to
+make this work so we detect that add and remove event. I would be wildly
+excited if we could get rid of some of that complexity by using subtree
+watches. The container manager on the host will be unaffected by this
+feature since it will usually have root privileges and manage
+unprivileged containers.
+The unprivileged (userns use-case specifically here) subtree watches
+will be necessary and really good to have to make this work for
+container workloads and nested containers, i.e. where the container
+manager itselfs runs in a container and starts new containres. Since the
+subtree feature would be interesting for systemd itself and since our
+container manager (ChromeOS etc.) runs systemd inside unprivileged
+containers on a large scale it would be good if subtree watches could
+work in userns too.
 
-Anyway, this certainly needs to be addressed.
+> 
+> I was looking into that as well, using the example of nfsd_acceptable()
+> to implement the subtree permission check.
+> 
+> The problem here is that even if unprivileged users cannot compromise
+> security, they can still cause significant CPU overhead either queueing
+> events or filtering events and that is something I haven't been able to
+> figure out a way to escape from.
+> 
+> BUT, if you allow userns admin to setup subtree watches (a.k.a filtered
+> filesystem marks) on a userns filesystem/idmapped mount, now users
 
-Mike
+I think that sounds reasonable.
+If the mount really is idmapped, it might be interesting to consider
+checking for privilege in the mnt_userns in addition to the regular
+permission checks that fanotify performs. My (equally handwavy) thinking
+is that this might allow for a nice feature where the creator of the
+mount (e.g. systemd) can block the creation of subtree watches by
+attaching a mnt_userns to the mnt that the user has no privilege in.
+(Just a thought.).
 
+Christian
