@@ -2,106 +2,129 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B4AF433EF08
-	for <lists+linux-api@lfdr.de>; Wed, 17 Mar 2021 12:02:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B8E3E33EF31
+	for <lists+linux-api@lfdr.de>; Wed, 17 Mar 2021 12:08:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231214AbhCQLCK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 17 Mar 2021 07:02:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38546 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231187AbhCQLBr (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 17 Mar 2021 07:01:47 -0400
-Received: from mail-il1-x131.google.com (mail-il1-x131.google.com [IPv6:2607:f8b0:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 702E3C06175F;
-        Wed, 17 Mar 2021 04:01:47 -0700 (PDT)
-Received: by mail-il1-x131.google.com with SMTP id l5so1044060ilv.9;
-        Wed, 17 Mar 2021 04:01:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=BYHMrjb4lyNPksOkVK6A39D0G0tsTSTkEMKh/7NW0Ws=;
-        b=JxFvcYZ+B8J7QCd4kzuV+NO0CnvorOH8KWvWMrBc80nPxj07Mf2ksJMN3kHpOvj2o7
-         PCOfX8qHeNfqNot7HL3+b9eCoiwGXgl2lg5GHww+6hbHDqvs7YBrvXEvu0cotQmVE9zz
-         D7ifjZBR2xsPWiB24Sjz03eug7rzRDN78RfD56xbGIt80nJaqU2ilMh3+u8Rwaf8WZVZ
-         M/mjt1Agx0xKc76rARiHJ+pExZAvbTZNMnnz355h/1qeZdb4eM4LNtEAHI64rWVp3153
-         rbFyQJ3HF7spJ+Woyo+MNloagpt/mA3wNrjtcGP8mbnvQX/7lgZIiczKfusc/Dj6cJHG
-         W18w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BYHMrjb4lyNPksOkVK6A39D0G0tsTSTkEMKh/7NW0Ws=;
-        b=nGhTdHpvo587ahKHCAB0XXrhpOSVSerfci/Y8VgN8bgc7+rkRbulylsYfn0HIbJGXy
-         Q2w0CmqsYIj1H/Bwdp+Fxv63VFPqNDYQRK9nk+RGSCs2xWiZNY8K1nuCHKPMQ5BlG8N8
-         8iKylJ15suo2ZMSQl2s2+wL40oq6GJPP6bDncrLRFO6w7XZXPDSLcSArFkcKTvVN5nf6
-         aSq2xudGAcmm79JNgpO3o4j4r4mKXx32jvKCRciZqUNowJaWvLCZst3pzehkZg/wA8pm
-         W9AJY5DWWBB+n0M05p4HoCC/KcLfkjwzubUF3XMxj7xeRqgllgKATs80l/hyDJ0p4yPV
-         9DbQ==
-X-Gm-Message-State: AOAM531qbcFz65eoNZgS4MRD2V4bjiaFHS6aWH0K09GXENNJFknicoG3
-        rWOHGMvi5oPH+FlEESS1CcLvL0I5qgAXVyE6j73cnDNnj2M=
-X-Google-Smtp-Source: ABdhPJwyBXpTmosErJ4afrXVoSkKn99fuKDH81ZQVYjSTjVuDG8QTOtu54nCcFrhzMqmIIXbw4l9YP3pGj/psrKhnXQ=
-X-Received: by 2002:a92:740c:: with SMTP id p12mr7305240ilc.9.1615978906872;
- Wed, 17 Mar 2021 04:01:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210304112921.3996419-1-amir73il@gmail.com> <20210316155524.GD23532@quack2.suse.cz>
-In-Reply-To: <20210316155524.GD23532@quack2.suse.cz>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Wed, 17 Mar 2021 13:01:35 +0200
-Message-ID: <CAOQ4uxgCv42_xkKpRH-ApMOeFCWfQGGc11CKxUkHJq-Xf=HnYg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] unprivileged fanotify listener
-To:     Jan Kara <jack@suse.cz>
-Cc:     Matthew Bobrowski <mbobrowski@mbobrowski.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        id S231222AbhCQLHa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 17 Mar 2021 07:07:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52203 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231216AbhCQLHL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 17 Mar 2021 07:07:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1615979230;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=IwjEMMT3RPtm6JyY0ASCQIpX+lhDqbTUqfP/62uVVEY=;
+        b=gve9d5El0TX4pw6W78yTIPFd0qHdHfnrABTndSFkX4jxfSGF0A6XM1zFryxlax3K0IPxSK
+        M4I1j5mR4RIn86yKleW9g1z+sG9N7Q+0VKpjadIfoJWYcA/w/ZfCihS+V5M7s1pT4x+nmQ
+        WFfBOhvNX8GBXqaF9I1v2k3ccSit4EU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-441-BjG_LOKEN1mdN0p7ad2jYg-1; Wed, 17 Mar 2021 07:07:08 -0400
+X-MC-Unique: BjG_LOKEN1mdN0p7ad2jYg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 637B61009446;
+        Wed, 17 Mar 2021 11:07:04 +0000 (UTC)
+Received: from t480s.redhat.com (ovpn-112-124.ams2.redhat.com [10.36.112.124])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 3888B50FAF;
+        Wed, 17 Mar 2021 11:06:45 +0000 (UTC)
+From:   David Hildenbrand <david@redhat.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-mm@kvack.org, David Hildenbrand <david@redhat.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>, Chris Zankel <chris@zankel.net>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Helge Deller <deller@gmx.de>, Hugh Dickins <hughd@google.com>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Jann Horn <jannh@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
         Linux API <linux-api@vger.kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>
-Content-Type: text/plain; charset="UTF-8"
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Matt Turner <mattst88@gmail.com>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        Peter Xu <peterx@redhat.com>, Ram Pai <linuxram@us.ibm.com>,
+        Richard Henderson <rth@twiddle.net>,
+        Rik van Riel <riel@surriel.com>,
+        Rolf Eike Beer <eike-kernel@sf-tec.de>,
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Vlastimil Babka <vbabka@suse.cz>
+Subject: [PATCH v1 0/5] mm/madvise: introduce MADV_POPULATE_(READ|WRITE) to prefault/prealloc memory
+Date:   Wed, 17 Mar 2021 12:06:39 +0100
+Message-Id: <20210317110644.25343-1-david@redhat.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Mar 16, 2021 at 5:55 PM Jan Kara <jack@suse.cz> wrote:
->
-> On Thu 04-03-21 13:29:19, Amir Goldstein wrote:
-> > Jan,
-> >
-> > These patches try to implement a minimal set and least controversial
-> > functionality that we can allow for unprivileged users as a starting
-> > point.
-> >
-> > The patches were tested on top of v5.12-rc1 and the fanotify_merge
-> > patches using the unprivileged listener LTP tests written by Matthew
-> > and another LTP tests I wrote to test the sysfs tunable limits [1].
->
-> Thanks. I've added both patches to my tree.
+Excessive details on MADV_POPULATE_(READ|WRITE) can be found in patch #2.
 
-Great!
-I'll go post the LTP tests and work on the man page updates.
+Now accompanied by minor adjustments and selftests/vm tests.
 
-BTW, I noticed that you pushed the aggregating for_next branch,
-but not the fsnotify topic branch.
+RFCv2 -> v1
+- "mm: fix variable name in declaration of populate_vma_page_range()"
+-- Added
+- "mm/madvise: introduce MADV_POPULATE_(READ|WRITE) to prefault ..."
+-- Fix detection of memory holes when we have to re-lookup the VMA
+-- Return -EHWPOISON to user space when we hit HW poisoned pages
+-- Make variable names in definition and declaration consistent
+- "MAINTAINERS: add tools/testing/selftests/vm/ to MEMORY MANAGEMENT"
+-- Added
+- "selftests/vm: add protection_keys_32 / protection_keys_64 to gitignore"
+-- Added
+- "selftests/vm: add test for MADV_POPULATE_(READ|WRITE)"
+-- Added
 
-Is this intentional?
+RFC -> RFCv2:
+- Fix re-locking (-> set "locked = 1;")
+- Don't mimic MAP_POPULATE semantics:
+--> Explicit READ/WRITE request instead of selecting it automatically,
+    which makes it more generic and better suited for some use cases (e.g., we
+    usually want to prefault shmem writable)
+--> Require proper access permissions
+- Introduce and use faultin_vma_page_range()
+--> Properly handle HWPOISON pages (FOLL_HWPOISON)
+--> Require proper access permissions (!FOLL_FORCE)
+- Let faultin_vma_page_range() check for compatible mappings/permissions
+- Extend patch description and add some performance numbers
 
-I am asking because I am usually basing my development branches
-off of your fsnotify branch, but I can base them on the unpushed branch.
+David Hildenbrand (5):
+  mm: make variable names for populate_vma_page_range() consistent
+  mm/madvise: introduce MADV_POPULATE_(READ|WRITE) to prefault/prealloc
+    memory
+  MAINTAINERS: add tools/testing/selftests/vm/ to MEMORY MANAGEMENT
+  selftests/vm: add protection_keys_32 / protection_keys_64 to gitignore
+  selftests/vm: add test for MADV_POPULATE_(READ|WRITE)
 
-Heads up. I am playing with extra privileges we may be able to
-allow an ns_capable user.
-For example, watching a FS_USERNS_MOUNT filesystem that the user
-itself has mounted inside userns.
+ MAINTAINERS                                |   1 +
+ arch/alpha/include/uapi/asm/mman.h         |   3 +
+ arch/mips/include/uapi/asm/mman.h          |   3 +
+ arch/parisc/include/uapi/asm/mman.h        |   3 +
+ arch/xtensa/include/uapi/asm/mman.h        |   3 +
+ include/uapi/asm-generic/mman-common.h     |   3 +
+ mm/gup.c                                   |  54 ++++
+ mm/internal.h                              |   5 +-
+ mm/madvise.c                               |  69 +++++
+ tools/testing/selftests/vm/.gitignore      |   3 +
+ tools/testing/selftests/vm/Makefile        |   1 +
+ tools/testing/selftests/vm/madv_populate.c | 342 +++++++++++++++++++++
+ tools/testing/selftests/vm/run_vmtests.sh  |  16 +
+ 13 files changed, 505 insertions(+), 1 deletion(-)
+ create mode 100644 tools/testing/selftests/vm/madv_populate.c
 
-Another feature I am investigating is how to utilize the new idmapped
-mounts to get a subtree watch functionality. This requires attaching a
-userns to the group on fanotify_init().
+-- 
+2.29.2
 
-<hand waving>
-If the group's userns are the same or below the idmapped mount userns,
-then all the objects accessed via that idmapped mount are accessible
-to the group's userns admin. We can use that fact to filter events very
-early based on their mnt_userns and the group's userns, which should be
-cheaper than any subtree permission checks.
-<\hand waving>
-
-Thanks,
-Amir.
