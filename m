@@ -2,30 +2,30 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C40333E0A1
-	for <lists+linux-api@lfdr.de>; Tue, 16 Mar 2021 22:35:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BD5FE33E65B
+	for <lists+linux-api@lfdr.de>; Wed, 17 Mar 2021 02:43:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229506AbhCPVfC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 16 Mar 2021 17:35:02 -0400
-Received: from mga09.intel.com ([134.134.136.24]:46280 "EHLO mga09.intel.com"
+        id S229482AbhCQBmq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 16 Mar 2021 21:42:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33062 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229730AbhCPVef (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 16 Mar 2021 17:34:35 -0400
-IronPort-SDR: UhgVABevxePUQSRak+i9224inMw64NyGY+DW8VHTEIHalto5JMWHcTA+F5+6+VDLrWuhIi7BV2
- PI48N65ao25w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9925"; a="189432430"
-X-IronPort-AV: E=Sophos;i="5.81,254,1610438400"; 
-   d="scan'208";a="189432430"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2021 14:34:34 -0700
-IronPort-SDR: yid019H0JfrY9SPsars/7syt6hBDNJk9MEAMvFd3IpOQuQak+ncAssix5Mvfxezo1uk2VjtXSA
- doirZow/mTMg==
-X-IronPort-AV: E=Sophos;i="5.81,254,1610438400"; 
-   d="scan'208";a="522633820"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.191.248]) ([10.212.191.248])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2021 14:34:33 -0700
-Subject: Re: [PATCH v23 00/28] Control-flow Enforcement: Shadow Stack
-To:     Peter Zijlstra <peterz@infradead.org>
+        id S229732AbhCQBml (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 16 Mar 2021 21:42:41 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2207D64F8A;
+        Wed, 17 Mar 2021 01:42:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1615945360;
+        bh=3alGDHmFzxfE1mdJkhw6gRfUK9karXuKpaVclegdMGw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=a3JMvDsBkYu8vglQt41do9DQmoqEzJz0hL8G/e+PDIA/RkjzuA5ldzVBrxyg7cE4O
+         NeOv9K5ZNQGHSVHF3le+I2Sda1le7MH1EWKPo4g4Z7vBAhq2wXBBPFCLMnfFgPRDUK
+         XEMIif4tdw9zABchIZGY5bMNcMXdR++pBmzjB50WjqtlJ7JR0Zt8rac+U0L2k0V38C
+         Uhv4O4kKkutrBdEsZRmcr5ISzz2zyMzGCnvbyFmsGuLjxfgyrYNS//gTypbnwec3BE
+         4NcnEs5VpPhR64MMTaLvPuQpf/WXSZGzKFE8cQt7BuPWdBagw8DnOR7gRzqGWYJDc0
+         GspaLWwllW+Yw==
+Date:   Wed, 17 Mar 2021 03:42:15 +0200
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
@@ -45,6 +45,7 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Mike Kravetz <mike.kravetz@oracle.com>,
         Nadav Amit <nadav.amit@gmail.com>,
         Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
         Randy Dunlap <rdunlap@infradead.org>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
@@ -52,50 +53,89 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>,
         Haitao Huang <haitao.huang@intel.com>
-References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
- <20210316211552.GU4746@worktop.programming.kicks-ass.net>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <90e453ee-377b-0342-55f9-9412940262f2@intel.com>
-Date:   Tue, 16 Mar 2021 14:34:32 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+Subject: Re: [PATCH v23 9/9] x86/vdso: Add ENDBR to __vdso_sgx_enter_enclave
+Message-ID: <YFFedzHcV/zL883v@kernel.org>
+References: <20210316151320.6123-1-yu-cheng.yu@intel.com>
+ <20210316151320.6123-10-yu-cheng.yu@intel.com>
+ <YFEFhoi/SB12HUrg@kernel.org>
+ <b523b794-3553-f7bb-3a69-24d936f0fefa@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210316211552.GU4746@worktop.programming.kicks-ass.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b523b794-3553-f7bb-3a69-24d936f0fefa@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 3/16/2021 2:15 PM, Peter Zijlstra wrote:
-> On Tue, Mar 16, 2021 at 08:10:26AM -0700, Yu-cheng Yu wrote:
->> Control-flow Enforcement (CET) is a new Intel processor feature that blocks
->> return/jump-oriented programming attacks.  Details are in "Intel 64 and
->> IA-32 Architectures Software Developer's Manual" [1].
->>
->> CET can protect applications and the kernel.  This series enables only
->> application-level protection, and has three parts:
->>
->>    - Shadow stack [2],
->>    - Indirect branch tracking [3], and
->>    - Selftests [4].
+On Tue, Mar 16, 2021 at 12:27:19PM -0700, Yu, Yu-cheng wrote:
+> On 3/16/2021 12:22 PM, Jarkko Sakkinen wrote:
+> > On Tue, Mar 16, 2021 at 08:13:19AM -0700, Yu-cheng Yu wrote:
+> > > ENDBR is a special new instruction for the Indirect Branch Tracking (IBT)
+> > > component of CET.  IBT prevents attacks by ensuring that (most) indirect
+> > > branches and function calls may only land at ENDBR instructions.  Branches
+> > > that don't follow the rules will result in control flow (#CF) exceptions.
+> > > 
+> > > ENDBR is a noop when IBT is unsupported or disabled.  Most ENDBR
+> > > instructions are inserted automatically by the compiler, but branch
+> > > targets written in assembly must have ENDBR added manually.
+> > > 
+> > > Add ENDBR to __vdso_sgx_enter_enclave() branch targets.
+> > > 
+> > > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> > > Cc: Andy Lutomirski <luto@kernel.org>
+> > > Cc: Borislav Petkov <bp@alien8.de>
+> > > Cc: Dave Hansen <dave.hansen@linux.intel.com>
+> > > Cc: Jarkko Sakkinen <jarkko@kernel.org>
+> > > Cc: Peter Zijlstra <peterz@infradead.org>
+> > > ---
+> > >   arch/x86/entry/vdso/vsgx.S | 4 ++++
+> > >   1 file changed, 4 insertions(+)
+> > > 
+> > > diff --git a/arch/x86/entry/vdso/vsgx.S b/arch/x86/entry/vdso/vsgx.S
+> > > index 86a0e94f68df..1baa9b49053e 100644
+> > > --- a/arch/x86/entry/vdso/vsgx.S
+> > > +++ b/arch/x86/entry/vdso/vsgx.S
+> > > @@ -6,6 +6,7 @@
+> > >   #include <asm/enclu.h>
+> > >   #include "extable.h"
+> > > +#include "../calling.h"
+> > >   /* Relative to %rbp. */
+> > >   #define SGX_ENCLAVE_OFFSET_OF_RUN		16
+> > > @@ -27,6 +28,7 @@
+> > >   SYM_FUNC_START(__vdso_sgx_enter_enclave)
+> > >   	/* Prolog */
+> > >   	.cfi_startproc
+> > > +	ENDBR
+> > >   	push	%rbp
+> > >   	.cfi_adjust_cfa_offset	8
+> > >   	.cfi_rel_offset		%rbp, 0
+> > > @@ -62,6 +64,7 @@ SYM_FUNC_START(__vdso_sgx_enter_enclave)
+> > >   .Lasync_exit_pointer:
+> > >   .Lenclu_eenter_eresume:
+> > >   	enclu
+> > > +	ENDBR
+> > >   	/* EEXIT jumps here unless the enclave is doing something fancy. */
+> > >   	mov	SGX_ENCLAVE_OFFSET_OF_RUN(%rbp), %rbx
+> > > @@ -91,6 +94,7 @@ SYM_FUNC_START(__vdso_sgx_enter_enclave)
+> > >   	jmp	.Lout
+> > >   .Lhandle_exception:
+> > > +	ENDBR
+> > >   	mov	SGX_ENCLAVE_OFFSET_OF_RUN(%rbp), %rbx
+> > >   	/* Set the exception info. */
+> > > -- 
+> > > 2.21.0
+> > > 
+> > > 
+> > 
+> > Looks good to me.
+> > 
+> > Reviewed-by: Jarkko Sakkinen <jarkko@kernel.org>
 > 
-> CET is marketing; afaict SS and IBT are 100% independent and there's no
-> reason what so ever to have them share any code, let alone a Kconfig
-> knob.
+> Thanks for reviewing.  In response to Dave's and Boris' comments, I will
+> replace ENDBR macro with _CET_ENDBR that comes from the compiler.  Can I
+> still keep the Reviewed-by?
 
-We used to have shadow stack and ibt under separate Kconfig options, but 
-in a few places they actually share same code path, such as the XSAVES 
-supervisor states and ELF header for example.  Anyways I will be happy 
-to make changes again if there is agreement.
+I'll rather re-ack, thanks. Most likely give reviewed-by but I always
+prefer to see the code change before doing that.
 
-> 
-> In fact, I think all of this would improve is you remove the CET name
-> from all of this entirely. Put this series under CONFIG_X86_SHSTK (or
-> _SS) and use CONFIG_X86_IBT for the other one.
-> 
-> Similarly with the .c file.
-> 
-> All this CET business is just pure confusion.
->
+/Jarkko
