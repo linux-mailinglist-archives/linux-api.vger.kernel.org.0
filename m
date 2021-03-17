@@ -2,125 +2,106 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E17D633EE89
-	for <lists+linux-api@lfdr.de>; Wed, 17 Mar 2021 11:45:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B4AF433EF08
+	for <lists+linux-api@lfdr.de>; Wed, 17 Mar 2021 12:02:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230034AbhCQKoc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 17 Mar 2021 06:44:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34742 "EHLO
+        id S231214AbhCQLCK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 17 Mar 2021 07:02:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229644AbhCQKoT (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 17 Mar 2021 06:44:19 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB91BC06174A;
-        Wed, 17 Mar 2021 03:44:18 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id v11so1290699wro.7;
-        Wed, 17 Mar 2021 03:44:18 -0700 (PDT)
+        with ESMTP id S231187AbhCQLBr (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 17 Mar 2021 07:01:47 -0400
+Received: from mail-il1-x131.google.com (mail-il1-x131.google.com [IPv6:2607:f8b0:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 702E3C06175F;
+        Wed, 17 Mar 2021 04:01:47 -0700 (PDT)
+Received: by mail-il1-x131.google.com with SMTP id l5so1044060ilv.9;
+        Wed, 17 Mar 2021 04:01:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Bn90u44fy8L7FazXOSgNFKkR48EmU94fLQ8Y07NnDbg=;
-        b=RookSN63CvIIb59cAjK0gkYTO2VoPpDwYkO5C4Mf4smeR2XbSEdgmY6GSS7qSum7QG
-         bQZ2/C/LB2OAkIMlIt11q5glM6MddtfYSvxiZbQ4ioHduesNUy3EWcdCOpuScZvjQ4IH
-         1Jba/B62kF3Byf57FIL/HB//GH6Gntzo3cLY0wbxK1zQkiGcJpyH8w/P3oiQre7oyQD+
-         nqvSajOLwrOJka2syyzG6h0nLbTWdvsm9U3+gwdRYi4gejCzn3DdZihhhGUO7xpRkJjM
-         OqVRxt+jVXVJ0ojSwRbiyIUTKr4/zrEMSWFrYP+DAdqqmuk1UzONGgyldg22kDEvEUvQ
-         x5jQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BYHMrjb4lyNPksOkVK6A39D0G0tsTSTkEMKh/7NW0Ws=;
+        b=JxFvcYZ+B8J7QCd4kzuV+NO0CnvorOH8KWvWMrBc80nPxj07Mf2ksJMN3kHpOvj2o7
+         PCOfX8qHeNfqNot7HL3+b9eCoiwGXgl2lg5GHww+6hbHDqvs7YBrvXEvu0cotQmVE9zz
+         D7ifjZBR2xsPWiB24Sjz03eug7rzRDN78RfD56xbGIt80nJaqU2ilMh3+u8Rwaf8WZVZ
+         M/mjt1Agx0xKc76rARiHJ+pExZAvbTZNMnnz355h/1qeZdb4eM4LNtEAHI64rWVp3153
+         rbFyQJ3HF7spJ+Woyo+MNloagpt/mA3wNrjtcGP8mbnvQX/7lgZIiczKfusc/Dj6cJHG
+         W18w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=Bn90u44fy8L7FazXOSgNFKkR48EmU94fLQ8Y07NnDbg=;
-        b=Y+SGaMEt0JRAunhiDSBgDSt+Hh+MaABdWi2ZDaM1Rpryt3A858QK8yY1uzEBWpG+Xr
-         DLKnMpg9nMho0aQha3IsKnZadvMtsnLOzKZmAaPPoacBDTgxiVIhRHr97bg/mqzMaKSx
-         XPsNI6PWrT6L72K6OwRic6LdfA6fVGVlBHbwMD4BVxi0DX3/cA0OLlN1BFSJilx0ZRaK
-         hswoDiUrD6luvtoQW4FGhhO+h7CJkVflQvEZthstfK+mV4YCCDpGpKSLpV9nX6ykA9UP
-         xiHHM3ftnO/FFBdWtZijCd2nPg9pVAbBLERjmfps66cGVyZprjRcjxo2Ou0ud1/BA93Y
-         KFzA==
-X-Gm-Message-State: AOAM53162zy6JJaOxoAtiV+tycTIKRNpHQXy5PKrcm7X4HxW/RKdilo+
-        NAkEEDJyUuHAZOlCYSYOicE=
-X-Google-Smtp-Source: ABdhPJzMIr4AJ4UN6QhUkf9RjJgTZhqswu3fbGhNtj+qV4sOmO3SCxJg6IEQ/jBzMi23oJWP+3NezQ==
-X-Received: by 2002:a05:6000:1acd:: with SMTP id i13mr1921557wry.48.1615977857523;
-        Wed, 17 Mar 2021 03:44:17 -0700 (PDT)
-Received: from gmail.com (54033286.catv.pool.telekom.hu. [84.3.50.134])
-        by smtp.gmail.com with ESMTPSA id h13sm2026914wmq.29.2021.03.17.03.44.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Mar 2021 03:44:17 -0700 (PDT)
-Sender: Ingo Molnar <mingo.kernel.org@gmail.com>
-Date:   Wed, 17 Mar 2021 11:44:15 +0100
-From:   Ingo Molnar <mingo@kernel.org>
-To:     "Chang S. Bae" <chang.seok.bae@intel.com>
-Cc:     bp@suse.de, tglx@linutronix.de, luto@kernel.org, x86@kernel.org,
-        len.brown@intel.com, dave.hansen@intel.com, hjl.tools@gmail.com,
-        Dave.Martin@arm.com, jannh@google.com, mpe@ellerman.id.au,
-        carlos@redhat.com, tony.luck@intel.com, ravi.v.shankar@intel.com,
-        libc-alpha@sourceware.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 0/6] x86: Improve Minimum Alternate Stack Size
-Message-ID: <20210317104415.GA692070@gmail.com>
-References: <20210316065215.23768-1-chang.seok.bae@intel.com>
- <20210317100640.GC1724119@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BYHMrjb4lyNPksOkVK6A39D0G0tsTSTkEMKh/7NW0Ws=;
+        b=nGhTdHpvo587ahKHCAB0XXrhpOSVSerfci/Y8VgN8bgc7+rkRbulylsYfn0HIbJGXy
+         Q2w0CmqsYIj1H/Bwdp+Fxv63VFPqNDYQRK9nk+RGSCs2xWiZNY8K1nuCHKPMQ5BlG8N8
+         8iKylJ15suo2ZMSQl2s2+wL40oq6GJPP6bDncrLRFO6w7XZXPDSLcSArFkcKTvVN5nf6
+         aSq2xudGAcmm79JNgpO3o4j4r4mKXx32jvKCRciZqUNowJaWvLCZst3pzehkZg/wA8pm
+         W9AJY5DWWBB+n0M05p4HoCC/KcLfkjwzubUF3XMxj7xeRqgllgKATs80l/hyDJ0p4yPV
+         9DbQ==
+X-Gm-Message-State: AOAM531qbcFz65eoNZgS4MRD2V4bjiaFHS6aWH0K09GXENNJFknicoG3
+        rWOHGMvi5oPH+FlEESS1CcLvL0I5qgAXVyE6j73cnDNnj2M=
+X-Google-Smtp-Source: ABdhPJwyBXpTmosErJ4afrXVoSkKn99fuKDH81ZQVYjSTjVuDG8QTOtu54nCcFrhzMqmIIXbw4l9YP3pGj/psrKhnXQ=
+X-Received: by 2002:a92:740c:: with SMTP id p12mr7305240ilc.9.1615978906872;
+ Wed, 17 Mar 2021 04:01:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210317100640.GC1724119@gmail.com>
+References: <20210304112921.3996419-1-amir73il@gmail.com> <20210316155524.GD23532@quack2.suse.cz>
+In-Reply-To: <20210316155524.GD23532@quack2.suse.cz>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Wed, 17 Mar 2021 13:01:35 +0200
+Message-ID: <CAOQ4uxgCv42_xkKpRH-ApMOeFCWfQGGc11CKxUkHJq-Xf=HnYg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] unprivileged fanotify listener
+To:     Jan Kara <jack@suse.cz>
+Cc:     Matthew Bobrowski <mbobrowski@mbobrowski.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Tue, Mar 16, 2021 at 5:55 PM Jan Kara <jack@suse.cz> wrote:
+>
+> On Thu 04-03-21 13:29:19, Amir Goldstein wrote:
+> > Jan,
+> >
+> > These patches try to implement a minimal set and least controversial
+> > functionality that we can allow for unprivileged users as a starting
+> > point.
+> >
+> > The patches were tested on top of v5.12-rc1 and the fanotify_merge
+> > patches using the unprivileged listener LTP tests written by Matthew
+> > and another LTP tests I wrote to test the sysfs tunable limits [1].
+>
+> Thanks. I've added both patches to my tree.
 
-* Ingo Molnar <mingo@kernel.org> wrote:
+Great!
+I'll go post the LTP tests and work on the man page updates.
 
-> 
-> * Chang S. Bae <chang.seok.bae@intel.com> wrote:
-> 
-> > During signal entry, the kernel pushes data onto the normal userspace
-> > stack. On x86, the data pushed onto the user stack includes XSAVE state,
-> > which has grown over time as new features and larger registers have been
-> > added to the architecture.
-> > 
-> > MINSIGSTKSZ is a constant provided in the kernel signal.h headers and
-> > typically distributed in lib-dev(el) packages, e.g. [1]. Its value is
-> > compiled into programs and is part of the user/kernel ABI. The MINSIGSTKSZ
-> > constant indicates to userspace how much data the kernel expects to push on
-> > the user stack, [2][3].
-> > 
-> > However, this constant is much too small and does not reflect recent
-> > additions to the architecture. For instance, when AVX-512 states are in
-> > use, the signal frame size can be 3.5KB while MINSIGSTKSZ remains 2KB.
-> > 
-> > The bug report [4] explains this as an ABI issue. The small MINSIGSTKSZ can
-> > cause user stack overflow when delivering a signal.
-> 
-> >   uapi: Define the aux vector AT_MINSIGSTKSZ
-> >   x86/signal: Introduce helpers to get the maximum signal frame size
-> >   x86/elf: Support a new ELF aux vector AT_MINSIGSTKSZ
-> >   selftest/sigaltstack: Use the AT_MINSIGSTKSZ aux vector if available
-> >   x86/signal: Detect and prevent an alternate signal stack overflow
-> >   selftest/x86/signal: Include test cases for validating sigaltstack
-> 
-> So this looks really complicated, is this justified?
-> 
-> Why not just internally round up sigaltstack size if it's too small? 
-> This would be more robust, as it would fix applications that use 
-> MINSIGSTKSZ but don't use the new AT_MINSIGSTKSZ facility.
-> 
-> I.e. does AT_MINSIGSTKSZ have any other uses than avoiding the 
-> segfault if MINSIGSTKSZ is used to create a small signal stack?
+BTW, I noticed that you pushed the aggregating for_next branch,
+but not the fsnotify topic branch.
 
-I.e. if the kernel sees a too small ->ss_size in sigaltstack() it 
-would ignore ->ss_sp and mmap() a new sigaltstack instead and use that 
-for the signal handler stack.
+Is this intentional?
 
-This would automatically make MINSIGSTKSZ - and other too small sizes 
-work today, and in the future.
+I am asking because I am usually basing my development branches
+off of your fsnotify branch, but I can base them on the unpushed branch.
 
-But the question is, is there user-space usage of sigaltstacks that 
-relies on controlling or reading the contents of the stack?
+Heads up. I am playing with extra privileges we may be able to
+allow an ns_capable user.
+For example, watching a FS_USERNS_MOUNT filesystem that the user
+itself has mounted inside userns.
 
-longjmp using programs perhaps?
+Another feature I am investigating is how to utilize the new idmapped
+mounts to get a subtree watch functionality. This requires attaching a
+userns to the group on fanotify_init().
+
+<hand waving>
+If the group's userns are the same or below the idmapped mount userns,
+then all the objects accessed via that idmapped mount are accessible
+to the group's userns admin. We can use that fact to filter events very
+early based on their mnt_userns and the group's userns, which should be
+cheaper than any subtree permission checks.
+<\hand waving>
 
 Thanks,
-
-	Ingo
+Amir.
