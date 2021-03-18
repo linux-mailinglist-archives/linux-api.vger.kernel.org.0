@@ -2,129 +2,116 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A6BA33FFB4
-	for <lists+linux-api@lfdr.de>; Thu, 18 Mar 2021 07:37:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 343A3340265
+	for <lists+linux-api@lfdr.de>; Thu, 18 Mar 2021 10:48:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229704AbhCRGhN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 18 Mar 2021 02:37:13 -0400
-Received: from foss.arm.com ([217.140.110.172]:60498 "EHLO foss.arm.com"
+        id S229805AbhCRJr6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 18 Mar 2021 05:47:58 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:54566 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229558AbhCRGgs (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 18 Mar 2021 02:36:48 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E96C8ED1;
-        Wed, 17 Mar 2021 23:36:46 -0700 (PDT)
-Received: from net-arm-thunderx2-02.shanghai.arm.com (net-arm-thunderx2-02.shanghai.arm.com [10.169.208.224])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 7BF6E3F718;
-        Wed, 17 Mar 2021 23:36:41 -0700 (PDT)
-From:   Jianlin Lv <Jianlin.Lv@arm.com>
-To:     bpf@vger.kernel.org
-Cc:     kuba@kernel.org, simon.horman@netronome.com, davem@davemloft.net,
-        ast@kernel.org, alexei.starovoitov@gmail.com, daniel@iogearbox.net,
-        andrii@kernel.org, kafai@fb.com, songliubraving@fb.com, yhs@fb.com,
-        john.fastabend@gmail.com, kpsingh@kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        oss-drivers@netronome.com, linux-api@vger.kernel.org,
-        Jianlin.Lv@arm.com, iecedge@gmail.com
-Subject: [PATCH bpf-next v2] bpf: Simplify expression for identify bpf mem type
-Date:   Thu, 18 Mar 2021 14:36:26 +0800
-Message-Id: <20210318063626.216024-1-Jianlin.Lv@arm.com>
-X-Mailer: git-send-email 2.25.1
+        id S229996AbhCRJro (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 18 Mar 2021 05:47:44 -0400
+Received: from zn.tnic (p200300ec2f0fad007adf1d3bb2d68d82.dip0.t-ipconnect.de [IPv6:2003:ec:2f0f:ad00:7adf:1d3b:b2d6:8d82])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 961B31EC058C;
+        Thu, 18 Mar 2021 10:47:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1616060862;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=4Rj/z7f7I1IokpvMBB12tiM4VnDP7OF9VwWSkkcJM3k=;
+        b=hjhIoz7Uc/TRti+bG+0jGfNRhjyIAibHRwRbRukyWfFjYgfXsYiU7OXqw6zle+qmaa5nMT
+        rCfcxa3lGP2GSRLIb7WXLNEz8/gvoOTqkXNVzSYuyN4J4JX/5FEB1t4OWVEDF953pr4J2n
+        yhTWh13jmFAeHQgA0mL4BIZT3bjXnSM=
+Date:   Thu, 18 Mar 2021 10:47:40 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Subject: Re: [PATCH v23 16/28] mm: Fixup places that call pte_mkwrite()
+ directly
+Message-ID: <20210318094740.GA19570@zn.tnic>
+References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
+ <20210316151054.5405-17-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210316151054.5405-17-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Added BPF_LD_ST_SIZE_MASK macro as mask of size modifier that help to
-reduce the evaluation of expressions in if statements,
-and remove BPF_SIZE_MASK in netronome driver.
+On Tue, Mar 16, 2021 at 08:10:42AM -0700, Yu-cheng Yu wrote:
+> When serving a page fault, maybe_mkwrite() makes a PTE writable if it is in
+> a writable vma.  A shadow stack vma is writable, but its PTEs need
+> _PAGE_DIRTY to be set to become writable.  For this reason, maybe_mkwrite()
+> has been updated.
+> 
+> There are a few places that call pte_mkwrite() directly, but effect the
+> same result as from maybe_mkwrite().  These sites need to be updated for
 
-Signed-off-by: Jianlin Lv <Jianlin.Lv@arm.com>
----
-v2: Move the bpf_LD_ST_SIZE_MASK macro definition to include/linux/bpf.h
----
- drivers/net/ethernet/netronome/nfp/bpf/main.h |  8 +++-----
- include/linux/bpf.h                           |  1 +
- kernel/bpf/verifier.c                         | 12 ++++--------
- 3 files changed, 8 insertions(+), 13 deletions(-)
+s/effect the same result/have the same result/
 
-diff --git a/drivers/net/ethernet/netronome/nfp/bpf/main.h b/drivers/net/ethernet/netronome/nfp/bpf/main.h
-index d0e17eebddd9..e90981e69763 100644
---- a/drivers/net/ethernet/netronome/nfp/bpf/main.h
-+++ b/drivers/net/ethernet/netronome/nfp/bpf/main.h
-@@ -346,8 +346,6 @@ struct nfp_insn_meta {
- 	struct list_head l;
- };
- 
--#define BPF_SIZE_MASK	0x18
--
- static inline u8 mbpf_class(const struct nfp_insn_meta *meta)
- {
- 	return BPF_CLASS(meta->insn.code);
-@@ -375,7 +373,7 @@ static inline bool is_mbpf_alu(const struct nfp_insn_meta *meta)
- 
- static inline bool is_mbpf_load(const struct nfp_insn_meta *meta)
- {
--	return (meta->insn.code & ~BPF_SIZE_MASK) == (BPF_LDX | BPF_MEM);
-+	return (meta->insn.code & ~BPF_LD_ST_SIZE_MASK) == (BPF_LDX | BPF_MEM);
- }
- 
- static inline bool is_mbpf_jmp32(const struct nfp_insn_meta *meta)
-@@ -395,7 +393,7 @@ static inline bool is_mbpf_jmp(const struct nfp_insn_meta *meta)
- 
- static inline bool is_mbpf_store(const struct nfp_insn_meta *meta)
- {
--	return (meta->insn.code & ~BPF_SIZE_MASK) == (BPF_STX | BPF_MEM);
-+	return (meta->insn.code & ~BPF_LD_ST_SIZE_MASK) == (BPF_STX | BPF_MEM);
- }
- 
- static inline bool is_mbpf_load_pkt(const struct nfp_insn_meta *meta)
-@@ -430,7 +428,7 @@ static inline bool is_mbpf_classic_store_pkt(const struct nfp_insn_meta *meta)
- 
- static inline bool is_mbpf_atomic(const struct nfp_insn_meta *meta)
- {
--	return (meta->insn.code & ~BPF_SIZE_MASK) == (BPF_STX | BPF_ATOMIC);
-+	return (meta->insn.code & ~BPF_LD_ST_SIZE_MASK) == (BPF_STX | BPF_ATOMIC);
- }
- 
- static inline bool is_mbpf_mul(const struct nfp_insn_meta *meta)
-diff --git a/include/linux/bpf.h b/include/linux/bpf.h
-index a25730eaa148..e85924719c65 100644
---- a/include/linux/bpf.h
-+++ b/include/linux/bpf.h
-@@ -995,6 +995,7 @@ struct bpf_array {
- 				 BPF_F_RDONLY_PROG |	\
- 				 BPF_F_WRONLY |		\
- 				 BPF_F_WRONLY_PROG)
-+#define BPF_LD_ST_SIZE_MASK	0x18	/* mask of size modifier */
- 
- #define BPF_MAP_CAN_READ	BIT(0)
- #define BPF_MAP_CAN_WRITE	BIT(1)
-diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
-index f9096b049cd6..29fdfdb8abfa 100644
---- a/kernel/bpf/verifier.c
-+++ b/kernel/bpf/verifier.c
-@@ -11384,15 +11384,11 @@ static int convert_ctx_accesses(struct bpf_verifier_env *env)
- 	for (i = 0; i < insn_cnt; i++, insn++) {
- 		bpf_convert_ctx_access_t convert_ctx_access;
- 
--		if (insn->code == (BPF_LDX | BPF_MEM | BPF_B) ||
--		    insn->code == (BPF_LDX | BPF_MEM | BPF_H) ||
--		    insn->code == (BPF_LDX | BPF_MEM | BPF_W) ||
--		    insn->code == (BPF_LDX | BPF_MEM | BPF_DW))
-+		/* opcode: BPF_MEM | <size> | BPF_LDX */
-+		if ((insn->code & ~BPF_LD_ST_SIZE_MASK) == (BPF_LDX | BPF_MEM))
- 			type = BPF_READ;
--		else if (insn->code == (BPF_STX | BPF_MEM | BPF_B) ||
--			 insn->code == (BPF_STX | BPF_MEM | BPF_H) ||
--			 insn->code == (BPF_STX | BPF_MEM | BPF_W) ||
--			 insn->code == (BPF_STX | BPF_MEM | BPF_DW))
-+		/* opcode: BPF_MEM | <size> | BPF_STX */
-+		else if ((insn->code & ~BPF_LD_ST_SIZE_MASK) == (BPF_STX | BPF_MEM))
- 			type = BPF_WRITE;
- 		else
- 			continue;
+> shadow stack as well.  Thus, change them to maybe_mkwrite():
+> 
+> - do_anonymous_page() and migrate_vma_insert_page() check VM_WRITE directly
+>   and call pte_mkwrite(), which is the same as maybe_mkwrite().  Change
+>   them to maybe_mkwrite().
+> 
+> - In do_numa_page(), if the numa entry 'was-writable', then pte_mkwrite()
+
+You can simply say "was writable" instead of trying to hint at the
+variable there.
+
+>   is called directly.  Fix it by doing maybe_mkwrite().
+> 
+> - In change_pte_range(), pte_mkwrite() is called directly.  Replace it with
+>   maybe_mkwrite().
+> 
+>   A shadow stack vma is writable but has different vma
+> flags, and handled accordingly in maybe_mkwrite().
+>
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> ---
+>  mm/memory.c   | 5 ++---
+>  mm/migrate.c  | 3 +--
+>  mm/mprotect.c | 2 +-
+>  3 files changed, 4 insertions(+), 6 deletions(-)
+
+As with the previous one, I guess this one needs a mm person ACK. I
+mean, it is pretty obvious but still...
+
+Thx.
+
 -- 
-2.25.1
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
