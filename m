@@ -2,380 +2,129 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 60AB134083B
-	for <lists+linux-api@lfdr.de>; Thu, 18 Mar 2021 15:57:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 865B2340920
+	for <lists+linux-api@lfdr.de>; Thu, 18 Mar 2021 16:45:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231396AbhCRO46 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 18 Mar 2021 10:56:58 -0400
-Received: from mx4.veeam.com ([104.41.138.86]:42776 "EHLO mx4.veeam.com"
+        id S230338AbhCRPom (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 18 Mar 2021 11:44:42 -0400
+Received: from mx2.suse.de ([195.135.220.15]:58976 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230367AbhCRO4d (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 18 Mar 2021 10:56:33 -0400
-Received: from mail.veeam.com (prgmbx01.amust.local [172.24.0.171])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mx4.veeam.com (Postfix) with ESMTPS id 768A12F60F;
-        Thu, 18 Mar 2021 17:56:24 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=veeam.com; s=mx4;
-        t=1616079384; bh=v8/KnN8K0knZ3lvIrwyVj6i6vmyCoUYmd5kC3badqIc=;
-        h=Date:From:To:CC:Subject:References:In-Reply-To:From;
-        b=GI/4iiwEmiG/UcqTO/aGYdZYdnRTc8dKrO102BcXsI8t91necodv9HBiobHcDRsqe
-         7AoGSyicSw1HrGCEw3EPH/5Q3OoZRMxNSxlWhfgvt2rYcrGrvhQNv2OsFiwUFVJJ2f
-         YHeVafbxG3SltiP8GL8r8uPAleedBoGXQ+jX5Ue0=
-Received: from veeam.com (172.24.14.5) by prgmbx01.amust.local (172.24.0.171)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.721.2; Thu, 18 Mar 2021
- 15:56:23 +0100
-Date:   Thu, 18 Mar 2021 17:56:17 +0300
-From:   Sergei Shtepa <sergei.shtepa@veeam.com>
-To:     Mike Snitzer <snitzer@redhat.com>
-CC:     Ming Lei <ming.lei@redhat.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Alasdair Kergon <agk@redhat.com>,
-        Hannes Reinecke <hare@suse.de>, Jens Axboe <axboe@kernel.dk>,
-        "dm-devel@redhat.com" <dm-devel@redhat.com>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        Pavel Tide <Pavel.TIde@veeam.com>,
-        Mikulas Patocka <mpatocka@redhat.com>
-Subject: Re: [PATCH v7 2/3] block: add bdev_interposer
-Message-ID: <20210318145617.GA32467@veeam.com>
-References: <1615563895-28565-1-git-send-email-sergei.shtepa@veeam.com>
- <1615563895-28565-3-git-send-email-sergei.shtepa@veeam.com>
- <YFBnypYemiR08A/c@T590>
- <20210316163544.GA31272@veeam.com>
- <YFFxdz84esfiTvNk@T590>
- <20210317122217.GA31781@veeam.com>
- <20210317150441.GB29481@redhat.com>
- <20210317181413.GB31781@veeam.com>
- <20210317191319.GA30376@redhat.com>
+        id S230374AbhCRPoP (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 18 Mar 2021 11:44:15 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 6B5B6AB8C;
+        Thu, 18 Mar 2021 15:44:14 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id E013D1F2BBF; Thu, 18 Mar 2021 16:44:13 +0100 (CET)
+Date:   Thu, 18 Mar 2021 16:44:13 +0100
+From:   Jan Kara <jack@suse.cz>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Jan Kara <jack@suse.cz>,
+        Matthew Bobrowski <mbobrowski@mbobrowski.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>
+Subject: Re: [PATCH v2 0/2] unprivileged fanotify listener
+Message-ID: <20210318154413.GA21462@quack2.suse.cz>
+References: <20210304112921.3996419-1-amir73il@gmail.com>
+ <20210316155524.GD23532@quack2.suse.cz>
+ <CAOQ4uxgCv42_xkKpRH-ApMOeFCWfQGGc11CKxUkHJq-Xf=HnYg@mail.gmail.com>
+ <20210317114207.GB2541@quack2.suse.cz>
+ <CAOQ4uxi7ZXJW3_6SN=vw_XJC+wy4eMTayN6X5yRy_HOV6323MA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210317191319.GA30376@redhat.com>
-X-Originating-IP: [172.24.14.5]
-X-ClientProxiedBy: prgmbx02.amust.local (172.24.0.172) To prgmbx01.amust.local
- (172.24.0.171)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A29D2A50B586D7663
-X-Veeam-MMEX: True
+In-Reply-To: <CAOQ4uxi7ZXJW3_6SN=vw_XJC+wy4eMTayN6X5yRy_HOV6323MA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-The 03/17/2021 22:13, Mike Snitzer wrote:
-> On Wed, Mar 17 2021 at  2:14pm -0400,
-> Sergei Shtepa <sergei.shtepa@veeam.com> wrote:
+On Wed 17-03-21 14:19:57, Amir Goldstein wrote:
+> On Wed, Mar 17, 2021 at 1:42 PM Jan Kara <jack@suse.cz> wrote:
+> >
+> > On Wed 17-03-21 13:01:35, Amir Goldstein wrote:
+> > > On Tue, Mar 16, 2021 at 5:55 PM Jan Kara <jack@suse.cz> wrote:
+> > > >
+> > > > On Thu 04-03-21 13:29:19, Amir Goldstein wrote:
+> > > > > Jan,
+> > > > >
+> > > > > These patches try to implement a minimal set and least controversial
+> > > > > functionality that we can allow for unprivileged users as a starting
+> > > > > point.
+> > > > >
+> > > > > The patches were tested on top of v5.12-rc1 and the fanotify_merge
+> > > > > patches using the unprivileged listener LTP tests written by Matthew
+> > > > > and another LTP tests I wrote to test the sysfs tunable limits [1].
+> > > >
+> > > > Thanks. I've added both patches to my tree.
+> > >
+> > > Great!
+> > > I'll go post the LTP tests and work on the man page updates.
+> > >
+> > > BTW, I noticed that you pushed the aggregating for_next branch,
+> > > but not the fsnotify topic branch.
+> > >
+> > > Is this intentional?
+> >
+> > Not really, pushed now. Thanks for reminder.
+> >
+> > > I am asking because I am usually basing my development branches
+> > > off of your fsnotify branch, but I can base them on the unpushed branch.
+> > >
+> > > Heads up. I am playing with extra privileges we may be able to
+> > > allow an ns_capable user.
+> > > For example, watching a FS_USERNS_MOUNT filesystem that the user
+> > > itself has mounted inside userns.
+> > >
+> > > Another feature I am investigating is how to utilize the new idmapped
+> > > mounts to get a subtree watch functionality. This requires attaching a
+> > > userns to the group on fanotify_init().
+> > >
+> > > <hand waving>
+> > > If the group's userns are the same or below the idmapped mount userns,
+> > > then all the objects accessed via that idmapped mount are accessible
+> > > to the group's userns admin. We can use that fact to filter events very
+> > > early based on their mnt_userns and the group's userns, which should be
+> > > cheaper than any subtree permission checks.
+> > > <\hand waving>
+> >
+> > Yeah, I agree this should work. Just it seems to me the userbase for this
+> > functionality will be (at least currently) rather limited. While full
 > 
-> > The 03/17/2021 18:04, Mike Snitzer wrote:
-> > > On Wed, Mar 17 2021 at  8:22am -0400,
-> > > Sergei Shtepa <sergei.shtepa@veeam.com> wrote:
-> > > 
-> > > > The 03/17/2021 06:03, Ming Lei wrote:
-> > > > > On Tue, Mar 16, 2021 at 07:35:44PM +0300, Sergei Shtepa wrote:
-> > > > > > The 03/16/2021 11:09, Ming Lei wrote:
-> > > > > > > On Fri, Mar 12, 2021 at 06:44:54PM +0300, Sergei Shtepa wrote:
-> > > > > > > > bdev_interposer allows to redirect bio requests to another devices.
-> > > > > > > > 
-> > > > > > > > Signed-off-by: Sergei Shtepa <sergei.shtepa@veeam.com>
-> > > > > > > > ---
-> > > > > > > >  block/bio.c               |  2 ++
-> > > > > > > >  block/blk-core.c          | 57 +++++++++++++++++++++++++++++++++++++++
-> > > > > > > >  block/genhd.c             | 54 +++++++++++++++++++++++++++++++++++++
-> > > > > > > >  include/linux/blk_types.h |  3 +++
-> > > > > > > >  include/linux/blkdev.h    |  9 +++++++
-> > > > > > > >  5 files changed, 125 insertions(+)
-> > > > > > > > 
-> > > > > > > > diff --git a/block/bio.c b/block/bio.c
-> > > > > > > > index a1c4d2900c7a..0bfbf06475ee 100644
-> > > > > > > > --- a/block/bio.c
-> > > > > > > > +++ b/block/bio.c
-> > > > > > > > @@ -640,6 +640,8 @@ void __bio_clone_fast(struct bio *bio, struct bio *bio_src)
-> > > > > > > >  		bio_set_flag(bio, BIO_THROTTLED);
-> > > > > > > >  	if (bio_flagged(bio_src, BIO_REMAPPED))
-> > > > > > > >  		bio_set_flag(bio, BIO_REMAPPED);
-> > > > > > > > +	if (bio_flagged(bio_src, BIO_INTERPOSED))
-> > > > > > > > +		bio_set_flag(bio, BIO_INTERPOSED);
-> > > > > > > >  	bio->bi_opf = bio_src->bi_opf;
-> > > > > > > >  	bio->bi_ioprio = bio_src->bi_ioprio;
-> > > > > > > >  	bio->bi_write_hint = bio_src->bi_write_hint;
-> > > > > > > > diff --git a/block/blk-core.c b/block/blk-core.c
-> > > > > > > > index fc60ff208497..da1abc4c27a9 100644
-> > > > > > > > --- a/block/blk-core.c
-> > > > > > > > +++ b/block/blk-core.c
-> > > > > > > > @@ -1018,6 +1018,55 @@ static blk_qc_t __submit_bio_noacct_mq(struct bio *bio)
-> > > > > > > >  	return ret;
-> > > > > > > >  }
-> > > > > > > >  
-> > > > > > > > +static noinline blk_qc_t submit_bio_interposed(struct bio *bio)
-> > > > > > > > +{
-> > > > > > > > +	blk_qc_t ret = BLK_QC_T_NONE;
-> > > > > > > > +	struct bio_list bio_list[2] = { };
-> > > > > > > > +	struct gendisk *orig_disk;
-> > > > > > > > +
-> > > > > > > > +	if (current->bio_list) {
-> > > > > > > > +		bio_list_add(&current->bio_list[0], bio);
-> > > > > > > > +		return BLK_QC_T_NONE;
-> > > > > > > > +	}
-> > > > > > > > +
-> > > > > > > > +	orig_disk = bio->bi_bdev->bd_disk;
-> > > > > > > > +	if (unlikely(bio_queue_enter(bio)))
-> > > > > > > > +		return BLK_QC_T_NONE;
-> > > > > > > > +
-> > > > > > > > +	current->bio_list = bio_list;
-> > > > > > > > +
-> > > > > > > > +	do {
-> > > > > > > > +		struct block_device *interposer = bio->bi_bdev->bd_interposer;
-> > > > > > > > +
-> > > > > > > > +		if (unlikely(!interposer)) {
-> > > > > > > > +			/* interposer was removed */
-> > > > > > > > +			bio_list_add(&current->bio_list[0], bio);
-> > > > > > > > +			break;
-> > > > > > > > +		}
-> > > > > > > > +		/* assign bio to interposer device */
-> > > > > > > > +		bio_set_dev(bio, interposer);
-> > > > > > > > +		bio_set_flag(bio, BIO_INTERPOSED);
-> > > > > > > > +
-> > > > > > > > +		if (!submit_bio_checks(bio))
-> > > > > > > > +			break;
-> > > > > > > > +		/*
-> > > > > > > > +		 * Because the current->bio_list is initialized,
-> > > > > > > > +		 * the submit_bio callback will always return BLK_QC_T_NONE.
-> > > > > > > > +		 */
-> > > > > > > > +		interposer->bd_disk->fops->submit_bio(bio);
-> > > > > > > 
-> > > > > > > Given original request queue may become live when calling attach() and
-> > > > > > > detach(), see below comment. bdev_interposer_detach() may be run
-> > > > > > > when running ->submit_bio(), meantime the interposer device is
-> > > > > > > gone during the period, then kernel oops.
-> > > > > > 
-> > > > > > I think that since the bio_queue_enter() function was called,
-> > > > > > q->q_usage_counter will not allow the critical code in the attach/detach
-> > > > > > functions to be executed, which is located between the blk_freeze_queue
-> > > > > > and blk_unfreeze_queue calls.
-> > > > > > Please correct me if I'm wrong.
-> > > > > > 
-> > > > > > > 
-> > > > > > > > +	} while (false);
-> > > > > > > > +
-> > > > > > > > +	current->bio_list = NULL;
-> > > > > > > > +
-> > > > > > > > +	blk_queue_exit(orig_disk->queue);
-> > > > > > > > +
-> > > > > > > > +	/* Resubmit remaining bios */
-> > > > > > > > +	while ((bio = bio_list_pop(&bio_list[0])))
-> > > > > > > > +		ret = submit_bio_noacct(bio);
-> > > > > > > > +
-> > > > > > > > +	return ret;
-> > > > > > > > +}
-> > > > > > > > +
-> > > > > > > >  /**
-> > > > > > > >   * submit_bio_noacct - re-submit a bio to the block device layer for I/O
-> > > > > > > >   * @bio:  The bio describing the location in memory and on the device.
-> > > > > > > > @@ -1029,6 +1078,14 @@ static blk_qc_t __submit_bio_noacct_mq(struct bio *bio)
-> > > > > > > >   */
-> > > > > > > >  blk_qc_t submit_bio_noacct(struct bio *bio)
-> > > > > > > >  {
-> > > > > > > > +	/*
-> > > > > > > > +	 * Checking the BIO_INTERPOSED flag is necessary so that the bio
-> > > > > > > > +	 * created by the bdev_interposer do not get to it for processing.
-> > > > > > > > +	 */
-> > > > > > > > +	if (bdev_has_interposer(bio->bi_bdev) &&
-> > > > > > > > +	    !bio_flagged(bio, BIO_INTERPOSED))
-> > > > > > > > +		return submit_bio_interposed(bio);
-> > > > > > > > +
-> > > > > > > >  	if (!submit_bio_checks(bio))
-> > > > > > > >  		return BLK_QC_T_NONE;
-> > > > > > > >  
-> > > > > > > > diff --git a/block/genhd.c b/block/genhd.c
-> > > > > > > > index c55e8f0fced1..c840ecffea68 100644
-> > > > > > > > --- a/block/genhd.c
-> > > > > > > > +++ b/block/genhd.c
-> > > > > > > > @@ -30,6 +30,11 @@
-> > > > > > > >  static struct kobject *block_depr;
-> > > > > > > >  
-> > > > > > > >  DECLARE_RWSEM(bdev_lookup_sem);
-> > > > > > > > +/*
-> > > > > > > > + * Prevents different block-layer interposers from attaching or detaching
-> > > > > > > > + * to the block device at the same time.
-> > > > > > > > + */
-> > > > > > > > +static DEFINE_MUTEX(bdev_interposer_attach_lock);
-> > > > > > > >  
-> > > > > > > >  /* for extended dynamic devt allocation, currently only one major is used */
-> > > > > > > >  #define NR_EXT_DEVT		(1 << MINORBITS)
-> > > > > > > > @@ -1940,3 +1945,52 @@ static void disk_release_events(struct gendisk *disk)
-> > > > > > > >  	WARN_ON_ONCE(disk->ev && disk->ev->block != 1);
-> > > > > > > >  	kfree(disk->ev);
-> > > > > > > >  }
-> > > > > > > > +
-> > > > > > > > +int bdev_interposer_attach(struct block_device *original,
-> > > > > > > > +			   struct block_device *interposer)
-> > > > > > > > +{
-> > > > > > > > +	int ret = 0;
-> > > > > > > > +
-> > > > > > > > +	if (WARN_ON(((!original) || (!interposer))))
-> > > > > > > > +		return -EINVAL;
-> > > > > > > > +	/*
-> > > > > > > > +	 * interposer should be simple, no a multi-queue device
-> > > > > > > > +	 */
-> > > > > > > > +	if (!interposer->bd_disk->fops->submit_bio)
-> > > > > > > > +		return -EINVAL;
-> > > > > > > > +
-> > > > > > > > +	if (WARN_ON(!blk_mq_is_queue_frozen(original->bd_disk->queue)))
-> > > > > > > > +		return -EPERM;
-> > > > > > > 
-> > > > > > > The original request queue may become live now...
-> > > > > > 
-> > > > > > Yes.
-> > > > > > I will remove the blk_mq_is_queue_frozen() function and use a different
-> > > > > > approach.
-> > > > > 
-> > > > > Looks what attach and detach needs is that queue is kept as frozen state
-> > > > > instead of being froze simply at the beginning of the two functions, so
-> > > > > you can simply call freeze/unfreeze inside the two functions.
-> > > > > 
-> > > > > But what if 'original' isn't a MQ queue?  queue usage counter is just
-> > > > > grabed when calling ->submit_bio(), and queue freeze doesn't guarantee there
-> > > > > isn't any io activity, is that a problem for bdev_interposer use case?
-> > > > > 
-> > > > > -- 
-> > > > > Ming
-> > > > > 
-> > > > 
-> > > > It makes sense to add freeze_bdev/thaw_bdev. This will be useful.
-> > > > For the main file systems, the freeze functions are defined 
-> > > > sb->s_op->freeze_super() or sb - >s_op->freeze_fs()
-> > > > (btrfs, ext2, ext4, f2fs, jfs, nilfs2, reiserfs, xfs).
-> > > > If the file system is frozen, then no new requests should be received.
-> > > > 
-> > > > But if the file system does not support freeze or the disk is used without
-> > > > a file system, as for some databases, freeze_bdev seems useless to me.
-> > > > In this case, we will need to stop working with the disk from user-space,
-> > > > for example, to freeze the database itself.
-> > > > 
-> > > > I can add dm_suspend() before bdev_interposer_detach(). This will ensure that
-> > > > all intercepted requests have been processed. Applying dm_suspend() before
-> > > > bdev_interposer_attach() is pointless. The attachment is made when the target
-> > > > is created, and at this time the target is not ready to work yet.
-> > > > There shouldn't be any bio requests, I suppose. In addition,
-> > > > sb->s_op->freeze_fs() for the interposer will not be called, because the file
-> > > > system is not mounted for the interposer device. It should not be able to
-> > > > be mounted. To do this, I will add an exclusive opening of the interposer
-> > > > device.
-> > > > 
-> > > > I'll add freeze_bdev() for the original device and dm_suspend() for the
-> > > > interposer to the DM code. For normal operation of bdev_interposer,
-> > > > it is enough to transfer blk_mq_freeze_queue and blk_mq_quiesce_queue to
-> > > > bdev_interposer_attach/bdev_interposer_detach.
-> > > > The lock on the counter q->q_usage_counter is enough to not catch NULL in
-> > > > bd_interposer.
-> > > > 
-> > > > Do you think this is enough?
-> > > > I think there are no other ways to stop the block device queue.
-> > > 
-> > > Either you're pretty confused, or I am... regardless.. I think we need
-> > > to cover the basics of how interposer is expected to be paired with
-> > > an "original" device.
-> > 
-> > Thank you Mike for your patience. I really appreciate it.
-> > I really may not understand something. Let me get this straight.
-> > 
-> > > 
-> > > Those "original" device are already active and potentially in use
-> > > right?  They may be either request-based blk-mq _or_ bio-based.
-> > 
-> > Yes. Exactly.
-> > 
-> > > 
-> > > So what confuses me is that you're making assertions about how actively
-> > > used bio-based DM devices aren't in use until the interposed device
-> > > create happens... this is all getting very muddled.
-> > 
-> > The original device is indeed already actively used and already mounted.
-> > This is most likely not a DM device.
-> > If it is a request-based blk-mq, then it is enough to stop its queue by
-> > blk_mq_freeze_queue(). 
-> > If it is a bio-based device, then we can try to stop it by freeze_bdev.
-> > But in both cases, if the blk_mq_freeze_bdev() function was called, bio cannot
-> > get into the critical section between bio_queue_enter() and blk_queue_exit().
-> > This allows to safely change the value of original->bd_interposer.
-> 
-> Even though bios cannot get into underlying blk-mq they are already
-> inflight on behalf of the upper-layer bio-based device. I'll look closer
-> at the code but it seems like there is potential for the original
-> device's bios to still be queued to original, past the ->submit_bio
-> entry, and waiting for blk-mq to unfreeze. Meaning upon return from
-> what I _think_ you're saying will be sufficient: DM bio-based device
-> will carry on submitting IO to the blk-mq device that has since been
-> interposed.. that IO will _not_ complete in terms of the interposed
-> device.. so you'll have a split-brain dual completion of IO from the
-> original bio-based DM device _and_ the interposed device (for any new io
-> that hits ->submit_bio after the interposed device is in place).
-> 
+> That may change when systemd home dirs feature starts to use idmapped
+> mounts. Being able to watch the user's entire home directory is a big
+> win already.
 
-Yes, You right. I looked closer at function submit_bio_noacct().
-Indeed, the bio can wait to enter to the queue after checking that
-the device has a interposer.
-This means that some bio requests can go to the original device after
-attaching the interposer. Conversely, bio requests can fall into
-the function submit_bio_interposer() at a time when the interposer
-has already been detached. In submit_bio_interposer() for this case,
-there is a re-check that the interposer is there.
+Do you mean that home directory would be an extra mount with userns in
+which the user has CAP_SYS_ADMIN so he'd be able to watch subtrees on that
+mount?
 
-I don't see what kind of problems this can cause when attaching
-the interposer, but detaching it bothers me.
-I need to take a timeout and think it through.
+> > subtree watches would be IMO interesting to much more users.
+> 
+> Agreed.
+> 
+> I was looking into that as well, using the example of nfsd_acceptable()
+> to implement the subtree permission check.
+> 
+> The problem here is that even if unprivileged users cannot compromise
+> security, they can still cause significant CPU overhead either queueing
+> events or filtering events and that is something I haven't been able to
+> figure out a way to escape from.
 
-> I think you need to have original bio-based DM suspend, interpose
-> device, and then resume the original.  Anything entering original's
-> ->submit_bio from that point will all get sent to interposed
-> device. Right?
+WRT queueing overhead, given a user can place ~1M of directory watches, he
+can cause noticable total overhead for queueing events anyway. Furthermore
+the queue size is limited so unless the user spends time consuming events
+as well, the load won't last long. But I agree we need to be careful not to
+introduce too big latencies to operations generating events. So I think if
+we could quickly detect whether a generated event has a good chance of
+being relevant for some subtree watch of a group and queue it in that case
+and worry about permission checks only once events are received and thus
+receiver pays the cost of expensive checks, that might be fine as well.
 
-A small remark. The original device is not a DM device. The DM device
-plays the role of the interposer. And it really needs to be suspended.
-
-> 
-> > To intercept requests to the original device, we create a new md with
-> > the DM_INTERPOSE_FLAG flag. It is this interposer device that has not
-> > yet been initialized by this time. It just runs DM_TABLE_LOAD_CMD.
-> > That is why I think that the queue of this device should not be stopped,
-> > since this device has not yet been initialized.
-> > 
-> > > 
-> > > And your lack of understanding of these various IO flushing methods
-> > > (freeze/thaw, suspend/resume, etc) is showing.  Please slow down and
-> > > approach this more systematically.
-> > 
-> > For any block device, we can call the freeze_bdev() function. It will 
-> > allow to wait until the processing of previously sent requests is 
-> > completed and block the sending of new ones. blk_mq_freeze_queue() 
-> > allows to change the bd_interposer variable. This allow to attach/detach 
-> > the interposer to original device.
-> 
-> freeze_bdev/thaw_bdev are only relevant if a filesystem is layered
-> ontop.  A bio-based DM device can be used directly (by a database or
-> whatever).
-> 
-> > dm_suspend() is used to stop mapped device. This is what I plan to use
-> > before detaching the interposer. It will allow to wait for the
-> > completion of all the bios that were sent for the interposer.
-> 
-> Yes, but you need to suspend before attaching the interposer too, to
-> flush any in-flight bios that might be in-flight within the various DM
-> target code.
-> 
-> DM should be able to internalize all this when handling the
-> DM_INTERPOSE_FLAG during the new table load.  It'd call into
-> dm_internal_suspend_fast and then dm_internal_resume_fast for the
-> original md device.
-
-The dm_internal_suspend_fast() function looks very useful. I'll try it.
-
-> 
-> Mike
-> 
-
+								Honza
+ 
 -- 
-Sergei Shtepa
-Veeam Software developer.
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
