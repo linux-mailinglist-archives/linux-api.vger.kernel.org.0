@@ -2,151 +2,111 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 768B3340A80
-	for <lists+linux-api@lfdr.de>; Thu, 18 Mar 2021 17:48:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D60F0340B08
+	for <lists+linux-api@lfdr.de>; Thu, 18 Mar 2021 18:07:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232181AbhCRQs0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 18 Mar 2021 12:48:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56368 "EHLO
+        id S232256AbhCRRHU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 18 Mar 2021 13:07:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232069AbhCRQsX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 18 Mar 2021 12:48:23 -0400
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B3AAC06174A;
-        Thu, 18 Mar 2021 09:48:23 -0700 (PDT)
-Received: by mail-io1-xd30.google.com with SMTP id n198so2978824iod.0;
-        Thu, 18 Mar 2021 09:48:23 -0700 (PDT)
+        with ESMTP id S232009AbhCRRHL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 18 Mar 2021 13:07:11 -0400
+Received: from mail-il1-x134.google.com (mail-il1-x134.google.com [IPv6:2607:f8b0:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9925FC06174A;
+        Thu, 18 Mar 2021 10:07:11 -0700 (PDT)
+Received: by mail-il1-x134.google.com with SMTP id l5so5542625ilv.9;
+        Thu, 18 Mar 2021 10:07:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=wBrswB1dqJ2gf28YDWoGzxyae6lM42mJQXTUfrVVq7M=;
-        b=BnPkpB//Vm7SnwUhxb0u+zDtGsI3HjyzUNufzoaORbWFd5A++AWa3OaXGElP8692cI
-         eaAB1KuJUBDGB2CApmddhPj69U17HmBhjSzfrDU2mHSBpzW+Y9mp2vpbgrlOvzMzvHZY
-         lAiz4iw3MZCoFyF5oFRBFoN05EdwDJwyNBlZ5fxmq7Vmj4dzWEYf+jmxuP2ctaHgRbVK
-         PmdYpqgQaci0KDYD84ZWD2dF/2LEkRnQcv225aWOqlThlLQzkQHbI2HZUjKqe/UO0V9G
-         z4DdJN1VD5zCeflqlWZJ78NmaMHyGBwUDG7mf7+4of24yhdaIGKNtUqP5FfHPsRzOJuP
-         CEsw==
+        bh=9K4dPkNMUlUVtOXj1MYS0wdRhlKCjVW907Y6IqGc/WI=;
+        b=CjzTNdFbqB8zhvtlauDEDLO97NnwJVNiy6nJtH2yPJC7U3jgZQeOLSY41OGundz1SO
+         oNTHRlOg+3O/hiD59n9IzAJjjfNjZFhI0u0ii4WoGLiupIATOlCFzGiydyd9zI/G3D9O
+         7qJuft4OzxORAEk4A6umq+C33ZD7py45KYxV6Zt6YwRyUbjvdG9djqm/DnT8hyELANpd
+         euTlY1T5X5XTvzv2CSlk83mdOoIbHXNmIM9eiPbs84oAOsAsuaqtjbSv5215r3J0/Sjm
+         Y6iV+57BghupZbwEikSuF6RAmzEqfqMtspS918twustwcho+EFRjD8PfUMquHWJTCEBN
+         qM5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=wBrswB1dqJ2gf28YDWoGzxyae6lM42mJQXTUfrVVq7M=;
-        b=DYEcCulOhGQ8borZLqDMIK8DhI3yjYbGeiHoSS+vDmDhOZ3nHAyLiTwXHKny2D2384
-         SXX5cN5OPD6V8xTAHcICwUzZqGQ7zQx2rZh3tcPOTEY8eHEseFQoP1Lz8TgSFR4spv4E
-         uCuriYktCTXpk9RVWqEB0IlGaYk/qZAdV1/tR9Ym8B+FDduQiy/Go1TEhXJfAgpU1kg3
-         uUYCRplhZZ6z0dqGYf/g0qp7DlW14ceYUIvfJOxeaRcJ1MIaMFGqRU0RlFFC/eAXl2jp
-         IdUTGQUi/upiu7beOuVF9eBTrOssfhsMUFGIdf+tf+sXFbZ06Id7m4Z+CyO8S7Hdew7b
-         M2oA==
-X-Gm-Message-State: AOAM531eEm7VnHCJURVgxQcqTRiUK3IkUYDHWOKj0XT5JjBTAOQGxHdc
-        ujfxMfZ2zzOnDNsTHQ9So3CCB6HS1/4VE+4Ky9IR/2+YMro=
-X-Google-Smtp-Source: ABdhPJzvCRgwCn/muD7kpy6i/kS4vZpOOCFoHfLBsvWh03F+dyDu+puxx/DDM6VpYPUpVeNsEbr7nGCmNPL51aoJP7E=
-X-Received: by 2002:a02:ccb2:: with SMTP id t18mr7738326jap.123.1616086103010;
- Thu, 18 Mar 2021 09:48:23 -0700 (PDT)
+        bh=9K4dPkNMUlUVtOXj1MYS0wdRhlKCjVW907Y6IqGc/WI=;
+        b=AIAGisqo6tTP03MgcyuBjnaX0Ov00QZmR4hYqwxKkYmcSE6a0ABkuESrMkPD58Zvjf
+         FsDtn55C/DjFKMoDhBQkKMZxPFcBPxJ+ieMcTqtcFiej+E93l3ydJo6/7wmZcMMqqC82
+         mei5hDKGqtmsyW2JdrEizlAQ4MnoSW3wZw/l9SigMUMSb/BNEdYYVg1UzugzlklOz8RP
+         YHD5hF+WA+Y+IH7gIvEwUcSJKtNvf9iqWJXcHwc3VgDT8DK8GJVgl780OZGyygdjVtFu
+         n8cA6fTzhhwRaC37/qZk8oei9Ws6ZQmBgsNfffGSUrGd34d5XQHzBRtOSF+RIGJ9peZo
+         g/zA==
+X-Gm-Message-State: AOAM5304lUlS3Q2Al29aeosYYkS2MsMzQZmSN9c1PZdYw2SvnZi7E2JN
+        fbw+qr6zk2XTTJmUfEUzux2n87qSpEogBbfpb22kY+P+6T8=
+X-Google-Smtp-Source: ABdhPJwFCayL+wDkgj5sy6/o64eznREt2OcKt4/+w0aJMsBJJAuZ8wzOKuL/HX8W1GQMtzFQC/Ht2XYKgCB1yM+g4dA=
+X-Received: by 2002:a92:da48:: with SMTP id p8mr11475308ilq.137.1616087231056;
+ Thu, 18 Mar 2021 10:07:11 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210304112921.3996419-1-amir73il@gmail.com> <20210316155524.GD23532@quack2.suse.cz>
  <CAOQ4uxgCv42_xkKpRH-ApMOeFCWfQGGc11CKxUkHJq-Xf=HnYg@mail.gmail.com>
  <20210317114207.GB2541@quack2.suse.cz> <CAOQ4uxi7ZXJW3_6SN=vw_XJC+wy4eMTayN6X5yRy_HOV6323MA@mail.gmail.com>
- <20210317174532.cllfsiagoudoz42m@wittgenstein> <CAOQ4uxjCjapuAHbYuP8Q_k0XD59UmURbmkGC1qcPkPAgQbQ8DA@mail.gmail.com>
- <20210318143140.jxycfn3fpqntq34z@wittgenstein>
-In-Reply-To: <20210318143140.jxycfn3fpqntq34z@wittgenstein>
+ <20210318154413.GA21462@quack2.suse.cz>
+In-Reply-To: <20210318154413.GA21462@quack2.suse.cz>
 From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Thu, 18 Mar 2021 18:48:11 +0200
-Message-ID: <CAOQ4uxiRHwmxTKsLteH_sBW_dSPshVE8SohJYEmpszxaAwjEyg@mail.gmail.com>
+Date:   Thu, 18 Mar 2021 19:07:00 +0200
+Message-ID: <CAOQ4uxhpB+1iFSSoZy2NuF2diL=8uJ-j8JJVNnujqtphW147cw@mail.gmail.com>
 Subject: Re: [PATCH v2 0/2] unprivileged fanotify listener
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Jan Kara <jack@suse.cz>,
-        Matthew Bobrowski <mbobrowski@mbobrowski.org>,
+To:     Jan Kara <jack@suse.cz>
+Cc:     Matthew Bobrowski <mbobrowski@mbobrowski.org>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
+        Linux API <linux-api@vger.kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-[...]
-
-I understand the use case.
-
-> I'd rather have something that allows me to mirror
+> > That may change when systemd home dirs feature starts to use idmapped
+> > mounts. Being able to watch the user's entire home directory is a big
+> > win already.
 >
-> /home/jdoe
->
-> recursively directly. But maybe I'm misunderstanding fanotify and it
-> can't really help us but I thought that subtree watches might.
+> Do you mean that home directory would be an extra mount with userns in
+> which the user has CAP_SYS_ADMIN so he'd be able to watch subtrees on that
+> mount?
 >
 
-There are no subtree watches. They are still a holy grale for fanotify...
-There are filesystem and mnt watches and the latter support far fewer
-events (only events for operations that carry the path argument).
+That is what I meant.
+My understanding of the systemd-homed use case for idmapped mounts is
+that the user has CAP_SYS_ADMIN is the mapped userns, but I may be wrong.
 
-With filesystem watches, you can get events for all mkdirs and you can
-figure out the created path, but you'd have to do all the filtering in
-userspace.
-
-What I am trying to create is "filtered" filesystem watches and the filter needs
-to be efficient enough so the watcher will not incur too big of a penalty
-on all the operations in the filesystem.
-
-Thanks to your mnt_userns changes, implementing a filter to intercept
-(say) mkdir calles on a specific mnt_userns should be quite simple, but
-filtering by "path" (i.e. /home/jdoe/some/path) will still need to happen in
-userspace.
-
-This narrows the problem to the nested container manager that will only
-need to filter events which happened via mounts under its control.
-
-[...]
-
-> > there shouldn't be a problem to setup userns filtered watches in order to
-> > be notified on all the events that happen via those idmapped mounts
-> > and filtering by "subtree" is not needed.
-> > I am clearly far from understanding the big picture.
+> > > subtree watches would be IMO interesting to much more users.
+> >
+> > Agreed.
+> >
+> > I was looking into that as well, using the example of nfsd_acceptable()
+> > to implement the subtree permission check.
+> >
+> > The problem here is that even if unprivileged users cannot compromise
+> > security, they can still cause significant CPU overhead either queueing
+> > events or filtering events and that is something I haven't been able to
+> > figure out a way to escape from.
 >
-> I think I need to refamiliarize myself with what "subtree" watches do.
-> Maybe I misunderstood what they do. I'll take a look.
->
+> WRT queueing overhead, given a user can place ~1M of directory watches, he
+> can cause noticable total overhead for queueing events anyway. Furthermore
 
-You will not find them :-)
+I suppose so. But a user placing 1M dir watches at least adds this overhead
+knowingly. Adding a overhead on the entire filesystem when just wanting to
+watch a small subtree doesn't sound ideal. Especially in very nested setups.
+So yes, we need to be careful.
 
-[...]
-
-> > Currently, (upstream) only init_userns CAP_SYS_ADMIN can setup
-> > fanotify watches.
-> > In linux-next, unprivileged user can already setup inode watches
-> > (i.e. like inotify).
->
-> Just to clarify: you mean "unprivileged" as in non-root users in
-> init_user_ns and therefore also users in non-init userns. That's what
-
-Correct.
-
-> inotify allows you. This would probably allows us to use fanotify
-> instead of the hand-rolled recursive notify watching we currently do and
-> that I linked to above.
+> the queue size is limited so unless the user spends time consuming events
+> as well, the load won't last long. But I agree we need to be careful not to
+> introduce too big latencies to operations generating events. So I think if
+> we could quickly detect whether a generated event has a good chance of
+> being relevant for some subtree watch of a group and queue it in that case
+> and worry about permission checks only once events are received and thus
+> receiver pays the cost of expensive checks, that might be fine as well.
 >
 
-The code that sits in linux-next can give you pretty much a drop-in
-replacement of inotify and nothing more. See example code:
-https://github.com/amir73il/inotify-tools/commits/fanotify_name_fid
-
-> > If you think that is useful and you want to play with this feature I can
-> > provide a WIP branch soon.
->
-> I would like to first play with the support for unprivileged fanotify
-> but sure, it does sound useful!
-
-Just so you have an idea what I am talking about, this is a very early
-POC branch:
-https://github.com/amir73il/linux/commits/fanotify_userns
-
-It will not be very useful to you yet I think.
-Userns admin can watch all events on a tmpfs/fuse mounted
-inside its userns.
-Userns admin can watch open/read/write/close events on an
-idmapped mount mapped to its userns.
-But I think the more useful feature would be to watch all events on
-an idmapped mount mapped to its userns.
+So far the only idea I had for "quickly detect" which I cannot find flaws in
+is to filter by mnt_userms, but its power is limited.
 
 Thanks,
 Amir.
