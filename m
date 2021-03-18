@@ -2,336 +2,271 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6013834073B
-	for <lists+linux-api@lfdr.de>; Thu, 18 Mar 2021 14:53:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 60D173407DE
+	for <lists+linux-api@lfdr.de>; Thu, 18 Mar 2021 15:32:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229634AbhCRNwl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 18 Mar 2021 09:52:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36250 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230118AbhCRNw0 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 18 Mar 2021 09:52:26 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7BCA264F1B;
-        Thu, 18 Mar 2021 13:52:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1616075546;
-        bh=tOWj3EgNyaR+ilq/9spMoqP9x+BAvlF6hd1CzWlj0jY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=PEekB1HSZDfjAJmnI5U0ogCtFrMkJHDhWcZb6dDKnFXjzfu6qeLGoI5c2aRoiq5X+
-         lRoG2AVwCZKGdLVc4YEELNQsSBL0FenZ6pMKeqji7TbMcFLmcFU6GzR0Uvy2a8gVZ1
-         t0K2e6L3MDk04dWV2Cfiz/X/76g6FfRvjR1NiVloDoqH12xg6Iou1mkdRCMd7eOA9F
-         WBOF1AgE/HuPVH1qW7cTfAShROOLYT8HmUyQLKCklBx1CRTIQGuFguFTQMoqAMphtM
-         jxmB/AVjtd/Gmi4X1+Hszk2NuuzYJTYarm6uOYvo8GTzalQgYTHKYV13os08ORG+Uc
-         wA6CZtciJFD+w==
-From:   Leon Romanovsky <leon@kernel.org>
-To:     Doug Ledford <dledford@redhat.com>,
-        Jason Gunthorpe <jgg@nvidia.com>
-Cc:     Mark Bloch <mbloch@nvidia.com>, linux-api@vger.kernel.org,
-        linux-rdma@vger.kernel.org, Maor Gottlieb <maorg@nvidia.com>
-Subject: [PATCH rdma-next] RDMA/mlx5: Expose private query port
-Date:   Thu, 18 Mar 2021 15:52:21 +0200
-Message-Id: <20210318135221.681014-1-leon@kernel.org>
-X-Mailer: git-send-email 2.30.2
+        id S231354AbhCROcP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 18 Mar 2021 10:32:15 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:40304 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230048AbhCRObo (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 18 Mar 2021 10:31:44 -0400
+Received: from ip5f5af0a0.dynamic.kabel-deutschland.de ([95.90.240.160] helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1lMtgb-0007D5-Ji; Thu, 18 Mar 2021 14:31:41 +0000
+Date:   Thu, 18 Mar 2021 15:31:40 +0100
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Jan Kara <jack@suse.cz>,
+        Matthew Bobrowski <mbobrowski@mbobrowski.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [PATCH v2 0/2] unprivileged fanotify listener
+Message-ID: <20210318143140.jxycfn3fpqntq34z@wittgenstein>
+References: <20210304112921.3996419-1-amir73il@gmail.com>
+ <20210316155524.GD23532@quack2.suse.cz>
+ <CAOQ4uxgCv42_xkKpRH-ApMOeFCWfQGGc11CKxUkHJq-Xf=HnYg@mail.gmail.com>
+ <20210317114207.GB2541@quack2.suse.cz>
+ <CAOQ4uxi7ZXJW3_6SN=vw_XJC+wy4eMTayN6X5yRy_HOV6323MA@mail.gmail.com>
+ <20210317174532.cllfsiagoudoz42m@wittgenstein>
+ <CAOQ4uxjCjapuAHbYuP8Q_k0XD59UmURbmkGC1qcPkPAgQbQ8DA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAOQ4uxjCjapuAHbYuP8Q_k0XD59UmURbmkGC1qcPkPAgQbQ8DA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Mark Bloch <mbloch@nvidia.com>
+On Wed, Mar 17, 2021 at 09:14:06PM +0200, Amir Goldstein wrote:
+> On Wed, Mar 17, 2021 at 7:45 PM Christian Brauner
+> <christian.brauner@ubuntu.com> wrote:
+> >
+> > On Wed, Mar 17, 2021 at 02:19:57PM +0200, Amir Goldstein wrote:
+> > > On Wed, Mar 17, 2021 at 1:42 PM Jan Kara <jack@suse.cz> wrote:
+> > > >
+> > > > On Wed 17-03-21 13:01:35, Amir Goldstein wrote:
+> > > > > On Tue, Mar 16, 2021 at 5:55 PM Jan Kara <jack@suse.cz> wrote:
+> > > > > >
+> > > > > > On Thu 04-03-21 13:29:19, Amir Goldstein wrote:
+> > > > > > > Jan,
+> > > > > > >
+> > > > > > > These patches try to implement a minimal set and least controversial
+> > > > > > > functionality that we can allow for unprivileged users as a starting
+> > > > > > > point.
+> > > > > > >
+> > > > > > > The patches were tested on top of v5.12-rc1 and the fanotify_merge
+> > > > > > > patches using the unprivileged listener LTP tests written by Matthew
+> > > > > > > and another LTP tests I wrote to test the sysfs tunable limits [1].
+> > > > > >
+> > > > > > Thanks. I've added both patches to my tree.
+> > > > >
+> > > > > Great!
+> > > > > I'll go post the LTP tests and work on the man page updates.
+> > > > >
+> > > > > BTW, I noticed that you pushed the aggregating for_next branch,
+> > > > > but not the fsnotify topic branch.
+> > > > >
+> > > > > Is this intentional?
+> > > >
+> > > > Not really, pushed now. Thanks for reminder.
+> > > >
+> > > > > I am asking because I am usually basing my development branches
+> > > > > off of your fsnotify branch, but I can base them on the unpushed branch.
+> > > > >
+> > > > > Heads up. I am playing with extra privileges we may be able to
+> > > > > allow an ns_capable user.
+> > > > > For example, watching a FS_USERNS_MOUNT filesystem that the user
+> > > > > itself has mounted inside userns.
+> > > > >
+> > > > > Another feature I am investigating is how to utilize the new idmapped
+> > > > > mounts to get a subtree watch functionality. This requires attaching a
+> > > > > userns to the group on fanotify_init().
+> > > > >
+> > > > > <hand waving>
+> > > > > If the group's userns are the same or below the idmapped mount userns,
+> > > > > then all the objects accessed via that idmapped mount are accessible
+> > > > > to the group's userns admin. We can use that fact to filter events very
+> > > > > early based on their mnt_userns and the group's userns, which should be
+> > > > > cheaper than any subtree permission checks.
+> > > > > <\hand waving>
+> > > >
+> > > > Yeah, I agree this should work. Just it seems to me the userbase for this
+> > > > functionality will be (at least currently) rather limited. While full
+> > >
+> > > That may change when systemd home dirs feature starts to use
+> > > idmapped mounts.
+> > > Being able to watch the user's entire home directory is a big win
+> > > already.
+> >
+> > Hey Amir,
+> > Hey Jan,
+> >
+> > I think so too.
+> >
+> > >
+> > > > subtree watches would be IMO interesting to much more users.
+> > >
+> > > Agreed.
+> >
+> > We have a use-case for subtree watches: One feature for containers we
+> > have is that users can e.g. tell us that they want the container manager
+> > to hotplug an arbitrary unix or block device into the container whenever
+> > the relevant device shows up on the system. For example they could
+> > instruct the container manager to plugin some new driver device when it
+> > shows up in /dev. That works nicely because of uevents. But users quite
+> > often also instruct us to plugin a path once it shows up in some
+> > directory in the filesystem hierarchy and unplug it once it is removed.
+> > Right now we're mainting an inotify-based hand-rolled recursive watch to
+> > make this work so we detect that add and remove event. I would be wildly
+> > excited if we could get rid of some of that complexity by using subtree
+> > watches. The container manager on the host will be unaffected by this
+> > feature since it will usually have root privileges and manage
+> > unprivileged containers.
+> > The unprivileged (userns use-case specifically here) subtree watches
+> > will be necessary and really good to have to make this work for
+> > container workloads and nested containers, i.e. where the container
+> > manager itselfs runs in a container and starts new containres. Since the
+> > subtree feature would be interesting for systemd itself and since our
+> > container manager (ChromeOS etc.) runs systemd inside unprivileged
+> > containers on a large scale it would be good if subtree watches could
+> > work in userns too.
+> >
+> 
+> I don't understand the subtree watch use case.
+> You will have to walk me through it.
+> 
+> What exactly is the container manager trying to detect?
+> That a subdir of a specific name/path was created/deleted?
+> It doesn't sound like a recursive watch is needed for that.
+> What am I missing?
 
-Expose a non standard query port via IOCTL that will be used to expose
-port attributes that are specific to mlx5 devices.
+Sorry if I was unclear. For example, a user may tell the container
+manager to hotplug
 
-The new interface receives a port number to query and returns a
-structure that contains the available attributes for that port.
-This will be used to fill the gap between pure DEVX use cases
-and use cases where a kernel needs to inform userspace about
-various kernel driver configurations that userspace must use
-in order to work correctly.
+/home/jdoe/some/path/
 
-Flags is used to indicate which fields are valid on return.
+into the container. Users are free to tell the container manager that
+that path doesn't need exist. At that poing the container manager will
+start to mirror the first part of the path that does exist. And as soon
+as the full path has been created the container manager will hotplug
+that path as a new mount into the container. Similarly it will
+remove that mount from the container as soon as the path is deleted from
+the host.
 
-MLX5_IB_UAPI_QUERY_PORT_VPORT:
-	The vport number of the queered port.
+So say the user tells the container manager to inject
 
-MLX5_IB_UAPI_QUERY_PORT_VPORT_VHCA_ID:
-	The VHCA ID of the vport of the queered port.
+/home/jdoe/some/path
 
-MLX5_IB_UAPI_QUERY_PORT_VPORT_STEERING_ICM_RX:
-	The vport's RX ICM address used for sw steering.
+into the container but only
 
-MLX5_IB_UAPI_QUERY_PORT_VPORT_STEERING_ICM_TX:
-	The vport's TX ICM address used for sw steering.
+/home/jdoe
 
-MLX5_IB_UAPI_QUERY_PORT_VPORT_REG_C0:
-	The metadata used to tag egress packets of the vport.
+currently exists then the container manager will recursively watch:
 
-MLX5_IB_UAPI_QUERY_PORT_ESW_OWNER_VHCA_ID:
-	The E-Switch owner vhca id of the vport.
+/home/jdoe
 
-Reviewed-by: Maor Gottlieb <maorg@nvidia.com>
-Signed-off-by: Mark Bloch <mbloch@nvidia.com>
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
----
- drivers/infiniband/hw/mlx5/std_types.c    | 176 ++++++++++++++++++++++
- include/uapi/rdma/mlx5_user_ioctl_cmds.h  |   9 ++
- include/uapi/rdma/mlx5_user_ioctl_verbs.h |  25 +++
- 3 files changed, 210 insertions(+)
+waiting for the full path to be created.
 
-diff --git a/drivers/infiniband/hw/mlx5/std_types.c b/drivers/infiniband/hw/mlx5/std_types.c
-index 16145fda68d0..5bad1441064a 100644
---- a/drivers/infiniband/hw/mlx5/std_types.c
-+++ b/drivers/infiniband/hw/mlx5/std_types.c
-@@ -7,6 +7,8 @@
- #include <rdma/mlx5_user_ioctl_cmds.h>
- #include <rdma/mlx5_user_ioctl_verbs.h>
- #include <linux/mlx5/driver.h>
-+#include <linux/mlx5/eswitch.h>
-+#include <linux/mlx5/vport.h>
- #include "mlx5_ib.h"
- 
- #define UVERBS_MODULE_NAME mlx5_ib
-@@ -23,6 +25,177 @@ static int UVERBS_HANDLER(MLX5_IB_METHOD_PD_QUERY)(
- 			      &mpd->pdn, sizeof(mpd->pdn));
- }
- 
-+static int fill_vport_icm_addr(struct mlx5_core_dev *mdev, u16 vport,
-+			       struct mlx5_ib_uapi_query_port *info)
-+{
-+	u32 out[MLX5_ST_SZ_DW(query_esw_vport_context_out)] = {};
-+	u32 in[MLX5_ST_SZ_DW(query_esw_vport_context_in)] = {};
-+	bool sw_owner_supp;
-+	u64 icm_rx;
-+	u64 icm_tx;
-+	int err;
-+
-+	sw_owner_supp = MLX5_CAP_ESW_FLOWTABLE_FDB(mdev, sw_owner);
-+
-+	if (vport == MLX5_VPORT_UPLINK) {
-+		icm_rx = MLX5_CAP64_ESW_FLOWTABLE(mdev,
-+			sw_steering_uplink_icm_address_rx);
-+		icm_tx = MLX5_CAP64_ESW_FLOWTABLE(mdev,
-+			sw_steering_uplink_icm_address_tx);
-+	} else {
-+		MLX5_SET(query_esw_vport_context_in, in, opcode,
-+			 MLX5_CMD_OP_QUERY_ESW_VPORT_CONTEXT);
-+		MLX5_SET(query_esw_vport_context_in, in, vport_number, vport);
-+		MLX5_SET(query_esw_vport_context_in, in, other_vport, true);
-+
-+		err = mlx5_cmd_exec_inout(mdev, query_esw_vport_context, in,
-+					  out);
-+
-+		if (err)
-+			return err;
-+
-+		icm_rx = MLX5_GET64(
-+			query_esw_vport_context_out, out,
-+			esw_vport_context.sw_steering_vport_icm_address_rx);
-+
-+		icm_tx = MLX5_GET64(
-+			query_esw_vport_context_out, out,
-+			esw_vport_context.sw_steering_vport_icm_address_tx);
-+	}
-+
-+	if (sw_owner_supp && icm_rx) {
-+		info->vport_steering_icm_rx = icm_rx;
-+		info->flags |=
-+			MLX5_IB_UAPI_QUERY_PORT_VPORT_STEERING_ICM_RX;
-+	}
-+
-+	if (sw_owner_supp && icm_tx) {
-+		info->vport_steering_icm_tx = icm_tx;
-+		info->flags |=
-+			MLX5_IB_UAPI_QUERY_PORT_VPORT_STEERING_ICM_TX;
-+	}
-+
-+	return 0;
-+}
-+
-+static int fill_vport_vhca_id(struct mlx5_core_dev *mdev, u16 vport,
-+			      struct mlx5_ib_uapi_query_port *info)
-+{
-+	size_t out_sz = MLX5_ST_SZ_BYTES(query_hca_cap_out);
-+	u32 in[MLX5_ST_SZ_DW(query_hca_cap_in)] = {};
-+	void *out;
-+	int err;
-+
-+	out = kzalloc(out_sz, GFP_KERNEL);
-+	if (!out)
-+		return -ENOMEM;
-+
-+	MLX5_SET(query_hca_cap_in, in, opcode, MLX5_CMD_OP_QUERY_HCA_CAP);
-+	MLX5_SET(query_hca_cap_in, in, other_function, true);
-+	MLX5_SET(query_hca_cap_in, in, function_id, vport);
-+	MLX5_SET(query_hca_cap_in, in, op_mod,
-+		 MLX5_SET_HCA_CAP_OP_MOD_GENERAL_DEVICE |
-+		 HCA_CAP_OPMOD_GET_CUR);
-+
-+	err = mlx5_cmd_exec(mdev, in, sizeof(in), out, out_sz);
-+	if (err)
-+		goto out;
-+
-+	info->vport_vhca_id = MLX5_GET(query_hca_cap_out, out,
-+				       capability.cmd_hca_cap.vhca_id);
-+
-+	info->flags |= MLX5_IB_UAPI_QUERY_PORT_VPORT_VHCA_ID;
-+out:
-+	kfree(out);
-+	return err;
-+}
-+
-+static int fill_switchdev_info(struct mlx5_ib_dev *dev, u32 port_num,
-+			       struct mlx5_ib_uapi_query_port *info)
-+{
-+	struct mlx5_core_dev *mdev = dev->mdev;
-+	struct mlx5_eswitch_rep *rep;
-+	int err;
-+
-+	rep = dev->port[port_num - 1].rep;
-+	if (!rep)
-+		return -EOPNOTSUPP;
-+
-+	info->vport = rep->vport;
-+	info->flags |= MLX5_IB_UAPI_QUERY_PORT_VPORT;
-+
-+	if (rep->vport != MLX5_VPORT_UPLINK) {
-+		err = fill_vport_vhca_id(mdev, rep->vport, info);
-+		if (err)
-+			return err;
-+	}
-+
-+	info->esw_owner_vhca_id = MLX5_CAP_GEN(mdev, vhca_id);
-+	info->flags |= MLX5_IB_UAPI_QUERY_PORT_ESW_OWNER_VHCA_ID;
-+
-+	err = fill_vport_icm_addr(mdev, rep->vport, info);
-+	if (err)
-+		return err;
-+
-+	if (mlx5_eswitch_vport_match_metadata_enabled(mdev->priv.eswitch)) {
-+		info->reg_c0.value = mlx5_eswitch_get_vport_metadata_for_match(
-+			mdev->priv.eswitch, rep->vport);
-+		info->reg_c0.mask = mlx5_eswitch_get_vport_metadata_mask();
-+		info->flags |= MLX5_IB_UAPI_QUERY_PORT_VPORT_REG_C0;
-+	}
-+
-+	return 0;
-+}
-+
-+static int UVERBS_HANDLER(MLX5_IB_METHOD_QUERY_PORT)(
-+	struct uverbs_attr_bundle *attrs)
-+{
-+	struct mlx5_ib_uapi_query_port *info;
-+	struct mlx5_ib_ucontext *c;
-+	struct mlx5_ib_dev *dev;
-+	u32 port_num;
-+	int ret;
-+
-+	if (uverbs_copy_from(&port_num, attrs,
-+			     MLX5_IB_ATTR_QUERY_PORT_PORT_NUM))
-+		return -EFAULT;
-+
-+	c = to_mucontext(ib_uverbs_get_ucontext(attrs));
-+	if (IS_ERR(c))
-+		return PTR_ERR(c);
-+	dev = to_mdev(c->ibucontext.device);
-+
-+	if (!rdma_is_port_valid(&dev->ib_dev, port_num))
-+		return -EINVAL;
-+
-+	info = uverbs_zalloc(attrs, sizeof(*info));
-+	if (IS_ERR(info))
-+		return PTR_ERR(info);
-+
-+	if (mlx5_eswitch_mode(dev->mdev) == MLX5_ESWITCH_OFFLOADS) {
-+		ret = fill_switchdev_info(dev, port_num, info);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return uverbs_copy_to(attrs, MLX5_IB_ATTR_QUERY_PORT, info,
-+			      sizeof(*info));
-+}
-+
-+DECLARE_UVERBS_NAMED_METHOD(
-+	MLX5_IB_METHOD_QUERY_PORT,
-+	UVERBS_ATTR_PTR_IN(MLX5_IB_ATTR_QUERY_PORT_PORT_NUM,
-+			   UVERBS_ATTR_TYPE(u32), UA_MANDATORY),
-+	UVERBS_ATTR_PTR_OUT(
-+		MLX5_IB_ATTR_QUERY_PORT,
-+		UVERBS_ATTR_STRUCT(struct mlx5_ib_uapi_query_port,
-+				   reg_c0),
-+		UA_MANDATORY));
-+
-+ADD_UVERBS_METHODS(mlx5_ib_device,
-+		   UVERBS_OBJECT_DEVICE,
-+		   &UVERBS_METHOD(MLX5_IB_METHOD_QUERY_PORT));
-+
- DECLARE_UVERBS_NAMED_METHOD(
- 	MLX5_IB_METHOD_PD_QUERY,
- 	UVERBS_ATTR_IDR(MLX5_IB_ATTR_QUERY_PD_HANDLE,
-@@ -41,5 +214,8 @@ const struct uapi_definition mlx5_ib_std_types_defs[] = {
- 	UAPI_DEF_CHAIN_OBJ_TREE(
- 		UVERBS_OBJECT_PD,
- 		&mlx5_ib_pd),
-+	UAPI_DEF_CHAIN_OBJ_TREE(
-+		UVERBS_OBJECT_DEVICE,
-+		&mlx5_ib_device),
- 	{},
- };
-diff --git a/include/uapi/rdma/mlx5_user_ioctl_cmds.h b/include/uapi/rdma/mlx5_user_ioctl_cmds.h
-index 3798cbcb9021..ca2372864b70 100644
---- a/include/uapi/rdma/mlx5_user_ioctl_cmds.h
-+++ b/include/uapi/rdma/mlx5_user_ioctl_cmds.h
-@@ -320,4 +320,13 @@ enum mlx5_ib_pd_methods {
- 
- };
- 
-+enum mlx5_ib_device_methods {
-+	MLX5_IB_METHOD_QUERY_PORT = (1U << UVERBS_ID_NS_SHIFT),
-+};
-+
-+enum mlx5_ib_query_port_attrs {
-+	MLX5_IB_ATTR_QUERY_PORT_PORT_NUM = (1U << UVERBS_ID_NS_SHIFT),
-+	MLX5_IB_ATTR_QUERY_PORT,
-+};
-+
- #endif
-diff --git a/include/uapi/rdma/mlx5_user_ioctl_verbs.h b/include/uapi/rdma/mlx5_user_ioctl_verbs.h
-index 8ac253dc2495..a9b67ad11483 100644
---- a/include/uapi/rdma/mlx5_user_ioctl_verbs.h
-+++ b/include/uapi/rdma/mlx5_user_ioctl_verbs.h
-@@ -84,5 +84,30 @@ enum mlx5_ib_uapi_uar_alloc_type {
- 	MLX5_IB_UAPI_UAR_ALLOC_TYPE_NC = 0x1,
- };
- 
-+enum mlx5_ib_uapi_query_port_flags {
-+	MLX5_IB_UAPI_QUERY_PORT_VPORT			= 1 << 0,
-+	MLX5_IB_UAPI_QUERY_PORT_VPORT_VHCA_ID		= 1 << 1,
-+	MLX5_IB_UAPI_QUERY_PORT_VPORT_STEERING_ICM_RX	= 1 << 2,
-+	MLX5_IB_UAPI_QUERY_PORT_VPORT_STEERING_ICM_TX	= 1 << 3,
-+	MLX5_IB_UAPI_QUERY_PORT_VPORT_REG_C0		= 1 << 4,
-+	MLX5_IB_UAPI_QUERY_PORT_ESW_OWNER_VHCA_ID	= 1 << 5,
-+};
-+
-+struct mlx5_ib_uapi_reg {
-+	__u32 value;
-+	__u32 mask;
-+};
-+
-+struct mlx5_ib_uapi_query_port {
-+	__u64 flags;
-+	__u16 vport;
-+	__u16 vport_vhca_id;
-+	__u16 esw_owner_vhca_id;
-+	__u16 rsvd0;
-+	__u64 vport_steering_icm_rx;
-+	__u64 vport_steering_icm_tx;
-+	struct mlx5_ib_uapi_reg reg_c0;
-+};
-+
- #endif
- 
--- 
-2.30.2
+This is all a bit nasty since we need to ensure that we notice all
+events. For example, the user could create
 
+/home/jdoe/some
+
+but then right after that
+
+/home/jdoe/some
+
+could be removed again. With the inotify listener we need to constantly
+add (and remove iirc) watch fds and ensure that we never miss an event
+and that's brittle. I'd rather have something that allows me to mirror
+
+/home/jdoe
+
+recursively directly. But maybe I'm misunderstanding fanotify and it
+can't really help us but I thought that subtree watches might.
+
+One of the reason't I didn't use fanotiy when we implemented this was
+that it couldn't be used inside of user namespaces, i.e. CAP_SYS_ADMIN
+in the initial userns was required.
+We always make very sure that users can properly nest containers and
+have almost all the same features available that they have with
+non-nested containers. And since fanotify currently requires
+CAP_SYS_ADMIN in the init userns it means a container manager running
+inside a container wanting to hotplug paths for nested containers can't
+use fanotify. 
+
+(Btw, this is part of the code I wrote to implement this logic via
+inotify a long time ago
+https://github.com/lxc/lxd/blob/f12f03a4ba4645892ef6cc167c24da49d1217b02/lxd/device/device_utils_inotify.go
+[I'm sorry you have to see this in case you click on it...])
+
+> 
+> As for nested container managers (and systemd), my thinking is
+> that if all the mounts that manager is watching for serving its containers
+> are idmapped to that manager's userns (is that a viable option?), then
+
+Yes, it is possible. We do now support AT_RECURSIVE with all mount
+attributes including idmapping mounts.
+
+> there shouldn't be a problem to setup userns filtered watches in order to
+> be notified on all the events that happen via those idmapped mounts
+> and filtering by "subtree" is not needed.
+> I am clearly far from understanding the big picture.
+
+I think I need to refamiliarize myself with what "subtree" watches do.
+Maybe I misunderstood what they do. I'll take a look.
+
+> 
+> > >
+> > > I was looking into that as well, using the example of nfsd_acceptable()
+> > > to implement the subtree permission check.
+> > >
+> > > The problem here is that even if unprivileged users cannot compromise
+> > > security, they can still cause significant CPU overhead either queueing
+> > > events or filtering events and that is something I haven't been able to
+> > > figure out a way to escape from.
+> > >
+> > > BUT, if you allow userns admin to setup subtree watches (a.k.a filtered
+> > > filesystem marks) on a userns filesystem/idmapped mount, now users
+> >
+> > I think that sounds reasonable.
+> > If the mount really is idmapped, it might be interesting to consider
+> > checking for privilege in the mnt_userns in addition to the regular
+> > permission checks that fanotify performs. My (equally handwavy) thinking
+> > is that this might allow for a nice feature where the creator of the
+> > mount (e.g. systemd) can block the creation of subtree watches by
+> > attaching a mnt_userns to the mnt that the user has no privilege in.
+> > (Just a thought.).
+> >
+> 
+> Currently, (upstream) only init_userns CAP_SYS_ADMIN can setup
+> fanotify watches.
+> In linux-next, unprivileged user can already setup inode watches
+> (i.e. like inotify).
+
+Just to clarify: you mean "unprivileged" as in non-root users in
+init_user_ns and therefore also users in non-init userns. That's what
+inotify allows you. This would probably allows us to use fanotify
+instead of the hand-rolled recursive notify watching we currently do and
+that I linked to above.
+
+> 
+> So I am not sure what you are referring to by "block the creation of
+> subtree watches".
+> 
+> If systemd were to idmap my home dir to mnt_userns where my user
+> has CAP_SYS_ADMIN, then allowing my user to setup a watch for
+> all events on that mount should not be too hard.
+
+Right, that was essentially what my comment was about.
+
+> If you think that is useful and you want to play with this feature I can
+> provide a WIP branch soon.
+
+I would like to first play with the support for unprivileged fanotify
+but sure, it does sound useful!
+
+Christian
