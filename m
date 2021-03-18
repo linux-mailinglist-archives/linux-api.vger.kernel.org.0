@@ -2,75 +2,161 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DF194340D54
-	for <lists+linux-api@lfdr.de>; Thu, 18 Mar 2021 19:41:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B4BAC340DD2
+	for <lists+linux-api@lfdr.de>; Thu, 18 Mar 2021 20:06:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232494AbhCRSlD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 18 Mar 2021 14:41:03 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:48022 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232330AbhCRSkq (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 18 Mar 2021 14:40:46 -0400
-Received: from ip5f5af0a0.dynamic.kabel-deutschland.de ([95.90.240.160] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1lMxZb-0007PH-OZ; Thu, 18 Mar 2021 18:40:43 +0000
-Date:   Thu, 18 Mar 2021 19:40:37 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     Jan Kara <jack@suse.cz>,
-        Matthew Bobrowski <mbobrowski@mbobrowski.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH v2 0/2] unprivileged fanotify listener
-Message-ID: <20210318184037.k7y3nrk3naktuwvl@wittgenstein>
-References: <20210304112921.3996419-1-amir73il@gmail.com>
- <20210316155524.GD23532@quack2.suse.cz>
- <CAOQ4uxgCv42_xkKpRH-ApMOeFCWfQGGc11CKxUkHJq-Xf=HnYg@mail.gmail.com>
- <20210317114207.GB2541@quack2.suse.cz>
- <CAOQ4uxi7ZXJW3_6SN=vw_XJC+wy4eMTayN6X5yRy_HOV6323MA@mail.gmail.com>
- <20210318154413.GA21462@quack2.suse.cz>
- <CAOQ4uxhpB+1iFSSoZy2NuF2diL=8uJ-j8JJVNnujqtphW147cw@mail.gmail.com>
+        id S232782AbhCRTGV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 18 Mar 2021 15:06:21 -0400
+Received: from mga14.intel.com ([192.55.52.115]:40804 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231590AbhCRTGA (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 18 Mar 2021 15:06:00 -0400
+IronPort-SDR: xKOc06sQKVp6/FUGF8fGeXIx5jd4M5nHvgocyvCnyt5yP/Hf/oIGqfRgh4M0Iy98GPknM62ctr
+ dEJvILz/Iv2A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9927"; a="189128303"
+X-IronPort-AV: E=Sophos;i="5.81,259,1610438400"; 
+   d="scan'208";a="189128303"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2021 12:06:00 -0700
+IronPort-SDR: hqYeyuc91+tiTRuC7ikztwLhEgKS2tALLRwJSbZ64YO5K2tylKZBX7tsRUFeWimmlOPHqcL6yO
+ P5Jcq/OKHeVg==
+X-IronPort-AV: E=Sophos;i="5.81,259,1610438400"; 
+   d="scan'208";a="389358155"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.36.121]) ([10.209.36.121])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2021 12:05:58 -0700
+Subject: Re: [PATCH v23 22/28] x86/cet/shstk: User-mode shadow stack support
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
+ <20210316151054.5405-23-yu-cheng.yu@intel.com>
+ <20210318123215.GE19570@zn.tnic>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <b05ee7eb-1b5d-f84f-c8f3-bfe9426e8a7d@intel.com>
+Date:   Thu, 18 Mar 2021 12:05:58 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAOQ4uxhpB+1iFSSoZy2NuF2diL=8uJ-j8JJVNnujqtphW147cw@mail.gmail.com>
+In-Reply-To: <20210318123215.GE19570@zn.tnic>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Mar 18, 2021 at 07:07:00PM +0200, Amir Goldstein wrote:
-> > > That may change when systemd home dirs feature starts to use idmapped
-> > > mounts. Being able to watch the user's entire home directory is a big
-> > > win already.
-> >
-> > Do you mean that home directory would be an extra mount with userns in
-> > which the user has CAP_SYS_ADMIN so he'd be able to watch subtrees on that
-> > mount?
-> >
+On 3/18/2021 5:32 AM, Borislav Petkov wrote:
+>> Subject: Re: [PATCH v23 22/28] x86/cet/shstk:   User-mode shadow stack support
+> 						^
+> 						Add
 > 
-> That is what I meant.
-> My understanding of the systemd-homed use case for idmapped mounts is
-> that the user has CAP_SYS_ADMIN is the mapped userns, but I may be wrong.
+> On Tue, Mar 16, 2021 at 08:10:48AM -0700, Yu-cheng Yu wrote:
+>> Introduce basic shadow stack enabling/disabling/allocation routines.
+>> A task's shadow stack is allocated from memory with VM_SHSTK flag and has
+>> a fixed size of min(RLIMIT_STACK, 4GB).
+>>
+>> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+>> Reviewed-by: Kees Cook <keescook@chromium.org>
+>> ---
+>>   arch/x86/include/asm/cet.h       |  28 ++++++
+>>   arch/x86/include/asm/processor.h |   5 ++
+>>   arch/x86/kernel/Makefile         |   2 +
+>>   arch/x86/kernel/cet.c            | 147 +++++++++++++++++++++++++++++++
 
-systemd can simply create a new userns with the uid/gid of the target
-user effectively delegating it (That's independent of actually writing a
-uid gid mapping for the userns which will be done with privileges.) and
-then attach it to that mount for the user.
-Mine and Lennart's idea there so far has been that the creation would
-likely be done by the user's session at login time
+[...]
 
-brauner     1346  0.0  0.0  20956  8512 ?        Ss   Mar03   0:03 /lib/systemd/systemd --user
+>> +void cet_free_shstk(struct task_struct *tsk)
+>> +{
+>> +	struct cet_status *cet = &tsk->thread.cet;
+>> +
+>> +	if (!static_cpu_has(X86_FEATURE_SHSTK) ||
+> 
+> cpu_feature_enabled and as above.
+> 
+>> +	    !cet->shstk_size || !cet->shstk_base)
+>> +		return;
+>> +
+>> +	if (!tsk->mm || tsk->mm != current->mm)
+>> +		return;
+> 
+> You're operating on current here merrily but what's protecting all those
+> paths operating on current from getting current changed underneath them
+> due to scheduling? IOW, is preemption safely disabled in all those
+> paths ending up here?
 
-and systemd as root would then take care of writing the mapping to the
-userns and then attaching it to the mount. (I'll see Lennart in the next
-few days and see what works best and once we're ready start a discussion
-somwhere on a public list, I would suggest.)
+Good thought.  Indeed, this looks like scheduling would bring some 
+trouble.  However, when this instance is running, the current task must 
+be current, context switch or not.  The purpose of this check is 
+described below.
 
-(If systemd doesn't want a user to be able to monitor a mnt it can
-simply create a userns with a different uid/gid but with the relevant
-mapping. This was what my earlier point was about "blocking a user from
-creating a subtree watch".)
+When fork() fails, it calls exit_thread(), then cet_free_shstk(). 
+Normally the child tsk->mm != current->mm (parent).  There is no need to 
+free shadow stack.
 
-Christian
+For CLONE_VM, however, the kernel has already allocated a shadow stack 
+for the child and needs to free it because fork() failed.
+
+Maybe I would add comments here.
+
+> 
+>> +
+>> +	while (1) {
+> 
+> Uuh, an endless loop. What guarantees we'll exit it relatively timely...
+> 
+>> +		int r;
+>> +
+>> +		r = vm_munmap(cet->shstk_base, cet->shstk_size);
+>> +
+>> +		/*
+>> +		 * Retry if mmap_lock is not available.
+>> +		 */
+>> +		if (r == -EINTR) {
+>> +			cond_resched();
+> 
+> ... that thing?
+
+If vm_munmap() returns -EINTR, mmap_lock is held by something else. 
+That lock should not be held forever.  For other types of error, the 
+loop stops.
+
+> 
+>> +			continue;
+>> +		}
+>> +
+>> +		WARN_ON_ONCE(r);
+>> +		break;
+>> +	}
+>> +
+>> +	cet->shstk_base = 0;
+>> +	cet->shstk_size = 0;
+>> +}
+>> -- 
+>> 2.21.0
+>>
+> 
+
