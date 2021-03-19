@@ -2,165 +2,125 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 629AC3423F5
-	for <lists+linux-api@lfdr.de>; Fri, 19 Mar 2021 19:04:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E78D0342425
+	for <lists+linux-api@lfdr.de>; Fri, 19 Mar 2021 19:11:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230115AbhCSSEH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 19 Mar 2021 14:04:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45200 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230024AbhCSSDo (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 19 Mar 2021 14:03:44 -0400
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 674C4C061760
-        for <linux-api@vger.kernel.org>; Fri, 19 Mar 2021 11:03:44 -0700 (PDT)
-Received: by mail-pg1-x533.google.com with SMTP id e33so4210553pgm.13
-        for <linux-api@vger.kernel.org>; Fri, 19 Mar 2021 11:03:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=Fgm96KdkqPPp5AyePMeoZ4bVy8WajnICuOF6lgD+oIg=;
-        b=WLn4qJw0mRnRd2MuhQP7t0sfnyhwEvjNu988xXSPLRxMyhbXuwpXBBTk46I7unAvON
-         cjyhkk6qSlLOYR0UI87kTBxgP/Wnddx3aAKZdL5coNoywwluId0NvmkBbwQcv409IPbH
-         mzySyBVh/E+KEz95rYinZ5MCAQ1HFNil/owiM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=Fgm96KdkqPPp5AyePMeoZ4bVy8WajnICuOF6lgD+oIg=;
-        b=mmMQZ0NBaGiJfmMXalUh8mA4f3qa8Xb2FZjDP2Yee0g2Dn2XjcPG6j67C6mrT1S6cF
-         eQCe6ZDQvtCAWlm18rQhl3vBKBZyRbuMj4ueQy+ovl8H0PI98Ob5lJCH016ynhYI9lna
-         ACAuFksTc5OqypVx3l5ekICDy7I9sn6obs7QOKj63+FRODKbGhdMaxlkY4RbQEne+bOV
-         /jwCDZ3ZrCopR4r+Df0xNjhR6xen6UDiGmo7SXb8RTKp3oZIcIieGiurWPwY6WJilfUa
-         hk2Mo8uKqVCUD8+39wG8KAMZ5HZe4t1umJpMqvV7ZDSHq7N6+0XH5y+s4rqxQnZUc0a7
-         KfHw==
-X-Gm-Message-State: AOAM532SyQeL7sA9G4uS+6EDYgLPY7dFh1pMwNUYTUHLsJopxCJnNYGh
-        /sEnwVOw59NO+I0uxY78ZteH6w==
-X-Google-Smtp-Source: ABdhPJzhTUxr8xtElyOo2sGLLBM/SHQIPL7qbearL3PQEkxev8oiF1oDVJM+cInZoueV8pCU8aX6hQ==
-X-Received: by 2002:aa7:99c4:0:b029:1f6:c0bf:43d1 with SMTP id v4-20020aa799c40000b02901f6c0bf43d1mr10042556pfi.37.1616177023839;
-        Fri, 19 Mar 2021 11:03:43 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id m16sm5544874pgj.26.2021.03.19.11.03.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Mar 2021 11:03:43 -0700 (PDT)
-Date:   Fri, 19 Mar 2021 11:03:42 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
-Cc:     James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
+        id S230028AbhCSSKd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 19 Mar 2021 14:10:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50178 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230177AbhCSSK1 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 19 Mar 2021 14:10:27 -0400
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 04E4F6194C;
+        Fri, 19 Mar 2021 18:10:19 +0000 (UTC)
+Date:   Fri, 19 Mar 2021 14:10:18 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Andrew Lunn <andrew@lunn.ch>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
         Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        David Howells <dhowells@redhat.com>,
-        Jeff Dike <jdike@addtoit.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Brian Cain <bcain@codeaurora.org>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Chris Zankel <chris@zankel.net>,
+        Corentin Labbe <clabbe@baylibre.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Greentime Hu <green.hu@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Helge Deller <deller@gmx.de>, Hillf Danton <hdanton@sina.com>,
+        huang ying <huang.ying.caritas@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Jonas Bonn <jonas@southpole.se>,
         Jonathan Corbet <corbet@lwn.net>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        linux-security-module@vger.kernel.org, x86@kernel.org,
-        =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@linux.microsoft.com>
-Subject: Re: [PATCH v30 12/12] landlock: Add user and kernel documentation
-Message-ID: <202103191056.71AB0515A@keescook>
-References: <20210316204252.427806-1-mic@digikod.net>
- <20210316204252.427806-13-mic@digikod.net>
+        Kairui Song <kasong@redhat.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Matt Turner <mattst88@gmail.com>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Mikulas Patocka <mpatocka@redhat.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Oleksiy Avramchenko <oleksiy.avramchenko@sonymobile.com>,
+        Palmer Dabbelt <palmerdabbelt@google.com>,
+        Paul Mackerras <paulus@samba.org>,
+        "Pavel Machek (CIP)" <pavel@denx.de>, Pavel Machek <pavel@ucw.cz>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Pierre Morel <pmorel@linux.ibm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Richard Henderson <rth@twiddle.net>,
+        Rich Felker <dalias@libc.org>,
+        Robert Richter <rric@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Stafford Horne <shorne@gmail.com>,
+        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Theodore Dubois <tblodt@icloud.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        William Cohen <wcohen@redhat.com>,
+        Xiaoming Ni <nixiaoming@huawei.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>
+Subject: Re: [PATCH RFC 0/3] drivers/char: remove /dev/kmem for good
+Message-ID: <20210319141018.5ee1a5ac@gandalf.local.home>
+In-Reply-To: <20210319143452.25948-1-david@redhat.com>
+References: <20210319143452.25948-1-david@redhat.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210316204252.427806-13-mic@digikod.net>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Mar 16, 2021 at 09:42:52PM +0100, Mickaël Salaün wrote:
-> From: Mickaël Salaün <mic@linux.microsoft.com>
-> 
-> This documentation can be built with the Sphinx framework.
+On Fri, 19 Mar 2021 15:34:49 +0100
+David Hildenbrand <david@redhat.com> wrote:
 
-Well, yes. :) Maybe describe what the documentation covers instead here.
-Regardless: yay docs! This is great.
+> Let's start a discussion if /dev/kmem is worth keeping around and
+> fixing/maintaining or if we should just remove it now for good.
 
-> [...]
-> +Bind mounts and OverlayFS
-> +-------------------------
-> +
-> +Landlock enables to restrict access to file hierarchies, which means that these
-> +access rights can be propagated with bind mounts (cf.
-> +:doc:`/filesystems/sharedsubtree`) but not with :doc:`/filesystems/overlayfs`.
-> +
-> +A bind mount mirrors a source file hierarchy to a destination.  The destination
-> +hierarchy is then composed of the exact same files, on which Landlock rules can
-> +be tied, either via the source or the destination path.  These rules restrict
-> +access when they are encountered on a path, which means that they can restrict
-> +access to multiple file hierarchies at the same time, whether these hierarchies
-> +are the result of bind mounts or not.
-> +
-> +An OverlayFS mount point consists of upper and lower layers.  These layers are
-> +combined in a merge directory, result of the mount point.  This merge hierarchy
-> +may include files from the upper and lower layers, but modifications performed
-> +on the merge hierarchy only reflects on the upper layer.  From a Landlock
-> +policy point of view, each OverlayFS layers and merge hierarchies are
-> +standalone and contains their own set of files and directories, which is
-> +different from bind mounts.  A policy restricting an OverlayFS layer will not
-> +restrict the resulted merged hierarchy, and vice versa.
+The last time I used /dev/kmem was in 2003. While in Germany, my home
+firewall (in the US) got rooted. I could ssh into the box but had no way to
+shut it down because the rootkit took over all those commands (luckily it
+still allowed me to become root). I finally killed the box with:
 
-Can you include some examples about what a user of landlock should do?
-i.e. what are some examples of unexpected results when trying to write
-policy that runs on top of overlayfs, etc?
+ # ls -lR / > /dev/kmem
 
-> [...]
-> +File renaming and linking
-> +-------------------------
-> +
-> +Because Landlock targets unprivileged access controls, it is needed to properly
-> +handle composition of rules.  Such property also implies rules nesting.
-> +Properly handling multiple layers of ruleset, each one of them able to restrict
-> +access to files, also implies to inherit the ruleset restrictions from a parent
-> +to its hierarchy.  Because files are identified and restricted by their
-> +hierarchy, moving or linking a file from one directory to another implies to
-> +propagate the hierarchy constraints.  To protect against privilege escalations
-> +through renaming or linking, and for the sack of simplicity, Landlock currently
+ ;-)
 
-typo: sack -> sake
+But today I have other means of killing the box (or at least crippling it).
+Thus, it's obsolete in my book.
 
-> [...]
-> +Special filesystems
-> +-------------------
-> +
-> +Access to regular files and directories can be restricted by Landlock,
-> +according to the handled accesses of a ruleset.  However, files that do not
-> +come from a user-visible filesystem (e.g. pipe, socket), but can still be
-> +accessed through /proc/self/fd/, cannot currently be restricted.  Likewise,
-> +some special kernel filesystems such as nsfs, which can be accessed through
-> +/proc/self/ns/, cannot currently be restricted.  For now, these kind of special
-> +paths are then always allowed.  Future Landlock evolutions will enable to
-> +restrict such paths with dedicated ruleset flags.
-
-With this series, can /proc (at the top level) be blocked? (i.e. can a
-landlock user avoid the weirdness by making /proc/$pid/ unavailable?)
-
-> +Ruleset layers
-> +--------------
-> +
-> +There is a limit of 64 layers of stacked rulesets.  This can be an issue for a
-> +task willing to enforce a new ruleset in complement to its 64 inherited
-> +rulesets.  Once this limit is reached, sys_landlock_restrict_self() returns
-> +E2BIG.  It is then strongly suggested to carefully build rulesets once in the
-> +life of a thread, especially for applications able to launch other applications
-> +that may also want to sandbox themselves (e.g. shells, container managers,
-> +etc.).
-
-How was this value (64) chosen?
-
--- 
-Kees Cook
+-- Steve
