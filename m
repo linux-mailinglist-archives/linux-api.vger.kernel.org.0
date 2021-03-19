@@ -2,162 +2,129 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AE1C934255A
-	for <lists+linux-api@lfdr.de>; Fri, 19 Mar 2021 19:55:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C6434342577
+	for <lists+linux-api@lfdr.de>; Fri, 19 Mar 2021 19:56:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230478AbhCSSyn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 19 Mar 2021 14:54:43 -0400
-Received: from smtp-42af.mail.infomaniak.ch ([84.16.66.175]:53707 "EHLO
-        smtp-42af.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230221AbhCSSyc (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 19 Mar 2021 14:54:32 -0400
-Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4F2Cjq0h8fzMqSGc;
-        Fri, 19 Mar 2021 19:54:23 +0100 (CET)
-Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
-        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4F2Cjk3K5rzlh8TH;
-        Fri, 19 Mar 2021 19:54:18 +0100 (CET)
-Subject: Re: [PATCH v30 12/12] landlock: Add user and kernel documentation
-To:     Kees Cook <keescook@chromium.org>
-Cc:     James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
+        id S230367AbhCSS4Q (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 19 Mar 2021 14:56:16 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:56742 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231261AbhCSSzp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 19 Mar 2021 14:55:45 -0400
+Received: from 1.is.james.uk.vpn ([10.172.254.24] helo=malefic)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <james.troup@canonical.com>)
+        id 1lNKHU-0000QK-Mt; Fri, 19 Mar 2021 18:55:32 +0000
+Received: from james by malefic with local (Exim 4.94 #2 (Debian))
+        id 1lNKHT-00CrFO-NC; Fri, 19 Mar 2021 18:55:31 +0000
+From:   James Troup <james.troup@canonical.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     David Hildenbrand <david@redhat.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Andrew Lunn <andrew@lunn.ch>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
         Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        David Howells <dhowells@redhat.com>,
-        Jeff Dike <jdike@addtoit.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Brian Cain <bcain@codeaurora.org>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Chris Zankel <chris@zankel.net>,
+        Corentin Labbe <clabbe@baylibre.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Greentime Hu <green.hu@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Helge Deller <deller@gmx.de>, Hillf Danton <hdanton@sina.com>,
+        huang ying <huang.ying.caritas@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Jonas Bonn <jonas@southpole.se>,
         Jonathan Corbet <corbet@lwn.net>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        linux-security-module@vger.kernel.org, x86@kernel.org,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>
-References: <20210316204252.427806-1-mic@digikod.net>
- <20210316204252.427806-13-mic@digikod.net> <202103191056.71AB0515A@keescook>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <81c76347-9e92-244f-6f32-600984a6c5cb@digikod.net>
-Date:   Fri, 19 Mar 2021 19:54:34 +0100
-User-Agent: 
+        Kairui Song <kasong@redhat.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Matt Turner <mattst88@gmail.com>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Mikulas Patocka <mpatocka@redhat.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Oleksiy Avramchenko <oleksiy.avramchenko@sonymobile.com>,
+        Palmer Dabbelt <palmerdabbelt@google.com>,
+        Paul Mackerras <paulus@samba.org>,
+        "Pavel Machek \(CIP\)" <pavel@denx.de>,
+        Pavel Machek <pavel@ucw.cz>,
+        "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
+        Pierre Morel <pmorel@linux.ibm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Richard Henderson <rth@twiddle.net>,
+        Rich Felker <dalias@libc.org>,
+        Robert Richter <rric@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Stafford Horne <shorne@gmail.com>,
+        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Theodore Dubois <tblodt@icloud.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        William Cohen <wcohen@redhat.com>,
+        Xiaoming Ni <nixiaoming@huawei.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>
+Subject: Re: [PATCH RFC 0/3] drivers/char: remove /dev/kmem for good
+References: <20210319143452.25948-1-david@redhat.com>
+        <CAHk-=wg1HTbXkjdMYA4zADEiE8HwpZ0=uWy0ujZTJYVT-KCehQ@mail.gmail.com>
+Mail-Copies-To: never
+Date:   Fri, 19 Mar 2021 18:55:31 +0000
+In-Reply-To: <CAHk-=wg1HTbXkjdMYA4zADEiE8HwpZ0=uWy0ujZTJYVT-KCehQ@mail.gmail.com>
+        (Linus Torvalds's message of "Fri, 19 Mar 2021 10:14:02 -0700")
+Message-ID: <875z1n55y4.fsf@canonical.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <202103191056.71AB0515A@keescook>
-Content-Type: text/plain; charset=iso-8859-15
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+Linus Torvalds <torvalds@linux-foundation.org> writes:
 
-On 19/03/2021 19:03, Kees Cook wrote:
-> On Tue, Mar 16, 2021 at 09:42:52PM +0100, Mickaël Salaün wrote:
->> From: Mickaël Salaün <mic@linux.microsoft.com>
+> On Fri, Mar 19, 2021 at 7:35 AM David Hildenbrand <david@redhat.com> wrote:
 >>
->> This documentation can be built with the Sphinx framework.
-> 
-> Well, yes. :) Maybe describe what the documentation covers instead here.
-> Regardless: yay docs! This is great.
+>> Let's start a discussion if /dev/kmem is worth keeping around and
+>> fixing/maintaining or if we should just remove it now for good.
+>
+> I'll happily do this for the next merge window, but would really want
+> distros to confirm that they don't enable it.
 
-Well, I don't know what to describe other than the subject, the rest is
-in the patch. :)
+FWIW, it's been disabled in Ubuntu for over 10 years now:
 
-> 
->> [...]
->> +Bind mounts and OverlayFS
->> +-------------------------
->> +
->> +Landlock enables to restrict access to file hierarchies, which means that these
->> +access rights can be propagated with bind mounts (cf.
->> +:doc:`/filesystems/sharedsubtree`) but not with :doc:`/filesystems/overlayfs`.
->> +
->> +A bind mount mirrors a source file hierarchy to a destination.  The destination
->> +hierarchy is then composed of the exact same files, on which Landlock rules can
->> +be tied, either via the source or the destination path.  These rules restrict
->> +access when they are encountered on a path, which means that they can restrict
->> +access to multiple file hierarchies at the same time, whether these hierarchies
->> +are the result of bind mounts or not.
->> +
->> +An OverlayFS mount point consists of upper and lower layers.  These layers are
->> +combined in a merge directory, result of the mount point.  This merge hierarchy
->> +may include files from the upper and lower layers, but modifications performed
->> +on the merge hierarchy only reflects on the upper layer.  From a Landlock
->> +policy point of view, each OverlayFS layers and merge hierarchies are
->> +standalone and contains their own set of files and directories, which is
->> +different from bind mounts.  A policy restricting an OverlayFS layer will not
->> +restrict the resulted merged hierarchy, and vice versa.
-> 
-> Can you include some examples about what a user of landlock should do?
-> i.e. what are some examples of unexpected results when trying to write
-> policy that runs on top of overlayfs, etc?
+ https://wiki.ubuntu.com/Security/Features#A.2Fdev.2Fkmem_disabled
 
-Landlock works well with overlayfs, at least from my point of view. It
-may be a bit disturbing with bind mount though, but it is the same with
-other access-controls (e.g. DAC). Landlock users should just think about
-file hierarchies and create their policies accordingly. A user should
-not try to adapt a policy according to his/her understanding of
-overlayfs, but just think about file hierarchies.
-
-> 
->> [...]
->> +File renaming and linking
->> +-------------------------
->> +
->> +Because Landlock targets unprivileged access controls, it is needed to properly
->> +handle composition of rules.  Such property also implies rules nesting.
->> +Properly handling multiple layers of ruleset, each one of them able to restrict
->> +access to files, also implies to inherit the ruleset restrictions from a parent
->> +to its hierarchy.  Because files are identified and restricted by their
->> +hierarchy, moving or linking a file from one directory to another implies to
->> +propagate the hierarchy constraints.  To protect against privilege escalations
->> +through renaming or linking, and for the sack of simplicity, Landlock currently
-> 
-> typo: sack -> sake
-
-Indeed
-
-> 
->> [...]
->> +Special filesystems
->> +-------------------
->> +
->> +Access to regular files and directories can be restricted by Landlock,
->> +according to the handled accesses of a ruleset.  However, files that do not
->> +come from a user-visible filesystem (e.g. pipe, socket), but can still be
->> +accessed through /proc/self/fd/, cannot currently be restricted.  Likewise,
->> +some special kernel filesystems such as nsfs, which can be accessed through
->> +/proc/self/ns/, cannot currently be restricted.  For now, these kind of special
->> +paths are then always allowed.  Future Landlock evolutions will enable to
->> +restrict such paths with dedicated ruleset flags.
-> 
-> With this series, can /proc (at the top level) be blocked? (i.e. can a
-> landlock user avoid the weirdness by making /proc/$pid/ unavailable?)
-
-/proc can be blocked, but not /proc/*/ns/* because of disconnected
-roots. I plan to address this.
-
-> 
->> +Ruleset layers
->> +--------------
->> +
->> +There is a limit of 64 layers of stacked rulesets.  This can be an issue for a
->> +task willing to enforce a new ruleset in complement to its 64 inherited
->> +rulesets.  Once this limit is reached, sys_landlock_restrict_self() returns
->> +E2BIG.  It is then strongly suggested to carefully build rulesets once in the
->> +life of a thread, especially for applications able to launch other applications
->> +that may also want to sandbox themselves (e.g. shells, container managers,
->> +etc.).
-> 
-> How was this value (64) chosen?
-> 
-
-It was first an implementation constraint to limit the memory allocated
-for each rule, but it could now be increased if needed. The
-implementation still uses u64 for the sake of simplicity, but we could
-switch to a bitmap type.
+-- 
+James
