@@ -2,141 +2,189 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E67A342365
-	for <lists+linux-api@lfdr.de>; Fri, 19 Mar 2021 18:34:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EAE183423D7
+	for <lists+linux-api@lfdr.de>; Fri, 19 Mar 2021 18:57:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229990AbhCSReL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 19 Mar 2021 13:34:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38704 "EHLO
+        id S230332AbhCSR5F (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 19 Mar 2021 13:57:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229987AbhCSRdu (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 19 Mar 2021 13:33:50 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA110C06174A;
-        Fri, 19 Mar 2021 10:33:39 -0700 (PDT)
-Date:   Fri, 19 Mar 2021 18:33:34 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1616175217;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Qom+SgT5mwuR2EmRL8QzxTywQqwlmY8KfEx6QwWe5as=;
-        b=P3nbSmCF10XYyR1hLXx+JbyuzoPEx0iC/JvAG3i4rVNQgXc3TpVoNO9S5eSs5dMmR99ev/
-        PsvPQEcPebWyuXbpw/SSZR9RG9t3dyJFAZVGvgL9q6yys15WVk7UDoV/arqq5Xl1x092km
-        kII6Y2NLhFCVK1ajs1SIMvG0ft1rXjmGn0GJpyL6cqPC0ZMZTLOkdrscxt9VpF8MYFDCyz
-        97FQG7wkVEGJWQJ76GXegVWze67UMhbm4oPt/V6Jsncy/c4O3fM5AxMOQcIoHGs8Aw58jM
-        Dcs7YcitJvq+Z/WXIdYxMi+z2EkSziuYE8vsUi+ZnlQAnYraPIbrA+HFUUt0Pw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1616175217;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Qom+SgT5mwuR2EmRL8QzxTywQqwlmY8KfEx6QwWe5as=;
-        b=KKWYoSPYUeQABlnKDRslrKDTB7Ap/5vph4jAjHWdLm7twI6hJVz+3WmGBOVc2OHkXsoxvo
-        X6CAk10+tpATJeBA==
-From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To:     Linus Torvalds <torvalds@linux-foundation.org>, carnil@debian.org
-Cc:     David Hildenbrand <david@redhat.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Andrew Lunn <andrew@lunn.ch>,
+        with ESMTP id S230063AbhCSR4e (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 19 Mar 2021 13:56:34 -0400
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BAE1C06174A
+        for <linux-api@vger.kernel.org>; Fri, 19 Mar 2021 10:56:34 -0700 (PDT)
+Received: by mail-pg1-x52d.google.com with SMTP id m7so4194830pgj.8
+        for <linux-api@vger.kernel.org>; Fri, 19 Mar 2021 10:56:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=+q/3pbtU4KRBeCiClf1jVde3rqJff5tAE3G/yUO/twY=;
+        b=Px46bBJ7mvrljx8ek9g5SOvd1jKb2iflgcqeVZiVe5xUV+ssBoFXrkhepVOQKvAu0W
+         wc544ZAyTrYKxp4eU7wneG31VhgV2pG4OO8vR/OUGy+eT4tlva1ClajEyl5BGBpqNmzG
+         hunNRfv4R9KjhPsKcrcyZbynh9VC1EqLCPhJk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=+q/3pbtU4KRBeCiClf1jVde3rqJff5tAE3G/yUO/twY=;
+        b=TGn8H4w5dw+65qXTX0lXOBAFTL8g/KphFyD7DALRZIv6s7cxukO/MOkNQBUCKHJcpN
+         uxSCteAVk4Pbm+MpvP9LYRW3xmgyuX4bE1yQpVyWaW54ZLH2jif99wTO45aH23QA3CL2
+         75GnYeUESQ0EI7SgGU/TlHhX71kQ22dg+7DxGErV2XGKXup8BsjHo1M4Z7W7axfWvx5v
+         HVk4DUGXTvFBsPpgq4P06WzNG8EWj8H2mKnn/rlfxlmWS0daTgxxW8HAVPHXPA6SyMX+
+         /JInNGWrrDFqudo07gqF4WFSJTLJlTAzRz7E4yCb0YoyWiQEDAZW6yvv43q3l3kEA2Ej
+         moHQ==
+X-Gm-Message-State: AOAM530vDBUvoIE+ng7sfAKlzClHInPmCiReBEocf0rYtH4tPJJHqMLp
+        XLqOYroG8FXDu3PG6vlqMIEuRA==
+X-Google-Smtp-Source: ABdhPJx6hzgtsuXfb3wb8ZxJRkArVpobtGIGuejpGbWx0f2z95FZcMrh5SMDfiqjnPliwFHzGPG83w==
+X-Received: by 2002:aa7:8493:0:b029:1ee:75b2:2865 with SMTP id u19-20020aa784930000b02901ee75b22865mr10002946pfn.61.1616176594196;
+        Fri, 19 Mar 2021 10:56:34 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id t1sm6114696pfc.173.2021.03.19.10.56.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Mar 2021 10:56:33 -0700 (PDT)
+Date:   Fri, 19 Mar 2021 10:56:32 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
+Cc:     James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
         Arnd Bergmann <arnd@arndb.de>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Brian Cain <bcain@codeaurora.org>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Chris Zankel <chris@zankel.net>,
-        Corentin Labbe <clabbe@baylibre.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-        Greentime Hu <green.hu@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Helge Deller <deller@gmx.de>, Hillf Danton <hdanton@sina.com>,
-        huang ying <huang.ying.caritas@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Jonas Bonn <jonas@southpole.se>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        David Howells <dhowells@redhat.com>,
+        Jeff Dike <jdike@addtoit.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kairui Song <kasong@redhat.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Matt Turner <mattst88@gmail.com>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Mikulas Patocka <mpatocka@redhat.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        Oleksiy Avramchenko <oleksiy.avramchenko@sonymobile.com>,
-        Palmer Dabbelt <palmerdabbelt@google.com>,
-        Paul Mackerras <paulus@samba.org>,
-        "Pavel Machek (CIP)" <pavel@denx.de>, Pavel Machek <pavel@ucw.cz>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Pierre Morel <pmorel@linux.ibm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Henderson <rth@twiddle.net>,
-        Rich Felker <dalias@libc.org>,
-        Robert Richter <rric@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Stafford Horne <shorne@gmail.com>,
-        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Theodore Dubois <tblodt@icloud.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        William Cohen <wcohen@redhat.com>,
-        Xiaoming Ni <nixiaoming@huawei.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>
-Subject: Re: [PATCH RFC 0/3] drivers/char: remove /dev/kmem for good
-Message-ID: <20210319173334.pwkuj5np5ixwmtug@linutronix.de>
-References: <20210319143452.25948-1-david@redhat.com>
- <CAHk-=wg1HTbXkjdMYA4zADEiE8HwpZ0=uWy0ujZTJYVT-KCehQ@mail.gmail.com>
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        linux-security-module@vger.kernel.org, x86@kernel.org,
+        =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@linux.microsoft.com>
+Subject: Re: [PATCH v30 10/12] selftests/landlock: Add user space tests
+Message-ID: <202103191026.D936362B@keescook>
+References: <20210316204252.427806-1-mic@digikod.net>
+ <20210316204252.427806-11-mic@digikod.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CAHk-=wg1HTbXkjdMYA4zADEiE8HwpZ0=uWy0ujZTJYVT-KCehQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210316204252.427806-11-mic@digikod.net>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2021-03-19 10:14:02 [-0700], Linus Torvalds wrote:
-> On Fri, Mar 19, 2021 at 7:35 AM David Hildenbrand <david@redhat.com> wrote:
-> >
-> > Let's start a discussion if /dev/kmem is worth keeping around and
-> > fixing/maintaining or if we should just remove it now for good.
+On Tue, Mar 16, 2021 at 09:42:50PM +0100, Mickaël Salaün wrote:
+> From: Mickaël Salaün <mic@linux.microsoft.com>
 > 
-> I'll happily do this for the next merge window, but would really want
-> distros to confirm that they don't enable it.
+> Test all Landlock system calls, ptrace hooks semantic and filesystem
+> access-control with multiple layouts.
 > 
-> I can confirm that it's certainly not enabled on any of the machines I
-> have, but..
+> Test coverage for security/landlock/ is 93.6% of lines.  The code not
+> covered only deals with internal kernel errors (e.g. memory allocation)
+> and race conditions.
+> 
+> Cc: James Morris <jmorris@namei.org>
+> Cc: Jann Horn <jannh@google.com>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Serge E. Hallyn <serge@hallyn.com>
+> Cc: Shuah Khan <shuah@kernel.org>
+> Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
+> Reviewed-by: Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>
+> Link: https://lore.kernel.org/r/20210316204252.427806-11-mic@digikod.net
 
-Debian has CONFIG_DEVKMEM disabled since 2.6.31.
+This is terrific. I love the coverage. How did you measure this, BTW?
+To increase it into memory allocation failures, have you tried
+allocation fault injection:
+https://www.kernel.org/doc/html/latest/fault-injection/fault-injection.html
 
->              Linus
+> [...]
+> +TEST(inconsistent_attr) {
+> +	const long page_size = sysconf(_SC_PAGESIZE);
+> +	char *const buf = malloc(page_size + 1);
+> +	struct landlock_ruleset_attr *const ruleset_attr = (void *)buf;
+> +
+> +	ASSERT_NE(NULL, buf);
+> +
+> +	/* Checks copy_from_user(). */
+> +	ASSERT_EQ(-1, landlock_create_ruleset(ruleset_attr, 0, 0));
+> +	/* The size if less than sizeof(struct landlock_attr_enforce). */
+> +	ASSERT_EQ(EINVAL, errno);
+> +	ASSERT_EQ(-1, landlock_create_ruleset(ruleset_attr, 1, 0));
+> +	ASSERT_EQ(EINVAL, errno);
 
-Sebastian
+Almost everywhere you're using ASSERT instead of EXPECT. Is this correct
+(in the sense than as soon as an ASSERT fails the rest of the test is
+skipped)? I do see you using EXPECT is some places, but I figured I'd
+ask about the intention here.
+
+> +/*
+> + * TEST_F_FORK() is useful when a test drop privileges but the corresponding
+> + * FIXTURE_TEARDOWN() requires them (e.g. to remove files from a directory
+> + * where write actions are denied).  For convenience, FIXTURE_TEARDOWN() is
+> + * also called when the test failed, but not when FIXTURE_SETUP() failed.  For
+> + * this to be possible, we must not call abort() but instead exit smoothly
+> + * (hence the step print).
+> + */
+
+Hm, interesting. I think this should be extracted into a separate patch
+and added to the test harness proper.
+
+Could this be solved with TEARDOWN being called on SETUP failure?
+
+> +#define TEST_F_FORK(fixture_name, test_name) \
+> +	static void fixture_name##_##test_name##_child( \
+> +		struct __test_metadata *_metadata, \
+> +		FIXTURE_DATA(fixture_name) *self, \
+> +		const FIXTURE_VARIANT(fixture_name) *variant); \
+> +	TEST_F(fixture_name, test_name) \
+> +	{ \
+> +		int status; \
+> +		const pid_t child = fork(); \
+> +		if (child < 0) \
+> +			abort(); \
+> +		if (child == 0) { \
+> +			_metadata->no_print = 1; \
+> +			fixture_name##_##test_name##_child(_metadata, self, variant); \
+> +			if (_metadata->skip) \
+> +				_exit(255); \
+> +			if (_metadata->passed) \
+> +				_exit(0); \
+> +			_exit(_metadata->step); \
+> +		} \
+> +		if (child != waitpid(child, &status, 0)) \
+> +			abort(); \
+> +		if (WIFSIGNALED(status) || !WIFEXITED(status)) { \
+> +			_metadata->passed = 0; \
+> +			_metadata->step = 1; \
+> +			return; \
+> +		} \
+> +		switch (WEXITSTATUS(status)) { \
+> +		case 0: \
+> +			_metadata->passed = 1; \
+> +			break; \
+> +		case 255: \
+> +			_metadata->passed = 1; \
+> +			_metadata->skip = 1; \
+> +			break; \
+> +		default: \
+> +			_metadata->passed = 0; \
+> +			_metadata->step = WEXITSTATUS(status); \
+> +			break; \
+> +		} \
+> +	} \
+
+This looks like a subset of __wait_for_test()? Could __TEST_F_IMPL() be
+updated instead to do this? (Though the fork overhead might not be great
+for everyone.)
+
+-- 
+Kees Cook
