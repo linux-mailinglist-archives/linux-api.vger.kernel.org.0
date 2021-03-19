@@ -2,121 +2,151 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8EF93421CB
-	for <lists+linux-api@lfdr.de>; Fri, 19 Mar 2021 17:25:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 46B0C34231E
+	for <lists+linux-api@lfdr.de>; Fri, 19 Mar 2021 18:23:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230145AbhCSQYe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 19 Mar 2021 12:24:34 -0400
-Received: from mga14.intel.com ([192.55.52.115]:1251 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230177AbhCSQYM (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 19 Mar 2021 12:24:12 -0400
-IronPort-SDR: By9IQQ4GaUfFcSoTvRrzC60BVrkzdJGkOhTeFRFdYC/ezkXqaQVnKtdyYqXawwOadw4exin6CX
- Lvwj5WELPkYw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9928"; a="189302577"
-X-IronPort-AV: E=Sophos;i="5.81,262,1610438400"; 
-   d="scan'208";a="189302577"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2021 09:24:12 -0700
-IronPort-SDR: o3DGciW8KGoQICX8T/gkyV99iraCaufszZ2fID2FohW8nHAIPwzfPXYALNpFGfDLzwX7vKhd+J
- eiKXa2vfuyug==
-X-IronPort-AV: E=Sophos;i="5.81,262,1610438400"; 
-   d="scan'208";a="603189058"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.100.40]) ([10.212.100.40])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2021 09:24:11 -0700
-Subject: Re: [PATCH v23 00/28] Control-flow Enforcement: Shadow Stack
-To:     Ingo Molnar <mingo@kernel.org>
-Cc:     Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
- <20210316211552.GU4746@worktop.programming.kicks-ass.net>
- <90e453ee-377b-0342-55f9-9412940262f2@intel.com>
- <20210317091800.GA1461644@gmail.com>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <a7c64629-16f4-69db-07f8-ad22d8602034@intel.com>
-Date:   Fri, 19 Mar 2021 09:24:10 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        id S229925AbhCSRXR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 19 Mar 2021 13:23:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36276 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229956AbhCSRWp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 19 Mar 2021 13:22:45 -0400
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32AF9C06174A
+        for <linux-api@vger.kernel.org>; Fri, 19 Mar 2021 10:22:45 -0700 (PDT)
+Received: by mail-lf1-x12c.google.com with SMTP id b83so11146828lfd.11
+        for <linux-api@vger.kernel.org>; Fri, 19 Mar 2021 10:22:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BkRxICNeg5DYscXEGEcqd4ui8J4BudI3HPDlVjLS4/s=;
+        b=guKEZmHG3VKWVbRkUkqS326KvwlSHdPvZzHa/1CkYDmr54RI3pXNEHVpEPJmaS3N3X
+         /EqoPZGZMmv2p3unSm6MlDxz3VPHiDwoeGwoZtelQwb4N/q+by09AHLgY2aoyEtt8Far
+         xcfp/7lRvIBDpORnuuQP/pZlLNDFxgj3WXCjI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BkRxICNeg5DYscXEGEcqd4ui8J4BudI3HPDlVjLS4/s=;
+        b=hgYk/HFeZ90KSJTMJKGxRjfEsVnmNzpS9hjFnl6vlqCp/UdvY5CfR4r8FUQ8XKY6Ih
+         9hksmwNhEy4jbzHjyTjR30VpryErnEp+lD7J2uCmfYnkQD9iPPD+iClx90wOmPWhDe+a
+         wi8zJhHSXmTRRPZ0XAKN3MMBVL6kJRXEpGMFtalpOqdnt1jl8Tb3nTzjZKMzirCA4OM7
+         Gxu6l16fuqnxWoatH+lxjEk+OHuezU3rBZz7dMHk+gRUnsGw1usuoK0PpNT6a7tX5AGm
+         7Fl5Vf6toscQyTG/2WXa2wQ1ZXkCcT0QIFUzaFygb76bf4Xn/GuLvNi+cD8APg3CkumG
+         NciA==
+X-Gm-Message-State: AOAM5338hL73zoR+lH+jdzfEJBezzdQ69IZfdSMaNWgG/x6b3l817313
+        ZhzJK3tusQbDTmO7WPnp2R3ykjtfDNQEWw==
+X-Google-Smtp-Source: ABdhPJxAhSw1zD0TsomfWcQmJ9Eykk8TeV/yR/L1Dm/mfH0xHF3zGsxPw6s1ckkbEdqv3D8mDTji9A==
+X-Received: by 2002:ac2:4254:: with SMTP id m20mr1417299lfl.474.1616174563504;
+        Fri, 19 Mar 2021 10:22:43 -0700 (PDT)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com. [209.85.167.41])
+        by smtp.gmail.com with ESMTPSA id l29sm693781lfp.63.2021.03.19.10.22.43
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 19 Mar 2021 10:22:43 -0700 (PDT)
+Received: by mail-lf1-f41.google.com with SMTP id o10so11149845lfb.9
+        for <linux-api@vger.kernel.org>; Fri, 19 Mar 2021 10:22:43 -0700 (PDT)
+X-Received: by 2002:a05:6512:3ba9:: with SMTP id g41mr1318559lfv.421.1616174058718;
+ Fri, 19 Mar 2021 10:14:18 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210317091800.GA1461644@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210319143452.25948-1-david@redhat.com>
+In-Reply-To: <20210319143452.25948-1-david@redhat.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Fri, 19 Mar 2021 10:14:02 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wg1HTbXkjdMYA4zADEiE8HwpZ0=uWy0ujZTJYVT-KCehQ@mail.gmail.com>
+Message-ID: <CAHk-=wg1HTbXkjdMYA4zADEiE8HwpZ0=uWy0ujZTJYVT-KCehQ@mail.gmail.com>
+Subject: Re: [PATCH RFC 0/3] drivers/char: remove /dev/kmem for good
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Brian Cain <bcain@codeaurora.org>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Chris Zankel <chris@zankel.net>,
+        Corentin Labbe <clabbe@baylibre.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Greentime Hu <green.hu@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Helge Deller <deller@gmx.de>, Hillf Danton <hdanton@sina.com>,
+        huang ying <huang.ying.caritas@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Jonas Bonn <jonas@southpole.se>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kairui Song <kasong@redhat.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Matt Turner <mattst88@gmail.com>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Mikulas Patocka <mpatocka@redhat.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Oleksiy Avramchenko <oleksiy.avramchenko@sonymobile.com>,
+        Palmer Dabbelt <palmerdabbelt@google.com>,
+        Paul Mackerras <paulus@samba.org>,
+        "Pavel Machek (CIP)" <pavel@denx.de>, Pavel Machek <pavel@ucw.cz>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Pierre Morel <pmorel@linux.ibm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Richard Henderson <rth@twiddle.net>,
+        Rich Felker <dalias@libc.org>,
+        Robert Richter <rric@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Stafford Horne <shorne@gmail.com>,
+        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Theodore Dubois <tblodt@icloud.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        William Cohen <wcohen@redhat.com>,
+        Xiaoming Ni <nixiaoming@huawei.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 3/17/2021 2:18 AM, Ingo Molnar wrote:
-> 
-> * Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
-> 
->> On 3/16/2021 2:15 PM, Peter Zijlstra wrote:
->>> On Tue, Mar 16, 2021 at 08:10:26AM -0700, Yu-cheng Yu wrote:
->>>> Control-flow Enforcement (CET) is a new Intel processor feature that blocks
->>>> return/jump-oriented programming attacks.  Details are in "Intel 64 and
->>>> IA-32 Architectures Software Developer's Manual" [1].
->>>>
->>>> CET can protect applications and the kernel.  This series enables only
->>>> application-level protection, and has three parts:
->>>>
->>>>     - Shadow stack [2],
->>>>     - Indirect branch tracking [3], and
->>>>     - Selftests [4].
->>>
->>> CET is marketing; afaict SS and IBT are 100% independent and there's no
->>> reason what so ever to have them share any code, let alone a Kconfig
->>> knob.
->>
->> We used to have shadow stack and ibt under separate Kconfig options, but in
->> a few places they actually share same code path, such as the XSAVES
->> supervisor states and ELF header for example.  Anyways I will be happy to
->> make changes again if there is agreement.
-> 
-> I was look at:
-> 
->    x86/fpu/xstate: Introduce CET MSR and XSAVES supervisor states
-> 
-> didn't see any IBT logic - it's essentially all shadow stack state.
-> 
-> Which is not surprising, forward call edge integrity protection (IBT)
-> requires very little state, does it?
-> 
-> With IBT there's no nesting, no stack - the IBT state machine
-> basically requires the next instruction to be and ENDBR instruction,
-> and that's essentially it, right?
-> 
-> Thanks,
-> 
-> 	Ingo
-> 
+On Fri, Mar 19, 2021 at 7:35 AM David Hildenbrand <david@redhat.com> wrote:
+>
+> Let's start a discussion if /dev/kmem is worth keeping around and
+> fixing/maintaining or if we should just remove it now for good.
 
-Yes, that is it.  The CET_WAIT_ENDBR bit is the status of IBT state 
-machine.  There are a few bits in MSR_IA32_U_CET controlling how IBT 
-works, but those are not status.
+I'll happily do this for the next merge window, but would really want
+distros to confirm that they don't enable it.
 
-Yu-cheng
+I can confirm that it's certainly not enabled on any of the machines I
+have, but..
+
+             Linus
