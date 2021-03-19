@@ -2,120 +2,132 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC793341D66
-	for <lists+linux-api@lfdr.de>; Fri, 19 Mar 2021 13:52:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DDC62341E90
+	for <lists+linux-api@lfdr.de>; Fri, 19 Mar 2021 14:41:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229806AbhCSMvx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 19 Mar 2021 08:51:53 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:34188 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229618AbhCSMvh (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 19 Mar 2021 08:51:37 -0400
-Received: from zn.tnic (p200300ec2f091e000ec907ca620adac2.dip0.t-ipconnect.de [IPv6:2003:ec:2f09:1e00:ec9:7ca:620a:dac2])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 556D11EC0324;
-        Fri, 19 Mar 2021 13:51:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1616158295;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=Lk9msQ8lwSfedjnHkZUcL3GSRq6GlT11mzhXgP9EbMo=;
-        b=F+67ambvthhfUAsYvwdThId59yMF1DvrzPxZKes7jJ03u7skgNXENIosppMKtRqB7BOhvF
-        UZcVbO/t+Nvl9O1JIj4KXTyXNfmsamotMr6mBKDZbhKQpT+cJCgceO3zKAdI2EOrhIOL64
-        0FbpUMUhser7r1WhrE7NuAcKnv2/L4Y=
-Date:   Fri, 19 Mar 2021 13:51:29 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-Subject: Re: [PATCH v23 23/28] x86/cet/shstk: Handle signals for shadow stack
-Message-ID: <20210319125129.GF6251@zn.tnic>
-References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
- <20210316151054.5405-24-yu-cheng.yu@intel.com>
+        id S230009AbhCSNk4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 19 Mar 2021 09:40:56 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:46574 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230012AbhCSNkr (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 19 Mar 2021 09:40:47 -0400
+Received: from ip5f5af0a0.dynamic.kabel-deutschland.de ([95.90.240.160] helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1lNFMq-0007Qv-5z; Fri, 19 Mar 2021 13:40:44 +0000
+Date:   Fri, 19 Mar 2021 14:40:43 +0100
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Jan Kara <jack@suse.cz>,
+        Matthew Bobrowski <mbobrowski@mbobrowski.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [PATCH v2 0/2] unprivileged fanotify listener
+Message-ID: <20210319134043.c2wcpn4lbefrkhkg@wittgenstein>
+References: <20210304112921.3996419-1-amir73il@gmail.com>
+ <20210316155524.GD23532@quack2.suse.cz>
+ <CAOQ4uxgCv42_xkKpRH-ApMOeFCWfQGGc11CKxUkHJq-Xf=HnYg@mail.gmail.com>
+ <20210317114207.GB2541@quack2.suse.cz>
+ <CAOQ4uxi7ZXJW3_6SN=vw_XJC+wy4eMTayN6X5yRy_HOV6323MA@mail.gmail.com>
+ <20210317174532.cllfsiagoudoz42m@wittgenstein>
+ <CAOQ4uxjCjapuAHbYuP8Q_k0XD59UmURbmkGC1qcPkPAgQbQ8DA@mail.gmail.com>
+ <20210318143140.jxycfn3fpqntq34z@wittgenstein>
+ <CAOQ4uxiRHwmxTKsLteH_sBW_dSPshVE8SohJYEmpszxaAwjEyg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210316151054.5405-24-yu-cheng.yu@intel.com>
+In-Reply-To: <CAOQ4uxiRHwmxTKsLteH_sBW_dSPshVE8SohJYEmpszxaAwjEyg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Mar 16, 2021 at 08:10:49AM -0700, Yu-cheng Yu wrote:
-> To deliver a signal, create a shadow stack restore token and put the token
-> and the signal restorer address on the shadow stack.  For sigreturn, verify
-> the token and restore from it the shadow stack pointer.
+On Thu, Mar 18, 2021 at 06:48:11PM +0200, Amir Goldstein wrote:
+> [...]
 > 
-> A shadow stack restore token marks a restore point of the shadow stack, and
-> the address in a token must point directly above the token, which is within
-> the same shadow stack.  This is distinctively different from other pointers
-> on the shadow stack; those pointers point to executable code area.
+> I understand the use case.
 > 
-> In sigreturn, restoring from a token ensures the target address is the
-> location pointed by the token.
+> > I'd rather have something that allows me to mirror
+> >
+> > /home/jdoe
+> >
+> > recursively directly. But maybe I'm misunderstanding fanotify and it
+> > can't really help us but I thought that subtree watches might.
+> >
 > 
-> Introduce WRUSS, which is a kernel-mode instruction but writes directly to
-> user shadow stack.  It is used to construct the user signal stack as
-> described above.
+> There are no subtree watches. They are still a holy grale for fanotify...
+> There are filesystem and mnt watches and the latter support far fewer
+> events (only events for operations that carry the path argument).
 > 
-> Currently there is no systematic facility for extending a signal context.
-> Introduce a signal context extension 'struct sc_ext', which is used to save
-> shadow stack restore token address and WAIT_ENDBR status.  WAIT_ENDBR will
-> be introduced later in the Indirect Branch Tracking (IBT) series, but add
-> that into sc_ext now to keep the struct stable in case the IBT series is
-> applied later.
+> With filesystem watches, you can get events for all mkdirs and you can
+> figure out the created path, but you'd have to do all the filtering in
+> userspace.
 > 
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> ---
->  arch/x86/ia32/ia32_signal.c            |  17 +++
->  arch/x86/include/asm/cet.h             |   8 ++
->  arch/x86/include/asm/fpu/internal.h    |  10 ++
->  arch/x86/include/asm/special_insns.h   |  32 ++++++
->  arch/x86/include/uapi/asm/sigcontext.h |   9 ++
->  arch/x86/kernel/cet.c                  | 152 +++++++++++++++++++++++++
->  arch/x86/kernel/fpu/signal.c           | 100 ++++++++++++++++
->  arch/x86/kernel/signal.c               |  10 ++
->  8 files changed, 338 insertions(+)
+> What I am trying to create is "filtered" filesystem watches and the filter needs
+> to be efficient enough so the watcher will not incur too big of a penalty
+> on all the operations in the filesystem.
+> 
+> Thanks to your mnt_userns changes, implementing a filter to intercept
+> (say) mkdir calles on a specific mnt_userns should be quite simple, but
+> filtering by "path" (i.e. /home/jdoe/some/path) will still need to happen in
+> userspace.
+> 
+> This narrows the problem to the nested container manager that will only
+> need to filter events which happened via mounts under its control.
+> 
+> [...]
+> 
+> > > there shouldn't be a problem to setup userns filtered watches in order to
+> > > be notified on all the events that happen via those idmapped mounts
+> > > and filtering by "subtree" is not needed.
+> > > I am clearly far from understanding the big picture.
+> >
+> > I think I need to refamiliarize myself with what "subtree" watches do.
+> > Maybe I misunderstood what they do. I'll take a look.
+> >
+> 
+> You will not find them :-)
 
-The commit message lacks structure in explaining what the
-problem/missing functionality is and why this is solved the way it is,
-with stack tokens. Here's a good example how to structure it properly:
+Heh. :)
 
-https://git.kernel.org/tip/323950a8a98b492ac2fa168e8e4c0becfb4554dd
+> 
+> [...]
+> 
+> > > Currently, (upstream) only init_userns CAP_SYS_ADMIN can setup
+> > > fanotify watches.
+> > > In linux-next, unprivileged user can already setup inode watches
+> > > (i.e. like inotify).
+> >
+> > Just to clarify: you mean "unprivileged" as in non-root users in
+> > init_user_ns and therefore also users in non-init userns. That's what
+> 
+> Correct.
+> 
+> > inotify allows you. This would probably allows us to use fanotify
+> > instead of the hand-rolled recursive notify watching we currently do and
+> > that I linked to above.
+> >
+> 
+> The code that sits in linux-next can give you pretty much a drop-in
+> replacement of inotify and nothing more. See example code:
+> https://github.com/amir73il/inotify-tools/commits/fanotify_name_fid
 
-Also, this patch does a couple of things at once and it needs splitting
-for easier review.
+This is really great. Thank you for doing that work this will help quite
+a lot of use-cases and make things way simpler. I created a TODO to port
+our path-hotplug to this once this feature lands.
 
-Thx.
+> 
+> > > If you think that is useful and you want to play with this feature I can
+> > > provide a WIP branch soon.
+> >
+> > I would like to first play with the support for unprivileged fanotify
+> > but sure, it does sound useful!
+> 
+> Just so you have an idea what I am talking about, this is a very early
+> POC branch:
+> https://github.com/amir73il/linux/commits/fanotify_userns
 
--- 
-Regards/Gruss,
-    Boris.
+Thanks!  I'll try to pull this and take a look next week. I hope that's
+ok.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+Christian
