@@ -2,107 +2,149 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D3D2342484
-	for <lists+linux-api@lfdr.de>; Fri, 19 Mar 2021 19:21:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F9E63424ED
+	for <lists+linux-api@lfdr.de>; Fri, 19 Mar 2021 19:41:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229990AbhCSSVQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 19 Mar 2021 14:21:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49008 "EHLO
+        id S230188AbhCSSka (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 19 Mar 2021 14:40:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230259AbhCSSVK (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 19 Mar 2021 14:21:10 -0400
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A629CC06175F
-        for <linux-api@vger.kernel.org>; Fri, 19 Mar 2021 11:21:10 -0700 (PDT)
-Received: by mail-qt1-x832.google.com with SMTP id c6so7486496qtc.1
-        for <linux-api@vger.kernel.org>; Fri, 19 Mar 2021 11:21:10 -0700 (PDT)
+        with ESMTP id S231229AbhCSSkW (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 19 Mar 2021 14:40:22 -0400
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D584BC061763
+        for <linux-api@vger.kernel.org>; Fri, 19 Mar 2021 11:40:21 -0700 (PDT)
+Received: by mail-pl1-x62f.google.com with SMTP id e14so3362816plj.2
+        for <linux-api@vger.kernel.org>; Fri, 19 Mar 2021 11:40:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=aZO007NOGK5FV5hcJF+9nPZpAjB3mMOoENzfIjB7eyI=;
-        b=Es29CEtKx7aWt0Mu7Rf7r6zP8u1j7OadS2rkCWi2B0aWO4le6y29TMczbOWlrSBehw
-         bYCvLUO9imjIJs6ButG39En4CrWVbnOVZE3EJ1UZqco8GEbZqpYjL44mNs6o63TiMdGN
-         t8T4hLOCh4mgQ3RFXu2Kcro1RuJWPopOzeOd++uSRvHOwFS6/Bm6xjfkx6VTssMo/mW7
-         zicApRiZJmjS/DW56q1D+m4urw40bVrRjm9li2qD11h2oYTlTMWmdB8firSXVf4EjLzv
-         nsbK8BjL2jA/0pNztSiDt6rSRLgtmEuxGFDNJ1NFCY01+0yzM4XkylYHLDPDlVgl65Rn
-         TcsA==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=3u9mAxNEw9z6za6KFcOo+uHqgiwiwZM5DCTyyspgn/o=;
+        b=Yg6m4KOAXpRmtJyRDoH2yl2CHKC+3drp9u+T3OirmqRro1Mir6CpDUGmJiH6P/z7Kv
+         6KqrLz2fDgze6egHZS4RwPVSKmftmVpcaI/zzQassSY0Au1qSOniGyFwnlpaKbGukS1B
+         5ia9D9yVB+s3iHhoKPejUMLE1dxUY8uW3AgWA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=aZO007NOGK5FV5hcJF+9nPZpAjB3mMOoENzfIjB7eyI=;
-        b=UQVmeK4eq5bc3aAUnu+gF0t/we/ZlJ30IotFNpWrNLAztqbAYAhaKHOSUtGvnJUTW7
-         R4O89sJMpne+50TO0aTw794SOWL+1FfeMoqFcScHHYrKYcdIy4AmlWRxNrJe8Fn0ikoD
-         iQEc6GQlHtPWAqZLvBvEBjr9Tkni4qcFwM2dX8YrcDIr9swMxTPrvaPVmkLW0WmtWSxM
-         tizJc6K56xY2wVGrKQoFtj2wlKaZ8izuIP8nDxtVpC99b1h/kTDsIUOgkjCzzuVBjwE3
-         Rjk0WSs/XwR8SABS71MIKAYoMjAbHOkJi5lcgizwrvzMKCJbsVcKQW9wPf8EwBKzdcCv
-         yy1w==
-X-Gm-Message-State: AOAM533h7RsPfZlgYeJWGx/Y6/aVxXAAOgFjtp1/I5gz2TWl/S8078Ag
-        jZ5dT4DMyVdoNpcuaGQyIoL56g==
-X-Google-Smtp-Source: ABdhPJysGF2xqgjPbje3n3YZdro3ADum8wBFF6X03iG4iyBfDoEyHZOq/lt0JUA7mzMEkupxjVFjmA==
-X-Received: by 2002:ac8:4750:: with SMTP id k16mr9100126qtp.239.1616178069757;
-        Fri, 19 Mar 2021 11:21:09 -0700 (PDT)
-Received: from [192.168.1.45] (cpe-174-109-172-136.nc.res.rr.com. [174.109.172.136])
-        by smtp.gmail.com with ESMTPSA id o21sm4243759qtp.72.2021.03.19.11.21.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Mar 2021 11:21:09 -0700 (PDT)
-Subject: Re: [PATCH v8 00/10] fs: interface for directly reading/writing
- compressed data
-To:     Omar Sandoval <osandov@osandov.com>, linux-fsdevel@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Dave Chinner <david@fromorbit.com>, Jann Horn <jannh@google.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Aleksa Sarai <cyphar@cyphar.com>, linux-api@vger.kernel.org,
-        kernel-team@fb.com
-References: <cover.1615922644.git.osandov@fb.com>
-From:   Josef Bacik <josef@toxicpanda.com>
-Message-ID: <8f741746-fd7f-c81a-3cdf-fb81aeea34b5@toxicpanda.com>
-Date:   Fri, 19 Mar 2021 14:21:08 -0400
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.7.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=3u9mAxNEw9z6za6KFcOo+uHqgiwiwZM5DCTyyspgn/o=;
+        b=CEIwBDNHDlAx5pr5+zV/JQZcIdQLJ6/3aGPWz6ThSA9yqhf4+Q0x6NFf0/FO9/xJdw
+         suQBIasG4oJbEsroa1TbmNzx4RgWtp95t2Yer1jNTXRTe/xQtcgAeuGTC12HVmAu7gWC
+         fi+VolEF4Gzaenh7GX73zmhZ7aRaJaM8QI4HkhToMEjRCCpn+ooIn6wOcWIUQLqBpnOp
+         mDNwNWcf+7kCA8XzXJ7vi9vWgwkSgOVUPtSeaRC8S3oqBjh339UFE9R7R1o4/mybfxHI
+         LOocGtdBcrHXDADcRa5vw66Py7adHGx7GCvTR4huoObpdg4AOBB87Za8EIwlWPGdSVD4
+         frMg==
+X-Gm-Message-State: AOAM532zm1mfZu50w9bEIusZMeWh9eYIU6UzbrJKKNSzyHh+kcT8OiWV
+        iTLi2tVHTJlEVr7sx9mtIUpu2g==
+X-Google-Smtp-Source: ABdhPJw6vg1JHhR2dRDHudF/k8t7iI2PJ2EYrpqaNdHYFuKnjDOkJMrYPpYmCpqtqBVqRL+QAvirUw==
+X-Received: by 2002:a17:902:ea0e:b029:e4:81d4:ddae with SMTP id s14-20020a170902ea0eb02900e481d4ddaemr15830817plg.12.1616179221292;
+        Fri, 19 Mar 2021 11:40:21 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id i62sm6034208pgc.11.2021.03.19.11.40.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Mar 2021 11:40:20 -0700 (PDT)
+Date:   Fri, 19 Mar 2021 11:40:19 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
+Cc:     James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        David Howells <dhowells@redhat.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        linux-security-module@vger.kernel.org, x86@kernel.org,
+        =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@linux.microsoft.com>
+Subject: Re: [PATCH v30 02/12] landlock: Add ruleset and domain management
+Message-ID: <202103191114.C87C5E2B69@keescook>
+References: <20210316204252.427806-1-mic@digikod.net>
+ <20210316204252.427806-3-mic@digikod.net>
 MIME-Version: 1.0
-In-Reply-To: <cover.1615922644.git.osandov@fb.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210316204252.427806-3-mic@digikod.net>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 3/16/21 3:42 PM, Omar Sandoval wrote:
-> From: Omar Sandoval <osandov@fb.com>
+On Tue, Mar 16, 2021 at 09:42:42PM +0100, Mickaël Salaün wrote:
+> From: Mickaël Salaün <mic@linux.microsoft.com>
 > 
-> This series adds an API for reading compressed data on a filesystem
-> without decompressing it as well as support for writing compressed data
-> directly to the filesystem. As with the previous submissions, I've
-> included a man page patch describing the API. I have test cases
-> (including fsstress support) and example programs which I'll send up
-> [1].
+> A Landlock ruleset is mainly a red-black tree with Landlock rules as
+> nodes.  This enables quick update and lookup to match a requested
+> access, e.g. to a file.  A ruleset is usable through a dedicated file
+> descriptor (cf. following commit implementing syscalls) which enables a
+> process to create and populate a ruleset with new rules.
 > 
-> The main use-case is Btrfs send/receive: currently, when sending data
-> from one compressed filesystem to another, the sending side decompresses
-> the data and the receiving side recompresses it before writing it out.
-> This is wasteful and can be avoided if we can just send and write
-> compressed extents. The patches implementing the send/receive support
-> will be sent shortly.
+> A domain is a ruleset tied to a set of processes.  This group of rules
+> defines the security policy enforced on these processes and their future
+> children.  A domain can transition to a new domain which is the
+> intersection of all its constraints and those of a ruleset provided by
+> the current process.  This modification only impact the current process.
+> This means that a process can only gain more constraints (i.e. lose
+> accesses) over time.
 > 
-> Patches 1-3 add the VFS support and UAPI. Patch 4 is a fix that this
-> series depends on; it can be merged independently. Patches 5-8 are Btrfs
-> prep patches. Patch 9 adds Btrfs encoded read support and patch 10 adds
-> Btrfs encoded write support.
-> 
-> These patches are based on Dave Sterba's Btrfs misc-next branch [2],
-> which is in turn currently based on v5.12-rc3.
-> 
+> Cc: James Morris <jmorris@namei.org>
+> Cc: Jann Horn <jannh@google.com>
+> Cc: Kees Cook <keescook@chromium.org>
+> Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
+> Acked-by: Serge Hallyn <serge@hallyn.com>
+> Link: https://lore.kernel.org/r/20210316204252.427806-3-mic@digikod.net
 
-Al,
+(Aside: you appear to be self-adding your Link: tags -- AIUI, this is
+normally done by whoever pulls your series. I've only seen Link: tags
+added when needing to refer to something else not included in the
+series.)
 
-Can we get some movement on this?  Omar is sort of spinning his wheels here 
-trying to get this stuff merged, no major changes have been done in a few 
-postings.  Thanks,
+> [...]
+> +static void put_rule(struct landlock_rule *const rule)
+> +{
+> +	might_sleep();
+> +	if (!rule)
+> +		return;
+> +	landlock_put_object(rule->object);
+> +	kfree(rule);
+> +}
 
-Josef
+I'd expect this to be named "release" rather than "put" since it doesn't
+do any lifetime reference counting.
+
+> +static void build_check_ruleset(void)
+> +{
+> +	const struct landlock_ruleset ruleset = {
+> +		.num_rules = ~0,
+> +		.num_layers = ~0,
+> +	};
+> +
+> +	BUILD_BUG_ON(ruleset.num_rules < LANDLOCK_MAX_NUM_RULES);
+> +	BUILD_BUG_ON(ruleset.num_layers < LANDLOCK_MAX_NUM_LAYERS);
+> +}
+
+This is checking that the largest possible stored value is correctly
+within the LANDLOCK_MAX_* macro value?
+
+> [...]
+
+The locking all looks right, and given your test coverage and syzkaller
+work, it's hard for me to think of ways to prove it out any better. :)
+
+Reviewed-by: Kees Cook <keescook@chromium.org>
+
+
+-- 
+Kees Cook
