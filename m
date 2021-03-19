@@ -2,74 +2,121 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E6EE934213D
-	for <lists+linux-api@lfdr.de>; Fri, 19 Mar 2021 16:52:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C8EF93421CB
+	for <lists+linux-api@lfdr.de>; Fri, 19 Mar 2021 17:25:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230315AbhCSPwK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 19 Mar 2021 11:52:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44830 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230355AbhCSPvw (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 19 Mar 2021 11:51:52 -0400
-Received: from smtp-bc09.mail.infomaniak.ch (smtp-bc09.mail.infomaniak.ch [IPv6:2001:1600:3:17::bc09])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2752C06175F;
-        Fri, 19 Mar 2021 08:51:52 -0700 (PDT)
-Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4F27g962FxzMqCNw;
-        Fri, 19 Mar 2021 16:51:49 +0100 (CET)
-Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
-        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4F27g65j8Qzlh8TH;
-        Fri, 19 Mar 2021 16:51:46 +0100 (CET)
-Subject: Re: [PATCH v30 00/12] Landlock LSM
-To:     James Morris <jmorris@namei.org>
-Cc:     Jann Horn <jannh@google.com>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        id S230145AbhCSQYe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 19 Mar 2021 12:24:34 -0400
+Received: from mga14.intel.com ([192.55.52.115]:1251 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230177AbhCSQYM (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 19 Mar 2021 12:24:12 -0400
+IronPort-SDR: By9IQQ4GaUfFcSoTvRrzC60BVrkzdJGkOhTeFRFdYC/ezkXqaQVnKtdyYqXawwOadw4exin6CX
+ Lvwj5WELPkYw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9928"; a="189302577"
+X-IronPort-AV: E=Sophos;i="5.81,262,1610438400"; 
+   d="scan'208";a="189302577"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2021 09:24:12 -0700
+IronPort-SDR: o3DGciW8KGoQICX8T/gkyV99iraCaufszZ2fID2FohW8nHAIPwzfPXYALNpFGfDLzwX7vKhd+J
+ eiKXa2vfuyug==
+X-IronPort-AV: E=Sophos;i="5.81,262,1610438400"; 
+   d="scan'208";a="603189058"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.100.40]) ([10.212.100.40])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2021 09:24:11 -0700
+Subject: Re: [PATCH v23 00/28] Control-flow Enforcement: Shadow Stack
+To:     Ingo Molnar <mingo@kernel.org>
+Cc:     Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
         Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        David Howells <dhowells@redhat.com>,
-        Jeff Dike <jdike@addtoit.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        linux-security-module@vger.kernel.org, x86@kernel.org,
-        Dmitry Vyukov <dvyukov@google.com>
-References: <20210316204252.427806-1-mic@digikod.net>
- <651a1034-c59f-1085-d3f6-c5a41f6fbbb@namei.org>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <39a58eb2-7cd8-9cc9-cbf1-829b6ee59f6b@digikod.net>
-Date:   Fri, 19 Mar 2021 16:52:02 +0100
-User-Agent: 
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
+ <20210316211552.GU4746@worktop.programming.kicks-ass.net>
+ <90e453ee-377b-0342-55f9-9412940262f2@intel.com>
+ <20210317091800.GA1461644@gmail.com>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <a7c64629-16f4-69db-07f8-ad22d8602034@intel.com>
+Date:   Fri, 19 Mar 2021 09:24:10 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <651a1034-c59f-1085-d3f6-c5a41f6fbbb@namei.org>
-Content-Type: text/plain; charset=iso-8859-15
+In-Reply-To: <20210317091800.GA1461644@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On 3/17/2021 2:18 AM, Ingo Molnar wrote:
+> 
+> * Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
+> 
+>> On 3/16/2021 2:15 PM, Peter Zijlstra wrote:
+>>> On Tue, Mar 16, 2021 at 08:10:26AM -0700, Yu-cheng Yu wrote:
+>>>> Control-flow Enforcement (CET) is a new Intel processor feature that blocks
+>>>> return/jump-oriented programming attacks.  Details are in "Intel 64 and
+>>>> IA-32 Architectures Software Developer's Manual" [1].
+>>>>
+>>>> CET can protect applications and the kernel.  This series enables only
+>>>> application-level protection, and has three parts:
+>>>>
+>>>>     - Shadow stack [2],
+>>>>     - Indirect branch tracking [3], and
+>>>>     - Selftests [4].
+>>>
+>>> CET is marketing; afaict SS and IBT are 100% independent and there's no
+>>> reason what so ever to have them share any code, let alone a Kconfig
+>>> knob.
+>>
+>> We used to have shadow stack and ibt under separate Kconfig options, but in
+>> a few places they actually share same code path, such as the XSAVES
+>> supervisor states and ELF header for example.  Anyways I will be happy to
+>> make changes again if there is agreement.
+> 
+> I was look at:
+> 
+>    x86/fpu/xstate: Introduce CET MSR and XSAVES supervisor states
+> 
+> didn't see any IBT logic - it's essentially all shadow stack state.
+> 
+> Which is not surprising, forward call edge integrity protection (IBT)
+> requires very little state, does it?
+> 
+> With IBT there's no nesting, no stack - the IBT state machine
+> basically requires the next instruction to be and ENDBR instruction,
+> and that's essentially it, right?
+> 
+> Thanks,
+> 
+> 	Ingo
+> 
 
-On 19/03/2021 00:26, James Morris wrote:
-> I've queued this patchset here:
-> 
-> git://git.kernel.org/pub/scm/linux/kernel/git/jmorris/linux-security.git landlock_lsm
-> 
-> and pulled it into next-testing, which will get it coverage in linux-next.
-> 
-> All going well, I'll aim to push this to Linus in the next merge window. 
-> More review and testing during that time will be helpful.
+Yes, that is it.  The CET_WAIT_ENDBR bit is the status of IBT state 
+machine.  There are a few bits in MSR_IA32_U_CET controlling how IBT 
+works, but those are not status.
 
-Good, thanks! The syzkaller changes are now merged and up-to-date with
-linux-next:
-https://github.com/google/syzkaller/commits/3d01c4de549b4e4bddba6102715c212bbcff2fbb
+Yu-cheng
