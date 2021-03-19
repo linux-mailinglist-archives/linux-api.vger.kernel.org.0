@@ -2,177 +2,290 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E8D9341290
-	for <lists+linux-api@lfdr.de>; Fri, 19 Mar 2021 02:59:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 81F6734135E
+	for <lists+linux-api@lfdr.de>; Fri, 19 Mar 2021 04:11:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230254AbhCSB6v (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 18 Mar 2021 21:58:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35072 "EHLO
+        id S229948AbhCSDLP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 18 Mar 2021 23:11:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230228AbhCSB6t (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 18 Mar 2021 21:58:49 -0400
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92CF0C06174A;
-        Thu, 18 Mar 2021 18:58:49 -0700 (PDT)
-Received: by mail-yb1-xb34.google.com with SMTP id y133so4586561ybe.12;
-        Thu, 18 Mar 2021 18:58:49 -0700 (PDT)
+        with ESMTP id S231864AbhCSDLD (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 18 Mar 2021 23:11:03 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0440CC06174A
+        for <linux-api@vger.kernel.org>; Thu, 18 Mar 2021 20:11:02 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id y7so50597169ybh.20
+        for <linux-api@vger.kernel.org>; Thu, 18 Mar 2021 20:11:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CYgK/vE3JJnvEhD/WTQMpX5ovo4FS4jNngr/T0RXNGU=;
-        b=as2UpPyIJxONydn5hgHkUQiFvL3f8JKarVQs3/7+Eky5c6nDTghxt68PVe2Hd/xjtA
-         aZzDJN81Phy3TAy/6kULziMvtZJ+nDOVnIzsqGQeyESebT1qpUuwK7kV1FQyRgjjOWYX
-         6fsNR8NuKOy6RWHvEGcLjFVbmqYZgsGwPnj2OYEoKUCH7U+0FXa14F7tJpHUfoZAt++Q
-         GfPJM5Un6obzHyItbHp4rL68qn//YAArM48eMO8IHbZCEV2h35uzvfoEvDQl80V4IFDB
-         Je7NTPDdjN3P2htn12Fi/7eHgDQpK/8yu2ibr3GZZoG3LWbQIWHhvCECMWEmf0cedeI5
-         vhGw==
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=bCbJd+P4sd810vdDojMTg0wxtRKXuk+niGlwoxFtOls=;
+        b=YDIsWw9wiz+pzSpcxvgHgxhlY+vk+9uphEImcHWu7Sirwd6NB/6CMLzUXe0qIPCOvT
+         JAIiINfGt27OyFAxO1jIdvgQMFhA0T/5NHQIG9ZOuH4b8QCBU7UvOHM5Hyy37Bqqj//9
+         pf4nSZqznN6ZHkJQyfRvnoHp71WxkuvnAxt80kMc4b0gb6Zm8++G/ilLxw/RYgrypM/R
+         2W1NWaaZ1HZhRV93V4FPwE8QL0xVyZdMVDxVUTXIEsrzZGNjwCSCPrtrer9Hm35henZ6
+         vkS3Nuw1w/WQic/p8pRQJl8bXN83SkLNj03+xW/xXAVgwO9HfUOnW+y9fBWqji3t3m2E
+         bLZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CYgK/vE3JJnvEhD/WTQMpX5ovo4FS4jNngr/T0RXNGU=;
-        b=PvJJrN4uFuezHnqfce2CU1D9E3S7/hejjrBAXV94RUkISdgxJUNjYR10mbvWCgfGo2
-         8HRpAz8R4kzW4G5+n5ltQ2G/K4d3ppVSlyfBa661mtsjCdGVKSE5iiPhFP7jrJu0LHbA
-         TmGY6KZ3T0b25d+dLLbKtazLZ6RrbpXq1hqRvg1IrV7XyhaNtXzC6DA9LqvgjS79ebMZ
-         mnWbtJyphyC/L2muLrYBI+CUAQFB15/0VL6LsCR1SpEtpFdPnI1BoeDON8e3K+9Uufjq
-         ef04/NqpL9LoTk6ay4OKOy0b0Vn1KLtdlzqIoSQ2DVOd01m732yv0D+zJ9gfD4w3hH4i
-         5B3g==
-X-Gm-Message-State: AOAM533ZO09Lk/422eo9CYBqwvnRlvLrBWRvpliafGpVtwRe5t+GialA
-        VxZ0bCEjXwG2R2A1Xhlrjecy7WwJHBHypsmVaaU=
-X-Google-Smtp-Source: ABdhPJy1CoWZf74TqU9bwdXAnkFg8FiYzwEXIVr3PxjAdB0dpjN624/cbUcfainoKg0vwKn1HCB2wLGf72gx5yaJY+w=
-X-Received: by 2002:a25:db07:: with SMTP id g7mr3139273ybf.304.1616119128832;
- Thu, 18 Mar 2021 18:58:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210318063626.216024-1-Jianlin.Lv@arm.com> <939f6d78-b6f8-b9fc-35b7-e8560a8b020c@iogearbox.net>
-In-Reply-To: <939f6d78-b6f8-b9fc-35b7-e8560a8b020c@iogearbox.net>
-From:   Jianlin Lv <iecedge@gmail.com>
-Date:   Fri, 19 Mar 2021 09:58:37 +0800
-Message-ID: <CAFA-uR93P=Y6vxeq3426gp4F5apC2smqUJP7vJBjU4R+9ddguw@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v2] bpf: Simplify expression for identify bpf mem type
-To:     Daniel Borkmann <daniel@iogearbox.net>
-Cc:     Jianlin Lv <Jianlin.Lv@arm.com>, bpf@vger.kernel.org,
-        kuba@kernel.org, simon.horman@netronome.com, davem@davemloft.net,
-        ast@kernel.org, alexei.starovoitov@gmail.com, andrii@kernel.org,
-        kafai@fb.com, songliubraving@fb.com, yhs@fb.com,
-        john.fastabend@gmail.com, kpsingh@kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        oss-drivers@netronome.com, linux-api@vger.kernel.org
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=bCbJd+P4sd810vdDojMTg0wxtRKXuk+niGlwoxFtOls=;
+        b=FQlCNQEq6fBOdP1QHboytODvJ5b7tLVuQK8hJEUDcnWeqgHyPo7Ybmx6PGZmdhTDqQ
+         LSHd5ph9QNrN7kVExDQ9zvkcwh1SAuYSUlnDKAj+plEO8Iypw0ulmLLlNIaF4A3zQA9l
+         q9rJkH/Fqa1dmLFOfxZCcoMzdnEYO4jdzAp8akQ66r3cw0TrhDycLLEZIDdY+AHWTeVE
+         MGCKDMPKdFGkXwoWCj2uVTPOnX1f9ktIgs5f+LG0JDEw5c2S8gQoUXxa685x3t1s53Zk
+         VZ8MYu/Hiha+/gWC2eVWL9uikjwlbC4ft+9EVrbemysKLefeiXEehvu7zEIZ/tuUMy5J
+         RqLg==
+X-Gm-Message-State: AOAM530fehac2kXB8R3LwStzZ7Zsw4Rl266ffwG6pUiWhag9kkeyeepz
+        RB6CPO6Ql96HZvgA+Cao+OtZNAM=
+X-Google-Smtp-Source: ABdhPJxeT8xt3kK+xpHImNje5fUjx5a70RjayIvBNn8i20JxqinNV5A6soaTMLc7VKifQYWak/spRso=
+X-Received: from pcc-desktop.svl.corp.google.com ([2620:15c:2ce:0:455:89c6:cb5a:9b7f])
+ (user=pcc job=sendgmr) by 2002:a25:e651:: with SMTP id d78mr3615858ybh.93.1616123462041;
+ Thu, 18 Mar 2021 20:11:02 -0700 (PDT)
+Date:   Thu, 18 Mar 2021 20:10:52 -0700
+Message-Id: <13d725cb8e741950fb9d6e64b2cd9bd54ff7c3f9.1616123271.git.pcc@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.31.0.rc2.261.g7f71774620-goog
+Subject: [PATCH v8 1/3] arm64: mte: make the per-task SCTLR_EL1 field usable elsewhere
+From:   Peter Collingbourne <pcc@google.com>
+To:     Catalin Marinas <catalin.marinas@arm.com>,
+        Evgenii Stepanov <eugenis@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        Florian Weimer <fw@deneb.enyo.de>
+Cc:     Peter Collingbourne <pcc@google.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Will Deacon <will@kernel.org>, linux-api@vger.kernel.org,
+        libc-alpha@sourceware.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Mar 18, 2021 at 11:58 PM Daniel Borkmann <daniel@iogearbox.net> wrote:
->
-> On 3/18/21 7:36 AM, Jianlin Lv wrote:
-> > Added BPF_LD_ST_SIZE_MASK macro as mask of size modifier that help to
-> > reduce the evaluation of expressions in if statements,
-> > and remove BPF_SIZE_MASK in netronome driver.
-> >
-> > Signed-off-by: Jianlin Lv <Jianlin.Lv@arm.com>
-> > ---
-> > v2: Move the bpf_LD_ST_SIZE_MASK macro definition to include/linux/bpf.h
-> > ---
-> >   drivers/net/ethernet/netronome/nfp/bpf/main.h |  8 +++-----
-> >   include/linux/bpf.h                           |  1 +
-> >   kernel/bpf/verifier.c                         | 12 ++++--------
-> >   3 files changed, 8 insertions(+), 13 deletions(-)
-> >
-> > diff --git a/drivers/net/ethernet/netronome/nfp/bpf/main.h b/drivers/net/ethernet/netronome/nfp/bpf/main.h
-> > index d0e17eebddd9..e90981e69763 100644
-> > --- a/drivers/net/ethernet/netronome/nfp/bpf/main.h
-> > +++ b/drivers/net/ethernet/netronome/nfp/bpf/main.h
-> > @@ -346,8 +346,6 @@ struct nfp_insn_meta {
-> >       struct list_head l;
-> >   };
-> >
-> > -#define BPF_SIZE_MASK        0x18
-> > -
-> >   static inline u8 mbpf_class(const struct nfp_insn_meta *meta)
-> >   {
-> >       return BPF_CLASS(meta->insn.code);
-> > @@ -375,7 +373,7 @@ static inline bool is_mbpf_alu(const struct nfp_insn_meta *meta)
-> >
-> >   static inline bool is_mbpf_load(const struct nfp_insn_meta *meta)
-> >   {
-> > -     return (meta->insn.code & ~BPF_SIZE_MASK) == (BPF_LDX | BPF_MEM);
-> > +     return (meta->insn.code & ~BPF_LD_ST_SIZE_MASK) == (BPF_LDX | BPF_MEM);
-> >   }
-> >
-> >   static inline bool is_mbpf_jmp32(const struct nfp_insn_meta *meta)
-> > @@ -395,7 +393,7 @@ static inline bool is_mbpf_jmp(const struct nfp_insn_meta *meta)
-> >
-> >   static inline bool is_mbpf_store(const struct nfp_insn_meta *meta)
-> >   {
-> > -     return (meta->insn.code & ~BPF_SIZE_MASK) == (BPF_STX | BPF_MEM);
-> > +     return (meta->insn.code & ~BPF_LD_ST_SIZE_MASK) == (BPF_STX | BPF_MEM);
-> >   }
-> >
-> >   static inline bool is_mbpf_load_pkt(const struct nfp_insn_meta *meta)
-> > @@ -430,7 +428,7 @@ static inline bool is_mbpf_classic_store_pkt(const struct nfp_insn_meta *meta)
-> >
-> >   static inline bool is_mbpf_atomic(const struct nfp_insn_meta *meta)
-> >   {
-> > -     return (meta->insn.code & ~BPF_SIZE_MASK) == (BPF_STX | BPF_ATOMIC);
-> > +     return (meta->insn.code & ~BPF_LD_ST_SIZE_MASK) == (BPF_STX | BPF_ATOMIC);
-> >   }
-> >
-> >   static inline bool is_mbpf_mul(const struct nfp_insn_meta *meta)
-> > diff --git a/include/linux/bpf.h b/include/linux/bpf.h
-> > index a25730eaa148..e85924719c65 100644
-> > --- a/include/linux/bpf.h
-> > +++ b/include/linux/bpf.h
-> > @@ -995,6 +995,7 @@ struct bpf_array {
-> >                                BPF_F_RDONLY_PROG |    \
-> >                                BPF_F_WRONLY |         \
-> >                                BPF_F_WRONLY_PROG)
-> > +#define BPF_LD_ST_SIZE_MASK  0x18    /* mask of size modifier */
-> >
-> >   #define BPF_MAP_CAN_READ    BIT(0)
-> >   #define BPF_MAP_CAN_WRITE   BIT(1)
-> > diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
-> > index f9096b049cd6..29fdfdb8abfa 100644
-> > --- a/kernel/bpf/verifier.c
-> > +++ b/kernel/bpf/verifier.c
-> > @@ -11384,15 +11384,11 @@ static int convert_ctx_accesses(struct bpf_verifier_env *env)
-> >       for (i = 0; i < insn_cnt; i++, insn++) {
-> >               bpf_convert_ctx_access_t convert_ctx_access;
-> >
-> > -             if (insn->code == (BPF_LDX | BPF_MEM | BPF_B) ||
-> > -                 insn->code == (BPF_LDX | BPF_MEM | BPF_H) ||
-> > -                 insn->code == (BPF_LDX | BPF_MEM | BPF_W) ||
-> > -                 insn->code == (BPF_LDX | BPF_MEM | BPF_DW))
-> > +             /* opcode: BPF_MEM | <size> | BPF_LDX */
-> > +             if ((insn->code & ~BPF_LD_ST_SIZE_MASK) == (BPF_LDX | BPF_MEM))
-> >                       type = BPF_READ;
-> > -             else if (insn->code == (BPF_STX | BPF_MEM | BPF_B) ||
-> > -                      insn->code == (BPF_STX | BPF_MEM | BPF_H) ||
-> > -                      insn->code == (BPF_STX | BPF_MEM | BPF_W) ||
-> > -                      insn->code == (BPF_STX | BPF_MEM | BPF_DW))
-> > +             /* opcode: BPF_MEM | <size> | BPF_STX */
-> > +             else if ((insn->code & ~BPF_LD_ST_SIZE_MASK) == (BPF_STX | BPF_MEM))
-> >                       type = BPF_WRITE;
-> >               else
-> >                       continue;
-> >
->
-> To me this cleanup makes the code harder to read, in particular on verfier side,
-> I don't think it's worth it, especially given it's not in (highly) performance
-> critical code.
->
-> Thanks,
-> Daniel
+In an upcoming change we are going to introduce per-task SCTLR_EL1
+bits for PAC. Move the existing per-task SCTLR_EL1 field out of the
+MTE-specific code so that we will be able to use it from both the
+PAC and MTE code paths and make the task switching code more efficient.
 
-I have some different opinions. I think the addition of the mask just helps
-developers understand that the currently processed instruction covers all
-possible values of size;
+Signed-off-by: Peter Collingbourne <pcc@google.com>
+Link: https://linux-review.googlesource.com/id/Ic65fac78a7926168fa68f9e8da591c9e04ff7278
+---
+v8:
+- rebase to 5.12-rc3
 
-In addition, from my experience in reading the verfier.c file,
-to fully understand this part of the code, it needs to understand the
-meaning of each instruction.
-It is really hard to say that this is an easy task, at least for me.
-Haha ^_^
+v7:
+- drop CONFIG_ARM64_NEED_SCTLR_USER
 
-Regards,
-Jianlin
+ arch/arm64/include/asm/mte.h       |  4 ---
+ arch/arm64/include/asm/processor.h |  6 +++-
+ arch/arm64/kernel/mte.c            | 47 ++++++------------------------
+ arch/arm64/kernel/process.c        | 30 +++++++++++++++----
+ 4 files changed, 38 insertions(+), 49 deletions(-)
+
+diff --git a/arch/arm64/include/asm/mte.h b/arch/arm64/include/asm/mte.h
+index 9b557a457f24..1a4909b44297 100644
+--- a/arch/arm64/include/asm/mte.h
++++ b/arch/arm64/include/asm/mte.h
+@@ -40,7 +40,6 @@ void mte_free_tag_storage(char *storage);
+ void mte_sync_tags(pte_t *ptep, pte_t pte);
+ void mte_copy_page_tags(void *kto, const void *kfrom);
+ void flush_mte_state(void);
+-void mte_thread_switch(struct task_struct *next);
+ void mte_suspend_exit(void);
+ long set_mte_ctrl(struct task_struct *task, unsigned long arg);
+ long get_mte_ctrl(struct task_struct *task);
+@@ -63,9 +62,6 @@ static inline void mte_copy_page_tags(void *kto, const void *kfrom)
+ static inline void flush_mte_state(void)
+ {
+ }
+-static inline void mte_thread_switch(struct task_struct *next)
+-{
+-}
+ static inline void mte_suspend_exit(void)
+ {
+ }
+diff --git a/arch/arm64/include/asm/processor.h b/arch/arm64/include/asm/processor.h
+index ca2cd75d3286..80895bb30490 100644
+--- a/arch/arm64/include/asm/processor.h
++++ b/arch/arm64/include/asm/processor.h
+@@ -151,11 +151,13 @@ struct thread_struct {
+ 	struct ptrauth_keys_kernel	keys_kernel;
+ #endif
+ #ifdef CONFIG_ARM64_MTE
+-	u64			sctlr_tcf0;
+ 	u64			gcr_user_excl;
+ #endif
++	u64			sctlr_user;
+ };
+ 
++#define SCTLR_USER_MASK SCTLR_EL1_TCF0_MASK
++
+ static inline void arch_thread_struct_whitelist(unsigned long *offset,
+ 						unsigned long *size)
+ {
+@@ -247,6 +249,8 @@ extern void release_thread(struct task_struct *);
+ 
+ unsigned long get_wchan(struct task_struct *p);
+ 
++void set_task_sctlr_el1(u64 sctlr);
++
+ /* Thread switching */
+ extern struct task_struct *cpu_switch_to(struct task_struct *prev,
+ 					 struct task_struct *next);
+diff --git a/arch/arm64/kernel/mte.c b/arch/arm64/kernel/mte.c
+index b3c70a612c7a..ea8a90259e7f 100644
+--- a/arch/arm64/kernel/mte.c
++++ b/arch/arm64/kernel/mte.c
+@@ -124,26 +124,6 @@ bool mte_report_once(void)
+ 	return READ_ONCE(report_fault_once);
+ }
+ 
+-static void update_sctlr_el1_tcf0(u64 tcf0)
+-{
+-	/* ISB required for the kernel uaccess routines */
+-	sysreg_clear_set(sctlr_el1, SCTLR_EL1_TCF0_MASK, tcf0);
+-	isb();
+-}
+-
+-static void set_sctlr_el1_tcf0(u64 tcf0)
+-{
+-	/*
+-	 * mte_thread_switch() checks current->thread.sctlr_tcf0 as an
+-	 * optimisation. Disable preemption so that it does not see
+-	 * the variable update before the SCTLR_EL1.TCF0 one.
+-	 */
+-	preempt_disable();
+-	current->thread.sctlr_tcf0 = tcf0;
+-	update_sctlr_el1_tcf0(tcf0);
+-	preempt_enable();
+-}
+-
+ static void update_gcr_el1_excl(u64 excl)
+ {
+ 
+@@ -176,21 +156,12 @@ void flush_mte_state(void)
+ 	write_sysreg_s(0, SYS_TFSRE0_EL1);
+ 	clear_thread_flag(TIF_MTE_ASYNC_FAULT);
+ 	/* disable tag checking */
+-	set_sctlr_el1_tcf0(SCTLR_EL1_TCF0_NONE);
++	set_task_sctlr_el1((current->thread.sctlr_user & ~SCTLR_EL1_TCF0_MASK) |
++			   SCTLR_EL1_TCF0_NONE);
+ 	/* reset tag generation mask */
+ 	set_gcr_el1_excl(SYS_GCR_EL1_EXCL_MASK);
+ }
+ 
+-void mte_thread_switch(struct task_struct *next)
+-{
+-	if (!system_supports_mte())
+-		return;
+-
+-	/* avoid expensive SCTLR_EL1 accesses if no change */
+-	if (current->thread.sctlr_tcf0 != next->thread.sctlr_tcf0)
+-		update_sctlr_el1_tcf0(next->thread.sctlr_tcf0);
+-}
+-
+ void mte_suspend_exit(void)
+ {
+ 	if (!system_supports_mte())
+@@ -201,7 +172,7 @@ void mte_suspend_exit(void)
+ 
+ long set_mte_ctrl(struct task_struct *task, unsigned long arg)
+ {
+-	u64 tcf0;
++	u64 sctlr = task->thread.sctlr_user & ~SCTLR_EL1_TCF0_MASK;
+ 	u64 gcr_excl = ~((arg & PR_MTE_TAG_MASK) >> PR_MTE_TAG_SHIFT) &
+ 		       SYS_GCR_EL1_EXCL_MASK;
+ 
+@@ -210,23 +181,23 @@ long set_mte_ctrl(struct task_struct *task, unsigned long arg)
+ 
+ 	switch (arg & PR_MTE_TCF_MASK) {
+ 	case PR_MTE_TCF_NONE:
+-		tcf0 = SCTLR_EL1_TCF0_NONE;
++		sctlr |= SCTLR_EL1_TCF0_NONE;
+ 		break;
+ 	case PR_MTE_TCF_SYNC:
+-		tcf0 = SCTLR_EL1_TCF0_SYNC;
++		sctlr |= SCTLR_EL1_TCF0_SYNC;
+ 		break;
+ 	case PR_MTE_TCF_ASYNC:
+-		tcf0 = SCTLR_EL1_TCF0_ASYNC;
++		sctlr |= SCTLR_EL1_TCF0_ASYNC;
+ 		break;
+ 	default:
+ 		return -EINVAL;
+ 	}
+ 
+ 	if (task != current) {
+-		task->thread.sctlr_tcf0 = tcf0;
++		task->thread.sctlr_user = sctlr;
+ 		task->thread.gcr_user_excl = gcr_excl;
+ 	} else {
+-		set_sctlr_el1_tcf0(tcf0);
++		set_task_sctlr_el1(sctlr);
+ 		set_gcr_el1_excl(gcr_excl);
+ 	}
+ 
+@@ -243,7 +214,7 @@ long get_mte_ctrl(struct task_struct *task)
+ 
+ 	ret = incl << PR_MTE_TAG_SHIFT;
+ 
+-	switch (task->thread.sctlr_tcf0) {
++	switch (task->thread.sctlr_user & SCTLR_EL1_TCF0_MASK) {
+ 	case SCTLR_EL1_TCF0_NONE:
+ 		ret |= PR_MTE_TCF_NONE;
+ 		break;
+diff --git a/arch/arm64/kernel/process.c b/arch/arm64/kernel/process.c
+index 325c83b1a24d..bb89f6208a20 100644
+--- a/arch/arm64/kernel/process.c
++++ b/arch/arm64/kernel/process.c
+@@ -529,6 +529,27 @@ static void erratum_1418040_thread_switch(struct task_struct *prev,
+ 	write_sysreg(val, cntkctl_el1);
+ }
+ 
++static void update_sctlr_el1(u64 sctlr)
++{
++	sysreg_clear_set(sctlr_el1, SCTLR_USER_MASK, sctlr);
++
++	/* ISB required for the kernel uaccess routines when setting TCF0. */
++	isb();
++}
++
++void set_task_sctlr_el1(u64 sctlr)
++{
++	/*
++	 * __switch_to() checks current->thread.sctlr as an
++	 * optimisation. Disable preemption so that it does not see
++	 * the variable update before the SCTLR_EL1 one.
++	 */
++	preempt_disable();
++	current->thread.sctlr_user = sctlr;
++	update_sctlr_el1(sctlr);
++	preempt_enable();
++}
++
+ /*
+  * Thread switching.
+  */
+@@ -553,12 +574,9 @@ __notrace_funcgraph struct task_struct *__switch_to(struct task_struct *prev,
+ 	 */
+ 	dsb(ish);
+ 
+-	/*
+-	 * MTE thread switching must happen after the DSB above to ensure that
+-	 * any asynchronous tag check faults have been logged in the TFSR*_EL1
+-	 * registers.
+-	 */
+-	mte_thread_switch(next);
++	/* avoid expensive SCTLR_EL1 accesses if no change */
++	if (prev->thread.sctlr_user != next->thread.sctlr_user)
++		update_sctlr_el1(next->thread.sctlr_user);
+ 
+ 	/* the actual thread switch */
+ 	last = cpu_switch_to(prev, next);
+-- 
+2.31.0.rc2.261.g7f71774620-goog
+
