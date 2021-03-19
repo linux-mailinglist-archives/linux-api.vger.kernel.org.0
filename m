@@ -2,164 +2,104 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EE58342775
-	for <lists+linux-api@lfdr.de>; Fri, 19 Mar 2021 22:13:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DDD4B3427F0
+	for <lists+linux-api@lfdr.de>; Fri, 19 Mar 2021 22:44:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230092AbhCSVM3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 19 Mar 2021 17:12:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57716 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229990AbhCSVMC (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 19 Mar 2021 17:12:02 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48AC8C061761
-        for <linux-api@vger.kernel.org>; Fri, 19 Mar 2021 14:12:02 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id f2-20020a17090a4a82b02900c67bf8dc69so7319174pjh.1
-        for <linux-api@vger.kernel.org>; Fri, 19 Mar 2021 14:12:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=osandov-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=bLNry3ZXHQ9tHu+On0bkjiCkpapr1pSIrFsTvvsflEc=;
-        b=1n0mkAQFvc10rNMQoLM9YVKLE+ZBv2SCxreZVqm0WfGygljeO+ZRmjcTdUMMLhNjB4
-         Gi9g41nDX8BOK97qf6iUs0zF3ZCAQXoRtNyPkL1qM36LklJ1WM0Lo7JCyIPHXj5eF0u1
-         JojeCjZc7pbP/XHtf0DO9W+UdwEqN9n8x/jNAd5xP2cFriIInfigeo1h3/1T8FkHIFw+
-         X6YXB3TaCZbo3iV0IwmBxTbBYKTtwOJasCsj08Ivlz5gDE7HAkj6mxpnwCETT7sJsW9Z
-         ygkepDZ9z1WkRAMbZVQBMNnARQyEockssNtkAwOk1gAJIyRF849x5PNPl3DMM3foMGkT
-         WTdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=bLNry3ZXHQ9tHu+On0bkjiCkpapr1pSIrFsTvvsflEc=;
-        b=hY42IN2jAIS2Ab0jpIM8W5KV4Qkwm2exnTqWjwXfZBr4l0chGWhIUHLzzZ+fgUX4AN
-         cHs/G7RXBOFtUEx5zrCujWuKvToT3xwNy2OBY/VEBdjyYbR52M1nrQEMTwW+zSSjkAd6
-         CN4vym/HUv77nQm5sGiF16PGkXQCqNbVp2DlCRwQOdIEkUDH8OHLxN0xaM248edRsTuO
-         gINfGmot4tDw8lsk0zBALMvrhz8IHIlvbv4YAgr4bI3Doghc9WE1OSa6eB94U96PUgMU
-         f13aeEXjndJzdCuyqtaUayIQeep06cr/9AYFybcufc2IPGYmEcUA2WYMRZ3pTL9uvMiN
-         RHBg==
-X-Gm-Message-State: AOAM532jgtDyTfRjnYzkFE4PHXJ5ftJFqUxM+g4y32DDiM2RWPmtYFIr
-        VbWSjfPAnAhXR3FAA5pfKeUlPw==
-X-Google-Smtp-Source: ABdhPJxX0o7uVOSoY7PrQ1YTqR+hEYKRyX9j2fhPjFZHpCBlCJQOqbd4pTvH/e1v2Ab7pYPtnWSwyw==
-X-Received: by 2002:a17:90a:8505:: with SMTP id l5mr437793pjn.100.1616188321497;
-        Fri, 19 Mar 2021 14:12:01 -0700 (PDT)
-Received: from relinquished.localdomain ([2620:10d:c090:400::5:9ec6])
-        by smtp.gmail.com with ESMTPSA id c128sm6280833pfc.76.2021.03.19.14.11.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Mar 2021 14:11:59 -0700 (PDT)
-Date:   Fri, 19 Mar 2021 14:11:56 -0700
-From:   Omar Sandoval <osandov@osandov.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Josef Bacik <josef@toxicpanda.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-btrfs <linux-btrfs@vger.kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dave Chinner <david@fromorbit.com>,
-        Jann Horn <jannh@google.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Kernel Team <kernel-team@fb.com>
-Subject: Re: [PATCH v8 00/10] fs: interface for directly reading/writing
- compressed data
-Message-ID: <YFUTnDaCdjWHHht5@relinquished.localdomain>
-References: <cover.1615922644.git.osandov@fb.com>
- <8f741746-fd7f-c81a-3cdf-fb81aeea34b5@toxicpanda.com>
- <CAHk-=wj6MjPt+V7VrQ=muspc0DZ-7bg5bvmE2ZF-1Ea_AQh8Xg@mail.gmail.com>
- <YFUJLUnXnsv9X/vN@relinquished.localdomain>
- <CAHk-=whGEM0YX4eavgGuoOqhGU1g=bhdOK=vUiP1Qeb5ZxK56Q@mail.gmail.com>
+        id S230092AbhCSVnn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 19 Mar 2021 17:43:43 -0400
+Received: from mga09.intel.com ([134.134.136.24]:8668 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229942AbhCSVnH (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 19 Mar 2021 17:43:07 -0400
+IronPort-SDR: RSiSITZep4KuY9xDwMvGo553udx8tKIJxQp1wf3YX+3AcAaiHQDfTUJY1d1wv7SNk1u5wvSoC+
+ xP+qT3EzRbag==
+X-IronPort-AV: E=McAfee;i="6000,8403,9928"; a="190066754"
+X-IronPort-AV: E=Sophos;i="5.81,262,1610438400"; 
+   d="scan'208";a="190066754"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2021 14:43:06 -0700
+IronPort-SDR: iT/r8ByvMuU8XTKNeF3yq/D/QfUHXYpCYZjIvu/4fy4S0PaDOlSkasOytpgZFg7aZUrat2BnHp
+ M2DQvWQ8JZmw==
+X-IronPort-AV: E=Sophos;i="5.81,262,1610438400"; 
+   d="scan'208";a="603266289"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.100.40]) ([10.212.100.40])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2021 14:43:05 -0700
+Subject: Re: [PATCH v23 00/28] Control-flow Enforcement: Shadow Stack
+To:     Peter Zijlstra <peterz@infradead.org>,
+        Borislav Petkov <bp@alien8.de>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
+ <20210316211552.GU4746@worktop.programming.kicks-ass.net>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <adb72123-e8b3-c022-47da-b8c423952caf@intel.com>
+Date:   Fri, 19 Mar 2021 14:43:04 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=whGEM0YX4eavgGuoOqhGU1g=bhdOK=vUiP1Qeb5ZxK56Q@mail.gmail.com>
+In-Reply-To: <20210316211552.GU4746@worktop.programming.kicks-ass.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Mar 19, 2021 at 01:55:18PM -0700, Linus Torvalds wrote:
-> On Fri, Mar 19, 2021 at 1:27 PM Omar Sandoval <osandov@osandov.com> wrote:
-> >
-> > For RWF_ENCODED, iov[0] is always used as the entirety of the struct. I
-> > made the helper more generic to support other use cases, but if that's
-> > the main objection I can easily make it specifically use iov[0].
+On 3/16/2021 2:15 PM, Peter Zijlstra wrote:
+> On Tue, Mar 16, 2021 at 08:10:26AM -0700, Yu-cheng Yu wrote:
+>> Control-flow Enforcement (CET) is a new Intel processor feature that blocks
+>> return/jump-oriented programming attacks.  Details are in "Intel 64 and
+>> IA-32 Architectures Software Developer's Manual" [1].
+>>
+>> CET can protect applications and the kernel.  This series enables only
+>> application-level protection, and has three parts:
+>>
+>>    - Shadow stack [2],
+>>    - Indirect branch tracking [3], and
+>>    - Selftests [4].
 > 
-> Honestly, with new interfaces, I'd prefer to always start off as
-> limited as possible.
+> CET is marketing; afaict SS and IBT are 100% independent and there's no
+> reason what so ever to have them share any code, let alone a Kconfig
+> knob.
+> > In fact, I think all of this would improve is you remove the CET name
+> from all of this entirely. Put this series under CONFIG_X86_SHSTK (or
+> _SS) and use CONFIG_X86_IBT for the other one.
 > 
-> And read/write is not very limited (but O_ALLOW_ENCODED and
-> RWF_ENCODED at least helps with the "fool suid program to do it"). But
-> at least we could make sure that the structure then has to be as
-> strict as humanly possible.
+> Similarly with the .c file.
 > 
-> So it's not so much a "main objection" as more about trying to make
-> the rules stricter in the hope that that at least makes only one very
-> particular way of doing things valid. I'd hate for user space to start
-> 'streaming" struct data.
-
-After spending a few minutes trying to simplify copy_struct_from_iter(),
-it's honestly easier to just use the iterate_all_kinds() craziness than
-open coding it to only operate on iov[0]. But that's an implementation
-detail, and we can trivially make the interface stricter:
-
-diff --git a/lib/iov_iter.c b/lib/iov_iter.c
-index 395ca89e5d9b..41b6b0325d18 100644
---- a/lib/iov_iter.c
-+++ b/lib/iov_iter.c
-@@ -969,9 +969,9 @@ EXPORT_SYMBOL(copy_page_from_iter);
-  * On success, the iterator is advanced @usize bytes. On error, the iterator is
-  * not advanced.
-  */
--int copy_struct_from_iter(void *dst, size_t ksize, struct iov_iter *i,
--			  size_t usize)
-+int copy_struct_from_iter(void *dst, size_t ksize, struct iov_iter *i)
- {
-+	size_t usize = iov_iter_single_seg_count(i);
- 	if (usize <= ksize) {
- 		if (!copy_from_iter_full(dst, usize, i))
- 			return -EFAULT;
-
-I.e., the size of the userspace structure is always the remaining size
-of the current segment. Maybe we can even throw in a check that we're
-either at the beginning of the current segment or the very beginning of
-the whole iter, what do you think?
-
-(Again, this is what RWF_ENCODED already does, it was just easier to
-write copy_struct_from_iter() more generically).
-
-> > > Also I see references to the man-page, but honestly, that's not how
-> > > the kernel UAPI should be defined ("just read the man-page"), plus I
-> > > refuse to live in the 70's, and consider troff to be an atrocious
-> > > format.
-> >
-> > No disagreement here, troff is horrible to read.
-> >
-> > > So make the UAPI explanation for this horror be in a legible format
-> > > that is actually part of the kernel so that I can read what the intent
-> > > is, instead of having to decode hieroglypics.
-> >
-> > I didn't want to document the UAPI in two places that would need to be
-> > kept in sync
+> All this CET business is just pure confusion.
 > 
-> Honestly, I would suggest that nobody ever write troff format stuff.
-> I don't think it supports UTF-8 properly, for example, which means
-> that you can't even give credit to people properly etc.
-> 
-> RST isn't perfect, but at least it's human-legible, and it's obviously
-> what we're encouraging for kernel use. You can use rst2man to convert
-> to bad formats (and yes, you might lose something in the translation,
-> eg proper names etc).
 
-It looks like there's precedent for man pages being generated from the
-kernel documentation [1], so I'll try that.
+What about this, we bring back CONFIG_X86_SHSTK and CONFIG_X86_IBT.
+For the CET name itself, can we change it to CFE (Control Flow 
+Enforcement), or just CF?
 
-1: https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/commit/?id=53666f6c30451cde022f65d35a8d448f5a7132ba
+In signal handling, ELF header parsing and arch_prctl(), shadow stack 
+and IBT pretty much share the same code.  It is better not to split them 
+into two sets of files.
 
-> Almost anything else(*) is better than troff. But at least I can read
-> the formatted version.
-> 
->           Linus
-> 
-> (*) With the possible exception of "info" files. Now *there* is a
-> truly pointless format maximally designed to make it inconvenient for
-> users.
+Thanks,
+Yu-cheng
