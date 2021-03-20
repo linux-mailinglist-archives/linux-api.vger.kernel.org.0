@@ -2,123 +2,101 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 07F60342CE9
-	for <lists+linux-api@lfdr.de>; Sat, 20 Mar 2021 13:58:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BC6AD342E60
+	for <lists+linux-api@lfdr.de>; Sat, 20 Mar 2021 17:31:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229544AbhCTM5b (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 20 Mar 2021 08:57:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33690 "EHLO
+        id S229761AbhCTQbP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 20 Mar 2021 12:31:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229505AbhCTM5R (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 20 Mar 2021 08:57:17 -0400
-Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D789C061762;
-        Sat, 20 Mar 2021 05:57:17 -0700 (PDT)
-Received: by mail-il1-x136.google.com with SMTP id u10so10549912ilb.0;
-        Sat, 20 Mar 2021 05:57:17 -0700 (PDT)
+        with ESMTP id S229780AbhCTQaw (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 20 Mar 2021 12:30:52 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2543C061574;
+        Sat, 20 Mar 2021 09:30:51 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id jy13so14486025ejc.2;
+        Sat, 20 Mar 2021 09:30:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=aaz5vIn5nArItqTRFs02OpD1fPWq0lVp2I+2//tPwmE=;
-        b=e0mBNUGs5Pm9m68S9vqDUZ6s2mbVvqyEsryA2N4v0UG9AABaya6JAbS3bE5vuff/cg
-         4ls8ugBmiv5AUG136MKeyA44RKmfxs0DmJAF/7MMAZKabVVKlKJBrPIob3me6SFv0TCk
-         thcICgbvnnXPlZZWTMMqhCs3GD/Vp1dMHI2Ru5rZ3D6PQ+WeKwUw+BnSChBBA7AjSq/I
-         ZbR8vIrfXpJbnAV9aTSu+N/PGSHj3MijYFkrRHqbzfmoetvN7jf1UnvovW71fk2uBgIm
-         hgYCV5377cv+tJYc47mOzCFQtvhQIS/j6WBJdNdSZdasQ11S65NSh3lZh9mgQrmiwMso
-         2NZA==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=krowSy1qOb6baq8siG2DkcMBMFG/XPZkvaDkKFj+3Jk=;
+        b=V3dQbMpC5FUnNbOCzKlRG8CeS1LagpymcblrFYVop9Cek9l35jtwY6Wz1maEZ0XPwh
+         ++FZ7BdeNlxVf1oyxiuqiPUL2EtglhsoPo6EXmLXx3DSRWuisf69q72/gubK2deZjYPu
+         awQwAUpqD2t+PdfTL8MLhxLELJFf2Dm4UyNtIWCUENLqdh1EPt7AE61Glh9mp24BF5T/
+         5O6/qAyjcbju8PzGsSCjl8GEQ7hVfVLPY2lYsPr50cvfL1SRhWz2W89bIC0vxFZDqBtz
+         KGKJBxR3cDiOx5OBDJzG1B5d6jEva8BNh/0H7ukiK7B3YCjUenEA+0Un+ZHZ5ugid7hv
+         Dl0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=aaz5vIn5nArItqTRFs02OpD1fPWq0lVp2I+2//tPwmE=;
-        b=T3HZnwQfn0GSIyfqSl/vakiyKKIIZNQTqJsyJal0JCXud6EMrOvjX/7NqKGPEXWYfo
-         jt+AL0o3huBeDPjx08dN0L4CBXkil0jNRpM+NnLasmVTxReJM1kHfQRtNBaINNJF6NC8
-         w7MwbIrj8D761CxVG9hqhpza2bbOxxJD6+8FDnuA8HJ2smyjvU2delvQBhszrBJpY0JB
-         /8fEDJmyhyPWGDPFPgQ/Fz7b3yN/WKzbF0CV/NtjB6MRK90up5+XrWal/ZfywJHOpawu
-         IX1SRLgqIJIMRB+v0QmV2B0ljNlh1oEE35LhLIB8JXJ9b2PDxzVR5AIarIFviZCe5NG3
-         sMKg==
-X-Gm-Message-State: AOAM531m98nWV2pGncvvSwu/Z84HRPX67eT8zUFl0MhkMpLCLbvY33PP
-        OPsax+34BaVVHVl9h67C8cAhDN694cAwlyPliDMEx2w4/NI=
-X-Google-Smtp-Source: ABdhPJyLFgFGvqV7T6clWmJMWQ3UrgZs99iYt4w/+E3129OthjlVw7w0r9abwwHb5WfKUlTN2XAM/tdS+D5lPcRVPBo=
-X-Received: by 2002:a92:da48:: with SMTP id p8mr5702355ilq.137.1616245036519;
- Sat, 20 Mar 2021 05:57:16 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=krowSy1qOb6baq8siG2DkcMBMFG/XPZkvaDkKFj+3Jk=;
+        b=soQDYEBu1O/eapTwNxFoex6lit3aQ6ZWsvBWYzx0EnWOItOIdwA2vZXXr4gjgha1I1
+         NO2SAuU3mASQj631iNFZdHY4eTL8WZkbQYrghHey7S3owtlYB07Cy8QwpFYMO1IWgCJN
+         UfjSsNeh3zhnKHQrCDyn4i1p5gQo+y17ZWFRMzXN/JD0HkFxFKJROBja2FlwffvREun9
+         V3A1e7JIr4klFl6SSy9mws3vmSTZbZfoqYQaMwmlksCnldqernH/NQUGJ5NUkBYZ8bZF
+         gbJd2cfGappfv5MgkPCd9qBZa+nwvngyDhdxKoHetZ1hDcdrNXd+fwbVGNiVuTiL4ztw
+         uS8w==
+X-Gm-Message-State: AOAM531viiMLiimfhSjBEUBGyUnG9stwaJIHbdR0GIssHvyEs6kBYVsi
+        jFclSgImGEG+nQfRV91cymZ+ZCn+rw==
+X-Google-Smtp-Source: ABdhPJyJKj0ZeyRftCS1MN7KQhjxbWY8QZs+IuW/htFQlAMXfRbXdkN7aPLXrA6uYCWs6slYVqyOVg==
+X-Received: by 2002:a17:906:e2d4:: with SMTP id gr20mr10683539ejb.432.1616257850724;
+        Sat, 20 Mar 2021 09:30:50 -0700 (PDT)
+Received: from localhost.localdomain ([46.53.248.213])
+        by smtp.gmail.com with ESMTPSA id v24sm5586298ejw.17.2021.03.20.09.30.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 20 Mar 2021 09:30:50 -0700 (PDT)
+Date:   Sat, 20 Mar 2021 19:30:48 +0300
+From:   Alexey Dobriyan <adobriyan@gmail.com>
+To:     akpm@linux-foundation.org
+Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: [PATCH] Document that PF_KTHREAD _is_ ABI
+Message-ID: <YFYjOB1jpbqyNPAp@localhost.localdomain>
 MIME-Version: 1.0
-References: <20210304112921.3996419-1-amir73il@gmail.com> <20210316155524.GD23532@quack2.suse.cz>
- <CAOQ4uxgCv42_xkKpRH-ApMOeFCWfQGGc11CKxUkHJq-Xf=HnYg@mail.gmail.com>
- <20210317114207.GB2541@quack2.suse.cz> <CAOQ4uxi7ZXJW3_6SN=vw_XJC+wy4eMTayN6X5yRy_HOV6323MA@mail.gmail.com>
- <20210317174532.cllfsiagoudoz42m@wittgenstein> <CAOQ4uxjCjapuAHbYuP8Q_k0XD59UmURbmkGC1qcPkPAgQbQ8DA@mail.gmail.com>
- <20210318143140.jxycfn3fpqntq34z@wittgenstein> <CAOQ4uxiRHwmxTKsLteH_sBW_dSPshVE8SohJYEmpszxaAwjEyg@mail.gmail.com>
- <20210319134043.c2wcpn4lbefrkhkg@wittgenstein> <CAOQ4uxhLYdWOUmpWP+c_JzVeGDbkJ5eUM+1-hhq7zFq23g5J1g@mail.gmail.com>
-In-Reply-To: <CAOQ4uxhLYdWOUmpWP+c_JzVeGDbkJ5eUM+1-hhq7zFq23g5J1g@mail.gmail.com>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Sat, 20 Mar 2021 14:57:05 +0200
-Message-ID: <CAOQ4uxhetKeEZX=_iAcREjibaR0ZcOdeZyR8mFEoHM+WRsuVtg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] unprivileged fanotify listener
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Jan Kara <jack@suse.cz>,
-        Matthew Bobrowski <mbobrowski@mbobrowski.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-> > > The code that sits in linux-next can give you pretty much a drop-in
-> > > replacement of inotify and nothing more. See example code:
-> > > https://github.com/amir73il/inotify-tools/commits/fanotify_name_fid
-> >
-> > This is really great. Thank you for doing that work this will help quite
-> > a lot of use-cases and make things way simpler. I created a TODO to port
-> > our path-hotplug to this once this feature lands.
-> >
->
-> FWIW, I just tried to build this branch on Ubuntu 20.04.2 with LTS kernel
-> and there were some build issues, so rebased my branch on upstream
-> inotify-tools to fix those build issues.
->
-> I was not aware that the inotify-tools project is alive, I never intended
-> to upstream this demo code and never created a github pull request
-> but rebasing on upstream brought in some CI scripts, when I pushed the
-> branch to my github it triggered some tests that reported build failures on
-> Ubuntu 16.04 and 18.04.
->
-> Anyway, there is a pre-rebase branch 'fanotify_name' and the post rebase
-> branch 'fanotify_name_fid'. You can try whichever works for you.
->
-> You can look at the test script src/test_demo.sh for usage example.
-> Or just cd into a writable directory and run the script to see the demo.
-> The demo determines whether to use a recursive watch or "global"
-> watch by the uid of the user.
->
-> > >
-> > > > > If you think that is useful and you want to play with this feature I can
-> > > > > provide a WIP branch soon.
-> > > >
-> > > > I would like to first play with the support for unprivileged fanotify
-> > > > but sure, it does sound useful!
-> > >
-> > > Just so you have an idea what I am talking about, this is a very early
-> > > POC branch:
-> > > https://github.com/amir73il/linux/commits/fanotify_userns
-> >
-> > Thanks!  I'll try to pull this and take a look next week. I hope that's
-> > ok.
-> >
->
-> Fine. I'm curious to know what it does.
-> Did not get to test it with userns yet :)
+PF_KTHREAD value is visible via field number 9 of /proc/*/stat
 
-Now tested FAN_MARK_FILESYSTEM watch on tmpfs mounted
-inside userns and works fine, with two wrinkles I needed to iron:
+	$ sudo cat /proc/2/stat
+	2 (kthreadd) S 0 0 0 0 -1 2129984 0 ...
+				  ^^^^^^^
 
-1. FAN_REPORT_FID not supported on tmpfs because tmpfs has
-    zero f_fsid (easy to fix)
-2. open_by_handle_at() is not userns aware (can relax for
-    FS_USERNS_MOUNT fs)
+It is used by at least systemd to check for kernel-threadness:
+https://github.com/systemd/systemd/blob/main/src/basic/process-util.c#L354
+src/basic/process-util.c:is_kernel_thread()
 
-Pushed these two fixes to branch fanotify_userns.
+It means that the value can't be changed despite perceived notion that
+task_struct flags are internal to kernel and can be shuffled at whim.
 
-Thanks,
-Amir.
+Formally, _all_ struct task_struct::flags PF_* values are kernel ABI
+which is a disaster.
+
+I hope we can mask everything but few flags and hope for the best :^)
+
+Note for beginner Linux programmers:
+every other way you find on the interwebs and Stack Overflow
+for checking if pid belongs to a kernel thread is broken one way or
+another.
+
+Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
+---
+
+ include/linux/sched.h |    3 +++
+ 1 file changed, 3 insertions(+)
+
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -1566,6 +1566,9 @@ extern struct pid *cad_pid;
+ #define PF_MEMALLOC_NOIO	0x00080000	/* All allocation requests will inherit GFP_NOIO */
+ #define PF_LOCAL_THROTTLE	0x00100000	/* Throttle writes only against the bdi I write to,
+ 						 * I am cleaning dirty pages from some other bdi. */
++/*
++ * PF_KTHREAD is part of kernel ABI, visible via value #9 in /proc/$pid/stat
++ */
+ #define PF_KTHREAD		0x00200000	/* I am a kernel thread */
+ #define PF_RANDOMIZE		0x00400000	/* Randomize virtual address space */
+ #define PF_SWAPWRITE		0x00800000	/* Allowed to write to swap */
