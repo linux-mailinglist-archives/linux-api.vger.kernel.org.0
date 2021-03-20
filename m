@@ -2,166 +2,123 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 30400342B91
-	for <lists+linux-api@lfdr.de>; Sat, 20 Mar 2021 11:51:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 07F60342CE9
+	for <lists+linux-api@lfdr.de>; Sat, 20 Mar 2021 13:58:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229449AbhCTKvZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 20 Mar 2021 06:51:25 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:46712 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229634AbhCTKvT (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 20 Mar 2021 06:51:19 -0400
-Received: from ip5f5af0a0.dynamic.kabel-deutschland.de ([95.90.240.160] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1lNYTP-0004Ud-8g; Sat, 20 Mar 2021 10:04:47 +0000
-Date:   Sat, 20 Mar 2021 11:04:46 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Omar Sandoval <osandov@osandov.com>
-Cc:     linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dave Chinner <david@fromorbit.com>,
-        Jann Horn <jannh@google.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Aleksa Sarai <cyphar@cyphar.com>, linux-api@vger.kernel.org,
-        kernel-team@fb.com
-Subject: Re: [PATCH v8 01/10] iov_iter: add copy_struct_from_iter()
-Message-ID: <20210320100446.g5jysruamqklzzb5@wittgenstein>
-References: <cover.1615922644.git.osandov@fb.com>
- <e71e712d27b2e2c19efc5b1454bd8581ad98d900.1615922644.git.osandov@fb.com>
- <20210317175611.adntftl6w3avptvk@wittgenstein>
- <YFJOLlm3GuZgoVSi@relinquished.localdomain>
+        id S229544AbhCTM5b (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 20 Mar 2021 08:57:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33690 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229505AbhCTM5R (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 20 Mar 2021 08:57:17 -0400
+Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D789C061762;
+        Sat, 20 Mar 2021 05:57:17 -0700 (PDT)
+Received: by mail-il1-x136.google.com with SMTP id u10so10549912ilb.0;
+        Sat, 20 Mar 2021 05:57:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=aaz5vIn5nArItqTRFs02OpD1fPWq0lVp2I+2//tPwmE=;
+        b=e0mBNUGs5Pm9m68S9vqDUZ6s2mbVvqyEsryA2N4v0UG9AABaya6JAbS3bE5vuff/cg
+         4ls8ugBmiv5AUG136MKeyA44RKmfxs0DmJAF/7MMAZKabVVKlKJBrPIob3me6SFv0TCk
+         thcICgbvnnXPlZZWTMMqhCs3GD/Vp1dMHI2Ru5rZ3D6PQ+WeKwUw+BnSChBBA7AjSq/I
+         ZbR8vIrfXpJbnAV9aTSu+N/PGSHj3MijYFkrRHqbzfmoetvN7jf1UnvovW71fk2uBgIm
+         hgYCV5377cv+tJYc47mOzCFQtvhQIS/j6WBJdNdSZdasQ11S65NSh3lZh9mgQrmiwMso
+         2NZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=aaz5vIn5nArItqTRFs02OpD1fPWq0lVp2I+2//tPwmE=;
+        b=T3HZnwQfn0GSIyfqSl/vakiyKKIIZNQTqJsyJal0JCXud6EMrOvjX/7NqKGPEXWYfo
+         jt+AL0o3huBeDPjx08dN0L4CBXkil0jNRpM+NnLasmVTxReJM1kHfQRtNBaINNJF6NC8
+         w7MwbIrj8D761CxVG9hqhpza2bbOxxJD6+8FDnuA8HJ2smyjvU2delvQBhszrBJpY0JB
+         /8fEDJmyhyPWGDPFPgQ/Fz7b3yN/WKzbF0CV/NtjB6MRK90up5+XrWal/ZfywJHOpawu
+         IX1SRLgqIJIMRB+v0QmV2B0ljNlh1oEE35LhLIB8JXJ9b2PDxzVR5AIarIFviZCe5NG3
+         sMKg==
+X-Gm-Message-State: AOAM531m98nWV2pGncvvSwu/Z84HRPX67eT8zUFl0MhkMpLCLbvY33PP
+        OPsax+34BaVVHVl9h67C8cAhDN694cAwlyPliDMEx2w4/NI=
+X-Google-Smtp-Source: ABdhPJyLFgFGvqV7T6clWmJMWQ3UrgZs99iYt4w/+E3129OthjlVw7w0r9abwwHb5WfKUlTN2XAM/tdS+D5lPcRVPBo=
+X-Received: by 2002:a92:da48:: with SMTP id p8mr5702355ilq.137.1616245036519;
+ Sat, 20 Mar 2021 05:57:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YFJOLlm3GuZgoVSi@relinquished.localdomain>
+References: <20210304112921.3996419-1-amir73il@gmail.com> <20210316155524.GD23532@quack2.suse.cz>
+ <CAOQ4uxgCv42_xkKpRH-ApMOeFCWfQGGc11CKxUkHJq-Xf=HnYg@mail.gmail.com>
+ <20210317114207.GB2541@quack2.suse.cz> <CAOQ4uxi7ZXJW3_6SN=vw_XJC+wy4eMTayN6X5yRy_HOV6323MA@mail.gmail.com>
+ <20210317174532.cllfsiagoudoz42m@wittgenstein> <CAOQ4uxjCjapuAHbYuP8Q_k0XD59UmURbmkGC1qcPkPAgQbQ8DA@mail.gmail.com>
+ <20210318143140.jxycfn3fpqntq34z@wittgenstein> <CAOQ4uxiRHwmxTKsLteH_sBW_dSPshVE8SohJYEmpszxaAwjEyg@mail.gmail.com>
+ <20210319134043.c2wcpn4lbefrkhkg@wittgenstein> <CAOQ4uxhLYdWOUmpWP+c_JzVeGDbkJ5eUM+1-hhq7zFq23g5J1g@mail.gmail.com>
+In-Reply-To: <CAOQ4uxhLYdWOUmpWP+c_JzVeGDbkJ5eUM+1-hhq7zFq23g5J1g@mail.gmail.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Sat, 20 Mar 2021 14:57:05 +0200
+Message-ID: <CAOQ4uxhetKeEZX=_iAcREjibaR0ZcOdeZyR8mFEoHM+WRsuVtg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] unprivileged fanotify listener
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Jan Kara <jack@suse.cz>,
+        Matthew Bobrowski <mbobrowski@mbobrowski.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Mar 17, 2021 at 11:45:02AM -0700, Omar Sandoval wrote:
-> On Wed, Mar 17, 2021 at 06:56:11PM +0100, Christian Brauner wrote:
-> > On Tue, Mar 16, 2021 at 12:42:57PM -0700, Omar Sandoval wrote:
-> > > From: Omar Sandoval <osandov@fb.com>
-> > > 
-> > > This is essentially copy_struct_from_user() but for an iov_iter.
-> > > 
-> > > Suggested-by: Aleksa Sarai <cyphar@cyphar.com>
-> > > Reviewed-by: Josef Bacik <josef@toxicpanda.com>
-> > > Signed-off-by: Omar Sandoval <osandov@fb.com>
-> > > ---
-> > >  include/linux/uio.h |  2 ++
-> > >  lib/iov_iter.c      | 82 +++++++++++++++++++++++++++++++++++++++++++++
-> > >  2 files changed, 84 insertions(+)
-> > > 
-> > > diff --git a/include/linux/uio.h b/include/linux/uio.h
-> > > index 72d88566694e..f4e6ea85a269 100644
-> > > --- a/include/linux/uio.h
-> > > +++ b/include/linux/uio.h
-> > > @@ -121,6 +121,8 @@ size_t copy_page_to_iter(struct page *page, size_t offset, size_t bytes,
-> > >  			 struct iov_iter *i);
-> > >  size_t copy_page_from_iter(struct page *page, size_t offset, size_t bytes,
-> > >  			 struct iov_iter *i);
-> > > +int copy_struct_from_iter(void *dst, size_t ksize, struct iov_iter *i,
-> > > +			  size_t usize);
-> > >  
-> > >  size_t _copy_to_iter(const void *addr, size_t bytes, struct iov_iter *i);
-> > >  size_t _copy_from_iter(void *addr, size_t bytes, struct iov_iter *i);
-> > > diff --git a/lib/iov_iter.c b/lib/iov_iter.c
-> > > index a21e6a5792c5..f45826ed7528 100644
-> > > --- a/lib/iov_iter.c
-> > > +++ b/lib/iov_iter.c
-> > > @@ -948,6 +948,88 @@ size_t copy_page_from_iter(struct page *page, size_t offset, size_t bytes,
-> > >  }
-> > >  EXPORT_SYMBOL(copy_page_from_iter);
-> > >  
-> > > +/**
-> > > + * copy_struct_from_iter - copy a struct from an iov_iter
-> > > + * @dst: Destination buffer.
-> > > + * @ksize: Size of @dst struct.
-> > > + * @i: Source iterator.
-> > > + * @usize: (Alleged) size of struct in @i.
-> > > + *
-> > > + * Copies a struct from an iov_iter in a way that guarantees
-> > > + * backwards-compatibility for struct arguments in an iovec (as long as the
-> > > + * rules for copy_struct_from_user() are followed).
-> > > + *
-> > > + * The recommended usage is that @usize be taken from the current segment:
-> > > + *
-> > > + *   int do_foo(struct iov_iter *i)
-> > > + *   {
-> > > + *     size_t usize = iov_iter_single_seg_count(i);
-> > > + *     struct foo karg;
-> > > + *     int err;
-> > > + *
-> > > + *     if (usize > PAGE_SIZE)
-> > > + *       return -E2BIG;
-> > > + *     if (usize < FOO_SIZE_VER0)
-> > > + *       return -EINVAL;
-> > > + *     err = copy_struct_from_iter(&karg, sizeof(karg), i, usize);
-> > > + *     if (err)
-> > > + *       return err;
-> > > + *
-> > > + *     // ...
-> > > + *   }
-> > > + *
-> > > + * Return: 0 on success, -errno on error (see copy_struct_from_user()).
-> > > + *
-> > > + * On success, the iterator is advanced @usize bytes. On error, the iterator is
-> > > + * not advanced.
-> > > + */
-> > > +int copy_struct_from_iter(void *dst, size_t ksize, struct iov_iter *i,
-> > > +			  size_t usize)
-> > > +{
-> > > +	if (usize <= ksize) {
-> > > +		if (!copy_from_iter_full(dst, usize, i))
-> > > +			return -EFAULT;
-> > > +		memset(dst + usize, 0, ksize - usize);
-> > > +	} else {
-> > > +		size_t copied = 0, copy;
-> > > +		int ret;
-> > > +
-> > > +		if (WARN_ON(iov_iter_is_pipe(i)) || unlikely(i->count < usize))
-> > > +			return -EFAULT;
-> > > +		if (iter_is_iovec(i))
-> > > +			might_fault();
-> > > +		iterate_all_kinds(i, usize, v, ({
-> > > +			copy = min(ksize - copied, v.iov_len);
-> > > +			if (copy && copyin(dst + copied, v.iov_base, copy))
-> > > +				return -EFAULT;
-> > > +			copied += copy;
-> > > +			ret = check_zeroed_user(v.iov_base + copy,
-> > > +						v.iov_len - copy);
-> > > +			if (ret <= 0)
-> > > +				return ret ?: -E2BIG;
-> > > +			0;}), ({
-> > > +			char *addr = kmap_atomic(v.bv_page);
-> > > +			copy = min_t(size_t, ksize - copied, v.bv_len);
-> > > +			memcpy(dst + copied, addr + v.bv_offset, copy);
-> > > +			copied += copy;
-> > > +			ret = memchr_inv(addr + v.bv_offset + copy, 0,
-> > > +					 v.bv_len - copy) ? -E2BIG : 0;
-> > > +			kunmap_atomic(addr);
-> > > +			if (ret)
-> > > +				return ret;
-> > > +			}), ({
-> > > +			copy = min(ksize - copied, v.iov_len);
-> > > +			memcpy(dst + copied, v.iov_base, copy);
-> > > +			if (memchr_inv(v.iov_base, 0, v.iov_len))
-> > > +				return -E2BIG;
-> > > +			})
-> > > +		)
-> > 
-> > 
-> > Following the semantics of copy_struct_from_user() is certainly a good
-> > idea but can this in any way be rewritten to not look like this; at
-> > least not as crammed. It's a bit painful to follow here what's going.
-> 
-> I think that's just the nature of the iov_iter code :) I'm just
-> following the rest of this file, which uses some mind-expanding macros.
-> Do you have any suggestions for how to clean this function up?
+> > > The code that sits in linux-next can give you pretty much a drop-in
+> > > replacement of inotify and nothing more. See example code:
+> > > https://github.com/amir73il/inotify-tools/commits/fanotify_name_fid
+> >
+> > This is really great. Thank you for doing that work this will help quite
+> > a lot of use-cases and make things way simpler. I created a TODO to port
+> > our path-hotplug to this once this feature lands.
+> >
+>
+> FWIW, I just tried to build this branch on Ubuntu 20.04.2 with LTS kernel
+> and there were some build issues, so rebased my branch on upstream
+> inotify-tools to fix those build issues.
+>
+> I was not aware that the inotify-tools project is alive, I never intended
+> to upstream this demo code and never created a github pull request
+> but rebasing on upstream brought in some CI scripts, when I pushed the
+> branch to my github it triggered some tests that reported build failures on
+> Ubuntu 16.04 and 18.04.
+>
+> Anyway, there is a pre-rebase branch 'fanotify_name' and the post rebase
+> branch 'fanotify_name_fid'. You can try whichever works for you.
+>
+> You can look at the test script src/test_demo.sh for usage example.
+> Or just cd into a writable directory and run the script to see the demo.
+> The demo determines whether to use a recursive watch or "global"
+> watch by the uid of the user.
+>
+> > >
+> > > > > If you think that is useful and you want to play with this feature I can
+> > > > > provide a WIP branch soon.
+> > > >
+> > > > I would like to first play with the support for unprivileged fanotify
+> > > > but sure, it does sound useful!
+> > >
+> > > Just so you have an idea what I am talking about, this is a very early
+> > > POC branch:
+> > > https://github.com/amir73il/linux/commits/fanotify_userns
+> >
+> > Thanks!  I'll try to pull this and take a look next week. I hope that's
+> > ok.
+> >
+>
+> Fine. I'm curious to know what it does.
+> Did not get to test it with userns yet :)
 
-I think the follow-up discussion this triggered caused an improvement now. :)
-Christian
+Now tested FAN_MARK_FILESYSTEM watch on tmpfs mounted
+inside userns and works fine, with two wrinkles I needed to iron:
+
+1. FAN_REPORT_FID not supported on tmpfs because tmpfs has
+    zero f_fsid (easy to fix)
+2. open_by_handle_at() is not userns aware (can relax for
+    FS_USERNS_MOUNT fs)
+
+Pushed these two fixes to branch fanotify_userns.
+
+Thanks,
+Amir.
