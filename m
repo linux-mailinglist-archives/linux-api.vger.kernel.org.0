@@ -2,54 +2,54 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 00C55343FCC
-	for <lists+linux-api@lfdr.de>; Mon, 22 Mar 2021 12:31:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 62208343FD6
+	for <lists+linux-api@lfdr.de>; Mon, 22 Mar 2021 12:32:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230008AbhCVLbI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 22 Mar 2021 07:31:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38770 "EHLO
+        id S230085AbhCVLbo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 22 Mar 2021 07:31:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230012AbhCVLag (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 22 Mar 2021 07:30:36 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F0BAC061763
-        for <linux-api@vger.kernel.org>; Mon, 22 Mar 2021 04:30:35 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id f3so12338718lfu.5
-        for <linux-api@vger.kernel.org>; Mon, 22 Mar 2021 04:30:35 -0700 (PDT)
+        with ESMTP id S230138AbhCVLbP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 22 Mar 2021 07:31:15 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8317C061756
+        for <linux-api@vger.kernel.org>; Mon, 22 Mar 2021 04:31:14 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id a198so20689025lfd.7
+        for <linux-api@vger.kernel.org>; Mon, 22 Mar 2021 04:31:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=shutemov-name.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=x6ubUNjx6+f9aZgR0qyvp8uW3/HtmY16lip4ro05SAQ=;
-        b=ePRly2x2WoK6lN4TSv0XU6lzsR2b1uzRbvvlhjELd5TyYHPw2XuVFSAU/w/QAAL0P6
-         FcRP/TpYnxj21I4LmrU4tQFPX7zH8OQqvZmdgaWZOwN8lx4drHJN150/ItdxDtW9jzjy
-         S/2EtRXnEqKsd/+fr0zQohH6tjrWZtcE6RAmuUIQxeYGzS14Q7RROW6mswi0II1HF/hR
-         nodgfYRp+OAQcIiVX/Q3pwwu5PXrHUNrpkEunO5uY+5zsVoxzNJFP9aZwG2f6UfuysA5
-         j+SksoMuguCCM4UKbKN+M9tHfWBCPQRQvvM82LF1AePGt1kfGZ0BbU1DdCs3U6TRpgNh
-         mpQg==
+        bh=W1w9xIW1N250EUFGaucw8NiWDfeMcMLKF9xerDg59Sg=;
+        b=c8J6d+uJpziOInuiIgF76cKwKfjWpAdkplio0YS0yU0VhpyjuGkexA0TobTPHyIjJr
+         trsjfvWByIY/pi+0UcM2oqIF7zijUwZs0dfE3o5z9zzGgEnuG0pzidW8HOSfnDZHaMX1
+         Bb32BHW+e7ySRAd8v8+mq/XRcXflQxECYQ/6xQsXU2cjXPiQ8eypqlS/m0VaH+YfL0+M
+         4pl/aE7uJGtdjjy2pjq7drs/mHGYw1XxrFx+diLJRzr3olG9nyezX7top3qh2FK/Px9Z
+         PDWIgxpHu++lZV7p0y83RURtTNJifTURhS11QivpmZYQeWNxVhlB6Mg4D9wVuNNDilSw
+         P5BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=x6ubUNjx6+f9aZgR0qyvp8uW3/HtmY16lip4ro05SAQ=;
-        b=MH37sJuOyOk1vIHbq3bG5ZwF0XsabcoYhZW827ro//1sne2iAuOQbgXlLkGBKaSpqj
-         s+mUUQc7nFhQbb6/LRXeiM711M3NRrtHJPrc87+JOPjdqt7HuiLXDSntwT7ogrCEY2/3
-         bXKNGEEo0KY4wWj7Vxlo+eHuQQkhX5jb6fWdTo0kSq+Jg7T3nsnmy59ajuY8EFrnlypk
-         Rc/43SJqufitNrlHZ761YZUteTp1/9lBhhSgVwwAXy1tUkvR8vkDHE7rVq3zxaMw8QSa
-         PGMKQRk2Y1Lepra7XL567Ax4xYc241TZgrD97aryQiSOegKPDzc1Z6b+wBs2I6zjvzBw
-         WVNg==
-X-Gm-Message-State: AOAM533b2lgVNF+IymfMCzJXaJAxAeIsticW3Yr4otAOVRahgpGbSNNs
-        azYaPb1mqKiOb5wTO6Gd0IVpZA==
-X-Google-Smtp-Source: ABdhPJwt98w+Yjrf6cZV/dNr/8CRCDoMtRfzLkiX7EM4gFIJmpMf+USTE93ZxQOXixhU6Ha+Gttf8Q==
-X-Received: by 2002:a19:4cc1:: with SMTP id z184mr8354709lfa.599.1616412634138;
-        Mon, 22 Mar 2021 04:30:34 -0700 (PDT)
+        bh=W1w9xIW1N250EUFGaucw8NiWDfeMcMLKF9xerDg59Sg=;
+        b=CoQa/9+UB15ZiM5Pkru+oQBeAWlkVPzFMfNKl6W/9ZnrCpv0ttlojp6SVj6U+B2fbu
+         ZzE5/OalkOcQG+4XK/6P0xsA3E+o0DE8huCf6A9BMAwxGE5bZgJH2d3vHo92j1T2ifRf
+         8pRIsn0+hDKcWWjDJCA/f61rivcpMS7NJ+zTMXNMDLGoiB/GnPbF9/nm+BTzpAweJbOC
+         0VNfuJulZF/CQ7PEYNL4K75oSy1KvBM6gvZ9+OxkQ1/uBG0CqfwRHEBfAl7AJPXQQhxb
+         1Rk+f0W/4VbTplNZ052QoFBVT7UqYyzPYuvcxr95z5vxLEFol08YOp7x9Lu8xBINwcXJ
+         dZHA==
+X-Gm-Message-State: AOAM532c/TkdEpSwO3uwM5eirRQMMG/zWCrkXFN+MwZ/UO9RUun8xvuq
+        nEfOuUnHpcFRopKts8XEP/t+6w==
+X-Google-Smtp-Source: ABdhPJxx6w/IrkyzNZNe9wJX93bhPJOm2+KsH61p1K12gRn3V/V44NNZfa5MrvxW018BX205rCWNNw==
+X-Received: by 2002:ac2:41c5:: with SMTP id d5mr8760075lfi.459.1616412673497;
+        Mon, 22 Mar 2021 04:31:13 -0700 (PDT)
 Received: from box.localdomain ([86.57.175.117])
-        by smtp.gmail.com with ESMTPSA id y22sm1543336lfg.133.2021.03.22.04.30.33
+        by smtp.gmail.com with ESMTPSA id p22sm1546237lfh.113.2021.03.22.04.31.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Mar 2021 04:30:33 -0700 (PDT)
+        Mon, 22 Mar 2021 04:31:13 -0700 (PDT)
 Received: by box.localdomain (Postfix, from userid 1000)
-        id 3F465101DEB; Mon, 22 Mar 2021 14:30:41 +0300 (+03)
-Date:   Mon, 22 Mar 2021 14:30:41 +0300
+        id 87326101DEB; Mon, 22 Mar 2021 14:31:20 +0300 (+03)
+Date:   Mon, 22 Mar 2021 14:31:20 +0300
 From:   "Kirill A. Shutemov" <kirill@shutemov.name>
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
@@ -78,40 +78,33 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Zhenyu Wang <zhenyuw@linux.intel.com>,
-        Zhi Wang <zhi.a.wang@intel.com>
-Subject: Re: [PATCH v23 10/28] drm/i915/gvt: Change _PAGE_DIRTY to
- _PAGE_DIRTY_BITS
-Message-ID: <20210322113041.phqnydchvhyx35jb@box>
+        Haitao Huang <haitao.huang@intel.com>
+Subject: Re: [PATCH v23 11/28] x86/mm: Update pte_modify for _PAGE_COW
+Message-ID: <20210322113120.4qloiyj4ojmiis6n@box>
 References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
- <20210316151054.5405-11-yu-cheng.yu@intel.com>
+ <20210316151054.5405-12-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210316151054.5405-11-yu-cheng.yu@intel.com>
+In-Reply-To: <20210316151054.5405-12-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Mar 16, 2021 at 08:10:36AM -0700, Yu-cheng Yu wrote:
-> After the introduction of _PAGE_COW, a modified page's PTE can have either
-> _PAGE_DIRTY or _PAGE_COW.  Change _PAGE_DIRTY to _PAGE_DIRTY_BITS.
+On Tue, Mar 16, 2021 at 08:10:37AM -0700, Yu-cheng Yu wrote:
+> The read-only and Dirty PTE has been used to indicate copy-on-write pages.
+> However, newer x86 processors also regard a read-only and Dirty PTE as a
+> shadow stack page.  In order to separate the two, the software-defined
+> _PAGE_COW is created to replace _PAGE_DIRTY for the copy-on-write case, and
+> pte_*() are updated.
+> 
+> Pte_modify() changes a PTE to 'newprot', but it doesn't use the pte_*().
+> Introduce fixup_dirty_pte(), which sets a dirty PTE, based on _PAGE_RW,
+> to either _PAGE_DIRTY or _PAGE_COW.
+> 
+> Apply the same changes to pmd_modify().
 > 
 > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: Zhenyu Wang <zhenyuw@linux.intel.com>
-> Cc: Zhi Wang <zhi.a.wang@intel.com>
 
 Reviewed-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
 
