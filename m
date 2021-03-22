@@ -2,82 +2,124 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DAE703448F3
-	for <lists+linux-api@lfdr.de>; Mon, 22 Mar 2021 16:13:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D38EB344917
+	for <lists+linux-api@lfdr.de>; Mon, 22 Mar 2021 16:19:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230046AbhCVPNN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 22 Mar 2021 11:13:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39578 "EHLO mail.kernel.org"
+        id S230146AbhCVPTG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 22 Mar 2021 11:19:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41364 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231548AbhCVPMz (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 22 Mar 2021 11:12:55 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B2B9861990;
-        Mon, 22 Mar 2021 15:12:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1616425965;
-        bh=XaGJOXpYJ2i+MQsioxl6Tg28Kym8UEMe4b4RpcUBm8U=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=I4suPRlqsJeGbJ3kRh4ME6/eP0O/yqXU+Rr96XxgbYcvuIrIDXw4eyoxUAx3shFY3
-         EKQL2w6YUEMhzsE51MWi0icihMdRehucbnlG5qw1sdZzfAj/vvYpPzhT2/9Vzwoh7k
-         dHoP/0Vx5qwqfEnfs1Yzmdpu1roVfSG7U9Med5yw=
-Date:   Mon, 22 Mar 2021 16:12:42 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Michael Ellerman <mpe@ellerman.id.au>,
-        Alex Williamson <alex.williamson@redhat.com>,
+        id S231723AbhCVPSd (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 22 Mar 2021 11:18:33 -0400
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 68ED96198E;
+        Mon, 22 Mar 2021 15:18:25 +0000 (UTC)
+Date:   Mon, 22 Mar 2021 11:18:24 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+        Arnd Bergmann <arnd@arndb.de>,
         Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Jason Gunthorpe <jgg@nvidia.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, Paul Mackerras <paulus@samba.org>,
-        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-        kvm@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: remove the nvlink2 pci_vfio subdriver
-Message-ID: <YFiz6sIJluL/u2Cu@kroah.com>
-References: <20210322150155.797882-1-hch@lst.de>
+        Brian Cain <bcain@codeaurora.org>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Chris Zankel <chris@zankel.net>,
+        Corentin Labbe <clabbe@baylibre.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Greentime Hu <green.hu@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Helge Deller <deller@gmx.de>, Hillf Danton <hdanton@sina.com>,
+        huang ying <huang.ying.caritas@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Jonas Bonn <jonas@southpole.se>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kairui Song <kasong@redhat.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Matt Turner <mattst88@gmail.com>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Mikulas Patocka <mpatocka@redhat.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Oleksiy Avramchenko <oleksiy.avramchenko@sonymobile.com>,
+        Palmer Dabbelt <palmerdabbelt@google.com>,
+        Paul Mackerras <paulus@samba.org>,
+        "Pavel Machek (CIP)" <pavel@denx.de>, Pavel Machek <pavel@ucw.cz>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Pierre Morel <pmorel@linux.ibm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Richard Henderson <rth@twiddle.net>,
+        Rich Felker <dalias@libc.org>,
+        Robert Richter <rric@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Stafford Horne <shorne@gmail.com>,
+        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Theodore Dubois <tblodt@icloud.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        William Cohen <wcohen@redhat.com>,
+        Xiaoming Ni <nixiaoming@huawei.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>
+Subject: Re: [PATCH RFC 0/3] drivers/char: remove /dev/kmem for good
+Message-ID: <20210322111824.59bac299@gandalf.local.home>
+In-Reply-To: <be3e8470-a8a4-2111-5c5e-7a03c1f9ed16@redhat.com>
+References: <20210319143452.25948-1-david@redhat.com>
+        <20210319141018.5ee1a5ac@gandalf.local.home>
+        <be3e8470-a8a4-2111-5c5e-7a03c1f9ed16@redhat.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210322150155.797882-1-hch@lst.de>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Mar 22, 2021 at 04:01:53PM +0100, Christoph Hellwig wrote:
-> Hi all,
+On Mon, 22 Mar 2021 11:08:47 +0100
+David Hildenbrand <david@redhat.com> wrote:
+
 > 
-> the nvlink2 vfio subdriver is a weird beast.  It supports a hardware
-> feature without any open source component - what would normally be
-> the normal open source userspace that we require for kernel drivers,
-> although in this particular case user space could of course be a
-> kernel driver in a VM.  It also happens to be a complete mess that
-> does not properly bind to PCI IDs, is hacked into the vfio_pci driver
-> and also pulles in over 1000 lines of code always build into powerpc
-> kernels that have Power NV support enabled.  Because of all these
-> issues and the lack of breaking userspace when it is removed I think
-> the best idea is to simply kill.
+> Wonder if "echo c > /proc/sysrq-trigger" already existed and would have 
+> worked back then. :)
 > 
-> Diffstat:
->  arch/powerpc/platforms/powernv/npu-dma.c     |  705 ---------------------------
->  b/arch/powerpc/include/asm/opal.h            |    3 
->  b/arch/powerpc/include/asm/pci-bridge.h      |    1 
->  b/arch/powerpc/include/asm/pci.h             |    7 
->  b/arch/powerpc/platforms/powernv/Makefile    |    2 
->  b/arch/powerpc/platforms/powernv/opal-call.c |    2 
->  b/arch/powerpc/platforms/powernv/pci-ioda.c  |  185 -------
->  b/arch/powerpc/platforms/powernv/pci.c       |   11 
->  b/arch/powerpc/platforms/powernv/pci.h       |   17 
->  b/arch/powerpc/platforms/pseries/pci.c       |   23 
->  b/drivers/vfio/pci/Kconfig                   |    6 
->  b/drivers/vfio/pci/Makefile                  |    1 
->  b/drivers/vfio/pci/vfio_pci.c                |   18 
->  b/drivers/vfio/pci/vfio_pci_private.h        |   14 
->  b/include/uapi/linux/vfio.h                  |   40 -
->  drivers/vfio/pci/vfio_pci_nvlink2.c          |  490 ------------------
->  16 files changed, 8 insertions(+), 1517 deletions(-)
+> 
 
-I thought this was supposed to be removed a few years ago!
+Looks like sysrq-c was added in 2005:
 
-Anyway, no objection from me:
+commit 86b1ae38c0a62 ("kdump: sysrq trigger mechanism for kexec based crashdumps")
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Thus the answer is "No, it would not have worked back then".
+
+-- Steve
