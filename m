@@ -2,102 +2,81 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44432344836
-	for <lists+linux-api@lfdr.de>; Mon, 22 Mar 2021 15:54:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 50E88344886
+	for <lists+linux-api@lfdr.de>; Mon, 22 Mar 2021 16:04:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231264AbhCVOyG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 22 Mar 2021 10:54:06 -0400
-Received: from mga04.intel.com ([192.55.52.120]:16678 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231394AbhCVOwz (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 22 Mar 2021 10:52:55 -0400
-IronPort-SDR: PDZrzvMtyWpyPIHFH/Twk0eFOzWvkUpPcqhagvRHpupWi4PVRTdXsfeMImN3naPaAquc//CzEf
- an1nOr6NAE0A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9931"; a="187962997"
-X-IronPort-AV: E=Sophos;i="5.81,269,1610438400"; 
-   d="scan'208";a="187962997"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2021 07:52:32 -0700
-IronPort-SDR: AcDswo0o5vJUZRQnv7Qgq4FfRiJvce9xEXN0iZXavHHDTiu8NLkg8XL3qJb8K0JAMd3q/9W2Pq
- cGiyP/W0DPkQ==
-X-IronPort-AV: E=Sophos;i="5.81,269,1610438400"; 
-   d="scan'208";a="390502622"
-Received: from xzhan86-mobl.amr.corp.intel.com (HELO [10.209.39.64]) ([10.209.39.64])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2021 07:52:30 -0700
-Subject: Re: [PATCH v23 07/28] x86/mm: Remove _PAGE_DIRTY from kernel RO pages
-To:     "Kirill A. Shutemov" <kirill@shutemov.name>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>,
-        Christoph Hellwig <hch@lst.de>
-References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
- <20210316151054.5405-8-yu-cheng.yu@intel.com>
- <20210322091351.ulemcluuhqkzuwkm@box>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <81fa71ee-3b0b-b959-b8c2-19e1a5adc4c4@intel.com>
-Date:   Mon, 22 Mar 2021 07:52:31 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        id S230140AbhCVPDe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 22 Mar 2021 11:03:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56812 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230273AbhCVPDW (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 22 Mar 2021 11:03:22 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF19AC061574;
+        Mon, 22 Mar 2021 08:03:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=bamDW4tWcmpmZWtEFDiJV/rlKK4CXzfvVah3vZuv+e0=; b=LN85Wn8UXptFXqz3UeBXxEjrk3
+        TaNR1fSXx70W3k3pqxmJMNSmMSyG30XAfn5WHtIpRFdRzG722/sEBt8Ai703dXt5ByhZ3WJazJ16D
+        aWE5uiHAPKJ4q00gLHR8zZXJ9jO1VIQbqtcG4MabhmLO43TQGqeSI5zgK5Qo1eYkKGIFHnhHvJgXj
+        IoR4nFztMsLM6OiFtkvOfK6qBKOiX8jMTK5814ewuRq1nRNeikfGmHw4mvXi9wny6rPuRAQjgG6yG
+        yoD2Hbjt0g+W7KBkM0plnba+jhx9E23uFqHG8f3NvdALkicqPSGgJPG97oMNvgHWLON5jl9AsbNPa
+        /LCyxTuA==;
+Received: from [2001:4bb8:191:f692:8c8d:c425:8476:e5e8] (helo=localhost)
+        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1lOM44-008gT8-H3; Mon, 22 Mar 2021 15:02:06 +0000
+From:   Christoph Hellwig <hch@lst.de>
+To:     Michael Ellerman <mpe@ellerman.id.au>,
+        Alex Williamson <alex.williamson@redhat.com>
+Cc:     Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jason Gunthorpe <jgg@nvidia.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org, Paul Mackerras <paulus@samba.org>,
+        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+        kvm@vger.kernel.org, linux-api@vger.kernel.org
+Subject: remove the nvlink2 pci_vfio subdriver
+Date:   Mon, 22 Mar 2021 16:01:53 +0100
+Message-Id: <20210322150155.797882-1-hch@lst.de>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-In-Reply-To: <20210322091351.ulemcluuhqkzuwkm@box>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 3/22/2021 2:13 AM, Kirill A. Shutemov wrote:
-> On Tue, Mar 16, 2021 at 08:10:33AM -0700, Yu-cheng Yu wrote:
->> The x86 family of processors do not directly create read-only and Dirty
->> PTEs.  These PTEs are created by software.  One such case is that kernel
->> read-only pages are historically setup as Dirty.
->>
->> New processors that support Shadow Stack regard read-only and Dirty PTEs as
->> shadow stack pages.  This results in ambiguity between shadow stack and
->> kernel read-only pages.  To resolve this, removed Dirty from kernel read-
->> only pages.
->>
->> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
->> Cc: "H. Peter Anvin" <hpa@zytor.com>
->> Cc: Kees Cook <keescook@chromium.org>
->> Cc: Thomas Gleixner <tglx@linutronix.de>
->> Cc: Dave Hansen <dave.hansen@linux.intel.com>
->> Cc: Christoph Hellwig <hch@lst.de>
->> Cc: Andy Lutomirski <luto@kernel.org>
->> Cc: Ingo Molnar <mingo@redhat.com>
->> Cc: Borislav Petkov <bp@alien8.de>
->> Cc: Peter Zijlstra <peterz@infradead.org>
-> 
-> Looks good to me.
-> 
-> Reviewed-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> 
+Hi all,
 
-Thanks for reviewing.
+the nvlink2 vfio subdriver is a weird beast.  It supports a hardware
+feature without any open source component - what would normally be
+the normal open source userspace that we require for kernel drivers,
+although in this particular case user space could of course be a
+kernel driver in a VM.  It also happens to be a complete mess that
+does not properly bind to PCI IDs, is hacked into the vfio_pci driver
+and also pulles in over 1000 lines of code always build into powerpc
+kernels that have Power NV support enabled.  Because of all these
+issues and the lack of breaking userspace when it is removed I think
+the best idea is to simply kill.
 
-Yu-cheng
+Diffstat:
+ arch/powerpc/platforms/powernv/npu-dma.c     |  705 ---------------------------
+ b/arch/powerpc/include/asm/opal.h            |    3 
+ b/arch/powerpc/include/asm/pci-bridge.h      |    1 
+ b/arch/powerpc/include/asm/pci.h             |    7 
+ b/arch/powerpc/platforms/powernv/Makefile    |    2 
+ b/arch/powerpc/platforms/powernv/opal-call.c |    2 
+ b/arch/powerpc/platforms/powernv/pci-ioda.c  |  185 -------
+ b/arch/powerpc/platforms/powernv/pci.c       |   11 
+ b/arch/powerpc/platforms/powernv/pci.h       |   17 
+ b/arch/powerpc/platforms/pseries/pci.c       |   23 
+ b/drivers/vfio/pci/Kconfig                   |    6 
+ b/drivers/vfio/pci/Makefile                  |    1 
+ b/drivers/vfio/pci/vfio_pci.c                |   18 
+ b/drivers/vfio/pci/vfio_pci_private.h        |   14 
+ b/include/uapi/linux/vfio.h                  |   40 -
+ drivers/vfio/pci/vfio_pci_nvlink2.c          |  490 ------------------
+ 16 files changed, 8 insertions(+), 1517 deletions(-)
