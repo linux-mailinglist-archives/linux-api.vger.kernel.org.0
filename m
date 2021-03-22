@@ -2,129 +2,120 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 23C8E344DAF
-	for <lists+linux-api@lfdr.de>; Mon, 22 Mar 2021 18:47:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 489A8344EAC
+	for <lists+linux-api@lfdr.de>; Mon, 22 Mar 2021 19:39:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231173AbhCVRrB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 22 Mar 2021 13:47:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33221 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231569AbhCVRqh (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 22 Mar 2021 13:46:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1616435194;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=WJwiSS+T6VPqw/HeedjTiXeqD0yZ8fDdEubPYZui8ak=;
-        b=U0FYD1heRbClyWdMFcItKPsf2VF6SbzJUqrpbclAXiu3W+K94Raht7XIGNigWdvCzPCh8w
-        OYlfybUapTnVleoRB2/d3Z7VVztl1tqyAqlcMC9E89OMmhkWPYmdXn2RomdTAderGlVt5W
-        uF/EuRJnank78vLaaWsqHpJ+zy/nmtA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-489-CsGnQE7FPTSOCUMojFYzmw-1; Mon, 22 Mar 2021 13:46:30 -0400
-X-MC-Unique: CsGnQE7FPTSOCUMojFYzmw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6DA6B18C89D9;
-        Mon, 22 Mar 2021 17:46:27 +0000 (UTC)
-Received: from omen.home.shazbot.org (ovpn-112-120.phx2.redhat.com [10.3.112.120])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 7AC7F60240;
-        Mon, 22 Mar 2021 17:46:24 +0000 (UTC)
-Date:   Mon, 22 Mar 2021 11:46:23 -0600
-From:   Alex Williamson <alex.williamson@redhat.com>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jason Gunthorpe <jgg@nvidia.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, Paul Mackerras <paulus@samba.org>,
-        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-        kvm@vger.kernel.org, linux-api@vger.kernel.org,
-        Alexey Kardashevskiy <aik@ozlabs.ru>
-Subject: Re: [PATCH 1/2] vfio/pci: remove vfio_pci_nvlink2
-Message-ID: <20210322114623.2f929b07@omen.home.shazbot.org>
-In-Reply-To: <20210322150155.797882-2-hch@lst.de>
-References: <20210322150155.797882-1-hch@lst.de>
-        <20210322150155.797882-2-hch@lst.de>
+        id S231152AbhCVSjL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 22 Mar 2021 14:39:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46944 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230281AbhCVSip (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 22 Mar 2021 14:38:45 -0400
+Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99E1BC061574;
+        Mon, 22 Mar 2021 11:38:44 -0700 (PDT)
+Received: by mail-io1-xd36.google.com with SMTP id x16so15018550iob.1;
+        Mon, 22 Mar 2021 11:38:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=oAP81Pb5bkRA0MthMgfGZDu3/DG1NZ2ofYB/Ig4dLak=;
+        b=lAgYe9RRPq3q5wGGQpx57/cfcs08SPWyZXwLKFI8IxZCz/2zQ46THQ/zdTRWMy4ovf
+         SdrePf2M4I2/pK+yCJYyOE60C2766kSIeOLuyKxVIsL3rwplZkBfyQxh4gIXasIHBWxr
+         M0FjZWxltnaMZneNiDp/F4TgrJPM6zdTpTgh4Dd/bWU24qbCorurkzzNisW1UKKBc7bl
+         VY0qB+w62K0TWee294toyARq2RuntBPqxD8xk0EuCdkv2SZcBkn9WmeCBipbTLOKbDTU
+         Ur4datwdqnuz+Crzd1NMUB2DmmsYxja3SzWnVkzO5zL+3Z9B7QlxAriICCRjTbLgP0WK
+         id6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=oAP81Pb5bkRA0MthMgfGZDu3/DG1NZ2ofYB/Ig4dLak=;
+        b=jvDcPfsCVw7TjuLaJMPELe5QyrUyyjMvJEi4PrETKtHKAux6g3dzCCnzv2aoYnQbLb
+         sG/TuY5WRjJgNEdwSvZ/cuY4Pm0eD6ZXwaATQcWaBs0+i+HmZrtqRP3V1amdiMlIH4Rz
+         90oW34v3C+DTlYj/80e1jfR3XxZY8mI3/PkmJ1GhXfmzMki3Q+FVt/G4eMblyByWjfYG
+         f8/e1+oO/jiymdHstaStgYvsYgeMj+6/EdMSl17jL77hmspHorQ1MIxMHqwXdV4FZOIt
+         o3PFHTijt7+edWaQxdAsj2m3rmJojoCrU1WSWP/3YtXNH8e2kB0CtrVr8hyTcMKm7kIM
+         ZP3Q==
+X-Gm-Message-State: AOAM532D7QQwN/66WcD0BH/4S6EBXpZ9mcdeMNv29AOV/7AxevzfH7cb
+        1fiC7wXdyhMAnjB8hlrQ7MOUg52rJcBRdyAkM/bRxNK470M=
+X-Google-Smtp-Source: ABdhPJweFlIZgIJn8op6xTbJ1UPAJiVgocjYmKnecXqIsrJL1T/Mxq2YKHse6FFyN+jyq1owK9wam7mS8QnfaamxWv8=
+X-Received: by 2002:a5e:8e41:: with SMTP id r1mr930689ioo.5.1616438324093;
+ Mon, 22 Mar 2021 11:38:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+References: <20210304112921.3996419-1-amir73il@gmail.com> <20210316155524.GD23532@quack2.suse.cz>
+ <CAOQ4uxgCv42_xkKpRH-ApMOeFCWfQGGc11CKxUkHJq-Xf=HnYg@mail.gmail.com>
+ <20210317114207.GB2541@quack2.suse.cz> <CAOQ4uxi7ZXJW3_6SN=vw_XJC+wy4eMTayN6X5yRy_HOV6323MA@mail.gmail.com>
+ <20210318154413.GA21462@quack2.suse.cz> <CAOQ4uxhpB+1iFSSoZy2NuF2diL=8uJ-j8JJVNnujqtphW147cw@mail.gmail.com>
+In-Reply-To: <CAOQ4uxhpB+1iFSSoZy2NuF2diL=8uJ-j8JJVNnujqtphW147cw@mail.gmail.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Mon, 22 Mar 2021 20:38:32 +0200
+Message-ID: <CAOQ4uxj4OC5cSwJMizBG=bmarxMwSVfqYnds4wYabieEDM_+eQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] unprivileged fanotify listener
+To:     Jan Kara <jack@suse.cz>
+Cc:     Matthew Bobrowski <mbobrowski@mbobrowski.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, 22 Mar 2021 16:01:54 +0100
-Christoph Hellwig <hch@lst.de> wrote:
-> diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
-> index 8ce36c1d53ca11..db7e782419d5d9 100644
-> --- a/include/uapi/linux/vfio.h
-> +++ b/include/uapi/linux/vfio.h
-> @@ -332,19 +332,6 @@ struct vfio_region_info_cap_type {
->  #define VFIO_REGION_SUBTYPE_INTEL_IGD_HOST_CFG	(2)
->  #define VFIO_REGION_SUBTYPE_INTEL_IGD_LPC_CFG	(3)
->  
-> -/* 10de vendor PCI sub-types */
-> -/*
-> - * NVIDIA GPU NVlink2 RAM is coherent RAM mapped onto the host address space.
-> - */
-> -#define VFIO_REGION_SUBTYPE_NVIDIA_NVLINK2_RAM	(1)
-> -
-> -/* 1014 vendor PCI sub-types */
-> -/*
-> - * IBM NPU NVlink2 ATSD (Address Translation Shootdown) register of NPU
-> - * to do TLB invalidation on a GPU.
-> - */
-> -#define VFIO_REGION_SUBTYPE_IBM_NVLINK2_ATSD	(1)
-> -
->  /* sub-types for VFIO_REGION_TYPE_GFX */
->  #define VFIO_REGION_SUBTYPE_GFX_EDID            (1)
->  
-> @@ -637,33 +624,6 @@ struct vfio_device_migration_info {
->   */
->  #define VFIO_REGION_INFO_CAP_MSIX_MAPPABLE	3
->  
-> -/*
-> - * Capability with compressed real address (aka SSA - small system address)
-> - * where GPU RAM is mapped on a system bus. Used by a GPU for DMA routing
-> - * and by the userspace to associate a NVLink bridge with a GPU.
-> - */
-> -#define VFIO_REGION_INFO_CAP_NVLINK2_SSATGT	4
-> -
-> -struct vfio_region_info_cap_nvlink2_ssatgt {
-> -	struct vfio_info_cap_header header;
-> -	__u64 tgt;
-> -};
-> -
-> -/*
-> - * Capability with an NVLink link speed. The value is read by
-> - * the NVlink2 bridge driver from the bridge's "ibm,nvlink-speed"
-> - * property in the device tree. The value is fixed in the hardware
-> - * and failing to provide the correct value results in the link
-> - * not working with no indication from the driver why.
-> - */
-> -#define VFIO_REGION_INFO_CAP_NVLINK2_LNKSPD	5
-> -
-> -struct vfio_region_info_cap_nvlink2_lnkspd {
-> -	struct vfio_info_cap_header header;
-> -	__u32 link_speed;
-> -	__u32 __pad;
-> -};
-> -
->  /**
->   * VFIO_DEVICE_GET_IRQ_INFO - _IOWR(VFIO_TYPE, VFIO_BASE + 9,
->   *				    struct vfio_irq_info)
+> > > The problem here is that even if unprivileged users cannot compromise
+> > > security, they can still cause significant CPU overhead either queueing
+> > > events or filtering events and that is something I haven't been able to
+> > > figure out a way to escape from.
+> >
+> > WRT queueing overhead, given a user can place ~1M of directory watches, he
+> > can cause noticable total overhead for queueing events anyway. Furthermore
+>
+> I suppose so. But a user placing 1M dir watches at least adds this overhead
+> knowingly. Adding a overhead on the entire filesystem when just wanting to
+> watch a small subtree doesn't sound ideal. Especially in very nested setups.
+> So yes, we need to be careful.
+>
 
-I'll leave any attempt to defend keeping this code to Alexey, but
-minimally these region sub-types and capability IDs should probably be
-reserved to avoid breaking whatever userspace might exist to consume
-these.  Our ID space is sufficiently large that we don't need to
-recycle them any time soon.  Thanks,
+I was thinking about this some more and I think the answer is in your example.
+User can only place 1M dir watches if ucount marks limits permits it.
 
-Alex
+So whatever we allow to do with subtree or userns filtered marks should
+also be limited by ucounts.
 
+> > the queue size is limited so unless the user spends time consuming events
+> > as well, the load won't last long. But I agree we need to be careful not to
+> > introduce too big latencies to operations generating events. So I think if
+> > we could quickly detect whether a generated event has a good chance of
+> > being relevant for some subtree watch of a group and queue it in that case
+> > and worry about permission checks only once events are received and thus
+> > receiver pays the cost of expensive checks, that might be fine as well.
+> >
+>
+> So far the only idea I had for "quickly detect" which I cannot find flaws in
+> is to filter by mnt_userms, but its power is limited.
+>
+
+So I have implemented this idea on fanotify_userns branch and the cost
+per "filtered" sb mark is quite low - its a pretty cheap check in
+send_to_group()
+But still, if an unbound number of users can add to the sb mark list it is
+not going to end well.
+
+<hand waving>
+I think what we need here (thinking out loud) is to account the sb marks
+to the user that mounted the filesystem or to the user mapped to admin using
+idmapped mount, maybe to both(?), probably using a separate ucount entry
+(e.g. max_fanotify_filesystem_marks).
+
+We can set this limit by default to a small number (128?) to limit the sb list
+iteration per filesystem event and container manager / systemd can further
+limit this resource when creating idmapped mounts, which would otherwise
+allow the mapped user to add "filtered" (*) sb marks.
+</hand waving>
+
+Thanks,
+Amir.
+
+(*) "filtered" can refer to both the userns filter I proposed and going forward
+     also maybe to subtree filter
