@@ -2,130 +2,130 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 490F0344B54
-	for <lists+linux-api@lfdr.de>; Mon, 22 Mar 2021 17:30:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4167C344CE8
+	for <lists+linux-api@lfdr.de>; Mon, 22 Mar 2021 18:12:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231195AbhCVQ32 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 22 Mar 2021 12:29:28 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:57234 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231881AbhCVQ27 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 22 Mar 2021 12:28:59 -0400
-Received: from ip5f5af0a0.dynamic.kabel-deutschland.de ([95.90.240.160] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1lONQG-00082c-Mx; Mon, 22 Mar 2021 16:28:56 +0000
-Date:   Mon, 22 Mar 2021 17:28:55 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Amir Goldstein <amir73il@gmail.com>
+        id S229986AbhCVRLa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 22 Mar 2021 13:11:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56428 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231542AbhCVRLY (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 22 Mar 2021 13:11:24 -0400
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A558DC061574;
+        Mon, 22 Mar 2021 10:11:23 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id b9so17953081wrt.8;
+        Mon, 22 Mar 2021 10:11:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fPEpEZgdFBNuAySe33wXUxS0c6QSZ5Fcq/SWTX6m1/c=;
+        b=crMqOcSSN0otgZYG8RYbdA5tgD/jzTplIRXBtlG4vOv+5IDPOF6nc8dyz8dK3UWYj4
+         WVkBuZgvjIzxVwdjISbsYKHXdgoFH6vFWnWiHoDnGDoDT3E76HxaD5lwlBk2f62JGW+L
+         Ndvi120N1oa7+CC29/6Mvj8+4voIe09KY+T02GykLug9gEo+rlj7txI+LS2JKWuaAP0Z
+         MdroSVeCncJdyoHKAJR3+b5HEiaTKG1hGRgzETNZXc/wbULCFoiwNN5gGj4uyAuC63sq
+         4qf+WVYW8hPt2AM+rW4M4tcuudtef+2rzcG0MpRpZyXOnFHW2v3Gqrx/85uWdLd0PXqw
+         gGMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fPEpEZgdFBNuAySe33wXUxS0c6QSZ5Fcq/SWTX6m1/c=;
+        b=eKff2+Cl4TWKXmRF8gifUtXvUY4FHeaIfHru53lvdOveKvdEPfU+2VSNEJnyM8Tr16
+         SDNUt2o++VkMsbg4aIVQTBUE0YEMcz60NLZGQf3bfJ3ZtG1NI78a3QBc/aLd+9DZs8Q5
+         hZZSCA4fAaRkIfgO0O8UVrB1I70wYDSDK7u+p1Uew/LEIcG+c580dcXLRQ5ov6iOKEiI
+         Mh0I2I7Aii6DIwXUx9E9Qxk5Y7I7OY2i/HwUFwCGZVEl3Ixgj/kMLgn1+C236SGB3A4U
+         QM78HxjJgQ/HfnP5nVbDp4kHNz5F1oKdJOEq8jI96PTzEvfEXqOsgS8VCTyxnj/nBoCB
+         REdQ==
+X-Gm-Message-State: AOAM533rvDOff4IGV6LMTR4epSh+7Z7/migw6qq+z/6r4otvomHnwk0H
+        crD6dnIVzUKowBGgGJEz3+Q=
+X-Google-Smtp-Source: ABdhPJx7b06btMqKpp1MNA9IjMnV7fQ1dYB3ciPRnHJNX6umMi9KLCwXh/fyKmch7fFCwo5RbO4tlg==
+X-Received: by 2002:adf:dfc9:: with SMTP id q9mr605282wrn.200.1616433082388;
+        Mon, 22 Mar 2021 10:11:22 -0700 (PDT)
+Received: from localhost.localdomain ([141.226.241.101])
+        by smtp.gmail.com with ESMTPSA id j9sm55119wmi.24.2021.03.22.10.11.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Mar 2021 10:11:21 -0700 (PDT)
+From:   Amir Goldstein <amir73il@gmail.com>
+To:     "Darrick J . Wong" <darrick.wong@oracle.com>
 Cc:     Jan Kara <jack@suse.cz>,
-        Matthew Bobrowski <mbobrowski@mbobrowski.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH v2 0/2] unprivileged fanotify listener
-Message-ID: <20210322162855.mz7h2hvececu4rma@wittgenstein>
-References: <20210317114207.GB2541@quack2.suse.cz>
- <CAOQ4uxi7ZXJW3_6SN=vw_XJC+wy4eMTayN6X5yRy_HOV6323MA@mail.gmail.com>
- <20210317174532.cllfsiagoudoz42m@wittgenstein>
- <CAOQ4uxjCjapuAHbYuP8Q_k0XD59UmURbmkGC1qcPkPAgQbQ8DA@mail.gmail.com>
- <20210318143140.jxycfn3fpqntq34z@wittgenstein>
- <CAOQ4uxiRHwmxTKsLteH_sBW_dSPshVE8SohJYEmpszxaAwjEyg@mail.gmail.com>
- <20210319134043.c2wcpn4lbefrkhkg@wittgenstein>
- <CAOQ4uxhLYdWOUmpWP+c_JzVeGDbkJ5eUM+1-hhq7zFq23g5J1g@mail.gmail.com>
- <CAOQ4uxhetKeEZX=_iAcREjibaR0ZcOdeZyR8mFEoHM+WRsuVtg@mail.gmail.com>
- <CAOQ4uxhfx012GtvXMfiaHSk1M7+gTqkz3LsT0i_cHLnZLMk8nw@mail.gmail.com>
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org
+Subject: [PATCH] xfs: use a unique and persistent value for f_fsid
+Date:   Mon, 22 Mar 2021 19:11:18 +0200
+Message-Id: <20210322171118.446536-1-amir73il@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAOQ4uxhfx012GtvXMfiaHSk1M7+gTqkz3LsT0i_cHLnZLMk8nw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Mar 22, 2021 at 02:44:20PM +0200, Amir Goldstein wrote:
-> On Sat, Mar 20, 2021 at 2:57 PM Amir Goldstein <amir73il@gmail.com> wrote:
-> >
-> > > > > The code that sits in linux-next can give you pretty much a drop-in
-> > > > > replacement of inotify and nothing more. See example code:
-> > > > > https://github.com/amir73il/inotify-tools/commits/fanotify_name_fid
-> > > >
-> > > > This is really great. Thank you for doing that work this will help quite
-> > > > a lot of use-cases and make things way simpler. I created a TODO to port
-> > > > our path-hotplug to this once this feature lands.
-> > > >
-> > >
-> > > FWIW, I just tried to build this branch on Ubuntu 20.04.2 with LTS kernel
-> > > and there were some build issues, so rebased my branch on upstream
-> > > inotify-tools to fix those build issues.
-> > >
-> > > I was not aware that the inotify-tools project is alive, I never intended
-> > > to upstream this demo code and never created a github pull request
-> > > but rebasing on upstream brought in some CI scripts, when I pushed the
-> > > branch to my github it triggered some tests that reported build failures on
-> > > Ubuntu 16.04 and 18.04.
-> > >
-> > > Anyway, there is a pre-rebase branch 'fanotify_name' and the post rebase
-> > > branch 'fanotify_name_fid'. You can try whichever works for you.
-> 
-> FYI, fixed the CI build errors on fanotify_name_fid branch.
-> 
-> > >
-> > > You can look at the test script src/test_demo.sh for usage example.
-> > > Or just cd into a writable directory and run the script to see the demo.
-> > > The demo determines whether to use a recursive watch or "global"
-> > > watch by the uid of the user.
-> > >
-> > > > >
-> > > > > > > If you think that is useful and you want to play with this feature I can
-> > > > > > > provide a WIP branch soon.
-> > > > > >
-> > > > > > I would like to first play with the support for unprivileged fanotify
-> > > > > > but sure, it does sound useful!
-> > > > >
-> > > > > Just so you have an idea what I am talking about, this is a very early
-> > > > > POC branch:
-> > > > > https://github.com/amir73il/linux/commits/fanotify_userns
-> > > >
-> > > > Thanks!  I'll try to pull this and take a look next week. I hope that's
-> > > > ok.
-> > > >
-> > >
-> > > Fine. I'm curious to know what it does.
-> > > Did not get to test it with userns yet :)
-> >
-> > Now tested FAN_MARK_FILESYSTEM watch on tmpfs mounted
-> > inside userns and works fine, with two wrinkles I needed to iron:
-> >
-> > 1. FAN_REPORT_FID not supported on tmpfs because tmpfs has
-> >     zero f_fsid (easy to fix)
-> > 2. open_by_handle_at() is not userns aware (can relax for
-> >     FS_USERNS_MOUNT fs)
-> >
-> > Pushed these two fixes to branch fanotify_userns.
-> 
-> Pushed another fix to mnt refcount bug in WIP and another commit to
-> add the last piece that could make fanotify usable for systemd-homed
-> setup - a filesystem watch filtered by mnt_userns (not tested yet).
+Some filesystems on persistent storage backend use a digest of the
+filesystem's persistent uuid as the value for f_fsid returned by
+statfs(2).
 
-Sounds interesting.
+xfs, as many other filesystem provide the non-persistent block device
+number as the value of f_fsid.
 
-So I'm looking and commenting on that branch a little.
-One general question, when fanotify FANOTIFY_PERM_EVENTS is set fanotify
-will return a file descriptor (for relevant events) referring to the
-file/directory that e.g. got created. And there are no permissions
-checks other than the capable(CAP_SYS_ADMIN) check when the fanotify
-instance is created, right?
+Since kernel v5.1, fanotify_init(2) supports the flag FAN_REPORT_FID
+for identifying objects using file_handle and f_fsid in events.
 
-> 
-> One thing I am struggling with is the language to describe user ns
-> and idmapped mounts related logic. I have a feeling that I am getting
-> the vocabulary all wrong. See my commit message text below.
+The xfs specific ioctl XFS_IOC_PATH_TO_FSHANDLE similarly attaches an
+fsid to exported file handles, but it is not the same fsid exported
+via statfs(2) - it is a persistent fsid based on the filesystem's uuid.
 
-The lingo seems legit. :)
+Use the same persistent value for f_fsid, so object identifiers in
+fanotify events will describe the objects more uniquely.
 
-I need some time thinking about the concepts to convince myself that
-this is safe. But I like the direction as this is going to be really
-useful.
+Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+---
 
-Christian
+Guys,
+
+This change would be useful for fanotify users.
+Do you see any problems with that minor change of uapi?
+
+The way I see it, now f_fsid of an xfs filesystem can change on reboots.
+With this change, it will change once more and never more.
+
+I did not find any kernel internal user other than fanotify and as for
+userland expectations, there should not be much expectations from the
+value of f_fsid as it is persistent for some filesystems and bdev number
+for others - there is no standard.
+
+Thanks,
+Amir.
+
+ fs/xfs/xfs_super.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/fs/xfs/xfs_super.c b/fs/xfs/xfs_super.c
+index e5e0713bebcd..37f8417b78c4 100644
+--- a/fs/xfs/xfs_super.c
++++ b/fs/xfs/xfs_super.c
+@@ -790,7 +790,7 @@ xfs_fs_statfs(
+ 	struct xfs_mount	*mp = XFS_M(dentry->d_sb);
+ 	xfs_sb_t		*sbp = &mp->m_sb;
+ 	struct xfs_inode	*ip = XFS_I(d_inode(dentry));
+-	uint64_t		fakeinos, id;
++	uint64_t		fakeinos;
+ 	uint64_t		icount;
+ 	uint64_t		ifree;
+ 	uint64_t		fdblocks;
+@@ -800,8 +800,8 @@ xfs_fs_statfs(
+ 	statp->f_type = XFS_SUPER_MAGIC;
+ 	statp->f_namelen = MAXNAMELEN - 1;
+ 
+-	id = huge_encode_dev(mp->m_ddev_targp->bt_dev);
+-	statp->f_fsid = u64_to_fsid(id);
++	statp->f_fsid.val[0] = mp->m_fixedfsid[0];
++	statp->f_fsid.val[1] = mp->m_fixedfsid[1];
+ 
+ 	icount = percpu_counter_sum(&mp->m_icount);
+ 	ifree = percpu_counter_sum(&mp->m_ifree);
+-- 
+2.25.1
+
