@@ -2,212 +2,102 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E367A3445DC
-	for <lists+linux-api@lfdr.de>; Mon, 22 Mar 2021 14:36:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 44432344836
+	for <lists+linux-api@lfdr.de>; Mon, 22 Mar 2021 15:54:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229987AbhCVNf6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 22 Mar 2021 09:35:58 -0400
-Received: from mx2.suse.de ([195.135.220.15]:52782 "EHLO mx2.suse.de"
+        id S231264AbhCVOyG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 22 Mar 2021 10:54:06 -0400
+Received: from mga04.intel.com ([192.55.52.120]:16678 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230164AbhCVNfo (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 22 Mar 2021 09:35:44 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1616420142; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=bNwpWnU/mOEb8vDk9U6PPMjzkSSiO3GF6Uf0hvYy86c=;
-        b=T/88LUerDCEZ5aLb09F83ICr41UqeH2rh4J7zrGpXp20VeYsZHJpi/YuD6UnXQW4pyzMJd
-        jBAgDV46TT0Kz09FM1vI9JNZIIaETu438nFrfjiK/6ELDm8IlG80pWXjuPGHfOvQ9qSqDa
-        nwk9Za/1Mcrl0+PJNnBW15dSnFPW4Rw=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 2DDD7AC1F;
-        Mon, 22 Mar 2021 13:35:42 +0000 (UTC)
-Date:   Mon, 22 Mar 2021 14:35:41 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Hillf Danton <hdanton@sina.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Oleksiy Avramchenko <oleksiy.avramchenko@sonymobile.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Minchan Kim <minchan@kernel.org>,
-        huang ying <huang.ying.caritas@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Russell King <linux@armlinux.org.uk>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Brian Cain <bcain@codeaurora.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Jonas Bonn <jonas@southpole.se>,
-        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-        Stafford Horne <shorne@gmail.com>,
-        Rich Felker <dalias@libc.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Chris Zankel <chris@zankel.net>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Rob Herring <robh@kernel.org>,
-        "Pavel Machek (CIP)" <pavel@denx.de>,
-        Theodore Dubois <tblodt@icloud.com>,
-        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        Pavel Machek <pavel@ucw.cz>, Sam Ravnborg <sam@ravnborg.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
+        id S231394AbhCVOwz (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 22 Mar 2021 10:52:55 -0400
+IronPort-SDR: PDZrzvMtyWpyPIHFH/Twk0eFOzWvkUpPcqhagvRHpupWi4PVRTdXsfeMImN3naPaAquc//CzEf
+ an1nOr6NAE0A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9931"; a="187962997"
+X-IronPort-AV: E=Sophos;i="5.81,269,1610438400"; 
+   d="scan'208";a="187962997"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2021 07:52:32 -0700
+IronPort-SDR: AcDswo0o5vJUZRQnv7Qgq4FfRiJvce9xEXN0iZXavHHDTiu8NLkg8XL3qJb8K0JAMd3q/9W2Pq
+ cGiyP/W0DPkQ==
+X-IronPort-AV: E=Sophos;i="5.81,269,1610438400"; 
+   d="scan'208";a="390502622"
+Received: from xzhan86-mobl.amr.corp.intel.com (HELO [10.209.39.64]) ([10.209.39.64])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2021 07:52:30 -0700
+Subject: Re: [PATCH v23 07/28] x86/mm: Remove _PAGE_DIRTY from kernel RO pages
+To:     "Kirill A. Shutemov" <kirill@shutemov.name>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Xiaoming Ni <nixiaoming@huawei.com>,
-        Robert Richter <rric@kernel.org>,
-        William Cohen <wcohen@redhat.com>,
-        Corentin Labbe <clabbe@baylibre.com>,
-        Kairui Song <kasong@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        uclinux-h8-devel@lists.sourceforge.jp,
-        linux-hexagon@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        openrisc@lists.librecores.org, linux-sh@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-        linux-fsdevel@vger.kernel.org,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH RFC 1/3] drivers/char: remove /dev/kmem for good
-Message-ID: <YFidLVQs+/zw4aIF@dhcp22.suse.cz>
-References: <20210319143452.25948-1-david@redhat.com>
- <20210319143452.25948-2-david@redhat.com>
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>,
+        Christoph Hellwig <hch@lst.de>
+References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
+ <20210316151054.5405-8-yu-cheng.yu@intel.com>
+ <20210322091351.ulemcluuhqkzuwkm@box>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <81fa71ee-3b0b-b959-b8c2-19e1a5adc4c4@intel.com>
+Date:   Mon, 22 Mar 2021 07:52:31 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210319143452.25948-2-david@redhat.com>
+In-Reply-To: <20210322091351.ulemcluuhqkzuwkm@box>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri 19-03-21 15:34:50, David Hildenbrand wrote:
-> Exploring /dev/kmem and /dev/mem in the context of memory hot(un)plug and
-> memory ballooning, I started questioning the existance of /dev/kmem.
+On 3/22/2021 2:13 AM, Kirill A. Shutemov wrote:
+> On Tue, Mar 16, 2021 at 08:10:33AM -0700, Yu-cheng Yu wrote:
+>> The x86 family of processors do not directly create read-only and Dirty
+>> PTEs.  These PTEs are created by software.  One such case is that kernel
+>> read-only pages are historically setup as Dirty.
+>>
+>> New processors that support Shadow Stack regard read-only and Dirty PTEs as
+>> shadow stack pages.  This results in ambiguity between shadow stack and
+>> kernel read-only pages.  To resolve this, removed Dirty from kernel read-
+>> only pages.
+>>
+>> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+>> Cc: "H. Peter Anvin" <hpa@zytor.com>
+>> Cc: Kees Cook <keescook@chromium.org>
+>> Cc: Thomas Gleixner <tglx@linutronix.de>
+>> Cc: Dave Hansen <dave.hansen@linux.intel.com>
+>> Cc: Christoph Hellwig <hch@lst.de>
+>> Cc: Andy Lutomirski <luto@kernel.org>
+>> Cc: Ingo Molnar <mingo@redhat.com>
+>> Cc: Borislav Petkov <bp@alien8.de>
+>> Cc: Peter Zijlstra <peterz@infradead.org>
 > 
-> Comparing it with the /proc/kcore implementation, it does not seem to be
-> able to deal with things like
-> a) Pages unmapped from the direct mapping (e.g., to be used by secretmem)
->   -> kern_addr_valid(). virt_addr_valid() is not sufficient.
-> b) Special cases like gart aperture memory that is not to be touched
->   -> mem_pfn_is_ram()
-> Unless I am missing something, it's at least broken in some cases and might
-> fault/crash the machine.
+> Looks good to me.
 > 
-> Looks like its existance has been questioned before in 2005 and 2010
-> [1], after ~11 additional years, it might make sense to revive the
-> discussion.
+> Reviewed-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
 > 
-> CONFIG_DEVKMEM is only enabled in a single defconfig (on purpose or by
-> mistake?). All distributions I looked at disable it.
-> 
-> 1) /dev/kmem was popular for rootkits [2] before it got disabled
->    basically everywhere. Ubuntu documents [3] "There is no modern user of
->    /dev/kmem any more beyond attackers using it to load kernel rootkits.".
->    RHEL documents in a BZ [5] "it served no practical purpose other than to
->    serve as a potential security problem or to enable binary module drivers
->    to access structures/functions they shouldn't be touching"
-> 
-> 2) /proc/kcore is a decent interface to have a controlled way to read
->    kernel memory for debugging puposes. (will need some extensions to
->    deal with memory offlining/unplug, memory ballooning, and poisoned
->    pages, though)
-> 
-> 3) It might be useful for corner case debugging [1]. KDB/KGDB might be a
->    better fit, especially, to write random memory; harder to shoot
->    yourself into the foot.
-> 
-> 4) "Kernel Memory Editor" hasn't seen any updates since 2000 and seems
->    to be incompatible with 64bit [1]. For educational purposes,
->    /proc/kcore might be used to monitor value updates -- or older
->    kernels can be used.
-> 
-> 5) It's broken on arm64, and therefore, completely disabled there.
-> 
-> Looks like it's essentially unused and has been replaced by better
-> suited interfaces for individual tasks (/proc/kcore, KDB/KGDB). Let's
-> just remove it.
-> 
-> [1] https://lwn.net/Articles/147901/
-> [2] https://www.linuxjournal.com/article/10505
-> [3] https://wiki.ubuntu.com/Security/Features#A.2Fdev.2Fkmem_disabled
-> [4] https://sourceforge.net/projects/kme/
-> [5] https://bugzilla.redhat.com/show_bug.cgi?id=154796
-> 
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Hillf Danton <hdanton@sina.com>
-> Cc: Michal Hocko <mhocko@suse.com>
-> Cc: Matthew Wilcox <willy@infradead.org>
-> Cc: Oleksiy Avramchenko <oleksiy.avramchenko@sonymobile.com>
-> Cc: Steven Rostedt <rostedt@goodmis.org>
-> Cc: Minchan Kim <minchan@kernel.org>
-> Cc: huang ying <huang.ying.caritas@gmail.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Russell King <linux@armlinux.org.uk>
-> Cc: Liviu Dudau <liviu.dudau@arm.com>
-> Cc: Sudeep Holla <sudeep.holla@arm.com>
-> Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-> Cc: Andrew Lunn <andrew@lunn.ch>
-> Cc: Gregory Clement <gregory.clement@bootlin.com>
-> Cc: Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
-> Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
-> Cc: Brian Cain <bcain@codeaurora.org>
-> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-> Cc: Jonas Bonn <jonas@southpole.se>
-> Cc: Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>
-> Cc: Stafford Horne <shorne@gmail.com>
-> Cc: Rich Felker <dalias@libc.org>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Chris Zankel <chris@zankel.net>
-> Cc: Max Filippov <jcmvbkbc@gmail.com>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: "Pavel Machek (CIP)" <pavel@denx.de>
-> Cc: Theodore Dubois <tblodt@icloud.com>
-> Cc: "Alexander A. Klimov" <grandmaster@al2klimov.de>
-> Cc: Pavel Machek <pavel@ucw.cz>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> Cc: Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>
-> Cc: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Krzysztof Kozlowski <krzk@kernel.org>
-> Cc: Viresh Kumar <viresh.kumar@linaro.org>
-> Cc: "Eric W. Biederman" <ebiederm@xmission.com>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Xiaoming Ni <nixiaoming@huawei.com>
-> Cc: Robert Richter <rric@kernel.org>
-> Cc: William Cohen <wcohen@redhat.com>
-> Cc: Corentin Labbe <clabbe@baylibre.com>
-> Cc: Kairui Song <kasong@redhat.com>
-> Cc: Linus Torvalds <torvalds@linux-foundation.org>
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: uclinux-h8-devel@lists.sourceforge.jp
-> Cc: linux-hexagon@vger.kernel.org
-> Cc: linux-m68k@lists.linux-m68k.org
-> Cc: openrisc@lists.librecores.org
-> Cc: linux-sh@vger.kernel.org
-> Cc: sparclinux@vger.kernel.org
-> Cc: linux-xtensa@linux-xtensa.org
-> Cc: linux-fsdevel@vger.kernel.org
-> Cc: Linux API <linux-api@vger.kernel.org>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-Acked-by: Michal Hocko <mhocko@suse.com>
--- 
-Michal Hocko
-SUSE Labs
+Thanks for reviewing.
+
+Yu-cheng
