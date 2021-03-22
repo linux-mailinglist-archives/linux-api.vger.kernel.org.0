@@ -2,54 +2,54 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 26AB7343E1F
-	for <lists+linux-api@lfdr.de>; Mon, 22 Mar 2021 11:39:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B401B343E49
+	for <lists+linux-api@lfdr.de>; Mon, 22 Mar 2021 11:47:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229639AbhCVKjJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 22 Mar 2021 06:39:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55798 "EHLO
+        id S230388AbhCVKqn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 22 Mar 2021 06:46:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230113AbhCVKix (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 22 Mar 2021 06:38:53 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFFECC061574
-        for <linux-api@vger.kernel.org>; Mon, 22 Mar 2021 03:38:52 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id a198so20445723lfd.7
-        for <linux-api@vger.kernel.org>; Mon, 22 Mar 2021 03:38:52 -0700 (PDT)
+        with ESMTP id S230236AbhCVKqL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 22 Mar 2021 06:46:11 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98D2EC061574
+        for <linux-api@vger.kernel.org>; Mon, 22 Mar 2021 03:46:10 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id b14so7233408lfv.8
+        for <linux-api@vger.kernel.org>; Mon, 22 Mar 2021 03:46:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=shutemov-name.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=4hC27dQ/u288m0lvIAqx0tpRb+YwDiUGxv3BPznT+sI=;
-        b=aG4CCQmbLb1GnZ6XtEGpwTGDwEDwL2zlf2cTCSr+JZswGfljVFAduiKDUNiHIBi622
-         MrBTtUORsoxUb1IuMEA5gBt7Tsghrdp4iXJZrQxtbROBmzwXXiwuRviIJs/8iMiZW9X1
-         UyXFoJhobLPxFpMrd6dAKytTdo5FoAzwnt2btLeNLaUz2l8B9qzYMewI3XojtnKMMJry
-         iD1BVjkZEKIBVeTPGZxRZ7MlabUdx7vAFGzrWr4YwcpQ+rjCEhWbuCSciM/tCHcC07BF
-         K/OHzUt5f04kquzgVob+i5QS5cUaF94dCWZHah0jwolZFj5tSn1B2VyNmH7kve5Dav56
-         ftzQ==
+        bh=YVhaX9TyJpOCjZ6lAAx4X7Evu71S5QgfpSg+uRC3XiQ=;
+        b=M6jX3QVPO2UvJpsu3y0kv19VW5H79eVHUQvu9oD8AlEmyUmNNKBqbG0M9SlNIvKW1A
+         j4HrUVwhPDK8XJkQb2YtadImTHZFIu+ZiV2CiY4VqPwXdbkbI/JEcbsz/1ysRzNkUGqm
+         YCnNWVY5+wV8jyvDHq1hQJj647gMtGG8cTL9qnbbrc4R2mfABoXP185LrniGGhgOBl/e
+         qE8Y2JCCUVVLVun6uiSqkngNMyVNRC9Zg/lBqOFWSItWSDvOVD/M0CWxh0J28yYm/R9J
+         xKgmf9d5Z4dye+vyvIqCw6pxvy7dzPyFYk/ksskR9lwXAIK9kT/ZafHhgk+INpAYlx2n
+         j88g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=4hC27dQ/u288m0lvIAqx0tpRb+YwDiUGxv3BPznT+sI=;
-        b=jqOJCd062Qgwv4NlkajG9QqBUznU1XrNLxEiUo3zJjs9R+Kt2VhJxUwVNe0vRrdCVZ
-         dEJFT5NlueYL8IsvukaKofv7/7ZJdO46dncIQZDLSL+M0Eyr4j5SRmoP+Zh5oCgwh1ds
-         /Ml9iIZs7OTMUmaf+F173ka/e9y79S8BbZSJ46l+xxqooEZCpEg16Jc0C4myAsMImh4h
-         KIm4hQ39U4vqrTkj04oTj9k+j/OhqYNX1kU8AH3CLp8yKRe/Sr3AWHj0NzxY6QvYabYj
-         Mpo2m+6byHYsTVWBU5u3qBWVs+WMDk69pCHeTk1Igsio8M5UfgmsqYtzDeAq7gH/QriB
-         XcDQ==
-X-Gm-Message-State: AOAM531GmQElFSFwfI7ITbtbkncVTX2uoN7ojmncxAod9bUyexefJUVu
-        WM+mGOXaB5MtpGf4d8xawbhNtA==
-X-Google-Smtp-Source: ABdhPJwUXaWMh/7Jvw00YeWGfYQNsZQnygvvxQt2sYRhrPBaMYhh0Y5PdawcjG6A2A8jca1Jqv+VBw==
-X-Received: by 2002:a05:6512:324d:: with SMTP id c13mr8815993lfr.165.1616409531363;
-        Mon, 22 Mar 2021 03:38:51 -0700 (PDT)
+        bh=YVhaX9TyJpOCjZ6lAAx4X7Evu71S5QgfpSg+uRC3XiQ=;
+        b=ZJfoKU53TjpUdSIHp3pEtTV3mpr0Net6pW4eDhgOuyY5RPwVPXFsnHrpCj77X0ELos
+         xhp6OaQlnz+Z2/GrBTUMjcqbwwSnpno3yV1nlTbmLQVRwpSuOQhevEDVGD+ROCJXRY3c
+         hXXh4pnYdMBta1a0rxzqtE1PLpR3r6kFwVzOUO9q3MrhTEpvH/EV+seYLcXBq1OGMAcE
+         kfm6RQxDbf7dlNTrkImlwPZVgR5VSMDttEJVUW72qj8/u3Z6of+utVBuyMAkpUhvqsGX
+         BiG1PfqtXDG26eAuGFpW2k+TgeMSP8W+000FONUPJxvsvRLmp0Kn2ByvVxvSmhHsqQtG
+         5HGQ==
+X-Gm-Message-State: AOAM5304U8Dwuxv36uZCdFtDdmSFzG/cNKTCydJa5PjQQrUcftmD9XNi
+        MTG9gwRKKHztN+YH4HhsKzFoyA==
+X-Google-Smtp-Source: ABdhPJzLM+bmJsvaTQY9QrPsDTclu+7bOjKDoiq6hBThy6PKFfc4RTvbqhPQkPHx8PacTz+LlaoISw==
+X-Received: by 2002:a05:6512:219:: with SMTP id a25mr6170751lfo.222.1616409969171;
+        Mon, 22 Mar 2021 03:46:09 -0700 (PDT)
 Received: from box.localdomain ([86.57.175.117])
-        by smtp.gmail.com with ESMTPSA id x1sm1527966lff.97.2021.03.22.03.38.50
+        by smtp.gmail.com with ESMTPSA id v80sm1531541lfa.229.2021.03.22.03.46.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Mar 2021 03:38:50 -0700 (PDT)
+        Mon, 22 Mar 2021 03:46:08 -0700 (PDT)
 Received: by box.localdomain (Postfix, from userid 1000)
-        id 48DDE101DEB; Mon, 22 Mar 2021 13:38:58 +0300 (+03)
-Date:   Mon, 22 Mar 2021 13:38:58 +0300
+        id 32D84101DEB; Mon, 22 Mar 2021 13:46:16 +0300 (+03)
+Date:   Mon, 22 Mar 2021 13:46:16 +0300
 From:   "Kirill A. Shutemov" <kirill@shutemov.name>
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
@@ -79,112 +79,35 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>,
         Haitao Huang <haitao.huang@intel.com>
-Subject: Re: [PATCH v23 14/28] x86/mm: Shadow Stack page fault error checking
-Message-ID: <20210322103858.evxun5bhw2i5sio6@box>
+Subject: Re: [PATCH v23 15/28] x86/mm: Update maybe_mkwrite() for shadow stack
+Message-ID: <20210322104616.tht6flrxif257fdb@box>
 References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
- <20210316151054.5405-15-yu-cheng.yu@intel.com>
+ <20210316151054.5405-16-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210316151054.5405-15-yu-cheng.yu@intel.com>
+In-Reply-To: <20210316151054.5405-16-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Mar 16, 2021 at 08:10:40AM -0700, Yu-cheng Yu wrote:
-> Shadow stack accesses are those that are performed by the CPU where it
-> expects to encounter a shadow stack mapping.  These accesses are performed
-> implicitly by CALL/RET at the site of the shadow stack pointer.  These
-> accesses are made explicitly by shadow stack management instructions like
-> WRUSSQ.
-> 
-> Shadow stacks accesses to shadow-stack mapping can see faults in normal,
-> valid operation just like regular accesses to regular mappings.  Shadow
-> stacks need some of the same features like delayed allocation, swap and
-> copy-on-write.
-> 
-> Shadow stack accesses can also result in errors, such as when a shadow
-> stack overflows, or if a shadow stack access occurs to a non-shadow-stack
-> mapping.
-> 
-> In handling a shadow stack page fault, verify it occurs within a shadow
-> stack mapping.  It is always an error otherwise.  For valid shadow stack
-> accesses, set FAULT_FLAG_WRITE to effect copy-on-write.  Because clearing
-> _PAGE_DIRTY (vs. _PAGE_RW) is used to trigger the fault, shadow stack read
-> fault and shadow stack write fault are not differentiated and both are
-> handled as a write access.
-> 
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> ---
->  arch/x86/include/asm/trap_pf.h |  2 ++
->  arch/x86/mm/fault.c            | 19 +++++++++++++++++++
->  2 files changed, 21 insertions(+)
-> 
-> diff --git a/arch/x86/include/asm/trap_pf.h b/arch/x86/include/asm/trap_pf.h
-> index 10b1de500ab1..afa524325e55 100644
-> --- a/arch/x86/include/asm/trap_pf.h
-> +++ b/arch/x86/include/asm/trap_pf.h
-> @@ -11,6 +11,7 @@
->   *   bit 3 ==				1: use of reserved bit detected
->   *   bit 4 ==				1: fault was an instruction fetch
->   *   bit 5 ==				1: protection keys block access
-> + *   bit 6 ==				1: shadow stack access fault
->   *   bit 15 ==				1: SGX MMU page-fault
->   */
->  enum x86_pf_error_code {
-> @@ -20,6 +21,7 @@ enum x86_pf_error_code {
->  	X86_PF_RSVD	=		1 << 3,
->  	X86_PF_INSTR	=		1 << 4,
->  	X86_PF_PK	=		1 << 5,
-> +	X86_PF_SHSTK	=		1 << 6,
->  	X86_PF_SGX	=		1 << 15,
->  };
->  
-> diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
-> index a73347e2cdfc..4316732a18c6 100644
-> --- a/arch/x86/mm/fault.c
-> +++ b/arch/x86/mm/fault.c
-> @@ -1100,6 +1100,17 @@ access_error(unsigned long error_code, struct vm_area_struct *vma)
->  				       (error_code & X86_PF_INSTR), foreign))
->  		return 1;
->  
-> +	/*
-> +	 * Verify a shadow stack access is within a shadow stack VMA.
-> +	 * It is always an error otherwise.  Normal data access to a
-> +	 * shadow stack area is checked in the case followed.
-> +	 */
-> +	if (error_code & X86_PF_SHSTK) {
-> +		if (!(vma->vm_flags & VM_SHSTK))
-> +			return 1;
-> +		return 0;
+On Tue, Mar 16, 2021 at 08:10:41AM -0700, Yu-cheng Yu wrote:
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index a6c18c5752d6..af805ffde48e 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -997,6 +997,8 @@ static inline pte_t maybe_mkwrite(pte_t pte, struct vm_area_struct *vma)
+>  {
+>  	if (likely(vma->vm_flags & VM_WRITE))
+>  		pte = pte_mkwrite(pte);
+> +	else
+> +		pte = arch_maybe_mkwrite(pte, vma);
+>  	return pte;
+>  }
 
-Any reason to return 0 here? I would rather keep the single return 0 in
-the function, after all checks are done.
-
-> +	}
-> +
->  	if (error_code & X86_PF_WRITE) {
->  		/* write, present and write, not present: */
->  		if (unlikely(!(vma->vm_flags & VM_WRITE)))
-> @@ -1293,6 +1304,14 @@ void do_user_addr_fault(struct pt_regs *regs,
->  
->  	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, address);
->  
-> +	/*
-> +	 * Clearing _PAGE_DIRTY is used to detect shadow stack access.
-> +	 * This method cannot distinguish shadow stack read vs. write.
-> +	 * For valid shadow stack accesses, set FAULT_FLAG_WRITE to effect
-> +	 * copy-on-write.
-> +	 */
-> +	if (error_code & X86_PF_SHSTK)
-> +		flags |= FAULT_FLAG_WRITE;
->  	if (error_code & X86_PF_WRITE)
->  		flags |= FAULT_FLAG_WRITE;
->  	if (error_code & X86_PF_INSTR)
-> -- 
-> 2.21.0
-> 
+I think it would be cleaner to allow arch code to override maybe_mkwrite()
+and maybe_pmd_mkwrite() altogether. Wrap it into #ifndef maybe_mkwrite
+here and provide VM_SHSTK-aware version from <asm/pgtable.h>.
 
 -- 
  Kirill A. Shutemov
