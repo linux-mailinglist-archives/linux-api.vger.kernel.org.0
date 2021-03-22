@@ -2,128 +2,129 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 614DE344D41
-	for <lists+linux-api@lfdr.de>; Mon, 22 Mar 2021 18:28:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 23C8E344DAF
+	for <lists+linux-api@lfdr.de>; Mon, 22 Mar 2021 18:47:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231241AbhCVR2U (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 22 Mar 2021 13:28:20 -0400
-Received: from mga02.intel.com ([134.134.136.20]:1524 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230146AbhCVR16 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 22 Mar 2021 13:27:58 -0400
-IronPort-SDR: R+Gt2MP1QDYzA+6cmHEi9+vAxD8pRIvB5qjY/zf29gX0gv/aF4NRCXL4LgyaI71A8JtQr2Xj4m
- 2hveqgt0hI0w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9931"; a="177447416"
-X-IronPort-AV: E=Sophos;i="5.81,269,1610438400"; 
-   d="scan'208";a="177447416"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2021 10:27:57 -0700
-IronPort-SDR: /poCiz3iH8zbav4AUTruoJT/OU8lWJG21RxkY8P29L4ZNarEgYiS0oFCvkNqX2jXjm9t5M9f99
- CAkt3Y15cttQ==
-X-IronPort-AV: E=Sophos;i="5.81,269,1610438400"; 
-   d="scan'208";a="592694134"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.39.64]) ([10.209.39.64])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2021 10:27:53 -0700
-Subject: Re: [PATCH v23 14/28] x86/mm: Shadow Stack page fault error checking
-To:     "Kirill A. Shutemov" <kirill@shutemov.name>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
- <20210316151054.5405-15-yu-cheng.yu@intel.com>
- <20210322103858.evxun5bhw2i5sio6@box>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <b88b5324-e595-be3a-3005-e016e3adc791@intel.com>
-Date:   Mon, 22 Mar 2021 10:27:53 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        id S231173AbhCVRrB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 22 Mar 2021 13:47:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33221 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231569AbhCVRqh (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 22 Mar 2021 13:46:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1616435194;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=WJwiSS+T6VPqw/HeedjTiXeqD0yZ8fDdEubPYZui8ak=;
+        b=U0FYD1heRbClyWdMFcItKPsf2VF6SbzJUqrpbclAXiu3W+K94Raht7XIGNigWdvCzPCh8w
+        OYlfybUapTnVleoRB2/d3Z7VVztl1tqyAqlcMC9E89OMmhkWPYmdXn2RomdTAderGlVt5W
+        uF/EuRJnank78vLaaWsqHpJ+zy/nmtA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-489-CsGnQE7FPTSOCUMojFYzmw-1; Mon, 22 Mar 2021 13:46:30 -0400
+X-MC-Unique: CsGnQE7FPTSOCUMojFYzmw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6DA6B18C89D9;
+        Mon, 22 Mar 2021 17:46:27 +0000 (UTC)
+Received: from omen.home.shazbot.org (ovpn-112-120.phx2.redhat.com [10.3.112.120])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 7AC7F60240;
+        Mon, 22 Mar 2021 17:46:24 +0000 (UTC)
+Date:   Mon, 22 Mar 2021 11:46:23 -0600
+From:   Alex Williamson <alex.williamson@redhat.com>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jason Gunthorpe <jgg@nvidia.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org, Paul Mackerras <paulus@samba.org>,
+        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+        kvm@vger.kernel.org, linux-api@vger.kernel.org,
+        Alexey Kardashevskiy <aik@ozlabs.ru>
+Subject: Re: [PATCH 1/2] vfio/pci: remove vfio_pci_nvlink2
+Message-ID: <20210322114623.2f929b07@omen.home.shazbot.org>
+In-Reply-To: <20210322150155.797882-2-hch@lst.de>
+References: <20210322150155.797882-1-hch@lst.de>
+        <20210322150155.797882-2-hch@lst.de>
 MIME-Version: 1.0
-In-Reply-To: <20210322103858.evxun5bhw2i5sio6@box>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 3/22/2021 3:38 AM, Kirill A. Shutemov wrote:
-> On Tue, Mar 16, 2021 at 08:10:40AM -0700, Yu-cheng Yu wrote:
-[...]
->>   
->> diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
->> index a73347e2cdfc..4316732a18c6 100644
->> --- a/arch/x86/mm/fault.c
->> +++ b/arch/x86/mm/fault.c
->> @@ -1100,6 +1100,17 @@ access_error(unsigned long error_code, struct vm_area_struct *vma)
->>   				       (error_code & X86_PF_INSTR), foreign))
->>   		return 1;
->>   
->> +	/*
->> +	 * Verify a shadow stack access is within a shadow stack VMA.
->> +	 * It is always an error otherwise.  Normal data access to a
->> +	 * shadow stack area is checked in the case followed.
->> +	 */
->> +	if (error_code & X86_PF_SHSTK) {
->> +		if (!(vma->vm_flags & VM_SHSTK))
->> +			return 1;
->> +		return 0;
-> 
-> Any reason to return 0 here? I would rather keep the single return 0 in
-> the function, after all checks are done.
-> 
+On Mon, 22 Mar 2021 16:01:54 +0100
+Christoph Hellwig <hch@lst.de> wrote:
+> diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
+> index 8ce36c1d53ca11..db7e782419d5d9 100644
+> --- a/include/uapi/linux/vfio.h
+> +++ b/include/uapi/linux/vfio.h
+> @@ -332,19 +332,6 @@ struct vfio_region_info_cap_type {
+>  #define VFIO_REGION_SUBTYPE_INTEL_IGD_HOST_CFG	(2)
+>  #define VFIO_REGION_SUBTYPE_INTEL_IGD_LPC_CFG	(3)
+>  
+> -/* 10de vendor PCI sub-types */
+> -/*
+> - * NVIDIA GPU NVlink2 RAM is coherent RAM mapped onto the host address space.
+> - */
+> -#define VFIO_REGION_SUBTYPE_NVIDIA_NVLINK2_RAM	(1)
+> -
+> -/* 1014 vendor PCI sub-types */
+> -/*
+> - * IBM NPU NVlink2 ATSD (Address Translation Shootdown) register of NPU
+> - * to do TLB invalidation on a GPU.
+> - */
+> -#define VFIO_REGION_SUBTYPE_IBM_NVLINK2_ATSD	(1)
+> -
+>  /* sub-types for VFIO_REGION_TYPE_GFX */
+>  #define VFIO_REGION_SUBTYPE_GFX_EDID            (1)
+>  
+> @@ -637,33 +624,6 @@ struct vfio_device_migration_info {
+>   */
+>  #define VFIO_REGION_INFO_CAP_MSIX_MAPPABLE	3
+>  
+> -/*
+> - * Capability with compressed real address (aka SSA - small system address)
+> - * where GPU RAM is mapped on a system bus. Used by a GPU for DMA routing
+> - * and by the userspace to associate a NVLink bridge with a GPU.
+> - */
+> -#define VFIO_REGION_INFO_CAP_NVLINK2_SSATGT	4
+> -
+> -struct vfio_region_info_cap_nvlink2_ssatgt {
+> -	struct vfio_info_cap_header header;
+> -	__u64 tgt;
+> -};
+> -
+> -/*
+> - * Capability with an NVLink link speed. The value is read by
+> - * the NVlink2 bridge driver from the bridge's "ibm,nvlink-speed"
+> - * property in the device tree. The value is fixed in the hardware
+> - * and failing to provide the correct value results in the link
+> - * not working with no indication from the driver why.
+> - */
+> -#define VFIO_REGION_INFO_CAP_NVLINK2_LNKSPD	5
+> -
+> -struct vfio_region_info_cap_nvlink2_lnkspd {
+> -	struct vfio_info_cap_header header;
+> -	__u32 link_speed;
+> -	__u32 __pad;
+> -};
+> -
+>  /**
+>   * VFIO_DEVICE_GET_IRQ_INFO - _IOWR(VFIO_TYPE, VFIO_BASE + 9,
+>   *				    struct vfio_irq_info)
 
-For shadow stack fault, X86_PF_SHSTK and X86_PF_WRITE both can be set. 
-So for shadow stack fault, return from here and don't go into the normal 
-write fault case.
+I'll leave any attempt to defend keeping this code to Alexey, but
+minimally these region sub-types and capability IDs should probably be
+reserved to avoid breaking whatever userspace might exist to consume
+these.  Our ID space is sufficiently large that we don't need to
+recycle them any time soon.  Thanks,
 
-Thanks,
-Yu-cheng
+Alex
 
->> +	}
->> +
->>   	if (error_code & X86_PF_WRITE) {
->>   		/* write, present and write, not present: */
->>   		if (unlikely(!(vma->vm_flags & VM_WRITE)))
->> @@ -1293,6 +1304,14 @@ void do_user_addr_fault(struct pt_regs *regs,
->>   
->>   	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, address);
->>   
->> +	/*
->> +	 * Clearing _PAGE_DIRTY is used to detect shadow stack access.
->> +	 * This method cannot distinguish shadow stack read vs. write.
->> +	 * For valid shadow stack accesses, set FAULT_FLAG_WRITE to effect
->> +	 * copy-on-write.
->> +	 */
->> +	if (error_code & X86_PF_SHSTK)
->> +		flags |= FAULT_FLAG_WRITE;
->>   	if (error_code & X86_PF_WRITE)
->>   		flags |= FAULT_FLAG_WRITE;
->>   	if (error_code & X86_PF_INSTR)
->> -- 
->> 2.21.0
->>
-> 
