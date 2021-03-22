@@ -2,54 +2,54 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EC309343FAC
-	for <lists+linux-api@lfdr.de>; Mon, 22 Mar 2021 12:27:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D4940343FB5
+	for <lists+linux-api@lfdr.de>; Mon, 22 Mar 2021 12:28:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229822AbhCVL1Z (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 22 Mar 2021 07:27:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37996 "EHLO
+        id S230002AbhCVL21 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 22 Mar 2021 07:28:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230056AbhCVL1I (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 22 Mar 2021 07:27:08 -0400
+        with ESMTP id S230070AbhCVL2S (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 22 Mar 2021 07:28:18 -0400
 Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6479EC061574
-        for <linux-api@vger.kernel.org>; Mon, 22 Mar 2021 04:27:07 -0700 (PDT)
-Received: by mail-lf1-x12b.google.com with SMTP id a198so20669817lfd.7
-        for <linux-api@vger.kernel.org>; Mon, 22 Mar 2021 04:27:07 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CD0CC061756
+        for <linux-api@vger.kernel.org>; Mon, 22 Mar 2021 04:28:17 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id g8so13548127lfv.12
+        for <linux-api@vger.kernel.org>; Mon, 22 Mar 2021 04:28:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=shutemov-name.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=Wfahuc/4FrKDMvX9RZ/+E+DVaHu+EE7CL6DE9+//ml0=;
-        b=W/0O2nsBYq5ZzI5Y2K6tiA0U+Vcf5xqBG9/hGbwF73UE5fdrI6KzNreiefIsogp+qj
-         cXSg85GgCuXFHCjemkKuoi7erPMcQiHreiV5s5uWVTpcSYsH96Z99CYlCJhhRRjaoxSN
-         yTLRstwNrVDeuegg+v/xLsx3QsEJCa8ExQN2izI84K4rkQVXdWcWnh/z7EgLx+d2Gj4v
-         KlLnpCsgCwRuVJI0aj/tFBp+YTkjQx0FW2CH2rIpZNSPE+ktNfEdni1/QLDfZ1W1BdAJ
-         EMzt3I++yezG517Cs6AuXcooYDevc+dkbOTnHC341yzM0ARPNOKj445LyePnX0To7wF9
-         m2fw==
+        bh=e/8Ps0Ktb6d68R+KN9li/esf+RWOsAy/QWgNl2bsjCg=;
+        b=EXIvWEM18cSmSwMF/NB1QYMgQXYnrAag4u6ZyxRYqOysOZ9V6Zm1RNdryV2IlGQhw2
+         Ek1Kn+1pJVjPc5i2lvcfFI5k3QCu6NcvbQd34nDfqC7MXLB2sx7xJT/iMTjTwAMSPSPG
+         EpytFnGn5r4e+M/rQ7/RbKlvP/LGQ/fTBvKJP2mhAZ+asjdXIY/Y3P4Q2nPbZKNg4/JK
+         OySk2OW6uCpL1EnTT1i1YnAIrmZbaaZaijiuZ9RzQCjh9bzYxOM7XKr/qB1DtK67OHYM
+         fUV/7LwKJAMZhJzkgF+CQiAD33C7f9+AA6GTWj77+IMVPkM+YbXZr3GwLongwJzicHFD
+         3tUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=Wfahuc/4FrKDMvX9RZ/+E+DVaHu+EE7CL6DE9+//ml0=;
-        b=jt5VWWXUYJs48czh9cfH2EOAs4zK5xvNd9qlI4ke59ra5R4mEgMxUb4h9kPO82NA2M
-         TAGLccbYh1hxS8SEPANmNeQJvckrfFpRaH/8wVzaLXgRyp4FxFOlCSEhjx2gj0Q9Isf6
-         9WSW+4LpCB0ovogiqDLiepCtkCSLejSA9EIMuVBpfs+vKzjAWG8ZXhbi7q5LPXfY/3Qh
-         aNNXP7AYq2as3O/RT0QH6BY1B77ROMcIZr9mNGQy+R0fH3Xnov4+WOjOrPazqU3oqRA0
-         LjIkd+jqOIW5w4w18kX6BazuIkaobER8kKs3t2NC6Ed1zqhxmcWA1pmU28PEmf9UBaAZ
-         uEwA==
-X-Gm-Message-State: AOAM531sd69sj0nGrWQJJYsOz6yocCkYz4GJvUJu0WQpBq93eCmMLlB2
-        8GQhr2E+DrUVrPigmSqAJEGYeQ==
-X-Google-Smtp-Source: ABdhPJy4IdxcKDpK5GSmJnFhB/DWMG+MxhYZnGmWYx03PQEDC8gCv+MgnJiU2/rBF1HiU8PkWfw01Q==
-X-Received: by 2002:a19:521a:: with SMTP id m26mr8825738lfb.56.1616412425904;
-        Mon, 22 Mar 2021 04:27:05 -0700 (PDT)
+        bh=e/8Ps0Ktb6d68R+KN9li/esf+RWOsAy/QWgNl2bsjCg=;
+        b=cM+RwUAxOwjhiK3F7Vl+vu1YCKzUmx3Ef357NJGlbaGZgg0rBDPngHqcL47yW/fUyo
+         9eOrlaBohH4xKgQr61eWsIwaVs+xjHG970VbPVusIh1eqH4Ta41Mq9w6I26AcJeFDAQt
+         N123rkVXk8lXrooSAvJP+2yN8r9y8/eqD0MFN2ednN1tfSNQvk+3otIZbD6yy4f1IIwm
+         2WGgNtp7gMKjT9fXYTEL13h1FHUb/L30CPM1TppgKWBZGvgCSS6fnZFaDZRI57237+Im
+         pDKckvDrkCob8wTw92D6DYir8Biw3/0VyTLvPE2ZKs7emsOha1BySM0M1/TFaqJdY7fQ
+         7RJw==
+X-Gm-Message-State: AOAM533EH4L9tkiX9pZkC71CcrPixL5+Lf7Y/N1RrbiX/JuiaW5/lx8J
+        NykZx4IyGNY7nq2wHH7CVXEz8g==
+X-Google-Smtp-Source: ABdhPJyIwFAEyp7IPkXX7n5PmF14citdfeN2uquuXcJSKueq8Q3O6jUD8ynDjrBejl3pfA961ybqGw==
+X-Received: by 2002:a05:6512:3ec:: with SMTP id n12mr9170901lfq.536.1616412496066;
+        Mon, 22 Mar 2021 04:28:16 -0700 (PDT)
 Received: from box.localdomain ([86.57.175.117])
-        by smtp.gmail.com with ESMTPSA id e15sm1541510lfs.83.2021.03.22.04.27.05
+        by smtp.gmail.com with ESMTPSA id q7sm1582895lfc.260.2021.03.22.04.28.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Mar 2021 04:27:05 -0700 (PDT)
+        Mon, 22 Mar 2021 04:28:15 -0700 (PDT)
 Received: by box.localdomain (Postfix, from userid 1000)
-        id A8293101DEB; Mon, 22 Mar 2021 14:27:12 +0300 (+03)
-Date:   Mon, 22 Mar 2021 14:27:12 +0300
+        id 02871101DEB; Mon, 22 Mar 2021 14:28:23 +0300 (+03)
+Date:   Mon, 22 Mar 2021 14:28:22 +0300
 From:   "Kirill A. Shutemov" <kirill@shutemov.name>
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
@@ -79,188 +79,27 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>,
         Haitao Huang <haitao.huang@intel.com>
-Subject: Re: [PATCH v23 28/28] mm: Introduce PROT_SHSTK for shadow stack
-Message-ID: <20210322112712.di6vthmgrvu5znhv@box>
+Subject: Re: [PATCH v23 08/28] x86/mm: Move pmd_write(), pud_write() up in
+ the file
+Message-ID: <20210322112822.3uvkufcbdj7gtwxn@box>
 References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
- <20210316151054.5405-29-yu-cheng.yu@intel.com>
+ <20210316151054.5405-9-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210316151054.5405-29-yu-cheng.yu@intel.com>
+In-Reply-To: <20210316151054.5405-9-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Mar 16, 2021 at 08:10:54AM -0700, Yu-cheng Yu wrote:
-> There are three possible options to create a shadow stack allocation API:
-> an arch_prctl, a new syscall, or adding PROT_SHSTK to mmap()/mprotect().
-> Each has its advantages and compromises.
-> 
-> An arch_prctl() is the least intrusive.  However, the existing x86
-> arch_prctl() takes only two parameters.  Multiple parameters must be
-> passed in a memory buffer.  There is a proposal to pass more parameters in
-> registers [1], but no active discussion on that.
-> 
-> A new syscall minimizes compatibility issues and offers an extensible frame
-> work to other architectures, but this will likely result in some overlap of
-> mmap()/mprotect().
-> 
-> The introduction of PROT_SHSTK to mmap()/mprotect() takes advantage of
-> existing APIs.  The x86-specific PROT_SHSTK is translated to VM_SHSTK and
-> a shadow stack mapping is created without reinventing the wheel.  There are
-> potential pitfalls though.  The most obvious one would be using this as a
-> bypass to shadow stack protection.  However, the attacker would have to get
-> to the syscall first.
-> 
-> [1] https://lore.kernel.org/lkml/20200828121624.108243-1-hjl.tools@gmail.com/
+On Tue, Mar 16, 2021 at 08:10:34AM -0700, Yu-cheng Yu wrote:
+> To prepare the introduction of _PAGE_COW, move pmd_write() and
+> pud_write() up in the file, so that they can be used by other
+> helpers below.
 > 
 > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> ---
->  arch/x86/include/asm/mman.h      | 57 +++++++++++++++++++++++++++++++-
->  arch/x86/include/uapi/asm/mman.h |  1 +
->  include/linux/mm.h               |  1 +
->  mm/mmap.c                        |  8 ++++-
->  4 files changed, 65 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/x86/include/asm/mman.h b/arch/x86/include/asm/mman.h
-> index 629f6c81263a..bd94e30b5d34 100644
-> --- a/arch/x86/include/asm/mman.h
-> +++ b/arch/x86/include/asm/mman.h
-> @@ -20,11 +20,66 @@
->  		((vm_flags) & VM_PKEY_BIT2 ? _PAGE_PKEY_BIT2 : 0) |	\
->  		((vm_flags) & VM_PKEY_BIT3 ? _PAGE_PKEY_BIT3 : 0))
->  
-> -#define arch_calc_vm_prot_bits(prot, key) (		\
-> +#define pkey_vm_prot_bits(prot, key) (			\
->  		((key) & 0x1 ? VM_PKEY_BIT0 : 0) |      \
->  		((key) & 0x2 ? VM_PKEY_BIT1 : 0) |      \
->  		((key) & 0x4 ? VM_PKEY_BIT2 : 0) |      \
->  		((key) & 0x8 ? VM_PKEY_BIT3 : 0))
-> +#else
-> +#define pkey_vm_prot_bits(prot, key) (0)
-> +#endif
-> +
-> +static inline unsigned long arch_calc_vm_prot_bits(unsigned long prot,
-> +						   unsigned long pkey)
-> +{
-> +	unsigned long vm_prot_bits = pkey_vm_prot_bits(prot, pkey);
-> +
-> +	if (!(prot & PROT_WRITE) && (prot & PROT_SHSTK))
-> +		vm_prot_bits |= VM_SHSTK;
-> +
-> +	return vm_prot_bits;
-> +}
-> +
-> +#define arch_calc_vm_prot_bits(prot, pkey) arch_calc_vm_prot_bits(prot, pkey)
-> +
-> +#ifdef CONFIG_X86_CET
-> +static inline bool arch_validate_prot(unsigned long prot, unsigned long addr)
-> +{
-> +	unsigned long valid = PROT_READ | PROT_WRITE | PROT_EXEC | PROT_SEM;
-> +
-> +	if (prot & ~(valid | PROT_SHSTK))
 
-Why PROT_SHSTK is not part of valid?
-
-> +		return false;
-> +
-> +	if (prot & PROT_SHSTK) {
-> +		struct vm_area_struct *vma;
-> +
-> +		if (!current->thread.cet.shstk_size)
-> +			return false;
-> +
-> +		/*
-> +		 * A shadow stack mapping is indirectly writable by only
-> +		 * the CALL and WRUSS instructions, but not other write
-> +		 * instructions).  PROT_SHSTK and PROT_WRITE are mutually
-> +		 * exclusive.
-> +		 */
-> +		if (prot & PROT_WRITE)
-> +			return false;
-> +
-> +		vma = find_vma(current->mm, addr);
-> +		if (!vma)
-> +			return false;
-
-NAK.
-
-This is racy. arch_validate_prot() called outside of mmap_lock and the vma
-may be freed or modified under us.
-
-do_mprotect_pkey() already calls find_vma() with the right locking. Maybe
-re-strucure do_mprotect_pkey() to call arch_validate_prot() after
-find_vma() and pass down the vma?
-
-> +
-> +		/*
-> +		 * Shadow stack cannot be backed by a file or shared.
-> +		 */
-> +		if (vma->vm_file || (vma->vm_flags & VM_SHARED))
-> +			return false;
-> +	}
-> +
-> +	return true;
-> +}
-> +
-> +#define arch_validate_prot arch_validate_prot
->  #endif
->  
->  #endif /* _ASM_X86_MMAN_H */
-> diff --git a/arch/x86/include/uapi/asm/mman.h b/arch/x86/include/uapi/asm/mman.h
-> index 3ce1923e6ed9..39bb7db344a6 100644
-> --- a/arch/x86/include/uapi/asm/mman.h
-> +++ b/arch/x86/include/uapi/asm/mman.h
-> @@ -4,6 +4,7 @@
->  
->  #define MAP_32BIT	0x40		/* only give out 32bit addresses */
->  
-> +#define PROT_SHSTK	0x10		/* shadow stack pages */
->  
->  #include <asm-generic/mman.h>
->  
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index e178be052419..40c4b0fe7cc4 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -342,6 +342,7 @@ extern unsigned int kobjsize(const void *objp);
->  
->  #if defined(CONFIG_X86)
->  # define VM_PAT		VM_ARCH_1	/* PAT reserves whole VMA at once (x86) */
-> +# define VM_ARCH_CLEAR	VM_SHSTK
->  #elif defined(CONFIG_PPC)
->  # define VM_SAO		VM_ARCH_1	/* Strong Access Ordering (powerpc) */
->  #elif defined(CONFIG_PARISC)
-> diff --git a/mm/mmap.c b/mm/mmap.c
-> index 99077171010b..934cb3cbe952 100644
-> --- a/mm/mmap.c
-> +++ b/mm/mmap.c
-> @@ -1481,6 +1481,12 @@ unsigned long do_mmap(struct file *file, unsigned long addr,
->  		struct inode *inode = file_inode(file);
->  		unsigned long flags_mask;
->  
-> +		/*
-> +		 * Call stack cannot be backed by a file.
-> +		 */
-> +		if (vm_flags & VM_SHSTK)
-> +			return -EINVAL;
-> +
->  		if (!file_mmap_ok(file, inode, pgoff, len))
->  			return -EOVERFLOW;
->  
-> @@ -1545,7 +1551,7 @@ unsigned long do_mmap(struct file *file, unsigned long addr,
->  	} else {
->  		switch (flags & MAP_TYPE) {
->  		case MAP_SHARED:
-> -			if (vm_flags & (VM_GROWSDOWN|VM_GROWSUP))
-> +			if (vm_flags & (VM_GROWSDOWN|VM_GROWSUP|VM_SHSTK))
->  				return -EINVAL;
->  			/*
->  			 * Ignore pgoff.
-> -- 
-> 2.21.0
-> 
+Reviewed-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
 
 -- 
  Kirill A. Shutemov
