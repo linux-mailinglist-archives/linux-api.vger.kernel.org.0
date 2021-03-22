@@ -2,124 +2,130 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D38EB344917
-	for <lists+linux-api@lfdr.de>; Mon, 22 Mar 2021 16:19:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 490F0344B54
+	for <lists+linux-api@lfdr.de>; Mon, 22 Mar 2021 17:30:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230146AbhCVPTG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 22 Mar 2021 11:19:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41364 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231723AbhCVPSd (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 22 Mar 2021 11:18:33 -0400
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 68ED96198E;
-        Mon, 22 Mar 2021 15:18:25 +0000 (UTC)
-Date:   Mon, 22 Mar 2021 11:18:24 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Brian Cain <bcain@codeaurora.org>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Chris Zankel <chris@zankel.net>,
-        Corentin Labbe <clabbe@baylibre.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-        Greentime Hu <green.hu@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Helge Deller <deller@gmx.de>, Hillf Danton <hdanton@sina.com>,
-        huang ying <huang.ying.caritas@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Jonas Bonn <jonas@southpole.se>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kairui Song <kasong@redhat.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Matt Turner <mattst88@gmail.com>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Mikulas Patocka <mpatocka@redhat.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        Oleksiy Avramchenko <oleksiy.avramchenko@sonymobile.com>,
-        Palmer Dabbelt <palmerdabbelt@google.com>,
-        Paul Mackerras <paulus@samba.org>,
-        "Pavel Machek (CIP)" <pavel@denx.de>, Pavel Machek <pavel@ucw.cz>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Pierre Morel <pmorel@linux.ibm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Henderson <rth@twiddle.net>,
-        Rich Felker <dalias@libc.org>,
-        Robert Richter <rric@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Stafford Horne <shorne@gmail.com>,
-        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Theodore Dubois <tblodt@icloud.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        William Cohen <wcohen@redhat.com>,
-        Xiaoming Ni <nixiaoming@huawei.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>
-Subject: Re: [PATCH RFC 0/3] drivers/char: remove /dev/kmem for good
-Message-ID: <20210322111824.59bac299@gandalf.local.home>
-In-Reply-To: <be3e8470-a8a4-2111-5c5e-7a03c1f9ed16@redhat.com>
-References: <20210319143452.25948-1-david@redhat.com>
-        <20210319141018.5ee1a5ac@gandalf.local.home>
-        <be3e8470-a8a4-2111-5c5e-7a03c1f9ed16@redhat.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        id S231195AbhCVQ32 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 22 Mar 2021 12:29:28 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:57234 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231881AbhCVQ27 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 22 Mar 2021 12:28:59 -0400
+Received: from ip5f5af0a0.dynamic.kabel-deutschland.de ([95.90.240.160] helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1lONQG-00082c-Mx; Mon, 22 Mar 2021 16:28:56 +0000
+Date:   Mon, 22 Mar 2021 17:28:55 +0100
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Jan Kara <jack@suse.cz>,
+        Matthew Bobrowski <mbobrowski@mbobrowski.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [PATCH v2 0/2] unprivileged fanotify listener
+Message-ID: <20210322162855.mz7h2hvececu4rma@wittgenstein>
+References: <20210317114207.GB2541@quack2.suse.cz>
+ <CAOQ4uxi7ZXJW3_6SN=vw_XJC+wy4eMTayN6X5yRy_HOV6323MA@mail.gmail.com>
+ <20210317174532.cllfsiagoudoz42m@wittgenstein>
+ <CAOQ4uxjCjapuAHbYuP8Q_k0XD59UmURbmkGC1qcPkPAgQbQ8DA@mail.gmail.com>
+ <20210318143140.jxycfn3fpqntq34z@wittgenstein>
+ <CAOQ4uxiRHwmxTKsLteH_sBW_dSPshVE8SohJYEmpszxaAwjEyg@mail.gmail.com>
+ <20210319134043.c2wcpn4lbefrkhkg@wittgenstein>
+ <CAOQ4uxhLYdWOUmpWP+c_JzVeGDbkJ5eUM+1-hhq7zFq23g5J1g@mail.gmail.com>
+ <CAOQ4uxhetKeEZX=_iAcREjibaR0ZcOdeZyR8mFEoHM+WRsuVtg@mail.gmail.com>
+ <CAOQ4uxhfx012GtvXMfiaHSk1M7+gTqkz3LsT0i_cHLnZLMk8nw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAOQ4uxhfx012GtvXMfiaHSk1M7+gTqkz3LsT0i_cHLnZLMk8nw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, 22 Mar 2021 11:08:47 +0100
-David Hildenbrand <david@redhat.com> wrote:
+On Mon, Mar 22, 2021 at 02:44:20PM +0200, Amir Goldstein wrote:
+> On Sat, Mar 20, 2021 at 2:57 PM Amir Goldstein <amir73il@gmail.com> wrote:
+> >
+> > > > > The code that sits in linux-next can give you pretty much a drop-in
+> > > > > replacement of inotify and nothing more. See example code:
+> > > > > https://github.com/amir73il/inotify-tools/commits/fanotify_name_fid
+> > > >
+> > > > This is really great. Thank you for doing that work this will help quite
+> > > > a lot of use-cases and make things way simpler. I created a TODO to port
+> > > > our path-hotplug to this once this feature lands.
+> > > >
+> > >
+> > > FWIW, I just tried to build this branch on Ubuntu 20.04.2 with LTS kernel
+> > > and there were some build issues, so rebased my branch on upstream
+> > > inotify-tools to fix those build issues.
+> > >
+> > > I was not aware that the inotify-tools project is alive, I never intended
+> > > to upstream this demo code and never created a github pull request
+> > > but rebasing on upstream brought in some CI scripts, when I pushed the
+> > > branch to my github it triggered some tests that reported build failures on
+> > > Ubuntu 16.04 and 18.04.
+> > >
+> > > Anyway, there is a pre-rebase branch 'fanotify_name' and the post rebase
+> > > branch 'fanotify_name_fid'. You can try whichever works for you.
+> 
+> FYI, fixed the CI build errors on fanotify_name_fid branch.
+> 
+> > >
+> > > You can look at the test script src/test_demo.sh for usage example.
+> > > Or just cd into a writable directory and run the script to see the demo.
+> > > The demo determines whether to use a recursive watch or "global"
+> > > watch by the uid of the user.
+> > >
+> > > > >
+> > > > > > > If you think that is useful and you want to play with this feature I can
+> > > > > > > provide a WIP branch soon.
+> > > > > >
+> > > > > > I would like to first play with the support for unprivileged fanotify
+> > > > > > but sure, it does sound useful!
+> > > > >
+> > > > > Just so you have an idea what I am talking about, this is a very early
+> > > > > POC branch:
+> > > > > https://github.com/amir73il/linux/commits/fanotify_userns
+> > > >
+> > > > Thanks!  I'll try to pull this and take a look next week. I hope that's
+> > > > ok.
+> > > >
+> > >
+> > > Fine. I'm curious to know what it does.
+> > > Did not get to test it with userns yet :)
+> >
+> > Now tested FAN_MARK_FILESYSTEM watch on tmpfs mounted
+> > inside userns and works fine, with two wrinkles I needed to iron:
+> >
+> > 1. FAN_REPORT_FID not supported on tmpfs because tmpfs has
+> >     zero f_fsid (easy to fix)
+> > 2. open_by_handle_at() is not userns aware (can relax for
+> >     FS_USERNS_MOUNT fs)
+> >
+> > Pushed these two fixes to branch fanotify_userns.
+> 
+> Pushed another fix to mnt refcount bug in WIP and another commit to
+> add the last piece that could make fanotify usable for systemd-homed
+> setup - a filesystem watch filtered by mnt_userns (not tested yet).
+
+Sounds interesting.
+
+So I'm looking and commenting on that branch a little.
+One general question, when fanotify FANOTIFY_PERM_EVENTS is set fanotify
+will return a file descriptor (for relevant events) referring to the
+file/directory that e.g. got created. And there are no permissions
+checks other than the capable(CAP_SYS_ADMIN) check when the fanotify
+instance is created, right?
 
 > 
-> Wonder if "echo c > /proc/sysrq-trigger" already existed and would have 
-> worked back then. :)
-> 
-> 
+> One thing I am struggling with is the language to describe user ns
+> and idmapped mounts related logic. I have a feeling that I am getting
+> the vocabulary all wrong. See my commit message text below.
 
-Looks like sysrq-c was added in 2005:
+The lingo seems legit. :)
 
-commit 86b1ae38c0a62 ("kdump: sysrq trigger mechanism for kexec based crashdumps")
+I need some time thinking about the concepts to convince myself that
+this is safe. But I like the direction as this is going to be really
+useful.
 
-Thus the answer is "No, it would not have worked back then".
-
--- Steve
+Christian
