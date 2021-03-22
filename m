@@ -2,41 +2,40 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 72974343D58
-	for <lists+linux-api@lfdr.de>; Mon, 22 Mar 2021 10:58:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 03F99343D80
+	for <lists+linux-api@lfdr.de>; Mon, 22 Mar 2021 11:10:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230010AbhCVJ6R (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 22 Mar 2021 05:58:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56408 "EHLO
+        id S230001AbhCVKJo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 22 Mar 2021 06:09:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51557 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230101AbhCVJ6O (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 22 Mar 2021 05:58:14 -0400
+        by vger.kernel.org with ESMTP id S230119AbhCVKJO (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 22 Mar 2021 06:09:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1616407093;
+        s=mimecast20190719; t=1616407752;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=U3CiK0/VZwce2e6BZhquN5P+HHtfDmL7cXJWwXvfT2A=;
-        b=R/EUjL32esfcRwPk75PyQbUdByo7iSZfBBegDsMtMugDEQ7JgsMti+BCC7x807Cz8dij2h
-        fGwSojUGBUoZzy/Onp7GKUuohHR4BSdTdqPzQvli2M0lCoNorqlpXzVA21qkaw5c3T3O2x
-        TlA9xC+YhtW5HCGGYWjKkjlXy/J5x+0=
+        bh=14EzcGArmqO6h8+AWRrdUIs8uwzxBO4aWZ95muOr39M=;
+        b=A2BiZoanhGjLCeo4eJst9jaXqAS9ndzA0HCGNCBa91ok4yzbyCuG46jr2IxVoJUsq/Y9DH
+        hSJFOlBQ1TBL3Ad4VXrc/jUwfr9P+wz8aIf8lbcRlFMwNuLCjXykEB4g1uBMUrGTKc4Zuw
+        K71rVnPaPqu/6NY7GZXo+UELua28Qcc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-438-x0tWUk_RNHO605zsPmf1ng-1; Mon, 22 Mar 2021 05:58:12 -0400
-X-MC-Unique: x0tWUk_RNHO605zsPmf1ng-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+ us-mta-44-_Qsbi27IP8qPeLcGuHcjmQ-1; Mon, 22 Mar 2021 06:09:10 -0400
+X-MC-Unique: _Qsbi27IP8qPeLcGuHcjmQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C60B1922020;
-        Mon, 22 Mar 2021 09:58:08 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 549C0190A7A3;
+        Mon, 22 Mar 2021 10:09:07 +0000 (UTC)
 Received: from [10.36.115.54] (ovpn-115-54.ams2.redhat.com [10.36.115.54])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 905D56A03C;
-        Mon, 22 Mar 2021 09:57:42 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 9C4F260BE5;
+        Mon, 22 Mar 2021 10:08:48 +0000 (UTC)
 Subject: Re: [PATCH RFC 0/3] drivers/char: remove /dev/kmem for good
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         "Alexander A. Klimov" <grandmaster@al2klimov.de>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
         Alexandre Belloni <alexandre.belloni@bootlin.com>,
@@ -62,13 +61,14 @@ Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         huang ying <huang.ying.caritas@gmail.com>,
         Ingo Molnar <mingo@kernel.org>,
         Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
         Jiaxun Yang <jiaxun.yang@flygoat.com>,
         Jonas Bonn <jonas@southpole.se>,
         Jonathan Corbet <corbet@lwn.net>,
         Kairui Song <kasong@redhat.com>,
         Krzysztof Kozlowski <krzk@kernel.org>,
         Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         Linux API <linux-api@vger.kernel.org>,
         Liviu Dudau <liviu.dudau@arm.com>,
         Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
@@ -100,7 +100,6 @@ Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
         Stafford Horne <shorne@gmail.com>,
         Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-        Steven Rostedt <rostedt@goodmis.org>,
         Sudeep Holla <sudeep.holla@arm.com>,
         Theodore Dubois <tblodt@icloud.com>,
         Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
@@ -111,36 +110,43 @@ Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Xiaoming Ni <nixiaoming@huawei.com>,
         Yoshinori Sato <ysato@users.sourceforge.jp>
 References: <20210319143452.25948-1-david@redhat.com>
- <CAHk-=wg1HTbXkjdMYA4zADEiE8HwpZ0=uWy0ujZTJYVT-KCehQ@mail.gmail.com>
+ <20210319141018.5ee1a5ac@gandalf.local.home>
 From:   David Hildenbrand <david@redhat.com>
 Organization: Red Hat GmbH
-Message-ID: <97d30137-61ce-ca1b-221b-2bc5210eb259@redhat.com>
-Date:   Mon, 22 Mar 2021 10:57:41 +0100
+Message-ID: <be3e8470-a8a4-2111-5c5e-7a03c1f9ed16@redhat.com>
+Date:   Mon, 22 Mar 2021 11:08:47 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAHk-=wg1HTbXkjdMYA4zADEiE8HwpZ0=uWy0ujZTJYVT-KCehQ@mail.gmail.com>
+In-Reply-To: <20210319141018.5ee1a5ac@gandalf.local.home>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 19.03.21 18:14, Linus Torvalds wrote:
-> On Fri, Mar 19, 2021 at 7:35 AM David Hildenbrand <david@redhat.com> wrote:
->>
+On 19.03.21 19:10, Steven Rostedt wrote:
+> On Fri, 19 Mar 2021 15:34:49 +0100
+> David Hildenbrand <david@redhat.com> wrote:
+> 
 >> Let's start a discussion if /dev/kmem is worth keeping around and
 >> fixing/maintaining or if we should just remove it now for good.
 > 
-> I'll happily do this for the next merge window, but would really want
-> distros to confirm that they don't enable it.
+> The last time I used /dev/kmem was in 2003. While in Germany, my home
+> firewall (in the US) got rooted. I could ssh into the box but had no way to
+> shut it down because the rootkit took over all those commands (luckily it
+> still allowed me to become root). I finally killed the box with:
 > 
+>   # ls -lR / > /dev/kmem
+> 
+>   ;-)
 
-Thanks, let's wait if someone speaks up. I'll add any details that come 
-up to patch #1 and resend before the next merge window, properly 
-compile-testing on other archs.
+
+Wonder if "echo c > /proc/sysrq-trigger" already existed and would have 
+worked back then. :)
+
 
 -- 
 Thanks,
