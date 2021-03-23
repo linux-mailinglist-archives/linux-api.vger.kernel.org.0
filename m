@@ -2,154 +2,210 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E839346007
-	for <lists+linux-api@lfdr.de>; Tue, 23 Mar 2021 14:45:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B42E43463BC
+	for <lists+linux-api@lfdr.de>; Tue, 23 Mar 2021 16:55:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231777AbhCWNp0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 23 Mar 2021 09:45:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25258 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231765AbhCWNpH (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 23 Mar 2021 09:45:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1616507106;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=u4IuFNs7G9eHpxIxEjFpymhZdMA5gfvx/fmGXZsBykM=;
-        b=B6TeOPTnFxIiJ35lqXDYzRJxAY5wAkxTcPA6vDy1PHD5bs5DZrRYmNqfSW2Rb/S2IL6Z1Z
-        L625vtSr9UEnr2bwhCzp64RY1n41KN6B/inL4kKr6XS1lT7nxnaiZlhdXNdxiX4ypmGTvn
-        Yv7fJmi1o6BYb7DEzaco2/tnbXTtOj0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-193-Q4IMCjb0N-aE0Tj3pSfG3Q-1; Tue, 23 Mar 2021 09:45:02 -0400
-X-MC-Unique: Q4IMCjb0N-aE0Tj3pSfG3Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64D7857054;
-        Tue, 23 Mar 2021 13:44:42 +0000 (UTC)
-Received: from [10.36.115.54] (ovpn-115-54.ams2.redhat.com [10.36.115.54])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 4AF1C86586;
-        Tue, 23 Mar 2021 13:44:21 +0000 (UTC)
-Subject: Re: [PATCH RFC 0/3] drivers/char: remove /dev/kmem for good
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Andrew Lunn <andrew@lunn.ch>,
+        id S232890AbhCWPzM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 23 Mar 2021 11:55:12 -0400
+Received: from smtp-42ad.mail.infomaniak.ch ([84.16.66.173]:44783 "EHLO
+        smtp-42ad.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232902AbhCWPyw (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 23 Mar 2021 11:54:52 -0400
+Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4F4bXq3T57zMqLwv;
+        Tue, 23 Mar 2021 16:54:51 +0100 (CET)
+Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
+        by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4F4bXk5PQBzlh8t0;
+        Tue, 23 Mar 2021 16:54:46 +0100 (CET)
+Subject: Re: [PATCH v30 07/12] landlock: Support filesystem access-control
+To:     Jann Horn <jannh@google.com>
+Cc:     James Morris <jmorris@namei.org>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
         Arnd Bergmann <arnd@arndb.de>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Brian Cain <bcain@codeaurora.org>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Chris Zankel <chris@zankel.net>,
-        Corentin Labbe <clabbe@baylibre.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-        Greentime Hu <green.hu@gmail.com>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Helge Deller <deller@gmx.de>, Hillf Danton <hdanton@sina.com>,
-        huang ying <huang.ying.caritas@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Jonas Bonn <jonas@southpole.se>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        David Howells <dhowells@redhat.com>,
+        Jeff Dike <jdike@addtoit.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kairui Song <kasong@redhat.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
         Linux API <linux-api@vger.kernel.org>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Matt Turner <mattst88@gmail.com>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Mikulas Patocka <mpatocka@redhat.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        Oleksiy Avramchenko <oleksiy.avramchenko@sonymobile.com>,
-        Palmer Dabbelt <palmerdabbelt@google.com>,
-        Paul Mackerras <paulus@samba.org>,
-        "Pavel Machek (CIP)" <pavel@denx.de>, Pavel Machek <pavel@ucw.cz>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Pierre Morel <pmorel@linux.ibm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Henderson <rth@twiddle.net>,
-        Rich Felker <dalias@libc.org>,
-        Robert Richter <rric@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Stafford Horne <shorne@gmail.com>,
-        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Theodore Dubois <tblodt@icloud.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        William Cohen <wcohen@redhat.com>,
-        Xiaoming Ni <nixiaoming@huawei.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>
-References: <20210319143452.25948-1-david@redhat.com>
- <YFnqOgpoehAnxtKQ@kroah.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <8bd3a6cc-02a9-38e7-ddd2-22f49c133e25@redhat.com>
-Date:   Tue, 23 Mar 2021 14:44:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>
+References: <20210316204252.427806-1-mic@digikod.net>
+ <20210316204252.427806-8-mic@digikod.net>
+ <CAG48ez1arKO3uYzwng8fst-UHkcH6J7YzyHFN+vfXUT2=1HT+w@mail.gmail.com>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <b41a021c-69f4-075f-e9a0-a4483b280df8@digikod.net>
+Date:   Tue, 23 Mar 2021 16:55:20 +0100
+User-Agent: 
 MIME-Version: 1.0
-In-Reply-To: <YFnqOgpoehAnxtKQ@kroah.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <CAG48ez1arKO3uYzwng8fst-UHkcH6J7YzyHFN+vfXUT2=1HT+w@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 23.03.21 14:16, Greg Kroah-Hartman wrote:
-> On Fri, Mar 19, 2021 at 03:34:49PM +0100, David Hildenbrand wrote:
->> Let's start a discussion if /dev/kmem is worth keeping around and
->> fixing/maintaining or if we should just remove it now for good.
->>
->> More details / findings in patch #1. Patch #2 and #3 perform minor cleanups
->> based on removed /dev/kmem support.
->>
->> Only compile-tested on x86-64 -- good enough for discussing the general
->> topic (RFC).
+
+On 23/03/2021 01:13, Jann Horn wrote:
+>  On Tue, Mar 16, 2021 at 9:43 PM Mickaël Salaün <mic@digikod.net> wrote:
+>> Using Landlock objects and ruleset, it is possible to tag inodes
+>> according to a process's domain.
+> [...]
+>> +static void release_inode(struct landlock_object *const object)
+>> +       __releases(object->lock)
+>> +{
+>> +       struct inode *const inode = object->underobj;
+>> +       struct super_block *sb;
+>> +
+>> +       if (!inode) {
+>> +               spin_unlock(&object->lock);
+>> +               return;
+>> +       }
+>> +
+>> +       /*
+>> +        * Protects against concurrent use by hook_sb_delete() of the reference
+>> +        * to the underlying inode.
+>> +        */
+>> +       object->underobj = NULL;
+>> +       /*
+>> +        * Makes sure that if the filesystem is concurrently unmounted,
+>> +        * hook_sb_delete() will wait for us to finish iput().
+>> +        */
+>> +       sb = inode->i_sb;
+>> +       atomic_long_inc(&landlock_superblock(sb)->inode_refs);
+>> +       spin_unlock(&object->lock);
+>> +       /*
+>> +        * Because object->underobj was not NULL, hook_sb_delete() and
+>> +        * get_inode_object() guarantee that it is safe to reset
+>> +        * landlock_inode(inode)->object while it is not NULL.  It is therefore
+>> +        * not necessary to lock inode->i_lock.
+>> +        */
+>> +       rcu_assign_pointer(landlock_inode(inode)->object, NULL);
+>> +       /*
+>> +        * Now, new rules can safely be tied to @inode with get_inode_object().
+>> +        */
+>> +
+>> +       iput(inode);
+>> +       if (atomic_long_dec_and_test(&landlock_superblock(sb)->inode_refs))
+>> +               wake_up_var(&landlock_superblock(sb)->inode_refs);
+>> +}
+> [...]
+>> +static struct landlock_object *get_inode_object(struct inode *const inode)
+>> +{
+>> +       struct landlock_object *object, *new_object;
+>> +       struct landlock_inode_security *inode_sec = landlock_inode(inode);
+>> +
+>> +       rcu_read_lock();
+>> +retry:
+>> +       object = rcu_dereference(inode_sec->object);
+>> +       if (object) {
+>> +               if (likely(refcount_inc_not_zero(&object->usage))) {
+>> +                       rcu_read_unlock();
+>> +                       return object;
+>> +               }
+>> +               /*
+>> +                * We are racing with release_inode(), the object is going
+>> +                * away.  Wait for release_inode(), then retry.
+>> +                */
+>> +               spin_lock(&object->lock);
+>> +               spin_unlock(&object->lock);
+>> +               goto retry;
+>> +       }
+>> +       rcu_read_unlock();
+>> +
+>> +       /*
+>> +        * If there is no object tied to @inode, then create a new one (without
+>> +        * holding any locks).
+>> +        */
+>> +       new_object = landlock_create_object(&landlock_fs_underops, inode);
+>> +       if (IS_ERR(new_object))
+>> +               return new_object;
+>> +
+>> +       /* Protects against concurrent get_inode_object() calls. */
+>> +       spin_lock(&inode->i_lock);
+>> +       object = rcu_dereference_protected(inode_sec->object,
+>> +                       lockdep_is_held(&inode->i_lock));
 > 
-> I'll gladly take this in my char/misc tree for now, to show up in
-> linux-next to get some testing to see if anyone complains.
+> rcu_dereference_protected() requires that inode_sec->object is not
+> concurrently changed, but I think another thread could call
+> get_inode_object() while we're in landlock_create_object(), and then
+> we could race with the NULL write in release_inode() here? (It
+> wouldn't actually be a UAF though because we're not actually accessing
+> `object` here.) Or am I missing a lock that prevents this?
 > 
-> Let me know if that will help out.
+> In v28 this wasn't an issue because release_inode() was holding
+> inode->i_lock (and object->lock) during the NULL store; but in v29 and
+> this version the NULL store in release_inode() moved out of the locked
+> region. I think you could just move the NULL store in release_inode()
+> back up (and maybe add a comment explaining the locking rules for
+> landlock_inode(...)->object)?
+> 
+> (Or alternatively you could use rcu_dereference_raw() with a comment
+> explaining that the read pointer is only used to check for NULL-ness,
+> and that it is guaranteed that the pointer can't change if it is NULL
+> and we're holding the lock. But that'd be needlessly complicated, I
+> think.)
 
-Sure! I'll resend as v1 this week (also removing vwrite() from nommu 
-code in patch #3).
+To reach rcu_assign_pointer(landlock_inode(inode)->object, NULL) in
+release_inode() or in hook_sb_delete(), the
+landlock_inode(inode)->object need to be non-NULL, which implies that a
+call to get_inode_object(inode) either "retry" (because release_inode is
+only called by landlock_put_object, which set object->usage to 0) until
+it creates a new object, or reuses the existing referenced object (and
+increments object->usage). The worse case would be if
+get_inode_object(inode) is called just before the
+rcu_assign_pointer(landlock_inode(inode)->object, NULL) from
+hook_sb_delete(), which would result in an object with a NULL underobj,
+which is the expected behavior (and checked by release_inode).
 
-Thanks
+The line rcu_assign_pointer(inode_sec->object, new_object) from
+get_inode_object() can only be reached if the underlying inode doesn't
+reference an object, in which case hook_sb_delete() will not reach the
+rcu_assign_pointer(landlock_inode(inode)->object, NULL) line for this
+same inode.
 
--- 
-Thanks,
+This works because get_inode_object(inode) is mutually exclusive to
+itself with the same inode (i.e. an inode can only point to an object
+that references this same inode).
 
-David / dhildenb
+I tried to explain this with the comment "Protects against concurrent
+get_inode_object() calls" in get_inode_object(), and the comments just
+before both rcu_assign_pointer(landlock_inode(inode)->object, NULL).
 
+> 
+> 
+>> +       if (unlikely(object)) {
+>> +               /* Someone else just created the object, bail out and retry. */
+>> +               spin_unlock(&inode->i_lock);
+>> +               kfree(new_object);
+>> +
+>> +               rcu_read_lock();
+>> +               goto retry;
+>> +       }
+>> +
+>> +       rcu_assign_pointer(inode_sec->object, new_object);
+>> +       /*
+>> +        * @inode will be released by hook_sb_delete() on its superblock
+>> +        * shutdown.
+>> +        */
+>> +       ihold(inode);
+>> +       spin_unlock(&inode->i_lock);
+>> +       return new_object;
+>> +}
