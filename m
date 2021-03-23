@@ -2,125 +2,109 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F5BE3452BB
-	for <lists+linux-api@lfdr.de>; Tue, 23 Mar 2021 00:04:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 422233453B2
+	for <lists+linux-api@lfdr.de>; Tue, 23 Mar 2021 01:14:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230167AbhCVXET (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 22 Mar 2021 19:04:19 -0400
-Received: from mail104.syd.optusnet.com.au ([211.29.132.246]:58552 "EHLO
-        mail104.syd.optusnet.com.au" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230280AbhCVXD4 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 22 Mar 2021 19:03:56 -0400
-Received: from dread.disaster.area (pa49-181-239-12.pa.nsw.optusnet.com.au [49.181.239.12])
-        by mail104.syd.optusnet.com.au (Postfix) with ESMTPS id F3D6D828CF4;
-        Tue, 23 Mar 2021 10:03:52 +1100 (AEDT)
-Received: from dave by dread.disaster.area with local (Exim 4.92.3)
-        (envelope-from <david@fromorbit.com>)
-        id 1lOTaS-005cGK-1s; Tue, 23 Mar 2021 10:03:52 +1100
-Date:   Tue, 23 Mar 2021 10:03:52 +1100
-From:   Dave Chinner <david@fromorbit.com>
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     "Darrick J . Wong" <darrick.wong@oracle.com>,
-        Jan Kara <jack@suse.cz>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org
-Subject: Re: [PATCH] xfs: use a unique and persistent value for f_fsid
-Message-ID: <20210322230352.GW63242@dread.disaster.area>
-References: <20210322171118.446536-1-amir73il@gmail.com>
+        id S230467AbhCWAOU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 22 Mar 2021 20:14:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34090 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231284AbhCWAN6 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 22 Mar 2021 20:13:58 -0400
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34C67C061763
+        for <linux-api@vger.kernel.org>; Mon, 22 Mar 2021 17:13:56 -0700 (PDT)
+Received: by mail-lj1-x22c.google.com with SMTP id u10so23344229lju.7
+        for <linux-api@vger.kernel.org>; Mon, 22 Mar 2021 17:13:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=0Zv/Nh1NwdjT4vNoEgAKJF0+3Ir6H8KTDS01ZyTPf3o=;
+        b=MYfMpOlaWILZRe1pDeuZweAI3vdknsgeo67laT+dKd7DkSPJ3kqkICjvz6DoYVVnHZ
+         16OeAVHxuQfaEw3tjPMoe7QoNfBgXwLH10I06HQvLQrqH5L2JNBJAwiEQ2JR4BIEX+9S
+         mKRD0C7UQTjhxOy/6H8fA1YjCpW2EGV+O/1qAjuqnz/pmrLszTPkOjvS0yYpv/ZZ/qEF
+         lAjiGv9YsocO9v0uFbeqK3kItyVLmzZ8XbFjbvISEZUv72q4Dv/aYT92AgSreyZJuLpZ
+         d2c1Ghef/K4UviwHxjZHI5pznTsVIQq7ZchuSPAoEZC7/qFfjBKUTKzfd7IBKdOJs9LE
+         ySlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=0Zv/Nh1NwdjT4vNoEgAKJF0+3Ir6H8KTDS01ZyTPf3o=;
+        b=cwy9fVsFuOkNslb9qipcCAvRmq0p8ag3wpGboKLA1cMVrJV1Ud5GTJnI6sMZ/3T6oB
+         ybty4pKcCiFYFKYaJduPol8BnZ+XpTvhOKK8XeR4mglTzlAsd0z2+Bq24/hr69AydZFr
+         EJc1aQ6CLXlF8Au+YDPZp08bNTtSALxpMXjngQEflq0Bd2xWZ4c0RM7vX3H7BK1bsF/p
+         G/pYbB+gulfUb9MOvTqonp9kKdr9Xvayrs8w+Zxb+ujCYF2g3pm3Zy4kLXD5DK9cl+qc
+         J1U8ym8WOHuFJ0OZ7GquTarCk/KWwKifzRvE3Atrvbt92kSFyQUq01snViYyus6rF/7+
+         3LVQ==
+X-Gm-Message-State: AOAM532+oGActpTu7x7HvIEtm4S0+QpW5S4rgT+UJrWlb7iRhy4MpX4+
+        gLxwbOCf80O5tDXaGJvRP3RGydzoPKYt6wlgplXnZg==
+X-Google-Smtp-Source: ABdhPJywL/8xL+s/Wz9PYQqACsNKJlIixpOZzrkkMLprtEmtD0taXBt0RZSmBTlrPE/s8ZHyKoeWgqn3ctd+1W/a4Oo=
+X-Received: by 2002:a2e:9bcd:: with SMTP id w13mr1219196ljj.43.1616458434230;
+ Mon, 22 Mar 2021 17:13:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210322171118.446536-1-amir73il@gmail.com>
-X-Optus-CM-Score: 0
-X-Optus-CM-Analysis: v=2.3 cv=YKPhNiOx c=1 sm=1 tr=0 cx=a_idp_d
-        a=gO82wUwQTSpaJfP49aMSow==:117 a=gO82wUwQTSpaJfP49aMSow==:17
-        a=kj9zAlcOel0A:10 a=dESyimp9J3IA:10 a=pGLkceISAAAA:8 a=7-415B0cAAAA:8
-        a=UK19zw5Rb5foiGhwELMA:9 a=CjuIK1q_8ugA:10 a=biEYGPWJfzWAr4FL6Ov7:22
+References: <20210316204252.427806-1-mic@digikod.net> <20210316204252.427806-3-mic@digikod.net>
+In-Reply-To: <20210316204252.427806-3-mic@digikod.net>
+From:   Jann Horn <jannh@google.com>
+Date:   Tue, 23 Mar 2021 01:13:27 +0100
+Message-ID: <CAG48ez3v44du6_qVLa25SOdfLsr5+z-=a0pUP63d=qHP2tf4Pg@mail.gmail.com>
+Subject: Re: [PATCH v30 02/12] landlock: Add ruleset and domain management
+To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc:     James Morris <jmorris@namei.org>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        David Howells <dhowells@redhat.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@linux.microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Mar 22, 2021 at 07:11:18PM +0200, Amir Goldstein wrote:
-> Some filesystems on persistent storage backend use a digest of the
-> filesystem's persistent uuid as the value for f_fsid returned by
-> statfs(2).
-> 
-> xfs, as many other filesystem provide the non-persistent block device
-> number as the value of f_fsid.
-> 
-> Since kernel v5.1, fanotify_init(2) supports the flag FAN_REPORT_FID
-> for identifying objects using file_handle and f_fsid in events.
+On Tue, Mar 16, 2021 at 9:43 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> =
+wrote:
+> A Landlock ruleset is mainly a red-black tree with Landlock rules as
+> nodes.  This enables quick update and lookup to match a requested
+> access, e.g. to a file.  A ruleset is usable through a dedicated file
+> descriptor (cf. following commit implementing syscalls) which enables a
+> process to create and populate a ruleset with new rules.
+>
+> A domain is a ruleset tied to a set of processes.  This group of rules
+> defines the security policy enforced on these processes and their future
+> children.  A domain can transition to a new domain which is the
+> intersection of all its constraints and those of a ruleset provided by
+> the current process.  This modification only impact the current process.
+> This means that a process can only gain more constraints (i.e. lose
+> accesses) over time.
+>
+> Cc: James Morris <jmorris@namei.org>
+> Cc: Jann Horn <jannh@google.com>
+> Cc: Kees Cook <keescook@chromium.org>
+> Signed-off-by: Micka=C3=ABl Sala=C3=BCn <mic@linux.microsoft.com>
+> Acked-by: Serge Hallyn <serge@hallyn.com>
+> Link: https://lore.kernel.org/r/20210316204252.427806-3-mic@digikod.net
 
-The filesystem id is encoded into the VFS filehandle - it does not
-need some special external identifier to identify the filesystem it
-belongs to....
-
-> The xfs specific ioctl XFS_IOC_PATH_TO_FSHANDLE similarly attaches an
-> fsid to exported file handles, but it is not the same fsid exported
-> via statfs(2) - it is a persistent fsid based on the filesystem's uuid.
-
-To actually use that {fshandle,fhandle} tuple for anything
-requires CAP_SYS_ADMIN. A user can read the fshandle, but it can't
-use it for anything useful. i.e. it's use is entirely isolated to
-the file handle interface for identifying the filesystem the handle
-belongs to. This is messy, but XFS inherited this "fixed fsid"
-interface from Irix filehandles and was needed to port
-xfsdump/xfsrestore to Linux.  Realistically, it is not functionality
-that should be duplicated/exposed more widely on Linux...
-
-IMO, if fanotify needs a persistent filesystem ID on Linux, it
-should be using something common across all filesystems from the
-linux superblock, not deep dark internal filesystem magic. The
-export interfaces that generate VFS (and NFS) filehandles already
-have a persistent fsid associated with them, which may in fact be
-the filesystem UUID in it's entirety.
-
-The export-derived "filesystem ID" is what should be exported to
-userspace in combination with the file handle to identify the fs the
-handle belongs to because then you have consistent behaviour and a
-change that invalidates the filehandle will also invalidate the
-fshandle....
-
-> Use the same persistent value for f_fsid, so object identifiers in
-> fanotify events will describe the objects more uniquely.
-
-It's not persistent as in "will never change". The moment a user
-changes the XFS filesystem uuid, the f_fsid changes.
-
-However, changing the uuid on XFS is an offline (unmounted)
-operation, so there will be no fanotify marks present when it is
-changed. Hence when it is remounted, there will be a new f_fsid
-returned in statvfs(), just like what happens now, and all
-applications dependent on "persistent" fsids (and persistent
-filehandles for that matter) will now get ESTALE errors...
-
-And, worse, mp->m_fixed_fsid (and XFS superblock UUIDs in general)
-are not unique if you've got snapshots and they've been mounted via
-"-o nouuid" to avoid XFS's duplicate uuid checking. This is one of
-the reasons that the duplicate checking exists - so that fshandles
-are unique and resolve to a single filesystem....
-
-> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-> ---
-> 
-> Guys,
-> 
-> This change would be useful for fanotify users.
-> Do you see any problems with that minor change of uapi?
-
-Yes.
-
-IMO, we shouldn't be making a syscall interface rely on the
-undefined, filesystem specific behaviour a value some other syscall
-exposes to userspace. This means the fsid has no defined or
-standardised behaviour applications can rely on and can't be
-guaranteed unique and unchanging by fanotify. This seems like a
-lose-lose situation for everyone...
-
-Cheers,
-
-Dave.
--- 
-Dave Chinner
-david@fromorbit.com
+Reviewed-by: Jann Horn <jannh@google.com>
