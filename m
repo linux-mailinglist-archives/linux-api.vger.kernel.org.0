@@ -2,54 +2,54 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 422233453B2
+	by mail.lfdr.de (Postfix) with ESMTP id 51D363453B4
 	for <lists+linux-api@lfdr.de>; Tue, 23 Mar 2021 01:14:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230467AbhCWAOU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 22 Mar 2021 20:14:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34090 "EHLO
+        id S230499AbhCWAOV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 22 Mar 2021 20:14:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231284AbhCWAN6 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 22 Mar 2021 20:13:58 -0400
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34C67C061763
-        for <linux-api@vger.kernel.org>; Mon, 22 Mar 2021 17:13:56 -0700 (PDT)
-Received: by mail-lj1-x22c.google.com with SMTP id u10so23344229lju.7
-        for <linux-api@vger.kernel.org>; Mon, 22 Mar 2021 17:13:56 -0700 (PDT)
+        with ESMTP id S231348AbhCWAOG (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 22 Mar 2021 20:14:06 -0400
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DA5BC061765
+        for <linux-api@vger.kernel.org>; Mon, 22 Mar 2021 17:14:06 -0700 (PDT)
+Received: by mail-lf1-x12a.google.com with SMTP id b83so24022733lfd.11
+        for <linux-api@vger.kernel.org>; Mon, 22 Mar 2021 17:14:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=0Zv/Nh1NwdjT4vNoEgAKJF0+3Ir6H8KTDS01ZyTPf3o=;
-        b=MYfMpOlaWILZRe1pDeuZweAI3vdknsgeo67laT+dKd7DkSPJ3kqkICjvz6DoYVVnHZ
-         16OeAVHxuQfaEw3tjPMoe7QoNfBgXwLH10I06HQvLQrqH5L2JNBJAwiEQ2JR4BIEX+9S
-         mKRD0C7UQTjhxOy/6H8fA1YjCpW2EGV+O/1qAjuqnz/pmrLszTPkOjvS0yYpv/ZZ/qEF
-         lAjiGv9YsocO9v0uFbeqK3kItyVLmzZ8XbFjbvISEZUv72q4Dv/aYT92AgSreyZJuLpZ
-         d2c1Ghef/K4UviwHxjZHI5pznTsVIQq7ZchuSPAoEZC7/qFfjBKUTKzfd7IBKdOJs9LE
-         ySlA==
+        bh=TIGZs9jCzlV0x2/zD28u6hnF9ziSX82ipPw1eAlhUAk=;
+        b=NQ71vlDt19b2qIy3K62/rODvW/ipNZXPs54iaqoCcYgvr0ZoSYMPbU3vdVRzRslzc0
+         paD44AWGk2fGxml9DqHSXpWchMulVtSjoazoJQCHqMqDiZQv3PQGaTav7G+EZ+/Yz0Ph
+         +I/b57JKRKullcMz8vVJcYd0UwSmrTSWA4CeJdZBKpdTGzNd97/MAdsFkXxVZPhb3k+4
+         9ZqfVflxIPxDAKr+2r/8JCbzty+q0w/uN+ytri4BJTYKvpQ7fCZjmce6o20eSEVn/bUJ
+         Ik0/GtqeP0J9ZbJyd50mOg9CAXERLBgP8bORDoUzBiazlAWWJUCNW/Nya+XY3VMgqVqW
+         H7xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=0Zv/Nh1NwdjT4vNoEgAKJF0+3Ir6H8KTDS01ZyTPf3o=;
-        b=cwy9fVsFuOkNslb9qipcCAvRmq0p8ag3wpGboKLA1cMVrJV1Ud5GTJnI6sMZ/3T6oB
-         ybty4pKcCiFYFKYaJduPol8BnZ+XpTvhOKK8XeR4mglTzlAsd0z2+Bq24/hr69AydZFr
-         EJc1aQ6CLXlF8Au+YDPZp08bNTtSALxpMXjngQEflq0Bd2xWZ4c0RM7vX3H7BK1bsF/p
-         G/pYbB+gulfUb9MOvTqonp9kKdr9Xvayrs8w+Zxb+ujCYF2g3pm3Zy4kLXD5DK9cl+qc
-         J1U8ym8WOHuFJ0OZ7GquTarCk/KWwKifzRvE3Atrvbt92kSFyQUq01snViYyus6rF/7+
-         3LVQ==
-X-Gm-Message-State: AOAM532+oGActpTu7x7HvIEtm4S0+QpW5S4rgT+UJrWlb7iRhy4MpX4+
-        gLxwbOCf80O5tDXaGJvRP3RGydzoPKYt6wlgplXnZg==
-X-Google-Smtp-Source: ABdhPJywL/8xL+s/Wz9PYQqACsNKJlIixpOZzrkkMLprtEmtD0taXBt0RZSmBTlrPE/s8ZHyKoeWgqn3ctd+1W/a4Oo=
-X-Received: by 2002:a2e:9bcd:: with SMTP id w13mr1219196ljj.43.1616458434230;
- Mon, 22 Mar 2021 17:13:54 -0700 (PDT)
+        bh=TIGZs9jCzlV0x2/zD28u6hnF9ziSX82ipPw1eAlhUAk=;
+        b=BWoCboEGoHjggbbYyWCnxxlMTElwxI7KLpJu+mGpXi43Bq/bJcoBCioTO1zwCmb8dT
+         1Pu2OrXfxRwmnHLb/zGm2fKQ7VNGu5g8MaRX+k19p2q3ARJV3rBTpWjwikLDIMVg9Lnh
+         GuWd3RQ7BK2e8Kyb3SOf0B56RFKdcWdNwMkVeyEWFr4tZXqZq7qTobud6bFnAnNjLrEn
+         FIJE2MeI+GcRE9z4NEfEtaW6+WxQnrDiyRhGUa6Zq1o9ZTId7PeHG5Hpy+xJJm5qXVVq
+         f3+hSIJZVmDLSaSVtBprrfm1f9UzfL+Yagd/rFBc1/z8klVPOpZ0YtYvmnY5Eyedhw9T
+         gHgA==
+X-Gm-Message-State: AOAM530WgPW8+SAcgx0D+EawnJPpJxk0ZbtZ4CWHkr2DxNBa7uZWp+VA
+        v3GauEqz7waSOu2JwM333CqqeWVUHs6JmsZpbr3mVQ==
+X-Google-Smtp-Source: ABdhPJzjC3gk50Yb4Wr00pH4fD/9xfeZqVtXPShrjfrPIGPPmvrDVMK0gxGlsIriq6MtCniISI8bDCiz3gzLLpYfAU8=
+X-Received: by 2002:a19:946:: with SMTP id 67mr1116146lfj.74.1616458443362;
+ Mon, 22 Mar 2021 17:14:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210316204252.427806-1-mic@digikod.net> <20210316204252.427806-3-mic@digikod.net>
-In-Reply-To: <20210316204252.427806-3-mic@digikod.net>
+References: <20210316204252.427806-1-mic@digikod.net> <20210316204252.427806-8-mic@digikod.net>
+In-Reply-To: <20210316204252.427806-8-mic@digikod.net>
 From:   Jann Horn <jannh@google.com>
-Date:   Tue, 23 Mar 2021 01:13:27 +0100
-Message-ID: <CAG48ez3v44du6_qVLa25SOdfLsr5+z-=a0pUP63d=qHP2tf4Pg@mail.gmail.com>
-Subject: Re: [PATCH v30 02/12] landlock: Add ruleset and domain management
+Date:   Tue, 23 Mar 2021 01:13:36 +0100
+Message-ID: <CAG48ez1arKO3uYzwng8fst-UHkcH6J7YzyHFN+vfXUT2=1HT+w@mail.gmail.com>
+Subject: Re: [PATCH v30 07/12] landlock: Support filesystem access-control
 To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
 Cc:     James Morris <jmorris@namei.org>,
         "Serge E . Hallyn" <serge@hallyn.com>,
@@ -84,27 +84,132 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Mar 16, 2021 at 9:43 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> =
-wrote:
-> A Landlock ruleset is mainly a red-black tree with Landlock rules as
-> nodes.  This enables quick update and lookup to match a requested
-> access, e.g. to a file.  A ruleset is usable through a dedicated file
-> descriptor (cf. following commit implementing syscalls) which enables a
-> process to create and populate a ruleset with new rules.
->
-> A domain is a ruleset tied to a set of processes.  This group of rules
-> defines the security policy enforced on these processes and their future
-> children.  A domain can transition to a new domain which is the
-> intersection of all its constraints and those of a ruleset provided by
-> the current process.  This modification only impact the current process.
-> This means that a process can only gain more constraints (i.e. lose
-> accesses) over time.
->
-> Cc: James Morris <jmorris@namei.org>
-> Cc: Jann Horn <jannh@google.com>
-> Cc: Kees Cook <keescook@chromium.org>
-> Signed-off-by: Micka=C3=ABl Sala=C3=BCn <mic@linux.microsoft.com>
-> Acked-by: Serge Hallyn <serge@hallyn.com>
-> Link: https://lore.kernel.org/r/20210316204252.427806-3-mic@digikod.net
+ On Tue, Mar 16, 2021 at 9:43 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net>=
+ wrote:
+> Using Landlock objects and ruleset, it is possible to tag inodes
+> according to a process's domain.
+[...]
+> +static void release_inode(struct landlock_object *const object)
+> +       __releases(object->lock)
+> +{
+> +       struct inode *const inode =3D object->underobj;
+> +       struct super_block *sb;
+> +
+> +       if (!inode) {
+> +               spin_unlock(&object->lock);
+> +               return;
+> +       }
+> +
+> +       /*
+> +        * Protects against concurrent use by hook_sb_delete() of the ref=
+erence
+> +        * to the underlying inode.
+> +        */
+> +       object->underobj =3D NULL;
+> +       /*
+> +        * Makes sure that if the filesystem is concurrently unmounted,
+> +        * hook_sb_delete() will wait for us to finish iput().
+> +        */
+> +       sb =3D inode->i_sb;
+> +       atomic_long_inc(&landlock_superblock(sb)->inode_refs);
+> +       spin_unlock(&object->lock);
+> +       /*
+> +        * Because object->underobj was not NULL, hook_sb_delete() and
+> +        * get_inode_object() guarantee that it is safe to reset
+> +        * landlock_inode(inode)->object while it is not NULL.  It is the=
+refore
+> +        * not necessary to lock inode->i_lock.
+> +        */
+> +       rcu_assign_pointer(landlock_inode(inode)->object, NULL);
+> +       /*
+> +        * Now, new rules can safely be tied to @inode with get_inode_obj=
+ect().
+> +        */
+> +
+> +       iput(inode);
+> +       if (atomic_long_dec_and_test(&landlock_superblock(sb)->inode_refs=
+))
+> +               wake_up_var(&landlock_superblock(sb)->inode_refs);
+> +}
+[...]
+> +static struct landlock_object *get_inode_object(struct inode *const inod=
+e)
+> +{
+> +       struct landlock_object *object, *new_object;
+> +       struct landlock_inode_security *inode_sec =3D landlock_inode(inod=
+e);
+> +
+> +       rcu_read_lock();
+> +retry:
+> +       object =3D rcu_dereference(inode_sec->object);
+> +       if (object) {
+> +               if (likely(refcount_inc_not_zero(&object->usage))) {
+> +                       rcu_read_unlock();
+> +                       return object;
+> +               }
+> +               /*
+> +                * We are racing with release_inode(), the object is goin=
+g
+> +                * away.  Wait for release_inode(), then retry.
+> +                */
+> +               spin_lock(&object->lock);
+> +               spin_unlock(&object->lock);
+> +               goto retry;
+> +       }
+> +       rcu_read_unlock();
+> +
+> +       /*
+> +        * If there is no object tied to @inode, then create a new one (w=
+ithout
+> +        * holding any locks).
+> +        */
+> +       new_object =3D landlock_create_object(&landlock_fs_underops, inod=
+e);
+> +       if (IS_ERR(new_object))
+> +               return new_object;
+> +
+> +       /* Protects against concurrent get_inode_object() calls. */
+> +       spin_lock(&inode->i_lock);
+> +       object =3D rcu_dereference_protected(inode_sec->object,
+> +                       lockdep_is_held(&inode->i_lock));
 
-Reviewed-by: Jann Horn <jannh@google.com>
+rcu_dereference_protected() requires that inode_sec->object is not
+concurrently changed, but I think another thread could call
+get_inode_object() while we're in landlock_create_object(), and then
+we could race with the NULL write in release_inode() here? (It
+wouldn't actually be a UAF though because we're not actually accessing
+`object` here.) Or am I missing a lock that prevents this?
+
+In v28 this wasn't an issue because release_inode() was holding
+inode->i_lock (and object->lock) during the NULL store; but in v29 and
+this version the NULL store in release_inode() moved out of the locked
+region. I think you could just move the NULL store in release_inode()
+back up (and maybe add a comment explaining the locking rules for
+landlock_inode(...)->object)?
+
+(Or alternatively you could use rcu_dereference_raw() with a comment
+explaining that the read pointer is only used to check for NULL-ness,
+and that it is guaranteed that the pointer can't change if it is NULL
+and we're holding the lock. But that'd be needlessly complicated, I
+think.)
+
+
+> +       if (unlikely(object)) {
+> +               /* Someone else just created the object, bail out and ret=
+ry. */
+> +               spin_unlock(&inode->i_lock);
+> +               kfree(new_object);
+> +
+> +               rcu_read_lock();
+> +               goto retry;
+> +       }
+> +
+> +       rcu_assign_pointer(inode_sec->object, new_object);
+> +       /*
+> +        * @inode will be released by hook_sb_delete() on its superblock
+> +        * shutdown.
+> +        */
+> +       ihold(inode);
+> +       spin_unlock(&inode->i_lock);
+> +       return new_object;
+> +}
