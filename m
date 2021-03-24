@@ -2,148 +2,163 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 99FC5347DB4
-	for <lists+linux-api@lfdr.de>; Wed, 24 Mar 2021 17:29:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F3325347EED
+	for <lists+linux-api@lfdr.de>; Wed, 24 Mar 2021 18:11:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235744AbhCXQ26 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 24 Mar 2021 12:28:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37424 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229653AbhCXQ2p (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 24 Mar 2021 12:28:45 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2373661A0D;
-        Wed, 24 Mar 2021 16:28:42 +0000 (UTC)
-Date:   Wed, 24 Mar 2021 17:28:38 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Amir Goldstein <amir73il@gmail.com>
+        id S237038AbhCXRKm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 24 Mar 2021 13:10:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55920 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237484AbhCXRJ5 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 24 Mar 2021 13:09:57 -0400
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FDA7C0613E1;
+        Wed, 24 Mar 2021 10:07:30 -0700 (PDT)
+Received: by mail-io1-xd29.google.com with SMTP id v26so22289171iox.11;
+        Wed, 24 Mar 2021 10:07:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=w0HScdr4ewSi65s4eWc9NLpm007AJP3TbYRGLM0meqg=;
+        b=ta2m4T0dt/+G1+KpSue7QoIu0m5m3YMCWjhwfaLdwjHWZOW1taRheTYTrFrB/Pnt5j
+         IlFdxRB2yZk1DtK9U79RAZPr4js80mcLxAdsA0fdprPufqcXegZkikKgzRgPitYlUyOh
+         bmxadj3Q72JeXajekfsiJP3C3vfW7FKNDfKBMGQF7o6nkWeLSBVgG9kY5t6ZglA9p7+f
+         RD28B+HicjX3qn5jt6x9Vd6T1RHc5qcenzqdewiMKsuYetO/DjluLRR8ZOeX9C5htLdr
+         lzsYiFdQVqOECnvTKbXGMFAyResISFTgIdGCiWYpYxf2gVcjtd04InmEnt8gKZb3LvZB
+         Q/gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=w0HScdr4ewSi65s4eWc9NLpm007AJP3TbYRGLM0meqg=;
+        b=fluJxT0CPMzfYDaFrsCisr4GdPhFnF1+MWCY1ey4w2l3FvOqSwkR7H93MaGdLI8wTT
+         Ikhuz5MdCGYJToD8rdUOH0tcnnSPma/CyqdzirfcTv9oW5nlcJ3xj+FdqLD4HX+7KXGv
+         kc0gl5aLyKPMrUL4tnK4ZSFxIU9PHGgJbxnoW9yNa2lg6Bq2sAlLopyy3qJMKazstX9E
+         yz9lMDA7QHYLlBSHVxrxY6csPGyQskvKrR6yQbgvWStXOtaHjLwO6U1aAJsfjIKdb1WK
+         wV2txNxm1S4/Yut2yMtVUX6gag6Eh8fI7GrVZaq0cl7FI5bajV41AX9prZFdACqZjMh8
+         XHfg==
+X-Gm-Message-State: AOAM532GuYJhUSnorVBnKlQaa8S+HsZup/JfctWIaflsrAzXp8L8qBcU
+        AtFOPAd5rc6xci4L2LiCgqdSa2tzb1TbUHZ13kwAwjwqoZU=
+X-Google-Smtp-Source: ABdhPJziQSLJrSNUwvMqeflSMtZSCEVd45+jLqUZ5NUunCnCrvqPo83wVQFRQYev4mQdCuVCdP97ypgApL+MWzhPziI=
+X-Received: by 2002:a6b:4411:: with SMTP id r17mr3121204ioa.64.1616605648893;
+ Wed, 24 Mar 2021 10:07:28 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAOQ4uxjCjapuAHbYuP8Q_k0XD59UmURbmkGC1qcPkPAgQbQ8DA@mail.gmail.com>
+ <20210318143140.jxycfn3fpqntq34z@wittgenstein> <CAOQ4uxiRHwmxTKsLteH_sBW_dSPshVE8SohJYEmpszxaAwjEyg@mail.gmail.com>
+ <20210319134043.c2wcpn4lbefrkhkg@wittgenstein> <CAOQ4uxhLYdWOUmpWP+c_JzVeGDbkJ5eUM+1-hhq7zFq23g5J1g@mail.gmail.com>
+ <CAOQ4uxhetKeEZX=_iAcREjibaR0ZcOdeZyR8mFEoHM+WRsuVtg@mail.gmail.com>
+ <CAOQ4uxhfx012GtvXMfiaHSk1M7+gTqkz3LsT0i_cHLnZLMk8nw@mail.gmail.com>
+ <CAOQ4uxhFU=H8db35JMhfR+A5qDkmohQ01AWH995xeBAKuuPhzA@mail.gmail.com>
+ <20210324143230.y36hga35xvpdb3ct@wittgenstein> <CAOQ4uxiPYbEk1N_7nxXMP7kz+KMnyH+0GqpJS36FR+-v9sHrcg@mail.gmail.com>
+ <20210324162838.spy7qotef3kxm3l4@wittgenstein>
+In-Reply-To: <20210324162838.spy7qotef3kxm3l4@wittgenstein>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Wed, 24 Mar 2021 19:07:17 +0200
+Message-ID: <CAOQ4uxjcCEtuqyawNo7kCkb3213=vrstMupZt-KnGyanqKv=9Q@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] unprivileged fanotify listener
+To:     Christian Brauner <christian.brauner@ubuntu.com>
 Cc:     Jan Kara <jack@suse.cz>,
         Matthew Bobrowski <mbobrowski@mbobrowski.org>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH v2 0/2] unprivileged fanotify listener
-Message-ID: <20210324162838.spy7qotef3kxm3l4@wittgenstein>
-References: <CAOQ4uxjCjapuAHbYuP8Q_k0XD59UmURbmkGC1qcPkPAgQbQ8DA@mail.gmail.com>
- <20210318143140.jxycfn3fpqntq34z@wittgenstein>
- <CAOQ4uxiRHwmxTKsLteH_sBW_dSPshVE8SohJYEmpszxaAwjEyg@mail.gmail.com>
- <20210319134043.c2wcpn4lbefrkhkg@wittgenstein>
- <CAOQ4uxhLYdWOUmpWP+c_JzVeGDbkJ5eUM+1-hhq7zFq23g5J1g@mail.gmail.com>
- <CAOQ4uxhetKeEZX=_iAcREjibaR0ZcOdeZyR8mFEoHM+WRsuVtg@mail.gmail.com>
- <CAOQ4uxhfx012GtvXMfiaHSk1M7+gTqkz3LsT0i_cHLnZLMk8nw@mail.gmail.com>
- <CAOQ4uxhFU=H8db35JMhfR+A5qDkmohQ01AWH995xeBAKuuPhzA@mail.gmail.com>
- <20210324143230.y36hga35xvpdb3ct@wittgenstein>
- <CAOQ4uxiPYbEk1N_7nxXMP7kz+KMnyH+0GqpJS36FR+-v9sHrcg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAOQ4uxiPYbEk1N_7nxXMP7kz+KMnyH+0GqpJS36FR+-v9sHrcg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Mar 24, 2021 at 05:05:45PM +0200, Amir Goldstein wrote:
-> On Wed, Mar 24, 2021 at 4:32 PM Christian Brauner
-> <christian.brauner@ubuntu.com> wrote:
+> > Well there is another way.
+> > It is demonstrated in my demo with intoifywatch --fanotify --recursive.
+> > It involved userspace iterating a subtree of interest to create fid->path
+> > map.
+>
+> Ok, so this seems to be
+>
+> inotifytools_filename_from_fid()
+> -> if (fanotify_mark_type != FAN_MARK_FILESYSTEM)
+>            watch_from_fid()
+>    -> read_path_from(/proc/self/fd/w->dirfd)
+>
+
+Yes.
+
 > >
-> > On Wed, Mar 24, 2021 at 03:57:12PM +0200, Amir Goldstein wrote:
-> > > > > Now tested FAN_MARK_FILESYSTEM watch on tmpfs mounted
-> > > > > inside userns and works fine, with two wrinkles I needed to iron:
-> > > > >
-> > > > > 1. FAN_REPORT_FID not supported on tmpfs because tmpfs has
-> > > > >     zero f_fsid (easy to fix)
-> > > > > 2. open_by_handle_at() is not userns aware (can relax for
-> > > > >     FS_USERNS_MOUNT fs)
-> > > > >
-> > > > > Pushed these two fixes to branch fanotify_userns.
-> > > >
-> > > > Pushed another fix to mnt refcount bug in WIP and another commit to
-> > > > add the last piece that could make fanotify usable for systemd-homed
-> > > > setup - a filesystem watch filtered by mnt_userns (not tested yet).
-> > > >
-> > >
-> > > Now I used mount-idmapped (from xfstest) to test that last piece.
-> > > Found a minor bug and pushed a fix.
-> > >
-> > > It is working as expected, that is filtering only the events generated via
-> > > the idmapped mount. However, because the listener I tested is capable in
-> > > the mapped userns and not in the sb userns, the listener cannot
-> > > open_ny_handle_at(), so the result is not as useful as one might hope.
+> > The fanotify recursive watch is similar but not exactly the same as the
+> > old intoify recursive watch, because with inotify recursive watch you
+> > can miss events.
 > >
-> > This is another dumb question probably but in general, are you saying
-> > that someone watching a mount or directory and does _not_ want file
-> > descriptors from fanotify to be returned has no other way of getting to
-> > the path they want to open other than by using open_by_handle_at()?
+> > With fanotify recursive watch, the listener (if capable) can setup a
+> > filesystem mark so events will not be missed. They will be recorded
+> > by fid with an unknown path and the path information can be found later
+> > by the crawler and updated in the map before the final report.
 > >
-> 
-> Well there is another way.
-> It is demonstrated in my demo with intoifywatch --fanotify --recursive.
-> It involved userspace iterating a subtree of interest to create fid->path
-> map.
+> > Events on fid that were not found by the crawler need not be reported.
+> > That's essentially a subtree watch for the poor implemented in userspace.
+>
+> This is already a good improvement.
+> Honestly, having FAN_MARK_INODE workable unprivileged is already pretty
 
-Ok, so this seems to be
+I'm not so sure why you say that, because unprivileged FAN_MARK_INODE
+watches are pretty close in functionality to inotify.
+There are only subtle differences.
 
-inotifytools_filename_from_fid()
--> if (fanotify_mark_type != FAN_MARK_FILESYSTEM)
-           watch_from_fid()
-   -> read_path_from(/proc/self/fd/w->dirfd)
+> great. In addition having FAN_MARK_MOUNT workable with idmapped mounts
+> will likely get us what most users care about, afaict that is the POC
+> in:
+> https://github.com/amir73il/linux/commit/f0d5d462c5baeb82a658944c6df80704434f09a1
+>
 
-> 
-> The fanotify recursive watch is similar but not exactly the same as the
-> old intoify recursive watch, because with inotify recursive watch you
-> can miss events.
-> 
-> With fanotify recursive watch, the listener (if capable) can setup a
-> filesystem mark so events will not be missed. They will be recorded
-> by fid with an unknown path and the path information can be found later
-> by the crawler and updated in the map before the final report.
-> 
-> Events on fid that were not found by the crawler need not be reported.
-> That's essentially a subtree watch for the poor implemented in userspace.
+Hmm, the problem is the limited set of events you can get from
+FAN_MARK_MOUNT which does not include FAN_CREATE.
 
-This is already a good improvement.
-Honestly, having FAN_MARK_INODE workable unprivileged is already pretty
-great. In addition having FAN_MARK_MOUNT workable with idmapped mounts
-will likely get us what most users care about, afaict that is the POC
-in:
-https://github.com/amir73il/linux/commit/f0d5d462c5baeb82a658944c6df80704434f09a1
+> (I'm reading the source correctly that FAN_MARK_MOUNT works with
+> FAN_REPORT_FID as long as no inode event set in FANOTIFY_INODE_EVENTS is
+> set? I'm asking because my manpage - probably too old - seems to imply
+> that FAN_REPORT_FID can't be used with FAN_MARK_MOUNT although I might
+> just be stumbling over the phrasing.)
+>
 
-(I'm reading the source correctly that FAN_MARK_MOUNT works with
-FAN_REPORT_FID as long as no inode event set in FANOTIFY_INODE_EVENTS is
-set? I'm asking because my manpage - probably too old - seems to imply
-that FAN_REPORT_FID can't be used with FAN_MARK_MOUNT although I might
-just be stumbling over the phrasing.)
+commit d71c9b4a5c6fbc7164007b52dba1de410d018292
+Author: Amir Goldstein <amir73il@gmail.com>
+Date:   Mon Apr 20 21:42:56 2020 +0300
 
-I think FAN_MARK_FILESYSTEM should simply stay under the s_userns_s
-capable requirement. That's imho the cleanest semantics for this, i.e.
-I'd drop:
-https://github.com/amir73il/linux/commit/bd20e273f3c3a650805b3da32e493f01cc2a4763
-This is neither an urgent use-case nor am I feeling very comfortable
-with it.
+    fanotify_mark.2: Clarification about FAN_MARK_MOUNT and FAN_REPORT_FID
 
-> 
-> I did not implement the combination --fanotify --global --recursive in my
-> demo, because it did not make sense with the current permission model
-> (listener that can setup a fs mark can always resolve fids to path), but it
-> would be quite trivial to add.
-> 
-> 
-> > >
-> > > I guess we will also need to make open_by_handle_at() idmapped aware
-> > > and use a variant of vfs_dentry_acceptable() that validates that the opened
-> > > path is legitimately accessible via the idmapped mount.
-> >
-> > So as a first step, I think there's a legitimate case to be made for
-> > open_by_handle_at() to be made useable inside user namespaces. That's a
-> > change worth to be made independent of fanotify. For example, nowadays
-> > cgroups have a 64 bit identifier that can be used with open_by_handle_at
-> > to map a cgrp id to a path and back:
-> > https://lkml.org/lkml/2020/12/2/1126
-> > Right now this can't be used in user namespaces because of this
-> > restriction but it is genuinely useful to have this feature available
-> > since cgroups are FS_USERNS_MOUNT and that identifier <-> path mapping
-> > is very convenient.
-> 
-> FS_USERNS_MOUNT is a simple case and I think it is safe.
-> There is already a patch for that on my fanotify_userns branch.
+    It is not true that FAN_MARK_MOUNT cannot be used with a group
+    that was initialized with flag FAN_REPORT_FID.
+ ...
 
-Great!
-Christian
+IOW, no FAN_CREATE, FAN_DELETE, FAN_MOVE
+
+The technical reason for that is Al's objection to pass the mnt context
+into vfs helpers (and then fsnotify hooks).
+
+> I think FAN_MARK_FILESYSTEM should simply stay under the s_userns_s
+> capable requirement. That's imho the cleanest semantics for this, i.e.
+> I'd drop:
+> https://github.com/amir73il/linux/commit/bd20e273f3c3a650805b3da32e493f01cc2a4763
+> This is neither an urgent use-case nor am I feeling very comfortable
+> with it.
+>
+
+The purpose of this commit is to provide FAN_CREATE, FAN_DELETE
+FAN_MOVE events filtered by (an idmapped) mount.
+I don't like it so much myself, but I have not had any better idea how to
+achieve that goal so far.
+
+There is another way though.
+We can create a new set of hooks outside the vfs helpers that do have
+the mnt context.
+
+I have already created such a set for another POC [1].
+In this POC I introduced three new events FS_MODIFY_INTENT,
+FS_NAME_INTENT, FS_MOVE_INTENT, which I had no plans of
+exposing to fanotify. Nor did I need the granularity of CREATE,
+DELETE, RENAME event types (all collapsed into NAME_INTENT).
+
+But if we hit a dead end, we can resort to this strategy.
+
+Thanks,
+Amir.
+
+[1] https://github.com/amir73il/linux/commits/fsnotify_pre_modify
