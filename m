@@ -2,251 +2,361 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC43C346E5C
-	for <lists+linux-api@lfdr.de>; Wed, 24 Mar 2021 01:55:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 062E0346FF8
+	for <lists+linux-api@lfdr.de>; Wed, 24 Mar 2021 04:12:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233594AbhCXAyv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 23 Mar 2021 20:54:51 -0400
-Received: from mail109.syd.optusnet.com.au ([211.29.132.80]:43259 "EHLO
-        mail109.syd.optusnet.com.au" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233600AbhCXAyZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 23 Mar 2021 20:54:25 -0400
-Received: from dread.disaster.area (pa49-181-239-12.pa.nsw.optusnet.com.au [49.181.239.12])
-        by mail109.syd.optusnet.com.au (Postfix) with ESMTPS id 5377164032;
-        Wed, 24 Mar 2021 11:54:22 +1100 (AEDT)
-Received: from dave by dread.disaster.area with local (Exim 4.92.3)
-        (envelope-from <david@fromorbit.com>)
-        id 1lOrmv-0061Zh-CW; Wed, 24 Mar 2021 11:54:21 +1100
-Date:   Wed, 24 Mar 2021 11:54:21 +1100
-From:   Dave Chinner <david@fromorbit.com>
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     "Darrick J . Wong" <darrick.wong@oracle.com>,
-        Jan Kara <jack@suse.cz>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        linux-xfs <linux-xfs@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        "J. Bruce Fields" <bfields@fieldses.org>
-Subject: Re: [PATCH] xfs: use a unique and persistent value for f_fsid
-Message-ID: <20210324005421.GK63242@dread.disaster.area>
-References: <20210322171118.446536-1-amir73il@gmail.com>
- <20210322230352.GW63242@dread.disaster.area>
- <CAOQ4uxjFMPNgR-aCqZt3FD90XtBVFZncdgNc4RdOCbsxukkyYQ@mail.gmail.com>
- <20210323072607.GF63242@dread.disaster.area>
- <CAOQ4uxgAddAfGkA7LMTPoBmrwVXbvHfnN8SWsW_WXm=LPVmc7Q@mail.gmail.com>
+        id S232434AbhCXDL2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 23 Mar 2021 23:11:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44180 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232387AbhCXDK4 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 23 Mar 2021 23:10:56 -0400
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F16EDC0613D9
+        for <linux-api@vger.kernel.org>; Tue, 23 Mar 2021 20:10:55 -0700 (PDT)
+Received: by mail-lj1-x231.google.com with SMTP id s17so28345381ljc.5
+        for <linux-api@vger.kernel.org>; Tue, 23 Mar 2021 20:10:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=ZegDJhsrs3t5DmLNRfuIr22Aaf3RCbcyU5Kj5Ptg79A=;
+        b=M1aeEDxmk9ECf3516Cji4G52oSFsAn8KliAgARkCx5OFt/DI6XCdQtqOSm9+ierP53
+         96dKx4KCJbD1lvEnlxaUGmiNHqSq7B9S+YnK8FMkPsxubMWmxCIKdd5hbiSOCmLVD8x2
+         y6n2VRtZwCuBVid10EDPdpch8y7Qu9isZUjXElYw2NB9WvCorTXHb/TyI6ot3eE3NxDI
+         7RsZdviWjL1D7m/r0hZMgfAIfoSy9HyDnzgjDhHI+4bgia3SIf9923vAMV2rMcGwAwJu
+         +fnXWI39SCzeRrtCZiqNDUgvaQvB4cbJ5ZtxdmrQjAnfMEHQ9KUtf86yaWDN3j/WVdih
+         Ii/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=ZegDJhsrs3t5DmLNRfuIr22Aaf3RCbcyU5Kj5Ptg79A=;
+        b=QvSdpaV1xYYUo0I85P168zEFi+HjtuhlYSuZ/C2Ph9WpZ7EQy2PlILZy+p3LmpKWd8
+         EvlKWq8juTztpouYNU0IFKpp3qqqP5OKVpePzAE3zgsYBdZRGfYFRA3teq+SLde56nl9
+         BTcCuJT6M9TMYg4xDlJoA7PSF4cA2YOm1SVFk3qmCGloK0geAKofg+Lvz5/4e2fBRi/d
+         X8MpRngTz6Em90AzvDmeXx+FN4in1fxtHezIHszo6Jj04gXXz9aETufEuasAOycG1viS
+         G4dJcG2QABA7Uf1juT6mB3/ZbDSzO4B7XdEHmnD90aPiJIwXOuPUsfW4Pm7NP6ffhCAK
+         Iz+A==
+X-Gm-Message-State: AOAM531Wlx5KPYGR2ao2b5OIarGOWU13ssHCCq/acOYZuGyGzcGDC6Qs
+        7VK+lzQwKbnHZuXsnAdk1tX9U5e2R4xHA4RXKGg3XQ==
+X-Google-Smtp-Source: ABdhPJxSapwHRvBnLCwcoR2sXbNCQsSDCdMD6ytmf/icFhUU43QYK5yfde5P5ZIWyLr27rM90Izr4s50uVBB8ADYn3Q=
+X-Received: by 2002:a2e:9310:: with SMTP id e16mr638054ljh.226.1616555454025;
+ Tue, 23 Mar 2021 20:10:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOQ4uxgAddAfGkA7LMTPoBmrwVXbvHfnN8SWsW_WXm=LPVmc7Q@mail.gmail.com>
-X-Optus-CM-Score: 0
-X-Optus-CM-Analysis: v=2.3 cv=Tu+Yewfh c=1 sm=1 tr=0 cx=a_idp_x
-        a=gO82wUwQTSpaJfP49aMSow==:117 a=gO82wUwQTSpaJfP49aMSow==:17
-        a=kj9zAlcOel0A:10 a=dESyimp9J3IA:10 a=7-415B0cAAAA:8
-        a=N0d8Qoj7gSbW1E7g6xMA:9 a=CjuIK1q_8ugA:10 a=biEYGPWJfzWAr4FL6Ov7:22
-        a=fCgQI5UlmZDRPDxm0A3o:22
+References: <20210316204252.427806-1-mic@digikod.net> <20210316204252.427806-8-mic@digikod.net>
+ <CAG48ez1arKO3uYzwng8fst-UHkcH6J7YzyHFN+vfXUT2=1HT+w@mail.gmail.com>
+ <b41a021c-69f4-075f-e9a0-a4483b280df8@digikod.net> <CAG48ez1Vkd3KtYphDHLLbbkKY9T_ByhUcxwYAcWuDAyiA04A+w@mail.gmail.com>
+ <7e494b74-8d5d-a109-6327-992d7d8fca87@digikod.net>
+In-Reply-To: <7e494b74-8d5d-a109-6327-992d7d8fca87@digikod.net>
+From:   Jann Horn <jannh@google.com>
+Date:   Wed, 24 Mar 2021 04:10:27 +0100
+Message-ID: <CAG48ez0ex48pCgunrg+BpJ-LppZUVXhsmiEW_2d2mhbkDB793Q@mail.gmail.com>
+Subject: Re: [PATCH v30 07/12] landlock: Support filesystem access-control
+To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc:     James Morris <jmorris@namei.org>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        David Howells <dhowells@redhat.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@linux.microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Mar 23, 2021 at 11:35:46AM +0200, Amir Goldstein wrote:
-> On Tue, Mar 23, 2021 at 9:26 AM Dave Chinner <david@fromorbit.com> wrote:
-> > On Tue, Mar 23, 2021 at 06:50:44AM +0200, Amir Goldstein wrote:
-> > > On Tue, Mar 23, 2021 at 1:03 AM Dave Chinner <david@fromorbit.com> wrote:
-> For most use cases, getting a unique fsid that is not "persistent"
-> would be fine. Many use case will probably be watching a single
-> filesystem and then the value of fsid in the event doesn't matter at all.
-> 
-> If, however, at some point in the future, someone were to write
-> a listener that stores events in a persistent queue for later processing
-> it would be more "convenient" if fsid values were "persistent".
-
-Ok, that is what I suspected - that you want to write filehandles to
-a userspace database of some sort for later processing and so you
-need to also store the filesystem that the filehandle belongs to.
-
-FWIW, that's something XFS started doing a couple of decades ago for
-DMAPI based prioprietary HSM implementations. They were build around
-a massive userspace database that indexed the contents of the
-fileystem via file handles and were kept up to date via
-notifications through the DMAPI interface.
-
-> > > > However, changing the uuid on XFS is an offline (unmounted)
-> > > > operation, so there will be no fanotify marks present when it is
-> > > > changed. Hence when it is remounted, there will be a new f_fsid
-> > > > returned in statvfs(), just like what happens now, and all
-> > > > applications dependent on "persistent" fsids (and persistent
-> > > > filehandles for that matter) will now get ESTALE errors...
-> > > >
-> > > > And, worse, mp->m_fixed_fsid (and XFS superblock UUIDs in general)
-> > > > are not unique if you've got snapshots and they've been mounted via
-> > > > "-o nouuid" to avoid XFS's duplicate uuid checking. This is one of
-> > > > the reasons that the duplicate checking exists - so that fshandles
-> > > > are unique and resolve to a single filesystem....
-> > >
-> > > Both of the caveats of uuid you mentioned are not a big concern for
-> > > fanotify because the nature of f_fsid can be understood by the event
-> > > listener before setting the multi-fs watch (i.e. in case of fsid collision).
+On Tue, Mar 23, 2021 at 8:22 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> =
+wrote:
+> On 23/03/2021 18:49, Jann Horn wrote:
+> > On Tue, Mar 23, 2021 at 4:54 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.n=
+et> wrote:
+> >> On 23/03/2021 01:13, Jann Horn wrote:
+> >>>  On Tue, Mar 16, 2021 at 9:43 PM Micka=C3=ABl Sala=C3=BCn <mic@digiko=
+d.net> wrote:
+> >>>> Using Landlock objects and ruleset, it is possible to tag inodes
+> >>>> according to a process's domain.
+> >>> [...]
+> >>>> +static void release_inode(struct landlock_object *const object)
+> >>>> +       __releases(object->lock)
+> >>>> +{
+> >>>> +       struct inode *const inode =3D object->underobj;
+> >>>> +       struct super_block *sb;
+> >>>> +
+> >>>> +       if (!inode) {
+> >>>> +               spin_unlock(&object->lock);
+> >>>> +               return;
+> >>>> +       }
+> >>>> +
+> >>>> +       /*
+> >>>> +        * Protects against concurrent use by hook_sb_delete() of th=
+e reference
+> >>>> +        * to the underlying inode.
+> >>>> +        */
+> >>>> +       object->underobj =3D NULL;
+> >>>> +       /*
+> >>>> +        * Makes sure that if the filesystem is concurrently unmount=
+ed,
+> >>>> +        * hook_sb_delete() will wait for us to finish iput().
+> >>>> +        */
+> >>>> +       sb =3D inode->i_sb;
+> >>>> +       atomic_long_inc(&landlock_superblock(sb)->inode_refs);
+> >>>> +       spin_unlock(&object->lock);
+> >>>> +       /*
+> >>>> +        * Because object->underobj was not NULL, hook_sb_delete() a=
+nd
+> >>>> +        * get_inode_object() guarantee that it is safe to reset
+> >>>> +        * landlock_inode(inode)->object while it is not NULL.  It i=
+s therefore
+> >>>> +        * not necessary to lock inode->i_lock.
+> >>>> +        */
+> >>>> +       rcu_assign_pointer(landlock_inode(inode)->object, NULL);
+> >>>> +       /*
+> >>>> +        * Now, new rules can safely be tied to @inode with get_inod=
+e_object().
+> >>>> +        */
+> >>>> +
+> >>>> +       iput(inode);
+> >>>> +       if (atomic_long_dec_and_test(&landlock_superblock(sb)->inode=
+_refs))
+> >>>> +               wake_up_var(&landlock_superblock(sb)->inode_refs);
+> >>>> +}
+> >>> [...]
+> >>>> +static struct landlock_object *get_inode_object(struct inode *const=
+ inode)
+> >>>> +{
+> >>>> +       struct landlock_object *object, *new_object;
+> >>>> +       struct landlock_inode_security *inode_sec =3D landlock_inode=
+(inode);
+> >>>> +
+> >>>> +       rcu_read_lock();
+> >>>> +retry:
+> >>>> +       object =3D rcu_dereference(inode_sec->object);
+> >>>> +       if (object) {
+> >>>> +               if (likely(refcount_inc_not_zero(&object->usage))) {
+> >>>> +                       rcu_read_unlock();
+> >>>> +                       return object;
+> >>>> +               }
+> >>>> +               /*
+> >>>> +                * We are racing with release_inode(), the object is=
+ going
+> >>>> +                * away.  Wait for release_inode(), then retry.
+> >>>> +                */
+> >>>> +               spin_lock(&object->lock);
+> >>>> +               spin_unlock(&object->lock);
+> >>>> +               goto retry;
+> >>>> +       }
+> >>>> +       rcu_read_unlock();
+> >>>> +
+> >>>> +       /*
+> >>>> +        * If there is no object tied to @inode, then create a new o=
+ne (without
+> >>>> +        * holding any locks).
+> >>>> +        */
+> >>>> +       new_object =3D landlock_create_object(&landlock_fs_underops,=
+ inode);
+> >>>> +       if (IS_ERR(new_object))
+> >>>> +               return new_object;
+> >>>> +
+> >>>> +       /* Protects against concurrent get_inode_object() calls. */
+> >>>> +       spin_lock(&inode->i_lock);
+> >>>> +       object =3D rcu_dereference_protected(inode_sec->object,
+> >>>> +                       lockdep_is_held(&inode->i_lock));
+> >>>
+> >>> rcu_dereference_protected() requires that inode_sec->object is not
+> >>> concurrently changed, but I think another thread could call
+> >>> get_inode_object() while we're in landlock_create_object(), and then
+> >>> we could race with the NULL write in release_inode() here? (It
+> >>> wouldn't actually be a UAF though because we're not actually accessin=
+g
+> >>> `object` here.) Or am I missing a lock that prevents this?
+> >>>
+> >>> In v28 this wasn't an issue because release_inode() was holding
+> >>> inode->i_lock (and object->lock) during the NULL store; but in v29 an=
+d
+> >>> this version the NULL store in release_inode() moved out of the locke=
+d
+> >>> region. I think you could just move the NULL store in release_inode()
+> >>> back up (and maybe add a comment explaining the locking rules for
+> >>> landlock_inode(...)->object)?
+> >>>
+> >>> (Or alternatively you could use rcu_dereference_raw() with a comment
+> >>> explaining that the read pointer is only used to check for NULL-ness,
+> >>> and that it is guaranteed that the pointer can't change if it is NULL
+> >>> and we're holding the lock. But that'd be needlessly complicated, I
+> >>> think.)
+> >>
+> >> To reach rcu_assign_pointer(landlock_inode(inode)->object, NULL) in
+> >> release_inode() or in hook_sb_delete(), the
+> >> landlock_inode(inode)->object need to be non-NULL,
 > >
-> > Sorry, I don't understand what "the nature of f_fsid can be
-> > understood" means. What meaning are you trying to infer from 8 bytes
-> > of opaque data in f_fsid?
+> > Yes.
 > >
-> 
-> When the program is requested to watch multiple filesystems, it starts by
-> querying their fsid. In case of an fsid collision, the program knows that it
-> will not be able to tell which filesystem the event originated in, so the
-> program can print a descriptive error to the user.
-
-Ok, so it can handle collisions, but it cannot detect things like
-two filesystems swapping fsids because device ordering changed at
-boot time. i.e. there no way to determine the difference between
-f_fsid change vs the same filesystems with stable f_fsid being
-mounted in different locations....
-
-> > > Regardless of the fanotify uapi and whether it's good or bad, do you insist
-> > > that the value of f_fsid exposed by xfs needs to be the bdev number and
-> > > not derived from uuid?
+> >> which implies that a
+> >> call to get_inode_object(inode) either "retry" (because release_inode =
+is
+> >> only called by landlock_put_object, which set object->usage to 0) unti=
+l
+> >> it creates a new object, or reuses the existing referenced object (and
+> >> increments object->usage).
 > >
-> > I'm not insisting that it needs to be the bdev number. I'm trying to
-> > understand why it needs to be changed, what the impact of that
-> > change is and whether there are other alternatives before I form an
-> > opinion on whether we should make this user visible filesystem
-> > identifier change or not...
+> > But it can be that landlock_inode(inode)->object only becomes non-NULL
+> > after get_inode_object() has checked
+> > rcu_dereference(inode_sec->object).
 > >
-> > > One thing we could do is in the "-o nouuid" case that you mentioned
-> > > we continue to use the bdev number for f_fsid.
-> > > Would you like me to make that change?
+> >> The worse case would be if
+> >> get_inode_object(inode) is called just before the
+> >> rcu_assign_pointer(landlock_inode(inode)->object, NULL) from
+> >> hook_sb_delete(), which would result in an object with a NULL underobj=
+,
+> >> which is the expected behavior (and checked by release_inode).
 > >
-> > No, I need to you stop rushing around in a hurry to change code and
-> > assuming that everyone knows every little detail of fanotify and the
-> > problems that need to be solved. Slow down and explain clearly and
-> > concisely why f_fsid needs to be persistent, how it gets used to
-> > optimise <something> when it is persistent, and what the impact of
-> > it not being persistent is.
+> > The scenario I'm talking about doesn't involve hook_sb_delete().
 > >
-> 
-> Fair enough.
-> I'm in a position of disadvantage having no real users to request this change.
-> XFS is certainly "not broken", so the argument for "not fixing" it is valid.
-> 
-> Nevertheless bdev can change on modern systems even without reboot
-> for example for loop mounted images, so please consider investing the time
-> in forming an opinion about making this change for the sake of making f_fsid
-> more meaningful for any caller of statfs(2) not only for fanotify listeners.
-> 
-> Leaving fanotify out of the picture, the question that the prospect user is
-> trying answer is:
-> "Is the object at $PATH or at $FD the same object that was observed at
->  'an earlier time'?"
-> 
-> With XFS, that question can be answered (< 100% certainty)
-> using the XFS_IOC_PATH_TO_FSHANDLE interface.
+> >> The line rcu_assign_pointer(inode_sec->object, new_object) from
+> >> get_inode_object() can only be reached if the underlying inode doesn't
+> >> reference an object,
+> >
+> > Yes.
+> >
+> >> in which case hook_sb_delete() will not reach the
+> >> rcu_assign_pointer(landlock_inode(inode)->object, NULL) line for this
+> >> same inode.
+> >>
+> >> This works because get_inode_object(inode) is mutually exclusive to
+> >> itself with the same inode (i.e. an inode can only point to an object
+> >> that references this same inode).
+> >
+> > To clarify: You can concurrently call get_inode_object() multiple
+> > times on the same inode, right? There are no locks held on entry to
+> > that function.
+> >
+> >> I tried to explain this with the comment "Protects against concurrent
+> >> get_inode_object() calls" in get_inode_object(), and the comments just
+> >> before both rcu_assign_pointer(landlock_inode(inode)->object, NULL).
+> >
+> > The scenario I'm talking about is:
+> >
+> > Initially the inode does not have an associated landlock_object. There
+> > are two threads A and B. Thread A is going to execute
+> > get_inode_object(). Thread B is going to execute get_inode_object()
+> > followed immediately by landlock_put_object().
+> >
+> > thread A: enters get_inode_object()
+> > thread A: rcu_dereference(inode_sec->object) returns NULL
+> > thread A: enters landlock_create_object()
+> > thread B: enters get_inode_object()
+> > thread B: rcu_dereference(inode_sec->object) returns NULL
+> > thread B: calls landlock_create_object()
+> > thread B: sets inode_sec->object while holding inode->i_lock
+> > thread B: leaves get_inode_object()
+> > thread B: enters landlock_put_object()
+> > thread B: object->usage drops to 0, object->lock is taken
+> > thread B: calls release_inode()
+> > thread B: drops object->lock
+> > thread A: returns from landlock_create_object()
+> > thread A: takes inode->i_lock
+> >
+> > At this point, thread B will run:
+> >
+> >     rcu_assign_pointer(landlock_inode(inode)->object, NULL);
+> >
+> > while thread A runs:
+> >
+> >     rcu_dereference_protected(inode_sec->object,
+> >         lockdep_is_held(&inode->i_lock));
+> >
+> > meaning there is a (theoretical) data race, since
+> > rcu_dereference_protected() doesn't use READ_ONCE().
+>
+> Hum, I see, that is what I was missing. And that explain why there is
+> (in practice) no impact on winning the race.
+>
+> I would prefer to use rcu_access_pointer() instead of
+> rcu_dereference_protected() to avoid pitfall, and it reflects what I was
+> expecting:
+>
+> --- a/security/landlock/fs.c
+> +++ b/security/landlock/fs.c
+> @@ -117,9 +117,7 @@ static struct landlock_object
+> *get_inode_object(struct inode *const inode)
+>
+>         /* Protects against concurrent get_inode_object() calls. */
+>         spin_lock(&inode->i_lock);
+> -       object =3D rcu_dereference_protected(inode_sec->object,
+> -                       lockdep_is_held(&inode->i_lock));
+> -       if (unlikely(object)) {
+> +       if (unlikely(rcu_access_pointer(inode_sec->object))) {
+>                 /* Someone else just created the object, bail out and
+> retry. */
+>                 spin_unlock(&inode->i_lock);
+>                 kfree(new_object);
 
-Actually, there's a bit more to it than that. See below.
+Ah, yeah, that should work. I had forgotten about rcu_access_pointer().
 
-> name_to_handle_at(2) + statfs(2) is a generic interface that provides
-> this answer with less certainty, but it could provide the answer
-> with the same certainty for XFS.
+> But I'm not sure about your proposition to move the NULL store in
+> release_inode() back up. Do you mean to add back the inode lock in
+> release_inode() like this?
+>
+> --- a/security/landlock/fs.c
+> +++ b/security/landlock/fs.c
+> @@ -59,16 +59,12 @@ static void release_inode(struct landlock_object
+> *const object)
+>          * Makes sure that if the filesystem is concurrently unmounted,
+>          * hook_sb_delete() will wait for us to finish iput().
+>          */
+> +       spin_lock(&inode->i_lock);
+>         sb =3D inode->i_sb;
+>         atomic_long_inc(&landlock_superblock(sb)->inode_refs);
+>         spin_unlock(&object->lock);
+> -       /*
+> -        * Because object->underobj was not NULL, hook_sb_delete() and
+> -        * get_inode_object() guarantee that it is safe to reset
+> -        * landlock_inode(inode)->object while it is not NULL.  It is the=
+refore
+> -        * not necessary to lock inode->i_lock.
+> -        */
+>         rcu_assign_pointer(landlock_inode(inode)->object, NULL);
+> +       spin_unlock(&inode->i_lock);
+>         /*
+>          * Now, new rules can safely be tied to @inode with get_inode_obj=
+ect().
+>          */
+>
+>
+> I would prefer to avoid nested locks if it is not necessary though.
 
-Let me see if I get this straight....
+Hm, yeah, you have a point there.
 
-Because the VFS filehandle interface does not cater for this by
-giving you a fshandle that is persistent, you have to know what path
-the filehandle was derived from to be able to open a mountfd for
-open_by_handle_at() on the file handle you have stored in userspace.
-And that open_by_handle_at() returns an ephemeral mount ID, so the
-kernel does not provide what you need to use open_by_handle_at()
-immediately.
+Doing it locklessly does make the locking rules a little complicated
+though, and you'll have to update the comment inside struct
+landlock_inode_security. At the moment, it says:
 
-To turn this ephemeral mount ID into a stable identifier you have to
-look up /proc/self/mounts to find the mount point, then statvfs()
-the mount point to get the f_fsid.
+* @object: Weak pointer to an allocated object.  All writes (i.e.
+* creating a new object or removing one) are protected by the
+* underlying inode->i_lock.  Disassociating @object from the inode is
+* additionally protected by @object->lock, from the time @object's
+* usage refcount drops to zero to the time this pointer is nulled out.
 
-To use the handle, you then need to open the path to the stored
-mount point, check that f_fsid still matches what you originally
-looked up, then you can run open_by_handle_at() on the file handle.
-If you have an open fd on the filesystem and f_fsid matches, you
-have the filesystem pinned until you close the mount fd, and so you
-can just sort your queued filehandles by f_fsid and process them all
-while you have the mount fd open....
-
-Is that right?
-
-But that still leaves a problem in that the VFS filehandle does not
-contain a filesystem identifier itself, so you can never actually
-verify that the filehandle belongs to the mount that you opened for
-that f_fsid. i.e. The file handle is built by exportfs_encode_fh(),
-which filesystems use to encode inode/gen/parent information.
-Nothing else is placed in the VFS handle, so the file handle cannot
-be used to identify what filesystem it came from.
-
-These seem like a fundamental problems for storing VFS handles
-across reboots: identifying the filesystem is not atomic with the
-file handle generation and it that identification is not encoded
-into the file handle for later verification.
-
-IOWs, if you get the fsid translation wrong, the filehandle will end
-up being used on the wrong filesystem and userspace has no way of
-knowing that this occurred - it will get ESTALE or data that isn't
-what it expected. Either way, it'll look like data corruption to the
-application(s). Using f_fsid for this seems fragile to me and has
-potential to break in unexpected ways in highly dynamic
-environments.
-
-The XFS filehandle exposed by the ioctls, and the NFS filehandle for
-that matter, both include an identifier for the filesystem they
-belong to in the file handle. This identifier matches the stable
-filesystem identifier held by the filesystem (or the NFS export
-table), and hence the kernel could resolve whether the filehandle
-itself has been directed at the correct filesystem.
-
-The XFS ioctls do not do this fshandle checking - this is something
-performed by the libhandle library (part of xfsprogs).  libhandle
-knows the format of the XFS filehandles, so it peaks inside them to
-extract the fsid to determine where to direct them. 
-
-Applications must first initialise filesystems that file handles can
-be used on by calling path_to_fshandle() to populate an open file
-cache.  Behind the scenes, this calls XFS_IOC_PATH_TO_FSHANDLE to
-associate a {fd, path, fshandle} tuple for that filesystem. The
-libhandle operations then match the fsid embedded in the file handle
-to the known open fshandles, and if they match it uses the
-associated fd to issue the ioctl to the correct filesystem.
-
-This fshandle fd is held open for as long as the application is
-running, so it pins the filesystem and so the fshandle obtained at
-init time is guaranteed to be valid until the application exits.
-Hence on startup an app simply needs to walk the paths it is
-interested in and call path_to_fshandle() on all of them, but
-otherwise it does not need to know what filesystem a filehandle
-belongs to - the libhandle implementation takes care of that
-entirely....
-
-IOWs, this whole "find the right filesystem for the file handle"
-implementation is largely abstracted away from userspace by
-libhandle. Hence just looking at what the the XFS ioctls do does not
-give the whole picture of how stable filehandles were actually used
-by applications...
-
-I suspect that the right thing to do here is extend the VFS
-filehandles to contain an 8 byte fsid prefix (supplied by a new an
-export op) and an AT_FSID flag for name_to_handle_at() to return
-just the 8 byte fsid that is used by handles on that filesystem.
-This provides the filesystems with a well defined API for providing
-a stable identifier instead of redefining what filesystems need to
-return in some other UAPI.
-
-This also means that userspace can be entirely filesystem agnostic
-and it doesn't need to rely on parsing proc files to translate
-ephemeral mount IDs to paths, statvfs() and hoping that f_fsid is
-stable enough that it doesn't get the destination wrong.  It also
-means that fanotify UAPI probably no longer needs to supply a
-f_fsid with the filehandle because it is built into the
-filehandle....
-
-Cheers,
-
-Dave.
--- 
-Dave Chinner
-david@fromorbit.com
+which isn't true anymore.
