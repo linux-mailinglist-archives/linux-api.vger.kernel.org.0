@@ -2,106 +2,122 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F406348204
-	for <lists+linux-api@lfdr.de>; Wed, 24 Mar 2021 20:34:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A6FFF3482A7
+	for <lists+linux-api@lfdr.de>; Wed, 24 Mar 2021 21:15:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237639AbhCXTeS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 24 Mar 2021 15:34:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59960 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237809AbhCXTdr (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 24 Mar 2021 15:33:47 -0400
-Received: from smtp-8fac.mail.infomaniak.ch (smtp-8fac.mail.infomaniak.ch [IPv6:2001:1600:4:17::8fac])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 097E0C061763
-        for <linux-api@vger.kernel.org>; Wed, 24 Mar 2021 12:33:44 -0700 (PDT)
-Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4F5JLt5wb8zMq2dR;
-        Wed, 24 Mar 2021 20:33:42 +0100 (CET)
-Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
-        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4F5JLr3wPFzlh8Td;
-        Wed, 24 Mar 2021 20:33:40 +0100 (CET)
-Subject: Re: [PATCH v31 01/12] landlock: Add object management
-To:     James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Kees Cook <keescook@chromium.org>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        id S238134AbhCXUPI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 24 Mar 2021 16:15:08 -0400
+Received: from mx2.suse.de ([195.135.220.15]:51996 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S238093AbhCXUOl (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 24 Mar 2021 16:14:41 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1616616880; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=2ZvO4bLgfFn9xC1bGt/85XVYApIlAKrqXvbjT5soJ30=;
+        b=Hdts+h7S6uNGYbzOryP7weX1281E8hNc/iaCcLywcYBZslF7NrfEl5kSKeF99aYUehrV70
+        +a3ZiA6Ft5/JcHWLVc1g1Ro/toMEDxvF438H6wbOkTK3eL3Wo5+sqzjj6EaEeKv4G/dhs7
+        rsvRW9yUJr4qVNK1KPw+NvgPzsStGWs=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id BA470AC6E;
+        Wed, 24 Mar 2021 20:14:39 +0000 (UTC)
+Date:   Wed, 24 Mar 2021 21:14:35 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Andrew Lunn <andrew@lunn.ch>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
         Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        David Howells <dhowells@redhat.com>,
-        Jeff Dike <jdike@addtoit.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Brian Cain <bcain@codeaurora.org>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Chris Zankel <chris@zankel.net>,
+        Corentin Labbe <clabbe@baylibre.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Greentime Hu <green.hu@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Helge Deller <deller@gmx.de>, Hillf Danton <hdanton@sina.com>,
+        huang ying <huang.ying.caritas@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        James Troup <james.troup@canonical.com>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Jonas Bonn <jonas@southpole.se>,
         Jonathan Corbet <corbet@lwn.net>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        linux-security-module@vger.kernel.org, x86@kernel.org,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>
-References: <20210324191520.125779-1-mic@digikod.net>
- <20210324191520.125779-2-mic@digikod.net>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <3908b240-8a4b-9bd7-bb5f-b59eaed7cb1f@digikod.net>
-Date:   Wed, 24 Mar 2021 20:34:19 +0100
-User-Agent: 
+        Kairui Song <kasong@redhat.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Matt Turner <mattst88@gmail.com>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Mike Rapoport <rppt@kernel.org>,
+        Mikulas Patocka <mpatocka@redhat.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Oleksiy Avramchenko <oleksiy.avramchenko@sonymobile.com>,
+        Palmer Dabbelt <palmerdabbelt@google.com>,
+        Paul Mackerras <paulus@samba.org>,
+        "Pavel Machek (CIP)" <pavel@denx.de>, Pavel Machek <pavel@ucw.cz>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Pierre Morel <pmorel@linux.ibm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Richard Henderson <rth@twiddle.net>,
+        Rich Felker <dalias@libc.org>,
+        Robert Richter <rric@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Stafford Horne <shorne@gmail.com>,
+        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Theodore Dubois <tblodt@icloud.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        William Cohen <wcohen@redhat.com>,
+        Xiaoming Ni <nixiaoming@huawei.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>
+Subject: Re: [PATCH v1 0/3] drivers/char: remove /dev/kmem for good
+Message-ID: <YFudq2NVLIOAsCgl@dhcp22.suse.cz>
+References: <20210324102351.6932-1-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210324191520.125779-2-mic@digikod.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210324102351.6932-1-david@redhat.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 
-On 24/03/2021 20:15, Mickaël Salaün wrote:
-[...]
-> diff --git a/security/landlock/object.h b/security/landlock/object.h
-> new file mode 100644
-> index 000000000000..3e5d5b6941c3
-> --- /dev/null
-> +++ b/security/landlock/object.h
-> @@ -0,0 +1,91 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Landlock LSM - Object management
-> + *
-> + * Copyright © 2016-2020 Mickaël Salaün <mic@digikod.net>
-> + * Copyright © 2018-2020 ANSSI
-> + */
-> +
-> +#ifndef _SECURITY_LANDLOCK_OBJECT_H
-> +#define _SECURITY_LANDLOCK_OBJECT_H
-> +
-> +#include <linux/compiler_types.h>
-> +#include <linux/refcount.h>
-> +#include <linux/spinlock.h>
-> +
-> +struct landlock_object;
-> +
-> +/**
-> + * struct landlock_object_underops - Operations on an underlying object
-> + */
-> +struct landlock_object_underops {
-> +	/**
-> +	 * @release: Releases the underlying object (e.g. iput() for an inode).
-> +	 */
-> +	void (*release)(struct landlock_object *const object)
-> +		__releases(object->lock);
-> +};
-> +
-> +/**
-> + * struct landlock_object - Security blob tied to a kernel object
-> + *
-> + * The goal of this structure is to enable to tie a set of ephemeral access
-> + * rights (pertaining to different domains) to a kernel object (e.g an inode)
-> + * in a safe way.  This implies to handle concurrent use and modification.
-> + *
-> + * The lifetime of a &struct landlock_object depends of the rules referring to
+Acked-by: Michal Hocko <mhocko@suse.com>
 
-You should read "depends on"…
+for the series.
+
+Thanks!
+-- 
+Michal Hocko
+SUSE Labs
