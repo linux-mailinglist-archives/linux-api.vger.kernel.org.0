@@ -2,139 +2,99 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DCAC3477AC
-	for <lists+linux-api@lfdr.de>; Wed, 24 Mar 2021 12:49:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BA02347A0F
+	for <lists+linux-api@lfdr.de>; Wed, 24 Mar 2021 14:58:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230374AbhCXLtG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 24 Mar 2021 07:49:06 -0400
-Received: from mx2.suse.de ([195.135.220.15]:52510 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231425AbhCXLst (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 24 Mar 2021 07:48:49 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 494A7AD38;
-        Wed, 24 Mar 2021 11:48:48 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id CC2F71F2C4D; Wed, 24 Mar 2021 12:48:47 +0100 (CET)
-Date:   Wed, 24 Mar 2021 12:48:47 +0100
-From:   Jan Kara <jack@suse.cz>
-To:     Amir Goldstein <amir73il@gmail.com>
+        id S235818AbhCXN5q (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 24 Mar 2021 09:57:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42962 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235592AbhCXN5Z (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 24 Mar 2021 09:57:25 -0400
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E8B6C061763;
+        Wed, 24 Mar 2021 06:57:25 -0700 (PDT)
+Received: by mail-io1-xd31.google.com with SMTP id e8so21584897iok.5;
+        Wed, 24 Mar 2021 06:57:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=xkbzeC14r4m6BOO8t3d1DzbvZcgtkmxrCkVMJuJbLRY=;
+        b=WDcXAjJB+pBb4389YmEggP+GBuYHvD/vXXl5B9FEDHzzuBnL/ysHSJhnYbXWOiEXKT
+         NacSI0PMhIUZhJy5WgJXh2QSqLlN13KQtoOnBA4Sv7WbxQPNhGHKsps5wgzpVvSuZ//o
+         a5wyU9v20lOuO5L0Og+DJGgxqH7lwVEipy/dsOKUGrQzvyYEYAto7cJfLDZWho5kfF7X
+         RWiFlFNFuWfETaBU1UWTAgP7iAhJZe2Y1oz6t2jcGme026MOkl7NEZ8q3feURdcReffS
+         Rkts+js/uXWDLJ1LZGMT33H1fYPpMPwSsdMo2zZqTqOmXMKqb+9/TteKtQ9dYAZiOr0v
+         /1sA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xkbzeC14r4m6BOO8t3d1DzbvZcgtkmxrCkVMJuJbLRY=;
+        b=cJHeSOboZS9vxx6+5tIyCo3dmiHXfA3/H5RUjAIiL0VX/mQGYQZ5irYSnjTZywy+X6
+         OQjAwzObjrbZo+gCxLm4J/5itY8T3MDqIE2dR2N4D/tFDFdTxoFibVrfC9QfaMh3+o/u
+         H1UJHRYI8eQoDDpOLnsPUtJCf4BXRn/8vIuWbyVie12HaYYvciYlXiuDt2JkpsDBpjpB
+         DRGfB60ZlcXYn0Qi6w1yvknrzFTJXqhANAsOpeVq2ChGrcqAjl0GpJWYaaOUUHpJqiwb
+         ZMrGQ+CsZA0jWNyEl8RmEi4809pt8PWv3TVZYHRRqFZLJ+yzeCy6LUGZAoKJM/SScWtI
+         KtXA==
+X-Gm-Message-State: AOAM531L8fERkDiFf00H5uNN/MR8ANPud/KULHQ4+RrTOb3n9VPvQV4Q
+        AwNMdm2+lohUAaxD/jAkFx/vnuD4g1nhcC4s5CrcOcMmBuQ=
+X-Google-Smtp-Source: ABdhPJzv+QcQ/N77X0YdT4SO8+h5IY4kGavgIlCR80xGPn7+PQgtrdzVrEMvQBkGFbN2zcXkv4D45OAcjGI4Yd8Qr3w=
+X-Received: by 2002:a02:605d:: with SMTP id d29mr2951084jaf.81.1616594244987;
+ Wed, 24 Mar 2021 06:57:24 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210304112921.3996419-1-amir73il@gmail.com> <20210316155524.GD23532@quack2.suse.cz>
+ <CAOQ4uxgCv42_xkKpRH-ApMOeFCWfQGGc11CKxUkHJq-Xf=HnYg@mail.gmail.com>
+ <20210317114207.GB2541@quack2.suse.cz> <CAOQ4uxi7ZXJW3_6SN=vw_XJC+wy4eMTayN6X5yRy_HOV6323MA@mail.gmail.com>
+ <20210317174532.cllfsiagoudoz42m@wittgenstein> <CAOQ4uxjCjapuAHbYuP8Q_k0XD59UmURbmkGC1qcPkPAgQbQ8DA@mail.gmail.com>
+ <20210318143140.jxycfn3fpqntq34z@wittgenstein> <CAOQ4uxiRHwmxTKsLteH_sBW_dSPshVE8SohJYEmpszxaAwjEyg@mail.gmail.com>
+ <20210319134043.c2wcpn4lbefrkhkg@wittgenstein> <CAOQ4uxhLYdWOUmpWP+c_JzVeGDbkJ5eUM+1-hhq7zFq23g5J1g@mail.gmail.com>
+ <CAOQ4uxhetKeEZX=_iAcREjibaR0ZcOdeZyR8mFEoHM+WRsuVtg@mail.gmail.com> <CAOQ4uxhfx012GtvXMfiaHSk1M7+gTqkz3LsT0i_cHLnZLMk8nw@mail.gmail.com>
+In-Reply-To: <CAOQ4uxhfx012GtvXMfiaHSk1M7+gTqkz3LsT0i_cHLnZLMk8nw@mail.gmail.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Wed, 24 Mar 2021 15:57:12 +0200
+Message-ID: <CAOQ4uxhFU=H8db35JMhfR+A5qDkmohQ01AWH995xeBAKuuPhzA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] unprivileged fanotify listener
+To:     Christian Brauner <christian.brauner@ubuntu.com>
 Cc:     Jan Kara <jack@suse.cz>,
         Matthew Bobrowski <mbobrowski@mbobrowski.org>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>
-Subject: Re: [PATCH v2 0/2] unprivileged fanotify listener
-Message-ID: <20210324114847.GA17458@quack2.suse.cz>
-References: <20210304112921.3996419-1-amir73il@gmail.com>
- <20210316155524.GD23532@quack2.suse.cz>
- <CAOQ4uxgCv42_xkKpRH-ApMOeFCWfQGGc11CKxUkHJq-Xf=HnYg@mail.gmail.com>
- <20210317114207.GB2541@quack2.suse.cz>
- <CAOQ4uxi7ZXJW3_6SN=vw_XJC+wy4eMTayN6X5yRy_HOV6323MA@mail.gmail.com>
- <20210318154413.GA21462@quack2.suse.cz>
- <CAOQ4uxhpB+1iFSSoZy2NuF2diL=8uJ-j8JJVNnujqtphW147cw@mail.gmail.com>
- <CAOQ4uxj4OC5cSwJMizBG=bmarxMwSVfqYnds4wYabieEDM_+eQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOQ4uxj4OC5cSwJMizBG=bmarxMwSVfqYnds4wYabieEDM_+eQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon 22-03-21 20:38:32, Amir Goldstein wrote:
-> > > > The problem here is that even if unprivileged users cannot compromise
-> > > > security, they can still cause significant CPU overhead either queueing
-> > > > events or filtering events and that is something I haven't been able to
-> > > > figure out a way to escape from.
-> > >
-> > > WRT queueing overhead, given a user can place ~1M of directory watches, he
-> > > can cause noticable total overhead for queueing events anyway. Furthermore
+> > Now tested FAN_MARK_FILESYSTEM watch on tmpfs mounted
+> > inside userns and works fine, with two wrinkles I needed to iron:
 > >
-> > I suppose so. But a user placing 1M dir watches at least adds this overhead
-> > knowingly. Adding a overhead on the entire filesystem when just wanting to
-> > watch a small subtree doesn't sound ideal. Especially in very nested setups.
-> > So yes, we need to be careful.
+> > 1. FAN_REPORT_FID not supported on tmpfs because tmpfs has
+> >     zero f_fsid (easy to fix)
+> > 2. open_by_handle_at() is not userns aware (can relax for
+> >     FS_USERNS_MOUNT fs)
 > >
-> 
-> I was thinking about this some more and I think the answer is in your example.
-> User can only place 1M dir watches if ucount marks limits permits it.
-> 
-> So whatever we allow to do with subtree or userns filtered marks should
-> also be limited by ucounts.
-
-Yes, agreed.
-
-> > > the queue size is limited so unless the user spends time consuming events
-> > > as well, the load won't last long. But I agree we need to be careful not to
-> > > introduce too big latencies to operations generating events. So I think if
-> > > we could quickly detect whether a generated event has a good chance of
-> > > being relevant for some subtree watch of a group and queue it in that case
-> > > and worry about permission checks only once events are received and thus
-> > > receiver pays the cost of expensive checks, that might be fine as well.
-> > >
-> >
-> > So far the only idea I had for "quickly detect" which I cannot find flaws in
-> > is to filter by mnt_userms, but its power is limited.
-> 
-> So I have implemented this idea on fanotify_userns branch and the cost
-> per "filtered" sb mark is quite low - its a pretty cheap check in
-> send_to_group()
-> But still, if an unbound number of users can add to the sb mark list it is
-> not going to end well.
-
-Thinking out loud: So what is the cost going to be for the side generating
-events? Ideally it would of O(number of fanotify groups receiving event).
-We cannot get better than that and if the constants aren't too big I think
-this is acceptable overhead. Sure this can mean total work of (number of
-users) * (max number of subtree marks per user) for queueing notification
-event but I don't think it is practical for a DoS attack and I also don't
-think that in practice users will be watching overlapping subtrees that
-much.
-
-The question is whether we can get that fast. Probably not because that
-would have to attach subtree watches to directory inodes or otherwise
-filter out unrelated fanotify groups in O(1). But the complexity of
-O(number of groups receiving events + depth of dir where event is happening)
-is probably achievable - we'd walk the tree up and have roots of watched
-subtrees marked. What do you think?
-
-Also there is a somewhat related question what is the semantics of subtree
-watches in presence of mounts - do subtree watches "see through" mount
-points? Probably not but then with bind mounts this can be sometimes
-inconvenient / confusing - e.g. if I have /tmp bind-mounted to /var/tmp and
-I'm watching subtree of /var, I would not get events for what's in
-/var/tmp... Which is logical if you spell it out like this but applications
-often don't care how the mount hierarchy looks like, they just care about
-locally visible directory structure.
-
-> <hand waving>
-> I think what we need here (thinking out loud) is to account the sb marks
-> to the user that mounted the filesystem or to the user mapped to admin using
-> idmapped mount, maybe to both(?), probably using a separate ucount entry
-> (e.g. max_fanotify_filesystem_marks).
-
-I'm somewhat lost here. Are these two users different? We have /home/foo
-which is a mounted filesystem. AFAIU it will be mounted in a special user
-namespace for user 'foo' - let's call is 'foo-ns'. /home/foo has idmapping
-attached so system [ug]ids and non-trivially mapped to on-disk [ug]ids. Now
-we have a user - let's call it 'foo-usr' that has enough capabilities
-(whatever they are) in 'foo-ns' to place fanotify subtree marks in
-/home/foo. So these marks are naturally accounted towards 'foo-usr'. To
-whom else you'd like to also account these marks and why?
-
-> We can set this limit by default to a small number (128?) to limit the sb list
-> iteration per filesystem event and container manager / systemd can further
-> limit this resource when creating idmapped mounts, which would otherwise
-> allow the mapped user to add "filtered" (*) sb marks.
-> </hand waving>
+> > Pushed these two fixes to branch fanotify_userns.
 >
-> (*) "filtered" can refer to both the userns filter I proposed and going forward
->      also maybe to subtree filter
+> Pushed another fix to mnt refcount bug in WIP and another commit to
+> add the last piece that could make fanotify usable for systemd-homed
+> setup - a filesystem watch filtered by mnt_userns (not tested yet).
+>
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Now I used mount-idmapped (from xfstest) to test that last piece.
+Found a minor bug and pushed a fix.
+
+It is working as expected, that is filtering only the events generated via
+the idmapped mount. However, because the listener I tested is capable in
+the mapped userns and not in the sb userns, the listener cannot
+open_ny_handle_at(), so the result is not as useful as one might hope.
+
+I guess we will also need to make open_by_handle_at() idmapped aware
+and use a variant of vfs_dentry_acceptable() that validates that the opened
+path is legitimately accessible via the idmapped mount.
+
+I think I will leave this complexity to you should you think the userns filtered
+watch is something worth the effort.
+
+Thanks,
+Amir.
