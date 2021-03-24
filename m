@@ -2,142 +2,242 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 017FA347465
-	for <lists+linux-api@lfdr.de>; Wed, 24 Mar 2021 10:19:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D424F3475F2
+	for <lists+linux-api@lfdr.de>; Wed, 24 Mar 2021 11:25:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231744AbhCXJS6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 24 Mar 2021 05:18:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38734 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231685AbhCXJSr (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 24 Mar 2021 05:18:47 -0400
-Received: from mail-il1-x135.google.com (mail-il1-x135.google.com [IPv6:2607:f8b0:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8B0FC061763;
-        Wed, 24 Mar 2021 02:18:47 -0700 (PDT)
-Received: by mail-il1-x135.google.com with SMTP id u10so20717839ilb.0;
-        Wed, 24 Mar 2021 02:18:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Ea0wa+AeEgKbajSjsXW1Pi4L4ffJrxHBBTBKejewzzc=;
-        b=UowolewkgSb17KtEg6UAlA8lK4Vdl3rQt1xr2MJ+7gwQFAkeHd+weex7zCVe8hT50z
-         oAZ5+eCdTr7uwvHCjz/RmvFnqEZ8x3czPYYqD/cLJ/EqqbCDpoXR7U4CIFIznoXTM1R5
-         VSbAuYWDpCqcg3wkZaLX/sr9tKE7c6GUI8aQ+qXKOrDXdaxmP3Dsr69U1aiEV7Chz2C/
-         zIPjioAQ6vInMpne+jTy6fKOJiWTTSNZKq31YYMvTEDQbzpN4VzoQvIBRRWr5maqah4m
-         CvFUpdW0cZoIsmmV+K/iGeE8FOvRMb9qnSTl/YtIwkS8xbIEgwC7qSoqyAdQZtKME0QN
-         i15A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Ea0wa+AeEgKbajSjsXW1Pi4L4ffJrxHBBTBKejewzzc=;
-        b=f8+5FeNK8lysy3Xq8ozIjRYAzkd+pWUNe7zRpihEpcnDtAHpNHiBQXKSKNBZ1kpomf
-         nSk/Z1dkfd++N0CnRMblPmIdLHNjq7uPuBY8zmuGpHtxQuZfePMzZtwMyzxYIjrTw2xz
-         BDLdkxup7PNvKxEc+onRVAR4tbZUTYJw3Z4vWPnGg18LQwplKseM6xA5w8eFPYaZQKCp
-         w12qUJsYAcN1EMXf8WaFwlJVHAystJ16IsCwij1ChQIqA4YPsQZ5CzFpA0RzZAkXw5bG
-         UqncSGQGe4zTlmJ7WUTJaZsQpcfBG/cbpnOUkLr4VrMh0N0AuK/iAYTz486JWnrXnj4k
-         XWWw==
-X-Gm-Message-State: AOAM533u+UbREqadS2qW1uR8zIKYPfovuRsZgnGiyFldkE7FyI8sTR85
-        paTjA5E4w2zwkuAbWWWWjEwWyMNn7mqfrRVdod0Xig+d
-X-Google-Smtp-Source: ABdhPJyrmiR6vV8/MRTqoZtYyJJgTJwbApiSdgMVXeJJOK+f+HEHNHMAddDnLZC4oG8C5T94uB/vTTkrXnSfZzPSFBI=
-X-Received: by 2002:a92:50b:: with SMTP id q11mr1928221ile.250.1616577527245;
- Wed, 24 Mar 2021 02:18:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210322171118.446536-1-amir73il@gmail.com> <20210322230352.GW63242@dread.disaster.area>
- <CAOQ4uxjFMPNgR-aCqZt3FD90XtBVFZncdgNc4RdOCbsxukkyYQ@mail.gmail.com>
- <20210323072607.GF63242@dread.disaster.area> <CAOQ4uxgAddAfGkA7LMTPoBmrwVXbvHfnN8SWsW_WXm=LPVmc7Q@mail.gmail.com>
- <20210324005421.GK63242@dread.disaster.area> <CAOQ4uxhhMVQ4XE8DMU1EjaXBo-go3_pFX3CCWn=7GuUXcMW=PA@mail.gmail.com>
- <20210324074318.GA2646094@infradead.org>
-In-Reply-To: <20210324074318.GA2646094@infradead.org>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Wed, 24 Mar 2021 11:18:36 +0200
-Message-ID: <CAOQ4uxgOi9hxDaL7Rk8OU3O-S+YuvDZPtpN7PggXfL=COyrc0Q@mail.gmail.com>
-Subject: Re: [PATCH] xfs: use a unique and persistent value for f_fsid
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     Dave Chinner <david@fromorbit.com>,
-        "Darrick J . Wong" <darrick.wong@oracle.com>,
-        Jan Kara <jack@suse.cz>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        linux-xfs <linux-xfs@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        id S233417AbhCXKYa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 24 Mar 2021 06:24:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58939 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232973AbhCXKYV (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 24 Mar 2021 06:24:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1616581460;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=QMLqwym9flE8lbkbE50aRSXeGQ8jV5p2RxKLL2xiNLM=;
+        b=gszfKc7KCNEwx9TQ0HM/e+J8hQYXG7x4ApSiPEfUCdRc7c39/bJhe6DEwOn/iq0/cfL7Ck
+        h+6Aq1JAAxowfjUFHsbPPe3mYUoBMVgoByMzBzDrWNgeBtXJ3Ojdmy/EpZTpSbUBl0dmJx
+        bVQUR8AHUpZ9D3dwHYucqewHwjQmGNc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-458-F0cqRh6aPYuHEv4XexPcpA-1; Wed, 24 Mar 2021 06:24:16 -0400
+X-MC-Unique: F0cqRh6aPYuHEv4XexPcpA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E1D881746C;
+        Wed, 24 Mar 2021 10:24:13 +0000 (UTC)
+Received: from t480s.redhat.com (ovpn-115-66.ams2.redhat.com [10.36.115.66])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2EAF910013D7;
+        Wed, 24 Mar 2021 10:23:52 +0000 (UTC)
+From:   David Hildenbrand <david@redhat.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-mm@kvack.org, David Hildenbrand <david@redhat.com>,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Brian Cain <bcain@codeaurora.org>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Chris Zankel <chris@zankel.net>,
+        Corentin Labbe <clabbe@baylibre.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Greentime Hu <green.hu@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Helge Deller <deller@gmx.de>, Hillf Danton <hdanton@sina.com>,
+        huang ying <huang.ying.caritas@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        James Troup <james.troup@canonical.com>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Jonas Bonn <jonas@southpole.se>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kairui Song <kasong@redhat.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         Linux API <linux-api@vger.kernel.org>,
-        "J. Bruce Fields" <bfields@fieldses.org>
-Content-Type: text/plain; charset="UTF-8"
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Matt Turner <mattst88@gmail.com>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Mikulas Patocka <mpatocka@redhat.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Oleksiy Avramchenko <oleksiy.avramchenko@sonymobile.com>,
+        Palmer Dabbelt <palmerdabbelt@google.com>,
+        Paul Mackerras <paulus@samba.org>,
+        "Pavel Machek (CIP)" <pavel@denx.de>, Pavel Machek <pavel@ucw.cz>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Pierre Morel <pmorel@linux.ibm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Richard Henderson <rth@twiddle.net>,
+        Rich Felker <dalias@libc.org>,
+        Robert Richter <rric@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Stafford Horne <shorne@gmail.com>,
+        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Theodore Dubois <tblodt@icloud.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        William Cohen <wcohen@redhat.com>,
+        Xiaoming Ni <nixiaoming@huawei.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>
+Subject: [PATCH v1 0/3] drivers/char: remove /dev/kmem for good
+Date:   Wed, 24 Mar 2021 11:23:48 +0100
+Message-Id: <20210324102351.6932-1-david@redhat.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Mar 24, 2021 at 9:43 AM Christoph Hellwig <hch@infradead.org> wrote:
->
-> On Wed, Mar 24, 2021 at 08:53:25AM +0200, Amir Goldstein wrote:
-> > > This also means that userspace can be entirely filesystem agnostic
-> > > and it doesn't need to rely on parsing proc files to translate
-> > > ephemeral mount IDs to paths, statvfs() and hoping that f_fsid is
-> > > stable enough that it doesn't get the destination wrong.  It also
-> > > means that fanotify UAPI probably no longer needs to supply a
-> > > f_fsid with the filehandle because it is built into the
-> > > filehandle....
-> > >
-> >
-> > That is one option. Let's call it the "bullet proof" option.
-> >
-> > Another option, let's call it the "pragmatic" options, is that you accept
-> > that my patch shouldn't break anything and agree to apply it.
->
-> Your patch may very well break something.  Most Linux file systems do
-> store the dev_t in the fsid and userspace may for whatever silly
-> reasons depend on it.
->
+Let's remove /dev/kmem, which is unused and obsolete. Description from
+patch #1:
 
-I acknowledge that.
-I do not claim that my change carries zero risk of breakage.
-However, if such userspace dependency exists, it would break on ext4,
-btrfs, ocsf2, ceph and many more fs, so it would have to be a
-dependency that is tightly coupled with a specific fs.
-The probability of that is rather low IMO.
+"
+Exploring /dev/kmem and /dev/mem in the context of memory hot(un)plug and
+memory ballooning, I started questioning the existance of /dev/kmem.
 
-I propose an opt-in mount option "-o fixed_fsid" for this behavior to make
-everyone sleep better.
+Comparing it with the /proc/kcore implementation, it does not seem to be
+able to deal with things like
+a) Pages unmapped from the direct mapping (e.g., to be used by secretmem)
+  -> kern_addr_valid(). virt_addr_valid() is not sufficient.
+b) Special cases like gart aperture memory that is not to be touched
+  -> mem_pfn_is_ram()
+Unless I am missing something, it's at least broken in some cases and might
+fault/crash the machine.
 
-> Also trying to use the fsid for anything persistent is plain stupid,
-> 64-bits are not enough entropy for such an identifier.  You at least
-> need a 128-bit UUID-like identifier for that.
->
+Looks like its existance has been questioned before in 2005 and 2010
+[1], after ~11 additional years, it might make sense to revive the
+discussion.
 
-That's a strong claim to make without providing statistical analysis
-and the description of the use case.
+CONFIG_DEVKMEM is only enabled in a single defconfig (on purpose or by
+mistake?). All distributions disable it: in Ubuntu it has been disabled
+for more than 10 years, in Debian since 2.6.31, in Fedora at least starting
+with FC3, in RHEL starting with RHEL4, in SUSE starting from 15sp2, and
+OpenSUSE has it disabled as well.
 
-The requirement is for a unique identifier of a mounted fs within a
-single system.
+1) /dev/kmem was popular for rootkits [2] before it got disabled
+   basically everywhere. Ubuntu documents [3] "There is no modern user of
+   /dev/kmem any more beyond attackers using it to load kernel rootkits.".
+   RHEL documents in a BZ [5] "it served no practical purpose other than to
+   serve as a potential security problem or to enable binary module drivers
+   to access structures/functions they shouldn't be touching"
 
-> So I think this whole discussion is going in the wrong direction.
-> Is exposing a stable file system identifier useful?  Yes, for many
-> reasons.  Is repurposing the fsid for that a good idea?  Hell no.
+2) /proc/kcore is a decent interface to have a controlled way to read
+   kernel memory for debugging puposes. (will need some extensions to
+   deal with memory offlining/unplug, memory ballooning, and poisoned
+   pages, though)
 
-Again. Strong reaction not backed up by equally strong technical
-arguments.
+3) It might be useful for corner case debugging [1]. KDB/KGDB might be a
+   better fit, especially, to write random memory; harder to shoot
+   yourself into the foot.
 
-I am not at all opposed to a new API for stable FS_HANDLE, but no,
-I am not going to offer writing this new API myself at this point.
+4) "Kernel Memory Editor" [4] hasn't seen any updates since 2000 and seems
+   to be incompatible with 64bit [1]. For educational purposes,
+   /proc/kcore might be used to monitor value updates -- or older
+   kernels can be used.
 
-Applications that use statfs() to identify a filesystem may very well
-already exist in the wild, so the fixed_fsid discussion is independent
-of the new API.
+5) It's broken on arm64, and therefore, completely disabled there.
 
-Considering the fact that many relevant filesystems do provide a stable
-f_fsid and considering the fact that a blockdev number of devices that
-are instantiated at boot time are often practically stable, the users of
-those applications could be unaware of the instability of f_fsid or maybe
-they can live with it.
+Looks like it's essentially unused and has been replaced by better
+suited interfaces for individual tasks (/proc/kcore, KDB/KGDB). Let's
+just remove it.
 
-I find it hard to argue with the "all-or-nothing" attitude in the reaction
-to my proposed change.
+[1] https://lwn.net/Articles/147901/
+[2] https://www.linuxjournal.com/article/10505
+[3] https://wiki.ubuntu.com/Security/Features#A.2Fdev.2Fkmem_disabled
+[4] https://sourceforge.net/projects/kme/
+[5] https://bugzilla.redhat.com/show_bug.cgi?id=154796
+"
 
-What I propose is an opt-in mount option "-o fixed_fsid".
+RFC -> v1:
+- "drivers/char: remove /dev/kmem for good"
+-- Add more details to patch description regarding distributions
+- "mm/vmalloc: remove vwrite()"
+-- Also remove the nommu variant
+- Compile-tested on more archs/configs
 
-IMO, NACKing this proposal is not going to improve anything for
-anyone, but I don't know what more to say.
+David Hildenbrand (3):
+  drivers/char: remove /dev/kmem for good
+  mm: remove xlate_dev_kmem_ptr()
+  mm/vmalloc: remove vwrite()
 
-Thanks,
-Amir.
+ Documentation/admin-guide/devices.txt     |   2 +-
+ arch/alpha/include/asm/io.h               |   5 -
+ arch/arm/configs/dove_defconfig           |   1 -
+ arch/arm/configs/magician_defconfig       |   1 -
+ arch/arm/configs/moxart_defconfig         |   1 -
+ arch/arm/configs/mps2_defconfig           |   1 -
+ arch/arm/configs/mvebu_v5_defconfig       |   1 -
+ arch/arm/configs/xcep_defconfig           |   1 -
+ arch/arm/include/asm/io.h                 |   5 -
+ arch/h8300/configs/edosk2674_defconfig    |   1 -
+ arch/h8300/configs/h8300h-sim_defconfig   |   1 -
+ arch/h8300/configs/h8s-sim_defconfig      |   1 -
+ arch/hexagon/configs/comet_defconfig      |   1 -
+ arch/hexagon/include/asm/io.h             |   1 -
+ arch/ia64/include/asm/io.h                |   1 -
+ arch/ia64/include/asm/uaccess.h           |  18 --
+ arch/m68k/configs/amcore_defconfig        |   1 -
+ arch/m68k/include/asm/io_mm.h             |   5 -
+ arch/mips/include/asm/io.h                |   5 -
+ arch/openrisc/configs/or1ksim_defconfig   |   1 -
+ arch/parisc/include/asm/io.h              |   5 -
+ arch/powerpc/include/asm/io.h             |   5 -
+ arch/s390/include/asm/io.h                |   5 -
+ arch/sh/configs/edosk7705_defconfig       |   1 -
+ arch/sh/configs/se7206_defconfig          |   1 -
+ arch/sh/configs/sh2007_defconfig          |   1 -
+ arch/sh/configs/sh7724_generic_defconfig  |   1 -
+ arch/sh/configs/sh7770_generic_defconfig  |   1 -
+ arch/sh/configs/sh7785lcr_32bit_defconfig |   1 -
+ arch/sh/include/asm/io.h                  |   5 -
+ arch/sparc/configs/sparc64_defconfig      |   1 -
+ arch/sparc/include/asm/io_64.h            |   5 -
+ arch/xtensa/configs/xip_kc705_defconfig   |   1 -
+ drivers/char/Kconfig                      |  10 -
+ drivers/char/mem.c                        | 231 ----------------------
+ include/asm-generic/io.h                  |  11 --
+ include/linux/fs.h                        |   2 +-
+ include/linux/vmalloc.h                   |   3 +-
+ kernel/configs/android-base.config        |   1 -
+ mm/ksm.c                                  |   2 +-
+ mm/nommu.c                                |  10 -
+ mm/vmalloc.c                              | 118 +----------
+ 42 files changed, 6 insertions(+), 469 deletions(-)
+
+
+base-commit: 0d02ec6b3136c73c09e7859f0d0e4e2c4c07b49b
+-- 
+2.29.2
+
