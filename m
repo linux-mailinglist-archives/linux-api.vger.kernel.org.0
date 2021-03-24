@@ -2,122 +2,81 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A6FFF3482A7
-	for <lists+linux-api@lfdr.de>; Wed, 24 Mar 2021 21:15:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DEB43482F2
+	for <lists+linux-api@lfdr.de>; Wed, 24 Mar 2021 21:35:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238134AbhCXUPI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 24 Mar 2021 16:15:08 -0400
-Received: from mx2.suse.de ([195.135.220.15]:51996 "EHLO mx2.suse.de"
+        id S237992AbhCXUfB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 24 Mar 2021 16:35:01 -0400
+Received: from namei.org ([65.99.196.166]:51268 "EHLO mail.namei.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238093AbhCXUOl (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 24 Mar 2021 16:14:41 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1616616880; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=2ZvO4bLgfFn9xC1bGt/85XVYApIlAKrqXvbjT5soJ30=;
-        b=Hdts+h7S6uNGYbzOryP7weX1281E8hNc/iaCcLywcYBZslF7NrfEl5kSKeF99aYUehrV70
-        +a3ZiA6Ft5/JcHWLVc1g1Ro/toMEDxvF438H6wbOkTK3eL3Wo5+sqzjj6EaEeKv4G/dhs7
-        rsvRW9yUJr4qVNK1KPw+NvgPzsStGWs=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id BA470AC6E;
-        Wed, 24 Mar 2021 20:14:39 +0000 (UTC)
-Date:   Wed, 24 Mar 2021 21:14:35 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Andrew Lunn <andrew@lunn.ch>,
+        id S238128AbhCXUen (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 24 Mar 2021 16:34:43 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.namei.org (Postfix) with ESMTPS id 8051F4E1;
+        Wed, 24 Mar 2021 20:31:47 +0000 (UTC)
+Date:   Thu, 25 Mar 2021 07:31:47 +1100 (AEDT)
+From:   James Morris <jmorris@namei.org>
+To:     =?ISO-8859-15?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
+cc:     Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
         Arnd Bergmann <arnd@arndb.de>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Brian Cain <bcain@codeaurora.org>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Chris Zankel <chris@zankel.net>,
-        Corentin Labbe <clabbe@baylibre.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-        Greentime Hu <green.hu@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Helge Deller <deller@gmx.de>, Hillf Danton <hdanton@sina.com>,
-        huang ying <huang.ying.caritas@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        James Troup <james.troup@canonical.com>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Jonas Bonn <jonas@southpole.se>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        David Howells <dhowells@redhat.com>,
+        Jeff Dike <jdike@addtoit.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kairui Song <kasong@redhat.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Matt Turner <mattst88@gmail.com>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Mike Rapoport <rppt@kernel.org>,
-        Mikulas Patocka <mpatocka@redhat.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        Oleksiy Avramchenko <oleksiy.avramchenko@sonymobile.com>,
-        Palmer Dabbelt <palmerdabbelt@google.com>,
-        Paul Mackerras <paulus@samba.org>,
-        "Pavel Machek (CIP)" <pavel@denx.de>, Pavel Machek <pavel@ucw.cz>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Pierre Morel <pmorel@linux.ibm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Henderson <rth@twiddle.net>,
-        Rich Felker <dalias@libc.org>,
-        Robert Richter <rric@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Stafford Horne <shorne@gmail.com>,
-        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Theodore Dubois <tblodt@icloud.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        William Cohen <wcohen@redhat.com>,
-        Xiaoming Ni <nixiaoming@huawei.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>
-Subject: Re: [PATCH v1 0/3] drivers/char: remove /dev/kmem for good
-Message-ID: <YFudq2NVLIOAsCgl@dhcp22.suse.cz>
-References: <20210324102351.6932-1-david@redhat.com>
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        linux-security-module@vger.kernel.org, x86@kernel.org,
+        =?ISO-8859-15?Q?Micka=EBl_Sala=FCn?= <mic@linux.microsoft.com>
+Subject: Re: [PATCH v30 02/12] landlock: Add ruleset and domain management
+In-Reply-To: <acda4be1-4076-a31d-fcfd-27764dd598c8@digikod.net>
+Message-ID: <c9dc8adb-7fab-14a1-a658-40b288419fdf@namei.org>
+References: <20210316204252.427806-1-mic@digikod.net> <20210316204252.427806-3-mic@digikod.net> <202103191114.C87C5E2B69@keescook> <acda4be1-4076-a31d-fcfd-27764dd598c8@digikod.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210324102351.6932-1-david@redhat.com>
+Content-Type: multipart/mixed; boundary="1665246916-200031253-1616617907=:3442585"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Acked-by: Michal Hocko <mhocko@suse.com>
+--1665246916-200031253-1616617907=:3442585
+Content-Type: text/plain; charset=iso-8859-15
+Content-Transfer-Encoding: 8BIT
 
-for the series.
+On Fri, 19 Mar 2021, Mickaël Salaün wrote:
 
-Thanks!
+> 
+> >> Cc: Kees Cook <keescook@chromium.org>
+> >> Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
+> >> Acked-by: Serge Hallyn <serge@hallyn.com>
+> >> Link: https://lore.kernel.org/r/20210316204252.427806-3-mic@digikod.net
+> > 
+> > (Aside: you appear to be self-adding your Link: tags -- AIUI, this is
+> > normally done by whoever pulls your series. I've only seen Link: tags
+> > added when needing to refer to something else not included in the
+> > series.)
+> 
+> It is an insurance to not lose history. :)
+
+How will history be lost? The code is in the repo and discussions can 
+easily be found by searching for subjects or message IDs.
+
+Is anyone else doing this self linking?
+
 -- 
-Michal Hocko
-SUSE Labs
+James Morris
+<jmorris@namei.org>
+
+--1665246916-200031253-1616617907=:3442585--
