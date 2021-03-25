@@ -2,197 +2,179 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FBB73499C6
-	for <lists+linux-api@lfdr.de>; Thu, 25 Mar 2021 19:55:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 82FD5349A57
+	for <lists+linux-api@lfdr.de>; Thu, 25 Mar 2021 20:38:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230009AbhCYSzG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 25 Mar 2021 14:55:06 -0400
-Received: from mx2.suse.de ([195.135.220.15]:48274 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230166AbhCYSyn (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 25 Mar 2021 14:54:43 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id CC244AC16;
-        Thu, 25 Mar 2021 18:54:40 +0000 (UTC)
-Date:   Thu, 25 Mar 2021 19:54:35 +0100
-From:   Borislav Petkov <bp@suse.de>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     "Chang S. Bae" <chang.seok.bae@intel.com>,
-        Andrew Cooper <andrew.cooper3@citrix.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Juergen Gross <jgross@suse.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>, X86 ML <x86@kernel.org>,
-        Len Brown <len.brown@intel.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        "H. J. Lu" <hjl.tools@gmail.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Jann Horn <jannh@google.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Carlos O'Donell <carlos@redhat.com>,
-        Tony Luck <tony.luck@intel.com>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        libc-alpha <libc-alpha@sourceware.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v7 5/6] x86/signal: Detect and prevent an alternate
- signal stack overflow
-Message-ID: <20210325185435.GB32296@zn.tnic>
-References: <20210316065215.23768-1-chang.seok.bae@intel.com>
- <20210316065215.23768-6-chang.seok.bae@intel.com>
- <CALCETrU_n+dP4GaUJRQoKcDSwaWL9Vc99Yy+N=QGVZ_tx_j3Zg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALCETrU_n+dP4GaUJRQoKcDSwaWL9Vc99Yy+N=QGVZ_tx_j3Zg@mail.gmail.com>
+        id S229833AbhCYThd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 25 Mar 2021 15:37:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33536 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229629AbhCYThA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 25 Mar 2021 15:37:00 -0400
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEB61C06174A
+        for <linux-api@vger.kernel.org>; Thu, 25 Mar 2021 12:36:58 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id j4-20020a05600c4104b029010c62bc1e20so1821004wmi.3
+        for <linux-api@vger.kernel.org>; Thu, 25 Mar 2021 12:36:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=c28V1qEol1I4QrexdXU8KtR/UuqWaDR44oRtym8omog=;
+        b=rqHrJiGtdaFIDWFvz2/YQL40pxirOdoQHfB+PAgJ0oYhv9k4vd3ALvRKEewsisgmtD
+         POIKgErjUeibWdmqe+uCwplydDvG1qzxc/1w1rB7cQqjpahs7gG5Ih2T/TqCplsPrInz
+         qUodO7S70wOSVekTbKaK+Hi11An+CrW4w73zPBAOen6GkfHjaJhXxY1M+Unl27tPHswB
+         /5P9kS+jkE5w/niDGNqWJBP3Mog7C2cklB7fGL9C2RRGRzyKsVEBPFOuHObqvKekM6WF
+         6sIuXkeeYNdqqRqzha5169RgSAQqEHdZ6jP/HJlOOEyMEaBktXCrlQImF040GvHlTU9K
+         imEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=c28V1qEol1I4QrexdXU8KtR/UuqWaDR44oRtym8omog=;
+        b=Z7N3LXbEqT2xKcGWo+3GWD+QWfmVpT9CR+WiAZExuhDhxsQ6ZisezuwiJipls2KDGO
+         ssLrEZ/f/GvPPrP10s40H4a65kfk2s0UUuKpeOloSWEBkuFrcN343aabBK5kCOLhztFf
+         2r+RMuDuX4rPXydGy9mqDpxeEhbDSa5R4lJK9/Ol5Z7AvzPPwt9uZzo57g+KxiMbFWWd
+         mwfL/ikYgW7vIdxTKyMGFZJ+adjUgeRgP2hzItOlSu1OSD3LUYYAoROWNka3IMsVvMAV
+         XjFMEKxPTykucjV+GghjYRP2I1x3Z6wnBNfpEMhSd5JrWA9dt9bbDfozVGFH11zPu0d3
+         xucQ==
+X-Gm-Message-State: AOAM533p/SoEqPfWowI/BqunzwAzwJy1fN2Mwn7pv8nvKubVYlwkuIhI
+        7xMAfs09lpIjETGOwEXcY2fjfg==
+X-Google-Smtp-Source: ABdhPJzAgzLcQ9/+8u4JXx39HNXYUE0hH5J8RR+sFfQa2gG9t4cbr7wwLCsDJPg7ZmwASkeB9WA3aQ==
+X-Received: by 2002:a1c:df46:: with SMTP id w67mr9475403wmg.176.1616701017347;
+        Thu, 25 Mar 2021 12:36:57 -0700 (PDT)
+Received: from localhost.localdomain ([82.142.13.80])
+        by smtp.gmail.com with ESMTPSA id h12sm2240217wrv.58.2021.03.25.12.36.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Mar 2021 12:36:56 -0700 (PDT)
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+To:     daniel.lezcano@linaro.org
+Cc:     rkumbako@quicinc.com, Zhang Rui <rui.zhang@intel.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        linux-pm@vger.kernel.org (open list:THERMAL),
+        linux-kernel@vger.kernel.org (open list),
+        linux-api@vger.kernel.org (open list:ABI/API)
+Subject: [PATCH] thermal/drivers/netlink: Add the temperature when crossing a trip point
+Date:   Thu, 25 Mar 2021 20:36:32 +0100
+Message-Id: <20210325193633.19592-1-daniel.lezcano@linaro.org>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Mar 25, 2021 at 11:13:12AM -0700, Andy Lutomirski wrote:
-> diff --git a/arch/x86/kernel/signal.c b/arch/x86/kernel/signal.c
-> index ea794a083c44..53781324a2d3 100644
-> --- a/arch/x86/kernel/signal.c
-> +++ b/arch/x86/kernel/signal.c
-> @@ -237,7 +237,8 @@ get_sigframe(struct k_sigaction *ka, struct pt_regs *regs, size_t frame_size,
->  	unsigned long math_size = 0;
->  	unsigned long sp = regs->sp;
->  	unsigned long buf_fx = 0;
-> -	int onsigstack = on_sig_stack(sp);
-> +	bool already_onsigstack = on_sig_stack(sp);
-> +	bool entering_altstack = false;
->  	int ret;
->  
->  	/* redzone */
-> @@ -246,15 +247,25 @@ get_sigframe(struct k_sigaction *ka, struct pt_regs *regs, size_t frame_size,
->  
->  	/* This is the X/Open sanctioned signal stack switching.  */
->  	if (ka->sa.sa_flags & SA_ONSTACK) {
-> -		if (sas_ss_flags(sp) == 0)
-> +		/*
-> +		 * This checks already_onsigstack via sas_ss_flags().
-> +		 * Sensible programs use SS_AUTODISARM, which disables
-> +		 * that check, and programs that don't use
-> +		 * SS_AUTODISARM get compatible but potentially
-> +		 * bizarre behavior.
-> +		 */
-> +		if (sas_ss_flags(sp) == 0) {
->  			sp = current->sas_ss_sp + current->sas_ss_size;
-> +			entering_altstack = true;
-> +		}
->  	} else if (IS_ENABLED(CONFIG_X86_32) &&
-> -		   !onsigstack &&
-> +		   !already_onsigstack &&
->  		   regs->ss != __USER_DS &&
->  		   !(ka->sa.sa_flags & SA_RESTORER) &&
->  		   ka->sa.sa_restorer) {
->  		/* This is the legacy signal stack switching. */
->  		sp = (unsigned long) ka->sa.sa_restorer;
-> +		entering_altstack = true;
->  	}
+The slope of the temperature increase or decrease can be high and when
+the temperature crosses the trip point, there could be a significant
+difference between the trip temperature and the measured temperatures.
 
-What a mess this whole signal handling is. I need a course in signal
-handling to understand what's going on here...
+That forces the userspace to read the temperature back right after
+receiving a trip violation notification.
 
->  
->  	sp = fpu__alloc_mathframe(sp, IS_ENABLED(CONFIG_X86_32),
-> @@ -267,8 +278,16 @@ get_sigframe(struct k_sigaction *ka, struct pt_regs *regs, size_t frame_size,
->  	 * If we are on the alternate signal stack and would overflow it, don't.
->  	 * Return an always-bogus address instead so we will die with SIGSEGV.
->  	 */
-> -	if (onsigstack && !likely(on_sig_stack(sp)))
-> +	if (unlikely(entering_altstack &&
-> +		     (sp <= current->sas_ss_sp ||
-> +		      sp - current->sas_ss_sp > current->sas_ss_size))) {
+In order to be efficient, give the temperature which resulted in the
+trip violation.
 
-You could've simply done
-
-	if (unlikely(entering_altstack && !on_sig_stack(sp)))
-
-here.
-
-
-> +		if (show_unhandled_signals && printk_ratelimit()) {
-> +			pr_info("%s[%d] overflowed sigaltstack",
-> +				tsk->comm, task_pid_nr(tsk));
-> +		}
-
-Why do you even wanna issue that? It looks like callers will propagate
-an error value up and people don't look at dmesg all the time.
-
-Btw, s/tsk/current/g
-
-IOW, this builds:
-
+Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
 ---
-diff --git a/arch/x86/kernel/signal.c b/arch/x86/kernel/signal.c
-index a06cb107c0e8..c00e932b5f18 100644
---- a/arch/x86/kernel/signal.c
-+++ b/arch/x86/kernel/signal.c
-@@ -234,10 +234,11 @@ get_sigframe(struct k_sigaction *ka, struct pt_regs *regs, size_t frame_size,
- 	     void __user **fpstate)
- {
- 	/* Default to using normal stack */
-+	bool already_onsigstack = on_sig_stack(regs->sp);
-+	bool entering_altstack = false;
- 	unsigned long math_size = 0;
- 	unsigned long sp = regs->sp;
- 	unsigned long buf_fx = 0;
--	int onsigstack = on_sig_stack(sp);
- 	int ret;
- 
- 	/* redzone */
-@@ -246,15 +247,24 @@ get_sigframe(struct k_sigaction *ka, struct pt_regs *regs, size_t frame_size,
- 
- 	/* This is the X/Open sanctioned signal stack switching.  */
- 	if (ka->sa.sa_flags & SA_ONSTACK) {
--		if (sas_ss_flags(sp) == 0)
-+		/*
-+		 * This checks already_onsigstack via sas_ss_flags(). Sensible
-+		 * programs use SS_AUTODISARM, which disables that check, and
-+		 * programs that don't use SS_AUTODISARM get compatible but
-+		 * potentially bizarre behavior.
-+		 */
-+		if (sas_ss_flags(sp) == 0) {
- 			sp = current->sas_ss_sp + current->sas_ss_size;
-+			entering_altstack = true;
-+		}
- 	} else if (IS_ENABLED(CONFIG_X86_32) &&
--		   !onsigstack &&
-+		   !already_onsigstack &&
- 		   regs->ss != __USER_DS &&
- 		   !(ka->sa.sa_flags & SA_RESTORER) &&
- 		   ka->sa.sa_restorer) {
- 		/* This is the legacy signal stack switching. */
- 		sp = (unsigned long) ka->sa.sa_restorer;
-+		entering_altstack = true;
+ drivers/thermal/thermal_core.c    |  6 ++++--
+ drivers/thermal/thermal_netlink.c | 11 ++++++-----
+ drivers/thermal/thermal_netlink.h |  8 ++++----
+ include/uapi/linux/thermal.h      |  2 +-
+ 4 files changed, 15 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/thermal/thermal_core.c b/drivers/thermal/thermal_core.c
+index 996c038f83a4..948020ef51b1 100644
+--- a/drivers/thermal/thermal_core.c
++++ b/drivers/thermal/thermal_core.c
+@@ -430,10 +430,12 @@ static void handle_thermal_trip(struct thermal_zone_device *tz, int trip)
+ 	if (tz->last_temperature != THERMAL_TEMP_INVALID) {
+ 		if (tz->last_temperature < trip_temp &&
+ 		    tz->temperature >= trip_temp)
+-			thermal_notify_tz_trip_up(tz->id, trip);
++			thermal_notify_tz_trip_up(tz->id, trip,
++						  tz->temperature);
+ 		if (tz->last_temperature >= trip_temp &&
+ 		    tz->temperature < (trip_temp - hyst))
+-			thermal_notify_tz_trip_down(tz->id, trip);
++			thermal_notify_tz_trip_down(tz->id, trip,
++						    tz->temperature);
  	}
  
- 	sp = fpu__alloc_mathframe(sp, IS_ENABLED(CONFIG_X86_32),
-@@ -267,8 +277,14 @@ get_sigframe(struct k_sigaction *ka, struct pt_regs *regs, size_t frame_size,
- 	 * If we are on the alternate signal stack and would overflow it, don't.
- 	 * Return an always-bogus address instead so we will die with SIGSEGV.
- 	 */
--	if (onsigstack && !likely(on_sig_stack(sp)))
-+	if (unlikely(entering_altstack && !on_sig_stack(sp))) {
-+
-+		if (show_unhandled_signals && printk_ratelimit())
-+			pr_info("%s[%d] overflowed sigaltstack",
-+				current->comm, task_pid_nr(current));
-+
- 		return (void __user *)-1L;
-+	}
+ 	if (type == THERMAL_TRIP_CRITICAL || type == THERMAL_TRIP_HOT)
+diff --git a/drivers/thermal/thermal_netlink.c b/drivers/thermal/thermal_netlink.c
+index 1234dbe95895..a16dd4d5d710 100644
+--- a/drivers/thermal/thermal_netlink.c
++++ b/drivers/thermal/thermal_netlink.c
+@@ -121,7 +121,8 @@ static int thermal_genl_event_tz(struct param *p)
+ static int thermal_genl_event_tz_trip_up(struct param *p)
+ {
+ 	if (nla_put_u32(p->msg, THERMAL_GENL_ATTR_TZ_ID, p->tz_id) ||
+-	    nla_put_u32(p->msg, THERMAL_GENL_ATTR_TZ_TRIP_ID, p->trip_id))
++	    nla_put_u32(p->msg, THERMAL_GENL_ATTR_TZ_TRIP_ID, p->trip_id) ||
++	    nla_put_u32(p->msg, THERMAL_GENL_ATTR_TZ_TEMP, p->temp))
+ 		return -EMSGSIZE;
  
- 	/* save i387 and extended state */
- 	ret = copy_fpstate_to_sigframe(*fpstate, (void __user *)buf_fx, math_size);
-
-
+ 	return 0;
+@@ -285,16 +286,16 @@ int thermal_notify_tz_disable(int tz_id)
+ 	return thermal_genl_send_event(THERMAL_GENL_EVENT_TZ_DISABLE, &p);
+ }
+ 
+-int thermal_notify_tz_trip_down(int tz_id, int trip_id)
++int thermal_notify_tz_trip_down(int tz_id, int trip_id, int temp)
+ {
+-	struct param p = { .tz_id = tz_id, .trip_id = trip_id };
++	struct param p = { .tz_id = tz_id, .trip_id = trip_id, .temp = temp };
+ 
+ 	return thermal_genl_send_event(THERMAL_GENL_EVENT_TZ_TRIP_DOWN, &p);
+ }
+ 
+-int thermal_notify_tz_trip_up(int tz_id, int trip_id)
++int thermal_notify_tz_trip_up(int tz_id, int trip_id, int temp)
+ {
+-	struct param p = { .tz_id = tz_id, .trip_id = trip_id };
++	struct param p = { .tz_id = tz_id, .trip_id = trip_id, .temp = temp };
+ 
+ 	return thermal_genl_send_event(THERMAL_GENL_EVENT_TZ_TRIP_UP, &p);
+ }
+diff --git a/drivers/thermal/thermal_netlink.h b/drivers/thermal/thermal_netlink.h
+index 828d1dddfa98..e554f76291f4 100644
+--- a/drivers/thermal/thermal_netlink.h
++++ b/drivers/thermal/thermal_netlink.h
+@@ -11,8 +11,8 @@ int thermal_notify_tz_create(int tz_id, const char *name);
+ int thermal_notify_tz_delete(int tz_id);
+ int thermal_notify_tz_enable(int tz_id);
+ int thermal_notify_tz_disable(int tz_id);
+-int thermal_notify_tz_trip_down(int tz_id, int id);
+-int thermal_notify_tz_trip_up(int tz_id, int id);
++int thermal_notify_tz_trip_down(int tz_id, int id, int temp);
++int thermal_notify_tz_trip_up(int tz_id, int id, int temp);
+ int thermal_notify_tz_trip_delete(int tz_id, int id);
+ int thermal_notify_tz_trip_add(int tz_id, int id, int type,
+ 			       int temp, int hyst);
+@@ -49,12 +49,12 @@ static inline int thermal_notify_tz_disable(int tz_id)
+ 	return 0;
+ }
+ 
+-static inline int thermal_notify_tz_trip_down(int tz_id, int id)
++static inline int thermal_notify_tz_trip_down(int tz_id, int id, int temp)
+ {
+ 	return 0;
+ }
+ 
+-static inline int thermal_notify_tz_trip_up(int tz_id, int id)
++static inline int thermal_notify_tz_trip_up(int tz_id, int id, int temp)
+ {
+ 	return 0;
+ }
+diff --git a/include/uapi/linux/thermal.h b/include/uapi/linux/thermal.h
+index c105054cbb57..bf5d9c8ef16f 100644
+--- a/include/uapi/linux/thermal.h
++++ b/include/uapi/linux/thermal.h
+@@ -18,7 +18,7 @@ enum thermal_trip_type {
+ 
+ /* Adding event notification support elements */
+ #define THERMAL_GENL_FAMILY_NAME		"thermal"
+-#define THERMAL_GENL_VERSION			0x01
++#define THERMAL_GENL_VERSION			0x02
+ #define THERMAL_GENL_SAMPLING_GROUP_NAME	"sampling"
+ #define THERMAL_GENL_EVENT_GROUP_NAME		"event"
+ 
 -- 
-Regards/Gruss,
-    Boris.
+2.17.1
 
-SUSE Software Solutions Germany GmbH, GF: Felix Imendörffer, HRB 36809, AG Nürnberg
