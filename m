@@ -2,165 +2,93 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C3E4034934B
-	for <lists+linux-api@lfdr.de>; Thu, 25 Mar 2021 14:50:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C8E7A3494E8
+	for <lists+linux-api@lfdr.de>; Thu, 25 Mar 2021 16:06:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230076AbhCYNtp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 25 Mar 2021 09:49:45 -0400
-Received: from mx2.suse.de ([195.135.220.15]:41742 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230494AbhCYNt0 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 25 Mar 2021 09:49:26 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 3AB10AA55;
-        Thu, 25 Mar 2021 13:49:25 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id 15BC61E4415; Thu, 25 Mar 2021 14:49:24 +0100 (CET)
-Date:   Thu, 25 Mar 2021 14:49:24 +0100
-From:   Jan Kara <jack@suse.cz>
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     Jan Kara <jack@suse.cz>,
-        Matthew Bobrowski <mbobrowski@mbobrowski.org>,
+        id S230337AbhCYPGN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 25 Mar 2021 11:06:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58784 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229547AbhCYPFu (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 25 Mar 2021 11:05:50 -0400
+Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69EF9C06174A;
+        Thu, 25 Mar 2021 08:05:50 -0700 (PDT)
+Received: by mail-il1-x133.google.com with SMTP id z9so2396491ilb.4;
+        Thu, 25 Mar 2021 08:05:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=T0ZXskV+v2eOjijTKmp/FmZzZMW02GfP2dSDhj5SEdU=;
+        b=PwnqSDf3Wburv79I41iv5iPvrkqRFOuvYpe65c7xucgerxvaD7QQsoVhWWR8dlsPpN
+         qsHGdr65tBhmuyoKyZOGKAnLl/3jNcoSnZ7lwSkjUyvsHQIGYFK3Ao2yKU3uyAuMLAl0
+         e7ON/OlduZlycrkfLGc+z/xNz1wHh9Nxqa9IckFUsstLS7RWL/WG1Dgl66eMGWoHeHuT
+         jW11Uyz6jqmyxU+VgqX7j9QAVwzjsfJqs2maX5PdX8PTv5c4alRA7TbICK8R3eizqXE3
+         9J4rf433uM+/Myx38wpwR1hdei7u3IGt78t5HR8sKVagvoXM2EPTEaduGe8HMsM9Uk77
+         GZtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=T0ZXskV+v2eOjijTKmp/FmZzZMW02GfP2dSDhj5SEdU=;
+        b=nWnfeoVR2tJxJu156w5NDulo2kw5HSNBuphX3tkeuiQBOXyfhonwh3HzfV6yDXa+te
+         D8sdBjvA0PkA1DE4usgfZiJr7be349SwfE5MOP5j+2Z6cjVHMo+ISFy+uiNZ/eIat/EC
+         VC+VN54Edr6NBcfSkb1/X4Uq3k5IGBzM5lIzwNuN+WDH0AAcmZpCmbqv3egkdO9ofDOG
+         DmofjxFDR62naxa6u7x+JgjbUfH8gC2OQllPqSZCAD1jZOOrjnMWWhcY5nsO7riwhkYJ
+         lLMctMaPli8TQeGOIPd/mcNYMQqIsavI1TUFw2bU71oaWavi8CZnLoAfTWygGkbC7Qxi
+         DrcQ==
+X-Gm-Message-State: AOAM533GRE13/WjbS9VKdE6i5D+vcL3CZit2J1CbdC0ZLLB1bT9i+4RS
+        wStPwK8lgsfToLlaBAL9oig6cRE1VlQZhrTLLd+bdgtqqXA=
+X-Google-Smtp-Source: ABdhPJy17+6geo4Uz+QIoKyy13gLIJlvdxVHd3+jbggeKOAYweSa7Jvm8a6QCk4swbbjEX9mzWpe4noRnwIl1v1rLcg=
+X-Received: by 2002:a92:b74e:: with SMTP id c14mr1017326ilm.275.1616684749932;
+ Thu, 25 Mar 2021 08:05:49 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210304112921.3996419-1-amir73il@gmail.com> <20210316155524.GD23532@quack2.suse.cz>
+ <CAOQ4uxgCv42_xkKpRH-ApMOeFCWfQGGc11CKxUkHJq-Xf=HnYg@mail.gmail.com>
+ <20210317114207.GB2541@quack2.suse.cz> <CAOQ4uxi7ZXJW3_6SN=vw_XJC+wy4eMTayN6X5yRy_HOV6323MA@mail.gmail.com>
+ <20210318154413.GA21462@quack2.suse.cz> <CAOQ4uxhpB+1iFSSoZy2NuF2diL=8uJ-j8JJVNnujqtphW147cw@mail.gmail.com>
+ <CAOQ4uxj4OC5cSwJMizBG=bmarxMwSVfqYnds4wYabieEDM_+eQ@mail.gmail.com>
+ <20210324114847.GA17458@quack2.suse.cz> <CAOQ4uxgjM8qC-Kre9ahMQzzhsOFtCXu4Vzd2HYUsSOstgf9Jyw@mail.gmail.com>
+ <20210325134924.GA13673@quack2.suse.cz>
+In-Reply-To: <20210325134924.GA13673@quack2.suse.cz>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Thu, 25 Mar 2021 17:05:38 +0200
+Message-ID: <CAOQ4uxjR300J9UZoS=LbdqPk-=edeN9drOfos-QYOdx=huYQVw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] unprivileged fanotify listener
+To:     Jan Kara <jack@suse.cz>
+Cc:     Matthew Bobrowski <mbobrowski@mbobrowski.org>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
         Christian Brauner <christian.brauner@ubuntu.com>
-Subject: Re: [PATCH v2 0/2] unprivileged fanotify listener
-Message-ID: <20210325134924.GA13673@quack2.suse.cz>
-References: <20210304112921.3996419-1-amir73il@gmail.com>
- <20210316155524.GD23532@quack2.suse.cz>
- <CAOQ4uxgCv42_xkKpRH-ApMOeFCWfQGGc11CKxUkHJq-Xf=HnYg@mail.gmail.com>
- <20210317114207.GB2541@quack2.suse.cz>
- <CAOQ4uxi7ZXJW3_6SN=vw_XJC+wy4eMTayN6X5yRy_HOV6323MA@mail.gmail.com>
- <20210318154413.GA21462@quack2.suse.cz>
- <CAOQ4uxhpB+1iFSSoZy2NuF2diL=8uJ-j8JJVNnujqtphW147cw@mail.gmail.com>
- <CAOQ4uxj4OC5cSwJMizBG=bmarxMwSVfqYnds4wYabieEDM_+eQ@mail.gmail.com>
- <20210324114847.GA17458@quack2.suse.cz>
- <CAOQ4uxgjM8qC-Kre9ahMQzzhsOFtCXu4Vzd2HYUsSOstgf9Jyw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOQ4uxgjM8qC-Kre9ahMQzzhsOFtCXu4Vzd2HYUsSOstgf9Jyw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed 24-03-21 17:50:52, Amir Goldstein wrote:
-> > > So I have implemented this idea on fanotify_userns branch and the cost
-> > > per "filtered" sb mark is quite low - its a pretty cheap check in
-> > > send_to_group()
-> > > But still, if an unbound number of users can add to the sb mark list it is
-> > > not going to end well.
-> >
-> > Thinking out loud: So what is the cost going to be for the side generating
-> > events? Ideally it would of O(number of fanotify groups receiving event).
-> > We cannot get better than that and if the constants aren't too big I think
-> > this is acceptable overhead. Sure this can mean total work of (number of
-> > users) * (max number of subtree marks per user) for queueing notification
-> > event but I don't think it is practical for a DoS attack and I also don't
-> > think that in practice users will be watching overlapping subtrees that
-> > much.
-> >
-> 
-> Why overlapping?
-> My concern is not so much from DoS attacks.
-> My concern is more from innocent users adding unacceptable
-> accumulated overhead.
-> 
-> Think of a filesystem mounted at /home/ with 100K directories at
-> /home/user$N, every user gets its own idmapped mount from
-> systemd-homed and may or may not choose to run a listener to
-> get events generated under its own home dir (which is an idmapped
-> mount). Even if we limit one sb mask per user, we can still have 100K
-> marks list in sb.
+> > I would like the system admin to be able to limit 100 sb marks on /home
+> > (filtered or not) because that impacts the send_to_group iteration.
+>
+> OK, so per-sb limitation of sb mark number...
+>
+> > I would also like systemd to be able to grant a smaller quota of filtered
+> > sb marks per user when creating and mapping the idmapped mounts
+> > at /home/foo$N
+>
+> ... and a ucount to go with it?
+>
+> > I *think* we can achieve that, by accounting the sb marks to uid 0
+> > (who mounted /home) in ucounts entry "fanotify_sb_marks".
+>
+> But a superblock can be mounted in multiple places, in multiple user
+> namespaces, potentially by different users (think of nested containers)? So
+> if we want a per-sb limit on sb marks, I think that accounting those per
+> user won't really achieve that?
+>
 
-I see but then you'd have to have 100K users using the same filesystem on
-the server at the same time? Which doesn't look likely to me? I'd presume
-the home dir is watched only if the user is actually running something on
-that machine... So I'm not sure how realistic this example is. But yes,
-maybe we need some more efficient algorithm for selecting which subtree
-watch is actually relevant for an event.
+I agree. It won't.
+We can start with the global max_fanotify_sb_marks.
+I do not have an idea how to make that workable using ucounts.
 
-> For this reason I think we need to limit the number of marks per sb.
-> The simple way is a global config like max_queued_events, but I think
-> we can do better than that.
-
-Adding a global limit on number of sb marks is OK but still I'd like the
-system to scale reasonably with say tens to hundreds watches...
-
-> > The question is whether we can get that fast. Probably not because that
-> > would have to attach subtree watches to directory inodes or otherwise
-> > filter out unrelated fanotify groups in O(1). But the complexity of
-> > O(number of groups receiving events + depth of dir where event is happening)
-> > is probably achievable - we'd walk the tree up and have roots of watched
-> > subtrees marked. What do you think?
-> 
-> I am for that. I already posted a POC along those lines [1].
-> I was just not sure how to limit the potential accumulated overhead.
-> 
-> [1] https://github.com/amir73il/linux/commits/fanotify_subtree_mark
-
-Yes, but AFAICT your solution was O((number of subtree marks on sb) * depth
-of dir) while I'm speaking about O(number of *groups* on sb + depth of
-dir). Which is significantly less and will require more careful setup to
-achieve such complexity (like placing special marks in lists of watches for
-directories that are roots of watched subtrees and checking such lists when
-walking up the tree).
-
-> > Also there is a somewhat related question what is the semantics of subtree
-> > watches in presence of mounts - do subtree watches "see through" mount
-> > points? Probably not but then with bind mounts this can be sometimes
-> > inconvenient / confusing - e.g. if I have /tmp bind-mounted to /var/tmp and
-> > I'm watching subtree of /var, I would not get events for what's in
-> > /var/tmp... Which is logical if you spell it out like this but applications
-> > often don't care how the mount hierarchy looks like, they just care about
-> > locally visible directory structure.
-> 
-> Those are hard questions.  I think that userns/mountns developers needed
-> to address them a while ago and I think there are some helpers that help
-> with checking visibility of paths.
-> 
-> > > <hand waving>
-> > > I think what we need here (thinking out loud) is to account the sb marks
-> > > to the user that mounted the filesystem or to the user mapped to admin using
-> > > idmapped mount, maybe to both(?), probably using a separate ucount entry
-> > > (e.g. max_fanotify_filesystem_marks).
-> >
-> > I'm somewhat lost here. Are these two users different? We have /home/foo
-> > which is a mounted filesystem. AFAIU it will be mounted in a special user
-> > namespace for user 'foo' - let's call is 'foo-ns'. /home/foo has idmapping
-> > attached so system [ug]ids and non-trivially mapped to on-disk [ug]ids. Now
-> > we have a user - let's call it 'foo-usr' that has enough capabilities
-> > (whatever they are) in 'foo-ns' to place fanotify subtree marks in
-> > /home/foo. So these marks are naturally accounted towards 'foo-usr'. To
-> > whom else you'd like to also account these marks and why?
-> >
-> 
-> I would like the system admin to be able to limit 100 sb marks on /home
-> (filtered or not) because that impacts the send_to_group iteration.
-
-OK, so per-sb limitation of sb mark number...
-
-> I would also like systemd to be able to grant a smaller quota of filtered
-> sb marks per user when creating and mapping the idmapped mounts
-> at /home/foo$N
-
-... and a ucount to go with it?
-
-> I *think* we can achieve that, by accounting the sb marks to uid 0
-> (who mounted /home) in ucounts entry "fanotify_sb_marks".
-
-But a superblock can be mounted in multiple places, in multiple user
-namespaces, potentially by different users (think of nested containers)? So
-if we want a per-sb limit on sb marks, I think that accounting those per
-user won't really achieve that?
-
-> If /home would have been a FS_USERNS_MOUNT mounted inside
-> some userns, then all its sb marks would be accounted to uid 0 of
-> that userns.
-
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Thanks,
+Amir.
