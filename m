@@ -2,143 +2,140 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29CBA34958E
-	for <lists+linux-api@lfdr.de>; Thu, 25 Mar 2021 16:32:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 596B43496B3
+	for <lists+linux-api@lfdr.de>; Thu, 25 Mar 2021 17:21:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231393AbhCYPcI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 25 Mar 2021 11:32:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36686 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231433AbhCYPb1 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 25 Mar 2021 11:31:27 -0400
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6F15C06174A;
-        Thu, 25 Mar 2021 08:31:25 -0700 (PDT)
-Received: by mail-wm1-x32f.google.com with SMTP id t5-20020a1c77050000b029010e62cea9deso1438218wmi.0;
-        Thu, 25 Mar 2021 08:31:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=sTR5VPwJmizPoTcmDricTHVhvHimEQP2h0sRVD3qCds=;
-        b=hHhdfYAvkFahY1fFiKam1uU24IgKTFvYD1i7rFmF6RobBjMT/RddgVwwtaMyQv4wN3
-         83I11YLEIFakrIDLEHG5s/lbca1/cXNbKJKAzqwhfdKYOwgobmC+AKFb0N9gzJPfZ9ea
-         5yfUgpYy2EyEwCVWCjFhx9+WTW2mSAP8iqNzVyHMlBF93Vy5SmwE0M+n7helAUtBLVsU
-         RaNn+dR5AHFAtEnx8X6762RPYCaiTifZurl1HYm/z0P0kpcvH7zRctGaZ5mfxEu/Czv8
-         lEzzD/D5hzOeQBNtwsZdsJNf8LQ62Hn2vGfKXHE1wqggQZI7DbOkXH9jifMsy0l8PcT/
-         0YjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sTR5VPwJmizPoTcmDricTHVhvHimEQP2h0sRVD3qCds=;
-        b=nwz9HNUfc02grqNXA+vQ8QS/0dChZU6Tx3oeQZ2vMF9zLG0xt9vUuZ5f6uGEwajvhV
-         41tNvYtOhx8LmB03SbrX8zjqepxOJFseRYByi4j4Avqa3y0u82DXzpIYoF/QC7KqMPpo
-         U3QgL0DwkHKzqX2/0PbeC9odfjml8RQIYrbbEkKPGgTHOXSLVgn1NecDVr3RNG5Qa0/8
-         MkLZ4HYMgiz5KcqiF9hNHttGVXFTN/hEVUJ5DoIEfrbVIU5LUXgEFq3vy0Xv2x2gyluG
-         076yUFlhMB0ph03viKGfjD0D2WeHpNRMIOfC54AqUyxVQGtmkyiBDqg695SUWczD0WpX
-         60zQ==
-X-Gm-Message-State: AOAM533ACl12HpL0Tf+k7SJgBL6yKFcGIKD/KRIugoHcMNMAaewavPnm
-        aqLZgpwp5Lh8lL4zudP69zlghpyOddaOhal3eJo=
-X-Google-Smtp-Source: ABdhPJwm0ZpuWrzdry+mVU2VoaGTJ3AnVIHBrC4zMKC25ZR04pYBDJWZ+nsA2suJlshEpuCxfctdVl+/hPgWNqiDYYg=
-X-Received: by 2002:a1c:7905:: with SMTP id l5mr8815994wme.181.1616686284590;
- Thu, 25 Mar 2021 08:31:24 -0700 (PDT)
+        id S229614AbhCYQVX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 25 Mar 2021 12:21:23 -0400
+Received: from mx2.suse.de ([195.135.220.15]:33798 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229812AbhCYQUz (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 25 Mar 2021 12:20:55 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 72A48AA55;
+        Thu, 25 Mar 2021 16:20:53 +0000 (UTC)
+Date:   Thu, 25 Mar 2021 17:20:47 +0100
+From:   Borislav Petkov <bp@suse.de>
+To:     "Bae, Chang Seok" <chang.seok.bae@intel.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        "mingo@kernel.org" <mingo@kernel.org>,
+        "luto@kernel.org" <luto@kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "Brown, Len" <len.brown@intel.com>,
+        "Hansen, Dave" <dave.hansen@intel.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "Dave.Martin@arm.com" <Dave.Martin@arm.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
+        "carlos@redhat.com" <carlos@redhat.com>,
+        "Luck, Tony" <tony.luck@intel.com>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v7 5/6] x86/signal: Detect and prevent an alternate
+ signal stack overflow
+Message-ID: <20210325162047.GA32296@zn.tnic>
+References: <20210316065215.23768-1-chang.seok.bae@intel.com>
+ <20210316065215.23768-6-chang.seok.bae@intel.com>
+ <20210316115248.GB18822@zn.tnic>
+ <16A53D65-2460-49B3-892B-81EF8D7B12B9@intel.com>
 MIME-Version: 1.0
-References: <CAOQ4uxiRHwmxTKsLteH_sBW_dSPshVE8SohJYEmpszxaAwjEyg@mail.gmail.com>
- <20210319134043.c2wcpn4lbefrkhkg@wittgenstein> <CAOQ4uxhLYdWOUmpWP+c_JzVeGDbkJ5eUM+1-hhq7zFq23g5J1g@mail.gmail.com>
- <CAOQ4uxhetKeEZX=_iAcREjibaR0ZcOdeZyR8mFEoHM+WRsuVtg@mail.gmail.com>
- <CAOQ4uxhfx012GtvXMfiaHSk1M7+gTqkz3LsT0i_cHLnZLMk8nw@mail.gmail.com>
- <CAOQ4uxhFU=H8db35JMhfR+A5qDkmohQ01AWH995xeBAKuuPhzA@mail.gmail.com>
- <20210324143230.y36hga35xvpdb3ct@wittgenstein> <CAOQ4uxiPYbEk1N_7nxXMP7kz+KMnyH+0GqpJS36FR+-v9sHrcg@mail.gmail.com>
- <20210324162838.spy7qotef3kxm3l4@wittgenstein> <CAOQ4uxjcCEtuqyawNo7kCkb3213=vrstMupZt-KnGyanqKv=9Q@mail.gmail.com>
- <20210325111203.5o6ovkqgigxc3ihk@wittgenstein>
-In-Reply-To: <20210325111203.5o6ovkqgigxc3ihk@wittgenstein>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Thu, 25 Mar 2021 17:31:13 +0200
-Message-ID: <CAOQ4uxhdJWWRZSa0FfEiryQoBJYcGSADGoE7UZF8W=5-tcX9xg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] unprivileged fanotify listener
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Jan Kara <jack@suse.cz>,
-        Matthew Bobrowski <mbobrowski@mbobrowski.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <16A53D65-2460-49B3-892B-81EF8D7B12B9@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-> I get that there are other use-cases that make subtree watches very
-> interesting but I don't think the container use-case is a particularly
-> pressing one.
->
+On Tue, Mar 16, 2021 at 06:26:46PM +0000, Bae, Chang Seok wrote:
+> I suspect the AVX-512 states not enabled there.
 
-That's what I thought.
+Ok, I found a machine which has AVX-512:
 
-Containers are usually "contained" by a mount and possibly by userns,
-so it makes more sense and it would be more efficient to filter by those
-contexts.
+[    0.000000] x86/fpu: Supporting XSAVE feature 0x001: 'x87 floating point registers'
+[    0.000000] x86/fpu: Supporting XSAVE feature 0x002: 'SSE registers'
+[    0.000000] x86/fpu: Supporting XSAVE feature 0x004: 'AVX registers'
+[    0.000000] x86/fpu: Supporting XSAVE feature 0x020: 'AVX-512 opmask'
+[    0.000000] x86/fpu: Supporting XSAVE feature 0x040: 'AVX-512 Hi256'
+[    0.000000] x86/fpu: Supporting XSAVE feature 0x080: 'AVX-512 ZMM_Hi256'
+[    0.000000] x86/fpu: Supporting XSAVE feature 0x200: 'Protection Keys User registers'
+[    0.000000] x86/fpu: xstate_offset[2]:  576, xstate_sizes[2]:  256
+[    0.000000] x86/fpu: xstate_offset[5]:  832, xstate_sizes[5]:   64
+[    0.000000] x86/fpu: xstate_offset[6]:  896, xstate_sizes[6]:  512
+[    0.000000] x86/fpu: xstate_offset[7]: 1408, xstate_sizes[7]: 1024
+[    0.000000] x86/fpu: xstate_offset[9]: 2432, xstate_sizes[9]:    8
+[    0.000000] x86/fpu: Enabled xstate features 0x2e7, context size is 2440 bytes, using 'compacted' format.
 
-> > I don't like it so much myself, but I have not had any better idea how to
-> > achieve that goal so far.
->
-> The limitations of FAN_MARK_MOUNT as I now understand them are indeed
-> unpleasant. If we could get FAN_MARK_MOUNT with the same event support
-> as FAN_MARK_INODE that would be great.
-> I think the delegation model that makes sense to me is to allow
-> FAN_MARK_MOUNT when the caller is ns_capable(mnt->mnt_userns) and of
-> course ns_capable() in the userns they called fanotify_init() in. That
-> feels ok and supportable.
+and applied your patch and added a debug printk, see end of mail.
 
-I present to you a demo [1][2] of FAN_MARK_MOUNT on idmapped mount that:
+Then, I ran the test case:
 
-1. Can subscribe and receive FAN_LINK (new) events
-2. Is capable of open_by_handle() if fid is under mount root
+$ gcc tst-minsigstksz-2.c -DMY_MINSIGSTKSZ=3453 -o tst-minsigstksz-2
+$ ./tst-minsigstksz-2
+tst-minsigstksz-2: changed byte 50 bytes below configured stack
 
-FAN_LINK (temp name) is an event that I wanted to add anyway [3] and
-AFAIK it's the only event that you really need in order to detect when a dir
-was created for the use case of injecting a bind mount into a container.
+Whoops.
 
-The kernel branch [1] intentionally excludes the controversial patch that
-added support for userns filtered sb marks.
+And the debug print said:
 
-Therefore, trying to run the demo script as is on an idmapped mount
-inside userns will auto-detect UID 0, try to setup an sb mark and fail.
+[ 5395.252884] signal: get_sigframe: sp: 0x7f54ec39e7b8, sas_ss_sp: 0x7f54ec39e6ce, sas_ss_size 0xd7d
 
-Instead, the demo script should be run as follows to combine a
-mount mark and recursive inode marks:
+which tells me that, AFAICT, your check whether we have enough alt stack
+doesn't seem to work in this case.
 
-./test_demo.sh <idmapped-mount-path> 1
+Thx.
 
-For example:
-~# ./test_demo.sh /vdf 1
-+ WD=/vdf
-+ ID=1
-...
-+ inotifywatch --fanotify --recursive -w -e link --timeout -2 /vdf
-Establishing watches...
-...
-+ mkdir -p a/dir0 a/dir1 a/dir2/subdir2
-+ touch a/dir2/file2
-...
-[fid=ad91a2b8.81a99d43.3000081;name='dir2'] /vdf/a/dir2
-[fid=ad91a2b8.81a99d43.8a;name='.'] /vdf/a/dir2/.
-[fid=ad91a2b8.81a99d43.10000a6;name='.'] /vdf/a/dir2/subdir2/.
-[fid=ad91a2b8.81a99d43.8a;name='file2'] /vdf/a/dir2/file2
-...
-total  modify  ..................................  create  link
-delete  filename
-1      0       0       0       0       0        0       1       0
-0       /vdf/a/dir2
-1      0       0       0       0       0        0       0       1
-0       /vdf/a/dir2/.
-1      0       0       0       0       0        0       0       1
-0       /vdf/a/dir2/subdir2/.
-1      0       0       0       0       0        0       0       1
-0       /vdf/a/dir2/file2
+diff --git a/arch/x86/kernel/signal.c b/arch/x86/kernel/signal.c
+index a06cb107c0e8..a7396f7c3832 100644
+--- a/arch/x86/kernel/signal.c
++++ b/arch/x86/kernel/signal.c
+@@ -237,7 +237,7 @@ get_sigframe(struct k_sigaction *ka, struct pt_regs *regs, size_t frame_size,
+ 	unsigned long math_size = 0;
+ 	unsigned long sp = regs->sp;
+ 	unsigned long buf_fx = 0;
+-	int onsigstack = on_sig_stack(sp);
++	bool onsigstack = on_sig_stack(sp);
+ 	int ret;
+ 
+ 	/* redzone */
+@@ -246,8 +246,11 @@ get_sigframe(struct k_sigaction *ka, struct pt_regs *regs, size_t frame_size,
+ 
+ 	/* This is the X/Open sanctioned signal stack switching.  */
+ 	if (ka->sa.sa_flags & SA_ONSTACK) {
+-		if (sas_ss_flags(sp) == 0)
++		if (sas_ss_flags(sp) == 0) {
+ 			sp = current->sas_ss_sp + current->sas_ss_size;
++			/* On the alternate signal stack */
++			onsigstack = true;
++		}
+ 	} else if (IS_ENABLED(CONFIG_X86_32) &&
+ 		   !onsigstack &&
+ 		   regs->ss != __USER_DS &&
+@@ -263,11 +266,16 @@ get_sigframe(struct k_sigaction *ka, struct pt_regs *regs, size_t frame_size,
+ 
+ 	sp = align_sigframe(sp - frame_size);
+ 
++	if (onsigstack)
++		pr_info("%s: sp: 0x%lx, sas_ss_sp: 0x%lx, sas_ss_size 0x%lx\n",
++			__func__, sp, current->sas_ss_sp, current->sas_ss_size);
++
+ 	/*
+ 	 * If we are on the alternate signal stack and would overflow it, don't.
+ 	 * Return an always-bogus address instead so we will die with SIGSEGV.
+ 	 */
+-	if (onsigstack && !likely(on_sig_stack(sp)))
++	if (onsigstack && unlikely(sp <= current->sas_ss_sp ||
++				   sp - current->sas_ss_sp > current->sas_ss_size))
+ 		return (void __user *)-1L;
+ 
+ 	/* save i387 and extended state */
 
-Thanks,
-Amir.
+-- 
+Regards/Gruss,
+    Boris.
 
-[1] https://github.com/amir73il/linux/commits/fanotify_link
-[2] https://github.com/amir73il/inotify-tools/commits/fanotify_link
-[3] https://lore.kernel.org/linux-fsdevel/CAOQ4uxhEsbfA5+sW4XPnUKgCkXtwoDA-BR3iRO34Nx5c4y7Nug@mail.gmail.com/
+SUSE Software Solutions Germany GmbH, GF: Felix Imendörffer, HRB 36809, AG Nürnberg
