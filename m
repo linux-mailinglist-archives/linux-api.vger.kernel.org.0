@@ -2,30 +2,29 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E93D0348950
-	for <lists+linux-api@lfdr.de>; Thu, 25 Mar 2021 07:47:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 80FA5348951
+	for <lists+linux-api@lfdr.de>; Thu, 25 Mar 2021 07:47:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229508AbhCYGqw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 25 Mar 2021 02:46:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57954 "EHLO mail.kernel.org"
+        id S229592AbhCYGqx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 25 Mar 2021 02:46:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58096 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229448AbhCYGqW (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 25 Mar 2021 02:46:22 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 092D96196C;
-        Thu, 25 Mar 2021 06:46:20 +0000 (UTC)
+        id S229547AbhCYGqu (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 25 Mar 2021 02:46:50 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 496EA61A13;
+        Thu, 25 Mar 2021 06:46:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1616654781;
-        bh=/bWXfIbKchosJuds3GtGSYe3Fmxl28hRKZ2NNwbgsZ0=;
+        s=korg; t=1616654809;
+        bh=0iAgjPbQNoDytTuxcEELGkTrqenVMnKQD+gC/+w17r4=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LV0L2HrWiWFSQLHQ9K2y3ZiXOdKtS5f7XaIhNmZGREHfokELU4V3/XChxSfTzu8n+
-         TQGKJ0OU/awi/NXK/7Iq+cyA3dBNW3dDeOOq5KE8YAWsINkQ1FN26ZKKxjo4aaNlVZ
-         elF+ZLYttYpavKZffZAlo0a/8bAHO4qKFk7gLrcs=
-Date:   Thu, 25 Mar 2021 07:46:17 +0100
+        b=v+4OxtIzEgY84vfS5AeDv+d+SoYmAf4USLgqsfd7oegwYT4ggXI+5QgGTdIzlKVl8
+         7R7E5va738AvUmQ/ud4x6gjium9GmQq7k0oZsuKovrkjkhmD5pLNq3ZJt2IpfwJS3m
+         96mMjUtkGjUOcDCeC9kRqRdTNmIMFbqkI1KLT2Hs=
+Date:   Thu, 25 Mar 2021 07:46:45 +0100
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Balbir Singh <bsingharora@gmail.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        David Hildenbrand <david@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org,
         "Alexander A. Klimov" <grandmaster@al2klimov.de>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
         Alexandre Belloni <alexandre.belloni@bootlin.com>,
@@ -100,53 +99,23 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Xiaoming Ni <nixiaoming@huawei.com>,
         Yoshinori Sato <ysato@users.osdn.me>
 Subject: Re: [PATCH v1 0/3] drivers/char: remove /dev/kmem for good
-Message-ID: <YFwxuRhZZ+U8lh8W@kroah.com>
+Message-ID: <YFwx1YEaQhwxACe0@kroah.com>
 References: <20210324102351.6932-1-david@redhat.com>
  <20210324122412.e77247e6d3259d5493951019@linux-foundation.org>
- <20210324225812.GM77072@balbir-desktop>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210324225812.GM77072@balbir-desktop>
+In-Reply-To: <20210324122412.e77247e6d3259d5493951019@linux-foundation.org>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Mar 25, 2021 at 09:58:12AM +1100, Balbir Singh wrote:
-> On Wed, Mar 24, 2021 at 12:24:12PM -0700, Andrew Morton wrote:
-> > 
-> > > Let's remove /dev/kmem, which is unused and obsolete.
-> > 
-> > I grabbed these.  Silently - the cc list is amazing ;)
-> > 
-> > I was wondering if it would be better to permanently disable /dev/kmem
-> > in Kconfig along with a comment "if you really want this thing then
-> > email peeps@places with a very good reason why".  Let that ride for a
-> > year or three then blam.
-> > 
-> > But this is so much more attractive, and it certainly sounds like it's
-> > worth any damage it might cause.
-> > 
-> > We do tend to think about distros.  I bet there are a number of weird
-> > embedded type systems using /dev/kmem - it's amazing what sorts of
-> > hacks those people will put up with the get something out the door. 
-> > But those systems tend to carry a lot of specialized changes anyway, so
-> > they can just add "revert David's patch" to their pile.
-> >
+On Wed, Mar 24, 2021 at 12:24:12PM -0700, Andrew Morton wrote:
 > 
+> > Let's remove /dev/kmem, which is unused and obsolete.
 > 
-> I wonder if we should have the opposite of driver/staging and call it
-> outgoing, with a big thank you to the users and developers and also
-> to indicate this feature will be removed in the next (few) merge(s)
-> cycles. I guess not all code can be accumulated under a single
-> hierarchy. May not be worth the effort, just thinking out loud.
+> I grabbed these.  Silently - the cc list is amazing ;)
 
-That is exactly what drivers/staging/ is being used for, for stuff on
-the way out of the kernel.  wimax just left the kernel that way a week
-or so ago, we've been doing this for many years now, the fact that no
-one has noticed is good as that means that no one has needed the code
-removed that way :)
+Thanks, I was going to do so, but your tree is fine with me:
 
-thanks,
-
-greg k-h
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
