@@ -2,96 +2,211 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A1736348CE1
-	for <lists+linux-api@lfdr.de>; Thu, 25 Mar 2021 10:30:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 74A9E348EA1
+	for <lists+linux-api@lfdr.de>; Thu, 25 Mar 2021 12:12:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229962AbhCYJ3e (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 25 Mar 2021 05:29:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42188 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230044AbhCYJ3I (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 25 Mar 2021 05:29:08 -0400
-Received: from smtp-190f.mail.infomaniak.ch (smtp-190f.mail.infomaniak.ch [IPv6:2001:1600:3:17::190f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C905C06175F;
-        Thu, 25 Mar 2021 02:29:03 -0700 (PDT)
-Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4F5ftj1bChzMqSFq;
-        Thu, 25 Mar 2021 10:29:01 +0100 (CET)
-Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
-        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4F5ftZ3sl9zlh8TD;
-        Thu, 25 Mar 2021 10:28:54 +0100 (CET)
-Subject: Re: [PATCH v30 02/12] landlock: Add ruleset and domain management
-To:     James Morris <jmorris@namei.org>
-Cc:     Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        David Howells <dhowells@redhat.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        linux-security-module@vger.kernel.org, x86@kernel.org,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>
-References: <20210316204252.427806-1-mic@digikod.net>
- <20210316204252.427806-3-mic@digikod.net> <202103191114.C87C5E2B69@keescook>
- <acda4be1-4076-a31d-fcfd-27764dd598c8@digikod.net>
- <c9dc8adb-7fab-14a1-a658-40b288419fdf@namei.org>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <25f701bf-fddf-8e9c-1ac1-c50a38579096@digikod.net>
-Date:   Thu, 25 Mar 2021 10:29:35 +0100
-User-Agent: 
+        id S230170AbhCYLM0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 25 Mar 2021 07:12:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59694 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230163AbhCYLMJ (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 25 Mar 2021 07:12:09 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E6DEC61A25;
+        Thu, 25 Mar 2021 11:12:06 +0000 (UTC)
+Date:   Thu, 25 Mar 2021 12:12:03 +0100
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Jan Kara <jack@suse.cz>,
+        Matthew Bobrowski <mbobrowski@mbobrowski.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [PATCH v2 0/2] unprivileged fanotify listener
+Message-ID: <20210325111203.5o6ovkqgigxc3ihk@wittgenstein>
+References: <CAOQ4uxiRHwmxTKsLteH_sBW_dSPshVE8SohJYEmpszxaAwjEyg@mail.gmail.com>
+ <20210319134043.c2wcpn4lbefrkhkg@wittgenstein>
+ <CAOQ4uxhLYdWOUmpWP+c_JzVeGDbkJ5eUM+1-hhq7zFq23g5J1g@mail.gmail.com>
+ <CAOQ4uxhetKeEZX=_iAcREjibaR0ZcOdeZyR8mFEoHM+WRsuVtg@mail.gmail.com>
+ <CAOQ4uxhfx012GtvXMfiaHSk1M7+gTqkz3LsT0i_cHLnZLMk8nw@mail.gmail.com>
+ <CAOQ4uxhFU=H8db35JMhfR+A5qDkmohQ01AWH995xeBAKuuPhzA@mail.gmail.com>
+ <20210324143230.y36hga35xvpdb3ct@wittgenstein>
+ <CAOQ4uxiPYbEk1N_7nxXMP7kz+KMnyH+0GqpJS36FR+-v9sHrcg@mail.gmail.com>
+ <20210324162838.spy7qotef3kxm3l4@wittgenstein>
+ <CAOQ4uxjcCEtuqyawNo7kCkb3213=vrstMupZt-KnGyanqKv=9Q@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <c9dc8adb-7fab-14a1-a658-40b288419fdf@namei.org>
-Content-Type: text/plain; charset=iso-8859-15
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAOQ4uxjcCEtuqyawNo7kCkb3213=vrstMupZt-KnGyanqKv=9Q@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-
-On 24/03/2021 21:31, James Morris wrote:
-> On Fri, 19 Mar 2021, Mickaël Salaün wrote:
+On Wed, Mar 24, 2021 at 07:07:17PM +0200, Amir Goldstein wrote:
+> > > Well there is another way.
+> > > It is demonstrated in my demo with intoifywatch --fanotify --recursive.
+> > > It involved userspace iterating a subtree of interest to create fid->path
+> > > map.
+> >
+> > Ok, so this seems to be
+> >
+> > inotifytools_filename_from_fid()
+> > -> if (fanotify_mark_type != FAN_MARK_FILESYSTEM)
+> >            watch_from_fid()
+> >    -> read_path_from(/proc/self/fd/w->dirfd)
+> >
 > 
->>
->>>> Cc: Kees Cook <keescook@chromium.org>
->>>> Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
->>>> Acked-by: Serge Hallyn <serge@hallyn.com>
->>>> Link: https://lore.kernel.org/r/20210316204252.427806-3-mic@digikod.net
->>>
->>> (Aside: you appear to be self-adding your Link: tags -- AIUI, this is
->>> normally done by whoever pulls your series. I've only seen Link: tags
->>> added when needing to refer to something else not included in the
->>> series.)
->>
->> It is an insurance to not lose history. :)
+> Yes.
 > 
-> How will history be lost? The code is in the repo and discussions can 
-> easily be found by searching for subjects or message IDs.
+> > >
+> > > The fanotify recursive watch is similar but not exactly the same as the
+> > > old intoify recursive watch, because with inotify recursive watch you
+> > > can miss events.
+> > >
+> > > With fanotify recursive watch, the listener (if capable) can setup a
+> > > filesystem mark so events will not be missed. They will be recorded
+> > > by fid with an unknown path and the path information can be found later
+> > > by the crawler and updated in the map before the final report.
+> > >
+> > > Events on fid that were not found by the crawler need not be reported.
+> > > That's essentially a subtree watch for the poor implemented in userspace.
+> >
+> > This is already a good improvement.
+> > Honestly, having FAN_MARK_INODE workable unprivileged is already pretty
+> 
+> I'm not so sure why you say that, because unprivileged FAN_MARK_INODE
+> watches are pretty close in functionality to inotify.
+> There are only subtle differences.
 
-The (full and ordered) history may be hard to find without any
-Message-ID in commit messages. The Lore links keep that information (in
-the commit message) and redirect to the related archived email thread,
-which is very handy. For instance, Linus can rely on those links to
-judge the quality of a patch:
-https://lore.kernel.org/lkml/CAHk-=wh7xY3UF7zEc0BNVNjOox59jYBW-Gfi7=emm+BXPWc6nQ@mail.gmail.com/
+Simply because until now we couldn't use fanotify in any way because of
+the capable() restriction.
 
 > 
-> Is anyone else doing this self linking?
+> > great. In addition having FAN_MARK_MOUNT workable with idmapped mounts
+> > will likely get us what most users care about, afaict that is the POC
+> > in:
+> > https://github.com/amir73il/linux/commit/f0d5d462c5baeb82a658944c6df80704434f09a1
+> >
 > 
+> Hmm, the problem is the limited set of events you can get from
+> FAN_MARK_MOUNT which does not include FAN_CREATE.
 
-I don't know, but it doesn't hurt. This way, if you're using git am
-without b4 am -l (or forgot to add links manually), the history is still
-pointed out by these self-reference links. I find it convenient and it
-is a safeguard to not forget them, no matter who takes the patches.
+Yes, that's what I gathered from perusing the code.
+
+> 
+> > (I'm reading the source correctly that FAN_MARK_MOUNT works with
+> > FAN_REPORT_FID as long as no inode event set in FANOTIFY_INODE_EVENTS is
+> > set? I'm asking because my manpage - probably too old - seems to imply
+> > that FAN_REPORT_FID can't be used with FAN_MARK_MOUNT although I might
+> > just be stumbling over the phrasing.)
+> >
+> 
+> commit d71c9b4a5c6fbc7164007b52dba1de410d018292
+> Author: Amir Goldstein <amir73il@gmail.com>
+> Date:   Mon Apr 20 21:42:56 2020 +0300
+> 
+>     fanotify_mark.2: Clarification about FAN_MARK_MOUNT and FAN_REPORT_FID
+> 
+>     It is not true that FAN_MARK_MOUNT cannot be used with a group
+>     that was initialized with flag FAN_REPORT_FID.
+
+Btw, I don't see FAN_MARK_INODE in the man2 in the upstream repository.
+I know it's essentially the 0 or default value but it would still be
+worthwhile to mention it in the manpage.
+
+>  ...
+> 
+> IOW, no FAN_CREATE, FAN_DELETE, FAN_MOVE
+> 
+> The technical reason for that is Al's objection to pass the mnt context
+> into vfs helpers (and then fsnotify hooks).
+
+Ah yes, I remember that.
+
+> 
+> > I think FAN_MARK_FILESYSTEM should simply stay under the s_userns_s
+> > capable requirement. That's imho the cleanest semantics for this, i.e.
+> > I'd drop:
+> > https://github.com/amir73il/linux/commit/bd20e273f3c3a650805b3da32e493f01cc2a4763
+> > This is neither an urgent use-case nor am I feeling very comfortable
+> > with it.
+> >
+> 
+> The purpose of this commit is to provide FAN_CREATE, FAN_DELETE
+> FAN_MOVE events filtered by (an idmapped) mount.
+
+I see.
+
+I wanted to write a few words about the use-case you mention and the
+need for subtree watches for this particular case:
+
+"A common use case for of a filesystem subtree is a bind mount, not on
+the root of the filesystem, such as the bind mounts used for
+containers."
+
+Which presumably means you want to point fanotify to the rootfs mount of
+the container and have it watch everything under that rootfs including
+any submounts in there. While this certainly might be useful I'm not
+sure it's a very common use-case or really necessary to support.
+
+Assuming a full system-like container setup like runC, systemd-nspawn,
+LXD, and similar runtimes do it we end up with a few additonal mounts.
+They are usually performed in the containers mount+user namespace.
+The standard ones, i.e. the ones most container runtimes setup are:
+- sysfs
+- cgroupfs
+- procfs
+- mqueue
+- devpts
+- tmpfs on /dev (as a substitute for devtmpfs not being namespaced)
+  - tmpfs on /dev/shm
+  - bind mounts of a few host device files into /dev:
+    - /dev/fuse
+    - /dev/net/tun
+    - /dev/full
+    - /dev/null
+    - /dev/random
+    - /dev/tty
+    - /dev/urandom
+    - /dev/zero
+    - /dev/console
+I think most of these mounts aren't very interesting to monitor. It's in
+general not very common to monitor full pseudo fileystems such as proc,
+sysfs, or devpts afaik.
+Notably, systemd - both outside and inside containers - will use some
+inotify watches but it's always on specific directories and never across
+mount borders.
+
+In addition to the default mounts above - I've mentioned this before -
+the container manager might choose to inject mounts into a running
+container (to share data or whatever). There are different strategies on
+how to do this.
+I1. The first strategy is to inject the mount into the container in such
+    a way that the container has full control over it, i.e. it can
+    unmount and remount (with the restriction that some flags might
+    become locked when moving the mount across user namespaces).
+I2. The second strategy is to inject the mount in such a way that the
+    container doesn't have control over it, i.e. the container can't
+    umount or remount.
+
+Most container runtimes will support I1. but systemd-nspawn uses I2.
+There might be use-cases where the container manager would like to watch
+those mounts too. But then the container manager will just call
+fanotify_mark() and add that mount to the list of watched mounts when
+injecting it.
+I get that there are other use-cases that make subtree watches very
+interesting but I don't think the container use-case is a particularly
+pressing one.
+
+> I don't like it so much myself, but I have not had any better idea how to
+> achieve that goal so far.
+
+The limitations of FAN_MARK_MOUNT as I now understand them are indeed
+unpleasant. If we could get FAN_MARK_MOUNT with the same event support
+as FAN_MARK_INODE that would be great.
+I think the delegation model that makes sense to me is to allow
+FAN_MARK_MOUNT when the caller is ns_capable(mnt->mnt_userns) and of
+course ns_capable() in the userns they called fanotify_init() in. That
+feels ok and supportable.
+But I don't think anything beyond that like the sb filter patch that you
+showed is the right approach.
+
+Christian
